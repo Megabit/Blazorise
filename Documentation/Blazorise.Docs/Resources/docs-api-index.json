@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-20T12:41:23.0554521Z",
+  "generatedUtc": "2026-02-19T15:10:40.9710772Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -8282,331 +8282,6 @@
       ],
       "events": [],
       "methods": []
-    },
-    {
-      "type": "global::Blazorise.BarDropdownToggle",
-      "typeName": "BarDropdownToggle",
-      "summary": "$\"\"\"\r\n       Toggles the visibility or collapse of <strong>Bar</strong> component.\r\n       \"\"\"",
-      "searchUrl": "docs/components/bar",
-      "parameters": [
-        {
-          "name": "Attributes",
-          "type": "Dictionary<string, object>",
-          "typeName": "Dictionary<string, object>",
-          "defaultValue": "null",
-          "summary": "Captures unmatched HTML attributes for customization.",
-          "remarks": "These attributes are applied directly to the component's root HTML element.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Background",
-          "type": "global::Blazorise.Background",
-          "typeName": "Background",
-          "defaultValue": "Background.Default",
-          "summary": "Sets the background color of the component.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Border",
-          "type": "global::Blazorise.IFluentBorder",
-          "typeName": "IFluentBorder",
-          "defaultValue": "null",
-          "summary": "Configures the border properties of the component.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Casing",
-          "type": "global::Blazorise.CharacterCasing",
-          "typeName": "CharacterCasing",
-          "defaultValue": "default(CharacterCasing)",
-          "summary": "Specifies the text casing transformation (e.g., uppercase, lowercase).",
-          "isBlazoriseEnum": true
-        },
-        {
-          "name": "ChildContent",
-          "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
-          "typeName": "RenderFragment",
-          "defaultValue": "null",
-          "summary": "Specifies the content to be rendered inside this <strong>BarDropdownToggle</strong>.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Class",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Custom CSS class name to apply to the component.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Clearfix",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Determines whether to apply clearfix to manage floating children.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Disabled",
-          "type": "bool?",
-          "typeName": "bool?",
-          "defaultValue": "null",
-          "summary": "Makes the toggle element look inactive.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Display",
-          "type": "global::Blazorise.IFluentDisplay",
-          "typeName": "IFluentDisplay",
-          "defaultValue": "null",
-          "summary": "Specifies the display behavior (e.g., block, inline, flex) of the component.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ElementId",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Gets or sets the unique id of the element.",
-          "remarks": "Note that this ID is not defined for the component but instead for the underlined element that it represents.     eg: for the TextInput the ID will be set on the input element.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Flex",
-          "type": "global::Blazorise.IFluentFlex",
-          "typeName": "IFluentFlex",
-          "defaultValue": "null",
-          "summary": "Configures the flexbox properties of the component.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Float",
-          "type": "global::Blazorise.Float",
-          "typeName": "Float",
-          "defaultValue": "Float.Default",
-          "summary": "Specifies how an element should float within its containing block.",
-          "isBlazoriseEnum": true
-        },
-        {
-          "name": "Gap",
-          "type": "global::Blazorise.IFluentGap",
-          "typeName": "IFluentGap",
-          "defaultValue": "null",
-          "summary": "Configures the gap spacing between child elements of the component.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Height",
-          "type": "global::Blazorise.IFluentSizing",
-          "typeName": "IFluentSizing",
-          "defaultValue": "null",
-          "summary": "Defines the height of the component using responsive sizing utilities.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Indentation",
-          "type": "double",
-          "typeName": "double",
-          "defaultValue": "1.5d",
-          "summary": "Determines how much left padding will be applied to the dropdown toggle. (in rem unit)",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Margin",
-          "type": "global::Blazorise.IFluentSpacing",
-          "typeName": "IFluentSpacing",
-          "defaultValue": "null",
-          "summary": "Configures the margin spacing for the component.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ObjectFit",
-          "type": "global::Blazorise.IFluentObjectFit",
-          "typeName": "IFluentObjectFit",
-          "defaultValue": "null",
-          "summary": "Configures the object-fit property, which determines how content is resized within its container.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Overflow",
-          "type": "global::Blazorise.IFluentOverflow",
-          "typeName": "IFluentOverflow",
-          "defaultValue": "null",
-          "summary": "Configures the overflow behavior when content exceeds the component's bounds.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Padding",
-          "type": "global::Blazorise.IFluentSpacing",
-          "typeName": "IFluentSpacing",
-          "defaultValue": "null",
-          "summary": "Configures the padding spacing for the component.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Position",
-          "type": "global::Blazorise.IFluentPosition",
-          "typeName": "IFluentPosition",
-          "defaultValue": "null",
-          "summary": "Specifies the positioning method for the component (static, relative, absolute, etc.).",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "Shadow",
-          "type": "global::Blazorise.Shadow",
-          "typeName": "Shadow",
-          "defaultValue": "Shadow.None",
-          "summary": "Configures the shadow effect of the component.",
-          "isBlazoriseEnum": true
-        },
-        {
-          "name": "Style",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Custom inline styles to apply to the component.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "TextAlignment",
-          "type": "global::Blazorise.TextAlignment",
-          "typeName": "TextAlignment",
-          "defaultValue": "TextAlignment.Default",
-          "summary": "Configures the horizontal alignment of text within the component.",
-          "isBlazoriseEnum": true
-        },
-        {
-          "name": "TextColor",
-          "type": "global::Blazorise.TextColor",
-          "typeName": "TextColor",
-          "defaultValue": "TextColor.Default",
-          "summary": "Defines the text color of the component.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "TextDecoration",
-          "type": "global::Blazorise.TextDecoration",
-          "typeName": "TextDecoration",
-          "defaultValue": "TextDecoration.Default",
-          "summary": "Defines the text decoration style (e.g., underline, none) for the component.",
-          "isBlazoriseEnum": true
-        },
-        {
-          "name": "TextOverflow",
-          "type": "global::Blazorise.TextOverflow",
-          "typeName": "TextOverflow",
-          "defaultValue": "TextOverflow.Default",
-          "summary": "Configures how text behaves when it overflows its container.",
-          "isBlazoriseEnum": true
-        },
-        {
-          "name": "TextSize",
-          "type": "global::Blazorise.IFluentTextSize",
-          "typeName": "IFluentTextSize",
-          "defaultValue": "null",
-          "summary": "Sets the font size of the text in the component.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "TextTransform",
-          "type": "global::Blazorise.TextTransform",
-          "typeName": "TextTransform",
-          "defaultValue": "TextTransform.Default",
-          "summary": "Configures the text transformation (e.g., capitalize, none) of the component.",
-          "isBlazoriseEnum": true
-        },
-        {
-          "name": "TextWeight",
-          "type": "global::Blazorise.TextWeight",
-          "typeName": "TextWeight",
-          "defaultValue": "TextWeight.Default",
-          "summary": "Specifies the font weight of text in the component (e.g., bold, normal).",
-          "isBlazoriseEnum": true
-        },
-        {
-          "name": "ToggleIconVisible",
-          "type": "bool?",
-          "typeName": "bool?",
-          "defaultValue": "null",
-          "summary": "Gets or sets a value indicating whether the dropdown toggle icon is visible.",
-          "remarks": "Default: True",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "UtilityTarget",
-          "type": "global::Blazorise.UtilityTarget",
-          "typeName": "UtilityTarget",
-          "defaultValue": "UtilityTarget.Self",
-          "summary": "Specifies the default target where utility classes and styles are applied when no per-utility target is set.",
-          "isBlazoriseEnum": true
-        },
-        {
-          "name": "VerticalAlignment",
-          "type": "global::Blazorise.VerticalAlignment",
-          "typeName": "VerticalAlignment",
-          "defaultValue": "VerticalAlignment.Default",
-          "summary": "Specifies the vertical alignment of inline or table-cell elements.",
-          "isBlazoriseEnum": true
-        },
-        {
-          "name": "Visibility",
-          "type": "global::Blazorise.Visibility",
-          "typeName": "Visibility",
-          "defaultValue": "Visibility.Default",
-          "summary": "Controls the visibility of an element without altering its layout.",
-          "isBlazoriseEnum": true
-        },
-        {
-          "name": "Width",
-          "type": "global::Blazorise.IFluentSizing",
-          "typeName": "IFluentSizing",
-          "defaultValue": "null",
-          "summary": "Defines the width of the component using responsive sizing utilities.",
-          "isBlazoriseEnum": false
-        }
-      ],
-      "events": [
-        {
-          "name": "Clicked",
-          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
-          "typeName": "EventCallback<MouseEventArgs>",
-          "defaultValue": "null",
-          "summary": "Occurs when the toggle button is clicked.",
-          "isBlazoriseEnum": false
-        }
-      ],
-      "methods": [
-        {
-          "name": "Close",
-          "returnTypeName": "Task",
-          "summary": "Triggers the closable component to be closed.",
-          "parameters": [
-            {
-              "name": "closeReason",
-              "typeName": "CloseReason"
-            }
-          ]
-        },
-        {
-          "name": "IsSafeToClose",
-          "returnTypeName": "Task<bool>",
-          "summary": "Finds if the closable component is ready to be closed.",
-          "parameters": [
-            {
-              "name": "elementId",
-              "typeName": "string"
-            },
-            {
-              "name": "closeReason",
-              "typeName": "CloseReason"
-            },
-            {
-              "name": "isChildClicked",
-              "typeName": "bool"
-            }
-          ]
-        }
-      ]
     },
     {
       "type": "global::Blazorise.BarEnd",
@@ -96306,10 +95981,34 @@
       "searchUrl": "docs/theming/api/options",
       "parameters": [
         {
+          "name": "ToggleCollapseIconName",
+          "type": "global::Blazorise.IconName",
+          "typeName": "IconName",
+          "defaultValue": "IconName.ChevronUp",
+          "summary": "Defines the icon name for the collapse state of the dropdown.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "ToggleExpandIconName",
+          "type": "global::Blazorise.IconName",
+          "typeName": "IconName",
+          "defaultValue": "IconName.ChevronDown",
+          "summary": "Defines the icon name for the expand state of the dropdown.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "ToggleIconSIze",
+          "type": "global::Blazorise.IconSize",
+          "typeName": "IconSize",
+          "defaultValue": "IconSize.ExtraSmall",
+          "summary": "Defines the size of the toggle icon for the dropdown.",
+          "isBlazoriseEnum": true
+        },
+        {
           "name": "ToggleIconVisible",
           "type": "bool?",
           "typeName": "bool?",
-          "defaultValue": "true",
+          "defaultValue": "null",
           "summary": "Defines the visibility of bar dropdown toggle icon.",
           "isBlazoriseEnum": false
         }
@@ -96378,7 +96077,7 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "Dropdown",
+          "name": "DropdownOptions",
           "type": "global::Blazorise.ThemeBarDropdownOptions",
           "typeName": "ThemeBarDropdownOptions",
           "defaultValue": "null",

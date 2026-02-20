@@ -116,6 +116,28 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Dropdown trigger: icon toggles, label navigates">
+        Use this pattern when a parent item should act as a normal link, while the chevron icon independently opens the submenu.
+        Set <Code>To</Code> for navigation and <Code>Trigger="BarDropdownToggleTrigger.IconClick"</Code> so only the icon toggles the dropdown.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <BarDropdownToggleIconClickExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BarDropdownToggleIconClickExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Dropdown trigger: click anywhere + URL match">
+        When users should be able to expand from either the label or icon, combine triggers with a flags expression.
+        In this example, <Code>Trigger="BarDropdownToggleTrigger.ClickAny | BarDropdownToggleTrigger.RouteMatch"</Code> keeps the dropdown expanded whenever the current URL matches <Code>To</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <BarDropdownToggleRouteMatchExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BarDropdownToggleRouteMatchExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Vertical Bar (Sidebar)">
         When using the Bar in one of the <strong>Vertical</strong> modes for the purpose of a Sidebar, you need to place it inside the <Code>LayoutSiderContent</Code> component.
 

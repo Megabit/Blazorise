@@ -1,0 +1,25 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Bar Mode="BarMode.VerticalInline"
+     Breakpoint="Breakpoint.Desktop"
+     Background="Background.Light"
+     ThemeContrast="ThemeContrast.Light">
+    <BarMenu>
+        <BarStart>
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle To="/docs/components/bar"
+                                       Trigger="BarDropdownToggleTrigger.ClickAny | BarDropdownToggleTrigger.RouteMatch">
+                        <BarIcon IconName="IconName.Dashboard" />
+                        Bar docs
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem To="/docs/components/bar">Overview</BarDropdownItem>
+                        <BarDropdownItem To="/docs/components/button">Button</BarDropdownItem>
+                        <BarDropdownItem To="/docs/components/card">Card</BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+        </BarStart>
+    </BarMenu>
+</Bar>

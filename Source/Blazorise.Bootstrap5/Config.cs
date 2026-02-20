@@ -54,7 +54,6 @@ public static class Config
         { typeof( Blazorise.BarToggler ), typeof( Components.BarToggler ) },
         { typeof( Blazorise.BarDropdown ), typeof( Components.BarDropdown ) },
         { typeof( Blazorise.BarDropdownMenu ), typeof( Components.BarDropdownMenu ) },
-        { typeof( Blazorise.BarDropdownToggle ), typeof( Components.BarDropdownToggle ) },
         { typeof( Blazorise.Button ), typeof( Components.Button ) },
         { typeof( Blazorise.Card ), typeof( Components.Card ) },
         { typeof( Blazorise.CardTitle ), typeof( Components.CardTitle ) },

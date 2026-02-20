@@ -1,24 +1,33 @@
 ﻿@inherits Blazorise.BarDropdownToggle
 
-@if ( ParentBarDropdown?.IsBarDropdownSubmenu == true )
+@if ( ParentBarDropdownState?.Mode == BarMode.Horizontal )
 {
-    <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-toggle="dropdown" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes">
-        @ChildContent
-        @if ( IsToggleIconVisible )
-        {
-            <i class="ant-menu-submenu-arrow"></i>
-        }
-    </li>
+    @if ( ParentBarDropdown?.IsBarDropdownSubmenu == true )
+    {
+        <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-toggle="dropdown" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes">
+            @ChildContent
+            @if ( IsToggleIconVisible )
+            {
+                <i class="ant-menu-submenu-arrow"></i>
+            }
+        </li>
+    }
+    else
+    {
+        <div @ref="@ElementRef" id="@ElementId" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" class="ant-menu-submenu-title" style="@StyleNames" role="button" aria-expanded="@ParentBarDropdownState.Visible.ToString().ToLowerInvariant()" aria-haspopup="true" aria-owns="@SubMenuId" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
+            <span>@ChildContent</span>
+            @if ( IsToggleIconVisible )
+            {
+                <i class="ant-menu-submenu-arrow"></i>
+            }
+        </div>
+    }
 }
 else
 {
-    <div @ref="@ElementRef" id="@ElementId" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" class="ant-menu-submenu-title" style="@StyleNames" role="button" aria-expanded="@ParentBarDropdownState.Visible.ToString().ToLowerInvariant()" aria-haspopup="true" aria-owns="@SubMenuId" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
-        <span>@ChildContent</span>
-        @if ( IsToggleIconVisible )
-        {
-            <i class="ant-menu-submenu-arrow"></i>
-        }
-    </div>
+    <a @ref="@ElementRef" id="@ElementId" href="@GetTo()" rel="@GetRel()" class="@ClassNames" style="@StyleNames" role="button" tabindex="0" @onclick="@ClickHandler" @onclick:preventDefault="@ShouldPreventDefaultOnToggleClick" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
+        @VerticalIconTemplate
+    </a>
 }
 @code {
     [CascadingParameter( Name = "SubMenuId" )] string SubMenuId { get; set; }

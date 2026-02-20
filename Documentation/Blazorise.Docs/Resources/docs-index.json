@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-19T10:14:10.1038565Z",
+  "generatedUtc": "2026-02-20T10:37:59.8994378Z",
   "pages": [
     {
       "route": "/docs",
@@ -277,6 +277,22 @@
           "sourcePath": "Pages/Docs/Components/Bar/Examples/TopBarExample.razor",
           "content": "<Bar Breakpoint=\"Breakpoint.Desktop\"\r\n     Background=\"Background.Light\"\r\n     ThemeContrast=\"ThemeContrast.Light\">\r\n    <BarBrand>\r\n        Brandname\r\n    </BarBrand>\r\n    <BarToggler />\r\n    <BarMenu>\r\n        <BarStart>\r\n            <BarItem>\r\n                <BarLink To=\"#home\">Home</BarLink>\r\n            </BarItem>\r\n            <BarItem>\r\n                <BarLink To=\"#docs\">Documentation</BarLink>\r\n            </BarItem>\r\n            <BarItem>\r\n                <BarDropdown>\r\n                    <BarDropdownToggle>Dropdown</BarDropdownToggle>\r\n                    <BarDropdownMenu>\r\n                        <BarDropdownItem>Action</BarDropdownItem>\r\n                        <BarDropdownDivider />\r\n                        <BarDropdownItem>Another action</BarDropdownItem>\r\n                    </BarDropdownMenu>\r\n                </BarDropdown>\r\n            </BarItem>\r\n        </BarStart>\r\n        <BarEnd>\r\n            <BarItem>\r\n                <Button Color=\"Color.Primary\">Sign up</Button>\r\n                <Button Color=\"Color.Secondary\">Log in</Button>\r\n            </BarItem>\r\n        </BarEnd>\r\n    </BarMenu>\r\n</Bar>",
           "title": "Top Bar (with dropdown)"
+        },
+        {
+          "code": "BarDropdownToggleIconClickExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Bar/Examples/BarDropdownToggleIconClickExample.razor",
+          "content": "<Bar Mode=\"BarMode.VerticalInline\"\r\n     Breakpoint=\"Breakpoint.Desktop\"\r\n     Background=\"Background.Light\"\r\n     ThemeContrast=\"ThemeContrast.Light\">\r\n    <BarMenu>\r\n        <BarStart>\r\n            <BarItem>\r\n                <BarDropdown>\r\n                    <BarDropdownToggle To=\"/docs/components/button\"\r\n                                       Trigger=\"BarDropdownToggleTrigger.IconClick\">\r\n                        <BarIcon IconName=\"IconName.Dashboard\" />\r\n                        Components\r\n                    </BarDropdownToggle>\r\n                    <BarDropdownMenu>\r\n                        <BarDropdownItem To=\"/docs/components/bar\">Bar overview</BarDropdownItem>\r\n                        <BarDropdownItem To=\"/docs/components/button\">Button</BarDropdownItem>\r\n                        <BarDropdownItem To=\"/docs/components/card\">Card</BarDropdownItem>\r\n                    </BarDropdownMenu>\r\n                </BarDropdown>\r\n            </BarItem>\r\n        </BarStart>\r\n    </BarMenu>\r\n</Bar>",
+          "title": "Dropdown trigger: icon toggles, label navigates",
+          "description": "Use this pattern when a parent item should act as a normal link, while the chevron icon independently opens the submenu. Set To for navigation and Trigger=\"BarDropdownToggleTrigger.IconClick\" so only the icon toggles the dropdown."
+        },
+        {
+          "code": "BarDropdownToggleRouteMatchExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Bar/Examples/BarDropdownToggleRouteMatchExample.razor",
+          "content": "<Bar Mode=\"BarMode.VerticalInline\"\r\n     Breakpoint=\"Breakpoint.Desktop\"\r\n     Background=\"Background.Light\"\r\n     ThemeContrast=\"ThemeContrast.Light\">\r\n    <BarMenu>\r\n        <BarStart>\r\n            <BarItem>\r\n                <BarDropdown>\r\n                    <BarDropdownToggle To=\"/docs/components/bar\"\r\n                                       Trigger=\"BarDropdownToggleTrigger.ClickAny | BarDropdownToggleTrigger.RouteMatch\">\r\n                        <BarIcon IconName=\"IconName.Dashboard\" />\r\n                        Bar docs\r\n                    </BarDropdownToggle>\r\n                    <BarDropdownMenu>\r\n                        <BarDropdownItem To=\"/docs/components/bar\">Overview</BarDropdownItem>\r\n                        <BarDropdownItem To=\"/docs/components/button\">Button</BarDropdownItem>\r\n                        <BarDropdownItem To=\"/docs/components/card\">Card</BarDropdownItem>\r\n                    </BarDropdownMenu>\r\n                </BarDropdown>\r\n            </BarItem>\r\n        </BarStart>\r\n    </BarMenu>\r\n</Bar>",
+          "title": "Dropdown trigger: click anywhere + URL match",
+          "description": "When users should be able to expand from either the label or icon, combine triggers with a flags expression. In this example, Trigger=\"BarDropdownToggleTrigger.ClickAny | BarDropdownToggleTrigger.RouteMatch\" keeps the dropdown expanded whenever the current URL matches To ."
         },
         {
           "code": "VerticalBarSideBarExample",
