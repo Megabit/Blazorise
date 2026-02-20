@@ -1,0 +1,300 @@
+.mui-table {
+    --mui-table-cell-padding-x: 1rem;
+    --mui-table-cell-padding-y: 0.75rem;
+    --mui-table-border-width: 0.0625rem;
+    --mui-table-border-color: var(--mui-outline-variant);
+    --mui-table-header-bg: var(--mui-surface-container);
+    --mui-table-header-color: var(--mui-on-surface);
+    --mui-table-footer-bg: var(--mui-surface-container-low);
+    --mui-table-footer-color: var(--mui-on-surface);
+    --mui-table-row-bg: transparent;
+    --mui-table-row-color: var(--mui-on-surface);
+    --mui-table-row-striped-bg: color-mix(in srgb, var(--mui-on-surface) 4%, transparent);
+    --mui-table-row-hover-bg: color-mix(in srgb, var(--mui-on-surface) 6%, transparent);
+    --mui-table-row-selected-bg: color-mix(in srgb, var(--mui-primary) 18%, transparent);
+    --mui-table-row-selected-color: var(--mui-on-surface);
+    --mui-table-group-bg: var(--mui-surface-container-low);
+    --mui-table-group-color: var(--mui-on-surface);
+    inline-size: auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: start;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--mui-on-surface);
+    background-color: var(--mui-surface-container-lowest);
+}
+
+.mui-table-fullwidth {
+    inline-size: 100%;
+}
+
+.mui-table :is(.mui-table-header, .mui-table-body, .mui-table-footer) {
+    background-color: inherit;
+    color: inherit;
+}
+
+.mui-table > :is(.mui-table-header, .mui-table-body, .mui-table-footer, thead, tbody, tfoot) > :is(.mui-table-row, tr) > :is(.mui-table-header-cell, .mui-table-row-header, .mui-table-row-cell, th, td) {
+    text-align: inherit;
+    padding: var(--mui-table-cell-padding-y) var(--mui-table-cell-padding-x);
+    border-radius: 0;
+    border-block-end: var(--mui-table-border-width) solid var(--mui-table-border-color);
+    background-color: var(--mui-table-cell-bg, transparent);
+    color: var(--mui-table-cell-color, inherit);
+    vertical-align: middle;
+}
+
+.mui-table > :is(.mui-table-header, thead) > :is(.mui-table-row, tr) > :is(.mui-table-header-cell, th) {
+    --mui-table-cell-bg: var(--mui-table-header-bg);
+    --mui-table-cell-color: var(--mui-table-header-color);
+    font-weight: 600;
+    letter-spacing: 0.00625rem;
+    white-space: nowrap;
+}
+
+.mui-table > :is(.mui-table-footer, tfoot) > :is(.mui-table-row, tr) > :is(.mui-table-header-cell, .mui-table-row-header, .mui-table-row-cell, th, td) {
+    --mui-table-cell-bg: var(--mui-table-footer-bg);
+    --mui-table-cell-color: var(--mui-table-footer-color);
+    border-block-start: var(--mui-table-border-width) solid var(--mui-table-border-color);
+}
+
+.mui-table > :is(.mui-table-body, tbody) > :is(.mui-table-row, tr):last-child > :is(.mui-table-row-header, .mui-table-row-cell, th, td) {
+    border-block-end-width: 0;
+}
+
+.mui-table-narrow {
+    --mui-table-cell-padding-x: 0.75rem;
+    --mui-table-cell-padding-y: 0.5rem;
+}
+
+.mui-table-striped > :is(.mui-table-body, tbody) > :is(.mui-table-row, tr):nth-of-type(odd):not(.mui-table-group):not(.mui-table-row-selected) {
+    --mui-table-cell-bg: var(--mui-table-row-striped-bg);
+}
+
+.mui-table-hoverable > :is(.mui-table-body, tbody) > :is(.mui-table-row, tr):not(.mui-table-group):not(.mui-table-row-selected):hover {
+    --mui-table-cell-bg: var(--mui-table-row-hover-bg);
+}
+
+.mui-table > :is(.mui-table-body, tbody) > :is(.mui-table-row, tr).mui-table-row-selected {
+    --mui-table-cell-bg: var(--mui-table-row-selected-bg);
+    --mui-table-cell-color: var(--mui-table-row-selected-color);
+}
+
+.mui-table > :is(.mui-table-body, tbody) > :is(.mui-table-row, tr).mui-table-group {
+    --mui-table-cell-bg: var(--mui-table-group-bg);
+    --mui-table-cell-color: var(--mui-table-group-color);
+    cursor: pointer;
+}
+
+.mui-table > :is(.mui-table-body, tbody) > :is(.mui-table-row, tr).mui-table-group > .mui-table-group-cell {
+    font-weight: 600;
+}
+
+.mui-table > :is(.mui-table-body, tbody) > :is(.mui-table-row, tr).mui-table-group > .mui-table-group-indentcell {
+    inline-size: 0.1%;
+    white-space: nowrap;
+}
+
+.mui-table-row-selectable:hover {
+    cursor: pointer;
+}
+
+.mui-table-row-selectable:focus[tabindex="0"] {
+    outline: none;
+}
+
+.mui-table-header-cell.cursor-pointer {
+    cursor: pointer;
+}
+
+.mui-table-bordered {
+    border: var(--mui-table-border-width) solid var(--mui-table-border-color);
+    border-inline-end-width: 0;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.mui-table-bordered > :is(.mui-table-header, .mui-table-body, .mui-table-footer, thead, tbody, tfoot) > :is(.mui-table-row, tr) > :is(.mui-table-header-cell, .mui-table-row-header, .mui-table-row-cell, th, td) {
+    border-inline-end: var(--mui-table-border-width) solid var(--mui-table-border-color);
+}
+
+.mui-table-borderless,
+.mui-table-borderless > :is(.mui-table-header, .mui-table-body, .mui-table-footer, thead, tbody, tfoot) > :is(.mui-table-row, tr) > :is(.mui-table-header-cell, .mui-table-row-header, .mui-table-row-cell, th, td) {
+    border: 0 !important;
+}
+
+.mui-table-header-theme.mui-table-header-theme-light > :is(.mui-table-row, tr) > :is(.mui-table-header-cell, th) {
+    --mui-table-cell-bg: var(--mui-light-container);
+    --mui-table-cell-color: var(--mui-on-light-container);
+}
+
+.mui-table-header-theme.mui-table-header-theme-dark > :is(.mui-table-row, tr) > :is(.mui-table-header-cell, th) {
+    --mui-table-cell-bg: var(--mui-dark);
+    --mui-table-cell-color: var(--mui-on-dark);
+    border-block-end-color: color-mix(in srgb, var(--mui-on-dark) 24%, transparent);
+}
+
+.mui-table-caption {
+    padding: 0.5rem 0;
+    color: var(--mui-on-surface-variant);
+    font-size: 0.75rem;
+    line-height: 1rem;
+    text-align: start;
+}
+
+.mui-table-caption-top {
+    caption-side: top;
+}
+
+.mui-table-caption-bottom {
+    caption-side: bottom;
+}
+
+.mui-table-responsive {
+    display: block;
+    inline-size: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.mui-table-responsive > .mui-table {
+    min-inline-size: 100%;
+}
+
+.mui-table-fixed-header {
+    overflow-y: auto;
+}
+
+.mui-table-fixed-header > .mui-table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.mui-table-fixed-header > .mui-table > :is(.mui-table-header, thead) > :is(.mui-table-row, tr) > :is(.mui-table-header-cell, th) {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: var(--mui-zindex-tablefixed);
+}
+
+.mui-table-fixed-columns {
+    inline-size: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    position: relative;
+}
+
+.mui-table-fixed-columns > .mui-table {
+    table-layout: fixed;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.mui-table-fixed-columns > .mui-table :is(.mui-table-header-cell-fixed-start, .mui-table-row-header-fixed-start, .mui-table-row-cell-fixed-start) {
+    position: sticky;
+    left: 0;
+    z-index: var(--mui-zindex-tablefixed2);
+    background-color: var(--mui-table-cell-bg, var(--mui-surface-container-lowest));
+    box-shadow: 1px 0 0 var(--mui-table-border-color);
+}
+
+.mui-table-fixed-columns > .mui-table :is(.mui-table-header-cell-fixed-end, .mui-table-row-header-fixed-end, .mui-table-row-cell-fixed-end) {
+    position: sticky;
+    right: 0;
+    z-index: var(--mui-zindex-tablefixed2);
+    background-color: var(--mui-table-cell-bg, var(--mui-surface-container-lowest));
+    box-shadow: -1px 0 0 var(--mui-table-border-color);
+}
+
+.mui-table-fixed-columns > .mui-table > :is(.mui-table-header, thead) :is(.mui-table-header-cell-fixed-start, .mui-table-header-cell-fixed-end) {
+    z-index: calc(var(--mui-zindex-tablefixed2) + 1);
+}
+
+.mui-table-borderless :is(.mui-table-header-cell-fixed-start, .mui-table-row-header-fixed-start, .mui-table-row-cell-fixed-start, .mui-table-header-cell-fixed-end, .mui-table-row-header-fixed-end, .mui-table-row-cell-fixed-end) {
+    box-shadow: none;
+}
+
+@each $color in (primary, secondary, tertiary, error, success, warning, info, light, dark) {
+    .mui-table-row-#{$color} {
+        --mui-table-cell-bg: var(--mui-#{$color}-container);
+        --mui-table-cell-color: var(--mui-on-#{$color}-container);
+    }
+
+    .mui-table-cell-#{$color} {
+        --mui-table-cell-bg: var(--mui-#{$color}-container);
+        --mui-table-cell-color: var(--mui-on-#{$color}-container);
+    }
+}
+
+.mui-table-row-link {
+    --mui-table-cell-bg: var(--mui-primary-container);
+    --mui-table-cell-color: var(--mui-on-primary-container);
+}
+
+.mui-table-cell-link {
+    --mui-table-cell-bg: var(--mui-primary-container);
+    --mui-table-cell-color: var(--mui-on-primary-container);
+}
+
+.b-table.mui-table {
+    position: relative;
+}
+
+.b-table.mui-table .b-table-resizer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0.3125rem;
+    cursor: col-resize;
+    user-select: none;
+    z-index: 1;
+}
+
+.b-table.mui-table .b-table-resizer:hover,
+.b-table.mui-table .b-table-resizing {
+    cursor: col-resize !important;
+    border-inline-end: 0.125rem solid var(--mui-primary);
+}
+
+.mui-table :is(th, td):focus {
+    outline: 0.125rem solid var(--mui-primary);
+    outline-offset: -0.125rem;
+}
+
+@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+    .mui-table-mobile [data-caption]::before {
+        content: attr(data-caption);
+    }
+
+    .mui-table-mobile :is(thead, tbody, tfoot, th, td, tr) {
+        display: block;
+    }
+
+    .mui-table-mobile > :is(.mui-table-header, thead) > :is(.mui-table-row, tr) {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .mui-table-mobile :is(td, th) {
+        position: relative;
+        inline-size: 100%;
+        padding-top: 1.75rem !important;
+    }
+
+    .mui-table-mobile :is(td, th)::before {
+        position: absolute;
+        inset-block-start: 0.375rem;
+        inset-inline-start: var(--mui-table-cell-padding-x);
+        font-size: 0.75rem;
+        line-height: 1rem;
+        font-weight: 500;
+        color: var(--mui-on-surface-variant);
+        white-space: nowrap;
+    }
+
+    .mui-table-mobile:not(.mui-table-borderless) :is(.mui-table-row, tr) {
+        border-block-end: var(--mui-table-border-width) solid var(--mui-table-border-color);
+    }
+}

@@ -1083,25 +1083,25 @@ public class MaterialClassProvider : ClassProvider
 
     #region Table
 
-    public override string Table() => "table";
+    public override string Table() => "mui-table";
 
-    public override string TableFullWidth( bool fullWidth ) => null;
+    public override string TableFullWidth( bool fullWidth ) => fullWidth ? "mui-table-fullwidth" : null;
 
-    public override string TableStriped( bool striped ) => striped ? "table-striped" : null;
+    public override string TableStriped( bool striped ) => striped ? "mui-table-striped" : null;
 
-    public override string TableHoverable( bool hoverable ) => hoverable ? "table-hover" : null;
+    public override string TableHoverable( bool hoverable ) => hoverable ? "mui-table-hoverable" : null;
 
-    public override string TableBordered( bool bordered ) => bordered ? "table-bordered" : null;
+    public override string TableBordered( bool bordered ) => bordered ? "mui-table-bordered" : null;
 
-    public override string TableNarrow( bool narrow ) => narrow ? "table-sm" : null;
+    public override string TableNarrow( bool narrow ) => narrow ? "mui-table-narrow" : null;
 
-    public override string TableBorderless( bool borderless ) => borderless ? "table-borderless" : null;
+    public override string TableBorderless( bool borderless ) => borderless ? "mui-table-borderless" : null;
 
-    public override string TableHeader() => null;
+    public override string TableHeader() => "mui-table-header";
 
-    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => themeContrast != ThemeContrast.None ? $"table-thead-theme table-{ToThemeContrast( themeContrast )}" : null;
+    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => themeContrast != ThemeContrast.None ? $"mui-table-header-theme mui-table-header-theme-{ToThemeContrast( themeContrast )}" : null;
 
-    public override string TableHeaderCell() => null;
+    public override string TableHeaderCell() => "mui-table-header-cell";
 
     public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"cursor-{ToCursor( cursor )}" : null;
 
@@ -1109,67 +1109,67 @@ public class MaterialClassProvider : ClassProvider
     {
         return fixedPosition switch
         {
-            TableColumnFixedPosition.Start => "table-header-cell-fixed-start",
-            TableColumnFixedPosition.End => "table-header-cell-fixed-end",
+            TableColumnFixedPosition.Start => "mui-table-header-cell-fixed-start",
+            TableColumnFixedPosition.End => "mui-table-header-cell-fixed-end",
             _ => null,
         };
     }
 
-    public override string TableFooter() => null;
+    public override string TableFooter() => "mui-table-footer";
 
-    public override string TableBody() => null;
+    public override string TableBody() => "mui-table-body";
 
-    public override string TableRow( bool striped, bool hoverable ) => null;
+    public override string TableRow( bool striped, bool hoverable ) => "mui-table-row";
 
-    public override string TableRowColor( Color color ) => color.IsNotNullOrDefault() ? $"table-{ToColor( color )}" : null;
+    public override string TableRowColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-table-row-{ToColor( color )}" : null;
 
-    public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "table-row-selectable" : null;
+    public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "mui-table-row-selectable" : null;
 
-    public override string TableRowIsSelected( bool selected ) => selected ? "selected" : null;
+    public override string TableRowIsSelected( bool selected ) => selected ? "mui-table-row-selected" : null;
 
-    public override string TableRowHeader() => null;
+    public override string TableRowHeader() => "mui-table-row-header";
 
     public override string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition )
     {
         return fixedPosition switch
         {
-            TableColumnFixedPosition.Start => "table-row-header-fixed-start",
-            TableColumnFixedPosition.End => "table-row-header-fixed-end",
+            TableColumnFixedPosition.Start => "mui-table-row-header-fixed-start",
+            TableColumnFixedPosition.End => "mui-table-row-header-fixed-end",
             _ => null,
         };
     }
 
-    public override string TableRowCell() => null;
+    public override string TableRowCell() => "mui-table-row-cell";
 
-    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"table-{ToColor( color )}" : null;
+    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-table-cell-{ToColor( color )}" : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {
         return fixedPosition switch
         {
-            TableColumnFixedPosition.Start => "table-row-cell-fixed-start",
-            TableColumnFixedPosition.End => "table-row-cell-fixed-end",
+            TableColumnFixedPosition.Start => "mui-table-row-cell-fixed-start",
+            TableColumnFixedPosition.End => "mui-table-row-cell-fixed-end",
             _ => null,
         };
     }
 
-    public override string TableRowGroup( bool expanded ) => "table-group";
+    public override string TableRowGroup( bool expanded ) => "mui-table-group";
 
-    public override string TableRowGroupCell() => "table-group-cell";
+    public override string TableRowGroupCell() => "mui-table-group-cell";
 
-    public override string TableRowGroupIndentCell() => "table-group-indentcell";
+    public override string TableRowGroupIndentCell() => "mui-table-group-indentcell";
 
-    public override string TableResponsive( bool responsive ) => responsive ? "table-responsive" : null;
+    public override string TableResponsive( bool responsive ) => responsive ? "mui-table-responsive" : null;
 
-    public override string TableFixedHeader( bool fixedHeader ) => fixedHeader ? "table-fixed-header" : null;
+    public override string TableFixedHeader( bool fixedHeader ) => fixedHeader ? "mui-table-fixed-header" : null;
 
-    public override string TableFixedColumns( bool fixedColumns ) => fixedColumns ? "table-fixed-columns" : null;
+    public override string TableFixedColumns( bool fixedColumns ) => fixedColumns ? "mui-table-fixed-columns" : null;
 
-    public override string TableResponsiveMode( TableResponsiveMode responsiveMode ) => responsiveMode == Blazorise.TableResponsiveMode.Mobile ? "table-mobile" : null;
+    public override string TableResponsiveMode( TableResponsiveMode responsiveMode ) => responsiveMode == Blazorise.TableResponsiveMode.Mobile ? "mui-table-mobile" : null;
 
-    public override string TableCaption() => "table-caption";
+    public override string TableCaption() => "mui-table-caption";
 
-    public override string TableCaptionSide( TableCaptionSide side ) => side != Blazorise.TableCaptionSide.Default ? $"table-caption-{ToTableCaptionSide( side )}" : null;
+    public override string TableCaptionSide( TableCaptionSide side ) => side != Blazorise.TableCaptionSide.Default ? $"mui-table-caption-{ToTableCaptionSide( side )}" : null;
 
     #endregion
 

@@ -76,7 +76,31 @@ pre:has(> code) {
 }
 
 @each $color-name, $color-value in $theme-colors-text-emphasis {
+    .text-#{$color-name} {
+        color: #{$color-value} !important;
+    }
+
     .text-#{$color-name}-emphasis {
         color: #{$color-value} !important;
     }
+}
+
+.text-body {
+    color: var(--mui-on-surface) !important;
+}
+
+.text-muted {
+    color: var(--mui-on-surface-variant) !important;
+}
+
+.text-white {
+    color: #fff !important;
+}
+
+.text-black-50 {
+    color: rgb(0 0 0 / 50%) !important;
+}
+
+.text-white-50 {
+    color: rgb(255 255 255 / 50%) !important;
 }

@@ -1,4 +1,4 @@
-﻿@import "colors";
+@import "colors";
 @import "functions";
 @import "variables";
 @import "variables-material";
@@ -24,7 +24,9 @@
 @import "components/list-group";
 @import "components/progress";
 @import "components/selection";
+@import "components/table";
 
+@import "utilities/background-color";
 @import "utilities/grid";
 @import "utilities/spacing";
 @import "utilities/typography";
