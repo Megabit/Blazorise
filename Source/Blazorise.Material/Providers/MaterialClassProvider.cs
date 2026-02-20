@@ -890,41 +890,51 @@ public class MaterialClassProvider : ClassProvider
 
     #region Modal
 
-    public override string Modal() => "modal";
+    public override string Modal() => "mui-modal";
 
     public override string ModalFade( bool showing, bool hiding ) => showing
-        ? "showing"
+        ? "mui-modal-showing"
         : hiding
-            ? "hiding"
+            ? "mui-modal-hiding"
             : null;
 
-    public override string ModalVisible( bool visible ) => visible ? Show() : null;
+    public override string ModalVisible( bool visible ) => visible ? "mui-modal-visible" : null;
 
-    public override string ModalSize( ModalSize modalSize ) => null;
+    public override string ModalSize( ModalSize modalSize ) => modalSize == Blazorise.ModalSize.Fullscreen ? "mui-modal-fullscreen" : null;
 
-    public override string ModalCentered( bool centered ) => null;
+    public override string ModalCentered( bool centered ) => centered ? "mui-modal-centered" : null;
 
-    public override string ModalBackdrop() => "modal-backdrop";
+    public override string ModalBackdrop() => "mui-modal-backdrop";
 
-    public override string ModalBackdropFade() => Fade();
+    public override string ModalBackdropFade() => "mui-modal-backdrop-fade";
 
-    public override string ModalBackdropVisible( bool visible ) => visible ? Show() : null;
+    public override string ModalBackdropVisible( bool visible ) => visible ? "mui-modal-backdrop-visible" : null;
 
-    public override string ModalContent( bool dialog ) => "modal-content";
+    public override string ModalContent( bool dialog ) => "mui-modal-content";
 
-    public override string ModalContentSize( ModalSize modalSize ) => null;
+    public override string ModalContentSize( ModalSize modalSize )
+    {
+        return modalSize switch
+        {
+            Blazorise.ModalSize.Small => "mui-modal-content-sm",
+            Blazorise.ModalSize.Large => "mui-modal-content-lg",
+            Blazorise.ModalSize.ExtraLarge => "mui-modal-content-xl",
+            Blazorise.ModalSize.Fullscreen => "mui-modal-content-fullscreen",
+            _ => null,
+        };
+    }
 
-    public override string ModalContentCentered( bool centered ) => null;
+    public override string ModalContentCentered( bool centered ) => centered ? "mui-modal-content-centered" : null;
 
-    public override string ModalContentScrollable( bool scrollable ) => null;
+    public override string ModalContentScrollable( bool scrollable ) => scrollable ? "mui-modal-content-scrollable" : null;
 
-    public override string ModalBody() => "modal-body";
+    public override string ModalBody() => "mui-modal-body";
 
-    public override string ModalHeader() => "modal-header";
+    public override string ModalHeader() => "mui-modal-header";
 
-    public override string ModalFooter() => "modal-footer";
+    public override string ModalFooter() => "mui-modal-footer";
 
-    public override string ModalTitle() => "modal-title";
+    public override string ModalTitle() => "mui-modal-title";
 
     #endregion
 

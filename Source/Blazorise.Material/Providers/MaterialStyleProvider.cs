@@ -4,9 +4,9 @@ public class MaterialStyleProvider : StyleProvider
 {
     #region Modal
 
-    public override int DefaultModalZIndex => 1050;
+    public override int DefaultModalZIndex => 1055;
 
-    public override int DefaultModalBackdropZIndex => 1040;
+    public override int DefaultModalBackdropZIndex => 1050;
 
     public override string ModalShow( bool visible ) => null;
 
@@ -21,8 +21,7 @@ public class MaterialStyleProvider : StyleProvider
     public override string ModalZIndex( int modalOpenIndex )
         => modalOpenIndex > 1 ? $"z-index: {DefaultModalZIndex + ( ModalZIndexDiff * ( modalOpenIndex - 1 ) ) + ModalZIndexDiff}" : null;
 
-    public override string ModalBackdropZIndex( int modalOpenIndex )
-        => modalOpenIndex > 1 ? $"z-index: {DefaultModalZIndex + ( ModalZIndexDiff * ( modalOpenIndex - 1 ) )}" : null;
+    public override string ModalBackdropZIndex( int modalOpenIndex ) => null;
 
     #endregion
 
