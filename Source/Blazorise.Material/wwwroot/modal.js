@@ -1,6 +1,9 @@
 import { addClassToBody, removeClassFromBody } from "../Blazorise/utilities.js?v=2.0.0.0";
 
+let closeCleanupTimeoutId = null;
+
 export function open(element, scrollToTop) {
+    clearCloseCleanupTimeout();
     adjustDialogDimensionsBeforeShow(element);
 
     var modals = Number(document.body.getAttribute("data-modals") || "0");
@@ -39,14 +42,24 @@ export function close(element) {
     }
 
     if (modals === 0) {
-        // Restore the original overflow value
-        document.body.style.overflow = document.body.getAttribute('data-original-overflow') || '';
-        document.body.removeAttribute('data-original-overflow');
-        removeClassFromBody("modal-open");
+        clearCloseCleanupTimeout();
+        const animationDuration = getAnimationDurationInMs(element);
 
-        resetAdjustments(element, true);
-    }
-    else {
+        closeCleanupTimeoutId = window.setTimeout(() => {
+            if (Number(document.body.getAttribute("data-modals") || "0") !== 0) {
+                closeCleanupTimeoutId = null;
+                return;
+            }
+
+            // Restore the original overflow value
+            document.body.style.overflow = document.body.getAttribute('data-original-overflow') || '';
+            document.body.removeAttribute('data-original-overflow');
+            removeClassFromBody("modal-open");
+
+            resetAdjustments(element, true);
+            closeCleanupTimeoutId = null;
+        }, animationDuration);
+    } else {
         resetAdjustments(element, false);
     }
 
@@ -139,4 +152,42 @@ export function getScrollBarWidth() {
 function toFloat(value) {
     const parsed = Number.parseFloat(value);
     return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function clearCloseCleanupTimeout() {
+    if (closeCleanupTimeoutId !== null) {
+        window.clearTimeout(closeCleanupTimeoutId);
+        closeCleanupTimeoutId = null;
+    }
+}
+
+function getAnimationDurationInMs(element) {
+    if (!element) {
+        return 0;
+    }
+
+    const computedStyle = window.getComputedStyle(element);
+    const duration =
+        computedStyle.getPropertyValue("--modal-animation-duration") ||
+        computedStyle.getPropertyValue("transition-duration");
+
+    return parseDurationToMs(duration);
+}
+
+function parseDurationToMs(value) {
+    if (!value) {
+        return 0;
+    }
+
+    const normalized = value.toString().trim();
+
+    if (normalized.endsWith("ms")) {
+        return toFloat(normalized);
+    }
+
+    if (normalized.endsWith("s")) {
+        return toFloat(normalized) * 1000;
+    }
+
+    return toFloat(normalized);
 }

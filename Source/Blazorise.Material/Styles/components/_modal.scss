@@ -16,26 +16,40 @@ body.modal-open {
     padding: clamp(1rem, 4vh, 2.5rem) 1rem;
     overflow-x: hidden;
     overflow-y: auto;
-    opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity var(--modal-animation-duration, var(--mui-duration-normal)) var(--mui-curve-decelerate-mid), visibility 0s linear var(--modal-animation-duration, var(--mui-duration-normal));
+    transition: visibility 0s linear var(--modal-animation-duration, var(--mui-duration-normal));
 }
 
 .mui-modal:is(.mui-modal-visible, .mui-modal-showing, .mui-modal-hiding) {
+    display: flex;
     visibility: visible;
 }
 
 .mui-modal:is(.mui-modal-visible, .mui-modal-showing) {
-    opacity: 1;
     pointer-events: auto;
     transition-delay: 0s;
 }
 
 .mui-modal.mui-modal-hiding {
-    opacity: 0;
+    visibility: visible;
     pointer-events: none;
     transition-delay: 0s;
+}
+
+@supports (transition-behavior: allow-discrete) {
+    .mui-modal {
+        display: none;
+        transition: visibility 0s linear var(--modal-animation-duration, var(--mui-duration-normal)), display var(--modal-animation-duration, var(--mui-duration-normal)) allow-discrete;
+        transition-behavior: allow-discrete;
+    }
+
+    @starting-style {
+        .mui-modal:is(.mui-modal-visible, .mui-modal-showing) > .mui-modal-content {
+            opacity: 0;
+            transform: translateY(1rem) scale(0.98);
+        }
+    }
 }
 
 .mui-modal.mui-modal-centered {
@@ -60,6 +74,17 @@ body.modal-open {
 
 .mui-modal-backdrop.mui-modal-backdrop-visible {
     opacity: 1;
+    animation: mui-modal-backdrop-fade-in var(--modal-animation-duration, var(--mui-duration-normal)) linear;
+}
+
+@keyframes mui-modal-backdrop-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .mui-modal > .mui-modal-content {
@@ -90,9 +115,25 @@ body.modal-open {
     transform: translateY(0) scale(1);
 }
 
+.mui-modal.mui-modal-showing > .mui-modal-content {
+    animation: mui-modal-content-enter var(--modal-animation-duration, var(--mui-duration-normal)) var(--mui-curve-decelerate-mid);
+}
+
 .mui-modal.mui-modal-hiding > .mui-modal-content {
     opacity: 0;
     transform: translateY(1rem) scale(0.98);
+}
+
+@keyframes mui-modal-content-enter {
+    from {
+        opacity: 0;
+        transform: translateY(1rem) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .mui-modal > .mui-modal-content.mui-modal-content-centered {
