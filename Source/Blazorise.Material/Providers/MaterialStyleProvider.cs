@@ -57,8 +57,8 @@ public class MaterialStyleProvider : StyleProvider
 
     public override string ToastAnimationDuration( bool animated, int animationDuration )
         => animated
-            ? $"transition-duration: {animationDuration}ms"
-            : "transition-duration: unset";
+            ? $"--mui-toast-animation-duration: {animationDuration}ms"
+            : "--mui-toast-animation-duration: 0ms";
 
     #endregion
 }

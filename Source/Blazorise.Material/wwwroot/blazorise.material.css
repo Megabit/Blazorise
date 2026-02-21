@@ -3746,6 +3746,220 @@ body.modal-open {
     opacity: 1;
   }
 }
+.mui-toaster {
+  --mui-toaster-offset: 1rem;
+  --mui-toaster-gap: 0.75rem;
+  --mui-toast-enter-translate-y: 0.5rem;
+  z-index: var(--mui-zindex-tooltip);
+  display: flex;
+  gap: var(--mui-toaster-gap);
+  pointer-events: none;
+  max-inline-size: calc(100vw - 2 * var(--mui-toaster-offset));
+}
+
+.mui-toaster.mui-toaster-fixed {
+  position: fixed;
+}
+
+.mui-toaster.mui-toaster-absolute {
+  position: absolute;
+}
+
+.mui-toaster.mui-toaster-top,
+.mui-toaster.mui-toaster-top-start,
+.mui-toaster.mui-toaster-top-end {
+  flex-direction: column;
+  --mui-toast-enter-translate-y: -0.5rem;
+}
+
+.mui-toaster.mui-toaster-bottom,
+.mui-toaster.mui-toaster-bottom-start,
+.mui-toaster.mui-toaster-bottom-end {
+  flex-direction: column-reverse;
+  --mui-toast-enter-translate-y: 0.5rem;
+}
+
+.mui-toaster.mui-toaster-top {
+  inset-block-start: calc(var(--mui-top) + var(--mui-toaster-offset));
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  align-items: center;
+}
+
+.mui-toaster.mui-toaster-top-start {
+  inset-block-start: calc(var(--mui-top) + var(--mui-toaster-offset));
+  inset-inline-start: max(var(--mui-left), var(--mui-toaster-offset));
+  align-items: flex-start;
+}
+
+.mui-toaster.mui-toaster-top-end {
+  inset-block-start: calc(var(--mui-top) + var(--mui-toaster-offset));
+  inset-inline-end: max(var(--mui-right), var(--mui-toaster-offset));
+  align-items: flex-end;
+}
+
+.mui-toaster.mui-toaster-bottom {
+  inset-block-end: calc(var(--mui-bottom) + var(--mui-toaster-offset));
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  align-items: center;
+}
+
+.mui-toaster.mui-toaster-bottom-start {
+  inset-block-end: calc(var(--mui-bottom) + var(--mui-toaster-offset));
+  inset-inline-start: max(var(--mui-left), var(--mui-toaster-offset));
+  align-items: flex-start;
+}
+
+.mui-toaster.mui-toaster-bottom-end {
+  inset-block-end: calc(var(--mui-bottom) + var(--mui-toaster-offset));
+  inset-inline-end: max(var(--mui-right), var(--mui-toaster-offset));
+  align-items: flex-end;
+}
+
+.mui-toast {
+  --mui-toast-animation-duration: var(--mui-duration-normal);
+  --mui-toast-padding-inline: 1rem;
+  --mui-toast-padding-block: 0.75rem;
+  --mui-toast-bg: var(--mui-surface-container-lowest);
+  --mui-toast-color: var(--mui-on-surface);
+  --mui-toast-border-color: color-mix(in srgb, var(--mui-on-surface) 12%, transparent);
+  display: none;
+  inline-size: clamp(18rem, 80vw, 34rem);
+  max-inline-size: calc(100vw - 2 * var(--mui-toaster-offset));
+  min-block-size: 3rem;
+  border: 1px solid var(--mui-toast-border-color);
+  border-radius: 0.75rem;
+  background-color: var(--mui-toast-bg);
+  color: var(--mui-toast-color);
+  box-shadow: var(--mui-elevate2);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(var(--mui-toast-enter-translate-y)) scale(0.98);
+}
+
+:is(:root[data-theme=dark], [data-theme=dark], :root[data-bs-theme=dark], [data-bs-theme=dark], .dark) .mui-toast {
+  --mui-toast-bg: color-mix(in srgb, var(--mui-dark) 92%, var(--mui-surface));
+  --mui-toast-color: var(--mui-on-dark);
+  --mui-toast-border-color: color-mix(in srgb, var(--mui-on-dark) 14%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme=light]):not([data-bs-theme=light]) .mui-toast {
+    --mui-toast-bg: color-mix(in srgb, var(--mui-dark) 92%, var(--mui-surface));
+    --mui-toast-color: var(--mui-on-dark);
+    --mui-toast-border-color: color-mix(in srgb, var(--mui-on-dark) 14%, transparent);
+  }
+}
+.mui-toast:is(.mui-toast-visible, .mui-toast-showing, .mui-toast-hiding) {
+  display: grid;
+  visibility: visible;
+}
+
+.mui-toast:is(.mui-toast-visible, .mui-toast-showing) {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.mui-toast.mui-toast-hiding {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(var(--mui-toast-enter-translate-y)) scale(0.98);
+}
+
+.mui-toast.mui-toast-animated {
+  transition: transform var(--mui-toast-animation-duration) var(--mui-curve-decelerate-mid), opacity var(--mui-toast-animation-duration) var(--mui-curve-decelerate-mid), visibility 0s linear var(--mui-toast-animation-duration);
+}
+
+.mui-toast.mui-toast-animated.mui-toast-showing {
+  animation: mui-toast-enter var(--mui-toast-animation-duration) var(--mui-curve-decelerate-mid);
+}
+
+.mui-toast-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: var(--mui-toast-padding-block) var(--mui-toast-padding-inline) 0.25rem;
+  color: inherit;
+  background-color: transparent;
+  border: 0;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+}
+
+.mui-toast-header > .mui-button-close {
+  margin-inline-start: auto;
+  inline-size: 2rem;
+  block-size: 2rem;
+  min-inline-size: 2rem;
+  border: 0;
+  border-radius: 999rem;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: color-mix(in srgb, currentColor 88%, transparent);
+  cursor: pointer;
+  transition: background-color var(--mui-duration-normal), color var(--mui-duration-normal), border-radius var(--mui-duration-normal);
+}
+
+.mui-toast-header > .mui-button-close::before {
+  content: "close";
+  font-family: var(--mui-font-icon);
+  font-size: 1.125rem;
+  line-height: 1;
+  font-weight: 400;
+}
+
+.mui-toast-header > .mui-button-close:hover {
+  color: currentColor;
+  background-color: color-mix(in srgb, currentColor 10%, transparent);
+}
+
+.mui-toast-header > .mui-button-close:active {
+  border-radius: 0.625rem;
+}
+
+.mui-toast-header > .mui-button-close[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mui-toast-body {
+  padding: 0 var(--mui-toast-padding-inline) var(--mui-toast-padding-block);
+  color: color-mix(in srgb, currentColor 90%, transparent);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.mui-toast:not(:has(> .mui-toast-header)) > .mui-toast-body {
+  padding-block-start: var(--mui-toast-padding-block);
+}
+
+.mui-toast:not(:has(> .mui-toast-body)) > .mui-toast-header {
+  padding-block-end: var(--mui-toast-padding-block);
+}
+
+@keyframes mui-toast-enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--mui-toast-enter-translate-y)) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@media only screen and (min-width: 62rem) {
+  .mui-toaster:is(.mui-toaster-top, .mui-toaster-bottom) > .mui-toast {
+    inline-size: min(40vw, 34rem);
+  }
+}
 .bg-primary {
   background-color: var(--mui-primary) !important;
 }

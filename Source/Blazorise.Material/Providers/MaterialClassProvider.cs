@@ -991,44 +991,39 @@ public class MaterialClassProvider : ClassProvider
 
     #region Toast
 
-    public override string Toast() => "toast";
+    public override string Toast() => "mui-toast";
 
-    public override string ToastAnimated( bool animated ) => animated ? "fade" : null;
+    public override string ToastAnimated( bool animated ) => animated ? "mui-toast-animated" : null;
 
-    public override string ToastFade( bool visible, bool showing, bool hiding )
-    {
-        if ( showing || hiding )
-            return "show showing";
+    public override string ToastFade( bool visible, bool showing, bool hiding ) => showing
+        ? "mui-toast-showing"
+        : hiding
+            ? "mui-toast-hiding"
+            : null;
 
-        if ( visible )
-            return "show";
+    public override string ToastVisible( bool visible ) => visible ? "mui-toast-visible" : null;
 
-        return "hide";
-    }
+    public override string ToastHeader() => "mui-toast-header";
 
-    public override string ToastVisible( bool visible ) => null;
+    public override string ToastBody() => "mui-toast-body";
 
-    public override string ToastHeader() => "toast-header";
-
-    public override string ToastBody() => "toast-body";
-
-    public override string Toaster() => "toast-container";
+    public override string Toaster() => "mui-toaster";
 
     public override string ToasterPlacement( ToasterPlacement placement ) => placement switch
     {
-        Blazorise.ToasterPlacement.Top => "p-3 top-0 start-50 translate-middle-x",
-        Blazorise.ToasterPlacement.TopStart => "p-3 top-0 start-0",
-        Blazorise.ToasterPlacement.TopEnd => "p-3 top-0 end-0",
-        Blazorise.ToasterPlacement.Bottom => "p-3 bottom-0 start-50 translate-middle-x",
-        Blazorise.ToasterPlacement.BottomStart => "p-3 bottom-0 start-0",
-        Blazorise.ToasterPlacement.BottomEnd => "p-3 bottom-0 end-0",
+        Blazorise.ToasterPlacement.Top => "mui-toaster-top",
+        Blazorise.ToasterPlacement.TopStart => "mui-toaster-top-start",
+        Blazorise.ToasterPlacement.TopEnd => "mui-toaster-top-end",
+        Blazorise.ToasterPlacement.Bottom => "mui-toaster-bottom",
+        Blazorise.ToasterPlacement.BottomStart => "mui-toaster-bottom-start",
+        Blazorise.ToasterPlacement.BottomEnd => "mui-toaster-bottom-end",
         _ => null,
     };
 
     public override string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy ) => placementStrategy switch
     {
-        Blazorise.ToasterPlacementStrategy.Fixed => "position-fixed",
-        Blazorise.ToasterPlacementStrategy.Absolute => "position-absolute",
+        Blazorise.ToasterPlacementStrategy.Fixed => "mui-toaster-fixed",
+        Blazorise.ToasterPlacementStrategy.Absolute => "mui-toaster-absolute",
         _ => null,
     };
 
