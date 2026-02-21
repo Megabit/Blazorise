@@ -1032,27 +1032,27 @@ public class MaterialClassProvider : ClassProvider
 
     #region Pagination
 
-    public override string Pagination() => "pagination";
+    public override string Pagination() => "mui-pagination";
 
     public override string PaginationSize( Size size ) => size != Size.Default ? $"{Pagination()}-{ToSize( size )}" : null;
 
-    public override string PaginationAlignment( Alignment alignment ) => alignment != Alignment.Default ? $"justify-content-{ToAlignment( alignment )}" : null;
+    public override string PaginationAlignment( Alignment alignment ) => alignment != Alignment.Default ? $"mui-justify-content-{ToAlignment( alignment )}" : null;
 
     public override string PaginationBackgroundColor( Background background ) => background.IsNotNullOrDefault() ? $"bg-{ToBackground( background )}" : null;
 
-    public override string PaginationItem() => "page-item";
+    public override string PaginationItem() => "mui-pagination-item";
 
-    public override string PaginationItemActive( bool active ) => active ? Active() : null;
+    public override string PaginationItemActive( bool active ) => active ? "mui-pagination-item-active" : null;
 
-    public override string PaginationItemDisabled( bool disabled ) => disabled ? Disabled() : null;
+    public override string PaginationItemDisabled( bool disabled ) => disabled ? "mui-pagination-item-disabled" : null;
 
-    public override string PaginationLink() => "page-link";
+    public override string PaginationLink() => "mui-pagination-link";
 
     public override string PaginationLinkSize( Size size ) => null;
 
-    public override string PaginationLinkActive( bool active ) => null;
+    public override string PaginationLinkActive( bool active ) => active ? "mui-pagination-link-active" : null;
 
-    public override string PaginationLinkDisabled( bool disabled ) => null;
+    public override string PaginationLinkDisabled( bool disabled ) => disabled ? "mui-pagination-link-disabled" : null;
 
     #endregion
 

@@ -1,0 +1,104 @@
+.mui-pagination {
+    --mui-pagination-gap: 0.25rem;
+    --mui-pagination-item-size: 2.5rem;
+    --mui-pagination-item-padding-inline: 0.75rem;
+    --mui-pagination-font-size: 0.875rem;
+    --mui-pagination-font-weight: 500;
+    --mui-pagination-color: var(--mui-on-surface-variant);
+    --mui-pagination-bg: transparent;
+    --mui-pagination-border-color: transparent;
+    --mui-pagination-hover-bg: color-mix(in srgb, var(--mui-on-surface) 8%, transparent);
+    --mui-pagination-active-bg: var(--mui-primary-container);
+    --mui-pagination-active-color: var(--mui-on-primary-container);
+    --mui-pagination-active-border-color: transparent;
+    --mui-pagination-disabled-opacity: 0.38;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--mui-pagination-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    > .mui-pagination-item {
+        list-style: none;
+        display: flex;
+        align-items: stretch;
+
+        > .mui-pagination-link {
+            box-sizing: border-box;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-inline-size: var(--mui-pagination-item-size);
+            block-size: var(--mui-pagination-item-size);
+            padding-inline: var(--mui-pagination-item-padding-inline);
+            border: 0.0625rem solid var(--mui-pagination-border-color);
+            border-radius: 999rem;
+            background-color: var(--mui-pagination-bg);
+            color: var(--mui-pagination-color);
+            font-size: var(--mui-pagination-font-size);
+            font-weight: var(--mui-pagination-font-weight);
+            line-height: 1;
+            white-space: nowrap;
+            text-decoration: none;
+            user-select: none;
+            cursor: pointer;
+            transition: background-color var(--mui-duration-normal), color var(--mui-duration-normal), border-color var(--mui-duration-normal), opacity var(--mui-duration-normal);
+        }
+
+        > .mui-pagination-link:hover {
+            background-color: var(--mui-pagination-hover-bg);
+        }
+
+        > .mui-pagination-link:focus-visible {
+            outline: 0.125rem solid color-mix(in srgb, var(--mui-primary) 56%, transparent);
+            outline-offset: -0.125rem;
+        }
+    }
+
+    > .mui-pagination-item:is(.mui-pagination-item-active, .active) > .mui-pagination-link,
+    > .mui-pagination-item > .mui-pagination-link:is(.mui-pagination-link-active, .active, [aria-current="page"]) {
+        background-color: var(--mui-pagination-active-bg);
+        color: var(--mui-pagination-active-color);
+        border-color: var(--mui-pagination-active-border-color);
+    }
+
+    > .mui-pagination-item:is(.mui-pagination-item-disabled, .disabled, [aria-disabled="true"]) > .mui-pagination-link,
+    > .mui-pagination-item > .mui-pagination-link:is(.mui-pagination-link-disabled, .disabled, [aria-disabled="true"]) {
+        opacity: var(--mui-pagination-disabled-opacity);
+        pointer-events: none;
+        cursor: not-allowed;
+    }
+
+    &-xs {
+        --mui-pagination-item-size: 1.5rem;
+        --mui-pagination-item-padding-inline: 0.375rem;
+        --mui-pagination-font-size: 0.625rem;
+    }
+
+    &-sm {
+        --mui-pagination-item-size: 2rem;
+        --mui-pagination-item-padding-inline: 0.5rem;
+        --mui-pagination-font-size: 0.75rem;
+    }
+
+    &-md {
+        --mui-pagination-item-size: 2.75rem;
+        --mui-pagination-item-padding-inline: 0.875rem;
+        --mui-pagination-font-size: 0.875rem;
+    }
+
+    &-lg {
+        --mui-pagination-item-size: 3rem;
+        --mui-pagination-item-padding-inline: 1rem;
+        --mui-pagination-font-size: 1rem;
+    }
+
+    &-xl {
+        --mui-pagination-item-size: 3.5rem;
+        --mui-pagination-item-padding-inline: 1.125rem;
+        --mui-pagination-font-size: 1.125rem;
+    }
+}
