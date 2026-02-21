@@ -504,33 +504,42 @@ public class MaterialClassProvider : ClassProvider
 
     #region Tabs
 
-    public override string Tabs( bool pills ) => pills ? "nav nav-pills" : "nav nav-tabs";
+    public override string Tabs( bool pills ) => pills ? "mui-tabs mui-tabs-pills" : "mui-tabs";
 
-    public override string TabsCards( bool cards ) => cards ? "card-header-tabs" : null;
+    public override string TabsCards( bool cards ) => cards ? "mui-tabs-cards" : null;
 
-    public override string TabsFullWidth( bool fullWidth ) => fullWidth ? "nav-fill" : null;
+    public override string TabsFullWidth( bool fullWidth ) => fullWidth ? "mui-tabs-fullwidth" : null;
 
-    public override string TabsJustified( bool justified ) => justified ? "nav-justified" : null;
+    public override string TabsJustified( bool justified ) => justified ? "mui-tabs-justified" : null;
 
-    public override string TabsVertical( bool vertical ) => vertical ? "flex-column" : null;
+    public override string TabsVertical( bool vertical ) => vertical ? "mui-tabs-vertical" : null;
 
-    public override string TabItem( TabPosition tabPosition ) => "nav-item";
+    public override string TabItem( TabPosition tabPosition )
+    {
+        return tabPosition switch
+        {
+            TabPosition.Start => "mui-tab-item mui-tab-item-start",
+            TabPosition.End => "mui-tab-item mui-tab-item-end",
+            TabPosition.Bottom => "mui-tab-item mui-tab-item-bottom",
+            _ => "mui-tab-item mui-tab-item-top",
+        };
+    }
 
-    public override string TabItemActive( bool active ) => null;
+    public override string TabItemActive( bool active ) => active ? "mui-tab-item-active" : null;
 
-    public override string TabItemDisabled( bool disabled ) => null;
+    public override string TabItemDisabled( bool disabled ) => disabled ? "mui-tab-item-disabled" : null;
 
-    public override string TabLink( TabPosition tabPosition ) => "nav-link";
+    public override string TabLink( TabPosition tabPosition ) => "mui-tab-link";
 
-    public override string TabLinkActive( bool active ) => active ? $"{Active()} {Show()}" : null;
+    public override string TabLinkActive( bool active ) => active ? "mui-tab-link-active" : null;
 
-    public override string TabLinkDisabled( bool disabled ) => disabled ? "disabled" : null;
+    public override string TabLinkDisabled( bool disabled ) => disabled ? "mui-tab-link-disabled" : null;
 
-    public override string TabsContent() => "tab-content";
+    public override string TabsContent() => "mui-tabs-content";
 
-    public override string TabPanel() => "tab-pane";
+    public override string TabPanel() => "mui-tab-panel";
 
-    public override string TabPanelActive( bool active ) => active ? $"{Active()} {Show()}" : null;
+    public override string TabPanelActive( bool active ) => active ? "mui-tab-panel-active" : null;
 
     #endregion
 
