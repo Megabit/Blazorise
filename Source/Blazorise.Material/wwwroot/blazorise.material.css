@@ -275,6 +275,8 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 }
 
 .mui-addons {
+  --mui-addon-border-width: 0.0625rem;
+  --mui-addon-border-radius: var(--mui-input-border-radius, 0.5rem);
   position: relative;
   display: flex;
   align-items: stretch;
@@ -290,6 +292,10 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   flex: 1 1 auto;
   min-inline-size: 0;
 }
+.mui-addons > :is(.mui-addon-start, .mui-addon-body, .mui-addon-end) > .mui-dropdown {
+  display: inline-flex;
+  align-items: stretch;
+}
 .mui-addons > .mui-input,
 .mui-addons > .mui-select,
 .mui-addons > .mui-addon-body > .mui-input,
@@ -304,27 +310,51 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-block-size: var(--mui-input-size);
   white-space: nowrap;
   padding: 0 0.9375rem;
-  border: 0.0625rem solid var(--mui-outline);
+  border: var(--mui-addon-border-width) solid var(--mui-outline);
+  border-radius: var(--mui-addon-border-radius);
   background-color: var(--mui-surface-container-low);
   color: var(--mui-on-surface-variant);
 }
-.mui-addons > .mui-addon-start > :is(.mui-addon-text, .mui-button) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+.mui-addons > :not(:first-child) {
+  margin-inline-start: calc(-1 * var(--mui-addon-border-width));
 }
-.mui-addons > .mui-addon-end > :is(.mui-addon-text, .mui-button) {
+.mui-addons > :not(:first-child) > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text),
+.mui-addons > :not(:first-child):is(.mui-input, .mui-select, .mui-button, .mui-addon-text) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-.mui-addons > .mui-addon-body:not(:first-child) > :is(.mui-input, .mui-select, .mui-button) {
+.mui-addons > :not(:last-child) > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text),
+.mui-addons > :not(:last-child):is(.mui-input, .mui-select, .mui-button, .mui-addon-text) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.mui-addons > :not(:first-child) > .mui-dropdown > .mui-dropdown-toggle {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-.mui-addons > .mui-addon-body:not(:last-child) > :is(.mui-input, .mui-select, .mui-button) {
+.mui-addons > :not(:last-child) > .mui-dropdown > .mui-dropdown-toggle {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+}
+.mui-addons > :is(.mui-addon-start, .mui-addon-body, .mui-addon-end, .mui-input, .mui-select, .mui-button):focus-within {
+  z-index: 5;
+}
+.mui-addons > .mui-addon-start > .mui-button,
+.mui-addons > .mui-addon-end > .mui-button,
+.mui-addons > .mui-addon-body > .mui-button,
+.mui-addons > .mui-button {
+  --mui-btn-border-radius: var(--mui-addon-border-radius);
+  box-sizing: border-box;
+}
+.mui-addons > .mui-addon-start > .mui-dropdown > .mui-dropdown-toggle,
+.mui-addons > .mui-addon-end > .mui-dropdown > .mui-dropdown-toggle,
+.mui-addons > .mui-addon-body > .mui-dropdown > .mui-dropdown-toggle,
+.mui-addons > .mui-dropdown > .mui-dropdown-toggle {
+  --mui-btn-border-radius: var(--mui-addon-border-radius);
+  box-sizing: border-box;
 }
 .mui-addons .mui-button {
   position: relative;
