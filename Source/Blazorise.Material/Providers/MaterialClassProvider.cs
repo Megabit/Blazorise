@@ -1431,7 +1431,7 @@ public class MaterialClassProvider : ClassProvider
             ? $"{ToGapSide( gapSide )}-"
             : null;
 
-        return $"gap-{side}{ToGapSize( gapSize )}";
+        return $"mui-gap-{side}{ToGapSize( gapSize )}";
     }
 
     public override string Gap( GapSize gapSize, IEnumerable<GapSide> rules )

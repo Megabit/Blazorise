@@ -41,6 +41,7 @@ public static class Config
         [typeof( Blazorise.Check<> )] = typeof( Components.Check<> ),
         [typeof( Blazorise.CarouselSlide )] = typeof( Components.CarouselSlide ),
         [typeof( Blazorise.DropdownToggle )] = typeof( Components.DropdownToggle ),
+        [typeof( Blazorise.Field )] = typeof( Components.Field ),
         [typeof( Blazorise.NumericPicker<> )] = typeof( Components.NumericPicker<> ),
         [typeof( Blazorise.Progress )] = typeof( Components.Progress ),
         [typeof( Blazorise.ProgressBar )] = typeof( Components.ProgressBar ),
