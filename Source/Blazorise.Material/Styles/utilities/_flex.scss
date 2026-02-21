@@ -1,0 +1,90 @@
+$flex-directions: (row, row-reverse, column, column-reverse) !default;
+$justify-content-values: (start: flex-start, end: flex-end, center: center, between: space-between, around: space-around) !default;
+$align-items-values: (start: flex-start, end: flex-end, center: center, baseline: baseline, stretch: stretch) !default;
+$align-self-values: (auto: auto, start: flex-start, end: flex-end, center: center, baseline: baseline, stretch: stretch) !default;
+$align-content-values: (start: flex-start, end: flex-end, center: center, between: space-between, around: space-around, stretch: stretch) !default;
+$flex-wrap-values: (wrap, nowrap, wrap-reverse) !default;
+$flex-basis-values: (0, auto, full) !default;
+$flex-order-values: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12) !default;
+
+@mixin make-flex-utilities($infix: "") {
+    @each $direction in $flex-directions {
+        .mui-flex#{$infix}-#{$direction} {
+            flex-direction: #{$direction} !important;
+        }
+    }
+
+    @each $name, $value in $justify-content-values {
+        .mui-justify-content#{$infix}-#{$name} {
+            justify-content: #{$value} !important;
+        }
+    }
+
+    @each $name, $value in $align-items-values {
+        .mui-align-items#{$infix}-#{$name} {
+            align-items: #{$value} !important;
+        }
+    }
+
+    @each $name, $value in $align-self-values {
+        .mui-align-self#{$infix}-#{$name} {
+            align-self: #{$value} !important;
+        }
+    }
+
+    @each $name, $value in $align-content-values {
+        .mui-align-content#{$infix}-#{$name} {
+            align-content: #{$value} !important;
+        }
+    }
+
+    .mui-flex#{$infix}-fill {
+        flex: 1 1 auto !important;
+    }
+
+    .mui-flex#{$infix}-grow-0 {
+        flex-grow: 0 !important;
+    }
+
+    .mui-flex#{$infix}-grow-1 {
+        flex-grow: 1 !important;
+    }
+
+    .mui-flex#{$infix}-shrink-0 {
+        flex-shrink: 0 !important;
+    }
+
+    .mui-flex#{$infix}-shrink-1 {
+        flex-shrink: 1 !important;
+    }
+
+    @each $basis in $flex-basis-values {
+        .mui-flex-basis#{$infix}-#{$basis} {
+            flex-basis: if($basis == full, 100%, $basis) !important;
+        }
+    }
+
+    @each $wrap in $flex-wrap-values {
+        .mui-flex#{$infix}-#{$wrap} {
+            flex-wrap: #{$wrap} !important;
+        }
+    }
+
+    @each $order in $flex-order-values {
+        .mui-order#{$infix}-#{$order} {
+            order: #{$order} !important;
+        }
+    }
+}
+
+@include make-flex-utilities();
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    @if $infix != "" {
+        @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+            @include make-flex-utilities($infix);
+        }
+    }
+}

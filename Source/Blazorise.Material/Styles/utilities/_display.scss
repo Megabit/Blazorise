@@ -1,0 +1,21 @@
+$display-values: (none, inline, inline-block, block, flex, inline-flex, table, table-row, table-cell) !default;
+
+@mixin make-display-utilities($infix: "") {
+    @each $display in $display-values {
+        .mui-display#{$infix}-#{$display} {
+            display: #{$display} !important;
+        }
+    }
+}
+
+@include make-display-utilities();
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    @if $infix != "" {
+        @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+            @include make-display-utilities($infix);
+        }
+    }
+}

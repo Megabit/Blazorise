@@ -667,7 +667,8 @@ public class MaterialClassProvider : ClassProvider
 
     public override string ListGroupItemDisabled( bool disabled ) => disabled ? Disabled() : null;
 
-    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => $"{ListGroupItem()}-{ToColor( color )}";
+    public override string ListGroupItemColor( Color color, bool selectable, bool active )
+        => color.IsNotNullOrDefault() ? $"{ListGroupItem()}-{ToColor( color )}" : null;
 
     #endregion
 
@@ -864,11 +865,11 @@ public class MaterialClassProvider : ClassProvider
     public override string Display( DisplayType displayType, DisplayDefinition displayDefinition )
     {
         var baseClass = displayDefinition.Breakpoint != Breakpoint.None && displayDefinition.Breakpoint != Blazorise.Breakpoint.Mobile
-            ? $"d-{ToBreakpoint( displayDefinition.Breakpoint )}-{ToDisplayType( displayType )}"
-            : $"d-{ToDisplayType( displayType )}";
+            ? $"mui-display-{ToBreakpoint( displayDefinition.Breakpoint )}-{ToDisplayType( displayType )}"
+            : $"mui-display-{ToDisplayType( displayType )}";
 
         if ( displayDefinition.Direction != DisplayDirection.Default )
-            return $"{baseClass} flex-{ToDisplayDirection( displayDefinition.Direction )}";
+            return $"{baseClass} mui-flex-{ToDisplayDirection( displayDefinition.Direction )}";
 
         return baseClass;
     }
@@ -1471,7 +1472,7 @@ public class MaterialClassProvider : ClassProvider
     public override string Flex( FlexType flexType )
     {
         return flexType != FlexType.Default
-            ? $"d-{ToFlexType( flexType )}"
+            ? $"mui-display-{ToFlexType( flexType )}"
             : null;
     }
 
@@ -1484,34 +1485,34 @@ public class MaterialClassProvider : ClassProvider
             : null;
 
         if ( flexDefinition.Direction != FlexDirection.Default )
-            sb.Append( "flex-" ).Append( breakpoint ).Append( ToDirection( flexDefinition.Direction ) );
+            sb.Append( "mui-flex-" ).Append( breakpoint ).Append( ToDirection( flexDefinition.Direction ) );
 
         if ( flexDefinition.JustifyContent != FlexJustifyContent.Default )
-            sb.Append( "justify-content-" ).Append( breakpoint ).Append( ToJustifyContent( flexDefinition.JustifyContent ) );
+            sb.Append( "mui-justify-content-" ).Append( breakpoint ).Append( ToJustifyContent( flexDefinition.JustifyContent ) );
 
         if ( flexDefinition.AlignItems != FlexAlignItems.Default )
-            sb.Append( "align-items-" ).Append( breakpoint ).Append( ToAlignItems( flexDefinition.AlignItems ) );
+            sb.Append( "mui-align-items-" ).Append( breakpoint ).Append( ToAlignItems( flexDefinition.AlignItems ) );
 
         if ( flexDefinition.AlignSelf != FlexAlignSelf.Default )
-            sb.Append( "align-self-" ).Append( breakpoint ).Append( ToAlignSelf( flexDefinition.AlignSelf ) );
+            sb.Append( "mui-align-self-" ).Append( breakpoint ).Append( ToAlignSelf( flexDefinition.AlignSelf ) );
 
         if ( flexDefinition.AlignContent != FlexAlignContent.Default )
-            sb.Append( "align-content-" ).Append( breakpoint ).Append( ToAlignContent( flexDefinition.AlignContent ) );
+            sb.Append( "mui-align-content-" ).Append( breakpoint ).Append( ToAlignContent( flexDefinition.AlignContent ) );
 
         if ( flexDefinition.GrowShrink != FlexGrowShrink.Default && flexDefinition.GrowShrinkSize != FlexGrowShrinkSize.Default )
-            sb.Append( "flex-" ).Append( breakpoint ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
+            sb.Append( "mui-flex-" ).Append( breakpoint ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
 
         if ( flexDefinition.Basis && flexDefinition.BasisSize != FlexBasisSize.Default )
-            sb.Append( "flex-basis-" ).Append( breakpoint ).Append( ToBasisSize( flexDefinition.BasisSize ) );
+            sb.Append( "mui-flex-basis-" ).Append( breakpoint ).Append( ToBasisSize( flexDefinition.BasisSize ) );
 
         if ( flexDefinition.Wrap != FlexWrap.Default )
-            sb.Append( "flex-" ).Append( breakpoint ).Append( ToWrap( flexDefinition.Wrap ) );
+            sb.Append( "mui-flex-" ).Append( breakpoint ).Append( ToWrap( flexDefinition.Wrap ) );
 
         if ( flexDefinition.Order != FlexOrder.Default )
-            sb.Append( "order-" ).Append( breakpoint ).Append( ToOrder( flexDefinition.Order ) );
+            sb.Append( "mui-order-" ).Append( breakpoint ).Append( ToOrder( flexDefinition.Order ) );
 
         if ( flexDefinition.Fill )
-            sb.Append( "flex-" ).Append( breakpoint ).Append( "fill" );
+            sb.Append( "mui-flex-" ).Append( breakpoint ).Append( "fill" );
 
         return sb.ToString();
     }
@@ -1524,11 +1525,11 @@ public class MaterialClassProvider : ClassProvider
         {
             if ( flexRule.Breakpoint > Breakpoint.Mobile )
             {
-                sb.Append( $"d-{ToBreakpoint( flexRule.Breakpoint )}-{ToFlexType( flexRule.FlexType )}" );
+                sb.Append( $"mui-display-{ToBreakpoint( flexRule.Breakpoint )}-{ToFlexType( flexRule.FlexType )}" );
             }
             else
             {
-                sb.Append( $"d-{ToFlexType( flexRule.FlexType )}" );
+                sb.Append( $"mui-display-{ToFlexType( flexRule.FlexType )}" );
             }
 
             sb.Append( ' ' );
