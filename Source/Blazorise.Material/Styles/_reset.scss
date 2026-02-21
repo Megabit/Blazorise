@@ -73,7 +73,7 @@ body :is(:hover,:focus)::-webkit-scrollbar-thumb {
     border-radius: 1rem;
 }
 
-* + :is(address, article, blockquote, code, .field, .mui-field, fieldset, form, .grid, .mui-grid, h1, h2, h3, h4, h5, h6, nav, ol, p, pre, .row, .mui-row, section, aside, table, .tabs, ul) {
+* + :is(address, article, blockquote, code, .field, .mui-field, .mui-fields, fieldset, form, .grid, .mui-grid, h1, h2, h3, h4, h5, h6, nav, ol, p, pre, .row, .mui-row, section, aside, table, .tabs, ul) {
     margin-block-start: 1rem;
 }
 

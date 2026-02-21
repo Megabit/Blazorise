@@ -8,8 +8,49 @@
     border-radius: 0.25rem 0.25rem 0 0;
 }
 
-.mui-field.mui-row {
+.mui-field.mui-field-horizontal {
+    display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.mui-field.mui-field-horizontal:has(> .mui-column),
+.mui-field.mui-field-horizontal:has(> [class*="mui-column-"]) {
+    margin-right: calc(#{$grid-gutter-width} * -.5);
+    margin-left: calc(#{$grid-gutter-width} * -.5);
+}
+
+.mui-row > .mui-field {
+    margin-top: 0;
+}
+
+.mui-fields-inline {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+
+    > .mui-field {
+        margin-top: 0;
+    }
+
+    @include media-breakpoint-up(sm) {
+        > .mui-field {
+            display: flex;
+            flex: 0 0 auto;
+            flex-flow: row wrap;
+            align-items: center;
+            margin-bottom: 0;
+        }
+
+        > .mui-field > .mui-field-label:not(.mui-field-label-horizontal) {
+            margin-bottom: 0;
+        }
+
+        > .mui-field > :is(.mui-input, .mui-input-plaintext, .mui-select, .mui-addons, .b-numeric),
+        > .mui-field > .mui-field-body > :is(.mui-input, .mui-input-plaintext, .mui-select, .mui-addons, .b-numeric) {
+            inline-size: auto;
+        }
+    }
 }
 
 .mui-field > .mui-field-body {

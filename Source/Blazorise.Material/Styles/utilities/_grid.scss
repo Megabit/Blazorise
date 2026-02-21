@@ -1,11 +1,11 @@
-﻿.mui-row {
-    --_gap: 1rem;
+.mui-row {
+    --_gap: #{$grid-gutter-width};
     display: flex;
     flex-wrap: wrap;
-    margin-right: calc(var(--_gap) * -1);
-    margin-left: calc(var(--_gap) * -1);
+    margin-right: calc(var(--_gap) * -.5);
+    margin-left: calc(var(--_gap) * -.5);
 
-    .mui-nogutters {
+    &.mui-nogutters {
         margin-right: 0;
         margin-left: 0;
 

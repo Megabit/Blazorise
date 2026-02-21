@@ -287,7 +287,7 @@ public class MaterialClassProvider : ClassProvider
 
     #region Fields
 
-    public override string Fields() => "mui-row mui-gutter-3";
+    public override string Fields() => "mui-row";
 
     public override string FieldsBody() => null;
 
@@ -299,13 +299,13 @@ public class MaterialClassProvider : ClassProvider
 
     public override string Field() => "mui-field";
 
-    public override string FieldHorizontal( bool horizontal ) => horizontal ? "mui-row" : null;
+    public override string FieldHorizontal( bool horizontal ) => horizontal ? "mui-field-horizontal" : null;
 
     public override string FieldColumn() => "mui-column";
 
     public override string FieldSize( Size size ) => null;
 
-    public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
+    public override string FieldJustifyContent( JustifyContent justifyContent ) => justifyContent != JustifyContent.Default ? $"mui-{ToJustifyContent( justifyContent )}" : null;
 
     public override string FieldValidation( ValidationStatus validationStatus ) => null;
 
@@ -385,7 +385,7 @@ public class MaterialClassProvider : ClassProvider
 
     #region Inline
 
-    public override string Inline() => "form-inline";
+    public override string Inline() => "mui-fields-inline";
 
     #endregion
 
