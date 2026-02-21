@@ -43,13 +43,13 @@ public class MaterialStyleProvider : StyleProvider
 
     public override string OffcanvasAnimationDuration( bool animated, int animationDuration )
         => animated
-            ? $"transition-duration: {animationDuration}ms"
-            : "transition-duration: unset";
+            ? $"--offcanvas-animation-duration: {animationDuration}ms; --offcanvas-backdrop-animation-duration: {animationDuration}ms"
+            : "--offcanvas-animation-duration: 0ms; --offcanvas-backdrop-animation-duration: 0ms";
 
     public override string OffcanvasBackdropAnimationDuration( bool animated, int animationDuration )
         => animated
-            ? $"transition-duration: {animationDuration}ms"
-            : "transition-duration: unset";
+            ? $"--offcanvas-backdrop-animation-duration: {animationDuration}ms"
+            : "--offcanvas-backdrop-animation-duration: 0ms";
 
     #endregion
 

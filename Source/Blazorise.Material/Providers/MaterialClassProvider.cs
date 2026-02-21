@@ -940,39 +940,43 @@ public class MaterialClassProvider : ClassProvider
 
     #region Offcanvas
 
-    public override string Offcanvas() => "offcanvas";
+    public override string Offcanvas() => "mui-offcanvas";
 
     public override string OffcanvasPlacement( Placement placement, bool visible )
     {
         return placement switch
         {
-            Placement.Start => "offcanvas-start",
-            Placement.End => "offcanvas-end",
-            Placement.Top => "offcanvas-top",
-            Placement.Bottom => "offcanvas-bottom",
-            _ => "",
+            Placement.Start => "mui-offcanvas-start",
+            Placement.End => "mui-offcanvas-end",
+            Placement.Top => "mui-offcanvas-top",
+            Placement.Bottom => "mui-offcanvas-bottom",
+            _ => null,
         };
     }
 
     public override string OffcanvasFade( bool showing, bool hiding ) => showing
-        ? "showing"
+        ? "mui-offcanvas-showing"
         : hiding
-            ? "hiding"
+            ? "mui-offcanvas-hiding"
             : null;
 
-    public override string OffcanvasVisible( bool visible ) => visible ? Show() : null;
+    public override string OffcanvasVisible( bool visible ) => visible ? "mui-offcanvas-visible" : null;
 
-    public override string OffcanvasHeader() => "offcanvas-header";
+    public override string OffcanvasHeader() => "mui-offcanvas-header";
 
-    public override string OffcanvasFooter() => "offcanvas-footer";
+    public override string OffcanvasFooter() => "mui-offcanvas-footer";
 
-    public override string OffcanvasBody() => "offcanvas-body";
+    public override string OffcanvasBody() => "mui-offcanvas-body";
 
-    public override string OffcanvasBackdrop() => "offcanvas-backdrop";
+    public override string OffcanvasBackdrop() => "mui-offcanvas-backdrop";
 
-    public override string OffcanvasBackdropFade( bool showing, bool hiding ) => Fade();
+    public override string OffcanvasBackdropFade( bool showing, bool hiding ) => showing
+        ? "mui-offcanvas-backdrop-showing"
+        : hiding
+            ? "mui-offcanvas-backdrop-hiding"
+            : null;
 
-    public override string OffcanvasBackdropVisible( bool visible ) => visible ? Show() : null;
+    public override string OffcanvasBackdropVisible( bool visible ) => visible ? "mui-offcanvas-backdrop-visible" : null;
 
     #endregion
 
