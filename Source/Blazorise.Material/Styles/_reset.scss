@@ -72,7 +72,9 @@ body :is(:hover,:focus)::-webkit-scrollbar-thumb {
     border-radius: 1rem;
 }
 
-* + :is(address, article, blockquote, code, .field, .mui-field, .mui-fields, fieldset, form, .grid, .mui-grid, h1, h2, h3, h4, h5, h6, nav, ol, p, pre, .row, .mui-row, section, aside, table, .tabs, ul) {
+// Keep auto vertical rhythm only for plain document-flow content.
+// Component/layout wrappers carry their own spacing and should not be affected here.
+:not(.mui-grid, .grid, nav, .mui-row, .row) > :not(progress.max) + :is(address, article, blockquote, code, fieldset, form, h1, h2, h3, h4, h5, h6, ol, p, pre, ul):not([class], [class*='mui-margin'], [class*='margin'], .right, .left, .top, .bottom) {
     margin-block-start: 1rem;
 }
 
