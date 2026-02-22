@@ -248,17 +248,17 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     /// <summary>
     /// Gets the icon name for the expanded state of the dropdown.
     /// </summary>
-    protected IconName ExpandedToggleIconName => Theme?.BarOptions?.DropdownOptions?.ToggleExpandIconName ?? IconName.ChevronUp;
+    protected virtual IconName ExpandedToggleIconName => Theme?.BarOptions?.DropdownOptions?.ToggleExpandIconName ?? IconName.ChevronUp;
 
     /// <summary>
     /// Gets the icon name for the collapsed state of the dropdown.
     /// </summary>
-    protected IconName CollapsedToggleIconName => Theme?.BarOptions?.DropdownOptions?.ToggleCollapseIconName ?? IconName.ChevronDown;
+    protected virtual IconName CollapsedToggleIconName => Theme?.BarOptions?.DropdownOptions?.ToggleCollapseIconName ?? IconName.ChevronDown;
 
     /// <summary>
     /// Gets the size of the toggle icon used in the dropdown options.
     /// </summary>
-    protected IconSize ToggleIconSize => Theme?.BarOptions?.DropdownOptions?.ToggleIconSIze ?? IconSize.ExtraSmall;
+    protected virtual IconSize ToggleIconSize => Theme?.BarOptions?.DropdownOptions?.ToggleIconSIze ?? IconSize.ExtraSmall;
 
     /// <summary>
     /// Indicates whether the current instance has a navigation target.
