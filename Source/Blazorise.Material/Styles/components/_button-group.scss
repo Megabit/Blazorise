@@ -4,33 +4,38 @@
     display: inline-flex;
     vertical-align: middle;
     background: none !important;
-    gap: .125rem;
+    gap: 0.0625rem;
+
+    > .mui-button,
+    > .mui-button-group > .mui-button,
+    > .mui-dropdown > .mui-button,
+    > .mui-dropdown > .mui-dropdown-toggle,
+    > .mui-radio-button > .mui-button {
+        margin: 0;
+        border-radius: 0.5rem;
+    }
 
     > .mui-radio-button {
         display: inline-flex;
         margin: 0;
     }
-
-    > .mui-radio-button > .mui-button {
-        margin: 0;
-    }
 }
 
 .mui-button-group {
-    > .mui-button {
-        margin: 0;
+    > .mui-radio-button:first-child > .mui-button,
+    > .mui-button:first-child,
+    > .mui-dropdown:first-child > .mui-button,
+    > .mui-dropdown:first-child > .mui-dropdown-toggle,
+    > .mui-button-group:first-child > .mui-button {
+        @include border-start-radius(var(--mui-btn-size));
     }
 
-    > .mui-radio-button:not(:first-child) > .mui-button,
-    > .mui-button:not(:first-child),
-    > .mui-button-group:not(:first-child) > .mui-button {
-        @include border-start-radius(0);
-    }
-
-    > .mui-radio-button:not(:last-child) > .mui-button,
-    > .mui-button:not(:last-child):not(.mui-dropdown-toggle),
-    > .mui-button-group:not(:last-child) > .mui-button {
-        @include border-end-radius(0);
+    > .mui-radio-button:last-child > .mui-button,
+    > .mui-button:last-child,
+    > .mui-dropdown:last-child > .mui-button,
+    > .mui-dropdown:last-child > .mui-dropdown-toggle,
+    > .mui-button-group:last-child > .mui-button {
+        @include border-end-radius(var(--mui-btn-size));
     }
 }
 
@@ -51,15 +56,55 @@
         inline-size: 100%;
     }
 
-    > .mui-radio-button:not(:first-child) > .mui-button,
-    > .mui-button:not(:first-child) {
-        @include border-top-radius(0);
+    > .mui-radio-button:first-child > .mui-button,
+    > .mui-dropdown:first-child > .mui-button,
+    > .mui-dropdown:first-child > .mui-dropdown-toggle,
+    > .mui-button:first-child {
+        @include border-top-radius(var(--mui-btn-size));
     }
 
-    > .mui-radio-button:not(:last-child) > .mui-button,
-    > .mui-button:not(:last-child) {
-        @include border-bottom-radius(0);
+    > .mui-radio-button:last-child > .mui-button,
+    > .mui-dropdown:last-child > .mui-button,
+    > .mui-dropdown:last-child > .mui-dropdown-toggle,
+    > .mui-button:last-child {
+        @include border-bottom-radius(var(--mui-btn-size));
     }
+}
+
+.mui-button-group > .mui-dropdown.mui-button-group > :is(.mui-button, .mui-dropdown-toggle),
+.mui-button-group > .mui-dropdown > :is(.mui-button, .mui-dropdown-toggle),
+.mui-button-group-vertical > .mui-dropdown.mui-button-group > :is(.mui-button, .mui-dropdown-toggle),
+.mui-button-group-vertical > .mui-dropdown > :is(.mui-button, .mui-dropdown-toggle),
+.mui-dropdown.mui-button-group > :is(.mui-button, .mui-dropdown-toggle) {
+    border-radius: 0.5rem;
+}
+
+.mui-dropdown.mui-button-group > button:first-of-type {
+    @include border-start-radius(var(--mui-btn-size));
+}
+
+.mui-dropdown.mui-button-group > button:last-of-type {
+    @include border-end-radius(var(--mui-btn-size));
+}
+
+.mui-button-group > .mui-dropdown.mui-button-group:first-child > button:first-of-type,
+.mui-button-group > .mui-dropdown:first-child > button:first-of-type {
+    @include border-start-radius(var(--mui-btn-size));
+}
+
+.mui-button-group > .mui-dropdown.mui-button-group:last-child > button:last-of-type,
+.mui-button-group > .mui-dropdown:last-child > button:last-of-type {
+    @include border-end-radius(var(--mui-btn-size));
+}
+
+.mui-button-group-vertical > .mui-dropdown.mui-button-group:first-child > button:first-of-type,
+.mui-button-group-vertical > .mui-dropdown:first-child > button:first-of-type {
+    @include border-top-radius(var(--mui-btn-size));
+}
+
+.mui-button-group-vertical > .mui-dropdown.mui-button-group:last-child > button:last-of-type,
+.mui-button-group-vertical > .mui-dropdown:last-child > button:last-of-type {
+    @include border-bottom-radius(var(--mui-btn-size));
 }
 
 .mui-group-connected.mui-radio-group.mui-radio-group-buttons.mui-button-group > .mui-radio-button > .mui-button,
