@@ -113,6 +113,10 @@ textarea.mui-input {
     resize: vertical;
 }
 
+textarea.mui-input:focus {
+    padding-block: calc(0.75rem - 0.0625rem);
+}
+
 textarea.mui-input:not([rows]) {
     field-sizing: content;
     max-block-size: 12rem;
@@ -126,6 +130,16 @@ textarea.mui-input:not([rows]) {
     &:not([multiple])[size="1"] {
         block-size: var(--mui-input-size);
     }
+}
+
+.mui-select[multiple],
+.mui-select[size]:not([size="1"]) {
+    padding-block: 0.0625rem;
+}
+
+.mui-select[multiple]:focus,
+.mui-select[size]:not([size="1"]):focus {
+    padding-block: 0;
 }
 
 :is(.mui-input, .mui-select).is-valid {
