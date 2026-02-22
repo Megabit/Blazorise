@@ -426,7 +426,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string ButtonLoading( bool outline, bool loading ) => null;
 
-    public override string ButtonStretchedLink( bool stretched ) => stretched ? "stretched-link" : null;
+    public override string ButtonStretchedLink( bool stretched ) => stretched ? "mui-stretched-link" : null;
 
     #endregion
 
@@ -1382,7 +1382,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string LinkUnstyled( bool unstyled ) => unstyled ? "link-unstyled" : null;
 
-    public override string LinkStretched( bool stretched ) => stretched ? "stretched-link" : null;
+    public override string LinkStretched( bool stretched ) => stretched ? "mui-stretched-link" : null;
 
     public override string LinkDisabled( bool disabled ) => disabled ? "link-disabled" : null;
 

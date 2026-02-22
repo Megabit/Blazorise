@@ -168,7 +168,6 @@
 }
 * {
   -webkit-tap-highlight-color: transparent;
-  position: relative;
   vertical-align: middle;
   color: inherit;
   margin: 0;
@@ -1208,6 +1207,7 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   border-radius: 0.75rem;
   display: flex;
   flex-direction: column;
+  position: relative;
   transition: transform var(--mui-duration-slow), border-radius var(--mui-duration-slow), padding var(--mui-duration-slow);
   box-shadow: var(--mui-elevate1);
   border: 0.0625rem solid var(--mui-outline-variant);
@@ -1906,6 +1906,28 @@ textarea.mui-input:not([rows]) {
 .mui-file-input[type=file]:disabled::file-selector-button {
   cursor: not-allowed;
   opacity: 0.62;
+}
+
+a.link-unstyled {
+  text-decoration: none;
+  color: inherit;
+}
+a.link-disabled[aria-disabled=true] {
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+.stretched-link {
+  position: static;
+}
+.stretched-link::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  content: "";
 }
 
 .mui-list {

@@ -1,0 +1,27 @@
+a {
+    &.link-unstyled {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    &.link-disabled {
+        &[aria-disabled="true"] {
+            pointer-events: none;
+            opacity: .65;
+        }
+    }
+}
+
+.mui-stretched-link {
+    position: static;
+
+    &::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+        content: "";
+    }
+}
