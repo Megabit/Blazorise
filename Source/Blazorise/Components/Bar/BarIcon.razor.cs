@@ -15,9 +15,18 @@ public partial class BarIcon : BaseComponent
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( "b-bar-icon" );
+        BuildBarIconClasses( builder );
 
         base.BuildClasses( builder );
+    }
+
+    /// <summary>
+    /// Builds class names for bar icon.
+    /// </summary>
+    /// <param name="builder">Class builder.</param>
+    protected virtual void BuildBarIconClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-bar-icon" );
     }
 
     #endregion

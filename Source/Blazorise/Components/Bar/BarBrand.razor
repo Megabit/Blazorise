@@ -4,7 +4,7 @@
     @ChildContent
     @if ( ParentBarState is not null && ParentBarState.Mode != BarMode.Horizontal )
     {
-        <BarToggler Class="b-bar-mobile-toggle"
+        <BarToggler Class="@BarMobileToggleClassNames"
                     Clicked="@(ParentBarState.BarTogglerState?.Clicked ?? EventCallback<MouseEventArgs>.Empty)"
                     Mode="@(ParentBarState.BarTogglerState?.Mode ?? BarTogglerMode.Normal)"
                     Bar="@ParentBarState.BarTogglerState?.Bar" />

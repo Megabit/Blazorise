@@ -138,18 +138,41 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     /// <returns>Class string.</returns>
     protected string GetToggleIconLayerClass( bool expandedStateLayer )
     {
+        var builder = new ClassBuilder( b => BuildToggleIconLayerClasses( b, expandedStateLayer ) );
+
+        return builder.Class;
+    }
+
+    /// <summary>
+    /// Builds class names for toggle icon container.
+    /// </summary>
+    /// <param name="builder">Class builder.</param>
+    protected virtual void BuildToggleIconContainerClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-bar-dropdown-toggle-icon-container" );
+    }
+
+    /// <summary>
+    /// Builds class names for a single icon animation layer.
+    /// </summary>
+    /// <param name="builder">Class builder.</param>
+    /// <param name="expandedStateLayer">True for expanded-state icon layer; otherwise collapsed-state icon layer.</param>
+    protected virtual void BuildToggleIconLayerClasses( ClassBuilder builder, bool expandedStateLayer )
+    {
         var isExpanded = ParentBarDropdown?.IsVisible == true;
+
+        builder.Append( "b-bar-dropdown-toggle-icon-layer" );
 
         if ( expandedStateLayer )
         {
-            return isExpanded
-                ? "b-bar-dropdown-toggle-icon-layer b-bar-dropdown-toggle-icon-layer-visible"
-                : "b-bar-dropdown-toggle-icon-layer b-bar-dropdown-toggle-icon-layer-hidden-expand";
+            builder.Append( "b-bar-dropdown-toggle-icon-layer-visible", isExpanded );
+            builder.Append( "b-bar-dropdown-toggle-icon-layer-hidden-expand", !isExpanded );
         }
-
-        return isExpanded
-            ? "b-bar-dropdown-toggle-icon-layer b-bar-dropdown-toggle-icon-layer-hidden-collapse"
-            : "b-bar-dropdown-toggle-icon-layer b-bar-dropdown-toggle-icon-layer-visible";
+        else
+        {
+            builder.Append( "b-bar-dropdown-toggle-icon-layer-hidden-collapse", isExpanded );
+            builder.Append( "b-bar-dropdown-toggle-icon-layer-visible", !isExpanded );
+        }
     }
 
     /// <summary>
@@ -299,6 +322,19 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     /// Indicates whether default navigation should be prevented on icon click.
     /// </summary>
     protected bool ShouldPreventDefaultOnIconClick => HasNavigationTarget && IsIconClickTriggerEnabled;
+
+    /// <summary>
+    /// Gets the class names for toggle icon container.
+    /// </summary>
+    protected string ToggleIconContainerClassNames
+    {
+        get
+        {
+            var builder = new ClassBuilder( BuildToggleIconContainerClasses );
+
+            return builder.Class;
+        }
+    }
 
     private BarDropdownToggleTrigger EffectiveTrigger
         => Trigger == BarDropdownToggleTrigger.Auto

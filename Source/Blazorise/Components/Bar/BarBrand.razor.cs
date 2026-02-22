@@ -28,6 +28,15 @@ public partial class BarBrand : BaseComponent
         base.BuildClasses( builder );
     }
 
+    /// <summary>
+    /// Builds class names for mobile bar toggler rendered within brand section.
+    /// </summary>
+    /// <param name="builder">Class builder.</param>
+    protected virtual void BuildBarMobileToggleClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-bar-mobile-toggle" );
+    }
+
     #endregion
 
     #region Properties
@@ -52,6 +61,19 @@ public partial class BarBrand : BaseComponent
             parentBarState = value;
 
             DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Gets the class names for mobile bar toggler rendered within brand section.
+    /// </summary>
+    protected string BarMobileToggleClassNames
+    {
+        get
+        {
+            var builder = new ClassBuilder( BuildBarMobileToggleClasses );
+
+            return builder.Class;
         }
     }
 

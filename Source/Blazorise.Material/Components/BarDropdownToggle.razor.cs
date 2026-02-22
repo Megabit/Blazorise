@@ -1,5 +1,6 @@
 #region Using directives
 using System.Threading.Tasks;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
@@ -20,20 +21,29 @@ public partial class BarDropdownToggle : Blazorise.BarDropdownToggle
         await Clicked.InvokeAsync( eventArgs );
     }
 
-    protected string GetToggleIconLayerClassMaterial( bool expandedStateLayer )
+    /// <inheritdoc/>
+    protected override void BuildToggleIconContainerClasses( ClassBuilder builder )
+    {
+        builder.Append( "mui-bar-dropdown-toggle-icon-container" );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildToggleIconLayerClasses( ClassBuilder builder, bool expandedStateLayer )
     {
         var isExpanded = ParentBarDropdown?.IsVisible == true;
 
+        builder.Append( "mui-bar-dropdown-toggle-icon-layer" );
+
         if ( expandedStateLayer )
         {
-            return isExpanded
-                ? "b-bar-dropdown-toggle-icon-layer mui-bar-dropdown-toggle-icon-layer b-bar-dropdown-toggle-icon-layer-visible mui-bar-dropdown-toggle-icon-layer-visible"
-                : "b-bar-dropdown-toggle-icon-layer mui-bar-dropdown-toggle-icon-layer b-bar-dropdown-toggle-icon-layer-hidden-expand mui-bar-dropdown-toggle-icon-layer-hidden-expand";
+            builder.Append( "mui-bar-dropdown-toggle-icon-layer-visible", isExpanded );
+            builder.Append( "mui-bar-dropdown-toggle-icon-layer-hidden-expand", !isExpanded );
         }
-
-        return isExpanded
-            ? "b-bar-dropdown-toggle-icon-layer mui-bar-dropdown-toggle-icon-layer b-bar-dropdown-toggle-icon-layer-hidden-collapse mui-bar-dropdown-toggle-icon-layer-hidden-collapse"
-            : "b-bar-dropdown-toggle-icon-layer mui-bar-dropdown-toggle-icon-layer b-bar-dropdown-toggle-icon-layer-visible mui-bar-dropdown-toggle-icon-layer-visible";
+        else
+        {
+            builder.Append( "mui-bar-dropdown-toggle-icon-layer-hidden-collapse", isExpanded );
+            builder.Append( "mui-bar-dropdown-toggle-icon-layer-visible", !isExpanded );
+        }
     }
 
     #endregion
