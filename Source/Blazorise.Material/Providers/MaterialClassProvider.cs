@@ -1330,13 +1330,13 @@ public class MaterialClassProvider : ClassProvider
 
     #region Breadcrumb
 
-    public override string Breadcrumb() => "breadcrumb";
+    public override string Breadcrumb() => "mui-breadcrumb";
 
-    public override string BreadcrumbItem() => "breadcrumb-item";
+    public override string BreadcrumbItem() => "mui-breadcrumb-item";
 
     public override string BreadcrumbItemActive( bool active ) => active ? Active() : null;
 
-    public override string BreadcrumbLink() => null;
+    public override string BreadcrumbLink() => "mui-breadcrumb-link";
 
     #endregion
 
