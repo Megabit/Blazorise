@@ -309,6 +309,142 @@
     margin-inline-end: 1rem;
 }
 
+.mui-radio-group {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.mui-radio-group.mui-radio-group-vertical {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.mui-radio-group.mui-radio-group-buttons {
+    gap: 0.125rem;
+}
+
+.mui-radio-group.mui-radio-group-buttons > .mui-radio-button {
+    position: relative;
+    display: inline-flex;
+    align-items: stretch;
+    margin: 0;
+}
+
+.mui-radio-group.mui-radio-group-buttons > .mui-radio-button > input {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    opacity: 0;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.mui-radio-group.mui-radio-group-buttons > .mui-radio-button > .mui-button {
+    --mui-radio-btn-bg: var(--mui-primary);
+    --mui-radio-btn-color: var(--mui-on-primary);
+    --mui-radio-btn-tonal-bg: var(--mui-surface-container);
+    --mui-radio-btn-tonal-color: var(--mui-on-surface);
+    --mui-radio-btn-border-color: var(--mui-outline-variant);
+    margin: 0;
+    --mui-btn-border-width: 0.0625rem;
+    --mui-btn-border-style: solid;
+    border-color: var(--mui-radio-btn-border-color);
+    background-image: none;
+    transition: background-color var(--mui-duration-normal), color var(--mui-duration-normal), border-color var(--mui-duration-normal), box-shadow var(--mui-duration-normal), transform var(--mui-duration-fast);
+}
+
+.mui-radio-group.mui-radio-group-buttons > .mui-radio-button > .mui-button:not(.mui-button-active):not(.mui-button-disabled):not([disabled]) {
+    background-color: var(--mui-radio-btn-tonal-bg);
+    color: var(--mui-radio-btn-tonal-color);
+}
+
+.mui-radio-group.mui-radio-group-buttons > .mui-radio-button > .mui-button:not(.mui-button-active):not(.mui-button-disabled):not([disabled]):hover {
+    background-color: color-mix(in srgb, var(--mui-radio-btn-bg) 6%, var(--mui-radio-btn-tonal-bg));
+    color: var(--mui-radio-btn-tonal-color);
+    opacity: 1;
+}
+
+.mui-radio-group.mui-radio-group-buttons > .mui-radio-button > .mui-button.mui-button-active {
+    background-color: var(--mui-radio-btn-bg);
+    color: var(--mui-radio-btn-color);
+    border-color: transparent;
+    box-shadow: 0 0.125rem 0.5rem color-mix(in srgb, var(--mui-radio-btn-bg) 30%, transparent);
+}
+
+@each $variant in $theme-variants {
+    .mui-radio-group.mui-radio-group-buttons > .mui-radio-button > .mui-button.mui-button-#{$variant} {
+        --mui-radio-btn-bg: var(--mui-#{$variant});
+        --mui-radio-btn-color: var(--mui-on-#{$variant});
+    }
+}
+
+.mui-radio-group.mui-radio-group-buttons > .mui-radio-button > .mui-button.mui-button-link {
+    --mui-radio-btn-bg: var(--mui-primary);
+    --mui-radio-btn-color: var(--mui-on-primary);
+    --mui-radio-btn-tonal-bg: var(--mui-primary-container);
+    --mui-radio-btn-tonal-color: var(--mui-on-primary-container);
+    --mui-radio-btn-border-color: var(--mui-outline-primary-variant);
+}
+
+.mui-radio-group.mui-radio-group-buttons > .mui-radio-button > .mui-button.mui-button-primary {
+    --mui-radio-btn-bg: var(--mui-primary);
+    --mui-radio-btn-color: var(--mui-on-primary);
+    --mui-radio-btn-tonal-bg: var(--mui-primary-container);
+    --mui-radio-btn-tonal-color: var(--mui-on-primary-container);
+    --mui-radio-btn-border-color: var(--mui-outline-primary-variant);
+}
+
+.mui-radio-group.mui-radio-group-buttons > .mui-radio-button > input:focus-visible + .mui-button {
+    outline: 0.125rem solid color-mix(in srgb, var(--mui-primary) 56%, transparent);
+    outline-offset: -0.125rem;
+}
+
+.mui-radio-group.mui-radio-group-buttons.mui-radio-group-buttons-vertical > .mui-radio-button {
+    inline-size: 100%;
+}
+
+.mui-radio-group.mui-radio-group-buttons.mui-radio-group-buttons-vertical > .mui-radio-button > .mui-button {
+    inline-size: 100%;
+}
+
+.mui-radio-group.mui-radio-group-buttons-xs > .mui-radio-button > .mui-button {
+    --mui-btn-padding: 0.5rem;
+    --mui-btn-size: 1.5rem;
+    --mui-btn-font-size: 0.625rem;
+}
+
+.mui-radio-group.mui-radio-group-buttons-sm > .mui-radio-button > .mui-button {
+    --mui-btn-padding: 0.75rem;
+    --mui-btn-size: 2rem;
+    --mui-btn-font-size: 0.75rem;
+}
+
+.mui-radio-group.mui-radio-group-buttons-md > .mui-radio-button > .mui-button {
+    --mui-btn-padding: 1.25rem;
+    --mui-btn-size: 2.75rem;
+    --mui-btn-font-size: 0.875rem;
+}
+
+.mui-radio-group.mui-radio-group-buttons-lg > .mui-radio-button > .mui-button {
+    --mui-btn-padding: 1.5rem;
+    --mui-btn-size: 3rem;
+    --mui-btn-font-size: 1rem;
+}
+
+.mui-radio-group.mui-radio-group-buttons-xl > .mui-radio-button > .mui-button {
+    --mui-btn-padding: 1.75rem;
+    --mui-btn-size: 3.5rem;
+    --mui-btn-font-size: 1.125rem;
+}
+
 .mui-check.is-valid,
 .mui-radio.is-valid {
     > .mui-check-label,
@@ -339,6 +475,14 @@
             outline-color: var(--mui-error);
         }
     }
+}
+
+.mui-radio-button.is-valid > .mui-button {
+    box-shadow: inset 0 0 0 1px var(--mui-success);
+}
+
+.mui-radio-button.is-invalid > .mui-button {
+    box-shadow: inset 0 0 0 1px var(--mui-error);
 }
 
 .mui-switch.is-valid > .mui-switch-label > input:checked + span::after {

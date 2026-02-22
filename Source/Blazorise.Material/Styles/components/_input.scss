@@ -38,7 +38,7 @@
         cursor: not-allowed;
     }
 
-    &[type=file],
+    &:not(.mui-file-input)[type=file],
     &[type=color],
     &::-webkit-calendar-picker-indicator {
         opacity: 0;

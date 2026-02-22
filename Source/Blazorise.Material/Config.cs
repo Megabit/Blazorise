@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using Blazorise.Material.Providers;
@@ -46,6 +46,7 @@ public static class Config
         [typeof( Blazorise.Progress )] = typeof( Components.Progress ),
         [typeof( Blazorise.ProgressBar )] = typeof( Components.ProgressBar ),
         [typeof( Blazorise.Radio<> )] = typeof( Components.Radio<> ),
+        [typeof( Blazorise.Slider<> )] = typeof( Components.Slider<> ),
         [typeof( Blazorise.Switch<> )] = typeof( Components.Switch<> ),
         [typeof( Blazorise.Step )] = typeof( Components.Step ),
         [typeof( Blazorise.Steps )] = typeof( Components.Steps ),

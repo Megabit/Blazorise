@@ -1,9 +1,41 @@
-﻿@typeparam TValue
+@typeparam TValue
 @inherits Blazorise.Radio<TValue>
+@using Blazorise.Utilities
 <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    <Label Type="LabelType.Radio" For="@ElementId" Style="@Style" Cursor="@Cursor">
-        <input @ref="@ElementRef" id="@ElementId" type="radio" disabled="@IsDisabled" readonly="@ReadOnly" checked="@Value" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
-        <span>@ChildContent</span>
-    </Label>
+    @if ( AsButton )
+    {
+        <input @ref="@ElementRef" id="@ElementId" type="radio" disabled="@IsDisabled" readonly="@ReadOnly" checked="@IsActive" value="@Value" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
+        <label class="@LabelButtonClassNames" for="@ElementId">
+            @ChildContent
+        </label>
+    }
+    else
+    {
+        <Label Type="LabelType.Radio" For="@ElementId" Style="@Style" Cursor="@Cursor">
+            <input @ref="@ElementRef" id="@ElementId" type="radio" disabled="@IsDisabled" readonly="@ReadOnly" checked="@IsActive" value="@Value" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
+            <span>@ChildContent</span>
+        </Label>
+    }
     @Feedback
 </div>
+
+@code {
+    private string LabelButtonClassNames
+    {
+        get
+        {
+            var classBuilder = new ClassBuilder( BuildLabelButtonClasses );
+
+            return classBuilder.Class;
+        }
+    }
+
+    private void BuildLabelButtonClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.Button( false ) );
+        builder.Append( ClassProvider.ButtonColor( ButtonColor, false ) );
+        builder.Append( ClassProvider.ButtonSize( ThemeSize, false ) );
+        builder.Append( ClassProvider.ButtonActive( false, IsActive ) );
+        builder.Append( ClassProvider.ButtonDisabled( false, IsDisabled ) );
+    }
+}

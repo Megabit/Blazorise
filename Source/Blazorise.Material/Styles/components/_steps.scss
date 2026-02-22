@@ -1,0 +1,155 @@
+.mui-steps {
+    --mui-step-marker-size: 2rem;
+    --mui-step-marker-border-size: 0.125rem;
+    --mui-step-connector-size: 0.125rem;
+    --mui-step-accent: var(--mui-primary);
+    --mui-step-on-accent: var(--mui-on-primary);
+    --mui-step-container: var(--mui-primary-container);
+    --mui-step-on-container: var(--mui-on-primary-container);
+    --mui-step-line: var(--mui-outline-variant);
+    --mui-step-label: var(--mui-on-surface-variant);
+    display: flex;
+    align-items: flex-start;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+}
+
+.mui-steps > .mui-step-item {
+    position: relative;
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-inline-size: 8.5rem;
+    padding: 0 0.5rem;
+    color: var(--mui-step-label);
+    cursor: pointer;
+}
+
+.mui-steps > .mui-step-item::after {
+    content: "";
+    position: absolute;
+    inset: calc(var(--mui-step-marker-size) * 0.5 - (var(--mui-step-connector-size) * 0.5)) calc(-50% + (var(--mui-step-marker-size) * 0.5) + 0.5rem) auto calc(50% + (var(--mui-step-marker-size) * 0.5) + 0.5rem);
+    block-size: var(--mui-step-connector-size);
+    border-radius: 999rem;
+    background-color: var(--mui-step-line);
+}
+
+.mui-steps > .mui-step-item:last-child::after {
+    display: none;
+}
+
+.mui-step-item > .mui-step-marker {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--mui-step-marker-size);
+    min-inline-size: var(--mui-step-marker-size);
+    block-size: var(--mui-step-marker-size);
+    min-block-size: var(--mui-step-marker-size);
+    border-radius: 999rem;
+    border: var(--mui-step-marker-border-size) solid var(--mui-outline);
+    background-color: var(--mui-surface-container-lowest);
+    color: var(--mui-on-surface-variant);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1;
+    transition: background-color var(--mui-duration-normal), border-color var(--mui-duration-normal), color var(--mui-duration-normal), box-shadow var(--mui-duration-normal);
+    z-index: 1;
+}
+
+.mui-step-item > .mui-step-marker :is(i, svg, .icon) {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.mui-step-item > .mui-step-description {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    color: inherit;
+    text-align: center;
+    word-break: keep-all;
+}
+
+.mui-step-item:focus-visible,
+.mui-step-item:focus-visible > .mui-step-marker {
+    outline: 0.125rem solid color-mix(in srgb, var(--mui-step-accent) 48%, transparent);
+    outline-offset: 0.125rem;
+}
+
+.mui-step-item.mui-step-item-active {
+    color: var(--mui-step-accent);
+}
+
+.mui-step-item.mui-step-item-active > .mui-step-marker {
+    border-color: var(--mui-step-accent);
+    background-color: var(--mui-step-container);
+    color: var(--mui-step-on-container);
+    box-shadow: 0 0 0 0.375rem color-mix(in srgb, var(--mui-step-accent) 14%, transparent);
+}
+
+.mui-step-item.mui-step-item-completed {
+    color: var(--mui-step-accent);
+}
+
+.mui-step-item.mui-step-item-completed::after {
+    background-color: var(--mui-step-accent);
+}
+
+.mui-step-item.mui-step-item-completed > .mui-step-marker {
+    border-color: var(--mui-step-accent);
+    background-color: var(--mui-step-accent);
+    color: var(--mui-step-on-accent);
+}
+
+.mui-step-item[class*="mui-step-item-"]:not(.mui-step-item-active):not(.mui-step-item-completed) > .mui-step-marker {
+    border-color: var(--mui-step-accent);
+    color: var(--mui-step-accent);
+}
+
+@each $variant in $theme-variants {
+    .mui-step-item-#{$variant},
+    .mui-step-marker-#{$variant} {
+        --mui-step-accent: var(--mui-#{$variant});
+        --mui-step-on-accent: var(--mui-on-#{$variant});
+        --mui-step-container: var(--mui-#{$variant}-container);
+        --mui-step-on-container: var(--mui-on-#{$variant}-container);
+    }
+}
+
+.mui-step-item-link,
+.mui-step-marker-link {
+    --mui-step-accent: var(--mui-primary);
+    --mui-step-on-accent: var(--mui-on-primary);
+    --mui-step-container: var(--mui-primary-container);
+    --mui-step-on-container: var(--mui-on-primary-container);
+}
+
+.mui-steps-content {
+    margin-top: 1rem;
+}
+
+.mui-step-panel {
+    display: none;
+}
+
+.mui-step-panel.mui-step-panel-active {
+    display: block;
+    animation: mui-step-panel-fade-in var(--mui-duration-normal) var(--mui-curve-decelerate-min);
+}
+
+@keyframes mui-step-panel-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

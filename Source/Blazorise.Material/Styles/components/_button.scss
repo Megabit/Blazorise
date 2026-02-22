@@ -57,7 +57,7 @@
 
     &:active,
     &.mui-button-active {
-        border-radius: 0.5rem !important;
+        border-radius: var(--mui-btn-active-border-radius, 0.5rem) !important;
     }
 
     &-xs {

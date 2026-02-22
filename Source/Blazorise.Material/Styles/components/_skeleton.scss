@@ -1,0 +1,58 @@
+.mui-skeleton {
+    --mui-skeleton-radius: 0.5rem;
+    --mui-skeleton-base: color-mix(in srgb, var(--mui-on-surface) 8%, var(--mui-surface-container-high));
+    --mui-skeleton-highlight: color-mix(in srgb, var(--mui-on-surface) 14%, var(--mui-surface-container-highest));
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.mui-skeleton-item {
+    position: relative;
+    display: block;
+    inline-size: 100%;
+    min-block-size: 1rem;
+    border-radius: var(--mui-skeleton-radius);
+    background-color: var(--mui-skeleton-base);
+    overflow: hidden;
+}
+
+.mui-skeleton-wave .mui-skeleton-item::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--mui-skeleton-highlight) 72%, transparent) 50%, transparent 100%);
+    animation: mui-skeleton-wave 1.8s ease-in-out infinite;
+}
+
+.mui-skeleton-pulse .mui-skeleton-item {
+    animation: mui-skeleton-pulse 1.25s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mui-skeleton-wave .mui-skeleton-item::after,
+    .mui-skeleton-pulse .mui-skeleton-item {
+        animation: none;
+    }
+}
+
+@keyframes mui-skeleton-wave {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes mui-skeleton-pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Blazorise.Extensions;
@@ -157,18 +157,29 @@ public class MaterialClassProvider : ClassProvider
 
     #region RadioGroup
 
-    public override string RadioGroup( bool buttons, Orientation orientation ) => buttons
-        ? orientation == Orientation.Horizontal ? "btn-group btn-group-toggle" : "btn-group-vertical btn-group-toggle"
-        : null;
+    public override string RadioGroup( bool buttons, Orientation orientation )
+    {
+        if ( buttons )
+        {
+            return orientation == Orientation.Vertical
+                ? "mui-radio-group mui-radio-group-buttons mui-radio-group-buttons-vertical mui-group mui-group-connected mui-button-group-vertical"
+                : "mui-radio-group mui-radio-group-buttons mui-group mui-group-connected mui-button-group";
+        }
+
+        return orientation == Orientation.Vertical
+            ? "mui-radio-group mui-radio-group-vertical"
+            : "mui-radio-group";
+    }
 
     public override string RadioGroupSize( bool buttons, Orientation orientation, Size size )
     {
         if ( size == Size.Default )
             return null;
 
-        return buttons
-            ? orientation == Orientation.Horizontal ? $"btn-group-{ToSize( size )}" : $"btn-group-vertical-{ToSize( size )}"
-            : null;
+        if ( !buttons )
+            return null;
+
+        return $"mui-radio-group-buttons-{ToSize( size )}";
     }
 
     public override string RadioGroupValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
@@ -179,7 +190,15 @@ public class MaterialClassProvider : ClassProvider
 
     public override string Radio( bool button ) => button ? "mui-radio-button" : "mui-radio";
 
-    public override string RadioSize( bool button, Size size ) => size != Size.Default ? $"mui-radio-{ToSize( size )}" : null;
+    public override string RadioSize( bool button, Size size )
+    {
+        if ( size == Size.Default )
+            return null;
+
+        return button
+            ? null
+            : $"mui-radio-{ToSize( size )}";
+    }
 
     public override string RadioInline( bool inline ) => inline ? "mui-radio-inline" : null;
 
@@ -207,7 +226,7 @@ public class MaterialClassProvider : ClassProvider
 
     #region FileInput
 
-    public override string FileInput() => "mui-input";
+    public override string FileInput() => "mui-input mui-file-input";
 
     public override string FileInputSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
@@ -217,9 +236,9 @@ public class MaterialClassProvider : ClassProvider
 
     #region Slider
 
-    public override string Slider() => "form-range";
+    public override string Slider() => "mui-slider";
 
-    public override string SliderColor( Color color ) => $"form-range-{ToColor( color )}";
+    public override string SliderColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-slider-{ToColor( color )}" : null;
 
     public override string SliderValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -545,27 +564,27 @@ public class MaterialClassProvider : ClassProvider
 
     #region Steps
 
-    public override string Steps() => "steps";
+    public override string Steps() => "mui-steps";
 
-    public override string StepItem() => "step";
+    public override string StepItem() => "mui-step-item";
 
-    public override string StepItemActive( bool active ) => active ? "step-active" : null;
+    public override string StepItemActive( bool active ) => active ? "mui-step-item-active" : null;
 
-    public override string StepItemCompleted( bool completed ) => completed ? "step-completed" : null;
+    public override string StepItemCompleted( bool completed ) => completed ? "mui-step-item-completed" : null;
 
     public override string StepItemColor( Color color ) => color.IsNotNullOrDefault() ? $"{StepItem()}-{ToColor( color )}" : null;
 
-    public override string StepItemMarker() => "step-circle";
+    public override string StepItemMarker() => "mui-step-marker";
 
-    public override string StepItemMarkerColor( Color color, bool active ) => null;
+    public override string StepItemMarkerColor( Color color, bool active ) => color.IsNotNullOrDefault() ? $"mui-step-marker-{ToColor( color )}" : null;
 
-    public override string StepItemDescription() => "step-text";
+    public override string StepItemDescription() => "mui-step-description";
 
-    public override string StepsContent() => "steps-content";
+    public override string StepsContent() => "mui-steps-content";
 
-    public override string StepPanel() => "step-panel";
+    public override string StepPanel() => "mui-step-panel";
 
-    public override string StepPanelActive( bool active ) => active ? "active" : null;
+    public override string StepPanelActive( bool active ) => active ? "mui-step-panel-active" : null;
 
     #endregion
 
@@ -1339,11 +1358,11 @@ public class MaterialClassProvider : ClassProvider
 
     #region Skeleton
 
-    public override string Skeleton() => null;
+    public override string Skeleton() => "mui-skeleton";
 
-    public override string SkeletonAnimation( SkeletonAnimation animation ) => animation != Blazorise.SkeletonAnimation.Default ? $"placeholder-{ToSkeletonAnimation( animation )}" : null;
+    public override string SkeletonAnimation( SkeletonAnimation animation ) => animation != Blazorise.SkeletonAnimation.Default ? $"mui-skeleton-{ToSkeletonAnimation( animation )}" : null;
 
-    public override string SkeletonItem() => "placeholder";
+    public override string SkeletonItem() => "mui-skeleton-item";
 
     #endregion
 
@@ -1791,7 +1810,7 @@ public class MaterialClassProvider : ClassProvider
         return animation switch
         {
             Blazorise.SkeletonAnimation.Wave => "wave",
-            Blazorise.SkeletonAnimation.Pulse => "glow",
+            Blazorise.SkeletonAnimation.Pulse => "pulse",
             _ => null
         };
     }
