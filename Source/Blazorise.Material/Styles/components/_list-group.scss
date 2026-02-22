@@ -98,7 +98,7 @@
         outline-offset: -0.125rem;
     }
 
-    > .mui-list-item:not(:has(> *)) {
+    > .mui-list-item:not(:has(> :not(.mui-ripple))) {
         display: flex;
         align-items: center;
     }

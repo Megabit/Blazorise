@@ -1,0 +1,40 @@
+$mui-ripple-targets: (
+    ".mui-button",
+    ".mui-dropdown-item",
+    ".mui-tabs > .mui-tab-item > .mui-tab-link",
+    ".mui-pagination > .mui-pagination-item > .mui-pagination-link",
+    ".mui-breadcrumb > .mui-breadcrumb-item > .mui-breadcrumb-link",
+    ".mui-list > .mui-list-item.mui-list-item-action",
+    ".mui-list > .mui-list-item > a:only-child",
+    ".mui-list > .mui-list-item > details > summary",
+    ".mui-button-close",
+    ".mui-chip.mui-chip-link",
+    ".mui-chip > .mui-chip-close"
+);
+
+@each $selector in $mui-ripple-targets {
+    #{$selector} {
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+    }
+}
+
+.mui-ripple {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: scale(0);
+    transform-origin: center;
+    opacity: 0.16;
+    background-color: color-mix(in srgb, currentColor 82%, transparent);
+    will-change: transform, opacity;
+    animation: mui-ripple-animation 550ms var(--mui-curve-decelerate-mid);
+}
+
+@keyframes mui-ripple-animation {
+    to {
+        transform: scale(1);
+        opacity: 0;
+    }
+}

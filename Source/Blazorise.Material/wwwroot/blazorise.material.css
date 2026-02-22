@@ -1018,21 +1018,6 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   margin-top: 0.5rem;
 }
 
-.mui-ripple {
-  position: absolute;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.6);
-  transform: scale(0);
-  animation: mui-ripple-animation 600ms linear;
-  pointer-events: none;
-}
-
-@keyframes mui-ripple-animation {
-  to {
-    transform: scale(4);
-    opacity: 0;
-  }
-}
 .mui-button-group,
 .mui-button-group-vertical {
   position: relative;
@@ -2016,7 +2001,7 @@ a.link-disabled[aria-disabled=true] {
   outline: 0.125rem solid var(--mui-primary);
   outline-offset: -0.125rem;
 }
-.mui-list > .mui-list-item:not(:has(> *)) {
+.mui-list > .mui-list-item:not(:has(> :not(.mui-ripple))) {
   display: flex;
   align-items: center;
 }
@@ -5113,6 +5098,90 @@ body.modal-open {
   opacity: 0;
 }
 
+.mui-button {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.mui-dropdown-item {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.mui-tabs > .mui-tab-item > .mui-tab-link {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.mui-pagination > .mui-pagination-item > .mui-pagination-link {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.mui-breadcrumb > .mui-breadcrumb-item > .mui-breadcrumb-link {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.mui-list > .mui-list-item.mui-list-item-action {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.mui-list > .mui-list-item > a:only-child {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.mui-list > .mui-list-item > details > summary {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.mui-button-close {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.mui-chip.mui-chip-link {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.mui-chip > .mui-chip-close {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.mui-ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: scale(0);
+  transform-origin: center;
+  opacity: 0.16;
+  background-color: color-mix(in srgb, currentColor 82%, transparent);
+  will-change: transform, opacity;
+  animation: mui-ripple-animation 550ms var(--mui-curve-decelerate-mid);
+}
+
+@keyframes mui-ripple-animation {
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
 .flatpickr-calendar {
   --mui-picker-bg: var(--mui-surface-container-lowest);
   --mui-picker-bg-muted: var(--mui-surface-container-low);
