@@ -4,6 +4,10 @@
     }
 }
 
+[data-tippy-root] {
+    z-index: var(--mui-zindex-tooltip) !important;
+}
+
 .tippy-box[data-theme~='material'] {
     --mui-tooltip-bg: color-mix(in srgb, var(--mui-on-surface) 92%, transparent);
     --mui-tooltip-color: var(--mui-surface);

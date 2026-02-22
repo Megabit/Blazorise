@@ -88,7 +88,7 @@
         }
 
         &-position-strategy {
-            z-index: calc(var(--mui-zindex-dropdown) + 1);
+            z-index: var(--mui-zindex-dropdown);
         }
 
         &-position-strategy-absolute {
@@ -97,6 +97,7 @@
 
         &-position-strategy-fixed {
             position: fixed;
+            z-index: var(--mui-zindex-popover);
         }
 
         &-scrollable {

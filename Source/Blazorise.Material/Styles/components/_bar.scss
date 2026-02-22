@@ -348,6 +348,7 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
+    z-index: var(--mui-zindex-fixed);
     gap: 0.375rem 0.5rem;
     inline-size: 100%;
     min-block-size: var(--mui-bar-height);

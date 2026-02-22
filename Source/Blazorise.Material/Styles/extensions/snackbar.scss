@@ -1,7 +1,7 @@
-﻿.snackbar-stack {
-    z-index: 1059 !important;
+.snackbar-stack {
+    z-index: calc(var(--mui-zindex-popover) - 1) !important;
 }
 
 .snackbar {
-    z-index: 1060 !important;
+    z-index: var(--mui-zindex-popover) !important;
 }
