@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -29,12 +29,12 @@ public partial class BarBrand : BaseComponent
     }
 
     /// <summary>
-    /// Builds class names for mobile bar toggler rendered within brand section.
+    /// Builds class names for bar toggler rendered within brand section.
     /// </summary>
     /// <param name="builder">Class builder.</param>
-    protected virtual void BuildBarMobileToggleClasses( ClassBuilder builder )
+    protected virtual void BuildBarBrandTogglerClasses( ClassBuilder builder )
     {
-        builder.Append( "b-bar-mobile-toggle" );
+        builder.Append( ClassProvider.BarBrandToggler( ParentBarState?.Mode ?? BarMode.Horizontal ) );
     }
 
     #endregion
@@ -65,13 +65,13 @@ public partial class BarBrand : BaseComponent
     }
 
     /// <summary>
-    /// Gets the class names for mobile bar toggler rendered within brand section.
+    /// Gets the class names for bar toggler rendered within brand section.
     /// </summary>
-    protected string BarMobileToggleClassNames
+    protected string BarBrandTogglerClassNames
     {
         get
         {
-            var builder = new ClassBuilder( BuildBarMobileToggleClasses );
+            var builder = new ClassBuilder( BuildBarBrandTogglerClasses );
 
             return builder.Class;
         }

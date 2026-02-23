@@ -671,7 +671,11 @@ class EmptyClassProvider : IClassProvider
 
     public string BarLinkDisabled( BarMode mode, bool disabled ) => null;
 
+    public string BarIcon( BarMode mode ) => null;
+
     public string BarBrand( BarMode mode ) => null;
+
+    public string BarBrandToggler( BarMode mode ) => null;
 
     public string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => null;
 
@@ -694,6 +698,16 @@ class EmptyClassProvider : IClassProvider
     public string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled ) => null;
 
     public string BarDropdownToggleIcon( bool isToggleIconVisible ) => null;
+
+    public string BarDropdownToggleIconContainer( BarMode mode ) => null;
+
+    public string BarDropdownToggleIconLayer( BarMode mode ) => null;
+
+    public string BarDropdownToggleIconLayerVisible( BarMode mode, bool visible ) => null;
+
+    public string BarDropdownToggleIconLayerHiddenExpand( BarMode mode, bool hiddenExpand ) => null;
+
+    public string BarDropdownToggleIconLayerHiddenCollapse( BarMode mode, bool hiddenCollapse ) => null;
 
     public string BarDropdownItem( BarMode mode ) => null;
 

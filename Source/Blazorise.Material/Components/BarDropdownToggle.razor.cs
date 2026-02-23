@@ -1,6 +1,5 @@
 #region Using directives
 using System.Threading.Tasks;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
@@ -10,7 +9,7 @@ public partial class BarDropdownToggle : Blazorise.BarDropdownToggle
 {
     #region Methods
 
-    protected async Task ClickHandlerMaterial( MouseEventArgs eventArgs )
+    protected override async Task ClickHandler( MouseEventArgs eventArgs )
     {
         if ( IsDisabled )
             return;
@@ -19,31 +18,6 @@ public partial class BarDropdownToggle : Blazorise.BarDropdownToggle
             await ParentBarDropdown.Toggle( ElementId );
 
         await Clicked.InvokeAsync( eventArgs );
-    }
-
-    /// <inheritdoc/>
-    protected override void BuildToggleIconContainerClasses( ClassBuilder builder )
-    {
-        builder.Append( "mui-bar-dropdown-toggle-icon-container" );
-    }
-
-    /// <inheritdoc/>
-    protected override void BuildToggleIconLayerClasses( ClassBuilder builder, bool expandedStateLayer )
-    {
-        var isExpanded = ParentBarDropdown?.IsVisible == true;
-
-        builder.Append( "mui-bar-dropdown-toggle-icon-layer" );
-
-        if ( expandedStateLayer )
-        {
-            builder.Append( "mui-bar-dropdown-toggle-icon-layer-visible", isExpanded );
-            builder.Append( "mui-bar-dropdown-toggle-icon-layer-hidden-expand", !isExpanded );
-        }
-        else
-        {
-            builder.Append( "mui-bar-dropdown-toggle-icon-layer-hidden-collapse", isExpanded );
-            builder.Append( "mui-bar-dropdown-toggle-icon-layer-visible", !isExpanded );
-        }
     }
 
     #endregion
@@ -55,7 +29,7 @@ public partial class BarDropdownToggle : Blazorise.BarDropdownToggle
             && ParentBarDropdown.IsVisible
             && ParentBarDropdownState?.Mode != BarMode.Horizontal;
 
-    protected bool ShouldPreventDefaultOnToggleClickMaterial
+    protected override bool ShouldPreventDefaultOnToggleClick
         => HasNavigationTarget && ( IsToggleClickTriggerEnabled || ShouldToggleVisibleOnToggleClickMaterial );
 
     protected override IconName ExpandedToggleIconName => Theme?.BarOptions?.DropdownOptions?.ToggleExpandIconName ?? IconName.AngleUp;

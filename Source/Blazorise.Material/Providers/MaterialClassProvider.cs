@@ -729,7 +729,11 @@ public class MaterialClassProvider : ClassProvider
 
     public override string BarLinkDisabled( BarMode mode, bool disabled ) => disabled ? Disabled() : null;
 
+    public override string BarIcon( BarMode mode ) => "mui-bar-icon";
+
     public override string BarBrand( BarMode mode ) => "mui-bar-brand";
+
+    public override string BarBrandToggler( BarMode mode ) => "mui-bar-mobile-toggle";
 
     public override string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => mode == Blazorise.BarMode.Horizontal
         ? "mui-bar-toggler"
@@ -756,6 +760,16 @@ public class MaterialClassProvider : ClassProvider
     public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled ) => disabled ? Disabled() : null;
 
     public override string BarDropdownToggleIcon( bool isToggleIconVisible ) => isToggleIconVisible ? null : "mui-bar-dropdown-toggle-hidden";
+
+    public override string BarDropdownToggleIconContainer( BarMode mode ) => "mui-bar-dropdown-toggle-icon-container";
+
+    public override string BarDropdownToggleIconLayer( BarMode mode ) => "mui-bar-dropdown-toggle-icon-layer";
+
+    public override string BarDropdownToggleIconLayerVisible( BarMode mode, bool visible ) => visible ? "mui-bar-dropdown-toggle-icon-layer-visible" : null;
+
+    public override string BarDropdownToggleIconLayerHiddenExpand( BarMode mode, bool hiddenExpand ) => hiddenExpand ? "mui-bar-dropdown-toggle-icon-layer-hidden-expand" : null;
+
+    public override string BarDropdownToggleIconLayerHiddenCollapse( BarMode mode, bool hiddenCollapse ) => hiddenCollapse ? "mui-bar-dropdown-toggle-icon-layer-hidden-collapse" : null;
 
     public override string BarDropdownItem( BarMode mode ) => "mui-bar-dropdown-item";
 

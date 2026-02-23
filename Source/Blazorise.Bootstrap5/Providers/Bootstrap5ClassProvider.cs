@@ -701,7 +701,11 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string BarLinkDisabled( BarMode mode, bool disabled ) => disabled ? Disabled() : null;
 
+    public override string BarIcon( BarMode mode ) => "b-bar-icon";
+
     public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-brand" : "b-bar-brand";
+
+    public override string BarBrandToggler( BarMode mode ) => "b-bar-mobile-toggle";
 
     public override string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-toggler" :
         togglerMode == BarTogglerMode.Popout ? "b-bar-toggler-popout" : "b-bar-toggler-inline";
@@ -730,6 +734,16 @@ public class Bootstrap5ClassProvider : ClassProvider
         => mode == Blazorise.BarMode.Horizontal && disabled ? "disabled" : null;
 
     public override string BarDropdownToggleIcon( bool isToggleIconVisible ) => isToggleIconVisible ? null : "b-bar-dropdown-toggle-hidden";
+
+    public override string BarDropdownToggleIconContainer( BarMode mode ) => "b-bar-dropdown-toggle-icon-container";
+
+    public override string BarDropdownToggleIconLayer( BarMode mode ) => "b-bar-dropdown-toggle-icon-layer";
+
+    public override string BarDropdownToggleIconLayerVisible( BarMode mode, bool visible ) => visible ? "b-bar-dropdown-toggle-icon-layer-visible" : null;
+
+    public override string BarDropdownToggleIconLayerHiddenExpand( BarMode mode, bool hiddenExpand ) => hiddenExpand ? "b-bar-dropdown-toggle-icon-layer-hidden-expand" : null;
+
+    public override string BarDropdownToggleIconLayerHiddenCollapse( BarMode mode, bool hiddenCollapse ) => hiddenCollapse ? "b-bar-dropdown-toggle-icon-layer-hidden-collapse" : null;
 
     public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-item" : "b-bar-dropdown-item";
 

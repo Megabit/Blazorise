@@ -37,9 +37,7 @@ public static class Config
 
     public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
     {
-        [typeof( Blazorise.BarBrand )] = typeof( Components.BarBrand ),
         [typeof( Blazorise.BarDropdownToggle )] = typeof( Components.BarDropdownToggle ),
-        [typeof( Blazorise.BarIcon )] = typeof( Components.BarIcon ),
         [typeof( Blazorise.Badge )] = typeof( Components.Badge ),
         [typeof( Blazorise.Carousel )] = typeof( Components.Carousel ),
         [typeof( Blazorise.Check<> )] = typeof( Components.Check<> ),

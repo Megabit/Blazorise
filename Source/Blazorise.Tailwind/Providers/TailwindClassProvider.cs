@@ -1045,9 +1045,13 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BarLinkDisabled( BarMode mode, bool disabled ) => disabled ? Disabled() : null;
 
+    public override string BarIcon( BarMode mode ) => "b-bar-icon";
+
     public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "b-bar-brand flex items-center"
         : "b-bar-brand";
+
+    public override string BarBrandToggler( BarMode mode ) => "b-bar-mobile-toggle";
 
     public override string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => mode == Blazorise.BarMode.Horizontal
         ? "b-bar-toggler navbar-toggler inline-flex items-center p-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden focus:outline-hidden focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:focus:ring-gray-600"
@@ -1088,6 +1092,16 @@ public class TailwindClassProvider : ClassProvider
         : null;
 
     public override string BarDropdownToggleIcon( bool isToggleIconVisible ) => null;
+
+    public override string BarDropdownToggleIconContainer( BarMode mode ) => "b-bar-dropdown-toggle-icon-container";
+
+    public override string BarDropdownToggleIconLayer( BarMode mode ) => "b-bar-dropdown-toggle-icon-layer";
+
+    public override string BarDropdownToggleIconLayerVisible( BarMode mode, bool visible ) => visible ? "b-bar-dropdown-toggle-icon-layer-visible" : null;
+
+    public override string BarDropdownToggleIconLayerHiddenExpand( BarMode mode, bool hiddenExpand ) => hiddenExpand ? "b-bar-dropdown-toggle-icon-layer-hidden-expand" : null;
+
+    public override string BarDropdownToggleIconLayerHiddenCollapse( BarMode mode, bool hiddenCollapse ) => hiddenCollapse ? "b-bar-dropdown-toggle-icon-layer-hidden-collapse" : null;
 
     public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "b-bar-dropdown-item block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
