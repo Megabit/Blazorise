@@ -408,6 +408,187 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   min-block-size: 3.5rem;
 }
 
+.mui-accordion {
+  --mui-accordion-bg: var(--mui-surface-container-low);
+  --mui-accordion-active-bg: var(--mui-surface-container);
+  --mui-accordion-color: var(--mui-on-surface);
+  --mui-accordion-content-color: var(--mui-on-surface-variant);
+  --mui-accordion-border-color: var(--mui-outline-variant);
+  --mui-accordion-radius: 0.75rem;
+  --mui-accordion-padding-inline: 1rem;
+  --mui-accordion-padding-block: 1rem;
+  --mui-accordion-item-min-height: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.mui-accordion-item {
+  position: relative;
+  border: 0.0625rem solid var(--mui-accordion-border-color);
+  border-radius: var(--mui-accordion-radius);
+  background-color: var(--mui-accordion-bg);
+  color: var(--mui-accordion-color);
+  overflow: hidden;
+  transition: background-color var(--mui-duration-normal), border-color var(--mui-duration-normal), box-shadow var(--mui-duration-normal);
+}
+
+.mui-accordion-item + .mui-accordion-item {
+  margin-block-start: -0.0625rem;
+}
+
+.mui-accordion-item:not(.mui-accordion-item-active) + .mui-accordion-item:not(.mui-accordion-item-active) {
+  border-start-start-radius: 0;
+  border-start-end-radius: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.mui-accordion-item:not(.mui-accordion-item-active):has(+ .mui-accordion-item:not(.mui-accordion-item-active)) {
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.mui-accordion-item.mui-accordion-item-active {
+  background-color: var(--mui-accordion-active-bg);
+  border-radius: var(--mui-accordion-radius);
+  margin-block: 0.5rem;
+  box-shadow: var(--mui-elevate1);
+  z-index: 1;
+}
+
+.mui-accordion-item.mui-accordion-item-active:first-child {
+  margin-block-start: 0;
+}
+
+.mui-accordion-item.mui-accordion-item-active:last-child {
+  margin-block-end: 0;
+}
+
+.mui-accordion-item:has(+ .mui-accordion-item.mui-accordion-item-active) {
+  border-end-start-radius: var(--mui-accordion-radius);
+  border-end-end-radius: var(--mui-accordion-radius);
+  border-bottom-left-radius: var(--mui-accordion-radius);
+  border-bottom-right-radius: var(--mui-accordion-radius);
+}
+
+.mui-accordion-item.mui-accordion-item-active + .mui-accordion-item {
+  margin-block-start: 0.5rem;
+  border-start-start-radius: var(--mui-accordion-radius);
+  border-start-end-radius: var(--mui-accordion-radius);
+  border-top-left-radius: var(--mui-accordion-radius);
+  border-top-right-radius: var(--mui-accordion-radius);
+}
+
+.mui-accordion-header {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.mui-accordion-header > :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+.mui-accordion-header .mui-accordion-toggle {
+  all: unset;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  inline-size: 100%;
+  min-block-size: var(--mui-accordion-item-min-height);
+  padding: var(--mui-accordion-padding-block) var(--mui-accordion-padding-inline);
+  color: var(--mui-accordion-color);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: start;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--mui-duration-normal), color var(--mui-duration-normal);
+}
+
+.mui-accordion-header .mui-accordion-toggle::after {
+  content: "";
+  inline-size: 0.625rem;
+  block-size: 0.625rem;
+  margin-inline-start: auto;
+  border: 0.125rem solid currentColor;
+  border-block-start: 0;
+  border-inline-start: 0;
+  color: var(--mui-on-surface-variant);
+  transform: rotate(45deg);
+  transition: transform var(--mui-duration-normal), color var(--mui-duration-normal);
+  flex: 0 0 auto;
+}
+
+.mui-accordion-header .mui-accordion-toggle:not(.collapsed) {
+  color: var(--mui-primary);
+}
+
+.mui-accordion-header .mui-accordion-toggle:not(.collapsed)::after {
+  transform: rotate(225deg);
+  color: var(--mui-primary);
+}
+
+@media (hover: hover) {
+  .mui-accordion-header .mui-accordion-toggle:hover {
+    background-color: color-mix(in srgb, currentColor 6%, transparent);
+  }
+}
+.mui-accordion-header .mui-accordion-toggle:focus-visible {
+  outline: 0.125rem solid var(--mui-primary);
+  outline-offset: -0.125rem;
+  border-radius: calc(var(--mui-accordion-radius) - 0.125rem);
+}
+
+.mui-accordion-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+  transition: grid-template-rows var(--mui-duration-slow) var(--mui-curve-easy-ease), opacity var(--mui-duration-fast), visibility 0s linear var(--mui-duration-fast);
+}
+
+.mui-accordion-body.show {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transition: grid-template-rows var(--mui-duration-slow) var(--mui-curve-easy-ease), opacity var(--mui-duration-fast), visibility 0s;
+}
+
+.mui-accordion-body-content {
+  min-block-size: 0;
+  overflow: hidden;
+  padding: 0 var(--mui-accordion-padding-inline);
+  color: var(--mui-accordion-content-color);
+  line-height: 1.5rem;
+}
+
+.mui-accordion-body-content > :first-child {
+  margin-block-start: 0;
+}
+
+.mui-accordion-body-content > :last-child {
+  margin-block-end: 0;
+}
+
+.mui-accordion-body.show > .mui-accordion-body-content {
+  border-block-start: 0.0625rem solid var(--mui-accordion-border-color);
+  padding-block: 0.75rem 1rem;
+}
+
 .mui-alert {
   position: relative;
   display: block;
