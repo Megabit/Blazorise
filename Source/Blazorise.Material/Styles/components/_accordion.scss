@@ -60,6 +60,7 @@
 }
 
 .mui-accordion-item:has(+ .mui-accordion-item.mui-accordion-item-active) {
+    margin-block-end: 0.5rem;
     border-end-start-radius: var(--mui-accordion-radius);
     border-end-end-radius: var(--mui-accordion-radius);
     border-bottom-left-radius: var(--mui-accordion-radius);
