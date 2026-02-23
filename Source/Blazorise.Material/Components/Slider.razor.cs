@@ -81,4 +81,12 @@ public partial class Slider<TValue> : Blazorise.Slider<TValue>
     }
 
     #endregion
+
+    #region Properties
+
+    protected string SliderContainerStyle => $"--mui-slider-percent: {SliderPercent}";
+
+    protected string SliderDisplayValue => CurrentValueAsString;
+
+    #endregion
 }

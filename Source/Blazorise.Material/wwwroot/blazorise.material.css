@@ -5481,6 +5481,11 @@ body.modal-open {
     opacity: 1;
   }
 }
+.mui-slider-container {
+  position: relative;
+  inline-size: 100%;
+}
+
 .mui-slider {
   --mui-slider-color: var(--mui-primary);
   --mui-slider-rail-color: var(--mui-secondary-container);
@@ -5505,6 +5510,40 @@ body.modal-open {
   border-radius: 999rem;
   accent-color: var(--mui-slider-color);
   cursor: pointer;
+}
+
+.mui-slider-value {
+  --mui-slider-value-bg: color-mix(in srgb, var(--mui-on-surface) 88%, transparent);
+  --mui-slider-value-color: var(--mui-surface);
+  position: absolute;
+  inset-inline-start: var(--mui-slider-percent);
+  inset-block-start: 0;
+  z-index: 1;
+  min-inline-size: 2rem;
+  inline-size: max-content;
+  block-size: 2rem;
+  padding-inline: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999rem;
+  background-color: var(--mui-slider-value-bg);
+  color: var(--mui-slider-value-color);
+  font-size: var(--mui-font-size-sm);
+  font-weight: 600;
+  line-height: 1;
+  box-shadow: var(--mui-elevate1);
+  transform: translate(-50%, calc(-100% - 0.375rem)) scale(0.92);
+  transform-origin: center bottom;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--mui-duration-fast), transform var(--mui-duration-fast);
+}
+
+.mui-slider:active + .mui-slider-value,
+.mui-slider:focus-visible + .mui-slider-value {
+  opacity: 1;
+  transform: translate(-50%, calc(-100% - 0.375rem)) scale(1);
 }
 
 .mui-slider::-webkit-slider-runnable-track {
@@ -5576,6 +5615,11 @@ body.modal-open {
   --mui-slider-rail-color: var(--mui-outline-variant);
   cursor: not-allowed;
   opacity: 0.62;
+}
+
+.mui-slider:disabled + .mui-slider-value,
+.mui-slider[readonly] + .mui-slider-value {
+  opacity: 0;
 }
 
 .mui-slider:disabled::-webkit-slider-thumb,

@@ -1,6 +1,9 @@
 @namespace Blazorise.Material.Components
 @typeparam TValue
 @inherits Blazorise.Slider<TValue>
-<input @ref="@ElementRef" id="@ElementId" type="range" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" step="@StepString" min="@MinString" max="@MaxString" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @bind-value="@CurrentValueAsString" @bind-value:event="oninput" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+<div class="mui-slider-container" style="@SliderContainerStyle">
+    <input @ref="@ElementRef" id="@ElementId" type="range" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" step="@StepString" min="@MinString" max="@MaxString" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @bind-value="@CurrentValueAsString" @bind-value:event="oninput" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+    <span class="mui-slider-value" aria-hidden="true">@SliderDisplayValue</span>
+</div>
 @ChildContent
 @Feedback
