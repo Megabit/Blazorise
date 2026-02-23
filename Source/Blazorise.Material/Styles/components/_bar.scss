@@ -651,7 +651,18 @@
     }
 
     .mui-bar-dropdown-toggle > span {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         inline-size: 100%;
+        min-inline-size: 0;
+    }
+
+    .mui-bar-dropdown-toggle > span > span:first-child {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        min-inline-size: 0;
     }
 
     .mui-bar-dropdown-menu {

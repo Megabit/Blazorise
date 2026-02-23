@@ -1698,7 +1698,19 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 .mui-bar-vertical-inline .mui-bar-dropdown-toggle > span,
 .mui-bar-vertical-popout .mui-bar-dropdown-toggle > span,
 .mui-bar-vertical-small .mui-bar-dropdown-toggle > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   inline-size: 100%;
+  min-inline-size: 0;
+}
+.mui-bar-vertical-inline .mui-bar-dropdown-toggle > span > span:first-child,
+.mui-bar-vertical-popout .mui-bar-dropdown-toggle > span > span:first-child,
+.mui-bar-vertical-small .mui-bar-dropdown-toggle > span > span:first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-inline-size: 0;
 }
 .mui-bar-vertical-inline .mui-bar-dropdown-menu,
 .mui-bar-vertical-popout .mui-bar-dropdown-menu,
