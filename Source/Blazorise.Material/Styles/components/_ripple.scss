@@ -1,16 +1,4 @@
-$mui-ripple-targets: (
-    ".mui-button",
-    ".mui-dropdown-item",
-    ".mui-tabs > .mui-tab-item > .mui-tab-link",
-    ".mui-pagination > .mui-pagination-item > .mui-pagination-link",
-    ".mui-breadcrumb > .mui-breadcrumb-item > .mui-breadcrumb-link",
-    ".mui-list > .mui-list-item.mui-list-item-action",
-    ".mui-list > .mui-list-item > a:only-child",
-    ".mui-list > .mui-list-item > details > summary",
-    ".mui-button-close",
-    ".mui-chip.mui-chip-link",
-    ".mui-chip > .mui-chip-close"
-);
+$mui-ripple-targets: ( ".mui-button", ".mui-dropdown-item", ".mui-tabs > .mui-tab-item > .mui-tab-link", ".mui-pagination > .mui-pagination-item > .mui-pagination-link", ".mui-breadcrumb > .mui-breadcrumb-item > .mui-breadcrumb-link", ".mui-bar-link", ".mui-bar-brand", ".mui-bar-toggler", ".mui-list > .mui-list-item.mui-list-item-action", ".mui-list > .mui-list-item > a:only-child", ".mui-list > .mui-list-item > details > summary", ".mui-button-close", ".mui-chip.mui-chip-link", ".mui-chip > .mui-chip-close" );
 
 @each $selector in $mui-ripple-targets {
     #{$selector} {

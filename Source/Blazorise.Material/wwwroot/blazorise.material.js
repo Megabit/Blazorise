@@ -13,6 +13,9 @@
         ".mui-tab-link",
         ".mui-pagination-link",
         ".mui-breadcrumb-link",
+        ".mui-bar-link",
+        ".mui-bar-brand",
+        ".mui-bar-toggler",
         ".mui-list-item.mui-list-item-action",
         ".mui-list-item > a:only-child",
         ".mui-list-item > details > summary",
@@ -20,6 +23,8 @@
         ".mui-chip.mui-chip-link",
         ".mui-chip > .mui-chip-close"
     ].join(", ");
+
+    const noRippleSelector = ".mui-dropdown-menu";
 
     const disabledSelector = [
         ".mui-button-disabled",
@@ -44,7 +49,16 @@
     };
 
     const createRipple = (target, clientX, clientY) => {
-        const rect = target.getBoundingClientRect();
+        if (target.matches(".mui-dropdown-menu")) {
+            return;
+        }
+
+        if (target.closest(".mui-dropdown-menu") && !target.matches(".mui-dropdown-item")) {
+            return;
+        }
+
+        const surface = ensureRippleSurface(target);
+        const rect = surface.getBoundingClientRect();
 
         if (!rect.width || !rect.height) {
             return;
@@ -61,8 +75,65 @@
         ripple.style.left = `${left}px`;
         ripple.style.top = `${top}px`;
 
-        target.appendChild(ripple);
+        surface.appendChild(ripple);
         ripple.addEventListener("animationend", () => ripple.remove(), { once: true });
+    };
+
+    const ensureRippleSurface = target => {
+        const existingSurface = Array.from(target.children).find(child => child.classList && child.classList.contains("mui-ripple-surface"));
+        if (existingSurface) {
+            return existingSurface;
+        }
+
+        const computedStyle = window.getComputedStyle(target);
+        if (computedStyle.position === "static") {
+            target.style.position = "relative";
+        }
+
+        const surface = document.createElement("span");
+        surface.className = "mui-ripple-surface";
+        surface.style.position = "absolute";
+        surface.style.inset = "0";
+        surface.style.overflow = "hidden";
+        surface.style.borderRadius = "inherit";
+        surface.style.pointerEvents = "none";
+        surface.style.zIndex = "0";
+
+        target.prepend(surface);
+
+        return surface;
+    };
+
+    const resolveRippleTarget = event => {
+        if (!(event.target instanceof Element)) {
+            return null;
+        }
+
+        const dropdownMenu = event.target.closest(".mui-dropdown-menu");
+        if (dropdownMenu) {
+            const dropdownItem = event.target.closest(".mui-dropdown-item");
+            return dropdownItem ?? null;
+        }
+
+        const path = typeof event.composedPath === "function"
+            ? event.composedPath()
+            : [event.target];
+
+        for (const node of path) {
+            if (!(node instanceof Element)) {
+                continue;
+            }
+
+            if (node.matches(noRippleSelector)) {
+                break;
+            }
+
+            if (node.matches(rippleTargetSelector)) {
+                return node;
+            }
+        }
+
+        return event.target.closest(rippleTargetSelector);
     };
 
     document.addEventListener("pointerdown", event => {
@@ -70,7 +141,7 @@
             return;
         }
 
-        const target = event.target.closest(rippleTargetSelector);
+        const target = resolveRippleTarget(event);
 
         if (!target || isDisabled(target)) {
             return;
@@ -84,7 +155,7 @@
             return;
         }
 
-        const target = event.target.closest(rippleTargetSelector);
+        const target = resolveRippleTarget(event);
 
         if (!target || isDisabled(target)) {
             return;
