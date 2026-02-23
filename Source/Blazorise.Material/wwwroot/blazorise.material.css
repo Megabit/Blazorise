@@ -6051,8 +6051,18 @@ body.modal-open {
 
 .mui-table-fixed-header > .mui-table > :is(.mui-table-header, thead) > :is(.mui-table-row, tr) > :is(.mui-table-header-cell, th) {
   position: sticky;
+  top: 0;
   inset-block-start: 0;
   z-index: var(--mui-zindex-tablefixed);
+}
+
+.mui-table-fixed-header > .mui-table > :is(.mui-table-header, thead) > :is(.mui-table-row, tr):first-child > :is(.mui-table-header-cell, th) {
+  box-shadow: 0 calc(-1 * var(--mui-table-border-width)) 0 0 var(--mui-table-border-color);
+}
+
+.mui-table-fixed-header > .mui-table-bordered,
+.mui-table-fixed-columns > .mui-table-bordered {
+  overflow: visible;
 }
 
 .mui-table-fixed-columns {
