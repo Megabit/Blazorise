@@ -2617,6 +2617,197 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   border-bottom-left-radius: 0;
 }
 
+.mui-carousel {
+  --mui-carousel-radius: 0.75rem;
+  --mui-carousel-transition-duration: var(--mui-duration-gentle);
+  --mui-carousel-indicator-size: 0.5rem;
+  --mui-carousel-indicator-active-width: 1.5rem;
+  --mui-carousel-control-size: 2.5rem;
+  --mui-carousel-control-offset: 0.75rem;
+  position: relative;
+  display: block;
+  border-radius: var(--mui-carousel-radius);
+}
+
+.mui-carousel > .mui-carousel-slides {
+  position: relative;
+  inline-size: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  background-color: var(--mui-surface-container-low);
+}
+
+.mui-carousel > .mui-carousel-slides::after {
+  display: block;
+  clear: both;
+  content: "";
+}
+
+.mui-carousel > .mui-carousel-slides > .mui-carousel-slide {
+  position: relative;
+  display: none;
+  float: left;
+  inline-size: 100%;
+  margin-right: -100%;
+  backface-visibility: hidden;
+  transform: translateX(0);
+  transition: transform var(--mui-carousel-transition-duration) var(--mui-curve-easy-ease), opacity var(--mui-carousel-transition-duration) var(--mui-curve-easy-ease);
+}
+
+.mui-carousel > .mui-carousel-slides > .mui-carousel-slide > * {
+  inline-size: 100%;
+}
+
+.mui-carousel > .mui-carousel-slides > .mui-carousel-slide img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+.mui-carousel > .mui-carousel-slides > .mui-carousel-slide:is(.mui-carousel-slide-active, .mui-carousel-slide-next, .mui-carousel-slide-prev) {
+  display: block;
+}
+
+.mui-carousel > .mui-carousel-slides > .mui-carousel-slide.mui-carousel-slide-next:not(.mui-carousel-slide-start),
+.mui-carousel > .mui-carousel-slides > .mui-carousel-slide.mui-carousel-slide-active.mui-carousel-slide-end {
+  transform: translateX(100%);
+}
+
+.mui-carousel > .mui-carousel-slides > .mui-carousel-slide.mui-carousel-slide-prev:not(.mui-carousel-slide-end),
+.mui-carousel > .mui-carousel-slides > .mui-carousel-slide.mui-carousel-slide-active.mui-carousel-slide-start {
+  transform: translateX(-100%);
+}
+
+.mui-carousel.mui-carousel-fade > .mui-carousel-slides > .mui-carousel-slide {
+  opacity: 0;
+  transform: none;
+  transition-property: opacity;
+}
+
+.mui-carousel.mui-carousel-fade > .mui-carousel-slides > .mui-carousel-slide:is(.mui-carousel-slide-active, .mui-carousel-slide-next.mui-carousel-slide-start, .mui-carousel-slide-prev.mui-carousel-slide-end) {
+  z-index: 1;
+  opacity: 1;
+}
+
+.mui-carousel.mui-carousel-fade > .mui-carousel-slides > .mui-carousel-slide.mui-carousel-slide-active:is(.mui-carousel-slide-start, .mui-carousel-slide-end) {
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0s var(--mui-carousel-transition-duration);
+}
+
+.mui-carousel > .mui-carousel-indicators {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0.75rem;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0 0.75rem;
+  pointer-events: none;
+}
+
+.mui-carousel > .mui-carousel-indicators > .mui-carousel-indicator {
+  pointer-events: auto;
+  appearance: none;
+  inline-size: var(--mui-carousel-indicator-size);
+  block-size: var(--mui-carousel-indicator-size);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 999rem;
+  background-color: color-mix(in srgb, var(--mui-surface-bright) 82%, transparent);
+  box-shadow: var(--mui-elevate1);
+  cursor: pointer;
+  transition: inline-size var(--mui-duration-normal), background-color var(--mui-duration-normal), transform var(--mui-duration-normal);
+}
+
+.mui-carousel > .mui-carousel-indicators > .mui-carousel-indicator:hover {
+  transform: scale(1.08);
+}
+
+.mui-carousel > .mui-carousel-indicators > .mui-carousel-indicator:focus-visible {
+  outline: 0.125rem solid color-mix(in srgb, var(--mui-primary) 56%, transparent);
+  outline-offset: 0.125rem;
+}
+
+.mui-carousel > .mui-carousel-indicators > .mui-carousel-indicator.mui-carousel-indicator-active {
+  inline-size: var(--mui-carousel-indicator-active-width);
+  background-color: var(--mui-primary);
+}
+
+.mui-carousel > .mui-carousel-control {
+  position: absolute;
+  inset-block-start: 50%;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--mui-carousel-control-size);
+  block-size: var(--mui-carousel-control-size);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 999rem;
+  background-color: color-mix(in srgb, var(--mui-surface-container-high) 88%, transparent);
+  color: var(--mui-on-surface);
+  box-shadow: var(--mui-elevate1);
+  cursor: pointer;
+  user-select: none;
+  transform: translateY(-50%);
+  transition: background-color var(--mui-duration-normal), color var(--mui-duration-normal), box-shadow var(--mui-duration-normal), transform var(--mui-duration-normal);
+}
+
+.mui-carousel > .mui-carousel-control:hover {
+  background-color: var(--mui-surface-container-highest);
+  box-shadow: var(--mui-elevate2);
+}
+
+.mui-carousel > .mui-carousel-control:focus-visible {
+  outline: 0.125rem solid color-mix(in srgb, var(--mui-primary) 56%, transparent);
+  outline-offset: 0.125rem;
+}
+
+.mui-carousel > .mui-carousel-control.mui-carousel-control-prev {
+  inset-inline-start: var(--mui-carousel-control-offset);
+}
+
+.mui-carousel > .mui-carousel-control.mui-carousel-control-next {
+  inset-inline-end: var(--mui-carousel-control-offset);
+}
+
+.mui-carousel > .mui-carousel-control > .mui-carousel-control-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.mui-carousel > .mui-carousel-caption {
+  position: absolute;
+  inset-inline: 1rem;
+  inset-block-end: 2.5rem;
+  z-index: 2;
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  background-color: color-mix(in srgb, var(--mui-surface-container-high) 84%, transparent);
+  color: var(--mui-on-surface);
+  box-shadow: var(--mui-elevate1);
+}
+
+@media (max-width: 575.98px) {
+  .mui-carousel {
+    --mui-carousel-control-size: 2rem;
+    --mui-carousel-control-offset: 0.5rem;
+  }
+}
 @keyframes mui-dropdown-fadein {
   0% {
     opacity: 0;

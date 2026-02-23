@@ -1,0 +1,39 @@
+@inherits Blazorise.Carousel
+<CascadingValue Value="@this" IsFixed>
+    <CascadingValue Value="@State">
+        @ChildContent
+
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @if ( ShowIndicators )
+            {
+                <div class="@IndicatorsClassNames" style="@IndicatorsStyleNames">
+                    @for ( int i = 0; i < carouselSlides.Count; ++i )
+                    {
+                        int index = i;
+                        <button type="button" @onclick="@carouselSlides[index].Activate" class="@carouselSlides[index].IndicatorClassNames" style="@carouselSlides[index].IndicatorStyleNames" aria-label="@($"Slide {index + 1}")"></button>
+                    }
+                </div>
+            }
+
+            <div class="@SlidesClassNames" style="@SlidesStyleNames">
+                @for ( int i = 0; i < carouselSlides.Count; ++i )
+                {
+                    int index = i;
+                    <div class="@carouselSlides[index].ClassNames" style="@carouselSlides[index].StyleNames" @attributes="@carouselSlides[index].Attributes">
+                        @carouselSlides[index].ChildContent
+                    </div>
+                }
+            </div>
+
+            @if ( ShowControls )
+            {
+                <button type="button" class="mui-carousel-control mui-carousel-control-prev" @onclick="@SelectPrevious" aria-label="@PreviousButtonString">
+                    <span class="mui-carousel-control-icon" aria-hidden="true">&#x2039;</span>
+                </button>
+                <button type="button" class="mui-carousel-control mui-carousel-control-next" @onclick="@SelectNext" aria-label="@NextButtonString">
+                    <span class="mui-carousel-control-icon" aria-hidden="true">&#x203A;</span>
+                </button>
+            }
+        </div>
+    </CascadingValue>
+</CascadingValue>

@@ -590,33 +590,33 @@ public class MaterialClassProvider : ClassProvider
 
     #region Carousel
 
-    public override string Carousel() => "carousel slide";
+    public override string Carousel() => "mui-carousel";
 
-    public override string CarouselSlides() => "carousel-inner";
+    public override string CarouselSlides() => "mui-carousel-slides";
 
-    public override string CarouselSlide() => "carousel-item";
+    public override string CarouselSlide() => "mui-carousel-slide";
 
-    public override string CarouselSlideActive( bool active ) => active ? Active() : null;
+    public override string CarouselSlideActive( bool active ) => active ? "mui-carousel-slide-active" : null;
 
     public override string CarouselSlideIndex( int activeSlideIndex, int slideindex, int totalSlides ) => null;
 
-    public override string CarouselSlideSlidingLeft( bool left ) => left ? "carousel-item-start" : null;
+    public override string CarouselSlideSlidingLeft( bool left ) => left ? "mui-carousel-slide-start" : null;
 
-    public override string CarouselSlideSlidingRight( bool right ) => right ? "carousel-item-end" : null;
+    public override string CarouselSlideSlidingRight( bool right ) => right ? "mui-carousel-slide-end" : null;
 
-    public override string CarouselSlideSlidingPrev( bool previous ) => previous ? "carousel-item-prev" : null;
+    public override string CarouselSlideSlidingPrev( bool previous ) => previous ? "mui-carousel-slide-prev" : null;
 
-    public override string CarouselSlideSlidingNext( bool next ) => next ? "carousel-item-next" : null;
+    public override string CarouselSlideSlidingNext( bool next ) => next ? "mui-carousel-slide-next" : null;
 
-    public override string CarouselIndicators() => "carousel-indicators";
+    public override string CarouselIndicators() => "mui-carousel-indicators";
 
-    public override string CarouselIndicator() => null;
+    public override string CarouselIndicator() => "mui-carousel-indicator";
 
-    public override string CarouselIndicatorActive( bool active ) => active ? Active() : null;
+    public override string CarouselIndicatorActive( bool active ) => active ? "mui-carousel-indicator-active" : null;
 
-    public override string CarouselFade( bool fade ) => fade ? "carousel-fade" : null;
+    public override string CarouselFade( bool fade ) => fade ? "mui-carousel-fade" : null;
 
-    public override string CarouselCaption() => "carousel-caption";
+    public override string CarouselCaption() => "mui-carousel-caption";
 
     #endregion
 
