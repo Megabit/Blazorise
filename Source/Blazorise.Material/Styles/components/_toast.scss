@@ -73,9 +73,9 @@
     --mui-toast-animation-duration: var(--mui-duration-normal);
     --mui-toast-padding-inline: 1rem;
     --mui-toast-padding-block: 0.75rem;
-    --mui-toast-bg: var(--mui-surface-container-lowest);
-    --mui-toast-color: var(--mui-on-surface);
-    --mui-toast-border-color: color-mix(in srgb, var(--mui-on-surface) 12%, transparent);
+    --mui-toast-bg: color-mix(in srgb, var(--mui-dark) 92%, var(--mui-surface));
+    --mui-toast-color: var(--mui-on-dark);
+    --mui-toast-border-color: color-mix(in srgb, var(--mui-on-dark) 14%, transparent);
     display: none;
     inline-size: clamp(18rem, 80vw, 34rem);
     max-inline-size: calc(100vw - (2 * var(--mui-toaster-offset)));
@@ -92,16 +92,16 @@
 }
 
 :is(:root[data-theme="dark"], [data-theme="dark"], :root[data-bs-theme="dark"], [data-bs-theme="dark"], .dark) .mui-toast {
-    --mui-toast-bg: color-mix(in srgb, var(--mui-dark) 92%, var(--mui-surface));
-    --mui-toast-color: var(--mui-on-dark);
-    --mui-toast-border-color: color-mix(in srgb, var(--mui-on-dark) 14%, transparent);
+    --mui-toast-bg: var(--mui-surface-container-lowest);
+    --mui-toast-color: var(--mui-on-surface);
+    --mui-toast-border-color: color-mix(in srgb, var(--mui-on-surface) 12%, transparent);
 }
 
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]):not([data-bs-theme="light"]) .mui-toast {
-        --mui-toast-bg: color-mix(in srgb, var(--mui-dark) 92%, var(--mui-surface));
-        --mui-toast-color: var(--mui-on-dark);
-        --mui-toast-border-color: color-mix(in srgb, var(--mui-on-dark) 14%, transparent);
+        --mui-toast-bg: var(--mui-surface-container-lowest);
+        --mui-toast-color: var(--mui-on-surface);
+        --mui-toast-border-color: color-mix(in srgb, var(--mui-on-surface) 12%, transparent);
     }
 }
 
