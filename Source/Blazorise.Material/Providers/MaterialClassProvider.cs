@@ -1250,17 +1250,17 @@ public class MaterialClassProvider : ClassProvider
 
     #region Text
 
-    public override string TextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
+    public override string TextColor( TextColor textColor ) => $"mui-text-{ToTextColor( textColor )}";
 
-    public override string TextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
+    public override string TextAlignment( TextAlignment textAlignment ) => $"mui-text-{ToTextAlignment( textAlignment )}";
 
-    public override string TextTransform( TextTransform textTransform ) => $"text-{ToTextTransform( textTransform )}";
+    public override string TextTransform( TextTransform textTransform ) => $"mui-text-{ToTextTransform( textTransform )}";
 
-    public override string TextDecoration( TextDecoration textDecoration ) => $"text-decoration-{ToTextDecoration( textDecoration )}";
+    public override string TextDecoration( TextDecoration textDecoration ) => $"mui-text-decoration-{ToTextDecoration( textDecoration )}";
 
-    public override string TextWeight( TextWeight textWeight ) => $"fw-{ToTextWeight( textWeight )}";
+    public override string TextWeight( TextWeight textWeight ) => $"mui-text-weight-{ToTextWeight( textWeight )}";
 
-    public override string TextOverflow( TextOverflow textOverflow ) => $"text-{ToTextOverflow( textOverflow )}";
+    public override string TextOverflow( TextOverflow textOverflow ) => $"mui-text-{ToTextOverflow( textOverflow )}";
 
     public override string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition )
     {
@@ -1268,12 +1268,12 @@ public class MaterialClassProvider : ClassProvider
             return null;
 
         if ( textSizeDefinition.Breakpoint != Breakpoint.None && textSizeDefinition.Breakpoint != Breakpoint.Mobile )
-            return $"fs-{ToBreakpoint( textSizeDefinition.Breakpoint )}-{ToTextSizeType( textSizeType )}";
+            return $"mui-text-size-{ToBreakpoint( textSizeDefinition.Breakpoint )}-{ToTextSizeType( textSizeType )}";
 
-        return $"fs-{ToTextSizeType( textSizeType )}";
+        return $"mui-text-size-{ToTextSizeType( textSizeType )}";
     }
 
-    public override string TextItalic( bool italic ) => italic ? "fst-italic" : null;
+    public override string TextItalic( bool italic ) => italic ? "mui-text-italic" : null;
 
     #endregion
 
@@ -1473,7 +1473,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string Border( BorderSize borderSize, BorderDefinition borderDefinition )
     {
-        var sb = new StringBuilder( "border" );
+        var sb = new StringBuilder( "mui-border" );
 
         if ( borderDefinition.Side != BorderSide.All )
             sb.Append( '-' ).Append( ToBorderSide( borderDefinition.Side ) );
@@ -1483,7 +1483,7 @@ public class MaterialClassProvider : ClassProvider
 
         if ( borderDefinition.Color != BorderColor.None )
         {
-            sb.Append( " border-" ).Append( ToBorderColor( borderDefinition.Color ) );
+            sb.Append( " mui-border-" ).Append( ToBorderColor( borderDefinition.Color ) );
 
             if ( borderDefinition.Subtle )
                 sb.Append( "-subtle" );
@@ -1576,7 +1576,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition )
     {
-        var sb = new StringBuilder();
+        var sb = new StringBuilder( "mui-" );
 
         if ( sizingDefinition.IsMin && sizingDefinition.IsViewport )
             sb.Append( "min-v" );
@@ -1608,8 +1608,8 @@ public class MaterialClassProvider : ClassProvider
     {
         return visibility switch
         {
-            Blazorise.Visibility.Visible => "visible",
-            Blazorise.Visibility.Invisible => "invisible",
+            Blazorise.Visibility.Visible => "mui-visible",
+            Blazorise.Visibility.Invisible => "mui-invisible",
             _ => null,
         };
     }
@@ -1619,7 +1619,7 @@ public class MaterialClassProvider : ClassProvider
     #region VerticalAlignment
 
     public override string VerticalAlignment( VerticalAlignment verticalAlignment )
-        => $"align-{ToVerticalAlignment( verticalAlignment )}";
+        => $"mui-vertical-align-{ToVerticalAlignment( verticalAlignment )}";
 
     #endregion
 
@@ -1628,9 +1628,9 @@ public class MaterialClassProvider : ClassProvider
     public override string Shadow( Shadow shadow )
     {
         if ( shadow == Blazorise.Shadow.Default )
-            return "shadow";
+            return "mui-shadow";
 
-        return $"shadow-{ToShadow( shadow )}";
+        return $"mui-shadow-{ToShadow( shadow )}";
     }
 
     #endregion
@@ -1638,8 +1638,8 @@ public class MaterialClassProvider : ClassProvider
     #region Overflow
 
     public override string Overflow( OverflowType overflowType, OverflowType secondOverflowType ) => secondOverflowType != OverflowType.Default
-        ? $"overflow-{ToOverflowType( overflowType )}-{ToOverflowType( secondOverflowType )}"
-        : $"overflow-{ToOverflowType( overflowType )}";
+        ? $"mui-overflow-{ToOverflowType( overflowType )}-{ToOverflowType( secondOverflowType )}"
+        : $"mui-overflow-{ToOverflowType( overflowType )}";
 
     #endregion
 
@@ -1647,18 +1647,18 @@ public class MaterialClassProvider : ClassProvider
 
     public override string Position( PositionType positionType, PositionEdgeType edgeType, int edgeOffset, PositionTranslateType translateType )
     {
-        return $"{ToPositionEdgeType( edgeType )}-{edgeOffset}";
+        return $"mui-{ToPositionEdgeType( edgeType )}-{edgeOffset}";
     }
 
     public override string Position( PositionType positionType, IEnumerable<(PositionEdgeType edgeType, int edgeOffset)> edges, PositionTranslateType translateType )
     {
-        var sb = new StringBuilder( $"position-{ToPositionType( positionType )}" );
+        var sb = new StringBuilder( $"mui-position-{ToPositionType( positionType )}" );
 
         if ( edges != null && edges.Count() > 0 )
             sb.Append( ' ' ).Append( string.Join( " ", edges.Select( x => Position( positionType, x.edgeType, x.edgeOffset, translateType ) ) ) );
 
         if ( translateType != PositionTranslateType.None )
-            sb.Append( " translate-" ).Append( ToPositionTranslateType( translateType ) );
+            sb.Append( " mui-translate-" ).Append( ToPositionTranslateType( translateType ) );
 
         return sb.ToString();
     }
@@ -1673,10 +1673,24 @@ public class MaterialClassProvider : ClassProvider
             return null;
 
         if ( objectFitDefinition.Breakpoint != Breakpoint.None && objectFitDefinition.Breakpoint != Breakpoint.Mobile )
-            return $"object-fit-{ToBreakpoint( objectFitDefinition.Breakpoint )}-{ToObjectFitType( objectFitType )}";
+            return $"mui-object-fit-{ToBreakpoint( objectFitDefinition.Breakpoint )}-{ToObjectFitType( objectFitType )}";
 
-        return $"object-fit-{ToObjectFitType( objectFitType )}";
+        return $"mui-object-fit-{ToObjectFitType( objectFitType )}";
     }
+
+    #endregion
+
+    #region Float
+
+    public override string Float( Float @float ) => $"mui-float-{ToFloat( @float )}";
+
+    public override string Clearfix() => "mui-clearfix";
+
+    #endregion
+
+    #region Custom
+
+    public override string Casing( CharacterCasing characterCasing ) => $"mui-character-casing-{ToCharacterCasing( characterCasing )}";
 
     #endregion
 
@@ -1734,14 +1748,14 @@ public class MaterialClassProvider : ClassProvider
     {
         return borderRadius switch
         {
-            Blazorise.BorderRadius.Rounded => "rounded",
-            Blazorise.BorderRadius.RoundedTop => "rounded-top",
-            Blazorise.BorderRadius.RoundedEnd => "rounded-end",
-            Blazorise.BorderRadius.RoundedBottom => "rounded-bottom",
-            Blazorise.BorderRadius.RoundedStart => "rounded-start",
-            Blazorise.BorderRadius.RoundedCircle => "rounded-circle",
-            Blazorise.BorderRadius.RoundedPill => "rounded-pill",
-            Blazorise.BorderRadius.RoundedZero => "rounded-0",
+            Blazorise.BorderRadius.Rounded => "mui-rounded",
+            Blazorise.BorderRadius.RoundedTop => "mui-rounded-top",
+            Blazorise.BorderRadius.RoundedEnd => "mui-rounded-end",
+            Blazorise.BorderRadius.RoundedBottom => "mui-rounded-bottom",
+            Blazorise.BorderRadius.RoundedStart => "mui-rounded-start",
+            Blazorise.BorderRadius.RoundedCircle => "mui-rounded-circle",
+            Blazorise.BorderRadius.RoundedPill => "mui-rounded-pill",
+            Blazorise.BorderRadius.RoundedZero => "mui-rounded-0",
             _ => null,
         };
     }

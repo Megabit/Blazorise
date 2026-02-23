@@ -1,0 +1,147 @@
+$mui-text-sizes: (
+    xs: 0.75rem,
+    sm: var(--mui-font-size-sm),
+    md: var(--mui-font-size),
+    lg: var(--mui-font-size-lg),
+    xl: 1.5rem,
+    1: 3.5625rem,
+    2: 2.8125rem,
+    3: 2.25rem,
+    4: 2rem,
+    5: 1.75rem,
+    6: 1.5rem
+) !default;
+
+$mui-text-weights: (
+    light: 300,
+    normal: 400,
+    semibold: 600,
+    bold: 700
+) !default;
+
+@mixin make-text-size-utilities($infix: "") {
+    @each $name, $value in $mui-text-sizes {
+        .mui-text-size#{$infix}-#{$name} {
+            font-size: $value !important;
+        }
+    }
+}
+
+@include make-text-size-utilities();
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    @if $infix != "" {
+        @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+            @include make-text-size-utilities($infix);
+        }
+    }
+}
+
+@each $color-name, $color-value in $theme-colors-text-emphasis {
+    .mui-text-#{$color-name} {
+        color: #{$color-value} !important;
+    }
+
+    .mui-text-#{$color-name}-emphasis {
+        color: #{$color-value} !important;
+    }
+}
+
+.mui-text-body,
+.mui-text-body-emphasis {
+    color: var(--mui-on-surface) !important;
+}
+
+.mui-text-muted,
+.mui-text-muted-emphasis {
+    color: var(--mui-on-surface-variant) !important;
+}
+
+.mui-text-white,
+.mui-text-white-emphasis {
+    color: #fff !important;
+}
+
+.mui-text-black-50,
+.mui-text-black-50-emphasis {
+    color: rgb(0 0 0 / 50%) !important;
+}
+
+.mui-text-white-50,
+.mui-text-white-50-emphasis {
+    color: rgb(255 255 255 / 50%) !important;
+}
+
+.mui-text-start {
+    text-align: start !important;
+}
+
+.mui-text-center {
+    text-align: center !important;
+}
+
+.mui-text-end {
+    text-align: end !important;
+}
+
+.mui-text-justify {
+    text-align: justify !important;
+}
+
+.mui-text-lowercase {
+    text-transform: lowercase !important;
+}
+
+.mui-text-uppercase {
+    text-transform: uppercase !important;
+}
+
+.mui-text-capitalize {
+    text-transform: capitalize !important;
+}
+
+.mui-text-decoration-none {
+    text-decoration: none !important;
+}
+
+.mui-text-decoration-underline {
+    text-decoration: underline !important;
+}
+
+.mui-text-decoration-overline {
+    text-decoration: overline !important;
+}
+
+.mui-text-decoration-line-through {
+    text-decoration: line-through !important;
+}
+
+.mui-text-decoration-inherit {
+    text-decoration: inherit !important;
+}
+
+@each $name, $value in $mui-text-weights {
+    .mui-text-weight-#{$name} {
+        font-weight: $value !important;
+    }
+}
+
+.mui-text-wrap {
+    white-space: normal !important;
+}
+
+.mui-text-nowrap {
+    white-space: nowrap !important;
+}
+
+.mui-text-truncate {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+.mui-text-italic {
+    font-style: italic !important;
+}

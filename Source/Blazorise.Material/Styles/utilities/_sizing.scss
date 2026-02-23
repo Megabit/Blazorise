@@ -1,0 +1,53 @@
+@function mui-viewport-length($value, $axis) {
+    @if $value == auto {
+        @return auto;
+    }
+
+    $viewport-unit: if($axis == "width", 1vw, 1vh);
+
+    @return calc(#{$value} * #{$viewport-unit} / 1%);
+}
+
+@mixin make-sizing-utilities($breakpoints: $grid-breakpoints) {
+    @each $breakpoint in map-keys($breakpoints) {
+        $infix: breakpoint-infix($breakpoint, $breakpoints);
+
+        @include media-breakpoint-up($breakpoint, $breakpoints) {
+            @each $size, $length in $sizes {
+                .mui-w#{$infix}-#{$size} {
+                    width: $length !important;
+                }
+
+                .mui-h#{$infix}-#{$size} {
+                    height: $length !important;
+                }
+
+                .mui-mw#{$infix}-#{$size} {
+                    max-width: $length !important;
+                }
+
+                .mui-mh#{$infix}-#{$size} {
+                    max-height: $length !important;
+                }
+
+                .mui-vw#{$infix}-#{$size} {
+                    width: mui-viewport-length($length, "width") !important;
+                }
+
+                .mui-vh#{$infix}-#{$size} {
+                    height: mui-viewport-length($length, "height") !important;
+                }
+
+                .mui-min-vw#{$infix}-#{$size} {
+                    min-width: mui-viewport-length($length, "width") !important;
+                }
+
+                .mui-min-vh#{$infix}-#{$size} {
+                    min-height: mui-viewport-length($length, "height") !important;
+                }
+            }
+        }
+    }
+}
+
+@include make-sizing-utilities();

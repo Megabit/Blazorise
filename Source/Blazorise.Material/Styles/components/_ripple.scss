@@ -3,7 +3,6 @@ $mui-ripple-targets: ( ".mui-button", ".mui-dropdown-item", ".mui-tabs > .mui-ta
 @each $selector in $mui-ripple-targets {
     #{$selector} {
         position: relative;
-        overflow: hidden;
         isolation: isolate;
     }
 }
