@@ -3389,6 +3389,95 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   color: var(--mui-success);
 }
 
+.mui-figure {
+  --mui-figure-size: auto;
+  --mui-figure-caption-color: var(--mui-on-surface-variant);
+  --mui-figure-rounded-radius: 0.75rem;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0;
+  max-inline-size: 100%;
+}
+
+.mui-figure-image {
+  display: block;
+  margin: 0;
+  inline-size: auto;
+  max-inline-size: 100%;
+  block-size: auto;
+  object-fit: cover;
+  object-position: center;
+  line-height: 1;
+  border-radius: 0;
+  transition: transform var(--mui-duration-slow), border-radius var(--mui-duration-slow);
+}
+
+.mui-figure-image-rounded {
+  border-radius: var(--mui-figure-rounded-radius);
+}
+
+.mui-figure-caption {
+  margin: 0;
+  color: var(--mui-figure-caption-color);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+  text-align: start;
+}
+
+.mui-figure-is-16x16 {
+  --mui-figure-size: 16px;
+  inline-size: var(--mui-figure-size);
+}
+
+.mui-figure-is-24x24 {
+  --mui-figure-size: 24px;
+  inline-size: var(--mui-figure-size);
+}
+
+.mui-figure-is-32x32 {
+  --mui-figure-size: 32px;
+  inline-size: var(--mui-figure-size);
+}
+
+.mui-figure-is-48x48 {
+  --mui-figure-size: 48px;
+  inline-size: var(--mui-figure-size);
+}
+
+.mui-figure-is-64x64 {
+  --mui-figure-size: 64px;
+  inline-size: var(--mui-figure-size);
+}
+
+.mui-figure-is-96x96 {
+  --mui-figure-size: 96px;
+  inline-size: var(--mui-figure-size);
+}
+
+.mui-figure-is-128x128 {
+  --mui-figure-size: 128px;
+  inline-size: var(--mui-figure-size);
+}
+
+.mui-figure-is-256x256 {
+  --mui-figure-size: 256px;
+  inline-size: var(--mui-figure-size);
+}
+
+.mui-figure-is-512x512 {
+  --mui-figure-size: 512px;
+  inline-size: var(--mui-figure-size);
+}
+
+.mui-figure[class*=mui-figure-is-] > .mui-figure-image {
+  inline-size: var(--mui-figure-size);
+  max-inline-size: none;
+  block-size: var(--mui-figure-size);
+}
+
 .mui-input,
 .mui-input-plaintext,
 .mui-select {

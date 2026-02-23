@@ -1319,15 +1319,15 @@ public class MaterialClassProvider : ClassProvider
 
     #region Figure
 
-    public override string Figure() => "figure";
+    public override string Figure() => "mui-figure";
 
-    public override string FigureSize( FigureSize figureSize ) => figureSize != Blazorise.FigureSize.Default ? $"figure-is-{ToFigureSize( figureSize )}" : null;
+    public override string FigureSize( FigureSize figureSize ) => figureSize != Blazorise.FigureSize.Default ? $"mui-figure-is-{ToFigureSize( figureSize )}" : null;
 
-    public override string FigureImage() => "figure-img img-fluid";
+    public override string FigureImage() => "mui-figure-image";
 
-    public override string FigureImageRounded( bool rounded ) => rounded ? "rounded" : null;
+    public override string FigureImageRounded( bool rounded ) => rounded ? "mui-figure-image-rounded" : null;
 
-    public override string FigureCaption() => "figure-caption";
+    public override string FigureCaption() => "mui-figure-caption";
 
     #endregion
 

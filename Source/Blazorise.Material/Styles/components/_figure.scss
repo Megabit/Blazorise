@@ -1,0 +1,52 @@
+$mui-figure-dimensions: 16, 24, 32, 48, 64, 96, 128, 256, 512 !default;
+
+.mui-figure {
+    --mui-figure-size: auto;
+    --mui-figure-caption-color: var(--mui-on-surface-variant);
+    --mui-figure-rounded-radius: 0.75rem;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin: 0;
+    max-inline-size: 100%;
+}
+
+.mui-figure-image {
+    display: block;
+    margin: 0;
+    inline-size: auto;
+    max-inline-size: 100%;
+    block-size: auto;
+    object-fit: cover;
+    object-position: center;
+    line-height: 1;
+    border-radius: 0;
+    transition: transform var(--mui-duration-slow), border-radius var(--mui-duration-slow);
+}
+
+.mui-figure-image-rounded {
+    border-radius: var(--mui-figure-rounded-radius);
+}
+
+.mui-figure-caption {
+    margin: 0;
+    color: var(--mui-figure-caption-color);
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.25rem;
+    text-align: start;
+}
+
+@each $dimension in $mui-figure-dimensions {
+    .mui-figure-is-#{$dimension}x#{$dimension} {
+        --mui-figure-size: #{$dimension}px;
+        inline-size: var(--mui-figure-size);
+    }
+}
+
+.mui-figure[class*="mui-figure-is-"] > .mui-figure-image {
+    inline-size: var(--mui-figure-size);
+    max-inline-size: none;
+    block-size: var(--mui-figure-size);
+}
