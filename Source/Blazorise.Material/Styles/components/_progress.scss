@@ -14,6 +14,11 @@
     background-color: var(--mui-surface-variant);
 }
 
+.mui-progress.mui-progress-indeterminate,
+.mui-progress:has(> .mui-progress-bar-indeterminate) {
+    overflow: hidden;
+}
+
 .mui-progress-xs {
     --mui-progress-size: 0.2rem;
     --mui-progress-font-size: 0.1875rem;
