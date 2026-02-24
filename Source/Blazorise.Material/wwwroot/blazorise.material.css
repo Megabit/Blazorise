@@ -2778,8 +2778,13 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 
 .mui-card {
   --_padding: 1rem;
+  --mui-card-color: var(--mui-on-surface);
+  --mui-card-body-color: var(--mui-on-surface-variant);
+  --mui-card-title-color: var(--mui-on-surface);
+  --mui-card-subtitle-color: var(--mui-on-surface-variant);
+  --mui-card-link-color: var(--mui-primary);
   background-color: var(--mui-surface-container-low);
-  color: var(--mui-on-surface);
+  color: var(--mui-card-color);
   border-radius: 0.75rem;
   display: flex;
   flex-direction: column;
@@ -2798,7 +2803,7 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 .mui-card .mui-card-body {
   font-size: 0.875rem;
   line-height: 1.5rem;
-  color: var(--mui-on-surface-variant);
+  color: var(--mui-card-body-color);
   padding: var(--_padding);
   flex: 1 1 auto;
 }
@@ -2816,12 +2821,12 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
 .mui-card .mui-card-title {
   margin-bottom: 0.25rem;
   font-size: 1.125rem;
-  color: var(--mui-on-surface);
+  color: var(--mui-card-title-color);
 }
 .mui-card .mui-card-subtitle {
   margin-bottom: 0.5rem;
   font-size: 0.875rem;
-  color: var(--mui-on-surface-variant);
+  color: var(--mui-card-subtitle-color);
 }
 .mui-card .mui-card-text {
   margin-bottom: var(--_padding);
@@ -2830,7 +2835,7 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   margin-bottom: 0;
 }
 .mui-card .mui-card-link {
-  color: var(--mui-primary);
+  color: var(--mui-card-link-color);
   text-decoration: none;
 }
 .mui-card .mui-card-link:hover {
@@ -2842,6 +2847,104 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   height: auto;
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
+}
+
+.mui-card.bg-primary {
+  --mui-card-color: var(--mui-on-primary);
+  --mui-card-body-color: color-mix(in srgb, var(--mui-on-primary) 88%, transparent);
+  --mui-card-title-color: var(--mui-on-primary);
+  --mui-card-subtitle-color: color-mix(in srgb, var(--mui-on-primary) 82%, transparent);
+  --mui-card-link-color: var(--mui-on-primary);
+  border-color: color-mix(in srgb, var(--mui-on-primary) 22%, transparent);
+}
+
+.mui-card.bg-secondary {
+  --mui-card-color: var(--mui-on-secondary);
+  --mui-card-body-color: color-mix(in srgb, var(--mui-on-secondary) 88%, transparent);
+  --mui-card-title-color: var(--mui-on-secondary);
+  --mui-card-subtitle-color: color-mix(in srgb, var(--mui-on-secondary) 82%, transparent);
+  --mui-card-link-color: var(--mui-on-secondary);
+  border-color: color-mix(in srgb, var(--mui-on-secondary) 22%, transparent);
+}
+
+.mui-card.bg-tertiary {
+  --mui-card-color: var(--mui-on-tertiary);
+  --mui-card-body-color: color-mix(in srgb, var(--mui-on-tertiary) 88%, transparent);
+  --mui-card-title-color: var(--mui-on-tertiary);
+  --mui-card-subtitle-color: color-mix(in srgb, var(--mui-on-tertiary) 82%, transparent);
+  --mui-card-link-color: var(--mui-on-tertiary);
+  border-color: color-mix(in srgb, var(--mui-on-tertiary) 22%, transparent);
+}
+
+.mui-card.bg-danger {
+  --mui-card-color: var(--mui-on-error);
+  --mui-card-body-color: color-mix(in srgb, var(--mui-on-error) 88%, transparent);
+  --mui-card-title-color: var(--mui-on-error);
+  --mui-card-subtitle-color: color-mix(in srgb, var(--mui-on-error) 82%, transparent);
+  --mui-card-link-color: var(--mui-on-error);
+  border-color: color-mix(in srgb, var(--mui-on-error) 22%, transparent);
+}
+
+.mui-card.bg-error {
+  --mui-card-color: var(--mui-on-error);
+  --mui-card-body-color: color-mix(in srgb, var(--mui-on-error) 88%, transparent);
+  --mui-card-title-color: var(--mui-on-error);
+  --mui-card-subtitle-color: color-mix(in srgb, var(--mui-on-error) 82%, transparent);
+  --mui-card-link-color: var(--mui-on-error);
+  border-color: color-mix(in srgb, var(--mui-on-error) 22%, transparent);
+}
+
+.mui-card.bg-success {
+  --mui-card-color: var(--mui-on-success);
+  --mui-card-body-color: color-mix(in srgb, var(--mui-on-success) 88%, transparent);
+  --mui-card-title-color: var(--mui-on-success);
+  --mui-card-subtitle-color: color-mix(in srgb, var(--mui-on-success) 82%, transparent);
+  --mui-card-link-color: var(--mui-on-success);
+  border-color: color-mix(in srgb, var(--mui-on-success) 22%, transparent);
+}
+
+.mui-card.bg-warning {
+  --mui-card-color: var(--mui-on-warning);
+  --mui-card-body-color: color-mix(in srgb, var(--mui-on-warning) 88%, transparent);
+  --mui-card-title-color: var(--mui-on-warning);
+  --mui-card-subtitle-color: color-mix(in srgb, var(--mui-on-warning) 82%, transparent);
+  --mui-card-link-color: var(--mui-on-warning);
+  border-color: color-mix(in srgb, var(--mui-on-warning) 22%, transparent);
+}
+
+.mui-card.bg-info {
+  --mui-card-color: var(--mui-on-info);
+  --mui-card-body-color: color-mix(in srgb, var(--mui-on-info) 88%, transparent);
+  --mui-card-title-color: var(--mui-on-info);
+  --mui-card-subtitle-color: color-mix(in srgb, var(--mui-on-info) 82%, transparent);
+  --mui-card-link-color: var(--mui-on-info);
+  border-color: color-mix(in srgb, var(--mui-on-info) 22%, transparent);
+}
+
+.mui-card.bg-light {
+  --mui-card-color: var(--mui-on-light);
+  --mui-card-body-color: color-mix(in srgb, var(--mui-on-light) 88%, transparent);
+  --mui-card-title-color: var(--mui-on-light);
+  --mui-card-subtitle-color: color-mix(in srgb, var(--mui-on-light) 82%, transparent);
+  --mui-card-link-color: var(--mui-on-light);
+  border-color: color-mix(in srgb, var(--mui-on-light) 22%, transparent);
+}
+
+.mui-card.bg-dark {
+  --mui-card-color: var(--mui-on-dark);
+  --mui-card-body-color: color-mix(in srgb, var(--mui-on-dark) 88%, transparent);
+  --mui-card-title-color: var(--mui-on-dark);
+  --mui-card-subtitle-color: color-mix(in srgb, var(--mui-on-dark) 82%, transparent);
+  --mui-card-link-color: var(--mui-on-dark);
+  border-color: color-mix(in srgb, var(--mui-on-dark) 22%, transparent);
+}
+
+.mui-card:is(.text-white, .mui-text-white) {
+  --mui-card-color: #fff;
+  --mui-card-body-color: color-mix(in srgb, #fff 88%, transparent);
+  --mui-card-title-color: #fff;
+  --mui-card-subtitle-color: color-mix(in srgb, #fff 82%, transparent);
+  --mui-card-link-color: #fff;
 }
 
 .mui-card-deck {

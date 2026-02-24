@@ -1,7 +1,12 @@
 .mui-card {
     --_padding: 1rem;
+    --mui-card-color: var(--mui-on-surface);
+    --mui-card-body-color: var(--mui-on-surface-variant);
+    --mui-card-title-color: var(--mui-on-surface);
+    --mui-card-subtitle-color: var(--mui-on-surface-variant);
+    --mui-card-link-color: var(--mui-primary);
     background-color: var(--mui-surface-container-low);
-    color: var(--mui-on-surface);
+    color: var(--mui-card-color);
     border-radius: 0.75rem;
     display: flex;
     flex-direction: column;
@@ -21,7 +26,7 @@
     .mui-card-body {
         font-size: 0.875rem;
         line-height: 1.5rem;
-        color: var(--mui-on-surface-variant);
+        color: var(--mui-card-body-color);
         padding: var(--_padding);
         flex: 1 1 auto;
     }
@@ -42,13 +47,13 @@
     .mui-card-title {
         margin-bottom: 0.25rem;
         font-size: 1.125rem;
-        color: var(--mui-on-surface);
+        color: var(--mui-card-title-color);
     }
 
     .mui-card-subtitle {
         margin-bottom: 0.5rem;
         font-size: 0.875rem;
-        color: var(--mui-on-surface-variant);
+        color: var(--mui-card-subtitle-color);
     }
 
     .mui-card-text {
@@ -60,7 +65,7 @@
     }
 
     .mui-card-link {
-        color: var(--mui-primary);
+        color: var(--mui-card-link-color);
         text-decoration: none;
 
         &:hover {
@@ -75,6 +80,36 @@
         border-top-left-radius: inherit;
         border-top-right-radius: inherit;
     }
+}
+
+@mixin make-card-bg-variant($name, $variant) {
+    .mui-card.bg-#{$name} {
+        --mui-card-color: var(--mui-on-#{$variant});
+        --mui-card-body-color: color-mix(in srgb, var(--mui-on-#{$variant}) 88%, transparent);
+        --mui-card-title-color: var(--mui-on-#{$variant});
+        --mui-card-subtitle-color: color-mix(in srgb, var(--mui-on-#{$variant}) 82%, transparent);
+        --mui-card-link-color: var(--mui-on-#{$variant});
+        border-color: color-mix(in srgb, var(--mui-on-#{$variant}) 22%, transparent);
+    }
+}
+
+@include make-card-bg-variant("primary", "primary");
+@include make-card-bg-variant("secondary", "secondary");
+@include make-card-bg-variant("tertiary", "tertiary");
+@include make-card-bg-variant("danger", "error");
+@include make-card-bg-variant("error", "error");
+@include make-card-bg-variant("success", "success");
+@include make-card-bg-variant("warning", "warning");
+@include make-card-bg-variant("info", "info");
+@include make-card-bg-variant("light", "light");
+@include make-card-bg-variant("dark", "dark");
+
+.mui-card:is(.text-white, .mui-text-white) {
+    --mui-card-color: #fff;
+    --mui-card-body-color: color-mix(in srgb, #fff 88%, transparent);
+    --mui-card-title-color: #fff;
+    --mui-card-subtitle-color: color-mix(in srgb, #fff 82%, transparent);
+    --mui-card-link-color: #fff;
 }
 
 .mui-card-deck {
