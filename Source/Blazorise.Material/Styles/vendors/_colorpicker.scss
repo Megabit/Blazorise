@@ -1,0 +1,131 @@
+.pcr-app {
+    z-index: var(--mui-zindex-popover);
+    border-radius: 1rem;
+    border: 0.0625rem solid var(--mui-outline-variant);
+    background: var(--mui-surface-container-high);
+    color: var(--mui-on-surface);
+    box-shadow: var(--mui-elevate3);
+    font-family: inherit;
+    transform: scale(0.98) translateY(-0.125rem);
+    transition:
+        opacity var(--mui-duration-fast) var(--mui-curve-easy-ease),
+        transform var(--mui-duration-fast) var(--mui-curve-easy-ease),
+        visibility 0s linear var(--mui-duration-fast);
+}
+
+.pcr-app.visible {
+    transform: scale(1) translateY(0);
+    transition:
+        opacity var(--mui-duration-fast) var(--mui-curve-easy-ease),
+        transform var(--mui-duration-fast) var(--mui-curve-easy-ease),
+        visibility 0s linear 0s;
+}
+
+.pickr input:focus,
+.pickr input.pcr-active,
+.pickr button:focus,
+.pickr button.pcr-active,
+.pcr-app input:focus,
+.pcr-app input.pcr-active,
+.pcr-app button:focus,
+.pcr-app button.pcr-active {
+    box-shadow: 0 0 0 0.125rem color-mix(in srgb, var(--mui-primary) 24%, transparent);
+}
+
+.pcr-app[data-theme='monolith'] {
+    width: min(18rem, 95vw);
+    padding: 0.75rem;
+}
+
+.pcr-app[data-theme='monolith'] .pcr-selection .pcr-color-palette .pcr-palette {
+    border-radius: 0.75rem;
+}
+
+.pcr-app[data-theme='monolith'] .pcr-selection .pcr-color-chooser,
+.pcr-app[data-theme='monolith'] .pcr-selection .pcr-color-opacity {
+    block-size: 0.625rem;
+    margin-top: 0.625rem;
+}
+
+.pcr-app[data-theme='monolith'] .pcr-selection .pcr-color-chooser .pcr-slider,
+.pcr-app[data-theme='monolith'] .pcr-selection .pcr-color-opacity .pcr-slider {
+    border-radius: 999rem;
+}
+
+.pcr-app .pcr-selection .pcr-picker {
+    border: 0.125rem solid var(--mui-surface);
+    box-shadow: 0 0 0 0.0625rem color-mix(in srgb, var(--mui-on-surface) 20%, transparent);
+}
+
+.pcr-app .pcr-swatches {
+    margin-top: 0.625rem;
+}
+
+.pcr-app .pcr-swatches > button {
+    border-radius: 0.375rem;
+}
+
+.pcr-app .pcr-swatches > button::after {
+    border-color: var(--mui-outline-variant);
+    border-radius: 0.375rem;
+}
+
+.pcr-app .pcr-interaction {
+    margin: 0.625rem 0 0;
+    gap: 0.375rem;
+    align-items: center;
+}
+
+.pcr-app .pcr-interaction > * {
+    margin: 0;
+}
+
+.pcr-app .pcr-interaction input {
+    letter-spacing: 0;
+    font-size: 0.75rem;
+    padding: 0.375rem 0.625rem;
+    margin-top: 0;
+    border-radius: 999rem;
+    background: var(--mui-surface-container-highest);
+    color: var(--mui-on-surface-variant);
+}
+
+.pcr-app .pcr-interaction .pcr-result {
+    text-align: start;
+    border-radius: 0.5rem;
+    background: var(--mui-surface-container-highest);
+    color: var(--mui-on-surface);
+}
+
+.pcr-app .pcr-interaction .pcr-type.active {
+    background: var(--mui-primary);
+    color: var(--mui-on-primary);
+}
+
+.pcr-app .pcr-interaction .pcr-save,
+.pcr-app .pcr-interaction .pcr-cancel,
+.pcr-app .pcr-interaction .pcr-clear {
+    border-radius: 999rem;
+}
+
+.pcr-app .pcr-interaction .pcr-save {
+    background: var(--mui-primary);
+    color: var(--mui-on-primary);
+}
+
+.pcr-app .pcr-interaction .pcr-save:hover {
+    filter: none;
+    background: var(--mui-primary-hover);
+}
+
+.pcr-app .pcr-interaction .pcr-clear,
+.pcr-app .pcr-interaction .pcr-cancel {
+    background: var(--mui-error-container);
+    color: var(--mui-on-error-container);
+}
+
+.pcr-app .pcr-interaction .pcr-clear:hover,
+.pcr-app .pcr-interaction .pcr-cancel:hover {
+    filter: none;
+    background: color-mix(in srgb, var(--mui-error-container) 88%, var(--mui-error) 12%);
+}

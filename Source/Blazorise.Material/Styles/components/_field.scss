@@ -152,7 +152,11 @@
 .mui-field.mui-field-floating:has(> textarea.mui-input[placeholder]:not(:placeholder-shown)) > .mui-field-label:not(.mui-field-label-horizontal),
 .mui-field.mui-field-floating:has(> .mui-field-body > textarea.mui-input[placeholder]:not(:placeholder-shown)) > .mui-field-label:not(.mui-field-label-horizontal),
 .mui-field.mui-field-floating:has(> .mui-select) > .mui-field-label:not(.mui-field-label-horizontal),
-.mui-field.mui-field-floating:has(> .mui-field-body > .mui-select) > .mui-field-label:not(.mui-field-label-horizontal) {
+.mui-field.mui-field-floating:has(> .mui-field-body > .mui-select) > .mui-field-label:not(.mui-field-label-horizontal),
+.mui-field.mui-field-floating:has(> .mui-color-input) > .mui-field-label:not(.mui-field-label-horizontal),
+.mui-field.mui-field-floating:has(> .mui-field-body > .mui-color-input) > .mui-field-label:not(.mui-field-label-horizontal),
+.mui-field.mui-field-floating:has(> .mui-color-picker) > .mui-field-label:not(.mui-field-label-horizontal),
+.mui-field.mui-field-floating:has(> .mui-field-body > .mui-color-picker) > .mui-field-label:not(.mui-field-label-horizontal) {
     block-size: 2.5rem;
     line-height: 2.5rem;
     font-size: 0.75rem;

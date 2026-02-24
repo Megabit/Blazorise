@@ -79,7 +79,7 @@ public class MaterialClassProvider : ClassProvider
 
     #region ColorInput
 
-    public override string ColorInput() => "form-control";
+    public override string ColorInput() => "mui-input mui-color-input";
 
     public override string ColorInputSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 
@@ -111,7 +111,7 @@ public class MaterialClassProvider : ClassProvider
 
     #region ColorPicker
 
-    public override string ColorPicker() => "form-control b-input-color-picker";
+    public override string ColorPicker() => "mui-input mui-color-picker b-input-color-picker";
 
     public override string ColorPickerSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 

@@ -162,6 +162,91 @@ textarea.mui-input:not([rows]) {
     background-position: left calc(var(--mui-select-chevron-offset) + var(--mui-select-chevron-half)) center, left calc(var(--mui-select-chevron-offset) - var(--mui-select-chevron-half)) center;
 }
 
+.mui-color-input[type=color] {
+    position: relative;
+    inset: auto;
+    opacity: 1;
+    z-index: 1;
+    margin: 0;
+    padding: 0.25rem;
+    cursor: pointer;
+    overflow: hidden;
+    background-color: var(--mui-surface-container-low);
+}
+
+.mui-color-input[type=color]:focus {
+    padding: calc(0.25rem - 0.0625rem);
+}
+
+.mui-color-input[type=color]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.mui-color-input[type=color]::-webkit-color-swatch,
+.mui-color-input[type=color]::-moz-color-swatch {
+    border: 0;
+    border-radius: calc(var(--mui-input-border-radius) - 0.1875rem);
+}
+
+.mui-color-picker.b-input-color-picker {
+    --mui-color-preview-size: calc(var(--mui-input-size) * 0.5);
+    display: flex;
+    min-block-size: var(--mui-input-size);
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    padding-inline: 0.75rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.mui-color-picker.b-input-color-picker:not(.mui-input-plaintext):focus {
+    padding-inline: calc(0.75rem - 0.0625rem);
+}
+
+.mui-color-picker.b-input-color-picker > .b-input-color-picker-preview {
+    display: inline-flex;
+    align-items: center;
+    inline-size: var(--mui-color-preview-size);
+    block-size: var(--mui-color-preview-size);
+    flex: 0 0 auto;
+}
+
+.mui-color-picker.b-input-color-picker > .b-input-color-picker-preview::before {
+    display: none;
+}
+
+.mui-color-picker.b-input-color-picker > .b-input-color-picker-preview > .b-input-color-picker-curent-color {
+    inline-size: var(--mui-color-preview-size);
+    block-size: var(--mui-color-preview-size);
+    border-radius: 999rem;
+    border: 0.0625rem solid var(--mui-outline-variant);
+}
+
+.mui-color-picker.b-input-color-picker::after {
+    content: attr(data-color);
+    display: block;
+    min-inline-size: 0;
+    color: var(--mui-on-surface-variant);
+    font-family: inherit;
+    font-size: var(--mui-input-font-size);
+    line-height: 1.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.mui-color-picker.b-input-color-picker:not([data-color])::after,
+.mui-color-picker.b-input-color-picker[data-color='']::after,
+.mui-color-picker.b-input-color-picker[data-color='null']::after {
+    content: "";
+}
+
+.mui-color-picker.b-input-color-picker[aria-disabled='true'] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 :is(.mui-input, .mui-select).is-valid {
     border-color: var(--mui-success) !important;
 }
