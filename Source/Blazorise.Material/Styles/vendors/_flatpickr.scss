@@ -243,12 +243,12 @@ span.flatpickr-weekday {
 .flatpickr-time {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 0.125rem;
     border-top: 0.0625rem solid var(--mui-picker-border);
     background-color: var(--mui-picker-bg-muted);
     block-size: 3rem;
-    padding: 0.25rem 0.5rem;
+    padding: 0.25rem;
 
     &:after {
         display: none;
