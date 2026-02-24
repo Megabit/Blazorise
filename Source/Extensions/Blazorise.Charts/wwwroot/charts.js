@@ -8,6 +8,11 @@ import "./vendors/chartjs-adapter-luxon.js?v=2.0.0.0";
 import "./vendors/chartjs-plugin-streaming.js?v=2.0.0.0";
 
 import { parseFunction, deepClone } from "./utilities.js?v=2.0.0.0";
+import {
+    scheduleResponsiveResizePatch,
+    setupResponsiveResizePatchHandlers,
+    cleanupResponsiveResizePatchHandlers
+} from "./patches/chartResponsiveResizePatch.js?v=2.0.0.0";
 
 const _instances = [];
 
@@ -67,6 +72,16 @@ export function initialize(dotnetAdapter, eventOptions, canvas, canvasId, type, 
     canvas = canvas || document.getElementById(canvasId);
 
     if (canvas) {
+        const previousInstance = _instances[canvasId];
+
+        if (previousInstance) {
+            cleanupResponsiveResizePatchHandlers(previousInstance);
+
+            if (previousInstance.chart) {
+                previousInstance.chart.destroy();
+            }
+        }
+
         const chart = createChart(dotnetAdapter, eventOptions, canvas, canvasId, type, data, options, pluginNames);
 
         // save references to all elements
@@ -75,8 +90,14 @@ export function initialize(dotnetAdapter, eventOptions, canvas, canvasId, type, 
             eventOptions: eventOptions,
             canvas: canvas,
             chart: chart,
-            pluginNames: pluginNames
+            pluginNames: pluginNames,
+            hasExplicitCanvasSize: !!canvas.getAttribute("width")
+                || !!canvas.getAttribute("height")
+                || !!canvas.style.width
+                || !!canvas.style.height
         };
+
+        setupResponsiveResizePatchHandlers(_instances[canvasId]);
     }
 }
 
@@ -100,6 +121,8 @@ export function changeChartType(canvas, canvasId, type) {
         chart = createChart(instance.dotnetAdapter, instance.eventOptions, canvas, canvasId, type, data, options, instance.pluginNames);
 
         _instances[canvasId].chart = chart;
+
+        scheduleResponsiveResizePatch(instance, true);
     }
 }
 
@@ -157,6 +180,8 @@ export function destroy(canvas, canvasId) {
     const instance = instances[canvasId];
 
     if (instance) {
+        cleanupResponsiveResizePatchHandlers(instance);
+
         const chart = instance.chart;
 
         if (chart) {
@@ -191,12 +216,26 @@ export function setOptions(canvasId, options, optionsJsonString, optionsObject) 
         if (options.aspectRatio) {
             chart._aspectRatio = options.aspectRatio;
 
-            chart.resize();
+            const instance = _instances[canvasId];
+
+            if (instance) {
+                scheduleResponsiveResizePatch(instance, true);
+            }
+            else {
+                chart.resize();
+            }
         }
     }
 }
 
 export function resize(canvasId) {
+    const instance = _instances[canvasId];
+
+    if (instance) {
+        scheduleResponsiveResizePatch(instance, true);
+        return;
+    }
+
     const chart = getChart(canvasId);
 
     if (chart) {
