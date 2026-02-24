@@ -7688,6 +7688,7 @@ span.flatpickr-weekday {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   inline-size: 3.25rem;
   block-size: 2.25rem;
   border-radius: 0.75rem;
@@ -7699,7 +7700,53 @@ span.flatpickr-weekday {
 }
 .flatpickr-time .numInputWrapper span.arrowUp,
 .flatpickr-time .numInputWrapper span.arrowDown {
-  display: none;
+  position: absolute;
+  right: 0.125rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 0.875rem;
+  block-size: calc(50% - 0.125rem);
+  border: 0;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  color: color-mix(in srgb, var(--mui-picker-color) 72%, transparent);
+  background: transparent;
+  opacity: 1;
+  transition: background-color var(--mui-duration-fast), color var(--mui-duration-fast);
+}
+.flatpickr-time .numInputWrapper span.arrowUp {
+  top: 0.0625rem;
+}
+.flatpickr-time .numInputWrapper span.arrowDown {
+  bottom: 0.0625rem;
+}
+.flatpickr-time .numInputWrapper span.arrowUp::after,
+.flatpickr-time .numInputWrapper span.arrowDown::after {
+  content: "";
+  position: absolute;
+  inline-size: 0;
+  block-size: 0;
+  border-inline-start: 0.25rem solid transparent;
+  border-inline-end: 0.25rem solid transparent;
+}
+.flatpickr-time .numInputWrapper span.arrowUp::after {
+  border-block-end: 0.3125rem solid currentColor;
+}
+.flatpickr-time .numInputWrapper span.arrowDown::after {
+  border-block-start: 0.3125rem solid currentColor;
+}
+.flatpickr-time .numInputWrapper span.arrowUp:hover,
+.flatpickr-time .numInputWrapper span.arrowDown:hover {
+  background-color: var(--mui-picker-hover);
+  color: var(--mui-picker-color);
+}
+.flatpickr-time .numInputWrapper span.arrowUp:active,
+.flatpickr-time .numInputWrapper span.arrowDown:active {
+  background-color: color-mix(in srgb, var(--mui-picker-color) 14%, transparent);
 }
 .flatpickr-time input,
 .flatpickr-time .flatpickr-am-pm,

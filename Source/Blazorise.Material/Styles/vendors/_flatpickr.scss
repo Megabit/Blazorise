@@ -258,6 +258,7 @@ span.flatpickr-weekday {
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
         inline-size: 3.25rem;
         block-size: 2.25rem;
         border-radius: 0.75rem;
@@ -271,7 +272,60 @@ span.flatpickr-weekday {
 
         span.arrowUp,
         span.arrowDown {
-            display: none;
+            position: absolute;
+            right: 0.125rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            inline-size: 0.875rem;
+            block-size: calc(50% - 0.125rem);
+            border: 0;
+            padding: 0;
+            margin: 0;
+            line-height: 1;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            color: color-mix(in srgb, var(--mui-picker-color) 72%, transparent);
+            background: transparent;
+            opacity: 1;
+            transition: background-color var(--mui-duration-fast), color var(--mui-duration-fast);
+        }
+
+        span.arrowUp {
+            top: 0.0625rem;
+        }
+
+        span.arrowDown {
+            bottom: 0.0625rem;
+        }
+
+        span.arrowUp::after,
+        span.arrowDown::after {
+            content: "";
+            position: absolute;
+            inline-size: 0;
+            block-size: 0;
+            border-inline-start: 0.25rem solid transparent;
+            border-inline-end: 0.25rem solid transparent;
+        }
+
+        span.arrowUp::after {
+            border-block-end: 0.3125rem solid currentColor;
+        }
+
+        span.arrowDown::after {
+            border-block-start: 0.3125rem solid currentColor;
+        }
+
+        span.arrowUp:hover,
+        span.arrowDown:hover {
+            background-color: var(--mui-picker-hover);
+            color: var(--mui-picker-color);
+        }
+
+        span.arrowUp:active,
+        span.arrowDown:active {
+            background-color: color-mix(in srgb, var(--mui-picker-color) 14%, transparent);
         }
     }
 
