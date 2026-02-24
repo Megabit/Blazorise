@@ -1051,6 +1051,16 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ProgressBarWidth( int width ) => null;
 
+    public override string PageProgress() => "b-page-progress";
+
+    public override string PageProgressActive( bool visible ) => visible ? "b-page-progress-active" : null;
+
+    public override string PageProgressIndicator() => "b-page-progress-indicator";
+
+    public override string PageProgressIndicatorColor( Color color ) => color.IsNotNullOrDefault() ? $"b-page-progress-indicator-{ToColor( color )}" : null;
+
+    public override string PageProgressIndicatorIndeterminate( bool indeterminate ) => indeterminate ? "b-page-progress-indicator-indeterminate" : null;
+
     #endregion
 
     #region Chart

@@ -1116,6 +1116,16 @@ public class MaterialClassProvider : ClassProvider
 
     public override string ProgressBarWidth( int width ) => null;
 
+    public override string PageProgress() => "mui-page-progress";
+
+    public override string PageProgressActive( bool visible ) => visible ? "mui-page-progress-active" : null;
+
+    public override string PageProgressIndicator() => "mui-page-progress-indicator";
+
+    public override string PageProgressIndicatorColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-page-progress-indicator-{ToColor( color )}" : null;
+
+    public override string PageProgressIndicatorIndeterminate( bool indeterminate ) => indeterminate ? "mui-page-progress-indicator-indeterminate" : null;
+
     #endregion
 
     #region Chart

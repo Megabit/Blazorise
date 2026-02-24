@@ -965,6 +965,16 @@ class EmptyClassProvider : IClassProvider
 
     public string ProgressBarWidth( int width ) => null;
 
+    public string PageProgress() => null;
+
+    public string PageProgressActive( bool visible ) => null;
+
+    public string PageProgressIndicator() => null;
+
+    public string PageProgressIndicatorColor( Color color ) => null;
+
+    public string PageProgressIndicatorIndeterminate( bool indeterminate ) => null;
+
     #endregion
 
     #region Chart

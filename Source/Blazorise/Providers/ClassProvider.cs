@@ -962,6 +962,16 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ProgressBarWidth( int width );
 
+    public abstract string PageProgress();
+
+    public abstract string PageProgressActive( bool visible );
+
+    public abstract string PageProgressIndicator();
+
+    public abstract string PageProgressIndicatorColor( Color color );
+
+    public abstract string PageProgressIndicatorIndeterminate( bool indeterminate );
+
     #endregion
 
     #region Chart

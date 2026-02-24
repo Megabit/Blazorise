@@ -960,6 +960,16 @@ public interface IClassProvider
 
     string ProgressBarWidth( int width );
 
+    string PageProgress();
+
+    string PageProgressActive( bool visible );
+
+    string PageProgressIndicator();
+
+    string PageProgressIndicatorColor( Color color );
+
+    string PageProgressIndicatorIndeterminate( bool indeterminate );
+
     #endregion
 
     #region Chart

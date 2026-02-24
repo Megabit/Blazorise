@@ -225,3 +225,100 @@
         transform: translateX(250%);
     }
 }
+
+.mui-page-progress {
+    --mui-page-progress-height: 0.25rem;
+    display: none;
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: 100%;
+    block-size: var(--mui-page-progress-height);
+    overflow: hidden;
+    pointer-events: none;
+    z-index: var(--mui-zindex-fixed);
+    background-color: color-mix(in srgb, var(--mui-primary) 14%, var(--mui-surface-variant));
+}
+
+.mui-page-progress.mui-page-progress-active {
+    display: block;
+}
+
+.mui-page-progress-indicator {
+    width: 0;
+    height: 100%;
+    background-color: var(--mui-primary);
+    transition: width var(--mui-duration-normal) var(--mui-curve-decelerate-mid);
+    will-change: width, transform;
+}
+
+.mui-page-progress-indicator-indeterminate {
+    width: 30%;
+    transition: none;
+    animation: mui-page-progress-indeterminate 1.5s var(--mui-curve-easy-ease) infinite;
+}
+
+.mui-page-progress-indicator-primary {
+    background-color: var(--mui-primary);
+}
+
+.mui-page-progress-indicator-secondary {
+    background-color: var(--mui-secondary);
+}
+
+.mui-page-progress-indicator-tertiary {
+    background-color: var(--mui-tertiary);
+}
+
+.mui-page-progress-indicator-error,
+.mui-page-progress-indicator-danger {
+    background-color: var(--mui-error);
+}
+
+.mui-page-progress-indicator-success {
+    background-color: var(--mui-success);
+}
+
+.mui-page-progress-indicator-warning {
+    background-color: var(--mui-warning);
+}
+
+.mui-page-progress-indicator-info {
+    background-color: var(--mui-info);
+}
+
+.mui-page-progress-indicator-light {
+    background-color: var(--mui-light);
+}
+
+.mui-page-progress-indicator-dark {
+    background-color: var(--mui-dark);
+}
+
+.mui-page-progress-indicator-link {
+    background-color: var(--mui-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mui-page-progress-indicator {
+        transition: none;
+    }
+
+    .mui-page-progress-indicator-indeterminate {
+        animation: none;
+    }
+}
+
+@keyframes mui-page-progress-indeterminate {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    50% {
+        transform: translateX(50%);
+    }
+
+    100% {
+        transform: translateX(250%);
+    }
+}
