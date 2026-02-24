@@ -123,12 +123,27 @@ textarea.mui-input:not([rows]) {
 }
 
 .mui-select {
+    --mui-select-chevron-size: 0.3rem;
+    --mui-select-chevron-half: calc(var(--mui-select-chevron-size) / 2);
+    --mui-select-chevron-offset: 1rem;
     user-select: none;
     cursor: pointer;
 
     &:not([multiple]):not([size]),
     &:not([multiple])[size="1"] {
         block-size: var(--mui-input-size);
+        padding-inline-end: calc(var(--mui-select-chevron-offset) + var(--mui-select-chevron-size) + 0.75rem);
+        background-image: linear-gradient(45deg, transparent 50%, var(--mui-on-surface-variant) 50%), linear-gradient(-45deg, transparent 50%, var(--mui-on-surface-variant) 50%);
+        background-position: right calc(var(--mui-select-chevron-offset) + var(--mui-select-chevron-half)) center, right calc(var(--mui-select-chevron-offset) - var(--mui-select-chevron-half)) center;
+        background-size: var(--mui-select-chevron-size) var(--mui-select-chevron-size);
+        background-repeat: no-repeat;
+        background-origin: border-box;
+    }
+
+    &:not([multiple]):not([size]):focus,
+    &:not([multiple])[size="1"]:focus {
+        padding-inline-start: 0.875rem;
+        padding-inline-end: calc(var(--mui-select-chevron-offset) + var(--mui-select-chevron-size) + 0.75rem);
     }
 }
 
@@ -140,6 +155,11 @@ textarea.mui-input:not([rows]) {
 .mui-select[multiple]:focus,
 .mui-select[size]:not([size="1"]):focus {
     padding-block: 0;
+}
+
+[dir=rtl] .mui-select:not([multiple]):not([size]),
+[dir=rtl] .mui-select:not([multiple])[size="1"] {
+    background-position: left calc(var(--mui-select-chevron-offset) + var(--mui-select-chevron-half)) center, left calc(var(--mui-select-chevron-offset) - var(--mui-select-chevron-half)) center;
 }
 
 :is(.mui-input, .mui-select).is-valid {
