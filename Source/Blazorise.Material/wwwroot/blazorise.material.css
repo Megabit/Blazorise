@@ -2539,7 +2539,9 @@ body :is(:hover, :focus)::-webkit-scrollbar-thumb {
   text-decoration: underline;
 }
 .mui-button-block {
+  box-sizing: border-box;
   inline-size: 100%;
+  max-inline-size: 100%;
 }
 .mui-button-disabled, .mui-button[disabled] {
   opacity: 0.5;

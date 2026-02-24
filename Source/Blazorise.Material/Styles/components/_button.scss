@@ -141,7 +141,9 @@
     }
 
     &-block {
+        box-sizing: border-box;
         inline-size: 100%;
+        max-inline-size: 100%;
     }
 
     &-disabled,
