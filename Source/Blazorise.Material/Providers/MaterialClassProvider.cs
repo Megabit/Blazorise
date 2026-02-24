@@ -246,19 +246,19 @@ public class MaterialClassProvider : ClassProvider
 
     #region Rating
 
-    public override string Rating() => "rating";
+    public override string Rating() => "mui-rating";
 
-    public override string RatingDisabled( bool disabled ) => disabled ? "rating-disabled" : null;
+    public override string RatingDisabled( bool disabled ) => disabled ? "mui-rating-disabled" : null;
 
-    public override string RatingReadonly( bool @readonly ) => @readonly ? "rating-readonly" : null;
+    public override string RatingReadonly( bool @readonly ) => @readonly ? "mui-rating-readonly" : null;
 
-    public override string RatingItem() => "rating-item";
+    public override string RatingItem() => "mui-rating-item";
 
-    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"rating-item-{ToColor( color )}" : null;
+    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"mui-rating-item-{ToColor( color )}" : null;
 
-    public override string RatingItemSelected( bool selected ) => null;
+    public override string RatingItemSelected( bool selected ) => selected ? "mui-rating-item-selected" : null;
 
-    public override string RatingItemHovered( bool hover ) => hover ? "rating-item-hover" : null;
+    public override string RatingItemHovered( bool hover ) => hover ? "mui-rating-item-hover" : null;
 
     #endregion
 

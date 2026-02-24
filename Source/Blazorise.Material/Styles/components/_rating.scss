@@ -1,0 +1,74 @@
+.mui-rating {
+    --mui-rating-size: 1.625rem;
+    --mui-rating-gap: 0.25rem;
+    --mui-rating-color: var(--mui-warning);
+    --mui-rating-hover-color: color-mix(in srgb, var(--mui-rating-color) 82%, var(--mui-surface));
+    --mui-rating-inactive-color: color-mix(in srgb, var(--mui-on-surface-variant) 76%, transparent);
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: var(--mui-rating-gap);
+    line-height: 1;
+    color: var(--mui-rating-inactive-color);
+}
+
+.mui-rating:not(.mui-rating-disabled):not(.mui-rating-readonly) {
+    .mui-rating-item {
+        cursor: pointer;
+    }
+}
+
+.mui-rating.mui-rating-disabled {
+    opacity: 0.38;
+}
+
+.mui-rating.mui-rating-readonly {
+    .mui-rating-item {
+        cursor: default;
+    }
+}
+
+.mui-rating-item {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: var(--mui-rating-size);
+    min-block-size: var(--mui-rating-size);
+    color: var(--mui-rating-inactive-color);
+    transition: color var(--mui-duration-fast), transform var(--mui-duration-fast);
+
+    > i {
+        font-size: var(--mui-rating-size);
+        line-height: 1;
+        pointer-events: none;
+    }
+}
+
+.mui-rating:not(.mui-rating-disabled):not(.mui-rating-readonly) .mui-rating-item:hover {
+    transform: scale(1.08);
+}
+
+.mui-rating:not(.mui-rating-disabled):not(.mui-rating-readonly) .mui-rating-item:active {
+    transform: scale(0.94);
+}
+
+.mui-rating-item.mui-rating-item-selected {
+    color: var(--mui-rating-color);
+}
+
+.mui-rating-item.mui-rating-item-hover {
+    color: var(--mui-rating-hover-color);
+}
+
+@each $variant in $theme-variants {
+    .mui-rating-item-#{$variant} {
+        --mui-rating-color: var(--mui-#{$variant});
+        --mui-rating-hover-color: color-mix(in srgb, var(--mui-#{$variant}) 82%, var(--mui-surface));
+    }
+}
+
+.mui-rating-item-link {
+    --mui-rating-color: var(--mui-primary);
+    --mui-rating-hover-color: color-mix(in srgb, var(--mui-primary) 82%, var(--mui-surface));
+}

@@ -4761,6 +4761,114 @@ body.modal-open {
     transform: translateX(250%);
   }
 }
+.mui-rating {
+  --mui-rating-size: 1.625rem;
+  --mui-rating-gap: 0.25rem;
+  --mui-rating-color: var(--mui-warning);
+  --mui-rating-hover-color: color-mix(in srgb, var(--mui-rating-color) 82%, var(--mui-surface));
+  --mui-rating-inactive-color: color-mix(in srgb, var(--mui-on-surface-variant) 76%, transparent);
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: var(--mui-rating-gap);
+  line-height: 1;
+  color: var(--mui-rating-inactive-color);
+}
+
+.mui-rating:not(.mui-rating-disabled):not(.mui-rating-readonly) .mui-rating-item {
+  cursor: pointer;
+}
+
+.mui-rating.mui-rating-disabled {
+  opacity: 0.38;
+}
+
+.mui-rating.mui-rating-readonly .mui-rating-item {
+  cursor: default;
+}
+
+.mui-rating-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--mui-rating-size);
+  min-block-size: var(--mui-rating-size);
+  color: var(--mui-rating-inactive-color);
+  transition: color var(--mui-duration-fast), transform var(--mui-duration-fast);
+}
+.mui-rating-item > i {
+  font-size: var(--mui-rating-size);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.mui-rating:not(.mui-rating-disabled):not(.mui-rating-readonly) .mui-rating-item:hover {
+  transform: scale(1.08);
+}
+
+.mui-rating:not(.mui-rating-disabled):not(.mui-rating-readonly) .mui-rating-item:active {
+  transform: scale(0.94);
+}
+
+.mui-rating-item.mui-rating-item-selected {
+  color: var(--mui-rating-color);
+}
+
+.mui-rating-item.mui-rating-item-hover {
+  color: var(--mui-rating-hover-color);
+}
+
+.mui-rating-item-primary {
+  --mui-rating-color: var(--mui-primary);
+  --mui-rating-hover-color: color-mix(in srgb, var(--mui-primary) 82%, var(--mui-surface));
+}
+
+.mui-rating-item-secondary {
+  --mui-rating-color: var(--mui-secondary);
+  --mui-rating-hover-color: color-mix(in srgb, var(--mui-secondary) 82%, var(--mui-surface));
+}
+
+.mui-rating-item-tertiary {
+  --mui-rating-color: var(--mui-tertiary);
+  --mui-rating-hover-color: color-mix(in srgb, var(--mui-tertiary) 82%, var(--mui-surface));
+}
+
+.mui-rating-item-error {
+  --mui-rating-color: var(--mui-error);
+  --mui-rating-hover-color: color-mix(in srgb, var(--mui-error) 82%, var(--mui-surface));
+}
+
+.mui-rating-item-success {
+  --mui-rating-color: var(--mui-success);
+  --mui-rating-hover-color: color-mix(in srgb, var(--mui-success) 82%, var(--mui-surface));
+}
+
+.mui-rating-item-warning {
+  --mui-rating-color: var(--mui-warning);
+  --mui-rating-hover-color: color-mix(in srgb, var(--mui-warning) 82%, var(--mui-surface));
+}
+
+.mui-rating-item-info {
+  --mui-rating-color: var(--mui-info);
+  --mui-rating-hover-color: color-mix(in srgb, var(--mui-info) 82%, var(--mui-surface));
+}
+
+.mui-rating-item-light {
+  --mui-rating-color: var(--mui-light);
+  --mui-rating-hover-color: color-mix(in srgb, var(--mui-light) 82%, var(--mui-surface));
+}
+
+.mui-rating-item-dark {
+  --mui-rating-color: var(--mui-dark);
+  --mui-rating-hover-color: color-mix(in srgb, var(--mui-dark) 82%, var(--mui-surface));
+}
+
+.mui-rating-item-link {
+  --mui-rating-color: var(--mui-primary);
+  --mui-rating-hover-color: color-mix(in srgb, var(--mui-primary) 82%, var(--mui-surface));
+}
+
 .mui-check,
 .mui-radio,
 .mui-switch {
