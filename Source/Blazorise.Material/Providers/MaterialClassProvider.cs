@@ -626,9 +626,9 @@ public class MaterialClassProvider : ClassProvider
 
     public override string JumbotronBackground( Background background ) => background.IsNotNullOrDefault() ? $"jumbotron-{ToBackground( background )}" : null;
 
-    public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"display-{ToJumbotronTitleSize( jumbotronTitleSize )}";
+    public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"mui-display-{ToJumbotronTitleSize( jumbotronTitleSize )}";
 
-    public override string JumbotronSubtitle() => "lead";
+    public override string JumbotronSubtitle() => "mui-lead";
 
     #endregion
 
@@ -664,7 +664,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string CardLink() => "mui-card-link";
 
-    public override string CardLinkUnstyled( bool unstyled ) => unstyled ? "link-unstyled" : null;
+    public override string CardLinkUnstyled( bool unstyled ) => unstyled ? "mui-link-unstyled" : null;
 
     public override string CardLinkActive( bool active ) => LinkActive( active );
 
@@ -1279,41 +1279,41 @@ public class MaterialClassProvider : ClassProvider
 
     #region Code
 
-    public override string Code() => null;
+    public override string Code() => "mui-code";
 
     #endregion
 
     #region Heading
 
-    public override string HeadingSize( HeadingSize headingSize ) => $"h{ToHeadingSize( headingSize )}";
+    public override string HeadingSize( HeadingSize headingSize ) => $"mui-heading-{ToHeadingSize( headingSize )}";
 
     #endregion
 
     #region DisplayHeading
 
-    public override string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => $"display-{ToDisplayHeadingSize( displayHeadingSize )}";
+    public override string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => $"mui-display-{ToDisplayHeadingSize( displayHeadingSize )}";
 
     #endregion
 
     #region Lead
 
-    public override string Lead() => "lead";
+    public override string Lead() => "mui-lead";
 
     #endregion
 
     #region Paragraph
 
-    public override string Paragraph() => null;
+    public override string Paragraph() => "mui-paragraph";
 
-    public override string ParagraphColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
+    public override string ParagraphColor( TextColor textColor ) => $"mui-text-{ToTextColor( textColor )}";
 
     #endregion
 
     #region Blockquote
 
-    public override string Blockquote() => "blockquote";
+    public override string Blockquote() => "mui-blockquote";
 
-    public override string BlockquoteFooter() => "blockquote-footer";
+    public override string BlockquoteFooter() => "mui-blockquote-footer";
 
     #endregion
 
@@ -1391,11 +1391,11 @@ public class MaterialClassProvider : ClassProvider
 
     public override string LinkActive( bool active ) => active ? Active() : null;
 
-    public override string LinkUnstyled( bool unstyled ) => unstyled ? "link-unstyled" : null;
+    public override string LinkUnstyled( bool unstyled ) => unstyled ? "mui-link-unstyled" : null;
 
     public override string LinkStretched( bool stretched ) => stretched ? "mui-stretched-link" : null;
 
-    public override string LinkDisabled( bool disabled ) => disabled ? "link-disabled" : null;
+    public override string LinkDisabled( bool disabled ) => disabled ? "mui-link-disabled" : null;
 
     #endregion
 

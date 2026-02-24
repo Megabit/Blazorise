@@ -1,4 +1,5 @@
-﻿:root {
+﻿@charset "UTF-8";
+:root {
   --mui-primary: #4355b9;
   --mui-primary-hover: #3b4ca6;
   --mui-on-primary: #ffffff;
@@ -208,12 +209,24 @@ button,
 .mui-chip,
 .button {
   cursor: pointer;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
   border: none;
   font-family: inherit;
   outline: inherit;
+}
+
+a {
+  display: inline;
+  align-items: initial;
+  justify-content: initial;
+}
+
+button,
+.mui-button,
+.mui-chip,
+.button {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
 }
 
@@ -3773,12 +3786,44 @@ textarea.mui-input:not([rows]) {
   margin-top: var(--b-bar-horizontal-height, 4rem);
 }
 
-a.link-unstyled {
+a:not(.mui-button, .button, .mui-chip, .chip, .mui-bar-link, .mui-bar-dropdown-item, .mui-bar-dropdown-toggle, .mui-dropdown-item, .mui-tab-link, .mui-pagination-link, .mui-breadcrumb-link, .mui-card-link, .mui-button-close) {
+  color: var(--mui-primary);
+  text-decoration: none;
+  line-height: inherit;
+  transition: color var(--mui-duration-fast), opacity var(--mui-duration-fast);
+}
+
+a:not(.mui-button, .button, .mui-chip, .chip, .mui-bar-link, .mui-bar-dropdown-item, .mui-bar-dropdown-toggle, .mui-dropdown-item, .mui-tab-link, .mui-pagination-link, .mui-breadcrumb-link, .mui-card-link, .mui-button-close):hover {
+  color: var(--mui-primary-hover);
+  text-decoration: none;
+}
+
+a:not(.mui-button, .button, .mui-chip, .chip, .mui-bar-link, .mui-bar-dropdown-item, .mui-bar-dropdown-toggle, .mui-dropdown-item, .mui-tab-link, .mui-pagination-link, .mui-breadcrumb-link, .mui-card-link, .mui-button-close):active,
+a:not(.mui-button, .button, .mui-chip, .chip, .mui-bar-link, .mui-bar-dropdown-item, .mui-bar-dropdown-toggle, .mui-dropdown-item, .mui-tab-link, .mui-pagination-link, .mui-breadcrumb-link, .mui-card-link, .mui-button-close).active {
+  color: var(--mui-primary-hover);
+  text-decoration: none;
+  opacity: 0.92;
+}
+
+a:not(.mui-button, .button, .mui-chip, .chip, .mui-bar-link, .mui-bar-dropdown-item, .mui-bar-dropdown-toggle, .mui-dropdown-item, .mui-tab-link, .mui-pagination-link, .mui-breadcrumb-link, .mui-card-link, .mui-button-close):visited {
+  color: var(--mui-primary);
+}
+
+a:not(.mui-button, .button, .mui-chip, .chip, .mui-bar-link, .mui-bar-dropdown-item, .mui-bar-dropdown-toggle, .mui-dropdown-item, .mui-tab-link, .mui-pagination-link, .mui-breadcrumb-link, .mui-card-link, .mui-button-close):focus-visible {
+  outline: 0.125rem solid color-mix(in srgb, var(--mui-primary) 56%, transparent);
+  outline-offset: 0.125rem;
+  border-radius: 0.125rem;
+}
+
+a:is(.mui-link-unstyled, .link-unstyled) {
   text-decoration: none;
   color: inherit;
 }
-a.link-disabled[aria-disabled=true] {
+
+a:is(.mui-link-disabled, .link-disabled)[aria-disabled=true] {
   pointer-events: none;
+  color: var(--mui-on-surface-variant);
+  text-decoration: none;
   opacity: 0.65;
 }
 
@@ -18933,43 +18978,106 @@ span.flatpickr-weekday {
 }
 
 h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+.h1,
+.mui-heading-1 {
+  font-size: 3.5625rem;
   font-weight: 400;
   display: block;
-  align-items: center;
   line-height: normal;
 }
 
-h1 {
-  font-size: 3.5625rem;
-}
-
-h2 {
+h2,
+.h2,
+.mui-heading-2 {
   font-size: 2.8125rem;
+  font-weight: 400;
+  display: block;
+  line-height: normal;
 }
 
-h3 {
+h3,
+.h3,
+.mui-heading-3 {
   font-size: 2.25rem;
+  font-weight: 400;
+  display: block;
+  line-height: normal;
 }
 
-h4 {
+h4,
+.h4,
+.mui-heading-4 {
   font-size: 2rem;
+  font-weight: 400;
+  display: block;
+  line-height: normal;
 }
 
-h5 {
+h5,
+.h5,
+.mui-heading-5 {
   font-size: 1.75rem;
+  font-weight: 400;
+  display: block;
+  line-height: normal;
 }
 
-h6 {
+h6,
+.h6,
+.mui-heading-6 {
   font-size: 1.5rem;
+  font-weight: 400;
+  display: block;
+  line-height: normal;
 }
 
-p {
+.display-1,
+.mui-display-1 {
+  font-size: 5rem;
+  font-weight: 400;
+  display: block;
+  line-height: normal;
+  letter-spacing: -0.01em;
+}
+
+.display-2,
+.mui-display-2 {
+  font-size: 4.5rem;
+  font-weight: 400;
+  display: block;
+  line-height: normal;
+  letter-spacing: -0.01em;
+}
+
+.display-3,
+.mui-display-3 {
+  font-size: 4rem;
+  font-weight: 400;
+  display: block;
+  line-height: normal;
+  letter-spacing: -0.01em;
+}
+
+.display-4,
+.mui-display-4 {
+  font-size: 3.5rem;
+  font-weight: 400;
+  display: block;
+  line-height: normal;
+  letter-spacing: -0.01em;
+}
+
+p,
+.mui-paragraph {
   margin: 0.5rem 0;
+}
+
+.lead,
+.mui-lead {
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.75rem;
+  letter-spacing: 0.0125rem;
 }
 
 pre {
@@ -18981,14 +19089,17 @@ pre {
   font-family: inherit;
 }
 
-blockquote {
+blockquote,
+.blockquote,
+.mui-blockquote {
   border-radius: 0;
   padding: 1rem;
   border-inline-start: 0.25rem solid var(--mui-primary);
   font-family: inherit;
 }
 
-code {
+code,
+.mui-code {
   border-radius: 0;
   background-color: var(--mui-surface-container);
   white-space: pre-wrap;
@@ -18996,17 +19107,35 @@ code {
 }
 
 pre > code,
-blockquote > code {
+pre > .mui-code,
+blockquote > code,
+blockquote > .mui-code,
+.mui-blockquote > code,
+.mui-blockquote > .mui-code {
   padding: 0;
 }
 
-.scroll > code {
+.scroll > code,
+.scroll > .mui-code {
   white-space: pre;
 }
 
-pre:has(> code) {
+pre:has(> code),
+pre:has(> .mui-code) {
   direction: ltr;
   text-align: start;
+}
+
+.blockquote-footer,
+.mui-blockquote-footer {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: var(--mui-font-size-sm);
+  color: var(--mui-on-surface-variant);
+}
+.blockquote-footer::before,
+.mui-blockquote-footer::before {
+  content: "— ";
 }
 
 .text-primary {

@@ -40,12 +40,24 @@ button,
 .mui-chip,
 .button {
     cursor: pointer;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
     border: none;
     font-family: inherit;
     outline: inherit;
+}
+
+a {
+    display: inline;
+    align-items: initial;
+    justify-content: initial;
+}
+
+button,
+.mui-button,
+.mui-chip,
+.button {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
 }
 

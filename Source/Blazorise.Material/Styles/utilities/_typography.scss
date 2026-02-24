@@ -1,41 +1,48 @@
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+$mui-heading-sizes: ( 1: 3.5625rem, 2: 2.8125rem, 3: 2.25rem, 4: 2rem, 5: 1.75rem, 6: 1.5rem ) !default;
+
+$mui-display-sizes: ( 1: 5rem, 2: 4.5rem, 3: 4rem, 4: 3.5rem ) !default;
+
+@mixin mui-typography-heading-size($size) {
+    font-size: $size;
     font-weight: 400;
     display: block;
-    align-items: center;
     line-height: normal;
 }
 
-h1 {
-    font-size: 3.5625rem;
+@mixin mui-typography-display-size($size) {
+    font-size: $size;
+    font-weight: 400;
+    display: block;
+    line-height: normal;
+    letter-spacing: -0.01em;
 }
 
-h2 {
-    font-size: 2.8125rem;
+@each $level, $size in $mui-heading-sizes {
+    h#{$level},
+    .h#{$level},
+    .mui-heading-#{$level} {
+        @include mui-typography-heading-size($size);
+    }
 }
 
-h3 {
-    font-size: 2.25rem;
+@each $level, $size in $mui-display-sizes {
+    .display-#{$level},
+    .mui-display-#{$level} {
+        @include mui-typography-display-size($size);
+    }
 }
 
-h4 {
-    font-size: 2rem;
-}
-
-h5 {
-    font-size: 1.75rem;
-}
-
-h6 {
-    font-size: 1.5rem;
-}
-
-p {
+p,
+.mui-paragraph {
     margin: 0.5rem 0;
+}
+
+.lead,
+.mui-lead {
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1.75rem;
+    letter-spacing: 0.0125rem;
 }
 
 pre {
@@ -47,14 +54,17 @@ pre {
     font-family: inherit;
 }
 
-blockquote {
+blockquote,
+.blockquote,
+.mui-blockquote {
     border-radius: 0;
     padding: 1rem;
     border-inline-start: 0.25rem solid var(--mui-primary);
     font-family: inherit;
 }
 
-code {
+code,
+.mui-code {
     border-radius: 0;
     background-color: var(--mui-surface-container);
     white-space: pre-wrap;
@@ -62,17 +72,35 @@ code {
 }
 
 pre > code,
-blockquote > code {
+pre > .mui-code,
+blockquote > code,
+blockquote > .mui-code,
+.mui-blockquote > code,
+.mui-blockquote > .mui-code {
     padding: 0;
 }
 
-.scroll > code {
+.scroll > code,
+.scroll > .mui-code {
     white-space: pre;
 }
 
-pre:has(> code) {
+pre:has(> code),
+pre:has(> .mui-code) {
     direction: ltr;
     text-align: start;
+}
+
+.blockquote-footer,
+.mui-blockquote-footer {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: var(--mui-font-size-sm);
+    color: var(--mui-on-surface-variant);
+
+    &::before {
+        content: "\2014 \00a0";
+    }
 }
 
 @each $color-name, $color-value in $theme-colors-text-emphasis {
