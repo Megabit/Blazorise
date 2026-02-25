@@ -98,9 +98,18 @@
         outline-offset: -0.125rem;
     }
 
-    > .mui-list-item:not(:has(> :not(.mui-ripple))) {
+    > .mui-list-item:not(:has(> :not(.mui-ripple, .mui-ripple-surface, a:only-child, details))) {
         display: flex;
         align-items: center;
+    }
+
+    > .mui-list-item:has(> :not(.mui-ripple, .mui-ripple-surface, a:only-child, details)) {
+        display: block;
+        min-block-size: auto;
+    }
+
+    > .mui-list-item:has(> :not(.mui-ripple, .mui-ripple-surface, a:only-child, details)) > .mui-display-inline-flex {
+        display: flex !important;
     }
 
     > .mui-list-item:not(:last-child)::before,

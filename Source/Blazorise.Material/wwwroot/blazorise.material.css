@@ -4159,9 +4159,16 @@ a:is(.mui-link-disabled, .link-disabled)[aria-disabled=true] {
   outline: 0.125rem solid var(--mui-primary);
   outline-offset: -0.125rem;
 }
-.mui-list > .mui-list-item:not(:has(> :not(.mui-ripple))) {
+.mui-list > .mui-list-item:not(:has(> :not(.mui-ripple, .mui-ripple-surface, a:only-child, details))) {
   display: flex;
   align-items: center;
+}
+.mui-list > .mui-list-item:has(> :not(.mui-ripple, .mui-ripple-surface, a:only-child, details)) {
+  display: block;
+  min-block-size: auto;
+}
+.mui-list > .mui-list-item:has(> :not(.mui-ripple, .mui-ripple-surface, a:only-child, details)) > .mui-display-inline-flex {
+  display: flex !important;
 }
 .mui-list > .mui-list-item:not(:last-child)::before,
 .mui-list > .mui-list-item > details[open] > summary::before {
