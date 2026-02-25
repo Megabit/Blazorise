@@ -149,12 +149,30 @@ textarea.mui-input:not([rows]) {
 
 .mui-select[multiple],
 .mui-select[size]:not([size="1"]) {
+    display: block;
+    align-items: initial;
+    block-size: auto;
+    min-block-size: var(--mui-input-size);
+    padding-inline: 0.75rem;
     padding-block: 0.0625rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    white-space: normal;
+    line-height: 1.25rem;
+    cursor: default;
+    appearance: auto;
+    -webkit-appearance: auto;
+}
+
+.mui-select[multiple] > option,
+.mui-select[size]:not([size="1"]) > option {
+    white-space: normal;
 }
 
 .mui-select[multiple]:focus,
 .mui-select[size]:not([size="1"]):focus {
     padding-block: 0;
+    padding-inline: calc(0.75rem - 0.0625rem);
 }
 
 [dir=rtl] .mui-select:not([multiple]):not([size]),
