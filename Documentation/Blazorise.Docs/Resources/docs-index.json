@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-20T10:37:59.8994378Z",
+  "generatedUtc": "2026-02-25T07:51:45.5081625Z",
   "pages": [
     {
       "route": "/docs",
@@ -8712,51 +8712,51 @@
     },
     {
       "route": "/docs/usage/material",
-      "title": "Blazorise Material Usage",
-      "description": "Learn all the steps on how to quickly install and setup Blazorise for Material CSS framework and Material icons.",
+      "title": "Blazorise Material 3 Usage Guide",
+      "description": "Install and configure Blazorise Material 3 for Blazor WebAssembly or Server. Learn package setup, static files, service registration, and Material token customization.",
       "pagePath": "Pages/Docs/Guides/Material/MaterialGuidePage.razor",
       "examples": [
         {
           "code": "MaterialGuideNuget1Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideNuget1Example.snippet",
-          "content": "Install-Package Blazorise.Material",
-          "description": "First step is to install a Material provider for Blazorise:"
+          "content": "dotnet add package Blazorise.Material",
+          "description": "1. Install the Material 3 provider:"
         },
         {
           "code": "MaterialGuideNuget2Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideNuget2Example.snippet",
-          "content": "Install-Package Blazorise.Icons.Material",
-          "description": "You also need to install the icon package:"
-        },
-        {
-          "code": "MaterialGuideFileStructureExample",
-          "kind": "snippet",
-          "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideFileStructureExample.snippet",
-          "content": "blazorproject.client/\r\n└── wwwroot/\r\n    ├── css/\r\n    └── js/",
-          "description": "Material CSS is not available through the CDN so you must download it yourself from djibe web page. After the download is finished you must extract the CSS and JS to the wwwroot folder inside of you Blazor project."
+          "content": "dotnet add package Blazorise.Icons.Material",
+          "description": "2. Install the Material icons package:"
         },
         {
           "code": "MaterialGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideSourceFilesExample.snippet",
-          "content": "<!-- Material CSS -->\r\n<link href=\"css/material.min.css\" rel=\"stylesheet\">\r\n\r\n<!-- Add Material font (Roboto) and Material icon as needed -->\r\n<link href=\"https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i|Roboto+Mono:300,400,700|Roboto+Slab:300,400,700\" rel=\"stylesheet\">\r\n<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Material/blazorise.material.css?v=2.0.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.0.0.0\" rel=\"stylesheet\" />\r\n\r\n<!-- Optional JavaScript -->\r\n<!-- These are the standard js dependencies this provider typically dependes upon, but Blazorise deems these as optional as Blazorise Components should work correctly without these  -->\r\n<!-- jQuery first, then Popper.js, then Material JS -->\r\n<script src=\"https://code.jquery.com/jquery-3.5.0.slim.min.js\"></script>\r\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js\"></script>\r\n<script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js\"></script>\r\n\r\n<!-- Mandatory JavaScript -->\r\n<script src=\"js/material.min.js\"></script>\r\n<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.0.0.0\"></script>",
-          "description": "Add these lines inside the head section:"
+          "content": "<!-- In <head> -->\r\n<!-- Optional: Material icons webfont (recommended when using Blazorise.Icons.Material) -->\r\n<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Material/blazorise.material.css?v=2.0.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.0.0.0\" rel=\"stylesheet\" />\r\n\r\n<!-- Before </body> (before the Blazor framework script) -->\r\n<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.0.0.0\"></script>",
+          "description": "Add these lines inside the head section, and place the script near the end of body before the Blazor script:"
         },
         {
           "code": "MaterialGuideUsingExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideUsingExample.snippet",
           "content": "@using Blazorise",
-          "description": "In your main _Imports.razor add:"
+          "description": "4. In your main _Imports.razor add:"
         },
         {
           "code": "MaterialGuideRegistrationExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideRegistrationExample.snippet",
           "content": "using Blazorise;\r\nusing Blazorise.Material;\r\nusing Blazorise.Icons.Material;\r\n\r\nbuilder.Services\r\n    .AddBlazorise( options =>\r\n    {\r\n        options.Immediate = true;\r\n    } )\r\n    .AddMaterialProviders()\r\n    .AddMaterialIcons();",
-          "description": "Add the following lines to the relevant sections of Program.cs ."
+          "description": "5. Register Blazorise services in Program.cs :"
+        },
+        {
+          "code": "MaterialGuideFileStructureExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideFileStructureExample.snippet",
+          "content": "/* wwwroot/app.css (load after Blazorise Material CSS) */\r\n:root {\r\n    --mui-primary: #6750a4;\r\n    --mui-on-primary: #ffffff;\r\n    --mui-primary-container: #eaddff;\r\n    --mui-on-primary-container: #21005d;\r\n    --mui-surface: #fffbff;\r\n    --mui-on-surface: #1c1b1f;\r\n    --mui-outline: #79747e;\r\n    --mui-spacing: 1rem;\r\n    --mui-font-family: \"Inter\", \"Roboto\", \"Helvetica Neue\", Arial, sans-serif;\r\n}\r\n\r\n[data-theme=\"dark\"] {\r\n    --mui-primary: #d0bcff;\r\n    --mui-on-primary: #381e72;\r\n    --mui-primary-container: #4f378b;\r\n    --mui-on-primary-container: #eaddff;\r\n    --mui-surface: #141218;\r\n    --mui-on-surface: #e6e1e6;\r\n    --mui-outline: #938f99;\r\n}",
+          "description": "Example token overrides for global and dark mode theming:"
         }
       ]
     },
