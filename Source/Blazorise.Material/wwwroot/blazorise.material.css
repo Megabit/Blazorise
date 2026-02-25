@@ -239,17 +239,30 @@ label {
   user-select: none;
 }
 
-body ::-webkit-scrollbar,
-body ::-webkit-scrollbar-thumb,
-body ::-webkit-scrollbar-button {
-  background: none;
+body * {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--mui-outline) 62%, transparent) transparent;
+}
+
+body ::-webkit-scrollbar {
+  background: transparent;
   inline-size: 0.4rem;
   block-size: 0.4rem;
 }
 
-body :is(:hover, :focus)::-webkit-scrollbar-thumb {
-  background: var(--mui-outline);
+body ::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--mui-outline) 62%, transparent);
   border-radius: 1rem;
+}
+
+body ::-webkit-scrollbar-button {
+  background: transparent;
+  inline-size: 0.4rem;
+  block-size: 0.4rem;
+}
+
+body :is(:hover, :focus, :focus-within)::-webkit-scrollbar-thumb {
+  background: var(--mui-outline);
 }
 
 :not(.mui-grid, .grid, nav, .mui-row, .row) > :not(progress.max) + :is(address, article, blockquote, code, fieldset, form, h1, h2, h3, h4, h5, h6, ol, p, pre, ul):not([class], [class*=mui-margin], [class*=margin], .right, .left, .top, .bottom) {
@@ -278,11 +291,6 @@ body {
   font-size: 0.875rem;
   line-height: 1.5rem;
   letter-spacing: 0.0313rem;
-}
-
-body :is(:hover, :focus)::-webkit-scrollbar-thumb {
-  background: var(--mui-outline);
-  border-radius: 1rem;
 }
 
 .mui-addons {
