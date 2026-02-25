@@ -70,35 +70,36 @@ label {
     user-select: none;
 }
 
-body * {
+$mui-scrollbar-scope: ':where(.mui-bar, .mui-bar-menu, .mui-bar-dropdown-menu, .mui-dropdown-menu, .mui-dropdown-menu-scrollable, .mui-modal, .mui-modal-body, .mui-offcanvas, .mui-offcanvas-body, .mui-list-group-scrollable, .mui-table-responsive, .mui-table-fixed-header, .mui-table-fixed-columns, .mui-layout-content, .b-layout-content, .mui-steps, .flatpickr-calendar, .flatpickr-time, [class*="mui-overflow-"])';
+
+#{$mui-scrollbar-scope} {
     scrollbar-width: thin;
     scrollbar-color: color-mix(in srgb, var(--mui-outline) 62%, transparent) transparent;
 }
 
-body ::-webkit-scrollbar {
+#{$mui-scrollbar-scope}::-webkit-scrollbar {
     background: transparent;
     inline-size: 0.4rem;
     block-size: 0.4rem;
 }
 
-body ::-webkit-scrollbar-thumb {
+#{$mui-scrollbar-scope}::-webkit-scrollbar-thumb {
     background: color-mix(in srgb, var(--mui-outline) 62%, transparent);
     border-radius: 1rem;
 }
 
-body ::-webkit-scrollbar-button {
+#{$mui-scrollbar-scope}::-webkit-scrollbar-button {
     background: transparent;
     inline-size: 0.4rem;
     block-size: 0.4rem;
 }
 
-body :is(:hover, :focus, :focus-within)::-webkit-scrollbar-thumb {
+#{$mui-scrollbar-scope}:is(:hover, :focus, :focus-within)::-webkit-scrollbar-thumb {
     background: var(--mui-outline);
 }
 
-// Keep auto vertical rhythm only for plain document-flow content.
-// Component/layout wrappers carry their own spacing and should not be affected here.
-:not(.mui-grid, .grid, nav, .mui-row, .row) > :not(progress.max) + :is(address, article, blockquote, code, fieldset, form, h1, h2, h3, h4, h5, h6, ol, p, pre, ul):not([class], [class*='mui-margin'], [class*='margin'], .right, .left, .top, .bottom) {
+// Keep auto vertical rhythm opt-in via .mui-flow/.flow containers.
+:is(.mui-flow, .flow) > :not(progress.max) + :is(address, article, blockquote, code, fieldset, form, h1, h2, h3, h4, h5, h6, ol, p, pre, ul):not([class], [class*='mui-margin'], [class*='margin'], .right, .left, .top, .bottom) {
     margin-block-start: 1rem;
 }
 

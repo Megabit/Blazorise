@@ -239,33 +239,33 @@ label {
   user-select: none;
 }
 
-body * {
+:where(.mui-bar, .mui-bar-menu, .mui-bar-dropdown-menu, .mui-dropdown-menu, .mui-dropdown-menu-scrollable, .mui-modal, .mui-modal-body, .mui-offcanvas, .mui-offcanvas-body, .mui-list-group-scrollable, .mui-table-responsive, .mui-table-fixed-header, .mui-table-fixed-columns, .mui-layout-content, .b-layout-content, .mui-steps, .flatpickr-calendar, .flatpickr-time, [class*=mui-overflow-]) {
   scrollbar-width: thin;
   scrollbar-color: color-mix(in srgb, var(--mui-outline) 62%, transparent) transparent;
 }
 
-body ::-webkit-scrollbar {
+:where(.mui-bar, .mui-bar-menu, .mui-bar-dropdown-menu, .mui-dropdown-menu, .mui-dropdown-menu-scrollable, .mui-modal, .mui-modal-body, .mui-offcanvas, .mui-offcanvas-body, .mui-list-group-scrollable, .mui-table-responsive, .mui-table-fixed-header, .mui-table-fixed-columns, .mui-layout-content, .b-layout-content, .mui-steps, .flatpickr-calendar, .flatpickr-time, [class*=mui-overflow-])::-webkit-scrollbar {
   background: transparent;
   inline-size: 0.4rem;
   block-size: 0.4rem;
 }
 
-body ::-webkit-scrollbar-thumb {
+:where(.mui-bar, .mui-bar-menu, .mui-bar-dropdown-menu, .mui-dropdown-menu, .mui-dropdown-menu-scrollable, .mui-modal, .mui-modal-body, .mui-offcanvas, .mui-offcanvas-body, .mui-list-group-scrollable, .mui-table-responsive, .mui-table-fixed-header, .mui-table-fixed-columns, .mui-layout-content, .b-layout-content, .mui-steps, .flatpickr-calendar, .flatpickr-time, [class*=mui-overflow-])::-webkit-scrollbar-thumb {
   background: color-mix(in srgb, var(--mui-outline) 62%, transparent);
   border-radius: 1rem;
 }
 
-body ::-webkit-scrollbar-button {
+:where(.mui-bar, .mui-bar-menu, .mui-bar-dropdown-menu, .mui-dropdown-menu, .mui-dropdown-menu-scrollable, .mui-modal, .mui-modal-body, .mui-offcanvas, .mui-offcanvas-body, .mui-list-group-scrollable, .mui-table-responsive, .mui-table-fixed-header, .mui-table-fixed-columns, .mui-layout-content, .b-layout-content, .mui-steps, .flatpickr-calendar, .flatpickr-time, [class*=mui-overflow-])::-webkit-scrollbar-button {
   background: transparent;
   inline-size: 0.4rem;
   block-size: 0.4rem;
 }
 
-body :is(:hover, :focus, :focus-within)::-webkit-scrollbar-thumb {
+:where(.mui-bar, .mui-bar-menu, .mui-bar-dropdown-menu, .mui-dropdown-menu, .mui-dropdown-menu-scrollable, .mui-modal, .mui-modal-body, .mui-offcanvas, .mui-offcanvas-body, .mui-list-group-scrollable, .mui-table-responsive, .mui-table-fixed-header, .mui-table-fixed-columns, .mui-layout-content, .b-layout-content, .mui-steps, .flatpickr-calendar, .flatpickr-time, [class*=mui-overflow-]):is(:hover, :focus, :focus-within)::-webkit-scrollbar-thumb {
   background: var(--mui-outline);
 }
 
-:not(.mui-grid, .grid, nav, .mui-row, .row) > :not(progress.max) + :is(address, article, blockquote, code, fieldset, form, h1, h2, h3, h4, h5, h6, ol, p, pre, ul):not([class], [class*=mui-margin], [class*=margin], .right, .left, .top, .bottom) {
+:is(.mui-flow, .flow) > :not(progress.max) + :is(address, article, blockquote, code, fieldset, form, h1, h2, h3, h4, h5, h6, ol, p, pre, ul):not([class], [class*=mui-margin], [class*=margin], .right, .left, .top, .bottom) {
   margin-block-start: 1rem;
 }
 
@@ -3361,8 +3361,7 @@ body {
   flex-wrap: wrap;
 }
 
-.mui-field.mui-field-horizontal:has(> .mui-column),
-.mui-field.mui-field-horizontal:has(> [class*=mui-column-]) {
+.mui-field.mui-field-horizontal:has(> :is(.mui-column, [class*=mui-column-])) {
   margin-right: calc(1rem * -0.5);
   margin-left: calc(1rem * -0.5);
 }
@@ -3454,71 +3453,55 @@ body {
   margin-inline-start: 0.25rem;
 }
 
-.mui-field:has(> :disabled),
-.mui-field:has(> .mui-field-body > :disabled) {
+.mui-field:has(> :disabled, > .mui-field-body > :disabled) {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.mui-field.mui-field-floating:has(> .mui-field-label:not(.mui-field-label-horizontal)) > :is(.mui-input, .mui-select),
-.mui-field.mui-field-floating:has(> .mui-field-label:not(.mui-field-label-horizontal)) > .mui-field-body > :is(.mui-input, .mui-select) {
+.mui-field.mui-field-floating > .mui-field-label:not(.mui-field-label-horizontal) ~ :is(.mui-input, .mui-select),
+.mui-field.mui-field-floating > .mui-field-label:not(.mui-field-label-horizontal) ~ .mui-field-body > :is(.mui-input, .mui-select) {
   padding-block-start: 1rem;
 }
 
-.mui-field.mui-field-floating:has(> .mui-field-label:not(.mui-field-label-horizontal)) > :is(.mui-input, .mui-select)::placeholder,
-.mui-field.mui-field-floating:has(> .mui-field-label:not(.mui-field-label-horizontal)) > .mui-field-body > :is(.mui-input, .mui-select)::placeholder,
-.mui-field.mui-field-floating:has(> .mui-field-label:not(.mui-field-label-horizontal)) > textarea.mui-input::placeholder,
-.mui-field.mui-field-floating:has(> .mui-field-label:not(.mui-field-label-horizontal)) > .mui-field-body > textarea.mui-input::placeholder {
+.mui-field.mui-field-floating > .mui-field-label:not(.mui-field-label-horizontal) ~ :is(.mui-input, .mui-select)::placeholder,
+.mui-field.mui-field-floating > .mui-field-label:not(.mui-field-label-horizontal) ~ .mui-field-body > :is(.mui-input, .mui-select)::placeholder,
+.mui-field.mui-field-floating > .mui-field-label:not(.mui-field-label-horizontal) ~ textarea.mui-input::placeholder,
+.mui-field.mui-field-floating > .mui-field-label:not(.mui-field-label-horizontal) ~ .mui-field-body > textarea.mui-input::placeholder {
   color: transparent;
   opacity: 0;
 }
 
-.mui-field.mui-field-floating:has(> .mui-field-label:not(.mui-field-label-horizontal)) > :is(.mui-input, .mui-select):focus,
-.mui-field.mui-field-floating:has(> .mui-field-label:not(.mui-field-label-horizontal)) > .mui-field-body > :is(.mui-input, .mui-select):focus {
+.mui-field.mui-field-floating > .mui-field-label:not(.mui-field-label-horizontal) ~ :is(.mui-input, .mui-select):focus,
+.mui-field.mui-field-floating > .mui-field-label:not(.mui-field-label-horizontal) ~ .mui-field-body > :is(.mui-input, .mui-select):focus {
   padding-block-start: 0.99rem;
 }
 
-.mui-field.mui-field-floating:has(> .mui-field-label:not(.mui-field-label-horizontal)) > textarea.mui-input,
-.mui-field.mui-field-floating:has(> .mui-field-label:not(.mui-field-label-horizontal)) > .mui-field-body > textarea.mui-input {
+.mui-field.mui-field-floating > .mui-field-label:not(.mui-field-label-horizontal) ~ textarea.mui-input,
+.mui-field.mui-field-floating > .mui-field-label:not(.mui-field-label-horizontal) ~ .mui-field-body > textarea.mui-input {
   padding-block-start: 1rem !important;
 }
 
-.mui-field.mui-field-floating:has(> .mui-field-label:not(.mui-field-label-horizontal)) > textarea.mui-input:focus,
-.mui-field.mui-field-floating:has(> .mui-field-label:not(.mui-field-label-horizontal)) > .mui-field-body > textarea.mui-input:focus {
+.mui-field.mui-field-floating > .mui-field-label:not(.mui-field-label-horizontal) ~ textarea.mui-input:focus,
+.mui-field.mui-field-floating > .mui-field-label:not(.mui-field-label-horizontal) ~ .mui-field-body > textarea.mui-input:focus {
   padding-block-start: 0.99rem !important;
 }
 
-.mui-field.mui-field-floating:has(> :is(.mui-input, .mui-select):focus) > .mui-field-label:not(.mui-field-label-horizontal),
-.mui-field.mui-field-floating:has(> .mui-field-body > :is(.mui-input, .mui-select):focus) > .mui-field-label:not(.mui-field-label-horizontal),
-.mui-field.mui-field-floating:has(> :is(.mui-input, .mui-select)[placeholder]:not(:placeholder-shown)) > .mui-field-label:not(.mui-field-label-horizontal),
-.mui-field.mui-field-floating:has(> .mui-field-body > :is(.mui-input, .mui-select)[placeholder]:not(:placeholder-shown)) > .mui-field-label:not(.mui-field-label-horizontal),
-.mui-field.mui-field-floating:has(> textarea.mui-input[placeholder]:not(:placeholder-shown)) > .mui-field-label:not(.mui-field-label-horizontal),
-.mui-field.mui-field-floating:has(> .mui-field-body > textarea.mui-input[placeholder]:not(:placeholder-shown)) > .mui-field-label:not(.mui-field-label-horizontal),
-.mui-field.mui-field-floating:has(> .mui-select) > .mui-field-label:not(.mui-field-label-horizontal),
-.mui-field.mui-field-floating:has(> .mui-field-body > .mui-select) > .mui-field-label:not(.mui-field-label-horizontal),
-.mui-field.mui-field-floating:has(> .mui-color-input) > .mui-field-label:not(.mui-field-label-horizontal),
-.mui-field.mui-field-floating:has(> .mui-field-body > .mui-color-input) > .mui-field-label:not(.mui-field-label-horizontal),
-.mui-field.mui-field-floating:has(> .mui-color-picker) > .mui-field-label:not(.mui-field-label-horizontal),
-.mui-field.mui-field-floating:has(> .mui-field-body > .mui-color-picker) > .mui-field-label:not(.mui-field-label-horizontal) {
+.mui-field.mui-field-floating:focus-within > .mui-field-label:not(.mui-field-label-horizontal),
+.mui-field.mui-field-floating:has(> :is(.mui-input, .mui-select)[placeholder]:not(:placeholder-shown), > .mui-field-body > :is(.mui-input, .mui-select)[placeholder]:not(:placeholder-shown), > textarea.mui-input[placeholder]:not(:placeholder-shown), > .mui-field-body > textarea.mui-input[placeholder]:not(:placeholder-shown), > :is(.mui-select, .mui-color-input, .mui-color-picker), > .mui-field-body > :is(.mui-select, .mui-color-input, .mui-color-picker)) > .mui-field-label:not(.mui-field-label-horizontal) {
   block-size: 2.5rem;
   line-height: 2.5rem;
   font-size: 0.75rem;
 }
 
-.mui-field:has(> :is(.mui-input, .mui-select):focus) > .mui-field-label:not(.mui-field-label-horizontal),
-.mui-field:has(> .mui-field-body > :is(.mui-input, .mui-select):focus) > .mui-field-label:not(.mui-field-label-horizontal),
-.mui-field:has(> textarea.mui-input:focus) > .mui-field-label:not(.mui-field-label-horizontal),
-.mui-field:has(> .mui-field-body > textarea.mui-input:focus) > .mui-field-label:not(.mui-field-label-horizontal) {
+.mui-field:focus-within > .mui-field-label:not(.mui-field-label-horizontal) {
   color: var(--mui-primary);
 }
 
-.mui-field:has(> :is(.mui-input, .mui-select).is-invalid) > .mui-field-label:not(.mui-field-label-horizontal),
-.mui-field:has(> .mui-field-body > :is(.mui-input, .mui-select).is-invalid) > .mui-field-label:not(.mui-field-label-horizontal) {
+.mui-field:has(> :is(.mui-input, .mui-select).is-invalid, > .mui-field-body > :is(.mui-input, .mui-select).is-invalid) > .mui-field-label:not(.mui-field-label-horizontal) {
   color: var(--mui-error);
 }
 
-.mui-field:has(> :is(.mui-input, .mui-select).is-valid) > .mui-field-label:not(.mui-field-label-horizontal),
-.mui-field:has(> .mui-field-body > :is(.mui-input, .mui-select).is-valid) > .mui-field-label:not(.mui-field-label-horizontal) {
+.mui-field:has(> :is(.mui-input, .mui-select).is-valid, > .mui-field-body > :is(.mui-input, .mui-select).is-valid) > .mui-field-label:not(.mui-field-label-horizontal) {
   color: var(--mui-success);
 }
 
