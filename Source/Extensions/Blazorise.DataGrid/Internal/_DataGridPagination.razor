@@ -80,35 +80,35 @@
                             Clicked = NewClick,
                             LocalizationString = newButtonString,
                         },
-                        EditCommand = new()
-                        {
-                            Clicked = EditClick,
-                            LocalizationString = editButtonString,
-                            Item = SelectedRow
-                        },
-                        DeleteCommand = new()
-                        {
-                            Clicked = DeleteClick,
-                            LocalizationString = deleteButtonString,
-                            Item = SelectedRow
-                        },
-                        ClearFilterCommand = new()
-                        {
-                            Clicked = ClearFilterClick,
-                            LocalizationString = clearFilterButtonString,
-                        },
-                        SaveBatchCommand = new()
-                        {
-                            Clicked = SaveBatchClick,
-                            LocalizationString = saveBatchButtonString,
-                        },
-                        CancelBatchCommand = new()
-                        {
-                            Clicked = CancelBatchClick,
-                            LocalizationString = cancelBatchButtonString,
-                        }
-                    } )
-                }
+        EditCommand = new()
+        {
+            Clicked = EditClick,
+            LocalizationString = editButtonString,
+            Item = SelectedRow
+        },
+        DeleteCommand = new()
+        {
+            Clicked = DeleteClick,
+            LocalizationString = deleteButtonString,
+            Item = SelectedRow
+        },
+        ClearFilterCommand = new()
+        {
+            Clicked = ClearFilterClick,
+            LocalizationString = clearFilterButtonString,
+        },
+        SaveBatchCommand = new()
+        {
+            Clicked = SaveBatchClick,
+            LocalizationString = saveBatchButtonString,
+        },
+        CancelBatchCommand = new()
+        {
+            Clicked = CancelBatchClick,
+            LocalizationString = cancelBatchButtonString,
+        }
+        } )
+        }
             </Field>
         }
     };
@@ -286,7 +286,7 @@
                             </Select>
                         }
                     </PaginationItem>
-                    <Field Margin="MarginIsAutoOnYIs2FromStart" Display="DisplayNoneOnMobileInlineFlexRowOnDesktop">
+                    <Field Margin="MarginIsAutoOnYIs2FromStart" Flex="FlexRowAlignItemsCenter" Display="DisplayNoneOnMobileInlineFlexRowOnDesktop">
                         @if ( ItemsPerPageTemplate is not null )
                         {
                             @ItemsPerPageTemplate
