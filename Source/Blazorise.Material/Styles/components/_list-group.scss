@@ -98,18 +98,18 @@
         outline-offset: -0.125rem;
     }
 
-    > .mui-list-item:not(:has(> :not(.mui-ripple, .mui-ripple-surface, a:only-child, details))) {
-        display: flex;
-        align-items: center;
-    }
-
-    > .mui-list-item:has(> :not(.mui-ripple, .mui-ripple-surface, a:only-child, details)) {
+    > .mui-list-item.b-list-view-item-template {
         display: block;
         min-block-size: auto;
-    }
 
-    > .mui-list-item:has(> :not(.mui-ripple, .mui-ripple-surface, a:only-child, details)) > .mui-display-inline-flex {
-        display: flex !important;
+        > .mui-display-inline-flex {
+            display: flex !important;
+        }
+    }
+    // Keep vertical centering for plain text items, even after ripple helper nodes are injected.
+    > .mui-list-item:not(.b-list-view-item-template):not(:has(> :not(.mui-ripple-surface, .mui-ripple))) {
+        display: flex;
+        align-items: center;
     }
 
     > .mui-list-item:not(:last-child)::before,
