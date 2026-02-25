@@ -4159,14 +4159,14 @@ a:is(.mui-link-disabled, .link-disabled)[aria-disabled=true] {
   outline: 0.125rem solid var(--mui-primary);
   outline-offset: -0.125rem;
 }
-.mui-list > .mui-list-item.b-list-view-item-template {
+.mui-list > .mui-list-item[data-listview-template=true] {
   display: block;
   min-block-size: auto;
 }
-.mui-list > .mui-list-item.b-list-view-item-template > .mui-display-inline-flex {
+.mui-list > .mui-list-item[data-listview-template=true] > .mui-display-inline-flex {
   display: flex !important;
 }
-.mui-list > .mui-list-item:not(.b-list-view-item-template):not(:has(> :not(.mui-ripple-surface, .mui-ripple))) {
+.mui-list > .mui-list-item:not([data-listview-template=true]):not(:has(> :not(.mui-ripple-surface, .mui-ripple))) {
   display: flex;
   align-items: center;
 }

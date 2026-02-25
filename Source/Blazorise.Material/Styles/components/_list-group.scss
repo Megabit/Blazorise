@@ -98,7 +98,7 @@
         outline-offset: -0.125rem;
     }
 
-    > .mui-list-item.b-list-view-item-template {
+    > .mui-list-item[data-listview-template="true"] {
         display: block;
         min-block-size: auto;
 
@@ -107,7 +107,7 @@
         }
     }
     // Keep vertical centering for plain text items, even after ripple helper nodes are injected.
-    > .mui-list-item:not(.b-list-view-item-template):not(:has(> :not(.mui-ripple-surface, .mui-ripple))) {
+    > .mui-list-item:not([data-listview-template="true"]):not(:has(> :not(.mui-ripple-surface, .mui-ripple))) {
         display: flex;
         align-items: center;
     }
