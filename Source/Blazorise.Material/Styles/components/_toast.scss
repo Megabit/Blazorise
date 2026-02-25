@@ -190,11 +190,11 @@
     line-height: 1.25rem;
 }
 
-.mui-toast:not(:has(> .mui-toast-header)) > .mui-toast-body {
+.mui-toast > .mui-toast-body:first-child {
     padding-block-start: var(--mui-toast-padding-block);
 }
 
-.mui-toast:not(:has(> .mui-toast-body)) > .mui-toast-header {
+.mui-toast > .mui-toast-header:last-child {
     padding-block-end: var(--mui-toast-padding-block);
 }
 

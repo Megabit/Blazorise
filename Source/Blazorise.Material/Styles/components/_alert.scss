@@ -25,7 +25,7 @@
     padding: 1rem 1.25rem;
     text-align: start;
     border-radius: .75rem;
-    transition: all var(--mui-duration-normal);
+    transition: background-color var(--mui-duration-normal), color var(--mui-duration-normal), border-color var(--mui-duration-normal), box-shadow var(--mui-duration-normal);
     border: 1px solid var(--mui-outline);
     box-shadow: var(--mui-elevate1);
 

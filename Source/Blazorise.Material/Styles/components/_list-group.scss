@@ -106,8 +106,9 @@
             display: flex !important;
         }
     }
-    // Keep vertical centering for plain text items, even after ripple helper nodes are injected.
-    > .mui-list-item:not([data-listview-template="true"]):not(:has(> :not(.mui-ripple-surface, .mui-ripple))) {
+    // Fast path for ListView plain-text items; fallback keeps behavior for non-ListView content.
+    > .mui-list-item[data-listview-text="true"],
+    > .mui-list-item:not([data-listview-template="true"]):not([data-listview-text="true"]):not(:has(> :not(.mui-ripple-surface, .mui-ripple))) {
         display: flex;
         align-items: center;
     }

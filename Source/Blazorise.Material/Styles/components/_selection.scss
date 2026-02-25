@@ -143,7 +143,7 @@
         }
 
         > span::after {
-            transition: all var(--mui-duration-normal);
+            transition: background-color var(--mui-duration-normal), box-shadow var(--mui-duration-normal), opacity var(--mui-duration-normal);
             background-color: currentColor;
             box-shadow: 0 0 0 0 currentColor;
             opacity: 0;
@@ -230,7 +230,7 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            transition: all var(--mui-duration-normal);
+            transition: transform var(--mui-duration-normal), color var(--mui-duration-normal), background-color var(--mui-duration-normal), box-shadow var(--mui-duration-normal);
             font-size: calc(var(--_size) - 0.5rem);
             user-select: none;
             min-inline-size: var(--_size);

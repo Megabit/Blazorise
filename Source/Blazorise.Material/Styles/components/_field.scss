@@ -80,7 +80,7 @@
     block-size: calc(var(--mui-field-input-size) + 1rem);
     line-height: calc(var(--mui-field-input-size) + 1rem);
     font-size: 1rem;
-    transition: all var(--mui-duration-normal);
+    transition: block-size var(--mui-duration-normal), line-height var(--mui-duration-normal), font-size var(--mui-duration-normal), color var(--mui-duration-normal);
     gap: 0.25rem;
     white-space: nowrap;
     z-index: 2;

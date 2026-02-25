@@ -209,11 +209,11 @@ body.modal-open {
     padding: 0.75rem 1.5rem 1.25rem;
 }
 
-.mui-modal-content:not(:has(> .mui-modal-header)) > .mui-modal-body {
+.mui-modal-content > .mui-modal-body:first-child {
     padding-block-start: 1.5rem;
 }
 
-.mui-modal-content:not(:has(> .mui-modal-footer)) > .mui-modal-body {
+.mui-modal-content > .mui-modal-body:last-child {
     padding-block-end: 1.5rem;
 }
 

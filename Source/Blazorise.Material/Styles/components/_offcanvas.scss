@@ -154,11 +154,11 @@
     background-color: var(--mui-surface-container-low);
 }
 
-.mui-offcanvas:not(:has(> .mui-offcanvas-header)) > .mui-offcanvas-body {
+.mui-offcanvas > .mui-offcanvas-body:first-child {
     padding-block-start: 1.25rem;
 }
 
-.mui-offcanvas:not(:has(> .mui-offcanvas-footer)) > .mui-offcanvas-body {
+.mui-offcanvas > .mui-offcanvas-body:last-child {
     padding-block-end: 1.25rem;
 }
 

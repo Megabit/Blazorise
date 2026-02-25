@@ -7,11 +7,6 @@
     box-sizing: border-box;
 }
 
-*::after,
-*::before {
-    all: unset;
-}
-
 body {
     color: var(--mui-on-surface);
     background-color: var(--mui-surface);
