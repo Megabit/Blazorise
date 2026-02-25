@@ -155,7 +155,8 @@ export function destroy(element, elementId) {
 
         unregisterEvents(cropperCanvas, cropperSelection);
 
-        instance.destroy();
+        if (cropper && typeof cropper.destroy === "function")
+            cropper.destroy();
     }
 
     delete instances[elementId];

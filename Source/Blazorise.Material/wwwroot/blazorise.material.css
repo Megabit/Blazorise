@@ -7711,6 +7711,22 @@ body.modal-open {
   inset-block-start: calc(100% + 0.25rem);
 }
 
+.mui-row > .mui-column:has(> .mui-field-body > .b-cropper-container) {
+  display: flex;
+  flex-direction: column;
+}
+
+.mui-row > .mui-column > .mui-field-body:has(> .b-cropper-container) {
+  display: flex;
+  flex: 1 1 auto;
+  min-block-size: 0;
+}
+
+.mui-row > .mui-column > .mui-field-body:has(> .b-cropper-container) > .b-cropper-container {
+  flex: 1 1 auto;
+  min-block-size: 100%;
+}
+
 .b-scheduler {
   --mui-scheduler-border-color: color-mix(in srgb, var(--mui-outline-variant) 92%, transparent);
   --mui-scheduler-grid-border-color: color-mix(in srgb, var(--mui-outline-variant) 78%, transparent);
