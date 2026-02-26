@@ -60,17 +60,17 @@ Blazorise is a source-available project, and its ongoing development is made pos
 
 ### Blazor WebAssembly
 
-- [Tailwind Demo](https://tailwinddemo.blazorise.com)
-- [Bootstrap 4 Demo](https://bootstrapdemo.blazorise.com)
-- [Bootstrap 5 Demo](https://bootstrap5demo.blazorise.com)
-- [Material Demo](https://materialdemo.blazorise.com/)
-- [Bulma Demo](https://bulmademo.blazorise.com/)
-- [AntDesign Demo](https://antdesigndemo.blazorise.com/)
-- [Fluent 2 Demo](https://fluentui2demo.blazorise.com/)
+- [Tailwind Demo](https://demos.blazorise.com/wasm/tailwind/)
+- [Bootstrap 4 Demo](https://demos.blazorise.com/wasm/bootstrap4/)
+- [Bootstrap 5 Demo](https://demos.blazorise.com/wasm/bootstrap5/)
+- [Material Demo](https://demos.blazorise.com/wasm/material/)
+- [Bulma Demo](https://demos.blazorise.com/wasm/bulma/)
+- [AntDesign Demo](https://demos.blazorise.com/wasm/antdesign/)
+- [Fluent 2 Demo](https://demos.blazorise.com/wasm/fluentui2/)
 
 ### Blazor Server
 
-- [Bootstrap Demo](https://rcbootstrapdemo.blazorise.com/)
+- [Bootstrap Demo](https://demos.blazorise.com/server/bootstrap4/)
 
 ## Documentation
 
