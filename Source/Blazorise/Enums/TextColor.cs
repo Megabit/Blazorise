@@ -43,6 +43,9 @@ public record TextColor : Enumeration<TextColor>, IUtilityTargeted, IFluentUtili
         return this with { UtilityTarget = target };
     }
 
+    /// <inheritdoc/>
+    public override string ToString() => Name;
+
     #endregion
 
     #region Properties
