@@ -1,0 +1,31 @@
+{
+  "culture": "hr",
+  "translations": {
+    "Add Child": "Dodaj podzadatak",
+    "Add Task": "Dodaj zadatak",
+    "Cancel": "Odustani",
+    "Columns": "Stupci",
+    "Day": "Dan",
+    "Delete": "Obriši",
+    "Task will be deleted permanently. Are you sure?": "Stavka će biti trajno obrisana. Jeste li sigurni?",
+    "Description": "Opis",
+    "Duration": "Trajanje",
+    "Edit": "Uredi",
+    "End": "Kraj",
+    "End must be greater than Start.": "Kraj mora biti nakon početka.",
+    "Month": "Mjesec",
+    "New": "Novi",
+    "Next": "Sljedeći",
+    "No tasks to display.": "Nema zadataka za prikaz.",
+    "Previous": "Prethodni",
+    "Save": "Spremi",
+    "Search tasks...": "Pretraži zadatke...",
+    "Start": "Početak",
+    "Task": "Zadatak",
+    "Title": "Naslov",
+    "Title is required.": "Naslov je obavezan.",
+    "Today": "Danas",
+    "Week": "Tjedan",
+    "Year": "Godina"
+  }
+}

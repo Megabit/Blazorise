@@ -1,0 +1,31 @@
+{
+  "culture": "pl",
+  "translations": {
+    "Add Child": "Dodaj podzadanie",
+    "Add Task": "Dodaj zadanie",
+    "Cancel": "Anuluj",
+    "Columns": "Kolumny",
+    "Day": "Dzień",
+    "Delete": "Usuń",
+    "Task will be deleted permanently. Are you sure?": "Element zostanie trwale usunięty. Czy na pewno chcesz kontynuować?",
+    "Description": "Opis",
+    "Duration": "Czas trwania",
+    "Edit": "Edytuj",
+    "End": "Koniec",
+    "End must be greater than Start.": "Koniec musi być później niż początek.",
+    "Month": "Miesiąc",
+    "New": "Nowy",
+    "Next": "Następny",
+    "No tasks to display.": "Brak zadań do wyświetlenia.",
+    "Previous": "Poprzedni",
+    "Save": "Zapisz",
+    "Search tasks...": "Szukaj zadań...",
+    "Start": "Początek",
+    "Task": "Zadanie",
+    "Title": "Tytuł",
+    "Title is required.": "Tytuł jest wymagany.",
+    "Today": "Dzisiaj",
+    "Week": "Tydzień",
+    "Year": "Rok"
+  }
+}

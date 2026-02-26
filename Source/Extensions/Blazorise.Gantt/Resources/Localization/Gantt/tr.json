@@ -1,0 +1,31 @@
+{
+  "culture": "tr",
+  "translations": {
+    "Add Child": "Alt görev ekle",
+    "Add Task": "Görev ekle",
+    "Cancel": "İptal",
+    "Columns": "Sütunlar",
+    "Day": "Gün",
+    "Delete": "Sil",
+    "Task will be deleted permanently. Are you sure?": "Öğe kalıcı olarak silinecek. Emin misiniz?",
+    "Description": "Açıklama",
+    "Duration": "Süre",
+    "Edit": "Düzenle",
+    "End": "Bitiş",
+    "End must be greater than Start.": "Bitiş, başlangıçtan sonra olmalıdır.",
+    "Month": "Ay",
+    "New": "Yeni",
+    "Next": "Sonraki",
+    "No tasks to display.": "Gösterilecek görev yok.",
+    "Previous": "Önceki",
+    "Save": "Kaydet",
+    "Search tasks...": "Görevlerde ara...",
+    "Start": "Başlangıç",
+    "Task": "Görev",
+    "Title": "Başlık",
+    "Title is required.": "Başlık gereklidir.",
+    "Today": "Bugün",
+    "Week": "Hafta",
+    "Year": "Yıl"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "culture": "zh",
+  "translations": {
+    "Add Child": "添加子任务",
+    "Add Task": "添加任务",
+    "Cancel": "取消",
+    "Columns": "列",
+    "Day": "日",
+    "Delete": "删除",
+    "Task will be deleted permanently. Are you sure?": "该项目将被永久删除。您确定吗？",
+    "Description": "描述",
+    "Duration": "持续时间",
+    "Edit": "编辑",
+    "End": "结束",
+    "End must be greater than Start.": "结束时间必须晚于开始时间。",
+    "Month": "月",
+    "New": "新建",
+    "Next": "下一个",
+    "No tasks to display.": "没有可显示的任务。",
+    "Previous": "上一个",
+    "Save": "保存",
+    "Search tasks...": "搜索任务...",
+    "Start": "开始",
+    "Task": "任务",
+    "Title": "标题",
+    "Title is required.": "必须填写标题。",
+    "Today": "今天",
+    "Week": "周",
+    "Year": "年"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "culture": "da",
+  "translations": {
+    "Add Child": "Tilføj underopgave",
+    "Add Task": "Tilføj opgave",
+    "Cancel": "Annullér",
+    "Columns": "Kolonner",
+    "Day": "Dag",
+    "Delete": "Slet",
+    "Task will be deleted permanently. Are you sure?": "Elementet vil blive slettet permanent. Er du sikker?",
+    "Description": "Beskrivelse",
+    "Duration": "Varighed",
+    "Edit": "Redigér",
+    "End": "Slut",
+    "End must be greater than Start.": "Slut skal være senere end start.",
+    "Month": "Måned",
+    "New": "Ny",
+    "Next": "Næste",
+    "No tasks to display.": "Ingen opgaver at vise.",
+    "Previous": "Forrige",
+    "Save": "Gem",
+    "Search tasks...": "Søg opgaver...",
+    "Start": "Start",
+    "Task": "Opgave",
+    "Title": "Titel",
+    "Title is required.": "Titel er påkrævet.",
+    "Today": "I dag",
+    "Week": "Uge",
+    "Year": "År"
+  }
+}

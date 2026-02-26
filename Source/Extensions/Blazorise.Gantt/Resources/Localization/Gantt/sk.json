@@ -1,0 +1,31 @@
+{
+  "culture": "sk",
+  "translations": {
+    "Add Child": "Pridať podúlohu",
+    "Add Task": "Pridať úlohu",
+    "Cancel": "Zrušiť",
+    "Columns": "Stĺpce",
+    "Day": "Deň",
+    "Delete": "Odstrániť",
+    "Task will be deleted permanently. Are you sure?": "Položka bude natrvalo odstránená. Ste si istý?",
+    "Description": "Popis",
+    "Duration": "Trvanie",
+    "Edit": "Upraviť",
+    "End": "Koniec",
+    "End must be greater than Start.": "Koniec musí byť neskôr ako začiatok.",
+    "Month": "Mesiac",
+    "New": "Nový",
+    "Next": "Ďalší",
+    "No tasks to display.": "Žiadne úlohy na zobrazenie.",
+    "Previous": "Predchádzajúci",
+    "Save": "Uložiť",
+    "Search tasks...": "Hľadať úlohy...",
+    "Start": "Začiatok",
+    "Task": "Úloha",
+    "Title": "Názov",
+    "Title is required.": "Názov je povinný.",
+    "Today": "Dnes",
+    "Week": "Týždeň",
+    "Year": "Rok"
+  }
+}

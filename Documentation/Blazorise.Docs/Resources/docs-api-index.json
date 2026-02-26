@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-23T08:25:39.9463059Z",
+  "generatedUtc": "2026-02-25T09:31:26.6457193Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -44696,6 +44696,890 @@
           "typeName": "IFluentSizing",
           "defaultValue": "null",
           "summary": "Defines the width of the component using responsive sizing utilities.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [],
+      "methods": []
+    },
+    {
+      "type": "global::Blazorise.Gantt.Gantt<>",
+      "typeName": "Gantt",
+      "summary": "$\"\"\"\r\n       Represents a native Blazorise Gantt chart component with tree and timeline views.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "ActionColumnWidth",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "42d",
+          "summary": "Gets or sets action column width in pixels.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Attributes",
+          "type": "Dictionary<string, object>",
+          "typeName": "Dictionary<string, object>",
+          "defaultValue": "null",
+          "summary": "Captures unmatched HTML attributes for customization.",
+          "remarks": "These attributes are applied directly to the component's root HTML element.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Background",
+          "type": "global::Blazorise.Background",
+          "typeName": "Background",
+          "defaultValue": "Background.Default",
+          "summary": "Sets the background color of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Border",
+          "type": "global::Blazorise.IFluentBorder",
+          "typeName": "IFluentBorder",
+          "defaultValue": "null",
+          "summary": "Configures the border properties of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Casing",
+          "type": "global::Blazorise.CharacterCasing",
+          "typeName": "CharacterCasing",
+          "defaultValue": "default(CharacterCasing)",
+          "summary": "Specifies the text casing transformation (e.g., uppercase, lowercase).",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "ChildContent",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
+          "typeName": "RenderFragment",
+          "defaultValue": "null",
+          "summary": "Gets or sets child content used to declare toolbar and views.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Class",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Custom CSS class name to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Clearfix",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Determines whether to apply clearfix to manage floating children.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Data",
+          "type": "IEnumerable<>",
+          "typeName": "IEnumerable<TItem>",
+          "defaultValue": "null",
+          "summary": "Gets or sets data source displayed by the Gantt.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Date",
+          "type": "DateOnly",
+          "typeName": "DateOnly",
+          "defaultValue": "DateOnly.FromDateTime( DateTime.Today )",
+          "summary": "Gets or sets current anchor date used by selected view.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "DateColumnWidth",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "140d",
+          "summary": "Gets or sets date column width in pixels.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "DescriptionField",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "\"Description\"",
+          "summary": "Gets or sets description field name.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Display",
+          "type": "global::Blazorise.IFluentDisplay",
+          "typeName": "IFluentDisplay",
+          "defaultValue": "null",
+          "summary": "Specifies the display behavior (e.g., block, inline, flex) of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "DurationField",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "\"Duration\"",
+          "summary": "Gets or sets duration (days) field name.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Editable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Gets or sets whether item editing is enabled.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ElementId",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the unique id of the element.",
+          "remarks": "Note that this ID is not defined for the component but instead for the underlined element that it represents.     eg: for the TextInput the ID will be set on the input element.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "EndField",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "\"End\"",
+          "summary": "Gets or sets end date field name.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "FirstDayOfWeek",
+          "type": "DayOfWeek",
+          "typeName": "DayOfWeek",
+          "defaultValue": "DayOfWeek.Monday",
+          "summary": "Gets or sets first day of week used by weekly calculations.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Flex",
+          "type": "global::Blazorise.IFluentFlex",
+          "typeName": "IFluentFlex",
+          "defaultValue": "null",
+          "summary": "Configures the flexbox properties of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Float",
+          "type": "global::Blazorise.Float",
+          "typeName": "Float",
+          "defaultValue": "Float.Default",
+          "summary": "Specifies how an element should float within its containing block.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Gap",
+          "type": "global::Blazorise.IFluentGap",
+          "typeName": "IFluentGap",
+          "defaultValue": "null",
+          "summary": "Configures the gap spacing between child elements of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Height",
+          "type": "global::Blazorise.IFluentSizing",
+          "typeName": "IFluentSizing",
+          "defaultValue": "null",
+          "summary": "Defines the height of the component using responsive sizing utilities.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "IdField",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "\"Id\"",
+          "summary": "Gets or sets item identifier field name.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Localizers",
+          "type": "global::Blazorise.Gantt.GanttLocalizers",
+          "typeName": "GanttLocalizers",
+          "defaultValue": "null",
+          "summary": "Gets or sets custom localizers for Gantt texts.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Margin",
+          "type": "global::Blazorise.IFluentSpacing",
+          "typeName": "IFluentSpacing",
+          "defaultValue": "null",
+          "summary": "Configures the margin spacing for the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MinBarWidth",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "14d",
+          "summary": "Gets or sets minimum item bar width in pixels.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ObjectFit",
+          "type": "global::Blazorise.IFluentObjectFit",
+          "typeName": "IFluentObjectFit",
+          "defaultValue": "null",
+          "summary": "Configures the object-fit property, which determines how content is resized within its container.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Overflow",
+          "type": "global::Blazorise.IFluentOverflow",
+          "typeName": "IFluentOverflow",
+          "defaultValue": "null",
+          "summary": "Configures the overflow behavior when content exceeds the component's bounds.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Padding",
+          "type": "global::Blazorise.IFluentSpacing",
+          "typeName": "IFluentSpacing",
+          "defaultValue": "null",
+          "summary": "Configures the padding spacing for the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ParentIdField",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "\"ParentId\"",
+          "summary": "Gets or sets parent identifier field name.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Position",
+          "type": "global::Blazorise.IFluentPosition",
+          "typeName": "IFluentPosition",
+          "defaultValue": "null",
+          "summary": "Specifies the positioning method for the component (static, relative, absolute, etc.).",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ProgressField",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "\"Progress\"",
+          "summary": "Gets or sets progress field name.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "SearchText",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets search text used to filter tree rows.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "SelectedView",
+          "type": "global::Blazorise.Gantt.GanttView",
+          "typeName": "GanttView",
+          "defaultValue": "GanttView.Week",
+          "summary": "Gets or sets currently selected view mode.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Shadow",
+          "type": "global::Blazorise.Shadow",
+          "typeName": "Shadow",
+          "defaultValue": "Shadow.None",
+          "summary": "Configures the shadow effect of the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "ShowEndColumn",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether end date column is visible.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ShowStartColumn",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether start date column is visible.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ShowTitleColumn",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether title column is visible.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ShowToolbar",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether toolbar is rendered.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "StartField",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "\"Start\"",
+          "summary": "Gets or sets start date field name.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Style",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Custom inline styles to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextAlignment",
+          "type": "global::Blazorise.TextAlignment",
+          "typeName": "TextAlignment",
+          "defaultValue": "TextAlignment.Default",
+          "summary": "Configures the horizontal alignment of text within the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextColor",
+          "type": "global::Blazorise.TextColor",
+          "typeName": "TextColor",
+          "defaultValue": "TextColor.Default",
+          "summary": "Defines the text color of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextDecoration",
+          "type": "global::Blazorise.TextDecoration",
+          "typeName": "TextDecoration",
+          "defaultValue": "TextDecoration.Default",
+          "summary": "Defines the text decoration style (e.g., underline, none) for the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextOverflow",
+          "type": "global::Blazorise.TextOverflow",
+          "typeName": "TextOverflow",
+          "defaultValue": "TextOverflow.Default",
+          "summary": "Configures how text behaves when it overflows its container.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextSize",
+          "type": "global::Blazorise.IFluentTextSize",
+          "typeName": "IFluentTextSize",
+          "defaultValue": "null",
+          "summary": "Sets the font size of the text in the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextTransform",
+          "type": "global::Blazorise.TextTransform",
+          "typeName": "TextTransform",
+          "defaultValue": "TextTransform.Default",
+          "summary": "Configures the text transformation (e.g., capitalize, none) of the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextWeight",
+          "type": "global::Blazorise.TextWeight",
+          "typeName": "TextWeight",
+          "defaultValue": "TextWeight.Default",
+          "summary": "Specifies the font weight of text in the component (e.g., bold, normal).",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TitleColumnWidth",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "320d",
+          "summary": "Gets or sets title column width in pixels.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TitleField",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "\"Title\"",
+          "summary": "Gets or sets title field name.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TreeIndentSize",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "18d",
+          "summary": "Gets or sets tree indentation size per level in pixels.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "UseInternalEditing",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether built-in modal editing is used.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "UtilityTarget",
+          "type": "global::Blazorise.UtilityTarget",
+          "typeName": "UtilityTarget",
+          "defaultValue": "UtilityTarget.Self",
+          "summary": "Specifies the default target where utility classes and styles are applied when no per-utility target is set.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "VerticalAlignment",
+          "type": "global::Blazorise.VerticalAlignment",
+          "typeName": "VerticalAlignment",
+          "defaultValue": "VerticalAlignment.Default",
+          "summary": "Specifies the vertical alignment of inline or table-cell elements.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Visibility",
+          "type": "global::Blazorise.Visibility",
+          "typeName": "Visibility",
+          "defaultValue": "Visibility.Default",
+          "summary": "Controls the visibility of an element without altering its layout.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Width",
+          "type": "global::Blazorise.IFluentSizing",
+          "typeName": "IFluentSizing",
+          "defaultValue": "null",
+          "summary": "Defines the width of the component using responsive sizing utilities.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [
+        {
+          "name": "DateChanged",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<DateOnly>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback raised when <strong>Date</strong> changes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "DeleteItemClicked",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<GanttItemClickedEventArgs<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback invoked when delete action is triggered for item.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "EditItemClicked",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<GanttItemClickedEventArgs<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback invoked when edit action is triggered for item.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ItemClicked",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<GanttItemClickedEventArgs<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback invoked when a timeline item is clicked.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ItemInserted",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<GanttInsertedItem<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback invoked after item insertion.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ItemInserting",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<GanttCancellableItemChange<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback invoked before an item is inserted.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ItemRemoved",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<GanttUpdatedItem<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback invoked after item removal.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ItemRemoving",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<GanttCancellableItemChange<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback invoked before an item is removed.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ItemStyling",
+          "type": "Action<,>",
+          "typeName": "Action<TItem, GanttItemStyling>",
+          "defaultValue": "null",
+          "summary": "Gets or sets item styling callback for timeline bars.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ItemUpdated",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<GanttUpdatedItem<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback invoked after item update.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ItemUpdating",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<GanttCancellableItemChange<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback invoked before an item is updated.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "NewIdCreator",
+          "type": "Func<>",
+          "typeName": "Func<object>",
+          "defaultValue": "null",
+          "summary": "Gets or sets custom factory used to create new item identifiers.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "NewItemCreator",
+          "type": "Func<>",
+          "typeName": "Func<TItem>",
+          "defaultValue": "null",
+          "summary": "Gets or sets custom factory used to create new item instances.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ReadData",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<GanttReadDataEventArgs<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback used for API-style data reads.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "SearchTextChanged",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<string>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback raised when <strong>SearchText</strong> changes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "SelectedViewChanged",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<GanttView>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback raised when <strong>SelectedView</strong> changes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ShowEndColumnChanged",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<bool>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback raised when <strong>ShowEndColumn</strong> changes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ShowStartColumnChanged",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<bool>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback raised when <strong>ShowStartColumn</strong> changes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ShowTitleColumnChanged",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<bool>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback raised when <strong>ShowTitleColumn</strong> changes.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "methods": [
+        {
+          "name": "AddChild",
+          "returnTypeName": "Task",
+          "summary": "Creates a new child item for specified parent.",
+          "parameters": [
+            {
+              "name": "parentItem",
+              "typeName": "TItem"
+            }
+          ]
+        },
+        {
+          "name": "Delete",
+          "returnTypeName": "Task",
+          "summary": "Deletes specified item.",
+          "parameters": [
+            {
+              "name": "item",
+              "typeName": "TItem"
+            }
+          ]
+        },
+        {
+          "name": "Edit",
+          "returnTypeName": "Task",
+          "summary": "Puts chart in edit-item state for specified item.",
+          "parameters": [
+            {
+              "name": "item",
+              "typeName": "TItem"
+            }
+          ]
+        },
+        {
+          "name": "NavigateNextPeriod",
+          "returnTypeName": "Task",
+          "summary": "Navigates to the next period based on the selected view.",
+          "parameters": []
+        },
+        {
+          "name": "NavigatePreviousPeriod",
+          "returnTypeName": "Task",
+          "summary": "Navigates to the previous period based on the selected view.",
+          "parameters": []
+        },
+        {
+          "name": "NavigateToday",
+          "returnTypeName": "Task",
+          "summary": "Navigates the chart to current date.",
+          "parameters": []
+        },
+        {
+          "name": "New",
+          "returnTypeName": "Task",
+          "summary": "Creates a new item using configured new-item factory.",
+          "parameters": []
+        },
+        {
+          "name": "New",
+          "returnTypeName": "Task",
+          "summary": "Creates a new top-level item.",
+          "parameters": [
+            {
+              "name": "item",
+              "typeName": "TItem"
+            }
+          ]
+        },
+        {
+          "name": "New",
+          "returnTypeName": "Task",
+          "summary": "Puts chart in new-item editing state.",
+          "parameters": [
+            {
+              "name": "item",
+              "typeName": "TItem"
+            },
+            {
+              "name": "parentItem",
+              "typeName": "TItem"
+            }
+          ]
+        },
+        {
+          "name": "ShowDayView",
+          "returnTypeName": "Task",
+          "summary": "Switches to Day view.",
+          "parameters": []
+        },
+        {
+          "name": "ShowMonthView",
+          "returnTypeName": "Task",
+          "summary": "Switches to Month view.",
+          "parameters": []
+        },
+        {
+          "name": "ShowWeekView",
+          "returnTypeName": "Task",
+          "summary": "Switches to Week view.",
+          "parameters": []
+        },
+        {
+          "name": "ShowYearView",
+          "returnTypeName": "Task",
+          "summary": "Switches to Year view.",
+          "parameters": []
+        }
+      ]
+    },
+    {
+      "type": "global::Blazorise.Gantt.GanttDayView<>",
+      "typeName": "GanttDayView",
+      "summary": "$\"\"\"\r\n       Day view configuration.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "ItemTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<GanttItemContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template for rendering the timeline item bar.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "RowHeight",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "44",
+          "summary": "Height of each timeline row in pixels.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "RowTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<GanttRowContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template for rendering the row cell.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TimelineCellWidth",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "72",
+          "summary": "Width of each timeline cell in pixels.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [],
+      "methods": []
+    },
+    {
+      "type": "global::Blazorise.Gantt.GanttMonthView<>",
+      "typeName": "GanttMonthView",
+      "summary": "$\"\"\"\r\n       Month view configuration.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "ItemTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<GanttItemContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template for rendering the timeline item bar.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "RowHeight",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "44",
+          "summary": "Height of each timeline row in pixels.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "RowTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<GanttRowContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template for rendering the row cell.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TimelineCellWidth",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "72",
+          "summary": "Width of each timeline cell in pixels.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [],
+      "methods": []
+    },
+    {
+      "type": "global::Blazorise.Gantt.GanttWeekView<>",
+      "typeName": "GanttWeekView",
+      "summary": "$\"\"\"\r\n       Week view configuration.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "ItemTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<GanttItemContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template for rendering the timeline item bar.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "RowHeight",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "44",
+          "summary": "Height of each timeline row in pixels.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "RowTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<GanttRowContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template for rendering the row cell.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TimelineCellWidth",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "72",
+          "summary": "Width of each timeline cell in pixels.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [],
+      "methods": []
+    },
+    {
+      "type": "global::Blazorise.Gantt.GanttYearView<>",
+      "typeName": "GanttYearView",
+      "summary": "$\"\"\"\r\n       Year view configuration.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "ItemTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<GanttItemContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template for rendering the timeline item bar.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "RowHeight",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "44",
+          "summary": "Height of each timeline row in pixels.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "RowTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<GanttRowContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Template for rendering the row cell.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TimelineCellWidth",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "72",
+          "summary": "Width of each timeline cell in pixels.",
           "isBlazoriseEnum": false
         }
       ],

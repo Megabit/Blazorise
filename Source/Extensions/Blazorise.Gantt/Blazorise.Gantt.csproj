@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <Import Project="..\..\..\Build\Blazorise.props" />
+
+  <PropertyGroup>
+    <PackageTags>blazorise blazor components gantt</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Localization\Gantt\*.json" />
+  </ItemGroup>
+
+</Project>

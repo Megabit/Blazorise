@@ -1,0 +1,31 @@
+{
+  "culture": "is",
+  "translations": {
+    "Add Child": "Bæta við undirverkefni",
+    "Add Task": "Bæta við verkefni",
+    "Cancel": "Hætta við",
+    "Columns": "Dálkar",
+    "Day": "Dagur",
+    "Delete": "Eyða",
+    "Task will be deleted permanently. Are you sure?": "Atriðið verður varanlega eytt. Ertu viss?",
+    "Description": "Lýsing",
+    "Duration": "Tímalengd",
+    "Edit": "Breyta",
+    "End": "Endir",
+    "End must be greater than Start.": "Lok verður að vera eftir upphaf.",
+    "Month": "Mánuður",
+    "New": "Nýtt",
+    "Next": "Næsta",
+    "No tasks to display.": "Engin verkefni til að birta.",
+    "Previous": "Fyrri",
+    "Save": "Vista",
+    "Search tasks...": "Leita að verkefnum...",
+    "Start": "Upphaf",
+    "Task": "Verkefni",
+    "Title": "Titill",
+    "Title is required.": "Titill er nauðsynlegur.",
+    "Today": "Í dag",
+    "Week": "Vika",
+    "Year": "Ár"
+  }
+}

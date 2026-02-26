@@ -1,0 +1,31 @@
+{
+  "culture": "cs",
+  "translations": {
+    "Add Child": "Přidat podúkol",
+    "Add Task": "Přidat úkol",
+    "Cancel": "Zrušit",
+    "Columns": "Sloupce",
+    "Day": "Den",
+    "Delete": "Smazat",
+    "Task will be deleted permanently. Are you sure?": "Položka bude trvale odstraněna. Opravdu si přejete pokračovat?",
+    "Description": "Popis",
+    "Duration": "Doba trvání",
+    "Edit": "Upravit",
+    "End": "Konec",
+    "End must be greater than Start.": "Konec musí být později než začátek.",
+    "Month": "Měsíc",
+    "New": "Nový",
+    "Next": "Další",
+    "No tasks to display.": "Žádné úkoly k zobrazení.",
+    "Previous": "Předchozí",
+    "Save": "Uložit",
+    "Search tasks...": "Hledat úkoly...",
+    "Start": "Začátek",
+    "Task": "Úkol",
+    "Title": "Název",
+    "Title is required.": "Název je povinný.",
+    "Today": "Dnes",
+    "Week": "Týden",
+    "Year": "Rok"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "culture": "ru",
+  "translations": {
+    "Add Child": "Добавить подзадачу",
+    "Add Task": "Добавить задачу",
+    "Cancel": "Отмена",
+    "Columns": "Столбцы",
+    "Day": "День",
+    "Delete": "Удалить",
+    "Task will be deleted permanently. Are you sure?": "Элемент будет удалён безвозвратно. Вы уверены?",
+    "Description": "Описание",
+    "Duration": "Длительность",
+    "Edit": "Редактировать",
+    "End": "Конец",
+    "End must be greater than Start.": "Окончание должно быть позже начала.",
+    "Month": "Месяц",
+    "New": "Новый",
+    "Next": "Следующий",
+    "No tasks to display.": "Нет задач для отображения.",
+    "Previous": "Предыдущий",
+    "Save": "Сохранить",
+    "Search tasks...": "Поиск задач...",
+    "Start": "Начало",
+    "Task": "Задача",
+    "Title": "Заголовок",
+    "Title is required.": "Требуется заголовок.",
+    "Today": "Сегодня",
+    "Week": "Неделя",
+    "Year": "Год"
+  }
+}

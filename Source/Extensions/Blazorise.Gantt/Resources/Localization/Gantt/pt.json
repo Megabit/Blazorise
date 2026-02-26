@@ -1,0 +1,31 @@
+{
+  "culture": "pt",
+  "translations": {
+    "Add Child": "Adicionar subtarefa",
+    "Add Task": "Adicionar tarefa",
+    "Cancel": "Cancelar",
+    "Columns": "Colunas",
+    "Day": "Dia",
+    "Delete": "Eliminar",
+    "Task will be deleted permanently. Are you sure?": "O item será eliminado permanentemente. Tem a certeza?",
+    "Description": "Descrição",
+    "Duration": "Duração",
+    "Edit": "Editar",
+    "End": "Fim",
+    "End must be greater than Start.": "O fim deve ser posterior ao início.",
+    "Month": "Mês",
+    "New": "Novo",
+    "Next": "Próximo",
+    "No tasks to display.": "Nenhuma tarefa para exibir.",
+    "Previous": "Anterior",
+    "Save": "Guardar",
+    "Search tasks...": "Pesquisar tarefas...",
+    "Start": "Início",
+    "Task": "Tarefa",
+    "Title": "Título",
+    "Title is required.": "O título é obrigatório.",
+    "Today": "Hoje",
+    "Week": "Semana",
+    "Year": "Ano"
+  }
+}

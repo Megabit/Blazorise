@@ -1,0 +1,31 @@
+{
+  "culture": "ro",
+  "translations": {
+    "Add Child": "Adaugă subsarcină",
+    "Add Task": "Adaugă sarcină",
+    "Cancel": "Anulează",
+    "Columns": "Coloane",
+    "Day": "Zi",
+    "Delete": "Șterge",
+    "Task will be deleted permanently. Are you sure?": "Elementul va fi șters definitiv. Ești sigur?",
+    "Description": "Descriere",
+    "Duration": "Durată",
+    "Edit": "Editează",
+    "End": "Sfârșit",
+    "End must be greater than Start.": "Sfârșitul trebuie să fie după început.",
+    "Month": "Lună",
+    "New": "Nou",
+    "Next": "Următor",
+    "No tasks to display.": "Nu există sarcini de afișat.",
+    "Previous": "Precedent",
+    "Save": "Salvează",
+    "Search tasks...": "Caută sarcini...",
+    "Start": "Început",
+    "Task": "Sarcină",
+    "Title": "Titlu",
+    "Title is required.": "Titlul este obligatoriu.",
+    "Today": "Astăzi",
+    "Week": "Săptămână",
+    "Year": "An"
+  }
+}

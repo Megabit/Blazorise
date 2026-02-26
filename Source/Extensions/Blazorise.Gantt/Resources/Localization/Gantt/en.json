@@ -1,0 +1,31 @@
+{
+  "culture": "en",
+  "translations": {
+    "Add Child": "Add Child",
+    "Add Task": "Add Task",
+    "Cancel": "Cancel",
+    "Columns": "Columns",
+    "Day": "Day",
+    "Delete": "Delete",
+    "Task will be deleted permanently. Are you sure?": "Task will be deleted permanently. Are you sure?",
+    "Description": "Description",
+    "Duration": "Duration",
+    "Edit": "Edit",
+    "End": "End",
+    "End must be greater than Start.": "End must be greater than Start.",
+    "Month": "Month",
+    "New": "New",
+    "Next": "Next",
+    "No tasks to display.": "No tasks to display.",
+    "Previous": "Previous",
+    "Save": "Save",
+    "Search tasks...": "Search tasks...",
+    "Start": "Start",
+    "Task": "Task",
+    "Title": "Title",
+    "Title is required.": "Title is required.",
+    "Today": "Today",
+    "Week": "Week",
+    "Year": "Year"
+  }
+}

@@ -1,0 +1,188 @@
+@inherits BaseComponent
+@typeparam TItem
+<Div ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Flex="FlexColumn" Border="BorderIs1" role="application">
+    <CascadingValue Value="@this" IsFixed>
+        @if ( ShowToolbar && ganttToolbar is not null )
+        {
+            <_GanttToolbar TItem="TItem"
+                           SelectedDate="@currentDate"
+                           SelectedView="@SelectedView"
+                           FirstDayOfWeek="@FirstDayOfWeek"
+                           SearchText="@searchText"
+                           ShowTitleColumn="@showTitleColumn"
+                           ShowStartColumn="@showStartColumn"
+                           ShowEndColumn="@showEndColumn"
+                           ShowDayViewButton="@(ganttDayView is not null)"
+                           ShowWeekViewButton="@(ganttWeekView is not null)"
+                           ShowMonthViewButton="@(ganttMonthView is not null)"
+                           ShowYearViewButton="@(ganttYearView is not null)"
+                           PreviousClicked="@NavigatePreviousPeriod"
+                           NextClicked="@NavigateNextPeriod"
+                           TodayClicked="@NavigateToday"
+                           DayViewClicked="@ShowDayView"
+                           WeekViewClicked="@ShowWeekView"
+                           MonthViewClicked="@ShowMonthView"
+                           YearViewClicked="@ShowYearView"
+                           AddTaskClicked="@New"
+                           SearchTextChanged="@SetSearchText"
+                           ShowTitleColumnChanged="@SetShowTitleColumn"
+                           ShowStartColumnChanged="@SetShowStartColumn"
+                           ShowEndColumnChanged="@SetShowEndColumn" />
+        }
+
+        @{
+            var visibleRows = GetVisibleRows();
+            var viewRange = GetCurrentViewRange();
+            var timeSlots = GetTimeSlots( viewRange.Start, viewRange.End );
+            var rowTemplate = RowTemplateForCurrentView;
+            var itemTemplate = ItemTemplateForCurrentView;
+            var rowHeight = GetRowHeight();
+            var cellWidth = GetTimelineCellWidth();
+            var showNewColumn = ShowNewColumn;
+        }
+
+        <_GanttBody Style="@GetBodyStyle()">
+            <_GanttTreePane Style="@GetTreePaneStyle()">
+                <_GanttTreeHeader Style="height: 44px; border-bottom: 1px solid rgba(0,0,0,0.12); position: sticky; top: 0; background: var(--b-theme-body-bg, #fff); z-index: 2;">
+                    @if ( showTitleColumn )
+                    {
+                        <Div Style="@GetTitleColumnStyle()" Padding="PaddingIs2OnX" TextWeight="TextWeight.SemiBold">@TaskColumnHeaderText</Div>
+                    }
+                    @if ( showStartColumn )
+                    {
+                        <Div Style="@GetDateColumnStyle()" Padding="PaddingIs2OnX" TextWeight="TextWeight.SemiBold">@StartColumnHeaderText</Div>
+                    }
+                    @if ( showEndColumn )
+                    {
+                        <Div Style="@GetDateColumnStyle()" Padding="PaddingIs2OnX" TextWeight="TextWeight.SemiBold">@EndColumnHeaderText</Div>
+                    }
+                    @if ( showNewColumn )
+                    {
+                        <Div Style="@GetActionColumnStyle()">
+                            <Button Color="Color.Light" Size="Size.ExtraSmall" Clicked="@New" Style="border: 0; background: transparent; color: rgba(0,0,0,0.5);" aria-label="@AddTaskText">
+                                <Icon Name="IconName.Add" />
+                            </Button>
+                        </Div>
+                    }
+                </_GanttTreeHeader>
+
+                <_GanttTreeRows Style="@GetTreeRowsStyle()">
+                    @if ( visibleRows.Count == 0 )
+                    {
+                        <Div Padding="PaddingIs3" TextColor="TextColor.Muted">@NoTasksToDisplayText</Div>
+                    }
+                    else
+                    {
+                        @foreach ( var node in visibleRows )
+                        {
+                            <_GanttTreeRow @key="@node.Key" Style="@GetTreeRowStyle( rowHeight )">
+                                @if ( showTitleColumn )
+                                {
+                                    <Div Style="@GetTitleColumnStyle()" Padding="PaddingIs2OnX">
+                                        <Div Flex="FlexAlignItemsCenter" Style="@GetTreeTitleContentStyle( node.Level )">
+                                            @if ( node.HasChildren )
+                                            {
+                                                <Button Color="Color.Light" Size="Size.ExtraSmall" Outline Clicked="@(() => ToggleNode( node ))" Margin="MarginIs1FromEnd" aria-label="Toggle">
+                                                    <Icon Name="@(IsExpanded( node ) ? IconName.ChevronDown : IconName.ChevronRight)" />
+                                                </Button>
+                                            }
+                                            else
+                                            {
+                                                <Span Style="display: inline-block; width: 28px;"></Span>
+                                            }
+
+                                            @if ( rowTemplate is not null )
+                                            {
+                                                @rowTemplate( new GanttRowContext<TItem>( node.Item, node.Level, node.HasChildren, IsExpanded( node ) ) )
+                                            }
+                                            else
+                                            {
+                                                <Span TextOverflow="TextOverflow.Truncate" Style="max-width: 100%;">@GetItemTitle( node.Item )</Span>
+                                            }
+                                        </Div>
+                                    </Div>
+                                }
+                                @if ( showStartColumn )
+                                {
+                                    <Div Style="@GetDateColumnStyle()" Padding="PaddingIs2OnX">
+                                        <Span TextSize="TextSizeSmall">@FormatDate( GetItemStart( node.Item ) )</Span>
+                                    </Div>
+                                }
+                                @if ( showEndColumn )
+                                {
+                                    <Div Style="@GetDateColumnStyle()" Padding="PaddingIs2OnX">
+                                        <Span TextSize="TextSizeSmall">@FormatDate( GetItemEnd( node.Item ) )</Span>
+                                    </Div>
+                                }
+                                @if ( showNewColumn )
+                                {
+                                    <Div Style="@GetActionColumnStyle()">
+                                        <Button Color="Color.Light" Size="Size.ExtraSmall" Clicked="@(() => AddChild( node.Item ))" Style="border: 0; background: transparent; color: rgba(0,0,0,0.5);" aria-label="@AddChildText">
+                                            <Icon Name="IconName.Add" />
+                                        </Button>
+                                    </Div>
+                                }
+                            </_GanttTreeRow>
+                        }
+                    }
+                </_GanttTreeRows>
+            </_GanttTreePane>
+
+            <_GanttTimelinePane Style="@GetTimelinePaneStyle()">
+                <_GanttTimelineViewport Style="@GetTimelineViewportStyle()">
+                    <_GanttTimelineInner Style="@GetTimelineInnerStyle( timeSlots.Count, cellWidth )">
+                        <_GanttTimeHeader Style="height: 44px; position: sticky; top: 0; z-index: 2; background: var(--b-theme-body-bg, #fff); border-bottom: 1px solid rgba(0,0,0,0.12);">
+                            @foreach ( var slot in timeSlots )
+                            {
+                                <Div @key="@slot.Key" Style="@GetTimelineHeaderCellStyle( cellWidth )" Padding="PaddingIs1OnX">
+                                    <Span TextSize="TextSizeSmall" TextWeight="TextWeight.SemiBold">@slot.Label</Span>
+                                </Div>
+                            }
+                        </_GanttTimeHeader>
+
+                        @foreach ( var node in visibleRows )
+                        {
+                            <_GanttTimeRow @key="@($"timeline-{node.Key}")" Style="@GetTimelineRowStyle( rowHeight, cellWidth )">
+                                @if ( TryGetVisibleBar( node.Item, viewRange.Start, viewRange.End, timeSlots.Count, cellWidth, out var barInfo ) )
+                                {
+                                    var itemStyling = GetItemStyling( node.Item );
+
+                                    <_GanttItemBar CustomClass="@itemStyling.Class"
+                                                   Style="@GetBarStyle( barInfo, rowHeight, itemStyling.Style )"
+                                                   Background="@itemStyling.Background"
+                                                   TextColor="@itemStyling.TextColor"
+                                                   Clicked="@(() => OnBarClicked( node.Item ))">
+                                        @if ( itemTemplate is not null )
+                                        {
+                                            @itemTemplate( new GanttItemContext<TItem>( node.Item, node.HasChildren, IsExpanded( node ) ) )
+                                        }
+                                        else
+                                        {
+                                            <Div Flex="FlexJustifyContentBetweenAlignItemsCenter" Style="width: 100%; height: 100%;">
+                                                <Span TextOverflow="TextOverflow.Truncate">@GetItemTitle( node.Item )</Span>
+                                                @if ( barInfo.ProgressPercentage is not null )
+                                                {
+                                                    <Span TextSize="TextSizeSmall">@($"{barInfo.ProgressPercentage.Value:0}%")</Span>
+                                                }
+                                            </Div>
+                                        }
+                                    </_GanttItemBar>
+                                }
+                            </_GanttTimeRow>
+                        }
+                    </_GanttTimelineInner>
+                </_GanttTimelineViewport>
+            </_GanttTimelinePane>
+        </_GanttBody>
+
+        <_GanttItemModal TItem="TItem"
+                         @ref="ganttItemModalRef"
+                         FirstDayOfWeek="@FirstDayOfWeek"
+                         SaveRequested="@SaveImpl"
+                         DeleteRequested="@DeleteItemImpl" />
+    </CascadingValue>
+</Div>
+
+<CascadingValue Value="@this" IsFixed>
+    @ChildContent
+</CascadingValue>

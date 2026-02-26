@@ -1,0 +1,48 @@
+@inherits BaseComponent
+@typeparam TItem
+@using Blazorise.Gantt.Extensions
+@using Blazorise.Gantt.Utilities
+<Div Class="@ClassNames" Style="@($"{StyleNames}; flex-wrap: wrap; row-gap: 0.5rem;")" Padding="PaddingIs3" Flex="FlexJustifyContentBetweenAlignItemsCenter">
+    <Div Flex="FlexAlignItemsCenter" Style="flex-wrap: wrap; row-gap: 0.25rem;">
+        <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnTodayClick" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.TodayLocalizer, LocalizationConstants.Today )</Button>
+        <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnPreviousClick" Margin="MarginIs1FromEnd" aria-label="@Localizer.Localize( Gantt.Localizers?.PreviousLocalizer, LocalizationConstants.Previous )">
+            <Icon Name="IconName.ChevronLeft" />
+        </Button>
+        <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnNextClick" Margin="MarginIs2FromEnd" aria-label="@Localizer.Localize( Gantt.Localizers?.NextLocalizer, LocalizationConstants.Next )">
+            <Icon Name="IconName.ChevronRight" />
+        </Button>
+
+        @if ( ShowDayViewButton )
+        {
+            <Button Color="@(SelectedView == GanttView.Day ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@(SelectedView == GanttView.Day)" Clicked="@OnDayViewClick" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.DayLocalizer, LocalizationConstants.Day )</Button>
+        }
+        @if ( ShowWeekViewButton )
+        {
+            <Button Color="@(SelectedView == GanttView.Week ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@(SelectedView == GanttView.Week)" Clicked="@OnWeekViewClick" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.WeekLocalizer, LocalizationConstants.Week )</Button>
+        }
+        @if ( ShowMonthViewButton )
+        {
+            <Button Color="@(SelectedView == GanttView.Month ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@(SelectedView == GanttView.Month)" Clicked="@OnMonthViewClick" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.MonthLocalizer, LocalizationConstants.Month )</Button>
+        }
+        @if ( ShowYearViewButton )
+        {
+            <Button Color="@(SelectedView == GanttView.Year ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@(SelectedView == GanttView.Year)" Clicked="@OnYearViewClick" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.YearLocalizer, LocalizationConstants.Year )</Button>
+        }
+
+        <Button Color="Color.Success" Size="Size.Small" Outline Clicked="@OnAddTaskClick">
+            <Icon Name="IconName.Add" Margin="MarginIs1FromEnd" />@Localizer.Localize( Gantt.Localizers?.AddTaskLocalizer, LocalizationConstants.AddTask )
+        </Button>
+    </Div>
+
+    <Div TextWeight="TextWeight.Bold" Margin="MarginIs1OnX" Style="white-space: nowrap;">@RangeText</Div>
+
+    <Div Flex="FlexAlignItemsCenter" Margin="MarginIs1OnX" Style="flex-wrap: wrap; row-gap: 0.25rem; margin-left: auto;">
+        <TextInput Value="@SearchText" ValueChanged="@OnSearchTextValueChanged" Placeholder="@Localizer.Localize( Gantt.Localizers?.SearchLocalizer, LocalizationConstants.Search )" Margin="MarginIs1FromEnd" />
+
+        <Span Margin="MarginIs2FromEnd" TextSize="TextSizeSmall" TextColor="TextColor.Muted">@Localizer.Localize( Gantt.Localizers?.ColumnsLocalizer, LocalizationConstants.Columns ):</Span>
+
+        <Check TValue="bool" Value="@ShowTitleColumn" ValueChanged="@OnShowTitleColumnChanged" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.TaskLocalizer, LocalizationConstants.Task )</Check>
+        <Check TValue="bool" Value="@ShowStartColumn" ValueChanged="@OnShowStartColumnChanged" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.StartLocalizer, LocalizationConstants.Start )</Check>
+        <Check TValue="bool" Value="@ShowEndColumn" ValueChanged="@OnShowEndColumnChanged">@Localizer.Localize( Gantt.Localizers?.EndLocalizer, LocalizationConstants.End )</Check>
+    </Div>
+</Div>
