@@ -35,6 +35,11 @@
         color: var(--mui-on-surface);
         font-weight: 500;
     }
+    // Active breadcrumb item renders plain text (no anchor), so preserve start alignment
+    // with regular breadcrumb links for the first item.
+    > .mui-breadcrumb-item:first-child.active {
+        padding-inline: 0.5rem;
+    }
 
     > .mui-breadcrumb-item > .mui-breadcrumb-link {
         display: inline-flex;
