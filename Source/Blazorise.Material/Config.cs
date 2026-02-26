@@ -39,6 +39,7 @@ public static class Config
     {
         [typeof( Blazorise.BarDropdownToggle )] = typeof( Components.BarDropdownToggle ),
         [typeof( Blazorise.Badge )] = typeof( Components.Badge ),
+        [typeof( Blazorise.BreadcrumbLink )] = typeof( Components.BreadcrumbLink ),
         [typeof( Blazorise.Carousel )] = typeof( Components.Carousel ),
         [typeof( Blazorise.Check<> )] = typeof( Components.Check<> ),
         [typeof( Blazorise.CarouselSlide )] = typeof( Components.CarouselSlide ),
