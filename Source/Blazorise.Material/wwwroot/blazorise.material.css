@@ -4850,7 +4850,8 @@ body.modal-open {
   align-items: center;
   flex-wrap: wrap;
   gap: var(--mui-pagination-gap);
-  margin: 0;
+  margin-block-end: var(--mui-spacing);
+  margin-inline: 0;
   padding: 0;
   list-style: none;
 }
@@ -6801,6 +6802,7 @@ body.modal-open {
   line-height: 1.25rem;
   color: var(--mui-on-surface);
   background-color: var(--mui-surface-container-lowest);
+  margin-block-end: var(--mui-spacing);
 }
 
 .mui-table-fullwidth {

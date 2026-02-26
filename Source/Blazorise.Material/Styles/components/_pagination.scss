@@ -16,7 +16,8 @@
     align-items: center;
     flex-wrap: wrap;
     gap: var(--mui-pagination-gap);
-    margin: 0;
+    margin-block-end: var(--mui-spacing);
+    margin-inline: 0;
     padding: 0;
     list-style: none;
 
