@@ -1389,7 +1389,7 @@ public class MaterialClassProvider : ClassProvider
 
     #region Divider
 
-    public override string Divider() => "divider";
+    public override string Divider() => "mui-divider";
 
     public override string DividerType( DividerType dividerType ) => $"{Divider()}-{ToDividerType( dividerType )}";
 

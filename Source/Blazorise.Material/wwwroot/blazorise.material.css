@@ -3340,6 +3340,54 @@ body {
   display: none !important;
 }
 
+.mui-divider {
+  --mui-divider-color: var(--b-divider-color, var(--mui-outline-variant));
+  --mui-divider-thickness: var(--b-divider-thickness, 0.0625rem);
+  --mui-divider-text-size: var(--b-divider-font-size, 0.75rem);
+  --mui-divider-text-color: var(--mui-on-surface-variant);
+  --mui-divider-text-bg: var(--mui-surface);
+  border: 0;
+  border-top: var(--mui-divider-thickness) solid var(--mui-divider-color);
+  inline-size: 100%;
+  min-block-size: 0;
+  background: transparent;
+  color: var(--mui-divider-text-color);
+}
+.mui-divider.mui-divider-dashed {
+  border-top-style: dashed;
+}
+.mui-divider.mui-divider-dotted {
+  border-top-style: dotted;
+}
+.mui-divider.mui-divider-text {
+  position: relative;
+  border: 0;
+  block-size: var(--mui-divider-thickness);
+  background: var(--mui-divider-color);
+  overflow: visible;
+}
+.mui-divider.mui-divider-text::before {
+  content: attr(data-content);
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-inline-size: calc(100% - 1.5rem);
+  padding-inline: 0.75rem;
+  background: var(--mui-divider-text-bg);
+  color: var(--mui-divider-text-color);
+  font-size: var(--mui-divider-text-size);
+  font-weight: 500;
+  line-height: 1.25rem;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .mui-field {
   --mui-field-input-size: var(--mui-input-size, 2.5rem);
   position: relative;
