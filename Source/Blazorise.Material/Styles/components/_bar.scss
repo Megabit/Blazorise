@@ -654,7 +654,9 @@
         min-block-size: var(--mui-bar-item-min-height);
         inline-size: calc(100% - 1rem);
         margin-inline: 0.5rem;
-        padding: 0.5rem 1rem;
+        padding-block: 0.5rem;
+        padding-inline: 1rem;
+        padding-inline-start: 1.5rem;
         justify-content: flex-start;
     }
 
