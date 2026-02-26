@@ -28,6 +28,9 @@ public record Color : Enumeration<Color>
         return new Color( name );
     }
 
+    /// <inheritdoc/>
+    public override string ToString() => Name;
+
     /// <summary>
     /// No color will be applied to an element, meaning it will appear as default to whatever current theme is set to.
     /// </summary>

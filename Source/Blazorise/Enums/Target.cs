@@ -24,6 +24,9 @@ public record Target : Enumeration<Target>
         return new Target( name );
     }
 
+    /// <inheritdoc/>
+    public override string ToString() => Name;
+
     /// <summary>
     /// No target will be applied. Usually this is the same as <see cref="Target.Self"/>.
     /// </summary>
