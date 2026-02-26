@@ -161,6 +161,19 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
         await InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Triggers reload of a specific <see cref="TreeView{TNode}"/> node.
+    /// </summary>
+    /// <param name="node">Node to reload.</param>
+    /// <returns>Returns the awaitable task.</returns>
+    public Task ReloadNode( TNode node )
+    {
+        if ( treeViewNodeRef is not null )
+            return treeViewNodeRef.ReloadNode( node );
+
+        return Task.CompletedTask;
+    }
+
     private void AddTreeViewNodeState( TreeViewNodeState<TNode> treeViewNodeState )
     {
         var maxRowsLimit = BlazoriseLicenseLimitsHelper.GetTreeViewRowsLimit( LicenseChecker );

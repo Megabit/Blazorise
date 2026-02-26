@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Security;
 using System.Threading.Tasks;
 using Blazorise.TreeView;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise.Demo.Pages.Tests;
 
@@ -22,11 +20,13 @@ public partial class TreeViewPage : ComponentBase
     public class NodeInfo
     {
         public string Text { get; set; }
-        public ObservableCollection<NodeInfo> Children { get; set; }
+        public ObservableCollection<NodeInfo> Children { get; init; } = [];
         public bool Disabled { get; set; }
+
+        public override string ToString() => Text;
     }
 
-    private ObservableCollection<NodeInfo> Nodes = new ObservableCollection<NodeInfo>()
+    private ObservableCollection<NodeInfo> Nodes = new ObservableCollection<NodeInfo>
     {
         new NodeInfo { Text = "NodeInfo 1" },
         new NodeInfo
@@ -75,16 +75,49 @@ public partial class TreeViewPage : ComponentBase
     };
 
 
-    int count = 0;
     private async Task AddNode()
     {
-        count++;
-        selectedNode.Children ??= new ObservableCollection<NodeInfo>();
-        selectedNode.Children.Add( new NodeInfo()
+        var target = selectedNode?.Children ?? Nodes;
+        var name = selectedNode == null ? "NodeInfo " : selectedNode.Text + ".";
+
+        var newNode = new NodeInfo { Text = name + ( target.Count + 1 ) };
+        target.Add( newNode );
+
+        if ( selectedNode != null )
         {
-            Text = selectedNode.Text + count,
-        } );
+            treeViewRef.ExpandedNodes.Add( selectedNode );
+            await treeViewRef.ReloadNode( selectedNode );
+        }
     }
+
+    private async Task RemoveNode()
+    {
+        if ( selectedNode == null )
+            return;
+
+        var parent = RemoveSelectedNode( null, Nodes );
+
+        if ( parent != null )
+        {
+            await treeViewRef.ReloadNode( parent );
+        }
+
+        selectedNode = null;
+
+        NodeInfo RemoveSelectedNode( NodeInfo node, IList<NodeInfo> nodes )
+        {
+            if ( nodes == null )
+                return null;
+
+            if ( nodes?.Remove( selectedNode ) == true )
+                return node;
+
+            return nodes
+                .Select( x => RemoveSelectedNode( x, x.Children ) )
+                .FirstOrDefault( x => x is not null );
+        }
+    }
+
     private async Task ForceReload()
     {
         await treeViewRef.Reload();
