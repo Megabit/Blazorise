@@ -130,10 +130,14 @@ $mui-text-weights: (
 
 .mui-text-wrap {
     white-space: normal !important;
+    text-wrap: wrap !important;
+    block-size: auto !important;
+    height: auto !important;
 }
 
 .mui-text-nowrap {
     white-space: nowrap !important;
+    text-wrap: nowrap !important;
 }
 
 .mui-text-truncate {
