@@ -2,6 +2,7 @@
     --mui-breadcrumb-gap: 0.5rem;
     --mui-breadcrumb-item-min-size: 2rem;
     --mui-breadcrumb-radius: 1rem;
+    --mui-breadcrumb-item-padding-inline: 0.5rem;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -21,14 +22,18 @@
     }
 
     > .mui-breadcrumb-item + .mui-breadcrumb-item::before {
-        content: ">";
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+        content: "";
+        display: inline-block;
+        inline-size: 0.45rem;
+        block-size: 0.45rem;
+        border-block-start: 0.125rem solid var(--mui-outline);
+        border-inline-end: 0.125rem solid var(--mui-outline);
+        border-radius: 0.0625rem;
+        transform: rotate(45deg);
         margin-inline: var(--mui-breadcrumb-gap);
-        color: var(--mui-outline);
-        font-size: 1rem;
-        line-height: 1;
+        margin-inline-end: calc(var(--mui-breadcrumb-gap) * 2);
+        opacity: 0.9;
+        flex: 0 0 auto;
     }
 
     > .mui-breadcrumb-item.active {
