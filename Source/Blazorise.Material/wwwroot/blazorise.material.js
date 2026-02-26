@@ -137,7 +137,16 @@
     };
 
     document.addEventListener("pointerdown", event => {
-        if (event.button !== 0 || !(event.target instanceof Element)) {
+        if (!(event.target instanceof Element)) {
+            return;
+        }
+
+        const isMousePointer = event.pointerType === "mouse" || event.pointerType === "";
+        if (isMousePointer && event.button !== 0) {
+            return;
+        }
+
+        if (event.isPrimary === false) {
             return;
         }
 
@@ -148,6 +157,25 @@
         }
 
         createRipple(target, event.clientX, event.clientY);
+    }, { passive: true });
+
+    document.addEventListener("touchstart", event => {
+        if (window.PointerEvent || !(event.target instanceof Element)) {
+            return;
+        }
+
+        const touch = event.changedTouches && event.changedTouches[0];
+        if (!touch) {
+            return;
+        }
+
+        const target = resolveRippleTarget(event);
+
+        if (!target || isDisabled(target)) {
+            return;
+        }
+
+        createRipple(target, touch.clientX, touch.clientY);
     }, { passive: true });
 
     document.addEventListener("keydown", event => {
