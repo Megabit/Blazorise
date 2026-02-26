@@ -3,4 +3,4 @@
 set DOTNET_WATCH_SUPPRESS_LAUNCH_BROWSER=1
 title Blazorise.Demo.AntDesign
 cd /d %~dp0
-dotnet watch run 
+dotnet watch run -- --pathbase=/wasm/antdesign
