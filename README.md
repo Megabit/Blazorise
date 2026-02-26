@@ -60,17 +60,17 @@ Blazorise is a source-available project, and its ongoing development is made pos
 
 ### Blazor WebAssembly
 
-- [Tailwind Demo](https://tailwinddemo.blazorise.com)
-- [Bootstrap 4 Demo](https://bootstrapdemo.blazorise.com)
-- [Bootstrap 5 Demo](https://bootstrap5demo.blazorise.com)
-- [Material Demo](https://materialdemo.blazorise.com/)
-- [Bulma Demo](https://bulmademo.blazorise.com/)
-- [AntDesign Demo](https://antdesigndemo.blazorise.com/)
-- [Fluent 2 Demo](https://fluentui2demo.blazorise.com/)
+- [Tailwind Demo](https://demos.blazorise.com/wasm/tailwind/)
+- [Bootstrap 4 Demo](https://demos.blazorise.com/wasm/bootstrap4/)
+- [Bootstrap 5 Demo](https://demos.blazorise.com/wasm/bootstrap5/)
+- [Material Demo](https://demos.blazorise.com/wasm/material/)
+- [Bulma Demo](https://demos.blazorise.com/wasm/bulma/)
+- [AntDesign Demo](https://demos.blazorise.com/wasm/antdesign/)
+- [Fluent 2 Demo](https://demos.blazorise.com/wasm/fluentui2/)
 
 ### Blazor Server
 
-- [Bootstrap Demo](https://rcbootstrapdemo.blazorise.com/)
+- [Bootstrap Demo](https://demos.blazorise.com/server/bootstrap4/)
 
 ## Documentation
 
@@ -124,11 +124,11 @@ Add the following to `index.html` (Blazor WebAssembly), `_Host.cshtml` (Blazor S
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link href="_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css" rel="stylesheet">
 
-<link href="_content/Blazorise/blazorise.css?v=2.0.0.0" rel="stylesheet" />
-<link href="_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.0.0.0" rel="stylesheet" />
+<link href="_content/Blazorise/blazorise.css?v=2.0.1.0" rel="stylesheet" />
+<link href="_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.0.1.0" rel="stylesheet" />
 ```
 
-The `?v=2.0.0.0` query string matches the current Blazorise package version (2.0.0) and is used for cache busting. Update it whenever you upgrade Blazorise packages. If you use a different provider, swap the Bootstrap CSS and provider-specific Blazorise CSS file accordingly.
+The `?v=2.0.1.0` query string matches the current Blazorise package version (2.0.1) and is used for cache busting. Update it whenever you upgrade Blazorise packages. If you use a different provider, swap the Bootstrap CSS and provider-specific Blazorise CSS file accordingly.
 
 #### 2.1 JavaScript resources
 

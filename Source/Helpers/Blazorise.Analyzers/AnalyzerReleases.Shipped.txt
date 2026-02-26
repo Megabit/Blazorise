@@ -1,4 +1,4 @@
-## Release 2.0.0
+## Release 2.0.1
 
 ### New Rules
 BLZC001: Blazorise component renamed
