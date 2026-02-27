@@ -82,7 +82,7 @@
                                         <Div Flex="FlexAlignItemsCenter" Style="@GetTreeTitleContentStyle( node.Level )">
                                             @if ( node.HasChildren )
                                             {
-                                                <Button Color="Color.Light" Size="Size.ExtraSmall" Outline Clicked="@(() => ToggleNode( node ))" Margin="MarginIs1FromEnd" aria-label="Toggle">
+                                                <Button Size="Size.ExtraSmall" Clicked="@(() => ToggleNode( node ))" Margin="MarginIs1FromEnd" aria-label="Toggle">
                                                     <Icon Name="@(IsExpanded( node ) ? IconName.ChevronDown : IconName.ChevronRight)" />
                                                 </Button>
                                             }
@@ -117,7 +117,7 @@
                                 @if ( showNewColumn )
                                 {
                                     <Div Style="@GetActionColumnStyle()">
-                                        <Button Color="Color.Light" Size="Size.ExtraSmall" Clicked="@(() => AddChild( node.Item ))" Style="border: 0; background: transparent; color: rgba(0,0,0,0.5);" aria-label="@AddChildText">
+                                        <Button Size="Size.ExtraSmall" Clicked="@(() => AddChild( node.Item ))" Style="border: 0; background: transparent; color: rgba(0,0,0,0.5);" aria-label="@AddChildText">
                                             <Icon Name="IconName.Add" />
                                         </Button>
                                     </Div>
