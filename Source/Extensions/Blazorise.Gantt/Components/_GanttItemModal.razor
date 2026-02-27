@@ -41,71 +41,83 @@
                 </Div>
             }
 
-            <Field>
-                <FieldLabel>@Localizer.Localize( Gantt.Localizers?.TitleLocalizer, LocalizationConstants.Title )</FieldLabel>
-                <FieldBody>
-                    <TextInput @bind-Value="@Title" Autofocus />
-                </FieldBody>
-            </Field>
+            <Validations @ref="@validationsRef" Mode="ValidationMode.Manual">
+                <Validation Validator="@OnValidateTitle">
+                    <Field>
+                        <FieldLabel>@Localizer.Localize( Gantt.Localizers?.TitleLocalizer, LocalizationConstants.Title )</FieldLabel>
+                        <FieldBody>
+                            <TextInput @bind-Value="@Title" Autofocus>
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextInput>
+                        </FieldBody>
+                    </Field>
+                </Validation>
 
-            <Field>
-                <FieldLabel>@Localizer.Localize( Gantt.Localizers?.DescriptionLocalizer, LocalizationConstants.Description )</FieldLabel>
-                <FieldBody>
-                    <MemoInput @bind-Value="@Description" Rows="3" />
-                </FieldBody>
-            </Field>
-
-            <Fields>
-                <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
-                    <FieldLabel>@Localizer.Localize( Gantt.Localizers?.StartLocalizer, LocalizationConstants.Start )</FieldLabel>
-                    <FieldBody>
-                        <DatePicker TValue="DateOnly" Value="@StartDate" ValueChanged="@OnStartDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
-                    </FieldBody>
-                </Field>
-                <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
-                    <FieldLabel>&nbsp;</FieldLabel>
-                    <FieldBody>
-                        <TimePicker TValue="TimeOnly" Value="@StartTime" ValueChanged="@OnStartTimeChanged" StaticPicker="false" TimeAs24hr />
-                    </FieldBody>
-                </Field>
-            </Fields>
-
-            <Fields>
-                <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
-                    <FieldLabel>@Localizer.Localize( Gantt.Localizers?.EndLocalizer, LocalizationConstants.End )</FieldLabel>
-                    <FieldBody>
-                        <DatePicker TValue="DateOnly" Value="@EndDate" ValueChanged="@OnEndDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek" />
-                    </FieldBody>
-                </Field>
-                <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
-                    <FieldLabel>&nbsp;</FieldLabel>
-                    <FieldBody>
-                        <TimePicker TValue="TimeOnly" Value="@EndTime" ValueChanged="@OnEndTimeChanged" StaticPicker="false" TimeAs24hr />
-                    </FieldBody>
-                </Field>
-            </Fields>
-
-            @if ( DurationAvailable )
-            {
                 <Field>
-                    <FieldLabel>@Localizer.Localize( Gantt.Localizers?.DurationLocalizer, LocalizationConstants.Duration )</FieldLabel>
+                    <FieldLabel>@Localizer.Localize( Gantt.Localizers?.DescriptionLocalizer, LocalizationConstants.Description )</FieldLabel>
                     <FieldBody>
-                        <NumericInput TValue="int" Value="@DurationDays" ValueChanged="@OnDurationChanged" Min="1" Step="1" />
+                        <MemoInput @bind-Value="@Description" Rows="3" />
                     </FieldBody>
                 </Field>
-            }
 
-            @if ( customValidationErrors.Count > 0 )
-            {
-                <Paragraph TextColor="TextColor.Danger" Margin="MarginIs0FromBottom">
-                    <UnorderedList Margin="MarginIs0FromBottom">
-                        @foreach ( var error in customValidationErrors )
-                        {
-                            <UnorderedListItem>@error</UnorderedListItem>
-                        }
-                    </UnorderedList>
-                </Paragraph>
-            }
+                <Fields>
+                    <Validation Validator="@OnValidateStartDate">
+                        <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
+                            <FieldLabel>@Localizer.Localize( Gantt.Localizers?.StartLocalizer, LocalizationConstants.Start )</FieldLabel>
+                            <FieldBody>
+                                <DatePicker TValue="DateOnly" Value="@StartDate" ValueChanged="@OnStartDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </DatePicker>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Validation Validator="@OnValidateStartTime">
+                        <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
+                            <FieldLabel>&nbsp;</FieldLabel>
+                            <FieldBody>
+                                <TimePicker TValue="TimeOnly" Value="@StartTime" ValueChanged="@OnStartTimeChanged" StaticPicker="false" TimeAs24hr />
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                </Fields>
+
+                <Fields>
+                    <Validation Validator="@OnValidateEndDate">
+                        <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
+                            <FieldLabel>@Localizer.Localize( Gantt.Localizers?.EndLocalizer, LocalizationConstants.End )</FieldLabel>
+                            <FieldBody>
+                                <DatePicker TValue="DateOnly" Value="@EndDate" ValueChanged="@OnEndDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </DatePicker>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Validation Validator="@OnValidateEndTime">
+                        <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
+                            <FieldLabel>&nbsp;</FieldLabel>
+                            <FieldBody>
+                                <TimePicker TValue="TimeOnly" Value="@EndTime" ValueChanged="@OnEndTimeChanged" StaticPicker="false" TimeAs24hr />
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                </Fields>
+
+                @if ( DurationAvailable )
+                {
+                    <Field>
+                        <FieldLabel>@Localizer.Localize( Gantt.Localizers?.DurationLocalizer, LocalizationConstants.Duration )</FieldLabel>
+                        <FieldBody>
+                            <NumericInput TValue="int" Value="@DurationDays" ValueChanged="@OnDurationChanged" Min="1" Step="1" />
+                        </FieldBody>
+                    </Field>
+                }
+            </Validations>
         </ModalBody>
         <ModalFooter Flex="FlexJustifyContentBetweenAlignItemsCenter">
             <Div>

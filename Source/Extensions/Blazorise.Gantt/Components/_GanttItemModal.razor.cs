@@ -1,6 +1,5 @@
 #region Using directives
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Localization;
 using Blazorise.Gantt.Utilities;
@@ -20,7 +19,7 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
     private Modal modalRef;
 
-    private readonly List<string> customValidationErrors = new();
+    private Validations validationsRef;
 
     #endregion
 
@@ -48,10 +47,115 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
         await InvokeAsync( StateHasChanged );
     }
 
+    private void OnValidateTitle( ValidatorEventArgs e )
+    {
+        var value = e.Value as string;
+
+        e.Status = string.IsNullOrWhiteSpace( value )
+            ? ValidationStatus.Error
+            : ValidationStatus.None;
+
+        e.ErrorText = e.Status == ValidationStatus.Error
+            ? Localizer.Localize( Gantt.Localizers?.TitleRequiredLocalizer, LocalizationConstants.TitleRequired )
+            : null;
+    }
+
+    private void OnValidateStartDate( ValidatorEventArgs e )
+    {
+        if ( !TryGetDateOnlyValue( e.Value, out var startDate ) || IsUnassignedDate( startDate ) )
+        {
+            e.Status = ValidationStatus.Error;
+            e.ErrorText = Localizer.Localize( Gantt.Localizers?.StartRequiredLocalizer, LocalizationConstants.StartRequired );
+            return;
+        }
+
+        if ( IsUnassignedDate( EndDate ) )
+        {
+            e.Status = ValidationStatus.None;
+            e.ErrorText = null;
+            return;
+        }
+
+        var start = new DateTime( startDate.Year, startDate.Month, startDate.Day, StartTime.Hour, StartTime.Minute, 0 );
+        var end = GetEndValue();
+
+        SetRangeValidationResult( e, start, end );
+    }
+
+    private void OnValidateStartTime( ValidatorEventArgs e )
+    {
+        var startTime = e.Value as TimeOnly?;
+
+        if ( startTime is null || IsUnassignedDate( StartDate ) || IsUnassignedDate( EndDate ) )
+        {
+            e.Status = ValidationStatus.None;
+            e.ErrorText = null;
+            return;
+        }
+
+        var start = new DateTime( StartDate.Year, StartDate.Month, StartDate.Day, startTime.Value.Hour, startTime.Value.Minute, 0 );
+        var end = GetEndValue();
+
+        SetRangeValidationResult( e, start, end );
+    }
+
+    private void OnValidateEndDate( ValidatorEventArgs e )
+    {
+        if ( !TryGetDateOnlyValue( e.Value, out var endDate ) || IsUnassignedDate( endDate ) )
+        {
+            e.Status = ValidationStatus.Error;
+            e.ErrorText = Localizer.Localize( Gantt.Localizers?.EndRequiredLocalizer, LocalizationConstants.EndRequired );
+            return;
+        }
+
+        if ( IsUnassignedDate( StartDate ) )
+        {
+            e.Status = ValidationStatus.None;
+            e.ErrorText = null;
+            return;
+        }
+
+        var start = GetStartValue();
+        var end = new DateTime( endDate.Year, endDate.Month, endDate.Day, EndTime.Hour, EndTime.Minute, 0 );
+
+        SetRangeValidationResult( e, start, end );
+    }
+
+    private void OnValidateEndTime( ValidatorEventArgs e )
+    {
+        var endTime = e.Value as TimeOnly?;
+
+        if ( endTime is null || IsUnassignedDate( StartDate ) || IsUnassignedDate( EndDate ) )
+        {
+            e.Status = ValidationStatus.None;
+            e.ErrorText = null;
+            return;
+        }
+
+        var start = GetStartValue();
+        var end = new DateTime( EndDate.Year, EndDate.Month, EndDate.Day, endTime.Value.Hour, endTime.Value.Minute, 0 );
+
+        SetRangeValidationResult( e, start, end );
+    }
+
+    private void SetRangeValidationResult( ValidatorEventArgs e, DateTime start, DateTime end )
+    {
+        e.Status = end <= start
+            ? ValidationStatus.Error
+            : ValidationStatus.None;
+
+        e.ErrorText = e.Status == ValidationStatus.Error
+            ? Localizer.Localize( Gantt.Localizers?.EndBeforeStartLocalizer, LocalizationConstants.EndBeforeStart )
+            : null;
+    }
+
     private Task OnStartDateChanged( DateOnly value )
     {
         var previousStart = GetStartValue();
         StartDate = value;
+
+        if ( IsUnassignedDate( StartDate ) )
+            return Task.CompletedTask;
 
         if ( DurationAvailable )
         {
@@ -69,6 +173,9 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
         var previousStart = GetStartValue();
         StartTime = value;
 
+        if ( IsUnassignedDate( StartDate ) )
+            return Task.CompletedTask;
+
         if ( DurationAvailable )
         {
             SyncEndFromDuration();
@@ -84,6 +191,9 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
     {
         EndDate = value;
 
+        if ( IsUnassignedDate( EndDate ) )
+            return Task.CompletedTask;
+
         if ( DurationAvailable )
         {
             SyncDurationFromEnd();
@@ -96,6 +206,9 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
     private Task OnEndTimeChanged( TimeOnly value )
     {
         EndTime = value;
+
+        if ( IsUnassignedDate( EndDate ) || IsUnassignedDate( StartDate ) )
+            return Task.CompletedTask;
 
         if ( DurationAvailable )
         {
@@ -121,10 +234,8 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
     /// <summary>
     /// Shows modal for provided item.
     /// </summary>
-    public Task ShowModal( TItem item, GanttEditState editState, TItem parentItem = default )
+    public async Task ShowModal( TItem item, GanttEditState editState, TItem parentItem = default )
     {
-        customValidationErrors.Clear();
-
         EditItem = item;
         EditState = editState;
         ParentItem = parentItem;
@@ -157,19 +268,24 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
         EndDate = DateOnly.FromDateTime( end );
         EndTime = TimeOnly.FromDateTime( end );
 
-        return modalRef.Show();
+        if ( validationsRef is not null )
+            await validationsRef.ClearAll();
+
+        await modalRef.Show();
     }
 
     private async Task Cancel()
     {
-        customValidationErrors.Clear();
+        if ( validationsRef is not null )
+            await validationsRef.ClearAll();
 
         await modalRef.Hide();
     }
 
     private async Task Submit()
     {
-        customValidationErrors.Clear();
+        if ( validationsRef is not null && !await validationsRef.ValidateAll() )
+            return;
 
         var start = new DateTime( StartDate.Year, StartDate.Month, StartDate.Day, StartTime.Hour, StartTime.Minute, 0 );
         var end = new DateTime( EndDate.Year, EndDate.Month, EndDate.Day, EndTime.Hour, EndTime.Minute, 0 );
@@ -178,17 +294,7 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
         if ( DurationAvailable )
             end = start.AddDays( duration );
 
-        if ( string.IsNullOrWhiteSpace( Title ) )
-        {
-            customValidationErrors.Add( Localizer.Localize( Gantt.Localizers?.TitleRequiredLocalizer, LocalizationConstants.TitleRequired ) );
-        }
-
         if ( end <= start )
-        {
-            customValidationErrors.Add( Localizer.Localize( Gantt.Localizers?.EndBeforeStartLocalizer, LocalizationConstants.EndBeforeStart ) );
-        }
-
-        if ( customValidationErrors.Count > 0 )
             return;
 
         if ( EditItem is null )
@@ -293,6 +399,27 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
     private static int NormalizeDurationDays( int value )
         => Math.Max( 1, value );
+
+    private static bool TryGetDateOnlyValue( object value, out DateOnly date )
+    {
+        if ( value is DateOnly dateOnlyValue )
+        {
+            date = dateOnlyValue;
+            return true;
+        }
+
+        if ( value is DateTime dateTimeValue )
+        {
+            date = DateOnly.FromDateTime( dateTimeValue );
+            return true;
+        }
+
+        date = default;
+        return false;
+    }
+
+    private static bool IsUnassignedDate( DateOnly value )
+        => value == DateOnly.MinValue || value == DateOnly.MaxValue;
 
     private static bool IsUnassignedDate( DateTime value )
         => value == DateTime.MinValue || value == DateTime.MaxValue;

@@ -18,6 +18,7 @@ internal static class LocalizationConstants
     public const string Edit = "Edit";
     public const string End = "End";
     public const string EndBeforeStart = "End must be greater than Start.";
+    public const string EndRequired = "End is required.";
     public const string ExpandAll = "Expand All";
     public const string Month = "Month";
     public const string New = "New";
@@ -28,6 +29,7 @@ internal static class LocalizationConstants
     public const string Save = "Save";
     public const string Search = "Search tasks...";
     public const string Start = "Start";
+    public const string StartRequired = "Start is required.";
     public const string Task = "Task";
     public const string Title = "Title";
     public const string TitleRequired = "Title is required.";

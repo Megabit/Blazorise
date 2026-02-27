@@ -140,6 +140,16 @@ public class GanttLocalizers
     public TextLocalizerHandler EndBeforeStartLocalizer { get; set; }
 
     /// <summary>
+    /// Localizer for the "Start is required." validation message.
+    /// </summary>
+    public TextLocalizerHandler StartRequiredLocalizer { get; set; }
+
+    /// <summary>
+    /// Localizer for the "End is required." validation message.
+    /// </summary>
+    public TextLocalizerHandler EndRequiredLocalizer { get; set; }
+
+    /// <summary>
     /// Localizer for the task deletion confirmation text.
     /// </summary>
     public TextLocalizerHandler DeleteTaskConfirmationLocalizer { get; set; }
