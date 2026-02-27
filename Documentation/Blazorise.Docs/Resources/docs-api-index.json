@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-27T09:24:43.1240955Z",
+  "generatedUtc": "2026-02-27T11:22:17.6098528Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -44716,6 +44716,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "AddChildCommandAllowed",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether creating child items is allowed.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Attributes",
           "type": "Dictionary<string, object>",
           "typeName": "Dictionary<string, object>",
@@ -44797,6 +44805,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "DeleteCommandAllowed",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether deleting existing items is allowed.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "DescriptionField",
           "type": "string",
           "typeName": "string",
@@ -44818,6 +44834,14 @@
           "typeName": "string",
           "defaultValue": "\"Duration\"",
           "summary": "Gets or sets duration (days) field name.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "EditCommandAllowed",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether editing existing items is allowed.",
           "isBlazoriseEnum": false
         },
         {
@@ -44926,6 +44950,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "NewCommandAllowed",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether creating new top-level items is allowed.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "ObjectFit",
           "type": "global::Blazorise.IFluentObjectFit",
           "typeName": "IFluentObjectFit",
@@ -45027,6 +45059,14 @@
           "typeName": "bool",
           "defaultValue": "true",
           "summary": "Gets or sets whether title column is visible.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ShowToggleAllCommands",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether toggle-all commands (expand/collapse all) are visible in the toolbar.",
           "isBlazoriseEnum": false
         },
         {
@@ -45183,6 +45223,14 @@
         }
       ],
       "events": [
+        {
+          "name": "CommandAllowed",
+          "type": "Func<,>",
+          "typeName": "Func<GanttCommandContext<TItem>, bool>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback used to allow or deny command execution per item.",
+          "isBlazoriseEnum": false
+        },
         {
           "name": "DateChanged",
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
