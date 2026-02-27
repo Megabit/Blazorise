@@ -1033,6 +1033,7 @@ public partial class Gantt<TItem> : BaseComponent
                 if ( focusedRow.HasChildren && IsExpanded( focusedRow ) )
                     await ToggleNode( focusedRow );
                 break;
+            case "Enter":
             case "F2":
                 if ( IsCommandAllowed( GanttCommandType.Edit, focusedRow.Item ) )
                     await Edit( focusedRow.Item );
