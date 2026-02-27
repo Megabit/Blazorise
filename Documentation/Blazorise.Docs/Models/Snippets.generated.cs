@@ -11605,7 +11605,7 @@ builder.Services
     Item selectedNode;
 }";
 
-        public const string BasicVideoExample = @"<Video Source=""@(""http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"")"" />";
+        public const string BasicVideoExample = @"<Video Source=""@(""https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"")"" />";
 
         public const string DRMVideoExample = @"<Video Source=""@(""https://media.axprod.net/TestVectors/v7-MultiDRM-SingleKey/Manifest_1080p.mpd"")""
        StreamingLibrary=""StreamingLibrary.Dash""
