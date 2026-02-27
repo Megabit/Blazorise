@@ -19,4 +19,9 @@ public enum GanttSortColumn
     /// Sort by task end date.
     /// </summary>
     End,
+
+    /// <summary>
+    /// Sort by task duration.
+    /// </summary>
+    Duration,
 }

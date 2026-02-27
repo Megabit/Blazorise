@@ -70,7 +70,9 @@ public partial class Gantt<TItem> : BaseComponent
     private string searchText = string.Empty;
     private bool showTitleColumn = true;
     private bool showStartColumn = true;
-    private bool showEndColumn = true;
+    private bool showEndColumn = false;
+    private bool showDurationColumn = true;
+    private bool showCommandColumn = true;
     private string focusedRowKey;
     private bool shouldFocusTreeRows;
     private GanttSortColumn ganttSortColumn = GanttSortColumn.Start;
@@ -127,6 +129,12 @@ public partial class Gantt<TItem> : BaseComponent
         if ( parameters.TryGetValue<bool>( nameof( ShowEndColumn ), out var paramShowEndColumn ) )
             showEndColumn = paramShowEndColumn;
 
+        if ( parameters.TryGetValue<bool>( nameof( ShowDurationColumn ), out var paramShowDurationColumn ) )
+            showDurationColumn = paramShowDurationColumn;
+
+        if ( parameters.TryGetValue<bool>( nameof( ShowCommandColumn ), out var paramShowCommandColumn ) )
+            showCommandColumn = paramShowCommandColumn;
+
         await base.SetParametersAsync( parameters );
 
         EnsureAtLeastOneColumnVisible();
@@ -159,6 +167,8 @@ public partial class Gantt<TItem> : BaseComponent
         showTitleColumn = ShowTitleColumn;
         showStartColumn = ShowStartColumn;
         showEndColumn = ShowEndColumn;
+        showDurationColumn = ShowDurationColumn;
+        showCommandColumn = ShowCommandColumn;
 
         EnsureAtLeastOneColumnVisible();
 
@@ -735,7 +745,7 @@ public partial class Gantt<TItem> : BaseComponent
         var token = readDataCancellationTokenSource.Token;
         var viewRange = GetCurrentViewRange();
         var hasActiveSort = Sortable && ganttSortDirection != SortDirection.Default;
-        var sortColumn = hasActiveSort ? ganttSortColumn : null;
+        GanttSortColumn? sortColumn = hasActiveSort ? ganttSortColumn : null;
         var sortDirection = hasActiveSort ? ganttSortDirection : SortDirection.Default;
 
         try
@@ -801,16 +811,35 @@ public partial class Gantt<TItem> : BaseComponent
         await InvokeAsync( StateHasChanged );
     }
 
+    private async Task SetShowDurationColumn( bool value )
+    {
+        showDurationColumn = value;
+        EnsureAtLeastOneColumnVisible();
+
+        await NotifyColumnVisibilityChanged();
+        await InvokeAsync( StateHasChanged );
+    }
+
+    private async Task SetShowCommandColumn( bool value )
+    {
+        showCommandColumn = value;
+
+        await NotifyColumnVisibilityChanged();
+        await InvokeAsync( StateHasChanged );
+    }
+
     private async Task NotifyColumnVisibilityChanged()
     {
         await ShowTitleColumnChanged.InvokeAsync( showTitleColumn );
         await ShowStartColumnChanged.InvokeAsync( showStartColumn );
         await ShowEndColumnChanged.InvokeAsync( showEndColumn );
+        await ShowDurationColumnChanged.InvokeAsync( showDurationColumn );
+        await ShowCommandColumnChanged.InvokeAsync( showCommandColumn );
     }
 
     private void EnsureAtLeastOneColumnVisible()
     {
-        if ( !showTitleColumn && !showStartColumn && !showEndColumn )
+        if ( !showTitleColumn && !showStartColumn && !showEndColumn && !showDurationColumn )
         {
             showTitleColumn = true;
         }
@@ -830,6 +859,28 @@ public partial class Gantt<TItem> : BaseComponent
             return DateTime.MinValue;
 
         return propertyMapper.GetEnd( item );
+    }
+
+    private int? GetItemDuration( TItem item )
+    {
+        if ( item is null )
+            return null;
+
+        if ( propertyMapper.HasDuration )
+        {
+            var duration = propertyMapper.GetDuration( item );
+
+            if ( duration > 0 )
+                return duration;
+        }
+
+        var start = GetItemStart( item );
+        var end = GetItemEnd( item );
+
+        if ( IsUnassignedDate( start ) || IsUnassignedDate( end ) )
+            return null;
+
+        return GetDurationInDays( start, end );
     }
 
     private string GetItemTitle( TItem item )
@@ -870,6 +921,14 @@ public partial class Gantt<TItem> : BaseComponent
         return SelectedView == GanttView.Day
             ? date.ToString( "MMM dd, yyyy HH:mm", CultureInfo.InvariantCulture )
             : date.ToString( "MMM dd, yyyy", CultureInfo.InvariantCulture );
+    }
+
+    private static string FormatDuration( int? duration )
+    {
+        if ( duration is null )
+            return string.Empty;
+
+        return duration.Value.ToString( CultureInfo.InvariantCulture );
     }
 
     private void ApplyNewItemDateDefaults( TItem item, TItem parentItem )
@@ -1425,6 +1484,7 @@ public partial class Gantt<TItem> : BaseComponent
         {
             GanttSortColumn.Title => StringComparer.OrdinalIgnoreCase.Compare( GetItemTitle( x.Item ), GetItemTitle( y.Item ) ),
             GanttSortColumn.End => DateTime.Compare( GetItemEnd( x.Item ), GetItemEnd( y.Item ) ),
+            GanttSortColumn.Duration => Nullable.Compare( GetItemDuration( x.Item ), GetItemDuration( y.Item ) ),
             _ => DateTime.Compare( GetItemStart( x.Item ), GetItemStart( y.Item ) ),
         };
 
@@ -1733,6 +1793,9 @@ public partial class Gantt<TItem> : BaseComponent
         if ( showEndColumn )
             width += DateColumnWidth;
 
+        if ( showDurationColumn )
+            width += DateColumnWidth;
+
         if ( showActionColumn )
             width += ActionColumnWidth;
 
@@ -1906,8 +1969,9 @@ public partial class Gantt<TItem> : BaseComponent
         => UseInternalEditing && Editable && AddChildCommandAllowed;
 
     private bool CanShowActionColumn( IReadOnlyCollection<GanttTreeRow> visibleRows )
-        => ShowHeaderNewButton
-           || ( ShowAddChildColumn && visibleRows.Any( x => IsCommandAllowed( GanttCommandType.AddChild, parentItem: x.Item ) ) );
+        => showCommandColumn
+           && ( ShowHeaderNewButton
+           || ( ShowAddChildColumn && visibleRows.Any( x => IsCommandAllowed( GanttCommandType.AddChild, parentItem: x.Item ) ) ) );
 
     private bool CanShowAddChildButton( TItem parentItem )
         => ShowAddChildColumn && IsCommandAllowed( GanttCommandType.AddChild, parentItem: parentItem );
@@ -1929,6 +1993,9 @@ public partial class Gantt<TItem> : BaseComponent
 
     private string EndColumnHeaderText
         => Localizer.Localize( Localizers?.EndLocalizer, LocalizationConstants.End );
+
+    private string DurationColumnHeaderText
+        => Localizer.Localize( Localizers?.DurationLocalizer, LocalizationConstants.Duration );
 
     private BaseGanttView<TItem> ActiveView
         => SelectedView switch
@@ -2050,12 +2117,32 @@ public partial class Gantt<TItem> : BaseComponent
     /// <summary>
     /// Gets or sets whether end date column is visible.
     /// </summary>
-    [Parameter] public bool ShowEndColumn { get; set; } = true;
+    [Parameter] public bool ShowEndColumn { get; set; } = false;
 
     /// <summary>
     /// Gets or sets callback raised when <see cref="ShowEndColumn"/> changes.
     /// </summary>
     [Parameter] public EventCallback<bool> ShowEndColumnChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether duration column is visible.
+    /// </summary>
+    [Parameter] public bool ShowDurationColumn { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets callback raised when <see cref="ShowDurationColumn"/> changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowDurationColumnChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether command column (+ actions) is visible.
+    /// </summary>
+    [Parameter] public bool ShowCommandColumn { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets callback raised when <see cref="ShowCommandColumn"/> changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowCommandColumnChanged { get; set; }
 
     /// <summary>
     /// Gets or sets whether toggle-all commands (expand/collapse all) are visible in the toolbar.

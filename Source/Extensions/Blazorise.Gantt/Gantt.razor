@@ -14,6 +14,8 @@
                            ShowTitleColumn="@showTitleColumn"
                            ShowStartColumn="@showStartColumn"
                            ShowEndColumn="@showEndColumn"
+                           ShowDurationColumn="@showDurationColumn"
+                           ShowCommandColumn="@showCommandColumn"
                            ShowToggleAllCommands="@ShowToggleAllCommands"
                            ShowDayViewButton="@(ganttDayView is not null)"
                            ShowWeekViewButton="@(ganttWeekView is not null)"
@@ -32,7 +34,9 @@
                            SearchTextChanged="@SetSearchText"
                            ShowTitleColumnChanged="@SetShowTitleColumn"
                            ShowStartColumnChanged="@SetShowStartColumn"
-                           ShowEndColumnChanged="@SetShowEndColumn" />
+                           ShowEndColumnChanged="@SetShowEndColumn"
+                           ShowDurationColumnChanged="@SetShowDurationColumn"
+                           ShowCommandColumnChanged="@SetShowCommandColumn" />
         }
 
         @{
@@ -104,6 +108,22 @@
                             </Div>
                         </Div>
                     }
+                    @if ( showDurationColumn )
+                    {
+                        <Div Style="@GetDateColumnStyle()"
+                             Padding="PaddingIs2OnX"
+                             TextWeight="TextWeight.SemiBold"
+                             Cursor="@(Sortable ? Cursor.Pointer : Cursor.Default)"
+                             @onclick="@(() => SortByColumn( GanttSortColumn.Duration ))">
+                            <Div Flex="FlexAlignItemsCenterNoWrap" Gap="GapIs1">
+                                <Span>@DurationColumnHeaderText</Span>
+                                @if ( ShowSortIcon( GanttSortColumn.Duration ) )
+                                {
+                                    <Icon Name="@GetSortIconName( GanttSortColumn.Duration )" />
+                                }
+                            </Div>
+                        </Div>
+                    }
                     @if ( showActionColumn )
                     {
                         <Div Style="@GetActionColumnStyle()">
@@ -168,6 +188,12 @@
                                 {
                                     <Div Style="@GetDateColumnStyle()" Padding="PaddingIs2OnX">
                                         <Span TextSize="TextSizeSmall">@FormatDate( GetItemEnd( node.Item ) )</Span>
+                                    </Div>
+                                }
+                                @if ( showDurationColumn )
+                                {
+                                    <Div Style="@GetDateColumnStyle()" Padding="PaddingIs2OnX">
+                                        <Span TextSize="TextSizeSmall">@FormatDuration( GetItemDuration( node.Item ) )</Span>
                                     </Div>
                                 }
                                 @if ( showActionColumn )

@@ -82,6 +82,10 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
 
     private Task OnShowEndColumnChanged( bool value ) => ShowEndColumnChanged.InvokeAsync( value );
 
+    private Task OnShowDurationColumnChanged( bool value ) => ShowDurationColumnChanged.InvokeAsync( value );
+
+    private Task OnShowCommandColumnChanged( bool value ) => ShowCommandColumnChanged.InvokeAsync( value );
+
     #endregion
 
     #region Properties
@@ -139,6 +143,10 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
 
     [Parameter] public bool ShowEndColumn { get; set; }
 
+    [Parameter] public bool ShowDurationColumn { get; set; }
+
+    [Parameter] public bool ShowCommandColumn { get; set; }
+
     /// <summary>
     /// Gets or sets whether Add Task button is visible.
     /// </summary>
@@ -181,6 +189,10 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
     [Parameter] public EventCallback<bool> ShowStartColumnChanged { get; set; }
 
     [Parameter] public EventCallback<bool> ShowEndColumnChanged { get; set; }
+
+    [Parameter] public EventCallback<bool> ShowDurationColumnChanged { get; set; }
+
+    [Parameter] public EventCallback<bool> ShowCommandColumnChanged { get; set; }
 
     #endregion
 }
