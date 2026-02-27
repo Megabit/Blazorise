@@ -527,8 +527,29 @@ public partial class Gantt<TItem> : BaseComponent
 
         if ( Editable && UseInternalEditing )
         {
+            if ( await ConfirmDelete() == false )
+                return;
+
             await DeleteItemImpl( item );
         }
+    }
+
+    private Task<bool> ConfirmDelete()
+    {
+        if ( MessageService is null )
+            return Task.FromResult( true );
+
+        return MessageService.Confirm(
+            Localizer.Localize( Localizers?.DeleteTaskConfirmationLocalizer, LocalizationConstants.DeleteTaskConfirmation ),
+            Localizer.Localize( Localizers?.DeleteLocalizer, LocalizationConstants.Delete ),
+            options =>
+            {
+                options.ShowCloseButton = false;
+                options.ShowMessageIcon = false;
+                options.CancelButtonText = Localizer.Localize( Localizers?.CancelLocalizer, LocalizationConstants.Cancel );
+                options.ConfirmButtonText = Localizer.Localize( Localizers?.DeleteLocalizer, LocalizationConstants.Delete );
+                options.ConfirmButtonColor = Color.Danger;
+            } );
     }
 
     /// <summary>
@@ -1856,6 +1877,11 @@ public partial class Gantt<TItem> : BaseComponent
     /// Gets text localizer used by this component.
     /// </summary>
     [Inject] protected ITextLocalizer<Gantt<TItem>> Localizer { get; set; }
+
+    /// <summary>
+    /// Gets message service used for delete confirmations.
+    /// </summary>
+    [Inject] protected IMessageService MessageService { get; set; }
 
     /// <summary>
     /// Gets or sets data source displayed by the Gantt.
