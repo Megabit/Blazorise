@@ -1384,7 +1384,7 @@ public partial class Gantt<TItem> : BaseComponent
     private string GetTreeRowsStyle()
     {
         var headerHeightText = GetHeaderRowHeight().ToString( "0.###", CultureInfo.InvariantCulture );
-        return $"height: calc(100% - {headerHeightText}px); max-height: 100%; overflow-x: hidden; overflow-y: hidden;";
+        return $"height: calc(100% - {headerHeightText}px); max-height: 100%; overflow-x: hidden; overflow-y: hidden; outline: none;";
     }
 
     private string GetTimelinePaneStyle()
