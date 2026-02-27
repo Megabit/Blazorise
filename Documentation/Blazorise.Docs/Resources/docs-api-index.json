@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-25T09:31:26.6457193Z",
+  "generatedUtc": "2026-02-27T09:24:43.1240955Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -44878,6 +44878,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "HeaderRowHeight",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "DefaultHeaderRowHeight",
+          "summary": "Gets or sets header row height in pixels.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Height",
           "type": "global::Blazorise.IFluentSizing",
           "typeName": "IFluentSizing",
@@ -44963,6 +44971,14 @@
           "typeName": "string",
           "defaultValue": "\"Progress\"",
           "summary": "Gets or sets progress field name.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "SearchInputWidth",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "DefaultSearchInputWidth",
+          "summary": "Gets or sets search input width in pixels.",
           "isBlazoriseEnum": false
         },
         {
@@ -45115,6 +45131,14 @@
           "typeName": "double",
           "defaultValue": "18d",
           "summary": "Gets or sets tree indentation size per level in pixels.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TreeToggleWidth",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "DefaultTreeToggleWidth",
+          "summary": "Gets or sets tree toggle placeholder width in pixels.",
           "isBlazoriseEnum": false
         },
         {
@@ -45325,6 +45349,12 @@
           ]
         },
         {
+          "name": "CollapseAll",
+          "returnTypeName": "Task",
+          "summary": "Collapses all nodes in the tree, including all nested child nodes.",
+          "parameters": []
+        },
+        {
           "name": "Delete",
           "returnTypeName": "Task",
           "summary": "Deletes specified item.",
@@ -45345,6 +45375,12 @@
               "typeName": "TItem"
             }
           ]
+        },
+        {
+          "name": "ExpandAll",
+          "returnTypeName": "Task",
+          "summary": "Expands all nodes in the tree, including all nested child nodes.",
+          "parameters": []
         },
         {
           "name": "NavigateNextPeriod",
