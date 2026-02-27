@@ -148,9 +148,9 @@
                         {
                             <_GanttTreeRow @key="@node.Key"
                                            Style="@GetTreeRowStyle( rowHeight )"
-                                           Background="@GetFocusedRowBackground( node.Key )"
-                                           Selected="@IsFocusedRow( node.Key )"
-                                           Clicked="@(() => FocusRow( node.Key ))"
+                                           Background="@GetTreeRowBackground( node.Item, node.Key )"
+                                           Selected="@IsSelectedRow( node.Item )"
+                                           Clicked="@(() => OnTreeRowClicked( node.Item, node.Key ))"
                                            DoubleClicked="@(() => OnTreeRowDoubleClicked( node.Item, node.Key ))">
                                 @if ( showTitleColumn )
                                 {

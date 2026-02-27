@@ -610,6 +610,8 @@ public partial class Gantt<TItem> : BaseComponent
         if ( !await IsSafeToProceed( ItemRemoving, itemToDelete, itemToDelete ) )
             return false;
 
+        var selectedRowDeleted = IsSelectedRowDeleted( itemToDelete );
+
         if ( CanEditData && Data is ICollection<TItem> data )
         {
             RemoveItemAndChildren( data, itemToDelete );
@@ -620,6 +622,12 @@ public partial class Gantt<TItem> : BaseComponent
         editState = GanttEditState.None;
         editItem = default;
         editParentItem = default;
+
+        if ( selectedRowDeleted )
+        {
+            SelectedRow = default;
+            await SelectedRowChanged.InvokeAsync( SelectedRow );
+        }
 
         await RefreshInternalAsync();
 
@@ -1076,10 +1084,16 @@ public partial class Gantt<TItem> : BaseComponent
 
     private async Task OnTreeRowDoubleClicked( TItem item, string rowKey )
     {
-        await FocusRow( rowKey );
+        await OnTreeRowClicked( item, rowKey );
 
         if ( IsCommandAllowed( GanttCommandType.Edit, item ) )
             await Edit( item );
+    }
+
+    private async Task OnTreeRowClicked( TItem item, string rowKey )
+    {
+        await FocusRow( rowKey );
+        await SelectRow( item );
     }
 
     private Task OnTreeRowsKeyDown( KeyboardEventArgs eventArgs )
@@ -1128,6 +1142,11 @@ public partial class Gantt<TItem> : BaseComponent
             case "Delete":
                 if ( IsCommandAllowed( GanttCommandType.Delete, focusedRow.Item ) )
                     await Delete( focusedRow.Item );
+                break;
+            case " ":
+            case "Space":
+            case "Spacebar":
+                await SelectRow( focusedRow.Item );
                 break;
             default:
                 break;
@@ -1194,8 +1213,38 @@ public partial class Gantt<TItem> : BaseComponent
         return Task.CompletedTask;
     }
 
+    private Task SelectRow( TItem item )
+    {
+        if ( AreRowsEqual( SelectedRow, item ) )
+            return Task.CompletedTask;
+
+        SelectedRow = item;
+
+        return SelectedRowChanged.InvokeAsync( SelectedRow );
+    }
+
     private bool IsFocusedRow( string rowKey )
         => string.Equals( focusedRowKey, rowKey, StringComparison.Ordinal );
+
+    private bool IsSelectedRow( TItem item )
+        => AreRowsEqual( SelectedRow, item );
+
+    private Background GetTreeRowBackground( TItem item, string rowKey )
+    {
+        var isFocused = KeyboardNavigation && IsFocusedRow( rowKey );
+        var isSelected = IsSelectedRow( item );
+
+        if ( isFocused && isSelected )
+            return Blazorise.Background.Primary.Subtle;
+
+        if ( isSelected )
+            return Blazorise.Background.Info.Subtle;
+
+        if ( isFocused )
+            return Blazorise.Background.Light;
+
+        return Blazorise.Background.Default;
+    }
 
     private Background GetFocusedRowBackground( string rowKey )
         => KeyboardNavigation && IsFocusedRow( rowKey )
@@ -1952,6 +2001,77 @@ public partial class Gantt<TItem> : BaseComponent
         return Convert.ToString( value, CultureInfo.InvariantCulture );
     }
 
+    private bool AreRowsEqual( TItem first, TItem second )
+    {
+        if ( ReferenceEquals( first, second ) )
+            return true;
+
+        if ( first is null || second is null )
+            return false;
+
+        if ( propertyMapper.HasId )
+        {
+            var firstId = NormalizeIdentifier( propertyMapper.GetId( first ) );
+            var secondId = NormalizeIdentifier( propertyMapper.GetId( second ) );
+
+            if ( !string.IsNullOrEmpty( firstId ) || !string.IsNullOrEmpty( secondId ) )
+                return string.Equals( firstId, secondId, StringComparison.Ordinal );
+        }
+
+        return EqualityComparer<TItem>.Default.Equals( first, second );
+    }
+
+    private bool IsSelectedRowDeleted( TItem itemToDelete )
+    {
+        if ( SelectedRow is null || itemToDelete is null )
+            return false;
+
+        if ( AreRowsEqual( SelectedRow, itemToDelete ) )
+            return true;
+
+        if ( !propertyMapper.HasId || !propertyMapper.HasParentId )
+            return false;
+
+        var selectedRowId = NormalizeIdentifier( propertyMapper.GetId( SelectedRow ) );
+        var deleteRowId = NormalizeIdentifier( propertyMapper.GetId( itemToDelete ) );
+
+        if ( string.IsNullOrEmpty( selectedRowId ) || string.IsNullOrEmpty( deleteRowId ) )
+            return false;
+
+        if ( string.Equals( selectedRowId, deleteRowId, StringComparison.Ordinal ) )
+            return true;
+
+        var parentById = new Dictionary<string, string>( StringComparer.Ordinal );
+
+        foreach ( var dataItem in Data ?? Array.Empty<TItem>() )
+        {
+            if ( dataItem is null )
+                continue;
+
+            var dataId = NormalizeIdentifier( propertyMapper.GetId( dataItem ) );
+
+            if ( string.IsNullOrEmpty( dataId ) || parentById.ContainsKey( dataId ) )
+                continue;
+
+            var parentId = NormalizeIdentifier( propertyMapper.GetParentId( dataItem ) );
+            parentById.Add( dataId, parentId );
+        }
+
+        var currentId = selectedRowId;
+        var loopGuard = new HashSet<string>( StringComparer.Ordinal );
+
+        while ( !string.IsNullOrEmpty( currentId ) && loopGuard.Add( currentId ) )
+        {
+            if ( string.Equals( currentId, deleteRowId, StringComparison.Ordinal ) )
+                return true;
+
+            if ( !parentById.TryGetValue( currentId, out currentId ) )
+                break;
+        }
+
+        return false;
+    }
+
     #endregion
 
     #region Properties
@@ -2093,6 +2213,16 @@ public partial class Gantt<TItem> : BaseComponent
     /// Gets or sets callback raised when <see cref="SearchText"/> changes.
     /// </summary>
     [Parameter] public EventCallback<string> SearchTextChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets currently selected tree row item.
+    /// </summary>
+    [Parameter] public TItem SelectedRow { get; set; }
+
+    /// <summary>
+    /// Gets or sets callback raised when <see cref="SelectedRow"/> changes.
+    /// </summary>
+    [Parameter] public EventCallback<TItem> SelectedRowChanged { get; set; }
 
     /// <summary>
     /// Gets or sets whether title column is visible.
