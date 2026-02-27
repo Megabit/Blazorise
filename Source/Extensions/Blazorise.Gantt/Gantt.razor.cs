@@ -26,7 +26,10 @@ public partial class Gantt<TItem> : BaseComponent
     #region Members
 
     private const double DefaultRowHeight = 44d;
+    private const double DefaultHeaderRowHeight = 44d;
     private const double DefaultTimelineCellWidth = 72d;
+    private const double DefaultSearchInputWidth = 220d;
+    private const double DefaultTreeToggleWidth = 28d;
 
     private readonly HashSet<string> collapsedNodeKeys = new( StringComparer.Ordinal );
 
@@ -1103,7 +1106,8 @@ public partial class Gantt<TItem> : BaseComponent
 
     private string GetTreeRowsStyle()
     {
-        return "height: calc(100% - 44px); max-height: 100%; overflow-x: hidden; overflow-y: hidden;";
+        var headerHeightText = GetHeaderRowHeight().ToString( "0.###", CultureInfo.InvariantCulture );
+        return $"height: calc(100% - {headerHeightText}px); max-height: 100%; overflow-x: hidden; overflow-y: hidden;";
     }
 
     private string GetTimelinePaneStyle()
@@ -1367,6 +1371,30 @@ public partial class Gantt<TItem> : BaseComponent
             return view.RowHeight;
 
         return DefaultRowHeight;
+    }
+
+    private double GetHeaderRowHeight()
+    {
+        if ( HeaderRowHeight > 0d )
+            return HeaderRowHeight;
+
+        return DefaultHeaderRowHeight;
+    }
+
+    private double GetSearchInputWidth()
+    {
+        if ( SearchInputWidth > 0d )
+            return SearchInputWidth;
+
+        return DefaultSearchInputWidth;
+    }
+
+    private double GetTreeToggleWidth()
+    {
+        if ( TreeToggleWidth > 0d )
+            return TreeToggleWidth;
+
+        return DefaultTreeToggleWidth;
     }
 
     private double GetTimelineCellWidth()
@@ -1769,6 +1797,21 @@ public partial class Gantt<TItem> : BaseComponent
     /// Gets or sets action column width in pixels.
     /// </summary>
     [Parameter] public double ActionColumnWidth { get; set; } = 42d;
+
+    /// <summary>
+    /// Gets or sets header row height in pixels.
+    /// </summary>
+    [Parameter] public double HeaderRowHeight { get; set; } = DefaultHeaderRowHeight;
+
+    /// <summary>
+    /// Gets or sets search input width in pixels.
+    /// </summary>
+    [Parameter] public double SearchInputWidth { get; set; } = DefaultSearchInputWidth;
+
+    /// <summary>
+    /// Gets or sets tree toggle placeholder width in pixels.
+    /// </summary>
+    [Parameter] public double TreeToggleWidth { get; set; } = DefaultTreeToggleWidth;
 
     /// <summary>
     /// Gets or sets tree indentation size per level in pixels.

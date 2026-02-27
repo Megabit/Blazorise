@@ -124,6 +124,11 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
 
     [Parameter] public string SearchText { get; set; }
 
+    /// <summary>
+    /// Gets or sets the width of search input in pixels.
+    /// </summary>
+    [Parameter] public double SearchInputWidth { get; set; } = 220d;
+
     [Parameter] public bool ShowTitleColumn { get; set; }
 
     [Parameter] public bool ShowStartColumn { get; set; }

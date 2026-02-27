@@ -9,6 +9,7 @@
                            SelectedView="@SelectedView"
                            FirstDayOfWeek="@FirstDayOfWeek"
                            SearchText="@searchText"
+                           SearchInputWidth="@GetSearchInputWidth()"
                            ShowTitleColumn="@showTitleColumn"
                            ShowStartColumn="@showStartColumn"
                            ShowEndColumn="@showEndColumn"
@@ -37,13 +38,15 @@
             var rowTemplate = RowTemplateForCurrentView;
             var itemTemplate = ItemTemplateForCurrentView;
             var rowHeight = GetRowHeight();
+            var headerRowHeight = GetHeaderRowHeight();
             var cellWidth = GetTimelineCellWidth();
+            var treeToggleWidth = GetTreeToggleWidth();
             var showNewColumn = ShowNewColumn;
         }
 
         <_GanttBody Style="@GetBodyStyle()">
             <_GanttTreePane Style="@GetTreePaneStyle()">
-                <_GanttTreeHeader Height="HeightPx44" Border="BorderIs1OnBottom" Position="PositionStickyTopIs0" Background="Background.Body">
+                <_GanttTreeHeader Height="Blazorise.Height.Px( headerRowHeight )" Border="BorderIs1OnBottom" Position="PositionStickyTopIs0" Background="Background.Body">
                     @if ( showTitleColumn )
                     {
                         <Div Style="@GetTitleColumnStyle()" Padding="PaddingIs2OnX" TextWeight="TextWeight.SemiBold">@TaskColumnHeaderText</Div>
@@ -88,7 +91,7 @@
                                             }
                                             else
                                             {
-                                                <Span Display="DisplayInlineBlock" Width="WidthPx28"></Span>
+                                                <Span Display="DisplayInlineBlock" Width="Blazorise.Width.Px( treeToggleWidth )"></Span>
                                             }
 
                                             @if ( rowTemplate is not null )
@@ -131,7 +134,7 @@
             <_GanttTimelinePane Style="@GetTimelinePaneStyle()">
                 <_GanttTimelineViewport Style="@GetTimelineViewportStyle()">
                     <_GanttTimelineInner Style="@GetTimelineInnerStyle( timeSlots.Count, cellWidth )">
-                        <_GanttTimeHeader Height="HeightPx44" Border="BorderIs1OnBottom" Position="PositionStickyTopIs0" Background="Background.Body">
+                        <_GanttTimeHeader Height="Blazorise.Height.Px( headerRowHeight )" Border="BorderIs1OnBottom" Position="PositionStickyTopIs0" Background="Background.Body">
                             @foreach ( var slot in timeSlots )
                             {
                                 <Div @key="@slot.Key" Style="@GetTimelineHeaderCellStyle( cellWidth )" Padding="PaddingIs1OnX">

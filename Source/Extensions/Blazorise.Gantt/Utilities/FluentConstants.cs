@@ -17,10 +17,7 @@ internal static class FluentConstants
 
     // Sizing
     internal static readonly IFluentSizing HeightIs100 = Height.Is100;
-    internal static readonly IFluentSizing HeightPx44 = Height.Px( 44 );
     internal static readonly IFluentSizing WidthIs100 = Width.Is100;
-    internal static readonly IFluentSizing WidthPx220 = Width.Px( 220 );
-    internal static readonly IFluentSizing WidthPx28 = Width.Px( 28 );
 
     // Column
     internal static readonly IFluentColumn ColumnSizeIs12OnMobileIs6OnTablet = ColumnSize.Is12.OnMobile.Is6.OnTablet;

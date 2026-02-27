@@ -46,7 +46,7 @@
     <Div TextWeight="TextWeight.Bold" Margin="MarginIs2OnX" TextOverflow="TextOverflow.NoWrap">@RangeText</Div>
 
     <Div Flex="FlexAlignItemsCenterNoWrap" Margin="MarginIs1OnXIsAutoFromStart">
-        <TextInput Value="@SearchText" ValueChanged="@OnSearchTextValueChanged" Placeholder="@Localizer.Localize( Gantt.Localizers?.SearchLocalizer, LocalizationConstants.Search )" Margin="MarginIs1FromEnd" Width="WidthPx220" />
+        <TextInput Value="@SearchText" ValueChanged="@OnSearchTextValueChanged" Placeholder="@Localizer.Localize( Gantt.Localizers?.SearchLocalizer, LocalizationConstants.Search )" Margin="MarginIs1FromEnd" Width="Blazorise.Width.Px( SearchInputWidth )" />
         <Dropdown @bind-Visible="@dropdownColumnChooserVisible" EndAligned>
             <DropdownToggle @onclick:stopPropagation>
                 <Icon Name="@IconName.Table" Margin="MarginIs1FromEnd" Clicked="() => { }" />@Localizer.Localize( Gantt.Localizers?.ColumnsLocalizer, LocalizationConstants.Columns )
