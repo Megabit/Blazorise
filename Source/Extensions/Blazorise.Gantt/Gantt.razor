@@ -92,7 +92,7 @@
                         {
                             <_GanttTreeRow @key="@node.Key"
                                            Style="@GetTreeRowStyle( rowHeight )"
-                                           Background="@GetTreeRowBackground( node.Key )"
+                                           Background="@GetFocusedRowBackground( node.Key )"
                                            Selected="@IsFocusedRow( node.Key )"
                                            Clicked="@(() => FocusRow( node.Key ))"
                                            DoubleClicked="@(() => OnTreeRowDoubleClicked( node.Item, node.Key ))">
@@ -165,7 +165,7 @@
 
                         @foreach ( var node in visibleRows )
                         {
-                            <_GanttTimeRow @key="@($"timeline-{node.Key}")" Style="@GetTimelineRowStyle( rowHeight, cellWidth )">
+                            <_GanttTimeRow @key="@($"timeline-{node.Key}")" Style="@GetTimelineRowStyle( rowHeight, cellWidth )" Background="@GetFocusedRowBackground( node.Key )">
                                 @if ( TryGetVisibleBar( node.Item, viewRange.Start, viewRange.End, timeSlots.Count, cellWidth, out var barInfo ) )
                                 {
                                     var itemStyling = GetItemStyling( node.Item );

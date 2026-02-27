@@ -1109,7 +1109,7 @@ public partial class Gantt<TItem> : BaseComponent
     private bool IsFocusedRow( string rowKey )
         => string.Equals( focusedRowKey, rowKey, StringComparison.Ordinal );
 
-    private Background GetTreeRowBackground( string rowKey )
+    private Background GetFocusedRowBackground( string rowKey )
         => KeyboardNavigation && IsFocusedRow( rowKey )
             ? Blazorise.Background.Light
             : Blazorise.Background.Default;
