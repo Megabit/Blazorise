@@ -1785,9 +1785,9 @@ public partial class Gantt<TItem> : BaseComponent
     [Parameter] public EventCallback<bool> ShowEndColumnChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the expand/collapse actions are visible in the toolbar.
+    /// Gets or sets whether toggle-all commands (expand/collapse all) are visible in the toolbar.
     /// </summary>
-    [Parameter] public bool ShowExpandCollapseButtons { get; set; } = true;
+    [Parameter] public bool ShowToggleAllCommands { get; set; } = true;
 
     /// <summary>
     /// Gets or sets item identifier field name.

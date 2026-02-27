@@ -144,7 +144,7 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
     /// </summary>
     [Parameter] public bool ShowAddTaskButton { get; set; } = true;
 
-    [Parameter] public bool ShowExpandCollapseButtons { get; set; } = true;
+    [Parameter] public bool ShowToggleAllCommands { get; set; } = true;
 
     [Parameter] public bool ShowDayViewButton { get; set; }
 

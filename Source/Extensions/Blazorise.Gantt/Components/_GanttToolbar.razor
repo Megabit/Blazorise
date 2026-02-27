@@ -36,7 +36,7 @@
             </Buttons>
         }
 
-        @if ( ShowAddTaskButton || ShowExpandCollapseButtons )
+        @if ( ShowAddTaskButton || ShowToggleAllCommands )
         {
             <Buttons Margin="MarginIs2FromEnd">
                 @if ( ShowAddTaskButton )
@@ -45,7 +45,7 @@
                         <Icon Name="IconName.Add" />@Localizer.Localize( Gantt.Localizers?.AddTaskLocalizer, LocalizationConstants.AddTask )
                     </Button>
                 }
-                @if ( ShowExpandCollapseButtons )
+                @if ( ShowToggleAllCommands )
                 {
                     <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnExpandAllClick">
                         @Localizer.Localize( Gantt.Localizers?.ExpandAllLocalizer, LocalizationConstants.ExpandAll )
