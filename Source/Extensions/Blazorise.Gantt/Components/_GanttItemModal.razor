@@ -9,6 +9,38 @@
             <CloseButton />
         </ModalHeader>
         <ModalBody>
+            @if ( ShowParentDetails )
+            {
+                <Div Border="BorderIs1Rounded" Padding="PaddingIs2" Margin="MarginIs2FromBottom">
+                    <Paragraph TextWeight="TextWeight.SemiBold" Margin="MarginIs1FromBottom">
+                        @Localizer.Localize( Gantt.Localizers?.ParentTaskLocalizer, LocalizationConstants.ParentTask ): @ParentTitleText
+                    </Paragraph>
+                    <Div Flex="FlexAlignItemsCenterWrap" Gap="GapIs3">
+                        @if ( ParentStartText is not null )
+                        {
+                            <Div>
+                                <Span TextColor="TextColor.Muted" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.StartLocalizer, LocalizationConstants.Start ):</Span>
+                                <Span>@ParentStartText</Span>
+                            </Div>
+                        }
+                        @if ( ParentEndText is not null )
+                        {
+                            <Div>
+                                <Span TextColor="TextColor.Muted" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.EndLocalizer, LocalizationConstants.End ):</Span>
+                                <Span>@ParentEndText</Span>
+                            </Div>
+                        }
+                        @if ( ParentDurationDays is not null )
+                        {
+                            <Div>
+                                <Span TextColor="TextColor.Muted" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.DurationLocalizer, LocalizationConstants.Duration ):</Span>
+                                <Span>@ParentDurationDays</Span>
+                            </Div>
+                        }
+                    </Div>
+                </Div>
+            }
+
             <Field>
                 <FieldLabel>@Localizer.Localize( Gantt.Localizers?.TitleLocalizer, LocalizationConstants.Title )</FieldLabel>
                 <FieldBody>

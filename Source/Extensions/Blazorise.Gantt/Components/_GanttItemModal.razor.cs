@@ -294,6 +294,76 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
     private static int NormalizeDurationDays( int value )
         => Math.Max( 1, value );
 
+    private static bool IsUnassignedDate( DateTime value )
+        => value == DateTime.MinValue || value == DateTime.MaxValue;
+
+    private string GetParentTitleText()
+    {
+        if ( ParentItem is null || !TitleAvailable )
+            return "-";
+
+        var title = Gantt.PropertyMapper.GetTitle( ParentItem );
+
+        if ( string.IsNullOrWhiteSpace( title ) )
+            return "-";
+
+        return title;
+    }
+
+    private DateTime? GetParentStart()
+    {
+        if ( ParentItem is null || !StartAvailable )
+            return null;
+
+        var start = Gantt.PropertyMapper.GetStart( ParentItem );
+
+        return IsUnassignedDate( start )
+            ? null
+            : start;
+    }
+
+    private DateTime? GetParentEnd()
+    {
+        if ( ParentItem is null || !EndAvailable )
+            return null;
+
+        var end = Gantt.PropertyMapper.GetEnd( ParentItem );
+
+        return IsUnassignedDate( end )
+            ? null
+            : end;
+    }
+
+    private int? GetParentDurationDays()
+    {
+        if ( ParentItem is null )
+            return null;
+
+        if ( DurationAvailable )
+        {
+            var mappedDuration = Gantt.PropertyMapper.GetDuration( ParentItem );
+
+            if ( mappedDuration > 0 )
+                return mappedDuration;
+        }
+
+        var parentStart = GetParentStart();
+        var parentEnd = GetParentEnd();
+
+        if ( parentStart is null || parentEnd is null )
+            return null;
+
+        return NormalizeDurationDays( CalculateDurationInDays( parentStart.Value, parentEnd.Value ) );
+    }
+
+    private static string FormatDateTime( DateTime? value )
+    {
+        if ( value is null )
+            return null;
+
+        return value.Value.ToString( "g" );
+    }
+
     #endregion
 
     #region Properties
@@ -318,6 +388,21 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
     private bool DeleteCommandVisible
         => EditItem is not null
            && Gantt?.IsCommandAllowed( GanttCommandType.Delete, EditItem ) == true;
+
+    private bool ShowParentDetails
+        => EditState == GanttEditState.New && ParentItem is not null;
+
+    private string ParentTitleText
+        => GetParentTitleText();
+
+    private string ParentStartText
+        => FormatDateTime( GetParentStart() );
+
+    private string ParentEndText
+        => FormatDateTime( GetParentEnd() );
+
+    private int? ParentDurationDays
+        => GetParentDurationDays();
 
     private string Title { get; set; }
 

@@ -148,4 +148,9 @@ public class GanttLocalizers
     /// Localizer for the empty-state text when no tasks are visible.
     /// </summary>
     public TextLocalizerHandler NoTasksToDisplayLocalizer { get; set; }
+
+    /// <summary>
+    /// Localizer for the "Parent task" label.
+    /// </summary>
+    public TextLocalizerHandler ParentTaskLocalizer { get; set; }
 }

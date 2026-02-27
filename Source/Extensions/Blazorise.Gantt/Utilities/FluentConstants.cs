@@ -24,11 +24,14 @@ internal static class FluentConstants
 
     // Spacing
     internal static readonly IFluentSpacing MarginIs0FromBottom = Margin.Is0.FromBottom;
+    internal static readonly IFluentSpacing MarginIs1FromBottom = Margin.Is1.FromBottom;
     internal static readonly IFluentSpacing MarginIs1FromEnd = Margin.Is1.FromEnd;
     internal static readonly IFluentSpacing MarginIs1OnX = Margin.Is1.OnX;
     internal static readonly IFluentSpacing MarginIs2OnX = Margin.Is2.OnX;
+    internal static readonly IFluentSpacing MarginIs2FromBottom = Margin.Is2.FromBottom;
     internal static readonly IFluentSpacing MarginIs1OnXIsAutoFromStart = Margin.Is1.OnX.IsAuto.FromStart;
     internal static readonly IFluentSpacing MarginIs2FromEnd = Margin.Is2.FromEnd;
+    internal static readonly IFluentSpacing PaddingIs2 = Padding.Is2;
     internal static readonly IFluentSpacing PaddingIs1OnX = Padding.Is1.OnX;
     internal static readonly IFluentSpacing PaddingIs2OnX = Padding.Is2.OnX;
     internal static readonly IFluentSpacing PaddingIs3 = Padding.Is3;
@@ -36,6 +39,7 @@ internal static class FluentConstants
     // Gap
     internal static readonly IFluentGap GapIs1 = Gap.Is1;
     internal static readonly IFluentGap GapIs2 = Gap.Is2;
+    internal static readonly IFluentGap GapIs3 = Gap.Is3;
 
     // Display
     internal static readonly IFluentDisplay DisplayInlineBlock = Display.InlineBlock;
@@ -46,6 +50,7 @@ internal static class FluentConstants
     // Border
     internal static readonly IFluentBorder BorderIs0 = Border.Is0;
     internal static readonly IFluentBorder BorderIs1 = Border.Is1;
+    internal static readonly IFluentBorder BorderIs1Rounded = Border.Is1.Rounded;
     internal static readonly IFluentBorder BorderIs1OnBottom = Border.Is1.OnBottom;
     internal static readonly IFluentBorder BorderIs1OnEnd = Border.Is1.OnEnd;
     internal static readonly IFluentBorder BorderRounded = Border.Rounded;
