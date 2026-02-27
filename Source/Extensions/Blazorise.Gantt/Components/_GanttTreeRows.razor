@@ -1,4 +1,4 @@
 @inherits BaseComponent
-<Div Class="@ClassNames" Style="@StyleNames" Overflow="Blazorise.Overflow.Hidden">
+<Div @ref="treeRowsRef" Class="@ClassNames" Style="@StyleNames" Overflow="Blazorise.Overflow.Hidden" tabindex="@TabIndex" @onkeydown="@KeyDown">
     @ChildContent
 </Div>

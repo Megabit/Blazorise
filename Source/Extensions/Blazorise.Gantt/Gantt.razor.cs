@@ -12,6 +12,7 @@ using Blazorise.Gantt.Utilities;
 using Blazorise.Localization;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.Gantt;
@@ -38,6 +39,7 @@ public partial class Gantt<TItem> : BaseComponent
     private GanttWeekView<TItem> ganttWeekView;
     private GanttMonthView<TItem> ganttMonthView;
     private GanttYearView<TItem> ganttYearView;
+    private _GanttTreeRows ganttTreeRowsRef;
 
     private GanttPropertyMapper<TItem> propertyMapper;
     private Lazy<Func<TItem>> newItemCreator;
@@ -69,6 +71,8 @@ public partial class Gantt<TItem> : BaseComponent
     private bool showTitleColumn = true;
     private bool showStartColumn = true;
     private bool showEndColumn = true;
+    private string focusedRowKey;
+    private bool shouldFocusTreeRows;
     private bool readDataInitialized;
     private bool readDataRequested;
 
@@ -168,6 +172,12 @@ public partial class Gantt<TItem> : BaseComponent
 
             await HandleReadData( CancellationToken.None );
             await InvokeAsync( StateHasChanged );
+        }
+
+        if ( shouldFocusTreeRows && KeyboardNavigation && ganttTreeRowsRef is not null )
+        {
+            shouldFocusTreeRows = false;
+            await ganttTreeRowsRef.FocusAsync();
         }
 
         await base.OnAfterRenderAsync( firstRender );
@@ -967,6 +977,142 @@ public partial class Gantt<TItem> : BaseComponent
             await Edit( item );
         }
     }
+
+    private Task OnItemModalClosed()
+    {
+        if ( !KeyboardNavigation )
+            return Task.CompletedTask;
+
+        shouldFocusTreeRows = true;
+        return InvokeAsync( StateHasChanged );
+    }
+
+    private async Task OnTreeRowDoubleClicked( TItem item, string rowKey )
+    {
+        await FocusRow( rowKey );
+
+        if ( IsCommandAllowed( GanttCommandType.Edit, item ) )
+            await Edit( item );
+    }
+
+    private Task OnTreeRowsKeyDown( KeyboardEventArgs eventArgs )
+    {
+        return HandleTreeRowsKeyDown( eventArgs );
+    }
+
+    private async Task HandleTreeRowsKeyDown( KeyboardEventArgs eventArgs )
+    {
+        if ( !KeyboardNavigation || eventArgs is null )
+            return;
+
+        var visibleRows = GetVisibleRows();
+
+        if ( visibleRows.Count == 0 )
+            return;
+
+        EnsureFocusedRow( visibleRows );
+
+        var focusedRow = GetFocusedRow( visibleRows );
+
+        if ( focusedRow is null )
+            return;
+
+        switch ( eventArgs.Key )
+        {
+            case "ArrowDown":
+                MoveFocusedRow( visibleRows, 1 );
+                break;
+            case "ArrowUp":
+                MoveFocusedRow( visibleRows, -1 );
+                break;
+            case "ArrowRight":
+                if ( focusedRow.HasChildren && !IsExpanded( focusedRow ) )
+                    await ToggleNode( focusedRow );
+                break;
+            case "ArrowLeft":
+                if ( focusedRow.HasChildren && IsExpanded( focusedRow ) )
+                    await ToggleNode( focusedRow );
+                break;
+            case "F2":
+                if ( IsCommandAllowed( GanttCommandType.Edit, focusedRow.Item ) )
+                    await Edit( focusedRow.Item );
+                break;
+            case "Delete":
+                if ( IsCommandAllowed( GanttCommandType.Delete, focusedRow.Item ) )
+                    await Delete( focusedRow.Item );
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void EnsureFocusedRow( IReadOnlyList<GanttTreeRow> visibleRows )
+    {
+        if ( visibleRows is null || visibleRows.Count == 0 )
+        {
+            focusedRowKey = null;
+            return;
+        }
+
+        foreach ( var row in visibleRows )
+        {
+            if ( string.Equals( row.Key, focusedRowKey, StringComparison.Ordinal ) )
+                return;
+        }
+
+        focusedRowKey = visibleRows[0].Key;
+    }
+
+    private GanttTreeRow GetFocusedRow( IReadOnlyList<GanttTreeRow> visibleRows )
+    {
+        if ( visibleRows is null || visibleRows.Count == 0 )
+            return null;
+
+        foreach ( var row in visibleRows )
+        {
+            if ( string.Equals( row.Key, focusedRowKey, StringComparison.Ordinal ) )
+                return row;
+        }
+
+        return visibleRows[0];
+    }
+
+    private void MoveFocusedRow( IReadOnlyList<GanttTreeRow> visibleRows, int offset )
+    {
+        if ( visibleRows is null || visibleRows.Count == 0 )
+        {
+            focusedRowKey = null;
+            return;
+        }
+
+        var currentIndex = 0;
+
+        for ( int i = 0; i < visibleRows.Count; i++ )
+        {
+            if ( string.Equals( visibleRows[i].Key, focusedRowKey, StringComparison.Ordinal ) )
+            {
+                currentIndex = i;
+                break;
+            }
+        }
+
+        var targetIndex = Math.Max( 0, Math.Min( visibleRows.Count - 1, currentIndex + offset ) );
+        focusedRowKey = visibleRows[targetIndex].Key;
+    }
+
+    private Task FocusRow( string rowKey )
+    {
+        focusedRowKey = rowKey;
+        return Task.CompletedTask;
+    }
+
+    private bool IsFocusedRow( string rowKey )
+        => string.Equals( focusedRowKey, rowKey, StringComparison.Ordinal );
+
+    private Background GetTreeRowBackground( string rowKey )
+        => KeyboardNavigation && IsFocusedRow( rowKey )
+            ? Blazorise.Background.Light
+            : Blazorise.Background.Default;
 
     private Task ToggleNode( GanttTreeRow node )
     {
@@ -1789,6 +1935,11 @@ public partial class Gantt<TItem> : BaseComponent
     /// Gets or sets whether toggle-all commands (expand/collapse all) are visible in the toolbar.
     /// </summary>
     [Parameter] public bool ShowToggleAllCommands { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets whether basic keyboard navigation is enabled for tree rows.
+    /// </summary>
+    [Parameter] public bool KeyboardNavigation { get; set; } = true;
 
     /// <summary>
     /// Gets or sets item identifier field name.

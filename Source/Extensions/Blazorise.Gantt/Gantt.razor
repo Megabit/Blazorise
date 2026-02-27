@@ -37,6 +37,10 @@
 
         @{
             var visibleRows = GetVisibleRows();
+            if ( KeyboardNavigation )
+            {
+                EnsureFocusedRow( visibleRows );
+            }
             var viewRange = GetCurrentViewRange();
             var timeSlots = GetTimeSlots( viewRange.Start, viewRange.End );
             var rowTemplate = RowTemplateForCurrentView;
@@ -77,7 +81,7 @@
                     }
                 </_GanttTreeHeader>
 
-                <_GanttTreeRows Style="@GetTreeRowsStyle()">
+                <_GanttTreeRows @ref="ganttTreeRowsRef" Style="@GetTreeRowsStyle()" TabIndex="@(KeyboardNavigation ? 0 : -1)" KeyDown="@OnTreeRowsKeyDown">
                     @if ( visibleRows.Count == 0 )
                     {
                         <Div Padding="PaddingIs3" TextColor="TextColor.Muted">@NoTasksToDisplayText</Div>
@@ -86,7 +90,12 @@
                     {
                         @foreach ( var node in visibleRows )
                         {
-                            <_GanttTreeRow @key="@node.Key" Style="@GetTreeRowStyle( rowHeight )">
+                            <_GanttTreeRow @key="@node.Key"
+                                           Style="@GetTreeRowStyle( rowHeight )"
+                                           Background="@GetTreeRowBackground( node.Key )"
+                                           Selected="@IsFocusedRow( node.Key )"
+                                           Clicked="@(() => FocusRow( node.Key ))"
+                                           DoubleClicked="@(() => OnTreeRowDoubleClicked( node.Item, node.Key ))">
                                 @if ( showTitleColumn )
                                 {
                                     <Div Style="@GetTitleColumnStyle()" Padding="PaddingIs2OnX">
@@ -193,7 +202,8 @@
                          @ref="ganttItemModalRef"
                          FirstDayOfWeek="@FirstDayOfWeek"
                          SaveRequested="@SaveImpl"
-                         DeleteRequested="@DeleteItemImpl" />
+                         DeleteRequested="@DeleteItemImpl"
+                         Closed="@OnItemModalClosed" />
     </CascadingValue>
 </Div>
 
