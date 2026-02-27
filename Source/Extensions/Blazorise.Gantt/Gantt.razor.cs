@@ -1200,9 +1200,9 @@ public partial class Gantt<TItem> : BaseComponent
         recursionGuard.Remove( node.Key );
     }
 
-    private string GetTreePaneStyle()
+    private string GetTreePaneStyle( bool showActionColumn )
     {
-        var width = GetTreePaneWidth();
+        var width = GetTreePaneWidth( showActionColumn );
         var widthText = width.ToString( "0.###", CultureInfo.InvariantCulture );
 
         return $"display: flex; flex-direction: column; width: {widthText}px; min-width: {widthText}px; max-width: {widthText}px; overflow: hidden;";
@@ -1453,7 +1453,7 @@ public partial class Gantt<TItem> : BaseComponent
         return slots;
     }
 
-    private double GetTreePaneWidth()
+    private double GetTreePaneWidth( bool showActionColumn )
     {
         var width = 0d;
 
@@ -1466,7 +1466,7 @@ public partial class Gantt<TItem> : BaseComponent
         if ( showEndColumn )
             width += DateColumnWidth;
 
-        if ( ShowNewColumn )
+        if ( showActionColumn )
             width += ActionColumnWidth;
 
         return Math.Max( 1d, width );
@@ -1638,8 +1638,9 @@ public partial class Gantt<TItem> : BaseComponent
     private bool ShowAddChildColumn
         => UseInternalEditing && Editable && AddChildCommandAllowed;
 
-    private bool ShowNewColumn
-        => ShowHeaderNewButton || ShowAddChildColumn;
+    private bool CanShowActionColumn( IReadOnlyCollection<GanttTreeRow> visibleRows )
+        => ShowHeaderNewButton
+           || ( ShowAddChildColumn && visibleRows.Any( x => IsCommandAllowed( GanttCommandType.AddChild, parentItem: x.Item ) ) );
 
     private bool CanShowAddChildButton( TItem parentItem )
         => ShowAddChildColumn && IsCommandAllowed( GanttCommandType.AddChild, parentItem: parentItem );

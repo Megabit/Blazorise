@@ -45,12 +45,12 @@
             var headerRowHeight = GetHeaderRowHeight();
             var cellWidth = GetTimelineCellWidth();
             var treeToggleWidth = GetTreeToggleWidth();
-            var showActionColumn = ShowNewColumn;
+            var showActionColumn = CanShowActionColumn( visibleRows );
             var showHeaderNewButton = ShowHeaderNewButton;
         }
 
         <_GanttBody Style="@GetBodyStyle()">
-            <_GanttTreePane Style="@GetTreePaneStyle()">
+            <_GanttTreePane Style="@GetTreePaneStyle( showActionColumn )">
                 <_GanttTreeHeader Height="Blazorise.Height.Px( headerRowHeight )" Border="BorderIs1OnBottom" Position="PositionStickyTopIs0" Background="Background.Body">
                     @if ( showTitleColumn )
                     {
