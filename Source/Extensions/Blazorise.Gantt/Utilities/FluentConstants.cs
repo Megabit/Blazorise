@@ -7,6 +7,7 @@ internal static class FluentConstants
 {
     // Flex
     internal static readonly IFluentFlex FlexAlignItemsCenter = Flex.AlignItems.Center;
+    internal static readonly IFluentFlex FlexAlignItemsCenterNoWrap = Flex.AlignItems.Center.NoWrap;
     internal static readonly IFluentFlex FlexColumn = Flex.Column;
     internal static readonly IFluentFlex FlexDefault = Flex.Default;
     internal static readonly IFluentFlex FlexGrowIs1 = Flex.Grow.Is1;
@@ -19,6 +20,7 @@ internal static class FluentConstants
     internal static readonly IFluentSpacing MarginIs0FromBottom = Margin.Is0.FromBottom;
     internal static readonly IFluentSpacing MarginIs1FromEnd = Margin.Is1.FromEnd;
     internal static readonly IFluentSpacing MarginIs1OnX = Margin.Is1.OnX;
+    internal static readonly IFluentSpacing MarginIs1OnXIsAutoFromStart = Margin.Is1.OnX.IsAuto.FromStart;
     internal static readonly IFluentSpacing MarginIs2FromEnd = Margin.Is2.FromEnd;
     internal static readonly IFluentSpacing PaddingIs1OnX = Padding.Is1.OnX;
     internal static readonly IFluentSpacing PaddingIs2OnX = Padding.Is2.OnX;

@@ -36,13 +36,23 @@
 
     <Div TextWeight="TextWeight.Bold" Margin="MarginIs1OnX" Style="white-space: nowrap;">@RangeText</Div>
 
-    <Div Flex="FlexAlignItemsCenter" Margin="MarginIs1OnX" Style="flex-wrap: wrap; row-gap: 0.25rem; margin-left: auto;">
+    <Div Flex="FlexAlignItemsCenterNoWrap" Margin="MarginIs1OnXIsAutoFromStart">
         <TextInput Value="@SearchText" ValueChanged="@OnSearchTextValueChanged" Placeholder="@Localizer.Localize( Gantt.Localizers?.SearchLocalizer, LocalizationConstants.Search )" Margin="MarginIs1FromEnd" />
-
-        <Span Margin="MarginIs2FromEnd" TextSize="TextSizeSmall" TextColor="TextColor.Muted">@Localizer.Localize( Gantt.Localizers?.ColumnsLocalizer, LocalizationConstants.Columns ):</Span>
-
-        <Check TValue="bool" Value="@ShowTitleColumn" ValueChanged="@OnShowTitleColumnChanged" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.TaskLocalizer, LocalizationConstants.Task )</Check>
-        <Check TValue="bool" Value="@ShowStartColumn" ValueChanged="@OnShowStartColumnChanged" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.StartLocalizer, LocalizationConstants.Start )</Check>
-        <Check TValue="bool" Value="@ShowEndColumn" ValueChanged="@OnShowEndColumnChanged">@Localizer.Localize( Gantt.Localizers?.EndLocalizer, LocalizationConstants.End )</Check>
+        <Dropdown @bind-Visible="@dropdownColumnChooserVisible" EndAligned>
+            <DropdownToggle @onclick:stopPropagation>
+                <Icon Name="@IconName.Table" Margin="MarginIs1FromEnd" Clicked="() => { }" />@Localizer.Localize( Gantt.Localizers?.ColumnsLocalizer, LocalizationConstants.Columns )
+            </DropdownToggle>
+            <DropdownMenu MaxMenuHeight="200px">
+                <DropdownItem ShowCheckbox Checked="@ShowTitleColumn" CheckedChanged="@OnShowTitleColumnChanged">
+                    @Localizer.Localize( Gantt.Localizers?.TaskLocalizer, LocalizationConstants.Task )
+                </DropdownItem>
+                <DropdownItem ShowCheckbox Checked="@ShowStartColumn" CheckedChanged="@OnShowStartColumnChanged">
+                    @Localizer.Localize( Gantt.Localizers?.StartLocalizer, LocalizationConstants.Start )
+                </DropdownItem>
+                <DropdownItem ShowCheckbox Checked="@ShowEndColumn" CheckedChanged="@OnShowEndColumnChanged">
+                    @Localizer.Localize( Gantt.Localizers?.EndLocalizer, LocalizationConstants.End )
+                </DropdownItem>
+            </DropdownMenu>
+        </Dropdown>
     </Div>
 </Div>
