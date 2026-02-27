@@ -362,6 +362,34 @@ public partial class Gantt<TItem> : BaseComponent
     }
 
     /// <summary>
+    /// Expands all nodes in the tree, including all nested child nodes.
+    /// </summary>
+    public Task ExpandAll()
+    {
+        if ( collapsedNodeKeys.Count == 0 )
+            return Task.CompletedTask;
+
+        collapsedNodeKeys.Clear();
+
+        return InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Collapses all nodes in the tree, including all nested child nodes.
+    /// </summary>
+    public Task CollapseAll()
+    {
+        collapsedNodeKeys.Clear();
+
+        foreach ( var root in BuildTree() )
+        {
+            CollapseNodeAndChildren( root );
+        }
+
+        return InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
     /// Creates a new item using configured new-item factory.
     /// </summary>
     public Task New()
@@ -993,6 +1021,22 @@ public partial class Gantt<TItem> : BaseComponent
         return node.Children
             .Where( child => includeLookup.TryGetValue( child.Key, out var includeNode ) && includeNode )
             .ToList();
+    }
+
+    private void CollapseNodeAndChildren( GanttTreeNode node )
+    {
+        if ( node is null )
+            return;
+
+        if ( node.Children.Count > 0 )
+        {
+            collapsedNodeKeys.Add( node.Key );
+        }
+
+        foreach ( var child in node.Children )
+        {
+            CollapseNodeAndChildren( child );
+        }
     }
 
     private List<GanttTreeNode> BuildTree()

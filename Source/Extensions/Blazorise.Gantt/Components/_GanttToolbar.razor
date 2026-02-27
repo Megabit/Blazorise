@@ -40,6 +40,12 @@
             <Button Color="Color.Success" Size="Size.Small" Outline Clicked="@OnAddTaskClick">
                 <Icon Name="IconName.Add" />@Localizer.Localize( Gantt.Localizers?.AddTaskLocalizer, LocalizationConstants.AddTask )
             </Button>
+            <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnExpandAllClick">
+                @Localizer.Localize( Gantt.Localizers?.ExpandAllLocalizer, LocalizationConstants.ExpandAll )
+            </Button>
+            <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnCollapseAllClick">
+                @Localizer.Localize( Gantt.Localizers?.CollapseAllLocalizer, LocalizationConstants.CollapseAll )
+            </Button>
         </Buttons>
     </Div>
 

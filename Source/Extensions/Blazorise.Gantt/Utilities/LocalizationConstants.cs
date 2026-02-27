@@ -8,6 +8,7 @@ internal static class LocalizationConstants
     public const string AddChild = "Add Child";
     public const string AddTask = "Add Task";
     public const string Cancel = "Cancel";
+    public const string CollapseAll = "Collapse All";
     public const string Columns = "Columns";
     public const string Day = "Day";
     public const string Delete = "Delete";
@@ -17,6 +18,7 @@ internal static class LocalizationConstants
     public const string Edit = "Edit";
     public const string End = "End";
     public const string EndBeforeStart = "End must be greater than Start.";
+    public const string ExpandAll = "Expand All";
     public const string Month = "Month";
     public const string New = "New";
     public const string Next = "Next";

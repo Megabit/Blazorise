@@ -70,6 +70,10 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
 
     private Task OnAddTaskClick() => AddTaskClicked.InvokeAsync();
 
+    private Task OnExpandAllClick() => ExpandAllClicked.InvokeAsync();
+
+    private Task OnCollapseAllClick() => CollapseAllClicked.InvokeAsync();
+
     private Task OnSearchTextValueChanged( string value ) => SearchTextChanged.InvokeAsync( value );
 
     private Task OnShowTitleColumnChanged( bool value ) => ShowTitleColumnChanged.InvokeAsync( value );
@@ -158,6 +162,10 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
     [Parameter] public EventCallback YearViewClicked { get; set; }
 
     [Parameter] public EventCallback AddTaskClicked { get; set; }
+
+    [Parameter] public EventCallback ExpandAllClicked { get; set; }
+
+    [Parameter] public EventCallback CollapseAllClicked { get; set; }
 
     [Parameter] public EventCallback<string> SearchTextChanged { get; set; }
 

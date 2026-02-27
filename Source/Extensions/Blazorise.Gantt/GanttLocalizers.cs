@@ -85,6 +85,16 @@ public class GanttLocalizers
     public TextLocalizerHandler ColumnsLocalizer { get; set; }
 
     /// <summary>
+    /// Localizer for the "Expand All" action label.
+    /// </summary>
+    public TextLocalizerHandler ExpandAllLocalizer { get; set; }
+
+    /// <summary>
+    /// Localizer for the "Collapse All" action label.
+    /// </summary>
+    public TextLocalizerHandler CollapseAllLocalizer { get; set; }
+
+    /// <summary>
     /// Localizer for the "Day" view label.
     /// </summary>
     public TextLocalizerHandler DayLocalizer { get; set; }
