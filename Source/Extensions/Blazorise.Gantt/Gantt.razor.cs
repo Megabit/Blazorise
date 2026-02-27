@@ -73,6 +73,8 @@ public partial class Gantt<TItem> : BaseComponent
     private bool showEndColumn = true;
     private string focusedRowKey;
     private bool shouldFocusTreeRows;
+    private GanttSortColumn ganttSortColumn = GanttSortColumn.Start;
+    private SortDirection ganttSortDirection = SortDirection.Default;
     private bool readDataInitialized;
     private bool readDataRequested;
 
@@ -732,6 +734,9 @@ public partial class Gantt<TItem> : BaseComponent
 
         var token = readDataCancellationTokenSource.Token;
         var viewRange = GetCurrentViewRange();
+        var hasActiveSort = Sortable && ganttSortDirection != SortDirection.Default;
+        var sortColumn = hasActiveSort ? ganttSortColumn : null;
+        var sortDirection = hasActiveSort ? ganttSortDirection : SortDirection.Default;
 
         try
         {
@@ -741,6 +746,8 @@ public partial class Gantt<TItem> : BaseComponent
                 viewRange.Start,
                 viewRange.End,
                 searchText,
+                sortColumn,
+                sortDirection,
                 token ) );
         }
         catch ( OperationCanceledException ) when ( token.IsCancellationRequested )
@@ -1136,6 +1143,45 @@ public partial class Gantt<TItem> : BaseComponent
             ? Blazorise.Background.Light
             : Blazorise.Background.Default;
 
+    private Task SortByColumn( GanttSortColumn column )
+    {
+        if ( !Sortable )
+            return Task.CompletedTask;
+
+        if ( ganttSortColumn == column )
+        {
+            ganttSortDirection = GetNextSortDirection( ganttSortDirection );
+        }
+        else
+        {
+            ganttSortColumn = column;
+            ganttSortDirection = SortDirection.Ascending;
+        }
+
+        return InvokeAsync( StateHasChanged );
+    }
+
+    private bool ShowSortIcon( GanttSortColumn column )
+        => Sortable
+           && ganttSortColumn == column
+           && ganttSortDirection != SortDirection.Default;
+
+    private IconName GetSortIconName( GanttSortColumn column )
+        => !ShowSortIcon( column ) || ganttSortDirection == SortDirection.Ascending
+            ? IconName.SortUp
+            : IconName.SortDown;
+
+    private static SortDirection GetNextSortDirection( SortDirection sortDirection )
+    {
+        return sortDirection switch
+        {
+            SortDirection.Default => SortDirection.Ascending,
+            SortDirection.Ascending => SortDirection.Descending,
+            SortDirection.Descending => SortDirection.Default,
+            _ => SortDirection.Default,
+        };
+    }
+
     private Task ToggleNode( GanttTreeRow node )
     {
         if ( IsSearchMode || node is null )
@@ -1348,9 +1394,62 @@ public partial class Gantt<TItem> : BaseComponent
     private IReadOnlyCollection<GanttTreeNode> SortNodes( IReadOnlyCollection<GanttTreeNode> nodes )
     {
         return nodes
-            .OrderBy( x => GetItemStart( x.Item ) )
-            .ThenBy( x => GetItemTitle( x.Item ), StringComparer.OrdinalIgnoreCase )
+            .OrderBy( x => x, Comparer<GanttTreeNode>.Create( CompareNodes ) )
             .ToList();
+    }
+
+    private int CompareNodes( GanttTreeNode x, GanttTreeNode y )
+    {
+        if ( ReferenceEquals( x, y ) )
+            return 0;
+
+        if ( x is null )
+            return -1;
+
+        if ( y is null )
+            return 1;
+
+        var comparison = Sortable && ganttSortDirection != SortDirection.Default
+            ? CompareByCurrentSort( x, y )
+            : CompareByDefaultSort( x, y );
+
+        if ( comparison != 0 )
+            return comparison;
+
+        return StringComparer.Ordinal.Compare( x.Key, y.Key );
+    }
+
+    private int CompareByCurrentSort( GanttTreeNode x, GanttTreeNode y )
+    {
+        var comparison = ganttSortColumn switch
+        {
+            GanttSortColumn.Title => StringComparer.OrdinalIgnoreCase.Compare( GetItemTitle( x.Item ), GetItemTitle( y.Item ) ),
+            GanttSortColumn.End => DateTime.Compare( GetItemEnd( x.Item ), GetItemEnd( y.Item ) ),
+            _ => DateTime.Compare( GetItemStart( x.Item ), GetItemStart( y.Item ) ),
+        };
+
+        if ( ganttSortDirection == SortDirection.Descending )
+            comparison = -comparison;
+
+        if ( comparison != 0 )
+            return comparison;
+
+        return CompareByDefaultSort( x, y );
+    }
+
+    private int CompareByDefaultSort( GanttTreeNode x, GanttTreeNode y )
+    {
+        var startComparison = DateTime.Compare( GetItemStart( x.Item ), GetItemStart( y.Item ) );
+
+        if ( startComparison != 0 )
+            return startComparison;
+
+        var titleComparison = StringComparer.OrdinalIgnoreCase.Compare( GetItemTitle( x.Item ), GetItemTitle( y.Item ) );
+
+        if ( titleComparison != 0 )
+            return titleComparison;
+
+        return DateTime.Compare( GetItemEnd( x.Item ), GetItemEnd( y.Item ) );
     }
 
     private void AssignLevels( GanttTreeNode node, int level, ISet<string> recursionGuard )
@@ -1962,6 +2061,11 @@ public partial class Gantt<TItem> : BaseComponent
     /// Gets or sets whether toggle-all commands (expand/collapse all) are visible in the toolbar.
     /// </summary>
     [Parameter] public bool ShowToggleAllCommands { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets whether tree column sorting is enabled.
+    /// </summary>
+    [Parameter] public bool Sortable { get; set; } = true;
 
     /// <summary>
     /// Gets or sets whether basic keyboard navigation is enabled for tree rows.

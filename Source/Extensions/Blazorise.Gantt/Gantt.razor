@@ -58,15 +58,51 @@
                 <_GanttTreeHeader Height="Blazorise.Height.Px( headerRowHeight )" Border="BorderIs1OnBottom" Position="PositionStickyTopIs0" Background="Background.Body">
                     @if ( showTitleColumn )
                     {
-                        <Div Style="@GetTitleColumnStyle()" Padding="PaddingIs2OnX" TextWeight="TextWeight.SemiBold">@TaskColumnHeaderText</Div>
+                        <Div Style="@GetTitleColumnStyle()"
+                             Padding="PaddingIs2OnX"
+                             TextWeight="TextWeight.SemiBold"
+                             Cursor="@(Sortable ? Cursor.Pointer : Cursor.Default)"
+                             @onclick="@(() => SortByColumn( GanttSortColumn.Title ))">
+                            <Div Flex="FlexAlignItemsCenterNoWrap" Gap="GapIs1">
+                                <Span>@TaskColumnHeaderText</Span>
+                                @if ( ShowSortIcon( GanttSortColumn.Title ) )
+                                {
+                                    <Icon Name="@GetSortIconName( GanttSortColumn.Title )" />
+                                }
+                            </Div>
+                        </Div>
                     }
                     @if ( showStartColumn )
                     {
-                        <Div Style="@GetDateColumnStyle()" Padding="PaddingIs2OnX" TextWeight="TextWeight.SemiBold">@StartColumnHeaderText</Div>
+                        <Div Style="@GetDateColumnStyle()"
+                             Padding="PaddingIs2OnX"
+                             TextWeight="TextWeight.SemiBold"
+                             Cursor="@(Sortable ? Cursor.Pointer : Cursor.Default)"
+                             @onclick="@(() => SortByColumn( GanttSortColumn.Start ))">
+                            <Div Flex="FlexAlignItemsCenterNoWrap" Gap="GapIs1">
+                                <Span>@StartColumnHeaderText</Span>
+                                @if ( ShowSortIcon( GanttSortColumn.Start ) )
+                                {
+                                    <Icon Name="@GetSortIconName( GanttSortColumn.Start )" />
+                                }
+                            </Div>
+                        </Div>
                     }
                     @if ( showEndColumn )
                     {
-                        <Div Style="@GetDateColumnStyle()" Padding="PaddingIs2OnX" TextWeight="TextWeight.SemiBold">@EndColumnHeaderText</Div>
+                        <Div Style="@GetDateColumnStyle()"
+                             Padding="PaddingIs2OnX"
+                             TextWeight="TextWeight.SemiBold"
+                             Cursor="@(Sortable ? Cursor.Pointer : Cursor.Default)"
+                             @onclick="@(() => SortByColumn( GanttSortColumn.End ))">
+                            <Div Flex="FlexAlignItemsCenterNoWrap" Gap="GapIs1">
+                                <Span>@EndColumnHeaderText</Span>
+                                @if ( ShowSortIcon( GanttSortColumn.End ) )
+                                {
+                                    <Icon Name="@GetSortIconName( GanttSortColumn.End )" />
+                                }
+                            </Div>
+                        </Div>
                     }
                     @if ( showActionColumn )
                     {
