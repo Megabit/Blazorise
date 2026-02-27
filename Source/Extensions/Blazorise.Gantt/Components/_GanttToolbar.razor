@@ -2,8 +2,8 @@
 @typeparam TItem
 @using Blazorise.Gantt.Extensions
 @using Blazorise.Gantt.Utilities
-<Div Class="@ClassNames" Style="@($"{StyleNames}; flex-wrap: wrap; row-gap: 0.5rem;")" Padding="PaddingIs3" Flex="FlexJustifyContentBetweenAlignItemsCenter">
-    <Div Flex="FlexAlignItemsCenter" Style="flex-wrap: wrap; row-gap: 0.25rem;">
+<Div Class="@ClassNames" Style="@StyleNames" Padding="PaddingIs3" Flex="FlexJustifyContentBetweenAlignItemsCenterWrap" Gap="GapIs2">
+    <Div Flex="FlexAlignItemsCenterWrap" Gap="GapIs1">
         <Buttons Margin="MarginIs2FromEnd">
             <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnTodayClick">@Localizer.Localize( Gantt.Localizers?.TodayLocalizer, LocalizationConstants.Today )</Button>
             <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnPreviousClick" aria-label="@Localizer.Localize( Gantt.Localizers?.PreviousLocalizer, LocalizationConstants.Previous )">
@@ -43,10 +43,10 @@
         </Buttons>
     </Div>
 
-    <Div TextWeight="TextWeight.Bold" Margin="MarginIs2OnX" Style="white-space: nowrap;">@RangeText</Div>
+    <Div TextWeight="TextWeight.Bold" Margin="MarginIs2OnX" TextOverflow="TextOverflow.NoWrap">@RangeText</Div>
 
     <Div Flex="FlexAlignItemsCenterNoWrap" Margin="MarginIs1OnXIsAutoFromStart">
-        <TextInput Value="@SearchText" ValueChanged="@OnSearchTextValueChanged" Placeholder="@Localizer.Localize( Gantt.Localizers?.SearchLocalizer, LocalizationConstants.Search )" Margin="MarginIs1FromEnd" />
+        <TextInput Value="@SearchText" ValueChanged="@OnSearchTextValueChanged" Placeholder="@Localizer.Localize( Gantt.Localizers?.SearchLocalizer, LocalizationConstants.Search )" Margin="MarginIs1FromEnd" Width="WidthPx220" />
         <Dropdown @bind-Visible="@dropdownColumnChooserVisible" EndAligned>
             <DropdownToggle @onclick:stopPropagation>
                 <Icon Name="@IconName.Table" Margin="MarginIs1FromEnd" Clicked="() => { }" />@Localizer.Localize( Gantt.Localizers?.ColumnsLocalizer, LocalizationConstants.Columns )

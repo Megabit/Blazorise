@@ -43,7 +43,7 @@
 
         <_GanttBody Style="@GetBodyStyle()">
             <_GanttTreePane Style="@GetTreePaneStyle()">
-                <_GanttTreeHeader Style="height: 44px; border-bottom: 1px solid rgba(0,0,0,0.12); position: sticky; top: 0; background: var(--b-theme-body-bg, #fff); z-index: 2;">
+                <_GanttTreeHeader Height="HeightPx44" Border="BorderIs1OnBottom" Position="PositionStickyTopIs0" Background="Background.Body">
                     @if ( showTitleColumn )
                     {
                         <Div Style="@GetTitleColumnStyle()" Padding="PaddingIs2OnX" TextWeight="TextWeight.SemiBold">@TaskColumnHeaderText</Div>
@@ -59,7 +59,7 @@
                     @if ( showNewColumn )
                     {
                         <Div Style="@GetActionColumnStyle()">
-                            <Button Color="Color.Light" Size="Size.ExtraSmall" Clicked="@New" Style="border: 0; background: transparent; color: rgba(0,0,0,0.5);" aria-label="@AddTaskText">
+                            <Button Size="Size.ExtraSmall" Clicked="@New" Border="BorderIs0" Background="Background.Transparent" TextColor="TextColor.Muted" aria-label="@AddTaskText">
                                 <Icon Name="IconName.Add" />
                             </Button>
                         </Div>
@@ -88,7 +88,7 @@
                                             }
                                             else
                                             {
-                                                <Span Style="display: inline-block; width: 28px;"></Span>
+                                                <Span Display="DisplayInlineBlock" Width="WidthPx28"></Span>
                                             }
 
                                             @if ( rowTemplate is not null )
@@ -97,7 +97,7 @@
                                             }
                                             else
                                             {
-                                                <Span TextOverflow="TextOverflow.Truncate" Style="max-width: 100%;">@GetItemTitle( node.Item )</Span>
+                                                <Span TextOverflow="TextOverflow.Truncate" Width="WidthIs100">@GetItemTitle( node.Item )</Span>
                                             }
                                         </Div>
                                     </Div>
@@ -117,7 +117,7 @@
                                 @if ( showNewColumn )
                                 {
                                     <Div Style="@GetActionColumnStyle()">
-                                        <Button Size="Size.ExtraSmall" Clicked="@(() => AddChild( node.Item ))" Style="border: 0; background: transparent; color: rgba(0,0,0,0.5);" aria-label="@AddChildText">
+                                        <Button Size="Size.ExtraSmall" Clicked="@(() => AddChild( node.Item ))" Border="BorderIs0" Background="Background.Transparent" TextColor="TextColor.Muted" aria-label="@AddChildText">
                                             <Icon Name="IconName.Add" />
                                         </Button>
                                     </Div>
@@ -131,7 +131,7 @@
             <_GanttTimelinePane Style="@GetTimelinePaneStyle()">
                 <_GanttTimelineViewport Style="@GetTimelineViewportStyle()">
                     <_GanttTimelineInner Style="@GetTimelineInnerStyle( timeSlots.Count, cellWidth )">
-                        <_GanttTimeHeader Style="height: 44px; position: sticky; top: 0; z-index: 2; background: var(--b-theme-body-bg, #fff); border-bottom: 1px solid rgba(0,0,0,0.12);">
+                        <_GanttTimeHeader Height="HeightPx44" Border="BorderIs1OnBottom" Position="PositionStickyTopIs0" Background="Background.Body">
                             @foreach ( var slot in timeSlots )
                             {
                                 <Div @key="@slot.Key" Style="@GetTimelineHeaderCellStyle( cellWidth )" Padding="PaddingIs1OnX">
@@ -158,7 +158,7 @@
                                         }
                                         else
                                         {
-                                            <Div Flex="FlexJustifyContentBetweenAlignItemsCenter" Style="width: 100%; height: 100%;">
+                                            <Div Flex="FlexJustifyContentBetweenAlignItemsCenter" Width="WidthIs100" Height="HeightIs100">
                                                 <Span TextOverflow="TextOverflow.Truncate">@GetItemTitle( node.Item )</Span>
                                                 @if ( barInfo.ProgressPercentage is not null )
                                                 {
