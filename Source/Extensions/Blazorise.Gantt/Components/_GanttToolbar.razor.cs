@@ -139,6 +139,8 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
 
     [Parameter] public bool ShowEndColumn { get; set; }
 
+    [Parameter] public bool ShowExpandCollapseButtons { get; set; } = true;
+
     [Parameter] public bool ShowDayViewButton { get; set; }
 
     [Parameter] public bool ShowWeekViewButton { get; set; }
