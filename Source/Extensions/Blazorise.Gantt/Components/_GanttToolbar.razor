@@ -4,37 +4,46 @@
 @using Blazorise.Gantt.Utilities
 <Div Class="@ClassNames" Style="@($"{StyleNames}; flex-wrap: wrap; row-gap: 0.5rem;")" Padding="PaddingIs3" Flex="FlexJustifyContentBetweenAlignItemsCenter">
     <Div Flex="FlexAlignItemsCenter" Style="flex-wrap: wrap; row-gap: 0.25rem;">
-        <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnTodayClick" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.TodayLocalizer, LocalizationConstants.Today )</Button>
-        <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnPreviousClick" Margin="MarginIs1FromEnd" aria-label="@Localizer.Localize( Gantt.Localizers?.PreviousLocalizer, LocalizationConstants.Previous )">
-            <Icon Name="IconName.ChevronLeft" />
-        </Button>
-        <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnNextClick" Margin="MarginIs2FromEnd" aria-label="@Localizer.Localize( Gantt.Localizers?.NextLocalizer, LocalizationConstants.Next )">
-            <Icon Name="IconName.ChevronRight" />
-        </Button>
+        <Buttons Margin="MarginIs2FromEnd">
+            <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnTodayClick">@Localizer.Localize( Gantt.Localizers?.TodayLocalizer, LocalizationConstants.Today )</Button>
+            <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnPreviousClick" aria-label="@Localizer.Localize( Gantt.Localizers?.PreviousLocalizer, LocalizationConstants.Previous )">
+                <Icon Name="IconName.ChevronLeft" />
+            </Button>
+            <Button Color="Color.Secondary" Size="Size.Small" Outline Clicked="@OnNextClick" aria-label="@Localizer.Localize( Gantt.Localizers?.NextLocalizer, LocalizationConstants.Next )">
+                <Icon Name="IconName.ChevronRight" />
+            </Button>
+        </Buttons>
 
-        @if ( ShowDayViewButton )
+        @if ( ShowViewButtons )
         {
-            <Button Color="@(SelectedView == GanttView.Day ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@(SelectedView == GanttView.Day)" Clicked="@OnDayViewClick" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.DayLocalizer, LocalizationConstants.Day )</Button>
-        }
-        @if ( ShowWeekViewButton )
-        {
-            <Button Color="@(SelectedView == GanttView.Week ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@(SelectedView == GanttView.Week)" Clicked="@OnWeekViewClick" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.WeekLocalizer, LocalizationConstants.Week )</Button>
-        }
-        @if ( ShowMonthViewButton )
-        {
-            <Button Color="@(SelectedView == GanttView.Month ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@(SelectedView == GanttView.Month)" Clicked="@OnMonthViewClick" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.MonthLocalizer, LocalizationConstants.Month )</Button>
-        }
-        @if ( ShowYearViewButton )
-        {
-            <Button Color="@(SelectedView == GanttView.Year ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@(SelectedView == GanttView.Year)" Clicked="@OnYearViewClick" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.YearLocalizer, LocalizationConstants.Year )</Button>
+            <Buttons Margin="MarginIs2FromEnd">
+                @if ( ShowDayViewButton )
+                {
+                    <Button Color="@(SelectedView == GanttView.Day ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@(SelectedView == GanttView.Day)" Clicked="@OnDayViewClick">@Localizer.Localize( Gantt.Localizers?.DayLocalizer, LocalizationConstants.Day )</Button>
+                }
+                @if ( ShowWeekViewButton )
+                {
+                    <Button Color="@(SelectedView == GanttView.Week ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@(SelectedView == GanttView.Week)" Clicked="@OnWeekViewClick">@Localizer.Localize( Gantt.Localizers?.WeekLocalizer, LocalizationConstants.Week )</Button>
+                }
+                @if ( ShowMonthViewButton )
+                {
+                    <Button Color="@(SelectedView == GanttView.Month ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@(SelectedView == GanttView.Month)" Clicked="@OnMonthViewClick">@Localizer.Localize( Gantt.Localizers?.MonthLocalizer, LocalizationConstants.Month )</Button>
+                }
+                @if ( ShowYearViewButton )
+                {
+                    <Button Color="@(SelectedView == GanttView.Year ? Color.Primary : Color.Secondary)" Size="Size.Small" Outline Active="@(SelectedView == GanttView.Year)" Clicked="@OnYearViewClick">@Localizer.Localize( Gantt.Localizers?.YearLocalizer, LocalizationConstants.Year )</Button>
+                }
+            </Buttons>
         }
 
-        <Button Color="Color.Success" Size="Size.Small" Outline Clicked="@OnAddTaskClick">
-            <Icon Name="IconName.Add" Margin="MarginIs1FromEnd" />@Localizer.Localize( Gantt.Localizers?.AddTaskLocalizer, LocalizationConstants.AddTask )
-        </Button>
+        <Buttons Margin="MarginIs2FromEnd">
+            <Button Color="Color.Success" Size="Size.Small" Outline Clicked="@OnAddTaskClick">
+                <Icon Name="IconName.Add" />@Localizer.Localize( Gantt.Localizers?.AddTaskLocalizer, LocalizationConstants.AddTask )
+            </Button>
+        </Buttons>
     </Div>
 
-    <Div TextWeight="TextWeight.Bold" Margin="MarginIs1OnX" Style="white-space: nowrap;">@RangeText</Div>
+    <Div TextWeight="TextWeight.Bold" Margin="MarginIs2OnX" Style="white-space: nowrap;">@RangeText</Div>
 
     <Div Flex="FlexAlignItemsCenterNoWrap" Margin="MarginIs1OnXIsAutoFromStart">
         <TextInput Value="@SearchText" ValueChanged="@OnSearchTextValueChanged" Placeholder="@Localizer.Localize( Gantt.Localizers?.SearchLocalizer, LocalizationConstants.Search )" Margin="MarginIs1FromEnd" />

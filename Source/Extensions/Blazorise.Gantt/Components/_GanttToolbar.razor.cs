@@ -108,6 +108,8 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
         }
     }
 
+    private bool ShowViewButtons => ShowDayViewButton || ShowWeekViewButton || ShowMonthViewButton || ShowYearViewButton;
+
     [Inject] protected ITextLocalizer<Gantt<TItem>> Localizer { get; set; }
 
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
