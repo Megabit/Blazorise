@@ -10,6 +10,7 @@
                            FirstDayOfWeek="@FirstDayOfWeek"
                            SearchText="@searchText"
                            SearchInputWidth="@GetSearchInputWidth()"
+                           ShowAddTaskButton="@ShowToolbarAddTaskButton"
                            ShowTitleColumn="@showTitleColumn"
                            ShowStartColumn="@showStartColumn"
                            ShowEndColumn="@showEndColumn"
@@ -44,7 +45,8 @@
             var headerRowHeight = GetHeaderRowHeight();
             var cellWidth = GetTimelineCellWidth();
             var treeToggleWidth = GetTreeToggleWidth();
-            var showNewColumn = ShowNewColumn;
+            var showActionColumn = ShowNewColumn;
+            var showHeaderNewButton = ShowHeaderNewButton;
         }
 
         <_GanttBody Style="@GetBodyStyle()">
@@ -62,12 +64,15 @@
                     {
                         <Div Style="@GetDateColumnStyle()" Padding="PaddingIs2OnX" TextWeight="TextWeight.SemiBold">@EndColumnHeaderText</Div>
                     }
-                    @if ( showNewColumn )
+                    @if ( showActionColumn )
                     {
                         <Div Style="@GetActionColumnStyle()">
-                            <Button Size="Size.ExtraSmall" Clicked="@New" Border="BorderIs0" Background="Background.Transparent" TextColor="TextColor.Muted" aria-label="@AddTaskText">
-                                <Icon Name="IconName.Add" />
-                            </Button>
+                            @if ( showHeaderNewButton )
+                            {
+                                <Button Size="Size.ExtraSmall" Clicked="@New" Border="BorderIs0" Background="Background.Transparent" TextColor="TextColor.Muted" aria-label="@AddTaskText">
+                                    <Icon Name="IconName.Add" />
+                                </Button>
+                            }
                         </Div>
                     }
                 </_GanttTreeHeader>
@@ -120,12 +125,15 @@
                                         <Span TextSize="TextSizeSmall">@FormatDate( GetItemEnd( node.Item ) )</Span>
                                     </Div>
                                 }
-                                @if ( showNewColumn )
+                                @if ( showActionColumn )
                                 {
                                     <Div Style="@GetActionColumnStyle()">
-                                        <Button Size="Size.ExtraSmall" Clicked="@(() => AddChild( node.Item ))" Border="BorderIs0" Background="Background.Transparent" TextColor="TextColor.Muted" aria-label="@AddChildText">
-                                            <Icon Name="IconName.Add" />
-                                        </Button>
+                                        @if ( CanShowAddChildButton( node.Item ) )
+                                        {
+                                            <Button Size="Size.ExtraSmall" Clicked="@(() => AddChild( node.Item ))" Border="BorderIs0" Background="Background.Transparent" TextColor="TextColor.Muted" aria-label="@AddChildText">
+                                                <Icon Name="IconName.Add" />
+                                            </Button>
+                                        }
                                     </Div>
                                 }
                             </_GanttTreeRow>

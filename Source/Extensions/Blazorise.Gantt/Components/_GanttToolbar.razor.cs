@@ -139,6 +139,11 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
 
     [Parameter] public bool ShowEndColumn { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether Add Task button is visible.
+    /// </summary>
+    [Parameter] public bool ShowAddTaskButton { get; set; } = true;
+
     [Parameter] public bool ShowExpandCollapseButtons { get; set; } = true;
 
     [Parameter] public bool ShowDayViewButton { get; set; }

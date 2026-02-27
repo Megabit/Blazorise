@@ -390,6 +390,41 @@ public partial class Gantt<TItem> : BaseComponent
     }
 
     /// <summary>
+    /// Determines whether specified edit command is currently allowed.
+    /// </summary>
+    /// <param name="commandType">Command to evaluate.</param>
+    /// <param name="item">Target item for edit/delete operations.</param>
+    /// <param name="parentItem">Parent item for add-child operations.</param>
+    /// <returns>True when command is allowed; otherwise false.</returns>
+    protected internal bool IsCommandAllowed( GanttCommandType commandType, TItem item = default, TItem parentItem = default )
+    {
+        if ( !Editable )
+            return false;
+
+        if ( commandType == GanttCommandType.New && !NewCommandAllowed )
+            return false;
+
+        if ( commandType == GanttCommandType.AddChild && !AddChildCommandAllowed )
+            return false;
+
+        if ( commandType == GanttCommandType.Edit && !EditCommandAllowed )
+            return false;
+
+        if ( commandType == GanttCommandType.Delete && !DeleteCommandAllowed )
+            return false;
+
+        if ( CommandAllowed is not null )
+        {
+            var commandContext = new GanttCommandContext<TItem>( commandType, item, parentItem );
+
+            if ( !CommandAllowed.Invoke( commandContext ) )
+                return false;
+        }
+
+        return true;
+    }
+
+    /// <summary>
     /// Creates a new item using configured new-item factory.
     /// </summary>
     public Task New()
@@ -424,6 +459,13 @@ public partial class Gantt<TItem> : BaseComponent
         if ( item is null )
             throw new ArgumentNullException( nameof( item ), "New item is not assigned." );
 
+        var commandType = parentItem is null
+            ? GanttCommandType.New
+            : GanttCommandType.AddChild;
+
+        if ( !IsCommandAllowed( commandType, item, parentItem ) )
+            return;
+
         ApplyNewItemDateDefaults( item, parentItem );
 
         editItem = item;
@@ -443,6 +485,9 @@ public partial class Gantt<TItem> : BaseComponent
     {
         if ( item is null )
             throw new ArgumentNullException( nameof( item ), "Edit item is not assigned." );
+
+        if ( !IsCommandAllowed( GanttCommandType.Edit, item ) )
+            return;
 
         if ( EditItemClicked.HasDelegate )
         {
@@ -466,6 +511,9 @@ public partial class Gantt<TItem> : BaseComponent
     {
         if ( item is null )
             throw new ArgumentNullException( nameof( item ), "Delete item is not assigned." );
+
+        if ( !IsCommandAllowed( GanttCommandType.Delete, item ) )
+            return;
 
         if ( Editable && UseInternalEditing )
         {
@@ -508,6 +556,9 @@ public partial class Gantt<TItem> : BaseComponent
         if ( itemToDelete is null )
             return false;
 
+        if ( !IsCommandAllowed( GanttCommandType.Delete, itemToDelete ) )
+            return false;
+
         if ( DeleteItemClicked.HasDelegate )
         {
             await DeleteItemClicked.InvokeAsync( new GanttItemClickedEventArgs<TItem>( itemToDelete ) );
@@ -536,6 +587,20 @@ public partial class Gantt<TItem> : BaseComponent
     {
         if ( targetItem is null || submittedItem is null )
             return false;
+
+        if ( submittedEditState == GanttEditState.New )
+        {
+            var commandType = editParentItem is null
+                ? GanttCommandType.New
+                : GanttCommandType.AddChild;
+
+            if ( !IsCommandAllowed( commandType, targetItem, editParentItem ) )
+                return false;
+        }
+        else if ( submittedEditState == GanttEditState.Edit && !IsCommandAllowed( GanttCommandType.Edit, targetItem ) )
+        {
+            return false;
+        }
 
         var handler = submittedEditState == GanttEditState.New ? ItemInserting : ItemUpdating;
         var oldItem = submittedEditState == GanttEditState.New ? targetItem : targetItem.DeepClone();
@@ -897,7 +962,7 @@ public partial class Gantt<TItem> : BaseComponent
             await ItemClicked.InvokeAsync( new GanttItemClickedEventArgs<TItem>( item ) );
         }
 
-        if ( Editable )
+        if ( IsCommandAllowed( GanttCommandType.Edit, item ) )
         {
             await Edit( item );
         }
@@ -1564,8 +1629,20 @@ public partial class Gantt<TItem> : BaseComponent
     private bool IsSearchMode
         => !string.IsNullOrWhiteSpace( searchText );
 
+    private bool ShowToolbarAddTaskButton
+        => UseInternalEditing && IsCommandAllowed( GanttCommandType.New );
+
+    private bool ShowHeaderNewButton
+        => UseInternalEditing && IsCommandAllowed( GanttCommandType.New );
+
+    private bool ShowAddChildColumn
+        => UseInternalEditing && Editable && AddChildCommandAllowed;
+
     private bool ShowNewColumn
-        => Editable && UseInternalEditing;
+        => ShowHeaderNewButton || ShowAddChildColumn;
+
+    private bool CanShowAddChildButton( TItem parentItem )
+        => ShowAddChildColumn && IsCommandAllowed( GanttCommandType.AddChild, parentItem: parentItem );
 
     private string TaskColumnHeaderText
         => Localizer.Localize( Localizers?.TaskLocalizer, LocalizationConstants.Task );
@@ -1756,6 +1833,31 @@ public partial class Gantt<TItem> : BaseComponent
     /// Gets or sets whether item editing is enabled.
     /// </summary>
     [Parameter] public bool Editable { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether creating new top-level items is allowed.
+    /// </summary>
+    [Parameter] public bool NewCommandAllowed { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets whether creating child items is allowed.
+    /// </summary>
+    [Parameter] public bool AddChildCommandAllowed { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets whether editing existing items is allowed.
+    /// </summary>
+    [Parameter] public bool EditCommandAllowed { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets whether deleting existing items is allowed.
+    /// </summary>
+    [Parameter] public bool DeleteCommandAllowed { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets callback used to allow or deny command execution per item.
+    /// </summary>
+    [Parameter] public Func<GanttCommandContext<TItem>, bool> CommandAllowed { get; set; }
 
     /// <summary>
     /// Gets or sets whether built-in modal editing is used.

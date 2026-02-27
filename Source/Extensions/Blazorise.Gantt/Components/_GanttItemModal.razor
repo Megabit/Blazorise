@@ -77,7 +77,7 @@
         </ModalBody>
         <ModalFooter Flex="FlexJustifyContentBetweenAlignItemsCenter">
             <Div>
-                @if ( EditState == GanttEditState.Edit )
+                @if ( EditState == GanttEditState.Edit && DeleteCommandVisible )
                 {
                     <Button Color="Color.Danger" Outline Clicked="@Delete">
                         <Icon Name="IconName.Delete" Margin="MarginIs1FromEnd" />@Localizer.Localize( Gantt.Localizers?.DeleteLocalizer, LocalizationConstants.Delete )

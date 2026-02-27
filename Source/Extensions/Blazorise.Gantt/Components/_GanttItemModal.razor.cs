@@ -315,6 +315,10 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
     private bool DurationAvailable => Gantt.PropertyMapper.HasDuration;
 
+    private bool DeleteCommandVisible
+        => EditItem is not null
+           && Gantt?.IsCommandAllowed( GanttCommandType.Delete, EditItem ) == true;
+
     private string Title { get; set; }
 
     private string Description { get; set; }
