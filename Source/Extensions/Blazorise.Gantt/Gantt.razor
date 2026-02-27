@@ -130,7 +130,7 @@
                                     <Div Style="@GetActionColumnStyle()">
                                         @if ( CanShowAddChildButton( node.Item ) )
                                         {
-                                            <Button Size="Size.ExtraSmall" Clicked="@(() => AddChild( node.Item ))" Border="BorderIs0" Background="Background.Transparent" TextColor="TextColor.Muted" aria-label="@AddChildText">
+                                            <Button Size="Size.ExtraSmall" Clicked="@(() => AddChild( node.Item ))" Border="BorderIs0" Background="Background.Transparent" aria-label="@AddChildText">
                                                 <Icon Name="IconName.Add" />
                                             </Button>
                                         }
