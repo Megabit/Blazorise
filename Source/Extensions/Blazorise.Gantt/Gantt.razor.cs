@@ -1974,17 +1974,17 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         return $"display: flex; align-items: center; min-width: 0; width: 100%; padding-left: {paddingLeft}px;";
     }
 
-    private string GetTitleColumnStyle()
+    private string GetTitleColumnStyle( bool sortable = false )
     {
         var width = TitleColumnWidth.ToString( "0.###", CultureInfo.InvariantCulture );
-        return $"width: {width}px; min-width: {width}px; max-width: {width}px; overflow: hidden;";
+        return $"width: {width}px; min-width: {width}px; max-width: {width}px; overflow: hidden; cursor: {(sortable ? "pointer" : "default")};";
     }
 
-    private string GetDateColumnStyle( double width )
+    private string GetDateColumnStyle( double width, bool sortable = false )
     {
         var columnWidth = width > 0d ? width : DateColumnWidth;
         var widthText = columnWidth.ToString( "0.###", CultureInfo.InvariantCulture );
-        return $"width: {widthText}px; min-width: {widthText}px; max-width: {widthText}px; overflow: hidden;";
+        return $"width: {widthText}px; min-width: {widthText}px; max-width: {widthText}px; overflow: hidden; cursor: {(sortable ? "pointer" : "default")};";
     }
 
     private string GetActionColumnStyle()

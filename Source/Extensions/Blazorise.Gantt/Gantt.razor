@@ -100,10 +100,9 @@
                     }
                     @if ( showTitleColumn )
                     {
-                        <Div Style="@GetTitleColumnStyle()"
+                        <Div Style="@GetTitleColumnStyle( Sortable )"
                              Padding="PaddingIs2OnX"
                              TextWeight="TextWeight.SemiBold"
-                             Cursor="@(Sortable ? Cursor.Pointer : Cursor.Default)"
                              @onclick="@(() => SortByColumn( GanttSortColumn.Title ))">
                             @if ( TreeHeaderCellTemplate is not null )
                             {
@@ -123,12 +122,11 @@
                     }
                     @if ( showStartColumn )
                     {
-                        <Div Style="@GetDateColumnStyle( startColumnWidth )"
+                        <Div Style="@GetDateColumnStyle( startColumnWidth, Sortable )"
                              Padding="PaddingIs2OnX"
                              TextWeight="TextWeight.SemiBold"
                              Flex="FlexJustifyContentCenterAlignItemsCenterNoWrap"
                              Gap="GapIs1"
-                             Cursor="@(Sortable ? Cursor.Pointer : Cursor.Default)"
                              @onclick="@(() => SortByColumn( GanttSortColumn.Start ))">
                             @if ( TreeHeaderCellTemplate is not null )
                             {
@@ -146,12 +144,11 @@
                     }
                     @if ( showEndColumn )
                     {
-                        <Div Style="@GetDateColumnStyle( endColumnWidth )"
+                        <Div Style="@GetDateColumnStyle( endColumnWidth, Sortable )"
                              Padding="PaddingIs2OnX"
                              TextWeight="TextWeight.SemiBold"
                              Flex="FlexJustifyContentCenterAlignItemsCenterNoWrap"
                              Gap="GapIs1"
-                             Cursor="@(Sortable ? Cursor.Pointer : Cursor.Default)"
                              @onclick="@(() => SortByColumn( GanttSortColumn.End ))">
                             @if ( TreeHeaderCellTemplate is not null )
                             {
@@ -169,12 +166,11 @@
                     }
                     @if ( showDurationColumn )
                     {
-                        <Div Style="@GetDateColumnStyle( durationColumnWidth )"
+                        <Div Style="@GetDateColumnStyle( durationColumnWidth, Sortable )"
                              Padding="PaddingIs2OnX"
                              TextWeight="TextWeight.SemiBold"
                              Flex="FlexJustifyContentCenterAlignItemsCenterNoWrap"
                              Gap="GapIs1"
-                             Cursor="@(Sortable ? Cursor.Pointer : Cursor.Default)"
                              @onclick="@(() => SortByColumn( GanttSortColumn.Duration ))">
                             @if ( TreeHeaderCellTemplate is not null )
                             {
