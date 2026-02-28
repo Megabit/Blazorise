@@ -67,6 +67,9 @@
                 <Icon Name="@IconName.Table" Margin="MarginIs1FromEnd" Clicked="() => { }" />@Localizer.Localize( Gantt.Localizers?.ColumnsLocalizer, LocalizationConstants.Columns )
             </DropdownToggle>
             <DropdownMenu MaxMenuHeight="200px">
+                <DropdownItem ShowCheckbox Checked="@ShowWbsColumn" CheckedChanged="@OnShowWbsColumnChanged">
+                    @Localizer.Localize( Gantt.Localizers?.WbsLocalizer, LocalizationConstants.Wbs )
+                </DropdownItem>
                 <DropdownItem ShowCheckbox Checked="@ShowTitleColumn" CheckedChanged="@OnShowTitleColumnChanged">
                     @Localizer.Localize( Gantt.Localizers?.TaskLocalizer, LocalizationConstants.Task )
                 </DropdownItem>

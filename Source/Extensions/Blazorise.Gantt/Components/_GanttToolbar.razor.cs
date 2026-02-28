@@ -78,6 +78,8 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
 
     private Task OnShowTitleColumnChanged( bool value ) => ShowTitleColumnChanged.InvokeAsync( value );
 
+    private Task OnShowWbsColumnChanged( bool value ) => ShowWbsColumnChanged.InvokeAsync( value );
+
     private Task OnShowStartColumnChanged( bool value ) => ShowStartColumnChanged.InvokeAsync( value );
 
     private Task OnShowEndColumnChanged( bool value ) => ShowEndColumnChanged.InvokeAsync( value );
@@ -139,6 +141,8 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
 
     [Parameter] public bool ShowTitleColumn { get; set; }
 
+    [Parameter] public bool ShowWbsColumn { get; set; }
+
     [Parameter] public bool ShowStartColumn { get; set; }
 
     [Parameter] public bool ShowEndColumn { get; set; }
@@ -185,6 +189,8 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
     [Parameter] public EventCallback<string> SearchTextChanged { get; set; }
 
     [Parameter] public EventCallback<bool> ShowTitleColumnChanged { get; set; }
+
+    [Parameter] public EventCallback<bool> ShowWbsColumnChanged { get; set; }
 
     [Parameter] public EventCallback<bool> ShowStartColumnChanged { get; set; }
 

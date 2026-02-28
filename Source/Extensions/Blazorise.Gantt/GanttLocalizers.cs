@@ -25,6 +25,11 @@ public class GanttLocalizers
     public TextLocalizerHandler TaskLocalizer { get; set; }
 
     /// <summary>
+    /// Localizer for the "WBS" label.
+    /// </summary>
+    public TextLocalizerHandler WbsLocalizer { get; set; }
+
+    /// <summary>
     /// Localizer for the "Title" field label.
     /// </summary>
     public TextLocalizerHandler TitleLocalizer { get; set; }

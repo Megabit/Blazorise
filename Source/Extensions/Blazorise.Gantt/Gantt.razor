@@ -12,6 +12,7 @@
                            SearchInputWidth="@GetSearchInputWidth()"
                            ShowAddTaskButton="@ShowToolbarAddTaskButton"
                            ShowTitleColumn="@showTitleColumn"
+                           ShowWbsColumn="@showWbsColumn"
                            ShowStartColumn="@showStartColumn"
                            ShowEndColumn="@showEndColumn"
                            ShowDurationColumn="@showDurationColumn"
@@ -33,6 +34,7 @@
                            CollapseAllClicked="@CollapseAll"
                            SearchTextChanged="@SetSearchText"
                            ShowTitleColumnChanged="@SetShowTitleColumn"
+                           ShowWbsColumnChanged="@SetShowWbsColumn"
                            ShowStartColumnChanged="@SetShowStartColumn"
                            ShowEndColumnChanged="@SetShowEndColumn"
                            ShowDurationColumnChanged="@SetShowDurationColumn"
@@ -55,11 +57,20 @@
             var treeToggleWidth = GetTreeToggleWidth();
             var showActionColumn = CanShowActionColumn( visibleRows );
             var showHeaderNewButton = ShowHeaderNewButton;
+            var wbsLookup = showWbsColumn ? BuildWbsLookup( visibleRows ) : null;
         }
 
         <_GanttBody Style="@GetBodyStyle()">
             <_GanttTreePane Style="@GetTreePaneStyle( showActionColumn )">
                 <_GanttTreeHeader Height="Blazorise.Height.Px( headerRowHeight )" Border="BorderIs1OnBottom" Position="PositionStickyTopIs0" Background="Background.Body">
+                    @if ( showWbsColumn )
+                    {
+                        <Div Style="@GetDateColumnStyle()"
+                             Padding="PaddingIs2OnX"
+                             TextWeight="TextWeight.SemiBold">
+                            <Span>@WbsColumnHeaderText</Span>
+                        </Div>
+                    }
                     @if ( showTitleColumn )
                     {
                         <Div Style="@GetTitleColumnStyle()"
@@ -152,6 +163,12 @@
                                            Selected="@IsSelectedRow( node.Item )"
                                            Clicked="@(() => OnTreeRowClicked( node.Item, node.Key ))"
                                            DoubleClicked="@(() => OnTreeRowDoubleClicked( node.Item, node.Key ))">
+                                @if ( showWbsColumn )
+                                {
+                                    <Div Style="@GetDateColumnStyle()" Padding="PaddingIs2OnX">
+                                        <Span TextSize="TextSizeSmall">@GetWbsValue( wbsLookup, node.Key )</Span>
+                                    </Div>
+                                }
                                 @if ( showTitleColumn )
                                 {
                                     <Div Style="@GetTitleColumnStyle()" Padding="PaddingIs2OnX">

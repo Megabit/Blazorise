@@ -69,6 +69,7 @@ public partial class Gantt<TItem> : BaseComponent
     private DateOnly currentDate = DateOnly.FromDateTime( DateTime.Today );
     private string searchText = string.Empty;
     private bool showTitleColumn = true;
+    private bool showWbsColumn = false;
     private bool showStartColumn = true;
     private bool showEndColumn = false;
     private bool showDurationColumn = true;
@@ -123,6 +124,9 @@ public partial class Gantt<TItem> : BaseComponent
         if ( parameters.TryGetValue<bool>( nameof( ShowTitleColumn ), out var paramShowTitleColumn ) )
             showTitleColumn = paramShowTitleColumn;
 
+        if ( parameters.TryGetValue<bool>( nameof( ShowWbsColumn ), out var paramShowWbsColumn ) )
+            showWbsColumn = paramShowWbsColumn;
+
         if ( parameters.TryGetValue<bool>( nameof( ShowStartColumn ), out var paramShowStartColumn ) )
             showStartColumn = paramShowStartColumn;
 
@@ -165,6 +169,7 @@ public partial class Gantt<TItem> : BaseComponent
         currentDate = Date;
         searchText = SearchText ?? string.Empty;
         showTitleColumn = ShowTitleColumn;
+        showWbsColumn = ShowWbsColumn;
         showStartColumn = ShowStartColumn;
         showEndColumn = ShowEndColumn;
         showDurationColumn = ShowDurationColumn;
@@ -801,6 +806,15 @@ public partial class Gantt<TItem> : BaseComponent
         await InvokeAsync( StateHasChanged );
     }
 
+    private async Task SetShowWbsColumn( bool value )
+    {
+        showWbsColumn = value;
+        EnsureAtLeastOneColumnVisible();
+
+        await NotifyColumnVisibilityChanged();
+        await InvokeAsync( StateHasChanged );
+    }
+
     private async Task SetShowStartColumn( bool value )
     {
         showStartColumn = value;
@@ -839,6 +853,7 @@ public partial class Gantt<TItem> : BaseComponent
     private async Task NotifyColumnVisibilityChanged()
     {
         await ShowTitleColumnChanged.InvokeAsync( showTitleColumn );
+        await ShowWbsColumnChanged.InvokeAsync( showWbsColumn );
         await ShowStartColumnChanged.InvokeAsync( showStartColumn );
         await ShowEndColumnChanged.InvokeAsync( showEndColumn );
         await ShowDurationColumnChanged.InvokeAsync( showDurationColumn );
@@ -847,7 +862,7 @@ public partial class Gantt<TItem> : BaseComponent
 
     private void EnsureAtLeastOneColumnVisible()
     {
-        if ( !showTitleColumn && !showStartColumn && !showEndColumn && !showDurationColumn )
+        if ( !showTitleColumn && !showWbsColumn && !showStartColumn && !showEndColumn && !showDurationColumn )
         {
             showTitleColumn = true;
         }
@@ -1333,6 +1348,54 @@ public partial class Gantt<TItem> : BaseComponent
         }
 
         return rows;
+    }
+
+    private Dictionary<string, string> BuildWbsLookup( IReadOnlyList<GanttTreeRow> visibleRows )
+    {
+        var wbsLookup = new Dictionary<string, string>( StringComparer.Ordinal );
+
+        if ( visibleRows is null || visibleRows.Count == 0 )
+            return wbsLookup;
+
+        var levelCounters = new List<int>();
+
+        foreach ( var row in visibleRows )
+        {
+            var level = Math.Max( 0, row.Level );
+
+            while ( levelCounters.Count <= level )
+            {
+                levelCounters.Add( 0 );
+            }
+
+            levelCounters[level]++;
+
+            if ( level + 1 < levelCounters.Count )
+            {
+                levelCounters.RemoveRange( level + 1, levelCounters.Count - level - 1 );
+            }
+
+            var segments = new string[level + 1];
+
+            for ( int i = 0; i <= level; i++ )
+            {
+                segments[i] = levelCounters[i].ToString( CultureInfo.InvariantCulture );
+            }
+
+            wbsLookup[row.Key] = string.Join( '.', segments );
+        }
+
+        return wbsLookup;
+    }
+
+    private static string GetWbsValue( IReadOnlyDictionary<string, string> wbsLookup, string rowKey )
+    {
+        if ( wbsLookup is null || string.IsNullOrEmpty( rowKey ) )
+            return string.Empty;
+
+        return wbsLookup.TryGetValue( rowKey, out var wbsValue )
+            ? wbsValue
+            : string.Empty;
     }
 
     private Dictionary<string, bool> BuildSearchIncludeLookup( IReadOnlyCollection<GanttTreeNode> roots )
@@ -1836,6 +1899,9 @@ public partial class Gantt<TItem> : BaseComponent
         if ( showTitleColumn )
             width += TitleColumnWidth;
 
+        if ( showWbsColumn )
+            width += DateColumnWidth;
+
         if ( showStartColumn )
             width += DateColumnWidth;
 
@@ -2099,6 +2165,9 @@ public partial class Gantt<TItem> : BaseComponent
     private string TaskColumnHeaderText
         => Localizer.Localize( Localizers?.TaskLocalizer, LocalizationConstants.Task );
 
+    private string WbsColumnHeaderText
+        => Localizer.Localize( Localizers?.WbsLocalizer, LocalizationConstants.Wbs );
+
     private string AddTaskText
         => Localizer.Localize( Localizers?.AddTaskLocalizer, LocalizationConstants.AddTask );
 
@@ -2233,6 +2302,16 @@ public partial class Gantt<TItem> : BaseComponent
     /// Gets or sets callback raised when <see cref="ShowTitleColumn"/> changes.
     /// </summary>
     [Parameter] public EventCallback<bool> ShowTitleColumnChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether WBS (work breakdown structure) column is visible.
+    /// </summary>
+    [Parameter] public bool ShowWbsColumn { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets callback raised when <see cref="ShowWbsColumn"/> changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> ShowWbsColumnChanged { get; set; }
 
     /// <summary>
     /// Gets or sets whether start date column is visible.

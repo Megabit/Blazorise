@@ -35,5 +35,6 @@ internal static class LocalizationConstants
     public const string TitleRequired = "Title is required.";
     public const string Today = "Today";
     public const string Week = "Week";
+    public const string Wbs = "WBS";
     public const string Year = "Year";
 }
