@@ -64,7 +64,7 @@
 
                 <Fields>
                     <Validation Validator="@OnValidateStartDate">
-                        <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
+                        <Field ColumnSize="ColumnSizeIs12OnMobileIs3OnTablet">
                             <FieldLabel>@Localizer.Localize( Gantt.Localizers?.StartLocalizer, LocalizationConstants.Start )</FieldLabel>
                             <FieldBody>
                                 <DatePicker TValue="DateOnly" Value="@StartDate" ValueChanged="@OnStartDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
@@ -76,18 +76,40 @@
                         </Field>
                     </Validation>
                     <Validation Validator="@OnValidateStartTime">
-                        <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
+                        <Field ColumnSize="ColumnSizeIs12OnMobileIs2OnTablet">
                             <FieldLabel>&nbsp;</FieldLabel>
                             <FieldBody>
                                 <TimePicker TValue="TimeOnly" Value="@StartTime" ValueChanged="@OnStartTimeChanged" StaticPicker="false" TimeAs24hr />
                             </FieldBody>
                         </Field>
                     </Validation>
-                </Fields>
 
-                <Fields>
+                    @if ( DurationAvailable )
+                    {
+                        <Field ColumnSize="ColumnSizeIs12OnMobileIs2OnTablet">
+                            <FieldLabel>@Localizer.Localize( Gantt.Localizers?.DurationLocalizer, LocalizationConstants.Duration )</FieldLabel>
+                            <FieldBody>
+                                <Addons>
+                                    <Addon AddonType="AddonType.Start">
+                                        <Button Color="Color.Secondary" Outline Clicked="@OnDurationDecrease">
+                                            <Icon Name="IconName.Minus" />
+                                        </Button>
+                                    </Addon>
+                                    <Addon AddonType="AddonType.Body">
+                                        <NumericPicker TValue="int" Value="@DurationDays" ValueChanged="@OnDurationChanged" Min="1" Step="1" Decimals="0" ShowStepButtons="false" Padding="PaddingIs0OnX" TextAlignment="TextAlignmentCenter" />
+                                    </Addon>
+                                    <Addon AddonType="AddonType.End">
+                                        <Button Color="Color.Secondary" Outline Clicked="@OnDurationIncrease">
+                                            <Icon Name="IconName.Plus" />
+                                        </Button>
+                                    </Addon>
+                                </Addons>
+                            </FieldBody>
+                        </Field>
+                    }
+
                     <Validation Validator="@OnValidateEndDate">
-                        <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
+                        <Field ColumnSize="ColumnSizeIs12OnMobileIs3OnTablet">
                             <FieldLabel>@Localizer.Localize( Gantt.Localizers?.EndLocalizer, LocalizationConstants.End )</FieldLabel>
                             <FieldBody>
                                 <DatePicker TValue="DateOnly" Value="@EndDate" ValueChanged="@OnEndDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
@@ -99,7 +121,7 @@
                         </Field>
                     </Validation>
                     <Validation Validator="@OnValidateEndTime">
-                        <Field ColumnSize="ColumnSizeIs12OnMobileIs6OnTablet">
+                        <Field ColumnSize="ColumnSizeIs12OnMobileIs2OnTablet">
                             <FieldLabel>&nbsp;</FieldLabel>
                             <FieldBody>
                                 <TimePicker TValue="TimeOnly" Value="@EndTime" ValueChanged="@OnEndTimeChanged" StaticPicker="false" TimeAs24hr />
@@ -107,16 +129,6 @@
                         </Field>
                     </Validation>
                 </Fields>
-
-                @if ( DurationAvailable )
-                {
-                    <Field>
-                        <FieldLabel>@Localizer.Localize( Gantt.Localizers?.DurationLocalizer, LocalizationConstants.Duration )</FieldLabel>
-                        <FieldBody>
-                            <NumericInput TValue="int" Value="@DurationDays" ValueChanged="@OnDurationChanged" Min="1" Step="1" />
-                        </FieldBody>
-                    </Field>
-                }
             </Validations>
         </ModalBody>
         <ModalFooter Flex="FlexJustifyContentBetweenAlignItemsCenter">

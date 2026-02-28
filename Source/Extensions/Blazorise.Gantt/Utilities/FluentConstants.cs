@@ -21,6 +21,8 @@ internal static class FluentConstants
     internal static readonly IFluentSizing WidthIs100 = Width.Is100;
 
     // Column
+    internal static readonly IFluentColumn ColumnSizeIs12OnMobileIs2OnTablet = ColumnSize.Is12.OnMobile.Is2.OnTablet;
+    internal static readonly IFluentColumn ColumnSizeIs12OnMobileIs3OnTablet = ColumnSize.Is12.OnMobile.Is3.OnTablet;
     internal static readonly IFluentColumn ColumnSizeIs12OnMobileIs6OnTablet = ColumnSize.Is12.OnMobile.Is6.OnTablet;
 
     // Spacing
@@ -33,6 +35,7 @@ internal static class FluentConstants
     internal static readonly IFluentSpacing MarginIs1OnXIsAutoFromStart = Margin.Is1.OnX.IsAuto.FromStart;
     internal static readonly IFluentSpacing MarginIs2FromEnd = Margin.Is2.FromEnd;
     internal static readonly IFluentSpacing PaddingIs2 = Padding.Is2;
+    internal static readonly IFluentSpacing PaddingIs0OnX = Padding.Is0.OnX;
     internal static readonly IFluentSpacing PaddingIs1OnX = Padding.Is1.OnX;
     internal static readonly IFluentSpacing PaddingIs2OnX = Padding.Is2.OnX;
     internal static readonly IFluentSpacing PaddingIs3 = Padding.Is3;
@@ -58,4 +61,7 @@ internal static class FluentConstants
 
     // Position
     internal static readonly IFluentPosition PositionStickyTopIs0 = Position.Sticky.Top.Is0;
+
+    // Typography
+    internal static readonly TextAlignment TextAlignmentCenter = TextAlignment.Center;
 }

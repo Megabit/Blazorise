@@ -219,6 +219,30 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
         return Task.CompletedTask;
     }
 
+    private Task OnDurationIncrease()
+    {
+        DurationDays += 1;
+
+        if ( DurationAvailable )
+        {
+            SyncEndFromDuration();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnDurationDecrease()
+    {
+        DurationDays = Math.Max( 1, DurationDays - 1 );
+
+        if ( DurationAvailable )
+        {
+            SyncEndFromDuration();
+        }
+
+        return Task.CompletedTask;
+    }
+
     private Task OnDurationChanged( int value )
     {
         DurationDays = NormalizeDurationDays( value );
