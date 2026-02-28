@@ -58,14 +58,27 @@
             var showActionColumn = CanShowActionColumn( visibleRows );
             var showHeaderNewButton = ShowHeaderNewButton;
             var wbsLookup = showWbsColumn ? BuildWbsLookup( visibleRows ) : null;
+            var wbsColumnWidth = showWbsColumn
+                ? GetAutoSizedTreeColumnWidth( visibleRows, WbsColumnHeaderText, row => GetWbsValue( wbsLookup, row.Key ) )
+                : 0d;
+            var startColumnWidth = showStartColumn
+                ? GetAutoSizedTreeColumnWidth( visibleRows, StartColumnHeaderText, row => FormatDate( GetItemStart( row.Item ) ), Sortable )
+                : 0d;
+            var endColumnWidth = showEndColumn
+                ? GetAutoSizedTreeColumnWidth( visibleRows, EndColumnHeaderText, row => FormatDate( GetItemEnd( row.Item ) ), Sortable )
+                : 0d;
+            var durationColumnWidth = showDurationColumn
+                ? GetAutoSizedTreeColumnWidth( visibleRows, DurationColumnHeaderText, row => FormatDuration( GetItemDuration( row.Item ) ), Sortable )
+                : 0d;
+            var treePaneStyle = GetTreePaneStyle( showActionColumn, wbsColumnWidth, startColumnWidth, endColumnWidth, durationColumnWidth );
         }
 
         <_GanttBody Style="@GetBodyStyle()">
-            <_GanttTreePane Style="@GetTreePaneStyle( showActionColumn )">
+            <_GanttTreePane Style="@treePaneStyle">
                 <_GanttTreeHeader Height="Blazorise.Height.Px( headerRowHeight )" Border="BorderIs1OnBottom" Position="PositionStickyTopIs0" Background="Background.Body">
                     @if ( showWbsColumn )
                     {
-                        <Div Style="@GetDateColumnStyle()"
+                        <Div Style="@GetDateColumnStyle( wbsColumnWidth )"
                              Padding="PaddingIs2OnX"
                              TextWeight="TextWeight.SemiBold">
                             <Span>@WbsColumnHeaderText</Span>
@@ -89,50 +102,50 @@
                     }
                     @if ( showStartColumn )
                     {
-                        <Div Style="@GetDateColumnStyle()"
+                        <Div Style="@GetDateColumnStyle( startColumnWidth )"
                              Padding="PaddingIs2OnX"
                              TextWeight="TextWeight.SemiBold"
+                             Flex="FlexJustifyContentCenterAlignItemsCenterNoWrap"
+                             Gap="GapIs1"
                              Cursor="@(Sortable ? Cursor.Pointer : Cursor.Default)"
                              @onclick="@(() => SortByColumn( GanttSortColumn.Start ))">
-                            <Div Flex="FlexAlignItemsCenterNoWrap" Gap="GapIs1">
-                                <Span>@StartColumnHeaderText</Span>
-                                @if ( ShowSortIcon( GanttSortColumn.Start ) )
-                                {
-                                    <Icon Name="@GetSortIconName( GanttSortColumn.Start )" />
-                                }
-                            </Div>
+                            <Span>@StartColumnHeaderText</Span>
+                            @if ( ShowSortIcon( GanttSortColumn.Start ) )
+                            {
+                                <Icon Name="@GetSortIconName( GanttSortColumn.Start )" />
+                            }
                         </Div>
                     }
                     @if ( showEndColumn )
                     {
-                        <Div Style="@GetDateColumnStyle()"
+                        <Div Style="@GetDateColumnStyle( endColumnWidth )"
                              Padding="PaddingIs2OnX"
                              TextWeight="TextWeight.SemiBold"
+                             Flex="FlexJustifyContentCenterAlignItemsCenterNoWrap"
+                             Gap="GapIs1"
                              Cursor="@(Sortable ? Cursor.Pointer : Cursor.Default)"
                              @onclick="@(() => SortByColumn( GanttSortColumn.End ))">
-                            <Div Flex="FlexAlignItemsCenterNoWrap" Gap="GapIs1">
-                                <Span>@EndColumnHeaderText</Span>
-                                @if ( ShowSortIcon( GanttSortColumn.End ) )
-                                {
-                                    <Icon Name="@GetSortIconName( GanttSortColumn.End )" />
-                                }
-                            </Div>
+                            <Span>@EndColumnHeaderText</Span>
+                            @if ( ShowSortIcon( GanttSortColumn.End ) )
+                            {
+                                <Icon Name="@GetSortIconName( GanttSortColumn.End )" />
+                            }
                         </Div>
                     }
                     @if ( showDurationColumn )
                     {
-                        <Div Style="@GetDateColumnStyle()"
+                        <Div Style="@GetDateColumnStyle( durationColumnWidth )"
                              Padding="PaddingIs2OnX"
                              TextWeight="TextWeight.SemiBold"
+                             Flex="FlexJustifyContentCenterAlignItemsCenterNoWrap"
+                             Gap="GapIs1"
                              Cursor="@(Sortable ? Cursor.Pointer : Cursor.Default)"
                              @onclick="@(() => SortByColumn( GanttSortColumn.Duration ))">
-                            <Div Flex="FlexAlignItemsCenterNoWrap" Gap="GapIs1">
-                                <Span>@DurationColumnHeaderText</Span>
-                                @if ( ShowSortIcon( GanttSortColumn.Duration ) )
-                                {
-                                    <Icon Name="@GetSortIconName( GanttSortColumn.Duration )" />
-                                }
-                            </Div>
+                            <Span>@DurationColumnHeaderText</Span>
+                            @if ( ShowSortIcon( GanttSortColumn.Duration ) )
+                            {
+                                <Icon Name="@GetSortIconName( GanttSortColumn.Duration )" />
+                            }
                         </Div>
                     }
                     @if ( showActionColumn )
@@ -165,7 +178,7 @@
                                            DoubleClicked="@(() => OnTreeRowDoubleClicked( node.Item, node.Key ))">
                                 @if ( showWbsColumn )
                                 {
-                                    <Div Style="@GetDateColumnStyle()" Padding="PaddingIs2OnX">
+                                    <Div Style="@GetDateColumnStyle( wbsColumnWidth )" Padding="PaddingIs2OnX">
                                         <Span TextSize="TextSizeSmall">@GetWbsValue( wbsLookup, node.Key )</Span>
                                     </Div>
                                 }
@@ -197,19 +210,25 @@
                                 }
                                 @if ( showStartColumn )
                                 {
-                                    <Div Style="@GetDateColumnStyle()" Padding="PaddingIs2OnX">
+                                    <Div Style="@GetDateColumnStyle( startColumnWidth )"
+                                         Padding="PaddingIs2OnX"
+                                         Flex="FlexJustifyContentCenterAlignItemsCenterNoWrap">
                                         <Span TextSize="TextSizeSmall">@FormatDate( GetItemStart( node.Item ) )</Span>
                                     </Div>
                                 }
                                 @if ( showEndColumn )
                                 {
-                                    <Div Style="@GetDateColumnStyle()" Padding="PaddingIs2OnX">
+                                    <Div Style="@GetDateColumnStyle( endColumnWidth )"
+                                         Padding="PaddingIs2OnX"
+                                         Flex="FlexJustifyContentCenterAlignItemsCenterNoWrap">
                                         <Span TextSize="TextSizeSmall">@FormatDate( GetItemEnd( node.Item ) )</Span>
                                     </Div>
                                 }
                                 @if ( showDurationColumn )
                                 {
-                                    <Div Style="@GetDateColumnStyle()" Padding="PaddingIs2OnX">
+                                    <Div Style="@GetDateColumnStyle( durationColumnWidth )"
+                                         Padding="PaddingIs2OnX"
+                                         Flex="FlexJustifyContentCenterAlignItemsCenterNoWrap">
                                         <Span TextSize="TextSizeSmall">@FormatDuration( GetItemDuration( node.Item ) )</Span>
                                     </Div>
                                 }

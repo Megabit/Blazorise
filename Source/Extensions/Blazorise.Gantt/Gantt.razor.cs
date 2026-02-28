@@ -31,6 +31,10 @@ public partial class Gantt<TItem> : BaseComponent
     private const double DefaultTimelineCellWidth = 72d;
     private const double DefaultSearchInputWidth = 220d;
     private const double DefaultTreeToggleWidth = 28d;
+    private const double MinAutoSizedTreeColumnWidth = 64d;
+    private const double AutoSizedTreeColumnCharacterWidth = 8d;
+    private const double AutoSizedTreeColumnHorizontalPadding = 24d;
+    private const double AutoSizedTreeSortableIndicatorWidth = 20d;
 
     private readonly HashSet<string> collapsedNodeKeys = new( StringComparer.Ordinal );
 
@@ -1639,9 +1643,9 @@ public partial class Gantt<TItem> : BaseComponent
         recursionGuard.Remove( node.Key );
     }
 
-    private string GetTreePaneStyle( bool showActionColumn )
+    private string GetTreePaneStyle( bool showActionColumn, double wbsColumnWidth, double startColumnWidth, double endColumnWidth, double durationColumnWidth )
     {
-        var width = GetTreePaneWidth( showActionColumn );
+        var width = GetTreePaneWidth( showActionColumn, wbsColumnWidth, startColumnWidth, endColumnWidth, durationColumnWidth );
         var widthText = width.ToString( "0.###", CultureInfo.InvariantCulture );
 
         return $"display: flex; flex-direction: column; width: {widthText}px; min-width: {widthText}px; max-width: {widthText}px; overflow: hidden;";
@@ -1687,10 +1691,11 @@ public partial class Gantt<TItem> : BaseComponent
         return $"width: {width}px; min-width: {width}px; max-width: {width}px; overflow: hidden;";
     }
 
-    private string GetDateColumnStyle()
+    private string GetDateColumnStyle( double width )
     {
-        var width = DateColumnWidth.ToString( "0.###", CultureInfo.InvariantCulture );
-        return $"width: {width}px; min-width: {width}px; max-width: {width}px; overflow: hidden;";
+        var columnWidth = width > 0d ? width : DateColumnWidth;
+        var widthText = columnWidth.ToString( "0.###", CultureInfo.InvariantCulture );
+        return $"width: {widthText}px; min-width: {widthText}px; max-width: {widthText}px; overflow: hidden;";
     }
 
     private string GetActionColumnStyle()
@@ -1892,7 +1897,7 @@ public partial class Gantt<TItem> : BaseComponent
         return slots;
     }
 
-    private double GetTreePaneWidth( bool showActionColumn )
+    private double GetTreePaneWidth( bool showActionColumn, double wbsColumnWidth, double startColumnWidth, double endColumnWidth, double durationColumnWidth )
     {
         var width = 0d;
 
@@ -1900,22 +1905,50 @@ public partial class Gantt<TItem> : BaseComponent
             width += TitleColumnWidth;
 
         if ( showWbsColumn )
-            width += DateColumnWidth;
+            width += wbsColumnWidth;
 
         if ( showStartColumn )
-            width += DateColumnWidth;
+            width += startColumnWidth;
 
         if ( showEndColumn )
-            width += DateColumnWidth;
+            width += endColumnWidth;
 
         if ( showDurationColumn )
-            width += DateColumnWidth;
+            width += durationColumnWidth;
 
         if ( showActionColumn )
             width += ActionColumnWidth;
 
         return Math.Max( 1d, width );
     }
+
+    private double GetAutoSizedTreeColumnWidth( IReadOnlyList<GanttTreeRow> visibleRows, string headerText, Func<GanttTreeRow, string> valueSelector, bool sortable = false )
+    {
+        var maxTextLength = GetTextLength( headerText );
+
+        if ( visibleRows is not null && valueSelector is not null )
+        {
+            foreach ( var row in visibleRows )
+            {
+                maxTextLength = Math.Max( maxTextLength, GetTextLength( valueSelector( row ) ) );
+            }
+        }
+
+        var width = maxTextLength * AutoSizedTreeColumnCharacterWidth + AutoSizedTreeColumnHorizontalPadding;
+
+        if ( sortable )
+            width += AutoSizedTreeSortableIndicatorWidth;
+
+        width = Math.Max( MinAutoSizedTreeColumnWidth, width );
+
+        if ( width <= 0d )
+            return DateColumnWidth > 0d ? DateColumnWidth : MinAutoSizedTreeColumnWidth;
+
+        return width;
+    }
+
+    private static int GetTextLength( string text )
+        => string.IsNullOrEmpty( text ) ? 0 : text.Length;
 
     private double GetRowHeight()
     {
@@ -2519,7 +2552,7 @@ public partial class Gantt<TItem> : BaseComponent
     [Parameter] public double TitleColumnWidth { get; set; } = 320d;
 
     /// <summary>
-    /// Gets or sets date column width in pixels.
+    /// Gets or sets fallback date column width in pixels used when an auto-sized value cannot be calculated.
     /// </summary>
     [Parameter] public double DateColumnWidth { get; set; } = 140d;
 
