@@ -1298,6 +1298,80 @@ public partial class Gantt<TItem> : BaseComponent
             ? IconName.SortUp
             : IconName.SortDown;
 
+    private GanttTreeHeaderCellContext<TItem> GetTreeHeaderCellContext( GanttTreeColumn column, string text, GanttSortColumn? sortColumn = null )
+    {
+        var sortable = Sortable && sortColumn.HasValue;
+        var showSortIcon = sortColumn.HasValue && ShowSortIcon( sortColumn.Value );
+        var sortDirection = sortColumn.HasValue && ganttSortColumn == sortColumn.Value
+            ? ganttSortDirection
+            : SortDirection.Default;
+
+        return new GanttTreeHeaderCellContext<TItem>( this, column, text, sortable, showSortIcon, sortDirection );
+    }
+
+    private GanttTreeCellContext<TItem> GetTreeCellContext( GanttTreeRow row, GanttTreeColumn column, string text, double treeToggleWidth )
+    {
+        Func<Task> toggleNode = row.HasChildren
+            ? () => ToggleNode( row )
+            : NoopAsync;
+
+        var selected = IsSelectedRow( row.Item );
+        var focused = string.Equals( focusedRowKey, row.Key, StringComparison.Ordinal );
+
+        return new GanttTreeCellContext<TItem>(
+            this,
+            row.Item,
+            row.Key,
+            column,
+            text,
+            row.Level,
+            row.HasChildren,
+            IsExpanded( row ),
+            selected,
+            focused,
+            toggleNode,
+            treeToggleWidth );
+    }
+
+    private GanttTreeCommandHeaderContext<TItem> GetTreeCommandHeaderContext( bool showHeaderNewButton )
+    {
+        Func<Task> addTask = showHeaderNewButton
+            ? New
+            : NoopAsync;
+
+        return new GanttTreeCommandHeaderContext<TItem>( this, showHeaderNewButton, addTask, AddTaskText );
+    }
+
+    private GanttTreeCommandCellContext<TItem> GetTreeCommandCellContext( GanttTreeRow row )
+    {
+        var canAddChild = CanShowAddChildButton( row.Item );
+        Func<Task> addChild = canAddChild
+            ? () => AddChild( row.Item )
+            : NoopAsync;
+
+        var selected = IsSelectedRow( row.Item );
+        var focused = string.Equals( focusedRowKey, row.Key, StringComparison.Ordinal );
+
+        return new GanttTreeCommandCellContext<TItem>(
+            this,
+            row.Item,
+            row.Key,
+            row.Level,
+            row.HasChildren,
+            IsExpanded( row ),
+            selected,
+            focused,
+            canAddChild,
+            addChild,
+            AddChildText );
+    }
+
+    private static GanttTimelineHeaderCellContext GetTimelineHeaderCellContext( GanttTimeSlot slot, int index )
+        => new( slot.Key, slot.Label, slot.Start, slot.End, index );
+
+    private static Task NoopAsync()
+        => Task.CompletedTask;
+
     private static SortDirection GetNextSortDirection( SortDirection sortDirection )
     {
         return sortDirection switch
@@ -2545,6 +2619,36 @@ public partial class Gantt<TItem> : BaseComponent
     /// Gets or sets item styling callback for timeline bars.
     /// </summary>
     [Parameter] public Action<TItem, GanttItemStyling> ItemStyling { get; set; }
+
+    /// <summary>
+    /// Gets or sets template used to render tree header cells.
+    /// </summary>
+    [Parameter] public RenderFragment<GanttTreeHeaderCellContext<TItem>> TreeHeaderCellTemplate { get; set; }
+
+    /// <summary>
+    /// Gets or sets template used to render tree data cells.
+    /// </summary>
+    [Parameter] public RenderFragment<GanttTreeCellContext<TItem>> TreeCellTemplate { get; set; }
+
+    /// <summary>
+    /// Gets or sets template used to render command header content.
+    /// </summary>
+    [Parameter] public RenderFragment<GanttTreeCommandHeaderContext<TItem>> TreeCommandHeaderTemplate { get; set; }
+
+    /// <summary>
+    /// Gets or sets template used to render command cell content.
+    /// </summary>
+    [Parameter] public RenderFragment<GanttTreeCommandCellContext<TItem>> TreeCommandCellTemplate { get; set; }
+
+    /// <summary>
+    /// Gets or sets template used to render timeline header cells.
+    /// </summary>
+    [Parameter] public RenderFragment<GanttTimelineHeaderCellContext> TimelineHeaderCellTemplate { get; set; }
+
+    /// <summary>
+    /// Gets or sets template used to render timeline task content.
+    /// </summary>
+    [Parameter] public RenderFragment<GanttItemContext<TItem>> TaskItemTemplate { get; set; }
 
     /// <summary>
     /// Gets or sets title column width in pixels.

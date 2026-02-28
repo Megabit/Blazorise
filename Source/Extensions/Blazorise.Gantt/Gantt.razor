@@ -51,6 +51,7 @@
             var timeSlots = GetTimeSlots( viewRange.Start, viewRange.End );
             var rowTemplate = RowTemplateForCurrentView;
             var itemTemplate = ItemTemplateForCurrentView;
+            var taskItemTemplate = TaskItemTemplate ?? itemTemplate;
             var rowHeight = GetRowHeight();
             var headerRowHeight = GetHeaderRowHeight();
             var cellWidth = GetTimelineCellWidth();
@@ -81,7 +82,14 @@
                         <Div Style="@GetDateColumnStyle( wbsColumnWidth )"
                              Padding="PaddingIs2OnX"
                              TextWeight="TextWeight.SemiBold">
-                            <Span>@WbsColumnHeaderText</Span>
+                            @if ( TreeHeaderCellTemplate is not null )
+                            {
+                                @TreeHeaderCellTemplate( GetTreeHeaderCellContext( GanttTreeColumn.Wbs, WbsColumnHeaderText ) )
+                            }
+                            else
+                            {
+                                <Span>@WbsColumnHeaderText</Span>
+                            }
                         </Div>
                     }
                     @if ( showTitleColumn )
@@ -91,13 +99,20 @@
                              TextWeight="TextWeight.SemiBold"
                              Cursor="@(Sortable ? Cursor.Pointer : Cursor.Default)"
                              @onclick="@(() => SortByColumn( GanttSortColumn.Title ))">
-                            <Div Flex="FlexAlignItemsCenterNoWrap" Gap="GapIs1">
-                                <Span>@TaskColumnHeaderText</Span>
-                                @if ( ShowSortIcon( GanttSortColumn.Title ) )
-                                {
-                                    <Icon Name="@GetSortIconName( GanttSortColumn.Title )" />
-                                }
-                            </Div>
+                            @if ( TreeHeaderCellTemplate is not null )
+                            {
+                                @TreeHeaderCellTemplate( GetTreeHeaderCellContext( GanttTreeColumn.Title, TaskColumnHeaderText, GanttSortColumn.Title ) )
+                            }
+                            else
+                            {
+                                <Div Flex="FlexAlignItemsCenterNoWrap" Gap="GapIs1">
+                                    <Span>@TaskColumnHeaderText</Span>
+                                    @if ( ShowSortIcon( GanttSortColumn.Title ) )
+                                    {
+                                        <Icon Name="@GetSortIconName( GanttSortColumn.Title )" />
+                                    }
+                                </Div>
+                            }
                         </Div>
                     }
                     @if ( showStartColumn )
@@ -109,10 +124,17 @@
                              Gap="GapIs1"
                              Cursor="@(Sortable ? Cursor.Pointer : Cursor.Default)"
                              @onclick="@(() => SortByColumn( GanttSortColumn.Start ))">
-                            <Span>@StartColumnHeaderText</Span>
-                            @if ( ShowSortIcon( GanttSortColumn.Start ) )
+                            @if ( TreeHeaderCellTemplate is not null )
                             {
-                                <Icon Name="@GetSortIconName( GanttSortColumn.Start )" />
+                                @TreeHeaderCellTemplate( GetTreeHeaderCellContext( GanttTreeColumn.Start, StartColumnHeaderText, GanttSortColumn.Start ) )
+                            }
+                            else
+                            {
+                                <Span>@StartColumnHeaderText</Span>
+                                @if ( ShowSortIcon( GanttSortColumn.Start ) )
+                                {
+                                    <Icon Name="@GetSortIconName( GanttSortColumn.Start )" />
+                                }
                             }
                         </Div>
                     }
@@ -125,10 +147,17 @@
                              Gap="GapIs1"
                              Cursor="@(Sortable ? Cursor.Pointer : Cursor.Default)"
                              @onclick="@(() => SortByColumn( GanttSortColumn.End ))">
-                            <Span>@EndColumnHeaderText</Span>
-                            @if ( ShowSortIcon( GanttSortColumn.End ) )
+                            @if ( TreeHeaderCellTemplate is not null )
                             {
-                                <Icon Name="@GetSortIconName( GanttSortColumn.End )" />
+                                @TreeHeaderCellTemplate( GetTreeHeaderCellContext( GanttTreeColumn.End, EndColumnHeaderText, GanttSortColumn.End ) )
+                            }
+                            else
+                            {
+                                <Span>@EndColumnHeaderText</Span>
+                                @if ( ShowSortIcon( GanttSortColumn.End ) )
+                                {
+                                    <Icon Name="@GetSortIconName( GanttSortColumn.End )" />
+                                }
                             }
                         </Div>
                     }
@@ -141,17 +170,28 @@
                              Gap="GapIs1"
                              Cursor="@(Sortable ? Cursor.Pointer : Cursor.Default)"
                              @onclick="@(() => SortByColumn( GanttSortColumn.Duration ))">
-                            <Span>@DurationColumnHeaderText</Span>
-                            @if ( ShowSortIcon( GanttSortColumn.Duration ) )
+                            @if ( TreeHeaderCellTemplate is not null )
                             {
-                                <Icon Name="@GetSortIconName( GanttSortColumn.Duration )" />
+                                @TreeHeaderCellTemplate( GetTreeHeaderCellContext( GanttTreeColumn.Duration, DurationColumnHeaderText, GanttSortColumn.Duration ) )
+                            }
+                            else
+                            {
+                                <Span>@DurationColumnHeaderText</Span>
+                                @if ( ShowSortIcon( GanttSortColumn.Duration ) )
+                                {
+                                    <Icon Name="@GetSortIconName( GanttSortColumn.Duration )" />
+                                }
                             }
                         </Div>
                     }
                     @if ( showActionColumn )
                     {
                         <Div Style="@GetActionColumnStyle()">
-                            @if ( showHeaderNewButton )
+                            @if ( TreeCommandHeaderTemplate is not null )
+                            {
+                                @TreeCommandHeaderTemplate( GetTreeCommandHeaderContext( showHeaderNewButton ) )
+                            }
+                            else if ( showHeaderNewButton )
                             {
                                 <Button Size="Size.ExtraSmall" Clicked="@New" Border="BorderIs0" Background="Background.Transparent" TextColor="TextColor.Muted" aria-label="@AddTaskText">
                                     <Icon Name="IconName.Add" />
@@ -179,33 +219,47 @@
                                 @if ( showWbsColumn )
                                 {
                                     <Div Style="@GetDateColumnStyle( wbsColumnWidth )" Padding="PaddingIs2OnX">
-                                        <Span TextSize="TextSizeSmall">@GetWbsValue( wbsLookup, node.Key )</Span>
+                                        @if ( TreeCellTemplate is not null )
+                                        {
+                                            @TreeCellTemplate( GetTreeCellContext( node, GanttTreeColumn.Wbs, GetWbsValue( wbsLookup, node.Key ), treeToggleWidth ) )
+                                        }
+                                        else
+                                        {
+                                            <Span TextSize="TextSizeSmall">@GetWbsValue( wbsLookup, node.Key )</Span>
+                                        }
                                     </Div>
                                 }
                                 @if ( showTitleColumn )
                                 {
                                     <Div Style="@GetTitleColumnStyle()" Padding="PaddingIs2OnX">
-                                        <Div Flex="FlexAlignItemsCenter" Style="@GetTreeTitleContentStyle( node.Level )">
-                                            @if ( node.HasChildren )
-                                            {
-                                                <Button Size="Size.ExtraSmall" Clicked="@(() => ToggleNode( node ))" Margin="MarginIs1FromEnd" aria-label="Toggle">
-                                                    <Icon Name="@(IsExpanded( node ) ? IconName.ChevronDown : IconName.ChevronRight)" />
-                                                </Button>
-                                            }
-                                            else
-                                            {
-                                                <Span Display="DisplayInlineBlock" Width="Blazorise.Width.Px( treeToggleWidth )"></Span>
-                                            }
+                                        @if ( TreeCellTemplate is not null )
+                                        {
+                                            @TreeCellTemplate( GetTreeCellContext( node, GanttTreeColumn.Title, GetItemTitle( node.Item ), treeToggleWidth ) )
+                                        }
+                                        else
+                                        {
+                                            <Div Flex="FlexAlignItemsCenter" Style="@GetTreeTitleContentStyle( node.Level )">
+                                                @if ( node.HasChildren )
+                                                {
+                                                    <Button Size="Size.ExtraSmall" Clicked="@(() => ToggleNode( node ))" Margin="MarginIs1FromEnd" aria-label="Toggle">
+                                                        <Icon Name="@(IsExpanded( node ) ? IconName.ChevronDown : IconName.ChevronRight)" />
+                                                    </Button>
+                                                }
+                                                else
+                                                {
+                                                    <Span Display="DisplayInlineBlock" Width="Blazorise.Width.Px( treeToggleWidth )"></Span>
+                                                }
 
-                                            @if ( rowTemplate is not null )
-                                            {
-                                                @rowTemplate( new GanttRowContext<TItem>( node.Item, node.Level, node.HasChildren, IsExpanded( node ) ) )
-                                            }
-                                            else
-                                            {
-                                                <Span TextOverflow="TextOverflow.Truncate" Width="WidthIs100">@GetItemTitle( node.Item )</Span>
-                                            }
-                                        </Div>
+                                                @if ( rowTemplate is not null )
+                                                {
+                                                    @rowTemplate( new GanttRowContext<TItem>( node.Item, node.Level, node.HasChildren, IsExpanded( node ) ) )
+                                                }
+                                                else
+                                                {
+                                                    <Span TextOverflow="TextOverflow.Truncate" Width="WidthIs100">@GetItemTitle( node.Item )</Span>
+                                                }
+                                            </Div>
+                                        }
                                     </Div>
                                 }
                                 @if ( showStartColumn )
@@ -213,7 +267,14 @@
                                     <Div Style="@GetDateColumnStyle( startColumnWidth )"
                                          Padding="PaddingIs2OnX"
                                          Flex="FlexJustifyContentCenterAlignItemsCenterNoWrap">
-                                        <Span TextSize="TextSizeSmall">@FormatDate( GetItemStart( node.Item ) )</Span>
+                                        @if ( TreeCellTemplate is not null )
+                                        {
+                                            @TreeCellTemplate( GetTreeCellContext( node, GanttTreeColumn.Start, FormatDate( GetItemStart( node.Item ) ), treeToggleWidth ) )
+                                        }
+                                        else
+                                        {
+                                            <Span TextSize="TextSizeSmall">@FormatDate( GetItemStart( node.Item ) )</Span>
+                                        }
                                     </Div>
                                 }
                                 @if ( showEndColumn )
@@ -221,7 +282,14 @@
                                     <Div Style="@GetDateColumnStyle( endColumnWidth )"
                                          Padding="PaddingIs2OnX"
                                          Flex="FlexJustifyContentCenterAlignItemsCenterNoWrap">
-                                        <Span TextSize="TextSizeSmall">@FormatDate( GetItemEnd( node.Item ) )</Span>
+                                        @if ( TreeCellTemplate is not null )
+                                        {
+                                            @TreeCellTemplate( GetTreeCellContext( node, GanttTreeColumn.End, FormatDate( GetItemEnd( node.Item ) ), treeToggleWidth ) )
+                                        }
+                                        else
+                                        {
+                                            <Span TextSize="TextSizeSmall">@FormatDate( GetItemEnd( node.Item ) )</Span>
+                                        }
                                     </Div>
                                 }
                                 @if ( showDurationColumn )
@@ -229,13 +297,24 @@
                                     <Div Style="@GetDateColumnStyle( durationColumnWidth )"
                                          Padding="PaddingIs2OnX"
                                          Flex="FlexJustifyContentCenterAlignItemsCenterNoWrap">
-                                        <Span TextSize="TextSizeSmall">@FormatDuration( GetItemDuration( node.Item ) )</Span>
+                                        @if ( TreeCellTemplate is not null )
+                                        {
+                                            @TreeCellTemplate( GetTreeCellContext( node, GanttTreeColumn.Duration, FormatDuration( GetItemDuration( node.Item ) ), treeToggleWidth ) )
+                                        }
+                                        else
+                                        {
+                                            <Span TextSize="TextSizeSmall">@FormatDuration( GetItemDuration( node.Item ) )</Span>
+                                        }
                                     </Div>
                                 }
                                 @if ( showActionColumn )
                                 {
                                     <Div Style="@GetActionColumnStyle()">
-                                        @if ( CanShowAddChildButton( node.Item ) )
+                                        @if ( TreeCommandCellTemplate is not null )
+                                        {
+                                            @TreeCommandCellTemplate( GetTreeCommandCellContext( node ) )
+                                        }
+                                        else if ( CanShowAddChildButton( node.Item ) )
                                         {
                                             <Button Size="Size.ExtraSmall" Clicked="@(() => AddChild( node.Item ))" Border="BorderIs0" Background="Background.Transparent" aria-label="@AddChildText">
                                                 <Icon Name="IconName.Add" />
@@ -253,10 +332,19 @@
                 <_GanttTimelineViewport Style="@GetTimelineViewportStyle()">
                     <_GanttTimelineInner Style="@GetTimelineInnerStyle( timeSlots.Count, cellWidth )">
                         <_GanttTimeHeader Height="Blazorise.Height.Px( headerRowHeight )" Border="BorderIs1OnBottom" Position="PositionStickyTopIs0" Background="Background.Body">
-                            @foreach ( var slot in timeSlots )
+                            @for ( var slotIndex = 0; slotIndex < timeSlots.Count; slotIndex++ )
                             {
+                                var slot = timeSlots[slotIndex];
+
                                 <Div @key="@slot.Key" Style="@GetTimelineHeaderCellStyle( cellWidth )" Padding="PaddingIs1OnX">
-                                    <Span TextSize="TextSizeSmall" TextWeight="TextWeight.SemiBold">@slot.Label</Span>
+                                    @if ( TimelineHeaderCellTemplate is not null )
+                                    {
+                                        @TimelineHeaderCellTemplate( GetTimelineHeaderCellContext( slot, slotIndex ) )
+                                    }
+                                    else
+                                    {
+                                        <Span TextSize="TextSizeSmall" TextWeight="TextWeight.SemiBold">@slot.Label</Span>
+                                    }
                                 </Div>
                             }
                         </_GanttTimeHeader>
@@ -273,9 +361,9 @@
                                                    Background="@itemStyling.Background"
                                                    TextColor="@itemStyling.TextColor"
                                                    Clicked="@(() => OnBarClicked( node.Item ))">
-                                        @if ( itemTemplate is not null )
+                                        @if ( taskItemTemplate is not null )
                                         {
-                                            @itemTemplate( new GanttItemContext<TItem>( node.Item, node.HasChildren, IsExpanded( node ) ) )
+                                            @taskItemTemplate( new GanttItemContext<TItem>( node.Item, node.HasChildren, IsExpanded( node ) ) )
                                         }
                                         else
                                         {
