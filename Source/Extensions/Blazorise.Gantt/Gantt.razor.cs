@@ -2014,7 +2014,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private string GetTimelineHeaderCellStyle( double cellWidth )
     {
         var width = cellWidth.ToString( "0.###", CultureInfo.InvariantCulture );
-        return $"display: flex; align-items: center; border-right: 1px solid rgba(0,0,0,0.08); width: {width}px; min-width: {width}px; max-width: {width}px;";
+        return $"display: flex; align-items: center; justify-content: center; text-align: center; border-right: 1px solid rgba(0,0,0,0.08); width: {width}px; min-width: {width}px; max-width: {width}px;";
     }
 
     private string GetTimelineRowStyle( double rowHeight, double cellWidth )
