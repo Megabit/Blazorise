@@ -1,6 +1,32 @@
 import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.1.0";
 
 const _instances = {};
+const dragStartThreshold = 3;
+
+function suppressNextClick() {
+    let timeoutId = 0;
+
+    const clickSuppressHandler = function (evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+
+        if (typeof evt.stopImmediatePropagation === "function") {
+            evt.stopImmediatePropagation();
+        }
+
+        if (timeoutId) {
+            window.clearTimeout(timeoutId);
+        }
+
+        document.removeEventListener("click", clickSuppressHandler, true);
+    };
+
+    document.addEventListener("click", clickSuppressHandler, true);
+
+    timeoutId = window.setTimeout(function () {
+        document.removeEventListener("click", clickSuppressHandler, true);
+    }, 0);
+}
 
 function clearDragHandlers(instance) {
     if (!instance) {
@@ -19,6 +45,8 @@ function clearDragHandlers(instance) {
     }
 
     instance.lastClientX = 0;
+    instance.dragStartClientX = 0;
+    instance.dragged = false;
     instance.moveScheduled = false;
 }
 
@@ -35,11 +63,13 @@ export function initialize(dotNetAdapter, element, elementId) {
         mouseMoveHandler: null,
         mouseUpHandler: null,
         moveScheduled: false,
-        lastClientX: 0
+        lastClientX: 0,
+        dragStartClientX: 0,
+        dragged: false
     };
 }
 
-export function barDragStarted(element, elementId) {
+export function barDragStarted(element, elementId, startClientX) {
     const instance = _instances[elementId];
 
     if (!instance) {
@@ -47,9 +77,16 @@ export function barDragStarted(element, elementId) {
     }
 
     clearDragHandlers(instance);
+    instance.dragStartClientX = startClientX;
+    instance.lastClientX = startClientX;
+    instance.dragged = false;
 
     instance.mouseMoveHandler = function (evt) {
         instance.lastClientX = evt.clientX;
+
+        if (!instance.dragged && Math.abs(instance.lastClientX - instance.dragStartClientX) >= dragStartThreshold) {
+            instance.dragged = true;
+        }
 
         if (instance.moveScheduled) {
             return;
@@ -66,9 +103,21 @@ export function barDragStarted(element, elementId) {
         });
     };
 
-    instance.mouseUpHandler = function () {
+    instance.mouseUpHandler = function (evt) {
+        const clientX = typeof evt?.clientX === "number"
+            ? evt.clientX
+            : instance.lastClientX;
+
+        if (!instance.dragged && Math.abs(clientX - instance.dragStartClientX) >= dragStartThreshold) {
+            instance.dragged = true;
+        }
+
+        if (instance.dragged) {
+            suppressNextClick();
+        }
+
         if (instance.dotNetAdapter) {
-            instance.dotNetAdapter.invokeMethodAsync("NotifyBarDragMouseUp");
+            instance.dotNetAdapter.invokeMethodAsync("NotifyBarDragMouseUp", clientX);
         }
 
         clearDragHandlers(instance);

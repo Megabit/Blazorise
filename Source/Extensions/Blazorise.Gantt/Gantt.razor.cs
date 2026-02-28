@@ -1159,35 +1159,23 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         barDragSlotOffset = 0;
 
         if ( JSModule is not null )
-            await JSModule.BarDragStarted();
+            await JSModule.BarDragStarted( eventArgs.ClientX );
     }
 
     [JSInvokable]
     public Task NotifyBarDragMouseMove( double clientX )
     {
-        if ( !barDragPending )
+        if ( !TryUpdateBarDragFromClientX( clientX ) )
             return Task.CompletedTask;
-
-        var deltaX = clientX - barDragStartClientX;
-
-        if ( !barDragging && Math.Abs( deltaX ) < DragStartThreshold )
-            return Task.CompletedTask;
-
-        barDragging = true;
-
-        var nextSlotOffset = GetSlotOffsetFromDeltaX( deltaX, barDragCellWidth );
-
-        if ( nextSlotOffset == barDragSlotOffset )
-            return Task.CompletedTask;
-
-        barDragSlotOffset = nextSlotOffset;
 
         return InvokeAsync( StateHasChanged );
     }
 
     [JSInvokable]
-    public Task NotifyBarDragMouseUp()
+    public Task NotifyBarDragMouseUp( double clientX )
     {
+        TryUpdateBarDragFromClientX( clientX );
+
         return FinalizeBarDrag();
     }
 
@@ -1229,6 +1217,28 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         barDragCellWidth = 0d;
         barDragStartClientX = 0d;
         barDragSlotOffset = 0;
+    }
+
+    private bool TryUpdateBarDragFromClientX( double clientX )
+    {
+        if ( !barDragPending )
+            return false;
+
+        var deltaX = clientX - barDragStartClientX;
+
+        if ( !barDragging && Math.Abs( deltaX ) < DragStartThreshold )
+            return false;
+
+        barDragging = true;
+
+        var nextSlotOffset = GetSlotOffsetFromDeltaX( deltaX, barDragCellWidth );
+
+        if ( nextSlotOffset == barDragSlotOffset )
+            return false;
+
+        barDragSlotOffset = nextSlotOffset;
+
+        return true;
     }
 
     private bool CanDragItem( TItem item )

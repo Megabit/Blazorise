@@ -48,9 +48,9 @@ public class JSGanttModule : BaseJSModule,
         await InvokeSafeVoidAsync( "destroy", elementRef, elementId );
     }
 
-    public virtual async ValueTask BarDragStarted()
+    public virtual async ValueTask BarDragStarted( double startClientX )
     {
-        await InvokeSafeVoidAsync( "barDragStarted", ElementRef, ElementId );
+        await InvokeSafeVoidAsync( "barDragStarted", ElementRef, ElementId, startClientX );
     }
 
     public virtual async ValueTask BarDragEnded()
