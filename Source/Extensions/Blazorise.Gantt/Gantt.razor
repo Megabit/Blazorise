@@ -1,6 +1,12 @@
 @inherits BaseComponent
 @typeparam TItem
-<Div ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Flex="FlexColumn" Border="BorderIs1" role="application">
+<Div ElementId="@ElementId"
+     Class="@ClassNames"
+     Style="@StyleNames"
+     Flex="FlexColumn"
+     Border="BorderIs1"
+     role="application"
+     @ref="ganttDivRef">
     <CascadingValue Value="@this" IsFixed>
         @if ( ShowToolbar && ganttToolbar is not null )
         {
@@ -357,9 +363,10 @@
                                     var itemStyling = GetItemStyling( node.Item );
 
                                     <_GanttItemBar CustomClass="@itemStyling.Class"
-                                                   Style="@GetBarStyle( barInfo, rowHeight, itemStyling.Style )"
+                                                   Style="@GetBarStyle( barInfo, rowHeight, itemStyling.Style, node.Key, node.Item )"
                                                    Background="@itemStyling.Background"
                                                    TextColor="@itemStyling.TextColor"
+                                                   MouseDown="@(( args ) => OnBarMouseDown( args, node, cellWidth ))"
                                                    Clicked="@(() => OnBarClicked( node.Item ))">
                                         @if ( taskItemTemplate is not null )
                                         {

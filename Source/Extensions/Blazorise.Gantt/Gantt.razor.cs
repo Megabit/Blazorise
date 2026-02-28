@@ -6,13 +6,16 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DeepCloner;
+using Blazorise.Extensions;
 using Blazorise.Gantt.Components;
 using Blazorise.Gantt.Extensions;
 using Blazorise.Gantt.Utilities;
 using Blazorise.Localization;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Gantt;
@@ -22,7 +25,7 @@ namespace Blazorise.Gantt;
 /// </summary>
 /// <typeparam name="TItem">The item type rendered by the Gantt chart.</typeparam>
 [CascadingTypeParameter( nameof( TItem ) )]
-public partial class Gantt<TItem> : BaseComponent
+public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 {
     #region Members
 
@@ -31,6 +34,7 @@ public partial class Gantt<TItem> : BaseComponent
     private const double DefaultTimelineCellWidth = 72d;
     private const double DefaultSearchInputWidth = 220d;
     private const double DefaultTreeToggleWidth = 28d;
+    private const double DragStartThreshold = 3d;
     private const double MinAutoSizedTreeColumnWidth = 64d;
     private const double AutoSizedTreeColumnCharacterWidth = 8d;
     private const double AutoSizedTreeColumnHorizontalPadding = 24d;
@@ -44,6 +48,7 @@ public partial class Gantt<TItem> : BaseComponent
     private GanttMonthView<TItem> ganttMonthView;
     private GanttYearView<TItem> ganttYearView;
     private _GanttTreeRows ganttTreeRowsRef;
+    private Div ganttDivRef;
 
     private GanttPropertyMapper<TItem> propertyMapper;
     private Lazy<Func<TItem>> newItemCreator;
@@ -84,6 +89,14 @@ public partial class Gantt<TItem> : BaseComponent
     private SortDirection ganttSortDirection = SortDirection.Default;
     private bool readDataInitialized;
     private bool readDataRequested;
+    private bool barDragPending;
+    private bool barDragging;
+    private bool suppressBarClick;
+    private string barDragRowKey;
+    private TItem barDragItem;
+    private double barDragCellWidth;
+    private double barDragStartClientX;
+    private int barDragSlotOffset;
 
     #endregion
 
@@ -170,6 +183,12 @@ public partial class Gantt<TItem> : BaseComponent
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        if ( JSModule is null )
+        {
+            DotNetObjectRef ??= DotNetObjectReference.Create( this );
+            JSModule ??= new JSGanttModule( JSRuntime, VersionProvider, BlazoriseOptions, () => ganttDivRef.ElementRef, () => ElementId );
+        }
+
         currentDate = Date;
         searchText = SearchText ?? string.Empty;
         showTitleColumn = ShowTitleColumn;
@@ -187,6 +206,9 @@ public partial class Gantt<TItem> : BaseComponent
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
+        if ( firstRender && JSModule is not null )
+            await JSModule.Initialize( DotNetObjectRef );
+
         if ( readDataRequested && ReadData.HasDelegate )
         {
             readDataRequested = false;
@@ -226,6 +248,28 @@ public partial class Gantt<TItem> : BaseComponent
         }
 
         base.Dispose( disposing );
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing )
+        {
+            if ( Rendered && JSModule is not null )
+            {
+                await JSModule.SafeDestroy( ganttDivRef.ElementRef, ElementId );
+                await JSModule.SafeDisposeAsync();
+                JSModule = null;
+            }
+
+            if ( DotNetObjectRef is not null )
+            {
+                DotNetObjectRef.Dispose();
+                DotNetObjectRef = null;
+            }
+        }
+
+        await base.DisposeAsync( disposing );
     }
 
     internal void NotifyGanttToolbar( GanttToolbar<TItem> ganttToolbar )
@@ -1081,6 +1125,12 @@ public partial class Gantt<TItem> : BaseComponent
 
     private async Task OnBarClicked( TItem item )
     {
+        if ( suppressBarClick )
+        {
+            suppressBarClick = false;
+            return;
+        }
+
         if ( ItemClicked.HasDelegate )
         {
             await ItemClicked.InvokeAsync( new GanttItemClickedEventArgs<TItem>( item ) );
@@ -1090,6 +1140,171 @@ public partial class Gantt<TItem> : BaseComponent
         {
             await Edit( item );
         }
+    }
+
+    private async Task OnBarMouseDown( MouseEventArgs eventArgs, GanttTreeRow row, double cellWidth )
+    {
+        if ( eventArgs is null || row is null || eventArgs.Button != 0 || !CanDragItem( row.Item ) || cellWidth <= 0d )
+            return;
+
+        if ( barDragPending )
+            await FinalizeBarDrag( false );
+
+        barDragPending = true;
+        barDragging = false;
+        barDragItem = row.Item;
+        barDragRowKey = row.Key;
+        barDragCellWidth = cellWidth;
+        barDragStartClientX = eventArgs.ClientX;
+        barDragSlotOffset = 0;
+
+        if ( JSModule is not null )
+            await JSModule.BarDragStarted();
+    }
+
+    [JSInvokable]
+    public Task NotifyBarDragMouseMove( double clientX )
+    {
+        if ( !barDragPending )
+            return Task.CompletedTask;
+
+        var deltaX = clientX - barDragStartClientX;
+
+        if ( !barDragging && Math.Abs( deltaX ) < DragStartThreshold )
+            return Task.CompletedTask;
+
+        barDragging = true;
+
+        var nextSlotOffset = GetSlotOffsetFromDeltaX( deltaX, barDragCellWidth );
+
+        if ( nextSlotOffset == barDragSlotOffset )
+            return Task.CompletedTask;
+
+        barDragSlotOffset = nextSlotOffset;
+
+        return InvokeAsync( StateHasChanged );
+    }
+
+    [JSInvokable]
+    public Task NotifyBarDragMouseUp()
+    {
+        return FinalizeBarDrag();
+    }
+
+    private async Task FinalizeBarDrag( bool commitChanges = true )
+    {
+        if ( !barDragPending )
+            return;
+
+        if ( JSModule is not null )
+            await JSModule.BarDragEnded();
+
+        var dragged = barDragging;
+        var slotOffset = barDragSlotOffset;
+        var item = barDragItem;
+
+        ResetBarDragState();
+
+        if ( dragged && commitChanges )
+            suppressBarClick = true;
+
+        if ( !commitChanges || !dragged || slotOffset == 0 || item is null )
+        {
+            await InvokeAsync( StateHasChanged );
+            return;
+        }
+
+        if ( !CanDragItem( item ) )
+            return;
+
+        await MoveItemBySlotOffset( item, slotOffset );
+    }
+
+    private void ResetBarDragState()
+    {
+        barDragPending = false;
+        barDragging = false;
+        barDragItem = default;
+        barDragRowKey = null;
+        barDragCellWidth = 0d;
+        barDragStartClientX = 0d;
+        barDragSlotOffset = 0;
+    }
+
+    private bool CanDragItem( TItem item )
+    {
+        if ( item is null )
+            return false;
+
+        if ( !IsCommandAllowed( GanttCommandType.Edit, item ) )
+            return false;
+
+        if ( !propertyMapper.HasStart || !propertyMapper.HasEnd )
+            return false;
+
+        var itemStart = GetItemStart( item );
+        var itemEnd = GetItemEnd( item );
+
+        if ( IsUnassignedDate( itemStart ) || IsUnassignedDate( itemEnd ) )
+            return false;
+
+        return itemEnd > itemStart;
+    }
+
+    private static int GetSlotOffsetFromDeltaX( double deltaX, double cellWidth )
+    {
+        if ( cellWidth <= 0d )
+            return 0;
+
+        return (int)Math.Round( deltaX / cellWidth, MidpointRounding.AwayFromZero );
+    }
+
+    private DateTime ShiftDateBySlotOffset( DateTime value, int slotOffset )
+    {
+        if ( slotOffset == 0 )
+            return value;
+
+        return SelectedView switch
+        {
+            GanttView.Day => value.AddHours( slotOffset ),
+            GanttView.Year => value.AddMonths( slotOffset ),
+            _ => value.AddDays( slotOffset ),
+        };
+    }
+
+    private async Task MoveItemBySlotOffset( TItem item, int slotOffset )
+    {
+        if ( item is null || slotOffset == 0 || !CanDragItem( item ) )
+            return;
+
+        var sourceStart = GetItemStart( item );
+        var sourceEnd = GetItemEnd( item );
+
+        if ( IsUnassignedDate( sourceStart ) || IsUnassignedDate( sourceEnd ) )
+            return;
+
+        var movedStart = ShiftDateBySlotOffset( sourceStart, slotOffset );
+        var movedEnd = ShiftDateBySlotOffset( sourceEnd, slotOffset );
+
+        if ( movedEnd <= movedStart )
+            return;
+
+        var movedItem = item.DeepClone();
+
+        if ( propertyMapper.HasStart )
+            propertyMapper.SetStart( movedItem, movedStart );
+
+        if ( propertyMapper.HasEnd )
+            propertyMapper.SetEnd( movedItem, movedEnd );
+
+        if ( propertyMapper.HasDuration )
+            propertyMapper.SetDuration( movedItem, GetDurationInDays( movedStart, movedEnd ) );
+
+        editItem = item;
+        editParentItem = default;
+        editState = GanttEditState.Edit;
+
+        await SaveImpl( movedItem );
     }
 
     private Task OnItemModalClosed()
@@ -1837,12 +2052,18 @@ public partial class Gantt<TItem> : BaseComponent
         return true;
     }
 
-    private string GetBarStyle( GanttBarInfo barInfo, double rowHeight, string itemCustomStyle )
+    private string GetBarStyle( GanttBarInfo barInfo, double rowHeight, string itemCustomStyle, string rowKey, TItem item )
     {
         var barHeight = Math.Max( 16d, rowHeight - 12d );
         var top = Math.Max( 1d, ( rowHeight - barHeight ) / 2d );
 
-        var style = $"position: absolute; left: {barInfo.Left.ToString( "0.###", CultureInfo.InvariantCulture )}px; width: {barInfo.Width.ToString( "0.###", CultureInfo.InvariantCulture )}px; top: {top.ToString( "0.###", CultureInfo.InvariantCulture )}px; height: {barHeight.ToString( "0.###", CultureInfo.InvariantCulture )}px; display: flex; align-items: center; cursor: pointer;";
+        var style = $"position: absolute; left: {barInfo.Left.ToString( "0.###", CultureInfo.InvariantCulture )}px; width: {barInfo.Width.ToString( "0.###", CultureInfo.InvariantCulture )}px; top: {top.ToString( "0.###", CultureInfo.InvariantCulture )}px; height: {barHeight.ToString( "0.###", CultureInfo.InvariantCulture )}px; display: flex; align-items: center; cursor: {( CanDragItem( item ) ? "grab" : "pointer" )};";
+
+        if ( barDragging && string.Equals( barDragRowKey, rowKey, StringComparison.Ordinal ) )
+        {
+            var translateX = ( barDragSlotOffset * barDragCellWidth ).ToString( "0.###", CultureInfo.InvariantCulture );
+            style = $"{style} transform: translateX({translateX}px); z-index: 2; cursor: grabbing;";
+        }
 
         if ( !string.IsNullOrWhiteSpace( itemCustomStyle ) )
             style = $"{style} {itemCustomStyle}";
@@ -2331,6 +2552,31 @@ public partial class Gantt<TItem> : BaseComponent
     /// </summary>
     protected RenderFragment<GanttItemContext<TItem>> ItemTemplateForCurrentView
         => ActiveView?.ItemTemplate;
+
+    /// <summary>
+    /// Gets current dotnet object reference used by JavaScript module callbacks.
+    /// </summary>
+    protected DotNetObjectReference<Gantt<TItem>> DotNetObjectRef { get; private set; }
+
+    /// <summary>
+    /// Gets Gantt JavaScript module wrapper.
+    /// </summary>
+    internal protected JSGanttModule JSModule { get; private set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="IJSRuntime"/>.
+    /// </summary>
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="IVersionProvider"/> for the JS module.
+    /// </summary>
+    [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the blazorise options.
+    /// </summary>
+    [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <inheritdoc />
     protected override bool ShouldAutoGenerateId => true;
