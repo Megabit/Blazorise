@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-27T08:41:29.0492663Z",
+  "generatedUtc": "2026-02-28T11:52:33.8966237Z",
   "pages": [
     {
       "route": "/docs",
@@ -5339,7 +5339,7 @@
           "code": "BootstrapIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/BootstrapIconsCSSExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css\">",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css\">",
           "title": "Bootstrap Icons CSS",
           "description": "Note: If you use Bootstrap icons, define bootstrap-icons.min.css in your index.html or _Layout.cshtml / _Host.cshtml file. This file is required for some custom icon styles to work."
         },

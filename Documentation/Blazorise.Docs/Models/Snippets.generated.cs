@@ -9557,7 +9557,7 @@ builder.Services
 
 services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
-        public const string BootstrapIconsCSSExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"">";
+        public const string BootstrapIconsCSSExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"">";
 
         public const string FluentIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.0.1.0"" rel=""stylesheet"" />";
 

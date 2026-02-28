@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-27T11:22:17.6098528Z",
+  "generatedUtc": "2026-02-28T11:52:31.2843225Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -44801,7 +44801,7 @@
           "type": "double",
           "typeName": "double",
           "defaultValue": "140d",
-          "summary": "Gets or sets date column width in pixels.",
+          "summary": "Gets or sets fallback date column width in pixels used when an auto-sized value cannot be calculated.",
           "isBlazoriseEnum": false
         },
         {
@@ -44926,6 +44926,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "KeyboardNavigation",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether basic keyboard navigation is enabled for tree rows.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Localizers",
           "type": "global::Blazorise.Gantt.GanttLocalizers",
           "typeName": "GanttLocalizers",
@@ -45022,6 +45030,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "SelectedRow",
+          "type": "object",
+          "typeName": "TItem",
+          "defaultValue": "null",
+          "summary": "Gets or sets currently selected tree row item.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "SelectedView",
           "type": "global::Blazorise.Gantt.GanttView",
           "typeName": "GanttView",
@@ -45038,10 +45054,26 @@
           "isBlazoriseEnum": true
         },
         {
-          "name": "ShowEndColumn",
+          "name": "ShowCommandColumn",
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "true",
+          "summary": "Gets or sets whether command column (+ actions) is visible.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ShowDurationColumn",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether duration column is visible.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ShowEndColumn",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
           "summary": "Gets or sets whether end date column is visible.",
           "isBlazoriseEnum": false
         },
@@ -45075,6 +45107,22 @@
           "typeName": "bool",
           "defaultValue": "true",
           "summary": "Gets or sets whether toolbar is rendered.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ShowWbsColumn",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Gets or sets whether WBS (work breakdown structure) column is visible.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Sortable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether tree column sorting is enabled.",
           "isBlazoriseEnum": false
         },
         {
@@ -45352,11 +45400,35 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "SelectedRowChanged",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<TItem>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback raised when <strong>SelectedRow</strong> changes.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "SelectedViewChanged",
           "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
           "typeName": "EventCallback<GanttView>",
           "defaultValue": "null",
           "summary": "Gets or sets callback raised when <strong>SelectedView</strong> changes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ShowCommandColumnChanged",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<bool>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback raised when <strong>ShowCommandColumn</strong> changes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ShowDurationColumnChanged",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<bool>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback raised when <strong>ShowDurationColumn</strong> changes.",
           "isBlazoriseEnum": false
         },
         {
@@ -45381,6 +45453,14 @@
           "typeName": "EventCallback<bool>",
           "defaultValue": "null",
           "summary": "Gets or sets callback raised when <strong>ShowTitleColumn</strong> changes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ShowWbsColumnChanged",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<bool>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback raised when <strong>ShowWbsColumn</strong> changes.",
           "isBlazoriseEnum": false
         }
       ],
@@ -73916,7 +73996,7 @@
           "name": "EmptyIcon",
           "type": "object",
           "typeName": "object",
-          "defaultValue": "276",
+          "defaultValue": "278",
           "summary": "Defines the non-selected icon name.",
           "isBlazoriseEnum": false
         },
@@ -73948,7 +74028,7 @@
           "name": "FullIcon",
           "type": "object",
           "typeName": "object",
-          "defaultValue": "276",
+          "defaultValue": "278",
           "summary": "Defines the selected icon name.",
           "isBlazoriseEnum": false
         },
