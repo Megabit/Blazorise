@@ -24,6 +24,14 @@
                        ItemInserted="@OnItemInserted"
                        ItemUpdated="@OnItemUpdated"
                        ItemRemoved="@OnItemRemoved">
+                    <GanttColumns>
+                        <GanttColumn Field="Wbs" Visible="false" />
+                        <GanttColumn Field="Title" Title="Task" Expandable />
+                        <GanttColumn Field="Start" />
+                        <GanttColumn Field="End" Visible="false" />
+                        <GanttColumn Field="Duration" />
+                        <GanttCommandColumn />
+                    </GanttColumns>
                     <GanttToolbar />
                     <GanttViews>
                         <GanttDayView TimelineCellWidth="82" RowHeight="48" />

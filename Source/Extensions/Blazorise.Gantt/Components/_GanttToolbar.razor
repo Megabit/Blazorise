@@ -67,24 +67,12 @@
                 <Icon Name="@IconName.Table" Margin="MarginIs1FromEnd" Clicked="() => { }" />@Localizer.Localize( Gantt.Localizers?.ColumnsLocalizer, LocalizationConstants.Columns )
             </DropdownToggle>
             <DropdownMenu MaxMenuHeight="200px">
-                <DropdownItem ShowCheckbox Checked="@ShowWbsColumn" CheckedChanged="@OnShowWbsColumnChanged">
-                    @Localizer.Localize( Gantt.Localizers?.WbsLocalizer, LocalizationConstants.Wbs )
-                </DropdownItem>
-                <DropdownItem ShowCheckbox Checked="@ShowTitleColumn" CheckedChanged="@OnShowTitleColumnChanged">
-                    @Localizer.Localize( Gantt.Localizers?.TaskLocalizer, LocalizationConstants.Task )
-                </DropdownItem>
-                <DropdownItem ShowCheckbox Checked="@ShowStartColumn" CheckedChanged="@OnShowStartColumnChanged">
-                    @Localizer.Localize( Gantt.Localizers?.StartLocalizer, LocalizationConstants.Start )
-                </DropdownItem>
-                <DropdownItem ShowCheckbox Checked="@ShowEndColumn" CheckedChanged="@OnShowEndColumnChanged">
-                    @Localizer.Localize( Gantt.Localizers?.EndLocalizer, LocalizationConstants.End )
-                </DropdownItem>
-                <DropdownItem ShowCheckbox Checked="@ShowDurationColumn" CheckedChanged="@OnShowDurationColumnChanged">
-                    @Localizer.Localize( Gantt.Localizers?.DurationLocalizer, LocalizationConstants.Duration )
-                </DropdownItem>
-                <DropdownItem ShowCheckbox Checked="@ShowCommandColumn" CheckedChanged="@OnShowCommandColumnChanged">
-                    @Localizer.Localize( Gantt.Localizers?.AddChildLocalizer, LocalizationConstants.AddChild )
-                </DropdownItem>
+                @foreach ( var column in ColumnPickerItems )
+                {
+                    <DropdownItem ShowCheckbox Checked="@column.Visible" CheckedChanged="@(( value ) => OnColumnVisibilityChanged( column.Key, value ))">
+                        @column.Text
+                    </DropdownItem>
+                }
             </DropdownMenu>
         </Dropdown>
     </Div>

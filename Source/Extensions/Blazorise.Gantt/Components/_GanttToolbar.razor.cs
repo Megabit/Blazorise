@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using Blazorise.Gantt.Extensions;
@@ -76,17 +77,8 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
 
     private Task OnSearchTextValueChanged( string value ) => SearchTextChanged.InvokeAsync( value );
 
-    private Task OnShowTitleColumnChanged( bool value ) => ShowTitleColumnChanged.InvokeAsync( value );
-
-    private Task OnShowWbsColumnChanged( bool value ) => ShowWbsColumnChanged.InvokeAsync( value );
-
-    private Task OnShowStartColumnChanged( bool value ) => ShowStartColumnChanged.InvokeAsync( value );
-
-    private Task OnShowEndColumnChanged( bool value ) => ShowEndColumnChanged.InvokeAsync( value );
-
-    private Task OnShowDurationColumnChanged( bool value ) => ShowDurationColumnChanged.InvokeAsync( value );
-
-    private Task OnShowCommandColumnChanged( bool value ) => ShowCommandColumnChanged.InvokeAsync( value );
+    private Task OnColumnVisibilityChanged( string key, bool value )
+        => ColumnVisibilityChanged.InvokeAsync( new GanttColumnVisibilityChangedEventArgs( key, value ) );
 
     #endregion
 
@@ -139,17 +131,7 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
     /// </summary>
     [Parameter] public double SearchInputWidth { get; set; } = 220d;
 
-    [Parameter] public bool ShowTitleColumn { get; set; }
-
-    [Parameter] public bool ShowWbsColumn { get; set; }
-
-    [Parameter] public bool ShowStartColumn { get; set; }
-
-    [Parameter] public bool ShowEndColumn { get; set; }
-
-    [Parameter] public bool ShowDurationColumn { get; set; }
-
-    [Parameter] public bool ShowCommandColumn { get; set; }
+    [Parameter] public IReadOnlyList<GanttColumnPickerItem> ColumnPickerItems { get; set; } = Array.Empty<GanttColumnPickerItem>();
 
     /// <summary>
     /// Gets or sets whether Add Task button is visible.
@@ -188,17 +170,7 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
 
     [Parameter] public EventCallback<string> SearchTextChanged { get; set; }
 
-    [Parameter] public EventCallback<bool> ShowTitleColumnChanged { get; set; }
-
-    [Parameter] public EventCallback<bool> ShowWbsColumnChanged { get; set; }
-
-    [Parameter] public EventCallback<bool> ShowStartColumnChanged { get; set; }
-
-    [Parameter] public EventCallback<bool> ShowEndColumnChanged { get; set; }
-
-    [Parameter] public EventCallback<bool> ShowDurationColumnChanged { get; set; }
-
-    [Parameter] public EventCallback<bool> ShowCommandColumnChanged { get; set; }
+    [Parameter] public EventCallback<GanttColumnVisibilityChangedEventArgs> ColumnVisibilityChanged { get; set; }
 
     #endregion
 }

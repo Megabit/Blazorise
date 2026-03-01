@@ -17,12 +17,7 @@
                            SearchText="@searchText"
                            SearchInputWidth="@GetSearchInputWidth()"
                            ShowAddTaskButton="@ShowToolbarAddTaskButton"
-                           ShowTitleColumn="@showTitleColumn"
-                           ShowWbsColumn="@showWbsColumn"
-                           ShowStartColumn="@showStartColumn"
-                           ShowEndColumn="@showEndColumn"
-                           ShowDurationColumn="@showDurationColumn"
-                           ShowCommandColumn="@showCommandColumn"
+                           ColumnPickerItems="@GetColumnPickerItems()"
                            ShowToggleAllCommands="@ShowToggleAllCommands"
                            ShowDayViewButton="@(ganttDayView is not null)"
                            ShowWeekViewButton="@(ganttWeekView is not null)"
@@ -39,12 +34,7 @@
                            ExpandAllClicked="@ExpandAll"
                            CollapseAllClicked="@CollapseAll"
                            SearchTextChanged="@SetSearchText"
-                           ShowTitleColumnChanged="@SetShowTitleColumn"
-                           ShowWbsColumnChanged="@SetShowWbsColumn"
-                           ShowStartColumnChanged="@SetShowStartColumn"
-                           ShowEndColumnChanged="@SetShowEndColumn"
-                           ShowDurationColumnChanged="@SetShowDurationColumn"
-                           ShowCommandColumnChanged="@SetShowCommandColumn" />
+                           ColumnVisibilityChanged="@OnColumnVisibilityChanged" />
         }
 
         @{
@@ -62,144 +52,58 @@
             var headerRowHeight = GetHeaderRowHeight();
             var cellWidth = GetTimelineCellWidth();
             var treeToggleWidth = GetTreeToggleWidth();
-            var showActionColumn = CanShowActionColumn( visibleRows );
             var showHeaderNewButton = ShowHeaderNewButton;
-            var wbsLookup = showWbsColumn ? BuildWbsLookup( visibleRows ) : null;
-            var wbsColumnWidth = showWbsColumn
-                ? GetAutoSizedTreeColumnWidth( visibleRows, WbsColumnHeaderText, row => GetWbsValue( wbsLookup, row.Key ) )
-                : 0d;
-            var startColumnWidth = showStartColumn
-                ? GetAutoSizedTreeColumnWidth( visibleRows, StartColumnHeaderText, row => FormatDate( GetItemStart( row.Item ) ), Sortable )
-                : 0d;
-            var endColumnWidth = showEndColumn
-                ? GetAutoSizedTreeColumnWidth( visibleRows, EndColumnHeaderText, row => FormatDate( GetItemEnd( row.Item ) ), Sortable )
-                : 0d;
-            var durationColumnWidth = showDurationColumn
-                ? GetAutoSizedTreeColumnWidth( visibleRows, DurationColumnHeaderText, row => FormatDuration( GetItemDuration( row.Item ) ), Sortable )
-                : 0d;
-            var treePaneStyle = GetTreePaneStyle( showActionColumn, wbsColumnWidth, startColumnWidth, endColumnWidth, durationColumnWidth );
+            var wbsLookup = BuildWbsLookup( visibleRows );
+            var treeColumns = GetTreeRenderColumns( visibleRows, wbsLookup, showHeaderNewButton );
+            var treePaneStyle = GetTreePaneStyle( treeColumns );
         }
 
         <_GanttBody Style="@GetBodyStyle()">
             <_GanttTreePane Style="@treePaneStyle">
                 <_GanttTreeHeader Height="Blazorise.Height.Px( headerRowHeight )" Border="BorderIs1OnBottom" Position="PositionStickyTopIs0" Background="Background.Body">
-                    @if ( showWbsColumn )
+                    @foreach ( var treeColumn in treeColumns )
                     {
-                        <Div Style="@GetDateColumnStyle( wbsColumnWidth )"
-                             Padding="PaddingIs2OnX"
-                             TextWeight="TextWeight.SemiBold">
-                            @if ( TreeHeaderCellTemplate is not null )
-                            {
-                                @TreeHeaderCellTemplate( GetTreeHeaderCellContext( GanttTreeColumn.Wbs, WbsColumnHeaderText ) )
-                            }
-                            else
-                            {
-                                <Span>@WbsColumnHeaderText</Span>
-                            }
-                        </Div>
-                    }
-                    @if ( showTitleColumn )
-                    {
-                        <Div Style="@GetTitleColumnStyle( Sortable )"
-                             Padding="PaddingIs2OnX"
-                             TextWeight="TextWeight.SemiBold"
-                             @onclick="@(() => SortByColumn( GanttSortColumn.Title ))">
-                            @if ( TreeHeaderCellTemplate is not null )
-                            {
-                                @TreeHeaderCellTemplate( GetTreeHeaderCellContext( GanttTreeColumn.Title, TaskColumnHeaderText, GanttSortColumn.Title ) )
-                            }
-                            else
-                            {
-                                <Div Flex="FlexAlignItemsCenterNoWrap" Gap="GapIs1">
-                                    <Span>@TaskColumnHeaderText</Span>
-                                    @if ( ShowSortIcon( GanttSortColumn.Title ) )
-                                    {
-                                        <Icon Name="@GetSortIconName( GanttSortColumn.Title )" />
-                                    }
-                                </Div>
-                            }
-                        </Div>
-                    }
-                    @if ( showStartColumn )
-                    {
-                        <Div Style="@GetDateColumnStyle( startColumnWidth, Sortable )"
-                             Padding="PaddingIs2OnX"
-                             TextWeight="TextWeight.SemiBold"
-                             Flex="FlexJustifyContentCenterAlignItemsCenterNoWrap"
-                             Gap="GapIs1"
-                             @onclick="@(() => SortByColumn( GanttSortColumn.Start ))">
-                            @if ( TreeHeaderCellTemplate is not null )
-                            {
-                                @TreeHeaderCellTemplate( GetTreeHeaderCellContext( GanttTreeColumn.Start, StartColumnHeaderText, GanttSortColumn.Start ) )
-                            }
-                            else
-                            {
-                                <Span>@StartColumnHeaderText</Span>
-                                @if ( ShowSortIcon( GanttSortColumn.Start ) )
+                        if ( treeColumn.IsCommand )
+                        {
+                            <Div Style="@GetActionColumnStyle( treeColumn.Width )">
+                                @if ( treeColumn.Column?.HeaderTemplate is not null )
                                 {
-                                    <Icon Name="@GetSortIconName( GanttSortColumn.Start )" />
+                                    @treeColumn.Column.HeaderTemplate( GetColumnHeaderContext( treeColumn, showHeaderNewButton ) )
                                 }
-                            }
-                        </Div>
-                    }
-                    @if ( showEndColumn )
-                    {
-                        <Div Style="@GetDateColumnStyle( endColumnWidth, Sortable )"
-                             Padding="PaddingIs2OnX"
-                             TextWeight="TextWeight.SemiBold"
-                             Flex="FlexJustifyContentCenterAlignItemsCenterNoWrap"
-                             Gap="GapIs1"
-                             @onclick="@(() => SortByColumn( GanttSortColumn.End ))">
-                            @if ( TreeHeaderCellTemplate is not null )
-                            {
-                                @TreeHeaderCellTemplate( GetTreeHeaderCellContext( GanttTreeColumn.End, EndColumnHeaderText, GanttSortColumn.End ) )
-                            }
-                            else
-                            {
-                                <Span>@EndColumnHeaderText</Span>
-                                @if ( ShowSortIcon( GanttSortColumn.End ) )
+                                else if ( TreeCommandHeaderTemplate is not null )
                                 {
-                                    <Icon Name="@GetSortIconName( GanttSortColumn.End )" />
+                                    @TreeCommandHeaderTemplate( GetTreeCommandHeaderContext( showHeaderNewButton ) )
                                 }
-                            }
-                        </Div>
-                    }
-                    @if ( showDurationColumn )
-                    {
-                        <Div Style="@GetDateColumnStyle( durationColumnWidth, Sortable )"
-                             Padding="PaddingIs2OnX"
-                             TextWeight="TextWeight.SemiBold"
-                             Flex="FlexJustifyContentCenterAlignItemsCenterNoWrap"
-                             Gap="GapIs1"
-                             @onclick="@(() => SortByColumn( GanttSortColumn.Duration ))">
-                            @if ( TreeHeaderCellTemplate is not null )
-                            {
-                                @TreeHeaderCellTemplate( GetTreeHeaderCellContext( GanttTreeColumn.Duration, DurationColumnHeaderText, GanttSortColumn.Duration ) )
-                            }
-                            else
-                            {
-                                <Span>@DurationColumnHeaderText</Span>
-                                @if ( ShowSortIcon( GanttSortColumn.Duration ) )
+                                else if ( showHeaderNewButton )
                                 {
-                                    <Icon Name="@GetSortIconName( GanttSortColumn.Duration )" />
+                                    <Button Size="Size.ExtraSmall" Clicked="@New" Border="BorderIs0" Background="Background.Transparent" aria-label="@AddTaskText">
+                                        <Icon Name="IconName.Add" />
+                                    </Button>
                                 }
-                            }
-                        </Div>
-                    }
-                    @if ( showActionColumn )
-                    {
-                        <Div Style="@GetActionColumnStyle()">
-                            @if ( TreeCommandHeaderTemplate is not null )
-                            {
-                                @TreeCommandHeaderTemplate( GetTreeCommandHeaderContext( showHeaderNewButton ) )
-                            }
-                            else if ( showHeaderNewButton )
-                            {
-                                <Button Size="Size.ExtraSmall" Clicked="@New" Border="BorderIs0" Background="Background.Transparent" TextColor="TextColor.Muted" aria-label="@AddTaskText">
-                                    <Icon Name="IconName.Add" />
-                                </Button>
-                            }
-                        </Div>
+                            </Div>
+                        }
+                        else
+                        {
+                            <Div Style="@GetTreeColumnStyle( treeColumn.Width, treeColumn.CanSort, treeColumn.TextAlignment )"
+                                 Padding="PaddingIs2OnX"
+                                 TextWeight="TextWeight.SemiBold"
+                                 @onclick="@(() => SortByColumn( treeColumn ))">
+                                @if ( treeColumn.Column?.HeaderTemplate is not null )
+                                {
+                                    @treeColumn.Column.HeaderTemplate( GetColumnHeaderContext( treeColumn ) )
+                                }
+                                else
+                                {
+                                    <Div Flex="FlexAlignItemsCenterNoWrap" Gap="GapIs1">
+                                        <Span>@treeColumn.HeaderText</Span>
+                                        @if ( ShowSortIcon( treeColumn ) )
+                                        {
+                                            <Icon Name="@GetSortIconName( treeColumn )" />
+                                        }
+                                    </Div>
+                                }
+                            </Div>
+                        }
                     }
                 </_GanttTreeHeader>
 
@@ -218,111 +122,64 @@
                                            Selected="@IsSelectedRow( node.Item )"
                                            Clicked="@(() => OnTreeRowClicked( node.Item, node.Key ))"
                                            DoubleClicked="@(() => OnTreeRowDoubleClicked( node.Item, node.Key ))">
-                                @if ( showWbsColumn )
+                                @foreach ( var treeColumn in treeColumns )
                                 {
-                                    <Div Style="@GetDateColumnStyle( wbsColumnWidth )" Padding="PaddingIs2OnX">
-                                        @if ( TreeCellTemplate is not null )
-                                        {
-                                            @TreeCellTemplate( GetTreeCellContext( node, GanttTreeColumn.Wbs, GetWbsValue( wbsLookup, node.Key ), treeToggleWidth ) )
-                                        }
-                                        else
-                                        {
-                                            <Span TextSize="TextSizeSmall">@GetWbsValue( wbsLookup, node.Key )</Span>
-                                        }
-                                    </Div>
-                                }
-                                @if ( showTitleColumn )
-                                {
-                                    <Div Style="@GetTitleColumnStyle()" Padding="PaddingIs2OnX">
-                                        @if ( TreeCellTemplate is not null )
-                                        {
-                                            @TreeCellTemplate( GetTreeCellContext( node, GanttTreeColumn.Title, GetItemTitle( node.Item ), treeToggleWidth ) )
-                                        }
-                                        else
-                                        {
-                                            <Div Flex="FlexAlignItemsCenter" Style="@GetTreeTitleContentStyle( node.Level )">
-                                                @if ( node.HasChildren )
-                                                {
-                                                    <Button Size="Size.ExtraSmall" Clicked="@(() => ToggleNode( node ))" Margin="MarginIs1FromEnd" aria-label="Toggle">
-                                                        <Icon Name="@(IsExpanded( node ) ? IconName.ChevronDown : IconName.ChevronRight)" />
-                                                    </Button>
-                                                }
-                                                else
-                                                {
-                                                    <Span Display="DisplayInlineBlock" Width="Blazorise.Width.Px( treeToggleWidth )"></Span>
-                                                }
+                                    if ( treeColumn.IsCommand )
+                                    {
+                                        <Div Style="@GetActionColumnStyle( treeColumn.Width )">
+                                            @if ( treeColumn.CommandColumn?.DisplayTemplate is not null )
+                                            {
+                                                @treeColumn.CommandColumn.DisplayTemplate( GetCommandColumnDisplayContext( node, treeColumn, wbsLookup, treeToggleWidth ) )
+                                            }
+                                            else if ( TreeCommandCellTemplate is not null )
+                                            {
+                                                @TreeCommandCellTemplate( GetTreeCommandCellContext( node ) )
+                                            }
+                                            else if ( CanShowAddChildButton( node.Item ) )
+                                            {
+                                                <Button Size="Size.ExtraSmall" Clicked="@(() => AddChild( node.Item ))" Border="BorderIs0" Background="Background.Transparent" aria-label="@AddChildText">
+                                                    <Icon Name="IconName.Add" />
+                                                </Button>
+                                            }
+                                        </Div>
+                                    }
+                                    else
+                                    {
+                                        <Div Style="@GetTreeColumnStyle( treeColumn.Width, false, treeColumn.TextAlignment )" Padding="PaddingIs2OnX">
+                                            @if ( treeColumn.Column?.DisplayTemplate is not null )
+                                            {
+                                                @treeColumn.Column.DisplayTemplate( GetColumnDisplayContext( node, treeColumn, wbsLookup, treeToggleWidth ) )
+                                            }
+                                            else if ( treeColumn.Expandable )
+                                            {
+                                                <Div Flex="FlexAlignItemsCenter" Style="@GetTreeTitleContentStyle( node.Level )">
+                                                    @if ( node.HasChildren )
+                                                    {
+                                                        <Button Size="Size.ExtraSmall" Clicked="@(() => ToggleNode( node ))" Margin="MarginIs1FromEnd" aria-label="Toggle">
+                                                            <Icon Name="@(IsExpanded( node ) ? IconName.ChevronDown : IconName.ChevronRight)" />
+                                                        </Button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <Span Display="DisplayInlineBlock" Width="Blazorise.Width.Px( treeToggleWidth )"></Span>
+                                                    }
 
-                                                @if ( rowTemplate is not null )
-                                                {
-                                                    @rowTemplate( new GanttRowContext<TItem>( node.Item, node.Level, node.HasChildren, IsExpanded( node ) ) )
-                                                }
-                                                else
-                                                {
-                                                    <Span TextOverflow="TextOverflow.Truncate" Width="WidthIs100">@GetItemTitle( node.Item )</Span>
-                                                }
-                                            </Div>
-                                        }
-                                    </Div>
-                                }
-                                @if ( showStartColumn )
-                                {
-                                    <Div Style="@GetDateColumnStyle( startColumnWidth )"
-                                         Padding="PaddingIs2OnX"
-                                         Flex="FlexJustifyContentCenterAlignItemsCenterNoWrap">
-                                        @if ( TreeCellTemplate is not null )
-                                        {
-                                            @TreeCellTemplate( GetTreeCellContext( node, GanttTreeColumn.Start, FormatDate( GetItemStart( node.Item ) ), treeToggleWidth ) )
-                                        }
-                                        else
-                                        {
-                                            <Span TextSize="TextSizeSmall">@FormatDate( GetItemStart( node.Item ) )</Span>
-                                        }
-                                    </Div>
-                                }
-                                @if ( showEndColumn )
-                                {
-                                    <Div Style="@GetDateColumnStyle( endColumnWidth )"
-                                         Padding="PaddingIs2OnX"
-                                         Flex="FlexJustifyContentCenterAlignItemsCenterNoWrap">
-                                        @if ( TreeCellTemplate is not null )
-                                        {
-                                            @TreeCellTemplate( GetTreeCellContext( node, GanttTreeColumn.End, FormatDate( GetItemEnd( node.Item ) ), treeToggleWidth ) )
-                                        }
-                                        else
-                                        {
-                                            <Span TextSize="TextSizeSmall">@FormatDate( GetItemEnd( node.Item ) )</Span>
-                                        }
-                                    </Div>
-                                }
-                                @if ( showDurationColumn )
-                                {
-                                    <Div Style="@GetDateColumnStyle( durationColumnWidth )"
-                                         Padding="PaddingIs2OnX"
-                                         Flex="FlexJustifyContentCenterAlignItemsCenterNoWrap">
-                                        @if ( TreeCellTemplate is not null )
-                                        {
-                                            @TreeCellTemplate( GetTreeCellContext( node, GanttTreeColumn.Duration, FormatDuration( GetItemDuration( node.Item ) ), treeToggleWidth ) )
-                                        }
-                                        else
-                                        {
-                                            <Span TextSize="TextSizeSmall">@FormatDuration( GetItemDuration( node.Item ) )</Span>
-                                        }
-                                    </Div>
-                                }
-                                @if ( showActionColumn )
-                                {
-                                    <Div Style="@GetActionColumnStyle()">
-                                        @if ( TreeCommandCellTemplate is not null )
-                                        {
-                                            @TreeCommandCellTemplate( GetTreeCommandCellContext( node ) )
-                                        }
-                                        else if ( CanShowAddChildButton( node.Item ) )
-                                        {
-                                            <Button Size="Size.ExtraSmall" Clicked="@(() => AddChild( node.Item ))" Border="BorderIs0" Background="Background.Transparent" aria-label="@AddChildText">
-                                                <Icon Name="IconName.Add" />
-                                            </Button>
-                                        }
-                                    </Div>
+                                                    @if ( rowTemplate is not null )
+                                                    {
+                                                        @rowTemplate( new GanttRowContext<TItem>( node.Item, node.Level, node.HasChildren, IsExpanded( node ) ) )
+                                                    }
+                                                    else
+                                                    {
+                                                        <Span TextOverflow="TextOverflow.Truncate" Width="WidthIs100">@GetColumnDisplayText( treeColumn, node, wbsLookup )</Span>
+                                                    }
+                                                </Div>
+                                            }
+                                            else
+                                            {
+                                                <Span TextSize="TextSizeSmall">@GetColumnDisplayText( treeColumn, node, wbsLookup )</Span>
+                                            }
+                                        </Div>
+                                    }
                                 }
                             </_GanttTreeRow>
                         }

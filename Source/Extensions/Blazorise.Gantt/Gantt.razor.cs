@@ -39,8 +39,12 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private const double AutoSizedTreeColumnCharacterWidth = 8d;
     private const double AutoSizedTreeColumnHorizontalPadding = 24d;
     private const double AutoSizedTreeSortableIndicatorWidth = 20d;
+    private const string WbsPseudoField = "__wbs";
+    private const string CommandPseudoField = "__commands";
 
     private readonly HashSet<string> collapsedNodeKeys = new( StringComparer.Ordinal );
+    private readonly List<BaseGanttColumn<TItem>> columns = new();
+    private readonly Dictionary<BaseGanttColumn<TItem>, bool> columnVisibility = new();
 
     private GanttToolbar<TItem> ganttToolbar;
     private GanttDayView<TItem> ganttDayView;
@@ -78,14 +82,14 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private DateOnly currentDate = DateOnly.FromDateTime( DateTime.Today );
     private string searchText = string.Empty;
     private bool showTitleColumn = true;
-    private bool showWbsColumn = false;
+    private bool showWbsColumn;
     private bool showStartColumn = true;
-    private bool showEndColumn = false;
+    private bool showEndColumn;
     private bool showDurationColumn = true;
     private bool showCommandColumn = true;
     private string focusedRowKey;
     private bool shouldFocusTreeRows;
-    private GanttSortColumn ganttSortColumn = GanttSortColumn.Start;
+    private string ganttSortField;
     private SortDirection ganttSortDirection = SortDirection.Default;
     private bool readDataInitialized;
     private bool readDataRequested;
@@ -97,6 +101,8 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private double barDragCellWidth;
     private double barDragStartClientX;
     private int barDragSlotOffset;
+    private int nextColumnId;
+    private readonly Dictionary<BaseGanttColumn<TItem>, string> columnKeys = new();
 
     #endregion
 
@@ -138,24 +144,6 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( parameters.TryGetValue<string>( nameof( SearchText ), out var paramSearchText ) )
             searchText = paramSearchText ?? string.Empty;
 
-        if ( parameters.TryGetValue<bool>( nameof( ShowTitleColumn ), out var paramShowTitleColumn ) )
-            showTitleColumn = paramShowTitleColumn;
-
-        if ( parameters.TryGetValue<bool>( nameof( ShowWbsColumn ), out var paramShowWbsColumn ) )
-            showWbsColumn = paramShowWbsColumn;
-
-        if ( parameters.TryGetValue<bool>( nameof( ShowStartColumn ), out var paramShowStartColumn ) )
-            showStartColumn = paramShowStartColumn;
-
-        if ( parameters.TryGetValue<bool>( nameof( ShowEndColumn ), out var paramShowEndColumn ) )
-            showEndColumn = paramShowEndColumn;
-
-        if ( parameters.TryGetValue<bool>( nameof( ShowDurationColumn ), out var paramShowDurationColumn ) )
-            showDurationColumn = paramShowDurationColumn;
-
-        if ( parameters.TryGetValue<bool>( nameof( ShowCommandColumn ), out var paramShowCommandColumn ) )
-            showCommandColumn = paramShowCommandColumn;
-
         await base.SetParametersAsync( parameters );
 
         EnsureAtLeastOneColumnVisible();
@@ -191,12 +179,6 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
         currentDate = Date;
         searchText = SearchText ?? string.Empty;
-        showTitleColumn = ShowTitleColumn;
-        showWbsColumn = ShowWbsColumn;
-        showStartColumn = ShowStartColumn;
-        showEndColumn = ShowEndColumn;
-        showDurationColumn = ShowDurationColumn;
-        showCommandColumn = ShowCommandColumn;
 
         EnsureAtLeastOneColumnVisible();
 
@@ -320,6 +302,46 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     internal Task Refresh()
     {
         return RefreshInternalAsync();
+    }
+
+    internal void AddColumn( BaseGanttColumn<TItem> column )
+    {
+        if ( column is null || columns.Contains( column ) )
+            return;
+
+        if ( column is GanttCommandColumn<TItem> && columns.Any( x => x is GanttCommandColumn<TItem> ) )
+            return;
+
+        columns.Add( column );
+        columnVisibility[column] = column.Visible;
+        columnKeys[column] = $"column-{(++nextColumnId).ToString( CultureInfo.InvariantCulture )}";
+        EnsureAtLeastOneDeclarativeColumnVisible();
+
+        _ = InvokeAsync( StateHasChanged );
+    }
+
+    internal bool RemoveColumn( BaseGanttColumn<TItem> column )
+    {
+        if ( column is null )
+            return false;
+
+        columnVisibility.Remove( column );
+        columnKeys.Remove( column );
+
+        var removed = columns.Remove( column );
+
+        if ( removed && string.Equals( ganttSortField, column?.GetSortField(), StringComparison.OrdinalIgnoreCase ) )
+        {
+            ganttSortField = null;
+            ganttSortDirection = SortDirection.Default;
+        }
+
+        EnsureAtLeastOneDeclarativeColumnVisible();
+
+        if ( removed )
+            _ = InvokeAsync( StateHasChanged );
+
+        return removed;
     }
 
     /// <summary>
@@ -805,8 +827,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
         var token = readDataCancellationTokenSource.Token;
         var viewRange = GetCurrentViewRange();
-        var hasActiveSort = Sortable && ganttSortDirection != SortDirection.Default;
-        GanttSortColumn? sortColumn = hasActiveSort ? ganttSortColumn : null;
+        var hasActiveSort = Sortable && !string.IsNullOrWhiteSpace( ganttSortField ) && ganttSortDirection != SortDirection.Default;
+        var sortField = hasActiveSort ? ganttSortField : null;
+        var sortColumnField = hasActiveSort ? ResolveColumnFieldFromSortField( ganttSortField ) : null;
         var sortDirection = hasActiveSort ? ganttSortDirection : SortDirection.Default;
 
         try
@@ -817,7 +840,8 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 viewRange.Start,
                 viewRange.End,
                 searchText,
-                sortColumn,
+                sortField,
+                sortColumnField,
                 sortDirection,
                 token ) );
         }
@@ -845,71 +869,84 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         await RefreshInternalAsync();
     }
 
-    private async Task SetShowTitleColumn( bool value )
+    private IReadOnlyList<GanttColumnPickerItem> GetColumnPickerItems()
     {
-        showTitleColumn = value;
+        if ( columns.Count > 0 )
+        {
+            var items = new List<GanttColumnPickerItem>();
+
+            foreach ( var column in GetOrderedColumns() )
+            {
+                if ( column is null || !column.Displayable )
+                    continue;
+
+                items.Add( new GanttColumnPickerItem
+                {
+                    Key = GetColumnKey( column ),
+                    Text = GetColumnHeaderText( column ),
+                    Visible = IsColumnVisible( column ),
+                } );
+            }
+
+            return items;
+        }
+
+        return new List<GanttColumnPickerItem>
+        {
+            new() { Key = WbsPseudoField, Text = WbsColumnHeaderText, Visible = showWbsColumn },
+            new() { Key = TitleField, Text = TaskColumnHeaderText, Visible = showTitleColumn },
+            new() { Key = StartField, Text = StartColumnHeaderText, Visible = showStartColumn },
+            new() { Key = EndField, Text = EndColumnHeaderText, Visible = showEndColumn },
+            new() { Key = DurationField, Text = DurationColumnHeaderText, Visible = showDurationColumn },
+            new() { Key = CommandPseudoField, Text = AddChildText, Visible = showCommandColumn },
+        };
+    }
+
+    private async Task OnColumnVisibilityChanged( GanttColumnVisibilityChangedEventArgs args )
+    {
+        if ( args is null || string.IsNullOrWhiteSpace( args.Key ) )
+            return;
+
+        if ( columns.Count > 0 )
+        {
+            var targetColumn = columns.FirstOrDefault( x => string.Equals( GetColumnKey( x ), args.Key, StringComparison.Ordinal ) );
+
+            if ( targetColumn is null )
+                return;
+
+            columnVisibility[targetColumn] = args.Visible;
+            EnsureAtLeastOneDeclarativeColumnVisible();
+
+            await InvokeAsync( StateHasChanged );
+            return;
+        }
+
+        if ( string.Equals( args.Key, WbsPseudoField, StringComparison.Ordinal ) )
+            showWbsColumn = args.Visible;
+        else if ( string.Equals( args.Key, TitleField, StringComparison.Ordinal ) )
+            showTitleColumn = args.Visible;
+        else if ( string.Equals( args.Key, StartField, StringComparison.Ordinal ) )
+            showStartColumn = args.Visible;
+        else if ( string.Equals( args.Key, EndField, StringComparison.Ordinal ) )
+            showEndColumn = args.Visible;
+        else if ( string.Equals( args.Key, DurationField, StringComparison.Ordinal ) )
+            showDurationColumn = args.Visible;
+        else if ( string.Equals( args.Key, CommandPseudoField, StringComparison.Ordinal ) )
+            showCommandColumn = args.Visible;
+
         EnsureAtLeastOneColumnVisible();
 
-        await NotifyColumnVisibilityChanged();
         await InvokeAsync( StateHasChanged );
-    }
-
-    private async Task SetShowWbsColumn( bool value )
-    {
-        showWbsColumn = value;
-        EnsureAtLeastOneColumnVisible();
-
-        await NotifyColumnVisibilityChanged();
-        await InvokeAsync( StateHasChanged );
-    }
-
-    private async Task SetShowStartColumn( bool value )
-    {
-        showStartColumn = value;
-        EnsureAtLeastOneColumnVisible();
-
-        await NotifyColumnVisibilityChanged();
-        await InvokeAsync( StateHasChanged );
-    }
-
-    private async Task SetShowEndColumn( bool value )
-    {
-        showEndColumn = value;
-        EnsureAtLeastOneColumnVisible();
-
-        await NotifyColumnVisibilityChanged();
-        await InvokeAsync( StateHasChanged );
-    }
-
-    private async Task SetShowDurationColumn( bool value )
-    {
-        showDurationColumn = value;
-        EnsureAtLeastOneColumnVisible();
-
-        await NotifyColumnVisibilityChanged();
-        await InvokeAsync( StateHasChanged );
-    }
-
-    private async Task SetShowCommandColumn( bool value )
-    {
-        showCommandColumn = value;
-
-        await NotifyColumnVisibilityChanged();
-        await InvokeAsync( StateHasChanged );
-    }
-
-    private async Task NotifyColumnVisibilityChanged()
-    {
-        await ShowTitleColumnChanged.InvokeAsync( showTitleColumn );
-        await ShowWbsColumnChanged.InvokeAsync( showWbsColumn );
-        await ShowStartColumnChanged.InvokeAsync( showStartColumn );
-        await ShowEndColumnChanged.InvokeAsync( showEndColumn );
-        await ShowDurationColumnChanged.InvokeAsync( showDurationColumn );
-        await ShowCommandColumnChanged.InvokeAsync( showCommandColumn );
     }
 
     private void EnsureAtLeastOneColumnVisible()
     {
+        if ( columns.Count > 0 )
+        {
+            EnsureAtLeastOneDeclarativeColumnVisible();
+            return;
+        }
+
         if ( !showTitleColumn && !showWbsColumn && !showStartColumn && !showEndColumn && !showDurationColumn )
         {
             showTitleColumn = true;
@@ -1495,67 +1532,50 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             ? Blazorise.Background.Light
             : Blazorise.Background.Default;
 
-    private Task SortByColumn( GanttSortColumn column )
+    private Task SortByColumn( GanttRenderColumn column )
     {
-        if ( !Sortable )
+        if ( !Sortable || column is null || !column.CanSort || string.IsNullOrWhiteSpace( column.SortField ) )
             return Task.CompletedTask;
 
-        if ( ganttSortColumn == column )
+        if ( string.Equals( ganttSortField, column.SortField, StringComparison.OrdinalIgnoreCase ) )
         {
             ganttSortDirection = GetNextSortDirection( ganttSortDirection );
         }
         else
         {
-            ganttSortColumn = column;
+            ganttSortField = column.SortField;
             ganttSortDirection = SortDirection.Ascending;
         }
 
         return InvokeAsync( StateHasChanged );
     }
 
-    private bool ShowSortIcon( GanttSortColumn column )
+    private bool ShowSortIcon( GanttRenderColumn column )
         => Sortable
-           && ganttSortColumn == column
+           && column is not null
+           && column.CanSort
+           && !string.IsNullOrWhiteSpace( column.SortField )
+           && string.Equals( ganttSortField, column.SortField, StringComparison.OrdinalIgnoreCase )
            && ganttSortDirection != SortDirection.Default;
 
-    private IconName GetSortIconName( GanttSortColumn column )
+    private IconName GetSortIconName( GanttRenderColumn column )
         => !ShowSortIcon( column ) || ganttSortDirection == SortDirection.Ascending
             ? IconName.SortUp
             : IconName.SortDown;
 
-    private GanttTreeHeaderCellContext<TItem> GetTreeHeaderCellContext( GanttTreeColumn column, string text, GanttSortColumn? sortColumn = null )
+    private GanttColumnHeaderContext<TItem> GetColumnHeaderContext( GanttRenderColumn column, bool showHeaderNewButton = false )
     {
-        var sortable = Sortable && sortColumn.HasValue;
-        var showSortIcon = sortColumn.HasValue && ShowSortIcon( sortColumn.Value );
-        var sortDirection = sortColumn.HasValue && ganttSortColumn == sortColumn.Value
+        var showSortIcon = ShowSortIcon( column );
+        var sortDirection = showSortIcon
             ? ganttSortDirection
             : SortDirection.Default;
-
-        return new GanttTreeHeaderCellContext<TItem>( this, column, text, sortable, showSortIcon, sortDirection );
-    }
-
-    private GanttTreeCellContext<TItem> GetTreeCellContext( GanttTreeRow row, GanttTreeColumn column, string text, double treeToggleWidth )
-    {
-        Func<Task> toggleNode = row.HasChildren
-            ? () => ToggleNode( row )
+        var isCommandColumn = column?.IsCommand ?? false;
+        var canAddTask = isCommandColumn && showHeaderNewButton && IsCommandAllowed( GanttCommandType.New );
+        Func<Task> addTask = canAddTask
+            ? New
             : NoopAsync;
 
-        var selected = IsSelectedRow( row.Item );
-        var focused = string.Equals( focusedRowKey, row.Key, StringComparison.Ordinal );
-
-        return new GanttTreeCellContext<TItem>(
-            this,
-            row.Item,
-            row.Key,
-            column,
-            text,
-            row.Level,
-            row.HasChildren,
-            IsExpanded( row ),
-            selected,
-            focused,
-            toggleNode,
-            treeToggleWidth );
+        return new GanttColumnHeaderContext<TItem>( this, column.Column, column.HeaderText, column.CanSort, showSortIcon, sortDirection, isCommandColumn, canAddTask, addTask, AddTaskText );
     }
 
     private GanttTreeCommandHeaderContext<TItem> GetTreeCommandHeaderContext( bool showHeaderNewButton )
@@ -1589,6 +1609,128 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             canAddChild,
             addChild,
             AddChildText );
+    }
+
+    private GanttColumnDisplayContext<TItem> GetColumnDisplayContext( GanttTreeRow row, GanttRenderColumn column, IReadOnlyDictionary<string, string> wbsLookup, double treeToggleWidth )
+    {
+        Func<Task> toggleNode = row.HasChildren
+            ? () => ToggleNode( row )
+            : NoopAsync;
+
+        var selected = IsSelectedRow( row.Item );
+        var focused = string.Equals( focusedRowKey, row.Key, StringComparison.Ordinal );
+        var value = GetColumnDisplayValue( column, row, wbsLookup );
+        var text = GetColumnDisplayText( column, row, wbsLookup );
+
+        return new GanttColumnDisplayContext<TItem>(
+            this,
+            column.Column,
+            row.Item,
+            row.Key,
+            value,
+            text,
+            row.Level,
+            row.HasChildren,
+            IsExpanded( row ),
+            selected,
+            focused,
+            toggleNode,
+            treeToggleWidth );
+    }
+
+    private GanttCommandColumnDisplayContext<TItem> GetCommandColumnDisplayContext( GanttTreeRow row, GanttRenderColumn column, IReadOnlyDictionary<string, string> wbsLookup, double treeToggleWidth )
+    {
+        Func<Task> toggleNode = row.HasChildren
+            ? () => ToggleNode( row )
+            : NoopAsync;
+        var canAddChild = CanShowAddChildButton( row.Item );
+        Func<Task> addChild = canAddChild
+            ? () => AddChild( row.Item )
+            : NoopAsync;
+        var canEdit = IsCommandAllowed( GanttCommandType.Edit, row.Item );
+        Func<Task> edit = canEdit
+            ? () => Edit( row.Item )
+            : NoopAsync;
+        var canDelete = IsCommandAllowed( GanttCommandType.Delete, row.Item );
+        Func<Task> delete = canDelete
+            ? () => Delete( row.Item )
+            : NoopAsync;
+
+        var selected = IsSelectedRow( row.Item );
+        var focused = string.Equals( focusedRowKey, row.Key, StringComparison.Ordinal );
+        var value = GetColumnDisplayValue( column, row, wbsLookup );
+        var text = GetColumnDisplayText( column, row, wbsLookup );
+
+        return new GanttCommandColumnDisplayContext<TItem>(
+            this,
+            column.Column,
+            row.Item,
+            row.Key,
+            value,
+            text,
+            row.Level,
+            row.HasChildren,
+            IsExpanded( row ),
+            selected,
+            focused,
+            toggleNode,
+            treeToggleWidth,
+            canAddChild,
+            addChild,
+            canEdit,
+            edit,
+            canDelete,
+            delete );
+    }
+
+    private object GetColumnDisplayValue( GanttRenderColumn column, GanttTreeRow row, IReadOnlyDictionary<string, string> wbsLookup )
+    {
+        if ( column is null || row is null )
+            return null;
+
+        if ( column.IsWbs )
+            return GetWbsValue( wbsLookup, row.Key );
+
+        if ( column.IsStart )
+            return GetItemStart( row.Item );
+
+        if ( column.IsEnd )
+            return GetItemEnd( row.Item );
+
+        if ( column.IsDuration )
+            return GetItemDuration( row.Item );
+
+        if ( column.Expandable )
+            return GetItemTitle( row.Item );
+
+        return column.Column?.GetValue( row.Item );
+    }
+
+    private string GetColumnDisplayText( GanttRenderColumn column, GanttTreeRow row, IReadOnlyDictionary<string, string> wbsLookup )
+    {
+        var value = GetColumnDisplayValue( column, row, wbsLookup );
+
+        if ( value is null )
+            return string.Empty;
+
+        if ( column.IsStart || column.IsEnd )
+            return FormatDate( (DateTime)value );
+
+        if ( column.IsDuration )
+        {
+            var duration = value switch
+            {
+                int intValue => intValue,
+                _ => GetItemDuration( row.Item ),
+            };
+
+            return FormatDuration( duration );
+        }
+
+        if ( column.Expandable || column.IsWbs )
+            return Convert.ToString( value, CultureInfo.InvariantCulture ) ?? string.Empty;
+
+        return column.Column?.FormatDisplayValue( value ) ?? Convert.ToString( value, CultureInfo.InvariantCulture ) ?? string.Empty;
     }
 
     private static GanttTimelineHeaderCellContext GetTimelineHeaderCellContext( GanttTimeSlot slot, int index )
@@ -1699,6 +1841,377 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         return wbsLookup.TryGetValue( rowKey, out var wbsValue )
             ? wbsValue
             : string.Empty;
+    }
+
+    private List<GanttRenderColumn> GetTreeRenderColumns( IReadOnlyList<GanttTreeRow> visibleRows, IReadOnlyDictionary<string, string> wbsLookup, bool showHeaderNewButton )
+    {
+        var renderColumns = new List<GanttRenderColumn>();
+
+        if ( columns.Count > 0 )
+        {
+            foreach ( var column in GetOrderedColumns() )
+            {
+                if ( column is null || !IsColumnVisible( column ) )
+                    continue;
+
+                if ( column is GanttCommandColumn<TItem> commandColumn )
+                {
+                    var showCommandColumn = showHeaderNewButton
+                        || ( ShowAddChildColumn && visibleRows.Any( x => IsCommandAllowed( GanttCommandType.AddChild, parentItem: x.Item ) ) )
+                        || commandColumn.HeaderTemplate is not null
+                        || commandColumn.DisplayTemplate is not null;
+
+                    if ( !showCommandColumn )
+                        continue;
+
+                    renderColumns.Add( new GanttRenderColumn(
+                        key: GetColumnKey( column ),
+                        column: column,
+                        commandColumn: commandColumn,
+                        headerText: GetColumnHeaderText( column ),
+                        sortField: null,
+                        canSort: false,
+                        width: ResolveColumnWidth( column, visibleRows, wbsLookup ),
+                        textAlignment: TextAlignment.Center,
+                        isCommand: true,
+                        isWbs: false,
+                        isStart: false,
+                        isEnd: false,
+                        isDuration: false,
+                        isExpandable: false ) );
+
+                    continue;
+                }
+
+                var isWbs = IsWbsField( column.Field );
+                var isStart = IsFieldMatch( column.Field, StartField );
+                var isEnd = IsFieldMatch( column.Field, EndField );
+                var isDuration = IsFieldMatch( column.Field, DurationField );
+                var sortField = column.GetSortField();
+                var canSort = Sortable && column.CanSort();
+                var textAlignment = ResolveColumnTextAlignment( column, isStart, isEnd, isDuration );
+
+                renderColumns.Add( new GanttRenderColumn(
+                    key: GetColumnKey( column ),
+                    column: column,
+                    commandColumn: null,
+                    headerText: GetColumnHeaderText( column ),
+                    sortField: sortField,
+                    canSort: canSort,
+                    width: ResolveColumnWidth( column, visibleRows, wbsLookup ),
+                    textAlignment: textAlignment,
+                    isCommand: false,
+                    isWbs: isWbs,
+                    isStart: isStart,
+                    isEnd: isEnd,
+                    isDuration: isDuration,
+                    isExpandable: column.Expandable ) );
+            }
+
+            return renderColumns;
+        }
+
+        if ( showWbsColumn )
+        {
+            var width = GetAutoSizedTreeColumnWidth( visibleRows, WbsColumnHeaderText, row => GetWbsValue( wbsLookup, row.Key ) );
+
+            renderColumns.Add( new GanttRenderColumn(
+                key: WbsPseudoField,
+                column: null,
+                commandColumn: null,
+                headerText: WbsColumnHeaderText,
+                sortField: null,
+                canSort: false,
+                width: width,
+                textAlignment: TextAlignment.Default,
+                isCommand: false,
+                isWbs: true,
+                isStart: false,
+                isEnd: false,
+                isDuration: false,
+                isExpandable: false ) );
+        }
+
+        if ( showTitleColumn )
+        {
+            renderColumns.Add( new GanttRenderColumn(
+                key: TitleField,
+                column: null,
+                commandColumn: null,
+                headerText: TaskColumnHeaderText,
+                sortField: TitleField,
+                canSort: Sortable,
+                width: TitleColumnWidth,
+                textAlignment: TextAlignment.Default,
+                isCommand: false,
+                isWbs: false,
+                isStart: false,
+                isEnd: false,
+                isDuration: false,
+                isExpandable: true ) );
+        }
+
+        if ( showStartColumn )
+        {
+            var width = GetAutoSizedTreeColumnWidth( visibleRows, StartColumnHeaderText, row => FormatDate( GetItemStart( row.Item ) ), Sortable );
+            renderColumns.Add( new GanttRenderColumn(
+                key: StartField,
+                column: null,
+                commandColumn: null,
+                headerText: StartColumnHeaderText,
+                sortField: StartField,
+                canSort: Sortable,
+                width: width,
+                textAlignment: TextAlignment.Center,
+                isCommand: false,
+                isWbs: false,
+                isStart: true,
+                isEnd: false,
+                isDuration: false,
+                isExpandable: false ) );
+        }
+
+        if ( showEndColumn )
+        {
+            var width = GetAutoSizedTreeColumnWidth( visibleRows, EndColumnHeaderText, row => FormatDate( GetItemEnd( row.Item ) ), Sortable );
+            renderColumns.Add( new GanttRenderColumn(
+                key: EndField,
+                column: null,
+                commandColumn: null,
+                headerText: EndColumnHeaderText,
+                sortField: EndField,
+                canSort: Sortable,
+                width: width,
+                textAlignment: TextAlignment.Center,
+                isCommand: false,
+                isWbs: false,
+                isStart: false,
+                isEnd: true,
+                isDuration: false,
+                isExpandable: false ) );
+        }
+
+        if ( showDurationColumn )
+        {
+            var width = GetAutoSizedTreeColumnWidth( visibleRows, DurationColumnHeaderText, row => FormatDuration( GetItemDuration( row.Item ) ), Sortable );
+            renderColumns.Add( new GanttRenderColumn(
+                key: DurationField,
+                column: null,
+                commandColumn: null,
+                headerText: DurationColumnHeaderText,
+                sortField: DurationField,
+                canSort: Sortable,
+                width: width,
+                textAlignment: TextAlignment.Center,
+                isCommand: false,
+                isWbs: false,
+                isStart: false,
+                isEnd: false,
+                isDuration: true,
+                isExpandable: false ) );
+        }
+
+        if ( showCommandColumn && CanShowActionColumn( visibleRows ) )
+        {
+            renderColumns.Add( new GanttRenderColumn(
+                key: CommandPseudoField,
+                column: null,
+                commandColumn: null,
+                headerText: AddChildText,
+                sortField: null,
+                canSort: false,
+                width: ActionColumnWidth,
+                textAlignment: TextAlignment.Center,
+                isCommand: true,
+                isWbs: false,
+                isStart: false,
+                isEnd: false,
+                isDuration: false,
+                isExpandable: false ) );
+        }
+
+        return renderColumns;
+    }
+
+    private IReadOnlyList<BaseGanttColumn<TItem>> GetOrderedColumns()
+    {
+        if ( columns.Count == 0 )
+            return Array.Empty<BaseGanttColumn<TItem>>();
+
+        var regularColumns = columns.Where( x => x is not GanttCommandColumn<TItem> ).ToList();
+        var commandColumns = columns.Where( x => x is GanttCommandColumn<TItem> ).ToList();
+
+        var orderedColumns = regularColumns
+            .Where( x => IsWbsField( x.Field ) )
+            .Concat( regularColumns.Where( x => !IsWbsField( x.Field ) ) )
+            .Concat( commandColumns )
+            .ToList();
+
+        return orderedColumns;
+    }
+
+    private string GetColumnKey( BaseGanttColumn<TItem> column )
+    {
+        if ( column is null )
+            return string.Empty;
+
+        return columnKeys.TryGetValue( column, out var key )
+            ? key
+            : string.Empty;
+    }
+
+    private bool IsColumnVisible( BaseGanttColumn<TItem> column )
+    {
+        if ( column is null )
+            return false;
+
+        return columnVisibility.TryGetValue( column, out var visible )
+            ? visible
+            : column.Visible;
+    }
+
+    private void EnsureAtLeastOneDeclarativeColumnVisible()
+    {
+        if ( columns.Count == 0 )
+            return;
+
+        var regularColumns = GetOrderedColumns().Where( x => x is not GanttCommandColumn<TItem> ).ToList();
+
+        if ( regularColumns.Count == 0 )
+            return;
+
+        if ( regularColumns.Any( IsColumnVisible ) )
+            return;
+
+        columnVisibility[regularColumns[0]] = true;
+    }
+
+    private string GetColumnHeaderText( BaseGanttColumn<TItem> column )
+    {
+        if ( column is null )
+            return string.Empty;
+
+        if ( !string.IsNullOrWhiteSpace( column.Title ) )
+            return column.Title;
+
+        if ( column is GanttCommandColumn<TItem> )
+            return AddChildText;
+
+        if ( IsWbsField( column.Field ) )
+            return WbsColumnHeaderText;
+
+        if ( IsFieldMatch( column.Field, TitleField ) )
+            return TaskColumnHeaderText;
+
+        if ( IsFieldMatch( column.Field, StartField ) )
+            return StartColumnHeaderText;
+
+        if ( IsFieldMatch( column.Field, EndField ) )
+            return EndColumnHeaderText;
+
+        if ( IsFieldMatch( column.Field, DurationField ) )
+            return DurationColumnHeaderText;
+
+        return column.Field ?? string.Empty;
+    }
+
+    private static bool IsFieldMatch( string field, string referenceField )
+        => !string.IsNullOrWhiteSpace( field )
+            && !string.IsNullOrWhiteSpace( referenceField )
+            && string.Equals( field, referenceField, StringComparison.OrdinalIgnoreCase );
+
+    private static bool IsWbsField( string field )
+        => string.Equals( field, WbsPseudoField, StringComparison.OrdinalIgnoreCase )
+            || string.Equals( field, "Wbs", StringComparison.OrdinalIgnoreCase );
+
+    private TextAlignment ResolveColumnTextAlignment( BaseGanttColumn<TItem> column, bool isStart, bool isEnd, bool isDuration )
+    {
+        if ( column.TextAlignment != TextAlignment.Default )
+            return column.TextAlignment;
+
+        if ( isStart || isEnd || isDuration )
+            return TextAlignment.Center;
+
+        return TextAlignment.Default;
+    }
+
+    private double ResolveColumnWidth( BaseGanttColumn<TItem> column, IReadOnlyList<GanttTreeRow> visibleRows, IReadOnlyDictionary<string, string> wbsLookup )
+    {
+        if ( column is null )
+            return DateColumnWidth;
+
+        if ( TryGetPixelWidth( column.Width, out var fixedWidth ) )
+            return fixedWidth;
+
+        if ( column is GanttCommandColumn<TItem> )
+            return ActionColumnWidth;
+
+        if ( column.Expandable )
+            return TitleColumnWidth;
+
+        if ( IsWbsField( column.Field ) )
+            return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row => GetWbsValue( wbsLookup, row.Key ) );
+
+        if ( IsFieldMatch( column.Field, StartField ) )
+            return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row => FormatDate( GetItemStart( row.Item ) ), column.CanSort() && Sortable );
+
+        if ( IsFieldMatch( column.Field, EndField ) )
+            return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row => FormatDate( GetItemEnd( row.Item ) ), column.CanSort() && Sortable );
+
+        if ( IsFieldMatch( column.Field, DurationField ) )
+            return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row => FormatDuration( GetItemDuration( row.Item ) ), column.CanSort() && Sortable );
+
+        return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row =>
+        {
+            var value = column.GetValue( row.Item );
+            return column.FormatDisplayValue( value );
+        }, column.CanSort() && Sortable );
+    }
+
+    private bool TryGetPixelWidth( IFluentSizing width, out double pixelWidth )
+    {
+        pixelWidth = 0d;
+
+        if ( width is null )
+            return false;
+
+        var widthStyle = width.Style( StyleProvider );
+
+        if ( string.IsNullOrWhiteSpace( widthStyle ) )
+            return false;
+
+        foreach ( var widthRule in widthStyle.Split( ';' ) )
+        {
+            var rule = widthRule?.Trim();
+
+            if ( string.IsNullOrWhiteSpace( rule ) || !rule.StartsWith( "width:", StringComparison.OrdinalIgnoreCase ) )
+                continue;
+
+            var valueText = rule[6..].Trim();
+
+            if ( !valueText.EndsWith( "px", StringComparison.OrdinalIgnoreCase ) )
+                continue;
+
+            valueText = valueText[..^2].Trim();
+
+            if ( double.TryParse( valueText, NumberStyles.Float, CultureInfo.InvariantCulture, out pixelWidth ) && pixelWidth > 0d )
+                return true;
+        }
+
+        return false;
+    }
+
+    private string ResolveColumnFieldFromSortField( string sortField )
+    {
+        if ( string.IsNullOrWhiteSpace( sortField ) )
+            return null;
+
+        var mappedColumn = columns.FirstOrDefault( x => string.Equals( x.GetSortField(), sortField, StringComparison.OrdinalIgnoreCase ) );
+
+        if ( mappedColumn is not null && !string.IsNullOrWhiteSpace( mappedColumn.Field ) )
+            return mappedColumn.Field;
+
+        return sortField;
     }
 
     private Dictionary<string, bool> BuildSearchIncludeLookup( IReadOnlyCollection<GanttTreeNode> roots )
@@ -1895,13 +2408,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private int CompareByCurrentSort( GanttTreeNode x, GanttTreeNode y )
     {
-        var comparison = ganttSortColumn switch
-        {
-            GanttSortColumn.Title => StringComparer.OrdinalIgnoreCase.Compare( GetItemTitle( x.Item ), GetItemTitle( y.Item ) ),
-            GanttSortColumn.End => DateTime.Compare( GetItemEnd( x.Item ), GetItemEnd( y.Item ) ),
-            GanttSortColumn.Duration => Nullable.Compare( GetItemDuration( x.Item ), GetItemDuration( y.Item ) ),
-            _ => DateTime.Compare( GetItemStart( x.Item ), GetItemStart( y.Item ) ),
-        };
+        var comparison = CompareBySortField( x.Item, y.Item, ganttSortField );
 
         if ( ganttSortDirection == SortDirection.Descending )
             comparison = -comparison;
@@ -1910,6 +2417,53 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             return comparison;
 
         return CompareByDefaultSort( x, y );
+    }
+
+    private int CompareBySortField( TItem x, TItem y, string sortField )
+    {
+        if ( string.IsNullOrWhiteSpace( sortField ) )
+            return 0;
+
+        if ( IsFieldMatch( sortField, TitleField ) )
+            return StringComparer.OrdinalIgnoreCase.Compare( GetItemTitle( x ), GetItemTitle( y ) );
+
+        if ( IsFieldMatch( sortField, StartField ) )
+            return DateTime.Compare( GetItemStart( x ), GetItemStart( y ) );
+
+        if ( IsFieldMatch( sortField, EndField ) )
+            return DateTime.Compare( GetItemEnd( x ), GetItemEnd( y ) );
+
+        if ( IsFieldMatch( sortField, DurationField ) )
+            return Nullable.Compare( GetItemDuration( x ), GetItemDuration( y ) );
+
+        var mappedColumn = columns.FirstOrDefault( column => string.Equals( column.GetSortField(), sortField, StringComparison.OrdinalIgnoreCase ) );
+
+        if ( mappedColumn is null )
+            return 0;
+
+        var xValue = mappedColumn.GetSortValue( x );
+        var yValue = mappedColumn.GetSortValue( y );
+
+        return CompareSortValues( xValue, yValue );
+    }
+
+    private static int CompareSortValues( object x, object y )
+    {
+        if ( ReferenceEquals( x, y ) )
+            return 0;
+
+        if ( x is null )
+            return -1;
+
+        if ( y is null )
+            return 1;
+
+        if ( x is IComparable comparableX && x.GetType() == y.GetType() )
+            return comparableX.CompareTo( y );
+
+        return StringComparer.OrdinalIgnoreCase.Compare(
+            Convert.ToString( x, CultureInfo.InvariantCulture ),
+            Convert.ToString( y, CultureInfo.InvariantCulture ) );
     }
 
     private int CompareByDefaultSort( GanttTreeNode x, GanttTreeNode y )
@@ -1942,9 +2496,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         recursionGuard.Remove( node.Key );
     }
 
-    private string GetTreePaneStyle( bool showActionColumn, double wbsColumnWidth, double startColumnWidth, double endColumnWidth, double durationColumnWidth )
+    private string GetTreePaneStyle( IReadOnlyList<GanttRenderColumn> treeColumns )
     {
-        var width = GetTreePaneWidth( showActionColumn, wbsColumnWidth, startColumnWidth, endColumnWidth, durationColumnWidth );
+        var width = GetTreePaneWidth( treeColumns );
         var widthText = width.ToString( "0.###", CultureInfo.InvariantCulture );
 
         return $"display: flex; flex-direction: column; width: {widthText}px; min-width: {widthText}px; max-width: {widthText}px; overflow: hidden;";
@@ -1984,23 +2538,24 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         return $"display: flex; align-items: center; min-width: 0; width: 100%; padding-left: {paddingLeft}px;";
     }
 
-    private string GetTitleColumnStyle( bool sortable = false )
+    private string GetTreeColumnStyle( double width, bool sortable = false, TextAlignment textAlignment = TextAlignment.Default )
     {
-        var width = TitleColumnWidth.ToString( "0.###", CultureInfo.InvariantCulture );
-        return $"width: {width}px; min-width: {width}px; max-width: {width}px; overflow: hidden; cursor: {(sortable ? "pointer" : "default")};";
+        var widthText = width.ToString( "0.###", CultureInfo.InvariantCulture );
+        var textAlign = textAlignment switch
+        {
+            TextAlignment.Center => "center",
+            TextAlignment.End => "right",
+            TextAlignment.Justified => "justify",
+            _ => "left",
+        };
+
+        return $"width: {widthText}px; min-width: {widthText}px; max-width: {widthText}px; overflow: hidden; cursor: {(sortable ? "pointer" : "default")}; text-align: {textAlign};";
     }
 
-    private string GetDateColumnStyle( double width, bool sortable = false )
+    private string GetActionColumnStyle( double width )
     {
-        var columnWidth = width > 0d ? width : DateColumnWidth;
-        var widthText = columnWidth.ToString( "0.###", CultureInfo.InvariantCulture );
-        return $"width: {widthText}px; min-width: {widthText}px; max-width: {widthText}px; overflow: hidden; cursor: {(sortable ? "pointer" : "default")};";
-    }
-
-    private string GetActionColumnStyle()
-    {
-        var width = ActionColumnWidth.ToString( "0.###", CultureInfo.InvariantCulture );
-        return $"display: flex; align-items: center; justify-content: center; width: {width}px; min-width: {width}px; max-width: {width}px; overflow: hidden; border-left: 1px solid rgba(0,0,0,0.08);";
+        var widthText = width.ToString( "0.###", CultureInfo.InvariantCulture );
+        return $"display: flex; align-items: center; justify-content: center; width: {widthText}px; min-width: {widthText}px; max-width: {widthText}px; overflow: hidden; border-left: 1px solid rgba(0,0,0,0.08);";
     }
 
     private string GetTimelineInnerStyle( int slotsCount, double cellWidth )
@@ -2202,27 +2757,12 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         return slots;
     }
 
-    private double GetTreePaneWidth( bool showActionColumn, double wbsColumnWidth, double startColumnWidth, double endColumnWidth, double durationColumnWidth )
+    private static double GetTreePaneWidth( IReadOnlyList<GanttRenderColumn> treeColumns )
     {
-        var width = 0d;
+        if ( treeColumns is null || treeColumns.Count == 0 )
+            return 1d;
 
-        if ( showTitleColumn )
-            width += TitleColumnWidth;
-
-        if ( showWbsColumn )
-            width += wbsColumnWidth;
-
-        if ( showStartColumn )
-            width += startColumnWidth;
-
-        if ( showEndColumn )
-            width += endColumnWidth;
-
-        if ( showDurationColumn )
-            width += durationColumnWidth;
-
-        if ( showActionColumn )
-            width += ActionColumnWidth;
+        var width = treeColumns.Sum( x => x.Width );
 
         return Math.Max( 1d, width );
     }
@@ -2657,66 +3197,6 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     [Parameter] public EventCallback<TItem> SelectedRowChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets whether title column is visible.
-    /// </summary>
-    [Parameter] public bool ShowTitleColumn { get; set; } = true;
-
-    /// <summary>
-    /// Gets or sets callback raised when <see cref="ShowTitleColumn"/> changes.
-    /// </summary>
-    [Parameter] public EventCallback<bool> ShowTitleColumnChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets whether WBS (work breakdown structure) column is visible.
-    /// </summary>
-    [Parameter] public bool ShowWbsColumn { get; set; } = false;
-
-    /// <summary>
-    /// Gets or sets callback raised when <see cref="ShowWbsColumn"/> changes.
-    /// </summary>
-    [Parameter] public EventCallback<bool> ShowWbsColumnChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets whether start date column is visible.
-    /// </summary>
-    [Parameter] public bool ShowStartColumn { get; set; } = true;
-
-    /// <summary>
-    /// Gets or sets callback raised when <see cref="ShowStartColumn"/> changes.
-    /// </summary>
-    [Parameter] public EventCallback<bool> ShowStartColumnChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets whether end date column is visible.
-    /// </summary>
-    [Parameter] public bool ShowEndColumn { get; set; } = false;
-
-    /// <summary>
-    /// Gets or sets callback raised when <see cref="ShowEndColumn"/> changes.
-    /// </summary>
-    [Parameter] public EventCallback<bool> ShowEndColumnChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets whether duration column is visible.
-    /// </summary>
-    [Parameter] public bool ShowDurationColumn { get; set; } = true;
-
-    /// <summary>
-    /// Gets or sets callback raised when <see cref="ShowDurationColumn"/> changes.
-    /// </summary>
-    [Parameter] public EventCallback<bool> ShowDurationColumnChanged { get; set; }
-
-    /// <summary>
-    /// Gets or sets whether command column (+ actions) is visible.
-    /// </summary>
-    [Parameter] public bool ShowCommandColumn { get; set; } = true;
-
-    /// <summary>
-    /// Gets or sets callback raised when <see cref="ShowCommandColumn"/> changes.
-    /// </summary>
-    [Parameter] public EventCallback<bool> ShowCommandColumnChanged { get; set; }
-
-    /// <summary>
     /// Gets or sets whether toggle-all commands (expand/collapse all) are visible in the toolbar.
     /// </summary>
     [Parameter] public bool ShowToggleAllCommands { get; set; } = true;
@@ -2877,16 +3357,6 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     [Parameter] public Action<TItem, GanttItemStyling> ItemStyling { get; set; }
 
     /// <summary>
-    /// Gets or sets template used to render tree header cells.
-    /// </summary>
-    [Parameter] public RenderFragment<GanttTreeHeaderCellContext<TItem>> TreeHeaderCellTemplate { get; set; }
-
-    /// <summary>
-    /// Gets or sets template used to render tree data cells.
-    /// </summary>
-    [Parameter] public RenderFragment<GanttTreeCellContext<TItem>> TreeCellTemplate { get; set; }
-
-    /// <summary>
     /// Gets or sets template used to render command header content.
     /// </summary>
     [Parameter] public RenderFragment<GanttTreeCommandHeaderContext<TItem>> TreeCommandHeaderTemplate { get; set; }
@@ -2954,6 +3424,55 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     #endregion
 
     #region Data structures
+
+    private sealed class GanttRenderColumn
+    {
+        public GanttRenderColumn( string key, BaseGanttColumn<TItem> column, GanttCommandColumn<TItem> commandColumn, string headerText, string sortField, bool canSort, double width, TextAlignment textAlignment, bool isCommand, bool isWbs, bool isStart, bool isEnd, bool isDuration, bool isExpandable )
+        {
+            Key = key;
+            Column = column;
+            CommandColumn = commandColumn;
+            HeaderText = headerText;
+            SortField = sortField;
+            CanSort = canSort;
+            Width = width;
+            TextAlignment = textAlignment;
+            IsCommand = isCommand;
+            IsWbs = isWbs;
+            IsStart = isStart;
+            IsEnd = isEnd;
+            IsDuration = isDuration;
+            Expandable = isExpandable;
+        }
+
+        public string Key { get; }
+
+        public BaseGanttColumn<TItem> Column { get; }
+
+        public GanttCommandColumn<TItem> CommandColumn { get; }
+
+        public string HeaderText { get; }
+
+        public string SortField { get; }
+
+        public bool CanSort { get; }
+
+        public double Width { get; }
+
+        public TextAlignment TextAlignment { get; }
+
+        public bool IsCommand { get; }
+
+        public bool IsWbs { get; }
+
+        public bool IsStart { get; }
+
+        public bool IsEnd { get; }
+
+        public bool IsDuration { get; }
+
+        public bool Expandable { get; }
+    }
 
     private sealed class GanttTreeNode
     {
