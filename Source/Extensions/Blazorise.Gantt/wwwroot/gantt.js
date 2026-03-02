@@ -104,11 +104,12 @@ export function barDragStarted(element, elementId, startClientX) {
     };
 
     instance.mouseUpHandler = function (evt) {
-        const clientX = typeof evt?.clientX === "number"
+        const clientX = instance.lastClientX;
+        const mouseUpClientX = typeof evt?.clientX === "number"
             ? evt.clientX
-            : instance.lastClientX;
+            : clientX;
 
-        if (!instance.dragged && Math.abs(clientX - instance.dragStartClientX) >= dragStartThreshold) {
+        if (!instance.dragged && Math.abs(mouseUpClientX - instance.dragStartClientX) >= dragStartThreshold) {
             instance.dragged = true;
         }
 
@@ -117,7 +118,7 @@ export function barDragStarted(element, elementId, startClientX) {
         }
 
         if (instance.dotNetAdapter) {
-            instance.dotNetAdapter.invokeMethodAsync("NotifyBarDragMouseUp", clientX);
+            instance.dotNetAdapter.invokeMethodAsync("NotifyBarDragMouseUp", clientX, instance.dragged);
         }
 
         clearDragHandlers(instance);

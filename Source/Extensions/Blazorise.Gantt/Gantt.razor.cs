@@ -101,6 +101,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private double barDragCellWidth;
     private double barDragStartClientX;
     private int barDragSlotOffset;
+    private int barDragMaxSlotOffset;
     private int nextColumnId;
     private readonly Dictionary<BaseGanttColumn<TItem>, string> columnKeys = new();
     private readonly Dictionary<string, int> columnDisplayOrders = new( StringComparer.Ordinal );
@@ -1673,6 +1674,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         barDragCellWidth = cellWidth;
         barDragStartClientX = eventArgs.ClientX;
         barDragSlotOffset = 0;
+        barDragMaxSlotOffset = Math.Max( 1, GetTimeSlots( GetCurrentViewRange().Start, GetCurrentViewRange().End ).Count );
 
         if ( JSModule is not null )
             await JSModule.BarDragStarted( eventArgs.ClientX );
@@ -1688,9 +1690,12 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     }
 
     [JSInvokable]
-    public Task NotifyBarDragMouseUp( double clientX )
+    public Task NotifyBarDragMouseUp( double clientX, bool dragged )
     {
-        TryUpdateBarDragFromClientX( clientX );
+        if ( dragged && !barDragging )
+        {
+            TryUpdateBarDragFromClientX( clientX );
+        }
 
         return FinalizeBarDrag();
     }
@@ -1733,6 +1738,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         barDragCellWidth = 0d;
         barDragStartClientX = 0d;
         barDragSlotOffset = 0;
+        barDragMaxSlotOffset = 0;
     }
 
     private bool TryUpdateBarDragFromClientX( double clientX )
@@ -1748,6 +1754,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         barDragging = true;
 
         var nextSlotOffset = GetSlotOffsetFromDeltaX( deltaX, barDragCellWidth );
+
+        if ( !IsSlotOffsetWithinBounds( nextSlotOffset, barDragMaxSlotOffset ) )
+            return false;
 
         if ( nextSlotOffset == barDragSlotOffset )
             return false;
@@ -1788,6 +1797,14 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         return (int)Math.Round( deltaX / cellWidth, MidpointRounding.AwayFromZero );
     }
 
+    private static bool IsSlotOffsetWithinBounds( int slotOffset, int maxAbsoluteSlotOffset )
+    {
+        if ( maxAbsoluteSlotOffset <= 0 )
+            return true;
+
+        return slotOffset <= maxAbsoluteSlotOffset && slotOffset >= -maxAbsoluteSlotOffset;
+    }
+
     private DateTime ShiftDateBySlotOffset( DateTime value, int slotOffset )
     {
         if ( slotOffset == 0 )
@@ -1806,8 +1823,13 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( item is null || slotOffset == 0 || !CanDragItem( item ) )
             return;
 
-        var sourceStart = GetItemStart( item );
-        var sourceEnd = GetItemEnd( item );
+        var targetItem = ResolveStateItemReference( item );
+
+        if ( targetItem is null || !CanDragItem( targetItem ) )
+            return;
+
+        var sourceStart = GetItemStart( targetItem );
+        var sourceEnd = GetItemEnd( targetItem );
 
         if ( DateTimeUtils.IsUnassigned( sourceStart ) || DateTimeUtils.IsUnassigned( sourceEnd ) )
             return;
@@ -1818,7 +1840,13 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( movedEnd <= movedStart )
             return;
 
-        var movedItem = item.DeepClone();
+        var movedItem = targetItem.DeepClone();
+
+        if ( propertyMapper.HasId )
+            propertyMapper.SetId( movedItem, propertyMapper.GetId( targetItem ) );
+
+        if ( propertyMapper.HasParentId )
+            propertyMapper.SetParentId( movedItem, propertyMapper.GetParentId( targetItem ) );
 
         if ( propertyMapper.HasStart )
             propertyMapper.SetStart( movedItem, movedStart );
@@ -1829,7 +1857,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( propertyMapper.HasDuration )
             propertyMapper.SetDuration( movedItem, DateTimeUtils.GetDurationInDays( movedStart, movedEnd ) );
 
-        editItem = item;
+        editItem = targetItem;
         editParentItem = default;
         editState = GanttEditState.Edit;
 
