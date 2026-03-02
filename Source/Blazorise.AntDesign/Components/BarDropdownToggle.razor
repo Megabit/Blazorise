@@ -2,7 +2,7 @@
 
 @if ( ParentBarDropdown?.IsBarDropdownSubmenu == true )
 {
-    <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-toggle="dropdown" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes">
+    <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-toggle="dropdown" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler">
         @ChildContent
         @if ( IsToggleIconVisible )
         {
@@ -12,7 +12,7 @@
 }
 else
 {
-    <div @ref="@ElementRef" id="@ElementId" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" class="ant-menu-submenu-title" style="@StyleNames" role="button" aria-expanded="@ParentBarDropdownState.Visible.ToString().ToLowerInvariant()" aria-haspopup="true" aria-owns="@SubMenuId" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
+    <div @ref="@ElementRef" id="@ElementId" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" class="ant-menu-submenu-title" style="@StyleNames" role="button" aria-expanded="@ParentBarDropdownState.Visible.ToString().ToLowerInvariant()" aria-haspopup="true" aria-owns="@SubMenuId" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler">
         <span>@ChildContent</span>
         @if ( IsToggleIconVisible )
         {

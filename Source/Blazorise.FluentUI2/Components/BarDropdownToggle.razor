@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BarDropdownToggle
 @if ( ParentBarDropdownState?.Mode == BarMode.Horizontal )
 {
-    <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" tabindex="0" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
+    <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" tabindex="0" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler">
         <span>@ChildContent</span>
         @if ( IsToggleIconVisible )
         {
@@ -15,7 +15,7 @@
 }
 else
 {
-    <a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="button" tabindex="0" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
+    <a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="button" tabindex="0" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler">
         <span>@ChildContent</span>
     </a>
 }

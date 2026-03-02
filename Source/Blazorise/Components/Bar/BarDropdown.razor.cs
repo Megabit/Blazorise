@@ -209,6 +209,38 @@ public partial class BarDropdown : BaseComponent, IDisposable
     }
 
     /// <summary>
+    /// Handles the onfocusin event.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task OnFocusInHandler()
+    {
+        if ( State.Mode != BarMode.Horizontal || State.IsInlineDisplay )
+            return Task.CompletedTask;
+
+        ShouldClose = false;
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Handles the onfocusout event.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task OnFocusOutHandler()
+    {
+        if ( State.Mode != BarMode.Horizontal || State.IsInlineDisplay )
+            return;
+
+        ShouldClose = true;
+
+        // Allow focus transitions inside the dropdown to fire first.
+        await Task.Yield();
+
+        if ( ShouldClose )
+            await Hide();
+    }
+
+    /// <summary>
     /// Notifies the <see cref="BarDropdown"/> that it has a child BarDropdown component.
     /// </summary>
     /// <param name="barDropdown">Reference to the <see cref="BarDropdown"/> that is placed inside of this <see cref="BarDropdown"/>.</param>
