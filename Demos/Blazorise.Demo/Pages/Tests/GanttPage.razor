@@ -125,15 +125,15 @@
             SortField = "Start",
             SortDirection = SortDirection.Descending,
             FocusedRowKey = "7",
-            TreeListWidth = 640d,
+            TreeListWidth = new FluentUnitValue( "px", 640d ),
             EditState = GanttEditState.None,
             ColumnStates = new()
             {
-                new() { Field = "Wbs", Visible = true, DisplayOrder = 0, WidthUnit = "px", WidthValue = 72d },
-                new() { Field = "Title", Visible = true, DisplayOrder = 1, WidthUnit = "px", WidthValue = 220d },
-                new() { Field = "Start", Visible = true, DisplayOrder = 2, WidthUnit = "px", WidthValue = 130d },
-                new() { Field = "End", Visible = false, DisplayOrder = 3, WidthUnit = "px", WidthValue = 130d },
-                new() { Field = "Duration", Visible = true, DisplayOrder = 4, WidthUnit = "px", WidthValue = 96d },
+                new() { Field = "Wbs", Visible = true, DisplayOrder = 0, Width = new FluentUnitValue( "px", 72d ) },
+                new() { Field = "Title", Visible = true, DisplayOrder = 1, Width = new FluentUnitValue( "px", 220d ) },
+                new() { Field = "Start", Visible = true, DisplayOrder = 2, Width = new FluentUnitValue( "px", 130d ) },
+                new() { Field = "End", Visible = false, DisplayOrder = 3, Width = new FluentUnitValue( "px", 130d ) },
+                new() { Field = "Duration", Visible = true, DisplayOrder = 4, Width = new FluentUnitValue( "px", 96d ) },
             },
             CollapsedRowKeys = new() { "1", "5" },
         };

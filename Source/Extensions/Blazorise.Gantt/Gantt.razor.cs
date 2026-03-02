@@ -104,7 +104,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private readonly Dictionary<BaseGanttColumn<TItem>, string> columnKeys = new();
     private readonly Dictionary<string, int> columnDisplayOrders = new( StringComparer.Ordinal );
     private readonly List<string> legacyColumnOrder = new();
-    private double? treeListWidthOverride;
+    private FluentUnitValue treeListWidthOverride;
     private bool applyingState;
 
     #endregion
@@ -365,7 +365,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             SortDirection = ganttSortDirection,
             SelectedRow = SelectedRow,
             FocusedRowKey = focusedRowKey,
-            TreeListWidth = treeListWidthOverride,
+            TreeListWidth = NormalizeTreeListWidth( treeListWidthOverride ),
             EditState = editState,
             EditItem = editState == GanttEditState.None ? default : editItem,
             EditParentItem = editState == GanttEditState.New ? editParentItem : default,
@@ -403,7 +403,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             SelectedView = targetView;
             searchText = normalizedSearchText;
             focusedRowKey = ganttState.FocusedRowKey;
-            treeListWidthOverride = ganttState.TreeListWidth is > 0d ? ganttState.TreeListWidth : null;
+            treeListWidthOverride = NormalizeTreeListWidth( ganttState.TreeListWidth );
 
             if ( Sortable
                  && !string.IsNullOrWhiteSpace( ganttState.SortField )
@@ -1098,7 +1098,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             {
                 var column = orderedColumns[i];
                 var key = GetColumnKey( column );
-                TryGetColumnStateWidth( column.Width, out var widthUnit, out var widthValue );
+                var width = GetColumnStateWidth( column.Width );
 
                 if ( string.IsNullOrWhiteSpace( key ) )
                     continue;
@@ -1109,8 +1109,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                     Field = column.Field,
                     Visible = IsColumnVisible( column ),
                     DisplayOrder = GetColumnDisplayOrder( column, i ),
-                    WidthUnit = widthUnit,
-                    WidthValue = widthValue,
+                    Width = width,
                 } );
             }
 
@@ -1139,8 +1138,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 Field = key,
                 Visible = visible,
                 DisplayOrder = GetLegacyDisplayOrder( key, i ),
-                WidthUnit = null,
-                WidthValue = null,
+                Width = null,
             } );
         }
 
@@ -1183,7 +1181,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 columnVisibility[column] = columnState.Visible;
                 columnDisplayOrders[key] = columnState.DisplayOrder;
 
-                if ( TryBuildColumnWidth( columnState, out var restoredWidth ) )
+                if ( TryBuildColumnWidth( columnState?.Width, out var restoredWidth ) )
                     column.Width = restoredWidth;
 
                 matchedColumnsCount++;
@@ -1288,48 +1286,41 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         return string.Equals( column.Field, field, StringComparison.OrdinalIgnoreCase );
     }
 
-    private bool TryGetColumnStateWidth( IFluentSizing width, out string unit, out double? value )
+    private FluentUnitValue GetColumnStateWidth( IFluentSizing width )
     {
-        unit = null;
-        value = null;
-
         if ( !CssValueUtils.TryGetNumericStyleValue( width, StyleProvider, "width", out var parsedUnit, out var parsedValue ) )
-            return false;
+            return null;
 
         if ( parsedValue <= 0d )
-            return false;
+            return null;
 
-        unit = parsedUnit;
-        value = parsedValue;
-
-        return true;
+        return new FluentUnitValue( parsedUnit, parsedValue );
     }
 
-    private static bool TryBuildColumnWidth( GanttColumnState columnState, out IFluentSizing width )
+    private static bool TryBuildColumnWidth( FluentUnitValue widthState, out IFluentSizing width )
     {
         width = null;
 
-        if ( columnState is null
-             || !columnState.WidthValue.HasValue
-             || columnState.WidthValue.Value <= 0d
-             || string.IsNullOrWhiteSpace( columnState.WidthUnit ) )
+        if ( widthState is null
+             || !widthState.HasValue
+             || widthState.Value is null
+             || widthState.Value.Value <= 0d )
             return false;
 
-        var unit = columnState.WidthUnit.Trim();
-        var unitLower = unit.ToLowerInvariant();
-        var value = columnState.WidthValue.Value;
+        width = widthState.ToFluentSizing( SizingType.Width );
 
-        width = unitLower switch
-        {
-            "px" => Blazorise.Width.Px( value ),
-            "rem" => Blazorise.Width.Rem( value ),
-            "em" => Blazorise.Width.Em( value ),
-            "ch" => Blazorise.Width.Ch( value ),
-            "vw" => Blazorise.Width.Vw( value ),
-            _ => new FluentSizing( SizingType.Width ).WithSize( unit, value ),
-        };
+        return width is not null;
+    }
 
-        return true;
+    private static FluentUnitValue NormalizeTreeListWidth( FluentUnitValue treeListWidth )
+    {
+        if ( treeListWidth is null
+             || !treeListWidth.HasValue
+             || treeListWidth.Value is null
+             || treeListWidth.Value.Value <= 0d )
+            return null;
+
+        return treeListWidth.Clone();
     }
 
     private List<string> GetLegacyColumnDefaultOrder()
@@ -2917,12 +2908,14 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private string GetTreePaneStyle( IReadOnlyList<GanttRenderColumn> treeColumns )
     {
-        var width = treeListWidthOverride is > 0d
-            ? treeListWidthOverride.Value
-            : GetTreePaneWidth( treeColumns );
-        var widthText = width.ToString( "0.###", CultureInfo.InvariantCulture );
+        var width = NormalizeTreeListWidth( treeListWidthOverride )
+            ?? new FluentUnitValue( "px", GetTreePaneWidth( treeColumns ) );
+        var widthText = width.ToCssValue();
 
-        return $"display: flex; flex-direction: column; width: {widthText}px; min-width: {widthText}px; max-width: {widthText}px; overflow: hidden;";
+        if ( string.IsNullOrWhiteSpace( widthText ) )
+            widthText = new FluentUnitValue( "px", GetTreePaneWidth( treeColumns ) ).ToCssValue();
+
+        return $"display: flex; flex-direction: column; width: {widthText}; min-width: {widthText}; max-width: {widthText}; overflow: hidden;";
     }
 
     private string GetBodyStyle()

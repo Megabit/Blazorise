@@ -53,9 +53,9 @@ public class GanttState<TItem>
     public List<string> CollapsedRowKeys { get; set; } = new();
 
     /// <summary>
-    /// Gets or sets tree list width in pixels.
+    /// Gets or sets tree list width.
     /// </summary>
-    public double? TreeListWidth { get; set; }
+    public FluentUnitValue TreeListWidth { get; set; }
 
     /// <summary>
     /// Gets or sets current edit state.

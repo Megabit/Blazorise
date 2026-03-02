@@ -1,3 +1,7 @@
+#region Using directives
+using Blazorise;
+#endregion
+
 namespace Blazorise.Gantt;
 
 /// <summary>
@@ -26,12 +30,7 @@ public class GanttColumnState
     public int DisplayOrder { get; set; }
 
     /// <summary>
-    /// Gets or sets column width unit (for example: px, rem, em, ch, vw, %).
+    /// Gets or sets column width.
     /// </summary>
-    public string WidthUnit { get; set; }
-
-    /// <summary>
-    /// Gets or sets column width numeric value.
-    /// </summary>
-    public double? WidthValue { get; set; }
+    public FluentUnitValue Width { get; set; }
 }
