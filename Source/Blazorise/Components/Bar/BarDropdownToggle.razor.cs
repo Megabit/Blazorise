@@ -24,6 +24,10 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
 
     private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
 
+    private bool? disabled;
+
+    private DateTime? lastKeyboardToggleTimestampUtc;
+
     #endregion
 
     #region Methods
@@ -113,8 +117,25 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
         if ( IsDisabled )
             return;
 
-        if ( ParentBarDropdown is not null && IsToggleClickTriggerEnabled )
-            await ParentBarDropdown.Toggle( ElementId );
+        if ( ParentBarDropdown is not null )
+        {
+            if ( eventArgs.Detail == 0 && ParentBarDropdown.IsVisible )
+            {
+                lastKeyboardToggleTimestampUtc = null;
+                return;
+            }
+
+            if ( eventArgs.Detail == 0
+                 && lastKeyboardToggleTimestampUtc.HasValue
+                 && DateTime.UtcNow.Subtract( lastKeyboardToggleTimestampUtc.Value ).TotalMilliseconds < 500 )
+            {
+                lastKeyboardToggleTimestampUtc = null;
+                return;
+            }
+
+            if ( ParentBarDropdown is not null && IsToggleClickTriggerEnabled )
+                await ParentBarDropdown.Toggle( ElementId );
+        }
 
         await Clicked.InvokeAsync( eventArgs );
     }
@@ -186,8 +207,19 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
         if ( IsDisabled )
             return Task.CompletedTask;
 
-        if ( ParentBarDropdown is not null && eventArgs.Key == "Enter" && IsToggleClickTriggerEnabled )
-            return ParentBarDropdown.Toggle( ElementId );
+        if ( ParentBarDropdown is not null && ( eventArgs.Key == "Enter" || eventArgs.Key == "NumpadEnter" ) )
+        {
+            if ( ParentBarDropdown.IsVisible )
+                return Task.CompletedTask;
+
+            lastKeyboardToggleTimestampUtc = DateTime.UtcNow;
+
+            if ( IsToggleClickTriggerEnabled )
+                return ParentBarDropdown.Toggle( ElementId );
+        }
+
+        if ( ParentBarDropdown is not null && ( eventArgs.Key == "Escape" || eventArgs.Key == "Esc" ) )
+            return ParentBarDropdown.Hide( true );
 
         return Task.CompletedTask;
     }

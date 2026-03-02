@@ -39,6 +39,9 @@ public record Background : Enumeration<Background>, IUtilityTargeted, IFluentUti
         return this with { UtilityTarget = target };
     }
 
+    /// <inheritdoc/>
+    public override string ToString() => Name;
+
     #endregion
 
     #region Properties
