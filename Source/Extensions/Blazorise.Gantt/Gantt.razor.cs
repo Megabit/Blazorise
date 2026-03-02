@@ -11,7 +11,6 @@ using Blazorise.Gantt.Components;
 using Blazorise.Gantt.Extensions;
 using Blazorise.Gantt.Utilities;
 using Blazorise.Localization;
-using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -1125,12 +1124,12 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             var key = defaultLegacyOrder[i];
             var visible = key switch
             {
-                var x when IsKeyMatch( x, WbsPseudoField ) => showWbsColumn,
-                var x when IsKeyMatch( x, TitleField ) => showTitleColumn,
-                var x when IsKeyMatch( x, StartField ) => showStartColumn,
-                var x when IsKeyMatch( x, EndField ) => showEndColumn,
-                var x when IsKeyMatch( x, DurationField ) => showDurationColumn,
-                var x when IsKeyMatch( x, CommandPseudoField ) => showCommandColumn,
+                var x when StringUtils.IsMatch( x, WbsPseudoField ) => showWbsColumn,
+                var x when StringUtils.IsMatch( x, TitleField ) => showTitleColumn,
+                var x when StringUtils.IsMatch( x, StartField ) => showStartColumn,
+                var x when StringUtils.IsMatch( x, EndField ) => showEndColumn,
+                var x when StringUtils.IsMatch( x, DurationField ) => showDurationColumn,
+                var x when StringUtils.IsMatch( x, CommandPseudoField ) => showCommandColumn,
                 _ => true,
             };
 
@@ -1218,26 +1217,26 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             if ( string.IsNullOrWhiteSpace( key ) )
                 continue;
 
-            if ( !legacyColumnOrder.Any( x => IsKeyMatch( x, key ) ) )
+            if ( !legacyColumnOrder.Any( x => StringUtils.IsMatch( x, key ) ) )
                 legacyColumnOrder.Add( key );
 
-            if ( IsKeyMatch( key, WbsPseudoField ) )
+            if ( StringUtils.IsMatch( key, WbsPseudoField ) )
                 showWbsColumn = columnState.Visible;
-            else if ( IsKeyMatch( key, TitleField ) )
+            else if ( StringUtils.IsMatch( key, TitleField ) )
                 showTitleColumn = columnState.Visible;
-            else if ( IsKeyMatch( key, StartField ) )
+            else if ( StringUtils.IsMatch( key, StartField ) )
                 showStartColumn = columnState.Visible;
-            else if ( IsKeyMatch( key, EndField ) )
+            else if ( StringUtils.IsMatch( key, EndField ) )
                 showEndColumn = columnState.Visible;
-            else if ( IsKeyMatch( key, DurationField ) )
+            else if ( StringUtils.IsMatch( key, DurationField ) )
                 showDurationColumn = columnState.Visible;
-            else if ( IsKeyMatch( key, CommandPseudoField ) )
+            else if ( StringUtils.IsMatch( key, CommandPseudoField ) )
                 showCommandColumn = columnState.Visible;
         }
 
         foreach ( var key in GetLegacyColumnDefaultOrder() )
         {
-            if ( !legacyColumnOrder.Any( x => IsKeyMatch( x, key ) ) )
+            if ( !legacyColumnOrder.Any( x => StringUtils.IsMatch( x, key ) ) )
                 legacyColumnOrder.Add( key );
         }
 
@@ -1254,7 +1253,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             if ( !string.IsNullOrWhiteSpace( columnState.Key ) )
             {
                 var columnByKeyAndField = columns.FirstOrDefault( x =>
-                    IsKeyMatch( GetColumnKey( x ), columnState.Key )
+                    StringUtils.IsMatch( GetColumnKey( x ), columnState.Key )
                     && IsColumnFieldMatchState( x, columnState.Field ) );
 
                 if ( columnByKeyAndField is not null )
@@ -1269,7 +1268,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
         if ( !string.IsNullOrWhiteSpace( columnState.Key ) )
         {
-            var columnByKey = columns.FirstOrDefault( x => IsKeyMatch( GetColumnKey( x ), columnState.Key ) );
+            var columnByKey = columns.FirstOrDefault( x => StringUtils.IsMatch( GetColumnKey( x ), columnState.Key ) );
 
             if ( columnByKey is not null )
                 return columnByKey;
@@ -1358,14 +1357,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private int GetLegacyDisplayOrder( string key, int fallbackOrder )
     {
-        var index = legacyColumnOrder.FindIndex( x => IsKeyMatch( x, key ) );
+        var index = legacyColumnOrder.FindIndex( x => StringUtils.IsMatch( x, key ) );
         return index >= 0 ? index : fallbackOrder;
     }
-
-    private static bool IsKeyMatch( string key, string reference )
-        => !string.IsNullOrWhiteSpace( key )
-           && !string.IsNullOrWhiteSpace( reference )
-           && string.Equals( key, reference, StringComparison.OrdinalIgnoreCase );
 
     private string ResolveLegacyColumnKey( GanttColumnState columnState )
     {
@@ -1379,19 +1373,19 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             if ( IsWbsField( candidate ) )
                 return WbsPseudoField;
 
-            if ( IsKeyMatch( candidate, TitleField ) )
+            if ( StringUtils.IsMatch( candidate, TitleField ) )
                 return TitleField;
 
-            if ( IsKeyMatch( candidate, StartField ) )
+            if ( StringUtils.IsMatch( candidate, StartField ) )
                 return StartField;
 
-            if ( IsKeyMatch( candidate, EndField ) )
+            if ( StringUtils.IsMatch( candidate, EndField ) )
                 return EndField;
 
-            if ( IsKeyMatch( candidate, DurationField ) )
+            if ( StringUtils.IsMatch( candidate, DurationField ) )
                 return DurationField;
 
-            if ( IsKeyMatch( candidate, CommandPseudoField ) )
+            if ( StringUtils.IsMatch( candidate, CommandPseudoField ) )
                 return CommandPseudoField;
         }
 
@@ -1430,10 +1424,10 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         var start = GetItemStart( item );
         var end = GetItemEnd( item );
 
-        if ( IsUnassignedDate( start ) || IsUnassignedDate( end ) )
+        if ( DateTimeUtils.IsUnassigned( start ) || DateTimeUtils.IsUnassigned( end ) )
             return null;
 
-        return GetDurationInDays( start, end );
+        return DateTimeUtils.GetDurationInDays( start, end );
     }
 
     private string GetItemTitle( TItem item )
@@ -1457,7 +1451,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( !propertyMapper.HasProgress || item is null )
             return null;
 
-        if ( !TryConvertToDouble( propertyMapper.GetProgress( item ), out var progressValue ) )
+        if ( !ValueUtils.TryConvertToDouble( propertyMapper.GetProgress( item ), out var progressValue ) )
             return null;
 
         if ( progressValue <= 1d )
@@ -1495,7 +1489,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         {
             var itemStart = propertyMapper.GetStart( item );
 
-            if ( IsUnassignedDate( itemStart ) )
+            if ( DateTimeUtils.IsUnassigned( itemStart ) )
             {
                 propertyMapper.SetStart( item, defaultStart );
             }
@@ -1509,7 +1503,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         {
             var itemEnd = propertyMapper.GetEnd( item );
 
-            if ( IsUnassignedDate( itemEnd ) || itemEnd <= defaultStart )
+            if ( DateTimeUtils.IsUnassigned( itemEnd ) || itemEnd <= defaultStart )
             {
                 if ( defaultEnd <= defaultStart )
                 {
@@ -1531,10 +1525,10 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                     ? propertyMapper.GetEnd( item )
                     : itemStart.Add( GetDefaultNewItemDuration() );
 
-                if ( IsUnassignedDate( itemEnd ) || itemEnd <= itemStart )
+                if ( DateTimeUtils.IsUnassigned( itemEnd ) || itemEnd <= itemStart )
                     itemEnd = itemStart.Add( GetDefaultNewItemDuration() );
 
-                itemDuration = GetDurationInDays( itemStart, itemEnd );
+                itemDuration = DateTimeUtils.GetDurationInDays( itemStart, itemEnd );
                 propertyMapper.SetDuration( item, itemDuration );
             }
 
@@ -1557,14 +1551,14 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             var parentStart = propertyMapper.HasStart ? GetItemStart( parentItem ) : DateTime.MinValue;
             var parentEnd = propertyMapper.HasEnd ? GetItemEnd( parentItem ) : DateTime.MinValue;
 
-            if ( !IsUnassignedDate( parentStart ) )
+            if ( !DateTimeUtils.IsUnassigned( parentStart ) )
             {
                 start = parentStart;
             }
 
             end = start.Add( duration );
 
-            if ( !IsUnassignedDate( parentEnd ) && parentEnd > start && end > parentEnd )
+            if ( !DateTimeUtils.IsUnassigned( parentEnd ) && parentEnd > start && end > parentEnd )
             {
                 end = parentEnd;
             }
@@ -1588,21 +1582,6 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             GanttView.Year => TimeSpan.FromDays( 30 ),
             _ => TimeSpan.FromDays( 1 ),
         };
-    }
-
-    private static bool IsUnassignedDate( DateTime value )
-    {
-        return value == DateTime.MinValue || value == DateTime.MaxValue;
-    }
-
-    private static int GetDurationInDays( DateTime start, DateTime end )
-    {
-        var totalDays = ( end - start ).TotalDays;
-
-        if ( totalDays <= 0d )
-            return 1;
-
-        return Math.Max( 1, (int)Math.Ceiling( totalDays ) );
     }
 
     private async Task OnBarClicked( TItem item )
@@ -1737,7 +1716,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         var itemStart = GetItemStart( item );
         var itemEnd = GetItemEnd( item );
 
-        if ( IsUnassignedDate( itemStart ) || IsUnassignedDate( itemEnd ) )
+        if ( DateTimeUtils.IsUnassigned( itemStart ) || DateTimeUtils.IsUnassigned( itemEnd ) )
             return false;
 
         return itemEnd > itemStart;
@@ -1772,7 +1751,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         var sourceStart = GetItemStart( item );
         var sourceEnd = GetItemEnd( item );
 
-        if ( IsUnassignedDate( sourceStart ) || IsUnassignedDate( sourceEnd ) )
+        if ( DateTimeUtils.IsUnassigned( sourceStart ) || DateTimeUtils.IsUnassigned( sourceEnd ) )
             return;
 
         var movedStart = ShiftDateBySlotOffset( sourceStart, slotOffset );
@@ -1790,7 +1769,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             propertyMapper.SetEnd( movedItem, movedEnd );
 
         if ( propertyMapper.HasDuration )
-            propertyMapper.SetDuration( movedItem, GetDurationInDays( movedStart, movedEnd ) );
+            propertyMapper.SetDuration( movedItem, DateTimeUtils.GetDurationInDays( movedStart, movedEnd ) );
 
         editItem = item;
         editParentItem = default;
@@ -2329,9 +2308,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 }
 
                 var isWbs = IsWbsField( column.Field );
-                var isStart = IsFieldMatch( column.Field, StartField );
-                var isEnd = IsFieldMatch( column.Field, EndField );
-                var isDuration = IsFieldMatch( column.Field, DurationField );
+                var isStart = StringUtils.IsMatch( column.Field, StartField );
+                var isEnd = StringUtils.IsMatch( column.Field, EndField );
+                var isDuration = StringUtils.IsMatch( column.Field, DurationField );
                 var sortField = column.GetSortField();
                 var canSort = Sortable && column.CanSort();
                 var textAlignment = ResolveColumnTextAlignment( column, isStart, isEnd, isDuration );
@@ -2582,25 +2561,20 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( IsWbsField( column.Field ) )
             return WbsColumnHeaderText;
 
-        if ( IsFieldMatch( column.Field, TitleField ) )
+        if ( StringUtils.IsMatch( column.Field, TitleField ) )
             return TaskColumnHeaderText;
 
-        if ( IsFieldMatch( column.Field, StartField ) )
+        if ( StringUtils.IsMatch( column.Field, StartField ) )
             return StartColumnHeaderText;
 
-        if ( IsFieldMatch( column.Field, EndField ) )
+        if ( StringUtils.IsMatch( column.Field, EndField ) )
             return EndColumnHeaderText;
 
-        if ( IsFieldMatch( column.Field, DurationField ) )
+        if ( StringUtils.IsMatch( column.Field, DurationField ) )
             return DurationColumnHeaderText;
 
         return column.Field ?? string.Empty;
     }
-
-    private static bool IsFieldMatch( string field, string referenceField )
-        => !string.IsNullOrWhiteSpace( field )
-            && !string.IsNullOrWhiteSpace( referenceField )
-            && string.Equals( field, referenceField, StringComparison.OrdinalIgnoreCase );
 
     private static bool IsWbsField( string field )
         => string.Equals( field, WbsPseudoField, StringComparison.OrdinalIgnoreCase )
@@ -2634,13 +2608,13 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( IsWbsField( column.Field ) )
             return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row => GetWbsValue( wbsLookup, row.Key ) );
 
-        if ( IsFieldMatch( column.Field, StartField ) )
+        if ( StringUtils.IsMatch( column.Field, StartField ) )
             return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row => FormatDate( GetItemStart( row.Item ) ), column.CanSort() && Sortable );
 
-        if ( IsFieldMatch( column.Field, EndField ) )
+        if ( StringUtils.IsMatch( column.Field, EndField ) )
             return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row => FormatDate( GetItemEnd( row.Item ) ), column.CanSort() && Sortable );
 
-        if ( IsFieldMatch( column.Field, DurationField ) )
+        if ( StringUtils.IsMatch( column.Field, DurationField ) )
             return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row => FormatDuration( GetItemDuration( row.Item ) ), column.CanSort() && Sortable );
 
         return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row =>
@@ -2787,7 +2761,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 continue;
             }
 
-            var idKey = NormalizeIdentifier( propertyMapper.HasId ? propertyMapper.GetId( item ) : null );
+            var idKey = ValueUtils.NormalizeIdentifier( propertyMapper.HasId ? propertyMapper.GetId( item ) : null );
             var stableKey = !string.IsNullOrEmpty( idKey )
                 ? idKey
                 : $"idx-{index.ToString( CultureInfo.InvariantCulture )}";
@@ -2814,7 +2788,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         foreach ( var node in nodeList )
         {
             var parentIdentifier = propertyMapper.HasParentId
-                ? NormalizeIdentifier( propertyMapper.GetParentId( node.Item ) )
+                ? ValueUtils.NormalizeIdentifier( propertyMapper.GetParentId( node.Item ) )
                 : null;
 
             if ( !string.IsNullOrEmpty( parentIdentifier )
@@ -2888,16 +2862,16 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( string.IsNullOrWhiteSpace( sortField ) )
             return 0;
 
-        if ( IsFieldMatch( sortField, TitleField ) )
+        if ( StringUtils.IsMatch( sortField, TitleField ) )
             return StringComparer.OrdinalIgnoreCase.Compare( GetItemTitle( x ), GetItemTitle( y ) );
 
-        if ( IsFieldMatch( sortField, StartField ) )
+        if ( StringUtils.IsMatch( sortField, StartField ) )
             return DateTime.Compare( GetItemStart( x ), GetItemStart( y ) );
 
-        if ( IsFieldMatch( sortField, EndField ) )
+        if ( StringUtils.IsMatch( sortField, EndField ) )
             return DateTime.Compare( GetItemEnd( x ), GetItemEnd( y ) );
 
-        if ( IsFieldMatch( sortField, DurationField ) )
+        if ( StringUtils.IsMatch( sortField, DurationField ) )
             return Nullable.Compare( GetItemDuration( x ), GetItemDuration( y ) );
 
         var mappedColumn = columns.FirstOrDefault( column => string.Equals( column.GetSortField(), sortField, StringComparison.OrdinalIgnoreCase ) );
@@ -2908,26 +2882,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         var xValue = mappedColumn.GetSortValue( x );
         var yValue = mappedColumn.GetSortValue( y );
 
-        return CompareSortValues( xValue, yValue );
-    }
-
-    private static int CompareSortValues( object x, object y )
-    {
-        if ( ReferenceEquals( x, y ) )
-            return 0;
-
-        if ( x is null )
-            return -1;
-
-        if ( y is null )
-            return 1;
-
-        if ( x is IComparable comparableX && x.GetType() == y.GetType() )
-            return comparableX.CompareTo( y );
-
-        return StringComparer.OrdinalIgnoreCase.Compare(
-            Convert.ToString( x, CultureInfo.InvariantCulture ),
-            Convert.ToString( y, CultureInfo.InvariantCulture ) );
+        return ValueUtils.CompareValues( xValue, yValue );
     }
 
     private int CompareByDefaultSort( GanttTreeNode x, GanttTreeNode y )
@@ -3317,7 +3272,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         }
 
         var dataSnapshot = data.ToList();
-        var itemId = NormalizeIdentifier( propertyMapper.GetId( itemToDelete ) );
+        var itemId = ValueUtils.NormalizeIdentifier( propertyMapper.GetId( itemToDelete ) );
 
         if ( string.IsNullOrEmpty( itemId ) )
         {
@@ -3334,9 +3289,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
             foreach ( var dataItem in dataSnapshot )
             {
-                var dataItemId = NormalizeIdentifier( propertyMapper.GetId( dataItem ) );
+                var dataItemId = ValueUtils.NormalizeIdentifier( propertyMapper.GetId( dataItem ) );
                 var dataItemParentId = propertyMapper.HasParentId
-                    ? NormalizeIdentifier( propertyMapper.GetParentId( dataItem ) )
+                    ? ValueUtils.NormalizeIdentifier( propertyMapper.GetParentId( dataItem ) )
                     : null;
 
                 if ( string.IsNullOrEmpty( dataItemId ) || string.IsNullOrEmpty( dataItemParentId ) )
@@ -3351,64 +3306,13 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
         foreach ( var dataItem in dataSnapshot )
         {
-            var dataItemId = NormalizeIdentifier( propertyMapper.GetId( dataItem ) );
+            var dataItemId = ValueUtils.NormalizeIdentifier( propertyMapper.GetId( dataItem ) );
 
             if ( !string.IsNullOrEmpty( dataItemId ) && idsToDelete.Contains( dataItemId ) )
             {
                 data.Remove( dataItem );
             }
         }
-    }
-
-    private static bool TryConvertToDouble( object value, out double parsedValue )
-    {
-        switch ( value )
-        {
-            case byte byteValue:
-                parsedValue = byteValue;
-                return true;
-            case short shortValue:
-                parsedValue = shortValue;
-                return true;
-            case int intValue:
-                parsedValue = intValue;
-                return true;
-            case long longValue:
-                parsedValue = longValue;
-                return true;
-            case float floatValue:
-                parsedValue = floatValue;
-                return true;
-            case double doubleValue:
-                parsedValue = doubleValue;
-                return true;
-            case decimal decimalValue:
-                parsedValue = (double)decimalValue;
-                return true;
-            case string stringValue when double.TryParse( stringValue, NumberStyles.Any, CultureInfo.InvariantCulture, out parsedValue ):
-                return true;
-            case IConvertible convertible:
-                try
-                {
-                    parsedValue = convertible.ToDouble( CultureInfo.InvariantCulture );
-                    return true;
-                }
-                catch
-                {
-                    break;
-                }
-        }
-
-        parsedValue = 0d;
-        return false;
-    }
-
-    private static string NormalizeIdentifier( object value )
-    {
-        if ( value is null )
-            return null;
-
-        return Convert.ToString( value, CultureInfo.InvariantCulture );
     }
 
     private TItem ResolveStateItemReference( TItem stateItem )
@@ -3419,7 +3323,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( !propertyMapper.HasId )
             return stateItem;
 
-        var stateItemId = NormalizeIdentifier( propertyMapper.GetId( stateItem ) );
+        var stateItemId = ValueUtils.NormalizeIdentifier( propertyMapper.GetId( stateItem ) );
 
         if ( string.IsNullOrWhiteSpace( stateItemId ) )
             return stateItem;
@@ -3429,7 +3333,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             if ( dataItem is null )
                 continue;
 
-            var dataItemId = NormalizeIdentifier( propertyMapper.GetId( dataItem ) );
+            var dataItemId = ValueUtils.NormalizeIdentifier( propertyMapper.GetId( dataItem ) );
 
             if ( string.Equals( dataItemId, stateItemId, StringComparison.Ordinal ) )
                 return dataItem;
@@ -3448,8 +3352,8 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
         if ( propertyMapper.HasId )
         {
-            var firstId = NormalizeIdentifier( propertyMapper.GetId( first ) );
-            var secondId = NormalizeIdentifier( propertyMapper.GetId( second ) );
+            var firstId = ValueUtils.NormalizeIdentifier( propertyMapper.GetId( first ) );
+            var secondId = ValueUtils.NormalizeIdentifier( propertyMapper.GetId( second ) );
 
             if ( !string.IsNullOrEmpty( firstId ) || !string.IsNullOrEmpty( secondId ) )
                 return string.Equals( firstId, secondId, StringComparison.Ordinal );
@@ -3469,8 +3373,8 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( !propertyMapper.HasId || !propertyMapper.HasParentId )
             return false;
 
-        var selectedRowId = NormalizeIdentifier( propertyMapper.GetId( SelectedRow ) );
-        var deleteRowId = NormalizeIdentifier( propertyMapper.GetId( itemToDelete ) );
+        var selectedRowId = ValueUtils.NormalizeIdentifier( propertyMapper.GetId( SelectedRow ) );
+        var deleteRowId = ValueUtils.NormalizeIdentifier( propertyMapper.GetId( itemToDelete ) );
 
         if ( string.IsNullOrEmpty( selectedRowId ) || string.IsNullOrEmpty( deleteRowId ) )
             return false;
@@ -3485,12 +3389,12 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             if ( dataItem is null )
                 continue;
 
-            var dataId = NormalizeIdentifier( propertyMapper.GetId( dataItem ) );
+            var dataId = ValueUtils.NormalizeIdentifier( propertyMapper.GetId( dataItem ) );
 
             if ( string.IsNullOrEmpty( dataId ) || parentById.ContainsKey( dataId ) )
                 continue;
 
-            var parentId = NormalizeIdentifier( propertyMapper.GetParentId( dataItem ) );
+            var parentId = ValueUtils.NormalizeIdentifier( propertyMapper.GetParentId( dataItem ) );
             parentById.Add( dataId, parentId );
         }
 
