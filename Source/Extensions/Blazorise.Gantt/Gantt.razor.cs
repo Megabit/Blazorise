@@ -103,6 +103,10 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private int barDragSlotOffset;
     private int nextColumnId;
     private readonly Dictionary<BaseGanttColumn<TItem>, string> columnKeys = new();
+    private readonly Dictionary<string, int> columnDisplayOrders = new( StringComparer.Ordinal );
+    private readonly List<string> legacyColumnOrder = new();
+    private double? treeListWidthOverride;
+    private bool applyingState;
 
     #endregion
 
@@ -314,7 +318,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
         columns.Add( column );
         columnVisibility[column] = column.Visible;
-        columnKeys[column] = $"column-{(++nextColumnId).ToString( CultureInfo.InvariantCulture )}";
+        columnKeys[column] = $"column-{( ++nextColumnId ).ToString( CultureInfo.InvariantCulture )}";
         EnsureAtLeastOneDeclarativeColumnVisible();
 
         _ = InvokeAsync( StateHasChanged );
@@ -324,6 +328,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     {
         if ( column is null )
             return false;
+
+        if ( columnKeys.TryGetValue( column, out var key ) && !string.IsNullOrWhiteSpace( key ) )
+            columnDisplayOrders.Remove( key );
 
         columnVisibility.Remove( column );
         columnKeys.Remove( column );
@@ -342,6 +349,133 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             _ = InvokeAsync( StateHasChanged );
 
         return removed;
+    }
+
+    /// <summary>
+    /// Gets current Gantt state.
+    /// </summary>
+    /// <returns>Current Gantt state.</returns>
+    public Task<GanttState<TItem>> GetState()
+    {
+        var state = new GanttState<TItem>
+        {
+            Date = currentDate,
+            SelectedView = SelectedView,
+            SearchText = searchText,
+            SortField = ganttSortDirection == SortDirection.Default ? null : ganttSortField,
+            SortDirection = ganttSortDirection,
+            SelectedRow = SelectedRow,
+            FocusedRowKey = focusedRowKey,
+            TreeListWidth = treeListWidthOverride,
+            EditState = editState,
+            EditItem = editState == GanttEditState.None ? default : editItem,
+            EditParentItem = editState == GanttEditState.New ? editParentItem : default,
+            CollapsedRowKeys = collapsedNodeKeys.ToList(),
+            ColumnStates = GetColumnStatesForCurrentState(),
+        };
+
+        return Task.FromResult( state );
+    }
+
+    /// <summary>
+    /// Loads and applies Gantt state.
+    /// </summary>
+    /// <param name="ganttState">State to apply.</param>
+    public async Task LoadState( GanttState<TItem> ganttState )
+    {
+        if ( ganttState is null || applyingState )
+            return;
+
+        applyingState = true;
+
+        try
+        {
+            var normalizedSearchText = ganttState.SearchText ?? string.Empty;
+            var targetDate = ganttState.Date == default ? currentDate : ganttState.Date;
+            var targetView = Enum.IsDefined( typeof( GanttView ), ganttState.SelectedView )
+                ? ganttState.SelectedView
+                : SelectedView;
+            var dateChanged = currentDate != targetDate;
+            var viewChanged = SelectedView != targetView;
+            var searchChanged = !string.Equals( searchText, normalizedSearchText, StringComparison.Ordinal );
+            var previousSelectedRow = SelectedRow;
+
+            currentDate = targetDate;
+            SelectedView = targetView;
+            searchText = normalizedSearchText;
+            focusedRowKey = ganttState.FocusedRowKey;
+            treeListWidthOverride = ganttState.TreeListWidth is > 0d ? ganttState.TreeListWidth : null;
+
+            if ( Sortable
+                 && !string.IsNullOrWhiteSpace( ganttState.SortField )
+                 && ganttState.SortDirection != SortDirection.Default )
+            {
+                ganttSortField = ganttState.SortField;
+                ganttSortDirection = ganttState.SortDirection;
+            }
+            else
+            {
+                ganttSortField = null;
+                ganttSortDirection = SortDirection.Default;
+            }
+
+            collapsedNodeKeys.Clear();
+
+            if ( !ganttState.CollapsedRowKeys.IsNullOrEmpty() )
+            {
+                foreach ( var key in ganttState.CollapsedRowKeys.Where( x => !string.IsNullOrWhiteSpace( x ) ) )
+                {
+                    collapsedNodeKeys.Add( key );
+                }
+            }
+
+            ApplyColumnStates( ganttState.ColumnStates );
+
+            editState = ganttState.EditState;
+
+            var resolvedSelectedRow = ResolveStateItemReference( ganttState.SelectedRow );
+            var resolvedEditItem = ganttState.EditState == GanttEditState.None
+                ? default
+                : ResolveStateItemReference( ganttState.EditItem );
+            var resolvedEditParentItem = ganttState.EditState == GanttEditState.New
+                ? ResolveStateItemReference( ganttState.EditParentItem )
+                : default;
+
+            SelectedRow = resolvedSelectedRow;
+            editItem = resolvedEditItem;
+            editParentItem = resolvedEditParentItem;
+
+            var selectedRowChanged = !AreRowsEqual( previousSelectedRow, SelectedRow );
+
+            if ( dateChanged )
+                await DateChanged.InvokeAsync( currentDate );
+
+            if ( viewChanged )
+                await SelectedViewChanged.InvokeAsync( SelectedView );
+
+            if ( searchChanged )
+                await SearchTextChanged.InvokeAsync( searchText );
+
+            if ( selectedRowChanged )
+                await SelectedRowChanged.InvokeAsync( SelectedRow );
+
+            if ( UseInternalEditing
+                 && ganttItemModalRef is not null
+                 && editItem is not null )
+            {
+                if ( editState == GanttEditState.New )
+                    await ganttItemModalRef.ShowModal( editItem.DeepClone(), editState, editParentItem );
+                else if ( editState == GanttEditState.Edit )
+                    await ganttItemModalRef.ShowModal( editItem.DeepClone(), editState );
+            }
+
+            await RefreshInternalAsync();
+        }
+        finally
+        {
+            applyingState = false;
+            await InvokeAsync( StateHasChanged );
+        }
     }
 
     /// <summary>
@@ -951,6 +1085,317 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         {
             showTitleColumn = true;
         }
+    }
+
+    private List<GanttColumnState> GetColumnStatesForCurrentState()
+    {
+        var columnStates = new List<GanttColumnState>();
+
+        if ( columns.Count > 0 )
+        {
+            var orderedColumns = GetOrderedColumns().ToList();
+
+            for ( int i = 0; i < orderedColumns.Count; i++ )
+            {
+                var column = orderedColumns[i];
+                var key = GetColumnKey( column );
+                TryGetColumnStateWidth( column.Width, out var widthUnit, out var widthValue );
+
+                if ( string.IsNullOrWhiteSpace( key ) )
+                    continue;
+
+                columnStates.Add( new GanttColumnState
+                {
+                    Key = key,
+                    Field = column.Field,
+                    Visible = IsColumnVisible( column ),
+                    DisplayOrder = GetColumnDisplayOrder( column, i ),
+                    WidthUnit = widthUnit,
+                    WidthValue = widthValue,
+                } );
+            }
+
+            return columnStates;
+        }
+
+        var defaultLegacyOrder = GetLegacyColumnDefaultOrder();
+
+        for ( int i = 0; i < defaultLegacyOrder.Count; i++ )
+        {
+            var key = defaultLegacyOrder[i];
+            var visible = key switch
+            {
+                var x when IsKeyMatch( x, WbsPseudoField ) => showWbsColumn,
+                var x when IsKeyMatch( x, TitleField ) => showTitleColumn,
+                var x when IsKeyMatch( x, StartField ) => showStartColumn,
+                var x when IsKeyMatch( x, EndField ) => showEndColumn,
+                var x when IsKeyMatch( x, DurationField ) => showDurationColumn,
+                var x when IsKeyMatch( x, CommandPseudoField ) => showCommandColumn,
+                _ => true,
+            };
+
+            columnStates.Add( new GanttColumnState
+            {
+                Key = key,
+                Field = key,
+                Visible = visible,
+                DisplayOrder = GetLegacyDisplayOrder( key, i ),
+                WidthUnit = null,
+                WidthValue = null,
+            } );
+        }
+
+        return columnStates.OrderBy( x => x.DisplayOrder ).ToList();
+    }
+
+    private void ApplyColumnStates( IReadOnlyList<GanttColumnState> columnStates )
+    {
+        columnDisplayOrders.Clear();
+        legacyColumnOrder.Clear();
+
+        if ( columns.Count > 0 )
+        {
+            foreach ( var column in columns )
+            {
+                if ( !columnVisibility.ContainsKey( column ) )
+                    columnVisibility[column] = column.Visible;
+            }
+
+            if ( columnStates.IsNullOrEmpty() )
+            {
+                EnsureAtLeastOneDeclarativeColumnVisible();
+                return;
+            }
+
+            var matchedColumnsCount = 0;
+
+            foreach ( var columnState in columnStates.OrderBy( x => x.DisplayOrder ) )
+            {
+                var column = FindDeclarativeColumnFromState( columnState );
+
+                if ( column is null )
+                    continue;
+
+                var key = GetColumnKey( column );
+
+                if ( string.IsNullOrWhiteSpace( key ) )
+                    continue;
+
+                columnVisibility[column] = columnState.Visible;
+                columnDisplayOrders[key] = columnState.DisplayOrder;
+
+                if ( TryBuildColumnWidth( columnState, out var restoredWidth ) )
+                    column.Width = restoredWidth;
+
+                matchedColumnsCount++;
+            }
+
+            if ( matchedColumnsCount == 0 )
+            {
+                EnsureAtLeastOneDeclarativeColumnVisible();
+                return;
+            }
+
+            EnsureAtLeastOneDeclarativeColumnVisible();
+            return;
+        }
+
+        ApplyLegacyColumnStates( columnStates );
+    }
+
+    private void ApplyLegacyColumnStates( IReadOnlyList<GanttColumnState> columnStates )
+    {
+        if ( columnStates.IsNullOrEmpty() )
+        {
+            EnsureAtLeastOneColumnVisible();
+            return;
+        }
+
+        foreach ( var columnState in columnStates.OrderBy( x => x.DisplayOrder ) )
+        {
+            var key = ResolveLegacyColumnKey( columnState );
+
+            if ( string.IsNullOrWhiteSpace( key ) )
+                continue;
+
+            if ( !legacyColumnOrder.Any( x => IsKeyMatch( x, key ) ) )
+                legacyColumnOrder.Add( key );
+
+            if ( IsKeyMatch( key, WbsPseudoField ) )
+                showWbsColumn = columnState.Visible;
+            else if ( IsKeyMatch( key, TitleField ) )
+                showTitleColumn = columnState.Visible;
+            else if ( IsKeyMatch( key, StartField ) )
+                showStartColumn = columnState.Visible;
+            else if ( IsKeyMatch( key, EndField ) )
+                showEndColumn = columnState.Visible;
+            else if ( IsKeyMatch( key, DurationField ) )
+                showDurationColumn = columnState.Visible;
+            else if ( IsKeyMatch( key, CommandPseudoField ) )
+                showCommandColumn = columnState.Visible;
+        }
+
+        foreach ( var key in GetLegacyColumnDefaultOrder() )
+        {
+            if ( !legacyColumnOrder.Any( x => IsKeyMatch( x, key ) ) )
+                legacyColumnOrder.Add( key );
+        }
+
+        EnsureAtLeastOneColumnVisible();
+    }
+
+    private BaseGanttColumn<TItem> FindDeclarativeColumnFromState( GanttColumnState columnState )
+    {
+        if ( columnState is null )
+            return null;
+
+        if ( !string.IsNullOrWhiteSpace( columnState.Field ) )
+        {
+            if ( !string.IsNullOrWhiteSpace( columnState.Key ) )
+            {
+                var columnByKeyAndField = columns.FirstOrDefault( x =>
+                    IsKeyMatch( GetColumnKey( x ), columnState.Key )
+                    && IsColumnFieldMatchState( x, columnState.Field ) );
+
+                if ( columnByKeyAndField is not null )
+                    return columnByKeyAndField;
+            }
+
+            var columnByField = columns.FirstOrDefault( x => IsColumnFieldMatchState( x, columnState.Field ) );
+
+            if ( columnByField is not null )
+                return columnByField;
+        }
+
+        if ( !string.IsNullOrWhiteSpace( columnState.Key ) )
+        {
+            var columnByKey = columns.FirstOrDefault( x => IsKeyMatch( GetColumnKey( x ), columnState.Key ) );
+
+            if ( columnByKey is not null )
+                return columnByKey;
+        }
+
+        return null;
+    }
+
+    private static bool IsColumnFieldMatchState( BaseGanttColumn<TItem> column, string field )
+    {
+        if ( column is null || string.IsNullOrWhiteSpace( field ) )
+            return false;
+
+        if ( IsWbsField( field ) )
+            return IsWbsField( column.Field );
+
+        return string.Equals( column.Field, field, StringComparison.OrdinalIgnoreCase );
+    }
+
+    private bool TryGetColumnStateWidth( IFluentSizing width, out string unit, out double? value )
+    {
+        unit = null;
+        value = null;
+
+        if ( !CssValueUtils.TryGetNumericStyleValue( width, StyleProvider, "width", out var parsedUnit, out var parsedValue ) )
+            return false;
+
+        if ( parsedValue <= 0d )
+            return false;
+
+        unit = parsedUnit;
+        value = parsedValue;
+
+        return true;
+    }
+
+    private static bool TryBuildColumnWidth( GanttColumnState columnState, out IFluentSizing width )
+    {
+        width = null;
+
+        if ( columnState is null
+             || !columnState.WidthValue.HasValue
+             || columnState.WidthValue.Value <= 0d
+             || string.IsNullOrWhiteSpace( columnState.WidthUnit ) )
+            return false;
+
+        var unit = columnState.WidthUnit.Trim();
+        var unitLower = unit.ToLowerInvariant();
+        var value = columnState.WidthValue.Value;
+
+        width = unitLower switch
+        {
+            "px" => Blazorise.Width.Px( value ),
+            "rem" => Blazorise.Width.Rem( value ),
+            "em" => Blazorise.Width.Em( value ),
+            "ch" => Blazorise.Width.Ch( value ),
+            "vw" => Blazorise.Width.Vw( value ),
+            _ => new FluentSizing( SizingType.Width ).WithSize( unit, value ),
+        };
+
+        return true;
+    }
+
+    private List<string> GetLegacyColumnDefaultOrder()
+        => new()
+        {
+            WbsPseudoField,
+            TitleField,
+            StartField,
+            EndField,
+            DurationField,
+            CommandPseudoField,
+        };
+
+    private int GetColumnDisplayOrder( BaseGanttColumn<TItem> column, int fallbackOrder )
+    {
+        var key = GetColumnKey( column );
+
+        if ( string.IsNullOrWhiteSpace( key ) )
+            return fallbackOrder;
+
+        return columnDisplayOrders.TryGetValue( key, out var order )
+            ? order
+            : fallbackOrder;
+    }
+
+    private int GetLegacyDisplayOrder( string key, int fallbackOrder )
+    {
+        var index = legacyColumnOrder.FindIndex( x => IsKeyMatch( x, key ) );
+        return index >= 0 ? index : fallbackOrder;
+    }
+
+    private static bool IsKeyMatch( string key, string reference )
+        => !string.IsNullOrWhiteSpace( key )
+           && !string.IsNullOrWhiteSpace( reference )
+           && string.Equals( key, reference, StringComparison.OrdinalIgnoreCase );
+
+    private string ResolveLegacyColumnKey( GanttColumnState columnState )
+    {
+        if ( columnState is null )
+            return null;
+
+        var candidates = new[] { columnState.Key, columnState.Field };
+
+        foreach ( var candidate in candidates )
+        {
+            if ( IsWbsField( candidate ) )
+                return WbsPseudoField;
+
+            if ( IsKeyMatch( candidate, TitleField ) )
+                return TitleField;
+
+            if ( IsKeyMatch( candidate, StartField ) )
+                return StartField;
+
+            if ( IsKeyMatch( candidate, EndField ) )
+                return EndField;
+
+            if ( IsKeyMatch( candidate, DurationField ) )
+                return DurationField;
+
+            if ( IsKeyMatch( candidate, CommandPseudoField ) )
+                return CommandPseudoField;
+        }
+
+        return null;
     }
 
     private DateTime GetItemStart( TItem item )
@@ -2030,6 +2475,28 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 isExpandable: false ) );
         }
 
+        if ( legacyColumnOrder.Count > 0 )
+        {
+            var indexedColumns = renderColumns
+                .Select( ( column, index ) => new { Column = column, Index = index } )
+                .ToList();
+
+            return indexedColumns
+                .Where( x => x.Column.IsWbs )
+                .OrderBy( x => GetLegacyDisplayOrder( x.Column.Key, x.Index ) )
+                .ThenBy( x => x.Index )
+                .Concat( indexedColumns
+                    .Where( x => !x.Column.IsWbs && !x.Column.IsCommand )
+                    .OrderBy( x => GetLegacyDisplayOrder( x.Column.Key, x.Index ) )
+                    .ThenBy( x => x.Index ) )
+                .Concat( indexedColumns
+                    .Where( x => x.Column.IsCommand )
+                    .OrderBy( x => GetLegacyDisplayOrder( x.Column.Key, x.Index ) )
+                    .ThenBy( x => x.Index ) )
+                .Select( x => x.Column )
+                .ToList();
+        }
+
         return renderColumns;
     }
 
@@ -2038,13 +2505,28 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( columns.Count == 0 )
             return Array.Empty<BaseGanttColumn<TItem>>();
 
-        var regularColumns = columns.Where( x => x is not GanttCommandColumn<TItem> ).ToList();
-        var commandColumns = columns.Where( x => x is GanttCommandColumn<TItem> ).ToList();
+        var regularColumns = columns
+            .Select( ( column, index ) => new { Column = column, Index = index } )
+            .Where( x => x.Column is not GanttCommandColumn<TItem> )
+            .ToList();
+
+        var commandColumns = columns
+            .Select( ( column, index ) => new { Column = column, Index = index } )
+            .Where( x => x.Column is GanttCommandColumn<TItem> )
+            .ToList();
 
         var orderedColumns = regularColumns
-            .Where( x => IsWbsField( x.Field ) )
-            .Concat( regularColumns.Where( x => !IsWbsField( x.Field ) ) )
-            .Concat( commandColumns )
+            .Where( x => IsWbsField( x.Column.Field ) )
+            .OrderBy( x => GetColumnDisplayOrder( x.Column, x.Index ) )
+            .ThenBy( x => x.Index )
+            .Concat( regularColumns
+                .Where( x => !IsWbsField( x.Column.Field ) )
+                .OrderBy( x => GetColumnDisplayOrder( x.Column, x.Index ) )
+                .ThenBy( x => x.Index ) )
+            .Concat( commandColumns
+                .OrderBy( x => GetColumnDisplayOrder( x.Column, x.Index ) )
+                .ThenBy( x => x.Index ) )
+            .Select( x => x.Column )
             .ToList();
 
         return orderedColumns;
@@ -2172,33 +2654,15 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     {
         pixelWidth = 0d;
 
-        if ( width is null )
+        if ( !CssValueUtils.TryGetNumericStyleValue( width, StyleProvider, "width", out var widthUnit, out var widthValue ) )
             return false;
 
-        var widthStyle = width.Style( StyleProvider );
-
-        if ( string.IsNullOrWhiteSpace( widthStyle ) )
+        if ( !string.Equals( widthUnit, "px", StringComparison.OrdinalIgnoreCase ) )
             return false;
 
-        foreach ( var widthRule in widthStyle.Split( ';' ) )
-        {
-            var rule = widthRule?.Trim();
+        pixelWidth = widthValue;
 
-            if ( string.IsNullOrWhiteSpace( rule ) || !rule.StartsWith( "width:", StringComparison.OrdinalIgnoreCase ) )
-                continue;
-
-            var valueText = rule[6..].Trim();
-
-            if ( !valueText.EndsWith( "px", StringComparison.OrdinalIgnoreCase ) )
-                continue;
-
-            valueText = valueText[..^2].Trim();
-
-            if ( double.TryParse( valueText, NumberStyles.Float, CultureInfo.InvariantCulture, out pixelWidth ) && pixelWidth > 0d )
-                return true;
-        }
-
-        return false;
+        return pixelWidth > 0d;
     }
 
     private string ResolveColumnFieldFromSortField( string sortField )
@@ -2498,7 +2962,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private string GetTreePaneStyle( IReadOnlyList<GanttRenderColumn> treeColumns )
     {
-        var width = GetTreePaneWidth( treeColumns );
+        var width = treeListWidthOverride is > 0d
+            ? treeListWidthOverride.Value
+            : GetTreePaneWidth( treeColumns );
         var widthText = width.ToString( "0.###", CultureInfo.InvariantCulture );
 
         return $"display: flex; flex-direction: column; width: {widthText}px; min-width: {widthText}px; max-width: {widthText}px; overflow: hidden;";
@@ -2549,7 +3015,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             _ => "left",
         };
 
-        return $"width: {widthText}px; min-width: {widthText}px; max-width: {widthText}px; overflow: hidden; cursor: {(sortable ? "pointer" : "default")}; text-align: {textAlign};";
+        return $"width: {widthText}px; min-width: {widthText}px; max-width: {widthText}px; overflow: hidden; cursor: {( sortable ? "pointer" : "default" )}; text-align: {textAlign};";
     }
 
     private string GetActionColumnStyle( double width )
@@ -2943,6 +3409,33 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             return null;
 
         return Convert.ToString( value, CultureInfo.InvariantCulture );
+    }
+
+    private TItem ResolveStateItemReference( TItem stateItem )
+    {
+        if ( stateItem is null )
+            return default;
+
+        if ( !propertyMapper.HasId )
+            return stateItem;
+
+        var stateItemId = NormalizeIdentifier( propertyMapper.GetId( stateItem ) );
+
+        if ( string.IsNullOrWhiteSpace( stateItemId ) )
+            return stateItem;
+
+        foreach ( var dataItem in Data ?? Array.Empty<TItem>() )
+        {
+            if ( dataItem is null )
+                continue;
+
+            var dataItemId = NormalizeIdentifier( propertyMapper.GetId( dataItem ) );
+
+            if ( string.Equals( dataItemId, stateItemId, StringComparison.Ordinal ) )
+                return dataItem;
+        }
+
+        return stateItem;
     }
 
     private bool AreRowsEqual( TItem first, TItem second )

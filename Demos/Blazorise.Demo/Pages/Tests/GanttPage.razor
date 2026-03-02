@@ -6,14 +6,32 @@
             <CardHeader>
                 <CardTitle>Gantt</CardTitle>
             </CardHeader>
+            <CardBody Flex="Flex.JustifyContent.Between.AlignItems.Center">
+                <Div>
+                    <Field>
+                        <Switch @bind-Value="@useApiFetch" Margin="Margin.Is3.FromBottom">Use API callback mode</Switch>
+                    </Field>
+                    <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
+                        Source: @(useApiFetch ? "ReadData callback (API style)" : "In-memory collection")
+                    </Paragraph>
+                </Div>
+                <Div>
+                    <Buttons Margin="Margin.Is3.FromBottom">
+                        <Button Color="Color.Secondary" Outline Size="Size.Small" Clicked="@SaveCurrentState">Save state</Button>
+                        <Button Color="Color.Primary" Outline Size="Size.Small" Clicked="@LoadSavedState" Disabled="@(savedState is null)">Load saved state</Button>
+                        <Button Color="Color.Info" Outline Size="Size.Small" Clicked="@ApplyPresetState">Apply preset state</Button>
+                    </Buttons>
+                    @if ( savedStateUtc is not null )
+                    {
+                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is2.FromBottom">
+                            Saved state timestamp: @savedStateUtc.Value.ToLocalTime().ToString( "HH:mm:ss" )
+                        </Paragraph>
+                    }
+                </Div>
+            </CardBody>
             <CardBody>
-                <Switch @bind-Value="@useApiFetch" Margin="Margin.Is3.FromBottom">Use API callback mode</Switch>
-
-                <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
-                    Source: @(useApiFetch ? "ReadData callback (API style)" : "In-memory collection")
-                </Paragraph>
-
                 <Gantt TItem="GanttTask"
+                       @ref="ganttRef"
                        Data="@BoundTasks"
                        @bind-Date="@selectedDate"
                        @bind-SelectedView="@selectedView"
@@ -62,6 +80,9 @@
     private GanttView selectedView = GanttView.Week;
     private bool useApiFetch;
     private DateTime? lastReadDataUtc;
+    private DateTime? savedStateUtc;
+    private Gantt<GanttTask> ganttRef;
+    private GanttState<GanttTask> savedState;
 
     private List<GanttTask> inMemoryTasks = new();
     private List<GanttTask> apiTasks = new();
@@ -73,6 +94,52 @@
         => useApiFetch
             ? EventCallback.Factory.Create<GanttReadDataEventArgs<GanttTask>>( this, OnReadData )
             : default;
+
+    private async Task SaveCurrentState()
+    {
+        if ( ganttRef is null )
+            return;
+
+        savedState = await ganttRef.GetState();
+        savedStateUtc = DateTime.UtcNow;
+    }
+
+    private async Task LoadSavedState()
+    {
+        if ( ganttRef is null || savedState is null )
+            return;
+
+        await ganttRef.LoadState( savedState );
+    }
+
+    private async Task ApplyPresetState()
+    {
+        if ( ganttRef is null )
+            return;
+
+        var presetState = new GanttState<GanttTask>
+        {
+            Date = DateOnly.FromDateTime( DateTime.Today.AddDays( 7 ) ),
+            SelectedView = GanttView.Month,
+            SearchText = "API",
+            SortField = "Start",
+            SortDirection = SortDirection.Descending,
+            FocusedRowKey = "7",
+            TreeListWidth = 640d,
+            EditState = GanttEditState.None,
+            ColumnStates = new()
+            {
+                new() { Field = "Wbs", Visible = true, DisplayOrder = 0, WidthUnit = "px", WidthValue = 72d },
+                new() { Field = "Title", Visible = true, DisplayOrder = 1, WidthUnit = "px", WidthValue = 220d },
+                new() { Field = "Start", Visible = true, DisplayOrder = 2, WidthUnit = "px", WidthValue = 130d },
+                new() { Field = "End", Visible = false, DisplayOrder = 3, WidthUnit = "px", WidthValue = 130d },
+                new() { Field = "Duration", Visible = true, DisplayOrder = 4, WidthUnit = "px", WidthValue = 96d },
+            },
+            CollapsedRowKeys = new() { "1", "5" },
+        };
+
+        await ganttRef.LoadState( presetState );
+    }
 
     protected override void OnInitialized()
     {
