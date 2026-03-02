@@ -3166,7 +3166,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         var barHeight = Math.Max( 16d, rowHeight - 12d );
         var top = Math.Max( 1d, ( rowHeight - barHeight ) / 2d );
 
-        var style = $"position: absolute; left: {barInfo.Left.ToString( "0.###", CultureInfo.InvariantCulture )}px; width: {barInfo.Width.ToString( "0.###", CultureInfo.InvariantCulture )}px; top: {top.ToString( "0.###", CultureInfo.InvariantCulture )}px; height: {barHeight.ToString( "0.###", CultureInfo.InvariantCulture )}px; display: flex; align-items: center; cursor: {( CanDragItem( item ) ? "grab" : "pointer" )};";
+        var style = $"position: absolute; left: {barInfo.Left.ToString( "0.###", CultureInfo.InvariantCulture )}px; width: {barInfo.Width.ToString( "0.###", CultureInfo.InvariantCulture )}px; top: {top.ToString( "0.###", CultureInfo.InvariantCulture )}px; height: {barHeight.ToString( "0.###", CultureInfo.InvariantCulture )}px; display: flex; align-items: center; cursor: {( CanDragItem( item ) ? "grab" : "pointer" )}; user-select: none; -webkit-user-select: none;";
 
         if ( barDragging && string.Equals( barDragRowKey, rowKey, StringComparison.Ordinal ) )
         {
