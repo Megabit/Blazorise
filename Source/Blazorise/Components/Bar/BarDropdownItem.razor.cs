@@ -66,6 +66,11 @@ public partial class BarDropdownItem : BaseComponent
     #region Properties
 
     /// <summary>
+    /// Returns tabindex for non-link dropdown items to support keyboard navigation.
+    /// </summary>
+    protected int? ComputedTabIndex => IsTabbableWithoutHref ? 0 : null;
+
+    /// <summary>
     /// Cascaded parent <see cref="BarDropdown"/> state.
     /// </summary>
     [CascadingParameter]
@@ -146,6 +151,11 @@ public partial class BarDropdownItem : BaseComponent
     /// Specifies the content to be rendered inside this <see cref="BarDropdownItem"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    private bool IsTabbableWithoutHref
+        => ParentDropdownState?.Mode == BarMode.Horizontal
+           && !Disabled
+           && string.IsNullOrEmpty( To );
 
     #endregion
 }

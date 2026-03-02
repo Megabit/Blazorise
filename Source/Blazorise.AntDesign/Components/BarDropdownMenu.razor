@@ -3,7 +3,7 @@
 @if ( ParentDropdownState != null && ParentDropdownState.Mode != BarMode.VerticalInline )
 {
     <div class="@GetContainerClassNames( ParentDropdownState.Mode == BarMode.Horizontal ? HorizontalMenuClass : VerticalMenuClass )" style="@GetContainerStyleNames()" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
-        <ul @ref="@ElementRef" id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler">
+        <ul @ref="@ElementRef" id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler" @onkeydown="@ParentBarDropdown.OnKeyDownHandler">
             @ChildContent
         </ul>
     </div>
@@ -11,7 +11,7 @@
 }
 else
 {
-    <ul @ref="@ElementRef" id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler">
+    <ul @ref="@ElementRef" id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler" @onkeydown="@ParentBarDropdown.OnKeyDownHandler">
         @ChildContent
     </ul>
 }
