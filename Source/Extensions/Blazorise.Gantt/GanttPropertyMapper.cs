@@ -1,6 +1,9 @@
 #region Using directives
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using Blazorise.Gantt.Utilities;
 #endregion
 
@@ -39,6 +42,10 @@ public class GanttPropertyMapper<TItem>
     private Func<TItem, object> getProgressFunc;
     private Action<TItem, object> setProgressFunc;
     private Type progressType;
+
+    private Func<TItem, object> getItemsFunc;
+    private Action<TItem, object> setItemsFunc;
+    private Type itemsType;
 
     #endregion
 
@@ -114,6 +121,22 @@ public class GanttPropertyMapper<TItem>
                 progressType = progressProperty.PropertyType;
                 getProgressFunc = GanttFunctionCompiler.CreateValueGetter<TItem>( gantt.ProgressField );
                 setProgressFunc = GanttFunctionCompiler.CreateValueSetter<TItem>( gantt.ProgressField );
+            }
+        }
+
+        var itemsProperty = !string.IsNullOrEmpty( gantt.ItemsField )
+            ? typeof( TItem ).GetProperty( gantt.ItemsField )
+            : null;
+
+        if ( itemsProperty?.PropertyType is not null
+             && typeof( IEnumerable<TItem> ).IsAssignableFrom( itemsProperty.PropertyType ) )
+        {
+            itemsType = itemsProperty.PropertyType;
+            getItemsFunc = GanttFunctionCompiler.CreateValueGetter<TItem>( gantt.ItemsField );
+
+            if ( itemsProperty.SetMethod?.IsPublic == true )
+            {
+                setItemsFunc = GanttFunctionCompiler.CreateValueSetter<TItem>( gantt.ItemsField );
             }
         }
     }
@@ -260,6 +283,61 @@ public class GanttPropertyMapper<TItem>
         setProgressFunc.Invoke( item, convertedValue );
     }
 
+    /// <summary>
+    /// Gets child item list.
+    /// </summary>
+    public IEnumerable<TItem> GetItems( TItem item )
+    {
+        if ( !HasItems || item is null )
+            return Array.Empty<TItem>();
+
+        var items = getItemsFunc?.Invoke( item );
+
+        if ( items is null )
+            return Array.Empty<TItem>();
+
+        if ( items is IEnumerable<TItem> typedItems )
+            return typedItems;
+
+        if ( items is IEnumerable enumerable )
+            return enumerable.OfType<TItem>();
+
+        return Array.Empty<TItem>();
+    }
+
+    /// <summary>
+    /// Gets child item collection.
+    /// </summary>
+    public ICollection<TItem> GetItemsCollection( TItem item, bool createIfMissing = false )
+    {
+        if ( !HasItems || item is null )
+            return null;
+
+        var items = getItemsFunc?.Invoke( item );
+
+        if ( items is ICollection<TItem> collection )
+            return collection;
+
+        if ( !createIfMissing || setItemsFunc is null )
+            return null;
+
+        var createdCollection = CreateItemsCollection( items );
+
+        if ( createdCollection is not ICollection<TItem> typedCreatedCollection )
+            return null;
+
+        try
+        {
+            setItemsFunc.Invoke( item, createdCollection );
+        }
+        catch
+        {
+            return null;
+        }
+
+        return typedCreatedCollection;
+    }
+
     #endregion
 
     #region Properties
@@ -303,6 +381,16 @@ public class GanttPropertyMapper<TItem>
     /// Indicates whether Progress is mapped.
     /// </summary>
     public bool HasProgress => getProgressFunc is not null;
+
+    /// <summary>
+    /// Indicates whether Items is mapped.
+    /// </summary>
+    public bool HasItems => getItemsFunc is not null;
+
+    /// <summary>
+    /// Indicates whether Items can be assigned.
+    /// </summary>
+    public bool CanSetItems => setItemsFunc is not null && itemsType?.IsArray != true;
 
     #endregion
 
@@ -457,6 +545,50 @@ public class GanttPropertyMapper<TItem>
 
     private static bool IsFractionScale( double progressValue )
         => progressValue > 0d && progressValue <= 1d;
+
+    private object CreateItemsCollection( object sourceItems )
+    {
+        var source = sourceItems switch
+        {
+            IEnumerable<TItem> typedSource => typedSource,
+            IEnumerable enumerableSource => enumerableSource.OfType<TItem>(),
+            _ => Enumerable.Empty<TItem>(),
+        };
+
+        var sourceList = source as IList<TItem> ?? source.ToList();
+
+        if ( itemsType is null )
+            return sourceList.ToList();
+
+        if ( itemsType.IsArray )
+            return null;
+
+        if ( itemsType.IsAssignableFrom( typeof( List<TItem> ) ) )
+            return sourceList.ToList();
+
+        if ( !itemsType.IsInterface && !itemsType.IsAbstract )
+        {
+            try
+            {
+                var instance = Activator.CreateInstance( itemsType );
+
+                if ( instance is ICollection<TItem> targetCollection )
+                {
+                    foreach ( var sourceItem in sourceList )
+                    {
+                        targetCollection.Add( sourceItem );
+                    }
+
+                    return targetCollection;
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        return null;
+    }
 
     #endregion
 }

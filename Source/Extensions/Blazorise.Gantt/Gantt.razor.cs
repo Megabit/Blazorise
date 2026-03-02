@@ -136,6 +136,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         var mappingChanged =
             parameters.TryGetValue<string>( nameof( IdField ), out var paramIdField ) && !string.Equals( IdField, paramIdField, StringComparison.Ordinal ) ||
             parameters.TryGetValue<string>( nameof( ParentIdField ), out var paramParentIdField ) && !string.Equals( ParentIdField, paramParentIdField, StringComparison.Ordinal ) ||
+            parameters.TryGetValue<string>( nameof( ItemsField ), out var paramItemsField ) && !string.Equals( ItemsField, paramItemsField, StringComparison.Ordinal ) ||
             parameters.TryGetValue<string>( nameof( TitleField ), out var paramTitleField ) && !string.Equals( TitleField, paramTitleField, StringComparison.Ordinal ) ||
             parameters.TryGetValue<string>( nameof( DescriptionField ), out var paramDescriptionField ) && !string.Equals( DescriptionField, paramDescriptionField, StringComparison.Ordinal ) ||
             parameters.TryGetValue<string>( nameof( StartField ), out var paramStartField ) && !string.Equals( StartField, paramStartField, StringComparison.Ordinal ) ||
@@ -891,9 +892,10 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( !await IsSafeToProceed( handler, targetItem, newItem ) )
             return false;
 
-        if ( submittedEditState == GanttEditState.New && UseInternalEditing && CanInsertNewItem && Data is ICollection<TItem> data )
+        if ( submittedEditState == GanttEditState.New && UseInternalEditing && CanInsertNewItem )
         {
-            data.Add( targetItem );
+            if ( !TryInsertNewItem( targetItem, editParentItem ) )
+                return false;
         }
 
         if ( UseInternalEditing || submittedEditState == GanttEditState.New )
@@ -917,6 +919,44 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         await RefreshInternalAsync();
 
         return true;
+    }
+
+    private bool TryInsertNewItem( TItem itemToInsert, TItem parentItem )
+    {
+        if ( itemToInsert is null )
+            return false;
+
+        if ( UseHierarchicalData && parentItem is not null )
+        {
+            var resolvedParentItem = ResolveStateItemReference( parentItem );
+
+            if ( resolvedParentItem is not null )
+            {
+                var childItems = propertyMapper.GetItemsCollection( resolvedParentItem, createIfMissing: true );
+
+                if ( childItems is not null )
+                {
+                    if ( propertyMapper.HasParentId )
+                        propertyMapper.SetParentId( itemToInsert, propertyMapper.GetId( resolvedParentItem ) );
+
+                    childItems.Add( itemToInsert );
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        if ( Data is ICollection<TItem> data )
+        {
+            if ( propertyMapper.HasParentId && parentItem is not null )
+                propertyMapper.SetParentId( itemToInsert, propertyMapper.GetId( parentItem ) );
+
+            data.Add( itemToInsert );
+            return true;
+        }
+
+        return false;
     }
 
     internal async Task<bool> IsSafeToProceed( EventCallback<GanttCancellableItemChange<TItem>> handler, TItem oldItem, TItem newItem )
@@ -2891,6 +2931,13 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private List<GanttTreeNode> BuildTree()
     {
+        return UseHierarchicalData
+            ? BuildHierarchicalTree()
+            : BuildFlatTree();
+    }
+
+    private List<GanttTreeNode> BuildFlatTree()
+    {
         var nodeList = new List<GanttTreeNode>();
         var nodesById = new Dictionary<string, GanttTreeNode>( StringComparer.Ordinal );
         var roots = new List<GanttTreeNode>();
@@ -2908,16 +2955,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             }
 
             var idKey = ValueUtils.NormalizeIdentifier( propertyMapper.HasId ? propertyMapper.GetId( item ) : null );
-            var stableKey = !string.IsNullOrEmpty( idKey )
-                ? idKey
-                : $"idx-{index.ToString( CultureInfo.InvariantCulture )}";
-
-            var uniqueKey = stableKey;
-
-            while ( !usedKeys.Add( uniqueKey ) )
-            {
-                uniqueKey = $"{stableKey}-{index.ToString( CultureInfo.InvariantCulture )}";
-            }
+            var uniqueKey = CreateUniqueNodeKey( item, index, usedKeys );
 
             var node = new GanttTreeNode( uniqueKey, item );
 
@@ -2960,6 +2998,75 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         }
 
         return roots;
+    }
+
+    private List<GanttTreeNode> BuildHierarchicalTree()
+    {
+        var roots = new List<GanttTreeNode>();
+        var usedKeys = new HashSet<string>( StringComparer.Ordinal );
+        var recursionGuard = new HashSet<object>( ReferenceEqualityComparer.Instance );
+        var items = Data ?? Array.Empty<TItem>();
+        var index = 0;
+
+        foreach ( var item in items )
+        {
+            var node = BuildHierarchicalNode( item, ref index, usedKeys, recursionGuard );
+
+            if ( node is not null )
+                roots.Add( node );
+        }
+
+        foreach ( var root in roots )
+        {
+            AssignLevels( root, 0, new HashSet<string>( StringComparer.Ordinal ) );
+        }
+
+        return roots;
+    }
+
+    private GanttTreeNode BuildHierarchicalNode( TItem item, ref int index, HashSet<string> usedKeys, ISet<object> recursionGuard )
+    {
+        if ( item is null )
+        {
+            index++;
+            return null;
+        }
+
+        if ( !recursionGuard.Add( item ) )
+            return null;
+
+        var node = new GanttTreeNode( CreateUniqueNodeKey( item, index, usedKeys ), item );
+        index++;
+
+        foreach ( var childItem in propertyMapper.GetItems( item ) )
+        {
+            var childNode = BuildHierarchicalNode( childItem, ref index, usedKeys, recursionGuard );
+
+            if ( childNode is not null )
+                node.Children.Add( childNode );
+        }
+
+        recursionGuard.Remove( item );
+        return node;
+    }
+
+    private string CreateUniqueNodeKey( TItem item, int index, HashSet<string> usedKeys )
+    {
+        var idKey = ValueUtils.NormalizeIdentifier( propertyMapper.HasId ? propertyMapper.GetId( item ) : null );
+        var stableKey = !string.IsNullOrEmpty( idKey )
+            ? idKey
+            : $"idx-{index.ToString( CultureInfo.InvariantCulture )}";
+
+        var uniqueKey = stableKey;
+        var suffix = 1;
+
+        while ( !usedKeys.Add( uniqueKey ) )
+        {
+            uniqueKey = $"{stableKey}-{suffix.ToString( CultureInfo.InvariantCulture )}";
+            suffix++;
+        }
+
+        return uniqueKey;
     }
 
     private IReadOnlyCollection<GanttTreeNode> SortNodes( IReadOnlyCollection<GanttTreeNode> nodes )
@@ -3416,6 +3523,12 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( data is null || itemToDelete is null )
             return;
 
+        if ( UseHierarchicalData )
+        {
+            TryRemoveHierarchicalItem( data, itemToDelete, new HashSet<object>( ReferenceEqualityComparer.Instance ) );
+            return;
+        }
+
         if ( !propertyMapper.HasId )
         {
             data.Remove( itemToDelete );
@@ -3466,6 +3579,46 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         }
     }
 
+    private bool TryRemoveHierarchicalItem( ICollection<TItem> items, TItem itemToDelete, ISet<object> recursionGuard )
+    {
+        if ( items is null || itemToDelete is null )
+            return false;
+
+        var snapshot = items.ToList();
+
+        foreach ( var item in snapshot )
+        {
+            if ( item is null )
+                continue;
+
+            if ( AreRowsEqual( item, itemToDelete ) )
+            {
+                items.Remove( item );
+                return true;
+            }
+
+            if ( !recursionGuard.Add( item ) )
+                continue;
+
+            try
+            {
+                var childItems = propertyMapper.GetItemsCollection( item );
+
+                if ( childItems is not null
+                     && TryRemoveHierarchicalItem( childItems, itemToDelete, recursionGuard ) )
+                {
+                    return true;
+                }
+            }
+            finally
+            {
+                recursionGuard.Remove( item );
+            }
+        }
+
+        return false;
+    }
+
     private TItem ResolveStateItemReference( TItem stateItem )
     {
         if ( stateItem is null )
@@ -3479,7 +3632,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( string.IsNullOrWhiteSpace( stateItemId ) )
             return stateItem;
 
-        foreach ( var dataItem in Data ?? Array.Empty<TItem>() )
+        foreach ( var dataItem in EnumerateAllDataItems() )
         {
             if ( dataItem is null )
                 continue;
@@ -3491,6 +3644,48 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         }
 
         return stateItem;
+    }
+
+    private IEnumerable<TItem> EnumerateAllDataItems()
+    {
+        if ( !UseHierarchicalData )
+            return Data ?? Array.Empty<TItem>();
+
+        return EnumerateHierarchicalDataItems( Data ?? Array.Empty<TItem>() );
+    }
+
+    private IEnumerable<TItem> EnumerateHierarchicalDataItems( IEnumerable<TItem> rootItems )
+    {
+        if ( rootItems is null )
+            yield break;
+
+        var recursionGuard = new HashSet<object>( ReferenceEqualityComparer.Instance );
+
+        foreach ( var item in rootItems )
+        {
+            foreach ( var nestedItem in EnumerateHierarchicalDataItems( item, recursionGuard ) )
+            {
+                yield return nestedItem;
+            }
+        }
+    }
+
+    private IEnumerable<TItem> EnumerateHierarchicalDataItems( TItem item, ISet<object> recursionGuard )
+    {
+        if ( item is null || !recursionGuard.Add( item ) )
+            yield break;
+
+        yield return item;
+
+        foreach ( var childItem in propertyMapper.GetItems( item ) )
+        {
+            foreach ( var nestedItem in EnumerateHierarchicalDataItems( childItem, recursionGuard ) )
+            {
+                yield return nestedItem;
+            }
+        }
+
+        recursionGuard.Remove( item );
     }
 
     private bool AreRowsEqual( TItem first, TItem second )
@@ -3521,7 +3716,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( AreRowsEqual( SelectedRow, itemToDelete ) )
             return true;
 
-        if ( !propertyMapper.HasId || !propertyMapper.HasParentId )
+        if ( !propertyMapper.HasId )
             return false;
 
         var selectedRowId = ValueUtils.NormalizeIdentifier( propertyMapper.GetId( SelectedRow ) );
@@ -3533,21 +3728,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( string.Equals( selectedRowId, deleteRowId, StringComparison.Ordinal ) )
             return true;
 
-        var parentById = new Dictionary<string, string>( StringComparer.Ordinal );
-
-        foreach ( var dataItem in Data ?? Array.Empty<TItem>() )
-        {
-            if ( dataItem is null )
-                continue;
-
-            var dataId = ValueUtils.NormalizeIdentifier( propertyMapper.GetId( dataItem ) );
-
-            if ( string.IsNullOrEmpty( dataId ) || parentById.ContainsKey( dataId ) )
-                continue;
-
-            var parentId = ValueUtils.NormalizeIdentifier( propertyMapper.GetParentId( dataItem ) );
-            parentById.Add( dataId, parentId );
-        }
+        var parentById = BuildParentLookup();
 
         var currentId = selectedRowId;
         var loopGuard = new HashSet<string>( StringComparer.Ordinal );
@@ -3564,12 +3745,52 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         return false;
     }
 
+    private Dictionary<string, string> BuildParentLookup()
+    {
+        var parentById = new Dictionary<string, string>( StringComparer.Ordinal );
+
+        if ( !propertyMapper.HasId )
+            return parentById;
+
+        foreach ( var root in BuildTree() )
+        {
+            AppendParentLookup( root, null, parentById, new HashSet<string>( StringComparer.Ordinal ) );
+        }
+
+        return parentById;
+    }
+
+    private void AppendParentLookup( GanttTreeNode node, string parentId, IDictionary<string, string> parentById, ISet<string> recursionGuard )
+    {
+        if ( node is null || !recursionGuard.Add( node.Key ) )
+            return;
+
+        var nodeId = ValueUtils.NormalizeIdentifier( propertyMapper.GetId( node.Item ) );
+
+        if ( !string.IsNullOrEmpty( nodeId ) && !parentById.ContainsKey( nodeId ) )
+        {
+            parentById.Add( nodeId, parentId );
+            parentId = nodeId;
+        }
+
+        foreach ( var childNode in node.Children )
+        {
+            AppendParentLookup( childNode, parentId, parentById, recursionGuard );
+        }
+
+        recursionGuard.Remove( node.Key );
+    }
+
     #endregion
 
     #region Properties
 
     private bool IsSearchMode
         => !string.IsNullOrWhiteSpace( searchText );
+
+    private bool UseHierarchicalData
+        => propertyMapper?.HasItems == true
+           && ( HierarchicalData || !propertyMapper.HasParentId );
 
     private bool ShowToolbarAddTaskButton
         => UseInternalEditing && IsCommandAllowed( GanttCommandType.New );
@@ -3635,10 +3856,15 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         => propertyMapper;
 
     /// <summary>
-    /// Gets whether a new item can be inserted into <see cref="Data"/>.
+    /// Gets whether a new item can be inserted into <see cref="Data"/> or mapped child collection.
     /// </summary>
     protected bool CanInsertNewItem
-        => Editable && UseInternalEditing && Data is ICollection<TItem>;
+        => Editable
+           && UseInternalEditing
+           && ( UseHierarchicalData && editParentItem is not null
+               ? propertyMapper.CanSetItems
+                 || propertyMapper.GetItemsCollection( ResolveStateItemReference( editParentItem ) ) is not null
+               : Data is ICollection<TItem> );
 
     /// <summary>
     /// Gets whether in-memory edit operations can update <see cref="Data"/>.
@@ -3775,6 +4001,16 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     /// Gets or sets parent identifier field name.
     /// </summary>
     [Parameter] public string ParentIdField { get; set; } = "ParentId";
+
+    /// <summary>
+    /// Gets or sets child item collection field name.
+    /// </summary>
+    [Parameter] public string ItemsField { get; set; } = "Items";
+
+    /// <summary>
+    /// Gets or sets whether hierarchical data mode is forced when both parent-id and items mapping exist.
+    /// </summary>
+    [Parameter] public bool HierarchicalData { get; set; }
 
     /// <summary>
     /// Gets or sets title field name.

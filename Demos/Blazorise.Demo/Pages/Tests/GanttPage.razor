@@ -75,10 +75,47 @@
         Selected date: @selectedDate, view: @selectedView
     </Column>
 </Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Gantt (Hierarchical Data)</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
+                    This example uses hierarchical data shape (<code>Id + Children</code>) with <code>ItemsField="Children"</code>.
+                </Paragraph>
+                <Gantt TItem="HierarchicalGanttTask"
+                       Data="@hierarchicalTasks"
+                       Date="@hierarchicalDate"
+                       SelectedView="GanttView.Week"
+                       ItemsField="Children"
+                       DurationField="Duration"
+                       Editable
+                       ItemStyling="@OnHierarchicalItemStyling">
+                    <GanttColumns>
+                        <GanttColumn Field="Wbs" Visible="false" />
+                        <GanttColumn Field="Title" Title="Task" Expandable />
+                        <GanttColumn Field="Start" />
+                        <GanttColumn Field="End" Visible="false" />
+                        <GanttColumn Field="Duration" />
+                        <GanttColumn Field="Progress" Visible="false" />
+                        <GanttCommandColumn />
+                    </GanttColumns>
+                    <GanttToolbar />
+                    <GanttViews>
+                        <GanttWeekView TimelineCellWidth="94" RowHeight="48" />
+                    </GanttViews>
+                </Gantt>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
 
 @code {
     private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
     private GanttView selectedView = GanttView.Week;
+    private DateOnly hierarchicalDate = DateOnly.FromDateTime( DateTime.Today );
     private bool useApiFetch;
     private DateTime? lastReadDataUtc;
     private DateTime? savedStateUtc;
@@ -87,6 +124,7 @@
 
     private List<GanttTask> inMemoryTasks = new();
     private List<GanttTask> apiTasks = new();
+    private List<HierarchicalGanttTask> hierarchicalTasks = new();
 
     private List<GanttTask> BoundTasks
         => useApiFetch ? apiTasks : inMemoryTasks;
@@ -146,6 +184,7 @@
     {
         inMemoryTasks = CreateTasks();
         apiTasks = inMemoryTasks.Select( x => x.Clone() ).ToList();
+        hierarchicalTasks = CreateHierarchicalTasks();
 
         base.OnInitialized();
     }
@@ -237,6 +276,22 @@
             itemStyling.Background = Background.Info;
     }
 
+    private static void OnHierarchicalItemStyling( HierarchicalGanttTask task, GanttItemStyling itemStyling )
+    {
+        if ( task.Children?.Count > 0 )
+        {
+            itemStyling.Background = Background.Dark;
+            return;
+        }
+
+        if ( task.Progress >= 80d )
+            itemStyling.Background = Background.Success;
+        else if ( task.Progress < 40d )
+            itemStyling.Background = Background.Warning;
+        else
+            itemStyling.Background = Background.Info;
+    }
+
     private static List<GanttTask> CreateTasks()
     {
         var baseDate = DateTime.Today.AddDays( -3 );
@@ -264,6 +319,170 @@
         }
 
         return tasks;
+    }
+
+    private static List<HierarchicalGanttTask> CreateHierarchicalTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -3 );
+        var tasks = new List<HierarchicalGanttTask>
+        {
+            new()
+            {
+                Id = "h1",
+                Title = "Project Atlas",
+                Description = "Root node",
+                Start = baseDate,
+                End = baseDate.AddDays( 45 ),
+                Progress = 55,
+                Children = new()
+                {
+                    new()
+                    {
+                        Id = "h2",
+                        Title = "Discovery",
+                        Description = "Research and planning",
+                        Start = baseDate,
+                        End = baseDate.AddDays( 7 ),
+                        Progress = 100,
+                        Children = new()
+                        {
+                            new()
+                            {
+                                Id = "h3",
+                                Title = "Requirements",
+                                Description = "Client workshops",
+                                Start = baseDate,
+                                End = baseDate.AddDays( 3 ),
+                                Progress = 100,
+                            },
+                            new()
+                            {
+                                Id = "h4",
+                                Title = "Scope review",
+                                Description = "Scope and cost validation",
+                                Start = baseDate.AddDays( 3 ),
+                                End = baseDate.AddDays( 7 ),
+                                Progress = 100,
+                            },
+                        },
+                    },
+                    new()
+                    {
+                        Id = "h5",
+                        Title = "Delivery",
+                        Description = "Build and integration",
+                        Start = baseDate.AddDays( 7 ),
+                        End = baseDate.AddDays( 35 ),
+                        Progress = 50,
+                        Children = new()
+                        {
+                            new()
+                            {
+                                Id = "h6",
+                                Title = "Backend",
+                                Description = "API and integration layer",
+                                Start = baseDate.AddDays( 7 ),
+                                End = baseDate.AddDays( 24 ),
+                                Progress = 65,
+                                Children = new()
+                                {
+                                    new()
+                                    {
+                                        Id = "h7",
+                                        Title = "API endpoints",
+                                        Description = "Public service contracts",
+                                        Start = baseDate.AddDays( 8 ),
+                                        End = baseDate.AddDays( 16 ),
+                                        Progress = 80,
+                                    },
+                                    new()
+                                    {
+                                        Id = "h8",
+                                        Title = "Data migrations",
+                                        Description = "Schema and seed data",
+                                        Start = baseDate.AddDays( 15 ),
+                                        End = baseDate.AddDays( 23 ),
+                                        Progress = 40,
+                                    },
+                                },
+                            },
+                            new()
+                            {
+                                Id = "h9",
+                                Title = "Frontend",
+                                Description = "UI pages and interactions",
+                                Start = baseDate.AddDays( 10 ),
+                                End = baseDate.AddDays( 31 ),
+                                Progress = 45,
+                                Children = new()
+                                {
+                                    new()
+                                    {
+                                        Id = "h10",
+                                        Title = "Dashboard UI",
+                                        Description = "Main user workspace",
+                                        Start = baseDate.AddDays( 12 ),
+                                        End = baseDate.AddDays( 22 ),
+                                        Progress = 50,
+                                    },
+                                    new()
+                                    {
+                                        Id = "h11",
+                                        Title = "Settings",
+                                        Description = "Preferences and account",
+                                        Start = baseDate.AddDays( 20 ),
+                                        End = baseDate.AddDays( 30 ),
+                                        Progress = 35,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    new()
+                    {
+                        Id = "h12",
+                        Title = "QA and Release",
+                        Description = "Validation and rollout",
+                        Start = baseDate.AddDays( 30 ),
+                        End = baseDate.AddDays( 45 ),
+                        Progress = 20,
+                        Children = new()
+                        {
+                            new()
+                            {
+                                Id = "h13",
+                                Title = "Regression suite",
+                                Description = "E2E and smoke tests",
+                                Start = baseDate.AddDays( 30 ),
+                                End = baseDate.AddDays( 40 ),
+                                Progress = 15,
+                            },
+                            new()
+                            {
+                                Id = "h14",
+                                Title = "Production launch",
+                                Description = "Go-live activities",
+                                Start = baseDate.AddDays( 40 ),
+                                End = baseDate.AddDays( 45 ),
+                                Progress = 5,
+                            },
+                        },
+                    },
+                },
+            },
+        };
+
+        AssignDurations( tasks );
+        return tasks;
+    }
+
+    private static void AssignDurations( IEnumerable<HierarchicalGanttTask> tasks )
+    {
+        foreach ( var task in tasks )
+        {
+            task.Duration = Math.Max( 1, (int)Math.Ceiling( ( task.End - task.Start ).TotalDays ) );
+            AssignDurations( task.Children );
+        }
     }
 
     private class GanttTask
@@ -298,5 +517,24 @@
                 Progress = Progress,
             };
         }
+    }
+
+    private class HierarchicalGanttTask
+    {
+        public string Id { get; set; }
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+
+        public double Progress { get; set; }
+
+        public List<HierarchicalGanttTask> Children { get; set; } = new();
     }
 }
