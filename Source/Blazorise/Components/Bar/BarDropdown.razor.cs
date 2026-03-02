@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise;
@@ -206,6 +207,54 @@ public partial class BarDropdown : BaseComponent, IDisposable
             return Task.CompletedTask;
 
         return Hide();
+    }
+
+    /// <summary>
+    /// Handles the onfocusin event.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task OnFocusInHandler()
+    {
+        if ( State.Mode != BarMode.Horizontal || State.IsInlineDisplay )
+            return Task.CompletedTask;
+
+        ShouldClose = false;
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Handles the onfocusout event.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task OnFocusOutHandler()
+    {
+        if ( State.Mode != BarMode.Horizontal || State.IsInlineDisplay )
+            return;
+
+        ShouldClose = true;
+
+        // Allow focus transitions inside the dropdown to settle before deciding to close.
+        await Task.Delay( 10 );
+
+        if ( ShouldClose )
+            await Hide();
+    }
+
+    /// <summary>
+    /// Handles the onkeydown event.
+    /// </summary>
+    /// <param name="eventArgs">Information about the keyboard event.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task OnKeyDownHandler( KeyboardEventArgs eventArgs )
+    {
+        if ( State.Mode != BarMode.Horizontal || State.IsInlineDisplay )
+            return Task.CompletedTask;
+
+        if ( eventArgs.Key == "Escape" || eventArgs.Key == "Esc" )
+            return Hide( true );
+
+        return Task.CompletedTask;
     }
 
     /// <summary>

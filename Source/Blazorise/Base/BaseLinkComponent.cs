@@ -283,6 +283,11 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     [Parameter] public string Title { get; set; }
 
     /// <summary>
+    /// Specifies whether the link element can be focused and where it participates in sequential keyboard navigation.
+    /// </summary>
+    [Parameter] public int? TabIndex { get; set; }
+
+    /// <summary>
     /// Removes default color styles from the link.
     /// </summary>
     [Parameter] public bool Unstyled { get; set; }

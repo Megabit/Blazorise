@@ -68,6 +68,7 @@ Cleanup: `clean.bat` (removes `bin/`, `obj/`, and generated docs artifacts).
 ## Coding Style & Naming Conventions
 
 - Follow `.editorconfig`: 4-space indentation, CRLF endings, braces preferred, and explicit types (avoid `var` unless it improves clarity).
+- Always preserve consistent `CRLF` line endings per file; never introduce mixed `LF`/`CRLF` endings in the same file.
 - Do not add a trailing newline at EOF; keep file endings without an extra line.
 - Naming: PascalCase for types/members; interfaces start with `I`.
 - Dependency versions are centrally managed in `Directory.Packages.props` (don’t hardcode `Version=` in `PackageReference`).
