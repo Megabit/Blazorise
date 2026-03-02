@@ -295,7 +295,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     var column = Columns?.Find( x => x.Field == filterState.FieldName );
                     if ( column is not null )
                     {
-                        column.Filter.SearchValue = filterState.SearchValue;
+                        column.Filter.SearchValue = DataGridFilterUtils.CoerceSearchValue( column, filterState.SearchValue );
                     }
                 }
 
