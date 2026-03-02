@@ -62,6 +62,16 @@
                     </FieldBody>
                 </Field>
 
+                @if ( ProgressAvailable )
+                {
+                    <Field>
+                        <FieldLabel>@Localizer.Localize( Gantt.Localizers?.ProgressLocalizer, LocalizationConstants.Progress )</FieldLabel>
+                        <FieldBody>
+                            <_GanttProgressEditor Value="@ProgressPercentage" ValueChanged="@OnProgressChanged" />
+                        </FieldBody>
+                    </Field>
+                }
+
                 <Fields>
                     <Validation Validator="@OnValidateStartDate">
                         <Field ColumnSize="ColumnSizeIs12OnMobileIs3OnTablet">

@@ -55,6 +55,11 @@ public class GanttLocalizers
     public TextLocalizerHandler DurationLocalizer { get; set; }
 
     /// <summary>
+    /// Localizer for the "Progress" field label.
+    /// </summary>
+    public TextLocalizerHandler ProgressLocalizer { get; set; }
+
+    /// <summary>
     /// Localizer for the "Save" action label.
     /// </summary>
     public TextLocalizerHandler SaveLocalizer { get; set; }

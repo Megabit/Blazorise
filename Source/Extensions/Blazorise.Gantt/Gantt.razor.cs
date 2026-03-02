@@ -85,6 +85,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private bool showStartColumn = true;
     private bool showEndColumn;
     private bool showDurationColumn = true;
+    private bool showProgressColumn = true;
     private bool showCommandColumn = true;
     private string focusedRowKey;
     private bool shouldFocusTreeRows;
@@ -1024,15 +1025,33 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             return items;
         }
 
-        return new List<GanttColumnPickerItem>
+        var legacyItems = new List<GanttColumnPickerItem>
         {
             new() { Key = WbsPseudoField, Text = WbsColumnHeaderText, Visible = showWbsColumn },
             new() { Key = TitleField, Text = TaskColumnHeaderText, Visible = showTitleColumn },
             new() { Key = StartField, Text = StartColumnHeaderText, Visible = showStartColumn },
             new() { Key = EndField, Text = EndColumnHeaderText, Visible = showEndColumn },
             new() { Key = DurationField, Text = DurationColumnHeaderText, Visible = showDurationColumn },
-            new() { Key = CommandPseudoField, Text = AddChildText, Visible = showCommandColumn },
         };
+
+        if ( ProgressColumnAvailable )
+        {
+            legacyItems.Add( new GanttColumnPickerItem
+            {
+                Key = ProgressField,
+                Text = ProgressColumnHeaderText,
+                Visible = showProgressColumn,
+            } );
+        }
+
+        legacyItems.Add( new GanttColumnPickerItem
+        {
+            Key = CommandPseudoField,
+            Text = AddChildText,
+            Visible = showCommandColumn,
+        } );
+
+        return legacyItems;
     }
 
     private async Task OnColumnVisibilityChanged( GanttColumnVisibilityChangedEventArgs args )
@@ -1064,6 +1083,8 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             showEndColumn = args.Visible;
         else if ( string.Equals( args.Key, DurationField, StringComparison.Ordinal ) )
             showDurationColumn = args.Visible;
+        else if ( string.Equals( args.Key, ProgressField, StringComparison.Ordinal ) )
+            showProgressColumn = args.Visible;
         else if ( string.Equals( args.Key, CommandPseudoField, StringComparison.Ordinal ) )
             showCommandColumn = args.Visible;
 
@@ -1080,7 +1101,14 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             return;
         }
 
-        if ( !showTitleColumn && !showWbsColumn && !showStartColumn && !showEndColumn && !showDurationColumn )
+        var hasVisibleRegularColumn = showTitleColumn
+            || showWbsColumn
+            || showStartColumn
+            || showEndColumn
+            || showDurationColumn
+            || ( ProgressColumnAvailable && showProgressColumn );
+
+        if ( !hasVisibleRegularColumn )
         {
             showTitleColumn = true;
         }
@@ -1128,6 +1156,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 var x when StringUtils.IsMatch( x, StartField ) => showStartColumn,
                 var x when StringUtils.IsMatch( x, EndField ) => showEndColumn,
                 var x when StringUtils.IsMatch( x, DurationField ) => showDurationColumn,
+                var x when StringUtils.IsMatch( x, ProgressField ) => showProgressColumn,
                 var x when StringUtils.IsMatch( x, CommandPseudoField ) => showCommandColumn,
                 _ => true,
             };
@@ -1228,6 +1257,8 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 showEndColumn = columnState.Visible;
             else if ( StringUtils.IsMatch( key, DurationField ) )
                 showDurationColumn = columnState.Visible;
+            else if ( StringUtils.IsMatch( key, ProgressField ) )
+                showProgressColumn = columnState.Visible;
             else if ( StringUtils.IsMatch( key, CommandPseudoField ) )
                 showCommandColumn = columnState.Visible;
         }
@@ -1324,7 +1355,8 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     }
 
     private List<string> GetLegacyColumnDefaultOrder()
-        => new()
+    {
+        var order = new List<string>
         {
             WbsPseudoField,
             TitleField,
@@ -1333,6 +1365,12 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             DurationField,
             CommandPseudoField,
         };
+
+        if ( ProgressColumnAvailable )
+            order.Insert( order.Count - 1, ProgressField );
+
+        return order;
+    }
 
     private int GetColumnDisplayOrder( BaseGanttColumn<TItem> column, int fallbackOrder )
     {
@@ -1375,6 +1413,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
             if ( StringUtils.IsMatch( candidate, DurationField ) )
                 return DurationField;
+
+            if ( StringUtils.IsMatch( candidate, ProgressField ) )
+                return ProgressField;
 
             if ( StringUtils.IsMatch( candidate, CommandPseudoField ) )
                 return CommandPseudoField;
@@ -1439,16 +1480,10 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private double? GetItemProgress( TItem item )
     {
-        if ( !propertyMapper.HasProgress || item is null )
+        if ( item is null || !propertyMapper.HasProgress )
             return null;
 
-        if ( !ValueUtils.TryConvertToDouble( propertyMapper.GetProgress( item ), out var progressValue ) )
-            return null;
-
-        if ( progressValue <= 1d )
-            progressValue *= 100d;
-
-        return Math.Max( 0d, Math.Min( 100d, progressValue ) );
+        return propertyMapper.GetProgressPercentage( item );
     }
 
     private string FormatDate( DateTime date )
@@ -1467,6 +1502,14 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             return string.Empty;
 
         return duration.Value.ToString( CultureInfo.InvariantCulture );
+    }
+
+    private static string FormatProgress( double? progress )
+    {
+        if ( progress is null )
+            return string.Empty;
+
+        return $"{progress.Value.ToString( "0.##", CultureInfo.InvariantCulture )}%";
     }
 
     private void ApplyNewItemDateDefaults( TItem item, TItem parentItem )
@@ -2115,6 +2158,14 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( column.IsDuration )
             return GetItemDuration( row.Item );
 
+        if ( column.IsProgress )
+        {
+            if ( column.Column is not null )
+                return column.Column.GetValue( row.Item );
+
+            return GetItemProgress( row.Item );
+        }
+
         if ( column.Expandable )
             return GetItemTitle( row.Item );
 
@@ -2140,6 +2191,22 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             };
 
             return FormatDuration( duration );
+        }
+
+        if ( column.IsProgress )
+        {
+            if ( column.Column?.DisplayFormat is not null )
+                return column.Column.FormatDisplayValue( value );
+
+            if ( !ValueUtils.TryConvertToDouble( value, out var progressValue ) )
+                return Convert.ToString( value, CultureInfo.InvariantCulture ) ?? string.Empty;
+
+            if ( progressValue <= 1d )
+                progressValue *= 100d;
+
+            var progress = Math.Max( 0d, Math.Min( 100d, progressValue ) );
+
+            return FormatProgress( progress );
         }
 
         if ( column.Expandable || column.IsWbs )
@@ -2293,6 +2360,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                         isStart: false,
                         isEnd: false,
                         isDuration: false,
+                        isProgress: false,
                         isExpandable: false ) );
 
                     continue;
@@ -2302,9 +2370,10 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 var isStart = StringUtils.IsMatch( column.Field, StartField );
                 var isEnd = StringUtils.IsMatch( column.Field, EndField );
                 var isDuration = StringUtils.IsMatch( column.Field, DurationField );
+                var isProgress = StringUtils.IsMatch( column.Field, ProgressField );
                 var sortField = column.GetSortField();
                 var canSort = Sortable && column.CanSort();
-                var textAlignment = ResolveColumnTextAlignment( column, isStart, isEnd, isDuration );
+                var textAlignment = ResolveColumnTextAlignment( column, isStart, isEnd, isDuration, isProgress );
 
                 renderColumns.Add( new GanttRenderColumn(
                     key: GetColumnKey( column ),
@@ -2320,6 +2389,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                     isStart: isStart,
                     isEnd: isEnd,
                     isDuration: isDuration,
+                    isProgress: isProgress,
                     isExpandable: column.Expandable ) );
             }
 
@@ -2344,6 +2414,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 isStart: false,
                 isEnd: false,
                 isDuration: false,
+                isProgress: false,
                 isExpandable: false ) );
         }
 
@@ -2363,6 +2434,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 isStart: false,
                 isEnd: false,
                 isDuration: false,
+                isProgress: false,
                 isExpandable: true ) );
         }
 
@@ -2383,6 +2455,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 isStart: true,
                 isEnd: false,
                 isDuration: false,
+                isProgress: false,
                 isExpandable: false ) );
         }
 
@@ -2403,6 +2476,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 isStart: false,
                 isEnd: true,
                 isDuration: false,
+                isProgress: false,
                 isExpandable: false ) );
         }
 
@@ -2423,6 +2497,28 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 isStart: false,
                 isEnd: false,
                 isDuration: true,
+                isProgress: false,
+                isExpandable: false ) );
+        }
+
+        if ( ProgressColumnAvailable && showProgressColumn )
+        {
+            var width = GetAutoSizedTreeColumnWidth( visibleRows, ProgressColumnHeaderText, row => FormatProgress( GetItemProgress( row.Item ) ), Sortable );
+            renderColumns.Add( new GanttRenderColumn(
+                key: ProgressField,
+                column: null,
+                commandColumn: null,
+                headerText: ProgressColumnHeaderText,
+                sortField: ProgressField,
+                canSort: Sortable,
+                width: width,
+                textAlignment: TextAlignment.Center,
+                isCommand: false,
+                isWbs: false,
+                isStart: false,
+                isEnd: false,
+                isDuration: false,
+                isProgress: true,
                 isExpandable: false ) );
         }
 
@@ -2442,6 +2538,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 isStart: false,
                 isEnd: false,
                 isDuration: false,
+                isProgress: false,
                 isExpandable: false ) );
         }
 
@@ -2564,6 +2661,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( StringUtils.IsMatch( column.Field, DurationField ) )
             return DurationColumnHeaderText;
 
+        if ( StringUtils.IsMatch( column.Field, ProgressField ) )
+            return ProgressColumnHeaderText;
+
         return column.Field ?? string.Empty;
     }
 
@@ -2571,12 +2671,12 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         => string.Equals( field, WbsPseudoField, StringComparison.OrdinalIgnoreCase )
             || string.Equals( field, "Wbs", StringComparison.OrdinalIgnoreCase );
 
-    private TextAlignment ResolveColumnTextAlignment( BaseGanttColumn<TItem> column, bool isStart, bool isEnd, bool isDuration )
+    private TextAlignment ResolveColumnTextAlignment( BaseGanttColumn<TItem> column, bool isStart, bool isEnd, bool isDuration, bool isProgress )
     {
         if ( column.TextAlignment != TextAlignment.Default )
             return column.TextAlignment;
 
-        if ( isStart || isEnd || isDuration )
+        if ( isStart || isEnd || isDuration || isProgress )
             return TextAlignment.Center;
 
         return TextAlignment.Default;
@@ -2607,6 +2707,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
         if ( StringUtils.IsMatch( column.Field, DurationField ) )
             return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row => FormatDuration( GetItemDuration( row.Item ) ), column.CanSort() && Sortable );
+
+        if ( StringUtils.IsMatch( column.Field, ProgressField ) )
+            return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row => FormatProgress( GetItemProgress( row.Item ) ), column.CanSort() && Sortable );
 
         return GetAutoSizedTreeColumnWidth( visibleRows, GetColumnHeaderText( column ), row =>
         {
@@ -2864,6 +2967,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
         if ( StringUtils.IsMatch( sortField, DurationField ) )
             return Nullable.Compare( GetItemDuration( x ), GetItemDuration( y ) );
+
+        if ( StringUtils.IsMatch( sortField, ProgressField ) )
+            return Nullable.Compare( GetItemProgress( x ), GetItemProgress( y ) );
 
         var mappedColumn = columns.FirstOrDefault( column => string.Equals( column.GetSortField(), sortField, StringComparison.OrdinalIgnoreCase ) );
 
@@ -3422,6 +3528,10 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private bool ShowAddChildColumn
         => UseInternalEditing && Editable && AddChildCommandAllowed;
 
+    private bool ProgressColumnAvailable
+        => propertyMapper?.HasProgress == true
+           && !string.IsNullOrWhiteSpace( ProgressField );
+
     private bool CanShowActionColumn( IReadOnlyCollection<GanttTreeRow> visibleRows )
         => showCommandColumn
            && ( ShowHeaderNewButton
@@ -3453,6 +3563,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private string DurationColumnHeaderText
         => Localizer.Localize( Localizers?.DurationLocalizer, LocalizationConstants.Duration );
+
+    private string ProgressColumnHeaderText
+        => Localizer.Localize( Localizers?.ProgressLocalizer, LocalizationConstants.Progress );
 
     private BaseGanttView<TItem> ActiveView
         => SelectedView switch
@@ -3817,7 +3930,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private sealed class GanttRenderColumn
     {
-        public GanttRenderColumn( string key, BaseGanttColumn<TItem> column, GanttCommandColumn<TItem> commandColumn, string headerText, string sortField, bool canSort, double width, TextAlignment textAlignment, bool isCommand, bool isWbs, bool isStart, bool isEnd, bool isDuration, bool isExpandable )
+        public GanttRenderColumn( string key, BaseGanttColumn<TItem> column, GanttCommandColumn<TItem> commandColumn, string headerText, string sortField, bool canSort, double width, TextAlignment textAlignment, bool isCommand, bool isWbs, bool isStart, bool isEnd, bool isDuration, bool isProgress, bool isExpandable )
         {
             Key = key;
             Column = column;
@@ -3832,6 +3945,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             IsStart = isStart;
             IsEnd = isEnd;
             IsDuration = isDuration;
+            IsProgress = isProgress;
             Expandable = isExpandable;
         }
 
@@ -3860,6 +3974,8 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         public bool IsEnd { get; }
 
         public bool IsDuration { get; }
+
+        public bool IsProgress { get; }
 
         public bool Expandable { get; }
     }

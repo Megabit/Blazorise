@@ -38,6 +38,7 @@ public class GanttPropertyMapper<TItem>
 
     private Func<TItem, object> getProgressFunc;
     private Action<TItem, object> setProgressFunc;
+    private Type progressType;
 
     #endregion
 
@@ -100,10 +101,20 @@ public class GanttPropertyMapper<TItem>
             }
         }
 
-        if ( !string.IsNullOrEmpty( gantt.ProgressField ) && typeof( TItem ).GetProperty( gantt.ProgressField )?.PropertyType is not null )
+        var progressProperty = !string.IsNullOrEmpty( gantt.ProgressField )
+            ? typeof( TItem ).GetProperty( gantt.ProgressField )
+            : null;
+
+        if ( progressProperty?.PropertyType is not null )
         {
-            getProgressFunc = GanttFunctionCompiler.CreateValueGetter<TItem>( gantt.ProgressField );
-            setProgressFunc = GanttFunctionCompiler.CreateValueSetter<TItem>( gantt.ProgressField );
+            var underlyingProgressType = Nullable.GetUnderlyingType( progressProperty.PropertyType ) ?? progressProperty.PropertyType;
+
+            if ( IsSupportedProgressType( underlyingProgressType ) )
+            {
+                progressType = progressProperty.PropertyType;
+                getProgressFunc = GanttFunctionCompiler.CreateValueGetter<TItem>( gantt.ProgressField );
+                setProgressFunc = GanttFunctionCompiler.CreateValueSetter<TItem>( gantt.ProgressField );
+            }
         }
     }
 
@@ -199,6 +210,55 @@ public class GanttPropertyMapper<TItem>
     /// Sets progress value.
     /// </summary>
     public void SetProgress( TItem item, object value ) => setProgressFunc?.Invoke( item, value );
+
+    /// <summary>
+    /// Gets normalized progress percentage in range 0..100.
+    /// </summary>
+    public double? GetProgressPercentage( TItem item )
+    {
+        if ( !HasProgress || item is null )
+            return null;
+
+        if ( !ValueUtils.TryConvertToDouble( getProgressFunc?.Invoke( item ), out var progressValue ) )
+            return null;
+
+        if ( IsFractionScale( progressValue ) )
+            progressValue *= 100d;
+
+        return Math.Max( 0d, Math.Min( 100d, progressValue ) );
+    }
+
+    /// <summary>
+    /// Determines whether current item's progress uses fraction scale (0..1).
+    /// </summary>
+    public bool IsProgressFractionScale( TItem item )
+    {
+        if ( !HasProgress || item is null || !IsFractionCompatibleProgressType( progressType ) )
+            return false;
+
+        if ( !ValueUtils.TryConvertToDouble( getProgressFunc?.Invoke( item ), out var progressValue ) )
+            return false;
+
+        return IsFractionScale( progressValue );
+    }
+
+    /// <summary>
+    /// Sets progress by normalized percentage value.
+    /// </summary>
+    public void SetProgressPercentage( TItem item, double percentage, bool useFractionScale )
+    {
+        if ( !HasProgress || setProgressFunc is null || item is null )
+            return;
+
+        var normalizedPercentage = Math.Max( 0d, Math.Min( 100d, percentage ) );
+        var effectiveFractionScale = useFractionScale && IsFractionCompatibleProgressType( progressType );
+        var rawValue = effectiveFractionScale
+            ? normalizedPercentage / 100d
+            : normalizedPercentage;
+        var convertedValue = ConvertProgressToTargetType( rawValue, progressType );
+
+        setProgressFunc.Invoke( item, convertedValue );
+    }
 
     #endregion
 
@@ -333,6 +393,70 @@ public class GanttPropertyMapper<TItem>
             || type == typeof( decimal )
             || type == typeof( string );
     }
+
+    private static object ConvertProgressToTargetType( double value, Type targetType )
+    {
+        if ( targetType is null )
+            return value;
+
+        var nonNullableType = Nullable.GetUnderlyingType( targetType ) ?? targetType;
+
+        if ( nonNullableType == typeof( double ) )
+            return value;
+
+        if ( nonNullableType == typeof( float ) )
+            return (float)value;
+
+        if ( nonNullableType == typeof( decimal ) )
+            return (decimal)value;
+
+        var roundedValue = Math.Round( value, MidpointRounding.AwayFromZero );
+
+        if ( nonNullableType == typeof( int ) )
+            return (int)roundedValue;
+
+        if ( nonNullableType == typeof( long ) )
+            return (long)roundedValue;
+
+        if ( nonNullableType == typeof( short ) )
+            return (short)Math.Max( short.MinValue, Math.Min( short.MaxValue, roundedValue ) );
+
+        if ( nonNullableType == typeof( byte ) )
+            return (byte)Math.Max( byte.MinValue, Math.Min( byte.MaxValue, roundedValue ) );
+
+        if ( nonNullableType == typeof( string ) )
+            return value.ToString( "G29", CultureInfo.InvariantCulture );
+
+        return Convert.ChangeType( value, nonNullableType, CultureInfo.InvariantCulture );
+    }
+
+    private static bool IsSupportedProgressType( Type type )
+    {
+        return type == typeof( byte )
+            || type == typeof( short )
+            || type == typeof( int )
+            || type == typeof( long )
+            || type == typeof( float )
+            || type == typeof( double )
+            || type == typeof( decimal )
+            || type == typeof( string );
+    }
+
+    private static bool IsFractionCompatibleProgressType( Type type )
+    {
+        if ( type is null )
+            return false;
+
+        var nonNullableType = Nullable.GetUnderlyingType( type ) ?? type;
+
+        return nonNullableType == typeof( float )
+            || nonNullableType == typeof( double )
+            || nonNullableType == typeof( decimal )
+            || nonNullableType == typeof( string );
+    }
+
+    private static bool IsFractionScale( double progressValue )
+        => progressValue > 0d && progressValue <= 1d;
 
     #endregion
 }

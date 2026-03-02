@@ -25,6 +25,7 @@ internal static class LocalizationConstants
     public const string Next = "Next";
     public const string NoTasksToDisplay = "No tasks to display.";
     public const string ParentTask = "Parent task";
+    public const string Progress = "Progress";
     public const string Previous = "Previous";
     public const string Save = "Save";
     public const string Search = "Search tasks...";

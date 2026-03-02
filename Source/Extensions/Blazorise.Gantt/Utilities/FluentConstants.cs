@@ -29,6 +29,7 @@ internal static class FluentConstants
     internal static readonly IFluentSpacing MarginIs0FromBottom = Margin.Is0.FromBottom;
     internal static readonly IFluentSpacing MarginIs1FromBottom = Margin.Is1.FromBottom;
     internal static readonly IFluentSpacing MarginIs1FromEnd = Margin.Is1.FromEnd;
+    internal static readonly IFluentSpacing MarginIs1FromTop = Margin.Is1.FromTop;
     internal static readonly IFluentSpacing MarginIs1OnX = Margin.Is1.OnX;
     internal static readonly IFluentSpacing MarginIs2OnX = Margin.Is2.OnX;
     internal static readonly IFluentSpacing MarginIs2FromBottom = Margin.Is2.FromBottom;

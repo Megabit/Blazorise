@@ -255,6 +255,13 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
         return Task.CompletedTask;
     }
 
+    private Task OnProgressChanged( int value )
+    {
+        ProgressPercentage = NormalizeProgressPercentage( value );
+
+        return Task.CompletedTask;
+    }
+
     /// <summary>
     /// Shows modal for provided item.
     /// </summary>
@@ -284,6 +291,20 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
         else
         {
             DurationDays = NormalizeDurationDays( CalculateDurationInDays( start, end ) );
+        }
+
+        if ( ProgressAvailable )
+        {
+            ProgressUsesFractionScale = ResolveProgressUsesFractionScale();
+            var progress = Gantt.PropertyMapper.GetProgressPercentage( EditItem );
+            ProgressPercentage = NormalizeProgressPercentage( progress is null
+                ? 0
+                : (int)Math.Round( progress.Value, MidpointRounding.AwayFromZero ) );
+        }
+        else
+        {
+            ProgressUsesFractionScale = false;
+            ProgressPercentage = 0;
         }
 
         StartDate = DateOnly.FromDateTime( start );
@@ -351,6 +372,9 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
         if ( DurationAvailable )
             Gantt.PropertyMapper.SetDuration( EditItem, duration );
+
+        if ( ProgressAvailable )
+            Gantt.PropertyMapper.SetProgressPercentage( EditItem, ProgressPercentage, ProgressUsesFractionScale );
 
         var result = await SaveRequested.Invoke( EditItem );
 
@@ -424,6 +448,9 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
     private static int NormalizeDurationDays( int value )
         => Math.Max( 1, value );
 
+    private static int NormalizeProgressPercentage( int value )
+        => Math.Max( 0, Math.Min( 100, value ) );
+
     private static bool TryGetDateOnlyValue( object value, out DateOnly date )
     {
         if ( value is DateOnly dateOnlyValue )
@@ -447,6 +474,59 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
     private static bool IsUnassignedDate( DateTime value )
         => value == DateTime.MinValue || value == DateTime.MaxValue;
+
+    private bool ResolveProgressUsesFractionScale()
+    {
+        if ( !ProgressAvailable )
+            return false;
+
+        var hasFractionScaleValue = false;
+        var hasPercentageScaleValue = false;
+
+        if ( TryGetRawProgressValue( EditItem, out var editItemProgress ) )
+        {
+            if ( IsProgressPercentageScale( editItemProgress ) )
+                return false;
+
+            if ( IsProgressFractionScale( editItemProgress ) )
+                return true;
+        }
+
+        foreach ( var dataItem in Gantt.Data ?? Array.Empty<TItem>() )
+        {
+            if ( dataItem is null )
+                continue;
+
+            if ( !TryGetRawProgressValue( dataItem, out var progressValue ) )
+                continue;
+
+            if ( IsProgressPercentageScale( progressValue ) )
+                hasPercentageScaleValue = true;
+            else if ( IsProgressFractionScale( progressValue ) )
+                hasFractionScaleValue = true;
+
+            if ( hasFractionScaleValue && hasPercentageScaleValue )
+                break;
+        }
+
+        return hasFractionScaleValue && !hasPercentageScaleValue;
+    }
+
+    private bool TryGetRawProgressValue( TItem item, out double progressValue )
+    {
+        progressValue = 0d;
+
+        if ( item is null || !ProgressAvailable )
+            return false;
+
+        return ValueUtils.TryConvertToDouble( Gantt.PropertyMapper.GetProgress( item ), out progressValue );
+    }
+
+    private static bool IsProgressFractionScale( double progressValue )
+        => progressValue > 0d && progressValue <= 1d;
+
+    private static bool IsProgressPercentageScale( double progressValue )
+        => progressValue > 1d;
 
     private string GetParentTitleText()
     {
@@ -536,6 +616,8 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
     private bool DurationAvailable => Gantt.PropertyMapper.HasDuration;
 
+    private bool ProgressAvailable => Gantt.PropertyMapper.HasProgress;
+
     private bool DeleteCommandVisible
         => EditItem is not null
            && Gantt?.IsCommandAllowed( GanttCommandType.Delete, EditItem ) == true;
@@ -568,6 +650,10 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
     private TimeOnly EndTime { get; set; }
 
     private int DurationDays { get; set; } = 1;
+
+    private int ProgressPercentage { get; set; }
+
+    private bool ProgressUsesFractionScale { get; set; }
 
     private TItem EditItem { get; set; }
 
