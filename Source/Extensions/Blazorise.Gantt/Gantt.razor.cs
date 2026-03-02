@@ -352,6 +352,27 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     }
 
     /// <summary>
+    /// Resolves whether a mapped field is editable based on declarative column configuration.
+    /// </summary>
+    /// <param name="field">Field name.</param>
+    /// <param name="editState">Current edit state.</param>
+    /// <returns>True when field is editable; otherwise false.</returns>
+    protected internal bool IsFieldEditable( string field, GanttEditState editState = GanttEditState.Edit )
+    {
+        if ( string.IsNullOrWhiteSpace( field ) || columns.Count == 0 )
+            return true;
+
+        var mappedColumn = GetOrderedColumns()
+            .OfType<GanttColumn<TItem>>()
+            .FirstOrDefault( x => StringUtils.IsMatch( x.Field, field ) );
+
+        if ( mappedColumn is null )
+            return true;
+
+        return mappedColumn.CellValueIsEditable( editState );
+    }
+
+    /// <summary>
     /// Gets current Gantt state.
     /// </summary>
     /// <returns>Current Gantt state.</returns>
@@ -1742,6 +1763,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             return false;
 
         if ( !IsCommandAllowed( GanttCommandType.Edit, item ) )
+            return false;
+
+        if ( !IsFieldEditable( StartField, GanttEditState.Edit ) )
             return false;
 
         if ( !propertyMapper.HasStart || !propertyMapper.HasEnd )

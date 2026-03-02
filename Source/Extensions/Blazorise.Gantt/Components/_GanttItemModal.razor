@@ -42,27 +42,33 @@
             }
 
             <Validations @ref="@validationsRef" Mode="ValidationMode.Manual">
-                <Validation Validator="@OnValidateTitle">
+                @if ( TitleEditable )
+                {
+                    <Validation Validator="@OnValidateTitle">
+                        <Field>
+                            <FieldLabel>@Localizer.Localize( Gantt.Localizers?.TitleLocalizer, LocalizationConstants.Title )</FieldLabel>
+                            <FieldBody>
+                                <TextInput @bind-Value="@Title" Autofocus="true">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextInput>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                }
+
+                @if ( DescriptionEditable )
+                {
                     <Field>
-                        <FieldLabel>@Localizer.Localize( Gantt.Localizers?.TitleLocalizer, LocalizationConstants.Title )</FieldLabel>
+                        <FieldLabel>@Localizer.Localize( Gantt.Localizers?.DescriptionLocalizer, LocalizationConstants.Description )</FieldLabel>
                         <FieldBody>
-                            <TextInput @bind-Value="@Title" Autofocus>
-                                <Feedback>
-                                    <ValidationError />
-                                </Feedback>
-                            </TextInput>
+                            <MemoInput @bind-Value="@Description" Rows="3" />
                         </FieldBody>
                     </Field>
-                </Validation>
+                }
 
-                <Field>
-                    <FieldLabel>@Localizer.Localize( Gantt.Localizers?.DescriptionLocalizer, LocalizationConstants.Description )</FieldLabel>
-                    <FieldBody>
-                        <MemoInput @bind-Value="@Description" Rows="3" />
-                    </FieldBody>
-                </Field>
-
-                @if ( ProgressAvailable )
+                @if ( ProgressEditable )
                 {
                     <Field>
                         <FieldLabel>@Localizer.Localize( Gantt.Localizers?.ProgressLocalizer, LocalizationConstants.Progress )</FieldLabel>
@@ -73,28 +79,31 @@
                 }
 
                 <Fields>
-                    <Validation Validator="@OnValidateStartDate">
-                        <Field ColumnSize="ColumnSizeIs12OnMobileIs3OnTablet">
-                            <FieldLabel>@Localizer.Localize( Gantt.Localizers?.StartLocalizer, LocalizationConstants.Start )</FieldLabel>
-                            <FieldBody>
-                                <DatePicker TValue="DateOnly" Value="@StartDate" ValueChanged="@OnStartDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
-                                    <Feedback>
-                                        <ValidationError />
-                                    </Feedback>
-                                </DatePicker>
-                            </FieldBody>
-                        </Field>
-                    </Validation>
-                    <Validation Validator="@OnValidateStartTime">
-                        <Field ColumnSize="ColumnSizeIs12OnMobileIs2OnTablet">
-                            <FieldLabel>&nbsp;</FieldLabel>
-                            <FieldBody>
-                                <TimePicker TValue="TimeOnly" Value="@StartTime" ValueChanged="@OnStartTimeChanged" StaticPicker="false" TimeAs24hr />
-                            </FieldBody>
-                        </Field>
-                    </Validation>
+                    @if ( StartEditable )
+                    {
+                        <Validation Validator="@OnValidateStartDate">
+                            <Field ColumnSize="ColumnSizeIs12OnMobileIs3OnTablet">
+                                <FieldLabel>@Localizer.Localize( Gantt.Localizers?.StartLocalizer, LocalizationConstants.Start )</FieldLabel>
+                                <FieldBody>
+                                    <DatePicker TValue="DateOnly" Value="@StartDate" ValueChanged="@OnStartDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
+                                        <Feedback>
+                                            <ValidationError />
+                                        </Feedback>
+                                    </DatePicker>
+                                </FieldBody>
+                            </Field>
+                        </Validation>
+                        <Validation Validator="@OnValidateStartTime">
+                            <Field ColumnSize="ColumnSizeIs12OnMobileIs2OnTablet">
+                                <FieldLabel>&nbsp;</FieldLabel>
+                                <FieldBody>
+                                    <TimePicker TValue="TimeOnly" Value="@StartTime" ValueChanged="@OnStartTimeChanged" StaticPicker="false" TimeAs24hr />
+                                </FieldBody>
+                            </Field>
+                        </Validation>
+                    }
 
-                    @if ( DurationAvailable )
+                    @if ( DurationEditable )
                     {
                         <Field ColumnSize="ColumnSizeIs12OnMobileIs2OnTablet">
                             <FieldLabel>@Localizer.Localize( Gantt.Localizers?.DurationLocalizer, LocalizationConstants.Duration )</FieldLabel>
@@ -118,26 +127,29 @@
                         </Field>
                     }
 
-                    <Validation Validator="@OnValidateEndDate">
-                        <Field ColumnSize="ColumnSizeIs12OnMobileIs3OnTablet">
-                            <FieldLabel>@Localizer.Localize( Gantt.Localizers?.EndLocalizer, LocalizationConstants.End )</FieldLabel>
-                            <FieldBody>
-                                <DatePicker TValue="DateOnly" Value="@EndDate" ValueChanged="@OnEndDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
-                                    <Feedback>
-                                        <ValidationError />
-                                    </Feedback>
-                                </DatePicker>
-                            </FieldBody>
-                        </Field>
-                    </Validation>
-                    <Validation Validator="@OnValidateEndTime">
-                        <Field ColumnSize="ColumnSizeIs12OnMobileIs2OnTablet">
-                            <FieldLabel>&nbsp;</FieldLabel>
-                            <FieldBody>
-                                <TimePicker TValue="TimeOnly" Value="@EndTime" ValueChanged="@OnEndTimeChanged" StaticPicker="false" TimeAs24hr />
-                            </FieldBody>
-                        </Field>
-                    </Validation>
+                    @if ( EndEditable )
+                    {
+                        <Validation Validator="@OnValidateEndDate">
+                            <Field ColumnSize="ColumnSizeIs12OnMobileIs3OnTablet">
+                                <FieldLabel>@Localizer.Localize( Gantt.Localizers?.EndLocalizer, LocalizationConstants.End )</FieldLabel>
+                                <FieldBody>
+                                    <DatePicker TValue="DateOnly" Value="@EndDate" ValueChanged="@OnEndDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
+                                        <Feedback>
+                                            <ValidationError />
+                                        </Feedback>
+                                    </DatePicker>
+                                </FieldBody>
+                            </Field>
+                        </Validation>
+                        <Validation Validator="@OnValidateEndTime">
+                            <Field ColumnSize="ColumnSizeIs12OnMobileIs2OnTablet">
+                                <FieldLabel>&nbsp;</FieldLabel>
+                                <FieldBody>
+                                    <TimePicker TValue="TimeOnly" Value="@EndTime" ValueChanged="@OnEndTimeChanged" StaticPicker="false" TimeAs24hr />
+                                </FieldBody>
+                            </Field>
+                        </Validation>
+                    }
                 </Fields>
             </Validations>
         </ModalBody>

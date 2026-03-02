@@ -24,8 +24,10 @@ public partial class _GanttProgressEditor : BaseComponent
     {
         var valueChanged = parameters.TryGetValue<int>( nameof( Value ), out var newValue )
             && newValue != Value;
+        var disabledChanged = parameters.TryGetValue<bool>( nameof( Disabled ), out var newDisabled )
+            && newDisabled != Disabled;
 
-        shouldRender = !rendered || valueChanged;
+        shouldRender = !rendered || valueChanged || disabledChanged;
 
         return base.SetParametersAsync( parameters );
     }
@@ -57,6 +59,11 @@ public partial class _GanttProgressEditor : BaseComponent
     /// Gets or sets callback invoked when <see cref="Value"/> changes.
     /// </summary>
     [Parameter] public EventCallback<int> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether progress editor is disabled.
+    /// </summary>
+    [Parameter] public bool Disabled { get; set; }
 
     #endregion
 }

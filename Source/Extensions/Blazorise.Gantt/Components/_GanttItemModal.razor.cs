@@ -49,6 +49,13 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
     private void OnValidateTitle( ValidatorEventArgs e )
     {
+        if ( !TitleEditable )
+        {
+            e.Status = ValidationStatus.None;
+            e.ErrorText = null;
+            return;
+        }
+
         var value = e.Value as string;
 
         e.Status = string.IsNullOrWhiteSpace( value )
@@ -62,6 +69,13 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
     private void OnValidateStartDate( ValidatorEventArgs e )
     {
+        if ( !StartEditable )
+        {
+            e.Status = ValidationStatus.None;
+            e.ErrorText = null;
+            return;
+        }
+
         if ( !TryGetDateOnlyValue( e.Value, out var startDate ) || IsUnassignedDate( startDate ) )
         {
             e.Status = ValidationStatus.Error;
@@ -84,6 +98,13 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
     private void OnValidateStartTime( ValidatorEventArgs e )
     {
+        if ( !StartEditable )
+        {
+            e.Status = ValidationStatus.None;
+            e.ErrorText = null;
+            return;
+        }
+
         var startTime = e.Value as TimeOnly?;
 
         if ( startTime is null || IsUnassignedDate( StartDate ) || IsUnassignedDate( EndDate ) )
@@ -101,6 +122,13 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
     private void OnValidateEndDate( ValidatorEventArgs e )
     {
+        if ( !EndEditable )
+        {
+            e.Status = ValidationStatus.None;
+            e.ErrorText = null;
+            return;
+        }
+
         if ( !TryGetDateOnlyValue( e.Value, out var endDate ) || IsUnassignedDate( endDate ) )
         {
             e.Status = ValidationStatus.Error;
@@ -123,6 +151,13 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
     private void OnValidateEndTime( ValidatorEventArgs e )
     {
+        if ( !EndEditable )
+        {
+            e.Status = ValidationStatus.None;
+            e.ErrorText = null;
+            return;
+        }
+
         var endTime = e.Value as TimeOnly?;
 
         if ( endTime is null || IsUnassignedDate( StartDate ) || IsUnassignedDate( EndDate ) )
@@ -151,13 +186,16 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
     private Task OnStartDateChanged( DateOnly value )
     {
+        if ( !StartEditable )
+            return Task.CompletedTask;
+
         var previousStart = GetStartValue();
         StartDate = value;
 
         if ( IsUnassignedDate( StartDate ) )
             return Task.CompletedTask;
 
-        if ( DurationAvailable )
+        if ( DurationEditable )
         {
             SyncEndFromDuration();
             return Task.CompletedTask;
@@ -170,13 +208,16 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
     private Task OnStartTimeChanged( TimeOnly value )
     {
+        if ( !StartEditable )
+            return Task.CompletedTask;
+
         var previousStart = GetStartValue();
         StartTime = value;
 
         if ( IsUnassignedDate( StartDate ) )
             return Task.CompletedTask;
 
-        if ( DurationAvailable )
+        if ( DurationEditable )
         {
             SyncEndFromDuration();
             return Task.CompletedTask;
@@ -189,12 +230,15 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
     private Task OnEndDateChanged( DateOnly value )
     {
+        if ( !EndEditable )
+            return Task.CompletedTask;
+
         EndDate = value;
 
         if ( IsUnassignedDate( EndDate ) )
             return Task.CompletedTask;
 
-        if ( DurationAvailable )
+        if ( DurationEditable )
         {
             SyncDurationFromEnd();
             SyncEndFromDuration();
@@ -205,12 +249,15 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
     private Task OnEndTimeChanged( TimeOnly value )
     {
+        if ( !EndEditable )
+            return Task.CompletedTask;
+
         EndTime = value;
 
         if ( IsUnassignedDate( EndDate ) || IsUnassignedDate( StartDate ) )
             return Task.CompletedTask;
 
-        if ( DurationAvailable )
+        if ( DurationEditable )
         {
             SyncDurationFromEnd();
             SyncEndFromDuration();
@@ -221,9 +268,12 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
     private Task OnDurationIncrease()
     {
+        if ( !DurationEditable )
+            return Task.CompletedTask;
+
         DurationDays += 1;
 
-        if ( DurationAvailable )
+        if ( DurationEditable )
         {
             SyncEndFromDuration();
         }
@@ -233,9 +283,12 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
     private Task OnDurationDecrease()
     {
+        if ( !DurationEditable )
+            return Task.CompletedTask;
+
         DurationDays = Math.Max( 1, DurationDays - 1 );
 
-        if ( DurationAvailable )
+        if ( DurationEditable )
         {
             SyncEndFromDuration();
         }
@@ -245,9 +298,12 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
     private Task OnDurationChanged( int value )
     {
+        if ( !DurationEditable )
+            return Task.CompletedTask;
+
         DurationDays = NormalizeDurationDays( value );
 
-        if ( DurationAvailable )
+        if ( DurationEditable )
         {
             SyncEndFromDuration();
         }
@@ -257,6 +313,9 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
     private Task OnProgressChanged( int value )
     {
+        if ( !ProgressEditable )
+            return Task.CompletedTask;
+
         ProgressPercentage = NormalizeProgressPercentage( value );
 
         return Task.CompletedTask;
@@ -280,7 +339,7 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
         if ( end <= start )
             end = start.AddHours( 1 );
 
-        if ( DurationAvailable )
+        if ( DurationEditable )
         {
             var mappedDuration = Gantt.PropertyMapper.GetDuration( EditItem );
             DurationDays = mappedDuration > 0
@@ -336,7 +395,7 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
         var end = new DateTime( EndDate.Year, EndDate.Month, EndDate.Day, EndTime.Hour, EndTime.Minute, 0 );
         var duration = NormalizeDurationDays( DurationDays );
 
-        if ( DurationAvailable )
+        if ( DurationEditable )
             end = start.AddDays( duration );
 
         if ( end <= start )
@@ -358,22 +417,27 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
             Gantt.PropertyMapper.SetParentId( EditItem, Gantt.PropertyMapper.GetId( ParentItem ) );
         }
 
-        if ( TitleAvailable )
+        if ( TitleAvailable && TitleEditable )
             Gantt.PropertyMapper.SetTitle( EditItem, Title );
 
-        if ( DescriptionAvailable )
+        if ( DescriptionAvailable && DescriptionEditable )
             Gantt.PropertyMapper.SetDescription( EditItem, Description );
 
-        if ( StartAvailable )
+        if ( StartAvailable && StartEditable )
             Gantt.PropertyMapper.SetStart( EditItem, start );
 
-        if ( EndAvailable )
+        if ( EndAvailable && ( EndEditable || DurationEditable || StartEditable ) )
             Gantt.PropertyMapper.SetEnd( EditItem, end );
 
         if ( DurationAvailable )
-            Gantt.PropertyMapper.SetDuration( EditItem, duration );
+        {
+            if ( DurationEditable )
+                Gantt.PropertyMapper.SetDuration( EditItem, duration );
+            else if ( StartAvailable && EndAvailable && ( StartEditable || EndEditable ) )
+                Gantt.PropertyMapper.SetDuration( EditItem, CalculateDurationInDays( start, end ) );
+        }
 
-        if ( ProgressAvailable )
+        if ( ProgressAvailable && ProgressEditable )
             Gantt.PropertyMapper.SetProgressPercentage( EditItem, ProgressPercentage, ProgressUsesFractionScale );
 
         var result = await SaveRequested.Invoke( EditItem );
@@ -608,15 +672,27 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
 
     private bool TitleAvailable => Gantt.PropertyMapper.HasTitle;
 
+    private bool TitleEditable => TitleAvailable && IsFieldEditable( Gantt.TitleField, EditState );
+
     private bool DescriptionAvailable => Gantt.PropertyMapper.HasDescription;
+
+    private bool DescriptionEditable => DescriptionAvailable && IsFieldEditable( Gantt.DescriptionField, EditState );
 
     private bool StartAvailable => Gantt.PropertyMapper.HasStart;
 
+    private bool StartEditable => StartAvailable && IsFieldEditable( Gantt.StartField, EditState );
+
     private bool EndAvailable => Gantt.PropertyMapper.HasEnd;
+
+    private bool EndEditable => EndAvailable && IsFieldEditable( Gantt.EndField, EditState );
 
     private bool DurationAvailable => Gantt.PropertyMapper.HasDuration;
 
+    private bool DurationEditable => DurationAvailable && IsFieldEditable( Gantt.DurationField, EditState );
+
     private bool ProgressAvailable => Gantt.PropertyMapper.HasProgress;
+
+    private bool ProgressEditable => ProgressAvailable && IsFieldEditable( Gantt.ProgressField, EditState );
 
     private bool DeleteCommandVisible
         => EditItem is not null
@@ -697,6 +773,13 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
     /// Gets or sets the first day of week used by date pickers.
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
+
+    #endregion
+
+    #region Helpers
+
+    private bool IsFieldEditable( string field, GanttEditState editState )
+        => Gantt?.IsFieldEditable( field, editState ) ?? true;
 
     #endregion
 }
