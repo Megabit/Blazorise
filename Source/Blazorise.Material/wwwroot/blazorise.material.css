@@ -20117,3 +20117,31 @@ pre:has(> .mui-code) {
 .mui-invisible {
   visibility: hidden !important;
 }
+
+.mui-visually-hidden {
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+.mui-visually-hidden:not(caption) {
+  position: absolute !important;
+}
+
+.mui-visually-hidden-focusable:not(:focus):not(:focus-within) {
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+.mui-visually-hidden-focusable:not(:focus):not(:focus-within):not(caption) {
+  position: absolute !important;
+}

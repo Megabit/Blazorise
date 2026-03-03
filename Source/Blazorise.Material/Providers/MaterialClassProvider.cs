@@ -1834,8 +1834,8 @@ public class MaterialClassProvider : ClassProvider
     {
         return screenreader switch
         {
-            Blazorise.Screenreader.Only => "visually-hidden",
-            Blazorise.Screenreader.OnlyFocusable => "visually-hidden-focusable",
+            Blazorise.Screenreader.Only => "mui-visually-hidden",
+            Blazorise.Screenreader.OnlyFocusable => "mui-visually-hidden-focusable",
             _ => null,
         };
     }
