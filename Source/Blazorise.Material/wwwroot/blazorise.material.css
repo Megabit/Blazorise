@@ -1016,15 +1016,22 @@ body {
 .mui-chip .mui-chip-close > svg {
   width: 100%;
   height: 100%;
+  color: inherit;
+  fill: currentColor;
+  stroke: currentColor;
+}
+.mui-chip .mui-chip-close > svg * {
+  fill: currentColor;
+  stroke: currentColor;
 }
 .mui-chip + .mui-chip {
   margin-inline-start: 0.5rem;
 }
 
-.mui-chip-close-primary {
+.mui-chip-primary .mui-chip-close-primary {
   color: var(--mui-on-primary-container);
 }
-.mui-chip-close-primary:hover {
+.mui-chip-primary .mui-chip-close-primary:hover {
   color: var(--mui-on-primary-container);
 }
 
@@ -1035,10 +1042,10 @@ body {
   color: var(--mui-primary-hover);
 }
 
-.mui-chip-close-secondary {
+.mui-chip-secondary .mui-chip-close-secondary {
   color: var(--mui-on-secondary-container);
 }
-.mui-chip-close-secondary:hover {
+.mui-chip-secondary .mui-chip-close-secondary:hover {
   color: var(--mui-on-secondary-container);
 }
 
@@ -1049,10 +1056,10 @@ body {
   color: var(--mui-secondary-hover);
 }
 
-.mui-chip-close-tertiary {
+.mui-chip-tertiary .mui-chip-close-tertiary {
   color: var(--mui-on-tertiary-container);
 }
-.mui-chip-close-tertiary:hover {
+.mui-chip-tertiary .mui-chip-close-tertiary:hover {
   color: var(--mui-on-tertiary-container);
 }
 
@@ -1063,10 +1070,10 @@ body {
   color: var(--mui-tertiary-hover);
 }
 
-.mui-chip-close-error {
+.mui-chip-error .mui-chip-close-error {
   color: var(--mui-on-error-container);
 }
-.mui-chip-close-error:hover {
+.mui-chip-error .mui-chip-close-error:hover {
   color: var(--mui-on-error-container);
 }
 
@@ -1077,10 +1084,10 @@ body {
   color: var(--mui-error-hover);
 }
 
-.mui-chip-close-success {
+.mui-chip-success .mui-chip-close-success {
   color: var(--mui-on-success-container);
 }
-.mui-chip-close-success:hover {
+.mui-chip-success .mui-chip-close-success:hover {
   color: var(--mui-on-success-container);
 }
 
@@ -1091,10 +1098,10 @@ body {
   color: var(--mui-success-hover);
 }
 
-.mui-chip-close-warning {
+.mui-chip-warning .mui-chip-close-warning {
   color: var(--mui-on-warning-container);
 }
-.mui-chip-close-warning:hover {
+.mui-chip-warning .mui-chip-close-warning:hover {
   color: var(--mui-on-warning-container);
 }
 
@@ -1105,10 +1112,10 @@ body {
   color: var(--mui-warning-hover);
 }
 
-.mui-chip-close-info {
+.mui-chip-info .mui-chip-close-info {
   color: var(--mui-on-info-container);
 }
-.mui-chip-close-info:hover {
+.mui-chip-info .mui-chip-close-info:hover {
   color: var(--mui-on-info-container);
 }
 
@@ -1119,10 +1126,10 @@ body {
   color: var(--mui-info-hover);
 }
 
-.mui-chip-close-light {
+.mui-chip-light .mui-chip-close-light {
   color: var(--mui-on-light-container);
 }
-.mui-chip-close-light:hover {
+.mui-chip-light .mui-chip-close-light:hover {
   color: var(--mui-on-light-container);
 }
 
@@ -1133,10 +1140,10 @@ body {
   color: var(--mui-light-hover);
 }
 
-.mui-chip-close-dark {
+.mui-chip-dark .mui-chip-close-dark {
   color: var(--mui-on-dark-container);
 }
-.mui-chip-close-dark:hover {
+.mui-chip-dark .mui-chip-close-dark:hover {
   color: var(--mui-on-dark-container);
 }
 

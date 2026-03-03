@@ -82,6 +82,14 @@
         > svg {
             width: 100%;
             height: 100%;
+            color: inherit;
+            fill: currentColor;
+            stroke: currentColor;
+        }
+
+        > svg * {
+            fill: currentColor;
+            stroke: currentColor;
         }
     }
 
@@ -91,11 +99,13 @@
 }
 
 @each $color in (primary, secondary, tertiary, error, success, warning, info, light, dark) {
-    .mui-chip-close-#{$color} {
-        color: var(--mui-on-#{$color}-container);
-
-        &:hover {
+    .mui-chip-#{$color} {
+        .mui-chip-close-#{$color} {
             color: var(--mui-on-#{$color}-container);
+
+            &:hover {
+                color: var(--mui-on-#{$color}-container);
+            }
         }
     }
 
