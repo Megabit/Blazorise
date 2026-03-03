@@ -63,7 +63,7 @@ public class BarLinkComponentTest : TestContext
         // test
         var comp = RenderComponent<BarLink>( builder =>
             builder
-                .Add( p => p.To, "/" ) );
+                .Add( p => p.To, "base" ) );
 
         var anchor = comp.Find( "a" );
 
