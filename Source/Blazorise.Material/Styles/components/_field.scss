@@ -28,6 +28,21 @@
     flex-flow: row wrap;
     align-items: center;
 
+    > .mui-field:has(> .mui-field-label:is(.mui-visually-hidden, .mui-visually-hidden-focusable)):not(:has(> :not(.mui-field-label))) {
+        flex: 0 0 0;
+        inline-size: 0;
+        min-inline-size: 0;
+        min-block-size: 0;
+        margin: 0 !important;
+        border: 0;
+        padding: 0;
+    }
+
+    > .mui-field:has(> .mui-field-label:is(.mui-visually-hidden, .mui-visually-hidden-focusable)):not(:has(> :not(.mui-field-label))) + .mui-field {
+        margin-left: 0 !important;
+        margin-inline-start: 0 !important;
+    }
+
     > .mui-field {
         margin-top: 0;
     }
