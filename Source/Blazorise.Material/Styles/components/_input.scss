@@ -291,14 +291,18 @@ textarea.mui-input:not([rows]) {
 }
 
 .is-valid ~ .valid-feedback,
-.is-invalid ~ .invalid-feedback,
-.mui-check.is-valid .valid-feedback,
-.mui-check.is-invalid .invalid-feedback,
-.mui-radio.is-valid .valid-feedback,
-.mui-radio.is-invalid .invalid-feedback,
-.mui-switch.is-valid .valid-feedback,
-.mui-switch.is-invalid .invalid-feedback {
+.is-invalid ~ .invalid-feedback {
     display: inline-block;
+}
+
+.mui-check.is-valid > .valid-feedback,
+.mui-check.is-invalid > .invalid-feedback,
+.mui-radio.is-valid > .valid-feedback,
+.mui-radio.is-invalid > .invalid-feedback,
+.mui-switch.is-valid > .valid-feedback,
+.mui-switch.is-invalid > .invalid-feedback {
+    display: block;
+    inline-size: 100%;
 }
 
 .form-text.text-muted {
