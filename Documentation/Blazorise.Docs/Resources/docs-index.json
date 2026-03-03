@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-26T08:40:07.7356266Z",
+  "generatedUtc": "2026-03-03T08:49:33.8393708Z",
   "pages": [
     {
       "route": "/docs",
@@ -6860,7 +6860,7 @@
           "code": "BasicVideoExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Video/Examples/BasicVideoExample.razor",
-          "content": "<Video Source=\"@(\"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4\")\" />",
+          "content": "<Video Source=\"@(\"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4\")\" />",
           "title": "Basic",
           "description": "To play the video you just need to define the Source of the video."
         },

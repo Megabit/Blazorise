@@ -1,6 +1,6 @@
 ﻿@using Blazorise.Utilities;
 @inherits Blazorise.BaseLinkComponent
-<a id="@ElementId" href="@GetTo()" rel="@GetRel()" class="@ClassNames" style="@StyleNames" title="@Title" target="@TargetName" tabindex="@TabIndex" aria-disabled="@AriaDisabledString" @onclick="@OnClickHandler" @onclick:preventDefault="@PreventDefault" @attributes="@Attributes">
+<a id="@ElementId" href="@GetTo()" rel="@GetRel()" class="@ClassNames" style="@StyleNames" title="@Title" target="@TargetName" tabindex="@TabIndex" aria-current="@AriaCurrentString" aria-disabled="@AriaDisabledString" @onclick="@OnClickHandler" @onclick:preventDefault="@PreventDefault" @attributes="@Attributes">
     @ChildContent
 </a>
 @code {

@@ -214,6 +214,11 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     protected string AriaDisabledString => Disabled ? "true" : null;
 
     /// <summary>
+    /// Gets the string representation of the aria-current attribute for the active link.
+    /// </summary>
+    protected string AriaCurrentString => Active ? "page" : null;
+
+    /// <summary>
     /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
     /// </summary>
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
