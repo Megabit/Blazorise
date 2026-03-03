@@ -51,6 +51,8 @@
             var rowHeight = GetRowHeight();
             var headerRowHeight = GetHeaderRowHeight();
             var cellWidth = GetTimelineCellWidth();
+            var timelineHeaderStyle = GetTimelineHeaderStyle( timeSlots.Count, cellWidth );
+            var timelineRowStyle = GetTimelineRowStyle( rowHeight, timeSlots.Count, cellWidth );
             var treeToggleWidth = GetTreeToggleWidth();
             var showHeaderNewButton = ShowHeaderNewButton;
             var wbsLookup = BuildWbsLookup( visibleRows );
@@ -190,7 +192,7 @@
             <_GanttTimelinePane Style="@GetTimelinePaneStyle()">
                 <_GanttTimelineViewport Style="@GetTimelineViewportStyle()">
                     <_GanttTimelineInner Style="@GetTimelineInnerStyle( timeSlots.Count, cellWidth )">
-                        <_GanttTimeHeader Height="Blazorise.Height.Px( headerRowHeight )" Border="BorderIs1OnBottom" Position="PositionStickyTopIs0" Background="Background.Body">
+                        <_GanttTimeHeader Height="Blazorise.Height.Px( headerRowHeight )" Border="BorderIs1OnBottom" Position="PositionStickyTopIs0" Background="Background.Body" Style="@timelineHeaderStyle">
                             @for ( var slotIndex = 0; slotIndex < timeSlots.Count; slotIndex++ )
                             {
                                 var slot = timeSlots[slotIndex];
@@ -210,7 +212,7 @@
 
                         @foreach ( var node in visibleRows )
                         {
-                            <_GanttTimeRow @key="@($"timeline-{node.Key}")" Style="@GetTimelineRowStyle( rowHeight, cellWidth )" Background="@GetFocusedRowBackground( node.Key )">
+                            <_GanttTimeRow @key="@($"timeline-{node.Key}")" Style="@timelineRowStyle" Background="@GetFocusedRowBackground( node.Key )">
                                 @if ( TryGetVisibleBar( node.Item, viewRange.Start, viewRange.End, timeSlots.Count, cellWidth, out var barInfo ) )
                                 {
                                     var itemStyling = GetItemStyling( node.Item );

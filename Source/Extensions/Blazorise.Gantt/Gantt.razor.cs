@@ -38,6 +38,8 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private const double AutoSizedTreeColumnCharacterWidth = 8d;
     private const double AutoSizedTreeColumnHorizontalPadding = 24d;
     private const double AutoSizedTreeSortableIndicatorWidth = 20d;
+    private const string TimelinePaddedSlotBackgroundColor = "rgba(0,0,0,0.04)";
+    private const string TimelineAnchorBoundaryColor = "rgba(0,0,0,0.16)";
     private const string WbsPseudoField = "__wbs";
     private const string CommandPseudoField = "__commands";
 
@@ -3251,12 +3253,90 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         return $"display: flex; align-items: center; justify-content: center; text-align: center; border-right: 1px solid rgba(0,0,0,0.08); width: {width}px; min-width: {width}px; max-width: {width}px;";
     }
 
-    private string GetTimelineRowStyle( double rowHeight, double cellWidth )
+    private string GetTimelineHeaderStyle( int slotsCount, double cellWidth )
+    {
+        var style = "position: relative;";
+        var paddedZoneBackground = GetTimelinePaddedZoneBackground( slotsCount, cellWidth );
+
+        if ( !string.IsNullOrWhiteSpace( paddedZoneBackground ) )
+            style = $"{style} background-image: {paddedZoneBackground};";
+
+        return style;
+    }
+
+    private string GetTimelineRowStyle( double rowHeight, int slotsCount, double cellWidth )
     {
         var rowHeightText = rowHeight.ToString( "0.###", CultureInfo.InvariantCulture );
         var cellWidthText = cellWidth.ToString( "0.###", CultureInfo.InvariantCulture );
+        var paddedZoneBackground = GetTimelinePaddedZoneBackground( slotsCount, cellWidth );
+        var rowGridBackground = $"repeating-linear-gradient(to right, rgba(0,0,0,0.07), rgba(0,0,0,0.07) 1px, transparent 1px, transparent {cellWidthText}px)";
 
-        return $"position: relative; width: 100%; min-width: 100%; height: {rowHeightText}px; min-height: {rowHeightText}px; border-bottom: 1px solid rgba(0,0,0,0.08); background-image: repeating-linear-gradient(to right, rgba(0,0,0,0.07), rgba(0,0,0,0.07) 1px, transparent 1px, transparent {cellWidthText}px);";
+        if ( !string.IsNullOrWhiteSpace( paddedZoneBackground ) )
+            rowGridBackground = $"{paddedZoneBackground}, {rowGridBackground}";
+
+        return $"position: relative; width: 100%; min-width: 100%; height: {rowHeightText}px; min-height: {rowHeightText}px; border-bottom: 1px solid rgba(0,0,0,0.08); background-image: {rowGridBackground};";
+    }
+
+    private string GetTimelinePaddedZoneBackground( int slotsCount, double cellWidth )
+    {
+        if ( slotsCount <= 0 || cellWidth <= 0d )
+            return null;
+
+        var (leadingSlots, trailingSlots) = GetTimelinePaddedZoneSlots( slotsCount );
+
+        if ( leadingSlots <= 0 && trailingSlots <= 0 )
+            return null;
+
+        var totalWidth = Math.Max( 1, slotsCount ) * cellWidth;
+        var leadingWidth = leadingSlots * cellWidth;
+        var trailingWidth = trailingSlots * cellWidth;
+        var trailingStart = totalWidth - trailingWidth;
+
+        var layers = new List<string>();
+
+        if ( leadingSlots > 0 )
+        {
+            var leadingWidthText = leadingWidth.ToString( "0.###", CultureInfo.InvariantCulture );
+            layers.Add( $"linear-gradient(to right, {TimelinePaddedSlotBackgroundColor} 0px, {TimelinePaddedSlotBackgroundColor} {leadingWidthText}px, transparent {leadingWidthText}px, transparent 100%)" );
+
+            if ( leadingWidth > 0d && leadingWidth < totalWidth )
+                layers.Insert( 0, BuildTimelineBoundaryLayer( leadingWidth ) );
+        }
+
+        if ( trailingSlots > 0 )
+        {
+            var trailingStartText = trailingStart.ToString( "0.###", CultureInfo.InvariantCulture );
+            layers.Add( $"linear-gradient(to right, transparent 0px, transparent {trailingStartText}px, {TimelinePaddedSlotBackgroundColor} {trailingStartText}px, {TimelinePaddedSlotBackgroundColor} 100%)" );
+
+            if ( trailingStart > 0d
+                 && trailingStart < totalWidth
+                 && ( layers.Count == 1 || Math.Abs( trailingStart - leadingWidth ) > 0.5d ) )
+                layers.Insert( 0, BuildTimelineBoundaryLayer( trailingStart ) );
+        }
+
+        return string.Join( ", ", layers );
+    }
+
+    private (int LeadingSlots, int TrailingSlots) GetTimelinePaddedZoneSlots( int slotsCount )
+    {
+        if ( slotsCount <= 0 )
+            return (0, 0);
+
+        var leadingSlots = GetCurrentViewLeadingSlots();
+        var trailingSlots = GetCurrentViewTrailingSlots();
+
+        leadingSlots = Math.Min( Math.Max( 0, leadingSlots ), slotsCount );
+        trailingSlots = Math.Min( Math.Max( 0, trailingSlots ), Math.Max( 0, slotsCount - leadingSlots ) );
+
+        return (leadingSlots, trailingSlots);
+    }
+
+    private static string BuildTimelineBoundaryLayer( double offset )
+    {
+        var offsetText = offset.ToString( "0.###", CultureInfo.InvariantCulture );
+        var nextOffsetText = ( offset + 1d ).ToString( "0.###", CultureInfo.InvariantCulture );
+
+        return $"linear-gradient(to right, transparent 0px, transparent {offsetText}px, {TimelineAnchorBoundaryColor} {offsetText}px, {TimelineAnchorBoundaryColor} {nextOffsetText}px, transparent {nextOffsetText}px, transparent 100%)";
     }
 
     private bool TryGetVisibleBar( TItem item, DateTime viewStart, DateTime viewEnd, int slotsCount, double cellWidth, out GanttBarInfo barInfo )
