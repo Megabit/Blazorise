@@ -56,4 +56,32 @@ public class BarLinkComponentTest : TestContext
         // validate
         Assert.True( wasClicked );
     }
+
+    [Fact]
+    public void ShouldSetAriaCurrent_WhenLinkIsActive()
+    {
+        // test
+        var comp = RenderComponent<BarLink>( builder =>
+            builder
+                .Add( p => p.To, "/" ) );
+
+        var anchor = comp.Find( "a" );
+
+        // validate
+        Assert.Equal( "page", anchor.GetAttribute( "aria-current" ) );
+    }
+
+    [Fact]
+    public void ShouldNotSetAriaCurrent_WhenLinkIsNotActive()
+    {
+        // test
+        var comp = RenderComponent<BarLink>( builder =>
+            builder
+                .Add( p => p.To, "test" ) );
+
+        var anchor = comp.Find( "a" );
+
+        // validate
+        Assert.False( anchor.HasAttribute( "aria-current" ) );
+    }
 }
