@@ -1236,13 +1236,15 @@ public class MaterialClassProvider : ClassProvider
 
     public override string Badge() => "mui-chip";
 
-    public override string BadgeColor( Color color, bool subtle ) => color.IsNotNullOrDefault() ? $"mui-chip-{ToColor( color )}" : null;
+    public override string BadgeColor( Color color, bool subtle )
+        => color.IsNotNullOrDefault() ? $"mui-chip-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     public override string BadgePill( bool pill ) => pill ? "mui-chip-rounded" : null;
 
     public override string BadgeClose() => "mui-chip-close";
 
-    public override string BadgeCloseColor( Color color, bool subtle ) => color.IsNotNullOrDefault() ? $"mui-chip-close-{ToColor( color )}" : null;
+    public override string BadgeCloseColor( Color color, bool subtle )
+        => color.IsNotNullOrDefault() ? $"mui-chip-close-{ToColor( color )}{( subtle ? "-subtle" : string.Empty )}" : null;
 
     #endregion
 

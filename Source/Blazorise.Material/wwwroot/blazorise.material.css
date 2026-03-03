@@ -782,19 +782,20 @@ body {
   min-inline-size: var(--mui-chip-size);
   font-size: 0.875rem;
   font-weight: 500;
-  background-color: transparent;
+  background-color: var(--mui-surface-container-low);
   border: 0.0625rem solid var(--mui-outline-variant);
   color: var(--mui-on-surface-variant);
   padding: 0 var(--mui-chip-padding);
   margin: 0;
   text-transform: none;
   border-radius: 0.5rem;
-  transition: transform var(--mui-duration-slow), border-radius var(--mui-duration-slow), padding var(--mui-duration-slow);
+  transition: background-color var(--mui-duration-normal), color var(--mui-duration-normal), border-color var(--mui-duration-normal);
   user-select: none;
   gap: 0.5rem;
   letter-spacing: normal;
   vertical-align: baseline;
   line-height: normal;
+  box-shadow: none;
 }
 .mui-chip-rounded {
   --mui-chip-round: 2rem;
@@ -803,100 +804,199 @@ body {
 .mui-chip-primary {
   background-color: var(--mui-primary-container);
   color: var(--mui-on-primary-container);
-  border-color: var(--mui-outline-primary);
+  border-color: color-mix(in srgb, var(--mui-primary) 24%, var(--mui-outline-variant));
 }
 .mui-chip-primary .mui-chip-close {
-  color: var(--mui-primary);
+  color: var(--mui-on-primary-container);
 }
 .mui-chip-primary .mui-chip-close:hover {
+  color: var(--mui-on-primary-container);
+}
+.mui-chip-primary-subtle {
+  background-color: color-mix(in srgb, var(--mui-primary-container) 40%, var(--mui-surface-container-low));
+  color: var(--mui-on-primary-container);
+  border-color: color-mix(in srgb, var(--mui-primary) 16%, var(--mui-outline-variant));
+}
+.mui-chip-primary-subtle .mui-chip-close {
+  color: var(--mui-primary);
+}
+.mui-chip-primary-subtle .mui-chip-close:hover {
   color: var(--mui-primary-hover);
 }
 .mui-chip-secondary {
   background-color: var(--mui-secondary-container);
   color: var(--mui-on-secondary-container);
-  border-color: var(--mui-outline-secondary);
+  border-color: color-mix(in srgb, var(--mui-secondary) 24%, var(--mui-outline-variant));
 }
 .mui-chip-secondary .mui-chip-close {
-  color: var(--mui-secondary);
+  color: var(--mui-on-secondary-container);
 }
 .mui-chip-secondary .mui-chip-close:hover {
+  color: var(--mui-on-secondary-container);
+}
+.mui-chip-secondary-subtle {
+  background-color: color-mix(in srgb, var(--mui-secondary-container) 40%, var(--mui-surface-container-low));
+  color: var(--mui-on-secondary-container);
+  border-color: color-mix(in srgb, var(--mui-secondary) 16%, var(--mui-outline-variant));
+}
+.mui-chip-secondary-subtle .mui-chip-close {
+  color: var(--mui-secondary);
+}
+.mui-chip-secondary-subtle .mui-chip-close:hover {
   color: var(--mui-secondary-hover);
 }
 .mui-chip-tertiary {
   background-color: var(--mui-tertiary-container);
   color: var(--mui-on-tertiary-container);
-  border-color: var(--mui-outline-tertiary);
+  border-color: color-mix(in srgb, var(--mui-tertiary) 24%, var(--mui-outline-variant));
 }
 .mui-chip-tertiary .mui-chip-close {
-  color: var(--mui-tertiary);
+  color: var(--mui-on-tertiary-container);
 }
 .mui-chip-tertiary .mui-chip-close:hover {
+  color: var(--mui-on-tertiary-container);
+}
+.mui-chip-tertiary-subtle {
+  background-color: color-mix(in srgb, var(--mui-tertiary-container) 40%, var(--mui-surface-container-low));
+  color: var(--mui-on-tertiary-container);
+  border-color: color-mix(in srgb, var(--mui-tertiary) 16%, var(--mui-outline-variant));
+}
+.mui-chip-tertiary-subtle .mui-chip-close {
+  color: var(--mui-tertiary);
+}
+.mui-chip-tertiary-subtle .mui-chip-close:hover {
   color: var(--mui-tertiary-hover);
 }
 .mui-chip-error {
   background-color: var(--mui-error-container);
   color: var(--mui-on-error-container);
-  border-color: var(--mui-outline-error);
+  border-color: color-mix(in srgb, var(--mui-error) 24%, var(--mui-outline-variant));
 }
 .mui-chip-error .mui-chip-close {
-  color: var(--mui-error);
+  color: var(--mui-on-error-container);
 }
 .mui-chip-error .mui-chip-close:hover {
+  color: var(--mui-on-error-container);
+}
+.mui-chip-error-subtle {
+  background-color: color-mix(in srgb, var(--mui-error-container) 40%, var(--mui-surface-container-low));
+  color: var(--mui-on-error-container);
+  border-color: color-mix(in srgb, var(--mui-error) 16%, var(--mui-outline-variant));
+}
+.mui-chip-error-subtle .mui-chip-close {
+  color: var(--mui-error);
+}
+.mui-chip-error-subtle .mui-chip-close:hover {
   color: var(--mui-error-hover);
 }
 .mui-chip-success {
   background-color: var(--mui-success-container);
   color: var(--mui-on-success-container);
-  border-color: var(--mui-outline-success);
+  border-color: color-mix(in srgb, var(--mui-success) 24%, var(--mui-outline-variant));
 }
 .mui-chip-success .mui-chip-close {
-  color: var(--mui-success);
+  color: var(--mui-on-success-container);
 }
 .mui-chip-success .mui-chip-close:hover {
+  color: var(--mui-on-success-container);
+}
+.mui-chip-success-subtle {
+  background-color: color-mix(in srgb, var(--mui-success-container) 40%, var(--mui-surface-container-low));
+  color: var(--mui-on-success-container);
+  border-color: color-mix(in srgb, var(--mui-success) 16%, var(--mui-outline-variant));
+}
+.mui-chip-success-subtle .mui-chip-close {
+  color: var(--mui-success);
+}
+.mui-chip-success-subtle .mui-chip-close:hover {
   color: var(--mui-success-hover);
 }
 .mui-chip-warning {
   background-color: var(--mui-warning-container);
   color: var(--mui-on-warning-container);
-  border-color: var(--mui-outline-warning);
+  border-color: color-mix(in srgb, var(--mui-warning) 24%, var(--mui-outline-variant));
 }
 .mui-chip-warning .mui-chip-close {
-  color: var(--mui-warning);
+  color: var(--mui-on-warning-container);
 }
 .mui-chip-warning .mui-chip-close:hover {
+  color: var(--mui-on-warning-container);
+}
+.mui-chip-warning-subtle {
+  background-color: color-mix(in srgb, var(--mui-warning-container) 40%, var(--mui-surface-container-low));
+  color: var(--mui-on-warning-container);
+  border-color: color-mix(in srgb, var(--mui-warning) 16%, var(--mui-outline-variant));
+}
+.mui-chip-warning-subtle .mui-chip-close {
+  color: var(--mui-warning);
+}
+.mui-chip-warning-subtle .mui-chip-close:hover {
   color: var(--mui-warning-hover);
 }
 .mui-chip-info {
   background-color: var(--mui-info-container);
   color: var(--mui-on-info-container);
-  border-color: var(--mui-outline-info);
+  border-color: color-mix(in srgb, var(--mui-info) 24%, var(--mui-outline-variant));
 }
 .mui-chip-info .mui-chip-close {
-  color: var(--mui-info);
+  color: var(--mui-on-info-container);
 }
 .mui-chip-info .mui-chip-close:hover {
+  color: var(--mui-on-info-container);
+}
+.mui-chip-info-subtle {
+  background-color: color-mix(in srgb, var(--mui-info-container) 40%, var(--mui-surface-container-low));
+  color: var(--mui-on-info-container);
+  border-color: color-mix(in srgb, var(--mui-info) 16%, var(--mui-outline-variant));
+}
+.mui-chip-info-subtle .mui-chip-close {
+  color: var(--mui-info);
+}
+.mui-chip-info-subtle .mui-chip-close:hover {
   color: var(--mui-info-hover);
 }
 .mui-chip-light {
   background-color: var(--mui-light-container);
   color: var(--mui-on-light-container);
-  border-color: var(--mui-outline-light);
+  border-color: color-mix(in srgb, var(--mui-light) 24%, var(--mui-outline-variant));
 }
 .mui-chip-light .mui-chip-close {
-  color: var(--mui-light);
+  color: var(--mui-on-light-container);
 }
 .mui-chip-light .mui-chip-close:hover {
+  color: var(--mui-on-light-container);
+}
+.mui-chip-light-subtle {
+  background-color: color-mix(in srgb, var(--mui-light-container) 40%, var(--mui-surface-container-low));
+  color: var(--mui-on-light-container);
+  border-color: color-mix(in srgb, var(--mui-light) 16%, var(--mui-outline-variant));
+}
+.mui-chip-light-subtle .mui-chip-close {
+  color: var(--mui-light);
+}
+.mui-chip-light-subtle .mui-chip-close:hover {
   color: var(--mui-light-hover);
 }
 .mui-chip-dark {
   background-color: var(--mui-dark-container);
   color: var(--mui-on-dark-container);
-  border-color: var(--mui-outline-dark);
+  border-color: color-mix(in srgb, var(--mui-dark) 24%, var(--mui-outline-variant));
 }
 .mui-chip-dark .mui-chip-close {
-  color: var(--mui-dark);
+  color: var(--mui-on-dark-container);
 }
 .mui-chip-dark .mui-chip-close:hover {
+  color: var(--mui-on-dark-container);
+}
+.mui-chip-dark-subtle {
+  background-color: color-mix(in srgb, var(--mui-dark-container) 40%, var(--mui-surface-container-low));
+  color: var(--mui-on-dark-container);
+  border-color: color-mix(in srgb, var(--mui-dark) 16%, var(--mui-outline-variant));
+}
+.mui-chip-dark-subtle .mui-chip-close {
+  color: var(--mui-dark);
+}
+.mui-chip-dark-subtle .mui-chip-close:hover {
   color: var(--mui-dark-hover);
 }
 .mui-chip-link {
@@ -922,65 +1022,128 @@ body {
 }
 
 .mui-chip-close-primary {
-  color: var(--mui-primary);
+  color: var(--mui-on-primary-container);
 }
 .mui-chip-close-primary:hover {
+  color: var(--mui-on-primary-container);
+}
+
+.mui-chip-close-primary-subtle {
+  color: var(--mui-primary);
+}
+.mui-chip-close-primary-subtle:hover {
   color: var(--mui-primary-hover);
 }
 
 .mui-chip-close-secondary {
-  color: var(--mui-secondary);
+  color: var(--mui-on-secondary-container);
 }
 .mui-chip-close-secondary:hover {
+  color: var(--mui-on-secondary-container);
+}
+
+.mui-chip-close-secondary-subtle {
+  color: var(--mui-secondary);
+}
+.mui-chip-close-secondary-subtle:hover {
   color: var(--mui-secondary-hover);
 }
 
 .mui-chip-close-tertiary {
-  color: var(--mui-tertiary);
+  color: var(--mui-on-tertiary-container);
 }
 .mui-chip-close-tertiary:hover {
+  color: var(--mui-on-tertiary-container);
+}
+
+.mui-chip-close-tertiary-subtle {
+  color: var(--mui-tertiary);
+}
+.mui-chip-close-tertiary-subtle:hover {
   color: var(--mui-tertiary-hover);
 }
 
 .mui-chip-close-error {
-  color: var(--mui-error);
+  color: var(--mui-on-error-container);
 }
 .mui-chip-close-error:hover {
+  color: var(--mui-on-error-container);
+}
+
+.mui-chip-close-error-subtle {
+  color: var(--mui-error);
+}
+.mui-chip-close-error-subtle:hover {
   color: var(--mui-error-hover);
 }
 
 .mui-chip-close-success {
-  color: var(--mui-success);
+  color: var(--mui-on-success-container);
 }
 .mui-chip-close-success:hover {
+  color: var(--mui-on-success-container);
+}
+
+.mui-chip-close-success-subtle {
+  color: var(--mui-success);
+}
+.mui-chip-close-success-subtle:hover {
   color: var(--mui-success-hover);
 }
 
 .mui-chip-close-warning {
-  color: var(--mui-warning);
+  color: var(--mui-on-warning-container);
 }
 .mui-chip-close-warning:hover {
+  color: var(--mui-on-warning-container);
+}
+
+.mui-chip-close-warning-subtle {
+  color: var(--mui-warning);
+}
+.mui-chip-close-warning-subtle:hover {
   color: var(--mui-warning-hover);
 }
 
 .mui-chip-close-info {
-  color: var(--mui-info);
+  color: var(--mui-on-info-container);
 }
 .mui-chip-close-info:hover {
+  color: var(--mui-on-info-container);
+}
+
+.mui-chip-close-info-subtle {
+  color: var(--mui-info);
+}
+.mui-chip-close-info-subtle:hover {
   color: var(--mui-info-hover);
 }
 
 .mui-chip-close-light {
-  color: var(--mui-light);
+  color: var(--mui-on-light-container);
 }
 .mui-chip-close-light:hover {
+  color: var(--mui-on-light-container);
+}
+
+.mui-chip-close-light-subtle {
+  color: var(--mui-light);
+}
+.mui-chip-close-light-subtle:hover {
   color: var(--mui-light-hover);
 }
 
 .mui-chip-close-dark {
-  color: var(--mui-dark);
+  color: var(--mui-on-dark-container);
 }
 .mui-chip-close-dark:hover {
+  color: var(--mui-on-dark-container);
+}
+
+.mui-chip-close-dark-subtle {
+  color: var(--mui-dark);
+}
+.mui-chip-close-dark-subtle:hover {
   color: var(--mui-dark-hover);
 }
 
