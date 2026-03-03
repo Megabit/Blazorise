@@ -1,0 +1,61 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Gantt TItem="TaskItem"
+       Data="@tasks"
+       Date="@selectedDate"
+       SelectedView="GanttView.Week"
+       DurationField="Duration">
+    <GanttColumns>
+        <GanttColumn Field="Title" Title="Task" Expandable Width="Width.Px(220)" />
+        <GanttColumn Field="Start" Width="Width.Px(130)" />
+        <GanttColumn Field="End" Width="Width.Px(130)" />
+        <GanttColumn Field="Duration" Width="Width.Px(90)" TextAlignment="TextAlignment.Center" />
+    </GanttColumns>
+    <GanttToolbar />
+    <GanttViews>
+        <GanttWeekView TimelineCellWidth="90" RowHeight="44" />
+    </GanttViews>
+</Gantt>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -2 );
+
+        var result = new List<TaskItem>
+        {
+            new() { Id = "1", Title = "Website redesign", Start = baseDate, End = baseDate.AddDays( 16 ) },
+            new() { Id = "2", ParentId = "1", Title = "Discovery", Start = baseDate, End = baseDate.AddDays( 4 ) },
+            new() { Id = "3", ParentId = "1", Title = "Implementation", Start = baseDate.AddDays( 4 ), End = baseDate.AddDays( 14 ) },
+            new() { Id = "4", ParentId = "3", Title = "Components", Start = baseDate.AddDays( 5 ), End = baseDate.AddDays( 10 ) },
+            new() { Id = "5", ParentId = "3", Title = "Accessibility pass", Start = baseDate.AddDays( 10 ), End = baseDate.AddDays( 13 ) },
+            new() { Id = "6", ParentId = "1", Title = "Launch", Start = baseDate.AddDays( 14 ), End = baseDate.AddDays( 16 ) },
+        };
+
+        foreach ( var item in result )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        return result;
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+    }
+}

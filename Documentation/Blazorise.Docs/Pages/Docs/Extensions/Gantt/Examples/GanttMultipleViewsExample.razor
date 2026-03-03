@@ -1,0 +1,70 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Gantt TItem="TaskItem"
+       Data="@tasks"
+       @bind-Date="@selectedDate"
+       @bind-SelectedView="@selectedView"
+       DurationField="Duration">
+    <GanttColumns>
+        <GanttColumn Field="Title" Title="Task" Expandable Width="Width.Px(220)" />
+        <GanttColumn Field="Start" Width="Width.Px(130)" />
+        <GanttColumn Field="End" Width="Width.Px(130)" />
+        <GanttColumn Field="Duration" Width="Width.Px(90)" TextAlignment="TextAlignment.Center" />
+    </GanttColumns>
+    <GanttToolbar />
+    <GanttViews>
+        <GanttDayView TimelineCellWidth="56" RowHeight="44" />
+        <GanttWeekView TimelineCellWidth="92" RowHeight="44" />
+        <GanttMonthView TimelineCellWidth="38" RowHeight="44" />
+        <GanttYearView TimelineCellWidth="80" RowHeight="44" />
+    </GanttViews>
+</Gantt>
+
+<Paragraph TextColor="TextColor.Muted" Margin="Margin.Is2.FromTop">
+    Current date: @selectedDate | View: @selectedView
+</Paragraph>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    private GanttView selectedView = GanttView.Week;
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -2 );
+
+        var result = new List<TaskItem>
+        {
+            new() { Id = "1", Title = "Project launch", Start = baseDate, End = baseDate.AddDays( 18 ) },
+            new() { Id = "2", ParentId = "1", Title = "Planning", Start = baseDate, End = baseDate.AddDays( 4 ) },
+            new() { Id = "3", ParentId = "1", Title = "Execution", Start = baseDate.AddDays( 4 ), End = baseDate.AddDays( 16 ) },
+            new() { Id = "4", ParentId = "3", Title = "Backend", Start = baseDate.AddDays( 5 ), End = baseDate.AddDays( 11 ) },
+            new() { Id = "5", ParentId = "3", Title = "Frontend", Start = baseDate.AddDays( 8 ), End = baseDate.AddDays( 15 ) },
+            new() { Id = "6", ParentId = "1", Title = "Go-live", Start = baseDate.AddDays( 16 ), End = baseDate.AddDays( 18 ) },
+        };
+
+        foreach ( var item in result )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        return result;
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+    }
+}

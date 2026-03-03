@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-28T11:52:31.2843225Z",
+  "generatedUtc": "2026-03-02T16:07:46.2669868Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -44918,11 +44918,27 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "HierarchicalData",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Gets or sets whether hierarchical data mode is forced when both parent-id and items mapping exist.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "IdField",
           "type": "string",
           "typeName": "string",
           "defaultValue": "\"Id\"",
           "summary": "Gets or sets item identifier field name.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ItemsField",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "\"Items\"",
+          "summary": "Gets or sets child item collection field name.",
           "isBlazoriseEnum": false
         },
         {
@@ -45054,46 +45070,6 @@
           "isBlazoriseEnum": true
         },
         {
-          "name": "ShowCommandColumn",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Gets or sets whether command column (+ actions) is visible.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ShowDurationColumn",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Gets or sets whether duration column is visible.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ShowEndColumn",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Gets or sets whether end date column is visible.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ShowStartColumn",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Gets or sets whether start date column is visible.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ShowTitleColumn",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "true",
-          "summary": "Gets or sets whether title column is visible.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "ShowToggleAllCommands",
           "type": "bool",
           "typeName": "bool",
@@ -45107,14 +45083,6 @@
           "typeName": "bool",
           "defaultValue": "true",
           "summary": "Gets or sets whether toolbar is rendered.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ShowWbsColumn",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Gets or sets whether WBS (work breakdown structure) column is visible.",
           "isBlazoriseEnum": false
         },
         {
@@ -45139,6 +45107,14 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Custom inline styles to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TaskItemTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<GanttItemContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets template used to render timeline task content.",
           "isBlazoriseEnum": false
         },
         {
@@ -45198,6 +45174,14 @@
           "isBlazoriseEnum": true
         },
         {
+          "name": "TimelineHeaderCellTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<GanttTimelineHeaderCellContext>",
+          "defaultValue": "null",
+          "summary": "Gets or sets template used to render timeline header cells.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "TitleColumnWidth",
           "type": "double",
           "typeName": "double",
@@ -45211,6 +45195,22 @@
           "typeName": "string",
           "defaultValue": "\"Title\"",
           "summary": "Gets or sets title field name.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TreeCommandCellTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<GanttTreeCommandCellContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets template used to render command cell content.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TreeCommandHeaderTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<GanttTreeCommandHeaderContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets template used to render command header content.",
           "isBlazoriseEnum": false
         },
         {
@@ -45414,54 +45414,6 @@
           "defaultValue": "null",
           "summary": "Gets or sets callback raised when <strong>SelectedView</strong> changes.",
           "isBlazoriseEnum": false
-        },
-        {
-          "name": "ShowCommandColumnChanged",
-          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
-          "typeName": "EventCallback<bool>",
-          "defaultValue": "null",
-          "summary": "Gets or sets callback raised when <strong>ShowCommandColumn</strong> changes.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ShowDurationColumnChanged",
-          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
-          "typeName": "EventCallback<bool>",
-          "defaultValue": "null",
-          "summary": "Gets or sets callback raised when <strong>ShowDurationColumn</strong> changes.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ShowEndColumnChanged",
-          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
-          "typeName": "EventCallback<bool>",
-          "defaultValue": "null",
-          "summary": "Gets or sets callback raised when <strong>ShowEndColumn</strong> changes.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ShowStartColumnChanged",
-          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
-          "typeName": "EventCallback<bool>",
-          "defaultValue": "null",
-          "summary": "Gets or sets callback raised when <strong>ShowStartColumn</strong> changes.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ShowTitleColumnChanged",
-          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
-          "typeName": "EventCallback<bool>",
-          "defaultValue": "null",
-          "summary": "Gets or sets callback raised when <strong>ShowTitleColumn</strong> changes.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "ShowWbsColumnChanged",
-          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
-          "typeName": "EventCallback<bool>",
-          "defaultValue": "null",
-          "summary": "Gets or sets callback raised when <strong>ShowWbsColumn</strong> changes.",
-          "isBlazoriseEnum": false
         }
       ],
       "methods": [
@@ -45509,6 +45461,23 @@
           "returnTypeName": "Task",
           "summary": "Expands all nodes in the tree, including all nested child nodes.",
           "parameters": []
+        },
+        {
+          "name": "GetState",
+          "returnTypeName": "Task<GanttState<TItem>>",
+          "summary": "Gets current Gantt state.",
+          "parameters": []
+        },
+        {
+          "name": "LoadState",
+          "returnTypeName": "Task",
+          "summary": "Loads and applies Gantt state.",
+          "parameters": [
+            {
+              "name": "ganttState",
+              "typeName": "GanttState<TItem>"
+            }
+          ]
         },
         {
           "name": "NavigateNextPeriod",
@@ -45561,6 +45530,34 @@
           ]
         },
         {
+          "name": "NotifyBarDragMouseMove",
+          "returnTypeName": "Task",
+          "summary": "No documentation available - no XML comment",
+          "remarks": "No documentation available - no XML comment",
+          "parameters": [
+            {
+              "name": "clientX",
+              "typeName": "double"
+            }
+          ]
+        },
+        {
+          "name": "NotifyBarDragMouseUp",
+          "returnTypeName": "Task",
+          "summary": "No documentation available - no XML comment",
+          "remarks": "No documentation available - no XML comment",
+          "parameters": [
+            {
+              "name": "clientX",
+              "typeName": "double"
+            },
+            {
+              "name": "dragged",
+              "typeName": "bool"
+            }
+          ]
+        },
+        {
           "name": "ShowDayView",
           "returnTypeName": "Task",
           "summary": "Switches to Day view.",
@@ -45583,6 +45580,375 @@
           "returnTypeName": "Task",
           "summary": "Switches to Year view.",
           "parameters": []
+        }
+      ]
+    },
+    {
+      "type": "global::Blazorise.Gantt.GanttColumn<>",
+      "typeName": "GanttColumn",
+      "summary": "$\"\"\"\r\n       Defines a regular tree column in <strong>Gantt</strong>.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "CellsEditableOnEditCommand",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether this column is editable during edit-item command.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "CellsEditableOnNewCommand",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether this column is editable during new-item command.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "DisplayFormat",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets display format for default display text.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "DisplayFormatProvider",
+          "type": "IFormatProvider",
+          "typeName": "IFormatProvider",
+          "defaultValue": "null",
+          "summary": "Gets or sets display format provider.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "DisplayTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<GanttColumnDisplayContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets custom display template.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Displayable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether column can be shown in column picker.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "EditTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<GanttColumnEditContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets custom edit template.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Editable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether this column is editable in edit forms.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Expandable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Gets or sets whether this column should render tree expander.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Field",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Field name bound to this column.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "HeaderTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<GanttColumnHeaderContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets custom header template.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "SortField",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets field used by sort operation. Defaults to <strong>Field</strong>.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Sortable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether this column can be sorted.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextAlignment",
+          "type": "global::Blazorise.TextAlignment",
+          "typeName": "TextAlignment",
+          "defaultValue": "Default",
+          "summary": "Gets or sets text alignment for header and cell.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Title",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Optional title shown in header.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Visible",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether column is currently visible.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Width",
+          "type": "global::Blazorise.IFluentSizing",
+          "typeName": "IFluentSizing",
+          "defaultValue": "null",
+          "summary": "Gets or sets width.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [],
+      "methods": [
+        {
+          "name": "CanSort",
+          "returnTypeName": "bool",
+          "summary": "Returns true when column can be sorted.",
+          "parameters": []
+        },
+        {
+          "name": "CellValueIsEditable",
+          "returnTypeName": "bool",
+          "summary": "Gets whether the column value is editable for current edit state.",
+          "parameters": [
+            {
+              "name": "editState",
+              "typeName": "GanttEditState"
+            }
+          ]
+        },
+        {
+          "name": "FormatDisplayValue",
+          "returnTypeName": "string",
+          "summary": "Gets formatted display text for this column.",
+          "parameters": [
+            {
+              "name": "value",
+              "typeName": "object"
+            }
+          ]
+        },
+        {
+          "name": "GetSortField",
+          "returnTypeName": "string",
+          "summary": "Gets field name to sort by.",
+          "parameters": []
+        },
+        {
+          "name": "GetSortValue",
+          "returnTypeName": "object",
+          "summary": "Gets raw value used for sorting.",
+          "parameters": [
+            {
+              "name": "item",
+              "typeName": "TItem"
+            }
+          ]
+        },
+        {
+          "name": "GetValue",
+          "returnTypeName": "object",
+          "summary": "Gets raw value for this column.",
+          "parameters": [
+            {
+              "name": "item",
+              "typeName": "TItem"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "global::Blazorise.Gantt.GanttCommandColumn<>",
+      "typeName": "GanttCommandColumn",
+      "summary": "$\"\"\"\r\n       Defines command column in <strong>Gantt</strong>.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "DisplayFormat",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets display format for default display text.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "DisplayFormatProvider",
+          "type": "IFormatProvider",
+          "typeName": "IFormatProvider",
+          "defaultValue": "null",
+          "summary": "Gets or sets display format provider.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "DisplayTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<GanttCommandColumnDisplayContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets custom command display template.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Displayable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether column can be shown in column picker.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "EditTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<GanttColumnEditContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets custom edit template.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Expandable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Gets or sets whether this column should render tree expander.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Field",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Field name bound to this column.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "HeaderTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
+          "typeName": "RenderFragment<GanttColumnHeaderContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets custom header template.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "SortField",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets field used by sort operation. Defaults to <strong>Field</strong>.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Sortable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether this column can be sorted.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextAlignment",
+          "type": "global::Blazorise.TextAlignment",
+          "typeName": "TextAlignment",
+          "defaultValue": "Default",
+          "summary": "Gets or sets text alignment for header and cell.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Title",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Optional title shown in header.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Visible",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether column is currently visible.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Width",
+          "type": "global::Blazorise.IFluentSizing",
+          "typeName": "IFluentSizing",
+          "defaultValue": "null",
+          "summary": "Gets or sets width.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [],
+      "methods": [
+        {
+          "name": "CanSort",
+          "returnTypeName": "bool",
+          "summary": "Returns true when column can be sorted.",
+          "parameters": []
+        },
+        {
+          "name": "FormatDisplayValue",
+          "returnTypeName": "string",
+          "summary": "Gets formatted display text for this column.",
+          "parameters": [
+            {
+              "name": "value",
+              "typeName": "object"
+            }
+          ]
+        },
+        {
+          "name": "GetSortField",
+          "returnTypeName": "string",
+          "summary": "Gets field name to sort by.",
+          "parameters": []
+        },
+        {
+          "name": "GetSortValue",
+          "returnTypeName": "object",
+          "summary": "Gets raw value used for sorting.",
+          "parameters": [
+            {
+              "name": "item",
+              "typeName": "TItem"
+            }
+          ]
+        },
+        {
+          "name": "GetValue",
+          "returnTypeName": "object",
+          "summary": "Gets raw value for this column.",
+          "parameters": [
+            {
+              "name": "item",
+              "typeName": "TItem"
+            }
+          ]
         }
       ]
     },

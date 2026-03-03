@@ -1,0 +1,73 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Gantt</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">TaskItem</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>tasks</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Date</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedDate</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedView</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedView</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">DurationField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Duration</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttColumns</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Title</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Task</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Expandable</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px(220)</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Start</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px(130)</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">End</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px(130)</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Duration</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px(90)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TextAlignment</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextAlignment</span><span class="enumValue">.Center</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">GanttColumns</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttToolbar</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttViews</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttDayView</span> <span class="htmlAttributeName">TimelineCellWidth</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">56</span><span class="quot">&quot;</span> <span class="htmlAttributeName">RowHeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">44</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttWeekView</span> <span class="htmlAttributeName">TimelineCellWidth</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">92</span><span class="quot">&quot;</span> <span class="htmlAttributeName">RowHeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">44</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttMonthView</span> <span class="htmlAttributeName">TimelineCellWidth</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">38</span><span class="quot">&quot;</span> <span class="htmlAttributeName">RowHeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">44</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttYearView</span> <span class="htmlAttributeName">TimelineCellWidth</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">80</span><span class="quot">&quot;</span> <span class="htmlAttributeName">RowHeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">44</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">GanttViews</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Gantt</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextColor</span><span class="enumValue">.Muted</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is2.FromTop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    Current date: <span class="atSign">&#64;</span>selectedDate | View: <span class="atSign">&#64;</span>selectedView
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    <span class="keyword">private</span> GanttView selectedView = GanttView.Week;
+
+    <span class="keyword">private</span> List&lt;TaskItem&gt; tasks = CreateTasks();
+
+    <span class="keyword">private</span> <span class="keyword">static</span> List&lt;TaskItem&gt; CreateTasks()
+    {
+        <span class="keyword">var</span> baseDate = DateTime.Today.AddDays( -<span class="number">2</span> );
+
+        <span class="keyword">var</span> result = <span class="keyword">new</span> List&lt;TaskItem&gt;
+        {
+            <span class="keyword">new</span>() { Id = <span class="string">&quot;1&quot;</span>, Title = <span class="string">&quot;Project launch&quot;</span>, Start = baseDate, End = baseDate.AddDays( <span class="number">18</span> ) },
+            <span class="keyword">new</span>() { Id = <span class="string">&quot;2&quot;</span>, ParentId = <span class="string">&quot;1&quot;</span>, Title = <span class="string">&quot;Planning&quot;</span>, Start = baseDate, End = baseDate.AddDays( <span class="number">4</span> ) },
+            <span class="keyword">new</span>() { Id = <span class="string">&quot;3&quot;</span>, ParentId = <span class="string">&quot;1&quot;</span>, Title = <span class="string">&quot;Execution&quot;</span>, Start = baseDate.AddDays( <span class="number">4</span> ), End = baseDate.AddDays( <span class="number">16</span> ) },
+            <span class="keyword">new</span>() { Id = <span class="string">&quot;4&quot;</span>, ParentId = <span class="string">&quot;3&quot;</span>, Title = <span class="string">&quot;Backend&quot;</span>, Start = baseDate.AddDays( <span class="number">5</span> ), End = baseDate.AddDays( <span class="number">11</span> ) },
+            <span class="keyword">new</span>() { Id = <span class="string">&quot;5&quot;</span>, ParentId = <span class="string">&quot;3&quot;</span>, Title = <span class="string">&quot;Frontend&quot;</span>, Start = baseDate.AddDays( <span class="number">8</span> ), End = baseDate.AddDays( <span class="number">15</span> ) },
+            <span class="keyword">new</span>() { Id = <span class="string">&quot;6&quot;</span>, ParentId = <span class="string">&quot;1&quot;</span>, Title = <span class="string">&quot;Go-live&quot;</span>, Start = baseDate.AddDays( <span class="number">16</span> ), End = baseDate.AddDays( <span class="number">18</span> ) },
+        };
+
+        <span class="keyword">foreach</span> ( <span class="keyword">var</span> item <span class="keyword">in</span> result )
+        {
+            item.Duration = Math.Max( <span class="number">1</span>, (<span class="keyword">int</span>)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        <span class="keyword">return</span> result;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">class</span> TaskItem
+    {
+        <span class="keyword">public</span> <span class="keyword">string</span> Id { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> ParentId { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Title { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> DateTime Start { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> DateTime End { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">int</span> Duration { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+}
+</pre></div>
+</div>

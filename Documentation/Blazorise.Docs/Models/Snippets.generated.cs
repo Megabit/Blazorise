@@ -9557,6 +9557,418 @@ builder.Services
 
 services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
+        public const string GanttEditableExample = @"<Gantt TItem=""TaskItem""
+       Data=""@tasks""
+       Date=""@selectedDate""
+       SelectedView=""GanttView.Week""
+       DurationField=""Duration""
+       Editable
+       CommandAllowed=""@AllowCommand"">
+    <GanttColumns>
+        <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px(230)"" />
+        <GanttColumn Field=""Start"" Width=""Width.Px(130)"" />
+        <GanttColumn Field=""End"" Width=""Width.Px(130)"" />
+        <GanttColumn Field=""Duration"" Width=""Width.Px(90)"" TextAlignment=""TextAlignment.Center"" />
+        <GanttColumn Field=""Progress"" Width=""Width.Px(96)"" TextAlignment=""TextAlignment.Center"" />
+        <GanttCommandColumn Width=""Width.Px(60)"" />
+    </GanttColumns>
+    <GanttToolbar />
+    <GanttViews>
+        <GanttWeekView TimelineCellWidth=""90"" RowHeight=""44"" />
+    </GanttViews>
+</Gantt>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -2 );
+
+        var result = new List<TaskItem>
+        {
+            new() { Id = ""1"", Title = ""Marketing campaign"", Start = baseDate, End = baseDate.AddDays( 15 ), Progress = 45d },
+            new() { Id = ""2"", ParentId = ""1"", Title = ""Research"", Start = baseDate, End = baseDate.AddDays( 4 ), Progress = 100d },
+            new() { Id = ""3"", ParentId = ""1"", Title = ""Creative"", Start = baseDate.AddDays( 4 ), End = baseDate.AddDays( 9 ), Progress = 70d },
+            new() { Id = ""4"", ParentId = ""1"", Title = ""Distribution"", Start = baseDate.AddDays( 9 ), End = baseDate.AddDays( 15 ), Progress = 20d },
+        };
+
+        foreach ( var item in result )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        return result;
+    }
+
+    private bool AllowCommand( GanttCommandContext<TaskItem> context )
+    {
+        if ( context.CommandType == GanttCommandType.Delete && context.Item?.ParentId is null )
+            return false;
+
+        return true;
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+
+        public double Progress { get; set; }
+    }
+}";
+
+        public const string GanttFlatDataExample = @"<Gantt TItem=""TaskItem""
+       Data=""@tasks""
+       Date=""@selectedDate""
+       SelectedView=""GanttView.Week""
+       DurationField=""Duration"">
+    <GanttColumns>
+        <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px(220)"" />
+        <GanttColumn Field=""Start"" Width=""Width.Px(130)"" />
+        <GanttColumn Field=""End"" Width=""Width.Px(130)"" />
+        <GanttColumn Field=""Duration"" Width=""Width.Px(90)"" TextAlignment=""TextAlignment.Center"" />
+    </GanttColumns>
+    <GanttToolbar />
+    <GanttViews>
+        <GanttWeekView TimelineCellWidth=""90"" RowHeight=""44"" />
+    </GanttViews>
+</Gantt>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -2 );
+
+        var result = new List<TaskItem>
+        {
+            new() { Id = ""1"", Title = ""Website redesign"", Start = baseDate, End = baseDate.AddDays( 16 ) },
+            new() { Id = ""2"", ParentId = ""1"", Title = ""Discovery"", Start = baseDate, End = baseDate.AddDays( 4 ) },
+            new() { Id = ""3"", ParentId = ""1"", Title = ""Implementation"", Start = baseDate.AddDays( 4 ), End = baseDate.AddDays( 14 ) },
+            new() { Id = ""4"", ParentId = ""3"", Title = ""Components"", Start = baseDate.AddDays( 5 ), End = baseDate.AddDays( 10 ) },
+            new() { Id = ""5"", ParentId = ""3"", Title = ""Accessibility pass"", Start = baseDate.AddDays( 10 ), End = baseDate.AddDays( 13 ) },
+            new() { Id = ""6"", ParentId = ""1"", Title = ""Launch"", Start = baseDate.AddDays( 14 ), End = baseDate.AddDays( 16 ) },
+        };
+
+        foreach ( var item in result )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        return result;
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+    }
+}";
+
+        public const string GanttHierarchicalDataExample = @"<Gantt TItem=""TaskItem""
+       Data=""@tasks""
+       Date=""@selectedDate""
+       SelectedView=""GanttView.Week""
+       ItemsField=""Children""
+       HierarchicalData
+       DurationField=""Duration"">
+    <GanttColumns>
+        <GanttColumn Field=""Wbs"" Visible Width=""Width.Px(76)"" TextAlignment=""TextAlignment.Center"" />
+        <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px(220)"" />
+        <GanttColumn Field=""Start"" Width=""Width.Px(130)"" />
+        <GanttColumn Field=""End"" Width=""Width.Px(130)"" />
+        <GanttColumn Field=""Duration"" Width=""Width.Px(90)"" TextAlignment=""TextAlignment.Center"" />
+    </GanttColumns>
+    <GanttToolbar />
+    <GanttViews>
+        <GanttWeekView TimelineCellWidth=""90"" RowHeight=""44"" />
+    </GanttViews>
+</Gantt>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -2 );
+
+        var result = new List<TaskItem>
+        {
+            new()
+            {
+                Id = ""1"",
+                Title = ""Mobile app release"",
+                Start = baseDate,
+                End = baseDate.AddDays( 18 ),
+                Children = new()
+                {
+                    new()
+                    {
+                        Id = ""2"",
+                        Title = ""Planning"",
+                        Start = baseDate,
+                        End = baseDate.AddDays( 4 ),
+                    },
+                    new()
+                    {
+                        Id = ""3"",
+                        Title = ""Execution"",
+                        Start = baseDate.AddDays( 4 ),
+                        End = baseDate.AddDays( 16 ),
+                        Children = new()
+                        {
+                            new()
+                            {
+                                Id = ""4"",
+                                Title = ""API integration"",
+                                Start = baseDate.AddDays( 5 ),
+                                End = baseDate.AddDays( 11 ),
+                            },
+                            new()
+                            {
+                                Id = ""5"",
+                                Title = ""QA"",
+                                Start = baseDate.AddDays( 11 ),
+                                End = baseDate.AddDays( 16 ),
+                            },
+                        },
+                    },
+                    new()
+                    {
+                        Id = ""6"",
+                        Title = ""Go-live"",
+                        Start = baseDate.AddDays( 16 ),
+                        End = baseDate.AddDays( 18 ),
+                    },
+                },
+            },
+        };
+
+        UpdateDuration( result );
+
+        return result;
+    }
+
+    private static void UpdateDuration( IEnumerable<TaskItem> items )
+    {
+        foreach ( var item in items )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+            UpdateDuration( item.Children );
+        }
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+
+        public List<TaskItem> Children { get; set; } = new();
+    }
+}";
+
+        public const string GanttImportsExample = @"@using Blazorise.Gantt";
+
+        public const string GanttMultipleViewsExample = @"<Gantt TItem=""TaskItem""
+       Data=""@tasks""
+       @bind-Date=""@selectedDate""
+       @bind-SelectedView=""@selectedView""
+       DurationField=""Duration"">
+    <GanttColumns>
+        <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px(220)"" />
+        <GanttColumn Field=""Start"" Width=""Width.Px(130)"" />
+        <GanttColumn Field=""End"" Width=""Width.Px(130)"" />
+        <GanttColumn Field=""Duration"" Width=""Width.Px(90)"" TextAlignment=""TextAlignment.Center"" />
+    </GanttColumns>
+    <GanttToolbar />
+    <GanttViews>
+        <GanttDayView TimelineCellWidth=""56"" RowHeight=""44"" />
+        <GanttWeekView TimelineCellWidth=""92"" RowHeight=""44"" />
+        <GanttMonthView TimelineCellWidth=""38"" RowHeight=""44"" />
+        <GanttYearView TimelineCellWidth=""80"" RowHeight=""44"" />
+    </GanttViews>
+</Gantt>
+
+<Paragraph TextColor=""TextColor.Muted"" Margin=""Margin.Is2.FromTop"">
+    Current date: @selectedDate | View: @selectedView
+</Paragraph>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    private GanttView selectedView = GanttView.Week;
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -2 );
+
+        var result = new List<TaskItem>
+        {
+            new() { Id = ""1"", Title = ""Project launch"", Start = baseDate, End = baseDate.AddDays( 18 ) },
+            new() { Id = ""2"", ParentId = ""1"", Title = ""Planning"", Start = baseDate, End = baseDate.AddDays( 4 ) },
+            new() { Id = ""3"", ParentId = ""1"", Title = ""Execution"", Start = baseDate.AddDays( 4 ), End = baseDate.AddDays( 16 ) },
+            new() { Id = ""4"", ParentId = ""3"", Title = ""Backend"", Start = baseDate.AddDays( 5 ), End = baseDate.AddDays( 11 ) },
+            new() { Id = ""5"", ParentId = ""3"", Title = ""Frontend"", Start = baseDate.AddDays( 8 ), End = baseDate.AddDays( 15 ) },
+            new() { Id = ""6"", ParentId = ""1"", Title = ""Go-live"", Start = baseDate.AddDays( 16 ), End = baseDate.AddDays( 18 ) },
+        };
+
+        foreach ( var item in result )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        return result;
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+    }
+}";
+
+        public const string GanttNugetInstallExample = @"Install-Package Blazorise.Gantt";
+
+        public const string GanttTemplatesExample = @"<Gantt TItem=""TaskItem""
+       Data=""@tasks""
+       Date=""@selectedDate""
+       SelectedView=""GanttView.Week""
+       DurationField=""Duration""
+       Editable>
+    <ChildContent>
+        <GanttColumns>
+            <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px(230)"">
+                <HeaderTemplate>
+                    <Icon Name=""IconName.List"" Margin=""Margin.Is1.FromEnd"" />
+                    <Span>@context.Text</Span>
+                </HeaderTemplate>
+            </GanttColumn>
+            <GanttColumn Field=""Duration"" Width=""Width.Px(90)"" TextAlignment=""TextAlignment.Center"">
+                <DisplayTemplate>
+                    <Badge Color=""Color.Info"" Pill>@($""{context.Value}d"")</Badge>
+                </DisplayTemplate>
+            </GanttColumn>
+            <GanttCommandColumn Width=""Width.Px(176)"">
+                <DisplayTemplate>
+                    @if ( context.CanAddChild )
+                    {
+                        <Button Size=""Size.ExtraSmall"" Color=""Color.Secondary"" Outline Margin=""Margin.Is1.FromEnd"" Clicked=""@context.AddChild"">Child</Button>
+                    }
+                    @if ( context.CanEdit )
+                    {
+                        <Button Size=""Size.ExtraSmall"" Color=""Color.Primary"" Outline Margin=""Margin.Is1.FromEnd"" Clicked=""@context.Edit"">Edit</Button>
+                    }
+                    @if ( context.CanDelete )
+                    {
+                        <Button Size=""Size.ExtraSmall"" Color=""Color.Danger"" Outline Clicked=""@context.Delete"">Delete</Button>
+                    }
+                </DisplayTemplate>
+            </GanttCommandColumn>
+        </GanttColumns>
+
+        <GanttToolbar />
+
+        <GanttViews>
+            <GanttWeekView TimelineCellWidth=""92"" RowHeight=""44"" />
+        </GanttViews>
+    </ChildContent>
+
+    <TimelineHeaderCellTemplate>
+        <Span TextSize=""TextSize.Small"" TextWeight=""TextWeight.SemiBold"">
+            @context.Start.ToString( ""ddd dd"" )
+        </Span>
+    </TimelineHeaderCellTemplate>
+
+    <TaskItemTemplate>
+        <Span TextWeight=""TextWeight.SemiBold"">@context.Item.Title</Span>
+    </TaskItemTemplate>
+</Gantt>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -2 );
+
+        var result = new List<TaskItem>
+        {
+            new() { Id = ""1"", Title = ""Platform update"", Start = baseDate, End = baseDate.AddDays( 13 ) },
+            new() { Id = ""2"", ParentId = ""1"", Title = ""Core services"", Start = baseDate, End = baseDate.AddDays( 7 ) },
+            new() { Id = ""3"", ParentId = ""1"", Title = ""Web client"", Start = baseDate.AddDays( 4 ), End = baseDate.AddDays( 11 ) },
+            new() { Id = ""4"", ParentId = ""1"", Title = ""Release prep"", Start = baseDate.AddDays( 11 ), End = baseDate.AddDays( 13 ) },
+        };
+
+        foreach ( var item in result )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        return result;
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+    }
+}";
+
         public const string BootstrapIconsCSSExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"">";
 
         public const string FluentIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.0.1.0"" rel=""stylesheet"" />";
