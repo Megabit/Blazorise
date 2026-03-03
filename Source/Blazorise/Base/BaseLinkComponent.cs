@@ -248,6 +248,11 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     protected string AriaDisabledString => Disabled ? "true" : null;
 
     /// <summary>
+    /// Gets the string representation of the aria-current attribute for the active link.
+    /// </summary>
+    protected string AriaCurrentString => Active ? "page" : null;
+
+    /// <summary>
     /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
     /// </summary>
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
@@ -281,6 +286,11 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     /// Specify extra information about the element.
     /// </summary>
     [Parameter] public string Title { get; set; }
+
+    /// <summary>
+    /// Specifies whether the link element can be focused and where it participates in sequential keyboard navigation.
+    /// </summary>
+    [Parameter] public int? TabIndex { get; set; }
 
     /// <summary>
     /// Removes default color styles from the link.

@@ -4678,7 +4678,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 <script src=""_content/Blazorise/datePicker.js?v=2.0.1.0"" type=""module""></script>
 <script src=""_content/Blazorise/dragDrop.js?v=2.0.1.0"" type=""module""></script>
 <script src=""_content/Blazorise/dropdown.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/fileEdit.js?v=2.0.1.0"" type=""module""></script>
+<script src=""_content/Blazorise/fileInput.js?v=2.0.1.0"" type=""module""></script>
 <script src=""_content/Blazorise/filePicker.js?v=2.0.1.0"" type=""module""></script>
 <script src=""_content/Blazorise/inputMask.js?v=2.0.1.0"" type=""module""></script>
 <script src=""_content/Blazorise/io.js?v=2.0.1.0"" type=""module""></script>
