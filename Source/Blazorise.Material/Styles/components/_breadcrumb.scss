@@ -40,6 +40,27 @@
         color: var(--mui-on-surface);
         font-weight: 500;
     }
+
+    > .mui-breadcrumb-item[aria-current="page"] {
+        color: var(--mui-on-surface);
+        font-weight: 500;
+    }
+
+    > .mui-breadcrumb-item[aria-current="page"] > .mui-breadcrumb-link {
+        color: var(--mui-on-surface);
+        text-decoration: none;
+        pointer-events: none;
+        cursor: default;
+    }
+
+    > .mui-breadcrumb-item[aria-current="page"] > .mui-breadcrumb-link:hover {
+        background-color: transparent;
+        color: var(--mui-on-surface);
+    }
+
+    > .mui-breadcrumb-item[aria-current="page"] > .mui-breadcrumb-link:focus-visible {
+        outline: none;
+    }
     // Active breadcrumb item renders plain text (no anchor), so preserve start alignment
     // with regular breadcrumb links for the first item.
     > .mui-breadcrumb-item:first-child.active {

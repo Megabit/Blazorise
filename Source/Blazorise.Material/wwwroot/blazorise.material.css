@@ -2460,6 +2460,23 @@ body {
   color: var(--mui-on-surface);
   font-weight: 500;
 }
+.mui-breadcrumb > .mui-breadcrumb-item[aria-current=page] {
+  color: var(--mui-on-surface);
+  font-weight: 500;
+}
+.mui-breadcrumb > .mui-breadcrumb-item[aria-current=page] > .mui-breadcrumb-link {
+  color: var(--mui-on-surface);
+  text-decoration: none;
+  pointer-events: none;
+  cursor: default;
+}
+.mui-breadcrumb > .mui-breadcrumb-item[aria-current=page] > .mui-breadcrumb-link:hover {
+  background-color: transparent;
+  color: var(--mui-on-surface);
+}
+.mui-breadcrumb > .mui-breadcrumb-item[aria-current=page] > .mui-breadcrumb-link:focus-visible {
+  outline: none;
+}
 .mui-breadcrumb > .mui-breadcrumb-item:first-child.active {
   padding-inline: 0.5rem;
 }
