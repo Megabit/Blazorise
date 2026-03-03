@@ -45,6 +45,48 @@ p,
     letter-spacing: 0.0125rem;
 }
 
+:is(.mui-unordered-list, .mui-ordered-list) {
+    margin: 0 0 1rem;
+    padding-inline-start: 1.5rem;
+}
+
+.mui-unordered-list {
+    list-style-type: disc;
+}
+
+.mui-ordered-list {
+    list-style-type: decimal;
+}
+
+.mui-list-unstyled {
+    list-style: none;
+    padding-inline-start: 0;
+}
+
+.mui-ordered-list-lower-alpha {
+    list-style-type: lower-alpha;
+}
+
+.mui-ordered-list-lower-roman {
+    list-style-type: lower-roman;
+}
+
+.mui-ordered-list-upper-alpha {
+    list-style-type: upper-alpha;
+}
+
+.mui-ordered-list-upper-roman {
+    list-style-type: upper-roman;
+}
+
+:is(.mui-unordered-list, .mui-ordered-list):not(.mui-list-unstyled) > li::marker {
+    color: var(--mui-on-surface-variant);
+}
+
+:is(.mui-unordered-list, .mui-ordered-list):not(.mui-list-unstyled) > li + li {
+    margin-block-start: 0.25rem;
+}
+
 pre {
     border-radius: 0;
     background-color: var(--mui-surface-container);

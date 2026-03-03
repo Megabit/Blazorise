@@ -11,7 +11,7 @@
                 <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is6">
                         <Buttons>
-                            <Button Color="Color.Primary" Clicked="@(() => items.Add( items.Count + 1 ) )">Add</Button>
+                            <Button Color="Color.Primary" Clicked="@(() => items.Add( items.Count + 1 ))">Add</Button>
                             <Button Color="Color.Warning" Disabled="@(items.Count == 0)" Clicked="@(() => items.RemoveAt( items.Count - 1 ))">Remove</Button>
                             <Button Color="Color.Danger" Clicked="@(() => items.Clear())">Clear</Button>
                             <Button Color="Color.Secondary" Disabled="@(items.Count == 0)" Clicked="ShuffleList">Shuffle</Button>
@@ -32,11 +32,11 @@
                 </Field>
                 <Field Horizontal JustifyContent="JustifyContent.End">
                     <FieldBody ColumnSize="ColumnSize.Is12">
-                        <ul>
+                        <UnorderedList>
                             <Repeater Items="@items">
-                                <li style="@GetColor( context )">@context</li>
+                                <UnorderedListItem Style="@GetColor( context )">@context</UnorderedListItem>
                             </Repeater>
-                        </ul>
+                        </UnorderedList>
                     </FieldBody>
                 </Field>
             </CardBody>

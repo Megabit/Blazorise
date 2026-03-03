@@ -1708,15 +1708,15 @@ public class MaterialClassProvider : ClassProvider
 
     #region Elements
 
-    public override string UnorderedList() => "unordered-list";
+    public override string UnorderedList() => "mui-unordered-list";
 
-    public override string UnorderedListUnstyled( bool unstyled ) => unstyled ? "list-unstyled" : null;
+    public override string UnorderedListUnstyled( bool unstyled ) => unstyled ? "mui-list-unstyled" : null;
 
-    public override string OrderedList() => "ordered-list";
+    public override string OrderedList() => "mui-ordered-list";
 
-    public override string OrderedListUnstyled( bool unstyled ) => unstyled ? "list-unstyled" : null;
+    public override string OrderedListUnstyled( bool unstyled ) => unstyled ? "mui-list-unstyled" : null;
 
-    public override string OrderedListType( OrderedListType orderedListType ) => orderedListType != Blazorise.OrderedListType.Default ? $"ordered-list-{ToOrderedListType( orderedListType )}" : null;
+    public override string OrderedListType( OrderedListType orderedListType ) => orderedListType != Blazorise.OrderedListType.Default ? $"mui-ordered-list-{ToOrderedListType( orderedListType )}" : null;
 
     public override string DescriptionList() => null;
 
