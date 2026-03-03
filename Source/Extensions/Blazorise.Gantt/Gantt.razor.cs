@@ -508,7 +508,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     {
         if ( SelectedView == GanttView.Week )
         {
-            currentDate = currentDate.StartOfWeek( FirstDayOfWeek ).AddDays( -7 );
+            currentDate = currentDate.StartOfWeek( EffectiveFirstDayOfWeek ).AddDays( -7 );
         }
         else if ( SelectedView == GanttView.Month )
         {
@@ -534,7 +534,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     {
         if ( SelectedView == GanttView.Week )
         {
-            currentDate = currentDate.StartOfWeek( FirstDayOfWeek ).AddDays( 7 );
+            currentDate = currentDate.StartOfWeek( EffectiveFirstDayOfWeek ).AddDays( 7 );
         }
         else if ( SelectedView == GanttView.Month )
         {
@@ -1637,7 +1637,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private (DateTime Start, DateTime End) GetDefaultNewItemRange( TItem parentItem )
     {
-        var viewRange = GetCurrentViewRange();
+        var viewRange = GetCurrentAnchorRange();
         var duration = GetDefaultNewItemDuration();
         var start = viewRange.Start;
         var end = start.Add( duration );
@@ -3324,11 +3324,11 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         return itemStyling;
     }
 
-    private GanttViewRange GetCurrentViewRange()
+    private GanttViewRange GetCurrentAnchorRange()
     {
         if ( SelectedView == GanttView.Week )
         {
-            var start = currentDate.StartOfWeek( FirstDayOfWeek ).ToDateTime( TimeOnly.MinValue );
+            var start = currentDate.StartOfWeek( EffectiveFirstDayOfWeek ).ToDateTime( TimeOnly.MinValue );
             return new GanttViewRange( start, start.AddDays( 7 ) );
         }
 
@@ -3346,6 +3346,44 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
         var dayStart = currentDate.ToDateTime( TimeOnly.MinValue );
         return new GanttViewRange( dayStart, dayStart.AddDays( 1 ) );
+    }
+
+    private GanttViewRange GetCurrentViewRange()
+    {
+        var anchorRange = GetCurrentAnchorRange();
+        var leadingSlots = GetCurrentViewLeadingSlots();
+        var trailingSlots = GetCurrentViewTrailingSlots();
+
+        if ( leadingSlots == 0 && trailingSlots == 0 )
+            return anchorRange;
+
+        var start = ShiftDateBySlotOffset( anchorRange.Start, -leadingSlots );
+        var end = ShiftDateBySlotOffset( anchorRange.End, trailingSlots );
+
+        if ( end <= start )
+            end = anchorRange.End;
+
+        return new GanttViewRange( start, end );
+    }
+
+    private int GetCurrentViewLeadingSlots()
+    {
+        var view = ActiveView;
+
+        if ( view is null || view.LeadingSlots <= 0 )
+            return 0;
+
+        return view.LeadingSlots;
+    }
+
+    private int GetCurrentViewTrailingSlots()
+    {
+        var view = ActiveView;
+
+        if ( view is null || view.TrailingSlots <= 0 )
+            return 0;
+
+        return view.TrailingSlots;
     }
 
     private List<GanttTimeSlot> GetTimeSlots( DateTime viewStart, DateTime viewEnd )
@@ -3791,6 +3829,12 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private bool UseHierarchicalData
         => propertyMapper?.HasItems == true
            && ( HierarchicalData || !propertyMapper.HasParentId );
+
+    private DayOfWeek EffectiveFirstDayOfWeek
+        => SelectedView == GanttView.Week
+           && ganttWeekView?.FirstDayOfWeek is DayOfWeek weekViewFirstDayOfWeek
+            ? weekViewFirstDayOfWeek
+            : FirstDayOfWeek;
 
     private bool ShowToolbarAddTaskButton
         => UseInternalEditing && IsCommandAllowed( GanttCommandType.New );

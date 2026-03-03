@@ -13,7 +13,7 @@
             <_GanttToolbar TItem="TItem"
                            SelectedDate="@currentDate"
                            SelectedView="@SelectedView"
-                           FirstDayOfWeek="@FirstDayOfWeek"
+                           FirstDayOfWeek="@EffectiveFirstDayOfWeek"
                            SearchText="@searchText"
                            SearchInputWidth="@GetSearchInputWidth()"
                            ShowAddTaskButton="@ShowToolbarAddTaskButton"
@@ -246,7 +246,7 @@
 
         <_GanttItemModal TItem="TItem"
                          @ref="ganttItemModalRef"
-                         FirstDayOfWeek="@FirstDayOfWeek"
+                         FirstDayOfWeek="@EffectiveFirstDayOfWeek"
                          SaveRequested="@SaveImpl"
                          DeleteRequested="@DeleteItemImpl"
                          Closed="@OnItemModalClosed" />

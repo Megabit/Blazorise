@@ -1,6 +1,9 @@
 #region Using directives
-namespace Blazorise.Gantt;
+using System;
+using Microsoft.AspNetCore.Components;
 #endregion
+
+namespace Blazorise.Gantt;
 
 /// <summary>
 /// Week view configuration.
@@ -8,6 +11,11 @@ namespace Blazorise.Gantt;
 /// <typeparam name="TItem">The item type.</typeparam>
 public partial class GanttWeekView<TItem> : BaseGanttView<TItem>
 {
+    /// <summary>
+    /// Optional first day of week override for week view calculations.
+    /// </summary>
+    [Parameter] public DayOfWeek? FirstDayOfWeek { get; set; }
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {

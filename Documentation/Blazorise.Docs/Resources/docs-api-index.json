@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-02T16:07:46.2669868Z",
+  "generatedUtc": "2026-03-03T09:32:11.6020611Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -45966,6 +45966,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "LeadingSlots",
+          "type": "int",
+          "typeName": "int",
+          "defaultValue": "0",
+          "summary": "Number of extra slots shown before the anchor period.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "RowHeight",
           "type": "double",
           "typeName": "double",
@@ -45987,6 +45995,14 @@
           "typeName": "double",
           "defaultValue": "72",
           "summary": "Width of each timeline cell in pixels.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TrailingSlots",
+          "type": "int",
+          "typeName": "int",
+          "defaultValue": "0",
+          "summary": "Number of extra slots shown after the anchor period.",
           "isBlazoriseEnum": false
         }
       ],
@@ -46007,6 +46023,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "LeadingSlots",
+          "type": "int",
+          "typeName": "int",
+          "defaultValue": "0",
+          "summary": "Number of extra slots shown before the anchor period.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "RowHeight",
           "type": "double",
           "typeName": "double",
@@ -46028,6 +46052,14 @@
           "typeName": "double",
           "defaultValue": "72",
           "summary": "Width of each timeline cell in pixels.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TrailingSlots",
+          "type": "int",
+          "typeName": "int",
+          "defaultValue": "0",
+          "summary": "Number of extra slots shown after the anchor period.",
           "isBlazoriseEnum": false
         }
       ],
@@ -46040,11 +46072,27 @@
       "summary": "$\"\"\"\r\n       Week view configuration.\r\n       \"\"\"",
       "parameters": [
         {
+          "name": "FirstDayOfWeek",
+          "type": "DayOfWeek?",
+          "typeName": "DayOfWeek?",
+          "defaultValue": "null",
+          "summary": "Optional first day of week override for week view calculations.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "ItemTemplate",
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
           "typeName": "RenderFragment<GanttItemContext<TItem>>",
           "defaultValue": "null",
           "summary": "Template for rendering the timeline item bar.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "LeadingSlots",
+          "type": "int",
+          "typeName": "int",
+          "defaultValue": "0",
+          "summary": "Number of extra slots shown before the anchor period.",
           "isBlazoriseEnum": false
         },
         {
@@ -46069,6 +46117,14 @@
           "typeName": "double",
           "defaultValue": "72",
           "summary": "Width of each timeline cell in pixels.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TrailingSlots",
+          "type": "int",
+          "typeName": "int",
+          "defaultValue": "0",
+          "summary": "Number of extra slots shown after the anchor period.",
           "isBlazoriseEnum": false
         }
       ],
@@ -46089,6 +46145,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "LeadingSlots",
+          "type": "int",
+          "typeName": "int",
+          "defaultValue": "0",
+          "summary": "Number of extra slots shown before the anchor period.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "RowHeight",
           "type": "double",
           "typeName": "double",
@@ -46110,6 +46174,14 @@
           "typeName": "double",
           "defaultValue": "72",
           "summary": "Width of each timeline cell in pixels.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TrailingSlots",
+          "type": "int",
+          "typeName": "int",
+          "defaultValue": "0",
+          "summary": "Number of extra slots shown after the anchor period.",
           "isBlazoriseEnum": false
         }
       ],

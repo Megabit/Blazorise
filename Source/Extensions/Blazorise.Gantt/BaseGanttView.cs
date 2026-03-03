@@ -26,6 +26,16 @@ public class BaseGanttView<TItem> : ComponentBase
     [Parameter] public double TimelineCellWidth { get; set; } = 72;
 
     /// <summary>
+    /// Number of extra slots shown before the anchor period.
+    /// </summary>
+    [Parameter] public int LeadingSlots { get; set; }
+
+    /// <summary>
+    /// Number of extra slots shown after the anchor period.
+    /// </summary>
+    [Parameter] public int TrailingSlots { get; set; }
+
+    /// <summary>
     /// Template for rendering the row cell.
     /// </summary>
     [Parameter] public RenderFragment<GanttRowContext<TItem>> RowTemplate { get; set; }

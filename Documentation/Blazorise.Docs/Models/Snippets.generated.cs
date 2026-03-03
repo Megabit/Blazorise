@@ -9806,6 +9806,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
        Data=""@tasks""
        @bind-Date=""@selectedDate""
        @bind-SelectedView=""@selectedView""
+       FirstDayOfWeek=""DayOfWeek.Sunday""
        DurationField=""Duration"">
     <GanttColumns>
         <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px(220)"" />
@@ -9815,10 +9816,10 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     </GanttColumns>
     <GanttToolbar />
     <GanttViews>
-        <GanttDayView TimelineCellWidth=""56"" RowHeight=""44"" />
-        <GanttWeekView TimelineCellWidth=""92"" RowHeight=""44"" />
-        <GanttMonthView TimelineCellWidth=""38"" RowHeight=""44"" />
-        <GanttYearView TimelineCellWidth=""80"" RowHeight=""44"" />
+        <GanttDayView TimelineCellWidth=""56"" RowHeight=""44"" LeadingSlots=""2"" TrailingSlots=""2"" />
+        <GanttWeekView TimelineCellWidth=""92"" RowHeight=""44"" LeadingSlots=""3"" TrailingSlots=""3"" FirstDayOfWeek=""DayOfWeek.Monday"" />
+        <GanttMonthView TimelineCellWidth=""38"" RowHeight=""44"" LeadingSlots=""5"" TrailingSlots=""5"" />
+        <GanttYearView TimelineCellWidth=""80"" RowHeight=""44"" LeadingSlots=""1"" TrailingSlots=""1"" />
     </GanttViews>
 </Gantt>
 
