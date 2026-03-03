@@ -9567,9 +9567,9 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     <GanttColumns>
         <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px(230)"" />
         <GanttColumn Field=""Start"" Width=""Width.Px(130)"" />
-        <GanttColumn Field=""End"" Width=""Width.Px(130)"" />
-        <GanttColumn Field=""Duration"" Width=""Width.Px(90)"" TextAlignment=""TextAlignment.Center"" />
-        <GanttColumn Field=""Progress"" Width=""Width.Px(96)"" TextAlignment=""TextAlignment.Center"" />
+        <GanttColumn Field=""End"" Width=""Width.Px(130)"" Visible=""false"" />
+        <GanttColumn Field=""Duration"" Width=""Width.Px(90)"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
+        <GanttColumn Field=""Progress"" Width=""Width.Px(96)"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
         <GanttCommandColumn Width=""Width.Px(60)"" />
     </GanttColumns>
     <GanttToolbar />
@@ -9637,8 +9637,8 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     <GanttColumns>
         <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px(220)"" />
         <GanttColumn Field=""Start"" Width=""Width.Px(130)"" />
-        <GanttColumn Field=""End"" Width=""Width.Px(130)"" />
-        <GanttColumn Field=""Duration"" Width=""Width.Px(90)"" TextAlignment=""TextAlignment.Center"" />
+        <GanttColumn Field=""End"" Width=""Width.Px(130)"" Visible=""false"" />
+        <GanttColumn Field=""Duration"" Width=""Width.Px(90)"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
     </GanttColumns>
     <GanttToolbar />
     <GanttViews>
@@ -9697,11 +9697,11 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
        HierarchicalData
        DurationField=""Duration"">
     <GanttColumns>
-        <GanttColumn Field=""Wbs"" Visible Width=""Width.Px(76)"" TextAlignment=""TextAlignment.Center"" />
+        <GanttColumn Field=""Wbs"" Width=""Width.Px(76)"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
         <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px(220)"" />
         <GanttColumn Field=""Start"" Width=""Width.Px(130)"" />
-        <GanttColumn Field=""End"" Width=""Width.Px(130)"" />
-        <GanttColumn Field=""Duration"" Width=""Width.Px(90)"" TextAlignment=""TextAlignment.Center"" />
+        <GanttColumn Field=""End"" Width=""Width.Px(130)"" Visible=""false"" />
+        <GanttColumn Field=""Duration"" Width=""Width.Px(90)"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
     </GanttColumns>
     <GanttToolbar />
     <GanttViews>
@@ -9811,8 +9811,8 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     <GanttColumns>
         <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px(220)"" />
         <GanttColumn Field=""Start"" Width=""Width.Px(130)"" />
-        <GanttColumn Field=""End"" Width=""Width.Px(130)"" />
-        <GanttColumn Field=""Duration"" Width=""Width.Px(90)"" TextAlignment=""TextAlignment.Center"" />
+        <GanttColumn Field=""End"" Width=""Width.Px(130)"" Visible=""false"" />
+        <GanttColumn Field=""Duration"" Width=""Width.Px(90)"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
     </GanttColumns>
     <GanttToolbar />
     <GanttViews>
