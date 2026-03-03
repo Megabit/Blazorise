@@ -119,13 +119,16 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
 
         if ( ParentBarDropdown is not null )
         {
-            if ( eventArgs.Detail == 0 && ParentBarDropdown.IsVisible )
+            if ( IsToggleClickTriggerEnabled
+                 && eventArgs.Detail == 0
+                 && ParentBarDropdown.IsVisible )
             {
                 lastKeyboardToggleTimestampUtc = null;
                 return;
             }
 
-            if ( eventArgs.Detail == 0
+            if ( IsToggleClickTriggerEnabled
+                 && eventArgs.Detail == 0
                  && lastKeyboardToggleTimestampUtc.HasValue
                  && DateTime.UtcNow.Subtract( lastKeyboardToggleTimestampUtc.Value ).TotalMilliseconds < 500 )
             {
@@ -133,7 +136,7 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
                 return;
             }
 
-            if ( ParentBarDropdown is not null && IsToggleClickTriggerEnabled )
+            if ( IsToggleClickTriggerEnabled )
                 await ParentBarDropdown.Toggle( ElementId );
         }
 
@@ -185,13 +188,15 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
 
         if ( ParentBarDropdown is not null && ( eventArgs.Key == "Enter" || eventArgs.Key == "NumpadEnter" ) )
         {
+            if ( !IsToggleClickTriggerEnabled )
+                return Task.CompletedTask;
+
             if ( ParentBarDropdown.IsVisible )
                 return Task.CompletedTask;
 
             lastKeyboardToggleTimestampUtc = DateTime.UtcNow;
 
-            if ( IsToggleClickTriggerEnabled )
-                return ParentBarDropdown.Toggle( ElementId );
+            return ParentBarDropdown.Toggle( ElementId );
         }
 
         if ( ParentBarDropdown is not null && ( eventArgs.Key == "Escape" || eventArgs.Key == "Esc" ) )
