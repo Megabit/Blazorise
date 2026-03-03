@@ -14,10 +14,19 @@ public partial class BarDropdownToggle : Blazorise.BarDropdownToggle
         if ( IsDisabled )
             return;
 
-        if ( ParentBarDropdown is not null && ( IsToggleClickTriggerEnabled || ShouldToggleVisibleOnToggleClickMaterial ) )
+        // Material-specific UX: allow toggle-area click to close an already open
+        // non-horizontal dropdown when the configured trigger is icon-click.
+        // All other click/keyboard accessibility behavior is handled by the base implementation.
+        if ( ParentBarDropdown is not null
+             && ShouldToggleVisibleOnToggleClickMaterial
+             && !IsToggleClickTriggerEnabled )
+        {
             await ParentBarDropdown.Toggle( ElementId );
+            await Clicked.InvokeAsync( eventArgs );
+            return;
+        }
 
-        await Clicked.InvokeAsync( eventArgs );
+        await base.ClickHandler( eventArgs );
     }
 
     #endregion
