@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-23T08:25:39.9463059Z",
+  "generatedUtc": "2026-03-03T08:30:39.2676266Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -3714,6 +3714,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "TabIndex",
+          "type": "int?",
+          "typeName": "int?",
+          "defaultValue": "null",
+          "summary": "Specifies whether the link element can be focused and where it participates in sequential keyboard navigation.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Target",
           "type": "global::Blazorise.Target",
           "typeName": "Target",
@@ -7396,6 +7404,29 @@
             {
               "name": "hideAll",
               "typeName": "bool"
+            }
+          ]
+        },
+        {
+          "name": "OnFocusInHandler",
+          "returnTypeName": "Task",
+          "summary": "Handles the onfocusin event.",
+          "parameters": []
+        },
+        {
+          "name": "OnFocusOutHandler",
+          "returnTypeName": "Task",
+          "summary": "Handles the onfocusout event.",
+          "parameters": []
+        },
+        {
+          "name": "OnKeyDownHandler",
+          "returnTypeName": "Task",
+          "summary": "Handles the onkeydown event.",
+          "parameters": [
+            {
+              "name": "eventArgs",
+              "typeName": "KeyboardEventArgs"
             }
           ]
         },
@@ -15735,6 +15766,14 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Custom inline styles to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TabIndex",
+          "type": "int?",
+          "typeName": "int?",
+          "defaultValue": "null",
+          "summary": "Specifies whether the link element can be focused and where it participates in sequential keyboard navigation.",
           "isBlazoriseEnum": false
         },
         {
@@ -53539,6 +53578,14 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Custom inline styles to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TabIndex",
+          "type": "int?",
+          "typeName": "int?",
+          "defaultValue": "null",
+          "summary": "Specifies whether the link element can be focused and where it participates in sequential keyboard navigation.",
           "isBlazoriseEnum": false
         },
         {
