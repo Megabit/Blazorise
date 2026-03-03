@@ -2452,7 +2452,6 @@ body {
   border-radius: 0.0625rem;
   transform: rotate(45deg);
   margin-inline: var(--mui-breadcrumb-gap);
-  margin-inline-end: calc(var(--mui-breadcrumb-gap) * 2);
   opacity: 0.9;
   flex: 0 0 auto;
 }
@@ -2476,9 +2475,6 @@ body {
 }
 .mui-breadcrumb > .mui-breadcrumb-item[aria-current=page] > .mui-breadcrumb-link:focus-visible {
   outline: none;
-}
-.mui-breadcrumb > .mui-breadcrumb-item:first-child.active {
-  padding-inline: 0.5rem;
 }
 .mui-breadcrumb > .mui-breadcrumb-item > .mui-breadcrumb-link {
   display: inline-flex;

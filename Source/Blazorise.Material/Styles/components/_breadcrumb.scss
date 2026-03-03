@@ -31,7 +31,6 @@
         border-radius: 0.0625rem;
         transform: rotate(45deg);
         margin-inline: var(--mui-breadcrumb-gap);
-        margin-inline-end: calc(var(--mui-breadcrumb-gap) * 2);
         opacity: 0.9;
         flex: 0 0 auto;
     }
@@ -60,11 +59,6 @@
 
     > .mui-breadcrumb-item[aria-current="page"] > .mui-breadcrumb-link:focus-visible {
         outline: none;
-    }
-    // Active breadcrumb item renders plain text (no anchor), so preserve start alignment
-    // with regular breadcrumb links for the first item.
-    > .mui-breadcrumb-item:first-child.active {
-        padding-inline: 0.5rem;
     }
 
     > .mui-breadcrumb-item > .mui-breadcrumb-link {
