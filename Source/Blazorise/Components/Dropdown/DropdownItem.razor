@@ -10,9 +10,14 @@
         @<text>
             @if ( ShowCheckbox )
             {
-                @* Keep checkbox/label native defaults suppressed so every click path resolves through DropdownItem.ClickHandler. *@
-                <div style="display: inline-block;" @onclick:preventDefault @onclick="@EventCallback.Empty">
-                    <Check Cursor="Cursor.Pointer" TValue="bool" Value="@(@checked)" ValueChanged="@CheckedChangedHandler" ValueExpression="@checkedExpression" Disabled="@Disabled">
+                @* Route checkbox-area pointer down through one controlled handler and suppress native label/input defaults. *@
+                <div style="display: inline-block;"
+                     @onmousedown="@ClickHandler"
+                     @onmousedown:preventDefault
+                     @onmousedown:stopPropagation
+                     @onclick:preventDefault
+                     @onclick:stopPropagation>
+                    <Check Cursor="Cursor.Pointer" TValue="bool" Value="@(@checked)" ValueChanged="@CheckedChangedHandler" ValueExpression="@checkedExpression" Disabled="@Disabled" ReadOnly>
                         @ChildContent
                     </Check>
                 </div>
