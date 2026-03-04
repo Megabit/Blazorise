@@ -37,7 +37,7 @@ public class DataGridSelectionSyncComponentTest : TestContext
     {
         var comp = RenderComponent<BasicTestApp.Client.DataGridSelectionSyncComponent>();
 
-        await comp.Find( "tbody input[type=checkbox]" ).ChangeAsync( true );
+        await comp.Find( "tbody input[type=checkbox]" ).ChangeAsync( "true" );
 
         comp.WaitForAssertion( () =>
         {
@@ -45,7 +45,7 @@ public class DataGridSelectionSyncComponentTest : TestContext
             comp.Instance.SelectedRows[0].Id.Should().Be( 1 );
         } );
 
-        await comp.Find( "tbody input[type=checkbox]" ).ChangeAsync( false );
+        await comp.Find( "tbody input[type=checkbox]" ).ChangeAsync( "false" );
 
         comp.WaitForAssertion( () => comp.Instance.SelectedRows.Should().BeEmpty() );
     }
