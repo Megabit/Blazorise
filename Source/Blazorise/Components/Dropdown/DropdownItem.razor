@@ -10,17 +10,12 @@
         @<text>
             @if ( ShowCheckbox )
             {
-                <Div Display="Blazorise.Display.InlineBlock">
+                @* Keep checkbox/label native defaults suppressed so every click path resolves through DropdownItem.ClickHandler. *@
+                <div style="display: inline-block;" @onclick:preventDefault @onclick="@EventCallback.Empty">
                     <Check Cursor="Cursor.Pointer" TValue="bool" Value="@(@checked)" ValueChanged="@CheckedChangedHandler" ValueExpression="@checkedExpression" Disabled="@Disabled">
-                        @*The <div> blocks clicks to the checkbox label (where the ChildContent gets).
-                        Clicking the label normally redirects the event to checkbox, and in the meantime the textbox looses focus (which is something we trying to prevent).
-                        This is done specially for Autocomplete.CloseOnSelection = false;
-                        *@
-                        <div @onclick:preventDefault @onclick="@EventCallback.Empty">
-                            @ChildContent
-                        </div>
+                        @ChildContent
                     </Check>
-                </Div>
+                </div>
             }
             else
             {
