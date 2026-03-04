@@ -31,4 +31,22 @@ public class DataGridSelectionSyncComponentTest : TestContext
             comp.Instance.SelectedRows.Should().BeEmpty();
         } );
     }
+
+    [Fact]
+    public async Task RowCheckbox_Should_Select_And_Unselect_Row()
+    {
+        var comp = RenderComponent<BasicTestApp.Client.DataGridSelectionSyncComponent>();
+
+        await comp.Find( "tbody input[type=checkbox]" ).ChangeAsync( true );
+
+        comp.WaitForAssertion( () =>
+        {
+            comp.Instance.SelectedRows.Should().HaveCount( 1 );
+            comp.Instance.SelectedRows[0].Id.Should().Be( 1 );
+        } );
+
+        await comp.Find( "tbody input[type=checkbox]" ).ChangeAsync( false );
+
+        comp.WaitForAssertion( () => comp.Instance.SelectedRows.Should().BeEmpty() );
+    }
 }
