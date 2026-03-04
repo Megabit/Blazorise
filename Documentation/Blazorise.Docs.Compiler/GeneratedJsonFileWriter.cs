@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Text.RegularExpressions; 
+using System.Text.RegularExpressions;
 #endregion
 
 namespace Blazorise.Docs.Compiler;
@@ -50,10 +50,19 @@ internal static class GeneratedJsonFileWriter
         if ( existingNode is null || newNode is null )
             return false;
 
-        RemoveGeneratedUtc( existingNode );
-        RemoveGeneratedUtc( newNode );
+        try
+        {
+            RemoveGeneratedUtc( existingNode );
+            RemoveGeneratedUtc( newNode );
 
-        return JsonNode.DeepEquals( existingNode, newNode );
+            return JsonNode.DeepEquals( existingNode, newNode );
+        }
+        catch ( ArgumentException )
+        {
+            // Duplicate JSON property names can throw when JsonObject initializes its key lookup.
+            // In that case treat content as changed so the file gets rewritten with clean JSON.
+            return false;
+        }
     }
 
     private static bool AreTextuallyEquivalentIgnoringGeneratedUtc( string existingJson, string newJson )
