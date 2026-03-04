@@ -8255,6 +8255,20 @@ body.modal-open {
     text-align: start;
   }
 }
+.snackbar-stack,
+.snackbar-stack-top-end,
+.snackbar-stack-top-start,
+.snackbar-stack-top,
+.snackbar-stack-bottom-end,
+.snackbar-stack-bottom-start,
+.snackbar-stack-bottom {
+  z-index: calc(var(--mui-zindex-tooltip) + 1) !important;
+}
+
+.snackbar {
+  z-index: calc(var(--mui-zindex-tooltip) + 2) !important;
+}
+
 .flatpickr-calendar {
   --mui-picker-bg: var(--mui-surface-container-lowest);
   --mui-picker-bg-muted: var(--mui-surface-container-low);
