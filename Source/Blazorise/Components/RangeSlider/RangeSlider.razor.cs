@@ -24,31 +24,6 @@ public partial class RangeSlider<TValue> : BaseInputComponent<RangeSliderValue<T
     private bool startHandleActive = true;
 
     /// <summary>
-    /// Class builder for inactive track.
-    /// </summary>
-    protected ClassBuilder TrackClassBuilder { get; private set; }
-
-    /// <summary>
-    /// Class builder for selected range.
-    /// </summary>
-    protected ClassBuilder RangeClassBuilder { get; private set; }
-
-    /// <summary>
-    /// Class builder for start input.
-    /// </summary>
-    protected ClassBuilder StartInputClassBuilder { get; private set; }
-
-    /// <summary>
-    /// Class builder for end input.
-    /// </summary>
-    protected ClassBuilder EndInputClassBuilder { get; private set; }
-
-    /// <summary>
-    /// Class builder for tooltip elements.
-    /// </summary>
-    protected ClassBuilder TooltipClassBuilder { get; private set; }
-
-    /// <summary>
     /// Captured Step parameter snapshot.
     /// </summary>
     protected ComponentParameterInfo<TValue> paramStep;
@@ -305,7 +280,7 @@ public partial class RangeSlider<TValue> : BaseInputComponent<RangeSliderValue<T
         bool hasMaximum = MaxDefined && TryConvertToDouble( Max, out maximum );
 
         if ( hasMinimum && hasMaximum && minimum > maximum )
-            ( minimum, maximum ) = ( maximum, minimum );
+            (minimum, maximum) = (maximum, minimum);
 
         double fallbackStartValue = hasMinimum ? minimum : 0d;
         double fallbackEndValue = hasMaximum ? maximum : fallbackStartValue;
@@ -319,7 +294,7 @@ public partial class RangeSlider<TValue> : BaseInputComponent<RangeSliderValue<T
     private RangeSliderValue<TValue> NormalizeRange( double startValue, double endValue )
     {
         if ( startValue > endValue )
-            ( startValue, endValue ) = ( endValue, startValue );
+            (startValue, endValue) = (endValue, startValue);
 
         double minimum = 0d;
         bool hasMinimum = MinDefined && TryConvertToDouble( Min, out minimum );
@@ -328,7 +303,7 @@ public partial class RangeSlider<TValue> : BaseInputComponent<RangeSliderValue<T
         bool hasMaximum = MaxDefined && TryConvertToDouble( Max, out maximum );
 
         if ( hasMinimum && hasMaximum && minimum > maximum )
-            ( minimum, maximum ) = ( maximum, minimum );
+            (minimum, maximum) = (maximum, minimum);
 
         if ( hasMinimum )
         {
@@ -343,7 +318,7 @@ public partial class RangeSlider<TValue> : BaseInputComponent<RangeSliderValue<T
         }
 
         if ( startValue > endValue )
-            ( startValue, endValue ) = ( endValue, startValue );
+            (startValue, endValue) = (endValue, startValue);
 
         if ( !TryConvertFromDouble( startValue, out TValue normalizedStartValue )
              || !TryConvertFromDouble( endValue, out TValue normalizedEndValue ) )
@@ -372,7 +347,7 @@ public partial class RangeSlider<TValue> : BaseInputComponent<RangeSliderValue<T
             maximum = Math.Max( startValue, endValue );
 
         if ( minimum > maximum )
-            ( minimum, maximum ) = ( maximum, minimum );
+            (minimum, maximum) = (maximum, minimum);
     }
 
     private static bool TryParseSingleValue( string value, out TValue result )
@@ -645,6 +620,31 @@ public partial class RangeSlider<TValue> : BaseInputComponent<RangeSliderValue<T
         => JoinStyles(
             Styles?.Tooltip,
             $"left: {ToPercentageString( EndPercentage )}" );
+
+    /// <summary>
+    /// Class builder for inactive track.
+    /// </summary>
+    protected ClassBuilder TrackClassBuilder { get; private set; }
+
+    /// <summary>
+    /// Class builder for selected range.
+    /// </summary>
+    protected ClassBuilder RangeClassBuilder { get; private set; }
+
+    /// <summary>
+    /// Class builder for start input.
+    /// </summary>
+    protected ClassBuilder StartInputClassBuilder { get; private set; }
+
+    /// <summary>
+    /// Class builder for end input.
+    /// </summary>
+    protected ClassBuilder EndInputClassBuilder { get; private set; }
+
+    /// <summary>
+    /// Class builder for tooltip elements.
+    /// </summary>
+    protected ClassBuilder TooltipClassBuilder { get; private set; }
 
     /// <summary>
     /// Specifies if the value tooltips are visible.
