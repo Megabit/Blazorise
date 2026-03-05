@@ -996,6 +996,15 @@
 }
 
 @media (max-width: 991.98px) {
+    .mui-bar-horizontal .mui-bar-dropdown-toggle::after {
+        content: "expand_more";
+        font-family: var(--mui-font-icon);
+        font-size: 1.125rem;
+        line-height: 1;
+        margin-inline-start: auto;
+        opacity: 0.9;
+    }
+
     .mui-bar-horizontal .mui-bar-dropdown-menu > .mui-bar-dropdown > .mui-bar-dropdown-menu-container {
         position: relative;
         inset: auto;
@@ -1014,5 +1023,9 @@
     .mui-bar-horizontal .mui-bar-dropdown-submenu > .mui-bar-dropdown-toggle::after {
         content: "expand_more";
         margin-inline-start: auto;
+        font-family: var(--mui-font-icon);
+        font-size: 1.125rem;
+        line-height: 1;
+        opacity: 0.9;
     }
 }
