@@ -1,16 +1,20 @@
 ﻿@inherits Blazorise.BarDropdownItem
 @if ( ParentBar?.Mode == BarMode.Horizontal )
 {
-    <li>
-        <_BarOnlyLink ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" CustomMatch="@CustomMatch" Mode="@ParentBar?.Mode" InsideDropdown="@(ParentBarDropdown is not null)" Disabled="@Disabled" TabIndex="@ComputedTabIndex" Clicked="@ClickHandler" Attributes="@Attributes">
-            @ChildContent
+    <li role="none">
+        <_BarOnlyLink ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" CustomMatch="@CustomMatch" Mode="@ParentBar?.Mode" InsideDropdown="@(ParentBarDropdown is not null)" Disabled="@Disabled" TabIndex="@ComputedTabIndex" Clicked="@ClickHandler" KeyDown="@KeyDownHandler" Role="menuitem" AriaLabelledBy="@AriaLabelledBy" Attributes="@Attributes">
+            <span id="@AriaLabelledBy">
+                @ChildContent
+            </span>
         </_BarOnlyLink>
     </li>
 }
 else
 {
-    <_BarOnlyLink ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" CustomMatch="@CustomMatch" Mode="@ParentBar?.Mode" InsideDropdown="@(ParentBarDropdown is not null)" Disabled="@Disabled" TabIndex="@ComputedTabIndex" Clicked="@ClickHandler" Attributes="@Attributes">
-        @ChildContent
+    <_BarOnlyLink ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" CustomMatch="@CustomMatch" Mode="@ParentBar?.Mode" InsideDropdown="@(ParentBarDropdown is not null)" Disabled="@Disabled" TabIndex="@ComputedTabIndex" Clicked="@ClickHandler" KeyDown="@KeyDownHandler" Role="menuitem" AriaLabelledBy="@AriaLabelledBy" Attributes="@Attributes">
+        <span id="@AriaLabelledBy">
+            @ChildContent
+        </span>
     </_BarOnlyLink>
 }
 @code {

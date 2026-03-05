@@ -1,5 +1,7 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<Anchor ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" CustomMatch="@CustomMatch" Disabled="@Disabled" TabIndex="@ComputedTabIndex" Clicked="@ClickHandler" Attributes="@Attributes">
-    @ChildContent
+<Anchor ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" CustomMatch="@CustomMatch" Disabled="@Disabled" TabIndex="@ComputedTabIndex" Clicked="@ClickHandler" KeyDown="@KeyDownHandler" Role="menuitem" AriaLabelledBy="@AriaLabelledBy" Attributes="@Attributes">
+    <span id="@AriaLabelledBy">
+        @ChildContent
+    </span>
 </Anchor>

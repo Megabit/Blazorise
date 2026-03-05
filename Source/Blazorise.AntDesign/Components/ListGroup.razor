@@ -4,7 +4,7 @@
         <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             <div class="ant-spin-nested-loading">
                 <div class="ant-spin-container">
-                    <ul class="ant-list-items">
+                    <ul class="ant-list-items" role="@Role" aria-multiselectable="@AriaMultiselectable">
                         @ChildContent
                     </ul>
                 </div>
