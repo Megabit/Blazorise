@@ -2594,6 +2594,25 @@ body {
     display: inline-flex;
   }
 }
+@media (max-width: 991.98px) {
+  .mui-bar-horizontal .mui-bar-dropdown-menu > .mui-bar-dropdown > .mui-bar-dropdown-menu-container {
+    position: relative;
+    inset: auto;
+    inline-size: 100%;
+    min-inline-size: 0;
+    padding-inline-start: 0.625rem;
+  }
+  .mui-bar-horizontal .mui-bar-dropdown-menu > .mui-bar-dropdown > .mui-bar-dropdown-menu-container > .mui-bar-dropdown-menu {
+    margin-block-start: 0.125rem;
+    inline-size: 100%;
+    min-inline-size: 0;
+    max-inline-size: none;
+  }
+  .mui-bar-horizontal .mui-bar-dropdown-submenu > .mui-bar-dropdown-toggle::after {
+    content: "expand_more";
+    margin-inline-start: auto;
+  }
+}
 .mui-breadcrumb {
   --mui-breadcrumb-gap: 0.5rem;
   --mui-breadcrumb-item-min-size: 2rem;

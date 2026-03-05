@@ -23,6 +23,9 @@ export function initialize(element, elementId, targetElementId, menuElementId, o
         ? document.getElementById(menuElementId)
         : element.querySelector(createSelector(options.dropdownMenuClassNames));
 
+    if (!targetElement || !menuElement)
+        return;
+
     const instanceCleanupFunction = createFloatingUiAutoUpdate(targetElement, menuElement, options);
 
     _instances[elementId] = instanceCleanupFunction;
