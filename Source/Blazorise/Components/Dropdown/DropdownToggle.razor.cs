@@ -159,10 +159,11 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
 
         if ( ParentDropdown is not null && ( eventArgs.Key == "Enter" || eventArgs.Key == "NumpadEnter" ) )
         {
-            if ( ParentDropdown.Visible )
-                return Task.CompletedTask;
-
             lastKeyboardToggleTimestampUtc = DateTime.UtcNow;
+
+            if ( ParentDropdown.Visible )
+                return ParentDropdown.Hide();
+
             return ParentDropdown.Toggle( ElementId );
         }
 
