@@ -521,7 +521,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ButtonActive( bool outline, bool active ) => active ? "active" : null;
 
-    public override string ButtonDisabled( bool outline, bool disabled ) => disabled ? "cursor-not-allowed opacity-60" : null;
+    public override string ButtonDisabled( bool outline, bool disabled ) => disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer";
 
     public override string ButtonLoading( bool outline, bool loading ) => null;
 
