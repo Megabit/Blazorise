@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
 
-<a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menuitem" aria-disabled="@AriaDisabled" tabindex="@ComputedTabIndex" @onmousedown:preventDefault @onmousedown="@EventCallback.Empty" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes">
+<a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menuitem" aria-disabled="@AriaDisabled" aria-labelledby="@AriaLabelledBy" tabindex="@ComputedTabIndex" @onmousedown:preventDefault @onmousedown="@EventCallback.Empty" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes">
     @Core
 </a>
 
@@ -18,13 +18,17 @@
                      @onclick:preventDefault
                      @onclick:stopPropagation>
                     <Check Cursor="Cursor.Pointer" TValue="bool" Value="@(@checked)" ValueChanged="@CheckedChangedHandler" ValueExpression="@checkedExpression" Disabled="@Disabled" ReadOnly>
-                        @ChildContent
+                        <span id="@AriaLabelledBy">
+                            @ChildContent
+                        </span>
                     </Check>
                 </div>
             }
             else
             {
-                @ChildContent
+                <span id="@AriaLabelledBy">
+                    @ChildContent
+                </span>
             }
         </text>;
 }

@@ -59,6 +59,23 @@ public class DropdownComponentTest : TestContext
         Assert.DoesNotContain( "show", mnuElement.GetAttribute( "class" ) );
     }
 
+    [Fact]
+    public void DropdownItem_Should_Have_AriaLabelledBy_That_PointsToItemText()
+    {
+        // setup
+        var comp = RenderComponent<DropdownComponent>();
+
+        // test
+        var firstMenuItemElement = comp.Find( "#dropdown-menu a" );
+        var ariaLabelledBy = firstMenuItemElement.GetAttribute( "aria-labelledby" );
+
+        // validate
+        Assert.False( string.IsNullOrEmpty( ariaLabelledBy ) );
+
+        var labelElement = comp.Find( $"#{ariaLabelledBy}" );
+        Assert.Contains( "Item 1", labelElement.TextContent );
+    }
+
 
     [Fact]
     public async Task Checkbox_Should_RenderCheckbox()

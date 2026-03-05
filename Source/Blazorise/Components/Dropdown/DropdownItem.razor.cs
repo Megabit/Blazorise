@@ -21,6 +21,8 @@ public partial class DropdownItem : BaseComponent
 
     private bool disabled;
 
+    private string ariaLabelledBy;
+
     /// <summary>
     /// Internal Checked Value
     /// </summary>
@@ -34,6 +36,14 @@ public partial class DropdownItem : BaseComponent
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        ariaLabelledBy = $"{IdGenerator.Generate}_label";
+
+        base.OnInitialized();
+    }
 
     /// <inheritdoc/>
     public override Task SetParametersAsync( ParameterView parameters )
@@ -114,6 +124,11 @@ public partial class DropdownItem : BaseComponent
     /// Gets the aria-disabled attribute value.
     /// </summary>
     protected string AriaDisabled => Disabled.ToString().ToLowerInvariant();
+
+    /// <summary>
+    /// Gets the aria-labelledby value that references the item text.
+    /// </summary>
+    protected string AriaLabelledBy => ariaLabelledBy;
 
     /// <summary>
     /// Gets the tabindex value for keyboard navigation.
