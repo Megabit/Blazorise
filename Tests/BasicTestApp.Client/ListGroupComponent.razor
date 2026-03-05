@@ -1,0 +1,10 @@
+<ListGroup Mode="ListGroupMode.Selectable" SelectionMode="ListGroupSelectionMode.Single" @bind-SelectedItem="@selectedItem">
+    <ListGroupItem ElementId="list-group-item-1" Name="item-1">Item 1</ListGroupItem>
+    <ListGroupItem ElementId="list-group-item-2" Name="item-2">Item 2</ListGroupItem>
+</ListGroup>
+
+<div id="list-group-selected-item">@selectedItem</div>
+
+@code {
+    private string selectedItem;
+}

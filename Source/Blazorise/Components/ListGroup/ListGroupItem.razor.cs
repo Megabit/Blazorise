@@ -63,6 +63,25 @@ public partial class ListGroupItem : BaseComponent
         await Clicked.InvokeAsync( eventArgs );
     }
 
+    /// <summary>
+    /// Handles item activation by keyboard.
+    /// </summary>
+    /// <param name="eventArgs">Supplies information about a keyboard event that is being raised.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected Task KeyDownHandler( KeyboardEventArgs eventArgs )
+    {
+        if ( Disabled )
+            return Task.CompletedTask;
+
+        if ( ParentListGroupState?.Mode != ListGroupMode.Selectable )
+            return Task.CompletedTask;
+
+        if ( eventArgs.Key == "Enter" || eventArgs.Key == "NumpadEnter" )
+            return ClickHandler( new MouseEventArgs() );
+
+        return Task.CompletedTask;
+    }
+
     #endregion
 
     #region Properties
@@ -78,6 +97,13 @@ public partial class ListGroupItem : BaseComponent
     protected bool Active => parentListGroupState.SelectionMode == ListGroupSelectionMode.Single
         ? parentListGroupState.Mode == ListGroupMode.Selectable && parentListGroupState.SelectedItem == Name
         : parentListGroupState.Mode == ListGroupMode.Selectable && parentListGroupState.SelectedItems?.Contains( Name ) == true;
+
+    /// <summary>
+    /// Gets the item's computed tabindex value.
+    /// </summary>
+    protected int? ComputedTabIndex => ParentListGroupState?.Mode == ListGroupMode.Selectable && !Disabled
+        ? 0
+        : null;
 
     /// <summary>
     /// Defines the item name.
