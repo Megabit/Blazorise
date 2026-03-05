@@ -1028,6 +1028,10 @@ body {
   margin-inline-start: 0.5rem;
 }
 
+[class*=mui-gap-] > .mui-chip + .mui-chip {
+  margin-inline-start: 0;
+}
+
 .mui-chip-primary .mui-chip-close-primary {
   color: var(--mui-on-primary-container);
 }

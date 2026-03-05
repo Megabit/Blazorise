@@ -98,6 +98,10 @@
     }
 }
 
+[class*="mui-gap-"] > .mui-chip + .mui-chip {
+    margin-inline-start: 0;
+}
+
 @each $color in (primary, secondary, tertiary, error, success, warning, info, light, dark) {
     .mui-chip-#{$color} {
         .mui-chip-close-#{$color} {
