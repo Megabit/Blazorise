@@ -59,6 +59,11 @@
     border-block-end-width: 0;
 }
 
+/* Keep body cells opaque by default so sticky fixed columns don't show scrolled content through. */
+.mui-table > :is(.mui-table-body, tbody) > :is(.mui-table-row, tr) {
+    --mui-table-cell-bg: var(--mui-surface-container-lowest);
+}
+
 .mui-table-narrow {
     --mui-table-cell-padding-x: 0.75rem;
     --mui-table-cell-padding-y: 0.5rem;
@@ -199,11 +204,17 @@
     border-spacing: 0;
 }
 
+/* Keep fixed header cells opaque in fixed-columns mode to avoid text bleed while scrolling. */
+.mui-table-fixed-columns > .mui-table > :is(.mui-table-header, thead) > :is(.mui-table-row, tr) {
+    --mui-table-cell-bg: var(--mui-surface-container-lowest);
+}
+
 .mui-table-fixed-columns > .mui-table :is(.mui-table-header-cell-fixed-start, .mui-table-row-header-fixed-start, .mui-table-row-cell-fixed-start) {
     position: sticky;
     left: 0;
     z-index: var(--mui-zindex-tablefixed2);
     background-color: var(--mui-table-cell-bg, var(--mui-surface-container-lowest));
+    background-clip: padding-box;
     box-shadow: 1px 0 0 var(--mui-table-border-color);
 }
 
@@ -212,6 +223,7 @@
     right: 0;
     z-index: var(--mui-zindex-tablefixed2);
     background-color: var(--mui-table-cell-bg, var(--mui-surface-container-lowest));
+    background-clip: padding-box;
     box-shadow: -1px 0 0 var(--mui-table-border-color);
 }
 
