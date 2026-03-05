@@ -102,6 +102,11 @@ public partial class DropdownItem : BaseComponent
     protected string AriaDisabled => Disabled.ToString().ToLowerInvariant();
 
     /// <summary>
+    /// Gets the tabindex value for keyboard navigation.
+    /// </summary>
+    protected int ComputedTabIndex => Disabled ? -1 : 0;
+
+    /// <summary>
     /// Holds the item value.
     /// </summary>
     [Parameter] public object Value { get; set; }
