@@ -1,4 +1,4 @@
-<ListGroup Mode="ListGroupMode.Selectable" SelectionMode="ListGroupSelectionMode.Single" @bind-SelectedItem="@selectedItem">
+<ListGroup ElementId="selectable-list-group" Mode="ListGroupMode.Selectable" SelectionMode="@SelectionMode" @bind-SelectedItem="@selectedItem">
     <ListGroupItem ElementId="list-group-item-1" Name="item-1">Item 1</ListGroupItem>
     <ListGroupItem ElementId="list-group-item-2" Name="item-2">Item 2</ListGroupItem>
 </ListGroup>
@@ -7,4 +7,6 @@
 
 @code {
     private string selectedItem;
+
+    [Parameter] public ListGroupSelectionMode SelectionMode { get; set; } = ListGroupSelectionMode.Single;
 }

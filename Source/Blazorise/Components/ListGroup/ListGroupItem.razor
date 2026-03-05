@@ -1,5 +1,5 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" aria-disabled="@DisabledString" tabindex="@ComputedTabIndex" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes">
+<li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="@Role" aria-disabled="@DisabledString" aria-selected="@AriaSelected" tabindex="@ComputedTabIndex" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes">
     @ChildContent
 </li>
