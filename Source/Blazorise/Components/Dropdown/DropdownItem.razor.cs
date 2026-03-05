@@ -40,7 +40,7 @@ public partial class DropdownItem : BaseComponent
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        ariaLabelledBy = $"{IdGenerator.Generate}_label";
+        ariaLabelledBy = $"lbl_{IdGenerator.Generate}";
 
         base.OnInitialized();
     }
