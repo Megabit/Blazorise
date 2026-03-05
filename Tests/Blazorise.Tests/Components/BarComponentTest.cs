@@ -67,6 +67,32 @@ public class BarComponentTest : TestContext
     }
 
     [Fact]
+    public void BarDropdownMenu_ShouldHaveRoleMenu()
+    {
+        // setup
+        var comp = RenderComponent<BarComponent>();
+
+        // test
+        var dropdownMenu = comp.Find( ".dropdown-menu" );
+
+        // validate
+        Assert.Equal( "menu", dropdownMenu.GetAttribute( "role" ) );
+    }
+
+    [Fact]
+    public void BarDropdownItem_ShouldHaveRoleMenuitem()
+    {
+        // setup
+        var comp = RenderComponent<BarComponent>();
+
+        // test
+        var dropdownItem = comp.Find( "#bar-dropdown-item" );
+
+        // validate
+        Assert.Equal( "menuitem", dropdownItem.GetAttribute( "role" ) );
+    }
+
+    [Fact]
     public void BarDropdownItem_ShouldHaveAriaLabelledBy_ThatPointsToItemText()
     {
         // setup

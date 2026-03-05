@@ -45,5 +45,10 @@ public partial class Link : BaseLinkComponent, IDisposable
     /// </summary>
     [Parameter] public EventCallback<KeyboardEventArgs> KeyDown { get; set; }
 
+    /// <summary>
+    /// Gets or sets the role attribute value.
+    /// </summary>
+    [Parameter] public string Role { get; set; }
+
     #endregion
 }

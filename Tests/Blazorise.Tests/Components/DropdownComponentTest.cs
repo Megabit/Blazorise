@@ -60,6 +60,32 @@ public class DropdownComponentTest : TestContext
     }
 
     [Fact]
+    public void DropdownMenu_ShouldHaveRoleMenu()
+    {
+        // setup
+        var comp = RenderComponent<DropdownComponent>();
+
+        // test
+        var menuElement = comp.Find( "#dropdown-menu" );
+
+        // validate
+        Assert.Equal( "menu", menuElement.GetAttribute( "role" ) );
+    }
+
+    [Fact]
+    public void DropdownItem_ShouldHaveRoleMenuitem()
+    {
+        // setup
+        var comp = RenderComponent<DropdownComponent>();
+
+        // test
+        var firstMenuItemElement = comp.Find( "#dropdown-menu a" );
+
+        // validate
+        Assert.Equal( "menuitem", firstMenuItemElement.GetAttribute( "role" ) );
+    }
+
+    [Fact]
     public void DropdownItem_Should_Have_AriaLabelledBy_That_PointsToItemText()
     {
         // setup
