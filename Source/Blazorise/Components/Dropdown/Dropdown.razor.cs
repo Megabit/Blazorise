@@ -53,6 +53,8 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
+        DropdownCoordinator?.Register( this );
+
         if ( ParentDropdown is not null )
         {
             ParentDropdown.NotifyChildDropdownInitialized( this );
@@ -128,6 +130,8 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     {
         if ( disposing )
         {
+            DropdownCoordinator?.Unregister( this );
+
             if ( ParentDropdown is not null )
             {
                 ParentDropdown.NotifyChildDropdownRemoved( this );
@@ -162,6 +166,8 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     {
         if ( Visible )
             return;
+
+        await CloseOtherVisibleDropdowns();
 
         Visible = true;
 
@@ -211,11 +217,51 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Toggle( string dropdownToggleElementId )
     {
+        var shouldShow = !Visible;
+
         SetWasJustToggled( true );
         SetSelectedDropdownElementId( dropdownToggleElementId );
-        Visible = !Visible;
+
+        if ( shouldShow )
+            await CloseOtherVisibleDropdowns();
+
+        Visible = shouldShow;
 
         await InvokeAsync( StateHasChanged );
+    }
+
+    private async Task CloseOtherVisibleDropdowns()
+    {
+        var dropdownsToClose = ( DropdownCoordinator?.GetRegistered() ?? Array.Empty<Dropdown>() )
+            .Where( x => x is not null
+                         && !ReferenceEquals( x, this )
+                         && x.Visible
+                         && !IsInSameHierarchyWith( x ) )
+            .ToList();
+
+        foreach ( var dropdown in dropdownsToClose )
+        {
+            if ( dropdown.Visible )
+                await dropdown.Hide();
+        }
+    }
+
+    private bool IsInSameHierarchyWith( Dropdown dropdown )
+        => IsAncestorOf( dropdown ) || dropdown.IsAncestorOf( this );
+
+    private bool IsAncestorOf( Dropdown dropdown )
+    {
+        var currentParent = dropdown?.ParentDropdown;
+
+        while ( currentParent is not null )
+        {
+            if ( ReferenceEquals( currentParent, this ) )
+                return true;
+
+            currentParent = currentParent.ParentDropdown;
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -410,6 +456,17 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// Gets or sets the <see cref="IJSDropdownModule"/> instance.
     /// </summary>
     [Inject] public IJSDropdownModule JSModule { get; set; }
+
+    /// <summary>
+    /// Gets or sets the service provider.
+    /// </summary>
+    [Inject] public IServiceProvider ServiceProvider { get; set; }
+
+    /// <summary>
+    /// Gets the optional <see cref="IDropdownCoordinator"/> instance.
+    /// </summary>
+    private IDropdownCoordinator DropdownCoordinator
+        => ServiceProvider?.GetService( typeof( IDropdownCoordinator ) ) as IDropdownCoordinator;
 
     /// <summary>
     /// If true, a dropdown menu will be visible.

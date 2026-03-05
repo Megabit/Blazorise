@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -22,6 +23,8 @@ public partial class ListGroup : BaseComponent
     {
         Mode = ListGroupMode.Static,
     };
+
+    private readonly List<ListGroupItem> listGroupItems = [];
 
     #endregion
 
@@ -67,6 +70,75 @@ public partial class ListGroup : BaseComponent
         await InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Registers a list group item for keyboard navigation.
+    /// </summary>
+    /// <param name="listGroupItem">List group item to register.</param>
+    internal void RegisterItem( ListGroupItem listGroupItem )
+    {
+        if ( listGroupItem is null || listGroupItems.Contains( listGroupItem ) )
+            return;
+
+        listGroupItems.Add( listGroupItem );
+    }
+
+    /// <summary>
+    /// Unregisters a list group item from keyboard navigation.
+    /// </summary>
+    /// <param name="listGroupItem">List group item to unregister.</param>
+    internal void UnregisterItem( ListGroupItem listGroupItem )
+    {
+        if ( listGroupItem is null )
+            return;
+
+        listGroupItems.Remove( listGroupItem );
+    }
+
+    /// <summary>
+    /// Moves focus to a sibling enabled item.
+    /// </summary>
+    /// <param name="currentItem">Current focused item.</param>
+    /// <param name="offset">Offset direction.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    internal Task FocusAdjacentItem( ListGroupItem currentItem, int offset )
+    {
+        List<ListGroupItem> enabledItems = listGroupItems.Where( x => x is not null && !x.Disabled ).ToList();
+
+        if ( enabledItems.Count == 0 )
+            return Task.CompletedTask;
+
+        var currentIndex = enabledItems.IndexOf( currentItem );
+
+        if ( currentIndex < 0 )
+            return enabledItems[0].Focus();
+
+        var nextIndex = currentIndex + offset;
+
+        if ( nextIndex < 0 )
+            nextIndex = enabledItems.Count - 1;
+        else if ( nextIndex >= enabledItems.Count )
+            nextIndex = 0;
+
+        return enabledItems[nextIndex].Focus();
+    }
+
+    /// <summary>
+    /// Moves focus to the first or last enabled item.
+    /// </summary>
+    /// <param name="toEnd">True to focus the last item.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    internal Task FocusBoundaryItem( bool toEnd )
+    {
+        List<ListGroupItem> enabledItems = listGroupItems.Where( x => x is not null && !x.Disabled ).ToList();
+
+        if ( enabledItems.Count == 0 )
+            return Task.CompletedTask;
+
+        return toEnd
+            ? enabledItems[^1].Focus()
+            : enabledItems[0].Focus();
+    }
+
     #endregion
 
     #region Properties
@@ -75,6 +147,20 @@ public partial class ListGroup : BaseComponent
     /// Gets the list group state object.
     /// </summary>
     protected ListGroupState State => state;
+
+    /// <summary>
+    /// Gets the list group role.
+    /// </summary>
+    protected string Role => Mode == ListGroupMode.Selectable
+        ? "listbox"
+        : null;
+
+    /// <summary>
+    /// Gets the aria-multiselectable value.
+    /// </summary>
+    protected string AriaMultiselectable => Mode == ListGroupMode.Selectable && SelectionMode == ListGroupSelectionMode.Multiple
+        ? "true"
+        : null;
 
     /// <summary>
     /// Remove some borders and rounded corners to render list group items edge-to-edge in a parent container (e.g., cards).

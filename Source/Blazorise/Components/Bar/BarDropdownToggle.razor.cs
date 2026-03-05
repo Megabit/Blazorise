@@ -212,13 +212,13 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
 
         if ( ParentBarDropdown is not null && ( eventArgs.Key == "Enter" || eventArgs.Key == "NumpadEnter" ) )
         {
+            lastKeyboardToggleTimestampUtc = DateTime.UtcNow;
+
             if ( !IsToggleClickTriggerEnabled )
                 return Task.CompletedTask;
 
             if ( ParentBarDropdown.IsVisible )
-                return Task.CompletedTask;
-
-            lastKeyboardToggleTimestampUtc = DateTime.UtcNow;
+                return ParentBarDropdown.Hide();
 
             return ParentBarDropdown.Toggle( ElementId );
         }

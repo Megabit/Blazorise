@@ -32,4 +32,23 @@ public partial class Link : BaseLinkComponent, IDisposable
     }
 
     #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Gets or sets the aria-labelledby attribute value.
+    /// </summary>
+    [Parameter] public string AriaLabelledBy { get; set; }
+
+    /// <summary>
+    /// Handles the onkeydown event.
+    /// </summary>
+    [Parameter] public EventCallback<KeyboardEventArgs> KeyDown { get; set; }
+
+    /// <summary>
+    /// Gets or sets the role attribute value.
+    /// </summary>
+    [Parameter] public string Role { get; set; }
+
+    #endregion
 }
