@@ -158,3 +158,21 @@
     flex-wrap: wrap;
     gap: 0.5rem;
 }
+
+@media (max-width: 767.98px) {
+    .mui-button-group {
+        max-inline-size: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        flex-wrap: nowrap;
+    }
+
+    .mui-button-group > .mui-button,
+    .mui-button-group > .mui-button-group > .mui-button,
+    .mui-button-group > .mui-dropdown > .mui-button,
+    .mui-button-group > .mui-dropdown > .mui-dropdown-toggle,
+    .mui-button-group > .mui-radio-button > .mui-button {
+        --mui-btn-padding: 0.625rem;
+        --mui-btn-font-size: 0.6875rem;
+    }
+}
