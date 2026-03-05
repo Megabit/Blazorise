@@ -312,9 +312,9 @@
     transition: border-radius var(--mui-duration-normal), background-color var(--mui-duration-normal), color var(--mui-duration-normal), inline-size var(--mui-duration-normal), inset-inline-start var(--mui-duration-normal);
 }
 
-.mui-bar-toggler:empty::before,
-.mui-bar-toggler-inline:empty::before,
-.mui-bar-toggler-popout:empty::before {
+.mui-bar-toggler:not(:has(> :not(.mui-ripple-surface)))::before,
+.mui-bar-toggler-inline:not(:has(> :not(.mui-ripple-surface)))::before,
+.mui-bar-toggler-popout:not(:has(> :not(.mui-ripple-surface)))::before {
     content: "menu";
     font-family: var(--mui-font-icon);
     font-size: 1.25rem;
