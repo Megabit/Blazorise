@@ -13,6 +13,9 @@
                         <BarItem>
                             @_counter
                         </BarItem>
+                        <BarDropdownItem ElementId="bar-dropdown-item" Clicked="OnDropdownItemClicked">
+                            Item @_dropdownItemCounter
+                        </BarDropdownItem>
                     </BarDropdownMenu>
                 </BarDropdown>
             </BarItem>
@@ -22,10 +25,17 @@
 
 @code {
     private int _counter = 0;
+    private int _dropdownItemCounter = 0;
 
     private Task OnClicked()
     {
         _counter++;
+        return Task.CompletedTask;
+    }
+
+    private Task OnDropdownItemClicked( Microsoft.AspNetCore.Components.Web.MouseEventArgs _ )
+    {
+        _dropdownItemCounter++;
         return Task.CompletedTask;
     }
 }

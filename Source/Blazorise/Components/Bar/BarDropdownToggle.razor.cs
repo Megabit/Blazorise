@@ -136,10 +136,11 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
 
         if ( ParentBarDropdown is not null && ( eventArgs.Key == "Enter" || eventArgs.Key == "NumpadEnter" ) )
         {
-            if ( ParentBarDropdown.IsVisible )
-                return Task.CompletedTask;
-
             lastKeyboardToggleTimestampUtc = DateTime.UtcNow;
+
+            if ( ParentBarDropdown.IsVisible )
+                return ParentBarDropdown.Hide();
+
             return ParentBarDropdown.Toggle( ElementId );
         }
 
