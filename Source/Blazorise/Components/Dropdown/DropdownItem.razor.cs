@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise;
@@ -76,6 +77,19 @@ public partial class DropdownItem : BaseComponent
         }
 
         await Clicked.InvokeAsync( Value );
+    }
+
+    /// <summary>
+    /// Handles keyboard activation for menu items.
+    /// </summary>
+    /// <param name="eventArgs">Information about the keyboard event.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected Task KeyDownHandler( KeyboardEventArgs eventArgs )
+    {
+        if ( eventArgs.Key == "Enter" || eventArgs.Key == "NumpadEnter" )
+            return ClickHandler();
+
+        return Task.CompletedTask;
     }
 
     /// <summary>

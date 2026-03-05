@@ -39,6 +39,26 @@ public class DropdownComponentTest : TestContext
         Assert.DoesNotContain( "show", mnuElement.GetAttribute( "class" ) );
     }
 
+    [Fact]
+    public async Task Enter_OnFocusedItem_Should_SelectItem_AndCloseDropdown()
+    {
+        // setup
+        var comp = RenderComponent<DropdownComponent>();
+        var drpElement = comp.Find( "#dropdown" );
+        var btnElement = comp.Find( "button" );
+        var mnuElement = comp.Find( "#dropdown-menu" );
+
+        // test
+        await btnElement.ClickAsync();
+
+        var firstMenuItemElement = comp.Find( "#dropdown-menu a" );
+        await firstMenuItemElement.KeyDownAsync( new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs() { Key = "Enter" } );
+
+        // validate
+        Assert.DoesNotContain( "show", drpElement.GetAttribute( "class" ) );
+        Assert.DoesNotContain( "show", mnuElement.GetAttribute( "class" ) );
+    }
+
 
     [Fact]
     public async Task Checkbox_Should_RenderCheckbox()

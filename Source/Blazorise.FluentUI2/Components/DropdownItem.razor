@@ -1,6 +1,6 @@
 ﻿@inherits Blazorise.DropdownItem
 
-<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="@Role" aria-disabled="@DisabledString" aria-checked="@AriaChecked" tabindex="@ComputedTabIndex" @onmouseup="@ClickHandler" @onmousedown="@EventCallback.Empty" @onmousedown:preventDefault @attributes="@Attributes">
+<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="@Role" aria-disabled="@DisabledString" aria-checked="@AriaChecked" tabindex="@ComputedTabIndex" @onmouseup="@ClickHandler" @onkeydown="@KeyDownHandler" @onmousedown="@EventCallback.Empty" @onmousedown:preventDefault @attributes="@Attributes">
     @if ( ShowCheckbox )
     {
         <span class="fui-MenuItem__checkmark fui-MenuItemCheckbox__checkmark">
