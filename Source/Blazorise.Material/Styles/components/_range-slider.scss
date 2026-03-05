@@ -1,0 +1,113 @@
+.range-slider {
+    min-height: 2rem;
+
+    > .range-slider-track,
+    > .range-slider-range {
+        top: 50%;
+        height: .25rem;
+        transform: translateY(-50%);
+        border-radius: 999px;
+    }
+
+    > .range-slider-track {
+        background-color: $slider-track-bg-disabled;
+    }
+
+    > .range-slider-range {
+        background-color: $slider-thumb-bg;
+    }
+
+    > .range-slider-input {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        margin: 0;
+        transform: translateY(-50%);
+        background: transparent;
+        pointer-events: none;
+        -webkit-appearance: none;
+        appearance: none;
+
+        &::-webkit-slider-runnable-track {
+            background: transparent;
+        }
+
+        &::-webkit-slider-thumb {
+            width: $slider-thumb-width;
+            height: $slider-thumb-height;
+            border: $slider-thumb-border;
+            border-radius: $slider-thumb-border-radius;
+            background-color: $slider-thumb-bg;
+            box-shadow: $slider-thumb-hover-box-shadow;
+            pointer-events: auto;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        &::-moz-range-track {
+            background: transparent;
+        }
+
+        &::-moz-range-thumb {
+            width: $slider-thumb-width;
+            height: $slider-thumb-height;
+            border: $slider-thumb-border;
+            border-radius: $slider-thumb-border-radius;
+            background-color: $slider-thumb-bg;
+            box-shadow: $slider-thumb-hover-box-shadow;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        &.is-valid {
+            &::-webkit-slider-thumb {
+                background-color: $success;
+                box-shadow: none;
+            }
+
+            &::-moz-range-thumb {
+                background-color: $success;
+                box-shadow: none;
+            }
+        }
+
+        &.is-invalid {
+            &::-webkit-slider-thumb {
+                background-color: $danger;
+                box-shadow: none;
+            }
+
+            &::-moz-range-thumb {
+                background-color: $danger;
+                box-shadow: none;
+            }
+        }
+    }
+
+    > .range-slider-tooltip {
+        top: 0;
+        transform: translate(-50%, calc(-100% - .25rem));
+        white-space: nowrap;
+        z-index: 6;
+        pointer-events: none;
+    }
+
+    &[aria-disabled='true'] {
+        > .range-slider-track,
+        > .range-slider-range {
+            opacity: .65;
+        }
+
+        > .range-slider-input {
+            &::-webkit-slider-thumb {
+                cursor: not-allowed;
+            }
+
+            &::-moz-range-thumb {
+                cursor: not-allowed;
+            }
+        }
+    }
+}

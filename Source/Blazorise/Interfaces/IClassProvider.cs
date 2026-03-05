@@ -214,6 +214,26 @@ public interface IClassProvider
 
     #endregion
 
+    #region RangeSlider
+
+    string RangeSlider();
+
+    string RangeSliderTrack();
+
+    string RangeSliderRange();
+
+    string RangeSliderInput();
+
+    string RangeSliderStart();
+
+    string RangeSliderEnd();
+
+    string RangeSliderTooltip();
+
+    string RangeSliderValidation( ValidationStatus validationStatus );
+
+    #endregion
+
     #region Rating
 
     string Rating();

@@ -1,0 +1,109 @@
+.ant-range-slider {
+    min-height: 2rem;
+
+    > .ant-range-slider-track,
+    > .ant-range-slider-range {
+        top: 50%;
+        height: .25rem;
+        transform: translateY(-50%);
+        border-radius: 999px;
+    }
+
+    > .ant-range-slider-track {
+        background-color: #d9d9d9;
+    }
+
+    > .ant-range-slider-range {
+        background-color: #1677ff;
+    }
+
+    > .ant-range-slider-input {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        margin: 0;
+        transform: translateY(-50%);
+        background: transparent;
+        pointer-events: none;
+        -webkit-appearance: none;
+        appearance: none;
+
+        &::-webkit-slider-runnable-track {
+            background: transparent;
+        }
+
+        &::-webkit-slider-thumb {
+            width: .875rem;
+            height: .875rem;
+            border-radius: 50%;
+            border: 2px solid #1677ff;
+            background-color: #fff;
+            box-shadow: 0 0 0 2px rgba(5, 145, 255, .12);
+            pointer-events: auto;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        &::-moz-range-track {
+            background: transparent;
+        }
+
+        &::-moz-range-thumb {
+            width: .875rem;
+            height: .875rem;
+            border-radius: 50%;
+            border: 2px solid #1677ff;
+            background-color: #fff;
+            box-shadow: 0 0 0 2px rgba(5, 145, 255, .12);
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        &.ant-input-status-success {
+            &::-webkit-slider-thumb {
+                border-color: $success;
+            }
+
+            &::-moz-range-thumb {
+                border-color: $success;
+            }
+        }
+
+        &.ant-input-status-error {
+            &::-webkit-slider-thumb {
+                border-color: $danger;
+            }
+
+            &::-moz-range-thumb {
+                border-color: $danger;
+            }
+        }
+    }
+
+    > .ant-range-slider-tooltip {
+        top: 0;
+        transform: translate(-50%, calc(-100% - .25rem));
+        white-space: nowrap;
+        z-index: 6;
+        pointer-events: none;
+    }
+
+    &[aria-disabled='true'] {
+        > .ant-range-slider-track,
+        > .ant-range-slider-range {
+            opacity: .65;
+        }
+
+        > .ant-range-slider-input {
+            &::-webkit-slider-thumb {
+                cursor: not-allowed;
+            }
+
+            &::-moz-range-thumb {
+                cursor: not-allowed;
+            }
+        }
+    }
+}

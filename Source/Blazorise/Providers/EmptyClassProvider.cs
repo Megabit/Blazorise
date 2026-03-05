@@ -217,6 +217,26 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region RangeSlider
+
+    public string RangeSlider() => "b-range-slider";
+
+    public string RangeSliderTrack() => "b-range-slider-track";
+
+    public string RangeSliderRange() => "b-range-slider-range";
+
+    public string RangeSliderInput() => "b-range-slider-input";
+
+    public string RangeSliderStart() => "b-range-slider-input-start";
+
+    public string RangeSliderEnd() => "b-range-slider-input-end";
+
+    public string RangeSliderTooltip() => "b-range-slider-tooltip";
+
+    public string RangeSliderValidation( ValidationStatus validationStatus ) => null;
+
+    #endregion
+
     #region Rating
 
     public string Rating() => null;

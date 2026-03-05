@@ -215,6 +215,26 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region RangeSlider
+
+    public abstract string RangeSlider();
+
+    public abstract string RangeSliderTrack();
+
+    public abstract string RangeSliderRange();
+
+    public abstract string RangeSliderInput();
+
+    public abstract string RangeSliderStart();
+
+    public abstract string RangeSliderEnd();
+
+    public abstract string RangeSliderTooltip();
+
+    public abstract string RangeSliderValidation( ValidationStatus validationStatus );
+
+    #endregion
+
     #region Rating
 
     public abstract string Rating();
