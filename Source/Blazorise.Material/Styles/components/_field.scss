@@ -106,6 +106,7 @@
 .mui-field > .mui-field-label-horizontal {
     display: inline-flex;
     align-items: center;
+    align-self: flex-start;
     min-block-size: var(--mui-field-input-size);
     margin: 0;
 }
