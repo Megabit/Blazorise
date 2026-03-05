@@ -38,6 +38,11 @@ public partial class BarDropdownToggle : Blazorise.BarDropdownToggle
             && ParentBarDropdown.IsVisible
             && ParentBarDropdownState?.Mode != BarMode.Horizontal;
 
+    protected IconName HorizontalToggleIconName
+        => ParentBarDropdown?.IsBarDropdownSubmenu == true
+            ? ParentBarDropdown.IsVisible ? IconName.AngleDown : IconName.AngleRight
+            : ParentBarDropdown?.IsVisible == true ? ExpandedToggleIconName : CollapsedToggleIconName;
+
     protected override bool ShouldPreventDefaultOnToggleClick
         => HasNavigationTarget && ( IsToggleClickTriggerEnabled || ShouldToggleVisibleOnToggleClickMaterial );
 
