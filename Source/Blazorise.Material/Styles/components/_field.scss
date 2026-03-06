@@ -8,6 +8,26 @@
     border-radius: 0.25rem 0.25rem 0 0;
 }
 
+.mui-field:has(> :is(.mui-input-xs, .mui-select-xs, .mui-addons-xs), > .mui-field-body > :is(.mui-input-xs, .mui-select-xs, .mui-addons-xs), > .b-numeric .mui-input-xs, > .mui-field-body > .b-numeric .mui-input-xs) {
+    --mui-field-input-size: 1.5rem;
+}
+
+.mui-field:has(> :is(.mui-input-sm, .mui-select-sm, .mui-addons-sm), > .mui-field-body > :is(.mui-input-sm, .mui-select-sm, .mui-addons-sm), > .b-numeric .mui-input-sm, > .mui-field-body > .b-numeric .mui-input-sm) {
+    --mui-field-input-size: 2rem;
+}
+
+.mui-field:has(> :is(.mui-input-md, .mui-select-md, .mui-addons-md), > .mui-field-body > :is(.mui-input-md, .mui-select-md, .mui-addons-md), > .b-numeric .mui-input-md, > .mui-field-body > .b-numeric .mui-input-md) {
+    --mui-field-input-size: 2.75rem;
+}
+
+.mui-field:has(> :is(.mui-input-lg, .mui-select-lg, .mui-addons-lg), > .mui-field-body > :is(.mui-input-lg, .mui-select-lg, .mui-addons-lg), > .b-numeric .mui-input-lg, > .mui-field-body > .b-numeric .mui-input-lg) {
+    --mui-field-input-size: 3rem;
+}
+
+.mui-field:has(> :is(.mui-input-xl, .mui-select-xl, .mui-addons-xl), > .mui-field-body > :is(.mui-input-xl, .mui-select-xl, .mui-addons-xl), > .b-numeric .mui-input-xl, > .mui-field-body > .b-numeric .mui-input-xl) {
+    --mui-field-input-size: 3.5rem;
+}
+
 .mui-field.mui-field-horizontal {
     display: flex;
     flex-direction: row;
