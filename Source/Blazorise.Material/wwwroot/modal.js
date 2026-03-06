@@ -1,4 +1,4 @@
-import { addClassToBody, removeClassFromBody } from "../Blazorise/utilities.js?v=2.0.1.0";
+import { addClassToBody, removeClassFromBody } from "../Blazorise/utilities.js?v=2.0.2.0";
 
 let closeCleanupTimeoutId = null;
 
