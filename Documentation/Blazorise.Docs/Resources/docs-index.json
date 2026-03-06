@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-03T08:49:33.8393708Z",
+  "generatedUtc": "2026-03-06T16:37:50.3781498Z",
   "pages": [
     {
       "route": "/docs",
@@ -6733,6 +6733,14 @@
           "content": "<TransferList TItem=\"string\"\r\n              Items=\"@list\"\r\n              SelectionMode=\"ListGroupSelectionMode.Single\"\r\n              Mode=\"ListGroupMode.Selectable\"\r\n              Scrollable\r\n              ShowMoveAll=false\r\n              ValueField=\"item => item\"\r\n              TextField=\"item => item\">\r\n    <ItemStartTemplate>\r\n        @(transferListItemContent( context ))\r\n    </ItemStartTemplate>\r\n    <ItemEndTemplate>\r\n        @(transferListItemContent( context ))\r\n    </ItemEndTemplate>\r\n</TransferList>\r\n\r\n@code {\r\n    private List<string> list = new List<string> { \"Apple\", \"Bananas\", \"Lemon\", \"Broccoli\", \"Strawberry\", \"Cherry\", \"Cabbage\" };\r\n    private List<string> listStart = new List<string>() { \"Cabbage\", \"Broccoli\" };\r\n\r\n    private RenderFragment<Blazorise.Components.ListView.ItemContext<string>> transferListItemContent => item => __builder =>\r\n    {\r\n        <Card Background=Background.Info Shadow=\"Shadow.Default\">\r\n            <CardBody>\r\n                @{\r\n                    var imageSource = $\"img/fruit/{item.Value.ToLower()}.png\";\r\n                }\r\n                <Image Source=\"@imageSource\" Style=\"width:24px;height:24px;\" Text=\"Small image\" />\r\n                @item.Value\r\n            </CardBody>\r\n        </Card>\r\n    };\r\n}",
           "title": "Customize",
           "description": "You may customize the look of each of the transfer list by utilizing the ItemStartTemplate and ItemEndTemplate parameters."
+        },
+        {
+          "code": "TransferListCaptionsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/TransferList/Examples/TransferListCaptionsExample.razor",
+          "content": "<TransferList TItem=\"string\"\r\n              Items=\"@list\"\r\n              ValueField=\"item => item\"\r\n              TextField=\"item => item\"\r\n              ShowCaptions>\r\n    <StartCaptionTemplate>\r\n        <Heading4>In Stock</Heading4>\r\n    </StartCaptionTemplate>\r\n    <EndCaptionTemplate>\r\n        <Heading4>Checkout</Heading4>\r\n    </EndCaptionTemplate>\r\n</TransferList>\r\n\r\n@code {\r\n    private List<string> list = new List<string> { \"Apple\", \"Banana\", \"Cherry\", \"Grapes\", \"Orange\", \"Pear\", \"Strawberry\" };\r\n}",
+          "title": "Captions",
+          "description": "You can add captions above the lists by providing strings StartCaption and EndCaption or custom templates StartCaptionTemplate and EndCaptionTemplate . Turning the captions on or off is controlled by the ShowCaptions parameter."
         }
       ],
       "apiRefs": [

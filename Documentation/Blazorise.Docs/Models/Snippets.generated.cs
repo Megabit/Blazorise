@@ -11674,6 +11674,23 @@ builder.Services
     private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
 }";
 
+        public const string TransferListCaptionsExample = @"<TransferList TItem=""string""
+              Items=""@list""
+              ValueField=""item => item""
+              TextField=""item => item""
+              ShowCaptions>
+    <StartCaptionTemplate>
+        <Heading4>In Stock</Heading4>
+    </StartCaptionTemplate>
+    <EndCaptionTemplate>
+        <Heading4>Checkout</Heading4>
+    </EndCaptionTemplate>
+</TransferList>
+
+@code {
+    private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
+}";
+
         public const string TransferListCustomItemTemplatesExample = @"<TransferList TItem=""string""
               Items=""@list""
               SelectionMode=""ListGroupSelectionMode.Single""

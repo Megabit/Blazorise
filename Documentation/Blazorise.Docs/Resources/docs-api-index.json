@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-06T08:45:01.9449173Z",
+  "generatedUtc": "2026-03-06T17:27:21.7498670Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -8337,6 +8337,403 @@
       ],
       "events": [],
       "methods": []
+    },
+    {
+      "type": "global::Blazorise.BarDropdownToggle",
+      "typeName": "BarDropdownToggle",
+      "summary": "$\"\"\"\r\n       Toggles the visibility or collapse of <strong>Bar</strong> component.\r\n       \"\"\"",
+      "searchUrl": "docs/components/bar",
+      "parameters": [
+        {
+          "name": "Attributes",
+          "type": "Dictionary<string, object>",
+          "typeName": "Dictionary<string, object>",
+          "defaultValue": "null",
+          "summary": "Captures unmatched HTML attributes for customization.",
+          "remarks": "These attributes are applied directly to the component's root HTML element.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Background",
+          "type": "global::Blazorise.Background",
+          "typeName": "Background",
+          "defaultValue": "Background.Default",
+          "summary": "Sets the background color of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Border",
+          "type": "global::Blazorise.IFluentBorder",
+          "typeName": "IFluentBorder",
+          "defaultValue": "null",
+          "summary": "Configures the border properties of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Casing",
+          "type": "global::Blazorise.CharacterCasing",
+          "typeName": "CharacterCasing",
+          "defaultValue": "default(CharacterCasing)",
+          "summary": "Specifies the text casing transformation (e.g., uppercase, lowercase).",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "ChildContent",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
+          "typeName": "RenderFragment",
+          "defaultValue": "null",
+          "summary": "Specifies the content to be rendered inside this <strong>Link</strong>.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Class",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Custom CSS class name to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Clearfix",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Determines whether to apply clearfix to manage floating children.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Disabled",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Makes the link look inactive by adding the disabled boolean attribute.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Display",
+          "type": "global::Blazorise.IFluentDisplay",
+          "typeName": "IFluentDisplay",
+          "defaultValue": "null",
+          "summary": "Specifies the display behavior (e.g., block, inline, flex) of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ElementId",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the unique id of the element.",
+          "remarks": "Note that this ID is not defined for the component but instead for the underlined element that it represents.     eg: for the TextInput the ID will be set on the input element.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Flex",
+          "type": "global::Blazorise.IFluentFlex",
+          "typeName": "IFluentFlex",
+          "defaultValue": "null",
+          "summary": "Configures the flexbox properties of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Float",
+          "type": "global::Blazorise.Float",
+          "typeName": "Float",
+          "defaultValue": "Float.Default",
+          "summary": "Specifies how an element should float within its containing block.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Gap",
+          "type": "global::Blazorise.IFluentGap",
+          "typeName": "IFluentGap",
+          "defaultValue": "null",
+          "summary": "Configures the gap spacing between child elements of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Height",
+          "type": "global::Blazorise.IFluentSizing",
+          "typeName": "IFluentSizing",
+          "defaultValue": "null",
+          "summary": "Defines the height of the component using responsive sizing utilities.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Indentation",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "1.5d",
+          "summary": "Determines how much left padding will be applied to the dropdown toggle. (in rem unit)",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Margin",
+          "type": "global::Blazorise.IFluentSpacing",
+          "typeName": "IFluentSpacing",
+          "defaultValue": "null",
+          "summary": "Configures the margin spacing for the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Match",
+          "type": "global::Blazorise.Match",
+          "typeName": "Match",
+          "defaultValue": "Match.Prefix",
+          "summary": "URL matching behavior for a link.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "ObjectFit",
+          "type": "global::Blazorise.IFluentObjectFit",
+          "typeName": "IFluentObjectFit",
+          "defaultValue": "null",
+          "summary": "Configures the object-fit property, which determines how content is resized within its container.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Overflow",
+          "type": "global::Blazorise.IFluentOverflow",
+          "typeName": "IFluentOverflow",
+          "defaultValue": "null",
+          "summary": "Configures the overflow behavior when content exceeds the component's bounds.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Padding",
+          "type": "global::Blazorise.IFluentSpacing",
+          "typeName": "IFluentSpacing",
+          "defaultValue": "null",
+          "summary": "Configures the padding spacing for the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Position",
+          "type": "global::Blazorise.IFluentPosition",
+          "typeName": "IFluentPosition",
+          "defaultValue": "null",
+          "summary": "Specifies the positioning method for the component (static, relative, absolute, etc.).",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Shadow",
+          "type": "global::Blazorise.Shadow",
+          "typeName": "Shadow",
+          "defaultValue": "Shadow.None",
+          "summary": "Configures the shadow effect of the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Stretched",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Makes any HTML element or component clickable by “stretching” a nested link.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Style",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Custom inline styles to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TabIndex",
+          "type": "int?",
+          "typeName": "int?",
+          "defaultValue": "null",
+          "summary": "Specifies whether the link element can be focused and where it participates in sequential keyboard navigation.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Target",
+          "type": "global::Blazorise.Target",
+          "typeName": "Target",
+          "defaultValue": "Target.Default",
+          "summary": "The target attribute specifies where to open the linked document.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextAlignment",
+          "type": "global::Blazorise.TextAlignment",
+          "typeName": "TextAlignment",
+          "defaultValue": "TextAlignment.Default",
+          "summary": "Configures the horizontal alignment of text within the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextColor",
+          "type": "global::Blazorise.TextColor",
+          "typeName": "TextColor",
+          "defaultValue": "TextColor.Default",
+          "summary": "Defines the text color of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextDecoration",
+          "type": "global::Blazorise.TextDecoration",
+          "typeName": "TextDecoration",
+          "defaultValue": "TextDecoration.Default",
+          "summary": "Defines the text decoration style (e.g., underline, none) for the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextOverflow",
+          "type": "global::Blazorise.TextOverflow",
+          "typeName": "TextOverflow",
+          "defaultValue": "TextOverflow.Default",
+          "summary": "Configures how text behaves when it overflows its container.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextSize",
+          "type": "global::Blazorise.IFluentTextSize",
+          "typeName": "IFluentTextSize",
+          "defaultValue": "null",
+          "summary": "Sets the font size of the text in the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextTransform",
+          "type": "global::Blazorise.TextTransform",
+          "typeName": "TextTransform",
+          "defaultValue": "TextTransform.Default",
+          "summary": "Configures the text transformation (e.g., capitalize, none) of the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextWeight",
+          "type": "global::Blazorise.TextWeight",
+          "typeName": "TextWeight",
+          "defaultValue": "TextWeight.Default",
+          "summary": "Specifies the font weight of text in the component (e.g., bold, normal).",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Title",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Specify extra information about the element.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "To",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Denotes the target route of the link.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ToggleIconVisible",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Gets or sets a value indicating whether the dropdown toggle icon is visible.",
+          "remarks": "Default: True",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Trigger",
+          "type": "global::Blazorise.BarDropdownToggleTrigger",
+          "typeName": "BarDropdownToggleTrigger",
+          "defaultValue": "default(BarDropdownToggleTrigger)",
+          "summary": "Defines which interactions can trigger the dropdown toggle.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Unstyled",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Removes default color styles from the link.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "UtilityTarget",
+          "type": "global::Blazorise.UtilityTarget",
+          "typeName": "UtilityTarget",
+          "defaultValue": "UtilityTarget.Self",
+          "summary": "Specifies the default target where utility classes and styles are applied when no per-utility target is set.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "VerticalAlignment",
+          "type": "global::Blazorise.VerticalAlignment",
+          "typeName": "VerticalAlignment",
+          "defaultValue": "VerticalAlignment.Default",
+          "summary": "Specifies the vertical alignment of inline or table-cell elements.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Visibility",
+          "type": "global::Blazorise.Visibility",
+          "typeName": "Visibility",
+          "defaultValue": "Visibility.Default",
+          "summary": "Controls the visibility of an element without altering its layout.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Width",
+          "type": "global::Blazorise.IFluentSizing",
+          "typeName": "IFluentSizing",
+          "defaultValue": "null",
+          "summary": "Defines the width of the component using responsive sizing utilities.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [
+        {
+          "name": "Clicked",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<MouseEventArgs>",
+          "defaultValue": "null",
+          "summary": "Occurs when the link is clicked.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "CustomMatch",
+          "type": "Func<,>",
+          "typeName": "Func<string, bool>",
+          "defaultValue": "null",
+          "summary": "A callback function that is used to compare current uri with the user defined uri. If defined, the <strong>Match</strong> parameter will be ignored.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "methods": [
+        {
+          "name": "Close",
+          "returnTypeName": "Task",
+          "summary": "Triggers the closable component to be closed.",
+          "parameters": [
+            {
+              "name": "closeReason",
+              "typeName": "CloseReason"
+            }
+          ]
+        },
+        {
+          "name": "IsSafeToClose",
+          "returnTypeName": "Task<bool>",
+          "summary": "Finds if the closable component is ready to be closed.",
+          "parameters": [
+            {
+              "name": "elementId",
+              "typeName": "string"
+            },
+            {
+              "name": "closeReason",
+              "typeName": "CloseReason"
+            },
+            {
+              "name": "isChildClicked",
+              "typeName": "bool"
+            }
+          ]
+        }
+      ]
     },
     {
       "type": "global::Blazorise.BarEnd",
@@ -73821,7 +74218,7 @@
           "name": "EmptyIcon",
           "type": "object",
           "typeName": "object",
-          "defaultValue": "276",
+          "defaultValue": "280",
           "summary": "Defines the non-selected icon name.",
           "isBlazoriseEnum": false
         },
@@ -73853,7 +74250,7 @@
           "name": "FullIcon",
           "type": "object",
           "typeName": "object",
-          "defaultValue": "276",
+          "defaultValue": "280",
           "summary": "Defines the selected icon name.",
           "isBlazoriseEnum": false
         },
@@ -103928,6 +104325,22 @@
       "summary": "$\"\"\"\r\n       Represents a component that allows transferring items between two list panes.\r\n       \"\"\"",
       "parameters": [
         {
+          "name": "EndCaption",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the end caption text for the end (right) list.     Used only when <strong>EndCaptionTemplate</strong> is not provided.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "EndCaptionTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
+          "typeName": "RenderFragment",
+          "defaultValue": "null",
+          "summary": "Gets or sets the end caption template, which can be used to render a custom header or caption for the end (right) list.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "ItemEndTemplate",
           "type": "global::Microsoft.AspNetCore.Components.RenderFragment<>",
           "typeName": "RenderFragment<ItemContext<TItem>>",
@@ -103984,11 +104397,75 @@
           "isBlazoriseEnum": true
         },
         {
+          "name": "MoveAllToEndIconName",
+          "type": "global::Blazorise.IconName?",
+          "typeName": "IconName?",
+          "defaultValue": "null",
+          "summary": "Defines the icon name of the move all to end (right) button.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MoveAllToStartIconName",
+          "type": "global::Blazorise.IconName?",
+          "typeName": "IconName?",
+          "defaultValue": "null",
+          "summary": "Defines the icon name of the move all to start (left) button.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "MoveButtonsColor",
           "type": "global::Blazorise.Color",
           "typeName": "Color",
-          "defaultValue": "Primary",
+          "defaultValue": "null",
           "summary": "Specifies the color of the move and \\\"Move All\\\" buttons.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MoveButtonsIconSize",
+          "type": "global::Blazorise.IconSize?",
+          "typeName": "IconSize?",
+          "defaultValue": "null",
+          "summary": "Defines the size of the move icons.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MoveButtonsIconStyle",
+          "type": "global::Blazorise.IconStyle?",
+          "typeName": "IconStyle?",
+          "defaultValue": "null",
+          "summary": "Defines the style of the move icons.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MoveButtonsIconTextColor",
+          "type": "global::Blazorise.TextColor",
+          "typeName": "TextColor",
+          "defaultValue": "null",
+          "summary": "Defines the text color of the move icons.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MoveToEndIconName",
+          "type": "global::Blazorise.IconName?",
+          "typeName": "IconName?",
+          "defaultValue": "null",
+          "summary": "Defines the icon name of the move to end (right) button.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MoveToStartIconName",
+          "type": "global::Blazorise.IconName?",
+          "typeName": "IconName?",
+          "defaultValue": "null",
+          "summary": "Defines the icon name of the move to start (left) button.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Options",
+          "type": "global::Blazorise.Components.TransferListOptions",
+          "typeName": "TransferListOptions",
+          "defaultValue": "new()",
+          "summary": "TransferList component options",
           "isBlazoriseEnum": false
         },
         {
@@ -104040,11 +104517,35 @@
           "isBlazoriseEnum": true
         },
         {
+          "name": "ShowCaptions",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Determines whether the captions are visible above the lists.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "ShowMoveAll",
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "true",
           "summary": "Determines whether the \\\"Move All\\\" buttons are visible between lists.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "StartCaption",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the start caption text for the start (left) list.     Used only when <strong>StartCaptionTemplate</strong> is not provided.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "StartCaptionTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
+          "typeName": "RenderFragment",
+          "defaultValue": "null",
+          "summary": "Gets or sets the start caption template, which can be used to render a custom header or caption for the start (left) list.",
           "isBlazoriseEnum": false
         }
       ],
@@ -104156,6 +104657,79 @@
           "parameters": []
         }
       ]
+    },
+    {
+      "type": "global::Blazorise.Components.TransferListOptions",
+      "typeName": "TransferListOptions",
+      "summary": "$\"\"\"\r\n       Provides configuration options for the <strong>TransferList</strong> component.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "MoveAllToEndIconName",
+          "type": "global::Blazorise.IconName",
+          "typeName": "IconName",
+          "defaultValue": "ChevronDoubleRight",
+          "summary": "Option for the default icon name of the move all to end (right) button.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "MoveAllToStartIconName",
+          "type": "global::Blazorise.IconName",
+          "typeName": "IconName",
+          "defaultValue": "ChevronDoubleLeft",
+          "summary": "Option for the default icon name of the move all to start (left) button.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "MoveButtonsColor",
+          "type": "global::Blazorise.Color",
+          "typeName": "Color",
+          "defaultValue": "Primary",
+          "summary": "Option for the default color of the move and \\\"Move All\\\" buttons.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MoveButtonsIconSize",
+          "type": "global::Blazorise.IconSize?",
+          "typeName": "IconSize?",
+          "defaultValue": "null",
+          "summary": "Option for the default size of the move icons.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MoveButtonsIconStyle",
+          "type": "global::Blazorise.IconStyle?",
+          "typeName": "IconStyle?",
+          "defaultValue": "null",
+          "summary": "Option for the default style of the move icons.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MoveButtonsIconTextColor",
+          "type": "global::Blazorise.TextColor",
+          "typeName": "TextColor",
+          "defaultValue": "White",
+          "summary": "Option for the default text color of the move icons.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MoveToEndIconName",
+          "type": "global::Blazorise.IconName",
+          "typeName": "IconName",
+          "defaultValue": "ChevronRight",
+          "summary": "Option for the default icon name of the move to end (right) button.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "MoveToStartIconName",
+          "type": "global::Blazorise.IconName",
+          "typeName": "IconName",
+          "defaultValue": "ChevronLeft",
+          "summary": "Option for the default icon name of the move to start (left) button.",
+          "isBlazoriseEnum": true
+        }
+      ],
+      "events": [],
+      "methods": []
     },
     {
       "type": "global::Blazorise.TreeView.TreeView<>",
