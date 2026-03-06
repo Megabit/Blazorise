@@ -22,6 +22,8 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
 
     private BarDropdownState parentBarDropdownState;
 
+    private DateTime lastInternalMenuPointerInteractionUtc;
+
     /// <summary>
     /// State object used to holds the dropdown state.
     /// </summary>
@@ -268,12 +270,32 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
+    /// Handles pointer interactions inside dropdown menu content.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task OnMenuPointerInteractionHandler()
+    {
+        if ( State.Mode != BarMode.Horizontal || State.IsInlineDisplay )
+            return Task.CompletedTask;
+
+        lastInternalMenuPointerInteractionUtc = DateTime.UtcNow;
+        ShouldClose = false;
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
     /// Handles the onfocusout event.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task OnFocusOutHandler()
     {
         if ( State.Mode != BarMode.Horizontal || State.IsInlineDisplay )
+            return;
+
+        // Ignore transient focusout while interacting with menu content (for example, rerenders caused by switches/checks).
+        // Outside click close and escape close are still handled by closable logic.
+        if ( DateTime.UtcNow.Subtract( lastInternalMenuPointerInteractionUtc ).TotalMilliseconds < 250 )
             return;
 
         ShouldClose = true;
