@@ -1,0 +1,146 @@
+.mui-numeric {
+    --mui-numeric-input-size: var(--mui-input-size, 2.5rem);
+    --mui-numeric-input-font-size: var(--mui-input-font-size, 1rem);
+    --mui-numeric-input-border-radius: var(--mui-input-border-radius, 0.5rem);
+    --mui-numeric-step-width: 1.375rem;
+    --mui-numeric-icon-size: 1rem;
+    position: relative;
+    display: inline-flex;
+    align-items: stretch;
+    inline-size: 100%;
+    border-radius: var(--mui-numeric-input-border-radius);
+    overflow: hidden;
+
+    > .mui-input,
+    > .mui-input-plaintext {
+        --mui-input-size: var(--mui-numeric-input-size);
+        --mui-input-font-size: var(--mui-numeric-input-font-size);
+        --mui-input-border-radius: var(--mui-numeric-input-border-radius);
+        padding-inline-end: calc(var(--mui-numeric-step-width) + 0.75rem);
+    }
+
+    > .mui-input:focus {
+        padding-inline-end: calc(var(--mui-numeric-step-width) + 0.6875rem);
+    }
+
+    > :is(.mui-input, .mui-input-plaintext):is(:disabled, [readonly]) + .mui-numeric-buttons {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+}
+
+.mui-numeric-buttons {
+    position: absolute;
+    inset-block: 0.0625rem;
+    inset-inline-end: 0.0625rem;
+    inline-size: var(--mui-numeric-step-width);
+    display: flex;
+    flex-direction: column;
+    padding-block: 0.0625rem;
+    overflow: hidden;
+    border-start-end-radius: calc(var(--mui-numeric-input-border-radius) - 0.0625rem);
+    border-end-end-radius: calc(var(--mui-numeric-input-border-radius) - 0.0625rem);
+    border-top-right-radius: calc(var(--mui-numeric-input-border-radius) - 0.0625rem);
+    border-bottom-right-radius: calc(var(--mui-numeric-input-border-radius) - 0.0625rem);
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-inline-start: 0.0625rem solid var(--mui-outline-variant);
+    background-color: var(--mui-surface-container-low);
+    z-index: 2;
+}
+
+.mui-numeric > .mui-input:focus + .mui-numeric-buttons {
+    inset-block: 0.125rem;
+    inset-inline-end: 0.0625rem;
+    border-start-end-radius: calc(var(--mui-numeric-input-border-radius) - 0.125rem);
+    border-end-end-radius: calc(var(--mui-numeric-input-border-radius) - 0.125rem);
+    border-top-right-radius: calc(var(--mui-numeric-input-border-radius) - 0.125rem);
+    border-bottom-right-radius: calc(var(--mui-numeric-input-border-radius) - 0.125rem);
+}
+
+.mui-numeric-button {
+    all: unset;
+    display: inline-flex;
+    flex: 1 1 50%;
+    align-items: center;
+    justify-content: center;
+    color: var(--mui-on-surface-variant);
+    line-height: 1;
+    min-block-size: 0;
+    padding-block: 0.0625rem;
+    cursor: pointer;
+    user-select: none;
+
+    > i {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        inline-size: 100%;
+        block-size: 100%;
+        font-size: var(--mui-numeric-icon-size);
+        line-height: 1;
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    &:disabled {
+        cursor: default;
+        opacity: 0.5;
+    }
+
+    &:not(:disabled):hover {
+        background-color: var(--mui-active);
+    }
+
+    &:not(:disabled):active {
+        background-color: color-mix(in srgb, var(--mui-active) 75%, var(--mui-primary) 25%);
+    }
+}
+
+.mui-numeric-button-up {
+    border-bottom: 0.0625rem solid var(--mui-outline-variant);
+    border-start-end-radius: inherit;
+    border-top-right-radius: inherit;
+}
+
+.mui-numeric-button-down {
+    border-end-end-radius: inherit;
+    border-bottom-right-radius: inherit;
+}
+
+.mui-numeric-xs {
+    --mui-numeric-input-size: 1.5rem;
+    --mui-numeric-input-font-size: 0.625rem;
+    --mui-numeric-step-width: 1rem;
+    --mui-numeric-icon-size: 0.75rem;
+}
+
+.mui-numeric-sm {
+    --mui-numeric-input-size: 2rem;
+    --mui-numeric-input-font-size: 0.75rem;
+    --mui-numeric-step-width: 1.125rem;
+    --mui-numeric-icon-size: 0.8125rem;
+}
+
+.mui-numeric-md {
+    --mui-numeric-input-size: 2.75rem;
+    --mui-numeric-input-font-size: 1.125rem;
+    --mui-numeric-step-width: 1.5rem;
+    --mui-numeric-icon-size: 1rem;
+}
+
+.mui-numeric-lg {
+    --mui-numeric-input-size: 3rem;
+    --mui-numeric-input-font-size: 1.25rem;
+    --mui-numeric-step-width: 1.625rem;
+    --mui-numeric-icon-size: 1.125rem;
+}
+
+.mui-numeric-xl {
+    --mui-numeric-input-size: 3.5rem;
+    --mui-numeric-input-font-size: 1.5rem;
+    --mui-numeric-step-width: 1.75rem;
+    --mui-numeric-icon-size: 1.25rem;
+}

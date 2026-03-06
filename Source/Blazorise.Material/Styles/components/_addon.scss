@@ -1,5 +1,6 @@
 @mixin make-addon-size($name, $size, $font-size) {
-    .mui-addon-#{$name} > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text) {
+    .mui-addon-#{$name} > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text, .mui-numeric),
+    .mui-addon-#{$name} > .mui-numeric > :is(.mui-input, .mui-input-plaintext) {
         --mui-input-size: #{$size};
         --mui-input-font-size: #{$font-size};
         --mui-btn-size: #{$size};
@@ -36,8 +37,10 @@
 
     > .mui-input,
     > .mui-select,
+    > .mui-numeric,
     > .mui-addon-body > .mui-input,
-    > .mui-addon-body > .mui-select {
+    > .mui-addon-body > .mui-select,
+    > .mui-addon-body > .mui-numeric {
         position: relative;
         flex: 1 1 auto;
         inline-size: 1%;
@@ -64,14 +67,29 @@
         margin-inline-start: calc(-1 * var(--mui-addon-border-width));
     }
 
-    > :not(:first-child) > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text),
-    > :not(:first-child):is(.mui-input, .mui-select, .mui-button, .mui-addon-text) {
+    > :not(:first-child) > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text, .mui-numeric),
+    > :not(:first-child):is(.mui-input, .mui-select, .mui-button, .mui-addon-text, .mui-numeric) {
         @include border-start-radius(0);
     }
 
-    > :not(:last-child) > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text),
-    > :not(:last-child):is(.mui-input, .mui-select, .mui-button, .mui-addon-text) {
+    > :not(:last-child) > :is(.mui-input, .mui-select, .mui-button, .mui-addon-text, .mui-numeric),
+    > :not(:last-child):is(.mui-input, .mui-select, .mui-button, .mui-addon-text, .mui-numeric) {
         @include border-end-radius(0);
+    }
+
+    > :not(:first-child) > .mui-numeric > :is(.mui-input, .mui-input-plaintext) {
+        @include border-start-radius(0);
+    }
+
+    > :not(:last-child) > .mui-numeric > :is(.mui-input, .mui-input-plaintext) {
+        @include border-end-radius(0);
+    }
+
+    > :not(:last-child) > .mui-numeric > .mui-numeric-buttons {
+        border-start-end-radius: 0;
+        border-end-end-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
     }
 
     > :not(:first-child) > .mui-dropdown > .mui-dropdown-toggle {
@@ -82,7 +100,7 @@
         @include border-end-radius(0);
     }
 
-    > :is(.mui-addon-start, .mui-addon-body, .mui-addon-end, .mui-input, .mui-select, .mui-button):focus-within {
+    > :is(.mui-addon-start, .mui-addon-body, .mui-addon-end, .mui-input, .mui-select, .mui-button, .mui-numeric):focus-within {
         z-index: 5;
     }
 
