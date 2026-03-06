@@ -4695,54 +4695,54 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string AnalyzerInstallStableExample = @"dotnet add package Blazorise.Analyzers";
 
-        public const string AnalyzerPackageReferenceExample = @"<PackageReference Include=""Blazorise.Analyzers"" Version=""2.0.1"" PrivateAssets=""all"" />";
+        public const string AnalyzerPackageReferenceExample = @"<PackageReference Include=""Blazorise.Analyzers"" Version=""2.0.2"" PrivateAssets=""all"" />";
 
         public const string AnalyzerSeverityExample = @"dotnet_diagnostic.BLZP004.severity = error";
 
-        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.AntDesign/tooltip.js?v=2.0.1.0"" type=""module""></script>";
+        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/tooltip.js?v=2.0.2.0"" type=""module""></script>";
 
-        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=2.0.1.0"" type=""module""></script>";
+        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=2.0.2.0"" type=""module""></script>";
 
-        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=2.0.1.0"" type=""module""></script>";
+        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=2.0.2.0"" type=""module""></script>";
 
-        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bulma/tooltip.js?v=2.0.1.0"" type=""module""></script>";
+        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bulma/tooltip.js?v=2.0.2.0"" type=""module""></script>";
 
         public const string ButtonJavascriptMockTestingExample = @"JSInterop.AddBlazoriseButton();";
 
-        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=2.0.1.0"" type=""module""></script>";
+        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=2.0.2.0"" type=""module""></script>";
 
-        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.0.1.0"" type=""module""></script>";
+        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.0.2.0"" type=""module""></script>";
 
-        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.0.1.0"" type=""module""></script>";
+        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.0.2.0"" type=""module""></script>";
 
-        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/button.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/closable.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/colorPicker.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/datePicker.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/dragDrop.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/dropdown.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/fileInput.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/filePicker.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/inputMask.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/io.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/memoEdit.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/numericPicker.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/observer.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/table.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/textEdit.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/theme.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/timePicker.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/tooltip.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/utilities.js?v=2.0.1.0"" type=""module""></script>";
+        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/button.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/closable.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/colorPicker.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/datePicker.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/dragDrop.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/dropdown.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/fileInput.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/filePicker.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/inputMask.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/io.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/memoEdit.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/numericPicker.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/observer.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/table.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/textEdit.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/theme.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/timePicker.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/tooltip.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/utilities.js?v=2.0.2.0"" type=""module""></script>";
 
         public const string ComponentsImportExample = @"@using Blazorise.Components";
 
-        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=2.0.1.0"" type=""module""></script>";
+        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=2.0.2.0"" type=""module""></script>";
 
         public const string EmptyProviderExample = @"public void ConfigureServices( IServiceCollection services )
 {
@@ -4750,10 +4750,10 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     .AddEmptyProviders();
 }";
 
-        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=2.0.1.0"" type=""module""></script>";
+        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=2.0.2.0"" type=""module""></script>";
 
-        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Material/tooltip.js?v=2.0.1.0"" type=""module""></script>";
+        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.Material/tooltip.js?v=2.0.2.0"" type=""module""></script>";
 
         public const string McpClientConfigExample = @"{
   ""servers"": {
@@ -4786,10 +4786,10 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
         public const string MigrationSmokeTestExample = @"blazorise-migrate --version";
 
-        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=2.0.1.0"" type=""module""></script>";
+        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=2.0.2.0"" type=""module""></script>";
 
-        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=2.0.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Tailwind/tooltip.js?v=2.0.1.0"" type=""module""></script>";
+        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=2.0.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.Tailwind/tooltip.js?v=2.0.2.0"" type=""module""></script>";
 
         public const string TemplatesCLIUsageExample = @"dotnet new blazorise -n MyNewBlazoriseApp -p Bootstrap5 -bh Server -ut false -f net10.0";
 
@@ -4799,7 +4799,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
         public const string TestingbUnitNugetExample = @"Install-Package Blazorise.Tests.bUnit";
 
-        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=2.0.1.0"" type=""module""></script>";
+        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=2.0.2.0"" type=""module""></script>";
 
         public const string AnimateExample = @"<Field>
     <Select TValue=""string"" ValueChanged=""@OnSelectedAnimationChanged"">
@@ -4867,7 +4867,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
         public const string AnimateNugetInstallExample = @"Install-Package Blazorise.Animate";
 
-        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=2.0.1.0""></script>";
+        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=2.0.2.0""></script>";
 
         public const string AutocompleteDataAnnotationValidationExample = @"@using System.ComponentModel.DataAnnotations
 
@@ -9981,7 +9981,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string BootstrapIconsCSSExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"">";
 
-        public const string FluentIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.0.1.0"" rel=""stylesheet"" />";
+        public const string FluentIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.0.2.0"" rel=""stylesheet"" />";
 
         public const string FontAwesomeCSSExample = @"<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">";
 
@@ -12239,10 +12239,10 @@ builder.Services
     .AddFontAwesomeIcons();";
 
         public const string AntDesignGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdnjs.cloudflare.com/ajax/libs/antd/4.24.15/antd.min.css"" integrity=""sha512-Ac6zlwN6S+uQSinFAcV27Gd/TtKEDt7XWXn2xWO4Xi9dTbbpT9/vJb+VT5af6nZywrgBD3qUFTb5y1VN4YD94Q=="" crossorigin=""anonymous"" referrerpolicy=""no-referrer"" />
-<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.0.1.0"" rel=""stylesheet"">
+<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.0.2.0"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=2.0.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.0.1.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.0.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.0.2.0"" rel=""stylesheet"" />";
 
         public const string AntDesignGuideUsingExample = @"@using Blazorise";
 
@@ -12265,8 +12265,8 @@ builder.Services
         public const string BootstrapGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"" integrity=""sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"" crossorigin=""anonymous"">
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=2.0.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=2.0.1.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.0.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=2.0.2.0"" rel=""stylesheet"" />";
 
         public const string BootstrapGuideUsingExample = @"@using Blazorise";
 
@@ -12289,8 +12289,8 @@ builder.Services
         public const string Bootstrap5GuideSourceFilesExample = @"<link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"" crossorigin=""anonymous"">
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=2.0.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.0.1.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.0.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.0.2.0"" rel=""stylesheet"" />";
 
         public const string Bootstrap5GuideUsingExample = @"@using Blazorise";
 
@@ -12313,8 +12313,8 @@ builder.Services
         public const string BulmaGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"" />
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=2.0.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bulma/blazorise.bulma.css?v=2.0.1.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.0.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bulma/blazorise.bulma.css?v=2.0.2.0"" rel=""stylesheet"" />";
 
         public const string BulmaGuideUsingExample = @"@using Blazorise";
 
@@ -12341,11 +12341,11 @@ builder.Services
     .AddFluentUI2Providers()
     .AddFluentUIIcons();";
 
-        public const string FluentUI2GuideSourceFiles1Example = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.0.1.0"" rel=""stylesheet"" />
+        public const string FluentUI2GuideSourceFiles1Example = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.0.2.0"" rel=""stylesheet"" />
 
-<link href=""_content/Blazorise/blazorise.css?v=2.0.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.FluentUI2/reboot.css?v=2.0.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.0.1.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.0.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.FluentUI2/reboot.css?v=2.0.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.0.2.0"" rel=""stylesheet"" />";
 
         public const string FluentUI2GuideUsingExample = @"@using Blazorise";
 
@@ -12426,8 +12426,8 @@ builder.Services
 <link href=""https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css"" rel=""stylesheet"" />
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=2.0.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.0.1.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.0.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.0.2.0"" rel=""stylesheet"" />";
 
         public const string TailwindGuideUsingExample = @"@using Blazorise";
 

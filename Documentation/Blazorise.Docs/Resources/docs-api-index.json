@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-06T08:45:01.9449173Z",
+  "generatedUtc": "2026-03-06T13:23:44.0561681Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -22729,7 +22729,7 @@
           "name": "ShowHueSlider",
           "type": "bool",
           "typeName": "bool",
-          "defaultValue": "false",
+          "defaultValue": "true",
           "summary": "Controls the visibility of the hue slider.",
           "isBlazoriseEnum": false
         },
