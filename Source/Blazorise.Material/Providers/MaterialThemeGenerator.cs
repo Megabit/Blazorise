@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.Globalization;
 using System.Text;
 #endregion
 
@@ -18,6 +19,140 @@ public class MaterialThemeGenerator : ThemeGenerator
 
     #region Methods
 
+    public override string GenerateVariables( Theme theme )
+    {
+        string background = ResolveThemeColor(
+            "#FFFBFF",
+            theme?.BodyOptions?.BackgroundColor,
+            theme?.BackgroundOptions?.Body );
+
+        System.Drawing.Color backgroundColor = ParseColor( background );
+        bool isDarkScheme = LuminanceFromColor( backgroundColor ) < 45d;
+
+        string onBackground = ResolveThemeColor(
+            ToHex( Contrast( theme, backgroundColor ) ),
+            theme?.BodyOptions?.TextColor,
+            theme?.TextColorOptions?.Body );
+
+        System.Drawing.Color onBackgroundColor = ParseColor( onBackground );
+        System.Drawing.Color surfaceColor = backgroundColor;
+        System.Drawing.Color onSurfaceColor = onBackgroundColor;
+
+        System.Drawing.Color surfaceVariantColor = Mix( onBackgroundColor, surfaceColor, isDarkScheme ? 16d : 12d );
+        System.Drawing.Color onSurfaceVariantColor = Mix( onBackgroundColor, surfaceColor, isDarkScheme ? 66d : 70d );
+
+        System.Drawing.Color surfaceDimColor = isDarkScheme
+            ? ShadeColor( surfaceColor, 8d )
+            : ShadeColor( surfaceColor, 12d );
+
+        System.Drawing.Color surfaceBrightColor = isDarkScheme
+            ? TintColor( surfaceColor, 8d )
+            : TintColor( surfaceColor, 3d );
+
+        System.Drawing.Color surfaceContainerLowestColor = isDarkScheme
+            ? ShadeColor( surfaceColor, 6d )
+            : TintColor( surfaceColor, 10d );
+
+        System.Drawing.Color surfaceContainerLowColor = isDarkScheme
+            ? TintColor( surfaceColor, 4d )
+            : ShadeColor( surfaceColor, 3d );
+
+        System.Drawing.Color surfaceContainerColor = isDarkScheme
+            ? TintColor( surfaceColor, 8d )
+            : ShadeColor( surfaceColor, 6d );
+
+        System.Drawing.Color surfaceContainerHighColor = isDarkScheme
+            ? TintColor( surfaceColor, 12d )
+            : ShadeColor( surfaceColor, 9d );
+
+        System.Drawing.Color surfaceContainerHighestColor = isDarkScheme
+            ? TintColor( surfaceColor, 16d )
+            : ShadeColor( surfaceColor, 12d );
+
+        System.Drawing.Color outlineColor = Mix( onSurfaceVariantColor, surfaceColor, isDarkScheme ? 72d : 82d );
+        System.Drawing.Color outlineVariantColor = Mix( onSurfaceVariantColor, surfaceColor, isDarkScheme ? 42d : 34d );
+
+        SetVar( "--mui-background", ToHex( backgroundColor ) );
+        SetVar( "--mui-on-background", ToHex( onBackgroundColor ) );
+        SetVar( "--mui-surface", ToHex( surfaceColor ) );
+        SetVar( "--mui-on-surface", ToHex( onSurfaceColor ) );
+        SetVar( "--mui-surface-variant", ToHex( surfaceVariantColor ) );
+        SetVar( "--mui-on-surface-variant", ToHex( onSurfaceVariantColor ) );
+        SetVar( "--mui-surface-dim", ToHex( surfaceDimColor ) );
+        SetVar( "--mui-surface-bright", ToHex( surfaceBrightColor ) );
+        SetVar( "--mui-surface-container-lowest", ToHex( surfaceContainerLowestColor ) );
+        SetVar( "--mui-surface-container-low", ToHex( surfaceContainerLowColor ) );
+        SetVar( "--mui-surface-container", ToHex( surfaceContainerColor ) );
+        SetVar( "--mui-surface-container-high", ToHex( surfaceContainerHighColor ) );
+        SetVar( "--mui-surface-container-highest", ToHex( surfaceContainerHighestColor ) );
+        SetVar( "--mui-outline", ToHex( outlineColor ) );
+        SetVar( "--mui-outline-variant", ToHex( outlineVariantColor ) );
+
+        string primary = ResolveThemeColor( "#4355B9", theme?.ColorOptions?.Primary );
+        string secondary = ResolveThemeColor( "#5B5D72", theme?.ColorOptions?.Secondary );
+        string tertiary = ResolveThemeColor( "#7A5260", ResolveTertiaryColor( primary, secondary, theme ) );
+        string error = ResolveThemeColor( "#BA1A1A", theme?.ColorOptions?.Danger );
+        string success = ResolveThemeColor( "#006D3D", theme?.ColorOptions?.Success );
+        string warning = ResolveThemeColor( "#7A5800", theme?.ColorOptions?.Warning );
+        string info = ResolveThemeColor( "#00629B", theme?.ColorOptions?.Info );
+        string light = ResolveThemeColor( "#FDF8FD", theme?.ColorOptions?.Light, theme?.BackgroundOptions?.Light );
+        string dark = ResolveThemeColor( "#1C1B1E", theme?.ColorOptions?.Dark, theme?.BackgroundOptions?.Dark );
+
+        SetMaterialColorRole( theme, "primary", primary, isDarkScheme, outlineColor, outlineVariantColor );
+        SetMaterialColorRole( theme, "secondary", secondary, isDarkScheme, outlineColor, outlineVariantColor );
+        SetMaterialColorRole( theme, "tertiary", tertiary, isDarkScheme, outlineColor, outlineVariantColor );
+        SetMaterialColorRole( theme, "error", error, isDarkScheme, outlineColor, outlineVariantColor );
+        SetMaterialColorRole( theme, "success", success, isDarkScheme, outlineColor, outlineVariantColor );
+        SetMaterialColorRole( theme, "warning", warning, isDarkScheme, outlineColor, outlineVariantColor );
+        SetMaterialColorRole( theme, "info", info, isDarkScheme, outlineColor, outlineVariantColor );
+        SetMaterialColorRole( theme, "light", light, isDarkScheme, outlineColor, outlineVariantColor );
+        SetMaterialColorRole( theme, "dark", dark, isDarkScheme, outlineColor, outlineVariantColor );
+
+        string shadow = ResolveThemeColor( "#000000", theme?.Black );
+        SetVar( "--mui-shadow", shadow );
+        SetVar( "--mui-scrim", shadow );
+
+        System.Drawing.Color activeColor = ParseColor( ToHex( onSurfaceVariantColor ) );
+        SetVar(
+            "--mui-active",
+            string.Format(
+                CultureInfo.InvariantCulture,
+                "rgb({0} {1} {2} / {3})",
+                activeColor.R,
+                activeColor.G,
+                activeColor.B,
+                isDarkScheme ? "0.24" : "0.16" ) );
+
+        SetVar(
+            "--mui-overlay",
+            string.Format(
+                CultureInfo.InvariantCulture,
+                "rgb({0} {1} {2} / {3})",
+                ParseColor( shadow ).R,
+                ParseColor( shadow ).G,
+                ParseColor( shadow ).B,
+                isDarkScheme ? "0.64" : "0.50" ) );
+
+        if ( !string.IsNullOrEmpty( theme?.BodyOptions?.FontOptions?.Family ) )
+            SetVar( "--mui-font-family", theme.BodyOptions.FontOptions.Family );
+
+        if ( !string.IsNullOrEmpty( theme?.BodyOptions?.FontOptions?.Size ) )
+        {
+            SetVar( "--mui-font-size", theme.BodyOptions.FontOptions.Size );
+
+            if ( TryParseLength( theme.BodyOptions.FontOptions.Size, out decimal fontSize, out string unit ) )
+            {
+                SetVar( "--mui-font-size-sm", string.Format( CultureInfo.InvariantCulture, "{0:0.###}{1}", fontSize * 0.875m, unit ) );
+                SetVar( "--mui-font-size-lg", string.Format( CultureInfo.InvariantCulture, "{0:0.###}{1}", fontSize * 1.25m, unit ) );
+            }
+        }
+
+        if ( !string.IsNullOrEmpty( theme?.SpacingOptions?.Is3 ) )
+            SetVar( "--mui-spacing", theme.SpacingOptions.Is3 );
+
+        return base.GenerateVariables( theme );
+    }
+
     protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
     }
@@ -28,100 +163,10 @@ public class MaterialThemeGenerator : ThemeGenerator
 
     protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
     {
-        var background = Var( ThemeVariables.ButtonBackground( variant ) );
-        var border = Var( ThemeVariables.ButtonBorder( variant ) );
-        var hoverBackground = Var( ThemeVariables.ButtonHoverBackground( variant ) );
-        var hoverBorder = Var( ThemeVariables.ButtonHoverBorder( variant ) );
-        var activeBackground = Var( ThemeVariables.ButtonActiveBackground( variant ) );
-        var activeBorder = Var( ThemeVariables.ButtonActiveBorder( variant ) );
-        var yiqBackground = Var( ThemeVariables.ButtonYiqBackground( variant ) );
-        var yiqHoverBackground = Var( ThemeVariables.ButtonYiqHoverBackground( variant ) );
-        var yiqActiveBackground = Var( ThemeVariables.ButtonYiqActiveBackground( variant ) );
-        var boxShadow = Var( ThemeVariables.ButtonBoxShadow( variant ) );
-
-        sb
-            .Append( $".modal .btn-{variant}," ).Append( $".modal a.btn-{variant}," )
-            .Append( $".modal-footer .btn-{variant}," ).Append( $".modal-footer a.btn-{variant}" )
-            .Append( "{" )
-            .Append( $"color: {yiqBackground};" )
-            .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
-            .Append( $"border-color: {border};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".modal .btn-{variant}:hover," ).Append( $".modal a.btn-{variant}:hover," )
-            .Append( $".modal-footer .btn-{variant}:hover," ).Append( $".modal-footer a.btn-{variant}:hover" )
-            .Append( "{" )
-            .Append( $"color: {yiqHoverBackground};" )
-            .Append( GetGradientBg( theme, hoverBackground, options?.GradientBlendPercentage ) )
-            .Append( $"border-color: {hoverBorder};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".modal .btn-{variant}:focus," ).Append( $".modal .btn-{variant}.focus," ).Append( $".modal a.btn-{variant}:focus," ).Append( $".modal a.btn-{variant}.focus," )
-            .Append( $".modal-footer .btn-{variant}:focus," ).Append( $".modal-footer .btn-{variant}.focus," ).Append( $".modal-footer a.btn-{variant}:focus," ).Append( $".modal-footer a.btn-{variant}.focus" )
-            .Append( "{" )
-            .Append( $"color: {yiqHoverBackground};" )
-            .Append( GetGradientBg( theme, hoverBackground, options?.GradientBlendPercentage ) )
-            .Append( $"border-color: {hoverBorder};" )
-            .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".modal .btn-{variant}.disabled," ).Append( $".modal .btn-{variant}:disabled," ).Append( $".modal a.btn-{variant}.disabled," ).Append( $".modal a.btn-{variant}:disabled," )
-            .Append( $".modal-footer .btn-{variant}.disabled," ).Append( $".modal-footer .btn-{variant}:disabled," ).Append( $".modal-footer a.btn-{variant}.disabled," ).Append( $".modal-footer a.btn-{variant}:disabled" )
-            .Append( "{" )
-            .Append( $"color: {yiqBackground};" )
-            .Append( $"background-color: {background};" )
-            .Append( $"border-color: {border};" )
-            .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".modal .btn-{variant}:not(:disabled):not(.disabled):active," ).Append( $".modal .btn-{variant}:not(:disabled):not(.disabled).active," ).Append( $".modal .show>.btn-{variant}.dropdown-toggle," ).Append( $".modal a.btn-{variant}:not(:disabled):not(.disabled):active," ).Append( $".modal a.btn-{variant}:not(:disabled):not(.disabled).active," ).Append( $".modal a.show>.btn-{variant}.dropdown-toggle," )
-            .Append( $".modal-footer .btn-{variant}:not(:disabled):not(.disabled):active," ).Append( $".modal-footer .btn-{variant}:not(:disabled):not(.disabled).active," ).Append( $".modal-footer .show>.btn-{variant}.dropdown-toggle," ).Append( $".modal-footer a.btn-{variant}:not(:disabled):not(.disabled):active," ).Append( $".modal-footer a.btn-{variant}:not(:disabled):not(.disabled).active," ).Append( $".modal-footer a.show>.btn-{variant}.dropdown-toggle" )
-            .Append( "{" )
-            .Append( $"color: {yiqActiveBackground};" )
-            .Append( $"background-color: {activeBackground};" )
-            .Append( $"border-color: {activeBorder};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".modal .btn-{variant}:not(:disabled):not(.disabled):active:focus," ).Append( $".modal .btn-{variant}:not(:disabled):not(.disabled).active:focus," ).Append( $".modal .show>.btn-{variant}.dropdown-toggle:focus," ).Append( $".modal a.btn-{variant}:not(:disabled):not(.disabled):active:focus," ).Append( $".modal a.btn-{variant}:not(:disabled):not(.disabled).active:focus," ).Append( $".modal a.show>.btn-{variant}.dropdown-toggle:focus," )
-            .Append( $".modal-footer .btn-{variant}:not(:disabled):not(.disabled):active:focus," ).Append( $".modal-footer .btn-{variant}:not(:disabled):not(.disabled).active:focus," ).Append( $".modal-footer .show>.btn-{variant}.dropdown-toggle:focus," ).Append( $".modal-footer a.btn-{variant}:not(:disabled):not(.disabled):active:focus," ).Append( $".modal-footer a.btn-{variant}:not(:disabled):not(.disabled).active:focus," ).Append( $".modal-footer a.show>.btn-{variant}.dropdown-toggle:focus" )
-            .Append( "{" )
-            .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow}" )
-            .AppendLine( "}" );
     }
 
     protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
     {
-        if ( options is null )
-            return;
-
-        var color = Var( ThemeVariables.OutlineButtonColor( variant ) );
-
-        sb
-            .Append( $".btn-outline-{variant}," )
-            .Append( $".btn-outline-{variant}.active," )
-            .Append( $".btn-outline-{variant}:focus," )
-            .Append( $".btn-outline-{variant}:hover," )
-            .Append( $"a.btn-outline-{variant}," )
-            .Append( $"a.btn-outline-{variant}.active," )
-            .Append( $"a.btn-outline-{variant}:focus," )
-            .Append( $"a.btn-outline-{variant}:hover" )
-            .Append( "{" )
-            .Append( $"color: {color};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".btn-outline-{variant}.disabled," )
-            .Append( $".btn-outline-{variant}:disabled," )
-            .Append( $"a.btn-outline-{variant}.disabled," )
-            .Append( $"a.btn-outline-{variant}:disabled" )
-            .Append( "{" )
-            .Append( $"color: {color};" )
-            .AppendLine( "}" );
     }
 
     protected override void GenerateButtonStyles( StringBuilder sb, Theme theme, ThemeButtonOptions options )
@@ -134,99 +179,16 @@ public class MaterialThemeGenerator : ThemeGenerator
 
     protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
-        if ( options is null )
-            return;
-
-        if ( !string.IsNullOrEmpty( options.CheckColor ) )
-            GenerateInputCheckEditStyles( sb, theme, options );
-
-        if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
-        {
-            var focusColor = Var( ThemeVariables.Color( "primary" ) );
-
-            sb
-                .Append( ".form-control:focus," )
-                .Append( ".custom-select:focus" )
-                .Append( "{" )
-                .Append( $"border-color: {focusColor};" )
-                .Append( $"box-shadow: inset 0 -2px 0 -1px {focusColor};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".b-is-autocomplete.b-is-autocomplete-multipleselection.focus" )
-                .Append( "{" )
-                .Append( "border:none;" )
-                .Append( "box-shadow: none;" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( "select.custom-select:focus[multiple], select.custom-select:focus[size]:not([size=\"1\"]), select.form-control:focus[multiple], select.form-control:focus[size]:not([size=\"1\"]), textarea.form-control:focus:not([rows=\"1\"])" )
-                .Append( "{" )
-                .Append( $"border-color: {focusColor};" )
-                .Append( $"box-shadow: inset 2px 2px 0 -1px {focusColor}, inset -2px -2px 0 -1px {focusColor};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".form-group:focus-within label:not(.custom-control-label):not(.form-check-label):not(.btn):not(.card-link), [class*=form-ripple]:focus-within label:not(.custom-control-label):not(.form-check-label):not(.btn):not(.card-link)" )
-                .Append( "{" )
-                .Append( $"color: {focusColor};" )
-                .AppendLine( "}" );
-        }
-
-        var validationSuccessColor = Var( ThemeVariables.Color( "success" ) );
-        var validationDangerColor = Var( ThemeVariables.Color( "danger" ) );
-
-        if ( !string.IsNullOrEmpty( validationSuccessColor ) )
-        {
-            sb.Append( ".b-is-autocomplete.is-valid" ).Append( "{" )
-                .Append( $"border-color: {validationSuccessColor};" )
-                .AppendLine( "}" );
-        }
-
-        if ( !string.IsNullOrEmpty( validationDangerColor ) )
-        {
-            sb.Append( ".b-is-autocomplete.is-invalid" ).Append( "{" )
-                .Append( $"border-color: {validationDangerColor};" )
-                .AppendLine( "}" );
-        }
+        _ = sb;
+        _ = theme;
+        _ = options;
     }
 
     protected void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
-        if ( options is null )
-            return;
-
-        if ( string.IsNullOrEmpty( options.CheckColor ) )
-            return;
-
-        sb
-            .Append( ".custom-checkbox .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
-            .Append( $"background-color: {options.CheckColor};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( ".custom-checkbox .custom-control-input:checked~.custom-control-label:after" ).Append( "{" )
-            .Append( $"content: url(\"data:image/svg+xml;charset=utf-8,{GenerateSvgDataUrl( options.CheckColor, 1 )}\");" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( ".custom-switch .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
-            .Append( $"background-color: {options.CheckColor};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( ".custom-switch .custom-control-input:checked ~ .custom-control-label::after" ).Append( "{" )
-            .Append( $"background-color: {options.CheckColor};" )
-            .AppendLine( "}" );
-
-        var trackColor = ToHex( Lighten( options.CheckColor, 50f ) );
-
-        if ( !string.IsNullOrEmpty( trackColor ) )
-        {
-            sb
-                .Append( ".custom-switch .custom-control-input:checked~.custom-control-track" ).Append( "{" )
-                .Append( $"background-color: {trackColor};" )
-                .AppendLine( "}" );
-        }
+        _ = sb;
+        _ = theme;
+        _ = options;
     }
 
     public string GenerateSvgDataUrl( string colorHex, float sizeInRem, int basePixelSize = 24 )
@@ -258,77 +220,20 @@ public class MaterialThemeGenerator : ThemeGenerator
 
     protected override void GenerateSwitchVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeSwitchOptions options )
     {
-        if ( options is null )
-            return;
-
-        var backgroundColor = ParseColor( inBackgroundColor );
-
-        if ( backgroundColor.IsEmpty )
-            return;
-
-        var boxShadowColor = Lighten( backgroundColor, options.BoxShadowLightenColor ?? 25 );
-        var disabledBackgroundColor = Lighten( backgroundColor, options.DisabledLightenColor ?? 50 );
-
-        var background = ToHex( backgroundColor );
-        var boxShadow = ToHex( boxShadowColor );
-        var disabledBackground = ToHex( disabledBackgroundColor );
-
-        sb
-            .Append( $".custom-switch .custom-control-input:checked.custom-control-input-{variant} ~ .custom-control-label::after" ).Append( "{" )
-            .Append( $"background-color: {background};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".custom-switch .custom-control-input:checked.custom-control-input-{variant} ~ .custom-control-track" ).Append( "{" )
-            .Append( $"background-color: {boxShadow};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".custom-switch .custom-control-input:disabled.custom-control-input-{variant} ~ .custom-control-label::after" ).Append( "{" )
-            .Append( $"background-color: {boxShadow};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".custom-switch .custom-control-input:disabled.custom-control-input-{variant} ~ .custom-control-track" ).Append( "{" )
-            .Append( $"background-color: {disabledBackground};" )
-            .AppendLine( "}" );
+        _ = sb;
+        _ = theme;
+        _ = variant;
+        _ = inBackgroundColor;
+        _ = options;
     }
 
     protected override void GenerateStepsVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeStepsOptions stepsOptions )
     {
-        if ( stepsOptions is null )
-            return;
-
-        sb
-            .Append( $".stepper-{variant}.done .stepper-icon" ).Append( "{" )
-            .Append( $"background-color: {Var( ThemeVariables.VariantStepsItemIcon( variant ) )};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".stepper-{variant}.done .stepper-text" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.VariantStepsItemText( variant ) )};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".stepper-{variant}.active .stepper-icon" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.StepsItemIconActiveYiq )};" )
-            .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".stepper-{variant}.active .stepper-text" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.VariantStepsItemText( variant ) )};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".stepper-{variant} .stepper-icon" ).Append( "{" )
-            .Append( $"background-color: {Var( ThemeVariables.VariantStepsItemIcon( variant ) )};" )
-            .AppendLine( "}" );
-
-        sb
-            .Append( $".stepper-{variant} .stepper-icon" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.VariantStepsItemIconYiq( variant ) )};" )
-            .AppendLine( "}" );
+        _ = sb;
+        _ = theme;
+        _ = variant;
+        _ = inBackgroundColor;
+        _ = stepsOptions;
     }
 
     protected override void GenerateRatingVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeRatingOptions ratingOptions )
@@ -364,13 +269,10 @@ public class MaterialThemeGenerator : ThemeGenerator
                 .AppendLine( "}" );
         }
 
-        if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
-        {
-            sb.Append( ".mui-progress" ).Append( "{" )
-                .Append( $"--mui-progress-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .Append( $"--mui-progress-text-color: {Var( ThemeVariables.ButtonYiqBackground( "primary" ), Var( ThemeVariables.White ) )};" )
-                .AppendLine( "}" );
-        }
+        sb.Append( ".mui-progress" ).Append( "{" )
+            .Append( "--mui-progress-color: var(--mui-primary);" )
+            .Append( "--mui-progress-text-color: var(--mui-on-primary);" )
+            .AppendLine( "}" );
 
         base.GenerateProgressStyles( sb, theme, options );
     }
@@ -397,14 +299,9 @@ public class MaterialThemeGenerator : ThemeGenerator
 
     protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
     {
-        if ( stepsOptions is null )
-            return;
-
-        sb
-            .Append( ".stepper.active .stepper-icon" ).Append( "{" )
-            .Append( $"color: {Var( ThemeVariables.StepsItemIconActiveYiq )};" )
-            .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
-            .AppendLine( "}" );
+        _ = sb;
+        _ = theme;
+        _ = stepsOptions;
     }
 
     protected override void GenerateRatingStyles( StringBuilder sb, Theme theme, ThemeRatingOptions ratingOptions )
@@ -429,6 +326,126 @@ public class MaterialThemeGenerator : ThemeGenerator
 
     protected override void GenerateSpacingStyles( StringBuilder sb, Theme theme, ThemeSpacingOptions options )
     {
+    }
+
+    private void SetMaterialColorRole( Theme theme, string role, string roleHex, bool isDarkScheme, System.Drawing.Color globalOutline, System.Drawing.Color globalOutlineVariant )
+    {
+        System.Drawing.Color roleColor = ParseColor( roleHex );
+
+        if ( roleColor.IsEmpty )
+            return;
+
+        bool roleIsLight = LuminanceFromColor( roleColor ) > 65d;
+        bool isLightRole = role.Equals( "light", StringComparison.Ordinal );
+        bool isDarkRole = role.Equals( "dark", StringComparison.Ordinal );
+
+        System.Drawing.Color hoverColor = isLightRole
+            ? isDarkScheme ? TintColor( roleColor, 6d ) : ShadeColor( roleColor, 3d )
+            : isDarkRole ? TintColor( roleColor, 8d ) : GetHoverColor( roleColor, isDarkScheme );
+
+        System.Drawing.Color containerColor = isLightRole
+            ? isDarkScheme ? TintColor( roleColor, 10d ) : ShadeColor( roleColor, 3d )
+            : isDarkRole ? isDarkScheme ? ShadeColor( roleColor, 12d ) : TintColor( roleColor, 18d )
+            : isDarkScheme ? ShadeColor( roleColor, roleIsLight ? 35d : 50d ) : roleIsLight ? ShadeColor( roleColor, 8d ) : TintColor( roleColor, 82d );
+
+        System.Drawing.Color onContainerColor = isDarkRole
+            ? TintColor( roleColor, 82d )
+            : isLightRole ? ShadeColor( roleColor, 80d )
+            : isDarkScheme ? TintColor( roleColor, 80d ) : ShadeColor( roleColor, 65d );
+
+        System.Drawing.Color outlineRoleColor = Mix( containerColor, globalOutline, 45d );
+        System.Drawing.Color outlineRoleVariantColor = Mix( containerColor, globalOutlineVariant, 45d );
+
+        SetVar( $"--mui-{role}", ToHex( roleColor ) );
+        SetVar( $"--mui-{role}-hover", ToHex( hoverColor ) );
+        SetVar( $"--mui-on-{role}", ToHex( Contrast( theme, roleColor ) ) );
+        SetVar( $"--mui-{role}-container", ToHex( containerColor ) );
+        SetVar( $"--mui-on-{role}-container", ToHex( onContainerColor ) );
+        SetVar( $"--mui-outline-{role}", ToHex( outlineRoleColor ) );
+        SetVar( $"--mui-outline-{role}-variant", ToHex( outlineRoleVariantColor ) );
+    }
+
+    private static System.Drawing.Color GetHoverColor( System.Drawing.Color color, bool isDarkScheme )
+    {
+        double luminance = LuminanceFromColor( color );
+
+        if ( isDarkScheme && luminance < 70d )
+            return Lighten( color, 8f );
+
+        return Darken( color, 8f );
+    }
+
+    private static bool TryParseLength( string value, out decimal length, out string unit )
+    {
+        length = 0m;
+        unit = null;
+
+        if ( string.IsNullOrWhiteSpace( value ) )
+            return false;
+
+        string normalized = value.Trim().ToLowerInvariant();
+
+        if ( normalized.EndsWith( "rem", StringComparison.Ordinal ) )
+            unit = "rem";
+        else if ( normalized.EndsWith( "em", StringComparison.Ordinal ) )
+            unit = "em";
+        else if ( normalized.EndsWith( "px", StringComparison.Ordinal ) )
+            unit = "px";
+        else
+            return false;
+
+        string numericPart = normalized.Substring( 0, normalized.Length - unit.Length ).Trim();
+
+        if ( !decimal.TryParse( numericPart, NumberStyles.Float, CultureInfo.InvariantCulture, out length ) )
+            return false;
+
+        return true;
+    }
+
+    private static string ResolveTertiaryColor( string primaryHex, string secondaryHex, Theme theme )
+    {
+        if ( !string.IsNullOrEmpty( theme?.ColorOptions?.Link ) )
+        {
+            System.Drawing.Color linkColor = ParseColor( theme.ColorOptions.Link );
+            System.Drawing.Color primaryColor = ParseColor( primaryHex );
+
+            if ( !linkColor.IsEmpty && ToHex( linkColor ) != ToHex( primaryColor ) )
+                return ToHex( linkColor );
+        }
+
+        System.Drawing.Color primary = ParseColor( primaryHex );
+        System.Drawing.Color secondary = ParseColor( secondaryHex );
+
+        if ( primary.IsEmpty || secondary.IsEmpty )
+            return null;
+
+        return ToHex( Mix( secondary, primary, 52d ) );
+    }
+
+    private static string ResolveThemeColor( string fallback, params string[] candidates )
+    {
+        if ( candidates is not null )
+        {
+            for ( int i = 0; i < candidates.Length; i++ )
+            {
+                string candidate = candidates[i];
+
+                if ( string.IsNullOrWhiteSpace( candidate ) )
+                    continue;
+
+                System.Drawing.Color parsedColor = ParseColor( candidate );
+
+                if ( !parsedColor.IsEmpty )
+                    return ToHex( parsedColor );
+            }
+        }
+
+        System.Drawing.Color fallbackColor = ParseColor( fallback );
+
+        if ( !fallbackColor.IsEmpty )
+            return ToHex( fallbackColor );
+
+        return fallback;
     }
 
     #endregion
