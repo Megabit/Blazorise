@@ -21,12 +21,12 @@ public class TailwindClassProvider : ClassProvider
     {
         return size switch
         {
-            Size.ExtraSmall => "p-1.5 sm:text-xs",
-            Size.Small => "p-2 sm:text-xs",
-            Size.Medium => "p-3 text-base",
-            Size.Large => "p-4 sm:text-base",
-            Size.ExtraLarge => "p-4 sm:text-lg",
-            _ => "p-2.5 text-sm"
+            Size.ExtraSmall => "px-2 py-1.5 sm:text-xs",
+            Size.Small => "px-2.5 py-2 sm:text-xs",
+            Size.Medium => "px-3.5 py-3 text-base",
+            Size.Large => "px-4 py-4 sm:text-base",
+            Size.ExtraLarge => "px-5 py-4.5 sm:text-lg",
+            _ => "px-3 py-2.5 text-sm"
         };
     }
 
@@ -521,7 +521,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ButtonActive( bool outline, bool active ) => active ? "active" : null;
 
-    public override string ButtonDisabled( bool outline, bool disabled ) => disabled ? "cursor-not-allowed opacity-60" : null;
+    public override string ButtonDisabled( bool outline, bool disabled ) => disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer";
 
     public override string ButtonLoading( bool outline, bool loading ) => null;
 
@@ -1437,7 +1437,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Pagination() => "pagination flex -space-x-px mb-3";
 
-    public override string PaginationSize( Size size ) => size != Size.Default ? $"{Pagination()}-{ToSize( size )}" : null;
+    public override string PaginationSize( Size size ) => null;
 
     public override string PaginationAlignment( Alignment alignment ) => alignment != Alignment.Default ? $"justify-{ToAlignment( alignment )}" : null;
 
@@ -1472,18 +1472,18 @@ public class TailwindClassProvider : ClassProvider
     public override string PaginationItemDisabled( bool disabled ) => null;
 
     public override string PaginationLink()
-        => "pagination-link relative block leading-tight border rounded-lg";
+        => "pagination-link relative flex items-center justify-center leading-tight border rounded-lg h-full";
 
     public override string PaginationLinkSize( Size size )
     {
         return size switch
         {
-            Size.ExtraSmall => "px-2 py-1.5",
-            Size.Small => "px-2.5 py-2",
-            Size.Medium => "px-3 py-3",
-            Size.Large => "px-4 py-3.5",
-            Size.ExtraLarge => "px-3 py-2.5",
-            _ => "px-3 py-2.5"
+            Size.ExtraSmall => "px-2 py-1.5 sm:text-xs leading-tight",
+            Size.Small => "px-2.5 py-2 sm:text-xs leading-tight",
+            Size.Medium => "px-3.5 py-3 text-base leading-tight",
+            Size.Large => "px-4 py-4 sm:text-base leading-tight",
+            Size.ExtraLarge => "px-5 py-4.5 sm:text-lg leading-tight",
+            _ => "px-3 py-2.5 text-sm leading-tight"
         };
     }
 

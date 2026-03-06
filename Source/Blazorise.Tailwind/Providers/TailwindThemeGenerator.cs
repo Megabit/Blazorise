@@ -204,6 +204,36 @@ public class TailwindThemeGenerator : ThemeGenerator
         }
     }
 
+    protected override void GenerateColorVariables( Theme theme, string variant, string value )
+    {
+        base.GenerateColorVariables( theme, variant, value );
+
+        var parsedColor = ParseColor( value );
+
+        if ( parsedColor.IsEmpty )
+            return;
+
+        var swatches = CreateThemeSwatches( new ThemeSwatchOptions
+        {
+            HexColor = ToHex( parsedColor )
+        } );
+
+        foreach ( var swatch in swatches )
+        {
+            if ( swatch.Key == 50 || ( swatch.Key >= 100 && swatch.Key <= 900 && swatch.Key % 100 == 0 ) )
+            {
+                Variables[$"--color-{variant}-{swatch.Key}"] = swatch.HexColor;
+            }
+        }
+
+        var baseSwatch = swatches.FirstOrDefault( x => x.Key == 500 );
+
+        if ( baseSwatch is not null )
+        {
+            Variables[$"--color-{variant}"] = baseSwatch.HexColor;
+        }
+    }
+
     protected override void GenerateTypographyVariantStyles( StringBuilder sb, Theme theme, string variant, string color )
     {
         base.GenerateTypographyVariantStyles( sb, theme, variant, color );
@@ -290,160 +320,84 @@ public class TailwindThemeGenerator : ThemeGenerator
 
     protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
     {
-        //var background = Var( ThemeVariables.ButtonBackground( variant ) );
-        //var border = Var( ThemeVariables.ButtonBorder( variant ) );
-        //var hoverBackground = Var( ThemeVariables.ButtonHoverBackground( variant ) );
-        //var hoverBorder = Var( ThemeVariables.ButtonHoverBorder( variant ) );
-        //var activeBackground = Var( ThemeVariables.ButtonActiveBackground( variant ) );
-        //var activeBorder = Var( ThemeVariables.ButtonActiveBorder( variant ) );
-        //var yiqBackground = Var( ThemeVariables.ButtonYiqBackground( variant ) );
-        //var yiqHoverBackground = Var( ThemeVariables.ButtonYiqHoverBackground( variant ) );
-        //var yiqActiveBackground = Var( ThemeVariables.ButtonYiqActiveBackground( variant ) );
-        //var boxShadow = Var( ThemeVariables.ButtonBoxShadow( variant ) );
+        if ( variant == "link" )
+            return;
 
-        //if ( variant == "link" )
-        //{
-        //    sb
-        //        .Append( $".b-button-{variant}" ).Append( "{" )
-        //        .Append( $"color: {background};" )
-        //        .AppendLine( "}" );
+        var background = Var( ThemeVariables.ButtonBackground( variant ) );
+        var border = Var( ThemeVariables.ButtonBorder( variant ) );
+        var hoverBackground = Var( ThemeVariables.ButtonHoverBackground( variant ) );
+        var hoverBorder = Var( ThemeVariables.ButtonHoverBorder( variant ) );
 
-        //    sb.Append( $".b-button-{variant}:hover" )
-        //        .Append( "{" )
-        //        .Append( $"color: {hoverBackground};" )
-        //        .AppendLine( "}" );
+        if ( string.IsNullOrEmpty( background )
+             && string.IsNullOrEmpty( border )
+             && string.IsNullOrEmpty( hoverBackground )
+             && string.IsNullOrEmpty( hoverBorder ) )
+        {
+            return;
+        }
 
-        //    sb.Append( $".b-button-{variant}.disabled," )
-        //        .Append( $".b-button-{variant}:disabled" )
-        //        .Append( "{" )
-        //        .Append( $"color: {ToHex( Darken( background, 15f ) )};" )
-        //        .AppendLine( "}" );
-        //}
-        //else
-        //{
-        //    sb.Append( $".b-button-{variant}," )
-        //        .Append( $"a.button-{variant}" )
-        //        .Append( "{" )
-        //        .Append( $"color: {yiqBackground};" )
-        //        .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
-        //        .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( background ) || !string.IsNullOrEmpty( border ) )
+        {
+            sb.Append( $".b-button-{variant}," )
+                .Append( $"a.b-button-{variant}" )
+                .Append( "{" );
 
-        //    sb.Append( $".b-button-{variant}:hover," )
-        //        .Append( $"a.b-button-{variant}:hover" )
-        //        .Append( "{" )
-        //        .Append( $"color: {yiqHoverBackground};" )
-        //        .Append( GetGradientBg( theme, hoverBackground, options?.GradientBlendPercentage ) )
-        //        .AppendLine( "}" );
+            if ( !string.IsNullOrEmpty( background ) )
+                sb.Append( $"background-color: {background};" );
 
-        //    sb.Append( $".b-button-{variant}:focus," )
-        //        .Append( $".b-button-{variant}.focus," )
-        //        .Append( $"a.b-button-{variant}:focus," )
-        //        .Append( $"a.b-button-{variant}.focus" )
-        //        .Append( "{" )
-        //        .Append( $"color: {yiqHoverBackground};" )
-        //        .Append( GetGradientBg( theme, hoverBackground, options?.GradientBlendPercentage ) )
-        //        .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".25rem"} {boxShadow};" )
-        //        .AppendLine( "}" );
+            if ( !string.IsNullOrEmpty( border ) )
+                sb.Append( $"border-color: {border};" );
 
-        //    sb.Append( $".b-button-{variant}.disabled," )
-        //        .Append( $".b-button-{variant}:disabled," )
-        //        .Append( $"a.b-button-{variant}.disabled," )
-        //        .Append( $"a.b-button-{variant}:disabled" )
-        //        .Append( "{" )
-        //        .Append( $"color: {yiqBackground};" )
-        //        .Append( $"background-color: {background};" )
-        //        .AppendLine( "}" );
+            sb.AppendLine( "}" );
+        }
 
-        //    sb
-        //        .Append( $".b-button-{variant}:not(:disabled):not(.disabled):active," )
-        //        .Append( $".b-button-{variant}:not(:disabled):not(.disabled).active," )
-        //        .Append( $".show>.b-button-{variant}.b-dropdown-toggle," )
-        //        .Append( $"a.b-button-{variant}:not(:disabled):not(.disabled):active," )
-        //        .Append( $"a.b-button-{variant}:not(:disabled):not(.disabled).active," )
-        //        .Append( $"a.show>.b-button-{variant}.b-dropdown-toggle" )
-        //        .Append( "{" )
-        //        .Append( $"color: {yiqActiveBackground};" )
-        //        .Append( $"background-color: {activeBackground};" )
-        //        .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( hoverBackground ) || !string.IsNullOrEmpty( hoverBorder ) )
+        {
+            sb.Append( $".b-button-{variant}:hover," )
+                .Append( $"a.b-button-{variant}:hover" )
+                .Append( "{" );
 
-        //    sb
-        //        .Append( $".b-button-{variant}:not(:disabled):not(.disabled):active:focus," )
-        //        .Append( $".b-button-{variant}:not(:disabled):not(.disabled).active:focus," )
-        //        .Append( $".show>.b-button-{variant}.b-dropdown-toggle:focus," )
-        //        .Append( $"a.b-button-{variant}:not(:disabled):not(.disabled):active:focus," )
-        //        .Append( $"a.b-button-{variant}:not(:disabled):not(.disabled).active:focus," )
-        //        .Append( $"a.show>.b-button-{variant}.b-dropdown-toggle:focus" )
-        //        .Append( "{" )
-        //        .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".25rem"} {boxShadow}" )
-        //        .AppendLine( "}" );
-        //}
+            if ( !string.IsNullOrEmpty( hoverBackground ) )
+                sb.Append( $"background-color: {hoverBackground};" );
+
+            if ( !string.IsNullOrEmpty( hoverBorder ) )
+                sb.Append( $"border-color: {hoverBorder};" );
+
+            sb.AppendLine( "}" );
+        }
     }
 
     protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
     {
-        //var color = Var( ThemeVariables.OutlineButtonColor( variant ) );
-        //var yiqColor = Var( ThemeVariables.OutlineButtonYiqColor( variant ) );
-        //var boxShadow = Var( ThemeVariables.OutlineButtonBoxShadowColor( variant ) );
+        if ( variant == "link" )
+            return;
 
-        //sb
-        //    .Append( $".b-button-outline-{variant}," )
-        //    .Append( $"a.b-button-outline-{variant}" )
-        //    .Append( "{" )
-        //    .Append( $"color: {color};" )
-        //    .Append( $"border-color: {color};" )
-        //    .AppendLine( "}" );
+        var color = Var( ThemeVariables.OutlineButtonColor( variant ) );
+        var yiqColor = Var( ThemeVariables.OutlineButtonYiqColor( variant ) );
 
-        //sb
-        //    .Append( $".b-button-outline-{variant}:hover," )
-        //    .Append( $"a.b-button-outline-{variant}:hover" )
-        //    .Append( "{" )
-        //    .Append( $"color: {yiqColor};" )
-        //    .Append( $"background-color: {color};" )
-        //    .Append( $"border-color: {color};" )
-        //    .AppendLine( "}" );
+        if ( string.IsNullOrEmpty( color ) )
+            return;
 
-        //sb
-        //    .Append( $".b-button-outline-{variant}:focus," )
-        //    .Append( $".b-button-outline-{variant}.focus," )
-        //    .Append( $"a.b-button-outline-{variant}:focus," )
-        //    .Append( $"a.b-button-outline-{variant}.focus" )
-        //    .Append( "{" )
-        //    .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".25rem"} {boxShadow};" )
-        //    .AppendLine( "}" );
+        sb
+            .Append( $".b-button-outline-{variant}," )
+            .Append( $"a.b-button-outline-{variant}" )
+            .Append( "{" )
+            .Append( $"border-color: {color};" )
+            .AppendLine( "}" );
 
-        //sb
-        //    .Append( $".b-button-outline-{variant}.disabled," )
-        //    .Append( $".b-button-outline-{variant}:disabled," )
-        //    .Append( $"a.b-button-outline-{variant}.disabled," )
-        //    .Append( $"a.b-button-outline-{variant}:disabled" )
-        //    .Append( "{" )
-        //    .Append( $"color: {color};" )
-        //    .Append( "background-color: transparent;" )
-        //    .AppendLine( "}" );
+        sb
+            .Append( $".b-button-outline-{variant}:hover," )
+            .Append( $"a.b-button-outline-{variant}:hover" )
+            .Append( "{" )
+            .Append( $"background-color: {color};" )
+            .Append( $"border-color: {color};" );
 
-        //sb
-        //    .Append( $".b-button-outline-{variant}:not(:disabled):not(.disabled):active," )
-        //    .Append( $".b-button-outline-{variant}:not(:disabled):not(.disabled).active," )
-        //    .Append( $".show>.b-button-outline-{variant}.b-dropdown-toggle," )
-        //    .Append( $"a.b-button-outline-{variant}:not(:disabled):not(.disabled):active," )
-        //    .Append( $"a.b-button-outline-{variant}:not(:disabled):not(.disabled).active," )
-        //    .Append( $"a.show>.b-button-outline-{variant}.b-dropdown-toggle" )
-        //    .Append( "{" )
-        //    .Append( $"color: {yiqColor};" )
-        //    .Append( $"background-color: {color};" )
-        //    .Append( $"border-color: {color};" )
-        //    .AppendLine( "}" );
+        if ( !string.IsNullOrEmpty( yiqColor ) )
+        {
+            sb.Append( $"color: {yiqColor};" );
+        }
 
-        //sb
-        //    .Append( $".b-button-outline-{variant}:not(:disabled):not(.disabled):active:focus," )
-        //    .Append( $".b-button-outline-{variant}:not(:disabled):not(.disabled).active:focus," )
-        //    .Append( $".show>.b-button-outline-{variant}.b-dropdown-toggle:focus," )
-        //    .Append( $"a.b-button-outline-{variant}:not(:disabled):not(.disabled):active:focus," )
-        //    .Append( $"a.b-button-outline-{variant}:not(:disabled):not(.disabled).active:focus," )
-        //    .Append( $"a.show>.b-button-outline-{variant}.b-dropdown-toggle:focus" )
-        //    .Append( "{" )
-        //    .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".25rem"} {boxShadow};" )
-        //    .AppendLine( "}" );
+        sb.AppendLine( "}" );
     }
 
     protected override void GenerateButtonStyles( StringBuilder sb, Theme theme, ThemeButtonOptions options )
