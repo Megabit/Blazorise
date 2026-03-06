@@ -343,6 +343,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string AddonsHasButton( bool hasButton );
 
+    public virtual string AddonsValidation( ValidationStatus validationStatus ) => null;
+
     public abstract string Addon( AddonType addonType );
 
     public abstract string AddonSize( Size size );

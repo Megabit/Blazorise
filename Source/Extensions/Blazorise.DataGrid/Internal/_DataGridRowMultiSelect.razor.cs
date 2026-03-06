@@ -20,7 +20,7 @@ public abstract class _BaseDataGridRowMultiSelect<TItem> : ComponentBase
     {
         var selectable = ParentDataGrid.RowSelectable?.Invoke( new( Item, DataGridSelectReason.MultiSelectClick ) ) ?? true;
 
-        if ( selectable && ( ParentDataGrid.MultiSelectColumn?.PreventRowClick == false ) )
+        if ( selectable )
         {
             await CheckedChanged.InvokeAsync( new( Item, @checked, ShiftKeyPressed ) );
         }

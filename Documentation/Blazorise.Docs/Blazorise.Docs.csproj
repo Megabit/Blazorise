@@ -48,18 +48,13 @@
     <PackageReference Include="ColorCode.HTML" />
   </ItemGroup>
 
-  <!--Binary path for the code generator-->
-  <PropertyGroup>
-    <BinDocsCompiler>$(MSBuildProjectDirectory)/../../Documentation/Blazorise.Docs.Compiler/bin/Debug/net10.0/Blazorise.Docs.Compiler.dll</BinDocsCompiler>
-  </PropertyGroup>
-
   <PropertyGroup>
     <ApiDocsIntermediatePath>$(IntermediateOutputPath)ApiDocs</ApiDocsIntermediatePath>
   </PropertyGroup>
 
   <!--Project path for code generator-->
   <PropertyGroup>
-    <ProjectDocsCompiler>dotnet run --configuration release --project "$(MSBuildProjectDirectory)/../../Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj" --</ProjectDocsCompiler>
+    <ProjectDocsCompiler>dotnet run --configuration $(Configuration) --project "$(MSBuildProjectDirectory)/../../Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj" --</ProjectDocsCompiler>
   </PropertyGroup>
 
   <ItemGroup>
@@ -70,8 +65,7 @@
   <Target Name="CompileDocs" BeforeTargets="BeforeBuild">
     <!--Command-line for the code generator-->
     <Message Text="Generating Docs and Tests" Importance="high" />
-    <Exec Command="dotnet &quot;$(BinDocsCompiler)&quot; --api-docs-path &quot;$(ApiDocsIntermediatePath)&quot;" Condition="Exists('$(BinDocsCompiler)')" />
-    <Exec Command="$(ProjectDocsCompiler) --api-docs-path &quot;$(ApiDocsIntermediatePath)&quot;" Condition="!Exists('$(BinDocsCompiler)')" />
+    <Exec Command="$(ProjectDocsCompiler) --api-docs-path &quot;$(ApiDocsIntermediatePath)&quot;" />
   </Target>
 
   <Target Name="IncludeApiDocs" BeforeTargets="CoreCompile" DependsOnTargets="CompileDocs">

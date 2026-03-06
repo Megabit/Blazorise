@@ -11,6 +11,8 @@
     "Blazorise.Demo.Bulma": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "wasm/bulma/",
+      "commandLineArgs": "--pathbase=/wasm/bulma",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

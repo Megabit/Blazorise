@@ -342,6 +342,8 @@ public interface IClassProvider
 
     string AddonsHasButton( bool hasButton );
 
+    string AddonsValidation( ValidationStatus validationStatus );
+
     string Addon( AddonType addonType );
 
     string AddonSize( Size size );

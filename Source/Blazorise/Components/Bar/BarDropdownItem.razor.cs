@@ -19,11 +19,21 @@ public partial class BarDropdownItem : BaseComponent
 
     private bool disabled;
 
+    private string ariaLabelledBy;
+
     private BarDropdownState parentDropdownState;
 
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        ariaLabelledBy = $"lbl_{IdGenerator.Generate}";
+
+        base.OnInitialized();
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -61,9 +71,35 @@ public partial class BarDropdownItem : BaseComponent
         }
     }
 
+    /// <summary>
+    /// Handles keyboard activation for bar dropdown items.
+    /// </summary>
+    /// <param name="eventArgs">Information about the keyboard event.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected Task KeyDownHandler( KeyboardEventArgs eventArgs )
+    {
+        if ( !string.IsNullOrEmpty( To ) )
+            return Task.CompletedTask;
+
+        if ( eventArgs.Key == "Enter" || eventArgs.Key == "NumpadEnter" )
+            return ClickHandler( new MouseEventArgs() );
+
+        return Task.CompletedTask;
+    }
+
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets the aria-labelledby value that references the item text.
+    /// </summary>
+    protected string AriaLabelledBy => ariaLabelledBy;
+
+    /// <summary>
+    /// Returns tabindex for non-link dropdown items to support keyboard navigation.
+    /// </summary>
+    protected int? ComputedTabIndex => IsTabbableWithoutHref ? 0 : null;
 
     /// <summary>
     /// Cascaded parent <see cref="BarDropdown"/> state.
@@ -146,6 +182,11 @@ public partial class BarDropdownItem : BaseComponent
     /// Specifies the content to be rendered inside this <see cref="BarDropdownItem"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    private bool IsTabbableWithoutHref
+        => ParentDropdownState?.Mode == BarMode.Horizontal
+           && !Disabled
+           && string.IsNullOrEmpty( To );
 
     #endregion
 }

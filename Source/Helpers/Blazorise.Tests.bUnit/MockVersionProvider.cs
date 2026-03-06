@@ -1,6 +1,6 @@
 ﻿namespace Blazorise.Tests.bUnit;
 
-internal class MockVersionProvider : IVersionProvider
+public class MockVersionProvider : IVersionProvider
 {
     public string Version => "";
 

@@ -366,6 +366,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string AddonsHasButton( bool hasButton ) => null;
 
+    public override string AddonsValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
     public override string Addon( AddonType addonType )
     {
         return addonType switch

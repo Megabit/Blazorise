@@ -354,6 +354,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string AddonsHasButton( bool hasButton ) => hasButton ? "ant-input-search ant-input-search-enter-button" : null;
 
+    public override string AddonsValidation( ValidationStatus validationStatus ) => null;
+
     public override string Addon( AddonType addonType )
     {
         switch ( addonType )

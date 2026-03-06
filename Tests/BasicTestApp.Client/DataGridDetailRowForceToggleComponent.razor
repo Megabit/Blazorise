@@ -1,0 +1,40 @@
+<DataGrid @ref="DataGridRef"
+          TItem="Employee"
+          Data="InMemoryData"
+          DetailRowStartsVisible="false"
+          DetailRowTrigger="DetailRowTrigger">
+    <DataGridColumns>
+        <DataGridColumn TItem="Employee">
+            <DisplayTemplate>
+                <button id="@($"btnToggleRow{context.Item.Name}")" @onclick="@(() => ToggleDetailRow( context.Item ))">Toggle</button>
+            </DisplayTemplate>
+        </DataGridColumn>
+        <DataGridColumn TItem="Employee"
+                        Field="@nameof( Employee.Name )"
+                        Caption="Name" />
+    </DataGridColumns>
+    <DetailRowTemplate>
+        <Label ElementId="lblForcedDetail">@context.Item.Name</Label>
+    </DetailRowTemplate>
+</DataGrid>
+
+@code {
+    public DataGrid<Employee> DataGridRef;
+
+    private static bool DetailRowTrigger( DetailRowTriggerEventArgs<Employee> context )
+        => true;
+
+    private Task ToggleDetailRow( Employee item )
+        => DataGridRef.ToggleDetailRow( item, true );
+
+    public class Employee
+    {
+        public string Name { get; set; }
+    }
+
+    public List<Employee> InMemoryData { get; set; } = new()
+        {
+            new() { Name = "John" },
+            new() { Name = "Sarah" },
+        };
+}

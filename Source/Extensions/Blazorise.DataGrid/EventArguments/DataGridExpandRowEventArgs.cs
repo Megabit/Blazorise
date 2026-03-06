@@ -1,0 +1,26 @@
+﻿#region Using directives
+using System;
+#endregion
+
+namespace Blazorise.DataGrid;
+
+/// <summary>
+/// Provides all the information about self-reference row expand or collapse events.
+/// </summary>
+/// <typeparam name="TItem">Type of the data model.</typeparam>
+public class DataGridExpandRowEventArgs<TItem> : EventArgs
+{
+    /// <summary>
+    /// Initializes a new instance of self-reference-row event argument.
+    /// </summary>
+    /// <param name="item">Row item.</param>
+    public DataGridExpandRowEventArgs( TItem item )
+    {
+        Item = item;
+    }
+
+    /// <summary>
+    /// Gets the row item.
+    /// </summary>
+    public TItem Item { get; }
+}

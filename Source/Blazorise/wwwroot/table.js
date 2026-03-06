@@ -1,4 +1,4 @@
-import { getRequiredElement } from "./utilities.js?v=2.0.0.0";
+import { getRequiredElement } from "./utilities.js?v=2.0.2.0";
 
 export function initializeTableFixedHeader(element, elementId) {
     element = getRequiredElement(element, elementId);
