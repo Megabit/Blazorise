@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-06T15:06:15.5216453Z",
+  "generatedUtc": "2026-03-06T16:37:50.3781498Z",
   "pages": [
     {
       "route": "/docs",
@@ -6738,9 +6738,9 @@
           "code": "TransferListCaptionsExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/TransferList/Examples/TransferListCaptionsExample.razor",
-          "content": "<TransferList TItem=\"string\"\r\n              Items=\"@list\"\r\n              ValueField=\"item => item\"\r\n              TextField=\"item => item\">\r\n    <StartCaptionTemplate>\r\n        <Heading4>In Stock</Heading4>\r\n    </StartCaptionTemplate>\r\n    <EndCaptionTemplate>\r\n        <Heading4>Checkout</Heading4>\r\n    </EndCaptionTemplate>\r\n</TransferList>\r\n\r\n@code {\r\n    private List<string> list = new List<string> { \"Apple\", \"Banana\", \"Cherry\", \"Grapes\", \"Orange\", \"Pear\", \"Strawberry\" };\r\n}",
+          "content": "<TransferList TItem=\"string\"\r\n              Items=\"@list\"\r\n              ValueField=\"item => item\"\r\n              TextField=\"item => item\"\r\n              ShowCaptions>\r\n    <StartCaptionTemplate>\r\n        <Heading4>In Stock</Heading4>\r\n    </StartCaptionTemplate>\r\n    <EndCaptionTemplate>\r\n        <Heading4>Checkout</Heading4>\r\n    </EndCaptionTemplate>\r\n</TransferList>\r\n\r\n@code {\r\n    private List<string> list = new List<string> { \"Apple\", \"Banana\", \"Cherry\", \"Grapes\", \"Orange\", \"Pear\", \"Strawberry\" };\r\n}",
           "title": "Captions",
-          "description": "You can add captions above the lists by providing strings StartCaption and EndCaption or custom templates StartCaptionTemplate and EndCaptionTemplate ."
+          "description": "You can add captions above the lists by providing strings StartCaption and EndCaption or custom templates StartCaptionTemplate and EndCaptionTemplate . Turning the captions on or off is controlled by the ShowCaptions parameter."
         }
       ],
       "apiRefs": [

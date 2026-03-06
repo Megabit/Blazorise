@@ -11677,7 +11677,8 @@ builder.Services
         public const string TransferListCaptionsExample = @"<TransferList TItem=""string""
               Items=""@list""
               ValueField=""item => item""
-              TextField=""item => item"">
+              TextField=""item => item""
+              ShowCaptions>
     <StartCaptionTemplate>
         <Heading4>In Stock</Heading4>
     </StartCaptionTemplate>

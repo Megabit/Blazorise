@@ -494,6 +494,12 @@ public partial class TransferList<TItem> : ComponentBase
     [Parameter] public EventCallback<List<TItem>> SelectedItemsEndChanged { get; set; }
 
     /// <summary>
+    /// Determines whether the captions are visible above the lists.
+    /// </summary>
+    [Parameter]
+    public bool ShowCaptions { get; set; } = true;
+
+    /// <summary>
     /// Gets or sets the start caption template, which can be used to render a custom header or caption for the start (left) list.
     /// </summary>
     [Parameter] public RenderFragment StartCaptionTemplate { get; set; }
@@ -516,27 +522,27 @@ public partial class TransferList<TItem> : ComponentBase
     [Parameter] public string EndCaption { get; set; }
 
     /// <summary>
-    /// Defines the icon name of the move right button.
+    /// Defines the icon name of the move to end (right) button.
     /// </summary>
-    [Parameter] public IconName MoveRightIconName { get; set; } = IconName.ChevronRight;
+    [Parameter] public IconName MoveToEndIconName { get; set; } = IconName.ChevronRight;
 
     /// <summary>
-    /// Defines the icon name of the move all right button.
+    /// Defines the icon name of the move all to end (right) button.
     /// </summary>
-    [Parameter] public IconName MoveAllRightIconName { get; set; } = IconName.ChevronDoubleRight;
+    [Parameter] public IconName MoveAllToEndIconName { get; set; } = IconName.ChevronDoubleRight;
 
     /// <summary>
-    /// Defines the icon name of the move left button.
+    /// Defines the icon name of the move to start (left) button.
     /// </summary>
-    [Parameter] public IconName MoveLeftIconName { get; set; } = IconName.ChevronLeft;
+    [Parameter] public IconName MoveToStartIconName { get; set; } = IconName.ChevronLeft;
 
     /// <summary>
-    /// Defines the icon name of the move all left button.
+    /// Defines the icon name of the move all to start (left) button.
     /// </summary>
-    [Parameter] public IconName MoveAllLeftIconName { get; set; } = IconName.ChevronDoubleLeft;
+    [Parameter] public IconName MoveAllToStartIconName { get; set; } = IconName.ChevronDoubleLeft;
 
     /// <summary>
-    /// Defines the style of the move icons.
+    /// Defines the text color of the move icons.
     /// </summary>
     [Parameter] public TextColor MoveButtonsIconTextColor { get; set; } = TextColor.White;
 
