@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Blazorise.Components.ListView;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
+
 #endregion
 
 namespace Blazorise.Components;
@@ -386,7 +387,7 @@ public partial class TransferList<TItem> : ComponentBase
     /// <summary>
     /// Specifies the color of the move and "Move All" buttons.
     /// </summary>
-    [Parameter] public Color MoveButtonsColor { get; set; } = Color.Primary;
+    [Parameter] public Color MoveButtonsColor { set; get => field ?? Options.MoveButtonsColor; }
 
     /// <summary>
     /// Enables a vertical scrollbar when the list exceeds the maximum height.
@@ -524,36 +525,42 @@ public partial class TransferList<TItem> : ComponentBase
     /// <summary>
     /// Defines the icon name of the move to end (right) button.
     /// </summary>
-    [Parameter] public IconName MoveToEndIconName { get; set; } = IconName.ChevronRight;
+    [Parameter] public IconName? MoveToEndIconName { set; get => field ?? Options.MoveToEndIconName; }
 
     /// <summary>
     /// Defines the icon name of the move all to end (right) button.
     /// </summary>
-    [Parameter] public IconName MoveAllToEndIconName { get; set; } = IconName.ChevronDoubleRight;
+    [Parameter] public IconName? MoveAllToEndIconName { set; get => field ?? Options.MoveAllToEndIconName; }
 
     /// <summary>
     /// Defines the icon name of the move to start (left) button.
     /// </summary>
-    [Parameter] public IconName MoveToStartIconName { get; set; } = IconName.ChevronLeft;
+    [Parameter] public IconName? MoveToStartIconName { set; get => field ?? Options.MoveToStartIconName; }
 
     /// <summary>
     /// Defines the icon name of the move all to start (left) button.
     /// </summary>
-    [Parameter] public IconName MoveAllToStartIconName { get; set; } = IconName.ChevronDoubleLeft;
+    [Parameter] public IconName? MoveAllToStartIconName { set; get => field ?? Options.MoveAllToStartIconName; }
 
     /// <summary>
     /// Defines the text color of the move icons.
     /// </summary>
-    [Parameter] public TextColor MoveButtonsIconTextColor { get; set; } = TextColor.White;
+    [Parameter]
+    public TextColor MoveButtonsIconTextColor { set; get => field ?? Options.MoveButtonsIconTextColor; }
 
     /// <summary>
     /// Defines the style of the move icons.
     /// </summary>
-    [Parameter] public IconStyle? MoveButtonsIconStyle { get; set; }
+    [Parameter] public IconStyle? MoveButtonsIconStyle { set; get => field ?? Options.MoveButtonsIconStyle; }
 
     /// <summary>
     /// Defines the size of the move icons.
     /// </summary>
-    [Parameter] public IconSize? MoveButtonsIconSize { get; set; }
+    [Parameter] public IconSize? MoveButtonsIconSize { set; get => field ?? Options.MoveButtonsIconSize; }
+
+    /// <summary>
+    /// TransferList component options
+    /// </summary>
+    [Parameter] public TransferListOptions Options { get; set; } = new();
     #endregion
 }

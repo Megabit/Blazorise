@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-06T16:42:22.4395943Z",
+  "generatedUtc": "2026-03-06T17:27:21.7498670Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -104398,25 +104398,25 @@
         },
         {
           "name": "MoveAllToEndIconName",
-          "type": "global::Blazorise.IconName",
-          "typeName": "IconName",
-          "defaultValue": "ChevronDoubleRight",
+          "type": "global::Blazorise.IconName?",
+          "typeName": "IconName?",
+          "defaultValue": "null",
           "summary": "Defines the icon name of the move all to end (right) button.",
-          "isBlazoriseEnum": true
+          "isBlazoriseEnum": false
         },
         {
           "name": "MoveAllToStartIconName",
-          "type": "global::Blazorise.IconName",
-          "typeName": "IconName",
-          "defaultValue": "ChevronDoubleLeft",
+          "type": "global::Blazorise.IconName?",
+          "typeName": "IconName?",
+          "defaultValue": "null",
           "summary": "Defines the icon name of the move all to start (left) button.",
-          "isBlazoriseEnum": true
+          "isBlazoriseEnum": false
         },
         {
           "name": "MoveButtonsColor",
           "type": "global::Blazorise.Color",
           "typeName": "Color",
-          "defaultValue": "Primary",
+          "defaultValue": "null",
           "summary": "Specifies the color of the move and \\\"Move All\\\" buttons.",
           "isBlazoriseEnum": false
         },
@@ -104440,25 +104440,33 @@
           "name": "MoveButtonsIconTextColor",
           "type": "global::Blazorise.TextColor",
           "typeName": "TextColor",
-          "defaultValue": "White",
+          "defaultValue": "null",
           "summary": "Defines the text color of the move icons.",
           "isBlazoriseEnum": false
         },
         {
           "name": "MoveToEndIconName",
-          "type": "global::Blazorise.IconName",
-          "typeName": "IconName",
-          "defaultValue": "ChevronRight",
+          "type": "global::Blazorise.IconName?",
+          "typeName": "IconName?",
+          "defaultValue": "null",
           "summary": "Defines the icon name of the move to end (right) button.",
-          "isBlazoriseEnum": true
+          "isBlazoriseEnum": false
         },
         {
           "name": "MoveToStartIconName",
-          "type": "global::Blazorise.IconName",
-          "typeName": "IconName",
-          "defaultValue": "ChevronLeft",
+          "type": "global::Blazorise.IconName?",
+          "typeName": "IconName?",
+          "defaultValue": "null",
           "summary": "Defines the icon name of the move to start (left) button.",
-          "isBlazoriseEnum": true
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Options",
+          "type": "global::Blazorise.Components.TransferListOptions",
+          "typeName": "TransferListOptions",
+          "defaultValue": "new()",
+          "summary": "TransferList component options",
+          "isBlazoriseEnum": false
         },
         {
           "name": "Scrollable",
@@ -104649,6 +104657,79 @@
           "parameters": []
         }
       ]
+    },
+    {
+      "type": "global::Blazorise.Components.TransferListOptions",
+      "typeName": "TransferListOptions",
+      "summary": "$\"\"\"\r\n       Provides configuration options for the <strong>TransferList</strong> component.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "MoveAllToEndIconName",
+          "type": "global::Blazorise.IconName",
+          "typeName": "IconName",
+          "defaultValue": "ChevronDoubleRight",
+          "summary": "Option for the default icon name of the move all to end (right) button.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "MoveAllToStartIconName",
+          "type": "global::Blazorise.IconName",
+          "typeName": "IconName",
+          "defaultValue": "ChevronDoubleLeft",
+          "summary": "Option for the default icon name of the move all to start (left) button.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "MoveButtonsColor",
+          "type": "global::Blazorise.Color",
+          "typeName": "Color",
+          "defaultValue": "Primary",
+          "summary": "Option for the default color of the move and \\\"Move All\\\" buttons.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MoveButtonsIconSize",
+          "type": "global::Blazorise.IconSize?",
+          "typeName": "IconSize?",
+          "defaultValue": "null",
+          "summary": "Option for the default size of the move icons.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MoveButtonsIconStyle",
+          "type": "global::Blazorise.IconStyle?",
+          "typeName": "IconStyle?",
+          "defaultValue": "null",
+          "summary": "Option for the default style of the move icons.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MoveButtonsIconTextColor",
+          "type": "global::Blazorise.TextColor",
+          "typeName": "TextColor",
+          "defaultValue": "White",
+          "summary": "Option for the default text color of the move icons.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MoveToEndIconName",
+          "type": "global::Blazorise.IconName",
+          "typeName": "IconName",
+          "defaultValue": "ChevronRight",
+          "summary": "Option for the default icon name of the move to end (right) button.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "MoveToStartIconName",
+          "type": "global::Blazorise.IconName",
+          "typeName": "IconName",
+          "defaultValue": "ChevronLeft",
+          "summary": "Option for the default icon name of the move to start (left) button.",
+          "isBlazoriseEnum": true
+        }
+      ],
+      "events": [],
+      "methods": []
     },
     {
       "type": "global::Blazorise.TreeView.TreeView<>",
