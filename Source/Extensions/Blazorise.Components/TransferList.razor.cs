@@ -359,18 +359,14 @@ public partial class TransferList<TItem> : ComponentBase
     /// </summary>
     public bool IsMoveEndDisabled => SelectionMode == ListGroupSelectionMode.Single
         ? SelectedItemStart is null
-        : SelectionMode == ListGroupSelectionMode.Multiple
-            ? SelectedItemsStart.IsNullOrEmpty()
-            : false;
+        : SelectionMode == ListGroupSelectionMode.Multiple && SelectedItemsStart.IsNullOrEmpty();
 
     /// <summary>
     /// Gets a value indicating whether the "Move to Start" action is disabled based on the current selection mode.
     /// </summary>
     public bool IsMoveStartDisabled => SelectionMode == ListGroupSelectionMode.Single
         ? SelectedItemEnd is null
-        : SelectionMode == ListGroupSelectionMode.Multiple
-            ? SelectedItemsEnd.IsNullOrEmpty()
-            : true;
+        : SelectionMode != ListGroupSelectionMode.Multiple || SelectedItemsEnd.IsNullOrEmpty();
 
     /// <summary>
     /// Defines how the list groups behave (e.g., selectable, static).
@@ -497,5 +493,61 @@ public partial class TransferList<TItem> : ComponentBase
     /// </summary>
     [Parameter] public EventCallback<List<TItem>> SelectedItemsEndChanged { get; set; }
 
+    /// <summary>
+    /// Gets or sets the start caption template, which can be used to render a custom header or caption for the start (left) list.
+    /// </summary>
+    [Parameter] public RenderFragment StartCaptionTemplate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the start caption text for the start (left) list.
+    /// Used only when <see cref="StartCaptionTemplate"/> is not provided.
+    /// </summary>
+    [Parameter] public string StartCaption { get; set; }
+
+    /// <summary>
+    /// Gets or sets the end caption template, which can be used to render a custom header or caption for the end (right) list.
+    /// </summary>
+    [Parameter] public RenderFragment EndCaptionTemplate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the end caption text for the end (right) list.
+    /// Used only when <see cref="EndCaptionTemplate"/> is not provided.
+    /// </summary>
+    [Parameter] public string EndCaption { get; set; }
+
+    /// <summary>
+    /// Defines the icon name of the move right button.
+    /// </summary>
+    [Parameter] public IconName MoveRightIconName { get; set; } = IconName.ChevronRight;
+
+    /// <summary>
+    /// Defines the icon name of the move all right button.
+    /// </summary>
+    [Parameter] public IconName MoveAllRightIconName { get; set; } = IconName.ChevronDoubleRight;
+
+    /// <summary>
+    /// Defines the icon name of the move left button.
+    /// </summary>
+    [Parameter] public IconName MoveLeftIconName { get; set; } = IconName.ChevronLeft;
+
+    /// <summary>
+    /// Defines the icon name of the move all left button.
+    /// </summary>
+    [Parameter] public IconName MoveAllLeftIconName { get; set; } = IconName.ChevronDoubleLeft;
+
+    /// <summary>
+    /// Defines the style of the move icons.
+    /// </summary>
+    [Parameter] public TextColor MoveButtonsIconTextColor { get; set; } = TextColor.White;
+
+    /// <summary>
+    /// Defines the style of the move icons.
+    /// </summary>
+    [Parameter] public IconStyle? MoveButtonsIconStyle { get; set; }
+
+    /// <summary>
+    /// Defines the size of the move icons.
+    /// </summary>
+    [Parameter] public IconSize? MoveButtonsIconSize { get; set; }
     #endregion
 }

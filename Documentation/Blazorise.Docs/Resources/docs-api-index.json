@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-02-10T20:24:29.9221199Z",
+  "generatedUtc": "2026-03-06T15:06:15.2750259Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -45235,7 +45235,7 @@
           "name": "FullIcon",
           "type": "object",
           "typeName": "object",
-          "defaultValue": "276",
+          "defaultValue": "280",
           "summary": "Defines the selected icon name.",
           "isBlazoriseEnum": false
         },
@@ -45243,7 +45243,7 @@
           "name": "EmptyIcon",
           "type": "object",
           "typeName": "object",
-          "defaultValue": "276",
+          "defaultValue": "280",
           "summary": "Defines the non-selected icon name.",
           "isBlazoriseEnum": false
         },
@@ -82437,6 +82437,94 @@
           "typeName": "List<TItem>",
           "defaultValue": "null",
           "summary": "Gets or sets the currently selected items in the end (right) list for multi-selection mode.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "StartCaptionTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
+          "typeName": "RenderFragment",
+          "defaultValue": "null",
+          "summary": "Gets or sets the start caption template, which can be used to render a custom header or caption for the start (left) list.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "StartCaption",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the start caption text for the start (left) list.     Used only when <strong>StartCaptionTemplate</strong> is not provided.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "EndCaptionTemplate",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
+          "typeName": "RenderFragment",
+          "defaultValue": "null",
+          "summary": "Gets or sets the end caption template, which can be used to render a custom header or caption for the end (right) list.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "EndCaption",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the end caption text for the end (right) list.     Used only when <strong>EndCaptionTemplate</strong> is not provided.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MoveRightIconName",
+          "type": "global::Blazorise.IconName",
+          "typeName": "IconName",
+          "defaultValue": "ChevronRight",
+          "summary": "Defines the icon name of the move right button.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "MoveAllRightIconName",
+          "type": "global::Blazorise.IconName",
+          "typeName": "IconName",
+          "defaultValue": "ChevronDoubleRight",
+          "summary": "Defines the icon name of the move all right button.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "MoveLeftIconName",
+          "type": "global::Blazorise.IconName",
+          "typeName": "IconName",
+          "defaultValue": "ChevronLeft",
+          "summary": "Defines the icon name of the move left button.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "MoveAllLeftIconName",
+          "type": "global::Blazorise.IconName",
+          "typeName": "IconName",
+          "defaultValue": "ChevronDoubleLeft",
+          "summary": "Defines the icon name of the move all left button.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "MoveButtonsIconTextColor",
+          "type": "global::Blazorise.TextColor",
+          "typeName": "TextColor",
+          "defaultValue": "White",
+          "summary": "Defines the style of the move icons.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MoveButtonsIconStyle",
+          "type": "global::Blazorise.IconStyle?",
+          "typeName": "IconStyle?",
+          "defaultValue": "null",
+          "summary": "Defines the style of the move icons.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MoveButtonsIconSize",
+          "type": "global::Blazorise.IconSize?",
+          "typeName": "IconSize?",
+          "defaultValue": "null",
+          "summary": "Defines the size of the move icons.",
           "isBlazoriseEnum": false
         }
       ],

@@ -1,9 +1,16 @@
-﻿@using Blazorise.Extensions
-@using Microsoft.AspNetCore.Components.Web.Virtualization
-@typeparam TItem
+﻿@typeparam TItem
 
 <Div Display="Display.Flex">
-    <Div Flex="Flex.Grow.Is1" Width="Width.Is50">
+    <Div Flex="Flex.Grow.Is1.Column" Width="Width.Is50" Gap="Gap.Is2">
+        @if ( StartCaptionTemplate is not null )
+        {
+            <Div Margin="Margin.Is2">@StartCaptionTemplate</Div>
+        }
+        else if ( StartCaption is not null )
+        {
+            <Div Margin="Margin.Is2">@StartCaption</Div>
+        }
+
         <ListView TItem="TItem"
                   Data="@ItemsStart"
                   ValueField="@ValueField"
@@ -25,24 +32,33 @@
         @if ( ShowMoveAll )
         {
             <Button Color="@MoveButtonsColor" Clicked="@MoveAllEnd" Disabled="@IsMoveAllEndDisabled">
-                @(">>")
+                <Icon Name="@MoveAllRightIconName" IconStyle="@MoveButtonsIconStyle" IconSize="@MoveButtonsIconSize" TextColor="@MoveButtonsIconTextColor"/>
             </Button>
         }
         <Button Color="@MoveButtonsColor" Clicked="@MoveSelectedEnd" Disabled="@IsMoveEndDisabled">
-            @(">")
+            <Icon Name="@MoveRightIconName" IconStyle="@MoveButtonsIconStyle" IconSize="@MoveButtonsIconSize" TextColor="@MoveButtonsIconTextColor" />
         </Button>
         <Button Color="@MoveButtonsColor" Clicked="@MoveSelectedStart" Disabled="@IsMoveStartDisabled">
-            @("<")
+            <Icon Name="@MoveLeftIconName" IconStyle="@MoveButtonsIconStyle" IconSize="@MoveButtonsIconSize" TextColor="@MoveButtonsIconTextColor" />
         </Button>
         @if ( ShowMoveAll )
         {
             <Button Color="@MoveButtonsColor" Clicked="@MoveAllStart" Disabled="@IsMoveAllStartDisabled">
-                @("<<")
+                <Icon Name="@MoveAllLeftIconName" IconStyle="@MoveButtonsIconStyle" IconSize="@MoveButtonsIconSize" TextColor="@MoveButtonsIconTextColor" />
             </Button>
         }
     </Div>
 
-    <Div Flex="Flex.Grow.Is1" Width="Width.Is50">
+    <Div Flex="Flex.Grow.Is1.Column" Width="Width.Is50" Gap="Gap.Is2">
+        @if ( EndCaptionTemplate is not null )
+        {
+            <Div Margin="Margin.Is2">@EndCaptionTemplate</Div>
+        }
+        else if ( EndCaption is not null )
+        {
+            <Div Margin="Margin.Is2">@EndCaption</Div>
+        }
+
         <ListView TItem="TItem"
                   Data="@ItemsEnd"
                   ValueField="@ValueField"

@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System.Collections.Generic;
-using System.Linq;
 using Blazorise.Providers;
 #endregion
 
@@ -83,6 +82,10 @@ class BootstrapIconProvider : BaseIconProvider
         { IconName.ChevronRight, BootstrapIcons.ChevronRight },
         { IconName.ChevronUp, BootstrapIcons.ChevronUp },
         { IconName.ChevronDown, BootstrapIcons.ChevronDown },
+        { IconName.ChevronDoubleDown, BootstrapIcons.ChevronDoubleDown },
+        { IconName.ChevronDoubleLeft, BootstrapIcons.ChevronDoubleLeft },
+        { IconName.ChevronDoubleRight, BootstrapIcons.ChevronDoubleRight },
+        { IconName.ChevronDoubleUp, BootstrapIcons.ChevronDoubleUp },
         { IconName.Circle, BootstrapIcons.Circle },
         { IconName.City, BootstrapIcons.Building },
         { IconName.Clear, BootstrapIcons.Eraser },
