@@ -1,15 +1,15 @@
-﻿.overflow-visible {
-    overflow: visible !important;
+$mui-overflow-values: (visible, hidden, scroll, auto) !default;
+
+@each $value in $mui-overflow-values {
+    .mui-overflow-#{$value} {
+        overflow: $value !important;
+    }
 }
 
-.overflow-scroll {
-    overflow: scroll !important;
-}
-
-@each $value1 in $overflows {
-    @each $value2 in $overflows {
-        .overflow-#{$value1}-#{$value2} {
-            overflow: $value1 $value2 !important;
+@each $x in $mui-overflow-values {
+    @each $y in $mui-overflow-values {
+        .mui-overflow-#{$x}-#{$y} {
+            overflow: $x $y !important;
         }
     }
 }

@@ -1,0 +1,31 @@
+@inherits Blazorise.Progress
+<CascadingValue Value="@this" IsFixed>
+    <CascadingValue Value="@State">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @if ( !HasProgressBar )
+            {
+                <div class="@DefaultBarClassNames" style="@ProgressBarStyleNames" role="progressbar" aria-valuenow="@Percentage" aria-valuemin="@Min" aria-valuemax="@Max" @attributes="@Attributes">
+                    @if ( ChildContent is not null )
+                    {
+                        @ChildContent
+                    }
+                    else if ( ShowValue && !Indeterminate && Value is not null )
+                    {
+                        <span class="mui-progress-value-indicator">@Value</span>
+                    }
+                </div>
+            }
+            else
+            {
+                @ChildContent
+            }
+        </div>
+    </CascadingValue>
+</CascadingValue>
+
+@code {
+    private string DefaultBarClassNames
+        => ShowValue && ChildContent is null && !Indeterminate && Value is not null
+            ? $"{ProgressBarClassNames} mui-progress-bar-has-value-indicator"
+            : ProgressBarClassNames;
+}

@@ -1,43 +1,53 @@
-﻿@mixin make-sizes( $breakpoints: $grid-breakpoints) {
+@function mui-viewport-length($value, $axis) {
+    @if $value == auto {
+        @return auto;
+    }
+
+    $viewport-unit: if($axis == "width", 1vw, 1vh);
+
+    @return calc(#{$value} * #{$viewport-unit} / 1%);
+}
+
+@mixin make-sizing-utilities($breakpoints: $grid-breakpoints) {
     @each $breakpoint in map-keys($breakpoints) {
         $infix: breakpoint-infix($breakpoint, $breakpoints);
 
         @include media-breakpoint-up($breakpoint, $breakpoints) {
-            @if $breakpoint != "xs" {
-                @each $prop, $abbrev in (width: w, height: h) {
-                    @each $size, $length in $sizes {
-                        .#{$abbrev}#{$infix}-#{$size} {
-                            #{$prop}: $length !important;
-                        }
-                    }
+            @each $size, $length in $sizes {
+                .mui-w#{$infix}-#{$size} {
+                    width: $length !important;
                 }
 
-                .mw#{$infix}-100 {
-                    max-width: 100% !important;
+                .mui-h#{$infix}-#{$size} {
+                    height: $length !important;
                 }
 
-                .mh#{$infix}-100 {
-                    max-height: 100% !important;
+                .mui-mw#{$infix}-#{$size} {
+                    max-width: $length !important;
                 }
 
-                .min-vw#{$infix}-100 {
-                    min-width: 100vw !important;
+                .mui-mh#{$infix}-#{$size} {
+                    max-height: $length !important;
                 }
 
-                .min-vh#{$infix}-100 {
-                    min-height: 100vh !important;
+                .mui-vw#{$infix}-#{$size} {
+                    width: mui-viewport-length($length, "width") !important;
                 }
 
-                .vw#{$infix}-100 {
-                    width: 100vw !important;
+                .mui-vh#{$infix}-#{$size} {
+                    height: mui-viewport-length($length, "height") !important;
                 }
 
-                .vh#{$infix}-100 {
-                    height: 100vh !important;
+                .mui-min-vw#{$infix}-#{$size} {
+                    min-width: mui-viewport-length($length, "width") !important;
+                }
+
+                .mui-min-vh#{$infix}-#{$size} {
+                    min-height: mui-viewport-length($length, "height") !important;
                 }
             }
         }
     }
 }
 
-@include make-sizes();
+@include make-sizing-utilities();

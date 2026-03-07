@@ -1,4 +1,4 @@
-﻿namespace Blazorise.PdfViewer;
+namespace Blazorise.PdfViewer;
 
 /// <summary>
 /// Provides data for the PDF loaded event, including the page number and total pages.
@@ -11,10 +11,12 @@ public class PdfLoadedEventArgs
     /// </summary>
     /// <param name="pageNumber">The current page number of the PDF document.</param>
     /// <param name="totalPages">The total number of pages in the PDF document.</param>
-    public PdfLoadedEventArgs( int pageNumber, int totalPages )
+    /// <param name="title">The title metadata of the PDF document.</param>
+    public PdfLoadedEventArgs( int pageNumber, int totalPages, string title = null )
     {
         PageNumber = pageNumber;
         TotalPages = totalPages;
+        Title = title;
     }
 
     /// <summary>
@@ -26,4 +28,9 @@ public class PdfLoadedEventArgs
     /// Gets the total number of pages in the PDF document.
     /// </summary>
     public int TotalPages { get; }
+
+    /// <summary>
+    /// Gets the title metadata of the PDF document.
+    /// </summary>
+    public string Title { get; }
 }

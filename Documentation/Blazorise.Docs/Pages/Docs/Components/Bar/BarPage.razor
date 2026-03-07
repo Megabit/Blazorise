@@ -116,6 +116,28 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Dropdown trigger: icon toggles, label navigates">
+        Use this pattern when a parent item should act as a normal link, while the chevron icon independently opens the submenu.
+        Set <Code>To</Code> for navigation and <Code>Trigger="BarDropdownToggleTrigger.IconClick"</Code> so only the icon toggles the dropdown.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <BarDropdownToggleIconClickExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BarDropdownToggleIconClickExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Dropdown trigger: click anywhere + URL match">
+        When users should be able to expand from either the label or icon, combine triggers with a flags expression.
+        In this example, <Code>Trigger="BarDropdownToggleTrigger.ClickAny | BarDropdownToggleTrigger.RouteMatch"</Code> keeps the dropdown expanded whenever the current URL matches <Code>To</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <BarDropdownToggleRouteMatchExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BarDropdownToggleRouteMatchExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Vertical Bar (Sidebar)">
         When using the Bar in one of the <strong>Vertical</strong> modes for the purpose of a Sidebar, you need to place it inside the <Code>LayoutSiderContent</Code> component.
 
@@ -130,7 +152,7 @@
 <Alert Color="Color.Info" Visible>
     <AlertDescription>
         <Strong>Note:</Strong> The <Code>BarIcon</Code> is required for each <Code>BarLink</Code> or <Code>BarDropdownToggle</Code> when using <Code>BarMode.VerticalSmall</Code> or <Code>BarCollapseMode.Small</Code>, in order for it work correctly.
-        For a demo of the Vertical bar in action, please check out <Anchor To="https://bootstrapdemo.blazorise.com/" Target="Target.Blank">this Blazorise demo</Anchor>.
+        For a demo of the Vertical bar in action, please check out <Anchor To="https://demos.blazorise.com/wasm/bootstrap4/" Target="Target.Blank">this Blazorise demo</Anchor>.
     </AlertDescription>
 </Alert>
 

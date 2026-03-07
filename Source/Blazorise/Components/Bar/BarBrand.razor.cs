@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -28,6 +28,15 @@ public partial class BarBrand : BaseComponent
         base.BuildClasses( builder );
     }
 
+    /// <summary>
+    /// Builds class names for bar toggler rendered within brand section.
+    /// </summary>
+    /// <param name="builder">Class builder.</param>
+    protected virtual void BuildBarBrandTogglerClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.BarBrandToggler( ParentBarState?.Mode ?? BarMode.Horizontal ) );
+    }
+
     #endregion
 
     #region Properties
@@ -52,6 +61,19 @@ public partial class BarBrand : BaseComponent
             parentBarState = value;
 
             DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Gets the class names for bar toggler rendered within brand section.
+    /// </summary>
+    protected string BarBrandTogglerClassNames
+    {
+        get
+        {
+            var builder = new ClassBuilder( BuildBarBrandTogglerClasses );
+
+            return builder.Class;
         }
     }
 

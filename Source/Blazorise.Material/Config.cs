@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using Blazorise.Material.Providers;
@@ -35,13 +35,23 @@ public static class Config
         return serviceCollection;
     }
 
-    public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>( Bootstrap.Config.ComponentMap )
+    public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
     {
-        // material overrides
+        [typeof( Blazorise.BarDropdownToggle )] = typeof( Components.BarDropdownToggle ),
+        [typeof( Blazorise.Badge )] = typeof( Components.Badge ),
+        [typeof( Blazorise.BreadcrumbLink )] = typeof( Components.BreadcrumbLink ),
+        [typeof( Blazorise.Carousel )] = typeof( Components.Carousel ),
+        [typeof( Blazorise.Check<> )] = typeof( Components.Check<> ),
         [typeof( Blazorise.CarouselSlide )] = typeof( Components.CarouselSlide ),
+        [typeof( Blazorise.DropdownToggle )] = typeof( Components.DropdownToggle ),
+        [typeof( Blazorise.Field )] = typeof( Components.Field ),
         [typeof( Blazorise.NumericPicker<> )] = typeof( Components.NumericPicker<> ),
+        [typeof( Blazorise.Progress )] = typeof( Components.Progress ),
+        [typeof( Blazorise.ProgressBar )] = typeof( Components.ProgressBar ),
+        [typeof( Blazorise.Radio<> )] = typeof( Components.Radio<> ),
+        [typeof( Blazorise.Slider<> )] = typeof( Components.Slider<> ),
         [typeof( Blazorise.Switch<> )] = typeof( Components.Switch<> ),
         [typeof( Blazorise.Step )] = typeof( Components.Step ),
-        [typeof( Blazorise.Steps )] = typeof( Components.Steps )
+        [typeof( Blazorise.Steps )] = typeof( Components.Steps ),
     };
 }

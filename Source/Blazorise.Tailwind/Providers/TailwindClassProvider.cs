@@ -21,12 +21,12 @@ public class TailwindClassProvider : ClassProvider
     {
         return size switch
         {
-            Size.ExtraSmall => "p-1.5 sm:text-xs",
-            Size.Small => "p-2 sm:text-xs",
-            Size.Medium => "p-3 text-base",
-            Size.Large => "p-4 sm:text-base",
-            Size.ExtraLarge => "p-4 sm:text-lg",
-            _ => "p-2.5 text-sm"
+            Size.ExtraSmall => "px-2 py-1.5 sm:text-xs",
+            Size.Small => "px-2.5 py-2 sm:text-xs",
+            Size.Medium => "px-3.5 py-3 text-base",
+            Size.Large => "px-4 py-4 sm:text-base",
+            Size.ExtraLarge => "px-5 py-4.5 sm:text-lg",
+            _ => "px-3 py-2.5 text-sm"
         };
     }
 
@@ -429,6 +429,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string AddonsHasButton( bool hasButton ) => null;
 
+    public override string AddonsValidation( ValidationStatus validationStatus ) => null;
+
     public override string Addon( AddonType addonType )
     {
         return addonType switch
@@ -521,7 +523,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ButtonActive( bool outline, bool active ) => active ? "active" : null;
 
-    public override string ButtonDisabled( bool outline, bool disabled ) => disabled ? "cursor-not-allowed opacity-60" : null;
+    public override string ButtonDisabled( bool outline, bool disabled ) => disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer";
 
     public override string ButtonLoading( bool outline, bool loading ) => null;
 
@@ -1043,9 +1045,13 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BarLinkDisabled( BarMode mode, bool disabled ) => disabled ? Disabled() : null;
 
+    public override string BarIcon( BarMode mode ) => "b-bar-icon";
+
     public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "b-bar-brand flex items-center"
         : "b-bar-brand";
+
+    public override string BarBrandToggler( BarMode mode ) => "b-bar-mobile-toggle";
 
     public override string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => mode == Blazorise.BarMode.Horizontal
         ? "b-bar-toggler navbar-toggler inline-flex items-center p-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden focus:outline-hidden focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:focus:ring-gray-600"
@@ -1086,6 +1092,16 @@ public class TailwindClassProvider : ClassProvider
         : null;
 
     public override string BarDropdownToggleIcon( bool isToggleIconVisible ) => null;
+
+    public override string BarDropdownToggleIconContainer( BarMode mode ) => "b-bar-dropdown-toggle-icon-container";
+
+    public override string BarDropdownToggleIconLayer( BarMode mode ) => "b-bar-dropdown-toggle-icon-layer";
+
+    public override string BarDropdownToggleIconLayerVisible( BarMode mode, bool visible ) => visible ? "b-bar-dropdown-toggle-icon-layer-visible" : null;
+
+    public override string BarDropdownToggleIconLayerHiddenExpand( BarMode mode, bool hiddenExpand ) => hiddenExpand ? "b-bar-dropdown-toggle-icon-layer-hidden-expand" : null;
+
+    public override string BarDropdownToggleIconLayerHiddenCollapse( BarMode mode, bool hiddenCollapse ) => hiddenCollapse ? "b-bar-dropdown-toggle-icon-layer-hidden-collapse" : null;
 
     public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "b-bar-dropdown-item block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -1437,7 +1453,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Pagination() => "pagination flex -space-x-px mb-3";
 
-    public override string PaginationSize( Size size ) => size != Size.Default ? $"{Pagination()}-{ToSize( size )}" : null;
+    public override string PaginationSize( Size size ) => null;
 
     public override string PaginationAlignment( Alignment alignment ) => alignment != Alignment.Default ? $"justify-{ToAlignment( alignment )}" : null;
 
@@ -1472,18 +1488,18 @@ public class TailwindClassProvider : ClassProvider
     public override string PaginationItemDisabled( bool disabled ) => null;
 
     public override string PaginationLink()
-        => "pagination-link relative block leading-tight border rounded-lg";
+        => "pagination-link relative flex items-center justify-center leading-tight border rounded-lg h-full";
 
     public override string PaginationLinkSize( Size size )
     {
         return size switch
         {
-            Size.ExtraSmall => "px-2 py-1.5",
-            Size.Small => "px-2.5 py-2",
-            Size.Medium => "px-3 py-3",
-            Size.Large => "px-4 py-3.5",
-            Size.ExtraLarge => "px-3 py-2.5",
-            _ => "px-3 py-2.5"
+            Size.ExtraSmall => "px-2 py-1.5 sm:text-xs leading-tight",
+            Size.Small => "px-2.5 py-2 sm:text-xs leading-tight",
+            Size.Medium => "px-3.5 py-3 text-base leading-tight",
+            Size.Large => "px-4 py-4 sm:text-base leading-tight",
+            Size.ExtraLarge => "px-5 py-4.5 sm:text-lg leading-tight",
+            _ => "px-3 py-2.5 text-sm leading-tight"
         };
     }
 
@@ -1556,6 +1572,16 @@ public class TailwindClassProvider : ClassProvider
     public override string ProgressBarIndeterminate( bool indeterminate ) => indeterminate ? "progress-bar-indeterminate" : null;
 
     public override string ProgressBarWidth( int width ) => null;
+
+    public override string PageProgress() => "b-page-progress";
+
+    public override string PageProgressActive( bool visible ) => visible ? "b-page-progress-active" : null;
+
+    public override string PageProgressIndicator() => "b-page-progress-indicator";
+
+    public override string PageProgressIndicatorColor( Color color ) => color.IsNotNullOrDefault() ? $"b-page-progress-indicator-{ToColor( color )}" : null;
+
+    public override string PageProgressIndicatorIndeterminate( bool indeterminate ) => indeterminate ? "b-page-progress-indicator-indeterminate" : null;
 
     #endregion
 

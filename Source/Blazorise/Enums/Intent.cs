@@ -24,6 +24,9 @@ public record Intent : Enumeration<Intent>
         return new Intent( name );
     }
 
+    /// <inheritdoc/>
+    public override string ToString() => Name;
+
     /// <summary>
     /// No intent will be applied to an element.
     /// </summary>

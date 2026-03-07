@@ -1,9 +1,13 @@
 .b-richtextedit {
+    > .b-richtextedit-toolbar.ql-snow,
+    > .b-richtextedit-editor.ql-snow,
     > .b-richtextedit-toolbar.ql-bubble,
-    > .b-richtextedit-editor.ql-bubble {
+    > .b-richtextedit-editor.ql-bubble,
+    > .ql-toolbar.ql-snow,
+    > .ql-toolbar.ql-bubble {
         border-style: solid;
-        border-width: $border-width;
-        border-color: $border-color;
+        border-width: 0.0625rem;
+        border-color: var(--mui-outline-variant);
     }
 
     > .b-richtextedit-toolbar + .b-richtextedit-content + .b-richtextedit-editor,
@@ -18,31 +22,39 @@
 }
 
 .b-richtextedit.is-valid {
+    > .b-richtextedit-editor.ql-snow,
+    > .b-richtextedit-toolbar.ql-snow,
     > .b-richtextedit-editor.ql-bubble,
     > .b-richtextedit-toolbar.ql-bubble,
+    > .ql-toolbar.ql-snow,
     > .ql-toolbar.ql-bubble {
         border-style: solid;
-        border-width: $border-width;
+        border-width: 0.0625rem;
     }
 
     > .b-richtextedit-editor.ql-container,
     > .b-richtextedit-toolbar.ql-toolbar,
+    > .ql-toolbar.ql-snow,
     > .ql-toolbar.ql-bubble {
-        border-color: var(--b-theme-success, $success);
+        border-color: var(--mui-success);
     }
 }
 
 .b-richtextedit.is-invalid {
+    > .b-richtextedit-editor.ql-snow,
+    > .b-richtextedit-toolbar.ql-snow,
     > .b-richtextedit-editor.ql-bubble,
     > .b-richtextedit-toolbar.ql-bubble,
+    > .ql-toolbar.ql-snow,
     > .ql-toolbar.ql-bubble {
         border-style: solid;
-        border-width: $border-width;
+        border-width: 0.0625rem;
     }
 
     > .b-richtextedit-editor.ql-container,
     > .b-richtextedit-toolbar.ql-toolbar,
+    > .ql-toolbar.ql-snow,
     > .ql-toolbar.ql-bubble {
-        border-color: var(--b-theme-danger, $danger);
+        border-color: var(--mui-error);
     }
 }

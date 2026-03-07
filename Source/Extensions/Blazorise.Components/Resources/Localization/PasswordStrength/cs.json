@@ -1,0 +1,20 @@
+{
+  "culture": "cs",
+  "translations": {
+    "Password Strength": "Síla hesla",
+    "Enter password": "Zadejte heslo",
+    "Strength": "Síla",
+    "Weak": "Slabé",
+    "Fair": "Dostatečné",
+    "Good": "Dobré",
+    "Strong": "Silné",
+    "At least {0} characters": "Alespoň {0} znaků",
+    "One uppercase letter": "Jedno velké písmeno",
+    "One lowercase letter": "Jedno malé písmeno",
+    "One number": "Jedno číslo",
+    "One special character": "Jeden speciální znak",
+    "Not a common or breached password": "Není běžné ani prolomené heslo",
+    "Show password": "Zobrazit heslo",
+    "Hide password": "Skrýt heslo"
+  }
+}

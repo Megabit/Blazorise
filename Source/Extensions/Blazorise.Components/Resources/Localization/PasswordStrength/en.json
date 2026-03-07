@@ -1,0 +1,20 @@
+{
+  "culture": "en",
+  "translations": {
+    "Password Strength": "Password Strength",
+    "Enter password": "Enter password",
+    "Strength": "Strength",
+    "Weak": "Weak",
+    "Fair": "Fair",
+    "Good": "Good",
+    "Strong": "Strong",
+    "At least {0} characters": "At least {0} characters",
+    "One uppercase letter": "One uppercase letter",
+    "One lowercase letter": "One lowercase letter",
+    "One number": "One number",
+    "One special character": "One special character",
+    "Not a common or breached password": "Not a common or breached password",
+    "Show password": "Show password",
+    "Hide password": "Hide password"
+  }
+}

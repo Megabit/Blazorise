@@ -1,0 +1,20 @@
+{
+  "culture": "da",
+  "translations": {
+    "Password Strength": "Adgangskodestyrke",
+    "Enter password": "Indtast adgangskode",
+    "Strength": "Styrke",
+    "Weak": "Svag",
+    "Fair": "Rimelig",
+    "Good": "God",
+    "Strong": "Stærk",
+    "At least {0} characters": "Mindst {0} tegn",
+    "One uppercase letter": "Ét stort bogstav",
+    "One lowercase letter": "Ét lille bogstav",
+    "One number": "Ét tal",
+    "One special character": "Ét specialtegn",
+    "Not a common or breached password": "Ikke en almindelig eller kompromitteret adgangskode",
+    "Show password": "Vis adgangskode",
+    "Hide password": "Skjul adgangskode"
+  }
+}

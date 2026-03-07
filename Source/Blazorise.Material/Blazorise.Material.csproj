@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Blazorise.Bootstrap\Blazorise.Bootstrap.csproj" />
     <ProjectReference Include="..\Blazorise\Blazorise.csproj" />
   </ItemGroup>
 

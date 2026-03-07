@@ -1,5 +1,5 @@
-import "./vendors/quill.js?v=2.0.0.0";
-import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.0.0";
+import "./vendors/quill.js?v=2.0.2.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.2.0";
 
 var rteLoadedStyleUrls = new Set();
 var rteSmartPasteLoaded = false;

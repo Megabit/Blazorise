@@ -1,6 +1,8 @@
 ﻿@using Blazorise.Utilities;
+@using Microsoft.AspNetCore.Components;
+@using Microsoft.AspNetCore.Components.Web;
 @inherits Blazorise.BaseLinkComponent
-<a id="@ElementId" href="@GetTo()" rel="@GetRel()" class="@ClassNames" style="@StyleNames" title="@Title" target="@TargetName" aria-disabled="@AriaDisabledString" @onclick="@OnClickHandler" @onclick:preventDefault="@PreventDefault" @attributes="@Attributes">
+<a id="@ElementId" href="@GetTo()" rel="@GetRel()" class="@ClassNames" style="@StyleNames" title="@Title" target="@TargetName" tabindex="@TabIndex" role="@Role" aria-current="@AriaCurrentString" aria-disabled="@AriaDisabledString" aria-labelledby="@AriaLabelledBy" @onclick="@OnClickHandler" @onkeydown="@KeyDown" @onclick:preventDefault="@PreventDefault" @attributes="@Attributes">
     @ChildContent
 </a>
 @code {
@@ -50,4 +52,10 @@
     [Parameter] public bool InsideDropdown { get; set; }
 
     [Parameter] public BarMode? Mode { get; set; }
+
+    [Parameter] public string AriaLabelledBy { get; set; }
+
+    [Parameter] public EventCallback<KeyboardEventArgs> KeyDown { get; set; }
+
+    [Parameter] public string Role { get; set; }
 }

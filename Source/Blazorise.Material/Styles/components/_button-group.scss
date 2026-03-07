@@ -1,0 +1,178 @@
+.mui-button-group,
+.mui-button-group-vertical {
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+    background: none !important;
+    gap: 0.0625rem;
+
+    > .mui-button,
+    > .mui-button-group > .mui-button,
+    > .mui-dropdown > .mui-button,
+    > .mui-dropdown > .mui-dropdown-toggle,
+    > .mui-radio-button > .mui-button {
+        margin: 0;
+        border-radius: 0.5rem;
+    }
+
+    > .mui-radio-button {
+        display: inline-flex;
+        margin: 0;
+    }
+}
+
+.mui-button-group {
+    > .mui-radio-button:first-child > .mui-button,
+    > .mui-button:first-child,
+    > .mui-dropdown:first-child > .mui-button,
+    > .mui-dropdown:first-child > .mui-dropdown-toggle,
+    > .mui-button-group:first-child > .mui-button {
+        @include border-start-radius(var(--mui-btn-size));
+    }
+
+    > .mui-radio-button:last-child > .mui-button,
+    > .mui-button:last-child,
+    > .mui-dropdown:last-child > .mui-button,
+    > .mui-dropdown:last-child > .mui-dropdown-toggle,
+    > .mui-button-group:last-child > .mui-button {
+        @include border-end-radius(var(--mui-btn-size));
+    }
+}
+
+.mui-button-group-vertical {
+    flex-direction: column;
+    align-items: stretch;
+
+    > .mui-button {
+        margin: 0;
+        inline-size: 100%;
+    }
+
+    > .mui-radio-button {
+        inline-size: 100%;
+    }
+
+    > .mui-radio-button > .mui-button {
+        inline-size: 100%;
+    }
+
+    > .mui-radio-button:first-child > .mui-button,
+    > .mui-dropdown:first-child > .mui-button,
+    > .mui-dropdown:first-child > .mui-dropdown-toggle,
+    > .mui-button:first-child {
+        @include border-top-radius(var(--mui-btn-size));
+    }
+
+    > .mui-radio-button:last-child > .mui-button,
+    > .mui-dropdown:last-child > .mui-button,
+    > .mui-dropdown:last-child > .mui-dropdown-toggle,
+    > .mui-button:last-child {
+        @include border-bottom-radius(var(--mui-btn-size));
+    }
+}
+
+.mui-button-group > .mui-dropdown.mui-button-group > :is(.mui-button, .mui-dropdown-toggle),
+.mui-button-group > .mui-dropdown > :is(.mui-button, .mui-dropdown-toggle),
+.mui-button-group-vertical > .mui-dropdown.mui-button-group > :is(.mui-button, .mui-dropdown-toggle),
+.mui-button-group-vertical > .mui-dropdown > :is(.mui-button, .mui-dropdown-toggle),
+.mui-dropdown.mui-button-group > :is(.mui-button, .mui-dropdown-toggle) {
+    border-radius: 0.5rem;
+}
+
+.mui-dropdown.mui-button-group > button:first-of-type {
+    @include border-start-radius(var(--mui-btn-size));
+}
+
+.mui-dropdown.mui-button-group > button:last-of-type {
+    @include border-end-radius(var(--mui-btn-size));
+}
+
+.mui-button-group > .mui-dropdown.mui-button-group:first-child > button:first-of-type,
+.mui-button-group > .mui-dropdown:first-child > button:first-of-type {
+    @include border-start-radius(var(--mui-btn-size));
+}
+
+.mui-button-group > .mui-dropdown.mui-button-group:last-child > button:last-of-type,
+.mui-button-group > .mui-dropdown:last-child > button:last-of-type {
+    @include border-end-radius(var(--mui-btn-size));
+}
+
+.mui-button-group-vertical > .mui-dropdown.mui-button-group:first-child > button:first-of-type,
+.mui-button-group-vertical > .mui-dropdown:first-child > button:first-of-type {
+    @include border-top-radius(var(--mui-btn-size));
+}
+
+.mui-button-group-vertical > .mui-dropdown.mui-button-group:last-child > button:last-of-type,
+.mui-button-group-vertical > .mui-dropdown:last-child > button:last-of-type {
+    @include border-bottom-radius(var(--mui-btn-size));
+}
+
+.mui-group-connected.mui-radio-group.mui-radio-group-buttons.mui-button-group > .mui-radio-button > .mui-button,
+.mui-radio-group.mui-radio-group-buttons.mui-button-group > .mui-radio-button > .mui-button {
+    --mui-btn-active-border-radius: var(--mui-btn-size);
+    border-radius: 0.5rem;
+}
+
+.mui-group-connected.mui-radio-group.mui-radio-group-buttons.mui-button-group > .mui-radio-button:first-child > .mui-button,
+.mui-radio-group.mui-radio-group-buttons.mui-button-group > .mui-radio-button:first-child > .mui-button {
+    border-start-start-radius: var(--mui-btn-size);
+    border-end-start-radius: var(--mui-btn-size);
+}
+
+.mui-group-connected.mui-radio-group.mui-radio-group-buttons.mui-button-group > .mui-radio-button:last-child > .mui-button,
+.mui-radio-group.mui-radio-group-buttons.mui-button-group > .mui-radio-button:last-child > .mui-button {
+    border-start-end-radius: var(--mui-btn-size);
+    border-end-end-radius: var(--mui-btn-size);
+}
+
+.mui-group-connected.mui-radio-group.mui-radio-group-buttons.mui-button-group > .mui-radio-button > .mui-button.mui-button-active,
+.mui-radio-group.mui-radio-group-buttons.mui-button-group > .mui-radio-button > .mui-button.mui-button-active {
+    border-radius: var(--mui-btn-size);
+}
+
+.mui-group-connected.mui-radio-group.mui-radio-group-buttons.mui-button-group-vertical > .mui-radio-button > .mui-button,
+.mui-radio-group.mui-radio-group-buttons.mui-button-group-vertical > .mui-radio-button > .mui-button {
+    --mui-btn-active-border-radius: var(--mui-btn-size);
+    border-radius: 0.5rem;
+}
+
+.mui-group-connected.mui-radio-group.mui-radio-group-buttons.mui-button-group-vertical > .mui-radio-button:first-child > .mui-button,
+.mui-radio-group.mui-radio-group-buttons.mui-button-group-vertical > .mui-radio-button:first-child > .mui-button {
+    border-top-left-radius: var(--mui-btn-size);
+    border-top-right-radius: var(--mui-btn-size);
+}
+
+.mui-group-connected.mui-radio-group.mui-radio-group-buttons.mui-button-group-vertical > .mui-radio-button:last-child > .mui-button,
+.mui-radio-group.mui-radio-group-buttons.mui-button-group-vertical > .mui-radio-button:last-child > .mui-button {
+    border-bottom-left-radius: var(--mui-btn-size);
+    border-bottom-right-radius: var(--mui-btn-size);
+}
+
+.mui-group-connected.mui-radio-group.mui-radio-group-buttons.mui-button-group-vertical > .mui-radio-button > .mui-button.mui-button-active,
+.mui-radio-group.mui-radio-group-buttons.mui-button-group-vertical > .mui-radio-button > .mui-button.mui-button-active {
+    border-radius: var(--mui-btn-size);
+}
+
+.mui-buttons-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+@media (max-width: 767.98px) {
+    .mui-button-group {
+        max-inline-size: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        flex-wrap: nowrap;
+    }
+
+    .mui-button-group > .mui-button,
+    .mui-button-group > .mui-button-group > .mui-button,
+    .mui-button-group > .mui-dropdown > .mui-button,
+    .mui-button-group > .mui-dropdown > .mui-dropdown-toggle,
+    .mui-button-group > .mui-radio-button > .mui-button {
+        --mui-btn-padding: 0.625rem;
+        --mui-btn-font-size: 0.6875rem;
+    }
+}

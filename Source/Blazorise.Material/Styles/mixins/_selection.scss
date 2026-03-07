@@ -1,0 +1,61 @@
+﻿@mixin make-check-variant($name, $variant) {
+    &-#{$name} {
+        > .mui-check-label {
+            > span::before,
+            > span > i,
+            > span::after {
+                color: var(--mui-#{$variant});
+            }
+
+            > input:checked + span::before,
+            &.icon > input:checked + span > i {
+                color: var(--mui-#{$variant});
+            }
+
+            > :focus-visible + span::before {
+                outline: 0.125rem solid var(--mui-#{$variant});
+            }
+        }
+    }
+}
+
+@mixin make-radio-variant($name, $variant) {
+    &-#{$name} {
+        > .mui-radio-label {
+            > span::before,
+            > span > i,
+            > span::after {
+                color: var(--mui-#{$variant});
+            }
+
+            > input:checked + span::before,
+            &.icon > input:checked + span > i {
+                color: var(--mui-#{$variant});
+            }
+
+            > :focus-visible + span::before {
+                outline: 0.125rem solid var(--mui-#{$variant});
+            }
+        }
+    }
+}
+
+@mixin make-switch-variant($name, $variant) {
+    &-#{$name} {
+        > .mui-switch-label {
+            > input:checked + span::after {
+                background-color: var(--mui-#{$variant});
+            }
+
+            > input:checked + span::before,
+            &.icon > input:checked + span > i {
+                color: var(--mui-#{$variant});
+                background-color: var(--mui-on-#{$variant});
+            }
+
+            > :focus-visible + span::after {
+                outline: 0.125rem solid var(--mui-#{$variant});
+            }
+        }
+    }
+}

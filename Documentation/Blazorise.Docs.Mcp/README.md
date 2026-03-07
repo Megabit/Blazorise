@@ -12,7 +12,12 @@ Provides MCP access to Blazorise documentation pages and examples. The server re
 
 ## Transports and Endpoints
 
-HTTP transport (default):
+Streamable HTTP transport:
+- `POST /mcp` accepts JSON-RPC messages and returns correlated responses in the HTTP body.
+- `GET /mcp` opens an optional SSE stream for unsolicited server-to-client messages.
+- `DELETE /mcp` ends an existing streamable HTTP session.
+
+SSE HTTP transport:
 - `GET /mcp/sse` opens the SSE stream and returns a session handshake.
 - `POST /mcp/message` accepts JSON-RPC messages; include `mcp-session-id` header.
 
@@ -31,14 +36,26 @@ Stdio transport (optional):
 
 `get_docs_page` returns `exampleDetails` with `code`, `title`, `description`, `kind`, and `sourcePath`.
 
-## Client Configuration (HTTP)
+## Client Configuration
 
-Example MCP client entry:
+Streamable HTTP example:
 ```json
 {
   "servers": {
     "blazorise-docs": {
       "type": "http",
+      "url": "https://mcp.blazorise.com/mcp"
+    }
+  }
+}
+```
+
+SSE example:
+```json
+{
+  "servers": {
+    "blazorise-docs": {
+      "type": "sse",
       "url": "https://mcp.blazorise.com/mcp/sse"
     }
   }
@@ -111,7 +128,7 @@ powershell -File .\Test-Mcp-Api.ps1 -BaseUrl "http://localhost:12791" -TimeoutSe
 
 - Publish as a folder deployment (single-file is not supported by IIS).
 - Ensure `docs-index.json` is deployed alongside the app.
-- Expose `/mcp/sse` and `/mcp/message` on the site.
+- Expose `/mcp`, `/mcp/sse`, and `/mcp/message` on the site.
 - Disable stdio in production: set `Mcp__EnableStdio=false`.
 
 ## Token Usage Guidance

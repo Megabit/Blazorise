@@ -1,32 +1,123 @@
-﻿.badge-close {
-    cursor: pointer;
+@mixin make-badge-variant($name, $color) {
+    &-#{$name} {
+        background-color: var(--mui-#{$color}-container);
+        color: var(--mui-on-#{$color}-container);
+        border-color: color-mix(in srgb, var(--mui-#{$color}) 24%, var(--mui-outline-variant));
 
-    &::before {
-        height: 2px;
-        width: 50%;
+        .mui-chip-close {
+            color: var(--mui-on-#{$color}-container);
+
+            &:hover {
+                color: var(--mui-on-#{$color}-container);
+            }
+        }
     }
 
-    &::after {
-        height: 50%;
-        width: 2px;
-    }
+    &-#{$name}-subtle {
+        background-color: color-mix(in srgb, var(--mui-#{$color}-container) 40%, var(--mui-surface-container-low));
+        color: var(--mui-on-#{$color}-container);
+        border-color: color-mix(in srgb, var(--mui-#{$color}) 16%, var(--mui-outline-variant));
 
-    &:hover,
-    &:focus {
-        background-color: rgba(10, 10, 10, 0.3);
-    }
+        .mui-chip-close {
+            color: var(--mui-#{$color});
 
-    &:active {
-        background-color: rgba(10, 10, 10, 0.4);
+            &:hover {
+                color: var(--mui-#{$color}-hover);
+            }
+        }
     }
 }
 
-.badge, .badge-close {
-    @each $color-name, $color-value in $theme-colors-text-emphasis {
-        &.badge-#{$color-name}-subtle {
-            color: #{$color-value};
-            background-color: #{map-get($theme-colors-bg-subtle, $color-name)};
-            border-color: #{map-get($theme-colors-border-subtle, $color-name)};
+.mui-chip {
+    --mui-chip-padding: 0.75rem;
+    --mui-chip-size: 2rem;
+    --mui-chip-close-size: 1.125rem;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    block-size: var(--mui-chip-size);
+    min-inline-size: var(--mui-chip-size);
+    font-size: 0.875rem;
+    font-weight: 500;
+    background-color: var(--mui-surface-container-low);
+    border: 0.0625rem solid var(--mui-outline-variant);
+    color: var(--mui-on-surface-variant);
+    padding: 0 var(--mui-chip-padding);
+    margin: 0;
+    text-transform: none;
+    border-radius: 0.5rem;
+    transition: background-color var(--mui-duration-normal), color var(--mui-duration-normal), border-color var(--mui-duration-normal);
+    user-select: none;
+    gap: 0.5rem;
+    letter-spacing: normal;
+    vertical-align: baseline;
+    line-height: normal;
+    box-shadow: none;
+
+    &-rounded {
+        --mui-chip-round: 2rem;
+        border-radius: var(--mui-chip-round) !important;
+    }
+
+    @each $color in (primary, secondary, tertiary, error, success, warning, info, light, dark) {
+        @include make-badge-variant($color, $color);
+    }
+
+    &-link {
+        color: var(--mui-primary);
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .mui-chip-close {
+        color: var(--mui-on-surface-variant);
+        cursor: pointer;
+        inline-size: var(--mui-chip-close-size);
+        block-size: var(--mui-chip-close-size);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        > svg {
+            width: 100%;
+            height: 100%;
+            color: inherit;
+            fill: currentColor;
+            stroke: currentColor;
+        }
+
+        > svg * {
+            fill: currentColor;
+            stroke: currentColor;
+        }
+    }
+
+    + .mui-chip {
+        margin-inline-start: 0.5rem;
+    }
+}
+
+[class*="mui-gap-"] > .mui-chip + .mui-chip {
+    margin-inline-start: 0;
+}
+
+@each $color in (primary, secondary, tertiary, error, success, warning, info, light, dark) {
+    .mui-chip-#{$color} {
+        .mui-chip-close-#{$color} {
+            color: var(--mui-on-#{$color}-container);
+
+            &:hover {
+                color: var(--mui-on-#{$color}-container);
+            }
+        }
+    }
+
+    .mui-chip-close-#{$color}-subtle {
+        color: var(--mui-#{$color});
+
+        &:hover {
+            color: var(--mui-#{$color}-hover);
         }
     }
 }

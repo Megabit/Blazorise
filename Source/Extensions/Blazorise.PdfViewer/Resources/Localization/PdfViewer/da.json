@@ -7,6 +7,17 @@
     "Zoom In": "Zoom ind",
     "Print": "Udskriv",
     "of": "af",
-    "Download": "Download"
+    "Download": "Download",
+    "Password required": "Adgangskode påkrævet",
+    "Enter the password to open this PDF.": "Indtast adgangskoden for at åbne denne PDF.",
+    "Incorrect password. Please try again.": "Forkert adgangskode. Prøv igen.",
+    "Password": "Adgangskode",
+    "Open": "Åbn",
+    "Cancel": "Annuller",
+    "Password is required.": "Adgangskode er påkrævet.",
+    "Save PDF": "Gem PDF",
+    "Enter a filename for this download.": "Indtast et filnavn til denne download.",
+    "Filename": "Filnavn",
+    "Filename is required.": "Filnavn er påkrævet."
   }
 }

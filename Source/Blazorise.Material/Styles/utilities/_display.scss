@@ -1,14 +1,21 @@
-﻿@each $breakpoint in map-keys($grid-breakpoints) {
-    // only generate xxl that is not available in native Bootstrap 4
-    @if $breakpoint == "xxl" {
-        @include media-breakpoint-up($breakpoint) {
-            $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+$display-values: (none, inline, inline-block, block, flex, inline-flex, table, table-row, table-cell) !default;
 
-            @each $value in $displays {
-                .d#{$infix}-#{$value} {
-                    display: $value !important;
-                }
-            }
+@mixin make-display-utilities($infix: "") {
+    @each $display in $display-values {
+        .mui-display#{$infix}-#{$display} {
+            display: #{$display} !important;
+        }
+    }
+}
+
+@include make-display-utilities();
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    @if $infix != "" {
+        @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+            @include make-display-utilities($infix);
         }
     }
 }

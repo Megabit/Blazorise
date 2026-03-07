@@ -125,6 +125,8 @@
 </Row>
 
 @code {
+    [Inject] private NavigationManager NavigationManager { get; set; }
+
     private string text = "https://blazorise.com";
     private EccLevel eccLevel = EccLevel.L;
     private string darkColor = "#3F51B5CC";
@@ -132,7 +134,12 @@
     private int pixelsPerModule = 10;
     private bool asAnchor = false;
     private bool drawQuietZones = true;
-    private string base64PngIcon = "brand-logo.png";
+    private string base64PngIcon;
     private int iconSizePercentage = 40;
     private int iconBorderWidth = 0;
+
+    protected override void OnInitialized()
+    {
+        base64PngIcon = $"{NavigationManager.BaseUri}brand-logo.png";
+    }
 }

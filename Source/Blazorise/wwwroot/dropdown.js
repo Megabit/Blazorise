@@ -1,5 +1,5 @@
-import { getRequiredElement } from "./utilities.js?v=2.0.0.0";
-import { createFloatingUiAutoUpdate } from './floatingUi.js?v=2.0.0.0';
+import { getRequiredElement } from "./utilities.js?v=2.0.2.0";
+import { createFloatingUiAutoUpdate } from './floatingUi.js?v=2.0.2.0';
 
 const _instances = [];
 
@@ -22,6 +22,9 @@ export function initialize(element, elementId, targetElementId, menuElementId, o
     const menuElement = menuElementId
         ? document.getElementById(menuElementId)
         : element.querySelector(createSelector(options.dropdownMenuClassNames));
+
+    if (!targetElement || !menuElement)
+        return;
 
     const instanceCleanupFunction = createFloatingUiAutoUpdate(targetElement, menuElement, options);
 

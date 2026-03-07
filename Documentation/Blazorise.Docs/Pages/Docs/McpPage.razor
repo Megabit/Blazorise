@@ -27,7 +27,7 @@
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    To use the Blazorise MCP server, add its SSE endpoint to your MCP client configuration. Most MCP clients accept a JSON configuration similar to the example below.
+    To use the Blazorise MCP server, add either the streamable HTTP endpoint (<Code>https://mcp.blazorise.com/mcp</Code>) or the SSE endpoint (<Code>https://mcp.blazorise.com/mcp/sse</Code>) to your MCP client configuration. Most clients accept a JSON configuration similar to the example below.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
@@ -35,11 +35,21 @@
 </DocsPageParagraph>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Example MCP client entry">
+    <DocsPageSectionHeader Title="HTTP (streamable) config">
         <Paragraph>
-            Add this entry to your <Code>.mcp.json</Code> file and update the <Code>url</Code> if needed.
+            Use this for clients that support MCP streamable HTTP transport.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent />
     <DocsPageSectionSource Code="McpClientConfigExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="SSE config">
+        <Paragraph>
+            Use this for clients that connect through the SSE MCP transport.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent />
+    <DocsPageSectionSource Code="McpClientSseConfigExample" />
 </DocsPageSection>

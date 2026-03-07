@@ -36,6 +36,14 @@ public partial class ListGroupItem : BaseComponent
     #region Methods
 
     /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        ParentListGroup?.RegisterItem( this );
+
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.ListGroupItem() );
@@ -45,6 +53,15 @@ public partial class ListGroupItem : BaseComponent
         builder.Append( ClassProvider.ListGroupItemColor( Color, ParentListGroupState?.Mode == ListGroupMode.Selectable, Active ) );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+            ParentListGroup?.UnregisterItem( this );
+
+        base.Dispose( disposing );
     }
 
     /// <summary>
@@ -63,6 +80,49 @@ public partial class ListGroupItem : BaseComponent
         await Clicked.InvokeAsync( eventArgs );
     }
 
+    /// <summary>
+    /// Handles item activation by keyboard.
+    /// </summary>
+    /// <param name="eventArgs">Supplies information about a keyboard event that is being raised.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected Task KeyDownHandler( KeyboardEventArgs eventArgs )
+    {
+        if ( Disabled )
+            return Task.CompletedTask;
+
+        if ( ParentListGroupState?.Mode != ListGroupMode.Selectable )
+            return Task.CompletedTask;
+
+        if ( eventArgs.Key == "ArrowDown" )
+            return ParentListGroup?.FocusAdjacentItem( this, 1 ) ?? Task.CompletedTask;
+
+        if ( eventArgs.Key == "ArrowUp" )
+            return ParentListGroup?.FocusAdjacentItem( this, -1 ) ?? Task.CompletedTask;
+
+        if ( eventArgs.Key == "Home" )
+            return ParentListGroup?.FocusBoundaryItem( false ) ?? Task.CompletedTask;
+
+        if ( eventArgs.Key == "End" )
+            return ParentListGroup?.FocusBoundaryItem( true ) ?? Task.CompletedTask;
+
+        if ( eventArgs.Key == " " || eventArgs.Key == "Space" || eventArgs.Key == "Spacebar" )
+            return ClickHandler( new MouseEventArgs() );
+
+        if ( eventArgs.Key == "Enter" || eventArgs.Key == "NumpadEnter" )
+            return ClickHandler( new MouseEventArgs() );
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Focuses this list group item.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    internal Task Focus()
+    {
+        return ElementRef.FocusAsync().AsTask();
+    }
+
     #endregion
 
     #region Properties
@@ -73,11 +133,32 @@ public partial class ListGroupItem : BaseComponent
     protected string DisabledString => Disabled.ToString().ToLowerInvariant();
 
     /// <summary>
+    /// Gets the item role.
+    /// </summary>
+    protected string Role => ParentListGroupState?.Mode == ListGroupMode.Selectable
+        ? "option"
+        : null;
+
+    /// <summary>
+    /// Gets the aria-selected value.
+    /// </summary>
+    protected string AriaSelected => ParentListGroupState?.Mode == ListGroupMode.Selectable
+        ? Active.ToString().ToLowerInvariant()
+        : null;
+
+    /// <summary>
     /// Gets the flag indicating the item is selected.
     /// </summary>
     protected bool Active => parentListGroupState.SelectionMode == ListGroupSelectionMode.Single
         ? parentListGroupState.Mode == ListGroupMode.Selectable && parentListGroupState.SelectedItem == Name
         : parentListGroupState.Mode == ListGroupMode.Selectable && parentListGroupState.SelectedItems?.Contains( Name ) == true;
+
+    /// <summary>
+    /// Gets the item's computed tabindex value.
+    /// </summary>
+    protected int? ComputedTabIndex => ParentListGroupState?.Mode == ListGroupMode.Selectable && !Disabled
+        ? 0
+        : null;
 
     /// <summary>
     /// Defines the item name.

@@ -1,0 +1,15 @@
+.mui-row > .mui-column:has(> .mui-field-body > .b-cropper-container) {
+    display: flex;
+    flex-direction: column;
+}
+
+.mui-row > .mui-column > .mui-field-body:has(> .b-cropper-container) {
+    display: flex;
+    flex: 1 1 auto;
+    min-block-size: 0;
+}
+
+.mui-row > .mui-column > .mui-field-body:has(> .b-cropper-container) > .b-cropper-container {
+    flex: 1 1 auto;
+    min-block-size: 100%;
+}

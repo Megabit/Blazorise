@@ -40,10 +40,8 @@ public partial class PageProgress : BaseComponent<PageProgressClasses, PageProgr
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( "b-page-progress" );
-
-        if ( Visible )
-            builder.Append( "b-page-progress-active" );
+        builder.Append( ClassProvider.PageProgress() );
+        builder.Append( ClassProvider.PageProgressActive( Visible ) );
 
         base.BuildClasses( builder );
     }
@@ -54,13 +52,9 @@ public partial class PageProgress : BaseComponent<PageProgressClasses, PageProgr
     /// <param name="builder">Class builder used to append the classnames.</param>
     protected virtual void BuildIndicatorClasses( ClassBuilder builder )
     {
-        builder.Append( "b-page-progress-indicator" );
-
-        if ( Color.IsNotNullOrDefault() )
-            builder.Append( $"b-page-progress-indicator-{ClassProvider.ToColor( Color )}" );
-
-        if ( Value is null )
-            builder.Append( "b-page-progress-indicator-indeterminate" );
+        builder.Append( ClassProvider.PageProgressIndicator() );
+        builder.Append( ClassProvider.PageProgressIndicatorColor( Color ) );
+        builder.Append( ClassProvider.PageProgressIndicatorIndeterminate( Value is null ) );
     }
 
     /// <summary>
