@@ -4152,8 +4152,12 @@ textarea.mui-input:not([rows]) {
   inset: auto;
   opacity: 1;
   z-index: 1;
+  display: block;
   margin: 0;
   padding: 0.25rem;
+  min-block-size: var(--mui-input-size);
+  appearance: none;
+  -webkit-appearance: none;
   cursor: pointer;
   overflow: hidden;
   background-color: var(--mui-surface-container-low);
@@ -4165,11 +4169,16 @@ textarea.mui-input:not([rows]) {
 
 .mui-color-input[type=color]::-webkit-color-swatch-wrapper {
   padding: 0;
+  inline-size: 100%;
+  block-size: 100%;
 }
 
 .mui-color-input[type=color]::-webkit-color-swatch,
 .mui-color-input[type=color]::-moz-color-swatch {
-  border: 0;
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  border: 0.0625rem solid var(--mui-outline-variant);
   border-radius: calc(var(--mui-input-border-radius) - 0.1875rem);
 }
 
