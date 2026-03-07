@@ -1,9 +1,13 @@
-﻿.b-cropper-container {
+.b-cropper-container {
     width: 100%;
     height: 100%;
+    min-height: 100px;
 }
 
     .b-cropper-container cropper-canvas {
+        display: block;
+        width: 100%;
         min-width: 100%;
-        min-height: 100%;
+        height: 100%;
+        min-height: 100px;
     }

@@ -3,4 +3,4 @@
 set DOTNET_WATCH_SUPPRESS_LAUNCH_BROWSER=1
 title Blazorise.Demo.Tailwind
 cd /d %~dp0
-dotnet watch run 
+dotnet watch run -- --pathbase=/wasm/tailwind

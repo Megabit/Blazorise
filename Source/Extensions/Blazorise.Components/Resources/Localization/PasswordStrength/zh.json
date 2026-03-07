@@ -1,0 +1,20 @@
+{
+  "culture": "zh",
+  "translations": {
+    "Password Strength": "密码强度",
+    "Enter password": "输入密码",
+    "Strength": "强度",
+    "Weak": "弱",
+    "Fair": "一般",
+    "Good": "良好",
+    "Strong": "强",
+    "At least {0} characters": "至少 {0} 个字符",
+    "One uppercase letter": "一个大写字母",
+    "One lowercase letter": "一个小写字母",
+    "One number": "一个数字",
+    "One special character": "一个特殊字符",
+    "Not a common or breached password": "不是常见或已泄露的密码",
+    "Show password": "显示密码",
+    "Hide password": "隐藏密码"
+  }
+}

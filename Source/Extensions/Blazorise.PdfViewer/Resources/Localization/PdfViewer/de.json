@@ -7,6 +7,17 @@
     "Zoom In": "Vergrößern",
     "Print": "Drucken",
     "of": "von",
-    "Download": "Herunterladen"
+    "Download": "Herunterladen",
+    "Password required": "Passwort erforderlich",
+    "Enter the password to open this PDF.": "Geben Sie das Passwort ein, um diese PDF zu öffnen.",
+    "Incorrect password. Please try again.": "Falsches Passwort. Bitte versuchen Sie es erneut.",
+    "Password": "Passwort",
+    "Open": "Öffnen",
+    "Cancel": "Abbrechen",
+    "Password is required.": "Passwort ist erforderlich.",
+    "Save PDF": "PDF speichern",
+    "Enter a filename for this download.": "Geben Sie einen Dateinamen für diesen Download ein.",
+    "Filename": "Dateiname",
+    "Filename is required.": "Dateiname ist erforderlich."
   }
 }

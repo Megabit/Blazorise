@@ -1,0 +1,20 @@
+{
+  "culture": "nl",
+  "translations": {
+    "Password Strength": "Wachtwoordsterkte",
+    "Enter password": "Voer wachtwoord in",
+    "Strength": "Sterkte",
+    "Weak": "Zwak",
+    "Fair": "Redelijk",
+    "Good": "Goed",
+    "Strong": "Sterk",
+    "At least {0} characters": "Minstens {0} tekens",
+    "One uppercase letter": "Eén hoofdletter",
+    "One lowercase letter": "Eén kleine letter",
+    "One number": "Eén cijfer",
+    "One special character": "Eén speciaal teken",
+    "Not a common or breached password": "Geen veelgebruikt of gecompromitteerd wachtwoord",
+    "Show password": "Wachtwoord tonen",
+    "Hide password": "Wachtwoord verbergen"
+  }
+}

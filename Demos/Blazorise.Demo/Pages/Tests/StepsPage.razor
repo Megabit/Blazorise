@@ -90,8 +90,12 @@
                         <StepPanel Name="2">
                             <Field>
                                 <FieldLabel>Email address</FieldLabel>
-                                <TextInput @bind-Value="email" Placeholder="Enter email">
+                                <TextInput @bind-Value="Email" Placeholder="Enter email">
                                     <FieldHelp>This field is required in order to procceed to the next step.</FieldHelp>
+                                    @if ( showEmailValidationError )
+                                    {
+                                        <FieldHelp TextColor="TextColor.Danger">@emailValidationMessage</FieldHelp>
+                                    }
                                 </TextInput>
                             </Field>
                         </StepPanel>
@@ -118,14 +122,39 @@
 @code {
     private Steps stepsRef;
     private string email;
+    private bool showEmailValidationError;
+    private string emailValidationMessage;
     private string selectedStep = "2";
+
+    private string Email
+    {
+        get => email;
+        set
+        {
+            email = value;
+
+            if ( showEmailValidationError && ValidationRule.IsEmail( email ) )
+            {
+                showEmailValidationError = false;
+                emailValidationMessage = null;
+            }
+        }
+    }
 
     private Task<bool> NavigationAllowed( StepNavigationContext context )
     {
         if ( context.CurrentStepIndex == 2 && context.NextStepIndex > 2 && !ValidationRule.IsEmail( email ) )
         {
+            showEmailValidationError = true;
+            emailValidationMessage = string.IsNullOrWhiteSpace( email )
+                ? "Email is required to proceed to the next step."
+                : "Please enter a valid email address to proceed to the next step.";
+
             return Task.FromResult( false );
         }
+
+        showEmailValidationError = false;
+        emailValidationMessage = null;
 
         return Task.FromResult( true );
     }

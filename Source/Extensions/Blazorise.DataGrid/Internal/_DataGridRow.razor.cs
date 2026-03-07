@@ -253,6 +253,9 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
                 await HandleMultiSelectClick( eventArgs );
         }
 
+        if ( ParentDataGrid.IsSelfReferenceEnabled && ParentDataGrid.IsExpandByRowClick )
+            await ParentDataGrid.ToggleRow( Item );
+
         await ParentDataGrid.ToggleDetailRow( Item, DetailRowTriggerType.RowClick );
     }
 
@@ -329,6 +332,14 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
 
         return new CellDisplayContext<TItem>( item, column, RowInfo, rowIndex, resolvedValue, displayValue, ParentDataGrid );
     }
+
+    protected DataGridExpandRowContext<TItem> BuildExpandRowContext( TItem item, int level, bool expandable, bool expanded )
+    {
+        return new DataGridExpandRowContext<TItem>( item, level, expandable, expanded, () => ParentDataGrid.ToggleRow( item ) );
+    }
+
+    protected Task ToggleRow()
+        => ParentDataGrid.ToggleRow( Item );
 
     #endregion
 

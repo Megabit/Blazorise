@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 #endregion
@@ -24,6 +24,16 @@ public sealed class RichTextEditOptions
     /// If true enables the QuillJs table module. Please be aware that this module is not part of the core QuillJs library, and it is still experimental.
     /// </summary>
     public bool UseTables { get; set; }
+
+    /// <summary>
+    /// If true enables sanitized paste support powered by the quill-paste-smart clipboard module.
+    /// </summary>
+    public bool UseSanitizedPaste { get; set; }
+
+    /// <summary>
+    /// Options used to configure sanitized paste behavior.
+    /// </summary>
+    public RichTextEditSanitizedPasteOptions SanitizedPasteOptions { get; set; } = new();
 
     /// <summary>
     /// If true enables the QuillJs image resize module. Please be aware that this module is not part of the core QuillJs library, and it is still experimental.

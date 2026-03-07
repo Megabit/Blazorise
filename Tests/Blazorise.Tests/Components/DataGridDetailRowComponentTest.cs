@@ -90,6 +90,28 @@ public class DataGridDetailRowComponentTest : TestContext
         Assert.Equal( comp.Instance.InMemoryData.Count, rowsAfter2.Count );
     }
 
+    [Fact]
+    public async Task DetailRow_OnForceToggleButtonClick_ShouldNotBeRevertedByRowClick()
+    {
+        // setup
+        var comp = RenderComponent<DataGridDetailRowForceToggleComponent>();
+
+        // test
+        Assert.Empty( comp.FindAll( "#lblForcedDetail" ) );
+
+        var toggleButton = comp.Find( "#btnToggleRowJohn" );
+
+        await toggleButton.ClickAsync();
+
+        var rowsAfterOpen = comp.FindAll( "#lblForcedDetail" );
+        Assert.Single( rowsAfterOpen );
+
+        await toggleButton.ClickAsync();
+
+        var rowsAfterClose = comp.FindAll( "#lblForcedDetail" );
+        Assert.Empty( rowsAfterClose );
+    }
+
 
     [Fact]
     public async Task DetailRow_OnClick_Single_ToggleableFalse_ShouldTriggerOnlyOne()

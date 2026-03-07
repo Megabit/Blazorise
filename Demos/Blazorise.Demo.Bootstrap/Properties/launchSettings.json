@@ -19,6 +19,8 @@
     "Blazorise.Demo.Bootstrap": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "wasm/bootstrap4/",
+      "commandLineArgs": "--pathbase=/wasm/bootstrap4",
       "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

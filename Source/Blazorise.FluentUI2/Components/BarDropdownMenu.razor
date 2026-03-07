@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BarDropdownMenu
 @if ( ParentDropdownState.Mode == BarMode.Horizontal )
 {
-    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler" data-visible="@VisibleString">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler" @onkeydown="@ParentBarDropdown.OnKeyDownHandler" data-visible="@VisibleString">
         <div class="fui-NavigationBar__dropdown-menu-list" role="menu" @attributes="@Attributes">
             @ChildContent
         </div>
@@ -10,7 +10,7 @@
 else
 {
     <div class="@ContainerClassNames" style="@ContainerStyleNames">
-        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler" data-visible="@VisibleString">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler" @onkeydown="@ParentBarDropdown.OnKeyDownHandler" data-visible="@VisibleString">
             @ChildContent
         </div>
     </div>

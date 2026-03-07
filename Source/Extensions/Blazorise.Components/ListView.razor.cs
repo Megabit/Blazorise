@@ -17,6 +17,14 @@ namespace Blazorise.Components;
 /// </summary>
 public partial class ListView<TItem> : ComponentBase
 {
+    #region Members
+
+    private List<TItem> selectedItemsCacheSource;
+    private Func<TItem, string> selectedItemsCacheValueField;
+    private List<string> selectedItemsCacheValues;
+
+    #endregion
+
     #region Methods
 
     private IEnumerable<TItem> GetData()
@@ -25,10 +33,20 @@ public partial class ListView<TItem> : ComponentBase
 
         if ( maxRowsLimit.HasValue )
         {
-            return Data?.Take( maxRowsLimit.Value );
+            return Data?.Take( maxRowsLimit.Value ).ToList();
         }
 
         return Data;
+    }
+
+    private bool ShouldVirtualize( IEnumerable<TItem> data, out ICollection<TItem> virtualizedData )
+    {
+        virtualizedData = data as ICollection<TItem>;
+
+        if ( virtualizedData is null )
+            return false;
+
+        return Virtualize;
     }
 
     private string GetItemText( TItem item )
@@ -45,6 +63,14 @@ public partial class ListView<TItem> : ComponentBase
             return string.Empty;
 
         return ValueField.Invoke( item );
+    }
+
+    private object GetItemRenderKey( TItem item, string itemValue )
+    {
+        if ( !string.IsNullOrWhiteSpace( itemValue ) )
+            return itemValue;
+
+        return item;
     }
 
     private bool GetItemDisabled( TItem item )
@@ -106,9 +132,26 @@ public partial class ListView<TItem> : ComponentBase
     private List<string> GetItemValues( List<TItem> selectedItems )
     {
         if ( selectedItems is null || ValueField is null )
-            return new List<string>();
+        {
+            selectedItemsCacheSource = null;
+            selectedItemsCacheValueField = null;
+            selectedItemsCacheValues = null;
 
-        return selectedItems.Select( x => ValueField.Invoke( x ) ).ToList();
+            return null;
+        }
+
+        if ( ReferenceEquals( selectedItems, selectedItemsCacheSource )
+             && ReferenceEquals( ValueField, selectedItemsCacheValueField )
+             && selectedItemsCacheValues is not null )
+        {
+            return selectedItemsCacheValues;
+        }
+
+        selectedItemsCacheSource = selectedItems;
+        selectedItemsCacheValueField = ValueField;
+        selectedItemsCacheValues = selectedItems.Select( x => ValueField.Invoke( x ) ).ToList();
+
+        return selectedItemsCacheValues;
     }
 
     protected Task SelectedListGroupItemChanged( string value )
@@ -137,9 +180,11 @@ public partial class ListView<TItem> : ComponentBase
 
     private List<TItem> GetItemsBySelectedValues( List<string> selectedValues )
     {
-        if ( !Data.IsNullOrEmpty() && ValueField is not null )
+        if ( !Data.IsNullOrEmpty() && ValueField is not null && !selectedValues.IsNullOrEmpty() )
         {
-            return Data.Where( x => selectedValues.Contains( ValueField.Invoke( x ) ) ).ToList();
+            var selectedValuesHashSet = new HashSet<string>( selectedValues );
+
+            return Data.Where( x => selectedValuesHashSet.Contains( ValueField.Invoke( x ) ) ).ToList();
         }
 
         return default;

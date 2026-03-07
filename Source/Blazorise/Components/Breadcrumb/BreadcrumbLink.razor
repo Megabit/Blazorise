@@ -2,7 +2,9 @@
 @inherits BaseComponent
 @if ( IsActive )
 {
-    @ChildContent
+    <span id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @ChildContent
+    </span>
 }
 else
 {

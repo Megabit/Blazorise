@@ -16,4 +16,9 @@
     <ProjectReference Include="..\Blazorise.Snackbar\Blazorise.Snackbar.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Resources\Localization\**\*.json" />
+    <EmbeddedResource Include="Resources\Localization\**\*.json" />
+  </ItemGroup>
+
 </Project>

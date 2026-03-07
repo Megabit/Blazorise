@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
 
-<a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menuitem" aria-disabled="@AriaDisabled" @onmousedown:preventDefault @onmousedown="@EventCallback.Empty" @onclick="@ClickHandler" @attributes="@Attributes">
+<a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menuitem" aria-disabled="@AriaDisabled" aria-labelledby="@AriaLabelledBy" tabindex="@ComputedTabIndex" @onmousedown:preventDefault @onmousedown="@EventCallback.Empty" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes">
     @Core
 </a>
 
@@ -10,21 +10,25 @@
         @<text>
             @if ( ShowCheckbox )
             {
-                <Div Display="Blazorise.Display.InlineBlock">
-                    <Check Cursor="Cursor.Pointer" TValue="bool" Value="@(@checked)" ValueChanged="@CheckedChangedHandler" ValueExpression="@checkedExpression" Disabled="@Disabled">
-                        @*The <div> blocks clicks to the checkbox label (where the ChildContent gets).
-                        Clicking the label normally redirects the event to checkbox, and in the meantime the textbox looses focus (which is something we trying to prevent).
-                        This is done specially for Autocomplete.CloseOnSelection = false;
-                        *@
-                        <div @onclick:preventDefault @onclick="@EventCallback.Empty">
+                @* Route checkbox-area pointer down through one controlled handler and suppress native label/input defaults. *@
+                <div style="display: inline-block;"
+                     @onmousedown="@ClickHandler"
+                     @onmousedown:preventDefault
+                     @onmousedown:stopPropagation
+                     @onclick:preventDefault
+                     @onclick:stopPropagation>
+                    <Check Cursor="Cursor.Pointer" TValue="bool" Value="@(@checked)" ValueChanged="@CheckedChangedHandler" ValueExpression="@checkedExpression" Disabled="@Disabled" ReadOnly>
+                        <span id="@AriaLabelledBy">
                             @ChildContent
-                        </div>
+                        </span>
                     </Check>
-                </Div>
+                </div>
             }
             else
             {
-                @ChildContent
+                <span id="@AriaLabelledBy">
+                    @ChildContent
+                </span>
             }
         </text>;
 }

@@ -1,0 +1,20 @@
+{
+  "culture": "de",
+  "translations": {
+    "Password Strength": "Passwortstärke",
+    "Enter password": "Passwort eingeben",
+    "Strength": "Stärke",
+    "Weak": "Schwach",
+    "Fair": "Mittel",
+    "Good": "Gut",
+    "Strong": "Stark",
+    "At least {0} characters": "Mindestens {0} Zeichen",
+    "One uppercase letter": "Ein Großbuchstabe",
+    "One lowercase letter": "Ein Kleinbuchstabe",
+    "One number": "Eine Zahl",
+    "One special character": "Ein Sonderzeichen",
+    "Not a common or breached password": "Kein häufiges oder kompromittiertes Passwort",
+    "Show password": "Passwort anzeigen",
+    "Hide password": "Passwort ausblenden"
+  }
+}

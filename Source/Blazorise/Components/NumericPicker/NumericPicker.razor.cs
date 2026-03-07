@@ -231,7 +231,7 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
 
         if ( paramValue.Changed )
         {
-            ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, paramValue ) );
+            ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, paramValue.Value ) );
         }
     }
 

@@ -1,9 +1,12 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise;
@@ -11,13 +14,15 @@ namespace Blazorise;
 /// <summary>
 /// The dropdown menu, which can include bar items and dividers.
 /// </summary>
-public partial class BarDropdown : BaseComponent, IDisposable
+public partial class BarDropdown : BaseComponent, IAsyncDisposable
 {
     #region Members
 
     private BarItemState parentBarItemState;
 
     private BarDropdownState parentBarDropdownState;
+
+    private DateTime lastInternalMenuPointerInteractionUtc;
 
     /// <summary>
     /// State object used to holds the dropdown state.
@@ -60,6 +65,31 @@ public partial class BarDropdown : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override void OnAfterRender( bool firstRender )
     {
+        if ( firstRender )
+        {
+            var dropdownToggleClassNames = ClassProvider.BarDropdownToggle( State.Mode, IsBarDropdownSubmenu );
+            var dropdownMenuClassNames = ClassProvider.BarDropdownMenuContainer( State.Mode );
+
+            if ( string.IsNullOrWhiteSpace( dropdownMenuClassNames ) )
+                dropdownMenuClassNames = ClassProvider.BarDropdownMenu( State.Mode );
+
+            if ( !string.IsNullOrWhiteSpace( dropdownToggleClassNames )
+                 && !string.IsNullOrWhiteSpace( dropdownMenuClassNames ) )
+            {
+                JSModule.Initialize( ElementRef, ElementId, targetElementId: null, menuElementId: null,
+                    options: new()
+                    {
+                        Direction = GetFloatingDirection().ToString( "g" ),
+                        EndAligned = State.Mode == BarMode.Horizontal && !IsBarDropdownSubmenu && RightAligned,
+                        DropdownToggleClassNames = dropdownToggleClassNames,
+                        DropdownMenuClassNames = dropdownMenuClassNames,
+                        DropdownShowClassName = ClassProvider.BarDropdownMenuVisible( State.Mode, visible: true ),
+                        Strategy = "absolute",
+                        OnlyWhenPositioned = true,
+                    } );
+            }
+        }
+
         WasJustToggled = false;
 
         base.OnAfterRender( firstRender );
@@ -160,6 +190,23 @@ public partial class BarDropdown : BaseComponent, IDisposable
     }
 
     /// <summary>
+    /// Gets the default floating direction based on current bar mode and menu nesting level.
+    /// </summary>
+    /// <returns>Calculated floating direction.</returns>
+    private Direction GetFloatingDirection()
+    {
+        if ( State.Mode == BarMode.Horizontal )
+        {
+            if ( IsBarDropdownSubmenu )
+                return RightAligned ? Direction.Start : Direction.End;
+
+            return Direction.Default;
+        }
+
+        return RightAligned ? Direction.Start : Direction.End;
+    }
+
+    /// <summary>
     /// Sets the WasToggled Flag on the current Dropdown and every existing ParentDropdown.
     /// </summary>
     /// <param name="wasToggled"></param>
@@ -209,6 +256,74 @@ public partial class BarDropdown : BaseComponent, IDisposable
     }
 
     /// <summary>
+    /// Handles the onfocusin event.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task OnFocusInHandler()
+    {
+        if ( State.Mode != BarMode.Horizontal || State.IsInlineDisplay )
+            return Task.CompletedTask;
+
+        ShouldClose = false;
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Handles pointer interactions inside dropdown menu content.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task OnMenuPointerInteractionHandler()
+    {
+        if ( State.Mode != BarMode.Horizontal || State.IsInlineDisplay )
+            return Task.CompletedTask;
+
+        lastInternalMenuPointerInteractionUtc = DateTime.UtcNow;
+        ShouldClose = false;
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Handles the onfocusout event.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task OnFocusOutHandler()
+    {
+        if ( State.Mode != BarMode.Horizontal || State.IsInlineDisplay )
+            return;
+
+        // Ignore transient focusout while interacting with menu content (for example, rerenders caused by switches/checks).
+        // Outside click close and escape close are still handled by closable logic.
+        if ( DateTime.UtcNow.Subtract( lastInternalMenuPointerInteractionUtc ).TotalMilliseconds < 250 )
+            return;
+
+        ShouldClose = true;
+
+        // Allow focus transitions inside the dropdown to settle before deciding to close.
+        await Task.Delay( 10 );
+
+        if ( ShouldClose )
+            await Hide();
+    }
+
+    /// <summary>
+    /// Handles the onkeydown event.
+    /// </summary>
+    /// <param name="eventArgs">Information about the keyboard event.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task OnKeyDownHandler( KeyboardEventArgs eventArgs )
+    {
+        if ( State.Mode != BarMode.Horizontal || State.IsInlineDisplay )
+            return Task.CompletedTask;
+
+        if ( eventArgs.Key == "Escape" || eventArgs.Key == "Esc" )
+            return Hide( true );
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
     /// Notifies the <see cref="BarDropdown"/> that it has a child BarDropdown component.
     /// </summary>
     /// <param name="barDropdown">Reference to the <see cref="BarDropdown"/> that is placed inside of this <see cref="BarDropdown"/>.</param>
@@ -228,7 +343,7 @@ public partial class BarDropdown : BaseComponent, IDisposable
     }
 
     /// <inheritdoc/>
-    protected override void Dispose( bool disposing )
+    protected override async ValueTask DisposeAsync( bool disposing )
     {
         if ( disposing )
         {
@@ -236,9 +351,25 @@ public partial class BarDropdown : BaseComponent, IDisposable
             {
                 ParentBarDropdown.NotifyChildDropdownRemoved( this );
             }
+
+            if ( Rendered )
+            {
+                var destroyTask = JSModule.Destroy( ElementRef, ElementId );
+
+                try
+                {
+                    await destroyTask;
+                }
+                catch when ( destroyTask.IsCanceled )
+                {
+                }
+                catch ( JSDisconnectedException )
+                {
+                }
+            }
         }
 
-        base.Dispose( disposing );
+        await base.DisposeAsync( disposing );
     }
 
     #endregion
@@ -293,6 +424,11 @@ public partial class BarDropdown : BaseComponent, IDisposable
     /// Tracks the last BarDropdownToggle Element Id that acted.
     /// </summary>
     public string SelectedBarDropdownElementId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the JavaScript dropdown module used to position floating bar menus.
+    /// </summary>
+    [Inject] public IJSDropdownModule JSModule { get; set; }
 
     /// <summary>
     /// Sets a value indicating whether the dropdown menu and all its child controls are visible.

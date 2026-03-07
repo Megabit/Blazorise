@@ -1,8 +1,8 @@
 ﻿@inherits Blazorise.BarDropdownMenu
 @if ( ParentBar?.Mode == BarMode.Horizontal )
 {
-    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler" data-visible="@VisibleString">
-        <ul class="py-1 text-sm text-gray-700 dark:text-gray-400">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler" @onkeydown="@ParentBarDropdown.OnKeyDownHandler" data-visible="@VisibleString">
+        <ul class="py-1 text-sm text-gray-700 dark:text-gray-400" role="menu">
             @ChildContent
         </ul>
     </div>
@@ -10,7 +10,7 @@
 else
 {
     <div class="@ContainerClassNames" style="@ContainerStyleNames">
-        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler" data-visible="@VisibleString">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler" @onkeydown="@ParentBarDropdown.OnKeyDownHandler" data-visible="@VisibleString">
             @ChildContent
         </div>
     </div>

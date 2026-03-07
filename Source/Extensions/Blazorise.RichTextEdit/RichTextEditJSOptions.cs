@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Blazorise.RichTextEdit;
 
@@ -35,6 +35,19 @@ internal class RichTextEditJSOptions
     public string ConfigureQuillJsMethod { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether HTML sanitize functionality is enabled.
+    /// </summary>
+    [JsonPropertyName( "useSanitizedPaste" )]
+    public bool UseSanitizedPaste { get; set; }
+
+    /// <summary>
+    /// Gets or sets options used to configure HTML sanitize behavior.
+    /// </summary>
+    [JsonPropertyName( "sanitizedPasteOptions" )]
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public RichTextEditSanitizedPasteOptions SanitizedPasteOptions { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether tables are enabled in the editor.
     /// </summary>
     [JsonPropertyName( "useTables" )]
@@ -45,4 +58,10 @@ internal class RichTextEditJSOptions
     /// </summary>
     [JsonPropertyName( "useResize" )]
     public bool UseResize { get; set; }
+
+    /// <summary>
+    /// Gets or sets the library version used to compose stylesheet URLs.
+    /// </summary>
+    [JsonPropertyName( "version" )]
+    public string Version { get; set; }
 }

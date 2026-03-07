@@ -1,0 +1,20 @@
+{
+  "culture": "ru",
+  "translations": {
+    "Password Strength": "Надежность пароля",
+    "Enter password": "Введите пароль",
+    "Strength": "Надежность",
+    "Weak": "Слабый",
+    "Fair": "Средний",
+    "Good": "Хороший",
+    "Strong": "Сильный",
+    "At least {0} characters": "Не менее {0} символов",
+    "One uppercase letter": "Одна заглавная буква",
+    "One lowercase letter": "Одна строчная буква",
+    "One number": "Одна цифра",
+    "One special character": "Один специальный символ",
+    "Not a common or breached password": "Не распространенный и не скомпрометированный пароль",
+    "Show password": "Показать пароль",
+    "Hide password": "Скрыть пароль"
+  }
+}

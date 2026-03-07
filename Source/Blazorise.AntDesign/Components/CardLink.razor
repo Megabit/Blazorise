@@ -1,4 +1,4 @@
 ﻿@inherits Blazorise.CardLink
-<a @ref="@ElementRef" id="@ElementId" class="@ClassNames" href="@To" rel="@GetRel()" title="@Title" target="@TargetName" style="@StyleNames" @attributes="@Attributes">
+<a @ref="@ElementRef" id="@ElementId" class="@ClassNames" href="@GetTo()" rel="@GetRel()" title="@Title" target="@TargetName" style="@StyleNames" aria-current="@AriaCurrentString" @attributes="@Attributes">
     @ChildContent
 </a>

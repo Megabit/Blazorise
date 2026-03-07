@@ -304,7 +304,7 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     /// <summary>
     /// Controls the visibility of the hue slider.
     /// </summary>
-    [Parameter] public bool ShowHueSlider { get; set; }
+    [Parameter] public bool ShowHueSlider { get; set; } = true;
 
     /// <summary>
     /// Controls the visibility of the textbox which shows the selected color value.

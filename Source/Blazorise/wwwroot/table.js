@@ -1,4 +1,4 @@
-import { getRequiredElement } from "./utilities.js?v=2.0.0.0";
+import { getRequiredElement } from "./utilities.js?v=2.0.2.0";
 
 export function initializeTableFixedHeader(element, elementId) {
     element = getRequiredElement(element, elementId);
@@ -20,8 +20,10 @@ export function initializeTableFixedHeader(element, elementId) {
     function resizeHandler(element) {
         const thead = element.querySelector("thead:first-child");
         const tableRows = thead.querySelectorAll("tr");
-        if (tableRows !== null && tableRows.length > 1) {
-            let previousRowCellHeight = 0;
+        if (tableRows !== null && tableRows.length > 0) {
+            const elementStyle = window.getComputedStyle(element);
+            const tableBorderTopWidth = Number.parseFloat(elementStyle.borderTopWidth || "0") || 0;
+            let previousRowCellHeight = tableBorderTopWidth;
             for (let i = 0; i < tableRows.length; i++) {
                 let currentTh = tableRows[i].querySelectorAll("th");
                 currentTh.forEach(x => x.style.top = `${previousRowCellHeight}px`);
@@ -50,7 +52,7 @@ export function destroyTableFixedHeader(element, elementId) {
     const thead = element.querySelector("thead:first-child");
     const tableRows = thead.querySelectorAll("tr");
 
-    if (tableRows !== null && tableRows.length > 1) {
+    if (tableRows !== null && tableRows.length > 0) {
         for (let i = 0; i < tableRows.length; i++) {
             let currentTh = tableRows[i].querySelectorAll("th");
             currentTh.forEach(x => x.style.top = `${0}px`);

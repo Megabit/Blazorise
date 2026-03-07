@@ -33,6 +33,7 @@ public partial class CollapseBody : BaseComponent<CollapseBodyClasses, CollapseB
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
+        builder.Append( ClassProvider.CollapseBody() );
         builder.Append( ClassProvider.CollapseBodyActive( Visible ) );
 
         base.BuildClasses( builder );
