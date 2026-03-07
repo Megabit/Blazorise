@@ -15,7 +15,7 @@ async function loadSmartPasteModule() {
         return rteSmartPasteModule;
 
     if (!rteSmartPasteLoader) {
-        rteSmartPasteLoader = import("./vendors/quill-paste-smart.js?v=2.0.0.0")
+        rteSmartPasteLoader = import("./vendors/quill-paste-smart.js?v=2.0.2.0")
             .then((module) => {
                 rteSmartPasteModule = module;
                 rteSmartPasteLoaded = true;
@@ -37,7 +37,7 @@ async function loadTableBetterModule() {
         return;
 
     if (!rteTableBetterLoader) {
-        rteTableBetterLoader = import("./vendors/quill-table-better.js?v=2.0.0.0")
+        rteTableBetterLoader = import("./vendors/quill-table-better.js?v=2.0.2.0")
             .then(() => {
                 rteTableBetterLoaded = true;
             });
@@ -56,7 +56,7 @@ async function loadResizeModule() {
         return;
 
     if (!rteResizeLoader) {
-        rteResizeLoader = import("./vendors/quill-resize-module.js?v=2.0.0.0")
+        rteResizeLoader = import("./vendors/quill-resize-module.js?v=2.0.2.0")
             .then(() => {
                 rteResizeLoaded = true;
             });
@@ -134,7 +134,7 @@ export async function initialize(dotnetAdapter, element, elementId, options) {
     const editorRef = element.getElementsByClassName("b-richtextedit-editor")[0];
     const toolbarRef = element.getElementsByClassName("b-richtextedit-toolbar")[0];
     const contentRef = element.getElementsByClassName("b-richtextedit-content")[0];
-    const richTextEditVersion = options.version || "2.0.0.0";
+    const richTextEditVersion = options.version || "2.0.2.0";
 
     let quillOptions = {
         modules: {
