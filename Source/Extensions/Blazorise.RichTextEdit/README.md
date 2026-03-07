@@ -1,4 +1,4 @@
-﻿## Build external libraries
+## Build external libraries
 
 At Blazorise, we use several external JS libraries to provide additional functionality. Some of them are already built as valid JS modules, but some are not.
 
@@ -27,3 +27,9 @@ output: {
 5. run `yarn run build`
 
 Now go to the `dist` folder and you will find the `resize.js` file that you copy into the Blazorise project and name it `quill-resize-module.js`.
+
+### Sanitized paste (`quill-paste-smart`)
+
+GitHub (fork): https://github.com/Megabit/quill-paste-smart
+
+Blazorise sanitized paste support uses a forked version of `quill-paste-smart`. It is customized to work on a per-component basis in `RichTextEdit`, instead of hooking into Quill's global clipboard module behavior.
