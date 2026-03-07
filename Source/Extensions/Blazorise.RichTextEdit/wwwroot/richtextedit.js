@@ -2,32 +2,32 @@ import "./vendors/quill.js?v=2.0.2.0";
 import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.2.0";
 
 var rteLoadedStyleUrls = new Set();
-var rteSmartPasteLoaded = false;
-var rteSmartPasteLoader = null;
-var rteSmartPasteModule = null;
+var rteSanitizedPasteLoaded = false;
+var rteSanitizedPasteLoader = null;
+var rteSanitizedPasteModule = null;
 var rteTableBetterLoaded = false;
 var rteTableBetterLoader = null;
 var rteResizeLoaded = false;
 var rteResizeLoader = null;
 
-async function loadSmartPasteModule() {
-    if (rteSmartPasteLoaded)
-        return rteSmartPasteModule;
+async function loadSanitizedPasteModule() {
+    if (rteSanitizedPasteLoaded)
+        return rteSanitizedPasteModule;
 
-    if (!rteSmartPasteLoader) {
-        rteSmartPasteLoader = import("./vendors/quill-paste-smart.js?v=2.0.2.0")
+    if (!rteSanitizedPasteLoader) {
+        rteSanitizedPasteLoader = import("./vendors/quill-paste-smart.js?v=2.0.2.0")
             .then((module) => {
-                rteSmartPasteModule = module;
-                rteSmartPasteLoaded = true;
+                rteSanitizedPasteModule = module;
+                rteSanitizedPasteLoaded = true;
                 return module;
             });
     }
 
     try {
-        return await rteSmartPasteLoader;
+        return await rteSanitizedPasteLoader;
     } catch (error) {
-        rteSmartPasteLoader = null;
-        rteSmartPasteModule = null;
+        rteSanitizedPasteLoader = null;
+        rteSanitizedPasteModule = null;
         throw error;
     }
 }
@@ -70,7 +70,7 @@ async function loadResizeModule() {
     }
 }
 
-function resolveSmartPasteApi(module) {
+function resolveSanitizedPasteApi(module) {
     if (module?.registerPasteSmartClipboard)
         return module;
 
@@ -83,31 +83,31 @@ function resolveSmartPasteApi(module) {
     return undefined;
 }
 
-function applySmartPasteOptions(clipboardOptions, smartPasteOptions) {
-    if (!smartPasteOptions)
+function applySanitizedPasteOptions(clipboardOptions, sanitizedPasteOptions) {
+    if (!sanitizedPasteOptions)
         return;
 
-    if (Array.isArray(smartPasteOptions.allowedTags) || Array.isArray(smartPasteOptions.allowedAttributes)) {
+    if (Array.isArray(sanitizedPasteOptions.allowedTags) || Array.isArray(sanitizedPasteOptions.allowedAttributes)) {
         clipboardOptions.allowed = {};
 
-        if (Array.isArray(smartPasteOptions.allowedTags))
-            clipboardOptions.allowed.tags = smartPasteOptions.allowedTags;
+        if (Array.isArray(sanitizedPasteOptions.allowedTags))
+            clipboardOptions.allowed.tags = sanitizedPasteOptions.allowedTags;
 
-        if (Array.isArray(smartPasteOptions.allowedAttributes))
-            clipboardOptions.allowed.attributes = smartPasteOptions.allowedAttributes;
+        if (Array.isArray(sanitizedPasteOptions.allowedAttributes))
+            clipboardOptions.allowed.attributes = sanitizedPasteOptions.allowedAttributes;
     }
 
-    if (typeof smartPasteOptions.keepSelection === "boolean")
-        clipboardOptions.keepSelection = smartPasteOptions.keepSelection;
+    if (typeof sanitizedPasteOptions.keepSelection === "boolean")
+        clipboardOptions.keepSelection = sanitizedPasteOptions.keepSelection;
 
-    if (typeof smartPasteOptions.substituteBlockElements === "boolean")
-        clipboardOptions.substituteBlockElements = smartPasteOptions.substituteBlockElements;
+    if (typeof sanitizedPasteOptions.substituteBlockElements === "boolean")
+        clipboardOptions.substituteBlockElements = sanitizedPasteOptions.substituteBlockElements;
 
-    if (typeof smartPasteOptions.magicPasteLinks === "boolean")
-        clipboardOptions.magicPasteLinks = smartPasteOptions.magicPasteLinks;
+    if (typeof sanitizedPasteOptions.magicPasteLinks === "boolean")
+        clipboardOptions.magicPasteLinks = sanitizedPasteOptions.magicPasteLinks;
 
-    if (typeof smartPasteOptions.removeConsecutiveSubstitutionTags === "boolean")
-        clipboardOptions.removeConsecutiveSubstitutionTags = smartPasteOptions.removeConsecutiveSubstitutionTags;
+    if (typeof sanitizedPasteOptions.removeConsecutiveSubstitutionTags === "boolean")
+        clipboardOptions.removeConsecutiveSubstitutionTags = sanitizedPasteOptions.removeConsecutiveSubstitutionTags;
 }
 
 export function loadStylesheets(styles, version) {
@@ -191,28 +191,28 @@ export async function initialize(dotnetAdapter, element, elementId, options) {
     }
 
     const clipboardOptions = {
-        enabled: options.useSmartPaste === true
+        enabled: options.useSanitizedPaste === true
     };
 
-    if (options.useSmartPaste === true)
-        applySmartPasteOptions(clipboardOptions, options.smartPasteOptions);
+    if (options.useSanitizedPaste === true)
+        applySanitizedPasteOptions(clipboardOptions, options.sanitizedPasteOptions);
 
     quillOptions.modules.clipboard = clipboardOptions;
 
-    if (options.useSmartPaste === true) {
-        const smartPasteModule = await loadSmartPasteModule();
-        const smartPasteApi = resolveSmartPasteApi(smartPasteModule);
+    if (options.useSanitizedPaste === true) {
+        const sanitizedPasteModule = await loadSanitizedPasteModule();
+        const sanitizedPasteApi = resolveSanitizedPasteApi(sanitizedPasteModule);
 
-        if (!smartPasteApi?.registerPasteSmartClipboard) {
+        if (!sanitizedPasteApi?.registerPasteSmartClipboard) {
             console.error("quill-paste-smart is missing registerPasteSmartClipboard export.");
         } else {
             const clipboardModule = Quill.import("modules/clipboard");
 
-            if (!clipboardModule?.__blazoriseSmartPasteWrapper) {
-                const smartClipboardModule = smartPasteApi.registerPasteSmartClipboard(Quill);
+            if (!clipboardModule?.__blazoriseSanitizedPasteWrapper) {
+                const sanitizedClipboardModule = sanitizedPasteApi.registerPasteSmartClipboard(Quill);
 
-                if (smartClipboardModule)
-                    smartClipboardModule.__blazoriseSmartPasteWrapper = true;
+                if (sanitizedClipboardModule)
+                    sanitizedClipboardModule.__blazoriseSanitizedPasteWrapper = true;
             }
         }
     }

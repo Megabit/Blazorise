@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Blazorise.RichTextEdit;
 
@@ -35,17 +35,17 @@ internal class RichTextEditJSOptions
     public string ConfigureQuillJsMethod { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether smart paste functionality is enabled.
+    /// Gets or sets a value indicating whether HTML sanitize functionality is enabled.
     /// </summary>
-    [JsonPropertyName( "useSmartPaste" )]
-    public bool UseSmartPaste { get; set; }
+    [JsonPropertyName( "useSanitizedPaste" )]
+    public bool UseSanitizedPaste { get; set; }
 
     /// <summary>
-    /// Gets or sets options used to configure smart paste behavior.
+    /// Gets or sets options used to configure HTML sanitize behavior.
     /// </summary>
-    [JsonPropertyName( "smartPasteOptions" )]
+    [JsonPropertyName( "sanitizedPasteOptions" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public RichTextEditSmartPasteOptions SmartPasteOptions { get; set; }
+    public RichTextEditSanitizedPasteOptions SanitizedPasteOptions { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether tables are enabled in the editor.

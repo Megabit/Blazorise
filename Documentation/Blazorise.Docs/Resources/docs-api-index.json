@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-07T16:35:00.0529085Z",
+  "generatedUtc": "2026-03-07T17:08:38.2999058Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -75235,6 +75235,15 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "SanitizedPasteOptions",
+          "type": "global::Blazorise.RichTextEdit.RichTextEditSanitizedPasteOptions",
+          "typeName": "RichTextEditSanitizedPasteOptions",
+          "defaultValue": "null",
+          "summary": "Options used to configure sanitized paste functionality.",
+          "remarks": "When this parameter is explicitly defined, it has priority over globally configured <strong>SanitizedPasteOptions</strong>.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Shadow",
           "type": "global::Blazorise.Shadow",
           "typeName": "Shadow",
@@ -75248,15 +75257,6 @@
           "typeName": "Size?",
           "defaultValue": "null",
           "summary": "Sets the size of the input control.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "SmartPasteOptions",
-          "type": "global::Blazorise.RichTextEdit.RichTextEditSmartPasteOptions",
-          "typeName": "RichTextEditSmartPasteOptions",
-          "defaultValue": "null",
-          "summary": "Options used to configure smart paste functionality.",
-          "remarks": "When this parameter is explicitly defined, it has priority over globally configured <strong>SmartPasteOptions</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -75381,12 +75381,12 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "UseSmartPaste",
+          "name": "UseSanitizedPaste",
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "Indicates whether smart paste functionality should be enabled.",
-          "remarks": "When this parameter is explicitly defined, it has priority over globally configured <strong>UseSmartPaste</strong>.",
+          "summary": "Indicates whether sanitized paste functionality should be enabled.",
+          "remarks": "When this parameter is explicitly defined, it has priority over globally configured <strong>UseSanitizedPaste</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -75733,11 +75733,11 @@
       "summary": "$\"\"\"\r\n       Blazorise RichTextEdit extension options\r\n       \"\"\"",
       "parameters": [
         {
-          "name": "SmartPasteOptions",
-          "type": "global::Blazorise.RichTextEdit.RichTextEditSmartPasteOptions",
-          "typeName": "RichTextEditSmartPasteOptions",
+          "name": "SanitizedPasteOptions",
+          "type": "global::Blazorise.RichTextEdit.RichTextEditSanitizedPasteOptions",
+          "typeName": "RichTextEditSanitizedPasteOptions",
           "defaultValue": "new()",
-          "summary": "Options used to configure the quill-paste-smart clipboard module.",
+          "summary": "Options used to configure sanitized paste behavior.",
           "isBlazoriseEnum": false
         },
         {
@@ -75757,11 +75757,11 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "UseSmartPaste",
+          "name": "UseSanitizedPaste",
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "If true enables the quill-paste-smart clipboard module.",
+          "summary": "If true enables sanitized paste support powered by the quill-paste-smart clipboard module.",
           "isBlazoriseEnum": false
         },
         {
@@ -75785,9 +75785,9 @@
       "methods": []
     },
     {
-      "type": "global::Blazorise.RichTextEdit.RichTextEditSmartPasteOptions",
-      "typeName": "RichTextEditSmartPasteOptions",
-      "summary": "$\"\"\"\r\n       Represents options used to configure the quill-paste-smart clipboard module.\r\n       \"\"\"",
+      "type": "global::Blazorise.RichTextEdit.RichTextEditSanitizedPasteOptions",
+      "typeName": "RichTextEditSanitizedPasteOptions",
+      "summary": "$\"\"\"\r\n       Represents options used to configure sanitized paste behavior.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "AllowedAttributes",

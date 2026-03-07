@@ -29,14 +29,14 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     private string initialContent;
 
     /// <summary>
-    /// Captured UseSmartPaste parameter snapshot.
+    /// Captured UseSanitizedPaste parameter snapshot.
     /// </summary>
-    internal ComponentParameterInfo<bool> paramUseSmartPaste;
+    internal ComponentParameterInfo<bool> paramUseSanitizedPaste;
 
     /// <summary>
-    /// Captured SmartPasteOptions parameter snapshot.
+    /// Captured SanitizedPasteOptions parameter snapshot.
     /// </summary>
-    internal ComponentParameterInfo<RichTextEditSmartPasteOptions> paramSmartPasteOptions;
+    internal ComponentParameterInfo<RichTextEditSanitizedPasteOptions> paramSanitizedPasteOptions;
 
     /// <summary>
     /// Captured UseTables parameter snapshot.
@@ -57,8 +57,8 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     {
         base.CaptureParameters( parameters );
 
-        parameters.TryGetParameter( UseSmartPaste, out paramUseSmartPaste );
-        parameters.TryGetParameter( SmartPasteOptions, out paramSmartPasteOptions );
+        parameters.TryGetParameter( UseSanitizedPaste, out paramUseSanitizedPaste );
+        parameters.TryGetParameter( SanitizedPasteOptions, out paramSanitizedPasteOptions );
         parameters.TryGetParameter( UseTables, out paramUseTables );
         parameters.TryGetParameter( UseResize, out paramUseResize );
     }
@@ -368,14 +368,14 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     protected string InitialContent => initialContent;
 
     /// <summary>
-    /// Gets a value indicating whether the smart paste functionality should be enabled.
+    /// Gets a value indicating whether the HTML sanitize functionality should be enabled.
     /// </summary>
-    internal bool ShouldUseSmartPaste => paramUseSmartPaste.Defined ? paramUseSmartPaste.Value : GlobalOptions.UseSmartPaste;
+    internal bool ShouldUseSanitizedPaste => paramUseSanitizedPaste.Defined ? paramUseSanitizedPaste.Value : GlobalOptions.UseSanitizedPaste;
 
     /// <summary>
-    /// Gets options used to configure the smart paste functionality.
+    /// Gets options used to configure the HTML sanitize functionality.
     /// </summary>
-    internal RichTextEditSmartPasteOptions ShouldUseSmartPasteOptions => paramSmartPasteOptions.Defined ? paramSmartPasteOptions.Value : GlobalOptions.SmartPasteOptions;
+    internal RichTextEditSanitizedPasteOptions ShouldUseSanitizedPasteOptions => paramSanitizedPasteOptions.Defined ? paramSanitizedPasteOptions.Value : GlobalOptions.SanitizedPasteOptions;
 
     /// <summary>
     /// Gets a value indicating whether the table functionality should be enabled.
@@ -454,20 +454,20 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     [Parameter] public bool UseResize { get; set; }
 
     /// <summary>
-    /// Indicates whether smart paste functionality should be enabled.
+    /// Indicates whether sanitized paste functionality should be enabled.
     /// </summary>
     /// <remarks>
-    /// When this parameter is explicitly defined, it has priority over globally configured <see cref="RichTextEditOptions.UseSmartPaste"/>.
+    /// When this parameter is explicitly defined, it has priority over globally configured <see cref="RichTextEditOptions.UseSanitizedPaste"/>.
     /// </remarks>
-    [Parameter] public bool UseSmartPaste { get; set; }
+    [Parameter] public bool UseSanitizedPaste { get; set; }
 
     /// <summary>
-    /// Options used to configure smart paste functionality.
+    /// Options used to configure sanitized paste functionality.
     /// </summary>
     /// <remarks>
-    /// When this parameter is explicitly defined, it has priority over globally configured <see cref="RichTextEditOptions.SmartPasteOptions"/>.
+    /// When this parameter is explicitly defined, it has priority over globally configured <see cref="RichTextEditOptions.SanitizedPasteOptions"/>.
     /// </remarks>
-    [Parameter] public RichTextEditSmartPasteOptions SmartPasteOptions { get; set; }
+    [Parameter] public RichTextEditSanitizedPasteOptions SanitizedPasteOptions { get; set; }
 
     /// <summary>
     /// Occurs when the content within the editor changes.

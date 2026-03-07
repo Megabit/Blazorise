@@ -4,9 +4,9 @@ using System.Text.Json.Serialization;
 namespace Blazorise.RichTextEdit;
 
 /// <summary>
-/// Represents options used to configure the quill-paste-smart clipboard module.
+/// Represents options used to configure sanitized paste behavior.
 /// </summary>
-public class RichTextEditSmartPasteOptions
+public class RichTextEditSanitizedPasteOptions
 {
     /// <summary>
     /// Gets or sets the list of allowed HTML tags.
