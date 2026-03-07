@@ -5063,7 +5063,7 @@ body.modal-open {
   }
 }
 .mui-modal.mui-modal-centered {
-  align-items: center;
+  align-items: flex-start;
 }
 
 .mui-modal.mui-modal-fullscreen {
@@ -5099,7 +5099,6 @@ body.modal-open {
   position: relative;
   z-index: 1;
   inline-size: min(100%, var(--mui-modal-max-width));
-  max-block-size: calc(100dvh - 2rem);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
