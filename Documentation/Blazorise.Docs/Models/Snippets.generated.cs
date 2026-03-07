@@ -7448,7 +7448,7 @@ Install-Package Blazorise.Chart.Zoom";
 }";
 
         public const string DataGridDateColumnExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
-    <DataGridDateColumn Field=""@nameof( Employee.DateOfBirth )"" Caption=""Date Of Birth"" Editable />
+    <DataGridDateColumn Field=""@nameof( Employee.DateOfBirth )"" Caption=""Birth Date"" Editable />
     <DataGridCommandColumn />
 </DataGrid>
 
@@ -7465,7 +7465,7 @@ Install-Package Blazorise.Chart.Zoom";
 }";
 
         public const string DataGridDateColumnNativeExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
-    <DataGridDateColumn Field=""@nameof( Employee.DateOfBirth )"" Caption=""Date Of Birth"" Editable NativeInputMode />
+    <DataGridDateColumn Field=""@nameof( Employee.DateOfBirth )"" Caption=""Birth Date"" Editable NativeInputMode />
     <DataGridCommandColumn />
 </DataGrid>
 
@@ -7535,7 +7535,7 @@ Install-Package Blazorise.Chart.Zoom";
         public const string DataGridDisplayTemplateExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Responsive>
-    <DataGridNumericColumn Field=""@nameof( Employee.DateOfBirth )"" Caption=""Date Of Birth"" Editable>
+    <DataGridNumericColumn Field=""@nameof( Employee.DateOfBirth )"" Caption=""Birth Date"" Editable>
         <DisplayTemplate>
             @{
                 var date = context.Item?.DateOfBirth;
@@ -7654,7 +7654,7 @@ Install-Package Blazorise.Chart.Zoom";
         </DataGridColumn>
         <DataGridColumn Editable Field=""Zip"" Caption=""Zip"">
         </DataGridColumn>
-        <DataGridDateColumn Field=""DateOfBirth"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Date Of Birth"" Editable />
+        <DataGridDateColumn Field=""DateOfBirth"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Birth Date"" Editable />
         <DataGridNumericColumn Field=""Childrens"" Caption=""Childrens"" ReverseSorting=""true"" Editable Filterable=""false"" />
         <DataGridSelectColumn Field=""Gender"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""( x ) => ( (Gender)x ).Code"" TextField=""( x ) => ( (Gender)x ).Description"" />
         <DataGridColumn Field=""Salary"" Caption=""Salary"" Editable Width=""Width.Px( 140 )"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" TextAlignment=""TextAlignment.End"">
@@ -8025,7 +8025,7 @@ Install-Package Blazorise.Chart.Zoom";
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Email )"" Caption=""Email"" Width=""Width.Px( 250 )"" FixedPosition=""TableColumnFixedPosition.Start"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.City )"" Caption=""City"" Width=""Width.Px( 150 )"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Zip )"" Caption=""Zip"" Width=""Width.Px( 100 )"" />
-        <DataGridDateColumn TItem=""Employee"" Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Date Of Birth"" Width=""Width.Px( 100 )"" />
+        <DataGridDateColumn TItem=""Employee"" Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Birth Date"" Width=""Width.Px( 100 )"" />
         <DataGridNumericColumn TItem=""Employee"" Field=""@nameof( Employee.Childrens )"" Caption=""Childrens"" Filterable=""false"" Width=""Width.Px( 100 )"" />
         <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Data=""EmployeeData.Genders"" ValueField=""( x ) => ( (Gender)x ).Code"" TextField=""( x ) => ( (Gender)x ).Description"" Width=""Width.Px( 100 )"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""fr-FR"" )"" TextAlignment=""TextAlignment.End"" Width=""Width.Px( 100 )"" FixedPosition=""TableColumnFixedPosition.End"" />
@@ -8321,7 +8321,7 @@ Install-Package Blazorise.Chart.Zoom";
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
     <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""( x ) => ( (Gender)x ).Code"" TextField=""( x ) => ( (Gender)x ).Description"" />
     <DataGridNumericColumn Field=""@nameof( Employee.Childrens )"" Caption=""Childrens"" Editable />
-    <DataGridDateColumn Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Date Of Birth"" Editable />
+    <DataGridDateColumn Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Birth Date"" Editable />
 </DataGrid>
 
 @code {
@@ -9586,7 +9586,7 @@ Install-Package Blazorise.Chart.Zoom";
         </DataGridColumn>
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Zip )"" Caption=""Zip"">
         </DataGridColumn>
-        <DataGridDateColumn TItem=""Employee"" Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Date Of Birth"" Editable />
+        <DataGridDateColumn TItem=""Employee"" Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Birth Date"" Editable />
         <DataGridNumericColumn TItem=""Employee"" Field=""@nameof( Employee.Childrens )"" Caption=""Childrens"" ReverseSorting=""true"" Editable Filterable=""false"" />
         <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable Width=""Width.Px(140)"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" TextAlignment=""TextAlignment.End"">
@@ -12355,14 +12355,32 @@ builder.Services
         options.ProductToken = ""<your-product-token>"";
     } )";
 
-        public const string MaterialGuideFileStructureExample = @"blazorproject.client/
-└── wwwroot/
-    ├── css/
-    └── js/";
+        public const string MaterialGuideFileStructureExample = @"/* wwwroot/app.css (load after Blazorise Material CSS) */
+:root {
+    --mui-primary: #6750a4;
+    --mui-on-primary: #ffffff;
+    --mui-primary-container: #eaddff;
+    --mui-on-primary-container: #21005d;
+    --mui-surface: #fffbff;
+    --mui-on-surface: #1c1b1f;
+    --mui-outline: #79747e;
+    --mui-spacing: 1rem;
+    --mui-font-family: ""Inter"", ""Roboto"", ""Helvetica Neue"", Arial, sans-serif;
+}
 
-        public const string MaterialGuideNuget1Example = @"Install-Package Blazorise.Material";
+[data-theme=""dark""] {
+    --mui-primary: #d0bcff;
+    --mui-on-primary: #381e72;
+    --mui-primary-container: #4f378b;
+    --mui-on-primary-container: #eaddff;
+    --mui-surface: #141218;
+    --mui-on-surface: #e6e1e6;
+    --mui-outline: #938f99;
+}";
 
-        public const string MaterialGuideNuget2Example = @"Install-Package Blazorise.Icons.Material";
+        public const string MaterialGuideNuget1Example = @"dotnet add package Blazorise.Material";
+
+        public const string MaterialGuideNuget2Example = @"dotnet add package Blazorise.Icons.Material";
 
         public const string MaterialGuideRegistrationExample = @"using Blazorise;
 using Blazorise.Material;
@@ -12376,27 +12394,16 @@ builder.Services
     .AddMaterialProviders()
     .AddMaterialIcons();";
 
-        public const string MaterialGuideSourceFilesExample = @"<!-- Material CSS -->
-<link href=""css/material.min.css"" rel=""stylesheet"">
-
-<!-- Add Material font (Roboto) and Material icon as needed -->
-<link href=""https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i|Roboto+Mono:300,400,700|Roboto+Slab:300,400,700"" rel=""stylesheet"">
+        public const string MaterialGuideSourceFilesExample = @"<!-- In <head> -->
+<!-- Optional: Material icons webfont (recommended when using Blazorise.Icons.Material) -->
 <link href=""https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=2.0.2.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Material/blazorise.material.css?v=2.0.2.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.0.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise/blazorise.css?v=2.0.0.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Material/blazorise.material.css?v=2.0.0.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.0.0.0"" rel=""stylesheet"" />
 
-<!-- Optional JavaScript -->
-<!-- These are the standard js dependencies this provider typically dependes upon, but Blazorise deems these as optional as Blazorise Components should work correctly without these  -->
-<!-- jQuery first, then Popper.js, then Material JS -->
-<script src=""https://code.jquery.com/jquery-3.5.0.slim.min.js""></script>
-<script src=""https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js""></script>
-<script src=""https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js""></script>
-
-<!-- Mandatory JavaScript -->
-<script src=""js/material.min.js""></script>
-<script src=""_content/Blazorise.Material/blazorise.material.js?v=2.0.2.0""></script>";
+<!-- Before </body> (before the Blazor framework script) -->
+<script src=""_content/Blazorise.Material/blazorise.material.js?v=2.0.0.0""></script>";
 
         public const string MaterialGuideUsingExample = @"@using Blazorise";
 

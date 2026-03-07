@@ -1,25 +1,27 @@
-﻿@each $breakpoint in map-keys($grid-breakpoints) {
-    @include media-breakpoint-up($breakpoint) {
-        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+$mui-object-fit-values: (
+    none: none,
+    contain: contain,
+    cover: cover,
+    fill: fill,
+    scale: scale-down
+) !default;
 
-        .object-fit#{$infix}-contain {
-            object-fit: contain !important;
+@mixin make-object-fit-utilities($infix: "") {
+    @each $name, $value in $mui-object-fit-values {
+        .mui-object-fit#{$infix}-#{$name} {
+            object-fit: $value !important;
         }
+    }
+}
 
-        .object-fit#{$infix}-cover {
-            object-fit: cover !important;
-        }
+@include make-object-fit-utilities();
 
-        .object-fit#{$infix}-fill {
-            object-fit: fill !important;
-        }
+@each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
-        .object-fit#{$infix}-scale {
-            object-fit: scale-down !important;
-        }
-
-        .object-fit#{$infix}-none {
-            object-fit: none !important;
+    @if $infix != "" {
+        @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+            @include make-object-fit-utilities($infix);
         }
     }
 }

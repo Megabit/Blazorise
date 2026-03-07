@@ -1,0 +1,232 @@
+.mui-button {
+    --mui-btn-padding: 1rem;
+    --mui-btn-size: 2.5rem;
+    --mui-btn-font-size: 0.875rem;
+    --mui-btn-bg: var(--mui-surface-container-high);
+    --mui-btn-color: var(--mui-on-surface);
+    --mui-btn-border-width: 1px;
+    --mui-btn-border-color: transparent;
+    --mui-btn-border-style: solid;
+    --mui-btn-border-radius: var(--mui-btn-size);
+    box-sizing: content-box;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    block-size: var(--mui-btn-size);
+    font-size: var(--mui-btn-font-size);
+    font-weight: 500;
+    padding: 0 var(--mui-btn-padding);
+    margin: 0;
+    transition: transform var(--mui-duration-slow), border-radius var(--mui-duration-slower), padding var(--mui-duration-slow);
+    user-select: none;
+    line-height: normal;
+    gap: 0.5rem;
+    box-shadow: none;
+    background-color: var(--mui-btn-bg);
+    color: var(--mui-btn-color);
+    border: var(--mui-btn-border-width) var(--mui-btn-border-style) var(--mui-btn-border-color);
+    border-radius: var(--mui-btn-border-radius);
+    background-position: center;
+    background-image: radial-gradient(circle, var(--mui-btn-bg) 1%, transparent 1%);
+
+    &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+        border-radius: inherit;
+        inline-size: 100%;
+        block-size: 100%;
+        background-position: center;
+        background-image: radial-gradient(circle, currentColor 1%, transparent 1%);
+        opacity: 0;
+        transition: none;
+        pointer-events: none;
+    }
+
+    &:hover:not(:active):not(.mui-button-active) {
+        background-size: 15000%;
+        opacity: 0.9;
+        transition: background-size var(--mui-duration-normal) linear;
+    }
+
+    &:active,
+    &.mui-button-active {
+        border-radius: var(--mui-btn-active-border-radius, 0.5rem) !important;
+    }
+
+    &-xs {
+        --mui-btn-padding: 0.5rem;
+        --mui-btn-size: 1.5rem;
+        --mui-btn-font-size: 0.625rem;
+    }
+
+    &-sm {
+        --mui-btn-padding: 0.75rem;
+        --mui-btn-size: 2rem;
+        --mui-btn-font-size: 0.75rem;
+    }
+
+    &-md {
+        --mui-btn-padding: 1.25rem;
+        --mui-btn-size: 2.75rem;
+        --mui-btn-font-size: 0.875rem;
+    }
+
+    &-lg {
+        --mui-btn-padding: 1.5rem;
+        --mui-btn-size: 3rem;
+        --mui-btn-font-size: 1rem;
+    }
+
+    &-xl {
+        --mui-btn-padding: 1.75rem;
+        --mui-btn-size: 3.5rem;
+        --mui-btn-font-size: 1.125rem;
+    }
+
+    &-primary {
+        --mui-btn-bg: var(--mui-primary);
+        --mui-btn-color: var(--mui-on-primary);
+    }
+
+    &-secondary {
+        --mui-btn-bg: var(--mui-secondary);
+        --mui-btn-color: var(--mui-on-secondary);
+    }
+
+    &-tertiary {
+        --mui-btn-bg: var(--mui-tertiary);
+        --mui-btn-color: var(--mui-on-tertiary);
+    }
+
+    &-info {
+        --mui-btn-bg: var(--mui-info);
+        --mui-btn-color: var(--mui-on-info);
+    }
+
+    &-success {
+        --mui-btn-bg: var(--mui-success);
+        --mui-btn-color: var(--mui-on-success);
+    }
+
+    &-warning {
+        --mui-btn-bg: var(--mui-warning);
+        --mui-btn-color: var(--mui-on-warning);
+    }
+
+    &-error {
+        --mui-btn-bg: var(--mui-error);
+        --mui-btn-color: var(--mui-on-error);
+    }
+
+    &-light {
+        --mui-btn-bg: var(--mui-light);
+        --mui-btn-color: var(--mui-on-light);
+    }
+
+    &-dark {
+        --mui-btn-bg: var(--mui-dark);
+        --mui-btn-color: var(--mui-on-dark);
+    }
+
+    &-link {
+        --mui-btn-bg: transparent;
+        --mui-btn-color: var(--mui-primary);
+        text-decoration: underline;
+    }
+
+    &-block {
+        box-sizing: border-box;
+        inline-size: 100%;
+        max-inline-size: 100%;
+    }
+
+    &-disabled,
+    &[disabled] {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    &[disabled] {
+        &::before,
+        &::after {
+            display: none;
+        }
+    }
+
+    &-outline {
+        --mui-btn-bg: transparent;
+        --mui-btn-color: var(--mui-on-surface);
+        --mui-btn-border-color: var(--mui-outline-variant);
+
+        &-primary {
+            --mui-btn-bg: transparent;
+            --mui-btn-color: var(--mui-primary);
+            --mui-btn-border-color: var(--mui-primary);
+        }
+
+        &-secondary {
+            --mui-btn-bg: transparent;
+            --mui-btn-color: var(--mui-secondary);
+            --mui-btn-border-color: var(--mui-secondary);
+        }
+
+        &-tertiary {
+            --mui-btn-bg: transparent;
+            --mui-btn-color: var(--mui-tertiary);
+            --mui-btn-border-color: var(--mui-tertiary);
+        }
+
+        &-info {
+            --mui-btn-bg: transparent;
+            --mui-btn-color: var(--mui-info);
+            --mui-btn-border-color: var(--mui-info);
+        }
+
+        &-success {
+            --mui-btn-bg: transparent;
+            --mui-btn-color: var(--mui-success);
+            --mui-btn-border-color: var(--mui-success);
+        }
+
+        &-warning {
+            --mui-btn-bg: transparent;
+            --mui-btn-color: var(--mui-warning);
+            --mui-btn-border-color: var(--mui-warning);
+        }
+
+        &-error {
+            --mui-btn-bg: transparent;
+            --mui-btn-color: var(--mui-error);
+            --mui-btn-border-color: var(--mui-error);
+        }
+
+        &-light {
+            --mui-btn-bg: transparent;
+            --mui-btn-color: var(--mui-light);
+            --mui-btn-border-color: var(--mui-light);
+        }
+
+        &-dark {
+            --mui-btn-bg: transparent;
+            --mui-btn-color: var(--mui-dark);
+            --mui-btn-border-color: var(--mui-dark);
+        }
+
+        &-link {
+            --mui-btn-bg: transparent;
+            --mui-btn-color: var(--mui-primary);
+            text-decoration: underline;
+        }
+    }
+}
+
+.mui-button-block + .mui-button-block {
+    margin-top: 0.5rem;
+}

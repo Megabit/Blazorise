@@ -32,6 +32,8 @@ static class Constants
     internal static readonly IFluentFlex FlexInlineFlexOnTabletJustifyContentCenterOnTablet = Flex.InlineFlex.OnTablet.JustifyContent.Center.OnTablet;
     internal static readonly IFluentFlex FlexGrowIs1 = Flex.Grow.Is1;
     internal static readonly IFluentFlex FlexInlineFlex = Flex.InlineFlex;
+    internal static readonly IFluentFlex FlexInlineFlexAlignItemsCenter = Flex.InlineFlex.AlignItems.Center;
+    internal static readonly IFluentFlex FlexRowAlignItemsCenter = Flex.AlignItems.Center;
 
     // Padding
     internal static readonly IFluentSpacing PaddingIs2OnXIs2OnY = Padding.Is2.OnX.Is2.OnY;

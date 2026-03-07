@@ -2,7 +2,7 @@
 @typeparam TItem
 
 <Dropdown @bind-Visible="@Column.DropdownFilterVisible">
-    <DropdownToggle @onclick:stopPropagation>
+    <DropdownToggle Size="Size.Small" @onclick:stopPropagation>
         <Icon Name="@IconName.Filter" Margin="MarginIs1FromStart" Clicked="() => {}" TextColor="@(IsFiltering() ? TextColor.Primary : TextColor.Default)" />
     </DropdownToggle>
     <DropdownMenu>

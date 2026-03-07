@@ -1,0 +1,14 @@
+$mui-vertical-alignment-values: (
+    baseline: baseline,
+    top: top,
+    middle: middle,
+    bottom: bottom,
+    text-top: text-top,
+    text-bottom: text-bottom
+) !default;
+
+@each $name, $value in $mui-vertical-alignment-values {
+    .mui-vertical-align-#{$name} {
+        vertical-align: $value !important;
+    }
+}
