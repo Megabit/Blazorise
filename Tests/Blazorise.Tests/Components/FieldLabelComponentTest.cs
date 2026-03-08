@@ -2,8 +2,12 @@
 using System;
 using System.Collections.Generic;
 using Blazorise.Components;
+using Blazorise.RichTextEdit;
 using Bunit;
+using MarkdownEditor = Blazorise.Markdown.Markdown;
 using Microsoft.AspNetCore.Components;
+using RichTextEditComponent = Blazorise.RichTextEdit.RichTextEdit;
+using SignaturePadComponent = Blazorise.SignaturePad.SignaturePad;
 using Xunit;
 #endregion
 
@@ -14,8 +18,13 @@ public class FieldLabelComponentTest : TestContext
     public FieldLabelComponentTest()
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        Services.AddBlazoriseRichTextEdit();
         JSInterop
             .AddBlazoriseTextInput()
+            .AddBlazoriseColorPicker()
+            .AddBlazoriseMarkdown()
+            .AddBlazoriseRichTextEdit()
+            .AddBlazoriseSignaturePad()
             .AddBlazoriseUtilities()
             .AddBlazoriseClosable()
             .AddBlazoriseDropdown();
@@ -46,7 +55,7 @@ public class FieldLabelComponentTest : TestContext
             .AddChildContent( builder =>
             {
                 builder.OpenComponent<FieldLabel>( 0 );
-                builder.AddChildContent( 1, "First Name" );
+                builder.AddAttribute( 1, nameof( FieldLabel.ChildContent ), (RenderFragment)( childBuilder => childBuilder.AddContent( 0, "First Name" ) ) );
                 builder.CloseComponent();
 
                 builder.OpenComponent<FieldBody>( 2 );
@@ -77,7 +86,7 @@ public class FieldLabelComponentTest : TestContext
             {
                 builder.OpenComponent<FieldLabel>( 0 );
                 builder.AddAttribute( 1, nameof( FieldLabel.For ), "custom-input-id" );
-                builder.AddChildContent( 2, "Email" );
+                builder.AddAttribute( 2, nameof( FieldLabel.ChildContent ), (RenderFragment)( childBuilder => childBuilder.AddContent( 0, "Email" ) ) );
                 builder.CloseComponent();
 
                 builder.OpenComponent<TextInput>( 3 );
@@ -103,7 +112,7 @@ public class FieldLabelComponentTest : TestContext
             .AddChildContent( builder =>
             {
                 builder.OpenComponent<FieldLabel>( 0 );
-                builder.AddChildContent( 1, "Country" );
+                builder.AddAttribute( 1, nameof( FieldLabel.ChildContent ), (RenderFragment)( childBuilder => childBuilder.AddContent( 0, "Country" ) ) );
                 builder.CloseComponent();
 
                 builder.OpenComponent<Autocomplete<string, string>>( 2 );
@@ -120,6 +129,146 @@ public class FieldLabelComponentTest : TestContext
             var input = cut.Find( ".b-is-autocomplete input" );
 
             Assert.Equal( input.GetAttribute( "id" ), label.GetAttribute( "for" ) );
+        } );
+    }
+
+    [Fact]
+    public void FieldLabel_Should_LabelColorPickerWithAriaLabelledBy()
+    {
+        // setup
+        var cut = RenderComponent<Field>( parameters => parameters
+            .AddChildContent( builder =>
+            {
+                builder.OpenComponent<FieldLabel>( 0 );
+                builder.AddAttribute( 1, nameof( FieldLabel.ChildContent ), (RenderFragment)( childBuilder => childBuilder.AddContent( 0, "Color" ) ) );
+                builder.CloseComponent();
+
+                builder.OpenComponent<ColorPicker>( 2 );
+                builder.AddAttribute( 3, nameof( ColorPicker.ElementId ), "favorite-color" );
+                builder.CloseComponent();
+            } ) );
+
+        // validate
+        cut.WaitForAssertion( () =>
+        {
+            var label = cut.Find( "label" );
+            var colorPicker = cut.Find( "#favorite-color" );
+
+            Assert.NotNull( label.GetAttribute( "id" ) );
+            Assert.Equal( label.GetAttribute( "id" ), colorPicker.GetAttribute( "aria-labelledby" ) );
+            Assert.Null( label.GetAttribute( "for" ) );
+        } );
+    }
+
+    [Fact]
+    public void FieldLabel_Should_LabelRadioGroupWithAriaLabelledBy()
+    {
+        // setup
+        var cut = RenderComponent<Field>( parameters => parameters
+            .AddChildContent( builder =>
+            {
+                builder.OpenComponent<FieldLabel>( 0 );
+                builder.AddAttribute( 1, nameof( FieldLabel.ChildContent ), (RenderFragment)( childBuilder => childBuilder.AddContent( 0, "Options" ) ) );
+                builder.CloseComponent();
+
+                builder.OpenComponent<RadioGroup<string>>( 2 );
+                builder.AddAttribute( 3, nameof( RadioGroup<string>.ElementId ), "options-group" );
+                builder.CloseComponent();
+            } ) );
+
+        // validate
+        cut.WaitForAssertion( () =>
+        {
+            var label = cut.Find( "label" );
+            var radioGroup = cut.Find( "#options-group" );
+
+            Assert.NotNull( label.GetAttribute( "id" ) );
+            Assert.Equal( label.GetAttribute( "id" ), radioGroup.GetAttribute( "aria-labelledby" ) );
+            Assert.Null( label.GetAttribute( "for" ) );
+        } );
+    }
+
+    [Fact]
+    public void FieldLabel_Should_LabelRichTextEditWithAriaLabelledBy()
+    {
+        // setup
+        var cut = RenderComponent<Field>( parameters => parameters
+            .AddChildContent( builder =>
+            {
+                builder.OpenComponent<FieldLabel>( 0 );
+                builder.AddAttribute( 1, nameof( FieldLabel.ChildContent ), (RenderFragment)( childBuilder => childBuilder.AddContent( 0, "Message" ) ) );
+                builder.CloseComponent();
+
+                builder.OpenComponent<RichTextEditComponent>( 2 );
+                builder.AddAttribute( 3, nameof( RichTextEditComponent.ElementId ), "message-editor" );
+                builder.CloseComponent();
+            } ) );
+
+        // validate
+        cut.WaitForAssertion( () =>
+        {
+            var label = cut.Find( "label" );
+            var editor = cut.Find( "#message-editor" );
+
+            Assert.NotNull( label.GetAttribute( "id" ) );
+            Assert.Equal( label.GetAttribute( "id" ), editor.GetAttribute( "aria-labelledby" ) );
+            Assert.Null( label.GetAttribute( "for" ) );
+        } );
+    }
+
+    [Fact]
+    public void FieldLabel_Should_LabelMarkdownWithAriaLabelledBy()
+    {
+        // setup
+        var cut = RenderComponent<Field>( parameters => parameters
+            .AddChildContent( builder =>
+            {
+                builder.OpenComponent<FieldLabel>( 0 );
+                builder.AddAttribute( 1, nameof( FieldLabel.ChildContent ), (RenderFragment)( childBuilder => childBuilder.AddContent( 0, "Description" ) ) );
+                builder.CloseComponent();
+
+                builder.OpenComponent<MarkdownEditor>( 2 );
+                builder.AddAttribute( 3, nameof( MarkdownEditor.ElementId ), "description-editor" );
+                builder.CloseComponent();
+            } ) );
+
+        // validate
+        cut.WaitForAssertion( () =>
+        {
+            var label = cut.Find( "label" );
+            var editor = cut.Find( "#description-editor" );
+
+            Assert.NotNull( label.GetAttribute( "id" ) );
+            Assert.Equal( label.GetAttribute( "id" ), editor.GetAttribute( "aria-labelledby" ) );
+            Assert.Equal( editor.GetAttribute( "id" ), label.GetAttribute( "for" ) );
+        } );
+    }
+
+    [Fact]
+    public void FieldLabel_Should_LabelSignaturePadWithAriaLabelledBy()
+    {
+        // setup
+        var cut = RenderComponent<Field>( parameters => parameters
+            .AddChildContent( builder =>
+            {
+                builder.OpenComponent<FieldLabel>( 0 );
+                builder.AddAttribute( 1, nameof( FieldLabel.ChildContent ), (RenderFragment)( childBuilder => childBuilder.AddContent( 0, "Signature" ) ) );
+                builder.CloseComponent();
+
+                builder.OpenComponent<SignaturePadComponent>( 2 );
+                builder.AddAttribute( 3, nameof( SignaturePadComponent.ElementId ), "signature-pad" );
+                builder.CloseComponent();
+            } ) );
+
+        // validate
+        cut.WaitForAssertion( () =>
+        {
+            var label = cut.Find( "label" );
+            var signaturePad = cut.Find( "#signature-pad" );
+
+            Assert.NotNull( label.GetAttribute( "id" ) );
+            Assert.Equal( label.GetAttribute( "id" ), signaturePad.GetAttribute( "aria-labelledby" ) );
+            Assert.Null( label.GetAttribute( "for" ) );
         } );
     }
 }

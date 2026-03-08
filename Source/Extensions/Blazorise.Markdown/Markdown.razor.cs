@@ -40,6 +40,8 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
 
     private bool baseInputOptionsUpdateScheduled;
 
+    private string appliedFieldLabelElementId;
+
     #endregion
 
     #region Methods
@@ -155,6 +157,8 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
 
         await ApplyBaseInputOptions();
 
+        appliedFieldLabelElementId = ParentFieldLabelElementId;
+
         if ( hasPendingValue )
         {
             hasPendingValue = false;
@@ -165,6 +169,19 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
         }
 
         await base.OnFirstAfterRenderAsync();
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        await base.OnAfterRenderAsync( firstRender );
+
+        if ( jsInitialized && !string.Equals( appliedFieldLabelElementId, ParentFieldLabelElementId, StringComparison.Ordinal ) )
+        {
+            appliedFieldLabelElementId = ParentFieldLabelElementId;
+
+            await ApplyBaseInputOptions();
+        }
     }
 
     /// <inheritdoc/>
@@ -556,6 +573,12 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
         {
             editorAttributes ??= new Dictionary<string, object>( StringComparer.OrdinalIgnoreCase );
             editorAttributes["aria-describedby"] = AriaDescribedBy;
+        }
+
+        if ( ParentFieldLabelElementId is not null )
+        {
+            editorAttributes ??= new Dictionary<string, object>( StringComparer.OrdinalIgnoreCase );
+            editorAttributes["aria-labelledby"] = ParentFieldLabelElementId;
         }
 
         return editorAttributes;

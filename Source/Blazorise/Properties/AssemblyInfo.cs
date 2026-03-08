@@ -8,4 +8,5 @@
 [assembly: InternalsVisibleTo( "Blazorise.Material" )]
 [assembly: InternalsVisibleTo( "Blazorise.Tailwind" )]
 [assembly: InternalsVisibleTo( "Blazorise.Markdown" )]
+[assembly: InternalsVisibleTo( "Blazorise.SignaturePad" )]
 [assembly: InternalsVisibleTo( "Blazorise.Tests" )]

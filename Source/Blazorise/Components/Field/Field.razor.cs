@@ -27,6 +27,8 @@ public partial class Field : BaseColumnComponent, IDisposable
 
     private FieldHelp helpText;
 
+    private FieldLabel label;
+
     private List<(BaseComponent Component, string ElementId)> labelTargets;
 
     /// <summary>
@@ -38,6 +40,11 @@ public partial class Field : BaseColumnComponent, IDisposable
     /// Raises when the label target reference changes.
     /// </summary>
     internal event Action LabelTargetChanged;
+
+    /// <summary>
+    /// Raises when the field label reference changes.
+    /// </summary>
+    internal event Action LabelElementChanged;
 
     #endregion
 
@@ -163,6 +170,35 @@ public partial class Field : BaseColumnComponent, IDisposable
     }
 
     /// <summary>
+    /// Registers the label component inside this field.
+    /// </summary>
+    /// <param name="fieldLabel">Field label component.</param>
+    internal void NotifyFieldLabelInitialized( FieldLabel fieldLabel )
+    {
+        if ( fieldLabel is null )
+            return;
+
+        if ( ReferenceEquals( label, fieldLabel ) )
+            return;
+
+        label = fieldLabel;
+        LabelElementChanged?.Invoke();
+    }
+
+    /// <summary>
+    /// Removes the label component inside this field.
+    /// </summary>
+    /// <param name="fieldLabel">Field label component.</param>
+    internal void NotifyFieldLabelRemoved( FieldLabel fieldLabel )
+    {
+        if ( !ReferenceEquals( label, fieldLabel ) )
+            return;
+
+        label = null;
+        LabelElementChanged?.Invoke();
+    }
+
+    /// <summary>
     /// Registers or updates the input element that should be linked by a <see cref="FieldLabel"/>.
     /// </summary>
     /// <param name="component">Input component instance.</param>
@@ -235,6 +271,11 @@ public partial class Field : BaseColumnComponent, IDisposable
     internal string LabelTargetElementId => labelTargets?.Count > 0
         ? labelTargets[^1].ElementId
         : null;
+
+    /// <summary>
+    /// Gets the element id of the field label.
+    /// </summary>
+    internal string LabelElementId => label?.ElementId;
 
     /// <summary>
     /// Determines whether the form controls should be aligned horizontally, as in a horizontal form layout.

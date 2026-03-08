@@ -24,12 +24,13 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
+        base.OnInitialized();
+
         if ( ParentField is not null )
         {
             ParentField.LabelTargetChanged += OnLabelTargetChanged;
+            ParentField.NotifyFieldLabelInitialized( this );
         }
-
-        base.OnInitialized();
     }
 
     /// <inheritdoc/>
@@ -49,6 +50,7 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
         if ( disposing && ParentField is not null )
         {
             ParentField.LabelTargetChanged -= OnLabelTargetChanged;
+            ParentField.NotifyFieldLabelRemoved( this );
         }
 
         base.Dispose( disposing );
@@ -62,6 +64,14 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
         builder.Append( ClassProvider.FieldLabelScreenreader( Screenreader ) );
 
         base.BuildClasses( builder );
+    }
+
+    /// <summary>
+    /// Handles parent field label target changes.
+    /// </summary>
+    private void OnLabelTargetChanged()
+    {
+        InvokeAsync( StateHasChanged );
     }
 
     #endregion
@@ -108,17 +118,8 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
         }
     }
 
-    #endregion
-
-    #region Events
-
-    /// <summary>
-    /// Handles parent field label target changes.
-    /// </summary>
-    private void OnLabelTargetChanged()
-    {
-        InvokeAsync( StateHasChanged );
-    }
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
 
     #endregion
 }

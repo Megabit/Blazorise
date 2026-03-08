@@ -17,6 +17,17 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     #region Methods
 
     /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        if ( ParentField is not null )
+        {
+            ParentField.LabelElementChanged += OnFieldLabelChanged;
+        }
+
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         if ( Rendered )
@@ -105,6 +116,11 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
     {
+        if ( disposing && ParentField is not null )
+        {
+            ParentField.LabelElementChanged -= OnFieldLabelChanged;
+        }
+
         if ( disposing && Rendered )
         {
             await JSModule.SafeDestroy( ElementRef, ElementId );
@@ -236,9 +252,22 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
         return null;
     }
 
+    /// <summary>
+    /// Handles parent field label changes.
+    /// </summary>
+    private async void OnFieldLabelChanged()
+    {
+        await InvokeAsync( StateHasChanged );
+    }
+
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets the parent field label element id.
+    /// </summary>
+    protected string ParentFieldLabelElementId => ParentField?.LabelElementId;
 
     /// <summary>
     /// Reference to the object that should be accessed through JSInterop.
@@ -267,6 +296,11 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// Gets or sets the blazorise options.
     /// </summary>
     [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
+
+    /// <summary>
+    /// Gets or sets the parent field.
+    /// </summary>
+    [CascadingParameter] protected Field ParentField { get; set; }
 
     ///<summary>
     /// Gets or sets value for the signature pad.

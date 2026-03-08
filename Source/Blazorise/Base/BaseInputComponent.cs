@@ -210,6 +210,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         if ( ParentField is not null )
         {
             ParentField.HelpTextChanged += OnHelpTextChanged;
+            ParentField.LabelElementChanged += OnFieldLabelChanged;
         }
 
         base.OnInitialized();
@@ -252,6 +253,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         if ( ParentField is not null )
         {
             ParentField.HelpTextChanged -= OnHelpTextChanged;
+            ParentField.LabelElementChanged -= OnFieldLabelChanged;
         }
 
         if ( ParentField is not null && !string.IsNullOrWhiteSpace( registeredFieldLabelTargetElementId ) )
@@ -510,6 +512,14 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     }
 
     /// <summary>
+    /// Handler for field label changes.
+    /// </summary>
+    private async void OnFieldLabelChanged()
+    {
+        await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
     /// Updates aria attributes based on validation and help text state.
     /// </summary>
     private void UpdateAriaAttributes()
@@ -639,6 +649,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// Gets the element id that should be linked by a parent <see cref="FieldLabel"/>.
     /// </summary>
     protected virtual string FieldLabelTargetElementId => ElementId;
+
+    /// <summary>
+    /// Gets the element id of the parent <see cref="FieldLabel"/>.
+    /// </summary>
+    protected string ParentFieldLabelElementId => ParentField?.LabelElementId;
 
     /// <summary>
     /// Gets the value to be used for the input's "name" attribute.
