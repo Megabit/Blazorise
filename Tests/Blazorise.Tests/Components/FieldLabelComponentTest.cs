@@ -284,6 +284,11 @@ public class FieldLabelAccessibilityOptionsComponentTest : TestContext
     public FieldLabelAccessibilityOptionsComponentTest()
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        Services.AddSingleton( serviceProvider => new BlazoriseOptions( serviceProvider, options =>
+        {
+            options.AccessibilityOptions.UseLabelForAttribute = false;
+            options.AccessibilityOptions.UseAriaLabelledByAttribute = false;
+        } ) );
         JSInterop.AddBlazoriseTextInput();
     }
 

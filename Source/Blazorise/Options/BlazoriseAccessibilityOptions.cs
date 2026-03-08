@@ -8,10 +8,10 @@ public class BlazoriseAccessibilityOptions
     /// <summary>
     /// If true, <see cref="FieldLabel"/> can automatically render the <c>for</c> attribute for inputs registered in the same <see cref="Field"/>.
     /// </summary>
-    public bool UseLabelForAttribute { get; set; }
+    public bool UseLabelForAttribute { get; set; } = true;
 
     /// <summary>
     /// If true, non-labelable controls can automatically render the <c>aria-labelledby</c> attribute from the <see cref="FieldLabel"/> inside the same <see cref="Field"/>.
     /// </summary>
-    public bool UseAriaLabelledByAttribute { get; set; }
+    public bool UseAriaLabelledByAttribute { get; set; } = true;
 }
