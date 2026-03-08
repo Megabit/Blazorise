@@ -1447,6 +1447,9 @@ public partial class Autocomplete<TItem, TValue>
     /// </summary>
     public string InputElementId { get; private set; }
 
+    /// <inheritdoc/>
+    protected override string FieldLabelTargetElementId => InputElementId;
+
     /// <summary>
     /// Gets the dropdown target element id used for positioning.
     /// </summary>

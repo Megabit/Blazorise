@@ -27,10 +27,17 @@ public partial class Field : BaseColumnComponent, IDisposable
 
     private FieldHelp helpText;
 
+    private List<(BaseComponent Component, string ElementId)> labelTargets;
+
     /// <summary>
     /// Raises when the help text reference changes.
     /// </summary>
     internal event Action HelpTextChanged;
+
+    /// <summary>
+    /// Raises when the label target reference changes.
+    /// </summary>
+    internal event Action LabelTargetChanged;
 
     #endregion
 
@@ -155,6 +162,59 @@ public partial class Field : BaseColumnComponent, IDisposable
         HelpTextChanged?.Invoke();
     }
 
+    /// <summary>
+    /// Registers or updates the input element that should be linked by a <see cref="FieldLabel"/>.
+    /// </summary>
+    /// <param name="component">Input component instance.</param>
+    /// <param name="elementId">Resolved input element id.</param>
+    internal void NotifyLabelTargetChanged( BaseComponent component, string elementId )
+    {
+        if ( component is null )
+            return;
+
+        if ( string.IsNullOrWhiteSpace( elementId ) )
+        {
+            NotifyLabelTargetRemoved( component );
+            return;
+        }
+
+        var previousLabelTargetElementId = LabelTargetElementId;
+
+        labelTargets ??= new();
+
+        labelTargets.RemoveAll( x => ReferenceEquals( x.Component, component ) );
+        labelTargets.Add( (component, elementId) );
+
+        if ( !string.Equals( previousLabelTargetElementId, LabelTargetElementId, StringComparison.Ordinal ) )
+        {
+            LabelTargetChanged?.Invoke();
+        }
+    }
+
+    /// <summary>
+    /// Removes the input element that should be linked by a <see cref="FieldLabel"/>.
+    /// </summary>
+    /// <param name="component">Input component instance.</param>
+    internal void NotifyLabelTargetRemoved( BaseComponent component )
+    {
+        if ( component is null || labelTargets is null )
+            return;
+
+        var previousLabelTargetElementId = LabelTargetElementId;
+
+        labelTargets.RemoveAll( x => ReferenceEquals( x.Component, component ) );
+
+        if ( labelTargets.Count == 0 )
+        {
+            labelTargets = null;
+        }
+
+        if ( !string.Equals( previousLabelTargetElementId, LabelTargetElementId, StringComparison.Ordinal ) )
+        {
+            LabelTargetChanged?.Invoke();
+        }
+    }
+
     #endregion
 
     #region Properties
@@ -168,6 +228,13 @@ public partial class Field : BaseColumnComponent, IDisposable
     /// Gets the element id of the field help text.
     /// </summary>
     internal string HelpTextElementId => helpText?.ElementId;
+
+    /// <summary>
+    /// Gets the element id of the input that should be linked by a <see cref="FieldLabel"/>.
+    /// </summary>
+    internal string LabelTargetElementId => labelTargets?.Count > 0
+        ? labelTargets[^1].ElementId
+        : null;
 
     /// <summary>
     /// Determines whether the form controls should be aligned horizontally, as in a horizontal form layout.

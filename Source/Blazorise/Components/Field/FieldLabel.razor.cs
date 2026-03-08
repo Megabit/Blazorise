@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -21,6 +22,39 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
     #region Methods
 
     /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        if ( ParentField is not null )
+        {
+            ParentField.LabelTargetChanged += OnLabelTargetChanged;
+        }
+
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override Task OnFirstAfterRenderAsync()
+    {
+        if ( For is null && ParentField?.LabelTargetElementId is not null )
+        {
+            return InvokeAsync( StateHasChanged );
+        }
+
+        return base.OnFirstAfterRenderAsync();
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing && ParentField is not null )
+        {
+            ParentField.LabelTargetChanged -= OnLabelTargetChanged;
+        }
+
+        base.Dispose( disposing );
+    }
+
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.FieldLabel( IsHorizontal ) );
@@ -33,6 +67,11 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets the resolved ID of the input element that this label belongs to.
+    /// </summary>
+    protected string ResolvedFor => For ?? ParentField?.LabelTargetElementId;
 
     /// <summary>
     /// Gets or sets the ID of an element that this label belongs to.
@@ -67,6 +106,18 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
 
             DirtyClasses();
         }
+    }
+
+    #endregion
+
+    #region Events
+
+    /// <summary>
+    /// Handles parent field label target changes.
+    /// </summary>
+    private void OnLabelTargetChanged()
+    {
+        InvokeAsync( StateHasChanged );
     }
 
     #endregion

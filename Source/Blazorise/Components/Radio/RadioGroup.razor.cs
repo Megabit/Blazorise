@@ -106,6 +106,9 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
     /// </summary>
     public bool Inline => Orientation == Orientation.Horizontal;
 
+    /// <inheritdoc/>
+    protected override string FieldLabelTargetElementId => null;
+
     /// <summary>
     /// Radio group name.
     /// </summary>

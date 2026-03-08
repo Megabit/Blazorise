@@ -64,9 +64,9 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     private string ariaDescribedBy;
 
     /// <summary>
-    /// Tracks the previous field reference for event subscription.
+    /// Tracks the previous label target element id registered with the parent field.
     /// </summary>
-    private Field previousParentField;
+    private string registeredFieldLabelTargetElementId;
 
     /// <summary>
     /// Defines if need to generate field names for the input components.
@@ -182,16 +182,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
             }
         }
 
-        if ( ParentField != previousParentField )
-        {
-            if ( previousParentField is not null )
-                previousParentField.HelpTextChanged -= OnHelpTextChanged;
-
-            if ( ParentField is not null )
-                ParentField.HelpTextChanged += OnHelpTextChanged;
-
-            previousParentField = ParentField;
-        }
+        UpdateFieldLabelTargetRegistration();
 
         UpdateAriaAttributes();
     }
@@ -214,6 +205,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         if ( ThemeOptions is not null )
         {
             ThemeOptions.Changed += OnThemeOptionsChanged;
+        }
+
+        if ( ParentField is not null )
+        {
+            ParentField.HelpTextChanged += OnHelpTextChanged;
         }
 
         base.OnInitialized();
@@ -253,10 +249,15 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
             ParentValidation.ValidationMessageChanged -= OnValidationMessageChanged;
         }
 
-        if ( previousParentField is not null )
+        if ( ParentField is not null )
         {
-            previousParentField.HelpTextChanged -= OnHelpTextChanged;
-            previousParentField = null;
+            ParentField.HelpTextChanged -= OnHelpTextChanged;
+        }
+
+        if ( ParentField is not null && !string.IsNullOrWhiteSpace( registeredFieldLabelTargetElementId ) )
+        {
+            ParentField.NotifyLabelTargetRemoved( this );
+            registeredFieldLabelTargetElementId = null;
         }
 
         ParentFocusableContainer?.NotifyFocusableComponentRemoved( this );
@@ -517,6 +518,37 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         UpdateAriaDescribedBy();
     }
 
+    /// <summary>
+    /// Registers the current component as the label target for the parent <see cref="Field"/>.
+    /// </summary>
+    private void UpdateFieldLabelTargetRegistration()
+    {
+        if ( ParentField is null )
+        {
+            registeredFieldLabelTargetElementId = null;
+            return;
+        }
+
+        var fieldLabelTargetElementId = FieldLabelTargetElementId;
+
+        if ( string.Equals( fieldLabelTargetElementId, registeredFieldLabelTargetElementId, StringComparison.Ordinal ) )
+        {
+            return;
+        }
+
+        if ( !string.IsNullOrWhiteSpace( registeredFieldLabelTargetElementId ) )
+        {
+            ParentField.NotifyLabelTargetRemoved( this );
+        }
+
+        if ( !string.IsNullOrWhiteSpace( fieldLabelTargetElementId ) )
+        {
+            ParentField.NotifyLabelTargetChanged( this, fieldLabelTargetElementId );
+        }
+
+        registeredFieldLabelTargetElementId = fieldLabelTargetElementId;
+    }
+
     private void UpdateAriaInvalid()
     {
         ariaInvalid = paramAriaInvalid.Defined
@@ -602,6 +634,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// Returns the default value for the <typeparamref name="TValue"/> type.
     /// </summary>
     protected virtual TValue DefaultValue => default;
+
+    /// <summary>
+    /// Gets the element id that should be linked by a parent <see cref="FieldLabel"/>.
+    /// </summary>
+    protected virtual string FieldLabelTargetElementId => ElementId;
 
     /// <summary>
     /// Gets the value to be used for the input's "name" attribute.
