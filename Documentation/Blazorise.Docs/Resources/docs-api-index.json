@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-07T17:08:38.2999058Z",
+  "generatedUtc": "2026-03-07T17:12:53.1166493Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -105163,6 +105163,17 @@
           "returnTypeName": "Task",
           "summary": "Expands all the collapsed TreeView nodes.",
           "parameters": []
+        },
+        {
+          "name": "ReloadNode",
+          "returnTypeName": "Task",
+          "summary": "Triggers reload of a specific <strong>TreeView</strong> node.",
+          "parameters": [
+            {
+              "name": "node",
+              "typeName": "TNode"
+            }
+          ]
         },
         {
           "name": "Reload",

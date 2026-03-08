@@ -60,7 +60,7 @@ public record TreeViewNodeState<TNode>
     /// <summary>
     /// Indicates if the node has any child node.
     /// </summary>
-    public bool HasChildren { get; }
+    public bool HasChildren { get; set; }
 
     /// <summary>
     /// List of all child node that belongs to this node.

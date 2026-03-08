@@ -5,8 +5,6 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
-using Blazorise.TreeView;
-using Blazorise.TreeView.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -24,10 +22,10 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
 
     private int? expandedNodesHash;
 
-    private ClassBuilder nodeClassBuilder;
-    private StyleBuilder nodeStyleBuilder;
-    private ClassBuilder nodeIconClassBuilder;
-    private StyleBuilder nodeIconStyleBuilder;
+    private readonly ClassBuilder nodeClassBuilder;
+    private readonly StyleBuilder nodeStyleBuilder;
+    private readonly ClassBuilder nodeIconClassBuilder;
+    private readonly StyleBuilder nodeIconStyleBuilder;
     private TreeViewNodeContext<TNode> nodeContext;
 
     #endregion
@@ -56,7 +54,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         {
             foreach ( var nodeState in NodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
             {
-                if ( nodeState.HasChildren && ExpandedNodes.Contains( nodeState.Node ) == true )
+                if ( nodeState.HasChildren && ExpandedNodes.Contains( nodeState.Node ) )
                 {
                     await LoadChildNodes( nodeState );
                 }
@@ -192,11 +190,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
 
     private async Task LoadChildNodes( TreeViewNodeState<TNode> nodeState )
     {
-        var childNodes = GetChildNodesAsync is not null
-            ? await GetChildNodesAsync( nodeState.Node )
-            : GetChildNodes is not null
-                ? GetChildNodes( nodeState.Node )
-                : null;
+        var childNodes = await ResolveChildNodesAsync( nodeState.Node );
 
         NotifyCollectionChangedEventHandler childrenChangedHandler = ( sender, e ) =>
         {
@@ -218,14 +212,13 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         {
             await ReloadChildren( nodeState, childNodes );
         }
-
     }
 
     private async Task ReloadChildren( TreeViewNodeState<TNode> nodeState, IEnumerable<TNode> childNodes )
     {
         nodeState.Children.Clear();
 
-        await foreach ( var childNodeState in childNodes.ToNodeStates( HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
+        foreach ( var childNodeState in await CreateNodeStatesAsync( childNodes ) )
         {
             nodeState.Children.Add( childNodeState );
         }
@@ -235,7 +228,9 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
     {
         if ( e.Action == NotifyCollectionChangedAction.Add )
         {
-            await foreach ( var childNodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
+            IEnumerable<TNode> newNodes = e.NewItems?.OfType<TNode>() ?? Enumerable.Empty<TNode>();
+
+            foreach ( var childNodeState in await CreateNodeStatesAsync( newNodes ) )
             {
                 if ( !nodeState.Children.Exists( x => x.Node.IsEqual( childNodeState.Node ) ) )
                     nodeState.Children.Add( childNodeState );
@@ -254,6 +249,40 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         }
 
         StateHasChanged();
+    }
+
+    private async Task<IEnumerable<TNode>> ResolveChildNodesAsync( TNode node )
+    {
+        if ( ParentTreeView is not null )
+            return await ParentTreeView.ResolveChildNodesAsync( node );
+
+        return GetChildNodesAsync is not null
+            ? await GetChildNodesAsync( node )
+            : GetChildNodes is not null
+                ? GetChildNodes( node )
+                : null;
+    }
+
+    private async Task<List<TreeViewNodeState<TNode>>> CreateNodeStatesAsync( IEnumerable<TNode> nodes )
+    {
+        if ( ParentTreeView is not null )
+            return await ParentTreeView.CreateNodeStatesAsync( nodes );
+
+        List<TreeViewNodeState<TNode>> nodeStates = new();
+
+        foreach ( TNode node in nodes ?? Enumerable.Empty<TNode>() )
+        {
+            bool hasChildren = HasChildNodesAsync is not null
+                ? await HasChildNodesAsync( node )
+                : DetermineHasChildNodes( node );
+
+            bool expanded = ExpandedNodes?.Contains( node ) == true;
+            bool disabled = DetermineIsDisabled( node );
+
+            nodeStates.Add( new TreeViewNodeState<TNode>( node, hasChildren, expanded, disabled ) );
+        }
+
+        return nodeStates;
     }
 
     private bool SyncExpandedNodesHash()
