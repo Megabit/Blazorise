@@ -224,4 +224,72 @@ public class TreeViewComponentTest : TestContext
             nodes.Count.Should().Be( 3 );
         } );
     }
+
+    [Fact]
+    public async Task ReloadNode_Should_Expand_Node_From_ExpandedNodes()
+    {
+        var parent = new Item()
+        {
+            Text = "Parent",
+            Children = Array.Empty<Item>(),
+        };
+
+        var expandedNodes = new List<Item>();
+
+        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        {
+            parameters.Add( p => p.Nodes, new[] { parent } );
+            parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
+            parameters.Add( p => p.HasChildNodes, (Func<Item, bool>)( node => node.Children?.Any() == true ) );
+            parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
+            parameters.Add( p => p.ExpandedNodes, expandedNodes );
+        } );
+
+        parent.Children = new[]
+        {
+            new Item() { Text = "Child 1" },
+        };
+
+        expandedNodes.Add( parent );
+
+        await cut.Instance.ReloadNode( parent );
+
+        cut.WaitForAssertion( () =>
+        {
+            var nodes = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
+            nodes.Count.Should().Be( 2 );
+            nodes[1].TextContent.Should().Contain( "Child 1" );
+        } );
+    }
+
+    [Fact]
+    public async Task ReloadNode_Should_Update_Disabled_State()
+    {
+        var item = new Item()
+        {
+            Text = "Item 1",
+        };
+
+        var disabledNodes = new HashSet<Item>();
+
+        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        {
+            parameters.Add( p => p.Nodes, new[] { item } );
+            parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
+            parameters.Add( p => p.HasChildNodes, (Func<Item, bool>)( node => node.Children?.Any() == true ) );
+            parameters.Add( p => p.IsDisabled, (Func<Item, bool>)( node => disabledNodes.Contains( node ) ) );
+            parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
+        } );
+
+        cut.Find( ".b-tree-view-node-title span" ).ClassName.Should().NotContain( "text-muted" );
+
+        disabledNodes.Add( item );
+
+        await cut.Instance.ReloadNode( item );
+
+        cut.WaitForAssertion( () =>
+        {
+            cut.Find( ".b-tree-view-node-title span" ).ClassName.Should().Contain( "text-muted" );
+        } );
+    }
 }
