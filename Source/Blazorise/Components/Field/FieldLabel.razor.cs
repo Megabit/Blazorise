@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -28,15 +28,22 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
 
         if ( ParentField is not null )
         {
-            ParentField.LabelTargetChanged += OnLabelTargetChanged;
-            ParentField.NotifyFieldLabelInitialized( this );
+            if ( UseFieldLabelForAttribute )
+            {
+                ParentField.LabelTargetChanged += OnLabelTargetChanged;
+            }
+
+            if ( UseAriaLabelledByAttribute )
+            {
+                ParentField.NotifyFieldLabelInitialized( this );
+            }
         }
     }
 
     /// <inheritdoc/>
     protected override Task OnFirstAfterRenderAsync()
     {
-        if ( For is null && ParentField?.LabelTargetElementId is not null )
+        if ( UseFieldLabelForAttribute && For is null && ParentField?.LabelTargetElementId is not null )
         {
             return InvokeAsync( StateHasChanged );
         }
@@ -49,8 +56,15 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
     {
         if ( disposing && ParentField is not null )
         {
-            ParentField.LabelTargetChanged -= OnLabelTargetChanged;
-            ParentField.NotifyFieldLabelRemoved( this );
+            if ( UseFieldLabelForAttribute )
+            {
+                ParentField.LabelTargetChanged -= OnLabelTargetChanged;
+            }
+
+            if ( UseAriaLabelledByAttribute )
+            {
+                ParentField.NotifyFieldLabelRemoved( this );
+            }
         }
 
         base.Dispose( disposing );
@@ -81,7 +95,19 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
     /// <summary>
     /// Gets the resolved ID of the input element that this label belongs to.
     /// </summary>
-    protected string ResolvedFor => For ?? ParentField?.LabelTargetElementId;
+    protected string ResolvedFor => UseFieldLabelForAttribute
+        ? For ?? ParentField?.LabelTargetElementId
+        : null;
+
+    /// <summary>
+    /// Gets a value indicating whether the automatic <c>for</c> attribute integration is enabled.
+    /// </summary>
+    protected bool UseFieldLabelForAttribute => Options?.AccessibilityOptions?.UseLabelForAttribute == true;
+
+    /// <summary>
+    /// Gets a value indicating whether the automatic <c>aria-labelledby</c> integration is enabled.
+    /// </summary>
+    protected bool UseAriaLabelledByAttribute => Options?.AccessibilityOptions?.UseAriaLabelledByAttribute == true;
 
     /// <summary>
     /// Gets or sets the ID of an element that this label belongs to.
@@ -119,7 +145,12 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
     }
 
     /// <inheritdoc/>
-    protected override bool ShouldAutoGenerateId => true;
+    protected override bool ShouldAutoGenerateId => UseAriaLabelledByAttribute;
+
+    /// <summary>
+    /// Holds the information about the Blazorise global options.
+    /// </summary>
+    [Inject] protected BlazoriseOptions Options { get; set; }
 
     #endregion
 }

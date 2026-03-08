@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -210,7 +210,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         if ( ParentField is not null )
         {
             ParentField.HelpTextChanged += OnHelpTextChanged;
-            ParentField.LabelElementChanged += OnFieldLabelChanged;
+
+            if ( UseAriaLabelledByAttribute )
+            {
+                ParentField.LabelElementChanged += OnFieldLabelChanged;
+            }
         }
 
         base.OnInitialized();
@@ -533,8 +537,13 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// </summary>
     private void UpdateFieldLabelTargetRegistration()
     {
-        if ( ParentField is null )
+        if ( ParentField is null || !UseFieldLabelForAttribute )
         {
+            if ( ParentField is not null && !string.IsNullOrWhiteSpace( registeredFieldLabelTargetElementId ) )
+            {
+                ParentField.NotifyLabelTargetRemoved( this );
+            }
+
             registeredFieldLabelTargetElementId = null;
             return;
         }
@@ -653,7 +662,19 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// <summary>
     /// Gets the element id of the parent <see cref="FieldLabel"/>.
     /// </summary>
-    protected string ParentFieldLabelElementId => ParentField?.LabelElementId;
+    protected string ParentFieldLabelElementId => UseAriaLabelledByAttribute
+        ? ParentField?.LabelElementId
+        : null;
+
+    /// <summary>
+    /// Gets a value indicating whether the automatic <c>for</c> attribute integration is enabled.
+    /// </summary>
+    protected bool UseFieldLabelForAttribute => Options?.AccessibilityOptions?.UseLabelForAttribute == true;
+
+    /// <summary>
+    /// Gets a value indicating whether the automatic <c>aria-labelledby</c> integration is enabled.
+    /// </summary>
+    protected bool UseAriaLabelledByAttribute => Options?.AccessibilityOptions?.UseAriaLabelledByAttribute == true;
 
     /// <summary>
     /// Gets the value to be used for the input's "name" attribute.

@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo( "Blazorise.AntDesign" )]
 [assembly: InternalsVisibleTo( "Blazorise.Bootstrap" )]
@@ -9,4 +9,5 @@
 [assembly: InternalsVisibleTo( "Blazorise.Tailwind" )]
 [assembly: InternalsVisibleTo( "Blazorise.Markdown" )]
 [assembly: InternalsVisibleTo( "Blazorise.SignaturePad" )]
+[assembly: InternalsVisibleTo( "Blazorise.Benchmark" )]
 [assembly: InternalsVisibleTo( "Blazorise.Tests" )]

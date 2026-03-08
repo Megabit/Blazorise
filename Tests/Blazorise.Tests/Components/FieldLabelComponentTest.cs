@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using Blazorise.Components;
@@ -6,6 +6,7 @@ using Blazorise.RichTextEdit;
 using Bunit;
 using MarkdownEditor = Blazorise.Markdown.Markdown;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using RichTextEditComponent = Blazorise.RichTextEdit.RichTextEdit;
 using SignaturePadComponent = Blazorise.SignaturePad.SignaturePad;
 using Xunit;
@@ -18,6 +19,11 @@ public class FieldLabelComponentTest : TestContext
     public FieldLabelComponentTest()
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        Services.AddSingleton( serviceProvider => new BlazoriseOptions( serviceProvider, options =>
+        {
+            options.AccessibilityOptions.UseLabelForAttribute = true;
+            options.AccessibilityOptions.UseAriaLabelledByAttribute = true;
+        } ) );
         Services.AddBlazoriseRichTextEdit();
         JSInterop
             .AddBlazoriseTextInput()
@@ -269,6 +275,38 @@ public class FieldLabelComponentTest : TestContext
             Assert.NotNull( label.GetAttribute( "id" ) );
             Assert.Equal( label.GetAttribute( "id" ), signaturePad.GetAttribute( "aria-labelledby" ) );
             Assert.Null( label.GetAttribute( "for" ) );
+        } );
+    }
+}
+
+public class FieldLabelAccessibilityOptionsComponentTest : TestContext
+{
+    public FieldLabelAccessibilityOptionsComponentTest()
+    {
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop.AddBlazoriseTextInput();
+    }
+
+    [Fact]
+    public void FieldLabel_Should_Not_LinkToNestedTextInput_WhenAccessibilityOptionsAreDisabled()
+    {
+        var cut = RenderComponent<Field>( parameters => parameters
+            .AddChildContent( builder =>
+            {
+                builder.OpenComponent<FieldLabel>( 0 );
+                builder.AddAttribute( 1, nameof( FieldLabel.ChildContent ), (RenderFragment)( childBuilder => childBuilder.AddContent( 0, "First Name" ) ) );
+                builder.CloseComponent();
+
+                builder.OpenComponent<TextInput>( 2 );
+                builder.CloseComponent();
+            } ) );
+
+        cut.WaitForAssertion( () =>
+        {
+            var label = cut.Find( "label" );
+
+            Assert.Null( label.GetAttribute( "for" ) );
+            Assert.Null( label.GetAttribute( "id" ) );
         } );
     }
 }

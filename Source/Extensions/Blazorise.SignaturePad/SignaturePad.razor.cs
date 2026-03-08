@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -19,7 +19,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        if ( ParentField is not null )
+        if ( ParentField is not null && UseAriaLabelledByAttribute )
         {
             ParentField.LabelElementChanged += OnFieldLabelChanged;
         }
@@ -116,7 +116,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
     {
-        if ( disposing && ParentField is not null )
+        if ( disposing && ParentField is not null && UseAriaLabelledByAttribute )
         {
             ParentField.LabelElementChanged -= OnFieldLabelChanged;
         }
@@ -267,7 +267,9 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Gets the parent field label element id.
     /// </summary>
-    protected string ParentFieldLabelElementId => ParentField?.LabelElementId;
+    protected string ParentFieldLabelElementId => UseAriaLabelledByAttribute
+        ? ParentField?.LabelElementId
+        : null;
 
     /// <summary>
     /// Reference to the object that should be accessed through JSInterop.
@@ -296,6 +298,11 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// Gets or sets the blazorise options.
     /// </summary>
     [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
+
+    /// <summary>
+    /// Gets a value indicating whether the automatic <c>aria-labelledby</c> integration is enabled.
+    /// </summary>
+    protected bool UseAriaLabelledByAttribute => BlazoriseOptions?.AccessibilityOptions?.UseAriaLabelledByAttribute == true;
 
     /// <summary>
     /// Gets or sets the parent field.
