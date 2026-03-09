@@ -219,19 +219,19 @@ class EmptyClassProvider : IClassProvider
 
     #region RangeSlider
 
-    public string RangeSlider() => "b-range-slider";
+    public string RangeSlider() => null;
 
-    public string RangeSliderTrack() => "b-range-slider-track";
+    public string RangeSliderTrack() => null;
 
-    public string RangeSliderRange() => "b-range-slider-range";
+    public string RangeSliderRange() => null;
 
-    public string RangeSliderInput() => "b-range-slider-input";
+    public string RangeSliderInput() => null;
 
-    public string RangeSliderStart() => "b-range-slider-input-start";
+    public string RangeSliderStart() => null;
 
-    public string RangeSliderEnd() => "b-range-slider-input-end";
+    public string RangeSliderEnd() => null;
 
-    public string RangeSliderTooltip() => "b-range-slider-tooltip";
+    public string RangeSliderTooltip() => null;
 
     public string RangeSliderValidation( ValidationStatus validationStatus ) => null;
 
