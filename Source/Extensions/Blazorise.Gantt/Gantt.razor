@@ -30,7 +30,7 @@
                            WeekViewClicked="@ShowWeekView"
                            MonthViewClicked="@ShowMonthView"
                            YearViewClicked="@ShowYearView"
-                           AddTaskClicked="@New"
+                           AddTaskClicked="@NotifyNewItemClicked"
                            ExpandAllClicked="@ExpandAll"
                            CollapseAllClicked="@CollapseAll"
                            SearchTextChanged="@SetSearchText"
@@ -78,7 +78,7 @@
                                 }
                                 else if ( showHeaderNewButton )
                                 {
-                                    <Button Size="Size.ExtraSmall" Clicked="@New" Border="BorderIs0" Background="Background.Transparent" aria-label="@AddTaskText">
+                                    <Button Size="Size.ExtraSmall" Clicked="@NotifyNewItemClicked" Border="BorderIs0" Background="Background.Transparent" aria-label="@AddTaskText">
                                         <Icon Name="IconName.Add" />
                                     </Button>
                                 }
@@ -139,7 +139,7 @@
                                             }
                                             else if ( CanShowAddChildButton( node.Item ) )
                                             {
-                                                <Button Size="Size.ExtraSmall" Clicked="@(() => AddChild( node.Item ))" Border="BorderIs0" Background="Background.Transparent" aria-label="@AddChildText">
+                                                <Button Size="Size.ExtraSmall" Clicked="@(() => NotifyAddChildItemClicked( node.Item ))" Border="BorderIs0" Background="Background.Transparent" aria-label="@AddChildText">
                                                     <Icon Name="IconName.Add" />
                                                 </Button>
                                             }

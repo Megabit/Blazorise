@@ -745,11 +745,6 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( !IsCommandAllowed( GanttCommandType.Edit, item ) )
             return;
 
-        if ( EditItemClicked.HasDelegate )
-        {
-            await EditItemClicked.InvokeAsync( new GanttItemClickedEventArgs<TItem>( item ) );
-        }
-
         editItem = item;
         editParentItem = default;
         editState = GanttEditState.Edit;
@@ -777,6 +772,68 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 return;
 
             await DeleteItemImpl( item );
+        }
+    }
+
+    private async Task NotifyNewItemClicked()
+    {
+        if ( !IsCommandAllowed( GanttCommandType.New ) )
+            return;
+
+        var item = CreateNewItem();
+
+        await New( item );
+
+        if ( NewItemClicked.HasDelegate )
+        {
+            await NewItemClicked.InvokeAsync( new GanttCommandContext<TItem>( GanttCommandType.New, item ) );
+        }
+    }
+
+    private async Task NotifyAddChildItemClicked( TItem parentItem )
+    {
+        if ( parentItem is null || !IsCommandAllowed( GanttCommandType.AddChild, parentItem: parentItem ) )
+            return;
+
+        var item = CreateNewItem();
+
+        await New( item, parentItem );
+
+        if ( AddChildItemClicked.HasDelegate )
+        {
+            await AddChildItemClicked.InvokeAsync( new GanttCommandContext<TItem>( GanttCommandType.AddChild, item, parentItem ) );
+        }
+    }
+
+    private async Task NotifyEditItemClicked( TItem item )
+    {
+        if ( item is null || !IsCommandAllowed( GanttCommandType.Edit, item ) )
+            return;
+
+        await Edit( item );
+
+        if ( EditItemClicked.HasDelegate )
+        {
+            await EditItemClicked.InvokeAsync( new GanttItemClickedEventArgs<TItem>( item ) );
+        }
+    }
+
+    private async Task NotifyDeleteItemClicked( TItem item )
+    {
+        if ( item is null || !IsCommandAllowed( GanttCommandType.Delete, item ) )
+            return;
+
+        if ( Editable && UseInternalEditing )
+        {
+            if ( await ConfirmDelete() == false )
+                return;
+
+            await DeleteItemImpl( item );
+        }
+
+        if ( DeleteItemClicked.HasDelegate )
+        {
+            await DeleteItemClicked.InvokeAsync( new GanttItemClickedEventArgs<TItem>( item ) );
         }
     }
 
@@ -835,11 +892,6 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
         if ( !IsCommandAllowed( GanttCommandType.Delete, itemToDelete ) )
             return false;
-
-        if ( DeleteItemClicked.HasDelegate )
-        {
-            await DeleteItemClicked.InvokeAsync( new GanttItemClickedEventArgs<TItem>( itemToDelete ) );
-        }
 
         if ( !await IsSafeToProceed( ItemRemoving, itemToDelete, itemToDelete ) )
             return false;
@@ -1697,7 +1749,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
         if ( IsCommandAllowed( GanttCommandType.Edit, item ) )
         {
-            await Edit( item );
+            await NotifyEditItemClicked( item );
         }
     }
 
@@ -1813,6 +1865,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( item is null )
             return false;
 
+        if ( !UseInternalEditing )
+            return false;
+
         if ( !IsCommandAllowed( GanttCommandType.Edit, item ) )
             return false;
 
@@ -1920,7 +1975,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         await OnTreeRowClicked( item, rowKey );
 
         if ( IsCommandAllowed( GanttCommandType.Edit, item ) )
-            await Edit( item );
+            await NotifyEditItemClicked( item );
     }
 
     private async Task OnTreeRowClicked( TItem item, string rowKey )
@@ -1970,11 +2025,11 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             case "Enter":
             case "F2":
                 if ( IsCommandAllowed( GanttCommandType.Edit, focusedRow.Item ) )
-                    await Edit( focusedRow.Item );
+                    await NotifyEditItemClicked( focusedRow.Item );
                 break;
             case "Delete":
                 if ( IsCommandAllowed( GanttCommandType.Delete, focusedRow.Item ) )
-                    await Delete( focusedRow.Item );
+                    await NotifyDeleteItemClicked( focusedRow.Item );
                 break;
             case " ":
             case "Space":
@@ -2124,7 +2179,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         var isCommandColumn = column?.IsCommand ?? false;
         var canAddTask = isCommandColumn && showHeaderNewButton && IsCommandAllowed( GanttCommandType.New );
         Func<Task> addTask = canAddTask
-            ? New
+            ? NotifyNewItemClicked
             : NoopAsync;
 
         return new GanttColumnHeaderContext<TItem>( this, column.Column, column.HeaderText, column.CanSort, showSortIcon, sortDirection, isCommandColumn, canAddTask, addTask, AddTaskText );
@@ -2133,7 +2188,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private GanttTreeCommandHeaderContext<TItem> GetTreeCommandHeaderContext( bool showHeaderNewButton )
     {
         Func<Task> addTask = showHeaderNewButton
-            ? New
+            ? NotifyNewItemClicked
             : NoopAsync;
 
         return new GanttTreeCommandHeaderContext<TItem>( this, showHeaderNewButton, addTask, AddTaskText );
@@ -2143,7 +2198,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     {
         var canAddChild = CanShowAddChildButton( row.Item );
         Func<Task> addChild = canAddChild
-            ? () => AddChild( row.Item )
+            ? () => NotifyAddChildItemClicked( row.Item )
             : NoopAsync;
 
         var selected = IsSelectedRow( row.Item );
@@ -2197,15 +2252,15 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             : NoopAsync;
         var canAddChild = CanShowAddChildButton( row.Item );
         Func<Task> addChild = canAddChild
-            ? () => AddChild( row.Item )
+            ? () => NotifyAddChildItemClicked( row.Item )
             : NoopAsync;
         var canEdit = IsCommandAllowed( GanttCommandType.Edit, row.Item );
         Func<Task> edit = canEdit
-            ? () => Edit( row.Item )
+            ? () => NotifyEditItemClicked( row.Item )
             : NoopAsync;
         var canDelete = IsCommandAllowed( GanttCommandType.Delete, row.Item );
         Func<Task> delete = canDelete
-            ? () => Delete( row.Item )
+            ? () => NotifyDeleteItemClicked( row.Item )
             : NoopAsync;
 
         var selected = IsSelectedRow( row.Item );
@@ -3917,13 +3972,13 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             : FirstDayOfWeek;
 
     private bool ShowToolbarAddTaskButton
-        => UseInternalEditing && IsCommandAllowed( GanttCommandType.New );
+        => IsCommandAllowed( GanttCommandType.New );
 
     private bool ShowHeaderNewButton
-        => UseInternalEditing && IsCommandAllowed( GanttCommandType.New );
+        => IsCommandAllowed( GanttCommandType.New );
 
     private bool ShowAddChildColumn
-        => UseInternalEditing && Editable && AddChildCommandAllowed;
+        => Editable && AddChildCommandAllowed;
 
     private bool ProgressColumnAvailable
         => propertyMapper?.HasProgress == true
@@ -4197,7 +4252,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     [Parameter] public Func<GanttCommandContext<TItem>, bool> CommandAllowed { get; set; }
 
     /// <summary>
-    /// Gets or sets whether built-in modal editing is used.
+    /// Gets or sets whether built-in modal editing and internal data mutation are used.
     /// </summary>
     [Parameter] public bool UseInternalEditing { get; set; } = true;
 
@@ -4210,6 +4265,16 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     /// Gets or sets custom factory used to create new item identifiers.
     /// </summary>
     [Parameter] public Func<object> NewIdCreator { get; set; }
+
+    /// <summary>
+    /// Gets or sets callback invoked when the new-item command is triggered.
+    /// </summary>
+    [Parameter] public EventCallback<GanttCommandContext<TItem>> NewItemClicked { get; set; }
+
+    /// <summary>
+    /// Gets or sets callback invoked when the add-child command is triggered.
+    /// </summary>
+    [Parameter] public EventCallback<GanttCommandContext<TItem>> AddChildItemClicked { get; set; }
 
     /// <summary>
     /// Gets or sets callback invoked before an item is inserted.
