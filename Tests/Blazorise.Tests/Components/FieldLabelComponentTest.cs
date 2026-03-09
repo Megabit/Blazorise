@@ -167,6 +167,33 @@ public class FieldLabelComponentTest : TestContext
     }
 
     [Fact]
+    public void FieldLabel_Should_UseExplicitAriaLabelledBy_WhenProvided()
+    {
+        var cut = RenderComponent<Field>( parameters => parameters
+            .AddChildContent( builder =>
+            {
+                builder.OpenComponent<FieldLabel>( 0 );
+                builder.AddAttribute( 1, nameof( FieldLabel.ChildContent ), (RenderFragment)( childBuilder => childBuilder.AddContent( 0, "Color" ) ) );
+                builder.CloseComponent();
+
+                builder.OpenComponent<ColorPicker>( 2 );
+                builder.AddAttribute( 3, nameof( ColorPicker.ElementId ), "favorite-color" );
+                builder.AddAttribute( 4, nameof( ColorPicker.AriaLabelledBy ), "custom-label-id" );
+                builder.CloseComponent();
+            } ) );
+
+        cut.WaitForAssertion( () =>
+        {
+            var label = cut.Find( "label" );
+            var colorPicker = cut.Find( "#favorite-color" );
+
+            Assert.NotNull( label.GetAttribute( "id" ) );
+            Assert.Equal( "custom-label-id", colorPicker.GetAttribute( "aria-labelledby" ) );
+            Assert.NotEqual( label.GetAttribute( "id" ), colorPicker.GetAttribute( "aria-labelledby" ) );
+        } );
+    }
+
+    [Fact]
     public void FieldLabel_Should_LabelRadioGroupWithAriaLabelledBy()
     {
         // setup
@@ -288,6 +315,8 @@ public class FieldLabelAccessibilityOptionsComponentTest : TestContext
         {
             options.AccessibilityOptions.UseLabelForAttribute = false;
             options.AccessibilityOptions.UseAriaLabelledByAttribute = false;
+            options.AccessibilityOptions.UseAutoAriaInvalidAttribute = false;
+            options.AccessibilityOptions.UseAutoAriaDescribedByAttribute = false;
         } ) );
         JSInterop.AddBlazoriseTextInput();
     }

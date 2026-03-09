@@ -64,6 +64,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     private string ariaDescribedBy;
 
     /// <summary>
+    /// Holds the aria-labelledby attribute value.
+    /// </summary>
+    private string ariaLabelledBy;
+
+    /// <summary>
     /// Tracks the previous label target element id registered with the parent field.
     /// </summary>
     private string registeredFieldLabelTargetElementId;
@@ -103,6 +108,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// </summary>
     protected ComponentParameterInfo<string> paramAriaDescribedBy;
 
+    /// <summary>
+    /// Contains metadata about the parameter representing aria-labelledby for the component.
+    /// </summary>
+    protected ComponentParameterInfo<string> paramAriaLabelledBy;
+
     #endregion
 
     #region Methods
@@ -123,6 +133,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         parameters.TryGetParameter( Autofocus, out paramAutofocus );
         parameters.TryGetParameter( AriaInvalid, out paramAriaInvalid );
         parameters.TryGetParameter( AriaDescribedBy, out paramAriaDescribedBy );
+        parameters.TryGetParameter( AriaLabelledBy, out paramAriaLabelledBy );
     }
 
     /// <summary>
@@ -185,6 +196,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         UpdateFieldLabelTargetRegistration();
 
         UpdateAriaAttributes();
+        UpdateAriaLabelledBy();
     }
 
     /// <inheritdoc/>
@@ -209,7 +221,10 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
 
         if ( ParentField is not null )
         {
-            ParentField.HelpTextChanged += OnHelpTextChanged;
+            if ( UseAutoAriaDescribedByAttribute )
+            {
+                ParentField.HelpTextChanged += OnHelpTextChanged;
+            }
 
             if ( UseAriaLabelledByAttribute )
             {
@@ -300,7 +315,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         await ParentValidation.InitializeInput( this );
 
         ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
-        ParentValidation.ValidationMessageChanged += OnValidationMessageChanged;
+
+        if ( UseAutoAriaDescribedByAttribute )
+        {
+            ParentValidation.ValidationMessageChanged += OnValidationMessageChanged;
+        }
 
         validationInitialized = true;
     }
@@ -572,14 +591,21 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     {
         ariaInvalid = paramAriaInvalid.Defined
             ? paramAriaInvalid.Value
-            : ParentValidation?.Status == ValidationStatus.Error ? "true" : null;
+            : UseAutoAriaInvalidAttribute && ParentValidation?.Status == ValidationStatus.Error ? "true" : null;
     }
 
     private void UpdateAriaDescribedBy()
     {
         ariaDescribedBy = paramAriaDescribedBy.Defined
             ? paramAriaDescribedBy.Value
-            : BuildAriaDescribedBy();
+            : UseAutoAriaDescribedByAttribute ? BuildAriaDescribedBy() : null;
+    }
+
+    private void UpdateAriaLabelledBy()
+    {
+        ariaLabelledBy = paramAriaLabelledBy.Defined
+            ? paramAriaLabelledBy.Value
+            : null;
     }
 
     private string BuildAriaDescribedBy()
@@ -667,6 +693,13 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         : null;
 
     /// <summary>
+    /// Gets the resolved value of the <c>aria-labelledby</c> attribute, preferring an explicit value over the parent <see cref="FieldLabel"/>.
+    /// </summary>
+    protected string ResolvedAriaLabelledBy => paramAriaLabelledBy.Defined
+        ? paramAriaLabelledBy.Value
+        : ParentFieldLabelElementId;
+
+    /// <summary>
     /// Gets a value indicating whether the automatic <c>for</c> attribute integration is enabled.
     /// </summary>
     protected bool UseFieldLabelForAttribute => Options?.AccessibilityOptions?.UseLabelForAttribute == true;
@@ -675,6 +708,21 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// Gets a value indicating whether the automatic <c>aria-labelledby</c> integration is enabled.
     /// </summary>
     protected bool UseAriaLabelledByAttribute => Options?.AccessibilityOptions?.UseAriaLabelledByAttribute == true;
+
+    /// <summary>
+    /// Gets a value indicating whether the automatic <c>aria-invalid</c> integration is enabled.
+    /// </summary>
+    protected bool UseAutoAriaInvalidAttribute => Options?.AccessibilityOptions?.UseAutoAriaInvalidAttribute == true;
+
+    /// <summary>
+    /// Gets a value indicating whether the automatic <c>aria-describedby</c> integration is enabled.
+    /// </summary>
+    protected bool UseAutoAriaDescribedByAttribute => Options?.AccessibilityOptions?.UseAutoAriaDescribedByAttribute == true;
+
+    /// <summary>
+    /// Gets a value indicating whether an explicit <c>aria-labelledby</c> parameter was supplied.
+    /// </summary>
+    protected bool HasDefinedAriaLabelledBy => paramAriaLabelledBy.Defined;
 
     /// <summary>
     /// Gets the value to be used for the input's "name" attribute.
@@ -745,6 +793,19 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     {
         get => ariaDescribedBy;
         set => ariaDescribedBy = value;
+    }
+
+    /// <summary>
+    /// Gets or sets the aria-labelledby attribute value.
+    /// </summary>
+    /// <remarks>
+    /// When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <see cref="FieldLabel"/>.
+    /// </remarks>
+    [Parameter]
+    public string AriaLabelledBy
+    {
+        get => ariaLabelledBy;
+        set => ariaLabelledBy = value;
     }
 
     /// <summary>

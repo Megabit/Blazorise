@@ -30,6 +30,15 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        if ( parameters.TryGetValue<string>( nameof( AriaLabelledBy ), out var ariaLabelledByValue ) )
+        {
+            AriaLabelledBy = ariaLabelledByValue;
+        }
+        else
+        {
+            AriaLabelledBy = null;
+        }
+
         if ( Rendered )
         {
             var valueChanged = parameters.TryGetValue<byte[]>( nameof( Value ), out var paramValue ) && !Value.AreEqual( paramValue );
@@ -272,6 +281,11 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
         : null;
 
     /// <summary>
+    /// Gets the resolved aria-labelledby attribute value.
+    /// </summary>
+    protected string ResolvedAriaLabelledBy => AriaLabelledBy ?? ParentFieldLabelElementId;
+
+    /// <summary>
     /// Reference to the object that should be accessed through JSInterop.
     /// </summary>
     protected DotNetObjectReference<SignaturePad> DotNetObjectRef { get; private set; }
@@ -390,6 +404,11 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// If true, prevents the user interaction.
     /// </summary>
     [Parameter] public bool ReadOnly { get; set; }
+
+    /// <summary>
+    /// Gets or sets the aria-labelledby attribute value.
+    /// </summary>
+    [Parameter] public string AriaLabelledBy { get; set; }
 
     /// <summary>
     /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.

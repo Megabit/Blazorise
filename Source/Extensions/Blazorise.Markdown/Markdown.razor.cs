@@ -40,7 +40,7 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
 
     private bool baseInputOptionsUpdateScheduled;
 
-    private string appliedFieldLabelElementId;
+    private string appliedAriaLabelledBy;
 
     #endregion
 
@@ -157,7 +157,7 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
 
         await ApplyBaseInputOptions();
 
-        appliedFieldLabelElementId = ParentFieldLabelElementId;
+        appliedAriaLabelledBy = ResolvedAriaLabelledBy;
 
         if ( hasPendingValue )
         {
@@ -176,9 +176,9 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
     {
         await base.OnAfterRenderAsync( firstRender );
 
-        if ( jsInitialized && !string.Equals( appliedFieldLabelElementId, ParentFieldLabelElementId, StringComparison.Ordinal ) )
+        if ( jsInitialized && !string.Equals( appliedAriaLabelledBy, ResolvedAriaLabelledBy, StringComparison.Ordinal ) )
         {
-            appliedFieldLabelElementId = ParentFieldLabelElementId;
+            appliedAriaLabelledBy = ResolvedAriaLabelledBy;
 
             await ApplyBaseInputOptions();
         }
@@ -575,10 +575,10 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
             editorAttributes["aria-describedby"] = AriaDescribedBy;
         }
 
-        if ( ParentFieldLabelElementId is not null )
+        if ( ResolvedAriaLabelledBy is not null )
         {
             editorAttributes ??= new Dictionary<string, object>( StringComparer.OrdinalIgnoreCase );
-            editorAttributes["aria-labelledby"] = ParentFieldLabelElementId;
+            editorAttributes["aria-labelledby"] = ResolvedAriaLabelledBy;
         }
 
         return editorAttributes;

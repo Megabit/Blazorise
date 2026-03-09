@@ -14,4 +14,14 @@ public class BlazoriseAccessibilityOptions
     /// If true, non-labelable controls can automatically render the <c>aria-labelledby</c> attribute from the <see cref="FieldLabel"/> inside the same <see cref="Field"/>.
     /// </summary>
     public bool UseAriaLabelledByAttribute { get; set; } = true;
+
+    /// <summary>
+    /// If true, input components can automatically render the <c>aria-invalid</c> attribute from the current validation status.
+    /// </summary>
+    public bool UseAutoAriaInvalidAttribute { get; set; } = true;
+
+    /// <summary>
+    /// If true, input components can automatically render the <c>aria-describedby</c> attribute from the current <see cref="FieldHelp"/> and validation message elements.
+    /// </summary>
+    public bool UseAutoAriaDescribedByAttribute { get; set; } = true;
 }

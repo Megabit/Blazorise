@@ -45,6 +45,22 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     }
 
     [Fact]
+    public void AriaLabelledBy_IsAppliedToDropdown_WhenProvided()
+    {
+        var comp = RenderComponent<Autocomplete<string, string>>( parameters => parameters
+            .Add( p => p.Data, new List<string> { "Alpha" } )
+            .Add( p => p.TextField, item => item )
+            .Add( p => p.ValueField, item => item )
+            .Add( p => p.AriaLabelledBy, "label-id" ) );
+
+        var dropdown = comp.Find( ".b-is-autocomplete" );
+        var input = comp.Find( ".b-is-autocomplete input" );
+
+        Assert.Equal( "label-id", dropdown.GetAttribute( "aria-labelledby" ) );
+        Assert.Null( input.GetAttribute( "aria-labelledby" ) );
+    }
+
+    [Fact]
     public async Task FreeTypingNotFoundTemplate_Should_DisplayDefinedContent_WhenFreeTypingIsTrue()
     {
         var comp = RenderComponent<AutocompleteComponent>(

@@ -585,5 +585,13 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// </remarks>
     [Parameter] public string AriaDescribedBy { get; set; }
 
+    /// <summary>
+    /// Gets or sets the aria-labelledby attribute value for the dropdown root element.
+    /// </summary>
+    /// <remarks>
+    /// When set, this value is rendered as-is on the dropdown root element.
+    /// </remarks>
+    [Parameter] public string AriaLabelledBy { get; set; }
+
     #endregion
 }
