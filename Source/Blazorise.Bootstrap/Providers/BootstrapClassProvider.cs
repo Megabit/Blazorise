@@ -244,7 +244,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string RangeSliderEnd() => "range-slider-input-end";
 
-    public override string RangeSliderTooltip() => "badge badge-light range-slider-tooltip";
+    public override string RangeSliderTooltip() => "range-slider-tooltip";
 
     public override string RangeSliderValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
