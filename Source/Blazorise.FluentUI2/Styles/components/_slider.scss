@@ -105,20 +105,36 @@
         top: 50%;
         left: 0;
         width: 100%;
+        height: 20px;
+        padding: 0;
         margin: 0;
+        border: 0;
+        outline: 0;
         transform: translateY(-50%);
         background: transparent;
         pointer-events: none;
         -webkit-appearance: none;
+        -moz-appearance: none;
         appearance: none;
 
+        &:focus {
+            outline: 0;
+        }
+
+        &::-moz-focus-outer {
+            border: 0;
+        }
+
         &::-webkit-slider-runnable-track {
+            height: 4px;
             background: transparent;
+            border: 0;
         }
 
         &::-webkit-slider-thumb {
             width: 20px;
             height: 20px;
+            margin-top: -8px;
             border: 0;
             border-radius: var(--borderRadiusCircular);
             background-color: var(--colorCompoundBrandBackground);
@@ -130,7 +146,15 @@
         }
 
         &::-moz-range-track {
+            height: 4px;
             background: transparent;
+            border: 0;
+        }
+
+        &::-moz-range-progress {
+            height: 4px;
+            background: transparent;
+            border: 0;
         }
 
         &::-moz-range-thumb {
@@ -166,8 +190,8 @@
     }
 
     > .fui-RangeSlider__tooltip {
-        top: 0;
-        transform: translate(-50%, calc(-100% - .25rem));
+        top: 50%;
+        transform: translate(-50%, calc(-100% - .375rem));
         white-space: nowrap;
         z-index: 6;
         pointer-events: none;
