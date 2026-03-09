@@ -82,36 +82,60 @@
 }
 
 .fui-RangeSlider {
-    min-height: 2rem;
+    --fui-Slider__thumb--size: 20px;
+    grid-template-columns: 1fr calc(100% - var(--fui-Slider__thumb--size)) 1fr;
+    grid-template-rows: 1fr var(--fui-Slider__thumb--size) 1fr;
+    min-width: 120px;
+    min-height: 32px;
+    justify-items: center;
+    touch-action: none;
+    display: inline-grid;
+    position: relative;
+    align-items: center;
+    width: 100%;
 
-    > .fui-RangeSlider__track,
-    > .fui-RangeSlider__range {
+    > .fui-RangeSlider__rail-container {
+        grid-column-end: 2;
+        grid-column-start: 2;
+        grid-row-end: 2;
+        grid-row-start: 2;
+        pointer-events: none;
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    > .fui-RangeSlider__rail-container > .fui-RangeSlider__track,
+    > .fui-RangeSlider__rail-container > .fui-RangeSlider__range {
+        position: absolute;
         top: 50%;
         height: 4px;
         transform: translateY(-50%);
         border-radius: var(--borderRadiusCircular);
     }
 
-    > .fui-RangeSlider__track {
+    > .fui-RangeSlider__rail-container > .fui-RangeSlider__track {
+        width: 100%;
         background-color: var(--colorNeutralStrokeAccessible);
     }
 
-    > .fui-RangeSlider__range {
+    > .fui-RangeSlider__rail-container > .fui-RangeSlider__range {
         background-color: var(--colorCompoundBrandBackground);
     }
 
     > .fui-RangeSlider__input {
-        position: absolute;
-        top: 50%;
-        left: 0;
+        grid-column-end: -1;
+        grid-column-start: 1;
+        grid-row-end: -1;
+        grid-row-start: 1;
         width: 100%;
         height: 20px;
         padding: 0;
         margin: 0;
         border: 0;
         outline: 0;
-        transform: translateY(-50%);
         background: transparent;
+        position: relative;
         pointer-events: none;
         -webkit-appearance: none;
         -moz-appearance: none;
@@ -189,9 +213,10 @@
         }
     }
 
-    > .fui-RangeSlider__tooltip {
+    > .fui-RangeSlider__rail-container > .fui-RangeSlider__tooltip {
+        position: absolute;
         top: 50%;
-        transform: translate(-50%, calc(-100% - .375rem));
+        transform: translate(-50%, calc(-100% - var(--spacingHorizontalM)));
         white-space: nowrap;
         z-index: 6;
         pointer-events: none;
@@ -204,8 +229,8 @@
     }
 
     &[aria-disabled='true'] {
-        > .fui-RangeSlider__track,
-        > .fui-RangeSlider__range {
+        > .fui-RangeSlider__rail-container > .fui-RangeSlider__track,
+        > .fui-RangeSlider__rail-container > .fui-RangeSlider__range {
             opacity: .65;
         }
 
