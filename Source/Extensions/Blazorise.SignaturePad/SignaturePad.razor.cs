@@ -14,6 +14,14 @@ namespace Blazorise.SignaturePad;
 /// </summary>
 public partial class SignaturePad : BaseComponent, IAsyncDisposable
 {
+    #region Members
+
+    private bool refreshQueued;
+
+    private bool refreshRequestedWhileQueued;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
@@ -120,6 +128,14 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
         }
 
         await base.OnAfterRenderAsync( firstRender );
+
+        refreshQueued = false;
+
+        if ( refreshRequestedWhileQueued && !( Disposed || AsyncDisposed ) )
+        {
+            refreshRequestedWhileQueued = false;
+            QueueRefresh();
+        }
     }
 
     /// <inheritdoc/>
@@ -264,9 +280,31 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Handles parent field label changes.
     /// </summary>
-    private async void OnFieldLabelChanged()
+    private void OnFieldLabelChanged()
     {
-        await InvokeAsync( StateHasChanged );
+        if ( AriaLabelledBy is not null )
+            return;
+
+        QueueRefresh();
+    }
+
+    /// <summary>
+    /// Queues a single component refresh for the current render cycle.
+    /// </summary>
+    private void QueueRefresh()
+    {
+        if ( Disposed || AsyncDisposed )
+            return;
+
+        if ( refreshQueued )
+        {
+            refreshRequestedWhileQueued = true;
+            return;
+        }
+
+        refreshQueued = true;
+
+        _ = InvokeAsync( StateHasChanged );
     }
 
     #endregion

@@ -656,6 +656,9 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
     /// </summary>
     protected JSMarkdownModule JSModule { get; private set; }
 
+    /// <inheritdoc/>
+    protected override bool UsesAutomaticAriaLabelledBy => true;
+
     /// <summary>
     /// Gets the CSS class names applied to the underlying textarea element.
     /// </summary>

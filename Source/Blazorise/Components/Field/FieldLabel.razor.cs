@@ -17,6 +17,10 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
 
     private Screenreader screenreader = Screenreader.Always;
 
+    private bool refreshQueued;
+
+    private bool refreshRequestedWhileQueued;
+
     #endregion
 
     #region Methods
@@ -45,10 +49,24 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
     {
         if ( UseFieldLabelForAttribute && For is null && ParentField?.LabelTargetElementId is not null )
         {
-            return InvokeAsync( StateHasChanged );
+            QueueRefresh();
         }
 
         return base.OnFirstAfterRenderAsync();
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        await base.OnAfterRenderAsync( firstRender );
+
+        refreshQueued = false;
+
+        if ( refreshRequestedWhileQueued && !( Disposed || AsyncDisposed ) )
+        {
+            refreshRequestedWhileQueued = false;
+            QueueRefresh();
+        }
     }
 
     /// <inheritdoc/>
@@ -85,7 +103,29 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
     /// </summary>
     private void OnLabelTargetChanged()
     {
-        InvokeAsync( StateHasChanged );
+        if ( For is not null )
+            return;
+
+        QueueRefresh();
+    }
+
+    /// <summary>
+    /// Queues a single component refresh for the current render cycle.
+    /// </summary>
+    private void QueueRefresh()
+    {
+        if ( Disposed || AsyncDisposed )
+            return;
+
+        if ( refreshQueued )
+        {
+            refreshRequestedWhileQueued = true;
+            return;
+        }
+
+        refreshQueued = true;
+
+        _ = InvokeAsync( StateHasChanged );
     }
 
     #endregion

@@ -109,6 +109,9 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
     /// <inheritdoc/>
     protected override string FieldLabelTargetElementId => null;
 
+    /// <inheritdoc/>
+    protected override bool UsesAutomaticAriaLabelledBy => true;
+
     /// <summary>
     /// Radio group name.
     /// </summary>

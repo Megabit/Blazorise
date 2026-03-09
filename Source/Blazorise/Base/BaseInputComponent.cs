@@ -74,6 +74,16 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     private string registeredFieldLabelTargetElementId;
 
     /// <summary>
+    /// Indicates whether a component refresh has already been queued for the current render cycle.
+    /// </summary>
+    private bool refreshQueued;
+
+    /// <summary>
+    /// Indicates whether another refresh was requested while the current render cycle was still pending.
+    /// </summary>
+    private bool refreshRequestedWhileQueued;
+
+    /// <summary>
     /// Defines if need to generate field names for the input components.
     /// </summary>
     protected bool shouldGenerateFieldNames;
@@ -226,13 +236,27 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
                 ParentField.HelpTextChanged += OnHelpTextChanged;
             }
 
-            if ( UseAriaLabelledByAttribute )
+            if ( UseAriaLabelledByAttribute && UsesAutomaticAriaLabelledBy )
             {
                 ParentField.LabelElementChanged += OnFieldLabelChanged;
             }
         }
 
         base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        await base.OnAfterRenderAsync( firstRender );
+
+        refreshQueued = false;
+
+        if ( refreshRequestedWhileQueued && !( Disposed || AsyncDisposed ) )
+        {
+            refreshRequestedWhileQueued = false;
+            QueueRefresh();
+        }
     }
 
     /// <inheritdoc/>
@@ -272,7 +296,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         if ( ParentField is not null )
         {
             ParentField.HelpTextChanged -= OnHelpTextChanged;
-            ParentField.LabelElementChanged -= OnFieldLabelChanged;
+
+            if ( UsesAutomaticAriaLabelledBy )
+            {
+                ParentField.LabelElementChanged -= OnFieldLabelChanged;
+            }
         }
 
         if ( ParentField is not null && !string.IsNullOrWhiteSpace( registeredFieldLabelTargetElementId ) )
@@ -504,42 +532,48 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// </summary>
     /// <param name="sender">Object that raised the event.</param>
     /// <param name="eventArgs">Information about the validation status.</param>
-    protected virtual async void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
+    protected virtual void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
     {
         UpdateAriaAttributes();
 
-        DirtyStyles();
-        DirtyClasses();
-
-        await InvokeAsync( StateHasChanged );
+        QueueRefresh( dirtyClasses: true, dirtyStyles: true );
     }
 
     /// <summary>
     /// Handler for validation message element id changes.
     /// </summary>
-    private async void OnValidationMessageChanged()
+    private void OnValidationMessageChanged()
     {
+        if ( paramAriaDescribedBy.Defined || !UseAutoAriaDescribedByAttribute )
+            return;
+
         UpdateAriaAttributes();
 
-        await InvokeAsync( StateHasChanged );
+        QueueRefresh();
     }
 
     /// <summary>
     /// Handler for field help changes.
     /// </summary>
-    private async void OnHelpTextChanged()
+    private void OnHelpTextChanged()
     {
+        if ( paramAriaDescribedBy.Defined || !UseAutoAriaDescribedByAttribute )
+            return;
+
         UpdateAriaAttributes();
 
-        await InvokeAsync( StateHasChanged );
+        QueueRefresh();
     }
 
     /// <summary>
     /// Handler for field label changes.
     /// </summary>
-    private async void OnFieldLabelChanged()
+    private void OnFieldLabelChanged()
     {
-        await InvokeAsync( StateHasChanged );
+        if ( HasDefinedAriaLabelledBy || !UsesAutomaticAriaLabelledBy )
+            return;
+
+        QueueRefresh();
     }
 
     /// <summary>
@@ -608,6 +642,37 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
             : null;
     }
 
+    /// <summary>
+    /// Queues a single component refresh for the current render cycle.
+    /// </summary>
+    /// <param name="dirtyClasses">True if classnames must be recalculated before rendering.</param>
+    /// <param name="dirtyStyles">True if style declarations must be recalculated before rendering.</param>
+    private void QueueRefresh( bool dirtyClasses = false, bool dirtyStyles = false )
+    {
+        if ( dirtyClasses )
+        {
+            DirtyClasses();
+        }
+
+        if ( dirtyStyles )
+        {
+            DirtyStyles();
+        }
+
+        if ( Disposed || AsyncDisposed )
+            return;
+
+        if ( refreshQueued )
+        {
+            refreshRequestedWhileQueued = true;
+            return;
+        }
+
+        refreshQueued = true;
+
+        _ = InvokeAsync( StateHasChanged );
+    }
+
     private string BuildAriaDescribedBy()
     {
         var helpTextId = ParentField?.HelpTextElementId;
@@ -633,10 +698,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// <param name="eventArgs"></param>
     private void OnThemeOptionsChanged( object sender, EventArgs eventArgs )
     {
-        DirtyClasses();
-        DirtyStyles();
-
-        InvokeAsync( StateHasChanged );
+        QueueRefresh( dirtyClasses: true, dirtyStyles: true );
     }
 
     /// <summary>
@@ -684,6 +746,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// Gets the element id that should be linked by a parent <see cref="FieldLabel"/>.
     /// </summary>
     protected virtual string FieldLabelTargetElementId => ElementId;
+
+    /// <summary>
+    /// Gets a value indicating whether the component derives its <c>aria-labelledby</c> value from a parent <see cref="FieldLabel"/>.
+    /// </summary>
+    protected virtual bool UsesAutomaticAriaLabelledBy => false;
 
     /// <summary>
     /// Gets the element id of the parent <see cref="FieldLabel"/>.
