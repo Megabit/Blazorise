@@ -20,6 +20,8 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
 
     private bool refreshRequestedWhileQueued;
 
+    private ComponentParameterInfo<string> paramAriaLabelledBy;
+
     #endregion
 
     #region Methods
@@ -38,14 +40,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        if ( parameters.TryGetValue<string>( nameof( AriaLabelledBy ), out var ariaLabelledByValue ) )
-        {
-            AriaLabelledBy = ariaLabelledByValue;
-        }
-        else
-        {
-            AriaLabelledBy = null;
-        }
+        parameters.TryGetParameter( AriaLabelledBy, out paramAriaLabelledBy );
 
         if ( Rendered )
         {
@@ -282,7 +277,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// </summary>
     private void OnFieldLabelChanged()
     {
-        if ( AriaLabelledBy is not null )
+        if ( HasDefinedAriaLabelledBy )
             return;
 
         QueueRefresh();
@@ -321,7 +316,14 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Gets the resolved aria-labelledby attribute value.
     /// </summary>
-    protected string ResolvedAriaLabelledBy => AriaLabelledBy ?? ParentFieldLabelElementId;
+    protected string ResolvedAriaLabelledBy => paramAriaLabelledBy.Defined
+        ? paramAriaLabelledBy.Value
+        : ParentFieldLabelElementId;
+
+    /// <summary>
+    /// Gets a value indicating whether an explicit <c>aria-labelledby</c> parameter was supplied.
+    /// </summary>
+    protected bool HasDefinedAriaLabelledBy => paramAriaLabelledBy.Defined;
 
     /// <summary>
     /// Reference to the object that should be accessed through JSInterop.

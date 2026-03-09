@@ -15,8 +15,6 @@ public partial class Check<TValue> : BaseCheckComponent<TValue, CheckClasses, Ch
 {
     #region Members
 
-    private bool? indeterminate;
-
     /// <summary>
     /// Captured Indeterminate parameter snapshot.
     /// </summary>
@@ -41,7 +39,7 @@ public partial class Check<TValue> : BaseCheckComponent<TValue, CheckClasses, Ch
 
         if ( paramIndeterminate.Defined && paramIndeterminate.Changed )
         {
-            indeterminate = paramIndeterminate.Value;
+            var indeterminate = paramIndeterminate.Value;
 
             ExecuteAfterRender( async () =>
             {
