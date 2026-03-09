@@ -54,21 +54,6 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     private bool hasInitializedParameters;
 
     /// <summary>
-    /// Holds the aria-invalid attribute value.
-    /// </summary>
-    private string ariaInvalid;
-
-    /// <summary>
-    /// Holds the aria-describedby attribute value.
-    /// </summary>
-    private string ariaDescribedBy;
-
-    /// <summary>
-    /// Holds the aria-labelledby attribute value.
-    /// </summary>
-    private string ariaLabelledBy;
-
-    /// <summary>
     /// Tracks the previous label target element id registered with the parent field.
     /// </summary>
     private string registeredFieldLabelTargetElementId;
@@ -205,8 +190,6 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
 
         UpdateFieldLabelTargetRegistration();
 
-        UpdateAriaAttributes();
-        UpdateAriaLabelledBy();
     }
 
     /// <inheritdoc/>
@@ -534,8 +517,6 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// <param name="eventArgs">Information about the validation status.</param>
     protected virtual void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
     {
-        UpdateAriaAttributes();
-
         QueueRefresh( dirtyClasses: true, dirtyStyles: true );
     }
 
@@ -547,8 +528,6 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         if ( paramAriaDescribedBy.Defined || !UseAutoAriaDescribedByAttribute )
             return;
 
-        UpdateAriaAttributes();
-
         QueueRefresh();
     }
 
@@ -559,8 +538,6 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     {
         if ( paramAriaDescribedBy.Defined || !UseAutoAriaDescribedByAttribute )
             return;
-
-        UpdateAriaAttributes();
 
         QueueRefresh();
     }
@@ -574,15 +551,6 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
             return;
 
         QueueRefresh();
-    }
-
-    /// <summary>
-    /// Updates aria attributes based on validation and help text state.
-    /// </summary>
-    private void UpdateAriaAttributes()
-    {
-        UpdateAriaInvalid();
-        UpdateAriaDescribedBy();
     }
 
     /// <summary>
@@ -619,27 +587,6 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         }
 
         registeredFieldLabelTargetElementId = fieldLabelTargetElementId;
-    }
-
-    private void UpdateAriaInvalid()
-    {
-        ariaInvalid = paramAriaInvalid.Defined
-            ? paramAriaInvalid.Value
-            : UseAutoAriaInvalidAttribute && ParentValidation?.Status == ValidationStatus.Error ? "true" : null;
-    }
-
-    private void UpdateAriaDescribedBy()
-    {
-        ariaDescribedBy = paramAriaDescribedBy.Defined
-            ? paramAriaDescribedBy.Value
-            : UseAutoAriaDescribedByAttribute ? BuildAriaDescribedBy() : null;
-    }
-
-    private void UpdateAriaLabelledBy()
-    {
-        ariaLabelledBy = paramAriaLabelledBy.Defined
-            ? paramAriaLabelledBy.Value
-            : null;
     }
 
     /// <summary>
@@ -760,6 +707,27 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         : null;
 
     /// <summary>
+    /// Gets the resolved value of the <c>aria-invalid</c> attribute.
+    /// </summary>
+    protected string ResolvedAriaInvalid => paramAriaInvalid.Defined
+        ? paramAriaInvalid.Value
+        : UseAutoAriaInvalidAttribute && ParentValidation?.Status == ValidationStatus.Error ? "true" : null;
+
+    /// <summary>
+    /// Gets the resolved value of the <c>aria-describedby</c> attribute.
+    /// </summary>
+    protected string ResolvedAriaDescribedBy => paramAriaDescribedBy.Defined
+        ? paramAriaDescribedBy.Value
+        : UseAutoAriaDescribedByAttribute ? BuildAriaDescribedBy() : null;
+
+    /// <summary>
+    /// Gets the explicit value of the <c>aria-labelledby</c> attribute.
+    /// </summary>
+    protected string ExplicitAriaLabelledBy => paramAriaLabelledBy.Defined
+        ? paramAriaLabelledBy.Value
+        : null;
+
+    /// <summary>
     /// Gets the resolved value of the <c>aria-labelledby</c> attribute, preferring an explicit value over the parent <see cref="FieldLabel"/>.
     /// </summary>
     protected string ResolvedAriaLabelledBy => paramAriaLabelledBy.Defined
@@ -842,12 +810,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// <remarks>
     /// When set, this value is rendered as-is and overrides the validation-derived aria-invalid state.
     /// </remarks>
-    [Parameter]
-    public string AriaInvalid
-    {
-        get => ariaInvalid;
-        set => ariaInvalid = value;
-    }
+    [Parameter] public string AriaInvalid { get; set; }
 
     /// <summary>
     /// Gets or sets the aria-describedby attribute value.
@@ -855,12 +818,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// <remarks>
     /// When set, this value is rendered as-is and overrides help and validation message ids generated by Field and Validation.
     /// </remarks>
-    [Parameter]
-    public string AriaDescribedBy
-    {
-        get => ariaDescribedBy;
-        set => ariaDescribedBy = value;
-    }
+    [Parameter] public string AriaDescribedBy { get; set; }
 
     /// <summary>
     /// Gets or sets the aria-labelledby attribute value.
@@ -868,12 +826,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// <remarks>
     /// When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <see cref="FieldLabel"/>.
     /// </remarks>
-    [Parameter]
-    public string AriaLabelledBy
-    {
-        get => ariaLabelledBy;
-        set => ariaLabelledBy = value;
-    }
+    [Parameter] public string AriaLabelledBy { get; set; }
 
     /// <summary>
     /// Gets the size based on the theme settings.
