@@ -2154,7 +2154,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             ganttSortDirection = SortDirection.Ascending;
         }
 
-        return InvokeAsync( StateHasChanged );
+        return RefreshInternalAsync();
     }
 
     private bool ShowSortIcon( GanttRenderColumn column )
