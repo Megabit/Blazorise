@@ -123,7 +123,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Time</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TimeInput TValue="TimeSpan?" ValueChanged="@((v)=>Console.WriteLine(v))" />
+                        <TimeInput TValue="TimeSpan?" ValueChanged="@(( v ) => Console.WriteLine( v ))" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
@@ -147,8 +147,10 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Range values</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <RangeSlider TValue="decimal" @bind-Value="decimalRangeValue" Min="0m" Max="100m" Step="1m" />
-                        <FieldHelp>Selected range: @decimalRangeValue.Start - @decimalRangeValue.End</FieldHelp>
+                        <Div Width="Blazorise.Width.Is100">
+                            <RangeSlider TValue="decimal" @bind-Value="decimalRangeValue" Min="0m" Max="100m" Step="1m" />
+                            <FieldHelp Style="white-space: nowrap;">Selected range: @decimalRangeValue.Start - @decimalRangeValue.End</FieldHelp>
+                        </Div>
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
@@ -174,7 +176,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Color</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <ColorInput ValueChanged="@(c=>Console.WriteLine(c))" />
+                        <ColorInput ValueChanged="@(c => Console.WriteLine( c ))" />
                     </FieldBody>
                 </Field>
             </CardBody>
@@ -463,7 +465,7 @@
         </Card>
     </Column>
 </Row>
-@code{
+@code {
     int[] numbers = { 1, 3, 4 };
 
     private RangeSliderValue<decimal> decimalRangeValue = new( 20m, 70m );

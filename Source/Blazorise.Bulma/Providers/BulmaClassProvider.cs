@@ -232,7 +232,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string RangeSliderEnd() => "range-slider-input-end";
 
-    public override string RangeSliderTooltip() => "tag range-slider-tooltip";
+    public override string RangeSliderTooltip() => "range-slider-tooltip";
 
     public override string RangeSliderValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
