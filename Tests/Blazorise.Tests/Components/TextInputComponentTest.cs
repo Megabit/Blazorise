@@ -129,6 +129,7 @@ public class TextInputAccessibilityOptionsComponentTest : TestContext
     public void AutoAriaAttributes_AreNotRendered_WhenDisabled()
     {
         var comp = RenderComponent<Validation>( parameters => parameters
+            .Add( p => p.Validator, ValidationRule.IsNotEmpty )
             .Add( p => p.Status, ValidationStatus.Error )
             .Add( p => p.ChildContent, (RenderFragment)( builder =>
             {
