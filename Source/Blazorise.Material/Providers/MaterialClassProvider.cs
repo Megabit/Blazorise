@@ -246,19 +246,19 @@ public class MaterialClassProvider : ClassProvider
 
     #region RangeSlider
 
-    public override string RangeSlider() => "range-slider";
+    public override string RangeSlider() => "mui-slider-container mui-range-slider";
 
-    public override string RangeSliderTrack() => "range-slider-track";
+    public override string RangeSliderTrack() => "mui-range-slider-track";
 
-    public override string RangeSliderRange() => "range-slider-range";
+    public override string RangeSliderRange() => "mui-range-slider-range";
 
-    public override string RangeSliderInput() => "form-control-range range-slider-input";
+    public override string RangeSliderInput() => "mui-range-slider-input";
 
-    public override string RangeSliderStart() => "range-slider-input-start";
+    public override string RangeSliderStart() => "mui-range-slider-input-start";
 
-    public override string RangeSliderEnd() => "range-slider-input-end";
+    public override string RangeSliderEnd() => "mui-range-slider-input-end";
 
-    public override string RangeSliderTooltip() => "badge badge-light range-slider-tooltip";
+    public override string RangeSliderTooltip() => "mui-slider-value mui-range-slider-tooltip";
 
     public override string RangeSliderValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
