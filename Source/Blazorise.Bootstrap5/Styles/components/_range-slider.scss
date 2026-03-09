@@ -4,17 +4,17 @@
     > .range-slider-track,
     > .range-slider-range {
         top: 50%;
-        height: .375rem;
+        height: $form-range-track-height;
         transform: translateY(-50%);
-        border-radius: 999px;
+        border-radius: $form-range-track-border-radius;
     }
 
     > .range-slider-track {
-        background-color: $gray-300;
+        background-color: var(--bs-secondary-bg, #{$gray-200});
     }
 
     > .range-slider-range {
-        background-color: $primary;
+        background-color: var(--bs-primary, #{$form-range-thumb-bg});
     }
 
     > .range-slider-input {
@@ -22,40 +22,92 @@
         top: 50%;
         left: 0;
         width: 100%;
+        height: 1.5rem;
+        padding: 0;
         margin: 0;
         transform: translateY(-50%);
-        background: transparent;
+        background-color: transparent;
         pointer-events: none;
         -webkit-appearance: none;
+        -moz-appearance: none;
         appearance: none;
 
+        &:focus {
+            outline: 0;
+        }
+
+        &:focus::-webkit-slider-thumb {
+            box-shadow: 0 0 0 1px var(--bs-body-bg, #{$body-bg}), 0 0 0 .25rem rgba(var(--bs-primary-rgb, 13, 110, 253), .25);
+        }
+
+        &:focus::-moz-range-thumb {
+            box-shadow: 0 0 0 1px var(--bs-body-bg, #{$body-bg}), 0 0 0 .25rem rgba(var(--bs-primary-rgb, 13, 110, 253), .25);
+        }
+
+        &::-moz-focus-outer {
+            border: 0;
+        }
+
         &::-webkit-slider-runnable-track {
-            background: transparent;
+            width: 100%;
+            height: $form-range-track-height;
+            color: transparent;
+            cursor: $form-range-track-cursor;
+            background-color: transparent;
+            border-color: transparent;
+            border-radius: $form-range-track-border-radius;
         }
 
         &::-webkit-slider-thumb {
-            width: 1rem;
-            height: 1rem;
-            border-radius: 50%;
-            background-color: $primary;
+            width: $form-range-thumb-width;
+            height: $form-range-thumb-height;
+            margin-top: -.25rem;
+            border: $form-range-thumb-border;
+            border-radius: $form-range-thumb-border-radius;
+            background-color: var(--bs-primary, #{$form-range-thumb-bg});
+            box-shadow: none;
+            transition: $form-range-thumb-transition;
             pointer-events: auto;
             cursor: pointer;
             -webkit-appearance: none;
             appearance: none;
         }
 
+        &::-webkit-slider-thumb:active {
+            background-color: $form-range-thumb-active-bg;
+        }
+
         &::-moz-range-track {
+            width: 100%;
+            height: $form-range-track-height;
+            color: transparent;
+            cursor: $form-range-track-cursor;
+            background-color: transparent;
+            border-color: transparent;
+            border-radius: $form-range-track-border-radius;
+            border: 0;
+        }
+
+        &::-moz-range-progress {
+            height: $form-range-track-height;
             background: transparent;
+            border: 0;
         }
 
         &::-moz-range-thumb {
-            width: 1rem;
-            height: 1rem;
-            border: 0;
-            border-radius: 50%;
-            background-color: $primary;
+            width: $form-range-thumb-width;
+            height: $form-range-thumb-height;
+            border: $form-range-thumb-border;
+            border-radius: $form-range-thumb-border-radius;
+            background-color: var(--bs-primary, #{$form-range-thumb-bg});
+            box-shadow: none;
+            transition: $form-range-thumb-transition;
             pointer-events: auto;
             cursor: pointer;
+        }
+
+        &::-moz-range-thumb:active {
+            background-color: $form-range-thumb-active-bg;
         }
 
         &.is-valid {
@@ -63,8 +115,16 @@
                 background-color: $success;
             }
 
+            &::-webkit-slider-thumb:active {
+                background-color: tint-color($success, 70%);
+            }
+
             &::-moz-range-thumb {
                 background-color: $success;
+            }
+
+            &::-moz-range-thumb:active {
+                background-color: tint-color($success, 70%);
             }
         }
 
@@ -73,8 +133,23 @@
                 background-color: $danger;
             }
 
+            &::-webkit-slider-thumb:active {
+                background-color: tint-color($danger, 70%);
+            }
+
             &::-moz-range-thumb {
                 background-color: $danger;
+            }
+
+            &::-moz-range-thumb:active {
+                background-color: tint-color($danger, 70%);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            &::-webkit-slider-thumb,
+            &::-moz-range-thumb {
+                transition: none;
             }
         }
     }
@@ -95,10 +170,12 @@
 
         > .range-slider-input {
             &::-webkit-slider-thumb {
+                background-color: var(--bs-secondary-color, #{$gray-600});
                 cursor: not-allowed;
             }
 
             &::-moz-range-thumb {
+                background-color: var(--bs-secondary-color, #{$gray-600});
                 cursor: not-allowed;
             }
         }
