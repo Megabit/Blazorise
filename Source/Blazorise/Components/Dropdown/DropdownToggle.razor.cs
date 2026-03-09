@@ -29,6 +29,8 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
 
     private DropdownState parentDropdownState;
 
+    private DateTime? lastKeyboardToggleTimestampUtc;
+
     #endregion
 
     #region Methods
@@ -120,17 +122,56 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     /// <returns>A task that represents the asynchronous operation.</returns>
     protected async Task ClickHandler( MouseEventArgs eventArgs )
     {
-        if ( Disabled )
+        if ( IsDisabled )
             return;
 
         if ( ParentDropdown is not null )
+        {
+            if ( eventArgs.Detail == 0 && ParentDropdown.Visible )
+            {
+                lastKeyboardToggleTimestampUtc = null;
+                return;
+            }
+
+            if ( eventArgs.Detail == 0
+                 && lastKeyboardToggleTimestampUtc.HasValue
+                 && DateTime.UtcNow.Subtract( lastKeyboardToggleTimestampUtc.Value ).TotalMilliseconds < 500 )
+            {
+                lastKeyboardToggleTimestampUtc = null;
+                return;
+            }
+
             await ParentDropdown.Toggle( ElementId );
+        }
 
         await Clicked.InvokeAsync( eventArgs );
     }
 
+    /// <summary>
+    /// Handler for @onkeydown event.
+    /// </summary>
+    /// <param name="eventArgs">Information about the keyboard down event.</param>
+    /// <returns>Returns awaitable task</returns>
+    protected Task KeyDownHandler( KeyboardEventArgs eventArgs )
+    {
+        if ( IsDisabled )
+            return Task.CompletedTask;
 
+        if ( ParentDropdown is not null && ( eventArgs.Key == "Enter" || eventArgs.Key == "NumpadEnter" ) )
+        {
+            lastKeyboardToggleTimestampUtc = DateTime.UtcNow;
 
+            if ( ParentDropdown.Visible )
+                return ParentDropdown.Hide();
+
+            return ParentDropdown.Toggle( ElementId );
+        }
+
+        if ( ParentDropdown is not null && ( eventArgs.Key == "Escape" || eventArgs.Key == "Esc" ) )
+            return ParentDropdown.Hide( true );
+
+        return Task.CompletedTask;
+    }
 
     /// <summary>
     /// Returns true of the parent dropdown-menu is safe to be closed.

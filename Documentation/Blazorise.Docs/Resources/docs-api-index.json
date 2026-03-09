@@ -3528,6 +3528,14 @@
       "searchUrl": "docs/components/link",
       "parameters": [
         {
+          "name": "AriaLabelledBy",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the aria-labelledby attribute value.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Attributes",
           "type": "Dictionary<string, object>",
           "typeName": "Dictionary<string, object>",
@@ -3687,6 +3695,14 @@
           "typeName": "IFluentPosition",
           "defaultValue": "null",
           "summary": "Specifies the positioning method for the component (static, relative, absolute, etc.).",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Role",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the role attribute value.",
           "isBlazoriseEnum": false
         },
         {
@@ -3857,6 +3873,14 @@
           "typeName": "Func<string, bool>",
           "defaultValue": "null",
           "summary": "A callback function that is used to compare current uri with the user defined uri. If defined, the <strong>Match</strong> parameter will be ignored.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "KeyDown",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<KeyboardEventArgs>",
+          "defaultValue": "null",
+          "summary": "Handles the onkeydown event.",
           "isBlazoriseEnum": false
         }
       ],
@@ -7431,6 +7455,12 @@
           ]
         },
         {
+          "name": "OnMenuPointerInteractionHandler",
+          "returnTypeName": "Task",
+          "summary": "Handles pointer interactions inside dropdown menu content.",
+          "parameters": []
+        },
+        {
           "name": "OnMouseEnterHandler",
           "returnTypeName": "Task",
           "summary": "Handles the onmouseenter event.",
@@ -8313,6 +8343,403 @@
       ],
       "events": [],
       "methods": []
+    },
+    {
+      "type": "global::Blazorise.BarDropdownToggle",
+      "typeName": "BarDropdownToggle",
+      "summary": "$\"\"\"\r\n       Toggles the visibility or collapse of <strong>Bar</strong> component.\r\n       \"\"\"",
+      "searchUrl": "docs/components/bar",
+      "parameters": [
+        {
+          "name": "Attributes",
+          "type": "Dictionary<string, object>",
+          "typeName": "Dictionary<string, object>",
+          "defaultValue": "null",
+          "summary": "Captures unmatched HTML attributes for customization.",
+          "remarks": "These attributes are applied directly to the component's root HTML element.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Background",
+          "type": "global::Blazorise.Background",
+          "typeName": "Background",
+          "defaultValue": "Background.Default",
+          "summary": "Sets the background color of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Border",
+          "type": "global::Blazorise.IFluentBorder",
+          "typeName": "IFluentBorder",
+          "defaultValue": "null",
+          "summary": "Configures the border properties of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Casing",
+          "type": "global::Blazorise.CharacterCasing",
+          "typeName": "CharacterCasing",
+          "defaultValue": "default(CharacterCasing)",
+          "summary": "Specifies the text casing transformation (e.g., uppercase, lowercase).",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "ChildContent",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
+          "typeName": "RenderFragment",
+          "defaultValue": "null",
+          "summary": "Specifies the content to be rendered inside this <strong>Link</strong>.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Class",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Custom CSS class name to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Clearfix",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Determines whether to apply clearfix to manage floating children.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Disabled",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Makes the link look inactive by adding the disabled boolean attribute.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Display",
+          "type": "global::Blazorise.IFluentDisplay",
+          "typeName": "IFluentDisplay",
+          "defaultValue": "null",
+          "summary": "Specifies the display behavior (e.g., block, inline, flex) of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ElementId",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the unique id of the element.",
+          "remarks": "Note that this ID is not defined for the component but instead for the underlined element that it represents.     eg: for the TextInput the ID will be set on the input element.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Flex",
+          "type": "global::Blazorise.IFluentFlex",
+          "typeName": "IFluentFlex",
+          "defaultValue": "null",
+          "summary": "Configures the flexbox properties of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Float",
+          "type": "global::Blazorise.Float",
+          "typeName": "Float",
+          "defaultValue": "Float.Default",
+          "summary": "Specifies how an element should float within its containing block.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Gap",
+          "type": "global::Blazorise.IFluentGap",
+          "typeName": "IFluentGap",
+          "defaultValue": "null",
+          "summary": "Configures the gap spacing between child elements of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Height",
+          "type": "global::Blazorise.IFluentSizing",
+          "typeName": "IFluentSizing",
+          "defaultValue": "null",
+          "summary": "Defines the height of the component using responsive sizing utilities.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Indentation",
+          "type": "double",
+          "typeName": "double",
+          "defaultValue": "1.5d",
+          "summary": "Determines how much left padding will be applied to the dropdown toggle. (in rem unit)",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Margin",
+          "type": "global::Blazorise.IFluentSpacing",
+          "typeName": "IFluentSpacing",
+          "defaultValue": "null",
+          "summary": "Configures the margin spacing for the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Match",
+          "type": "global::Blazorise.Match",
+          "typeName": "Match",
+          "defaultValue": "Match.Prefix",
+          "summary": "URL matching behavior for a link.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "ObjectFit",
+          "type": "global::Blazorise.IFluentObjectFit",
+          "typeName": "IFluentObjectFit",
+          "defaultValue": "null",
+          "summary": "Configures the object-fit property, which determines how content is resized within its container.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Overflow",
+          "type": "global::Blazorise.IFluentOverflow",
+          "typeName": "IFluentOverflow",
+          "defaultValue": "null",
+          "summary": "Configures the overflow behavior when content exceeds the component's bounds.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Padding",
+          "type": "global::Blazorise.IFluentSpacing",
+          "typeName": "IFluentSpacing",
+          "defaultValue": "null",
+          "summary": "Configures the padding spacing for the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Position",
+          "type": "global::Blazorise.IFluentPosition",
+          "typeName": "IFluentPosition",
+          "defaultValue": "null",
+          "summary": "Specifies the positioning method for the component (static, relative, absolute, etc.).",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Shadow",
+          "type": "global::Blazorise.Shadow",
+          "typeName": "Shadow",
+          "defaultValue": "Shadow.None",
+          "summary": "Configures the shadow effect of the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Stretched",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Makes any HTML element or component clickable by “stretching” a nested link.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Style",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Custom inline styles to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TabIndex",
+          "type": "int?",
+          "typeName": "int?",
+          "defaultValue": "null",
+          "summary": "Specifies whether the link element can be focused and where it participates in sequential keyboard navigation.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Target",
+          "type": "global::Blazorise.Target",
+          "typeName": "Target",
+          "defaultValue": "Target.Default",
+          "summary": "The target attribute specifies where to open the linked document.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextAlignment",
+          "type": "global::Blazorise.TextAlignment",
+          "typeName": "TextAlignment",
+          "defaultValue": "TextAlignment.Default",
+          "summary": "Configures the horizontal alignment of text within the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextColor",
+          "type": "global::Blazorise.TextColor",
+          "typeName": "TextColor",
+          "defaultValue": "TextColor.Default",
+          "summary": "Defines the text color of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextDecoration",
+          "type": "global::Blazorise.TextDecoration",
+          "typeName": "TextDecoration",
+          "defaultValue": "TextDecoration.Default",
+          "summary": "Defines the text decoration style (e.g., underline, none) for the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextOverflow",
+          "type": "global::Blazorise.TextOverflow",
+          "typeName": "TextOverflow",
+          "defaultValue": "TextOverflow.Default",
+          "summary": "Configures how text behaves when it overflows its container.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextSize",
+          "type": "global::Blazorise.IFluentTextSize",
+          "typeName": "IFluentTextSize",
+          "defaultValue": "null",
+          "summary": "Sets the font size of the text in the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextTransform",
+          "type": "global::Blazorise.TextTransform",
+          "typeName": "TextTransform",
+          "defaultValue": "TextTransform.Default",
+          "summary": "Configures the text transformation (e.g., capitalize, none) of the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextWeight",
+          "type": "global::Blazorise.TextWeight",
+          "typeName": "TextWeight",
+          "defaultValue": "TextWeight.Default",
+          "summary": "Specifies the font weight of text in the component (e.g., bold, normal).",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Title",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Specify extra information about the element.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "To",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Denotes the target route of the link.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ToggleIconVisible",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Gets or sets a value indicating whether the dropdown toggle icon is visible.",
+          "remarks": "Default: True",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Trigger",
+          "type": "global::Blazorise.BarDropdownToggleTrigger",
+          "typeName": "BarDropdownToggleTrigger",
+          "defaultValue": "default(BarDropdownToggleTrigger)",
+          "summary": "Defines which interactions can trigger the dropdown toggle.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Unstyled",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Removes default color styles from the link.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "UtilityTarget",
+          "type": "global::Blazorise.UtilityTarget",
+          "typeName": "UtilityTarget",
+          "defaultValue": "UtilityTarget.Self",
+          "summary": "Specifies the default target where utility classes and styles are applied when no per-utility target is set.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "VerticalAlignment",
+          "type": "global::Blazorise.VerticalAlignment",
+          "typeName": "VerticalAlignment",
+          "defaultValue": "VerticalAlignment.Default",
+          "summary": "Specifies the vertical alignment of inline or table-cell elements.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Visibility",
+          "type": "global::Blazorise.Visibility",
+          "typeName": "Visibility",
+          "defaultValue": "Visibility.Default",
+          "summary": "Controls the visibility of an element without altering its layout.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Width",
+          "type": "global::Blazorise.IFluentSizing",
+          "typeName": "IFluentSizing",
+          "defaultValue": "null",
+          "summary": "Defines the width of the component using responsive sizing utilities.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [
+        {
+          "name": "Clicked",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<MouseEventArgs>",
+          "defaultValue": "null",
+          "summary": "Occurs when the link is clicked.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "CustomMatch",
+          "type": "Func<,>",
+          "typeName": "Func<string, bool>",
+          "defaultValue": "null",
+          "summary": "A callback function that is used to compare current uri with the user defined uri. If defined, the <strong>Match</strong> parameter will be ignored.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "methods": [
+        {
+          "name": "Close",
+          "returnTypeName": "Task",
+          "summary": "Triggers the closable component to be closed.",
+          "parameters": [
+            {
+              "name": "closeReason",
+              "typeName": "CloseReason"
+            }
+          ]
+        },
+        {
+          "name": "IsSafeToClose",
+          "returnTypeName": "Task<bool>",
+          "summary": "Finds if the closable component is ready to be closed.",
+          "parameters": [
+            {
+              "name": "elementId",
+              "typeName": "string"
+            },
+            {
+              "name": "closeReason",
+              "typeName": "CloseReason"
+            },
+            {
+              "name": "isChildClicked",
+              "typeName": "bool"
+            }
+          ]
+        }
+      ]
     },
     {
       "type": "global::Blazorise.BarEnd",
@@ -22308,7 +22735,7 @@
           "name": "ShowHueSlider",
           "type": "bool",
           "typeName": "bool",
-          "defaultValue": "false",
+          "defaultValue": "true",
           "summary": "Controls the visibility of the hue slider.",
           "isBlazoriseEnum": false
         },
@@ -53276,6 +53703,14 @@
       "searchUrl": "docs/components/link",
       "parameters": [
         {
+          "name": "AriaLabelledBy",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the aria-labelledby attribute value.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Attributes",
           "type": "Dictionary<string, object>",
           "typeName": "Dictionary<string, object>",
@@ -53435,6 +53870,14 @@
           "typeName": "IFluentPosition",
           "defaultValue": "null",
           "summary": "Specifies the positioning method for the component (static, relative, absolute, etc.).",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Role",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the role attribute value.",
           "isBlazoriseEnum": false
         },
         {
@@ -53605,6 +54048,14 @@
           "typeName": "Func<string, bool>",
           "defaultValue": "null",
           "summary": "A callback function that is used to compare current uri with the user defined uri. If defined, the <strong>Match</strong> parameter will be ignored.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "KeyDown",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<KeyboardEventArgs>",
+          "defaultValue": "null",
+          "summary": "Handles the onkeydown event.",
           "isBlazoriseEnum": false
         }
       ],
@@ -75282,6 +75733,15 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "SanitizedPasteOptions",
+          "type": "global::Blazorise.RichTextEdit.RichTextEditSanitizedPasteOptions",
+          "typeName": "RichTextEditSanitizedPasteOptions",
+          "defaultValue": "null",
+          "summary": "Options used to configure sanitized paste functionality.",
+          "remarks": "When this parameter is explicitly defined, it has priority over globally configured <strong>SanitizedPasteOptions</strong>.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Shadow",
           "type": "global::Blazorise.Shadow",
           "typeName": "Shadow",
@@ -75415,6 +75875,25 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Indicates whether resizing functionality should be enabled.",
+          "remarks": "When this parameter is explicitly defined, it has priority over globally configured <strong>UseResize</strong>.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "UseSanitizedPaste",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Indicates whether sanitized paste functionality should be enabled.",
+          "remarks": "When this parameter is explicitly defined, it has priority over globally configured <strong>UseSanitizedPaste</strong>.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "UseTables",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Indicates whether table functionality should be enabled.",
+          "remarks": "When this parameter is explicitly defined, it has priority over globally configured <strong>UseTables</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -75752,6 +76231,14 @@
       "summary": "$\"\"\"\r\n       Blazorise RichTextEdit extension options\r\n       \"\"\"",
       "parameters": [
         {
+          "name": "SanitizedPasteOptions",
+          "type": "global::Blazorise.RichTextEdit.RichTextEditSanitizedPasteOptions",
+          "typeName": "RichTextEditSanitizedPasteOptions",
+          "defaultValue": "new()",
+          "summary": "Options used to configure sanitized paste behavior.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "UseBubbleTheme",
           "type": "bool",
           "typeName": "bool",
@@ -75768,6 +76255,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "UseSanitizedPaste",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "If true enables sanitized paste support powered by the quill-paste-smart clipboard module.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "UseSnowTheme",
           "type": "bool",
           "typeName": "bool",
@@ -75781,6 +76276,63 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "If true enables the QuillJs table module. Please be aware that this module is not part of the core QuillJs library, and it is still experimental.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [],
+      "methods": []
+    },
+    {
+      "type": "global::Blazorise.RichTextEdit.RichTextEditSanitizedPasteOptions",
+      "typeName": "RichTextEditSanitizedPasteOptions",
+      "summary": "$\"\"\"\r\n       Represents options used to configure sanitized paste behavior.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "AllowedAttributes",
+          "type": "IEnumerable<>",
+          "typeName": "IEnumerable<string>",
+          "defaultValue": "null",
+          "summary": "Gets or sets the list of allowed HTML attributes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "AllowedTags",
+          "type": "IEnumerable<>",
+          "typeName": "IEnumerable<string>",
+          "defaultValue": "null",
+          "summary": "Gets or sets the list of allowed HTML tags.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "KeepSelection",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Gets or sets a value indicating whether pasted content should preserve the current selection.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MagicPasteLinks",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Gets or sets a value indicating whether plain URL text should be converted into links when pasting.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "RemoveConsecutiveSubstitutionTags",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Gets or sets a value indicating whether consecutive substitution tags should be collapsed.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "SubstituteBlockElements",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Gets or sets a value indicating whether block-level elements should be substituted when needed.",
           "isBlazoriseEnum": false
         }
       ],

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-03T08:49:33.8393708Z",
+  "generatedUtc": "2026-03-03T15:40:58.5036224Z",
   "pages": [
     {
       "route": "/docs",
@@ -34,7 +34,7 @@
           "code": "AnalyzerPackageReferenceExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/AnalyzerPackageReferenceExample.snippet",
-          "content": "<PackageReference Include=\"Blazorise.Analyzers\" Version=\"2.0.1\" PrivateAssets=\"all\" />",
+          "content": "<PackageReference Include=\"Blazorise.Analyzers\" Version=\"2.0.2\" PrivateAssets=\"all\" />",
           "title": "Project file reference",
           "description": "If you prefer editing the project file directly, add the package reference in the target .csproj ."
         },
@@ -3850,7 +3850,7 @@
           "code": "AnimateResourcesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Animate/Examples/AnimateResourcesExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Animate/blazorise.animate.js?v=2.0.1.0\"></script>",
+          "content": "<script src=\"_content/Blazorise.Animate/blazorise.animate.js?v=2.0.2.0\"></script>",
           "title": "Static Files",
           "description": "Add animate.js to your index.html or _Host.cshtml file, depending if you're using a Blazor WebAssembly or Blazor Server side project."
         },
@@ -4406,7 +4406,7 @@
           "code": "DataGridDynamicExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridDynamicExample.razor",
-          "content": "@using System.Dynamic\r\n\r\n<DataGrid TItem=\"ExpandoObject\"\r\n          Data=\"inMemoryData\"\r\n          Responsive\r\n          ShowPager\r\n          ShowPageSizes\r\n          PageSize=\"5\"\r\n          Editable\r\n          EditMode=\"DataGridEditMode.Inline\"\r\n          NewItemCreator=\"NewItemCreator\">\r\n    <DataGridAggregates>\r\n        <DataGridAggregate Field=\"Email\" Aggregate=\"DataGridAggregateType.Count\">\r\n            <DisplayTemplate>\r\n                @($\"Total emails: {context.Value}\")\r\n            </DisplayTemplate>\r\n        </DataGridAggregate>\r\n        <DataGridAggregate Field=\"Salary\" Aggregate=\"DataGridAggregateType.Sum\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" />\r\n        <DataGridAggregate Field=\"IsActive\" Aggregate=\"DataGridAggregateType.TrueCount\" />\r\n        <DataGridAggregate Field=\"Childrens\" Aggregate=\"DataGridAggregateType.Sum\" />\r\n    </DataGridAggregates>\r\n    <DataGridColumns>\r\n        <DataGridCommandColumn></DataGridCommandColumn>\r\n        <DataGridColumn Editable TextAlignment=\"TextAlignment.Center\" Field=\"@nameof( Employee.Id )\" Caption=\"#\" Width=\"Width.Px( 60 )\" />\r\n        <DataGridColumn Editable Field=\"FirstName\" Caption=\"First Name\">\r\n        </DataGridColumn>\r\n        <DataGridColumn Editable Field=\"LastName\" Caption=\"Last Name\" />\r\n        <DataGridColumn Editable Field=\"Email\" Caption=\"Email\" />\r\n        <DataGridColumn Editable Field=\"City\" Caption=\"City\">\r\n            <CaptionTemplate>\r\n                <Icon Name=\"IconName.City\" /> @context.Caption\r\n            </CaptionTemplate>\r\n        </DataGridColumn>\r\n        <DataGridColumn Editable Field=\"Zip\" Caption=\"Zip\">\r\n        </DataGridColumn>\r\n        <DataGridDateColumn Field=\"DateOfBirth\" DisplayFormat=\"{0:dd.MM.yyyy}\" Caption=\"Date Of Birth\" Editable />\r\n        <DataGridNumericColumn Field=\"Childrens\" Caption=\"Childrens\" ReverseSorting=\"true\" Editable Filterable=\"false\" />\r\n        <DataGridSelectColumn Field=\"Gender\" Caption=\"Gender\" Editable Data=\"EmployeeData.Genders\" ValueField=\"( x ) => ( (Gender)x ).Code\" TextField=\"( x ) => ( (Gender)x ).Description\" />\r\n        <DataGridColumn Field=\"Salary\" Caption=\"Salary\" Editable Width=\"Width.Px( 140 )\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" TextAlignment=\"TextAlignment.End\">\r\n        </DataGridColumn>\r\n        <DataGridCheckColumn Field=\"IsActive\" Caption=\"Active\" Editable Filterable=\"false\">\r\n            <DisplayTemplate>\r\n                <Check TValue=\"bool\" Value=\"@(((dynamic)context.Item).IsActive)\" Disabled ReadOnly />\r\n            </DisplayTemplate>\r\n        </DataGridCheckColumn>\r\n    </DataGridColumns>\r\n</DataGrid>\r\n\r\n@code {\r\n\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n\r\n    private List<ExpandoObject> inMemoryData;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        inMemoryData = new();\r\n        var data = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );\r\n\r\n        foreach ( var item in data )\r\n        {\r\n\r\n            IDictionary<string, object> expando = new ExpandoObject();\r\n\r\n            foreach ( var property in typeof( Employee ).GetProperties() )\r\n            {\r\n                expando.Add( property.Name, property.GetValue( item ) );\r\n            }\r\n            inMemoryData.Add( (ExpandoObject)expando );\r\n        }\r\n\r\n\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private ExpandoObject NewItemCreator()\r\n    {\r\n        IDictionary<string, object> expando = new ExpandoObject();\r\n\r\n        foreach ( var property in typeof( Employee ).GetProperties() )\r\n        {\r\n            expando.Add( property.Name, property.PropertyType.IsValueType ? Activator.CreateInstance( property.PropertyType ) : null );\r\n        }\r\n\r\n        return (ExpandoObject)expando;\r\n    }\r\n}",
+          "content": "@using System.Dynamic\r\n\r\n<DataGrid TItem=\"ExpandoObject\"\r\n          Data=\"inMemoryData\"\r\n          Responsive\r\n          ShowPager\r\n          ShowPageSizes\r\n          PageSize=\"5\"\r\n          Editable\r\n          EditMode=\"DataGridEditMode.Inline\"\r\n          NewItemCreator=\"NewItemCreator\">\r\n    <DataGridAggregates>\r\n        <DataGridAggregate Field=\"Email\" Aggregate=\"DataGridAggregateType.Count\">\r\n            <DisplayTemplate>\r\n                @($\"Total emails: {context.Value}\")\r\n            </DisplayTemplate>\r\n        </DataGridAggregate>\r\n        <DataGridAggregate Field=\"Salary\" Aggregate=\"DataGridAggregateType.Sum\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" />\r\n        <DataGridAggregate Field=\"IsActive\" Aggregate=\"DataGridAggregateType.TrueCount\" />\r\n        <DataGridAggregate Field=\"Childrens\" Aggregate=\"DataGridAggregateType.Sum\" />\r\n    </DataGridAggregates>\r\n    <DataGridColumns>\r\n        <DataGridCommandColumn></DataGridCommandColumn>\r\n        <DataGridColumn Editable TextAlignment=\"TextAlignment.Center\" Field=\"@nameof( Employee.Id )\" Caption=\"#\" Width=\"Width.Px( 60 )\" />\r\n        <DataGridColumn Editable Field=\"FirstName\" Caption=\"First Name\">\r\n        </DataGridColumn>\r\n        <DataGridColumn Editable Field=\"LastName\" Caption=\"Last Name\" />\r\n        <DataGridColumn Editable Field=\"Email\" Caption=\"Email\" />\r\n        <DataGridColumn Editable Field=\"City\" Caption=\"City\">\r\n            <CaptionTemplate>\r\n                <Icon Name=\"IconName.City\" /> @context.Caption\r\n            </CaptionTemplate>\r\n        </DataGridColumn>\r\n        <DataGridColumn Editable Field=\"Zip\" Caption=\"Zip\">\r\n        </DataGridColumn>\r\n        <DataGridDateColumn Field=\"DateOfBirth\" DisplayFormat=\"{0:dd.MM.yyyy}\" Caption=\"Birth Date\" Editable />\r\n        <DataGridNumericColumn Field=\"Childrens\" Caption=\"Childrens\" ReverseSorting=\"true\" Editable Filterable=\"false\" />\r\n        <DataGridSelectColumn Field=\"Gender\" Caption=\"Gender\" Editable Data=\"EmployeeData.Genders\" ValueField=\"( x ) => ( (Gender)x ).Code\" TextField=\"( x ) => ( (Gender)x ).Description\" />\r\n        <DataGridColumn Field=\"Salary\" Caption=\"Salary\" Editable Width=\"Width.Px( 140 )\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" TextAlignment=\"TextAlignment.End\">\r\n        </DataGridColumn>\r\n        <DataGridCheckColumn Field=\"IsActive\" Caption=\"Active\" Editable Filterable=\"false\">\r\n            <DisplayTemplate>\r\n                <Check TValue=\"bool\" Value=\"@(((dynamic)context.Item).IsActive)\" Disabled ReadOnly />\r\n            </DisplayTemplate>\r\n        </DataGridCheckColumn>\r\n    </DataGridColumns>\r\n</DataGrid>\r\n\r\n@code {\r\n\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n\r\n    private List<ExpandoObject> inMemoryData;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        inMemoryData = new();\r\n        var data = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );\r\n\r\n        foreach ( var item in data )\r\n        {\r\n\r\n            IDictionary<string, object> expando = new ExpandoObject();\r\n\r\n            foreach ( var property in typeof( Employee ).GetProperties() )\r\n            {\r\n                expando.Add( property.Name, property.GetValue( item ) );\r\n            }\r\n            inMemoryData.Add( (ExpandoObject)expando );\r\n        }\r\n\r\n\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private ExpandoObject NewItemCreator()\r\n    {\r\n        IDictionary<string, object> expando = new ExpandoObject();\r\n\r\n        foreach ( var property in typeof( Employee ).GetProperties() )\r\n        {\r\n            expando.Add( property.Name, property.PropertyType.IsValueType ? Activator.CreateInstance( property.PropertyType ) : null );\r\n        }\r\n\r\n        return (ExpandoObject)expando;\r\n    }\r\n}",
           "title": "Basic Example",
           "description": "To ensure the DataGrid correctly interprets the structure and type of your dynamic data during specific operations, such as creating new items or aggregating data, you need to define a representation within the NewItemCreator function. Below is an illustrative example."
         },
@@ -4453,7 +4453,7 @@
           "code": "DataGridLargeDataExpressionCompilerExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridLargeDataExpressionCompilerExample.razor",
-          "content": "@using Blazorise.DataGrid.Extensions;\r\n@using Blazorise.DataGrid.Utils\r\n\r\n<DataGrid @ref=dataGridRef\r\n          TItem=\"Employee\"\r\n          Data=\"@employeeList\"\r\n          ReadData=\"@OnReadData\"\r\n          TotalItems=\"@totalEmployees\"\r\n          PageSize=\"10\"\r\n          ShowPager\r\n          Responsive\r\n          Filterable\r\n          FilterMode=\"DataGridFilterMode.Menu\">\r\n    <DataGridCommandColumn />\r\n    <DataGridColumn Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" Editable />\r\n    <DataGridSelectColumn TItem=\"Employee\" Field=\"@nameof( Employee.Gender )\" Caption=\"Gender\" Editable Data=\"EmployeeData.Genders\" ValueField=\"( x ) => ( (Gender)x ).Code\" TextField=\"( x ) => ( (Gender)x ).Description\" />\r\n    <DataGridNumericColumn Field=\"@nameof( Employee.Childrens )\" Caption=\"Childrens\" Editable />\r\n    <DataGridDateColumn Field=\"@nameof( Employee.DateOfBirth )\" DisplayFormat=\"{0:dd.MM.yyyy}\" Caption=\"Date Of Birth\" Editable />\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] public EmployeeData EmployeeData { get; set; }\r\n    private DataGrid<Employee> dataGridRef;\r\n    private List<Employee> employeeListSource;\r\n    private List<Employee> employeeList;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeListSource = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private int totalEmployees;\r\n\r\n    private async Task OnReadData( DataGridReadDataEventArgs<Employee> e )\r\n    {\r\n        if ( !e.CancellationToken.IsCancellationRequested )\r\n        {\r\n            var query = employeeListSource.AsQueryable().ApplyDataGridSort( e.Columns ).ApplyDataGridSearch( e.Columns );\r\n\r\n            if ( dataGridRef.CustomFilter is not null )\r\n                query = query.Where( item => item != null && dataGridRef.CustomFilter( item ) );\r\n\r\n            var response = new List<Employee>();\r\n\r\n            if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )\r\n                response = query.ApplyDataGridVirtualization( e.VirtualizeOffset, e.VirtualizeCount ).ToList();\r\n            else if ( e.ReadDataMode is DataGridReadDataMode.Paging )\r\n                response = query.ApplyDataGridPaging( e.Page, e.PageSize ).ToList();\r\n            else\r\n                throw new Exception( \"Unhandled ReadDataMode\" );\r\n\r\n            await Task.Delay( Random.Shared.Next( 100 ) );\r\n\r\n            if ( !e.CancellationToken.IsCancellationRequested )\r\n            {\r\n                totalEmployees = query.Count();\r\n                employeeList = response;\r\n            }\r\n        }\r\n    }\r\n}",
+          "content": "@using Blazorise.DataGrid.Extensions;\r\n@using Blazorise.DataGrid.Utils\r\n\r\n<DataGrid @ref=dataGridRef\r\n          TItem=\"Employee\"\r\n          Data=\"@employeeList\"\r\n          ReadData=\"@OnReadData\"\r\n          TotalItems=\"@totalEmployees\"\r\n          PageSize=\"10\"\r\n          ShowPager\r\n          Responsive\r\n          Filterable\r\n          FilterMode=\"DataGridFilterMode.Menu\">\r\n    <DataGridCommandColumn />\r\n    <DataGridColumn Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" Editable />\r\n    <DataGridSelectColumn TItem=\"Employee\" Field=\"@nameof( Employee.Gender )\" Caption=\"Gender\" Editable Data=\"EmployeeData.Genders\" ValueField=\"( x ) => ( (Gender)x ).Code\" TextField=\"( x ) => ( (Gender)x ).Description\" />\r\n    <DataGridNumericColumn Field=\"@nameof( Employee.Childrens )\" Caption=\"Childrens\" Editable />\r\n    <DataGridDateColumn Field=\"@nameof( Employee.DateOfBirth )\" DisplayFormat=\"{0:dd.MM.yyyy}\" Caption=\"Birth Date\" Editable />\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] public EmployeeData EmployeeData { get; set; }\r\n    private DataGrid<Employee> dataGridRef;\r\n    private List<Employee> employeeListSource;\r\n    private List<Employee> employeeList;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeListSource = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private int totalEmployees;\r\n\r\n    private async Task OnReadData( DataGridReadDataEventArgs<Employee> e )\r\n    {\r\n        if ( !e.CancellationToken.IsCancellationRequested )\r\n        {\r\n            var query = employeeListSource.AsQueryable().ApplyDataGridSort( e.Columns ).ApplyDataGridSearch( e.Columns );\r\n\r\n            if ( dataGridRef.CustomFilter is not null )\r\n                query = query.Where( item => item != null && dataGridRef.CustomFilter( item ) );\r\n\r\n            var response = new List<Employee>();\r\n\r\n            if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )\r\n                response = query.ApplyDataGridVirtualization( e.VirtualizeOffset, e.VirtualizeCount ).ToList();\r\n            else if ( e.ReadDataMode is DataGridReadDataMode.Paging )\r\n                response = query.ApplyDataGridPaging( e.Page, e.PageSize ).ToList();\r\n            else\r\n                throw new Exception( \"Unhandled ReadDataMode\" );\r\n\r\n            await Task.Delay( Random.Shared.Next( 100 ) );\r\n\r\n            if ( !e.CancellationToken.IsCancellationRequested )\r\n            {\r\n                totalEmployees = query.Count();\r\n                employeeList = response;\r\n            }\r\n        }\r\n    }\r\n}",
           "title": "Expression Compiler",
           "description": "This utility enables you to compile expressions and use them in conjunction with the DataGrid ReadData() to build an IQueryable for querying your data. The ExpressionCompiler can work alongside the DataGridColumnInfo collection provided by ReadData to create expression-based queries ( IQueryables ) that can be utilized in ORMs like Entity Framework."
         }
@@ -4517,7 +4517,7 @@
           "code": "DataGridDateColumnExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridDateColumnExample.razor",
-          "content": "<DataGrid TItem=\"Employee\" Data=\"@employeeList\" PageSize=\"5\" Responsive Editable Filterable>\r\n    <DataGridDateColumn Field=\"@nameof( Employee.DateOfBirth )\" Caption=\"Date Of Birth\" Editable />\r\n    <DataGridCommandColumn />\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
+          "content": "<DataGrid TItem=\"Employee\" Data=\"@employeeList\" PageSize=\"5\" Responsive Editable Filterable>\r\n    <DataGridDateColumn Field=\"@nameof( Employee.DateOfBirth )\" Caption=\"Birth Date\" Editable />\r\n    <DataGridCommandColumn />\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
           "title": "Date Column",
           "description": "Column template for datetime values"
         },
@@ -4525,7 +4525,7 @@
           "code": "DataGridDateColumnNativeExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridDateColumnNativeExample.razor",
-          "content": "<DataGrid TItem=\"Employee\" Data=\"@employeeList\" PageSize=\"5\" Responsive Editable Filterable>\r\n    <DataGridDateColumn Field=\"@nameof( Employee.DateOfBirth )\" Caption=\"Date Of Birth\" Editable NativeInputMode />\r\n    <DataGridCommandColumn />\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
+          "content": "<DataGrid TItem=\"Employee\" Data=\"@employeeList\" PageSize=\"5\" Responsive Editable Filterable>\r\n    <DataGridDateColumn Field=\"@nameof( Employee.DateOfBirth )\" Caption=\"Birth Date\" Editable NativeInputMode />\r\n    <DataGridCommandColumn />\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
           "title": "Date Column with Native Mode",
           "description": "Column template for datetime values. Set NativeInputMode if you prefer to use the native html input variant of the date input."
         },
@@ -4778,7 +4778,7 @@
           "code": "DataGridFixedColumnsExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridFixedColumnsExample.razor",
-          "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"@employeeList\"\r\n          FixedColumns\r\n          ShowPager\r\n          ShowPageSizes\r\n          @bind-SelectedRow=\"@selectedEmployee\">\r\n    <DataGridColumns>\r\n        <DataGridColumn TextAlignment=\"TextAlignment.Center\" TItem=\"Employee\" Field=\"@nameof( Employee.Id )\" Caption=\"#\" Width=\"Width.Px( 60 )\" FixedPosition=\"TableColumnFixedPosition.Start\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" Width=\"Width.Px( 150 )\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" Width=\"Width.Px( 150 )\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.Email )\" Caption=\"Email\" Width=\"Width.Px( 250 )\" FixedPosition=\"TableColumnFixedPosition.Start\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.City )\" Caption=\"City\" Width=\"Width.Px( 150 )\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.Zip )\" Caption=\"Zip\" Width=\"Width.Px( 100 )\" />\r\n        <DataGridDateColumn TItem=\"Employee\" Field=\"@nameof( Employee.DateOfBirth )\" DisplayFormat=\"{0:dd.MM.yyyy}\" Caption=\"Date Of Birth\" Width=\"Width.Px( 100 )\" />\r\n        <DataGridNumericColumn TItem=\"Employee\" Field=\"@nameof( Employee.Childrens )\" Caption=\"Childrens\" Filterable=\"false\" Width=\"Width.Px( 100 )\" />\r\n        <DataGridSelectColumn TItem=\"Employee\" Field=\"@nameof( Employee.Gender )\" Caption=\"Gender\" Data=\"EmployeeData.Genders\" ValueField=\"( x ) => ( (Gender)x ).Code\" TextField=\"( x ) => ( (Gender)x ).Description\" Width=\"Width.Px( 100 )\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" TextAlignment=\"TextAlignment.End\" Width=\"Width.Px( 100 )\" FixedPosition=\"TableColumnFixedPosition.End\" />\r\n        <DataGridCheckColumn TItem=\"Employee\" Field=\"@nameof( Employee.IsActive )\" Caption=\"Active\" Filterable=\"false\" Width=\"Width.Px( 100 )\" />\r\n    </DataGridColumns>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n    private Employee selectedEmployee;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
+          "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"@employeeList\"\r\n          FixedColumns\r\n          ShowPager\r\n          ShowPageSizes\r\n          @bind-SelectedRow=\"@selectedEmployee\">\r\n    <DataGridColumns>\r\n        <DataGridColumn TextAlignment=\"TextAlignment.Center\" TItem=\"Employee\" Field=\"@nameof( Employee.Id )\" Caption=\"#\" Width=\"Width.Px( 60 )\" FixedPosition=\"TableColumnFixedPosition.Start\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" Width=\"Width.Px( 150 )\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" Width=\"Width.Px( 150 )\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.Email )\" Caption=\"Email\" Width=\"Width.Px( 250 )\" FixedPosition=\"TableColumnFixedPosition.Start\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.City )\" Caption=\"City\" Width=\"Width.Px( 150 )\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.Zip )\" Caption=\"Zip\" Width=\"Width.Px( 100 )\" />\r\n        <DataGridDateColumn TItem=\"Employee\" Field=\"@nameof( Employee.DateOfBirth )\" DisplayFormat=\"{0:dd.MM.yyyy}\" Caption=\"Birth Date\" Width=\"Width.Px( 100 )\" />\r\n        <DataGridNumericColumn TItem=\"Employee\" Field=\"@nameof( Employee.Childrens )\" Caption=\"Childrens\" Filterable=\"false\" Width=\"Width.Px( 100 )\" />\r\n        <DataGridSelectColumn TItem=\"Employee\" Field=\"@nameof( Employee.Gender )\" Caption=\"Gender\" Data=\"EmployeeData.Genders\" ValueField=\"( x ) => ( (Gender)x ).Code\" TextField=\"( x ) => ( (Gender)x ).Description\" Width=\"Width.Px( 100 )\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" TextAlignment=\"TextAlignment.End\" Width=\"Width.Px( 100 )\" FixedPosition=\"TableColumnFixedPosition.End\" />\r\n        <DataGridCheckColumn TItem=\"Employee\" Field=\"@nameof( Employee.IsActive )\" Caption=\"Active\" Filterable=\"false\" Width=\"Width.Px( 100 )\" />\r\n    </DataGridColumns>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n    private Employee selectedEmployee;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
           "title": "Fixed Columns"
         }
       ]
@@ -5029,7 +5029,7 @@
           "code": "DataGridStateManagementExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridStateManagementExample.razor",
-          "content": "<Paragraph>\r\n    <Button Color=\"Color.Primary\" Clicked=\"LoadState\">Load State</Button>\r\n    <Button Color=\"Color.Success\" Clicked=\"SaveState\">Save State</Button>\r\n    <Button Color=\"Color.Light\" Clicked=\"ResetState\">Reset State</Button>\r\n</Paragraph>\r\n\r\n<DataGrid @ref=\"dataGridRef\"\r\n          TItem=\"Employee\"\r\n          Data=\"inMemoryData\"\r\n          Responsive\r\n          Editable\r\n          Filterable\r\n          ShowPager\r\n          ShowPageSizes\r\n          ShowColumnChooser\r\n          PagerPosition=\"DataGridPagerPosition.Top\">\r\n    <DataGridColumns>\r\n        <DataGridColumn TextAlignment=\"TextAlignment.Center\" TItem=\"Employee\" Field=\"@nameof( Employee.Id )\" Caption=\"#\" Width=\"Width.Px(60)\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\">\r\n        </DataGridColumn>\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.Email )\" Caption=\"Email\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.City )\" Caption=\"City\">\r\n            <CaptionTemplate>\r\n                <Icon Name=\"IconName.City\" /> @context.Caption\r\n            </CaptionTemplate>\r\n        </DataGridColumn>\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.Zip )\" Caption=\"Zip\">\r\n        </DataGridColumn>\r\n        <DataGridDateColumn TItem=\"Employee\" Field=\"@nameof( Employee.DateOfBirth )\" DisplayFormat=\"{0:dd.MM.yyyy}\" Caption=\"Date Of Birth\" Editable />\r\n        <DataGridNumericColumn TItem=\"Employee\" Field=\"@nameof( Employee.Childrens )\" Caption=\"Childrens\" ReverseSorting=\"true\" Editable Filterable=\"false\" />\r\n        <DataGridSelectColumn TItem=\"Employee\" Field=\"@nameof( Employee.Gender )\" Caption=\"Gender\" Editable Data=\"EmployeeData.Genders\" ValueField=\"(x) => ((Gender)x).Code\" TextField=\"(x) => ((Gender)x).Description\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" Editable Width=\"Width.Px(140)\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo(\"fr-FR\")\" TextAlignment=\"TextAlignment.End\">\r\n        </DataGridColumn>\r\n        <DataGridCheckColumn TItem=\"Employee\" Field=\"@nameof(Employee.IsActive)\" Caption=\"Active\" Editable Filterable=\"false\">\r\n            <DisplayTemplate>\r\n                <Check TValue=\"bool\" Value=\"context.Item.IsActive\" Disabled ReadOnly />\r\n            </DisplayTemplate>\r\n        </DataGridCheckColumn>\r\n    </DataGridColumns>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] Blazored.LocalStorage.ILocalStorageService LocalStorage { get; set; }\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n\r\n    private const string STORAGE_KEY = \"__DATAGRID_STATE__\";\r\n    private DataGrid<Employee> dataGridRef;\r\n    private IEnumerable<Employee> inMemoryData;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    protected async override Task OnAfterRenderAsync( bool firstRender )\r\n    {\r\n        if ( firstRender )\r\n        {\r\n            await LoadState();\r\n        }\r\n\r\n        await base.OnAfterRenderAsync( firstRender );\r\n    }\r\n\r\n    private async Task ResetState()\r\n    {\r\n        await LocalStorage.RemoveItemAsync( STORAGE_KEY );\r\n\r\n        var state = new DataGridState<Employee>()\r\n        {\r\n            Page = 1,\r\n            PageSize = 10,\r\n        };\r\n\r\n        await dataGridRef.LoadState( state );\r\n    }\r\n\r\n    private async Task LoadState()\r\n    {\r\n        var stateFromLocalStorage = await LocalStorage.GetItemAsync<DataGridState<Employee>>( STORAGE_KEY );\r\n\r\n        if ( stateFromLocalStorage is not null )\r\n        {\r\n            //It is of note that we must make sure the reference is contained in the DataGrid Data collection.\r\n            if ( stateFromLocalStorage.SelectedRow is not null )\r\n            {\r\n                stateFromLocalStorage.SelectedRow = inMemoryData.FirstOrDefault( x => x.Id == stateFromLocalStorage.SelectedRow.Id );\r\n            }\r\n            if ( stateFromLocalStorage.EditItem is not null )\r\n            {\r\n                stateFromLocalStorage.EditItem = inMemoryData.FirstOrDefault( x => x.Id == stateFromLocalStorage.EditItem.Id );\r\n            }\r\n            await dataGridRef.LoadState( stateFromLocalStorage );\r\n            return;\r\n        }\r\n    }\r\n\r\n    private async Task SaveState()\r\n    {\r\n        var state = await dataGridRef.GetState();\r\n        await LocalStorage.SetItemAsync( STORAGE_KEY, state );\r\n    }\r\n}",
+          "content": "<Paragraph>\r\n    <Button Color=\"Color.Primary\" Clicked=\"LoadState\">Load State</Button>\r\n    <Button Color=\"Color.Success\" Clicked=\"SaveState\">Save State</Button>\r\n    <Button Color=\"Color.Light\" Clicked=\"ResetState\">Reset State</Button>\r\n</Paragraph>\r\n\r\n<DataGrid @ref=\"dataGridRef\"\r\n          TItem=\"Employee\"\r\n          Data=\"inMemoryData\"\r\n          Responsive\r\n          Editable\r\n          Filterable\r\n          ShowPager\r\n          ShowPageSizes\r\n          ShowColumnChooser\r\n          PagerPosition=\"DataGridPagerPosition.Top\">\r\n    <DataGridColumns>\r\n        <DataGridColumn TextAlignment=\"TextAlignment.Center\" TItem=\"Employee\" Field=\"@nameof( Employee.Id )\" Caption=\"#\" Width=\"Width.Px(60)\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\">\r\n        </DataGridColumn>\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.Email )\" Caption=\"Email\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.City )\" Caption=\"City\">\r\n            <CaptionTemplate>\r\n                <Icon Name=\"IconName.City\" /> @context.Caption\r\n            </CaptionTemplate>\r\n        </DataGridColumn>\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.Zip )\" Caption=\"Zip\">\r\n        </DataGridColumn>\r\n        <DataGridDateColumn TItem=\"Employee\" Field=\"@nameof( Employee.DateOfBirth )\" DisplayFormat=\"{0:dd.MM.yyyy}\" Caption=\"Birth Date\" Editable />\r\n        <DataGridNumericColumn TItem=\"Employee\" Field=\"@nameof( Employee.Childrens )\" Caption=\"Childrens\" ReverseSorting=\"true\" Editable Filterable=\"false\" />\r\n        <DataGridSelectColumn TItem=\"Employee\" Field=\"@nameof( Employee.Gender )\" Caption=\"Gender\" Editable Data=\"EmployeeData.Genders\" ValueField=\"(x) => ((Gender)x).Code\" TextField=\"(x) => ((Gender)x).Description\" />\r\n        <DataGridColumn TItem=\"Employee\" Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" Editable Width=\"Width.Px(140)\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo(\"fr-FR\")\" TextAlignment=\"TextAlignment.End\">\r\n        </DataGridColumn>\r\n        <DataGridCheckColumn TItem=\"Employee\" Field=\"@nameof(Employee.IsActive)\" Caption=\"Active\" Editable Filterable=\"false\">\r\n            <DisplayTemplate>\r\n                <Check TValue=\"bool\" Value=\"context.Item.IsActive\" Disabled ReadOnly />\r\n            </DisplayTemplate>\r\n        </DataGridCheckColumn>\r\n    </DataGridColumns>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] Blazored.LocalStorage.ILocalStorageService LocalStorage { get; set; }\r\n    [Inject] EmployeeData EmployeeData { get; set; }\r\n\r\n    private const string STORAGE_KEY = \"__DATAGRID_STATE__\";\r\n    private DataGrid<Employee> dataGridRef;\r\n    private IEnumerable<Employee> inMemoryData;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    protected async override Task OnAfterRenderAsync( bool firstRender )\r\n    {\r\n        if ( firstRender )\r\n        {\r\n            await LoadState();\r\n        }\r\n\r\n        await base.OnAfterRenderAsync( firstRender );\r\n    }\r\n\r\n    private async Task ResetState()\r\n    {\r\n        await LocalStorage.RemoveItemAsync( STORAGE_KEY );\r\n\r\n        var state = new DataGridState<Employee>()\r\n        {\r\n            Page = 1,\r\n            PageSize = 10,\r\n        };\r\n\r\n        await dataGridRef.LoadState( state );\r\n    }\r\n\r\n    private async Task LoadState()\r\n    {\r\n        var stateFromLocalStorage = await LocalStorage.GetItemAsync<DataGridState<Employee>>( STORAGE_KEY );\r\n\r\n        if ( stateFromLocalStorage is not null )\r\n        {\r\n            //It is of note that we must make sure the reference is contained in the DataGrid Data collection.\r\n            if ( stateFromLocalStorage.SelectedRow is not null )\r\n            {\r\n                stateFromLocalStorage.SelectedRow = inMemoryData.FirstOrDefault( x => x.Id == stateFromLocalStorage.SelectedRow.Id );\r\n            }\r\n            if ( stateFromLocalStorage.EditItem is not null )\r\n            {\r\n                stateFromLocalStorage.EditItem = inMemoryData.FirstOrDefault( x => x.Id == stateFromLocalStorage.EditItem.Id );\r\n            }\r\n            await dataGridRef.LoadState( stateFromLocalStorage );\r\n            return;\r\n        }\r\n    }\r\n\r\n    private async Task SaveState()\r\n    {\r\n        var state = await dataGridRef.GetState();\r\n        await LocalStorage.SetItemAsync( STORAGE_KEY, state );\r\n    }\r\n}",
           "title": "Get And Load State",
           "description": "In the following example, we are using the LoadState method to load the DataGrid state from the LocalStorage if available. We are using the GetState method to save the DataGrid state to the LocalStorage in order to load at a later date. The page checks the LocalStorage on first render and loads the saved state if available."
         }
@@ -5183,7 +5183,7 @@
           "code": "DataGridDisplayTemplateExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridDisplayTemplateExample.razor",
-          "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"@employeeList\"\r\n          Responsive>\r\n    <DataGridNumericColumn Field=\"@nameof( Employee.DateOfBirth )\" Caption=\"Date Of Birth\" Editable>\r\n        <DisplayTemplate>\r\n            @{\r\n                var date = context.Item?.DateOfBirth;\r\n\r\n                if ( date != null )\r\n                {\r\n                    @($\"{date.Value.ToShortDateString()} | Age: {( DateTime.Now.Year - date.Value.Year )}\")\r\n                }\r\n            }\r\n        </DisplayTemplate>\r\n    </DataGridNumericColumn>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
+          "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"@employeeList\"\r\n          Responsive>\r\n    <DataGridNumericColumn Field=\"@nameof( Employee.DateOfBirth )\" Caption=\"Birth Date\" Editable>\r\n        <DisplayTemplate>\r\n            @{\r\n                var date = context.Item?.DateOfBirth;\r\n\r\n                if ( date != null )\r\n                {\r\n                    @($\"{date.Value.ToShortDateString()} | Age: {( DateTime.Now.Year - date.Value.Year )}\")\r\n                }\r\n            }\r\n        </DisplayTemplate>\r\n    </DataGridNumericColumn>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
           "title": "DisplayTemplate",
           "description": "Display template uses CellDisplayContext&lt;TItem&gt; as a context value, exposing the item, column, and display metadata for the cell."
         }
@@ -5395,7 +5395,7 @@
           "code": "FluentIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FluentIconsCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.0.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.0.2.0\" rel=\"stylesheet\" />",
           "title": "Fluent Icons CSS",
           "description": "Note: If you use Fluent icons, define FluentSystemIcons-Resizable.css in your index.html or _Layout.cshtml / _Host.cshtml file. This file is required for some custom icon styles to work."
         },
@@ -7656,85 +7656,85 @@
           "code": "CommonScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/CommonScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise/breakpoint.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/button.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/closable.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/colorPicker.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/datePicker.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dragDrop.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dropdown.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/fileInput.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/filePicker.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/inputMask.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/io.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/memoEdit.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/numericPicker.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/observer.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/table.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/textEdit.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/theme.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/timePicker.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/tooltip.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/utilities.js?v=2.0.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise/breakpoint.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/button.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/closable.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/colorPicker.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/datePicker.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dragDrop.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dropdown.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/fileInput.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/filePicker.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/inputMask.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/io.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/memoEdit.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/numericPicker.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/observer.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/table.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/textEdit.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/theme.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/timePicker.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/tooltip.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/utilities.js?v=2.0.2.0\" type=\"module\"></script>"
         },
         {
           "code": "AntDesignScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/AntDesignScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.AntDesign/modal.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/tooltip.js?v=2.0.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.AntDesign/modal.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/tooltip.js?v=2.0.2.0\" type=\"module\"></script>"
         },
         {
           "code": "BootstrapScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/BootstrapScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Bootstrap/modal.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap/tooltip.js?v=2.0.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Bootstrap/modal.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap/tooltip.js?v=2.0.2.0\" type=\"module\"></script>"
         },
         {
           "code": "Bootstrap5ScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/Bootstrap5ScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Bootstrap5/modal.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap5/tooltip.js?v=2.0.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Bootstrap5/modal.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap5/tooltip.js?v=2.0.2.0\" type=\"module\"></script>"
         },
         {
           "code": "BulmaScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/BulmaScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Bulma/modal.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bulma/tooltip.js?v=2.0.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Bulma/modal.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bulma/tooltip.js?v=2.0.2.0\" type=\"module\"></script>"
         },
         {
           "code": "TailwindScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/TailwindScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Tailwind/modal.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Tailwind/tooltip.js?v=2.0.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Tailwind/modal.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Tailwind/tooltip.js?v=2.0.2.0\" type=\"module\"></script>"
         },
         {
           "code": "MaterialScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/MaterialScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Material/modal.js?v=2.0.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Material/tooltip.js?v=2.0.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Material/modal.js?v=2.0.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Material/tooltip.js?v=2.0.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts/charts.js?v=2.0.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts/charts.js?v=2.0.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsStreamingScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsStreamingScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.0.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.0.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsTrendlineScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsTrendlineScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.0.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.0.2.0\" type=\"module\"></script>"
         },
         {
           "code": "DatagridScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/DatagridScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.DataGrid/datagrid.js?v=2.0.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.DataGrid/datagrid.js?v=2.0.2.0\" type=\"module\"></script>"
         },
         {
           "code": "MarkdownScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/MarkdownScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Markdown/markdown.js?v=2.0.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Markdown/markdown.js?v=2.0.2.0\" type=\"module\"></script>"
         },
         {
           "code": "RichTextEditScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/RichTextEditScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.RichTextEdit/richtextedit.js?v=2.0.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.RichTextEdit/richtextedit.js?v=2.0.2.0\" type=\"module\"></script>"
         },
         {
           "code": "VideoScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/VideoScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Video/video.js?v=2.0.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Video/video.js?v=2.0.2.0\" type=\"module\"></script>"
         }
       ]
     },
@@ -8268,7 +8268,7 @@
           "code": "Bootstrap5GuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap5/Examples/Bootstrap5GuideSourceFilesExample.snippet",
-          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.0.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.0.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -8497,7 +8497,7 @@
           "code": "AntDesignGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/AntDesign/Examples/AntDesignGuideSourceFilesExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/antd/4.24.15/antd.min.css\" integrity=\"sha512-Ac6zlwN6S+uQSinFAcV27Gd/TtKEDt7XWXn2xWO4Xi9dTbbpT9/vJb+VT5af6nZywrgBD3qUFTb5y1VN4YD94Q==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.0.1.0\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.0.1.0\" rel=\"stylesheet\" />",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/antd/4.24.15/antd.min.css\" integrity=\"sha512-Ac6zlwN6S+uQSinFAcV27Gd/TtKEDt7XWXn2xWO4Xi9dTbbpT9/vJb+VT5af6nZywrgBD3qUFTb5y1VN4YD94Q==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.0.2.0\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.0.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -8540,7 +8540,7 @@
           "code": "BootstrapGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap/Examples/BootstrapGuideSourceFilesExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css\" integrity=\"sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=2.0.1.0\" rel=\"stylesheet\" />",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css\" integrity=\"sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=2.0.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -8583,7 +8583,7 @@
           "code": "Bootstrap5GuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap5/Examples/Bootstrap5GuideSourceFilesExample.snippet",
-          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.0.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.0.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -8626,7 +8626,7 @@
           "code": "BulmaGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bulma/Examples/BulmaGuideSourceFilesExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bulma/blazorise.bulma.css?v=2.0.1.0\" rel=\"stylesheet\" />",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bulma/blazorise.bulma.css?v=2.0.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -8669,7 +8669,7 @@
           "code": "FluentUI2GuideSourceFiles1Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/FluentUI2/Examples/FluentUI2GuideSourceFiles1Example.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.0.1.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/reboot.css?v=2.0.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.0.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.0.2.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/reboot.css?v=2.0.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.0.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -8720,51 +8720,51 @@
     },
     {
       "route": "/docs/usage/material",
-      "title": "Blazorise Material Usage",
-      "description": "Learn all the steps on how to quickly install and setup Blazorise for Material CSS framework and Material icons.",
+      "title": "Blazorise Material 3 Usage Guide",
+      "description": "Install and configure Blazorise Material 3 for Blazor WebAssembly or Server. Learn package setup, static files, service registration, and Material token customization.",
       "pagePath": "Pages/Docs/Guides/Material/MaterialGuidePage.razor",
       "examples": [
         {
           "code": "MaterialGuideNuget1Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideNuget1Example.snippet",
-          "content": "Install-Package Blazorise.Material",
-          "description": "First step is to install a Material provider for Blazorise:"
+          "content": "dotnet add package Blazorise.Material",
+          "description": "1. Install the Material 3 provider:"
         },
         {
           "code": "MaterialGuideNuget2Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideNuget2Example.snippet",
-          "content": "Install-Package Blazorise.Icons.Material",
-          "description": "You also need to install the icon package:"
-        },
-        {
-          "code": "MaterialGuideFileStructureExample",
-          "kind": "snippet",
-          "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideFileStructureExample.snippet",
-          "content": "blazorproject.client/\r\n└── wwwroot/\r\n    ├── css/\r\n    └── js/",
-          "description": "Material CSS is not available through the CDN so you must download it yourself from djibe web page. After the download is finished you must extract the CSS and JS to the wwwroot folder inside of you Blazor project."
+          "content": "dotnet add package Blazorise.Icons.Material",
+          "description": "2. Install the Material icons package:"
         },
         {
           "code": "MaterialGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideSourceFilesExample.snippet",
-          "content": "<!-- Material CSS -->\r\n<link href=\"css/material.min.css\" rel=\"stylesheet\">\r\n\r\n<!-- Add Material font (Roboto) and Material icon as needed -->\r\n<link href=\"https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i|Roboto+Mono:300,400,700|Roboto+Slab:300,400,700\" rel=\"stylesheet\">\r\n<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Material/blazorise.material.css?v=2.0.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.0.1.0\" rel=\"stylesheet\" />\r\n\r\n<!-- Optional JavaScript -->\r\n<!-- These are the standard js dependencies this provider typically dependes upon, but Blazorise deems these as optional as Blazorise Components should work correctly without these  -->\r\n<!-- jQuery first, then Popper.js, then Material JS -->\r\n<script src=\"https://code.jquery.com/jquery-3.5.0.slim.min.js\"></script>\r\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js\"></script>\r\n<script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js\"></script>\r\n\r\n<!-- Mandatory JavaScript -->\r\n<script src=\"js/material.min.js\"></script>\r\n<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.0.1.0\"></script>",
-          "description": "Add these lines inside the head section:"
+          "content": "<!-- In <head> -->\r\n<!-- Optional: Material icons webfont (recommended when using Blazorise.Icons.Material) -->\r\n<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Material/blazorise.material.css?v=2.0.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.0.2.0\" rel=\"stylesheet\" />\r\n\r\n<!-- Before </body> (before the Blazor framework script) -->\r\n<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.0.2.0\"></script>",
+          "description": "Add these lines inside the head section, and place the script near the end of body before the Blazor script:"
         },
         {
           "code": "MaterialGuideUsingExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideUsingExample.snippet",
           "content": "@using Blazorise",
-          "description": "In your main _Imports.razor add:"
+          "description": "4. In your main _Imports.razor add:"
         },
         {
           "code": "MaterialGuideRegistrationExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideRegistrationExample.snippet",
           "content": "using Blazorise;\r\nusing Blazorise.Material;\r\nusing Blazorise.Icons.Material;\r\n\r\nbuilder.Services\r\n    .AddBlazorise( options =>\r\n    {\r\n        options.Immediate = true;\r\n    } )\r\n    .AddMaterialProviders()\r\n    .AddMaterialIcons();",
-          "description": "Add the following lines to the relevant sections of Program.cs ."
+          "description": "5. Register Blazorise services in Program.cs :"
+        },
+        {
+          "code": "MaterialGuideFileStructureExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideFileStructureExample.snippet",
+          "content": "/* wwwroot/app.css (load after Blazorise Material CSS) */\r\n:root {\r\n    --mui-primary: #6750a4;\r\n    --mui-on-primary: #ffffff;\r\n    --mui-primary-container: #eaddff;\r\n    --mui-on-primary-container: #21005d;\r\n    --mui-surface: #fffbff;\r\n    --mui-on-surface: #1c1b1f;\r\n    --mui-outline: #79747e;\r\n    --mui-spacing: 1rem;\r\n    --mui-font-family: \"Inter\", \"Roboto\", \"Helvetica Neue\", Arial, sans-serif;\r\n}\r\n\r\n[data-theme=\"dark\"] {\r\n    --mui-primary: #d0bcff;\r\n    --mui-on-primary: #381e72;\r\n    --mui-primary-container: #4f378b;\r\n    --mui-on-primary-container: #eaddff;\r\n    --mui-surface: #141218;\r\n    --mui-on-surface: #e6e1e6;\r\n    --mui-outline: #938f99;\r\n}",
+          "description": "Example token overrides for global and dark mode theming:"
         }
       ]
     },
@@ -8792,7 +8792,7 @@
           "code": "TailwindGuideSourceFiles3Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Tailwind/Examples/TailwindGuideSourceFiles3Example.snippet",
-          "content": "<link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap\" rel=\"stylesheet\">\r\n<link href=\"https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.0.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap\" rel=\"stylesheet\">\r\n<link href=\"https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.0.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {

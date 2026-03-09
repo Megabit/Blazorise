@@ -1,29 +1,40 @@
-﻿@each $name, $value in $position-values {
-    .top-#{$name} {
+$mui-positions: (static, relative, absolute, fixed, sticky) !default;
+$mui-position-values: (0: 0, 50: 50%, 100: 100%) !default;
+
+@each $position in $mui-positions {
+    .mui-position-#{$position} {
+        position: #{$position} !important;
+    }
+}
+
+@each $name, $value in $mui-position-values {
+    .mui-top-#{$name} {
         top: #{$value} !important;
     }
 
-    .bottom-#{$name} {
+    .mui-bottom-#{$name} {
         bottom: #{$value} !important;
     }
 
-    .left-#{$name} {
+    .mui-start-#{$name} {
         left: #{$value} !important;
+        inset-inline-start: #{$value} !important;
     }
 
-    .right-#{$name} {
+    .mui-end-#{$name} {
         right: #{$value} !important;
+        inset-inline-end: #{$value} !important;
     }
 }
 
-.translate-middle {
+.mui-translate-middle {
     transform: translate(-50%, -50%) !important;
 }
 
-.translate-middle-x {
+.mui-translate-middle-x {
     transform: translateX(-50%) !important;
 }
 
-.translate-middle-y {
+.mui-translate-middle-y {
     transform: translateY(-50%) !important;
 }

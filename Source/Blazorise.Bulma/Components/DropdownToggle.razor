@@ -1,37 +1,37 @@
 ﻿@inherits Blazorise.DropdownToggle
 <div class="dropdown-trigger">
-    @if (IsGroup)
+    @if ( IsGroup )
     {
         <div class="control">
-            <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" tabindex="@TabIndex" aria-haspopup="menu" aria-expanded="@AriaExpanded" aria-controls="@AriaControls" @onclick="@ClickHandler" @attributes="@Attributes">
-                @if (ChildContent != null)
+            <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" tabindex="@TabIndex" aria-haspopup="menu" aria-expanded="@AriaExpanded" aria-controls="@AriaControls" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes">
+                @if ( ChildContent != null )
                 {
                     <span>@ChildContent</span>
                 }
-                @iconFragment(this)
+                @iconFragment( this )
             </button>
         </div>
     }
     else
     {
-        @if (ParentDropdown?.IsDropdownSubmenu == true)
+        @if ( ParentDropdown?.IsDropdownSubmenu == true )
         {
-            <a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" tabindex="@TabIndex" aria-haspopup="menu" aria-expanded="@AriaExpanded" aria-controls="@AriaControls" @onclick="@ClickHandler" @attributes="@Attributes">
-                @if (ChildContent != null)
+            <a @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" tabindex="@TabIndex" aria-haspopup="menu" aria-expanded="@AriaExpanded" aria-controls="@AriaControls" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes">
+                @if ( ChildContent != null )
                 {
                     <span>@ChildContent</span>
                 }
-                @iconFragment(this)
+                @iconFragment( this )
             </a>
         }
         else
         {
-            <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" tabindex="@TabIndex" aria-haspopup="menu" aria-expanded="@AriaExpanded" aria-controls="@AriaControls" @onclick="@ClickHandler" @attributes="@Attributes">
-                @if (ChildContent != null)
+            <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" tabindex="@TabIndex" aria-haspopup="menu" aria-expanded="@AriaExpanded" aria-controls="@AriaControls" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes">
+                @if ( ChildContent != null )
                 {
                     <span>@ChildContent</span>
                 }
-                @iconFragment(this)
+                @iconFragment( this )
             </button>
         }
     }
@@ -39,49 +39,49 @@
 
 @code {
     private RenderFragment<DropdownToggle> iconFragment => dropdown => __builder =>
+    {
+        @if ( dropdown.IsToggleIconVisible )
+        {
+            <span class="icon is-small">
+                @if ( dropdown.ParentDropdownState.Visible )
                 {
-                @if (dropdown.IsToggleIconVisible)
+                    if ( dropdown.ParentDropdown.Direction == Direction.Up )
                     {
-                    <span class="icon is-small">
-                        @if (dropdown.ParentDropdownState.Visible)
-                            {
-                                if (dropdown.ParentDropdown.Direction == Direction.Up)
-                                {
-                                <Icon Name="IconName.AngleDown" />
-                                }
-                                else if (dropdown.ParentDropdown.Direction == Direction.Down || dropdown.ParentDropdown.Direction == Direction.Default)
-                                {
-                                <Icon Name="IconName.AngleUp" />
-                                }
-                                else if (dropdown.ParentDropdown.Direction == Direction.Start)
-                                {
-                                <Icon Name="IconName.AngleUp" />
-                                }
-                                else if (dropdown.ParentDropdown.Direction == Direction.End)
-                                {
-                                <Icon Name="IconName.AngleUp" />
-                                }
-                            }
-                            else
-                            {
-                                if (dropdown.ParentDropdown.Direction == Direction.Up)
-                                {
-                                <Icon Name="IconName.AngleUp" />
-                                }
-                                else if (dropdown.ParentDropdown.Direction == Direction.Down || dropdown.ParentDropdown.Direction == Direction.Default)
-                                {
-                                <Icon Name="IconName.AngleDown" />
-                                }
-                                else if (dropdown.ParentDropdown.Direction == Direction.Start)
-                                {
-                                <Icon Name="IconName.AngleDown" />
-                                }
-                                else if (dropdown.ParentDropdown.Direction == Direction.End)
-                                {
-                                <Icon Name="IconName.AngleDown" />
-                                }
-                            }
-                    </span>
+                        <Icon Name="IconName.AngleDown" />
                     }
-                };
+                    else if ( dropdown.ParentDropdown.Direction == Direction.Down || dropdown.ParentDropdown.Direction == Direction.Default )
+                    {
+                        <Icon Name="IconName.AngleUp" />
+                    }
+                    else if ( dropdown.ParentDropdown.Direction == Direction.Start )
+                    {
+                        <Icon Name="IconName.AngleUp" />
+                    }
+                    else if ( dropdown.ParentDropdown.Direction == Direction.End )
+                    {
+                        <Icon Name="IconName.AngleUp" />
+                    }
+                }
+                else
+                {
+                    if ( dropdown.ParentDropdown.Direction == Direction.Up )
+                    {
+                        <Icon Name="IconName.AngleUp" />
+                    }
+                    else if ( dropdown.ParentDropdown.Direction == Direction.Down || dropdown.ParentDropdown.Direction == Direction.Default )
+                    {
+                        <Icon Name="IconName.AngleDown" />
+                    }
+                    else if ( dropdown.ParentDropdown.Direction == Direction.Start )
+                    {
+                        <Icon Name="IconName.AngleDown" />
+                    }
+                    else if ( dropdown.ParentDropdown.Direction == Direction.End )
+                    {
+                        <Icon Name="IconName.AngleDown" />
+                    }
+                }
+            </span>
+        }
+    };
 }

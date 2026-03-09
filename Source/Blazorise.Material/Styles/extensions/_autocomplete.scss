@@ -1,0 +1,122 @@
+.mui-dropdown.b-is-autocomplete {
+    inline-size: 100%;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+
+    > .mui-dropdown-menu {
+        --mui-dropdown-radius: var(--mui-input-border-radius, 0.5rem);
+        --mui-dropdown-padding: 0.125rem;
+        inline-size: 100%;
+        min-inline-size: 100%;
+        max-inline-size: none !important;
+        max-block-size: var(--autocomplete-menu-max-height, 12.5rem);
+        overflow-y: auto;
+        z-index: var(--mui-zindex-popover);
+    }
+
+    .mui-dropdown-item.b-is-autocomplete-suggestion {
+        flex: 0 0 auto;
+        align-self: auto;
+        inline-size: 100%;
+        block-size: auto;
+        min-block-size: auto;
+    }
+
+    > .mui-dropdown-menu > .mui-dropdown-item.b-is-autocomplete-suggestion {
+        flex: 0 0 auto;
+        align-items: stretch;
+        gap: 0;
+    }
+
+    > .mui-dropdown-menu > .mui-dropdown-item.b-is-autocomplete-suggestion:not(.b-is-autocomplete-suggestion-checkbox) {
+        display: block;
+        min-block-size: auto;
+        white-space: normal;
+    }
+
+    > .mui-dropdown-menu > .mui-dropdown-item.b-is-autocomplete-suggestion:not(.b-is-autocomplete-suggestion-checkbox) > :first-child {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        inline-size: 100%;
+        gap: 0.75rem;
+    }
+
+    > .mui-dropdown-menu > .mui-dropdown-item.b-is-autocomplete-suggestion :is(h1, h2, h3, h4, h5, h6, p, small) {
+        margin: 0;
+    }
+
+    > .mui-dropdown-menu > .mui-dropdown-item.b-is-autocomplete-suggestion > p {
+        margin-block-start: 0.125rem;
+    }
+
+    .mui-dropdown-item.b-is-autocomplete-suggestion.focus {
+        background-color: color-mix(in srgb, currentColor 10%, transparent);
+    }
+}
+
+.mui-dropdown.b-is-autocomplete.b-is-autocomplete-multipleselection {
+    --mui-autocomplete-radius: var(--mui-input-border-radius, 0.5rem);
+    min-block-size: var(--mui-input-size, 2.5rem);
+    block-size: auto;
+    border: 0.0625rem solid var(--mui-outline);
+    border-radius: var(--mui-autocomplete-radius);
+    padding: 0.125rem;
+    gap: 0.25rem;
+    cursor: text;
+    background-color: var(--mui-surface);
+    flex-wrap: wrap;
+
+    &.focus {
+        border-color: var(--mui-primary);
+        box-shadow: 0 0 0 0.0625rem var(--mui-primary);
+    }
+
+    &.is-valid {
+        border-color: var(--mui-success);
+    }
+
+    &.is-invalid {
+        border-color: var(--mui-error);
+    }
+
+    > .mui-input {
+        flex: 1 1 7rem;
+        inline-size: auto;
+        min-inline-size: 7rem;
+        margin: 0;
+        padding-inline: 0.75rem;
+        min-block-size: calc(var(--mui-input-size, 2.5rem) - 0.25rem);
+        block-size: calc(var(--mui-input-size, 2.5rem) - 0.25rem);
+        border: 0.0625rem solid transparent;
+        border-radius: calc(var(--mui-autocomplete-radius) - 0.125rem);
+        box-shadow: none;
+        background-color: transparent;
+    }
+
+    > .mui-input:focus {
+        border-width: 0.0625rem;
+        border-color: transparent;
+        padding-inline: 0.75rem;
+    }
+
+    > .mui-chip {
+        margin: 0 !important;
+        flex: 0 0 auto;
+        max-inline-size: 100%;
+        position: relative;
+        z-index: 2;
+    }
+
+    > .mui-chip > .mui-chip-close {
+        position: relative;
+        z-index: 3;
+        pointer-events: auto;
+    }
+
+    > .mui-dropdown-menu {
+        inset-inline-start: 0;
+        inset-block-start: calc(100% + 0.25rem);
+    }
+}

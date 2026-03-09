@@ -19,11 +19,21 @@ public partial class BarDropdownItem : BaseComponent
 
     private bool disabled;
 
+    private string ariaLabelledBy;
+
     private BarDropdownState parentDropdownState;
 
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        ariaLabelledBy = $"lbl_{IdGenerator.Generate}";
+
+        base.OnInitialized();
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -51,7 +61,11 @@ public partial class BarDropdownItem : BaseComponent
     {
         if ( !Disabled )
         {
-            if ( ParentBarDropdown is not null && ParentDropdownState.Mode == BarMode.Horizontal )
+            var shouldCloseDropdownOnClick
+                = ParentBarDropdown is not null
+                && ( ParentDropdownState.Mode == BarMode.Horizontal || !ParentDropdownState.IsInlineDisplay );
+
+            if ( shouldCloseDropdownOnClick )
             {
                 if ( !ParentBarDropdown.WasJustToggled )
                     await ParentBarDropdown.Hide( true );
@@ -61,9 +75,30 @@ public partial class BarDropdownItem : BaseComponent
         }
     }
 
+    /// <summary>
+    /// Handles keyboard activation for bar dropdown items.
+    /// </summary>
+    /// <param name="eventArgs">Information about the keyboard event.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected Task KeyDownHandler( KeyboardEventArgs eventArgs )
+    {
+        if ( !string.IsNullOrEmpty( To ) )
+            return Task.CompletedTask;
+
+        if ( eventArgs.Key == "Enter" || eventArgs.Key == "NumpadEnter" )
+            return ClickHandler( new MouseEventArgs() );
+
+        return Task.CompletedTask;
+    }
+
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets the aria-labelledby value that references the item text.
+    /// </summary>
+    protected string AriaLabelledBy => ariaLabelledBy;
 
     /// <summary>
     /// Returns tabindex for non-link dropdown items to support keyboard navigation.

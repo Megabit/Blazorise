@@ -1,8 +1,8 @@
-import Cropper, { CropperViewer } from "./vendors/cropper.js?v=2.0.1.0";
+import Cropper, { CropperViewer } from "./vendors/cropper.js?v=2.0.2.0";
 
-import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.1.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.2.0";
 
-document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Cropper/blazorise.cropper.css?v=2.0.1.0\" />");
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Cropper/blazorise.cropper.css?v=2.0.2.0\" />");
 
 const _instances = [];
 
@@ -155,7 +155,8 @@ export function destroy(element, elementId) {
 
         unregisterEvents(cropperCanvas, cropperSelection);
 
-        instance.destroy();
+        if (cropper && typeof cropper.destroy === "function")
+            cropper.destroy();
     }
 
     delete instances[elementId];

@@ -156,7 +156,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Radios</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <RadioGroup TValue="string" Name="colors" Value="@("blue")">
+                        <RadioGroup TValue="string" Name="colors" @bind-Value="@radioGroup1">
                             <Radio Value="@("red")">Red</Radio>
                             <Radio Value="@("green")">Green</Radio>
                             <Radio Value="@("blue")">Blue</Radio>
@@ -166,7 +166,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Radio buttons</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <RadioGroup TValue="string" Name="colors2" Buttons Value="@("green")">
+                        <RadioGroup TValue="string" Name="colors2" Buttons @bind-Value="@radioGroup2">
                             <Radio Value="@("red")">Red</Radio>
                             <Radio Value="@("green")">Green</Radio>
                             <Radio Value="@("blue")">Blue</Radio>
@@ -386,7 +386,7 @@
                 </Row>
                 <Row>
                     <Column ColumnSize="ColumnSize.Is12.OnMobile">
-                        <Fields Label="Auto-sizing">
+                        <Fields Label="Auto-sizing" Flex="Flex.AlignItems.Center">
                             <Column ColumnSize="ColumnSize.IsAuto">
                                 <FieldLabel Screenreader="Screenreader.Only">Name</FieldLabel>
                                 <TextInput Placeholder="Jane Doe" />
@@ -448,6 +448,9 @@
                     <Field ColumnSize="ColumnSize.Is4.OnDesktop">
                         <FieldLabel>State</FieldLabel>
                         <Select TValue="string">
+                            <SelectItem Value="@("AL")">Alabama</SelectItem>
+                            <SelectItem Value="@("AK")">Alaska</SelectItem>
+                            <SelectItem Value="@("AZ")">Arizona</SelectItem>
                         </Select>
                     </Field>
                     <Field ColumnSize="ColumnSize.Is2.OnDesktop">
@@ -482,6 +485,10 @@
         Sat,
         Sun,
     }
+
+    string radioGroup1 = "blue";
+    string radioGroup2 = "green";
+
 
     //string fileContent;
     //int fileProgress;

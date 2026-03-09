@@ -1,15 +1,15 @@
 ﻿@inherits Blazorise.BarDropdownItem
 @if ( ParentDropdownState.Mode == BarMode.Horizontal )
 {
-    <Anchor ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" CustomMatch="@CustomMatch" Disabled="@Disabled" TabIndex="@ComputedTabIndex" Clicked="@ClickHandler" Attributes="@Attributes">
-        <span>@ChildContent</span>
+    <Anchor ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" CustomMatch="@CustomMatch" Disabled="@Disabled" TabIndex="@ComputedTabIndex" Clicked="@ClickHandler" KeyDown="@KeyDownHandler" Role="menuitem" AriaLabelledBy="@AriaLabelledBy" Attributes="@Attributes">
+        <span id="@AriaLabelledBy">@ChildContent</span>
     </Anchor>
 }
 else
 {
-    <Anchor ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" CustomMatch="@CustomMatch" Disabled="@Disabled" TabIndex="@ComputedTabIndex" Clicked="@ClickHandler" Attributes="@Attributes">
+    <Anchor ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" CustomMatch="@CustomMatch" Disabled="@Disabled" TabIndex="@ComputedTabIndex" Clicked="@ClickHandler" KeyDown="@KeyDownHandler" Role="menuitem" AriaLabelledBy="@AriaLabelledBy" Attributes="@Attributes">
         <span class="fui-NavigationBar__dropdown-item__content">
-            <span>@ChildContent</span>
+            <span id="@AriaLabelledBy">@ChildContent</span>
         </span>
     </Anchor>
 }

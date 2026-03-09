@@ -1,0 +1,189 @@
+.b-scheduler {
+    --mui-scheduler-border-color: color-mix(in srgb, var(--mui-outline-variant) 92%, transparent);
+    --mui-scheduler-grid-border-color: color-mix(in srgb, var(--mui-outline-variant) 78%, transparent);
+    --mui-scheduler-grid-hover-bg: color-mix(in srgb, var(--mui-primary) 8%, transparent);
+    --mui-scheduler-off-hours-bg: color-mix(in srgb, var(--mui-on-surface) 3%, transparent);
+    --mui-scheduler-header-bg: var(--mui-surface-container-low);
+    --mui-scheduler-item-radius: 0.5rem;
+    --mui-scheduler-hour-column-width: 4.75rem;
+    color: var(--mui-on-surface);
+    background-color: var(--mui-surface-container-lowest);
+    border-color: var(--mui-scheduler-border-color) !important;
+    border-radius: 0.75rem;
+    box-shadow: var(--mui-elevate1);
+    overflow: hidden;
+}
+
+.b-scheduler .b-scheduler-toolbar {
+    background-color: var(--mui-scheduler-header-bg);
+    border-block-end: 0.0625rem solid var(--mui-scheduler-grid-border-color);
+    gap: 0.75rem;
+}
+
+.b-scheduler .b-scheduler-toolbar > .mui-buttons {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.b-scheduler .b-scheduler-toolbar > span {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--mui-on-surface);
+}
+
+.b-scheduler .b-scheduler-views {
+    background-color: var(--mui-surface-container-lowest);
+}
+
+.b-scheduler :is(.b-scheduler-day-view, .b-scheduler-week-view, .b-scheduler-workweek-view) > :first-child {
+    inline-size: var(--mui-scheduler-hour-column-width);
+    min-inline-size: var(--mui-scheduler-hour-column-width);
+    flex: 0 0 var(--mui-scheduler-hour-column-width);
+}
+
+.b-scheduler :is(.b-scheduler-hour, .b-scheduler-day-cell, .b-scheduler-allday-header, .b-scheduler-weeknumber-header, .b-scheduler-weeknumber-cell),
+.b-scheduler .b-scheduler-month-view > :not(.b-scheduler-weeknumbers-column) > * {
+    border-color: var(--mui-scheduler-grid-border-color) !important;
+}
+
+.b-scheduler .b-scheduler-hour {
+    background-color: var(--mui-surface-container-low);
+}
+
+.b-scheduler .b-scheduler-hour-header,
+.b-scheduler .b-scheduler-hour-cell {
+    color: var(--mui-on-surface-variant);
+}
+
+.b-scheduler .b-scheduler-hour-cell {
+    font-size: 0.8125rem;
+    line-height: 1rem;
+}
+
+.b-scheduler .b-scheduler-day > .mui-text-truncate {
+    background-color: var(--mui-scheduler-header-bg);
+}
+
+.b-scheduler .b-scheduler-day > .mui-text-truncate > span:first-child {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    letter-spacing: 0.01em;
+}
+
+.b-scheduler .b-scheduler-day > .mui-text-truncate > span:last-child {
+    color: var(--mui-on-surface-variant) !important;
+}
+
+.b-scheduler .b-scheduler-day > .mui-text-truncate.bg-light {
+    background-color: color-mix(in srgb, var(--mui-primary-container) 58%, var(--mui-scheduler-header-bg)) !important;
+}
+
+.b-scheduler .b-scheduler-allday-header {
+    background-color: var(--mui-scheduler-header-bg);
+}
+
+.b-scheduler .b-scheduler-allday-header-cell {
+    color: var(--mui-on-surface-variant);
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.b-scheduler .b-scheduler-day-cell {
+    background-color: var(--mui-surface-container-lowest) !important;
+}
+
+.b-scheduler .b-scheduler-day-cell.bg-light {
+    background-color: var(--mui-scheduler-off-hours-bg) !important;
+}
+
+.b-scheduler .b-scheduler-slot {
+    transition: background-color var(--mui-duration-fast), border-color var(--mui-duration-fast);
+}
+
+.b-scheduler .b-scheduler-slot.bg-light {
+    background-color: var(--mui-scheduler-grid-hover-bg) !important;
+}
+
+.b-scheduler .b-scheduler-selection {
+    background-color: color-mix(in srgb, var(--mui-primary) 16%, transparent);
+    border-color: color-mix(in srgb, var(--mui-primary) 48%, transparent) !important;
+    border-radius: 0.5rem;
+}
+
+.b-scheduler :is(.b-scheduler-item, .b-scheduler-allday-item) {
+    border-radius: var(--mui-scheduler-item-radius) !important;
+    box-shadow: var(--mui-elevate1);
+    border: 0.0625rem solid color-mix(in srgb, currentColor 12%, transparent);
+    line-height: 1.15;
+}
+
+.b-scheduler :is(.b-scheduler-item, .b-scheduler-allday-item) > span {
+    min-inline-size: 0;
+}
+
+.b-scheduler :is(.b-scheduler-item, .b-scheduler-allday-item)[draggable='true'] {
+    cursor: grab;
+}
+
+.b-scheduler :is(.b-scheduler-item, .b-scheduler-allday-item):active {
+    cursor: grabbing;
+}
+
+.b-scheduler .b-scheduler-item > span:last-child {
+    opacity: 0.72;
+    transition: opacity var(--mui-duration-fast);
+}
+
+.b-scheduler .b-scheduler-item:hover > span:last-child {
+    opacity: 1;
+}
+
+@each $variant, $onColor in ( primary: var(--mui-on-primary), secondary: var(--mui-on-secondary), tertiary: var(--mui-on-tertiary), success: var(--mui-on-success), warning: var(--mui-on-warning), info: var(--mui-on-info), danger: var(--mui-on-error), error: var(--mui-on-error), light: var(--mui-on-light), dark: var(--mui-on-dark) ) {
+    .b-scheduler :is(.b-scheduler-item, .b-scheduler-allday-item).bg-#{$variant} {
+        color: $onColor;
+    }
+}
+
+.b-scheduler .b-scheduler-month-view > :not(.b-scheduler-weeknumbers-column) > :first-child {
+    background-color: var(--mui-scheduler-header-bg);
+}
+
+.b-scheduler .b-scheduler-month-view > :not(.b-scheduler-weeknumbers-column) > :not(:first-child) {
+    background-color: var(--mui-surface-container-lowest);
+}
+
+.b-scheduler .b-scheduler-month-view > :not(.b-scheduler-weeknumbers-column) > :not(:first-child).bg-light {
+    background-color: var(--mui-scheduler-grid-hover-bg) !important;
+}
+
+.b-scheduler .b-scheduler-month-view > :not(.b-scheduler-weeknumbers-column) > :not(:first-child) > :first-child {
+    color: var(--mui-on-surface-variant);
+    font-size: 0.75rem;
+}
+
+.b-scheduler .b-scheduler-weeknumbers-column {
+    background-color: var(--mui-scheduler-header-bg);
+}
+
+.b-scheduler .b-scheduler-weeknumber-header-inner,
+.b-scheduler .b-scheduler-weeknumber-cell-inner {
+    color: var(--mui-on-surface-variant);
+    font-size: 0.75rem;
+}
+
+@media (max-width: 960px) {
+    .b-scheduler .b-scheduler-toolbar {
+        justify-content: flex-start !important;
+    }
+
+    .b-scheduler .b-scheduler-toolbar > span {
+        order: 3;
+        inline-size: 100%;
+        text-align: start;
+    }
+}

@@ -687,7 +687,11 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BarLinkDisabled( BarMode mode, bool disabled );
 
+    public abstract string BarIcon( BarMode mode );
+
     public abstract string BarBrand( BarMode mode );
+
+    public abstract string BarBrandToggler( BarMode mode );
 
     public abstract string BarToggler( BarMode mode, BarTogglerMode togglerMode );
 
@@ -710,6 +714,16 @@ public abstract class ClassProvider : IClassProvider
     public abstract string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled );
 
     public abstract string BarDropdownToggleIcon( bool isToggleIconVisible );
+
+    public abstract string BarDropdownToggleIconContainer( BarMode mode );
+
+    public abstract string BarDropdownToggleIconLayer( BarMode mode );
+
+    public abstract string BarDropdownToggleIconLayerVisible( BarMode mode, bool visible );
+
+    public abstract string BarDropdownToggleIconLayerHiddenExpand( BarMode mode, bool hiddenExpand );
+
+    public abstract string BarDropdownToggleIconLayerHiddenCollapse( BarMode mode, bool hiddenCollapse );
 
     public abstract string BarDropdownItem( BarMode mode );
 
@@ -967,6 +981,16 @@ public abstract class ClassProvider : IClassProvider
     public abstract string ProgressBarIndeterminate( bool indeterminate );
 
     public abstract string ProgressBarWidth( int width );
+
+    public abstract string PageProgress();
+
+    public abstract string PageProgressActive( bool visible );
+
+    public abstract string PageProgressIndicator();
+
+    public abstract string PageProgressIndicatorColor( Color color );
+
+    public abstract string PageProgressIndicatorIndeterminate( bool indeterminate );
 
     #endregion
 

@@ -1,0 +1,112 @@
+* {
+    -webkit-tap-highlight-color: transparent;
+    vertical-align: middle;
+    color: inherit;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    color: var(--mui-on-surface);
+    background-color: var(--mui-surface);
+    overflow-x: hidden;
+}
+
+label {
+    font-size: 0.75rem;
+    vertical-align: baseline;
+}
+
+a,
+b,
+i,
+span,
+strong,
+em,
+code {
+    vertical-align: baseline;
+}
+
+a,
+button,
+.mui-button,
+.mui-chip,
+.button {
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    outline: inherit;
+}
+
+a {
+    display: inline;
+    align-items: initial;
+    justify-content: initial;
+}
+
+button,
+.mui-button,
+.mui-chip,
+.button {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+a,
+button,
+.mui-button,
+.mui-chip,
+.button,
+i,
+label {
+    user-select: none;
+}
+
+$mui-scrollbar-scope: ':where(.mui-bar, .mui-bar-menu, .mui-bar-dropdown-menu, .mui-dropdown-menu, .mui-dropdown-menu-scrollable, .mui-modal, .mui-modal-body, .mui-offcanvas, .mui-offcanvas-body, .mui-list-group-scrollable, .mui-table-responsive, .mui-table-fixed-header, .mui-table-fixed-columns, .mui-layout-content, .b-layout-content, .mui-steps, .flatpickr-calendar, .flatpickr-time, [class*="mui-overflow-"])';
+
+#{$mui-scrollbar-scope} {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--mui-outline) 62%, transparent) transparent;
+}
+
+#{$mui-scrollbar-scope}::-webkit-scrollbar {
+    background: transparent;
+    inline-size: 0.4rem;
+    block-size: 0.4rem;
+}
+
+#{$mui-scrollbar-scope}::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--mui-outline) 62%, transparent);
+    border-radius: 1rem;
+}
+
+#{$mui-scrollbar-scope}::-webkit-scrollbar-button {
+    background: transparent;
+    inline-size: 0.4rem;
+    block-size: 0.4rem;
+}
+
+#{$mui-scrollbar-scope}:is(:hover, :focus, :focus-within)::-webkit-scrollbar-thumb {
+    background: var(--mui-outline);
+}
+
+// Keep auto vertical rhythm opt-in via .mui-flow/.flow containers.
+:is(.mui-flow, .flow) > :not(progress.max) + :is(address, article, blockquote, code, fieldset, form, h1, h2, h3, h4, h5, h6, ol, p, pre, ul):not([class], [class*='mui-margin'], [class*='margin'], .right, .left, .top, .bottom) {
+    margin-block-start: 1rem;
+}
+
+:is(a, button, .mui-button, .mui-chip, .button, .chip):focus-visible {
+    outline: 0.125rem solid var(--mui-primary);
+    outline-offset: 0.25rem;
+}
+
+:is(nav, .mui-row, .row, li).group > :focus-visible {
+    z-index: 1;
+}
+
+:is(button, .mui-button, .button, .mui-chip, .chip) > :is(span, i, img, svg) {
+    pointer-events: none;
+}

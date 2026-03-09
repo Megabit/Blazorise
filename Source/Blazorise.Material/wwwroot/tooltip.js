@@ -1,11 +1,15 @@
-import { initialize as baseInitialize, destroy, updateContent } from "../Blazorise/tooltip.js?v=2.0.1.0";
+import { initialize as baseInitialize, destroy, updateContent } from "../Blazorise/tooltip.js?v=2.0.2.0";
 
 export function initialize(element, elementId, options) {
-    baseInitialize(element, elementId, options);
+    options = Object.assign({}, options, { theme: "material", zIndex: options.zIndex ?? "var(--mui-zindex-tooltip)" });
 
-    if (options.autodetectInline && element && element.querySelector(".custom-control-input,.btn")) {
-        element.classList.add("b-tooltip-inline");
+    const tippyInstance = baseInitialize(element, elementId, options);
+
+    if (options.autodetectInline && element && element.querySelector(".mui-check > input,.mui-radio > input,.mui-switch > input,.mui-button,button")) {
+        element.classList.add("mui-tooltip-inline");
     }
+
+    return tippyInstance;
 }
 
 export { destroy, updateContent };

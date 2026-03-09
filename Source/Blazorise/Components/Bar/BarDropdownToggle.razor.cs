@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -112,7 +112,7 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     /// </summary>
     /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
     /// <returns>Returns the awaitable task.</returns>
-    protected async Task ClickHandler( MouseEventArgs eventArgs )
+    protected virtual async Task ClickHandler( MouseEventArgs eventArgs )
     {
         if ( IsDisabled )
             return;
@@ -162,18 +162,42 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     /// <returns>Class string.</returns>
     protected string GetToggleIconLayerClass( bool expandedStateLayer )
     {
+        var builder = new ClassBuilder( b => BuildToggleIconLayerClasses( b, expandedStateLayer ) );
+
+        return builder.Class;
+    }
+
+    /// <summary>
+    /// Builds class names for toggle icon container.
+    /// </summary>
+    /// <param name="builder">Class builder.</param>
+    protected virtual void BuildToggleIconContainerClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.BarDropdownToggleIconContainer( ParentBarDropdownState?.Mode ?? BarMode.Horizontal ) );
+    }
+
+    /// <summary>
+    /// Builds class names for a single icon animation layer.
+    /// </summary>
+    /// <param name="builder">Class builder.</param>
+    /// <param name="expandedStateLayer">True for expanded-state icon layer; otherwise collapsed-state icon layer.</param>
+    protected virtual void BuildToggleIconLayerClasses( ClassBuilder builder, bool expandedStateLayer )
+    {
         var isExpanded = ParentBarDropdown?.IsVisible == true;
+        var barMode = ParentBarDropdownState?.Mode ?? BarMode.Horizontal;
+
+        builder.Append( ClassProvider.BarDropdownToggleIconLayer( barMode ) );
 
         if ( expandedStateLayer )
         {
-            return isExpanded
-                ? "b-bar-dropdown-toggle-icon-layer b-bar-dropdown-toggle-icon-layer-visible"
-                : "b-bar-dropdown-toggle-icon-layer b-bar-dropdown-toggle-icon-layer-hidden-expand";
+            builder.Append( ClassProvider.BarDropdownToggleIconLayerVisible( barMode, isExpanded ) );
+            builder.Append( ClassProvider.BarDropdownToggleIconLayerHiddenExpand( barMode, !isExpanded ) );
         }
-
-        return isExpanded
-            ? "b-bar-dropdown-toggle-icon-layer b-bar-dropdown-toggle-icon-layer-hidden-collapse"
-            : "b-bar-dropdown-toggle-icon-layer b-bar-dropdown-toggle-icon-layer-visible";
+        else
+        {
+            builder.Append( ClassProvider.BarDropdownToggleIconLayerHiddenCollapse( barMode, isExpanded ) );
+            builder.Append( ClassProvider.BarDropdownToggleIconLayerVisible( barMode, !isExpanded ) );
+        }
     }
 
     /// <summary>
@@ -188,13 +212,13 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
 
         if ( ParentBarDropdown is not null && ( eventArgs.Key == "Enter" || eventArgs.Key == "NumpadEnter" ) )
         {
+            lastKeyboardToggleTimestampUtc = DateTime.UtcNow;
+
             if ( !IsToggleClickTriggerEnabled )
                 return Task.CompletedTask;
 
             if ( ParentBarDropdown.IsVisible )
-                return Task.CompletedTask;
-
-            lastKeyboardToggleTimestampUtc = DateTime.UtcNow;
+                return ParentBarDropdown.Hide();
 
             return ParentBarDropdown.Toggle( ElementId );
         }
@@ -285,17 +309,17 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     /// <summary>
     /// Gets the icon name for the expanded state of the dropdown.
     /// </summary>
-    protected IconName ExpandedToggleIconName => Theme?.BarOptions?.DropdownOptions?.ToggleExpandIconName ?? IconName.ChevronUp;
+    protected virtual IconName ExpandedToggleIconName => Theme?.BarOptions?.DropdownOptions?.ToggleExpandIconName ?? IconName.ChevronUp;
 
     /// <summary>
     /// Gets the icon name for the collapsed state of the dropdown.
     /// </summary>
-    protected IconName CollapsedToggleIconName => Theme?.BarOptions?.DropdownOptions?.ToggleCollapseIconName ?? IconName.ChevronDown;
+    protected virtual IconName CollapsedToggleIconName => Theme?.BarOptions?.DropdownOptions?.ToggleCollapseIconName ?? IconName.ChevronDown;
 
     /// <summary>
     /// Gets the size of the toggle icon used in the dropdown options.
     /// </summary>
-    protected IconSize ToggleIconSize => Theme?.BarOptions?.DropdownOptions?.ToggleIconSIze ?? IconSize.ExtraSmall;
+    protected virtual IconSize ToggleIconSize => Theme?.BarOptions?.DropdownOptions?.ToggleIconSIze ?? IconSize.ExtraSmall;
 
     /// <summary>
     /// Indicates whether the current instance has a navigation target.
@@ -330,12 +354,25 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     /// <summary>
     /// Indicates whether default navigation should be prevented on toggle-area click.
     /// </summary>
-    protected bool ShouldPreventDefaultOnToggleClick => HasNavigationTarget && IsToggleClickTriggerEnabled;
+    protected virtual bool ShouldPreventDefaultOnToggleClick => HasNavigationTarget && IsToggleClickTriggerEnabled;
 
     /// <summary>
     /// Indicates whether default navigation should be prevented on icon click.
     /// </summary>
     protected bool ShouldPreventDefaultOnIconClick => HasNavigationTarget && IsIconClickTriggerEnabled;
+
+    /// <summary>
+    /// Gets the class names for toggle icon container.
+    /// </summary>
+    protected string ToggleIconContainerClassNames
+    {
+        get
+        {
+            var builder = new ClassBuilder( BuildToggleIconContainerClasses );
+
+            return builder.Class;
+        }
+    }
 
     private BarDropdownToggleTrigger EffectiveTrigger
         => Trigger == BarDropdownToggleTrigger.Auto

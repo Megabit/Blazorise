@@ -28,9 +28,40 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// </summary>
     private string initialContent;
 
+    /// <summary>
+    /// Captured UseSanitizedPaste parameter snapshot.
+    /// </summary>
+    internal ComponentParameterInfo<bool> paramUseSanitizedPaste;
+
+    /// <summary>
+    /// Captured SanitizedPasteOptions parameter snapshot.
+    /// </summary>
+    internal ComponentParameterInfo<RichTextEditSanitizedPasteOptions> paramSanitizedPasteOptions;
+
+    /// <summary>
+    /// Captured UseTables parameter snapshot.
+    /// </summary>
+    internal ComponentParameterInfo<bool> paramUseTables;
+
+    /// <summary>
+    /// Captured UseResize parameter snapshot.
+    /// </summary>
+    internal ComponentParameterInfo<bool> paramUseResize;
+
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void CaptureParameters( ParameterView parameters )
+    {
+        base.CaptureParameters( parameters );
+
+        parameters.TryGetParameter( UseSanitizedPaste, out paramUseSanitizedPaste );
+        parameters.TryGetParameter( SanitizedPasteOptions, out paramSanitizedPasteOptions );
+        parameters.TryGetParameter( UseTables, out paramUseTables );
+        parameters.TryGetParameter( UseResize, out paramUseResize );
+    }
 
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
@@ -337,6 +368,26 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     protected string InitialContent => initialContent;
 
     /// <summary>
+    /// Gets a value indicating whether the HTML sanitize functionality should be enabled.
+    /// </summary>
+    internal bool ShouldUseSanitizedPaste => paramUseSanitizedPaste.Defined ? paramUseSanitizedPaste.Value : GlobalOptions.UseSanitizedPaste;
+
+    /// <summary>
+    /// Gets options used to configure the HTML sanitize functionality.
+    /// </summary>
+    internal RichTextEditSanitizedPasteOptions ShouldUseSanitizedPasteOptions => paramSanitizedPasteOptions.Defined ? paramSanitizedPasteOptions.Value : GlobalOptions.SanitizedPasteOptions;
+
+    /// <summary>
+    /// Gets a value indicating whether the table functionality should be enabled.
+    /// </summary>
+    internal bool ShouldUseTables => paramUseTables.Defined ? paramUseTables.Value : GlobalOptions.UseTables;
+
+    /// <summary>
+    /// Gets a value indicating whether the resize functionality should be enabled.
+    /// </summary>
+    internal bool ShouldUseResize => paramUseResize.Defined ? paramUseResize.Value : GlobalOptions.UseResize;
+
+    /// <summary>
     /// The toolbar element reference.
     /// </summary>
     public ElementReference ToolbarRef { get; protected set; }
@@ -350,6 +401,11 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// Gets or sets the <see cref="JSRichTextEditModule"/> instance.
     /// </summary>
     [Inject] private JSRichTextEditModule JSModule { get; set; }
+
+    /// <summary>
+    /// Gets or sets the options used to configure the behavior and features of the RichTextEdit component.
+    /// </summary>
+    [Inject] private RichTextEditOptions GlobalOptions { get; set; }
 
     /// <summary>
     /// [Optional] Gets or sets the content of the toolbar.
@@ -382,9 +438,36 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     [Parameter] public bool SubmitOnEnter { get; set; } = false;
 
     /// <summary>
+    /// Indicates whether table functionality should be enabled.
+    /// </summary>
+    /// <remarks>
+    /// When this parameter is explicitly defined, it has priority over globally configured <see cref="RichTextEditOptions.UseTables"/>.
+    /// </remarks>
+    [Parameter] public bool UseTables { get; set; }
+
+    /// <summary>
     /// Indicates whether resizing functionality should be enabled.
     /// </summary>
+    /// <remarks>
+    /// When this parameter is explicitly defined, it has priority over globally configured <see cref="RichTextEditOptions.UseResize"/>.
+    /// </remarks>
     [Parameter] public bool UseResize { get; set; }
+
+    /// <summary>
+    /// Indicates whether sanitized paste functionality should be enabled.
+    /// </summary>
+    /// <remarks>
+    /// When this parameter is explicitly defined, it has priority over globally configured <see cref="RichTextEditOptions.UseSanitizedPaste"/>.
+    /// </remarks>
+    [Parameter] public bool UseSanitizedPaste { get; set; }
+
+    /// <summary>
+    /// Options used to configure sanitized paste functionality.
+    /// </summary>
+    /// <remarks>
+    /// When this parameter is explicitly defined, it has priority over globally configured <see cref="RichTextEditOptions.SanitizedPasteOptions"/>.
+    /// </remarks>
+    [Parameter] public RichTextEditSanitizedPasteOptions SanitizedPasteOptions { get; set; }
 
     /// <summary>
     /// Occurs when the content within the editor changes.

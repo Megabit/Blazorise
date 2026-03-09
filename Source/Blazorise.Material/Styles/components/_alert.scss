@@ -1,0 +1,98 @@
+@mixin make-alert-variant($name, $color) {
+    &-#{$name} {
+        background-color: var(--mui-#{$color}-container);
+        color: var(--mui-on-#{$color}-container);
+        border-color: var(--mui-#{$color}-container);
+
+        &.mui-alert-closable {
+            .mui-button-close {
+                color: var(--mui-on-#{$color}-container);
+
+                &:hover {
+                    color: var(--mui-on-#{$color}-container);
+                }
+            }
+        }
+    }
+}
+
+.mui-alert {
+    position: relative;
+    display: block;
+    color: var(--mui-on-surface);
+    background-color: var(--mui-surface-container-high);
+    margin-block-end: 1rem;
+    padding: 1rem 1.25rem;
+    text-align: start;
+    border-radius: .75rem;
+    transition: background-color var(--mui-duration-normal), color var(--mui-duration-normal), border-color var(--mui-duration-normal), box-shadow var(--mui-duration-normal);
+    border: 1px solid var(--mui-outline);
+    box-shadow: var(--mui-elevate1);
+
+    > strong {
+        font-weight: 600;
+    }
+
+    .mui-button + .mui-button {
+        margin-inline-start: 0.5rem;
+    }
+
+    @each $color in (primary, secondary, tertiary, error, success, warning, info, light, dark) {
+        @include make-alert-variant($color, $color);
+    }
+
+    &-link {
+        color: var(--mui-primary);
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:hover {
+            color: var(--mui-on-primary);
+        }
+    }
+
+    + .mui-alert {
+        margin-top: 0;
+    }
+
+    & ~ .mui-alert:last-child {
+        margin-block-end: 0;
+    }
+
+    &.mui-alert-closable {
+        padding-inline-end: 3rem;
+
+        .mui-button-close {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            cursor: pointer;
+            color: var(--mui-on-surface-variant);
+            background-color: transparent;
+            border: none;
+            block-size: 2rem;
+            inline-size: 2rem;
+            border-radius: 999rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            &::before {
+                content: "close";
+                font-family: var(--mui-font-icon);
+                font-size: 1.25rem;
+                line-height: 1;
+                font-weight: 400;
+            }
+
+            &:hover {
+                color: var(--mui-on-surface);
+                background-color: color-mix(in srgb, currentColor 10%, transparent);
+            }
+
+            &:active {
+                background-color: color-mix(in srgb, currentColor 14%, transparent);
+            }
+        }
+    }
+}

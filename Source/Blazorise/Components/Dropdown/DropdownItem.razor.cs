@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise;
@@ -20,6 +21,8 @@ public partial class DropdownItem : BaseComponent
 
     private bool disabled;
 
+    private string ariaLabelledBy;
+
     /// <summary>
     /// Internal Checked Value
     /// </summary>
@@ -33,6 +36,14 @@ public partial class DropdownItem : BaseComponent
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        ariaLabelledBy = $"lbl_{IdGenerator.Generate}";
+
+        base.OnInitialized();
+    }
 
     /// <inheritdoc/>
     public override Task SetParametersAsync( ParameterView parameters )
@@ -79,6 +90,19 @@ public partial class DropdownItem : BaseComponent
     }
 
     /// <summary>
+    /// Handles keyboard activation for menu items.
+    /// </summary>
+    /// <param name="eventArgs">Information about the keyboard event.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected Task KeyDownHandler( KeyboardEventArgs eventArgs )
+    {
+        if ( eventArgs.Key == "Enter" || eventArgs.Key == "NumpadEnter" )
+            return ClickHandler();
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
     /// Handles the oncheck event, if not disabled.
     /// </summary>
     /// <param name="isChecked"></param>
@@ -100,6 +124,16 @@ public partial class DropdownItem : BaseComponent
     /// Gets the aria-disabled attribute value.
     /// </summary>
     protected string AriaDisabled => Disabled.ToString().ToLowerInvariant();
+
+    /// <summary>
+    /// Gets the aria-labelledby value that references the item text.
+    /// </summary>
+    protected string AriaLabelledBy => ariaLabelledBy;
+
+    /// <summary>
+    /// Gets the tabindex value for keyboard navigation.
+    /// </summary>
+    protected int ComputedTabIndex => Disabled ? -1 : 0;
 
     /// <summary>
     /// Holds the item value.

@@ -755,9 +755,13 @@ public class FluentUI2ClassProvider : ClassProvider
             : Disabled()
         : null;
 
+    public override string BarIcon( BarMode mode ) => "b-bar-icon";
+
     public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "fui-NavigationBar__brand"
         : "b-bar-brand";
+
+    public override string BarBrandToggler( BarMode mode ) => "b-bar-mobile-toggle";
 
     public override string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => mode == Blazorise.BarMode.Horizontal
         ? "fui-NavigationBar__toggler"
@@ -807,6 +811,16 @@ public class FluentUI2ClassProvider : ClassProvider
         : null;
 
     public override string BarDropdownToggleIcon( bool isToggleIconVisible ) => null;
+
+    public override string BarDropdownToggleIconContainer( BarMode mode ) => "b-bar-dropdown-toggle-icon-container";
+
+    public override string BarDropdownToggleIconLayer( BarMode mode ) => "b-bar-dropdown-toggle-icon-layer";
+
+    public override string BarDropdownToggleIconLayerVisible( BarMode mode, bool visible ) => visible ? "b-bar-dropdown-toggle-icon-layer-visible" : null;
+
+    public override string BarDropdownToggleIconLayerHiddenExpand( BarMode mode, bool hiddenExpand ) => hiddenExpand ? "b-bar-dropdown-toggle-icon-layer-hidden-expand" : null;
+
+    public override string BarDropdownToggleIconLayerHiddenCollapse( BarMode mode, bool hiddenCollapse ) => hiddenCollapse ? "b-bar-dropdown-toggle-icon-layer-hidden-collapse" : null;
 
     public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "fui-NavigationBar__dropdown-item"
@@ -1154,6 +1168,16 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string ProgressBarIndeterminate( bool indeterminate ) => indeterminate ? "fui-ProgressBar__bar-indeterminate" : null;
 
     public override string ProgressBarWidth( int width ) => null;
+
+    public override string PageProgress() => "b-page-progress";
+
+    public override string PageProgressActive( bool visible ) => visible ? "b-page-progress-active" : null;
+
+    public override string PageProgressIndicator() => "b-page-progress-indicator";
+
+    public override string PageProgressIndicatorColor( Color color ) => color.IsNotNullOrDefault() ? $"b-page-progress-indicator-{ToColor( color )}" : null;
+
+    public override string PageProgressIndicatorIndeterminate( bool indeterminate ) => indeterminate ? "b-page-progress-indicator-indeterminate" : null;
 
     #endregion
 

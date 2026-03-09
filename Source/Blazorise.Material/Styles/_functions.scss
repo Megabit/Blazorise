@@ -1,16 +1,6 @@
-﻿@function color-yiq($color, $dark: $yiq-text-dark, $light: $yiq-text-light) {
-    $r: red($color);
-    $g: green($color);
-    $b: blue($color);
-
-    $yiq: (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
-
-    @if ($yiq >= $yiq-contrasted-threshold) {
-        @return $dark;
-    }
-    @else {
-        @return $light;
-    }
+﻿@function breakpoint-next($name, $breakpoints: $grid-breakpoints, $breakpoint-names: map-keys($breakpoints)) {
+    $n: index($breakpoint-names, $name);
+    @return if($n != null and $n < length($breakpoint-names), nth($breakpoint-names, $n + 1), null);
 }
 
 @function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
@@ -18,78 +8,79 @@
     @return if($min != 0, $min, null);
 }
 
+@function breakpoint-max($name, $breakpoints: $grid-breakpoints) {
+    $next: breakpoint-next($name, $breakpoints);
+    @return if($next, breakpoint-min($next, $breakpoints) - .02, null);
+}
+
 @function breakpoint-infix($name, $breakpoints: $grid-breakpoints) {
     @return if(breakpoint-min($name, $breakpoints) == null, "", "-#{$name}");
 }
 
-// Return valid calc
-@function add($value1, $value2, $return-calc: true) {
-    @if $value1 == null {
-        @return $value2;
-    }
+@mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
+    $min: breakpoint-min($name, $breakpoints);
 
-    @if $value2 == null {
-        @return $value1;
-    }
-
-    @if type-of($value1) == number and type-of($value2) == number and comparable($value1, $value2) {
-        @return $value1 + $value2;
-    }
-
-    @return if($return-calc == true, calc(#{$value1} + #{$value2}), $value1 + unquote(' + ') + $value2);
-}
-
-@function subtract($value1, $value2, $return-calc: true) {
-    @if $value1 == null and $value2 == null {
-        @return null;
-    }
-
-    @if $value1 == null {
-        @return -$value2;
-    }
-
-    @if $value2 == null {
-        @return $value1;
-    }
-
-    @if type-of($value1) == number and type-of($value2) == number and comparable($value1, $value2) {
-        @return $value1 - $value2;
-    }
-
-    @return if($return-calc == true, calc(#{$value1} - #{$value2}), $value1 + unquote(' - ') + $value2);
-}
-
-// Strip unit
-
-@function strip-unit($val) {
-    @return $val / ($val * 0 + 1);
-}
-
-@function selection-theme-color() {
-    @if $secondary-color-for-controls {
-        @return $secondary;
+    @if $min {
+        @media (min-width: $min) {
+            @content;
+        }
     }
     @else {
-        @return $primary;
+        @content;
     }
 }
 
-@function theme-color($key: primary) {
-    @return map-get($theme-colors, $key);
+@mixin media-breakpoint-down($name, $breakpoints: $grid-breakpoints) {
+    $max: breakpoint-max($name, $breakpoints);
+
+    @if $max {
+        @media (max-width: $max) {
+            @content;
+        }
+    }
+    @else {
+        @content;
+    }
 }
 
-@function opaque($background, $foreground) {
-    @return mix(rgba($foreground, 1), $background, opacity($foreground) * 100%);
+@mixin media-breakpoint-between($lower, $upper, $breakpoints: $grid-breakpoints) {
+    $min: breakpoint-min($lower, $breakpoints);
+    $max: breakpoint-max($upper, $breakpoints);
+
+    @if $min != null and $max != null {
+        @media (min-width: $min) and (max-width: $max) {
+            @content;
+        }
+    }
+    @else if $max == null {
+        @include media-breakpoint-up($lower, $breakpoints) {
+            @content;
+        }
+    }
+    @else if $min == null {
+        @include media-breakpoint-down($upper, $breakpoints) {
+            @content;
+        }
+    }
 }
 
-@function tint-color($color, $weight) {
-    @return mix(white, $color, $weight);
-}
+@mixin media-breakpoint-only($name, $breakpoints: $grid-breakpoints) {
+    $min: breakpoint-min($name, $breakpoints);
+    $max: breakpoint-max($name, $breakpoints);
 
-@function shade-color($color, $weight) {
-    @return mix(black, $color, $weight);
-}
-
-@function shift-color($color, $weight) {
-    @return if($weight > 0, shade-color($color, $weight), tint-color($color, -$weight));
+    @if $min != null and $max != null {
+        @media (min-width: $min) and (max-width: $max) {
+            @content;
+        }
+    }
+    @else if $max == null {
+        @include media-breakpoint-up($name, $breakpoints) {
+            @content;
+        }
+    }
+    @else if $min == null {
+        @include media-breakpoint-down($name, $breakpoints) {
+            @content;
+        }
+    }
 }

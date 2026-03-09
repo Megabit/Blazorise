@@ -1,0 +1,319 @@
+.mui-input,
+.mui-input-plaintext,
+.mui-select {
+    --mui-input-size: 2.5rem;
+    --mui-input-font-size: 1rem;
+    --mui-input-border-radius: 0.5rem;
+    all: unset;
+    position: relative;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: inherit;
+    border: 0.0625rem solid transparent;
+    padding: 0 0.9375rem;
+    font-family: inherit;
+    font-size: var(--mui-input-font-size);
+    inline-size: 100%;
+    outline: none;
+    z-index: 1;
+    background: none;
+    resize: none;
+    text-align: start;
+    cursor: text;
+
+    &:not(.mui-input-plaintext) {
+        border-color: var(--mui-outline);
+        border-radius: var(--mui-input-border-radius);
+
+        &:focus {
+            border: 0.125rem solid transparent;
+            padding-inline: 0.875rem;
+            border-color: var(--mui-primary);
+        }
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    &:not(.mui-file-input)[type=file],
+    &[type=color],
+    &::-webkit-calendar-picker-indicator {
+        opacity: 0;
+        position: absolute;
+        inset: 0;
+        inline-size: 100%;
+        block-size: 100%;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: 0;
+        z-index: 2;
+    }
+
+    &::-webkit-search-decoration,
+    &::-webkit-search-cancel-button,
+    &::-webkit-search-results-button,
+    &::-webkit-search-results-decoration,
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+        display: none;
+    }
+
+    &[type=number] {
+        appearance: textfield;
+    }
+
+    &-xs {
+        --mui-input-size: 1.5rem;
+        --mui-input-font-size: 0.625rem;
+    }
+
+    &-sm {
+        --mui-input-size: 2rem;
+        --mui-input-font-size: 0.75rem;
+    }
+
+    &-md {
+        --mui-input-size: 2.75rem;
+        --mui-input-font-size: 1.125rem;
+    }
+
+    &-lg {
+        --mui-input-size: 3rem;
+        --mui-input-font-size: 1.25rem;
+    }
+
+    &-xl {
+        --mui-input-size: 3.5rem;
+        --mui-input-font-size: 1.5rem;
+    }
+}
+
+input::-webkit-date-and-time-value {
+    text-align: start;
+}
+
+:is(input.mui-input, input.mui-input-plaintext, textarea.mui-input, select.mui-select):is(:-webkit-autofill, :autofill) {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: var(--mui-on-surface);
+}
+
+:is(input.mui-input, input.mui-input-plaintext) {
+    block-size: var(--mui-input-size);
+}
+
+textarea.mui-input {
+    min-block-size: var(--mui-input-size);
+    line-height: 1.5rem;
+    padding-block: 0.75rem;
+    cursor: text;
+    resize: vertical;
+}
+
+textarea.mui-input:focus {
+    padding-block: calc(0.75rem - 0.0625rem);
+}
+
+textarea.mui-input:not([rows]) {
+    field-sizing: content;
+    max-block-size: 12rem;
+}
+
+.mui-select {
+    --mui-select-chevron-size: 0.3rem;
+    --mui-select-chevron-half: calc(var(--mui-select-chevron-size) / 2);
+    --mui-select-chevron-offset: 1rem;
+    user-select: none;
+    cursor: pointer;
+
+    &:not([multiple]):not([size]),
+    &:not([multiple])[size="1"] {
+        block-size: var(--mui-input-size);
+        padding-inline-end: calc(var(--mui-select-chevron-offset) + var(--mui-select-chevron-size) + 0.75rem);
+        background-image: linear-gradient(45deg, transparent 50%, var(--mui-on-surface-variant) 50%), linear-gradient(-45deg, transparent 50%, var(--mui-on-surface-variant) 50%);
+        background-position: right calc(var(--mui-select-chevron-offset) + var(--mui-select-chevron-half)) center, right calc(var(--mui-select-chevron-offset) - var(--mui-select-chevron-half)) center;
+        background-size: var(--mui-select-chevron-size) var(--mui-select-chevron-size);
+        background-repeat: no-repeat;
+        background-origin: border-box;
+    }
+
+    &:not([multiple]):not([size]):focus,
+    &:not([multiple])[size="1"]:focus {
+        padding-inline-start: 0.875rem;
+        padding-inline-end: calc(var(--mui-select-chevron-offset) + var(--mui-select-chevron-size) + 0.75rem);
+    }
+}
+
+.mui-select[multiple],
+.mui-select[size]:not([size="1"]) {
+    display: block;
+    align-items: initial;
+    block-size: auto;
+    min-block-size: var(--mui-input-size);
+    padding-inline: 0.75rem;
+    padding-block: 0.0625rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    white-space: normal;
+    line-height: 1.25rem;
+    cursor: default;
+    appearance: auto;
+    -webkit-appearance: auto;
+}
+
+.mui-select[multiple] > option,
+.mui-select[size]:not([size="1"]) > option {
+    white-space: normal;
+}
+
+.mui-select[multiple]:focus,
+.mui-select[size]:not([size="1"]):focus {
+    padding-block: 0;
+    padding-inline: calc(0.75rem - 0.0625rem);
+}
+
+[dir=rtl] .mui-select:not([multiple]):not([size]),
+[dir=rtl] .mui-select:not([multiple])[size="1"] {
+    background-position: left calc(var(--mui-select-chevron-offset) + var(--mui-select-chevron-half)) center, left calc(var(--mui-select-chevron-offset) - var(--mui-select-chevron-half)) center;
+}
+
+.mui-color-input[type=color] {
+    position: relative;
+    inset: auto;
+    opacity: 1;
+    z-index: 1;
+    display: block;
+    margin: 0;
+    padding: 0.25rem;
+    min-block-size: var(--mui-input-size);
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    overflow: hidden;
+    background-color: var(--mui-surface-container-low);
+}
+
+.mui-color-input[type=color]:focus {
+    padding: calc(0.25rem - 0.0625rem);
+}
+
+.mui-color-input[type=color]::-webkit-color-swatch-wrapper {
+    padding: 0;
+    inline-size: 100%;
+    block-size: 100%;
+}
+
+.mui-color-input[type=color]::-webkit-color-swatch,
+.mui-color-input[type=color]::-moz-color-swatch {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    border: 0.0625rem solid var(--mui-outline-variant);
+    border-radius: calc(var(--mui-input-border-radius) - 0.1875rem);
+}
+
+.mui-color-picker.b-input-color-picker {
+    --mui-color-preview-size: calc(var(--mui-input-size) * 0.5);
+    display: flex;
+    min-block-size: var(--mui-input-size);
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    padding-inline: 0.75rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.mui-color-picker.b-input-color-picker:not(.mui-input-plaintext):focus {
+    padding-inline: calc(0.75rem - 0.0625rem);
+}
+
+.mui-color-picker.b-input-color-picker > .b-input-color-picker-preview {
+    display: inline-flex;
+    align-items: center;
+    inline-size: var(--mui-color-preview-size);
+    block-size: var(--mui-color-preview-size);
+    flex: 0 0 auto;
+}
+
+.mui-color-picker.b-input-color-picker > .b-input-color-picker-preview::before {
+    display: none;
+}
+
+.mui-color-picker.b-input-color-picker > .b-input-color-picker-preview > .b-input-color-picker-curent-color {
+    inline-size: var(--mui-color-preview-size);
+    block-size: var(--mui-color-preview-size);
+    border-radius: 999rem;
+    border: 0.0625rem solid var(--mui-outline-variant);
+}
+
+.mui-color-picker.b-input-color-picker::after {
+    content: attr(data-color);
+    display: block;
+    min-inline-size: 0;
+    color: var(--mui-on-surface-variant);
+    font-family: inherit;
+    font-size: var(--mui-input-font-size);
+    line-height: 1.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.mui-color-picker.b-input-color-picker:not([data-color])::after,
+.mui-color-picker.b-input-color-picker[data-color='']::after,
+.mui-color-picker.b-input-color-picker[data-color='null']::after {
+    content: "";
+}
+
+.mui-color-picker.b-input-color-picker[aria-disabled='true'] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+:is(.mui-input, .mui-select).is-valid {
+    border-color: var(--mui-success) !important;
+}
+
+:is(.mui-input, .mui-select).is-invalid {
+    border-color: var(--mui-error) !important;
+}
+
+.valid-feedback,
+.invalid-feedback {
+    display: none;
+    font-size: 0.75rem;
+    background: none !important;
+    padding: 0.25rem 1rem;
+    line-height: 1.25rem;
+}
+
+.valid-feedback {
+    color: var(--mui-success);
+}
+
+.invalid-feedback {
+    color: var(--mui-error);
+}
+
+.is-valid ~ .valid-feedback,
+.is-invalid ~ .invalid-feedback {
+    display: inline-block;
+}
+
+.mui-check.is-valid > .valid-feedback,
+.mui-check.is-invalid > .invalid-feedback,
+.mui-radio.is-valid > .valid-feedback,
+.mui-radio.is-invalid > .invalid-feedback,
+.mui-switch.is-valid > .valid-feedback,
+.mui-switch.is-invalid > .invalid-feedback {
+    display: block;
+    inline-size: 100%;
+}
+
+.form-text.text-muted {
+    color: var(--mui-on-surface-variant);
+}

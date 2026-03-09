@@ -39,6 +39,69 @@ public class DropdownComponentTest : TestContext
         Assert.DoesNotContain( "show", mnuElement.GetAttribute( "class" ) );
     }
 
+    [Fact]
+    public async Task Enter_OnFocusedItem_Should_SelectItem_AndCloseDropdown()
+    {
+        // setup
+        var comp = RenderComponent<DropdownComponent>();
+        var drpElement = comp.Find( "#dropdown" );
+        var btnElement = comp.Find( "button" );
+        var mnuElement = comp.Find( "#dropdown-menu" );
+
+        // test
+        await btnElement.ClickAsync();
+
+        var firstMenuItemElement = comp.Find( "#dropdown-menu a" );
+        await firstMenuItemElement.KeyDownAsync( new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs() { Key = "Enter" } );
+
+        // validate
+        Assert.DoesNotContain( "show", drpElement.GetAttribute( "class" ) );
+        Assert.DoesNotContain( "show", mnuElement.GetAttribute( "class" ) );
+    }
+
+    [Fact]
+    public void DropdownMenu_ShouldHaveRoleMenu()
+    {
+        // setup
+        var comp = RenderComponent<DropdownComponent>();
+
+        // test
+        var menuElement = comp.Find( "#dropdown-menu" );
+
+        // validate
+        Assert.Equal( "menu", menuElement.GetAttribute( "role" ) );
+    }
+
+    [Fact]
+    public void DropdownItem_ShouldHaveRoleMenuitem()
+    {
+        // setup
+        var comp = RenderComponent<DropdownComponent>();
+
+        // test
+        var firstMenuItemElement = comp.Find( "#dropdown-menu a" );
+
+        // validate
+        Assert.Equal( "menuitem", firstMenuItemElement.GetAttribute( "role" ) );
+    }
+
+    [Fact]
+    public void DropdownItem_Should_Have_AriaLabelledBy_That_PointsToItemText()
+    {
+        // setup
+        var comp = RenderComponent<DropdownComponent>();
+
+        // test
+        var firstMenuItemElement = comp.Find( "#dropdown-menu a" );
+        var ariaLabelledBy = firstMenuItemElement.GetAttribute( "aria-labelledby" );
+
+        // validate
+        Assert.False( string.IsNullOrEmpty( ariaLabelledBy ) );
+
+        var labelElement = comp.Find( $"#{ariaLabelledBy}" );
+        Assert.Contains( "Item 1", labelElement.TextContent );
+    }
+
 
     [Fact]
     public async Task Checkbox_Should_RenderCheckbox()
