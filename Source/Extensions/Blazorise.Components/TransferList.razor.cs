@@ -497,8 +497,7 @@ public partial class TransferList<TItem> : ComponentBase
     /// <summary>
     /// Determines whether the captions are visible above the lists.
     /// </summary>
-    [Parameter]
-    public bool ShowCaptions { get; set; } = true;
+    [Parameter] public bool ShowCaptions { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the start caption template, which can be used to render a custom header or caption for the start (left) list.
@@ -545,8 +544,7 @@ public partial class TransferList<TItem> : ComponentBase
     /// <summary>
     /// Defines the text color of the move icons.
     /// </summary>
-    [Parameter]
-    public TextColor MoveButtonsIconTextColor { set; get => field ?? Options.MoveButtonsIconTextColor; }
+    [Parameter] public TextColor MoveButtonsIconTextColor { set; get => field ?? Options.MoveButtonsIconTextColor; }
 
     /// <summary>
     /// Defines the style of the move icons.
