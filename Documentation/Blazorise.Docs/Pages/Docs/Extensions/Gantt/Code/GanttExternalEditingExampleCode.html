@@ -1,0 +1,224 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Gantt</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">TaskItem</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>tasks</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">Date</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedDate</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">SelectedView</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">GanttView</span><span class="enumValue">.Week</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">DurationField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Duration</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">Editable</span>
+       <span class="htmlAttributeName">UseInternalEditing</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">NewItemClicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnNewItemClicked</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">AddChildItemClicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnAddChildItemClicked</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">EditItemClicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnEditItemClicked</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">DeleteItemClicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnDeleteItemClicked</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttColumns</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Title</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Task</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Expandable</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px( 230 )</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Start</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px( 130 )</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">End</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px( 130 )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Visible</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Duration</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px( 90 )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TextAlignment</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextAlignment</span><span class="enumValue">.Center</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Visible</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttCommandColumn</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px( 176 )</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">HeaderTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="atSign">&#64;</span>if ( context.CanAddTask )
+                {
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.ExtraSmall</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Success</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Outline</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>context.AddTask</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>New<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+                }
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">HeaderTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DisplayTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="atSign">&#64;</span>if ( context.CanAddChild )
+                {
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.ExtraSmall</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Secondary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Outline</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is1.FromEnd</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>context.AddChild</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Child<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+                }
+                <span class="atSign">&#64;</span>if ( context.CanEdit )
+                {
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.ExtraSmall</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Outline</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is1.FromEnd</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>context.Edit</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Edit<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+                }
+                <span class="atSign">&#64;</span>if ( context.CanDelete )
+                {
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.ExtraSmall</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Danger</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Outline</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>context.Delete</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Delete<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+                }
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DisplayTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">GanttCommandColumn</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">GanttColumns</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttViews</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttWeekView</span> <span class="htmlAttributeName">TimelineCellWidth</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">90</span><span class="quot">&quot;</span> <span class="htmlAttributeName">RowHeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">44</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">GanttViews</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Gantt</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextColor</span><span class="enumValue">.Muted</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromTop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    Last external action: <span class="atSign">&#64;</span>lastAction
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Modal</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Visible</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>editorVisible</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Centered</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ModalContent</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ModalHeader</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ModalTitle</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>editorModeTitle<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ModalTitle</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CloseButton</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>CloseEditor</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ModalHeader</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ModalBody</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextColor</span><span class="enumValue">.Muted</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                This modal is owned by the page. Gantt only raises the command callbacks.
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>Title<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextInput</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>editorTitle</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Placeholder</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Task title</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ModalBody</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ModalFooter</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Secondary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>CloseEditor</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Cancel<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>SaveEditor</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Save<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ModalFooter</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ModalContent</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Modal</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+    <span class="keyword">private</span> List&lt;TaskItem&gt; tasks = CreateTasks();
+    <span class="keyword">private</span> <span class="keyword">bool</span> editorVisible;
+    <span class="keyword">private</span> <span class="keyword">string</span> editorModeTitle = <span class="string">&quot;Edit task&quot;</span>;
+    <span class="keyword">private</span> <span class="keyword">string</span> editorTitle;
+    <span class="keyword">private</span> <span class="keyword">string</span> editorParentId;
+    <span class="keyword">private</span> <span class="keyword">string</span> editorTargetId;
+    <span class="keyword">private</span> TaskItem editorDraft;
+    <span class="keyword">private</span> <span class="keyword">string</span> lastAction = <span class="string">&quot;None&quot;</span>;
+    <span class="keyword">private</span> <span class="keyword">int</span> nextId = <span class="number">100</span>;
+
+    <span class="keyword">private</span> Task OnNewItemClicked( GanttCommandContext&lt;TaskItem&gt; context )
+        =&gt; OpenEditor( context.Item, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="string">&quot;Create task&quot;</span> );
+
+    <span class="keyword">private</span> Task OnAddChildItemClicked( GanttCommandContext&lt;TaskItem&gt; context )
+        =&gt; OpenEditor( context.Item, context.ParentItem, <span class="keyword">null</span>, $<span class="string">&quot;Create child for {context.ParentItem?.Title}&quot;</span> );
+
+    <span class="keyword">private</span> Task OnEditItemClicked( GanttItemClickedEventArgs&lt;TaskItem&gt; context )
+        =&gt; OpenEditor( context.Item, <span class="keyword">null</span>, context.Item?.Id, $<span class="string">&quot;Edit {context.Item?.Title}&quot;</span> );
+
+    <span class="keyword">private</span> Task OnDeleteItemClicked( GanttItemClickedEventArgs&lt;TaskItem&gt; context )
+    {
+        <span class="keyword">if</span> ( context?.Item?.Id <span class="keyword">is</span> <span class="keyword">null</span> )
+            <span class="keyword">return</span> Task.CompletedTask;
+
+        RemoveTaskWithChildren( tasks, context.Item.Id );
+        lastAction = $<span class="string">&quot;Deleted {context.Item.Title}&quot;</span>;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> Task OpenEditor( TaskItem item, TaskItem parentItem, <span class="keyword">string</span> targetId, <span class="keyword">string</span> modeTitle )
+    {
+        editorDraft = item?.Clone() ?? <span class="keyword">new</span> TaskItem();
+        editorParentId = parentItem?.Id;
+        editorTargetId = targetId;
+        editorTitle = editorDraft.Title ?? <span class="keyword">string</span>.Empty;
+        editorModeTitle = modeTitle;
+        editorVisible = <span class="keyword">true</span>;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> Task CloseEditor()
+    {
+        editorVisible = <span class="keyword">false</span>;
+        editorDraft = <span class="keyword">null</span>;
+        editorParentId = <span class="keyword">null</span>;
+        editorTargetId = <span class="keyword">null</span>;
+        editorTitle = <span class="keyword">string</span>.Empty;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> Task SaveEditor()
+    {
+        <span class="keyword">if</span> ( editorDraft <span class="keyword">is</span> <span class="keyword">null</span> )
+            <span class="keyword">return</span> Task.CompletedTask;
+
+        editorDraft.Title = <span class="keyword">string</span>.IsNullOrWhiteSpace( editorTitle )
+            ? <span class="string">&quot;Untitled task&quot;</span>
+            : editorTitle.Trim();
+
+        <span class="keyword">if</span> ( <span class="keyword">string</span>.IsNullOrEmpty( editorTargetId ) )
+        {
+            editorDraft.Id ??= $<span class="string">&quot;task-{nextId++}&quot;</span>;
+            editorDraft.ParentId = editorParentId;
+            tasks.Add( editorDraft.Clone() );
+            lastAction = editorParentId <span class="keyword">is</span> <span class="keyword">null</span>
+                ? $<span class="string">&quot;Created {editorDraft.Title}&quot;</span>
+                : $<span class="string">&quot;Created child {editorDraft.Title}&quot;</span>;
+        }
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">var</span> existingTask = tasks.FirstOrDefault( x =&gt; x.Id == editorTargetId );
+
+            <span class="keyword">if</span> ( existingTask <span class="keyword">is</span> not <span class="keyword">null</span> )
+            {
+                existingTask.Title = editorDraft.Title;
+                lastAction = $<span class="string">&quot;Updated {existingTask.Title}&quot;</span>;
+            }
+        }
+
+        <span class="keyword">return</span> CloseEditor();
+    }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> RemoveTaskWithChildren( List&lt;TaskItem&gt; list, <span class="keyword">string</span> itemId )
+    {
+        <span class="keyword">var</span> idsToDelete = <span class="keyword">new</span> HashSet&lt;<span class="keyword">string</span>&gt;( StringComparer.Ordinal ) { itemId };
+        <span class="keyword">var</span> changed = <span class="keyword">true</span>;
+
+        <span class="keyword">while</span> ( changed )
+        {
+            changed = <span class="keyword">false</span>;
+
+            <span class="keyword">foreach</span> ( <span class="keyword">var</span> task <span class="keyword">in</span> list )
+            {
+                <span class="keyword">if</span> ( task.ParentId <span class="keyword">is</span> not <span class="keyword">null</span> &amp;&amp; idsToDelete.Contains( task.ParentId ) &amp;&amp; idsToDelete.Add( task.Id ) )
+                    changed = <span class="keyword">true</span>;
+            }
+        }
+
+        list.RemoveAll( x =&gt; idsToDelete.Contains( x.Id ) );
+    }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> List&lt;TaskItem&gt; CreateTasks()
+    {
+        <span class="keyword">var</span> baseDate = DateTime.Today.AddDays( -<span class="number">2</span> );
+
+        <span class="keyword">return</span> <span class="keyword">new</span> List&lt;TaskItem&gt;
+        {
+            <span class="keyword">new</span>() { Id = <span class="string">&quot;1&quot;</span>, Title = <span class="string">&quot;Website redesign&quot;</span>, Start = baseDate, End = baseDate.AddDays( <span class="number">14</span> ), Duration = <span class="number">14</span> },
+            <span class="keyword">new</span>() { Id = <span class="string">&quot;2&quot;</span>, ParentId = <span class="string">&quot;1&quot;</span>, Title = <span class="string">&quot;Discovery&quot;</span>, Start = baseDate, End = baseDate.AddDays( <span class="number">4</span> ), Duration = <span class="number">4</span> },
+            <span class="keyword">new</span>() { Id = <span class="string">&quot;3&quot;</span>, ParentId = <span class="string">&quot;1&quot;</span>, Title = <span class="string">&quot;Implementation&quot;</span>, Start = baseDate.AddDays( <span class="number">4</span> ), End = baseDate.AddDays( <span class="number">12</span> ), Duration = <span class="number">8</span> },
+            <span class="keyword">new</span>() { Id = <span class="string">&quot;4&quot;</span>, ParentId = <span class="string">&quot;1&quot;</span>, Title = <span class="string">&quot;Launch&quot;</span>, Start = baseDate.AddDays( <span class="number">12</span> ), End = baseDate.AddDays( <span class="number">14</span> ), Duration = <span class="number">2</span> },
+        };
+    }
+
+    <span class="keyword">public</span> <span class="keyword">class</span> TaskItem
+    {
+        <span class="keyword">public</span> <span class="keyword">string</span> Id { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> ParentId { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Title { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> DateTime Start { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> DateTime End { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">int</span> Duration { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> TaskItem Clone()
+        {
+            <span class="keyword">return</span> <span class="keyword">new</span> TaskItem
+            {
+                Id = Id,
+                ParentId = ParentId,
+                Title = Title,
+                Start = Start,
+                End = End,
+                Duration = Duration,
+            };
+        }
+    }
+}
+</pre></div>
+</div>

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-06T08:45:01.9449173Z",
+  "generatedUtc": "2026-03-09T10:46:23.4201565Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -3730,6 +3730,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "TabIndex",
+          "type": "int?",
+          "typeName": "int?",
+          "defaultValue": "null",
+          "summary": "Specifies whether the link element can be focused and where it participates in sequential keyboard navigation.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Target",
           "type": "global::Blazorise.Target",
           "typeName": "Target",
@@ -7420,6 +7428,29 @@
             {
               "name": "hideAll",
               "typeName": "bool"
+            }
+          ]
+        },
+        {
+          "name": "OnFocusInHandler",
+          "returnTypeName": "Task",
+          "summary": "Handles the onfocusin event.",
+          "parameters": []
+        },
+        {
+          "name": "OnFocusOutHandler",
+          "returnTypeName": "Task",
+          "summary": "Handles the onfocusout event.",
+          "parameters": []
+        },
+        {
+          "name": "OnKeyDownHandler",
+          "returnTypeName": "Task",
+          "summary": "Handles the onkeydown event.",
+          "parameters": [
+            {
+              "name": "eventArgs",
+              "typeName": "KeyboardEventArgs"
             }
           ]
         },
@@ -15759,6 +15790,14 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Custom inline styles to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TabIndex",
+          "type": "int?",
+          "typeName": "int?",
+          "defaultValue": "null",
+          "summary": "Specifies whether the link element can be focused and where it participates in sequential keyboard navigation.",
           "isBlazoriseEnum": false
         },
         {
@@ -45258,7 +45297,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "true",
-          "summary": "Gets or sets whether built-in modal editing is used.",
+          "summary": "Gets or sets whether built-in modal editing and internal data mutation are used.",
           "isBlazoriseEnum": false
         },
         {
@@ -45295,6 +45334,14 @@
         }
       ],
       "events": [
+        {
+          "name": "AddChildItemClicked",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<GanttCommandContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback invoked when the add-child command is triggered.",
+          "isBlazoriseEnum": false
+        },
         {
           "name": "CommandAllowed",
           "type": "Func<,>",
@@ -45397,6 +45444,14 @@
           "typeName": "Func<object>",
           "defaultValue": "null",
           "summary": "Gets or sets custom factory used to create new item identifiers.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "NewItemClicked",
+          "type": "global::Microsoft.AspNetCore.Components.EventCallback<>",
+          "typeName": "EventCallback<GanttCommandContext<TItem>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets callback invoked when the new-item command is triggered.",
           "isBlazoriseEnum": false
         },
         {
@@ -55065,6 +55120,14 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Custom inline styles to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TabIndex",
+          "type": "int?",
+          "typeName": "int?",
+          "defaultValue": "null",
+          "summary": "Specifies whether the link element can be focused and where it participates in sequential keyboard navigation.",
           "isBlazoriseEnum": false
         },
         {
