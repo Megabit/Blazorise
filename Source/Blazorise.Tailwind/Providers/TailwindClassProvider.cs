@@ -282,33 +282,128 @@ public class TailwindClassProvider : ClassProvider
 
     #region Slider
 
-    public override string Slider() => "w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700";
+    public override string Slider() => BuildTailwindSliderInputClasses( rangeSlider: false );
 
-    public override string SliderColor( Color color ) => $"form-control-range-{ToColor( color )}";
+    public override string SliderColor( Color color ) => color.IsNotNullOrDefault() ? BuildTailwindSliderColorClasses( color ) : null;
 
-    public override string SliderValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string SliderValidation( ValidationStatus validationStatus ) => BuildTailwindSliderValidationClasses( validationStatus );
 
     #endregion
 
     #region RangeSlider
 
-    public override string RangeSlider() => "tw-range-slider";
+    public override string RangeSlider() => "tw-range-slider min-h-8 aria-disabled:opacity-60";
 
-    public override string RangeSliderTrack() => "tw-range-slider-track";
+    public override string RangeSliderTrack() => "tw-range-slider-track top-[calc(50%+1.5px)] h-2 -translate-y-1/2 rounded-lg bg-gray-200 dark:bg-gray-700";
 
-    public override string RangeSliderRange() => "tw-range-slider-range";
+    public override string RangeSliderRange() => "tw-range-slider-range top-[calc(50%+1.5px)] h-2 -translate-y-1/2 rounded-lg bg-blue-600 dark:bg-blue-500";
 
-    public override string RangeSliderInput() => "tw-range-slider-input";
+    public override string RangeSliderInput() => "tw-range-slider-input absolute top-1/2 left-0 w-full h-2 m-0 -translate-y-1/2 rounded-lg bg-transparent pointer-events-none appearance-none accent-blue-600 dark:accent-blue-500 disabled:cursor-not-allowed disabled:opacity-60";
 
-    public override string RangeSliderStart() => "tw-range-slider-input-start";
+    public override string RangeSliderStart() => null;
 
-    public override string RangeSliderEnd() => "tw-range-slider-input-end";
+    public override string RangeSliderEnd() => null;
 
-    public override string RangeSliderTooltip() => "tw-range-slider-tooltip";
+    public override string RangeSliderTooltip() => "tw-range-slider-tooltip z-10 whitespace-nowrap rounded-full border border-gray-200 bg-white h-6 px-2 text-xs font-medium leading-6 text-gray-700 shadow-sm pointer-events-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100";
 
-    public override string RangeSliderValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string RangeSliderValidation( ValidationStatus validationStatus ) => validationStatus switch
+    {
+        ValidationStatus.Success => "tw-range-slider-success",
+        ValidationStatus.Error => "tw-range-slider-danger",
+        _ => null,
+    };
 
     #endregion
+
+    private static string BuildTailwindSliderInputClasses( bool rangeSlider )
+    {
+        if ( !rangeSlider )
+        {
+            return "w-full h-2 rounded-lg cursor-pointer bg-gray-200 accent-blue-600 dark:accent-blue-500 dark:bg-gray-700";
+        }
+
+        string layoutClasses = rangeSlider
+            ? "absolute top-1/2 left-0 w-full m-0 -translate-y-1/2 bg-transparent pointer-events-none"
+            : "w-full cursor-pointer bg-gray-200 dark:bg-gray-700";
+
+        string trackClasses = rangeSlider
+            ? "[&::-webkit-slider-runnable-track]:bg-transparent [&::-moz-range-track]:bg-transparent [&::-moz-range-progress]:bg-transparent"
+            : "[&::-webkit-slider-runnable-track]:bg-gray-200 dark:[&::-webkit-slider-runnable-track]:bg-gray-700 [&::-moz-range-track]:bg-gray-200 dark:[&::-moz-range-track]:bg-gray-700 [&::-moz-range-progress]:bg-gray-200 dark:[&::-moz-range-progress]:bg-gray-700";
+
+        string thumbPointerClasses = rangeSlider
+            ? "[&::-webkit-slider-thumb]:pointer-events-auto [&::-moz-range-thumb]:pointer-events-auto"
+            : null;
+
+        return string.Join( " ", new[]
+        {
+            layoutClasses,
+            "h-2 rounded-lg appearance-none accent-blue-600 dark:accent-blue-500",
+            "[&::-webkit-slider-runnable-track]:h-2",
+            "[&::-webkit-slider-runnable-track]:rounded-lg",
+            "[&::-webkit-slider-runnable-track]:border-0",
+            "[&::-moz-range-track]:h-2",
+            "[&::-moz-range-track]:rounded-lg",
+            "[&::-moz-range-track]:border-0",
+            "[&::-moz-range-progress]:h-2",
+            "[&::-moz-range-progress]:rounded-lg",
+            "[&::-moz-range-progress]:border-0",
+            trackClasses,
+            "[&::-webkit-slider-thumb]:appearance-none",
+            "[&::-webkit-slider-thumb]:-mt-1",
+            "[&::-webkit-slider-thumb]:h-4",
+            "[&::-webkit-slider-thumb]:w-4",
+            "[&::-webkit-slider-thumb]:rounded-full",
+            "[&::-webkit-slider-thumb]:border-2",
+            "[&::-webkit-slider-thumb]:border-white",
+            "dark:[&::-webkit-slider-thumb]:border-gray-800",
+            "[&::-webkit-slider-thumb]:bg-blue-600",
+            "dark:[&::-webkit-slider-thumb]:bg-blue-500",
+            "[&::-webkit-slider-thumb]:shadow-sm",
+            "[&::-webkit-slider-thumb]:cursor-pointer",
+            "[&::-moz-range-thumb]:h-4",
+            "[&::-moz-range-thumb]:w-4",
+            "[&::-moz-range-thumb]:rounded-full",
+            "[&::-moz-range-thumb]:border-2",
+            "[&::-moz-range-thumb]:border-white",
+            "dark:[&::-moz-range-thumb]:border-gray-800",
+            "[&::-moz-range-thumb]:bg-blue-600",
+            "dark:[&::-moz-range-thumb]:bg-blue-500",
+            "[&::-moz-range-thumb]:shadow-sm",
+            "[&::-moz-range-thumb]:cursor-pointer",
+            thumbPointerClasses,
+            "disabled:cursor-not-allowed",
+            "disabled:opacity-60",
+            "disabled:[&::-webkit-slider-thumb]:cursor-not-allowed",
+            "disabled:[&::-moz-range-thumb]:cursor-not-allowed",
+        }.Where( x => !string.IsNullOrWhiteSpace( x ) ) );
+    }
+
+    private static string BuildTailwindSliderValidationClasses( ValidationStatus validationStatus )
+    {
+        return validationStatus switch
+        {
+            ValidationStatus.Success => "accent-green-500 dark:accent-green-500 [&::-webkit-slider-thumb]:bg-green-500 dark:[&::-webkit-slider-thumb]:bg-green-500 [&::-moz-range-thumb]:bg-green-500 dark:[&::-moz-range-thumb]:bg-green-500",
+            ValidationStatus.Error => "accent-red-500 dark:accent-red-500 [&::-webkit-slider-thumb]:bg-red-500 dark:[&::-webkit-slider-thumb]:bg-red-500 [&::-moz-range-thumb]:bg-red-500 dark:[&::-moz-range-thumb]:bg-red-500",
+            _ => null,
+        };
+    }
+
+    private static string BuildTailwindSliderColorClasses( Color color )
+    {
+        return color.Name switch
+        {
+            "primary" => "accent-primary-600 dark:accent-primary-500",
+            "secondary" => "accent-secondary-600 dark:accent-secondary-500",
+            "success" => "accent-green-500 dark:accent-green-500",
+            "danger" => "accent-red-500 dark:accent-red-500",
+            "warning" => "accent-warning-500 dark:accent-warning-400",
+            "info" => "accent-info-600 dark:accent-info-500",
+            "light" => "accent-light-500 dark:accent-light-400",
+            "dark" => "accent-dark-700 dark:accent-dark-400",
+            "link" => "accent-primary-600 dark:accent-primary-500",
+            _ => null,
+        };
+    }
 
     #region Rating
 
