@@ -1,189 +1,81 @@
-﻿.ant-btn {
+﻿@function ant-btn-custom-shadow($color) {
+    @return 0 2px 0 rgba($color, .12);
+}
+
+@function ant-btn-light-hover-color($color) {
+    @return tint-color($color, 78%);
+}
+
+@function ant-btn-light-active-color($color) {
+    @return tint-color($color, $border-subtle-tint-weight);
+}
+
+@mixin ant-btn-shared-color-vars($color, $shadow) {
+    $hover-color: lighten($color, $button-hover-lighten);
+    $active-color: darken($color, $button-active-darken);
+
+    --ant-btn-color-base: #{$color};
+    --ant-btn-color-hover: #{$hover-color};
+    --ant-btn-color-active: #{$active-color};
+    --ant-btn-color-light: #{tint-color($color, $bg-subtle-tint-weight)};
+    --ant-btn-color-light-hover: #{ant-btn-light-hover-color($color)};
+    --ant-btn-color-light-active: #{ant-btn-light-active-color($color)};
+    --ant-btn-shadow: #{$shadow};
+}
+
+@mixin ant-btn-solid-vars($color, $text-color, $shadow: ant-btn-custom-shadow($color)) {
+    $hover-color: lighten($color, $button-hover-lighten);
+    $active-color: darken($color, $button-active-darken);
+
+    @include ant-btn-shared-color-vars($color, $shadow);
+
+    --ant-btn-solid-bg-color: #{$color};
+    --ant-btn-solid-bg-color-hover: #{$hover-color};
+    --ant-btn-solid-bg-color-active: #{$active-color};
+    --ant-btn-border-color: #{$color};
+    --ant-btn-border-color-hover: #{$hover-color};
+    --ant-btn-border-color-active: #{$active-color};
+    --ant-btn-border-color-disabled: #d9d9d9;
+    --ant-btn-text-color: #{$text-color};
+    --ant-btn-text-color-hover: #{$text-color};
+    --ant-btn-text-color-active: #{$text-color};
+    --ant-btn-text-color-disabled: rgba(0, 0, 0, .25);
+    --ant-btn-bg-color: #{$color};
+    --ant-btn-bg-color-hover: #{$hover-color};
+    --ant-btn-bg-color-active: #{$active-color};
+    --ant-btn-bg-color-disabled: #f5f5f5;
+    box-shadow: var(--ant-btn-shadow);
+}
+
+@mixin ant-btn-outline-vars($color) {
+    $hover-color: lighten($color, $button-hover-lighten);
+    $active-color: darken($color, $button-active-darken);
+
+    @include ant-btn-shared-color-vars($color, none);
+
+    --ant-btn-border-color: #{$color};
+    --ant-btn-border-color-hover: #{$hover-color};
+    --ant-btn-border-color-active: #{$active-color};
+    --ant-btn-border-color-disabled: #d9d9d9;
+    --ant-btn-text-color: #{$color};
+    --ant-btn-text-color-hover: #{$hover-color};
+    --ant-btn-text-color-active: #{$active-color};
+    --ant-btn-text-color-disabled: rgba(0, 0, 0, .25);
+    --ant-btn-bg-color: transparent;
+    --ant-btn-bg-color-hover: transparent;
+    --ant-btn-bg-color-active: transparent;
+    --ant-btn-bg-color-disabled: transparent;
+    box-shadow: none;
+}
+
+.ant-btn {
     @each $name, $value in $unsuported-button-colors {
-        $color: $value;
-        $color-invert: color-yiq($value);
-
         &-#{$name} {
-            color: $color-invert;
-            background-color: $color;
-            border-color: $color;
-
-            > a:only-child {
-                color: currentColor;
-            }
-
-            &:hover,
-            &:focus {
-                color: $color-invert;
-                background-color: lighten($color, $button-hover-lighten);
-                border-color: lighten($color, $button-hover-lighten);
-
-                > a:only-child,
-                > a:only-child {
-                    color: currentColor;
-                }
-            }
-
-            &:active,
-            &.active {
-                color: $color-invert;
-                background-color: darken($color, $button-active-darken);
-                border-color: darken($color, $button-active-darken);
-
-                > a:only-child,
-                > a:only-child {
-                    color: currentColor;
-                }
-            }
-
-            &-disabled,
-            &.disabled,
-            &[disabled],
-            &-disabled:hover,
-            &.disabled:hover,
-            &[disabled]:hover,
-            &-disabled:focus,
-            &.disabled:focus,
-            &[disabled]:focus,
-            &-disabled:active,
-            &.disabled:active,
-            &[disabled]:active,
-            &-disabled.active,
-            &.disabled.active,
-            &[disabled].active {
-                color: rgba(0, 0, 0, 0.25);
-                background-color: #f5f5f5;
-                border-color: #d9d9d9;
-                text-shadow: none;
-                -webkit-box-shadow: none;
-                box-shadow: none;
-
-                > a:only-child {
-                    color: currentColor;
-                }
-
-                > a:only-child::after {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    bottom: 0;
-                    left: 0;
-                    background: transparent;
-                    content: '';
-                }
-            }
+            @include ant-btn-solid-vars($value, color-yiq($value));
         }
-    }
-}
 
-.ant-btn-group {
-    @each $name, $value in $button-colors {
-        $color: $value;
-        $color-invert: color-yiq($value);
-
-        .ant-btn {
-            &-primary:not(:first-child):not(:last-child) {
-                border-right-color: $color;
-                border-left-color: $color;
-            }
-
-            &-primary:not(:first-child):not(:last-child):disabled {
-                border-color: #d9d9d9;
-            }
-
-            &-btn-primary:first-child:not(:last-child) {
-                border-right-color: $color;
-            }
-
-            &-primary:first-child:not(:last-child)[disabled] {
-                border-right-color: #d9d9d9;
-            }
-
-            &-primary:last-child:not(:first-child),
-            &-primary + &-primary {
-                border-left-color: $color;
-            }
-
-            &-primary:last-child:not(:first-child)[disabled],
-            &-primary + &-primary[disabled] {
-                border-left-color: #d9d9d9;
-            }
-        }
-    }
-}
-
-.ant-btn-outline {
-    @each $name, $value in $button-colors {
-        $color: $value;
-        $color-invert: color-yiq($value);
-
-        &-#{$name} {
-            color: $color;
-            background-color: transparent;
-            border-color: $color;
-
-            > a:only-child {
-                color: currentColor;
-            }
-
-            &:hover,
-            &:focus {
-                color: lighten($color, $button-hover-lighten);
-                border-color: lighten($color, $button-hover-lighten);
-
-                > a:only-child,
-                > a:only-child {
-                    color: currentColor;
-                }
-            }
-
-            &:active,
-            &.active {
-                color: darken($color, $button-active-darken);
-                border-color: darken($color, $button-active-darken);
-
-                > a:only-child,
-                > a:only-child {
-                    color: currentColor;
-                }
-            }
-
-            &-disabled,
-            &.disabled,
-            &[disabled],
-            &-disabled:hover,
-            &.disabled:hover,
-            &[disabled]:hover,
-            &-disabled:focus,
-            &.disabled:focus,
-            &[disabled]:focus,
-            &-disabled:active,
-            &.disabled:active,
-            &[disabled]:active,
-            &-disabled.active,
-            &.disabled.active,
-            &[disabled].active {
-                color: rgba(0, 0, 0, 0.25);
-                background-color: transparent;
-                border-color: #d9d9d9;
-                text-shadow: none;
-                -webkit-box-shadow: none;
-                box-shadow: none;
-
-                > a:only-child {
-                    color: currentColor;
-                }
-
-                > a:only-child::after {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    bottom: 0;
-                    left: 0;
-                    background: transparent;
-                    content: '';
-                }
-            }
+        &-outline-#{$name} {
+            @include ant-btn-outline-vars($value);
         }
     }
 }

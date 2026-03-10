@@ -15,7 +15,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TextInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string TextInputColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-form-text-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
 
     public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -49,7 +49,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string NumericInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string NumericInputColor( Color color ) => $"ant-form-text-{ToColor( color )}";
+    public override string NumericInputColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
 
     public override string NumericInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -61,7 +61,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DateInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string DateInputColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-form-text-{ToColor( color )}" : null;
+    public override string DateInputColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
 
     public override string DateInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -73,7 +73,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TimeInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string TimeInputColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-form-text-{ToColor( color )}" : null;
+    public override string TimeInputColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
 
     public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -93,7 +93,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DatePickerSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string DatePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-form-text-{ToColor( color )}" : null;
+    public override string DatePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -105,7 +105,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TimePickerSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-form-text-{ToColor( color )}" : null;
+    public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -125,7 +125,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string NumericPickerSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string NumericPickerColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-form-text-{ToColor( color )}" : null;
+    public override string NumericPickerColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
 
     public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -137,7 +137,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string InputMaskSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string InputMaskColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-form-text-{ToColor( color )}" : null;
+    public override string InputMaskColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
 
     public override string InputMaskValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -160,9 +160,14 @@ public class AntDesignClassProvider : ClassProvider
     #region RadioGroup
 
     public override string RadioGroup( bool buttons, Orientation orientation )
-        => "ant-radio-group ant-radio-group-outline" + ( orientation == Orientation.Horizontal ? "" : " ant-radio-group-vertical" );
+        => "ant-radio-group" + ( orientation == Orientation.Horizontal ? "" : " ant-radio-group-vertical" );
 
-    public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => size != Size.Default ? $"ant-btn-group-{ToSize( size )}" : null;
+    public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => size switch
+    {
+        Size.Small => "ant-radio-group-small",
+        Size.Large => "ant-radio-group-large",
+        _ => null,
+    };
 
     public override string RadioGroupValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -170,7 +175,7 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Radio
 
-    public override string Radio( bool button ) => button ? "ant-radio-button-input" : "ant-radio-input";
+    public override string Radio( bool button ) => "ant-radio-input";
 
     public override string RadioSize( bool button, Size size ) => size != Size.Default ? $"{Radio( button )}-{ToSize( size )}" : null;
 
@@ -230,7 +235,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-rate-star-{ToColor( color )}" : null;
 
-    public override string RatingItemSelected( bool selected ) => selected ? "ant-rate-star-full" : "ant-rate-star-zero";
+    public override string RatingItemSelected( bool selected ) => selected ? "ant-rate-star-full" : null;
 
     public override string RatingItemHovered( bool hover ) => hover ? "ant-rate-star-focused" : null;
 
@@ -332,13 +337,13 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Control
 
-    public override string ControlCheck( ControlRole role ) => role == ControlRole.Check ? UseCustomInputStyles ? "custom-control custom-checkbox" : "form-check" : null;
+    public override string ControlCheck( ControlRole role ) => null;
 
-    public override string ControlRadio( ControlRole role ) => role == ControlRole.Radio ? UseCustomInputStyles ? "custom-control custom-radio" : "form-check" : null;
+    public override string ControlRadio( ControlRole role ) => null;
 
-    public override string ControlSwitch( ControlRole role ) => role == ControlRole.Switch ? UseCustomInputStyles ? "custom-control custom-switch" : "form-check" : null;
+    public override string ControlSwitch( ControlRole role ) => null;
 
-    public override string ControlFile( ControlRole role ) => role == ControlRole.File ? UseCustomInputStyles ? "custom-control custom-file" : "form-group" : null;
+    public override string ControlFile( ControlRole role ) => null;
 
     public override string ControlText( ControlRole role ) => null;
 
@@ -385,15 +390,13 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Button( bool outline ) => "ant-btn";
 
-    public override string ButtonColor( Color color, bool outline ) => outline
-        ? color.IsNotNullOrDefault() ? $"{Button( outline )}-outline-{ToColor( color )}" : $"{Button( outline )}-outline"
-        : color.IsNotNullOrDefault() ? $"{Button( outline )}-{ToColor( color )}" : null;
+    public override string ButtonColor( Color color, bool outline ) => ToButtonColorClass( color, outline );
 
     public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"{Button( outline )}-{ToSize( size )}";
 
     public override string ButtonBlock( bool outline, bool block ) => block ? $"{Button( outline )}-block" : null;
 
-    public override string ButtonActive( bool outline, bool active ) => active ? "ant-btn-active" : null;
+    public override string ButtonActive( bool outline, bool active ) => active ? Active() : null;
 
     public override string ButtonDisabled( bool outline, bool disabled ) => disabled ? "ant-btn-disabled" : null;
 
@@ -408,10 +411,10 @@ public class AntDesignClassProvider : ClassProvider
     public override string Buttons( ButtonsRole role, Orientation orientation )
     {
         if ( role == ButtonsRole.Toolbar )
-            return "btn-toolbar";
+            return null;
 
         if ( orientation == Orientation.Vertical )
-            return "ant-btn-group btn-group-vertical";
+            return "ant-btn-group ant-btn-group-vertical";
 
         return "ant-btn-group";
     }
@@ -446,7 +449,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DropdownItemDisabled( bool disabled ) => disabled ? "ant-dropdown-menu-item-disabled" : null;
 
-    public override string DropdownDivider() => "ant-dropdown-menu-divider";
+    public override string DropdownDivider() => "ant-dropdown-menu-item-divider";
 
     public override string DropdownHeader() => "ant-dropdown-menu-header";
 
@@ -470,9 +473,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "ant-dropdown-menu-item" : "ant-btn ant-dropdown-trigger";
 
-    public override string DropdownToggleColor( Color color, bool outline ) => outline
-        ? color.IsNotNullOrDefault() ? $"ant-btn-outline-{ToColor( color )}" : $"ant-btn-outline"
-        : color.IsNotNullOrDefault() ? $"ant-btn-{ToColor( color )}" : null;
+    public override string DropdownToggleColor( Color color, bool outline ) => ToButtonColorClass( color, outline );
 
     public override string DropdownToggleSize( Size size, bool outline )
         => size != Size.Default ? $"ant-btn-{ToSize( size )}" : null;
@@ -493,7 +494,7 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Tabs
 
-    public override string Tabs( bool pills ) => pills ? "ant-tabs ant-tabs-top ant-tabs-line ant-tabs-pills" : "ant-tabs ant-tabs-top ant-tabs-line";
+    public override string Tabs( bool pills ) => pills ? "ant-tabs ant-tabs-top ant-tabs-pills" : "ant-tabs ant-tabs-top";
 
     public override string TabsCards( bool cards ) => cards ? "ant-tabs-card" : null;
 
@@ -515,17 +516,17 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TabLinkDisabled( bool disabled ) => null;
 
-    public override string TabsContent() => "ant-tabs-content ant-tabs-content-animated";
+    public override string TabsContent() => "ant-tabs-content";
 
     public override string TabPanel() => "ant-tabs-tabpane";
 
-    public override string TabPanelActive( bool active ) => active ? "ant-tabs-tabpane-active" : "ant-tabs-tabpane-hidden";
+    public override string TabPanelActive( bool active ) => active ? null : "ant-tabs-tabpane-hidden";
 
     #endregion
 
     #region Steps
 
-    public override string Steps() => "ant-steps ant-steps-horizontal ant-steps-label-horizontal";
+    public override string Steps() => "ant-steps ant-steps-horizontal";
 
     public override string StepItem() => "ant-steps-item";
 
@@ -601,13 +602,13 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Card() => "ant-card ant-card-bordered";
 
-    public override string CardWhiteText( bool whiteText ) => whiteText ? "ant-text-white" : null;
+    public override string CardWhiteText( bool whiteText ) => whiteText ? "ant-typography-light" : null;
 
     public override string CardActions() => "ant-card-actions";
 
     public override string CardBody() => "ant-card-body";
 
-    public override string CardFooter() => "ant-card-foot";
+    public override string CardFooter() => null;
 
     public override string CardHeader() => "ant-card-head";
 
@@ -621,7 +622,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string CardSubtitleSize( bool insideHeader, HeadingSize? size ) => null;
 
-    public override string CardText() => "ant-card-text";
+    public override string CardText() => null;
 
     public override string CardLink() => "ant-card-link";
 
@@ -666,11 +667,17 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string BarInitial( BarMode mode, bool initial ) => mode != Blazorise.BarMode.Horizontal && initial ? "b-bar-initial" : null;
 
-    public override string BarAlignment( BarMode mode, Alignment alignment ) => alignment != Alignment.Default ? $"justify-content-{ToAlignment( alignment )}" : null;
+    public override string BarAlignment( BarMode mode, Alignment alignment ) => alignment switch
+    {
+        Alignment.Start => "ant-justify-content-flex-start",
+        Alignment.Center => "ant-justify-content-center",
+        Alignment.End => "ant-justify-content-flex-end",
+        _ => null,
+    };
 
     public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => themeContrast != ThemeContrast.None ? $"ant-menu-{ToThemeContrast( themeContrast )}" : null;
 
-    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => breakpoint != Breakpoint.None ? $"ant-menu-expand-{ToBreakpoint( breakpoint )}" : null;
+    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => null;
 
     public override string BarMode( BarMode mode ) => $"ant-menu-{ToBarMode( mode )} {( mode == Blazorise.BarMode.VerticalSmall ? "ant-menu-inline-collapsed" : null )}";
 
@@ -682,7 +689,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string BarItemHasDropdown( BarMode mode, bool hasDropdown ) => null;
 
-    public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-link" : null;
+    public override string BarLink( BarMode mode ) => null;
 
     public override string BarLinkDisabled( BarMode mode, bool disabled ) => disabled ? Disabled() : null;
 
@@ -693,7 +700,7 @@ public class AntDesignClassProvider : ClassProvider
     public override string BarBrandToggler( BarMode mode ) => "b-bar-mobile-toggle";
 
     public override string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => mode == Blazorise.BarMode.Horizontal ? null :
-        togglerMode == BarTogglerMode.Popout ? "ant-menu-toggler-popout" : "ant-menu-toggler-inline";
+        "ant-menu-toggler-inline";
 
     public override string BarTogglerCollapsed( BarMode mode, BarTogglerMode togglerMode, bool isShow ) => null;
 
@@ -701,7 +708,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string BarMenuShow( BarMode mode, bool show ) => null;
 
-    public override string BarStart( BarMode mode ) => "ant-menu-start";
+    public override string BarStart( BarMode mode ) => null;
 
     public override string BarEnd( BarMode mode ) => "ant-menu-end";
 
@@ -757,15 +764,15 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string AccordionItem() => "ant-collapse-item";
 
-    public override string AccordionItemActive( bool active ) => active ? "ant-collapse-item-active" : null;
+    public override string AccordionItemActive( bool active ) => null;
 
     public override string AccordionHeader() => "ant-collapse-header";
 
-    public override string AccordionBody() => "ant-collapse-content";
+    public override string AccordionBody() => "ant-collapse-panel";
 
-    public override string AccordionBodyActive( bool active ) => active ? "ant-collapse-content-active" : "ant-collapse-content-inactive ant-collapse-content-hidden";
+    public override string AccordionBodyActive( bool active ) => active ? null : "ant-collapse-panel-hidden";
 
-    public override string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion ) => "ant-collapse-content-box";
+    public override string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion ) => "ant-collapse-body";
 
     #endregion
 
@@ -773,15 +780,15 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Collapse() => "ant-collapse-item";
 
-    public override string CollapseActive( bool active ) => active ? "ant-collapse-item-active" : null;
+    public override string CollapseActive( bool active ) => null;
 
     public override string CollapseHeader() => "ant-collapse-header";
 
-    public override string CollapseBody() => "ant-collapse-content";
+    public override string CollapseBody() => "ant-collapse-panel";
 
-    public override string CollapseBodyActive( bool active ) => active ? "ant-collapse-content-active" : "ant-collapse-content-inactive";
+    public override string CollapseBodyActive( bool active ) => active ? null : "ant-collapse-panel-hidden";
 
-    public override string CollapseBodyContent() => "ant-collapse-content-box";
+    public override string CollapseBodyContent() => "ant-collapse-body";
 
     #endregion
 
@@ -860,11 +867,11 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Alert
 
-    public override string Alert() => "ant-alert ant-alert-no-icon";
+    public override string Alert() => "ant-alert";
 
     public override string AlertColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-alert-{ToColor( color )}" : null;
 
-    public override string AlertDismisable( bool dismissable ) => dismissable ? "ant-alert-closable" : null;
+    public override string AlertDismisable( bool dismissable ) => null;
 
     public override string AlertFade( bool dismissable ) => dismissable ? Fade() : null;
 
@@ -874,7 +881,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string AlertHasDescription( bool hasDescription ) => hasDescription ? "ant-alert-with-description" : null;
 
-    public override string AlertMessage() => "ant-alert-message";
+    public override string AlertMessage() => "ant-alert-title";
 
     public override string AlertDescription() => "ant-alert-description";
 
@@ -896,7 +903,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ModalBackdropFade() => null;
 
-    public override string ModalBackdropVisible( bool visible ) => visible ? null : "ant-modal-mask-hidden";
+    public override string ModalBackdropVisible( bool visible ) => null;
 
     public override string ModalContent( bool dialog ) => "ant-modal-content";
 
@@ -904,7 +911,7 @@ public class AntDesignClassProvider : ClassProvider
         ? "ant-modal-content-fullscreen"
         : null;
 
-    public override string ModalContentCentered( bool centered ) => centered ? "ant-modal-content-centered" : null;
+    public override string ModalContentCentered( bool centered ) => null;
 
     public override string ModalContentScrollable( bool scrollable ) => scrollable ? "ant-modal-content-scrollable" : null;
 
@@ -963,14 +970,14 @@ public class AntDesignClassProvider : ClassProvider
     public override string ToastAnimated( bool animated ) => null;
 
     public override string ToastFade( bool visible, bool showing, bool hiding ) => showing
-        ? "ant-notification-fade-enter ant-notification-fade-enter-active ant-notification-fade-appear ant-notification-fade-appear-start ant-notification-fade-appear-active ant-notification-fade"
+        ? "ant-notification-fade-enter ant-notification-fade-enter-active ant-notification-fade-appear ant-notification-fade-appear-prepare ant-notification-fade-appear-active"
         : hiding
-            ? "ant-notification-fade-leave ant-notification-fade-leave-start ant-notification-fade-leave-active ant-notification-fade"
+            ? "ant-notification-fade-leave ant-notification-fade-leave-active"
             : null;
 
     public override string ToastVisible( bool visible ) => null;
 
-    public override string ToastHeader() => "ant-notification-notice-message";
+    public override string ToastHeader() => "ant-notification-notice-title";
 
     public override string ToastBody() => "ant-notification-notice-description";
 
@@ -987,11 +994,7 @@ public class AntDesignClassProvider : ClassProvider
         _ => null,
     };
 
-    public override string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy ) => placementStrategy switch
-    {
-        Blazorise.ToasterPlacementStrategy.Absolute => "ant-notification-absolute",
-        _ => null,
-    };
+    public override string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy ) => null;
 
     #endregion
 
@@ -1001,7 +1004,13 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string PaginationSize( Size size ) => size != Size.Default ? $"{Pagination()}-{ToSize( size )}" : null;
 
-    public override string PaginationAlignment( Alignment alignment ) => alignment != Alignment.Default ? $"justify-content-{ToAlignment( alignment )}" : null;
+    public override string PaginationAlignment( Alignment alignment ) => alignment switch
+    {
+        Alignment.Start => "ant-pagination-start",
+        Alignment.Center => "ant-pagination-center",
+        Alignment.End => "ant-pagination-end",
+        _ => null,
+    };
 
     public override string PaginationBackgroundColor( Background background ) => background.IsNotNullOrDefault() ? $"bg-{ToBackground( background )}" : null;
 
@@ -1011,7 +1020,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string PaginationItemDisabled( bool disabled ) => disabled ? "ant-pagination-disabled" : null;
 
-    public override string PaginationLink() => "ant-pagination-link";
+    public override string PaginationLink() => null;
 
     public override string PaginationLinkSize( Size size ) => null;
 
@@ -1103,8 +1112,8 @@ public class AntDesignClassProvider : ClassProvider
     {
         return fixedPosition switch
         {
-            TableColumnFixedPosition.Start => "ant-header-cell-fixed-start",
-            TableColumnFixedPosition.End => "ant-header-cell-fixed-end",
+            TableColumnFixedPosition.Start => "ant-table-cell-fix-start ant-header-cell-fixed-start",
+            TableColumnFixedPosition.End => "ant-table-cell-fix-end ant-header-cell-fixed-end",
             _ => null,
         };
     }
@@ -1127,8 +1136,8 @@ public class AntDesignClassProvider : ClassProvider
     {
         return fixedPosition switch
         {
-            TableColumnFixedPosition.Start => "ant-row-header-fixed-start",
-            TableColumnFixedPosition.End => "ant-row-header-fixed-end",
+            TableColumnFixedPosition.Start => "ant-table-cell-fix-start ant-row-header-fixed-start",
+            TableColumnFixedPosition.End => "ant-table-cell-fix-end ant-row-header-fixed-end",
             _ => null,
         };
     }
@@ -1141,17 +1150,17 @@ public class AntDesignClassProvider : ClassProvider
     {
         return fixedPosition switch
         {
-            TableColumnFixedPosition.Start => "ant-row-cell-fixed-start",
-            TableColumnFixedPosition.End => "ant-row-cell-fixed-end",
+            TableColumnFixedPosition.Start => "ant-table-cell-fix-start ant-row-cell-fixed-start",
+            TableColumnFixedPosition.End => "ant-table-cell-fix-end ant-row-cell-fixed-end",
             _ => null,
         };
     }
 
     public override string TableRowGroup( bool expanded ) => "ant-table-group";
 
-    public override string TableRowGroupCell() => "ant-table-group-cell";
+    public override string TableRowGroupCell() => "ant-table-cell";
 
-    public override string TableRowGroupIndentCell() => "ant-table-group-indentcell";
+    public override string TableRowGroupIndentCell() => "ant-table-cell";
 
     public override string TableResponsive( bool responsive ) => responsive ? "ant-table-responsive" : null;
 
@@ -1796,4 +1805,21 @@ public class AntDesignClassProvider : ClassProvider
     public override bool UseCustomInputStyles { get; set; } = true;
 
     public override string Provider => "AntDesign";
+
+    private string ToButtonColorClass( Color color, bool outline )
+    {
+        var colorName = color.IsNotNullOrDefault()
+            ? ToColor( color )
+            : null;
+
+        return colorName switch
+        {
+            null => "ant-btn-color-default ant-btn-variant-outlined",
+            "primary" => $"ant-btn-color-primary ant-btn-variant-{( outline ? "outlined" : "solid" )}",
+            "danger" => $"ant-btn-color-dangerous ant-btn-variant-{( outline ? "outlined" : "solid" )}",
+            _ => outline
+                ? $"{Button( outline )}-outline-{colorName} ant-btn-variant-outlined"
+                : $"{Button( outline )}-{colorName} ant-btn-variant-solid",
+        };
+    }
 }
