@@ -1,3 +1,8 @@
+$ant-slider-rail-color: #d9d9d9;
+$ant-slider-track-color: #91caff;
+$ant-slider-track-hover-color: #69b1ff;
+$ant-slider-thumb-outline-color: rgba(22, 119, 255, .2);
+
 .ant-range-slider {
     min-height: 2rem;
 
@@ -10,11 +15,11 @@
     }
 
     > .ant-range-slider-track {
-        background-color: #d9d9d9;
+        background-color: $ant-slider-rail-color;
     }
 
     > .ant-range-slider-range {
-        background-color: #1677ff;
+        background-color: $ant-slider-track-color;
     }
 
     > .ant-range-slider-input {
@@ -37,9 +42,9 @@
             width: .875rem;
             height: .875rem;
             border-radius: 50%;
-            border: 2px solid #1677ff;
+            border: 2px solid $ant-slider-track-color;
             background-color: #fff;
-            box-shadow: 0 0 0 2px rgba(5, 145, 255, .12);
+            box-shadow: 0 0 0 2px $ant-slider-thumb-outline-color;
             pointer-events: auto;
             cursor: pointer;
             -webkit-appearance: none;
@@ -54,9 +59,9 @@
             width: .875rem;
             height: .875rem;
             border-radius: 50%;
-            border: 2px solid #1677ff;
+            border: 2px solid $ant-slider-track-color;
             background-color: #fff;
-            box-shadow: 0 0 0 2px rgba(5, 145, 255, .12);
+            box-shadow: 0 0 0 2px $ant-slider-thumb-outline-color;
             pointer-events: auto;
             cursor: pointer;
         }
@@ -88,6 +93,32 @@
         white-space: nowrap;
         z-index: 6;
         pointer-events: none;
+    }
+
+    &:hover {
+        > .ant-range-slider-range {
+            background-color: $ant-slider-track-hover-color;
+        }
+
+        > .ant-range-slider-input {
+            &::-webkit-slider-thumb {
+                border-color: $ant-slider-track-hover-color;
+            }
+
+            &::-moz-range-thumb {
+                border-color: $ant-slider-track-hover-color;
+            }
+        }
+    }
+
+    > .ant-range-slider-input:focus {
+        &::-webkit-slider-thumb {
+            border-color: $ant-slider-track-hover-color;
+        }
+
+        &::-moz-range-thumb {
+            border-color: $ant-slider-track-hover-color;
+        }
     }
 
     &[aria-disabled='true'] {

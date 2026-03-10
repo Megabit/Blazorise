@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 :root {
   --b-bar-horizontal-height: 60px;
 }
@@ -2209,6 +2209,15 @@ textarea.ant-input.ant-input-static {
   padding-right: 0;
 }
 
+.ant-focus-trap {
+  display: contents;
+}
+
+.ant-form-item-label-required:after {
+  content: " *";
+  color: var(--b-theme-danger, #ff4d4f);
+}
+
 .ant-range-slider {
   min-height: 2rem;
 }
@@ -2223,7 +2232,7 @@ textarea.ant-input.ant-input-static {
   background-color: #d9d9d9;
 }
 .ant-range-slider > .ant-range-slider-range {
-  background-color: #1677ff;
+  background-color: #91caff;
 }
 .ant-range-slider > .ant-range-slider-input {
   position: absolute;
@@ -2244,9 +2253,9 @@ textarea.ant-input.ant-input-static {
   width: 0.875rem;
   height: 0.875rem;
   border-radius: 50%;
-  border: 2px solid #1677ff;
+  border: 2px solid #91caff;
   background-color: #fff;
-  box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.12);
+  box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.2);
   pointer-events: auto;
   cursor: pointer;
   -webkit-appearance: none;
@@ -2259,9 +2268,9 @@ textarea.ant-input.ant-input-static {
   width: 0.875rem;
   height: 0.875rem;
   border-radius: 50%;
-  border: 2px solid #1677ff;
+  border: 2px solid #91caff;
   background-color: #fff;
-  box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.12);
+  box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.2);
   pointer-events: auto;
   cursor: pointer;
 }
@@ -2284,6 +2293,21 @@ textarea.ant-input.ant-input-static {
   z-index: 6;
   pointer-events: none;
 }
+.ant-range-slider:hover > .ant-range-slider-range {
+  background-color: #69b1ff;
+}
+.ant-range-slider:hover > .ant-range-slider-input::-webkit-slider-thumb {
+  border-color: #69b1ff;
+}
+.ant-range-slider:hover > .ant-range-slider-input::-moz-range-thumb {
+  border-color: #69b1ff;
+}
+.ant-range-slider > .ant-range-slider-input:focus::-webkit-slider-thumb {
+  border-color: #69b1ff;
+}
+.ant-range-slider > .ant-range-slider-input:focus::-moz-range-thumb {
+  border-color: #69b1ff;
+}
 .ant-range-slider[aria-disabled=true] > .ant-range-slider-track,
 .ant-range-slider[aria-disabled=true] > .ant-range-slider-range {
   opacity: 0.65;
@@ -2293,15 +2317,6 @@ textarea.ant-input.ant-input-static {
 }
 .ant-range-slider[aria-disabled=true] > .ant-range-slider-input::-moz-range-thumb {
   cursor: not-allowed;
-}
-
-.ant-focus-trap {
-  display: contents;
-}
-
-.ant-form-item-label-required:after {
-  content: " *";
-  color: var(--b-theme-danger, #ff4d4f);
 }
 
 .ant-hero {
@@ -11936,7 +11951,7 @@ td:focus {
   color: #bfbfbf;
 }
 .ant-blockquote-footer::before {
-  content: "��";
+  content: "— ";
 }
 
 .ant-typography-left {
