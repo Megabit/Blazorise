@@ -1,7 +1,28 @@
 ﻿.ant-alert {
     margin-bottom: 1rem;
 
-    @each $name, $value in $theme-colors {
+    &.b-ant-alert-dismissible {
+        padding-inline-end: calc(12px + var(--ant-font-size-icon) + var(--ant-margin-sm));
+    }
+
+    &.b-ant-alert-dismissible .ant-alert-close-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        position: absolute;
+        inset-inline-end: 12px;
+        top: 50%;
+        z-index: 1;
+        transform: translateY(-50%);
+    }
+
+    &.ant-alert-with-description.b-ant-alert-dismissible .ant-alert-close-icon {
+        top: var(--ant-padding-md);
+        transform: none;
+    }
+
+    @each $name in primary, secondary, danger, light, dark, link {
         $color: theme-color-level($name, $alert-color-level);
         $background: theme-color-level($name, $alert-background-level);
         $border: theme-color-level($name, $alert-border-level);
@@ -10,12 +31,10 @@
             color: $color;
             background-color: $background;
             border-color: $border;
-        }
-    }
 
-    .ant-close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
+            .ant-alert-icon {
+                color: $color;
+            }
+        }
     }
 }

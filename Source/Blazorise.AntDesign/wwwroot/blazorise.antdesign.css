@@ -327,6 +327,9 @@ html {
   --ant-slider-handle-line-width-hover: 2.5px;
   --ant-slider-dot-size: 8px;
   --ant-skeleton-gradient-from-color: rgba(0, 0, 0, .06);
+  --ant-alert-default-padding: var(--ant-padding-content-vertical-sm) 12px;
+  --ant-alert-with-description-padding: var(--ant-padding-md) var(--ant-padding-content-horizontal-lg);
+  --ant-alert-with-description-icon-size: var(--ant-font-size-heading-3);
   --ant-button-blue-shadow-color: 0 2px 0 rgba(5, 145, 255, .1);
   --ant-button-purple-shadow-color: 0 2px 0 rgba(155, 5, 255, .06);
   --ant-button-cyan-shadow-color: 0 2px 0 rgba(5, 255, 215, .1);
@@ -841,55 +844,71 @@ template {
 .ant-alert {
   margin-bottom: 1rem;
 }
+.ant-alert.b-ant-alert-dismissible {
+  padding-inline-end: calc(12px + var(--ant-font-size-icon) + var(--ant-margin-sm));
+}
+.ant-alert.b-ant-alert-dismissible .ant-alert-close-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  position: absolute;
+  inset-inline-end: 12px;
+  top: 50%;
+  z-index: 1;
+  transform: translateY(-50%);
+}
+.ant-alert.ant-alert-with-description.b-ant-alert-dismissible .ant-alert-close-icon {
+  top: var(--ant-padding-md);
+  transform: none;
+}
 .ant-alert-primary {
   color: rgb(12.48, 74.88, 132.6);
   background-color: rgb(208.8, 232.8, 255);
   border-color: rgb(190.32, 223.92, 255);
+}
+.ant-alert-primary .ant-alert-icon {
+  color: rgb(12.48, 74.88, 132.6);
 }
 .ant-alert-secondary {
   color: rgb(56.16, 60.84, 65);
   background-color: rgb(225.6, 227.4, 229);
   border-color: rgb(213.84, 216.36, 218.6);
 }
-.ant-alert-success {
-  color: rgb(27.56, 102.96, 9.88);
-  background-color: rgb(214.6, 243.6, 207.8);
-  border-color: rgb(198.44, 239.04, 188.92);
-}
-.ant-alert-info {
-  color: rgb(49.92, 94.64, 126.88);
-  background-color: rgb(223.2, 240.4, 252.8);
-  border-color: rgb(210.48, 234.56, 251.92);
-}
-.ant-alert-warning {
-  color: rgb(128.44, 100.36, 21.84);
-  background-color: rgb(253.4, 242.6, 212.4);
-  border-color: rgb(252.76, 237.64, 195.36);
+.ant-alert-secondary .ant-alert-icon {
+  color: rgb(56.16, 60.84, 65);
 }
 .ant-alert-danger {
   color: rgb(132.6, 40.04, 41.08);
   background-color: rgb(255, 219.4, 219.8);
   border-color: rgb(255, 205.16, 205.72);
 }
+.ant-alert-danger .ant-alert-icon {
+  color: rgb(132.6, 40.04, 41.08);
+}
 .ant-alert-light {
   color: #828282;
   background-color: #fefefe;
   border-color: rgb(253.6, 253.6, 253.6);
+}
+.ant-alert-light .ant-alert-icon {
+  color: #828282;
 }
 .ant-alert-dark {
   color: rgb(27.04, 30.16, 33.28);
   background-color: rgb(214.4, 215.6, 216.8);
   border-color: rgb(198.16, 199.84, 201.52);
 }
+.ant-alert-dark .ant-alert-icon {
+  color: rgb(27.04, 30.16, 33.28);
+}
 .ant-alert-link {
   color: rgb(26, 59.8, 114.4);
   background-color: #d6e3f8;
   border-color: rgb(197.6, 215.8, 245.2);
 }
-.ant-alert .ant-close {
-  position: absolute;
-  right: 15px;
-  top: 15px;
+.ant-alert-link .ant-alert-icon {
+  color: rgb(26, 59.8, 114.4);
 }
 
 .ant-tag-primary {

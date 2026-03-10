@@ -649,6 +649,9 @@ html {
     --ant-slider-handle-line-width-hover: 2.5px;
     --ant-slider-dot-size: 8px;
     --ant-skeleton-gradient-from-color: rgba(0, 0, 0, .06);
+    --ant-alert-default-padding: var(--ant-padding-content-vertical-sm) 12px;
+    --ant-alert-with-description-padding: var(--ant-padding-md) var(--ant-padding-content-horizontal-lg);
+    --ant-alert-with-description-icon-size: var(--ant-font-size-heading-3);
     // Button component tokens from Ant Design v6.
     --ant-button-blue-shadow-color: 0 2px 0 rgba(5, 145, 255, .1);
     --ant-button-purple-shadow-color: 0 2px 0 rgba(155, 5, 255, .06);

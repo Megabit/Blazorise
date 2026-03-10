@@ -869,9 +869,24 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Alert() => "ant-alert";
 
-    public override string AlertColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-alert-{ToColor( color )}" : null;
+    public override string AlertColor( Color color )
+    {
+        if ( color.IsNullOrDefault() )
+            return null;
 
-    public override string AlertDismisable( bool dismissable ) => null;
+        if ( color == Color.Success || color == Color.Info || color == Color.Warning )
+            return $"ant-alert-{ToColor( color )}";
+
+        if ( color == Color.Danger )
+            return "ant-alert-error";
+
+        if ( color == Color.Primary )
+            return "ant-alert-info";
+
+        return $"ant-alert-{ToColor( color )}";
+    }
+
+    public override string AlertDismisable( bool dismissable ) => dismissable ? "b-ant-alert-dismissible" : null;
 
     public override string AlertFade( bool dismissable ) => dismissable ? Fade() : null;
 
