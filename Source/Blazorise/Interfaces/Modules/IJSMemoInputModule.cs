@@ -36,4 +36,12 @@ public interface IJSMemoInputModule : IBaseJSModule,
     /// <param name="elementId">ID of the rendered element.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     ValueTask RecalculateAutoHeight( ElementReference elementRef, string elementId );
+
+    /// <summary>
+    /// Refreshes the textarea layout after it becomes visible.
+    /// </summary>
+    /// <param name="elementRef">Reference to the rendered element.</param>
+    /// <param name="elementId">ID of the rendered element.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask RefreshDisplay( ElementReference elementRef, string elementId );
 }
