@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -15,13 +16,15 @@ namespace Blazorise;
 /// A slider to select a range of values.
 /// </summary>
 /// <typeparam name="TValue">Data-type used by the slider handles.</typeparam>
-public partial class RangeSlider<TValue> : BaseInputComponent<RangeSliderValue<TValue>, RangeSliderClasses, RangeSliderStyles>
+public partial class RangeSlider<TValue> : BaseInputComponent<RangeSliderValue<TValue>, RangeSliderClasses, RangeSliderStyles>, IAsyncDisposable
 {
     #region Members
 
     private const string RANGE_DELIMITER = "|";
 
     private bool startHandleActive = true;
+
+    protected ElementReference EndElementRef;
 
     /// <summary>
     /// Captured Step parameter snapshot.
@@ -37,6 +40,16 @@ public partial class RangeSlider<TValue> : BaseInputComponent<RangeSliderValue<T
     /// Captured Max parameter snapshot.
     /// </summary>
     protected ComponentParameterInfo<TValue> paramMax;
+
+    /// <summary>
+    /// Captured ClampToOtherHandle parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<bool> paramClampToOtherHandle;
+
+    /// <summary>
+    /// Captured AllowEqualValues parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<bool> paramAllowEqualValues;
 
     #endregion
 
@@ -74,6 +87,43 @@ public partial class RangeSlider<TValue> : BaseInputComponent<RangeSliderValue<T
         parameters.TryGetParameter( Step, out paramStep );
         parameters.TryGetParameter( Min, out paramMin );
         parameters.TryGetParameter( Max, out paramMax );
+        parameters.TryGetParameter( ClampToOtherHandle, out paramClampToOtherHandle );
+        parameters.TryGetParameter( AllowEqualValues, out paramAllowEqualValues );
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnBeforeSetParametersAsync( ParameterView parameters )
+    {
+        await base.OnBeforeSetParametersAsync( parameters );
+
+        if ( Rendered
+            && ( paramClampToOtherHandle.Defined && paramClampToOtherHandle.Changed
+                || paramAllowEqualValues.Defined && paramAllowEqualValues.Changed ) )
+        {
+            bool clampToOtherHandle = paramClampToOtherHandle.Defined ? paramClampToOtherHandle.Value : ClampToOtherHandle;
+            bool allowEqualValues = paramAllowEqualValues.Defined ? paramAllowEqualValues.Value : AllowEqualValues;
+
+            ExecuteAfterRender( () => JSModule.Initialize( ElementRef, ElementId, EndElementRef, EndElementId, clampToOtherHandle, allowEqualValues ).AsTask() );
+        }
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnFirstAfterRenderAsync()
+    {
+        await JSModule.Initialize( ElementRef, ElementId, EndElementRef, EndElementId, ClampToOtherHandle, AllowEqualValues );
+
+        await base.OnFirstAfterRenderAsync();
+    }
+
+    /// <inheritdoc/>
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing && Rendered )
+        {
+            await JSModule.SafeDestroy( ElementRef, ElementId );
+        }
+
+        await base.DisposeAsync( disposing );
     }
 
     /// <inheritdoc/>
@@ -262,9 +312,18 @@ public partial class RangeSlider<TValue> : BaseInputComponent<RangeSliderValue<T
         RangeSliderValue<TValue> currentRange = CurrentNormalizedRange;
         double currentStartValue = GetValueAsDouble( currentRange.Start, parsedNumber );
         double currentEndValue = GetValueAsDouble( currentRange.End, parsedNumber );
+        double minimumDistance = AllowEqualValues ? 0d : GetStepDistance();
 
         double nextStartValue = startHandle ? parsedNumber : currentStartValue;
         double nextEndValue = startHandle ? currentEndValue : parsedNumber;
+
+        if ( ClampToOtherHandle )
+        {
+            if ( startHandle )
+                nextStartValue = Math.Min( nextStartValue, currentEndValue - minimumDistance );
+            else
+                nextEndValue = Math.Max( nextEndValue, currentStartValue + minimumDistance );
+        }
 
         RangeSliderValue<TValue> nextRange = NormalizeRange( nextStartValue, nextEndValue );
 
@@ -407,6 +466,14 @@ public partial class RangeSlider<TValue> : BaseInputComponent<RangeSliderValue<T
     private static string ToPercentageString( double value )
     {
         return $"{value.ToString( "0.####", CultureInfo.InvariantCulture )}%";
+    }
+
+    private double GetStepDistance()
+    {
+        if ( StepDefined && TryConvertToDouble( Step, out double step ) && step > 0d )
+            return step;
+
+        return 1d;
     }
 
     private static string JoinStyles( params string[] styles )
@@ -652,6 +719,11 @@ public partial class RangeSlider<TValue> : BaseInputComponent<RangeSliderValue<T
     [Parameter] public bool ShowValueTooltips { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets the <see cref="IJSRangeSliderModule"/> instance.
+    /// </summary>
+    [Inject] public IJSRangeSliderModule JSModule { get; set; }
+
+    /// <summary>
     /// Accessible label text for the start handle.
     /// </summary>
     [Parameter] public string StartAriaLabel { get; set; } = "Start value";
@@ -675,6 +747,22 @@ public partial class RangeSlider<TValue> : BaseInputComponent<RangeSliderValue<T
     /// The maximum value to accept for this input.
     /// </summary>
     [Parameter] public TValue Max { get; set; }
+
+    /// <summary>
+    /// Specifies whether the active handle should stop at the other handle while dragging.
+    /// </summary>
+    /// <remarks>
+    /// When set to <c>true</c>, the active handle is clamped to the other handle instead of swapping positions.
+    /// </remarks>
+    [Parameter] public bool ClampToOtherHandle { get; set; }
+
+    /// <summary>
+    /// Specifies whether both handles can point to the same value.
+    /// </summary>
+    /// <remarks>
+    /// When set to <c>false</c> and <see cref="ClampToOtherHandle"/> is enabled, the handles keep at least one <see cref="Step"/> between them.
+    /// </remarks>
+    [Parameter] public bool AllowEqualValues { get; set; } = true;
 
     #endregion
 }
