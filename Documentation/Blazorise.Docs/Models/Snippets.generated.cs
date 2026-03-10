@@ -4725,6 +4725,16 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
   }
 }";
 
+        public const string McpGitHubServerEntryExample = @"{
+  ""blazorise-docs"": {
+    ""type"": ""http"",
+    ""url"": ""https://mcp.blazorise.com/mcp"",
+    ""tools"": [
+      ""search_docs""
+    ]
+  }
+}";
+
         public const string MigrationAnalyzeCommandExample = @"blazorise-migrate analyze [--path <path>] [--json <file>] [--all-projects] [--verbose]";
 
         public const string MigrationExamplesExample = @"blazorise-migrate analyze --path C:\src\MyApp.sln
