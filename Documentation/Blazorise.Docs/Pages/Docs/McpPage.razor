@@ -34,6 +34,24 @@
     MCP client configuration is typically stored in a JSON file named <Code>.mcp.json</Code> located in your project root or user configuration directory, depending on the client you are using.
 </DocsPageParagraph>
 
+<DocsPageParagraph>
+    <Alert Color="Color.Info" Visible>
+        <AlertDescription>
+            <Strong>GitHub.com coding agent:</Strong> add the Blazorise server entry under <Code>mcpServers</Code> and include <Code>"tools": ["search_docs"]</Code>. GitHub currently validates that field before it allows the MCP configuration to be saved.
+        </AlertDescription>
+    </Alert>
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="GitHub.com coding agent entry">
+        <Paragraph>
+            Use this server object inside your <Code>mcpServers</Code> configuration on GitHub.com.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent />
+    <DocsPageSectionSource Code="McpGitHubServerEntryExample" />
+</DocsPageSection>
+
 <DocsPageSection>
     <DocsPageSectionHeader Title="HTTP (streamable) config">
         <Paragraph>

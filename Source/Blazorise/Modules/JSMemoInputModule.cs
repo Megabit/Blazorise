@@ -54,6 +54,10 @@ public class JSMemoInputModule : BaseJSModule, IJSMemoInputModule
     public virtual ValueTask RecalculateAutoHeight( ElementReference elementRef, string elementId )
         => InvokeSafeVoidAsync( "recalculateAutoHeight", elementRef, elementId );
 
+    /// <inheritdoc/>
+    public virtual ValueTask RefreshDisplay( ElementReference elementRef, string elementId )
+        => InvokeSafeVoidAsync( "refreshDisplay", elementRef, elementId );
+
     #endregion
 
     #region Properties

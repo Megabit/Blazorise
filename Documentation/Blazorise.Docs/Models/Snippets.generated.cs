@@ -4822,6 +4822,16 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
   }
 }";
 
+        public const string McpGitHubServerEntryExample = @"{
+  ""blazorise-docs"": {
+    ""type"": ""http"",
+    ""url"": ""https://mcp.blazorise.com/mcp"",
+    ""tools"": [
+      ""search_docs""
+    ]
+  }
+}";
+
         public const string MigrationAnalyzeCommandExample = @"blazorise-migrate analyze [--path <path>] [--json <file>] [--all-projects] [--verbose]";
 
         public const string MigrationExamplesExample = @"blazorise-migrate analyze --path C:\src\MyApp.sln
@@ -11723,6 +11733,23 @@ builder.Services
     private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
 }";
 
+        public const string TransferListCaptionsExample = @"<TransferList TItem=""string""
+              Items=""@list""
+              ValueField=""item => item""
+              TextField=""item => item""
+              ShowCaptions>
+    <StartCaptionTemplate>
+        <Heading4>In Stock</Heading4>
+    </StartCaptionTemplate>
+    <EndCaptionTemplate>
+        <Heading4>Checkout</Heading4>
+    </EndCaptionTemplate>
+</TransferList>
+
+@code {
+    private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
+}";
+
         public const string TransferListCustomItemTemplatesExample = @"<TransferList TItem=""string""
               Items=""@list""
               SelectionMode=""ListGroupSelectionMode.Single""
@@ -11771,7 +11798,7 @@ builder.Services
 
 @code {
     private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
-    private List<string> listStart = new List<string> {""Cherry"", ""Strawberry"" };
+    private List<string> listStart = new List<string> { ""Cherry"", ""Strawberry"" };
     private List<string> listEnd;
 
 }";
@@ -11794,16 +11821,16 @@ builder.Services
               Items=""@list""
               SelectionMode=""ListGroupSelectionMode.Single""
               Mode=""ListGroupMode.Selectable""
-                Scrollable
-               MaxHeight=""500px""
-               ShowMoveAll=false
-               @bind-ItemsStart=@listStart
-               @bind-ItemsEnd=@listEnd
-               ValueField=""item => item""
-               TextField=""item => item"">
- </TransferList>
+              Scrollable
+              MaxHeight=""500px""
+              ShowMoveAll=false
+              @bind-ItemsStart=@listStart
+              @bind-ItemsEnd=@listEnd
+              ValueField=""item => item""
+              TextField=""item => item"">
+</TransferList>
 
- @code {
+@code {
     private List<string> list = new List<string> {
         ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"",
         ""Watermelon"", ""Pineapple"", ""Mango"", ""Blueberry"", ""Raspberry"",
