@@ -496,7 +496,7 @@ public partial class TransferList<TItem> : ComponentBase
     /// <summary>
     /// Determines whether the captions are visible above the lists.
     /// </summary>
-    [Parameter] public bool ShowCaptions { get; set; } = true;
+    [Parameter] public bool ShowCaptions { get; set; }
 
     /// <summary>
     /// Gets or sets the start caption template, which can be used to render a custom header or caption for the start (left) list.
@@ -507,7 +507,7 @@ public partial class TransferList<TItem> : ComponentBase
     /// Gets or sets the start caption text for the start (left) list.
     /// Used only when <see cref="StartCaptionTemplate"/> is not provided.
     /// </summary>
-    [Parameter] public string StartCaption { get; set; }
+    [Parameter] public string StartCaption { get; set; } = "Start";
 
     /// <summary>
     /// Gets or sets the end caption template, which can be used to render a custom header or caption for the end (right) list.
@@ -518,7 +518,7 @@ public partial class TransferList<TItem> : ComponentBase
     /// Gets or sets the end caption text for the end (right) list.
     /// Used only when <see cref="EndCaptionTemplate"/> is not provided.
     /// </summary>
-    [Parameter] public string EndCaption { get; set; }
+    [Parameter] public string EndCaption { get; set; } = "End";
 
     /// <summary>
     /// Defines the icon name of the move to end (right) button.

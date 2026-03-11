@@ -1,14 +1,17 @@
 ﻿@typeparam TItem
 
-<Div Display="Display.Flex">
+<Div Display="Display.Flex" Gap="Gap.Is3.OnX">
     <Div Flex="Flex.Grow.Is1.Column" Width="Width.Is50" Gap="Gap.Is2">
-        @if ( ShowCaptions && StartCaptionTemplate is not null )
+        @if ( ShowCaptions )
         {
-            @StartCaptionTemplate
-        }
-        else if ( ShowCaptions && StartCaption is not null )
-        {
-            <Div Margin="Margin.Is2">@StartCaption</Div>
+            @if ( StartCaptionTemplate is not null )
+            {
+                @StartCaptionTemplate
+            }
+            else if ( StartCaption is not null )
+            {
+                <Paragraph>@StartCaption</Paragraph>
+            }
         }
 
         <ListView TItem="TItem"
@@ -28,7 +31,7 @@
         </ListView>
     </Div>
 
-    <Div Flex="Flex.Column.JustifyContent.Center" Margin="Margin.Is3.OnX" Gap="Gap.Is3">
+    <Div Flex="Flex.Column.JustifyContent.Center" Gap="Gap.Is3">
         @if ( ShowMoveAll )
         {
             <Button Color="@MoveButtonsColor" Clicked="@MoveAllEnd" Disabled="@IsMoveAllEndDisabled">
@@ -50,13 +53,16 @@
     </Div>
 
     <Div Flex="Flex.Grow.Is1.Column" Width="Width.Is50" Gap="Gap.Is2">
-        @if ( ShowCaptions && EndCaptionTemplate is not null )
+        @if ( ShowCaptions )
         {
-            @EndCaptionTemplate
-        }
-        else if ( ShowCaptions && EndCaption is not null )
-        {
-            <Div Margin="Margin.Is2">@EndCaption</Div>
+            @if ( EndCaptionTemplate is not null )
+            {
+                @EndCaptionTemplate
+            }
+            else if ( EndCaption is not null )
+            {
+                <Paragraph>@EndCaption</Paragraph>
+            }
         }
 
         <ListView TItem="TItem"

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-11T12:03:37.7423528Z",
+  "generatedUtc": "2026-03-11T12:12:43.9351769Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -104435,7 +104435,7 @@
           "name": "EndCaption",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "\"End\"",
           "summary": "Gets or sets the end caption text for the end (right) list.     Used only when <strong>EndCaptionTemplate</strong> is not provided.",
           "isBlazoriseEnum": false
         },
@@ -104619,7 +104619,7 @@
           "name": "ShowCaptions",
           "type": "bool",
           "typeName": "bool",
-          "defaultValue": "true",
+          "defaultValue": "false",
           "summary": "Determines whether the captions are visible above the lists.",
           "isBlazoriseEnum": false
         },
@@ -104635,7 +104635,7 @@
           "name": "StartCaption",
           "type": "string",
           "typeName": "string",
-          "defaultValue": "null",
+          "defaultValue": "\"Start\"",
           "summary": "Gets or sets the start caption text for the start (left) list.     Used only when <strong>StartCaptionTemplate</strong> is not provided.",
           "isBlazoriseEnum": false
         },
