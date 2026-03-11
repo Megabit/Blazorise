@@ -7579,6 +7579,14 @@
       "pagePath": "Pages/Docs/McpPage.razor",
       "examples": [
         {
+          "code": "McpGitHubServerEntryExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/McpGitHubServerEntryExample.snippet",
+          "content": "{\r\n  \"blazorise-docs\": {\r\n    \"type\": \"http\",\r\n    \"url\": \"https://mcp.blazorise.com/mcp\",\r\n    \"tools\": [\r\n      \"search_docs\"\r\n    ]\r\n  }\r\n}",
+          "title": "GitHub.com coding agent entry",
+          "description": "Use this server object inside your mcpServers configuration on GitHub.com."
+        },
+        {
           "code": "McpClientConfigExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/McpClientConfigExample.snippet",
