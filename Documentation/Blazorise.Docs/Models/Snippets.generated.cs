@@ -9700,7 +9700,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
             <Field>
                 <FieldLabel>Title</FieldLabel>
                 <FieldBody>
-                    <TextInput @bind-Value=""@editorTitle"" Placeholder=""Task title"" />
+                    <TextInput @bind-Value=""@editorTitle"" Immediate=""false"" Placeholder=""Task title"" />
                 </FieldBody>
             </Field>
         </ModalBody>

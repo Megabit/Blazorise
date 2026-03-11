@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-09T10:46:23.4201565Z",
+  "generatedUtc": "2026-03-11T09:56:28.5914597Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -45611,8 +45611,7 @@
         {
           "name": "NotifyBarDragMouseMove",
           "returnTypeName": "Task",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Receives JavaScript drag-move notifications for the active timeline item drag operation.",
           "parameters": [
             {
               "name": "clientX",
@@ -45623,8 +45622,7 @@
         {
           "name": "NotifyBarDragMouseUp",
           "returnTypeName": "Task",
-          "summary": "No documentation available - no XML comment",
-          "remarks": "No documentation available - no XML comment",
+          "summary": "Receives JavaScript drag-end notifications for the active timeline item drag operation.",
           "parameters": [
             {
               "name": "clientX",
