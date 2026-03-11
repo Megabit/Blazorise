@@ -330,6 +330,9 @@ html {
   --ant-alert-default-padding: var(--ant-padding-content-vertical-sm) 12px;
   --ant-alert-with-description-padding: var(--ant-padding-md) var(--ant-padding-content-horizontal-lg);
   --ant-alert-with-description-icon-size: var(--ant-font-size-heading-3);
+  --ant-tag-default-bg: var(--ant-color-fill-tertiary);
+  --ant-tag-default-color: var(--ant-color-text);
+  --ant-tag-solid-text-color: var(--ant-color-text-light-solid);
   --ant-button-blue-shadow-color: 0 2px 0 rgba(5, 145, 255, .1);
   --ant-button-purple-shadow-color: 0 2px 0 rgba(155, 5, 255, .06);
   --ant-button-cyan-shadow-color: 0 2px 0 rgba(5, 255, 215, .1);
@@ -1034,6 +1037,82 @@ template {
   color: rgb(39, 89.7, 171.6);
   background-color: rgb(230.4, 238.2, 250.8);
   border-color: rgb(230.4, 238.2, 250.8);
+}
+
+.ant-tag.ant-tag-primary:not(.ant-tag-disabled).ant-tag-outlined {
+  color: rgb(18.72, 112.32, 198.9);
+  background-color: rgb(227.28, 241.68, 255);
+  border-color: rgb(227.28, 241.68, 255);
+}
+.ant-tag.ant-tag-primary:not(.ant-tag-disabled).ant-tag-solid {
+  color: #fff;
+  background-color: #1890ff;
+  border-color: #1890ff;
+}
+.ant-tag.ant-tag-primary:not(.ant-tag-disabled).ant-tag-filled {
+  color: rgb(18.72, 112.32, 198.9);
+  background-color: rgb(227.28, 241.68, 255);
+  border-color: transparent;
+}
+.ant-tag.ant-tag-secondary:not(.ant-tag-disabled).ant-tag-outlined {
+  color: rgb(84.24, 91.26, 97.5);
+  background-color: rgb(237.36, 238.44, 239.4);
+  border-color: rgb(237.36, 238.44, 239.4);
+}
+.ant-tag.ant-tag-secondary:not(.ant-tag-disabled).ant-tag-solid {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+.ant-tag.ant-tag-secondary:not(.ant-tag-disabled).ant-tag-filled {
+  color: rgb(84.24, 91.26, 97.5);
+  background-color: rgb(237.36, 238.44, 239.4);
+  border-color: transparent;
+}
+.ant-tag.ant-tag-light:not(.ant-tag-disabled).ant-tag-outlined {
+  color: #7e7e7e;
+  background-color: rgb(252.5, 252.5, 252.5);
+  border-color: rgb(252.5, 252.5, 252.5);
+}
+.ant-tag.ant-tag-light:not(.ant-tag-disabled).ant-tag-solid {
+  color: #262626;
+  background-color: #fafafa;
+  border-color: #fafafa;
+}
+.ant-tag.ant-tag-light:not(.ant-tag-disabled).ant-tag-filled {
+  color: #7e7e7e;
+  background-color: rgb(252.5, 252.5, 252.5);
+  border-color: transparent;
+}
+.ant-tag.ant-tag-dark:not(.ant-tag-disabled).ant-tag-outlined {
+  color: rgb(113.9, 113.9, 113.9);
+  background-color: #bfbfbf;
+  border-color: #bfbfbf;
+}
+.ant-tag.ant-tag-dark:not(.ant-tag-disabled).ant-tag-solid {
+  color: #fff;
+  background-color: #343a40;
+  border-color: #343a40;
+}
+.ant-tag.ant-tag-dark:not(.ant-tag-disabled).ant-tag-filled {
+  color: rgb(113.9, 113.9, 113.9);
+  background-color: #bfbfbf;
+  border-color: transparent;
+}
+.ant-tag.ant-tag-link:not(.ant-tag-disabled).ant-tag-outlined {
+  color: rgb(39, 89.7, 171.6);
+  background-color: rgb(230.4, 238.2, 250.8);
+  border-color: rgb(230.4, 238.2, 250.8);
+}
+.ant-tag.ant-tag-link:not(.ant-tag-disabled).ant-tag-solid {
+  color: #fff;
+  background-color: #3273dc;
+  border-color: #3273dc;
+}
+.ant-tag.ant-tag-link:not(.ant-tag-disabled).ant-tag-filled {
+  color: rgb(39, 89.7, 171.6);
+  background-color: rgb(230.4, 238.2, 250.8);
+  border-color: transparent;
 }
 
 :root {

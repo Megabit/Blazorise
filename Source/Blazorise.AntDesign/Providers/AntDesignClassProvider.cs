@@ -1200,38 +1200,14 @@ public class AntDesignClassProvider : ClassProvider
         if ( color.IsNullOrDefault() )
             return null;
 
-        var name = color?.Name;
-
-        var colorName = name switch
-        {
-            "secondary" => "default",
-            "danger" => "error",
-            _ => name,
-        };
-
-        return $"{Badge()}-{colorName}{( subtle ? "-subtle" : string.Empty )}";
+        return $"{Badge()}-{ToBadgeColorClass( color )} {ToBadgeVariantClass( subtle )}";
     }
 
     public override string BadgePill( bool pill ) => pill ? $"{Badge()}-pill" : null;
 
-    public override string BadgeClose() => "anticon anticon-close";
+    public override string BadgeClose() => "ant-tag-close-icon";
 
-    public override string BadgeCloseColor( Color color, bool subtle )
-    {
-        if ( color.IsNullOrDefault() )
-            return null;
-
-        var name = color?.Name;
-
-        var colorName = name switch
-        {
-            "secondary" => "default",
-            "danger" => "error",
-            _ => name,
-        };
-
-        return $"{Badge()}-{colorName}{( subtle ? "-subtle" : string.Empty )}";
-    }
+    public override string BadgeCloseColor( Color color, bool subtle ) => null;
 
     #endregion
 
@@ -1837,4 +1813,20 @@ public class AntDesignClassProvider : ClassProvider
                 : $"{Button( outline )}-{colorName} ant-btn-variant-solid",
         };
     }
+
+    private string ToBadgeColorClass( Color color )
+    {
+        string colorName = color.IsNotNullOrDefault()
+            ? ToColor( color )
+            : null;
+
+        return colorName switch
+        {
+            "danger" => "error",
+            "info" => "processing",
+            _ => colorName,
+        };
+    }
+
+    private static string ToBadgeVariantClass( bool subtle ) => subtle ? "ant-tag-outlined" : "ant-tag-solid";
 }

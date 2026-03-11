@@ -652,6 +652,9 @@ html {
     --ant-alert-default-padding: var(--ant-padding-content-vertical-sm) 12px;
     --ant-alert-with-description-padding: var(--ant-padding-md) var(--ant-padding-content-horizontal-lg);
     --ant-alert-with-description-icon-size: var(--ant-font-size-heading-3);
+    --ant-tag-default-bg: var(--ant-color-fill-tertiary);
+    --ant-tag-default-color: var(--ant-color-text);
+    --ant-tag-solid-text-color: var(--ant-color-text-light-solid);
     // Button component tokens from Ant Design v6.
     --ant-button-blue-shadow-color: 0 2px 0 rgba(5, 145, 255, .1);
     --ant-button-purple-shadow-color: 0 2px 0 rgba(155, 5, 255, .06);

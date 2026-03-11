@@ -51,3 +51,34 @@
         }
     }
 }
+
+@mixin ant-tag-variant($name) {
+    $solid-background: map-get($theme-colors, $name);
+    $outlined-background: map-get($theme-colors-bg-subtle, $name);
+    $outlined-border: map-get($theme-colors-border-subtle, $name);
+    $outlined-color: map-get($theme-colors-text-emphasis, $name);
+
+    &.ant-tag-#{$name}:not(.ant-tag-disabled).ant-tag-outlined {
+        color: #{$outlined-color};
+        background-color: #{$outlined-background};
+        border-color: #{$outlined-border};
+    }
+
+    &.ant-tag-#{$name}:not(.ant-tag-disabled).ant-tag-solid {
+        color: #{color-yiq($solid-background)};
+        background-color: #{$solid-background};
+        border-color: #{$solid-background};
+    }
+
+    &.ant-tag-#{$name}:not(.ant-tag-disabled).ant-tag-filled {
+        color: #{$outlined-color};
+        background-color: #{$outlined-background};
+        border-color: transparent;
+    }
+}
+
+.ant-tag {
+    @each $name in primary, secondary, light, dark, link {
+        @include ant-tag-variant($name);
+    }
+}
