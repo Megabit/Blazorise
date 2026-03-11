@@ -46,6 +46,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private readonly HashSet<string> collapsedNodeKeys = new( StringComparer.Ordinal );
     private readonly List<BaseGanttColumn<TItem>> columns = new();
     private readonly Dictionary<BaseGanttColumn<TItem>, bool> columnVisibility = new();
+    private readonly Dictionary<BaseGanttColumn<TItem>, IFluentSizing> columnWidthOverrides = new();
 
     private GanttToolbar<TItem> ganttToolbar;
     private GanttDayView<TItem> ganttDayView;
@@ -337,6 +338,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             columnDisplayOrders.Remove( key );
 
         columnVisibility.Remove( column );
+        columnWidthOverrides.Remove( column );
         columnKeys.Remove( column );
 
         var removed = columns.Remove( column );
@@ -1242,7 +1244,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             {
                 var column = orderedColumns[i];
                 var key = GetColumnKey( column );
-                var width = GetColumnStateWidth( column.Width );
+                var width = GetColumnStateWidth( GetColumnWidth( column ) );
 
                 if ( string.IsNullOrWhiteSpace( key ) )
                     continue;
@@ -1327,7 +1329,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 columnDisplayOrders[key] = columnState.DisplayOrder;
 
                 if ( TryBuildColumnWidth( columnState?.Width, out var restoredWidth ) )
-                    column.Width = restoredWidth;
+                    columnWidthOverrides[column] = restoredWidth;
 
                 matchedColumnsCount++;
             }
@@ -2768,6 +2770,16 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             : column.Visible;
     }
 
+    private IFluentSizing GetColumnWidth( BaseGanttColumn<TItem> column )
+    {
+        if ( column is null )
+            return null;
+
+        return columnWidthOverrides.TryGetValue( column, out var widthOverride ) && widthOverride is not null
+            ? widthOverride
+            : column.Width;
+    }
+
     private void EnsureAtLeastOneDeclarativeColumnVisible()
     {
         if ( columns.Count == 0 )
@@ -2836,7 +2848,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( column is null )
             return DateColumnWidth;
 
-        if ( TryGetPixelWidth( column.Width, out var fixedWidth ) )
+        if ( TryGetPixelWidth( GetColumnWidth( column ), out var fixedWidth ) )
             return fixedWidth;
 
         if ( column is GanttCommandColumn<TItem> )
