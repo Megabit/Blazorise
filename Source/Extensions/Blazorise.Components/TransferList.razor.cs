@@ -560,5 +560,6 @@ public partial class TransferList<TItem> : ComponentBase
     /// TransferList component options
     /// </summary>
     [Parameter] public TransferListOptions Options { get; set; } = new();
+
     #endregion
 }
