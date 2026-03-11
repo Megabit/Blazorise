@@ -65,4 +65,21 @@ internal static class FluentConstants
 
     // Typography
     internal static readonly TextAlignment TextAlignmentCenter = TextAlignment.Center;
+
+    // Background
+    internal static readonly Background BackgroundBody = Background.Body;
+    internal static readonly Background BackgroundTransparent = Background.Transparent;
+    internal static readonly Background BackgroundLight = Background.Light;
+    internal static readonly Background BackgroundDefault = Background.Default;
+    internal static readonly Background BackgroundPrimarySubtle = Background.Primary.Subtle;
+    internal static readonly Background BackgroundInfo = Background.Info;
+    internal static readonly Background BackgroundInfoSubtle = Background.Info.Subtle;
+
+    // Text Color
+    internal static readonly TextColor TextColorWhite = TextColor.White;
+    internal static readonly TextColor TextColorMuted = TextColor.Muted;
+
+    // Shadow
+    internal static readonly Shadow ShadowNone = Shadow.None;
+    internal static readonly Shadow ShadowRemove = Shadow.Remove;
 }

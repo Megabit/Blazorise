@@ -2111,21 +2111,21 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         var isSelected = IsSelectedRow( item );
 
         if ( isFocused && isSelected )
-            return Blazorise.Background.Primary.Subtle;
+            return FluentConstants.BackgroundPrimarySubtle;
 
         if ( isSelected )
-            return Blazorise.Background.Info.Subtle;
+            return FluentConstants.BackgroundInfoSubtle;
 
         if ( isFocused )
-            return Blazorise.Background.Light;
+            return FluentConstants.BackgroundLight;
 
-        return Blazorise.Background.Default;
+        return FluentConstants.BackgroundDefault;
     }
 
     private Background GetFocusedRowBackground( string rowKey )
         => KeyboardNavigation && IsFocusedRow( rowKey )
-            ? Blazorise.Background.Light
-            : Blazorise.Background.Default;
+            ? FluentConstants.BackgroundLight
+            : FluentConstants.BackgroundDefault;
 
     private Task SortByColumn( GanttRenderColumn column )
     {

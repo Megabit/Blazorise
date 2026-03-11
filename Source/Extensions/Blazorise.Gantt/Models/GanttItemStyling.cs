@@ -1,3 +1,5 @@
+using Blazorise.Gantt.Utilities;
+
 namespace Blazorise.Gantt;
 
 /// <summary>
@@ -18,10 +20,10 @@ public class GanttItemStyling
     /// <summary>
     /// Background color.
     /// </summary>
-    public Background Background { get; set; } = Background.Info;
+    public Background Background { get; set; } = FluentConstants.BackgroundInfo;
 
     /// <summary>
     /// Text color.
     /// </summary>
-    public TextColor TextColor { get; set; } = TextColor.White;
+    public TextColor TextColor { get; set; } = FluentConstants.TextColorWhite;
 }

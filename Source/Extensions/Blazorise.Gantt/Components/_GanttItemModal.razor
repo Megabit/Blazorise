@@ -19,21 +19,21 @@
                         @if ( ParentStartText is not null )
                         {
                             <Div>
-                                <Span TextColor="TextColor.Muted" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.StartLocalizer, LocalizationConstants.Start ):</Span>
+                                <Span TextColor="TextColorMuted" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.StartLocalizer, LocalizationConstants.Start ):</Span>
                                 <Span>@ParentStartText</Span>
                             </Div>
                         }
                         @if ( ParentEndText is not null )
                         {
                             <Div>
-                                <Span TextColor="TextColor.Muted" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.EndLocalizer, LocalizationConstants.End ):</Span>
+                                <Span TextColor="TextColorMuted" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.EndLocalizer, LocalizationConstants.End ):</Span>
                                 <Span>@ParentEndText</Span>
                             </Div>
                         }
                         @if ( ParentDurationDays is not null )
                         {
                             <Div>
-                                <Span TextColor="TextColor.Muted" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.DurationLocalizer, LocalizationConstants.Duration ):</Span>
+                                <Span TextColor="TextColorMuted" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.DurationLocalizer, LocalizationConstants.Duration ):</Span>
                                 <Span>@ParentDurationDays</Span>
                             </Div>
                         }
