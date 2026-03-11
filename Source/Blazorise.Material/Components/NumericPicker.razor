@@ -1,5 +1,29 @@
 @typeparam TValue
 @inherits Blazorise.NumericPicker<TValue>
-<input @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" inputmode="@InputMode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@ReadOnly" size="@VisibleCharacters" step="@StepString" pattern="@Pattern" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+@if ( IsShowStepButtons )
+{
+    <span class="@NumericWrapperClassNames" style="@NumericWrapperStyleNames">
+        @InputTemplate
+        <span class="@ButtonsClassNames" style="@Styles?.Buttons">
+            <button tabindex="-1" aria-label="Increment value" type="button" class="@ButtonUpClassNames" style="@Styles?.ButtonUp" disabled="@( IsDisabled || ReadOnly )" @onclick="@OnSpinUpClicked">
+                <Icon Name="IconName.AngleUp" />
+            </button>
+            <button tabindex="-1" aria-label="Decrement value" type="button" class="@ButtonDownClassNames" style="@Styles?.ButtonDown" disabled="@( IsDisabled || ReadOnly )" @onclick="@OnSpinDownClicked">
+                <Icon Name="IconName.AngleDown" />
+            </button>
+        </span>
+    </span>
+}
+else
+{
+    @InputTemplate
+}
 @ChildContent
 @Feedback
+@code
+{
+    protected RenderFragment InputTemplate => __builder =>
+    {
+        <input @ref="@ElementRef" id="@ElementId" type="text" name="@NameAttributeValue" inputmode="@InputMode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@ReadOnly" size="@VisibleCharacters" step="@StepString" pattern="@Pattern" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+    };
+}

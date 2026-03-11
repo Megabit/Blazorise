@@ -1,5 +1,23 @@
-﻿@each $color-name, $color-value in $theme-colors-bg-subtle {
+@each $color-name, $color-value in $theme-colors-text-emphasis {
+    .bg-#{$color-name} {
+        background-color: #{$color-value} !important;
+    }
+}
+
+@each $color-name, $color-value in $theme-colors-bg-subtle {
     .bg-#{$color-name}-subtle {
         background-color: #{$color-value} !important;
     }
+}
+
+.bg-body {
+    background-color: var(--mui-background) !important;
+}
+
+.bg-white {
+    background-color: #fff !important;
+}
+
+.bg-transparent {
+    background-color: transparent !important;
 }

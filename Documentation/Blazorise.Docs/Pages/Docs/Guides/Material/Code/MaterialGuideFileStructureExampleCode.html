@@ -1,8 +1,26 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
-blazorproject.client/
-└── wwwroot/
-    ├── css/
-    └── js/
+/* wwwroot/app.css (load after Blazorise Material CSS) */
+:root {
+    --mui-primary: #6750a4;
+    --mui-on-primary: #ffffff;
+    --mui-primary-container: #eaddff;
+    --mui-on-primary-container: #21005d;
+    --mui-surface: #fffbff;
+    --mui-on-surface: #1c1b1f;
+    --mui-outline: #79747e;
+    --mui-spacing: 1rem;
+    --mui-font-family: &quot;Inter&quot;, &quot;Roboto&quot;, &quot;Helvetica Neue&quot;, Arial, sans-serif;
+}
+
+[data-theme=&quot;dark&quot;] {
+    --mui-primary: #d0bcff;
+    --mui-on-primary: #381e72;
+    --mui-primary-container: #4f378b;
+    --mui-on-primary-container: #eaddff;
+    --mui-surface: #141218;
+    --mui-on-surface: #e6e1e6;
+    --mui-outline: #938f99;
+}
 </pre></div>
 </div>

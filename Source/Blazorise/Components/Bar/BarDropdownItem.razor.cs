@@ -61,7 +61,11 @@ public partial class BarDropdownItem : BaseComponent
     {
         if ( !Disabled )
         {
-            if ( ParentBarDropdown is not null && ParentDropdownState.Mode == BarMode.Horizontal )
+            var shouldCloseDropdownOnClick
+                = ParentBarDropdown is not null
+                && ( ParentDropdownState.Mode == BarMode.Horizontal || !ParentDropdownState.IsInlineDisplay );
+
+            if ( shouldCloseDropdownOnClick )
             {
                 if ( !ParentBarDropdown.WasJustToggled )
                     await ParentBarDropdown.Hide( true );

@@ -1,4 +1,5 @@
-﻿#region Using directives
+#region Using directives
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -10,19 +11,52 @@ namespace Blazorise;
 /// </summary>
 public partial class BarIcon : BaseComponent
 {
+    #region Members
+
+    private BarState parentBarState;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( "b-bar-icon" );
+        BuildBarIconClasses( builder );
 
         base.BuildClasses( builder );
+    }
+
+    /// <summary>
+    /// Builds class names for bar icon.
+    /// </summary>
+    /// <param name="builder">Class builder.</param>
+    protected virtual void BuildBarIconClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.BarIcon( ParentBarState?.Mode ?? BarMode.Horizontal ) );
     }
 
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Cascaded <see cref="Bar"/> component state object.
+    /// </summary>
+    [CascadingParameter]
+    protected BarState ParentBarState
+    {
+        get => parentBarState;
+        set
+        {
+            if ( parentBarState == value )
+                return;
+
+            parentBarState = value;
+
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
     /// Icon name that can be either a string or <see cref="IconName"/>.

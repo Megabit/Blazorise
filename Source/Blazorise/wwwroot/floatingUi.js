@@ -9,6 +9,14 @@ const DIRECTION_START = 'Start'
 export function createFloatingUiAutoUpdate(targetElement, menuElement, options) {
     //https://floating-ui.com/docs/autoUpdate
     return autoUpdate(targetElement, menuElement, () => {
+        if (!shouldUseFloatingUi(options, menuElement)) {
+            menuElement.style.left = '';
+            menuElement.style.top = '';
+            menuElement.style.visibility = '';
+
+            return;
+        }
+
         computePosition(targetElement, menuElement, { //https://floating-ui.com/docs/computePosition#anchoring
             placement: getPlacementDirection(options.direction, options.endAligned), //https://floating-ui.com/docs/computePosition#placement
             strategy: options.strategy, //https://floating-ui.com/docs/computePosition#strategy
@@ -22,6 +30,15 @@ export function createFloatingUiAutoUpdate(targetElement, menuElement, options) 
             });
         });
     });
+}
+
+function shouldUseFloatingUi(options, menuElement) {
+    if (!options?.onlyWhenPositioned)
+        return true;
+
+    const position = getComputedStyle(menuElement).position;
+
+    return position === 'absolute' || position === 'fixed';
 }
 
 function getPlacementDirection(direction, endAligned) {

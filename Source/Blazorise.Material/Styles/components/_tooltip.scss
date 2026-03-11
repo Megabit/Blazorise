@@ -1,0 +1,59 @@
+.mui-tooltip {
+    &-inline {
+        display: inline-block;
+    }
+}
+
+[data-tippy-root] {
+    z-index: var(--mui-zindex-tooltip) !important;
+}
+
+.tippy-box[data-theme~='material'] {
+    --mui-tooltip-bg: color-mix(in srgb, var(--mui-on-surface) 92%, transparent);
+    --mui-tooltip-color: var(--mui-surface);
+    --mui-tooltip-radius: 0.25rem;
+    --mui-tooltip-padding-block: 0.3125rem;
+    --mui-tooltip-padding-inline: 0.625rem;
+    --mui-tooltip-font-size: 0.75rem;
+    --mui-tooltip-line-height: 1rem;
+    border-radius: var(--mui-tooltip-radius);
+    background-color: var(--mui-tooltip-bg);
+    color: var(--mui-tooltip-color);
+    box-shadow: var(--mui-elevate1);
+    font-family: var(--mui-font-family);
+    font-size: var(--mui-tooltip-font-size);
+    line-height: var(--mui-tooltip-line-height);
+    font-weight: 500;
+    letter-spacing: 0.025rem;
+    cursor: default;
+}
+
+.tippy-box[data-theme~='material'] > .tippy-content {
+    padding: var(--mui-tooltip-padding-block) var(--mui-tooltip-padding-inline);
+    overflow-wrap: anywhere;
+}
+
+.tippy-box[data-theme~='material'][data-placement^='top'] > .tippy-arrow::before {
+    border-top-color: var(--mui-tooltip-bg);
+}
+
+.tippy-box[data-theme~='material'][data-placement^='bottom'] > .tippy-arrow::before {
+    border-bottom-color: var(--mui-tooltip-bg);
+}
+
+.tippy-box[data-theme~='material'][data-placement^='left'] > .tippy-arrow::before {
+    border-left-color: var(--mui-tooltip-bg);
+}
+
+.tippy-box[data-theme~='material'][data-placement^='right'] > .tippy-arrow::before {
+    border-right-color: var(--mui-tooltip-bg);
+}
+
+.tippy-box[data-theme~='material'] > .tippy-svg-arrow {
+    fill: var(--mui-tooltip-bg);
+}
+
+.tippy-box[data-theme~='material'][data-animation='scale'][data-state='hidden'] {
+    transform: scale(0.92);
+    opacity: 0;
+}

@@ -44,4 +44,9 @@ public class DropdownJSOptions
     /// Gets or sets the strategy used to position the dropdown (e.g., "absolute", "fixed").
     /// </summary>
     public string Strategy { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether Floating UI should only be applied when the menu element is already positioned as <c>absolute</c> or <c>fixed</c>.
+    /// </summary>
+    public bool OnlyWhenPositioned { get; set; }
 }

@@ -13,7 +13,7 @@
     }
 </a>
 @code {
-    protected RenderFragment VerticalIconTemplate => __builder =>
+    protected virtual RenderFragment VerticalIconTemplate => __builder =>
     {
         <Span Flex="FlexAlignItemsCenterJustifyContentBetween" @onclick:stopPropagation="@ShouldStopToggleAreaPropagation">
             <Span>
@@ -24,7 +24,7 @@
             {
                 <Span Padding="PaddingIs2OnX">
                     <span @onclick="@OnToggleIconClicked" @onclick:stopPropagation="@ShouldStopIconClickPropagation" @onclick:preventDefault="@ShouldPreventDefaultOnIconClick">
-                        <Span Class="b-bar-dropdown-toggle-icon-container" Position="PositionRelative" Display="DisplayInlineFlex" Width="WidthRem1" Height="HeightRem1" Flex="FlexInlineFlexAlignItemsCenterJustifyContentCenter">
+                        <Span Class="@ToggleIconContainerClassNames" Position="PositionRelative" Display="DisplayInlineFlex" Width="WidthRem1" Height="HeightRem1" Flex="FlexInlineFlexAlignItemsCenterJustifyContentCenter">
                             <Span Class="@GetToggleIconLayerClass( true )" Position="PositionAbsoluteTopIs0StartIs0" Width="WidthIs100" Height="HeightIs100" Flex="FlexInlineFlexAlignItemsCenterJustifyContentCenter">
                                 <Icon Name="@ExpandedToggleIconName" IconSize="@ToggleIconSize" />
                             </Span>

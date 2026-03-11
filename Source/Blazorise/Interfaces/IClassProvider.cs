@@ -666,7 +666,11 @@ public interface IClassProvider
 
     string BarLinkDisabled( BarMode mode, bool disabled );
 
+    string BarIcon( BarMode mode );
+
     string BarBrand( BarMode mode );
+
+    string BarBrandToggler( BarMode mode );
 
     string BarToggler( BarMode mode, BarTogglerMode togglerMode );
 
@@ -689,6 +693,16 @@ public interface IClassProvider
     string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled );
 
     string BarDropdownToggleIcon( bool isToggleIconVisible );
+
+    string BarDropdownToggleIconContainer( BarMode mode );
+
+    string BarDropdownToggleIconLayer( BarMode mode );
+
+    string BarDropdownToggleIconLayerVisible( BarMode mode, bool visible );
+
+    string BarDropdownToggleIconLayerHiddenExpand( BarMode mode, bool hiddenExpand );
+
+    string BarDropdownToggleIconLayerHiddenCollapse( BarMode mode, bool hiddenCollapse );
 
     string BarDropdownItem( BarMode mode );
 
@@ -945,6 +959,16 @@ public interface IClassProvider
     string ProgressBarIndeterminate( bool indeterminate );
 
     string ProgressBarWidth( int width );
+
+    string PageProgress();
+
+    string PageProgressActive( bool visible );
+
+    string PageProgressIndicator();
+
+    string PageProgressIndicatorColor( Color color );
+
+    string PageProgressIndicatorIndeterminate( bool indeterminate );
 
     #endregion
 

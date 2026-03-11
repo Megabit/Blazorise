@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-11T11:42:26.2190765Z",
+  "generatedUtc": "2026-03-11T11:43:17.2195618Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -7453,6 +7453,12 @@
               "typeName": "KeyboardEventArgs"
             }
           ]
+        },
+        {
+          "name": "OnMenuPointerInteractionHandler",
+          "returnTypeName": "Task",
+          "summary": "Handles pointer interactions inside dropdown menu content.",
+          "parameters": []
         },
         {
           "name": "OnMouseEnterHandler",
@@ -22729,7 +22735,7 @@
           "name": "ShowHueSlider",
           "type": "bool",
           "typeName": "bool",
-          "defaultValue": "false",
+          "defaultValue": "true",
           "summary": "Controls the visibility of the hue slider.",
           "isBlazoriseEnum": false
         },
@@ -75678,6 +75684,15 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "SanitizedPasteOptions",
+          "type": "global::Blazorise.RichTextEdit.RichTextEditSanitizedPasteOptions",
+          "typeName": "RichTextEditSanitizedPasteOptions",
+          "defaultValue": "null",
+          "summary": "Options used to configure sanitized paste functionality.",
+          "remarks": "When this parameter is explicitly defined, it has priority over globally configured <strong>SanitizedPasteOptions</strong>.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Shadow",
           "type": "global::Blazorise.Shadow",
           "typeName": "Shadow",
@@ -75811,6 +75826,25 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "Indicates whether resizing functionality should be enabled.",
+          "remarks": "When this parameter is explicitly defined, it has priority over globally configured <strong>UseResize</strong>.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "UseSanitizedPaste",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Indicates whether sanitized paste functionality should be enabled.",
+          "remarks": "When this parameter is explicitly defined, it has priority over globally configured <strong>UseSanitizedPaste</strong>.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "UseTables",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Indicates whether table functionality should be enabled.",
+          "remarks": "When this parameter is explicitly defined, it has priority over globally configured <strong>UseTables</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -76148,6 +76182,14 @@
       "summary": "$\"\"\"\r\n       Blazorise RichTextEdit extension options\r\n       \"\"\"",
       "parameters": [
         {
+          "name": "SanitizedPasteOptions",
+          "type": "global::Blazorise.RichTextEdit.RichTextEditSanitizedPasteOptions",
+          "typeName": "RichTextEditSanitizedPasteOptions",
+          "defaultValue": "new()",
+          "summary": "Options used to configure sanitized paste behavior.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "UseBubbleTheme",
           "type": "bool",
           "typeName": "bool",
@@ -76164,6 +76206,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "UseSanitizedPaste",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "If true enables sanitized paste support powered by the quill-paste-smart clipboard module.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "UseSnowTheme",
           "type": "bool",
           "typeName": "bool",
@@ -76177,6 +76227,63 @@
           "typeName": "bool",
           "defaultValue": "false",
           "summary": "If true enables the QuillJs table module. Please be aware that this module is not part of the core QuillJs library, and it is still experimental.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [],
+      "methods": []
+    },
+    {
+      "type": "global::Blazorise.RichTextEdit.RichTextEditSanitizedPasteOptions",
+      "typeName": "RichTextEditSanitizedPasteOptions",
+      "summary": "$\"\"\"\r\n       Represents options used to configure sanitized paste behavior.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "AllowedAttributes",
+          "type": "IEnumerable<>",
+          "typeName": "IEnumerable<string>",
+          "defaultValue": "null",
+          "summary": "Gets or sets the list of allowed HTML attributes.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "AllowedTags",
+          "type": "IEnumerable<>",
+          "typeName": "IEnumerable<string>",
+          "defaultValue": "null",
+          "summary": "Gets or sets the list of allowed HTML tags.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "KeepSelection",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Gets or sets a value indicating whether pasted content should preserve the current selection.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "MagicPasteLinks",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Gets or sets a value indicating whether plain URL text should be converted into links when pasting.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "RemoveConsecutiveSubstitutionTags",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Gets or sets a value indicating whether consecutive substitution tags should be collapsed.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "SubstituteBlockElements",
+          "type": "bool?",
+          "typeName": "bool?",
+          "defaultValue": "null",
+          "summary": "Gets or sets a value indicating whether block-level elements should be substituted when needed.",
           "isBlazoriseEnum": false
         }
       ],
