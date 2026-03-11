@@ -460,13 +460,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Gets or sets the service provider.
     /// </summary>
-    [Inject] public IServiceProvider ServiceProvider { get; set; }
-
-    /// <summary>
-    /// Gets the optional <see cref="IDropdownCoordinator"/> instance.
-    /// </summary>
-    private IDropdownCoordinator DropdownCoordinator
-        => ServiceProvider?.GetService( typeof( IDropdownCoordinator ) ) as IDropdownCoordinator;
+    [Inject] public IDropdownCoordinator DropdownCoordinator { get; set; }
 
     /// <summary>
     /// If true, a dropdown menu will be visible.

@@ -4773,6 +4773,16 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
   }
 }";
 
+        public const string McpGitHubServerEntryExample = @"{
+  ""blazorise-docs"": {
+    ""type"": ""http"",
+    ""url"": ""https://mcp.blazorise.com/mcp"",
+    ""tools"": [
+      ""search_docs""
+    ]
+  }
+}";
+
         public const string MigrationAnalyzeCommandExample = @"blazorise-migrate analyze [--path <path>] [--json <file>] [--all-projects] [--verbose]";
 
         public const string MigrationExamplesExample = @"blazorise-migrate analyze --path C:\src\MyApp.sln
@@ -11674,6 +11684,23 @@ builder.Services
     private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
 }";
 
+        public const string TransferListCaptionsExample = @"<TransferList TItem=""string""
+              Items=""@list""
+              ValueField=""item => item""
+              TextField=""item => item""
+              ShowCaptions>
+    <StartCaptionTemplate>
+        <Heading4>In Stock</Heading4>
+    </StartCaptionTemplate>
+    <EndCaptionTemplate>
+        <Heading4>Checkout</Heading4>
+    </EndCaptionTemplate>
+</TransferList>
+
+@code {
+    private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
+}";
+
         public const string TransferListCustomItemTemplatesExample = @"<TransferList TItem=""string""
               Items=""@list""
               SelectionMode=""ListGroupSelectionMode.Single""
@@ -11722,7 +11749,7 @@ builder.Services
 
 @code {
     private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
-    private List<string> listStart = new List<string> {""Cherry"", ""Strawberry"" };
+    private List<string> listStart = new List<string> { ""Cherry"", ""Strawberry"" };
     private List<string> listEnd;
 
 }";
@@ -11745,16 +11772,16 @@ builder.Services
               Items=""@list""
               SelectionMode=""ListGroupSelectionMode.Single""
               Mode=""ListGroupMode.Selectable""
-                Scrollable
-               MaxHeight=""500px""
-               ShowMoveAll=false
-               @bind-ItemsStart=@listStart
-               @bind-ItemsEnd=@listEnd
-               ValueField=""item => item""
-               TextField=""item => item"">
- </TransferList>
+              Scrollable
+              MaxHeight=""500px""
+              ShowMoveAll=false
+              @bind-ItemsStart=@listStart
+              @bind-ItemsEnd=@listEnd
+              ValueField=""item => item""
+              TextField=""item => item"">
+</TransferList>
 
- @code {
+@code {
     private List<string> list = new List<string> {
         ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"",
         ""Watermelon"", ""Pineapple"", ""Mango"", ""Blueberry"", ""Raspberry"",
@@ -12398,12 +12425,12 @@ builder.Services
 <!-- Optional: Material icons webfont (recommended when using Blazorise.Icons.Material) -->
 <link href=""https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=2.0.0.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Material/blazorise.material.css?v=2.0.0.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.0.0.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise/blazorise.css?v=2.0.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Material/blazorise.material.css?v=2.0.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.0.2.0"" rel=""stylesheet"" />
 
 <!-- Before </body> (before the Blazor framework script) -->
-<script src=""_content/Blazorise.Material/blazorise.material.js?v=2.0.0.0""></script>";
+<script src=""_content/Blazorise.Material/blazorise.material.js?v=2.0.2.0""></script>";
 
         public const string MaterialGuideUsingExample = @"@using Blazorise";
 

@@ -42,6 +42,17 @@ public partial class MemoInput : BaseBufferedTextInput<string, MemoInputClasses,
     #region Methods
 
     /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        if ( ParentModal is not null )
+        {
+            ParentModal._Opened += OnModalOpened;
+        }
+
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
     protected override void CaptureParameters( ParameterView parameters )
     {
         base.CaptureParameters( parameters );
@@ -112,9 +123,17 @@ public partial class MemoInput : BaseBufferedTextInput<string, MemoInputClasses,
     /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
     {
-        if ( disposing && Rendered )
+        if ( disposing )
         {
-            await JSModule.SafeDestroy( ElementRef, ElementId );
+            if ( ParentModal is not null )
+            {
+                ParentModal._Opened -= OnModalOpened;
+            }
+
+            if ( Rendered )
+            {
+                await JSModule.SafeDestroy( ElementRef, ElementId );
+            }
         }
 
         await base.DisposeAsync( disposing );
@@ -183,6 +202,13 @@ public partial class MemoInput : BaseBufferedTextInput<string, MemoInputClasses,
         return base.OnBlurHandler( eventArgs );
     }
 
+    private void OnModalOpened()
+    {
+        ExecuteAfterRender( async () => await JSModule.RefreshDisplay( ElementRef, ElementId ) );
+
+        _ = InvokeAsync( StateHasChanged );
+    }
+
     #endregion
 
     #region Properties
@@ -194,6 +220,11 @@ public partial class MemoInput : BaseBufferedTextInput<string, MemoInputClasses,
     /// Gets or sets the <see cref="IJSMemoInputModule"/> instance.
     /// </summary>
     [Inject] public IJSMemoInputModule JSModule { get; set; }
+
+    /// <summary>
+    /// Gets or sets the reference to the parent <see cref="Modal"/> component.
+    /// </summary>
+    [CascadingParameter] protected Modal ParentModal { get; set; }
 
     /// <summary>
     /// Specifies the maximum number of characters allowed in the input element.

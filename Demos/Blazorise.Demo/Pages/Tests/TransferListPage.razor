@@ -24,6 +24,11 @@
                             Move All
                         </Switch>
                     </Field>
+                    <Field>
+                        <Switch @bind-Value="@showCaptions">
+                            Show Captions
+                        </Switch>
+                    </Field>
                 </Fields>
             </CardBody>
             <CardBody Height="Height.Max100">
@@ -38,6 +43,9 @@
                               ShowMoveAll="@moveAll"
                               MaxHeight="@maxHeight"
                               Scrollable=@scrollable
+                              StartCaption="In Store"
+                              EndCaption="My Cart"
+                              ShowCaptions="@showCaptions"
                               ValueField="@(item => item)"
                               TextField="@(item => item)">
                     <ItemStartTemplate>
@@ -64,33 +72,33 @@
                         <FieldLabel>Items</FieldLabel>
                         <FieldBody>
                             <TextInput ReadOnly Value="@(listStart != null ? string.Join( ',', listStart ) : "")"></TextInput>
-                         </FieldBody>
-                     </Field>
-                 </Fields>
-             </CardBody>
-         </Card>
-     </Column>
-     <Column ColumnSize="ColumnSize.Is6">
-         <Card>
-             <CardHeader>
-                 <CardTitle>List 2</CardTitle>
-             </CardHeader>
-             <CardBody>
-                 <Fields>
-                     <Field>
-                         <FieldLabel>Items</FieldLabel>
-                         <FieldBody>
+                        </FieldBody>
+                    </Field>
+                </Fields>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is6">
+        <Card>
+            <CardHeader>
+                <CardTitle>List 2</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Fields>
+                    <Field>
+                        <FieldLabel>Items</FieldLabel>
+                        <FieldBody>
                             <TextInput ReadOnly Value="@(listEnd != null ? string.Join( ',', listEnd ) : "")"></TextInput>
-                         </FieldBody>
-                     </Field>
-                 </Fields>
-             </CardBody>
-         </Card>
-     </Column>
- </Row>
+                        </FieldBody>
+                    </Field>
+                </Fields>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
 
 
- @code {
+@code {
     private RenderFragment<ItemContext<string>> transferListItemContent => item => __builder =>
         {
             <Card Background=Background.Info Shadow="Shadow.Default">
@@ -113,4 +121,5 @@
     private bool scrollable = false;
     private bool multipleMode = true;
     private bool moveAll = true;
+    private bool showCaptions = true;
 }
