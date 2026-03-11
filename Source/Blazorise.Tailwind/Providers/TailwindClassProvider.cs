@@ -319,7 +319,7 @@ public class TailwindClassProvider : ClassProvider
     {
         if ( !rangeSlider )
         {
-            return "w-full h-2 rounded-lg cursor-pointer bg-gray-200 accent-blue-600 dark:accent-blue-500 dark:bg-gray-700";
+            return "tw-slider w-full h-2 rounded-lg cursor-pointer bg-gray-200 accent-blue-600 dark:accent-blue-500 dark:bg-gray-700";
         }
 
         string layoutClasses = rangeSlider

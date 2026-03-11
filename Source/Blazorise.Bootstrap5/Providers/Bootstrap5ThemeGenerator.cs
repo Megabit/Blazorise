@@ -512,6 +512,11 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
                 .Append( $"background-color: {ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 70f ) )};" )
                 .AppendLine( "}" );
         }
+
+        if ( !string.IsNullOrEmpty( options?.SliderColor ) )
+        {
+            GenerateInputSliderStyles( sb, theme, options );
+        }
     }
 
     protected virtual void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
@@ -530,6 +535,77 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
             .Append( ".form-check-input:checked" ).Append( "{" )
             .Append( $"background-color: {options.CheckColor};" )
             .Append( $"border-color: {options.CheckColor};" )
+            .AppendLine( "}" );
+    }
+
+    protected virtual void GenerateInputSliderStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
+    {
+        _ = theme;
+
+        if ( string.IsNullOrEmpty( options?.SliderColor ) )
+            return;
+
+        var activeSliderColor = ToHex( Lighten( options.SliderColor, 70f ) );
+        var focusColor = ToHex( Lighten( options.SliderColor, 75f ) );
+
+        sb.Append( ".form-range" ).Append( "{" )
+            .Append( $"accent-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".form-range::-webkit-slider-thumb" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".form-range:focus::-webkit-slider-thumb" ).Append( "{" )
+            .Append( $"box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem {focusColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".form-range::-webkit-slider-thumb:active" ).Append( "{" )
+            .Append( $"background-color: {activeSliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".form-range::-moz-range-thumb" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".form-range:focus::-moz-range-thumb" ).Append( "{" )
+            .Append( $"box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem {focusColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".form-range::-moz-range-thumb:active" ).Append( "{" )
+            .Append( $"background-color: {activeSliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".range-slider > .range-slider-range" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".range-slider > .range-slider-input" ).Append( "{" )
+            .Append( $"accent-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".range-slider > .range-slider-input::-webkit-slider-thumb" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".range-slider > .range-slider-input:focus::-webkit-slider-thumb" ).Append( "{" )
+            .Append( $"box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem {focusColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".range-slider > .range-slider-input::-webkit-slider-thumb:active" ).Append( "{" )
+            .Append( $"background-color: {activeSliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".range-slider > .range-slider-input::-moz-range-thumb" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".range-slider > .range-slider-input:focus::-moz-range-thumb" ).Append( "{" )
+            .Append( $"box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem {focusColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".range-slider > .range-slider-input::-moz-range-thumb:active" ).Append( "{" )
+            .Append( $"background-color: {activeSliderColor};" )
             .AppendLine( "}" );
     }
 

@@ -447,6 +447,11 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
     protected override void GenerateDropdownStyles( StringBuilder sb, Theme theme, ThemeDropdownOptions options ) { }
     protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
+        if ( !string.IsNullOrEmpty( options?.SliderColor ) )
+        {
+            GenerateInputSliderStyles( sb, theme, options );
+        }
+
         var validationSuccessColor = Var( ThemeVariables.Color( "success" ) );
         var validationDangerColor = Var( ThemeVariables.Color( "danger" ) );
 
@@ -519,6 +524,26 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
                 .Append( $"color: {validationDangerColor};" )
                 .AppendLine( "}" );
         }
+    }
+
+    protected virtual void GenerateInputSliderStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
+    {
+        _ = theme;
+
+        if ( string.IsNullOrEmpty( options?.SliderColor ) )
+            return;
+
+        sb.Append( ".fui-RangeSlider > .fui-RangeSlider__rail-container > .fui-RangeSlider__range" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".fui-RangeSlider > .fui-RangeSlider__input::-webkit-slider-thumb" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".fui-RangeSlider > .fui-RangeSlider__input::-moz-range-thumb" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
     }
     protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor ) { }
     protected override void GenerateBadgeVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor ) { }

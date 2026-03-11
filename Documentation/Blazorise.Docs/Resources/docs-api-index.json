@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-09T08:11:04.1410194Z",
+  "generatedUtc": "2026-03-11T08:34:43.9213870Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -74139,6 +74139,15 @@
       "searchUrl": "docs/components/range-slider",
       "parameters": [
         {
+          "name": "AllowEqualValues",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Specifies whether both handles can point to the same value.",
+          "remarks": "When set to <code>false</code> and <strong>ClampToOtherHandle</strong> is enabled, the handles keep at least one <strong>Step</strong> between them.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "AriaDescribedBy",
           "type": "string",
           "typeName": "string",
@@ -74203,6 +74212,15 @@
           "typeName": "RenderFragment",
           "defaultValue": "null",
           "summary": "Specifies the content to be rendered inside this <strong>RangeSlider</strong>.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ClampToOtherHandle",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Specifies whether the active handle should stop at the other handle while dragging.",
+          "remarks": "When set to <code>true</code>, the active handle is clamped to the other handle instead of swapping positions.",
           "isBlazoriseEnum": false
         },
         {
