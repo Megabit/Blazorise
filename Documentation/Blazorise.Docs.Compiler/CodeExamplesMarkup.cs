@@ -70,7 +70,7 @@ public class CodeExamplesMarkup
 
                 if ( File.Exists( markupPath ) )
                 {
-                    currentCode = File.ReadAllText( markupPath );
+                    currentCode = File.ReadAllText( markupPath ).NormalizeGeneratedText();
                 }
 
                 builtCode = new MarkupBuilder( formatter ).Build( source, isCSharp ? "cs" : null );

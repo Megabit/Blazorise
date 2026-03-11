@@ -33,7 +33,7 @@ public class MarkupBuilder
                 .Replace( "@", "<span class=\"atSign\">&#64;</span>" );
             html = PreserveIndentation( html, strippedSource );
 
-            cb.AddLine( html.ToLfLineEndings() );
+            cb.AddLine( html.ToCrLfLineEndings() );
 
             cb.AddLine( "</div>" );
         }
@@ -45,7 +45,7 @@ public class MarkupBuilder
                 .Replace( "@", "<span class=\"atSign\">&#64;</span>" );
             html = PreserveIndentation( html, strippedSource );
 
-            cb.AddLine( html.ToLfLineEndings() );
+            cb.AddLine( html.ToCrLfLineEndings() );
 
             cb.AddLine( "</div>" );
         }
@@ -57,7 +57,7 @@ public class MarkupBuilder
                 .Replace( "@", "<span class=\"atSign\">&#64;</span>" );
             html = PreserveIndentation( html, strippedSource );
 
-            cb.AddLine( html.ToLfLineEndings() );
+            cb.AddLine( html.ToCrLfLineEndings() );
 
             cb.AddLine( "</div>" );
         }
@@ -75,7 +75,7 @@ public class MarkupBuilder
             html = PreserveIndentation( html, blocks0 );
 
             cb.AddLine( "<div class=\"blazorise-codeblock\">" );
-            cb.AddLine( html.ToLfLineEndings() );
+            cb.AddLine( html.ToCrLfLineEndings() );
 
             if ( blocks.Length == 2 )
             {
@@ -84,18 +84,18 @@ public class MarkupBuilder
                     .Replace( "@", "<span class=\"atSign\">&#64;</span>" );
                 codeHtml = PreserveIndentation( codeHtml, codeSource );
 
-                cb.AddLine( codeHtml.ToLfLineEndings() );
+                cb.AddLine( codeHtml.ToCrLfLineEndings() );
             }
 
             cb.AddLine( "</div>" );
         }
 
-        return cb.ToString();
+        return cb.ToString().NormalizeGeneratedText();
     }
 
     private static string StripComponentSource( string source )
     {
-        source = Regex.Replace( source, "@(namespace|layout|page) .+?\n", string.Empty );
+        source = Regex.Replace( source, "@(namespace|layout|page) .+?\r?\n", string.Empty );
         return source.Trim();
     }
 
@@ -135,7 +135,7 @@ public class MarkupBuilder
             }
         }
 
-        return string.Join( "\n", htmlLines );
+        return string.Join( StringExtensions.Lf, htmlLines );
     }
 
     private static int GetIndentSize( string line )
