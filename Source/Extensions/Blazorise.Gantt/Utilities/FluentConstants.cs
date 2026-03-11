@@ -34,7 +34,9 @@ internal static class FluentConstants
     internal static readonly IFluentSpacing MarginIs2OnX = Margin.Is2.OnX;
     internal static readonly IFluentSpacing MarginIs2FromBottom = Margin.Is2.FromBottom;
     internal static readonly IFluentSpacing MarginIs1OnXIsAutoFromStart = Margin.Is1.OnX.IsAuto.FromStart;
+    internal static readonly IFluentSpacing MarginIs1OnXIsAutoFromStartIs0FromBottom = Margin.Is1.OnX.IsAuto.FromStart.Is0.FromBottom;
     internal static readonly IFluentSpacing MarginIs2FromEnd = Margin.Is2.FromEnd;
+    internal static readonly IFluentSpacing MarginIs2FromEndIs0FromBottom = Margin.Is2.FromEnd.Is0.FromBottom;
     internal static readonly IFluentSpacing PaddingIs2 = Padding.Is2;
     internal static readonly IFluentSpacing PaddingIs0OnX = Padding.Is0.OnX;
     internal static readonly IFluentSpacing PaddingIs1OnX = Padding.Is1.OnX;
