@@ -29,7 +29,7 @@ public class CodeBuilder
 
     public void AddLine()
     {
-        code.Append( '\n' );
+        code.Append( StringExtensions.CrLf );
     }
 
     public void AddLine( string codeLine )

@@ -19,7 +19,7 @@ public class CodeSnippets
 
             if ( File.Exists( Paths.SnippetsFilePath() ) )
             {
-                currentCode = File.ReadAllText( Paths.SnippetsFilePath() );
+                currentCode = File.ReadAllText( Paths.SnippetsFilePath() ).NormalizeGeneratedText();
             }
 
             var cb = new CodeBuilder();
@@ -42,7 +42,8 @@ public class CodeSnippets
                 var componentName = Path.GetFileNameWithoutExtension( filename );
                 if ( !componentName.Contains( Paths.ExampleDiscriminator ) )
                     continue;
-                cb.AddLine( $"public const string {componentName} = @\"{EscapeComponentSource( entry )}\";\n" );
+                cb.AddLine( $"public const string {componentName} = @\"{EscapeComponentSource( entry )}\";" );
+                cb.AddLine();
             }
 
             cb.IndentLevel--;
@@ -50,9 +51,11 @@ public class CodeSnippets
             cb.IndentLevel--;
             cb.AddLine( "}" );
 
-            if ( currentCode != cb.ToString() )
+            var builtCode = cb.ToString().NormalizeGeneratedText();
+
+            if ( currentCode != builtCode )
             {
-                File.WriteAllText( Paths.SnippetsFilePath(), cb.ToString() );
+                File.WriteAllText( Paths.SnippetsFilePath(), builtCode );
             }
         }
         catch ( Exception e )
@@ -67,7 +70,7 @@ public class CodeSnippets
     private static string EscapeComponentSource( string path )
     {
         var source = File.ReadAllText( path, Encoding.UTF8 );
-        source = Regex.Replace( source, "@(namespace|layout|page) .+?\n", string.Empty );
-        return source.Replace( "\"", "\"\"" ).Trim();
+        source = Regex.Replace( source, "@(namespace|layout|page) .+?\r?\n", string.Empty );
+        return source.Replace( "\"", "\"\"" ).Trim().ToCrLfLineEndings();
     }
 }
