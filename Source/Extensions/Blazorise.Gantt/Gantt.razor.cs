@@ -45,8 +45,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private readonly HashSet<string> collapsedNodeKeys = new( StringComparer.Ordinal );
     private readonly List<BaseGanttColumn<TItem>> columns = new();
-    private readonly Dictionary<BaseGanttColumn<TItem>, bool> columnVisibility = new();
-    private readonly Dictionary<BaseGanttColumn<TItem>, IFluentSizing> columnWidthOverrides = new();
+    private readonly Dictionary<BaseGanttColumn<TItem>, GanttDeclarativeColumnState> declarativeColumnStates = new();
 
     private GanttToolbar<TItem> ganttToolbar;
     private GanttDayView<TItem> ganttDayView;
@@ -106,8 +105,6 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private int barDragSlotOffset;
     private int barDragMaxSlotOffset;
     private int nextColumnId;
-    private readonly Dictionary<BaseGanttColumn<TItem>, string> columnKeys = new();
-    private readonly Dictionary<string, int> columnDisplayOrders = new( StringComparer.Ordinal );
     private readonly List<string> legacyColumnOrder = new();
     private FluentUnitValue treeListWidthOverride;
     private bool applyingState;
@@ -322,8 +319,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             return;
 
         columns.Add( column );
-        columnVisibility[column] = column.Visible;
-        columnKeys[column] = $"column-{( ++nextColumnId ).ToString( CultureInfo.InvariantCulture )}";
+        EnsureDeclarativeColumnState( column );
         EnsureAtLeastOneDeclarativeColumnVisible();
 
         _ = InvokeAsync( StateHasChanged );
@@ -334,12 +330,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( column is null )
             return false;
 
-        if ( columnKeys.TryGetValue( column, out var key ) && !string.IsNullOrWhiteSpace( key ) )
-            columnDisplayOrders.Remove( key );
-
-        columnVisibility.Remove( column );
-        columnWidthOverrides.Remove( column );
-        columnKeys.Remove( column );
+        declarativeColumnStates.Remove( column );
 
         var removed = columns.Remove( column );
 
@@ -1184,7 +1175,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             if ( targetColumn is null )
                 return;
 
-            columnVisibility[targetColumn] = args.Visible;
+            EnsureDeclarativeColumnState( targetColumn ).Visible = args.Visible;
             EnsureAtLeastOneDeclarativeColumnVisible();
 
             await InvokeAsync( StateHasChanged );
@@ -1294,15 +1285,13 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private void ApplyColumnStates( IReadOnlyList<GanttColumnState> columnStates )
     {
-        columnDisplayOrders.Clear();
         legacyColumnOrder.Clear();
 
         if ( columns.Count > 0 )
         {
             foreach ( var column in columns )
             {
-                if ( !columnVisibility.ContainsKey( column ) )
-                    columnVisibility[column] = column.Visible;
+                EnsureDeclarativeColumnState( column ).DisplayOrder = null;
             }
 
             if ( columnStates.IsNullOrEmpty() )
@@ -1325,11 +1314,13 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
                 if ( string.IsNullOrWhiteSpace( key ) )
                     continue;
 
-                columnVisibility[column] = columnState.Visible;
-                columnDisplayOrders[key] = columnState.DisplayOrder;
+                var declarativeColumnState = EnsureDeclarativeColumnState( column );
+
+                declarativeColumnState.Visible = columnState.Visible;
+                declarativeColumnState.DisplayOrder = columnState.DisplayOrder;
 
                 if ( TryBuildColumnWidth( columnState?.Width, out var restoredWidth ) )
-                    columnWidthOverrides[column] = restoredWidth;
+                    declarativeColumnState.WidthOverride = restoredWidth;
 
                 matchedColumnsCount++;
             }
@@ -1492,14 +1483,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private int GetColumnDisplayOrder( BaseGanttColumn<TItem> column, int fallbackOrder )
     {
-        var key = GetColumnKey( column );
+        var declarativeColumnState = GetDeclarativeColumnState( column );
 
-        if ( string.IsNullOrWhiteSpace( key ) )
-            return fallbackOrder;
-
-        return columnDisplayOrders.TryGetValue( key, out var order )
-            ? order
-            : fallbackOrder;
+        return declarativeColumnState?.DisplayOrder ?? fallbackOrder;
     }
 
     private int GetLegacyDisplayOrder( string key, int fallbackOrder )
@@ -2752,32 +2738,48 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private string GetColumnKey( BaseGanttColumn<TItem> column )
     {
-        if ( column is null )
-            return string.Empty;
-
-        return columnKeys.TryGetValue( column, out var key )
-            ? key
-            : string.Empty;
+        return GetDeclarativeColumnState( column )?.Key ?? string.Empty;
     }
 
     private bool IsColumnVisible( BaseGanttColumn<TItem> column )
     {
-        if ( column is null )
-            return false;
-
-        return columnVisibility.TryGetValue( column, out var visible )
-            ? visible
-            : column.Visible;
+        return GetDeclarativeColumnState( column )?.Visible ?? column?.Visible ?? false;
     }
 
     private IFluentSizing GetColumnWidth( BaseGanttColumn<TItem> column )
     {
+        return GetDeclarativeColumnState( column )?.WidthOverride ?? column?.Width;
+    }
+
+    private GanttDeclarativeColumnState GetDeclarativeColumnState( BaseGanttColumn<TItem> column )
+    {
         if ( column is null )
             return null;
 
-        return columnWidthOverrides.TryGetValue( column, out var widthOverride ) && widthOverride is not null
-            ? widthOverride
-            : column.Width;
+        declarativeColumnStates.TryGetValue( column, out var declarativeColumnState );
+
+        return declarativeColumnState;
+    }
+
+    private GanttDeclarativeColumnState EnsureDeclarativeColumnState( BaseGanttColumn<TItem> column )
+    {
+        if ( column is null )
+            return null;
+
+        var declarativeColumnState = GetDeclarativeColumnState( column );
+
+        if ( declarativeColumnState is not null )
+            return declarativeColumnState;
+
+        declarativeColumnState = new()
+        {
+            Key = $"column-{( ++nextColumnId ).ToString( CultureInfo.InvariantCulture )}",
+            Visible = column.Visible,
+        };
+
+        declarativeColumnStates[column] = declarativeColumnState;
+
+        return declarativeColumnState;
     }
 
     private void EnsureAtLeastOneDeclarativeColumnVisible()
@@ -2793,7 +2795,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( regularColumns.Any( IsColumnVisible ) )
             return;
 
-        columnVisibility[regularColumns[0]] = true;
+        EnsureDeclarativeColumnState( regularColumns[0] ).Visible = true;
     }
 
     private string GetColumnHeaderText( BaseGanttColumn<TItem> column )
@@ -4416,6 +4418,17 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     #endregion
 
     #region Data structures
+
+    private sealed class GanttDeclarativeColumnState
+    {
+        public string Key { get; init; }
+
+        public bool Visible { get; set; }
+
+        public int? DisplayOrder { get; set; }
+
+        public IFluentSizing WidthOverride { get; set; }
+    }
 
     private sealed class GanttRenderColumn
     {
