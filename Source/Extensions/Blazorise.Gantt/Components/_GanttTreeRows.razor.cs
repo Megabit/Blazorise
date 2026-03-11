@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise.Gantt.Components;
 
+/// <summary>
+/// Internal tree rows host used by the Gantt component.
+/// </summary>
 public partial class _GanttTreeRows : BaseComponent
 {
     #region Members
@@ -17,6 +20,10 @@ public partial class _GanttTreeRows : BaseComponent
 
     #region Methods
 
+    /// <summary>
+    /// Moves keyboard focus to the tree rows host.
+    /// </summary>
+    /// <returns>A task that completes when the focus request has been issued.</returns>
     public Task FocusAsync()
     {
         if ( treeRowsRef is null )
@@ -37,6 +44,9 @@ public partial class _GanttTreeRows : BaseComponent
 
     #region Properties
 
+    /// <summary>
+    /// Gets or sets the content rendered inside the tree rows host.
+    /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>

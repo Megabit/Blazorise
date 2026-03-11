@@ -1764,6 +1764,11 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             await JSModule.BarDragStarted( eventArgs.ClientX );
     }
 
+    /// <summary>
+    /// Receives JavaScript drag-move notifications for the active timeline item drag operation.
+    /// </summary>
+    /// <param name="clientX">The current client X coordinate.</param>
+    /// <returns>A task that completes after the drag state has been updated.</returns>
     [JSInvokable]
     public Task NotifyBarDragMouseMove( double clientX )
     {
@@ -1773,6 +1778,12 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         return InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Receives JavaScript drag-end notifications for the active timeline item drag operation.
+    /// </summary>
+    /// <param name="clientX">The final client X coordinate.</param>
+    /// <param name="dragged">Indicates whether the item was actually dragged.</param>
+    /// <returns>A task that completes after the drag operation has been finalized.</returns>
     [JSInvokable]
     public Task NotifyBarDragMouseUp( double clientX, bool dragged )
     {

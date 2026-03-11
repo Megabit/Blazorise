@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Gantt.Components;
 
+/// <summary>
+/// Internal timeline row container used by the Gantt component.
+/// </summary>
 public partial class _GanttTimeRow : BaseComponent
 {
     #region Methods
@@ -21,6 +24,9 @@ public partial class _GanttTimeRow : BaseComponent
 
     #region Properties
 
+    /// <summary>
+    /// Gets or sets the content rendered inside the timeline row.
+    /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion

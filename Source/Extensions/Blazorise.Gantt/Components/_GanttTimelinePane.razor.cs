@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Gantt.Components;
 
+/// <summary>
+/// Internal timeline pane container used by the Gantt component.
+/// </summary>
 public partial class _GanttTimelinePane : BaseComponent
 {
     #region Methods
@@ -21,6 +24,9 @@ public partial class _GanttTimelinePane : BaseComponent
 
     #region Properties
 
+    /// <summary>
+    /// Gets or sets the content rendered inside the timeline pane.
+    /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion

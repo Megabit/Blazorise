@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Gantt.Components;
 
+/// <summary>
+/// Internal tree row renderer used by the Gantt component.
+/// </summary>
 public partial class _GanttTreeRow : BaseComponent
 {
     #region Methods
@@ -37,6 +40,9 @@ public partial class _GanttTreeRow : BaseComponent
     /// </summary>
     [Parameter] public bool Selected { get; set; }
 
+    /// <summary>
+    /// Gets or sets the content rendered inside the tree row.
+    /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion

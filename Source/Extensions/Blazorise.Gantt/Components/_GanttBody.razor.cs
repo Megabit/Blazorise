@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Gantt.Components;
 
+/// <summary>
+/// Internal body container used by the Gantt component.
+/// </summary>
 public partial class _GanttBody : BaseComponent
 {
     #region Methods
@@ -21,6 +24,9 @@ public partial class _GanttBody : BaseComponent
 
     #region Properties
 
+    /// <summary>
+    /// Gets or sets the content rendered inside the body container.
+    /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion

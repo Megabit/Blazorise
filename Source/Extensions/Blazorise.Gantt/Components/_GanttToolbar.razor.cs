@@ -112,18 +112,39 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
 
     private bool ShowViewButtons => ShowDayViewButton || ShowWeekViewButton || ShowMonthViewButton || ShowYearViewButton;
 
+    /// <summary>
+    /// Gets the text localizer used for toolbar labels.
+    /// </summary>
     [Inject] protected ITextLocalizer<Gantt<TItem>> Localizer { get; set; }
 
+    /// <summary>
+    /// Gets the localization service used to react to culture changes.
+    /// </summary>
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
+    /// <summary>
+    /// Gets the parent Gantt component.
+    /// </summary>
     [CascadingParameter] public Gantt<TItem> Gantt { get; set; }
 
+    /// <summary>
+    /// Gets or sets the currently displayed date.
+    /// </summary>
     [Parameter] public DateOnly SelectedDate { get; set; }
 
+    /// <summary>
+    /// Gets or sets the currently selected Gantt view.
+    /// </summary>
     [Parameter] public GanttView SelectedView { get; set; }
 
+    /// <summary>
+    /// Gets or sets the first day of the week used for range calculations.
+    /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
 
+    /// <summary>
+    /// Gets or sets the current search text.
+    /// </summary>
     [Parameter] public string SearchText { get; set; }
 
     /// <summary>
@@ -131,6 +152,9 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
     /// </summary>
     [Parameter] public double SearchInputWidth { get; set; } = 220d;
 
+    /// <summary>
+    /// Gets or sets the column picker entries shown in the toolbar.
+    /// </summary>
     [Parameter] public IReadOnlyList<GanttColumnPickerItem> ColumnPickerItems { get; set; } = Array.Empty<GanttColumnPickerItem>();
 
     /// <summary>
@@ -138,38 +162,89 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
     /// </summary>
     [Parameter] public bool ShowAddTaskButton { get; set; } = true;
 
+    /// <summary>
+    /// Gets or sets whether expand-all and collapse-all commands are visible.
+    /// </summary>
     [Parameter] public bool ShowToggleAllCommands { get; set; } = true;
 
+    /// <summary>
+    /// Gets or sets whether the day view button is visible.
+    /// </summary>
     [Parameter] public bool ShowDayViewButton { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether the week view button is visible.
+    /// </summary>
     [Parameter] public bool ShowWeekViewButton { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether the month view button is visible.
+    /// </summary>
     [Parameter] public bool ShowMonthViewButton { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether the year view button is visible.
+    /// </summary>
     [Parameter] public bool ShowYearViewButton { get; set; }
 
+    /// <summary>
+    /// Gets or sets callback invoked when the previous-period button is clicked.
+    /// </summary>
     [Parameter] public EventCallback PreviousClicked { get; set; }
 
+    /// <summary>
+    /// Gets or sets callback invoked when the next-period button is clicked.
+    /// </summary>
     [Parameter] public EventCallback NextClicked { get; set; }
 
+    /// <summary>
+    /// Gets or sets callback invoked when the today button is clicked.
+    /// </summary>
     [Parameter] public EventCallback TodayClicked { get; set; }
 
+    /// <summary>
+    /// Gets or sets callback invoked when the day view button is clicked.
+    /// </summary>
     [Parameter] public EventCallback DayViewClicked { get; set; }
 
+    /// <summary>
+    /// Gets or sets callback invoked when the week view button is clicked.
+    /// </summary>
     [Parameter] public EventCallback WeekViewClicked { get; set; }
 
+    /// <summary>
+    /// Gets or sets callback invoked when the month view button is clicked.
+    /// </summary>
     [Parameter] public EventCallback MonthViewClicked { get; set; }
 
+    /// <summary>
+    /// Gets or sets callback invoked when the year view button is clicked.
+    /// </summary>
     [Parameter] public EventCallback YearViewClicked { get; set; }
 
+    /// <summary>
+    /// Gets or sets callback invoked when the add-task button is clicked.
+    /// </summary>
     [Parameter] public EventCallback AddTaskClicked { get; set; }
 
+    /// <summary>
+    /// Gets or sets callback invoked when the expand-all button is clicked.
+    /// </summary>
     [Parameter] public EventCallback ExpandAllClicked { get; set; }
 
+    /// <summary>
+    /// Gets or sets callback invoked when the collapse-all button is clicked.
+    /// </summary>
     [Parameter] public EventCallback CollapseAllClicked { get; set; }
 
+    /// <summary>
+    /// Gets or sets callback invoked when the search text changes.
+    /// </summary>
     [Parameter] public EventCallback<string> SearchTextChanged { get; set; }
 
+    /// <summary>
+    /// Gets or sets callback invoked when a column visibility option changes.
+    /// </summary>
     [Parameter] public EventCallback<GanttColumnVisibilityChangedEventArgs> ColumnVisibilityChanged { get; set; }
 
     #endregion
