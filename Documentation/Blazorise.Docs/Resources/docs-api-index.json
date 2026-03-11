@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-11T11:56:58.0691743Z",
+  "generatedUtc": "2026-03-11T12:03:37.7423528Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -104507,7 +104507,7 @@
           "name": "MoveAllToEndIconName",
           "type": "global::Blazorise.IconName?",
           "typeName": "IconName?",
-          "defaultValue": "null",
+          "defaultValue": "69",
           "summary": "Defines the icon name of the move all to end (right) button.",
           "isBlazoriseEnum": false
         },
@@ -104515,7 +104515,7 @@
           "name": "MoveAllToStartIconName",
           "type": "global::Blazorise.IconName?",
           "typeName": "IconName?",
-          "defaultValue": "null",
+          "defaultValue": "68",
           "summary": "Defines the icon name of the move all to start (left) button.",
           "isBlazoriseEnum": false
         },
@@ -104523,7 +104523,7 @@
           "name": "MoveButtonsColor",
           "type": "global::Blazorise.Color",
           "typeName": "Color",
-          "defaultValue": "null",
+          "defaultValue": "Primary",
           "summary": "Specifies the color of the move and \\\"Move All\\\" buttons.",
           "isBlazoriseEnum": false
         },
@@ -104555,7 +104555,7 @@
           "name": "MoveToEndIconName",
           "type": "global::Blazorise.IconName?",
           "typeName": "IconName?",
-          "defaultValue": "null",
+          "defaultValue": "73",
           "summary": "Defines the icon name of the move to end (right) button.",
           "isBlazoriseEnum": false
         },
@@ -104563,7 +104563,7 @@
           "name": "MoveToStartIconName",
           "type": "global::Blazorise.IconName?",
           "typeName": "IconName?",
-          "defaultValue": "null",
+          "defaultValue": "72",
           "summary": "Defines the icon name of the move to start (left) button.",
           "isBlazoriseEnum": false
         },
