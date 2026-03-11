@@ -38,6 +38,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private const double AutoSizedTreeColumnCharacterWidth = 8d;
     private const double AutoSizedTreeColumnHorizontalPadding = 24d;
     private const double AutoSizedTreeSortableIndicatorWidth = 20d;
+    private const int TreeToggleInteractionSuppressionMilliseconds = 250;
     private const string TimelinePaddedSlotBackgroundColor = "rgba(0,0,0,0.04)";
     private const string TimelineAnchorBoundaryColor = "rgba(0,0,0,0.16)";
     private const string WbsPseudoField = "__wbs";
@@ -108,6 +109,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private readonly List<string> legacyColumnOrder = new();
     private FluentUnitValue treeListWidthOverride;
     private bool applyingState;
+    private DateTime suppressTreeRowInteractionsUntilUtc;
 
     #endregion
 
@@ -1960,6 +1962,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private async Task OnTreeRowDoubleClicked( TItem item, string rowKey )
     {
+        if ( ShouldSuppressTreeRowInteractions() )
+            return;
+
         await OnTreeRowClicked( item, rowKey );
 
         if ( IsCommandAllowed( GanttCommandType.Edit, item ) )
@@ -1968,6 +1973,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private async Task OnTreeRowClicked( TItem item, string rowKey )
     {
+        if ( ShouldSuppressTreeRowInteractions() )
+            return;
+
         await FocusRow( rowKey );
         await SelectRow( item );
     }
@@ -2209,7 +2217,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private GanttColumnDisplayContext<TItem> GetColumnDisplayContext( GanttTreeRow row, GanttRenderColumn column, IReadOnlyDictionary<string, string> wbsLookup, double treeToggleWidth )
     {
         Func<Task> toggleNode = row.HasChildren
-            ? () => ToggleNode( row )
+            ? () => ToggleNodeFromPointer( row )
             : NoopAsync;
 
         var selected = IsSelectedRow( row.Item );
@@ -2236,7 +2244,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private GanttCommandColumnDisplayContext<TItem> GetCommandColumnDisplayContext( GanttTreeRow row, GanttRenderColumn column, IReadOnlyDictionary<string, string> wbsLookup, double treeToggleWidth )
     {
         Func<Task> toggleNode = row.HasChildren
-            ? () => ToggleNode( row )
+            ? () => ToggleNodeFromPointer( row )
             : NoopAsync;
         var canAddChild = CanShowAddChildButton( row.Item );
         Func<Task> addChild = canAddChild
@@ -2381,6 +2389,16 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
         return InvokeAsync( StateHasChanged );
     }
+
+    private Task ToggleNodeFromPointer( GanttTreeRow node )
+    {
+        suppressTreeRowInteractionsUntilUtc = DateTime.UtcNow.AddMilliseconds( TreeToggleInteractionSuppressionMilliseconds );
+
+        return ToggleNode( node );
+    }
+
+    private bool ShouldSuppressTreeRowInteractions()
+        => DateTime.UtcNow <= suppressTreeRowInteractionsUntilUtc;
 
     private bool IsExpanded( GanttTreeRow node )
     {

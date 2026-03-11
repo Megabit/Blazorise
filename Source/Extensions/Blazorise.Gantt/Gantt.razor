@@ -157,7 +157,7 @@
                                                 <Div Flex="FlexAlignItemsCenter" Style="@GetTreeTitleContentStyle( node.Level )">
                                                     @if ( node.HasChildren )
                                                     {
-                                                        <Button Size="Size.ExtraSmall" Clicked="@(() => ToggleNode( node ))" Margin="MarginIs1FromEnd" Background="BackgroundTransparent" Shadow="ShadowRemove" aria-label="Toggle">
+                                                        <Button Size="Size.ExtraSmall" Clicked="@(() => ToggleNodeFromPointer( node ))" Margin="MarginIs1FromEnd" Background="BackgroundTransparent" Shadow="ShadowRemove" aria-label="Toggle" @onclick:stopPropagation="true" @ondblclick:stopPropagation="true">
                                                             <Icon Name="@(IsExpanded( node ) ? IconName.ChevronDown : IconName.ChevronRight)" />
                                                         </Button>
                                                     }
