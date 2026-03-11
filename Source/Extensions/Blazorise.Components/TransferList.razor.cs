@@ -387,7 +387,7 @@ public partial class TransferList<TItem> : ComponentBase
     /// <summary>
     /// Specifies the color of the move and "Move All" buttons.
     /// </summary>
-    [Parameter] public Color MoveButtonsColor { set; get => field ?? Options.MoveButtonsColor; }
+    [Parameter] public Color MoveButtonsColor { set; get; }
 
     /// <summary>
     /// Enables a vertical scrollbar when the list exceeds the maximum height.
@@ -524,42 +524,37 @@ public partial class TransferList<TItem> : ComponentBase
     /// <summary>
     /// Defines the icon name of the move to end (right) button.
     /// </summary>
-    [Parameter] public IconName? MoveToEndIconName { set; get => field ?? Options.MoveToEndIconName; }
+    [Parameter] public IconName? MoveToEndIconName { set; get; }
 
     /// <summary>
     /// Defines the icon name of the move all to end (right) button.
     /// </summary>
-    [Parameter] public IconName? MoveAllToEndIconName { set; get => field ?? Options.MoveAllToEndIconName; }
+    [Parameter] public IconName? MoveAllToEndIconName { set; get; }
 
     /// <summary>
     /// Defines the icon name of the move to start (left) button.
     /// </summary>
-    [Parameter] public IconName? MoveToStartIconName { set; get => field ?? Options.MoveToStartIconName; }
+    [Parameter] public IconName? MoveToStartIconName { set; get; }
 
     /// <summary>
     /// Defines the icon name of the move all to start (left) button.
     /// </summary>
-    [Parameter] public IconName? MoveAllToStartIconName { set; get => field ?? Options.MoveAllToStartIconName; }
+    [Parameter] public IconName? MoveAllToStartIconName { set; get; }
 
     /// <summary>
     /// Defines the text color of the move icons.
     /// </summary>
-    [Parameter] public TextColor MoveButtonsIconTextColor { set; get => field ?? Options.MoveButtonsIconTextColor; }
+    [Parameter] public TextColor MoveButtonsIconTextColor { set; get; }
 
     /// <summary>
     /// Defines the style of the move icons.
     /// </summary>
-    [Parameter] public IconStyle? MoveButtonsIconStyle { set; get => field ?? Options.MoveButtonsIconStyle; }
+    [Parameter] public IconStyle? MoveButtonsIconStyle { set; get; }
 
     /// <summary>
     /// Defines the size of the move icons.
     /// </summary>
-    [Parameter] public IconSize? MoveButtonsIconSize { set; get => field ?? Options.MoveButtonsIconSize; }
-
-    /// <summary>
-    /// TransferList component options
-    /// </summary>
-    [Parameter] public TransferListOptions Options { get; set; } = new();
+    [Parameter] public IconSize? MoveButtonsIconSize { set; get; }
 
     #endregion
 }

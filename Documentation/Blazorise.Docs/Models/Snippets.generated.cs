@@ -11739,7 +11739,7 @@ builder.Services
 
 @code {
     private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
-    private List<string> listStart = new List<string> {""Cherry"", ""Strawberry"" };
+    private List<string> listStart = new List<string> { ""Cherry"", ""Strawberry"" };
     private List<string> listEnd;
 
 }";
@@ -11762,16 +11762,16 @@ builder.Services
               Items=""@list""
               SelectionMode=""ListGroupSelectionMode.Single""
               Mode=""ListGroupMode.Selectable""
-                Scrollable
-               MaxHeight=""500px""
-               ShowMoveAll=false
-               @bind-ItemsStart=@listStart
-               @bind-ItemsEnd=@listEnd
-               ValueField=""item => item""
-               TextField=""item => item"">
- </TransferList>
+              Scrollable
+              MaxHeight=""500px""
+              ShowMoveAll=false
+              @bind-ItemsStart=@listStart
+              @bind-ItemsEnd=@listEnd
+              ValueField=""item => item""
+              TextField=""item => item"">
+</TransferList>
 
- @code {
+@code {
     private List<string> list = new List<string> {
         ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"",
         ""Watermelon"", ""Pineapple"", ""Mango"", ""Blueberry"", ""Raspberry"",
