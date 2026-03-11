@@ -1406,6 +1406,19 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Gap( GapSize gapSize, GapSide gapSide )
     {
+        var nativeGapSize = ToNativeGapSize( gapSize );
+
+        if ( nativeGapSize is not null )
+        {
+            return gapSide switch
+            {
+                GapSide.None or GapSide.All => $"ant-flex-gap-{nativeGapSize}",
+                GapSide.X => $"ant-space-gap-col-{nativeGapSize}",
+                GapSide.Y => $"ant-space-gap-row-{nativeGapSize}",
+                _ => $"ant-flex-gap-{nativeGapSize}",
+            };
+        }
+
         var side = gapSide != GapSide.None && gapSide != GapSide.All
             ? $"{ToGapSide( gapSide )}-"
             : null;
@@ -1829,4 +1842,15 @@ public class AntDesignClassProvider : ClassProvider
     }
 
     private static string ToBadgeVariantClass( bool subtle ) => subtle ? "ant-tag-outlined" : "ant-tag-solid";
+
+    private static string ToNativeGapSize( GapSize gapSize )
+    {
+        return gapSize switch
+        {
+            GapSize.Is2 => "small",
+            GapSize.Is3 => "middle",
+            GapSize.Is4 => "large",
+            _ => null,
+        };
+    }
 }

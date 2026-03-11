@@ -126,16 +126,18 @@
 }
 
 @each $size, $length in $spacers {
-    .ant-gap-#{$size} {
-        gap: $length !important;
-    }
+    @if not index((2, 3, 4), $size) {
+        .ant-gap-#{$size} {
+            gap: $length !important;
+        }
 
-    .ant-gap-y-#{$size} {
-        row-gap: $length !important;
-    }
+        .ant-gap-y-#{$size} {
+            row-gap: $length !important;
+        }
 
-    .ant-gap-x-#{$size} {
-        column-gap: $length !important;
+        .ant-gap-x-#{$size} {
+            column-gap: $length !important;
+        }
     }
 }
 

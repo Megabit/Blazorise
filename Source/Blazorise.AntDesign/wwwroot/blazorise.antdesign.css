@@ -6855,16 +6855,6 @@ td:focus {
   margin-left: auto;
 }
 
-.ant-row-no-gutters {
-  margin-right: 0;
-  margin-left: 0;
-}
-.ant-row-no-gutters > .ant-col,
-.ant-row-no-gutters > [class*=ant-col-] {
-  padding-right: 0;
-  padding-left: 0;
-}
-
 .ant-row-columns-1 > * {
   flex: 0 0 100%;
   max-width: 100%;
@@ -11061,42 +11051,6 @@ td:focus {
 
 .ant-gap-x-1 {
   column-gap: 0.25rem !important;
-}
-
-.ant-gap-2 {
-  gap: 0.5rem !important;
-}
-
-.ant-gap-y-2 {
-  row-gap: 0.5rem !important;
-}
-
-.ant-gap-x-2 {
-  column-gap: 0.5rem !important;
-}
-
-.ant-gap-3 {
-  gap: 1rem !important;
-}
-
-.ant-gap-y-3 {
-  row-gap: 1rem !important;
-}
-
-.ant-gap-x-3 {
-  column-gap: 1rem !important;
-}
-
-.ant-gap-4 {
-  gap: 1.5rem !important;
-}
-
-.ant-gap-y-4 {
-  row-gap: 1.5rem !important;
-}
-
-.ant-gap-x-4 {
-  column-gap: 1.5rem !important;
 }
 
 .ant-gap-5 {
