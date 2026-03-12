@@ -42,6 +42,26 @@ public partial class _GanttItemBar : BaseComponent
     [Parameter] public EventCallback<MouseEventArgs> MouseDown { get; set; }
 
     /// <summary>
+    /// Gets or sets callback invoked when the mouse button is pressed on the start resize handle.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> StartResizeMouseDown { get; set; }
+
+    /// <summary>
+    /// Gets or sets callback invoked when the mouse button is pressed on the end resize handle.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> EndResizeMouseDown { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the start resize handle is rendered.
+    /// </summary>
+    [Parameter] public bool ShowStartResizeHandle { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the end resize handle is rendered.
+    /// </summary>
+    [Parameter] public bool ShowEndResizeHandle { get; set; }
+
+    /// <summary>
     /// Gets or sets the content rendered inside the item bar.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }

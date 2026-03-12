@@ -213,7 +213,7 @@
                         @foreach ( var node in visibleRows )
                         {
                             <_GanttTimeRow @key="@($"timeline-{node.Key}")" Style="@timelineRowStyle" Background="@GetFocusedRowBackground( node.Key )">
-                                @if ( TryGetVisibleBar( node.Item, viewRange.Start, viewRange.End, timeSlots.Count, cellWidth, out var barInfo ) )
+                                @if ( TryGetVisibleBar( node.Item, node.Key, viewRange.Start, viewRange.End, timeSlots.Count, cellWidth, out var barInfo ) )
                                 {
                                     var itemStyling = GetItemStyling( node.Item );
 
@@ -221,7 +221,11 @@
                                                    Style="@GetBarStyle( barInfo, rowHeight, itemStyling.Style, node.Key, node.Item )"
                                                    Background="@itemStyling.Background"
                                                    TextColor="@itemStyling.TextColor"
-                                                   MouseDown="@(( args ) => OnBarMouseDown( args, node, cellWidth ))"
+                                                   MouseDown="@(( args ) => OnBarMoveMouseDown( args, node, cellWidth ))"
+                                                   StartResizeMouseDown="@(( args ) => OnBarResizeStartMouseDown( args, node, cellWidth ))"
+                                                   EndResizeMouseDown="@(( args ) => OnBarResizeEndMouseDown( args, node, cellWidth ))"
+                                                   ShowStartResizeHandle="@CanResizeItemStart( node.Item )"
+                                                   ShowEndResizeHandle="@CanResizeItemEnd( node.Item )"
                                                    Clicked="@(() => OnBarClicked( node.Item ))">
                                         @if ( taskItemTemplate is not null )
                                         {

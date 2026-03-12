@@ -101,9 +101,13 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private bool suppressBarClick;
     private string barDragRowKey;
     private TItem barDragItem;
+    private DateTime barDragItemStart;
+    private DateTime barDragItemEnd;
+    private GanttBarInteractionMode barDragMode;
     private double barDragCellWidth;
     private double barDragStartClientX;
     private int barDragSlotOffset;
+    private int barDragMinSlotOffset;
     private int barDragMaxSlotOffset;
     private int nextColumnId;
     private readonly List<string> legacyColumnOrder = new();
@@ -1743,22 +1747,43 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         }
     }
 
-    private async Task OnBarMouseDown( MouseEventArgs eventArgs, GanttTreeRow row, double cellWidth )
+    private Task OnBarMoveMouseDown( MouseEventArgs eventArgs, GanttTreeRow row, double cellWidth )
+        => BeginBarInteraction( eventArgs, row, cellWidth, GanttBarInteractionMode.Move );
+
+    private Task OnBarResizeStartMouseDown( MouseEventArgs eventArgs, GanttTreeRow row, double cellWidth )
+        => BeginBarInteraction( eventArgs, row, cellWidth, GanttBarInteractionMode.ResizeStart );
+
+    private Task OnBarResizeEndMouseDown( MouseEventArgs eventArgs, GanttTreeRow row, double cellWidth )
+        => BeginBarInteraction( eventArgs, row, cellWidth, GanttBarInteractionMode.ResizeEnd );
+
+    private async Task BeginBarInteraction( MouseEventArgs eventArgs, GanttTreeRow row, double cellWidth, GanttBarInteractionMode interactionMode )
     {
-        if ( eventArgs is null || row is null || eventArgs.Button != 0 || !CanDragItem( row.Item ) || cellWidth <= 0d )
+        if ( eventArgs is null || row is null || eventArgs.Button != 0 || cellWidth <= 0d || !CanBarInteract( row.Item, interactionMode ) )
+            return;
+
+        var itemStart = GetItemStart( row.Item );
+        var itemEnd = GetItemEnd( row.Item );
+
+        if ( DateTimeUtils.IsUnassigned( itemStart ) || DateTimeUtils.IsUnassigned( itemEnd ) || itemEnd <= itemStart )
             return;
 
         if ( barDragPending )
             await FinalizeBarDrag( false );
 
+        var maxViewportSlotOffset = Math.Max( 1, GetTimeSlots( GetCurrentViewRange().Start, GetCurrentViewRange().End ).Count );
+
         barDragPending = true;
         barDragging = false;
         barDragItem = row.Item;
+        barDragItemStart = itemStart;
+        barDragItemEnd = itemEnd;
+        barDragMode = interactionMode;
         barDragRowKey = row.Key;
         barDragCellWidth = cellWidth;
         barDragStartClientX = eventArgs.ClientX;
         barDragSlotOffset = 0;
-        barDragMaxSlotOffset = Math.Max( 1, GetTimeSlots( GetCurrentViewRange().Start, GetCurrentViewRange().End ).Count );
+        barDragMinSlotOffset = GetMinBarInteractionSlotOffset( interactionMode, itemStart, itemEnd, maxViewportSlotOffset );
+        barDragMaxSlotOffset = GetMaxBarInteractionSlotOffset( interactionMode, itemStart, itemEnd, maxViewportSlotOffset );
 
         if ( JSModule is not null )
             await JSModule.BarDragStarted( eventArgs.ClientX );
@@ -1806,6 +1831,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         var dragged = barDragging;
         var slotOffset = barDragSlotOffset;
         var item = barDragItem;
+        var itemStart = barDragItemStart;
+        var itemEnd = barDragItemEnd;
+        var interactionMode = barDragMode;
 
         ResetBarDragState();
 
@@ -1818,10 +1846,10 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             return;
         }
 
-        if ( !CanDragItem( item ) )
+        if ( !CanBarInteract( item, interactionMode ) )
             return;
 
-        await MoveItemBySlotOffset( item, slotOffset );
+        await ApplyBarInteraction( item, interactionMode, itemStart, itemEnd, slotOffset );
     }
 
     private void ResetBarDragState()
@@ -1829,10 +1857,14 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         barDragPending = false;
         barDragging = false;
         barDragItem = default;
+        barDragItemStart = default;
+        barDragItemEnd = default;
+        barDragMode = GanttBarInteractionMode.Move;
         barDragRowKey = null;
         barDragCellWidth = 0d;
         barDragStartClientX = 0d;
         barDragSlotOffset = 0;
+        barDragMinSlotOffset = 0;
         barDragMaxSlotOffset = 0;
     }
 
@@ -1848,10 +1880,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
         barDragging = true;
 
-        var nextSlotOffset = GetSlotOffsetFromDeltaX( deltaX, barDragCellWidth );
-
-        if ( !IsSlotOffsetWithinBounds( nextSlotOffset, barDragMaxSlotOffset ) )
-            return false;
+        var nextSlotOffset = Math.Clamp( GetSlotOffsetFromDeltaX( deltaX, barDragCellWidth ), barDragMinSlotOffset, barDragMaxSlotOffset );
 
         if ( nextSlotOffset == barDragSlotOffset )
             return false;
@@ -1862,6 +1891,15 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     }
 
     private bool CanDragItem( TItem item )
+        => CanModifyItemRange( item, requiresStartEditable: true, requiresEndEditable: false );
+
+    private bool CanResizeItemStart( TItem item )
+        => Resizable && CanModifyItemRange( item, requiresStartEditable: true, requiresEndEditable: false );
+
+    private bool CanResizeItemEnd( TItem item )
+        => Resizable && CanModifyItemRange( item, requiresStartEditable: false, requiresEndEditable: true );
+
+    private bool CanModifyItemRange( TItem item, bool requiresStartEditable, bool requiresEndEditable )
     {
         if ( item is null )
             return false;
@@ -1872,7 +1910,10 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( !IsCommandAllowed( GanttCommandType.Edit, item ) )
             return false;
 
-        if ( !IsFieldEditable( StartField, GanttEditState.Edit ) )
+        if ( requiresStartEditable && !IsFieldEditable( StartField, GanttEditState.Edit ) )
+            return false;
+
+        if ( requiresEndEditable && !IsFieldEditable( EndField, GanttEditState.Edit ) )
             return false;
 
         if ( !propertyMapper.HasStart || !propertyMapper.HasEnd )
@@ -1887,20 +1928,23 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         return itemEnd > itemStart;
     }
 
+    private bool CanBarInteract( TItem item, GanttBarInteractionMode interactionMode )
+    {
+        return interactionMode switch
+        {
+            GanttBarInteractionMode.Move => CanDragItem( item ),
+            GanttBarInteractionMode.ResizeStart => CanResizeItemStart( item ),
+            GanttBarInteractionMode.ResizeEnd => CanResizeItemEnd( item ),
+            _ => false,
+        };
+    }
+
     private static int GetSlotOffsetFromDeltaX( double deltaX, double cellWidth )
     {
         if ( cellWidth <= 0d )
             return 0;
 
         return (int)Math.Round( deltaX / cellWidth, MidpointRounding.AwayFromZero );
-    }
-
-    private static bool IsSlotOffsetWithinBounds( int slotOffset, int maxAbsoluteSlotOffset )
-    {
-        if ( maxAbsoluteSlotOffset <= 0 )
-            return true;
-
-        return slotOffset <= maxAbsoluteSlotOffset && slotOffset >= -maxAbsoluteSlotOffset;
     }
 
     private DateTime ShiftDateBySlotOffset( DateTime value, int slotOffset )
@@ -1916,50 +1960,101 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         };
     }
 
-    private async Task MoveItemBySlotOffset( TItem item, int slotOffset )
+    private int GetMinBarInteractionSlotOffset( GanttBarInteractionMode interactionMode, DateTime itemStart, DateTime itemEnd, int maxViewportSlotOffset )
     {
-        if ( item is null || slotOffset == 0 || !CanDragItem( item ) )
+        return interactionMode switch
+        {
+            GanttBarInteractionMode.ResizeEnd => FindBarInteractionSlotOffsetBound( interactionMode, itemStart, itemEnd, -maxViewportSlotOffset, -1 ),
+            _ => -maxViewportSlotOffset,
+        };
+    }
+
+    private int GetMaxBarInteractionSlotOffset( GanttBarInteractionMode interactionMode, DateTime itemStart, DateTime itemEnd, int maxViewportSlotOffset )
+    {
+        return interactionMode switch
+        {
+            GanttBarInteractionMode.ResizeStart => FindBarInteractionSlotOffsetBound( interactionMode, itemStart, itemEnd, maxViewportSlotOffset, 1 ),
+            _ => maxViewportSlotOffset,
+        };
+    }
+
+    private int FindBarInteractionSlotOffsetBound( GanttBarInteractionMode interactionMode, DateTime itemStart, DateTime itemEnd, int limit, int step )
+    {
+        var bound = 0;
+
+        for ( var slotOffset = step; step > 0 ? slotOffset <= limit : slotOffset >= limit; slotOffset += step )
+        {
+            if ( !TryGetBarInteractionDates( interactionMode, itemStart, itemEnd, slotOffset, out _, out _ ) )
+                break;
+
+            bound = slotOffset;
+        }
+
+        return bound;
+    }
+
+    private bool TryGetBarInteractionDates( GanttBarInteractionMode interactionMode, DateTime itemStart, DateTime itemEnd, int slotOffset, out DateTime nextItemStart, out DateTime nextItemEnd )
+    {
+        nextItemStart = itemStart;
+        nextItemEnd = itemEnd;
+
+        if ( DateTimeUtils.IsUnassigned( itemStart ) || DateTimeUtils.IsUnassigned( itemEnd ) )
+            return false;
+
+        switch ( interactionMode )
+        {
+            case GanttBarInteractionMode.Move:
+                nextItemStart = ShiftDateBySlotOffset( itemStart, slotOffset );
+                nextItemEnd = ShiftDateBySlotOffset( itemEnd, slotOffset );
+                break;
+            case GanttBarInteractionMode.ResizeStart:
+                nextItemStart = ShiftDateBySlotOffset( itemStart, slotOffset );
+                break;
+            case GanttBarInteractionMode.ResizeEnd:
+                nextItemEnd = ShiftDateBySlotOffset( itemEnd, slotOffset );
+                break;
+            default:
+                return false;
+        }
+
+        return nextItemEnd > nextItemStart;
+    }
+
+    private async Task ApplyBarInteraction( TItem item, GanttBarInteractionMode interactionMode, DateTime itemStart, DateTime itemEnd, int slotOffset )
+    {
+        if ( item is null || slotOffset == 0 || !CanBarInteract( item, interactionMode ) )
             return;
 
         var targetItem = ResolveStateItemReference( item );
 
-        if ( targetItem is null || !CanDragItem( targetItem ) )
+        if ( targetItem is null || !CanBarInteract( targetItem, interactionMode ) )
             return;
 
-        var sourceStart = GetItemStart( targetItem );
-        var sourceEnd = GetItemEnd( targetItem );
-
-        if ( DateTimeUtils.IsUnassigned( sourceStart ) || DateTimeUtils.IsUnassigned( sourceEnd ) )
+        if ( !TryGetBarInteractionDates( interactionMode, itemStart, itemEnd, slotOffset, out var nextItemStart, out var nextItemEnd ) )
             return;
 
-        var movedStart = ShiftDateBySlotOffset( sourceStart, slotOffset );
-        var movedEnd = ShiftDateBySlotOffset( sourceEnd, slotOffset );
-
-        if ( movedEnd <= movedStart )
-            return;
-
-        var movedItem = targetItem.DeepClone();
+        var updatedItem = targetItem.DeepClone();
 
         if ( propertyMapper.HasId )
-            propertyMapper.SetId( movedItem, propertyMapper.GetId( targetItem ) );
+            propertyMapper.SetId( updatedItem, propertyMapper.GetId( targetItem ) );
 
         if ( propertyMapper.HasParentId )
-            propertyMapper.SetParentId( movedItem, propertyMapper.GetParentId( targetItem ) );
+            propertyMapper.SetParentId( updatedItem, propertyMapper.GetParentId( targetItem ) );
 
         if ( propertyMapper.HasStart )
-            propertyMapper.SetStart( movedItem, movedStart );
+            propertyMapper.SetStart( updatedItem, nextItemStart );
 
         if ( propertyMapper.HasEnd )
-            propertyMapper.SetEnd( movedItem, movedEnd );
+            propertyMapper.SetEnd( updatedItem, nextItemEnd );
 
         if ( propertyMapper.HasDuration )
-            propertyMapper.SetDuration( movedItem, DateTimeUtils.GetDurationInDays( movedStart, movedEnd ) );
+            propertyMapper.SetDuration( updatedItem, DateTimeUtils.GetDurationInDays( nextItemStart, nextItemEnd ) );
 
         editItem = targetItem;
         editParentItem = default;
         editState = GanttEditState.Edit;
 
-        await SaveImpl( movedItem );
+        await SaveImpl( updatedItem );
     }
 
     private Task OnItemModalClosed()
@@ -3437,12 +3532,19 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         return $"linear-gradient(to right, transparent 0px, transparent {offsetText}px, {TimelineAnchorBoundaryColor} {offsetText}px, {TimelineAnchorBoundaryColor} {nextOffsetText}px, transparent {nextOffsetText}px, transparent 100%)";
     }
 
-    private bool TryGetVisibleBar( TItem item, DateTime viewStart, DateTime viewEnd, int slotsCount, double cellWidth, out GanttBarInfo barInfo )
+    private bool TryGetVisibleBar( TItem item, string rowKey, DateTime viewStart, DateTime viewEnd, int slotsCount, double cellWidth, out GanttBarInfo barInfo )
     {
         barInfo = default;
 
         var itemStart = GetItemStart( item );
         var itemEnd = GetItemEnd( item );
+
+        if ( barDragPending && string.Equals( barDragRowKey, rowKey, StringComparison.Ordinal )
+             && TryGetBarInteractionDates( barDragMode, barDragItemStart, barDragItemEnd, barDragSlotOffset, out var previewItemStart, out var previewItemEnd ) )
+        {
+            itemStart = previewItemStart;
+            itemEnd = previewItemEnd;
+        }
 
         if ( itemStart == DateTime.MinValue || itemEnd == DateTime.MinValue )
             return false;
@@ -3483,8 +3585,8 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
         if ( barDragging && string.Equals( barDragRowKey, rowKey, StringComparison.Ordinal ) )
         {
-            var translateX = ( barDragSlotOffset * barDragCellWidth ).ToString( "0.###", CultureInfo.InvariantCulture );
-            style = $"{style} transform: translateX({translateX}px); z-index: 2; cursor: grabbing;";
+            var activeCursor = barDragMode == GanttBarInteractionMode.Move ? "grabbing" : "ew-resize";
+            style = $"{style} z-index: 2; cursor: {activeCursor};";
         }
 
         if ( !string.IsNullOrWhiteSpace( itemCustomStyle ) )
@@ -4270,6 +4372,11 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     [Parameter] public bool Editable { get; set; }
 
     /// <summary>
+    /// Gets or sets whether timeline item bars can be resized by dragging their start and end edges.
+    /// </summary>
+    [Parameter] public bool Resizable { get; set; }
+
+    /// <summary>
     /// Gets or sets whether creating new top-level items is allowed.
     /// </summary>
     [Parameter] public bool NewCommandAllowed { get; set; } = true;
@@ -4447,6 +4554,13 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     #endregion
 
     #region Data structures
+
+    private enum GanttBarInteractionMode
+    {
+        Move,
+        ResizeStart,
+        ResizeEnd,
+    }
 
     private sealed class GanttDeclarativeColumnState
     {

@@ -8,5 +8,23 @@
      TextOverflow="TextOverflow.Truncate"
      @onmousedown="@MouseDown"
      @onclick="@Clicked">
+    @if ( ShowStartResizeHandle )
+    {
+        <div style="position: absolute; left: 0; top: 0; width: 10px; height: 100%; cursor: w-resize; z-index: 1;"
+             @onmousedown="@StartResizeMouseDown"
+             @onmousedown:stopPropagation="true"
+             @onclick:stopPropagation="true"
+             @ondblclick:stopPropagation="true" />
+    }
+
     @ChildContent
+
+    @if ( ShowEndResizeHandle )
+    {
+        <div style="position: absolute; right: 0; top: 0; width: 10px; height: 100%; cursor: e-resize; z-index: 1;"
+             @onmousedown="@EndResizeMouseDown"
+             @onmousedown:stopPropagation="true"
+             @onclick:stopPropagation="true"
+             @ondblclick:stopPropagation="true" />
+    }
 </Div>
