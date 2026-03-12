@@ -28,7 +28,7 @@ public class OneTimeInputComponentTest : TestContext
 
         Assert.Equal( 6, inputs.Count );
         Assert.Equal( 2, groups.Count );
-        Assert.Equal( 1, separators.Count );
+        Assert.Single( separators );
         Assert.Equal( 3, groups[0].QuerySelectorAll( "input" ).Length );
         Assert.Equal( 3, groups[1].QuerySelectorAll( "input" ).Length );
     }
@@ -44,7 +44,7 @@ public class OneTimeInputComponentTest : TestContext
         var separators = comp.FindAll( ".b-one-time-input-separator" );
 
         Assert.Equal( 2, groups.Count );
-        Assert.Equal( 1, separators.Count );
+        Assert.Single( separators );
         Assert.Equal( 2, groups[0].QuerySelectorAll( "input" ).Length );
         Assert.Equal( 3, groups[1].QuerySelectorAll( "input" ).Length );
     }
