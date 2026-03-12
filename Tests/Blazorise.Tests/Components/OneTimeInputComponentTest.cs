@@ -50,7 +50,7 @@ public class OneTimeInputComponentTest : TestContext
     }
 
     [Fact]
-    public async Task UpdatesSlotsAndMovesFocusWhenMultipleCharactersAreEntered()
+    public async Task MovesFocusToNextEmptySlotWhenPasteDoesNotFillRemainingSlots()
     {
         var comp = RenderComponent<OneTimeInput>( parameters => parameters
             .Add( x => x.Digits, 4 ) );
@@ -71,6 +71,32 @@ public class OneTimeInputComponentTest : TestContext
             var invocation = JSInterop.VerifyInvoke( "focus" );
 
             Assert.Equal( inputs[2].GetAttribute( "id" ), invocation.Arguments[1] as string );
+        }, TestExtensions.WaitTime );
+    }
+
+    [Fact]
+    public async Task MovesFocusToLastFilledSlotWhenPasteFillsRemainingSlots()
+    {
+        var comp = RenderComponent<OneTimeInput>( parameters => parameters
+            .Add( x => x.Digits, 4 ) );
+
+        var inputs = comp.FindAll( "input" );
+
+        await inputs[0].InputAsync( "1234" );
+
+        inputs = comp.FindAll( "input" );
+
+        Assert.Equal( "1234", comp.Instance.Value );
+        Assert.Equal( "1", inputs[0].GetAttribute( "value" ) );
+        Assert.Equal( "2", inputs[1].GetAttribute( "value" ) );
+        Assert.Equal( "3", inputs[2].GetAttribute( "value" ) );
+        Assert.Equal( "4", inputs[3].GetAttribute( "value" ) );
+
+        comp.WaitForAssertion( () =>
+        {
+            var invocation = JSInterop.VerifyInvoke( "focus" );
+
+            Assert.Equal( inputs[3].GetAttribute( "id" ), invocation.Arguments[1] as string );
         }, TestExtensions.WaitTime );
     }
 

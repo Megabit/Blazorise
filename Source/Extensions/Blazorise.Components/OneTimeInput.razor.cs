@@ -193,6 +193,7 @@ public partial class OneTimeInput : BaseInputComponent<string, OneTimeInputClass
         }
 
         char[] characters = ExtractCharacters( value );
+        bool multiCharacterInput = characters.Length > 1;
 
         if ( characters.Length == 0 )
         {
@@ -217,7 +218,16 @@ public partial class OneTimeInput : BaseInputComponent<string, OneTimeInputClass
 
         await CurrentValueHandler( CurrentCombinedValue );
 
-        if ( nextSlotIndex < slotValues.Count )
+        if ( multiCharacterInput )
+        {
+            int lastFilledSlotIndex = Math.Min( nextSlotIndex - 1, slotValues.Count - 1 );
+            int focusSlotIndex = nextSlotIndex < slotValues.Count
+                ? nextSlotIndex
+                : lastFilledSlotIndex;
+
+            ExecuteAfterRender( () => FocusSlotAsync( focusSlotIndex ) );
+        }
+        else if ( nextSlotIndex < slotValues.Count )
         {
             ExecuteAfterRender( () => FocusSlotAsync( nextSlotIndex ) );
         }
