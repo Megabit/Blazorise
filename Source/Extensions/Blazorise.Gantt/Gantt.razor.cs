@@ -1891,7 +1891,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     }
 
     private bool CanDragItem( TItem item )
-        => CanModifyItemRange( item, requiresStartEditable: true, requiresEndEditable: false );
+        => Draggable && CanModifyItemRange( item, requiresStartEditable: true, requiresEndEditable: false );
 
     private bool CanResizeItemStart( TItem item )
         => Resizable && CanModifyItemRange( item, requiresStartEditable: true, requiresEndEditable: false );
@@ -4372,9 +4372,14 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     [Parameter] public bool Editable { get; set; }
 
     /// <summary>
+    /// Gets or sets whether timeline item bars can be dragged to move their start and end dates together.
+    /// </summary>
+    [Parameter] public bool Draggable { get; set; } = true;
+
+    /// <summary>
     /// Gets or sets whether timeline item bars can be resized by dragging their start and end edges.
     /// </summary>
-    [Parameter] public bool Resizable { get; set; }
+    [Parameter] public bool Resizable { get; set; } = true;
 
     /// <summary>
     /// Gets or sets whether creating new top-level items is allowed.
