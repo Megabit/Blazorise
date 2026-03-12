@@ -29,6 +29,20 @@ public partial class OneTimeInput : BaseInputComponent<string, OneTimeInputClass
 
     #endregion
 
+    #region Constructors
+
+    /// <summary>
+    /// A default <see cref="OneTimeInput"/> constructor.
+    /// </summary>
+    public OneTimeInput()
+    {
+        GroupClassBuilder = new( BuildGroupClasses, builder => builder.Append( Classes?.Group ) );
+        SlotClassBuilder = new( BuildSlotClasses, builder => builder.Append( Classes?.Slot ) );
+        SeparatorClassBuilder = new( BuildSeparatorClasses, builder => builder.Append( Classes?.Separator ) );
+    }
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc />
@@ -69,6 +83,16 @@ public partial class OneTimeInput : BaseInputComponent<string, OneTimeInputClass
         builder.Append( Classes?.Container );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc />
+    protected override void DirtyClasses()
+    {
+        GroupClassBuilder.Dirty();
+        SlotClassBuilder.Dirty();
+        SeparatorClassBuilder.Dirty();
+
+        base.DirtyClasses();
     }
 
     /// <inheritdoc />
@@ -368,8 +392,33 @@ public partial class OneTimeInput : BaseInputComponent<string, OneTimeInputClass
             : value[..digits];
     }
 
-    private static string CombineClassNames( params string[] values )
-        => string.Join( " ", values.Where( value => !string.IsNullOrWhiteSpace( value ) ).Select( value => value.Trim() ) );
+    /// <summary>
+    /// Builds a list of classnames for a slot group wrapper.
+    /// </summary>
+    /// <param name="builder">Class builder used to append the classnames.</param>
+    protected virtual void BuildGroupClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-one-time-input-group" );
+    }
+
+    /// <summary>
+    /// Builds a list of classnames for an individual slot input.
+    /// </summary>
+    /// <param name="builder">Class builder used to append the classnames.</param>
+    protected virtual void BuildSlotClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-one-time-input-slot" );
+        builder.Append( ClassProvider.TextInputValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
+    }
+
+    /// <summary>
+    /// Builds a list of classnames for the group separator.
+    /// </summary>
+    /// <param name="builder">Class builder used to append the classnames.</param>
+    protected virtual void BuildSeparatorClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-one-time-input-separator" );
+    }
 
     #endregion
 
@@ -377,20 +426,32 @@ public partial class OneTimeInput : BaseInputComponent<string, OneTimeInputClass
 
     private string CurrentCombinedValue => string.Concat( slotValues );
 
+    /// <summary>
+    /// Group wrapper class builder.
+    /// </summary>
+    protected ClassBuilder GroupClassBuilder { get; private set; }
+
+    /// <summary>
+    /// Slot input class builder.
+    /// </summary>
+    protected ClassBuilder SlotClassBuilder { get; private set; }
+
+    /// <summary>
+    /// Separator class builder.
+    /// </summary>
+    protected ClassBuilder SeparatorClassBuilder { get; private set; }
+
     protected IReadOnlyList<SlotGroup> SlotGroups => slotGroups;
 
-    protected string GroupClassNames => CombineClassNames( "b-one-time-input-group", Classes?.Group );
+    protected string GroupClassNames => GroupClassBuilder.Class;
 
     protected string GroupStyleNames => Styles?.Group;
 
-    protected string SlotClassNames => CombineClassNames(
-        "b-one-time-input-slot",
-        ClassProvider.TextInputValidation( ParentValidation?.Status ?? ValidationStatus.None ),
-        Classes?.Slot );
+    protected string SlotClassNames => SlotClassBuilder.Class;
 
     protected string SlotStyleNames => Styles?.Slot;
 
-    protected string SeparatorClassNames => CombineClassNames( "b-one-time-input-separator", Classes?.Separator );
+    protected string SeparatorClassNames => SeparatorClassBuilder.Class;
 
     protected string SeparatorStyleNames => Styles?.Separator;
 
