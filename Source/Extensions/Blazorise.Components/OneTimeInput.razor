@@ -1,0 +1,63 @@
+@using Blazorise
+@using Microsoft.AspNetCore.Components.Web
+@inherits BaseInputComponent<string, OneTimeInputClasses, OneTimeInputStyles>
+
+<Div ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Attributes="@ContainerAttributes">
+    <Div Flex="Blazorise.Flex.Row.AlignItems.Center" Gap="Blazorise.Gap.Is2">
+        <CascadingValue Value="(Validation)null">
+            @for ( int groupIndex = 0; groupIndex < SlotGroups.Count; groupIndex++ )
+            {
+                SlotGroup slotGroup = SlotGroups[groupIndex];
+
+                <Div @key="@groupIndex"
+                     Flex="Blazorise.Flex.Row.AlignItems.Center"
+                     Gap="Blazorise.Gap.Is2"
+                     Class="@GroupClassNames"
+                     Style="@GroupStyleNames">
+                    @for ( int slotOffset = 0; slotOffset < slotGroup.Length; slotOffset++ )
+                    {
+                        int slotIndex = slotGroup.StartIndex + slotOffset;
+
+                        <TextInput @key="@slotIndex"
+                                   ElementId="@GetSlotElementId( slotIndex )"
+                                   Value="@slotValues[slotIndex]"
+                                   ValueChanged="@(( string value ) => OnSlotValueChangedAsync( slotIndex, value ))"
+                                   Role="@Role"
+                                   InputMode="@InputMode"
+                                   VisibleCharacters="1"
+                                   Size="@Size"
+                                   Disabled="@Disabled"
+                                   ReadOnly="@ReadOnly"
+                                   TabIndex="@GetSlotTabIndex( slotIndex )"
+                                   TextAlignment="TextAlignment.Center"
+                                   Width="@(Blazorise.Width.Rem( 3 ))"
+                                   Immediate="true"
+                                   Debounce="false"
+                                   AriaInvalid="@AriaInvalid"
+                                   AriaDescribedBy="@AriaDescribedBy"
+                                   KeyDown="@(( KeyboardEventArgs eventArgs ) => OnSlotKeyDownAsync( slotIndex, eventArgs ))"
+                                   KeyPress="@OnKeyPressHandler"
+                                   KeyUp="@OnKeyUpHandler"
+                                   OnFocus="@(( FocusEventArgs eventArgs ) => OnSlotFocusAsync( slotIndex, eventArgs ))"
+                                   FocusIn="@OnFocusInHandler"
+                                   FocusOut="@OnFocusOutHandler"
+                                   Blur="@OnBlurHandler"
+                                   Class="@SlotClassNames"
+                                   Style="@SlotStyleNames"
+                                   Attributes="@BuildSlotAttributes( slotIndex )" />
+                    }
+                </Div>
+
+                @if ( groupIndex < SlotGroups.Count - 1 )
+                {
+                    <Span TextWeight="TextWeight.SemiBold"
+                          Class="@SeparatorClassNames"
+                          Style="@SeparatorStyleNames">@Separator</Span>
+                }
+            }
+        </CascadingValue>
+    </Div>
+
+    @ChildContent
+    @Feedback
+</Div>
