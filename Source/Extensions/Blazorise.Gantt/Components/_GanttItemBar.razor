@@ -8,6 +8,11 @@
      TextOverflow="TextOverflow.Truncate"
      @onmousedown="@MouseDown"
      @onclick="@Clicked">
+    @if ( ShowStartOverflowIndicator )
+    {
+        <div style="position: absolute; left: 0; top: 0; width: 14px; height: 100%; pointer-events: none; z-index: 1; background: linear-gradient(to right, rgba(255,255,255,0.4), transparent); border-left: 2px dashed rgba(255,255,255,0.9);" />
+    }
+
     @if ( ShowStartResizeHandle )
     {
         <div style="position: absolute; left: 0; top: 0; width: 10px; height: 100%; cursor: w-resize; z-index: 1;"
@@ -18,6 +23,11 @@
     }
 
     @ChildContent
+
+    @if ( ShowEndOverflowIndicator )
+    {
+        <div style="position: absolute; right: 0; top: 0; width: 14px; height: 100%; pointer-events: none; z-index: 1; background: linear-gradient(to left, rgba(255,255,255,0.4), transparent); border-right: 2px dashed rgba(255,255,255,0.9);" />
+    }
 
     @if ( ShowEndResizeHandle )
     {

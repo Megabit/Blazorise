@@ -224,8 +224,10 @@
                                                    MouseDown="@(( args ) => OnBarMoveMouseDown( args, node, cellWidth ))"
                                                    StartResizeMouseDown="@(( args ) => OnBarResizeStartMouseDown( args, node, cellWidth ))"
                                                    EndResizeMouseDown="@(( args ) => OnBarResizeEndMouseDown( args, node, cellWidth ))"
-                                                   ShowStartResizeHandle="@CanResizeItemStart( node.Item )"
-                                                   ShowEndResizeHandle="@CanResizeItemEnd( node.Item )"
+                                                   ShowStartResizeHandle="@CanResizeVisibleItemStart( node.Item, barInfo )"
+                                                   ShowEndResizeHandle="@CanResizeVisibleItemEnd( node.Item, barInfo )"
+                                                   ShowStartOverflowIndicator="@barInfo.StartsBeforeView"
+                                                   ShowEndOverflowIndicator="@barInfo.EndsAfterView"
                                                    Clicked="@(() => OnBarClicked( node.Item ))">
                                         @if ( taskItemTemplate is not null )
                                         {

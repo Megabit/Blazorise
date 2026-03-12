@@ -1751,14 +1751,20 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         => BeginBarInteraction( eventArgs, row, cellWidth, GanttBarInteractionMode.Move );
 
     private Task OnBarResizeStartMouseDown( MouseEventArgs eventArgs, GanttTreeRow row, double cellWidth )
-        => BeginBarInteraction( eventArgs, row, cellWidth, GanttBarInteractionMode.ResizeStart );
+        => row is not null && CanResizeVisibleItemStart( row.Item ) ? BeginBarInteraction( eventArgs, row, cellWidth, GanttBarInteractionMode.ResizeStart ) : Task.CompletedTask;
 
     private Task OnBarResizeEndMouseDown( MouseEventArgs eventArgs, GanttTreeRow row, double cellWidth )
-        => BeginBarInteraction( eventArgs, row, cellWidth, GanttBarInteractionMode.ResizeEnd );
+        => row is not null && CanResizeVisibleItemEnd( row.Item ) ? BeginBarInteraction( eventArgs, row, cellWidth, GanttBarInteractionMode.ResizeEnd ) : Task.CompletedTask;
 
     private async Task BeginBarInteraction( MouseEventArgs eventArgs, GanttTreeRow row, double cellWidth, GanttBarInteractionMode interactionMode )
     {
         if ( eventArgs is null || row is null || eventArgs.Button != 0 || cellWidth <= 0d || !CanBarInteract( row.Item, interactionMode ) )
+            return;
+
+        if ( interactionMode == GanttBarInteractionMode.ResizeStart && !IsItemStartVisibleInCurrentView( row.Item ) )
+            return;
+
+        if ( interactionMode == GanttBarInteractionMode.ResizeEnd && !IsItemEndVisibleInCurrentView( row.Item ) )
             return;
 
         var itemStart = GetItemStart( row.Item );
@@ -1899,6 +1905,18 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private bool CanResizeItemEnd( TItem item )
         => Resizable && CanModifyItemRange( item, requiresStartEditable: false, requiresEndEditable: true );
 
+    private bool CanResizeVisibleItemStart( TItem item )
+        => CanResizeItemStart( item ) && IsItemStartVisibleInCurrentView( item );
+
+    private bool CanResizeVisibleItemEnd( TItem item )
+        => CanResizeItemEnd( item ) && IsItemEndVisibleInCurrentView( item );
+
+    private bool CanResizeVisibleItemStart( TItem item, GanttBarInfo barInfo )
+        => CanResizeItemStart( item ) && !barInfo.StartsBeforeView;
+
+    private bool CanResizeVisibleItemEnd( TItem item, GanttBarInfo barInfo )
+        => CanResizeItemEnd( item ) && !barInfo.EndsAfterView;
+
     private bool CanModifyItemRange( TItem item, bool requiresStartEditable, bool requiresEndEditable )
     {
         if ( item is null )
@@ -1926,6 +1944,36 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             return false;
 
         return itemEnd > itemStart;
+    }
+
+    private bool IsItemStartVisibleInCurrentView( TItem item )
+    {
+        if ( item is null )
+            return false;
+
+        var itemStart = GetItemStart( item );
+
+        if ( DateTimeUtils.IsUnassigned( itemStart ) )
+            return false;
+
+        var currentViewRange = GetCurrentViewRange();
+
+        return itemStart >= currentViewRange.Start && itemStart < currentViewRange.End;
+    }
+
+    private bool IsItemEndVisibleInCurrentView( TItem item )
+    {
+        if ( item is null )
+            return false;
+
+        var itemEnd = GetItemEnd( item );
+
+        if ( DateTimeUtils.IsUnassigned( itemEnd ) )
+            return false;
+
+        var currentViewRange = GetCurrentViewRange();
+
+        return itemEnd > currentViewRange.Start && itemEnd <= currentViewRange.End;
     }
 
     private bool CanBarInteract( TItem item, GanttBarInteractionMode interactionMode )
@@ -3571,7 +3619,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( width < MinBarWidth )
             width = MinBarWidth;
 
-        barInfo = new GanttBarInfo( left, width, GetItemProgress( item ) );
+        barInfo = new GanttBarInfo( left, width, GetItemProgress( item ), itemStart < viewStart, itemEnd > viewEnd );
 
         return true;
     }
@@ -4700,11 +4748,13 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private readonly struct GanttBarInfo
     {
-        public GanttBarInfo( double left, double width, double? progressPercentage )
+        public GanttBarInfo( double left, double width, double? progressPercentage, bool startsBeforeView, bool endsAfterView )
         {
             Left = left;
             Width = width;
             ProgressPercentage = progressPercentage;
+            StartsBeforeView = startsBeforeView;
+            EndsAfterView = endsAfterView;
         }
 
         public double Left { get; }
@@ -4712,6 +4762,10 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         public double Width { get; }
 
         public double? ProgressPercentage { get; }
+
+        public bool StartsBeforeView { get; }
+
+        public bool EndsAfterView { get; }
     }
 
     #endregion

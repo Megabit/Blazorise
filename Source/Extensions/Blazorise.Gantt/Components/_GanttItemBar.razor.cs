@@ -62,6 +62,16 @@ public partial class _GanttItemBar : BaseComponent
     [Parameter] public bool ShowEndResizeHandle { get; set; }
 
     /// <summary>
+    /// Gets or sets whether the item start continues before the visible timeline range.
+    /// </summary>
+    [Parameter] public bool ShowStartOverflowIndicator { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the item end continues after the visible timeline range.
+    /// </summary>
+    [Parameter] public bool ShowEndOverflowIndicator { get; set; }
+
+    /// <summary>
     /// Gets or sets the content rendered inside the item bar.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
