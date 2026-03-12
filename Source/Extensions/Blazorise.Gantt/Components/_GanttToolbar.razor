@@ -5,11 +5,11 @@
 <Div Class="@ClassNames" Style="@StyleNames" Padding="PaddingIs3" Flex="FlexJustifyContentBetweenAlignItemsCenterWrap" Gap="GapIs2">
     <Div Flex="FlexAlignItemsCenterWrap" Gap="GapIs1">
         <Buttons Margin="MarginIs2FromEndIs0FromBottom">
-            <Button Color="Color.Secondary" Height="HeightIs100" Outline Clicked="@OnTodayClick">@Localizer.Localize( Gantt.Localizers?.TodayLocalizer, LocalizationConstants.Today )</Button>
-            <Button Color="Color.Secondary" Height="HeightIs100" Outline Clicked="@OnPreviousClick" aria-label="@Localizer.Localize( Gantt.Localizers?.PreviousLocalizer, LocalizationConstants.Previous )">
+            <Button Color="Color.Secondary" Height="HeightIs100" Outline Clicked="@OnTodayClick" Disabled="@(!NavigationEnabled)">@Localizer.Localize( Gantt.Localizers?.TodayLocalizer, LocalizationConstants.Today )</Button>
+            <Button Color="Color.Secondary" Height="HeightIs100" Outline Clicked="@OnPreviousClick" Disabled="@(!NavigationEnabled)" aria-label="@Localizer.Localize( Gantt.Localizers?.PreviousLocalizer, LocalizationConstants.Previous )">
                 <Icon Name="IconName.ChevronLeft" />
             </Button>
-            <Button Color="Color.Secondary" Height="HeightIs100" Outline Clicked="@OnNextClick" aria-label="@Localizer.Localize( Gantt.Localizers?.NextLocalizer, LocalizationConstants.Next )">
+            <Button Color="Color.Secondary" Height="HeightIs100" Outline Clicked="@OnNextClick" Disabled="@(!NavigationEnabled)" aria-label="@Localizer.Localize( Gantt.Localizers?.NextLocalizer, LocalizationConstants.Next )">
                 <Icon Name="IconName.ChevronRight" />
             </Button>
         </Buttons>

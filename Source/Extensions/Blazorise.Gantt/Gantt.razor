@@ -13,7 +13,10 @@
             <_GanttToolbar TItem="TItem"
                            SelectedDate="@currentDate"
                            SelectedView="@SelectedView"
+                           TimelineRangeStart="@(FitTimelineToItems ? GetCurrentViewRange().Start : (DateTime?)null)"
+                           TimelineRangeEnd="@(FitTimelineToItems ? GetCurrentViewRange().End : (DateTime?)null)"
                            FirstDayOfWeek="@EffectiveFirstDayOfWeek"
+                           NavigationEnabled="@(!FitTimelineToItems)"
                            SearchText="@searchText"
                            SearchInputWidth="@GetSearchInputWidth()"
                            ShowAddTaskButton="@ShowToolbarAddTaskButton"
@@ -45,13 +48,15 @@
             }
             var viewRange = GetCurrentViewRange();
             var timeSlots = GetTimeSlots( viewRange.Start, viewRange.End );
+            var timeHeaderGroups = GetTimelineHeaderGroups( timeSlots );
             var rowTemplate = RowTemplateForCurrentView;
             var itemTemplate = ItemTemplateForCurrentView;
             var taskItemTemplate = TaskItemTemplate ?? itemTemplate;
             var rowHeight = GetRowHeight();
             var headerRowHeight = GetHeaderRowHeight();
+            var hasGroupedTimeHeader = timeHeaderGroups.Count > 0;
+            var totalHeaderHeight = hasGroupedTimeHeader ? headerRowHeight * 2d : headerRowHeight;
             var cellWidth = GetTimelineCellWidth();
-            var timelineHeaderStyle = GetTimelineHeaderStyle( timeSlots.Count, cellWidth );
             var timelineRowStyle = GetTimelineRowStyle( rowHeight, timeSlots.Count, cellWidth );
             var treeToggleWidth = GetTreeToggleWidth();
             var showHeaderNewButton = ShowHeaderNewButton;
@@ -62,7 +67,12 @@
 
         <_GanttBody Style="@GetBodyStyle()">
             <_GanttTreePane Style="@treePaneStyle">
-                <_GanttTreeHeader Height="Blazorise.Height.Px( headerRowHeight )" Border="BorderIs1OnBottom" Position="PositionStickyTopIs0" Background="BackgroundBody">
+                @if ( hasGroupedTimeHeader )
+                {
+                    <_GanttTreeHeader Height="Blazorise.Height.Px( headerRowHeight )" Border="BorderIs1OnBottom" Position="PositionStickyTopIs0" Background="BackgroundBody" Style="@GetTreeHeaderStyle( 0 )" />
+                }
+
+                <_GanttTreeHeader Height="Blazorise.Height.Px( headerRowHeight )" Border="BorderIs1OnBottom" Position="PositionStickyTopIs0" Background="BackgroundBody" Style="@GetTreeHeaderStyle( hasGroupedTimeHeader ? 1 : 0 )">
                     @foreach ( var treeColumn in treeColumns )
                     {
                         if ( treeColumn.IsCommand )
@@ -109,7 +119,7 @@
                     }
                 </_GanttTreeHeader>
 
-                <_GanttTreeRows @ref="ganttTreeRowsRef" Style="@GetTreeRowsStyle()" TabIndex="@(KeyboardNavigation ? 0 : -1)" KeyDown="@OnTreeRowsKeyDown">
+                <_GanttTreeRows @ref="ganttTreeRowsRef" Style="@GetTreeRowsStyle( totalHeaderHeight )" TabIndex="@(KeyboardNavigation ? 0 : -1)" KeyDown="@OnTreeRowsKeyDown">
                     @if ( visibleRows.Count == 0 )
                     {
                         <Div Padding="PaddingIs3" TextColor="TextColorMuted">@NoTasksToDisplayText</Div>
@@ -192,7 +202,19 @@
             <_GanttTimelinePane Style="@GetTimelinePaneStyle()">
                 <_GanttTimelineViewport Style="@GetTimelineViewportStyle()">
                     <_GanttTimelineInner Style="@GetTimelineInnerStyle( timeSlots.Count, cellWidth )">
-                        <_GanttTimeHeader Height="Blazorise.Height.Px( headerRowHeight )" Border="BorderIs1OnBottom" Position="PositionStickyTopIs0" Background="BackgroundBody" Style="@timelineHeaderStyle">
+                        @if ( hasGroupedTimeHeader )
+                        {
+                            <_GanttTimeHeader Height="Blazorise.Height.Px( headerRowHeight )" Border="BorderIs1OnBottom" Position="PositionStickyTopIs0" Background="BackgroundBody" Style="@GetTimelineHeaderStyle( 0, timeSlots.Count, cellWidth, includePaddedZoneBackground: false )">
+                                @foreach ( var headerGroup in timeHeaderGroups )
+                                {
+                                    <Div @key="@headerGroup.Key" Style="@GetTimelineGroupHeaderCellStyle( cellWidth, headerGroup.SlotCount )" Padding="PaddingIs1OnX">
+                                        <Span TextSize="TextSizeSmall" TextWeight="TextWeight.Bold">@headerGroup.Label</Span>
+                                    </Div>
+                                }
+                            </_GanttTimeHeader>
+                        }
+
+                        <_GanttTimeHeader Height="Blazorise.Height.Px( headerRowHeight )" Border="BorderIs1OnBottom" Position="PositionStickyTopIs0" Background="BackgroundBody" Style="@GetTimelineHeaderStyle( hasGroupedTimeHeader ? 1 : 0, timeSlots.Count, cellWidth, includePaddedZoneBackground: true )">
                             @for ( var slotIndex = 0; slotIndex < timeSlots.Count; slotIndex++ )
                             {
                                 var slot = timeSlots[slotIndex];

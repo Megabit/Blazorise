@@ -88,6 +88,11 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
     {
         get
         {
+            if ( TimelineRangeStart.HasValue && TimelineRangeEnd.HasValue )
+            {
+                return FormatTimelineRangeText( TimelineRangeStart.Value, TimelineRangeEnd.Value );
+            }
+
             if ( SelectedView == GanttView.Week )
             {
                 var start = SelectedDate.StartOfWeek( FirstDayOfWeek );
@@ -111,6 +116,35 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
     }
 
     private bool ShowViewButtons => ShowDayViewButton || ShowWeekViewButton || ShowMonthViewButton || ShowYearViewButton;
+
+    private string FormatTimelineRangeText( DateTime rangeStart, DateTime rangeEnd )
+    {
+        if ( SelectedView == GanttView.Day )
+        {
+            var displayEnd = rangeEnd > rangeStart
+                ? rangeEnd.AddHours( -1 )
+                : rangeEnd;
+
+            return $"{rangeStart.ToString( "MMM dd, yyyy HH:mm", CultureInfo.InvariantCulture )} - {displayEnd.ToString( "MMM dd, yyyy HH:mm", CultureInfo.InvariantCulture )}";
+        }
+
+        if ( SelectedView == GanttView.Year )
+        {
+            var displayEnd = rangeEnd > rangeStart
+                ? rangeEnd.AddMonths( -1 )
+                : rangeEnd;
+
+            return rangeStart.Year == displayEnd.Year
+                ? rangeStart.ToString( "yyyy", CultureInfo.InvariantCulture )
+                : $"{rangeStart.ToString( "yyyy", CultureInfo.InvariantCulture )} - {displayEnd.ToString( "yyyy", CultureInfo.InvariantCulture )}";
+        }
+
+        var end = rangeEnd > rangeStart
+            ? rangeEnd.AddDays( -1 )
+            : rangeEnd;
+
+        return $"{rangeStart.ToString( "MMM dd", CultureInfo.InvariantCulture )} - {end.ToString( "MMM dd, yyyy", CultureInfo.InvariantCulture )}";
+    }
 
     /// <summary>
     /// Gets the text localizer used for toolbar labels.
@@ -138,9 +172,24 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
     [Parameter] public GanttView SelectedView { get; set; }
 
     /// <summary>
+    /// Gets or sets the visible timeline range start used for toolbar range text.
+    /// </summary>
+    [Parameter] public DateTime? TimelineRangeStart { get; set; }
+
+    /// <summary>
+    /// Gets or sets the visible timeline range end used for toolbar range text.
+    /// </summary>
+    [Parameter] public DateTime? TimelineRangeEnd { get; set; }
+
+    /// <summary>
     /// Gets or sets the first day of the week used for range calculations.
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether toolbar navigation buttons are enabled.
+    /// </summary>
+    [Parameter] public bool NavigationEnabled { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the current search text.

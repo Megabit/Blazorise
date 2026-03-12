@@ -16,6 +16,14 @@
                     </Paragraph>
                 </Div>
                 <Div>
+                    <Field>
+                        <Switch @bind-Value="@fitTimelineToItems" Margin="Margin.Is3.FromBottom">Fit Timeline To Items</Switch>
+                    </Field>
+                    <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
+                        Control the timeline scale.
+                    </Paragraph>
+                </Div>
+                <Div>
                     <Buttons Margin="Margin.Is3.FromBottom">
                         <Button Color="Color.Secondary" Outline Size="Size.Small" Clicked="@SaveCurrentState">Save state</Button>
                         <Button Color="Color.Primary" Outline Size="Size.Small" Clicked="@LoadSavedState" Disabled="@(savedState is null)">Load saved state</Button>
@@ -37,6 +45,7 @@
                        @bind-SelectedView="@selectedView"
                        DurationField="Duration"
                        Editable
+                       FitTimelineToItems="@fitTimelineToItems"
                        ReadData="@ReadDataCallback"
                        ItemStyling="@OnItemStyling"
                        ItemInserted="@OnItemInserted"
@@ -132,6 +141,7 @@
     private GanttView selectedView = GanttView.Week;
     private DateOnly hierarchicalDate = DateOnly.FromDateTime( DateTime.Today );
     private bool useApiFetch;
+    private bool fitTimelineToItems;
     private DateTime? lastReadDataUtc;
     private DateTime? savedStateUtc;
     private Gantt<GanttTask> ganttRef;

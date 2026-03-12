@@ -3431,10 +3431,18 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         return "min-height: 360px; max-height: 100%; min-width: 0; overflow: hidden;";
     }
 
-    private string GetTreeRowsStyle()
+    private string GetTreeRowsStyle( double headerHeight )
     {
-        var headerHeightText = GetHeaderRowHeight().ToString( "0.###", CultureInfo.InvariantCulture );
+        var headerHeightText = headerHeight.ToString( "0.###", CultureInfo.InvariantCulture );
         return $"height: calc(100% - {headerHeightText}px); max-height: 100%; overflow-x: hidden; overflow-y: hidden; outline: none;";
+    }
+
+    private string GetTreeHeaderStyle( int rowIndex )
+    {
+        var top = ( rowIndex * GetHeaderRowHeight() ).ToString( "0.###", CultureInfo.InvariantCulture );
+        var zIndex = ( 10 - rowIndex ).ToString( CultureInfo.InvariantCulture );
+
+        return $"top: {top}px; z-index: {zIndex};";
     }
 
     private string GetTimelinePaneStyle()
@@ -3494,13 +3502,25 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         return $"display: flex; align-items: center; justify-content: center; text-align: center; border-right: 1px solid rgba(0,0,0,0.08); width: {width}px; min-width: {width}px; max-width: {width}px;";
     }
 
-    private string GetTimelineHeaderStyle( int slotsCount, double cellWidth )
+    private string GetTimelineGroupHeaderCellStyle( double cellWidth, int slotCount )
     {
-        var style = "position: relative;";
-        var paddedZoneBackground = GetTimelinePaddedZoneBackground( slotsCount, cellWidth );
+        var width = ( Math.Max( 1, slotCount ) * cellWidth ).ToString( "0.###", CultureInfo.InvariantCulture );
+        return $"display: flex; align-items: center; justify-content: center; text-align: center; border-right: 1px solid rgba(0,0,0,0.08); width: {width}px; min-width: {width}px; max-width: {width}px;";
+    }
 
-        if ( !string.IsNullOrWhiteSpace( paddedZoneBackground ) )
-            style = $"{style} background-image: {paddedZoneBackground};";
+    private string GetTimelineHeaderStyle( int rowIndex, int slotsCount, double cellWidth, bool includePaddedZoneBackground )
+    {
+        var top = ( rowIndex * GetHeaderRowHeight() ).ToString( "0.###", CultureInfo.InvariantCulture );
+        var zIndex = ( 10 - rowIndex ).ToString( CultureInfo.InvariantCulture );
+        var style = $"top: {top}px; z-index: {zIndex};";
+
+        if ( includePaddedZoneBackground )
+        {
+            var paddedZoneBackground = GetTimelinePaddedZoneBackground( slotsCount, cellWidth );
+
+            if ( !string.IsNullOrWhiteSpace( paddedZoneBackground ) )
+                style = $"{style} background-image: {paddedZoneBackground};";
+        }
 
         return style;
     }
@@ -3510,12 +3530,22 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         var rowHeightText = rowHeight.ToString( "0.###", CultureInfo.InvariantCulture );
         var cellWidthText = cellWidth.ToString( "0.###", CultureInfo.InvariantCulture );
         var paddedZoneBackground = GetTimelinePaddedZoneBackground( slotsCount, cellWidth );
-        var rowGridBackground = $"repeating-linear-gradient(to right, rgba(0,0,0,0.07), rgba(0,0,0,0.07) 1px, transparent 1px, transparent {cellWidthText}px)";
+        var backgroundLayers = new List<string>();
+        var backgroundSizes = new List<string>();
+        var backgroundRepeats = new List<string>();
 
         if ( !string.IsNullOrWhiteSpace( paddedZoneBackground ) )
-            rowGridBackground = $"{paddedZoneBackground}, {rowGridBackground}";
+        {
+            backgroundLayers.Add( paddedZoneBackground );
+            backgroundSizes.Add( "100% 100%" );
+            backgroundRepeats.Add( "no-repeat" );
+        }
 
-        return $"position: relative; width: 100%; min-width: 100%; height: {rowHeightText}px; min-height: {rowHeightText}px; border-bottom: 1px solid rgba(0,0,0,0.08); background-image: {rowGridBackground};";
+        backgroundLayers.Add( "linear-gradient(to right, rgba(0,0,0,0.07) 0px, rgba(0,0,0,0.07) 1px, transparent 1px, transparent 100%)" );
+        backgroundSizes.Add( $"{cellWidthText}px 100%" );
+        backgroundRepeats.Add( "repeat" );
+
+        return $"position: relative; width: 100%; min-width: 100%; height: {rowHeightText}px; min-height: {rowHeightText}px; border-bottom: 1px solid rgba(0,0,0,0.08); background-image: {string.Join( ", ", backgroundLayers )}; background-size: {string.Join( ", ", backgroundSizes )}; background-repeat: {string.Join( ", ", backgroundRepeats )};";
     }
 
     private string GetTimelinePaddedZoneBackground( int slotsCount, double cellWidth )
@@ -3563,8 +3593,8 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( slotsCount <= 0 )
             return (0, 0);
 
-        var leadingSlots = GetCurrentViewLeadingSlots();
-        var trailingSlots = GetCurrentViewTrailingSlots();
+        var leadingSlots = GetConfiguredViewLeadingSlots();
+        var trailingSlots = GetConfiguredViewTrailingSlots();
 
         leadingSlots = Math.Min( Math.Max( 0, leadingSlots ), slotsCount );
         trailingSlots = Math.Min( Math.Max( 0, trailingSlots ), Math.Max( 0, slotsCount - leadingSlots ) );
@@ -3673,7 +3703,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         return itemStyling;
     }
 
-    private GanttViewRange GetCurrentAnchorRange()
+    private GanttViewRange GetSelectedDateAnchorRange()
     {
         if ( SelectedView == GanttView.Week )
         {
@@ -3697,6 +3727,14 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         return new GanttViewRange( dayStart, dayStart.AddDays( 1 ) );
     }
 
+    private GanttViewRange GetCurrentAnchorRange()
+    {
+        if ( FitTimelineToItems && TryGetTimelineItemsAnchorRange( out var itemsAnchorRange ) )
+            return itemsAnchorRange;
+
+        return GetSelectedDateAnchorRange();
+    }
+
     private GanttViewRange GetCurrentViewRange()
     {
         var anchorRange = GetCurrentAnchorRange();
@@ -3717,22 +3755,112 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private int GetCurrentViewLeadingSlots()
     {
-        var view = ActiveView;
+        var configuredLeadingSlots = GetConfiguredViewLeadingSlots();
 
-        if ( view is null || view.LeadingSlots <= 0 )
-            return 0;
+        if ( configuredLeadingSlots > 0 )
+            return configuredLeadingSlots;
 
-        return view.LeadingSlots;
+        return ShouldApplyFitTimelinePadding() ? 1 : 0;
     }
 
     private int GetCurrentViewTrailingSlots()
     {
-        var view = ActiveView;
+        var configuredTrailingSlots = GetConfiguredViewTrailingSlots();
 
-        if ( view is null || view.TrailingSlots <= 0 )
-            return 0;
+        if ( configuredTrailingSlots > 0 )
+            return configuredTrailingSlots;
 
-        return view.TrailingSlots;
+        return ShouldApplyFitTimelinePadding() ? 1 : 0;
+    }
+
+    private int GetConfiguredViewLeadingSlots()
+        => ActiveView?.LeadingSlots > 0 ? ActiveView.LeadingSlots : 0;
+
+    private int GetConfiguredViewTrailingSlots()
+        => ActiveView?.TrailingSlots > 0 ? ActiveView.TrailingSlots : 0;
+
+    private bool ShouldApplyFitTimelinePadding()
+        => FitTimelineToItems && TryGetTimelineItemsAnchorRange( out _ );
+
+    private bool TryGetTimelineItemsAnchorRange( out GanttViewRange viewRange )
+    {
+        viewRange = default;
+
+        if ( !FitTimelineToItems || !propertyMapper.HasStart || !propertyMapper.HasEnd )
+            return false;
+
+        var hasRange = false;
+        var minStart = DateTime.MaxValue;
+        var maxEnd = DateTime.MinValue;
+
+        foreach ( var item in EnumerateAllDataItems() )
+        {
+            if ( item is null )
+                continue;
+
+            var itemStart = GetItemStart( item );
+            var itemEnd = GetItemEnd( item );
+
+            if ( DateTimeUtils.IsUnassigned( itemStart ) )
+                continue;
+
+            if ( DateTimeUtils.IsUnassigned( itemEnd ) || itemEnd <= itemStart )
+                itemEnd = GetMinimumTimelineRangeEnd( itemStart );
+
+            hasRange = true;
+
+            if ( itemStart < minStart )
+                minStart = itemStart;
+
+            if ( itemEnd > maxEnd )
+                maxEnd = itemEnd;
+        }
+
+        if ( !hasRange )
+            return false;
+
+        var alignedStart = AlignTimelineBoundary( minStart, endBoundary: false );
+        var alignedEnd = AlignTimelineBoundary( maxEnd, endBoundary: true );
+
+        if ( alignedEnd <= alignedStart )
+            alignedEnd = ShiftDateBySlotOffset( alignedStart, 1 );
+
+        viewRange = new GanttViewRange( alignedStart, alignedEnd );
+
+        return true;
+    }
+
+    private DateTime GetMinimumTimelineRangeEnd( DateTime start )
+        => ShiftDateBySlotOffset( AlignTimelineBoundary( start, endBoundary: false ), 1 );
+
+    private DateTime AlignTimelineBoundary( DateTime value, bool endBoundary )
+    {
+        if ( SelectedView == GanttView.Year )
+        {
+            var monthStart = new DateTime( value.Year, value.Month, 1, 0, 0, 0, value.Kind );
+
+            if ( endBoundary && value > monthStart )
+                return monthStart.AddMonths( 1 );
+
+            return monthStart;
+        }
+
+        if ( SelectedView == GanttView.Day )
+        {
+            var hourStart = new DateTime( value.Year, value.Month, value.Day, value.Hour, 0, 0, value.Kind );
+
+            if ( endBoundary && value > hourStart )
+                return hourStart.AddHours( 1 );
+
+            return hourStart;
+        }
+
+        var dayStart = value.Date;
+
+        if ( endBoundary && value > dayStart )
+            return dayStart.AddDays( 1 );
+
+        return dayStart;
     }
 
     private List<GanttTimeSlot> GetTimeSlots( DateTime viewStart, DateTime viewEnd )
@@ -3821,6 +3949,70 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         }
 
         return slots;
+    }
+
+    private List<GanttTimeHeaderGroup> GetTimelineHeaderGroups( IReadOnlyList<GanttTimeSlot> slots )
+    {
+        var groups = new List<GanttTimeHeaderGroup>();
+
+        if ( !FitTimelineToItems || slots is null || slots.Count == 0 )
+            return groups;
+
+        string currentKey = null;
+        string currentLabel = null;
+        var currentStartIndex = 0;
+
+        for ( var slotIndex = 0; slotIndex < slots.Count; slotIndex++ )
+        {
+            var slot = slots[slotIndex];
+            var group = GetTimelineHeaderGroup( slot );
+
+            if ( currentKey is null )
+            {
+                currentKey = group.Key;
+                currentLabel = group.Label;
+                currentStartIndex = slotIndex;
+                continue;
+            }
+
+            if ( string.Equals( currentKey, group.Key, StringComparison.Ordinal ) )
+                continue;
+
+            groups.Add( new GanttTimeHeaderGroup( currentKey, currentLabel, slotIndex - currentStartIndex ) );
+
+            currentKey = group.Key;
+            currentLabel = group.Label;
+            currentStartIndex = slotIndex;
+        }
+
+        if ( currentKey is not null )
+            groups.Add( new GanttTimeHeaderGroup( currentKey, currentLabel, slots.Count - currentStartIndex ) );
+
+        return groups;
+    }
+
+    private GanttTimeHeaderGroup GetTimelineHeaderGroup( GanttTimeSlot slot )
+    {
+        if ( SelectedView == GanttView.Day )
+        {
+            return new GanttTimeHeaderGroup(
+                key: slot.Start.ToString( "yyyy-MM-dd", CultureInfo.InvariantCulture ),
+                label: slot.Start.ToString( "ddd dd MMM", CultureInfo.InvariantCulture ),
+                slotCount: 0 );
+        }
+
+        if ( SelectedView == GanttView.Year )
+        {
+            return new GanttTimeHeaderGroup(
+                key: slot.Start.ToString( "yyyy", CultureInfo.InvariantCulture ),
+                label: slot.Start.ToString( "yyyy", CultureInfo.InvariantCulture ),
+                slotCount: 0 );
+        }
+
+        return new GanttTimeHeaderGroup(
+            key: slot.Start.ToString( "yyyy-MM", CultureInfo.InvariantCulture ),
+            label: slot.Start.ToString( "MMMM yyyy", CultureInfo.InvariantCulture ),
+            slotCount: 0 );
     }
 
     private static double GetTreePaneWidth( IReadOnlyList<GanttRenderColumn> treeColumns )
@@ -4341,6 +4533,11 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     [Parameter] public EventCallback<GanttView> SelectedViewChanged { get; set; }
 
     /// <summary>
+    /// Gets or sets whether the timeline range automatically expands to include all items for the active view.
+    /// </summary>
+    [Parameter] public bool FitTimelineToItems { get; set; }
+
+    /// <summary>
     /// Gets or sets first day of week used by weekly calculations.
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Monday;
@@ -4765,6 +4962,22 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         public DateTime Start { get; }
 
         public DateTime End { get; }
+    }
+
+    private readonly struct GanttTimeHeaderGroup
+    {
+        public GanttTimeHeaderGroup( string key, string label, int slotCount )
+        {
+            Key = key;
+            Label = label;
+            SlotCount = slotCount;
+        }
+
+        public string Key { get; }
+
+        public string Label { get; }
+
+        public int SlotCount { get; }
     }
 
     private readonly struct GanttBarInfo
