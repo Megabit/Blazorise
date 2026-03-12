@@ -1,0 +1,32 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Validations @ref="@validations" Mode="ValidationMode.Manual">
+    <Validation UsePattern>
+        <Field>
+            <FieldLabel RequiredIndicator>Security code</FieldLabel>
+            <FieldBody>
+                <OneTimeInput @bind-Value="@securityCode"
+                              Digits="6"
+                              Pattern="[0-9]{6}">
+                    <Feedback>
+                        <ValidationError>Please enter all 6 digits.</ValidationError>
+                    </Feedback>
+                </OneTimeInput>
+            </FieldBody>
+        </Field>
+    </Validation>
+
+    <Button Color="Color.Primary" Clicked="@ValidateCode">
+        Validate
+    </Button>
+</Validations>
+
+@code {
+    private Validations validations;
+    private string securityCode;
+
+    private Task ValidateCode()
+    {
+        return validations.ValidateAll();
+    }
+}

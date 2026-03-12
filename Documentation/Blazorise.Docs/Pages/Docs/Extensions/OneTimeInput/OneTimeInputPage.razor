@@ -1,0 +1,106 @@
+@page "/docs/extensions/onetimeinput"
+
+<Seo Canonical="/docs/extensions/onetimeinput" Title="Blazorise OneTimeInput component" Description="Learn how to use the Blazorise OneTimeInput component for OTP codes, verification flows, grouped tokens, paste support, and validation." />
+
+<DocsPageTitle Path="Extensions/OneTimeInput">
+    Blazorise OneTimeInput component
+</DocsPageTitle>
+
+<DocsPageLead>
+    The <Code>OneTimeInput</Code> component is built for verification codes, one-time passwords, short grouped tokens, and recovery keys.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Instead of asking users to type everything into one long field, <Code>OneTimeInput</Code> breaks the value into clear slots. Typing moves forward automatically, pasted values fill the remaining slots, and grouping helps the value stay easy to scan.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Use it for SMS codes, email confirmation flows, sign-in challenges, office codes, or any short identifier where readability and speed matter.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    To use the <Code>OneTimeInput</Code> component, install the <Code>Blazorise.Components</Code> package first.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="OneTimeInputNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Code>_Imports.razor</Code> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="OneTimeInputImportsExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    How it works
+</DocsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code>Digits</Code> controls how many slots are rendered.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Code>Group</Code> adds separators such as <Code>2,3</Code> to produce layouts like <Code>XX-XXX</Code>.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        When <Code>Group</Code> is not set and the input has at least 6 slots, grouping is applied automatically in blocks of 3.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Standard Blazorise validation works because <Code>OneTimeInput</Code> inherits from <Code>BaseInputComponent</Code>.
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic verification code">
+        Start with a 6-digit code. This is the most common OTP layout and it automatically groups into two blocks of 3.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OneTimeInputBasicExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OneTimeInputBasicExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom grouping">
+        Use the <Code>Group</Code> parameter when your code format is not a standard 3-and-3 split.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OneTimeInputGroupingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OneTimeInputGroupingExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Validation">
+        Use <Code>OneTimeInput</Code> inside <Code>Validation</Code> and <Code>Validations</Code> just like any other Blazorise input.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OneTimeInputValidationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OneTimeInputValidationExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Text mode">
+        Switch to text input when the value can contain letters, such as a recovery key or grouped invitation token.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OneTimeInputTextModeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OneTimeInputTextModeExample" />
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof(OneTimeInput)]" />
