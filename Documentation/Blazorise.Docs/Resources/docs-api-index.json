@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-11T09:56:28.5914597Z",
+  "generatedUtc": "2026-03-12T13:02:50.9476946Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -44796,6 +44796,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "AutoExpandView",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Gets or sets whether the active view range automatically expands to include all items.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Background",
           "type": "global::Blazorise.Background",
           "typeName": "Background",
@@ -44889,6 +44897,14 @@
           "typeName": "IFluentDisplay",
           "defaultValue": "null",
           "summary": "Specifies the display behavior (e.g., block, inline, flex) of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Draggable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether timeline item bars can be dragged to move their start and end dates together.",
           "isBlazoriseEnum": false
         },
         {
@@ -45090,6 +45106,14 @@
           "typeName": "string",
           "defaultValue": "\"Progress\"",
           "summary": "Gets or sets progress field name.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Resizable",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "Gets or sets whether timeline item bars can be resized by dragging their start and end edges.",
           "isBlazoriseEnum": false
         },
         {

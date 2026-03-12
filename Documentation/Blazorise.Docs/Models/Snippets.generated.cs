@@ -9567,6 +9567,81 @@ builder.Services
 
 services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
+        public const string GanttAutoExpandViewExample = @"<Field Margin=""Margin.Is3.FromBottom"">
+    <Switch @bind-Value=""@autoExpandView"">Auto expand current view to the loaded task range</Switch>
+</Field>
+
+<Gantt TItem=""TaskItem""
+       Data=""@tasks""
+       @bind-Date=""@selectedDate""
+       @bind-SelectedView=""@selectedView""
+       AutoExpandView=""@autoExpandView""
+       DurationField=""Duration"">
+    <GanttColumns>
+        <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px( 220 )"" />
+        <GanttColumn Field=""Start"" Width=""Width.Px( 130 )"" />
+        <GanttColumn Field=""End"" Width=""Width.Px( 130 )"" Visible=""false"" />
+        <GanttColumn Field=""Duration"" Width=""Width.Px( 90 )"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
+    </GanttColumns>
+    <GanttToolbar />
+    <GanttViews>
+        <GanttWeekView TimelineCellWidth=""92"" RowHeight=""44"" />
+        <GanttMonthView TimelineCellWidth=""38"" RowHeight=""44"" />
+        <GanttYearView TimelineCellWidth=""84"" RowHeight=""44"" />
+    </GanttViews>
+</Gantt>
+
+<Paragraph TextColor=""TextColor.Muted"" Margin=""Margin.Is2.FromTop"">
+    Anchor date: @selectedDate | View: @selectedView | AutoExpandView: @autoExpandView
+</Paragraph>
+
+@code {
+    private bool autoExpandView = true;
+
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today.AddMonths( -3 ) );
+
+    private GanttView selectedView = GanttView.Week;
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        DateTime rangeStart = new DateTime( DateTime.Today.Year, DateTime.Today.Month, 1 ).AddDays( -4 );
+
+        List<TaskItem> result = new()
+        {
+            new() { Id = ""1"", Title = ""Auto-expand release"", Start = rangeStart, End = rangeStart.AddDays( 41 ) },
+            new() { Id = ""2"", ParentId = ""1"", Title = ""Design phase"", Start = rangeStart, End = rangeStart.AddDays( 8 ) },
+            new() { Id = ""3"", ParentId = ""1"", Title = ""Implementation"", Start = rangeStart.AddDays( 7 ), End = rangeStart.AddDays( 28 ) },
+            new() { Id = ""4"", ParentId = ""3"", Title = ""Backend services"", Start = rangeStart.AddDays( 9 ), End = rangeStart.AddDays( 18 ) },
+            new() { Id = ""5"", ParentId = ""3"", Title = ""Frontend polish"", Start = rangeStart.AddDays( 16 ), End = rangeStart.AddDays( 31 ) },
+            new() { Id = ""6"", ParentId = ""1"", Title = ""Validation and rollout"", Start = rangeStart.AddDays( 30 ), End = rangeStart.AddDays( 41 ) },
+        };
+
+        foreach ( TaskItem item in result )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        return result;
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+    }
+}";
+
         public const string GanttEditableExample = @"<Gantt TItem=""TaskItem""
        Data=""@tasks""
        Date=""@selectedDate""
