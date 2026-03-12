@@ -608,7 +608,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string CardBody() => "ant-card-body";
 
-    public override string CardFooter() => null;
+    public override string CardFooter() => "ant-card-body b-ant-card-footer";
 
     public override string CardHeader() => "ant-card-head";
 
@@ -618,11 +618,11 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string CardTitleSize( bool insideHeader, HeadingSize? size ) => null;
 
-    public override string CardSubtitle( bool insideHeader ) => insideHeader ? "ant-card-head-subtitle" : "ant-card-meta-description";
+    public override string CardSubtitle( bool insideHeader ) => insideHeader ? "b-ant-card-head-subtitle" : "ant-card-meta-description";
 
     public override string CardSubtitleSize( bool insideHeader, HeadingSize? size ) => null;
 
-    public override string CardText() => null;
+    public override string CardText() => "b-ant-card-text";
 
     public override string CardLink() => "ant-card-link";
 
