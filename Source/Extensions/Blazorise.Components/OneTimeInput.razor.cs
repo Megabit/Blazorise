@@ -245,9 +245,19 @@ public partial class OneTimeInput : BaseInputComponent<string, OneTimeInputClass
         {
             ExecuteAfterRender( () => FocusSlotAsync( slotIndex + 1 ) );
         }
-        else if ( IsKey( eventArgs, "Backspace" ) && string.IsNullOrEmpty( slotValues[slotIndex] ) && slotIndex > 0 )
+        else if ( IsKey( eventArgs, "Backspace" ) )
         {
-            ExecuteAfterRender( () => FocusSlotAsync( slotIndex - 1 ) );
+            if ( !string.IsNullOrEmpty( slotValues[slotIndex] ) )
+            {
+                slotValues[slotIndex] = string.Empty;
+
+                await CurrentValueHandler( CurrentCombinedValue );
+            }
+
+            if ( slotIndex > 0 )
+            {
+                ExecuteAfterRender( () => FocusSlotAsync( slotIndex - 1 ) );
+            }
         }
     }
 

@@ -101,6 +101,31 @@ public class OneTimeInputComponentTest : TestContext
     }
 
     [Fact]
+    public async Task ClearsCurrentSlotAndMovesFocusToPreviousSlotOnBackspace()
+    {
+        var comp = RenderComponent<OneTimeInput>( parameters => parameters
+            .Add( x => x.Digits, 4 )
+            .Add( x => x.Value, "12" ) );
+
+        var inputs = comp.FindAll( "input" );
+
+        await inputs[1].KeyDownAsync( new() { Code = "Backspace" } );
+
+        inputs = comp.FindAll( "input" );
+
+        Assert.Equal( "1", comp.Instance.Value );
+        Assert.Equal( "1", inputs[0].GetAttribute( "value" ) );
+        Assert.True( string.IsNullOrEmpty( inputs[1].GetAttribute( "value" ) ) );
+
+        comp.WaitForAssertion( () =>
+        {
+            var invocation = JSInterop.VerifyInvoke( "focus" );
+
+            Assert.Equal( inputs[0].GetAttribute( "id" ), invocation.Arguments[1] as string );
+        }, TestExtensions.WaitTime );
+    }
+
+    [Fact]
     public void SynchronizesSlotsFromBoundValue()
     {
         var comp = RenderComponent<OneTimeInput>( parameters => parameters
