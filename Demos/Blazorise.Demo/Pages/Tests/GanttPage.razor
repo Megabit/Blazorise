@@ -17,7 +17,7 @@
                 </Div>
                 <Div>
                     <Field>
-                        <Switch @bind-Value="@fitTimelineToItems" Margin="Margin.Is3.FromBottom">Fit Timeline To Items</Switch>
+                        <Switch @bind-Value="@autoExpandView" Margin="Margin.Is3.FromBottom">Auto Expand View</Switch>
                     </Field>
                     <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
                         Control the timeline scale.
@@ -45,7 +45,7 @@
                        @bind-SelectedView="@selectedView"
                        DurationField="Duration"
                        Editable
-                       FitTimelineToItems="@fitTimelineToItems"
+                       AutoExpandView="@autoExpandView"
                        ReadData="@ReadDataCallback"
                        ItemStyling="@OnItemStyling"
                        ItemInserted="@OnItemInserted"
@@ -141,7 +141,7 @@
     private GanttView selectedView = GanttView.Week;
     private DateOnly hierarchicalDate = DateOnly.FromDateTime( DateTime.Today );
     private bool useApiFetch;
-    private bool fitTimelineToItems;
+    private bool autoExpandView;
     private DateTime? lastReadDataUtc;
     private DateTime? savedStateUtc;
     private Gantt<GanttTask> ganttRef;

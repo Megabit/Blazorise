@@ -3729,7 +3729,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
 
     private GanttViewRange GetCurrentAnchorRange()
     {
-        if ( FitTimelineToItems && TryGetTimelineItemsAnchorRange( out var itemsAnchorRange ) )
+        if ( AutoExpandView && TryGetTimelineItemsAnchorRange( out var itemsAnchorRange ) )
             return itemsAnchorRange;
 
         return GetSelectedDateAnchorRange();
@@ -3760,7 +3760,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( configuredLeadingSlots > 0 )
             return configuredLeadingSlots;
 
-        return ShouldApplyFitTimelinePadding() ? 1 : 0;
+        return ShouldApplyAutoExpandViewPadding() ? 1 : 0;
     }
 
     private int GetCurrentViewTrailingSlots()
@@ -3770,7 +3770,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         if ( configuredTrailingSlots > 0 )
             return configuredTrailingSlots;
 
-        return ShouldApplyFitTimelinePadding() ? 1 : 0;
+        return ShouldApplyAutoExpandViewPadding() ? 1 : 0;
     }
 
     private int GetConfiguredViewLeadingSlots()
@@ -3779,14 +3779,15 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private int GetConfiguredViewTrailingSlots()
         => ActiveView?.TrailingSlots > 0 ? ActiveView.TrailingSlots : 0;
 
-    private bool ShouldApplyFitTimelinePadding()
-        => FitTimelineToItems && TryGetTimelineItemsAnchorRange( out _ );
+    private bool ShouldApplyAutoExpandViewPadding()
+        => AutoExpandView
+           && TryGetTimelineItemsAnchorRange( out _ );
 
     private bool TryGetTimelineItemsAnchorRange( out GanttViewRange viewRange )
     {
         viewRange = default;
 
-        if ( !FitTimelineToItems || !propertyMapper.HasStart || !propertyMapper.HasEnd )
+        if ( !AutoExpandView || !propertyMapper.HasStart || !propertyMapper.HasEnd )
             return false;
 
         var hasRange = false;
@@ -3955,7 +3956,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     {
         var groups = new List<GanttTimeHeaderGroup>();
 
-        if ( !FitTimelineToItems || slots is null || slots.Count == 0 )
+        if ( !AutoExpandView || slots is null || slots.Count == 0 )
             return groups;
 
         string currentKey = null;
@@ -4533,9 +4534,9 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     [Parameter] public EventCallback<GanttView> SelectedViewChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the timeline range automatically expands to include all items for the active view.
+    /// Gets or sets whether the active view range automatically expands to include all items.
     /// </summary>
-    [Parameter] public bool FitTimelineToItems { get; set; }
+    [Parameter] public bool AutoExpandView { get; set; }
 
     /// <summary>
     /// Gets or sets first day of week used by weekly calculations.
