@@ -10,7 +10,9 @@
      @onclick="@Clicked">
     @if ( ShowStartOverflowIndicator )
     {
-        <div style="position: absolute; left: 0; top: 0; width: 14px; height: 100%; pointer-events: none; z-index: 1; background: linear-gradient(to right, rgba(255,255,255,0.4), transparent); border-left: 2px dashed rgba(255,255,255,0.9);" />
+        <span style="position: absolute; left: 2px; top: 50%; transform: translateY(-50%); pointer-events: none; z-index: 2; display: inline-flex; align-items: center; justify-content: center; opacity: 0.95;">
+            <Icon Name="IconName.AngleLeft" />
+        </span>
     }
 
     @if ( ShowStartResizeHandle )
@@ -26,7 +28,9 @@
 
     @if ( ShowEndOverflowIndicator )
     {
-        <div style="position: absolute; right: 0; top: 0; width: 14px; height: 100%; pointer-events: none; z-index: 1; background: linear-gradient(to left, rgba(255,255,255,0.4), transparent); border-right: 2px dashed rgba(255,255,255,0.9);" />
+        <span style="position: absolute; right: 2px; top: 50%; transform: translateY(-50%); pointer-events: none; z-index: 2; display: inline-flex; align-items: center; justify-content: center; opacity: 0.95;">
+            <Icon Name="IconName.AngleRight" />
+        </span>
     }
 
     @if ( ShowEndResizeHandle )

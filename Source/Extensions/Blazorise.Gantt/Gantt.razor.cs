@@ -3643,6 +3643,27 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         return style;
     }
 
+    private string GetDefaultBarTitleStyle( GanttBarInfo barInfo )
+    {
+        var style = "min-width: 0;";
+
+        if ( barInfo.StartsBeforeView )
+            style = $"{style} padding-left: 1.1rem;";
+
+        if ( barInfo.EndsAfterView && barInfo.ProgressPercentage is null )
+            style = $"{style} padding-right: 1.1rem;";
+
+        return style;
+    }
+
+    private string GetDefaultBarProgressStyle( GanttBarInfo barInfo )
+    {
+        if ( !barInfo.EndsAfterView )
+            return null;
+
+        return "padding-right: 1.1rem;";
+    }
+
     private GanttItemStyling GetItemStyling( TItem item )
     {
         var itemStyling = new GanttItemStyling();

@@ -236,10 +236,10 @@
                                         else
                                         {
                                             <Div Flex="FlexJustifyContentBetweenAlignItemsCenter" Width="WidthIs100" Height="HeightIs100">
-                                                <Span TextOverflow="TextOverflow.Truncate">@GetItemTitle( node.Item )</Span>
+                                                <Span TextOverflow="TextOverflow.Truncate" Style="@GetDefaultBarTitleStyle( barInfo )">@GetItemTitle( node.Item )</Span>
                                                 @if ( barInfo.ProgressPercentage is not null )
                                                 {
-                                                    <Span TextSize="TextSizeSmall">@($"{barInfo.ProgressPercentage.Value:0}%")</Span>
+                                                    <Span TextSize="TextSizeSmall" Style="@GetDefaultBarProgressStyle( barInfo )">@($"{barInfo.ProgressPercentage.Value:0}%")</Span>
                                                 }
                                             </Div>
                                         }
