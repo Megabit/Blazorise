@@ -3505,7 +3505,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private string GetTimelineGroupHeaderCellStyle( double cellWidth, int slotCount )
     {
         var width = ( Math.Max( 1, slotCount ) * cellWidth ).ToString( "0.###", CultureInfo.InvariantCulture );
-        return $"display: flex; align-items: center; justify-content: center; text-align: center; border-right: 1px solid rgba(0,0,0,0.08); width: {width}px; min-width: {width}px; max-width: {width}px;";
+        return $"display: flex; align-items: center; justify-content: flex-start; text-align: start; padding-inline-start: 0.5rem; border-right: 1px solid rgba(0,0,0,0.08); width: {width}px; min-width: {width}px; max-width: {width}px;";
     }
 
     private string GetTimelineHeaderStyle( int rowIndex, int slotsCount, double cellWidth, bool includePaddedZoneBackground )
