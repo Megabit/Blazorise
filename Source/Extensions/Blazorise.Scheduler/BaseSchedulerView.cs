@@ -68,5 +68,11 @@ public class BaseSchedulerView<TItem> : ComponentBase
     /// </summary>
     [Parameter] public RenderFragment<SchedulerAllDayItemContext<TItem>> AllDayItemTemplate { get; set; }
 
+    /// <summary>
+    /// Defines a template for customizing slot styling in a scheduler view.
+    /// The fragment output is ignored; use the provided context to update the slot <see cref="SchedulerSlotContext.Styling"/>.
+    /// </summary>
+    [Parameter] public RenderFragment<SchedulerSlotContext> SlotStylingTemplate { get; set; }
+
     #endregion
 }
