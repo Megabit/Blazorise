@@ -1,0 +1,6 @@
+.b-one-time-input {
+    &:has(.b-one-time-input-slot.is-valid) + .valid-feedback,
+    &:has(.b-one-time-input-slot.is-invalid) + .invalid-feedback {
+        display: inline-block;
+    }
+}
