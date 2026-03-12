@@ -66,6 +66,7 @@ public partial class OneTimeInput : BaseInputComponent<string, OneTimeInputClass
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "b-one-time-input" );
+        builder.Append( ClassProvider.TextInputValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
         builder.Append( Classes?.Container );
 
         base.BuildClasses( builder );
@@ -383,10 +384,7 @@ public partial class OneTimeInput : BaseInputComponent<string, OneTimeInputClass
 
     protected string GroupStyleNames => Styles?.Group;
 
-    protected string SlotClassNames => CombineClassNames(
-        "b-one-time-input-slot",
-        ClassProvider.TextInputValidation( ParentValidation?.Status ?? ValidationStatus.None ),
-        Classes?.Slot );
+    protected string SlotClassNames => CombineClassNames( "b-one-time-input-slot", Classes?.Slot );
 
     protected string SlotStyleNames => Styles?.Slot;
 

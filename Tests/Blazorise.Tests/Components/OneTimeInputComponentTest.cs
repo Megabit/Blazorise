@@ -101,6 +101,21 @@ public class OneTimeInputComponentTest : TestContext
     }
 
     [Fact]
+    public void RendersFeedbackAsSiblingOfTheInputContainer()
+    {
+        var comp = RenderComponent<OneTimeInput>( parameters => parameters
+            .Add<RenderFragment>( x => x.Feedback, builder =>
+            {
+                builder.OpenElement( 0, "div" );
+                builder.AddAttribute( 1, "class", "invalid-feedback" );
+                builder.AddContent( 2, "Invalid code." );
+                builder.CloseElement();
+            } ) );
+
+        Assert.NotNull( comp.Find( ".b-one-time-input + .invalid-feedback" ) );
+    }
+
+    [Fact]
     public async Task ClearsCurrentSlotAndMovesFocusToPreviousSlotOnBackspace()
     {
         var comp = RenderComponent<OneTimeInput>( parameters => parameters
@@ -142,7 +157,7 @@ public class OneTimeInputComponentTest : TestContext
     }
 
     [Fact]
-    public async Task AppliesParentValidationStateToAllSlots()
+    public async Task AppliesParentValidationStateToContainerAndKeepsSlotsNeutral()
     {
         var comp = Render( builder =>
         {
@@ -157,15 +172,19 @@ public class OneTimeInputComponentTest : TestContext
             builder.CloseComponent();
         } );
 
+        var container = comp.Find( ".b-one-time-input" );
         var inputs = comp.FindAll( "input" );
 
-        Assert.All( inputs, input => Assert.Contains( "is-invalid", input.GetAttribute( "class" ) ) );
+        Assert.Contains( "is-invalid", container.GetAttribute( "class" ) );
+        Assert.All( inputs, input => Assert.DoesNotContain( "is-invalid", input.GetAttribute( "class" ) ?? string.Empty ) );
 
         await inputs[0].InputAsync( "1" );
 
+        container = comp.Find( ".b-one-time-input" );
         inputs = comp.FindAll( "input" );
 
-        Assert.All( inputs, input => Assert.Contains( "is-valid", input.GetAttribute( "class" ) ) );
+        Assert.Contains( "is-valid", container.GetAttribute( "class" ) );
+        Assert.All( inputs, input => Assert.DoesNotContain( "is-valid", input.GetAttribute( "class" ) ?? string.Empty ) );
     }
 
     [Fact]
@@ -185,15 +204,19 @@ public class OneTimeInputComponentTest : TestContext
             builder.CloseComponent();
         } );
 
+        var container = comp.Find( ".b-one-time-input" );
         var inputs = comp.FindAll( "input" );
 
-        Assert.All( inputs, input => Assert.Contains( "is-invalid", input.GetAttribute( "class" ) ) );
+        Assert.Contains( "is-invalid", container.GetAttribute( "class" ) );
+        Assert.All( inputs, input => Assert.DoesNotContain( "is-invalid", input.GetAttribute( "class" ) ?? string.Empty ) );
 
         await inputs[0].InputAsync( "1234" );
 
+        container = comp.Find( ".b-one-time-input" );
         inputs = comp.FindAll( "input" );
 
-        Assert.All( inputs, input => Assert.Contains( "is-valid", input.GetAttribute( "class" ) ) );
+        Assert.Contains( "is-valid", container.GetAttribute( "class" ) );
+        Assert.All( inputs, input => Assert.DoesNotContain( "is-valid", input.GetAttribute( "class" ) ?? string.Empty ) );
     }
 
     private static string[] ReadSlotValues( IRenderedFragment fragment )
