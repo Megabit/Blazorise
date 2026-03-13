@@ -1561,6 +1561,28 @@ template {
   display: block;
 }
 
+@keyframes antBadgeLoadingCircle {
+  0% {
+    transform-origin: 50% 50%;
+    transform: rotate(0deg);
+  }
+  100% {
+    transform-origin: 50% 50%;
+    transform: rotate(360deg);
+  }
+}
+.ant-btn .ant-btn-loading-icon {
+  display: inline-flex;
+  align-items: center;
+}
+.ant-btn .ant-btn-loading-icon .anticon-spin {
+  display: inline-flex;
+  align-items: center;
+  animation-name: antBadgeLoadingCircle;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
 .ant-btn-secondary {
   --ant-btn-color-base: #6c757d;
   --ant-btn-color-hover: rgb(147.4356223176, 155.1802575107, 162.0643776824);

@@ -10,6 +10,18 @@
     @return tint-color($color, $border-subtle-tint-weight);
 }
 
+@keyframes antBadgeLoadingCircle {
+    0% {
+        transform-origin: 50% 50%;
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform-origin: 50% 50%;
+        transform: rotate(360deg);
+    }
+}
+
 @mixin ant-btn-shared-color-vars($color, $shadow) {
     $hover-color: lighten($color, $button-hover-lighten);
     $active-color: darken($color, $button-active-darken);
@@ -28,7 +40,6 @@
     $active-color: darken($color, $button-active-darken);
 
     @include ant-btn-shared-color-vars($color, $shadow);
-
     --ant-btn-solid-bg-color: #{$color};
     --ant-btn-solid-bg-color-hover: #{$hover-color};
     --ant-btn-solid-bg-color-active: #{$active-color};
@@ -52,7 +63,6 @@
     $active-color: darken($color, $button-active-darken);
 
     @include ant-btn-shared-color-vars($color, none);
-
     --ant-btn-border-color: #{$color};
     --ant-btn-border-color-hover: #{$hover-color};
     --ant-btn-border-color-active: #{$active-color};
@@ -69,6 +79,20 @@
 }
 
 .ant-btn {
+    .ant-btn-loading-icon {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .ant-btn-loading-icon .anticon-spin {
+        display: inline-flex;
+        align-items: center;
+        animation-name: antBadgeLoadingCircle;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+    }
+
     @each $name, $value in $unsuported-button-colors {
         &-#{$name} {
             @include ant-btn-solid-vars($value, color-yiq($value));
