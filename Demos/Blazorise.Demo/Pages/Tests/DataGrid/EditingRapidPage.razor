@@ -14,18 +14,35 @@
                         <Switch @bind-Value="@showCommandColumn" Size="Size.Medium">Show Command Column</Switch>
                     </FieldBody>
                 </Field>
+                <Paragraph>
+                    Current Edit State: @dataGrid.EditState
+                </Paragraph>
+                <Field>
+                    <FieldBody>
+                        <Switch @bind-Value="@allowEdits" Size="Size.Medium">Allow Edits</Switch>
+                    </FieldBody>
+                </Field>
+                <Field>
+                    <FieldBody>
+                        <Button Color="Color.Primary" Clicked="() => dataGrid.Cancel()">
+                            Cancel Edits
+                        </Button>
+                    </FieldBody>
+                </Field>
             </CardBody>
             <CardBody>
-                <DataGrid TItem="Employee"
+                <DataGrid @ref="dataGrid"
+                          TItem="Employee"
                           Data="inMemoryData"
                           Responsive
                           ShowPager
                           ShowPageSizes
                           @bind-SelectedRow="@selectedEmployee"
-                          Editable
+                          Editable="allowEdits"
                           EditMode="@DataGridEditMode.Cell"
                           EditModeOptions="new DataGridEditModeOptions(){ CellEditSelectTextOnEdit = true }"
                           UseValidation
+                          RowUpdating="OnRowUpdating"
                           ValidationsSummaryLabel="The following validation errors have occurred..."
                           ShowValidationsSummary
                           NavigationMode="DataGridNavigationMode.Cell">
@@ -66,13 +83,29 @@
 
     [Inject] EmployeeData EmployeeData { get; set; }
 
+    [Inject] IMessageService MessageService { get; set; }
+
     private bool showCommandColumn = false;
+    private bool allowEdits = true;
     private List<Employee> inMemoryData;
+    private DataGrid<Employee> dataGrid;
     private Employee selectedEmployee;
 
     protected override async Task OnInitializedAsync()
     {
         inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 ).ToList();
         await base.OnInitializedAsync();
+    }
+
+    private void OnRowUpdating(CancellableRowChange<Employee, Dictionary<string, object>> args)
+    {
+        if (allowEdits)
+        {
+            MessageService.Info("Attempted to save the row.");
+        }
+        else
+        {
+            MessageService.Error("Attempted to save the while editting disabled.");
+        }
     }
 }
