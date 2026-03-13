@@ -1,0 +1,19 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Field>
+    <FieldLabel>Office code</FieldLabel>
+    <FieldBody>
+        <OneTimeInput @bind-Value="@officeCode"
+                      Digits="5"
+                      Group="2,3" />
+    </FieldBody>
+</Field>
+
+<Div Margin="Margin.Is3.FromTop">
+    <Span TextWeight="TextWeight.SemiBold">Value:</Span>
+    <Code>@(string.IsNullOrWhiteSpace( officeCode ) ? "(empty)" : officeCode)</Code>
+</Div>
+
+@code {
+    private string officeCode;
+}

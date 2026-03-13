@@ -1,0 +1,42 @@
+.b-one-time-input-slot.form-control {
+    &.is-valid,
+    &.is-invalid {
+        background-image: none;
+        padding-right: $input-padding-x !important;
+    }
+
+    &.form-control-xs {
+        &.is-valid,
+        &.is-invalid {
+            padding-right: $input-padding-x-xs !important;
+        }
+    }
+
+    &.form-control-sm {
+        &.is-valid,
+        &.is-invalid {
+            padding-right: $input-padding-x-sm !important;
+        }
+    }
+
+    &.form-control-md {
+        &.is-valid,
+        &.is-invalid {
+            padding-right: $input-padding-x-md !important;
+        }
+    }
+
+    &.form-control-lg {
+        &.is-valid,
+        &.is-invalid {
+            padding-right: $input-padding-x-lg !important;
+        }
+    }
+
+    &.form-control-xl {
+        &.is-valid,
+        &.is-invalid {
+            padding-right: $input-padding-x-xl !important;
+        }
+    }
+}

@@ -10557,6 +10557,97 @@ Install-Package Blazorise.Icons.Material";
     }
 }";
 
+        public const string OneTimeInputBasicExample = @"<Field>
+    <FieldLabel>Verification code</FieldLabel>
+    <FieldBody>
+        <OneTimeInput @bind-Value=""@verificationCode""
+                      Digits=""6""
+                      Autofocus />
+    </FieldBody>
+</Field>
+
+<Div Margin=""Margin.Is3.FromTop"">
+    <Span TextWeight=""TextWeight.SemiBold"">Value:</Span>
+    <Code>@(string.IsNullOrWhiteSpace( verificationCode ) ? ""(empty)"" : verificationCode)</Code>
+</Div>
+
+@code {
+    private string verificationCode;
+}";
+
+        public const string OneTimeInputGroupingExample = @"<Field>
+    <FieldLabel>Office code</FieldLabel>
+    <FieldBody>
+        <OneTimeInput @bind-Value=""@officeCode""
+                      Digits=""5""
+                      Group=""2,3"" />
+    </FieldBody>
+</Field>
+
+<Div Margin=""Margin.Is3.FromTop"">
+    <Span TextWeight=""TextWeight.SemiBold"">Value:</Span>
+    <Code>@(string.IsNullOrWhiteSpace( officeCode ) ? ""(empty)"" : officeCode)</Code>
+</Div>
+
+@code {
+    private string officeCode;
+}";
+
+        public const string OneTimeInputImportsExample = @"@using Blazorise.Components";
+
+        public const string OneTimeInputNugetInstallExample = @"Install-Package Blazorise.Components";
+
+        public const string OneTimeInputTextModeExample = @"<Field>
+    <FieldLabel>Recovery key</FieldLabel>
+    <FieldBody>
+        <OneTimeInput @bind-Value=""@recoveryKey""
+                      Digits=""8""
+                      Group=""4,4""
+                      Role=""TextRole.Text""
+                      InputMode=""TextInputMode.Text"" />
+    </FieldBody>
+</Field>
+
+<Div Margin=""Margin.Is3.FromTop"">
+    <Span TextWeight=""TextWeight.SemiBold"">Value:</Span>
+    <Code>@(string.IsNullOrWhiteSpace( recoveryKey ) ? ""(empty)"" : recoveryKey)</Code>
+</Div>
+
+@code {
+    private string recoveryKey = ""A1B2"";
+}";
+
+        public const string OneTimeInputValidationExample = @"<Validations @ref=""@validations"" Mode=""ValidationMode.Manual"">
+    <Validation UsePattern>
+        <Field>
+            <FieldLabel RequiredIndicator>Security code</FieldLabel>
+            <FieldBody>
+                <OneTimeInput @bind-Value=""@securityCode""
+                              Digits=""6""
+                              Pattern=""[0-9]{6}"">
+                    <Feedback>
+                        <ValidationError>Please enter all 6 digits.</ValidationError>
+                    </Feedback>
+                </OneTimeInput>
+            </FieldBody>
+        </Field>
+    </Validation>
+
+    <Button Color=""Color.Primary"" Clicked=""@ValidateCode"">
+        Validate
+    </Button>
+</Validations>
+
+@code {
+    private Validations validations;
+    private string securityCode;
+
+    private Task ValidateCode()
+    {
+        return validations.ValidateAll();
+    }
+}";
+
         public const string PasswordStrengthBasicExample = @"<PasswordStrength @bind-Value=""@password""
                   Placeholder=""Use a long passphrase""
                   StrengthChanged=""@OnStrengthChanged"" />
