@@ -2046,6 +2046,11 @@ template {
   position: fixed;
 }
 
+.b-ant-dropdown {
+  display: inline-block;
+  vertical-align: top;
+}
+
 .b-ant-dropdown-group {
   display: inline-flex;
   white-space: nowrap;

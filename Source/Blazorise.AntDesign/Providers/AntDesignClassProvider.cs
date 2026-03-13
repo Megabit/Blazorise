@@ -435,7 +435,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DropdownDisabled( bool disabled ) => disabled ? "b-ant-dropdown-disabled" : null;
 
-    public override string DropdownGroup( bool group ) => group ? "ant-space-compact ant-space-compact-block ant-dropdown-button b-ant-dropdown-group" : null;
+    public override string DropdownGroup( bool group ) => group ? "ant-space-compact ant-dropdown-button b-ant-dropdown-group" : null;
 
     public override string DropdownObserverShow() => "ant-dropdown-hidden";
 
