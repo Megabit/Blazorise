@@ -2039,22 +2039,22 @@ td:focus {
 
 .b-one-time-input-slot.form-control.is-valid, .b-one-time-input-slot.form-control.is-invalid {
   background-image: none;
-  padding-right: 0.75rem;
+  padding-right: 0.75rem !important;
 }
 .b-one-time-input-slot.form-control.form-control-xs.is-valid, .b-one-time-input-slot.form-control.form-control-xs.is-invalid {
-  padding-right: 0.5rem;
+  padding-right: 0.5rem !important;
 }
 .b-one-time-input-slot.form-control.form-control-sm.is-valid, .b-one-time-input-slot.form-control.form-control-sm.is-invalid {
-  padding-right: 0.5rem;
+  padding-right: 0.5rem !important;
 }
 .b-one-time-input-slot.form-control.form-control-md.is-valid, .b-one-time-input-slot.form-control.form-control-md.is-invalid {
-  padding-right: 1rem;
+  padding-right: 1rem !important;
 }
 .b-one-time-input-slot.form-control.form-control-lg.is-valid, .b-one-time-input-slot.form-control.form-control-lg.is-invalid {
-  padding-right: 1rem;
+  padding-right: 1rem !important;
 }
 .b-one-time-input-slot.form-control.form-control-xl.is-valid, .b-one-time-input-slot.form-control.form-control-xl.is-invalid {
-  padding-right: 1rem;
+  padding-right: 1rem !important;
 }
 
 .b-richtextedit > .b-richtextedit-toolbar.ql-snow,

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-13T07:39:16.1894669Z",
+  "generatedUtc": "2026-03-13T07:39:32.8038551Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -10937,13 +10937,54 @@
       "methods": []
     },
     {
+      "type": "global::Blazorise.BlazoriseAccessibilityOptions",
+      "typeName": "BlazoriseAccessibilityOptions",
+      "summary": "$\"\"\"\r\n       Represents the options available for configuring Blazorise accessibility integrations.\r\n       \"\"\"",
+      "parameters": [
+        {
+          "name": "UseAriaLabelledByAttribute",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "If true, non-labelable controls can automatically render the <code>aria-labelledby</code> attribute from the <strong>FieldLabel</strong> inside the same <strong>Field</strong>.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "UseAutoAriaDescribedByAttribute",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "If true, input components can automatically render the <code>aria-describedby</code> attribute from the current <strong>FieldHelp</strong> and validation message elements.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "UseAutoAriaInvalidAttribute",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "If true, input components can automatically render the <code>aria-invalid</code> attribute from the current validation status.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "UseLabelForAttribute",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "true",
+          "summary": "If true, <strong>FieldLabel</strong> can automatically render the <code>for</code> attribute for inputs registered in the same <strong>Field</strong>.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [],
+      "methods": []
+    },
+    {
       "type": "global::Blazorise.BlazoriseOptions",
       "typeName": "BlazoriseOptions",
       "summary": "$\"\"\"\r\n       Defines the global Blazorise options.\r\n       \"\"\"",
       "parameters": [
         {
           "name": "AccessibilityOptions",
-          "type": "BlazoriseAccessibilityOptions",
+          "type": "global::Blazorise.BlazoriseAccessibilityOptions",
           "typeName": "BlazoriseAccessibilityOptions",
           "defaultValue": "new()",
           "summary": "Gets or sets the options used to configure optional accessibility integrations.",
