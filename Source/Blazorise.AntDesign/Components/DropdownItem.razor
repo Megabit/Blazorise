@@ -6,5 +6,16 @@
 <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
     @onmousedown:preventDefault @onmousedown="@EventCallback.Empty" @onclick="ClickHandler" @onkeydown="@KeyDownHandler" tabindex="@ComputedTabIndex" @attributes="@Attributes"
     role="menuitem" aria-disabled="@AriaDisabled" aria-labelledby="@AriaLabelledBy">
-    @Core
+    @if ( ShowCheckbox )
+    {
+        <div class="ant-dropdown-menu-title-content">
+            @Core
+        </div>
+    }
+    else
+    {
+        <span class="ant-dropdown-menu-title-content">
+            @Core
+        </span>
+    }
 </li>

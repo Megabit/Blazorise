@@ -431,11 +431,11 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Dropdown
 
-    public override string Dropdown( bool isDropdownSubmenu ) => isDropdownSubmenu ? "ant-dropdown-menu-submenu ant-dropdown-menu-submenu-vertical" : "ant-dropdown-group ant-dropdown-button"; // ant-dropdown-group is custom class
+    public override string Dropdown( bool isDropdownSubmenu ) => isDropdownSubmenu ? "ant-dropdown-menu-submenu ant-dropdown-menu-submenu-vertical" : "b-ant-dropdown";
 
-    public override string DropdownDisabled( bool disabled ) => disabled ? "ant-dropdown-disabled" : null;
+    public override string DropdownDisabled( bool disabled ) => disabled ? "b-ant-dropdown-disabled" : null;
 
-    public override string DropdownGroup( bool group ) => null;
+    public override string DropdownGroup( bool group ) => group ? "ant-space-compact ant-space-compact-block ant-dropdown-button b-ant-dropdown-group" : null;
 
     public override string DropdownObserverShow() => "ant-dropdown-hidden";
 
@@ -445,50 +445,44 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DropdownItem() => "ant-dropdown-menu-item";
 
-    public override string DropdownItemActive( bool active ) => active ? Active() : null;
+    public override string DropdownItemActive( bool active ) => active ? "ant-dropdown-menu-item-selected" : null;
 
     public override string DropdownItemDisabled( bool disabled ) => disabled ? "ant-dropdown-menu-item-disabled" : null;
 
     public override string DropdownDivider() => "ant-dropdown-menu-item-divider";
 
-    public override string DropdownHeader() => "ant-dropdown-menu-header";
+    public override string DropdownHeader() => "ant-dropdown-menu-item-group-title";
 
-    public override string DropdownMenu() => "ant-dropdown";
+    public override string DropdownMenu() => "b-ant-dropdown-overlay";
 
     public override string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy )
-        => $"ant-dropdown-menu-position-strategy {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "ant-dropdown-menu-position-strategy-fixed" : "ant-dropdown-menu-position-strategy-absolute" )}";
+        => $"b-ant-dropdown-position-strategy {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "b-ant-dropdown-position-strategy-fixed" : "b-ant-dropdown-position-strategy-absolute" )}";
 
     public override string DropdownFixedHeaderVisible( bool visible )
-        => visible ? "ant-dropdown-table-fixed-header-visible" : null;
+        => visible ? "b-ant-dropdown-table-fixed-header-visible" : null;
 
-    public override string DropdownMenuSelector() => "ant-dropdown";
+    public override string DropdownMenuSelector() => "b-ant-dropdown-overlay";
 
-    public override string DropdownMenuScrollable( bool scrollable ) => scrollable ? "ant-dropdown-menu-scrollable" : null;
+    public override string DropdownMenuScrollable( bool scrollable ) => scrollable ? "b-ant-dropdown-menu-scrollable" : null;
 
-    public override string DropdownMenuVisible( bool visible ) => visible ? null : "ant-dropdown-hidden";
+    public override string DropdownMenuVisible( bool visible ) => visible ? null : "ant-dropdown-hidden ant-dropdown-menu-hidden ant-dropdown-menu-submenu-hidden";
 
-    public override string DropdownMenuEnd( bool endAligned ) => endAligned ? "dropdown-menu-right" : null;
+    public override string DropdownMenuEnd( bool endAligned ) => null;
 
-    public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "ant-dropdown-menu-item" : "ant-btn ant-dropdown-trigger";
+    public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "ant-dropdown-menu-submenu-title" : "ant-btn ant-dropdown-trigger";
 
-    public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "ant-dropdown-menu-item" : "ant-btn ant-dropdown-trigger";
+    public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "ant-dropdown-menu-submenu-title" : "ant-dropdown-trigger";
 
     public override string DropdownToggleColor( Color color, bool outline ) => ToButtonColorClass( color, outline );
 
     public override string DropdownToggleSize( Size size, bool outline )
         => size != Size.Default ? $"ant-btn-{ToSize( size )}" : null;
 
-    public override string DropdownToggleSplit( bool split ) => split ? "dropdown-toggle-split" : null;
+    public override string DropdownToggleSplit( bool split ) => split ? "ant-btn-icon-only b-ant-dropdown-toggle-split" : null;
 
     public override string DropdownToggleIcon( bool visible ) => null;
 
-    public override string DropdownDirection( Direction direction ) => direction switch
-    {
-        Direction.Up => "dropup",
-        Direction.End => "dropright",
-        Direction.Start => "dropleft",
-        _ => null,
-    };
+    public override string DropdownDirection( Direction direction ) => null;
 
     #endregion
 

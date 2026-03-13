@@ -649,6 +649,12 @@ html {
     --ant-slider-handle-line-width-hover: 2.5px;
     --ant-slider-dot-size: 8px;
     --ant-skeleton-gradient-from-color: rgba(0, 0, 0, .06);
+    --ant-dropdown-arrow-offset-horizontal: 12px;
+    --ant-dropdown-arrow-path: path('M 0 8 A 4 4 0 0 0 2.8284271247461903 10.82842712474619 L 6.585786437626905 14.585786437626904 A 2 2 0 0 1 9.414213562373096 14.585786437626904 L 13.17157287525381 10.82842712474619 A 4 4 0 0 0 16 8 Z');
+    --ant-dropdown-arrow-polygon: polygon(1.6568542494923806px 100%, 50% 1.6568542494923806px, 14.34314575050762px 100%, 1.6568542494923806px 100%);
+    --ant-dropdown-arrow-shadow-width: 9.65685424949238px;
+    --ant-dropdown-padding-block: 5px;
+    --ant-dropdown-z-index-popup: 1050;
     --ant-alert-default-padding: var(--ant-padding-content-vertical-sm) 12px;
     --ant-alert-with-description-padding: var(--ant-padding-md) var(--ant-padding-content-horizontal-lg);
     --ant-alert-with-description-icon-size: var(--ant-font-size-heading-3);

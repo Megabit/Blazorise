@@ -1,57 +1,97 @@
-﻿using Blazorise.Modules;
+using System;
+using System.Threading.Tasks;
+using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.AntDesign.Components;
 
 public partial class DropdownMenu : Blazorise.DropdownMenu
 {
-    #region Methods
+    private string overlayStyleNames;
 
-    internal protected override void OnVisibleChanged( bool e )
+    protected string OverlayClassNames => JoinClasses( "ant-dropdown", GetRootPlacementClassName(), ClassNames );
+
+    protected string OverlayStyleNames => JoinStyles( StyleNames, overlayStyleNames );
+
+    protected string RootMenuClassNames => "ant-dropdown-menu ant-dropdown-menu-root ant-dropdown-menu-vertical ant-dropdown-menu-light";
+
+    protected string SubmenuPopupClassNames => JoinClasses( "ant-dropdown-menu-submenu ant-dropdown-menu-submenu-popup", GetSubmenuPlacementClassName(), ClassNames );
+
+    protected string SubmenuMenuClassNames => "ant-dropdown-menu ant-dropdown-menu-sub ant-dropdown-menu-vertical ant-dropdown-menu-light";
+
+    protected override async Task OnFirstAfterRenderAsync()
     {
-        ExecuteAfterRender( async () =>
-        {
-            if ( ParentDropdown != null && ParentDropdown is AntDesign.Components.Dropdown dropdown )
-            {
-                var dropdownMenuElementInfo = await JSUtilitiesModule.GetElementInfo( ElementRef, ElementId );
+        await base.OnFirstAfterRenderAsync();
 
-                MenuStyleNames = GetMenuStyleNames( dropdown.ElementInfo, dropdownMenuElementInfo, dropdown.Direction );
+        if ( ParentDropdown?.IsDropdownSubmenu == true || ParentDropdown is null )
+            return;
 
-                await InvokeAsync( StateHasChanged );
-            }
-        } );
+        var dropdownElementInfo = await JSUtilitiesModule.GetElementInfo( ParentDropdown.ElementRef, ParentDropdown.ElementId );
 
-        base.OnVisibleChanged( e );
+        overlayStyleNames = $"min-width: {Math.Ceiling( dropdownElementInfo.BoundingClientRect.Width )}px;";
+
+        await InvokeAsync( StateHasChanged );
     }
 
-    private string GetMenuStyleNames( DomElement dropdownElementInfo, DomElement dropdownMenuElementInfo, Direction direction )
+    private Direction GetEffectiveDirection()
+        => ParentDropdown?.IsDropdownSubmenu == true
+           && ParentDropdown.Direction == Direction.Default
+           && string.IsNullOrEmpty( ParentDropdown.DropdownMenuTargetId )
+            ? Direction.End
+            : ParentDropdown?.Direction ?? Direction.Default;
+
+    private string GetRootPlacementClassName()
     {
-        var dropdownBoundingClientRect = dropdownElementInfo.BoundingClientRect;
-        var dropdownMenuBoundingClientRect = dropdownMenuElementInfo.BoundingClientRect;
-
-        if ( direction == Direction.Up )
+        return GetEffectiveDirection() switch
         {
-            return $"{StyleNames} min-width: {(int)dropdownBoundingClientRect.Width}px; left: {(int)dropdownElementInfo.OffsetLeft}px; top: {(int)( dropdownElementInfo.OffsetTop - dropdownMenuBoundingClientRect.Height )}px;";
-        }
-        else if ( direction == Direction.Start )
-        {
-            return $"{StyleNames} min-width: {(int)dropdownBoundingClientRect.Width}px; left: {(int)( dropdownElementInfo.OffsetLeft - dropdownMenuBoundingClientRect.Width )}px; top: {(int)dropdownElementInfo.OffsetTop}px;";
-        }
-        else if ( direction == Direction.End )
-        {
-            return $"{StyleNames} min-width: {(int)dropdownBoundingClientRect.Width}px; left: {(int)( dropdownElementInfo.OffsetLeft + dropdownMenuBoundingClientRect.Width )}px; top: {(int)dropdownElementInfo.OffsetTop}px;";
-        }
-
-        return $"{StyleNames} min-width: {(int)dropdownBoundingClientRect.Width}px; left: {(int)dropdownElementInfo.OffsetLeft}px; top: {(int)( dropdownElementInfo.OffsetTop + dropdownBoundingClientRect.Height )}px;";
+            Direction.Up => ParentDropdownState?.EndAligned == true ? "ant-dropdown-placement-topRight" : "ant-dropdown-placement-topLeft",
+            Direction.Down or Direction.Default => ParentDropdownState?.EndAligned == true ? "ant-dropdown-placement-bottomRight" : "ant-dropdown-placement-bottomLeft",
+            _ => null,
+        };
     }
 
-    #endregion
+    private string GetSubmenuPlacementClassName()
+    {
+        return GetEffectiveDirection() switch
+        {
+            Direction.Start => "ant-dropdown-menu-submenu-placement-leftTop",
+            _ => "ant-dropdown-menu-submenu-placement-rightTop",
+        };
+    }
 
-    #region Properties
+    private static string JoinClasses( params string[] classNames )
+    {
+        var result = string.Empty;
 
-    protected string MenuStyleNames { get; set; }
+        foreach ( var className in classNames )
+        {
+            if ( string.IsNullOrWhiteSpace( className ) )
+                continue;
+
+            result = string.IsNullOrEmpty( result )
+                ? className
+                : $"{result} {className}";
+        }
+
+        return result;
+    }
+
+    private static string JoinStyles( params string[] styleNames )
+    {
+        var result = string.Empty;
+
+        foreach ( var styleName in styleNames )
+        {
+            if ( string.IsNullOrWhiteSpace( styleName ) )
+                continue;
+
+            result = string.IsNullOrEmpty( result )
+                ? styleName
+                : $"{result} {styleName}";
+        }
+
+        return result;
+    }
 
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
-
-    #endregion
 }

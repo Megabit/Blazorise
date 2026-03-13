@@ -1,8 +1,34 @@
 ﻿@inherits Blazorise.Dropdown
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
-        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes" @onmouseleave="OnMouseLeaveHandler" @onmouseenter="OnMouseEnterHandler">
-            @ChildContent
-        </div>
+        @if ( IsDropdownSubmenu )
+        {
+            <li @ref="@ElementRef" id="@ElementId" class="@SubmenuClassNames" style="@StyleNames" role="none" @attributes="@Attributes" @onmouseleave="OnMouseLeaveHandler" @onmouseenter="OnMouseEnterHandler">
+                @ChildContent
+            </li>
+        }
+        else
+        {
+            <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @attributes="@Attributes" @onmouseleave="OnMouseLeaveHandler" @onmouseenter="OnMouseEnterHandler">
+                @ChildContent
+            </div>
+        }
     </CascadingValue>
 </CascadingValue>
+@code {
+    protected string SubmenuClassNames
+    {
+        get
+        {
+            var submenuClassNames = ClassNames;
+
+            if ( State.Visible )
+                submenuClassNames = $"{submenuClassNames} ant-dropdown-menu-submenu-open";
+
+            if ( Disabled )
+                submenuClassNames = $"{submenuClassNames} ant-dropdown-menu-submenu-disabled";
+
+            return submenuClassNames;
+        }
+    }
+}

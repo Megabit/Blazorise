@@ -78,6 +78,8 @@ public static class Config
         { typeof( Blazorise.CloseButton ), typeof( Components.CloseButton ) },
         { typeof( Blazorise.CollapseHeader ), typeof( Components.CollapseHeader ) },
         { typeof( Blazorise.Dropdown ), typeof( Components.Dropdown ) },
+        { typeof( Blazorise.DropdownDivider ), typeof( Components.DropdownDivider ) },
+        { typeof( Blazorise.DropdownHeader ), typeof( Components.DropdownHeader ) },
         { typeof( Blazorise.DropdownItem ), typeof( Components.DropdownItem ) },
         { typeof( Blazorise.DropdownMenu ), typeof( Components.DropdownMenu ) },
         { typeof( Blazorise.DropdownToggle ), typeof( Components.DropdownToggle ) },
