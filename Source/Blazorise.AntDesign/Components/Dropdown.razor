@@ -7,6 +7,12 @@
                 @ChildContent
             </li>
         }
+        else if ( ParentButtons is not null )
+        {
+            <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @attributes="@Attributes" @onmouseleave="OnMouseLeaveHandler" @onmouseenter="OnMouseEnterHandler">
+                @ChildContent
+            </span>
+        }
         else
         {
             <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @attributes="@Attributes" @onmouseleave="OnMouseLeaveHandler" @onmouseenter="OnMouseEnterHandler">

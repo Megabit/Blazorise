@@ -23,11 +23,12 @@ public partial class Button : Blazorise.Button
     protected override void BuildRenderTree( RenderTreeBuilder builder )
     {
         var wrapInControl = ParentButtons?.Role == Blazorise.ButtonsRole.Addons || ParentIsField;
+        var wrapperElementName = ParentButtons is not null ? "span" : "div";
 
         if ( wrapInControl )
         {
             builder
-                .OpenElement( "div" )
+                .OpenElement( wrapperElementName )
                 .Class( "control" );
         }
 
