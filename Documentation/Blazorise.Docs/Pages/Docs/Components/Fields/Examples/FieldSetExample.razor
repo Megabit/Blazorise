@@ -1,0 +1,28 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<FieldSet>
+    <Legend RequiredIndicator>Preferred contact method</Legend>
+    <RadioGroup TValue="string" Name="contact-method" @bind-Value="@contactMethod">
+        <Radio Value="@("email")">Email</Radio>
+        <Radio Value="@("phone")">Phone</Radio>
+        <Radio Value="@("sms")">SMS</Radio>
+    </RadioGroup>
+</FieldSet>
+
+<Div Margin="Margin.Is4.FromTop">
+    <FieldSet>
+        <Legend>Notification channels</Legend>
+        <Div Flex="Flex.Column" Gap="Gap.Is2">
+            <Check TValue="bool" @bind-Value="@notifyByEmail">Email updates</Check>
+            <Check TValue="bool" @bind-Value="@notifyBySms">SMS alerts</Check>
+            <Check TValue="bool" @bind-Value="@notifyByPush">Push notifications</Check>
+        </Div>
+    </FieldSet>
+</Div>
+
+@code {
+    string contactMethod = "email";
+    bool notifyByEmail = true;
+    bool notifyBySms;
+    bool notifyByPush = true;
+}
