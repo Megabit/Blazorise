@@ -24,6 +24,9 @@ public partial class RangeSlider<TValue> : BaseInputComponent<RangeSliderValue<T
 
     private bool startHandleActive = true;
 
+    /// <summary>
+    /// Represents a reference to the end element in the current context.
+    /// </summary>
     protected ElementReference EndElementRef;
 
     /// <summary>

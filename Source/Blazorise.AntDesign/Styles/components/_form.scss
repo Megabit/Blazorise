@@ -11,6 +11,20 @@
     }
 }
 
+.ant-display-flex.ant-flex-column,
+.ant-display-flex.ant-flex-column-reverse,
+.ant-display-inline-flex.ant-flex-column,
+.ant-display-inline-flex.ant-flex-column-reverse,
+.ant-display-flex[class*="ant-flex-direction-"][class*="-column"],
+.ant-display-inline-flex[class*="ant-flex-direction-"][class*="-column"] {
+    > .ant-checkbox-wrapper + .ant-checkbox-wrapper,
+    > .ant-radio-wrapper + .ant-radio-wrapper,
+    > .ant-radio-button-wrapper + .ant-radio-button-wrapper {
+        margin-left: 0;
+        margin-inline-start: 0;
+    }
+}
+
 .ant-input-group {
     > .ant-input-group-addon {
         &:last-child > .ant-btn {
@@ -267,10 +281,14 @@
         display: block;
         height: $radio-height * 2;
         line-height: $radio-height * 2;
+        margin-left: 0;
+        margin-inline-start: 0;
     }
 
     .ant-radio-button-wrapper {
         display: block;
+        margin-left: 0;
+        margin-inline-start: 0;
     }
 }
 

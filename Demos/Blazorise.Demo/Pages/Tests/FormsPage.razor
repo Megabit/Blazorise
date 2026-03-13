@@ -1,4 +1,4 @@
-﻿@page "/tests/forms"
+@page "/tests/forms"
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
@@ -363,6 +363,48 @@
     <Column>
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
+                <CardTitle>FieldSet & Legend</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use <code>FieldSet</code> and <code>Legend</code> when multiple controls belong to the same question. This is especially useful for radio groups and related checkbox sets.</CardText>
+            </CardBody>
+            <CardBody>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is6.OnDesktop">
+                        <FieldSet>
+                            <Legend RequiredIndicator>Preferred contact method</Legend>
+                            <RadioGroup TValue="string" Name="contact-method" @bind-Value="@contactMethod">
+                                <Radio Value="@("email")">Email</Radio>
+                                <Radio Value="@("phone")">Phone</Radio>
+                                <Radio Value="@("sms")">SMS</Radio>
+                            </RadioGroup>
+                        </FieldSet>
+                        <Paragraph Margin="Margin.Is2.FromTop" TextColor="TextColor.Secondary">
+                            Selected: @contactMethod
+                        </Paragraph>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is6.OnDesktop">
+                        <FieldSet>
+                            <Legend>Notification channels</Legend>
+                            <Div Flex="Flex.Column" Gap="Gap.Is2">
+                                <Check TValue="bool" @bind-Value="@notifyByEmail">Email updates</Check>
+                                <Check TValue="bool" @bind-Value="@notifyBySms">SMS alerts</Check>
+                                <Check TValue="bool" @bind-Value="@notifyByPush">Push notifications</Check>
+                            </Div>
+                        </FieldSet>
+                        <Paragraph Margin="Margin.Is2.FromTop" TextColor="TextColor.Secondary">
+                            Selected: @NotificationChannelSummary
+                        </Paragraph>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
                 <CardTitle>Inline Form</CardTitle>
             </CardHeader>
             <CardBody>
@@ -488,6 +530,37 @@
 
     string radioGroup1 = "blue";
     string radioGroup2 = "green";
+    string contactMethod = "email";
+    bool notifyByEmail = true;
+    bool notifyBySms;
+    bool notifyByPush = true;
+
+    private string NotificationChannelSummary
+    {
+        get
+        {
+            System.Collections.Generic.List<string> channels = new();
+
+            if ( notifyByEmail )
+            {
+                channels.Add( "Email" );
+            }
+
+            if ( notifyBySms )
+            {
+                channels.Add( "SMS" );
+            }
+
+            if ( notifyByPush )
+            {
+                channels.Add( "Push" );
+            }
+
+            return channels.Count > 0
+                ? string.Join( ", ", channels )
+                : "None";
+        }
+    }
 
 
     //string fileContent;

@@ -44,6 +44,18 @@
             <Code Tag>Fields</Code> container used to group several <Code>Field</Code> components
         </Paragraph>
     </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Code Tag>FieldSet</Code> semantic group for multiple related controls.
+        </Paragraph>
+        <UnorderedList>
+            <UnorderedListItem>
+                <Paragraph>
+                    <Code Tag>Legend</Code> used to label the whole control group.
+                </Paragraph>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
 </UnorderedList>
 
 <DocsPageParagraph>
@@ -55,6 +67,12 @@
     <Code Tag>Field</Code> is also the main semantic unit for forms in Blazorise. When a field contains one primary control together with
     <Code Tag>FieldLabel</Code>, <Code Tag>FieldHelp</Code>, and validation feedback, Blazorise has enough context to keep visible form layout and
     accessibility metadata aligned.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    When a question is answered by multiple related controls, such as a <Code>RadioGroup</Code> or a set of checkboxes, prefer
+    <Code Tag>FieldSet</Code> with <Code Tag>Legend</Code> instead of placing everything in a single <Code Tag>Field</Code>.
+    In that case the legend labels the whole group, not one individual input.
 </DocsPageParagraph>
 
 <Alert Color="Color.Info" Visible>
@@ -189,6 +207,18 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="FieldSet and Legend">
+        Use <Code Tag>FieldSet</Code> and <Code Tag>Legend</Code> when multiple controls belong to the same question.
+        This is the recommended pattern for radio groups and related checkbox sets.
+        <Code Tag>Legend</Code> also supports <Code>RequiredIndicator</Code> and <Code>Screenreader</Code> when the group label needs those accessibility behaviors.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FieldSetExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FieldSetExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Validation Indicator">
         In Blazorise, you can use the <Code>RequiredIndicator</Code> feature to automatically display an indicator (such as an asterisk) next to labels of required fields. This helps users quickly understand which inputs are mandatory and improves overall form usability.
     </DocsPageSectionHeader>
@@ -218,6 +248,9 @@
             <Paragraph>Use <Code Tag>Fields</Code> to group related <Code Tag>Field</Code> components when building multi-column or sectioned form layouts.</Paragraph>
         </UnorderedListItem>
         <UnorderedListItem>
+            <Paragraph>Use <Code Tag>FieldSet</Code> and <Code Tag>Legend</Code> when one label applies to a group of related controls instead of a single input.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
             <Paragraph>Keep <Code Tag>FieldLabel</Code>, the primary input, <Code Tag>FieldHelp</Code>, and validation feedback in the same <Code Tag>Field</Code> so Blazorise can generate the correct accessibility attributes automatically.</Paragraph>
         </UnorderedListItem>
     </UnorderedList>
@@ -235,6 +268,9 @@
         <UnorderedListItem>
             <Paragraph>Don't add multiple interactive controls as children of a single <Code Tag>Field</Code>. The label should clearly describe one primary control for better accessibility.</Paragraph>
         </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Don't use <Code Tag>FieldLabel</Code> as the only label for a radio group or checkbox group when <Code Tag>Legend</Code> should describe the whole set.</Paragraph>
+        </UnorderedListItem>
     </UnorderedList>
 </DocsPageParagraph>
 
@@ -246,4 +282,4 @@
     In summary, the <Code Tag>Field</Code> component simplifies form layout in Blazorise by aligning labels, inputs, help text, and validation messages, while the <Code Tag>Fields</Code> container lets you organize multiple fields into structured sections.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(Field),typeof(FieldLabel),typeof(Fields)]" />
+<ComponentApiDocs ComponentTypes="[typeof(Field),typeof(FieldLabel),typeof(FieldSet),typeof(Legend),typeof(Fields)]" />

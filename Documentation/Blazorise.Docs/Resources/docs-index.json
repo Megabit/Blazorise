@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-12T14:28:22.1289464Z",
+  "generatedUtc": "2026-03-13T10:11:43.9539019Z",
   "pages": [
     {
       "route": "/docs",
@@ -1328,6 +1328,14 @@
           "description": "You can add gutters (spacing) between individual fields within a Fields container by setting the Gutter property. This helps improve readability and visual separation between related inputs."
         },
         {
+          "code": "FieldSetExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Fields/Examples/FieldSetExample.razor",
+          "content": "<FieldSet>\r\n    <Legend RequiredIndicator>Preferred contact method</Legend>\r\n    <RadioGroup TValue=\"string\" Name=\"contact-method\" @bind-Value=\"@contactMethod\">\r\n        <Radio Value=\"@(\"email\")\">Email</Radio>\r\n        <Radio Value=\"@(\"phone\")\">Phone</Radio>\r\n        <Radio Value=\"@(\"sms\")\">SMS</Radio>\r\n    </RadioGroup>\r\n</FieldSet>\r\n\r\n<Div Margin=\"Margin.Is4.FromTop\">\r\n    <FieldSet>\r\n        <Legend>Notification channels</Legend>\r\n        <Div Flex=\"Flex.Column\" Gap=\"Gap.Is2\">\r\n            <Check TValue=\"bool\" @bind-Value=\"@notifyByEmail\">Email updates</Check>\r\n            <Check TValue=\"bool\" @bind-Value=\"@notifyBySms\">SMS alerts</Check>\r\n            <Check TValue=\"bool\" @bind-Value=\"@notifyByPush\">Push notifications</Check>\r\n        </Div>\r\n    </FieldSet>\r\n</Div>\r\n\r\n@code {\r\n    string contactMethod = \"email\";\r\n    bool notifyByEmail = true;\r\n    bool notifyBySms;\r\n    bool notifyByPush = true;\r\n}",
+          "title": "FieldSet and Legend",
+          "description": "Use FieldSet and Legend when multiple controls belong to the same question. This is the recommended pattern for radio groups and related checkbox sets. Legend also supports RequiredIndicator and Screenreader when the group label needs those accessibility behaviors."
+        },
+        {
           "code": "RequiredIndicatorExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Fields/Examples/RequiredIndicatorExample.razor",
@@ -1344,6 +1352,14 @@
         {
           "kind": "type",
           "name": "FieldLabel"
+        },
+        {
+          "kind": "type",
+          "name": "FieldSet"
+        },
+        {
+          "kind": "type",
+          "name": "Legend"
         },
         {
           "kind": "type",
@@ -2458,6 +2474,14 @@
           "content": "<RadioGroup TValue=\"string\" Name=\"colors\">\r\n    <Radio Value=\"@(\"red\")\">Red</Radio>\r\n    <Radio Value=\"@(\"green\")\">Green</Radio>\r\n    <Radio Value=\"@(\"blue\")\">Blue</Radio>\r\n</RadioGroup>",
           "title": "Basic RadioGroup",
           "description": "RadioGroup is a helpful wrapper used to group Radio components that provides an easier API, and proper keyboard accessibility to the group."
+        },
+        {
+          "code": "RadioGroupWithLegendExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Radios/Examples/RadioGroupWithLegendExample.razor",
+          "content": "<FieldSet>\r\n    <Legend>Choose a shipping speed</Legend>\r\n    <RadioGroup TValue=\"string\" Name=\"shipping-speed\" @bind-Value=\"@shippingSpeed\">\r\n        <Radio Value=\"@(\"standard\")\">Standard</Radio>\r\n        <Radio Value=\"@(\"express\")\">Express</Radio>\r\n        <Radio Value=\"@(\"overnight\")\">Overnight</Radio>\r\n    </RadioGroup>\r\n</FieldSet>\r\n\r\n@code {\r\n    string shippingSpeed = \"express\";\r\n}",
+          "title": "RadioGroup with Legend",
+          "description": "When the radio group answers one named question, place it inside a FieldSet and use Legend as the group label. This gives the group a semantic name and is the recommended accessible pattern for visible radio-group questions."
         },
         {
           "code": "RadioGroupButtonsExample",

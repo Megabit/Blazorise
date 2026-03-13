@@ -112,6 +112,9 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
     /// <inheritdoc/>
     protected override bool UsesAutomaticAriaLabelledBy => true;
 
+    /// <inheritdoc/>
+    protected override bool UsesAutomaticFieldSetAriaLabelledBy => true;
+
     /// <summary>
     /// Radio group name.
     /// </summary>

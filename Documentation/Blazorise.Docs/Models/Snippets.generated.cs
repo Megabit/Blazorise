@@ -1334,6 +1334,33 @@ namespace Blazorise.Docs.Models
     <TextInput />
 </Field>";
 
+        public const string FieldSetExample = @"<FieldSet>
+    <Legend RequiredIndicator>Preferred contact method</Legend>
+    <RadioGroup TValue=""string"" Name=""contact-method"" @bind-Value=""@contactMethod"">
+        <Radio Value=""@(""email"")"">Email</Radio>
+        <Radio Value=""@(""phone"")"">Phone</Radio>
+        <Radio Value=""@(""sms"")"">SMS</Radio>
+    </RadioGroup>
+</FieldSet>
+
+<Div Margin=""Margin.Is4.FromTop"">
+    <FieldSet>
+        <Legend>Notification channels</Legend>
+        <Div Flex=""Flex.Column"" Gap=""Gap.Is2"">
+            <Check TValue=""bool"" @bind-Value=""@notifyByEmail"">Email updates</Check>
+            <Check TValue=""bool"" @bind-Value=""@notifyBySms"">SMS alerts</Check>
+            <Check TValue=""bool"" @bind-Value=""@notifyByPush"">Push notifications</Check>
+        </Div>
+    </FieldSet>
+</Div>
+
+@code {
+    string contactMethod = ""email"";
+    bool notifyByEmail = true;
+    bool notifyBySms;
+    bool notifyByPush = true;
+}";
+
         public const string FieldWithDisabledExample = @"<Field>
     <FieldLabel>Disabled</FieldLabel>
     <TextInput Value=""Value"" Disabled />
@@ -2951,6 +2978,19 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         return Task.CompletedTask;
     }
+}";
+
+        public const string RadioGroupWithLegendExample = @"<FieldSet>
+    <Legend>Choose a shipping speed</Legend>
+    <RadioGroup TValue=""string"" Name=""shipping-speed"" @bind-Value=""@shippingSpeed"">
+        <Radio Value=""@(""standard"")"">Standard</Radio>
+        <Radio Value=""@(""express"")"">Express</Radio>
+        <Radio Value=""@(""overnight"")"">Overnight</Radio>
+    </RadioGroup>
+</FieldSet>
+
+@code {
+    string shippingSpeed = ""express"";
 }";
 
         public const string BasicRatingExample = @"<Rating Color=""Color.Primary"" />";
