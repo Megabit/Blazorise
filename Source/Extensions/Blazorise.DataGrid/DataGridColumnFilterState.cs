@@ -6,6 +6,10 @@
 /// <typeparam name="TItem"></typeparam>
 public class DataGridColumnFilterState<TItem>
 {
+    private DataGridColumnFilterMethod? filterMethod;
+
+    private bool hasFilterMethod;
+
     /// <summary>
     /// Initializes a new instance of column filter state.
     /// </summary>
@@ -26,4 +30,22 @@ public class DataGridColumnFilterState<TItem>
     /// Gets the column search value.
     /// </summary>
     public object SearchValue { get; }
+
+    /// <summary>
+    /// Gets or sets the column filter method.
+    /// </summary>
+    public DataGridColumnFilterMethod? FilterMethod
+    {
+        get => filterMethod;
+        set
+        {
+            filterMethod = value;
+            hasFilterMethod = true;
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether the filter method was explicitly provided.
+    /// </summary>
+    internal bool HasFilterMethod => hasFilterMethod;
 }

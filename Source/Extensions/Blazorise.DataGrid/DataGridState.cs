@@ -68,6 +68,21 @@ public class DataGridState<TItem>
     /// <summary>
     /// Adds a new filter state for the DataGrid column.
     /// </summary>
+    /// <param name="fieldName"></param>
+    /// <param name="searchValue"></param>
+    /// <param name="filterMethod"></param>
+    public void AddFilterState( string fieldName, object searchValue, DataGridColumnFilterMethod? filterMethod )
+    {
+        ColumnFilterStates ??= new();
+        ColumnFilterStates.Add( new DataGridColumnFilterState<TItem>( fieldName, searchValue )
+        {
+            FilterMethod = filterMethod,
+        } );
+    }
+
+    /// <summary>
+    /// Adds a new filter state for the DataGrid column.
+    /// </summary>
     /// <typeparam name="TValue"></typeparam>
     /// <param name="fieldGetter"></param>
     /// <param name="searchValue"></param>
@@ -76,6 +91,23 @@ public class DataGridState<TItem>
         var fieldName = ExtractFieldName( fieldGetter );
         ColumnFilterStates ??= new();
         ColumnFilterStates.Add( new DataGridColumnFilterState<TItem>( fieldName, searchValue ) );
+    }
+
+    /// <summary>
+    /// Adds a new filter state for the DataGrid column.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="fieldGetter"></param>
+    /// <param name="searchValue"></param>
+    /// <param name="filterMethod"></param>
+    public void AddFilterState<TValue>( Expression<Func<TItem, TValue>> fieldGetter, object searchValue, DataGridColumnFilterMethod? filterMethod )
+    {
+        var fieldName = ExtractFieldName( fieldGetter );
+        ColumnFilterStates ??= new();
+        ColumnFilterStates.Add( new DataGridColumnFilterState<TItem>( fieldName, searchValue )
+        {
+            FilterMethod = filterMethod,
+        } );
     }
 
     /// <summary>
