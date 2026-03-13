@@ -145,6 +145,15 @@
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Range values</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                        <Div Width="Blazorise.Width.Is100">
+                            <RangeSlider TValue="decimal" @bind-Value="decimalRangeValue" Min="0m" Max="100m" Step="1m" />
+                            <FieldHelp Style="white-space: nowrap;">Selected range: @decimalRangeValue.Start - @decimalRangeValue.End</FieldHelp>
+                        </Div>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Radios</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                         <RadioGroup TValue="string" Name="colors" @bind-Value="@radioGroup1">
@@ -461,6 +470,8 @@
 </Row>
 @code {
     int[] numbers = { 1, 3, 4 };
+
+    private RangeSliderValue<decimal> decimalRangeValue = new( 20m, 70m );
 
     private DaysInWeek DaysInWeekLocal { get; set; } = DaysInWeek.Mon;
 

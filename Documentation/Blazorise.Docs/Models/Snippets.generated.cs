@@ -3091,7 +3091,56 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <SkeletonItem ColumnSize=""ColumnSize.Is8"" />
 </Skeleton>";
 
+        public const string BasicRangeSliderExample = @"<Field>
+    <RangeSlider TValue=""int"" @bind-Value=""@selectedRange"" Min=""0"" Max=""100"" Step=""1"" StartAriaLabel=""Minimum value"" EndAriaLabel=""Maximum value"" />
+    <FieldHelp>Selected range: @selectedRange.Start - @selectedRange.End</FieldHelp>
+</Field>
+
+@code {
+    RangeSliderValue<int> selectedRange = new( 20, 70 );
+}";
+
         public const string BasicSliderExample = @"<Slider TValue=""decimal"" Value=""25m"" Max=""100m"" />";
+
+        public const string RangeSliderClampHandlesExample = @"<Field>
+    <RangeSlider TValue=""int"" @bind-Value=""@capacityRange"" Min=""0"" Max=""100"" Step=""5"" ClampToOtherHandle StartAriaLabel=""Minimum capacity"" EndAriaLabel=""Maximum capacity"" />
+    <FieldHelp>Try dragging one handle into the other. Current selection: @capacityRange.Start% - @capacityRange.End%</FieldHelp>
+</Field>
+
+@code {
+    RangeSliderValue<int> capacityRange = new( 25, 75 );
+}";
+
+        public const string RangeSliderDecimalExample = @"<Field>
+    <RangeSlider TValue=""decimal"" @bind-Value=""@priceRange"" Min=""0m"" Max=""250m"" Step=""12.5m"" StartAriaLabel=""Minimum price"" EndAriaLabel=""Maximum price"" />
+    <FieldHelp>Price filter: @PriceRangeText</FieldHelp>
+</Field>
+
+@code {
+    RangeSliderValue<decimal> priceRange = new( 50m, 175m );
+
+    string PriceRangeText => $""${priceRange.Start:0.00} - ${priceRange.End:0.00}"";
+}";
+
+        public const string RangeSliderNoOverlapExample = @"<Field>
+    <RangeSlider TValue=""int"" @bind-Value=""@experienceRange"" Min=""0"" Max=""30"" Step=""5"" ClampToOtherHandle AllowEqualValues=""false"" StartAriaLabel=""Minimum experience"" EndAriaLabel=""Maximum experience"" />
+    <FieldHelp>Experience filter: @experienceRange.Start to @experienceRange.End years. Handles keep at least one step between them.</FieldHelp>
+</Field>
+
+@code {
+    RangeSliderValue<int> experienceRange = new( 5, 20 );
+}";
+
+        public const string RangeSliderWithoutTooltipsExample = @"<Field>
+    <RangeSlider TValue=""int"" @bind-Value=""@budgetRange"" Min=""500"" Max=""5000"" Step=""250"" ShowValueTooltips=""false"" StartAriaLabel=""Minimum budget"" EndAriaLabel=""Maximum budget"" />
+    <FieldHelp>Monthly budget: @BudgetRangeText</FieldHelp>
+</Field>
+
+@code {
+    RangeSliderValue<int> budgetRange = new( 1000, 3000 );
+
+    string BudgetRangeText => $""${budgetRange.Start} - ${budgetRange.End}"";
+}";
 
         public const string SliderMinMaxExample = @"<Paragraph>
     Current value: @value

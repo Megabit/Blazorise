@@ -229,6 +229,26 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
+    #region RangeSlider
+
+    public override string RangeSlider() => "fui-RangeSlider";
+
+    public override string RangeSliderTrack() => "fui-RangeSlider__track";
+
+    public override string RangeSliderRange() => "fui-RangeSlider__range";
+
+    public override string RangeSliderInput() => "fui-Slider__input fui-RangeSlider__input";
+
+    public override string RangeSliderStart() => "fui-RangeSlider__input-start";
+
+    public override string RangeSliderEnd() => "fui-RangeSlider__input-end";
+
+    public override string RangeSliderTooltip() => "fui-RangeSlider__tooltip";
+
+    public override string RangeSliderValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
+
+    #endregion
+
     #region Rating
 
     public override string Rating() => "fui-Rating";

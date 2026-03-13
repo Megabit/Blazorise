@@ -88,6 +88,7 @@ public static class Config
         { typeof( Blazorise.ProgressBar ), typeof( Components.ProgressBar ) },
         { typeof( Blazorise.Radio<> ), typeof( Components.Radio<> ) },
         { typeof( Blazorise.RadioGroup<> ), typeof( Components.RadioGroup<> ) },
+        { typeof( Blazorise.RangeSlider<> ), typeof( Components.RangeSlider<> ) },
         { typeof( Blazorise.Step ), typeof( Components.Step ) },
         { typeof( Blazorise.Switch<> ), typeof( Components.Switch<> ) },
         { typeof( Blazorise.Toast ), typeof( Components.Toast ) },

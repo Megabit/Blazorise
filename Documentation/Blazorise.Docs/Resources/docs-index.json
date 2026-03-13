@@ -2502,6 +2502,60 @@
       ]
     },
     {
+      "route": "/docs/components/range-slider",
+      "title": "Blazorise RangeSlider component",
+      "description": "Build dual-handle range sliders in Blazor with the Blazorise RangeSlider component. Let users choose minimum and maximum values for filters, pricing, distance, scores, and other numeric ranges.",
+      "pagePath": "Pages/Docs/Components/Sliders/RangeSliderPage.razor",
+      "examples": [
+        {
+          "code": "BasicRangeSliderExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Sliders/Examples/BasicRangeSliderExample.razor",
+          "content": "<Field>\r\n    <RangeSlider TValue=\"int\" @bind-Value=\"@selectedRange\" Min=\"0\" Max=\"100\" Step=\"1\" StartAriaLabel=\"Minimum value\" EndAriaLabel=\"Maximum value\" />\r\n    <FieldHelp>Selected range: @selectedRange.Start - @selectedRange.End</FieldHelp>\r\n</Field>\r\n\r\n@code {\r\n    RangeSliderValue<int> selectedRange = new( 20, 70 );\r\n}",
+          "title": "Basic range selection",
+          "description": "Bind the selected interval to a RangeSliderValue&lt;int&gt; and show the current values below the slider."
+        },
+        {
+          "code": "RangeSliderDecimalExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Sliders/Examples/RangeSliderDecimalExample.razor",
+          "content": "<Field>\r\n    <RangeSlider TValue=\"decimal\" @bind-Value=\"@priceRange\" Min=\"0m\" Max=\"250m\" Step=\"12.5m\" StartAriaLabel=\"Minimum price\" EndAriaLabel=\"Maximum price\" />\r\n    <FieldHelp>Price filter: @PriceRangeText</FieldHelp>\r\n</Field>\r\n\r\n@code {\r\n    RangeSliderValue<decimal> priceRange = new( 50m, 175m );\r\n\r\n    string PriceRangeText => $\"${priceRange.Start:0.00} - ${priceRange.End:0.00}\";\r\n}",
+          "title": "Decimal values",
+          "description": "Use decimal together with Step for prices, measurements, and other non-integer ranges."
+        },
+        {
+          "code": "RangeSliderClampHandlesExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Sliders/Examples/RangeSliderClampHandlesExample.razor",
+          "content": "<Field>\r\n    <RangeSlider TValue=\"int\" @bind-Value=\"@capacityRange\" Min=\"0\" Max=\"100\" Step=\"5\" ClampToOtherHandle StartAriaLabel=\"Minimum capacity\" EndAriaLabel=\"Maximum capacity\" />\r\n    <FieldHelp>Try dragging one handle into the other. Current selection: @capacityRange.Start% - @capacityRange.End%</FieldHelp>\r\n</Field>\r\n\r\n@code {\r\n    RangeSliderValue<int> capacityRange = new( 25, 75 );\r\n}",
+          "title": "Clamp handles instead of swapping",
+          "description": "By default, dragging one handle past the other swaps the logical Start and End values. Enable ClampToOtherHandle when you want the active handle to stop at the other handle instead."
+        },
+        {
+          "code": "RangeSliderNoOverlapExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Sliders/Examples/RangeSliderNoOverlapExample.razor",
+          "content": "<Field>\r\n    <RangeSlider TValue=\"int\" @bind-Value=\"@experienceRange\" Min=\"0\" Max=\"30\" Step=\"5\" ClampToOtherHandle AllowEqualValues=\"false\" StartAriaLabel=\"Minimum experience\" EndAriaLabel=\"Maximum experience\" />\r\n    <FieldHelp>Experience filter: @experienceRange.Start to @experienceRange.End years. Handles keep at least one step between them.</FieldHelp>\r\n</Field>\r\n\r\n@code {\r\n    RangeSliderValue<int> experienceRange = new( 5, 20 );\r\n}",
+          "title": "Prevent overlapping values",
+          "description": "Combine ClampToOtherHandle with AllowEqualValues=\"false\" to keep at least one step between the handles."
+        },
+        {
+          "code": "RangeSliderWithoutTooltipsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Sliders/Examples/RangeSliderWithoutTooltipsExample.razor",
+          "content": "<Field>\r\n    <RangeSlider TValue=\"int\" @bind-Value=\"@budgetRange\" Min=\"500\" Max=\"5000\" Step=\"250\" ShowValueTooltips=\"false\" StartAriaLabel=\"Minimum budget\" EndAriaLabel=\"Maximum budget\" />\r\n    <FieldHelp>Monthly budget: @BudgetRangeText</FieldHelp>\r\n</Field>\r\n\r\n@code {\r\n    RangeSliderValue<int> budgetRange = new( 1000, 3000 );\r\n\r\n    string BudgetRangeText => $\"${budgetRange.Start} - ${budgetRange.End}\";\r\n}",
+          "title": "Hide value tooltips",
+          "description": "Set ShowValueTooltips=\"false\" when you prefer to show the selected range in surrounding text, filter chips, or field help."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "RangeSlider"
+        }
+      ]
+    },
+    {
       "route": "/docs/components/rating",
       "title": "Blazorise Rating system",
       "description": "Learn to use and work with the Blazorise Rating component, which provide insight regarding others opinions and experiences with a product. Users can also rate products they've purchased.",
