@@ -26,7 +26,20 @@ else
     </button>
 }
 @code {
-    protected string RegularClassNames => ParentDropdownState?.Visible == true ? $"{ClassNames} ant-dropdown-open" : ClassNames;
+    protected string RegularClassNames
+    {
+        get
+        {
+            var classNames = ParentDropdownState?.Visible == true
+                ? $"{ClassNames} ant-dropdown-open"
+                : ClassNames;
+
+            if ( Split && ParentDropdown?.IsGroup == true )
+                classNames = $"{classNames} ant-btn-compact-item ant-btn-compact-last-item";
+
+            return classNames;
+        }
+    }
 
     protected string SubmenuClassNames => ParentDropdownState?.Visible == true ? $"{ClassNames} ant-dropdown-menu-submenu-open" : ClassNames;
 }

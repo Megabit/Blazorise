@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using Blazorise.Extensions;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
@@ -11,9 +12,19 @@ public partial class Button : Blazorise.Button
 {
     #region Methods
 
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        base.BuildClasses( builder );
+
+        if ( ParentDropdown?.IsGroup == true && ParentButtons is null )
+            builder.Append( "ant-btn-compact-item ant-btn-compact-first-item" );
+    }
+
     protected override void BuildRenderTree( RenderTreeBuilder builder )
     {
-        if ( IsAddons || ParentIsField )
+        var wrapInControl = ParentButtons?.Role == Blazorise.ButtonsRole.Addons || ParentIsField;
+
+        if ( wrapInControl )
         {
             builder
                 .OpenElement( "div" )
@@ -62,7 +73,7 @@ public partial class Button : Blazorise.Button
 
         builder.CloseElement();
 
-        if ( IsAddons || ParentIsField )
+        if ( wrapInControl )
         {
             builder.CloseElement();
         }
