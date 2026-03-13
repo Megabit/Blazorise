@@ -2904,10 +2904,57 @@ body {
   text-decoration: underline;
 }
 
+.mui-button-loading-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: inherit;
+}
+
+.mui-button-loading-label {
+  display: inline-flex;
+  align-items: center;
+}
+
+.mui-button-loading-indicator {
+  --mui-btn-loading-size: calc(var(--mui-btn-font-size) + 0.25rem);
+  position: relative;
+  flex: 0 0 auto;
+  inline-size: var(--mui-btn-loading-size);
+  block-size: var(--mui-btn-loading-size);
+  border-radius: 50%;
+}
+.mui-button-loading-indicator::before, .mui-button-loading-indicator::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+.mui-button-loading-indicator::before {
+  border: 2px solid color-mix(in srgb, currentColor 22%, transparent);
+  opacity: 0.6;
+}
+.mui-button-loading-indicator::after {
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-inline-end-color: currentColor;
+  animation: mui-button-loading-spin 900ms linear infinite;
+}
+
 .mui-button-block + .mui-button-block {
   margin-top: 0.5rem;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .mui-button-loading-indicator::after {
+    animation-duration: 1.6s;
+  }
+}
+@keyframes mui-button-loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 .mui-button-group,
 .mui-button-group-vertical {
   position: relative;
