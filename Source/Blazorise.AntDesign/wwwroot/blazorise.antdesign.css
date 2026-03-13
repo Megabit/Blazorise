@@ -1571,6 +1571,9 @@ template {
     transform: rotate(360deg);
   }
 }
+.ant-btn {
+  vertical-align: middle;
+}
 .ant-btn .ant-btn-loading-icon {
   display: inline-flex;
   align-items: center;
