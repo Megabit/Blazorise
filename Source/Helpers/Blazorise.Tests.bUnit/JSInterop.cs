@@ -1,8 +1,10 @@
 #region Using directives
 using Blazorise.Charts;
 using Blazorise.DataGrid;
+using Blazorise.Markdown;
 using Blazorise.Modules;
 using Blazorise.RichTextEdit;
+using Blazorise.SignaturePad;
 using Bunit;
 #endregion
 
@@ -102,6 +104,58 @@ public static class JSInterop
         module.Setup<string>( "getText", _ => true ).SetResult( string.Empty );
         module.SetupVoid( "clearContent", _ => true ).SetVoidResult();
         module.SetupVoid( "setReadOnly", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
+    public static BunitJSInterop AddBlazoriseColorPicker( this BunitJSInterop jsInterop )
+    {
+        AddBlazoriseUtilities( jsInterop );
+
+        var module = jsInterop.SetupModule( new JSColorPickerModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "import", _ => true ).SetVoidResult();
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateValue", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateLocalization", _ => true ).SetVoidResult();
+        module.SetupVoid( "focus", _ => true ).SetVoidResult();
+        module.SetupVoid( "select", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
+    public static BunitJSInterop AddBlazoriseMarkdown( this BunitJSInterop jsInterop )
+    {
+        AddBlazoriseUtilities( jsInterop );
+
+        var module = jsInterop.SetupModule( new JSMarkdownModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "import", _ => true ).SetVoidResult();
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "setValue", _ => true ).SetVoidResult();
+        module.Setup<string>( "getValue", _ => true ).SetResult( string.Empty );
+        module.SetupVoid( "notifyImageUploadSuccess", _ => true ).SetVoidResult();
+        module.SetupVoid( "notifyImageUploadError", _ => true ).SetVoidResult();
+        module.SetupVoid( "focus", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateBaseInputOptions", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
+    public static BunitJSInterop AddBlazoriseSignaturePad( this BunitJSInterop jsInterop )
+    {
+        AddBlazoriseUtilities( jsInterop );
+
+        var module = jsInterop.SetupModule( new JSSignaturePadModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "import", _ => true ).SetVoidResult();
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
+        module.SetupVoid( "clear", _ => true ).SetVoidResult();
+        module.Setup<string>( "undo", _ => true ).SetResult( null );
+        module.Setup<Blazorise.SignaturePad.SignaturePad>( "getData", _ => true ).SetResult( null );
+        module.SetupVoid( "setData", _ => true ).SetVoidResult();
 
         return jsInterop;
     }

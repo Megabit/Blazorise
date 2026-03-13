@@ -1269,7 +1269,7 @@
           "sourcePath": "Pages/Docs/Components/Fields/Examples/FieldWithLabelExample.razor",
           "content": "<Field>\r\n    <FieldLabel>Email address</FieldLabel>\r\n    <TextInput Placeholder=\"Enter email\" />\r\n</Field>",
           "title": "Label",
-          "description": "Every input should have a clear, descriptive label that explains its purpose in plain language. Use FieldLabel to associate the label with the control, and FieldHelp when additional guidance is needed."
+          "description": "Every input should have a clear, descriptive label that explains its purpose in plain language. Use FieldLabel to associate the label with the control, and FieldHelp when additional guidance is needed. In a standard Field , FieldLabel can usually resolve the correct target automatically, so you only need For for custom or ambiguous layouts."
         },
         {
           "code": "FieldWithHelpExample",

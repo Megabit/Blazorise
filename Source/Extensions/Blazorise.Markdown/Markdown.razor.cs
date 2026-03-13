@@ -40,6 +40,8 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
 
     private bool baseInputOptionsUpdateScheduled;
 
+    private string appliedAriaLabelledBy;
+
     #endregion
 
     #region Methods
@@ -155,6 +157,8 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
 
         await ApplyBaseInputOptions();
 
+        appliedAriaLabelledBy = ResolvedAriaLabelledBy;
+
         if ( hasPendingValue )
         {
             hasPendingValue = false;
@@ -165,6 +169,19 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
         }
 
         await base.OnFirstAfterRenderAsync();
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        await base.OnAfterRenderAsync( firstRender );
+
+        if ( jsInitialized && !string.Equals( appliedAriaLabelledBy, ResolvedAriaLabelledBy, StringComparison.Ordinal ) )
+        {
+            appliedAriaLabelledBy = ResolvedAriaLabelledBy;
+
+            await ApplyBaseInputOptions();
+        }
     }
 
     /// <inheritdoc/>
@@ -546,16 +563,22 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
             }
         }
 
-        if ( AriaInvalid is not null )
+        if ( ResolvedAriaInvalid is not null )
         {
             editorAttributes ??= new Dictionary<string, object>( StringComparer.OrdinalIgnoreCase );
-            editorAttributes["aria-invalid"] = AriaInvalid;
+            editorAttributes["aria-invalid"] = ResolvedAriaInvalid;
         }
 
-        if ( AriaDescribedBy is not null )
+        if ( ResolvedAriaDescribedBy is not null )
         {
             editorAttributes ??= new Dictionary<string, object>( StringComparer.OrdinalIgnoreCase );
-            editorAttributes["aria-describedby"] = AriaDescribedBy;
+            editorAttributes["aria-describedby"] = ResolvedAriaDescribedBy;
+        }
+
+        if ( ResolvedAriaLabelledBy is not null )
+        {
+            editorAttributes ??= new Dictionary<string, object>( StringComparer.OrdinalIgnoreCase );
+            editorAttributes["aria-labelledby"] = ResolvedAriaLabelledBy;
         }
 
         return editorAttributes;
@@ -632,6 +655,9 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
     /// Gets or sets the <see cref="JSMarkdownModule"/> instance.
     /// </summary>
     protected JSMarkdownModule JSModule { get; private set; }
+
+    /// <inheritdoc/>
+    protected override bool UsesAutomaticAriaLabelledBy => true;
 
     /// <summary>
     /// Gets the CSS class names applied to the underlying textarea element.

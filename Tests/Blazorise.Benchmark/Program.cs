@@ -1,12 +1,10 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
-using Blazorise.Benchmark.Blazorise;
-using Blazorise.Benchmark.DataGrid;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
 #endregion
@@ -17,10 +15,9 @@ public class Program
 {
     private static void Main( string[] args )
     {
-        //_ = BenchmarkRunner.Run<SequenceEquals>();
-        //_ = BenchmarkRunner.Run<ReflectionBenchmark>();
-        //_ = BenchmarkRunner.Run<ThemeBenchmark>();
-        _ = BenchmarkRunner.Run<PropertyGetter>();
+        BenchmarkSwitcher
+            .FromAssembly( typeof( Program ).Assembly )
+            .Run( args );
     }
 
     public class SequenceEquals

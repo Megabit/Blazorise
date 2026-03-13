@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -14,11 +14,34 @@ namespace Blazorise.SignaturePad;
 /// </summary>
 public partial class SignaturePad : BaseComponent, IAsyncDisposable
 {
+    #region Members
+
+    private bool refreshQueued;
+
+    private bool refreshRequestedWhileQueued;
+
+    private ComponentParameterInfo<string> paramAriaLabelledBy;
+
+    #endregion
+
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        if ( ParentField is not null && UseAriaLabelledByAttribute )
+        {
+            ParentField.LabelElementChanged += OnFieldLabelChanged;
+        }
+
+        base.OnInitialized();
+    }
 
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        parameters.TryGetParameter( AriaLabelledBy, out paramAriaLabelledBy );
+
         if ( Rendered )
         {
             var valueChanged = parameters.TryGetValue<byte[]>( nameof( Value ), out var paramValue ) && !Value.AreEqual( paramValue );
@@ -100,11 +123,24 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
         }
 
         await base.OnAfterRenderAsync( firstRender );
+
+        refreshQueued = false;
+
+        if ( refreshRequestedWhileQueued && !( Disposed || AsyncDisposed ) )
+        {
+            refreshRequestedWhileQueued = false;
+            QueueRefresh();
+        }
     }
 
     /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
     {
+        if ( disposing && ParentField is not null && UseAriaLabelledByAttribute )
+        {
+            ParentField.LabelElementChanged -= OnFieldLabelChanged;
+        }
+
         if ( disposing && Rendered )
         {
             await JSModule.SafeDestroy( ElementRef, ElementId );
@@ -236,9 +272,58 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
         return null;
     }
 
+    /// <summary>
+    /// Handles parent field label changes.
+    /// </summary>
+    private void OnFieldLabelChanged()
+    {
+        if ( HasDefinedAriaLabelledBy )
+            return;
+
+        QueueRefresh();
+    }
+
+    /// <summary>
+    /// Queues a single component refresh for the current render cycle.
+    /// </summary>
+    private void QueueRefresh()
+    {
+        if ( Disposed || AsyncDisposed )
+            return;
+
+        if ( refreshQueued )
+        {
+            refreshRequestedWhileQueued = true;
+            return;
+        }
+
+        refreshQueued = true;
+
+        _ = InvokeAsync( StateHasChanged );
+    }
+
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets the parent field label element id.
+    /// </summary>
+    protected string ParentFieldLabelElementId => UseAriaLabelledByAttribute
+        ? ParentField?.LabelElementId
+        : null;
+
+    /// <summary>
+    /// Gets the resolved aria-labelledby attribute value.
+    /// </summary>
+    protected string ResolvedAriaLabelledBy => paramAriaLabelledBy.Defined
+        ? paramAriaLabelledBy.Value
+        : ParentFieldLabelElementId;
+
+    /// <summary>
+    /// Gets a value indicating whether an explicit <c>aria-labelledby</c> parameter was supplied.
+    /// </summary>
+    protected bool HasDefinedAriaLabelledBy => paramAriaLabelledBy.Defined;
 
     /// <summary>
     /// Reference to the object that should be accessed through JSInterop.
@@ -267,6 +352,16 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// Gets or sets the blazorise options.
     /// </summary>
     [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
+
+    /// <summary>
+    /// Gets a value indicating whether the automatic <c>aria-labelledby</c> integration is enabled.
+    /// </summary>
+    protected bool UseAriaLabelledByAttribute => BlazoriseOptions?.AccessibilityOptions?.UseAriaLabelledByAttribute == true;
+
+    /// <summary>
+    /// Gets or sets the parent field.
+    /// </summary>
+    [CascadingParameter] protected Field ParentField { get; set; }
 
     ///<summary>
     /// Gets or sets value for the signature pad.
@@ -349,6 +444,11 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// If true, prevents the user interaction.
     /// </summary>
     [Parameter] public bool ReadOnly { get; set; }
+
+    /// <summary>
+    /// Gets or sets the aria-labelledby attribute value.
+    /// </summary>
+    [Parameter] public string AriaLabelledBy { get; set; }
 
     /// <summary>
     /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.
