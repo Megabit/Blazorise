@@ -1,0 +1,12 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Field>
+    <RangeSlider TValue="decimal" @bind-Value="@priceRange" Min="0m" Max="250m" Step="12.5m" StartAriaLabel="Minimum price" EndAriaLabel="Maximum price" />
+    <FieldHelp>Price filter: @PriceRangeText</FieldHelp>
+</Field>
+
+@code {
+    RangeSliderValue<decimal> priceRange = new( 50m, 175m );
+
+    string PriceRangeText => $"${priceRange.Start:0.00} - ${priceRange.End:0.00}";
+}

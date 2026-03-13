@@ -1,0 +1,13 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">RangeSlider</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">int</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedRange</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Min</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">0</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Max</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">100</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Step</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">1</span><span class="quot">&quot;</span> <span class="htmlAttributeName">StartAriaLabel</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Minimum value</span><span class="quot">&quot;</span> <span class="htmlAttributeName">EndAriaLabel</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Maximum value</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldHelp</span><span class="htmlTagDelimiter">&gt;</span>Selected range: <span class="atSign">&#64;</span>selectedRange.Start - <span class="atSign">&#64;</span>selectedRange.End<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldHelp</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    RangeSliderValue&lt;<span class="keyword">int</span>&gt; selectedRange = <span class="keyword">new</span>( <span class="number">20</span>, <span class="number">70</span> );
+}
+</pre></div>
+</div>

@@ -351,6 +351,11 @@ public class BootstrapThemeGenerator : ThemeGenerator
             GenerateInputCheckEditStyles( sb, theme, options );
         }
 
+        if ( !string.IsNullOrEmpty( options?.SliderColor ) )
+        {
+            GenerateInputSliderStyles( sb, theme, options );
+        }
+
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
             var focusColor = ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 75f ) );
@@ -534,6 +539,69 @@ public class BootstrapThemeGenerator : ThemeGenerator
         sb
             .Append( ".custom-switch .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
             .Append( $"background-color: {options.CheckColor};" )
+            .AppendLine( "}" );
+    }
+
+    protected virtual void GenerateInputSliderStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
+    {
+        _ = theme;
+
+        if ( string.IsNullOrEmpty( options?.SliderColor ) )
+            return;
+
+        var activeSliderColor = ToHex( Lighten( options.SliderColor, 70f ) );
+        sb.Append( ".form-control-range" ).Append( "{" )
+            .Append( $"accent-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".form-control-range::-webkit-slider-thumb" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".form-control-range::-webkit-slider-thumb:active" ).Append( "{" )
+            .Append( $"background-color: {activeSliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".form-control-range::-moz-range-thumb" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".form-control-range::-moz-range-thumb:active" ).Append( "{" )
+            .Append( $"background-color: {activeSliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".range-slider > .range-slider-range" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".range-slider > .range-slider-input" ).Append( "{" )
+            .Append( $"accent-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".range-slider > .range-slider-input::-webkit-slider-thumb" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".range-slider > .range-slider-input::-webkit-slider-thumb:active" ).Append( "{" )
+            .Append( $"background-color: {activeSliderColor};" )
+            .AppendLine( "}" );
+
+        var focusColor = ToHexRGBA( Transparency( options.SliderColor, 64 ) );
+
+        sb.Append( ".range-slider > .range-slider-input:focus::-webkit-slider-thumb" ).Append( "{" )
+            .Append( $"box-shadow: 0 0 0 1px #fff, 0 0 0 .2rem {focusColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".range-slider > .range-slider-input::-moz-range-thumb" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".range-slider > .range-slider-input::-moz-range-thumb:active" ).Append( "{" )
+            .Append( $"background-color: {activeSliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".range-slider > .range-slider-input:focus::-moz-range-thumb" ).Append( "{" )
+            .Append( $"box-shadow: 0 0 0 1px #fff, 0 0 0 .2rem {focusColor};" )
             .AppendLine( "}" );
     }
 

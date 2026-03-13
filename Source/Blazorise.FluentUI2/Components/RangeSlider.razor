@@ -1,0 +1,26 @@
+@namespace Blazorise.FluentUI2.Components
+@typeparam TValue
+@inherits Blazorise.RangeSlider<TValue>
+
+<div class="@ClassNames" style="@StyleNames" aria-disabled="@IsDisabled">
+    <div class="fui-RangeSlider__rail-container">
+        <div class="@TrackClassNames" style="@TrackStyleNames"></div>
+        <div class="@RangeClassNames" style="@RangeStyleNames"></div>
+
+        @if ( ShowValueTooltips )
+        {
+            <div class="@TooltipClassNames" style="@StartTooltipStyleNames">
+                <span>@StartValueString</span>
+            </div>
+
+            <div class="@TooltipClassNames" style="@EndTooltipStyleNames">
+                <span>@EndValueString</span>
+            </div>
+        }
+    </div>
+
+    <input @ref="@ElementRef" id="@ElementId" type="range" name="@StartNameAttributeValue" class="@StartInputClassNames" style="@StartInputStyleNames" disabled="@IsDisabled" readonly="@ReadOnly" step="@StepValueString" min="@MinValueString" max="@MaxValueString" value="@StartValueString" tabindex="@TabIndex" aria-label="@StartAriaLabel" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @oninput="@OnStartInputHandler" @onpointerdown="@OnStartPointerDownHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnStartFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+    <input @ref="@EndElementRef" id="@EndElementId" type="range" name="@EndNameAttributeValue" class="@EndInputClassNames" style="@EndInputStyleNames" disabled="@IsDisabled" readonly="@ReadOnly" step="@StepValueString" min="@MinValueString" max="@MaxValueString" value="@EndValueString" tabindex="@TabIndex" aria-label="@EndAriaLabel" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @oninput="@OnEndInputHandler" @onpointerdown="@OnEndPointerDownHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnEndFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" />
+</div>
+@ChildContent
+@Feedback

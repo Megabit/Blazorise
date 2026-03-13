@@ -244,6 +244,26 @@ public class MaterialClassProvider : ClassProvider
 
     #endregion
 
+    #region RangeSlider
+
+    public override string RangeSlider() => "mui-slider-container mui-range-slider";
+
+    public override string RangeSliderTrack() => "mui-range-slider-track";
+
+    public override string RangeSliderRange() => "mui-range-slider-range";
+
+    public override string RangeSliderInput() => "mui-range-slider-input";
+
+    public override string RangeSliderStart() => "mui-range-slider-input-start";
+
+    public override string RangeSliderEnd() => "mui-range-slider-input-end";
+
+    public override string RangeSliderTooltip() => "mui-slider-value mui-range-slider-tooltip";
+
+    public override string RangeSliderValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+
+    #endregion
+
     #region Rating
 
     public override string Rating() => "mui-rating";

@@ -1,0 +1,54 @@
+@namespace Blazorise.Tailwind.Components
+@typeparam TValue
+@inherits Blazorise.RangeSlider<TValue>
+
+<Div Class="@ClassNames" Style="@StyleNames" Position="Blazorise.Position.Relative" Display="Blazorise.Display.Flex" Flex="Blazorise.Flex.AlignItems.Center" Width="Blazorise.Width.Is100" Height="Blazorise.Height.Px( 24 )" aria-disabled="@IsDisabled">
+    <Div Class="@TrackClassNames" Style="@TrackStyleNames" Position="Blazorise.Position.Absolute" Width="Blazorise.Width.Is100" />
+    <Div Class="@RangeClassNames" Style="@RangeStyleNames" Position="Blazorise.Position.Absolute" />
+
+    <input @ref="@ElementRef" id="@ElementId" type="range" name="@StartNameAttributeValue" class="@StartInputClassNames" style="@StartInputStyleNames" disabled="@IsDisabled" readonly="@ReadOnly" step="@StepValueString" min="@MinValueString" max="@MaxValueString" value="@StartValueString" tabindex="@TabIndex" aria-label="@StartAriaLabel" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @oninput="@OnStartInputHandler" @onpointerdown="@OnStartPointerDownHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnStartFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+    <input @ref="@EndElementRef" id="@EndElementId" type="range" name="@EndNameAttributeValue" class="@EndInputClassNames" style="@EndInputStyleNames" disabled="@IsDisabled" readonly="@ReadOnly" step="@StepValueString" min="@MinValueString" max="@MaxValueString" value="@EndValueString" tabindex="@TabIndex" aria-label="@EndAriaLabel" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @oninput="@OnEndInputHandler" @onpointerdown="@OnEndPointerDownHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnEndFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" />
+
+    @if ( ShowValueTooltips )
+    {
+        <Div Class="@TooltipClassNames" Style="@TailwindStartTooltipStyleNames" Position="Blazorise.Position.Absolute">
+            <Span>@StartValueString</Span>
+        </Div>
+
+        <Div Class="@TooltipClassNames" Style="@TailwindEndTooltipStyleNames" Position="Blazorise.Position.Absolute">
+            <Span>@EndValueString</Span>
+        </Div>
+    }
+</Div>
+@ChildContent
+@Feedback
+
+@code {
+    private string TailwindStartTooltipStyleNames
+        => CombineStyles( StartTooltipStyleNames, "top: calc(50% - 0.5rem); transform: translate(-50%, calc(-100% - 0.25rem));" );
+
+    private string TailwindEndTooltipStyleNames
+        => CombineStyles( EndTooltipStyleNames, "top: calc(50% - 0.5rem); transform: translate(-50%, calc(-100% - 0.25rem));" );
+
+    private static string CombineStyles( params string[] styles )
+    {
+        System.Text.StringBuilder stringBuilder = null;
+
+        foreach ( string style in styles )
+        {
+            if ( string.IsNullOrWhiteSpace( style ) )
+                continue;
+
+            stringBuilder ??= new();
+
+            string trimmedStyle = style.Trim().TrimEnd( ';' );
+
+            if ( stringBuilder.Length > 0 )
+                stringBuilder.Append( "; " );
+
+            stringBuilder.Append( trimmedStyle );
+        }
+
+        return stringBuilder?.ToString();
+    }
+}

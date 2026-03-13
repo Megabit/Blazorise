@@ -1,0 +1,126 @@
+@page "/docs/components/range-slider"
+
+<Seo Canonical="/docs/components/range-slider" Title="Blazorise RangeSlider component" Description="Build dual-handle range sliders in Blazor with the Blazorise RangeSlider component. Let users choose minimum and maximum values for filters, pricing, distance, scores, and other numeric ranges." />
+
+<DocsPageTitle Path="Components/Range Slider">
+    Blazorise RangeSlider component
+</DocsPageTitle>
+
+<DocsPageLead>
+    RangeSlider lets users choose a start and end value from the same numeric range.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Use <Code Tag>RangeSlider</Code> when users need to define both a minimum and a maximum value, such as a price filter, delivery window, score band, or capacity range.
+    It renders two coordinated handles, keeps the selected interval highlighted, and normalizes the final range for you.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <Code>RangeSlider</Code> binds to <Code>RangeSliderValue&lt;TValue&gt;</Code>, giving you strongly typed <Code>Start</Code> and <Code>End</Code> values.
+    Common numeric types such as <Code>int</Code>, <Code>double</Code>, and <Code>decimal</Code> are supported.
+    If you only need one value, use <Anchor To="docs/components/slider">Slider</Anchor> instead.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic range selection">
+        Bind the selected interval to a <Code>RangeSliderValue&lt;int&gt;</Code> and show the current values below the slider.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicRangeSliderExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicRangeSliderExample" />
+</DocsPageSection>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        <Strong>Note:</Strong> Since <Code>RangeSlider</Code> is a generic component, the bound value must match <Code>RangeSliderValue&lt;TValue&gt;</Code>.
+        In most cases Blazor can infer the type from <Code>&#64;bind-Value</Code>, but you can always set <Code>TValue</Code> explicitly.
+    </AlertDescription>
+</Alert>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Decimal values">
+        Use <Code>decimal</Code> together with <Code>Step</Code> for prices, measurements, and other non-integer ranges.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <RangeSliderDecimalExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="RangeSliderDecimalExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Clamp handles instead of swapping">
+        <Paragraph>
+            By default, dragging one handle past the other swaps the logical <Code>Start</Code> and <Code>End</Code> values.
+        </Paragraph>
+        <Paragraph>
+            Enable <Code>ClampToOtherHandle</Code> when you want the active handle to stop at the other handle instead.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <RangeSliderClampHandlesExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="RangeSliderClampHandlesExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Prevent overlapping values">
+        Combine <Code>ClampToOtherHandle</Code> with <Code>AllowEqualValues="false"</Code> to keep at least one step between the handles.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <RangeSliderNoOverlapExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="RangeSliderNoOverlapExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Hide value tooltips">
+        Set <Code>ShowValueTooltips="false"</Code> when you prefer to show the selected range in surrounding text, filter chips, or field help.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <RangeSliderWithoutTooltipsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="RangeSliderWithoutTooltipsExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Choose meaningful steps
+</Heading>
+
+<DocsPageParagraph>
+    Match <Code>Step</Code> to real user decisions. Use small steps for precise adjustments and larger steps for broad filters so the slider stays easy to drag.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Keep the current range visible
+</Heading>
+
+<DocsPageParagraph>
+    Tooltips help during dragging, but persistent labels or field help reduce ambiguity on touch devices and in dense filtering panels.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Pick the right crossing behavior
+</Heading>
+
+<DocsPageParagraph>
+    Keep the default swapping behavior when either handle can freely move across the range. Enable <Code>ClampToOtherHandle</Code> when users think in fixed minimum and maximum bounds, and add <Code>AllowEqualValues="false"</Code> when the selected interval must always stay open.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Label both handles for accessibility
+</Heading>
+
+<DocsPageParagraph>
+    Use <Code>StartAriaLabel</Code> and <Code>EndAriaLabel</Code> when the context is not obvious from the surrounding form so screen reader users can distinguish the two handles.
+</DocsPageParagraph>
+
+<ComponentApiDocs ComponentTypes="[typeof( RangeSlider<> )]" />

@@ -230,6 +230,26 @@ public class BootstrapClassProvider : ClassProvider
 
     #endregion
 
+    #region RangeSlider
+
+    public override string RangeSlider() => "range-slider";
+
+    public override string RangeSliderTrack() => "range-slider-track";
+
+    public override string RangeSliderRange() => "range-slider-range";
+
+    public override string RangeSliderInput() => "form-control-range range-slider-input";
+
+    public override string RangeSliderStart() => "range-slider-input-start";
+
+    public override string RangeSliderEnd() => "range-slider-input-end";
+
+    public override string RangeSliderTooltip() => "range-slider-tooltip";
+
+    public override string RangeSliderValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+
+    #endregion
+
     #region Rating
 
     public override string Rating() => "rating";

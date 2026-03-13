@@ -59,6 +59,7 @@ public static class ManualPageEntries
     new( "docs/components/select", "Select", "Selects allow you to choose one or more items from a dropdown menu." ),
     new( "docs/components/skeleton", "Skeleton", "Skeletons are used to indicate that something is still loading or that the content is not yet available." ),
     new( "docs/components/slider", "Slider", "Sliders allow users to make selections from a range of values." ),
+    new( "docs/components/range-slider", "Range Slider", "Build dual-handle sliders that let users choose minimum and maximum values from a numeric range." ),
     new( "docs/components/step", "Step", "The Step component displays progress through numbered steps." ),
     new( "docs/components/switch", "Switch", "Switch is used for switching between two opposing states." ),
     new( "docs/components/tab", "Tab", "Tabs are used to organize and group content into sections that the user can navigate between." ),

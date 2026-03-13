@@ -1,0 +1,15 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">RangeSlider</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">int</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>budgetRange</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Min</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">500</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Max</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">5000</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Step</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">250</span><span class="quot">&quot;</span> <span class="htmlAttributeName">ShowValueTooltips</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlAttributeName">StartAriaLabel</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Minimum budget</span><span class="quot">&quot;</span> <span class="htmlAttributeName">EndAriaLabel</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Maximum budget</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldHelp</span><span class="htmlTagDelimiter">&gt;</span>Monthly budget: <span class="atSign">&#64;</span>BudgetRangeText<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldHelp</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    RangeSliderValue&lt;<span class="keyword">int</span>&gt; budgetRange = <span class="keyword">new</span>( <span class="number">1000</span>, <span class="number">3000</span> );
+
+    <span class="keyword">string</span> BudgetRangeText =&gt; $<span class="string">&quot;${budgetRange.Start} - ${budgetRange.End}&quot;</span>;
+}
+</pre></div>
+</div>

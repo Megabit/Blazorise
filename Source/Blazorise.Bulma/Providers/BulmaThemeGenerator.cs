@@ -426,6 +426,11 @@ public class BulmaThemeGenerator : ThemeGenerator
             GenerateInputCheckEditStyles( sb, theme, options );
         }
 
+        if ( !string.IsNullOrEmpty( options?.SliderColor ) )
+        {
+            GenerateInputSliderStyles( sb, theme, options );
+        }
+
         var validationSuccessColor = Var( ThemeVariables.Color( "success" ) );
         var validationDangerColor = Var( ThemeVariables.Color( "danger" ) );
 
@@ -559,6 +564,40 @@ public class BulmaThemeGenerator : ThemeGenerator
         sb
             .Append( ".is-checkradio[type=\"radio\"]:hover:not([disabled]) + label::before, .is-checkradio[type=\"radio\"]:hover:not([disabled]) + label:before, .is-checkradio[type=\"checkbox\"]:hover:not([disabled]) + label::before, .is-checkradio[type=\"checkbox\"]:hover:not([disabled]) + label:before" ).Append( "{" )
             .Append( $"border-color: {options.CheckColor} !important;" )
+            .AppendLine( "}" );
+    }
+
+    protected virtual void GenerateInputSliderStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
+    {
+        _ = theme;
+
+        if ( string.IsNullOrEmpty( options?.SliderColor ) )
+            return;
+
+        sb.Append( ".slider[type=\"range\"]:not(.range-slider-input)::-webkit-slider-thumb" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".slider[type=\"range\"]:not(.range-slider-input)::-moz-range-progress," )
+            .Append( ".slider[type=\"range\"]:not(.range-slider-input)::-moz-range-thumb" )
+            .Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".range-slider > .range-slider-range" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".range-slider > .range-slider-input" ).Append( "{" )
+            .Append( $"accent-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".range-slider > .range-slider-input::-webkit-slider-thumb" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".range-slider > .range-slider-input::-moz-range-thumb" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
             .AppendLine( "}" );
     }
 

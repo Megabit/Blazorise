@@ -174,6 +174,16 @@ public static class JSInterop
         return jsInterop;
     }
 
+    public static BunitJSInterop AddBlazoriseRangeSlider( this BunitJSInterop jsInterop )
+    {
+        var module = jsInterop.SetupModule( new JSRangeSliderModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "import", _ => true ).SetVoidResult();
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
     public static BunitJSInterop AddBlazoriseModal( this BunitJSInterop jsInterop )
     {
         AddBlazoriseUtilities( jsInterop );

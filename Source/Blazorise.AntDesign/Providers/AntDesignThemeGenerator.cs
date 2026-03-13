@@ -535,15 +535,20 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected virtual void GenerateInputSliderStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
+        _ = theme;
+
         if ( string.IsNullOrEmpty( options?.SliderColor ) )
             return;
+
+        var hoverSliderColor = ToHex( Darken( options.SliderColor, 20f ) );
+        var sliderOutlineColor = ToHexRGBA( Transparency( options.SliderColor, 51 ) );
 
         sb.Append( ".ant-slider-track" ).Append( "{" )
             .Append( $"background-color: {options.SliderColor};" )
             .AppendLine( "}" );
 
         sb.Append( ".ant-slider:hover .ant-slider-track" ).Append( "{" )
-            .Append( $"background-color: {ToHex( Darken( options.SliderColor, 20f ) )};" )
+            .Append( $"background-color: {hoverSliderColor};" )
             .AppendLine( "}" );
 
         sb.Append( ".ant-slider-handle" ).Append( "{" )
@@ -554,7 +559,39 @@ public class AntDesignThemeGenerator : ThemeGenerator
             .Append( ".ant-slider-handle:focus," )
             .Append( ".ant-slider:hover .ant-slider-handle:not(.ant-tooltip-open)" )
             .Append( "{" )
-            .Append( $"border-color: {ToHex( Darken( options.SliderColor, 20f ) )};" )
+            .Append( $"border-color: {hoverSliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".ant-range-slider > .ant-range-slider-range" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".ant-range-slider:hover > .ant-range-slider-range" ).Append( "{" )
+            .Append( $"background-color: {hoverSliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".ant-range-slider > .ant-range-slider-input::-webkit-slider-thumb" ).Append( "{" )
+            .Append( $"border-color: {options.SliderColor};" )
+            .Append( $"box-shadow: 0 0 0 2px {sliderOutlineColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".ant-range-slider > .ant-range-slider-input::-moz-range-thumb" ).Append( "{" )
+            .Append( $"border-color: {options.SliderColor};" )
+            .Append( $"box-shadow: 0 0 0 2px {sliderOutlineColor};" )
+            .AppendLine( "}" );
+
+        sb
+            .Append( ".ant-range-slider > .ant-range-slider-input:focus::-webkit-slider-thumb," )
+            .Append( ".ant-range-slider:hover > .ant-range-slider-input::-webkit-slider-thumb" )
+            .Append( "{" )
+            .Append( $"border-color: {hoverSliderColor};" )
+            .AppendLine( "}" );
+
+        sb
+            .Append( ".ant-range-slider > .ant-range-slider-input:focus::-moz-range-thumb," )
+            .Append( ".ant-range-slider:hover > .ant-range-slider-input::-moz-range-thumb" )
+            .Append( "{" )
+            .Append( $"border-color: {hoverSliderColor};" )
             .AppendLine( "}" );
     }
 

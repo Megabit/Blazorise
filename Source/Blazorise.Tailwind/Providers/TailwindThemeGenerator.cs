@@ -510,6 +510,11 @@ public class TailwindThemeGenerator : ThemeGenerator
         //        .AppendLine( "}" );
         //}
 
+        if ( !string.IsNullOrEmpty( options?.SliderColor ) )
+        {
+            GenerateInputSliderStyles( sb, theme, options );
+        }
+
         //if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         //{
         //    sb
@@ -738,6 +743,46 @@ public class TailwindThemeGenerator : ThemeGenerator
         //    .Append( ".custom-switch .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
         //    .Append( $"background-color: {options.CheckColor};" )
         //    .AppendLine( "}" );
+    }
+
+    protected virtual void GenerateInputSliderStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
+    {
+        _ = theme;
+
+        if ( string.IsNullOrEmpty( options?.SliderColor ) )
+            return;
+
+        sb.Append( ".tw-slider" ).Append( "{" )
+            .Append( $"accent-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".tw-slider::-webkit-slider-thumb" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".tw-slider::-moz-range-progress" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".tw-slider::-moz-range-thumb" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".tw-range-slider > .tw-range-slider-range" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".tw-range-slider > .tw-range-slider-input" ).Append( "{" )
+            .Append( $"accent-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".tw-range-slider > .tw-range-slider-input::-webkit-slider-thumb" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
+
+        sb.Append( ".tw-range-slider > .tw-range-slider-input::-moz-range-thumb" ).Append( "{" )
+            .Append( $"background-color: {options.SliderColor};" )
+            .AppendLine( "}" );
     }
 
     protected override void GenerateBadgeVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor )

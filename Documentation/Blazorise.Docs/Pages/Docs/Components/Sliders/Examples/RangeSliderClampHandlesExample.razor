@@ -1,0 +1,10 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Field>
+    <RangeSlider TValue="int" @bind-Value="@capacityRange" Min="0" Max="100" Step="5" ClampToOtherHandle StartAriaLabel="Minimum capacity" EndAriaLabel="Maximum capacity" />
+    <FieldHelp>Try dragging one handle into the other. Current selection: @capacityRange.Start% - @capacityRange.End%</FieldHelp>
+</Field>
+
+@code {
+    RangeSliderValue<int> capacityRange = new( 25, 75 );
+}

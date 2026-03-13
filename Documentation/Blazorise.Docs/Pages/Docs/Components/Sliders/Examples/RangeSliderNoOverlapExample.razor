@@ -1,0 +1,10 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Field>
+    <RangeSlider TValue="int" @bind-Value="@experienceRange" Min="0" Max="30" Step="5" ClampToOtherHandle AllowEqualValues="false" StartAriaLabel="Minimum experience" EndAriaLabel="Maximum experience" />
+    <FieldHelp>Experience filter: @experienceRange.Start to @experienceRange.End years. Handles keep at least one step between them.</FieldHelp>
+</Field>
+
+@code {
+    RangeSliderValue<int> experienceRange = new( 5, 20 );
+}
