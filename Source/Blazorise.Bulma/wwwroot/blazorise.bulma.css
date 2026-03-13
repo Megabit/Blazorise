@@ -3895,6 +3895,10 @@ td:focus {
   border-color: var(--b-theme-danger, hsl(348, 100%, 70%));
 }
 
+.b-one-time-input .b-one-time-input-group > .field {
+  margin-bottom: 0;
+}
+
 .is-vertical-align-baseline {
   vertical-align: baseline !important;
 }

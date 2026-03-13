@@ -10606,6 +10606,97 @@ Install-Package Blazorise.Icons.Material";
     }
 }";
 
+        public const string OneTimeInputBasicExample = @"<Field>
+    <FieldLabel>Verification code</FieldLabel>
+    <FieldBody>
+        <OneTimeInput @bind-Value=""@verificationCode""
+                      Digits=""6""
+                      Autofocus />
+    </FieldBody>
+</Field>
+
+<Div Margin=""Margin.Is3.FromTop"">
+    <Span TextWeight=""TextWeight.SemiBold"">Value:</Span>
+    <Code>@(string.IsNullOrWhiteSpace( verificationCode ) ? ""(empty)"" : verificationCode)</Code>
+</Div>
+
+@code {
+    private string verificationCode;
+}";
+
+        public const string OneTimeInputGroupingExample = @"<Field>
+    <FieldLabel>Office code</FieldLabel>
+    <FieldBody>
+        <OneTimeInput @bind-Value=""@officeCode""
+                      Digits=""5""
+                      Group=""2,3"" />
+    </FieldBody>
+</Field>
+
+<Div Margin=""Margin.Is3.FromTop"">
+    <Span TextWeight=""TextWeight.SemiBold"">Value:</Span>
+    <Code>@(string.IsNullOrWhiteSpace( officeCode ) ? ""(empty)"" : officeCode)</Code>
+</Div>
+
+@code {
+    private string officeCode;
+}";
+
+        public const string OneTimeInputImportsExample = @"@using Blazorise.Components";
+
+        public const string OneTimeInputNugetInstallExample = @"Install-Package Blazorise.Components";
+
+        public const string OneTimeInputTextModeExample = @"<Field>
+    <FieldLabel>Recovery key</FieldLabel>
+    <FieldBody>
+        <OneTimeInput @bind-Value=""@recoveryKey""
+                      Digits=""8""
+                      Group=""4,4""
+                      Role=""TextRole.Text""
+                      InputMode=""TextInputMode.Text"" />
+    </FieldBody>
+</Field>
+
+<Div Margin=""Margin.Is3.FromTop"">
+    <Span TextWeight=""TextWeight.SemiBold"">Value:</Span>
+    <Code>@(string.IsNullOrWhiteSpace( recoveryKey ) ? ""(empty)"" : recoveryKey)</Code>
+</Div>
+
+@code {
+    private string recoveryKey = ""A1B2"";
+}";
+
+        public const string OneTimeInputValidationExample = @"<Validations @ref=""@validations"" Mode=""ValidationMode.Manual"">
+    <Validation UsePattern>
+        <Field>
+            <FieldLabel RequiredIndicator>Security code</FieldLabel>
+            <FieldBody>
+                <OneTimeInput @bind-Value=""@securityCode""
+                              Digits=""6""
+                              Pattern=""[0-9]{6}"">
+                    <Feedback>
+                        <ValidationError>Please enter all 6 digits.</ValidationError>
+                    </Feedback>
+                </OneTimeInput>
+            </FieldBody>
+        </Field>
+    </Validation>
+
+    <Button Color=""Color.Primary"" Clicked=""@ValidateCode"">
+        Validate
+    </Button>
+</Validations>
+
+@code {
+    private Validations validations;
+    private string securityCode;
+
+    private Task ValidateCode()
+    {
+        return validations.ValidateAll();
+    }
+}";
+
         public const string PasswordStrengthBasicExample = @"<PasswordStrength @bind-Value=""@password""
                   Placeholder=""Use a long passphrase""
                   StrengthChanged=""@OnStrengthChanged"" />
@@ -11360,6 +11451,89 @@ builder.Services
         {
             RecurrenceRule = ""FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=2;COUNT=3""
         },
+    };
+}";
+
+        public const string SchedulerSlotStylingExample = @"<Scheduler TItem=""Appointment"" @bind-Date=""@selectedDate""
+           Data=""@Appointments""
+           SelectedView=""SchedulerView.Week"">
+    <SchedulerToolbar />
+    <SchedulerViews>
+        <SchedulerWeekView StartTime=""@startTime"" EndTime=""@endTime"" WorkDayStart=""@workDayStart"" WorkDayEnd=""@workDayEnd"">
+            <SlotStylingTemplate Context=""slot"">
+                @{
+                    ApplySlotStyling( slot );
+                }
+            </SlotStylingTemplate>
+        </SchedulerWeekView>
+    </SchedulerViews>
+</Scheduler>
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+    private static DateTime today9AM = DateTime.Today.AddHours( 9 );
+    private TimeOnly startTime = new TimeOnly( 7, 0 );
+    private TimeOnly endTime = new TimeOnly( 17, 0 );
+    private TimeOnly workDayStart = new TimeOnly( 8, 0 );
+    private TimeOnly workDayEnd = new TimeOnly( 16, 0 );
+    private TimeOnly focusTimeStart = new TimeOnly( 9, 0 );
+    private TimeOnly focusTimeEnd = new TimeOnly( 10, 0 );
+    private TimeOnly lunchBreakStart = new TimeOnly( 12, 0 );
+    private TimeOnly lunchBreakEnd = new TimeOnly( 13, 0 );
+
+    public class Appointment
+    {
+        public Appointment()
+        {
+        }
+
+        public Appointment( string title, string description, DateTime start, DateTime end, bool allDay = false )
+        {
+            Id = Guid.NewGuid().ToString();
+            Title = title;
+            Description = description;
+            Start = start;
+            End = end;
+            AllDay = allDay;
+        }
+
+        public string Id { get; set; }
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public bool AllDay { get; set; }
+    }
+
+    private void ApplySlotStyling( SchedulerSlotContext slot )
+    {
+        if ( IsSlotInRange( slot, lunchBreakStart, lunchBreakEnd ) )
+        {
+            slot.Styling.Background = Background.Warning;
+            slot.Styling.Style = ""opacity: 0.35;"";
+        }
+        else if ( IsSlotInRange( slot, focusTimeStart, focusTimeEnd ) )
+        {
+            slot.Styling.Background = Background.Success;
+            slot.Styling.Style = ""opacity: 0.2;"";
+        }
+    }
+
+    private static bool IsSlotInRange( SchedulerSlotContext slot, TimeOnly rangeStart, TimeOnly rangeEnd )
+    {
+        return slot.Start.TimeOfDay >= rangeStart.ToTimeSpan()
+            && slot.End.TimeOfDay <= rangeEnd.ToTimeSpan();
+    }
+
+    List<Appointment> Appointments = new List<Appointment>
+    {
+        new Appointment( ""Team sync"", ""Weekly status update"", today9AM, today9AM.AddMinutes( 30 ) ),
+        new Appointment( ""Design review"", ""Scheduler custom slot styling"", today9AM.AddHours( 2 ), today9AM.AddHours( 3 ) ),
+        new Appointment( ""Lunch and learn"", ""New scheduler templates"", today9AM.AddHours( 3 ), today9AM.AddHours( 4 ) ),
     };
 }";
 

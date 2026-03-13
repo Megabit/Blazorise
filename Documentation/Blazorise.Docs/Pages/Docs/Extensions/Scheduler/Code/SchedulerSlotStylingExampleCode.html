@@ -1,0 +1,88 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Scheduler</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Appointment</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Date</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedDate</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Appointments</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">SelectedView</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">SchedulerView</span><span class="enumValue">.Week</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SchedulerToolbar</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SchedulerViews</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SchedulerWeekView</span> <span class="htmlAttributeName">StartTime</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>startTime</span><span class="quot">&quot;</span> <span class="htmlAttributeName">EndTime</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>endTime</span><span class="quot">&quot;</span> <span class="htmlAttributeName">WorkDayStart</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>workDayStart</span><span class="quot">&quot;</span> <span class="htmlAttributeName">WorkDayEnd</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>workDayEnd</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SlotStylingTemplate</span> <span class="htmlAttributeName">Context</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">slot</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="atSign">&#64;</span>{
+                    ApplySlotStyling( slot );
+                }
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SlotStylingTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SchedulerWeekView</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SchedulerViews</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Scheduler</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+    <span class="keyword">private</span> <span class="keyword">static</span> DateTime today9AM = DateTime.Today.AddHours( <span class="number">9</span> );
+    <span class="keyword">private</span> TimeOnly startTime = <span class="keyword">new</span> TimeOnly( <span class="number">7</span>, <span class="number">0</span> );
+    <span class="keyword">private</span> TimeOnly endTime = <span class="keyword">new</span> TimeOnly( <span class="number">17</span>, <span class="number">0</span> );
+    <span class="keyword">private</span> TimeOnly workDayStart = <span class="keyword">new</span> TimeOnly( <span class="number">8</span>, <span class="number">0</span> );
+    <span class="keyword">private</span> TimeOnly workDayEnd = <span class="keyword">new</span> TimeOnly( <span class="number">16</span>, <span class="number">0</span> );
+    <span class="keyword">private</span> TimeOnly focusTimeStart = <span class="keyword">new</span> TimeOnly( <span class="number">9</span>, <span class="number">0</span> );
+    <span class="keyword">private</span> TimeOnly focusTimeEnd = <span class="keyword">new</span> TimeOnly( <span class="number">10</span>, <span class="number">0</span> );
+    <span class="keyword">private</span> TimeOnly lunchBreakStart = <span class="keyword">new</span> TimeOnly( <span class="number">12</span>, <span class="number">0</span> );
+    <span class="keyword">private</span> TimeOnly lunchBreakEnd = <span class="keyword">new</span> TimeOnly( <span class="number">13</span>, <span class="number">0</span> );
+
+    <span class="keyword">public</span> <span class="keyword">class</span> Appointment
+    {
+        <span class="keyword">public</span> Appointment()
+        {
+        }
+
+        <span class="keyword">public</span> Appointment( <span class="keyword">string</span> title, <span class="keyword">string</span> description, DateTime start, DateTime end, <span class="keyword">bool</span> allDay = <span class="keyword">false</span> )
+        {
+            Id = Guid.NewGuid().ToString();
+            Title = title;
+            Description = description;
+            Start = start;
+            End = end;
+            AllDay = allDay;
+        }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Id { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Title { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Description { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> DateTime Start { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> DateTime End { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">bool</span> AllDay { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> ApplySlotStyling( SchedulerSlotContext slot )
+    {
+        <span class="keyword">if</span> ( IsSlotInRange( slot, lunchBreakStart, lunchBreakEnd ) )
+        {
+            slot.Styling.Background = Background.Warning;
+            slot.Styling.Style = <span class="string">&quot;opacity: 0.35;&quot;</span>;
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span> ( IsSlotInRange( slot, focusTimeStart, focusTimeEnd ) )
+        {
+            slot.Styling.Background = Background.Success;
+            slot.Styling.Style = <span class="string">&quot;opacity: 0.2;&quot;</span>;
+        }
+    }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">bool</span> IsSlotInRange( SchedulerSlotContext slot, TimeOnly rangeStart, TimeOnly rangeEnd )
+    {
+        <span class="keyword">return</span> slot.Start.TimeOfDay &gt;= rangeStart.ToTimeSpan()
+            &amp;&amp; slot.End.TimeOfDay &lt;= rangeEnd.ToTimeSpan();
+    }
+
+    List&lt;Appointment&gt; Appointments = <span class="keyword">new</span> List&lt;Appointment&gt;
+    {
+        <span class="keyword">new</span> Appointment( <span class="string">&quot;Team sync&quot;</span>, <span class="string">&quot;Weekly status update&quot;</span>, today9AM, today9AM.AddMinutes( <span class="number">30</span> ) ),
+        <span class="keyword">new</span> Appointment( <span class="string">&quot;Design review&quot;</span>, <span class="string">&quot;Scheduler custom slot styling&quot;</span>, today9AM.AddHours( <span class="number">2</span> ), today9AM.AddHours( <span class="number">3</span> ) ),
+        <span class="keyword">new</span> Appointment( <span class="string">&quot;Lunch and learn&quot;</span>, <span class="string">&quot;New scheduler templates&quot;</span>, today9AM.AddHours( <span class="number">3</span> ), today9AM.AddHours( <span class="number">4</span> ) ),
+    };
+}
+</pre></div>
+</div>

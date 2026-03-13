@@ -8394,6 +8394,10 @@ body.modal-open {
   inset-block-start: calc(100% + 0.25rem);
 }
 
+.b-one-time-input:has(.b-one-time-input-slot.is-valid) + .valid-feedback, .b-one-time-input:has(.b-one-time-input-slot.is-invalid) + .invalid-feedback {
+  display: inline-block;
+}
+
 .mui-row > .mui-column:has(> .mui-field-body > .b-cropper-container) {
   display: flex;
   flex-direction: column;

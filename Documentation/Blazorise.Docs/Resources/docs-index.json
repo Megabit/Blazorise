@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-11T12:14:29.5633391Z",
+  "generatedUtc": "2026-03-12T14:28:22.1289464Z",
   "pages": [
     {
       "route": "/docs",
@@ -1269,7 +1269,7 @@
           "sourcePath": "Pages/Docs/Components/Fields/Examples/FieldWithLabelExample.razor",
           "content": "<Field>\r\n    <FieldLabel>Email address</FieldLabel>\r\n    <TextInput Placeholder=\"Enter email\" />\r\n</Field>",
           "title": "Label",
-          "description": "Every input should have a clear, descriptive label that explains its purpose in plain language. Use FieldLabel to associate the label with the control, and FieldHelp when additional guidance is needed."
+          "description": "Every input should have a clear, descriptive label that explains its purpose in plain language. Use FieldLabel to associate the label with the control, and FieldHelp when additional guidance is needed. In a standard Field , FieldLabel can usually resolve the correct target automatically, so you only need For for custom or ambiguous layouts."
         },
         {
           "code": "FieldWithHelpExample",
@@ -5850,6 +5850,68 @@
       ]
     },
     {
+      "route": "/docs/extensions/onetimeinput",
+      "title": "Blazorise OneTimeInput component",
+      "description": "Learn how to use the Blazorise OneTimeInput component for OTP codes, verification flows, grouped tokens, paste support, and validation.",
+      "pagePath": "Pages/Docs/Extensions/OneTimeInput/OneTimeInputPage.razor",
+      "examples": [
+        {
+          "code": "OneTimeInputNugetInstallExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/OneTimeInput/Examples/OneTimeInputNugetInstallExample.snippet",
+          "content": "Install-Package Blazorise.Components",
+          "title": "NuGet",
+          "description": "Install extension from NuGet."
+        },
+        {
+          "code": "OneTimeInputImportsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/OneTimeInput/Examples/OneTimeInputImportsExample.snippet",
+          "content": "@using Blazorise.Components",
+          "title": "Imports",
+          "description": "In your main _Imports.razor add:"
+        },
+        {
+          "code": "OneTimeInputBasicExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/OneTimeInput/Examples/OneTimeInputBasicExample.razor",
+          "content": "<Field>\r\n    <FieldLabel>Verification code</FieldLabel>\r\n    <FieldBody>\r\n        <OneTimeInput @bind-Value=\"@verificationCode\"\r\n                      Digits=\"6\"\r\n                      Autofocus />\r\n    </FieldBody>\r\n</Field>\r\n\r\n<Div Margin=\"Margin.Is3.FromTop\">\r\n    <Span TextWeight=\"TextWeight.SemiBold\">Value:</Span>\r\n    <Code>@(string.IsNullOrWhiteSpace( verificationCode ) ? \"(empty)\" : verificationCode)</Code>\r\n</Div>\r\n\r\n@code {\r\n    private string verificationCode;\r\n}",
+          "title": "Basic verification code",
+          "description": "Start with a 6-digit code. This is the most common OTP layout and it automatically groups into two blocks of 3."
+        },
+        {
+          "code": "OneTimeInputGroupingExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/OneTimeInput/Examples/OneTimeInputGroupingExample.razor",
+          "content": "<Field>\r\n    <FieldLabel>Office code</FieldLabel>\r\n    <FieldBody>\r\n        <OneTimeInput @bind-Value=\"@officeCode\"\r\n                      Digits=\"5\"\r\n                      Group=\"2,3\" />\r\n    </FieldBody>\r\n</Field>\r\n\r\n<Div Margin=\"Margin.Is3.FromTop\">\r\n    <Span TextWeight=\"TextWeight.SemiBold\">Value:</Span>\r\n    <Code>@(string.IsNullOrWhiteSpace( officeCode ) ? \"(empty)\" : officeCode)</Code>\r\n</Div>\r\n\r\n@code {\r\n    private string officeCode;\r\n}",
+          "title": "Custom grouping",
+          "description": "Use the Group parameter when your code format is not a standard 3-and-3 split."
+        },
+        {
+          "code": "OneTimeInputValidationExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/OneTimeInput/Examples/OneTimeInputValidationExample.razor",
+          "content": "<Validations @ref=\"@validations\" Mode=\"ValidationMode.Manual\">\r\n    <Validation UsePattern>\r\n        <Field>\r\n            <FieldLabel RequiredIndicator>Security code</FieldLabel>\r\n            <FieldBody>\r\n                <OneTimeInput @bind-Value=\"@securityCode\"\r\n                              Digits=\"6\"\r\n                              Pattern=\"[0-9]{6}\">\r\n                    <Feedback>\r\n                        <ValidationError>Please enter all 6 digits.</ValidationError>\r\n                    </Feedback>\r\n                </OneTimeInput>\r\n            </FieldBody>\r\n        </Field>\r\n    </Validation>\r\n\r\n    <Button Color=\"Color.Primary\" Clicked=\"@ValidateCode\">\r\n        Validate\r\n    </Button>\r\n</Validations>\r\n\r\n@code {\r\n    private Validations validations;\r\n    private string securityCode;\r\n\r\n    private Task ValidateCode()\r\n    {\r\n        return validations.ValidateAll();\r\n    }\r\n}",
+          "title": "Validation",
+          "description": "Use OneTimeInput inside Validation and Validations just like any other Blazorise input."
+        },
+        {
+          "code": "OneTimeInputTextModeExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/OneTimeInput/Examples/OneTimeInputTextModeExample.razor",
+          "content": "<Field>\r\n    <FieldLabel>Recovery key</FieldLabel>\r\n    <FieldBody>\r\n        <OneTimeInput @bind-Value=\"@recoveryKey\"\r\n                      Digits=\"8\"\r\n                      Group=\"4,4\"\r\n                      Role=\"TextRole.Text\"\r\n                      InputMode=\"TextInputMode.Text\" />\r\n    </FieldBody>\r\n</Field>\r\n\r\n<Div Margin=\"Margin.Is3.FromTop\">\r\n    <Span TextWeight=\"TextWeight.SemiBold\">Value:</Span>\r\n    <Code>@(string.IsNullOrWhiteSpace( recoveryKey ) ? \"(empty)\" : recoveryKey)</Code>\r\n</Div>\r\n\r\n@code {\r\n    private string recoveryKey = \"A1B2\";\r\n}",
+          "title": "Text mode",
+          "description": "Switch to text input when the value can contain letters, such as a recovery key or grouped invitation token."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "OneTimeInput"
+        }
+      ]
+    },
+    {
       "route": "/docs/extensions/passwordstrength",
       "title": "Blazorise PasswordStrength component",
       "description": "Learn how to use the Blazorise PasswordStrength component to evaluate password strength with configurable rules, localization, and validation support.",
@@ -6261,6 +6323,14 @@
           "content": "<Scheduler TItem=\"Appointment\" @bind-Date=\"@selectedDate\" Data=\"@Appointments\" SelectedView=\"SchedulerView.Week\"\r\n           Editable\r\n           SlotSelectionMode=\"SchedulerSlotSelectionMode.Mouse\">\r\n    <SchedulerToolbar />\r\n    <SchedulerViews>\r\n        <SchedulerWeekView StartTime=\"@startTime\" EndTime=\"@endTime\" WorkDayStart=\"@workDayStart\" WorkDayEnd=\"@workDayEnd\" />\r\n    </SchedulerViews>\r\n</Scheduler>\r\n@code {\r\n    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );\r\n    private static DateTime today10AM = DateTime.Today.AddHours( 10 );\r\n    private TimeOnly startTime = new TimeOnly( 7, 0 );\r\n    private TimeOnly endTime = new TimeOnly( 17, 0 );\r\n    private TimeOnly workDayStart = new TimeOnly( 8, 0 );\r\n    private TimeOnly workDayEnd = new TimeOnly( 16, 0 );\r\n\r\n    public class Appointment\r\n    {\r\n        public Appointment()\r\n        {\r\n        }\r\n\r\n        public Appointment( string title, string description, DateTime start, DateTime end, bool allDay = false )\r\n        {\r\n            Id = Guid.NewGuid().ToString();\r\n            Title = title;\r\n            Description = description;\r\n            Start = start;\r\n            End = end;\r\n            AllDay = allDay;\r\n        }\r\n\r\n        public string Id { get; set; }\r\n\r\n        public string Title { get; set; }\r\n\r\n        public string Description { get; set; }\r\n\r\n        public DateTime Start { get; set; }\r\n\r\n        public DateTime End { get; set; }\r\n\r\n        public bool AllDay { get; set; }\r\n\r\n        public string RecurrenceRule { get; set; }\r\n    }\r\n\r\n    List<Appointment> Appointments = new List<Appointment>\r\n    {\r\n        new Appointment( \"Meeting with the CEO\", \"Regarding the new margeting strategy\", today10AM, today10AM.AddHours(1) ),\r\n        new Appointment( \"Some other meeting\", \"Regarding the new margeting strategy\", today10AM, today10AM.AddHours(1) ),\r\n        new Appointment( \"Lunch with the team\", \"Discussing the new project\", today10AM.AddDays(-10).AddHours(2), today10AM.AddDays(-10).AddHours(3))\r\n        {\r\n            RecurrenceRule = \"FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=2;COUNT=3\"\r\n        },\r\n    };\r\n}",
           "title": "Slot Selection",
           "description": "To easily create new items, set the SlotSelectionMode parameter to Mouse . This will allow you to select slots in the calendar to create new items."
+        },
+        {
+          "code": "SchedulerSlotStylingExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Scheduler/Examples/SchedulerSlotStylingExample.razor",
+          "content": "<Scheduler TItem=\"Appointment\" @bind-Date=\"@selectedDate\"\r\n           Data=\"@Appointments\"\r\n           SelectedView=\"SchedulerView.Week\">\r\n    <SchedulerToolbar />\r\n    <SchedulerViews>\r\n        <SchedulerWeekView StartTime=\"@startTime\" EndTime=\"@endTime\" WorkDayStart=\"@workDayStart\" WorkDayEnd=\"@workDayEnd\">\r\n            <SlotStylingTemplate Context=\"slot\">\r\n                @{\r\n                    ApplySlotStyling( slot );\r\n                }\r\n            </SlotStylingTemplate>\r\n        </SchedulerWeekView>\r\n    </SchedulerViews>\r\n</Scheduler>\r\n@code {\r\n    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );\r\n    private static DateTime today9AM = DateTime.Today.AddHours( 9 );\r\n    private TimeOnly startTime = new TimeOnly( 7, 0 );\r\n    private TimeOnly endTime = new TimeOnly( 17, 0 );\r\n    private TimeOnly workDayStart = new TimeOnly( 8, 0 );\r\n    private TimeOnly workDayEnd = new TimeOnly( 16, 0 );\r\n    private TimeOnly focusTimeStart = new TimeOnly( 9, 0 );\r\n    private TimeOnly focusTimeEnd = new TimeOnly( 10, 0 );\r\n    private TimeOnly lunchBreakStart = new TimeOnly( 12, 0 );\r\n    private TimeOnly lunchBreakEnd = new TimeOnly( 13, 0 );\r\n\r\n    public class Appointment\r\n    {\r\n        public Appointment()\r\n        {\r\n        }\r\n\r\n        public Appointment( string title, string description, DateTime start, DateTime end, bool allDay = false )\r\n        {\r\n            Id = Guid.NewGuid().ToString();\r\n            Title = title;\r\n            Description = description;\r\n            Start = start;\r\n            End = end;\r\n            AllDay = allDay;\r\n        }\r\n\r\n        public string Id { get; set; }\r\n\r\n        public string Title { get; set; }\r\n\r\n        public string Description { get; set; }\r\n\r\n        public DateTime Start { get; set; }\r\n\r\n        public DateTime End { get; set; }\r\n\r\n        public bool AllDay { get; set; }\r\n    }\r\n\r\n    private void ApplySlotStyling( SchedulerSlotContext slot )\r\n    {\r\n        if ( IsSlotInRange( slot, lunchBreakStart, lunchBreakEnd ) )\r\n        {\r\n            slot.Styling.Background = Background.Warning;\r\n            slot.Styling.Style = \"opacity: 0.35;\";\r\n        }\r\n        else if ( IsSlotInRange( slot, focusTimeStart, focusTimeEnd ) )\r\n        {\r\n            slot.Styling.Background = Background.Success;\r\n            slot.Styling.Style = \"opacity: 0.2;\";\r\n        }\r\n    }\r\n\r\n    private static bool IsSlotInRange( SchedulerSlotContext slot, TimeOnly rangeStart, TimeOnly rangeEnd )\r\n    {\r\n        return slot.Start.TimeOfDay >= rangeStart.ToTimeSpan()\r\n            && slot.End.TimeOfDay <= rangeEnd.ToTimeSpan();\r\n    }\r\n\r\n    List<Appointment> Appointments = new List<Appointment>\r\n    {\r\n        new Appointment( \"Team sync\", \"Weekly status update\", today9AM, today9AM.AddMinutes( 30 ) ),\r\n        new Appointment( \"Design review\", \"Scheduler custom slot styling\", today9AM.AddHours( 2 ), today9AM.AddHours( 3 ) ),\r\n        new Appointment( \"Lunch and learn\", \"New scheduler templates\", today9AM.AddHours( 3 ), today9AM.AddHours( 4 ) ),\r\n    };\r\n}",
+          "title": "Custom Slot Styling",
+          "description": "Use the SlotStylingTemplate to inspect each rendered slot through SchedulerSlotContext and update slot.Styling based on the slot Start and End values."
         },
         {
           "code": "SchedulerFixedSizeExample",

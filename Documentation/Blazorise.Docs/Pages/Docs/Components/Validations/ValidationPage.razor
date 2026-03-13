@@ -15,6 +15,17 @@
 </DocsPageParagraph>
 
 <DocsPageParagraph>
+    When validation is used together with a <Anchor To="docs/components/field">Field</Anchor>, Blazorise also updates accessibility attributes by
+    default. Inputs can automatically render <Code>aria-invalid</Code> from the current validation status, while <Code Tag>FieldHelp</Code> and
+    validation messages are combined into <Code>aria-describedby</Code> so assistive technologies announce the same guidance users see on screen.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    If you need custom associations, override them per component with <Code>AriaInvalid</Code> and <Code>AriaDescribedBy</Code>, or control the
+    automatic behavior globally through <Code>BlazoriseOptions.AccessibilityOptions</Code>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
     The basic structure for validation components is:
 </DocsPageParagraph>
 

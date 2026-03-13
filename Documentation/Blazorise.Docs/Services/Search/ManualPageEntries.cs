@@ -136,6 +136,7 @@ public static class ManualPageEntries
     new( "docs/extensions/cropper", "Cropper", "A component used to crop images." ),
     new( "docs/extensions/loadingindicator", "LoadingIndicator", "A wrapper component used to add loading indocators UI to other components." ),
     new( "docs/extensions/markdown", "Markdown", "The Markdown component allows you to edit markdown strings." ),
+    new( "docs/extensions/onetimeinput", "OneTimeInput", "Build OTP, verification code, recovery key, and grouped token inputs with auto-advance, paste support, and validation." ),
     new( "docs/extensions/passwordstrength", "PasswordStrength", "The PasswordStrength component helps users create stronger passwords with configurable policies, validation integration, and localized feedback." ),
     new( "docs/extensions/pdfviewer", "PdfViewer", "A PdfViewer component used to display a regular PDF document." ),
     new( "docs/extensions/richtextedit", "RichTextEdit", "The RichTextEdit component allows you to add and use a 'WYSIWYG' rich text editor." ),

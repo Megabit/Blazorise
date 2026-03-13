@@ -227,6 +227,12 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
 
     #region Properties
 
+    /// <inheritdoc/>
+    protected override string FieldLabelTargetElementId => null;
+
+    /// <inheritdoc/>
+    protected override bool UsesAutomaticAriaLabelledBy => true;
+
     /// <summary>
     /// Gets the CSS selector for the color preview element.
     /// </summary>

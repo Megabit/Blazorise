@@ -1,4 +1,5 @@
-﻿#region Using directives
+#region Using directives
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -16,9 +17,76 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
 
     private Screenreader screenreader = Screenreader.Always;
 
+    private bool refreshQueued;
+
+    private bool refreshRequestedWhileQueued;
+
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        if ( ParentField is not null )
+        {
+            if ( UseFieldLabelForAttribute )
+            {
+                ParentField.LabelTargetChanged += OnLabelTargetChanged;
+            }
+
+            if ( UseAriaLabelledByAttribute )
+            {
+                ParentField.NotifyFieldLabelInitialized( this );
+            }
+        }
+    }
+
+    /// <inheritdoc/>
+    protected override Task OnFirstAfterRenderAsync()
+    {
+        if ( UseFieldLabelForAttribute && For is null && ParentField?.LabelTargetElementId is not null )
+        {
+            QueueRefresh();
+        }
+
+        return base.OnFirstAfterRenderAsync();
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        await base.OnAfterRenderAsync( firstRender );
+
+        refreshQueued = false;
+
+        if ( refreshRequestedWhileQueued && !( Disposed || AsyncDisposed ) )
+        {
+            refreshRequestedWhileQueued = false;
+            QueueRefresh();
+        }
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing && ParentField is not null )
+        {
+            if ( UseFieldLabelForAttribute )
+            {
+                ParentField.LabelTargetChanged -= OnLabelTargetChanged;
+            }
+
+            if ( UseAriaLabelledByAttribute )
+            {
+                ParentField.NotifyFieldLabelRemoved( this );
+            }
+        }
+
+        base.Dispose( disposing );
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -30,9 +98,56 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
         base.BuildClasses( builder );
     }
 
+    /// <summary>
+    /// Handles parent field label target changes.
+    /// </summary>
+    private void OnLabelTargetChanged()
+    {
+        if ( For is not null )
+            return;
+
+        QueueRefresh();
+    }
+
+    /// <summary>
+    /// Queues a single component refresh for the current render cycle.
+    /// </summary>
+    private void QueueRefresh()
+    {
+        if ( Disposed || AsyncDisposed )
+            return;
+
+        if ( refreshQueued )
+        {
+            refreshRequestedWhileQueued = true;
+            return;
+        }
+
+        refreshQueued = true;
+
+        _ = InvokeAsync( StateHasChanged );
+    }
+
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets the resolved ID of the input element that this label belongs to.
+    /// </summary>
+    protected string ResolvedFor => UseFieldLabelForAttribute
+        ? For ?? ParentField?.LabelTargetElementId
+        : null;
+
+    /// <summary>
+    /// Gets a value indicating whether the automatic <c>for</c> attribute integration is enabled.
+    /// </summary>
+    protected bool UseFieldLabelForAttribute => Options?.AccessibilityOptions?.UseLabelForAttribute == true;
+
+    /// <summary>
+    /// Gets a value indicating whether the automatic <c>aria-labelledby</c> integration is enabled.
+    /// </summary>
+    protected bool UseAriaLabelledByAttribute => Options?.AccessibilityOptions?.UseAriaLabelledByAttribute == true;
 
     /// <summary>
     /// Gets or sets the ID of an element that this label belongs to.
@@ -68,6 +183,14 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
             DirtyClasses();
         }
     }
+
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => UseAriaLabelledByAttribute;
+
+    /// <summary>
+    /// Holds the information about the Blazorise global options.
+    /// </summary>
+    [Inject] protected BlazoriseOptions Options { get; set; }
 
     #endregion
 }

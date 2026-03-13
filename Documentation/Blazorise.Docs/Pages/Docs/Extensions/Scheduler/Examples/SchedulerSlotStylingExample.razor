@@ -1,0 +1,84 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Scheduler TItem="Appointment" @bind-Date="@selectedDate"
+           Data="@Appointments"
+           SelectedView="SchedulerView.Week">
+    <SchedulerToolbar />
+    <SchedulerViews>
+        <SchedulerWeekView StartTime="@startTime" EndTime="@endTime" WorkDayStart="@workDayStart" WorkDayEnd="@workDayEnd">
+            <SlotStylingTemplate Context="slot">
+                @{
+                    ApplySlotStyling( slot );
+                }
+            </SlotStylingTemplate>
+        </SchedulerWeekView>
+    </SchedulerViews>
+</Scheduler>
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+    private static DateTime today9AM = DateTime.Today.AddHours( 9 );
+    private TimeOnly startTime = new TimeOnly( 7, 0 );
+    private TimeOnly endTime = new TimeOnly( 17, 0 );
+    private TimeOnly workDayStart = new TimeOnly( 8, 0 );
+    private TimeOnly workDayEnd = new TimeOnly( 16, 0 );
+    private TimeOnly focusTimeStart = new TimeOnly( 9, 0 );
+    private TimeOnly focusTimeEnd = new TimeOnly( 10, 0 );
+    private TimeOnly lunchBreakStart = new TimeOnly( 12, 0 );
+    private TimeOnly lunchBreakEnd = new TimeOnly( 13, 0 );
+
+    public class Appointment
+    {
+        public Appointment()
+        {
+        }
+
+        public Appointment( string title, string description, DateTime start, DateTime end, bool allDay = false )
+        {
+            Id = Guid.NewGuid().ToString();
+            Title = title;
+            Description = description;
+            Start = start;
+            End = end;
+            AllDay = allDay;
+        }
+
+        public string Id { get; set; }
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public bool AllDay { get; set; }
+    }
+
+    private void ApplySlotStyling( SchedulerSlotContext slot )
+    {
+        if ( IsSlotInRange( slot, lunchBreakStart, lunchBreakEnd ) )
+        {
+            slot.Styling.Background = Background.Warning;
+            slot.Styling.Style = "opacity: 0.35;";
+        }
+        else if ( IsSlotInRange( slot, focusTimeStart, focusTimeEnd ) )
+        {
+            slot.Styling.Background = Background.Success;
+            slot.Styling.Style = "opacity: 0.2;";
+        }
+    }
+
+    private static bool IsSlotInRange( SchedulerSlotContext slot, TimeOnly rangeStart, TimeOnly rangeEnd )
+    {
+        return slot.Start.TimeOfDay >= rangeStart.ToTimeSpan()
+            && slot.End.TimeOfDay <= rangeEnd.ToTimeSpan();
+    }
+
+    List<Appointment> Appointments = new List<Appointment>
+    {
+        new Appointment( "Team sync", "Weekly status update", today9AM, today9AM.AddMinutes( 30 ) ),
+        new Appointment( "Design review", "Scheduler custom slot styling", today9AM.AddHours( 2 ), today9AM.AddHours( 3 ) ),
+        new Appointment( "Lunch and learn", "New scheduler templates", today9AM.AddHours( 3 ), today9AM.AddHours( 4 ) ),
+    };
+}

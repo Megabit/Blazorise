@@ -60,5 +60,11 @@ public abstract class BaseRichTextEditComponent : BaseInputComponent<string>
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
 
+    /// <inheritdoc/>
+    protected override string FieldLabelTargetElementId => null;
+
+    /// <inheritdoc/>
+    protected override bool UsesAutomaticAriaLabelledBy => true;
+
     #endregion
 }

@@ -52,7 +52,29 @@
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    For accessibility, inputs render <Code>aria-invalid</Code> and <Code>aria-describedby</Code> based on validation state and help text by default. You can override them with the <Code>AriaInvalid</Code> and <Code>AriaDescribedBy</Code> parameters when you need custom associations.
+    <Code Tag>Field</Code> is also the main semantic unit for forms in Blazorise. When a field contains one primary control together with
+    <Code Tag>FieldLabel</Code>, <Code Tag>FieldHelp</Code>, and validation feedback, Blazorise has enough context to keep visible form layout and
+    accessibility metadata aligned.
+</DocsPageParagraph>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        <Strong>Important:</Strong> The best accessibility results come from using one primary interactive control per <Code Tag>Field</Code>.
+        That keeps label, help, and validation associations unambiguous.
+    </AlertDescription>
+</Alert>
+
+<DocsPageParagraph>
+    By default, Blazorise uses the <Code Tag>Field</Code> structure to automatically render <Code>for</Code> on <Code Tag>FieldLabel</Code> for
+    labelable controls, <Code>aria-labelledby</Code> for non-labelable controls such as <Code>RadioGroup</Code>, <Code>ColorPicker</Code>,
+    <Code>RichTextEdit</Code>, <Code>Markdown</Code>, and <Code>SignaturePad</Code>, <Code>aria-describedby</Code> from
+    <Code Tag>FieldHelp</Code> and validation messages, and <Code>aria-invalid</Code> from validation state.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    You can still override any association when needed with <Code>FieldLabel.For</Code>, <Code>AriaLabelledBy</Code>,
+    <Code>AriaDescribedBy</Code>, and <Code>AriaInvalid</Code>. Automatic accessibility integrations are enabled by default and can be controlled
+    globally through <Code>BlazoriseOptions.AccessibilityOptions</Code>.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -72,6 +94,8 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Label">
         Every input should have a clear, descriptive label that explains its purpose in plain language. Use <Code Tag>FieldLabel</Code> to associate the label with the control, and <Code>FieldHelp</Code> when additional guidance is needed.
+        In a standard <Code Tag>Field</Code>, <Code Tag>FieldLabel</Code> can usually resolve the correct target automatically, so you only need
+        <Code>For</Code> for custom or ambiguous layouts.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <FieldWithLabelExample />
@@ -192,6 +216,9 @@
         </UnorderedListItem>
         <UnorderedListItem>
             <Paragraph>Use <Code Tag>Fields</Code> to group related <Code Tag>Field</Code> components when building multi-column or sectioned form layouts.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Keep <Code Tag>FieldLabel</Code>, the primary input, <Code Tag>FieldHelp</Code>, and validation feedback in the same <Code Tag>Field</Code> so Blazorise can generate the correct accessibility attributes automatically.</Paragraph>
         </UnorderedListItem>
     </UnorderedList>
 </DocsPageParagraph>
