@@ -315,6 +315,18 @@ public class BootstrapClassProvider : ClassProvider
 
     #endregion
 
+    #region FieldSet
+
+    public override string FieldSet() => "form-group";
+
+    public override string FieldSetHorizontal( bool horizontal ) => horizontal ? "row" : null;
+
+    public override string FieldSetValidation( ValidationStatus validationStatus ) => null;
+
+    public override string FieldSetJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
+
+    #endregion
+
     #region Field
 
     public override string Field() => "form-group";
@@ -341,6 +353,19 @@ public class BootstrapClassProvider : ClassProvider
             : null;
 
     public override string FieldLabelScreenreader( Screenreader screenreader ) => screenreader != Screenreader.Always ? ToScreenreader( screenreader ) : null;
+
+    #endregion
+
+    #region Legend
+
+    public override string Legend( bool horizontal ) => horizontal ? "col-form-label" : null;
+
+    public override string LegendRequiredIndicator( bool requiredIndicator )
+        => requiredIndicator
+            ? "form-label-required"
+            : null;
+
+    public override string LegendScreenreader( Screenreader screenreader ) => screenreader != Screenreader.Always ? ToScreenreader( screenreader ) : null;
 
     #endregion
 

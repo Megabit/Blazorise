@@ -1,0 +1,7 @@
+﻿@namespace Blazorise
+@inherits BaseColumnComponent
+<CascadingValue Value="@this" IsFixed>
+    <fieldset @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @ChildContent
+    </fieldset>
+</CascadingValue>

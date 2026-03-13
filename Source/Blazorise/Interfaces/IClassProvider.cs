@@ -294,6 +294,18 @@ public interface IClassProvider
 
     #endregion
 
+    #region FieldSet
+
+    string FieldSet();
+
+    string FieldSetHorizontal( bool horizontal );
+
+    string FieldSetValidation( ValidationStatus validationStatus );
+
+    string FieldSetJustifyContent( JustifyContent justifyContent );
+
+    #endregion
+
     #region Field
 
     string Field();
@@ -317,6 +329,16 @@ public interface IClassProvider
     string FieldLabelRequiredIndicator( bool requiredIndicator );
 
     string FieldLabelScreenreader( Screenreader screenreader );
+
+    #endregion
+
+    #region Legend
+
+    string Legend( bool horizontal );
+
+    string LegendRequiredIndicator( bool requiredIndicator );
+
+    string LegendScreenreader( Screenreader screenreader );
 
     #endregion
 

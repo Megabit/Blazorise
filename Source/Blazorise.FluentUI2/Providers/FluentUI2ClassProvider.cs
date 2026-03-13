@@ -314,6 +314,18 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
+    #region FieldSet
+
+    public override string FieldSet() => "fui-Field";
+
+    public override string FieldSetHorizontal( bool horizontal ) => horizontal ? "fui-FieldHorizontal" : null;
+
+    public override string FieldSetValidation( ValidationStatus validationStatus ) => null;
+
+    public override string FieldSetJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
+
+    #endregion
+
     #region Field
 
     public override string Field() => "fui-Field";
@@ -340,6 +352,19 @@ public class FluentUI2ClassProvider : ClassProvider
             : null;
 
     public override string FieldLabelScreenreader( Screenreader screenreader ) => screenreader != Screenreader.Always ? ToScreenreader( screenreader ) : null;
+
+    #endregion
+
+    #region Legend
+
+    public override string Legend( bool horizontal ) => horizontal ? "fui-Label fui-LabelHorizontal" : "fui-Label";
+
+    public override string LegendRequiredIndicator( bool requiredIndicator )
+        => requiredIndicator
+            ? "fui-Label__required"
+            : null;
+
+    public override string LegendScreenreader( Screenreader screenreader ) => screenreader != Screenreader.Always ? ToScreenreader( screenreader ) : null;
 
     #endregion
 

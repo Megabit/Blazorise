@@ -225,6 +225,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
             }
         }
 
+        if ( ParentFieldSet is not null && UseAriaLabelledByAttribute && UsesAutomaticFieldSetAriaLabelledBy )
+        {
+            ParentFieldSet.LegendElementChanged += OnFieldSetLegendChanged;
+        }
+
         base.OnInitialized();
     }
 
@@ -284,6 +289,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
             {
                 ParentField.LabelElementChanged -= OnFieldLabelChanged;
             }
+        }
+
+        if ( ParentFieldSet is not null )
+        {
+            ParentFieldSet.LegendElementChanged -= OnFieldSetLegendChanged;
         }
 
         if ( ParentField is not null && !string.IsNullOrWhiteSpace( registeredFieldLabelTargetElementId ) )
@@ -554,6 +564,17 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     }
 
     /// <summary>
+    /// Handler for fieldset legend changes.
+    /// </summary>
+    private void OnFieldSetLegendChanged()
+    {
+        if ( HasDefinedAriaLabelledBy || !UsesAutomaticFieldSetAriaLabelledBy )
+            return;
+
+        QueueRefresh();
+    }
+
+    /// <summary>
     /// Registers the current component as the label target for the parent <see cref="Field"/>.
     /// </summary>
     private void UpdateFieldLabelTargetRegistration()
@@ -700,10 +721,22 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     protected virtual bool UsesAutomaticAriaLabelledBy => false;
 
     /// <summary>
+    /// Gets a value indicating whether the component derives its <c>aria-labelledby</c> value from a parent <see cref="Legend"/>.
+    /// </summary>
+    protected virtual bool UsesAutomaticFieldSetAriaLabelledBy => false;
+
+    /// <summary>
     /// Gets the element id of the parent <see cref="FieldLabel"/>.
     /// </summary>
     protected string ParentFieldLabelElementId => UseAriaLabelledByAttribute
         ? ParentField?.LabelElementId
+        : null;
+
+    /// <summary>
+    /// Gets the element id of the parent <see cref="Legend"/>.
+    /// </summary>
+    protected string ParentFieldSetLegendElementId => UseAriaLabelledByAttribute
+        ? ParentFieldSet?.LegendElementId
         : null;
 
     /// <summary>
@@ -728,11 +761,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         : null;
 
     /// <summary>
-    /// Gets the resolved value of the <c>aria-labelledby</c> attribute, preferring an explicit value over the parent <see cref="FieldLabel"/>.
+    /// Gets the resolved value of the <c>aria-labelledby</c> attribute, preferring an explicit value over a parent <see cref="FieldLabel"/> or <see cref="Legend"/>.
     /// </summary>
     protected string ResolvedAriaLabelledBy => paramAriaLabelledBy.Defined
         ? paramAriaLabelledBy.Value
-        : ParentFieldLabelElementId;
+        : ParentFieldLabelElementId ?? ( UsesAutomaticFieldSetAriaLabelledBy ? ParentFieldSetLegendElementId : null );
 
     /// <summary>
     /// Gets a value indicating whether the automatic <c>for</c> attribute integration is enabled.
@@ -824,7 +857,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// Gets or sets the aria-labelledby attribute value.
     /// </summary>
     /// <remarks>
-    /// When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <see cref="FieldLabel"/>.
+    /// When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <see cref="FieldLabel"/> or <see cref="Legend"/>.
     /// </remarks>
     [Parameter] public string AriaLabelledBy { get; set; }
 
@@ -990,6 +1023,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// Parent field container.
     /// </summary>
     [CascadingParameter] protected Field ParentField { get; set; }
+
+    /// <summary>
+    /// Parent fieldset container.
+    /// </summary>
+    [CascadingParameter] protected FieldSet ParentFieldSet { get; set; }
 
     /// <summary>
     /// Parent field body.
