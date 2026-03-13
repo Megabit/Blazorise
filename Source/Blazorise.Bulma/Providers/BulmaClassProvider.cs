@@ -343,7 +343,7 @@ public class BulmaClassProvider : ClassProvider
 
     #region Legend
 
-    public override string Legend( bool horizontal ) => horizontal ? "field-label is-normal" : "field-label";
+    public override string Legend( bool horizontal ) => horizontal ? "field-label is-normal" : "label";
 
     public override string LegendRequiredIndicator( bool requiredIndicator )
         => requiredIndicator
