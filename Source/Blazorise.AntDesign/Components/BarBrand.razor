@@ -1,4 +1,4 @@
 ﻿@inherits Blazorise.BarBrand
-<span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+<CascadingValue Value="@this" IsFixed>
     @ChildContent
-</span>
+</CascadingValue>

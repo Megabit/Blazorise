@@ -1,11 +1,9 @@
 ﻿@inherits Blazorise.BarEnd
-@if ( ParentBarState?.Mode == BarMode.Horizontal )
-{
-    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @ChildContent
-    </div>
-}
-else
-{
+<CascadingValue Value="@this" IsFixed>
+    @if ( ParentBarState?.Mode == BarMode.Horizontal )
+    {
+        <li class="b-ant-menu-end-spacer" role="presentation" aria-hidden="true"></li>
+    }
+
     @ChildContent
-}
+</CascadingValue>

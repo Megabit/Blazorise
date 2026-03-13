@@ -2,12 +2,12 @@
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
         <CascadingValue Value="@SubMenuId" Name="SubMenuId">
-            <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menuitem" @attributes="@Attributes">
+            <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="none" @attributes="@Attributes">
                 @ChildContent
             </li>
         </CascadingValue>
     </CascadingValue>
 </CascadingValue>
-@code{
+@code {
     string SubMenuId => $"SubMenu_{ElementId}";
 }
