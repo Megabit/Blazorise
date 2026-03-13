@@ -752,13 +752,13 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Accordion() => "ant-collapse";
 
-    public override string AccordionToggle() => "ant-btn";
+    public override string AccordionToggle() => "b-ant-accordion-toggle";
 
     public override string AccordionToggleCollapsed( bool collapsed ) => null;
 
     public override string AccordionItem() => "ant-collapse-item";
 
-    public override string AccordionItemActive( bool active ) => null;
+    public override string AccordionItemActive( bool active ) => active ? "ant-collapse-item-active" : null;
 
     public override string AccordionHeader() => "ant-collapse-header";
 
@@ -774,7 +774,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Collapse() => "ant-collapse-item";
 
-    public override string CollapseActive( bool active ) => null;
+    public override string CollapseActive( bool active ) => active ? "ant-collapse-item-active" : null;
 
     public override string CollapseHeader() => "ant-collapse-header";
 

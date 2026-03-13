@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using Blazorise.AntDesign.Providers;
@@ -42,7 +42,8 @@ public static class Config
 
     public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
     {
-        { typeof( Blazorise.AccordionHeader ), typeof( Components.AccordionHeader ) },
+        { typeof( Blazorise.AccordionHeader ), typeof( Components.AccordionHeaderCollapse ) },
+        { typeof( Blazorise.AccordionToggle ), typeof( Components.AccordionToggle ) },
         { typeof( Blazorise.Addon ), typeof( Components.Addon ) },
         { typeof( Blazorise.AddonLabel ), typeof( Components.AddonLabel ) },
         { typeof( Blazorise.Addons ), typeof( Components.Addons ) },

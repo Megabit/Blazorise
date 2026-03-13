@@ -1,4 +1,4 @@
-﻿:root {
+:root {
     --b-bar-horizontal-height: 60px;
 }
 
@@ -649,6 +649,12 @@ html {
     --ant-slider-handle-line-width-hover: 2.5px;
     --ant-slider-dot-size: 8px;
     --ant-skeleton-gradient-from-color: rgba(0, 0, 0, .06);
+    --ant-collapse-header-bg: var(--ant-color-fill-alter);
+    --ant-collapse-header-padding: 12px 16px;
+    --ant-collapse-content-bg: var(--ant-color-bg-container);
+    --ant-collapse-content-padding: 16px 16px;
+    --ant-collapse-borderless-content-padding: 4px 16px 16px;
+    --ant-collapse-borderless-content-bg: transparent;
     --ant-card-actions-bg: var(--ant-color-bg-container);
     --ant-card-actions-li-margin: 12px 0;
     --ant-card-body-padding: 24px;

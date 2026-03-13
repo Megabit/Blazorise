@@ -327,6 +327,12 @@ html {
   --ant-slider-handle-line-width-hover: 2.5px;
   --ant-slider-dot-size: 8px;
   --ant-skeleton-gradient-from-color: rgba(0, 0, 0, .06);
+  --ant-collapse-header-bg: var(--ant-color-fill-alter);
+  --ant-collapse-header-padding: 12px 16px;
+  --ant-collapse-content-bg: var(--ant-color-bg-container);
+  --ant-collapse-content-padding: 16px 16px;
+  --ant-collapse-borderless-content-padding: 4px 16px 16px;
+  --ant-collapse-borderless-content-bg: transparent;
   --ant-card-actions-bg: var(--ant-color-bg-container);
   --ant-card-actions-li-margin: 12px 0;
   --ant-card-body-padding: 24px;
@@ -931,6 +937,40 @@ template {
 }
 .ant-alert-link .ant-alert-icon {
   color: rgb(26, 59.8, 114.4);
+}
+
+.ant-collapse .ant-collapse-title {
+  min-width: 0;
+}
+.ant-collapse .ant-collapse-title h1,
+.ant-collapse .ant-collapse-title h2,
+.ant-collapse .ant-collapse-title h3,
+.ant-collapse .ant-collapse-title h4,
+.ant-collapse .ant-collapse-title h5,
+.ant-collapse .ant-collapse-title h6 {
+  margin-bottom: 0;
+}
+.ant-collapse .b-ant-accordion-toggle {
+  display: block;
+  width: 100%;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  text-align: inherit;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  appearance: none;
+  cursor: pointer;
+}
+.ant-collapse .b-ant-accordion-toggle:hover,
+.ant-collapse .b-ant-accordion-toggle:focus,
+.ant-collapse .b-ant-accordion-toggle:active {
+  color: inherit;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
 }
 
 .ant-tag-primary {
