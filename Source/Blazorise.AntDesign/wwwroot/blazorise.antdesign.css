@@ -2010,6 +2010,9 @@ template {
   margin-left: 0px;
 }
 
+.ant-card {
+  border-radius: var(--ant-border-radius-lg);
+}
 .ant-card .b-ant-card-head-wrapper {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
