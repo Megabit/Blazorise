@@ -588,6 +588,15 @@ html {
     --ant-box-shadow-tabs-overflow-right: inset -10px 0 8px -8px rgba(0, 0, 0, .08);
     --ant-box-shadow-tabs-overflow-top: inset 0 10px 8px -8px rgba(0, 0, 0, .08);
     --ant-box-shadow-tabs-overflow-bottom: inset 0 -10px 8px -8px rgba(0, 0, 0, .08);
+    --ant-layout-sider-bg: #001529;
+    --ant-layout-trigger-bg: #002140;
+    --ant-layout-trigger-color: var(--ant-color-text-light-solid);
+    --ant-layout-trigger-height: 48px;
+    --ant-layout-zero-trigger-width: 40px;
+    --ant-layout-zero-trigger-height: 40px;
+    --ant-layout-light-sider-bg: var(--ant-color-bg-container);
+    --ant-layout-light-trigger-bg: var(--ant-color-bg-container);
+    --ant-layout-light-trigger-color: var(--ant-color-text);
     --ant-screen-xxl-max: 1919px;
     --ant-screen-xxxl: 1920px;
     --ant-screen-xxxl-min: 1920px;

@@ -266,6 +266,15 @@ html {
   --ant-box-shadow-tabs-overflow-right: inset -10px 0 8px -8px rgba(0, 0, 0, .08);
   --ant-box-shadow-tabs-overflow-top: inset 0 10px 8px -8px rgba(0, 0, 0, .08);
   --ant-box-shadow-tabs-overflow-bottom: inset 0 -10px 8px -8px rgba(0, 0, 0, .08);
+  --ant-layout-sider-bg: #001529;
+  --ant-layout-trigger-bg: #002140;
+  --ant-layout-trigger-color: var(--ant-color-text-light-solid);
+  --ant-layout-trigger-height: 48px;
+  --ant-layout-zero-trigger-width: 40px;
+  --ant-layout-zero-trigger-height: 40px;
+  --ant-layout-light-sider-bg: var(--ant-color-bg-container);
+  --ant-layout-light-trigger-bg: var(--ant-color-bg-container);
+  --ant-layout-light-trigger-color: var(--ant-color-text);
   --ant-screen-xxl-max: 1919px;
   --ant-screen-xxxl: 1920px;
   --ant-screen-xxxl-min: 1920px;
@@ -2018,24 +2027,43 @@ template {
 .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-toggler-inline,
 .ant-menu.ant-menu-root.ant-menu-inline-collapsed .ant-menu-toggler-inline,
 .ant-menu.ant-menu-root.ant-menu-vertical-collapsed .ant-menu-toggler-inline {
+  position: absolute;
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+  inset-block-start: 0;
+  inset-block-end: auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  min-height: var(--b-vertical-bar-brand-height, 64px);
+  width: auto;
+  min-height: var(--b-sidebar-brand-height, 64px);
+  height: var(--b-sidebar-brand-height, 64px);
   padding: 12px;
+  color: inherit;
+  background: transparent;
+  line-height: var(--b-sidebar-brand-height, 64px);
   cursor: pointer;
-  position: static !important;
-  top: auto !important;
-  right: auto !important;
-  inset: auto !important;
-  z-index: auto !important;
+  border-radius: 0;
+  transition: color var(--ant-motion-duration-mid), background-color var(--ant-motion-duration-mid);
+  z-index: 2;
+}
+
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline .ant-menu-toggler-inline,
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical .ant-menu-toggler-inline,
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline-collapsed .ant-menu-toggler-inline,
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical-collapsed .ant-menu-toggler-inline {
+  color: inherit;
+  background: transparent;
 }
 
 .ant-menu.ant-menu-root.ant-menu-inline,
-.ant-menu.ant-menu-root.ant-menu-vertical {
+.ant-menu.ant-menu-root.ant-menu-vertical,
+.ant-menu.ant-menu-root.ant-menu-inline-collapsed,
+.ant-menu.ant-menu-root.ant-menu-vertical-collapsed {
+  position: relative;
   display: block;
   height: auto;
+  min-height: 100%;
   overflow: visible;
 }
 
