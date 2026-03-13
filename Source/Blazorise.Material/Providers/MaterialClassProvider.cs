@@ -342,8 +342,6 @@ public class MaterialClassProvider : ClassProvider
 
     public override string FieldSetValidation( ValidationStatus validationStatus ) => null;
 
-    public override string FieldSetJustifyContent( JustifyContent justifyContent ) => justifyContent != JustifyContent.Default ? $"mui-{ToJustifyContent( justifyContent )}" : null;
-
     #endregion
 
     #region Field

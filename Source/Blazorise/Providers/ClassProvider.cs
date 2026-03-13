@@ -303,8 +303,6 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string FieldSetValidation( ValidationStatus validationStatus );
 
-    public abstract string FieldSetJustifyContent( JustifyContent justifyContent );
-
     #endregion
 
     #region Field

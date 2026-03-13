@@ -16,8 +16,6 @@ public partial class FieldSet : BaseColumnComponent, IDisposable
 
     private bool horizontal;
 
-    private JustifyContent justifyContent = JustifyContent.Default;
-
     private List<BaseComponent> hookables;
 
     private Validation previousParentValidation;
@@ -91,7 +89,6 @@ public partial class FieldSet : BaseColumnComponent, IDisposable
     {
         builder.Append( ClassProvider.FieldSet() );
         builder.Append( ClassProvider.FieldSetHorizontal( Horizontal ) );
-        builder.Append( ClassProvider.FieldSetJustifyContent( JustifyContent ) );
         builder.Append( ClassProvider.FieldSetValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
@@ -184,21 +181,6 @@ public partial class FieldSet : BaseColumnComponent, IDisposable
             horizontal = value;
 
             hookables?.ForEach( x => x.DirtyClasses() );
-
-            DirtyClasses();
-        }
-    }
-
-    /// <summary>
-    /// Defines how the container's items are aligned along the main axis when there is extra space available.
-    /// </summary>
-    [Parameter]
-    public JustifyContent JustifyContent
-    {
-        get => justifyContent;
-        set
-        {
-            justifyContent = value;
 
             DirtyClasses();
         }

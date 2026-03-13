@@ -322,8 +322,6 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string FieldSetValidation( ValidationStatus validationStatus ) => null;
 
-    public override string FieldSetJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
-
     #endregion
 
     #region Field

@@ -311,8 +311,6 @@ public class AntDesignClassProvider : ClassProvider
         _ => null,
     };
 
-    public override string FieldSetJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
-
     #endregion
 
     #region Field

@@ -302,8 +302,6 @@ public interface IClassProvider
 
     string FieldSetValidation( ValidationStatus validationStatus );
 
-    string FieldSetJustifyContent( JustifyContent justifyContent );
-
     #endregion
 
     #region Field

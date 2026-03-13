@@ -305,8 +305,6 @@ class EmptyClassProvider : IClassProvider
 
     public string FieldSetValidation( ValidationStatus validationStatus ) => null;
 
-    public string FieldSetJustifyContent( JustifyContent justifyContent ) => null;
-
     #endregion
 
     #region Field
