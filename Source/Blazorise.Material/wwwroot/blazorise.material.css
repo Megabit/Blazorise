@@ -2177,6 +2177,8 @@ body {
   box-shadow: none;
   background-color: transparent;
   max-inline-size: none;
+  max-block-size: none;
+  overflow-y: visible;
 }
 .mui-bar-vertical-inline .mui-bar-dropdown > .mui-bar-dropdown-menu-container,
 .mui-bar-vertical-popout .mui-bar-dropdown > .mui-bar-dropdown-menu-container,
