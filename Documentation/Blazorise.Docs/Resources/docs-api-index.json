@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-12T09:40:49.8891122Z",
+  "generatedUtc": "2026-03-13T07:41:21.3967909Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -66164,6 +66164,15 @@
           "defaultValue": "null",
           "summary": "Gets or sets the aria-invalid attribute value.",
           "remarks": "When set, this value is rendered as-is and overrides the validation-derived aria-invalid state.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "AriaLabelledBy",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the aria-labelledby attribute value.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
