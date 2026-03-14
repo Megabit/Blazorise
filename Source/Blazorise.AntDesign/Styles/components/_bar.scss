@@ -741,6 +741,36 @@
     padding-inline-end: calc(var(--ant-padding) + var(--ant-margin-xs) + (var(--ant-font-size) * 5 / 7));
 }
 
+.ant-menu.ant-menu-root.ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title > .ant-menu-submenu-arrow,
+.ant-menu.ant-menu-root.ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title > .ant-menu-submenu-arrow {
+    transform: translateY(-50%);
+    transform-origin: center;
+}
+
+.ant-menu .ant-menu-submenu > .ant-menu-submenu-title[aria-expanded="true"] > .ant-menu-submenu-arrow {
+    transform: translateY(-50%) !important;
+}
+
+.ant-menu .ant-menu-submenu > .ant-menu-submenu-title[aria-expanded="false"] > .ant-menu-submenu-arrow {
+    transform: translateY(-50%) !important;
+}
+
+.ant-menu .ant-menu-submenu > .ant-menu-submenu-title[aria-expanded="false"] > .ant-menu-submenu-arrow::before {
+    transform: rotate(-45deg) translateX(calc((var(--ant-font-size) * 5 / 7) * 0.25)) !important;
+}
+
+.ant-menu .ant-menu-submenu > .ant-menu-submenu-title[aria-expanded="false"] > .ant-menu-submenu-arrow::after {
+    transform: rotate(45deg) translateX(calc((var(--ant-font-size) * 5 / 7) * -0.25)) !important;
+}
+
+.ant-menu .ant-menu-submenu > .ant-menu-submenu-title[aria-expanded="true"] > .ant-menu-submenu-arrow::before {
+    transform: rotate(45deg) translateX(calc((var(--ant-font-size) * 5 / 7) * 0.25)) !important;
+}
+
+.ant-menu .ant-menu-submenu > .ant-menu-submenu-title[aria-expanded="true"] > .ant-menu-submenu-arrow::after {
+    transform: rotate(-45deg) translateX(calc((var(--ant-font-size) * 5 / 7) * -0.25)) !important;
+}
+
 .ant-menu-inline .ant-menu-submenu > .ant-menu-submenu-title > .ant-menu-submenu-arrow::before,
 .ant-menu-inline-collapsed .ant-menu-submenu > .ant-menu-submenu-title > .ant-menu-submenu-arrow::before {
     transform: rotate(-45deg) translateX(calc((var(--ant-font-size) * 5 / 7) * 0.25));
@@ -752,7 +782,7 @@
 }
 
 .ant-menu-submenu-open.ant-menu-submenu-inline > .ant-menu-submenu-title > .ant-menu-submenu-arrow {
-    transform: translateY(calc((var(--ant-font-size) * 5 / 7) * -0.2));
+    transform: translateY(-50%) rotate(180deg);
 }
 
 .ant-menu-submenu-open.ant-menu-submenu-inline > .ant-menu-submenu-title > .ant-menu-submenu-arrow::after {
@@ -760,6 +790,21 @@
 }
 
 .ant-menu-submenu-open.ant-menu-submenu-inline > .ant-menu-submenu-title > .ant-menu-submenu-arrow::before {
+    transform: rotate(45deg) translateX(calc((var(--ant-font-size) * 5 / 7) * 0.25));
+}
+
+.ant-menu.ant-menu-root.ant-menu-vertical > .ant-menu-submenu.ant-menu-submenu-open > .ant-menu-submenu-title > .ant-menu-submenu-arrow,
+.ant-menu.ant-menu-root.ant-menu-vertical .ant-menu.ant-menu-sub > .ant-menu-submenu.ant-menu-submenu-open > .ant-menu-submenu-title > .ant-menu-submenu-arrow {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.ant-menu.ant-menu-root.ant-menu-vertical > .ant-menu-submenu.ant-menu-submenu-open > .ant-menu-submenu-title > .ant-menu-submenu-arrow::after,
+.ant-menu.ant-menu-root.ant-menu-vertical .ant-menu.ant-menu-sub > .ant-menu-submenu.ant-menu-submenu-open > .ant-menu-submenu-title > .ant-menu-submenu-arrow::after {
+    transform: rotate(-45deg) translateX(calc((var(--ant-font-size) * 5 / 7) * -0.25));
+}
+
+.ant-menu.ant-menu-root.ant-menu-vertical > .ant-menu-submenu.ant-menu-submenu-open > .ant-menu-submenu-title > .ant-menu-submenu-arrow::before,
+.ant-menu.ant-menu-root.ant-menu-vertical .ant-menu.ant-menu-sub > .ant-menu-submenu.ant-menu-submenu-open > .ant-menu-submenu-title > .ant-menu-submenu-arrow::before {
     transform: rotate(45deg) translateX(calc((var(--ant-font-size) * 5 / 7) * 0.25));
 }
 
