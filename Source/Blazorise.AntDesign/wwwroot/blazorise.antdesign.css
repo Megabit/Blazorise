@@ -2221,6 +2221,143 @@ template {
   color: var(--ant-menu-item-selected-color);
 }
 
+.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-vertical-collapsed {
+  width: var(--b-sidebar-small-width, 80px) !important;
+  min-width: var(--b-sidebar-small-width, 80px) !important;
+  max-width: var(--b-sidebar-small-width, 80px) !important;
+  visibility: visible !important;
+  overflow: visible;
+}
+
+.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .ant-menu-item,
+.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .ant-menu-submenu,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed > .ant-menu-item,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed > .ant-menu-submenu,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-vertical-collapsed > .ant-menu-item,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-vertical-collapsed > .ant-menu-submenu {
+  position: relative;
+  width: var(--ant-menu-item-width);
+  margin-inline: var(--ant-menu-item-margin-inline);
+  margin-block: var(--ant-menu-item-margin-block);
+  padding-inline: 0 !important;
+}
+
+.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .ant-menu-item:not(.b-ant-menu-brand-item) > a,
+.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed > .ant-menu-item:not(.b-ant-menu-brand-item) > a,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-vertical-collapsed > .ant-menu-item:not(.b-ant-menu-brand-item) > a,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-vertical-collapsed > .ant-menu-submenu > .ant-menu-submenu-title {
+  justify-content: flex-start;
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--ant-menu-item-height);
+  line-height: var(--ant-menu-item-height);
+  margin: 0 !important;
+  padding-inline: calc(50% - var(--ant-menu-collapsed-icon-size) / 2) !important;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .ant-menu-item > a > .ant-menu-title-content,
+.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title > .ant-menu-title-content,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed > .ant-menu-item > a > .ant-menu-title-content,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title > .ant-menu-title-content,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-vertical-collapsed > .ant-menu-item > a > .ant-menu-title-content,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-vertical-collapsed > .ant-menu-submenu > .ant-menu-submenu-title > .ant-menu-title-content {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-width: var(--ant-menu-collapsed-icon-size);
+  max-width: none;
+  overflow: visible;
+  font-size: 0 !important;
+}
+
+.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .ant-menu-item > a > .ant-menu-title-content > .ant-menu-item-icon,
+.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title > .ant-menu-title-content > .ant-menu-item-icon,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed > .ant-menu-item > a > .ant-menu-title-content > .ant-menu-item-icon,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title > .ant-menu-title-content > .ant-menu-item-icon,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-vertical-collapsed > .ant-menu-item > a > .ant-menu-title-content > .ant-menu-item-icon,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-vertical-collapsed > .ant-menu-submenu > .ant-menu-submenu-title > .ant-menu-title-content > .ant-menu-item-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-width: var(--ant-menu-collapsed-icon-size);
+  max-width: none;
+  overflow: visible;
+  line-height: 1;
+  font-size: var(--ant-menu-collapsed-icon-size);
+  margin-inline-end: 0 !important;
+}
+
+.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .b-ant-menu-brand-item > a,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed > .b-ant-menu-brand-item > a,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-vertical-collapsed > .b-ant-menu-brand-item > a {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 !important;
+  padding-inline: 0 !important;
+  justify-content: center;
+}
+.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .b-ant-menu-brand-item > a > .ant-menu-title-content,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed > .b-ant-menu-brand-item > a > .ant-menu-title-content,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-vertical-collapsed > .b-ant-menu-brand-item > a > .ant-menu-title-content {
+  justify-content: center;
+  width: var(--ant-menu-collapsed-icon-size);
+  min-width: var(--ant-menu-collapsed-icon-size);
+  max-width: var(--ant-menu-collapsed-icon-size);
+  column-gap: 0;
+  font-size: 0 !important;
+}
+.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .b-ant-menu-brand-item > a > .ant-menu-title-content > .ant-menu-item-icon,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed > .b-ant-menu-brand-item > a > .ant-menu-title-content > .ant-menu-item-icon,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-vertical-collapsed > .b-ant-menu-brand-item > a > .ant-menu-title-content > .ant-menu-item-icon {
+  margin-inline-end: 0 !important;
+}
+
+.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-vertical-collapsed > .ant-menu-submenu > .ant-menu-submenu-title {
+  padding-inline-end: 0;
+}
+
+.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title > .ant-menu-submenu-arrow,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title > .ant-menu-submenu-arrow,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-vertical-collapsed > .ant-menu-submenu > .ant-menu-submenu-title > .ant-menu-submenu-arrow {
+  display: none !important;
+}
+
+.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-popup,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-popup,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-vertical-collapsed > .ant-menu-submenu > .ant-menu-submenu-popup {
+  top: 0;
+  left: 100%;
+  right: auto;
+  margin: 0 0 0 var(--ant-margin-xxs) !important;
+}
+
+.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-vertical-collapsed > .ant-menu-submenu > .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical {
+  min-width: var(--ant-menu-dropdown-width);
+}
+
+.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .ant-menu-toggler-inline,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed > .ant-menu-toggler-inline,
+.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-vertical-collapsed > .ant-menu-toggler-inline {
+  inset-inline-start: 0;
+  inset-inline-end: 0;
+  width: 100%;
+  padding: 12px 0;
+  justify-content: center;
+}
+
 .ant-menu.ant-menu-root.ant-menu-inline > .b-ant-menu-brand-item,
 .ant-menu.ant-menu-root.ant-menu-vertical > .b-ant-menu-brand-item {
   background: transparent !important;
