@@ -1744,6 +1744,7 @@ template {
   height: auto;
   min-height: 0;
   padding-inline: 0;
+  overflow: visible;
   vertical-align: initial;
 }
 
@@ -1753,6 +1754,12 @@ template {
 
 .ant-menu-submenu.ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical > .ant-menu-submenu.ant-menu-submenu-open > .ant-menu-submenu-popup {
   display: block;
+}
+
+.ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-submenu > .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical > .ant-menu-submenu:hover > .ant-menu-submenu-popup,
+.ant-menu-submenu.ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical > .ant-menu-submenu:hover > .ant-menu-submenu-popup {
+  display: block !important;
+  visibility: visible !important;
 }
 
 .ant-menu-submenu.ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical {
