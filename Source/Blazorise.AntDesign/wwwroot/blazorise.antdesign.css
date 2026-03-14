@@ -2219,7 +2219,9 @@ template {
 }
 
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline > .ant-menu-item.ant-menu-item-selected,
-.ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline .ant-menu.ant-menu-sub > .ant-menu-item.ant-menu-item-selected {
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline .ant-menu.ant-menu-sub > .ant-menu-item.ant-menu-item-selected,
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical > .ant-menu-item.ant-menu-item-selected,
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical .ant-menu.ant-menu-sub > .ant-menu-item.ant-menu-item-selected {
   background: var(--ant-menu-item-selected-bg);
 }
 
@@ -2234,9 +2236,33 @@ template {
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline > .ant-menu-item.ant-menu-item-selected > a,
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline .ant-menu.ant-menu-sub > .ant-menu-item.ant-menu-item-selected > a,
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline > .ant-menu-item > a.active,
-.ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline .ant-menu.ant-menu-sub > .ant-menu-item > a.active {
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline .ant-menu.ant-menu-sub > .ant-menu-item > a.active,
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical > .ant-menu-item.ant-menu-item-selected > a,
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical .ant-menu.ant-menu-sub > .ant-menu-item.ant-menu-item-selected > a,
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical > .ant-menu-item > a.active,
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical .ant-menu.ant-menu-sub > .ant-menu-item > a.active {
   background: var(--ant-menu-item-selected-bg) !important;
   color: var(--ant-menu-item-selected-color);
+}
+
+.ant-menu.ant-menu-root.ant-menu-light > .ant-menu-item.ant-menu-item-selected,
+.ant-menu.ant-menu-root.ant-menu-light .ant-menu.ant-menu-sub > .ant-menu-item.ant-menu-item-selected {
+  color: var(--ant-menu-item-selected-color) !important;
+}
+
+.ant-menu.ant-menu-root.ant-menu-light > .ant-menu-item.ant-menu-item-selected > a,
+.ant-menu.ant-menu-root.ant-menu-light > .ant-menu-item.ant-menu-item-selected > a > .ant-menu-title-content,
+.ant-menu.ant-menu-root.ant-menu-light > .ant-menu-item.ant-menu-item-selected > a > .ant-menu-title-content > .ant-menu-item-icon,
+.ant-menu.ant-menu-root.ant-menu-light .ant-menu.ant-menu-sub > .ant-menu-item.ant-menu-item-selected > a,
+.ant-menu.ant-menu-root.ant-menu-light .ant-menu.ant-menu-sub > .ant-menu-item.ant-menu-item-selected > a > .ant-menu-title-content,
+.ant-menu.ant-menu-root.ant-menu-light .ant-menu.ant-menu-sub > .ant-menu-item.ant-menu-item-selected > a > .ant-menu-title-content > .ant-menu-item-icon,
+.ant-menu.ant-menu-root.ant-menu-light > .ant-menu-item > a.active,
+.ant-menu.ant-menu-root.ant-menu-light > .ant-menu-item > a.active > .ant-menu-title-content,
+.ant-menu.ant-menu-root.ant-menu-light > .ant-menu-item > a.active > .ant-menu-title-content > .ant-menu-item-icon,
+.ant-menu.ant-menu-root.ant-menu-light .ant-menu.ant-menu-sub > .ant-menu-item > a.active,
+.ant-menu.ant-menu-root.ant-menu-light .ant-menu.ant-menu-sub > .ant-menu-item > a.active > .ant-menu-title-content,
+.ant-menu.ant-menu-root.ant-menu-light .ant-menu.ant-menu-sub > .ant-menu-item > a.active > .ant-menu-title-content > .ant-menu-item-icon {
+  color: var(--ant-menu-item-selected-color) !important;
 }
 
 .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed,
