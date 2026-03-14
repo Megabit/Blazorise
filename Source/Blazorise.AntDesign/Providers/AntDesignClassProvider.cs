@@ -749,7 +749,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string BarDropdownMenuRight( BarMode mode, bool rightAligned ) => null;
 
-    public override string BarDropdownMenuContainer( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-submenu-popup" : "b-bar-dropdown-menu-container";
+    public override string BarDropdownMenuContainer( BarMode mode ) => "ant-menu-submenu-popup";
 
     public override string BarCollapsed( BarMode mode, bool visible ) => visible ? null : $"ant-menu-{ToBarMode( mode )}-collapsed";
 
