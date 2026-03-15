@@ -278,6 +278,14 @@ html {
   --ant-screen-xxl-max: 1919px;
   --ant-screen-xxxl: 1920px;
   --ant-screen-xxxl-min: 1920px;
+  --ant-form-label-required-mark-color: var(--ant-color-error);
+  --ant-form-label-color: var(--ant-color-text-heading);
+  --ant-form-label-font-size: var(--ant-font-size);
+  --ant-form-label-height: var(--ant-control-height);
+  --ant-form-label-colon-margin-inline-start: 2px;
+  --ant-form-label-colon-margin-inline-end: var(--ant-margin-xs);
+  --ant-form-item-margin-bottom: var(--ant-margin-lg);
+  --ant-form-inline-item-margin-bottom: 0;
   --ant-form-vertical-label-padding: 0 0 8px;
   --ant-form-vertical-label-margin: 0;
   --ant-table-border-color: var(--ant-color-border);
@@ -290,29 +298,127 @@ html {
   --ant-table-cell-padding-block-sm: 8px;
   --ant-table-selection-column-width: 32px;
   --ant-table-expand-icon-size: 16px;
+  --ant-select-z-index-popup: calc(var(--ant-z-index-popup-base) + 50);
+  --ant-select-option-selected-color: var(--ant-color-text);
+  --ant-select-option-selected-font-weight: var(--ant-font-weight-strong);
+  --ant-select-option-selected-bg: var(--ant-control-item-bg-active);
+  --ant-select-option-active-bg: var(--ant-control-item-bg-hover);
+  --ant-select-option-padding: 5px var(--ant-control-padding-horizontal);
+  --ant-select-option-font-size: var(--ant-font-size);
+  --ant-select-option-line-height: var(--ant-line-height);
+  --ant-select-option-height: var(--ant-control-height);
   --ant-select-selector-bg: var(--ant-color-bg-container);
-  --ant-select-multi-item-padding-horizontal: 8px;
+  --ant-select-clear-bg: var(--ant-color-bg-container);
+  --ant-select-single-item-height-lg: var(--ant-control-height-lg);
+  --ant-select-show-arrow-padding-inline-end: 18px;
+  --ant-select-height: var(--ant-control-height);
+  --ant-select-line-height: var(--ant-line-height);
+  --ant-select-internal_fixed_item_margin: 2px;
+  --ant-select-hover-border-color: var(--ant-color-primary-hover);
+  --ant-select-active-border-color: var(--ant-color-primary);
+  --ant-select-active-outline-color: var(--ant-control-outline);
+  --ant-select-affix-padding: var(--ant-padding-xxs);
+  --ant-select-multiple-item-bg: var(--ant-color-fill-secondary);
+  --ant-select-multiple-item-border-color: transparent;
+  --ant-select-multiple-item-height: 24px;
+  --ant-select-multiple-item-height-sm: 16px;
+  --ant-select-multiple-item-height-lg: 32px;
+  --ant-select-multiple-selector-bg-disabled: var(--ant-color-bg-container-disabled);
+  --ant-select-multiple-item-color-disabled: var(--ant-color-text-disabled);
+  --ant-select-multiple-item-border-color-disabled: transparent;
+  --ant-select-multi-item-padding-horizontal: calc(calc(var(--ant-padding-sm) - var(--ant-line-width)) - var(--ant-select-multi-padding-vertical) - var(--ant-line-width) * 2);
+  --ant-input-addon-bg: var(--ant-color-fill-alter);
+  --ant-input-hover-border-color: var(--ant-color-primary-hover);
+  --ant-input-active-border-color: var(--ant-color-primary);
+  --ant-input-active-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-control-outline);
+  --ant-input-error-active-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-color-error-outline);
+  --ant-input-warning-active-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-color-warning-outline);
   --ant-input-active-bg: var(--ant-color-bg-container);
   --ant-input-hover-bg: var(--ant-color-bg-container);
   --ant-input-padding-inline: 11px;
   --ant-input-padding-inline-sm: 7px;
+  --ant-input-padding-inline-lg: 11px;
   --ant-input-padding-block: 4px;
   --ant-input-padding-block-sm: 1px;
   --ant-input-padding-block-lg: 7px;
+  --ant-input-input-font-size: var(--ant-font-size);
   --ant-input-input-font-size-sm: 12px;
   --ant-input-input-font-size-lg: 16px;
+  --ant-input-affix-padding: var(--ant-padding-xxs);
+  --ant-input-number-control-width: 90px;
+  --ant-input-number-handle-width: calc(var(--ant-control-height-sm) - calc(var(--ant-line-width) * 2));
+  --ant-input-number-handle-font-size: calc(var(--ant-font-size) / 2);
+  --ant-input-number-handle-visible: auto;
+  --ant-input-number-handle-bg: var(--ant-color-bg-container);
+  --ant-input-number-handle-active-bg: var(--ant-color-fill-alter);
+  --ant-input-number-handle-hover-color: var(--ant-color-primary);
   --ant-input-number-active-bg: var(--ant-color-bg-container);
   --ant-input-number-hover-bg: var(--ant-color-bg-container);
+  --ant-input-number-hover-border-color: var(--ant-color-primary-hover);
+  --ant-input-number-active-border-color: var(--ant-color-primary);
+  --ant-input-number-active-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-control-outline);
+  --ant-input-number-error-active-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-color-error-outline);
+  --ant-input-number-warning-active-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-color-warning-outline);
   --ant-input-number-handle-border-color: var(--ant-color-border);
+  --ant-input-number-handle-opacity: 0;
+  --ant-input-number-handle-visible-width: 0;
+  --ant-input-number-padding-inline: 11px;
+  --ant-input-number-padding-inline-sm: 7px;
+  --ant-input-number-padding-inline-lg: 11px;
   --ant-input-number-padding-block: 4px;
   --ant-input-number-padding-block-sm: 1px;
   --ant-input-number-padding-block-lg: 7px;
-  --ant-date-picker-active-bg: var(--ant-color-bg-container);
-  --ant-date-picker-hover-bg: var(--ant-color-bg-container);
-  --ant-date-picker-cell-height: 24px;
-  --ant-date-picker-cell-hover-bg: var(--ant-color-fill-tertiary);
-  --ant-date-picker-padding-inline: 11px;
-  --ant-date-picker-time-cell-height: 28px;
+  --ant-input-number-input-font-size: var(--ant-font-size);
+  --ant-input-number-input-font-size-sm: 12px;
+  --ant-input-number-input-font-size-lg: 16px;
+  --ant-picker-presets-width: 120px;
+  --ant-picker-presets-max-width: 200px;
+  --ant-picker-z-index-popup: calc(var(--ant-z-index-popup-base) + 50);
+  --ant-picker-hover-border-color: var(--ant-color-primary-hover);
+  --ant-picker-active-border-color: var(--ant-color-primary);
+  --ant-picker-active-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-control-outline);
+  --ant-picker-error-active-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-color-error-outline);
+  --ant-picker-warning-active-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-color-warning-outline);
+  --ant-picker-active-bg: var(--ant-color-bg-container);
+  --ant-picker-hover-bg: var(--ant-color-bg-container);
+  --ant-picker-padding-block: 4px;
+  --ant-picker-padding-block-sm: 1px;
+  --ant-picker-padding-block-lg: 7px;
+  --ant-picker-padding-inline: 11px;
+  --ant-picker-padding-inline-sm: 7px;
+  --ant-picker-padding-inline-lg: 11px;
+  --ant-picker-input-font-size: var(--ant-font-size);
+  --ant-picker-input-font-size-sm: 12px;
+  --ant-picker-input-font-size-lg: 16px;
+  --ant-picker-cell-hover-bg: var(--ant-control-item-bg-hover);
+  --ant-picker-cell-active-with-range-bg: var(--ant-control-item-bg-active);
+  --ant-picker-cell-hover-with-range-bg: #bae0ff;
+  --ant-picker-cell-bg-disabled: var(--ant-color-bg-container-disabled);
+  --ant-picker-cell-range-border-color: #69b1ff;
+  --ant-picker-time-column-width: 56px;
+  --ant-picker-time-column-height: 224px;
+  --ant-picker-time-cell-height: 28px;
+  --ant-picker-cell-width: 36px;
+  --ant-picker-cell-height: 24px;
+  --ant-picker-text-height: var(--ant-control-height-lg);
+  --ant-picker-without-time-cell-height: 66px;
+  --ant-picker-multiple-item-bg: var(--ant-color-fill-secondary);
+  --ant-picker-multiple-item-border-color: transparent;
+  --ant-picker-multiple-item-height: 24px;
+  --ant-picker-multiple-item-height-sm: 16px;
+  --ant-picker-multiple-item-height-lg: 32px;
+  --ant-picker-multiple-selector-bg-disabled: var(--ant-color-bg-container-disabled);
+  --ant-picker-multiple-item-color-disabled: var(--ant-color-text-disabled);
+  --ant-picker-multiple-item-border-color-disabled: transparent;
+  --ant-date-picker-padding-block: var(--ant-picker-padding-block);
+  --ant-date-picker-padding-block-sm: var(--ant-picker-padding-block-sm);
+  --ant-date-picker-padding-block-lg: var(--ant-picker-padding-block-lg);
+  --ant-date-picker-padding-inline: var(--ant-picker-padding-inline);
+  --ant-date-picker-padding-inline-sm: var(--ant-picker-padding-inline-sm);
+  --ant-date-picker-padding-inline-lg: var(--ant-picker-padding-inline-lg);
+  --ant-date-picker-input-font-size: var(--ant-picker-input-font-size);
+  --ant-date-picker-input-font-size-sm: var(--ant-picker-input-font-size-sm);
+  --ant-date-picker-input-font-size-lg: var(--ant-picker-input-font-size-lg);
   --ant-calendar-cell-height: 24px;
   --ant-calendar-time-cell-height: 28px;
   --ant-mentions-active-bg: var(--ant-color-bg-container);
@@ -3206,6 +3312,204 @@ template {
   border-bottom-left-radius: 0 !important;
 }
 
+.ant-select {
+  position: relative;
+}
+.ant-select .ant-select-selection-wrap {
+  width: 100%;
+}
+.ant-select .ant-select-selector {
+  width: 100%;
+}
+.ant-select.ant-select-show-arrow .ant-select-selector {
+  padding-inline-end: calc(var(--ant-select-show-arrow-padding-inline-end) + var(--ant-control-padding-horizontal));
+}
+.ant-select .ant-select-arrow {
+  position: absolute;
+  top: 50%;
+  inset-inline-end: var(--ant-control-padding-horizontal);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+  margin-top: 0;
+  pointer-events: none;
+}
+
+.ant-select-single .ant-select-selector .ant-select-selection-search {
+  position: absolute;
+  inset: 0;
+}
+.ant-select-single .ant-select-selector .ant-select-selection-search-input {
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.ant-picker {
+  padding: var(--ant-date-picker-padding-block) var(--ant-date-picker-padding-inline);
+  color: var(--ant-color-text);
+  font-size: var(--ant-font-size);
+  line-height: 1;
+  border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border);
+  border-radius: var(--ant-border-radius);
+  transition: border var(--ant-motion-duration-mid), box-shadow var(--ant-motion-duration-mid), background-color var(--ant-motion-duration-mid);
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  background: var(--ant-color-bg-container);
+}
+.ant-picker .ant-picker-input {
+  display: inline-flex;
+  flex: auto;
+  align-items: center;
+  min-width: 0;
+}
+.ant-picker .ant-picker-input > input {
+  width: 100%;
+  padding: 0;
+  color: inherit;
+  font-size: var(--ant-date-picker-input-font-size);
+  line-height: var(--ant-line-height);
+  background: transparent;
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+  min-width: 0;
+  height: auto;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.ant-picker .ant-picker-input > input::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+.ant-picker .ant-picker-input > input::-webkit-clear-button, .ant-picker .ant-picker-input > input::-webkit-inner-spin-button {
+  display: none;
+  -webkit-appearance: none;
+}
+.ant-picker .ant-picker-input > input::-webkit-date-and-time-value, .ant-picker .ant-picker-input > input::-webkit-datetime-edit, .ant-picker .ant-picker-input > input::-webkit-datetime-edit-fields-wrapper, .ant-picker .ant-picker-input > input::-webkit-datetime-edit-text, .ant-picker .ant-picker-input > input::-webkit-datetime-edit-month-field, .ant-picker .ant-picker-input > input::-webkit-datetime-edit-day-field, .ant-picker .ant-picker-input > input::-webkit-datetime-edit-year-field, .ant-picker .ant-picker-input > input::-webkit-datetime-edit-hour-field, .ant-picker .ant-picker-input > input::-webkit-datetime-edit-minute-field, .ant-picker .ant-picker-input > input::-webkit-datetime-edit-second-field, .ant-picker .ant-picker-input > input::-webkit-datetime-edit-ampm-field {
+  padding: 0;
+  line-height: inherit;
+}
+.ant-picker .ant-picker-suffix {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ant-color-text-description);
+  margin-inline-start: var(--ant-padding-xs);
+  line-height: 1;
+  cursor: pointer;
+}
+.ant-picker:hover {
+  border-color: var(--ant-picker-hover-border-color);
+  background: var(--ant-picker-hover-bg);
+}
+.ant-picker.ant-picker-focused, .ant-picker:focus-within {
+  border-color: var(--ant-picker-active-border-color);
+  box-shadow: var(--ant-picker-active-shadow);
+  outline: 0;
+}
+.ant-picker.ant-picker-disabled {
+  color: var(--ant-color-text-disabled);
+  background: var(--ant-color-bg-container-disabled);
+  cursor: not-allowed;
+}
+.ant-picker.ant-picker-disabled .ant-picker-input > input,
+.ant-picker.ant-picker-disabled .ant-picker-suffix {
+  cursor: not-allowed;
+}
+
+.ant-select-multiple {
+  --ant-select-multi-item-background: var(--ant-select-multiple-item-bg);
+  --ant-select-multi-item-border-color: var(--ant-select-multiple-item-border-color);
+  --ant-select-multi-item-border-radius: var(--ant-border-radius-sm);
+  --ant-select-multi-item-height: var(--ant-select-multiple-item-height);
+  --ant-select-multi-padding-base: calc((var(--ant-select-height) - var(--ant-select-multi-item-height)) / 2);
+  --ant-select-multi-padding-vertical: calc(var(--ant-select-multi-padding-base) - var(--ant-select-internal_fixed_item_margin) - var(--ant-line-width));
+  padding-block: var(--ant-select-multi-padding-vertical);
+  padding-inline-start: calc(var(--ant-select-multi-padding-base) - var(--ant-line-width));
+}
+.ant-select-multiple .ant-select-selector {
+  display: flex;
+  align-items: center;
+  min-height: calc(var(--ant-select-height) - var(--ant-line-width) * 2);
+}
+.ant-select-multiple .ant-select-selection-overflow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  line-height: 1;
+}
+.ant-select-multiple .ant-select-selection-overflow-item {
+  display: inline-flex;
+  max-width: calc(100% - 4px);
+  line-height: 1;
+}
+.ant-select-multiple .ant-select-selection-overflow-item-suffix {
+  flex: 1 0 4px;
+}
+.ant-select-multiple .ant-select-selection-item {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  min-height: var(--ant-select-multi-item-height);
+  margin-block: var(--ant-select-internal_fixed_item_margin);
+  margin-inline-end: calc(var(--ant-select-internal_fixed_item_margin) * 2);
+  padding-inline-start: var(--ant-padding-xs);
+  padding-inline-end: var(--ant-padding-xxs);
+  color: var(--ant-color-text);
+  line-height: calc(var(--ant-select-multi-item-height) - var(--ant-line-width) * 2);
+  background: var(--ant-select-multi-item-background);
+  border: var(--ant-line-width) solid var(--ant-select-multi-item-border-color);
+  border-radius: var(--ant-select-multi-item-border-radius);
+  box-sizing: border-box;
+  transition: height var(--ant-motion-duration-slow), line-height var(--ant-motion-duration-slow), padding var(--ant-motion-duration-slow);
+}
+.ant-select-multiple .ant-select-selection-item-content {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-inline-end: var(--ant-padding-xxs);
+}
+.ant-select-multiple .ant-select-selection-item-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ant-color-icon);
+  font-size: 10px;
+  font-weight: bold;
+  line-height: inherit;
+  cursor: pointer;
+}
+.ant-select-multiple .ant-select-selection-search {
+  width: 100%;
+}
+.ant-select-multiple .ant-select-selection-search-input {
+  width: 100%;
+  min-width: 4px;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.ant-upload.ant-upload-select.ant-upload-select-text {
+  display: flex;
+  align-items: center;
+  gap: var(--ant-padding-xs);
+}
+.ant-upload.ant-upload-select.ant-upload-select-text > .ant-upload {
+  display: inline-flex;
+  align-items: center;
+}
+.ant-upload.ant-upload-select.ant-upload-select-text .ant-upload-hint {
+  line-height: var(--ant-line-height);
+}
+
+.ant-upload-list.ant-upload-list-text {
+  margin-top: var(--ant-margin-xs);
+}
+
 .ant-input-search-enter-button .ant-input-group-addon {
   padding: 0;
   border: 0;
@@ -3243,7 +3547,9 @@ template {
 .ant-form-item.ant-row > .ant-col + .ant-col {
   padding-left: 0;
 }
-.ant-form-item .ant-select {
+.ant-form-item .ant-select,
+.ant-form-item .ant-picker,
+.ant-form-item .ant-input-number {
   width: 100%;
 }
 
@@ -3279,6 +3585,36 @@ template {
   padding: 8.5px 15px;
   font-size: 18px;
   height: 48px;
+}
+
+.ant-input-number-xs {
+  font-size: 10px;
+  height: 16px;
+}
+
+.ant-input-number-xs .ant-input-number-input {
+  height: 14px;
+  padding: 0 7px;
+}
+
+.ant-input-number-md {
+  font-size: 14px;
+  height: 36px;
+}
+
+.ant-input-number-md .ant-input-number-input {
+  height: 34px;
+  padding: 4.5px 11px;
+}
+
+.ant-input-number-xl {
+  font-size: 18px;
+  height: 48px;
+}
+
+.ant-input-number-xl .ant-input-number-input {
+  height: 46px;
+  padding: 8.5px 15px;
 }
 
 .ant-select-xs {
@@ -3330,6 +3666,36 @@ template {
 
 .ant-select-single.ant-select-xl:not(.ant-select-customize-input):not(.ant-select-customize-input) .ant-select-selection-search-input {
   height: 48px;
+}
+
+.ant-picker-xs {
+  height: 16px;
+  padding: 0 7px;
+  font-size: 10px;
+}
+
+.ant-picker-xs .ant-picker-input > input {
+  font-size: 10px;
+}
+
+.ant-picker-md {
+  height: 36px;
+  padding: 4.5px 11px;
+  font-size: 14px;
+}
+
+.ant-picker-md .ant-picker-input > input {
+  font-size: 14px;
+}
+
+.ant-picker-xl {
+  height: 48px;
+  padding: 8.5px 15px;
+  font-size: 18px;
+}
+
+.ant-picker-xl .ant-picker-input > input {
+  font-size: 18px;
 }
 
 .ant-checkbox-input.ant-checkbox-input-xs + .ant-checkbox-inner {
@@ -3444,14 +3810,6 @@ template {
   height: 14px;
   top: 6px;
   left: 6px;
-}
-
-textarea.ant-input.ant-input-static {
-  background-color: transparent;
-  border-color: transparent;
-  box-shadow: none;
-  padding-left: 0;
-  padding-right: 0;
 }
 
 .ant-focus-trap {

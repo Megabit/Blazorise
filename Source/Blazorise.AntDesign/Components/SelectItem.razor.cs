@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
@@ -10,11 +11,28 @@ public partial class SelectItem<TValue> : Blazorise.SelectItem<TValue>
 {
     #region Methods
 
+    protected override Task OnInitializedAsync()
+    {
+        ParentSelectBridge?.AddSelectItem( this );
+
+        return base.OnInitializedAsync();
+    }
+
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            ParentSelectBridge?.RemoveSelectItem( this );
+        }
+
+        base.Dispose( disposing );
+    }
+
     protected Task OnClickHandler()
     {
-        if ( ParentSelect != null && ParentSelect is IAntSelect select )
+        if ( ParentAntSelect is not null )
         {
-            return select.NotifySelectValueChanged( Value );
+            return ParentAntSelect.NotifySelectValueChanged( Value );
         }
 
         return Task.CompletedTask;
@@ -44,7 +62,7 @@ public partial class SelectItem<TValue> : Blazorise.SelectItem<TValue>
         {
             var sb = new StringBuilder( $"{ClassNames} ant-select-item ant-select-item-option" );
 
-            if ( Selected )
+            if ( IsSelected )
             {
                 sb.Append( " ant-select-item-option-selected" );
             }
@@ -66,6 +84,12 @@ public partial class SelectItem<TValue> : Blazorise.SelectItem<TValue>
     bool Active { get; set; }
 
     string ActiveString => Active ? "true" : "false";
+
+    bool IsSelected => ParentSelectBridge?.ContainsValue( Value ) == true;
+
+    [CascadingParameter] ISelect ParentSelectBridge { get; set; }
+
+    IAntSelect ParentAntSelect => ParentSelectBridge as IAntSelect;
 
     #endregion
 }

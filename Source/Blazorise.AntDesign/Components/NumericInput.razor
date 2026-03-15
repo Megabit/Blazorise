@@ -1,0 +1,32 @@
+@typeparam TValue
+@inherits Blazorise.NumericInput<TValue>
+@if ( Plaintext )
+{
+    <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @CurrentValueAsString
+    </span>
+}
+else
+{
+    <div class="@ContainerClassNames" style="@StyleNames">
+        <div class="ant-input-number-input-wrap">
+            @if ( IsImmediate && IsDebounce )
+            {
+                <input @ref="@ElementRef" id="@ElementId" type="number" name="@NameAttributeValue" inputmode="@InputMode" class="@InputClassNames" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@ReadOnly" size="@VisibleCharacters" min="@MinValue" max="@MaxValue" step="@StepString" pattern="@Pattern" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" value="@CurrentValueAsString" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+            }
+            else
+            {
+                <input @ref="@ElementRef" id="@ElementId" type="number" name="@NameAttributeValue" inputmode="@InputMode" class="@InputClassNames" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@ReadOnly" size="@VisibleCharacters" min="@MinValue" max="@MaxValue" step="@StepString" pattern="@Pattern" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @bind-value="@CurrentValueAsString" @bind-value:event="@BindValueEventName" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+            }
+        </div>
+    </div>
+}
+@ChildContent
+@Feedback
+@code {
+    string ContainerClassNames => IsDisabled
+        ? $"{ClassNames} ant-input-number-disabled"
+        : ClassNames;
+
+    string InputClassNames => string.Join( " ", "ant-input-number-input", ClassProvider.NumericInputColor( Color ) ).Trim();
+}

@@ -11,7 +11,7 @@ public class AntDesignClassProvider : ClassProvider
 {
     #region TextInput
 
-    public override string TextInput( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
+    public override string TextInput( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input ant-input-outlined";
 
     public override string TextInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
@@ -23,59 +23,59 @@ public class AntDesignClassProvider : ClassProvider
 
     #region MemoInput
 
-    public override string MemoInput( bool plaintext ) => plaintext ? "ant-input ant-input-static" : "ant-input";
+    public override string MemoInput( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input ant-input-outlined";
 
     public override string MemoInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string MemoInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string MemoInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-input" ) : null;
 
     #endregion
 
     #region Select
 
-    public override string Select() => "ant-select-selection-search-input";
+    public override string Select() => "ant-select ant-select-show-arrow ant-select-outlined";
 
-    public override string SelectMultiple( bool multiple ) => null;
+    public override string SelectMultiple( bool multiple ) => multiple ? "ant-select-multiple" : "ant-select-single";
 
     public override string SelectSize( Size size ) => size != Size.Default ? $"ant-select-{ToSize( size )}" : null;
 
-    public override string SelectValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string SelectValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-select" ) : null;
 
     #endregion
 
     #region NumericInput
 
-    public override string NumericInput( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
+    public override string NumericInput( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input-number ant-input-number-outlined";
 
-    public override string NumericInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
+    public override string NumericInputSize( Size size ) => size != Size.Default ? $"ant-input-number-{ToSize( size )}" : null;
 
     public override string NumericInputColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
 
-    public override string NumericInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string NumericInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-input-number" ) : null;
 
     #endregion
 
     #region DateInput
 
-    public override string DateInput( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
+    public override string DateInput( bool plaintext ) => plaintext ? "ant-form-text" : "ant-picker ant-picker-outlined";
 
-    public override string DateInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
+    public override string DateInputSize( Size size ) => size != Size.Default ? $"ant-picker-{ToSize( size )}" : null;
 
     public override string DateInputColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
 
-    public override string DateInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string DateInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-picker" ) : null;
 
     #endregion
 
     #region TimeInput
 
-    public override string TimeInput( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
+    public override string TimeInput( bool plaintext ) => plaintext ? "ant-form-text" : "ant-picker ant-picker-outlined";
 
-    public override string TimeInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
+    public override string TimeInputSize( Size size ) => size != Size.Default ? $"ant-picker-{ToSize( size )}" : null;
 
     public override string TimeInputColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
 
-    public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-picker" ) : null;
 
     #endregion
 
@@ -89,25 +89,25 @@ public class AntDesignClassProvider : ClassProvider
 
     #region DatePicker
 
-    public override string DatePicker( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
+    public override string DatePicker( bool plaintext ) => plaintext ? "ant-form-text" : "ant-picker ant-picker-outlined";
 
-    public override string DatePickerSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
+    public override string DatePickerSize( Size size ) => size != Size.Default ? $"ant-picker-{ToSize( size )}" : null;
 
     public override string DatePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
 
-    public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-picker" ) : null;
 
     #endregion
 
     #region TimePicker
 
-    public override string TimePicker( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
+    public override string TimePicker( bool plaintext ) => plaintext ? "ant-form-text" : "ant-picker ant-picker-outlined";
 
-    public override string TimePickerSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
+    public override string TimePickerSize( Size size ) => size != Size.Default ? $"ant-picker-{ToSize( size )}" : null;
 
     public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
 
-    public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-picker" ) : null;
 
     #endregion
 
@@ -127,7 +127,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string NumericPickerColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
 
-    public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-input-number" ) : null;
 
     #endregion
 
@@ -205,7 +205,7 @@ public class AntDesignClassProvider : ClassProvider
 
     #region FileInput
 
-    public override string FileInput() => null;
+    public override string FileInput() => "ant-upload-input";
 
     public override string FileInputSize( Size size ) => null;
 
@@ -1845,6 +1845,20 @@ public class AntDesignClassProvider : ClassProvider
     }
 
     private static string ToBadgeVariantClass( bool subtle ) => subtle ? "ant-tag-outlined" : "ant-tag-solid";
+
+    private static string ToValidationStatus( ValidationStatus validationStatus, string prefix )
+    {
+        string suffix = validationStatus switch
+        {
+            Blazorise.ValidationStatus.Success => "success",
+            Blazorise.ValidationStatus.Error => "error",
+            _ => null,
+        };
+
+        return suffix is null
+            ? null
+            : $"{prefix}-status-{suffix}";
+    }
 
     private static string ToNativeGapSize( GapSize gapSize )
     {

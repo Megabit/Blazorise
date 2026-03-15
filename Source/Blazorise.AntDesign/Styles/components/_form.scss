@@ -45,6 +45,248 @@
     }
 }
 
+.ant-select {
+    position: relative;
+
+    .ant-select-selection-wrap {
+        width: 100%;
+    }
+
+    .ant-select-selector {
+        width: 100%;
+    }
+
+    &.ant-select-show-arrow {
+        .ant-select-selector {
+            padding-inline-end: calc(var(--ant-select-show-arrow-padding-inline-end) + var(--ant-control-padding-horizontal));
+        }
+    }
+
+    .ant-select-arrow {
+        position: absolute;
+        top: 50%;
+        inset-inline-end: var(--ant-control-padding-horizontal);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(-50%);
+        margin-top: 0;
+        pointer-events: none;
+    }
+}
+
+.ant-select-single {
+    .ant-select-selector {
+        .ant-select-selection-search {
+            position: absolute;
+            inset: 0;
+        }
+
+        .ant-select-selection-search-input {
+            width: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+    }
+}
+
+.ant-picker {
+    padding: var(--ant-date-picker-padding-block) var(--ant-date-picker-padding-inline);
+    color: var(--ant-color-text);
+    font-size: var(--ant-font-size);
+    line-height: 1;
+    border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border);
+    border-radius: var(--ant-border-radius);
+    transition: border var(--ant-motion-duration-mid), box-shadow var(--ant-motion-duration-mid), background-color var(--ant-motion-duration-mid);
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    background: var(--ant-color-bg-container);
+
+    .ant-picker-input {
+        display: inline-flex;
+        flex: auto;
+        align-items: center;
+        min-width: 0;
+
+        > input {
+            width: 100%;
+            padding: 0;
+            color: inherit;
+            font-size: var(--ant-date-picker-input-font-size);
+            line-height: var(--ant-line-height);
+            background: transparent;
+            border: 0;
+            outline: 0;
+            box-shadow: none;
+            min-width: 0;
+            height: auto;
+            appearance: none;
+            -webkit-appearance: none;
+
+            &::-webkit-calendar-picker-indicator {
+                display: none;
+                -webkit-appearance: none;
+            }
+
+            &::-webkit-clear-button,
+            &::-webkit-inner-spin-button {
+                display: none;
+                -webkit-appearance: none;
+            }
+
+            &::-webkit-date-and-time-value,
+            &::-webkit-datetime-edit,
+            &::-webkit-datetime-edit-fields-wrapper,
+            &::-webkit-datetime-edit-text,
+            &::-webkit-datetime-edit-month-field,
+            &::-webkit-datetime-edit-day-field,
+            &::-webkit-datetime-edit-year-field,
+            &::-webkit-datetime-edit-hour-field,
+            &::-webkit-datetime-edit-minute-field,
+            &::-webkit-datetime-edit-second-field,
+            &::-webkit-datetime-edit-ampm-field {
+                padding: 0;
+                line-height: inherit;
+            }
+        }
+    }
+
+    .ant-picker-suffix {
+        display: inline-flex;
+        align-items: center;
+        color: var(--ant-color-text-description);
+        margin-inline-start: var(--ant-padding-xs);
+        line-height: 1;
+        cursor: pointer;
+    }
+
+    &:hover {
+        border-color: var(--ant-picker-hover-border-color);
+        background: var(--ant-picker-hover-bg);
+    }
+
+    &.ant-picker-focused,
+    &:focus-within {
+        border-color: var(--ant-picker-active-border-color);
+        box-shadow: var(--ant-picker-active-shadow);
+        outline: 0;
+    }
+
+    &.ant-picker-disabled {
+        color: var(--ant-color-text-disabled);
+        background: var(--ant-color-bg-container-disabled);
+        cursor: not-allowed;
+
+        .ant-picker-input > input,
+        .ant-picker-suffix {
+            cursor: not-allowed;
+        }
+    }
+}
+
+.ant-select-multiple {
+    --ant-select-multi-item-background: var(--ant-select-multiple-item-bg);
+    --ant-select-multi-item-border-color: var(--ant-select-multiple-item-border-color);
+    --ant-select-multi-item-border-radius: var(--ant-border-radius-sm);
+    --ant-select-multi-item-height: var(--ant-select-multiple-item-height);
+    --ant-select-multi-padding-base: calc((var(--ant-select-height) - var(--ant-select-multi-item-height)) / 2);
+    --ant-select-multi-padding-vertical: calc(var(--ant-select-multi-padding-base) - var(--ant-select-internal_fixed_item_margin) - var(--ant-line-width));
+    padding-block: var(--ant-select-multi-padding-vertical);
+    padding-inline-start: calc(var(--ant-select-multi-padding-base) - var(--ant-line-width));
+
+    .ant-select-selector {
+        display: flex;
+        align-items: center;
+        min-height: calc(var(--ant-select-height) - var(--ant-line-width) * 2);
+    }
+
+    .ant-select-selection-overflow {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        width: 100%;
+        line-height: 1;
+    }
+
+    .ant-select-selection-overflow-item {
+        display: inline-flex;
+        max-width: calc(100% - 4px);
+        line-height: 1;
+    }
+
+    .ant-select-selection-overflow-item-suffix {
+        flex: 1 0 4px;
+    }
+
+    .ant-select-selection-item {
+        display: inline-flex;
+        align-items: center;
+        max-width: 100%;
+        min-height: var(--ant-select-multi-item-height);
+        margin-block: var(--ant-select-internal_fixed_item_margin);
+        margin-inline-end: calc(var(--ant-select-internal_fixed_item_margin) * 2);
+        padding-inline-start: var(--ant-padding-xs);
+        padding-inline-end: var(--ant-padding-xxs);
+        color: var(--ant-color-text);
+        line-height: calc(var(--ant-select-multi-item-height) - var(--ant-line-width) * 2);
+        background: var(--ant-select-multi-item-background);
+        border: var(--ant-line-width) solid var(--ant-select-multi-item-border-color);
+        border-radius: var(--ant-select-multi-item-border-radius);
+        box-sizing: border-box;
+        transition: height var(--ant-motion-duration-slow), line-height var(--ant-motion-duration-slow), padding var(--ant-motion-duration-slow);
+    }
+
+    .ant-select-selection-item-content {
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-inline-end: var(--ant-padding-xxs);
+    }
+
+    .ant-select-selection-item-remove {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--ant-color-icon);
+        font-size: 10px;
+        font-weight: bold;
+        line-height: inherit;
+        cursor: pointer;
+    }
+
+    .ant-select-selection-search {
+        width: 100%;
+    }
+
+    .ant-select-selection-search-input {
+        width: 100%;
+        min-width: 4px;
+        opacity: 0;
+        cursor: pointer;
+    }
+}
+
+.ant-upload.ant-upload-select.ant-upload-select-text {
+    display: flex;
+    align-items: center;
+    gap: var(--ant-padding-xs);
+
+    > .ant-upload {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .ant-upload-hint {
+        line-height: var(--ant-line-height);
+    }
+}
+
+.ant-upload-list.ant-upload-list-text {
+    margin-top: var(--ant-margin-xs);
+}
+
 .ant-input-search-enter-button .ant-input-group-addon {
     padding: 0;
     border: 0;
@@ -90,7 +332,9 @@
         }
     }
 
-    .ant-select {
+    .ant-select,
+    .ant-picker,
+    .ant-input-number {
         width: 100%;
     }
 }
@@ -128,6 +372,22 @@
     font-size: 18px;
     height: 48px;
 }
+
+@mixin input-number-size($name, $font-size, $height, $padding-block, $padding-inline) {
+    .ant-input-number-#{$name} {
+        font-size: $font-size;
+        height: $height;
+    }
+
+    .ant-input-number-#{$name} .ant-input-number-input {
+        height: $height - 2px;
+        padding: $padding-block $padding-inline;
+    }
+}
+
+@include input-number-size('xs', 10px, 16px, 0, 7px);
+@include input-number-size('md', 14px, 36px, 4.5px, 11px);
+@include input-number-size('xl', 18px, 48px, 8.5px, 15px);
 
 
 .ant-input-group-wrapper-xs {
@@ -235,6 +495,22 @@
 @include select-size('md', 14px, 36px, 34px);
 @include select-size('xl', 18px, 48px, 45px);
 
+@mixin picker-size($name, $font-size, $height, $padding-block, $padding-inline) {
+    .ant-picker-#{$name} {
+        height: $height;
+        padding: $padding-block $padding-inline;
+        font-size: $font-size;
+    }
+
+    .ant-picker-#{$name} .ant-picker-input > input {
+        font-size: $font-size;
+    }
+}
+
+@include picker-size('xs', 10px, 16px, 0, 7px);
+@include picker-size('md', 14px, 36px, 4.5px, 11px);
+@include picker-size('xl', 18px, 48px, 8.5px, 15px);
+
 @mixin checkbox($size, $width, $height) {
     .ant-checkbox-input.ant-checkbox-input-#{$size} {
         + .ant-checkbox-inner {
@@ -305,14 +581,6 @@
 @include radio('md', $radio-md-height);
 @include radio('lg', $radio-lg-height);
 @include radio('xl', $radio-xl-height);
-
-textarea.ant-input.ant-input-static {
-    background-color: transparent;
-    border-color: transparent;
-    box-shadow: none;
-    padding-left: 0;
-    padding-right: 0;
-}
 
 .ant-focus-trap {
     display: contents;
