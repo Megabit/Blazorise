@@ -95,6 +95,7 @@ public static class Config
         { typeof( Blazorise.MemoInput ), typeof( Components.MemoInput ) },
         { typeof( Blazorise.ModalContent ), typeof( Components.ModalContent ) },
         { typeof( Blazorise.NumericInput<> ), typeof( Components.NumericInput<> ) },
+        { typeof( Blazorise.NumericPicker<> ), typeof( Components.NumericPicker<> ) },
         { typeof( Blazorise.Offcanvas ), typeof( Components.Offcanvas ) },
         { typeof( Blazorise.OffcanvasHeader ), typeof( Components.OffcanvasHeader ) },
         { typeof( Blazorise.Progress ), typeof( Components.Progress ) },

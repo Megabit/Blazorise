@@ -121,9 +121,9 @@ public class AntDesignClassProvider : ClassProvider
 
     #region NumericPicker
 
-    public override string NumericPicker( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
+    public override string NumericPicker( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input-number ant-input-number-outlined";
 
-    public override string NumericPickerSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
+    public override string NumericPickerSize( Size size ) => size != Size.Default ? $"ant-input-number-{ToSize( size )}" : null;
 
     public override string NumericPickerColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
 

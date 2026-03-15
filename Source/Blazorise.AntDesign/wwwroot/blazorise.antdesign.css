@@ -3933,6 +3933,10 @@ template {
   margin-top: var(--ant-margin-xs);
 }
 
+.b-ant-numeric-picker.ant-input-number {
+  width: 100%;
+}
+
 .b-ant-color-input {
   box-sizing: border-box;
   position: relative;
