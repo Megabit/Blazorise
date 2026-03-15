@@ -296,8 +296,35 @@ html {
   --ant-table-cell-padding-block: 16px;
   --ant-table-cell-padding-block-md: 12px;
   --ant-table-cell-padding-block-sm: 8px;
+  --ant-table-cell-font-size: var(--ant-font-size);
+  --ant-table-cell-font-size-md: var(--ant-font-size);
+  --ant-table-cell-font-size-sm: var(--ant-font-size);
+  --ant-table-header-bg: var(--ant-color-fill-alter);
+  --ant-table-header-color: var(--ant-color-text-heading);
+  --ant-table-header-split-color: var(--ant-color-border-secondary);
+  --ant-table-header-sort-active-bg: var(--ant-color-fill-secondary);
+  --ant-table-header-sort-hover-bg: var(--ant-color-fill-content);
+  --ant-table-fixed-header-sort-active-bg: var(--ant-color-fill-secondary);
+  --ant-table-body-sort-bg: var(--ant-color-fill-quaternary);
+  --ant-table-header-icon-color: var(--ant-color-text-description);
+  --ant-table-header-icon-hover-color: var(--ant-color-text);
+  --ant-table-header-filter-hover-bg: var(--ant-color-fill-secondary);
+  --ant-table-row-hover-bg: var(--ant-color-fill-alter);
+  --ant-table-row-selected-bg: var(--ant-control-item-bg-active);
+  --ant-table-row-selected-hover-bg: var(--ant-control-item-bg-active-hover);
+  --ant-table-row-expanded-bg: var(--ant-color-fill-alter);
+  --ant-table-footer-bg: var(--ant-color-fill-alter);
+  --ant-table-footer-color: var(--ant-color-text);
   --ant-table-selection-column-width: 32px;
   --ant-table-expand-icon-size: 16px;
+  --ant-table-expand-icon-bg: var(--ant-color-bg-container);
+  --ant-table-expand-icon-scale: 1;
+  --ant-table-expand-icon-half-inner: calc(var(--ant-table-expand-icon-size) / 2 - 2px);
+  --ant-table-expand-icon-margin-top: 0;
+  --ant-table-filter-dropdown-bg: var(--ant-color-bg-elevated);
+  --ant-table-filter-dropdown-menu-bg: var(--ant-color-bg-elevated);
+  --ant-table-sticky-scroll-bar-bg: rgba(0, 0, 0, 0.25);
+  --ant-table-sticky-scroll-bar-border-radius: 100px;
   --ant-select-z-index-popup: calc(var(--ant-z-index-popup-base) + 50);
   --ant-select-option-selected-color: var(--ant-color-text);
   --ant-select-option-selected-font-weight: var(--ant-font-weight-strong);
@@ -5708,6 +5735,26 @@ a.ant-link-disabled[aria-disabled=true] {
   cursor: col-resize !important;
 }
 
+.ant-table-wrapper .b-table.ant-table table {
+  position: relative;
+}
+.ant-table-wrapper .b-table.ant-table table .b-table-resizer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5px;
+  cursor: col-resize;
+  user-select: none;
+  z-index: 1;
+}
+.ant-table-wrapper .b-table.ant-table table .b-table-resizer:hover, .ant-table-wrapper .b-table.ant-table table .b-table-resizing {
+  cursor: col-resize !important;
+  border-right: 2px solid var(--b-theme-primary, blue);
+}
+.ant-table-wrapper .b-table.ant-table table .b-table-resizing {
+  cursor: col-resize !important;
+}
+
 .ant-table-primary,
 .ant-table-primary > th,
 .ant-table-primary > td {
@@ -5807,17 +5854,27 @@ a.ant-link-disabled[aria-disabled=true] {
 .ant-table-link tbody + tbody {
   border-color: rgb(148.4, 182.2, 236.8);
 }
+.ant-table .ant-table-caption {
+  padding: var(--ant-table-cell-padding-block) var(--ant-table-cell-padding-inline);
+  color: var(--ant-color-text);
+  text-align: start;
+}
 .ant-table .ant-table-caption-top {
   caption-side: top;
 }
 .ant-table .ant-table-caption-bottom {
   caption-side: bottom;
 }
+.ant-table .ant-table-summary {
+  background: var(--ant-table-footer-bg);
+  color: var(--ant-table-footer-color);
+}
 
-.ant-table-striped tbody tr:nth-of-type(odd) {
+.ant-table-striped .ant-table-tbody > tr:nth-of-type(odd) > th,
+.ant-table-striped .ant-table-tbody > tr:nth-of-type(odd) > td {
   background-color: #fbfbfb;
 }
-.ant-table-striped thead {
+.ant-table-striped .ant-table-thead {
   background-color: #f1f1f1;
 }
 
@@ -5825,7 +5882,17 @@ a.ant-link-disabled[aria-disabled=true] {
 .ant-table-borderless .ant-table-tbody th,
 .ant-table-borderless .ant-table-tbody td,
 .ant-table-borderless .ant-table-tbody thead th,
-.ant-table-borderless .ant-table-tbody tbody + tbody {
+.ant-table-borderless .ant-table-tbody tbody + tbody,
+.ant-table-borderless .ant-table-thead tr,
+.ant-table-borderless .ant-table-thead th,
+.ant-table-borderless .ant-table-thead td,
+.ant-table-borderless .ant-table-thead thead th,
+.ant-table-borderless .ant-table-thead tbody + tbody,
+.ant-table-borderless .ant-table-summary tr,
+.ant-table-borderless .ant-table-summary th,
+.ant-table-borderless .ant-table-summary td,
+.ant-table-borderless .ant-table-summary thead th,
+.ant-table-borderless .ant-table-summary tbody + tbody {
   border: 0;
 }
 
@@ -5833,7 +5900,13 @@ a.ant-link-disabled[aria-disabled=true] {
   background: unset;
 }
 .ant-table.ant-table-hover tbody > tr.ant-table-row:hover > td {
-  background: #f5f5f5;
+  background: var(--ant-table-row-hover-bg);
+}
+.ant-table tbody > tr.ant-table-row-selected > td {
+  background: var(--ant-table-row-selected-bg);
+}
+.ant-table tbody > tr.ant-table-row-selected:hover > td, .ant-table.ant-table-hover tbody > tr.ant-table-row-selected:hover > td {
+  background: var(--ant-table-row-selected-hover-bg);
 }
 .ant-table tbody tr.ant-table-group {
   cursor: pointer;
@@ -5856,47 +5929,52 @@ a.ant-link-disabled[aria-disabled=true] {
   font-weight: bold;
 }
 
-.ant-table-responsive {
+.ant-table-container.ant-table-responsive {
   display: block;
   width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-.ant-table-responsive > .ant-table-bordered {
-  border: 0;
+.ant-table-container.ant-table-fixed-header {
+  overflow: auto;
 }
-
-.ant-table-fixed-header .ant-table-container {
-  overflow-y: auto;
+.ant-table-container.ant-table-fixed-header .ant-table-content {
+  overflow: visible;
 }
-.ant-table-fixed-header .table {
+.ant-table-container.ant-table-fixed-header .ant-table-content table {
   border-collapse: separate;
   border-spacing: 0;
 }
-.ant-table-fixed-header thead:not(.ant-table-thead-theme) th {
-  background: white;
+.ant-table-container.ant-table-fixed-header thead:not(.ant-table-thead-theme) th {
+  background: var(--ant-color-bg-container);
 }
-.ant-table-fixed-header thead tr th {
+.ant-table-container.ant-table-fixed-header thead tr th {
   border-top: none;
   position: sticky;
   z-index: 1;
 }
-.ant-table-fixed-header thead tr:nth-child(1) th {
+.ant-table-container.ant-table-fixed-header thead tr:nth-child(1) th {
   top: 0;
 }
+.ant-table-container.ant-table-fixed-header tfoot.ant-table-summary {
+  box-shadow: 0 -1px 0 var(--ant-table-border-color);
+}
 
-tr.ant-table-row.ant-table-row-selectable:focus[tabindex="0"] {
+.ant-table-row.ant-table-row-selectable:focus[tabindex="0"] {
   outline: none;
 }
 
-.ant-table-fixed-columns .ant-table-container .ant-table-content {
+.ant-table-container.ant-table-fixed-columns .ant-table-content,
+.ant-table-container.ant-table-fixed-columns .ant-table-header,
+.ant-table-container.ant-table-fixed-columns .ant-table-body,
+.ant-table-container.ant-table-fixed-columns .ant-table-summary {
   width: 100%;
   overflow-x: auto;
   white-space: nowrap;
   position: relative;
 }
-.ant-table-fixed-columns .ant-table-container .ant-table-content table {
+.ant-table-container.ant-table-fixed-columns table {
   table-layout: fixed !important;
   overflow-x: auto;
   white-space: nowrap;
@@ -5904,28 +5982,25 @@ tr.ant-table-row.ant-table-row-selectable:focus[tabindex="0"] {
   border-spacing: 0;
   border: 0;
 }
-.ant-table-fixed-columns .ant-table-container .ant-table-content table .ant-header-cell-fixed-start,
-.ant-table-fixed-columns .ant-table-container .ant-table-content table .ant-row-header-fixed-start,
-.ant-table-fixed-columns .ant-table-container .ant-table-content table .ant-row-cell-fixed-start {
+.ant-table-container.ant-table-fixed-columns table .ant-table-cell-fix.ant-table-cell-fix-start {
   position: sticky;
   border-left: none;
   z-index: 11;
-  background-color: white;
+  background-color: var(--ant-color-bg-container);
   border-inline-start-width: 0;
   left: 0;
 }
-.ant-table-fixed-columns .ant-table-container .ant-table-content table .ant-header-cell-fixed-end,
-.ant-table-fixed-columns .ant-table-container .ant-table-content table .ant-row-header-fixed-end,
-.ant-table-fixed-columns .ant-table-container .ant-table-content table .ant-row-cell-fixed-end {
+.ant-table-container.ant-table-fixed-columns table .ant-table-cell-fix.ant-table-cell-fix-end {
   position: sticky;
   border-left: none;
   z-index: 11;
-  background-color: white;
+  background-color: var(--ant-color-bg-container);
   border-inline-start-width: 0;
   right: 0;
 }
 
-td:focus {
+.ant-table td:focus,
+.ant-table th:focus {
   outline: -webkit-focus-ring-color auto 1px;
 }
 

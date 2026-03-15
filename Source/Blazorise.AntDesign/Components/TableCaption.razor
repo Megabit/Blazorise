@@ -1,0 +1,7 @@
+@inherits Blazorise.TableCaption
+<caption @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    @ChildContent
+</caption>
+@code {
+    [CascadingParameter] protected Blazorise.Table ParentTable { get; set; }
+}

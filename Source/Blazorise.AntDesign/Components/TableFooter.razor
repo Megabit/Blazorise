@@ -1,5 +1,5 @@
-﻿@inherits Blazorise.TableBody
-<tbody @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
+@inherits Blazorise.TableFooter
+<tfoot @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
        draggable="@DraggableString"
        @ondragend="@OnDragEndHandler"
        @ondragend:preventDefault="@DragEndPreventDefault"
@@ -13,4 +13,7 @@
        @ondrop:preventDefault="@DropPreventDefault"
        @attributes="@Attributes">
     @ChildContent
-</tbody>
+</tfoot>
+@code {
+    [CascadingParameter] protected Blazorise.Table ParentTable { get; set; }
+}

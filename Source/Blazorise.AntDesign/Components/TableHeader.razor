@@ -1,41 +1,16 @@
 ﻿@inherits Blazorise.TableHeader
-@if ( ParentTable?.FixedHeader == true )
-{
-    <div class="ant-table-header" style="overflow: hidden;">
-        <table style="table-layout: fixed;">
-            <thead @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
-                   draggable="@DraggableString"
-                   @ondragend="@OnDragEndHandler"
-                   @ondragend:preventDefault="@DragEndPreventDefault"
-                   @ondragenter="@OnDragEnterHandler"
-                   @ondragenter:preventDefault="@DragEnterPreventDefault"
-                   @ondragleave="@OnDragLeaveHandler"
-                   @ondragleave:preventDefault="@DragLeavePreventDefault"
-                   @ondragstart="@OnDragStartHandler"
-                   @ondragstart:preventDefault="@DragStartPreventDefault"
-                   @ondrop="@OnDropHandler"
-                   @ondrop:preventDefault="@DropPreventDefault"
-                   @attributes="@Attributes">
-                @ChildContent
-            </thead>
-        </table>
-    </div>
-}
-else
-{
-    <thead @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
-           draggable="@DraggableString"
-           @ondragend="@OnDragEndHandler"
-           @ondragend:preventDefault="@DragEndPreventDefault"
-           @ondragenter="@OnDragEnterHandler"
-           @ondragenter:preventDefault="@DragEnterPreventDefault"
-           @ondragleave="@OnDragLeaveHandler"
-           @ondragleave:preventDefault="@DragLeavePreventDefault"
-           @ondragstart="@OnDragStartHandler"
-           @ondragstart:preventDefault="@DragStartPreventDefault"
-           @ondrop="@OnDropHandler"
-           @ondrop:preventDefault="@DropPreventDefault"
-           @attributes="@Attributes">
-        @ChildContent
-    </thead>
-}
+<thead @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
+       draggable="@DraggableString"
+       @ondragend="@OnDragEndHandler"
+       @ondragend:preventDefault="@DragEndPreventDefault"
+       @ondragenter="@OnDragEnterHandler"
+       @ondragenter:preventDefault="@DragEnterPreventDefault"
+       @ondragleave="@OnDragLeaveHandler"
+       @ondragleave:preventDefault="@DragLeavePreventDefault"
+       @ondragstart="@OnDragStartHandler"
+       @ondragstart:preventDefault="@DragStartPreventDefault"
+       @ondrop="@OnDropHandler"
+       @ondrop:preventDefault="@DropPreventDefault"
+       @attributes="@Attributes">
+    @ChildContent
+</thead>

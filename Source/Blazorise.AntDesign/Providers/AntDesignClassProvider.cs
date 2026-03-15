@@ -1130,7 +1130,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => themeContrast != ThemeContrast.None ? $"ant-table-thead-theme ant-table-thead-{ToThemeContrast( themeContrast )}" : null;
 
-    public override string TableHeaderCell() => null;
+    public override string TableHeaderCell() => "ant-table-cell";
 
     public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"ant-cursor-{ToCursor( cursor )}" : null;
 
@@ -1138,13 +1138,13 @@ public class AntDesignClassProvider : ClassProvider
     {
         return fixedPosition switch
         {
-            TableColumnFixedPosition.Start => "ant-table-cell-fix-start ant-header-cell-fixed-start",
-            TableColumnFixedPosition.End => "ant-table-cell-fix-end ant-header-cell-fixed-end",
+            TableColumnFixedPosition.Start => "ant-table-cell-fix ant-table-cell-fix-start",
+            TableColumnFixedPosition.End => "ant-table-cell-fix ant-table-cell-fix-end",
             _ => null,
         };
     }
 
-    public override string TableFooter() => null;
+    public override string TableFooter() => "ant-table-summary";
 
     public override string TableBody() => "ant-table-tbody";
 
@@ -1154,7 +1154,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "ant-table-row-selectable" : null;
 
-    public override string TableRowIsSelected( bool selected ) => selected ? "selected" : null;
+    public override string TableRowIsSelected( bool selected ) => selected ? "ant-table-row-selected" : null;
 
     public override string TableRowHeader() => "ant-table-cell ant-table-row-header";
 
@@ -1162,8 +1162,8 @@ public class AntDesignClassProvider : ClassProvider
     {
         return fixedPosition switch
         {
-            TableColumnFixedPosition.Start => "ant-table-cell-fix-start ant-row-header-fixed-start",
-            TableColumnFixedPosition.End => "ant-table-cell-fix-end ant-row-header-fixed-end",
+            TableColumnFixedPosition.Start => "ant-table-cell-fix ant-table-cell-fix-start",
+            TableColumnFixedPosition.End => "ant-table-cell-fix ant-table-cell-fix-end",
             _ => null,
         };
     }
@@ -1176,8 +1176,8 @@ public class AntDesignClassProvider : ClassProvider
     {
         return fixedPosition switch
         {
-            TableColumnFixedPosition.Start => "ant-table-cell-fix-start ant-row-cell-fixed-start",
-            TableColumnFixedPosition.End => "ant-table-cell-fix-end ant-row-cell-fixed-end",
+            TableColumnFixedPosition.Start => "ant-table-cell-fix ant-table-cell-fix-start",
+            TableColumnFixedPosition.End => "ant-table-cell-fix ant-table-cell-fix-end",
             _ => null,
         };
     }
@@ -1196,7 +1196,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableResponsiveMode( TableResponsiveMode responsiveMode ) => responsiveMode == Blazorise.TableResponsiveMode.Mobile ? "ant-table-mobile" : null;
 
-    public override string TableCaption() => "ant-table-caption";
+    public override string TableCaption() => "ant-table-title ant-table-caption";
 
     public override string TableCaptionSide( TableCaptionSide side ) => side != Blazorise.TableCaptionSide.Default ? $"ant-table-caption-{ToTableCaptionSide( side )}" : null;
 
