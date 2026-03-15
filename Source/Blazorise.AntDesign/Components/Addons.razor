@@ -1,8 +1,8 @@
 ﻿@inherits Blazorise.Addons
 <CascadingValue Value="@this" IsFixed>
-    <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        <span class="ant-input-wrapper ant-input-group">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <div class="ant-input-wrapper ant-input-group">
             @ChildContent
-        </span>
-    </span>
+        </div>
+    </div>
 </CascadingValue>

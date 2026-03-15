@@ -355,13 +355,19 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Addons
 
-    public override string Addons() => "ant-input-group-wrapper";
+    public override string Addons() => "ant-input-group-wrapper ant-input-group-wrapper-outlined b-ant-addons";
 
     public override string AddonsSize( Size size ) => size != Size.Default ? $"ant-input-group-wrapper-{ToSize( size )}" : null;
 
-    public override string AddonsHasButton( bool hasButton ) => hasButton ? "ant-input-search ant-input-search-enter-button" : null;
+    public override string AddonsHasButton( bool hasButton ) => hasButton ? "b-ant-addons-has-button" : null;
 
-    public override string AddonsValidation( ValidationStatus validationStatus ) => null;
+    public override string AddonsValidation( ValidationStatus validationStatus )
+        => validationStatus switch
+        {
+            ValidationStatus.Error => "ant-input-group-wrapper-status-error",
+            ValidationStatus.Success => "ant-input-group-wrapper-status-success",
+            _ => null,
+        };
 
     public override string Addon( AddonType addonType )
     {
