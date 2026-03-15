@@ -3757,7 +3757,18 @@ template {
   align-items: center;
   min-width: 0;
 }
-.ant-picker .ant-picker-input > input {
+.ant-picker .ant-picker-input > .flatpickr-wrapper {
+  display: inline-flex;
+  flex: auto;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+}
+.ant-picker .ant-picker-input > .flatpickr-wrapper > input[type=hidden] {
+  display: none;
+}
+.ant-picker .ant-picker-input > input:not([type=hidden]),
+.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden]) {
   width: 100%;
   padding: 0;
   color: inherit;
@@ -3772,15 +3783,29 @@ template {
   appearance: none;
   -webkit-appearance: none;
 }
-.ant-picker .ant-picker-input > input::-webkit-calendar-picker-indicator {
+.ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-calendar-picker-indicator,
+.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-calendar-picker-indicator {
   display: none;
   -webkit-appearance: none;
 }
-.ant-picker .ant-picker-input > input::-webkit-clear-button, .ant-picker .ant-picker-input > input::-webkit-inner-spin-button {
+.ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-clear-button, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-inner-spin-button,
+.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-clear-button,
+.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-inner-spin-button {
   display: none;
   -webkit-appearance: none;
 }
-.ant-picker .ant-picker-input > input::-webkit-date-and-time-value, .ant-picker .ant-picker-input > input::-webkit-datetime-edit, .ant-picker .ant-picker-input > input::-webkit-datetime-edit-fields-wrapper, .ant-picker .ant-picker-input > input::-webkit-datetime-edit-text, .ant-picker .ant-picker-input > input::-webkit-datetime-edit-month-field, .ant-picker .ant-picker-input > input::-webkit-datetime-edit-day-field, .ant-picker .ant-picker-input > input::-webkit-datetime-edit-year-field, .ant-picker .ant-picker-input > input::-webkit-datetime-edit-hour-field, .ant-picker .ant-picker-input > input::-webkit-datetime-edit-minute-field, .ant-picker .ant-picker-input > input::-webkit-datetime-edit-second-field, .ant-picker .ant-picker-input > input::-webkit-datetime-edit-ampm-field {
+.ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-date-and-time-value, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-fields-wrapper, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-text, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-month-field, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-day-field, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-year-field, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-hour-field, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-minute-field, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-second-field, .ant-picker .ant-picker-input > input:not([type=hidden])::-webkit-datetime-edit-ampm-field,
+.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-date-and-time-value,
+.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-datetime-edit,
+.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-datetime-edit-fields-wrapper,
+.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-datetime-edit-text,
+.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-datetime-edit-month-field,
+.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-datetime-edit-day-field,
+.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-datetime-edit-year-field,
+.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-datetime-edit-hour-field,
+.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-datetime-edit-minute-field,
+.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-datetime-edit-second-field,
+.ant-picker .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden])::-webkit-datetime-edit-ampm-field {
   padding: 0;
   line-height: inherit;
 }
@@ -3806,7 +3831,9 @@ template {
   background: var(--ant-color-bg-container-disabled);
   cursor: not-allowed;
 }
-.ant-picker.ant-picker-disabled .ant-picker-input > input,
+.ant-picker.ant-picker-disabled .ant-picker-input > .flatpickr-wrapper,
+.ant-picker.ant-picker-disabled .ant-picker-input > input:not([type=hidden]),
+.ant-picker.ant-picker-disabled .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden]),
 .ant-picker.ant-picker-disabled .ant-picker-suffix {
   cursor: not-allowed;
 }
@@ -4148,7 +4175,8 @@ template {
   font-size: 10px;
 }
 
-.ant-picker-xs .ant-picker-input > input {
+.ant-picker-xs .ant-picker-input > input:not([type=hidden]),
+.ant-picker-xs .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden]) {
   font-size: 10px;
 }
 
@@ -4158,7 +4186,8 @@ template {
   font-size: 14px;
 }
 
-.ant-picker-md .ant-picker-input > input {
+.ant-picker-md .ant-picker-input > input:not([type=hidden]),
+.ant-picker-md .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden]) {
   font-size: 14px;
 }
 
@@ -4168,7 +4197,8 @@ template {
   font-size: 18px;
 }
 
-.ant-picker-xl .ant-picker-input > input {
+.ant-picker-xl .ant-picker-input > input:not([type=hidden]),
+.ant-picker-xl .ant-picker-input > .flatpickr-wrapper > input:not([type=hidden]) {
   font-size: 18px;
 }
 
