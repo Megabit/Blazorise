@@ -1,46 +1,83 @@
-﻿.ant-list.ant-list-bordered.ant-list-flush {
-    border-right: 0;
-    border-left: 0;
-}
+﻿.b-ant-list-group {
+    &.b-ant-list-group-flush {
+        border: 0;
+        border-radius: 0;
 
-.ant-list-item-actionable {
-    width: 100%;
-    color: $list-group-action-color;
-    text-align: inherit;
-
-    @include hover-focus() {
-        z-index: 1;
-        color: $list-group-action-hover-color;
-        text-decoration: none;
-        background-color: $list-group-hover-bg;
+        .ant-list-items > .ant-list-item:last-child {
+            border-block-end: 0;
+        }
     }
 
-    &:active {
-        color: $list-group-action-active-color;
-        background-color: $list-group-action-active-bg;
+    &.b-ant-list-group-scrollable {
+        overflow-y: auto;
     }
-}
 
-li.ant-list-item-actionable {
-    cursor: pointer;
-}
+    .ant-list-items {
+        margin: 0;
+        padding: 0;
+    }
 
-.ant-list .ant-list-items > .ant-list-item {
+    .b-ant-list-group-item {
+        display: block;
+        width: 100%;
+        padding: var(--ant-padding-sm) var(--ant-padding-lg);
+        color: inherit;
+        transition: color var(--ant-motion-duration-mid), background-color var(--ant-motion-duration-mid), border-color var(--ant-motion-duration-mid);
+
+        &.b-ant-list-group-item-selectable {
+            cursor: pointer;
+
+            @include hover-focus() {
+                z-index: 1;
+                color: $list-group-action-hover-color;
+                text-decoration: none;
+                background-color: $list-group-hover-bg;
+            }
+
+            &:active {
+                color: $list-group-action-active-color;
+                background-color: $list-group-action-active-bg;
+            }
+        }
+
+        &.b-ant-list-group-item-active {
+            color: var(--ant-color-primary);
+            background-color: var(--ant-control-item-bg-active);
+
+            @include hover-focus() {
+                color: var(--ant-color-primary);
+                background-color: var(--ant-control-item-bg-active);
+            }
+        }
+
+        &.b-ant-list-group-item-disabled {
+            color: $list-group-disabled-color;
+            background-color: $list-group-disabled-bg;
+            cursor: not-allowed;
+        }
+    }
+
     @each $name, $value in $theme-colors {
         $color: $value;
         $background: theme-color-level($name, -9);
 
-        &.ant-list-item-#{$name} {
+        .b-ant-list-group-item-#{$name} {
             color: $color;
             background-color: $background;
 
-            &.ant-list-item-actionable {
+            &.b-ant-list-group-item-selectable {
                 @include hover-focus() {
                     color: $color;
                     background-color: darken($background, 5%);
                 }
+            }
 
-                &.active {
+            &.b-ant-list-group-item-active {
+                color: $ant-white;
+                background-color: $color;
+                border-color: $color;
+
+                @include hover-focus() {
                     color: $ant-white;
                     background-color: $color;
                     border-color: $color;
@@ -48,8 +85,4 @@ li.ant-list-item-actionable {
             }
         }
     }
-}
-
-.ant-list-scrollable {
-    overflow-y: scroll;
 }
