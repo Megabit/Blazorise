@@ -160,7 +160,9 @@ public class AntDesignClassProvider : ClassProvider
     #region RadioGroup
 
     public override string RadioGroup( bool buttons, Orientation orientation )
-        => "ant-radio-group" + ( orientation == Orientation.Horizontal ? "" : " ant-radio-group-vertical" );
+        => "ant-radio-group"
+            + ( buttons ? " ant-radio-group-outline" : "" )
+            + ( orientation == Orientation.Horizontal ? "" : " ant-radio-group-vertical" );
 
     public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => size switch
     {
@@ -175,9 +177,9 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Radio
 
-    public override string Radio( bool button ) => "ant-radio-input";
+    public override string Radio( bool button ) => button ? "ant-radio-button-input" : "ant-radio-input";
 
-    public override string RadioSize( bool button, Size size ) => size != Size.Default ? $"{Radio( button )}-{ToSize( size )}" : null;
+    public override string RadioSize( bool button, Size size ) => button || size == Size.Default ? null : $"{Radio( button )}-{ToSize( size )}";
 
     public override string RadioInline( bool inline ) => null;
 

@@ -3,10 +3,13 @@
 @using Blazorise.Utilities
 <label class="@WrapperClassNames" style="@WrapperStyleNames">
     <span class="@CheckboxClassNames">
-        <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@CurrentValue" value="@Value" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
-        <span class="@InnerClassNames"></span>
+        <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@IsActive" value="@Value" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
+        @if ( !AsButton )
+        {
+            <span class="@InnerClassNames"></span>
+        }
     </span>
-    <span>
+    <span class="@LabelClassNames">
         @ChildContent
         @Feedback
     </span>
@@ -42,8 +45,8 @@
     private void BuildWrapperClasses( ClassBuilder builder )
     {
         string baseClasses = AsButton == true
-            ? $"ant-radio-button-wrapper{( IsActive ? " ant-radio-button-wrapper-checked" : "" )}"
-            : $"ant-radio-wrapper{( IsActive ? " ant-radio-wrapper-checked" : "" )}";
+            ? $"ant-radio-button-wrapper{( IsActive ? " ant-radio-button-wrapper-checked" : "" )}{( IsDisabled ? " ant-radio-button-wrapper-disabled" : "" )}"
+            : $"ant-radio-wrapper{( IsActive ? " ant-radio-wrapper-checked" : "" )}{( IsDisabled ? " ant-radio-wrapper-disabled" : "" )}";
 
         builder.Append( baseClasses );
         builder.Append( Classes?.Wrapper );
@@ -61,10 +64,14 @@
     string WrapperStyleNames => wrapperStyleBuilder.Styles;
 
     string CheckboxClassNames => AsButton == true
-        ? $"ant-radio-button{( IsActive ? " ant-radio-button-checked" : "" )}"
-        : $"ant-radio{( IsActive ? " ant-radio-checked" : "" )}";
+        ? "ant-radio-button"
+        : $"ant-radio{( IsActive ? " ant-radio-checked" : "" )}{( IsDisabled ? " ant-radio-disabled" : "" )}";
 
     string InnerClassNames => AsButton == true
         ? "ant-radio-button-inner"
         : "ant-radio-inner";
+
+    string LabelClassNames => AsButton == true
+        ? "ant-radio-button-label"
+        : "ant-radio-label";
 }
