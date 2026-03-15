@@ -3544,6 +3544,10 @@ template {
   opacity: 0;
   cursor: pointer;
 }
+.ant-select-single .ant-select-selection-placeholder:empty::before {
+  content: " ";
+  visibility: hidden;
+}
 
 .ant-picker {
   padding: var(--ant-date-picker-padding-block) var(--ant-date-picker-padding-inline);

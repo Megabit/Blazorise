@@ -300,6 +300,13 @@
             cursor: pointer;
         }
     }
+
+    .ant-select-selection-placeholder {
+        &:empty::before {
+            content: '\00a0';
+            visibility: hidden;
+        }
+    }
 }
 
 .ant-picker {
