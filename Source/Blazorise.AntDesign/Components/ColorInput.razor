@@ -1,0 +1,16 @@
+@inherits Blazorise.ColorInput
+<label class="@ContainerClassNames" style="@StyleNames">
+    <div class="ant-color-picker-color-block">
+        <div class="ant-color-picker-color-block-inner" style="@SwatchStyleNames"></div>
+    </div>
+    <input @ref="@ElementRef" id="@ElementId" type="color" name="@NameAttributeValue" class="b-ant-color-input-native" disabled="@IsDisabled" readonly="@ReadOnly" value="@CurrentValueAsString" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+</label>
+@ChildContent
+@Feedback
+@code {
+    string ContainerClassNames => IsDisabled
+        ? $"{ClassNames} b-ant-color-input-disabled"
+        : ClassNames;
+
+    string SwatchStyleNames => $"background: {CurrentValueAsString ?? "#1677ff"};";
+}
