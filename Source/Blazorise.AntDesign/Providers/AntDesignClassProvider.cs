@@ -1046,7 +1046,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string PaginationItemDisabled( bool disabled ) => disabled ? "ant-pagination-disabled" : null;
 
-    public override string PaginationLink() => null;
+    public override string PaginationLink() => "b-ant-pagination-link";
 
     public override string PaginationLinkSize( Size size ) => null;
 

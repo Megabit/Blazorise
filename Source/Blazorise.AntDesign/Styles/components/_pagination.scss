@@ -1,45 +1,120 @@
-﻿@mixin pagination($size, $height) {
-    .ant-pagination {
-        &.ant-pagination-#{$size} &-total-text,
-        &.ant-pagination-#{$size} &-simple-pager {
-            height: $height;
-            line-height: $height;
+﻿.ant-pagination {
+    --ant-pagination-item-size-actual: var(--ant-pagination-item-size);
+    --ant-pagination-item-spacing-actual: var(--ant-margin-xs);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0 0 var(--ant-margin) 0;
+    padding: 0;
+    list-style: none;
+
+    &.ant-pagination-start {
+        justify-content: flex-start;
+    }
+
+    &.ant-pagination-center {
+        justify-content: center;
+    }
+
+    &.ant-pagination-end {
+        justify-content: flex-end;
+    }
+
+    &.ant-pagination-xs {
+        --ant-pagination-item-size-actual: #{$pagination-item-size-xs};
+        --ant-pagination-item-spacing-actual: var(--ant-margin-xxs);
+    }
+
+    &.ant-pagination-sm {
+        --ant-pagination-item-size-actual: var(--ant-pagination-item-size-sm);
+        --ant-pagination-item-spacing-actual: var(--ant-margin-xxs);
+    }
+
+    &.ant-pagination-md {
+        --ant-pagination-item-size-actual: #{$pagination-item-size-md};
+        --ant-pagination-item-spacing-actual: var(--ant-margin-xs);
+    }
+
+    &.ant-pagination-lg {
+        --ant-pagination-item-size-actual: var(--ant-pagination-item-size-lg);
+        --ant-pagination-item-spacing-actual: var(--ant-margin-sm);
+    }
+
+    &.ant-pagination-xl {
+        --ant-pagination-item-size-actual: #{$pagination-item-size-xl};
+        --ant-pagination-item-spacing-actual: var(--ant-margin-sm);
+    }
+
+    > li {
+        display: inline-block;
+        min-width: var(--ant-pagination-item-size-actual);
+        height: var(--ant-pagination-item-size-actual);
+        margin-inline-end: var(--ant-pagination-item-spacing-actual);
+        color: var(--ant-color-text);
+        font-size: var(--ant-font-size);
+        line-height: calc(var(--ant-pagination-item-size-actual) - 2px);
+        text-align: center;
+        vertical-align: middle;
+        list-style: none;
+
+        &:last-child {
+            margin-inline-end: 0;
         }
 
-        &.ant-pagination-#{$size} &-item {
-            min-width: $height;
-            height: $height;
-            /*margin: 0;*/
-            line-height: $height - 2px;
-        }
+        > .b-ant-pagination-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 100%;
+            height: 100%;
+            padding: var(--ant-pagination-padding-block) var(--ant-pagination-padding-inline);
+            color: var(--ant-color-text);
+            text-decoration: none;
+            background-color: transparent;
+            border: 0;
+            border-radius: inherit;
+            box-sizing: border-box;
+            outline: none;
+            cursor: pointer;
+            transition: all var(--ant-motion-duration-mid);
 
-        &.ant-pagination-#{$size} &-prev,
-        &.ant-pagination-#{$size} &-next {
-            min-width: $height;
-            height: $height;
-            /*margin: 0;*/
-            line-height: $height;
-        }
-
-        &.ant-pagination-#{$size} &-prev &-item-link,
-        &.ant-pagination-#{$size} &-next &-item-link {
-            &::after {
-                height: $height;
-                line-height: $height;
+            .anticon {
+                font-size: var(--ant-font-size);
             }
         }
 
-        &.ant-pagination-#{$size} &-jump-prev,
-        &.ant-pagination-#{$size} &-jump-next {
-            height: $height;
-            margin-right: 0;
-            line-height: $height;
+        &:not(.ant-pagination-item-active):not(.ant-pagination-disabled) > .b-ant-pagination-link:hover,
+        &:not(.ant-pagination-item-active):not(.ant-pagination-disabled) > .b-ant-pagination-link:focus {
+            color: var(--ant-color-primary-hover);
+            background-color: var(--ant-pagination-hover-bg);
+        }
+
+        &:not(.ant-pagination-item-active):not(.ant-pagination-disabled) > .b-ant-pagination-link:focus-visible {
+            box-shadow: var(--ant-pagination-active-shadow);
+        }
+
+        &.ant-pagination-item-active > .b-ant-pagination-link {
+            font-weight: var(--ant-font-weight-strong);
+            color: var(--ant-pagination-item-active-color);
+            background-color: var(--ant-pagination-item-active-bg);
+        }
+
+        &.ant-pagination-item-active:not(.ant-pagination-disabled) > .b-ant-pagination-link:hover,
+        &.ant-pagination-item-active:not(.ant-pagination-disabled) > .b-ant-pagination-link:focus {
+            color: var(--ant-pagination-item-active-color-hover);
+            background-color: var(--ant-pagination-item-active-bg);
+        }
+
+        &.ant-pagination-disabled > .b-ant-pagination-link {
+            color: var(--ant-color-text-disabled);
+            background-color: transparent;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        &.ant-pagination-item-active.ant-pagination-disabled > .b-ant-pagination-link {
+            color: var(--ant-pagination-item-active-color-disabled);
+            background-color: var(--ant-pagination-item-active-bg-disabled);
         }
     }
 }
-
-@include pagination('xs', $pagination-item-size-xs);
-@include pagination('sm', $pagination-item-size-sm);
-@include pagination('md', $pagination-item-size-md);
-@include pagination('lg', $pagination-item-size-lg);
-@include pagination('xl', $pagination-item-size-xl);
