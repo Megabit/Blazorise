@@ -578,7 +578,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string CarouselIndicatorActive( bool active ) => active ? "slick-active" : null;
 
-    public override string CarouselFade( bool fade ) => null;
+    public override string CarouselFade( bool fade ) => fade ? "slick-fade" : null;
 
     public override string CarouselCaption() => null;
 

@@ -14,6 +14,8 @@ public partial class Carousel : Blazorise.Carousel
 {
     #region Members
 
+    private const int SlickTransitionDuration = 300;
+
     private ElementReference slickListElementRef;
 
     private string slickListElementId;
@@ -21,6 +23,8 @@ public partial class Carousel : Blazorise.Carousel
     private int slickWidth = -1;
 
     private int totalWidth = -1;
+
+    private bool suppressSlickTrackTransition;
 
     private long slickListLastRenderTimeStamp;
     private readonly TimeSpan slickListThrottleTimeSpan = TimeSpan.FromMilliseconds( 500 );
@@ -64,6 +68,26 @@ public partial class Carousel : Blazorise.Carousel
         await base.OnAfterRenderAsync( firstRender );
     }
 
+    protected override async Task AnimationEnd( Blazorise.CarouselSlide slide )
+    {
+        if ( ShouldUseSlickWraparoundTransition )
+        {
+            await Task.Delay( SlickTransitionDuration );
+
+            suppressSlickTrackTransition = true;
+
+            await InvokeAsync( StateHasChanged );
+            await Task.Yield();
+        }
+
+        await base.AnimationEnd( slide );
+
+        if ( suppressSlickTrackTransition )
+        {
+            suppressSlickTrackTransition = false;
+        }
+    }
+
     #endregion
 
     #region Properties
@@ -73,8 +97,18 @@ public partial class Carousel : Blazorise.Carousel
         get
         {
             var slideIndex = carouselSlides.IndexOf( carouselSlides.FirstOrDefault( x => x.Name == SelectedSlide ) );
+            var targetSlidePosition = slideIndex + 1;
 
-            return $"width: {totalWidth}px; opacity: 1; transform: translate3d(-{slickWidth * ( slideIndex + 1 )}px, 0px, 0px);transition: -webkit-transform 500ms ease 0s;";
+            if ( !suppressSlickTrackTransition && ShouldUseSlickWrapToFirstPosition )
+            {
+                targetSlidePosition = carouselSlides.Count + 1;
+            }
+            else if ( !suppressSlickTrackTransition && ShouldUseSlickWrapToLastPosition )
+            {
+                targetSlidePosition = 0;
+            }
+
+            return $"width: {totalWidth}px; opacity: 1; transform: translate3d(-{slickWidth * targetSlidePosition}px, 0px, 0px);transition: {( suppressSlickTrackTransition ? "none" : $"-webkit-transform {SlickTransitionDuration}ms ease 0s" )};";
         }
     }
 
@@ -88,6 +122,21 @@ public partial class Carousel : Blazorise.Carousel
     /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
     /// </summary>
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
+
+    private bool ShouldUseSlickWraparoundTransition
+        => carouselSlides.Count > 1
+           && !Crossfade
+           && ( ShouldUseSlickWrapToFirstPosition || ShouldUseSlickWrapToLastPosition );
+
+    private bool ShouldUseSlickWrapToFirstPosition
+        => AnimationRunning
+           && PreviouslySelectedSlideIndex == carouselSlides.Count - 1
+           && SelectedSlideIndex == 0;
+
+    private bool ShouldUseSlickWrapToLastPosition
+        => AnimationRunning
+           && PreviouslySelectedSlideIndex == 0
+           && SelectedSlideIndex == carouselSlides.Count - 1;
 
     #endregion
 }

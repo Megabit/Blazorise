@@ -757,6 +757,13 @@ html {
     --ant-radio-button-solid-checked-hover-bg: var(--ant-color-primary-hover);
     --ant-radio-button-solid-checked-active-bg: var(--ant-color-primary-active);
     --ant-radio-button-solid-checked-color: var(--ant-color-text-light-solid);
+    --ant-carousel-arrow-size: 16px;
+    --ant-carousel-arrow-offset: var(--ant-margin-xs);
+    --ant-carousel-dot-width: 16px;
+    --ant-carousel-dot-height: 3px;
+    --ant-carousel-dot-gap: var(--ant-margin-xxs);
+    --ant-carousel-dot-offset: 12px;
+    --ant-carousel-dot-active-width: 24px;
     --ant-mentions-active-bg: var(--ant-color-bg-container);
     --ant-mentions-hover-bg: var(--ant-color-bg-container);
     --ant-switch-track-padding: 2px;
