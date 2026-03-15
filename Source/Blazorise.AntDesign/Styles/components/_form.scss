@@ -271,6 +271,7 @@
 .ant-upload.ant-upload-select.ant-upload-select-text {
     display: flex;
     align-items: center;
+    min-height: var(--ant-control-height);
     gap: var(--ant-padding-xs);
 
     > .ant-upload {
@@ -279,6 +280,9 @@
     }
 
     .ant-upload-hint {
+        display: inline-flex;
+        align-items: center;
+        min-height: var(--ant-control-height);
         line-height: var(--ant-line-height);
     }
 }
