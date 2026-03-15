@@ -3808,6 +3808,23 @@ template {
   padding-right: 0;
   padding-left: 0;
 }
+.ant-form-item.ant-form-item-vertical > .ant-col.ant-form-item-label > label, .ant-form-item:not(.ant-row) > .ant-col.ant-form-item-label > label {
+  height: auto;
+}
+.ant-form-item:not(.ant-row) > .ant-col.ant-form-item-label {
+  padding: var(--ant-form-vertical-label-padding);
+  margin: var(--ant-form-vertical-label-margin);
+  white-space: initial;
+  text-align: start;
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+.ant-form-item:not(.ant-row) > .ant-col.ant-form-item-label > label {
+  margin: 0;
+}
+.ant-form-item:not(.ant-row) > .ant-col.ant-form-item-label > label::after {
+  visibility: hidden;
+}
 .ant-form-item.ant-row > .ant-col + .ant-col {
   padding-left: 0;
 }

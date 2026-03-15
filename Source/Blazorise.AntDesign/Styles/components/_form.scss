@@ -611,6 +611,32 @@
         padding-left: 0;
     }
 
+    &.ant-form-item-vertical,
+    &:not(.ant-row) {
+        > .ant-col.ant-form-item-label > label {
+            height: auto;
+        }
+    }
+
+    &:not(.ant-row) {
+        > .ant-col.ant-form-item-label {
+            padding: var(--ant-form-vertical-label-padding);
+            margin: var(--ant-form-vertical-label-margin);
+            white-space: initial;
+            text-align: start;
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+
+        > .ant-col.ant-form-item-label > label {
+            margin: 0;
+        }
+
+        > .ant-col.ant-form-item-label > label::after {
+            visibility: hidden;
+        }
+    }
+
     &.ant-row {
         > .ant-col + .ant-col {
             padding-left: 0;
