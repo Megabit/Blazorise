@@ -1,5 +1,5 @@
 ﻿.ant-modal {
-    width: 520px;
+    width: var(--ant-modal-md-width);
 
     &-sm {
         @media (min-width: 576px) {
@@ -20,15 +20,57 @@
     }
 }
 
-.ant-modal-root[style*="display: block;"] > .ant-modal-wrap.fade,
-.ant-modal-root.fade .ant-modal-mask {
-    animation-duration: var(--modal-animation-duration, 300ms);
-    animation-fill-mode: both;
-    animation-name: fadeIn;
+.ant-modal-root .ant-modal {
+    --ant-modal-xs-width: var(--b-ant-modal-xs-width);
+    --ant-modal-sm-width: var(--b-ant-modal-sm-width);
+    --ant-modal-md-width: var(--b-ant-modal-md-width);
+    --ant-modal-lg-width: var(--b-ant-modal-lg-width);
+    --ant-modal-xl-width: var(--b-ant-modal-xl-width);
+    --ant-modal-xxl-width: var(--b-ant-modal-xxl-width);
+}
+
+.ant-modal.ant-modal-sm {
+    width: var(--ant-modal-sm-width);
+}
+
+.ant-modal.ant-modal-lg {
+    width: var(--ant-modal-lg-width);
+}
+
+.ant-modal.ant-modal-xl {
+    width: var(--ant-modal-xl-width);
+}
+
+@keyframes b-ant-fade-out {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.ant-modal-root.b-ant-modal-opening {
+    .ant-modal-wrap .ant-modal,
+    .ant-modal-mask {
+        animation-duration: var(--modal-animation-duration, 300ms);
+        animation-fill-mode: both;
+        animation-name: fadeIn;
+    }
+}
+
+.ant-modal-root.b-ant-modal-closing {
+    .ant-modal-wrap .ant-modal,
+    .ant-modal-mask {
+        animation-duration: var(--modal-animation-duration, 300ms);
+        animation-fill-mode: both;
+        animation-name: b-ant-fade-out;
+    }
 }
 
 .ant-modal {
-    .ant-modal-content.ant-modal-content-scrollable {
+    .ant-modal-container.b-ant-modal-container-scrollable {
         max-height: calc(100% - 3.5rem);
 
         .ant-modal-body {
@@ -44,7 +86,7 @@
         top: 0;
     }
 
-    .ant-modal-content.ant-modal-content-fullscreen {
+    .ant-modal-container.b-ant-modal-container-fullscreen {
         height: 100vh;
         width: 100vw;
         margin: 0;

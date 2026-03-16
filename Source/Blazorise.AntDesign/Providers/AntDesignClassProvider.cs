@@ -917,7 +917,12 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Modal() => "ant-modal-root";
 
-    public override string ModalFade( bool showing, bool hiding ) => showing || hiding ? Fade() : null;
+    public override string ModalFade( bool showing, bool hiding )
+        => showing
+            ? $"{Fade()} b-ant-modal-opening"
+            : hiding
+                ? $"{Fade()} b-ant-modal-closing"
+                : null;
 
     public override string ModalVisible( bool visible ) => null;
 
@@ -931,15 +936,15 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ModalBackdropVisible( bool visible ) => null;
 
-    public override string ModalContent( bool dialog ) => "ant-modal-content";
+    public override string ModalContent( bool dialog ) => "ant-modal-container";
 
     public override string ModalContentSize( ModalSize modalSize ) => modalSize == Blazorise.ModalSize.Fullscreen
-        ? "ant-modal-content-fullscreen"
+        ? "b-ant-modal-container-fullscreen"
         : null;
 
     public override string ModalContentCentered( bool centered ) => null;
 
-    public override string ModalContentScrollable( bool scrollable ) => scrollable ? "ant-modal-content-scrollable" : null;
+    public override string ModalContentScrollable( bool scrollable ) => scrollable ? "b-ant-modal-container-scrollable" : null;
 
     public override string ModalBody() => "ant-modal-body";
 

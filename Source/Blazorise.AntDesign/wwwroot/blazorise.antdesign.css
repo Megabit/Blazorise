@@ -325,6 +325,36 @@ html {
   --ant-table-filter-dropdown-menu-bg: var(--ant-color-bg-elevated);
   --ant-table-sticky-scroll-bar-bg: rgba(0, 0, 0, 0.25);
   --ant-table-sticky-scroll-bar-border-radius: 100px;
+  --ant-modal-xs-width: 300px;
+  --ant-modal-sm-width: 300px;
+  --ant-modal-md-width: 520px;
+  --ant-modal-lg-width: 800px;
+  --ant-modal-xl-width: 1140px;
+  --ant-modal-xxl-width: 1140px;
+  --b-ant-modal-xs-width: var(--ant-modal-xs-width);
+  --b-ant-modal-sm-width: var(--ant-modal-sm-width);
+  --b-ant-modal-md-width: var(--ant-modal-md-width);
+  --b-ant-modal-lg-width: var(--ant-modal-lg-width);
+  --b-ant-modal-xl-width: var(--ant-modal-xl-width);
+  --b-ant-modal-xxl-width: var(--ant-modal-xxl-width);
+  --ant-modal-content-bg: var(--ant-color-bg-elevated);
+  --ant-modal-title-color: var(--ant-color-text-heading);
+  --ant-modal-title-font-size: var(--ant-font-size-heading-5);
+  --ant-modal-title-line-height: var(--ant-line-height-heading-5);
+  --ant-modal-content-padding: var(--ant-padding-md) var(--ant-padding-content-horizontal-lg);
+  --ant-modal-header-bg: transparent;
+  --ant-modal-header-padding: 0;
+  --ant-modal-header-border-bottom: none;
+  --ant-modal-header-margin-bottom: var(--ant-margin-xs);
+  --ant-modal-body-padding: 0;
+  --ant-modal-footer-bg: transparent;
+  --ant-modal-footer-padding: 0;
+  --ant-modal-footer-border-top: none;
+  --ant-modal-footer-border-radius: 0;
+  --ant-modal-footer-margin-top: var(--ant-margin-sm);
+  --ant-modal-confirm-body-padding: 0;
+  --ant-modal-confirm-icon-margin-inline-end: var(--ant-margin-sm);
+  --ant-modal-confirm-btns-margin-top: var(--ant-margin-sm);
   --ant-select-z-index-popup: calc(var(--ant-z-index-popup-base) + 50);
   --ant-select-option-selected-color: var(--ant-color-text);
   --ant-select-option-selected-font-weight: var(--ant-font-weight-strong);
@@ -4661,7 +4691,7 @@ a.ant-link-disabled[aria-disabled=true] {
 }
 
 .ant-modal {
-  width: 520px;
+  width: var(--ant-modal-md-width);
 }
 @media (min-width: 576px) {
   .ant-modal-sm {
@@ -4679,17 +4709,53 @@ a.ant-link-disabled[aria-disabled=true] {
   }
 }
 
-.ant-modal-root[style*="display: block;"] > .ant-modal-wrap.fade,
-.ant-modal-root.fade .ant-modal-mask {
+.ant-modal-root .ant-modal {
+  --ant-modal-xs-width: var(--b-ant-modal-xs-width);
+  --ant-modal-sm-width: var(--b-ant-modal-sm-width);
+  --ant-modal-md-width: var(--b-ant-modal-md-width);
+  --ant-modal-lg-width: var(--b-ant-modal-lg-width);
+  --ant-modal-xl-width: var(--b-ant-modal-xl-width);
+  --ant-modal-xxl-width: var(--b-ant-modal-xxl-width);
+}
+
+.ant-modal.ant-modal-sm {
+  width: var(--ant-modal-sm-width);
+}
+
+.ant-modal.ant-modal-lg {
+  width: var(--ant-modal-lg-width);
+}
+
+.ant-modal.ant-modal-xl {
+  width: var(--ant-modal-xl-width);
+}
+
+@keyframes b-ant-fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.ant-modal-root.b-ant-modal-opening .ant-modal-wrap .ant-modal,
+.ant-modal-root.b-ant-modal-opening .ant-modal-mask {
   animation-duration: var(--modal-animation-duration, 300ms);
   animation-fill-mode: both;
   animation-name: fadeIn;
 }
 
-.ant-modal .ant-modal-content.ant-modal-content-scrollable {
+.ant-modal-root.b-ant-modal-closing .ant-modal-wrap .ant-modal,
+.ant-modal-root.b-ant-modal-closing .ant-modal-mask {
+  animation-duration: var(--modal-animation-duration, 300ms);
+  animation-fill-mode: both;
+  animation-name: b-ant-fade-out;
+}
+
+.ant-modal .ant-modal-container.b-ant-modal-container-scrollable {
   max-height: calc(100% - 3.5rem);
 }
-.ant-modal .ant-modal-content.ant-modal-content-scrollable .ant-modal-body {
+.ant-modal .ant-modal-container.b-ant-modal-container-scrollable .ant-modal-body {
   max-height: calc(100vh - 13.5rem);
   overflow-y: auto;
 }
@@ -4699,13 +4765,13 @@ a.ant-link-disabled[aria-disabled=true] {
   margin: 0;
   top: 0;
 }
-.ant-modal .ant-modal-content.ant-modal-content-fullscreen {
+.ant-modal .ant-modal-container.b-ant-modal-container-fullscreen {
   height: 100vh;
   width: 100vw;
   margin: 0;
   top: 0;
 }
-.ant-modal .ant-modal-content.ant-modal-content-fullscreen .ant-modal-body {
+.ant-modal .ant-modal-container.b-ant-modal-container-fullscreen .ant-modal-body {
   height: calc(100vh - 110px);
 }
 
