@@ -1,0 +1,37 @@
+.ant-checkbox-wrapper {
+    cursor: pointer;
+
+    &.b-ant-checkbox-block {
+        display: flex;
+        width: fit-content;
+    }
+
+    &.b-ant-checkbox-inline {
+        display: inline-flex;
+    }
+
+    &.ant-checkbox-wrapper-disabled {
+        cursor: not-allowed;
+    }
+
+    &.b-ant-checkbox-block + .b-ant-checkbox-block {
+        margin-top: var(--ant-margin-xs);
+    }
+
+    &:not(.ant-checkbox-wrapper-disabled):hover {
+        cursor: pointer;
+    }
+}
+
+@mixin checkbox($size, $width, $height) {
+    .ant-checkbox-wrapper.b-ant-checkbox-#{$size},
+    .ant-checkbox.b-ant-checkbox-#{$size} {
+        --ant-control-interactive-size: #{$width};
+    }
+}
+
+@include checkbox('xs', $check-xs-height, $check-xs-height);
+@include checkbox('sm', $check-sm-height, $check-sm-height);
+@include checkbox('md', $check-md-height, $check-md-height);
+@include checkbox('lg', $check-lg-height, $check-lg-height);
+@include checkbox('xl', $check-xl-height, $check-xl-height);

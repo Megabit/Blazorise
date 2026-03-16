@@ -1,0 +1,49 @@
+.ant-input {
+    height: 32px;
+}
+
+.ant-input-xs {
+    padding: 0px 7px;
+    font-size: 10px;
+    height: 16px;
+}
+
+.ant-input-sm {
+    padding: 0px 9px;
+    font-size: 12px;
+    height: 24px;
+}
+
+.ant-input-md {
+    padding: 4.5px 11px;
+    font-size: 14px;
+    height: 36px;
+}
+
+.ant-input-lg {
+    padding: 6.5px 13px;
+    font-size: 16px;
+    height: 40px;
+}
+
+.ant-input-xl {
+    padding: 8.5px 15px;
+    font-size: 18px;
+    height: 48px;
+}
+
+@mixin input-number-size($name, $font-size, $height, $padding-block, $padding-inline) {
+    .ant-input-number-#{$name} {
+        font-size: $font-size;
+        height: $height;
+    }
+
+    .ant-input-number-#{$name} .ant-input-number-input {
+        height: $height - 2px;
+        padding: $padding-block $padding-inline;
+    }
+}
+
+@include input-number-size('xs', 10px, 16px, 0, 7px);
+@include input-number-size('md', 14px, 36px, 4.5px, 11px);
+@include input-number-size('xl', 18px, 48px, 8.5px, 15px);
