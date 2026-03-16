@@ -71,7 +71,7 @@ public partial class _OffcanvasBackdrop : BaseComponent
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        builder.Append( StyleProvider.OffcanvasAnimationDuration( Animated, AnimationDuration ) );
+        builder.Append( StyleProvider.OffcanvasBackdropAnimationDuration( Animated, AnimationDuration ) );
         builder.Append( ParentOffcanvas?.Styles?.Backdrop );
 
         base.BuildStyles( builder );

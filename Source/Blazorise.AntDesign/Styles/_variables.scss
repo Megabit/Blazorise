@@ -584,6 +584,10 @@ html {
     --ant-box-shadow-drawer-left: 6px 0 16px 0 rgba(0, 0, 0, .08), 3px 0 6px -4px rgba(0, 0, 0, .12), 9px 0 28px 8px rgba(0, 0, 0, .05);
     --ant-box-shadow-drawer-up: 0 6px 16px 0 rgba(0, 0, 0, .08), 0 3px 6px -4px rgba(0, 0, 0, .12), 0 9px 28px 8px rgba(0, 0, 0, .05);
     --ant-box-shadow-drawer-down: 0 -6px 16px 0 rgba(0, 0, 0, .08), 0 -3px 6px -4px rgba(0, 0, 0, .12), 0 -9px 28px 8px rgba(0, 0, 0, .05);
+    --ant-drawer-z-index-popup: calc(var(--ant-z-index-popup-base) + 10);
+    --ant-drawer-footer-padding-block: var(--ant-padding-sm);
+    --ant-drawer-footer-padding-inline: var(--ant-padding-content-horizontal-lg);
+    --b-ant-drawer-size: 378px;
     --ant-box-shadow-tabs-overflow-left: inset 10px 0 8px -8px rgba(0, 0, 0, .08);
     --ant-box-shadow-tabs-overflow-right: inset -10px 0 8px -8px rgba(0, 0, 0, .08);
     --ant-box-shadow-tabs-overflow-top: inset 0 10px 8px -8px rgba(0, 0, 0, .08);
