@@ -3546,9 +3546,22 @@ template {
 }
 
 .ant-checkbox-wrapper {
-  cursor: default;
+  cursor: pointer;
 }
-.ant-checkbox-wrapper-pointer {
+.ant-checkbox-wrapper.b-ant-checkbox-block {
+  display: flex;
+  width: fit-content;
+}
+.ant-checkbox-wrapper.b-ant-checkbox-inline {
+  display: inline-flex;
+}
+.ant-checkbox-wrapper.ant-checkbox-wrapper-disabled {
+  cursor: not-allowed;
+}
+.ant-checkbox-wrapper.b-ant-checkbox-block + .b-ant-checkbox-block {
+  margin-top: var(--ant-margin-xs);
+}
+.ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover {
   cursor: pointer;
 }
 

@@ -149,11 +149,11 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string CheckSize( Size size ) => size != Size.Default ? $"{Check()}-{ToSize( size )}" : null;
 
-    public override string CheckInline( bool inline ) => null;
+    public override string CheckInline( bool inline ) => inline ? "b-ant-checkbox-inline" : "b-ant-checkbox-block";
 
     public override string CheckCursor( Cursor cursor ) => null;
 
-    public override string CheckValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string CheckValidation( ValidationStatus validationStatus ) => null;
 
     #endregion
 

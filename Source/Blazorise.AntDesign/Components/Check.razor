@@ -3,7 +3,7 @@
 @using Blazorise.Utilities
 <label class="@WrapperClassNames" style="@WrapperStyleNames">
     <span class="@CheckboxClassNames">
-        <input @ref="@ElementRef" id="@ElementId" type="checkbox" name="@Name" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@CurrentValue" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onclick:preventDefault="@ReadOnly" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" type="checkbox" name="@Name" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@IsChecked" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onclick:preventDefault="@ReadOnly" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
         <span class="@InnerClassNames"></span>
     </span>
     <span>
@@ -11,7 +11,7 @@
         @Feedback
     </span>
 </label>
-@code{
+@code {
     private ClassBuilder wrapperClassBuilder;
     private StyleBuilder wrapperStyleBuilder;
 
@@ -40,10 +40,16 @@
     private void BuildWrapperClasses( ClassBuilder builder )
     {
         builder.Append( "ant-checkbox-wrapper" );
+        builder.Append( ClassProvider.CheckInline( Inline ) );
 
-        if ( Value?.ToString() == bool.TrueString )
+        if ( IsChecked )
         {
-            builder.Append( "ant-checkbox-wrapper-pointer" );
+            builder.Append( "ant-checkbox-wrapper-checked" );
+        }
+
+        if ( IsDisabled )
+        {
+            builder.Append( "ant-checkbox-wrapper-disabled" );
         }
 
         builder.Append( Classes?.Wrapper );
@@ -66,7 +72,7 @@
         {
             var sb = new System.Text.StringBuilder( "ant-checkbox" );
 
-            if ( Value?.ToString() == bool.TrueString )
+            if ( IsChecked )
             {
                 sb.Append( " ant-checkbox-checked" );
             }
@@ -76,9 +82,16 @@
                 sb.Append( " ant-checkbox-indeterminate" );
             }
 
+            if ( IsDisabled )
+            {
+                sb.Append( " ant-checkbox-disabled" );
+            }
+
             return sb.ToString();
         }
     }
+
+    bool IsChecked => CurrentValue?.ToString() == bool.TrueString;
 
     string InnerClassNames
         => "ant-checkbox-inner";

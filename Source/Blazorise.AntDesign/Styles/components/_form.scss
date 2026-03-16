@@ -4,9 +4,26 @@
 }
 
 .ant-checkbox-wrapper {
-    cursor: default;
+    cursor: pointer;
 
-    &-pointer {
+    &.b-ant-checkbox-block {
+        display: flex;
+        width: fit-content;
+    }
+
+    &.b-ant-checkbox-inline {
+        display: inline-flex;
+    }
+
+    &.ant-checkbox-wrapper-disabled {
+        cursor: not-allowed;
+    }
+
+    &.b-ant-checkbox-block + .b-ant-checkbox-block {
+        margin-top: var(--ant-margin-xs);
+    }
+
+    &:not(.ant-checkbox-wrapper-disabled):hover {
         cursor: pointer;
     }
 }
