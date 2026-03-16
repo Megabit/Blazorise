@@ -1,13 +1,17 @@
-﻿@inherits Blazorise.Progress
+@using System.Text;
+@inherits Blazorise.Progress
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
-        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-            <div class="ant-progress-outer">
-                <div class="ant-progress-inner">
+        <div @ref="@ElementRef" id="@ElementId" class="@RootClassNames" style="@StyleNames" @attributes="@Attributes">
+            <div class="ant-progress-body">
+                <div class="ant-progress-rail">
                     @if ( !HasProgressBar )
                     {
-                        <div class="@ProgressBarClassNames" style="@ProgressBarStyleNames" role="progressbar" aria-valuenow="@Percentage" aria-valuemin="@Min" aria-valuemax="@Max" @attributes="@Attributes">
-                            @ChildContent
+                        <div class="@ProgressBarClassNames" style="@ProgressBarStyleNames" role="progressbar" aria-valuenow="@Percentage" aria-valuemin="@Min" aria-valuemax="@Max">
+                            @if ( ChildContent is not null )
+                            {
+                                <span class="ant-progress-indicator ant-progress-indicator-inner ant-progress-indicator-center">@ChildContent</span>
+                            }
                         </div>
                     }
                     else
@@ -15,7 +19,39 @@
                         @ChildContent
                     }
                 </div>
+                @if ( ShowOuterIndicator )
+                {
+                    <span class="ant-progress-indicator ant-progress-indicator-outer ant-progress-indicator-end">@Value</span>
+                }
             </div>
         </div>
     </CascadingValue>
 </CascadingValue>
+
+@code {
+    private string RootClassNames
+    {
+        get
+        {
+            var sb = new StringBuilder( ClassNames );
+
+            if ( HasProgressBar )
+            {
+                sb.Append( " b-ant-progress-stacked" );
+            }
+            else if ( ShowOuterIndicator )
+            {
+                sb.Append( " ant-progress-show-info ant-progress-line-align-end ant-progress-line-position-outer" );
+            }
+            else if ( ChildContent is not null )
+            {
+                sb.Append( " ant-progress-show-info ant-progress-line-align-center ant-progress-line-position-inner" );
+            }
+
+            return sb.ToString();
+        }
+    }
+
+    private bool ShowOuterIndicator
+        => ShowValue && ChildContent is null && !Indeterminate && Value is not null;
+}

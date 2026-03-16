@@ -681,6 +681,12 @@ html {
     --ant-modal-confirm-body-padding: 0;
     --ant-modal-confirm-icon-margin-inline-end: var(--ant-margin-sm);
     --ant-modal-confirm-btns-margin-top: var(--ant-margin-sm);
+    --ant-progress-default-color: var(--ant-color-primary);
+    --ant-progress-remaining-color: var(--ant-color-fill-secondary);
+    --ant-progress-circle-text-color: var(--ant-color-text);
+    --ant-progress-line-border-radius: 100px;
+    --ant-progress-circle-text-font-size: 1em;
+    --ant-progress-circle-icon-font-size: 1.1666666667em;
     --ant-select-z-index-popup: calc(var(--ant-z-index-popup-base) + 50);
     --ant-select-option-selected-color: var(--ant-color-text);
     --ant-select-option-selected-font-weight: var(--ant-font-weight-strong);

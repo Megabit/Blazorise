@@ -99,6 +99,8 @@ public static class Config
         { typeof( Blazorise.Offcanvas ), typeof( Components.Offcanvas ) },
         { typeof( Blazorise.OffcanvasHeader ), typeof( Components.OffcanvasHeader ) },
         { typeof( Blazorise.Progress ), typeof( Components.Progress ) },
+        { typeof( Blazorise.ProgressBar ), typeof( Components.ProgressBar ) },
+        { typeof( Blazorise.PageProgress ), typeof( Components.PageProgress ) },
         { typeof( Blazorise.Radio<> ), typeof( Components.Radio<> ) },
         { typeof( Blazorise.Rating ), typeof( Components.Rating ) },
         { typeof( Blazorise.RatingItem ), typeof( Components.RatingItem ) },

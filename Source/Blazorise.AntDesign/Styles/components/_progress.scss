@@ -1,48 +1,141 @@
-﻿.ant-progress {
-    > .ant-progress-outer {
-        > .ant-progress-inner {
-            .ant-progress-bg {
-                height: 1rem;
+.ant-progress {
+    width: 100%;
 
-                &:first-child {
-                    border-top-right-radius: 0;
-                    border-bottom-right-radius: 0;
-                }
+    &.ant-progress-line {
+        position: relative;
+        font-size: var(--ant-font-size);
+    }
 
-                &:not(:first-child) {
-                    border-radius: 0;
-                }
+    .ant-progress-body {
+        display: inline-flex;
+        align-items: center;
+        width: 100%;
+        gap: var(--ant-margin-xs);
+    }
 
-                &-xs {
-                    height: .25rem;
-                }
+    .ant-progress-rail {
+        flex: auto;
+        position: relative;
+        width: 100%;
+        height: 8px;
+        overflow: hidden;
+        background: var(--ant-progress-remaining-color);
+        border-radius: var(--ant-progress-line-border-radius);
+    }
 
-                &-sm {
-                    height: .5rem;
-                }
+    .ant-progress-track {
+        --b-ant-progress-track-background: var(--ant-progress-default-color);
+        position: absolute;
+        inset-block: 0;
+        inset-inline-start: 0;
+        min-width: max-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        color: var(--ant-color-text-light-solid);
+        background-color: var(--b-ant-progress-track-background);
+        border-radius: inherit;
+        transition: all var(--ant-motion-duration-slow) var(--ant-motion-ease-in-out-circ);
+    }
 
-                &-md {
-                    height: 1.25rem;
-                }
+    .ant-progress-indicator {
+        color: var(--ant-color-text);
+        line-height: 1;
+        white-space: nowrap;
+        word-break: normal;
+    }
 
-                &-lg {
-                    height: 1.5rem;
-                }
+    .ant-progress-indicator-inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding-inline: var(--ant-padding-xxs);
+        overflow: hidden;
+        color: var(--ant-color-text-light-solid);
+        text-align: center;
+        text-overflow: ellipsis;
+    }
 
-                &-xl {
-                    height: 2rem;
-                }
-            }
+    .ant-progress-indicator-center {
+        justify-content: center;
+    }
+
+    .ant-progress-indicator-start {
+        justify-content: start;
+    }
+
+    .ant-progress-indicator-end {
+        justify-content: end;
+    }
+
+    &.b-ant-progress-stacked {
+        .ant-progress-rail {
+            display: flex;
+            align-items: stretch;
+        }
+
+        .ant-progress-track {
+            position: relative;
+            inset: auto;
+            flex: 0 0 auto;
+            min-width: 0;
+            height: 100%;
+        }
+
+        .ant-progress-track:first-child:not(:last-child) {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .ant-progress-track:last-child:not(:first-child) {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .ant-progress-track:not(:first-child):not(:last-child) {
+            border-radius: 0;
+        }
+    }
+
+    &.ant-progress-small {
+        .ant-progress-rail {
+            height: 6px;
+        }
+    }
+
+    &.b-ant-progress-xs {
+        .ant-progress-rail {
+            height: 4px;
+        }
+    }
+
+    &.b-ant-progress-md {
+        .ant-progress-rail {
+            height: 12px;
+        }
+    }
+
+    &.b-ant-progress-lg {
+        .ant-progress-rail {
+            height: 16px;
+        }
+    }
+
+    &.b-ant-progress-xl {
+        .ant-progress-rail {
+            height: 20px;
         }
     }
 }
 
-.ant-progress-bar-striped {
+.b-ant-progress-track-striped {
     @include gradient-striped();
     background-size: 1rem 1rem;
 }
 
-@keyframes progress-bar-stripes {
+@keyframes b-ant-progress-bar-stripes {
     from {
         background-position: 1rem 0;
     }
@@ -52,47 +145,33 @@
     }
 }
 
-.ant-progress-bar-animated {
-    animation: progress-bar-stripes 1s linear infinite;
+.b-ant-progress-track-animated {
+    animation: b-ant-progress-bar-stripes 1s linear infinite;
 }
 
-.ant-progress-inner {
-    display: inline-flex;
-}
+.b-ant-progress-track-indeterminate {
+    width: 100% !important;
+    overflow: hidden;
+    background: transparent !important;
 
-.ant-progress-indeterminate {
-    position: relative;
+    &::before,
+    &::after {
+        position: absolute;
+        inset-block: 0;
+        content: "";
+        background: var(--b-ant-progress-track-background);
+    }
 
-    .ant-progress-inner {
-        .ant-progress-bar-indeterminate {
-            width: 100%;
-            background-color: inherit !important;
+    &::before {
+        animation: b-ant-progress-indeterminate 2s ease infinite;
+    }
 
-            &:before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                bottom: 0;
-                background-color: #1890ff !important;
-                animation: animation-indeterminate 2s ease infinite;
-            }
-
-            &:after {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                bottom: 0;
-                background-color: #1890ff !important;
-                animation: animation-indeterminate-short 2s ease 0.5s infinite;
-            }
-        }
+    &::after {
+        animation: b-ant-progress-indeterminate-short 2s ease .5s infinite;
     }
 }
 
-
-@keyframes animation-indeterminate {
+@keyframes b-ant-progress-indeterminate {
     0% {
         left: -5%;
         width: 5%;
@@ -104,7 +183,7 @@
     }
 }
 
-@keyframes animation-indeterminate-short {
+@keyframes b-ant-progress-indeterminate-short {
     0% {
         left: -80%;
         width: 80%;
@@ -116,22 +195,66 @@
     }
 }
 
-.b-ant-progress-text {
-    text-align: center;
-    display: flex;
-    color: #fff;
-    justify-content: center;
-    flex-direction: column;
+@each $name, $value in $theme-colors {
+    .ant-progress .b-ant-progress-track-#{$name} {
+        --b-ant-progress-track-background: #{$value};
+        background-color: #{$value};
+
+        &::before,
+        &::after {
+            background-color: #{$value};
+        }
+    }
 }
 
 .b-page-progress {
-    .b-page-progress-indicator {
-        @each $name, $value in $theme-colors {
-            $color: $value;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: calc(var(--ant-z-index-popup-base) + 90);
+    display: none;
+    width: 100%;
+    height: 4px;
+    pointer-events: none;
 
-            &.b-page-progress-indicator-#{$name} {
-                background-color: $color;
-            }
+    .b-page-progress-indicator {
+        width: 0;
+        height: 100%;
+        background-color: var(--ant-progress-default-color);
+        box-shadow: 0 0 8px color-mix(in srgb, var(--ant-progress-default-color) 35%, transparent);
+        transition: width 1s;
+
+        &.b-page-progress-indicator-indeterminate {
+            width: 30%;
+            animation: b-ant-running-page-progress 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         }
+    }
+
+    &.b-page-progress-active {
+        display: block;
+    }
+}
+
+@each $name, $value in $theme-colors {
+    .b-page-progress .b-page-progress-indicator.b-page-progress-indicator-#{$name} {
+        background-color: #{$value};
+        box-shadow: 0 0 8px color-mix(in srgb, #{$value} 35%, transparent);
+    }
+}
+
+@keyframes b-ant-running-page-progress {
+    0% {
+        margin-left: 0;
+        margin-right: 100%;
+    }
+
+    50% {
+        margin-left: 25%;
+        margin-right: 0;
+    }
+
+    100% {
+        margin-left: 100%;
+        margin-right: 0;
     }
 }
