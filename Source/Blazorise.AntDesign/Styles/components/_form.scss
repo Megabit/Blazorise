@@ -143,7 +143,7 @@
 
         > .ant-input,
         > textarea.ant-input,
-        > .ant-select,
+        > .b-ant-select-root,
         > .ant-picker,
         > .ant-input-number {
             position: relative;
@@ -154,8 +154,17 @@
             width: 0;
         }
 
-        > .ant-select {
+        > .b-ant-select-root {
+            > .ant-select {
+                display: flex;
+                align-items: stretch;
+                width: 100%;
+                height: 100%;
+                min-width: 0;
+            }
+
             .ant-select-selector {
+                box-sizing: border-box;
                 flex: 1 1 auto;
                 min-width: 0;
             }
@@ -172,7 +181,7 @@
             border-inline-start: 0;
         }
 
-        > .ant-input-group-addon + .ant-select .ant-select-selector {
+        > .ant-input-group-addon + .b-ant-select-root .ant-select-selector {
             border-inline-start: 0;
         }
 
@@ -195,21 +204,21 @@
             border-inline-start: 0;
         }
 
-        > .ant-input + .ant-select .ant-select-selector,
-        > textarea.ant-input + .ant-select .ant-select-selector,
-        > .ant-picker + .ant-select .ant-select-selector,
-        > .ant-input-number + .ant-select .ant-select-selector,
-        > .ant-select + .ant-input,
-        > .ant-select + textarea.ant-input,
-        > .ant-select + .ant-picker,
-        > .ant-select + .ant-input-number,
-        > .ant-select + .ant-select .ant-select-selector {
+        > .ant-input + .b-ant-select-root .ant-select-selector,
+        > textarea.ant-input + .b-ant-select-root .ant-select-selector,
+        > .ant-picker + .b-ant-select-root .ant-select-selector,
+        > .ant-input-number + .b-ant-select-root .ant-select-selector,
+        > .b-ant-select-root + .ant-input,
+        > .b-ant-select-root + textarea.ant-input,
+        > .b-ant-select-root + .ant-picker,
+        > .b-ant-select-root + .ant-input-number,
+        > .b-ant-select-root + .b-ant-select-root .ant-select-selector {
             border-inline-start: 0;
         }
 
         > .ant-input + .ant-input-group-addon,
         > textarea.ant-input + .ant-input-group-addon,
-        > .ant-select + .ant-input-group-addon,
+        > .b-ant-select-root + .ant-input-group-addon,
         > .ant-picker + .ant-input-group-addon,
         > .ant-input-number + .ant-input-group-addon {
             border-inline-start: 0;
@@ -224,7 +233,7 @@
             z-index: 2;
         }
 
-        > .ant-select:not(:first-child).ant-select-focused {
+        > .b-ant-select-root:not(:first-child) > .ant-select.ant-select-focused {
             z-index: 2;
         }
 
@@ -243,13 +252,24 @@
             box-shadow: inset var(--ant-line-width) 0 0 0 var(--ant-input-number-active-border-color), var(--ant-input-number-active-shadow);
         }
 
-        > .ant-select:not(:first-child).ant-select-focused .ant-select-selector {
-            box-shadow: inset var(--ant-line-width) 0 0 0 var(--ant-select-active-border-color), 0 0 0 var(--ant-control-outline-width) var(--ant-control-outline);
+        > .b-ant-select-root:not(:first-child) > .ant-select.ant-select-focused .ant-select-selector {
+            border-color: var(--ant-select-active-border-color);
+            box-shadow: inset var(--ant-line-width) 0 0 0 var(--ant-select-active-border-color);
+        }
+
+        > .b-ant-select-root:not(:first-child) > .ant-select {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        > .b-ant-select-root:not(:last-child) > .ant-select {
+            margin-inline-end: -1px;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
         }
 
         > .ant-input:not(:first-child),
         > textarea.ant-input:not(:first-child),
-        > .ant-select:not(:first-child) .ant-select-selector,
         > .ant-picker:not(:first-child),
         > .ant-input-number:not(:first-child) {
             border-top-left-radius: 0;
@@ -258,11 +278,24 @@
 
         > .ant-input:not(:last-child),
         > textarea.ant-input:not(:last-child),
-        > .ant-select:not(:last-child) .ant-select-selector,
         > .ant-picker:not(:last-child),
         > .ant-input-number:not(:last-child) {
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
+        }
+
+        > .b-ant-select-root:not(:first-child) > .ant-select .ant-select-selector {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        > .b-ant-select-root:not(:last-child) > .ant-select .ant-select-selector {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        > .b-ant-select-root:not(:last-child) > .ant-select .ant-select-selector {
+            border-inline-end-color: var(--ant-color-border);
         }
     }
 }
@@ -785,22 +818,27 @@
 
             > .ant-picker,
             > .ant-input-number,
-            > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+            > .b-ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input),
+            > .b-ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
                 height: $height;
                 min-height: $height;
                 font-size: $font-size;
             }
 
-            > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+            > .b-ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
                 padding-block: 0;
             }
 
-            > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-item,
-            > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-placeholder {
+            > .b-ant-select-root > .ant-select .ant-select-arrow {
+                height: $height - 2px;
+            }
+
+            > .b-ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-item,
+            > .b-ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-placeholder {
                 line-height: $height - 2px;
             }
 
-            > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selection-search-input,
+            > .b-ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selection-search-input,
             > .ant-input-number .ant-input-number-input {
                 height: $height - 2px;
             }

@@ -2,7 +2,7 @@
 @inherits Blazorise.Select<TValue>
 @using Blazorise.Extensions
 <CascadingValue Value="@this" IsFixed>
-    <div @ref="@ElementRef">
+    <div @ref="@ElementRef" class="b-ant-select-root">
         <div @ref="@RootElementRef" id="@ElementId" class="@ContainerClassNames" style="@StyleNames" @attributes="@Attributes">
             <div id="@SelectorElementId" class="ant-select-selector" @onclick="@OnSelectorClickHandler">
             @if ( Multiple )
