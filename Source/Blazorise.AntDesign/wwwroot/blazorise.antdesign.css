@@ -4634,12 +4634,99 @@ template {
   font-weight: 300;
 }
 
-.b-layout-header {
+.ant-layout,
+.ant-layout * {
+  box-sizing: border-box;
+}
+
+.ant-layout {
+  display: flex;
+  flex: auto;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  background: var(--ant-color-bg-layout);
+}
+.ant-layout.ant-layout-has-sider {
+  flex-direction: row;
+}
+.ant-layout.b-ant-layout-root {
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+}
+.ant-layout > .b-ant-layout-loading {
+  z-index: 9999;
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+.ant-layout > .b-ant-layout-loading::before {
+  animation: b-ant-layout-spinner 1s linear infinite;
+  border: solid 3px #eee;
+  border-bottom-color: var(--b-theme-primary);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  content: " ";
+}
+
+@keyframes b-ant-layout-spinner {
+  0% {
+    transform: translate3d(-50%, -50%, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) rotate(360deg);
+  }
+}
+.ant-layout-header,
+.ant-layout-footer {
+  flex: 0 0 auto;
+}
+
+.ant-layout-header {
+  z-index: 1;
   line-height: 64px;
 }
 
-.b-layout-header {
-  z-index: 1;
+.ant-layout-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+}
+
+.ant-layout-sider {
+  display: flex;
+  position: relative;
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+.b-ant-layout-sider-content {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: auto;
+  z-index: 2;
+}
+
+.ant-layout-header.b-ant-layout-header-fixed {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+.ant-layout-footer.b-ant-layout-footer-fixed {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  z-index: 2;
 }
 
 a.ant-link-unstyled {

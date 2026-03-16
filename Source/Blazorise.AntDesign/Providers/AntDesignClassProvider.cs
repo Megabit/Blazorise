@@ -1406,6 +1406,32 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Layout
 
+    public override string Layout() => "ant-layout";
+
+    public override string LayoutHasSider( bool hasSider ) => hasSider ? "ant-layout-has-sider" : null;
+
+    public override string LayoutContent() => "ant-layout-content";
+
+    public override string LayoutHeader() => "ant-layout-header";
+
+    public override string LayoutHeaderFixed( bool @fixed ) => @fixed ? "b-ant-layout-header-fixed" : null;
+
+    public override string LayoutFooter() => "ant-layout-footer";
+
+    public override string LayoutFooterFixed( bool @fixed ) => @fixed ? "b-ant-layout-footer-fixed" : null;
+
+    public override string LayoutSider() => "ant-layout-sider";
+
+    public override string LayoutSiderContent() => "ant-layout-sider-children b-ant-layout-sider-content";
+
+    public override string LayoutLoading() => "b-ant-layout-loading";
+
+    public override string LayoutRoot( bool root ) => root ? "b-ant-layout-root" : null;
+
+    #endregion
+
+    #region Spacing
+
     public override string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint )
     {
         if ( breakpoint != Blazorise.Breakpoint.None )
