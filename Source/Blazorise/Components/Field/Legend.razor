@@ -1,5 +1,5 @@
 ﻿@namespace Blazorise
-@inherits FieldLabel
-<Dynamic TagName="@ContainerTagName" @bind-ElementRef="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" for="@ResolvedFor" @attributes="@Attributes">
+@inherits BaseColumnComponent
+<legend @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     @ChildContent
-</Dynamic>
+</legend>

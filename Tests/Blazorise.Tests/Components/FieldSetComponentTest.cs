@@ -36,7 +36,42 @@ public class FieldSetComponentTest : TestContext
     }
 
     [Fact]
-    public void Legend_Should_LabelRadioGroupWithAriaLabelledBy()
+    public void FieldSet_Horizontal_Should_RenderProviderClass()
+    {
+        var cut = RenderComponent<FieldSet>( parameters => parameters
+            .Add( x => x.Horizontal, true ) );
+
+        var fieldSet = cut.Find( "fieldset" );
+
+        Assert.Contains( "row", fieldSet.ClassList );
+    }
+
+    [Fact]
+    public void Legend_RequiredIndicator_Should_RenderProviderClass()
+    {
+        var cut = RenderComponent<Legend>( parameters => parameters
+            .Add( x => x.RequiredIndicator, true )
+            .AddChildContent( "Contact preferences" ) );
+
+        var legend = cut.Find( "legend" );
+
+        Assert.Contains( "form-label-required", legend.ClassList );
+    }
+
+    [Fact]
+    public void Legend_Screenreader_Should_RenderProviderClass()
+    {
+        var cut = RenderComponent<Legend>( parameters => parameters
+            .Add( x => x.Screenreader, Screenreader.Only )
+            .AddChildContent( "Contact preferences" ) );
+
+        var legend = cut.Find( "legend" );
+
+        Assert.Contains( "sr-only", legend.ClassList );
+    }
+
+    [Fact]
+    public void Legend_Should_Not_Automatically_LabelRadioGroup()
     {
         var cut = RenderComponent<FieldSet>( parameters => parameters
             .AddChildContent( builder =>
@@ -55,13 +90,13 @@ public class FieldSetComponentTest : TestContext
             var legend = cut.Find( "legend" );
             var radioGroup = cut.Find( "#options-group" );
 
-            Assert.NotNull( legend.GetAttribute( "id" ) );
-            Assert.Equal( legend.GetAttribute( "id" ), radioGroup.GetAttribute( "aria-labelledby" ) );
+            Assert.Null( legend.GetAttribute( "id" ) );
+            Assert.Null( radioGroup.GetAttribute( "aria-labelledby" ) );
         } );
     }
 
     [Fact]
-    public void Legend_Should_NotOverrideExplicitAriaLabelledBy()
+    public void Legend_Should_Not_Interfere_With_ExplicitAriaLabelledBy()
     {
         var cut = RenderComponent<FieldSet>( parameters => parameters
             .AddChildContent( builder =>
@@ -78,12 +113,9 @@ public class FieldSetComponentTest : TestContext
 
         cut.WaitForAssertion( () =>
         {
-            var legend = cut.Find( "legend" );
             var radioGroup = cut.Find( "#options-group" );
 
-            Assert.NotNull( legend.GetAttribute( "id" ) );
             Assert.Equal( "custom-legend-id", radioGroup.GetAttribute( "aria-labelledby" ) );
-            Assert.NotEqual( legend.GetAttribute( "id" ), radioGroup.GetAttribute( "aria-labelledby" ) );
         } );
     }
 }

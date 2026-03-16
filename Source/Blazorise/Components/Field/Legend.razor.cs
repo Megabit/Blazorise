@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -7,13 +6,10 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise;
 
 /// <summary>
-/// Compatibility wrapper that renders a grouped <see cref="FieldLabel"/>.
+/// Represents a native <c>legend</c> element.
 /// </summary>
-public partial class Legend : FieldLabel
+public partial class Legend : BaseColumnComponent
 {
-    /// <inheritdoc/>
-    protected override bool ForceLegend => true;
-
     #region Members
 
     private bool requiredIndicator;
@@ -25,20 +21,12 @@ public partial class Legend : FieldLabel
     #region Methods
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-    }
-
-    /// <inheritdoc/>
-    protected override void Dispose( bool disposing )
-    {
-        base.Dispose( disposing );
-    }
-
-    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
+        builder.Append( ClassProvider.Legend( false ) );
+        builder.Append( ClassProvider.LegendRequiredIndicator( RequiredIndicator ) );
+        builder.Append( ClassProvider.LegendScreenreader( Screenreader ) );
+
         base.BuildClasses( builder );
     }
 
@@ -47,47 +35,34 @@ public partial class Legend : FieldLabel
     #region Properties
 
     /// <summary>
-    /// Gets a value indicating whether the legend is inside of a horizontal <see cref="FieldSet"/>.
-    /// </summary>
-    protected new bool IsHorizontal => ParentFieldSet?.Horizontal == true;
-
-    /// <summary>
-    /// Gets a value indicating whether the automatic <c>aria-labelledby</c> integration is enabled.
-    /// </summary>
-    protected new bool UseAriaLabelledByAttribute => base.UseAriaLabelledByAttribute;
-
-    /// <inheritdoc/>
-    protected override bool ShouldAutoGenerateId => base.ShouldAutoGenerateId;
-
-    /// <summary>
-    /// Gets or sets the reference to the parent <see cref="FieldSet"/> component.
-    /// </summary>
-    [CascadingParameter] protected FieldSet ParentFieldSet { get; set; }
-
-    /// <summary>
     /// If defined, a required indicator will be shown next to the legend.
     /// </summary>
     [Parameter]
-    public new bool RequiredIndicator
+    public bool RequiredIndicator
     {
-        get => base.RequiredIndicator;
-        set => base.RequiredIndicator = value;
+        get => requiredIndicator;
+        set
+        {
+            requiredIndicator = value;
+
+            DirtyClasses();
+        }
     }
 
     /// <summary>
-    /// Defines the visibility for screen readers.
+    /// Makes an element hidden, but only visually, keeping it available for assistive technologies.
     /// </summary>
     [Parameter]
-    public new Screenreader Screenreader
+    public Screenreader Screenreader
     {
-        get => base.Screenreader;
-        set => base.Screenreader = value;
-    }
+        get => screenreader;
+        set
+        {
+            screenreader = value;
 
-    /// <summary>
-    /// Holds the information about the Blazorise global options.
-    /// </summary>
-    [Inject] protected BlazoriseOptions Options { get; set; }
+            DirtyClasses();
+        }
+    }
 
     #endregion
 }

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-16T09:55:08.0097774Z",
+  "generatedUtc": "2026-03-16T10:34:16.1439553Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -42226,7 +42226,7 @@
     {
       "type": "global::Blazorise.FieldSet",
       "typeName": "FieldSet",
-      "summary": "$\"\"\"\r\n       Compatibility wrapper that renders a grouped <strong>Field</strong>.\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Represents a native <code>fieldset</code> element.\r\n       \"\"\"",
       "searchUrl": "docs/components/field",
       "parameters": [
         {
@@ -42345,14 +42345,6 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "Group",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Determines whether the field should render as a semantic group container.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Height",
           "type": "global::Blazorise.IFluentSizing",
           "typeName": "IFluentSizing",
@@ -42365,24 +42357,8 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "false",
-          "summary": "Determines whether the form controls should be aligned horizontally, as in a horizontal form layout.",
+          "summary": "Determines whether the enclosed controls should be aligned horizontally.",
           "isBlazoriseEnum": false
-        },
-        {
-          "name": "Horizontal",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "Determines whether the form controls should be aligned horizontally, as in a horizontal form layout.",
-          "isBlazoriseEnum": false
-        },
-        {
-          "name": "JustifyContent",
-          "type": "global::Blazorise.JustifyContent",
-          "typeName": "JustifyContent",
-          "defaultValue": "JustifyContent.Default",
-          "summary": "Defines how the container's items are aligned along the main axis when there is extra space available.",
-          "isBlazoriseEnum": true
         },
         {
           "name": "Margin",
@@ -53840,7 +53816,7 @@
     {
       "type": "global::Blazorise.Legend",
       "typeName": "Legend",
-      "summary": "$\"\"\"\r\n       Compatibility wrapper that renders a grouped <strong>FieldLabel</strong>.\r\n       \"\"\"",
+      "summary": "$\"\"\"\r\n       Represents a native <code>legend</code> element.\r\n       \"\"\"",
       "searchUrl": "docs/components/field",
       "parameters": [
         {
@@ -53951,14 +53927,6 @@
           "isBlazoriseEnum": true
         },
         {
-          "name": "For",
-          "type": "string",
-          "typeName": "string",
-          "defaultValue": "null",
-          "summary": "Gets or sets the ID of an element that this label belongs to.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Gap",
           "type": "global::Blazorise.IFluentGap",
           "typeName": "IFluentGap",
@@ -54023,27 +53991,11 @@
           "isBlazoriseEnum": false
         },
         {
-          "name": "RequiredIndicator",
-          "type": "bool",
-          "typeName": "bool",
-          "defaultValue": "false",
-          "summary": "If defined, a required indicator will be shown next to the label.",
-          "isBlazoriseEnum": false
-        },
-        {
           "name": "Screenreader",
           "type": "global::Blazorise.Screenreader",
           "typeName": "Screenreader",
           "defaultValue": "Screenreader.Always",
-          "summary": "Defines the visibility for screen readers.",
-          "isBlazoriseEnum": true
-        },
-        {
-          "name": "Screenreader",
-          "type": "global::Blazorise.Screenreader",
-          "typeName": "Screenreader",
-          "defaultValue": "Screenreader.Always",
-          "summary": "Defines the visibility for screen readers.",
+          "summary": "Makes an element hidden, but only visually, keeping it available for assistive technologies.",
           "isBlazoriseEnum": true
         },
         {
