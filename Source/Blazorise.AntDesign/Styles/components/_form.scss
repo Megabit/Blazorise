@@ -894,27 +894,38 @@
 
 @mixin radio($size, $radio-size) {
     $radio-dot-size: $radio-size - ($radio-size / 2);
+    $button-height: if($size == 'xs', 16px, if($size == 'sm', var(--ant-control-height-sm), if($size == 'md', 36px, if($size == 'lg', var(--ant-control-height-lg), 48px))));
+    $button-font-size: if($size == 'xs', 10px, if($size == 'sm', var(--ant-font-size-sm), if($size == 'md', var(--ant-font-size), if($size == 'lg', var(--ant-font-size-lg), 18px))));
+    $button-padding-inline: if($size == 'xs', 7px, if($size == 'sm', 7px, if($size == 'md', 11px, if($size == 'lg', 15px, 15px))));
 
-    .ant-radio {
-        > .ant-radio-input.ant-radio-input-#{$size} {
-            + .ant-radio-inner {
-                width: $radio-size;
-                height: $radio-size;
-            }
+    .ant-radio-wrapper.b-ant-radio-#{$size} {
+        font-size: $button-font-size;
+        line-height: $radio-size;
+
+        .ant-radio {
+            width: $radio-size;
+            height: $radio-size;
+            line-height: $radio-size;
         }
 
-        &.ant-radio-checked {
-            > .ant-radio-input.ant-radio-input-#{$size} {
-                + .ant-radio-inner {
-                    &::after {
-                        width: $radio-dot-size;
-                        height: $radio-dot-size;
-                        top: ($radio-size - $radio-dot-size) / 2 - 1px;
-                        left: ($radio-size - $radio-dot-size) / 2 - 1px;
-                    }
-                }
+        .ant-radio-inner {
+            width: $radio-size;
+            height: $radio-size;
+
+            &::after {
+                width: $radio-dot-size;
+                height: $radio-dot-size;
+                top: ($radio-size - $radio-dot-size) / 2 - 1px;
+                left: ($radio-size - $radio-dot-size) / 2 - 1px;
             }
         }
+    }
+
+    .ant-radio-button-wrapper.b-ant-radio-button-#{$size} {
+        height: $button-height;
+        padding-inline: $button-padding-inline;
+        font-size: $button-font-size;
+        line-height: calc(#{$button-height} - calc(var(--ant-line-width) * 2));
     }
 }
 

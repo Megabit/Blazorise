@@ -4310,59 +4310,139 @@ template {
   display: block;
 }
 
-.ant-radio > .ant-radio-input.ant-radio-input-xs + .ant-radio-inner {
+.ant-radio-wrapper.b-ant-radio-xs {
+  font-size: 10px;
+  line-height: 8px;
+}
+.ant-radio-wrapper.b-ant-radio-xs .ant-radio {
+  width: 8px;
+  height: 8px;
+  line-height: 8px;
+}
+.ant-radio-wrapper.b-ant-radio-xs .ant-radio-inner {
   width: 8px;
   height: 8px;
 }
-.ant-radio.ant-radio-checked > .ant-radio-input.ant-radio-input-xs + .ant-radio-inner::after {
+.ant-radio-wrapper.b-ant-radio-xs .ant-radio-inner::after {
   width: 4px;
   height: 4px;
   top: 1px;
   left: 1px;
 }
 
-.ant-radio > .ant-radio-input.ant-radio-input-sm + .ant-radio-inner {
+.ant-radio-button-wrapper.b-ant-radio-button-xs {
+  height: 16px;
+  padding-inline: 7px;
+  font-size: 10px;
+  line-height: calc(16px - var(--ant-line-width) * 2);
+}
+
+.ant-radio-wrapper.b-ant-radio-sm {
+  font-size: var(--ant-font-size-sm);
+  line-height: 12px;
+}
+.ant-radio-wrapper.b-ant-radio-sm .ant-radio {
+  width: 12px;
+  height: 12px;
+  line-height: 12px;
+}
+.ant-radio-wrapper.b-ant-radio-sm .ant-radio-inner {
   width: 12px;
   height: 12px;
 }
-.ant-radio.ant-radio-checked > .ant-radio-input.ant-radio-input-sm + .ant-radio-inner::after {
+.ant-radio-wrapper.b-ant-radio-sm .ant-radio-inner::after {
   width: 6px;
   height: 6px;
   top: 2px;
   left: 2px;
 }
 
-.ant-radio > .ant-radio-input.ant-radio-input-md + .ant-radio-inner {
+.ant-radio-button-wrapper.b-ant-radio-button-sm {
+  height: var(--ant-control-height-sm);
+  padding-inline: 7px;
+  font-size: var(--ant-font-size-sm);
+  line-height: calc(var(--ant-control-height-sm) - var(--ant-line-width) * 2);
+}
+
+.ant-radio-wrapper.b-ant-radio-md {
+  font-size: var(--ant-font-size);
+  line-height: 20px;
+}
+.ant-radio-wrapper.b-ant-radio-md .ant-radio {
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+}
+.ant-radio-wrapper.b-ant-radio-md .ant-radio-inner {
   width: 20px;
   height: 20px;
 }
-.ant-radio.ant-radio-checked > .ant-radio-input.ant-radio-input-md + .ant-radio-inner::after {
+.ant-radio-wrapper.b-ant-radio-md .ant-radio-inner::after {
   width: 10px;
   height: 10px;
   top: 4px;
   left: 4px;
 }
 
-.ant-radio > .ant-radio-input.ant-radio-input-lg + .ant-radio-inner {
+.ant-radio-button-wrapper.b-ant-radio-button-md {
+  height: 36px;
+  padding-inline: 11px;
+  font-size: var(--ant-font-size);
+  line-height: calc(36px - var(--ant-line-width) * 2);
+}
+
+.ant-radio-wrapper.b-ant-radio-lg {
+  font-size: var(--ant-font-size-lg);
+  line-height: 24px;
+}
+.ant-radio-wrapper.b-ant-radio-lg .ant-radio {
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+}
+.ant-radio-wrapper.b-ant-radio-lg .ant-radio-inner {
   width: 24px;
   height: 24px;
 }
-.ant-radio.ant-radio-checked > .ant-radio-input.ant-radio-input-lg + .ant-radio-inner::after {
+.ant-radio-wrapper.b-ant-radio-lg .ant-radio-inner::after {
   width: 12px;
   height: 12px;
   top: 5px;
   left: 5px;
 }
 
-.ant-radio > .ant-radio-input.ant-radio-input-xl + .ant-radio-inner {
+.ant-radio-button-wrapper.b-ant-radio-button-lg {
+  height: var(--ant-control-height-lg);
+  padding-inline: 15px;
+  font-size: var(--ant-font-size-lg);
+  line-height: calc(var(--ant-control-height-lg) - var(--ant-line-width) * 2);
+}
+
+.ant-radio-wrapper.b-ant-radio-xl {
+  font-size: 18px;
+  line-height: 28px;
+}
+.ant-radio-wrapper.b-ant-radio-xl .ant-radio {
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+}
+.ant-radio-wrapper.b-ant-radio-xl .ant-radio-inner {
   width: 28px;
   height: 28px;
 }
-.ant-radio.ant-radio-checked > .ant-radio-input.ant-radio-input-xl + .ant-radio-inner::after {
+.ant-radio-wrapper.b-ant-radio-xl .ant-radio-inner::after {
   width: 14px;
   height: 14px;
   top: 6px;
   left: 6px;
+}
+
+.ant-radio-button-wrapper.b-ant-radio-button-xl {
+  height: 48px;
+  padding-inline: 15px;
+  font-size: 18px;
+  line-height: calc(48px - var(--ant-line-width) * 2);
 }
 
 .ant-focus-trap {

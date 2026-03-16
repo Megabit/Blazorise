@@ -179,7 +179,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Radio( bool button ) => button ? "ant-radio-button-input" : "ant-radio-input";
 
-    public override string RadioSize( bool button, Size size ) => button || size == Size.Default ? null : $"{Radio( button )}-{ToSize( size )}";
+    public override string RadioSize( bool button, Size size ) => null;
 
     public override string RadioInline( bool inline ) => null;
 

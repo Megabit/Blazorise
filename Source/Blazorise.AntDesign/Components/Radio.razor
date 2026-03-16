@@ -49,6 +49,7 @@
             : $"ant-radio-wrapper{( IsActive ? " ant-radio-wrapper-checked" : "" )}{( IsDisabled ? " ant-radio-wrapper-disabled" : "" )}";
 
         builder.Append( baseClasses );
+        builder.Append( RadioSizeClass );
         builder.Append( Classes?.Wrapper );
         AppendWrapperUtilities( builder );
     }
@@ -74,4 +75,9 @@
     string LabelClassNames => AsButton == true
         ? "ant-radio-button-label"
         : "ant-radio-label";
+
+    string RadioSizeClass
+        => ThemeSize != Blazorise.Size.Default
+            ? $"b-ant-radio{( AsButton ? "-button" : string.Empty )}-{ClassProvider.ToSize( ThemeSize )}"
+            : null;
 }
