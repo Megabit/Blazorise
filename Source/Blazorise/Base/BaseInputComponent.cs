@@ -225,9 +225,9 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
             }
         }
 
-        if ( ParentFieldSet is not null && UseAriaLabelledByAttribute && UsesAutomaticFieldSetAriaLabelledBy )
+        if ( ParentFields is not null && UseAriaLabelledByAttribute && UsesAutomaticAriaLabelledBy )
         {
-            ParentFieldSet.LegendElementChanged += OnFieldSetLegendChanged;
+            ParentFields.LabelElementChanged += OnFieldsLabelChanged;
         }
 
         base.OnInitialized();
@@ -291,9 +291,9 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
             }
         }
 
-        if ( ParentFieldSet is not null )
+        if ( ParentFields is not null )
         {
-            ParentFieldSet.LegendElementChanged -= OnFieldSetLegendChanged;
+            ParentFields.LabelElementChanged -= OnFieldsLabelChanged;
         }
 
         if ( ParentField is not null && !string.IsNullOrWhiteSpace( registeredFieldLabelTargetElementId ) )
@@ -564,11 +564,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     }
 
     /// <summary>
-    /// Handler for fieldset legend changes.
+    /// Handler for fields label changes.
     /// </summary>
-    private void OnFieldSetLegendChanged()
+    private void OnFieldsLabelChanged()
     {
-        if ( HasDefinedAriaLabelledBy || !UsesAutomaticFieldSetAriaLabelledBy )
+        if ( HasDefinedAriaLabelledBy || !UsesAutomaticAriaLabelledBy )
             return;
 
         QueueRefresh();
@@ -579,7 +579,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// </summary>
     private void UpdateFieldLabelTargetRegistration()
     {
-        if ( ParentField is null || !UseFieldLabelForAttribute )
+        if ( ParentField is null || !UseFieldLabelForAttribute || ParentField.IsGroup )
         {
             if ( ParentField is not null && !string.IsNullOrWhiteSpace( registeredFieldLabelTargetElementId ) )
             {
@@ -721,11 +721,6 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     protected virtual bool UsesAutomaticAriaLabelledBy => false;
 
     /// <summary>
-    /// Gets a value indicating whether the component derives its <c>aria-labelledby</c> value from a parent <see cref="Legend"/>.
-    /// </summary>
-    protected virtual bool UsesAutomaticFieldSetAriaLabelledBy => false;
-
-    /// <summary>
     /// Gets the element id of the parent <see cref="FieldLabel"/>.
     /// </summary>
     protected string ParentFieldLabelElementId => UseAriaLabelledByAttribute
@@ -733,10 +728,10 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         : null;
 
     /// <summary>
-    /// Gets the element id of the parent <see cref="Legend"/>.
+    /// Gets the element id of the parent <see cref="FieldsLabel"/>.
     /// </summary>
-    protected string ParentFieldSetLegendElementId => UseAriaLabelledByAttribute
-        ? ParentFieldSet?.LegendElementId
+    protected string ParentFieldsLabelElementId => UseAriaLabelledByAttribute
+        ? ParentFields?.LabelElementId
         : null;
 
     /// <summary>
@@ -761,11 +756,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         : null;
 
     /// <summary>
-    /// Gets the resolved value of the <c>aria-labelledby</c> attribute, preferring an explicit value over a parent <see cref="FieldLabel"/> or <see cref="Legend"/>.
+    /// Gets the resolved value of the <c>aria-labelledby</c> attribute, preferring an explicit value over a parent <see cref="FieldLabel"/> or <see cref="FieldsLabel"/>.
     /// </summary>
     protected string ResolvedAriaLabelledBy => paramAriaLabelledBy.Defined
         ? paramAriaLabelledBy.Value
-        : ParentFieldLabelElementId ?? ( UsesAutomaticFieldSetAriaLabelledBy ? ParentFieldSetLegendElementId : null );
+        : ParentFieldLabelElementId ?? ParentFieldsLabelElementId;
 
     /// <summary>
     /// Gets a value indicating whether the automatic <c>for</c> attribute integration is enabled.
@@ -857,7 +852,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// Gets or sets the aria-labelledby attribute value.
     /// </summary>
     /// <remarks>
-    /// When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <see cref="FieldLabel"/> or <see cref="Legend"/>.
+    /// When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <see cref="FieldLabel"/> or <see cref="FieldsLabel"/>.
     /// </remarks>
     [Parameter] public string AriaLabelledBy { get; set; }
 
@@ -1025,9 +1020,9 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     [CascadingParameter] protected Field ParentField { get; set; }
 
     /// <summary>
-    /// Parent fieldset container.
+    /// Parent fields container.
     /// </summary>
-    [CascadingParameter] protected FieldSet ParentFieldSet { get; set; }
+    [CascadingParameter] protected Fields ParentFields { get; set; }
 
     /// <summary>
     /// Parent field body.

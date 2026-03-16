@@ -8,10 +8,13 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise;
 
 /// <summary>
-/// Wrapper used to group related form controls with a semantic <c>fieldset</c> element.
+/// Compatibility wrapper that renders a grouped <see cref="Field"/>.
 /// </summary>
-public partial class FieldSet : BaseColumnComponent, IDisposable
+public partial class FieldSet : Field
 {
+    /// <inheritdoc/>
+    protected override bool ForceGroup => true;
+
     #region Members
 
     private bool horizontal;
@@ -36,40 +39,18 @@ public partial class FieldSet : BaseColumnComponent, IDisposable
     /// <inheritdoc/>
     protected override void OnParametersSet()
     {
-        if ( ParentValidation != previousParentValidation )
-        {
-            DetachValidationStatusChangedListener();
-
-            if ( ParentValidation is not null )
-            {
-                ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
-            }
-
-            previousParentValidation = ParentValidation;
-        }
+        base.OnParametersSet();
     }
 
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        previousValidationStatus = ParentValidation?.Status ?? ValidationStatus.None;
-
         base.OnInitialized();
     }
 
     /// <inheritdoc/>
     protected override void Dispose( bool disposing )
     {
-        if ( disposing )
-        {
-            DetachValidationStatusChangedListener();
-
-            if ( ParentValidation is not null )
-            {
-                ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
-            }
-        }
-
         base.Dispose( disposing );
     }
 
@@ -87,10 +68,6 @@ public partial class FieldSet : BaseColumnComponent, IDisposable
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.FieldSet() );
-        builder.Append( ClassProvider.FieldSetHorizontal( Horizontal ) );
-        builder.Append( ClassProvider.FieldSetValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
-
         base.BuildClasses( builder );
     }
 
@@ -173,23 +150,16 @@ public partial class FieldSet : BaseColumnComponent, IDisposable
     /// Determines whether the form controls should be aligned horizontally, as in a horizontal form layout.
     /// </summary>
     [Parameter]
-    public bool Horizontal
+    public new bool Horizontal
     {
-        get => horizontal;
-        set
-        {
-            horizontal = value;
-
-            hookables?.ForEach( x => x.DirtyClasses() );
-
-            DirtyClasses();
-        }
+        get => base.Horizontal;
+        set => base.Horizontal = value;
     }
 
     /// <summary>
     /// A reference to the parent <see cref="Validation"/> component in which this component is nested.
     /// </summary>
-    [CascadingParameter] protected Validation ParentValidation { get; set; }
+    [CascadingParameter] protected new Validation ParentValidation { get; set; }
 
     #endregion
 }

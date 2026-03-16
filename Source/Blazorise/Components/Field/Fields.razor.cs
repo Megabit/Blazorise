@@ -14,11 +14,20 @@ public partial class Fields : BaseColumnComponent
 {
     #region Members
 
+    private bool group;
+
     private string label;
 
     private string help;
 
     private IFluentGutter gutter;
+
+    private FieldsLabel fieldsLabel;
+
+    /// <summary>
+    /// Raises when the fields label reference changes.
+    /// </summary>
+    internal event Action LabelElementChanged;
 
     #endregion
 
@@ -40,9 +49,63 @@ public partial class Fields : BaseColumnComponent
         base.BuildClasses( builder );
     }
 
+    /// <summary>
+    /// Registers the fields label component inside this container.
+    /// </summary>
+    /// <param name="fieldsLabel">Fields label component.</param>
+    internal void NotifyFieldsLabelInitialized( FieldsLabel fieldsLabel )
+    {
+        if ( fieldsLabel is null )
+            return;
+
+        if ( ReferenceEquals( this.fieldsLabel, fieldsLabel ) )
+            return;
+
+        this.fieldsLabel = fieldsLabel;
+        LabelElementChanged?.Invoke();
+    }
+
+    /// <summary>
+    /// Removes the fields label component inside this container.
+    /// </summary>
+    /// <param name="fieldsLabel">Fields label component.</param>
+    internal void NotifyFieldsLabelRemoved( FieldsLabel fieldsLabel )
+    {
+        if ( !ReferenceEquals( this.fieldsLabel, fieldsLabel ) )
+            return;
+
+        this.fieldsLabel = null;
+        LabelElementChanged?.Invoke();
+    }
+
     #endregion
 
     #region Properties   
+
+    /// <summary>
+    /// Gets the tag name rendered by this component.
+    /// </summary>
+    protected string ContainerTagName => Group ? "fieldset" : "div";
+
+    /// <summary>
+    /// Gets the element id of the fields label.
+    /// </summary>
+    internal string LabelElementId => fieldsLabel?.ElementId;
+
+    /// <summary>
+    /// Determines whether the fields container should render as a semantic group container.
+    /// </summary>
+    [Parameter]
+    public bool Group
+    {
+        get => group;
+        set
+        {
+            group = value;
+
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
     /// Sets the field label.

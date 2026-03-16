@@ -21,6 +21,8 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
 
     private bool refreshRequestedWhileQueued;
 
+    private bool subscribedToLabelTargetChanged;
+
     #endregion
 
     #region Methods
@@ -32,22 +34,27 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
 
         if ( ParentField is not null )
         {
-            if ( UseFieldLabelForAttribute )
-            {
-                ParentField.LabelTargetChanged += OnLabelTargetChanged;
-            }
-
             if ( UseAriaLabelledByAttribute )
             {
                 ParentField.NotifyFieldLabelInitialized( this );
             }
         }
+
+        UpdateLabelTargetSubscription();
+    }
+
+    /// <inheritdoc/>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        UpdateLabelTargetSubscription();
     }
 
     /// <inheritdoc/>
     protected override Task OnFirstAfterRenderAsync()
     {
-        if ( UseFieldLabelForAttribute && For is null && ParentField?.LabelTargetElementId is not null )
+        if ( CanUseForAttribute && For is null && ParentField?.LabelTargetElementId is not null )
         {
             QueueRefresh();
         }
@@ -74,9 +81,10 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
     {
         if ( disposing && ParentField is not null )
         {
-            if ( UseFieldLabelForAttribute )
+            if ( subscribedToLabelTargetChanged )
             {
                 ParentField.LabelTargetChanged -= OnLabelTargetChanged;
+                subscribedToLabelTargetChanged = false;
             }
 
             if ( UseAriaLabelledByAttribute )
@@ -128,14 +136,54 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
         _ = InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Synchronizes the parent field subscription used for automatic <c>for</c> attribute updates.
+    /// </summary>
+    private void UpdateLabelTargetSubscription()
+    {
+        if ( ParentField is null )
+            return;
+
+        if ( CanUseForAttribute && !subscribedToLabelTargetChanged )
+        {
+            ParentField.LabelTargetChanged += OnLabelTargetChanged;
+            subscribedToLabelTargetChanged = true;
+        }
+        else if ( !CanUseForAttribute && subscribedToLabelTargetChanged )
+        {
+            ParentField.LabelTargetChanged -= OnLabelTargetChanged;
+            subscribedToLabelTargetChanged = false;
+        }
+    }
+
     #endregion
 
     #region Properties
 
     /// <summary>
+    /// Gets the tag name rendered by this component.
+    /// </summary>
+    protected string ContainerTagName => IsLegend ? "legend" : "label";
+
+    /// <summary>
+    /// Gets a value indicating whether the label should render as a legend element.
+    /// </summary>
+    protected bool IsLegend => ForceLegend || ParentField?.IsGroup == true;
+
+    /// <summary>
+    /// Gets a value indicating whether the component always renders as a legend element.
+    /// </summary>
+    protected virtual bool ForceLegend => false;
+
+    /// <summary>
+    /// Gets a value indicating whether the automatic <c>for</c> attribute can be used.
+    /// </summary>
+    protected bool CanUseForAttribute => UseFieldLabelForAttribute && !IsLegend;
+
+    /// <summary>
     /// Gets the resolved ID of the input element that this label belongs to.
     /// </summary>
-    protected string ResolvedFor => UseFieldLabelForAttribute
+    protected string ResolvedFor => CanUseForAttribute
         ? For ?? ParentField?.LabelTargetElementId
         : null;
 

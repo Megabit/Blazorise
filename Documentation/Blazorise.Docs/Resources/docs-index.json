@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-13T10:11:43.9539019Z",
+  "generatedUtc": "2026-03-16T09:55:08.4211654Z",
   "pages": [
     {
       "route": "/docs",
@@ -1331,9 +1331,9 @@
           "code": "FieldSetExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Fields/Examples/FieldSetExample.razor",
-          "content": "<FieldSet>\r\n    <Legend RequiredIndicator>Preferred contact method</Legend>\r\n    <RadioGroup TValue=\"string\" Name=\"contact-method\" @bind-Value=\"@contactMethod\">\r\n        <Radio Value=\"@(\"email\")\">Email</Radio>\r\n        <Radio Value=\"@(\"phone\")\">Phone</Radio>\r\n        <Radio Value=\"@(\"sms\")\">SMS</Radio>\r\n    </RadioGroup>\r\n</FieldSet>\r\n\r\n<Div Margin=\"Margin.Is4.FromTop\">\r\n    <FieldSet>\r\n        <Legend>Notification channels</Legend>\r\n        <Div Flex=\"Flex.Column\" Gap=\"Gap.Is2\">\r\n            <Check TValue=\"bool\" @bind-Value=\"@notifyByEmail\">Email updates</Check>\r\n            <Check TValue=\"bool\" @bind-Value=\"@notifyBySms\">SMS alerts</Check>\r\n            <Check TValue=\"bool\" @bind-Value=\"@notifyByPush\">Push notifications</Check>\r\n        </Div>\r\n    </FieldSet>\r\n</Div>\r\n\r\n@code {\r\n    string contactMethod = \"email\";\r\n    bool notifyByEmail = true;\r\n    bool notifyBySms;\r\n    bool notifyByPush = true;\r\n}",
-          "title": "FieldSet and Legend",
-          "description": "Use FieldSet and Legend when multiple controls belong to the same question. This is the recommended pattern for radio groups and related checkbox sets. Legend also supports RequiredIndicator and Screenreader when the group label needs those accessibility behaviors."
+          "content": "<Field Group>\r\n    <FieldLabel RequiredIndicator>Preferred contact method</FieldLabel>\r\n    <RadioGroup TValue=\"string\" Name=\"contact-method\" @bind-Value=\"@contactMethod\">\r\n        <Radio Value=\"@(\"email\")\">Email</Radio>\r\n        <Radio Value=\"@(\"phone\")\">Phone</Radio>\r\n        <Radio Value=\"@(\"sms\")\">SMS</Radio>\r\n    </RadioGroup>\r\n</Field>\r\n\r\n<Div Margin=\"Margin.Is4.FromTop\">\r\n    <Fields Group>\r\n        <FieldsLabel>Shipping address</FieldsLabel>\r\n        <Field>\r\n            <FieldLabel>Street</FieldLabel>\r\n            <TextInput Placeholder=\"1234 Main St\" />\r\n        </Field>\r\n        <Field>\r\n            <FieldLabel>City</FieldLabel>\r\n            <TextInput Placeholder=\"Zagreb\" />\r\n        </Field>\r\n    </Fields>\r\n</Div>\r\n\r\n@code {\r\n    string contactMethod = \"email\";\r\n}",
+          "title": "Grouped Field and Fields",
+          "description": "Enable Group on Field when one question is answered by a single grouped control such as RadioGroup . Enable Group on Fields when multiple related Field components belong to the same section. In grouped mode, FieldLabel or FieldsLabel becomes the semantic group label and supports RequiredIndicator and Screenreader ."
         },
         {
           "code": "RequiredIndicatorExample",
@@ -1364,6 +1364,10 @@
         {
           "kind": "type",
           "name": "Fields"
+        },
+        {
+          "kind": "type",
+          "name": "FieldsLabel"
         }
       ]
     },
@@ -2479,9 +2483,9 @@
           "code": "RadioGroupWithLegendExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Radios/Examples/RadioGroupWithLegendExample.razor",
-          "content": "<FieldSet>\r\n    <Legend>Choose a shipping speed</Legend>\r\n    <RadioGroup TValue=\"string\" Name=\"shipping-speed\" @bind-Value=\"@shippingSpeed\">\r\n        <Radio Value=\"@(\"standard\")\">Standard</Radio>\r\n        <Radio Value=\"@(\"express\")\">Express</Radio>\r\n        <Radio Value=\"@(\"overnight\")\">Overnight</Radio>\r\n    </RadioGroup>\r\n</FieldSet>\r\n\r\n@code {\r\n    string shippingSpeed = \"express\";\r\n}",
-          "title": "RadioGroup with Legend",
-          "description": "When the radio group answers one named question, place it inside a FieldSet and use Legend as the group label. This gives the group a semantic name and is the recommended accessible pattern for visible radio-group questions."
+          "content": "<Field Group>\r\n    <FieldLabel>Choose a shipping speed</FieldLabel>\r\n    <RadioGroup TValue=\"string\" Name=\"shipping-speed\" @bind-Value=\"@shippingSpeed\">\r\n        <Radio Value=\"@(\"standard\")\">Standard</Radio>\r\n        <Radio Value=\"@(\"express\")\">Express</Radio>\r\n        <Radio Value=\"@(\"overnight\")\">Overnight</Radio>\r\n    </RadioGroup>\r\n</Field>\r\n\r\n@code {\r\n    string shippingSpeed = \"express\";\r\n}",
+          "title": "RadioGroup in a Grouped Field",
+          "description": "When the radio group answers one named question, enable Group on Field and keep using FieldLabel . In grouped mode, the label renders as a legend and becomes the semantic group label for the radio group."
         },
         {
           "code": "RadioGroupButtonsExample",

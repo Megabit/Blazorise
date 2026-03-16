@@ -7,10 +7,13 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise;
 
 /// <summary>
-/// Legend for a <see cref="FieldSet"/> component.
+/// Compatibility wrapper that renders a grouped <see cref="FieldLabel"/>.
 /// </summary>
-public partial class Legend : BaseColumnComponent, IDisposable
+public partial class Legend : FieldLabel
 {
+    /// <inheritdoc/>
+    protected override bool ForceLegend => true;
+
     #region Members
 
     private bool requiredIndicator;
@@ -24,39 +27,18 @@ public partial class Legend : BaseColumnComponent, IDisposable
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        ParentFieldSet?.Hook( this );
-
         base.OnInitialized();
-
-        if ( UseAriaLabelledByAttribute )
-        {
-            ParentFieldSet?.NotifyLegendInitialized( this );
-        }
     }
 
     /// <inheritdoc/>
     protected override void Dispose( bool disposing )
     {
-        if ( disposing )
-        {
-            ParentFieldSet?.UnHook( this );
-
-            if ( UseAriaLabelledByAttribute )
-            {
-                ParentFieldSet?.NotifyLegendRemoved( this );
-            }
-        }
-
         base.Dispose( disposing );
     }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.Legend( IsHorizontal ) );
-        builder.Append( ClassProvider.LegendRequiredIndicator( RequiredIndicator ) );
-        builder.Append( ClassProvider.LegendScreenreader( Screenreader ) );
-
         base.BuildClasses( builder );
     }
 
@@ -67,15 +49,15 @@ public partial class Legend : BaseColumnComponent, IDisposable
     /// <summary>
     /// Gets a value indicating whether the legend is inside of a horizontal <see cref="FieldSet"/>.
     /// </summary>
-    protected bool IsHorizontal => ParentFieldSet?.Horizontal == true;
+    protected new bool IsHorizontal => ParentFieldSet?.Horizontal == true;
 
     /// <summary>
     /// Gets a value indicating whether the automatic <c>aria-labelledby</c> integration is enabled.
     /// </summary>
-    protected bool UseAriaLabelledByAttribute => Options?.AccessibilityOptions?.UseAriaLabelledByAttribute == true;
+    protected new bool UseAriaLabelledByAttribute => base.UseAriaLabelledByAttribute;
 
     /// <inheritdoc/>
-    protected override bool ShouldAutoGenerateId => UseAriaLabelledByAttribute;
+    protected override bool ShouldAutoGenerateId => base.ShouldAutoGenerateId;
 
     /// <summary>
     /// Gets or sets the reference to the parent <see cref="FieldSet"/> component.
@@ -86,30 +68,20 @@ public partial class Legend : BaseColumnComponent, IDisposable
     /// If defined, a required indicator will be shown next to the legend.
     /// </summary>
     [Parameter]
-    public bool RequiredIndicator
+    public new bool RequiredIndicator
     {
-        get => requiredIndicator;
-        set
-        {
-            requiredIndicator = value;
-
-            DirtyClasses();
-        }
+        get => base.RequiredIndicator;
+        set => base.RequiredIndicator = value;
     }
 
     /// <summary>
     /// Defines the visibility for screen readers.
     /// </summary>
     [Parameter]
-    public Screenreader Screenreader
+    public new Screenreader Screenreader
     {
-        get => screenreader;
-        set
-        {
-            screenreader = value;
-
-            DirtyClasses();
-        }
+        get => base.Screenreader;
+        set => base.Screenreader = value;
     }
 
     /// <summary>

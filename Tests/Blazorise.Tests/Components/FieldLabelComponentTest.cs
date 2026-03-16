@@ -222,6 +222,50 @@ public class FieldLabelComponentTest : TestContext
     }
 
     [Fact]
+    public void GroupedFieldLabel_Should_RenderLegend()
+    {
+        var cut = RenderComponent<Field>( parameters => parameters
+            .Add( p => p.Group, true )
+            .AddChildContent( builder =>
+            {
+                builder.OpenComponent<FieldLabel>( 0 );
+                builder.AddAttribute( 1, nameof( FieldLabel.ChildContent ), (RenderFragment)( childBuilder => childBuilder.AddContent( 0, "Contact preferences" ) ) );
+                builder.CloseComponent();
+            } ) );
+
+        var legend = cut.Find( "legend" );
+
+        Assert.Equal( "Contact preferences", legend.TextContent.Trim() );
+        Assert.Null( legend.GetAttribute( "for" ) );
+    }
+
+    [Fact]
+    public void GroupedFieldLabel_Should_LabelRadioGroupWithAriaLabelledBy()
+    {
+        var cut = RenderComponent<Field>( parameters => parameters
+            .Add( p => p.Group, true )
+            .AddChildContent( builder =>
+            {
+                builder.OpenComponent<FieldLabel>( 0 );
+                builder.AddAttribute( 1, nameof( FieldLabel.ChildContent ), (RenderFragment)( childBuilder => childBuilder.AddContent( 0, "Options" ) ) );
+                builder.CloseComponent();
+
+                builder.OpenComponent<RadioGroup<string>>( 2 );
+                builder.AddAttribute( 3, nameof( RadioGroup<string>.ElementId ), "grouped-options" );
+                builder.CloseComponent();
+            } ) );
+
+        cut.WaitForAssertion( () =>
+        {
+            var legend = cut.Find( "legend" );
+            var radioGroup = cut.Find( "#grouped-options" );
+
+            Assert.NotNull( legend.GetAttribute( "id" ) );
+            Assert.Equal( legend.GetAttribute( "id" ), radioGroup.GetAttribute( "aria-labelledby" ) );
+        } );
+    }
+
+    [Fact]
     public void FieldLabel_Should_LabelRichTextEditWithAriaLabelledBy()
     {
         // setup

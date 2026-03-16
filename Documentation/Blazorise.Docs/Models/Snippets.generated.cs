@@ -1334,31 +1334,31 @@ namespace Blazorise.Docs.Models
     <TextInput />
 </Field>";
 
-        public const string FieldSetExample = @"<FieldSet>
-    <Legend RequiredIndicator>Preferred contact method</Legend>
+        public const string FieldSetExample = @"<Field Group>
+    <FieldLabel RequiredIndicator>Preferred contact method</FieldLabel>
     <RadioGroup TValue=""string"" Name=""contact-method"" @bind-Value=""@contactMethod"">
         <Radio Value=""@(""email"")"">Email</Radio>
         <Radio Value=""@(""phone"")"">Phone</Radio>
         <Radio Value=""@(""sms"")"">SMS</Radio>
     </RadioGroup>
-</FieldSet>
+</Field>
 
 <Div Margin=""Margin.Is4.FromTop"">
-    <FieldSet>
-        <Legend>Notification channels</Legend>
-        <Div Flex=""Flex.Column"" Gap=""Gap.Is2"">
-            <Check TValue=""bool"" @bind-Value=""@notifyByEmail"">Email updates</Check>
-            <Check TValue=""bool"" @bind-Value=""@notifyBySms"">SMS alerts</Check>
-            <Check TValue=""bool"" @bind-Value=""@notifyByPush"">Push notifications</Check>
-        </Div>
-    </FieldSet>
+    <Fields Group>
+        <FieldsLabel>Shipping address</FieldsLabel>
+        <Field>
+            <FieldLabel>Street</FieldLabel>
+            <TextInput Placeholder=""1234 Main St"" />
+        </Field>
+        <Field>
+            <FieldLabel>City</FieldLabel>
+            <TextInput Placeholder=""Zagreb"" />
+        </Field>
+    </Fields>
 </Div>
 
 @code {
     string contactMethod = ""email"";
-    bool notifyByEmail = true;
-    bool notifyBySms;
-    bool notifyByPush = true;
 }";
 
         public const string FieldWithDisabledExample = @"<Field>
@@ -2980,14 +2980,14 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string RadioGroupWithLegendExample = @"<FieldSet>
-    <Legend>Choose a shipping speed</Legend>
+        public const string RadioGroupWithLegendExample = @"<Field Group>
+    <FieldLabel>Choose a shipping speed</FieldLabel>
     <RadioGroup TValue=""string"" Name=""shipping-speed"" @bind-Value=""@shippingSpeed"">
         <Radio Value=""@(""standard"")"">Standard</Radio>
         <Radio Value=""@(""express"")"">Express</Radio>
         <Radio Value=""@(""overnight"")"">Overnight</Radio>
     </RadioGroup>
-</FieldSet>
+</Field>
 
 @code {
     string shippingSpeed = ""express"";

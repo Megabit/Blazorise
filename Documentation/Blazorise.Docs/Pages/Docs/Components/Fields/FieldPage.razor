@@ -43,15 +43,27 @@
         <Paragraph>
             <Code Tag>Fields</Code> container used to group several <Code>Field</Code> components
         </Paragraph>
+        <UnorderedList>
+            <UnorderedListItem>
+                <Paragraph>
+                    <Code Tag>FieldsLabel</Code> used to label the whole container and renders a <Code Tag>legend</Code> when <Code>Group</Code> is enabled.
+                </Paragraph>
+            </UnorderedListItem>
+        </UnorderedList>
     </UnorderedListItem>
     <UnorderedListItem>
         <Paragraph>
-            <Code Tag>FieldSet</Code> semantic group for multiple related controls.
+            <Code>Group</Code> turns <Code Tag>Field</Code> or <Code Tag>Fields</Code> into semantic group containers.
         </Paragraph>
         <UnorderedList>
             <UnorderedListItem>
                 <Paragraph>
-                    <Code Tag>Legend</Code> used to label the whole control group.
+                    In a grouped <Code Tag>Field</Code>, <Code Tag>FieldLabel</Code> renders a <Code Tag>legend</Code>.
+                </Paragraph>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Paragraph>
+                    <Code Tag>FieldSet</Code> and <Code Tag>Legend</Code> remain available as compatibility wrappers over the grouped API.
                 </Paragraph>
             </UnorderedListItem>
         </UnorderedList>
@@ -71,8 +83,9 @@
 
 <DocsPageParagraph>
     When a question is answered by multiple related controls, such as a <Code>RadioGroup</Code> or a set of checkboxes, prefer
-    <Code Tag>FieldSet</Code> with <Code Tag>Legend</Code> instead of placing everything in a single <Code Tag>Field</Code>.
-    In that case the legend labels the whole group, not one individual input.
+    enabling <Code>Group</Code> on <Code Tag>Field</Code> or <Code Tag>Fields</Code>. In a grouped <Code Tag>Field</Code>,
+    <Code Tag>FieldLabel</Code> renders a <Code Tag>legend</Code>, and in a grouped <Code Tag>Fields</Code> container,
+    <Code Tag>FieldsLabel</Code> labels the whole set.
 </DocsPageParagraph>
 
 <Alert Color="Color.Info" Visible>
@@ -207,10 +220,10 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="FieldSet and Legend">
-        Use <Code Tag>FieldSet</Code> and <Code Tag>Legend</Code> when multiple controls belong to the same question.
-        This is the recommended pattern for radio groups and related checkbox sets.
-        <Code Tag>Legend</Code> also supports <Code>RequiredIndicator</Code> and <Code>Screenreader</Code> when the group label needs those accessibility behaviors.
+    <DocsPageSectionHeader Title="Grouped Field and Fields">
+        Enable <Code>Group</Code> on <Code Tag>Field</Code> when one question is answered by a single grouped control such as <Code Tag>RadioGroup</Code>.
+        Enable <Code>Group</Code> on <Code Tag>Fields</Code> when multiple related <Code Tag>Field</Code> components belong to the same section.
+        In grouped mode, <Code Tag>FieldLabel</Code> or <Code Tag>FieldsLabel</Code> becomes the semantic group label and supports <Code>RequiredIndicator</Code> and <Code>Screenreader</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <FieldSetExample />
@@ -248,7 +261,7 @@
             <Paragraph>Use <Code Tag>Fields</Code> to group related <Code Tag>Field</Code> components when building multi-column or sectioned form layouts.</Paragraph>
         </UnorderedListItem>
         <UnorderedListItem>
-            <Paragraph>Use <Code Tag>FieldSet</Code> and <Code Tag>Legend</Code> when one label applies to a group of related controls instead of a single input.</Paragraph>
+            <Paragraph>Use <Code>Group</Code> on <Code Tag>Field</Code> or <Code Tag>Fields</Code> when one label applies to a group of related controls instead of a single input.</Paragraph>
         </UnorderedListItem>
         <UnorderedListItem>
             <Paragraph>Keep <Code Tag>FieldLabel</Code>, the primary input, <Code Tag>FieldHelp</Code>, and validation feedback in the same <Code Tag>Field</Code> so Blazorise can generate the correct accessibility attributes automatically.</Paragraph>
@@ -269,7 +282,7 @@
             <Paragraph>Don't add multiple interactive controls as children of a single <Code Tag>Field</Code>. The label should clearly describe one primary control for better accessibility.</Paragraph>
         </UnorderedListItem>
         <UnorderedListItem>
-            <Paragraph>Don't use <Code Tag>FieldLabel</Code> as the only label for a radio group or checkbox group when <Code Tag>Legend</Code> should describe the whole set.</Paragraph>
+            <Paragraph>Don't keep a grouped radio or checkbox question in the default single-input mode when the label really belongs to the whole set.</Paragraph>
         </UnorderedListItem>
     </UnorderedList>
 </DocsPageParagraph>
@@ -282,4 +295,4 @@
     In summary, the <Code Tag>Field</Code> component simplifies form layout in Blazorise by aligning labels, inputs, help text, and validation messages, while the <Code Tag>Fields</Code> container lets you organize multiple fields into structured sections.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(Field),typeof(FieldLabel),typeof(FieldSet),typeof(Legend),typeof(Fields)]" />
+<ComponentApiDocs ComponentTypes="[typeof(Field),typeof(FieldLabel),typeof(FieldSet),typeof(Legend),typeof(Fields),typeof(FieldsLabel)]" />
