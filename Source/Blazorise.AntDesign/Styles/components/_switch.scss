@@ -1,4 +1,29 @@
 ﻿@each $name, $value in $theme-colors {
+    .b-ant-switch-wrapper {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--ant-margin-xs);
+        vertical-align: middle;
+
+        &.b-ant-switch-wrapper-disabled {
+            cursor: not-allowed;
+        }
+
+        .b-ant-switch-label {
+            color: var(--ant-color-text);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        &.b-ant-switch-wrapper-disabled .b-ant-switch-label {
+            color: var(--ant-color-text-disabled);
+            cursor: not-allowed;
+        }
+    }
+}
+
+
+@each $name, $value in $theme-colors {
     $color: $value;
 
     .ant-switch {
@@ -6,8 +31,8 @@
             background-color: $color;
         }
 
-        &.ant-switch-#{$name}:focus {
-            box-shadow: 0 0 0 .2rem rgba($color,.25);
+        &.ant-switch-#{$name}:focus-visible {
+            box-shadow: 0 0 0 var(--ant-control-outline-width) rgba($color,.25);
         }
 
         &:disabled {
@@ -33,6 +58,10 @@
         .ant-switch-handle {
             width: $height - 4px;
             height: $height - 4px;
+
+            &::before {
+                border-radius: ($height - 4px) / 2;
+            }
         }
 
         &::after {
@@ -82,5 +111,9 @@
 
     .ant-switch-handle {
         border-radius: 1000px;
+
+        &::before {
+            border-radius: 1000px;
+        }
     }
 }

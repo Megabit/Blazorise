@@ -201,7 +201,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string SwitchCursor( Cursor cursor ) => cursor != Cursor.Default ? $"{Switch()}-{ToCursor( cursor )}" : null;
 
-    public override string SwitchValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+    public override string SwitchValidation( ValidationStatus validationStatus ) => null;
 
     #endregion
 

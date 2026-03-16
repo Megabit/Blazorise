@@ -850,9 +850,15 @@ html {
     --ant-switch-track-padding: 2px;
     --ant-switch-track-height: 22px;
     --ant-switch-track-height-sm: 16px;
+    --ant-switch-track-min-width: 44px;
+    --ant-switch-track-min-width-sm: 28px;
+    --ant-switch-handle-bg: var(--ant-color-white);
+    --ant-switch-handle-shadow: 0 2px 4px 0 rgba(0, 35, 11, 0.2);
     --ant-switch-handle-size: 18px;
     --ant-switch-handle-size-sm: 12px;
+    --ant-switch-inner-min-margin: 9px;
     --ant-switch-inner-max-margin: 24px;
+    --ant-switch-inner-min-margin-sm: 6px;
     --ant-switch-inner-max-margin-sm: 18px;
     --ant-menu-active-bar-border-width: var(--ant-line-width);
     --ant-menu-active-bar-height: var(--ant-line-width-bold);

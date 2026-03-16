@@ -528,9 +528,15 @@ html {
   --ant-switch-track-padding: 2px;
   --ant-switch-track-height: 22px;
   --ant-switch-track-height-sm: 16px;
+  --ant-switch-track-min-width: 44px;
+  --ant-switch-track-min-width-sm: 28px;
+  --ant-switch-handle-bg: var(--ant-color-white);
+  --ant-switch-handle-shadow: 0 2px 4px 0 rgba(0, 35, 11, 0.2);
   --ant-switch-handle-size: 18px;
   --ant-switch-handle-size-sm: 12px;
+  --ant-switch-inner-min-margin: 9px;
   --ant-switch-inner-max-margin: 24px;
+  --ant-switch-inner-min-margin-sm: 6px;
   --ant-switch-inner-max-margin-sm: 18px;
   --ant-menu-active-bar-border-width: var(--ant-line-width);
   --ant-menu-active-bar-height: var(--ant-line-width-bold);
@@ -5555,11 +5561,182 @@ a.ant-link-disabled[aria-disabled=true] {
   display: block;
 }
 
+.b-ant-switch-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ant-margin-xs);
+  vertical-align: middle;
+}
+.b-ant-switch-wrapper.b-ant-switch-wrapper-disabled {
+  cursor: not-allowed;
+}
+.b-ant-switch-wrapper .b-ant-switch-label {
+  color: var(--ant-color-text);
+  cursor: pointer;
+  user-select: none;
+}
+.b-ant-switch-wrapper.b-ant-switch-wrapper-disabled .b-ant-switch-label {
+  color: var(--ant-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.b-ant-switch-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ant-margin-xs);
+  vertical-align: middle;
+}
+.b-ant-switch-wrapper.b-ant-switch-wrapper-disabled {
+  cursor: not-allowed;
+}
+.b-ant-switch-wrapper .b-ant-switch-label {
+  color: var(--ant-color-text);
+  cursor: pointer;
+  user-select: none;
+}
+.b-ant-switch-wrapper.b-ant-switch-wrapper-disabled .b-ant-switch-label {
+  color: var(--ant-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.b-ant-switch-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ant-margin-xs);
+  vertical-align: middle;
+}
+.b-ant-switch-wrapper.b-ant-switch-wrapper-disabled {
+  cursor: not-allowed;
+}
+.b-ant-switch-wrapper .b-ant-switch-label {
+  color: var(--ant-color-text);
+  cursor: pointer;
+  user-select: none;
+}
+.b-ant-switch-wrapper.b-ant-switch-wrapper-disabled .b-ant-switch-label {
+  color: var(--ant-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.b-ant-switch-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ant-margin-xs);
+  vertical-align: middle;
+}
+.b-ant-switch-wrapper.b-ant-switch-wrapper-disabled {
+  cursor: not-allowed;
+}
+.b-ant-switch-wrapper .b-ant-switch-label {
+  color: var(--ant-color-text);
+  cursor: pointer;
+  user-select: none;
+}
+.b-ant-switch-wrapper.b-ant-switch-wrapper-disabled .b-ant-switch-label {
+  color: var(--ant-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.b-ant-switch-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ant-margin-xs);
+  vertical-align: middle;
+}
+.b-ant-switch-wrapper.b-ant-switch-wrapper-disabled {
+  cursor: not-allowed;
+}
+.b-ant-switch-wrapper .b-ant-switch-label {
+  color: var(--ant-color-text);
+  cursor: pointer;
+  user-select: none;
+}
+.b-ant-switch-wrapper.b-ant-switch-wrapper-disabled .b-ant-switch-label {
+  color: var(--ant-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.b-ant-switch-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ant-margin-xs);
+  vertical-align: middle;
+}
+.b-ant-switch-wrapper.b-ant-switch-wrapper-disabled {
+  cursor: not-allowed;
+}
+.b-ant-switch-wrapper .b-ant-switch-label {
+  color: var(--ant-color-text);
+  cursor: pointer;
+  user-select: none;
+}
+.b-ant-switch-wrapper.b-ant-switch-wrapper-disabled .b-ant-switch-label {
+  color: var(--ant-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.b-ant-switch-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ant-margin-xs);
+  vertical-align: middle;
+}
+.b-ant-switch-wrapper.b-ant-switch-wrapper-disabled {
+  cursor: not-allowed;
+}
+.b-ant-switch-wrapper .b-ant-switch-label {
+  color: var(--ant-color-text);
+  cursor: pointer;
+  user-select: none;
+}
+.b-ant-switch-wrapper.b-ant-switch-wrapper-disabled .b-ant-switch-label {
+  color: var(--ant-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.b-ant-switch-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ant-margin-xs);
+  vertical-align: middle;
+}
+.b-ant-switch-wrapper.b-ant-switch-wrapper-disabled {
+  cursor: not-allowed;
+}
+.b-ant-switch-wrapper .b-ant-switch-label {
+  color: var(--ant-color-text);
+  cursor: pointer;
+  user-select: none;
+}
+.b-ant-switch-wrapper.b-ant-switch-wrapper-disabled .b-ant-switch-label {
+  color: var(--ant-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.b-ant-switch-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ant-margin-xs);
+  vertical-align: middle;
+}
+.b-ant-switch-wrapper.b-ant-switch-wrapper-disabled {
+  cursor: not-allowed;
+}
+.b-ant-switch-wrapper .b-ant-switch-label {
+  color: var(--ant-color-text);
+  cursor: pointer;
+  user-select: none;
+}
+.b-ant-switch-wrapper.b-ant-switch-wrapper-disabled .b-ant-switch-label {
+  color: var(--ant-color-text-disabled);
+  cursor: not-allowed;
+}
+
 .ant-switch.ant-switch-primary.ant-switch-checked {
   background-color: #1890ff;
 }
-.ant-switch.ant-switch-primary:focus {
-  box-shadow: 0 0 0 0.2rem rgba(24, 144, 255, 0.25);
+.ant-switch.ant-switch-primary:focus-visible {
+  box-shadow: 0 0 0 var(--ant-control-outline-width) rgba(24, 144, 255, 0.25);
 }
 .ant-switch:disabled.ant-switch-primary.ant-switch-checked {
   background-color: rgba(24, 144, 255, 0.5);
@@ -5568,8 +5745,8 @@ a.ant-link-disabled[aria-disabled=true] {
 .ant-switch.ant-switch-secondary.ant-switch-checked {
   background-color: #6c757d;
 }
-.ant-switch.ant-switch-secondary:focus {
-  box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25);
+.ant-switch.ant-switch-secondary:focus-visible {
+  box-shadow: 0 0 0 var(--ant-control-outline-width) rgba(108, 117, 125, 0.25);
 }
 .ant-switch:disabled.ant-switch-secondary.ant-switch-checked {
   background-color: rgba(108, 117, 125, 0.5);
@@ -5578,8 +5755,8 @@ a.ant-link-disabled[aria-disabled=true] {
 .ant-switch.ant-switch-success.ant-switch-checked {
   background-color: #35c613;
 }
-.ant-switch.ant-switch-success:focus {
-  box-shadow: 0 0 0 0.2rem rgba(53, 198, 19, 0.25);
+.ant-switch.ant-switch-success:focus-visible {
+  box-shadow: 0 0 0 var(--ant-control-outline-width) rgba(53, 198, 19, 0.25);
 }
 .ant-switch:disabled.ant-switch-success.ant-switch-checked {
   background-color: rgba(53, 198, 19, 0.5);
@@ -5588,8 +5765,8 @@ a.ant-link-disabled[aria-disabled=true] {
 .ant-switch.ant-switch-info.ant-switch-checked {
   background-color: #60b6f4;
 }
-.ant-switch.ant-switch-info:focus {
-  box-shadow: 0 0 0 0.2rem rgba(96, 182, 244, 0.25);
+.ant-switch.ant-switch-info:focus-visible {
+  box-shadow: 0 0 0 var(--ant-control-outline-width) rgba(96, 182, 244, 0.25);
 }
 .ant-switch:disabled.ant-switch-info.ant-switch-checked {
   background-color: rgba(96, 182, 244, 0.5);
@@ -5598,8 +5775,8 @@ a.ant-link-disabled[aria-disabled=true] {
 .ant-switch.ant-switch-warning.ant-switch-checked {
   background-color: #f7c12a;
 }
-.ant-switch.ant-switch-warning:focus {
-  box-shadow: 0 0 0 0.2rem rgba(247, 193, 42, 0.25);
+.ant-switch.ant-switch-warning:focus-visible {
+  box-shadow: 0 0 0 var(--ant-control-outline-width) rgba(247, 193, 42, 0.25);
 }
 .ant-switch:disabled.ant-switch-warning.ant-switch-checked {
   background-color: rgba(247, 193, 42, 0.5);
@@ -5608,8 +5785,8 @@ a.ant-link-disabled[aria-disabled=true] {
 .ant-switch.ant-switch-danger.ant-switch-checked {
   background-color: #ff4d4f;
 }
-.ant-switch.ant-switch-danger:focus {
-  box-shadow: 0 0 0 0.2rem rgba(255, 77, 79, 0.25);
+.ant-switch.ant-switch-danger:focus-visible {
+  box-shadow: 0 0 0 var(--ant-control-outline-width) rgba(255, 77, 79, 0.25);
 }
 .ant-switch:disabled.ant-switch-danger.ant-switch-checked {
   background-color: rgba(255, 77, 79, 0.5);
@@ -5618,8 +5795,8 @@ a.ant-link-disabled[aria-disabled=true] {
 .ant-switch.ant-switch-light.ant-switch-checked {
   background-color: #fafafa;
 }
-.ant-switch.ant-switch-light:focus {
-  box-shadow: 0 0 0 0.2rem rgba(250, 250, 250, 0.25);
+.ant-switch.ant-switch-light:focus-visible {
+  box-shadow: 0 0 0 var(--ant-control-outline-width) rgba(250, 250, 250, 0.25);
 }
 .ant-switch:disabled.ant-switch-light.ant-switch-checked {
   background-color: rgba(250, 250, 250, 0.5);
@@ -5628,8 +5805,8 @@ a.ant-link-disabled[aria-disabled=true] {
 .ant-switch.ant-switch-dark.ant-switch-checked {
   background-color: #343a40;
 }
-.ant-switch.ant-switch-dark:focus {
-  box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.25);
+.ant-switch.ant-switch-dark:focus-visible {
+  box-shadow: 0 0 0 var(--ant-control-outline-width) rgba(52, 58, 64, 0.25);
 }
 .ant-switch:disabled.ant-switch-dark.ant-switch-checked {
   background-color: rgba(52, 58, 64, 0.5);
@@ -5638,8 +5815,8 @@ a.ant-link-disabled[aria-disabled=true] {
 .ant-switch.ant-switch-link.ant-switch-checked {
   background-color: #3273dc;
 }
-.ant-switch.ant-switch-link:focus {
-  box-shadow: 0 0 0 0.2rem rgba(50, 115, 220, 0.25);
+.ant-switch.ant-switch-link:focus-visible {
+  box-shadow: 0 0 0 var(--ant-control-outline-width) rgba(50, 115, 220, 0.25);
 }
 .ant-switch:disabled.ant-switch-link.ant-switch-checked {
   background-color: rgba(50, 115, 220, 0.5);
@@ -5658,6 +5835,9 @@ a.ant-link-disabled[aria-disabled=true] {
 .ant-switch-xs .ant-switch-handle {
   width: 8px;
   height: 8px;
+}
+.ant-switch-xs .ant-switch-handle::before {
+  border-radius: 4px;
 }
 .ant-switch-xs::after {
   width: 8px;
@@ -5699,6 +5879,9 @@ a.ant-link-disabled[aria-disabled=true] {
   width: 12px;
   height: 12px;
 }
+.ant-switch-sm .ant-switch-handle::before {
+  border-radius: 6px;
+}
 .ant-switch-sm::after {
   width: 12px;
   height: 12px;
@@ -5738,6 +5921,9 @@ a.ant-link-disabled[aria-disabled=true] {
 .ant-switch-md .ant-switch-handle {
   width: 20px;
   height: 20px;
+}
+.ant-switch-md .ant-switch-handle::before {
+  border-radius: 10px;
 }
 .ant-switch-md::after {
   width: 20px;
@@ -5779,6 +5965,9 @@ a.ant-link-disabled[aria-disabled=true] {
   width: 24px;
   height: 24px;
 }
+.ant-switch-lg .ant-switch-handle::before {
+  border-radius: 12px;
+}
 .ant-switch-lg::after {
   width: 24px;
   height: 24px;
@@ -5819,6 +6008,9 @@ a.ant-link-disabled[aria-disabled=true] {
   width: 28px;
   height: 28px;
 }
+.ant-switch-xl .ant-switch-handle::before {
+  border-radius: 14px;
+}
 .ant-switch-xl::after {
   width: 28px;
   height: 28px;
@@ -5846,6 +6038,9 @@ a.ant-link-disabled[aria-disabled=true] {
   transform: scale(0.66667);
 }
 .ant-switch .ant-switch-handle {
+  border-radius: 1000px;
+}
+.ant-switch .ant-switch-handle::before {
   border-radius: 1000px;
 }
 

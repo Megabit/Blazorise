@@ -1,21 +1,87 @@
+@using Blazorise.Utilities
 @typeparam TValue
 @inherits Blazorise.Switch<TValue>
-<button @ref="@ElementRef" id="@ElementId" type="button" name="@NameAttributeValue" role="switch" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" aria-checked="@CurrentValueAsString?.ToLowerInvariant()" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" ant-click-animating="true" tabindex="@TabIndex" @onclick="@HandleButtonClick" @attributes="@Attributes">
-    <div class="ant-switch-handle"></div>
-    <span class="ant-switch-inner">@ChildContent</span>
-    <div class="ant-click-animating-node"></div>
-</button>
+<span class="@WrapperClassNames" style="@WrapperStyleNames">
+    <button @ref="@ElementRef" id="@ElementId" type="button" name="@NameAttributeValue" role="switch" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" aria-checked="@AriaCheckedValue" aria-readonly="@ReadOnly" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" tabindex="@TabIndex" @onclick="@HandleButtonClick" @attributes="@Attributes">
+        <div class="ant-switch-handle"></div>
+        <span class="ant-switch-inner">
+            <span class="ant-switch-inner-checked"></span>
+            <span class="ant-switch-inner-unchecked"></span>
+        </span>
+    </button>
+    @if ( ChildContent is not null )
+    {
+        <span class="b-ant-switch-label" @onclick="@HandleLabelClick">@ChildContent</span>
+    }
+</span>
 @Feedback
 @code {
+    private ClassBuilder wrapperClassBuilder;
+    private StyleBuilder wrapperStyleBuilder;
+
+    protected override void OnInitialized()
+    {
+        wrapperClassBuilder = new( BuildWrapperClasses );
+        wrapperStyleBuilder = new( BuildWrapperStyles );
+
+        base.OnInitialized();
+    }
+
+    protected internal override void DirtyClasses()
+    {
+        wrapperClassBuilder?.Dirty();
+
+        base.DirtyClasses();
+    }
+
+    protected internal override void DirtyStyles()
+    {
+        wrapperStyleBuilder?.Dirty();
+
+        base.DirtyStyles();
+    }
+
+    private void BuildWrapperClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-ant-switch-wrapper" );
+        builder.Append( IsDisabled ? "b-ant-switch-wrapper-disabled" : null );
+        builder.Append( Classes?.Wrapper );
+    }
+
+    private void BuildWrapperStyles( StyleBuilder builder )
+    {
+        builder.Append( Styles?.Wrapper );
+    }
+
     async Task HandleButtonClick()
     {
-        if ( ReadOnly )
+        if ( ReadOnly || IsDisabled )
             return;
 
-        await CurrentValueHandler( CurrentValueAsString == bool.FalseString
-            ? bool.TrueString
-            : bool.FalseString );
+        await CurrentValueHandler( IsCurrentChecked
+            ? bool.FalseString
+            : bool.TrueString );
 
         DirtyClasses();
     }
+
+    async Task HandleLabelClick()
+    {
+        if ( ReadOnly || IsDisabled )
+            return;
+
+        await CurrentValueHandler( IsCurrentChecked
+            ? bool.FalseString
+            : bool.TrueString );
+
+        DirtyClasses();
+    }
+
+    string WrapperClassNames => wrapperClassBuilder.Class;
+
+    string WrapperStyleNames => wrapperStyleBuilder.Styles;
+
+    string AriaCheckedValue => IsCurrentChecked ? bool.TrueString.ToLowerInvariant() : bool.FalseString.ToLowerInvariant();
+
+    bool IsCurrentChecked => CurrentValue?.ToString() == bool.TrueString;
 }
