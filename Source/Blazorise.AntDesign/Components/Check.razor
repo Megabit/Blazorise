@@ -41,6 +41,7 @@
     {
         builder.Append( "ant-checkbox-wrapper" );
         builder.Append( ClassProvider.CheckInline( Inline ) );
+        builder.Append( CheckSizeClass );
 
         if ( IsChecked )
         {
@@ -71,6 +72,12 @@
         get
         {
             var sb = new System.Text.StringBuilder( "ant-checkbox" );
+            var sizeClass = CheckSizeClass;
+
+            if ( !string.IsNullOrEmpty( sizeClass ) )
+            {
+                sb.Append( $" {sizeClass}" );
+            }
 
             if ( IsChecked )
             {
@@ -92,6 +99,10 @@
     }
 
     bool IsChecked => CurrentValue?.ToString() == bool.TrueString;
+
+    string CheckSizeClass => ThemeSize != Blazorise.Size.Default
+        ? $"b-ant-checkbox-{ClassProvider.ToSize( ThemeSize )}"
+        : null;
 
     string InnerClassNames
         => "ant-checkbox-inner";

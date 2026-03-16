@@ -867,22 +867,9 @@
 @include picker-size('xl', 18px, 48px, 8.5px, 15px);
 
 @mixin checkbox($size, $width, $height) {
-    .ant-checkbox-input.ant-checkbox-input-#{$size} {
-        + .ant-checkbox-inner {
-            width: $width;
-            height: $height;
-        }
-    }
-
-    .ant-checkbox.ant-checkbox-checked {
-        > .ant-checkbox-input.ant-checkbox-input-#{$size} {
-            + .ant-checkbox-inner {
-                &::after {
-                    width: $width / 3;
-                    height: $height / 1.7;
-                }
-            }
-        }
+    .ant-checkbox-wrapper.b-ant-checkbox-#{$size},
+    .ant-checkbox.b-ant-checkbox-#{$size} {
+        --ant-control-interactive-size: #{$width};
     }
 }
 

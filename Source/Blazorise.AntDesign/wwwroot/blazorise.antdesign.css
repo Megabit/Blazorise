@@ -4276,54 +4276,29 @@ template {
   font-size: 18px;
 }
 
-.ant-checkbox-input.ant-checkbox-input-xs + .ant-checkbox-inner {
-  width: 8px;
-  height: 8px;
+.ant-checkbox-wrapper.b-ant-checkbox-xs,
+.ant-checkbox.b-ant-checkbox-xs {
+  --ant-control-interactive-size: 8px;
 }
 
-.ant-checkbox.ant-checkbox-checked > .ant-checkbox-input.ant-checkbox-input-xs + .ant-checkbox-inner::after {
-  width: 2.6666666667px;
-  height: 4.7058823529px;
+.ant-checkbox-wrapper.b-ant-checkbox-sm,
+.ant-checkbox.b-ant-checkbox-sm {
+  --ant-control-interactive-size: 12px;
 }
 
-.ant-checkbox-input.ant-checkbox-input-sm + .ant-checkbox-inner {
-  width: 12px;
-  height: 12px;
+.ant-checkbox-wrapper.b-ant-checkbox-md,
+.ant-checkbox.b-ant-checkbox-md {
+  --ant-control-interactive-size: 20px;
 }
 
-.ant-checkbox.ant-checkbox-checked > .ant-checkbox-input.ant-checkbox-input-sm + .ant-checkbox-inner::after {
-  width: 4px;
-  height: 7.0588235294px;
+.ant-checkbox-wrapper.b-ant-checkbox-lg,
+.ant-checkbox.b-ant-checkbox-lg {
+  --ant-control-interactive-size: 24px;
 }
 
-.ant-checkbox-input.ant-checkbox-input-md + .ant-checkbox-inner {
-  width: 20px;
-  height: 20px;
-}
-
-.ant-checkbox.ant-checkbox-checked > .ant-checkbox-input.ant-checkbox-input-md + .ant-checkbox-inner::after {
-  width: 6.6666666667px;
-  height: 11.7647058824px;
-}
-
-.ant-checkbox-input.ant-checkbox-input-lg + .ant-checkbox-inner {
-  width: 24px;
-  height: 24px;
-}
-
-.ant-checkbox.ant-checkbox-checked > .ant-checkbox-input.ant-checkbox-input-lg + .ant-checkbox-inner::after {
-  width: 8px;
-  height: 14.1176470588px;
-}
-
-.ant-checkbox-input.ant-checkbox-input-xl + .ant-checkbox-inner {
-  width: 28px;
-  height: 28px;
-}
-
-.ant-checkbox.ant-checkbox-checked > .ant-checkbox-input.ant-checkbox-input-xl + .ant-checkbox-inner::after {
-  width: 9.3333333333px;
-  height: 16.4705882353px;
+.ant-checkbox-wrapper.b-ant-checkbox-xl,
+.ant-checkbox.b-ant-checkbox-xl {
+  --ant-control-interactive-size: 28px;
 }
 
 .ant-radio-group.ant-radio-group-vertical .ant-radio-wrapper {
