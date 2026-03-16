@@ -147,9 +147,22 @@
         > .ant-picker,
         > .ant-input-number {
             position: relative;
+            display: flex;
+            align-items: stretch;
             flex: 1 1 0;
             min-width: 0;
             width: 0;
+        }
+
+        > .ant-select {
+            .ant-select-selector {
+                flex: 1 1 auto;
+                min-width: 0;
+            }
+
+            .ant-select-selection-wrap {
+                min-width: 0;
+            }
         }
 
         > .ant-input-group-addon + .ant-input,
@@ -744,86 +757,62 @@
 @include input-number-size('xl', 18px, 48px, 8.5px, 15px);
 
 
-.ant-input-group-wrapper-xs {
-    > .ant-input-wrapper {
-        > .ant-input-group-addon {
-            > .control {
-                .ant-btn {
-                    @extend .ant-btn-xs;
+@mixin addons-size($name, $font-size, $height, $padding-inline, $input-padding-inline, $button-padding-inline) {
+    .ant-input-group-wrapper-#{$name} {
+        > .ant-input-wrapper.ant-input-group {
+            > .ant-input-group-addon {
+                min-height: $height;
+                padding: 0 $padding-inline;
+                font-size: $font-size;
+                line-height: $height - 2px;
+
+                > .control .ant-btn,
+                > .dropdown .ant-btn,
+                > .b-ant-dropdown .ant-btn,
+                > .ant-btn {
+                    height: $height;
+                    padding: 0 $button-padding-inline;
+                    font-size: $font-size;
                 }
             }
-        }
 
-        .ant-input {
-            @extend .ant-input-xs;
+            > .ant-input,
+            > textarea.ant-input {
+                height: $height;
+                padding: 0 $input-padding-inline;
+                font-size: $font-size;
+            }
+
+            > .ant-picker,
+            > .ant-input-number,
+            > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+                height: $height;
+                min-height: $height;
+                font-size: $font-size;
+            }
+
+            > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+                padding-block: 0;
+            }
+
+            > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-item,
+            > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-placeholder {
+                line-height: $height - 2px;
+            }
+
+            > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selection-search-input,
+            > .ant-input-number .ant-input-number-input {
+                height: $height - 2px;
+            }
         }
     }
 }
 
-.ant-input-group-wrapper-sm {
-    > .ant-input-wrapper {
-        > .ant-input-group-addon {
-            > .control {
-                .ant-btn {
-                    @extend .ant-btn-sm;
-                }
-            }
-        }
-
-        .ant-input {
-            @extend .ant-input-sm;
-        }
-    }
-}
-
-
-.ant-input-group-wrapper-md {
-    > .ant-input-wrapper {
-        > .ant-input-group-addon {
-            > .control {
-                .ant-btn {
-                    @extend .ant-btn-md;
-                }
-            }
-        }
-
-        .ant-input {
-            @extend .ant-input-md;
-        }
-    }
-}
-
-.ant-input-group-wrapper-lg {
-    > .ant-input-wrapper {
-        > .ant-input-group-addon {
-            > .control {
-                .ant-btn {
-                    @extend .ant-btn-lg;
-                }
-            }
-        }
-
-        .ant-input {
-            @extend .ant-input-lg;
-        }
-    }
-}
-
-.ant-input-group-wrapper-xl {
-    > .ant-input-wrapper {
-        > .ant-input-group-addon {
-            > .control {
-                .ant-btn {
-                    @extend .ant-btn-xl;
-                }
-            }
-        }
-
-        .ant-input {
-            @extend .ant-input-xl;
-        }
-    }
-}
+@include addons-size('xs', 10px, 16px, 7px, 7px, 7px);
+@include addons-size('sm', 12px, 24px, 9px, 9px, 9px);
+@include addons-size('md', 14px, 36px, 11px, 11px, 11px);
+@include addons-size('lg', 16px, 40px, 13px, 13px, 13px);
+@include addons-size('xl', 18px, 48px, 15px, 15px, 15px);
 
 
 @mixin select-size($name, $font-size, $height, $line-height) {
