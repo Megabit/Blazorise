@@ -1,0 +1,149 @@
+@inherits Blazorise.FilePicker
+
+<div @ref="ElementRef" id="@ElementContainerId" class="b-file-picker b-ant-file-picker">
+    @if ( ShowMode == FilePickerShowMode.Dropdown )
+    {
+        <Blazorise.Addons Class="b-ant-file-picker-dropdown">
+            <Blazorise.Addon AddonType="AddonType.Body">
+                @FileComponentFragment
+            </Blazorise.Addon>
+            <Blazorise.Addon AddonType="AddonType.End">
+                <Blazorise.Dropdown EndAligned PositionStrategy="DropdownPositionStrategy.Absolute">
+                    <Blazorise.DropdownToggle Color="Color.Light">
+                        (@( FileCount ))
+                    </Blazorise.DropdownToggle>
+
+                    @if ( HasFiles )
+                    {
+                        <Blazorise.DropdownMenu Class="b-file-picker-files b-ant-file-picker-dropdown-menu">
+                            @foreach ( var file in FileInputRef.Files )
+                            {
+                                <Blazorise.DropdownItem @key="file.Id" Class="b-file-picker-file b-ant-file-picker-dropdown-item">
+                                    @FileContentFragment( file )
+                                </Blazorise.DropdownItem>
+                            }
+                        </Blazorise.DropdownMenu>
+                    }
+                </Blazorise.Dropdown>
+            </Blazorise.Addon>
+        </Blazorise.Addons>
+    }
+    else
+    {
+        @FileComponentFragment
+    }
+
+    <span class="b-text-drop b-ant-file-picker-drop-text">@DragAndDropString</span>
+
+    @if ( HasFiles )
+    {
+        <div class="b-file-picker-files-container b-ant-file-picker-files-container">
+            @if ( ShowMode == FilePickerShowMode.List )
+            {
+                <div class="b-file-picker-files b-ant-file-picker-files">
+                    @foreach ( var file in FileInputRef.Files )
+                    {
+                        <div @key="file.Id" class="b-file-picker-file b-ant-file-picker-file">
+                            @FileContentFragment( file )
+                        </div>
+                    }
+                </div>
+            }
+
+            @if ( ButtonsTemplate is not null )
+            {
+                @ButtonsTemplate( new( EventCallback.Factory.Create( this, ClearWithConfirm ), EventCallback.Factory.Create( this, UploadAll ), EventCallback.Factory.Create( this, CancelWithConfirm ) ) )
+            }
+            else
+            {
+                <Blazorise.Buttons Class="b-ant-file-picker-actions" Float="Blazorise.Float.End">
+                    <Blazorise.Button Color="Color.Secondary" Class="b-file-picker-file-clear" Disabled="@IsBusy()" Clicked="@ClearWithConfirm">@GetLocalizedString( "Clear" )</Blazorise.Button>
+                    <Blazorise.Button Color="Color.Primary" Class="b-file-picker-file-upload" Disabled="@(IsBusy() || !IsUploadReady())" Clicked="@UploadAll">@GetLocalizedString( "Upload" )</Blazorise.Button>
+                    <Blazorise.Button Color="Color.Warning" Class="b-file-picker-file-cancel" Disabled="@(!IsBusy())" Clicked="@CancelWithConfirm">@GetLocalizedString( "Cancel" )</Blazorise.Button>
+                </Blazorise.Buttons>
+            }
+        </div>
+    }
+</div>
+
+<CascadingValue Value="this" IsFixed>
+    <Blazorise._FilePickerConfirmModal @ref="@filePickerConfirmModalRef" />
+</CascadingValue>
+
+@code {
+    private bool HasFiles => FileCount > 0;
+
+    private int FileCount => FileInputRef?.Files?.Length ?? 0;
+
+    private RenderFragment FileInputChildContent => ChildTemplate is null
+        ? null
+        : builder => builder.AddContent( 0, ChildTemplate );
+
+    private RenderFragment FileComponentFragment => @<Blazorise.FileInput @ref="@FileInputRef"
+                                                                          ElementId="@ElementId"
+                                                                          Multiple="@Multiple"
+                                                                          Directory="@Directory"
+                                                                          Placeholder="@Placeholder"
+                                                                          Disabled="@Disabled"
+                                                                          ReadOnly="@ReadOnly"
+                                                                          Filter="@Filter"
+                                                                          MaxChunkSize="@MaxChunkSize"
+                                                                          MaxFileSize="@MaxFileSize"
+                                                                          SegmentFetchTimeout="@SegmentFetchTimeout"
+                                                                          Changed="@OnChanged"
+                                                                          Started="@OnStarted"
+                                                                          Ended="@OnEnded"
+                                                                          Written="@Written"
+                                                                          Progressed="@OnProgressed"
+                                                                          AutoReset="@AutoReset"
+                                                                          DisableProgressReport="@DisableProgressReport"
+                                                                          BrowseButtonLocalizer="@FilePickerLocalizer"
+                                                                          ChildContent="@FileInputChildContent"
+                                                                          Feedback="@Feedback"
+                                                                          Attributes="@Attributes">
+    </Blazorise.FileInput>;
+
+    private RenderFragment<IFileEntry> FileContentFragment => file => @<text>
+        @if ( FileTemplate is not null )
+        {
+            @FileTemplate( new( file, EventCallback.Factory.Create<IFileEntry>( this, RemoveFileWithConfirm ) ) )
+        }
+        else
+        {
+            <div class="b-ant-file-picker-item-main">
+                <div class="b-ant-file-picker-item-meta">
+                    <span class="b-file-picker-file-name b-ant-file-picker-file-name">@file.Name</span>
+                    <span class="b-file-picker-file-relativepath">@file.RelativePath</span>
+                    <span class="b-file-picker-file-size">@GetFileSizeReadable( file )</span>
+                    @if ( IsFileBeingUploaded( file ) && !DisableProgressReport )
+                    {
+                        var progressPercentage = GetProgressPercentage();
+
+                        <Blazorise.Progress Value="@progressPercentage">@progressPercentage %</Blazorise.Progress>
+                    }
+                    else
+                    {
+                        <span class="b-file-picker-file-status">@GetFileStatus( file )</span>
+                    }
+                </div>
+            </div>
+            <div class="b-ant-file-picker-item-actions">
+                <div class="b-ant-file-picker-item-buttons">
+                    <Blazorise.Button Class="b-ant-file-picker-item-action b-ant-file-picker-item-action-remove"
+                                      Disabled="@IsBusy()"
+                                      Clicked="@(async () => await RemoveFileWithConfirm( file ))">
+                        <Blazorise.Icon Name="IconName.Times" />
+                    </Blazorise.Button>
+                    @if ( file.Status != FileEntryStatus.Uploaded )
+                    {
+                        <Blazorise.Button Class="b-ant-file-picker-item-action b-ant-file-picker-item-action-upload"
+                                          Disabled="@IsBusy()"
+                                          Clicked="@(async () => await UploadFile( file ))">
+                            <Blazorise.Icon Name="IconName.FileUpload" />
+                        </Blazorise.Button>
+                    }
+                </div>
+            </div>
+        }
+    </text>;
+}

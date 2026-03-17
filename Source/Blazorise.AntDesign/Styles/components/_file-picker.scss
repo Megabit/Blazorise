@@ -1,35 +1,75 @@
-.b-file-picker {
-    .b-text-drop {
-        color: var(--ant-color-text-description);
+.b-ant-file-picker {
+    > .ant-upload.ant-upload-select.ant-upload-select-text {
+        display: inline-flex;
+        align-items: center;
+        padding: var(--ant-padding-xs);
+        background: var(--ant-color-fill-quaternary);
+        border-radius: var(--ant-border-radius);
     }
 
-    .b-file-picker-files-container {
+    .b-ant-file-picker-drop-text {
+        margin-top: var(--ant-margin-xs);
+        padding: var(--ant-padding-xxs) var(--ant-padding-sm);
+        color: var(--ant-color-text-description);
+        font-size: var(--ant-font-size-sm);
+        background: var(--ant-color-bg-container);
+        border: var(--ant-line-width) dashed var(--ant-color-border);
+        border-radius: var(--ant-border-radius-sm);
+    }
+
+    .b-ant-file-picker-files-container {
         margin-top: var(--ant-margin-sm);
     }
 
-    .b-file-picker-files {
+    .b-ant-file-picker-files {
         margin-top: var(--ant-margin-xs);
     }
 
-    .b-file-picker-file {
-        .ant-row {
-            align-items: center;
-        }
+    .b-ant-file-picker-file,
+    .b-ant-file-picker-dropdown-item {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: var(--ant-margin-sm);
+        padding: var(--ant-padding-xs) var(--ant-padding-sm);
+        background: var(--ant-color-fill-quaternary);
+        border: 0;
+        border-radius: 0;
 
-        .ant-progress {
-            margin-top: var(--ant-margin-xs);
+        &:not(:last-child) {
+            margin-bottom: var(--ant-margin-xxs);
         }
     }
 
+    .b-ant-file-picker-item-main {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .b-ant-file-picker-item-meta {
+        min-width: 0;
+    }
+
+    .b-ant-file-picker-item-actions {
+        flex: 0 0 auto;
+        margin-inline-start: auto;
+    }
+
     .b-file-picker-file-name {
+        display: inline-flex;
+        align-items: center;
         margin-inline-end: var(--ant-margin-xs);
-        font-weight: var(--ant-font-weight-strong);
-        color: var(--ant-color-text);
+        overflow: hidden;
+        color: var(--ant-color-link);
+        font-weight: var(--ant-font-weight-normal);
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .b-file-picker-file-relativepath,
     .b-file-picker-file-size,
     .b-file-picker-file-status {
+        display: block;
         margin-inline-end: var(--ant-margin-xs);
         color: var(--ant-color-text-description);
         font-size: var(--ant-font-size-sm);
@@ -41,9 +81,63 @@
         display: none;
     }
 
-    .b-file-picker-files.ant-list {
-        .b-file-picker-file.ant-list-item {
-            align-items: center;
+    .b-file-picker-file-status {
+        margin-top: var(--ant-margin-xxs);
+    }
+
+    .ant-progress {
+        margin-top: var(--ant-margin-xxs);
+        margin-bottom: calc(var(--ant-padding-xxs) * -1);
+    }
+
+    .ant-progress-rail {
+        height: 2px;
+        border-radius: 0;
+    }
+
+    .ant-progress-track {
+        border-radius: 0;
+    }
+
+    .b-ant-file-picker-item-buttons {
+        display: inline-flex;
+        gap: var(--ant-margin-xs);
+    }
+
+    .b-ant-file-picker-item-action {
+        width: 24px;
+        min-width: 24px;
+        height: 24px;
+        padding: 0;
+        color: var(--ant-color-icon);
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+
+        &:hover,
+        &:focus {
+            color: var(--ant-color-primary);
+            background: transparent;
+            border: 0;
+            box-shadow: none;
         }
+    }
+
+    .b-ant-file-picker-item-action-remove {
+        color: var(--ant-color-error);
+
+        &:hover,
+        &:focus {
+            color: var(--ant-color-error-hover);
+        }
+    }
+
+    .b-ant-file-picker-dropdown-menu {
+        min-width: 320px;
+    }
+
+    > .ant-btn-group,
+    > .ant-btn-group-vertical {
+        margin-top: var(--ant-margin-sm);
     }
 }
