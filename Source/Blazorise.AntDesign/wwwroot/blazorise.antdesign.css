@@ -6064,23 +6064,36 @@ a.b-ant-link-disabled[aria-disabled=true] {
 .ant-skeleton.b-ant-skeleton {
   display: flex;
   flex-direction: column;
-  gap: var(--ant-margin-xs);
   width: 100%;
 }
 .ant-skeleton.b-ant-skeleton .b-ant-skeleton-item {
   position: relative;
   display: block;
   width: 100%;
-  min-height: 16px;
   overflow: hidden;
+  color: transparent;
+}
+.ant-skeleton.b-ant-skeleton .b-ant-skeleton-item + .b-ant-skeleton-item {
+  margin-top: var(--ant-margin-sm);
+}
+.ant-skeleton.b-ant-skeleton .b-ant-skeleton-item .ant-skeleton-paragraph {
+  margin: 0;
+  padding: 0;
+}
+.ant-skeleton.b-ant-skeleton .b-ant-skeleton-item .ant-skeleton-paragraph li {
+  position: relative;
+  height: 16px;
+  margin: 0;
+  overflow: hidden;
+  list-style: none;
   color: transparent;
   background: var(--ant-color-fill-tertiary);
   border-radius: 100px;
 }
-.ant-skeleton.b-ant-skeleton.b-ant-skeleton-pulse .b-ant-skeleton-item {
+.ant-skeleton.b-ant-skeleton.b-ant-skeleton-pulse .b-ant-skeleton-item .ant-skeleton-paragraph li {
   animation: b-ant-skeleton-pulse 1.4s ease-in-out infinite;
 }
-.ant-skeleton.b-ant-skeleton.b-ant-skeleton-wave .b-ant-skeleton-item::after, .ant-skeleton.b-ant-skeleton.ant-skeleton-active .b-ant-skeleton-item::after {
+.ant-skeleton.b-ant-skeleton.b-ant-skeleton-wave .b-ant-skeleton-item .ant-skeleton-paragraph li::after, .ant-skeleton.b-ant-skeleton.ant-skeleton-active .b-ant-skeleton-item .ant-skeleton-paragraph li::after {
   position: absolute;
   inset: 0;
   content: "";
