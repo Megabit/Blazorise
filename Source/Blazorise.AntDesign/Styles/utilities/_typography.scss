@@ -1,90 +1,62 @@
-﻿.ant-display-1 {
-    font-size: $display1-size;
-    font-weight: $display1-weight;
-    line-height: $display-line-height;
-}
-
-.ant-display-2 {
-    font-size: $display2-size;
-    font-weight: $display2-weight;
-    line-height: $display-line-height;
-}
-
-.ant-display-3 {
-    font-size: $display3-size;
-    font-weight: $display3-weight;
-    line-height: $display-line-height;
-}
-
-.ant-display-4 {
-    font-size: $display4-size;
-    font-weight: $display4-weight;
-    line-height: $display-line-height;
-}
-
-.ant-typography-white {
+﻿.b-ant-typography-white {
     color: $ant-white !important;
 }
 
 @each $name, $value in $theme-colors {
-    .ant-typography-#{$name} {
-        color: $value !important;
-    }
-
-    .ant-typography-#{$name}-emphasis {
+    .b-ant-typography-#{$name}-emphasis {
         color: #{map-get($theme-colors-text-emphasis, $name)} !important;
     }
 }
 
-.ant-typography-body {
+.b-ant-typography-primary {
+    color: map-get($theme-colors, "primary") !important;
+}
+
+.b-ant-typography-info {
+    color: map-get($theme-colors, "info") !important;
+}
+
+.b-ant-typography-light {
+    color: map-get($theme-colors, "light") !important;
+}
+
+.b-ant-typography-dark {
+    color: map-get($theme-colors, "dark") !important;
+}
+
+.b-ant-typography-body {
     color: $body-color !important;
 }
 
-.ant-typography-body-emphasis {
+.b-ant-typography-body-emphasis {
     color: shade-color($body-color, $text-emphasis-shade-weight) !important;
 }
 
-.ant-typography-muted {
+.b-ant-typography-muted {
     color: $text-muted !important;
 }
 
-.ant-typography-muted-emphasis {
+.b-ant-typography-muted-emphasis {
     color: shade-color($text-muted, $text-emphasis-shade-weight) !important;
 }
 
-.ant-typography-black-50 {
+.b-ant-typography-black-50 {
     color: rgba($ant-black, .5) !important;
 }
 
-.ant-typography-black-50-emphasis {
+.b-ant-typography-black-50-emphasis {
     color: rgba($ant-black, 0.7) !important;
 }
 
-.ant-typography-white-50 {
+.b-ant-typography-white-50 {
     color: rgba($ant-white, .5) !important;
 }
 
-.ant-typography-white-50-emphasis {
+.b-ant-typography-white-50-emphasis {
     color: rgba($ant-white, 0.8) !important;
 }
 
-// Blockquotes
-.ant-blockquote {
-    margin-bottom: $spacer;
-    font-size: $blockquote-font-size;
-}
-
-.ant-blockquote-footer {
-    display: block;
-    font-size: $blockquote-small-font-size;
-    color: $blockquote-small-color;
-
-    &::before {
-        content: "\2014\00A0"; // em dash, nbsp
-    }
-}
-
-.ant-typography {
+.b-ant-text {
     &-left {
         text-align: left !important;
     }
@@ -102,12 +74,6 @@
     }
 }
 
-.ant-lead {
-    font-size: 1.25rem;
-    font-weight: 300;
-    margin-bottom: 1rem;
-}
-
 @each $breakpoint in map-keys($grid-breakpoints) {
     $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
@@ -115,7 +81,7 @@
         @each $name, $fs in $font-sizes {
             $lh: map-get($line-heights, $name);
 
-            .ant-font-size#{$infix}-#{$name} {
+            .b-ant-font-size#{$infix}-#{$name} {
                 font-size: $fs;
                 line-height: $lh;
             }
@@ -123,18 +89,12 @@
     }
 }
 
-.ant-typography-wrap {
+.b-ant-typography-wrap {
     white-space: normal !important;
 }
 
-.ant-typography-nowrap {
+.b-ant-typography-nowrap {
     white-space: nowrap !important;
-}
-
-.ant-typography-truncate {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .ant-unordered-list {
@@ -144,19 +104,19 @@
     }
 }
 
-.ant-typography-lowercase {
+.b-ant-text-lowercase {
     text-transform: lowercase !important;
 }
 
-.ant-typography-uppercase {
+.b-ant-text-uppercase {
     text-transform: uppercase !important;
 }
 
-.ant-typography-capitalize {
+.b-ant-text-capitalize {
     text-transform: capitalize !important;
 }
 
-.ant-typography-italic {
+.b-ant-typography-italic {
     font-style: italic !important;
 }
 
@@ -183,7 +143,7 @@ ol.ant-ordered-list {
     }
 }
 
-.ant-font-weight {
+.b-ant-font-weight {
     &-bold {
         font-weight: 700;
     }
@@ -192,10 +152,7 @@ ol.ant-ordered-list {
         font-weight: 600;
     }
 
-    &-normal {
-        font-weight: 400;
-    }
-
+    &-normal,
     &-default {
         font-weight: 400;
     }
@@ -205,7 +162,7 @@ ol.ant-ordered-list {
     }
 }
 
-.ant-typography-decoration {
+.b-ant-text-decoration {
     &-underline {
         text-decoration: underline !important;
     }

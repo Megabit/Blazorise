@@ -15,7 +15,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TextInputSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string TextInputColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
+    public override string TextInputColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
 
     public override string TextInputValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -49,7 +49,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string NumericInputSize( Size size ) => size != Size.Default ? $"ant-input-number-{ToSize( size )}" : null;
 
-    public override string NumericInputColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
+    public override string NumericInputColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
 
     public override string NumericInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-input-number" ) : null;
 
@@ -61,7 +61,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DateInputSize( Size size ) => size != Size.Default ? $"ant-picker-{ToSize( size )}" : null;
 
-    public override string DateInputColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
+    public override string DateInputColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
 
     public override string DateInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-picker" ) : null;
 
@@ -73,7 +73,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TimeInputSize( Size size ) => size != Size.Default ? $"ant-picker-{ToSize( size )}" : null;
 
-    public override string TimeInputColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
+    public override string TimeInputColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
 
     public override string TimeInputValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-picker" ) : null;
 
@@ -93,7 +93,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DatePickerSize( Size size ) => size != Size.Default ? $"ant-picker-{ToSize( size )}" : null;
 
-    public override string DatePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
+    public override string DatePickerColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-picker" ) : null;
 
@@ -105,7 +105,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TimePickerSize( Size size ) => size != Size.Default ? $"ant-picker-{ToSize( size )}" : null;
 
-    public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
+    public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-picker" ) : null;
 
@@ -125,7 +125,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string NumericPickerSize( Size size ) => size != Size.Default ? $"ant-input-number-{ToSize( size )}" : null;
 
-    public override string NumericPickerColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
+    public override string NumericPickerColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
 
     public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus, "ant-input-number" ) : null;
 
@@ -137,7 +137,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string InputMaskSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string InputMaskColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-typography-{ToColor( color )}" : null;
+    public override string InputMaskColor( Color color ) => color.IsNotNullOrDefault() ? ToTypographyColorClass( ToColor( color ) ) : null;
 
     public override string InputMaskValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -604,7 +604,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Card() => "ant-card ant-card-bordered";
 
-    public override string CardWhiteText( bool whiteText ) => whiteText ? "ant-typography-light" : null;
+    public override string CardWhiteText( bool whiteText ) => whiteText ? "b-ant-typography-light" : null;
 
     public override string CardActions() => "ant-card-actions";
 
@@ -1252,17 +1252,19 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Text
 
-    public override string TextColor( TextColor textColor ) => $"ant-typography-{ToTextColor( textColor )}";
+    public override string TextColor( TextColor textColor ) => ToTypographyColorClass( ToTextColor( textColor ) );
 
-    public override string TextAlignment( TextAlignment textAlignment ) => $"ant-typography-{ToTextAlignment( textAlignment )}";
+    public override string TextAlignment( TextAlignment textAlignment ) => $"b-ant-text-{ToTextAlignment( textAlignment )}";
 
-    public override string TextTransform( TextTransform textTransform ) => $"ant-typography-{ToTextTransform( textTransform )}";
+    public override string TextTransform( TextTransform textTransform ) => $"b-ant-text-{ToTextTransform( textTransform )}";
 
-    public override string TextDecoration( TextDecoration textDecoration ) => $"ant-typography-decoration-{ToTextDecoration( textDecoration )}";
+    public override string TextDecoration( TextDecoration textDecoration ) => $"b-ant-text-decoration-{ToTextDecoration( textDecoration )}";
 
-    public override string TextWeight( TextWeight textWeight ) => $"ant-font-weight-{ToTextWeight( textWeight )}";
+    public override string TextWeight( TextWeight textWeight ) => $"b-ant-font-weight-{ToTextWeight( textWeight )}";
 
-    public override string TextOverflow( TextOverflow textOverflow ) => $"ant-typography-{ToTextOverflow( textOverflow )}";
+    public override string TextOverflow( TextOverflow textOverflow ) => textOverflow == Blazorise.TextOverflow.Truncate
+        ? "ant-typography-ellipsis"
+        : $"b-ant-typography-{ToTextOverflow( textOverflow )}";
 
     public override string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition )
     {
@@ -1270,12 +1272,12 @@ public class AntDesignClassProvider : ClassProvider
             return null;
 
         if ( textSizeDefinition.Breakpoint != Breakpoint.None && textSizeDefinition.Breakpoint != Breakpoint.Mobile )
-            return $"ant-font-size-{ToBreakpoint( textSizeDefinition.Breakpoint )}-{ToTextSizeType( textSizeType )}";
+            return $"b-ant-font-size-{ToBreakpoint( textSizeDefinition.Breakpoint )}-{ToTextSizeType( textSizeType )}";
 
-        return $"ant-font-size-{ToTextSizeType( textSizeType )}";
+        return $"b-ant-font-size-{ToTextSizeType( textSizeType )}";
     }
 
-    public override string TextItalic( bool italic ) => italic ? "ant-typography-italic" : null;
+    public override string TextItalic( bool italic ) => italic ? "b-ant-typography-italic" : null;
 
     #endregion
 
@@ -1293,13 +1295,13 @@ public class AntDesignClassProvider : ClassProvider
 
     #region DisplayHeading
 
-    public override string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => $"ant-display-{ToDisplayHeadingSize( displayHeadingSize )}";
+    public override string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => $"ant-typography b-ant-display-{ToDisplayHeadingSize( displayHeadingSize )}";
 
     #endregion
 
     #region Lead
 
-    public override string Lead() => "ant-lead";
+    public override string Lead() => "ant-typography b-ant-lead";
 
     #endregion
 
@@ -1307,7 +1309,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Paragraph() => "ant-typography";
 
-    public override string ParagraphColor( TextColor textColor ) => $"ant-typography-{ToTextColor( textColor )}";
+    public override string ParagraphColor( TextColor textColor ) => ToTypographyColorClass( ToTextColor( textColor ) );
 
     #endregion
 
@@ -1389,7 +1391,7 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Link
 
-    public override string Link() => null;
+    public override string Link() => "ant-typography-link";
 
     public override string LinkActive( bool active ) => active ? Active() : null;
 
@@ -1397,7 +1399,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string LinkStretched( bool stretched ) => stretched ? "ant-link-stretched" : null;
 
-    public override string LinkDisabled( bool disabled ) => disabled ? "ant-link-disabled" : null;
+    public override string LinkDisabled( bool disabled ) => disabled ? "ant-typography-disabled b-ant-link-disabled" : null;
 
     #endregion
 
@@ -1918,6 +1920,18 @@ public class AntDesignClassProvider : ClassProvider
             GapSize.Is3 => "middle",
             GapSize.Is4 => "large",
             _ => null,
+        };
+    }
+
+    private static string ToTypographyColorClass( string colorName )
+    {
+        if ( string.IsNullOrEmpty( colorName ) )
+            return null;
+
+        return colorName switch
+        {
+            "secondary" or "success" or "warning" or "danger" => $"ant-typography-{colorName}",
+            _ => $"b-ant-typography-{colorName}",
         };
     }
 }
