@@ -1,0 +1,49 @@
+.ant-divider {
+    margin: var(--ant-margin-lg) 0;
+    border: 0;
+    border-block-start: var(--ant-line-width) solid var(--ant-color-split);
+
+    &.ant-divider-dashed {
+        border-block-start-style: dashed;
+    }
+
+    &.b-ant-divider-dotted {
+        border-block-start-style: dotted;
+    }
+
+    &.ant-divider-with-text {
+        position: relative;
+        overflow: visible;
+        text-align: center;
+        border-block-start: 0;
+
+        &::before {
+            content: "";
+            position: absolute;
+            inset-inline: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            border-block-start: var(--ant-line-width) solid var(--ant-color-split);
+        }
+
+        &::after {
+            content: attr(data-content);
+            position: relative;
+            z-index: 1;
+            display: inline-block;
+            padding-inline: var(--ant-padding);
+            color: var(--ant-color-text-heading);
+            font-size: var(--ant-font-size);
+            line-height: var(--ant-line-height);
+            background: var(--ant-color-bg-container);
+        }
+
+        &.ant-divider-dashed::before {
+            border-block-start-style: dashed;
+        }
+
+        &.b-ant-divider-dotted::before {
+            border-block-start-style: dotted;
+        }
+    }
+}

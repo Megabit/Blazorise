@@ -1,0 +1,49 @@
+.b-file-picker {
+    .b-text-drop {
+        color: var(--ant-color-text-description);
+    }
+
+    .b-file-picker-files-container {
+        margin-top: var(--ant-margin-sm);
+    }
+
+    .b-file-picker-files {
+        margin-top: var(--ant-margin-xs);
+    }
+
+    .b-file-picker-file {
+        .ant-row {
+            align-items: center;
+        }
+
+        .ant-progress {
+            margin-top: var(--ant-margin-xs);
+        }
+    }
+
+    .b-file-picker-file-name {
+        margin-inline-end: var(--ant-margin-xs);
+        font-weight: var(--ant-font-weight-strong);
+        color: var(--ant-color-text);
+    }
+
+    .b-file-picker-file-relativepath,
+    .b-file-picker-file-size,
+    .b-file-picker-file-status {
+        margin-inline-end: var(--ant-margin-xs);
+        color: var(--ant-color-text-description);
+        font-size: var(--ant-font-size-sm);
+    }
+
+    .b-file-picker-file-relativepath:empty,
+    .b-file-picker-file-size:empty,
+    .b-file-picker-file-status:empty {
+        display: none;
+    }
+
+    .b-file-picker-files.ant-list {
+        .b-file-picker-file.ant-list-item {
+            align-items: center;
+        }
+    }
+}

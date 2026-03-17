@@ -235,7 +235,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string RatingItem() => "ant-rate-star";
 
-    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-rate-star-{ToColor( color )}" : null;
+    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"b-ant-rate-star-{ToColor( color )}" : null;
 
     public override string RatingItemSelected( bool selected ) => selected ? "ant-rate-star-full" : null;
 
@@ -1329,15 +1329,15 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Figure
 
-    public override string Figure() => "ant-figure";
+    public override string Figure() => "b-ant-figure";
 
-    public override string FigureSize( FigureSize figureSize ) => figureSize != Blazorise.FigureSize.Default ? $"ant-figure-is-{ToFigureSize( figureSize )}" : null;
+    public override string FigureSize( FigureSize figureSize ) => figureSize != Blazorise.FigureSize.Default ? $"b-ant-figure-is-{ToFigureSize( figureSize )}" : null;
 
-    public override string FigureImage() => "ant-figure-img ant-figure-img-fluid";
+    public override string FigureImage() => "b-ant-figure-img ant-image-img b-ant-figure-img-fluid";
 
-    public override string FigureImageRounded( bool rounded ) => rounded ? "ant-figure-rounded" : null;
+    public override string FigureImageRounded( bool rounded ) => rounded ? "b-ant-figure-rounded" : null;
 
-    public override string FigureCaption() => "ant-figure-caption";
+    public override string FigureCaption() => "b-ant-figure-caption";
 
     #endregion
 
@@ -1394,9 +1394,18 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Divider
 
-    public override string Divider() => "divider";
+    public override string Divider() => "ant-divider ant-divider-horizontal";
 
-    public override string DividerType( DividerType dividerType ) => $"{Divider()}-{ToDividerType( dividerType )}";
+    public override string DividerType( DividerType dividerType )
+    {
+        return dividerType switch
+        {
+            Blazorise.DividerType.Dashed => "ant-divider-dashed",
+            Blazorise.DividerType.Dotted => "b-ant-divider-dotted",
+            Blazorise.DividerType.TextContent => "ant-divider-with-text b-ant-divider-text",
+            _ => null,
+        };
+    }
 
     #endregion
 

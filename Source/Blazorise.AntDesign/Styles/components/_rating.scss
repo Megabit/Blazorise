@@ -1,4 +1,7 @@
-﻿.ant-rate {
+.ant-rate {
+    font-size: var(--ant-rate-star-size);
+    line-height: 1;
+
     &:not(.ant-rate-disabled):not(.ant-rate-readonly):hover {
         .ant-rate-star {
             cursor: pointer;
@@ -15,7 +18,7 @@
         @each $name, $value in $theme-colors {
             $color: $value;
 
-            &.ant-rate-star-#{$name} {
+            &.b-ant-rate-star-#{$name} {
                 color: $color;
             }
         }

@@ -365,6 +365,7 @@ html {
   --ant-progress-line-border-radius: 100px;
   --ant-progress-circle-text-font-size: 1em;
   --ant-progress-circle-icon-font-size: 1.1666666667em;
+  --ant-rate-star-size: var(--ant-font-size-xl);
   --ant-select-z-index-popup: calc(var(--ant-z-index-popup-base) + 50);
   --ant-select-option-selected-color: var(--ant-color-text);
   --ant-select-option-selected-font-weight: var(--ant-font-weight-strong);
@@ -3413,6 +3414,49 @@ template {
   background: var(--ant-color-white);
 }
 
+.ant-divider {
+  margin: var(--ant-margin-lg) 0;
+  border: 0;
+  border-block-start: var(--ant-line-width) solid var(--ant-color-split);
+}
+.ant-divider.ant-divider-dashed {
+  border-block-start-style: dashed;
+}
+.ant-divider.b-ant-divider-dotted {
+  border-block-start-style: dotted;
+}
+.ant-divider.ant-divider-with-text {
+  position: relative;
+  overflow: visible;
+  text-align: center;
+  border-block-start: 0;
+}
+.ant-divider.ant-divider-with-text::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  border-block-start: var(--ant-line-width) solid var(--ant-color-split);
+}
+.ant-divider.ant-divider-with-text::after {
+  content: attr(data-content);
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  padding-inline: var(--ant-padding);
+  color: var(--ant-color-text-heading);
+  font-size: var(--ant-font-size);
+  line-height: var(--ant-line-height);
+  background: var(--ant-color-bg-container);
+}
+.ant-divider.ant-divider-with-text.ant-divider-dashed::before {
+  border-block-start-style: dashed;
+}
+.ant-divider.ant-divider-with-text.b-ant-divider-dotted::before {
+  border-block-start-style: dotted;
+}
+
 .ant-table-fixed-header thead tr th.b-ant-dropdown-table-fixed-header-visible {
   z-index: 2;
 }
@@ -3533,73 +3577,111 @@ template {
   box-shadow: none;
 }
 
-.ant-figure {
+.b-ant-figure {
   display: inline-block;
-  margin: 0 0 1rem;
+  margin: 0 0 var(--ant-margin);
 }
 
-.ant-figure-rounded {
-  border-radius: 0.25rem;
+.b-ant-figure-rounded {
+  border-radius: var(--ant-border-radius);
 }
 
-.ant-figure-img {
-  margin-bottom: 0.5rem;
+.b-ant-figure-img {
+  display: block;
+  margin-bottom: var(--ant-margin-xs);
   line-height: 1;
 }
 
-.ant-figure-img-fluid {
+.b-ant-figure-img-fluid {
   width: 100%;
   height: auto;
 }
 
-.ant-figure-caption {
-  font-size: 90%;
-  color: #6c757d;
+.b-ant-figure-caption {
+  display: block;
+  font-size: var(--ant-font-size-sm);
+  color: var(--ant-color-text-description);
 }
 
-.ant-figure-is-16x16 {
-  height: 16px;
+.b-ant-figure-is-16x16 {
   width: 16px;
+  height: 16px;
 }
 
-.ant-figure-is-24x24 {
-  height: 24px;
+.b-ant-figure-is-24x24 {
   width: 24px;
+  height: 24px;
 }
 
-.ant-figure-is-32x32 {
-  height: 32px;
+.b-ant-figure-is-32x32 {
   width: 32px;
+  height: 32px;
 }
 
-.ant-figure-is-48x48 {
-  height: 48px;
+.b-ant-figure-is-48x48 {
   width: 48px;
+  height: 48px;
 }
 
-.ant-figure-is-64x64 {
-  height: 64px;
+.b-ant-figure-is-64x64 {
   width: 64px;
+  height: 64px;
 }
 
-.ant-figure-is-96x96 {
-  height: 96px;
+.b-ant-figure-is-96x96 {
   width: 96px;
+  height: 96px;
 }
 
-.ant-figure-is-128x128 {
-  height: 128px;
+.b-ant-figure-is-128x128 {
   width: 128px;
+  height: 128px;
 }
 
-.ant-figure-is-256x256 {
-  height: 256px;
+.b-ant-figure-is-256x256 {
   width: 256px;
+  height: 256px;
 }
 
-.ant-figure-is-512x512 {
-  height: 512px;
+.b-ant-figure-is-512x512 {
   width: 512px;
+  height: 512px;
+}
+
+.b-file-picker .b-text-drop {
+  color: var(--ant-color-text-description);
+}
+.b-file-picker .b-file-picker-files-container {
+  margin-top: var(--ant-margin-sm);
+}
+.b-file-picker .b-file-picker-files {
+  margin-top: var(--ant-margin-xs);
+}
+.b-file-picker .b-file-picker-file .ant-row {
+  align-items: center;
+}
+.b-file-picker .b-file-picker-file .ant-progress {
+  margin-top: var(--ant-margin-xs);
+}
+.b-file-picker .b-file-picker-file-name {
+  margin-inline-end: var(--ant-margin-xs);
+  font-weight: var(--ant-font-weight-strong);
+  color: var(--ant-color-text);
+}
+.b-file-picker .b-file-picker-file-relativepath,
+.b-file-picker .b-file-picker-file-size,
+.b-file-picker .b-file-picker-file-status {
+  margin-inline-end: var(--ant-margin-xs);
+  color: var(--ant-color-text-description);
+  font-size: var(--ant-font-size-sm);
+}
+.b-file-picker .b-file-picker-file-relativepath:empty,
+.b-file-picker .b-file-picker-file-size:empty,
+.b-file-picker .b-file-picker-file-status:empty {
+  display: none;
+}
+.b-file-picker .b-file-picker-files.ant-list .b-file-picker-file.ant-list-item {
+  align-items: center;
 }
 
 .ant-form-item-has-success .ant-input,
@@ -5852,6 +5934,10 @@ a.b-ant-link-disabled[aria-disabled=true] {
   line-height: calc(48px - var(--ant-line-width) * 2);
 }
 
+.ant-rate {
+  font-size: var(--ant-rate-star-size);
+  line-height: 1;
+}
 .ant-rate:not(.ant-rate-disabled):not(.ant-rate-readonly):hover .ant-rate-star {
   cursor: pointer;
 }
@@ -5861,31 +5947,31 @@ a.b-ant-link-disabled[aria-disabled=true] {
 .ant-rate .ant-rate-star {
   cursor: default;
 }
-.ant-rate .ant-rate-star.ant-rate-star-primary {
+.ant-rate .ant-rate-star.b-ant-rate-star-primary {
   color: #1890ff;
 }
-.ant-rate .ant-rate-star.ant-rate-star-secondary {
+.ant-rate .ant-rate-star.b-ant-rate-star-secondary {
   color: #6c757d;
 }
-.ant-rate .ant-rate-star.ant-rate-star-success {
+.ant-rate .ant-rate-star.b-ant-rate-star-success {
   color: #35c613;
 }
-.ant-rate .ant-rate-star.ant-rate-star-info {
+.ant-rate .ant-rate-star.b-ant-rate-star-info {
   color: #60b6f4;
 }
-.ant-rate .ant-rate-star.ant-rate-star-warning {
+.ant-rate .ant-rate-star.b-ant-rate-star-warning {
   color: #f7c12a;
 }
-.ant-rate .ant-rate-star.ant-rate-star-danger {
+.ant-rate .ant-rate-star.b-ant-rate-star-danger {
   color: #ff4d4f;
 }
-.ant-rate .ant-rate-star.ant-rate-star-light {
+.ant-rate .ant-rate-star.b-ant-rate-star-light {
   color: #fafafa;
 }
-.ant-rate .ant-rate-star.ant-rate-star-dark {
+.ant-rate .ant-rate-star.b-ant-rate-star-dark {
   color: #343a40;
 }
-.ant-rate .ant-rate-star.ant-rate-star-link {
+.ant-rate .ant-rate-star.b-ant-rate-star-link {
   color: #3273dc;
 }
 .ant-rate .ant-rate-star.ant-rate-star-focused {
