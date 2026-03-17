@@ -869,7 +869,13 @@ public class AntDesignClassProvider : ClassProvider
             : $"ant-display-{ToDisplayType( displayType )}";
 
         if ( displayDefinition.Direction != DisplayDirection.Default )
-            return $"{baseClass} ant-flex-{ToDisplayDirection( displayDefinition.Direction )}";
+        {
+            var directionClass = displayDefinition.Breakpoint != Breakpoint.None && displayDefinition.Breakpoint != Breakpoint.Mobile
+                ? $"ant-flex-{ToBreakpoint( displayDefinition.Breakpoint )}-{ToDisplayDirection( displayDefinition.Direction )}"
+                : $"ant-flex-{ToDisplayDirection( displayDefinition.Direction )}";
+
+            return $"{baseClass} {directionClass}";
+        }
 
         return baseClass;
     }
@@ -1555,43 +1561,43 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Flex( FlexDefinition flexDefinition )
     {
-        var sb = new StringBuilder();
+        var classes = new List<string>();
 
         var breakpoint = flexDefinition.Breakpoint != Breakpoint.None && flexDefinition.Breakpoint != Breakpoint.Mobile
             ? $"{ToBreakpoint( flexDefinition.Breakpoint )}-"
             : null;
 
         if ( flexDefinition.Direction != FlexDirection.Default )
-            sb.Append( "ant-flex-direction-" ).Append( breakpoint ).Append( ToDirection( flexDefinition.Direction ) );
+            classes.Add( $"ant-flex-direction-{breakpoint}{ToDirection( flexDefinition.Direction )}" );
 
         if ( flexDefinition.JustifyContent != FlexJustifyContent.Default )
-            sb.Append( "ant-justify-content-" ).Append( breakpoint ).Append( ToJustifyContent( flexDefinition.JustifyContent ) );
+            classes.Add( $"ant-justify-content-{breakpoint}{ToJustifyContent( flexDefinition.JustifyContent )}" );
 
         if ( flexDefinition.AlignItems != FlexAlignItems.Default )
-            sb.Append( "ant-align-items-" ).Append( breakpoint ).Append( ToAlignItems( flexDefinition.AlignItems ) );
+            classes.Add( $"ant-align-items-{breakpoint}{ToAlignItems( flexDefinition.AlignItems )}" );
 
         if ( flexDefinition.AlignSelf != FlexAlignSelf.Default )
-            sb.Append( "ant-align-self-" ).Append( breakpoint ).Append( ToAlignSelf( flexDefinition.AlignSelf ) );
+            classes.Add( $"ant-align-self-{breakpoint}{ToAlignSelf( flexDefinition.AlignSelf )}" );
 
         if ( flexDefinition.AlignContent != FlexAlignContent.Default )
-            sb.Append( "ant-align-content-" ).Append( breakpoint ).Append( ToAlignContent( flexDefinition.AlignContent ) );
+            classes.Add( $"ant-align-content-{breakpoint}{ToAlignContent( flexDefinition.AlignContent )}" );
 
         if ( flexDefinition.GrowShrink != FlexGrowShrink.Default && flexDefinition.GrowShrinkSize != FlexGrowShrinkSize.Default )
-            sb.Append( "ant-flex-" ).Append( breakpoint ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
+            classes.Add( $"ant-flex-{breakpoint}{ToGrowShrink( flexDefinition.GrowShrink )}-{ToGrowShrinkSize( flexDefinition.GrowShrinkSize )}" );
 
         if ( flexDefinition.Basis && flexDefinition.BasisSize != FlexBasisSize.Default )
-            sb.Append( "ant-flex-basis-" ).Append( breakpoint ).Append( ToBasisSize( flexDefinition.BasisSize ) );
+            classes.Add( $"ant-flex-{breakpoint}basis-{ToBasisSize( flexDefinition.BasisSize )}" );
 
         if ( flexDefinition.Wrap != FlexWrap.Default )
-            sb.Append( "ant-flex-wrap-" ).Append( breakpoint ).Append( ToWrap( flexDefinition.Wrap ) );
+            classes.Add( $"ant-flex-wrap-{breakpoint}{ToWrap( flexDefinition.Wrap )}" );
 
         if ( flexDefinition.Order != FlexOrder.Default )
-            sb.Append( "ant-flex-order-" ).Append( breakpoint ).Append( ToOrder( flexDefinition.Order ) );
+            classes.Add( $"ant-flex-order-{breakpoint}{ToOrder( flexDefinition.Order )}" );
 
         if ( flexDefinition.Fill )
-            sb.Append( "ant-flex-" ).Append( breakpoint ).Append( "fill" );
+            classes.Add( $"ant-flex-{breakpoint}fill" );
 
-        return sb.ToString();
+        return string.Join( " ", classes );
     }
 
     public override string Flex( FlexRule flexRule )
@@ -1622,7 +1628,7 @@ public class AntDesignClassProvider : ClassProvider
         var sb = new StringBuilder( "ant-" );
 
         if ( sizingDefinition.IsMin && sizingDefinition.IsViewport )
-            sb.Append( "min-wiewport-" );
+            sb.Append( "min-viewport-" );
         else if ( sizingDefinition.IsMax )
             sb.Append( "max-" );
         else if ( sizingDefinition.IsViewport )
