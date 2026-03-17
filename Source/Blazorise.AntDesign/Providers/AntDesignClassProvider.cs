@@ -496,13 +496,13 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Tabs
 
-    public override string Tabs( bool pills ) => pills ? "ant-tabs ant-tabs-top ant-tabs-pills" : "ant-tabs ant-tabs-top";
+    public override string Tabs( bool pills ) => pills ? "ant-tabs b-ant-tabs-pills" : "ant-tabs";
 
     public override string TabsCards( bool cards ) => cards ? "ant-tabs-card" : null;
 
-    public override string TabsFullWidth( bool fullWidth ) => fullWidth ? "ant-tabs-fill" : null;
+    public override string TabsFullWidth( bool fullWidth ) => fullWidth ? "b-ant-tabs-fill" : null;
 
-    public override string TabsJustified( bool justified ) => justified ? "ant-tabs-justified" : null;
+    public override string TabsJustified( bool justified ) => justified ? "b-ant-tabs-justified" : null;
 
     public override string TabsVertical( bool vertical ) => null;
 
@@ -512,7 +512,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TabItemDisabled( bool disabled ) => disabled ? "ant-tabs-tab-disabled" : null;
 
-    public override string TabLink( TabPosition tabPosition ) => null;
+    public override string TabLink( TabPosition tabPosition ) => "ant-tabs-tab-btn";
 
     public override string TabLinkActive( bool active ) => null;
 
@@ -522,17 +522,17 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TabPanel() => "ant-tabs-tabpane";
 
-    public override string TabPanelActive( bool active ) => active ? null : "ant-tabs-tabpane-hidden";
+    public override string TabPanelActive( bool active ) => active ? "ant-tabs-tabpane-active" : "ant-tabs-tabpane-hidden";
 
     #endregion
 
     #region Steps
 
-    public override string Steps() => "ant-steps ant-steps-horizontal";
+    public override string Steps() => "ant-steps ant-steps-horizontal ant-steps-title-horizontal ant-steps-filled";
 
     public override string StepItem() => "ant-steps-item";
 
-    public override string StepItemActive( bool active ) => active ? "ant-steps-item-process ant-steps-item-active" : "ant-steps-item-wait";
+    public override string StepItemActive( bool active ) => active ? "ant-steps-item-process ant-steps-item-active" : null;
 
     public override string StepItemCompleted( bool completed ) => completed ? "ant-steps-item-finish" : null;
 
@@ -542,7 +542,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string StepItemMarkerColor( Color color, bool active ) => null;
 
-    public override string StepItemDescription() => "ant-steps-item-content";
+    public override string StepItemDescription() => "ant-steps-item-section";
 
     public override string StepsContent() => "ant-steps-content";
 
@@ -996,14 +996,14 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Toast
 
-    public override string Toast() => "ant-notification-notice ant-notification-notice-closable";
+    public override string Toast() => "ant-notification-notice-pure-panel";
 
     public override string ToastAnimated( bool animated ) => null;
 
     public override string ToastFade( bool visible, bool showing, bool hiding ) => showing
-        ? "ant-notification-fade-enter ant-notification-fade-enter-active ant-notification-fade-appear ant-notification-fade-appear-prepare ant-notification-fade-appear-active"
+        ? "b-ant-toast-opening"
         : hiding
-            ? "ant-notification-fade-leave ant-notification-fade-leave-active"
+            ? "b-ant-toast-closing"
             : null;
 
     public override string ToastVisible( bool visible ) => null;
@@ -1025,7 +1025,10 @@ public class AntDesignClassProvider : ClassProvider
         _ => null,
     };
 
-    public override string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy ) => null;
+    public override string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy )
+        => placementStrategy == Blazorise.ToasterPlacementStrategy.Absolute
+            ? "b-ant-notification-absolute"
+            : "b-ant-notification-fixed";
 
     #endregion
 

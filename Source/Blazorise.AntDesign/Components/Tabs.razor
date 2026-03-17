@@ -1,22 +1,21 @@
-﻿@inherits Blazorise.Tabs
+@inherits Blazorise.Tabs
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
-        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-            <div role="tablist" class="@TabsBarClassNames">
-                <div class="ant-tabs-nav-wrap">
-                    <div class="ant-tabs-nav-list ant-tabs-nav-animated">
-                        @if ( Items != null )
-                        {
+        <div @ref="@ElementRef" id="@ElementId" class="@RootClassNames" style="@StyleNames" @attributes="@Attributes">
+            @if ( Items != null )
+            {
+                <div role="tablist" aria-orientation="@AriaOrientation" class="@TabsNavClassNames">
+                    <div class="ant-tabs-nav-wrap">
+                        <div class="ant-tabs-nav-list">
                             @Items
-                        }
-                        <div class="ant-tabs-ink-bar ant-tabs-ink-bar-animated"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
             @if ( Content != null )
             {
                 <div class="ant-tabs-content-holder">
-                    <div class="@($"{ContentClassNames} {ContentPositionClassNames}")" style="@Styles?.Content" @attributes="@Attributes">
+                    <div class="@ContentClassNames" style="@Styles?.Content">
                         @Content
                     </div>
                 </div>

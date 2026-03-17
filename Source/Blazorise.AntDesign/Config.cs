@@ -109,7 +109,10 @@ public static class Config
         { typeof( Blazorise.SelectItem<> ), typeof( Components.SelectItem<> ) },
         { typeof( Blazorise.SkeletonItem ), typeof( Components.SkeletonItem ) },
         { typeof( Blazorise.Slider<> ), typeof( Components.Slider<> ) },
+        { typeof( Blazorise.Steps ), typeof( Components.Steps ) },
         { typeof( Blazorise.Step ), typeof( Components.Step ) },
+        { typeof( Blazorise.StepPanel ), typeof( Components.StepPanel ) },
+        { typeof( Blazorise.StepsContent ), typeof( Components.StepsContent ) },
         { typeof( Blazorise.Switch<> ), typeof( Components.Switch<> ) },
         { typeof( Blazorise.Tab ), typeof( Components.Tab ) },
         { typeof( Blazorise.Table ), typeof( Components.Table ) },
@@ -124,6 +127,9 @@ public static class Config
         { typeof( Blazorise.TextInput ), typeof( Components.TextInput ) },
         { typeof( Blazorise.TimeInput<> ), typeof( Components.TimeInput<> ) },
         { typeof( Blazorise.TimePicker<> ), typeof( Components.TimePicker<> ) },
+        { typeof( Blazorise.Toaster ), typeof( Components.Toaster ) },
         { typeof( Blazorise.Toast ), typeof( Components.Toast ) },
+        { typeof( Blazorise.ToastBody ), typeof( Components.ToastBody ) },
+        { typeof( Blazorise.ToastHeader ), typeof( Components.ToastHeader ) },
     };
 }

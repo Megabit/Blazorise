@@ -1,33 +1,149 @@
-﻿.ant-tabs.ant-tabs-fill {
-    .ant-tabs-tab {
-        flex-grow: 1;
-        margin-right: 0px;
-        width: 100%;
-        text-align: center;
+.ant-tabs {
+    .ant-tabs-nav {
+        margin: var(--ant-tabs-horizontal-margin);
     }
-}
 
-.ant-tabs.ant-tabs-justified {
-    .ant-tabs-tab {
-        flex-basis: 0;
-        flex-grow: 1;
-        margin-right: 0px;
-        width: 100%;
-        text-align: center;
+    .ant-tabs-nav-wrap {
+        min-width: 0;
     }
-}
 
-.ant-tabs-pills {
-    .ant-tabs-bar.ant-tabs-top-bar,
-    .ant-tabs-bar.ant-tabs-bottom-bar {
-        .ant-tabs-nav > div > .ant-tabs-tab {
-            padding-left: 2rem;
-            padding-right: 2rem;
+    .ant-tabs-nav-list {
+        display: flex;
+        align-items: center;
+        min-width: 0;
+    }
+
+    .ant-tabs-tab {
+        display: flex;
+        align-items: center;
+        margin: 0 var(--ant-tabs-horizontal-item-gutter) 0 0;
+        padding: var(--ant-tabs-horizontal-item-padding);
+        color: var(--ant-tabs-item-color);
+        cursor: pointer;
+        transition: color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+    }
+
+    .ant-tabs-tab:last-child {
+        margin-inline-end: 0;
+    }
+
+    .ant-tabs-tab:hover {
+        color: var(--ant-tabs-item-hover-color);
+    }
+
+    .ant-tabs-tab.ant-tabs-tab-active {
+        color: var(--ant-tabs-item-selected-color);
+    }
+
+    .ant-tabs-tab.ant-tabs-tab-disabled,
+    .ant-tabs-tab.ant-tabs-tab-disabled .ant-tabs-tab-btn {
+        color: var(--ant-color-text-disabled);
+        cursor: not-allowed;
+    }
+
+    .ant-tabs-tab-btn {
+        color: inherit;
+        font-size: var(--ant-tabs-title-font-size);
+        line-height: var(--ant-line-height);
+        outline: none;
+    }
+
+    .ant-tabs-content-holder {
+        min-width: 0;
+    }
+
+    .ant-tabs-content {
+        width: 100%;
+    }
+
+    .ant-tabs-tabpane-hidden {
+        display: none;
+    }
+
+    .ant-tabs-ink-bar {
+        display: none;
+    }
+
+    &.b-ant-tabs-fill,
+    &.b-ant-tabs-justified {
+        .ant-tabs-nav-list {
+            width: 100%;
+        }
+
+        .ant-tabs-tab {
+            flex: 1 1 0;
+            justify-content: center;
+            margin-inline-end: 0;
+            text-align: center;
         }
     }
-}
 
-.ant-tabs.ant-tabs-top .ant-tabs-bar.ant-tabs-top-bar .ant-tabs-nav-scroll {
-    overflow: hidden;
-    overflow-x: auto;
+    &.b-ant-tabs-pills {
+        .ant-tabs-tab {
+            border-radius: var(--ant-border-radius);
+            margin-inline-end: var(--ant-margin-xs);
+            padding: 8px 16px;
+        }
+
+        .ant-tabs-tab:hover {
+            background: var(--ant-color-fill-tertiary);
+        }
+
+        .ant-tabs-tab.ant-tabs-tab-active {
+            background: var(--ant-color-primary);
+            color: var(--ant-color-text-light-solid);
+        }
+    }
+
+    &:not(.ant-tabs-card):not(.b-ant-tabs-pills) {
+        &.ant-tabs-top .ant-tabs-tab.ant-tabs-tab-active {
+            box-shadow: inset 0 -2px 0 var(--ant-tabs-ink-bar-color);
+        }
+
+        &.ant-tabs-bottom .ant-tabs-tab.ant-tabs-tab-active {
+            box-shadow: inset 0 2px 0 var(--ant-tabs-ink-bar-color);
+        }
+
+        &.ant-tabs-left .ant-tabs-tab.ant-tabs-tab-active {
+            box-shadow: inset -2px 0 0 var(--ant-tabs-ink-bar-color);
+        }
+
+        &.ant-tabs-right .ant-tabs-tab.ant-tabs-tab-active {
+            box-shadow: inset 2px 0 0 var(--ant-tabs-ink-bar-color);
+        }
+    }
+
+    &.ant-tabs-bottom {
+        .ant-tabs-nav {
+            margin: var(--ant-margin) 0 0;
+        }
+    }
+
+    &.ant-tabs-left,
+    &.ant-tabs-right {
+        display: flex;
+        gap: var(--ant-margin);
+
+        .ant-tabs-nav {
+            margin: 0;
+        }
+
+        .ant-tabs-nav-list {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .ant-tabs-tab {
+            margin: var(--ant-tabs-vertical-item-margin);
+            padding: var(--ant-tabs-vertical-item-padding);
+        }
+
+        .ant-tabs-content-holder {
+            flex: 1 1 auto;
+        }
+    }
+
+    &.ant-tabs-right {
+        flex-direction: row-reverse;
+    }
 }
