@@ -870,6 +870,12 @@ html {
     --ant-switch-inner-max-margin: 24px;
     --ant-switch-inner-min-margin-sm: 6px;
     --ant-switch-inner-max-margin-sm: 18px;
+    --ant-tooltip-bg: rgba(0, 0, 0, 0.85);
+    --ant-tooltip-color: var(--ant-color-text-light-solid);
+    --ant-tooltip-border-radius: var(--ant-border-radius);
+    --ant-tooltip-max-width: 250px;
+    --ant-tooltip-padding: 6px 8px;
+    --ant-tooltip-z-index-popup: calc(var(--ant-z-index-popup-base) + 70);
     --ant-menu-active-bar-border-width: var(--ant-line-width);
     --ant-menu-active-bar-height: var(--ant-line-width-bold);
     --ant-menu-active-bar-width: 0;
