@@ -1045,7 +1045,8 @@ html {
     --ant-tabs-title-font-size-lg: var(--ant-font-size-lg);
     --ant-tabs-title-font-size-sm: var(--ant-font-size-sm);
     --ant-tabs-vertical-item-margin: 0 0 16px 0;
-    --ant-tabs-vertical-item-padding: 8px 24px 8px 0;
+    --ant-tabs-vertical-item-padding-left: 8px 24px 8px 0;
+    --ant-tabs-vertical-item-padding-right: 8px 0 8px 24px;
     --ant-tabs-z-index-popup: var(--ant-z-index-popup-base);
     --ant-steps-custom-icon-font-size: 24px;
     --ant-steps-description-max-width: 140px;
