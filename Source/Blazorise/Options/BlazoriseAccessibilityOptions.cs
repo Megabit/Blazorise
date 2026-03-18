@@ -11,7 +11,7 @@ public class BlazoriseAccessibilityOptions
     public bool UseLabelForAttribute { get; set; } = true;
 
     /// <summary>
-    /// If true, non-labelable controls can automatically render the <c>aria-labelledby</c> attribute from the <see cref="FieldLabel"/> inside the same <see cref="Field"/>.
+    /// If true, non-labelable controls can automatically render the <c>aria-labelledby</c> attribute from the label component inside the same <see cref="Field"/> or <see cref="Fields"/>.
     /// </summary>
     public bool UseAriaLabelledByAttribute { get; set; } = true;
 

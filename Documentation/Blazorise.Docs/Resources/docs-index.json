@@ -1328,6 +1328,14 @@
           "description": "You can add gutters (spacing) between individual fields within a Fields container by setting the Gutter property. This helps improve readability and visual separation between related inputs."
         },
         {
+          "code": "FieldSetExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Fields/Examples/FieldSetExample.razor",
+          "content": "<Field Group>\r\n    <FieldLabel RequiredIndicator>Preferred contact method</FieldLabel>\r\n    <RadioGroup TValue=\"string\" Name=\"contact-method\" @bind-Value=\"@contactMethod\">\r\n        <Radio Value=\"@(\"email\")\">Email</Radio>\r\n        <Radio Value=\"@(\"phone\")\">Phone</Radio>\r\n        <Radio Value=\"@(\"sms\")\">SMS</Radio>\r\n    </RadioGroup>\r\n</Field>\r\n\r\n<Div Margin=\"Margin.Is4.FromTop\">\r\n    <Fields Group>\r\n        <FieldsLabel>Shipping address</FieldsLabel>\r\n        <Field>\r\n            <FieldLabel>Street</FieldLabel>\r\n            <TextInput Placeholder=\"1234 Main St\" />\r\n        </Field>\r\n        <Field>\r\n            <FieldLabel>City</FieldLabel>\r\n            <TextInput Placeholder=\"Zagreb\" />\r\n        </Field>\r\n    </Fields>\r\n</Div>\r\n\r\n@code {\r\n    string contactMethod = \"email\";\r\n}",
+          "title": "Grouped Field and Fields",
+          "description": "Enable Group on Field when one question is answered by a single grouped control such as RadioGroup . Enable Group on Fields when multiple related Field components belong to the same section. In grouped mode, FieldLabel or FieldsLabel becomes the semantic group label and supports RequiredIndicator and Screenreader ."
+        },
+        {
           "code": "RequiredIndicatorExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Fields/Examples/RequiredIndicatorExample.razor",
@@ -1347,7 +1355,19 @@
         },
         {
           "kind": "type",
+          "name": "FieldSet"
+        },
+        {
+          "kind": "type",
+          "name": "Legend"
+        },
+        {
+          "kind": "type",
           "name": "Fields"
+        },
+        {
+          "kind": "type",
+          "name": "FieldsLabel"
         }
       ]
     },
@@ -2466,6 +2486,14 @@
           "content": "<RadioGroup TValue=\"string\" Name=\"colors\">\r\n    <Radio Value=\"@(\"red\")\">Red</Radio>\r\n    <Radio Value=\"@(\"green\")\">Green</Radio>\r\n    <Radio Value=\"@(\"blue\")\">Blue</Radio>\r\n</RadioGroup>",
           "title": "Basic RadioGroup",
           "description": "RadioGroup is a helpful wrapper used to group Radio components that provides an easier API, and proper keyboard accessibility to the group."
+        },
+        {
+          "code": "RadioGroupWithLegendExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Radios/Examples/RadioGroupWithLegendExample.razor",
+          "content": "<Field Group>\r\n    <FieldLabel>Choose a shipping speed</FieldLabel>\r\n    <RadioGroup TValue=\"string\" Name=\"shipping-speed\" @bind-Value=\"@shippingSpeed\">\r\n        <Radio Value=\"@(\"standard\")\">Standard</Radio>\r\n        <Radio Value=\"@(\"express\")\">Express</Radio>\r\n        <Radio Value=\"@(\"overnight\")\">Overnight</Radio>\r\n    </RadioGroup>\r\n</Field>\r\n\r\n@code {\r\n    string shippingSpeed = \"express\";\r\n}",
+          "title": "RadioGroup in a Grouped Field",
+          "description": "When the radio group answers one named question, enable Group on Field and keep using FieldLabel . In grouped mode, the label renders as a legend and becomes the semantic group label for the radio group."
         },
         {
           "code": "RadioGroupButtonsExample",

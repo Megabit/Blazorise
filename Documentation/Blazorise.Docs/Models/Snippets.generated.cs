@@ -1334,6 +1334,33 @@ namespace Blazorise.Docs.Models
     <TextInput />
 </Field>";
 
+        public const string FieldSetExample = @"<Field Group>
+    <FieldLabel RequiredIndicator>Preferred contact method</FieldLabel>
+    <RadioGroup TValue=""string"" Name=""contact-method"" @bind-Value=""@contactMethod"">
+        <Radio Value=""@(""email"")"">Email</Radio>
+        <Radio Value=""@(""phone"")"">Phone</Radio>
+        <Radio Value=""@(""sms"")"">SMS</Radio>
+    </RadioGroup>
+</Field>
+
+<Div Margin=""Margin.Is4.FromTop"">
+    <Fields Group>
+        <FieldsLabel>Shipping address</FieldsLabel>
+        <Field>
+            <FieldLabel>Street</FieldLabel>
+            <TextInput Placeholder=""1234 Main St"" />
+        </Field>
+        <Field>
+            <FieldLabel>City</FieldLabel>
+            <TextInput Placeholder=""Zagreb"" />
+        </Field>
+    </Fields>
+</Div>
+
+@code {
+    string contactMethod = ""email"";
+}";
+
         public const string FieldWithDisabledExample = @"<Field>
     <FieldLabel>Disabled</FieldLabel>
     <TextInput Value=""Value"" Disabled />
@@ -2953,6 +2980,19 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         return Task.CompletedTask;
     }
+}";
+
+        public const string RadioGroupWithLegendExample = @"<Field Group>
+    <FieldLabel>Choose a shipping speed</FieldLabel>
+    <RadioGroup TValue=""string"" Name=""shipping-speed"" @bind-Value=""@shippingSpeed"">
+        <Radio Value=""@(""standard"")"">Standard</Radio>
+        <Radio Value=""@(""express"")"">Express</Radio>
+        <Radio Value=""@(""overnight"")"">Overnight</Radio>
+    </RadioGroup>
+</Field>
+
+@code {
+    string shippingSpeed = ""express"";
 }";
 
         public const string BasicRatingExample = @"<Rating Color=""Color.Primary"" />";

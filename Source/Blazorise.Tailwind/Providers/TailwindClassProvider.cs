@@ -471,6 +471,16 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
+    #region FieldSet
+
+    public override string FieldSet() => "mb-3";
+
+    public override string FieldSetHorizontal( bool horizontal ) => horizontal ? "flex flex-wrap flex-row" : null;
+
+    public override string FieldSetValidation( ValidationStatus validationStatus ) => null;
+
+    #endregion
+
     #region Field
 
     public override string Field() => "mb-3";
@@ -499,6 +509,21 @@ public class TailwindClassProvider : ClassProvider
             : null;
 
     public override string FieldLabelScreenreader( Screenreader screenreader ) => screenreader != Screenreader.Always ? ToScreenreader( screenreader ) : null;
+
+    #endregion
+
+    #region Legend
+
+    public override string Legend( bool horizontal ) => horizontal
+        ? "block my-auto text-sm font-medium text-gray-900 dark:text-white"
+        : "block my-2 text-sm font-medium text-gray-900 dark:text-white";
+
+    public override string LegendRequiredIndicator( bool requiredIndicator )
+        => requiredIndicator
+            ? "after:content-['_*'] after:[color:var(--b-theme-danger,--btw-color-danger-500)]"
+            : null;
+
+    public override string LegendScreenreader( Screenreader screenreader ) => screenreader != Screenreader.Always ? ToScreenreader( screenreader ) : null;
 
     #endregion
 
