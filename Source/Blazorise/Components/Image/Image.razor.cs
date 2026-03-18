@@ -21,6 +21,13 @@ public partial class Image : BaseComponent
         base.BuildClasses( builder );
     }
 
+    /// <summary>
+    /// Build the onerror attribute value based on a fallback img source.
+    /// </summary>
+    /// <param name="fallbackImg">the fallback img</param>
+    /// <returns>the onerror attribute value</returns>
+    internal static string GetOnErrorString( string fallbackImg )
+        => !string.IsNullOrEmpty( fallbackImg ) ? $"this.src='{fallbackImg}'" : null;
     #endregion
 
     #region Properties
@@ -33,7 +40,7 @@ public partial class Image : BaseComponent
     /// <summary>
     /// The onerror attribute value that will be used to set the fallback image source if the main image fails to load.
     /// </summary>
-    protected string OnError => !string.IsNullOrEmpty( FallbackImageSource ) ? $"this.src='{FallbackImageSource}'" : null;
+    protected string OnError => GetOnErrorString( FallbackSource );
 
     /// <summary>
     /// The absolute or relative URL of the image.
@@ -58,7 +65,7 @@ public partial class Image : BaseComponent
     /// <summary>
     /// The fallback image that will be displayed if image loading fails.
     /// </summary>
-    [Parameter] public string FallbackImageSource { get; set; }
+    [Parameter] public string FallbackSource { get; set; }
 
     #endregion
 }
