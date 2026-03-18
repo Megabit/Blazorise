@@ -825,6 +825,15 @@ html {
     --ant-radio-button-solid-checked-hover-bg: var(--ant-color-primary-hover);
     --ant-radio-button-solid-checked-active-bg: var(--ant-color-primary-active);
     --ant-radio-button-solid-checked-color: var(--ant-color-text-light-solid);
+    --ant-segmented-bg: var(--ant-color-bg-layout);
+    --ant-segmented-padding: var(--ant-line-width-bold);
+    --ant-segmented-thumb-bg: var(--ant-color-bg-container);
+    --ant-segmented-thumb-box-shadow: var(--ant-box-shadow-secondary);
+    --ant-segmented-item-color: var(--ant-color-text-label);
+    --ant-segmented-item-hover-color: var(--ant-color-text);
+    --ant-segmented-item-hover-bg: transparent;
+    --ant-segmented-item-selected-bg: var(--ant-color-bg-container);
+    --ant-segmented-item-selected-color: var(--ant-color-text);
     --ant-carousel-arrow-size: 16px;
     --ant-carousel-arrow-offset: var(--ant-margin-xs);
     --ant-carousel-dot-width: 16px;

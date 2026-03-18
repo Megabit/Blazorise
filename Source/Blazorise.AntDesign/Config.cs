@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using Blazorise.AntDesign.Modules;
 using Blazorise.AntDesign.Providers;
 using Blazorise.Modules;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,7 @@ public static class Config
         serviceCollection.AddSingleton<IStyleProvider, AntDesignStyleProvider>();
         serviceCollection.AddSingleton<IBehaviourProvider, AntDesignBehaviourProvider>();
         serviceCollection.AddScoped<IThemeGenerator, AntDesignThemeGenerator>();
+        serviceCollection.AddScoped<AntDesignJSSegmentedModule>();
 
         foreach ( var mapping in ComponentMap )
         {
@@ -103,6 +105,7 @@ public static class Config
         { typeof( Blazorise.ProgressBar ), typeof( Components.ProgressBar ) },
         { typeof( Blazorise.PageProgress ), typeof( Components.PageProgress ) },
         { typeof( Blazorise.Radio<> ), typeof( Components.Radio<> ) },
+        { typeof( Blazorise.RadioGroup<> ), typeof( Components.RadioGroup<> ) },
         { typeof( Blazorise.Rating ), typeof( Components.Rating ) },
         { typeof( Blazorise.RatingItem ), typeof( Components.RatingItem ) },
         { typeof( Blazorise.Select<> ), typeof( Components.Select<> ) },

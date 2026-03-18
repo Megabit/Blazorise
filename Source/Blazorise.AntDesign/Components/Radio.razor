@@ -1,19 +1,29 @@
 @typeparam TValue
 @inherits Blazorise.Radio<TValue>
 @using Blazorise.Utilities
-<label class="@WrapperClassNames" style="@WrapperStyleNames">
-    <span class="@CheckboxClassNames">
+@if ( AsButton )
+{
+    <label class="@WrapperClassNames" style="@WrapperStyleNames">
         <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@IsActive" value="@Value" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
-        @if ( !AsButton )
-        {
+        <div class="@LabelClassNames">
+            @ChildContent
+        </div>
+    </label>
+    @Feedback
+}
+else
+{
+    <label class="@WrapperClassNames" style="@WrapperStyleNames">
+        <span class="@CheckboxClassNames">
+            <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@IsActive" value="@Value" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
             <span class="@InnerClassNames"></span>
-        }
-    </span>
-    <span class="@LabelClassNames">
-        @ChildContent
-        @Feedback
-    </span>
-</label>
+        </span>
+        <span class="@LabelClassNames">
+            @ChildContent
+            @Feedback
+        </span>
+    </label>
+}
 @code {
     private ClassBuilder wrapperClassBuilder;
     private StyleBuilder wrapperStyleBuilder;
@@ -45,11 +55,12 @@
     private void BuildWrapperClasses( ClassBuilder builder )
     {
         string baseClasses = AsButton == true
-            ? $"ant-radio-button-wrapper{( IsActive ? " ant-radio-button-wrapper-checked" : "" )}{( IsDisabled ? " ant-radio-button-wrapper-disabled" : "" )}"
+            ? $"ant-segmented-item{( IsActive ? " ant-segmented-item-selected" : "" )}{( IsDisabled ? " ant-segmented-item-disabled" : "" )}"
             : $"ant-radio-wrapper{( IsActive ? " ant-radio-wrapper-checked" : "" )}{( IsDisabled ? " ant-radio-wrapper-disabled" : "" )}";
 
         builder.Append( baseClasses );
         builder.Append( RadioSizeClass );
+        builder.Append( RadioColorClass );
         builder.Append( Classes?.Wrapper );
         AppendWrapperUtilities( builder );
     }
@@ -65,7 +76,7 @@
     string WrapperStyleNames => wrapperStyleBuilder.Styles;
 
     string CheckboxClassNames => AsButton == true
-        ? "ant-radio-button"
+        ? string.Empty
         : $"ant-radio{( IsActive ? " ant-radio-checked" : "" )}{( IsDisabled ? " ant-radio-disabled" : "" )}";
 
     string InnerClassNames => AsButton == true
@@ -73,11 +84,16 @@
         : "ant-radio-inner";
 
     string LabelClassNames => AsButton == true
-        ? "ant-radio-button-label"
+        ? "ant-segmented-item-label"
         : "ant-radio-label";
 
     string RadioSizeClass
         => ThemeSize != Blazorise.Size.Default
-            ? $"b-ant-radio{( AsButton ? "-button" : string.Empty )}-{ClassProvider.ToSize( ThemeSize )}"
+            ? $"b-ant-radio-{ClassProvider.ToSize( ThemeSize )}"
+            : null;
+
+    string RadioColorClass
+        => AsButton
+            ? $"b-ant-segmented-item-{ClassProvider.ToColor( ButtonColor )}"
             : null;
 }
