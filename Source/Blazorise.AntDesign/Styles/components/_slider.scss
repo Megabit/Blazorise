@@ -1,9 +1,10 @@
-.b-ant-range-slider {
-    > .ant-slider-handle {
+.ant-slider {
+    .ant-slider-handle {
         pointer-events: none;
     }
 
-    > .b-ant-range-slider-tooltip {
+    .b-ant-slider-tooltip {
+        position: absolute;
         top: 0;
         visibility: hidden;
         opacity: 0;
@@ -11,19 +12,6 @@
         transition: opacity var(--ant-motion-duration-fast) var(--ant-motion-ease-out), visibility var(--ant-motion-duration-fast) var(--ant-motion-ease-out);
         pointer-events: none;
         z-index: 10;
-
-        > span {
-            display: block;
-            min-width: 24px;
-            padding: 1px var(--ant-padding-xs);
-            color: var(--ant-color-text-light-solid);
-            font-size: var(--ant-font-size);
-            line-height: var(--ant-line-height);
-            text-align: center;
-            background: rgba(0, 0, 0, 0.85);
-            border-radius: var(--ant-border-radius);
-            box-shadow: var(--ant-box-shadow-secondary);
-        }
 
         &::after {
             content: "";
@@ -38,15 +26,28 @@
         }
     }
 
-    > .b-ant-range-slider-input {
+    .b-ant-slider-tooltip-inner {
+        min-width: 24px;
+        padding: 1px var(--ant-padding-xs);
+        color: var(--ant-color-text-light-solid);
+        font-size: var(--ant-font-size);
+        line-height: var(--ant-line-height);
+        text-align: center;
+        background: rgba(0, 0, 0, 0.85);
+        border-radius: var(--ant-border-radius);
+        box-shadow: var(--ant-box-shadow-secondary);
+    }
+
+    .b-ant-slider-input {
         position: absolute;
+        inset-inline: 0;
         top: 0;
-        left: 0;
         width: 100%;
         height: 100%;
         margin: 0;
-        background: transparent;
-        pointer-events: none;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 2;
         -webkit-appearance: none;
         appearance: none;
 
@@ -61,7 +62,6 @@
             height: var(--ant-slider-handle-size-hover);
             border: 0;
             background: transparent;
-            pointer-events: auto;
             cursor: pointer;
             -webkit-appearance: none;
             appearance: none;
@@ -82,24 +82,20 @@
             height: var(--ant-slider-handle-size-hover);
             border: 0;
             background: transparent;
-            pointer-events: auto;
             cursor: pointer;
         }
     }
 
-    > .b-ant-range-slider-tooltip {
-        white-space: nowrap;
-        pointer-events: none;
-    }
-
-    &:hover > .b-ant-range-slider-tooltip,
-    &:focus-within > .b-ant-range-slider-tooltip {
+    &:hover .b-ant-slider-tooltip,
+    &:focus-within .b-ant-slider-tooltip {
         visibility: visible;
         opacity: 1;
     }
 
     &[aria-disabled='true'] {
-        > .b-ant-range-slider-input {
+        .b-ant-slider-input {
+            cursor: not-allowed;
+
             &::-webkit-slider-thumb {
                 cursor: not-allowed;
             }
@@ -109,20 +105,20 @@
             }
         }
     }
-}
 
-.b-ant-range-slider.ant-input-status-success {
-    --ant-slider-track-bg: var(--ant-color-success);
-    --ant-slider-track-hover-bg: var(--ant-color-success);
-    --ant-slider-handle-color: var(--ant-color-success);
-    --ant-slider-handle-active-color: var(--ant-color-success);
-    --ant-slider-dot-active-border-color: var(--ant-color-success);
-}
+    &.ant-input-status-success {
+        --ant-slider-track-bg: var(--ant-color-success);
+        --ant-slider-track-hover-bg: var(--ant-color-success);
+        --ant-slider-handle-color: var(--ant-color-success);
+        --ant-slider-handle-active-color: var(--ant-color-success);
+        --ant-slider-dot-active-border-color: var(--ant-color-success);
+    }
 
-.b-ant-range-slider.ant-input-status-error {
-    --ant-slider-track-bg: var(--ant-color-error);
-    --ant-slider-track-hover-bg: var(--ant-color-error);
-    --ant-slider-handle-color: var(--ant-color-error);
-    --ant-slider-handle-active-color: var(--ant-color-error);
-    --ant-slider-dot-active-border-color: var(--ant-color-error);
+    &.ant-input-status-error {
+        --ant-slider-track-bg: var(--ant-color-error);
+        --ant-slider-track-hover-bg: var(--ant-color-error);
+        --ant-slider-handle-color: var(--ant-color-error);
+        --ant-slider-handle-active-color: var(--ant-color-error);
+        --ant-slider-dot-active-border-color: var(--ant-color-error);
+    }
 }

@@ -107,6 +107,7 @@ public static class Config
         { typeof( Blazorise.PageProgress ), typeof( Components.PageProgress ) },
         { typeof( Blazorise.Radio<> ), typeof( Components.Radio<> ) },
         { typeof( Blazorise.RadioGroup<> ), typeof( Components.RadioGroup<> ) },
+        { typeof( Blazorise.RangeSlider<> ), typeof( Components.RangeSlider<> ) },
         { typeof( Blazorise.Rating ), typeof( Components.Rating ) },
         { typeof( Blazorise.RatingItem ), typeof( Components.RatingItem ) },
         { typeof( Blazorise.Select<> ), typeof( Components.Select<> ) },

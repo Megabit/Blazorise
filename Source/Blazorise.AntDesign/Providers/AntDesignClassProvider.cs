@@ -232,19 +232,19 @@ public class AntDesignClassProvider : ClassProvider
 
     #region RangeSlider
 
-    public override string RangeSlider() => "ant-range-slider";
+    public override string RangeSlider() => "ant-slider b-ant-range-slider";
 
-    public override string RangeSliderTrack() => "ant-range-slider-track";
+    public override string RangeSliderTrack() => "ant-slider-rail";
 
-    public override string RangeSliderRange() => "ant-range-slider-range";
+    public override string RangeSliderRange() => "ant-slider-track";
 
-    public override string RangeSliderInput() => "ant-slider ant-range-slider-input";
+    public override string RangeSliderInput() => "b-ant-range-slider-input";
 
-    public override string RangeSliderStart() => "ant-range-slider-input-start";
+    public override string RangeSliderStart() => "b-ant-range-slider-start";
 
-    public override string RangeSliderEnd() => "ant-range-slider-input-end";
+    public override string RangeSliderEnd() => "b-ant-range-slider-end";
 
-    public override string RangeSliderTooltip() => "ant-tag ant-range-slider-tooltip";
+    public override string RangeSliderTooltip() => "b-ant-range-slider-tooltip";
 
     public override string RangeSliderValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 

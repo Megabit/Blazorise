@@ -948,6 +948,17 @@ html {
     --ant-slider-handle-line-width: 2px;
     --ant-slider-handle-line-width-hover: 2.5px;
     --ant-slider-dot-size: 8px;
+    --ant-slider-rail-bg: var(--ant-color-fill-tertiary);
+    --ant-slider-rail-hover-bg: var(--ant-color-fill-content);
+    --ant-slider-track-bg: var(--ant-color-primary-border-hover);
+    --ant-slider-track-hover-bg: var(--ant-color-primary);
+    --ant-slider-track-bg-disabled: var(--ant-color-fill-content);
+    --ant-slider-handle-color: var(--ant-color-primary-border-hover);
+    --ant-slider-handle-active-color: var(--ant-color-primary);
+    --ant-slider-handle-active-outline-color: rgba(5, 145, 255, 0.12);
+    --ant-slider-handle-color-disabled: var(--ant-color-text-disabled);
+    --ant-slider-dot-border-color: var(--ant-color-fill-content);
+    --ant-slider-dot-active-border-color: var(--ant-color-primary-border-hover);
     --ant-skeleton-gradient-from-color: rgba(0, 0, 0, .06);
     --ant-collapse-header-bg: var(--ant-color-fill-alter);
     --ant-collapse-header-padding: 12px 16px;

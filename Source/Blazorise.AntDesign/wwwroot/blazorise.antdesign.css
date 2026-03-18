@@ -626,6 +626,17 @@ html {
   --ant-slider-handle-line-width: 2px;
   --ant-slider-handle-line-width-hover: 2.5px;
   --ant-slider-dot-size: 8px;
+  --ant-slider-rail-bg: var(--ant-color-fill-tertiary);
+  --ant-slider-rail-hover-bg: var(--ant-color-fill-content);
+  --ant-slider-track-bg: var(--ant-color-primary-border-hover);
+  --ant-slider-track-hover-bg: var(--ant-color-primary);
+  --ant-slider-track-bg-disabled: var(--ant-color-fill-content);
+  --ant-slider-handle-color: var(--ant-color-primary-border-hover);
+  --ant-slider-handle-active-color: var(--ant-color-primary);
+  --ant-slider-handle-active-outline-color: rgba(5, 145, 255, 0.12);
+  --ant-slider-handle-color-disabled: var(--ant-color-text-disabled);
+  --ant-slider-dot-border-color: var(--ant-color-fill-content);
+  --ant-slider-dot-active-border-color: var(--ant-color-primary-border-hover);
   --ant-skeleton-gradient-from-color: rgba(0, 0, 0, .06);
   --ant-collapse-header-bg: var(--ant-color-fill-alter);
   --ant-collapse-header-padding: 12px 16px;
@@ -6220,6 +6231,220 @@ a.b-ant-link-disabled[aria-disabled=true] {
 }
 .ant-rate .ant-rate-star.ant-rate-star-focused {
   opacity: 0.7;
+}
+
+.ant-slider .ant-slider-handle {
+  pointer-events: none;
+}
+.ant-slider .b-ant-slider-tooltip {
+  position: absolute;
+  top: 0;
+  visibility: hidden;
+  opacity: 0;
+  transform: translate(-50%, calc(-100% - var(--ant-margin-xs)));
+  transition: opacity var(--ant-motion-duration-fast) var(--ant-motion-ease-out), visibility var(--ant-motion-duration-fast) var(--ant-motion-ease-out);
+  pointer-events: none;
+  z-index: 10;
+}
+.ant-slider .b-ant-slider-tooltip::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 8px;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.85);
+  transform: translate(-50%, -50%) rotate(45deg);
+  border-radius: 0 0 var(--ant-border-radius-xs) 0;
+}
+.ant-slider .b-ant-slider-tooltip-inner {
+  min-width: 24px;
+  padding: 1px var(--ant-padding-xs);
+  color: var(--ant-color-text-light-solid);
+  font-size: var(--ant-font-size);
+  line-height: var(--ant-line-height);
+  text-align: center;
+  background: rgba(0, 0, 0, 0.85);
+  border-radius: var(--ant-border-radius);
+  box-shadow: var(--ant-box-shadow-secondary);
+}
+.ant-slider .b-ant-slider-input {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.ant-slider .b-ant-slider-input::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+.ant-slider .b-ant-slider-input::-webkit-slider-thumb {
+  width: var(--ant-slider-handle-size-hover);
+  height: var(--ant-slider-handle-size-hover);
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.ant-slider .b-ant-slider-input::-moz-range-track {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+.ant-slider .b-ant-slider-input::-moz-range-progress {
+  background: transparent;
+}
+.ant-slider .b-ant-slider-input::-moz-range-thumb {
+  width: var(--ant-slider-handle-size-hover);
+  height: var(--ant-slider-handle-size-hover);
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.ant-slider:hover .b-ant-slider-tooltip, .ant-slider:focus-within .b-ant-slider-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+.ant-slider[aria-disabled=true] .b-ant-slider-input {
+  cursor: not-allowed;
+}
+.ant-slider[aria-disabled=true] .b-ant-slider-input::-webkit-slider-thumb {
+  cursor: not-allowed;
+}
+.ant-slider[aria-disabled=true] .b-ant-slider-input::-moz-range-thumb {
+  cursor: not-allowed;
+}
+.ant-slider.ant-input-status-success {
+  --ant-slider-track-bg: var(--ant-color-success);
+  --ant-slider-track-hover-bg: var(--ant-color-success);
+  --ant-slider-handle-color: var(--ant-color-success);
+  --ant-slider-handle-active-color: var(--ant-color-success);
+  --ant-slider-dot-active-border-color: var(--ant-color-success);
+}
+.ant-slider.ant-input-status-error {
+  --ant-slider-track-bg: var(--ant-color-error);
+  --ant-slider-track-hover-bg: var(--ant-color-error);
+  --ant-slider-handle-color: var(--ant-color-error);
+  --ant-slider-handle-active-color: var(--ant-color-error);
+  --ant-slider-dot-active-border-color: var(--ant-color-error);
+}
+
+.b-ant-range-slider > .ant-slider-handle {
+  pointer-events: none;
+}
+.b-ant-range-slider > .b-ant-range-slider-tooltip {
+  top: 0;
+  visibility: hidden;
+  opacity: 0;
+  transform: translate(-50%, calc(-100% - var(--ant-margin-xs)));
+  transition: opacity var(--ant-motion-duration-fast) var(--ant-motion-ease-out), visibility var(--ant-motion-duration-fast) var(--ant-motion-ease-out);
+  pointer-events: none;
+  z-index: 10;
+}
+.b-ant-range-slider > .b-ant-range-slider-tooltip > span {
+  display: block;
+  min-width: 24px;
+  padding: 1px var(--ant-padding-xs);
+  color: var(--ant-color-text-light-solid);
+  font-size: var(--ant-font-size);
+  line-height: var(--ant-line-height);
+  text-align: center;
+  background: rgba(0, 0, 0, 0.85);
+  border-radius: var(--ant-border-radius);
+  box-shadow: var(--ant-box-shadow-secondary);
+}
+.b-ant-range-slider > .b-ant-range-slider-tooltip::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 8px;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.85);
+  transform: translate(-50%, -50%) rotate(45deg);
+  border-radius: 0 0 var(--ant-border-radius-xs) 0;
+}
+.b-ant-range-slider > .b-ant-range-slider-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: transparent;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.b-ant-range-slider > .b-ant-range-slider-input::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+.b-ant-range-slider > .b-ant-range-slider-input::-webkit-slider-thumb {
+  width: var(--ant-slider-handle-size-hover);
+  height: var(--ant-slider-handle-size-hover);
+  border: 0;
+  background: transparent;
+  pointer-events: auto;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.b-ant-range-slider > .b-ant-range-slider-input::-moz-range-track {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+.b-ant-range-slider > .b-ant-range-slider-input::-moz-range-progress {
+  background: transparent;
+}
+.b-ant-range-slider > .b-ant-range-slider-input::-moz-range-thumb {
+  width: var(--ant-slider-handle-size-hover);
+  height: var(--ant-slider-handle-size-hover);
+  border: 0;
+  background: transparent;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.b-ant-range-slider > .b-ant-range-slider-tooltip {
+  white-space: nowrap;
+  pointer-events: none;
+}
+.b-ant-range-slider:hover > .b-ant-range-slider-tooltip, .b-ant-range-slider:focus-within > .b-ant-range-slider-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+.b-ant-range-slider[aria-disabled=true] > .b-ant-range-slider-input::-webkit-slider-thumb {
+  cursor: not-allowed;
+}
+.b-ant-range-slider[aria-disabled=true] > .b-ant-range-slider-input::-moz-range-thumb {
+  cursor: not-allowed;
+}
+
+.b-ant-range-slider.ant-input-status-success {
+  --ant-slider-track-bg: var(--ant-color-success);
+  --ant-slider-track-hover-bg: var(--ant-color-success);
+  --ant-slider-handle-color: var(--ant-color-success);
+  --ant-slider-handle-active-color: var(--ant-color-success);
+  --ant-slider-dot-active-border-color: var(--ant-color-success);
+}
+
+.b-ant-range-slider.ant-input-status-error {
+  --ant-slider-track-bg: var(--ant-color-error);
+  --ant-slider-track-hover-bg: var(--ant-color-error);
+  --ant-slider-handle-color: var(--ant-color-error);
+  --ant-slider-handle-active-color: var(--ant-color-error);
+  --ant-slider-dot-active-border-color: var(--ant-color-error);
 }
 
 .ant-skeleton.b-ant-skeleton {

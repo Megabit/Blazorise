@@ -147,10 +147,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Range values</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <Div Width="Blazorise.Width.Is100">
-                            <RangeSlider TValue="decimal" @bind-Value="decimalRangeValue" Min="0m" Max="100m" Step="1m" />
-                            <FieldHelp Style="white-space: nowrap;">Selected range: @decimalRangeValue.Start - @decimalRangeValue.End</FieldHelp>
-                        </Div>
+                        <RangeSlider TValue="decimal" Value="@decimalRangeValue" Min="0m" Max="100m" Step="1m" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
