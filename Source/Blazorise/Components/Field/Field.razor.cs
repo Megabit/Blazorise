@@ -17,6 +17,8 @@ public partial class Field : BaseColumnComponent, IDisposable
 
     private bool horizontal;
 
+    private bool group;
+
     private JustifyContent justifyContent = JustifyContent.Default;
 
     private List<BaseComponent> hookables;
@@ -256,9 +258,24 @@ public partial class Field : BaseColumnComponent, IDisposable
     #region Properties
 
     /// <summary>
+    /// Gets a value indicating whether the field renders a semantic group container.
+    /// </summary>
+    internal bool IsGroup => ForceGroup || Group;
+
+    /// <summary>
     /// Determines if the field is inside of <see cref="Fields"/> component.
     /// </summary>
     protected bool IsFields => ParentFields is not null;
+
+    /// <summary>
+    /// Gets the tag name rendered by this component.
+    /// </summary>
+    protected string ContainerTagName => IsGroup ? "fieldset" : "div";
+
+    /// <summary>
+    /// Gets a value indicating whether the component always renders as a group container.
+    /// </summary>
+    protected virtual bool ForceGroup => false;
 
     /// <summary>
     /// Gets the element id of the field help text.
@@ -268,7 +285,9 @@ public partial class Field : BaseColumnComponent, IDisposable
     /// <summary>
     /// Gets the element id of the input that should be linked by a <see cref="FieldLabel"/>.
     /// </summary>
-    internal string LabelTargetElementId => labelTargets?.Count > 0
+    internal string LabelTargetElementId => IsGroup
+        ? null
+        : labelTargets?.Count > 0
         ? labelTargets[^1].ElementId
         : null;
 
@@ -276,6 +295,25 @@ public partial class Field : BaseColumnComponent, IDisposable
     /// Gets the element id of the field label.
     /// </summary>
     internal string LabelElementId => label?.ElementId;
+
+    /// <summary>
+    /// Determines whether the field should render as a semantic group container.
+    /// </summary>
+    [Parameter]
+    public bool Group
+    {
+        get => group;
+        set
+        {
+            group = value;
+
+            hookables?.ForEach( x => x.DirtyClasses() );
+
+            LabelTargetChanged?.Invoke();
+
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
     /// Determines whether the form controls should be aligned horizontally, as in a horizontal form layout.

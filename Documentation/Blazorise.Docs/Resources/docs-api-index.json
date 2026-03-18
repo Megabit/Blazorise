@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-13T07:41:21.3967909Z",
+  "generatedUtc": "2026-03-16T10:34:16.1439553Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -4620,7 +4620,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -10946,7 +10946,7 @@
           "type": "bool",
           "typeName": "bool",
           "defaultValue": "true",
-          "summary": "If true, non-labelable controls can automatically render the <code>aria-labelledby</code> attribute from the <strong>FieldLabel</strong> inside the same <strong>Field</strong>.",
+          "summary": "If true, non-labelable controls can automatically render the <code>aria-labelledby</code> attribute from the label component inside the same <strong>Field</strong> or <strong>Fields</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -20219,7 +20219,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -22109,7 +22109,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -22579,7 +22579,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -33380,7 +33380,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -33928,7 +33928,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -41182,6 +41182,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Group",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Determines whether the field should render as a semantic group container.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Height",
           "type": "global::Blazorise.IFluentSizing",
           "typeName": "IFluentSizing",
@@ -42216,6 +42224,299 @@
       "methods": []
     },
     {
+      "type": "global::Blazorise.FieldSet",
+      "typeName": "FieldSet",
+      "summary": "$\"\"\"\r\n       Represents a native <code>fieldset</code> element.\r\n       \"\"\"",
+      "searchUrl": "docs/components/field",
+      "parameters": [
+        {
+          "name": "Attributes",
+          "type": "Dictionary<string, object>",
+          "typeName": "Dictionary<string, object>",
+          "defaultValue": "null",
+          "summary": "Captures unmatched HTML attributes for customization.",
+          "remarks": "These attributes are applied directly to the component's root HTML element.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Background",
+          "type": "global::Blazorise.Background",
+          "typeName": "Background",
+          "defaultValue": "Background.Default",
+          "summary": "Sets the background color of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Border",
+          "type": "global::Blazorise.IFluentBorder",
+          "typeName": "IFluentBorder",
+          "defaultValue": "null",
+          "summary": "Configures the border properties of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Casing",
+          "type": "global::Blazorise.CharacterCasing",
+          "typeName": "CharacterCasing",
+          "defaultValue": "default(CharacterCasing)",
+          "summary": "Specifies the text casing transformation (e.g., uppercase, lowercase).",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "ChildContent",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
+          "typeName": "RenderFragment",
+          "defaultValue": "null",
+          "summary": "Specifies the content to render inside this <strong>FieldSet</strong>.",
+          "remarks": "Use this property to define custom child elements or components to be displayed within the column.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Class",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Custom CSS class name to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Classes",
+          "type": "object",
+          "typeName": "TClasses",
+          "defaultValue": "null",
+          "summary": "Custom CSS class names for component elements.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Clearfix",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Determines whether to apply clearfix to manage floating children.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ColumnSize",
+          "type": "global::Blazorise.IFluentColumn",
+          "typeName": "IFluentColumn",
+          "defaultValue": "null",
+          "summary": "Defines the sizing configuration for the column, supporting responsive layouts and custom size definitions.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Display",
+          "type": "global::Blazorise.IFluentDisplay",
+          "typeName": "IFluentDisplay",
+          "defaultValue": "null",
+          "summary": "Specifies the display behavior (e.g., block, inline, flex) of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ElementId",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the unique id of the element.",
+          "remarks": "Note that this ID is not defined for the component but instead for the underlined element that it represents.     eg: for the TextInput the ID will be set on the input element.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Flex",
+          "type": "global::Blazorise.IFluentFlex",
+          "typeName": "IFluentFlex",
+          "defaultValue": "null",
+          "summary": "Configures the flexbox properties of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Float",
+          "type": "global::Blazorise.Float",
+          "typeName": "Float",
+          "defaultValue": "Float.Default",
+          "summary": "Specifies how an element should float within its containing block.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Gap",
+          "type": "global::Blazorise.IFluentGap",
+          "typeName": "IFluentGap",
+          "defaultValue": "null",
+          "summary": "Configures the gap spacing between child elements of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Height",
+          "type": "global::Blazorise.IFluentSizing",
+          "typeName": "IFluentSizing",
+          "defaultValue": "null",
+          "summary": "Defines the height of the component using responsive sizing utilities.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Horizontal",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Determines whether the enclosed controls should be aligned horizontally.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Margin",
+          "type": "global::Blazorise.IFluentSpacing",
+          "typeName": "IFluentSpacing",
+          "defaultValue": "null",
+          "summary": "Configures the margin spacing for the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ObjectFit",
+          "type": "global::Blazorise.IFluentObjectFit",
+          "typeName": "IFluentObjectFit",
+          "defaultValue": "null",
+          "summary": "Configures the object-fit property, which determines how content is resized within its container.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Overflow",
+          "type": "global::Blazorise.IFluentOverflow",
+          "typeName": "IFluentOverflow",
+          "defaultValue": "null",
+          "summary": "Configures the overflow behavior when content exceeds the component's bounds.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Padding",
+          "type": "global::Blazorise.IFluentSpacing",
+          "typeName": "IFluentSpacing",
+          "defaultValue": "null",
+          "summary": "Configures the padding spacing for the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Position",
+          "type": "global::Blazorise.IFluentPosition",
+          "typeName": "IFluentPosition",
+          "defaultValue": "null",
+          "summary": "Specifies the positioning method for the component (static, relative, absolute, etc.).",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Shadow",
+          "type": "global::Blazorise.Shadow",
+          "typeName": "Shadow",
+          "defaultValue": "Shadow.None",
+          "summary": "Configures the shadow effect of the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Style",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Custom inline styles to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Styles",
+          "type": "object",
+          "typeName": "TStyles",
+          "defaultValue": "null",
+          "summary": "Custom inline styles for component elements.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextAlignment",
+          "type": "global::Blazorise.TextAlignment",
+          "typeName": "TextAlignment",
+          "defaultValue": "TextAlignment.Default",
+          "summary": "Configures the horizontal alignment of text within the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextColor",
+          "type": "global::Blazorise.TextColor",
+          "typeName": "TextColor",
+          "defaultValue": "TextColor.Default",
+          "summary": "Defines the text color of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextDecoration",
+          "type": "global::Blazorise.TextDecoration",
+          "typeName": "TextDecoration",
+          "defaultValue": "TextDecoration.Default",
+          "summary": "Defines the text decoration style (e.g., underline, none) for the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextOverflow",
+          "type": "global::Blazorise.TextOverflow",
+          "typeName": "TextOverflow",
+          "defaultValue": "TextOverflow.Default",
+          "summary": "Configures how text behaves when it overflows its container.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextSize",
+          "type": "global::Blazorise.IFluentTextSize",
+          "typeName": "IFluentTextSize",
+          "defaultValue": "null",
+          "summary": "Sets the font size of the text in the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextTransform",
+          "type": "global::Blazorise.TextTransform",
+          "typeName": "TextTransform",
+          "defaultValue": "TextTransform.Default",
+          "summary": "Configures the text transformation (e.g., capitalize, none) of the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextWeight",
+          "type": "global::Blazorise.TextWeight",
+          "typeName": "TextWeight",
+          "defaultValue": "TextWeight.Default",
+          "summary": "Specifies the font weight of text in the component (e.g., bold, normal).",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "UtilityTarget",
+          "type": "global::Blazorise.UtilityTarget",
+          "typeName": "UtilityTarget",
+          "defaultValue": "UtilityTarget.Self",
+          "summary": "Specifies the default target where utility classes and styles are applied when no per-utility target is set.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "VerticalAlignment",
+          "type": "global::Blazorise.VerticalAlignment",
+          "typeName": "VerticalAlignment",
+          "defaultValue": "VerticalAlignment.Default",
+          "summary": "Specifies the vertical alignment of inline or table-cell elements.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Visibility",
+          "type": "global::Blazorise.Visibility",
+          "typeName": "Visibility",
+          "defaultValue": "Visibility.Default",
+          "summary": "Controls the visibility of an element without altering its layout.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Width",
+          "type": "global::Blazorise.IFluentSizing",
+          "typeName": "IFluentSizing",
+          "defaultValue": "null",
+          "summary": "Defines the width of the component using responsive sizing utilities.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [],
+      "methods": []
+    },
+    {
       "type": "global::Blazorise.Fields",
       "typeName": "Fields",
       "summary": "$\"\"\"\r\n       Container for multiple <strong>Field</strong> component that needs to be placed in a flexbox grid row.\r\n       \"\"\"",
@@ -42337,6 +42638,14 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "Group",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Determines whether the fields container should render as a semantic group container.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "Gutter",
           "type": "global::Blazorise.IFluentGutter",
           "typeName": "IFluentGutter",
@@ -42407,6 +42716,307 @@
           "defaultValue": "null",
           "summary": "Specifies the positioning method for the component (static, relative, absolute, etc.).",
           "isBlazoriseEnum": false
+        },
+        {
+          "name": "Shadow",
+          "type": "global::Blazorise.Shadow",
+          "typeName": "Shadow",
+          "defaultValue": "Shadow.None",
+          "summary": "Configures the shadow effect of the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Style",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Custom inline styles to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Styles",
+          "type": "object",
+          "typeName": "TStyles",
+          "defaultValue": "null",
+          "summary": "Custom inline styles for component elements.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextAlignment",
+          "type": "global::Blazorise.TextAlignment",
+          "typeName": "TextAlignment",
+          "defaultValue": "TextAlignment.Default",
+          "summary": "Configures the horizontal alignment of text within the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextColor",
+          "type": "global::Blazorise.TextColor",
+          "typeName": "TextColor",
+          "defaultValue": "TextColor.Default",
+          "summary": "Defines the text color of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextDecoration",
+          "type": "global::Blazorise.TextDecoration",
+          "typeName": "TextDecoration",
+          "defaultValue": "TextDecoration.Default",
+          "summary": "Defines the text decoration style (e.g., underline, none) for the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextOverflow",
+          "type": "global::Blazorise.TextOverflow",
+          "typeName": "TextOverflow",
+          "defaultValue": "TextOverflow.Default",
+          "summary": "Configures how text behaves when it overflows its container.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextSize",
+          "type": "global::Blazorise.IFluentTextSize",
+          "typeName": "IFluentTextSize",
+          "defaultValue": "null",
+          "summary": "Sets the font size of the text in the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextTransform",
+          "type": "global::Blazorise.TextTransform",
+          "typeName": "TextTransform",
+          "defaultValue": "TextTransform.Default",
+          "summary": "Configures the text transformation (e.g., capitalize, none) of the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextWeight",
+          "type": "global::Blazorise.TextWeight",
+          "typeName": "TextWeight",
+          "defaultValue": "TextWeight.Default",
+          "summary": "Specifies the font weight of text in the component (e.g., bold, normal).",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "UtilityTarget",
+          "type": "global::Blazorise.UtilityTarget",
+          "typeName": "UtilityTarget",
+          "defaultValue": "UtilityTarget.Self",
+          "summary": "Specifies the default target where utility classes and styles are applied when no per-utility target is set.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "VerticalAlignment",
+          "type": "global::Blazorise.VerticalAlignment",
+          "typeName": "VerticalAlignment",
+          "defaultValue": "VerticalAlignment.Default",
+          "summary": "Specifies the vertical alignment of inline or table-cell elements.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Visibility",
+          "type": "global::Blazorise.Visibility",
+          "typeName": "Visibility",
+          "defaultValue": "Visibility.Default",
+          "summary": "Controls the visibility of an element without altering its layout.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Width",
+          "type": "global::Blazorise.IFluentSizing",
+          "typeName": "IFluentSizing",
+          "defaultValue": "null",
+          "summary": "Defines the width of the component using responsive sizing utilities.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [],
+      "methods": []
+    },
+    {
+      "type": "global::Blazorise.FieldsLabel",
+      "typeName": "FieldsLabel",
+      "summary": "$\"\"\"\r\n       Label for a <strong>Fields</strong> component.\r\n       \"\"\"",
+      "searchUrl": "docs/components/field",
+      "parameters": [
+        {
+          "name": "Attributes",
+          "type": "Dictionary<string, object>",
+          "typeName": "Dictionary<string, object>",
+          "defaultValue": "null",
+          "summary": "Captures unmatched HTML attributes for customization.",
+          "remarks": "These attributes are applied directly to the component's root HTML element.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Background",
+          "type": "global::Blazorise.Background",
+          "typeName": "Background",
+          "defaultValue": "Background.Default",
+          "summary": "Sets the background color of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Border",
+          "type": "global::Blazorise.IFluentBorder",
+          "typeName": "IFluentBorder",
+          "defaultValue": "null",
+          "summary": "Configures the border properties of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Casing",
+          "type": "global::Blazorise.CharacterCasing",
+          "typeName": "CharacterCasing",
+          "defaultValue": "default(CharacterCasing)",
+          "summary": "Specifies the text casing transformation (e.g., uppercase, lowercase).",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "ChildContent",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
+          "typeName": "RenderFragment",
+          "defaultValue": "null",
+          "summary": "Specifies the content to render inside this <strong>FieldsLabel</strong>.",
+          "remarks": "Use this property to define custom child elements or components to be displayed within the column.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Class",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Custom CSS class name to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Classes",
+          "type": "object",
+          "typeName": "TClasses",
+          "defaultValue": "null",
+          "summary": "Custom CSS class names for component elements.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Clearfix",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Determines whether to apply clearfix to manage floating children.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ColumnSize",
+          "type": "global::Blazorise.IFluentColumn",
+          "typeName": "IFluentColumn",
+          "defaultValue": "null",
+          "summary": "Defines the sizing configuration for the column, supporting responsive layouts and custom size definitions.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Display",
+          "type": "global::Blazorise.IFluentDisplay",
+          "typeName": "IFluentDisplay",
+          "defaultValue": "null",
+          "summary": "Specifies the display behavior (e.g., block, inline, flex) of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ElementId",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the unique id of the element.",
+          "remarks": "Note that this ID is not defined for the component but instead for the underlined element that it represents.     eg: for the TextInput the ID will be set on the input element.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Flex",
+          "type": "global::Blazorise.IFluentFlex",
+          "typeName": "IFluentFlex",
+          "defaultValue": "null",
+          "summary": "Configures the flexbox properties of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Float",
+          "type": "global::Blazorise.Float",
+          "typeName": "Float",
+          "defaultValue": "Float.Default",
+          "summary": "Specifies how an element should float within its containing block.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Gap",
+          "type": "global::Blazorise.IFluentGap",
+          "typeName": "IFluentGap",
+          "defaultValue": "null",
+          "summary": "Configures the gap spacing between child elements of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Height",
+          "type": "global::Blazorise.IFluentSizing",
+          "typeName": "IFluentSizing",
+          "defaultValue": "null",
+          "summary": "Defines the height of the component using responsive sizing utilities.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Margin",
+          "type": "global::Blazorise.IFluentSpacing",
+          "typeName": "IFluentSpacing",
+          "defaultValue": "null",
+          "summary": "Configures the margin spacing for the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ObjectFit",
+          "type": "global::Blazorise.IFluentObjectFit",
+          "typeName": "IFluentObjectFit",
+          "defaultValue": "null",
+          "summary": "Configures the object-fit property, which determines how content is resized within its container.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Overflow",
+          "type": "global::Blazorise.IFluentOverflow",
+          "typeName": "IFluentOverflow",
+          "defaultValue": "null",
+          "summary": "Configures the overflow behavior when content exceeds the component's bounds.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Padding",
+          "type": "global::Blazorise.IFluentSpacing",
+          "typeName": "IFluentSpacing",
+          "defaultValue": "null",
+          "summary": "Configures the padding spacing for the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Position",
+          "type": "global::Blazorise.IFluentPosition",
+          "typeName": "IFluentPosition",
+          "defaultValue": "null",
+          "summary": "Specifies the positioning method for the component (static, relative, absolute, etc.).",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "RequiredIndicator",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "If defined, a required indicator will be shown next to the label.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Screenreader",
+          "type": "global::Blazorise.Screenreader",
+          "typeName": "Screenreader",
+          "defaultValue": "Screenreader.Always",
+          "summary": "Defines the visibility for screen readers.",
+          "isBlazoriseEnum": true
         },
         {
           "name": "Shadow",
@@ -43358,7 +43968,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -48926,7 +49536,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -49517,7 +50127,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -53204,6 +53814,307 @@
       "methods": []
     },
     {
+      "type": "global::Blazorise.Legend",
+      "typeName": "Legend",
+      "summary": "$\"\"\"\r\n       Represents a native <code>legend</code> element.\r\n       \"\"\"",
+      "searchUrl": "docs/components/field",
+      "parameters": [
+        {
+          "name": "Attributes",
+          "type": "Dictionary<string, object>",
+          "typeName": "Dictionary<string, object>",
+          "defaultValue": "null",
+          "summary": "Captures unmatched HTML attributes for customization.",
+          "remarks": "These attributes are applied directly to the component's root HTML element.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Background",
+          "type": "global::Blazorise.Background",
+          "typeName": "Background",
+          "defaultValue": "Background.Default",
+          "summary": "Sets the background color of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Border",
+          "type": "global::Blazorise.IFluentBorder",
+          "typeName": "IFluentBorder",
+          "defaultValue": "null",
+          "summary": "Configures the border properties of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Casing",
+          "type": "global::Blazorise.CharacterCasing",
+          "typeName": "CharacterCasing",
+          "defaultValue": "default(CharacterCasing)",
+          "summary": "Specifies the text casing transformation (e.g., uppercase, lowercase).",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "ChildContent",
+          "type": "global::Microsoft.AspNetCore.Components.RenderFragment",
+          "typeName": "RenderFragment",
+          "defaultValue": "null",
+          "summary": "Specifies the content to render inside this <strong>Legend</strong>.",
+          "remarks": "Use this property to define custom child elements or components to be displayed within the column.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Class",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Custom CSS class name to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Classes",
+          "type": "object",
+          "typeName": "TClasses",
+          "defaultValue": "null",
+          "summary": "Custom CSS class names for component elements.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Clearfix",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "Determines whether to apply clearfix to manage floating children.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ColumnSize",
+          "type": "global::Blazorise.IFluentColumn",
+          "typeName": "IFluentColumn",
+          "defaultValue": "null",
+          "summary": "Defines the sizing configuration for the column, supporting responsive layouts and custom size definitions.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Display",
+          "type": "global::Blazorise.IFluentDisplay",
+          "typeName": "IFluentDisplay",
+          "defaultValue": "null",
+          "summary": "Specifies the display behavior (e.g., block, inline, flex) of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ElementId",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Gets or sets the unique id of the element.",
+          "remarks": "Note that this ID is not defined for the component but instead for the underlined element that it represents.     eg: for the TextInput the ID will be set on the input element.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Flex",
+          "type": "global::Blazorise.IFluentFlex",
+          "typeName": "IFluentFlex",
+          "defaultValue": "null",
+          "summary": "Configures the flexbox properties of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Float",
+          "type": "global::Blazorise.Float",
+          "typeName": "Float",
+          "defaultValue": "Float.Default",
+          "summary": "Specifies how an element should float within its containing block.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Gap",
+          "type": "global::Blazorise.IFluentGap",
+          "typeName": "IFluentGap",
+          "defaultValue": "null",
+          "summary": "Configures the gap spacing between child elements of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Height",
+          "type": "global::Blazorise.IFluentSizing",
+          "typeName": "IFluentSizing",
+          "defaultValue": "null",
+          "summary": "Defines the height of the component using responsive sizing utilities.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Margin",
+          "type": "global::Blazorise.IFluentSpacing",
+          "typeName": "IFluentSpacing",
+          "defaultValue": "null",
+          "summary": "Configures the margin spacing for the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "ObjectFit",
+          "type": "global::Blazorise.IFluentObjectFit",
+          "typeName": "IFluentObjectFit",
+          "defaultValue": "null",
+          "summary": "Configures the object-fit property, which determines how content is resized within its container.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Overflow",
+          "type": "global::Blazorise.IFluentOverflow",
+          "typeName": "IFluentOverflow",
+          "defaultValue": "null",
+          "summary": "Configures the overflow behavior when content exceeds the component's bounds.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Padding",
+          "type": "global::Blazorise.IFluentSpacing",
+          "typeName": "IFluentSpacing",
+          "defaultValue": "null",
+          "summary": "Configures the padding spacing for the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Position",
+          "type": "global::Blazorise.IFluentPosition",
+          "typeName": "IFluentPosition",
+          "defaultValue": "null",
+          "summary": "Specifies the positioning method for the component (static, relative, absolute, etc.).",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "RequiredIndicator",
+          "type": "bool",
+          "typeName": "bool",
+          "defaultValue": "false",
+          "summary": "If defined, a required indicator will be shown next to the legend.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Screenreader",
+          "type": "global::Blazorise.Screenreader",
+          "typeName": "Screenreader",
+          "defaultValue": "Screenreader.Always",
+          "summary": "Makes an element hidden, but only visually, keeping it available for assistive technologies.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Shadow",
+          "type": "global::Blazorise.Shadow",
+          "typeName": "Shadow",
+          "defaultValue": "Shadow.None",
+          "summary": "Configures the shadow effect of the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Style",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "Custom inline styles to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "Styles",
+          "type": "object",
+          "typeName": "TStyles",
+          "defaultValue": "null",
+          "summary": "Custom inline styles for component elements.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextAlignment",
+          "type": "global::Blazorise.TextAlignment",
+          "typeName": "TextAlignment",
+          "defaultValue": "TextAlignment.Default",
+          "summary": "Configures the horizontal alignment of text within the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextColor",
+          "type": "global::Blazorise.TextColor",
+          "typeName": "TextColor",
+          "defaultValue": "TextColor.Default",
+          "summary": "Defines the text color of the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextDecoration",
+          "type": "global::Blazorise.TextDecoration",
+          "typeName": "TextDecoration",
+          "defaultValue": "TextDecoration.Default",
+          "summary": "Defines the text decoration style (e.g., underline, none) for the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextOverflow",
+          "type": "global::Blazorise.TextOverflow",
+          "typeName": "TextOverflow",
+          "defaultValue": "TextOverflow.Default",
+          "summary": "Configures how text behaves when it overflows its container.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextSize",
+          "type": "global::Blazorise.IFluentTextSize",
+          "typeName": "IFluentTextSize",
+          "defaultValue": "null",
+          "summary": "Sets the font size of the text in the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TextTransform",
+          "type": "global::Blazorise.TextTransform",
+          "typeName": "TextTransform",
+          "defaultValue": "TextTransform.Default",
+          "summary": "Configures the text transformation (e.g., capitalize, none) of the component.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "TextWeight",
+          "type": "global::Blazorise.TextWeight",
+          "typeName": "TextWeight",
+          "defaultValue": "TextWeight.Default",
+          "summary": "Specifies the font weight of text in the component (e.g., bold, normal).",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "UtilityTarget",
+          "type": "global::Blazorise.UtilityTarget",
+          "typeName": "UtilityTarget",
+          "defaultValue": "UtilityTarget.Self",
+          "summary": "Specifies the default target where utility classes and styles are applied when no per-utility target is set.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "VerticalAlignment",
+          "type": "global::Blazorise.VerticalAlignment",
+          "typeName": "VerticalAlignment",
+          "defaultValue": "VerticalAlignment.Default",
+          "summary": "Specifies the vertical alignment of inline or table-cell elements.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Visibility",
+          "type": "global::Blazorise.Visibility",
+          "typeName": "Visibility",
+          "defaultValue": "Visibility.Default",
+          "summary": "Controls the visibility of an element without altering its layout.",
+          "isBlazoriseEnum": true
+        },
+        {
+          "name": "Width",
+          "type": "global::Blazorise.IFluentSizing",
+          "typeName": "IFluentSizing",
+          "defaultValue": "null",
+          "summary": "Defines the width of the component using responsive sizing utilities.",
+          "isBlazoriseEnum": false
+        }
+      ],
+      "events": [],
+      "methods": []
+    },
+    {
       "type": "global::Blazorise.Charts.LineChart<>",
       "typeName": "LineChart",
       "summary": "$\"\"\"\r\n       No documentation available - no XML comment\r\n       \"\"\"",
@@ -56011,7 +56922,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -59020,7 +59931,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -63034,7 +63945,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -63634,7 +64545,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -66172,7 +67083,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -68948,7 +69859,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -73864,7 +74775,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -74363,7 +75274,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -74871,7 +75782,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -76255,7 +77166,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -79378,7 +80289,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -84635,7 +85546,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -90065,7 +90976,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -96707,7 +97618,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -102532,7 +103443,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {
@@ -103073,7 +103984,7 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Gets or sets the aria-labelledby attribute value.",
-          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong>.",
+          "remarks": "When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <strong>FieldLabel</strong> or <strong>FieldsLabel</strong>.",
           "isBlazoriseEnum": false
         },
         {

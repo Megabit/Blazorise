@@ -16,7 +16,6 @@ label.radio.button {
     }
 }
 
-
 .buttons.has-addons.are-vertical {
     flex-direction: column;
     align-items: center;
@@ -271,4 +270,30 @@ select[readonly] {
 .field-label-required:after {
     content: " *";
     color: var(--b-theme-danger, $danger);
+}
+
+fieldset.field,
+fieldset.columns {
+    min-inline-size: 0;
+    border: 0;
+    padding: 0;
+}
+
+fieldset.field > legend.field-label,
+fieldset.columns > legend.field-label {
+    display: block;
+    flex: 0 0 100%;
+    inline-size: 100%;
+    max-inline-size: 100%;
+    margin: 0 0 0.5rem;
+    padding: 0;
+    text-align: left;
+}
+
+fieldset.columns > legend.field-label {
+    padding-inline: calc(#{$grid-gutter-width} * 0.5);
+}
+
+fieldset.columns > legend.field-label ~ .column {
+    padding-top: 0;
 }

@@ -1,0 +1,14 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Field Group>
+    <FieldLabel>Choose a shipping speed</FieldLabel>
+    <RadioGroup TValue="string" Name="shipping-speed" @bind-Value="@shippingSpeed">
+        <Radio Value="@("standard")">Standard</Radio>
+        <Radio Value="@("express")">Express</Radio>
+        <Radio Value="@("overnight")">Overnight</Radio>
+    </RadioGroup>
+</Field>
+
+@code {
+    string shippingSpeed = "express";
+}

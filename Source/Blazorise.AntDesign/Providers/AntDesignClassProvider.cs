@@ -298,6 +298,21 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
+    #region FieldSet
+
+    public override string FieldSet() => "ant-form-item";
+
+    public override string FieldSetHorizontal( bool horizontal ) => horizontal ? "ant-row" : null;
+
+    public override string FieldSetValidation( ValidationStatus validationStatus ) => validationStatus switch
+    {
+        ValidationStatus.Error => "ant-form-item-has-feedback ant-form-item-has-error",
+        ValidationStatus.Success => "ant-form-item-has-feedback ant-form-item-has-success",
+        _ => null,
+    };
+
+    #endregion
+
     #region Field
 
     public override string Field() => "ant-form-item";
@@ -329,6 +344,19 @@ public class AntDesignClassProvider : ClassProvider
             : null;
 
     public override string FieldLabelScreenreader( Screenreader screenreader ) => screenreader != Screenreader.Always ? ToScreenreader( screenreader ) : null;
+
+    #endregion
+
+    #region Legend
+
+    public override string Legend( bool horizontal ) => horizontal ? "ant-form-item-label" : null;
+
+    public override string LegendRequiredIndicator( bool requiredIndicator )
+        => requiredIndicator
+            ? "ant-form-item-required"
+            : null;
+
+    public override string LegendScreenreader( Screenreader screenreader ) => screenreader != Screenreader.Always ? ToScreenreader( screenreader ) : null;
 
     #endregion
 

@@ -1941,6 +1941,28 @@ html {
   cursor: pointer;
 }
 
+.ant-display-flex.ant-flex-column > .ant-checkbox-wrapper + .ant-checkbox-wrapper,
+.ant-display-flex.ant-flex-column > .ant-radio-wrapper + .ant-radio-wrapper,
+.ant-display-flex.ant-flex-column > .ant-radio-button-wrapper + .ant-radio-button-wrapper,
+.ant-display-flex.ant-flex-column-reverse > .ant-checkbox-wrapper + .ant-checkbox-wrapper,
+.ant-display-flex.ant-flex-column-reverse > .ant-radio-wrapper + .ant-radio-wrapper,
+.ant-display-flex.ant-flex-column-reverse > .ant-radio-button-wrapper + .ant-radio-button-wrapper,
+.ant-display-inline-flex.ant-flex-column > .ant-checkbox-wrapper + .ant-checkbox-wrapper,
+.ant-display-inline-flex.ant-flex-column > .ant-radio-wrapper + .ant-radio-wrapper,
+.ant-display-inline-flex.ant-flex-column > .ant-radio-button-wrapper + .ant-radio-button-wrapper,
+.ant-display-inline-flex.ant-flex-column-reverse > .ant-checkbox-wrapper + .ant-checkbox-wrapper,
+.ant-display-inline-flex.ant-flex-column-reverse > .ant-radio-wrapper + .ant-radio-wrapper,
+.ant-display-inline-flex.ant-flex-column-reverse > .ant-radio-button-wrapper + .ant-radio-button-wrapper,
+.ant-display-flex[class*=ant-flex-direction-][class*=-column] > .ant-checkbox-wrapper + .ant-checkbox-wrapper,
+.ant-display-flex[class*=ant-flex-direction-][class*=-column] > .ant-radio-wrapper + .ant-radio-wrapper,
+.ant-display-flex[class*=ant-flex-direction-][class*=-column] > .ant-radio-button-wrapper + .ant-radio-button-wrapper,
+.ant-display-inline-flex[class*=ant-flex-direction-][class*=-column] > .ant-checkbox-wrapper + .ant-checkbox-wrapper,
+.ant-display-inline-flex[class*=ant-flex-direction-][class*=-column] > .ant-radio-wrapper + .ant-radio-wrapper,
+.ant-display-inline-flex[class*=ant-flex-direction-][class*=-column] > .ant-radio-button-wrapper + .ant-radio-button-wrapper {
+  margin-left: 0;
+  margin-inline-start: 0;
+}
+
 .ant-input-group > .ant-input-group-addon:last-child > .ant-btn {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -2141,9 +2163,13 @@ html {
   display: block;
   height: 32px;
   line-height: 32px;
+  margin-left: 0;
+  margin-inline-start: 0;
 }
 .ant-radio-group.ant-radio-group-vertical .ant-radio-button-wrapper {
   display: block;
+  margin-left: 0;
+  margin-inline-start: 0;
 }
 
 .ant-radio > .ant-radio-input.ant-radio-input-xs + .ant-radio-inner {

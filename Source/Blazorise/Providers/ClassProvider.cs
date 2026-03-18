@@ -295,6 +295,16 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region FieldSet
+
+    public abstract string FieldSet();
+
+    public abstract string FieldSetHorizontal( bool horizontal );
+
+    public abstract string FieldSetValidation( ValidationStatus validationStatus );
+
+    #endregion
+
     #region Field
 
     public abstract string Field();
@@ -318,6 +328,16 @@ public abstract class ClassProvider : IClassProvider
     public abstract string FieldLabelRequiredIndicator( bool requiredIndicator );
 
     public abstract string FieldLabelScreenreader( Screenreader screenreader );
+
+    #endregion
+
+    #region Legend
+
+    public abstract string Legend( bool horizontal );
+
+    public abstract string LegendRequiredIndicator( bool requiredIndicator );
+
+    public abstract string LegendScreenreader( Screenreader screenreader );
 
     #endregion
 

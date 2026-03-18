@@ -225,6 +225,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
             }
         }
 
+        if ( ParentFields is not null && UseAriaLabelledByAttribute && UsesAutomaticAriaLabelledBy )
+        {
+            ParentFields.LabelElementChanged += OnFieldsLabelChanged;
+        }
+
         base.OnInitialized();
     }
 
@@ -284,6 +289,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
             {
                 ParentField.LabelElementChanged -= OnFieldLabelChanged;
             }
+        }
+
+        if ( ParentFields is not null )
+        {
+            ParentFields.LabelElementChanged -= OnFieldsLabelChanged;
         }
 
         if ( ParentField is not null && !string.IsNullOrWhiteSpace( registeredFieldLabelTargetElementId ) )
@@ -554,11 +564,22 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     }
 
     /// <summary>
+    /// Handler for fields label changes.
+    /// </summary>
+    private void OnFieldsLabelChanged()
+    {
+        if ( HasDefinedAriaLabelledBy || !UsesAutomaticAriaLabelledBy )
+            return;
+
+        QueueRefresh();
+    }
+
+    /// <summary>
     /// Registers the current component as the label target for the parent <see cref="Field"/>.
     /// </summary>
     private void UpdateFieldLabelTargetRegistration()
     {
-        if ( ParentField is null || !UseFieldLabelForAttribute )
+        if ( ParentField is null || !UseFieldLabelForAttribute || ParentField.IsGroup )
         {
             if ( ParentField is not null && !string.IsNullOrWhiteSpace( registeredFieldLabelTargetElementId ) )
             {
@@ -707,6 +728,13 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         : null;
 
     /// <summary>
+    /// Gets the element id of the parent <see cref="FieldsLabel"/>.
+    /// </summary>
+    protected string ParentFieldsLabelElementId => UseAriaLabelledByAttribute
+        ? ParentFields?.LabelElementId
+        : null;
+
+    /// <summary>
     /// Gets the resolved value of the <c>aria-invalid</c> attribute.
     /// </summary>
     protected string ResolvedAriaInvalid => paramAriaInvalid.Defined
@@ -728,11 +756,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         : null;
 
     /// <summary>
-    /// Gets the resolved value of the <c>aria-labelledby</c> attribute, preferring an explicit value over the parent <see cref="FieldLabel"/>.
+    /// Gets the resolved value of the <c>aria-labelledby</c> attribute, preferring an explicit value over a parent <see cref="FieldLabel"/> or <see cref="FieldsLabel"/>.
     /// </summary>
     protected string ResolvedAriaLabelledBy => paramAriaLabelledBy.Defined
         ? paramAriaLabelledBy.Value
-        : ParentFieldLabelElementId;
+        : ParentFieldLabelElementId ?? ParentFieldsLabelElementId;
 
     /// <summary>
     /// Gets a value indicating whether the automatic <c>for</c> attribute integration is enabled.
@@ -824,7 +852,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// Gets or sets the aria-labelledby attribute value.
     /// </summary>
     /// <remarks>
-    /// When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <see cref="FieldLabel"/>.
+    /// When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <see cref="FieldLabel"/> or <see cref="FieldsLabel"/>.
     /// </remarks>
     [Parameter] public string AriaLabelledBy { get; set; }
 
@@ -990,6 +1018,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// Parent field container.
     /// </summary>
     [CascadingParameter] protected Field ParentField { get; set; }
+
+    /// <summary>
+    /// Parent fields container.
+    /// </summary>
+    [CascadingParameter] protected Fields ParentFields { get; set; }
 
     /// <summary>
     /// Parent field body.

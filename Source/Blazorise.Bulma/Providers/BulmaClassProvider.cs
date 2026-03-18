@@ -302,6 +302,16 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
+    #region FieldSet
+
+    public override string FieldSet() => "field";
+
+    public override string FieldSetHorizontal( bool horizontal ) => horizontal ? "is-horizontal" : null;
+
+    public override string FieldSetValidation( ValidationStatus validationStatus ) => null;
+
+    #endregion
+
     #region Field
 
     public override string Field() => "field";
@@ -328,6 +338,19 @@ public class BulmaClassProvider : ClassProvider
             : null;
 
     public override string FieldLabelScreenreader( Screenreader screenreader ) => screenreader != Screenreader.Always ? ToScreenreader( screenreader ) : null;
+
+    #endregion
+
+    #region Legend
+
+    public override string Legend( bool horizontal ) => horizontal ? "field-label is-normal" : "label";
+
+    public override string LegendRequiredIndicator( bool requiredIndicator )
+        => requiredIndicator
+            ? "field-label-required"
+            : null;
+
+    public override string LegendScreenreader( Screenreader screenreader ) => screenreader != Screenreader.Always ? ToScreenreader( screenreader ) : null;
 
     #endregion
 
