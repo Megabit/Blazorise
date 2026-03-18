@@ -92,6 +92,7 @@ public static class Config
         { typeof( Blazorise.Field ), typeof( Components.Field ) },
         { typeof( Blazorise.FieldBody ), typeof( Components.FieldBody ) },
         { typeof( Blazorise.FieldLabel ), typeof( Components.FieldLabel ) },
+        { typeof( Blazorise.FieldsLabel ), typeof( Components.FieldsLabel ) },
         { typeof( Blazorise.FilePicker ), typeof( Components.FilePicker ) },
         { typeof( Blazorise.FileInput ), typeof( Components.FileInput ) },
         { typeof( Blazorise.ListGroup ), typeof( Components.ListGroup ) },
