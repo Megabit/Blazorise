@@ -9,6 +9,7 @@
         opacity: 0;
         transform: translate(-50%, calc(-100% - var(--ant-margin-xs)));
         transition: opacity var(--ant-motion-duration-fast) var(--ant-motion-ease-out), visibility var(--ant-motion-duration-fast) var(--ant-motion-ease-out);
+        white-space: nowrap;
         pointer-events: none;
         z-index: 10;
 
@@ -85,11 +86,6 @@
             pointer-events: auto;
             cursor: pointer;
         }
-    }
-
-    > .b-ant-range-slider-tooltip {
-        white-space: nowrap;
-        pointer-events: none;
     }
 
     &:hover > .b-ant-range-slider-tooltip,

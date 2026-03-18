@@ -6347,6 +6347,7 @@ a.b-ant-link-disabled[aria-disabled=true] {
   opacity: 0;
   transform: translate(-50%, calc(-100% - var(--ant-margin-xs)));
   transition: opacity var(--ant-motion-duration-fast) var(--ant-motion-ease-out), visibility var(--ant-motion-duration-fast) var(--ant-motion-ease-out);
+  white-space: nowrap;
   pointer-events: none;
   z-index: 10;
 }
@@ -6415,10 +6416,6 @@ a.b-ant-link-disabled[aria-disabled=true] {
   background: transparent;
   pointer-events: auto;
   cursor: pointer;
-}
-.b-ant-range-slider > .b-ant-range-slider-tooltip {
-  white-space: nowrap;
-  pointer-events: none;
 }
 .b-ant-range-slider:hover > .b-ant-range-slider-tooltip, .b-ant-range-slider:focus-within > .b-ant-range-slider-tooltip {
   visibility: visible;
