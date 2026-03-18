@@ -1,0 +1,79 @@
+@inherits BaseComponent
+@typeparam TItem
+@using Blazorise.Gantt.Extensions
+@using Blazorise.Gantt.Utilities
+<Div Class="@ClassNames" Style="@StyleNames" Padding="PaddingIs3" Flex="FlexJustifyContentBetweenAlignItemsCenterWrap" Gap="GapIs2">
+    <Div Flex="FlexAlignItemsCenterWrap" Gap="GapIs1">
+        <Buttons Margin="MarginIs2FromEndIs0FromBottom">
+            <Button Color="Color.Secondary" Height="HeightIs100" Outline Clicked="@OnTodayClick" Disabled="@(!NavigationEnabled)">@Localizer.Localize( Gantt.Localizers?.TodayLocalizer, LocalizationConstants.Today )</Button>
+            <Button Color="Color.Secondary" Height="HeightIs100" Outline Clicked="@OnPreviousClick" Disabled="@(!NavigationEnabled)" aria-label="@Localizer.Localize( Gantt.Localizers?.PreviousLocalizer, LocalizationConstants.Previous )">
+                <Icon Name="IconName.ChevronLeft" />
+            </Button>
+            <Button Color="Color.Secondary" Height="HeightIs100" Outline Clicked="@OnNextClick" Disabled="@(!NavigationEnabled)" aria-label="@Localizer.Localize( Gantt.Localizers?.NextLocalizer, LocalizationConstants.Next )">
+                <Icon Name="IconName.ChevronRight" />
+            </Button>
+        </Buttons>
+
+        @if ( ShowViewButtons )
+        {
+            <Buttons Margin="MarginIs2FromEndIs0FromBottom">
+                @if ( ShowDayViewButton )
+                {
+                    <Button Color="@(SelectedView == GanttView.Day ? Color.Primary : Color.Secondary)" Height="HeightIs100" Outline Active="@(SelectedView == GanttView.Day)" Clicked="@OnDayViewClick">@Localizer.Localize( Gantt.Localizers?.DayLocalizer, LocalizationConstants.Day )</Button>
+                }
+                @if ( ShowWeekViewButton )
+                {
+                    <Button Color="@(SelectedView == GanttView.Week ? Color.Primary : Color.Secondary)" Height="HeightIs100" Outline Active="@(SelectedView == GanttView.Week)" Clicked="@OnWeekViewClick">@Localizer.Localize( Gantt.Localizers?.WeekLocalizer, LocalizationConstants.Week )</Button>
+                }
+                @if ( ShowMonthViewButton )
+                {
+                    <Button Color="@(SelectedView == GanttView.Month ? Color.Primary : Color.Secondary)" Height="HeightIs100" Outline Active="@(SelectedView == GanttView.Month)" Clicked="@OnMonthViewClick">@Localizer.Localize( Gantt.Localizers?.MonthLocalizer, LocalizationConstants.Month )</Button>
+                }
+                @if ( ShowYearViewButton )
+                {
+                    <Button Color="@(SelectedView == GanttView.Year ? Color.Primary : Color.Secondary)" Height="HeightIs100" Outline Active="@(SelectedView == GanttView.Year)" Clicked="@OnYearViewClick">@Localizer.Localize( Gantt.Localizers?.YearLocalizer, LocalizationConstants.Year )</Button>
+                }
+            </Buttons>
+        }
+
+        @if ( ShowAddTaskButton || ShowToggleAllCommands )
+        {
+            <Buttons Margin="MarginIs2FromEndIs0FromBottom">
+                @if ( ShowAddTaskButton )
+                {
+                    <Button Color="Color.Success" Height="HeightIs100" Outline Clicked="@OnAddTaskClick">
+                        <Icon Name="IconName.Add" />@Localizer.Localize( Gantt.Localizers?.AddTaskLocalizer, LocalizationConstants.AddTask )
+                    </Button>
+                }
+                @if ( ShowToggleAllCommands )
+                {
+                    <Button Color="Color.Secondary" Height="HeightIs100" Outline Clicked="@OnExpandAllClick">
+                        @Localizer.Localize( Gantt.Localizers?.ExpandAllLocalizer, LocalizationConstants.ExpandAll )
+                    </Button>
+                    <Button Color="Color.Secondary" Height="HeightIs100" Outline Clicked="@OnCollapseAllClick">
+                        @Localizer.Localize( Gantt.Localizers?.CollapseAllLocalizer, LocalizationConstants.CollapseAll )
+                    </Button>
+                }
+            </Buttons>
+        }
+    </Div>
+
+    <Div TextWeight="TextWeight.Bold" Margin="MarginIs2OnX" TextOverflow="TextOverflow.NoWrap">@RangeText</Div>
+
+    <Div Flex="FlexAlignItemsCenterNoWrap" Gap="GapIs2" Margin="MarginIs1OnXIsAutoFromStartIs0FromBottom">
+        <TextInput Value="@SearchText" ValueChanged="@OnSearchTextValueChanged" Placeholder="@Localizer.Localize( Gantt.Localizers?.SearchLocalizer, LocalizationConstants.Search )" Margin="MarginIs1FromEnd" Width="Blazorise.Width.Px( SearchInputWidth )" />
+        <Dropdown @bind-Visible="@dropdownColumnChooserVisible" EndAligned>
+            <DropdownToggle Height="HeightIs100" @onclick:stopPropagation>
+                <Icon Name="@IconName.Table" Margin="MarginIs1FromEnd" Clicked="() => { }" />@Localizer.Localize( Gantt.Localizers?.ColumnsLocalizer, LocalizationConstants.Columns )
+            </DropdownToggle>
+            <DropdownMenu MaxMenuHeight="200px">
+                @foreach ( var column in ColumnPickerItems )
+                {
+                    <DropdownItem ShowCheckbox Checked="@column.Visible" CheckedChanged="@(( value ) => OnColumnVisibilityChanged( column.Key, value ))">
+                        @column.Text
+                    </DropdownItem>
+                }
+            </DropdownMenu>
+        </Dropdown>
+    </Div>
+</Div>

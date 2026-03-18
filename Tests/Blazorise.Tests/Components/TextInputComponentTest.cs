@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Bunit;
 using Blazorise;
+using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
@@ -82,7 +84,8 @@ public class TextInputComponentTest : TestContext
         // setup
         var comp = RenderComponent<TextInput>( parameters => parameters
             .Add( p => p.AriaInvalid, "true" )
-            .Add( p => p.AriaDescribedBy, "text-help" ) );
+            .Add( p => p.AriaDescribedBy, "text-help" )
+            .Add( p => p.AriaLabelledBy, "text-label" ) );
 
         // test
         var input = comp.Find( "input" );
@@ -90,5 +93,68 @@ public class TextInputComponentTest : TestContext
         // validate
         Assert.Equal( "true", input.GetAttribute( "aria-invalid" ) );
         Assert.Equal( "text-help", input.GetAttribute( "aria-describedby" ) );
+        Assert.Equal( "text-label", input.GetAttribute( "aria-labelledby" ) );
+    }
+}
+
+public class TextInputAccessibilityOptionsComponentTest : TestContext
+{
+    public TextInputAccessibilityOptionsComponentTest()
+    {
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        Services.AddSingleton( serviceProvider => new BlazoriseOptions( serviceProvider, options =>
+        {
+            options.AccessibilityOptions.UseAutoAriaInvalidAttribute = false;
+            options.AccessibilityOptions.UseAutoAriaDescribedByAttribute = false;
+        } ) );
+        JSInterop.AddBlazoriseTextInput();
+    }
+
+    [Fact]
+    public void ExplicitAriaAttributes_AreRendered_WhenAutoOptionsAreDisabled()
+    {
+        var comp = RenderComponent<TextInput>( parameters => parameters
+            .Add( p => p.AriaInvalid, "true" )
+            .Add( p => p.AriaDescribedBy, "text-help" )
+            .Add( p => p.AriaLabelledBy, "text-label" ) );
+
+        var input = comp.Find( "input" );
+
+        Assert.Equal( "true", input.GetAttribute( "aria-invalid" ) );
+        Assert.Equal( "text-help", input.GetAttribute( "aria-describedby" ) );
+        Assert.Equal( "text-label", input.GetAttribute( "aria-labelledby" ) );
+    }
+
+    [Fact]
+    public void AutoAriaAttributes_AreNotRendered_WhenDisabled()
+    {
+        var comp = RenderComponent<Validation>( parameters => parameters
+            .Add( p => p.Validator, ValidationRule.IsNotEmpty )
+            .Add( p => p.Status, ValidationStatus.Error )
+            .Add( p => p.ChildContent, (RenderFragment)( builder =>
+            {
+                builder.OpenComponent<Field>( 0 );
+                builder.AddAttribute( 1, nameof( Field.ChildContent ), (RenderFragment)( fieldBuilder =>
+                {
+                    fieldBuilder.OpenComponent<TextInput>( 0 );
+                    fieldBuilder.CloseComponent();
+
+                    fieldBuilder.OpenComponent<FieldHelp>( 1 );
+                    fieldBuilder.AddAttribute( 2, nameof( FieldHelp.ChildContent ), (RenderFragment)( helpBuilder => helpBuilder.AddContent( 0, "Help" ) ) );
+                    fieldBuilder.CloseComponent();
+
+                    fieldBuilder.OpenComponent<ValidationError>( 3 );
+                    fieldBuilder.CloseComponent();
+                } ) );
+                builder.CloseComponent();
+            } ) ) );
+
+        comp.WaitForAssertion( () =>
+        {
+            var input = comp.Find( "input" );
+
+            Assert.Null( input.GetAttribute( "aria-invalid" ) );
+            Assert.Null( input.GetAttribute( "aria-describedby" ) );
+        } );
     }
 }

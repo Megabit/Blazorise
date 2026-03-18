@@ -17,6 +17,8 @@ public partial class Field : BaseColumnComponent, IDisposable
 
     private bool horizontal;
 
+    private bool group;
+
     private JustifyContent justifyContent = JustifyContent.Default;
 
     private List<BaseComponent> hookables;
@@ -27,10 +29,24 @@ public partial class Field : BaseColumnComponent, IDisposable
 
     private FieldHelp helpText;
 
+    private FieldLabel label;
+
+    private List<(BaseComponent Component, string ElementId)> labelTargets;
+
     /// <summary>
     /// Raises when the help text reference changes.
     /// </summary>
     internal event Action HelpTextChanged;
+
+    /// <summary>
+    /// Raises when the label target reference changes.
+    /// </summary>
+    internal event Action LabelTargetChanged;
+
+    /// <summary>
+    /// Raises when the field label reference changes.
+    /// </summary>
+    internal event Action LabelElementChanged;
 
     #endregion
 
@@ -155,9 +171,96 @@ public partial class Field : BaseColumnComponent, IDisposable
         HelpTextChanged?.Invoke();
     }
 
+    /// <summary>
+    /// Registers the label component inside this field.
+    /// </summary>
+    /// <param name="fieldLabel">Field label component.</param>
+    internal void NotifyFieldLabelInitialized( FieldLabel fieldLabel )
+    {
+        if ( fieldLabel is null )
+            return;
+
+        if ( ReferenceEquals( label, fieldLabel ) )
+            return;
+
+        label = fieldLabel;
+        LabelElementChanged?.Invoke();
+    }
+
+    /// <summary>
+    /// Removes the label component inside this field.
+    /// </summary>
+    /// <param name="fieldLabel">Field label component.</param>
+    internal void NotifyFieldLabelRemoved( FieldLabel fieldLabel )
+    {
+        if ( !ReferenceEquals( label, fieldLabel ) )
+            return;
+
+        label = null;
+        LabelElementChanged?.Invoke();
+    }
+
+    /// <summary>
+    /// Registers or updates the input element that should be linked by a <see cref="FieldLabel"/>.
+    /// </summary>
+    /// <param name="component">Input component instance.</param>
+    /// <param name="elementId">Resolved input element id.</param>
+    internal void NotifyLabelTargetChanged( BaseComponent component, string elementId )
+    {
+        if ( component is null )
+            return;
+
+        if ( string.IsNullOrWhiteSpace( elementId ) )
+        {
+            NotifyLabelTargetRemoved( component );
+            return;
+        }
+
+        var previousLabelTargetElementId = LabelTargetElementId;
+
+        labelTargets ??= new();
+
+        labelTargets.RemoveAll( x => ReferenceEquals( x.Component, component ) );
+        labelTargets.Add( (component, elementId) );
+
+        if ( !string.Equals( previousLabelTargetElementId, LabelTargetElementId, StringComparison.Ordinal ) )
+        {
+            LabelTargetChanged?.Invoke();
+        }
+    }
+
+    /// <summary>
+    /// Removes the input element that should be linked by a <see cref="FieldLabel"/>.
+    /// </summary>
+    /// <param name="component">Input component instance.</param>
+    internal void NotifyLabelTargetRemoved( BaseComponent component )
+    {
+        if ( component is null || labelTargets is null )
+            return;
+
+        var previousLabelTargetElementId = LabelTargetElementId;
+
+        labelTargets.RemoveAll( x => ReferenceEquals( x.Component, component ) );
+
+        if ( labelTargets.Count == 0 )
+        {
+            labelTargets = null;
+        }
+
+        if ( !string.Equals( previousLabelTargetElementId, LabelTargetElementId, StringComparison.Ordinal ) )
+        {
+            LabelTargetChanged?.Invoke();
+        }
+    }
+
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets a value indicating whether the field renders a semantic group container.
+    /// </summary>
+    internal bool IsGroup => ForceGroup || Group;
 
     /// <summary>
     /// Determines if the field is inside of <see cref="Fields"/> component.
@@ -165,9 +268,52 @@ public partial class Field : BaseColumnComponent, IDisposable
     protected bool IsFields => ParentFields is not null;
 
     /// <summary>
+    /// Gets the tag name rendered by this component.
+    /// </summary>
+    protected string ContainerTagName => IsGroup ? "fieldset" : "div";
+
+    /// <summary>
+    /// Gets a value indicating whether the component always renders as a group container.
+    /// </summary>
+    protected virtual bool ForceGroup => false;
+
+    /// <summary>
     /// Gets the element id of the field help text.
     /// </summary>
     internal string HelpTextElementId => helpText?.ElementId;
+
+    /// <summary>
+    /// Gets the element id of the input that should be linked by a <see cref="FieldLabel"/>.
+    /// </summary>
+    internal string LabelTargetElementId => IsGroup
+        ? null
+        : labelTargets?.Count > 0
+        ? labelTargets[^1].ElementId
+        : null;
+
+    /// <summary>
+    /// Gets the element id of the field label.
+    /// </summary>
+    internal string LabelElementId => label?.ElementId;
+
+    /// <summary>
+    /// Determines whether the field should render as a semantic group container.
+    /// </summary>
+    [Parameter]
+    public bool Group
+    {
+        get => group;
+        set
+        {
+            group = value;
+
+            hookables?.ForEach( x => x.DirtyClasses() );
+
+            LabelTargetChanged?.Invoke();
+
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
     /// Determines whether the form controls should be aligned horizontally, as in a horizontal form layout.

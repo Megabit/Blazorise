@@ -1,0 +1,565 @@
+@page "/tests/gantt"
+@using System.Linq
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Gantt</CardTitle>
+            </CardHeader>
+            <CardBody Flex="Flex.JustifyContent.Between.AlignItems.Center">
+                <Div>
+                    <Field>
+                        <Switch @bind-Value="@useApiFetch" Margin="Margin.Is3.FromBottom">Use API callback mode</Switch>
+                    </Field>
+                    <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
+                        Source: @(useApiFetch ? "ReadData callback (API style)" : "In-memory collection")
+                    </Paragraph>
+                </Div>
+                <Div>
+                    <Field>
+                        <Switch @bind-Value="@autoExpandView" Margin="Margin.Is3.FromBottom">Auto Expand View</Switch>
+                    </Field>
+                    <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
+                        Control the timeline scale.
+                    </Paragraph>
+                </Div>
+                <Div>
+                    <Buttons Margin="Margin.Is3.FromBottom">
+                        <Button Color="Color.Secondary" Outline Size="Size.Small" Clicked="@SaveCurrentState">Save state</Button>
+                        <Button Color="Color.Primary" Outline Size="Size.Small" Clicked="@LoadSavedState" Disabled="@(savedState is null)">Load saved state</Button>
+                        <Button Color="Color.Info" Outline Size="Size.Small" Clicked="@ApplyPresetState">Apply preset state</Button>
+                    </Buttons>
+                    @if ( savedStateUtc is not null )
+                    {
+                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is2.FromBottom">
+                            Saved state timestamp: @savedStateUtc.Value.ToLocalTime().ToString( "HH:mm:ss" )
+                        </Paragraph>
+                    }
+                </Div>
+            </CardBody>
+            <CardBody>
+                <Gantt TItem="GanttTask"
+                       @ref="ganttRef"
+                       Data="@BoundTasks"
+                       @bind-Date="@selectedDate"
+                       @bind-SelectedView="@selectedView"
+                       DurationField="Duration"
+                       Editable
+                       AutoExpandView="@autoExpandView"
+                       ReadData="@ReadDataCallback"
+                       ItemStyling="@OnItemStyling"
+                       ItemInserted="@OnItemInserted"
+                       ItemUpdated="@OnItemUpdated"
+                       ItemRemoved="@OnItemRemoved">
+                    <GanttColumns>
+                        <GanttColumn Field="Wbs" Visible="false" />
+                        <GanttColumn Field="Title" Title="Task" Expandable />
+                        <GanttColumn Field="Start" />
+                        <GanttColumn Field="End" Visible="false" />
+                        <GanttColumn Field="Duration" />
+                        <GanttColumn Field="Progress" Visible="false" />
+                        <GanttCommandColumn />
+                    </GanttColumns>
+                    <GanttToolbar />
+                    <GanttViews>
+                        <GanttDayView TimelineCellWidth="82" RowHeight="48" />
+                        <GanttWeekView TimelineCellWidth="94" RowHeight="48" />
+                        <GanttMonthView TimelineCellWidth="42" RowHeight="48" />
+                        <GanttYearView TimelineCellWidth="84" RowHeight="48" />
+                    </GanttViews>
+                </Gantt>
+
+                @if ( lastReadDataUtc is not null )
+                {
+                    <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromTop">
+                        Last ReadData callback: @lastReadDataUtc.Value.ToLocalTime().ToString( "HH:mm:ss" )
+                    </Paragraph>
+                }
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        Selected date: @selectedDate, view: @selectedView
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Gantt (External Editing)</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
+                    This example keeps Gantt commands and built-in affordances, but handles editing through a page-owned modal by setting <code>UseInternalEditing="false"</code>.
+                </Paragraph>
+                <GanttExternalEditingDemo />
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Gantt (Hierarchical Data)</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
+                    This example uses hierarchical data shape (<code>Id + Children</code>) with <code>ItemsField="Children"</code>.
+                </Paragraph>
+                <Gantt TItem="HierarchicalGanttTask"
+                       Data="@hierarchicalTasks"
+                       Date="@hierarchicalDate"
+                       SelectedView="GanttView.Week"
+                       ItemsField="Children"
+                       DurationField="Duration"
+                       Editable
+                       ItemStyling="@OnHierarchicalItemStyling">
+                    <GanttColumns>
+                        <GanttColumn Field="Wbs" Visible="false" />
+                        <GanttColumn Field="Title" Title="Task" Expandable />
+                        <GanttColumn Field="Start" />
+                        <GanttColumn Field="End" Visible="false" />
+                        <GanttColumn Field="Duration" />
+                        <GanttColumn Field="Progress" Visible="false" />
+                        <GanttCommandColumn />
+                    </GanttColumns>
+                    <GanttToolbar />
+                    <GanttViews>
+                        <GanttWeekView TimelineCellWidth="94" RowHeight="48" />
+                    </GanttViews>
+                </Gantt>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+    private GanttView selectedView = GanttView.Week;
+    private DateOnly hierarchicalDate = DateOnly.FromDateTime( DateTime.Today );
+    private bool useApiFetch;
+    private bool autoExpandView;
+    private DateTime? lastReadDataUtc;
+    private DateTime? savedStateUtc;
+    private Gantt<GanttTask> ganttRef;
+    private GanttState<GanttTask> savedState;
+
+    private List<GanttTask> inMemoryTasks = new();
+    private List<GanttTask> apiTasks = new();
+    private List<HierarchicalGanttTask> hierarchicalTasks = new();
+
+    private List<GanttTask> BoundTasks
+        => useApiFetch ? apiTasks : inMemoryTasks;
+
+    private EventCallback<GanttReadDataEventArgs<GanttTask>> ReadDataCallback
+        => useApiFetch
+            ? EventCallback.Factory.Create<GanttReadDataEventArgs<GanttTask>>( this, OnReadData )
+            : default;
+
+    private async Task SaveCurrentState()
+    {
+        if ( ganttRef is null )
+            return;
+
+        savedState = await ganttRef.GetState();
+        savedStateUtc = DateTime.UtcNow;
+    }
+
+    private async Task LoadSavedState()
+    {
+        if ( ganttRef is null || savedState is null )
+            return;
+
+        await ganttRef.LoadState( savedState );
+    }
+
+    private async Task ApplyPresetState()
+    {
+        if ( ganttRef is null )
+            return;
+
+        var presetState = new GanttState<GanttTask>
+        {
+            Date = DateOnly.FromDateTime( DateTime.Today.AddDays( 7 ) ),
+            SelectedView = GanttView.Month,
+            SearchText = "API",
+            SortField = "Start",
+            SortDirection = SortDirection.Descending,
+            FocusedRowKey = "7",
+            TreeListWidth = new FluentUnitValue( "px", 640d ),
+            EditState = GanttEditState.None,
+            ColumnStates = new()
+            {
+                new() { Field = "Wbs", Visible = true, DisplayOrder = 0, Width = new FluentUnitValue( "px", 72d ) },
+                new() { Field = "Title", Visible = true, DisplayOrder = 1, Width = new FluentUnitValue( "px", 220d ) },
+                new() { Field = "Start", Visible = true, DisplayOrder = 2, Width = new FluentUnitValue( "px", 130d ) },
+                new() { Field = "End", Visible = false, DisplayOrder = 3, Width = new FluentUnitValue( "px", 130d ) },
+                new() { Field = "Duration", Visible = true, DisplayOrder = 4, Width = new FluentUnitValue( "px", 96d ) },
+            },
+            CollapsedRowKeys = new() { "1", "5" },
+        };
+
+        await ganttRef.LoadState( presetState );
+    }
+
+    protected override void OnInitialized()
+    {
+        inMemoryTasks = CreateTasks();
+        apiTasks = inMemoryTasks.Select( x => x.Clone() ).ToList();
+        hierarchicalTasks = CreateHierarchicalTasks();
+
+        base.OnInitialized();
+    }
+
+    private async Task OnReadData( GanttReadDataEventArgs<GanttTask> eventArgs )
+    {
+        await Task.Delay( 250, eventArgs.CancellationToken );
+
+        apiTasks = inMemoryTasks.Select( x => x.Clone() ).ToList();
+        lastReadDataUtc = DateTime.UtcNow;
+    }
+
+    private Task OnItemInserted( GanttInsertedItem<GanttTask> eventArgs )
+    {
+        UpsertTask( inMemoryTasks, eventArgs.Item );
+        return Task.CompletedTask;
+    }
+
+    private Task OnItemUpdated( GanttUpdatedItem<GanttTask> eventArgs )
+    {
+        UpsertTask( inMemoryTasks, eventArgs.NewItem );
+        return Task.CompletedTask;
+    }
+
+    private Task OnItemRemoved( GanttUpdatedItem<GanttTask> eventArgs )
+    {
+        if ( eventArgs.OldItem?.Id is not null )
+        {
+            RemoveTaskWithChildren( inMemoryTasks, eventArgs.OldItem.Id );
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private static void UpsertTask( List<GanttTask> list, GanttTask task )
+    {
+        if ( task?.Id is null )
+            return;
+
+        var existingTask = list.FirstOrDefault( x => x.Id == task.Id );
+
+        if ( existingTask is null )
+        {
+            list.Add( task.Clone() );
+            return;
+        }
+
+        existingTask.ParentId = task.ParentId;
+        existingTask.Title = task.Title;
+        existingTask.Description = task.Description;
+        existingTask.Start = task.Start;
+        existingTask.End = task.End;
+        existingTask.Duration = task.Duration;
+        existingTask.Progress = task.Progress;
+    }
+
+    private static void RemoveTaskWithChildren( List<GanttTask> list, string itemId )
+    {
+        var idsToDelete = new HashSet<string>( StringComparer.Ordinal ) { itemId };
+        var changed = true;
+
+        while ( changed )
+        {
+            changed = false;
+
+            foreach ( var task in list )
+            {
+                if ( task.ParentId is not null && idsToDelete.Contains( task.ParentId ) && idsToDelete.Add( task.Id ) )
+                    changed = true;
+            }
+        }
+
+        list.RemoveAll( x => idsToDelete.Contains( x.Id ) );
+    }
+
+    private static void OnItemStyling( GanttTask task, GanttItemStyling itemStyling )
+    {
+        if ( task.ParentId is null )
+        {
+            itemStyling.Background = Background.Dark;
+            return;
+        }
+
+        if ( task.Progress >= 80d )
+            itemStyling.Background = Background.Success;
+        else if ( task.Progress < 40d )
+            itemStyling.Background = Background.Warning;
+        else
+            itemStyling.Background = Background.Info;
+    }
+
+    private static void OnHierarchicalItemStyling( HierarchicalGanttTask task, GanttItemStyling itemStyling )
+    {
+        if ( task.Children?.Count > 0 )
+        {
+            itemStyling.Background = Background.Dark;
+            return;
+        }
+
+        if ( task.Progress >= 80d )
+            itemStyling.Background = Background.Success;
+        else if ( task.Progress < 40d )
+            itemStyling.Background = Background.Warning;
+        else
+            itemStyling.Background = Background.Info;
+    }
+
+    private static List<GanttTask> CreateTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -3 );
+        var tasks = new List<GanttTask>
+        {
+            new() { Id = "1", Title = "Project Atlas", Description = "Root node", Start = baseDate, End = baseDate.AddDays( 45 ), Progress = 55 },
+            new() { Id = "2", ParentId = "1", Title = "Discovery", Description = "Research and planning", Start = baseDate, End = baseDate.AddDays( 7 ), Progress = 100 },
+            new() { Id = "3", ParentId = "2", Title = "Requirements", Description = "Client workshops", Start = baseDate, End = baseDate.AddDays( 3 ), Progress = 100 },
+            new() { Id = "4", ParentId = "2", Title = "Scope review", Description = "Scope and cost validation", Start = baseDate.AddDays( 3 ), End = baseDate.AddDays( 7 ), Progress = 100 },
+            new() { Id = "5", ParentId = "1", Title = "Delivery", Description = "Build and integration", Start = baseDate.AddDays( 7 ), End = baseDate.AddDays( 35 ), Progress = 50 },
+            new() { Id = "6", ParentId = "5", Title = "Backend", Description = "API and integration layer", Start = baseDate.AddDays( 7 ), End = baseDate.AddDays( 24 ), Progress = 65 },
+            new() { Id = "7", ParentId = "6", Title = "API endpoints", Description = "Public service contracts", Start = baseDate.AddDays( 8 ), End = baseDate.AddDays( 16 ), Progress = 80 },
+            new() { Id = "8", ParentId = "6", Title = "Data migrations", Description = "Schema and seed data", Start = baseDate.AddDays( 15 ), End = baseDate.AddDays( 23 ), Progress = 40 },
+            new() { Id = "9", ParentId = "5", Title = "Frontend", Description = "UI pages and interactions", Start = baseDate.AddDays( 10 ), End = baseDate.AddDays( 31 ), Progress = 45 },
+            new() { Id = "10", ParentId = "9", Title = "Dashboard UI", Description = "Main user workspace", Start = baseDate.AddDays( 12 ), End = baseDate.AddDays( 22 ), Progress = 50 },
+            new() { Id = "11", ParentId = "9", Title = "Settings", Description = "Preferences and account", Start = baseDate.AddDays( 20 ), End = baseDate.AddDays( 30 ), Progress = 35 },
+            new() { Id = "12", ParentId = "1", Title = "QA and Release", Description = "Validation and rollout", Start = baseDate.AddDays( 30 ), End = baseDate.AddDays( 45 ), Progress = 20 },
+            new() { Id = "13", ParentId = "12", Title = "Regression suite", Description = "E2E and smoke tests", Start = baseDate.AddDays( 30 ), End = baseDate.AddDays( 40 ), Progress = 15 },
+            new() { Id = "14", ParentId = "12", Title = "Production launch", Description = "Go-live activities", Start = baseDate.AddDays( 40 ), End = baseDate.AddDays( 45 ), Progress = 5 },
+        };
+
+        foreach ( var task in tasks )
+        {
+            task.Duration = Math.Max( 1, (int)Math.Ceiling( ( task.End - task.Start ).TotalDays ) );
+        }
+
+        return tasks;
+    }
+
+    private static List<HierarchicalGanttTask> CreateHierarchicalTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -3 );
+        var tasks = new List<HierarchicalGanttTask>
+        {
+            new()
+            {
+                Id = "h1",
+                Title = "Project Atlas",
+                Description = "Root node",
+                Start = baseDate,
+                End = baseDate.AddDays( 45 ),
+                Progress = 55,
+                Children = new()
+                {
+                    new()
+                    {
+                        Id = "h2",
+                        Title = "Discovery",
+                        Description = "Research and planning",
+                        Start = baseDate,
+                        End = baseDate.AddDays( 7 ),
+                        Progress = 100,
+                        Children = new()
+                        {
+                            new()
+                            {
+                                Id = "h3",
+                                Title = "Requirements",
+                                Description = "Client workshops",
+                                Start = baseDate,
+                                End = baseDate.AddDays( 3 ),
+                                Progress = 100,
+                            },
+                            new()
+                            {
+                                Id = "h4",
+                                Title = "Scope review",
+                                Description = "Scope and cost validation",
+                                Start = baseDate.AddDays( 3 ),
+                                End = baseDate.AddDays( 7 ),
+                                Progress = 100,
+                            },
+                        },
+                    },
+                    new()
+                    {
+                        Id = "h5",
+                        Title = "Delivery",
+                        Description = "Build and integration",
+                        Start = baseDate.AddDays( 7 ),
+                        End = baseDate.AddDays( 35 ),
+                        Progress = 50,
+                        Children = new()
+                        {
+                            new()
+                            {
+                                Id = "h6",
+                                Title = "Backend",
+                                Description = "API and integration layer",
+                                Start = baseDate.AddDays( 7 ),
+                                End = baseDate.AddDays( 24 ),
+                                Progress = 65,
+                                Children = new()
+                                {
+                                    new()
+                                    {
+                                        Id = "h7",
+                                        Title = "API endpoints",
+                                        Description = "Public service contracts",
+                                        Start = baseDate.AddDays( 8 ),
+                                        End = baseDate.AddDays( 16 ),
+                                        Progress = 80,
+                                    },
+                                    new()
+                                    {
+                                        Id = "h8",
+                                        Title = "Data migrations",
+                                        Description = "Schema and seed data",
+                                        Start = baseDate.AddDays( 15 ),
+                                        End = baseDate.AddDays( 23 ),
+                                        Progress = 40,
+                                    },
+                                },
+                            },
+                            new()
+                            {
+                                Id = "h9",
+                                Title = "Frontend",
+                                Description = "UI pages and interactions",
+                                Start = baseDate.AddDays( 10 ),
+                                End = baseDate.AddDays( 31 ),
+                                Progress = 45,
+                                Children = new()
+                                {
+                                    new()
+                                    {
+                                        Id = "h10",
+                                        Title = "Dashboard UI",
+                                        Description = "Main user workspace",
+                                        Start = baseDate.AddDays( 12 ),
+                                        End = baseDate.AddDays( 22 ),
+                                        Progress = 50,
+                                    },
+                                    new()
+                                    {
+                                        Id = "h11",
+                                        Title = "Settings",
+                                        Description = "Preferences and account",
+                                        Start = baseDate.AddDays( 20 ),
+                                        End = baseDate.AddDays( 30 ),
+                                        Progress = 35,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    new()
+                    {
+                        Id = "h12",
+                        Title = "QA and Release",
+                        Description = "Validation and rollout",
+                        Start = baseDate.AddDays( 30 ),
+                        End = baseDate.AddDays( 45 ),
+                        Progress = 20,
+                        Children = new()
+                        {
+                            new()
+                            {
+                                Id = "h13",
+                                Title = "Regression suite",
+                                Description = "E2E and smoke tests",
+                                Start = baseDate.AddDays( 30 ),
+                                End = baseDate.AddDays( 40 ),
+                                Progress = 15,
+                            },
+                            new()
+                            {
+                                Id = "h14",
+                                Title = "Production launch",
+                                Description = "Go-live activities",
+                                Start = baseDate.AddDays( 40 ),
+                                End = baseDate.AddDays( 45 ),
+                                Progress = 5,
+                            },
+                        },
+                    },
+                },
+            },
+        };
+
+        AssignDurations( tasks );
+        return tasks;
+    }
+
+    private static void AssignDurations( IEnumerable<HierarchicalGanttTask> tasks )
+    {
+        foreach ( var task in tasks )
+        {
+            task.Duration = Math.Max( 1, (int)Math.Ceiling( ( task.End - task.Start ).TotalDays ) );
+            AssignDurations( task.Children );
+        }
+    }
+
+    private class GanttTask
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+
+        public double Progress { get; set; }
+
+        public GanttTask Clone()
+        {
+            return new GanttTask
+            {
+                Id = Id,
+                ParentId = ParentId,
+                Title = Title,
+                Description = Description,
+                Start = Start,
+                End = End,
+                Duration = Duration,
+                Progress = Progress,
+            };
+        }
+    }
+
+    private class HierarchicalGanttTask
+    {
+        public string Id { get; set; }
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+
+        public double Progress { get; set; }
+
+        public List<HierarchicalGanttTask> Children { get; set; } = new();
+    }
+}

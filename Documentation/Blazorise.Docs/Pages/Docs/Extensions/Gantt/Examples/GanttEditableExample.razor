@@ -1,0 +1,73 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Gantt TItem="TaskItem"
+       Data="@tasks"
+       Date="@selectedDate"
+       SelectedView="GanttView.Week"
+       DurationField="Duration"
+       Editable
+       CommandAllowed="@AllowCommand">
+    <GanttColumns>
+        <GanttColumn Field="Title" Title="Task" Expandable Width="Width.Px(230)" />
+        <GanttColumn Field="Start" Width="Width.Px(130)" />
+        <GanttColumn Field="End" Width="Width.Px(130)" Visible="false" />
+        <GanttColumn Field="Duration" Width="Width.Px(90)" TextAlignment="TextAlignment.Center" Visible="false" />
+        <GanttColumn Field="Progress" Width="Width.Px(96)" TextAlignment="TextAlignment.Center" Visible="false" />
+        <GanttCommandColumn Width="Width.Px(60)" />
+    </GanttColumns>
+    <GanttToolbar />
+    <GanttViews>
+        <GanttWeekView TimelineCellWidth="90" RowHeight="44" />
+    </GanttViews>
+</Gantt>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -2 );
+
+        var result = new List<TaskItem>
+        {
+            new() { Id = "1", Title = "Marketing campaign", Start = baseDate, End = baseDate.AddDays( 15 ), Progress = 45d },
+            new() { Id = "2", ParentId = "1", Title = "Research", Start = baseDate, End = baseDate.AddDays( 4 ), Progress = 100d },
+            new() { Id = "3", ParentId = "1", Title = "Creative", Start = baseDate.AddDays( 4 ), End = baseDate.AddDays( 9 ), Progress = 70d },
+            new() { Id = "4", ParentId = "1", Title = "Distribution", Start = baseDate.AddDays( 9 ), End = baseDate.AddDays( 15 ), Progress = 20d },
+        };
+
+        foreach ( var item in result )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        return result;
+    }
+
+    private bool AllowCommand( GanttCommandContext<TaskItem> context )
+    {
+        if ( context.CommandType == GanttCommandType.Delete && context.Item?.ParentId is null )
+            return false;
+
+        return true;
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+
+        public double Progress { get; set; }
+    }
+}

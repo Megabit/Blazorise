@@ -295,6 +295,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     var column = Columns?.Find( x => x.Field == filterState.FieldName );
                     if ( column is not null )
                     {
+                        if ( filterState.HasFilterMethod )
+                        {
+                            column.SetFilterMethod( filterState.FilterMethod );
+                        }
+
                         column.Filter.SearchValue = DataGridFilterUtils.CoerceSearchValue( column, filterState.SearchValue );
                     }
                 }
@@ -384,7 +389,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         if ( Columns.Exists( x => x.Filter?.SearchValue != null ) )
         {
-            dataGridState.ColumnFilterStates = Columns.Where( x => x.Filter?.SearchValue is not null ).Select( x => new DataGridColumnFilterState<TItem>( x.Field, x.Filter.SearchValue ) ).ToList();
+            dataGridState.ColumnFilterStates = Columns.Where( x => x.Filter?.SearchValue is not null ).Select( x => new DataGridColumnFilterState<TItem>( x.Field, x.Filter.SearchValue )
+            {
+                FilterMethod = x.GetFilterMethod() ?? x.GetDataGridFilterMethodAsColumn(),
+            } ).ToList();
         }
 
         dataGridState.ColumnDisplayingStates = Columns.Where( x => x.IsRegularColumn ).Select( x => new DataGridColumnDisplayingState<TItem>( x.Field, x.Displaying, x.GetDisplayOrder() ) ).ToList();

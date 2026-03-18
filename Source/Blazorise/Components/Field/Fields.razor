@@ -1,13 +1,26 @@
 ﻿@namespace Blazorise
 @inherits BaseColumnComponent
 <CascadingValue Value="@this" IsFixed>
-    @if ( Label is not null )
+    @if ( Group )
     {
-        <Label>@Label</Label>
+        <Dynamic TagName="@ContainerTagName" @bind-ElementRef="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @if ( Label is not null )
+            {
+                <FieldsLabel>@Label</FieldsLabel>
+            }
+            @ChildContent
+        </Dynamic>
     }
-    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @ChildContent
-    </div>
+    else
+    {
+        @if ( Label is not null )
+        {
+            <FieldsLabel>@Label</FieldsLabel>
+        }
+        <Dynamic TagName="@ContainerTagName" @bind-ElementRef="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @ChildContent
+        </Dynamic>
+    }
     @if ( Help is not null )
     {
         <Help>@Help</Help>

@@ -24,8 +24,6 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
 
     private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
 
-    private bool? disabled;
-
     private DateTime? lastKeyboardToggleTimestampUtc;
 
     #endregion

@@ -1,0 +1,7 @@
+@inherits BaseComponent
+<Slider TValue="int" Value="@Value" ValueChanged="@OnValueChanged" Min="0" Max="100" Step="1" Disabled="@Disabled" />
+<Div Flex="FlexJustifyContentBetweenAlignItemsCenter" Margin="MarginIs1FromTop">
+    <Span TextSize="TextSizeSmall" TextColor="TextColorMuted">0%</Span>
+    <Span TextSize="TextSizeSmall" TextWeight="TextWeight.SemiBold">@($"{Value}%")</Span>
+    <Span TextSize="TextSizeSmall" TextColor="TextColorMuted">100%</Span>
+</Div>

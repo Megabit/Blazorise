@@ -103,13 +103,9 @@ $checkradio-top-offset: 0rem !default;
         display: initial;
         cursor: pointer;
         vertical-align: middle;
-        margin: .5em;
+        margin: .5em .5em .5em 0;
         padding: .2rem .5rem .2rem 0;
         border-radius: $checkbox-radius;
-
-        &:first-of-type {
-            margin-left: 0;
-        }
 
         &:hover {
             &::before,
@@ -140,8 +136,7 @@ $checkradio-top-offset: 0rem !default;
 
     &.is-rtl {
         + label {
-            margin-right: 0rem;
-            margin-left: 0.5rem;
+            margin: .5em 0 .5em .5em;
 
             &::before,
             &:before {

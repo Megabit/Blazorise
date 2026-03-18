@@ -181,12 +181,42 @@ public class _SchedulerSlot<TItem> : ComponentBase
     /// <summary>
     /// Gets the custom border style for the slot if it is not the last slot.
     /// </summary>
-    private string GetSlotStyle()
+    private string GetDefaultSlotStyle()
     {
         if ( LastSlot || IsDraggingOver )
             return null;
 
         return "border-bottom-style: dashed !important;";
+    }
+
+    /// <summary>
+    /// Gets the styling context for the current slot.
+    /// </summary>
+    /// <returns>A <see cref="SchedulerSlotContext"/> containing the resolved slot styling.</returns>
+    private SchedulerSlotContext GetSlotContext()
+    {
+        var slotStyling = new SchedulerSlotStyling
+        {
+            Style = GetDefaultSlotStyle(),
+            Background = SlotBackgroundColor,
+            Border = SlotBorderColor,
+        };
+
+        return Scheduler?.GetSlotContext( SlotStart, SlotEnd, Section, slotStyling, mouseHovering, IsDraggingOver, LastSlot )
+            ?? new SchedulerSlotContext( SlotStart, SlotEnd, Section, slotStyling, mouseHovering, IsDraggingOver, LastSlot );
+    }
+
+    /// <summary>
+    /// Gets the CSS class name for the slot.
+    /// </summary>
+    /// <param name="classNames">The user-defined slot class names.</param>
+    /// <returns>A combined class string containing the default slot class and any user-defined classes.</returns>
+    private string GetSlotClass( string classNames )
+    {
+        if ( string.IsNullOrWhiteSpace( classNames ) )
+            return "b-scheduler-slot";
+
+        return $"b-scheduler-slot {classNames}";
     }
 
     /// <summary>
@@ -199,16 +229,18 @@ public class _SchedulerSlot<TItem> : ComponentBase
     /// <param name="builder">The <see cref="RenderTreeBuilder"/> used to construct the render tree for the component.</param>
     protected override void BuildRenderTree( RenderTreeBuilder builder )
     {
+        var slotContext = GetSlotContext();
+
         builder.OpenComponent<Div>();
 
-        builder.Attribute( nameof( Div.Class ), "b-scheduler-slot" );
-        builder.Attribute( nameof( Div.Style ), GetSlotStyle() );
+        builder.Attribute( nameof( Div.Class ), GetSlotClass( slotContext.Styling.Class ) );
+        builder.Attribute( nameof( Div.Style ), slotContext.Styling.Style );
         builder.Attribute( nameof( Div.Position ), PositionRelative );
         builder.Attribute( nameof( Div.Margin ), MarginIsAuto );
         builder.Attribute( nameof( Div.Width ), WidthIs100 );
         builder.Attribute( nameof( Div.Height ), HeightIs100 );
-        builder.Attribute( nameof( Div.Border ), SlotBorderColor );
-        builder.Attribute( nameof( Div.Background ), SlotBackgroundColor );
+        builder.Attribute( nameof( Div.Border ), slotContext.Styling.Border );
+        builder.Attribute( nameof( Div.Background ), slotContext.Styling.Background );
 
         builder.Data( "slot-start", DataSlotStart );
         builder.Data( "slot-end", DataSlotEnd );

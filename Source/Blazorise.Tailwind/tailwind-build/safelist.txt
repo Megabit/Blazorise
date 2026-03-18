@@ -2669,6 +2669,7 @@
   after:right-0
   after:rounded-full
   after:top-[2px]
+  top-[calc(50%+1.5px)]
   after:top-0
   after:top-0.5
   after:top-1
@@ -4670,4 +4671,92 @@
   z-30
   z-40
   z-50
+  min-h-8
+  aria-disabled:opacity-60
+  accent-blue-600
+  dark:accent-blue-500
+  accent-green-500
+  dark:accent-green-500
+  accent-red-500
+  dark:accent-red-500
+  accent-primary-600
+  dark:accent-primary-500
+  accent-secondary-600
+  dark:accent-secondary-500
+  accent-warning-500
+  dark:accent-warning-400
+  accent-info-600
+  dark:accent-info-500
+  accent-light-500
+  dark:accent-light-400
+  accent-dark-700
+  dark:accent-dark-400
+  -translate-x-1/2
+  -translate-y-1/2
+  -translate-y-full
+  -mt-1
+  -mt-3
+  top-0
+  top-1/2
+  h-6
+  font-medium
+  leading-6
+  text-gray-100
+  border-gray-200
+  dark:border-gray-600
+  dark:bg-blue-500
+  dark:bg-gray-700
+  dark:text-gray-100
+  [&::-webkit-slider-runnable-track]:h-2
+  [&::-webkit-slider-runnable-track]:rounded-lg
+  [&::-webkit-slider-runnable-track]:border-0
+  [&::-webkit-slider-runnable-track]:bg-gray-200
+  dark:[&::-webkit-slider-runnable-track]:bg-gray-700
+  [&::-webkit-slider-runnable-track]:bg-transparent
+  [&::-webkit-slider-thumb]:appearance-none
+  [&::-webkit-slider-thumb]:-mt-1
+  [&::-webkit-slider-thumb]:h-4
+  [&::-webkit-slider-thumb]:w-4
+  [&::-webkit-slider-thumb]:rounded-full
+  [&::-webkit-slider-thumb]:border-2
+  [&::-webkit-slider-thumb]:border-white
+  dark:[&::-webkit-slider-thumb]:border-gray-800
+  [&::-webkit-slider-thumb]:bg-blue-600
+  dark:[&::-webkit-slider-thumb]:bg-blue-500
+  [&::-webkit-slider-thumb]:bg-green-500
+  dark:[&::-webkit-slider-thumb]:bg-green-500
+  [&::-webkit-slider-thumb]:bg-red-500
+  dark:[&::-webkit-slider-thumb]:bg-red-500
+  [&::-webkit-slider-thumb]:shadow-sm
+  [&::-webkit-slider-thumb]:cursor-pointer
+  [&::-webkit-slider-thumb]:pointer-events-auto
+  disabled:[&::-webkit-slider-thumb]:cursor-not-allowed
+  [&::-moz-range-track]:h-2
+  [&::-moz-range-track]:rounded-lg
+  [&::-moz-range-track]:border-0
+  [&::-moz-range-track]:bg-gray-200
+  dark:[&::-moz-range-track]:bg-gray-700
+  [&::-moz-range-track]:bg-transparent
+  [&::-moz-range-progress]:h-2
+  [&::-moz-range-progress]:rounded-lg
+  [&::-moz-range-progress]:border-0
+  [&::-moz-range-progress]:bg-gray-200
+  dark:[&::-moz-range-progress]:bg-gray-700
+  [&::-moz-range-progress]:bg-transparent
+  [&::-moz-range-thumb]:h-4
+  [&::-moz-range-thumb]:w-4
+  [&::-moz-range-thumb]:rounded-full
+  [&::-moz-range-thumb]:border-2
+  [&::-moz-range-thumb]:border-white
+  dark:[&::-moz-range-thumb]:border-gray-800
+  [&::-moz-range-thumb]:bg-blue-600
+  dark:[&::-moz-range-thumb]:bg-blue-500
+  [&::-moz-range-thumb]:bg-green-500
+  dark:[&::-moz-range-thumb]:bg-green-500
+  [&::-moz-range-thumb]:bg-red-500
+  dark:[&::-moz-range-thumb]:bg-red-500
+  [&::-moz-range-thumb]:shadow-sm
+  [&::-moz-range-thumb]:cursor-pointer
+  [&::-moz-range-thumb]:pointer-events-auto
+  disabled:[&::-moz-range-thumb]:cursor-not-allowed
 ];

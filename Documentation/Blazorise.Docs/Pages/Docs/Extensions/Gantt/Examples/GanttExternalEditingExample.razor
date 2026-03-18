@@ -1,0 +1,221 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Gantt TItem="TaskItem"
+       Data="@tasks"
+       Date="@selectedDate"
+       SelectedView="GanttView.Week"
+       DurationField="Duration"
+       Editable
+       UseInternalEditing="false"
+       NewItemClicked="@OnNewItemClicked"
+       AddChildItemClicked="@OnAddChildItemClicked"
+       EditItemClicked="@OnEditItemClicked"
+       DeleteItemClicked="@OnDeleteItemClicked">
+    <GanttColumns>
+        <GanttColumn Field="Title" Title="Task" Expandable Width="Width.Px( 230 )" />
+        <GanttColumn Field="Start" Width="Width.Px( 130 )" />
+        <GanttColumn Field="End" Width="Width.Px( 130 )" Visible="false" />
+        <GanttColumn Field="Duration" Width="Width.Px( 90 )" TextAlignment="TextAlignment.Center" Visible="false" />
+        <GanttCommandColumn Width="Width.Px( 176 )">
+            <HeaderTemplate>
+                @if ( context.CanAddTask )
+                {
+                    <Button Size="Size.ExtraSmall" Color="Color.Success" Outline Clicked="@context.AddTask">New</Button>
+                }
+            </HeaderTemplate>
+            <DisplayTemplate>
+                @if ( context.CanAddChild )
+                {
+                    <Button Size="Size.ExtraSmall" Color="Color.Secondary" Outline Margin="Margin.Is1.FromEnd" Clicked="@context.AddChild">Child</Button>
+                }
+                @if ( context.CanEdit )
+                {
+                    <Button Size="Size.ExtraSmall" Color="Color.Primary" Outline Margin="Margin.Is1.FromEnd" Clicked="@context.Edit">Edit</Button>
+                }
+                @if ( context.CanDelete )
+                {
+                    <Button Size="Size.ExtraSmall" Color="Color.Danger" Outline Clicked="@context.Delete">Delete</Button>
+                }
+            </DisplayTemplate>
+        </GanttCommandColumn>
+    </GanttColumns>
+    <GanttViews>
+        <GanttWeekView TimelineCellWidth="90" RowHeight="44" />
+    </GanttViews>
+</Gantt>
+
+<Paragraph TextColor="TextColor.Muted" Margin="Margin.Is3.FromTop">
+    Last external action: @lastAction
+</Paragraph>
+
+<Modal @bind-Visible="@editorVisible" Centered>
+    <ModalContent>
+        <ModalHeader>
+            <ModalTitle>@editorModeTitle</ModalTitle>
+            <CloseButton Clicked="@CloseEditor" />
+        </ModalHeader>
+        <ModalBody>
+            <Paragraph TextColor="TextColor.Muted">
+                This modal is owned by the page. Gantt only raises the command callbacks.
+            </Paragraph>
+            <Field>
+                <FieldLabel>Title</FieldLabel>
+                <FieldBody>
+                    <TextInput @bind-Value="@editorTitle" Immediate="false" Placeholder="Task title" />
+                </FieldBody>
+            </Field>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@CloseEditor">Cancel</Button>
+            <Button Color="Color.Primary" Clicked="@SaveEditor">Save</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+    private List<TaskItem> tasks = CreateTasks();
+    private bool editorVisible;
+    private string editorModeTitle = "Edit task";
+    private string editorTitle;
+    private string editorParentId;
+    private string editorTargetId;
+    private TaskItem editorDraft;
+    private string lastAction = "None";
+    private int nextId = 100;
+
+    private Task OnNewItemClicked( GanttCommandContext<TaskItem> context )
+        => OpenEditor( context.Item, null, null, "Create task" );
+
+    private Task OnAddChildItemClicked( GanttCommandContext<TaskItem> context )
+        => OpenEditor( context.Item, context.ParentItem, null, $"Create child for {context.ParentItem?.Title}" );
+
+    private Task OnEditItemClicked( GanttItemClickedEventArgs<TaskItem> context )
+        => OpenEditor( context.Item, null, context.Item?.Id, $"Edit {context.Item?.Title}" );
+
+    private Task OnDeleteItemClicked( GanttItemClickedEventArgs<TaskItem> context )
+    {
+        if ( context?.Item?.Id is null )
+            return Task.CompletedTask;
+
+        RemoveTaskWithChildren( tasks, context.Item.Id );
+        lastAction = $"Deleted {context.Item.Title}";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OpenEditor( TaskItem item, TaskItem parentItem, string targetId, string modeTitle )
+    {
+        editorDraft = item?.Clone() ?? new TaskItem();
+        editorParentId = parentItem?.Id;
+        editorTargetId = targetId;
+        editorTitle = editorDraft.Title ?? string.Empty;
+        editorModeTitle = modeTitle;
+        editorVisible = true;
+
+        return Task.CompletedTask;
+    }
+
+    private Task CloseEditor()
+    {
+        editorVisible = false;
+        editorDraft = null;
+        editorParentId = null;
+        editorTargetId = null;
+        editorTitle = string.Empty;
+
+        return Task.CompletedTask;
+    }
+
+    private Task SaveEditor()
+    {
+        if ( editorDraft is null )
+            return Task.CompletedTask;
+
+        editorDraft.Title = string.IsNullOrWhiteSpace( editorTitle )
+            ? "Untitled task"
+            : editorTitle.Trim();
+
+        if ( string.IsNullOrEmpty( editorTargetId ) )
+        {
+            editorDraft.Id ??= $"task-{nextId++}";
+            editorDraft.ParentId = editorParentId;
+            tasks.Add( editorDraft.Clone() );
+            lastAction = editorParentId is null
+                ? $"Created {editorDraft.Title}"
+                : $"Created child {editorDraft.Title}";
+        }
+        else
+        {
+            var existingTask = tasks.FirstOrDefault( x => x.Id == editorTargetId );
+
+            if ( existingTask is not null )
+            {
+                existingTask.Title = editorDraft.Title;
+                lastAction = $"Updated {existingTask.Title}";
+            }
+        }
+
+        return CloseEditor();
+    }
+
+    private static void RemoveTaskWithChildren( List<TaskItem> list, string itemId )
+    {
+        var idsToDelete = new HashSet<string>( StringComparer.Ordinal ) { itemId };
+        var changed = true;
+
+        while ( changed )
+        {
+            changed = false;
+
+            foreach ( var task in list )
+            {
+                if ( task.ParentId is not null && idsToDelete.Contains( task.ParentId ) && idsToDelete.Add( task.Id ) )
+                    changed = true;
+            }
+        }
+
+        list.RemoveAll( x => idsToDelete.Contains( x.Id ) );
+    }
+
+    private static List<TaskItem> CreateTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -2 );
+
+        return new List<TaskItem>
+        {
+            new() { Id = "1", Title = "Website redesign", Start = baseDate, End = baseDate.AddDays( 14 ), Duration = 14 },
+            new() { Id = "2", ParentId = "1", Title = "Discovery", Start = baseDate, End = baseDate.AddDays( 4 ), Duration = 4 },
+            new() { Id = "3", ParentId = "1", Title = "Implementation", Start = baseDate.AddDays( 4 ), End = baseDate.AddDays( 12 ), Duration = 8 },
+            new() { Id = "4", ParentId = "1", Title = "Launch", Start = baseDate.AddDays( 12 ), End = baseDate.AddDays( 14 ), Duration = 2 },
+        };
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+
+        public TaskItem Clone()
+        {
+            return new TaskItem
+            {
+                Id = Id,
+                ParentId = ParentId,
+                Title = Title,
+                Start = Start,
+                End = End,
+                Duration = Duration,
+            };
+        }
+    }
+}

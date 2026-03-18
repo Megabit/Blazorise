@@ -12,7 +12,7 @@
                 var filterMethod = Column.GetFilterMethod() ?? Column.GetDataGridFilterMethodAsColumn();
                 <Column ColumnSize="ColumnSizeIs12">
                     <Field>
-                        <Select TValue="DataGridColumnFilterMethod" Value="@filterMethod" ValueChanged="e => { Column.SetFilterMethod(e); }">
+                        <Select TValue="DataGridColumnFilterMethod" Value="@filterMethod" ValueChanged="e => { Column.SetFilterMethod( e ); }">
                             @if ( Column.ColumnType == DataGridColumnType.Numeric || Column.ColumnType == DataGridColumnType.Date )
                             {
                                 <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.Equals">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodEqualsLocalizer, "Equals" )</SelectItem>
@@ -43,7 +43,11 @@
                 </Column>
                 <Column ColumnSize="ColumnSizeIs12">
                     <Field @key=filterMethod>
-                        @if ( filterMethod == DataGridColumnFilterMethod.Between )
+                        @if ( Column.FilterTemplate is not null )
+                        {
+                            @(Column.FilterTemplate( Column.Filter ))
+                        }
+                        else if ( filterMethod == DataGridColumnFilterMethod.Between )
                         {
                             <_DataGridCellFilter Column="Column" CellFilterType="DataGridCellFilterType.RangeFrom" OnFilterChanged="@SetFilterValue1" />
                             <_DataGridCellFilter Column="Column" CellFilterType="DataGridCellFilterType.RangeTo" OnFilterChanged="@SetFilterValue2" />

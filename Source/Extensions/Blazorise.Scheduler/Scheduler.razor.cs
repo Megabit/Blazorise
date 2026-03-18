@@ -12,6 +12,7 @@ using Blazorise.Scheduler.Extensions;
 using Blazorise.Scheduler.Utilities;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 #endregion
@@ -625,6 +626,52 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             return schedulerWorkWeekView.AllDayItemTemplate;
 
         return schedulerDayView.AllDayItemTemplate;
+    }
+
+    /// <summary>
+    /// Retrieves the appropriate slot styling template based on the current view mode of the scheduler.
+    /// </summary>
+    /// <returns>Returns a RenderFragment for the slot styling template corresponding to the active view.</returns>
+    private RenderFragment<SchedulerSlotContext> GetSlotStylingTemplate()
+    {
+        if ( ShowingMonthView )
+            return schedulerMonthView?.SlotStylingTemplate;
+
+        if ( ShowingWeekView )
+            return schedulerWeekView?.SlotStylingTemplate;
+
+        if ( ShowingWorkWeekView )
+            return schedulerWorkWeekView?.SlotStylingTemplate;
+
+        return schedulerDayView?.SlotStylingTemplate;
+    }
+
+    /// <summary>
+    /// Builds a slot styling context for the current view and evaluates the active slot styling template.
+    /// </summary>
+    /// <param name="start">The start of the slot.</param>
+    /// <param name="end">The end of the slot.</param>
+    /// <param name="section">The scheduler section that owns the slot.</param>
+    /// <param name="styling">The default styling to apply before template customization.</param>
+    /// <param name="isHovered">Indicates whether the slot is hovered.</param>
+    /// <param name="isDraggingOver">Indicates whether the slot is a drag target.</param>
+    /// <param name="isLastSlot">Indicates whether the slot is the last slot in the rendered cell.</param>
+    /// <returns>A slot context containing the resolved styling values.</returns>
+    internal SchedulerSlotContext GetSlotContext( DateTime start, DateTime end, SchedulerSection section, SchedulerSlotStyling styling, bool isHovered = false, bool isDraggingOver = false, bool isLastSlot = false )
+    {
+        styling ??= new SchedulerSlotStyling();
+
+        var slotContext = new SchedulerSlotContext( start, end, section, styling, isHovered, isDraggingOver, isLastSlot );
+        var slotStylingTemplate = SlotStylingTemplate;
+
+        if ( slotStylingTemplate is not null )
+        {
+            var renderFragment = slotStylingTemplate( slotContext );
+
+            renderFragment?.Invoke( new RenderTreeBuilder() );
+        }
+
+        return slotContext;
     }
 
     /// <summary>
@@ -2049,6 +2096,11 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     /// Returns a RenderFragment for all-day items based on the current view mode of the scheduler.
     /// </summary>
     internal protected RenderFragment<SchedulerAllDayItemContext<TItem>> AllDayItemTemplate => GetAllDayItemTemplate();
+
+    /// <summary>
+    /// Returns a RenderFragment for slot styling based on the current view mode of the scheduler.
+    /// </summary>
+    internal protected RenderFragment<SchedulerSlotContext> SlotStylingTemplate => GetSlotStylingTemplate();
 
     /// <summary>
     /// Injects an instance of <see cref="IMessageService"/> for handling message-related operations. It is a private property.

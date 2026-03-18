@@ -244,6 +244,26 @@ public class MaterialClassProvider : ClassProvider
 
     #endregion
 
+    #region RangeSlider
+
+    public override string RangeSlider() => "mui-slider-container mui-range-slider";
+
+    public override string RangeSliderTrack() => "mui-range-slider-track";
+
+    public override string RangeSliderRange() => "mui-range-slider-range";
+
+    public override string RangeSliderInput() => "mui-range-slider-input";
+
+    public override string RangeSliderStart() => "mui-range-slider-input-start";
+
+    public override string RangeSliderEnd() => "mui-range-slider-input-end";
+
+    public override string RangeSliderTooltip() => "mui-slider-value mui-range-slider-tooltip";
+
+    public override string RangeSliderValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
+
+    #endregion
+
     #region Rating
 
     public override string Rating() => "mui-rating";
@@ -314,6 +334,16 @@ public class MaterialClassProvider : ClassProvider
 
     #endregion
 
+    #region FieldSet
+
+    public override string FieldSet() => "mui-field";
+
+    public override string FieldSetHorizontal( bool horizontal ) => horizontal ? "mui-field-horizontal" : null;
+
+    public override string FieldSetValidation( ValidationStatus validationStatus ) => null;
+
+    #endregion
+
     #region Field
 
     public override string Field() => "mui-field";
@@ -340,6 +370,19 @@ public class MaterialClassProvider : ClassProvider
             : null;
 
     public override string FieldLabelScreenreader( Screenreader screenreader ) => screenreader != Screenreader.Always ? ToScreenreader( screenreader ) : null;
+
+    #endregion
+
+    #region Legend
+
+    public override string Legend( bool horizontal ) => horizontal ? "mui-field-label-horizontal" : "mui-field-label";
+
+    public override string LegendRequiredIndicator( bool requiredIndicator )
+        => requiredIndicator
+            ? "mui-field-required"
+            : null;
+
+    public override string LegendScreenreader( Screenreader screenreader ) => screenreader != Screenreader.Always ? ToScreenreader( screenreader ) : null;
 
     #endregion
 

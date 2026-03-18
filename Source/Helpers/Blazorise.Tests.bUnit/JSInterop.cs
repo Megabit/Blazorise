@@ -1,8 +1,11 @@
 #region Using directives
 using Blazorise.Charts;
 using Blazorise.DataGrid;
+using Blazorise.Markdown;
+using Blazorise.Gantt;
 using Blazorise.Modules;
 using Blazorise.RichTextEdit;
+using Blazorise.SignaturePad;
 using Bunit;
 #endregion
 
@@ -53,8 +56,36 @@ public static class JSInterop
     {
         AddBlazoriseUtilities( jsInterop );
 
-        jsInterop.SetupModule( new JSDatePickerModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName )
-            .SetupVoid( "initialize", _ => true ).SetVoidResult();
+        var module = jsInterop.SetupModule( new JSDatePickerModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateValue", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
+        module.SetupVoid( "open", _ => true ).SetVoidResult();
+        module.SetupVoid( "close", _ => true ).SetVoidResult();
+        module.SetupVoid( "toggle", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateLocalization", _ => true ).SetVoidResult();
+        module.SetupVoid( "focus", _ => true ).SetVoidResult();
+        module.SetupVoid( "select", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
+    public static BunitJSInterop AddBlazoriseTimePicker( this BunitJSInterop jsInterop )
+    {
+        AddBlazoriseUtilities( jsInterop );
+
+        var module = jsInterop.SetupModule( new JSTimePickerModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateValue", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
+        module.SetupVoid( "open", _ => true ).SetVoidResult();
+        module.SetupVoid( "close", _ => true ).SetVoidResult();
+        module.SetupVoid( "toggle", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateLocalization", _ => true ).SetVoidResult();
+        module.SetupVoid( "focus", _ => true ).SetVoidResult();
+        module.SetupVoid( "select", _ => true ).SetVoidResult();
 
         return jsInterop;
     }
@@ -106,6 +137,58 @@ public static class JSInterop
         return jsInterop;
     }
 
+    public static BunitJSInterop AddBlazoriseColorPicker( this BunitJSInterop jsInterop )
+    {
+        AddBlazoriseUtilities( jsInterop );
+
+        var module = jsInterop.SetupModule( new JSColorPickerModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "import", _ => true ).SetVoidResult();
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateValue", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateLocalization", _ => true ).SetVoidResult();
+        module.SetupVoid( "focus", _ => true ).SetVoidResult();
+        module.SetupVoid( "select", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
+    public static BunitJSInterop AddBlazoriseMarkdown( this BunitJSInterop jsInterop )
+    {
+        AddBlazoriseUtilities( jsInterop );
+
+        var module = jsInterop.SetupModule( new JSMarkdownModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "import", _ => true ).SetVoidResult();
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "setValue", _ => true ).SetVoidResult();
+        module.Setup<string>( "getValue", _ => true ).SetResult( string.Empty );
+        module.SetupVoid( "notifyImageUploadSuccess", _ => true ).SetVoidResult();
+        module.SetupVoid( "notifyImageUploadError", _ => true ).SetVoidResult();
+        module.SetupVoid( "focus", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateBaseInputOptions", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
+    public static BunitJSInterop AddBlazoriseSignaturePad( this BunitJSInterop jsInterop )
+    {
+        AddBlazoriseUtilities( jsInterop );
+
+        var module = jsInterop.SetupModule( new JSSignaturePadModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "import", _ => true ).SetVoidResult();
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
+        module.SetupVoid( "clear", _ => true ).SetVoidResult();
+        module.Setup<string>( "undo", _ => true ).SetResult( null );
+        module.Setup<Blazorise.SignaturePad.SignaturePad>( "getData", _ => true ).SetResult( null );
+        module.SetupVoid( "setData", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
     public static BunitJSInterop AddBlazoriseUtilities( this BunitJSInterop jsInterop )
     {
         var module = jsInterop.SetupModule( new JSUtilitiesModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
@@ -114,7 +197,18 @@ public static class JSInterop
         module.Setup<string>( "getUserAgent", _ => true ).SetResult( String.Empty );
         module.SetupVoid( "scrollElementIntoView", _ => true ).SetVoidResult();
         module.SetupVoid( "focus", _ => true ).SetVoidResult();
+        module.SetupVoid( "select", _ => true ).SetVoidResult();
         module.SetupVoid( "log", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
+    public static BunitJSInterop AddBlazoriseRangeSlider( this BunitJSInterop jsInterop )
+    {
+        var module = jsInterop.SetupModule( new JSRangeSliderModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "import", _ => true ).SetVoidResult();
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
 
         return jsInterop;
     }
@@ -214,6 +308,23 @@ public static class JSInterop
         module.SetupVoid( "popLabel", _ => true ).SetVoidResult();
         module.SetupVoid( "popData", _ => true ).SetVoidResult();
         module.SetupVoid( "resize", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
+    public static BunitJSInterop AddBlazoriseGantt( this BunitJSInterop jsInterop )
+    {
+        AddBlazoriseTextInput( jsInterop );
+        AddBlazoriseDatePicker( jsInterop );
+        AddBlazoriseTimePicker( jsInterop );
+        AddBlazoriseNumericInput( jsInterop );
+        AddBlazoriseModal( jsInterop );
+
+        var module = jsInterop.SetupModule( new JSGanttModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ), default, default ).ModuleFileName );
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "barDragStarted", _ => true ).SetVoidResult();
+        module.SetupVoid( "barDragEnded", _ => true ).SetVoidResult();
 
         return jsInterop;
     }

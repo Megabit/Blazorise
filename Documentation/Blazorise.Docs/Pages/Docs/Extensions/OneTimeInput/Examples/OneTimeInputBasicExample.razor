@@ -1,0 +1,19 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Field>
+    <FieldLabel>Verification code</FieldLabel>
+    <FieldBody>
+        <OneTimeInput @bind-Value="@verificationCode"
+                      Digits="6"
+                      Autofocus />
+    </FieldBody>
+</Field>
+
+<Div Margin="Margin.Is3.FromTop">
+    <Span TextWeight="TextWeight.SemiBold">Value:</Span>
+    <Code>@(string.IsNullOrWhiteSpace( verificationCode ) ? "(empty)" : verificationCode)</Code>
+</Div>
+
+@code {
+    private string verificationCode;
+}

@@ -359,18 +359,14 @@ public partial class TransferList<TItem> : ComponentBase
     /// </summary>
     public bool IsMoveEndDisabled => SelectionMode == ListGroupSelectionMode.Single
         ? SelectedItemStart is null
-        : SelectionMode == ListGroupSelectionMode.Multiple
-            ? SelectedItemsStart.IsNullOrEmpty()
-            : false;
+        : SelectionMode == ListGroupSelectionMode.Multiple && SelectedItemsStart.IsNullOrEmpty();
 
     /// <summary>
     /// Gets a value indicating whether the "Move to Start" action is disabled based on the current selection mode.
     /// </summary>
     public bool IsMoveStartDisabled => SelectionMode == ListGroupSelectionMode.Single
         ? SelectedItemEnd is null
-        : SelectionMode == ListGroupSelectionMode.Multiple
-            ? SelectedItemsEnd.IsNullOrEmpty()
-            : true;
+        : SelectionMode != ListGroupSelectionMode.Multiple || SelectedItemsEnd.IsNullOrEmpty();
 
     /// <summary>
     /// Defines how the list groups behave (e.g., selectable, static).
@@ -390,7 +386,7 @@ public partial class TransferList<TItem> : ComponentBase
     /// <summary>
     /// Specifies the color of the move and "Move All" buttons.
     /// </summary>
-    [Parameter] public Color MoveButtonsColor { get; set; } = Color.Primary;
+    [Parameter] public Color MoveButtonsColor { set; get; } = Color.Primary;
 
     /// <summary>
     /// Enables a vertical scrollbar when the list exceeds the maximum height.
@@ -496,6 +492,68 @@ public partial class TransferList<TItem> : ComponentBase
     /// Event callback triggered when the selected items in the end list change.
     /// </summary>
     [Parameter] public EventCallback<List<TItem>> SelectedItemsEndChanged { get; set; }
+
+    /// <summary>
+    /// Determines whether the captions are visible above the lists.
+    /// </summary>
+    [Parameter] public bool ShowCaptions { get; set; }
+
+    /// <summary>
+    /// Gets or sets the start caption template, which can be used to render a custom header or caption for the start (left) list.
+    /// </summary>
+    [Parameter] public RenderFragment StartCaptionTemplate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the start caption text for the start (left) list.
+    /// Used only when <see cref="StartCaptionTemplate"/> is not provided.
+    /// </summary>
+    [Parameter] public string StartCaption { get; set; } = "Start";
+
+    /// <summary>
+    /// Gets or sets the end caption template, which can be used to render a custom header or caption for the end (right) list.
+    /// </summary>
+    [Parameter] public RenderFragment EndCaptionTemplate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the end caption text for the end (right) list.
+    /// Used only when <see cref="EndCaptionTemplate"/> is not provided.
+    /// </summary>
+    [Parameter] public string EndCaption { get; set; } = "End";
+
+    /// <summary>
+    /// Defines the icon name of the move to end (right) button.
+    /// </summary>
+    [Parameter] public IconName? MoveToEndIconName { set; get; } = IconName.ChevronRight;
+
+    /// <summary>
+    /// Defines the icon name of the move all to end (right) button.
+    /// </summary>
+    [Parameter] public IconName? MoveAllToEndIconName { set; get; } = IconName.ChevronDoubleRight;
+
+    /// <summary>
+    /// Defines the icon name of the move to start (left) button.
+    /// </summary>
+    [Parameter] public IconName? MoveToStartIconName { set; get; } = IconName.ChevronLeft;
+
+    /// <summary>
+    /// Defines the icon name of the move all to start (left) button.
+    /// </summary>
+    [Parameter] public IconName? MoveAllToStartIconName { set; get; } = IconName.ChevronDoubleLeft;
+
+    /// <summary>
+    /// Defines the text color of the move icons.
+    /// </summary>
+    [Parameter] public TextColor MoveButtonsIconTextColor { set; get; }
+
+    /// <summary>
+    /// Defines the style of the move icons.
+    /// </summary>
+    [Parameter] public IconStyle? MoveButtonsIconStyle { set; get; }
+
+    /// <summary>
+    /// Defines the size of the move icons.
+    /// </summary>
+    [Parameter] public IconSize? MoveButtonsIconSize { set; get; }
 
     #endregion
 }

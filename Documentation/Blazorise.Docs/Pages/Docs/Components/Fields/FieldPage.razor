@@ -43,6 +43,30 @@
         <Paragraph>
             <Code Tag>Fields</Code> container used to group several <Code>Field</Code> components
         </Paragraph>
+        <UnorderedList>
+            <UnorderedListItem>
+                <Paragraph>
+                    <Code Tag>FieldsLabel</Code> used to label the whole container and renders a <Code Tag>legend</Code> when <Code>Group</Code> is enabled.
+                </Paragraph>
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Code>Group</Code> turns <Code Tag>Field</Code> or <Code Tag>Fields</Code> into semantic group containers.
+        </Paragraph>
+        <UnorderedList>
+            <UnorderedListItem>
+                <Paragraph>
+                    In a grouped <Code Tag>Field</Code>, <Code Tag>FieldLabel</Code> renders a <Code Tag>legend</Code>.
+                </Paragraph>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Paragraph>
+                    <Code Tag>FieldSet</Code> and <Code Tag>Legend</Code> remain available as simple native wrappers when you want to render those elements directly.
+                </Paragraph>
+            </UnorderedListItem>
+        </UnorderedList>
     </UnorderedListItem>
 </UnorderedList>
 
@@ -52,7 +76,36 @@
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    For accessibility, inputs render <Code>aria-invalid</Code> and <Code>aria-describedby</Code> based on validation state and help text by default. You can override them with the <Code>AriaInvalid</Code> and <Code>AriaDescribedBy</Code> parameters when you need custom associations.
+    <Code Tag>Field</Code> is also the main semantic unit for forms in Blazorise. When a field contains one primary control together with
+    <Code Tag>FieldLabel</Code>, <Code Tag>FieldHelp</Code>, and validation feedback, Blazorise has enough context to keep visible form layout and
+    accessibility metadata aligned.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    When a question is answered by multiple related controls, such as a <Code>RadioGroup</Code> or a set of checkboxes, prefer
+    enabling <Code>Group</Code> on <Code Tag>Field</Code> or <Code Tag>Fields</Code>. In a grouped <Code Tag>Field</Code>,
+    <Code Tag>FieldLabel</Code> renders a <Code Tag>legend</Code>, and in a grouped <Code Tag>Fields</Code> container,
+    <Code Tag>FieldsLabel</Code> labels the whole set.
+</DocsPageParagraph>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        <Strong>Important:</Strong> The best accessibility results come from using one primary interactive control per <Code Tag>Field</Code>.
+        That keeps label, help, and validation associations unambiguous.
+    </AlertDescription>
+</Alert>
+
+<DocsPageParagraph>
+    By default, Blazorise uses the <Code Tag>Field</Code> structure to automatically render <Code>for</Code> on <Code Tag>FieldLabel</Code> for
+    labelable controls, <Code>aria-labelledby</Code> for non-labelable controls such as <Code>RadioGroup</Code>, <Code>ColorPicker</Code>,
+    <Code>RichTextEdit</Code>, <Code>Markdown</Code>, and <Code>SignaturePad</Code>, <Code>aria-describedby</Code> from
+    <Code Tag>FieldHelp</Code> and validation messages, and <Code>aria-invalid</Code> from validation state.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    You can still override any association when needed with <Code>FieldLabel.For</Code>, <Code>AriaLabelledBy</Code>,
+    <Code>AriaDescribedBy</Code>, and <Code>AriaInvalid</Code>. Automatic accessibility integrations are enabled by default and can be controlled
+    globally through <Code>BlazoriseOptions.AccessibilityOptions</Code>.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -72,6 +125,8 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Label">
         Every input should have a clear, descriptive label that explains its purpose in plain language. Use <Code Tag>FieldLabel</Code> to associate the label with the control, and <Code>FieldHelp</Code> when additional guidance is needed.
+        In a standard <Code Tag>Field</Code>, <Code Tag>FieldLabel</Code> can usually resolve the correct target automatically, so you only need
+        <Code>For</Code> for custom or ambiguous layouts.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <FieldWithLabelExample />
@@ -165,6 +220,18 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Grouped Field and Fields">
+        Enable <Code>Group</Code> on <Code Tag>Field</Code> when one question is answered by a single grouped control such as <Code Tag>RadioGroup</Code>.
+        Enable <Code>Group</Code> on <Code Tag>Fields</Code> when multiple related <Code Tag>Field</Code> components belong to the same section.
+        In grouped mode, <Code Tag>FieldLabel</Code> or <Code Tag>FieldsLabel</Code> becomes the semantic group label and supports <Code>RequiredIndicator</Code> and <Code>Screenreader</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FieldSetExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FieldSetExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Validation Indicator">
         In Blazorise, you can use the <Code>RequiredIndicator</Code> feature to automatically display an indicator (such as an asterisk) next to labels of required fields. This helps users quickly understand which inputs are mandatory and improves overall form usability.
     </DocsPageSectionHeader>
@@ -193,6 +260,12 @@
         <UnorderedListItem>
             <Paragraph>Use <Code Tag>Fields</Code> to group related <Code Tag>Field</Code> components when building multi-column or sectioned form layouts.</Paragraph>
         </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Use <Code>Group</Code> on <Code Tag>Field</Code> or <Code Tag>Fields</Code> when one label applies to a group of related controls instead of a single input.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Keep <Code Tag>FieldLabel</Code>, the primary input, <Code Tag>FieldHelp</Code>, and validation feedback in the same <Code Tag>Field</Code> so Blazorise can generate the correct accessibility attributes automatically.</Paragraph>
+        </UnorderedListItem>
     </UnorderedList>
 </DocsPageParagraph>
 
@@ -208,6 +281,9 @@
         <UnorderedListItem>
             <Paragraph>Don't add multiple interactive controls as children of a single <Code Tag>Field</Code>. The label should clearly describe one primary control for better accessibility.</Paragraph>
         </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Don't keep a grouped radio or checkbox question in the default single-input mode when the label really belongs to the whole set.</Paragraph>
+        </UnorderedListItem>
     </UnorderedList>
 </DocsPageParagraph>
 
@@ -219,4 +295,4 @@
     In summary, the <Code Tag>Field</Code> component simplifies form layout in Blazorise by aligning labels, inputs, help text, and validation messages, while the <Code Tag>Fields</Code> container lets you organize multiple fields into structured sections.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(Field),typeof(FieldLabel),typeof(Fields)]" />
+<ComponentApiDocs ComponentTypes="[typeof(Field),typeof(FieldLabel),typeof(FieldSet),typeof(Legend),typeof(Fields),typeof(FieldsLabel)]" />

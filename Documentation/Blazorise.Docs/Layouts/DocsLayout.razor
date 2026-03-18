@@ -46,7 +46,7 @@
                         </BarItem>
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarIntegrationsMenuVisible">
-                                <BarDropdownToggle>
+                                <BarDropdownToggle To="docs/usage">
                                     <BarIcon IconName="IconName.BookReader" /> Integrations
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
@@ -139,6 +139,9 @@
                                     <BarDropdownItem To="docs/components/pagination">Pagination</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/progress">Progress</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/radio">Radio</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/range-slider" Flex="Flex.JustifyContent.Between">
+                                        <DocsNewFeatureBadge>Range Slider</DocsNewFeatureBadge>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/components/rating">Rating</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/repeater">Repeater</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/select">Select</BarDropdownItem>
@@ -164,8 +167,8 @@
                                     <BarIcon IconName="IconName.PuzzlePiece" /> Extensions
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/extensions/autocomplete">Autocomplete</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/animate">Animate</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/autocomplete">Autocomplete</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/captcha">Captcha</BarDropdownItem>
                                     <BarDropdown>
                                         <BarDropdownToggle>Chart</BarDropdownToggle>
@@ -178,6 +181,7 @@
                                             <BarDropdownItem To="docs/extensions/chart-zoom">Zoom</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
+                                    <BarDropdownItem To="docs/extensions/cropper">Cropper</BarDropdownItem>
                                     <BarDropdown>
                                         <BarDropdownToggle>DataGrid</BarDropdownToggle>
                                         <BarDropdownMenu>
@@ -264,6 +268,10 @@
                                         </BarDropdownMenu>
                                     </BarDropdown>
                                     <BarDropdownItem To="docs/extensions/dropdownlist">DropdownList</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/fluent-validation">FluentValidation</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/gantt" Flex="Flex.JustifyContent.Between">
+                                        <DocsNewFeatureBadge>Gantt</DocsNewFeatureBadge>
+                                    </BarDropdownItem>
                                     <BarDropdown>
                                         <BarDropdownToggle>Icons</BarDropdownToggle>
                                         <BarDropdownMenu>
@@ -271,17 +279,17 @@
                                             <BarDropdownItem To="docs/extensions/icons-available">Available Icons</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
-                                    <BarDropdownItem To="docs/extensions/cropper">Cropper</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/fluent-validation">FluentValidation</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/list-view">ListView</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/loadingindicator">LoadingIndicator</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/lottie-animation">LottieAnimation</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/markdown">Markdown</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/onetimeinput" Flex="Flex.JustifyContent.Between">
+                                        <DocsNewFeatureBadge>OneTimeInput</DocsNewFeatureBadge>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/passwordstrength" Flex="Flex.JustifyContent.Between">
                                         <DocsNewFeatureBadge>PasswordStrength</DocsNewFeatureBadge>
                                     </BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/qrcode">QRCode</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/pdfviewer">PdfViewer</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/richtextedit">RichTextEdit</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/routertabs">RouterTabs</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/scheduler" Flex="Flex.JustifyContent.Between">
@@ -293,8 +301,8 @@
                                     <BarDropdownItem To="docs/extensions/snackbar">Snackbar</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/spinkit">SpinKit</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/splitter">Splitter</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/treeview">TreeView</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/transferlist">TransferList</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/treeview">TreeView</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/video">Video</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>

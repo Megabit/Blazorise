@@ -179,9 +179,10 @@ public class MaterialThemeGenerator : ThemeGenerator
 
     protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
-        _ = sb;
-        _ = theme;
-        _ = options;
+        if ( !string.IsNullOrEmpty( options?.SliderColor ) )
+        {
+            GenerateInputSliderStyles( sb, theme, options );
+        }
     }
 
     protected void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
@@ -189,6 +190,18 @@ public class MaterialThemeGenerator : ThemeGenerator
         _ = sb;
         _ = theme;
         _ = options;
+    }
+
+    protected virtual void GenerateInputSliderStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
+    {
+        _ = theme;
+
+        if ( string.IsNullOrEmpty( options?.SliderColor ) )
+            return;
+
+        sb.Append( ".mui-range-slider" ).Append( "{" )
+            .Append( $"--mui-slider-color: {options.SliderColor};" )
+            .AppendLine( "}" );
     }
 
     public string GenerateSvgDataUrl( string colorHex, float sizeInRem, int basePixelSize = 24 )

@@ -32,6 +32,36 @@
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
+    Accessibility defaults
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Blazorise enables its form accessibility integrations by default. When you compose inputs with <Anchor To="docs/components/field">Field</Anchor>,
+    <Code Tag>FieldLabel</Code>, <Code Tag>FieldHelp</Code>, and validation components, Blazorise can automatically keep label, help text, and
+    validation metadata associated with the correct control.
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code>UseLabelForAttribute</Code> enables automatic <Code>for</Code> generation on <Code Tag>FieldLabel</Code> when the target control is labelable.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Code>UseAriaLabelledByAttribute</Code> enables automatic <Code>aria-labelledby</Code> generation for non-labelable controls.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Code>UseAutoAriaInvalidAttribute</Code> enables automatic <Code>aria-invalid</Code> generation from validation state.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Code>UseAutoAriaDescribedByAttribute</Code> enables automatic <Code>aria-describedby</Code> generation from <Code Tag>FieldHelp</Code> and validation messages.
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageParagraph>
+    All of these switches are available through <Code>BlazoriseOptions.AccessibilityOptions</Code> inside <Code>AddBlazorise( options =&gt; ... )</Code>.
+    For example, set <Code>options.AccessibilityOptions.UseLabelForAttribute = false</Code> when you want to turn off automatic label linking globally.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
     Supported CSS Providers
 </DocsPageSubtitle>
 

@@ -1,6 +1,15 @@
 ﻿@inherits Blazorise.FieldLabel
-<div class="@ContainerClassNames" style="@ContainerStyleNames">
-    <label @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" for="@For" @attributes="@Attributes">
+@if ( ContainerTagName == "legend" )
+{
+    <Dynamic TagName="@ContainerTagName" @bind-ElementRef="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" for="@ResolvedFor" @attributes="@Attributes">
         @ChildContent
-    </label>
-</div>
+    </Dynamic>
+}
+else
+{
+    <div class="@ContainerClassNames" style="@ContainerStyleNames">
+        <Dynamic TagName="@ContainerTagName" @bind-ElementRef="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" for="@ResolvedFor" @attributes="@Attributes">
+            @ChildContent
+        </Dynamic>
+    </div>
+}

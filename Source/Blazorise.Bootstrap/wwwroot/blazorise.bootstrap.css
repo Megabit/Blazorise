@@ -841,6 +841,153 @@ input[readonly=readonly][type=range]::-ms-thumb {
   flex: 0 1 auto;
 }
 
+.range-slider {
+  min-height: 2rem;
+}
+.range-slider > .range-slider-track,
+.range-slider > .range-slider-range {
+  top: 50%;
+  height: 0.5rem;
+  transform: translateY(-50%);
+  border-radius: 1rem;
+}
+.range-slider > .range-slider-track {
+  background-color: #dee2e6;
+}
+.range-slider > .range-slider-range {
+  background-color: #007bff;
+}
+.range-slider > .range-slider-input {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1.4rem;
+  margin: 0;
+  transform: translateY(-50%);
+  background: transparent;
+  pointer-events: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.range-slider > .range-slider-input:focus {
+  outline: 0;
+}
+.range-slider > .range-slider-input::-moz-focus-outer {
+  border: 0;
+}
+.range-slider > .range-slider-input::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 0.5rem;
+  background: transparent;
+  border-color: transparent;
+  border-radius: 1rem;
+  color: transparent;
+  cursor: pointer;
+}
+.range-slider > .range-slider-input::-webkit-slider-thumb {
+  width: 1rem;
+  height: 1rem;
+  margin-top: -0.25rem;
+  border: 0;
+  border-radius: 1rem;
+  background-color: #007bff;
+  box-shadow: 0 0.1rem 0.25rem rgba(0, 0, 0, 0.1);
+  pointer-events: auto;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.range-slider > .range-slider-input::-webkit-slider-thumb:active {
+  background-color: rgb(178.5, 215.4, 255);
+}
+@media (prefers-reduced-motion: reduce) {
+  .range-slider > .range-slider-input::-webkit-slider-thumb {
+    transition: none;
+  }
+}
+.range-slider > .range-slider-input:focus::-webkit-slider-thumb {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+.range-slider > .range-slider-input::-moz-range-track {
+  width: 100%;
+  height: 0.5rem;
+  background: transparent;
+  border: 0;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+.range-slider > .range-slider-input::-moz-range-progress {
+  height: 0.5rem;
+  background: transparent;
+  border: 0;
+}
+.range-slider > .range-slider-input::-moz-range-thumb {
+  width: 1rem;
+  height: 1rem;
+  border: 0;
+  border-radius: 1rem;
+  background-color: #007bff;
+  box-shadow: 0 0.1rem 0.25rem rgba(0, 0, 0, 0.1);
+  pointer-events: auto;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.range-slider > .range-slider-input::-moz-range-thumb:active {
+  background-color: rgb(178.5, 215.4, 255);
+}
+@media (prefers-reduced-motion: reduce) {
+  .range-slider > .range-slider-input::-moz-range-thumb {
+    transition: none;
+  }
+}
+.range-slider > .range-slider-input:focus::-moz-range-thumb {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+.range-slider > .range-slider-input.is-valid::-webkit-slider-thumb {
+  background-color: #28a745;
+}
+.range-slider > .range-slider-input.is-valid::-moz-range-thumb {
+  background-color: #28a745;
+}
+.range-slider > .range-slider-input.is-invalid::-webkit-slider-thumb {
+  background-color: #dc3545;
+}
+.range-slider > .range-slider-input.is-invalid::-moz-range-thumb {
+  background-color: #dc3545;
+}
+.range-slider > .range-slider-tooltip {
+  top: 0;
+  transform: translate(-50%, calc(-100% - 0.25rem));
+  color: #212529;
+  font-size: 0.875em;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  z-index: 6;
+  pointer-events: none;
+}
+.range-slider[aria-disabled=true] > .range-slider-track,
+.range-slider[aria-disabled=true] > .range-slider-range {
+  opacity: 0.65;
+}
+.range-slider[aria-disabled=true] > .range-slider-input::-webkit-slider-thumb {
+  background-color: #adb5bd;
+  cursor: not-allowed;
+}
+.range-slider[aria-disabled=true] > .range-slider-input::-webkit-slider-runnable-track {
+  cursor: default;
+}
+.range-slider[aria-disabled=true] > .range-slider-input::-moz-range-thumb {
+  background-color: #adb5bd;
+  cursor: not-allowed;
+}
+.range-slider[aria-disabled=true] > .range-slider-input::-moz-range-track {
+  cursor: default;
+}
+
 .jumbotron.jumbotron-primary {
   background-color: #007bff;
   color: #fff;
@@ -2337,6 +2484,26 @@ td:focus {
 
 .snackbar {
   z-index: 1060 !important;
+}
+
+.b-one-time-input-slot.form-control.is-valid, .b-one-time-input-slot.form-control.is-invalid {
+  background-image: none;
+  padding-right: 0.75rem !important;
+}
+.b-one-time-input-slot.form-control.form-control-xs.is-valid, .b-one-time-input-slot.form-control.form-control-xs.is-invalid {
+  padding-right: 0.5rem !important;
+}
+.b-one-time-input-slot.form-control.form-control-sm.is-valid, .b-one-time-input-slot.form-control.form-control-sm.is-invalid {
+  padding-right: 0.5rem !important;
+}
+.b-one-time-input-slot.form-control.form-control-md.is-valid, .b-one-time-input-slot.form-control.form-control-md.is-invalid {
+  padding-right: 1rem !important;
+}
+.b-one-time-input-slot.form-control.form-control-lg.is-valid, .b-one-time-input-slot.form-control.form-control-lg.is-invalid {
+  padding-right: 1rem !important;
+}
+.b-one-time-input-slot.form-control.form-control-xl.is-valid, .b-one-time-input-slot.form-control.form-control-xl.is-invalid {
+  padding-right: 1rem !important;
 }
 
 .b-richtextedit > .b-richtextedit-toolbar.ql-bubble,

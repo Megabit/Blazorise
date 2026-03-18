@@ -217,6 +217,26 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region RangeSlider
+
+    public string RangeSlider() => null;
+
+    public string RangeSliderTrack() => null;
+
+    public string RangeSliderRange() => null;
+
+    public string RangeSliderInput() => null;
+
+    public string RangeSliderStart() => null;
+
+    public string RangeSliderEnd() => null;
+
+    public string RangeSliderTooltip() => null;
+
+    public string RangeSliderValidation( ValidationStatus validationStatus ) => null;
+
+    #endregion
+
     #region Rating
 
     public string Rating() => null;
@@ -277,6 +297,16 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region FieldSet
+
+    public string FieldSet() => null;
+
+    public string FieldSetHorizontal( bool horizontal ) => null;
+
+    public string FieldSetValidation( ValidationStatus validationStatus ) => null;
+
+    #endregion
+
     #region Field
 
     public string Field() => null;
@@ -300,6 +330,16 @@ class EmptyClassProvider : IClassProvider
     public string FieldLabelRequiredIndicator( bool requiredIndicator ) => null;
 
     public string FieldLabelScreenreader( Screenreader screenreader ) => null;
+
+    #endregion
+
+    #region Legend
+
+    public string Legend( bool horizontal ) => null;
+
+    public string LegendRequiredIndicator( bool requiredIndicator ) => null;
+
+    public string LegendScreenreader( Screenreader screenreader ) => null;
 
     #endregion
 

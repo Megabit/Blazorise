@@ -1,0 +1,35 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Validations</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>validations</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Mode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ValidationMode</span><span class="enumValue">.Manual</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Validation</span> <span class="htmlAttributeName">UsePattern</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldLabel</span> <span class="htmlAttributeName">RequiredIndicator</span><span class="htmlTagDelimiter">&gt;</span>Security code<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">OneTimeInput</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>securityCode</span><span class="quot">&quot;</span>
+                              <span class="htmlAttributeName">Digits</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">6</span><span class="quot">&quot;</span>
+                              <span class="htmlAttributeName">Pattern</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">[0-9]{6}</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Feedback</span><span class="htmlTagDelimiter">&gt;</span>
+                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ValidationError</span><span class="htmlTagDelimiter">&gt;</span>Please enter all 6 digits.<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ValidationError</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Feedback</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">OneTimeInput</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Validation</span><span class="htmlTagDelimiter">&gt;</span>
+
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ValidateCode</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        Validate
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Validations</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> Validations validations;
+    <span class="keyword">private</span> <span class="keyword">string</span> securityCode;
+
+    <span class="keyword">private</span> Task ValidateCode()
+    {
+        <span class="keyword">return</span> validations.ValidateAll();
+    }
+}
+</pre></div>
+</div>

@@ -1,0 +1,12 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Field>
+    <RangeSlider TValue="int" @bind-Value="@budgetRange" Min="500" Max="5000" Step="250" ShowValueTooltips="false" StartAriaLabel="Minimum budget" EndAriaLabel="Maximum budget" />
+    <FieldHelp>Monthly budget: @BudgetRangeText</FieldHelp>
+</Field>
+
+@code {
+    RangeSliderValue<int> budgetRange = new( 1000, 3000 );
+
+    string BudgetRangeText => $"${budgetRange.Start} - ${budgetRange.End}";
+}

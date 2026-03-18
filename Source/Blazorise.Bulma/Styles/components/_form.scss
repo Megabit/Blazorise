@@ -16,7 +16,6 @@ label.radio.button {
     }
 }
 
-
 .buttons.has-addons.are-vertical {
     flex-direction: column;
     align-items: center;
@@ -42,8 +41,114 @@ label.radio.button {
 }
 
 .field-body {
-    .slider[type="range"] {
+    .slider[type="range"]:not(.range-slider-input) {
         width: 100%;
+    }
+}
+
+.slider[type="range"]:not(.range-slider-input) {
+    width: 100%;
+    height: 1rem;
+    margin: 0;
+    background: transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    &:focus {
+        outline: 0;
+    }
+
+    &::-moz-focus-outer {
+        border: 0;
+    }
+
+    &::-webkit-slider-runnable-track {
+        height: .375rem;
+        background-color: $grey-lighter;
+        border: 0;
+        border-radius: 999px;
+        color: transparent;
+        cursor: pointer;
+    }
+
+    &::-webkit-slider-thumb {
+        width: 1rem;
+        height: 1rem;
+        margin-top: -.3125rem;
+        border: 0;
+        border-radius: 50%;
+        background-color: $primary;
+        box-shadow: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+
+    &::-moz-range-track {
+        height: .375rem;
+        background-color: $grey-lighter;
+        border: 0;
+        border-radius: 999px;
+        cursor: pointer;
+    }
+
+    &::-moz-range-progress {
+        height: .375rem;
+        background-color: $primary;
+        border: 0;
+        border-radius: 999px;
+    }
+
+    &::-moz-range-thumb {
+        width: 1rem;
+        height: 1rem;
+        border: 0;
+        border-radius: 50%;
+        background-color: $primary;
+        box-shadow: none;
+        cursor: pointer;
+    }
+
+    &.is-success {
+        &::-webkit-slider-thumb {
+            background-color: $success;
+        }
+
+        &::-moz-range-progress,
+        &::-moz-range-thumb {
+            background-color: $success;
+        }
+    }
+
+    &.is-danger {
+        &::-webkit-slider-thumb {
+            background-color: $danger;
+        }
+
+        &::-moz-range-progress,
+        &::-moz-range-thumb {
+            background-color: $danger;
+        }
+    }
+
+    &:disabled,
+    &[readonly] {
+        pointer-events: none;
+    }
+
+    &:disabled::-webkit-slider-thumb,
+    &[readonly]::-webkit-slider-thumb {
+        background-color: $grey-light;
+        cursor: not-allowed;
+    }
+
+    &:disabled::-moz-range-progress,
+    &[readonly]::-moz-range-progress,
+    &:disabled::-moz-range-thumb,
+    &[readonly]::-moz-range-thumb {
+        background-color: $grey-light;
+        cursor: not-allowed;
     }
 }
 
@@ -165,4 +270,30 @@ select[readonly] {
 .field-label-required:after {
     content: " *";
     color: var(--b-theme-danger, $danger);
+}
+
+fieldset.field,
+fieldset.columns {
+    min-inline-size: 0;
+    border: 0;
+    padding: 0;
+}
+
+fieldset.field > legend.field-label,
+fieldset.columns > legend.field-label {
+    display: block;
+    flex: 0 0 100%;
+    inline-size: 100%;
+    max-inline-size: 100%;
+    margin: 0 0 0.5rem;
+    padding: 0;
+    text-align: left;
+}
+
+fieldset.columns > legend.field-label {
+    padding-inline: calc(#{$grid-gutter-width} * 0.5);
+}
+
+fieldset.columns > legend.field-label ~ .column {
+    padding-top: 0;
 }

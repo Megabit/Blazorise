@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Licensing;
 using Blazorise.Localization;
 using Blazorise.Modules;
@@ -39,6 +39,7 @@ public static class Configuration
 
         // Shared component context. Must be defined as scoped as we want to make it available for the user session.
         services.AddScoped<IModalSharedContext, ModalSharedContext>();
+        services.AddScoped<IMessageService, MockMessageService>();
         services.AddScoped<IDropdownCoordinator, DropdownCoordinator>();
 
         services.AddSingleton( sp => new BlazoriseOptions( sp, ( options ) => { } ) );
@@ -48,12 +49,14 @@ public static class Configuration
         services.AddScoped<IJSClosableModule, JSClosableModule>();
         services.AddScoped<IJSBreakpointModule, JSBreakpointModule>();
         services.AddScoped<IJSTextInputModule, JSTextInputModule>();
+        services.AddScoped<IJSRangeSliderModule, JSRangeSliderModule>();
         services.AddScoped<IJSMemoInputModule, JSMemoInputModule>();
         services.AddScoped<IJSNumericPickerModule, JSNumericPickerModule>();
         services.AddScoped<IJSDatePickerModule, JSDatePickerModule>();
         services.AddScoped<IJSTimePickerModule, JSTimePickerModule>();
         services.AddScoped<IJSColorPickerModule, JSColorPickerModule>();
         services.AddScoped<IJSFileInputModule, JSFileInputModule>();
+        services.AddScoped<IJSFileModule, JSFileModule>();
         services.AddScoped<IJSTableModule, JSTableModule>();
         services.AddScoped<IJSInputMaskModule, JSInputMaskModule>();
         services.AddScoped<IJSDropdownModule, JSDropdownModule>();

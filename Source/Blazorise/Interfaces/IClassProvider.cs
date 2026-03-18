@@ -214,6 +214,26 @@ public interface IClassProvider
 
     #endregion
 
+    #region RangeSlider
+
+    string RangeSlider();
+
+    string RangeSliderTrack();
+
+    string RangeSliderRange();
+
+    string RangeSliderInput();
+
+    string RangeSliderStart();
+
+    string RangeSliderEnd();
+
+    string RangeSliderTooltip();
+
+    string RangeSliderValidation( ValidationStatus validationStatus );
+
+    #endregion
+
     #region Rating
 
     string Rating();
@@ -274,6 +294,16 @@ public interface IClassProvider
 
     #endregion
 
+    #region FieldSet
+
+    string FieldSet();
+
+    string FieldSetHorizontal( bool horizontal );
+
+    string FieldSetValidation( ValidationStatus validationStatus );
+
+    #endregion
+
     #region Field
 
     string Field();
@@ -297,6 +327,16 @@ public interface IClassProvider
     string FieldLabelRequiredIndicator( bool requiredIndicator );
 
     string FieldLabelScreenreader( Screenreader screenreader );
+
+    #endregion
+
+    #region Legend
+
+    string Legend( bool horizontal );
+
+    string LegendRequiredIndicator( bool requiredIndicator );
+
+    string LegendScreenreader( Screenreader screenreader );
 
     #endregion
 

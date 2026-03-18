@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -54,19 +54,19 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     private bool hasInitializedParameters;
 
     /// <summary>
-    /// Holds the aria-invalid attribute value.
+    /// Tracks the previous label target element id registered with the parent field.
     /// </summary>
-    private string ariaInvalid;
+    private string registeredFieldLabelTargetElementId;
 
     /// <summary>
-    /// Holds the aria-describedby attribute value.
+    /// Indicates whether a component refresh has already been queued for the current render cycle.
     /// </summary>
-    private string ariaDescribedBy;
+    private bool refreshQueued;
 
     /// <summary>
-    /// Tracks the previous field reference for event subscription.
+    /// Indicates whether another refresh was requested while the current render cycle was still pending.
     /// </summary>
-    private Field previousParentField;
+    private bool refreshRequestedWhileQueued;
 
     /// <summary>
     /// Defines if need to generate field names for the input components.
@@ -103,6 +103,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// </summary>
     protected ComponentParameterInfo<string> paramAriaDescribedBy;
 
+    /// <summary>
+    /// Contains metadata about the parameter representing aria-labelledby for the component.
+    /// </summary>
+    protected ComponentParameterInfo<string> paramAriaLabelledBy;
+
     #endregion
 
     #region Methods
@@ -123,6 +128,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         parameters.TryGetParameter( Autofocus, out paramAutofocus );
         parameters.TryGetParameter( AriaInvalid, out paramAriaInvalid );
         parameters.TryGetParameter( AriaDescribedBy, out paramAriaDescribedBy );
+        parameters.TryGetParameter( AriaLabelledBy, out paramAriaLabelledBy );
     }
 
     /// <summary>
@@ -182,18 +188,8 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
             }
         }
 
-        if ( ParentField != previousParentField )
-        {
-            if ( previousParentField is not null )
-                previousParentField.HelpTextChanged -= OnHelpTextChanged;
+        UpdateFieldLabelTargetRegistration();
 
-            if ( ParentField is not null )
-                ParentField.HelpTextChanged += OnHelpTextChanged;
-
-            previousParentField = ParentField;
-        }
-
-        UpdateAriaAttributes();
     }
 
     /// <inheritdoc/>
@@ -216,7 +212,39 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
             ThemeOptions.Changed += OnThemeOptionsChanged;
         }
 
+        if ( ParentField is not null )
+        {
+            if ( UseAutoAriaDescribedByAttribute )
+            {
+                ParentField.HelpTextChanged += OnHelpTextChanged;
+            }
+
+            if ( UseAriaLabelledByAttribute && UsesAutomaticAriaLabelledBy )
+            {
+                ParentField.LabelElementChanged += OnFieldLabelChanged;
+            }
+        }
+
+        if ( ParentFields is not null && UseAriaLabelledByAttribute && UsesAutomaticAriaLabelledBy )
+        {
+            ParentFields.LabelElementChanged += OnFieldsLabelChanged;
+        }
+
         base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        await base.OnAfterRenderAsync( firstRender );
+
+        refreshQueued = false;
+
+        if ( refreshRequestedWhileQueued && !( Disposed || AsyncDisposed ) )
+        {
+            refreshRequestedWhileQueued = false;
+            QueueRefresh();
+        }
     }
 
     /// <inheritdoc/>
@@ -253,10 +281,25 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
             ParentValidation.ValidationMessageChanged -= OnValidationMessageChanged;
         }
 
-        if ( previousParentField is not null )
+        if ( ParentField is not null )
         {
-            previousParentField.HelpTextChanged -= OnHelpTextChanged;
-            previousParentField = null;
+            ParentField.HelpTextChanged -= OnHelpTextChanged;
+
+            if ( UsesAutomaticAriaLabelledBy )
+            {
+                ParentField.LabelElementChanged -= OnFieldLabelChanged;
+            }
+        }
+
+        if ( ParentFields is not null )
+        {
+            ParentFields.LabelElementChanged -= OnFieldsLabelChanged;
+        }
+
+        if ( ParentField is not null && !string.IsNullOrWhiteSpace( registeredFieldLabelTargetElementId ) )
+        {
+            ParentField.NotifyLabelTargetRemoved( this );
+            registeredFieldLabelTargetElementId = null;
         }
 
         ParentFocusableContainer?.NotifyFocusableComponentRemoved( this );
@@ -293,7 +336,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         await ParentValidation.InitializeInput( this );
 
         ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
-        ParentValidation.ValidationMessageChanged += OnValidationMessageChanged;
+
+        if ( UseAutoAriaDescribedByAttribute )
+        {
+            ParentValidation.ValidationMessageChanged += OnValidationMessageChanged;
+        }
 
         validationInitialized = true;
     }
@@ -478,57 +525,120 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// </summary>
     /// <param name="sender">Object that raised the event.</param>
     /// <param name="eventArgs">Information about the validation status.</param>
-    protected virtual async void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
+    protected virtual void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
     {
-        UpdateAriaAttributes();
-
-        DirtyStyles();
-        DirtyClasses();
-
-        await InvokeAsync( StateHasChanged );
+        QueueRefresh( dirtyClasses: true, dirtyStyles: true );
     }
 
     /// <summary>
     /// Handler for validation message element id changes.
     /// </summary>
-    private async void OnValidationMessageChanged()
+    private void OnValidationMessageChanged()
     {
-        UpdateAriaAttributes();
+        if ( paramAriaDescribedBy.Defined || !UseAutoAriaDescribedByAttribute )
+            return;
 
-        await InvokeAsync( StateHasChanged );
+        QueueRefresh();
     }
 
     /// <summary>
     /// Handler for field help changes.
     /// </summary>
-    private async void OnHelpTextChanged()
+    private void OnHelpTextChanged()
     {
-        UpdateAriaAttributes();
+        if ( paramAriaDescribedBy.Defined || !UseAutoAriaDescribedByAttribute )
+            return;
 
-        await InvokeAsync( StateHasChanged );
+        QueueRefresh();
     }
 
     /// <summary>
-    /// Updates aria attributes based on validation and help text state.
+    /// Handler for field label changes.
     /// </summary>
-    private void UpdateAriaAttributes()
+    private void OnFieldLabelChanged()
     {
-        UpdateAriaInvalid();
-        UpdateAriaDescribedBy();
+        if ( HasDefinedAriaLabelledBy || !UsesAutomaticAriaLabelledBy )
+            return;
+
+        QueueRefresh();
     }
 
-    private void UpdateAriaInvalid()
+    /// <summary>
+    /// Handler for fields label changes.
+    /// </summary>
+    private void OnFieldsLabelChanged()
     {
-        ariaInvalid = paramAriaInvalid.Defined
-            ? paramAriaInvalid.Value
-            : ParentValidation?.Status == ValidationStatus.Error ? "true" : null;
+        if ( HasDefinedAriaLabelledBy || !UsesAutomaticAriaLabelledBy )
+            return;
+
+        QueueRefresh();
     }
 
-    private void UpdateAriaDescribedBy()
+    /// <summary>
+    /// Registers the current component as the label target for the parent <see cref="Field"/>.
+    /// </summary>
+    private void UpdateFieldLabelTargetRegistration()
     {
-        ariaDescribedBy = paramAriaDescribedBy.Defined
-            ? paramAriaDescribedBy.Value
-            : BuildAriaDescribedBy();
+        if ( ParentField is null || !UseFieldLabelForAttribute || ParentField.IsGroup )
+        {
+            if ( ParentField is not null && !string.IsNullOrWhiteSpace( registeredFieldLabelTargetElementId ) )
+            {
+                ParentField.NotifyLabelTargetRemoved( this );
+            }
+
+            registeredFieldLabelTargetElementId = null;
+            return;
+        }
+
+        var fieldLabelTargetElementId = FieldLabelTargetElementId;
+
+        if ( string.Equals( fieldLabelTargetElementId, registeredFieldLabelTargetElementId, StringComparison.Ordinal ) )
+        {
+            return;
+        }
+
+        if ( !string.IsNullOrWhiteSpace( registeredFieldLabelTargetElementId ) )
+        {
+            ParentField.NotifyLabelTargetRemoved( this );
+        }
+
+        if ( !string.IsNullOrWhiteSpace( fieldLabelTargetElementId ) )
+        {
+            ParentField.NotifyLabelTargetChanged( this, fieldLabelTargetElementId );
+        }
+
+        registeredFieldLabelTargetElementId = fieldLabelTargetElementId;
+    }
+
+    /// <summary>
+    /// Queues a single component refresh for the current render cycle.
+    /// </summary>
+    /// <param name="dirtyClasses">True if classnames must be recalculated before rendering.</param>
+    /// <param name="dirtyStyles">True if style declarations must be recalculated before rendering.</param>
+    private void QueueRefresh( bool dirtyClasses = false, bool dirtyStyles = false )
+    {
+        if ( dirtyClasses )
+        {
+            DirtyClasses();
+        }
+
+        if ( dirtyStyles )
+        {
+            DirtyStyles();
+        }
+
+        if ( Disposed || AsyncDisposed )
+            return;
+
+        if ( refreshQueued )
+        {
+            refreshRequestedWhileQueued = true;
+            return;
+        }
+
+        refreshQueued = true;
+
+        _ = InvokeAsync( StateHasChanged );
     }
 
     private string BuildAriaDescribedBy()
@@ -556,10 +666,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// <param name="eventArgs"></param>
     private void OnThemeOptionsChanged( object sender, EventArgs eventArgs )
     {
-        DirtyClasses();
-        DirtyStyles();
-
-        InvokeAsync( StateHasChanged );
+        QueueRefresh( dirtyClasses: true, dirtyStyles: true );
     }
 
     /// <summary>
@@ -602,6 +709,83 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// Returns the default value for the <typeparamref name="TValue"/> type.
     /// </summary>
     protected virtual TValue DefaultValue => default;
+
+    /// <summary>
+    /// Gets the element id that should be linked by a parent <see cref="FieldLabel"/>.
+    /// </summary>
+    protected virtual string FieldLabelTargetElementId => ElementId;
+
+    /// <summary>
+    /// Gets a value indicating whether the component derives its <c>aria-labelledby</c> value from a parent <see cref="FieldLabel"/>.
+    /// </summary>
+    protected virtual bool UsesAutomaticAriaLabelledBy => false;
+
+    /// <summary>
+    /// Gets the element id of the parent <see cref="FieldLabel"/>.
+    /// </summary>
+    protected string ParentFieldLabelElementId => UseAriaLabelledByAttribute
+        ? ParentField?.LabelElementId
+        : null;
+
+    /// <summary>
+    /// Gets the element id of the parent <see cref="FieldsLabel"/>.
+    /// </summary>
+    protected string ParentFieldsLabelElementId => UseAriaLabelledByAttribute
+        ? ParentFields?.LabelElementId
+        : null;
+
+    /// <summary>
+    /// Gets the resolved value of the <c>aria-invalid</c> attribute.
+    /// </summary>
+    protected string ResolvedAriaInvalid => paramAriaInvalid.Defined
+        ? paramAriaInvalid.Value
+        : UseAutoAriaInvalidAttribute && ParentValidation?.Status == ValidationStatus.Error ? "true" : null;
+
+    /// <summary>
+    /// Gets the resolved value of the <c>aria-describedby</c> attribute.
+    /// </summary>
+    protected string ResolvedAriaDescribedBy => paramAriaDescribedBy.Defined
+        ? paramAriaDescribedBy.Value
+        : UseAutoAriaDescribedByAttribute ? BuildAriaDescribedBy() : null;
+
+    /// <summary>
+    /// Gets the explicit value of the <c>aria-labelledby</c> attribute.
+    /// </summary>
+    protected string ExplicitAriaLabelledBy => paramAriaLabelledBy.Defined
+        ? paramAriaLabelledBy.Value
+        : null;
+
+    /// <summary>
+    /// Gets the resolved value of the <c>aria-labelledby</c> attribute, preferring an explicit value over a parent <see cref="FieldLabel"/> or <see cref="FieldsLabel"/>.
+    /// </summary>
+    protected string ResolvedAriaLabelledBy => paramAriaLabelledBy.Defined
+        ? paramAriaLabelledBy.Value
+        : ParentFieldLabelElementId ?? ParentFieldsLabelElementId;
+
+    /// <summary>
+    /// Gets a value indicating whether the automatic <c>for</c> attribute integration is enabled.
+    /// </summary>
+    protected bool UseFieldLabelForAttribute => Options?.AccessibilityOptions?.UseLabelForAttribute == true;
+
+    /// <summary>
+    /// Gets a value indicating whether the automatic <c>aria-labelledby</c> integration is enabled.
+    /// </summary>
+    protected bool UseAriaLabelledByAttribute => Options?.AccessibilityOptions?.UseAriaLabelledByAttribute == true;
+
+    /// <summary>
+    /// Gets a value indicating whether the automatic <c>aria-invalid</c> integration is enabled.
+    /// </summary>
+    protected bool UseAutoAriaInvalidAttribute => Options?.AccessibilityOptions?.UseAutoAriaInvalidAttribute == true;
+
+    /// <summary>
+    /// Gets a value indicating whether the automatic <c>aria-describedby</c> integration is enabled.
+    /// </summary>
+    protected bool UseAutoAriaDescribedByAttribute => Options?.AccessibilityOptions?.UseAutoAriaDescribedByAttribute == true;
+
+    /// <summary>
+    /// Gets a value indicating whether an explicit <c>aria-labelledby</c> parameter was supplied.
+    /// </summary>
+    protected bool HasDefinedAriaLabelledBy => paramAriaLabelledBy.Defined;
 
     /// <summary>
     /// Gets the value to be used for the input's "name" attribute.
@@ -654,12 +838,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// <remarks>
     /// When set, this value is rendered as-is and overrides the validation-derived aria-invalid state.
     /// </remarks>
-    [Parameter]
-    public string AriaInvalid
-    {
-        get => ariaInvalid;
-        set => ariaInvalid = value;
-    }
+    [Parameter] public string AriaInvalid { get; set; }
 
     /// <summary>
     /// Gets or sets the aria-describedby attribute value.
@@ -667,12 +846,15 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// <remarks>
     /// When set, this value is rendered as-is and overrides help and validation message ids generated by Field and Validation.
     /// </remarks>
-    [Parameter]
-    public string AriaDescribedBy
-    {
-        get => ariaDescribedBy;
-        set => ariaDescribedBy = value;
-    }
+    [Parameter] public string AriaDescribedBy { get; set; }
+
+    /// <summary>
+    /// Gets or sets the aria-labelledby attribute value.
+    /// </summary>
+    /// <remarks>
+    /// When set, this value is rendered as-is. Some non-labelable controls can otherwise derive it automatically from a parent <see cref="FieldLabel"/> or <see cref="FieldsLabel"/>.
+    /// </remarks>
+    [Parameter] public string AriaLabelledBy { get; set; }
 
     /// <summary>
     /// Gets the size based on the theme settings.
@@ -836,6 +1018,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// Parent field container.
     /// </summary>
     [CascadingParameter] protected Field ParentField { get; set; }
+
+    /// <summary>
+    /// Parent fields container.
+    /// </summary>
+    [CascadingParameter] protected Fields ParentFields { get; set; }
 
     /// <summary>
     /// Parent field body.

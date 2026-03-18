@@ -69,9 +69,11 @@ public static class BootstrapIcons
     public const string Amd = "bi-amd";
     public const string Android = "bi-android";
     public const string Android2 = "bi-android2";
+    public const string Anthropic = "bi-anthropic";
     public const string App = "bi-app";
     public const string AppIndicator = "bi-app-indicator";
     public const string Apple = "bi-apple";
+    public const string AppleMusic = "bi-apple-music";
     public const string Archive = "bi-archive";
     public const string ArchiveFill = "bi-archive-fill";
     public const string Arrow90DegDown = "bi-arrow-90deg-down";
@@ -225,6 +227,9 @@ public static class BootstrapIcons
     public const string BatteryCharging = "bi-battery-charging";
     public const string BatteryFull = "bi-battery-full";
     public const string BatteryHalf = "bi-battery-half";
+    public const string BatteryLow = "bi-battery-low";
+    public const string Beaker = "bi-beaker";
+    public const string BeakerFill = "bi-beaker-fill";
     public const string Behance = "bi-behance";
     public const string Bell = "bi-bell";
     public const string BellFill = "bi-bell-fill";
@@ -238,6 +243,7 @@ public static class BootstrapIcons
     public const string BinocularsFill = "bi-binoculars-fill";
     public const string BlockquoteLeft = "bi-blockquote-left";
     public const string BlockquoteRight = "bi-blockquote-right";
+    public const string Bluesky = "bi-bluesky";
     public const string Bluetooth = "bi-bluetooth";
     public const string BodyText = "bi-body-text";
     public const string Book = "bi-book";
@@ -559,6 +565,7 @@ public static class BootstrapIcons
     public const string CircleFill = "bi-circle-fill";
     public const string CircleHalf = "bi-circle-half";
     public const string CircleSquare = "bi-circle-square";
+    public const string Claude = "bi-claude";
     public const string Clipboard = "bi-clipboard";
     public const string Clipboard2 = "bi-clipboard2";
     public const string Clipboard2Check = "bi-clipboard2-check";
@@ -674,6 +681,7 @@ public static class BootstrapIcons
     public const string Crosshair2 = "bi-crosshair2";
     public const string CSquare = "bi-c-square";
     public const string CSquareFill = "bi-c-square-fill";
+    public const string Css = "bi-css";
     public const string Cup = "bi-cup";
     public const string CupFill = "bi-cup-fill";
     public const string CupHot = "bi-cup-hot";
@@ -1075,6 +1083,10 @@ public static class BootstrapIcons
     public const string Fire = "bi-fire";
     public const string Flag = "bi-flag";
     public const string FlagFill = "bi-flag-fill";
+    public const string Flask = "bi-flask";
+    public const string FlaskFill = "bi-flask-fill";
+    public const string FlaskFlorence = "bi-flask-florence";
+    public const string FlaskFlorenceFill = "bi-flask-florence-fill";
     public const string Floppy = "bi-floppy";
     public const string Floppy2 = "bi-floppy2";
     public const string Floppy2Fill = "bi-floppy2-fill";
@@ -1093,6 +1105,7 @@ public static class BootstrapIcons
     public const string FolderSymlinkFill = "bi-folder-symlink-fill";
     public const string FolderX = "bi-folder-x";
     public const string Fonts = "bi-fonts";
+    public const string ForkKnife = "bi-fork-knife";
     public const string Forward = "bi-forward";
     public const string ForwardFill = "bi-forward-fill";
     public const string Front = "bi-front";
@@ -1126,9 +1139,13 @@ public static class BootstrapIcons
     public const string Globe = "bi-globe";
     public const string Globe2 = "bi-globe2";
     public const string GlobeAmericas = "bi-globe-americas";
+    public const string GlobeAmericasFill = "bi-globe-americas-fill";
     public const string GlobeAsiaAustralia = "bi-globe-asia-australia";
+    public const string GlobeAsiaAustraliaFill = "bi-globe-asia-australia-fill";
     public const string GlobeCentralSouthAsia = "bi-globe-central-south-asia";
+    public const string GlobeCentralSouthAsiaFill = "bi-globe-central-south-asia-fill";
     public const string GlobeEuropeAfrica = "bi-globe-europe-africa";
+    public const string GlobeEuropeAfricaFill = "bi-globe-europe-africa-fill";
     public const string Google = "bi-google";
     public const string GooglePlay = "bi-google-play";
     public const string GpuCard = "bi-gpu-card";
@@ -1252,6 +1269,7 @@ public static class BootstrapIcons
     public const string InputCursorText = "bi-input-cursor-text";
     public const string Instagram = "bi-instagram";
     public const string Intersect = "bi-intersect";
+    public const string Javascript = "bi-javascript";
     public const string Journal = "bi-journal";
     public const string JournalAlbum = "bi-journal-album";
     public const string JournalArrowDown = "bi-journal-arrow-down";
@@ -1298,6 +1316,8 @@ public static class BootstrapIcons
     public const string LayoutTextWindowReverse = "bi-layout-text-window-reverse";
     public const string LayoutThreeColumns = "bi-layout-three-columns";
     public const string LayoutWtf = "bi-layout-wtf";
+    public const string Leaf = "bi-leaf";
+    public const string LeafFill = "bi-leaf-fill";
     public const string LifePreserver = "bi-life-preserver";
     public const string Lightbulb = "bi-lightbulb";
     public const string LightbulbFill = "bi-lightbulb-fill";
@@ -1340,6 +1360,8 @@ public static class BootstrapIcons
     public const string MarkerTip = "bi-marker-tip";
     public const string Mask = "bi-mask";
     public const string Mastodon = "bi-mastodon";
+    public const string MeasuringCup = "bi-measuring-cup";
+    public const string MeasuringCupFill = "bi-measuring-cup-fill";
     public const string Medium = "bi-medium";
     public const string Megaphone = "bi-megaphone";
     public const string MegaphoneFill = "bi-megaphone-fill";
@@ -1399,6 +1421,7 @@ public static class BootstrapIcons
     public const string Octagon = "bi-octagon";
     public const string OctagonFill = "bi-octagon-fill";
     public const string OctagonHalf = "bi-octagon-half";
+    public const string Openai = "bi-openai";
     public const string Opencollective = "bi-opencollective";
     public const string OpticalAudio = "bi-optical-audio";
     public const string OpticalAudioFill = "bi-optical-audio-fill";
@@ -1453,6 +1476,7 @@ public static class BootstrapIcons
     public const string People = "bi-people";
     public const string PeopleFill = "bi-people-fill";
     public const string Percent = "bi-percent";
+    public const string Perplexity = "bi-perplexity";
     public const string Person = "bi-person";
     public const string PersonAdd = "bi-person-add";
     public const string PersonArmsUp = "bi-person-arms-up";
@@ -1942,6 +1966,7 @@ public static class BootstrapIcons
     public const string TruckFront = "bi-truck-front";
     public const string TruckFrontFill = "bi-truck-front-fill";
     public const string Tsunami = "bi-tsunami";
+    public const string Tux = "bi-tux";
     public const string Tv = "bi-tv";
     public const string TvFill = "bi-tv-fill";
     public const string Twitch = "bi-twitch";
@@ -1956,6 +1981,7 @@ public static class BootstrapIcons
     public const string TypeH5 = "bi-type-h5";
     public const string TypeH6 = "bi-type-h6";
     public const string TypeItalic = "bi-type-italic";
+    public const string Typescript = "bi-typescript";
     public const string TypeStrikethrough = "bi-type-strikethrough";
     public const string TypeUnderline = "bi-type-underline";
     public const string Ubuntu = "bi-ubuntu";
@@ -1971,6 +1997,8 @@ public static class BootstrapIcons
     public const string UniversalAccess = "bi-universal-access";
     public const string UniversalAccessCircle = "bi-universal-access-circle";
     public const string Unlock = "bi-unlock";
+    public const string Unlock2 = "bi-unlock2";
+    public const string Unlock2Fill = "bi-unlock2-fill";
     public const string UnlockFill = "bi-unlock-fill";
     public const string Upc = "bi-upc";
     public const string UpcScan = "bi-upc-scan";
