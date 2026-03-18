@@ -31,6 +31,11 @@ public partial class Image : BaseComponent
     protected string LoadingString => Loading ? "lazy" : null;
 
     /// <summary>
+    /// The onerror attribute value that will be used to set the fallback image source if the main image fails to load.
+    /// </summary>
+    protected string OnError => !string.IsNullOrEmpty( FallbackImageSource ) ? $"this.src='{FallbackImageSource}'" : null;
+
+    /// <summary>
     /// The absolute or relative URL of the image.
     /// </summary>
     [Parameter] public string Source { get; set; }
@@ -49,6 +54,11 @@ public partial class Image : BaseComponent
     /// Deffers loading the image until it reaches a calculated distance from the viewport.
     /// </summary>
     [Parameter] public bool Loading { get; set; }
+
+    /// <summary>
+    /// The fallback image that will be displayed if image loading fails.
+    /// </summary>
+    [Parameter] public string FallbackImageSource { get; set; }
 
     #endregion
 }
