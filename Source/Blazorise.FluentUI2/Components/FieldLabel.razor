@@ -1,8 +1,8 @@
 ﻿@inherits Blazorise.FieldLabel
-<label @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" for="@ResolvedFor" @attributes="@Attributes">
+<Dynamic TagName="@ContainerTagName" @bind-ElementRef="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" for="@ResolvedFor" @attributes="@Attributes">
     @ChildContent
     @if ( RequiredIndicator )
     {
         <span class="fui-Label__required" aria-hidden="true">*</span>
     }
-</label>
+</Dynamic>
