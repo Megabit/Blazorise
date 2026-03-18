@@ -1,0 +1,100 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Gantt</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">TaskItem</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>tasks</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">Date</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedDate</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">SelectedView</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">GanttView</span><span class="enumValue">.Week</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">DurationField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Duration</span><span class="quot">&quot;</span>
+       <span class="htmlAttributeName">Editable</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ChildContent</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttColumns</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Title</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Task</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Expandable</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px(230)</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">HeaderTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.List</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is1.FromEnd</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Span</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>context.Text<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Span</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">HeaderTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">GanttColumn</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Duration</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px(90)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TextAlignment</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextAlignment</span><span class="enumValue">.Center</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DisplayTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Badge</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Info</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Pill</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>($&quot;{context.Value}d&quot;)<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Badge</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DisplayTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">GanttColumn</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttCommandColumn</span> <span class="htmlAttributeName">Width</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Width.Px(176)</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DisplayTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="atSign">&#64;</span>if ( context.CanAddChild )
+                    {
+                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.ExtraSmall</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Secondary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Outline</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is1.FromEnd</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>context.AddChild</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Child<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+                    }
+                    <span class="atSign">&#64;</span>if ( context.CanEdit )
+                    {
+                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.ExtraSmall</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Outline</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is1.FromEnd</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>context.Edit</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Edit<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+                    }
+                    <span class="atSign">&#64;</span>if ( context.CanDelete )
+                    {
+                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.ExtraSmall</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Danger</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Outline</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>context.Delete</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Delete<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+                    }
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DisplayTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">GanttCommandColumn</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">GanttColumns</span><span class="htmlTagDelimiter">&gt;</span>
+
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttToolbar</span> <span class="htmlTagDelimiter">/&gt;</span>
+
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttViews</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GanttWeekView</span> <span class="htmlAttributeName">TimelineCellWidth</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">92</span><span class="quot">&quot;</span> <span class="htmlAttributeName">RowHeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">44</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">GanttViews</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ChildContent</span><span class="htmlTagDelimiter">&gt;</span>
+
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TimelineHeaderCellTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Span</span> <span class="htmlAttributeName">TextSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextSize</span><span class="enumValue">.Small</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TextWeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextWeight</span><span class="enumValue">.SemiBold</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="atSign">&#64;</span>context.Start.ToString( &quot;ddd dd&quot; )
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Span</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TimelineHeaderCellTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TaskItemTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Span</span> <span class="htmlAttributeName">TextWeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextWeight</span><span class="enumValue">.SemiBold</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>context.Item.Title<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Span</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TaskItemTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Gantt</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    <span class="keyword">private</span> List&lt;TaskItem&gt; tasks = CreateTasks();
+
+    <span class="keyword">private</span> <span class="keyword">static</span> List&lt;TaskItem&gt; CreateTasks()
+    {
+        <span class="keyword">var</span> baseDate = DateTime.Today.AddDays( -<span class="number">2</span> );
+
+        <span class="keyword">var</span> result = <span class="keyword">new</span> List&lt;TaskItem&gt;
+        {
+            <span class="keyword">new</span>() { Id = <span class="string">&quot;1&quot;</span>, Title = <span class="string">&quot;Platform update&quot;</span>, Start = baseDate, End = baseDate.AddDays( <span class="number">13</span> ) },
+            <span class="keyword">new</span>() { Id = <span class="string">&quot;2&quot;</span>, ParentId = <span class="string">&quot;1&quot;</span>, Title = <span class="string">&quot;Core services&quot;</span>, Start = baseDate, End = baseDate.AddDays( <span class="number">7</span> ) },
+            <span class="keyword">new</span>() { Id = <span class="string">&quot;3&quot;</span>, ParentId = <span class="string">&quot;1&quot;</span>, Title = <span class="string">&quot;Web client&quot;</span>, Start = baseDate.AddDays( <span class="number">4</span> ), End = baseDate.AddDays( <span class="number">11</span> ) },
+            <span class="keyword">new</span>() { Id = <span class="string">&quot;4&quot;</span>, ParentId = <span class="string">&quot;1&quot;</span>, Title = <span class="string">&quot;Release prep&quot;</span>, Start = baseDate.AddDays( <span class="number">11</span> ), End = baseDate.AddDays( <span class="number">13</span> ) },
+        };
+
+        <span class="keyword">foreach</span> ( <span class="keyword">var</span> item <span class="keyword">in</span> result )
+        {
+            item.Duration = Math.Max( <span class="number">1</span>, (<span class="keyword">int</span>)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        <span class="keyword">return</span> result;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">class</span> TaskItem
+    {
+        <span class="keyword">public</span> <span class="keyword">string</span> Id { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> ParentId { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Title { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> DateTime Start { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> DateTime End { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">int</span> Duration { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+}
+</pre></div>
+</div>

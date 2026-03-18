@@ -1,0 +1,44 @@
+@inherits BaseComponent
+<Div Class="@ClassNames"
+     Style="@StyleNames"
+     Background="@Background"
+     TextColor="@TextColor"
+     Border="BorderRounded"
+     Padding="PaddingIs1OnX"
+     TextOverflow="TextOverflow.Truncate"
+     @onmousedown="@MouseDown"
+     @onclick="@Clicked">
+    @if ( ShowStartOverflowIndicator )
+    {
+        <span style="position: absolute; left: 2px; top: 50%; transform: translateY(-50%); pointer-events: none; z-index: 2; display: inline-flex; align-items: center; justify-content: center; opacity: 0.95;">
+            <Icon Name="IconName.AngleLeft" />
+        </span>
+    }
+
+    @if ( ShowStartResizeHandle )
+    {
+        <div style="position: absolute; left: 0; top: 0; width: 10px; height: 100%; cursor: w-resize; z-index: 1;"
+             @onmousedown="@StartResizeMouseDown"
+             @onmousedown:stopPropagation="true"
+             @onclick:stopPropagation="true"
+             @ondblclick:stopPropagation="true" />
+    }
+
+    @ChildContent
+
+    @if ( ShowEndOverflowIndicator )
+    {
+        <span style="position: absolute; right: 2px; top: 50%; transform: translateY(-50%); pointer-events: none; z-index: 2; display: inline-flex; align-items: center; justify-content: center; opacity: 0.95;">
+            <Icon Name="IconName.AngleRight" />
+        </span>
+    }
+
+    @if ( ShowEndResizeHandle )
+    {
+        <div style="position: absolute; right: 0; top: 0; width: 10px; height: 100%; cursor: e-resize; z-index: 1;"
+             @onmousedown="@EndResizeMouseDown"
+             @onmousedown:stopPropagation="true"
+             @onclick:stopPropagation="true"
+             @ondblclick:stopPropagation="true" />
+    }
+</Div>

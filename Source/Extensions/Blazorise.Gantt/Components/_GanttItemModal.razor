@@ -1,0 +1,171 @@
+@inherits BaseComponent
+@typeparam TItem
+@using Blazorise.Gantt.Extensions
+@using Blazorise.Gantt.Utilities
+<Modal @ref="modalRef" Centered Size="ModalSize.Large" Closed="@Closed">
+    <ModalContent>
+        <ModalHeader>
+            <ModalTitle>@ModalTitle</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            @if ( ShowParentDetails )
+            {
+                <Div Border="BorderIs1Rounded" Padding="PaddingIs2" Margin="MarginIs2FromBottom">
+                    <Paragraph TextWeight="TextWeight.SemiBold" Margin="MarginIs1FromBottom">
+                        @Localizer.Localize( Gantt.Localizers?.ParentTaskLocalizer, LocalizationConstants.ParentTask ): @ParentTitleText
+                    </Paragraph>
+                    <Div Flex="FlexAlignItemsCenterWrap" Gap="GapIs3">
+                        @if ( ParentStartText is not null )
+                        {
+                            <Div>
+                                <Span TextColor="TextColorMuted" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.StartLocalizer, LocalizationConstants.Start ):</Span>
+                                <Span>@ParentStartText</Span>
+                            </Div>
+                        }
+                        @if ( ParentEndText is not null )
+                        {
+                            <Div>
+                                <Span TextColor="TextColorMuted" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.EndLocalizer, LocalizationConstants.End ):</Span>
+                                <Span>@ParentEndText</Span>
+                            </Div>
+                        }
+                        @if ( ParentDurationDays is not null )
+                        {
+                            <Div>
+                                <Span TextColor="TextColorMuted" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.DurationLocalizer, LocalizationConstants.Duration ):</Span>
+                                <Span>@ParentDurationDays</Span>
+                            </Div>
+                        }
+                    </Div>
+                </Div>
+            }
+
+            <Validations @ref="@validationsRef" Mode="ValidationMode.Manual">
+                @if ( TitleEditable )
+                {
+                    <Validation Validator="@OnValidateTitle">
+                        <Field>
+                            <FieldLabel>@Localizer.Localize( Gantt.Localizers?.TitleLocalizer, LocalizationConstants.Title )</FieldLabel>
+                            <FieldBody>
+                                <TextInput @bind-Value="@Title" Autofocus="true">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextInput>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                }
+
+                @if ( DescriptionEditable )
+                {
+                    <Field>
+                        <FieldLabel>@Localizer.Localize( Gantt.Localizers?.DescriptionLocalizer, LocalizationConstants.Description )</FieldLabel>
+                        <FieldBody>
+                            <MemoInput @bind-Value="@Description" Rows="3" />
+                        </FieldBody>
+                    </Field>
+                }
+
+                @if ( ProgressEditable )
+                {
+                    <Field>
+                        <FieldLabel>@Localizer.Localize( Gantt.Localizers?.ProgressLocalizer, LocalizationConstants.Progress )</FieldLabel>
+                        <FieldBody>
+                            <_GanttProgressEditor Value="@ProgressPercentage" ValueChanged="@OnProgressChanged" />
+                        </FieldBody>
+                    </Field>
+                }
+
+                <Fields>
+                    @if ( StartEditable )
+                    {
+                        <Validation Validator="@OnValidateStartDate">
+                            <Field ColumnSize="ColumnSizeIs12OnMobileIs3OnTablet">
+                                <FieldLabel>@Localizer.Localize( Gantt.Localizers?.StartLocalizer, LocalizationConstants.Start )</FieldLabel>
+                                <FieldBody>
+                                    <DatePicker TValue="DateOnly" Value="@StartDate" ValueChanged="@OnStartDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
+                                        <Feedback>
+                                            <ValidationError />
+                                        </Feedback>
+                                    </DatePicker>
+                                </FieldBody>
+                            </Field>
+                        </Validation>
+                        <Validation Validator="@OnValidateStartTime">
+                            <Field ColumnSize="ColumnSizeIs12OnMobileIs2OnTablet">
+                                <FieldLabel>&nbsp;</FieldLabel>
+                                <FieldBody>
+                                    <TimePicker TValue="TimeOnly" Value="@StartTime" ValueChanged="@OnStartTimeChanged" StaticPicker="false" TimeAs24hr />
+                                </FieldBody>
+                            </Field>
+                        </Validation>
+                    }
+
+                    @if ( DurationEditable )
+                    {
+                        <Field ColumnSize="ColumnSizeIs12OnMobileIs2OnTablet">
+                            <FieldLabel>@Localizer.Localize( Gantt.Localizers?.DurationLocalizer, LocalizationConstants.Duration )</FieldLabel>
+                            <FieldBody>
+                                <Addons>
+                                    <Addon AddonType="AddonType.Start">
+                                        <Button Color="Color.Secondary" Outline Clicked="@OnDurationDecrease">
+                                            <Icon Name="IconName.Minus" />
+                                        </Button>
+                                    </Addon>
+                                    <Addon AddonType="AddonType.Body">
+                                        <NumericPicker TValue="int" Value="@DurationDays" ValueChanged="@OnDurationChanged" Min="1" Step="1" Decimals="0" ShowStepButtons="false" Padding="PaddingIs0OnX" TextAlignment="TextAlignmentCenter" />
+                                    </Addon>
+                                    <Addon AddonType="AddonType.End">
+                                        <Button Color="Color.Secondary" Outline Clicked="@OnDurationIncrease">
+                                            <Icon Name="IconName.Plus" />
+                                        </Button>
+                                    </Addon>
+                                </Addons>
+                            </FieldBody>
+                        </Field>
+                    }
+
+                    @if ( EndEditable )
+                    {
+                        <Validation Validator="@OnValidateEndDate">
+                            <Field ColumnSize="ColumnSizeIs12OnMobileIs3OnTablet">
+                                <FieldLabel>@Localizer.Localize( Gantt.Localizers?.EndLocalizer, LocalizationConstants.End )</FieldLabel>
+                                <FieldBody>
+                                    <DatePicker TValue="DateOnly" Value="@EndDate" ValueChanged="@OnEndDateChanged" StaticPicker="false" InputMode="DateInputMode.Date" FirstDayOfWeek="@FirstDayOfWeek">
+                                        <Feedback>
+                                            <ValidationError />
+                                        </Feedback>
+                                    </DatePicker>
+                                </FieldBody>
+                            </Field>
+                        </Validation>
+                        <Validation Validator="@OnValidateEndTime">
+                            <Field ColumnSize="ColumnSizeIs12OnMobileIs2OnTablet">
+                                <FieldLabel>&nbsp;</FieldLabel>
+                                <FieldBody>
+                                    <TimePicker TValue="TimeOnly" Value="@EndTime" ValueChanged="@OnEndTimeChanged" StaticPicker="false" TimeAs24hr />
+                                </FieldBody>
+                            </Field>
+                        </Validation>
+                    }
+                </Fields>
+            </Validations>
+        </ModalBody>
+        <ModalFooter Flex="FlexJustifyContentBetweenAlignItemsCenter">
+            <Div>
+                @if ( EditState == GanttEditState.Edit && DeleteCommandVisible )
+                {
+                    <Button Color="Color.Danger" Outline Clicked="@Delete">
+                        <Icon Name="IconName.Delete" Margin="MarginIs1FromEnd" />@Localizer.Localize( Gantt.Localizers?.DeleteLocalizer, LocalizationConstants.Delete )
+                    </Button>
+                }
+            </Div>
+            <Div>
+                <Button Color="Color.Secondary" Clicked="@Cancel" Margin="MarginIs1FromEnd">@Localizer.Localize( Gantt.Localizers?.CancelLocalizer, LocalizationConstants.Cancel )</Button>
+                <Button Color="Color.Primary" Clicked="@Submit">@Localizer.Localize( Gantt.Localizers?.SaveLocalizer, LocalizationConstants.Save )</Button>
+            </Div>
+        </ModalFooter>
+    </ModalContent>
+</Modal>

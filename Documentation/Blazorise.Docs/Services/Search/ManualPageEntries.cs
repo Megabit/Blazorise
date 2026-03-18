@@ -137,6 +137,7 @@ public static class ManualPageEntries
     new( "docs/extensions/pdfviewer", "PdfViewer", "A PdfViewer component used to display a regular PDF document." ),
     new( "docs/extensions/richtextedit", "RichTextEdit", "The RichTextEdit component allows you to add and use a 'WYSIWYG' rich text editor." ),
     new( "docs/extensions/routertabs", "RouterTabs", "Learn to use and work with the Blazorise RouterTabs to render a tab for each navigation." ),
+    new( "docs/extensions/gantt", "Gantt", "Plan and track project timelines with tree and timeline views, editing, templates, and hierarchical task support." ),
     new( "docs/extensions/selectlist", "SelectList", "The SelectList component allows you to select a value from a list of predefined items." ),
     new( "docs/extensions/sidebar", "Sidebar", "The Sidebar component is an expandable and collapsible container area that holds primary and secondary information placed alongside the main content of a webpage." ),
     new( "docs/extensions/snackbar", "Snackbar", "Snackbar provide brief messages about app processes. The component is also known as a toast." ),

@@ -1,0 +1,112 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Gantt TItem="TaskItem"
+       Data="@tasks"
+       Date="@selectedDate"
+       SelectedView="GanttView.Week"
+       ItemsField="Children"
+       HierarchicalData
+       DurationField="Duration">
+    <GanttColumns>
+        <GanttColumn Field="Wbs" Width="Width.Px(76)" TextAlignment="TextAlignment.Center" Visible="false" />
+        <GanttColumn Field="Title" Title="Task" Expandable Width="Width.Px(220)" />
+        <GanttColumn Field="Start" Width="Width.Px(130)" />
+        <GanttColumn Field="End" Width="Width.Px(130)" Visible="false" />
+        <GanttColumn Field="Duration" Width="Width.Px(90)" TextAlignment="TextAlignment.Center" Visible="false" />
+    </GanttColumns>
+    <GanttToolbar />
+    <GanttViews>
+        <GanttWeekView TimelineCellWidth="90" RowHeight="44" />
+    </GanttViews>
+</Gantt>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -2 );
+
+        var result = new List<TaskItem>
+        {
+            new()
+            {
+                Id = "1",
+                Title = "Mobile app release",
+                Start = baseDate,
+                End = baseDate.AddDays( 18 ),
+                Children = new()
+                {
+                    new()
+                    {
+                        Id = "2",
+                        Title = "Planning",
+                        Start = baseDate,
+                        End = baseDate.AddDays( 4 ),
+                    },
+                    new()
+                    {
+                        Id = "3",
+                        Title = "Execution",
+                        Start = baseDate.AddDays( 4 ),
+                        End = baseDate.AddDays( 16 ),
+                        Children = new()
+                        {
+                            new()
+                            {
+                                Id = "4",
+                                Title = "API integration",
+                                Start = baseDate.AddDays( 5 ),
+                                End = baseDate.AddDays( 11 ),
+                            },
+                            new()
+                            {
+                                Id = "5",
+                                Title = "QA",
+                                Start = baseDate.AddDays( 11 ),
+                                End = baseDate.AddDays( 16 ),
+                            },
+                        },
+                    },
+                    new()
+                    {
+                        Id = "6",
+                        Title = "Go-live",
+                        Start = baseDate.AddDays( 16 ),
+                        End = baseDate.AddDays( 18 ),
+                    },
+                },
+            },
+        };
+
+        UpdateDuration( result );
+
+        return result;
+    }
+
+    private static void UpdateDuration( IEnumerable<TaskItem> items )
+    {
+        foreach ( var item in items )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+            UpdateDuration( item.Children );
+        }
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+
+        public List<TaskItem> Children { get; set; } = new();
+    }
+}
