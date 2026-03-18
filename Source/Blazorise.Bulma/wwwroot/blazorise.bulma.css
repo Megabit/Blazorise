@@ -1945,6 +1945,32 @@ select[readonly] optgroup {
   color: var(--b-theme-danger, hsl(348, 100%, 70%));
 }
 
+fieldset.field,
+fieldset.columns {
+  min-inline-size: 0;
+  border: 0;
+  padding: 0;
+}
+
+fieldset.field > legend.field-label,
+fieldset.columns > legend.field-label {
+  display: block;
+  flex: 0 0 100%;
+  inline-size: 100%;
+  max-inline-size: 100%;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  text-align: left;
+}
+
+fieldset.columns > legend.field-label {
+  padding-inline: calc(1.5rem * 0.5);
+}
+
+fieldset.columns > legend.field-label ~ .column {
+  padding-top: 0;
+}
+
 .range-slider {
   min-height: 2rem;
 }
