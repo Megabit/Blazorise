@@ -15,7 +15,7 @@ await ExtractBootstrapIcons();
 async Task ExtractBootstrapIcons()
 {
     // URL pointing to the bootstrap-icons.json  (v1.11.0)
-    var url = "https://raw.githubusercontent.com/twbs/icons/26a4b76ce8e643993ca0529a4c51888df1bef7bd/font/bootstrap-icons.json";
+    var url = "https://raw.githubusercontent.com/twbs/icons/refs/heads/main/font/bootstrap-icons.json";
 
     // Output file path
     var outputFile = "BootstrapIcons.cs";
