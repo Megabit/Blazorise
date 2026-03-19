@@ -98,3 +98,31 @@
 .ant-card-link + .ant-card-link {
     margin-inline-start: var(--ant-margin-sm);
 }
+
+@each $name, $value in $theme-colors {
+    .ant-card.bg-#{$name} {
+        $text-color: color-yiq($value);
+
+        color: $text-color;
+
+        .ant-card-head,
+        .ant-card-head-title,
+        .ant-card-meta-title,
+        .ant-card-meta-description,
+        .b-ant-card-head-subtitle,
+        .b-ant-card-text,
+        .ant-card-link,
+        .ant-card-extra,
+        .b-ant-card-footer {
+            color: $text-color;
+        }
+
+        .b-ant-card-head-subtitle {
+            opacity: .85;
+        }
+
+        .b-ant-card-footer {
+            border-top-color: rgba($text-color, .2);
+        }
+    }
+}
