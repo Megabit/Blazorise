@@ -1781,8 +1781,8 @@ template {
   background: var(--b-bar-item-light-active-background, #0288D1);
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline > .ant-menu-item > a:hover {
-  color: var(--b-bar-item-light-hover-color, #fff);
-  background: var(--b-bar-item-light-hover-background, rgba(255, 255, 255, 0.3));
+  color: var(--b-bar-item-light-hover-color, var(--ant-menu-item-color));
+  background: var(--b-bar-item-light-hover-background, rgba(0, 0, 0, 0.06));
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu-submenu-title {
   padding-left: 24px;
@@ -1798,8 +1798,8 @@ template {
   background: var(--b-bar-item-light-active-background, #0288D1);
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item > a:hover {
-  color: var(--b-bar-item-light-hover-color, #fff);
-  background: var(--b-bar-item-light-hover-background, rgba(255, 255, 255, 0.3));
+  color: var(--b-bar-item-light-hover-color, var(--ant-menu-item-color));
+  background: var(--b-bar-item-light-hover-background, rgba(0, 0, 0, 0.06));
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical.ant-menu-inline-collapsed:not(.ant-menu-vertical-collapsed) {
   min-width: var(--b-sidebar-small-width, 80px);
@@ -1821,8 +1821,8 @@ template {
   background: var(--b-bar-item-light-active-background, #0288D1);
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical > .ant-menu-item > a:hover {
-  color: var(--b-bar-item-light-hover-color, #fff);
-  background: var(--b-bar-item-light-hover-background, rgba(255, 255, 255, 0.3));
+  color: var(--b-bar-item-light-hover-color, var(--ant-menu-item-color));
+  background: var(--b-bar-item-light-hover-background, rgba(0, 0, 0, 0.06));
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical > .ant-menu-item > a > span {
   font-size: 0;
@@ -1848,8 +1848,8 @@ template {
   background: var(--b-bar-item-light-active-background, #0288D1);
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical > .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup > .ant-menu.ant-menu-sub > .ant-menu-item > a:hover {
-  color: var(--b-bar-item-light-hover-color, #fff);
-  background: var(--b-bar-item-light-hover-background, rgba(255, 255, 255, 0.3));
+  color: var(--b-bar-item-light-hover-color, var(--ant-menu-item-color));
+  background: var(--b-bar-item-light-hover-background, rgba(0, 0, 0, 0.06));
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical > .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-rightTop {
   left: var(--b-sidebar-small-width, 80px);

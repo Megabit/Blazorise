@@ -285,7 +285,7 @@
     }
 
     &.ant-menu-light {
-        @include ant-legacy-vertical-menu( var(--b-bar-item-light-active-color, #fff), var(--b-bar-item-light-active-background, #0288D1), var(--b-bar-item-light-hover-color, #fff), var(--b-bar-item-light-hover-background, rgba(255,255,255,0.3)) );
+        @include ant-legacy-vertical-menu( var(--b-bar-item-light-active-color, #fff), var(--b-bar-item-light-active-background, #0288D1), var(--b-bar-item-light-hover-color, var(--ant-menu-item-color)), var(--b-bar-item-light-hover-background, rgba(0,0,0,0.06)) );
     }
 
 
