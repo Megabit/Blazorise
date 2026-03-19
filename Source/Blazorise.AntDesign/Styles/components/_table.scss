@@ -24,6 +24,8 @@
 }
 
 .ant-table-wrapper {
+    margin-bottom: var(--ant-margin);
+
     .b-table.ant-table {
         table {
             position: relative;

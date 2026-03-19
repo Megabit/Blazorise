@@ -7328,6 +7328,9 @@ a.b-ant-link-disabled[aria-disabled=true] {
   cursor: col-resize !important;
 }
 
+.ant-table-wrapper {
+  margin-bottom: var(--ant-margin);
+}
 .ant-table-wrapper .b-table.ant-table table {
   position: relative;
 }
