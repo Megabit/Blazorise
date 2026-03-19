@@ -34,7 +34,7 @@ public partial class FigureImage : BaseComponent
     /// <summary>
     /// The onerror attribute value that will be used to set the fallback image source if the main image fails to load.
     /// </summary>
-    protected string OnError => Image.GetOnErrorString( FallbackSource );
+    protected string OnError => !string.IsNullOrEmpty( FallbackSource ) ? $"this.src='{FallbackSource}'" : null;
 
     /// <summary>
     /// The absolute or relative URL of the image.

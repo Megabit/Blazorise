@@ -1937,7 +1937,7 @@ namespace Blazorise.Docs.Models
 
         public const string BasicImageExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/animals/animal-01.jpg"" Text=""A lovely animal..."" />";
 
-        public const string FallbackImageExample = @"<Image Source=""http://some-404-img"" FallbackSource=""_content/Blazorise.Docs/assets/img/animals/animal-06.jpg"" />";
+        public const string ImageFallbackExample = @"<Image Source=""http://some-404-img"" FallbackSource=""_content/Blazorise.Docs/assets/img/animals/animal-06.jpg"" />";
 
         public const string ImageFluidExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/animals/animal-02-large.jpg"" Text=""A lovely animal..."" Fluid />";
 
