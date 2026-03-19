@@ -80,4 +80,10 @@
         classBuilder.Append( "ant-steps-item-rail" );
         classBuilder.Append( Active || Completed ? "ant-steps-item-rail-process" : "ant-steps-item-rail-wait" );
     } ).Class;
+
+    protected override void BuildMarkerClasses( ClassBuilder builder )
+    {
+        base.BuildMarkerClasses( builder );
+        builder.Append( "ant-wave-target" );
+    }
 }

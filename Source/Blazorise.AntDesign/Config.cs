@@ -27,6 +27,7 @@ public static class Config
         serviceCollection.AddSingleton<IBehaviourProvider, AntDesignBehaviourProvider>();
         serviceCollection.AddScoped<IThemeGenerator, AntDesignThemeGenerator>();
         serviceCollection.AddScoped<AntDesignJSSegmentedModule>();
+        serviceCollection.AddScoped<AntDesignJSWaveModule>();
 
         foreach ( var mapping in ComponentMap )
         {

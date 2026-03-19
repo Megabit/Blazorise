@@ -7956,6 +7956,31 @@ a.b-ant-link-disabled[aria-disabled=true] {
   content: "— ";
 }
 
+.b-ant-wave-host {
+  position: relative;
+  overflow: visible !important;
+}
+
+.ant-wave {
+  position: absolute;
+  background: transparent;
+  pointer-events: none;
+  box-sizing: border-box;
+  color: var(--ant-wave-color, var(--ant-color-primary));
+  box-shadow: 0 0 0 0 currentcolor;
+  opacity: 0.2;
+}
+.ant-wave.ant-wave-motion-appear {
+  transition: box-shadow 0.4s var(--ant-motion-ease-out-circ), opacity 2s var(--ant-motion-ease-out-circ);
+}
+.ant-wave.ant-wave-motion-appear.ant-wave-motion-appear-active {
+  box-shadow: 0 0 0 6px currentcolor;
+  opacity: 0;
+}
+.ant-wave.ant-wave-quick.ant-wave-motion-appear {
+  transition: box-shadow var(--ant-motion-duration-slow) var(--ant-motion-ease-in-out), opacity var(--ant-motion-duration-slow) var(--ant-motion-ease-in-out);
+}
+
 .snackbar-stack {
   z-index: 1009 !important;
 }

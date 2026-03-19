@@ -1,5 +1,7 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.AntDesign.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -20,6 +22,16 @@ public partial class Button : Blazorise.Button
 
         if ( ParentDropdown?.IsGroup == true && ParentButtons is null )
             builder.Append( "ant-btn-compact-item ant-btn-compact-first-item" );
+    }
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await JSWaveModule.Initialize( ElementRef );
+        }
+
+        await base.OnAfterRenderAsync( firstRender );
     }
 
     protected override void BuildRenderTree( RenderTreeBuilder builder )
@@ -122,6 +134,22 @@ public partial class Button : Blazorise.Button
                 .CloseElement();
         };
     }
+
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing && Rendered )
+        {
+            await JSWaveModule.Destroy( ElementRef );
+        }
+
+        await base.DisposeAsync( disposing );
+    }
+
+    #endregion
+
+    #region Properties
+
+    [Inject] public AntDesignJSWaveModule JSWaveModule { get; set; }
 
     #endregion
 }

@@ -3,7 +3,7 @@
 @using Blazorise.Utilities
 @if ( AsButton )
 {
-    <label class="@WrapperClassNames" style="@WrapperStyleNames">
+    <label @ref="@wrapperRef" class="@WrapperClassNames" style="@WrapperStyleNames">
         <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@IsActive" value="@Value" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
         <div class="@LabelClassNames">
             @ChildContent
@@ -13,7 +13,7 @@
 }
 else
 {
-    <label class="@WrapperClassNames" style="@WrapperStyleNames">
+    <label @ref="@wrapperRef" class="@WrapperClassNames" style="@WrapperStyleNames">
         <span class="@CheckboxClassNames">
             <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@IsActive" value="@Value" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
             <span class="@InnerClassNames"></span>
@@ -77,7 +77,7 @@ else
 
     string CheckboxClassNames => AsButton == true
         ? string.Empty
-        : $"ant-radio{( IsActive ? " ant-radio-checked" : "" )}{( IsDisabled ? " ant-radio-disabled" : "" )}";
+        : $"ant-radio ant-wave-target{( IsActive ? " ant-radio-checked" : "" )}{( IsDisabled ? " ant-radio-disabled" : "" )}";
 
     string InnerClassNames => AsButton == true
         ? "ant-radio-button-inner"
