@@ -1406,7 +1406,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Breadcrumb() => "ant-breadcrumb";
 
-    public override string BreadcrumbItem() => null;
+    public override string BreadcrumbItem() => "ant-breadcrumb-item";
 
     public override string BreadcrumbItemActive( bool active ) => null;
 

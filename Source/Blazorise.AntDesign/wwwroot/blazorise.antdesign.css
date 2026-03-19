@@ -2781,6 +2781,37 @@ template {
   color: var(--ant-menu-item-color);
 }
 
+.ant-breadcrumb > ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ant-breadcrumb .ant-breadcrumb-item,
+.ant-breadcrumb .ant-breadcrumb-separator {
+  display: inline-flex;
+  align-items: center;
+}
+.ant-breadcrumb .ant-breadcrumb-separator {
+  margin-inline: var(--ant-margin-xs);
+  color: var(--ant-color-text-description);
+}
+.ant-breadcrumb .ant-breadcrumb-link {
+  color: var(--ant-color-text-description);
+}
+.ant-breadcrumb .ant-breadcrumb-link a {
+  color: inherit;
+}
+.ant-breadcrumb .ant-breadcrumb-link:hover,
+.ant-breadcrumb .ant-breadcrumb-link:has(> a:hover) {
+  color: var(--ant-color-text);
+}
+.ant-breadcrumb .ant-breadcrumb-item[aria-current=page] .ant-breadcrumb-link {
+  color: var(--ant-color-text);
+}
+
 @keyframes antBadgeLoadingCircle {
   0% {
     transform-origin: 50% 50%;
