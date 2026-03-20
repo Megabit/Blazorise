@@ -1,4 +1,4 @@
-import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.2.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.3.0";
 
 const _instances = {};
 const dragStartThreshold = 3;
