@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-12T13:28:26.7946862Z",
+  "generatedUtc": "2026-03-20T13:08:13.0292311Z",
   "pages": [
     {
       "route": "/docs",
@@ -3895,7 +3895,7 @@
           "sourcePath": "Pages/Docs/Extensions/Autocomplete/Examples/AutocompleteValidationExample.razor",
           "content": "<Validations @ref=\"validations\" Mode=\"ValidationMode.Manual\">\r\n    <Validation Validator=\"@ValidationRule.IsNotEmpty\">\r\n        <Field>\r\n            <FieldLabel>Country</FieldLabel>\r\n            <FieldBody>\r\n                <Autocomplete TItem=\"Country\"\r\n                              TValue=\"string\"\r\n                              Data=\"@Countries\"\r\n                              TextField=\"@(( item ) => item.Name)\"\r\n                              ValueField=\"@(( item ) => item.Iso)\"\r\n                              Placeholder=\"Select a country\"\r\n                              @bind-SelectedValue=\"@selectedCountry\">\r\n                    <Feedback>\r\n                        <ValidationError>Please select a country.</ValidationError>\r\n                    </Feedback>\r\n                </Autocomplete>\r\n            </FieldBody>\r\n        </Field>\r\n    </Validation>\r\n    <Button Color=\"Color.Primary\" Clicked=\"@Validate\">Validate</Button>\r\n</Validations>\r\n\r\n@code {\r\n    [Inject]\r\n    public CountryData CountryData { get; set; }\r\n\r\n    public IEnumerable<Country> Countries;\r\n\r\n    Validations validations;\r\n\r\n    string selectedCountry;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        Countries = await CountryData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    async Task Validate()\r\n    {\r\n        await validations.ValidateAll();\r\n    }\r\n}",
           "title": "Validation (single)",
-          "description": "Wrap the Autocomplete in a Validation container to integrate with the standard validation system."
+          "description": "Wrap the Autocomplete in a Validation container to integrate with the standard validation system. Note: When both Value and Text are bound then validation will work on the Value binding."
         },
         {
           "code": "AutocompleteMultipleValidationExample",
