@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-18T13:07:11.2252928Z",
+  "generatedUtc": "2026-03-20T12:55:26.4166543Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -15546,6 +15546,14 @@
           "defaultValue": "null",
           "summary": "Gets or sets the unique id of the element.",
           "remarks": "Note that this ID is not defined for the component but instead for the underlined element that it represents.     eg: for the TextInput the ID will be set on the input element.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "FallbackSource",
+          "type": "string",
+          "typeName": "string",
+          "defaultValue": "null",
+          "summary": "The fallback image that will be displayed if image loading fails.",
           "isBlazoriseEnum": false
         },
         {
