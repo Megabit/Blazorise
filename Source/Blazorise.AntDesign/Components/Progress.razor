@@ -38,6 +38,11 @@
             if ( HasProgressBar )
             {
                 sb.Append( " b-ant-progress-stacked" );
+
+                if ( ShowValue && !Indeterminate )
+                {
+                    sb.Append( " ant-progress-show-info ant-progress-line-align-center ant-progress-line-position-inner" );
+                }
             }
             else if ( ShowOuterIndicator )
             {

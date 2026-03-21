@@ -5850,10 +5850,9 @@ a.b-ant-link-disabled[aria-disabled=true] {
   justify-content: center;
   width: 100%;
   padding-inline: var(--ant-padding-xxs);
-  overflow: hidden;
+  overflow: visible;
   color: var(--ant-color-text-light-solid);
   text-align: center;
-  text-overflow: ellipsis;
 }
 .ant-progress .ant-progress-indicator-center {
   justify-content: center;
@@ -5874,6 +5873,7 @@ a.b-ant-link-disabled[aria-disabled=true] {
   flex: 0 0 auto;
   min-width: 0;
   height: 100%;
+  overflow: visible;
 }
 .ant-progress.b-ant-progress-stacked .ant-progress-track:first-child:not(:last-child) {
   border-top-right-radius: 0;
@@ -5885,6 +5885,43 @@ a.b-ant-link-disabled[aria-disabled=true] {
 }
 .ant-progress.b-ant-progress-stacked .ant-progress-track:not(:first-child):not(:last-child) {
   border-radius: 0;
+}
+.ant-progress.b-ant-progress-stacked .ant-progress-indicator-inner {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-end: calc(100% + var(--ant-margin-xxs));
+  z-index: 2;
+  width: max-content;
+  min-width: 0;
+  padding-inline: 0;
+  color: var(--ant-color-text);
+  font-size: var(--ant-font-size-sm);
+  transform: translateX(-50%);
+}
+.ant-progress.ant-progress-line-position-inner .ant-progress-body {
+  align-items: flex-start;
+}
+.ant-progress.ant-progress-line-position-inner .ant-progress-rail,
+.ant-progress.ant-progress-line-position-inner .ant-progress-track {
+  overflow: visible;
+}
+.ant-progress.ant-progress-line-position-inner .ant-progress-rail {
+  margin-top: calc(var(--ant-font-size-sm) + var(--ant-margin-xxs));
+}
+.ant-progress.ant-progress-line-position-inner .ant-progress-track {
+  position: relative;
+}
+.ant-progress.ant-progress-line-position-inner .ant-progress-indicator-inner {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-end: calc(100% + var(--ant-margin-xxs));
+  z-index: 1;
+  width: max-content;
+  min-width: 0;
+  padding-inline: 0;
+  color: var(--ant-color-text);
+  font-size: var(--ant-font-size-sm);
+  transform: translateX(-50%);
 }
 .ant-progress.ant-progress-small .ant-progress-rail {
   height: 6px;
