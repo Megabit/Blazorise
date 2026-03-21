@@ -20,6 +20,218 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     #region Methods
 
+    protected override void GenerateBodyVariables( Theme theme )
+    {
+        base.GenerateBodyVariables( theme );
+
+        var borderRadius = GetBorderRadius( theme, theme.InputOptions?.BorderRadius, Var( ThemeVariables.BorderRadius ) );
+        var borderRadiusLarge = GetBorderRadius( theme, theme.ButtonOptions?.LargeBorderRadius, Var( ThemeVariables.BorderRadiusLarge ) );
+        var borderRadiusSmall = GetBorderRadius( theme, theme.ButtonOptions?.SmallBorderRadius, Var( ThemeVariables.BorderRadiusSmall ) );
+
+        SetAntToken( "--ant-border-radius-xs", borderRadiusSmall );
+        SetAntToken( "--ant-border-radius-sm", borderRadiusSmall );
+        SetAntToken( "--ant-border-radius", borderRadius );
+        SetAntToken( "--ant-border-radius-lg", borderRadiusLarge );
+        SetAntToken( "--ant-border-radius-outer", borderRadiusSmall );
+
+        SetAntToken( "--ant-font-family", Var( ThemeVariables.BodyFontFamily ) );
+        SetAntToken( "--ant-font-size", Var( ThemeVariables.BodyFontSize ) );
+        SetAntToken( "--ant-color-text-base", Var( ThemeVariables.BodyTextColor ) );
+        SetAntToken( "--ant-color-text", Var( ThemeVariables.BodyTextColor ) );
+        SetAntToken( "--ant-color-text-heading", Var( ThemeVariables.BodyTextColor ) );
+        SetAntToken( "--ant-color-bg-base", Var( ThemeVariables.BodyBackgroundColor ) );
+        SetAntToken( "--ant-color-bg-container", Var( ThemeVariables.BodyBackgroundColor ) );
+        SetAntToken( "--ant-color-bg-elevated", Var( ThemeVariables.BodyBackgroundColor ) );
+
+        if ( !string.IsNullOrEmpty( theme.ProgressOptions?.BorderRadius ) )
+        {
+            SetAntToken(
+                "--ant-progress-line-border-radius",
+                GetBorderRadius( theme, theme.ProgressOptions.BorderRadius, borderRadius ) );
+        }
+    }
+
+    protected override void GenerateColorVariables( Theme theme, string variant, string value )
+    {
+        base.GenerateColorVariables( theme, variant, value );
+
+        if ( string.IsNullOrEmpty( value ) )
+            return;
+
+        switch ( variant )
+        {
+            case "primary":
+                GenerateAntPrimaryColorVariables( theme, value );
+
+                if ( string.IsNullOrEmpty( theme.ColorOptions?.Link ) )
+                    GenerateAntLinkColorVariables( value );
+
+                break;
+            case "success":
+                GenerateAntSemanticColorVariables( theme, "success", value );
+                break;
+            case "danger":
+                GenerateAntSemanticColorVariables( theme, "error", value );
+                break;
+            case "warning":
+                GenerateAntSemanticColorVariables( theme, "warning", value );
+                break;
+            case "info":
+                GenerateAntSemanticColorVariables( theme, "info", value );
+                break;
+            case "link":
+                GenerateAntLinkColorVariables( value );
+                break;
+        }
+    }
+
+    protected override void GenerateBarVariables( Theme theme, ThemeBarOptions barOptions )
+    {
+        base.GenerateBarVariables( theme, barOptions );
+
+        if ( barOptions is null )
+            return;
+
+        if ( !string.IsNullOrEmpty( barOptions.HorizontalHeight ) && barOptions.HorizontalHeight != "auto" )
+            SetAntToken( "--ant-menu-horizontal-line-height", barOptions.HorizontalHeight );
+
+        if ( !string.IsNullOrEmpty( barOptions.VerticalSmallWidth ) )
+            SetAntToken( "--ant-menu-collapsed-width", barOptions.VerticalSmallWidth );
+
+        GenerateBarColorTokens( barOptions.DarkColors, isDark: true );
+        GenerateBarColorTokens( barOptions.LightColors, isDark: false );
+    }
+
+    private void GenerateAntPrimaryColorVariables( Theme theme, string color )
+    {
+        var baseColor = ParseColor( color );
+
+        if ( baseColor.IsEmpty )
+            return;
+
+        var primary1 = ToHex( TintColor( baseColor, 88 ) );
+        var primary2 = ToHex( TintColor( baseColor, 75 ) );
+        var primary3 = ToHex( TintColor( baseColor, 60 ) );
+        var primary4 = ToHex( TintColor( baseColor, 45 ) );
+        var primary5 = ToHex( Lighten( baseColor, 20f ) );
+        var primary6 = ToHex( baseColor );
+        var primary7 = ToHex( Darken( baseColor, 15f ) );
+        var outline = ToHexRGBA( Transparency( baseColor, 51 ) );
+
+        SetAntToken( "--ant-primary-1", primary1 );
+        SetAntToken( "--ant-primary-2", primary2 );
+        SetAntToken( "--ant-primary-3", primary3 );
+        SetAntToken( "--ant-primary-4", primary4 );
+        SetAntToken( "--ant-primary-5", primary5 );
+        SetAntToken( "--ant-primary-6", primary6 );
+        SetAntToken( "--ant-primary-7", primary7 );
+        SetAntToken( "--ant-primary-color", primary6 );
+        SetAntToken( "--ant-primary-color-hover", primary5 );
+        SetAntToken( "--ant-primary-color-active", primary7 );
+        SetAntToken( "--ant-primary-color-outline", outline );
+        SetAntToken( "--ant-color-primary-bg", primary1 );
+        SetAntToken( "--ant-color-primary-bg-hover", primary2 );
+        SetAntToken( "--ant-color-primary-border", primary3 );
+        SetAntToken( "--ant-color-primary-border-hover", primary4 );
+        SetAntToken( "--ant-color-primary-hover", primary5 );
+        SetAntToken( "--ant-color-primary", primary6 );
+        SetAntToken( "--ant-color-primary-active", primary7 );
+        SetAntToken( "--ant-color-primary-text-hover", primary5 );
+        SetAntToken( "--ant-color-primary-text", primary6 );
+        SetAntToken( "--ant-color-primary-text-active", primary7 );
+        SetAntToken( "--ant-control-outline", outline );
+        SetAntToken( "--ant-menu-dark-item-selected-bg", primary6 );
+        SetAntToken( "--ant-menu-item-selected-color", primary6 );
+        SetAntToken( "--ant-menu-item-selected-bg", primary1 );
+        SetAntToken( "--ant-menu-item-active-bg", primary1 );
+        SetAntToken( "--ant-menu-horizontal-item-selected-color", primary6 );
+    }
+
+    private void GenerateAntSemanticColorVariables( Theme theme, string antVariant, string color )
+    {
+        var baseColor = ParseColor( color );
+
+        if ( baseColor.IsEmpty )
+            return;
+
+        var background = ToHex( TintColor( baseColor, theme?.BackgroundOptions?.SubtleTintWeight ?? 80 ) );
+        var border = ToHex( TintColor( baseColor, theme?.BorderOptions?.SubtleTintWeight ?? 60 ) );
+        var text = ToHex( ShadeColor( baseColor, theme?.TextColorOptions?.EmphasisShadeWeight ?? 60 ) );
+        var hover = ToHex( Lighten( baseColor, 20f ) );
+        var active = ToHex( Darken( baseColor, 15f ) );
+        var outline = ToHexRGBA( Transparency( baseColor, 51 ) );
+        var deprecatedPrefix = $"--ant-{antVariant}-color";
+
+        SetAntToken( deprecatedPrefix, color );
+        SetAntToken( $"{deprecatedPrefix}-hover", hover );
+        SetAntToken( $"{deprecatedPrefix}-active", active );
+        SetAntToken( $"{deprecatedPrefix}-outline", outline );
+        SetAntToken( $"--ant-color-{antVariant}", color );
+        SetAntToken( $"--ant-color-{antVariant}-hover", hover );
+        SetAntToken( $"--ant-color-{antVariant}-active", active );
+        SetAntToken( $"--ant-color-{antVariant}-bg", background );
+        SetAntToken( $"--ant-color-{antVariant}-bg-hover", background );
+        SetAntToken( $"--ant-color-{antVariant}-border", border );
+        SetAntToken( $"--ant-color-{antVariant}-border-hover", border );
+        SetAntToken( $"--ant-color-{antVariant}-text", text );
+        SetAntToken( $"--ant-color-{antVariant}-text-hover", hover );
+        SetAntToken( $"--ant-color-{antVariant}-text-active", active );
+        SetAntToken( $"--ant-color-{antVariant}-outline", outline );
+    }
+
+    private void GenerateAntLinkColorVariables( string color )
+    {
+        var baseColor = ParseColor( color );
+
+        if ( baseColor.IsEmpty )
+            return;
+
+        SetAntToken( "--ant-color-link", color );
+        SetAntToken( "--ant-color-link-hover", ToHex( Lighten( baseColor, 20f ) ) );
+        SetAntToken( "--ant-color-link-active", ToHex( Darken( baseColor, 15f ) ) );
+    }
+
+    private void GenerateBarColorTokens( ThemeBarColorOptions barColors, bool isDark )
+    {
+        if ( barColors is null )
+            return;
+
+        if ( isDark )
+        {
+            SetAntToken( "--ant-layout-sider-bg", barColors.BackgroundColor );
+            SetAntToken( "--ant-menu-dark-item-bg", barColors.BackgroundColor );
+            SetAntToken( "--ant-menu-dark-popup-bg", barColors.DropdownColorOptions?.BackgroundColor ?? barColors.BackgroundColor );
+            SetAntToken( "--ant-menu-dark-sub-menu-item-bg", barColors.DropdownColorOptions?.BackgroundColor ?? barColors.BackgroundColor );
+            SetAntToken( "--ant-layout-trigger-bg", barColors.BrandColorOptions?.BackgroundColor ?? barColors.BackgroundColor );
+            SetAntToken( "--ant-menu-dark-item-color", barColors.Color );
+            SetAntToken( "--ant-layout-trigger-color", barColors.Color );
+            SetAntToken( "--ant-menu-dark-item-selected-bg", barColors.ItemColorOptions?.ActiveBackgroundColor );
+            SetAntToken( "--ant-menu-dark-item-selected-color", barColors.ItemColorOptions?.ActiveColor );
+            SetAntToken( "--ant-menu-dark-item-hover-bg", barColors.ItemColorOptions?.HoverBackgroundColor );
+            SetAntToken( "--ant-menu-dark-item-hover-color", barColors.ItemColorOptions?.HoverColor );
+        }
+        else
+        {
+            SetAntToken( "--ant-layout-light-sider-bg", barColors.BackgroundColor );
+            SetAntToken( "--ant-layout-light-trigger-bg", barColors.BrandColorOptions?.BackgroundColor ?? barColors.BackgroundColor );
+            SetAntToken( "--ant-layout-light-trigger-color", barColors.Color );
+            SetAntToken( "--ant-menu-item-bg", barColors.BackgroundColor );
+            SetAntToken( "--ant-menu-popup-bg", barColors.DropdownColorOptions?.BackgroundColor ?? barColors.BackgroundColor );
+            SetAntToken( "--ant-menu-sub-menu-item-bg", barColors.DropdownColorOptions?.BackgroundColor ?? barColors.BackgroundColor );
+            SetAntToken( "--ant-menu-item-color", barColors.Color );
+            SetAntToken( "--ant-menu-item-selected-bg", barColors.ItemColorOptions?.ActiveBackgroundColor );
+            SetAntToken( "--ant-menu-item-selected-color", barColors.ItemColorOptions?.ActiveColor );
+            SetAntToken( "--ant-menu-item-hover-bg", barColors.ItemColorOptions?.HoverBackgroundColor );
+            SetAntToken( "--ant-menu-item-hover-color", barColors.ItemColorOptions?.HoverColor );
+        }
+    }
+
+    private void SetAntToken( string name, string value )
+    {
+        if ( !string.IsNullOrEmpty( value ) )
+            Variables[name] = value;
+    }
+
     protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
     {
         var hexBackgroundColor = Var( ThemeVariables.BackgroundColor( variant ) );
@@ -91,9 +303,9 @@ public class AntDesignThemeGenerator : ThemeGenerator
             .AppendLine( "}" );
 
         sb
-            .Append( $".btn-{variant}:active," )
-            .Append( $".btn-{variant}.active," )
-            .Append( $".btn-{variant}-active" )
+            .Append( $".ant-btn-{variant}:active," )
+            .Append( $".ant-btn-{variant}.active," )
+            .Append( $".ant-btn-{variant}-active" )
             .Append( "{" )
             .Append( $"color: {yiqActiveBackground} !important;" )
             .Append( $"background-color: {activeBackground} !important;" )
@@ -101,9 +313,9 @@ public class AntDesignThemeGenerator : ThemeGenerator
             .AppendLine( "}" );
 
         sb
-            .Append( $".btn-{variant}:active > a:only-child," )
-            .Append( $".btn-{variant}.active > a:only-child," )
-            .Append( $".btn-{variant}-active > a:only-child" )
+            .Append( $".ant-btn-{variant}:active > a:only-child," )
+            .Append( $".ant-btn-{variant}.active > a:only-child," )
+            .Append( $".ant-btn-{variant}-active > a:only-child" )
             .Append( "{" )
             .Append( "color: currentColor !important;" )
             .AppendLine( "}" );
@@ -124,7 +336,7 @@ public class AntDesignThemeGenerator : ThemeGenerator
             .Append( $".ant-btn-{variant}-disabled.active," )
             .Append( $".ant-btn-{variant}.disabled.active," )
             .Append( $".ant-btn-{variant}[disabled].active" )
-            .Append( $".btn-{variant}:disabled" )
+            .Append( $".ant-btn-{variant}:disabled" )
             .Append( "{" )
             .Append( "color: rgba(0, 0, 0, 0.25) !important;" )
             .Append( "background-color: #f5f5f5 !important;" )
@@ -148,7 +360,7 @@ public class AntDesignThemeGenerator : ThemeGenerator
             .Append( $".ant-btn-{variant}-disabled.active > a:only-child," )
             .Append( $".ant-btn-{variant}.disabled.active > a:only-child," )
             .Append( $".ant-btn-{variant}[disabled].active" )
-            .Append( $".btn-{variant}:disabled" )
+            .Append( $".ant-btn-{variant}:disabled" )
             .Append( "{" )
             .Append( "color: currentColor !important;" )
             .AppendLine( "}" );
@@ -219,7 +431,7 @@ public class AntDesignThemeGenerator : ThemeGenerator
             .Append( $".ant-btn-outline-{variant}-disabled.active," )
             .Append( $".ant-btn-outline-{variant}.disabled.active," )
             .Append( $".ant-btn-outline-{variant}[disabled].active" )
-            .Append( $".btn-{variant}:disabled" )
+            .Append( $".ant-btn-outline-{variant}:disabled" )
             .Append( "{" )
             .Append( "color: rgba(0, 0, 0, 0.25) !important;" )
             .Append( "border-color: #d9d9d9 !important;" )
@@ -242,7 +454,7 @@ public class AntDesignThemeGenerator : ThemeGenerator
             .Append( $".ant-btn-outline-{variant}-disabled.active > a:only-child," )
             .Append( $".ant-btn-outline-{variant}.disabled.active > a:only-child," )
             .Append( $".ant-btn-outline-{variant}[disabled].active" )
-            .Append( $".btn-{variant}:disabled" )
+            .Append( $".ant-btn-outline-{variant}:disabled" )
             .Append( "{" )
             .Append( "color: currentColor !important;" )
             .AppendLine( "}" );
@@ -250,27 +462,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateButtonStyles( StringBuilder sb, Theme theme, ThemeButtonOptions options )
     {
-        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
-        {
-            sb.Append( ".ant-btn" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-        }
-
-        if ( !string.IsNullOrEmpty( options?.SmallBorderRadius ) )
-        {
-            sb.Append( ".ant-btn-sm" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.SmallBorderRadius, Var( ThemeVariables.BorderRadiusSmall ) )};" )
-                .AppendLine( "}" );
-        }
-
-        if ( !string.IsNullOrEmpty( options?.LargeBorderRadius ) )
-        {
-            sb.Append( ".ant-btn-lg" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadiusLarge ) )};" )
-                .AppendLine( "}" );
-        }
-
         if ( !string.IsNullOrEmpty( options?.Padding ) )
             sb.Append( ".ant-btn" ).Append( "{" )
                 .Append( $"padding: {options.Padding};" )
@@ -289,64 +480,13 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateDropdownStyles( StringBuilder sb, Theme theme, ThemeDropdownOptions options )
     {
-        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
-        {
-            sb.Append( ".ant-dropdown-menu" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-        }
-
-        if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
-        {
-            var backgroundColor = ParseColor( theme.ColorOptions.Primary );
-
-            if ( !backgroundColor.IsEmpty )
-            {
-                var background = ToHex( backgroundColor );
-
-                sb.Append( ".ant-dropdown-menu-item.active," )
-                    .Append( ".ant-dropdown-menu-item:active" ).Append( "{" )
-                    .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
-                    .AppendLine( "}" );
-            }
-        }
+        _ = sb;
+        _ = theme;
+        _ = options;
     }
 
     protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
     {
-        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
-        {
-            sb.Append( ".ant-form-item input" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".ant-input-group-addon:first-child" ).Append( "{" )
-                .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".ant-input-group-addon:last-child" ).Append( "{" )
-                .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".ant-select-selector, .ant-select-selector input" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )} !important;" )
-                .AppendLine( "}" );
-
-            sb.Append( ".ant-checkbox-inner" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".ant-upload button" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".b-is-autocomplete.b-is-autocomplete-multipleselection" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-        }
-
         if ( !string.IsNullOrEmpty( options?.Color ) )
         {
             sb.Append( ".ant-input" ).Append( "{" )
@@ -370,87 +510,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
         if ( !string.IsNullOrEmpty( options?.SliderColor ) )
         {
             GenerateInputSliderStyles( sb, theme, options );
-        }
-
-        var validationSuccessColor = Var( ThemeVariables.Color( "success" ) );
-        var validationDangerColor = Var( ThemeVariables.Color( "danger" ) );
-
-        if ( !string.IsNullOrEmpty( validationSuccessColor ) )
-        {
-            var validationSuccessShadow = ToHexRGBA( Transparency( validationSuccessColor, 51 ) );
-            var validationSuccessTextColor = ToHex( Contrast( theme, validationSuccessColor ) );
-
-            sb.Append( ".ant-input-status-success," )
-                .Append( ".ant-input-affix-wrapper-status-success" )
-                .Append( "{" )
-                .Append( $"border-color: {validationSuccessColor};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".ant-input-status-success:focus," )
-                .Append( ".ant-input-affix-wrapper-status-success.ant-input-affix-wrapper-focused" )
-                .Append( "{" )
-                .Append( $"border-color: {validationSuccessColor};" )
-                .Append( $"box-shadow: 0 0 0 2px {validationSuccessShadow};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".valid-feedback" ).Append( "{" )
-                .Append( $"color: {validationSuccessColor};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".valid-tooltip" ).Append( "{" )
-                .Append( $"color: {validationSuccessTextColor};" )
-                .Append( $"background-color: {validationSuccessColor};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".b-is-autocomplete.ant-input-status-success" ).Append( "{" )
-                .Append( $"border-color: {validationSuccessColor};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".b-is-autocomplete.ant-input-status-success.focus" ).Append( "{" )
-                .Append( $"border-color: {validationSuccessColor};" )
-                .Append( $"box-shadow: 0 0 0 2px {validationSuccessShadow};" )
-                .AppendLine( "}" );
-        }
-
-        if ( !string.IsNullOrEmpty( validationDangerColor ) )
-        {
-            var validationDangerShadow = ToHexRGBA( Transparency( validationDangerColor, 51 ) );
-            var validationDangerTextColor = ToHex( Contrast( theme, validationDangerColor ) );
-
-            sb.Append( ".ant-input-status-error," )
-                .Append( ".ant-input-affix-wrapper-status-error" )
-                .Append( "{" )
-                .Append( $"border-color: {validationDangerColor};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".ant-input-status-error:focus," )
-                .Append( ".ant-input-affix-wrapper-status-error.ant-input-affix-wrapper-focused" )
-                .Append( "{" )
-                .Append( $"border-color: {validationDangerColor};" )
-                .Append( $"box-shadow: 0 0 0 2px {validationDangerShadow};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".ant-form-item-explain-error" ).Append( "{" )
-                .Append( $"color: {validationDangerColor};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".invalid-feedback" ).Append( "{" )
-                .Append( $"color: {validationDangerColor};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".invalid-tooltip" ).Append( "{" )
-                .Append( $"color: {validationDangerTextColor};" )
-                .Append( $"background-color: {validationDangerColor};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".b-is-autocomplete.ant-input-status-error" ).Append( "{" )
-                .Append( $"border-color: {validationDangerColor};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".b-is-autocomplete.ant-input-status-error.focus" ).Append( "{" )
-                .Append( $"border-color: {validationDangerColor};" )
-                .Append( $"box-shadow: 0 0 0 2px {validationDangerShadow};" )
-                .AppendLine( "}" );
         }
 
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
@@ -819,23 +878,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateCardStyles( StringBuilder sb, Theme theme, ThemeCardOptions options )
     {
-        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
-        {
-            sb.Append( ".ant-card" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".ant-card-cover:first-child" ).Append( "{" )
-                .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".ant-card-cover:last-child" ).Append( "{" )
-                .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-        }
-
         if ( !string.IsNullOrEmpty( options?.ImageTopRadius ) )
             sb.Append( ".ant-card-cover" ).Append( "{" )
                 .Append( $"border-top-left-radius: {options.ImageTopRadius};" )
@@ -845,95 +887,32 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateModalStyles( StringBuilder sb, Theme theme, ThemeModalOptions options )
     {
-        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
-        {
-            sb.Append( ".modal-content" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-        }
+        _ = sb;
+        _ = theme;
+        _ = options;
     }
 
     protected override void GenerateTabsStyles( StringBuilder sb, Theme theme, ThemeTabsOptions options )
     {
-        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
-        {
-            sb.Append( ".ant-tabs .ant-tabs-tab" ).Append( "{" )
-                .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".ant-tabs-pills .ant-tabs-nav .ant-tabs-tab" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-        }
-
-        if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
-        {
-            sb
-                .Append( ".ant-tabs-pills .ant-tabs-nav .ant-tabs-tab-active" )
-                .Append( "{" )
-                .Append( $"color: {Var( ThemeVariables.White )};" )
-                .Append( $"background-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".ant-tabs-nav .ant-tabs-tab:active," )
-                .Append( ".ant-tabs-nav .ant-tabs-tab-active" )
-                .Append( "{" )
-                .Append( $"color: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .AppendLine( "}" );
-
-            var hoverColor = ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 20f ) );
-
-            sb
-                .Append( ".ant-tabs-nav .ant-tabs-tab:hover" )
-                .Append( "{" )
-                .Append( $"color: {hoverColor};" )
-                .AppendLine( "}" );
-        }
+        _ = sb;
+        _ = theme;
+        _ = options;
     }
 
     protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
     {
-        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
-        {
-            sb
-                .Append( ".ant-progress-inner," )
-                .Append( ".ant-progress-bg" )
-                .Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-        }
-
-        if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
-        {
-            sb.Append( ".ant-progress-bg" ).Append( "{" )
-                .Append( $"background-color: {Var( ThemeVariables.Color( "primary" ) )};" )
-                .AppendLine( "}" );
-        }
-
         base.GenerateProgressStyles( sb, theme, options );
     }
 
     protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )
     {
-        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
-        {
-            sb.Append( ".ant-alert" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-        }
+        _ = sb;
+        _ = theme;
+        _ = options;
     }
 
     protected override void GenerateBreadcrumbStyles( StringBuilder sb, Theme theme, ThemeBreadcrumbOptions options )
     {
-        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
-        {
-            sb.Append( ".ant-breadcrumb" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-        }
-
         if ( !string.IsNullOrEmpty( Var( ThemeVariables.BreadcrumbColor ) ) )
         {
             sb.Append( ".ant-breadcrumb-link>a" ).Append( "{" )
@@ -944,87 +923,16 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
     {
-        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
-        {
-            sb.Append( ".ant-tag:not(.ant-tag-pill)" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-        }
+        _ = sb;
+        _ = theme;
+        _ = options;
     }
 
     protected override void GeneratePaginationStyles( StringBuilder sb, Theme theme, ThemePaginationOptions options )
     {
-        if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
-        {
-            sb.Append( ".ant-pagination-item:first-child .ant-pagination-link" ).Append( "{" )
-                .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".ant-pagination-item:last-child .ant-pagination-link" ).Append( "{" )
-                .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-        }
-
-        if ( !string.IsNullOrEmpty( options?.LargeBorderRadius ) )
-        {
-            sb.Append( ".ant-pagination-lg .ant-pagination-item:first-child .ant-pagination-link" ).Append( "{" )
-                .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".ant-pagination-lg .ant-pagination-item:last-child .ant-pagination-link" ).Append( "{" )
-                .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-        }
-
-        if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
-        {
-            var color = theme.ColorOptions.Primary;
-
-            sb
-                .Append( ".ant-pagination-item:focus," )
-                .Append( ".ant-pagination-item:hover" )
-                .Append( "{" )
-                .Append( $"border-color: {color};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".ant-pagination-item:focus a," )
-                .Append( ".ant-pagination-item:hover a" )
-                .Append( "{" )
-                .Append( $"color: {color};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".ant-pagination-item-active" )
-                .Append( "{" )
-                .Append( $"border-color: {color};" )
-                .AppendLine( "}" );
-
-            sb.Append( ".ant-pagination-item-active a" )
-                .Append( "{" )
-                .Append( $"color: {color};" )
-                .AppendLine( "}" );
-
-            var hoverColor = ToHex( Lighten( color, 40f ) );
-
-            sb
-                .Append( ".ant-pagination-item-active:focus," )
-                .Append( ".ant-pagination-item-active:hover" )
-                .Append( "{" )
-                .Append( $"border-color: {hoverColor};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( ".ant-pagination-item-active:focus a," )
-                .Append( ".ant-pagination-item-active:hover a" )
-                .Append( "{" )
-                .Append( $"color: {hoverColor};" )
-                .AppendLine( "}" );
-        }
+        _ = sb;
+        _ = theme;
+        _ = options;
     }
 
     protected override void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options )
@@ -1046,13 +954,6 @@ public class AntDesignThemeGenerator : ThemeGenerator
                 .Append( $"color: {yiqColor};" )
                 .AppendLine( "}" );
         }
-
-        sb
-            .Append( ".ant-menu.ant-menu-root.ant-menu-dark.ant-menu-inline" )
-            .Append( "{" )
-            .Append( $"background-color: var(--b-bar-dark-background, #001529);" )
-            .Append( $"color: var(--b-bar-dark-color, rgba(255, 255, 255, 0.5));" )
-            .AppendLine( "}" );
     }
 
     protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inTextColor )
