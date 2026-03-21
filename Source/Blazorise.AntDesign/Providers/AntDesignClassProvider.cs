@@ -657,7 +657,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Card() => "ant-card ant-card-bordered";
 
-    public override string CardWhiteText( bool whiteText ) => whiteText ? "b-ant-typography-light" : null;
+    public override string CardWhiteText( bool whiteText ) => whiteText ? "ant-typography-white" : null;
 
     public override string CardActions() => "ant-card-actions";
 
@@ -2001,10 +2001,6 @@ public class AntDesignClassProvider : ClassProvider
         if ( string.IsNullOrEmpty( colorName ) )
             return null;
 
-        return colorName switch
-        {
-            "secondary" or "success" or "warning" or "danger" => $"ant-typography-{colorName}",
-            _ => $"b-ant-typography-{colorName}",
-        };
+        return $"ant-typography-{colorName}";
     }
 }

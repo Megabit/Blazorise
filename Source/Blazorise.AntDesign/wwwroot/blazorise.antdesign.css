@@ -16246,91 +16246,7 @@ a.b-ant-link-disabled[aria-disabled=true] {
   }
 }
 .b-ant-typography-white {
-  color: #ffffff !important;
-}
-
-.b-ant-typography-primary-emphasis {
-  color: rgb(18.72, 112.32, 198.9) !important;
-}
-
-.b-ant-typography-secondary-emphasis {
-  color: rgb(84.24, 91.26, 97.5) !important;
-}
-
-.b-ant-typography-success-emphasis {
-  color: rgb(41.34, 154.44, 14.82) !important;
-}
-
-.b-ant-typography-info-emphasis {
-  color: rgb(74.88, 141.96, 190.32) !important;
-}
-
-.b-ant-typography-warning-emphasis {
-  color: rgb(192.66, 150.54, 32.76) !important;
-}
-
-.b-ant-typography-danger-emphasis {
-  color: !important;
-}
-
-.b-ant-typography-light-emphasis {
-  color: #7e7e7e !important;
-}
-
-.b-ant-typography-dark-emphasis {
-  color: rgb(113.9, 113.9, 113.9) !important;
-}
-
-.b-ant-typography-link-emphasis {
-  color: rgb(39, 89.7, 171.6) !important;
-}
-
-.b-ant-typography-primary {
-  color: #1890ff !important;
-}
-
-.b-ant-typography-info {
-  color: #60b6f4 !important;
-}
-
-.b-ant-typography-light {
-  color: #fafafa !important;
-}
-
-.b-ant-typography-dark {
-  color: #343a40 !important;
-}
-
-.b-ant-typography-body {
-  color: #262626 !important;
-}
-
-.b-ant-typography-body-emphasis {
-  color: rgb(29.64, 29.64, 29.64) !important;
-}
-
-.b-ant-typography-muted {
-  color: #6c757d !important;
-}
-
-.b-ant-typography-muted-emphasis {
-  color: rgb(84.24, 91.26, 97.5) !important;
-}
-
-.b-ant-typography-black-50 {
-  color: rgba(0, 0, 0, 0.5) !important;
-}
-
-.b-ant-typography-black-50-emphasis {
-  color: rgba(0, 0, 0, 0.7) !important;
-}
-
-.b-ant-typography-white-50 {
-  color: rgba(255, 255, 255, 0.5) !important;
-}
-
-.b-ant-typography-white-50-emphasis {
-  color: rgba(255, 255, 255, 0.8) !important;
+  color: var(--b-theme-text-white, #fff) !important;
 }
 
 .b-ant-text-left {
@@ -16704,6 +16620,108 @@ ol.ant-ordered-list-upper-roman {
 }
 .b-ant-text-decoration-none {
   text-decoration: none !important;
+}
+
+.ant-typography-secondary {
+  color: var(--ant-color-text-description) !important;
+}
+
+.ant-typography-primary {
+  color: var(--b-theme-text-primary, var(--ant-color-primary)) !important;
+}
+
+.ant-typography-success {
+  color: var(--b-theme-text-success, var(--ant-color-success)) !important;
+}
+
+.ant-typography-info {
+  color: var(--b-theme-text-info, var(--ant-color-info)) !important;
+}
+
+.ant-typography-warning {
+  color: var(--b-theme-text-warning, var(--ant-color-warning)) !important;
+}
+
+.ant-typography-danger,
+.ant-typography-error {
+  color: var(--b-theme-text-danger, var(--ant-color-error)) !important;
+}
+
+.ant-typography-light {
+  color: var(--b-theme-text-light, #fafafa) !important;
+}
+
+.ant-typography-dark {
+  color: var(--b-theme-text-dark, #343a40) !important;
+}
+
+.ant-typography-body {
+  color: var(--b-theme-text-body, var(--ant-color-text)) !important;
+}
+
+.ant-typography-body-emphasis {
+  color: var(--b-theme-text-body-emphasis, var(--ant-color-text-heading)) !important;
+}
+
+.ant-typography-muted {
+  color: var(--b-theme-text-muted, var(--ant-color-text-description)) !important;
+}
+
+.ant-typography-muted-emphasis {
+  color: var(--b-theme-text-muted-emphasis, var(--ant-color-text)) !important;
+}
+
+.ant-typography-white {
+  color: var(--b-theme-text-white, #fff) !important;
+}
+
+.ant-typography-black-50 {
+  color: var(--b-theme-text-black-50, rgba(0, 0, 0, 0.5)) !important;
+}
+
+.ant-typography-black-50-emphasis {
+  color: var(--b-theme-text-black-50-emphasis, rgba(0, 0, 0, 0.7)) !important;
+}
+
+.ant-typography-white-50 {
+  color: var(--b-theme-text-white-50, rgba(255, 255, 255, 0.5)) !important;
+}
+
+.ant-typography-white-50-emphasis {
+  color: var(--b-theme-text-white-50-emphasis, rgba(255, 255, 255, 0.8)) !important;
+}
+
+.ant-typography-primary-emphasis {
+  color: var(--b-theme-text-primary-emphasis, var(--ant-color-primary-text)) !important;
+}
+
+.ant-typography-secondary-emphasis {
+  color: var(--b-theme-text-secondary-emphasis, var(--ant-color-text)) !important;
+}
+
+.ant-typography-success-emphasis {
+  color: var(--b-theme-text-success-emphasis, var(--ant-color-success-text)) !important;
+}
+
+.ant-typography-info-emphasis {
+  color: var(--b-theme-text-info-emphasis, var(--ant-color-info-text)) !important;
+}
+
+.ant-typography-warning-emphasis {
+  color: var(--b-theme-text-warning-emphasis, var(--ant-color-warning-text)) !important;
+}
+
+.ant-typography-danger-emphasis,
+.ant-typography-error-emphasis {
+  color: var(--b-theme-text-danger-emphasis, var(--ant-color-error-text)) !important;
+}
+
+.ant-typography-light-emphasis {
+  color: var(--b-theme-text-light-emphasis, var(--b-theme-text-light, #fafafa)) !important;
+}
+
+.ant-typography-dark-emphasis {
+  color: var(--b-theme-text-dark-emphasis, var(--b-theme-text-dark, #343a40)) !important;
 }
 
 .ant-visible {
