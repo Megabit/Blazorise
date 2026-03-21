@@ -3,7 +3,7 @@
 <div @ref="ElementRef" id="@ElementContainerId" class="b-file-picker b-ant-file-picker">
     @if ( ShowMode == FilePickerShowMode.Dropdown )
     {
-        <Blazorise.Addons Class="b-ant-file-picker-dropdown">
+        <Blazorise.Addons>
             <Blazorise.Addon AddonType="AddonType.Body">
                 @FileComponentFragment
             </Blazorise.Addon>
@@ -56,7 +56,7 @@
             }
             else
             {
-                <Blazorise.Buttons Class="b-ant-file-picker-actions" Float="Blazorise.Float.End">
+                <Blazorise.Buttons Float="Blazorise.Float.End">
                     <Blazorise.Button Color="Color.Secondary" Class="b-file-picker-file-clear" Disabled="@IsBusy()" Clicked="@ClearWithConfirm">@GetLocalizedString( "Clear" )</Blazorise.Button>
                     <Blazorise.Button Color="Color.Primary" Class="b-file-picker-file-upload" Disabled="@(IsBusy() || !IsUploadReady())" Clicked="@UploadAll">@GetLocalizedString( "Upload" )</Blazorise.Button>
                     <Blazorise.Button Color="Color.Warning" Class="b-file-picker-file-cancel" Disabled="@(!IsBusy())" Clicked="@CancelWithConfirm">@GetLocalizedString( "Cancel" )</Blazorise.Button>

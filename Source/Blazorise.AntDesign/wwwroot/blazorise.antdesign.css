@@ -16245,10 +16245,6 @@ a.b-ant-link-disabled[aria-disabled=true] {
     margin-top: 3rem;
   }
 }
-.b-ant-typography-white {
-  color: var(--b-theme-text-white, #fff) !important;
-}
-
 .b-ant-text-left {
   text-align: left !important;
 }

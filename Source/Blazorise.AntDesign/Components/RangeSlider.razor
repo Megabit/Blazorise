@@ -14,11 +14,11 @@
 
     @if ( ShowValueTooltips )
     {
-        <Div Class="@($"{TooltipClassNames} b-ant-range-slider-tooltip-start")" Style="@VisibleStartTooltipStyleNames" Position="Blazorise.Position.Absolute">
+        <Div Class="@TooltipClassNames" Style="@VisibleStartTooltipStyleNames" Position="Blazorise.Position.Absolute">
             <Span>@StartValueString</Span>
         </Div>
 
-        <Div Class="@($"{TooltipClassNames} b-ant-range-slider-tooltip-end")" Style="@VisibleEndTooltipStyleNames" Position="Blazorise.Position.Absolute">
+        <Div Class="@TooltipClassNames" Style="@VisibleEndTooltipStyleNames" Position="Blazorise.Position.Absolute">
             <Span>@EndValueString</Span>
         </Div>
     }

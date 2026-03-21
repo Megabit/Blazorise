@@ -240,9 +240,9 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string RangeSliderInput() => "b-ant-range-slider-input";
 
-    public override string RangeSliderStart() => "b-ant-range-slider-start";
+    public override string RangeSliderStart() => null;
 
-    public override string RangeSliderEnd() => "b-ant-range-slider-end";
+    public override string RangeSliderEnd() => null;
 
     public override string RangeSliderTooltip() => "b-ant-range-slider-tooltip";
 
