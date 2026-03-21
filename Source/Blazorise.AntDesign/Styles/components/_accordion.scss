@@ -1,4 +1,29 @@
 .ant-collapse {
+    .ant-collapse-panel {
+        display: grid;
+        grid-template-rows: 1fr;
+        overflow: hidden;
+        opacity: 1;
+        transition: grid-template-rows var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), opacity var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+    }
+
+    .ant-collapse-panel.ant-collapse-panel-hidden {
+        display: grid;
+        grid-template-rows: 0fr;
+        opacity: 0;
+    }
+
+    .ant-collapse-panel > .ant-collapse-body {
+        min-height: 0;
+        overflow: hidden;
+        transition: padding-block var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+    }
+
+    .ant-collapse-panel.ant-collapse-panel-hidden > .ant-collapse-body {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
     .ant-collapse-title {
         min-width: 0;
 
