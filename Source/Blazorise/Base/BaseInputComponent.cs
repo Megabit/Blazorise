@@ -526,7 +526,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// </summary>
     protected Task ValidateOnBlurAsync()
     {
-        if ( ParentValidation is not null )
+        if ( UseValidationOnBlur && ParentValidation is not null )
             return ParentValidation.NotifyInputChanged<TValue>( default );
 
         return Task.CompletedTask;
@@ -793,6 +793,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// Gets a value indicating whether the automatic <c>aria-describedby</c> integration is enabled.
     /// </summary>
     protected bool UseAutoAriaDescribedByAttribute => Options?.AccessibilityOptions?.UseAutoAriaDescribedByAttribute == true;
+
+    /// <summary>
+    /// Gets a value indicating whether validation should run when the component loses focus.
+    /// </summary>
+    protected bool UseValidationOnBlur => Options?.AccessibilityOptions?.UseValidationOnBlur == true;
 
     /// <summary>
     /// Gets a value indicating whether an explicit <c>aria-labelledby</c> parameter was supplied.
