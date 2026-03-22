@@ -4786,54 +4786,54 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string AnalyzerInstallStableExample = @"dotnet add package Blazorise.Analyzers";
 
-        public const string AnalyzerPackageReferenceExample = @"<PackageReference Include=""Blazorise.Analyzers"" Version=""2.0.2"" PrivateAssets=""all"" />";
+        public const string AnalyzerPackageReferenceExample = @"<PackageReference Include=""Blazorise.Analyzers"" Version=""2.0.3"" PrivateAssets=""all"" />";
 
         public const string AnalyzerSeverityExample = @"dotnet_diagnostic.BLZP004.severity = error";
 
-        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise.AntDesign/tooltip.js?v=2.0.2.0"" type=""module""></script>";
+        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/tooltip.js?v=2.0.3.0"" type=""module""></script>";
 
-        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=2.0.2.0"" type=""module""></script>";
+        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=2.0.3.0"" type=""module""></script>";
 
-        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=2.0.2.0"" type=""module""></script>";
+        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=2.0.3.0"" type=""module""></script>";
 
-        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bulma/tooltip.js?v=2.0.2.0"" type=""module""></script>";
+        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bulma/tooltip.js?v=2.0.3.0"" type=""module""></script>";
 
         public const string ButtonJavascriptMockTestingExample = @"JSInterop.AddBlazoriseButton();";
 
-        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=2.0.2.0"" type=""module""></script>";
+        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=2.0.3.0"" type=""module""></script>";
 
-        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.0.2.0"" type=""module""></script>";
+        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.0.3.0"" type=""module""></script>";
 
-        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.0.2.0"" type=""module""></script>";
+        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.0.3.0"" type=""module""></script>";
 
-        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/button.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/closable.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/colorPicker.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/datePicker.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/dragDrop.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/dropdown.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/fileInput.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/filePicker.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/inputMask.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/io.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/memoEdit.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/numericPicker.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/observer.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/table.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/textEdit.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/theme.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/timePicker.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/tooltip.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise/utilities.js?v=2.0.2.0"" type=""module""></script>";
+        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/button.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/closable.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/colorPicker.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/datePicker.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/dragDrop.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/dropdown.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/fileInput.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/filePicker.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/inputMask.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/io.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/memoEdit.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/numericPicker.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/observer.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/table.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/textEdit.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/theme.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/timePicker.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/tooltip.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/utilities.js?v=2.0.3.0"" type=""module""></script>";
 
         public const string ComponentsImportExample = @"@using Blazorise.Components";
 
-        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=2.0.2.0"" type=""module""></script>";
+        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=2.0.3.0"" type=""module""></script>";
 
         public const string EmptyProviderExample = @"public void ConfigureServices( IServiceCollection services )
 {
@@ -4841,10 +4841,10 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     .AddEmptyProviders();
 }";
 
-        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=2.0.2.0"" type=""module""></script>";
+        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=2.0.3.0"" type=""module""></script>";
 
-        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise.Material/tooltip.js?v=2.0.2.0"" type=""module""></script>";
+        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.Material/tooltip.js?v=2.0.3.0"" type=""module""></script>";
 
         public const string McpClientConfigExample = @"{
   ""servers"": {
@@ -4887,10 +4887,10 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
         public const string MigrationSmokeTestExample = @"blazorise-migrate --version";
 
-        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=2.0.2.0"" type=""module""></script>";
+        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=2.0.3.0"" type=""module""></script>";
 
-        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=2.0.2.0"" type=""module""></script>
-<script src=""_content/Blazorise.Tailwind/tooltip.js?v=2.0.2.0"" type=""module""></script>";
+        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=2.0.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.Tailwind/tooltip.js?v=2.0.3.0"" type=""module""></script>";
 
         public const string TemplatesCLIUsageExample = @"dotnet new blazorise -n MyNewBlazoriseApp -p Bootstrap5 -bh Server -ut false -f net10.0";
 
@@ -4900,7 +4900,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
         public const string TestingbUnitNugetExample = @"Install-Package Blazorise.Tests.bUnit";
 
-        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=2.0.2.0"" type=""module""></script>";
+        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=2.0.3.0"" type=""module""></script>";
 
         public const string AnimateExample = @"<Field>
     <Select TValue=""string"" ValueChanged=""@OnSelectedAnimationChanged"">
@@ -4968,7 +4968,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
         public const string AnimateNugetInstallExample = @"Install-Package Blazorise.Animate";
 
-        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=2.0.2.0""></script>";
+        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=2.0.3.0""></script>";
 
         public const string AutocompleteDataAnnotationValidationExample = @"@using System.ComponentModel.DataAnnotations
 
@@ -10080,9 +10080,717 @@ builder.Services
 
 services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
-        public const string BootstrapIconsCSSExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"">";
+        public const string GanttAutoExpandViewExample = @"<Field Margin=""Margin.Is3.FromBottom"">
+    <Switch @bind-Value=""@autoExpandView"">Auto expand current view to the loaded task range</Switch>
+</Field>
 
-        public const string FluentIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.0.2.0"" rel=""stylesheet"" />";
+<Gantt TItem=""TaskItem""
+       Data=""@tasks""
+       @bind-Date=""@selectedDate""
+       @bind-SelectedView=""@selectedView""
+       AutoExpandView=""@autoExpandView""
+       DurationField=""Duration"">
+    <GanttColumns>
+        <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px( 220 )"" />
+        <GanttColumn Field=""Start"" Width=""Width.Px( 130 )"" />
+        <GanttColumn Field=""End"" Width=""Width.Px( 130 )"" Visible=""false"" />
+        <GanttColumn Field=""Duration"" Width=""Width.Px( 90 )"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
+    </GanttColumns>
+    <GanttToolbar />
+    <GanttViews>
+        <GanttWeekView TimelineCellWidth=""92"" RowHeight=""44"" />
+        <GanttMonthView TimelineCellWidth=""38"" RowHeight=""44"" />
+        <GanttYearView TimelineCellWidth=""84"" RowHeight=""44"" />
+    </GanttViews>
+</Gantt>
+
+<Paragraph TextColor=""TextColor.Muted"" Margin=""Margin.Is2.FromTop"">
+    Anchor date: @selectedDate | View: @selectedView | AutoExpandView: @autoExpandView
+</Paragraph>
+
+@code {
+    private bool autoExpandView = true;
+
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today.AddMonths( -3 ) );
+
+    private GanttView selectedView = GanttView.Week;
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        DateTime rangeStart = new DateTime( DateTime.Today.Year, DateTime.Today.Month, 1 ).AddDays( -4 );
+
+        List<TaskItem> result = new()
+        {
+            new() { Id = ""1"", Title = ""Auto-expand release"", Start = rangeStart, End = rangeStart.AddDays( 41 ) },
+            new() { Id = ""2"", ParentId = ""1"", Title = ""Design phase"", Start = rangeStart, End = rangeStart.AddDays( 8 ) },
+            new() { Id = ""3"", ParentId = ""1"", Title = ""Implementation"", Start = rangeStart.AddDays( 7 ), End = rangeStart.AddDays( 28 ) },
+            new() { Id = ""4"", ParentId = ""3"", Title = ""Backend services"", Start = rangeStart.AddDays( 9 ), End = rangeStart.AddDays( 18 ) },
+            new() { Id = ""5"", ParentId = ""3"", Title = ""Frontend polish"", Start = rangeStart.AddDays( 16 ), End = rangeStart.AddDays( 31 ) },
+            new() { Id = ""6"", ParentId = ""1"", Title = ""Validation and rollout"", Start = rangeStart.AddDays( 30 ), End = rangeStart.AddDays( 41 ) },
+        };
+
+        foreach ( TaskItem item in result )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        return result;
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+    }
+}";
+
+        public const string GanttEditableExample = @"<Gantt TItem=""TaskItem""
+       Data=""@tasks""
+       Date=""@selectedDate""
+       SelectedView=""GanttView.Week""
+       DurationField=""Duration""
+       Editable
+       CommandAllowed=""@AllowCommand"">
+    <GanttColumns>
+        <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px(230)"" />
+        <GanttColumn Field=""Start"" Width=""Width.Px(130)"" />
+        <GanttColumn Field=""End"" Width=""Width.Px(130)"" Visible=""false"" />
+        <GanttColumn Field=""Duration"" Width=""Width.Px(90)"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
+        <GanttColumn Field=""Progress"" Width=""Width.Px(96)"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
+        <GanttCommandColumn Width=""Width.Px(60)"" />
+    </GanttColumns>
+    <GanttToolbar />
+    <GanttViews>
+        <GanttWeekView TimelineCellWidth=""90"" RowHeight=""44"" />
+    </GanttViews>
+</Gantt>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -2 );
+
+        var result = new List<TaskItem>
+        {
+            new() { Id = ""1"", Title = ""Marketing campaign"", Start = baseDate, End = baseDate.AddDays( 15 ), Progress = 45d },
+            new() { Id = ""2"", ParentId = ""1"", Title = ""Research"", Start = baseDate, End = baseDate.AddDays( 4 ), Progress = 100d },
+            new() { Id = ""3"", ParentId = ""1"", Title = ""Creative"", Start = baseDate.AddDays( 4 ), End = baseDate.AddDays( 9 ), Progress = 70d },
+            new() { Id = ""4"", ParentId = ""1"", Title = ""Distribution"", Start = baseDate.AddDays( 9 ), End = baseDate.AddDays( 15 ), Progress = 20d },
+        };
+
+        foreach ( var item in result )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        return result;
+    }
+
+    private bool AllowCommand( GanttCommandContext<TaskItem> context )
+    {
+        if ( context.CommandType == GanttCommandType.Delete && context.Item?.ParentId is null )
+            return false;
+
+        return true;
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+
+        public double Progress { get; set; }
+    }
+}";
+
+        public const string GanttExternalEditingExample = @"<Gantt TItem=""TaskItem""
+       Data=""@tasks""
+       Date=""@selectedDate""
+       SelectedView=""GanttView.Week""
+       DurationField=""Duration""
+       Editable
+       UseInternalEditing=""false""
+       NewItemClicked=""@OnNewItemClicked""
+       AddChildItemClicked=""@OnAddChildItemClicked""
+       EditItemClicked=""@OnEditItemClicked""
+       DeleteItemClicked=""@OnDeleteItemClicked"">
+    <GanttColumns>
+        <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px( 230 )"" />
+        <GanttColumn Field=""Start"" Width=""Width.Px( 130 )"" />
+        <GanttColumn Field=""End"" Width=""Width.Px( 130 )"" Visible=""false"" />
+        <GanttColumn Field=""Duration"" Width=""Width.Px( 90 )"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
+        <GanttCommandColumn Width=""Width.Px( 176 )"">
+            <HeaderTemplate>
+                @if ( context.CanAddTask )
+                {
+                    <Button Size=""Size.ExtraSmall"" Color=""Color.Success"" Outline Clicked=""@context.AddTask"">New</Button>
+                }
+            </HeaderTemplate>
+            <DisplayTemplate>
+                @if ( context.CanAddChild )
+                {
+                    <Button Size=""Size.ExtraSmall"" Color=""Color.Secondary"" Outline Margin=""Margin.Is1.FromEnd"" Clicked=""@context.AddChild"">Child</Button>
+                }
+                @if ( context.CanEdit )
+                {
+                    <Button Size=""Size.ExtraSmall"" Color=""Color.Primary"" Outline Margin=""Margin.Is1.FromEnd"" Clicked=""@context.Edit"">Edit</Button>
+                }
+                @if ( context.CanDelete )
+                {
+                    <Button Size=""Size.ExtraSmall"" Color=""Color.Danger"" Outline Clicked=""@context.Delete"">Delete</Button>
+                }
+            </DisplayTemplate>
+        </GanttCommandColumn>
+    </GanttColumns>
+    <GanttViews>
+        <GanttWeekView TimelineCellWidth=""90"" RowHeight=""44"" />
+    </GanttViews>
+</Gantt>
+
+<Paragraph TextColor=""TextColor.Muted"" Margin=""Margin.Is3.FromTop"">
+    Last external action: @lastAction
+</Paragraph>
+
+<Modal @bind-Visible=""@editorVisible"" Centered>
+    <ModalContent>
+        <ModalHeader>
+            <ModalTitle>@editorModeTitle</ModalTitle>
+            <CloseButton Clicked=""@CloseEditor"" />
+        </ModalHeader>
+        <ModalBody>
+            <Paragraph TextColor=""TextColor.Muted"">
+                This modal is owned by the page. Gantt only raises the command callbacks.
+            </Paragraph>
+            <Field>
+                <FieldLabel>Title</FieldLabel>
+                <FieldBody>
+                    <TextInput @bind-Value=""@editorTitle"" Immediate=""false"" Placeholder=""Task title"" />
+                </FieldBody>
+            </Field>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color=""Color.Secondary"" Clicked=""@CloseEditor"">Cancel</Button>
+            <Button Color=""Color.Primary"" Clicked=""@SaveEditor"">Save</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+    private List<TaskItem> tasks = CreateTasks();
+    private bool editorVisible;
+    private string editorModeTitle = ""Edit task"";
+    private string editorTitle;
+    private string editorParentId;
+    private string editorTargetId;
+    private TaskItem editorDraft;
+    private string lastAction = ""None"";
+    private int nextId = 100;
+
+    private Task OnNewItemClicked( GanttCommandContext<TaskItem> context )
+        => OpenEditor( context.Item, null, null, ""Create task"" );
+
+    private Task OnAddChildItemClicked( GanttCommandContext<TaskItem> context )
+        => OpenEditor( context.Item, context.ParentItem, null, $""Create child for {context.ParentItem?.Title}"" );
+
+    private Task OnEditItemClicked( GanttItemClickedEventArgs<TaskItem> context )
+        => OpenEditor( context.Item, null, context.Item?.Id, $""Edit {context.Item?.Title}"" );
+
+    private Task OnDeleteItemClicked( GanttItemClickedEventArgs<TaskItem> context )
+    {
+        if ( context?.Item?.Id is null )
+            return Task.CompletedTask;
+
+        RemoveTaskWithChildren( tasks, context.Item.Id );
+        lastAction = $""Deleted {context.Item.Title}"";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OpenEditor( TaskItem item, TaskItem parentItem, string targetId, string modeTitle )
+    {
+        editorDraft = item?.Clone() ?? new TaskItem();
+        editorParentId = parentItem?.Id;
+        editorTargetId = targetId;
+        editorTitle = editorDraft.Title ?? string.Empty;
+        editorModeTitle = modeTitle;
+        editorVisible = true;
+
+        return Task.CompletedTask;
+    }
+
+    private Task CloseEditor()
+    {
+        editorVisible = false;
+        editorDraft = null;
+        editorParentId = null;
+        editorTargetId = null;
+        editorTitle = string.Empty;
+
+        return Task.CompletedTask;
+    }
+
+    private Task SaveEditor()
+    {
+        if ( editorDraft is null )
+            return Task.CompletedTask;
+
+        editorDraft.Title = string.IsNullOrWhiteSpace( editorTitle )
+            ? ""Untitled task""
+            : editorTitle.Trim();
+
+        if ( string.IsNullOrEmpty( editorTargetId ) )
+        {
+            editorDraft.Id ??= $""task-{nextId++}"";
+            editorDraft.ParentId = editorParentId;
+            tasks.Add( editorDraft.Clone() );
+            lastAction = editorParentId is null
+                ? $""Created {editorDraft.Title}""
+                : $""Created child {editorDraft.Title}"";
+        }
+        else
+        {
+            var existingTask = tasks.FirstOrDefault( x => x.Id == editorTargetId );
+
+            if ( existingTask is not null )
+            {
+                existingTask.Title = editorDraft.Title;
+                lastAction = $""Updated {existingTask.Title}"";
+            }
+        }
+
+        return CloseEditor();
+    }
+
+    private static void RemoveTaskWithChildren( List<TaskItem> list, string itemId )
+    {
+        var idsToDelete = new HashSet<string>( StringComparer.Ordinal ) { itemId };
+        var changed = true;
+
+        while ( changed )
+        {
+            changed = false;
+
+            foreach ( var task in list )
+            {
+                if ( task.ParentId is not null && idsToDelete.Contains( task.ParentId ) && idsToDelete.Add( task.Id ) )
+                    changed = true;
+            }
+        }
+
+        list.RemoveAll( x => idsToDelete.Contains( x.Id ) );
+    }
+
+    private static List<TaskItem> CreateTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -2 );
+
+        return new List<TaskItem>
+        {
+            new() { Id = ""1"", Title = ""Website redesign"", Start = baseDate, End = baseDate.AddDays( 14 ), Duration = 14 },
+            new() { Id = ""2"", ParentId = ""1"", Title = ""Discovery"", Start = baseDate, End = baseDate.AddDays( 4 ), Duration = 4 },
+            new() { Id = ""3"", ParentId = ""1"", Title = ""Implementation"", Start = baseDate.AddDays( 4 ), End = baseDate.AddDays( 12 ), Duration = 8 },
+            new() { Id = ""4"", ParentId = ""1"", Title = ""Launch"", Start = baseDate.AddDays( 12 ), End = baseDate.AddDays( 14 ), Duration = 2 },
+        };
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+
+        public TaskItem Clone()
+        {
+            return new TaskItem
+            {
+                Id = Id,
+                ParentId = ParentId,
+                Title = Title,
+                Start = Start,
+                End = End,
+                Duration = Duration,
+            };
+        }
+    }
+}";
+
+        public const string GanttFlatDataExample = @"<Gantt TItem=""TaskItem""
+       Data=""@tasks""
+       Date=""@selectedDate""
+       SelectedView=""GanttView.Week""
+       DurationField=""Duration"">
+    <GanttColumns>
+        <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px(220)"" />
+        <GanttColumn Field=""Start"" Width=""Width.Px(130)"" />
+        <GanttColumn Field=""End"" Width=""Width.Px(130)"" Visible=""false"" />
+        <GanttColumn Field=""Duration"" Width=""Width.Px(90)"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
+    </GanttColumns>
+    <GanttToolbar />
+    <GanttViews>
+        <GanttWeekView TimelineCellWidth=""90"" RowHeight=""44"" />
+    </GanttViews>
+</Gantt>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -2 );
+
+        var result = new List<TaskItem>
+        {
+            new() { Id = ""1"", Title = ""Website redesign"", Start = baseDate, End = baseDate.AddDays( 16 ) },
+            new() { Id = ""2"", ParentId = ""1"", Title = ""Discovery"", Start = baseDate, End = baseDate.AddDays( 4 ) },
+            new() { Id = ""3"", ParentId = ""1"", Title = ""Implementation"", Start = baseDate.AddDays( 4 ), End = baseDate.AddDays( 14 ) },
+            new() { Id = ""4"", ParentId = ""3"", Title = ""Components"", Start = baseDate.AddDays( 5 ), End = baseDate.AddDays( 10 ) },
+            new() { Id = ""5"", ParentId = ""3"", Title = ""Accessibility pass"", Start = baseDate.AddDays( 10 ), End = baseDate.AddDays( 13 ) },
+            new() { Id = ""6"", ParentId = ""1"", Title = ""Launch"", Start = baseDate.AddDays( 14 ), End = baseDate.AddDays( 16 ) },
+        };
+
+        foreach ( var item in result )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        return result;
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+    }
+}";
+
+        public const string GanttHierarchicalDataExample = @"<Gantt TItem=""TaskItem""
+       Data=""@tasks""
+       Date=""@selectedDate""
+       SelectedView=""GanttView.Week""
+       ItemsField=""Children""
+       HierarchicalData
+       DurationField=""Duration"">
+    <GanttColumns>
+        <GanttColumn Field=""Wbs"" Width=""Width.Px(76)"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
+        <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px(220)"" />
+        <GanttColumn Field=""Start"" Width=""Width.Px(130)"" />
+        <GanttColumn Field=""End"" Width=""Width.Px(130)"" Visible=""false"" />
+        <GanttColumn Field=""Duration"" Width=""Width.Px(90)"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
+    </GanttColumns>
+    <GanttToolbar />
+    <GanttViews>
+        <GanttWeekView TimelineCellWidth=""90"" RowHeight=""44"" />
+    </GanttViews>
+</Gantt>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -2 );
+
+        var result = new List<TaskItem>
+        {
+            new()
+            {
+                Id = ""1"",
+                Title = ""Mobile app release"",
+                Start = baseDate,
+                End = baseDate.AddDays( 18 ),
+                Children = new()
+                {
+                    new()
+                    {
+                        Id = ""2"",
+                        Title = ""Planning"",
+                        Start = baseDate,
+                        End = baseDate.AddDays( 4 ),
+                    },
+                    new()
+                    {
+                        Id = ""3"",
+                        Title = ""Execution"",
+                        Start = baseDate.AddDays( 4 ),
+                        End = baseDate.AddDays( 16 ),
+                        Children = new()
+                        {
+                            new()
+                            {
+                                Id = ""4"",
+                                Title = ""API integration"",
+                                Start = baseDate.AddDays( 5 ),
+                                End = baseDate.AddDays( 11 ),
+                            },
+                            new()
+                            {
+                                Id = ""5"",
+                                Title = ""QA"",
+                                Start = baseDate.AddDays( 11 ),
+                                End = baseDate.AddDays( 16 ),
+                            },
+                        },
+                    },
+                    new()
+                    {
+                        Id = ""6"",
+                        Title = ""Go-live"",
+                        Start = baseDate.AddDays( 16 ),
+                        End = baseDate.AddDays( 18 ),
+                    },
+                },
+            },
+        };
+
+        UpdateDuration( result );
+
+        return result;
+    }
+
+    private static void UpdateDuration( IEnumerable<TaskItem> items )
+    {
+        foreach ( var item in items )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+            UpdateDuration( item.Children );
+        }
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+
+        public List<TaskItem> Children { get; set; } = new();
+    }
+}";
+
+        public const string GanttImportsExample = @"@using Blazorise.Gantt";
+
+        public const string GanttMultipleViewsExample = @"<Gantt TItem=""TaskItem""
+       Data=""@tasks""
+       @bind-Date=""@selectedDate""
+       @bind-SelectedView=""@selectedView""
+       FirstDayOfWeek=""DayOfWeek.Sunday""
+       DurationField=""Duration"">
+    <GanttColumns>
+        <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px(220)"" />
+        <GanttColumn Field=""Start"" Width=""Width.Px(130)"" />
+        <GanttColumn Field=""End"" Width=""Width.Px(130)"" Visible=""false"" />
+        <GanttColumn Field=""Duration"" Width=""Width.Px(90)"" TextAlignment=""TextAlignment.Center"" Visible=""false"" />
+    </GanttColumns>
+    <GanttToolbar />
+    <GanttViews>
+        <GanttDayView TimelineCellWidth=""56"" RowHeight=""44"" LeadingSlots=""2"" TrailingSlots=""2"" />
+        <GanttWeekView TimelineCellWidth=""92"" RowHeight=""44"" LeadingSlots=""3"" TrailingSlots=""3"" FirstDayOfWeek=""DayOfWeek.Monday"" />
+        <GanttMonthView TimelineCellWidth=""38"" RowHeight=""44"" LeadingSlots=""5"" TrailingSlots=""5"" />
+        <GanttYearView TimelineCellWidth=""80"" RowHeight=""44"" LeadingSlots=""1"" TrailingSlots=""1"" />
+    </GanttViews>
+</Gantt>
+
+<Paragraph TextColor=""TextColor.Muted"" Margin=""Margin.Is2.FromTop"">
+    Current date: @selectedDate | View: @selectedView
+</Paragraph>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    private GanttView selectedView = GanttView.Week;
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -2 );
+
+        var result = new List<TaskItem>
+        {
+            new() { Id = ""1"", Title = ""Project launch"", Start = baseDate, End = baseDate.AddDays( 18 ) },
+            new() { Id = ""2"", ParentId = ""1"", Title = ""Planning"", Start = baseDate, End = baseDate.AddDays( 4 ) },
+            new() { Id = ""3"", ParentId = ""1"", Title = ""Execution"", Start = baseDate.AddDays( 4 ), End = baseDate.AddDays( 16 ) },
+            new() { Id = ""4"", ParentId = ""3"", Title = ""Backend"", Start = baseDate.AddDays( 5 ), End = baseDate.AddDays( 11 ) },
+            new() { Id = ""5"", ParentId = ""3"", Title = ""Frontend"", Start = baseDate.AddDays( 8 ), End = baseDate.AddDays( 15 ) },
+            new() { Id = ""6"", ParentId = ""1"", Title = ""Go-live"", Start = baseDate.AddDays( 16 ), End = baseDate.AddDays( 18 ) },
+        };
+
+        foreach ( var item in result )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        return result;
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+    }
+}";
+
+        public const string GanttNugetInstallExample = @"Install-Package Blazorise.Gantt";
+
+        public const string GanttTemplatesExample = @"<Gantt TItem=""TaskItem""
+       Data=""@tasks""
+       Date=""@selectedDate""
+       SelectedView=""GanttView.Week""
+       DurationField=""Duration""
+       Editable>
+    <ChildContent>
+        <GanttColumns>
+            <GanttColumn Field=""Title"" Title=""Task"" Expandable Width=""Width.Px(230)"">
+                <HeaderTemplate>
+                    <Icon Name=""IconName.List"" Margin=""Margin.Is1.FromEnd"" />
+                    <Span>@context.Text</Span>
+                </HeaderTemplate>
+            </GanttColumn>
+            <GanttColumn Field=""Duration"" Width=""Width.Px(90)"" TextAlignment=""TextAlignment.Center"">
+                <DisplayTemplate>
+                    <Badge Color=""Color.Info"" Pill>@($""{context.Value}d"")</Badge>
+                </DisplayTemplate>
+            </GanttColumn>
+            <GanttCommandColumn Width=""Width.Px(176)"">
+                <DisplayTemplate>
+                    @if ( context.CanAddChild )
+                    {
+                        <Button Size=""Size.ExtraSmall"" Color=""Color.Secondary"" Outline Margin=""Margin.Is1.FromEnd"" Clicked=""@context.AddChild"">Child</Button>
+                    }
+                    @if ( context.CanEdit )
+                    {
+                        <Button Size=""Size.ExtraSmall"" Color=""Color.Primary"" Outline Margin=""Margin.Is1.FromEnd"" Clicked=""@context.Edit"">Edit</Button>
+                    }
+                    @if ( context.CanDelete )
+                    {
+                        <Button Size=""Size.ExtraSmall"" Color=""Color.Danger"" Outline Clicked=""@context.Delete"">Delete</Button>
+                    }
+                </DisplayTemplate>
+            </GanttCommandColumn>
+        </GanttColumns>
+
+        <GanttToolbar />
+
+        <GanttViews>
+            <GanttWeekView TimelineCellWidth=""92"" RowHeight=""44"" />
+        </GanttViews>
+    </ChildContent>
+
+    <TimelineHeaderCellTemplate>
+        <Span TextSize=""TextSize.Small"" TextWeight=""TextWeight.SemiBold"">
+            @context.Start.ToString( ""ddd dd"" )
+        </Span>
+    </TimelineHeaderCellTemplate>
+
+    <TaskItemTemplate>
+        <Span TextWeight=""TextWeight.SemiBold"">@context.Item.Title</Span>
+    </TaskItemTemplate>
+</Gantt>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -2 );
+
+        var result = new List<TaskItem>
+        {
+            new() { Id = ""1"", Title = ""Platform update"", Start = baseDate, End = baseDate.AddDays( 13 ) },
+            new() { Id = ""2"", ParentId = ""1"", Title = ""Core services"", Start = baseDate, End = baseDate.AddDays( 7 ) },
+            new() { Id = ""3"", ParentId = ""1"", Title = ""Web client"", Start = baseDate.AddDays( 4 ), End = baseDate.AddDays( 11 ) },
+            new() { Id = ""4"", ParentId = ""1"", Title = ""Release prep"", Start = baseDate.AddDays( 11 ), End = baseDate.AddDays( 13 ) },
+        };
+
+        foreach ( var item in result )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        return result;
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+    }
+}";
+
+        public const string BootstrapIconsCSSExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"">";
+
+        public const string FluentIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.0.3.0"" rel=""stylesheet"" />";
 
         public const string FontAwesomeCSSExample = @"<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">";
 
@@ -12531,10 +13239,10 @@ builder.Services
     .AddFontAwesomeIcons();";
 
         public const string AntDesignGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdnjs.cloudflare.com/ajax/libs/antd/4.24.15/antd.min.css"" integrity=""sha512-Ac6zlwN6S+uQSinFAcV27Gd/TtKEDt7XWXn2xWO4Xi9dTbbpT9/vJb+VT5af6nZywrgBD3qUFTb5y1VN4YD94Q=="" crossorigin=""anonymous"" referrerpolicy=""no-referrer"" />
-<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.0.2.0"" rel=""stylesheet"">
+<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.0.3.0"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=2.0.2.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.0.2.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.0.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.0.3.0"" rel=""stylesheet"" />";
 
         public const string AntDesignGuideUsingExample = @"@using Blazorise";
 
@@ -12557,8 +13265,8 @@ builder.Services
         public const string BootstrapGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"" integrity=""sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"" crossorigin=""anonymous"">
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=2.0.2.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=2.0.2.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.0.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=2.0.3.0"" rel=""stylesheet"" />";
 
         public const string BootstrapGuideUsingExample = @"@using Blazorise";
 
@@ -12581,8 +13289,8 @@ builder.Services
         public const string Bootstrap5GuideSourceFilesExample = @"<link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"" crossorigin=""anonymous"">
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=2.0.2.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.0.2.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.0.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.0.3.0"" rel=""stylesheet"" />";
 
         public const string Bootstrap5GuideUsingExample = @"@using Blazorise";
 
@@ -12605,8 +13313,8 @@ builder.Services
         public const string BulmaGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"" />
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=2.0.2.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bulma/blazorise.bulma.css?v=2.0.2.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.0.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bulma/blazorise.bulma.css?v=2.0.3.0"" rel=""stylesheet"" />";
 
         public const string BulmaGuideUsingExample = @"@using Blazorise";
 
@@ -12633,11 +13341,11 @@ builder.Services
     .AddFluentUI2Providers()
     .AddFluentUIIcons();";
 
-        public const string FluentUI2GuideSourceFiles1Example = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.0.2.0"" rel=""stylesheet"" />
+        public const string FluentUI2GuideSourceFiles1Example = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.0.3.0"" rel=""stylesheet"" />
 
-<link href=""_content/Blazorise/blazorise.css?v=2.0.2.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.FluentUI2/reboot.css?v=2.0.2.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.0.2.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.0.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.FluentUI2/reboot.css?v=2.0.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.0.3.0"" rel=""stylesheet"" />";
 
         public const string FluentUI2GuideUsingExample = @"@using Blazorise";
 
@@ -12718,8 +13426,8 @@ builder.Services
 <link href=""https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css"" rel=""stylesheet"" />
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=2.0.2.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.0.2.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.0.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.0.3.0"" rel=""stylesheet"" />";
 
         public const string TailwindGuideUsingExample = @"@using Blazorise";
 

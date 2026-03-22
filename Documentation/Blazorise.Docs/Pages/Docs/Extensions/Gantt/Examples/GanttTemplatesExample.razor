@@ -1,0 +1,97 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Gantt TItem="TaskItem"
+       Data="@tasks"
+       Date="@selectedDate"
+       SelectedView="GanttView.Week"
+       DurationField="Duration"
+       Editable>
+    <ChildContent>
+        <GanttColumns>
+            <GanttColumn Field="Title" Title="Task" Expandable Width="Width.Px(230)">
+                <HeaderTemplate>
+                    <Icon Name="IconName.List" Margin="Margin.Is1.FromEnd" />
+                    <Span>@context.Text</Span>
+                </HeaderTemplate>
+            </GanttColumn>
+            <GanttColumn Field="Duration" Width="Width.Px(90)" TextAlignment="TextAlignment.Center">
+                <DisplayTemplate>
+                    <Badge Color="Color.Info" Pill>@($"{context.Value}d")</Badge>
+                </DisplayTemplate>
+            </GanttColumn>
+            <GanttCommandColumn Width="Width.Px(176)">
+                <DisplayTemplate>
+                    @if ( context.CanAddChild )
+                    {
+                        <Button Size="Size.ExtraSmall" Color="Color.Secondary" Outline Margin="Margin.Is1.FromEnd" Clicked="@context.AddChild">Child</Button>
+                    }
+                    @if ( context.CanEdit )
+                    {
+                        <Button Size="Size.ExtraSmall" Color="Color.Primary" Outline Margin="Margin.Is1.FromEnd" Clicked="@context.Edit">Edit</Button>
+                    }
+                    @if ( context.CanDelete )
+                    {
+                        <Button Size="Size.ExtraSmall" Color="Color.Danger" Outline Clicked="@context.Delete">Delete</Button>
+                    }
+                </DisplayTemplate>
+            </GanttCommandColumn>
+        </GanttColumns>
+
+        <GanttToolbar />
+
+        <GanttViews>
+            <GanttWeekView TimelineCellWidth="92" RowHeight="44" />
+        </GanttViews>
+    </ChildContent>
+
+    <TimelineHeaderCellTemplate>
+        <Span TextSize="TextSize.Small" TextWeight="TextWeight.SemiBold">
+            @context.Start.ToString( "ddd dd" )
+        </Span>
+    </TimelineHeaderCellTemplate>
+
+    <TaskItemTemplate>
+        <Span TextWeight="TextWeight.SemiBold">@context.Item.Title</Span>
+    </TaskItemTemplate>
+</Gantt>
+
+@code {
+    private DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
+
+    private List<TaskItem> tasks = CreateTasks();
+
+    private static List<TaskItem> CreateTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -2 );
+
+        var result = new List<TaskItem>
+        {
+            new() { Id = "1", Title = "Platform update", Start = baseDate, End = baseDate.AddDays( 13 ) },
+            new() { Id = "2", ParentId = "1", Title = "Core services", Start = baseDate, End = baseDate.AddDays( 7 ) },
+            new() { Id = "3", ParentId = "1", Title = "Web client", Start = baseDate.AddDays( 4 ), End = baseDate.AddDays( 11 ) },
+            new() { Id = "4", ParentId = "1", Title = "Release prep", Start = baseDate.AddDays( 11 ), End = baseDate.AddDays( 13 ) },
+        };
+
+        foreach ( var item in result )
+        {
+            item.Duration = Math.Max( 1, (int)Math.Ceiling( ( item.End - item.Start ).TotalDays ) );
+        }
+
+        return result;
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+    }
+}

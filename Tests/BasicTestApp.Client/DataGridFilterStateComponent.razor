@@ -1,0 +1,29 @@
+<DataGrid TItem="Employee"
+          Data="@Data"
+          Filterable>
+    <DataGridColumns>
+        <DataGridColumn TItem="Employee"
+                        Field="@nameof( Employee.Name )"
+                        Caption="Name" />
+        <DataGridColumn TItem="Employee"
+                        Field="@nameof( Employee.City )"
+                        Caption="City" />
+    </DataGridColumns>
+</DataGrid>
+
+@code {
+    [Parameter]
+    public IEnumerable<Employee> Data { get; set; } = new List<Employee>()
+    {
+        new() { Name = "John", City = "Zagreb" },
+        new() { Name = "Sarah", City = "Rijeka" },
+        new() { Name = "Ana", City = "Split" },
+    };
+
+    public class Employee
+    {
+        public string Name { get; set; }
+
+        public string City { get; set; }
+    }
+}

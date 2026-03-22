@@ -23,6 +23,7 @@
     <ProjectReference Include="..\..\Extensions\Blazorise.Markdown\Blazorise.Markdown.csproj" />
     <ProjectReference Include="..\..\Extensions\Blazorise.RichTextEdit\Blazorise.RichTextEdit.csproj" />
     <ProjectReference Include="..\..\Extensions\Blazorise.SignaturePad\Blazorise.SignaturePad.csproj" />
+    <ProjectReference Include="..\..\Extensions\Blazorise.Gantt\Blazorise.Gantt.csproj" />
   </ItemGroup>
 
 </Project>

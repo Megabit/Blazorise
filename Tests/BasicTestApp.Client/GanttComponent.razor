@@ -1,0 +1,93 @@
+<Gantt TItem="TaskItem"
+       Data="@Data"
+       Date="@SelectedDate"
+       SelectedView="GanttView.Week"
+       DurationField="Duration"
+       Editable
+       UseInternalEditing="@UseInternalEditing"
+       ReadData="@ReadData"
+       NewItemClicked="@NewItemClicked"
+       AddChildItemClicked="@AddChildItemClicked"
+       EditItemClicked="@EditItemClicked"
+       DeleteItemClicked="@DeleteItemClicked">
+    <GanttColumns>
+        <GanttColumn Field="@nameof( TaskItem.Title )" Title="Task" Expandable Width="Width.Px( 220 )" />
+        <GanttColumn Field="@nameof( TaskItem.Start )" Width="Width.Px( 130 )">
+            <HeaderTemplate>
+                <span id="sort-start">@context.Text</span>
+            </HeaderTemplate>
+        </GanttColumn>
+        <GanttColumn Field="@nameof( TaskItem.End )" Visible="false" />
+        <GanttColumn Field="@nameof( TaskItem.Duration )" Visible="false" />
+        <GanttCommandColumn Width="Width.Px( 220 )">
+            <HeaderTemplate>
+                @if ( context.CanAddTask )
+                {
+                    <button id="btnNew" type="button" @onclick="@context.AddTask">New</button>
+                }
+            </HeaderTemplate>
+            <DisplayTemplate>
+                @if ( context.CanAddChild )
+                {
+                    <button id="@($"btnAddChild-{context.Item.Id}")" type="button" @onclick="@context.AddChild">Add Child</button>
+                }
+                @if ( context.CanEdit )
+                {
+                    <button id="@($"btnEdit-{context.Item.Id}")" type="button" @onclick="@context.Edit">Edit</button>
+                }
+                @if ( context.CanDelete )
+                {
+                    <button id="@($"btnDelete-{context.Item.Id}")" type="button" @onclick="@context.Delete">Delete</button>
+                }
+            </DisplayTemplate>
+        </GanttCommandColumn>
+    </GanttColumns>
+    <GanttViews>
+        <GanttWeekView TimelineCellWidth="90" RowHeight="44" />
+    </GanttViews>
+</Gantt>
+
+@code {
+    [Parameter] public IEnumerable<TaskItem> Data { get; set; } = CreateTasks();
+
+    [Parameter] public DateOnly SelectedDate { get; set; } = DateOnly.FromDateTime( DateTime.Today );
+
+    [Parameter] public bool UseInternalEditing { get; set; } = true;
+
+    [Parameter] public EventCallback<GanttCommandContext<TaskItem>> NewItemClicked { get; set; }
+
+    [Parameter] public EventCallback<GanttCommandContext<TaskItem>> AddChildItemClicked { get; set; }
+
+    [Parameter] public EventCallback<GanttItemClickedEventArgs<TaskItem>> EditItemClicked { get; set; }
+
+    [Parameter] public EventCallback<GanttItemClickedEventArgs<TaskItem>> DeleteItemClicked { get; set; }
+
+    [Parameter] public EventCallback<GanttReadDataEventArgs<TaskItem>> ReadData { get; set; }
+
+    public static List<TaskItem> CreateTasks()
+    {
+        var baseDate = DateTime.Today.AddDays( -2 );
+
+        return new List<TaskItem>
+        {
+            new() { Id = "1", Title = "Project launch", Start = baseDate, End = baseDate.AddDays( 7 ), Duration = 7 },
+            new() { Id = "2", ParentId = "1", Title = "Planning", Start = baseDate, End = baseDate.AddDays( 3 ), Duration = 3 },
+            new() { Id = "3", ParentId = "1", Title = "Delivery", Start = baseDate.AddDays( 3 ), End = baseDate.AddDays( 7 ), Duration = 4 },
+        };
+    }
+
+    public class TaskItem
+    {
+        public string Id { get; set; }
+
+        public string ParentId { get; set; }
+
+        public string Title { get; set; }
+
+        public DateTime Start { get; set; }
+
+        public DateTime End { get; set; }
+
+        public int Duration { get; set; }
+    }
+}
