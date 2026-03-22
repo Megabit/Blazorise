@@ -1,11 +1,13 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 #endregion
@@ -48,6 +50,11 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
     /// Field identifier for the bound value.
     /// </summary>
     private FieldIdentifier fieldIdentifier;
+
+    /// <summary>
+    /// Flag that indicates the bound field has the <see cref="RequiredAttribute"/> applied.
+    /// </summary>
+    private bool isRequired;
 
     /// <summary>
     /// Flag that indicates field value has being bound.
@@ -184,6 +191,7 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
                  || ( EditContext?.Model?.IsEqual( fieldIdentifier.Model ) == false ) )
             {
                 fieldIdentifier = FieldIdentifier.Create( expression );
+                isRequired = HasRequiredField( fieldIdentifier );
 
                 // Re-run validation based on the new value for the new model,
                 // but ONLY if validation has being previously initialized!
@@ -198,7 +206,15 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
         else
         {
             hasFieldIdentifier = false;
+            isRequired = false;
         }
+    }
+
+    private static bool HasRequiredField( in FieldIdentifier fieldIdentifier )
+    {
+        var propertyInfo = fieldIdentifier.Model?.GetType()?.GetProperty( fieldIdentifier.FieldName );
+
+        return ValidationAttributeHelper.HasValidationAttribute<RequiredAttribute>( propertyInfo );
     }
 
     /// <summary>
@@ -459,6 +475,11 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
 
     /// <inheritdoc/>
     public FieldIdentifier FieldIdentifier => fieldIdentifier;
+
+    /// <summary>
+    /// Gets whether the bound field is marked with <see cref="RequiredAttribute"/>.
+    /// </summary>
+    public bool IsRequired => isRequired;
 
     /// <inheritdoc/>
     public Regex Pattern => pattern;

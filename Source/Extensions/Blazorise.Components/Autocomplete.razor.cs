@@ -1416,6 +1416,16 @@ public partial class Autocomplete<TItem, TValue>
 
     #region Properties
 
+    private bool HasSearchInputAriaRequired => paramAriaRequired.Defined || ParentValidation?.IsRequired == true;
+
+    private bool SearchInputAriaRequired => paramAriaRequired.Defined
+        ? paramAriaRequired.Value
+        : ParentValidation?.IsRequired == true;
+
+    #endregion
+
+    #region Properties
+
     /// <summary>
     /// Suggests already selected option(s) when presenting the options.
     /// </summary>

@@ -3,7 +3,7 @@
 @using Blazorise.Utilities
 <label class="@WrapperClassNames" style="@WrapperStyleNames">
     <span class="@CheckboxClassNames">
-        <input @ref="@ElementRef" id="@ElementId" type="checkbox" name="@Name" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@CurrentValue" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" aria-labelledby="@AriaLabelledBy" @onclick:preventDefault="@ReadOnly" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" type="checkbox" name="@Name" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@ReadOnly" checked="@CurrentValue" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@AriaLabelledBy" @onclick:preventDefault="@ReadOnly" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
         <span class="@InnerClassNames"></span>
     </span>
     <span>
@@ -11,7 +11,7 @@
         @Feedback
     </span>
 </label>
-@code{
+@code {
     private ClassBuilder wrapperClassBuilder;
     private StyleBuilder wrapperStyleBuilder;
 

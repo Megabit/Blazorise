@@ -26,6 +26,11 @@ public class BlazoriseAccessibilityOptions
     public bool UseAutoAriaDescribedByAttribute { get; set; } = true;
 
     /// <summary>
+    /// If true, input components can automatically render the <c>aria-required</c> attribute for required fields.
+    /// </summary>
+    public bool UseAutoAriaRequiredAttribute { get; set; } = true;
+
+    /// <summary>
     /// If true, input components wrapped in <see cref="Validation"/> can trigger validation when they lose focus, even when the value has not changed.
     /// </summary>
     public bool UseValidationOnBlur { get; set; } = false;

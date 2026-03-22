@@ -31,6 +31,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
             .Add( p => p.TextField, item => item )
             .Add( p => p.ValueField, item => item )
             .Add( p => p.AriaInvalid, "true" )
+            .Add( p => p.AriaRequired, true )
             .Add( p => p.AriaDescribedBy, "help-id" ) );
 
         // test
@@ -39,8 +40,10 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
 
         // validate
         Assert.Equal( "true", dropdown.GetAttribute( "aria-invalid" ) );
+        Assert.Equal( "true", dropdown.GetAttribute( "aria-required" ) );
         Assert.Equal( "help-id", dropdown.GetAttribute( "aria-describedby" ) );
         Assert.Null( input.GetAttribute( "aria-invalid" ) );
+        Assert.Equal( "true", input.GetAttribute( "aria-required" ) );
         Assert.Null( input.GetAttribute( "aria-describedby" ) );
     }
 

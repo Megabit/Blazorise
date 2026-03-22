@@ -5,7 +5,7 @@
 @typeparam TItem
 @typeparam TValue
 
-<Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Visible="@(DropdownVisible || NotFoundVisible || FreeTypingNotFoundVisible)" PositionStrategy="@PositionStrategy" DropdownMenuTargetId="@DropdownMenuTargetElementId" Disabled="@Disabled" AriaInvalid="@ResolvedAriaInvalid" AriaDescribedBy="@ResolvedAriaDescribedBy" AriaLabelledBy="@ExplicitAriaLabelledBy" Attributes="@Attributes">
+<Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Visible="@(DropdownVisible || NotFoundVisible || FreeTypingNotFoundVisible)" PositionStrategy="@PositionStrategy" DropdownMenuTargetId="@DropdownMenuTargetElementId" Disabled="@Disabled" AriaInvalid="@ResolvedAriaInvalid" AriaRequired="@ResolvedAriaRequired" AriaDescribedBy="@ResolvedAriaDescribedBy" AriaLabelledBy="@ExplicitAriaLabelledBy" Attributes="@Attributes">
     @if ( IsMultiple && !SelectedTexts.IsNullOrEmpty() )
     {
         @foreach ( var selectedText in SelectedTexts )
@@ -25,32 +25,65 @@
     }
 
     <CascadingValue Value="(Validation)null">
-        <TextInput @ref="@textInputRef"
-                   ElementId="@InputElementId"
-                   Role="TextRole.Search"
-                   Value="@Search"
-                   ValueChanged="@OnTextChangedHandler"
-                   Placeholder="@Placeholder"
-                   Size="@Size"
-                   MaxLength="@MaxEntryLength"
-                   Disabled="@Disabled"
-                   ReadOnly="@ReadOnly"
-                   TabIndex="@TabIndex"
-                   KeyDown="@OnTextKeyDownHandler"
-                   KeyPress="@OnTextKeyPressHandler"
-                   KeyUp="@OnTextKeyUpHandler"
-                   OnFocus="OnTextFocusHandler"
-                   FocusIn="@OnTextFocusInHandler"
-                   FocusOut="@OnTextFocusOutHandler"
-                   Blur="OnTextBlurHandler"
-                   Immediate="@Immediate"
-                   Debounce="@Debounce"
-                   DebounceInterval="@DebounceInterval"
-                   Background="@SearchBackground"
-                   TextColor="@SearchTextColor"
-                   Class="@SearchClassNames"
-                   Style="@SearchStyleNames">
-        </TextInput>
+        @if ( HasSearchInputAriaRequired )
+        {
+            <TextInput @ref="@textInputRef"
+                       ElementId="@InputElementId"
+                       Role="TextRole.Search"
+                       Value="@Search"
+                       ValueChanged="@OnTextChangedHandler"
+                       Placeholder="@Placeholder"
+                       Size="@Size"
+                       MaxLength="@MaxEntryLength"
+                       Disabled="@Disabled"
+                       ReadOnly="@ReadOnly"
+                       TabIndex="@TabIndex"
+                       AriaRequired="@SearchInputAriaRequired"
+                       KeyDown="@OnTextKeyDownHandler"
+                       KeyPress="@OnTextKeyPressHandler"
+                       KeyUp="@OnTextKeyUpHandler"
+                       OnFocus="OnTextFocusHandler"
+                       FocusIn="@OnTextFocusInHandler"
+                       FocusOut="@OnTextFocusOutHandler"
+                       Blur="OnTextBlurHandler"
+                       Immediate="@Immediate"
+                       Debounce="@Debounce"
+                       DebounceInterval="@DebounceInterval"
+                       Background="@SearchBackground"
+                       TextColor="@SearchTextColor"
+                       Class="@SearchClassNames"
+                       Style="@SearchStyleNames">
+            </TextInput>
+        }
+        else
+        {
+            <TextInput @ref="@textInputRef"
+                       ElementId="@InputElementId"
+                       Role="TextRole.Search"
+                       Value="@Search"
+                       ValueChanged="@OnTextChangedHandler"
+                       Placeholder="@Placeholder"
+                       Size="@Size"
+                       MaxLength="@MaxEntryLength"
+                       Disabled="@Disabled"
+                       ReadOnly="@ReadOnly"
+                       TabIndex="@TabIndex"
+                       KeyDown="@OnTextKeyDownHandler"
+                       KeyPress="@OnTextKeyPressHandler"
+                       KeyUp="@OnTextKeyUpHandler"
+                       OnFocus="OnTextFocusHandler"
+                       FocusIn="@OnTextFocusInHandler"
+                       FocusOut="@OnTextFocusOutHandler"
+                       Blur="OnTextBlurHandler"
+                       Immediate="@Immediate"
+                       Debounce="@Debounce"
+                       DebounceInterval="@DebounceInterval"
+                       Background="@SearchBackground"
+                       TextColor="@SearchTextColor"
+                       Class="@SearchClassNames"
+                       Style="@SearchStyleNames">
+            </TextInput>
+        }
     </CascadingValue>
     <DropdownMenu Class="@Classes?.Menu" Style="@Styles?.Menu">
         @if ( DropdownVisible )
