@@ -1,6 +1,6 @@
 ﻿@inherits Blazorise.CardImage
 <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     <figure class="image">
-        <img src="@Source" alt="@Alt">
+        <img src="@Source" alt="@Alt" onerror="@OnError">
     </figure>
 </div>
