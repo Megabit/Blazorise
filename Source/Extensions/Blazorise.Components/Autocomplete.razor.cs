@@ -532,6 +532,13 @@ public partial class Autocomplete<TItem, TValue>
     {
         await OnKeyDownHandler( eventArgs );
 
+        if ( eventArgs.Code == "Tab" && !eventArgs.AltKey && !eventArgs.CtrlKey && !eventArgs.MetaKey )
+        {
+            await JSUtilitiesModule.FocusNextTabStop( textInputRef.ElementRef, InputElementId, eventArgs.ShiftKey );
+            await SearchKeyDown.InvokeAsync( eventArgs );
+            return;
+        }
+
         if ( eventArgs.Code == "Escape" )
         {
             await Close();

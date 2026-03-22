@@ -81,6 +81,15 @@ public interface IJSUtilitiesModule : IBaseJSModule
     ValueTask Focus( ElementReference elementRef, string elementId, bool scrollToElement );
 
     /// <summary>
+    /// Moves focus to the next or previous tabbable element in document order.
+    /// </summary>
+    /// <param name="elementRef">Reference to the currently focused element.</param>
+    /// <param name="elementId">ID of the currently focused element.</param>
+    /// <param name="reverse">If true, focuses the previous tabbable element; otherwise the next.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask FocusNextTabStop( ElementReference elementRef, string elementId, bool reverse );
+
+    /// <summary>
     /// Selects the given element.
     /// </summary>
     /// <param name="elementRef">Reference to the rendered element.</param>

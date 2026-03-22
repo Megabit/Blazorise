@@ -65,6 +65,10 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
         => InvokeSafeVoidAsync( "focus", ResolveElementReference( elementRef ), elementId, scrollToElement );
 
     /// <inheritdoc/>
+    public virtual ValueTask FocusNextTabStop( ElementReference elementRef, string elementId, bool reverse )
+        => InvokeSafeVoidAsync( "focusNextTabStop", ResolveElementReference( elementRef ), elementId, reverse );
+
+    /// <inheritdoc/>
     public virtual ValueTask Select( ElementReference elementRef, string elementId, bool focus )
         => InvokeSafeVoidAsync( "select", ResolveElementReference( elementRef ), elementId, focus );
 
