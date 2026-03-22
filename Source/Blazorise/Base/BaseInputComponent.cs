@@ -474,9 +474,10 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// </summary>
     /// <param name="eventArgs">Information about the focus event.</param>
     /// <returns>Returns awaitable task</returns>
-    protected virtual Task OnBlurHandler( FocusEventArgs eventArgs )
+    protected virtual async Task OnBlurHandler( FocusEventArgs eventArgs )
     {
-        return Blur.InvokeAsync( eventArgs );
+        await Blur.InvokeAsync( eventArgs );
+        await ValidateOnBlurAsync();
     }
 
     /// <summary>
@@ -513,6 +514,17 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// Forces the <see cref="Validation"/> (if any is used) to re-validate with the new custom or internal value.
     /// </summary>
     public Task Revalidate()
+    {
+        if ( ParentValidation is not null )
+            return ParentValidation.NotifyInputChanged<TValue>( default );
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Revalidates the current input when focus leaves the element.
+    /// </summary>
+    protected Task ValidateOnBlurAsync()
     {
         if ( ParentValidation is not null )
             return ParentValidation.NotifyInputChanged<TValue>( default );

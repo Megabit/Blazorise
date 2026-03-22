@@ -471,8 +471,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     [JSInvokable]
     public new virtual Task OnBlurHandler( FocusEventArgs eventArgs )
     {
-        // just call eventcallback without using debouncer in BaseTextInput
-        return Blur.InvokeAsync( eventArgs );
+        return base.OnBlurHandler( eventArgs );
     }
 
     /// <summary>

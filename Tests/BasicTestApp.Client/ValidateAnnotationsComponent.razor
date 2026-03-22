@@ -25,6 +25,18 @@
         </Validation>
     </Validations>
 </div>
+<div id="auto-validate-name-on-blur">
+    Validate on blur:
+    <Validations Model="@autoModelForBlur" ValidateOnLoad="false">
+        <Validation>
+            <TextInput @bind-Value="@autoModelForBlur.Name">
+                <Feedback>
+                    <ValidationError></ValidationError>
+                </Feedback>
+            </TextInput>
+        </Validation>
+    </Validations>
+</div>
 
 <h2>Auto password validation</h2>
 <div id="auto-validate-password-initially-blank">
@@ -57,7 +69,7 @@
 <div id="auto-validate-password-with-display-initially-blank">
     Initially blank:
     <Validations Model="@autoModelForName" ValidateOnLoad>
-        <Validation MessageLocalizer="@((m,a)=>a?.Count() > 0 ? string.Format(m,a?.ToArray()) : m)">
+        <Validation MessageLocalizer="@(( m, a ) => a?.Count() > 0 ? string.Format( m, a?.ToArray() ) : m)">
             <TextInput @bind-Value="@autoModelForName.PasswordWithDisplay">
                 <Feedback>
                     <ValidationError></ValidationError>
@@ -80,7 +92,7 @@
             </TextInput>
         </Validation>
     </Validations>
-    <Button Clicked="@(()=>manualValidationsNameRef.ValidateAll())">Validate</Button>
+    <Button Clicked="@(() => manualValidationsNameRef.ValidateAll())">Validate</Button>
 </div>
 <div id="manually-validate-name-initially-populated">
     Initially populated:
@@ -93,7 +105,7 @@
             </TextInput>
         </Validation>
     </Validations>
-    <Button Clicked="@(()=>manualValidationsName2Ref.ValidateAll())">Validate</Button>
+    <Button Clicked="@(() => manualValidationsName2Ref.ValidateAll())">Validate</Button>
 </div>
 
 <h2>Auto name validation with override message</h2>
@@ -113,6 +125,7 @@
     User autoModelForName = new();
     User autoModelForName2 = new() { Name = "a", Password = "12345" };
     User autoModelForName3 = new() { Name = "a", Password = "12345" };
+    User autoModelForBlur = new();
 
     User manualModelForName = new();
     User manualModelForName2 = new() { Name = "a", Password = "12345" };

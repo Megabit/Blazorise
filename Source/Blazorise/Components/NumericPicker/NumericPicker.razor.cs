@@ -388,8 +388,6 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
     /// <inheritdoc/>
     protected override async Task OnBlurHandler( FocusEventArgs eventArgs )
     {
-        await base.OnBlurHandler( eventArgs );
-
         if ( !IsImmediate && hasValueToChangeOnBlur )
         {
             hasValueToChangeOnBlur = false;
@@ -401,6 +399,8 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
         {
             await ProcessNumber( CurrentValue );
         }
+
+        await base.OnBlurHandler( eventArgs );
     }
 
     /// <inheritdoc/>
