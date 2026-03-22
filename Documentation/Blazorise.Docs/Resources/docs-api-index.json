@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-12T13:02:50.9476946Z",
+  "generatedUtc": "2026-03-22T12:46:35.0517777Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -5028,11 +5028,27 @@
           "isBlazoriseEnum": false
         },
         {
+          "name": "SelectedTextExpression",
+          "type": "Expression<>",
+          "typeName": "Expression<Func<string>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets an expression that identifies the selected text.",
+          "isBlazoriseEnum": false
+        },
+        {
           "name": "SelectedTexts",
           "type": "List<>",
           "typeName": "List<string>",
           "defaultValue": "null",
           "summary": "Currently selected items texts.     Used when multiple selection is set.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "SelectedTextsExpression",
+          "type": "Expression<>",
+          "typeName": "Expression<Func<List<string>>>",
+          "defaultValue": "null",
+          "summary": "Gets or sets an expression that identifies the selected texts.     Used when multiple selection is set.",
           "isBlazoriseEnum": false
         },
         {
