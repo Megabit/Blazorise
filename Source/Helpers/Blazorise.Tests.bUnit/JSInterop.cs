@@ -143,7 +143,6 @@ public static class JSInterop
         module.Setup<string>( "getUserAgent", _ => true ).SetResult( String.Empty );
         module.SetupVoid( "scrollElementIntoView", _ => true ).SetVoidResult();
         module.SetupVoid( "focus", _ => true ).SetVoidResult();
-        module.SetupVoid( "focusNextTabStop", _ => true ).SetVoidResult();
         module.SetupVoid( "log", _ => true ).SetVoidResult();
 
         return jsInterop;

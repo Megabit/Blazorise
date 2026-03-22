@@ -530,11 +530,31 @@ public partial class Autocomplete<TItem, TValue>
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextKeyDownHandler( KeyboardEventArgs eventArgs )
     {
+        bool isPlainTabNavigation = eventArgs.Code == "Tab" && !eventArgs.AltKey && !eventArgs.CtrlKey && !eventArgs.MetaKey;
+
         await OnKeyDownHandler( eventArgs );
 
-        if ( eventArgs.Code == "Tab" && !eventArgs.AltKey && !eventArgs.CtrlKey && !eventArgs.MetaKey )
+        if ( isPlainTabNavigation )
         {
-            await JSUtilitiesModule.FocusNextTabStop( textInputRef.ElementRef, InputElementId, eventArgs.ShiftKey );
+            if ( IsConfirmKey( eventArgs ) )
+            {
+                if ( IsMultiple && FreeTyping && !string.IsNullOrEmpty( Search ) && ActiveItemIndex < 0 )
+                {
+                    await AddMultipleText( Search );
+
+                    if ( CloseOnSelection )
+                    {
+                        await ResetCurrentSearch();
+                    }
+                }
+                else if ( SelectionMode != AutocompleteSelectionMode.Checkbox )
+                {
+                    await SelectedOrResetOnCommit();
+                }
+            }
+
+            TextFocused = false;
+            await Close();
             await SearchKeyDown.InvokeAsync( eventArgs );
             return;
         }

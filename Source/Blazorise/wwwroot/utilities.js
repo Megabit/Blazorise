@@ -69,40 +69,6 @@ export function focus(element, elementId, scrollToElement) {
     }
 }
 
-export function focusNextTabStop(element, elementId, reverse) {
-    element = getRequiredElement(element, elementId);
-
-    if (!element) {
-        return;
-    }
-
-    const tabbables = getTabbableElements();
-
-    if (!tabbables.length) {
-        return;
-    }
-
-    const currentIndex = tabbables.indexOf(element);
-
-    if (currentIndex < 0) {
-        return;
-    }
-
-    const targetIndex = reverse ? currentIndex - 1 : currentIndex + 1;
-
-    if (targetIndex < 0 || targetIndex >= tabbables.length) {
-        return;
-    }
-
-    const target = tabbables[targetIndex];
-
-    window.setTimeout(() => {
-        if (target && typeof target.focus === "function") {
-            target.focus();
-        }
-    }, 0);
-}
-
 // selects the given element
 export function select(element, elementId, toFocus) {
     if (toFocus) {
@@ -506,51 +472,4 @@ export function insertCSSIntoDocumentHead(url) {
 
 export function isSystemDarkMode() {
     return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-}
-
-function getTabbableElements() {
-    const selector = [
-        "a[href]",
-        "area[href]",
-        "button:not([disabled])",
-        "input:not([disabled]):not([type='hidden'])",
-        "select:not([disabled])",
-        "textarea:not([disabled])",
-        "iframe",
-        "[tabindex]",
-        "[contenteditable='true']"
-    ].join(",");
-
-    return Array.from(document.querySelectorAll(selector))
-        .filter((element) => isTabbable(element));
-}
-
-function isTabbable(element) {
-    if (!element || element.disabled) {
-        return false;
-    }
-
-    const tabindex = element.getAttribute("tabindex");
-
-    if (tabindex !== null && Number(tabindex) < 0) {
-        return false;
-    }
-
-    if (element.hasAttribute("hidden") || element.getAttribute("aria-hidden") === "true") {
-        return false;
-    }
-
-    if (element.closest("[hidden],[aria-hidden='true']")) {
-        return false;
-    }
-
-    const style = window.getComputedStyle(element);
-
-    if (style.display === "none" || style.visibility === "hidden") {
-        return false;
-    }
-
-    const rects = element.getClientRects();
-
-    return rects.length > 0;
 }
