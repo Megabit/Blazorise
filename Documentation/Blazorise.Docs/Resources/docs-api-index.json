@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-22T12:46:35.0517777Z",
+  "generatedUtc": "2026-03-22T15:18:14.2066907Z",
   "components": [
     {
       "type": "global::Blazorise.Abbreviation",
@@ -39615,6 +39615,14 @@
           "typeName": "string",
           "defaultValue": "null",
           "summary": "Custom inline styles to apply to the component.",
+          "isBlazoriseEnum": false
+        },
+        {
+          "name": "TabIndex",
+          "type": "int?",
+          "typeName": "int?",
+          "defaultValue": "null",
+          "summary": "Gets or sets the tabindex value for keyboard navigation.",
           "isBlazoriseEnum": false
         },
         {
