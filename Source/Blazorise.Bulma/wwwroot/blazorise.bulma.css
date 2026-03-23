@@ -1971,6 +1971,51 @@ fieldset.columns > legend.field-label ~ .column {
   padding-top: 0;
 }
 
+.field > .help.is-success,
+.field > .help.is-danger,
+.b-password-strength > .help.is-success,
+.b-password-strength > .help.is-danger {
+  display: none;
+}
+
+.field:has(> .control .is-success) > .help:not(.is-success):not(.is-danger),
+.field:has(> .control .is-danger) > .help:not(.is-success):not(.is-danger) {
+  display: none;
+}
+
+.b-password-strength:has(.field.has-addons > .control .input.is-success) > .help:not(.is-success):not(.is-danger),
+.b-password-strength:has(.field.has-addons > .control .input.is-danger) > .help:not(.is-success):not(.is-danger) {
+  display: none;
+}
+
+.field:has(> .control .is-success) > .help.is-success {
+  display: block;
+}
+.field:has(> .control .is-success) > .help.is-danger {
+  display: none;
+}
+
+.b-password-strength:has(.field.has-addons > .control .input.is-success) > .help.is-success {
+  display: block;
+}
+.b-password-strength:has(.field.has-addons > .control .input.is-success) > .help.is-danger {
+  display: none;
+}
+
+.field:has(> .control .is-danger) > .help.is-danger {
+  display: block;
+}
+.field:has(> .control .is-danger) > .help.is-success {
+  display: none;
+}
+
+.b-password-strength:has(.field.has-addons > .control .input.is-danger) > .help.is-danger {
+  display: block;
+}
+.b-password-strength:has(.field.has-addons > .control .input.is-danger) > .help.is-success {
+  display: none;
+}
+
 .range-slider {
   min-height: 2rem;
 }

@@ -1,0 +1,60 @@
+﻿.field > .help.is-success,
+.field > .help.is-danger,
+.b-password-strength > .help.is-success,
+.b-password-strength > .help.is-danger {
+    display: none;
+}
+
+.field:has(> .control .is-success),
+.field:has(> .control .is-danger) {
+    > .help:not(.is-success):not(.is-danger) {
+        display: none;
+    }
+}
+
+.b-password-strength:has(.field.has-addons > .control .input.is-success),
+.b-password-strength:has(.field.has-addons > .control .input.is-danger) {
+    > .help:not(.is-success):not(.is-danger) {
+        display: none;
+    }
+}
+
+.field:has(> .control .is-success) {
+    > .help.is-success {
+        display: block;
+    }
+
+    > .help.is-danger {
+        display: none;
+    }
+}
+
+.b-password-strength:has(.field.has-addons > .control .input.is-success) {
+    > .help.is-success {
+        display: block;
+    }
+
+    > .help.is-danger {
+        display: none;
+    }
+}
+
+.field:has(> .control .is-danger) {
+    > .help.is-danger {
+        display: block;
+    }
+
+    > .help.is-success {
+        display: none;
+    }
+}
+
+.b-password-strength:has(.field.has-addons > .control .input.is-danger) {
+    > .help.is-danger {
+        display: block;
+    }
+
+    > .help.is-success {
+        display: none;
+    }
+}
