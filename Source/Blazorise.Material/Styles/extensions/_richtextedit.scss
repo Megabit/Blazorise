@@ -19,14 +19,21 @@
     > .b-richtextedit-editor + .b-richtextedit-toolbar {
         border-top: 0;
     }
+
+    > .b-richtextedit-editor.ql-container {
+        height: auto;
+        min-block-size: 0;
+
+        > .ql-editor {
+            height: auto;
+            min-block-size: 0;
+        }
+    }
 }
 
 .b-richtextedit.is-valid {
-    > .b-richtextedit-editor.ql-snow,
-    > .b-richtextedit-toolbar.ql-snow,
     > .b-richtextedit-editor.ql-bubble,
     > .b-richtextedit-toolbar.ql-bubble,
-    > .ql-toolbar.ql-snow,
     > .ql-toolbar.ql-bubble {
         border-style: solid;
         border-width: 0.0625rem;
@@ -38,14 +45,18 @@
     > .ql-toolbar.ql-bubble {
         border-color: var(--mui-success);
     }
+
+    + .valid-feedback {
+        display: block;
+        inline-size: 100%;
+        margin-block-start: 0.25rem;
+        padding: 0;
+    }
 }
 
 .b-richtextedit.is-invalid {
-    > .b-richtextedit-editor.ql-snow,
-    > .b-richtextedit-toolbar.ql-snow,
     > .b-richtextedit-editor.ql-bubble,
     > .b-richtextedit-toolbar.ql-bubble,
-    > .ql-toolbar.ql-snow,
     > .ql-toolbar.ql-bubble {
         border-style: solid;
         border-width: 0.0625rem;
@@ -56,5 +67,21 @@
     > .ql-toolbar.ql-snow,
     > .ql-toolbar.ql-bubble {
         border-color: var(--mui-error);
+    }
+
+    + .invalid-feedback {
+        display: block;
+        inline-size: 100%;
+        margin-block-start: 0.25rem;
+        padding: 0;
+    }
+}
+
+.b-richtextedit[aria-invalid='true'] {
+    + .invalid-feedback {
+        display: block;
+        inline-size: 100%;
+        margin-block-start: 0.25rem;
+        padding: 0;
     }
 }
