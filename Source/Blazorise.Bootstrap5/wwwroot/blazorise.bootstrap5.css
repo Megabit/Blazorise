@@ -2057,6 +2057,22 @@ td:focus {
   padding-right: 1rem !important;
 }
 
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-toolbar,
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .CodeMirror,
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-preview-side,
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-preview-full,
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-statusbar {
+  border-color: var(--b-theme-success, #198754);
+}
+
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-toolbar,
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .CodeMirror,
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-preview-side,
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-preview-full,
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-statusbar {
+  border-color: var(--b-theme-danger, #dc3545);
+}
+
 .b-richtextedit > .b-richtextedit-toolbar.ql-snow,
 .b-richtextedit > .b-richtextedit-editor.ql-snow,
 .b-richtextedit > .ql-toolbar.ql-snow {

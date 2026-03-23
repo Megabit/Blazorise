@@ -1,0 +1,19 @@
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid {
+    .editor-toolbar,
+    .CodeMirror,
+    .editor-preview-side,
+    .editor-preview-full,
+    .editor-statusbar {
+        border-color: var(--b-theme-success, var(--ant-success-color));
+    }
+}
+
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid {
+    .editor-toolbar,
+    .CodeMirror,
+    .editor-preview-side,
+    .editor-preview-full,
+    .editor-statusbar {
+        border-color: var(--b-theme-danger, var(--ant-error-color));
+    }
+}

@@ -19313,6 +19313,22 @@ span.flatpickr-weekday {
   color: var(--colorPaletteGreenForeground1);
 }
 
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-toolbar,
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .CodeMirror,
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-preview-side,
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-preview-full,
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-statusbar {
+  border-color: var(--colorStatusSuccessBorder2);
+}
+
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-toolbar,
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .CodeMirror,
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-preview-side,
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-preview-full,
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-statusbar {
+  border-color: var(--colorStatusDangerBorder2);
+}
+
 .b-richtextedit ~ .fui-Field__validationMessage-error,
 .b-richtextedit ~ .fui-Field__validationMessage-success {
   display: none;

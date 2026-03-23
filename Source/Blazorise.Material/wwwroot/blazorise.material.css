@@ -8534,6 +8534,38 @@ body.modal-open {
   display: inline-block;
 }
 
+.mui-field-body > .EasyMDEContainer.b-markdown-valid .editor-statusbar,
+.mui-field-body > .EasyMDEContainer.b-markdown-invalid .editor-statusbar {
+  padding-block: 0.25rem 0;
+  padding-inline: 0;
+}
+
+.mui-field-body > .EasyMDEContainer.b-markdown-valid .editor-toolbar,
+.mui-field-body > .EasyMDEContainer.b-markdown-valid .CodeMirror,
+.mui-field-body > .EasyMDEContainer.b-markdown-valid .editor-preview-side,
+.mui-field-body > .EasyMDEContainer.b-markdown-valid .editor-preview-full {
+  border-color: var(--mui-success);
+}
+.mui-field-body > .EasyMDEContainer.b-markdown-valid + .valid-feedback {
+  display: block;
+  inline-size: 100%;
+  margin-block-start: 0;
+  padding: 0;
+}
+
+.mui-field-body > .EasyMDEContainer.b-markdown-invalid .editor-toolbar,
+.mui-field-body > .EasyMDEContainer.b-markdown-invalid .CodeMirror,
+.mui-field-body > .EasyMDEContainer.b-markdown-invalid .editor-preview-side,
+.mui-field-body > .EasyMDEContainer.b-markdown-invalid .editor-preview-full {
+  border-color: var(--mui-error);
+}
+.mui-field-body > .EasyMDEContainer.b-markdown-invalid + .invalid-feedback {
+  display: block;
+  inline-size: 100%;
+  margin-block-start: 0;
+  padding: 0;
+}
+
 .mui-row > .mui-column:has(> .mui-field-body > .b-cropper-container) {
   display: flex;
   flex-direction: column;
