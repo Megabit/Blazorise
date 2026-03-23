@@ -944,6 +944,25 @@ input[readonly=readonly][type=range]::-ms-thumb {
   display: contents;
 }
 
+.valid-feedback,
+.invalid-feedback {
+  display: none;
+}
+
+.form-control.is-valid ~ .valid-feedback,
+.form-select.is-valid ~ .valid-feedback,
+.form-control.is-invalid ~ .invalid-feedback,
+.form-select.is-invalid ~ .invalid-feedback {
+  display: block;
+}
+
+.form-control.is-valid ~ .form-text.text-muted,
+.form-select.is-valid ~ .form-text.text-muted,
+.form-control.is-invalid ~ .form-text.text-muted,
+.form-select.is-invalid ~ .form-text.text-muted {
+  display: none;
+}
+
 .form-file input[type=file] {
   margin-left: -2px !important;
 }
