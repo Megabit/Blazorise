@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-03-20T10:05:31.8605991Z",
+  "generatedUtc": "2026-03-22T12:27:01.5526320Z",
   "pages": [
     {
       "route": "/docs",
@@ -1680,6 +1680,14 @@
           "content": "<Image Source=\"_content/Blazorise.Docs/assets/img/animals/animal-05.jpg\" Text=\"A lovely animal...\" />",
           "title": "SEO friendly",
           "description": "The parameter Text gives alternate ( alt ) text for an image, which is good for SEO optimizations. If you inspect the image with devtools you will be able to see alt assigned."
+        },
+        {
+          "code": "ImageFallbackExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Image/Examples/ImageFallbackExample.razor",
+          "content": "<Image Source=\"http://some-404-img\" FallbackSource=\"_content/Blazorise.Docs/assets/img/animals/animal-06.jpg\" />",
+          "title": "Fallback image",
+          "description": "By setting the FallbackSource parameter, you can set an fallback image that will be displayed when loading of the Source fails."
         }
       ],
       "apiRefs": [
