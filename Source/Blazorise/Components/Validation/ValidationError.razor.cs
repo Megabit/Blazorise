@@ -57,12 +57,11 @@ public partial class ValidationError : BaseValidationResult, IDisposable
     /// <inheritdoc/>
     protected async override void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
     {
-        if ( eventArgs.Status == ValidationStatus.Error )
-        {
-            ErrorMessages = eventArgs.Messages?.Where( x => !string.IsNullOrEmpty( x ) )?.Count() > 0
+        ErrorMessages = eventArgs.Status == ValidationStatus.Error
+            ? eventArgs.Messages?.Where( x => !string.IsNullOrEmpty( x ) )?.Count() > 0
                 ? eventArgs.Messages?.Where( x => !string.IsNullOrEmpty( x ) )?.ToArray()
-                : null;
-        }
+                : null
+            : null;
 
         await InvokeAsync( StateHasChanged );
     }
