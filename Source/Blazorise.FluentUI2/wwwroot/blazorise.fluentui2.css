@@ -19295,6 +19295,24 @@ span.flatpickr-weekday {
   color: var(--colorPaletteGreenForeground1);
 }
 
+.b-password-strength > .fui-Field__validationMessage-error,
+.b-password-strength > .fui-Field__validationMessage-success {
+  display: none;
+}
+.b-password-strength:has(.fui-Input__input-error) > .fui-Field__validationMessage-error {
+  display: block;
+  color: var(--colorPaletteRedForeground1);
+}
+.b-password-strength:has(.fui-Input__input-error) > .fui-Field__validationMessage-error .fui-Field__validationMessageIcon {
+  color: var(--colorPaletteRedForeground1);
+}
+.b-password-strength:has(.fui-Input__input-success) > .fui-Field__validationMessage-success {
+  display: block;
+}
+.b-password-strength:has(.fui-Input__input-success) > .fui-Field__validationMessage-success .fui-Field__validationMessageIcon {
+  color: var(--colorPaletteGreenForeground1);
+}
+
 .b-richtextedit ~ .fui-Field__validationMessage-error,
 .b-richtextedit ~ .fui-Field__validationMessage-success {
   display: none;

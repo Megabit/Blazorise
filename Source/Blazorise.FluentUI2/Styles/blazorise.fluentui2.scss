@@ -1,4 +1,4 @@
-﻿@import "variables";
+@import "variables";
 @import "functions";
 @import "mixins";
 @import "themes";
@@ -69,4 +69,5 @@
 @import "extensions/datagrid";
 @import "extensions/snackbar";
 @import "extensions/one-time-input";
+@import "extensions/password-strength";
 @import "extensions/richtextedit";
