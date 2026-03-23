@@ -3,6 +3,30 @@
     border-color: #52c41a;
 }
 
+.ant-form-item {
+    .valid-feedback,
+    .ant-form-item-explain[role='alert'] {
+        display: none;
+    }
+
+    &.ant-form-item-has-success {
+        .valid-feedback {
+            display: block;
+            color: var(--b-theme-success, $success);
+        }
+    }
+
+    &.ant-form-item-has-error {
+        .ant-form-item-explain[role='alert'] {
+            display: block;
+        }
+
+        .valid-feedback {
+            display: none;
+        }
+    }
+}
+
 .ant-checkbox-wrapper {
     cursor: default;
 
