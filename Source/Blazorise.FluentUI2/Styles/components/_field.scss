@@ -46,7 +46,9 @@
 .fui-Checkbox,
 .fui-ColorPicker,
 .fui-RadioGroup__horizontal {
-    & + .fui-Field__validationMessage {
+    & ~ .fui-Field__validationMessage-error,
+    & ~ .fui-Field__validationMessage-success {
+        display: none;
         margin-top: var(--spacingVerticalXXS);
         color: var(--colorNeutralForeground3);
         font-family: var(--fontFamilyBase);
@@ -71,7 +73,8 @@
     &.fui-Checkbox-error,
     &.fui-ColorPicker-error,
     &.fui-RadioGroup-error {
-        & + .fui-Field__validationMessage {
+        & ~ .fui-Field__validationMessage-error {
+            display: block;
             color: var(--colorPaletteRedForeground1);
 
             .fui-Field__validationMessageIcon {
@@ -86,7 +89,9 @@
     &.fui-Checkbox-success,
     &.fui-ColorPicker-success,
     &.fui-RadioGroup-success {
-        & + .fui-Field__validationMessage {
+        & ~ .fui-Field__validationMessage-success {
+            display: block;
+
             .fui-Field__validationMessageIcon {
                 color: var(--colorPaletteGreenForeground1);
             }

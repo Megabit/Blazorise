@@ -485,7 +485,8 @@
     }
 
     &.fui-Input__input-error {
-        & + .fui-Field__validationMessage {
+        & ~ .fui-Field__validationMessage-error {
+            display: block;
             color: var(--colorPaletteRedForeground1);
 
             .fui-Field__validationMessageIcon {
@@ -495,10 +496,17 @@
     }
 
     &.fui-Input__input-success {
-        & + .fui-Field__validationMessage {
+        & ~ .fui-Field__validationMessage-success {
+            display: block;
+
             .fui-Field__validationMessageIcon {
                 color: var(--colorPaletteGreenForeground1);
             }
         }
+    }
+
+    & ~ .fui-Field__validationMessage-error,
+    & ~ .fui-Field__validationMessage-success {
+        display: none;
     }
 }

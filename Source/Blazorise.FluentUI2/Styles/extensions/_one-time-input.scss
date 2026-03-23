@@ -1,4 +1,9 @@
 .b-one-time-input {
+    & ~ .fui-Field__validationMessage-error,
+    & ~ .fui-Field__validationMessage-success {
+        display: none;
+    }
+
     .fui-Input:has(> .b-one-time-input-slot.fui-Input__input-error) {
         border-bottom-color: var(--colorPaletteRedBorder2) !important;
         border-left-color: var(--colorPaletteRedBorder2) !important;
@@ -13,7 +18,8 @@
         border-top-color: var(--colorPaletteGreenForeground1) !important;
     }
 
-    &:has(.b-one-time-input-slot.fui-Input__input-error) + .fui-Field__validationMessage {
+    &:has(.b-one-time-input-slot.fui-Input__input-error) ~ .fui-Field__validationMessage-error {
+        display: block;
         color: var(--colorPaletteRedForeground1);
 
         .fui-Field__validationMessageIcon {
@@ -21,7 +27,9 @@
         }
     }
 
-    &:has(.b-one-time-input-slot.fui-Input__input-success) + .fui-Field__validationMessage {
+    &:has(.b-one-time-input-slot.fui-Input__input-success) ~ .fui-Field__validationMessage-success {
+        display: block;
+
         .fui-Field__validationMessageIcon {
             color: var(--colorPaletteGreenForeground1);
         }

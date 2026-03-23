@@ -464,16 +464,16 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
                 .Append( $"border-color: {validationSuccessColor};" )
                 .AppendLine( "}" );
 
-            sb.Append( ".fui-Input.fui-Input-success + .fui-Field__validationMessage," )
-                .Append( ".fui-Textarea.fui-Textarea-success + .fui-Field__validationMessage," )
-                .Append( ".fui-Select.fui-Select-success + .fui-Field__validationMessage" )
+            sb.Append( ".fui-Input.fui-Input-success ~ .fui-Field__validationMessage-success," )
+                .Append( ".fui-Textarea.fui-Textarea-success ~ .fui-Field__validationMessage-success," )
+                .Append( ".fui-Select.fui-Select-success ~ .fui-Field__validationMessage-success" )
                 .Append( "{" )
                 .Append( $"color: {validationSuccessColor};" )
                 .AppendLine( "}" );
 
-            sb.Append( ".fui-Input.fui-Input-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon," )
-                .Append( ".fui-Textarea.fui-Textarea-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon," )
-                .Append( ".fui-Select.fui-Select-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon" )
+            sb.Append( ".fui-Input.fui-Input-success ~ .fui-Field__validationMessage-success .fui-Field__validationMessageIcon," )
+                .Append( ".fui-Textarea.fui-Textarea-success ~ .fui-Field__validationMessage-success .fui-Field__validationMessageIcon," )
+                .Append( ".fui-Select.fui-Select-success ~ .fui-Field__validationMessage-success .fui-Field__validationMessageIcon" )
                 .Append( "{" )
                 .Append( $"color: {validationSuccessColor};" )
                 .AppendLine( "}" );
@@ -482,7 +482,7 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
                 .Append( $"border-color: {validationSuccessColor};" )
                 .AppendLine( "}" );
 
-            sb.Append( ".b-is-autocomplete.fui-Input__input-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon" )
+            sb.Append( ".b-is-autocomplete.fui-Input__input-success ~ .fui-Field__validationMessage-success .fui-Field__validationMessageIcon" )
                 .Append( "{" )
                 .Append( $"color: {validationSuccessColor};" )
                 .AppendLine( "}" );
@@ -497,16 +497,16 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
                 .Append( $"border-color: {validationDangerColor};" )
                 .AppendLine( "}" );
 
-            sb.Append( ".fui-Input.fui-Input-error + .fui-Field__validationMessage," )
-                .Append( ".fui-Textarea.fui-Textarea-error + .fui-Field__validationMessage," )
-                .Append( ".fui-Select.fui-Select-error + .fui-Field__validationMessage" )
+            sb.Append( ".fui-Input.fui-Input-error ~ .fui-Field__validationMessage-error," )
+                .Append( ".fui-Textarea.fui-Textarea-error ~ .fui-Field__validationMessage-error," )
+                .Append( ".fui-Select.fui-Select-error ~ .fui-Field__validationMessage-error" )
                 .Append( "{" )
                 .Append( $"color: {validationDangerColor};" )
                 .AppendLine( "}" );
 
-            sb.Append( ".fui-Input.fui-Input-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon," )
-                .Append( ".fui-Textarea.fui-Textarea-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon," )
-                .Append( ".fui-Select.fui-Select-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon" )
+            sb.Append( ".fui-Input.fui-Input-error ~ .fui-Field__validationMessage-error .fui-Field__validationMessageIcon," )
+                .Append( ".fui-Textarea.fui-Textarea-error ~ .fui-Field__validationMessage-error .fui-Field__validationMessageIcon," )
+                .Append( ".fui-Select.fui-Select-error ~ .fui-Field__validationMessage-error .fui-Field__validationMessageIcon" )
                 .Append( "{" )
                 .Append( $"color: {validationDangerColor};" )
                 .AppendLine( "}" );
@@ -515,11 +515,11 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
                 .Append( $"border-color: {validationDangerColor};" )
                 .AppendLine( "}" );
 
-            sb.Append( ".b-is-autocomplete.fui-Input__input-error + .fui-Field__validationMessage" ).Append( "{" )
+            sb.Append( ".b-is-autocomplete.fui-Input__input-error ~ .fui-Field__validationMessage-error" ).Append( "{" )
                 .Append( $"color: {validationDangerColor};" )
                 .AppendLine( "}" );
 
-            sb.Append( ".b-is-autocomplete.fui-Input__input-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon" )
+            sb.Append( ".b-is-autocomplete.fui-Input__input-error ~ .fui-Field__validationMessage-error .fui-Field__validationMessageIcon" )
                 .Append( "{" )
                 .Append( $"color: {validationDangerColor};" )
                 .AppendLine( "}" );
