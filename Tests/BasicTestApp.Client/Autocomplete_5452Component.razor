@@ -1,0 +1,17 @@
+<Autocomplete TItem="string"
+              TValue="string"
+              Data="@items"
+              MinSearchLength="0"
+              TextField="@(( item ) => item)"
+              ValueField="@(( item ) => item)" />
+
+<Button ElementId="nextButton" Outline>Next</Button>
+
+@code {
+    private readonly List<string> items = new()
+    {
+        "Alpha",
+        "Beta",
+        "Gamma"
+    };
+}

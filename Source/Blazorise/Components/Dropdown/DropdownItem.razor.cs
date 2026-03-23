@@ -133,12 +133,17 @@ public partial class DropdownItem : BaseComponent
     /// <summary>
     /// Gets the tabindex value for keyboard navigation.
     /// </summary>
-    protected int ComputedTabIndex => Disabled ? -1 : 0;
+    protected int ComputedTabIndex => Disabled ? -1 : TabIndex ?? 0;
 
     /// <summary>
     /// Holds the item value.
     /// </summary>
     [Parameter] public object Value { get; set; }
+
+    /// <summary>
+    /// Gets or sets the tabindex value for keyboard navigation.
+    /// </summary>
+    [Parameter] public int? TabIndex { get; set; }
 
     /// <summary>
     /// Indicate the currently active item.
