@@ -1,0 +1,39 @@
+.b-validation-success,
+.b-validation-error {
+    display: none;
+}
+
+.b-validation-none {
+    display: block;
+}
+
+.b-is-valid,
+.b-is-invalid,
+:is(div, label):has(.b-is-valid),
+:is(div, label):has(.b-is-invalid) {
+    ~ .b-validation-none {
+        display: none;
+    }
+}
+
+.b-is-valid,
+:is(div, label):has(.b-is-valid) {
+    ~ .b-validation-success {
+        display: block;
+    }
+
+    ~ .b-validation-error {
+        display: none;
+    }
+}
+
+.b-is-invalid,
+:is(div, label):has(.b-is-invalid) {
+    ~ .b-validation-error {
+        display: block;
+    }
+
+    ~ .b-validation-success {
+        display: none;
+    }
+}

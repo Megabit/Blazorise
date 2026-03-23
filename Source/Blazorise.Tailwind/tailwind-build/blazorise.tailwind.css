@@ -633,6 +633,40 @@ p {
   width: 512px;
 }
 
+.b-validation-success,
+.b-validation-error {
+  display: none;
+}
+
+.b-validation-none {
+  display: block;
+}
+
+.b-is-valid ~ .b-validation-none,
+.b-is-invalid ~ .b-validation-none,
+:is(div, label):has(.b-is-valid) ~ .b-validation-none,
+:is(div, label):has(.b-is-invalid) ~ .b-validation-none {
+  display: none;
+}
+
+.b-is-valid ~ .b-validation-success,
+:is(div, label):has(.b-is-valid) ~ .b-validation-success {
+  display: block;
+}
+.b-is-valid ~ .b-validation-error,
+:is(div, label):has(.b-is-valid) ~ .b-validation-error {
+  display: none;
+}
+
+.b-is-invalid ~ .b-validation-error,
+:is(div, label):has(.b-is-invalid) ~ .b-validation-error {
+  display: block;
+}
+.b-is-invalid ~ .b-validation-success,
+:is(div, label):has(.b-is-invalid) ~ .b-validation-success {
+  display: none;
+}
+
 .b-richtextedit > .b-richtextedit-toolbar.ql-bubble,
 .b-richtextedit > .b-richtextedit-editor.ql-bubble {
   border-style: solid;
