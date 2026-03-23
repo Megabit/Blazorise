@@ -1979,7 +1979,9 @@ fieldset.columns > legend.field-label ~ .column {
 }
 
 .field:has(> .control .is-success) > .help:not(.is-success):not(.is-danger),
-.field:has(> .control .is-danger) > .help:not(.is-success):not(.is-danger) {
+.field:has(> .control .is-danger) > .help:not(.is-success):not(.is-danger),
+.field:has(> .b-richtextedit.is-success) > .help:not(.is-success):not(.is-danger),
+.field:has(> .b-richtextedit.is-danger) > .help:not(.is-success):not(.is-danger) {
   display: none;
 }
 
@@ -1988,10 +1990,12 @@ fieldset.columns > legend.field-label ~ .column {
   display: none;
 }
 
-.field:has(> .control .is-success) > .help.is-success {
+.field:has(> .control .is-success) > .help.is-success,
+.field:has(> .b-richtextedit.is-success) > .help.is-success {
   display: block;
 }
-.field:has(> .control .is-success) > .help.is-danger {
+.field:has(> .control .is-success) > .help.is-danger,
+.field:has(> .b-richtextedit.is-success) > .help.is-danger {
   display: none;
 }
 
@@ -2002,10 +2006,12 @@ fieldset.columns > legend.field-label ~ .column {
   display: none;
 }
 
-.field:has(> .control .is-danger) > .help.is-danger {
+.field:has(> .control .is-danger) > .help.is-danger,
+.field:has(> .b-richtextedit.is-danger) > .help.is-danger {
   display: block;
 }
-.field:has(> .control .is-danger) > .help.is-success {
+.field:has(> .control .is-danger) > .help.is-success,
+.field:has(> .b-richtextedit.is-danger) > .help.is-success {
   display: none;
 }
 
