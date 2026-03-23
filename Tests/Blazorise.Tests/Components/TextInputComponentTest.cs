@@ -138,6 +138,31 @@ public class TextInputComponentTest : TestContext
         Assert.Equal( "false", input.GetAttribute( "aria-required" ) );
     }
 
+    [Fact]
+    public void ValidationError_RemainsMounted_BeforeErrorState()
+    {
+        var comp = RenderComponent<Validation>( parameters => parameters
+            .Add( p => p.Validator, ValidationRule.IsNotEmpty )
+            .Add( p => p.Status, ValidationStatus.None )
+            .Add( p => p.ChildContent, (RenderFragment)( builder =>
+            {
+                builder.OpenComponent<Field>( 0 );
+                builder.AddAttribute( 1, nameof( Field.ChildContent ), (RenderFragment)( fieldBuilder =>
+                {
+                    fieldBuilder.OpenComponent<TextInput>( 0 );
+                    fieldBuilder.CloseComponent();
+
+                    fieldBuilder.OpenComponent<ValidationError>( 1 );
+                    fieldBuilder.CloseComponent();
+                } ) );
+                builder.CloseComponent();
+            } ) ) );
+
+        var validationError = comp.Find( ".invalid-feedback" );
+
+        Assert.Equal( string.Empty, validationError.TextContent.Trim() );
+    }
+
     private IRenderedComponent<Validations> RenderRequiredTextInput( RequiredTextModel model )
     {
         return RenderComponent<Validations>( parameters => parameters
