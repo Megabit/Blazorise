@@ -2919,7 +2919,7 @@ template {
   animation-iteration-count: infinite;
   animation-timing-function: linear;
 }
-.ant-btn-secondary {
+.ant-btn-secondary.ant-btn-variant-solid {
   --ant-btn-color-base: #6c757d;
   --ant-btn-color-hover: rgb(147.4356223176, 155.1802575107, 162.0643776824);
   --ant-btn-color-active: rgb(72.5407725322, 78.5858369099, 83.9592274678);
@@ -2944,7 +2944,7 @@ template {
   --ant-btn-bg-color-disabled: #f5f5f5;
   box-shadow: var(--ant-btn-shadow);
 }
-.ant-btn-outline-secondary {
+.ant-btn-outline-secondary.ant-btn-variant-outlined, .ant-btn-outline-secondary.ant-btn-variant-dashed {
   --ant-btn-color-base: #6c757d;
   --ant-btn-color-hover: rgb(147.4356223176, 155.1802575107, 162.0643776824);
   --ant-btn-color-active: rgb(72.5407725322, 78.5858369099, 83.9592274678);
@@ -2966,7 +2966,7 @@ template {
   --ant-btn-bg-color-disabled: transparent;
   box-shadow: none;
 }
-.ant-btn-success {
+.ant-btn-success.ant-btn-variant-solid {
   --ant-btn-color-base: #35c613;
   --ant-btn-color-hover: rgb(91.3778801843, 236.0437788018, 57.4562211982);
   --ant-btn-color-active: rgb(34.3156682028, 128.198156682, 12.301843318);
@@ -2991,7 +2991,7 @@ template {
   --ant-btn-bg-color-disabled: #f5f5f5;
   box-shadow: var(--ant-btn-shadow);
 }
-.ant-btn-outline-success {
+.ant-btn-outline-success.ant-btn-variant-outlined, .ant-btn-outline-success.ant-btn-variant-dashed {
   --ant-btn-color-base: #35c613;
   --ant-btn-color-hover: rgb(91.3778801843, 236.0437788018, 57.4562211982);
   --ant-btn-color-active: rgb(34.3156682028, 128.198156682, 12.301843318);
@@ -3013,7 +3013,7 @@ template {
   --ant-btn-bg-color-disabled: transparent;
   box-shadow: none;
 }
-.ant-btn-info {
+.ant-btn-info.ant-btn-variant-solid {
   --ant-btn-color-base: #60b6f4;
   --ant-btn-color-hover: rgb(167.55, 214.85, 248.95);
   --ant-btn-color-active: rgb(24.45, 149.15, 239.05);
@@ -3038,7 +3038,7 @@ template {
   --ant-btn-bg-color-disabled: #f5f5f5;
   box-shadow: var(--ant-btn-shadow);
 }
-.ant-btn-outline-info {
+.ant-btn-outline-info.ant-btn-variant-outlined, .ant-btn-outline-info.ant-btn-variant-dashed {
   --ant-btn-color-base: #60b6f4;
   --ant-btn-color-hover: rgb(167.55, 214.85, 248.95);
   --ant-btn-color-active: rgb(24.45, 149.15, 239.05);
@@ -3060,7 +3060,7 @@ template {
   --ant-btn-bg-color-disabled: transparent;
   box-shadow: none;
 }
-.ant-btn-warning {
+.ant-btn-warning.ant-btn-variant-solid {
   --ant-btn-color-base: #f7c12a;
   --ant-btn-color-hover: rgb(249.7692307692, 214.4615384615, 115.7307692308);
   --ant-btn-color-active: rgb(204.8076923077, 152.8846153846, 7.6923076923);
@@ -3085,7 +3085,7 @@ template {
   --ant-btn-bg-color-disabled: #f5f5f5;
   box-shadow: var(--ant-btn-shadow);
 }
-.ant-btn-outline-warning {
+.ant-btn-outline-warning.ant-btn-variant-outlined, .ant-btn-outline-warning.ant-btn-variant-dashed {
   --ant-btn-color-base: #f7c12a;
   --ant-btn-color-hover: rgb(249.7692307692, 214.4615384615, 115.7307692308);
   --ant-btn-color-active: rgb(204.8076923077, 152.8846153846, 7.6923076923);
@@ -3107,7 +3107,7 @@ template {
   --ant-btn-bg-color-disabled: transparent;
   box-shadow: none;
 }
-.ant-btn-light {
+.ant-btn-light.ant-btn-variant-solid {
   --ant-btn-color-base: #fafafa;
   --ant-btn-color-hover: white;
   --ant-btn-color-active: rgb(211.75, 211.75, 211.75);
@@ -3132,7 +3132,7 @@ template {
   --ant-btn-bg-color-disabled: #f5f5f5;
   box-shadow: var(--ant-btn-shadow);
 }
-.ant-btn-outline-light {
+.ant-btn-outline-light.ant-btn-variant-outlined, .ant-btn-outline-light.ant-btn-variant-dashed {
   --ant-btn-color-base: #fafafa;
   --ant-btn-color-hover: white;
   --ant-btn-color-active: rgb(211.75, 211.75, 211.75);
@@ -3154,7 +3154,7 @@ template {
   --ant-btn-bg-color-disabled: transparent;
   box-shadow: none;
 }
-.ant-btn-dark {
+.ant-btn-dark.ant-btn-variant-solid {
   --ant-btn-color-base: #343a40;
   --ant-btn-color-hover: rgb(86.2931034483, 96.25, 106.2068965517);
   --ant-btn-color-active: rgb(17.7068965517, 19.75, 21.7931034483);
@@ -3179,7 +3179,7 @@ template {
   --ant-btn-bg-color-disabled: #f5f5f5;
   box-shadow: var(--ant-btn-shadow);
 }
-.ant-btn-outline-dark {
+.ant-btn-outline-dark.ant-btn-variant-outlined, .ant-btn-outline-dark.ant-btn-variant-dashed {
   --ant-btn-color-base: #343a40;
   --ant-btn-color-hover: rgb(86.2931034483, 96.25, 106.2068965517);
   --ant-btn-color-active: rgb(17.7068965517, 19.75, 21.7931034483);
@@ -3201,7 +3201,7 @@ template {
   --ant-btn-bg-color-disabled: transparent;
   box-shadow: none;
 }
-.ant-btn-link {
+.ant-btn-link.ant-btn-variant-solid {
   --ant-btn-color-base: #007bff;
   --ant-btn-color-hover: rgb(76.5, 162.6, 255);
   --ant-btn-color-active: rgb(0, 86.1, 178.5);
@@ -3226,7 +3226,7 @@ template {
   --ant-btn-bg-color-disabled: #f5f5f5;
   box-shadow: var(--ant-btn-shadow);
 }
-.ant-btn-outline-link {
+.ant-btn-outline-link.ant-btn-variant-outlined, .ant-btn-outline-link.ant-btn-variant-dashed {
   --ant-btn-color-base: #007bff;
   --ant-btn-color-hover: rgb(76.5, 162.6, 255);
   --ant-btn-color-active: rgb(0, 86.1, 178.5);

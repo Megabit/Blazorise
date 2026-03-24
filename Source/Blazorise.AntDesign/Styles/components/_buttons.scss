@@ -96,11 +96,12 @@
     }
 
     @each $name, $value in $unsuported-button-colors {
-        &-#{$name} {
+        &-#{$name}.ant-btn-variant-solid {
             @include ant-btn-solid-vars($value, color-yiq($value));
         }
 
-        &-outline-#{$name} {
+        &-outline-#{$name}.ant-btn-variant-outlined,
+        &-outline-#{$name}.ant-btn-variant-dashed {
             @include ant-btn-outline-vars($value);
         }
     }
