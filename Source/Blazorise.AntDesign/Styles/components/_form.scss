@@ -28,6 +28,15 @@
     > .ant-col.ant-form-item-label {
         padding-right: 0;
         padding-left: 0;
+        white-space: initial;
+    }
+
+    > .ant-col.ant-form-item-label > label {
+        display: block;
+        width: 100%;
+        height: auto;
+        white-space: normal;
+        overflow-wrap: anywhere;
     }
 
     &.ant-form-item-vertical,
