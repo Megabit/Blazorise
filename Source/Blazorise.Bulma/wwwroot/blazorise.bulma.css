@@ -1971,23 +1971,25 @@ fieldset.columns > legend.field-label ~ .column {
   padding-top: 0;
 }
 
-.field > .help.is-success,
-.field > .help.is-danger,
+:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help.is-success,
+:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help.is-danger,
+:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help:not(.is-success):not(.is-danger) + .help.is-success,
+:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help:not(.is-success):not(.is-danger) + .help.is-danger,
+:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help.is-success + .help.is-danger,
+:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help:not(.is-success):not(.is-danger) + .help.is-success + .help.is-danger,
+input + label + .help.is-success,
+input + label + .help.is-danger,
+input + label + .help:not(.is-success):not(.is-danger) + .help.is-success,
+input + label + .help:not(.is-success):not(.is-danger) + .help.is-danger,
+input + label + .help.is-success + .help.is-danger,
+input + label + .help:not(.is-success):not(.is-danger) + .help.is-success + .help.is-danger,
 .b-password-strength > .help.is-success,
 .b-password-strength > .help.is-danger {
   display: none;
 }
 
-.field:has(> .control .is-success) > .help:not(.is-success):not(.is-danger),
-.field:has(> .control .is-danger) > .help:not(.is-success):not(.is-danger),
-.field:has(> input.is-success) > .help:not(.is-success):not(.is-danger),
-.field:has(> input.is-danger) > .help:not(.is-success):not(.is-danger),
-.field:has(> textarea.is-success) > .help:not(.is-success):not(.is-danger),
-.field:has(> textarea.is-danger) > .help:not(.is-success):not(.is-danger),
-.field:has(> .EasyMDEContainer.b-markdown-valid) > .help:not(.is-success):not(.is-danger),
-.field:has(> .EasyMDEContainer.b-markdown-invalid) > .help:not(.is-success):not(.is-danger),
-.field:has(> .b-richtextedit.is-success) > .help:not(.is-success):not(.is-danger),
-.field:has(> .b-richtextedit.is-danger) > .help:not(.is-success):not(.is-danger) {
+:is(.control:has(.is-success), .control:has(.is-danger), input.is-success, input.is-danger, textarea.is-success, textarea.is-danger, .EasyMDEContainer.b-markdown-valid, .EasyMDEContainer.b-markdown-invalid, .b-richtextedit.is-success, .b-richtextedit.is-danger) + .help:not(.is-success):not(.is-danger),
+input:is(.is-success, .is-danger) + label + .help:not(.is-success):not(.is-danger) {
   display: none;
 }
 
@@ -1996,19 +1998,11 @@ fieldset.columns > legend.field-label ~ .column {
   display: none;
 }
 
-.field:has(> .control .is-success) > .help.is-success,
-.field:has(> input.is-success) > .help.is-success,
-.field:has(> textarea.is-success) > .help.is-success,
-.field:has(> .EasyMDEContainer.b-markdown-valid) > .help.is-success,
-.field:has(> .b-richtextedit.is-success) > .help.is-success {
+:is(.control:has(.is-success), input.is-success, textarea.is-success, .EasyMDEContainer.b-markdown-valid, .b-richtextedit.is-success) + .help.is-success,
+:is(.control:has(.is-success), input.is-success, textarea.is-success, .EasyMDEContainer.b-markdown-valid, .b-richtextedit.is-success) + .help:not(.is-success):not(.is-danger) + .help.is-success,
+input.is-success + label + .help.is-success,
+input.is-success + label + .help:not(.is-success):not(.is-danger) + .help.is-success {
   display: block;
-}
-.field:has(> .control .is-success) > .help.is-danger,
-.field:has(> input.is-success) > .help.is-danger,
-.field:has(> textarea.is-success) > .help.is-danger,
-.field:has(> .EasyMDEContainer.b-markdown-valid) > .help.is-danger,
-.field:has(> .b-richtextedit.is-success) > .help.is-danger {
-  display: none;
 }
 
 .b-password-strength:has(.field.has-addons > .control .input.is-success) > .help.is-success {
@@ -2018,19 +2012,15 @@ fieldset.columns > legend.field-label ~ .column {
   display: none;
 }
 
-.field:has(> .control .is-danger) > .help.is-danger,
-.field:has(> input.is-danger) > .help.is-danger,
-.field:has(> textarea.is-danger) > .help.is-danger,
-.field:has(> .EasyMDEContainer.b-markdown-invalid) > .help.is-danger,
-.field:has(> .b-richtextedit.is-danger) > .help.is-danger {
+:is(.control:has(.is-danger), input.is-danger, textarea.is-danger, .EasyMDEContainer.b-markdown-invalid, .b-richtextedit.is-danger) + .help.is-danger,
+:is(.control:has(.is-danger), input.is-danger, textarea.is-danger, .EasyMDEContainer.b-markdown-invalid, .b-richtextedit.is-danger) + .help:not(.is-success):not(.is-danger) + .help.is-danger,
+:is(.control:has(.is-danger), input.is-danger, textarea.is-danger, .EasyMDEContainer.b-markdown-invalid, .b-richtextedit.is-danger) + .help.is-success + .help.is-danger,
+:is(.control:has(.is-danger), input.is-danger, textarea.is-danger, .EasyMDEContainer.b-markdown-invalid, .b-richtextedit.is-danger) + .help:not(.is-success):not(.is-danger) + .help.is-success + .help.is-danger,
+input.is-danger + label + .help.is-danger,
+input.is-danger + label + .help:not(.is-success):not(.is-danger) + .help.is-danger,
+input.is-danger + label + .help.is-success + .help.is-danger,
+input.is-danger + label + .help:not(.is-success):not(.is-danger) + .help.is-success + .help.is-danger {
   display: block;
-}
-.field:has(> .control .is-danger) > .help.is-success,
-.field:has(> input.is-danger) > .help.is-success,
-.field:has(> textarea.is-danger) > .help.is-success,
-.field:has(> .EasyMDEContainer.b-markdown-invalid) > .help.is-success,
-.field:has(> .b-richtextedit.is-danger) > .help.is-success {
-  display: none;
 }
 
 .b-password-strength:has(.field.has-addons > .control .input.is-danger) > .help.is-danger {

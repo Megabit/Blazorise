@@ -1,23 +1,23 @@
-.field > .help.is-success,
-.field > .help.is-danger,
+:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help.is-success,
+:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help.is-danger,
+:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help:not(.is-success):not(.is-danger) + .help.is-success,
+:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help:not(.is-success):not(.is-danger) + .help.is-danger,
+:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help.is-success + .help.is-danger,
+:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help:not(.is-success):not(.is-danger) + .help.is-success + .help.is-danger,
+input + label + .help.is-success,
+input + label + .help.is-danger,
+input + label + .help:not(.is-success):not(.is-danger) + .help.is-success,
+input + label + .help:not(.is-success):not(.is-danger) + .help.is-danger,
+input + label + .help.is-success + .help.is-danger,
+input + label + .help:not(.is-success):not(.is-danger) + .help.is-success + .help.is-danger,
 .b-password-strength > .help.is-success,
 .b-password-strength > .help.is-danger {
     display: none;
 }
 
-.field:has(> .control .is-success),
-.field:has(> .control .is-danger),
-.field:has(> input.is-success),
-.field:has(> input.is-danger),
-.field:has(> textarea.is-success),
-.field:has(> textarea.is-danger),
-.field:has(> .EasyMDEContainer.b-markdown-valid),
-.field:has(> .EasyMDEContainer.b-markdown-invalid),
-.field:has(> .b-richtextedit.is-success),
-.field:has(> .b-richtextedit.is-danger) {
-    > .help:not(.is-success):not(.is-danger) {
-        display: none;
-    }
+:is(.control:has(.is-success), .control:has(.is-danger), input.is-success, input.is-danger, textarea.is-success, textarea.is-danger, .EasyMDEContainer.b-markdown-valid, .EasyMDEContainer.b-markdown-invalid, .b-richtextedit.is-success, .b-richtextedit.is-danger) + .help:not(.is-success):not(.is-danger),
+input:is(.is-success, .is-danger) + label + .help:not(.is-success):not(.is-danger) {
+    display: none;
 }
 
 .b-password-strength:has(.field.has-addons > .control .input.is-success),
@@ -27,18 +27,11 @@
     }
 }
 
-.field:has(> .control .is-success),
-.field:has(> input.is-success),
-.field:has(> textarea.is-success),
-.field:has(> .EasyMDEContainer.b-markdown-valid),
-.field:has(> .b-richtextedit.is-success) {
-    > .help.is-success {
-        display: block;
-    }
-
-    > .help.is-danger {
-        display: none;
-    }
+:is(.control:has(.is-success), input.is-success, textarea.is-success, .EasyMDEContainer.b-markdown-valid, .b-richtextedit.is-success) + .help.is-success,
+:is(.control:has(.is-success), input.is-success, textarea.is-success, .EasyMDEContainer.b-markdown-valid, .b-richtextedit.is-success) + .help:not(.is-success):not(.is-danger) + .help.is-success,
+input.is-success + label + .help.is-success,
+input.is-success + label + .help:not(.is-success):not(.is-danger) + .help.is-success {
+    display: block;
 }
 
 .b-password-strength:has(.field.has-addons > .control .input.is-success) {
@@ -51,18 +44,15 @@
     }
 }
 
-.field:has(> .control .is-danger),
-.field:has(> input.is-danger),
-.field:has(> textarea.is-danger),
-.field:has(> .EasyMDEContainer.b-markdown-invalid),
-.field:has(> .b-richtextedit.is-danger) {
-    > .help.is-danger {
-        display: block;
-    }
-
-    > .help.is-success {
-        display: none;
-    }
+:is(.control:has(.is-danger), input.is-danger, textarea.is-danger, .EasyMDEContainer.b-markdown-invalid, .b-richtextedit.is-danger) + .help.is-danger,
+:is(.control:has(.is-danger), input.is-danger, textarea.is-danger, .EasyMDEContainer.b-markdown-invalid, .b-richtextedit.is-danger) + .help:not(.is-success):not(.is-danger) + .help.is-danger,
+:is(.control:has(.is-danger), input.is-danger, textarea.is-danger, .EasyMDEContainer.b-markdown-invalid, .b-richtextedit.is-danger) + .help.is-success + .help.is-danger,
+:is(.control:has(.is-danger), input.is-danger, textarea.is-danger, .EasyMDEContainer.b-markdown-invalid, .b-richtextedit.is-danger) + .help:not(.is-success):not(.is-danger) + .help.is-success + .help.is-danger,
+input.is-danger + label + .help.is-danger,
+input.is-danger + label + .help:not(.is-success):not(.is-danger) + .help.is-danger,
+input.is-danger + label + .help.is-success + .help.is-danger,
+input.is-danger + label + .help:not(.is-success):not(.is-danger) + .help.is-success + .help.is-danger {
+    display: block;
 }
 
 .b-password-strength:has(.field.has-addons > .control .input.is-danger) {
