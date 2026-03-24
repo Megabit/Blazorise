@@ -7781,12 +7781,12 @@ a.b-ant-link-disabled[aria-disabled=true] {
   font-weight: 600;
 }
 
-.ant-table .ant-table-thead-dark th {
+.ant-table thead.ant-table-thead-dark > tr > th {
   color: var(--b-table-thead-dark-color, #fff);
   background-color: var(--b-table-thead-dark-background, #343a40);
   border-color: var(--b-table-thead-dark-border, #343a40);
 }
-.ant-table .ant-table-thead-light th {
+.ant-table thead.ant-table-thead-light > tr > th {
   color: var(--b-table-thead-light-color, #495057);
   background-color: var(--b-table-thead-light-background, #e9ecef);
   border-color: var(--b-table-thead-light-border, #e9ecef);

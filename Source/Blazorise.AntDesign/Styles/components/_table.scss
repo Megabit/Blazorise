@@ -150,20 +150,16 @@
 
 .ant-table {
     // TODO: add to theme options
-    .ant-table-thead-dark {
-        th {
-            color: var(--b-table-thead-dark-color, #fff);
-            background-color: var(--b-table-thead-dark-background, #343a40);
-            border-color: var(--b-table-thead-dark-border, #343a40);
-        }
+    thead.ant-table-thead-dark > tr > th {
+        color: var(--b-table-thead-dark-color, #fff);
+        background-color: var(--b-table-thead-dark-background, #343a40);
+        border-color: var(--b-table-thead-dark-border, #343a40);
     }
 
-    .ant-table-thead-light {
-        th {
-            color: var(--b-table-thead-light-color, #495057);
-            background-color: var(--b-table-thead-light-background, #e9ecef);
-            border-color: var(--b-table-thead-light-border, #e9ecef);
-        }
+    thead.ant-table-thead-light > tr > th {
+        color: var(--b-table-thead-light-color, #495057);
+        background-color: var(--b-table-thead-light-background, #e9ecef);
+        border-color: var(--b-table-thead-light-border, #e9ecef);
     }
 }
 
