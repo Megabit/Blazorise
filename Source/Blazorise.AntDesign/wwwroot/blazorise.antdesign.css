@@ -5383,20 +5383,20 @@ a.b-ant-link-disabled[aria-disabled=true] {
   border-color: #ff4d4f;
 }
 .b-ant-list-group .b-ant-list-group-item-light {
-  color: #fafafa;
+  color: #262626;
   background-color: rgb(253.6, 253.6, 253.6);
 }
 .b-ant-list-group .b-ant-list-group-item-light.b-ant-list-group-item-selectable:hover, .b-ant-list-group .b-ant-list-group-item-light.b-ant-list-group-item-selectable:focus {
-  color: #fafafa;
+  color: #262626;
   background-color: rgb(240.85, 240.85, 240.85);
 }
 .b-ant-list-group .b-ant-list-group-item-light.b-ant-list-group-item-active {
-  color: #ffffff;
+  color: #262626;
   background-color: #fafafa;
   border-color: #fafafa;
 }
 .b-ant-list-group .b-ant-list-group-item-light.b-ant-list-group-item-active:hover, .b-ant-list-group .b-ant-list-group-item-light.b-ant-list-group-item-active:focus {
-  color: #ffffff;
+  color: #262626;
   background-color: #fafafa;
   border-color: #fafafa;
 }

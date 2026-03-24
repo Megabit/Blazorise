@@ -60,25 +60,27 @@
     @each $name, $value in $theme-colors {
         $color: $value;
         $background: theme-color-level($name, -9);
+        $contextual-color: if($name == "light", $text-dark, $color);
+        $contextual-active-color: if($name == "light", $text-dark, $ant-white);
 
         .b-ant-list-group-item-#{$name} {
-            color: $color;
+            color: $contextual-color;
             background-color: $background;
 
             &.b-ant-list-group-item-selectable {
                 @include hover-focus() {
-                    color: $color;
+                    color: $contextual-color;
                     background-color: darken($background, 5%);
                 }
             }
 
             &.b-ant-list-group-item-active {
-                color: $ant-white;
+                color: $contextual-active-color;
                 background-color: $color;
                 border-color: $color;
 
                 @include hover-focus() {
-                    color: $ant-white;
+                    color: $contextual-active-color;
                     background-color: $color;
                     border-color: $color;
                 }
