@@ -39,6 +39,14 @@
     white-space: nowrap !important;
 }
 
+.ant-typography-ellipsis {
+    display: inline-block !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
 .ant-unordered-list {
     &-unstyled {
         padding-left: 0;
