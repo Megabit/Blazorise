@@ -4,8 +4,7 @@ import { createFloatingUiAutoUpdate } from './floatingUi.js?v=2.0.3.0';
 const _instances = [];
 
 function createSelector(value) {
-    const classNames = '.' + value.split(' ').filter(i => i).join('.');
-
+    const classNames = '.' + value.trim().split(/\s+/).map(CSS.escape).join('.');
     return classNames;
 }
 
