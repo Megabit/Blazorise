@@ -642,29 +642,29 @@ p {
   display: block;
 }
 
-.b-is-valid ~ .b-validation-none,
-.b-is-invalid ~ .b-validation-none,
-:is(div, label):has(.b-is-valid) ~ .b-validation-none,
-:is(div, label):has(.b-is-invalid) ~ .b-validation-none {
+.b-is-valid + .b-validation-none,
+.b-is-invalid + .b-validation-none,
+:is(div, label):has(.b-is-valid) + .b-validation-none,
+:is(div, label):has(.b-is-invalid) + .b-validation-none {
   display: none;
 }
 
-.b-is-valid ~ .b-validation-success,
-:is(div, label):has(.b-is-valid) ~ .b-validation-success {
+.b-is-valid + .b-validation-success,
+.b-is-valid + .b-validation-none + .b-validation-success,
+:is(div, label):has(.b-is-valid) + .b-validation-success,
+:is(div, label):has(.b-is-valid) + .b-validation-none + .b-validation-success {
   display: block;
-}
-.b-is-valid ~ .b-validation-error,
-:is(div, label):has(.b-is-valid) ~ .b-validation-error {
-  display: none;
 }
 
-.b-is-invalid ~ .b-validation-error,
-:is(div, label):has(.b-is-invalid) ~ .b-validation-error {
+.b-is-invalid + .b-validation-error,
+.b-is-invalid + .b-validation-none + .b-validation-error,
+.b-is-invalid + .b-validation-success + .b-validation-error,
+.b-is-invalid + .b-validation-none + .b-validation-success + .b-validation-error,
+:is(div, label):has(.b-is-invalid) + .b-validation-error,
+:is(div, label):has(.b-is-invalid) + .b-validation-none + .b-validation-error,
+:is(div, label):has(.b-is-invalid) + .b-validation-success + .b-validation-error,
+:is(div, label):has(.b-is-invalid) + .b-validation-none + .b-validation-success + .b-validation-error {
   display: block;
-}
-.b-is-invalid ~ .b-validation-success,
-:is(div, label):has(.b-is-invalid) ~ .b-validation-success {
-  display: none;
 }
 
 .EasyMDEContainer .editor-toolbar,
