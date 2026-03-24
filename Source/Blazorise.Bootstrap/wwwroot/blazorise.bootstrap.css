@@ -830,21 +830,25 @@ input[readonly=readonly][type=range]::-ms-thumb {
   display: none;
 }
 
-.form-control.is-valid ~ .valid-feedback,
-.custom-select.is-valid ~ .valid-feedback,
-.custom-file-input.is-valid ~ .valid-feedback,
-.form-control.is-invalid ~ .invalid-feedback,
-.custom-select.is-invalid ~ .invalid-feedback,
-.custom-file-input.is-invalid ~ .invalid-feedback {
+:is(.form-control, .custom-select).is-valid + .valid-feedback,
+:is(.form-control, .custom-select).is-valid + .form-text.text-muted + .valid-feedback,
+.custom-file-input.is-valid + .custom-file-label + .valid-feedback,
+.custom-file-input.is-valid + .custom-file-label + .form-text.text-muted + .valid-feedback,
+:is(.form-control, .custom-select).is-invalid + .invalid-feedback,
+:is(.form-control, .custom-select).is-invalid + .form-text.text-muted + .invalid-feedback,
+:is(.form-control, .custom-select).is-invalid + .valid-feedback + .invalid-feedback,
+:is(.form-control, .custom-select).is-invalid + .form-text.text-muted + .valid-feedback + .invalid-feedback,
+.custom-file-input.is-invalid + .custom-file-label + .invalid-feedback,
+.custom-file-input.is-invalid + .custom-file-label + .form-text.text-muted + .invalid-feedback,
+.custom-file-input.is-invalid + .custom-file-label + .valid-feedback + .invalid-feedback,
+.custom-file-input.is-invalid + .custom-file-label + .form-text.text-muted + .valid-feedback + .invalid-feedback {
   display: block;
 }
 
-.form-control.is-valid ~ .form-text.text-muted,
-.custom-select.is-valid ~ .form-text.text-muted,
-.custom-file-input.is-valid ~ .form-text.text-muted,
-.form-control.is-invalid ~ .form-text.text-muted,
-.custom-select.is-invalid ~ .form-text.text-muted,
-.custom-file-input.is-invalid ~ .form-text.text-muted {
+:is(.form-control, .custom-select).is-valid + .form-text.text-muted,
+:is(.form-control, .custom-select).is-invalid + .form-text.text-muted,
+.custom-file-input.is-valid + .custom-file-label + .form-text.text-muted,
+.custom-file-input.is-invalid + .custom-file-label + .form-text.text-muted {
   display: none;
 }
 

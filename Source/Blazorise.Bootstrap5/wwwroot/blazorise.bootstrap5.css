@@ -949,17 +949,17 @@ input[readonly=readonly][type=range]::-ms-thumb {
   display: none;
 }
 
-.form-control.is-valid ~ .valid-feedback,
-.form-select.is-valid ~ .valid-feedback,
-.form-control.is-invalid ~ .invalid-feedback,
-.form-select.is-invalid ~ .invalid-feedback {
+:is(.form-control, .form-select).is-valid + .valid-feedback,
+:is(.form-control, .form-select).is-valid + .form-text.text-muted + .valid-feedback,
+:is(.form-control, .form-select).is-invalid + .invalid-feedback,
+:is(.form-control, .form-select).is-invalid + .form-text.text-muted + .invalid-feedback,
+:is(.form-control, .form-select).is-invalid + .valid-feedback + .invalid-feedback,
+:is(.form-control, .form-select).is-invalid + .form-text.text-muted + .valid-feedback + .invalid-feedback {
   display: block;
 }
 
-.form-control.is-valid ~ .form-text.text-muted,
-.form-select.is-valid ~ .form-text.text-muted,
-.form-control.is-invalid ~ .form-text.text-muted,
-.form-select.is-invalid ~ .form-text.text-muted {
+:is(.form-control, .form-select).is-valid + .form-text.text-muted,
+:is(.form-control, .form-select).is-invalid + .form-text.text-muted {
   display: none;
 }
 
