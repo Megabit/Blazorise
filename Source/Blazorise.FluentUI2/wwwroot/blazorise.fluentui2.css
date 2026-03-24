@@ -19313,12 +19313,23 @@ span.flatpickr-weekday {
   color: var(--colorPaletteGreenForeground1);
 }
 
+.EasyMDEContainer ~ .fui-Field__validationMessage-error,
+.EasyMDEContainer ~ .fui-Field__validationMessage-success {
+  display: none;
+}
+
 .EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-toolbar,
 .EasyMDEContainer.b-markdown-valid.b-markdown-valid .CodeMirror,
 .EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-preview-side,
 .EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-preview-full,
 .EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-statusbar {
   border-color: var(--colorStatusSuccessBorder2);
+}
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid ~ .fui-Field__validationMessage-success {
+  display: block;
+}
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid ~ .fui-Field__validationMessage-success .fui-Field__validationMessageIcon {
+  color: var(--colorPaletteGreenForeground1);
 }
 
 .EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-toolbar,
@@ -19327,6 +19338,13 @@ span.flatpickr-weekday {
 .EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-preview-full,
 .EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-statusbar {
   border-color: var(--colorStatusDangerBorder2);
+}
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid ~ .fui-Field__validationMessage-error {
+  display: block;
+  color: var(--colorPaletteRedForeground1);
+}
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid ~ .fui-Field__validationMessage-error .fui-Field__validationMessageIcon {
+  color: var(--colorPaletteRedForeground1);
 }
 
 .b-richtextedit ~ .fui-Field__validationMessage-error,
