@@ -3,9 +3,12 @@
     margin-right: -$grid-gutter-width;
 
     > .ant-col {
-        flex-grow: 1;
         padding-left: $grid-gutter-width;
         padding-right: $grid-gutter-width;
+
+        &:not([class*="ant-col-"]) {
+            flex-grow: 1;
+        }
     }
 }
 

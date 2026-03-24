@@ -11095,9 +11095,11 @@ a.b-ant-link-disabled[aria-disabled=true] {
   margin-right: -8px;
 }
 .ant-row > .ant-col {
-  flex-grow: 1;
   padding-left: 8px;
   padding-right: 8px;
+}
+.ant-row > .ant-col:not([class*=ant-col-]) {
+  flex-grow: 1;
 }
 
 .ant-container {
