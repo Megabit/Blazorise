@@ -1745,7 +1745,7 @@ html[data-theme=dark] .surface {
   padding-left: var(--spacingHorizontalSNudge);
   padding-right: var(--spacingHorizontalSNudge);
   padding-top: var(--spacingHorizontalSNudge);
-  text-decoration-line: none;
+  text-decoration-line: none !important;
   text-wrap: nowrap;
   transition-duration: var(--durationFaster);
   transition-property: background, border, color;
