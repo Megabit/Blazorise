@@ -1,3 +1,31 @@
+.EasyMDEContainer {
+    .editor-toolbar,
+    .editor-toolbar button,
+    .editor-toolbar i,
+    .editor-toolbar .separator {
+        color: var(--btw-color-gray-700);
+    }
+
+    .editor-toolbar button:hover,
+    .editor-toolbar button.active {
+        color: var(--btw-color-gray-900);
+    }
+}
+
+.dark .EasyMDEContainer {
+    .editor-toolbar,
+    .editor-toolbar button,
+    .editor-toolbar i,
+    .editor-toolbar .separator {
+        color: var(--btw-color-gray-300);
+    }
+
+    .editor-toolbar button:hover,
+    .editor-toolbar button.active {
+        color: var(--btw-color-gray-100);
+    }
+}
+
 .EasyMDEContainer.b-markdown-valid.b-markdown-valid {
     .editor-toolbar,
     .CodeMirror,

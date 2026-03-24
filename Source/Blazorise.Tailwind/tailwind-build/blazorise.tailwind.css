@@ -667,6 +667,28 @@ p {
   display: none;
 }
 
+.EasyMDEContainer .editor-toolbar,
+.EasyMDEContainer .editor-toolbar button,
+.EasyMDEContainer .editor-toolbar i,
+.EasyMDEContainer .editor-toolbar .separator {
+  color: var(--btw-color-gray-700);
+}
+.EasyMDEContainer .editor-toolbar button:hover,
+.EasyMDEContainer .editor-toolbar button.active {
+  color: var(--btw-color-gray-900);
+}
+
+.dark .EasyMDEContainer .editor-toolbar,
+.dark .EasyMDEContainer .editor-toolbar button,
+.dark .EasyMDEContainer .editor-toolbar i,
+.dark .EasyMDEContainer .editor-toolbar .separator {
+  color: var(--btw-color-gray-300);
+}
+.dark .EasyMDEContainer .editor-toolbar button:hover,
+.dark .EasyMDEContainer .editor-toolbar button.active {
+  color: var(--btw-color-gray-100);
+}
+
 .EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-toolbar,
 .EasyMDEContainer.b-markdown-valid.b-markdown-valid .CodeMirror,
 .EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-preview-side,
