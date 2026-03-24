@@ -3,6 +3,9 @@
 }
 
 .ant-menu-submenu-horizontal > .ant-menu-submenu-title {
+    display: flex;
+    align-items: center;
+
     .ant-menu-submenu-arrow {
         position: absolute;
         top: 50%;
