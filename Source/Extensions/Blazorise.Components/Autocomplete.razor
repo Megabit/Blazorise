@@ -79,7 +79,7 @@
         {
             var notFoundContext = GetNotFoundItemContext();
 
-            <DropdownItem Disabled CloseParentDropdowns="@CloseParentDropdowns" Class="@DropdownItemClassNames( notFoundContext )" Style="@DropdownItemStyleNames( notFoundContext )">
+            <DropdownItem Disabled TabIndex="-1" CloseParentDropdowns="@CloseParentDropdowns" Class="@DropdownItemClassNames( notFoundContext )" Style="@DropdownItemStyleNames( notFoundContext )">
                 @NotFoundTemplate( Search )
             </DropdownItem>
         }
@@ -87,7 +87,7 @@
         {
             var notFoundContext = GetNotFoundItemContext();
 
-            <DropdownItem Disabled CloseParentDropdowns="@CloseParentDropdowns" Class="@DropdownItemClassNames( notFoundContext )" Style="@DropdownItemStyleNames( notFoundContext )">
+            <DropdownItem Disabled TabIndex="-1" CloseParentDropdowns="@CloseParentDropdowns" Class="@DropdownItemClassNames( notFoundContext )" Style="@DropdownItemStyleNames( notFoundContext )">
                 @FreeTypingNotFoundTemplate( Search )
             </DropdownItem>
         }
@@ -108,7 +108,7 @@
         var value = GetItemValue( item );
         var itemContext = CreateItemContext( item, value, text, itemIndex, isActiveItem, isFocusedItem, disabled );
 
-        <DropdownItem @key="@item" ElementId="@DropdownItemId( itemIndex )" Active="@isActiveItem" Checked=@isActiveItem ShowCheckbox=@isCheckbox Class="@DropdownItemClassNames( itemContext )" Style="@DropdownItemStyleNames( itemContext )" Value="@value"
+        <DropdownItem @key="@item" ElementId="@DropdownItemId( itemIndex )" Active="@isActiveItem" Checked=@isActiveItem ShowCheckbox=@isCheckbox TabIndex="-1" Class="@DropdownItemClassNames( itemContext )" Style="@DropdownItemStyleNames( itemContext )" Value="@value"
                       Disabled="@disabled"
                       CloseParentDropdowns="@CloseParentDropdowns"
                       @onmousedown="@(() => clickFromCheck = true)"
