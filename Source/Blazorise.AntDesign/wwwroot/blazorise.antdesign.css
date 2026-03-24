@@ -3902,9 +3902,11 @@ template {
 .b-ant-file-picker .b-ant-file-picker-file,
 .b-ant-file-picker .b-ant-file-picker-dropdown-item {
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--ant-margin-sm);
+  min-width: 0;
   padding: var(--ant-padding-xs) var(--ant-padding-sm);
   background: var(--ant-color-fill-quaternary);
   border: 0;
@@ -3923,6 +3925,7 @@ template {
 }
 .b-ant-file-picker .b-ant-file-picker-item-actions {
   flex: 0 0 auto;
+  min-width: 0;
   margin-inline-start: auto;
 }
 .b-ant-file-picker .b-file-picker-file-name {
@@ -3994,6 +3997,25 @@ template {
 .b-ant-file-picker > .ant-btn-group,
 .b-ant-file-picker > .ant-btn-group-vertical {
   margin-top: var(--ant-margin-sm);
+}
+@media (max-width: 575.98px) {
+  .b-ant-file-picker .b-ant-file-picker-file,
+  .b-ant-file-picker .b-ant-file-picker-dropdown-item {
+    flex-wrap: wrap;
+  }
+  .b-ant-file-picker .b-ant-file-picker-item-main,
+  .b-ant-file-picker .b-ant-file-picker-item-actions {
+    flex: 0 0 100%;
+    width: 100%;
+  }
+  .b-ant-file-picker .b-ant-file-picker-item-actions {
+    margin-inline-start: 0;
+  }
+  .b-ant-file-picker .b-ant-file-picker-item-buttons {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
 }
 
 .ant-form-item-has-success .ant-input,
