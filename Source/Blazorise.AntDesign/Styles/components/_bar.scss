@@ -344,6 +344,83 @@
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
+
+    &[data-broken=false] {
+        > .b-ant-menu-toggler-container {
+            display: none;
+        }
+    }
+
+    &[data-broken=true] {
+        flex-wrap: wrap;
+        height: auto;
+
+        > .b-ant-menu-brand-item {
+            order: 0;
+            flex: none;
+        }
+
+        > .b-ant-menu-toggler-container {
+            order: 1;
+            display: flex;
+            margin-inline-start: auto;
+            height: var(--b-bar-horizontal-height, 60px);
+            line-height: var(--ant-menu-horizontal-line-height);
+            border-bottom: 0 !important;
+
+            &::after {
+                display: none !important;
+            }
+
+            > a {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                padding-inline: var(--ant-menu-item-padding-inline);
+            }
+        }
+
+        > .ant-menu-item:not(.b-ant-menu-brand-item):not(.b-ant-menu-toggler-container),
+        > .ant-menu-submenu,
+        > .b-ant-menu-end-spacer {
+            order: 2;
+            flex: 0 0 100%;
+            width: 100%;
+            height: auto;
+            margin: 0 !important;
+        }
+
+        > .b-ant-menu-end-spacer {
+            display: none;
+        }
+
+        &[data-collapse=hide] {
+            > .ant-menu-item:not(.b-ant-menu-brand-item):not(.b-ant-menu-toggler-container),
+            > .ant-menu-submenu,
+            > .b-ant-menu-end-spacer {
+                display: none;
+            }
+        }
+
+        &:not([data-collapse=hide]) {
+            > .ant-menu-item:not(.b-ant-menu-brand-item):not(.b-ant-menu-toggler-container),
+            > .ant-menu-submenu {
+                display: block;
+            }
+
+            > .ant-menu-item:not(.b-ant-menu-brand-item):not(.b-ant-menu-toggler-container) > a,
+            > .ant-menu-submenu > .ant-menu-submenu-title {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                min-height: var(--ant-menu-item-height);
+                margin: 0 !important;
+                padding-inline: var(--ant-menu-item-padding-inline);
+                line-height: var(--ant-menu-item-height);
+            }
+        }
+    }
 }
 
 .ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-submenu,

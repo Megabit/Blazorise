@@ -1948,6 +1948,66 @@ template {
   flex-wrap: nowrap;
   align-items: center;
 }
+.ant-menu.ant-menu-root.ant-menu-horizontal[data-broken=false] > .b-ant-menu-toggler-container {
+  display: none;
+}
+.ant-menu.ant-menu-root.ant-menu-horizontal[data-broken=true] {
+  flex-wrap: wrap;
+  height: auto;
+}
+.ant-menu.ant-menu-root.ant-menu-horizontal[data-broken=true] > .b-ant-menu-brand-item {
+  order: 0;
+  flex: none;
+}
+.ant-menu.ant-menu-root.ant-menu-horizontal[data-broken=true] > .b-ant-menu-toggler-container {
+  order: 1;
+  display: flex;
+  margin-inline-start: auto;
+  height: var(--b-bar-horizontal-height, 60px);
+  line-height: var(--ant-menu-horizontal-line-height);
+  border-bottom: 0 !important;
+}
+.ant-menu.ant-menu-root.ant-menu-horizontal[data-broken=true] > .b-ant-menu-toggler-container::after {
+  display: none !important;
+}
+.ant-menu.ant-menu-root.ant-menu-horizontal[data-broken=true] > .b-ant-menu-toggler-container > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding-inline: var(--ant-menu-item-padding-inline);
+}
+.ant-menu.ant-menu-root.ant-menu-horizontal[data-broken=true] > .ant-menu-item:not(.b-ant-menu-brand-item):not(.b-ant-menu-toggler-container),
+.ant-menu.ant-menu-root.ant-menu-horizontal[data-broken=true] > .ant-menu-submenu,
+.ant-menu.ant-menu-root.ant-menu-horizontal[data-broken=true] > .b-ant-menu-end-spacer {
+  order: 2;
+  flex: 0 0 100%;
+  width: 100%;
+  height: auto;
+  margin: 0 !important;
+}
+.ant-menu.ant-menu-root.ant-menu-horizontal[data-broken=true] > .b-ant-menu-end-spacer {
+  display: none;
+}
+.ant-menu.ant-menu-root.ant-menu-horizontal[data-broken=true][data-collapse=hide] > .ant-menu-item:not(.b-ant-menu-brand-item):not(.b-ant-menu-toggler-container),
+.ant-menu.ant-menu-root.ant-menu-horizontal[data-broken=true][data-collapse=hide] > .ant-menu-submenu,
+.ant-menu.ant-menu-root.ant-menu-horizontal[data-broken=true][data-collapse=hide] > .b-ant-menu-end-spacer {
+  display: none;
+}
+.ant-menu.ant-menu-root.ant-menu-horizontal[data-broken=true]:not([data-collapse=hide]) > .ant-menu-item:not(.b-ant-menu-brand-item):not(.b-ant-menu-toggler-container),
+.ant-menu.ant-menu-root.ant-menu-horizontal[data-broken=true]:not([data-collapse=hide]) > .ant-menu-submenu {
+  display: block;
+}
+.ant-menu.ant-menu-root.ant-menu-horizontal[data-broken=true]:not([data-collapse=hide]) > .ant-menu-item:not(.b-ant-menu-brand-item):not(.b-ant-menu-toggler-container) > a,
+.ant-menu.ant-menu-root.ant-menu-horizontal[data-broken=true]:not([data-collapse=hide]) > .ant-menu-submenu > .ant-menu-submenu-title {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: var(--ant-menu-item-height);
+  margin: 0 !important;
+  padding-inline: var(--ant-menu-item-padding-inline);
+  line-height: var(--ant-menu-item-height);
+}
 
 .ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-submenu,
 .ant-menu-submenu.ant-menu-submenu-popup .ant-menu-submenu.ant-menu-submenu-vertical {
