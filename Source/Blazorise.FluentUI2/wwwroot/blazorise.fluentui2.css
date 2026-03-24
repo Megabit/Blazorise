@@ -2801,6 +2801,11 @@ html[data-theme=dark] .surface {
 .b-bar-vertical-small.b-bar-dark .b-bar-toggler-inline {
   stroke: var(--b-bar-dark-color, rgba(255, 255, 255, 0.5));
 }
+.b-bar-vertical-inline.b-bar-dark .b-bar-link:hover,
+.b-bar-vertical-popout.b-bar-dark .b-bar-link:hover,
+.b-bar-vertical-small.b-bar-dark .b-bar-link:hover {
+  text-decoration: none;
+}
 .b-bar-vertical-inline.b-bar-dark .b-bar-link.fui-Link-active,
 .b-bar-vertical-popout.b-bar-dark .b-bar-link.fui-Link-active,
 .b-bar-vertical-small.b-bar-dark .b-bar-link.fui-Link-active {
@@ -2822,6 +2827,11 @@ html[data-theme=dark] .surface {
 .b-bar-vertical-popout.b-bar-light .b-bar-toggler-inline,
 .b-bar-vertical-small.b-bar-light .b-bar-toggler-inline {
   stroke: var(--b-bar-light-color, rgba(0, 0, 0, 0.7));
+}
+.b-bar-vertical-inline.b-bar-light .b-bar-link:hover,
+.b-bar-vertical-popout.b-bar-light .b-bar-link:hover,
+.b-bar-vertical-small.b-bar-light .b-bar-link:hover {
+  text-decoration: none;
 }
 .b-bar-vertical-inline.b-bar-light .b-bar-link.fui-Link-active,
 .b-bar-vertical-popout.b-bar-light .b-bar-link.fui-Link-active,
