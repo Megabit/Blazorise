@@ -9,6 +9,10 @@
 .field:has(> .control .is-danger),
 .field:has(> input.is-success),
 .field:has(> input.is-danger),
+.field:has(> textarea.is-success),
+.field:has(> textarea.is-danger),
+.field:has(> .EasyMDEContainer.b-markdown-valid),
+.field:has(> .EasyMDEContainer.b-markdown-invalid),
 .field:has(> .b-richtextedit.is-success),
 .field:has(> .b-richtextedit.is-danger) {
     > .help:not(.is-success):not(.is-danger) {
@@ -25,6 +29,8 @@
 
 .field:has(> .control .is-success),
 .field:has(> input.is-success),
+.field:has(> textarea.is-success),
+.field:has(> .EasyMDEContainer.b-markdown-valid),
 .field:has(> .b-richtextedit.is-success) {
     > .help.is-success {
         display: block;
@@ -47,6 +53,8 @@
 
 .field:has(> .control .is-danger),
 .field:has(> input.is-danger),
+.field:has(> textarea.is-danger),
+.field:has(> .EasyMDEContainer.b-markdown-invalid),
 .field:has(> .b-richtextedit.is-danger) {
     > .help.is-danger {
         display: block;
