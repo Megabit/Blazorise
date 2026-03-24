@@ -1345,205 +1345,9 @@ template {
   box-shadow: none;
 }
 
-.ant-tag-primary {
-  color: var(--ant-primary-color);
-  background: var(--ant-primary-1);
-  border-color: var(--ant-primary-color-outline);
-}
-
-.ant-tag-light {
-  color: #595959;
-  background: #f5f5f5;
-  border-color: #d9d9d9;
-}
-
-.ant-tag-dark {
-  color: #f5f5f5;
-  background: #595959;
-  border-color: #1f1f1f;
-}
-
-.ant-tag-info {
-  color: var(--ant-info-color);
-  background: var(--ant-info-color-deprecated-bg);
-  border-color: var(--ant-info-color-deprecated-border);
-}
-
-.ant-tag-link {
-  color: var(--ant-primary-color);
-}
-
 .ant-tag-pill {
-  padding-right: 0.6em;
-  padding-left: 0.6em;
+  padding-inline: 0.6em;
   border-radius: 10rem;
-}
-
-.ant-tag.ant-tag-primary-subtle {
-  color: rgb(18.72, 112.32, 198.9);
-  background-color: rgb(227.28, 241.68, 255);
-  border-color: rgb(227.28, 241.68, 255);
-}
-.ant-tag.ant-tag-secondary-subtle {
-  color: rgb(84.24, 91.26, 97.5);
-  background-color: rgb(237.36, 238.44, 239.4);
-  border-color: rgb(237.36, 238.44, 239.4);
-}
-.ant-tag.ant-tag-success-subtle {
-  color: rgb(41.34, 154.44, 14.82);
-  background-color: rgb(230.76, 248.16, 226.68);
-  border-color: rgb(230.76, 248.16, 226.68);
-}
-.ant-tag.ant-tag-info-subtle {
-  color: rgb(74.88, 141.96, 190.32);
-  background-color: rgb(235.92, 246.24, 253.68);
-  border-color: rgb(235.92, 246.24, 253.68);
-}
-.ant-tag.ant-tag-warning-subtle {
-  color: rgb(192.66, 150.54, 32.76);
-  background-color: rgb(254.04, 247.56, 229.44);
-  border-color: rgb(254.04, 247.56, 229.44);
-}
-.ant-tag.ant-tag-error-subtle {
-  color: rgb(198.9, 60.06, 61.62);
-  background-color: rgb(255, 233.64, 233.88);
-  border-color: rgb(255, 233.64, 233.88);
-}
-.ant-tag.ant-tag-light-subtle {
-  color: #7e7e7e;
-  background-color: rgb(252.5, 252.5, 252.5);
-  border-color: rgb(252.5, 252.5, 252.5);
-}
-.ant-tag.ant-tag-dark-subtle {
-  color: rgb(113.9, 113.9, 113.9);
-  background-color: #bfbfbf;
-  border-color: #bfbfbf;
-}
-.ant-tag.ant-tag-link-subtle {
-  color: rgb(39, 89.7, 171.6);
-  background-color: rgb(230.4, 238.2, 250.8);
-  border-color: rgb(230.4, 238.2, 250.8);
-}
-.ant-tag .anticon.anticon-close.ant-tag-primary-subtle {
-  color: rgb(18.72, 112.32, 198.9);
-  background-color: rgb(227.28, 241.68, 255);
-  border-color: rgb(227.28, 241.68, 255);
-}
-.ant-tag .anticon.anticon-close.ant-tag-secondary-subtle {
-  color: rgb(84.24, 91.26, 97.5);
-  background-color: rgb(237.36, 238.44, 239.4);
-  border-color: rgb(237.36, 238.44, 239.4);
-}
-.ant-tag .anticon.anticon-close.ant-tag-success-subtle {
-  color: rgb(41.34, 154.44, 14.82);
-  background-color: rgb(230.76, 248.16, 226.68);
-  border-color: rgb(230.76, 248.16, 226.68);
-}
-.ant-tag .anticon.anticon-close.ant-tag-info-subtle {
-  color: rgb(74.88, 141.96, 190.32);
-  background-color: rgb(235.92, 246.24, 253.68);
-  border-color: rgb(235.92, 246.24, 253.68);
-}
-.ant-tag .anticon.anticon-close.ant-tag-warning-subtle {
-  color: rgb(192.66, 150.54, 32.76);
-  background-color: rgb(254.04, 247.56, 229.44);
-  border-color: rgb(254.04, 247.56, 229.44);
-}
-.ant-tag .anticon.anticon-close.ant-tag-error-subtle {
-  color: rgb(198.9, 60.06, 61.62);
-  background-color: rgb(255, 233.64, 233.88);
-  border-color: rgb(255, 233.64, 233.88);
-}
-.ant-tag .anticon.anticon-close.ant-tag-light-subtle {
-  color: #7e7e7e;
-  background-color: rgb(252.5, 252.5, 252.5);
-  border-color: rgb(252.5, 252.5, 252.5);
-}
-.ant-tag .anticon.anticon-close.ant-tag-dark-subtle {
-  color: rgb(113.9, 113.9, 113.9);
-  background-color: #bfbfbf;
-  border-color: #bfbfbf;
-}
-.ant-tag .anticon.anticon-close.ant-tag-link-subtle {
-  color: rgb(39, 89.7, 171.6);
-  background-color: rgb(230.4, 238.2, 250.8);
-  border-color: rgb(230.4, 238.2, 250.8);
-}
-
-.ant-tag.ant-tag-primary:not(.ant-tag-disabled).ant-tag-outlined {
-  color: rgb(18.72, 112.32, 198.9);
-  background-color: rgb(227.28, 241.68, 255);
-  border-color: rgb(227.28, 241.68, 255);
-}
-.ant-tag.ant-tag-primary:not(.ant-tag-disabled).ant-tag-solid {
-  color: #fff;
-  background-color: #1890ff;
-  border-color: #1890ff;
-}
-.ant-tag.ant-tag-primary:not(.ant-tag-disabled).ant-tag-filled {
-  color: rgb(18.72, 112.32, 198.9);
-  background-color: rgb(227.28, 241.68, 255);
-  border-color: transparent;
-}
-.ant-tag.ant-tag-secondary:not(.ant-tag-disabled).ant-tag-outlined {
-  color: rgb(84.24, 91.26, 97.5);
-  background-color: rgb(237.36, 238.44, 239.4);
-  border-color: rgb(237.36, 238.44, 239.4);
-}
-.ant-tag.ant-tag-secondary:not(.ant-tag-disabled).ant-tag-solid {
-  color: #fff;
-  background-color: #6c757d;
-  border-color: #6c757d;
-}
-.ant-tag.ant-tag-secondary:not(.ant-tag-disabled).ant-tag-filled {
-  color: rgb(84.24, 91.26, 97.5);
-  background-color: rgb(237.36, 238.44, 239.4);
-  border-color: transparent;
-}
-.ant-tag.ant-tag-light:not(.ant-tag-disabled).ant-tag-outlined {
-  color: #7e7e7e;
-  background-color: rgb(252.5, 252.5, 252.5);
-  border-color: rgb(252.5, 252.5, 252.5);
-}
-.ant-tag.ant-tag-light:not(.ant-tag-disabled).ant-tag-solid {
-  color: #262626;
-  background-color: #fafafa;
-  border-color: #fafafa;
-}
-.ant-tag.ant-tag-light:not(.ant-tag-disabled).ant-tag-filled {
-  color: #7e7e7e;
-  background-color: rgb(252.5, 252.5, 252.5);
-  border-color: transparent;
-}
-.ant-tag.ant-tag-dark:not(.ant-tag-disabled).ant-tag-outlined {
-  color: rgb(113.9, 113.9, 113.9);
-  background-color: #bfbfbf;
-  border-color: #bfbfbf;
-}
-.ant-tag.ant-tag-dark:not(.ant-tag-disabled).ant-tag-solid {
-  color: #fff;
-  background-color: #343a40;
-  border-color: #343a40;
-}
-.ant-tag.ant-tag-dark:not(.ant-tag-disabled).ant-tag-filled {
-  color: rgb(113.9, 113.9, 113.9);
-  background-color: #bfbfbf;
-  border-color: transparent;
-}
-.ant-tag.ant-tag-link:not(.ant-tag-disabled).ant-tag-outlined {
-  color: rgb(39, 89.7, 171.6);
-  background-color: rgb(230.4, 238.2, 250.8);
-  border-color: rgb(230.4, 238.2, 250.8);
-}
-.ant-tag.ant-tag-link:not(.ant-tag-disabled).ant-tag-solid {
-  color: #fff;
-  background-color: #3273dc;
-  border-color: #3273dc;
-}
-.ant-tag.ant-tag-link:not(.ant-tag-disabled).ant-tag-filled {
-  color: rgb(39, 89.7, 171.6);
-  background-color: rgb(230.4, 238.2, 250.8);
-  border-color: transparent;
 }
 
 .ant-tag.ant-tag-primary:not(.ant-tag-disabled).ant-tag-outlined {
@@ -1551,108 +1355,109 @@ template {
   background-color: var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg));
   border-color: var(--b-theme-border-primary-subtle, var(--ant-color-primary-border));
 }
-
 .ant-tag.ant-tag-primary:not(.ant-tag-disabled).ant-tag-solid {
   color: var(--ant-color-text-light-solid);
   background-color: var(--b-theme-primary, var(--ant-color-primary));
   border-color: var(--b-theme-primary, var(--ant-color-primary));
 }
-
 .ant-tag.ant-tag-primary:not(.ant-tag-disabled).ant-tag-filled {
   color: var(--b-theme-text-primary-emphasis, var(--ant-color-primary));
   background-color: var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg));
   border-color: transparent;
 }
-
 .ant-tag.ant-tag-secondary:not(.ant-tag-disabled).ant-tag-outlined {
   color: var(--b-theme-text-secondary-emphasis, var(--ant-color-text-secondary));
   background-color: var(--b-theme-background-secondary-subtle, var(--ant-color-fill-alter));
   border-color: var(--b-theme-border-secondary-subtle, var(--ant-color-border));
 }
-
 .ant-tag.ant-tag-secondary:not(.ant-tag-disabled).ant-tag-solid {
   color: var(--ant-color-text-light-solid);
   background-color: var(--b-theme-secondary, var(--ant-color-text-secondary));
   border-color: var(--b-theme-secondary, var(--ant-color-text-secondary));
 }
-
 .ant-tag.ant-tag-secondary:not(.ant-tag-disabled).ant-tag-filled {
   color: var(--b-theme-text-secondary-emphasis, var(--ant-color-text-secondary));
   background-color: var(--b-theme-background-secondary-subtle, var(--ant-color-fill-alter));
   border-color: transparent;
 }
-
-.ant-tag.ant-tag-light:not(.ant-tag-disabled).ant-tag-outlined,
-.ant-tag.ant-tag-light-subtle {
+.ant-tag.ant-tag-light:not(.ant-tag-disabled).ant-tag-outlined {
   color: var(--b-theme-text-light-emphasis, var(--ant-color-text));
   background-color: var(--b-theme-background-light-subtle, #fff);
   border-color: var(--b-theme-border-light-subtle, var(--ant-color-border));
 }
-
 .ant-tag.ant-tag-light:not(.ant-tag-disabled).ant-tag-solid {
   color: var(--ant-color-text);
   background-color: var(--b-theme-light, #f5f5f5);
   border-color: var(--b-theme-light, #f5f5f5);
 }
-
 .ant-tag.ant-tag-light:not(.ant-tag-disabled).ant-tag-filled {
   color: var(--b-theme-text-light-emphasis, var(--ant-color-text));
   background-color: var(--b-theme-background-light-subtle, #fff);
   border-color: transparent;
 }
-
-.ant-tag.ant-tag-dark:not(.ant-tag-disabled).ant-tag-outlined,
-.ant-tag.ant-tag-dark-subtle {
+.ant-tag.ant-tag-dark:not(.ant-tag-disabled).ant-tag-outlined {
   color: var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading));
   background-color: var(--b-theme-background-dark-subtle, rgba(0, 0, 0, 0.04));
   border-color: var(--b-theme-border-dark-subtle, rgba(0, 0, 0, 0.15));
 }
-
 .ant-tag.ant-tag-dark:not(.ant-tag-disabled).ant-tag-solid {
   color: var(--ant-color-text-light-solid);
   background-color: var(--b-theme-dark, #595959);
   border-color: var(--b-theme-dark, #595959);
 }
-
 .ant-tag.ant-tag-dark:not(.ant-tag-disabled).ant-tag-filled {
   color: var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading));
   background-color: var(--b-theme-background-dark-subtle, rgba(0, 0, 0, 0.04));
   border-color: transparent;
 }
-
-.ant-tag.ant-tag-link:not(.ant-tag-disabled).ant-tag-outlined,
-.ant-tag.ant-tag-link:not(.ant-tag-disabled).ant-tag-solid,
-.ant-tag.ant-tag-link:not(.ant-tag-disabled).ant-tag-filled,
-.ant-tag.ant-tag-link-subtle {
+.ant-tag.ant-tag-link:not(.ant-tag-disabled).ant-tag-outlined {
   color: var(--b-theme-link, var(--ant-color-link));
   background-color: transparent;
   border-color: transparent;
 }
-
-.ant-tag.ant-tag-link:not(.ant-tag-disabled).ant-tag-outlined,
-.ant-tag.ant-tag-link:not(.ant-tag-disabled).ant-tag-solid,
+.ant-tag.ant-tag-link:not(.ant-tag-disabled).ant-tag-solid {
+  color: var(--b-theme-link, var(--ant-color-link));
+  background-color: transparent;
+  border-color: transparent;
+}
 .ant-tag.ant-tag-link:not(.ant-tag-disabled).ant-tag-filled {
+  color: var(--b-theme-link, var(--ant-color-link));
+  background-color: transparent;
+  border-color: transparent;
+}
+.ant-tag.ant-tag-link:not(.ant-tag-disabled).ant-tag-outlined, .ant-tag.ant-tag-link:not(.ant-tag-disabled).ant-tag-solid, .ant-tag.ant-tag-link:not(.ant-tag-disabled).ant-tag-filled {
   padding-inline: 0;
 }
-
+.ant-tag.ant-tag-link:not(.ant-tag-disabled).ant-tag-outlined, .ant-tag.ant-tag-link:not(.ant-tag-disabled).ant-tag-solid, .ant-tag.ant-tag-link:not(.ant-tag-disabled).ant-tag-filled, .ant-tag.ant-tag-link-subtle {
+  color: var(--b-theme-link, var(--ant-color-link));
+  background-color: transparent;
+  border-color: transparent;
+}
+.ant-tag.ant-tag-light-subtle {
+  color: var(--b-theme-text-light-emphasis, var(--ant-color-text));
+  background-color: var(--b-theme-background-light-subtle, #fff);
+  border-color: var(--b-theme-border-light-subtle, var(--ant-color-border));
+}
+.ant-tag.ant-tag-dark-subtle {
+  color: var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading));
+  background-color: var(--b-theme-background-dark-subtle, rgba(0, 0, 0, 0.04));
+  border-color: var(--b-theme-border-dark-subtle, rgba(0, 0, 0, 0.15));
+}
 .ant-tag.ant-tag-success-subtle {
   color: var(--b-theme-text-success-emphasis, var(--ant-color-success));
   background-color: var(--b-theme-background-success-subtle, var(--ant-color-success-bg));
   border-color: var(--b-theme-border-success-subtle, var(--ant-color-success-border));
 }
-
 .ant-tag.ant-tag-processing-subtle {
   color: var(--b-theme-text-info-emphasis, var(--ant-color-info));
   background-color: var(--b-theme-background-info-subtle, var(--ant-color-info-bg));
   border-color: var(--b-theme-border-info-subtle, var(--ant-color-info-border));
 }
-
 .ant-tag.ant-tag-warning-subtle {
   color: var(--b-theme-text-warning-emphasis, var(--ant-color-warning));
   background-color: var(--b-theme-background-warning-subtle, var(--ant-color-warning-bg));
   border-color: var(--b-theme-border-warning-subtle, var(--ant-color-warning-border));
 }
-
 .ant-tag.ant-tag-error-subtle {
   color: var(--b-theme-text-danger-emphasis, var(--ant-color-error));
   background-color: var(--b-theme-background-danger-subtle, var(--ant-color-error-bg));
