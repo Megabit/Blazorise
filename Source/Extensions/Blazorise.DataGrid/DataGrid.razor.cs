@@ -3831,7 +3831,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Whether the DataGrid is considered in is Cell Edit Mode.
     /// </summary>
     protected internal bool IsCellEdit
-        => EditMode == DataGridEditMode.Cell;
+        => Editable && EditMode == DataGridEditMode.Cell;
 
     /// <summary>
     /// Gets the DataGrid standard class and other existing Class
