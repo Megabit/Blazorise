@@ -30,7 +30,7 @@
             flex: none;
             min-width: max-content;
             min-height: var(--ant-control-height);
-            padding: 0 var(--ant-padding-sm);
+            padding: 0 var(--ant-input-padding-inline);
             color: var(--ant-color-text);
             font-size: var(--ant-font-size);
             line-height: calc(var(--ant-control-height) - var(--ant-line-width) * 2);
@@ -100,6 +100,9 @@
             > .ant-btn {
                 width: auto;
                 min-width: max-content;
+                height: var(--ant-control-height);
+                padding-inline: var(--ant-input-padding-inline);
+                font-size: var(--ant-font-size);
                 white-space: nowrap;
             }
 
@@ -286,14 +289,14 @@
                 min-height: $height;
                 padding: 0 $padding-inline;
                 font-size: $font-size;
-                line-height: $height - 2px;
+                line-height: calc(#{$height} - 2px);
 
                 > .control .ant-btn,
                 > .dropdown .ant-btn,
                 > .b-ant-dropdown .ant-btn,
                 > .ant-btn {
                     height: $height;
-                    padding: 0 $button-padding-inline;
+                    padding-inline: $button-padding-inline;
                     font-size: $font-size;
                 }
             }
@@ -301,7 +304,7 @@
             > .ant-input,
             > textarea.ant-input {
                 height: $height;
-                padding: 0 $input-padding-inline;
+                padding-inline: $input-padding-inline;
                 font-size: $font-size;
             }
 
@@ -319,24 +322,24 @@
             }
 
             > .b-ant-select-root > .ant-select .ant-select-arrow {
-                height: $height - 2px;
+                height: calc(#{$height} - 2px);
             }
 
             > .b-ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-item,
             > .b-ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-placeholder {
-                line-height: $height - 2px;
+                line-height: calc(#{$height} - 2px);
             }
 
             > .b-ant-select-root > .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selection-search-input,
             > .ant-input-number .ant-input-number-input {
-                height: $height - 2px;
+                height: calc(#{$height} - 2px);
             }
         }
     }
 }
 
-@include addons-size('xs', 10px, 16px, 7px, 7px, 7px);
-@include addons-size('sm', 12px, 24px, 9px, 9px, 9px);
-@include addons-size('md', 14px, 36px, 11px, 11px, 11px);
-@include addons-size('lg', 16px, 40px, 13px, 13px, 13px);
-@include addons-size('xl', 18px, 48px, 15px, 15px, 15px);
+@include addons-size('xs', 10px, var(--ant-control-height-xs), var(--ant-padding-xxs), var(--ant-padding-xxs), var(--ant-padding-xxs));
+@include addons-size('sm', var(--ant-font-size-sm), var(--ant-control-height-sm), var(--ant-input-padding-inline-sm), var(--ant-input-padding-inline-sm), var(--ant-input-padding-inline-sm));
+@include addons-size('md', var(--ant-font-size), calc(var(--ant-control-height) + var(--ant-size-unit)), var(--ant-padding-sm), var(--ant-input-padding-inline), var(--ant-padding-sm));
+@include addons-size('lg', var(--ant-font-size-lg), var(--ant-control-height-lg), var(--ant-button-padding-inline-lg), var(--ant-input-padding-inline-lg), var(--ant-button-padding-inline-lg));
+@include addons-size('xl', var(--ant-font-size-xl), calc(var(--ant-control-height-lg) + var(--ant-size-unit) * 2), var(--ant-padding), var(--ant-padding-sm), var(--ant-padding));
