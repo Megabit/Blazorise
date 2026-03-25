@@ -149,6 +149,8 @@
 
 .flatpickr-weekdays {
     padding: var(--ant-padding-xxs) var(--ant-padding-xs) 0;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 span.flatpickr-weekday {
@@ -161,10 +163,15 @@ span.flatpickr-weekday {
 
 .flatpickr-days {
     padding: 0 var(--ant-padding-xs) var(--ant-padding-xs);
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .dayContainer {
     gap: 0;
+    width: calc(var(--ant-picker-cell-width) * 7);
+    min-width: calc(var(--ant-picker-cell-width) * 7);
+    max-width: calc(var(--ant-picker-cell-width) * 7);
 }
 
 .flatpickr-day {
