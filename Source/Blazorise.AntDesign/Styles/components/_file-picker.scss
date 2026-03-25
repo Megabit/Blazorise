@@ -94,7 +94,7 @@
     }
 
     .ant-progress-rail {
-        height: 2px;
+        height: var(--ant-line-width-bold);
         border-radius: 0;
     }
 
@@ -108,9 +108,9 @@
     }
 
     .b-ant-file-picker-item-action {
-        width: 24px;
-        min-width: 24px;
-        height: 24px;
+        width: var(--ant-size-lg);
+        min-width: var(--ant-size-lg);
+        height: var(--ant-size-lg);
         padding: 0;
         color: var(--ant-color-icon);
         background: transparent;
@@ -136,7 +136,7 @@
     }
 
     .b-ant-file-picker-dropdown-menu {
-        min-width: 320px;
+        min-width: calc(var(--ant-control-height-lg) * 8);
     }
 
     > .ant-btn-group,

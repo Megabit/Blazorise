@@ -2,21 +2,15 @@
     width: var(--ant-modal-md-width);
 
     &-sm {
-        @media (min-width: 576px) {
-            width: 300px;
-        }
+        width: var(--ant-modal-sm-width);
     }
 
     &-lg {
-        @media (min-width: 992px) {
-            width: 800px;
-        }
+        width: var(--ant-modal-lg-width);
     }
 
     &-xl {
-        @media (min-width: 1200px) {
-            width: 1140px;
-        }
+        width: var(--ant-modal-xl-width);
     }
 }
 

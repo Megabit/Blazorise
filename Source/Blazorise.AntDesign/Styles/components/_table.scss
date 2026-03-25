@@ -98,11 +98,11 @@
 .ant-table-striped {
     .ant-table-tbody > tr:nth-of-type(odd) > th,
     .ant-table-tbody > tr:nth-of-type(odd) > td {
-        background-color: #fbfbfb;
+        background-color: var(--ant-color-fill-quaternary);
     }
 
     .ant-table-thead {
-        background-color: #f1f1f1;
+        background-color: var(--ant-color-fill-secondary);
     }
 }
 
@@ -142,7 +142,7 @@
     tbody {
         tr.ant-table-group {
             cursor: pointer;
-            background-color: var(--b-theme-light, #f5f5f5);
+            background-color: var(--ant-color-fill-alter);
             font-weight: 600;
         }
     }

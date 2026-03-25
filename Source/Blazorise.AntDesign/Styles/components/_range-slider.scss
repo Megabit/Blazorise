@@ -15,13 +15,13 @@
 
         > span {
             display: block;
-            min-width: 24px;
+            min-width: var(--ant-size-lg);
             padding: 1px var(--ant-padding-xs);
             color: var(--ant-color-text-light-solid);
             font-size: var(--ant-font-size);
             line-height: var(--ant-line-height);
             text-align: center;
-            background: rgba(0, 0, 0, 0.85);
+            background: var(--ant-color-bg-spotlight);
             border-radius: var(--ant-border-radius);
             box-shadow: var(--ant-box-shadow-secondary);
         }
@@ -31,9 +31,9 @@
             position: absolute;
             left: 50%;
             top: 100%;
-            width: 8px;
-            height: 8px;
-            background: rgba(0, 0, 0, 0.85);
+            width: var(--ant-size-xs);
+            height: var(--ant-size-xs);
+            background: var(--ant-color-bg-spotlight);
             transform: translate(-50%, -50%) rotate(45deg);
             border-radius: 0 0 var(--ant-border-radius-xs) 0;
         }

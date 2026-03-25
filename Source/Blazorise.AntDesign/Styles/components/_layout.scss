@@ -25,15 +25,15 @@
         z-index: 9999;
         position: absolute;
         inset: 0;
-        background: rgba(0, 0, 0, .3);
+        background: var(--ant-color-bg-mask);
 
         &::before {
             animation: b-ant-layout-spinner 1s linear infinite;
-            border: solid 3px #eee;
+            border: solid var(--ant-line-width-bold) var(--ant-color-border-secondary);
             border-bottom-color: var(--b-theme-primary);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: var(--ant-layout-zero-trigger-width);
+            height: var(--ant-layout-zero-trigger-height);
             position: absolute;
             top: 50%;
             left: 50%;
@@ -60,7 +60,7 @@
 
 .ant-layout-header {
     z-index: 1;
-    line-height: 64px;
+    line-height: var(--b-sidebar-brand-height, 64px);
 }
 
 .ant-layout-content {

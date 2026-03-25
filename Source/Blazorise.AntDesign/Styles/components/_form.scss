@@ -2,8 +2,8 @@
 .ant-form-item-has-success .ant-input-affix-wrapper,
 .ant-form-item-has-success .ant-input:hover,
 .ant-form-item-has-success .ant-input-affix-wrapper:hover {
-    background-color: #fff;
-    border-color: #52c41a;
+    background-color: var(--ant-color-bg-container);
+    border-color: var(--ant-color-success);
 }
 
 .ant-row.ant-form-row {
@@ -81,5 +81,5 @@
 
 .ant-form-item-label-required:after {
     content: " *";
-    color: var(--b-theme-danger, $danger);
+    color: var(--ant-form-label-required-mark-color);
 }

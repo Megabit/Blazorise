@@ -26,7 +26,7 @@
     white-space: nowrap;
 
     &.b-ant-dropdown-disabled.b-is-autocomplete {
-        background-color: var(--b-theme-light, #f5f5f5);
+        background-color: var(--ant-color-fill-quaternary);
     }
 }
 
@@ -55,7 +55,7 @@
     overflow-y: auto;
 
     .ant-dropdown-menu-item.focus {
-        background-color: #f5f5f5;
+        background-color: var(--ant-control-item-bg-hover);
     }
 }
 
@@ -67,8 +67,8 @@
     width: 100%;
     cursor: text;
     align-items: center;
-    border: 1px solid #d9d9d9;
-    border-radius: .25rem;
+    border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border);
+    border-radius: var(--ant-border-radius);
 
     > input.ant-input {
         display: inline-block;
@@ -89,40 +89,40 @@
     }
 
     &.focus {
-        border-color: #40a9ff;
+        border-color: var(--ant-color-primary-hover);
         border-right-width: 1px !important;
         outline: 0;
-        -webkit-box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
-        box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
-        border-color: #40a9ff;
+        -webkit-box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-control-outline);
+        box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-control-outline);
+        border-color: var(--ant-color-primary-hover);
     }
 }
 
 .b-is-autocomplete {
     &.ant-input-status-success,
     &.ant-input-status-error {
-        border: 1px solid #d9d9d9;
-        border-radius: .25rem;
+        border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border);
+        border-radius: var(--ant-border-radius);
     }
 
     &.ant-input-status-success {
-        border-color: $success;
+        border-color: var(--ant-color-success);
     }
 
     &.ant-input-status-error {
-        border-color: $danger;
+        border-color: var(--ant-color-error);
     }
 
     &.ant-input-status-success.focus {
-        border-color: $success;
-        -webkit-box-shadow: 0 0 0 2px rgba($success, 0.2);
-        box-shadow: 0 0 0 2px rgba($success, 0.2);
+        border-color: var(--ant-color-success);
+        -webkit-box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-success-color-outline);
+        box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-success-color-outline);
     }
 
     &.ant-input-status-error.focus {
-        border-color: $danger;
-        -webkit-box-shadow: 0 0 0 2px rgba($danger, 0.2);
-        box-shadow: 0 0 0 2px rgba($danger, 0.2);
+        border-color: var(--ant-color-error);
+        -webkit-box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-error-color-outline);
+        box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-error-color-outline);
     }
 
     &.ant-input-status-success > input.ant-input,

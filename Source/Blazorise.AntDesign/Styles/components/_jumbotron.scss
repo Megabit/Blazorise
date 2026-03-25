@@ -1,7 +1,7 @@
 ﻿.ant-hero {
     padding: 2rem 1rem;
     margin-bottom: 2rem;
-    background-color: #e9ecef;
+    background-color: var(--ant-color-fill-quaternary);
     border-radius: 0.3rem;
 
     @media (min-width: 768px) {
