@@ -16,6 +16,10 @@ i[class^="icon-"]:before, i[class*=" icon-"]:before {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-ic {
+    font-size: 1em;
+}
+
 .icon-ic-xs {
     font-size: .75em;
 }
@@ -25,7 +29,13 @@ i[class^="icon-"]:before, i[class*=" icon-"]:before {
 }
 
 .icon-ic-lg {
-    font-size: 1.33em;
+    font-size: 1.33333em;
+    line-height: .75em;
+    vertical-align: -.0667em;
+}
+
+.icon-ic-1x {
+    font-size: 1em;
 }
 
 .icon-ic-2x {
