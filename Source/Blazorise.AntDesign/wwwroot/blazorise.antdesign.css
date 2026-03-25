@@ -4072,6 +4072,32 @@ template {
 .ant-form-item.ant-row > .ant-col + .ant-col {
   padding-left: 0;
 }
+@media (max-width: 767.98px) {
+  .ant-form-item.ant-row > .ant-col.ant-form-item-label,
+  .ant-form-item.ant-row > .ant-col.ant-form-item-control {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .ant-form-item.ant-row > .ant-col.ant-form-item-label {
+    padding-top: var(--ant-padding-xxs);
+    padding-bottom: var(--ant-padding-xxs);
+    padding-right: 5px;
+    padding-left: 5px;
+    margin: var(--ant-form-vertical-label-margin);
+    white-space: initial;
+    text-align: start;
+  }
+  .ant-form-item.ant-row > .ant-col.ant-form-item-label > label {
+    height: auto;
+    margin: 0;
+  }
+  .ant-form-item.ant-row > .ant-col.ant-form-item-label > label::after {
+    visibility: hidden;
+  }
+  .ant-form-item.ant-row > .ant-col + .ant-col {
+    padding-left: 5px;
+  }
+}
 .ant-form-item .ant-select,
 .ant-form-item .ant-picker,
 .ant-form-item .ant-input-number {

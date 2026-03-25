@@ -66,6 +66,37 @@
         > .ant-col + .ant-col {
             padding-left: 0;
         }
+
+        @media (max-width: 767.98px) {
+            > .ant-col.ant-form-item-label,
+            > .ant-col.ant-form-item-control {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            > .ant-col.ant-form-item-label {
+                padding-top: var(--ant-padding-xxs);
+                padding-bottom: var(--ant-padding-xxs);
+                padding-right: $form-grid-gutter-width / 2;
+                padding-left: $form-grid-gutter-width / 2;
+                margin: var(--ant-form-vertical-label-margin);
+                white-space: initial;
+                text-align: start;
+            }
+
+            > .ant-col.ant-form-item-label > label {
+                height: auto;
+                margin: 0;
+            }
+
+            > .ant-col.ant-form-item-label > label::after {
+                visibility: hidden;
+            }
+
+            > .ant-col + .ant-col {
+                padding-left: $form-grid-gutter-width / 2;
+            }
+        }
     }
 
     .ant-select,
