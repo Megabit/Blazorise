@@ -22,22 +22,56 @@
     }
 }
 
-
 @each $name, $value in $theme-colors {
-    $color: $value;
+    $color-var: null;
+
+    @if $name == "primary" {
+        $color-var: var(--b-theme-primary, var(--ant-color-primary));
+    }
+    @else if $name == "secondary" {
+        $color-var: var(--b-theme-secondary, var(--ant-color-text-secondary));
+    }
+    @else if $name == "success" {
+        $color-var: var(--b-theme-success, var(--ant-color-success));
+    }
+    @else if $name == "danger" {
+        $color-var: var(--b-theme-danger, var(--ant-color-error));
+    }
+    @else if $name == "warning" {
+        $color-var: var(--b-theme-warning, var(--ant-color-warning));
+    }
+    @else if $name == "info" {
+        $color-var: var(--b-theme-info, var(--ant-color-info));
+    }
+    @else if $name == "light" {
+        $color-var: var(--b-theme-light, #f5f5f5);
+    }
+    @else if $name == "dark" {
+        $color-var: var(--b-theme-dark, #343a40);
+    }
+    @else {
+        $color-var: $value;
+    }
+
+    $hover-color: unquote("color-mix(in srgb, #{$color-var} 82%, white)");
 
     .ant-switch {
         &.ant-switch-#{$name}.ant-switch-checked {
-            background-color: $color;
+            background-color: $color-var;
+        }
+
+        &.ant-switch-#{$name}.ant-switch-checked:hover:not(:disabled),
+        &.ant-switch-#{$name}.ant-switch-checked:active:not(:disabled) {
+            background-color: $hover-color;
         }
 
         &.ant-switch-#{$name}:focus-visible {
-            box-shadow: 0 0 0 var(--ant-control-outline-width) rgba($color,.25);
+            box-shadow: 0 0 0 var(--ant-control-outline-width) color-mix(in srgb, #{$color-var} 25%, transparent);
         }
 
         &:disabled {
             &.ant-switch-#{$name}.ant-switch-checked {
-                background-color: rgba($color,.5);
+                background-color: color-mix(in srgb, #{$color-var} 50%, transparent);
             }
         }
     }
