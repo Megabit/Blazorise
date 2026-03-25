@@ -64,7 +64,7 @@
     {
         @if ( ShowButtonRow )
         {
-            <Field Display="DisplayInlineBlock">
+            <Div Display="DisplayInlineBlock">
                 @{
                     var newButtonString = Localizer.Localize( ParentDataGrid.Localizers?.NewButtonLocalizer, "New" );
                     var editButtonString = Localizer.Localize( ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit" );
@@ -109,7 +109,7 @@
                         }
                     } )
                 }
-            </Field>
+            </Div>
         }
     };
 
