@@ -44,6 +44,17 @@
     }
 }
 
+.ant-input-number {
+    padding-inline: 0;
+}
+
+.ant-input-number .ant-input-number-input {
+    /*height: 30px;*/
+    padding: 4px 11px;
+}
+
+@include input-number-size('sm', 12px, 24px, 0, 9px);
 @include input-number-size('xs', 10px, 16px, 0, 7px);
 @include input-number-size('md', 14px, 36px, 4.5px, 11px);
+@include input-number-size('lg', 16px, 40px, 6.5px, 13px);
 @include input-number-size('xl', 18px, 48px, 8.5px, 15px);

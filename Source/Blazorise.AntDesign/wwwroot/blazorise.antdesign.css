@@ -4121,6 +4121,25 @@ template {
   height: 48px;
 }
 
+.ant-input-number {
+  padding-inline: 0;
+}
+
+.ant-input-number .ant-input-number-input {
+  /*height: 30px;*/
+  padding: 4px 11px;
+}
+
+.ant-input-number-sm {
+  font-size: 12px;
+  height: 24px;
+}
+
+.ant-input-number-sm .ant-input-number-input {
+  height: 22px;
+  padding: 0 9px;
+}
+
 .ant-input-number-xs {
   font-size: 10px;
   height: 16px;
@@ -4139,6 +4158,16 @@ template {
 .ant-input-number-md .ant-input-number-input {
   height: 34px;
   padding: 4.5px 11px;
+}
+
+.ant-input-number-lg {
+  font-size: 16px;
+  height: 40px;
+}
+
+.ant-input-number-lg .ant-input-number-input {
+  height: 38px;
+  padding: 6.5px 13px;
 }
 
 .ant-input-number-xl {
