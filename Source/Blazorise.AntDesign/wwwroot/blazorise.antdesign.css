@@ -8475,39 +8475,39 @@ a.b-ant-link-disabled[aria-disabled=true] {
 }
 
 .bg-primary-subtle {
-  background-color: rgb(227.28, 241.68, 255) !important;
+  background-color: var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg)) !important;
 }
 
 .bg-secondary-subtle {
-  background-color: rgb(237.36, 238.44, 239.4) !important;
+  background-color: var(--b-theme-background-secondary-subtle, var(--ant-color-fill-alter)) !important;
 }
 
 .bg-success-subtle {
-  background-color: rgb(230.76, 248.16, 226.68) !important;
+  background-color: var(--b-theme-background-success-subtle, var(--ant-color-success-bg)) !important;
 }
 
 .bg-info-subtle {
-  background-color: rgb(235.92, 246.24, 253.68) !important;
+  background-color: var(--b-theme-background-info-subtle, var(--ant-color-info-bg)) !important;
 }
 
 .bg-warning-subtle {
-  background-color: rgb(254.04, 247.56, 229.44) !important;
+  background-color: var(--b-theme-background-warning-subtle, var(--ant-color-warning-bg)) !important;
 }
 
 .bg-danger-subtle {
-  background-color: !important;
+  background-color: var(--b-theme-background-danger-subtle, var(--ant-color-error-bg)) !important;
 }
 
 .bg-light-subtle {
-  background-color: rgb(252.5, 252.5, 252.5) !important;
+  background-color: var(--b-theme-background-light-subtle, var(--ant-color-fill-quaternary)) !important;
 }
 
 .bg-dark-subtle {
-  background-color: #bfbfbf !important;
+  background-color: var(--b-theme-background-dark-subtle, var(--ant-color-fill-secondary)) !important;
 }
 
 .bg-link-subtle {
-  background-color: rgb(230.4, 238.2, 250.8) !important;
+  background-color: var(--b-theme-background-link-subtle, var(--ant-color-primary-bg)) !important;
 }
 
 .bg-body {
@@ -8515,7 +8515,7 @@ a.b-ant-link-disabled[aria-disabled=true] {
 }
 
 .bg-body-subtle {
-  background-color: white !important;
+  background-color: var(--b-theme-background-body-subtle, var(--ant-color-fill-quaternary)) !important;
 }
 
 .bg-white {
@@ -8523,7 +8523,7 @@ a.b-ant-link-disabled[aria-disabled=true] {
 }
 
 .bg-white-subtle {
-  background-color: white !important;
+  background-color: var(--b-theme-background-white-subtle, var(--ant-color-bg-container)) !important;
 }
 
 .bg-transparent {

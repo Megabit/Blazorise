@@ -4,18 +4,28 @@
     }
 }
 
-@each $name, $value in $theme-colors {
+@mixin ant-bg-subtle-variant($name, $color) {
     .bg-#{$name}-subtle {
-        background-color: #{map-get($theme-colors-bg-subtle, $name)} !important;
+        background-color: $color !important;
     }
 }
+
+@include ant-bg-subtle-variant(primary, var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg)));
+@include ant-bg-subtle-variant(secondary, var(--b-theme-background-secondary-subtle, var(--ant-color-fill-alter)));
+@include ant-bg-subtle-variant(success, var(--b-theme-background-success-subtle, var(--ant-color-success-bg)));
+@include ant-bg-subtle-variant(info, var(--b-theme-background-info-subtle, var(--ant-color-info-bg)));
+@include ant-bg-subtle-variant(warning, var(--b-theme-background-warning-subtle, var(--ant-color-warning-bg)));
+@include ant-bg-subtle-variant(danger, var(--b-theme-background-danger-subtle, var(--ant-color-error-bg)));
+@include ant-bg-subtle-variant(light, var(--b-theme-background-light-subtle, var(--ant-color-fill-quaternary)));
+@include ant-bg-subtle-variant(dark, var(--b-theme-background-dark-subtle, var(--ant-color-fill-secondary)));
+@include ant-bg-subtle-variant(link, var(--b-theme-background-link-subtle, var(--ant-color-primary-bg)));
 
 .bg-body {
     background-color: $body-bg !important;
 }
 
 .bg-body-subtle {
-    background-color: tint-color($body-bg, $bg-subtle-tint-weight) !important;
+    background-color: var(--b-theme-background-body-subtle, var(--ant-color-fill-quaternary)) !important;
 }
 
 .bg-white {
@@ -23,7 +33,7 @@
 }
 
 .bg-white-subtle {
-    background-color: tint-color($ant-white, 10%) !important;
+    background-color: var(--b-theme-background-white-subtle, var(--ant-color-bg-container)) !important;
 }
 
 .bg-transparent {
