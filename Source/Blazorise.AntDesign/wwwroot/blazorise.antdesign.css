@@ -1464,10 +1464,6 @@ template {
   border-color: var(--b-theme-border-danger-subtle, var(--ant-color-error-border));
 }
 
-:root {
-  --b-sidebar-small-width: 80px;
-}
-
 .ant-menu-submenu-horizontal > .ant-menu-submenu-title {
   display: flex;
   align-items: center;
@@ -1486,8 +1482,8 @@ template {
   position: absolute;
   width: 6px;
   height: 1.5px;
-  background-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, 0.65)), to(rgba(0, 0, 0, 0.65)));
-  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65));
+  background-image: -webkit-gradient(linear, left top, right top, from(var(--ant-color-text-secondary)), to(var(--ant-color-text-secondary)));
+  background-image: linear-gradient(to right, var(--ant-color-text-secondary), var(--ant-color-text-secondary));
   border-radius: 2px;
   -webkit-transition: background 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), top 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), -webkit-transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
   transition: background 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), top 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), -webkit-transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -1512,8 +1508,8 @@ template {
   transform: rotate(45deg) translateX(-2px);
 }
 .ant-menu-submenu-horizontal > .ant-menu-submenu-title:hover .ant-menu-submenu-arrow::after, .ant-menu-submenu-horizontal > .ant-menu-submenu-title:hover .ant-menu-submenu-arrow::before {
-  background: -webkit-gradient(linear, left top, right top, from(#1890ff), to(#1890ff));
-  background: linear-gradient(to right, #1890ff, #1890ff);
+  background: -webkit-gradient(linear, left top, right top, from(var(--ant-color-primary)), to(var(--ant-color-primary)));
+  background: linear-gradient(to right, var(--ant-color-primary), var(--ant-color-primary));
 }
 
 .ant-menu-submenu-open.ant-menu-submenu-horizontal > .ant-menu-submenu-title .ant-menu-submenu-arrow {
@@ -1593,13 +1589,13 @@ template {
   width: var(--b-sidebar-width, 230px);
 }
 .ant-menu.ant-menu-root.ant-menu-dark.ant-menu-inline > .ant-menu-item {
-  min-height: 40px;
+  min-height: var(--ant-menu-item-height);
 }
 .ant-menu.ant-menu-root.ant-menu-dark.ant-menu-inline > .ant-menu-item > a {
-  margin: 0 -16px;
+  margin: 0 calc(var(--ant-padding) * -1);
   color: inherit;
-  padding-right: 16px;
-  padding-left: 24px;
+  padding-right: var(--ant-padding);
+  padding-left: var(--ant-padding-lg);
 }
 .ant-menu.ant-menu-root.ant-menu-dark.ant-menu-inline > .ant-menu-item > a.active {
   color: var(--b-bar-item-dark-active-color, var(--ant-color-text-light-solid));
@@ -1610,13 +1606,13 @@ template {
   background: var(--b-bar-item-dark-hover-background, color-mix(in srgb, var(--ant-color-text-light-solid) 30%, transparent));
 }
 .ant-menu.ant-menu-root.ant-menu-dark.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu-submenu-title {
-  padding-left: 24px;
+  padding-left: var(--ant-padding-lg);
 }
 .ant-menu.ant-menu-root.ant-menu-dark.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item > a {
-  margin: 0 -16px;
+  margin: 0 calc(var(--ant-padding) * -1);
   color: inherit;
-  padding-right: 16px;
-  padding-left: 48px;
+  padding-right: var(--ant-padding);
+  padding-left: calc(var(--ant-padding-lg) * 2);
 }
 .ant-menu.ant-menu-root.ant-menu-dark.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item > a.active {
   color: var(--b-bar-item-dark-active-color, var(--ant-color-text-light-solid));
@@ -1627,19 +1623,19 @@ template {
   background: var(--b-bar-item-dark-hover-background, color-mix(in srgb, var(--ant-color-text-light-solid) 30%, transparent));
 }
 .ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical.ant-menu-inline-collapsed:not(.ant-menu-vertical-collapsed) {
-  min-width: var(--b-sidebar-small-width, 80px);
-  max-width: var(--b-sidebar-small-width, 80px);
-  width: var(--b-sidebar-small-width, 80px);
+  min-width: var(--ant-menu-collapsed-width);
+  max-width: var(--ant-menu-collapsed-width);
+  width: var(--ant-menu-collapsed-width);
 }
 .ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical > .ant-menu-item {
-  min-height: 40px;
+  min-height: var(--ant-menu-item-height);
 }
 .ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical > .ant-menu-item > a {
-  margin: 0 -16px;
+  margin: 0 calc(var(--ant-padding) * -1);
   color: inherit;
-  padding-right: 16px;
-  padding: 0 32px;
-  margin: 0 -32px;
+  padding-right: var(--ant-padding);
+  padding: 0 var(--ant-padding-xl);
+  margin: 0 calc(var(--ant-padding-xl) * -1);
 }
 .ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical > .ant-menu-item > a.active {
   color: var(--b-bar-item-dark-active-color, var(--ant-color-text-light-solid));
@@ -1663,10 +1659,10 @@ template {
   width: var(--b-vertical-bar-popout-menu-width, auto);
 }
 .ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical > .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu-popup > .ant-menu.ant-menu-sub > .ant-menu-item > a {
-  margin: 0 -16px;
+  margin: 0 calc(var(--ant-padding) * -1);
   color: inherit;
-  padding-right: 16px;
-  padding-left: 16px;
+  padding-right: var(--ant-padding);
+  padding-left: var(--ant-padding);
 }
 .ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical > .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu-popup > .ant-menu.ant-menu-sub > .ant-menu-item > a.active {
   color: var(--b-bar-item-dark-active-color, var(--ant-color-text-light-solid));
@@ -1677,14 +1673,14 @@ template {
   background: var(--b-bar-item-dark-hover-background, color-mix(in srgb, var(--ant-color-text-light-solid) 30%, transparent));
 }
 .ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical > .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu-popup.ant-menu-submenu-placement-rightTop {
-  left: var(--b-sidebar-small-width, 80px);
+  left: var(--ant-menu-collapsed-width);
 }
 .ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical > .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu-popup.ant-menu-submenu-placement-rightTop::before {
   top: 0;
   left: -7px;
 }
 .ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical > .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu-popup.ant-menu-submenu-placement-leftTop {
-  right: var(--b-sidebar-small-width, 80px);
+  right: var(--ant-menu-collapsed-width);
 }
 .ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical > .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu-popup.ant-menu-submenu-placement-leftTop::before {
   top: 0;
@@ -1712,13 +1708,13 @@ template {
   width: var(--b-sidebar-width, 230px);
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline > .ant-menu-item {
-  min-height: 40px;
+  min-height: var(--ant-menu-item-height);
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline > .ant-menu-item > a {
-  margin: 0 -16px;
+  margin: 0 calc(var(--ant-padding) * -1);
   color: inherit;
-  padding-right: 16px;
-  padding-left: 24px;
+  padding-right: var(--ant-padding);
+  padding-left: var(--ant-padding-lg);
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline > .ant-menu-item > a.active {
   color: var(--b-bar-item-light-active-color, var(--ant-color-text-light-solid));
@@ -1729,13 +1725,13 @@ template {
   background: var(--b-bar-item-light-hover-background, var(--ant-control-item-bg-hover));
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu-submenu-title {
-  padding-left: 24px;
+  padding-left: var(--ant-padding-lg);
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item > a {
-  margin: 0 -16px;
+  margin: 0 calc(var(--ant-padding) * -1);
   color: inherit;
-  padding-right: 16px;
-  padding-left: 48px;
+  padding-right: var(--ant-padding);
+  padding-left: calc(var(--ant-padding-lg) * 2);
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item > a.active {
   color: var(--b-bar-item-light-active-color, var(--ant-color-text-light-solid));
@@ -1746,19 +1742,19 @@ template {
   background: var(--b-bar-item-light-hover-background, var(--ant-control-item-bg-hover));
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical.ant-menu-inline-collapsed:not(.ant-menu-vertical-collapsed) {
-  min-width: var(--b-sidebar-small-width, 80px);
-  max-width: var(--b-sidebar-small-width, 80px);
-  width: var(--b-sidebar-small-width, 80px);
+  min-width: var(--ant-menu-collapsed-width);
+  max-width: var(--ant-menu-collapsed-width);
+  width: var(--ant-menu-collapsed-width);
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical > .ant-menu-item {
-  min-height: 40px;
+  min-height: var(--ant-menu-item-height);
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical > .ant-menu-item > a {
-  margin: 0 -16px;
+  margin: 0 calc(var(--ant-padding) * -1);
   color: inherit;
-  padding-right: 16px;
-  padding: 0 32px;
-  margin: 0 -32px;
+  padding-right: var(--ant-padding);
+  padding: 0 var(--ant-padding-xl);
+  margin: 0 calc(var(--ant-padding-xl) * -1);
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical > .ant-menu-item > a.active {
   color: var(--b-bar-item-light-active-color, var(--ant-color-text-light-solid));
@@ -1782,10 +1778,10 @@ template {
   width: var(--b-vertical-bar-popout-menu-width, auto);
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical > .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu-popup > .ant-menu.ant-menu-sub > .ant-menu-item > a {
-  margin: 0 -16px;
+  margin: 0 calc(var(--ant-padding) * -1);
   color: inherit;
-  padding-right: 16px;
-  padding-left: 16px;
+  padding-right: var(--ant-padding);
+  padding-left: var(--ant-padding);
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical > .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu-popup > .ant-menu.ant-menu-sub > .ant-menu-item > a.active {
   color: var(--b-bar-item-light-active-color, var(--ant-color-text-light-solid));
@@ -1796,14 +1792,14 @@ template {
   background: var(--b-bar-item-light-hover-background, var(--ant-control-item-bg-hover));
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical > .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu-popup.ant-menu-submenu-placement-rightTop {
-  left: var(--b-sidebar-small-width, 80px);
+  left: var(--ant-menu-collapsed-width);
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical > .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu-popup.ant-menu-submenu-placement-rightTop::before {
   top: 0;
   left: -7px;
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical > .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu-popup.ant-menu-submenu-placement-leftTop {
-  right: var(--b-sidebar-small-width, 80px);
+  right: var(--ant-menu-collapsed-width);
 }
 .ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical > .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu-popup.ant-menu-submenu-placement-leftTop::before {
   top: 0;
@@ -2550,9 +2546,9 @@ template {
 }
 
 .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed, .ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed, .ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-vertical-collapsed {
-  width: var(--b-sidebar-small-width, 80px) !important;
-  min-width: var(--b-sidebar-small-width, 80px) !important;
-  max-width: var(--b-sidebar-small-width, 80px) !important;
+  width: var(--ant-menu-collapsed-width) !important;
+  min-width: var(--ant-menu-collapsed-width) !important;
+  max-width: var(--ant-menu-collapsed-width) !important;
   visibility: visible !important;
   overflow: visible;
 }
@@ -16849,7 +16845,7 @@ ol.ant-ordered-list-upper-roman {
 }
 .flatpickr-months .flatpickr-month {
   background: transparent;
-  height: 40px;
+  height: var(--ant-picker-text-height);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16859,8 +16855,8 @@ ol.ant-ordered-list-upper-roman {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: var(--ant-size-lg);
+  height: var(--ant-size-lg);
   margin: 0;
   border-radius: var(--ant-border-radius-sm);
   transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
@@ -16876,8 +16872,8 @@ ol.ant-ordered-list-upper-roman {
 }
 .flatpickr-months .flatpickr-prev-month svg,
 .flatpickr-months .flatpickr-next-month svg {
-  width: 10px;
-  height: 10px;
+  width: calc(var(--ant-font-size-sm) - var(--ant-line-width) * 2);
+  height: calc(var(--ant-font-size-sm) - var(--ant-line-width) * 2);
 }
 .flatpickr-months .flatpickr-prev-month svg path,
 .flatpickr-months .flatpickr-next-month svg path {
@@ -16889,7 +16885,7 @@ ol.ant-ordered-list-upper-roman {
   align-items: center;
   justify-content: center;
   gap: var(--ant-margin-xxs);
-  height: 40px;
+  height: var(--ant-picker-text-height);
   padding: 0;
   color: inherit;
   font-size: var(--ant-font-size);
@@ -16952,7 +16948,7 @@ span.flatpickr-weekday {
   color: var(--b-ant-flatpickr-color-muted);
   font-size: var(--ant-font-size-sm);
   font-weight: var(--ant-font-weight-strong);
-  line-height: 32px;
+  line-height: var(--ant-control-height);
   text-align: center;
 }
 
@@ -16977,8 +16973,8 @@ span.flatpickr-weekday {
   font-weight: 400;
   width: var(--ant-picker-cell-width);
   max-width: var(--ant-picker-cell-width);
-  height: 32px;
-  line-height: 30px;
+  height: var(--ant-control-height);
+  line-height: calc(var(--ant-control-height) - var(--ant-line-width) * 2);
   transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), border-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
 }
 .flatpickr-day.today {
@@ -17058,7 +17054,7 @@ span.flatpickr-weekday {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 14px;
+  width: var(--ant-font-size);
   height: calc(50% - 2px);
   border: 0;
   padding: 0;
@@ -17109,7 +17105,7 @@ span.flatpickr-weekday {
   background: transparent;
 }
 .flatpickr-time .flatpickr-time-separator {
-  width: 8px;
+  width: var(--ant-padding-xs);
   text-align: center;
 }
 .flatpickr-time .flatpickr-am-pm {
@@ -17156,7 +17152,7 @@ span.flatpickr-weekday {
   justify-content: space-between;
   gap: var(--ant-margin-xxs);
   border-top: var(--ant-line-width) var(--ant-line-type) var(--b-ant-flatpickr-border);
-  min-height: 40px;
+  min-height: var(--ant-picker-text-height);
   padding: 0 var(--ant-padding-sm);
   background: var(--b-ant-flatpickr-bg);
 }

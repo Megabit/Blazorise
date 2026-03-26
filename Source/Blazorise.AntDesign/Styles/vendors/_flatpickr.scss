@@ -41,7 +41,7 @@
 
     .flatpickr-month {
         background: transparent;
-        height: 40px;
+        height: var(--ant-picker-text-height);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -52,8 +52,8 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 24px;
-        height: 24px;
+        width: var(--ant-size-lg);
+        height: var(--ant-size-lg);
         margin: 0;
         border-radius: var(--ant-border-radius-sm);
         transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
@@ -68,8 +68,8 @@
         }
 
         svg {
-            width: 10px;
-            height: 10px;
+            width: calc(var(--ant-font-size-sm) - var(--ant-line-width) * 2);
+            height: calc(var(--ant-font-size-sm) - var(--ant-line-width) * 2);
 
             path {
                 fill: currentColor;
@@ -83,7 +83,7 @@
     align-items: center;
     justify-content: center;
     gap: var(--ant-margin-xxs);
-    height: 40px;
+    height: var(--ant-picker-text-height);
     padding: 0;
     color: inherit;
     font-size: var(--ant-font-size);
@@ -157,7 +157,7 @@ span.flatpickr-weekday {
     color: var(--b-ant-flatpickr-color-muted);
     font-size: var(--ant-font-size-sm);
     font-weight: var(--ant-font-weight-strong);
-    line-height: 32px;
+    line-height: var(--ant-control-height);
     text-align: center;
 }
 
@@ -182,8 +182,8 @@ span.flatpickr-weekday {
     font-weight: 400;
     width: var(--ant-picker-cell-width);
     max-width: var(--ant-picker-cell-width);
-    height: 32px;
-    line-height: 30px;
+    height: var(--ant-control-height);
+    line-height: calc(var(--ant-control-height) - var(--ant-line-width) * 2);
     transition: background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), border-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
 
     &.today {
@@ -314,7 +314,7 @@ span.flatpickr-weekday {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 14px;
+            width: var(--ant-font-size);
             height: calc(50% - 2px);
             border: 0;
             padding: 0;
@@ -375,7 +375,7 @@ span.flatpickr-weekday {
     }
 
     .flatpickr-time-separator {
-        width: 8px;
+        width: var(--ant-padding-xs);
         text-align: center;
     }
 
@@ -430,7 +430,7 @@ span.flatpickr-weekday {
     justify-content: space-between;
     gap: var(--ant-margin-xxs);
     border-top: var(--ant-line-width) var(--ant-line-type) var(--b-ant-flatpickr-border);
-    min-height: 40px;
+    min-height: var(--ant-picker-text-height);
     padding: 0 var(--ant-padding-sm);
     background: var(--b-ant-flatpickr-bg);
 }
