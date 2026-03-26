@@ -28,9 +28,9 @@
 
     @include ant-tag-variant( secondary, var(--b-theme-secondary, var(--ant-color-text-secondary)), var(--b-theme-background-secondary-subtle, var(--ant-color-fill-alter)), var(--b-theme-border-secondary-subtle, var(--ant-color-border)), var(--b-theme-text-secondary-emphasis, var(--ant-color-text-secondary)) );
 
-    @include ant-tag-variant( light, var(--b-theme-light, #f5f5f5), var(--b-theme-background-light-subtle, #fff), var(--b-theme-border-light-subtle, var(--ant-color-border)), var(--b-theme-text-light-emphasis, var(--ant-color-text)), var(--ant-color-text) );
+    @include ant-tag-variant( light, var(--b-theme-light, var(--ant-color-fill-quaternary)), var(--b-theme-background-light-subtle, var(--ant-color-bg-container)), var(--b-theme-border-light-subtle, var(--ant-color-border)), var(--b-theme-text-light-emphasis, var(--ant-color-text)), var(--ant-color-text) );
 
-    @include ant-tag-variant( dark, var(--b-theme-dark, #595959), var(--b-theme-background-dark-subtle, rgba(0, 0, 0, 0.04)), var(--b-theme-border-dark-subtle, rgba(0, 0, 0, 0.15)), var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading)) );
+    @include ant-tag-variant( dark, var(--b-theme-dark, var(--ant-color-text-secondary)), var(--b-theme-background-dark-subtle, var(--ant-color-fill-alter)), var(--b-theme-border-dark-subtle, var(--ant-color-border-secondary)), var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading)) );
 
     @include ant-tag-variant( link, transparent, transparent, transparent, var(--b-theme-link, var(--ant-color-link)), var(--b-theme-link, var(--ant-color-link)) );
 
@@ -51,14 +51,14 @@
 
     &.ant-tag-light-subtle {
         color: var(--b-theme-text-light-emphasis, var(--ant-color-text));
-        background-color: var(--b-theme-background-light-subtle, #fff);
+        background-color: var(--b-theme-background-light-subtle, var(--ant-color-bg-container));
         border-color: var(--b-theme-border-light-subtle, var(--ant-color-border));
     }
 
     &.ant-tag-dark-subtle {
         color: var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading));
-        background-color: var(--b-theme-background-dark-subtle, rgba(0, 0, 0, 0.04));
-        border-color: var(--b-theme-border-dark-subtle, rgba(0, 0, 0, 0.15));
+        background-color: var(--b-theme-background-dark-subtle, var(--ant-color-fill-alter));
+        border-color: var(--b-theme-border-dark-subtle, var(--ant-color-border-secondary));
     }
 
     &.ant-tag-success-subtle {

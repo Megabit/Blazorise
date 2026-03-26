@@ -240,17 +240,27 @@
     }
 }
 
-@each $name, $value in $theme-colors {
+@mixin ant-progress-track-variant($name, $color) {
     .ant-progress .b-ant-progress-track-#{$name} {
-        --b-ant-progress-track-background: #{$value};
-        background-color: #{$value};
+        --b-ant-progress-track-background: #{$color};
+        background-color: #{$color};
 
         &::before,
         &::after {
-            background-color: #{$value};
+            background-color: #{$color};
         }
     }
 }
+
+@include ant-progress-track-variant(primary, var(--b-theme-background-primary, var(--ant-color-primary)));
+@include ant-progress-track-variant(secondary, var(--b-theme-background-secondary, var(--ant-color-text-secondary)));
+@include ant-progress-track-variant(success, var(--b-theme-background-success, var(--ant-color-success)));
+@include ant-progress-track-variant(info, var(--b-theme-background-info, var(--ant-color-info)));
+@include ant-progress-track-variant(warning, var(--b-theme-background-warning, var(--ant-color-warning)));
+@include ant-progress-track-variant(danger, var(--b-theme-background-danger, var(--ant-color-error)));
+@include ant-progress-track-variant(light, var(--b-theme-background-light, var(--ant-color-fill-quaternary)));
+@include ant-progress-track-variant(dark, var(--b-theme-background-dark, var(--ant-color-text)));
+@include ant-progress-track-variant(link, var(--b-theme-background-link, var(--ant-color-link)));
 
 .b-page-progress {
     position: fixed;
@@ -280,12 +290,22 @@
     }
 }
 
-@each $name, $value in $theme-colors {
+@mixin ant-page-progress-variant($name, $color) {
     .b-page-progress .b-page-progress-indicator.b-page-progress-indicator-#{$name} {
-        background-color: #{$value};
-        box-shadow: 0 0 8px color-mix(in srgb, #{$value} 35%, transparent);
+        background-color: #{$color};
+        box-shadow: 0 0 8px color-mix(in srgb, #{$color} 35%, transparent);
     }
 }
+
+@include ant-page-progress-variant(primary, var(--b-theme-background-primary, var(--ant-color-primary)));
+@include ant-page-progress-variant(secondary, var(--b-theme-background-secondary, var(--ant-color-text-secondary)));
+@include ant-page-progress-variant(success, var(--b-theme-background-success, var(--ant-color-success)));
+@include ant-page-progress-variant(info, var(--b-theme-background-info, var(--ant-color-info)));
+@include ant-page-progress-variant(warning, var(--b-theme-background-warning, var(--ant-color-warning)));
+@include ant-page-progress-variant(danger, var(--b-theme-background-danger, var(--ant-color-error)));
+@include ant-page-progress-variant(light, var(--b-theme-background-light, var(--ant-color-fill-quaternary)));
+@include ant-page-progress-variant(dark, var(--b-theme-background-dark, var(--ant-color-text)));
+@include ant-page-progress-variant(link, var(--b-theme-background-link, var(--ant-color-link)));
 
 @keyframes b-ant-running-page-progress {
     0% {

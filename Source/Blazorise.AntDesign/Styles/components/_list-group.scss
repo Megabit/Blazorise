@@ -1,4 +1,30 @@
-﻿.b-ant-list-group {
+﻿@mixin ant-list-group-contextual($name, $color, $background, $active-background, $active-color: var(--ant-color-text-light-solid)) {
+    .b-ant-list-group-item-#{$name} {
+        color: #{$color};
+        background-color: #{$background};
+
+        &.b-ant-list-group-item-selectable {
+            @include hover-focus() {
+                color: #{$color};
+                background-color: color-mix(in srgb, #{$background} 92%, var(--ant-color-text));
+            }
+        }
+
+        &.b-ant-list-group-item-active {
+            color: #{$active-color};
+            background-color: #{$active-background};
+            border-color: #{$active-background};
+
+            @include hover-focus() {
+                color: #{$active-color};
+                background-color: #{$active-background};
+                border-color: #{$active-background};
+            }
+        }
+    }
+}
+
+.b-ant-list-group {
     &.b-ant-list-group-flush {
         border: 0;
         border-radius: 0;
@@ -29,14 +55,14 @@
 
             @include hover-focus() {
                 z-index: 1;
-                color: $list-group-action-hover-color;
+                color: var(--ant-color-text);
                 text-decoration: none;
-                background-color: $list-group-hover-bg;
+                background-color: var(--ant-control-item-bg-hover);
             }
 
             &:active {
-                color: $list-group-action-active-color;
-                background-color: $list-group-action-active-bg;
+                color: var(--ant-color-text);
+                background-color: var(--ant-control-item-bg-active);
             }
         }
 
@@ -51,40 +77,19 @@
         }
 
         &.b-ant-list-group-item-disabled {
-            color: $list-group-disabled-color;
-            background-color: $list-group-disabled-bg;
+            color: var(--ant-color-text-disabled);
+            background-color: var(--ant-color-bg-container-disabled);
             cursor: not-allowed;
         }
     }
 
-    @each $name, $value in $theme-colors {
-        $color: $value;
-        $background: theme-color-level($name, -9);
-        $contextual-color: if($name == "light", $text-dark, $color);
-        $contextual-active-color: if($name == "light", $text-dark, $ant-white);
-
-        .b-ant-list-group-item-#{$name} {
-            color: $contextual-color;
-            background-color: $background;
-
-            &.b-ant-list-group-item-selectable {
-                @include hover-focus() {
-                    color: $contextual-color;
-                    background-color: darken($background, 5%);
-                }
-            }
-
-            &.b-ant-list-group-item-active {
-                color: $contextual-active-color;
-                background-color: $color;
-                border-color: $color;
-
-                @include hover-focus() {
-                    color: $contextual-active-color;
-                    background-color: $color;
-                    border-color: $color;
-                }
-            }
-        }
-    }
+    @include ant-list-group-contextual(primary, var(--b-theme-text-primary, var(--ant-color-primary)), var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg)), var(--b-theme-background-primary, var(--ant-color-primary)));
+    @include ant-list-group-contextual(secondary, var(--b-theme-text-secondary, var(--ant-color-text-secondary)), var(--b-theme-background-secondary-subtle, var(--ant-color-fill-alter)), var(--b-theme-background-secondary, var(--ant-color-text-secondary)));
+    @include ant-list-group-contextual(success, var(--b-theme-text-success, var(--ant-color-success)), var(--b-theme-background-success-subtle, var(--ant-color-success-bg)), var(--b-theme-background-success, var(--ant-color-success)));
+    @include ant-list-group-contextual(info, var(--b-theme-text-info, var(--ant-color-info)), var(--b-theme-background-info-subtle, var(--ant-color-info-bg)), var(--b-theme-background-info, var(--ant-color-info)));
+    @include ant-list-group-contextual(warning, var(--b-theme-text-warning, var(--ant-color-warning)), var(--b-theme-background-warning-subtle, var(--ant-color-warning-bg)), var(--b-theme-background-warning, var(--ant-color-warning)), var(--ant-color-text));
+    @include ant-list-group-contextual(danger, var(--b-theme-text-danger, var(--ant-color-error)), var(--b-theme-background-danger-subtle, var(--ant-color-error-bg)), var(--b-theme-background-danger, var(--ant-color-error)));
+    @include ant-list-group-contextual(light, var(--b-theme-text-light, var(--ant-color-text)), var(--b-theme-background-light-subtle, var(--ant-color-bg-container)), var(--b-theme-background-light, var(--ant-color-fill-quaternary)), var(--ant-color-text));
+    @include ant-list-group-contextual(dark, var(--b-theme-text-dark, var(--ant-color-text-heading)), var(--b-theme-background-dark-subtle, var(--ant-color-fill-alter)), var(--b-theme-background-dark, var(--ant-color-text)));
+    @include ant-list-group-contextual(link, var(--b-theme-text-link, var(--ant-color-link)), var(--b-theme-background-link-subtle, var(--ant-color-primary-bg)), var(--b-theme-background-link, var(--ant-color-link)));
 }

@@ -184,11 +184,11 @@ ol.ant-ordered-list {
 }
 
 .ant-typography-white {
-    color: var(--b-theme-text-white, #fff) !important;
+    color: var(--b-theme-text-white, var(--ant-color-text-light-solid)) !important;
 }
 
 .ant-typography-white-emphasis {
-    color: var(--b-theme-text-white-emphasis, var(--b-theme-text-white, #fff)) !important;
+    color: var(--b-theme-text-white-emphasis, var(--b-theme-text-white, var(--ant-color-text-light-solid))) !important;
 }
 
 .ant-typography-black-50 {

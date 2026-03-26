@@ -1,4 +1,21 @@
-﻿.b-table.ant-table {
+﻿@mixin ant-table-contextual($name, $background, $border) {
+    &-#{$name} {
+        &,
+        > th,
+        > td {
+            background-color: #{$background};
+        }
+
+        th,
+        td,
+        thead th,
+        tbody + tbody {
+            border-color: #{$border};
+        }
+    }
+}
+
+.b-table.ant-table {
     table {
         position: relative;
 
@@ -53,27 +70,15 @@
 }
 
 .ant-table {
-    @each $name, $value in $theme-colors {
-        $background: theme-color-level($name, $table-background-level);
-        $border: theme-color-level($name, $table-border-level);
-
-        &-#{$name} {
-            &,
-            > th,
-            > td {
-                background-color: $background;
-            }
-
-            @if $border != null {
-                th,
-                td,
-                thead th,
-                tbody + tbody {
-                    border-color: $border;
-                }
-            }
-        }
-    }
+    @include ant-table-contextual(primary, var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg)), var(--b-theme-border-primary-subtle, var(--ant-color-primary-border)));
+    @include ant-table-contextual(secondary, var(--b-theme-background-secondary-subtle, var(--ant-color-fill-alter)), var(--b-theme-border-secondary-subtle, var(--ant-color-border)));
+    @include ant-table-contextual(success, var(--b-theme-background-success-subtle, var(--ant-color-success-bg)), var(--b-theme-border-success-subtle, var(--ant-color-success-border)));
+    @include ant-table-contextual(info, var(--b-theme-background-info-subtle, var(--ant-color-info-bg)), var(--b-theme-border-info-subtle, var(--ant-color-info-border)));
+    @include ant-table-contextual(warning, var(--b-theme-background-warning-subtle, var(--ant-color-warning-bg)), var(--b-theme-border-warning-subtle, var(--ant-color-warning-border)));
+    @include ant-table-contextual(danger, var(--b-theme-background-danger-subtle, var(--ant-color-error-bg)), var(--b-theme-border-danger-subtle, var(--ant-color-error-border)));
+    @include ant-table-contextual(light, var(--b-theme-background-light-subtle, var(--ant-color-bg-container)), var(--b-theme-border-light-subtle, var(--ant-color-border)));
+    @include ant-table-contextual(dark, var(--b-theme-background-dark-subtle, var(--ant-color-fill-alter)), var(--b-theme-border-dark-subtle, var(--ant-color-border-secondary)));
+    @include ant-table-contextual(link, var(--b-theme-background-link-subtle, var(--ant-color-primary-bg)), var(--b-theme-border-link-subtle, var(--ant-color-primary-border)));
 
     .ant-table-caption {
         padding: var(--ant-table-cell-padding-block) var(--ant-table-cell-padding-inline);
@@ -151,15 +156,15 @@
 .ant-table {
     // TODO: add to theme options
     thead.ant-table-thead-dark > tr > th {
-        color: var(--b-table-thead-dark-color, #fff);
-        background-color: var(--b-table-thead-dark-background, #343a40);
-        border-color: var(--b-table-thead-dark-border, #343a40);
+        color: var(--b-table-thead-dark-color, var(--ant-color-text-light-solid));
+        background-color: var(--b-table-thead-dark-background, var(--ant-color-text));
+        border-color: var(--b-table-thead-dark-border, var(--ant-color-text));
     }
 
     thead.ant-table-thead-light > tr > th {
-        color: var(--b-table-thead-light-color, #495057);
-        background-color: var(--b-table-thead-light-background, #e9ecef);
-        border-color: var(--b-table-thead-light-border, #e9ecef);
+        color: var(--b-table-thead-light-color, var(--ant-color-text-secondary));
+        background-color: var(--b-table-thead-light-background, var(--ant-color-fill-secondary));
+        border-color: var(--b-table-thead-light-border, var(--ant-color-fill-secondary));
     }
 }
 

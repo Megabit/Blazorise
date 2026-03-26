@@ -1,16 +1,4 @@
-﻿@function ant-btn-custom-shadow($color) {
-    @return 0 2px 0 rgba($color, .12);
-}
-
-@function ant-btn-light-hover-color($color) {
-    @return tint-color($color, 78%);
-}
-
-@function ant-btn-light-active-color($color) {
-    @return tint-color($color, $border-subtle-tint-weight);
-}
-
-@keyframes antBadgeLoadingCircle {
+﻿@keyframes antBadgeLoadingCircle {
     0% {
         transform-origin: 50% 50%;
         transform: rotate(0deg);
@@ -23,21 +11,24 @@
 }
 
 @mixin ant-btn-shared-color-vars($color, $shadow) {
-    $hover-color: lighten($color, $button-hover-lighten);
-    $active-color: darken($color, $button-active-darken);
+    $hover-color: unquote("color-mix(in srgb, #{$color} 85%, white)");
+    $active-color: unquote("color-mix(in srgb, #{$color} 85%, black)");
+    $light-color: unquote("color-mix(in srgb, #{$color} 15%, white)");
+    $light-hover-color: unquote("color-mix(in srgb, #{$color} 10%, white)");
+    $light-active-color: unquote("color-mix(in srgb, #{$color} 20%, white)");
 
     --ant-btn-color-base: #{$color};
     --ant-btn-color-hover: #{$hover-color};
     --ant-btn-color-active: #{$active-color};
-    --ant-btn-color-light: #{tint-color($color, $bg-subtle-tint-weight)};
-    --ant-btn-color-light-hover: #{ant-btn-light-hover-color($color)};
-    --ant-btn-color-light-active: #{ant-btn-light-active-color($color)};
+    --ant-btn-color-light: #{$light-color};
+    --ant-btn-color-light-hover: #{$light-hover-color};
+    --ant-btn-color-light-active: #{$light-active-color};
     --ant-btn-shadow: #{$shadow};
 }
 
-@mixin ant-btn-solid-vars($color, $text-color, $shadow: ant-btn-custom-shadow($color)) {
-    $hover-color: lighten($color, $button-hover-lighten);
-    $active-color: darken($color, $button-active-darken);
+@mixin ant-btn-solid-vars($color, $text-color, $shadow: unquote("0 2px 0 color-mix(in srgb, #{$color} 12%, transparent)")) {
+    $hover-color: unquote("color-mix(in srgb, #{$color} 85%, white)");
+    $active-color: unquote("color-mix(in srgb, #{$color} 85%, black)");
 
     @include ant-btn-shared-color-vars($color, $shadow);
     --ant-btn-solid-bg-color: #{$color};
@@ -59,8 +50,8 @@
 }
 
 @mixin ant-btn-outline-vars($color) {
-    $hover-color: lighten($color, $button-hover-lighten);
-    $active-color: darken($color, $button-active-darken);
+    $hover-color: unquote("color-mix(in srgb, #{$color} 85%, white)");
+    $active-color: unquote("color-mix(in srgb, #{$color} 85%, black)");
 
     @include ant-btn-shared-color-vars($color, none);
     --ant-btn-border-color: #{$color};
@@ -95,15 +86,67 @@
         animation-timing-function: linear;
     }
 
-    @each $name, $value in $unsuported-button-colors {
-        &-#{$name}.ant-btn-variant-solid {
-            @include ant-btn-solid-vars($value, color-yiq($value));
-        }
+    &-secondary.ant-btn-variant-solid {
+        @include ant-btn-solid-vars(var(--b-theme-secondary, var(--ant-color-text-secondary)), var(--ant-color-text-light-solid));
+    }
 
-        &-outline-#{$name}.ant-btn-variant-outlined,
-        &-outline-#{$name}.ant-btn-variant-dashed {
-            @include ant-btn-outline-vars($value);
-        }
+    &-success.ant-btn-variant-solid {
+        @include ant-btn-solid-vars(var(--b-theme-success, var(--ant-color-success)), var(--ant-color-text-light-solid));
+    }
+
+    &-info.ant-btn-variant-solid {
+        @include ant-btn-solid-vars(var(--b-theme-info, var(--ant-color-info)), var(--ant-color-text-light-solid));
+    }
+
+    &-warning.ant-btn-variant-solid {
+        @include ant-btn-solid-vars(var(--b-theme-warning, var(--ant-color-warning)), var(--ant-color-text));
+    }
+
+    &-light.ant-btn-variant-solid {
+        @include ant-btn-solid-vars(var(--b-theme-light, var(--ant-color-fill-quaternary)), var(--ant-color-text));
+    }
+
+    &-dark.ant-btn-variant-solid {
+        @include ant-btn-solid-vars(var(--b-theme-dark, var(--ant-color-text)), var(--ant-color-text-light-solid));
+    }
+
+    &-link.ant-btn-variant-solid {
+        @include ant-btn-solid-vars(var(--b-theme-link, var(--ant-color-link)), var(--ant-color-text-light-solid));
+    }
+
+    &-outline-secondary.ant-btn-variant-outlined,
+    &-outline-secondary.ant-btn-variant-dashed {
+        @include ant-btn-outline-vars(var(--b-theme-secondary, var(--ant-color-text-secondary)));
+    }
+
+    &-outline-success.ant-btn-variant-outlined,
+    &-outline-success.ant-btn-variant-dashed {
+        @include ant-btn-outline-vars(var(--b-theme-success, var(--ant-color-success)));
+    }
+
+    &-outline-info.ant-btn-variant-outlined,
+    &-outline-info.ant-btn-variant-dashed {
+        @include ant-btn-outline-vars(var(--b-theme-info, var(--ant-color-info)));
+    }
+
+    &-outline-warning.ant-btn-variant-outlined,
+    &-outline-warning.ant-btn-variant-dashed {
+        @include ant-btn-outline-vars(var(--b-theme-warning, var(--ant-color-warning)));
+    }
+
+    &-outline-light.ant-btn-variant-outlined,
+    &-outline-light.ant-btn-variant-dashed {
+        @include ant-btn-outline-vars(var(--b-theme-light, var(--ant-color-fill-quaternary)));
+    }
+
+    &-outline-dark.ant-btn-variant-outlined,
+    &-outline-dark.ant-btn-variant-dashed {
+        @include ant-btn-outline-vars(var(--b-theme-dark, var(--ant-color-text)));
+    }
+
+    &-outline-link.ant-btn-variant-outlined,
+    &-outline-link.ant-btn-variant-dashed {
+        @include ant-btn-outline-vars(var(--b-theme-link, var(--ant-color-link)));
     }
 }
 

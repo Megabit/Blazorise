@@ -99,11 +99,10 @@
     margin-inline-start: var(--ant-margin-sm);
 }
 
-@each $name, $value in $theme-colors {
+@mixin ant-card-bg-variant($name, $text-color) {
     .ant-card.bg-#{$name} {
-        $text-color: color-yiq($value);
-
-        color: $text-color;
+        --b-ant-card-text-color: #{$text-color};
+        color: var(--b-ant-card-text-color);
 
         .ant-card-head,
         .ant-card-head-title,
@@ -114,7 +113,7 @@
         .ant-card-link,
         .ant-card-extra,
         .b-ant-card-footer {
-            color: $text-color;
+            color: var(--b-ant-card-text-color);
         }
 
         .b-ant-card-head-subtitle {
@@ -122,7 +121,17 @@
         }
 
         .b-ant-card-footer {
-            border-top-color: rgba($text-color, .2);
+            border-top-color: color-mix(in srgb, var(--b-ant-card-text-color) 20%, transparent);
         }
     }
 }
+
+@include ant-card-bg-variant(primary, var(--ant-color-text-light-solid));
+@include ant-card-bg-variant(secondary, var(--ant-color-text-light-solid));
+@include ant-card-bg-variant(success, var(--ant-color-text-light-solid));
+@include ant-card-bg-variant(info, var(--ant-color-text-light-solid));
+@include ant-card-bg-variant(danger, var(--ant-color-text-light-solid));
+@include ant-card-bg-variant(warning, var(--ant-color-text));
+@include ant-card-bg-variant(light, var(--ant-color-text));
+@include ant-card-bg-variant(dark, var(--ant-color-text-light-solid));
+@include ant-card-bg-variant(link, var(--ant-color-text-light-solid));

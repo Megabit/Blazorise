@@ -103,47 +103,57 @@
     }
 }
 
-@each $name, $value in $theme-colors {
+@mixin ant-steps-variant($name, $color) {
     .ant-steps-item.ant-steps-item-#{$name} {
         &.ant-steps-item-process {
             .ant-steps-item-icon {
-                border-color: $value;
-                box-shadow: 0 0 0 var(--ant-control-outline-width) color-mix(in srgb, #{$value} 10%, transparent);
+                border-color: #{$color};
+                box-shadow: 0 0 0 var(--ant-control-outline-width) color-mix(in srgb, #{$color} 10%, transparent);
             }
 
             .ant-steps-item-title {
-                color: $value;
+                color: #{$color};
             }
 
             .ant-steps-item-rail {
-                background: $value;
+                background: #{$color};
             }
         }
 
         &.ant-steps-item-finish {
             .ant-steps-item-icon,
             .ant-steps-item-rail-process {
-                background: $value;
-                border-color: $value;
+                background: #{$color};
+                border-color: #{$color};
             }
 
             .ant-steps-item-title {
-                color: $value;
+                color: #{$color};
             }
         }
 
         &.ant-steps-item-wait {
             .ant-steps-item-icon {
-                color: $value;
-                border-color: $value;
+                color: #{$color};
+                border-color: #{$color};
             }
 
             .ant-steps-item-title {
-                color: $value;
+                color: #{$color};
             }
         }
     }
 }
+
+@include ant-steps-variant(primary, var(--b-theme-primary, var(--ant-color-primary)));
+@include ant-steps-variant(secondary, var(--b-theme-secondary, var(--ant-color-text-secondary)));
+@include ant-steps-variant(success, var(--b-theme-success, var(--ant-color-success)));
+@include ant-steps-variant(info, var(--b-theme-info, var(--ant-color-info)));
+@include ant-steps-variant(warning, var(--b-theme-warning, var(--ant-color-warning)));
+@include ant-steps-variant(danger, var(--b-theme-danger, var(--ant-color-error)));
+@include ant-steps-variant(light, var(--b-theme-light, var(--ant-color-text-light-solid)));
+@include ant-steps-variant(dark, var(--b-theme-dark, var(--ant-color-text-heading)));
+@include ant-steps-variant(link, var(--b-theme-link, var(--ant-color-link)));
 
 .ant-steps-content {
     margin-block-start: var(--ant-margin);

@@ -123,20 +123,30 @@
     }
 }
 
-@each $name, $value in $theme-colors {
+@mixin ant-segmented-variant($name, $background, $text-color) {
     .ant-segmented {
         .ant-segmented-item.ant-segmented-item-selected.b-ant-segmented-item-#{$name} {
             .ant-segmented-item-label {
-                color: #{color-yiq($value)};
+                color: #{$text-color};
             }
         }
 
         .ant-segmented-thumb.b-ant-segmented-thumb-#{$name} {
-            background-color: $value;
+            background-color: #{$background};
             box-shadow: var(--ant-segmented-thumb-box-shadow);
         }
     }
 }
+
+@include ant-segmented-variant(primary, var(--b-theme-primary, var(--ant-color-primary)), var(--ant-color-text-light-solid));
+@include ant-segmented-variant(secondary, var(--b-theme-secondary, var(--ant-color-text-secondary)), var(--ant-color-text-light-solid));
+@include ant-segmented-variant(success, var(--b-theme-success, var(--ant-color-success)), var(--ant-color-text-light-solid));
+@include ant-segmented-variant(info, var(--b-theme-info, var(--ant-color-info)), var(--ant-color-text-light-solid));
+@include ant-segmented-variant(warning, var(--b-theme-warning, var(--ant-color-warning)), var(--ant-color-text));
+@include ant-segmented-variant(danger, var(--b-theme-danger, var(--ant-color-error)), var(--ant-color-text-light-solid));
+@include ant-segmented-variant(light, var(--b-theme-light, var(--ant-color-fill-quaternary)), var(--ant-color-text));
+@include ant-segmented-variant(dark, var(--b-theme-dark, var(--ant-color-text)), var(--ant-color-text-light-solid));
+@include ant-segmented-variant(link, var(--b-theme-link, var(--ant-color-link)), var(--ant-color-text-light-solid));
 
 @include radio-size('xs', $radio-xs-height, 16px, 10px, 7px);
 @include radio-size('sm', $radio-sm-height, var(--ant-control-height-sm), var(--ant-font-size-sm), 7px);

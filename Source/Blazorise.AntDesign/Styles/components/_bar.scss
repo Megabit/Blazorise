@@ -285,11 +285,11 @@
     }
 
     &.ant-menu-dark {
-        @include ant-legacy-vertical-menu( var(--b-bar-item-dark-active-color, #fff), var(--b-bar-item-dark-active-background, #0288D1), var(--b-bar-item-dark-hover-color, #fff), var(--b-bar-item-dark-hover-background, rgba(255,255,255,0.3)) );
+        @include ant-legacy-vertical-menu( var(--b-bar-item-dark-active-color, var(--ant-color-text-light-solid)), var(--b-bar-item-dark-active-background, var(--ant-color-primary)), var(--b-bar-item-dark-hover-color, var(--ant-color-text-light-solid)), var(--b-bar-item-dark-hover-background, color-mix(in srgb, var(--ant-color-text-light-solid) 30%, transparent)) );
     }
 
     &.ant-menu-light {
-        @include ant-legacy-vertical-menu( var(--b-bar-item-light-active-color, #fff), var(--b-bar-item-light-active-background, #0288D1), var(--b-bar-item-light-hover-color, var(--ant-menu-item-color)), var(--b-bar-item-light-hover-background, rgba(0,0,0,0.06)) );
+        @include ant-legacy-vertical-menu( var(--b-bar-item-light-active-color, var(--ant-color-text-light-solid)), var(--b-bar-item-light-active-background, var(--ant-color-primary)), var(--b-bar-item-light-hover-color, var(--ant-menu-item-color)), var(--b-bar-item-light-hover-background, var(--ant-control-item-bg-hover)) );
     }
 
 
