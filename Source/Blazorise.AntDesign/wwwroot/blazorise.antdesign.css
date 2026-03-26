@@ -2638,7 +2638,7 @@ template {
   left: calc(100% - 1px);
   right: auto;
   margin: 0 !important;
-  max-height: 50vh;
+  max-height: calc(100vh - var(--ant-padding) * 2);
   display: flex;
 }
 .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical,

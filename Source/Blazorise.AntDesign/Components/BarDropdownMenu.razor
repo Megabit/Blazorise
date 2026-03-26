@@ -2,7 +2,7 @@
 @using Blazorise.Utilities
 @if ( UsePopupContainer )
 {
-    <div class="@GetContainerClassNames( UseHorizontalPopupPlacement ? HorizontalMenuClass : VerticalMenuClass )" style="@GetContainerStyleNames()" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
+    <div @ref="@ContainerRef" class="@GetContainerClassNames( UseHorizontalPopupPlacement ? HorizontalMenuClass : VerticalMenuClass )" style="@GetContainerStyleNames()" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
         <ul @ref="@ElementRef" id="@SubMenuId" direction="ltr" class="@MenuClassNames" style="@StyleNames" role="menu" @attributes="@Attributes" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler" @onkeydown="@ParentBarDropdown.OnKeyDownHandler">
             @ChildContent
         </ul>
