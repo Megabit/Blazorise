@@ -1,21 +1,21 @@
 ﻿.ant-border {
-    border: $border-width solid $border-color !important;
+    border: var(--ant-line-width) solid var(--ant-color-border) !important;
 }
 
 .ant-border-top {
-    border-top: $border-width solid $border-color !important;
+    border-top: var(--ant-line-width) solid var(--ant-color-border) !important;
 }
 
 .ant-border-right {
-    border-right: $border-width solid $border-color !important;
+    border-right: var(--ant-line-width) solid var(--ant-color-border) !important;
 }
 
 .ant-border-bottom {
-    border-bottom: $border-width solid $border-color !important;
+    border-bottom: var(--ant-line-width) solid var(--ant-color-border) !important;
 }
 
 .ant-border-left {
-    border-left: $border-width solid $border-color !important;
+    border-left: var(--ant-line-width) solid var(--ant-color-border) !important;
 }
 
 .ant-border-0 {
@@ -38,40 +38,68 @@
     border-left: 0 !important;
 }
 
-@each $name, $value in $theme-colors {
-    $color: $value;
-
+@mixin ant-border-color-variant($name, $color, $subtle-color: null) {
     .ant-border-#{$name} {
         border-color: $color !important;
+    }
+
+    @if $subtle-color != null {
+        .ant-border-#{$name}-subtle {
+            border-color: $subtle-color !important;
+        }
+    }
+
+    @each $size in $border-sizes {
+        .ant-border-#{$size} {
+            &.ant-border-#{$name} {
+                border-color: $color !important;
+            }
+
+            @if $subtle-color != null {
+                &.ant-border-#{$name}-subtle {
+                    border-color: $subtle-color !important;
+                }
+            }
+        }
+
+        .ant-border-#{$name}-#{$size} {
+            border: #{$size}px solid $color !important;
+        }
+
+        @each $side in $border-sides {
+            .ant-border-#{$name}-#{$side}-#{$size} {
+                border-#{$side}: #{$size}px solid $color !important;
+            }
+        }
     }
 }
 
 .ant-border-white {
-    border-color: white !important;
+    border-color: var(--b-theme-border-white, var(--ant-color-bg-container)) !important;
 }
 
 .ant-rounded {
-    border-radius: $radius !important;
+    border-radius: var(--ant-border-radius) !important;
 }
 
 .ant-rounded-top {
-    border-top-left-radius: $radius !important;
-    border-top-right-radius: $radius !important;
+    border-top-left-radius: var(--ant-border-radius) !important;
+    border-top-right-radius: var(--ant-border-radius) !important;
 }
 
 .ant-rounded-right {
-    border-top-right-radius: $radius !important;
-    border-bottom-right-radius: $radius !important;
+    border-top-right-radius: var(--ant-border-radius) !important;
+    border-bottom-right-radius: var(--ant-border-radius) !important;
 }
 
 .ant-rounded-bottom {
-    border-bottom-right-radius: $radius !important;
-    border-bottom-left-radius: $radius !important;
+    border-bottom-right-radius: var(--ant-border-radius) !important;
+    border-bottom-left-radius: var(--ant-border-radius) !important;
 }
 
 .ant-rounded-left {
-    border-top-left-radius: $radius !important;
-    border-bottom-left-radius: $radius !important;
+    border-top-left-radius: var(--ant-border-radius) !important;
+    border-bottom-left-radius: var(--ant-border-radius) !important;
 }
 
 .ant-rounded-circle {
@@ -79,7 +107,7 @@
 }
 
 .ant-rounded-pill {
-    border-radius: $radius-pill !important;
+    border-radius: 50rem !important;
 }
 
 .ant-rounded-0 {
@@ -91,42 +119,22 @@ $border-sizes: (1, 2, 3, 4, 5);
 
 @each $size in $border-sizes {
     .ant-border-#{$size} {
-        border: #{$size}px solid $border-color !important;
-
-        @each $color-name, $color-value in $theme-colors {
-            &.ant-border-#{$color-name} {
-                border-color: $color-value !important;
-            }
-        }
-
-        @each $color-name, $color-value in $theme-colors-border-subtle {
-            &.ant-border-#{$color-name}-subtle {
-                border-color: #{$color-value} !important;
-            }
-        }
-    }
-
-    @each $color-name, $color-value in $theme-colors {
-        .ant-border-#{$color-name}-#{$size} {
-            border: #{$size}px solid $color-value !important;
-        }
+        border: #{$size}px solid var(--ant-color-border) !important;
     }
 
     @each $side in $border-sides {
         .ant-border-#{$side}-#{$size} {
-            border-#{$side}: #{$size}px solid $border-color !important;
-        }
-
-        @each $color-name, $color-value in $theme-colors {
-            .ant-border-#{$color-name}-#{$side}-#{$size} {
-                border-#{$side}: #{$size}px solid $color-value !important;
-            }
+            border-#{$side}: #{$size}px solid var(--ant-color-border) !important;
         }
     }
 }
 
-@each $color-name, $color-value in $theme-colors-border-subtle {
-    .ant-border-#{$color-name}-subtle {
-        border-color: #{$color-value} !important;
-    }
-}
+@include ant-border-color-variant(primary, var(--b-theme-border-primary, var(--ant-color-primary)), var(--b-theme-border-primary-subtle, var(--ant-color-primary-border)));
+@include ant-border-color-variant(secondary, var(--b-theme-border-secondary, var(--ant-color-text-secondary)), var(--b-theme-border-secondary-subtle, var(--ant-color-border)));
+@include ant-border-color-variant(success, var(--b-theme-border-success, var(--ant-color-success)), var(--b-theme-border-success-subtle, var(--ant-color-success-border)));
+@include ant-border-color-variant(info, var(--b-theme-border-info, var(--ant-color-info)), var(--b-theme-border-info-subtle, var(--ant-color-info-border)));
+@include ant-border-color-variant(warning, var(--b-theme-border-warning, var(--ant-color-warning)), var(--b-theme-border-warning-subtle, var(--ant-color-warning-border)));
+@include ant-border-color-variant(danger, var(--b-theme-border-danger, var(--ant-color-error)), var(--b-theme-border-danger-subtle, var(--ant-color-error-border)));
+@include ant-border-color-variant(light, var(--b-theme-border-light, var(--ant-color-border)), var(--b-theme-border-light-subtle, var(--ant-color-border-secondary)));
+@include ant-border-color-variant(dark, var(--b-theme-border-dark, var(--ant-color-text)), var(--b-theme-border-dark-subtle, var(--ant-color-border)));
+@include ant-border-color-variant(link, var(--b-theme-border-link, var(--ant-color-link)), var(--b-theme-border-link-subtle, var(--ant-color-primary-border)));
