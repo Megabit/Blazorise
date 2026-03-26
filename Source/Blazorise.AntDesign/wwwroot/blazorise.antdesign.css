@@ -3735,6 +3735,14 @@ template {
   width: 100%;
 }
 
+.b-ant-dropdown.b-is-autocomplete:not(.b-is-autocomplete-multipleselection) {
+  display: block;
+  width: 100%;
+}
+.b-ant-dropdown.b-is-autocomplete:not(.b-is-autocomplete-multipleselection) > .ant-input {
+  width: 100%;
+}
+
 .ant-dropdown:not(.ant-dropdown-hidden) .ant-dropdown-menu {
   animation-duration: 0.3s;
   animation-fill-mode: both;
