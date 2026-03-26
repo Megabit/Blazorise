@@ -90,13 +90,16 @@
                         <StepPanel Name="2">
                             <Field>
                                 <FieldLabel>Email address</FieldLabel>
-                                <TextInput @bind-Value="Email" Placeholder="Enter email">
-                                    <FieldHelp>This field is required in order to procceed to the next step.</FieldHelp>
+                                <FieldBody>
+                                    <TextInput @bind-Value="Email" Placeholder="Enter email" />
+                                </FieldBody>
+                                <FieldHelp>
+                                    This field is required in order to procceed to the next step.
                                     @if ( showEmailValidationError )
                                     {
-                                        <FieldHelp TextColor="TextColor.Danger">@emailValidationMessage</FieldHelp>
+                                        <Paragraph TextColor="TextColor.Danger">@emailValidationMessage</Paragraph>
                                     }
-                                </TextInput>
+                                </FieldHelp>
                             </Field>
                         </StepPanel>
                         <StepPanel Name="3">
