@@ -21,7 +21,7 @@
     }
 
     &.ant-pagination-xs {
-        --ant-pagination-item-size-actual: #{$pagination-item-size-xs};
+        --ant-pagination-item-size-actual: calc(var(--ant-pagination-item-size-sm) - var(--ant-padding-xs));
         --ant-pagination-item-spacing-actual: var(--ant-margin-xxs);
     }
 
@@ -31,7 +31,7 @@
     }
 
     &.ant-pagination-md {
-        --ant-pagination-item-size-actual: #{$pagination-item-size-md};
+        --ant-pagination-item-size-actual: calc(var(--ant-pagination-item-size) + var(--ant-padding-xxs));
         --ant-pagination-item-spacing-actual: var(--ant-margin-xs);
     }
 
@@ -41,7 +41,7 @@
     }
 
     &.ant-pagination-xl {
-        --ant-pagination-item-size-actual: #{$pagination-item-size-xl};
+        --ant-pagination-item-size-actual: calc(var(--ant-pagination-item-size-lg) + var(--ant-padding-xs));
         --ant-pagination-item-spacing-actual: var(--ant-margin-sm);
     }
 

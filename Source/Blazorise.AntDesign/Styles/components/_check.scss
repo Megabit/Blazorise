@@ -30,8 +30,8 @@
     }
 }
 
-@include checkbox('xs', $check-xs-height, $check-xs-height);
-@include checkbox('sm', $check-sm-height, $check-sm-height);
-@include checkbox('md', $check-md-height, $check-md-height);
-@include checkbox('lg', $check-lg-height, $check-lg-height);
-@include checkbox('xl', $check-xl-height, $check-xl-height);
+@include checkbox('xs', calc(var(--ant-control-interactive-size) / 2), calc(var(--ant-control-interactive-size) / 2));
+@include checkbox('sm', calc(var(--ant-control-interactive-size) * .75), calc(var(--ant-control-interactive-size) * .75));
+@include checkbox('md', calc(var(--ant-control-interactive-size) * 1.25), calc(var(--ant-control-interactive-size) * 1.25));
+@include checkbox('lg', calc(var(--ant-control-interactive-size) * 1.5), calc(var(--ant-control-interactive-size) * 1.5));
+@include checkbox('xl', calc(var(--ant-control-interactive-size) * 1.75), calc(var(--ant-control-interactive-size) * 1.75));

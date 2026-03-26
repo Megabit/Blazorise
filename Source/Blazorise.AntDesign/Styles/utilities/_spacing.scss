@@ -34,27 +34,27 @@
         @each $size, $length in $spacers {
             @if $size != 0 {
                 .m#{$infix}-n#{$size} {
-                    margin: -$length !important;
+                    margin: calc(#{$length} * -1) !important;
                 }
 
                 .mt#{$infix}-n#{$size},
                 .my#{$infix}-n#{$size} {
-                    margin-top: -$length !important;
+                    margin-top: calc(#{$length} * -1) !important;
                 }
 
                 .mr#{$infix}-n#{$size},
                 .mx#{$infix}-n#{$size} {
-                    margin-right: -$length !important;
+                    margin-right: calc(#{$length} * -1) !important;
                 }
 
                 .mb#{$infix}-n#{$size},
                 .my#{$infix}-n#{$size} {
-                    margin-bottom: -$length !important;
+                    margin-bottom: calc(#{$length} * -1) !important;
                 }
 
                 .ml#{$infix}-n#{$size},
                 .mx#{$infix}-n#{$size} {
-                    margin-left: -$length !important;
+                    margin-left: calc(#{$length} * -1) !important;
                 }
             }
         }

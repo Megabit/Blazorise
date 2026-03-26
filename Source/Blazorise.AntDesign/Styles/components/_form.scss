@@ -9,13 +9,13 @@
 .ant-row.ant-form-row {
     display: flex;
     flex-wrap: wrap;
-    margin-right: -$form-grid-gutter-width / 2;
-    margin-left: -$form-grid-gutter-width / 2;
+    margin-right: calc(var(--ant-padding-xs) / -2);
+    margin-left: calc(var(--ant-padding-xs) / -2);
 
     > .ant-col,
     > [class*="ant-col-"] {
-        padding-right: $form-grid-gutter-width / 2;
-        padding-left: $form-grid-gutter-width / 2;
+        padding-right: calc(var(--ant-padding-xs) / 2);
+        padding-left: calc(var(--ant-padding-xs) / 2);
 
         .ant-form-item-label {
             padding-right: 0;
@@ -77,8 +77,8 @@
             > .ant-col.ant-form-item-label {
                 padding-top: var(--ant-padding-xxs);
                 padding-bottom: var(--ant-padding-xxs);
-                padding-right: $form-grid-gutter-width / 2;
-                padding-left: $form-grid-gutter-width / 2;
+                padding-right: calc(var(--ant-padding-xs) / 2);
+                padding-left: calc(var(--ant-padding-xs) / 2);
                 margin: var(--ant-form-vertical-label-margin);
                 white-space: initial;
                 text-align: start;
@@ -94,7 +94,7 @@
             }
 
             > .ant-col + .ant-col {
-                padding-left: $form-grid-gutter-width / 2;
+                padding-left: calc(var(--ant-padding-xs) / 2);
             }
         }
     }

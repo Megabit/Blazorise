@@ -1,6 +1,6 @@
 ﻿.ant-card-group {
     > .ant-card {
-        margin-bottom: $card-group-margin;
+        margin-bottom: var(--ant-margin-xxs);
     }
 
     @include media-breakpoint-up(sm) {
@@ -21,20 +21,20 @@
 
 .ant-card-deck {
     .ant-card {
-        margin-bottom: $card-deck-margin;
+        margin-bottom: var(--ant-margin-xxs);
     }
 
     @include media-breakpoint-up(sm) {
         display: flex;
         flex-flow: row wrap;
-        margin-right: -$card-deck-margin;
-        margin-left: -$card-deck-margin;
+        margin-right: calc(var(--ant-margin-xxs) * -1);
+        margin-left: calc(var(--ant-margin-xxs) * -1);
 
         .ant-card {
             flex: 1 0 0%;
-            margin-right: $card-deck-margin;
+            margin-right: var(--ant-margin-xxs);
             margin-bottom: 0; // Override the default
-            margin-left: $card-deck-margin;
+            margin-left: var(--ant-margin-xxs);
         }
     }
 }

@@ -1,14 +1,12 @@
 .ant-radio-group.ant-radio-group-vertical {
     .ant-radio-wrapper {
         display: block;
-        height: $radio-height * 2;
-        line-height: $radio-height * 2;
+        height: calc(var(--ant-control-interactive-size) * 2);
+        line-height: calc(var(--ant-control-interactive-size) * 2);
     }
 }
 
 @mixin radio-size($size, $radio-size, $segmented-height, $segmented-font-size, $segmented-padding-inline) {
-    $radio-dot-size: $radio-size - ($radio-size / 2);
-
     .ant-radio-wrapper.b-ant-radio-#{$size} {
         font-size: $segmented-font-size;
         line-height: $radio-size;
@@ -24,10 +22,10 @@
             height: $radio-size;
 
             &::after {
-                width: $radio-dot-size;
-                height: $radio-dot-size;
-                top: ($radio-size - $radio-dot-size) / 2 - 1px;
-                left: ($radio-size - $radio-dot-size) / 2 - 1px;
+                width: calc(#{$radio-size} / 2);
+                height: calc(#{$radio-size} / 2);
+                top: calc((#{$radio-size} - calc(#{$radio-size} / 2)) / 2 - 1px);
+                left: calc((#{$radio-size} - calc(#{$radio-size} / 2)) / 2 - 1px);
             }
         }
     }
@@ -148,8 +146,8 @@
 @include ant-segmented-variant(dark, var(--b-theme-dark, var(--ant-color-text)), var(--ant-color-text-light-solid));
 @include ant-segmented-variant(link, var(--b-theme-link, var(--ant-color-link)), var(--ant-color-text-light-solid));
 
-@include radio-size('xs', $radio-xs-height, 16px, 10px, 7px);
-@include radio-size('sm', $radio-sm-height, var(--ant-control-height-sm), var(--ant-font-size-sm), 7px);
-@include radio-size('md', $radio-md-height, 36px, var(--ant-font-size), 11px);
-@include radio-size('lg', $radio-lg-height, var(--ant-control-height-lg), var(--ant-font-size-lg), 15px);
-@include radio-size('xl', $radio-xl-height, 48px, 18px, 15px);
+@include radio-size('xs', calc(var(--ant-control-interactive-size) / 2), var(--ant-control-height-xs), calc(var(--ant-font-size-sm) - var(--ant-line-width) * 2), calc(var(--ant-padding-xs) - var(--ant-line-width)));
+@include radio-size('sm', calc(var(--ant-control-interactive-size) * .75), var(--ant-control-height-sm), var(--ant-font-size-sm), calc(var(--ant-padding-xs) - var(--ant-line-width)));
+@include radio-size('md', calc(var(--ant-control-interactive-size) * 1.25), calc(var(--ant-control-height) + var(--ant-padding-xxs)), var(--ant-font-size), var(--ant-input-padding-inline));
+@include radio-size('lg', calc(var(--ant-control-interactive-size) * 1.5), var(--ant-control-height-lg), var(--ant-font-size-lg), var(--ant-button-padding-inline-lg));
+@include radio-size('xl', calc(var(--ant-control-interactive-size) * 1.75), calc(var(--ant-control-height-lg) + var(--ant-padding-xs)), var(--ant-font-size-xl), var(--ant-padding));

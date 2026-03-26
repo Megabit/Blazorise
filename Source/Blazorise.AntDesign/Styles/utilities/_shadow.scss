@@ -1,13 +1,13 @@
 ﻿.ant-shadow-sm {
-    box-shadow: $box-shadow-sm !important;
+    box-shadow: var(--ant-box-shadow-secondary) !important;
 }
 
 .ant-shadow {
-    box-shadow: $box-shadow !important;
+    box-shadow: var(--ant-box-shadow) !important;
 }
 
 .ant-shadow-lg {
-    box-shadow: $box-shadow-lg !important;
+    box-shadow: var(--ant-box-shadow-tertiary) !important;
 }
 
 .ant-shadow-none {

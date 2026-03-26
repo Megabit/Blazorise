@@ -8,27 +8,27 @@
     }
 
     &.b-ant-display-1 {
-        font-size: $display1-size;
-        font-weight: $display1-weight;
-        line-height: $display-line-height;
+        font-size: calc(var(--ant-font-size-heading-1) * 1.58);
+        font-weight: 300;
+        line-height: var(--ant-line-height-heading-1);
     }
 
     &.b-ant-display-2 {
-        font-size: $display2-size;
-        font-weight: $display2-weight;
-        line-height: $display-line-height;
+        font-size: calc(var(--ant-font-size-heading-1) * 1.45);
+        font-weight: 300;
+        line-height: var(--ant-line-height-heading-1);
     }
 
     &.b-ant-display-3 {
-        font-size: $display3-size;
-        font-weight: $display3-weight;
-        line-height: $display-line-height;
+        font-size: calc(var(--ant-font-size-heading-1) * 1.18);
+        font-weight: 300;
+        line-height: var(--ant-line-height-heading-1);
     }
 
     &.b-ant-display-4 {
-        font-size: $display4-size;
-        font-weight: $display4-weight;
-        line-height: $display-line-height;
+        font-size: calc(var(--ant-font-size-heading-2) * 1.17);
+        font-weight: 300;
+        line-height: var(--ant-line-height-heading-2);
     }
 
     &.b-ant-lead {
@@ -39,14 +39,14 @@
 }
 
 .ant-blockquote {
-    margin-bottom: $spacer;
-    font-size: $blockquote-font-size;
+    margin-bottom: var(--ant-margin);
+    font-size: calc(var(--ant-font-size) * 1.25);
 }
 
 .ant-blockquote-footer {
     display: block;
-    font-size: $blockquote-small-font-size;
-    color: $blockquote-small-color;
+    font-size: var(--ant-font-size-sm);
+    color: var(--ant-color-text-description);
 
     &::before {
         content: "\2014\00A0";

@@ -11,56 +11,44 @@
 }
 
 @mixin ant-btn-shared-color-vars($color, $shadow) {
-    $hover-color: unquote("color-mix(in srgb, #{$color} 85%, white)");
-    $active-color: unquote("color-mix(in srgb, #{$color} 85%, black)");
-    $light-color: unquote("color-mix(in srgb, #{$color} 15%, white)");
-    $light-hover-color: unquote("color-mix(in srgb, #{$color} 10%, white)");
-    $light-active-color: unquote("color-mix(in srgb, #{$color} 20%, white)");
-
     --ant-btn-color-base: #{$color};
-    --ant-btn-color-hover: #{$hover-color};
-    --ant-btn-color-active: #{$active-color};
-    --ant-btn-color-light: #{$light-color};
-    --ant-btn-color-light-hover: #{$light-hover-color};
-    --ant-btn-color-light-active: #{$light-active-color};
+    --ant-btn-color-hover: color-mix(in srgb, #{$color} 85%, white);
+    --ant-btn-color-active: color-mix(in srgb, #{$color} 85%, black);
+    --ant-btn-color-light: color-mix(in srgb, #{$color} 15%, white);
+    --ant-btn-color-light-hover: color-mix(in srgb, #{$color} 10%, white);
+    --ant-btn-color-light-active: color-mix(in srgb, #{$color} 20%, white);
     --ant-btn-shadow: #{$shadow};
 }
 
 @mixin ant-btn-solid-vars($color, $text-color, $shadow: unquote("0 2px 0 color-mix(in srgb, #{$color} 12%, transparent)")) {
-    $hover-color: unquote("color-mix(in srgb, #{$color} 85%, white)");
-    $active-color: unquote("color-mix(in srgb, #{$color} 85%, black)");
-
     @include ant-btn-shared-color-vars($color, $shadow);
     --ant-btn-solid-bg-color: #{$color};
-    --ant-btn-solid-bg-color-hover: #{$hover-color};
-    --ant-btn-solid-bg-color-active: #{$active-color};
+    --ant-btn-solid-bg-color-hover: color-mix(in srgb, #{$color} 85%, white);
+    --ant-btn-solid-bg-color-active: color-mix(in srgb, #{$color} 85%, black);
     --ant-btn-border-color: #{$color};
-    --ant-btn-border-color-hover: #{$hover-color};
-    --ant-btn-border-color-active: #{$active-color};
+    --ant-btn-border-color-hover: color-mix(in srgb, #{$color} 85%, white);
+    --ant-btn-border-color-active: color-mix(in srgb, #{$color} 85%, black);
     --ant-btn-border-color-disabled: var(--ant-color-border);
     --ant-btn-text-color: #{$text-color};
     --ant-btn-text-color-hover: #{$text-color};
     --ant-btn-text-color-active: #{$text-color};
     --ant-btn-text-color-disabled: var(--ant-color-text-disabled);
     --ant-btn-bg-color: #{$color};
-    --ant-btn-bg-color-hover: #{$hover-color};
-    --ant-btn-bg-color-active: #{$active-color};
+    --ant-btn-bg-color-hover: color-mix(in srgb, #{$color} 85%, white);
+    --ant-btn-bg-color-active: color-mix(in srgb, #{$color} 85%, black);
     --ant-btn-bg-color-disabled: var(--ant-color-bg-container-disabled);
     box-shadow: var(--ant-btn-shadow);
 }
 
 @mixin ant-btn-outline-vars($color) {
-    $hover-color: unquote("color-mix(in srgb, #{$color} 85%, white)");
-    $active-color: unquote("color-mix(in srgb, #{$color} 85%, black)");
-
     @include ant-btn-shared-color-vars($color, none);
     --ant-btn-border-color: #{$color};
-    --ant-btn-border-color-hover: #{$hover-color};
-    --ant-btn-border-color-active: #{$active-color};
+    --ant-btn-border-color-hover: color-mix(in srgb, #{$color} 85%, white);
+    --ant-btn-border-color-active: color-mix(in srgb, #{$color} 85%, black);
     --ant-btn-border-color-disabled: var(--ant-color-border);
     --ant-btn-text-color: #{$color};
-    --ant-btn-text-color-hover: #{$hover-color};
-    --ant-btn-text-color-active: #{$active-color};
+    --ant-btn-text-color-hover: color-mix(in srgb, #{$color} 85%, white);
+    --ant-btn-text-color-active: color-mix(in srgb, #{$color} 85%, black);
     --ant-btn-text-color-disabled: var(--ant-color-text-disabled);
     --ant-btn-bg-color: transparent;
     --ant-btn-bg-color-hover: transparent;

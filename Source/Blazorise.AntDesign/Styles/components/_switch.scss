@@ -21,8 +21,6 @@
 }
 
 @mixin ant-switch-variant($name, $color) {
-    $hover-color: unquote("color-mix(in srgb, #{$color} 82%, white)");
-
     .ant-switch {
         &.ant-switch-#{$name}.ant-switch-checked {
             background-color: #{$color};
@@ -30,7 +28,7 @@
 
         &.ant-switch-#{$name}.ant-switch-checked:hover:not(:disabled),
         &.ant-switch-#{$name}.ant-switch-checked:active:not(:disabled) {
-            background-color: #{$hover-color};
+            background-color: color-mix(in srgb, #{$color} 82%, white);
         }
 
         &.ant-switch-#{$name}:focus-visible {
@@ -59,7 +57,7 @@
     &-#{$size} {
         min-width: $min-width;
         height: $height;
-        line-height: $height - 2px;
+        line-height: calc(#{$height} - 2px);
 
         .ant-switch-inner {
             margin-right: 3px;
@@ -68,17 +66,17 @@
         }
 
         .ant-switch-handle {
-            width: $height - 4px;
-            height: $height - 4px;
+            width: calc(#{$height} - 4px);
+            height: calc(#{$height} - 4px);
 
             &::before {
-                border-radius: ($height - 4px) / 2;
+                border-radius: calc((#{$height} - 4px) / 2);
             }
         }
 
         &::after {
-            width: $height - 4px;
-            height: $height - 4px;
+            width: calc(#{$height} - 4px);
+            height: calc(#{$height} - 4px);
         }
 
         &:active::before,
@@ -88,8 +86,8 @@
     }
 
     &-#{$size}.ant-switch-loading-icon {
-        width: $height - 4px;
-        height: $height - 4px;
+        width: calc(#{$height} - 4px);
+        height: calc(#{$height} - 4px);
     }
 
     &-#{$size}.ant-switch-checked {
@@ -105,7 +103,7 @@
     }
 
     &-#{$size}.ant-switch-checked .ant-switch-handle {
-        left: calc(100% - $height);
+        left: calc(100% - #{$height});
     }
 
     &-#{$size}.ant-switch-loading .ant-switch-loading-icon {
@@ -115,11 +113,11 @@
 }
 
 .ant-switch {
-    @include switch('xs',$switch-xs-height, $switch-xs-min-width, $switch-xs-checked-margin-left, $switch-xs-font-size);
-    @include switch('sm',$switch-sm-height, $switch-sm-min-width, $switch-sm-checked-margin-left, $switch-sm-font-size);
-    @include switch('md',$switch-md-height, $switch-md-min-width, $switch-md-checked-margin-left, $switch-md-font-size);
-    @include switch('lg',$switch-lg-height, $switch-lg-min-width, $switch-lg-checked-margin-left, $switch-lg-font-size);
-    @include switch('xl',$switch-xl-height, $switch-xl-min-width, $switch-xl-checked-margin-left, $switch-xl-font-size);
+    @include switch('xs', calc(var(--ant-switch-track-height-sm) - var(--ant-padding-xxs)), calc(var(--ant-switch-track-min-width-sm) - var(--ant-padding-xxs) - var(--ant-line-width) * 2), calc((calc(var(--ant-switch-track-height-sm) - var(--ant-padding-xxs)) - 3px) * -1), calc(var(--ant-font-size-sm) - var(--ant-line-width) * 2));
+    @include switch('sm', var(--ant-switch-track-height-sm), var(--ant-switch-track-min-width-sm), calc((var(--ant-switch-track-height-sm) - 3px) * -1), var(--ant-font-size-sm));
+    @include switch('md', calc(var(--ant-switch-track-height) + var(--ant-line-width) * 2), calc(var(--ant-control-height-lg) * 2.25), calc((calc(var(--ant-switch-track-height) + var(--ant-line-width) * 2) - 3px) * -1), var(--ant-font-size-sm));
+    @include switch('lg', calc(var(--ant-switch-track-height) + var(--ant-padding-xxs) + var(--ant-line-width) * 2), calc(var(--ant-control-height-lg) * 2.25), calc((calc(var(--ant-switch-track-height) + var(--ant-padding-xxs) + var(--ant-line-width) * 2) - 3px) * -1), var(--ant-font-size-sm));
+    @include switch('xl', calc(var(--ant-switch-track-height) + var(--ant-padding-xs) + var(--ant-line-width) * 2), calc(var(--ant-control-height-lg) * 4), calc((calc(var(--ant-switch-track-height) + var(--ant-padding-xs) + var(--ant-line-width) * 2) - 3px) * -1), var(--ant-font-size-sm));
 
     .ant-switch-handle {
         border-radius: 1000px;
