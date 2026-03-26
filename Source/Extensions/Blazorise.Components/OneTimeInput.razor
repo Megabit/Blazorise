@@ -3,7 +3,7 @@
 @inherits BaseInputComponent<string, OneTimeInputClasses, OneTimeInputStyles>
 
 <Div ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Attributes="@ContainerAttributes">
-    <Div Flex="Blazorise.Flex.Row.AlignItems.Center" Gap="Blazorise.Gap.Is2">
+    <Div Flex="Blazorise.Flex.Row.AlignItems.Center.Wrap" Gap="Blazorise.Gap.Is2">
         <CascadingValue Value="(Validation)null">
             @for ( int groupIndex = 0; groupIndex < SlotGroups.Count; groupIndex++ )
             {
