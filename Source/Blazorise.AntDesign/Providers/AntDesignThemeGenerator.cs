@@ -38,7 +38,10 @@ public class AntDesignThemeGenerator : ThemeGenerator
         SetAntToken( "--ant-font-size", Var( ThemeVariables.BodyFontSize ) );
         SetAntToken( "--ant-color-text-base", Var( ThemeVariables.BodyTextColor ) );
         SetAntToken( "--ant-color-text", Var( ThemeVariables.BodyTextColor ) );
-        SetAntToken( "--ant-color-text-heading", Var( ThemeVariables.BodyTextColor ) );
+        SetAntToken( "--ant-color-text-heading", Var( ThemeVariables.TextEmphasisColor( "body" ) ) );
+        SetAntToken( "--ant-color-text-secondary", Var( ThemeVariables.TextColor( "secondary" ) ) );
+        SetAntToken( "--ant-color-text-description", Var( ThemeVariables.TextColor( "muted" ) ) );
+        SetAntToken( "--ant-color-text-light-solid", Var( ThemeVariables.TextColor( "white" ) ) );
         SetAntToken( "--ant-color-bg-base", Var( ThemeVariables.BodyBackgroundColor ) );
         SetAntToken( "--ant-color-bg-container", Var( ThemeVariables.BodyBackgroundColor ) );
         SetAntToken( "--ant-color-bg-elevated", Var( ThemeVariables.BodyBackgroundColor ) );

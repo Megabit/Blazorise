@@ -180,11 +180,15 @@ ol.ant-ordered-list {
 }
 
 .ant-typography-muted-emphasis {
-    color: var(--b-theme-text-muted-emphasis, var(--ant-color-text)) !important;
+    color: var(--b-theme-text-muted-emphasis, var(--ant-color-text-secondary)) !important;
 }
 
 .ant-typography-white {
     color: var(--b-theme-text-white, #fff) !important;
+}
+
+.ant-typography-white-emphasis {
+    color: var(--b-theme-text-white-emphasis, var(--b-theme-text-white, #fff)) !important;
 }
 
 .ant-typography-black-50 {
@@ -204,34 +208,34 @@ ol.ant-ordered-list {
 }
 
 .ant-typography-primary-emphasis {
-    color: var(--b-theme-text-primary-emphasis, var(--ant-color-primary-text)) !important;
+    color: var(--b-theme-text-primary-emphasis, var(--ant-color-primary-active)) !important;
 }
 
 .ant-typography-secondary-emphasis {
-    color: var(--b-theme-text-secondary-emphasis, var(--ant-color-text)) !important;
+    color: var(--b-theme-text-secondary-emphasis, var(--ant-color-text-heading)) !important;
 }
 
 .ant-typography-success-emphasis {
-    color: var(--b-theme-text-success-emphasis, var(--ant-color-success-text)) !important;
+    color: var(--b-theme-text-success-emphasis, var(--ant-color-success-active)) !important;
 }
 
 .ant-typography-info-emphasis {
-    color: var(--b-theme-text-info-emphasis, var(--ant-color-info-text)) !important;
+    color: var(--b-theme-text-info-emphasis, var(--ant-color-info-active)) !important;
 }
 
 .ant-typography-warning-emphasis {
-    color: var(--b-theme-text-warning-emphasis, var(--ant-color-warning-text)) !important;
+    color: var(--b-theme-text-warning-emphasis, var(--ant-color-warning-active)) !important;
 }
 
 .ant-typography-danger-emphasis,
 .ant-typography-error-emphasis {
-    color: var(--b-theme-text-danger-emphasis, var(--ant-color-error-text)) !important;
+    color: var(--b-theme-text-danger-emphasis, var(--ant-color-error-active)) !important;
 }
 
 .ant-typography-light-emphasis {
-    color: var(--b-theme-text-light-emphasis, var(--b-theme-text-light, #fafafa)) !important;
+    color: var(--b-theme-text-light-emphasis, var(--b-theme-text-light, var(--ant-color-text-light-solid))) !important;
 }
 
 .ant-typography-dark-emphasis {
-    color: var(--b-theme-text-dark-emphasis, var(--b-theme-text-dark, #343a40)) !important;
+    color: var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading)) !important;
 }
