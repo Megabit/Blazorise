@@ -23,15 +23,36 @@
     }
 }
 
-@mixin checkbox($size, $width, $height) {
-    .ant-checkbox-wrapper.b-ant-checkbox-#{$size},
+@mixin checkbox($size, $width) {
+    .ant-checkbox-wrapper.b-ant-checkbox-#{$size} {
+        .ant-checkbox {
+            width: $width;
+            height: $width;
+
+            &::after {
+                top: calc(#{$width} / 2 - var(--ant-line-width));
+                inset-inline-start: calc(#{$width} / 4 - var(--ant-line-width));
+                width: calc(#{$width} / 14 * 5);
+                height: calc(#{$width} / 14 * 8);
+            }
+        }
+    }
+
     .ant-checkbox.b-ant-checkbox-#{$size} {
-        --ant-control-interactive-size: #{$width};
+        width: $width;
+        height: $width;
+
+        &::after {
+            top: calc(#{$width} / 2 - var(--ant-line-width));
+            inset-inline-start: calc(#{$width} / 4 - var(--ant-line-width));
+            width: calc(#{$width} / 14 * 5);
+            height: calc(#{$width} / 14 * 8);
+        }
     }
 }
 
-@include checkbox('xs', calc(var(--ant-control-interactive-size) / 2), calc(var(--ant-control-interactive-size) / 2));
-@include checkbox('sm', calc(var(--ant-control-interactive-size) * .75), calc(var(--ant-control-interactive-size) * .75));
-@include checkbox('md', calc(var(--ant-control-interactive-size) * 1.25), calc(var(--ant-control-interactive-size) * 1.25));
-@include checkbox('lg', calc(var(--ant-control-interactive-size) * 1.5), calc(var(--ant-control-interactive-size) * 1.5));
-@include checkbox('xl', calc(var(--ant-control-interactive-size) * 1.75), calc(var(--ant-control-interactive-size) * 1.75));
+@include checkbox('xs', calc(var(--ant-control-interactive-size) / 2));
+@include checkbox('sm', calc(var(--ant-control-interactive-size) * .75));
+@include checkbox('md', calc(var(--ant-control-interactive-size) + var(--ant-size-unit)));
+@include checkbox('lg', calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 2));
+@include checkbox('xl', calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 3));

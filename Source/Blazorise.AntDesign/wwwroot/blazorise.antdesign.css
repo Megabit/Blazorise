@@ -5090,29 +5090,114 @@ template {
   cursor: pointer;
 }
 
-.ant-checkbox-wrapper.b-ant-checkbox-xs,
+.ant-checkbox-wrapper.b-ant-checkbox-xs .ant-checkbox {
+  width: calc(var(--ant-control-interactive-size) / 2);
+  height: calc(var(--ant-control-interactive-size) / 2);
+}
+.ant-checkbox-wrapper.b-ant-checkbox-xs .ant-checkbox::after {
+  top: calc(calc(var(--ant-control-interactive-size) / 2) / 2 - var(--ant-line-width));
+  inset-inline-start: calc(calc(var(--ant-control-interactive-size) / 2) / 4 - var(--ant-line-width));
+  width: calc(calc(var(--ant-control-interactive-size) / 2) / 14 * 5);
+  height: calc(calc(var(--ant-control-interactive-size) / 2) / 14 * 8);
+}
+
 .ant-checkbox.b-ant-checkbox-xs {
-  --ant-control-interactive-size: calc(var(--ant-control-interactive-size) / 2);
+  width: calc(var(--ant-control-interactive-size) / 2);
+  height: calc(var(--ant-control-interactive-size) / 2);
+}
+.ant-checkbox.b-ant-checkbox-xs::after {
+  top: calc(calc(var(--ant-control-interactive-size) / 2) / 2 - var(--ant-line-width));
+  inset-inline-start: calc(calc(var(--ant-control-interactive-size) / 2) / 4 - var(--ant-line-width));
+  width: calc(calc(var(--ant-control-interactive-size) / 2) / 14 * 5);
+  height: calc(calc(var(--ant-control-interactive-size) / 2) / 14 * 8);
 }
 
-.ant-checkbox-wrapper.b-ant-checkbox-sm,
+.ant-checkbox-wrapper.b-ant-checkbox-sm .ant-checkbox {
+  width: calc(var(--ant-control-interactive-size) * 0.75);
+  height: calc(var(--ant-control-interactive-size) * 0.75);
+}
+.ant-checkbox-wrapper.b-ant-checkbox-sm .ant-checkbox::after {
+  top: calc(calc(var(--ant-control-interactive-size) * 0.75) / 2 - var(--ant-line-width));
+  inset-inline-start: calc(calc(var(--ant-control-interactive-size) * 0.75) / 4 - var(--ant-line-width));
+  width: calc(calc(var(--ant-control-interactive-size) * 0.75) / 14 * 5);
+  height: calc(calc(var(--ant-control-interactive-size) * 0.75) / 14 * 8);
+}
+
 .ant-checkbox.b-ant-checkbox-sm {
-  --ant-control-interactive-size: calc(var(--ant-control-interactive-size) * 0.75);
+  width: calc(var(--ant-control-interactive-size) * 0.75);
+  height: calc(var(--ant-control-interactive-size) * 0.75);
+}
+.ant-checkbox.b-ant-checkbox-sm::after {
+  top: calc(calc(var(--ant-control-interactive-size) * 0.75) / 2 - var(--ant-line-width));
+  inset-inline-start: calc(calc(var(--ant-control-interactive-size) * 0.75) / 4 - var(--ant-line-width));
+  width: calc(calc(var(--ant-control-interactive-size) * 0.75) / 14 * 5);
+  height: calc(calc(var(--ant-control-interactive-size) * 0.75) / 14 * 8);
 }
 
-.ant-checkbox-wrapper.b-ant-checkbox-md,
+.ant-checkbox-wrapper.b-ant-checkbox-md .ant-checkbox {
+  width: calc(var(--ant-control-interactive-size) + var(--ant-size-unit));
+  height: calc(var(--ant-control-interactive-size) + var(--ant-size-unit));
+}
+.ant-checkbox-wrapper.b-ant-checkbox-md .ant-checkbox::after {
+  top: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit)) / 2 - var(--ant-line-width));
+  inset-inline-start: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit)) / 4 - var(--ant-line-width));
+  width: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit)) / 14 * 5);
+  height: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit)) / 14 * 8);
+}
+
 .ant-checkbox.b-ant-checkbox-md {
-  --ant-control-interactive-size: calc(var(--ant-control-interactive-size) * 1.25);
+  width: calc(var(--ant-control-interactive-size) + var(--ant-size-unit));
+  height: calc(var(--ant-control-interactive-size) + var(--ant-size-unit));
+}
+.ant-checkbox.b-ant-checkbox-md::after {
+  top: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit)) / 2 - var(--ant-line-width));
+  inset-inline-start: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit)) / 4 - var(--ant-line-width));
+  width: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit)) / 14 * 5);
+  height: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit)) / 14 * 8);
 }
 
-.ant-checkbox-wrapper.b-ant-checkbox-lg,
+.ant-checkbox-wrapper.b-ant-checkbox-lg .ant-checkbox {
+  width: calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 2);
+  height: calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 2);
+}
+.ant-checkbox-wrapper.b-ant-checkbox-lg .ant-checkbox::after {
+  top: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 2) / 2 - var(--ant-line-width));
+  inset-inline-start: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 2) / 4 - var(--ant-line-width));
+  width: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 2) / 14 * 5);
+  height: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 2) / 14 * 8);
+}
+
 .ant-checkbox.b-ant-checkbox-lg {
-  --ant-control-interactive-size: calc(var(--ant-control-interactive-size) * 1.5);
+  width: calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 2);
+  height: calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 2);
+}
+.ant-checkbox.b-ant-checkbox-lg::after {
+  top: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 2) / 2 - var(--ant-line-width));
+  inset-inline-start: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 2) / 4 - var(--ant-line-width));
+  width: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 2) / 14 * 5);
+  height: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 2) / 14 * 8);
 }
 
-.ant-checkbox-wrapper.b-ant-checkbox-xl,
+.ant-checkbox-wrapper.b-ant-checkbox-xl .ant-checkbox {
+  width: calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 3);
+  height: calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 3);
+}
+.ant-checkbox-wrapper.b-ant-checkbox-xl .ant-checkbox::after {
+  top: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 3) / 2 - var(--ant-line-width));
+  inset-inline-start: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 3) / 4 - var(--ant-line-width));
+  width: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 3) / 14 * 5);
+  height: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 3) / 14 * 8);
+}
+
 .ant-checkbox.b-ant-checkbox-xl {
-  --ant-control-interactive-size: calc(var(--ant-control-interactive-size) * 1.75);
+  width: calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 3);
+  height: calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 3);
+}
+.ant-checkbox.b-ant-checkbox-xl::after {
+  top: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 3) / 2 - var(--ant-line-width));
+  inset-inline-start: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 3) / 4 - var(--ant-line-width));
+  width: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 3) / 14 * 5);
+  height: calc(calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 3) / 14 * 8);
 }
 
 .ant-hero {
