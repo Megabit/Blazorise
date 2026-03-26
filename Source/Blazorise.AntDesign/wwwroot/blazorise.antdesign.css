@@ -2638,14 +2638,18 @@ template {
   left: calc(100% - 1px);
   right: auto;
   margin: 0 !important;
+  max-height: 50vh;
+  display: flex;
 }
 .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical,
 .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-popup .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical, .ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical,
 .ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-popup .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical, .ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-vertical-collapsed > .ant-menu-submenu > .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical,
 .ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-vertical-collapsed > .ant-menu-submenu > .ant-menu-submenu-popup .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical {
+  flex: 1 1 auto;
   min-width: var(--ant-menu-dropdown-width);
   padding: 0 !important;
-  overflow: visible !important;
+  overflow-y: auto !important;
+  overflow-x: visible !important;
 }
 .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical > .ant-menu-item,
 .ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical > .ant-menu-submenu,

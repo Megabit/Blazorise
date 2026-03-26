@@ -1168,12 +1168,16 @@
             left: calc(100% - 1px);
             right: auto;
             margin: 0 !important;
+            max-height: 50vh;
+            display: flex;
 
             > .ant-menu.ant-menu-sub.ant-menu-vertical,
             .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical {
+                flex: 1 1 auto;
                 min-width: var(--ant-menu-dropdown-width);
                 padding: 0 !important;
-                overflow: visible !important;
+                overflow-y: auto !important;
+                overflow-x: visible !important;
 
                 > .ant-menu-item,
                 > .ant-menu-submenu {
