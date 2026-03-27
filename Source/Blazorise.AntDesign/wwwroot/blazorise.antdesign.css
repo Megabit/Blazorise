@@ -3110,6 +3110,12 @@ template {
   --ant-btn-bg-color-active: transparent;
   --ant-btn-bg-color-disabled: transparent;
   box-shadow: none;
+  --ant-btn-border-color-hover: var(--b-theme-light, var(--ant-color-fill-quaternary));
+  --ant-btn-border-color-active: var(--b-theme-light, var(--ant-color-fill-secondary));
+  --ant-btn-text-color-hover: var(--ant-color-text);
+  --ant-btn-text-color-active: var(--ant-color-text);
+  --ant-btn-bg-color-hover: var(--b-theme-light, var(--ant-color-fill-quaternary));
+  --ant-btn-bg-color-active: var(--ant-color-fill-secondary);
 }
 .ant-btn-outline-dark.ant-btn-variant-outlined, .ant-btn-outline-dark.ant-btn-variant-dashed {
   --ant-btn-color-base: var(--b-theme-dark, var(--ant-color-text));
