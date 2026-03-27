@@ -302,13 +302,6 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         return KeyPress.InvokeAsync( eventArgs );
     }
 
-    /// <inheritdoc/>
-    protected override Task OnBlurHandler( FocusEventArgs eventArgs )
-    {
-        // just call eventcallback without using debouncer in BaseTextInput
-        return Blur.InvokeAsync( eventArgs );
-    }
-
     /// <summary>
     /// Opens the time dropdown.
     /// </summary>

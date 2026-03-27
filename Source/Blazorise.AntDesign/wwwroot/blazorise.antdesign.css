@@ -1934,6 +1934,51 @@ html {
   border-color: #52c41a;
 }
 
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit) + .valid-feedback,
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit) + .ant-form-item-explain[role=alert],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit) + .ant-form-item-explain:not([role=alert]) + .valid-feedback,
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit) + .ant-form-item-explain:not([role=alert]) + .ant-form-item-explain[role=alert],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit) + .valid-feedback + .ant-form-item-explain[role=alert],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit) + .ant-form-item-explain:not([role=alert]) + .valid-feedback + .ant-form-item-explain[role=alert] {
+  display: none;
+}
+
+:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .ant-form-item-explain:not([role=alert]) {
+  display: none;
+}
+
+:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .valid-feedback,
+:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .ant-form-item-explain:not([role=alert]) + .valid-feedback {
+  display: block;
+  color: var(--b-theme-success, #35c613);
+}
+
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role=alert]) {
+  display: none;
+}
+
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain[role=alert],
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role=alert]) + .ant-form-item-explain[role=alert],
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .valid-feedback + .ant-form-item-explain[role=alert],
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role=alert]) + .valid-feedback + .ant-form-item-explain[role=alert] {
+  display: block;
+}
+
+.ant-form-item .valid-feedback,
+.ant-form-item .ant-form-item-explain[role=alert] {
+  display: none;
+}
+.ant-form-item.ant-form-item-has-success .valid-feedback {
+  display: block;
+  color: var(--b-theme-success, #35c613);
+}
+.ant-form-item.ant-form-item-has-error .ant-form-item-explain[role=alert] {
+  display: block;
+}
+.ant-form-item.ant-form-item-has-error .valid-feedback {
+  display: none;
+}
+
 .ant-checkbox-wrapper {
   cursor: default;
 }
@@ -4008,6 +4053,22 @@ td:focus {
 
 .snackbar {
   z-index: 1010 !important;
+}
+
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-toolbar,
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .CodeMirror,
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-preview-side,
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-preview-full,
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-statusbar {
+  border-color: var(--b-theme-success, var(--ant-success-color));
+}
+
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-toolbar,
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .CodeMirror,
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-preview-side,
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-preview-full,
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-statusbar {
+  border-color: var(--b-theme-danger, var(--ant-error-color));
 }
 
 .b-richtextedit > .b-richtextedit-toolbar.ql-bubble,

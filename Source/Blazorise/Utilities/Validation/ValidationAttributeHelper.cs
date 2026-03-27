@@ -107,9 +107,24 @@ public static class ValidationAttributeHelper
     /// <returns>List of found attributes.</returns>
     public static ValidationAttribute[] GetValidationAttributes( PropertyInfo propertyInfo )
     {
+        if ( propertyInfo is null )
+            return Array.Empty<ValidationAttribute>();
+
         return propertyInfo
             .GetCustomAttributes<Attribute>()
             .OfType<ValidationAttribute>()
             .ToArray();
+    }
+
+    /// <summary>
+    /// Determines whether the given property contains the specified <see cref="ValidationAttribute"/>.
+    /// </summary>
+    /// <typeparam name="TAttribute">Type of validation attribute.</typeparam>
+    /// <param name="propertyInfo">Property object.</param>
+    /// <returns>True if the attribute is present; otherwise false.</returns>
+    public static bool HasValidationAttribute<TAttribute>( PropertyInfo propertyInfo )
+        where TAttribute : ValidationAttribute
+    {
+        return GetValidationAttributes( propertyInfo ).OfType<TAttribute>().Any();
     }
 }

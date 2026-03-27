@@ -157,6 +157,18 @@ public class OneTimeInputComponentTest : TestContext
     }
 
     [Fact]
+    public void AppliesAriaRequiredToAllSlots()
+    {
+        var comp = RenderComponent<OneTimeInput>( parameters => parameters
+            .Add( x => x.Digits, 4 )
+            .Add( x => x.AriaRequired, true ) );
+
+        var inputs = comp.FindAll( "input" );
+
+        Assert.All( inputs, input => Assert.Equal( "true", input.GetAttribute( "aria-required" ) ) );
+    }
+
+    [Fact]
     public async Task AppliesParentValidationStateToAllSlots()
     {
         var comp = Render( builder =>

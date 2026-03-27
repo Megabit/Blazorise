@@ -575,6 +575,12 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
             editorAttributes["aria-describedby"] = ResolvedAriaDescribedBy;
         }
 
+        if ( ResolvedAriaRequired is not null )
+        {
+            editorAttributes ??= new Dictionary<string, object>( StringComparer.OrdinalIgnoreCase );
+            editorAttributes["aria-required"] = ResolvedAriaRequired;
+        }
+
         if ( ResolvedAriaLabelledBy is not null )
         {
             editorAttributes ??= new Dictionary<string, object>( StringComparer.OrdinalIgnoreCase );
