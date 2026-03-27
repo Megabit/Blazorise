@@ -1,16 +1,16 @@
-.ant-skeleton.b-ant-skeleton {
+.ant-skeleton {
     display: flex;
     flex-direction: column;
     width: 100%;
 
-    .b-ant-skeleton-item {
+    .ant-skeleton-section {
         position: relative;
         display: block;
         width: 100%;
         overflow: hidden;
         color: transparent;
 
-        & + .b-ant-skeleton-item {
+        & + .ant-skeleton-section {
             margin-top: var(--ant-margin-sm);
         }
 
@@ -32,14 +32,13 @@
     }
 
     &.b-ant-skeleton-pulse {
-        .b-ant-skeleton-item .ant-skeleton-paragraph li {
+        .ant-skeleton-section .ant-skeleton-paragraph li {
             animation: b-ant-skeleton-pulse 1.4s ease-in-out infinite;
         }
     }
 
-    &.b-ant-skeleton-wave,
     &.ant-skeleton-active {
-        .b-ant-skeleton-item .ant-skeleton-paragraph li::after {
+        .ant-skeleton-section .ant-skeleton-paragraph li::after {
             position: absolute;
             inset: 0;
             content: "";

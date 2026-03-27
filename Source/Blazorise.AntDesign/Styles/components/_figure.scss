@@ -1,21 +1,16 @@
 .b-ant-figure {
     display: inline-block;
     margin: 0 0 var(--ant-margin);
+
+    .ant-image {
+        display: block;
+        margin-bottom: var(--ant-margin-xs);
+        line-height: 1;
+    }
 }
 
 .b-ant-figure-rounded {
     border-radius: var(--ant-border-radius);
-}
-
-.b-ant-figure-img {
-    display: block;
-    margin-bottom: var(--ant-margin-xs);
-    line-height: 1;
-}
-
-.b-ant-figure-img-fluid {
-    width: 100%;
-    height: auto;
 }
 
 .b-ant-figure-caption {

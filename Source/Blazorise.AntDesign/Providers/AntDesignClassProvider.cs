@@ -1386,7 +1386,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string FigureSize( FigureSize figureSize ) => figureSize != Blazorise.FigureSize.Default ? $"b-ant-figure-is-{ToFigureSize( figureSize )}" : null;
 
-    public override string FigureImage() => "b-ant-figure-img ant-image-img b-ant-figure-img-fluid";
+    public override string FigureImage() => "ant-image-img ant-image-img-fluid";
 
     public override string FigureImageRounded( bool rounded ) => rounded ? "b-ant-figure-rounded" : null;
 
@@ -1432,16 +1432,16 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Skeleton
 
-    public override string Skeleton() => "ant-skeleton b-ant-skeleton";
+    public override string Skeleton() => "ant-skeleton";
 
     public override string SkeletonAnimation( SkeletonAnimation animation ) => animation switch
     {
-        Blazorise.SkeletonAnimation.Wave => "ant-skeleton-active b-ant-skeleton-wave",
+        Blazorise.SkeletonAnimation.Wave => "ant-skeleton-active",
         Blazorise.SkeletonAnimation.Pulse => "b-ant-skeleton-pulse",
         _ => null,
     };
 
-    public override string SkeletonItem() => "b-ant-skeleton-item";
+    public override string SkeletonItem() => "ant-skeleton-section";
 
     #endregion
 

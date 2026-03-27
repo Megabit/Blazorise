@@ -3876,20 +3876,14 @@ template {
   display: inline-block;
   margin: 0 0 var(--ant-margin);
 }
-
-.b-ant-figure-rounded {
-  border-radius: var(--ant-border-radius);
-}
-
-.b-ant-figure-img {
+.b-ant-figure .ant-image {
   display: block;
   margin-bottom: var(--ant-margin-xs);
   line-height: 1;
 }
 
-.b-ant-figure-img-fluid {
-  width: 100%;
-  height: auto;
+.b-ant-figure-rounded {
+  border-radius: var(--ant-border-radius);
 }
 
 .b-ant-figure-caption {
@@ -7080,26 +7074,26 @@ a.ant-typography-disabled[aria-disabled=true] {
   --ant-slider-dot-active-border-color: var(--ant-color-error);
 }
 
-.ant-skeleton.b-ant-skeleton {
+.ant-skeleton {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
-.ant-skeleton.b-ant-skeleton .b-ant-skeleton-item {
+.ant-skeleton .ant-skeleton-section {
   position: relative;
   display: block;
   width: 100%;
   overflow: hidden;
   color: transparent;
 }
-.ant-skeleton.b-ant-skeleton .b-ant-skeleton-item + .b-ant-skeleton-item {
+.ant-skeleton .ant-skeleton-section + .ant-skeleton-section {
   margin-top: var(--ant-margin-sm);
 }
-.ant-skeleton.b-ant-skeleton .b-ant-skeleton-item .ant-skeleton-paragraph {
+.ant-skeleton .ant-skeleton-section .ant-skeleton-paragraph {
   margin: 0;
   padding: 0;
 }
-.ant-skeleton.b-ant-skeleton .b-ant-skeleton-item .ant-skeleton-paragraph li {
+.ant-skeleton .ant-skeleton-section .ant-skeleton-paragraph li {
   position: relative;
   height: 16px;
   margin: 0;
@@ -7109,10 +7103,10 @@ a.ant-typography-disabled[aria-disabled=true] {
   background: var(--ant-color-fill-tertiary);
   border-radius: 100px;
 }
-.ant-skeleton.b-ant-skeleton.b-ant-skeleton-pulse .b-ant-skeleton-item .ant-skeleton-paragraph li {
+.ant-skeleton.b-ant-skeleton-pulse .ant-skeleton-section .ant-skeleton-paragraph li {
   animation: b-ant-skeleton-pulse 1.4s ease-in-out infinite;
 }
-.ant-skeleton.b-ant-skeleton.b-ant-skeleton-wave .b-ant-skeleton-item .ant-skeleton-paragraph li::after, .ant-skeleton.b-ant-skeleton.ant-skeleton-active .b-ant-skeleton-item .ant-skeleton-paragraph li::after {
+.ant-skeleton.ant-skeleton-active .ant-skeleton-section .ant-skeleton-paragraph li::after {
   position: absolute;
   inset: 0;
   content: "";
