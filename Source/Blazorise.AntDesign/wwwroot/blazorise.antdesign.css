@@ -2770,6 +2770,22 @@ template {
   color: var(--ant-menu-dark-item-color);
 }
 
+.ant-menu.ant-menu-root.ant-menu-light > .ant-menu-submenu > .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical > .ant-menu-item:hover,
+.ant-menu.ant-menu-root.ant-menu-light > .ant-menu-submenu > .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title:hover,
+.ant-menu.ant-menu-root.ant-menu-light > .ant-menu-submenu > .ant-menu-submenu-popup .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical > .ant-menu-item:hover,
+.ant-menu.ant-menu-root.ant-menu-light > .ant-menu-submenu > .ant-menu-submenu-popup .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title:hover {
+  color: var(--b-bar-item-light-hover-color, var(--ant-menu-item-color));
+  background: var(--b-bar-item-light-hover-background, var(--ant-control-item-bg-hover));
+}
+
+.ant-menu.ant-menu-root.ant-menu-dark > .ant-menu-submenu > .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical > .ant-menu-item:hover,
+.ant-menu.ant-menu-root.ant-menu-dark > .ant-menu-submenu > .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title:hover,
+.ant-menu.ant-menu-root.ant-menu-dark > .ant-menu-submenu > .ant-menu-submenu-popup .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical > .ant-menu-item:hover,
+.ant-menu.ant-menu-root.ant-menu-dark > .ant-menu-submenu > .ant-menu-submenu-popup .ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title:hover {
+  color: var(--b-bar-item-dark-hover-color, var(--ant-color-text-light-solid));
+  background: var(--b-bar-item-dark-hover-background, color-mix(in srgb, var(--ant-color-text-light-solid) 30%, transparent));
+}
+
 .ant-menu.ant-menu-root.ant-menu-inline > .b-ant-menu-brand-item, .ant-menu.ant-menu-root.ant-menu-vertical > .b-ant-menu-brand-item {
   background: transparent !important;
 }
