@@ -4081,6 +4081,36 @@ template {
   border-color: var(--ant-color-success);
 }
 
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .valid-feedback,
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain[role=alert],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role=alert]) + .valid-feedback,
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role=alert]) + .ant-form-item-explain[role=alert],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .valid-feedback + .ant-form-item-explain[role=alert],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role=alert]) + .valid-feedback + .ant-form-item-explain[role=alert] {
+  display: none;
+}
+
+:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .ant-form-item-explain:not([role=alert]) {
+  display: none;
+}
+
+:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .valid-feedback,
+:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .ant-form-item-explain:not([role=alert]) + .valid-feedback {
+  display: block;
+  color: var(--b-theme-success, var(--ant-color-success));
+}
+
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role=alert]) {
+  display: none;
+}
+
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain[role=alert],
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role=alert]) + .ant-form-item-explain[role=alert],
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .valid-feedback + .ant-form-item-explain[role=alert],
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role=alert]) + .valid-feedback + .ant-form-item-explain[role=alert] {
+  display: block;
+}
+
 .ant-row.ant-form-row {
   display: flex;
   flex-wrap: wrap;
@@ -4098,6 +4128,20 @@ template {
   padding-left: 0;
 }
 
+.ant-form-item .valid-feedback,
+.ant-form-item .ant-form-item-explain[role=alert] {
+  display: none;
+}
+.ant-form-item.ant-form-item-has-success .valid-feedback {
+  display: block;
+  color: var(--b-theme-success, var(--ant-color-success));
+}
+.ant-form-item.ant-form-item-has-error .ant-form-item-explain[role=alert] {
+  display: block;
+}
+.ant-form-item.ant-form-item-has-error .valid-feedback {
+  display: none;
+}
 .ant-form-item > .ant-col.ant-form-item-label {
   padding-right: 0;
   padding-left: 0;
@@ -4157,6 +4201,57 @@ template {
 .ant-form-item .ant-picker,
 .ant-form-item .ant-input-number {
   width: 100%;
+}
+
+.ant-checkbox-wrapper {
+  cursor: default;
+}
+.ant-checkbox-wrapper-pointer {
+  cursor: pointer;
+}
+
+.ant-display-flex.ant-flex-column > .ant-checkbox-wrapper + .ant-checkbox-wrapper,
+.ant-display-flex.ant-flex-column > .ant-radio-wrapper + .ant-radio-wrapper,
+.ant-display-flex.ant-flex-column > .ant-radio-button-wrapper + .ant-radio-button-wrapper,
+.ant-display-flex.ant-flex-column-reverse > .ant-checkbox-wrapper + .ant-checkbox-wrapper,
+.ant-display-flex.ant-flex-column-reverse > .ant-radio-wrapper + .ant-radio-wrapper,
+.ant-display-flex.ant-flex-column-reverse > .ant-radio-button-wrapper + .ant-radio-button-wrapper,
+.ant-display-inline-flex.ant-flex-column > .ant-checkbox-wrapper + .ant-checkbox-wrapper,
+.ant-display-inline-flex.ant-flex-column > .ant-radio-wrapper + .ant-radio-wrapper,
+.ant-display-inline-flex.ant-flex-column > .ant-radio-button-wrapper + .ant-radio-button-wrapper,
+.ant-display-inline-flex.ant-flex-column-reverse > .ant-checkbox-wrapper + .ant-checkbox-wrapper,
+.ant-display-inline-flex.ant-flex-column-reverse > .ant-radio-wrapper + .ant-radio-wrapper,
+.ant-display-inline-flex.ant-flex-column-reverse > .ant-radio-button-wrapper + .ant-radio-button-wrapper,
+.ant-display-flex[class*=ant-flex-direction-][class*=-column] > .ant-checkbox-wrapper + .ant-checkbox-wrapper,
+.ant-display-flex[class*=ant-flex-direction-][class*=-column] > .ant-radio-wrapper + .ant-radio-wrapper,
+.ant-display-flex[class*=ant-flex-direction-][class*=-column] > .ant-radio-button-wrapper + .ant-radio-button-wrapper,
+.ant-display-inline-flex[class*=ant-flex-direction-][class*=-column] > .ant-checkbox-wrapper + .ant-checkbox-wrapper,
+.ant-display-inline-flex[class*=ant-flex-direction-][class*=-column] > .ant-radio-wrapper + .ant-radio-wrapper,
+.ant-display-inline-flex[class*=ant-flex-direction-][class*=-column] > .ant-radio-button-wrapper + .ant-radio-button-wrapper {
+  margin-left: 0;
+  margin-inline-start: 0;
+}
+
+.ant-input-group > .ant-input-group-addon:last-child > .ant-btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.ant-input-group > .ant-input-group-addon:first-child > .ant-btn {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.ant-input-search-enter-button .ant-input-group-addon {
+  padding: 0;
+  border: 0;
+}
+.ant-input-search-enter-button .ant-input-group-addon:last-child .ant-btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.ant-input-search-enter-button .ant-input-group-addon:first-child .ant-btn {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .ant-focus-trap {
@@ -8320,6 +8415,22 @@ a.b-ant-link-disabled[aria-disabled=true] {
 
 .snackbar {
   z-index: 1010 !important;
+}
+
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-toolbar,
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .CodeMirror,
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-preview-side,
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-preview-full,
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-statusbar {
+  border-color: var(--b-theme-success, var(--ant-success-color));
+}
+
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-toolbar,
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .CodeMirror,
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-preview-side,
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-preview-full,
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-statusbar {
+  border-color: var(--b-theme-danger, var(--ant-error-color));
 }
 
 .b-richtextedit > .b-richtextedit-toolbar.ql-bubble,

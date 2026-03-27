@@ -10,7 +10,7 @@ else
 {
     <div class="@ContainerClassNames" style="@StyleNames" @onclick="@OnPickerClickHandler">
         <div class="ant-picker-input">
-            <input @ref="@ElementRef" id="@ElementId" type="text" name="@NameAttributeValue" disabled="@IsDisabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" placeholder="@Placeholder" min="@Min?.ToString( Utilities.Parsers.InternalDateFormat )" max="@Max?.ToString( Utilities.Parsers.InternalDateFormat )" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" @attributes="@Attributes" />
+            <input @ref="@ElementRef" id="@ElementId" type="text" name="@NameAttributeValue" disabled="@IsDisabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" placeholder="@Placeholder" min="@Min?.ToString( Utilities.Parsers.InternalDateFormat )" max="@Max?.ToString( Utilities.Parsers.InternalDateFormat )" tabindex="@TabIndex" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ExplicitAriaLabelledBy" @attributes="@Attributes" />
         </div>
         <span class="ant-picker-suffix" aria-hidden="true">
             <span role="img" aria-label="calendar" class="anticon anticon-calendar">

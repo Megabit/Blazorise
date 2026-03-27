@@ -2,7 +2,7 @@
 @typeparam TValue
 @inherits Blazorise.Switch<TValue>
 <span class="@WrapperClassNames" style="@WrapperStyleNames">
-    <button @ref="@ElementRef" id="@ElementId" type="button" name="@NameAttributeValue" role="switch" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" aria-checked="@AriaCheckedValue" aria-readonly="@ReadOnly" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" tabindex="@TabIndex" @onclick="@HandleButtonClick" @attributes="@Attributes">
+    <button @ref="@ElementRef" id="@ElementId" type="button" name="@NameAttributeValue" role="switch" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" aria-checked="@AriaCheckedValue" aria-readonly="@ReadOnlyAsString" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ExplicitAriaLabelledBy" tabindex="@TabIndex" @onclick="@HandleButtonClick" @attributes="@Attributes">
         <div class="ant-switch-handle"></div>
         <span class="ant-switch-inner">
             <span class="ant-switch-inner-checked"></span>
