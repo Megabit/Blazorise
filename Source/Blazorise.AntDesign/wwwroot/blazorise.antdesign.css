@@ -4468,6 +4468,9 @@ template {
   line-height: inherit;
   cursor: pointer;
 }
+.ant-select-multiple .ant-select-selection-item-remove:hover {
+  color: var(--ant-color-icon-hover);
+}
 .ant-select-multiple .ant-select-selection-search {
   width: 100%;
 }

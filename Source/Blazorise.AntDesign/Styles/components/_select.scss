@@ -139,6 +139,10 @@
         font-weight: bold;
         line-height: inherit;
         cursor: pointer;
+
+        &:hover {
+            color: var(--ant-color-icon-hover);
+        }
     }
 
     .ant-select-selection-search {
