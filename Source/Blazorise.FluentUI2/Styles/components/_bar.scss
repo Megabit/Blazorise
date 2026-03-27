@@ -381,7 +381,7 @@
     padding-left: var(--spacingHorizontalSNudge);
     padding-right: var(--spacingHorizontalSNudge);
     padding-top: var(--spacingHorizontalSNudge);
-    text-decoration-line: none;
+    text-decoration-line: none !important;
     text-wrap: nowrap;
     transition-duration: var(--durationFaster);
     transition-property: background, border, color;
@@ -684,6 +684,10 @@
         }
 
         .b-bar-link {
+            &:hover {
+                text-decoration: none;
+            }
+
             &.fui-Link-active {
                 color: var(--b-bar-item-dark-active-color, #fff);
                 background: var(--b-bar-item-dark-active-background, #0288D1);
@@ -714,6 +718,10 @@
         }
 
         .b-bar-link {
+            &:hover {
+                text-decoration: none;
+            }
+
             &.fui-Link-active {
                 color: var(--b-bar-item-light-active-color, #000);
                 background: var(--b-bar-item-light-active-background, #0288D1);

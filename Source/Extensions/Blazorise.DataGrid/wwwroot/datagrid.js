@@ -173,6 +173,81 @@ function findAncestorByTagName(el, tagName) {
     return el;
 }
 
+function isFocusableCell(cell) {
+    return cell && cell.getAttribute("tabindex") == 0;
+}
+
+function focusCell(cell) {
+    if (!isFocusableCell(cell))
+        return false;
+
+    cell.focus({ focusVisible: true });
+    return true;
+}
+
+function getBodyRows(table) {
+    return Array.from(table.querySelectorAll("tbody tr"));
+}
+
+function getRowCells(row) {
+    return row ? Array.from(row.querySelectorAll("td")) : [];
+}
+
+function getNavigableCells(table) {
+    return Array.from(table.querySelectorAll(QUERYSELECTOR_ALL_COLUMNS)).filter(isFocusableCell);
+}
+
+function findClosestNavigableCell(rowCells, preferredIndex) {
+    if (!rowCells || rowCells.length === 0)
+        return null;
+
+    const startIndex = Math.max(0, Math.min(preferredIndex, rowCells.length - 1));
+
+    for (let offset = 0; offset < rowCells.length; offset++) {
+        const leftIndex = startIndex - offset;
+        if (leftIndex >= 0 && isFocusableCell(rowCells[leftIndex]))
+            return rowCells[leftIndex];
+
+        const rightIndex = startIndex + offset;
+        if (offset > 0 && rightIndex < rowCells.length && isFocusableCell(rowCells[rightIndex]))
+            return rowCells[rightIndex];
+    }
+
+    return null;
+}
+
+function getPageJumpRowCount(table, rows) {
+    if (!rows || rows.length === 0)
+        return 1;
+
+    const container = findScrollContainer(table);
+    if (!container)
+        return 1;
+
+    let totalHeight = 0;
+    let measuredRows = 0;
+
+    for (const row of rows) {
+        const rowHeight = row.offsetHeight;
+        if (!rowHeight)
+            continue;
+
+        totalHeight += rowHeight;
+        measuredRows += 1;
+    }
+
+    if (measuredRows === 0)
+        return 1;
+
+    const averageRowHeight = totalHeight / measuredRows;
+    const containerHeight = container.clientHeight || table.parentElement?.clientHeight || 0;
+
+    if (!averageRowHeight || !containerHeight)
+        return 1;
+
+    return Math.max(1, Math.floor(containerHeight / averageRowHeight));
+}
+
 function clickCellNavigation(e) {
     // Do not hijack clicks coming from interactive elements
     const interactiveClosest = e.target.closest('input,select,textarea,button,label,a,[role="button"],[role="checkbox"],[contenteditable="true"]');
@@ -209,24 +284,32 @@ function KeyDownCellNavigation(e) {
     }
     const TAG_NAMES_INPUT = ["INPUT", "SELECT", "TEXTAREA"];
     const TAG_NAME_TABLE_COLUMN = "TD";
-    const QUERYSELECTOR_FIRST_ROW_COLUMNS = "tbody tr:first-child td";
 
-    let isLeft = e.keyCode == 37;
-    let isUp = e.keyCode == 38;
-    let isRight = e.keyCode == 39;
-    let isDown = e.keyCode == 40;
-    let isArrow = isLeft | isUp | isRight | isDown;
+    let isLeft = e.key === "ArrowLeft" || e.keyCode == 37;
+    let isUp = e.key === "ArrowUp" || e.keyCode == 38;
+    let isRight = e.key === "ArrowRight" || e.keyCode == 39;
+    let isDown = e.key === "ArrowDown" || e.keyCode == 40;
+    let isPageUp = e.key === "PageUp" || e.keyCode == 33;
+    let isPageDown = e.key === "PageDown" || e.keyCode == 34;
+    let isEnd = e.key === "End" || e.keyCode == 35;
+    let isHome = e.key === "Home" || e.keyCode == 36;
+    let isArrow = isLeft || isUp || isRight || isDown;
+    let isNavigationKey = isArrow || isPageUp || isPageDown || isHome || isEnd;
     let isEnterKey = e.keyCode == 13;
     let isEscKey = e.keyCode == 27;
 
     let focusedElement = document.activeElement;
-    let allCells = element.querySelectorAll(QUERYSELECTOR_ALL_COLUMNS);
+    let allCells = Array.from(element.querySelectorAll(QUERYSELECTOR_ALL_COLUMNS));
+    let navigableCells = getNavigableCells(element);
+    let focusedCell = focusedElement?.tagName === TAG_NAME_TABLE_COLUMN
+        ? focusedElement
+        : focusedElement?.closest(TAG_NAME_TABLE_COLUMN.toLowerCase());
 
-    if (!allCells || allCells.length == 0) {
+    if (!allCells || allCells.length == 0 || !navigableCells || navigableCells.length == 0) {
         return;
     }
 
-    let index = [].indexOf.call(allCells, focusedElement);
+    let index = focusedCell ? allCells.indexOf(focusedCell) : -1;
     let isInputFocused = focusedElement && TAG_NAMES_INPUT.includes(focusedElement.tagName);
 
     if (isInputFocused && (isEnterKey || isEscKey)) {
@@ -237,11 +320,9 @@ function KeyDownCellNavigation(e) {
                 if (!inputStillExists) {
 
                     let tdElement = findAncestorByTagName(focusedElement, TAG_NAME_TABLE_COLUMN);
-
-                    let index = [].indexOf.call(allCells, tdElement);
-                    let toFocus = element.querySelectorAll(QUERYSELECTOR_ALL_COLUMNS)[index - 1];
-                    if (toFocus && toFocus.getAttribute("tabindex") == 0) {
-                        toFocus.focus();
+                    let tdIndex = tdElement ? allCells.indexOf(tdElement) : -1;
+                    let toFocus = tdIndex > 0 ? allCells[tdIndex - 1] : null;
+                    if (focusCell(toFocus)) {
                         return;
                     }
                 }
@@ -250,69 +331,88 @@ function KeyDownCellNavigation(e) {
         });
     }
 
+    if (isInputFocused) {
+        return;
+    }
+
     if (index == -1) {
-        if (isArrow && !isInputFocused) {
-            while (index < allCells.length - 1) {
-                let toFocus = allCells[index + 1];
-                if (toFocus.getAttribute("tabindex") == 0) {
-                    toFocus.focus();
-                    return;
-                }
-                index += 1;
-            }
+        if (isNavigationKey) {
+            let initialCell = isEnd ? navigableCells[navigableCells.length - 1] : navigableCells[0];
+            focusCell(initialCell);
         }
         return;
     }
 
-    if (isArrow) {
+    if (isNavigationKey) {
         e.preventDefault();
     }
 
+    let currentRow = focusedCell?.closest("tr");
+    let rows = getBodyRows(element).filter(row => getRowCells(row).some(isFocusableCell));
+    let rowIndex = currentRow ? rows.indexOf(currentRow) : -1;
+    let rowCells = getRowCells(currentRow);
+    let cellIndex = rowCells.indexOf(focusedCell);
+    let navigableCellIndex = navigableCells.indexOf(focusedCell);
+
+    if (rowIndex < 0 || cellIndex < 0 || navigableCellIndex < 0) {
+        return;
+    }
 
     if (isLeft) {
-        while (index > 0) {
-            let toFocus = allCells[index - 1];
-            if (toFocus.getAttribute("tabindex") == 0) {
-                toFocus.focus();
-                return;
-            }
-            index -= 1;
-        }
+        focusCell(navigableCells[navigableCellIndex - 1]);
 
         return;
     }
 
     if (isUp) {
-        let rowCount = element.querySelectorAll(QUERYSELECTOR_FIRST_ROW_COLUMNS).length;
-        let toFocus = allCells[index - rowCount];
-        if (toFocus && toFocus.getAttribute("tabindex") == 0) {
-            toFocus.focus();
-        }
+        let targetRowIndex = Math.max(0, rowIndex - 1);
+        let toFocus = findClosestNavigableCell(getRowCells(rows[targetRowIndex]), cellIndex);
+        focusCell(toFocus);
         return;
     }
 
     if (isRight) {
-
-        while (index < allCells.length - 1) {
-            let toFocus = allCells[index + 1];
-            if (toFocus.getAttribute("tabindex") == 0) {
-                toFocus.focus();
-                return;
-            }
-            index += 1;
-        }
+        focusCell(navigableCells[navigableCellIndex + 1]);
 
         return;
     }
 
     if (isDown) {
-        let rowCount = element.querySelectorAll(QUERYSELECTOR_FIRST_ROW_COLUMNS).length;
-        let toFocus = allCells[index + rowCount];
-        if (toFocus && toFocus.getAttribute("tabindex") == 0) {
-            toFocus.focus();
-        }
+        let targetRowIndex = Math.min(rows.length - 1, rowIndex + 1);
+        let toFocus = findClosestNavigableCell(getRowCells(rows[targetRowIndex]), cellIndex);
+        focusCell(toFocus);
         return;
     }
 
+    if (isPageUp) {
+        let pageJump = getPageJumpRowCount(element, rows);
+        let targetRowIndex = Math.max(0, rowIndex - pageJump);
+        let toFocus = findClosestNavigableCell(getRowCells(rows[targetRowIndex]), cellIndex);
+        focusCell(toFocus);
+        return;
+    }
 
+    if (isPageDown) {
+        let pageJump = getPageJumpRowCount(element, rows);
+        let targetRowIndex = Math.min(rows.length - 1, rowIndex + pageJump);
+        let toFocus = findClosestNavigableCell(getRowCells(rows[targetRowIndex]), cellIndex);
+        focusCell(toFocus);
+        return;
+    }
+
+    if (isHome) {
+        let toFocus = e.ctrlKey || e.metaKey
+            ? navigableCells[0]
+            : rowCells.find(isFocusableCell);
+        focusCell(toFocus);
+        return;
+    }
+
+    if (isEnd) {
+        let toFocus = e.ctrlKey || e.metaKey
+            ? navigableCells[navigableCells.length - 1]
+            : [...rowCells].reverse().find(isFocusableCell);
+        focusCell(toFocus);
+        return;
+    }
 }
