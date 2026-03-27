@@ -11,12 +11,12 @@ public enum DataGridNavigationMode
     Default,
 
     /// <summary>
-    /// Cell navigation mode, allows grid cells navigation by pressing the Keyboard's ArrowLeft, ArrowUp, ArrowRight and ArrowDown keys.
+    /// Cell navigation mode, allows grid cells navigation by pressing the Keyboard's ArrowLeft, ArrowUp, ArrowRight, ArrowDown, Home, End, PageUp and PageDown keys.
     /// </summary>
     Cell,
 
     /// <summary>
-    /// Row navigation mode, allows grid row navigation by pressing the Keyboard's ArrowUp and ArrowDown keys.
+    /// Row navigation mode, allows grid row navigation by pressing the Keyboard's ArrowUp, ArrowDown, Home, End, PageUp and PageDown keys.
     /// </summary>
     Row,
 }
