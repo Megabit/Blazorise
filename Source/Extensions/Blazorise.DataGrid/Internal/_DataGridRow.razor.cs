@@ -181,6 +181,12 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
             case "PageDown" when idx < lastIndex:
                 targetIndex = Math.Min( lastIndex, idx + pageSize );
                 break;
+            case "Home" when idx > 0:
+                targetIndex = 0;
+                break;
+            case "End" when idx < lastIndex:
+                targetIndex = lastIndex;
+                break;
             default:
                 return;
         }
