@@ -50,6 +50,14 @@ tr.b-table-row {
     }
 }
 
+.b-table-fixed-header.b-table-fixed-columns {
+    > .b-table {
+        > thead > tr > th[data-fixed-position] {
+            z-index: 12 !important;
+        }
+    }
+}
+
 td:focus {
     outline: -webkit-focus-ring-color auto 1px;
 }

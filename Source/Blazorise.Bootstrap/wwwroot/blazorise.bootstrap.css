@@ -2292,6 +2292,10 @@ tr.table-row-selectable:focus[tabindex="0"] {
   right: 0;
 }
 
+.table-fixed-header.table-fixed-columns .table thead th[data-fixed-position] {
+  z-index: 12 !important;
+}
+
 td:focus {
   outline: -webkit-focus-ring-color auto 1px;
 }
