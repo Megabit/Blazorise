@@ -7612,32 +7612,11 @@ a.b-ant-link-disabled[aria-disabled=true] {
   border-radius: 1000px;
 }
 
-.b-table.ant-table table {
-  position: relative;
-}
-.b-table.ant-table table .b-table-resizer {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 5px;
-  cursor: col-resize;
-  user-select: none;
-  z-index: 1;
-}
-.b-table.ant-table table .b-table-resizer:hover, .b-table.ant-table table .b-table-resizing {
-  cursor: col-resize !important;
-  border-right: 2px solid var(--b-theme-primary, blue);
-}
-.b-table.ant-table table .b-table-resizing {
-  cursor: col-resize !important;
-}
-
-.ant-table-wrapper {
-  margin-bottom: var(--ant-margin);
-}
+.b-table.ant-table table,
 .ant-table-wrapper .b-table.ant-table table {
   position: relative;
 }
+.b-table.ant-table table .b-table-resizer,
 .ant-table-wrapper .b-table.ant-table table .b-table-resizer {
   position: absolute;
   top: 0;
@@ -7647,12 +7626,19 @@ a.b-ant-link-disabled[aria-disabled=true] {
   user-select: none;
   z-index: 1;
 }
-.ant-table-wrapper .b-table.ant-table table .b-table-resizer:hover, .ant-table-wrapper .b-table.ant-table table .b-table-resizing {
+.b-table.ant-table table .b-table-resizer:hover, .b-table.ant-table table .b-table-resizing,
+.ant-table-wrapper .b-table.ant-table table .b-table-resizer:hover,
+.ant-table-wrapper .b-table.ant-table table .b-table-resizing {
   cursor: col-resize !important;
   border-right: 2px solid var(--b-theme-primary, blue);
 }
+.b-table.ant-table table .b-table-resizing,
 .ant-table-wrapper .b-table.ant-table table .b-table-resizing {
   cursor: col-resize !important;
+}
+
+.ant-table-wrapper {
+  margin-bottom: var(--ant-margin);
 }
 
 .ant-table-primary,
@@ -7773,9 +7759,6 @@ a.b-ant-link-disabled[aria-disabled=true] {
 .ant-table-striped .ant-table-tbody > tr:nth-of-type(odd) > th,
 .ant-table-striped .ant-table-tbody > tr:nth-of-type(odd) > td {
   background-color: var(--ant-color-fill-quaternary);
-}
-.ant-table-striped .ant-table-thead {
-  background-color: var(--ant-color-fill-secondary);
 }
 
 .ant-table-borderless .ant-table-tbody tr,
