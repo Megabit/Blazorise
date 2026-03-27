@@ -1,0 +1,18 @@
+@inherits Blazorise.ColorPicker
+<div @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" class="@ContainerClassNames" style="@StyleNames" value="@CurrentValueAsString" tabindex="@TabIndex" aria-disabled="@Disabled.ToString().ToLowerInvariant()" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ResolvedAriaLabelledBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+    <span class="b-input-color-picker-preview">
+        <span class="b-input-color-picker-curent-color ant-color-picker-color-block" style="@SwatchStyleNames"></span>
+        <span class="b-input-color-picker-curent-value ant-color-picker-trigger-text">@DisplayValue</span>
+    </span>
+</div>
+@ChildContent
+@Feedback
+@code {
+    string ContainerClassNames => IsDisabled
+        ? $"{ClassNames} ant-color-picker-trigger ant-color-picker-trigger-disabled"
+        : $"{ClassNames} ant-color-picker-trigger";
+
+    string DisplayValue => CurrentValueAsString?.ToUpperInvariant() ?? string.Empty;
+
+    string SwatchStyleNames => $"background: {CurrentValueAsString ?? "#1677ff"};";
+}

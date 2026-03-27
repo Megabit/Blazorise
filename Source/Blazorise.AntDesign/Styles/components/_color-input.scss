@@ -1,4 +1,5 @@
-.b-ant-color-input {
+.b-ant-color-input,
+.b-input-color-picker.ant-color-picker-trigger {
     box-sizing: border-box;
     position: relative;
     overflow: hidden;
@@ -71,13 +72,50 @@
         outline: 0;
     }
 
-    &.b-ant-color-input-disabled {
+    .b-input-color-picker-preview {
+        position: static;
+        z-index: auto;
+        width: auto;
+        height: auto;
+        display: inline-flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+
+    .b-input-color-picker-preview::before {
+        display: none;
+        content: none;
+    }
+
+    .b-input-color-picker-curent-color {
+        display: block;
+        box-sizing: border-box;
+        flex: none;
+        background-image: conic-gradient(var(--ant-color-fill-secondary) 25%, transparent 25% 50%, var(--ant-color-fill-secondary) 50% 75%, transparent 75% 100%);
+        background-size: 50% 50%;
+        box-shadow: inset 0 0 0 var(--ant-line-width) var(--ant-color-fill-secondary), inset 0 0 1px 0 var(--ant-color-text-quaternary);
+    }
+
+    .b-input-color-picker-curent-value:empty {
+        display: none;
+    }
+
+    &.b-input-color-picker:not([data-color]),
+    &.b-input-color-picker[data-color=''],
+    &.b-input-color-picker[data-color='null'] {
+        width: var(--ant-control-height);
+        min-width: var(--ant-control-height);
+    }
+
+    &.b-ant-color-input-disabled,
+    &.ant-color-picker-trigger-disabled {
         background: var(--ant-color-bg-container-disabled);
         border-color: var(--ant-color-border);
         cursor: not-allowed;
     }
 
-    &.b-ant-color-input-disabled .ant-color-picker-trigger-text {
+    &.b-ant-color-input-disabled .ant-color-picker-trigger-text,
+    &.ant-color-picker-trigger-disabled .ant-color-picker-trigger-text {
         color: var(--ant-color-text-disabled);
     }
 
