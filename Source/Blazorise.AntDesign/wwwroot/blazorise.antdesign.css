@@ -3008,31 +3008,6 @@ template {
   --ant-btn-bg-color-disabled: var(--ant-color-bg-container-disabled);
   box-shadow: var(--ant-btn-shadow);
 }
-.ant-btn-link.ant-btn-variant-solid {
-  --ant-btn-color-base: var(--b-theme-link, var(--ant-color-link));
-  --ant-btn-color-hover: color-mix(in srgb, var(--b-theme-link, var(--ant-color-link)) 85%, white);
-  --ant-btn-color-active: color-mix(in srgb, var(--b-theme-link, var(--ant-color-link)) 85%, black);
-  --ant-btn-color-light: color-mix(in srgb, var(--b-theme-link, var(--ant-color-link)) 15%, white);
-  --ant-btn-color-light-hover: color-mix(in srgb, var(--b-theme-link, var(--ant-color-link)) 10%, white);
-  --ant-btn-color-light-active: color-mix(in srgb, var(--b-theme-link, var(--ant-color-link)) 20%, white);
-  --ant-btn-shadow: 0 2px 0 color-mix(in srgb, var(--b-theme-link, var(--ant-color-link)) 12%, transparent);
-  --ant-btn-solid-bg-color: var(--b-theme-link, var(--ant-color-link));
-  --ant-btn-solid-bg-color-hover: color-mix(in srgb, var(--b-theme-link, var(--ant-color-link)) 85%, white);
-  --ant-btn-solid-bg-color-active: color-mix(in srgb, var(--b-theme-link, var(--ant-color-link)) 85%, black);
-  --ant-btn-border-color: var(--b-theme-link, var(--ant-color-link));
-  --ant-btn-border-color-hover: color-mix(in srgb, var(--b-theme-link, var(--ant-color-link)) 85%, white);
-  --ant-btn-border-color-active: color-mix(in srgb, var(--b-theme-link, var(--ant-color-link)) 85%, black);
-  --ant-btn-border-color-disabled: var(--ant-color-border);
-  --ant-btn-text-color: var(--ant-color-text-light-solid);
-  --ant-btn-text-color-hover: var(--ant-color-text-light-solid);
-  --ant-btn-text-color-active: var(--ant-color-text-light-solid);
-  --ant-btn-text-color-disabled: var(--ant-color-text-disabled);
-  --ant-btn-bg-color: var(--b-theme-link, var(--ant-color-link));
-  --ant-btn-bg-color-hover: color-mix(in srgb, var(--b-theme-link, var(--ant-color-link)) 85%, white);
-  --ant-btn-bg-color-active: color-mix(in srgb, var(--b-theme-link, var(--ant-color-link)) 85%, black);
-  --ant-btn-bg-color-disabled: var(--ant-color-bg-container-disabled);
-  box-shadow: var(--ant-btn-shadow);
-}
 .ant-btn-outline-secondary.ant-btn-variant-outlined, .ant-btn-outline-secondary.ant-btn-variant-dashed {
   --ant-btn-color-base: var(--b-theme-secondary, var(--ant-color-text-secondary));
   --ant-btn-color-hover: color-mix(in srgb, var(--b-theme-secondary, var(--ant-color-text-secondary)) 85%, white);

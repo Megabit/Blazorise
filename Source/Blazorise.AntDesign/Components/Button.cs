@@ -26,7 +26,7 @@ public partial class Button : Blazorise.Button
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        if ( firstRender )
+        if ( firstRender && Color != Color.Link )
         {
             await JSWaveModule.Initialize( ElementRef );
         }

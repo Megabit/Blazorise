@@ -98,10 +98,6 @@
         @include ant-btn-solid-vars(var(--b-theme-dark, var(--ant-color-text)), var(--ant-color-text-light-solid));
     }
 
-    &-link.ant-btn-variant-solid {
-        @include ant-btn-solid-vars(var(--b-theme-link, var(--ant-color-link)), var(--ant-color-text-light-solid));
-    }
-
     &-outline-secondary.ant-btn-variant-outlined,
     &-outline-secondary.ant-btn-variant-dashed {
         @include ant-btn-outline-vars(var(--b-theme-secondary, var(--ant-color-text-secondary)));

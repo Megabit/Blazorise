@@ -1949,6 +1949,7 @@ public class AntDesignClassProvider : ClassProvider
             null => "ant-btn-color-default ant-btn-variant-outlined",
             "primary" => $"ant-btn-color-primary ant-btn-variant-{( outline ? "outlined" : "solid" )}",
             "danger" => $"ant-btn-color-dangerous ant-btn-variant-{( outline ? "outlined" : "solid" )}",
+            "link" => "ant-btn-link ant-btn-color-link ant-btn-variant-link",
             _ => outline
                 ? $"{Button( outline )}-outline-{colorName} ant-btn-variant-outlined"
                 : $"{Button( outline )}-{colorName} ant-btn-variant-solid",
