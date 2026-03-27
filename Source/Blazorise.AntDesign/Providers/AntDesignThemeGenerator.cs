@@ -270,6 +270,71 @@ public class AntDesignThemeGenerator : ThemeGenerator
 
     protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
     {
+        if ( variant == "link" )
+        {
+            sb.Append( ".ant-btn-link" ).Append( "{" )
+                .Append( "color: var(--ant-color-link) !important;" )
+                .Append( "background: transparent !important;" )
+                .Append( "border-color: transparent !important;" )
+                .Append( "box-shadow: none !important;" )
+                .AppendLine( "}" );
+
+            sb.Append( ".ant-btn-link > a:only-child" ).Append( "{" )
+                .Append( "color: currentColor !important;" )
+                .AppendLine( "}" );
+
+            sb.Append( ".ant-btn-link:hover," )
+                .Append( ".ant-btn-link:focus" )
+                .Append( "{" )
+                .Append( "color: var(--ant-color-link-hover) !important;" )
+                .Append( "background: transparent !important;" )
+                .Append( "border-color: transparent !important;" )
+                .AppendLine( "}" );
+
+            sb.Append( ".ant-btn-link:hover > a:only-child," )
+                .Append( ".ant-btn-link:focus > a:only-child" )
+                .Append( "{" )
+                .Append( "color: currentColor !important;" )
+                .AppendLine( "}" );
+
+            sb.Append( ".ant-btn-link:active," )
+                .Append( ".ant-btn-link.active," )
+                .Append( ".ant-btn-link-active" )
+                .Append( "{" )
+                .Append( "color: var(--ant-color-link-active) !important;" )
+                .Append( "background: transparent !important;" )
+                .Append( "border-color: transparent !important;" )
+                .AppendLine( "}" );
+
+            sb.Append( ".ant-btn-link:active > a:only-child," )
+                .Append( ".ant-btn-link.active > a:only-child," )
+                .Append( ".ant-btn-link-active > a:only-child" )
+                .Append( "{" )
+                .Append( "color: currentColor !important;" )
+                .AppendLine( "}" );
+
+            sb.Append( ".ant-btn-link-disabled," )
+                .Append( ".ant-btn-link.disabled," )
+                .Append( ".ant-btn-link[disabled]," )
+                .Append( ".ant-btn-link:disabled" )
+                .Append( "{" )
+                .Append( "color: var(--ant-color-text-disabled) !important;" )
+                .Append( "background: transparent !important;" )
+                .Append( "border-color: transparent !important;" )
+                .Append( "text-shadow: none !important;" )
+                .AppendLine( "}" );
+
+            sb.Append( ".ant-btn-link-disabled > a:only-child," )
+                .Append( ".ant-btn-link.disabled > a:only-child," )
+                .Append( ".ant-btn-link[disabled] > a:only-child," )
+                .Append( ".ant-btn-link:disabled > a:only-child" )
+                .Append( "{" )
+                .Append( "color: currentColor !important;" )
+                .AppendLine( "}" );
+
+            return;
+        }
+
         var background = Var( ThemeVariables.ButtonBackground( variant ) );
         var border = Var( ThemeVariables.ButtonBorder( variant ) );
         var hoverBackground = Var( ThemeVariables.ButtonHoverBackground( variant ) );
