@@ -603,8 +603,25 @@
     }
 }
 
-.ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-submenu > .ant-menu-submenu-title > .ant-menu-submenu-arrow {
-    display: none;
+.ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-submenu > .ant-menu-submenu-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    position: relative;
+    gap: var(--ant-margin-xxs);
+    padding-inline-end: 0;
+
+    > .ant-menu-submenu-arrow {
+        display: block;
+        position: relative;
+        top: auto;
+        inset-inline-end: auto;
+        flex: none;
+        width: calc(var(--ant-font-size) * 5 / 7);
+        margin-inline-start: var(--ant-margin-xxs);
+        transform: none;
+    }
 }
 
 .ant-menu.ant-menu-root.ant-menu-inline .ant-menu-item > a,
