@@ -106,6 +106,14 @@ tr {
     }
 }
 
+.table-fixed-header.table-fixed-columns {
+    > .table {
+        > thead > tr > th[data-fixed-position] {
+            z-index: 12 !important;
+        }
+    }
+}
+
 
 td:focus {
     outline: -webkit-focus-ring-color auto 1px;
