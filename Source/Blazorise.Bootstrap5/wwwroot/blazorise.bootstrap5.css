@@ -944,6 +944,25 @@ input[readonly=readonly][type=range]::-ms-thumb {
   display: contents;
 }
 
+.valid-feedback,
+.invalid-feedback {
+  display: none;
+}
+
+:is(.form-control, .form-select).is-valid + .valid-feedback,
+:is(.form-control, .form-select).is-valid + .form-text.text-muted + .valid-feedback,
+:is(.form-control, .form-select).is-invalid + .invalid-feedback,
+:is(.form-control, .form-select).is-invalid + .form-text.text-muted + .invalid-feedback,
+:is(.form-control, .form-select).is-invalid + .valid-feedback + .invalid-feedback,
+:is(.form-control, .form-select).is-invalid + .form-text.text-muted + .valid-feedback + .invalid-feedback {
+  display: block;
+}
+
+:is(.form-control, .form-select).is-valid + .form-text.text-muted,
+:is(.form-control, .form-select).is-invalid + .form-text.text-muted {
+  display: none;
+}
+
 .form-file input[type=file] {
   margin-left: -2px !important;
 }
@@ -2059,6 +2078,22 @@ td:focus {
 }
 .b-one-time-input-slot.form-control.form-control-xl.is-valid, .b-one-time-input-slot.form-control.form-control-xl.is-invalid {
   padding-right: 1rem !important;
+}
+
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-toolbar,
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .CodeMirror,
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-preview-side,
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-preview-full,
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-statusbar {
+  border-color: var(--b-theme-success, #198754);
+}
+
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-toolbar,
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .CodeMirror,
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-preview-side,
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-preview-full,
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-statusbar {
+  border-color: var(--b-theme-danger, #dc3545);
 }
 
 .b-richtextedit > .b-richtextedit-toolbar.ql-snow,

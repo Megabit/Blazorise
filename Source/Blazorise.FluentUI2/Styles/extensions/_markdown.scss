@@ -1,0 +1,43 @@
+.EasyMDEContainer {
+    ~ .fui-Field__validationMessage-error,
+    ~ .fui-Field__validationMessage-success {
+        display: none;
+    }
+}
+
+.EasyMDEContainer.b-markdown-valid.b-markdown-valid {
+    .editor-toolbar,
+    .CodeMirror,
+    .editor-preview-side,
+    .editor-preview-full,
+    .editor-statusbar {
+        border-color: var(--colorStatusSuccessBorder2);
+    }
+
+    ~ .fui-Field__validationMessage-success {
+        display: block;
+
+        .fui-Field__validationMessageIcon {
+            color: var(--colorPaletteGreenForeground1);
+        }
+    }
+}
+
+.EasyMDEContainer.b-markdown-invalid.b-markdown-invalid {
+    .editor-toolbar,
+    .CodeMirror,
+    .editor-preview-side,
+    .editor-preview-full,
+    .editor-statusbar {
+        border-color: var(--colorStatusDangerBorder2);
+    }
+
+    ~ .fui-Field__validationMessage-error {
+        display: block;
+        color: var(--colorPaletteRedForeground1);
+
+        .fui-Field__validationMessageIcon {
+            color: var(--colorPaletteRedForeground1);
+        }
+    }
+}

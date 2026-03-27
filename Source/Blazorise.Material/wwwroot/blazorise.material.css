@@ -4425,8 +4425,12 @@ textarea.mui-input:not([rows]) {
   color: var(--mui-error);
 }
 
-.is-valid ~ .valid-feedback,
-.is-invalid ~ .invalid-feedback {
+:is(.mui-input, .mui-select).is-valid + .valid-feedback,
+:is(.mui-input, .mui-select).is-valid + .form-text.text-muted + .valid-feedback,
+:is(.mui-input, .mui-select).is-invalid + .invalid-feedback,
+:is(.mui-input, .mui-select).is-invalid + .form-text.text-muted + .invalid-feedback,
+:is(.mui-input, .mui-select).is-invalid + .valid-feedback + .invalid-feedback,
+:is(.mui-input, .mui-select).is-invalid + .form-text.text-muted + .valid-feedback + .invalid-feedback {
   display: inline-block;
 }
 
@@ -4438,6 +4442,11 @@ textarea.mui-input:not([rows]) {
 .mui-switch.is-invalid > .invalid-feedback {
   display: block;
   inline-size: 100%;
+}
+
+:is(.mui-input, .mui-select).is-valid + .form-text.text-muted,
+:is(.mui-input, .mui-select).is-invalid + .form-text.text-muted {
+  display: none;
 }
 
 .form-text.text-muted {
@@ -8534,6 +8543,42 @@ body.modal-open {
   display: inline-block;
 }
 
+.b-password-strength:has(.mui-input.is-valid) > .valid-feedback, .b-password-strength:has(.mui-input.is-invalid) > .invalid-feedback {
+  display: inline-block;
+}
+
+.mui-field-body > .EasyMDEContainer.b-markdown-valid .editor-statusbar,
+.mui-field-body > .EasyMDEContainer.b-markdown-invalid .editor-statusbar {
+  padding-block: 0.25rem 0;
+  padding-inline: 0;
+}
+
+.mui-field-body > .EasyMDEContainer.b-markdown-valid .editor-toolbar,
+.mui-field-body > .EasyMDEContainer.b-markdown-valid .CodeMirror,
+.mui-field-body > .EasyMDEContainer.b-markdown-valid .editor-preview-side,
+.mui-field-body > .EasyMDEContainer.b-markdown-valid .editor-preview-full {
+  border-color: var(--mui-success);
+}
+.mui-field-body > .EasyMDEContainer.b-markdown-valid + .valid-feedback {
+  display: block;
+  inline-size: 100%;
+  margin-block-start: 0;
+  padding: 0;
+}
+
+.mui-field-body > .EasyMDEContainer.b-markdown-invalid .editor-toolbar,
+.mui-field-body > .EasyMDEContainer.b-markdown-invalid .CodeMirror,
+.mui-field-body > .EasyMDEContainer.b-markdown-invalid .editor-preview-side,
+.mui-field-body > .EasyMDEContainer.b-markdown-invalid .editor-preview-full {
+  border-color: var(--mui-error);
+}
+.mui-field-body > .EasyMDEContainer.b-markdown-invalid + .invalid-feedback {
+  display: block;
+  inline-size: 100%;
+  margin-block-start: 0;
+  padding: 0;
+}
+
 .mui-row > .mui-column:has(> .mui-field-body > .b-cropper-container) {
   display: flex;
   flex-direction: column;
@@ -8568,12 +8613,17 @@ body.modal-open {
 .b-richtextedit > .b-richtextedit-editor + .b-richtextedit-toolbar {
   border-top: 0;
 }
+.b-richtextedit > .b-richtextedit-editor.ql-container {
+  height: auto;
+  min-block-size: 0;
+}
+.b-richtextedit > .b-richtextedit-editor.ql-container > .ql-editor {
+  height: auto;
+  min-block-size: 0;
+}
 
-.b-richtextedit.is-valid > .b-richtextedit-editor.ql-snow,
-.b-richtextedit.is-valid > .b-richtextedit-toolbar.ql-snow,
 .b-richtextedit.is-valid > .b-richtextedit-editor.ql-bubble,
 .b-richtextedit.is-valid > .b-richtextedit-toolbar.ql-bubble,
-.b-richtextedit.is-valid > .ql-toolbar.ql-snow,
 .b-richtextedit.is-valid > .ql-toolbar.ql-bubble {
   border-style: solid;
   border-width: 0.0625rem;
@@ -8584,12 +8634,15 @@ body.modal-open {
 .b-richtextedit.is-valid > .ql-toolbar.ql-bubble {
   border-color: var(--mui-success);
 }
+.b-richtextedit.is-valid + .valid-feedback {
+  display: block;
+  inline-size: 100%;
+  margin-block-start: 0.25rem;
+  padding: 0;
+}
 
-.b-richtextedit.is-invalid > .b-richtextedit-editor.ql-snow,
-.b-richtextedit.is-invalid > .b-richtextedit-toolbar.ql-snow,
 .b-richtextedit.is-invalid > .b-richtextedit-editor.ql-bubble,
 .b-richtextedit.is-invalid > .b-richtextedit-toolbar.ql-bubble,
-.b-richtextedit.is-invalid > .ql-toolbar.ql-snow,
 .b-richtextedit.is-invalid > .ql-toolbar.ql-bubble {
   border-style: solid;
   border-width: 0.0625rem;
@@ -8599,6 +8652,19 @@ body.modal-open {
 .b-richtextedit.is-invalid > .ql-toolbar.ql-snow,
 .b-richtextedit.is-invalid > .ql-toolbar.ql-bubble {
   border-color: var(--mui-error);
+}
+.b-richtextedit.is-invalid + .invalid-feedback {
+  display: block;
+  inline-size: 100%;
+  margin-block-start: 0.25rem;
+  padding: 0;
+}
+
+.b-richtextedit[aria-invalid=true] + .invalid-feedback {
+  display: block;
+  inline-size: 100%;
+  margin-block-start: 0.25rem;
+  padding: 0;
 }
 
 .b-scheduler {

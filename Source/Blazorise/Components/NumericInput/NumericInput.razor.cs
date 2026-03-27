@@ -112,12 +112,12 @@ public partial class NumericInput<TValue> : BaseBufferedTextInput<TValue, Numeri
     /// <inheritdoc/>
     protected override async Task OnBlurHandler( FocusEventArgs eventArgs )
     {
-        await base.OnBlurHandler( eventArgs );
-
         if ( !string.IsNullOrEmpty( CurrentValueAsString ) )
         {
             await ProcessNumber( CurrentValue );
         }
+
+        await base.OnBlurHandler( eventArgs );
     }
 
     /// <summary>

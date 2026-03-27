@@ -31,12 +31,36 @@
                 </Row>
             </CardBody>
         </Card>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Markdown validation</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Validations @ref="markdownValidations" Mode="ValidationMode.Manual">
+                    <Validation Validator="@ValidationRule.IsNotEmpty">
+                        <Field>
+                            <FieldLabel>Message</FieldLabel>
+                            <FieldBody>
+                                <Markdown @bind-Value="@markdownValidationValue" MinHeight="160px">
+                                    <Feedback>
+                                        <ValidationError>Please enter a message.</ValidationError>
+                                    </Feedback>
+                                </Markdown>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Button Color="Color.Primary" Clicked="@ValidateMarkdownAsync">Submit</Button>
+                </Validations>
+            </CardBody>
+        </Card>
     </Column>
 </Row>
 @code {
     Markdown markdownRef;
+    Validations markdownValidations;
 
     string markdownValue = "# EasyMDE \n Go ahead, play around with the editor! Be sure to check out **bold**, *italic*, [links](https://google.com) and all the other features. You can type the Markdown syntax, use the toolbar, or use shortcuts like `ctrl-b` or `cmd-b`.";
+    string markdownValidationValue;
 
     string markdownHtml;
 
@@ -54,6 +78,11 @@
         markdownHtml = Markdig.Markdown.ToHtml( markdownValue ?? string.Empty );
 
         return Task.CompletedTask;
+    }
+
+    async Task ValidateMarkdownAsync()
+    {
+        await markdownValidations.ValidateAll();
     }
 
     //string fileContent;

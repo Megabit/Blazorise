@@ -257,6 +257,12 @@ export async function initialize(dotnetAdapter, element, elementId, options) {
 
     const quill = new Quill(editorRef, quillOptions);
 
+    const ariaRequired = element.getAttribute("aria-required");
+
+    if (ariaRequired !== null) {
+        editorRef.setAttribute("aria-required", ariaRequired);
+    }
+
     const stopArrowKeyPropagation = (event) => {
         const arrowKeys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
 

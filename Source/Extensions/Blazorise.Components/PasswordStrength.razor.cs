@@ -638,6 +638,23 @@ public partial class PasswordStrength : BaseTextInput<string>
     /// </summary>
     [Parameter] public Dictionary<string, object> InputAttributes { get; set; }
 
+    private Dictionary<string, object> ResolvedInputAttributes
+    {
+        get
+        {
+            if ( string.IsNullOrEmpty( ResolvedAriaRequired ) )
+                return InputAttributes;
+
+            var attributes = InputAttributes is not null
+                ? new Dictionary<string, object>( InputAttributes )
+                : new Dictionary<string, object>();
+
+            attributes["aria-required"] = ResolvedAriaRequired;
+
+            return attributes;
+        }
+    }
+
     /// <inheritdoc />
     protected override string DefaultValue => string.Empty;
 

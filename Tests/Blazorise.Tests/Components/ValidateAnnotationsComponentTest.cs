@@ -3,7 +3,6 @@ using AngleSharp.Dom;
 using Bunit;
 using Xunit;
 
-
 namespace Blazorise.Tests.Components;
 
 public class ValidateAnnotationsComponentTest : TestContext
@@ -65,6 +64,24 @@ public class ValidateAnnotationsComponentTest : TestContext
         // test 2
         await edit.InputAsync( "b" );
         Assert.Contains( "is-valid", edit.ClassList );
+    }
+
+    [Fact]
+    public async Task CanAutoValidateName_OnBlur_WhenValidateOnLoadIsDisabled()
+    {
+        // setup
+        var comp = RenderComponent<ValidateAnnotationsComponent>();
+        var edit = comp.Find( "#auto-validate-name-on-blur input" );
+
+        Assert.DoesNotContain( "is-invalid", edit.ClassList );
+        Assert.DoesNotContain( "is-valid", edit.ClassList );
+
+        // test
+        await edit.FocusAsync( new() );
+        await edit.BlurAsync( new() );
+
+        Assert.DoesNotContain( "is-invalid", edit.ClassList );
+        Assert.DoesNotContain( "is-valid", edit.ClassList );
     }
 
     [Fact]

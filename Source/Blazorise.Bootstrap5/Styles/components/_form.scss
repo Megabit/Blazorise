@@ -431,6 +431,25 @@ input[readonly="readonly"][type=range] {
     display: contents;
 }
 
+.valid-feedback,
+.invalid-feedback {
+    display: none;
+}
+
+:is(.form-control, .form-select).is-valid + .valid-feedback,
+:is(.form-control, .form-select).is-valid + .form-text.text-muted + .valid-feedback,
+:is(.form-control, .form-select).is-invalid + .invalid-feedback,
+:is(.form-control, .form-select).is-invalid + .form-text.text-muted + .invalid-feedback,
+:is(.form-control, .form-select).is-invalid + .valid-feedback + .invalid-feedback,
+:is(.form-control, .form-select).is-invalid + .form-text.text-muted + .valid-feedback + .invalid-feedback {
+    display: block;
+}
+
+:is(.form-control, .form-select).is-valid + .form-text.text-muted,
+:is(.form-control, .form-select).is-invalid + .form-text.text-muted {
+    display: none;
+}
+
 .form-file input[type=file] {
     margin-left: -2px !important;
 }

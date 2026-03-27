@@ -1,4 +1,9 @@
 .b-richtextedit {
+    ~ .fui-Field__validationMessage-error,
+    ~ .fui-Field__validationMessage-success {
+        display: none;
+    }
+
     > .b-richtextedit-toolbar.ql-bubble,
     > .b-richtextedit-editor.ql-bubble {
         border-style: solid;
@@ -32,7 +37,8 @@
     }
 }
 
-.b-richtextedit.fui-Textarea__input-error + .fui-Field__validationMessage {
+.b-richtextedit.fui-Textarea__input-error ~ .fui-Field__validationMessage-error {
+    display: block;
     color: var(--colorPaletteRedForeground1);
 
     .fui-Field__validationMessageIcon {
@@ -55,7 +61,9 @@
     }
 }
 
-.b-richtextedit.fui-Textarea__input-success + .fui-Field__validationMessage {
+.b-richtextedit.fui-Textarea__input-success ~ .fui-Field__validationMessage-success {
+    display: block;
+
     .fui-Field__validationMessageIcon {
         color: var(--colorPaletteGreenForeground1);
     }

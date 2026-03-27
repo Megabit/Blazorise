@@ -3,14 +3,14 @@
 <CascadingValue Value="@this" IsFixed>
     @if ( Buttons )
     {
-        <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="radiogroup" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" aria-labelledby="@ResolvedAriaLabelledBy" @attributes="@Attributes">
+        <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="radiogroup" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@ResolvedAriaLabelledBy" @attributes="@Attributes">
             @ChildContent
         </ul>
         @Feedback
     }
     else
     {
-        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="radiogroup" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-describedby="@AriaDescribedBy" aria-labelledby="@ResolvedAriaLabelledBy" @attributes="@Attributes">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="radiogroup" tabindex="@TabIndex" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@ResolvedAriaLabelledBy" @attributes="@Attributes">
             @ChildContent
         </div>
         @Feedback

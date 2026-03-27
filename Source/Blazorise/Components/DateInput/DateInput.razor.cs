@@ -59,13 +59,6 @@ public partial class DateInput<TValue> : BaseTextInput<TValue, DateInputClasses,
         return KeyPress.InvokeAsync( eventArgs );
     }
 
-    /// <inheritdoc/>
-    protected override Task OnBlurHandler( FocusEventArgs eventArgs )
-    {
-        // just call eventcallback without using debouncer in BaseTextInput
-        return Blur.InvokeAsync( eventArgs );
-    }
-
     /// <summary>
     /// Show a browser picker for the date input.
     /// </summary>

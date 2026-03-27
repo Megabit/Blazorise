@@ -288,11 +288,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Validation
 
-    public override string ValidationSuccess() => "fui-Field__validationMessage";
+    public override string ValidationSuccess() => "fui-Field__validationMessage-success";
 
     public override string ValidationSuccessTooltip() => "fui-Field__validationTooltip";
 
-    public override string ValidationError() => "fui-Field__validationMessage";
+    public override string ValidationError() => "fui-Field__validationMessage-error";
 
     public override string ValidationErrorTooltip() => "fui-Field__validationTooltip";
 

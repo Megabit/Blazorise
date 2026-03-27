@@ -572,6 +572,14 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     [Parameter] public string AriaInvalid { get; set; }
 
     /// <summary>
+    /// Gets or sets the aria-required attribute value for the dropdown root element.
+    /// </summary>
+    /// <remarks>
+    /// When set, this value is rendered as-is on the dropdown root element.
+    /// </remarks>
+    [Parameter] public string AriaRequired { get; set; }
+
+    /// <summary>
     /// Gets or sets the aria-describedby attribute value for the dropdown root element.
     /// </summary>
     /// <remarks>

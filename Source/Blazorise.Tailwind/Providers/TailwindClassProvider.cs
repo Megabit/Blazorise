@@ -445,15 +445,15 @@ public class TailwindClassProvider : ClassProvider
 
     #region Validation
 
-    public override string ValidationSuccess() => "mt-2 text-sm text-success-600 dark:text-success-500";
+    public override string ValidationSuccess() => "b-validation-success mt-2 text-sm text-success-600 dark:text-success-500";
 
     public override string ValidationSuccessTooltip() => "valid-tooltip";
 
-    public override string ValidationError() => "mt-2 text-sm text-danger-600 dark:text-danger-500";
+    public override string ValidationError() => "b-validation-error mt-2 text-sm text-danger-600 dark:text-danger-500";
 
     public override string ValidationErrorTooltip() => "invalid-tooltip";
 
-    public override string ValidationNone() => "form-text text-muted";
+    public override string ValidationNone() => "b-validation-none mt-2 text-sm text-gray-500 dark:text-gray-400";
 
     public override string ValidationSummary() => "text-danger";
 
@@ -2694,8 +2694,8 @@ public class TailwindClassProvider : ClassProvider
     {
         return validationStatus switch
         {
-            Blazorise.ValidationStatus.Success => "bg-green-50 border border-green-500 text-green-900 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-green-500",
-            Blazorise.ValidationStatus.Error => "bg-red-50 border border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 dark:bg-gray-700 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500",
+            Blazorise.ValidationStatus.Success => "b-is-valid bg-green-50 border border-green-500 text-green-900 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-green-500",
+            Blazorise.ValidationStatus.Error => "b-is-invalid bg-red-50 border border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 dark:bg-gray-700 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500",
             _ => null,
         };
     }

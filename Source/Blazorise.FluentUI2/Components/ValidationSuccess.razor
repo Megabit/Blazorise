@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.ValidationSuccess
-@if ( ParentValidation?.Status == ValidationStatus.Success && ChildContent is not null )
+@if ( ChildContent is not null )
 {
     <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         <span class="fui-Field__validationMessageIcon">

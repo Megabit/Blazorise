@@ -68,13 +68,6 @@ public partial class TimeInput<TValue> : BaseTextInput<TValue, TimeInputClasses,
         return KeyPress.InvokeAsync( eventArgs );
     }
 
-    /// <inheritdoc/>
-    protected override Task OnBlurHandler( FocusEventArgs eventArgs )
-    {
-        // just call eventcallback without using debouncer in BaseTextInput
-        return Blur.InvokeAsync( eventArgs );
-    }
-
     /// <summary>
     /// Show a browser picker for the time input.
     /// </summary>

@@ -364,10 +364,17 @@ public partial class OneTimeInput : BaseInputComponent<string, OneTimeInputClass
 
     private Dictionary<string, object> BuildSlotAttributes( int slotIndex )
     {
-        return new Dictionary<string, object>
+        var attributes = new Dictionary<string, object>
         {
             ["aria-label"] = string.Format( CultureInfo.InvariantCulture, "Character {0} of {1}", slotIndex + 1, slotValues.Count ),
         };
+
+        if ( !string.IsNullOrEmpty( ResolvedAriaRequired ) )
+        {
+            attributes["aria-required"] = ResolvedAriaRequired;
+        }
+
+        return attributes;
     }
 
     private static char[] ExtractCharacters( string value )
