@@ -259,8 +259,9 @@
     }
 }
 
-.ant-table.ant-table-fixed-header.ant-table-fixed-columns {
-    thead th[data-fixed-position] {
+.ant-table-container.ant-table-fixed-header.ant-table-fixed-columns {
+    thead th.ant-table-cell-fix-start,
+    thead th.ant-table-cell-fix-end {
         z-index: 12 !important;
     }
 }
