@@ -7899,6 +7899,10 @@ a.b-ant-link-disabled[aria-disabled=true] {
   right: 0;
 }
 
+.ant-table.ant-table-fixed-header.ant-table-fixed-columns thead th[data-fixed-position] {
+  z-index: 12 !important;
+}
+
 .ant-table td:focus,
 .ant-table th:focus {
   outline: -webkit-focus-ring-color auto 1px;
