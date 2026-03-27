@@ -7709,6 +7709,10 @@ body.modal-open {
   z-index: calc(var(--mui-zindex-tablefixed2) + 1);
 }
 
+.mui-table-fixed-header.mui-table-fixed-columns > .mui-table > :is(.mui-table-header, thead) > :is(.mui-table-row, tr) > :is(.mui-table-header-cell, th)[data-fixed-position] {
+  z-index: 12 !important;
+}
+
 .mui-table-borderless :is(.mui-table-header-cell-fixed-start, .mui-table-row-header-fixed-start, .mui-table-row-cell-fixed-start, .mui-table-header-cell-fixed-end, .mui-table-row-header-fixed-end, .mui-table-row-cell-fixed-end) {
   box-shadow: none;
 }
