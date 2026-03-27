@@ -3,14 +3,19 @@
     <div class="ant-color-picker-color-block">
         <div class="ant-color-picker-color-block-inner" style="@SwatchStyleNames"></div>
     </div>
+    <div class="ant-color-picker-trigger-text">
+        @DisplayValue
+    </div>
     <input @ref="@ElementRef" id="@ElementId" type="color" name="@NameAttributeValue" class="b-ant-color-input-native" disabled="@IsDisabled" readonly="@ReadOnly" value="@CurrentValueAsString" tabindex="@TabIndex" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ExplicitAriaLabelledBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
 </label>
 @ChildContent
 @Feedback
 @code {
     string ContainerClassNames => IsDisabled
-        ? $"{ClassNames} b-ant-color-input-disabled"
-        : ClassNames;
+        ? $"{ClassNames} ant-color-picker-trigger b-ant-color-input-disabled ant-color-picker-trigger-disabled"
+        : $"{ClassNames} ant-color-picker-trigger";
+
+    string DisplayValue => ( CurrentValueAsString ?? "#1677ff" ).ToUpperInvariant();
 
     string SwatchStyleNames => $"background: {CurrentValueAsString ?? "#1677ff"};";
 }

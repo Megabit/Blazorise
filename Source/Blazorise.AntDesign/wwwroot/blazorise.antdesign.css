@@ -4687,23 +4687,19 @@ template {
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
-  display: flex;
-  flex: none;
+  display: inline-flex;
   align-items: flex-start;
   justify-content: center;
-  width: var(--ant-control-height);
-  height: var(--ant-control-height);
-  min-width: var(--ant-control-height);
+  width: auto;
   min-height: var(--ant-control-height);
   margin: 0;
   padding: calc(var(--ant-padding-xxs) - var(--ant-line-width));
-  font-size: 0;
-  line-height: 0;
   vertical-align: top;
   background: var(--ant-color-bg-elevated);
   border: var(--ant-line-width) solid var(--ant-color-border);
   border-radius: var(--ant-border-radius);
   cursor: pointer;
+  transition: all var(--ant-motion-duration-mid);
 }
 .b-ant-color-input .ant-color-picker-color-block,
 .b-ant-color-input .ant-color-picker-color-block-inner {
@@ -4725,6 +4721,15 @@ template {
   border-radius: inherit;
   box-shadow: inset 0 0 0 var(--ant-line-width) var(--ant-color-fill-secondary);
 }
+.b-ant-color-input .ant-color-picker-trigger-text {
+  margin-inline-start: var(--ant-margin-xs);
+  margin-inline-end: calc(var(--ant-margin-xs) - (var(--ant-padding-xxs) - var(--ant-line-width)));
+  font-size: var(--ant-font-size);
+  line-height: var(--ant-line-height);
+  color: var(--ant-color-text);
+  align-self: center;
+  white-space: nowrap;
+}
 .b-ant-color-input .b-ant-color-input-native {
   position: absolute;
   inset: 0;
@@ -4739,10 +4744,18 @@ template {
 .b-ant-color-input:hover {
   border-color: var(--ant-color-primary-hover);
 }
+.b-ant-color-input:focus-within {
+  border-color: var(--ant-color-primary);
+  box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-control-outline);
+  outline: 0;
+}
 .b-ant-color-input.b-ant-color-input-disabled {
   background: var(--ant-color-bg-container-disabled);
   border-color: var(--ant-color-border);
   cursor: not-allowed;
+}
+.b-ant-color-input.b-ant-color-input-disabled .ant-color-picker-trigger-text {
+  color: var(--ant-color-text-disabled);
 }
 .b-ant-color-input.b-ant-color-input-disabled .b-ant-color-input-native {
   cursor: not-allowed;
