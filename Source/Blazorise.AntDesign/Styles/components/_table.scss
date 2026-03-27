@@ -206,6 +206,12 @@ tr.ant-table-row {
     }
 }
 
+.ant-table.ant-table-fixed-header.ant-table-fixed-columns {
+    thead th[data-fixed-position] {
+        z-index: 12 !important;
+    }
+}
+
 
 td:focus {
     outline: -webkit-focus-ring-color auto 1px;

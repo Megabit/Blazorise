@@ -102,6 +102,11 @@ public partial class Autocomplete<TItem, TValue>
     protected ComponentParameterInfo<string> paramSelectedText;
 
     /// <summary>
+    /// Captured SelectedTextExpression parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<Expression<Func<string>>> paramSelectedTextExpression;
+
+    /// <summary>
     /// Captured SelectedValues parameter snapshot.
     /// </summary>
     protected ComponentParameterInfo<IEnumerable<TValue>> paramSelectedValues;
@@ -110,6 +115,11 @@ public partial class Autocomplete<TItem, TValue>
     /// Captured SelectedTexts parameter snapshot.
     /// </summary>
     protected ComponentParameterInfo<IEnumerable<string>> paramSelectedTexts;
+
+    /// <summary>
+    /// Captured SelectedTextExpression parameter snapshot.
+    /// </summary>
+    protected ComponentParameterInfo<Expression<Func<List<string>>>> paramSelectedTextsExpression;
 
     /// <summary>
     /// Captured Data parameter snapshot.
@@ -153,6 +163,8 @@ public partial class Autocomplete<TItem, TValue>
         parameters.TryGetParameter( Data, value => data.IsEqual( value ), out paramData );
         parameters.TryGetParameter( SelectedValueExpression, out paramSelectedValueExpression );
         parameters.TryGetParameter( SelectedValuesExpression, out paramSelectedValuesExpression );
+        parameters.TryGetParameter( SelectedTextExpression, out paramSelectedTextExpression );
+        parameters.TryGetParameter( SelectedTextsExpression, out paramSelectedTextsExpression );
     }
 
     /// <inheritdoc/>
@@ -230,6 +242,10 @@ public partial class Autocomplete<TItem, TValue>
                 {
                     await ParentValidation.InitializeInputExpression( paramSelectedValuesExpression.Value );
                 }
+                else if ( paramSelectedTextsExpression.Defined )
+                {
+                    await ParentValidation.InitializeInputExpression( paramSelectedTextsExpression.Value );
+                }
             }
             else
             {
@@ -240,6 +256,10 @@ public partial class Autocomplete<TItem, TValue>
                 else if ( paramSelectedValueExpression.Defined )
                 {
                     await ParentValidation.InitializeInputExpression( paramSelectedValueExpression.Value );
+                }
+                else if ( paramSelectedTextExpression.Defined )
+                {
+                    await ParentValidation.InitializeInputExpression( paramSelectedTextExpression.Value );
                 }
             }
 
@@ -510,7 +530,34 @@ public partial class Autocomplete<TItem, TValue>
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextKeyDownHandler( KeyboardEventArgs eventArgs )
     {
+        bool isPlainTabNavigation = eventArgs.Code == "Tab" && !eventArgs.AltKey && !eventArgs.CtrlKey && !eventArgs.MetaKey;
+
         await OnKeyDownHandler( eventArgs );
+
+        if ( isPlainTabNavigation )
+        {
+            if ( IsConfirmKey( eventArgs ) )
+            {
+                if ( IsMultiple && FreeTyping && !string.IsNullOrEmpty( Search ) && ActiveItemIndex < 0 )
+                {
+                    await AddMultipleText( Search );
+
+                    if ( CloseOnSelection )
+                    {
+                        await ResetCurrentSearch();
+                    }
+                }
+                else if ( SelectionMode != AutocompleteSelectionMode.Checkbox )
+                {
+                    await SelectedOrResetOnCommit();
+                }
+            }
+
+            TextFocused = false;
+            await Close();
+            await SearchKeyDown.InvokeAsync( eventArgs );
+            return;
+        }
 
         if ( eventArgs.Code == "Escape" )
         {
@@ -1793,6 +1840,11 @@ public partial class Autocomplete<TItem, TValue>
     public string SelectedText { get; set; }
 
     /// <summary>
+    /// Gets or sets an expression that identifies the selected text.
+    /// </summary>
+    [Parameter] public Expression<Func<string>> SelectedTextExpression { get; set; }
+
+    /// <summary>
     /// Gets or sets the currently selected item text.
     /// </summary>
     [Parameter] public EventCallback<string> SelectedTextChanged { get; set; }
@@ -1925,6 +1977,12 @@ public partial class Autocomplete<TItem, TValue>
         get => selectedTextsParam;
         set => selectedTextsParam = ( value == null ? null : new( value ) );
     }
+
+    /// <summary>
+    /// Gets or sets an expression that identifies the selected texts.
+    /// Used when multiple selection is set.
+    /// </summary>
+    [Parameter] public Expression<Func<List<string>>> SelectedTextsExpression { get; set; }
 
     /// <summary>
     /// Occurs after the selected texts have changed.

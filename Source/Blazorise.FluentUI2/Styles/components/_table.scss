@@ -325,6 +325,14 @@
     }
 }
 
+.fui-Table-fixed-header.fui-Table-fixed-columns {
+    .fui-Table {
+        thead th[data-fixed-position] {
+            z-index: 12 !important;
+        }
+    }
+}
+
 .b-table.fui-Table {
     position: relative;
 

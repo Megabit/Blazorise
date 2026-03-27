@@ -210,3 +210,26 @@
         </TableRow>
     </TableBody>
 </Table>
+
+<DocsPageSubtitle>
+    Validation
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The <Code>Autocomplete</Code> component supports <Code>Validation</Code> like any other regular input field. But because you can
+    bind both the <Code>Value(s)</Code> and <Code>Text(s)</Code> properties the validation logic will work with a prioritized system
+    for which binding expression field will be validated.
+
+    <OrderedList>
+        <OrderedListItem><Code>@@bind-Value</Code> expression</OrderedListItem>
+        <OrderedListItem><Code>@@bind-SelectedValue</Code> expression</OrderedListItem>
+        <OrderedListItem><Code>@@bind-SelectedText</Code> expression</OrderedListItem>
+    </OrderedList>
+
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <Strong>Note:</Strong> If you want to validate both the <Code>Value</Code> and the <Code>Text</Code> bindings then you will need
+    to validate the text as part of the <Code>Value</Code> validation rule. Then the validation feedback will be correctly displayed
+    on the <Code>Autocomplete</Code> component.
+</DocsPageParagraph>

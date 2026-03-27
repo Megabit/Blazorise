@@ -217,6 +217,39 @@
             </CardBody>
         </Card>
     </Column>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Icon Buttons</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+                    <Button Color="Color.Primary" Outline><Icon Name="IconName.Add" /></Button>
+                    <Button Color="Color.Secondary" Outline><Icon Name="IconName.Edit" /></Button>
+                    <Button Color="Color.Danger" Outline><Icon Name="IconName.Delete" /></Button>
+                    <Button Color="Color.Success">
+                        Submit <Icon Name="IconName.Send" Margin="Margin.Is2.FromStart" />
+                    </Button>
+                    <Button Color="Color.Warning" Disabled>
+                        <Icon Name="IconName.Undo" Margin="Margin.Is2.FromEnd" /> Disabled
+                    </Button>
+                </Div>
+            </CardBody>
+            <CardBody>
+                <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+                    <Buttons Margin="Margin.Is2.FromEnd">
+                        <Button Color="Color.Dark" Size="Size.Small" Outline><Icon Name="IconName.Bold" /></Button>
+                        <Button Color="Color.Dark" Size="Size.Small" Outline><Icon Name="IconName.Italic" /></Button>
+                        <Button Color="Color.Dark" Size="Size.Small" Outline><Icon Name="IconName.Calendar" /></Button>
+                    </Buttons>
+                    <Buttons>
+                        <Button Color="Color.Dark" Size="Size.Small" Outline><Icon Name="IconName.Image" /></Button>
+                        <Button Color="Color.Dark" Size="Size.Small" Disabled Outline><Icon Name="IconName.Link" /></Button>
+                    </Buttons>
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
 </Row>
 @code {
     private bool isLoading;

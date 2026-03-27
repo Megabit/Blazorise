@@ -96,7 +96,17 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Validation (data annotations)">
-        Use <Code>ValidationMode.Auto</Code> with a model decorated with data annotations to validate single and multiple selections.
+        <Paragraph>
+            Use <Code>ValidationMode.Auto</Code> with a model decorated with data annotations to validate single and multiple selections.
+        </Paragraph>
+
+        <Paragraph>
+            <Alert Color="Color.Info" Visible>
+                <AlertDescription>
+                    <Strong>Note:</Strong> When both <Code>Value</Code> and <Code>Text</Code> are bound then validation will work on the <Code>Value</Code> binding.
+                </AlertDescription>
+            </Alert>
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <AutocompleteDataAnnotationValidationExample />
