@@ -3698,38 +3698,49 @@ template {
 .ant-divider.ant-divider-dashed {
   border-block-start-style: dashed;
 }
-.ant-divider.b-ant-divider-dotted {
+.ant-divider.ant-divider-dotted {
   border-block-start-style: dotted;
 }
 .ant-divider.ant-divider-with-text {
-  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 100%;
   overflow: visible;
   text-align: center;
+  white-space: nowrap;
+  color: var(--ant-color-text-heading);
+  font-weight: 500;
+  font-size: var(--ant-font-size-lg);
+  line-height: var(--ant-line-height);
+  margin: var(--ant-margin) 0;
   border-block-start: 0;
 }
-.ant-divider.ant-divider-with-text::before {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  top: 50%;
-  transform: translateY(-50%);
+.ant-divider.ant-divider-with-text .ant-divider-rail {
+  width: 50%;
   border-block-start: var(--ant-line-width) solid var(--ant-color-split);
 }
-.ant-divider.ant-divider-with-text::after {
-  content: attr(data-content);
-  position: relative;
-  z-index: 1;
+.ant-divider.ant-divider-with-text .ant-divider-inner-text {
   display: inline-block;
-  padding-inline: var(--ant-padding);
-  color: var(--ant-color-text-heading);
-  font-size: var(--ant-font-size);
-  line-height: var(--ant-line-height);
-  background: var(--ant-color-bg-container);
+  padding-inline: var(--ant-padding-sm);
+  white-space: nowrap;
 }
-.ant-divider.ant-divider-with-text.ant-divider-dashed::before {
+.ant-divider.ant-divider-with-text.ant-divider-with-text-start .ant-divider-rail-start {
+  width: 5%;
+}
+.ant-divider.ant-divider-with-text.ant-divider-with-text-start .ant-divider-rail-end {
+  width: 95%;
+}
+.ant-divider.ant-divider-with-text.ant-divider-with-text-end .ant-divider-rail-start {
+  width: 95%;
+}
+.ant-divider.ant-divider-with-text.ant-divider-with-text-end .ant-divider-rail-end {
+  width: 5%;
+}
+.ant-divider.ant-divider-with-text.ant-divider-dashed .ant-divider-rail {
   border-block-start-style: dashed;
 }
-.ant-divider.ant-divider-with-text.b-ant-divider-dotted::before {
+.ant-divider.ant-divider-with-text.ant-divider-dotted .ant-divider-rail {
   border-block-start-style: dotted;
 }
 

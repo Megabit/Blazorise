@@ -1,0 +1,13 @@
+@inherits Blazorise.Divider
+@if ( ApplyDividerType == Blazorise.DividerType.TextContent )
+{
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="separator" @attributes="@Attributes">
+        <div class="ant-divider-rail ant-divider-rail-start"></div>
+        <span class="ant-divider-inner-text">@Text</span>
+        <div class="ant-divider-rail ant-divider-rail-end"></div>
+    </div>
+}
+else
+{
+    <hr @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="separator" @attributes="@Attributes" />
+}

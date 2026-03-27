@@ -1454,8 +1454,8 @@ public class AntDesignClassProvider : ClassProvider
         return dividerType switch
         {
             Blazorise.DividerType.Dashed => "ant-divider-dashed",
-            Blazorise.DividerType.Dotted => "b-ant-divider-dotted",
-            Blazorise.DividerType.TextContent => "ant-divider-with-text b-ant-divider-text",
+            Blazorise.DividerType.Dotted => "ant-divider-dotted",
+            Blazorise.DividerType.TextContent => "ant-divider-with-text ant-divider-with-text-center b-ant-divider-text",
             _ => null,
         };
     }

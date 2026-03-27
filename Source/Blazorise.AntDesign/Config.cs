@@ -92,6 +92,7 @@ public static class Config
         { typeof( Blazorise.DropdownToggle ), typeof( Components.DropdownToggle ) },
         { typeof( Blazorise.DateInput<> ), typeof( Components.DateInput<> ) },
         { typeof( Blazorise.DatePicker<> ), typeof( Components.DatePicker<> ) },
+        { typeof( Blazorise.Divider ), typeof( Components.Divider ) },
         { typeof( Blazorise.Field ), typeof( Components.Field ) },
         { typeof( Blazorise.FieldBody ), typeof( Components.FieldBody ) },
         { typeof( Blazorise.FieldLabel ), typeof( Components.FieldLabel ) },
