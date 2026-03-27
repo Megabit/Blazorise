@@ -4807,20 +4807,18 @@ template {
   width: var(--ant-control-height);
   min-width: var(--ant-control-height);
 }
-.b-ant-color-input.b-ant-color-input-disabled, .b-ant-color-input.ant-color-picker-trigger-disabled,
-.b-input-color-picker.ant-color-picker-trigger.b-ant-color-input-disabled,
+.b-ant-color-input.ant-color-picker-trigger-disabled,
 .b-input-color-picker.ant-color-picker-trigger.ant-color-picker-trigger-disabled {
   background: var(--ant-color-bg-container-disabled);
   border-color: var(--ant-color-border);
   cursor: not-allowed;
 }
-.b-ant-color-input.b-ant-color-input-disabled .ant-color-picker-trigger-text, .b-ant-color-input.ant-color-picker-trigger-disabled .ant-color-picker-trigger-text,
-.b-input-color-picker.ant-color-picker-trigger.b-ant-color-input-disabled .ant-color-picker-trigger-text,
+.b-ant-color-input.ant-color-picker-trigger-disabled .ant-color-picker-trigger-text,
 .b-input-color-picker.ant-color-picker-trigger.ant-color-picker-trigger-disabled .ant-color-picker-trigger-text {
   color: var(--ant-color-text-disabled);
 }
-.b-ant-color-input.b-ant-color-input-disabled .b-ant-color-input-native,
-.b-input-color-picker.ant-color-picker-trigger.b-ant-color-input-disabled .b-ant-color-input-native {
+.b-ant-color-input.ant-color-picker-trigger-disabled .b-ant-color-input-native,
+.b-input-color-picker.ant-color-picker-trigger.ant-color-picker-trigger-disabled .b-ant-color-input-native {
   cursor: not-allowed;
 }
 
@@ -5580,7 +5578,7 @@ a.ant-link-unstyled {
 a.ant-link-unstyled:hover, a.ant-link-unstyled:focus {
   color: inherit;
 }
-a.b-ant-link-disabled[aria-disabled=true] {
+a.ant-typography-disabled[aria-disabled=true] {
   pointer-events: none;
   opacity: 0.65;
 }

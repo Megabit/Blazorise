@@ -12,7 +12,7 @@
 @Feedback
 @code {
     string ContainerClassNames => IsDisabled
-        ? $"{ClassNames} ant-color-picker-trigger b-ant-color-input-disabled ant-color-picker-trigger-disabled"
+        ? $"{ClassNames} ant-color-picker-trigger ant-color-picker-trigger-disabled"
         : $"{ClassNames} ant-color-picker-trigger";
 
     string DisplayValue => ( CurrentValueAsString ?? "#1677ff" ).ToUpperInvariant();

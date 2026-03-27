@@ -107,19 +107,17 @@
         min-width: var(--ant-control-height);
     }
 
-    &.b-ant-color-input-disabled,
     &.ant-color-picker-trigger-disabled {
         background: var(--ant-color-bg-container-disabled);
         border-color: var(--ant-color-border);
         cursor: not-allowed;
     }
 
-    &.b-ant-color-input-disabled .ant-color-picker-trigger-text,
     &.ant-color-picker-trigger-disabled .ant-color-picker-trigger-text {
         color: var(--ant-color-text-disabled);
     }
 
-    &.b-ant-color-input-disabled .b-ant-color-input-native {
+    &.ant-color-picker-trigger-disabled .b-ant-color-input-native {
         cursor: not-allowed;
     }
 }

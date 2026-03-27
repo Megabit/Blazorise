@@ -9,7 +9,7 @@ a {
         }
     }
 
-    &.b-ant-link-disabled {
+    &.ant-typography-disabled {
         &[aria-disabled="true"] {
             pointer-events: none;
             opacity: .65;

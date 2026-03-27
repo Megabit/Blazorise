@@ -1455,7 +1455,7 @@ public class AntDesignClassProvider : ClassProvider
         {
             Blazorise.DividerType.Dashed => "ant-divider-dashed",
             Blazorise.DividerType.Dotted => "ant-divider-dotted",
-            Blazorise.DividerType.TextContent => "ant-divider-with-text ant-divider-with-text-center b-ant-divider-text",
+            Blazorise.DividerType.TextContent => "ant-divider-with-text ant-divider-with-text-center",
             _ => null,
         };
     }
@@ -1472,7 +1472,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string LinkStretched( bool stretched ) => stretched ? "ant-link-stretched" : null;
 
-    public override string LinkDisabled( bool disabled ) => disabled ? "ant-typography-disabled b-ant-link-disabled" : null;
+    public override string LinkDisabled( bool disabled ) => disabled ? "ant-typography-disabled" : null;
 
     #endregion
 
