@@ -3221,6 +3221,10 @@ template {
   height: 48px;
 }
 
+.ant-btn-block + .ant-btn-block {
+  margin-top: var(--ant-margin-xs);
+}
+
 .ant-card-group > .ant-card {
   margin-bottom: var(--ant-margin-xxs);
 }

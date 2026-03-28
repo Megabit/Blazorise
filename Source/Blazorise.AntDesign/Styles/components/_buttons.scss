@@ -203,3 +203,7 @@
 .ant-btn-group-xl > span > .ant-btn {
     @extend .ant-btn-xl;
 }
+
+.ant-btn-block + .ant-btn-block {
+    margin-top: var(--ant-margin-xs);
+}
