@@ -2,6 +2,14 @@
     font-size: var(--ant-rate-star-size);
     line-height: 1;
 
+    > .b-tooltip-inline {
+        display: inline-block;
+
+        &:not(:last-child) {
+            margin-inline-end: var(--ant-margin-xs);
+        }
+    }
+
     &:not(.ant-rate-disabled):not(.ant-rate-readonly):hover {
         .ant-rate-star {
             cursor: pointer;

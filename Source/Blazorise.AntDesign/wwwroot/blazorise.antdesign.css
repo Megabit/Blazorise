@@ -6817,6 +6817,12 @@ a.ant-typography-disabled[aria-disabled=true] {
   font-size: var(--ant-rate-star-size);
   line-height: 1;
 }
+.ant-rate > .b-tooltip-inline {
+  display: inline-block;
+}
+.ant-rate > .b-tooltip-inline:not(:last-child) {
+  margin-inline-end: var(--ant-margin-xs);
+}
 .ant-rate:not(.ant-rate-disabled):not(.ant-rate-readonly):hover .ant-rate-star {
   cursor: pointer;
 }
