@@ -40,6 +40,10 @@ function cleanupWave(target) {
     }
 }
 
+function validateNum(value) {
+    return Number.isNaN(value) ? 0 : value;
+}
+
 function showWave(root, targetSelector) {
     const target = targetSelector
         ? root.querySelector(targetSelector) || root
@@ -63,10 +67,13 @@ function showWave(root, targetSelector) {
     const waveColor = getTargetWaveColor(target);
     const targetStyle = getComputedStyle(target);
     const isSmallTarget = target.classList.contains('ant-wave-target');
+    const isStatic = targetStyle.position === 'static';
+    const borderLeftWidth = validateNum(Number.parseFloat(targetStyle.borderLeftWidth));
+    const borderTopWidth = validateNum(Number.parseFloat(targetStyle.borderTopWidth));
 
     wave.className = `ant-wave${isSmallTarget ? ' ant-wave-quick' : ''}`;
-    wave.style.left = '0px';
-    wave.style.top = '0px';
+    wave.style.left = `${isStatic ? target.offsetLeft : -borderLeftWidth}px`;
+    wave.style.top = `${isStatic ? target.offsetTop : -borderTopWidth}px`;
     wave.style.width = `${target.offsetWidth}px`;
     wave.style.height = `${target.offsetHeight}px`;
     wave.style.borderRadius = [
