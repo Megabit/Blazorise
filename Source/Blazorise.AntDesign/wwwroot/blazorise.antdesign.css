@@ -5250,6 +5250,17 @@ template {
   height: calc(calc(var(--ant-control-height-lg) + var(--ant-size-unit) * 2) - 2px);
 }
 
+.b-ant-checkbox-root {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.b-ant-checkbox-root > .ant-form-item-explain,
+.b-ant-checkbox-root > .valid-feedback {
+  display: block;
+  margin-inline-start: calc(var(--ant-control-interactive-size) + var(--ant-padding-xs));
+}
+
 .ant-checkbox-wrapper {
   cursor: pointer;
 }
@@ -5268,6 +5279,14 @@ template {
 }
 .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover {
   cursor: pointer;
+}
+
+.ant-form-item-has-error .ant-checkbox:not(.ant-checkbox-checked):not(.ant-checkbox-disabled) {
+  background-color: var(--ant-color-bg-container);
+  border-color: var(--ant-color-error);
+}
+.ant-form-item-has-error .ant-checkbox:not(.ant-checkbox-checked):not(.ant-checkbox-disabled):hover {
+  border-color: var(--ant-color-error-hover);
 }
 
 .ant-checkbox-wrapper.b-ant-checkbox-xs .ant-checkbox {

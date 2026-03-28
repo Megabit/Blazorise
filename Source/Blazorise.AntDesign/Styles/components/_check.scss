@@ -1,3 +1,15 @@
+.b-ant-checkbox-root {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    > .ant-form-item-explain,
+    > .valid-feedback {
+        display: block;
+        margin-inline-start: calc(var(--ant-control-interactive-size) + var(--ant-padding-xs));
+    }
+}
+
 .ant-checkbox-wrapper {
     cursor: pointer;
 
@@ -20,6 +32,17 @@
 
     &:not(.ant-checkbox-wrapper-disabled):hover {
         cursor: pointer;
+    }
+}
+
+.ant-form-item-has-error {
+    .ant-checkbox:not(.ant-checkbox-checked):not(.ant-checkbox-disabled) {
+        background-color: var(--ant-color-bg-container);
+        border-color: var(--ant-color-error);
+
+        &:hover {
+            border-color: var(--ant-color-error-hover);
+        }
     }
 }
 
