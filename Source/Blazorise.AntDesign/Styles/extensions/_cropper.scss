@@ -1,0 +1,30 @@
+.ant-row > .ant-col:has(> .ant-col.ant-form-item-control > .ant-form-item-control-input > .ant-form-item-control-input-content > .b-cropper-container),
+.ant-row > .ant-col:has(> .ant-form-item-control-input > .ant-form-item-control-input-content > .b-cropper-container),
+.ant-row > .ant-col.ant-form-item-control:has(> .ant-form-item-control-input > .ant-form-item-control-input-content > .b-cropper-container) {
+    display: flex;
+    flex-direction: column;
+}
+
+.ant-row > .ant-col > .ant-col.ant-form-item-control:has(> .ant-form-item-control-input > .ant-form-item-control-input-content > .b-cropper-container),
+.ant-row > .ant-col > .ant-form-item-control-input:has(> .ant-form-item-control-input-content > .b-cropper-container),
+.ant-row > .ant-col.ant-form-item-control > .ant-form-item-control-input:has(> .ant-form-item-control-input-content > .b-cropper-container) {
+    display: flex;
+    flex: 1 1 auto;
+    min-block-size: 0;
+}
+
+.ant-row > .ant-col > .ant-col.ant-form-item-control:has(> .ant-form-item-control-input > .ant-form-item-control-input-content > .b-cropper-container) > .ant-form-item-control-input,
+.ant-row > .ant-col > .ant-col.ant-form-item-control > .ant-form-item-control-input > .ant-form-item-control-input-content:has(> .b-cropper-container),
+.ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content:has(> .b-cropper-container),
+.ant-row > .ant-col.ant-form-item-control > .ant-form-item-control-input > .ant-form-item-control-input-content:has(> .b-cropper-container) {
+    display: flex;
+    flex: 1 1 auto;
+    min-block-size: 0;
+}
+
+.ant-row > .ant-col > .ant-col.ant-form-item-control > .ant-form-item-control-input > .ant-form-item-control-input-content:has(> .b-cropper-container) > .b-cropper-container,
+.ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content:has(> .b-cropper-container) > .b-cropper-container,
+.ant-row > .ant-col.ant-form-item-control > .ant-form-item-control-input > .ant-form-item-control-input-content:has(> .b-cropper-container) > .b-cropper-container {
+    flex: 1 1 auto;
+    min-block-size: 100%;
+}
