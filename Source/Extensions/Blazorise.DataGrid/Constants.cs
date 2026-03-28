@@ -49,5 +49,9 @@ static class Constants
     internal static readonly IFluentColumn ColumnSizeIsHalfOnDesktop = ColumnSize.IsHalf.OnDesktop;
 
     // Border
+    internal static readonly IFluentBorder BorderIs0 = Border.Is0;
     internal static readonly IFluentBorder BorderIs1Rounded = Border.Is1.Rounded;
+
+    // Background
+    internal static readonly Background BackgroundTransparent = Background.Transparent;
 }
