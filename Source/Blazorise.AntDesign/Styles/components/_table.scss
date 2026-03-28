@@ -17,6 +17,12 @@
 
 .b-table.ant-table,
 .ant-table-wrapper .b-table.ant-table {
+    > .ant-table-container,
+    > .ant-table-container > .ant-table-content,
+    > .ant-table-container > .ant-table-content > table {
+        height: 100%;
+    }
+
     table {
         position: relative;
 

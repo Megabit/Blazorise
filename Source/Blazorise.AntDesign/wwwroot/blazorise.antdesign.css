@@ -7788,6 +7788,14 @@ a.ant-typography-disabled[aria-disabled=true] {
   border-radius: 1000px;
 }
 
+.b-table.ant-table > .ant-table-container,
+.b-table.ant-table > .ant-table-container > .ant-table-content,
+.b-table.ant-table > .ant-table-container > .ant-table-content > table,
+.ant-table-wrapper .b-table.ant-table > .ant-table-container,
+.ant-table-wrapper .b-table.ant-table > .ant-table-container > .ant-table-content,
+.ant-table-wrapper .b-table.ant-table > .ant-table-container > .ant-table-content > table {
+  height: 100%;
+}
 .b-table.ant-table table,
 .ant-table-wrapper .b-table.ant-table table {
   position: relative;
