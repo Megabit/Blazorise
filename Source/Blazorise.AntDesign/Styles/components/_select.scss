@@ -48,6 +48,10 @@
     }
 }
 
+.b-ant-dropdown-overlay .ant-select-dropdown {
+    z-index: calc(var(--ant-dropdown-z-index-popup) + 1);
+}
+
 .ant-select-single {
     .ant-select-selector {
         .ant-select-selection-search {

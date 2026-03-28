@@ -54,6 +54,19 @@
     animation-name: fadeIn;
 }
 
+.b-ant-dropdown-overlay:has(.b-ant-select-root, .b-is-autocomplete) {
+    overflow: visible;
+
+    > .ant-dropdown-menu {
+        max-height: none;
+        overflow: visible;
+    }
+
+    .b-ant-dropdown-overlay {
+        z-index: calc(var(--ant-dropdown-z-index-popup) + 1);
+    }
+}
+
 .b-ant-dropdown-menu-scrollable > .ant-dropdown-menu {
     max-height: var(--dropdown-list-menu-max-height, 200px);
     overflow-y: auto;

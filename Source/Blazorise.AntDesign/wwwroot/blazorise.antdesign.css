@@ -3773,6 +3773,17 @@ template {
   animation-name: fadeIn;
 }
 
+.b-ant-dropdown-overlay:has(.b-ant-select-root, .b-is-autocomplete) {
+  overflow: visible;
+}
+.b-ant-dropdown-overlay:has(.b-ant-select-root, .b-is-autocomplete) > .ant-dropdown-menu {
+  max-height: none;
+  overflow: visible;
+}
+.b-ant-dropdown-overlay:has(.b-ant-select-root, .b-is-autocomplete) .b-ant-dropdown-overlay {
+  z-index: calc(var(--ant-dropdown-z-index-popup) + 1);
+}
+
 .b-ant-dropdown-menu-scrollable > .ant-dropdown-menu {
   max-height: var(--dropdown-list-menu-max-height, 200px);
   overflow-y: auto;
@@ -4368,6 +4379,10 @@ template {
   transform: translateY(-50%);
   margin-top: 0;
   pointer-events: none;
+}
+
+.b-ant-dropdown-overlay .ant-select-dropdown {
+  z-index: calc(var(--ant-dropdown-z-index-popup) + 1);
 }
 
 .ant-select-single .ant-select-selector .ant-select-selection-search {
