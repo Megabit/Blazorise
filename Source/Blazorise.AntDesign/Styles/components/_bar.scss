@@ -541,6 +541,20 @@
     line-height: var(--ant-menu-horizontal-line-height);
 }
 
+.ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-item:has(> a > .ant-menu-title-content > :only-child),
+.ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-submenu:has(> .ant-menu-submenu-title > .ant-menu-title-content > :only-child) {
+    min-width: var(--ant-menu-item-height);
+    padding-inline: var(--ant-menu-item-padding-inline);
+}
+
+.ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-item:has(> a > .ant-menu-title-content > :only-child) > a,
+.ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-submenu:has(> .ant-menu-submenu-title > .ant-menu-title-content > :only-child) > .ant-menu-submenu-title {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
 .ant-menu.ant-menu-root.ant-menu-horizontal > .b-ant-menu-end-spacer {
     flex: auto;
     min-width: 0;
