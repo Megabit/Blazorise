@@ -543,7 +543,7 @@
 
 .ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-item:has(> a > .ant-menu-title-content > :only-child),
 .ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-submenu:has(> .ant-menu-submenu-title > .ant-menu-title-content > :only-child) {
-    min-width: var(--ant-menu-item-height);
+    min-width: calc(var(--ant-menu-item-height) + (var(--ant-menu-item-padding-inline) * 2));
     padding-inline: var(--ant-menu-item-padding-inline);
 }
 
