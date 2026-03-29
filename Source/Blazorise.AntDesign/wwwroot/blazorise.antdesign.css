@@ -3239,6 +3239,13 @@ template {
   margin-top: var(--ant-margin-xs);
 }
 
+.ant-btn.disabled,
+.ant-btn.ant-btn-disabled,
+.ant-btn[disabled],
+.ant-btn:disabled {
+  box-shadow: none !important;
+}
+
 .ant-card-group > .ant-card {
   margin-bottom: var(--ant-margin-xxs);
 }
