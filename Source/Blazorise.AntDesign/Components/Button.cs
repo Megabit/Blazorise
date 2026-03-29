@@ -1,5 +1,8 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.AntDesign.Modules;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
@@ -11,12 +14,35 @@ public partial class Button : Blazorise.Button
 {
     #region Methods
 
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        base.BuildClasses( builder );
+
+        builder.Append( ClassProvider.ButtonLoading( Outline, Loading ) );
+
+        if ( ParentDropdown?.IsGroup == true && ParentButtons is null )
+            builder.Append( "ant-btn-compact-item ant-btn-compact-first-item" );
+    }
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender && Color != Color.Link )
+        {
+            await JSWaveModule.Initialize( ElementRef );
+        }
+
+        await base.OnAfterRenderAsync( firstRender );
+    }
+
     protected override void BuildRenderTree( RenderTreeBuilder builder )
     {
-        if ( IsAddons || ParentIsField )
+        var wrapInControl = ParentButtons?.Role == Blazorise.ButtonsRole.Addons || ParentIsField;
+        var wrapperElementName = ParentButtons is not null ? "span" : "div";
+
+        if ( wrapInControl )
         {
             builder
-                .OpenElement( "div" )
+                .OpenElement( wrapperElementName )
                 .Class( "control" );
         }
 
@@ -62,7 +88,7 @@ public partial class Button : Blazorise.Button
 
         builder.CloseElement();
 
-        if ( IsAddons || ParentIsField )
+        if ( wrapInControl )
         {
             builder.CloseElement();
         }
@@ -75,15 +101,18 @@ public partial class Button : Blazorise.Button
         {
             builder
                 .OpenElement( "span" )
+                .Class( "ant-btn-icon ant-btn-loading-icon" );
+
+            builder
+                .OpenElement( "span" )
                 .Role( "img" )
                 .AriaLabel( "loading" )
-                .Class( "anticon anticon-loading" );
+                .Class( "anticon anticon-loading anticon-spin" );
 
             builder
                 .OpenElement( "svg" )
                 .Attribute( "viewBox", "0 0 1024 1024" )
                 .Attribute( "focusable", "false" )
-                .Class( "anticon-spin" )
                 .Data( "icon", "loading" )
                 .Width( "1em" )
                 .Height( "1em" )
@@ -97,6 +126,7 @@ public partial class Button : Blazorise.Button
 
             builder.CloseElement();
             builder.CloseElement();
+            builder.CloseElement();
 
             builder
                 .OpenElement( "span" )
@@ -104,6 +134,22 @@ public partial class Button : Blazorise.Button
                 .CloseElement();
         };
     }
+
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing && Rendered )
+        {
+            await JSWaveModule.Destroy( ElementRef );
+        }
+
+        await base.DisposeAsync( disposing );
+    }
+
+    #endregion
+
+    #region Properties
+
+    [Inject] public AntDesignJSWaveModule JSWaveModule { get; set; }
 
     #endregion
 }

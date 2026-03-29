@@ -1,11 +1,15 @@
 ﻿.ant-row {
-    margin-left: -$grid-gutter-width;
-    margin-right: -$grid-gutter-width;
+    margin-left: calc(var(--ant-padding-xs) * -1);
+    margin-right: calc(var(--ant-padding-xs) * -1);
 
     > .ant-col {
-        flex-grow: 1;
-        padding-left: $grid-gutter-width;
-        padding-right: $grid-gutter-width;
+        padding-left: var(--ant-padding-xs);
+        padding-right: var(--ant-padding-xs);
+
+        &:not([class*="ant-col-"]) {
+            flex: 1 0 0%;
+            max-width: 100%;
+        }
     }
 }
 
@@ -49,17 +53,6 @@
     margin-left: auto;
 }
 
-.ant-row-no-gutters {
-    margin-right: 0;
-    margin-left: 0;
-
-    > .ant-col,
-    > [class*="ant-col-"] {
-        padding-right: 0;
-        padding-left: 0;
-    }
-}
-
 @each $breakpoint in map-keys($grid-breakpoints) {
     @include media-breakpoint-up($breakpoint) {
         $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
@@ -94,7 +87,7 @@
     display: grid;
     grid-template-rows: repeat(1, 1fr);
     grid-template-columns: repeat(12, 1fr);
-    gap: #{$grid-gutter-width};
+    gap: var(--ant-padding-xs);
 
     @each $breakpoint in map-keys($grid-breakpoints) {
         $infix: breakpoint-infix($breakpoint, $grid-breakpoints);

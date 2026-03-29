@@ -1,0 +1,21 @@
+@inherits Blazorise.ColorInput
+<label class="@ContainerClassNames" style="@StyleNames">
+    <span class="ant-color-picker-color-block">
+        <span class="ant-color-picker-color-block-inner" style="@SwatchStyleNames"></span>
+    </span>
+    <span class="ant-color-picker-trigger-text">
+        @DisplayValue
+    </span>
+    <input @ref="@ElementRef" id="@ElementId" type="color" name="@NameAttributeValue" class="b-ant-color-input-native" disabled="@IsDisabled" readonly="@ReadOnly" value="@CurrentValueAsString" tabindex="@TabIndex" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ExplicitAriaLabelledBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+</label>
+@ChildContent
+@Feedback
+@code {
+    string ContainerClassNames => IsDisabled
+        ? $"{ClassNames} ant-color-picker-trigger ant-color-picker-trigger-disabled"
+        : $"{ClassNames} ant-color-picker-trigger";
+
+    string DisplayValue => ( CurrentValueAsString ?? "#1677ff" ).ToUpperInvariant();
+
+    string SwatchStyleNames => $"background: {CurrentValueAsString ?? "#1677ff"};";
+}

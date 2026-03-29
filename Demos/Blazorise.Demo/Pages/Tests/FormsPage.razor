@@ -147,10 +147,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Range values</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <Div Width="Blazorise.Width.Is100">
-                            <RangeSlider TValue="decimal" @bind-Value="decimalRangeValue" Min="0m" Max="100m" Step="1m" />
-                            <FieldHelp Style="white-space: nowrap;">Selected range: @decimalRangeValue.Start - @decimalRangeValue.End</FieldHelp>
-                        </Div>
+                        <RangeSlider TValue="decimal" @bind-Value="@decimalRangeValue" Min="0m" Max="100m" Step="1m" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
@@ -465,11 +462,11 @@
             </CardHeader>
             <CardBody>
                 <Fields>
-                    <Field ColumnSize="ColumnSize.Is6.OnDesktop">
+                    <Field ColumnSize="ColumnSize.IsFull.OnMobile.Is6.OnTablet">
                         <FieldLabel>Email</FieldLabel>
                         <TextInput Role="TextRole.Email" Placeholder="Email" />
                     </Field>
-                    <Field ColumnSize="ColumnSize.Is6.OnDesktop">
+                    <Field ColumnSize="ColumnSize.IsFull.OnMobile.Is6.OnTablet">
                         <FieldLabel>Password</FieldLabel>
                         <TextInput Role="TextRole.Password" Placeholder="Password" />
                     </Field>
@@ -483,11 +480,11 @@
                     <TextInput Placeholder="Appartment, studio, or floor" />
                 </Field>
                 <Fields>
-                    <Field ColumnSize="ColumnSize.Is6.OnDesktop">
+                    <Field ColumnSize="ColumnSize.IsFull.OnMobile.Is6.OnTablet">
                         <FieldLabel>City</FieldLabel>
                         <TextInput />
                     </Field>
-                    <Field ColumnSize="ColumnSize.Is4.OnDesktop">
+                    <Field ColumnSize="ColumnSize.IsFull.OnMobile.Is4.OnTablet">
                         <FieldLabel>State</FieldLabel>
                         <Select TValue="string">
                             <SelectItem Value="@("AL")">Alabama</SelectItem>
@@ -495,7 +492,7 @@
                             <SelectItem Value="@("AZ")">Arizona</SelectItem>
                         </Select>
                     </Field>
-                    <Field ColumnSize="ColumnSize.Is2.OnDesktop">
+                    <Field ColumnSize="ColumnSize.IsFull.OnMobile.Is2.OnTablet">
                         <FieldLabel>Zip</FieldLabel>
                         <TextInput />
                     </Field>

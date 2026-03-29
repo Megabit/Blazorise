@@ -1,141 +1,19 @@
-﻿:root {
+:root {
     --b-bar-horizontal-height: 60px;
 }
 
-// ------------------------------------------------------------
-// Ant base tokens (keep/override as needed)
-// ------------------------------------------------------------
 $ant-white: #ffffff !default;
-$ant-black: #000000 !default;
-
-$ant-gray-1: #ffffff !default;
-$ant-gray-2: #fafafa !default;
-$ant-gray-3: #f5f5f5 !default;
-$ant-gray-4: #f0f0f0 !default;
-$ant-gray-5: #d9d9d9 !default;
-$ant-gray-6: #bfbfbf !default;
-$ant-gray-7: #8c8c8c !default;
-$ant-gray-8: #595959 !default;
-$ant-gray-9: #434343 !default;
-$ant-gray-10: #262626 !default;
-
-// Text contrast defaults
-$text-light: #fff !default;
-$text-dark: $ant-gray-10 !default;
-$text-muted: #6c757d !default;
-
-$yiq-text-light: $text-light !default;
-$yiq-text-dark: $text-dark !default;
-// The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
-$yiq-contrasted-threshold: 150 !default;
-
-// ------------------------------------------------------------
-// Theme semantic colors
-// ------------------------------------------------------------
-$primary: #1890ff !default;
-$secondary: #6c757d !default;
-$success: #35c613 !default;
-$info: #60b6f4 !default;
-$warning: #f7c12a !default;
-$danger: #ff4d4f !default;
-$light: #fafafa !default;
-$dark: #343a40 !default;
-$link: #3273dc !default;
-
-// Body base tokens (treated like other variants)
-$body-bg: $ant-gray-1 !default; // usually white
-$body-color: $ant-gray-10 !default; // readable neutral
-
-// ------------------------------------------------------------
-// Helpers + tunable weights
-// ------------------------------------------------------------
-@function tint-color($color, $weight) {
-    @return mix($ant-white, $color, $weight);
-}
-
-@function shade-color($color, $weight) {
-    @return mix($ant-black, $color, $weight);
-}
-
-$bg-subtle-tint-weight: 88% !default; // lightness for -subtle
-$border-subtle-tint-weight: 66% !default; // lightness for -subtle
-$text-emphasis-shade-weight: 22% !default; // depth for -emphasis
-
-// ------------------------------------------------------------
-// Theme maps
-// ------------------------------------------------------------
-
-// Background (and general) color variants
-$theme-colors: () !default;
-$theme-colors: map-merge(( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark, "link": $link ), $theme-colors);
-
-// Subtle backgrounds (computed uniformly)
-$theme-colors-bg-subtle: () !default;
-$theme-colors-bg-subtle: map-merge(( "primary": tint-color(map-get($theme-colors, "primary"), $bg-subtle-tint-weight), "secondary": tint-color(map-get($theme-colors, "secondary"), $bg-subtle-tint-weight), "success": tint-color(map-get($theme-colors, "success"), $bg-subtle-tint-weight), "info": tint-color(map-get($theme-colors, "info"), $bg-subtle-tint-weight), "warning": tint-color(map-get($theme-colors, "warning"), $bg-subtle-tint-weight), "error": tint-color(map-get($theme-colors, "danger"), $bg-subtle-tint-weight), "light": mix($ant-gray-2, $ant-white, 50%), "dark": $ant-gray-6, "link": tint-color(map-get($theme-colors, "link"), $bg-subtle-tint-weight) ), $theme-colors-bg-subtle);
-
-$theme-colors-border-subtle: ()!default;
-$theme-colors-border-subtle: map-merge(( "primary": tint-color(map-get($theme-colors, "primary"), $border-subtle-tint-weight), "secondary": tint-color(map-get($theme-colors, "secondary"), $border-subtle-tint-weight), "success": tint-color(map-get($theme-colors, "success"), $border-subtle-tint-weight), "info": tint-color(map-get($theme-colors, "info"), $border-subtle-tint-weight), "warning": tint-color(map-get($theme-colors, "warning"), $border-subtle-tint-weight), "error": tint-color(map-get($theme-colors, "danger"), $border-subtle-tint-weight), "light": mix($ant-gray-2, $ant-white, 50%), "dark": $ant-gray-6, "link": tint-color(map-get($theme-colors, "link"), $border-subtle-tint-weight) ), $theme-colors-bg-subtle);
-
-// Text emphasis (also uniform, including body)
-$theme-colors-text-emphasis: () !default;
-$theme-colors-text-emphasis: map-merge(( "primary": shade-color(map-get($theme-colors, "primary"), $text-emphasis-shade-weight), "secondary": shade-color(map-get($theme-colors, "secondary"), $text-emphasis-shade-weight), "success": shade-color(map-get($theme-colors, "success"), $text-emphasis-shade-weight), "info": shade-color(map-get($theme-colors, "info"), $text-emphasis-shade-weight), "warning": shade-color(map-get($theme-colors, "warning"), $text-emphasis-shade-weight), "error": shade-color(map-get($theme-colors, "danger"), $text-emphasis-shade-weight), "light": shade-color($ant-gray-7, 10%), "dark": tint-color($ant-gray-8, 15%), "link": shade-color(map-get($theme-colors, "link"), $text-emphasis-shade-weight) ), $theme-colors-text-emphasis);
-
-// ------------------------------------------------------------
-// Other ant tokens you had (unchanged)
-// ------------------------------------------------------------
-$component-background: #fff;
-
-$background-color-light: hsv_to_color(0, 0, 98%); // background of header and selected item
-$background-color-base: hsv_to_color(0, 0, 96%); // Default grey background color
-
-
-
-// Disabled states
-$disabled-color: fade(#000, 25%);
-$disabled-bg: $background-color-base;
-$disabled-color-dark: fade(#fff, 35%);
-
-// Components
-
-$border-radius: .25rem !default;
-$border-radius-lg: .3rem !default;
-$border-radius-sm: .2rem !default;
-
-$component-active-color: $ant-white !default;
-$component-active-bg: theme-color("primary") !default;
-
-// Set a specific jump point for requesting color jumps
-$theme-color-interval: 8% !default;
 
 // Buttons
-$button-colors: map-merge(( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark), ("link": #007bff));
-$unsuported-button-colors: map-merge(( "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "light": $light, "dark": $dark), ("link": #007bff));
-
-$button-hover-lighten: 15%;
-$button-active-darken: 15%;
-
-// Alerts
-
-$alert-color-level: 6 !default;
-$alert-background-level: -10 !default;
-$alert-border-level: -9 !default;
-
-// Tables
-
-$table-background-level: -9 !default;
-$table-border-level: -6 !default;
-
-
 $mobile: 576px;
 $tablet: 768px;
 $desktop: 992px;
 $widescreen: 1200px;
 $fullhd: 1600px;
 
-$spacer: 1rem !default;
 $spacers: () !default;
 
-$spacers: map-merge( ( 0: 0, 1: ($spacer * .25), 2: ($spacer * .5), 3: $spacer, 4: ($spacer * 1.5), 5: ($spacer * 3) ), $spacers );
+$spacers: map-merge( ( 0: 0, 1: var(--ant-padding-xxs), 2: var(--ant-padding-xs), 3: var(--ant-padding), 4: var(--ant-padding-lg), 5: calc(var(--ant-padding-xl) * 2) ), $spacers );
 
 $gutters: $spacers !default;
 
@@ -144,178 +22,12 @@ $grid-rows: 6 !default;
 $grid-row-columns: 6 !default;
 $grid-breakpoints: ( "xxs": 0, "xs": $mobile, "sm": $tablet, "md": $desktop, "lg": $widescreen, "xl": $fullhd ) !default;
 
-$modal-dialog-margin: .5rem !default;
-
-// Cards
-
-$grid-gutter-width: 8px !default;
-
-$card-group-margin: $grid-gutter-width / 2 !default;
-$card-deck-margin: $card-group-margin !default;
-
-$form-grid-gutter-width: 10px !default;
-
 // Typography
-
-$headings-margin-bottom: $spacer / 2 !default;
-$headings-font-family: null !default;
-$headings-font-weight: 500 !default;
-$headings-line-height: 1.2 !default;
-$headings-color: null !default;
-
-$display1-size: 6rem !default;
-$display2-size: 5.5rem !default;
-$display3-size: 4.5rem !default;
-$display4-size: 3.5rem !default;
-
-$display1-weight: 300 !default;
-$display2-weight: 300 !default;
-$display3-weight: 300 !default;
-$display4-weight: 300 !default;
-$display-line-height: $headings-line-height !default;
-
-$font-size-xs: 10px;
-$font-size-sm: 12px;
-$font-size-md: 16px;
-$font-size-lg: 20px;
-$font-size-xl: 24px;
-
-$line-height-xs: 18px;
-$line-height-sm: 20px;
-$line-height-md: 24px;
-$line-height-lg: 28px;
-$line-height-xl: 32px;
-
-$h1-font-size: 38px;
-$h2-font-size: 30px;
-$h3-font-size: 24px;
-$h4-font-size: 20px;
-$h5-font-size: 16px;
-$h6-font-size: 14px;
-
-$h1-line-height: 46px;
-$h2-line-height: 38px;
-$h3-line-height: 32px;
-$h4-line-height: 28px;
-$h5-line-height: 24px;
-$h6-line-height: 22px;
-
-$font-sizes: ( xs: $font-size-xs, sm: $font-size-sm, md: $font-size-md, lg: $font-size-lg, xl: $font-size-xl, 1: $h1-font-size, 2: $h2-font-size, 3: $h3-font-size, 4: $h4-font-size, 5: $h5-font-size, 6: $h6-font-size ) !default;
-$line-heights: ( xs: $line-height-xs, sm: $line-height-sm, md: $line-height-md, lg: $line-height-lg, xl: $line-height-xl, 1: $h1-line-height, 2: $h2-line-height, 3: $h3-line-height, 4: $h4-line-height, 5: $h5-line-height, 6: $h6-line-height ) !default;
-
-// Check
-
-$check-height: 16px;
-$check-xs-height: 8px;
-$check-sm-height: 12px;
-$check-md-height: 20px;
-$check-lg-height: 24px;
-$check-xl-height: 28px;
-
-// Radio
-
-$radio-height: 16px;
-$radio-xs-height: 8px;
-$radio-sm-height: 12px;
-$radio-md-height: 20px;
-$radio-lg-height: 24px;
-$radio-xl-height: 28px;
-
-// Switch
-
-$switch-color: $primary;
-$switch-bg: $component-background;
-$switch-shadow-color: fade(#00230b, 20%);
-
-$switch-height: 22px;
-$switch-min-width: 44px;
-
-$switch-xs-height: 12px;
-$switch-xs-min-width: 22px;
-$switch-xs-checked-margin-left: -($switch-xs-height - 3px);
-$switch-xs-font-size: 10px;
-
-$switch-sm-height: 16px;
-$switch-sm-min-width: 28px;
-$switch-sm-checked-margin-left: -($switch-sm-height - 3px);
-$switch-sm-font-size: 12px;
-
-$switch-md-height: 24px;
-$switch-md-min-width: 90px;
-$switch-md-checked-margin-left: -($switch-md-height - 3px);
-$switch-md-font-size: 12px;
-
-$switch-lg-height: 28px;
-$switch-lg-min-width: 90px;
-$switch-lg-checked-margin-left: -($switch-lg-height - 3px);
-$switch-lg-font-size: 12px;
-
-$switch-xl-height: 32px;
-$switch-xl-min-width: 160px;
-$switch-xl-checked-margin-left: -($switch-xl-height - 3px);
-$switch-xl-font-size: 12px;
-
-// Pagination
-// ---
-$pagination-item-bg: $component-background;
-$pagination-item-size: 32px;
-$pagination-item-size-xs: 16px;
-$pagination-item-size-sm: 24px;
-$pagination-item-size-md: 36px;
-$pagination-item-size-lg: 40px;
-$pagination-item-size-xl: 48px;
-$pagination-font-family: Arial;
-$pagination-font-weight-active: 500;
-$pagination-item-bg-active: $component-background;
-$pagination-item-link-bg: $component-background;
-$pagination-item-disabled-color-active: $ant-white;
-$pagination-item-disabled-bg-active: darken($disabled-bg, 10%);
-$pagination-item-input-bg: $component-background;
-
-$radius: 4px !default;
-$radius-rounded: 290486px !default;
-$radius-pill: 50rem !default;
-
-$border-width: 1px;
-$border-color: #adb5bd;
+$font-sizes: ( xs: calc(var(--ant-font-size-sm) - var(--ant-line-width) * 2), sm: var(--ant-font-size-sm), md: var(--ant-font-size), lg: var(--ant-font-size-lg), xl: var(--ant-font-size-xl), 1: var(--ant-font-size-heading-1), 2: var(--ant-font-size-heading-2), 3: var(--ant-font-size-heading-3), 4: var(--ant-font-size-heading-4), 5: var(--ant-font-size-heading-5), 6: var(--ant-font-size) ) !default;
+$line-heights: ( xs: var(--ant-line-height-sm), sm: var(--ant-line-height-sm), md: var(--ant-line-height), lg: var(--ant-line-height-lg), xl: var(--ant-line-height-lg), 1: var(--ant-line-height-heading-1), 2: var(--ant-line-height-heading-2), 3: var(--ant-line-height-heading-3), 4: var(--ant-line-height-heading-4), 5: var(--ant-line-height-heading-5), 6: var(--ant-line-height) ) !default;
 
 $sizes: () !default;
 $sizes: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667%, 75: 75%, 100: 100%, auto: auto ), $sizes );
-
-$box-shadow-sm: 0 .125rem .25rem rgba($ant-black, .075) !default;
-$box-shadow: 0 .5rem 1rem rgba($ant-black, .15) !default;
-$box-shadow-lg: 0 1rem 3rem rgba($ant-black, .175) !default;
-
-// List group
-
-$list-group-color: null !default;
-$list-group-bg: $ant-white !default;
-$list-group-border-color: rgba($ant-black, .125) !default;
-$list-group-border-width: $border-width !default;
-$list-group-border-radius: $border-radius !default;
-
-$list-group-item-padding-y: .75rem !default;
-$list-group-item-padding-x: 1.25rem !default;
-
-$list-group-hover-bg: $ant-gray-1 !default;
-$list-group-active-color: $component-active-color !default;
-$list-group-active-bg: $component-active-bg !default;
-$list-group-active-border-color: $list-group-active-bg !default;
-
-$list-group-disabled-color: $ant-gray-6 !default;
-$list-group-disabled-bg: $list-group-bg !default;
-
-$list-group-action-color: $ant-gray-7 !default;
-$list-group-action-hover-color: $list-group-action-color !default;
-
-$list-group-action-active-color: $body-color !default;
-$list-group-action-active-bg: $ant-gray-2 !default;
-
-// Blockquote
-
-$blockquote-small-color: $ant-gray-6 !default;
-$blockquote-small-font-size: 12px !default;
-$blockquote-font-size: 16px * 1.25 !default;
 
 // Position
 
@@ -324,25 +36,25 @@ $position-values: ( 0: 0, 50: 50%, 100: 100% ) !default;
 $overflows: auto, hidden, visible, scroll !default;
 
 html {
-    --ant-primary-color: #1890ff;
-    --ant-primary-color-hover: #40a9ff;
-    --ant-primary-color-active: #096dd9;
-    --ant-primary-color-outline: rgba(24, 144, 255, .2);
-    --ant-primary-1: #e6f7ff;
-    --ant-primary-2: #bae7ff;
-    --ant-primary-3: #91d5ff;
-    --ant-primary-4: #69c0ff;
-    --ant-primary-5: #40a9ff;
-    --ant-primary-6: #1890ff;
-    --ant-primary-7: #096dd9;
-    --ant-primary-color-deprecated-pure: ;
-    --ant-primary-color-deprecated-l-35: #cbe6ff;
-    --ant-primary-color-deprecated-l-20: #7ec1ff;
-    --ant-primary-color-deprecated-t-20: #46a6ff;
-    --ant-primary-color-deprecated-t-50: #8cc8ff;
-    --ant-primary-color-deprecated-f-12: rgba(24, 144, 255, .12);
-    --ant-primary-color-active-deprecated-f-30: rgba(230, 247, 255, .3);
-    --ant-primary-color-active-deprecated-d-02: #dcf4ff;
+    --ant-primary-color: #1677ff;
+    --ant-primary-color-hover: #4096ff;
+    --ant-primary-color-active: #0958d9;
+    --ant-primary-color-outline: rgba(22, 119, 255, .2);
+    --ant-primary-1: #e6f4ff;
+    --ant-primary-2: #bae0ff;
+    --ant-primary-3: #91caff;
+    --ant-primary-4: #69b1ff;
+    --ant-primary-5: #4096ff;
+    --ant-primary-6: #1677ff;
+    --ant-primary-7: #0958d9;
+    --ant-primary-color-deprecated-pure: var(--ant-primary-color);
+    --ant-primary-color-deprecated-l-35: #c2ddff;
+    --ant-primary-color-deprecated-l-20: #75b0ff;
+    --ant-primary-color-deprecated-t-20: #4592ff;
+    --ant-primary-color-deprecated-t-50: #8bbbff;
+    --ant-primary-color-deprecated-f-12: rgba(22, 119, 255, .12);
+    --ant-primary-color-active-deprecated-f-30: rgba(230, 244, 255, .3);
+    --ant-primary-color-active-deprecated-d-02: #dbe9ff;
     --ant-success-color: #52c41a;
     --ant-success-color-hover: #73d13d;
     --ant-success-color-active: #389e0d;
@@ -361,7 +73,890 @@ html {
     --ant-warning-color-outline: rgba(250, 173, 20, .2);
     --ant-warning-color-deprecated-bg: #fffbe6;
     --ant-warning-color-deprecated-border: #ffe58f;
-    --ant-info-color: #1890ff;
-    --ant-info-color-deprecated-bg: #e6f7ff;
-    --ant-info-color-deprecated-border: #91d5ff
+    --ant-info-color: #1677ff;
+    --ant-info-color-deprecated-bg: #e6f4ff;
+    --ant-info-color-deprecated-border: #91caff;
+    // Ant Design v6 uses runtime cssinjs to inject these alias tokens.
+    // Blazorise ships static CSS, so define the light theme bridge here.
+    --ant-grid-display: flex;
+    --ant-blue: #1677ff;
+    --ant-purple: #722ed1;
+    --ant-cyan: #13c2c2;
+    --ant-green: #52c41a;
+    --ant-magenta: #eb2f96;
+    --ant-pink: #eb2f96;
+    --ant-red: #f5222d;
+    --ant-orange: #fa8c16;
+    --ant-yellow: #fadb14;
+    --ant-volcano: #fa541c;
+    --ant-geekblue: #2f54eb;
+    --ant-gold: #faad14;
+    --ant-lime: #a0d911;
+    --ant-color-text-base: #000;
+    --ant-color-bg-base: #fff;
+    --ant-color-bg-container: #fff;
+    --ant-color-bg-elevated: #fff;
+    --ant-color-bg-container-disabled: rgba(0, 0, 0, .04);
+    --ant-color-bg-spotlight: rgba(0, 0, 0, .85);
+    --ant-color-bg-blur: transparent;
+    --ant-color-bg-mask: rgba(0, 0, 0, .45);
+    --ant-color-bg-text-hover: rgba(0, 0, 0, .06);
+    --ant-color-bg-text-active: rgba(0, 0, 0, .15);
+    --ant-color-text: rgba(0, 0, 0, .88);
+    --ant-color-text-secondary: rgba(0, 0, 0, .65);
+    --ant-color-text-tertiary: rgba(0, 0, 0, .45);
+    --ant-color-text-quaternary: rgba(0, 0, 0, .25);
+    --ant-color-text-heading: var(--ant-color-text);
+    --ant-color-text-description: var(--ant-color-text-tertiary);
+    --ant-color-text-placeholder: var(--ant-color-text-quaternary);
+    --ant-color-text-disabled: var(--ant-color-text-quaternary);
+    --ant-color-text-light-solid: #fff;
+    --ant-color-fill: rgba(0, 0, 0, .15);
+    --ant-color-fill-secondary: rgba(0, 0, 0, .06);
+    --ant-color-fill-tertiary: rgba(0, 0, 0, .04);
+    --ant-color-fill-quaternary: rgba(0, 0, 0, .02);
+    --ant-color-fill-content: rgba(0, 0, 0, .06);
+    --ant-color-fill-content-hover: rgba(0, 0, 0, .15);
+    --ant-color-fill-alter: rgba(0, 0, 0, .02);
+    --ant-color-bg-solid: rgb(0, 0, 0);
+    --ant-color-bg-solid-hover: rgba(0, 0, 0, .75);
+    --ant-color-bg-solid-active: rgba(0, 0, 0, .95);
+    --ant-color-bg-layout: #f5f5f5;
+    --ant-color-border: #d9d9d9;
+    --ant-color-border-secondary: #f0f0f0;
+    --ant-color-border-disabled: var(--ant-color-border);
+    --ant-color-border-bg: #fff;
+    --ant-color-split: rgba(5, 5, 5, .06);
+    --ant-color-icon: var(--ant-color-text-tertiary);
+    --ant-color-icon-hover: var(--ant-color-text);
+    --ant-color-white: #fff;
+    --ant-color-text-label: var(--ant-color-text-secondary);
+    --ant-color-highlight: var(--ant-color-error);
+    --ant-color-primary-bg: var(--ant-primary-1);
+    --ant-color-primary-bg-hover: var(--ant-primary-2);
+    --ant-color-primary-border: var(--ant-primary-3);
+    --ant-color-primary-border-hover: var(--ant-primary-4);
+    --ant-color-primary-hover: var(--ant-primary-5);
+    --ant-color-primary: var(--ant-primary-color);
+    --ant-color-primary-active: var(--ant-primary-color-active);
+    --ant-color-primary-text-hover: var(--ant-primary-5);
+    --ant-color-primary-text: var(--ant-primary-color);
+    --ant-color-primary-text-active: var(--ant-primary-color-active);
+    --ant-color-success-bg: var(--ant-success-color-deprecated-bg);
+    --ant-color-success-bg-hover: #d9f7be;
+    --ant-color-success-border: var(--ant-success-color-deprecated-border);
+    --ant-color-success-border-hover: #95de64;
+    --ant-color-success-hover: #95de64;
+    --ant-color-success: var(--ant-success-color);
+    --ant-color-success-active: var(--ant-success-color-active);
+    --ant-color-success-text-hover: var(--ant-success-color-hover);
+    --ant-color-success-text: var(--ant-success-color);
+    --ant-color-success-text-active: var(--ant-success-color-active);
+    --ant-color-error-bg: var(--ant-error-color-deprecated-bg);
+    --ant-color-error-bg-hover: var(--ant-error-color-deprecated-bg);
+    --ant-color-error-bg-filled-hover: color-mix(in srgb, var(--ant-error-color-deprecated-bg) 50%, var(--ant-error-color-deprecated-border) 50%);
+    --ant-color-error-bg-active: var(--ant-error-color-deprecated-border);
+    --ant-color-error-border: var(--ant-error-color-deprecated-border);
+    --ant-color-error-border-hover: #ffa39e;
+    --ant-color-error-hover: var(--ant-error-color-hover);
+    --ant-color-error: var(--ant-error-color);
+    --ant-color-error-active: var(--ant-error-color-active);
+    --ant-color-error-text-hover: var(--ant-error-color-hover);
+    --ant-color-error-text: var(--ant-error-color);
+    --ant-color-error-text-active: var(--ant-error-color-active);
+    --ant-color-error-outline: rgba(255, 38, 5, .06);
+    --ant-color-warning-bg: var(--ant-warning-color-deprecated-bg);
+    --ant-color-warning-bg-hover: #fff1b8;
+    --ant-color-warning-border: var(--ant-warning-color-deprecated-border);
+    --ant-color-warning-border-hover: #ffd666;
+    --ant-color-warning-hover: #ffd666;
+    --ant-color-warning: var(--ant-warning-color);
+    --ant-color-warning-active: var(--ant-warning-color-active);
+    --ant-color-warning-text-hover: var(--ant-warning-color-hover);
+    --ant-color-warning-text: var(--ant-warning-color);
+    --ant-color-warning-text-active: var(--ant-warning-color-active);
+    --ant-color-warning-outline: rgba(255, 215, 5, .1);
+    --ant-color-info-bg: var(--ant-info-color-deprecated-bg);
+    --ant-color-info-bg-hover: var(--ant-primary-2);
+    --ant-color-info-border: var(--ant-info-color-deprecated-border);
+    --ant-color-info-border-hover: var(--ant-primary-4);
+    --ant-color-info-hover: var(--ant-primary-4);
+    --ant-color-info: var(--ant-info-color);
+    --ant-color-info-active: var(--ant-primary-color-active);
+    --ant-color-info-text-hover: var(--ant-primary-color-hover);
+    --ant-color-info-text: var(--ant-info-color);
+    --ant-color-info-text-active: var(--ant-primary-color-active);
+    --ant-color-link: var(--ant-primary-color);
+    --ant-color-link-hover: var(--ant-primary-4);
+    --ant-color-link-active: var(--ant-primary-color-active);
+    --ant-control-height: 32px;
+    --ant-control-height-xs: 16px;
+    --ant-control-height-sm: 24px;
+    --ant-control-height-lg: 40px;
+    --ant-control-interactive-size: 16px;
+    --ant-control-outline-width: 2px;
+    --ant-control-tmp-outline: rgba(0, 0, 0, .02);
+    --ant-control-outline: rgba(5, 145, 255, .1);
+    --ant-control-padding-horizontal: 12px;
+    --ant-control-padding-horizontal-sm: 8px;
+    --ant-control-item-bg-hover: var(--ant-color-fill-tertiary);
+    --ant-control-item-bg-active: var(--ant-color-primary-bg);
+    --ant-control-item-bg-active-hover: var(--ant-color-primary-bg-hover);
+    --ant-control-item-bg-active-disabled: var(--ant-color-fill);
+    --ant-font-family: AlibabaSans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --ant-font-family-code: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    --ant-font-size-sm: 12px;
+    --ant-font-size: 14px;
+    --ant-font-size-lg: 16px;
+    --ant-font-size-xl: 20px;
+    --ant-font-size-icon: 12px;
+    --ant-font-size-heading-1: 38px;
+    --ant-font-size-heading-4: 20px;
+    --ant-font-size-heading-5: 16px;
+    --ant-font-size-heading-3: 24px;
+    --ant-font-size-heading-2: 30px;
+    --ant-font-height-sm: 20px;
+    --ant-font-height: 22px;
+    --ant-font-height-lg: 24px;
+    --ant-font-weight-strong: 600;
+    --ant-line-height-sm: 1.6666666667;
+    --ant-line-height: 1.5714285714;
+    --ant-line-height-lg: 1.5;
+    --ant-line-height-heading-1: 1.2105263158;
+    --ant-line-height-heading-2: 1.2666666667;
+    --ant-line-height-heading-5: 1.5;
+    --ant-line-height-heading-3: 1.3333333333;
+    --ant-line-height-heading-4: 1.4;
+    --ant-line-width: 1px;
+    --ant-line-width-bold: 2px;
+    --ant-line-width-focus: 3px;
+    --ant-line-type: solid;
+    --ant-border-radius-xs: 2px;
+    --ant-border-radius-sm: 4px;
+    --ant-border-radius: 6px;
+    --ant-border-radius-lg: 8px;
+    --ant-border-radius-outer: 4px;
+    --ant-size-unit: 4px;
+    --ant-size-step: 4px;
+    --ant-padding-xxs: 4px;
+    --ant-padding-xs: 8px;
+    --ant-padding-sm: 12px;
+    --ant-padding: 16px;
+    --ant-padding-md: 20px;
+    --ant-padding-lg: 24px;
+    --ant-padding-xl: 32px;
+    --ant-padding-content-horizontal-lg: 24px;
+    --ant-padding-content-vertical-lg: 16px;
+    --ant-padding-content-horizontal: 16px;
+    --ant-padding-content-vertical: 12px;
+    --ant-padding-content-horizontal-sm: 16px;
+    --ant-padding-content-vertical-sm: 8px;
+    --ant-margin-xxs: 4px;
+    --ant-margin-xs: 8px;
+    --ant-margin-sm: 12px;
+    --ant-margin: 16px;
+    --ant-margin-md: 20px;
+    --ant-margin-lg: 24px;
+    --ant-margin-xl: 32px;
+    --ant-margin-xxl: 48px;
+    --ant-size-xxl: 48px;
+    --ant-size-xl: 32px;
+    --ant-size-lg: 24px;
+    --ant-size-md: 20px;
+    --ant-size-ms: 16px;
+    --ant-size: 16px;
+    --ant-size-sm: 12px;
+    --ant-size-xs: 8px;
+    --ant-size-xxs: 4px;
+    --ant-size-popup-arrow: 16px;
+    --ant-z-index-base: 0;
+    --ant-z-index-popup-base: 1000;
+    --ant-opacity-image: 1;
+    --ant-motion-duration-fast: .1s;
+    --ant-motion-duration-mid: .2s;
+    --ant-motion-duration-slow: .3s;
+    --ant-motion-ease-out-circ: cubic-bezier(0.08, 0.82, 0.17, 1);
+    --ant-motion-ease-in-out-circ: cubic-bezier(0.78, 0.14, 0.15, 0.86);
+    --ant-motion-ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+    --ant-motion-ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+    --ant-motion-ease-out-back: cubic-bezier(0.12, 0.4, 0.29, 1.46);
+    --ant-motion-ease-in-back: cubic-bezier(0.71, -0.46, 0.88, 0.6);
+    --ant-motion-ease-in-quint: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    --ant-motion-ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+    --ant-opacity-loading: .65;
+    --ant-link-decoration: none;
+    --ant-link-hover-decoration: none;
+    --ant-link-focus-decoration: none;
+    --ant-box-shadow: 0 6px 16px 0 rgba(0, 0, 0, .08), 0 3px 6px -4px rgba(0, 0, 0, .12), 0 9px 28px 8px rgba(0, 0, 0, .05);
+    --ant-box-shadow-secondary: 0 6px 16px 0 rgba(0, 0, 0, .08), 0 3px 6px -4px rgba(0, 0, 0, .12), 0 9px 28px 8px rgba(0, 0, 0, .05);
+    --ant-box-shadow-tertiary: 0 1px 2px 0 rgba(0, 0, 0, .03), 0 1px 6px -1px rgba(0, 0, 0, .02), 0 2px 4px 0 rgba(0, 0, 0, .02);
+    --ant-box-shadow-popover-arrow: 2px 2px 5px rgba(0, 0, 0, .05);
+    --ant-box-shadow-card: 0 1px 2px -2px rgba(0, 0, 0, .16), 0 3px 6px 0 rgba(0, 0, 0, .12), 0 5px 12px 4px rgba(0, 0, 0, .09);
+    --ant-box-shadow-drawer-right: -6px 0 16px 0 rgba(0, 0, 0, .08), -3px 0 6px -4px rgba(0, 0, 0, .12), -9px 0 28px 8px rgba(0, 0, 0, .05);
+    --ant-box-shadow-drawer-left: 6px 0 16px 0 rgba(0, 0, 0, .08), 3px 0 6px -4px rgba(0, 0, 0, .12), 9px 0 28px 8px rgba(0, 0, 0, .05);
+    --ant-box-shadow-drawer-up: 0 6px 16px 0 rgba(0, 0, 0, .08), 0 3px 6px -4px rgba(0, 0, 0, .12), 0 9px 28px 8px rgba(0, 0, 0, .05);
+    --ant-box-shadow-drawer-down: 0 -6px 16px 0 rgba(0, 0, 0, .08), 0 -3px 6px -4px rgba(0, 0, 0, .12), 0 -9px 28px 8px rgba(0, 0, 0, .05);
+    --ant-drawer-z-index-popup: calc(var(--ant-z-index-popup-base) + 10);
+    --ant-drawer-footer-padding-block: var(--ant-padding-sm);
+    --ant-drawer-footer-padding-inline: var(--ant-padding-content-horizontal-lg);
+    --b-ant-drawer-size: 378px;
+    --ant-box-shadow-tabs-overflow-left: inset 10px 0 8px -8px rgba(0, 0, 0, .08);
+    --ant-box-shadow-tabs-overflow-right: inset -10px 0 8px -8px rgba(0, 0, 0, .08);
+    --ant-box-shadow-tabs-overflow-top: inset 0 10px 8px -8px rgba(0, 0, 0, .08);
+    --ant-box-shadow-tabs-overflow-bottom: inset 0 -10px 8px -8px rgba(0, 0, 0, .08);
+    --ant-layout-sider-bg: #001529;
+    --ant-layout-trigger-bg: #002140;
+    --ant-layout-trigger-color: var(--ant-color-text-light-solid);
+    --ant-layout-trigger-height: 48px;
+    --ant-layout-zero-trigger-width: 40px;
+    --ant-layout-zero-trigger-height: 40px;
+    --ant-layout-light-sider-bg: var(--ant-color-bg-container);
+    --ant-layout-light-trigger-bg: var(--ant-color-bg-container);
+    --ant-layout-light-trigger-color: var(--ant-color-text);
+    --ant-screen-xxl-max: 1919px;
+    --ant-screen-xxxl: 1920px;
+    --ant-screen-xxxl-min: 1920px;
+    --ant-form-label-required-mark-color: var(--ant-color-error);
+    --ant-form-label-color: var(--ant-color-text-heading);
+    --ant-form-label-font-size: var(--ant-font-size);
+    --ant-form-label-height: var(--ant-control-height);
+    --ant-form-label-colon-margin-inline-start: 2px;
+    --ant-form-label-colon-margin-inline-end: var(--ant-margin-xs);
+    --ant-form-item-margin-bottom: var(--ant-margin-lg);
+    --ant-form-inline-item-margin-bottom: 0;
+    --ant-form-vertical-label-padding: 0 0 8px;
+    --ant-form-vertical-label-margin: 0;
+    --ant-table-border-color: var(--ant-color-border);
+    --ant-table-header-border-radius: var(--ant-border-radius-lg);
+    --ant-table-cell-padding-inline: 16px;
+    --ant-table-cell-padding-inline-md: 8px;
+    --ant-table-cell-padding-inline-sm: 8px;
+    --ant-table-cell-padding-block: 16px;
+    --ant-table-cell-padding-block-md: 12px;
+    --ant-table-cell-padding-block-sm: 8px;
+    --ant-table-cell-font-size: var(--ant-font-size);
+    --ant-table-cell-font-size-md: var(--ant-font-size);
+    --ant-table-cell-font-size-sm: var(--ant-font-size);
+    --ant-table-header-bg: var(--ant-color-fill-alter);
+    --ant-table-header-color: var(--ant-color-text-heading);
+    --ant-table-header-split-color: var(--ant-color-border-secondary);
+    --ant-table-header-sort-active-bg: var(--ant-color-fill-secondary);
+    --ant-table-header-sort-hover-bg: var(--ant-color-fill-content);
+    --ant-table-fixed-header-sort-active-bg: var(--ant-color-fill-secondary);
+    --ant-table-body-sort-bg: var(--ant-color-fill-quaternary);
+    --ant-table-header-icon-color: var(--ant-color-text-description);
+    --ant-table-header-icon-hover-color: var(--ant-color-text);
+    --ant-table-header-filter-hover-bg: var(--ant-color-fill-secondary);
+    --ant-table-row-hover-bg: var(--ant-color-fill-alter);
+    --ant-table-row-selected-bg: var(--ant-control-item-bg-active);
+    --ant-table-row-selected-hover-bg: var(--ant-control-item-bg-active-hover);
+    --ant-table-row-expanded-bg: var(--ant-color-fill-alter);
+    --ant-table-footer-bg: var(--ant-color-fill-alter);
+    --ant-table-footer-color: var(--ant-color-text);
+    --ant-table-selection-column-width: 32px;
+    --ant-table-expand-icon-size: 16px;
+    --ant-table-expand-icon-bg: var(--ant-color-bg-container);
+    --ant-table-expand-icon-scale: 1;
+    --ant-table-expand-icon-half-inner: calc(var(--ant-table-expand-icon-size) / 2 - 2px);
+    --ant-table-expand-icon-margin-top: 0;
+    --ant-table-filter-dropdown-bg: var(--ant-color-bg-elevated);
+    --ant-table-filter-dropdown-menu-bg: var(--ant-color-bg-elevated);
+    --ant-table-sticky-scroll-bar-bg: rgba(0, 0, 0, 0.25);
+    --ant-table-sticky-scroll-bar-border-radius: 100px;
+    --ant-modal-xs-width: 300px;
+    --ant-modal-sm-width: 300px;
+    --ant-modal-md-width: 520px;
+    --ant-modal-lg-width: 800px;
+    --ant-modal-xl-width: 1140px;
+    --ant-modal-xxl-width: 1140px;
+    --b-ant-modal-xs-width: var(--ant-modal-xs-width);
+    --b-ant-modal-sm-width: var(--ant-modal-sm-width);
+    --b-ant-modal-md-width: var(--ant-modal-md-width);
+    --b-ant-modal-lg-width: var(--ant-modal-lg-width);
+    --b-ant-modal-xl-width: var(--ant-modal-xl-width);
+    --b-ant-modal-xxl-width: var(--ant-modal-xxl-width);
+    --ant-modal-content-bg: var(--ant-color-bg-elevated);
+    --ant-modal-title-color: var(--ant-color-text-heading);
+    --ant-modal-title-font-size: var(--ant-font-size-heading-5);
+    --ant-modal-title-line-height: var(--ant-line-height-heading-5);
+    --ant-modal-content-padding: var(--ant-padding-md) var(--ant-padding-content-horizontal-lg);
+    --ant-modal-header-bg: transparent;
+    --ant-modal-header-padding: 0;
+    --ant-modal-header-border-bottom: none;
+    --ant-modal-header-margin-bottom: var(--ant-margin-xs);
+    --ant-modal-body-padding: 0;
+    --ant-modal-footer-bg: transparent;
+    --ant-modal-footer-padding: 0;
+    --ant-modal-footer-border-top: none;
+    --ant-modal-footer-border-radius: 0;
+    --ant-modal-footer-margin-top: var(--ant-margin-sm);
+    --ant-modal-confirm-body-padding: 0;
+    --ant-modal-confirm-icon-margin-inline-end: var(--ant-margin-sm);
+    --ant-modal-confirm-btns-margin-top: var(--ant-margin-sm);
+    --ant-progress-default-color: var(--ant-color-primary);
+    --ant-progress-remaining-color: var(--ant-color-fill-secondary);
+    --ant-progress-circle-text-color: var(--ant-color-text);
+    --ant-progress-line-border-radius: 100px;
+    --ant-progress-circle-text-font-size: 1em;
+    --ant-progress-circle-icon-font-size: 1.1666666667em;
+    --ant-rate-star-size: var(--ant-font-size-xl);
+    --ant-select-z-index-popup: calc(var(--ant-z-index-popup-base) + 50);
+    --ant-select-option-selected-color: var(--ant-color-text);
+    --ant-select-option-selected-font-weight: var(--ant-font-weight-strong);
+    --ant-select-option-selected-bg: var(--ant-control-item-bg-active);
+    --ant-select-option-active-bg: var(--ant-control-item-bg-hover);
+    --ant-select-option-padding: 5px var(--ant-control-padding-horizontal);
+    --ant-select-option-font-size: var(--ant-font-size);
+    --ant-select-option-line-height: var(--ant-line-height);
+    --ant-select-option-height: var(--ant-control-height);
+    --ant-select-selector-bg: var(--ant-color-bg-container);
+    --ant-select-clear-bg: var(--ant-color-bg-container);
+    --ant-select-single-item-height-lg: var(--ant-control-height-lg);
+    --ant-select-show-arrow-padding-inline-end: 18px;
+    --ant-select-height: var(--ant-control-height);
+    --ant-select-line-height: var(--ant-line-height);
+    --ant-select-internal_fixed_item_margin: 2px;
+    --ant-select-hover-border-color: var(--ant-color-primary-hover);
+    --ant-select-active-border-color: var(--ant-color-primary);
+    --ant-select-active-outline-color: var(--ant-control-outline);
+    --ant-select-affix-padding: var(--ant-padding-xxs);
+    --ant-select-multiple-item-bg: var(--ant-color-fill-secondary);
+    --ant-select-multiple-item-border-color: transparent;
+    --ant-select-multiple-item-height: 24px;
+    --ant-select-multiple-item-height-sm: 16px;
+    --ant-select-multiple-item-height-lg: 32px;
+    --ant-select-multiple-selector-bg-disabled: var(--ant-color-bg-container-disabled);
+    --ant-select-multiple-item-color-disabled: var(--ant-color-text-disabled);
+    --ant-select-multiple-item-border-color-disabled: transparent;
+    --ant-select-multi-item-padding-horizontal: calc(calc(var(--ant-padding-sm) - var(--ant-line-width)) - var(--ant-select-multi-padding-vertical) - var(--ant-line-width) * 2);
+    --ant-input-addon-bg: var(--ant-color-fill-alter);
+    --ant-input-hover-border-color: var(--ant-color-primary-hover);
+    --ant-input-active-border-color: var(--ant-color-primary);
+    --ant-input-active-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-control-outline);
+    --ant-input-error-active-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-color-error-outline);
+    --ant-input-warning-active-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-color-warning-outline);
+    --ant-input-active-bg: var(--ant-color-bg-container);
+    --ant-input-hover-bg: var(--ant-color-bg-container);
+    --ant-input-padding-inline: 11px;
+    --ant-input-padding-inline-sm: 7px;
+    --ant-input-padding-inline-lg: 11px;
+    --ant-input-padding-block: 4px;
+    --ant-input-padding-block-sm: 1px;
+    --ant-input-padding-block-lg: 7px;
+    --ant-input-input-font-size: var(--ant-font-size);
+    --ant-input-input-font-size-sm: 12px;
+    --ant-input-input-font-size-lg: 16px;
+    --ant-input-affix-padding: var(--ant-padding-xxs);
+    --ant-input-number-control-width: 90px;
+    --ant-input-number-handle-width: calc(var(--ant-control-height-sm) - calc(var(--ant-line-width) * 2));
+    --ant-input-number-handle-font-size: calc(var(--ant-font-size) / 2);
+    --ant-input-number-handle-visible: auto;
+    --ant-input-number-handle-bg: var(--ant-color-bg-container);
+    --ant-input-number-handle-active-bg: var(--ant-color-fill-alter);
+    --ant-input-number-handle-hover-color: var(--ant-color-primary);
+    --ant-input-number-active-bg: var(--ant-color-bg-container);
+    --ant-input-number-hover-bg: var(--ant-color-bg-container);
+    --ant-input-number-hover-border-color: var(--ant-color-primary-hover);
+    --ant-input-number-active-border-color: var(--ant-color-primary);
+    --ant-input-number-active-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-control-outline);
+    --ant-input-number-error-active-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-color-error-outline);
+    --ant-input-number-warning-active-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-color-warning-outline);
+    --ant-input-number-handle-border-color: var(--ant-color-border);
+    --ant-input-number-handle-opacity: 0;
+    --ant-input-number-handle-visible-width: 0;
+    --ant-input-number-padding-inline: 11px;
+    --ant-input-number-padding-inline-sm: 7px;
+    --ant-input-number-padding-inline-lg: 11px;
+    --ant-input-number-padding-block: 4px;
+    --ant-input-number-padding-block-sm: 1px;
+    --ant-input-number-padding-block-lg: 7px;
+    --ant-input-number-input-font-size: var(--ant-font-size);
+    --ant-input-number-input-font-size-sm: 12px;
+    --ant-input-number-input-font-size-lg: 16px;
+    --ant-picker-presets-width: 120px;
+    --ant-picker-presets-max-width: 200px;
+    --ant-picker-z-index-popup: calc(var(--ant-z-index-popup-base) + 50);
+    --ant-picker-hover-border-color: var(--ant-color-primary-hover);
+    --ant-picker-active-border-color: var(--ant-color-primary);
+    --ant-picker-active-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-control-outline);
+    --ant-picker-error-active-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-color-error-outline);
+    --ant-picker-warning-active-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-color-warning-outline);
+    --ant-picker-active-bg: var(--ant-color-bg-container);
+    --ant-picker-hover-bg: var(--ant-color-bg-container);
+    --ant-picker-padding-block: 4px;
+    --ant-picker-padding-block-sm: 1px;
+    --ant-picker-padding-block-lg: 7px;
+    --ant-picker-padding-inline: 11px;
+    --ant-picker-padding-inline-sm: 7px;
+    --ant-picker-padding-inline-lg: 11px;
+    --ant-picker-input-font-size: var(--ant-font-size);
+    --ant-picker-input-font-size-sm: 12px;
+    --ant-picker-input-font-size-lg: 16px;
+    --ant-picker-cell-hover-bg: var(--ant-control-item-bg-hover);
+    --ant-picker-cell-active-with-range-bg: var(--ant-control-item-bg-active);
+    --ant-picker-cell-hover-with-range-bg: #bae0ff;
+    --ant-picker-cell-bg-disabled: var(--ant-color-bg-container-disabled);
+    --ant-picker-cell-range-border-color: #69b1ff;
+    --ant-picker-time-column-width: 56px;
+    --ant-picker-time-column-height: 224px;
+    --ant-picker-time-cell-height: 28px;
+    --ant-picker-cell-width: 36px;
+    --ant-picker-cell-height: 24px;
+    --ant-picker-text-height: var(--ant-control-height-lg);
+    --ant-picker-without-time-cell-height: 66px;
+    --ant-picker-multiple-item-bg: var(--ant-color-fill-secondary);
+    --ant-picker-multiple-item-border-color: transparent;
+    --ant-picker-multiple-item-height: 24px;
+    --ant-picker-multiple-item-height-sm: 16px;
+    --ant-picker-multiple-item-height-lg: 32px;
+    --ant-picker-multiple-selector-bg-disabled: var(--ant-color-bg-container-disabled);
+    --ant-picker-multiple-item-color-disabled: var(--ant-color-text-disabled);
+    --ant-picker-multiple-item-border-color-disabled: transparent;
+    --ant-date-picker-padding-block: var(--ant-picker-padding-block);
+    --ant-date-picker-padding-block-sm: var(--ant-picker-padding-block-sm);
+    --ant-date-picker-padding-block-lg: var(--ant-picker-padding-block-lg);
+    --ant-date-picker-padding-inline: var(--ant-picker-padding-inline);
+    --ant-date-picker-padding-inline-sm: var(--ant-picker-padding-inline-sm);
+    --ant-date-picker-padding-inline-lg: var(--ant-picker-padding-inline-lg);
+    --ant-date-picker-input-font-size: var(--ant-picker-input-font-size);
+    --ant-date-picker-input-font-size-sm: var(--ant-picker-input-font-size-sm);
+    --ant-date-picker-input-font-size-lg: var(--ant-picker-input-font-size-lg);
+    --ant-calendar-cell-height: 24px;
+    --ant-calendar-time-cell-height: 28px;
+    --ant-radio-radio-size: 16;
+    --ant-radio-dot-size: 8;
+    --ant-radio-radio-color: var(--ant-color-white);
+    --ant-radio-radio-bg-color: var(--ant-color-primary);
+    --ant-radio-dot-color-disabled: rgba(0, 0, 0, 0.25);
+    --ant-radio-wrapper-margin-inline-end: 8px;
+    --ant-radio-button-bg: var(--ant-color-bg-container);
+    --ant-radio-button-checked-bg: var(--ant-color-bg-container);
+    --ant-radio-button-color: var(--ant-color-text);
+    --ant-radio-button-padding-inline: 15px;
+    --ant-radio-button-solid-checked-bg: var(--ant-color-primary);
+    --ant-radio-button-solid-checked-hover-bg: var(--ant-color-primary-hover);
+    --ant-radio-button-solid-checked-active-bg: var(--ant-color-primary-active);
+    --ant-radio-button-solid-checked-color: var(--ant-color-text-light-solid);
+    --ant-segmented-bg: var(--ant-color-bg-layout);
+    --ant-segmented-padding: var(--ant-line-width-bold);
+    --ant-segmented-thumb-bg: var(--ant-color-bg-container);
+    --ant-segmented-thumb-box-shadow: var(--ant-box-shadow-secondary);
+    --ant-segmented-item-color: var(--ant-color-text-label);
+    --ant-segmented-item-hover-color: var(--ant-color-text);
+    --ant-segmented-item-hover-bg: transparent;
+    --ant-segmented-item-selected-bg: var(--ant-color-bg-container);
+    --ant-segmented-item-selected-color: var(--ant-color-text);
+    --ant-carousel-arrow-size: 16px;
+    --ant-carousel-arrow-offset: var(--ant-margin-xs);
+    --ant-carousel-dot-width: 16px;
+    --ant-carousel-dot-height: 3px;
+    --ant-carousel-dot-gap: var(--ant-margin-xxs);
+    --ant-carousel-dot-offset: 12px;
+    --ant-carousel-dot-active-width: 24px;
+    --ant-pagination-item-bg: var(--ant-color-bg-container);
+    --ant-pagination-item-input-bg: var(--ant-color-bg-container);
+    --ant-pagination-item-size: var(--ant-control-height);
+    --ant-pagination-item-size-actual: var(--ant-control-height);
+    --ant-pagination-item-size-sm: var(--ant-control-height-sm);
+    --ant-pagination-item-size-lg: var(--ant-control-height-lg);
+    --ant-pagination-item-spacing-actual: var(--ant-margin-xs);
+    --ant-pagination-item-active-bg: var(--ant-color-bg-container);
+    --ant-pagination-item-active-color: var(--ant-color-primary);
+    --ant-pagination-item-active-color-hover: var(--ant-color-primary-hover);
+    --ant-pagination-item-active-color-disabled: var(--ant-color-text-disabled);
+    --ant-pagination-item-active-bg-disabled: var(--ant-color-bg-container-disabled);
+    --ant-pagination-hover-bg: var(--ant-color-fill-tertiary);
+    --ant-pagination-active-bg: var(--ant-color-bg-container);
+    --ant-pagination-active-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-control-outline);
+    --ant-pagination-input-font-size: var(--ant-font-size);
+    --ant-pagination-input-font-size-sm: var(--ant-font-size-sm);
+    --ant-pagination-input-font-size-lg: var(--ant-font-size-lg);
+    --ant-pagination-padding-block: 0px;
+    --ant-pagination-padding-block-sm: 0px;
+    --ant-pagination-padding-block-lg: 0px;
+    --ant-pagination-padding-inline: 6px;
+    --ant-pagination-padding-inline-sm: 6px;
+    --ant-pagination-padding-inline-lg: 8px;
+    --ant-mentions-active-bg: var(--ant-color-bg-container);
+    --ant-mentions-hover-bg: var(--ant-color-bg-container);
+    --ant-switch-track-padding: 2px;
+    --ant-switch-track-height: 22px;
+    --ant-switch-track-height-sm: 16px;
+    --ant-switch-track-min-width: 44px;
+    --ant-switch-track-min-width-sm: 28px;
+    --ant-switch-handle-bg: var(--ant-color-white);
+    --ant-switch-handle-shadow: 0 2px 4px 0 rgba(0, 35, 11, 0.2);
+    --ant-switch-handle-size: 18px;
+    --ant-switch-handle-size-sm: 12px;
+    --ant-switch-inner-min-margin: 9px;
+    --ant-switch-inner-max-margin: 24px;
+    --ant-switch-inner-min-margin-sm: 6px;
+    --ant-switch-inner-max-margin-sm: 18px;
+    --ant-tooltip-bg: rgba(0, 0, 0, 0.85);
+    --ant-tooltip-color: var(--ant-color-text-light-solid);
+    --ant-tooltip-border-radius: var(--ant-border-radius);
+    --ant-tooltip-max-width: 250px;
+    --ant-tooltip-padding: 6px 8px;
+    --ant-tooltip-z-index-popup: calc(var(--ant-z-index-popup-base) + 70);
+    --ant-menu-active-bar-border-width: var(--ant-line-width);
+    --ant-menu-active-bar-height: var(--ant-line-width-bold);
+    --ant-menu-active-bar-width: 0;
+    --ant-menu-collapsed-icon-size: var(--ant-font-size-lg);
+    --ant-menu-collapsed-width: calc(var(--ant-control-height-lg) * 2);
+    --ant-menu-danger-item-active-bg: var(--ant-color-error-bg);
+    --ant-menu-danger-item-color: var(--ant-color-error);
+    --ant-menu-danger-item-hover-color: var(--ant-color-error);
+    --ant-menu-danger-item-selected-bg: var(--ant-color-error-bg);
+    --ant-menu-danger-item-selected-color: var(--ant-color-error);
+    --ant-menu-dark-danger-item-active-bg: var(--ant-color-error);
+    --ant-menu-dark-danger-item-color: var(--ant-color-error);
+    --ant-menu-dark-danger-item-hover-color: var(--ant-color-error-hover);
+    --ant-menu-dark-danger-item-selected-bg: var(--ant-color-error);
+    --ant-menu-dark-danger-item-selected-color: var(--ant-color-text-light-solid);
+    --ant-menu-dark-group-title-color: rgba(255, 255, 255, .65);
+    --ant-menu-dark-item-bg: #001529;
+    --ant-menu-dark-item-color: rgba(255, 255, 255, .65);
+    --ant-menu-dark-item-disabled-color: rgba(255, 255, 255, .25);
+    --ant-menu-dark-item-hover-bg: transparent;
+    --ant-menu-dark-item-hover-color: var(--ant-color-text-light-solid);
+    --ant-menu-dark-item-selected-bg: var(--ant-color-primary);
+    --ant-menu-dark-item-selected-color: var(--ant-color-text-light-solid);
+    --ant-menu-dark-popup-bg: #001529;
+    --ant-menu-dark-sub-menu-item-bg: #000c17;
+    --ant-menu-dropdown-width: 160px;
+    --ant-menu-group-title-color: var(--ant-color-text-description);
+    --ant-menu-group-title-font-size: var(--ant-font-size);
+    --ant-menu-group-title-line-height: var(--ant-line-height);
+    --ant-menu-horizontal-item-border-radius: 0;
+    --ant-menu-horizontal-item-hover-bg: transparent;
+    --ant-menu-horizontal-item-selected-bg: transparent;
+    --ant-menu-horizontal-item-selected-color: var(--ant-color-primary);
+    --ant-menu-horizontal-line-height: 46px;
+    --ant-menu-icon-margin-inline-end: 10px;
+    --ant-menu-icon-size: var(--ant-font-size);
+    --ant-menu-item-active-bg: var(--ant-control-item-bg-active);
+    --ant-menu-item-bg: var(--ant-color-bg-container);
+    --ant-menu-item-border-radius: var(--ant-border-radius-lg);
+    --ant-menu-item-color: var(--ant-color-text);
+    --ant-menu-item-disabled-color: var(--ant-color-text-disabled);
+    --ant-menu-item-height: 40px;
+    --ant-menu-item-hover-bg: var(--ant-color-bg-text-hover);
+    --ant-menu-item-hover-color: var(--ant-color-text);
+    --ant-menu-item-margin-block: var(--ant-margin-xxs);
+    --ant-menu-item-margin-inline: var(--ant-margin-xxs);
+    --ant-menu-item-padding-inline: var(--ant-padding);
+    --ant-menu-item-selected-bg: var(--ant-control-item-bg-active);
+    --ant-menu-item-selected-color: var(--ant-color-primary);
+    --ant-menu-item-width: calc(100% - var(--ant-menu-item-margin-inline) * 2);
+    --ant-menu-popup-bg: var(--ant-color-bg-elevated);
+    --ant-menu-sub-menu-item-bg: var(--ant-color-fill-alter);
+    --ant-menu-sub-menu-item-border-radius: var(--ant-border-radius-sm);
+    --ant-menu-sub-menu-item-selected-color: var(--ant-color-primary);
+    --ant-menu-z-index-popup: calc(var(--ant-z-index-popup-base) + 50);
+    --ant-slider-control-size: 10px;
+    --ant-slider-rail-size: 4px;
+    --ant-slider-handle-size: 10px;
+    --ant-slider-handle-size-hover: 12px;
+    --ant-slider-handle-line-width: 2px;
+    --ant-slider-handle-line-width-hover: 2.5px;
+    --ant-slider-dot-size: 8px;
+    --ant-slider-rail-bg: var(--ant-color-fill-tertiary);
+    --ant-slider-rail-hover-bg: var(--ant-color-fill-content);
+    --ant-slider-track-bg: var(--ant-color-primary-border-hover);
+    --ant-slider-track-hover-bg: var(--ant-color-primary);
+    --ant-slider-track-bg-disabled: var(--ant-color-fill-content);
+    --ant-slider-handle-color: var(--ant-color-primary-border-hover);
+    --ant-slider-handle-active-color: var(--ant-color-primary);
+    --ant-slider-handle-active-outline-color: rgba(5, 145, 255, 0.12);
+    --ant-slider-handle-color-disabled: var(--ant-color-text-disabled);
+    --ant-slider-dot-border-color: var(--ant-color-fill-content);
+    --ant-slider-dot-active-border-color: var(--ant-color-primary-border-hover);
+    --ant-skeleton-gradient-from-color: rgba(0, 0, 0, .06);
+    --ant-collapse-header-bg: var(--ant-color-fill-alter);
+    --ant-collapse-header-padding: 12px 16px;
+    --ant-collapse-content-bg: var(--ant-color-bg-container);
+    --ant-collapse-content-padding: 16px 16px;
+    --ant-collapse-borderless-content-padding: 4px 16px 16px;
+    --ant-collapse-borderless-content-bg: transparent;
+    --ant-card-actions-bg: var(--ant-color-bg-container);
+    --ant-card-actions-li-margin: 12px 0;
+    --ant-card-body-padding: 24px;
+    --ant-card-body-padding-sm: 12px;
+    --ant-card-extra-color: var(--ant-color-text);
+    --ant-card-header-bg: transparent;
+    --ant-card-header-font-size: var(--ant-font-size-lg);
+    --ant-card-header-font-size-sm: var(--ant-font-size);
+    --ant-card-header-height: 56px;
+    --ant-card-header-height-sm: 38px;
+    --ant-card-header-padding: 24px;
+    --ant-card-header-padding-sm: 12px;
+    --ant-card-tabs-margin-bottom: -17px;
+    --ant-dropdown-arrow-offset-horizontal: 12px;
+    --ant-dropdown-arrow-path: path('M 0 8 A 4 4 0 0 0 2.8284271247461903 10.82842712474619 L 6.585786437626905 14.585786437626904 A 2 2 0 0 1 9.414213562373096 14.585786437626904 L 13.17157287525381 10.82842712474619 A 4 4 0 0 0 16 8 Z');
+    --ant-dropdown-arrow-polygon: polygon(1.6568542494923806px 100%, 50% 1.6568542494923806px, 14.34314575050762px 100%, 1.6568542494923806px 100%);
+    --ant-dropdown-arrow-shadow-width: 9.65685424949238px;
+    --ant-dropdown-padding-block: 5px;
+    --ant-dropdown-z-index-popup: 1050;
+    --ant-alert-default-padding: var(--ant-padding-content-vertical-sm) 12px;
+    --ant-alert-with-description-padding: var(--ant-padding-md) var(--ant-padding-content-horizontal-lg);
+    --ant-alert-with-description-icon-size: var(--ant-font-size-heading-3);
+    --ant-tag-default-bg: var(--ant-color-fill-tertiary);
+    --ant-tag-default-color: var(--ant-color-text);
+    --ant-tag-solid-text-color: var(--ant-color-text-light-solid);
+    // Button component tokens from Ant Design v6.
+    --ant-button-blue-shadow-color: 0 2px 0 rgba(5, 145, 255, .1);
+    --ant-button-purple-shadow-color: 0 2px 0 rgba(155, 5, 255, .06);
+    --ant-button-cyan-shadow-color: 0 2px 0 rgba(5, 255, 215, .1);
+    --ant-button-green-shadow-color: 0 2px 0 rgba(142, 255, 30, .08);
+    --ant-button-magenta-shadow-color: 0 2px 0 rgba(255, 5, 105, .06);
+    --ant-button-pink-shadow-color: 0 2px 0 rgba(255, 5, 105, .06);
+    --ant-button-red-shadow-color: 0 2px 0 rgba(255, 22, 5, .06);
+    --ant-button-orange-shadow-color: 0 2px 0 rgba(255, 175, 5, .1);
+    --ant-button-yellow-shadow-color: 0 2px 0 rgba(245, 255, 5, .1);
+    --ant-button-volcano-shadow-color: 0 2px 0 rgba(255, 125, 25, .1);
+    --ant-button-geekblue-shadow-color: 0 2px 0 rgba(5, 88, 255, .06);
+    --ant-button-lime-shadow-color: 0 2px 0 rgba(225, 255, 5, .1);
+    --ant-button-gold-shadow-color: 0 2px 0 rgba(255, 215, 5, .1);
+    --ant-button-font-weight: 400;
+    --ant-button-icon-gap: var(--ant-margin-xs);
+    --ant-button-default-shadow: 0 2px 0 rgba(0, 0, 0, .02);
+    --ant-button-primary-shadow: 0 2px 0 rgba(5, 145, 255, .1);
+    --ant-button-danger-shadow: 0 2px 0 rgba(255, 38, 5, .06);
+    --ant-button-primary-color: var(--ant-color-text-light-solid);
+    --ant-button-danger-color: var(--ant-color-text-light-solid);
+    --ant-button-border-color-disabled: var(--ant-color-border-disabled);
+    --ant-button-default-ghost-color: var(--ant-color-white);
+    --ant-button-ghost-bg: transparent;
+    --ant-button-default-ghost-border-color: var(--ant-color-white);
+    --ant-button-padding-inline: 15px;
+    --ant-button-padding-inline-lg: 15px;
+    --ant-button-padding-inline-sm: 7px;
+    --ant-button-only-icon-size: inherit;
+    --ant-button-only-icon-size-sm: inherit;
+    --ant-button-only-icon-size-lg: inherit;
+    --ant-button-group-border-color: var(--ant-color-primary-hover);
+    --ant-button-link-hover-bg: transparent;
+    --ant-button-text-text-color: var(--ant-color-text);
+    --ant-button-text-text-hover-color: var(--ant-color-text);
+    --ant-button-text-text-active-color: var(--ant-color-text);
+    --ant-button-text-hover-bg: var(--ant-color-fill-tertiary);
+    --ant-button-default-color: var(--ant-color-text);
+    --ant-button-default-bg: var(--ant-color-bg-container);
+    --ant-button-default-border-color: var(--ant-color-border);
+    --ant-button-default-border-color-disabled: var(--ant-color-border);
+    --ant-button-default-hover-bg: var(--ant-color-bg-container);
+    --ant-button-default-hover-color: var(--ant-color-primary-hover);
+    --ant-button-default-hover-border-color: var(--ant-color-primary-hover);
+    --ant-button-default-active-bg: var(--ant-color-bg-container);
+    --ant-button-default-active-color: var(--ant-color-primary-active);
+    --ant-button-default-active-border-color: var(--ant-color-primary-active);
+    --ant-button-solid-text-color: var(--ant-color-text-light-solid);
+    --ant-button-content-font-size: var(--ant-font-size);
+    --ant-button-content-font-size-sm: var(--ant-font-size);
+    --ant-button-content-font-size-lg: var(--ant-font-size-lg);
+    --ant-button-content-line-height: var(--ant-line-height);
+    --ant-button-content-line-height-sm: var(--ant-line-height);
+    --ant-button-content-line-height-lg: var(--ant-line-height-lg);
+    --ant-button-padding-block: 4px;
+    --ant-button-padding-block-sm: 0px;
+    --ant-button-padding-block-lg: 7px;
+    --ant-button-default-bg-disabled: var(--ant-color-bg-container-disabled);
+    --ant-button-dashed-bg-disabled: var(--ant-color-bg-container-disabled);
+    --ant-tabs-card-bg: var(--ant-color-fill-alter);
+    --ant-tabs-card-gutter: 2px;
+    --ant-tabs-card-height: 40px;
+    --ant-tabs-card-height-lg: 48px;
+    --ant-tabs-card-height-sm: 32px;
+    --ant-tabs-card-padding: 8px 16px;
+    --ant-tabs-card-padding-lg: 11px 16px;
+    --ant-tabs-card-padding-sm: 4px 8px;
+    --ant-tabs-horizontal-item-gutter: 32px;
+    --ant-tabs-horizontal-item-padding: 12px 0;
+    --ant-tabs-horizontal-item-padding-lg: 16px 0;
+    --ant-tabs-horizontal-item-padding-sm: 8px 0;
+    --ant-tabs-horizontal-margin: 0 0 16px 0;
+    --ant-tabs-ink-bar-color: var(--ant-color-primary);
+    --ant-tabs-item-active-color: var(--ant-color-primary-active);
+    --ant-tabs-item-color: var(--ant-color-text);
+    --ant-tabs-item-hover-color: var(--ant-color-primary-hover);
+    --ant-tabs-item-selected-color: var(--ant-color-primary);
+    --ant-tabs-title-font-size: var(--ant-font-size);
+    --ant-tabs-title-font-size-lg: var(--ant-font-size-lg);
+    --ant-tabs-title-font-size-sm: var(--ant-font-size-sm);
+    --ant-tabs-vertical-item-margin: 0 0 16px 0;
+    --ant-tabs-vertical-item-padding-left: 8px 24px 8px 0;
+    --ant-tabs-vertical-item-padding-right: 8px 0 8px 24px;
+    --ant-tabs-z-index-popup: var(--ant-z-index-popup-base);
+    --ant-steps-custom-icon-font-size: 24px;
+    --ant-steps-description-max-width: 140px;
+    --ant-steps-dot-current-size: 10px;
+    --ant-steps-dot-size: 8px;
+    --ant-steps-icon-font-size: var(--ant-font-size);
+    --ant-steps-icon-size: 32px;
+    --ant-steps-icon-size-sm: 24px;
+    --ant-steps-nav-arrow-color: var(--ant-color-text-description);
+    --ant-steps-nav-content-max-width: 140px;
+    --ant-notification-color-error-bg: var(--ant-color-error-bg);
+    --ant-notification-color-info-bg: var(--ant-color-info-bg);
+    --ant-notification-color-success-bg: var(--ant-color-success-bg);
+    --ant-notification-color-warning-bg: var(--ant-color-warning-bg);
+    --ant-notification-progress-bg: var(--ant-color-primary);
+    --ant-notification-width: 384px;
+    --ant-notification-z-index-popup: var(--ant-z-index-popup-base);
+    --ant-blue-1: #e6f4ff;
+    --ant-blue-2: #bae0ff;
+    --ant-blue-3: #91caff;
+    --ant-blue-4: #69b1ff;
+    --ant-blue-5: #4096ff;
+    --ant-blue-6: #1677ff;
+    --ant-blue-7: #0958d9;
+    --ant-blue-8: #003eb3;
+    --ant-blue-9: #002c8c;
+    --ant-blue-10: #001d66;
+    --ant-blue-hover: #4096ff;
+    --ant-blue-active: #0958d9;
+    --ant-purple-1: #f9f0ff;
+    --ant-purple-2: #efdbff;
+    --ant-purple-3: #d3adf7;
+    --ant-purple-4: #b37feb;
+    --ant-purple-5: #9254de;
+    --ant-purple-6: #722ed1;
+    --ant-purple-7: #531dab;
+    --ant-purple-8: #391085;
+    --ant-purple-9: #22075e;
+    --ant-purple-10: #120338;
+    --ant-purple-hover: #9254de;
+    --ant-purple-active: #531dab;
+    --ant-cyan-1: #e6fffb;
+    --ant-cyan-2: #b5f5ec;
+    --ant-cyan-3: #87e8de;
+    --ant-cyan-4: #5cdbd3;
+    --ant-cyan-5: #36cfc9;
+    --ant-cyan-6: #13c2c2;
+    --ant-cyan-7: #08979c;
+    --ant-cyan-8: #006d75;
+    --ant-cyan-9: #00474f;
+    --ant-cyan-10: #002329;
+    --ant-cyan-hover: #36cfc9;
+    --ant-cyan-active: #08979c;
+    --ant-green-1: #f6ffed;
+    --ant-green-2: #d9f7be;
+    --ant-green-3: #b7eb8f;
+    --ant-green-4: #95de64;
+    --ant-green-5: #73d13d;
+    --ant-green-6: #52c41a;
+    --ant-green-7: #389e0d;
+    --ant-green-8: #237804;
+    --ant-green-9: #135200;
+    --ant-green-10: #092b00;
+    --ant-green-hover: #73d13d;
+    --ant-green-active: #389e0d;
+    --ant-magenta-1: #fff0f6;
+    --ant-magenta-2: #ffd6e7;
+    --ant-magenta-3: #ffadd2;
+    --ant-magenta-4: #ff85c0;
+    --ant-magenta-5: #f759ab;
+    --ant-magenta-6: #eb2f96;
+    --ant-magenta-7: #c41d7f;
+    --ant-magenta-8: #9e1068;
+    --ant-magenta-9: #780650;
+    --ant-magenta-10: #520339;
+    --ant-magenta-hover: #f759ab;
+    --ant-magenta-active: #c41d7f;
+    --ant-pink-1: #fff0f6;
+    --ant-pink-2: #ffd6e7;
+    --ant-pink-3: #ffadd2;
+    --ant-pink-4: #ff85c0;
+    --ant-pink-5: #f759ab;
+    --ant-pink-6: #eb2f96;
+    --ant-pink-7: #c41d7f;
+    --ant-pink-8: #9e1068;
+    --ant-pink-9: #780650;
+    --ant-pink-10: #520339;
+    --ant-pink-hover: #f759ab;
+    --ant-pink-active: #c41d7f;
+    --ant-red-1: #fff1f0;
+    --ant-red-2: #ffccc7;
+    --ant-red-3: #ffa39e;
+    --ant-red-4: #ff7875;
+    --ant-red-5: #ff4d4f;
+    --ant-red-6: #f5222d;
+    --ant-red-7: #cf1322;
+    --ant-red-8: #a8071a;
+    --ant-red-9: #820014;
+    --ant-red-10: #5c0011;
+    --ant-red-hover: #ff4d4f;
+    --ant-red-active: #cf1322;
+    --ant-orange-1: #fff7e6;
+    --ant-orange-2: #ffe7ba;
+    --ant-orange-3: #ffd591;
+    --ant-orange-4: #ffc069;
+    --ant-orange-5: #ffa940;
+    --ant-orange-6: #fa8c16;
+    --ant-orange-7: #d46b08;
+    --ant-orange-8: #ad4e00;
+    --ant-orange-9: #873800;
+    --ant-orange-10: #612500;
+    --ant-orange-hover: #ffa940;
+    --ant-orange-active: #d46b08;
+    --ant-yellow-1: #feffe6;
+    --ant-yellow-2: #ffffb8;
+    --ant-yellow-3: #fffb8f;
+    --ant-yellow-4: #fff566;
+    --ant-yellow-5: #ffec3d;
+    --ant-yellow-6: #fadb14;
+    --ant-yellow-7: #d4b106;
+    --ant-yellow-8: #ad8b00;
+    --ant-yellow-9: #876800;
+    --ant-yellow-10: #614700;
+    --ant-yellow-hover: #ffec3d;
+    --ant-yellow-active: #d4b106;
+    --ant-volcano-1: #fff2e8;
+    --ant-volcano-2: #ffd8bf;
+    --ant-volcano-3: #ffbb96;
+    --ant-volcano-4: #ff9c6e;
+    --ant-volcano-5: #ff7a45;
+    --ant-volcano-6: #fa541c;
+    --ant-volcano-7: #d4380d;
+    --ant-volcano-8: #ad2102;
+    --ant-volcano-9: #871400;
+    --ant-volcano-10: #610b00;
+    --ant-volcano-hover: #ff7a45;
+    --ant-volcano-active: #d4380d;
+    --ant-geekblue-1: #f0f5ff;
+    --ant-geekblue-2: #d6e4ff;
+    --ant-geekblue-3: #adc6ff;
+    --ant-geekblue-4: #85a5ff;
+    --ant-geekblue-5: #597ef7;
+    --ant-geekblue-6: #2f54eb;
+    --ant-geekblue-7: #1d39c4;
+    --ant-geekblue-8: #10239e;
+    --ant-geekblue-9: #061178;
+    --ant-geekblue-10: #030852;
+    --ant-geekblue-hover: #597ef7;
+    --ant-geekblue-active: #1d39c4;
+    --ant-lime-1: #fcffe6;
+    --ant-lime-2: #f4ffb8;
+    --ant-lime-3: #eaff8f;
+    --ant-lime-4: #d3f261;
+    --ant-lime-5: #bae637;
+    --ant-lime-6: #a0d911;
+    --ant-lime-7: #7cb305;
+    --ant-lime-8: #5b8c00;
+    --ant-lime-9: #3f6600;
+    --ant-lime-10: #254000;
+    --ant-lime-hover: #bae637;
+    --ant-lime-active: #7cb305;
+    --ant-gold-1: #fffbe6;
+    --ant-gold-2: #fff1b8;
+    --ant-gold-3: #ffe58f;
+    --ant-gold-4: #ffd666;
+    --ant-gold-5: #ffc53d;
+    --ant-gold-6: #faad14;
+    --ant-gold-7: #d48806;
+    --ant-gold-8: #ad6800;
+    --ant-gold-9: #874d00;
+    --ant-gold-10: #613400;
+    --ant-gold-hover: #ffc53d;
+    --ant-gold-active: #d48806;
 }

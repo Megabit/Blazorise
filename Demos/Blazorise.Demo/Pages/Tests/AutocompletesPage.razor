@@ -5,87 +5,77 @@
     <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Autocomplete</CardTitle>
+                <CardTitle>Basic Search</CardTitle>
             </CardHeader>
             <CardBody>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Search a local country list and optionally allow free typing.
+                </Paragraph>
                 <Field>
-                    <FieldBody>
-                        <Check @bind-Value="@autocompleteFreeTyping">FreeTyping</Check>
-                    </FieldBody>
+                    <Check @bind-Value="@autocompleteFreeTyping">Allow free typing</Check>
                 </Field>
-                <Field Horizontal JustifyContent="JustifyContent.End">
-                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Autocomplete TItem="Country"
-                                      TValue="string"
-                                      Data="@Countries"
-                                      TextField="@(( item ) => item.Name)"
-                                      ValueField="@((item) => item.Iso)"
-                                      @bind-SelectedValue="selectedAutoCompleteSearchValue"
-                                      @bind-SelectedText="selectedAutoCompleteText"
-                                      Placeholder="Search..."
-                                      Filter="AutocompleteFilter.StartsWith"
-                                      FreeTyping="autocompleteFreeTyping"
-                                      CustomFilter="@(( item, searchValue ) => searchValue == null ? false : item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
-                            <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
-                            <ItemContent>
-                                <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
-                                    <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
-                                    <Small>@context.Item.Capital</Small>
-                                </Div>
-                                <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
-                            </ItemContent>
-                        </Autocomplete>
-                    </FieldBody>
+                <Field>
+                    <FieldLabel>Country</FieldLabel>
+                    <Autocomplete TItem="Country"
+                                  TValue="string"
+                                  Data="@Countries"
+                                  TextField="@(( item ) => item.Name)"
+                                  ValueField="@((item) => item.Iso)"
+                                  @bind-SelectedValue="selectedAutoCompleteSearchValue"
+                                  @bind-SelectedText="selectedAutoCompleteText"
+                                  Placeholder="Start typing a country name..."
+                                  Filter="AutocompleteFilter.StartsWith"
+                                  FreeTyping="autocompleteFreeTyping"
+                                  CustomFilter="@(( item, searchValue ) => searchValue == null ? false : item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
+                        <NotFoundTemplate>Sorry... @context was not found.</NotFoundTemplate>
+                        <ItemContent>
+                            <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
+                                <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
+                                <Small>@context.Item.Capital</Small>
+                            </Div>
+                            <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
+                        </ItemContent>
+                    </Autocomplete>
                 </Field>
-                <Field Horizontal JustifyContent="JustifyContent.End">
-                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected value: @selectedAutoCompleteSearchValue
-                    </FieldBody>
-                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected text value: @selectedAutoCompleteText
-                    </FieldBody>
-                </Field>
+                <Div>
+                    <Paragraph Margin="Margin.Is1.FromBottom">Selected value: @selectedAutoCompleteSearchValue</Paragraph>
+                    <Paragraph Margin="Margin.Is0">Selected text: @selectedAutoCompleteText</Paragraph>
+                </Div>
             </CardBody>
         </Card>
     </Column>
     <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Autocomplete Multiple Selection</CardTitle>
+                <CardTitle>Multiple Selection</CardTitle>
             </CardHeader>
             <CardBody>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Keep the popup open and select more than one country.
+                </Paragraph>
                 <Field>
-                    <FieldBody>
-                        <Check @bind-Value="@multipleAutocompleteFreeTyping">FreeTyping</Check>
-                    </FieldBody>
+                    <Check @bind-Value="@multipleAutocompleteFreeTyping">Allow free typing</Check>
                 </Field>
-                <Field Horizontal JustifyContent="JustifyContent.End">
-                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Values</FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Autocomplete TItem="Country"
-                                      TValue="string"
-                                      Data="@Countries"
-                                      TextField="@(( item ) => item.Name)"
-                                      ValueField="@((item) => item.Iso)"
-                                      Placeholder="Search..."
-                                      FreeTyping="multipleAutocompleteFreeTyping"
-                                      CloseOnSelection="false"
-                                      MinSearchLength="1"
-                                      SelectionMode="AutocompleteSelectionMode.Checkbox"
-                                      @bind-SelectedValues="multipleSelectionData"
-                                      @bind-SelectedTexts="multipleSelectionTexts">
-                        </Autocomplete>
-                    </FieldBody>
+                <Field>
+                    <FieldLabel>Countries</FieldLabel>
+                    <Autocomplete TItem="Country"
+                                  TValue="string"
+                                  Data="@Countries"
+                                  TextField="@(( item ) => item.Name)"
+                                  ValueField="@((item) => item.Iso)"
+                                  Placeholder="Search and select countries..."
+                                  FreeTyping="multipleAutocompleteFreeTyping"
+                                  CloseOnSelection="false"
+                                  MinSearchLength="1"
+                                  SelectionMode="AutocompleteSelectionMode.Checkbox"
+                                  @bind-SelectedValues="multipleSelectionData"
+                                  @bind-SelectedTexts="multipleSelectionTexts">
+                    </Autocomplete>
                 </Field>
-                <Field Horizontal JustifyContent="JustifyContent.End">
-                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected Values: @(multipleSelectionData != null ? string.Join( ',', multipleSelectionData ) : "");
-                    </FieldBody>
-                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected Texts: @(multipleSelectionTexts != null ? string.Join( ',', multipleSelectionTexts ) : "");
-                    </FieldBody>
-                </Field>
+                <Div>
+                    <Paragraph Margin="Margin.Is1.FromBottom">Selected values: @(multipleSelectionData != null ? string.Join( ", ", multipleSelectionData ) : "")</Paragraph>
+                    <Paragraph Margin="Margin.Is0">Selected texts: @(multipleSelectionTexts != null ? string.Join( ", ", multipleSelectionTexts ) : "")</Paragraph>
+                </Div>
             </CardBody>
         </Card>
     </Column>
@@ -95,26 +85,27 @@
     <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Autocomplete Validation</CardTitle>
+                <CardTitle>Validation</CardTitle>
             </CardHeader>
             <CardBody>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Manual validation for a required autocomplete selection.
+                </Paragraph>
                 <Validations @ref="autocompleteValidations" Mode="ValidationMode.Manual">
                     <Validation Validator="@ValidateAutocompleteSelection">
-                        <Field Horizontal JustifyContent="JustifyContent.End">
-                            <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
-                            <FieldBody ColumnSize="ColumnSize.Is10">
-                                <Autocomplete TItem="Country"
-                                              TValue="string"
-                                              Data="@Countries"
-                                              TextField="@(( item ) => item.Name)"
-                                              ValueField="@((item) => item.Iso)"
-                                              @bind-SelectedValue="selectedAutoCompleteValidationValue"
-                                              Placeholder="Search...">
-                                    <Feedback>
-                                        <ValidationError>Please select a country.</ValidationError>
-                                    </Feedback>
-                                </Autocomplete>
-                            </FieldBody>
+                        <Field>
+                            <FieldLabel>Country</FieldLabel>
+                            <Autocomplete TItem="Country"
+                                          TValue="string"
+                                          Data="@Countries"
+                                          TextField="@(( item ) => item.Name)"
+                                          ValueField="@((item) => item.Iso)"
+                                          @bind-SelectedValue="selectedAutoCompleteValidationValue"
+                                          Placeholder="Pick a country...">
+                                <Feedback>
+                                    <ValidationError>Please select a country.</ValidationError>
+                                </Feedback>
+                            </Autocomplete>
                         </Field>
                     </Validation>
                     <Button Color="Color.Primary" Clicked="@ValidateAutocomplete">Validate</Button>
@@ -125,28 +116,29 @@
     <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Autocomplete Validation Multiple</CardTitle>
+                <CardTitle>Validation Multiple</CardTitle>
             </CardHeader>
             <CardBody>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Require at least one item in a multi-select autocomplete.
+                </Paragraph>
                 <Validations @ref="autocompleteMultipleValidations" Mode="ValidationMode.Manual">
                     <Validation Validator="@ValidateAutocompleteMultipleSelection">
-                        <Field Horizontal JustifyContent="JustifyContent.End">
-                            <FieldLabel ColumnSize="ColumnSize.Is2">Select Values</FieldLabel>
-                            <FieldBody ColumnSize="ColumnSize.Is10">
-                                <Autocomplete TItem="Country"
-                                              TValue="string"
-                                              Data="@Countries"
-                                              TextField="@(( item ) => item.Name)"
-                                              ValueField="@((item) => item.Iso)"
-                                              Placeholder="Search..."
-                                              SelectionMode="AutocompleteSelectionMode.Multiple"
-                                              CloseOnSelection="false"
-                                              @bind-SelectedValues="multipleValidationSelectionData">
-                                    <Feedback>
-                                        <ValidationError>Please select at least one country.</ValidationError>
-                                    </Feedback>
-                                </Autocomplete>
-                            </FieldBody>
+                        <Field>
+                            <FieldLabel>Countries</FieldLabel>
+                            <Autocomplete TItem="Country"
+                                          TValue="string"
+                                          Data="@Countries"
+                                          TextField="@(( item ) => item.Name)"
+                                          ValueField="@((item) => item.Iso)"
+                                          Placeholder="Pick one or more countries..."
+                                          SelectionMode="AutocompleteSelectionMode.Multiple"
+                                          CloseOnSelection="false"
+                                          @bind-SelectedValues="multipleValidationSelectionData">
+                                <Feedback>
+                                    <ValidationError>Please select at least one country.</ValidationError>
+                                </Feedback>
+                            </Autocomplete>
                         </Field>
                     </Validation>
                     <Button Color="Color.Primary" Clicked="@ValidateAutocompleteMultiple">Validate</Button>
@@ -160,96 +152,86 @@
     <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Autocomplete : ReadData</CardTitle>
+                <CardTitle>Async ReadData</CardTitle>
             </CardHeader>
             <CardBody>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Fetch items asynchronously while typing.
+                </Paragraph>
                 <Field>
-                    <FieldBody>
-                        <Check @bind-Value="@autocompleteReadDataFreeTyping">FreeTyping</Check>
-                    </FieldBody>
+                    <Check @bind-Value="@autocompleteReadDataFreeTyping">Allow free typing</Check>
                 </Field>
 
-                <Field Horizontal JustifyContent="JustifyContent.End">
-                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Autocomplete TItem="Country"
-                                      TValue="string"
-                                      Data="@ReadDataCountries"
-                                      ReadData="HandleReadData"
-                                      @bind-SelectedValue="selectedAutoCompleteReadDataSearchValue"
-                                      @bind-SelectedText="selectedAutoCompleteReadDataText"
-                                      FreeTyping="autocompleteReadDataFreeTyping"
-                                      TextField="@(( item ) => item.Name)"
-                                      ValueField="@((item) => item.Iso)"
-                                      Placeholder="Search...">
-                            <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
-                            <ItemContent>
-                                <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
-                                    <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
-                                    <Small>@context.Item.Capital</Small>
-                                </Div>
-                                <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
-                            </ItemContent>
-                        </Autocomplete>
-                    </FieldBody>
+                <Field>
+                    <FieldLabel>Country</FieldLabel>
+                    <Autocomplete TItem="Country"
+                                  TValue="string"
+                                  Data="@ReadDataCountries"
+                                  ReadData="HandleReadData"
+                                  @bind-SelectedValue="selectedAutoCompleteReadDataSearchValue"
+                                  @bind-SelectedText="selectedAutoCompleteReadDataText"
+                                  FreeTyping="autocompleteReadDataFreeTyping"
+                                  TextField="@(( item ) => item.Name)"
+                                  ValueField="@((item) => item.Iso)"
+                                  Placeholder="Type to load countries...">
+                        <NotFoundTemplate>Sorry... @context was not found.</NotFoundTemplate>
+                        <ItemContent>
+                            <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
+                                <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
+                                <Small>@context.Item.Capital</Small>
+                            </Div>
+                            <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
+                        </ItemContent>
+                    </Autocomplete>
                 </Field>
-                <Field Horizontal JustifyContent="JustifyContent.End">
-                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected value: @selectedAutoCompleteReadDataSearchValue
-                    </FieldBody>
-                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected text value: @selectedAutoCompleteReadDataText
-                    </FieldBody>
-                </Field>
+                <Div>
+                    <Paragraph Margin="Margin.Is1.FromBottom">Selected value: @selectedAutoCompleteReadDataSearchValue</Paragraph>
+                    <Paragraph Margin="Margin.Is0">Selected text: @selectedAutoCompleteReadDataText</Paragraph>
+                </Div>
             </CardBody>
         </Card>
     </Column>
     <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Autocomplete Multiple : ReadData</CardTitle>
+                <CardTitle>Async Multiple</CardTitle>
             </CardHeader>
             <CardBody>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Load suggestions on demand and keep selected items out of the result list.
+                </Paragraph>
                 <Field>
-                    <FieldBody>
-                        <Check @bind-Value="@multipleAutocompleteReadDataFreeTyping">FreeTyping</Check>
-                    </FieldBody>
+                    <Check @bind-Value="@multipleAutocompleteReadDataFreeTyping">Allow free typing</Check>
                 </Field>
 
-                <Field Horizontal JustifyContent="JustifyContent.End">
-                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Autocomplete TItem="Country"
-                                      TValue="string"
-                                      Data="@ReadDataCountries"
-                                      ReadData="HandleMultipleReadData"
-                                      TextField="@((item ) => item.Name)"
-                                      ValueField="@((item) => item.Iso)"
-                                      Placeholder="Search..." MinSearchLength="0"
-                                      SelectionMode="AutocompleteSelectionMode.Multiple"
-                                      CloseOnSelection="false"
-                                      @bind-SelectedValues="multipleReadDataSelectionData"
-                                      @bind-SelectedTexts="multipleReadDataSelectionTexts"
-                                      FreeTyping="multipleAutocompleteReadDataFreeTyping">
-                            <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
-                            <ItemContent>
-                                <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
-                                    <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
-                                    <Small>@context.Item.Capital</Small>
-                                </Div>
-                                <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
-                            </ItemContent>
-                        </Autocomplete>
-                    </FieldBody>
+                <Field>
+                    <FieldLabel>Countries</FieldLabel>
+                    <Autocomplete TItem="Country"
+                                  TValue="string"
+                                  Data="@ReadDataCountries"
+                                  ReadData="HandleMultipleReadData"
+                                  TextField="@((item ) => item.Name)"
+                                  ValueField="@((item) => item.Iso)"
+                                  Placeholder="Search countries..." MinSearchLength="0"
+                                  SelectionMode="AutocompleteSelectionMode.Multiple"
+                                  CloseOnSelection="false"
+                                  @bind-SelectedValues="multipleReadDataSelectionData"
+                                  @bind-SelectedTexts="multipleReadDataSelectionTexts"
+                                  FreeTyping="multipleAutocompleteReadDataFreeTyping">
+                        <NotFoundTemplate>Sorry... @context was not found.</NotFoundTemplate>
+                        <ItemContent>
+                            <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
+                                <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
+                                <Small>@context.Item.Capital</Small>
+                            </Div>
+                            <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
+                        </ItemContent>
+                    </Autocomplete>
                 </Field>
-                <Field Horizontal JustifyContent="JustifyContent.End">
-                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected Values: @(multipleReadDataSelectionData != null ? string.Join( ',', multipleReadDataSelectionData ) : "");
-                    </FieldBody>
-                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected Texts: @(multipleReadDataSelectionTexts != null ? string.Join( ',', multipleReadDataSelectionTexts ) : "");
-                    </FieldBody>
-                </Field>
+                <Div>
+                    <Paragraph Margin="Margin.Is1.FromBottom">Selected values: @(multipleReadDataSelectionData != null ? string.Join( ", ", multipleReadDataSelectionData ) : "")</Paragraph>
+                    <Paragraph Margin="Margin.Is0">Selected texts: @(multipleReadDataSelectionTexts != null ? string.Join( ", ", multipleReadDataSelectionTexts ) : "")</Paragraph>
+                </Div>
             </CardBody>
         </Card>
     </Column>
@@ -259,97 +241,87 @@
     <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Autocomplete : Virtualize</CardTitle>
+                <CardTitle>Virtualized Search</CardTitle>
             </CardHeader>
             <CardBody>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Render only the visible suggestion rows for large local datasets.
+                </Paragraph>
                 <Field>
-                    <FieldBody>
-                        <Check @bind-Value="@autocompleteVirtualizeFreeTyping">FreeTyping</Check>
-                    </FieldBody>
+                    <Check @bind-Value="@autocompleteVirtualizeFreeTyping">Allow free typing</Check>
                 </Field>
-                <Field Horizontal JustifyContent="JustifyContent.End">
-                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Autocomplete TItem="Country"
-                                      TValue="string"
-                                      Data="@Countries"
-                                      TextField="@(( item ) => item.Name)"
-                                      ValueField="@((item) => item.Iso)"
-                                      @bind-SelectedValue="selectedAutoCompleteVirtualizeSearchValue"
-                                      @bind-SelectedText="selectedAutoCompleteVirtualizeText"
-                                      Placeholder="Search..."
-                                      Virtualize
-                                      Filter="AutocompleteFilter.StartsWith"
-                                      FreeTyping="autocompleteFreeTyping"
-                                      CustomFilter="@(( item, searchValue ) => searchValue == null ? false : item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
-                            <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
-                            <ItemContent>
-                                <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
-                                    <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
-                                    <Small>@context.Item.Capital</Small>
-                                </Div>
-                                <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
-                            </ItemContent>
-                        </Autocomplete>
-                    </FieldBody>
+                <Field>
+                    <FieldLabel>Country</FieldLabel>
+                    <Autocomplete TItem="Country"
+                                  TValue="string"
+                                  Data="@Countries"
+                                  TextField="@(( item ) => item.Name)"
+                                  ValueField="@((item) => item.Iso)"
+                                  @bind-SelectedValue="selectedAutoCompleteVirtualizeSearchValue"
+                                  @bind-SelectedText="selectedAutoCompleteVirtualizeText"
+                                  Placeholder="Search a large list..."
+                                  Virtualize
+                                  Filter="AutocompleteFilter.StartsWith"
+                                  FreeTyping="autocompleteVirtualizeFreeTyping"
+                                  CustomFilter="@(( item, searchValue ) => searchValue == null ? false : item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
+                        <NotFoundTemplate>Sorry... @context was not found.</NotFoundTemplate>
+                        <ItemContent>
+                            <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
+                                <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
+                                <Small>@context.Item.Capital</Small>
+                            </Div>
+                            <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
+                        </ItemContent>
+                    </Autocomplete>
                 </Field>
-                <Field Horizontal JustifyContent="JustifyContent.End">
-                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected value: @selectedAutoCompleteVirtualizeSearchValue
-                    </FieldBody>
-                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected text value: @selectedAutoCompleteVirtualizeText
-                    </FieldBody>
-                </Field>
+                <Div>
+                    <Paragraph Margin="Margin.Is1.FromBottom">Selected value: @selectedAutoCompleteVirtualizeSearchValue</Paragraph>
+                    <Paragraph Margin="Margin.Is0">Selected text: @selectedAutoCompleteVirtualizeText</Paragraph>
+                </Div>
             </CardBody>
         </Card>
     </Column>
     <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Autocomplete : Virtualize ReadData</CardTitle>
+                <CardTitle>Virtualized ReadData</CardTitle>
             </CardHeader>
             <CardBody>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Combine virtualization with async data loading for large remote datasets.
+                </Paragraph>
                 <Field>
-                    <FieldBody>
-                        <Check @bind-Value="@autocompleteVirtualizeReadDataFreeTyping">FreeTyping</Check>
-                    </FieldBody>
+                    <Check @bind-Value="@autocompleteVirtualizeReadDataFreeTyping">Allow free typing</Check>
                 </Field>
 
-                <Field Horizontal JustifyContent="JustifyContent.End">
-                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Autocomplete TItem="Country"
-                                      TValue="string"
-                                      Data="@VirtualizeReadDataCountries"
-                                      TotalItems="@VirtualizeTotalReadDataCountries"
-                                      ReadData="HandleVirtualizeReadData"
-                                      @bind-SelectedValue="selectedAutoCompleteVirtualizeReadDataSearchValue"
-                                      @bind-SelectedText="selectedAutoCompleteVirtualizeReadDataText"
-                                      FreeTyping="autocompleteVirtualizeReadDataFreeTyping"
-                                      TextField="@(( item ) => item.Name)"
-                                      ValueField="@((item) => item.Iso)"
-                                      Virtualize
-                                      Placeholder="Search...">
-                            <NotFoundTemplate> Sorry... @context was not found! :( </NotFoundTemplate>
-                            <ItemContent>
-                                <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
-                                    <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
-                                    <Small>@context.Item.Capital</Small>
-                                </Div>
-                                <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
-                            </ItemContent>
-                        </Autocomplete>
-                    </FieldBody>
+                <Field>
+                    <FieldLabel>Country</FieldLabel>
+                    <Autocomplete TItem="Country"
+                                  TValue="string"
+                                  Data="@VirtualizeReadDataCountries"
+                                  TotalItems="@VirtualizeTotalReadDataCountries"
+                                  ReadData="HandleVirtualizeReadData"
+                                  @bind-SelectedValue="selectedAutoCompleteVirtualizeReadDataSearchValue"
+                                  @bind-SelectedText="selectedAutoCompleteVirtualizeReadDataText"
+                                  FreeTyping="autocompleteVirtualizeReadDataFreeTyping"
+                                  TextField="@(( item ) => item.Name)"
+                                  ValueField="@((item) => item.Iso)"
+                                  Virtualize
+                                  Placeholder="Search remote countries...">
+                        <NotFoundTemplate>Sorry... @context was not found.</NotFoundTemplate>
+                        <ItemContent>
+                            <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
+                                <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
+                                <Small>@context.Item.Capital</Small>
+                            </Div>
+                            <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
+                        </ItemContent>
+                    </Autocomplete>
                 </Field>
-                <Field Horizontal JustifyContent="JustifyContent.End">
-                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected value: @selectedAutoCompleteVirtualizeReadDataSearchValue
-                    </FieldBody>
-                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
-                        Selected text value: @selectedAutoCompleteVirtualizeReadDataText
-                    </FieldBody>
-                </Field>
+                <Div>
+                    <Paragraph Margin="Margin.Is1.FromBottom">Selected value: @selectedAutoCompleteVirtualizeReadDataSearchValue</Paragraph>
+                    <Paragraph Margin="Margin.Is0">Selected text: @selectedAutoCompleteVirtualizeReadDataText</Paragraph>
+                </Div>
             </CardBody>
         </Card>
     </Column>

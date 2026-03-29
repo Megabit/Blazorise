@@ -1,53 +1,87 @@
-﻿.ant-tag-primary {
-    color: var(--ant-primary-color);
-    background: var(--ant-primary-1);
-    border-color: var(--ant-primary-color-outline);
-}
+﻿@mixin ant-tag-variant($name, $solid-background, $outlined-background, $outlined-border, $outlined-color, $solid-color: var(--ant-color-text-light-solid)) {
+    &.ant-tag-#{$name}:not(.ant-tag-disabled).ant-tag-outlined {
+        color: #{$outlined-color};
+        background-color: #{$outlined-background};
+        border-color: #{$outlined-border};
+    }
 
-.ant-tag-light {
-    color: #595959;
-    background: #f5f5f5;
-    border-color: #d9d9d9;
-}
+    &.ant-tag-#{$name}:not(.ant-tag-disabled).ant-tag-solid {
+        color: #{$solid-color};
+        background-color: #{$solid-background};
+        border-color: #{$solid-background};
+    }
 
-.ant-tag-dark {
-    color: #f5f5f5;
-    background: #595959;
-    border-color: #1f1f1f;
-}
-
-.ant-tag-info {
-    color: var(--ant-info-color);
-    background: var(--ant-info-color-deprecated-bg);
-    border-color: var(--ant-info-color-deprecated-border);
-}
-
-.ant-tag-link {
-    color: var(--ant-primary-color);
+    &.ant-tag-#{$name}:not(.ant-tag-disabled).ant-tag-filled {
+        color: #{$outlined-color};
+        background-color: #{$outlined-background};
+        border-color: transparent;
+    }
 }
 
 .ant-tag-pill {
-    padding-right: .6em;
-    padding-left: .6em;
+    padding-inline: .6em;
     border-radius: 10rem;
 }
 
 .ant-tag {
-    @each $color-name, $color-value in $theme-colors-text-emphasis {
-        &.ant-tag-#{$color-name}-subtle {
-            color: #{$color-value};
-            background-color: #{map-get($theme-colors-bg-subtle, $color-name)};
-            border-color: #{map-get($theme-colors-border-subtle, $color-name)};
-        }
+    @include ant-tag-variant( primary, var(--b-theme-primary, var(--ant-color-primary)), var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg)), var(--b-theme-border-primary-subtle, var(--ant-color-primary-border)), var(--b-theme-text-primary-emphasis, var(--ant-color-primary)) );
+
+    @include ant-tag-variant( secondary, var(--b-theme-secondary, var(--ant-color-text-secondary)), var(--b-theme-background-secondary-subtle, var(--ant-color-fill-alter)), var(--b-theme-border-secondary-subtle, var(--ant-color-border)), var(--b-theme-text-secondary-emphasis, var(--ant-color-text-secondary)) );
+
+    @include ant-tag-variant( light, var(--b-theme-light, var(--ant-color-fill-quaternary)), var(--b-theme-background-light-subtle, var(--ant-color-bg-container)), var(--b-theme-border-light-subtle, var(--ant-color-border)), var(--b-theme-text-light-emphasis, var(--ant-color-text)), var(--ant-color-text) );
+
+    @include ant-tag-variant( dark, var(--b-theme-dark, var(--ant-color-text-secondary)), var(--b-theme-background-dark-subtle, var(--ant-color-fill-alter)), var(--b-theme-border-dark-subtle, var(--ant-color-border-secondary)), var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading)) );
+
+    @include ant-tag-variant( link, transparent, transparent, transparent, var(--b-theme-link, var(--ant-color-link)), var(--b-theme-link, var(--ant-color-link)) );
+
+    &.ant-tag-link:not(.ant-tag-disabled).ant-tag-outlined,
+    &.ant-tag-link:not(.ant-tag-disabled).ant-tag-solid,
+    &.ant-tag-link:not(.ant-tag-disabled).ant-tag-filled {
+        padding-inline: 0;
     }
 
-    .anticon.anticon-close {
-        @each $color-name, $color-value in $theme-colors-text-emphasis {
-            &.ant-tag-#{$color-name}-subtle {
-                color: #{$color-value};
-                background-color: #{map-get($theme-colors-bg-subtle, $color-name)};
-                border-color: #{map-get($theme-colors-border-subtle, $color-name)};
-            }
-        }
+    &.ant-tag-link:not(.ant-tag-disabled).ant-tag-outlined,
+    &.ant-tag-link:not(.ant-tag-disabled).ant-tag-solid,
+    &.ant-tag-link:not(.ant-tag-disabled).ant-tag-filled,
+    &.ant-tag-link-subtle {
+        color: var(--b-theme-link, var(--ant-color-link));
+        background-color: transparent;
+        border-color: transparent;
+    }
+
+    &.ant-tag-light-subtle {
+        color: var(--b-theme-text-light-emphasis, var(--ant-color-text));
+        background-color: var(--b-theme-background-light-subtle, var(--ant-color-bg-container));
+        border-color: var(--b-theme-border-light-subtle, var(--ant-color-border));
+    }
+
+    &.ant-tag-dark-subtle {
+        color: var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading));
+        background-color: var(--b-theme-background-dark-subtle, var(--ant-color-fill-alter));
+        border-color: var(--b-theme-border-dark-subtle, var(--ant-color-border-secondary));
+    }
+
+    &.ant-tag-success-subtle {
+        color: var(--b-theme-text-success-emphasis, var(--ant-color-success));
+        background-color: var(--b-theme-background-success-subtle, var(--ant-color-success-bg));
+        border-color: var(--b-theme-border-success-subtle, var(--ant-color-success-border));
+    }
+
+    &.ant-tag-processing-subtle {
+        color: var(--b-theme-text-info-emphasis, var(--ant-color-info));
+        background-color: var(--b-theme-background-info-subtle, var(--ant-color-info-bg));
+        border-color: var(--b-theme-border-info-subtle, var(--ant-color-info-border));
+    }
+
+    &.ant-tag-warning-subtle {
+        color: var(--b-theme-text-warning-emphasis, var(--ant-color-warning));
+        background-color: var(--b-theme-background-warning-subtle, var(--ant-color-warning-bg));
+        border-color: var(--b-theme-border-warning-subtle, var(--ant-color-warning-border));
+    }
+
+    &.ant-tag-error-subtle {
+        color: var(--b-theme-text-danger-emphasis, var(--ant-color-error));
+        background-color: var(--b-theme-background-danger-subtle, var(--ant-color-error-bg));
+        border-color: var(--b-theme-border-danger-subtle, var(--ant-color-error-border));
     }
 }

@@ -1,4 +1,11 @@
 ﻿@inherits Blazorise.CardLink
-<a @ref="@ElementRef" id="@ElementId" class="@ClassNames" href="@GetTo()" rel="@GetRel()" title="@Title" target="@TargetName" style="@StyleNames" aria-current="@AriaCurrentString" @attributes="@Attributes">
+<a @ref="@ElementRef" id="@ElementId" class="@LinkClassNames" href="@GetTo()" rel="@GetRel()" title="@Title" target="@TargetName" style="@StyleNames" aria-current="@AriaCurrentString" @attributes="@Attributes">
     @ChildContent
 </a>
+@code {
+    [CascadingParameter] protected Blazorise.CardHeader ParentCardHeader { get; set; }
+
+    protected string LinkClassNames => ParentCardHeader is not null
+        ? $"{ClassNames} ant-card-extra"
+        : ClassNames;
+}

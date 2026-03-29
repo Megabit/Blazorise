@@ -3,4 +3,9 @@
     <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" aria-current="@( Active ? "page" : null )" @attributes="@Attributes">
         @ChildContent
     </li>
+
+    @if ( !Active )
+    {
+        <li class="ant-breadcrumb-separator" aria-hidden="true">/</li>
+    }
 </CascadingValue>

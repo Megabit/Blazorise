@@ -1,0 +1,185 @@
+.ant-input-group {
+    > .ant-select-selection-search-input {
+        &:first-child {
+            > .ant-select-selector {
+                border-right: 0;
+                border-top-right-radius: 0 !important;
+                border-bottom-right-radius: 0 !important;
+            }
+        }
+
+        &:nth-child(2) {
+            > .ant-select-selector {
+                border-left: 0;
+                border-top-left-radius: 0 !important;
+                border-bottom-left-radius: 0 !important;
+            }
+        }
+    }
+}
+
+.ant-select {
+    position: relative;
+
+    .ant-select-selection-wrap {
+        width: 100%;
+    }
+
+    .ant-select-selector {
+        width: 100%;
+    }
+
+    &.ant-select-show-arrow {
+        .ant-select-selector {
+            padding-inline-end: calc(var(--ant-select-show-arrow-padding-inline-end) + var(--ant-control-padding-horizontal));
+        }
+    }
+
+    .ant-select-arrow {
+        position: absolute;
+        top: 50%;
+        inset-inline-end: var(--ant-control-padding-horizontal);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(-50%);
+        margin-top: 0;
+        pointer-events: none;
+    }
+}
+
+.b-ant-dropdown-overlay .ant-select-dropdown {
+    z-index: calc(var(--ant-dropdown-z-index-popup) + 1);
+}
+
+.ant-select-single {
+    .ant-select-selector {
+        .ant-select-selection-search {
+            position: absolute;
+            inset: 0;
+        }
+
+        .ant-select-selection-search-input {
+            width: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+    }
+
+    .ant-select-selection-placeholder {
+        &:empty::before {
+            content: '\00a0';
+            visibility: hidden;
+        }
+    }
+}
+
+.ant-select-multiple {
+    --ant-select-multi-item-background: var(--ant-select-multiple-item-bg);
+    --ant-select-multi-item-border-color: var(--ant-select-multiple-item-border-color);
+    --ant-select-multi-item-border-radius: var(--ant-border-radius-sm);
+    --ant-select-multi-item-height: var(--ant-select-multiple-item-height);
+    --ant-select-multi-padding-base: calc((var(--ant-select-height) - var(--ant-select-multi-item-height)) / 2);
+    --ant-select-multi-padding-vertical: calc(var(--ant-select-multi-padding-base) - var(--ant-select-internal_fixed_item_margin) - var(--ant-line-width));
+    padding-block: var(--ant-select-multi-padding-vertical);
+    padding-inline-start: calc(var(--ant-select-multi-padding-base) - var(--ant-line-width));
+
+    .ant-select-selector {
+        display: flex;
+        align-items: center;
+        min-height: calc(var(--ant-select-height) - var(--ant-line-width) * 2);
+    }
+
+    .ant-select-selection-overflow {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        width: 100%;
+        line-height: 1;
+    }
+
+    .ant-select-selection-overflow-item {
+        display: inline-flex;
+        max-width: calc(100% - 4px);
+        line-height: 1;
+    }
+
+    .ant-select-selection-overflow-item-suffix {
+        flex: 1 0 4px;
+    }
+
+    .ant-select-selection-item {
+        display: inline-flex;
+        align-items: center;
+        max-width: 100%;
+        min-height: var(--ant-select-multi-item-height);
+        margin-block: var(--ant-select-internal_fixed_item_margin);
+        margin-inline-end: calc(var(--ant-select-internal_fixed_item_margin) * 2);
+        padding-inline-start: var(--ant-padding-xs);
+        padding-inline-end: var(--ant-padding-xxs);
+        color: var(--ant-color-text);
+        line-height: calc(var(--ant-select-multi-item-height) - var(--ant-line-width) * 2);
+        background: var(--ant-select-multi-item-background);
+        border: var(--ant-line-width) solid var(--ant-select-multi-item-border-color);
+        border-radius: var(--ant-select-multi-item-border-radius);
+        box-sizing: border-box;
+        transition: height var(--ant-motion-duration-slow), line-height var(--ant-motion-duration-slow), padding var(--ant-motion-duration-slow);
+    }
+
+    .ant-select-selection-item-content {
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-inline-end: var(--ant-padding-xxs);
+    }
+
+    .ant-select-selection-item-remove {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--ant-color-icon);
+        font-size: 10px;
+        font-weight: bold;
+        line-height: inherit;
+        cursor: pointer;
+
+        &:hover {
+            color: var(--ant-color-icon-hover);
+        }
+    }
+
+    .ant-select-selection-search {
+        width: 100%;
+    }
+
+    .ant-select-selection-search-input {
+        width: 100%;
+        min-width: 4px;
+        opacity: 0;
+        cursor: pointer;
+    }
+}
+
+@mixin select-size($name, $font-size, $height, $line-height) {
+    .ant-select-#{$name} {
+        font-size: $font-size;
+    }
+
+    .ant-select-single.ant-select-#{$name}:not(.ant-select-customize-input) .ant-select-selector {
+        height: $height;
+    }
+
+    .ant-select-single.ant-select-#{$name}:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-item,
+    .ant-select-single.ant-select-#{$name}:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-placeholder {
+        line-height: $line-height;
+    }
+
+    .ant-select-single.ant-select-#{$name}:not(.ant-select-customize-input):not(.ant-select-customize-input) .ant-select-selection-search-input {
+        height: $height;
+    }
+}
+
+@include select-size('xs', 10px, 16px, 14px);
+@include select-size('md', 14px, 36px, 34px);
+@include select-size('xl', 18px, 48px, 45px);

@@ -1,21 +1,43 @@
-﻿.ant-alert {
-    margin-bottom: 1rem;
+﻿@mixin ant-alert-variant($name, $color, $background, $border) {
+    &-#{$name} {
+        color: #{$color};
+        background-color: #{$background};
+        border-color: #{$border};
 
-    @each $name, $value in $theme-colors {
-        $color: theme-color-level($name, $alert-color-level);
-        $background: theme-color-level($name, $alert-background-level);
-        $border: theme-color-level($name, $alert-border-level);
-
-        &-#{$name} {
-            color: $color;
-            background-color: $background;
-            border-color: $border;
+        .ant-alert-icon {
+            color: #{$color};
         }
     }
+}
 
-    .ant-close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
+.ant-alert {
+    margin-bottom: 1rem;
+
+    &.b-ant-alert-dismissible {
+        padding-inline-end: calc(12px + var(--ant-font-size-icon) + var(--ant-margin-sm));
     }
+
+    &.b-ant-alert-dismissible .ant-alert-close-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        position: absolute;
+        inset-inline-end: 12px;
+        top: 50%;
+        z-index: 1;
+        transform: translateY(-50%);
+    }
+
+    &.ant-alert-with-description.b-ant-alert-dismissible .ant-alert-close-icon {
+        top: var(--ant-padding-md);
+        transform: none;
+    }
+
+    @include ant-alert-variant(primary, var(--b-theme-text-primary-emphasis, var(--ant-color-primary)), var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg)), var(--b-theme-border-primary-subtle, var(--ant-color-primary-border)));
+    @include ant-alert-variant(secondary, var(--b-theme-text-secondary-emphasis, var(--ant-color-text-secondary)), var(--b-theme-background-secondary-subtle, var(--ant-color-fill-alter)), var(--b-theme-border-secondary-subtle, var(--ant-color-border)));
+    @include ant-alert-variant(danger, var(--b-theme-text-danger-emphasis, var(--ant-color-error)), var(--b-theme-background-danger-subtle, var(--ant-color-error-bg)), var(--b-theme-border-danger-subtle, var(--ant-color-error-border)));
+    @include ant-alert-variant(light, var(--b-theme-text-light-emphasis, var(--ant-color-text)), var(--b-theme-background-light-subtle, var(--ant-color-bg-container)), var(--b-theme-border-light-subtle, var(--ant-color-border)));
+    @include ant-alert-variant(dark, var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading)), var(--b-theme-background-dark-subtle, var(--ant-color-fill-alter)), var(--b-theme-border-dark-subtle, var(--ant-color-border-secondary)));
+    @include ant-alert-variant(link, var(--b-theme-link, var(--ant-color-link)), var(--b-theme-background-link-subtle, var(--ant-color-primary-bg)), var(--b-theme-border-link-subtle, var(--ant-color-primary-border)));
 }

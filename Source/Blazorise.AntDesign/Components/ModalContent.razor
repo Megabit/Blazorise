@@ -1,8 +1,8 @@
 ﻿@inherits Blazorise.ModalContent
 <CascadingValue Value="@this" IsFixed>
-    <div @ref="@ElementRef" id="@WrapperElementId" class="ant-modal-wrap" role="dialog" style="@(ParentModal?.IsVisible == true ? "" : "display: none;")">
-        <div class="@DialogClassNames" style="@Styles?.Dialog" role="document">
-            <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <div id="@WrapperElementId" class="@WrapperClassNames" style="@(ParentModal?.IsVisible == true ? "" : "display: none;")">
+        <div @ref="@ElementRef" class="@DialogClassNames" style="@DialogStyleNames" role="document" tabindex="-1">
+            <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                 <FocusTrap @ref="@FocusTrapRef" Active="@IsFocusTrap">
                     @ChildContent
                 </FocusTrap>

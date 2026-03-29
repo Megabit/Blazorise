@@ -1,0 +1,17 @@
+@inherits Blazorise.MemoInput
+@if ( Plaintext )
+{
+    <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @CurrentValueAsString
+    </span>
+}
+else if ( IsImmediate && IsDebounce )
+{
+    <textarea @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@ReadOnly" data-pattern="@Pattern" maxlength="@MaxLength" rows="@Rows" tabindex="@TabIndex" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ExplicitAriaLabelledBy" value="@CurrentValue" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+}
+else
+{
+    <textarea @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@ReadOnly" data-pattern="@Pattern" maxlength="@MaxLength" rows="@Rows" tabindex="@TabIndex" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ExplicitAriaLabelledBy" @bind-value="CurrentValueAsString" @bind-value:event="@BindValueEventName" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+}
+@ChildContent
+@Feedback

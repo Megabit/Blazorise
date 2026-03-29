@@ -1,0 +1,27 @@
+@namespace Blazorise.AntDesign.Components
+@typeparam TValue
+@inherits Blazorise.RangeSlider<TValue>
+
+<Div Class="@RootClassNames" Style="@StyleNames" Position="Blazorise.Position.Relative" Width="Blazorise.Width.Is100" aria-disabled="@IsDisabled">
+    <Div Class="@TrackClassNames" Style="@TrackStyleNames" Position="Blazorise.Position.Absolute" Width="Blazorise.Width.Is100" />
+    <Div Class="@($"{RangeClassNames} ant-slider-track-1")" Style="@RangeStyleNames" Position="Blazorise.Position.Absolute" />
+    <Div Class="ant-slider-step" Position="Blazorise.Position.Absolute" Width="Blazorise.Width.Is100" />
+    <Div Class="ant-slider-handle ant-slider-handle-1" Style="@StartHandleStyle" Position="Blazorise.Position.Absolute" role="slider" aria-valuemin="@MinValueString" aria-valuemax="@MaxValueString" aria-valuenow="@StartValueString" aria-disabled="@IsDisabled" aria-orientation="horizontal" tabindex="@TabIndex" />
+    <Div Class="ant-slider-handle ant-slider-handle-2" Style="@EndHandleStyle" Position="Blazorise.Position.Absolute" role="slider" aria-valuemin="@MinValueString" aria-valuemax="@MaxValueString" aria-valuenow="@EndValueString" aria-disabled="@IsDisabled" aria-orientation="horizontal" tabindex="@TabIndex" />
+
+    <input @ref="@ElementRef" id="@ElementId" type="range" name="@StartNameAttributeValue" class="@StartInputClassNames" style="@VisibleStartInputStyleNames" disabled="@IsDisabled" readonly="@ReadOnly" step="@StepValueString" min="@MinValueString" max="@MaxValueString" value="@StartValueString" tabindex="@TabIndex" aria-label="@StartAriaLabel" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" @oninput="@OnStartInputHandler" @onpointerdown="@OnStartPointerDownHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnStartFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+    <input @ref="@EndElementRef" id="@EndElementId" type="range" name="@EndNameAttributeValue" class="@EndInputClassNames" style="@VisibleEndInputStyleNames" disabled="@IsDisabled" readonly="@ReadOnly" step="@StepValueString" min="@MinValueString" max="@MaxValueString" value="@EndValueString" tabindex="@TabIndex" aria-label="@EndAriaLabel" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" @oninput="@OnEndInputHandler" @onpointerdown="@OnEndPointerDownHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnEndFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" />
+
+    @if ( ShowValueTooltips )
+    {
+        <Div Class="@TooltipClassNames" Style="@VisibleStartTooltipStyleNames" Position="Blazorise.Position.Absolute">
+            <Span>@StartValueString</Span>
+        </Div>
+
+        <Div Class="@TooltipClassNames" Style="@VisibleEndTooltipStyleNames" Position="Blazorise.Position.Absolute">
+            <Span>@EndValueString</Span>
+        </Div>
+    }
+</Div>
+@ChildContent
+@Feedback

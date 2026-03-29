@@ -1,0 +1,153 @@
+.ant-radio-group.ant-radio-group-vertical {
+    .ant-radio-wrapper {
+        display: block;
+        height: calc(var(--ant-control-interactive-size) * 2);
+        line-height: calc(var(--ant-control-interactive-size) * 2);
+    }
+}
+
+@mixin radio-size($size, $radio-size, $segmented-height, $segmented-font-size, $segmented-padding-inline) {
+    .ant-radio-wrapper.b-ant-radio-#{$size} {
+        font-size: $segmented-font-size;
+        line-height: $radio-size;
+
+        .ant-radio {
+            width: $radio-size;
+            height: $radio-size;
+            line-height: $radio-size;
+        }
+
+        .ant-radio-inner {
+            width: $radio-size;
+            height: $radio-size;
+
+            &::after {
+                width: calc(#{$radio-size} / 2);
+                height: calc(#{$radio-size} / 2);
+                top: calc((#{$radio-size} - calc(#{$radio-size} / 2)) / 2 - 1px);
+                left: calc((#{$radio-size} - calc(#{$radio-size} / 2)) / 2 - 1px);
+            }
+        }
+    }
+
+    .ant-segmented.b-ant-segmented-#{$size} {
+        .ant-segmented-item {
+            min-height: $segmented-height;
+        }
+
+        .ant-segmented-item-label {
+            min-height: calc(#{$segmented-height} - calc(var(--ant-line-width-bold) * 2));
+            padding-inline: $segmented-padding-inline;
+            font-size: $segmented-font-size;
+            line-height: calc(#{$segmented-height} - calc(var(--ant-line-width-bold) * 2));
+        }
+    }
+}
+
+.ant-segmented {
+    position: relative;
+    display: inline-block;
+    padding: var(--ant-segmented-padding);
+    color: var(--ant-segmented-item-color);
+    background: var(--ant-segmented-bg);
+    border-radius: var(--ant-border-radius);
+
+    .ant-segmented-group {
+        position: relative;
+        display: flex;
+        align-items: stretch;
+        gap: 0;
+    }
+
+    &.ant-segmented-vertical {
+        .ant-segmented-group {
+            flex-direction: column;
+        }
+    }
+
+    .ant-segmented-item {
+        display: inline-flex;
+        position: relative;
+        flex: 1 1 auto;
+        align-items: stretch;
+        justify-content: stretch;
+        min-width: 0;
+        min-height: var(--ant-control-height);
+        margin: 0;
+        border-radius: inherit;
+    }
+
+    .ant-segmented-item-selected {
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .ant-segmented-thumb {
+        position: absolute;
+        inset-block-start: 0;
+        inset-inline-start: 0;
+        z-index: 0;
+        opacity: 0;
+        pointer-events: none;
+        background: var(--ant-segmented-thumb-bg);
+        border-radius: var(--ant-border-radius-sm);
+        box-shadow: var(--ant-segmented-thumb-box-shadow);
+        transition: transform var(--ant-motion-duration-slow) var(--ant-motion-ease-in-out), width var(--ant-motion-duration-slow) var(--ant-motion-ease-in-out), height var(--ant-motion-duration-slow) var(--ant-motion-ease-in-out), opacity var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out), background-color var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+    }
+
+    .ant-segmented-item-input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .ant-segmented-item-label {
+        display: inline-flex;
+        flex: 1 1 auto;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+        min-height: calc(var(--ant-control-height) - calc(var(--ant-line-width-bold) * 2));
+        padding-inline: calc(var(--ant-padding) - var(--ant-line-width));
+        font-size: var(--ant-font-size);
+        line-height: calc(var(--ant-control-height) - calc(var(--ant-line-width-bold) * 2));
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        position: relative;
+        z-index: 1;
+    }
+}
+
+@mixin ant-segmented-variant($name, $background, $text-color) {
+    .ant-segmented {
+        .ant-segmented-item.ant-segmented-item-selected.b-ant-segmented-item-#{$name} {
+            .ant-segmented-item-label {
+                color: #{$text-color};
+            }
+        }
+
+        .ant-segmented-thumb.b-ant-segmented-thumb-#{$name} {
+            background-color: #{$background};
+            box-shadow: var(--ant-segmented-thumb-box-shadow);
+        }
+    }
+}
+
+@include ant-segmented-variant(primary, var(--b-theme-primary, var(--ant-color-primary)), var(--ant-color-text-light-solid));
+@include ant-segmented-variant(secondary, var(--b-theme-secondary, var(--ant-color-text-secondary)), var(--ant-color-text-light-solid));
+@include ant-segmented-variant(success, var(--b-theme-success, var(--ant-color-success)), var(--ant-color-text-light-solid));
+@include ant-segmented-variant(info, var(--b-theme-info, var(--ant-color-info)), var(--ant-color-text-light-solid));
+@include ant-segmented-variant(warning, var(--b-theme-warning, var(--ant-color-warning)), var(--ant-color-text));
+@include ant-segmented-variant(danger, var(--b-theme-danger, var(--ant-color-error)), var(--ant-color-text-light-solid));
+@include ant-segmented-variant(light, var(--b-theme-light, var(--ant-color-fill-quaternary)), var(--ant-color-text));
+@include ant-segmented-variant(dark, var(--b-theme-dark, var(--ant-color-text)), var(--ant-color-text-light-solid));
+@include ant-segmented-variant(link, var(--b-theme-link, var(--ant-color-link)), var(--ant-color-text-light-solid));
+
+@include radio-size('xs', calc(var(--ant-control-interactive-size) / 2), var(--ant-control-height-xs), calc(var(--ant-font-size-sm) - var(--ant-line-width) * 2), calc(var(--ant-padding-xs) - var(--ant-line-width)));
+@include radio-size('sm', calc(var(--ant-control-interactive-size) * .75), var(--ant-control-height-sm), var(--ant-font-size-sm), calc(var(--ant-padding-xs) - var(--ant-line-width)));
+@include radio-size('md', calc(var(--ant-control-interactive-size) * 1.25), calc(var(--ant-control-height) + var(--ant-padding-xxs)), var(--ant-font-size), var(--ant-input-padding-inline));
+@include radio-size('lg', calc(var(--ant-control-interactive-size) * 1.5), var(--ant-control-height-lg), var(--ant-font-size-lg), var(--ant-button-padding-inline-lg));
+@include radio-size('xl', calc(var(--ant-control-interactive-size) * 1.75), calc(var(--ant-control-height-lg) + var(--ant-padding-xs)), var(--ant-font-size-xl), var(--ant-padding));

@@ -1,0 +1,124 @@
+.ant-slider {
+    .ant-slider-handle {
+        pointer-events: none;
+    }
+
+    .b-ant-slider-tooltip {
+        position: absolute;
+        top: 0;
+        visibility: hidden;
+        opacity: 0;
+        transform: translate(-50%, calc(-100% - var(--ant-margin-xs)));
+        transition: opacity var(--ant-motion-duration-fast) var(--ant-motion-ease-out), visibility var(--ant-motion-duration-fast) var(--ant-motion-ease-out);
+        pointer-events: none;
+        z-index: 10;
+
+        &::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            width: var(--ant-size-xs);
+            height: var(--ant-size-xs);
+            background: var(--ant-color-bg-spotlight);
+            transform: translate(-50%, -50%) rotate(45deg);
+            border-radius: 0 0 var(--ant-border-radius-xs) 0;
+        }
+    }
+
+    .b-ant-slider-tooltip-inner {
+        min-width: var(--ant-size-lg);
+        padding: 1px var(--ant-padding-xs);
+        color: var(--ant-color-text-light-solid);
+        font-size: var(--ant-font-size);
+        line-height: var(--ant-line-height);
+        text-align: center;
+        background: var(--ant-color-bg-spotlight);
+        border-radius: var(--ant-border-radius);
+        box-shadow: var(--ant-box-shadow-secondary);
+    }
+
+    .b-ant-slider-input {
+        position: absolute;
+        inset-inline: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 2;
+        -webkit-appearance: none;
+        appearance: none;
+
+        &::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+
+        &::-webkit-slider-thumb {
+            width: var(--ant-slider-handle-size-hover);
+            height: var(--ant-slider-handle-size-hover);
+            border: 0;
+            background: transparent;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        &::-moz-range-track {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+
+        &::-moz-range-progress {
+            background: transparent;
+        }
+
+        &::-moz-range-thumb {
+            width: var(--ant-slider-handle-size-hover);
+            height: var(--ant-slider-handle-size-hover);
+            border: 0;
+            background: transparent;
+            cursor: pointer;
+        }
+    }
+
+    &:hover .b-ant-slider-tooltip,
+    &:focus-within .b-ant-slider-tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    &[aria-disabled='true'] {
+        .b-ant-slider-input {
+            cursor: not-allowed;
+
+            &::-webkit-slider-thumb {
+                cursor: not-allowed;
+            }
+
+            &::-moz-range-thumb {
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    &.ant-input-status-success {
+        --ant-slider-track-bg: var(--ant-color-success);
+        --ant-slider-track-hover-bg: var(--ant-color-success);
+        --ant-slider-handle-color: var(--ant-color-success);
+        --ant-slider-handle-active-color: var(--ant-color-success);
+        --ant-slider-dot-active-border-color: var(--ant-color-success);
+    }
+
+    &.ant-input-status-error {
+        --ant-slider-track-bg: var(--ant-color-error);
+        --ant-slider-track-hover-bg: var(--ant-color-error);
+        --ant-slider-handle-color: var(--ant-color-error);
+        --ant-slider-handle-active-color: var(--ant-color-error);
+        --ant-slider-dot-active-border-color: var(--ant-color-error);
+    }
+}

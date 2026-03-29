@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BarDropdownItem
 <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" role="none" @attributes="@Attributes">
     <Anchor Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" CustomMatch="@CustomMatch" Disabled="@Disabled" TabIndex="@ComputedTabIndex" Clicked="@ClickHandler" KeyDown="@KeyDownHandler" Role="menuitem" AriaLabelledBy="@AriaLabelledBy" Attributes="@Attributes">
-        <span id="@AriaLabelledBy">
+        <span id="@AriaLabelledBy" class="ant-menu-title-content">
             @ChildContent
         </span>
     </Anchor>

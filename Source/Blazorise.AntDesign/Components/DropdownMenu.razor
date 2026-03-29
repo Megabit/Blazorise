@@ -1,6 +1,17 @@
 ﻿@inherits Blazorise.DropdownMenu
-<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@MenuStyleNames" @attributes="@Attributes">
-    <ul role="menu" direction="ltr" class="ant-dropdown-menu ant-dropdown-menu-light ant-dropdown-menu-root ant-dropdown-menu-vertical">
-        @ChildContent
-    </ul>
-</div>
+@if ( ParentDropdown?.IsDropdownSubmenu == true )
+{
+    <div @ref="@ElementRef" id="@ElementId" class="@SubmenuPopupClassNames" style="@StyleNames" role="presentation" @attributes="@Attributes">
+        <ul role="menu" class="@SubmenuMenuClassNames">
+            @ChildContent
+        </ul>
+    </div>
+}
+else
+{
+    <div @ref="@ElementRef" id="@ElementId" class="@OverlayClassNames" style="@OverlayStyleNames" @attributes="@Attributes">
+        <ul role="menu" class="@RootMenuClassNames">
+            @ChildContent
+        </ul>
+    </div>
+}

@@ -1,0 +1,11 @@
+@inherits Blazorise.ProgressBar
+<div class="@ClassNames" style="@StyleNames" role="progressbar" aria-valuenow="@Percentage" aria-valuemin="@Min" aria-valuemax="@Max" @attributes="@Attributes">
+    @if ( ChildContent is not null )
+    {
+        <span class="ant-progress-indicator ant-progress-indicator-inner ant-progress-indicator-center">@ChildContent</span>
+    }
+    else if ( IsShowValue && !Indeterminate && Value is not null )
+    {
+        <span class="ant-progress-indicator ant-progress-indicator-inner ant-progress-indicator-center">@Value</span>
+    }
+</div>

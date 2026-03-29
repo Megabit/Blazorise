@@ -2,9 +2,14 @@ a {
     &.ant-link-unstyled {
         text-decoration: none;
         color: inherit;
+
+        &:hover,
+        &:focus {
+            color: inherit;
+        }
     }
 
-    &.ant-link-disabled {
+    &.ant-typography-disabled {
         &[aria-disabled="true"] {
             pointer-events: none;
             opacity: .65;

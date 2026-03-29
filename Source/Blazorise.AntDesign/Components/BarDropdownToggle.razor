@@ -1,34 +1,37 @@
 ﻿@inherits Blazorise.BarDropdownToggle
 
-@if ( ParentBarDropdownState?.Mode == BarMode.Horizontal )
+@if ( ParentBarDropdownState?.Mode == BarMode.Horizontal && !HasNavigationTarget )
 {
-    @if ( ParentBarDropdown?.IsBarDropdownSubmenu == true )
-    {
-        <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-toggle="dropdown" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes">
-            @ChildContent
-            @if ( IsToggleIconVisible )
-            {
-                <i class="ant-menu-submenu-arrow"></i>
-            }
-        </li>
-    }
-    else
-    {
-        <div @ref="@ElementRef" id="@ElementId" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" class="ant-menu-submenu-title" style="@StyleNames" role="button" aria-expanded="@ParentBarDropdownState.Visible.ToString().ToLowerInvariant()" aria-haspopup="true" aria-owns="@SubMenuId" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
-            <span>@ChildContent</span>
-            @if ( IsToggleIconVisible )
-            {
-                <i class="ant-menu-submenu-arrow"></i>
-            }
-        </div>
-    }
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menuitem" tabindex="0" aria-expanded="@ParentBarDropdownState.Visible.ToString().ToLowerInvariant()" aria-haspopup="true" aria-owns="@SubMenuId" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @onmouseenter="@ToggleMouseEnterHandler" @onmouseleave="@ToggleMouseLeaveHandler" @attributes="@Attributes">
+        <span class="ant-menu-title-content">@ChildContent</span>
+        @if ( IsToggleIconVisible )
+        {
+            <i class="ant-menu-submenu-arrow"></i>
+        }
+    </div>
 }
 else
 {
-    <a @ref="@ElementRef" id="@ElementId" href="@GetTo()" rel="@GetRel()" class="@ClassNames" style="@StyleNames" role="button" tabindex="0" @onclick="@ClickHandler" @onclick:preventDefault="@ShouldPreventDefaultOnToggleClick" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
-        @VerticalIconTemplate
+    <a @ref="@ElementRef" id="@ElementId" href="@GetTo()" rel="@GetRel()" class="@ClassNames" style="@StyleNames" role="menuitem" tabindex="0" aria-expanded="@ParentBarDropdownState.Visible.ToString().ToLowerInvariant()" aria-haspopup="true" aria-owns="@SubMenuId" @onclick="@ClickHandler" @onclick:preventDefault="@ShouldPreventDefaultOnToggleClick" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onmouseenter="@ToggleMouseEnterHandler" @onmouseleave="@ToggleMouseLeaveHandler">
+        <span class="ant-menu-title-content">@ChildContent</span>
+        @if ( IsToggleIconVisible )
+        {
+            <i class="ant-menu-submenu-arrow"></i>
+        }
     </a>
 }
 @code {
     [CascadingParameter( Name = "SubMenuId" )] string SubMenuId { get; set; }
+
+    bool UseToggleHoverHandlers => ParentBarDropdownState?.Mode == BarMode.Horizontal || ParentBarDropdownState?.IsInlineDisplay == true;
+
+    Task ToggleMouseEnterHandler()
+        => UseToggleHoverHandlers
+            ? ParentBarDropdown.OnMouseEnterHandler()
+            : Task.CompletedTask;
+
+    Task ToggleMouseLeaveHandler()
+        => UseToggleHoverHandlers
+            ? ParentBarDropdown.OnMouseLeaveHandler()
+            : Task.CompletedTask;
 }

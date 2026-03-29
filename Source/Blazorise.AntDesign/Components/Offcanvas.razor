@@ -8,7 +8,7 @@
                 <_OffcanvasBackdrop Animated="@Animated" AnimationDuration="@AnimationDuration" />
             }
             <div tabindex="0" aria-hidden="true" data-sentinel="start" style="width: 0px; height: 0px; overflow: hidden; outline: none; position: absolute;"></div>
-            <div class="@GetClass()" style="@GetStyle()">
+            <div class="@GetContentWrapperClassNames()" style="@GetContentWrapperStyleNames()">
                 <div class="ant-drawer-content">
                     <div class="ant-drawer-wrapper-body">
                         @ChildContent
@@ -20,11 +20,11 @@
 </CascadingValue>
 
 @code {
-    string GetClass()
+    string GetContentWrapperClassNames()
     {
         var sb = new StringBuilder( "ant-drawer-content-wrapper" );
 
-        if ( !State.Visible )
+        if ( !State.Visible && !State.Showing && !State.Hiding )
         {
             sb.Append( " ant-drawer-content-wrapper-hidden" );
         }
@@ -32,18 +32,17 @@
         return sb.ToString();
     }
 
-    string GetStyle()
+    string GetContentWrapperStyleNames()
     {
-        var sb = new StringBuilder( "" );
+        var sb = new StringBuilder();
 
-        if ( Placement == Placement.Top && State.Visible || Placement == Placement.Bottom && State.Visible )
+        if ( Placement == Placement.Top || Placement == Placement.Bottom )
         {
-            sb.Append( " height: 378px;" );
+            sb.Append( "height: var(--b-ant-drawer-size);" );
         }
-
-        if ( Placement == Placement.Start && State.Visible || Placement == Placement.End && State.Visible )
+        else
         {
-            sb.Append( " width: 500px;" );
+            sb.Append( "width: var(--b-ant-drawer-size);" );
         }
 
         return sb.ToString();

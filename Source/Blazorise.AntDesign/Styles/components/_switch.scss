@@ -1,28 +1,63 @@
-﻿@each $name, $value in $theme-colors {
-    $color: $value;
+﻿.b-ant-switch-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ant-margin-xs);
+    vertical-align: middle;
 
+    &.b-ant-switch-wrapper-disabled {
+        cursor: not-allowed;
+    }
+
+    .b-ant-switch-label {
+        color: var(--ant-color-text);
+        cursor: pointer;
+        user-select: none;
+    }
+
+    &.b-ant-switch-wrapper-disabled .b-ant-switch-label {
+        color: var(--ant-color-text-disabled);
+        cursor: not-allowed;
+    }
+}
+
+@mixin ant-switch-variant($name, $color) {
     .ant-switch {
         &.ant-switch-#{$name}.ant-switch-checked {
-            background-color: $color;
+            background-color: #{$color};
         }
 
-        &.ant-switch-#{$name}:focus {
-            box-shadow: 0 0 0 .2rem rgba($color,.25);
+        &.ant-switch-#{$name}.ant-switch-checked:hover:not(:disabled),
+        &.ant-switch-#{$name}.ant-switch-checked:active:not(:disabled) {
+            background-color: color-mix(in srgb, #{$color} 82%, white);
+        }
+
+        &.ant-switch-#{$name}:focus-visible {
+            box-shadow: 0 0 0 var(--ant-control-outline-width) color-mix(in srgb, #{$color} 25%, transparent);
         }
 
         &:disabled {
             &.ant-switch-#{$name}.ant-switch-checked {
-                background-color: rgba($color,.5);
+                background-color: color-mix(in srgb, #{$color} 50%, transparent);
             }
         }
     }
 }
 
+@include ant-switch-variant(primary, var(--b-theme-primary, var(--ant-color-primary)));
+@include ant-switch-variant(secondary, var(--b-theme-secondary, var(--ant-color-text-secondary)));
+@include ant-switch-variant(success, var(--b-theme-success, var(--ant-color-success)));
+@include ant-switch-variant(danger, var(--b-theme-danger, var(--ant-color-error)));
+@include ant-switch-variant(warning, var(--b-theme-warning, var(--ant-color-warning)));
+@include ant-switch-variant(info, var(--b-theme-info, var(--ant-color-info)));
+@include ant-switch-variant(light, var(--b-theme-light, var(--ant-color-fill-quaternary)));
+@include ant-switch-variant(dark, var(--b-theme-dark, var(--ant-color-text)));
+@include ant-switch-variant(link, var(--b-theme-link, var(--ant-color-link)));
+
 @mixin switch($size, $height, $min-width, $checked-margin-left, $font-size) {
     &-#{$size} {
         min-width: $min-width;
         height: $height;
-        line-height: $height - 2px;
+        line-height: calc(#{$height} - 2px);
 
         .ant-switch-inner {
             margin-right: 3px;
@@ -31,13 +66,17 @@
         }
 
         .ant-switch-handle {
-            width: $height - 4px;
-            height: $height - 4px;
+            width: calc(#{$height} - 4px);
+            height: calc(#{$height} - 4px);
+
+            &::before {
+                border-radius: calc((#{$height} - 4px) / 2);
+            }
         }
 
         &::after {
-            width: $height - 4px;
-            height: $height - 4px;
+            width: calc(#{$height} - 4px);
+            height: calc(#{$height} - 4px);
         }
 
         &:active::before,
@@ -47,8 +86,8 @@
     }
 
     &-#{$size}.ant-switch-loading-icon {
-        width: $height - 4px;
-        height: $height - 4px;
+        width: calc(#{$height} - 4px);
+        height: calc(#{$height} - 4px);
     }
 
     &-#{$size}.ant-switch-checked {
@@ -64,7 +103,7 @@
     }
 
     &-#{$size}.ant-switch-checked .ant-switch-handle {
-        left: calc(100% - $height);
+        left: calc(100% - #{$height});
     }
 
     &-#{$size}.ant-switch-loading .ant-switch-loading-icon {
@@ -74,13 +113,17 @@
 }
 
 .ant-switch {
-    @include switch('xs',$switch-xs-height, $switch-xs-min-width, $switch-xs-checked-margin-left, $switch-xs-font-size);
-    @include switch('sm',$switch-sm-height, $switch-sm-min-width, $switch-sm-checked-margin-left, $switch-sm-font-size);
-    @include switch('md',$switch-md-height, $switch-md-min-width, $switch-md-checked-margin-left, $switch-md-font-size);
-    @include switch('lg',$switch-lg-height, $switch-lg-min-width, $switch-lg-checked-margin-left, $switch-lg-font-size);
-    @include switch('xl',$switch-xl-height, $switch-xl-min-width, $switch-xl-checked-margin-left, $switch-xl-font-size);
+    @include switch('xs', calc(var(--ant-switch-track-height-sm) - var(--ant-padding-xxs)), calc(var(--ant-switch-track-min-width-sm) - var(--ant-padding-xxs) - var(--ant-line-width) * 2), calc((calc(var(--ant-switch-track-height-sm) - var(--ant-padding-xxs)) - 3px) * -1), calc(var(--ant-font-size-sm) - var(--ant-line-width) * 2));
+    @include switch('sm', var(--ant-switch-track-height-sm), var(--ant-switch-track-min-width-sm), calc((var(--ant-switch-track-height-sm) - 3px) * -1), var(--ant-font-size-sm));
+    @include switch('md', calc(var(--ant-switch-track-height) + var(--ant-line-width) * 2), calc(var(--ant-control-height-lg) * 2.25), calc((calc(var(--ant-switch-track-height) + var(--ant-line-width) * 2) - 3px) * -1), var(--ant-font-size-sm));
+    @include switch('lg', calc(var(--ant-switch-track-height) + var(--ant-padding-xxs) + var(--ant-line-width) * 2), calc(var(--ant-control-height-lg) * 2.25), calc((calc(var(--ant-switch-track-height) + var(--ant-padding-xxs) + var(--ant-line-width) * 2) - 3px) * -1), var(--ant-font-size-sm));
+    @include switch('xl', calc(var(--ant-switch-track-height) + var(--ant-padding-xs) + var(--ant-line-width) * 2), calc(var(--ant-control-height-lg) * 4), calc((calc(var(--ant-switch-track-height) + var(--ant-padding-xs) + var(--ant-line-width) * 2) - 3px) * -1), var(--ant-font-size-sm));
 
     .ant-switch-handle {
         border-radius: 1000px;
+
+        &::before {
+            border-radius: 1000px;
+        }
     }
 }

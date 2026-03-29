@@ -2,8 +2,8 @@
 @typeparam TItem
 
 <Dropdown @bind-Visible="@Column.DropdownFilterVisible">
-    <DropdownToggle Size="Size.Small" @onclick:stopPropagation>
-        <Icon Name="@IconName.Filter" Margin="MarginIs1FromStart" Clicked="() => {}" TextColor="@(IsFiltering() ? TextColor.Primary : TextColor.Default)" />
+    <DropdownToggle Size="Size.Small" Border="BorderIs0" Background="BackgroundTransparent" Shadow="Shadow.Remove" ToggleIconVisible="false" @onclick:stopPropagation>
+        <Icon Name="@IconName.Filter" Margin="MarginIs1FromStart" Clicked="() => { }" TextColor="@(IsFiltering() ? TextColor.Primary : TextColor.Default)" />
     </DropdownToggle>
     <DropdownMenu>
         <Row Padding="@PaddingIs3" Style="cursor:default" @onclick:stopPropagation @onmouseup:stopPropagation>

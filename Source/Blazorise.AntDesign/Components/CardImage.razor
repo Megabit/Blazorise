@@ -1,0 +1,13 @@
+@using System
+@using System.Linq
+@inherits Blazorise.CardImage
+<div @ref="@ElementRef" id="@ElementId" class="@CoverClassName">
+    <img class="@ImageClassNames" style="@StyleNames" src="@Source" alt="@Alt" @attributes="@Attributes" />
+</div>
+@code {
+    protected string CoverClassName => ClassProvider.CardImage();
+
+    protected string ImageClassNames => string.IsNullOrWhiteSpace( ClassNames ) || string.IsNullOrWhiteSpace( CoverClassName )
+        ? ClassNames
+        : string.Join( " ", ClassNames.Split( ' ', StringSplitOptions.RemoveEmptyEntries ).Where( x => x != CoverClassName ) );
+}
