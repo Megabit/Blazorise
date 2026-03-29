@@ -85,9 +85,11 @@ public partial class DropdownMenu : Blazorise.DropdownMenu
             if ( string.IsNullOrWhiteSpace( styleName ) )
                 continue;
 
+            var trimmedStyleName = styleName.Trim().TrimEnd( ';' );
+
             result = string.IsNullOrEmpty( result )
-                ? styleName
-                : $"{result} {styleName}";
+                ? $"{trimmedStyleName};"
+                : $"{result} {trimmedStyleName};";
         }
 
         return result;
