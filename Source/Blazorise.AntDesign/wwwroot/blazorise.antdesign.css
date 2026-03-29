@@ -2026,7 +2026,7 @@ template {
 
 .ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-item:has(> a > .ant-menu-title-content > :only-child),
 .ant-menu.ant-menu-root.ant-menu-horizontal > .ant-menu-submenu:has(> .ant-menu-submenu-title > .ant-menu-title-content > :only-child) {
-  min-width: var(--ant-menu-item-height);
+  min-width: calc(var(--ant-menu-item-height) + var(--ant-menu-item-padding-inline) * 2);
   padding-inline: var(--ant-menu-item-padding-inline);
 }
 
@@ -7884,6 +7884,10 @@ a.ant-typography-disabled[aria-disabled=true] {
   margin-bottom: var(--ant-margin);
 }
 
+.ant-table {
+  --b-ant-table-row-bg: var(--ant-color-bg-container);
+  --b-ant-table-row-striped-bg: var(--ant-color-fill-quaternary);
+}
 .ant-table-primary,
 .ant-table-primary > th,
 .ant-table-primary > td {
@@ -8001,7 +8005,15 @@ a.ant-typography-disabled[aria-disabled=true] {
 
 .ant-table-striped .ant-table-tbody > tr:nth-of-type(odd) > th,
 .ant-table-striped .ant-table-tbody > tr:nth-of-type(odd) > td {
-  background-color: var(--ant-color-fill-quaternary);
+  background-color: var(--b-ant-table-row-striped-bg);
+}
+.ant-table-striped:not(.ant-table-hover) .ant-table-tbody > tr.ant-table-row:hover > th,
+.ant-table-striped:not(.ant-table-hover) .ant-table-tbody > tr.ant-table-row:hover > td {
+  background-color: var(--b-ant-table-row-bg);
+}
+.ant-table-striped:not(.ant-table-hover) .ant-table-tbody > tr.ant-table-row:nth-of-type(odd):hover > th,
+.ant-table-striped:not(.ant-table-hover) .ant-table-tbody > tr.ant-table-row:nth-of-type(odd):hover > td {
+  background-color: var(--b-ant-table-row-striped-bg);
 }
 
 .ant-table-borderless .ant-table-tbody tr,
@@ -8025,8 +8037,14 @@ a.ant-typography-disabled[aria-disabled=true] {
 .ant-table tbody > tr.ant-table-row:hover > td {
   background: unset;
 }
-.ant-table.ant-table-hover tbody > tr.ant-table-row:hover > td {
+.ant-table.ant-table-hover:not(.ant-table-striped) tbody > tr.ant-table-row:hover > td {
   background: var(--ant-table-row-hover-bg);
+}
+.ant-table.ant-table-hover.ant-table-striped tbody > tr.ant-table-row:hover > td {
+  background: var(--b-ant-table-row-striped-bg);
+}
+.ant-table.ant-table-hover.ant-table-striped tbody > tr.ant-table-row:nth-of-type(odd):hover > td {
+  background: var(--b-ant-table-row-bg);
 }
 .ant-table tbody > tr.ant-table-row-selected > td {
   background: var(--ant-table-row-selected-bg);
