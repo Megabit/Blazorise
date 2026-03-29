@@ -3983,9 +3983,13 @@ template {
 .b-ant-file-picker .b-ant-file-picker-item-main {
   flex: 1 1 auto;
   min-width: 0;
+  width: 100%;
+  overflow: hidden;
 }
 .b-ant-file-picker .b-ant-file-picker-item-meta {
   min-width: 0;
+  width: 100%;
+  overflow: hidden;
 }
 .b-ant-file-picker .b-ant-file-picker-item-actions {
   flex: 0 0 auto;
@@ -3995,6 +3999,8 @@ template {
 .b-ant-file-picker .b-file-picker-file-name {
   display: inline-flex;
   align-items: center;
+  max-width: 100%;
+  width: 100%;
   margin-inline-end: var(--ant-margin-xs);
   overflow: hidden;
   color: var(--ant-color-link);
