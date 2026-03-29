@@ -147,7 +147,7 @@
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Range values</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <RangeSlider TValue="decimal" Value="@decimalRangeValue" Min="0m" Max="100m" Step="1m" />
+                        <RangeSlider TValue="decimal" @bind-Value="@decimalRangeValue" Min="0m" Max="100m" Step="1m" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal>
