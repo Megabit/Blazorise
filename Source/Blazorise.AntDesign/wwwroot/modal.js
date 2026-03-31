@@ -1,11 +1,7 @@
-export function open(element, scrollToTop) {
-    if (scrollToTop) {
-        const modalBody = element.querySelector('.ant-modal-body');
+import { scrollModalBodyToTop } from "../Blazorise/modal.js?v=2.0.3.0";
 
-        if (modalBody) {
-            modalBody.scrollTop = 0;
-        }
-    }
+export function open(element, scrollToTop) {
+    scrollModalBodyToTop(element, scrollToTop, ".ant-modal-body");
 }
 
 export function close(element) {
