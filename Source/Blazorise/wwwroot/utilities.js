@@ -210,6 +210,54 @@ export function getRequiredElement(element, elementId) {
     return document.getElementById(elementId);
 }
 
+const disconnectCleanupRegistry = new Map();
+let disconnectCleanupObserver = null;
+let nextDisconnectCleanupId = 0;
+
+function ensureDisconnectCleanupObserver() {
+    if (disconnectCleanupObserver || !document.body) {
+        return;
+    }
+
+    disconnectCleanupObserver = new MutationObserver(() => {
+        for (const [cleanupId, cleanupEntry] of disconnectCleanupRegistry) {
+            if (!cleanupEntry.element || !cleanupEntry.element.isConnected) {
+                disconnectCleanupRegistry.delete(cleanupId);
+
+                try {
+                    cleanupEntry.cleanup();
+                }
+                catch (error) {
+                    console.error(error);
+                }
+            }
+        }
+    });
+
+    disconnectCleanupObserver.observe(document.body, { childList: true, subtree: true });
+}
+
+export function registerDisconnectCleanup(element, cleanup) {
+    if (!element || typeof cleanup !== "function") {
+        return null;
+    }
+
+    ensureDisconnectCleanupObserver();
+
+    const cleanupId = ++nextDisconnectCleanupId;
+    disconnectCleanupRegistry.set(cleanupId, { element, cleanup });
+
+    return cleanupId;
+}
+
+export function unregisterDisconnectCleanup(cleanupId) {
+    if (cleanupId === null || cleanupId === undefined) {
+        return;
+    }
+
+    disconnectCleanupRegistry.delete(cleanupId);
+}
+
 
 export function getUserAgent() {
     return navigator.userAgent;
