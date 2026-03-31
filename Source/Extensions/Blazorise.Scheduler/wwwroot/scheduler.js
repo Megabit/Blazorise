@@ -1,4 +1,4 @@
-import { getRequiredElement, insertCSSIntoDocumentHead } from "../Blazorise/utilities.js?v=2.0.3.0";
+import { getRequiredElement, insertCSSIntoDocumentHead, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.0.3.0";
 
 insertCSSIntoDocumentHead("_content/Blazorise.Scheduler/scheduler.css?v=2.0.3.0");
 
@@ -25,7 +25,8 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
     _instances[elementId] = {
         dotNetAdapter,
         element,
-        mouseUpHandler: null
+        mouseUpHandler: null,
+        disconnectCleanupId: registerDisconnectCleanup(element, () => destroy(null, elementId, false))
     };
 }
 
@@ -87,16 +88,23 @@ export function selectionEnded(element, elementId) {
     instance.mouseUpHandler = null;
 }
 
-export function destroy(element, elementId) {
+export function destroy(element, elementId, unregisterCleanup = true) {
     const instance = _instances[elementId];
 
     if (!instance) {
         return;
     }
 
+    if (unregisterCleanup) {
+        unregisterDisconnectCleanup(instance.disconnectCleanupId);
+    }
+
     if (instance.mouseUpHandler) {
         document.removeEventListener("mouseup", instance.mouseUpHandler);
     }
+
+    instance.mouseUpHandler = null;
+    instance.disconnectCleanupId = null;
 
     delete _instances[elementId];
 }
