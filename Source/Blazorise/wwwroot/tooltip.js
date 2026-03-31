@@ -1,6 +1,6 @@
 import "./vendors/tippy.js?v=2.0.3.0";
 import "./vendors/popper.js?v=2.0.3.0";
-import { getRequiredElement } from "./utilities.js?v=2.0.3.0";
+import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "./utilities.js?v=2.0.3.0";
 
 const _instances = [];
 
@@ -39,34 +39,42 @@ export function initialize(element, elementId, options) {
             trigger: "manual"
         } : {};
 
-    const instance = tippy(element, Object.assign({}, defaultOptions, alwaysActiveOptions));
+    const tippyInstance = tippy(element, Object.assign({}, defaultOptions, alwaysActiveOptions));
 
     if (options.text) {
-        instance.enable();
+        tippyInstance.enable();
     }
     else {
-        instance.disable();
+        tippyInstance.disable();
     }
 
-    _instances[elementId] = instance;
+    _instances[elementId] = {
+        tippy: tippyInstance,
+        disconnectCleanupId: registerDisconnectCleanup(element, () => destroy(null, elementId, false))
+    };
 
-    return instance;
+    return tippyInstance;
 }
 
-export function destroy(element, elementId) {
-    var instances = _instances || {};
-
+export function destroy(element, elementId, unregisterCleanup = true) {
+    const instances = _instances || {};
     const instance = instances[elementId];
 
     if (instance) {
-        instance.hide();
+        if (unregisterCleanup) {
+            unregisterDisconnectCleanup(instance.disconnectCleanupId);
+        }
+
+        if (instance.tippy) {
+            instance.tippy.destroy();
+        }
 
         delete instances[elementId];
     }
 }
 
 export function updateContent(element, elementId, content) {
-    const instance = _instances[elementId];
+    const instance = _instances[elementId]?.tippy;
 
     if (instance) {
         instance.setContent(content);
