@@ -1,4 +1,4 @@
-import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.3.0";
+import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.0.3.0";
 
 const _instances = {};
 const dragStartThreshold = 3;
@@ -65,7 +65,9 @@ export function initialize(dotNetAdapter, element, elementId) {
         moveScheduled: false,
         lastClientX: 0,
         dragStartClientX: 0,
-        dragged: false
+        dragged: false,
+        destroyed: false,
+        disconnectCleanupId: registerDisconnectCleanup(element, () => destroy(null, elementId, false))
     };
 }
 
@@ -95,6 +97,10 @@ export function barDragStarted(element, elementId, startClientX) {
         instance.moveScheduled = true;
 
         window.requestAnimationFrame(function () {
+            if (instance.destroyed) {
+                return;
+            }
+
             instance.moveScheduled = false;
 
             if (instance.dotNetAdapter) {
@@ -139,14 +145,21 @@ export function barDragEnded(element, elementId) {
     clearDragHandlers(instance);
 }
 
-export function destroy(element, elementId) {
+export function destroy(element, elementId, unregisterCleanup = true) {
     const instance = _instances[elementId];
 
     if (!instance) {
         return;
     }
 
+    instance.destroyed = true;
+
+    if (unregisterCleanup) {
+        unregisterDisconnectCleanup(instance.disconnectCleanupId);
+    }
+
     clearDragHandlers(instance);
+    instance.disconnectCleanupId = null;
 
     delete _instances[elementId];
 }
