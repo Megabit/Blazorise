@@ -1,6 +1,6 @@
 import Cropper, { CropperViewer } from "./vendors/cropper.js?v=2.0.3.0";
 
-import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.3.0";
+import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.0.3.0";
 
 document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Cropper/blazorise.cropper.css?v=2.0.3.0\" />");
 
@@ -16,6 +16,8 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         options: options,
         adapter: dotNetAdapter,
         cropper: null,
+        destroyed: false,
+        disconnectCleanupId: null,
     };
 
     const image = new Image();
@@ -60,6 +62,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
 
     registerEvents(cropperCanvas, cropperSelection);
 
+    instance.disconnectCleanupId = registerDisconnectCleanup(element, () => destroy(null, elementId, false));
     _instances[elementId] = instance;
 }
 
@@ -143,20 +146,29 @@ export function updateOptions(element, elementId, options) {
     }
 }
 
-export function destroy(element, elementId) {
+export function destroy(element, elementId, unregisterCleanup = true) {
     const instances = _instances || {};
 
     let instance = instances[elementId];
 
     if (instance) {
+        instance.destroyed = true;
+
+        if (unregisterCleanup) {
+            unregisterDisconnectCleanup(instance.disconnectCleanupId);
+        }
+
         const cropper = instance.cropper;
-        const cropperCanvas = cropper.getCropperCanvas();
-        const cropperSelection = cropper.getCropperSelection();
+        const cropperCanvas = cropper?.getCropperCanvas();
+        const cropperSelection = cropper?.getCropperSelection();
 
         unregisterEvents(cropperCanvas, cropperSelection);
 
         if (cropper && typeof cropper.destroy === "function")
             cropper.destroy();
+
+        instance.cropper = null;
+        instance.disconnectCleanupId = null;
     }
 
     delete instances[elementId];
@@ -297,6 +309,10 @@ export function resetSelection(element, elementId) {
 
 function manageCropperImageReady(cropperImage, cropperCanvas, instance) {
     cropperImage.$ready((image) => {
+        if (instance.destroyed) {
+            return;
+        }
+
         if (instance.loadFailed) {
             cropperCanvas.disabled = instance.disabledBeforeImageLoadFailed;
             instance.loadFailed = false;
@@ -304,6 +320,10 @@ function manageCropperImageReady(cropperImage, cropperCanvas, instance) {
         invokeDotNetMethodAsync(instance.adapter, "ImageReady");
     })
         .catch((err) => {
+            if (instance.destroyed) {
+                return;
+            }
+
             invokeDotNetMethodAsync(instance.adapter, "ImageLoadingFailed", err.message);
             instance.disabledBeforeImageLoadFailed = cropperCanvas.disabled;
             instance.loadFailed = true;
