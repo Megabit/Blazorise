@@ -84,11 +84,6 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
             nodeStatesChanged = false;
         }
 
-        if ( GetChildNodesAsync is not null && GetChildNodes is null )
-        {
-            await SynchronizeHasChildrenNodes();
-        }
-
         var expandedNodesHashChanged = SyncExpandedNodesHash();
 
         if ( expandedNodesHashChanged )
@@ -114,50 +109,6 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
 
         DirtyClasses();
         DirtyStyles();
-    }
-
-    private async Task SynchronizeHasChildrenNodes()
-    {
-        if ( NodeStates is null )
-            return;
-
-        await SynchronizeHasChildrenNodes( NodeStates );
-    }
-
-    private async Task SynchronizeHasChildrenNodes( IEnumerable<TreeViewNodeState<TNode>> nodeStates )
-    {
-        foreach ( var nodeState in nodeStates )
-        {
-            if ( !nodeState.HasChildren )
-            {
-                var hasChildren = HasChildNodesAsync is not null
-                    ? await HasChildNodesAsync( nodeState.Node )
-                    : DetermineHasChildNodes( nodeState.Node );
-
-                if ( hasChildren )
-                {
-                    nodeState.HasChildren = true;
-
-                    if ( !nodeState.Expanded && ExpandedNodes?.Contains( nodeState.Node ) == true )
-                    {
-                        nodeState.Expanded = true;
-
-                        await LoadChildNodes( nodeState );
-                    }
-                    else if ( AutoExpandAll && !nodeState.Expanded && !nodeState.AutoExpanded )
-                    {
-                        nodeState.AutoExpanded = true;
-
-                        await ToggleNode( nodeState, false );
-                    }
-                }
-            }
-
-            if ( nodeState.Children?.Count > 0 )
-            {
-                await SynchronizeHasChildrenNodes( nodeState.Children );
-            }
-        }
     }
 
     internal void RegisterNodeState( TreeViewNodeState<TNode> nodeState )
