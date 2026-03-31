@@ -126,8 +126,26 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 }
 
 export function destroy(element, elementId) {
-    const instanceInfo = _instancesInfos || {};
-    delete instanceInfo[elementId];
+    const instances = _instancesInfos || {};
+    const instanceInfo = instances[elementId];
+
+    if (instanceInfo && instanceInfo.picker) {
+        try {
+            if (typeof instanceInfo.picker.destroyAndRemove === "function") {
+                instanceInfo.picker.destroyAndRemove();
+            }
+            else if (typeof instanceInfo.picker.destroy === "function") {
+                instanceInfo.picker.destroy();
+            }
+        }
+        catch (error) {
+            console.error(error);
+        }
+
+        instanceInfo.picker = null;
+    }
+
+    delete instances[elementId];
 }
 
 export function updateValue(element, elementId, hexColor) {
