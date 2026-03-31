@@ -1,13 +1,16 @@
-import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.3.0";
+import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.0.3.0";
 import "./vendors/sigpad.js?v=2.0.3.0";
 
 const _instances = [];
+let resizeHandlerRegistered = false;
 
 export function initialize(dotNetAdapter, element, elementId, options) {
     element = getRequiredElement(element, elementId);
 
     if (!element)
         return;
+
+    ensureResizeHandler();
 
     // we need to match the canvas size ans size in styles so that we can properly calculate scaling based on screen size
     if (element.width && element.height) {
@@ -55,21 +58,35 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         });
     }, options);
     observer.observe(element);
+    instance.intersectionObserver = observer;
+    instance.disconnectCleanupId = registerDisconnectCleanup(element, () => destroy(null, elementId, false));
 
     _instances[elementId] = instance;
 }
 
-export function destroy(element, elementId) {
+export function destroy(element, elementId, unregisterCleanup = true) {
     const instances = _instances || {};
     const instance = instances[elementId];
 
-    if (instance) {
-        if (instance.sigpad) {
-            instance.sigpad.off();
-        }
-
-        delete instances[elementId];
+    if (!instance) {
+        return;
     }
+
+    if (unregisterCleanup) {
+        unregisterDisconnectCleanup(instance.disconnectCleanupId);
+    }
+
+    if (instance.intersectionObserver) {
+        instance.intersectionObserver.disconnect();
+    }
+
+    if (instance.sigpad) {
+        instance.sigpad.off();
+    }
+
+    delete instances[elementId];
+
+    releaseResizeHandler();
 }
 
 export function updateOptions(element, elementId, options) {
@@ -229,13 +246,9 @@ function getImageDataURL(sigpad, options) {
     return sigpad.toDataURL("image/png", options.imageQuality || 1);
 }
 
-window.onresize = resizeAllCanvas;
-
 function resizeAllCanvas() {
     if (_instances) {
-        for (let i = 0; i < _instances.length; i++) {
-            const instance = _instances[i];
-
+        for (const instance of Object.values(_instances)) {
             if (instance) {
                 resizeCanvas(instance.sigpad, instance.element);
             }
@@ -283,4 +296,24 @@ function resizeCanvas(sigpad, canvas) {
 
 function getRatio() {
     return Math.max(window.devicePixelRatio || 1, 1);
+}
+
+function ensureResizeHandler() {
+    if (!resizeHandlerRegistered && typeof window !== "undefined") {
+        window.addEventListener("resize", resizeAllCanvas);
+        resizeHandlerRegistered = true;
+    }
+}
+
+function releaseResizeHandler() {
+    if (!resizeHandlerRegistered || typeof window === "undefined") {
+        return;
+    }
+
+    if (Object.values(_instances).some(instance => !!instance)) {
+        return;
+    }
+
+    window.removeEventListener("resize", resizeAllCanvas);
+    resizeHandlerRegistered = false;
 }
