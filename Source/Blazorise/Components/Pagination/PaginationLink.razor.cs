@@ -48,6 +48,13 @@ public partial class PaginationLink : BaseComponent
         return Clicked.InvokeAsync( Page );
     }
 
+    /// <summary>
+    /// Gets the tab index for keyboard accessibility.
+    /// </summary>
+    /// <returns>-1 if disabled; otherwise 0.</returns>
+    protected int GetTabIndex()
+        => ParentPaginationItemState.Disabled ? -1 : 0;
+
     #endregion
 
     #region Properties
@@ -61,6 +68,11 @@ public partial class PaginationLink : BaseComponent
     /// Gets the aria-current attribute value.
     /// </summary>
     protected string AriaCurrent => ParentPaginationItemState.Active ? "page" : null;
+
+    /// <summary>
+    /// Gets the aria-disabled attribute value.
+    /// </summary>
+    protected string AriaDisabled => ParentPaginationItemState.Disabled ? "true" : null;
 
     /// <summary>
     /// Occurs when the item link is clicked.
