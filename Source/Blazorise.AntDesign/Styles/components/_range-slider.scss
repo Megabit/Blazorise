@@ -1,50 +1,67 @@
-$ant-slider-rail-color: #d9d9d9;
-$ant-slider-track-color: #91caff;
-$ant-slider-track-hover-color: #69b1ff;
-$ant-slider-thumb-outline-color: rgba(22, 119, 255, .2);
-
-.ant-range-slider {
-    min-height: 2rem;
-
-    > .ant-range-slider-track,
-    > .ant-range-slider-range {
-        top: 50%;
-        height: .25rem;
-        transform: translateY(-50%);
-        border-radius: 999px;
+.b-ant-range-slider {
+    > .ant-slider-handle {
+        pointer-events: none;
     }
 
-    > .ant-range-slider-track {
-        background-color: $ant-slider-rail-color;
+    > .b-ant-range-slider-tooltip {
+        top: 0;
+        visibility: hidden;
+        opacity: 0;
+        transform: translate(-50%, calc(-100% - var(--ant-margin-xs)));
+        transition: opacity var(--ant-motion-duration-fast) var(--ant-motion-ease-out), visibility var(--ant-motion-duration-fast) var(--ant-motion-ease-out);
+        white-space: nowrap;
+        pointer-events: none;
+        z-index: 10;
+
+        > span {
+            display: block;
+            min-width: var(--ant-size-lg);
+            padding: 1px var(--ant-padding-xs);
+            color: var(--ant-color-text-light-solid);
+            font-size: var(--ant-font-size);
+            line-height: var(--ant-line-height);
+            text-align: center;
+            background: var(--ant-color-bg-spotlight);
+            border-radius: var(--ant-border-radius);
+            box-shadow: var(--ant-box-shadow-secondary);
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            width: var(--ant-size-xs);
+            height: var(--ant-size-xs);
+            background: var(--ant-color-bg-spotlight);
+            transform: translate(-50%, -50%) rotate(45deg);
+            border-radius: 0 0 var(--ant-border-radius-xs) 0;
+        }
     }
 
-    > .ant-range-slider-range {
-        background-color: $ant-slider-track-color;
-    }
-
-    > .ant-range-slider-input {
+    > .b-ant-range-slider-input {
         position: absolute;
-        top: 50%;
+        top: 0;
         left: 0;
         width: 100%;
+        height: 100%;
         margin: 0;
-        transform: translateY(-50%);
         background: transparent;
         pointer-events: none;
         -webkit-appearance: none;
         appearance: none;
 
         &::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 100%;
             background: transparent;
         }
 
         &::-webkit-slider-thumb {
-            width: .875rem;
-            height: .875rem;
-            border-radius: 50%;
-            border: 2px solid $ant-slider-track-color;
-            background-color: #fff;
-            box-shadow: 0 0 0 2px $ant-slider-thumb-outline-color;
+            width: var(--ant-slider-handle-size-hover);
+            height: var(--ant-slider-handle-size-hover);
+            border: 0;
+            background: transparent;
             pointer-events: auto;
             cursor: pointer;
             -webkit-appearance: none;
@@ -52,82 +69,33 @@ $ant-slider-thumb-outline-color: rgba(22, 119, 255, .2);
         }
 
         &::-moz-range-track {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+
+        &::-moz-range-progress {
             background: transparent;
         }
 
         &::-moz-range-thumb {
-            width: .875rem;
-            height: .875rem;
-            border-radius: 50%;
-            border: 2px solid $ant-slider-track-color;
-            background-color: #fff;
-            box-shadow: 0 0 0 2px $ant-slider-thumb-outline-color;
+            width: var(--ant-slider-handle-size-hover);
+            height: var(--ant-slider-handle-size-hover);
+            border: 0;
+            background: transparent;
             pointer-events: auto;
             cursor: pointer;
         }
-
-        &.ant-input-status-success {
-            &::-webkit-slider-thumb {
-                border-color: $success;
-            }
-
-            &::-moz-range-thumb {
-                border-color: $success;
-            }
-        }
-
-        &.ant-input-status-error {
-            &::-webkit-slider-thumb {
-                border-color: $danger;
-            }
-
-            &::-moz-range-thumb {
-                border-color: $danger;
-            }
-        }
     }
 
-    > .ant-range-slider-tooltip {
-        top: 0;
-        transform: translate(-50%, calc(-100% - .25rem));
-        white-space: nowrap;
-        z-index: 6;
-        pointer-events: none;
-    }
-
-    &:hover {
-        > .ant-range-slider-range {
-            background-color: $ant-slider-track-hover-color;
-        }
-
-        > .ant-range-slider-input {
-            &::-webkit-slider-thumb {
-                border-color: $ant-slider-track-hover-color;
-            }
-
-            &::-moz-range-thumb {
-                border-color: $ant-slider-track-hover-color;
-            }
-        }
-    }
-
-    > .ant-range-slider-input:focus {
-        &::-webkit-slider-thumb {
-            border-color: $ant-slider-track-hover-color;
-        }
-
-        &::-moz-range-thumb {
-            border-color: $ant-slider-track-hover-color;
-        }
+    &:hover > .b-ant-range-slider-tooltip,
+    &:focus-within > .b-ant-range-slider-tooltip {
+        visibility: visible;
+        opacity: 1;
     }
 
     &[aria-disabled='true'] {
-        > .ant-range-slider-track,
-        > .ant-range-slider-range {
-            opacity: .65;
-        }
-
-        > .ant-range-slider-input {
+        > .b-ant-range-slider-input {
             &::-webkit-slider-thumb {
                 cursor: not-allowed;
             }
@@ -137,4 +105,20 @@ $ant-slider-thumb-outline-color: rgba(22, 119, 255, .2);
             }
         }
     }
+}
+
+.b-ant-range-slider.ant-input-status-success {
+    --ant-slider-track-bg: var(--ant-color-success);
+    --ant-slider-track-hover-bg: var(--ant-color-success);
+    --ant-slider-handle-color: var(--ant-color-success);
+    --ant-slider-handle-active-color: var(--ant-color-success);
+    --ant-slider-dot-active-border-color: var(--ant-color-success);
+}
+
+.b-ant-range-slider.ant-input-status-error {
+    --ant-slider-track-bg: var(--ant-color-error);
+    --ant-slider-track-hover-bg: var(--ant-color-error);
+    --ant-slider-handle-color: var(--ant-color-error);
+    --ant-slider-handle-active-color: var(--ant-color-error);
+    --ant-slider-dot-active-border-color: var(--ant-color-error);
 }

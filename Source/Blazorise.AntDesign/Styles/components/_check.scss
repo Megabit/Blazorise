@@ -1,0 +1,81 @@
+.b-ant-checkbox-root {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    > .ant-form-item-explain,
+    > .valid-feedback {
+        display: block;
+        margin-inline-start: calc(var(--ant-control-interactive-size) + var(--ant-padding-xs));
+    }
+}
+
+.ant-checkbox-wrapper {
+    cursor: pointer;
+
+    &.b-ant-checkbox-block {
+        display: flex;
+        width: fit-content;
+    }
+
+    &.b-ant-checkbox-inline {
+        display: inline-flex;
+    }
+
+    &.ant-checkbox-wrapper-disabled {
+        cursor: not-allowed;
+    }
+
+    &.b-ant-checkbox-block + .b-ant-checkbox-block {
+        margin-top: var(--ant-margin-xs);
+    }
+
+    &:not(.ant-checkbox-wrapper-disabled):hover {
+        cursor: pointer;
+    }
+}
+
+.ant-form-item-has-error {
+    .ant-checkbox:not(.ant-checkbox-checked):not(.ant-checkbox-disabled) {
+        background-color: var(--ant-color-bg-container);
+        border-color: var(--ant-color-error);
+
+        &:hover {
+            border-color: var(--ant-color-error-hover);
+        }
+    }
+}
+
+@mixin checkbox($size, $width) {
+    .ant-checkbox-wrapper.b-ant-checkbox-#{$size} {
+        .ant-checkbox {
+            width: $width;
+            height: $width;
+
+            &::after {
+                top: calc(#{$width} / 2 - var(--ant-line-width));
+                inset-inline-start: calc(#{$width} / 4 - var(--ant-line-width));
+                width: calc(#{$width} / 14 * 5);
+                height: calc(#{$width} / 14 * 8);
+            }
+        }
+    }
+
+    .ant-checkbox.b-ant-checkbox-#{$size} {
+        width: $width;
+        height: $width;
+
+        &::after {
+            top: calc(#{$width} / 2 - var(--ant-line-width));
+            inset-inline-start: calc(#{$width} / 4 - var(--ant-line-width));
+            width: calc(#{$width} / 14 * 5);
+            height: calc(#{$width} / 14 * 8);
+        }
+    }
+}
+
+@include checkbox('xs', calc(var(--ant-control-interactive-size) / 2));
+@include checkbox('sm', calc(var(--ant-control-interactive-size) * .75));
+@include checkbox('md', calc(var(--ant-control-interactive-size) + var(--ant-size-unit)));
+@include checkbox('lg', calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 2));
+@include checkbox('xl', calc(var(--ant-control-interactive-size) + var(--ant-size-unit) * 3));

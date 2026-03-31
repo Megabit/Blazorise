@@ -100,7 +100,9 @@
                                   MobileModeCaption="@column.Caption">
                         @{
                             var currentItem = GetCurrentItem();
-                            var selfReferenceColumnActive = ParentDataGrid.IsSelfReferenceEnabled && column.IsEqual( selfReferenceColumn );
+                            var selfReferenceModeActive = ParentDataGrid.IsSelfReferenceEnabled
+                                && ( ParentDataGrid.ReadChildData.HasDelegate || ParentDataGrid.ExpandRowTrigger is not null );
+                            var selfReferenceColumnActive = selfReferenceModeActive && column.IsEqual( selfReferenceColumn );
 
                             if ( selfReferenceColumnActive )
                             {

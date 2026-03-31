@@ -1,11 +1,14 @@
 @typeparam TValue
 @inherits Blazorise.Slider<TValue>
-<div @ref="@ElementRef" id="@ElementId" class="ant-slider" tabindex="@TabIndex" @onmousedown="@OnSliderMouseDown" @onmouseup="@OnSliderMouseUp" @onmousemove="@OnSliderMouseMove">
+<div class="@RootClassNames" style="@StyleNames" aria-disabled="@IsDisabled">
     <div class="ant-slider-rail"></div>
     <div class="ant-slider-track" style="@TrackStyle"></div>
     <div class="ant-slider-step"></div>
-    <div tabindex="0" class="ant-slider-handle" role="slider" aria-valuemin="@MinString" aria-valuemax="@MaxString" aria-valuenow="@Value" aria-disabled="@IsDisabled" aria-invalid="@AriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@AriaDescribedBy" aria-labelledby="@AriaLabelledBy" style="@HandleStyle"></div>
-    <div class="ant-slider-mark"></div>
+    <div class="ant-slider-handle" role="slider" aria-valuemin="@MinString" aria-valuemax="@MaxString" aria-valuenow="@CurrentValueAsString" aria-disabled="@IsDisabled" aria-orientation="horizontal" style="@HandleStyle" tabindex="@TabIndex"></div>
+    <input @ref="@ElementRef" id="@ElementId" type="range" name="@NameAttributeValue" class="b-ant-slider-input" disabled="@IsDisabled" readonly="@ReadOnly" step="@StepString" min="@MinString" max="@MaxString" tabindex="@TabIndex" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ExplicitAriaLabelledBy" @bind-value="@CurrentValueAsString" @bind-value:event="oninput" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+    <div class="b-ant-slider-tooltip" style="@TooltipStyle" aria-hidden="true">
+        <div class="b-ant-slider-tooltip-inner">@CurrentValueAsString</div>
+    </div>
 </div>
 @ChildContent
 @Feedback

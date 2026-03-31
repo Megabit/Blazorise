@@ -27,24 +27,19 @@ public partial class Tabs : Blazorise.Tabs
 
     #region Properties
 
-    string TabsBarClassNames
-        => $"ant-tabs-nav {ItemsPositionClassNames} {( IsCards && TabPosition == TabPosition.Top || TabPosition == TabPosition.Bottom ? "ant-tabs-card-bar" : "" )}";
+    protected string RootClassNames => $"{ClassNames} {PositionClassNames}".Trim();
 
-    protected string ItemsPositionClassNames => TabPosition switch
+    string TabsNavClassNames => "ant-tabs-nav";
+
+    string PositionClassNames => TabPosition switch
     {
-        TabPosition.Start => "ant-tabs-left-bar",
-        TabPosition.End => "ant-tabs-right-bar",
-        TabPosition.Bottom => "ant-tabs-bottom-bar",
-        _ => "ant-tabs-top-bar",
+        TabPosition.Start => "ant-tabs-left",
+        TabPosition.End => "ant-tabs-right",
+        TabPosition.Bottom => "ant-tabs-bottom",
+        _ => "ant-tabs-top",
     };
 
-    protected string ContentPositionClassNames => TabPosition switch
-    {
-        TabPosition.Start => "ant-tabs-content-left",
-        TabPosition.End => "ant-tabs-content-right",
-        TabPosition.Bottom => "ant-tabs-content-bottom",
-        _ => "ant-tabs-content-top",
-    };
+    string AriaOrientation => TabPosition is TabPosition.Start or TabPosition.End ? "vertical" : "horizontal";
 
     #endregion
 }

@@ -1,0 +1,59 @@
+.ant-input {
+    height: var(--ant-control-height);
+}
+
+.ant-input-xs {
+    padding: 0px 7px;
+    font-size: 10px;
+    height: 16px;
+}
+
+.ant-input-sm {
+    padding: 0 var(--ant-input-padding-inline-sm);
+    font-size: var(--ant-font-size-sm);
+    height: var(--ant-control-height-sm);
+}
+
+.ant-input-md {
+    padding: 4.5px 11px;
+    font-size: 14px;
+    height: 36px;
+}
+
+.ant-input-lg {
+    padding: var(--ant-input-padding-block-lg) calc(var(--ant-button-padding-inline-lg) - var(--ant-line-width) * 2);
+    font-size: var(--ant-font-size-lg);
+    height: var(--ant-control-height-lg);
+}
+
+.ant-input-xl {
+    padding: 8.5px 15px;
+    font-size: 18px;
+    height: 48px;
+}
+
+@mixin input-number-size($name, $font-size, $height, $padding-block, $padding-inline) {
+    .ant-input-number-#{$name} {
+        font-size: $font-size;
+        height: $height;
+    }
+
+    .ant-input-number-#{$name} .ant-input-number-input {
+        height: calc(#{$height} - 2px);
+        padding: $padding-block $padding-inline;
+    }
+}
+
+.ant-input-number {
+    padding-inline: 0;
+}
+
+.ant-input-number .ant-input-number-input {
+    padding: var(--ant-input-padding-block) var(--ant-input-padding-inline);
+}
+
+@include input-number-size('sm', var(--ant-font-size-sm), var(--ant-control-height-sm), 0, var(--ant-input-padding-inline-sm));
+@include input-number-size('xs', 10px, 16px, 0, 7px);
+@include input-number-size('md', var(--ant-font-size), calc(var(--ant-control-height) + var(--ant-size-unit)), calc(var(--ant-input-padding-block) + .5px), var(--ant-input-padding-inline));
+@include input-number-size('lg', var(--ant-font-size-lg), var(--ant-control-height-lg), calc(var(--ant-input-padding-block-lg) - .5px), calc(var(--ant-button-padding-inline-lg) - var(--ant-line-width) * 2));
+@include input-number-size('xl', 18px, 48px, 8.5px, 15px);

@@ -1,4 +1,15 @@
-﻿.ant-rate {
+.ant-rate {
+    font-size: var(--ant-rate-star-size);
+    line-height: 1;
+
+    > .b-tooltip-inline {
+        display: inline-block;
+
+        &:not(:last-child) {
+            margin-inline-end: var(--ant-margin-xs);
+        }
+    }
+
     &:not(.ant-rate-disabled):not(.ant-rate-readonly):hover {
         .ant-rate-star {
             cursor: pointer;
@@ -12,12 +23,40 @@
     .ant-rate-star {
         cursor: default;
 
-        @each $name, $value in $theme-colors {
-            $color: $value;
+        &.b-ant-rate-star-primary {
+            color: var(--b-theme-text-primary, var(--ant-color-primary));
+        }
 
-            &.ant-rate-star-#{$name} {
-                color: $color;
-            }
+        &.b-ant-rate-star-secondary {
+            color: var(--b-theme-text-secondary, var(--ant-color-text-secondary));
+        }
+
+        &.b-ant-rate-star-success {
+            color: var(--b-theme-text-success, var(--ant-color-success));
+        }
+
+        &.b-ant-rate-star-info {
+            color: var(--b-theme-text-info, var(--ant-color-info));
+        }
+
+        &.b-ant-rate-star-warning {
+            color: var(--b-theme-text-warning, var(--ant-color-warning));
+        }
+
+        &.b-ant-rate-star-danger {
+            color: var(--b-theme-text-danger, var(--ant-color-error));
+        }
+
+        &.b-ant-rate-star-light {
+            color: var(--b-theme-text-light, var(--ant-color-text-light-solid));
+        }
+
+        &.b-ant-rate-star-dark {
+            color: var(--b-theme-text-dark, var(--ant-color-text-heading));
+        }
+
+        &.b-ant-rate-star-link {
+            color: var(--b-theme-text-link, var(--ant-color-link));
         }
 
         &.ant-rate-star-focused {

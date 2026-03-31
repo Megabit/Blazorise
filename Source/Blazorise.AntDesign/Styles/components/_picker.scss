@@ -1,0 +1,126 @@
+.ant-picker {
+    padding: var(--ant-date-picker-padding-block) var(--ant-date-picker-padding-inline);
+    color: var(--ant-color-text);
+    font-size: var(--ant-font-size);
+    line-height: 1;
+    border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border);
+    border-radius: var(--ant-border-radius);
+    transition: border var(--ant-motion-duration-mid), box-shadow var(--ant-motion-duration-mid), background-color var(--ant-motion-duration-mid);
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    background: var(--ant-color-bg-container);
+
+    .ant-picker-input {
+        display: inline-flex;
+        flex: auto;
+        align-items: center;
+        min-width: 0;
+
+        > .flatpickr-wrapper {
+            display: inline-flex;
+            flex: auto;
+            align-items: center;
+            width: 100%;
+            min-width: 0;
+
+            > input[type='hidden'] {
+                display: none;
+            }
+        }
+
+        > input:not([type='hidden']),
+        > .flatpickr-wrapper > input:not([type='hidden']) {
+            width: 100%;
+            padding: 0;
+            color: inherit;
+            font-size: var(--ant-date-picker-input-font-size);
+            line-height: var(--ant-line-height);
+            background: transparent;
+            border: 0;
+            outline: 0;
+            box-shadow: none;
+            min-width: 0;
+            height: auto;
+            appearance: none;
+            -webkit-appearance: none;
+
+            &::-webkit-calendar-picker-indicator {
+                display: none;
+                -webkit-appearance: none;
+            }
+
+            &::-webkit-clear-button,
+            &::-webkit-inner-spin-button {
+                display: none;
+                -webkit-appearance: none;
+            }
+
+            &::-webkit-date-and-time-value,
+            &::-webkit-datetime-edit,
+            &::-webkit-datetime-edit-fields-wrapper,
+            &::-webkit-datetime-edit-text,
+            &::-webkit-datetime-edit-month-field,
+            &::-webkit-datetime-edit-day-field,
+            &::-webkit-datetime-edit-year-field,
+            &::-webkit-datetime-edit-hour-field,
+            &::-webkit-datetime-edit-minute-field,
+            &::-webkit-datetime-edit-second-field,
+            &::-webkit-datetime-edit-ampm-field {
+                padding: 0;
+                line-height: inherit;
+            }
+        }
+    }
+
+    .ant-picker-suffix {
+        display: inline-flex;
+        align-items: center;
+        color: var(--ant-color-text-description);
+        margin-inline-start: var(--ant-padding-xs);
+        line-height: 1;
+        cursor: pointer;
+    }
+
+    &:hover {
+        border-color: var(--ant-picker-hover-border-color);
+        background: var(--ant-picker-hover-bg);
+    }
+
+    &.ant-picker-focused,
+    &:focus-within {
+        border-color: var(--ant-picker-active-border-color);
+        box-shadow: var(--ant-picker-active-shadow);
+        outline: 0;
+    }
+
+    &.ant-picker-disabled {
+        color: var(--ant-color-text-disabled);
+        background: var(--ant-color-bg-container-disabled);
+        cursor: not-allowed;
+
+        .ant-picker-input > .flatpickr-wrapper,
+        .ant-picker-input > input:not([type='hidden']),
+        .ant-picker-input > .flatpickr-wrapper > input:not([type='hidden']),
+        .ant-picker-suffix {
+            cursor: not-allowed;
+        }
+    }
+}
+
+@mixin picker-size($name, $font-size, $height, $padding-block, $padding-inline) {
+    .ant-picker-#{$name} {
+        height: $height;
+        padding: $padding-block $padding-inline;
+        font-size: $font-size;
+    }
+
+    .ant-picker-#{$name} .ant-picker-input > input:not([type='hidden']),
+    .ant-picker-#{$name} .ant-picker-input > .flatpickr-wrapper > input:not([type='hidden']) {
+        font-size: $font-size;
+    }
+}
+
+@include picker-size('xs', 10px, 16px, 0, 7px);
+@include picker-size('md', 14px, 36px, 4.5px, 11px);
+@include picker-size('xl', 18px, 48px, 8.5px, 15px);

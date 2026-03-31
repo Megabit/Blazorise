@@ -1,51 +1,53 @@
 ﻿@inherits Blazorise.Table
 <CascadingValue Value="@this" IsFixed>
-    @if ( FixedHeader )
-    {
-        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" @attributes="@Attributes">
-            <div class="@GetContainerClassNames( "ant-table-container" )" style="@ContainerStyleNames">
-                <div class="ant-table-header">
-                    <table @ref="@ElementRef" style="table-layout: fixed;"
-                           draggable="@DraggableString"
-                           @ondragend="@OnDragEndHandler"
-                           @ondragend:preventDefault="@DragEndPreventDefault"
-                           @ondragenter="@OnDragEnterHandler"
-                           @ondragenter:preventDefault="@DragEnterPreventDefault"
-                           @ondragleave="@OnDragLeaveHandler"
-                           @ondragleave:preventDefault="@DragLeavePreventDefault"
-                           @ondragstart="@OnDragStartHandler"
-                           @ondragstart:preventDefault="@DragStartPreventDefault"
-                           @ondrop="@OnDropHandler"
-                           @ondrop:preventDefault="@DropPreventDefault">
-                        @ChildContent
-                    </table>
+    <div class="ant-table-wrapper">
+        @if ( FixedHeader )
+        {
+            <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                <div class="@GetContainerClassNames( "ant-table-container" )" style="@ContainerStyleNames">
+                    <div class="ant-table-content">
+                        <table style="table-layout: fixed; width: 100%;"
+                               draggable="@DraggableString"
+                               @ondragend="@OnDragEndHandler"
+                               @ondragend:preventDefault="@DragEndPreventDefault"
+                               @ondragenter="@OnDragEnterHandler"
+                               @ondragenter:preventDefault="@DragEnterPreventDefault"
+                               @ondragleave="@OnDragLeaveHandler"
+                               @ondragleave:preventDefault="@DragLeavePreventDefault"
+                               @ondragstart="@OnDragStartHandler"
+                               @ondragstart:preventDefault="@DragStartPreventDefault"
+                               @ondrop="@OnDropHandler"
+                               @ondrop:preventDefault="@DropPreventDefault">
+                            @ChildContent
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
-    else
-    {
-        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-            <div class="@GetContainerClassNames( "ant-table-container" )" style="@ContainerStyleNames">
-                <div class="ant-table-content">
-                    <table @ref="@ElementRef" style="table-layout: auto;"
-                           draggable="@DraggableString"
-                           @ondragend="@OnDragEndHandler"
-                           @ondragend:preventDefault="@DragEndPreventDefault"
-                           @ondragenter="@OnDragEnterHandler"
-                           @ondragenter:preventDefault="@DragEnterPreventDefault"
-                           @ondragleave="@OnDragLeaveHandler"
-                           @ondragleave:preventDefault="@DragLeavePreventDefault"
-                           @ondragstart="@OnDragStartHandler"
-                           @ondragstart:preventDefault="@DragStartPreventDefault"
-                           @ondrop="@OnDropHandler"
-                           @ondrop:preventDefault="@DropPreventDefault">
-                        @ChildContent
-                    </table>
+        }
+        else
+        {
+            <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                <div class="@GetContainerClassNames( "ant-table-container" )" style="@ContainerStyleNames">
+                    <div class="ant-table-content">
+                        <table style="table-layout: auto;"
+                               draggable="@DraggableString"
+                               @ondragend="@OnDragEndHandler"
+                               @ondragend:preventDefault="@DragEndPreventDefault"
+                               @ondragenter="@OnDragEnterHandler"
+                               @ondragenter:preventDefault="@DragEnterPreventDefault"
+                               @ondragleave="@OnDragLeaveHandler"
+                               @ondragleave:preventDefault="@DragLeavePreventDefault"
+                               @ondragstart="@OnDragStartHandler"
+                               @ondragstart:preventDefault="@DragStartPreventDefault"
+                               @ondrop="@OnDropHandler"
+                               @ondrop:preventDefault="@DropPreventDefault">
+                            @ChildContent
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 </CascadingValue>
 @code {
     string GetContainerClassNames( string baseClass )

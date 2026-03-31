@@ -1,0 +1,19 @@
+@inherits Blazorise.TableFooter
+<tfoot @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
+       draggable="@DraggableString"
+       @ondragend="@OnDragEndHandler"
+       @ondragend:preventDefault="@DragEndPreventDefault"
+       @ondragenter="@OnDragEnterHandler"
+       @ondragenter:preventDefault="@DragEnterPreventDefault"
+       @ondragleave="@OnDragLeaveHandler"
+       @ondragleave:preventDefault="@DragLeavePreventDefault"
+       @ondragstart="@OnDragStartHandler"
+       @ondragstart:preventDefault="@DragStartPreventDefault"
+       @ondrop="@OnDropHandler"
+       @ondrop:preventDefault="@DropPreventDefault"
+       @attributes="@Attributes">
+    @ChildContent
+</tfoot>
+@code {
+    [CascadingParameter] protected Blazorise.Table ParentTable { get; set; }
+}

@@ -1,24 +1,11 @@
-﻿@inherits Blazorise.Tab
-<div @ref="@ElementRef" id="@ElementId" role="tab" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" tabindex="@(Disabled ? "-1" : "0")" aria-selected="@AriaSelected" aria-disabled="@AriaDisabled" @attributes="@Attributes">
-    <div role="tab" class="@TabButtonClassNames" style="@Styles?.Link" tabindex="0" aria-selected="@AriaSelected" aria-disabled="@AriaDisabled">
+@inherits Blazorise.Tab
+<div @ref="@ElementRef" id="@ElementId" role="tab" class="@ClassNames" style="@StyleNames" tabindex="@(Disabled ? "-1" : "0")" aria-selected="@AriaSelected" aria-disabled="@AriaDisabled" @onclick="@ClickHandler" @attributes="@Attributes">
+    <span class="@LinkClassNames" style="@Styles?.Link">
         @ChildContent
-    </div>
+    </span>
 </div>
 @code {
     string AriaSelected => Active ? "true" : "false";
 
     string AriaDisabled => Disabled ? "true" : "false";
-
-    string TabButtonClassNames
-    {
-        get
-        {
-            if ( string.IsNullOrEmpty( LinkClassNames ) )
-            {
-                return "ant-tabs-tab-btn";
-            }
-
-            return $"ant-tabs-tab-btn {LinkClassNames}";
-        }
-    }
 }

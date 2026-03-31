@@ -1,90 +1,4 @@
-﻿.ant-display-1 {
-    font-size: $display1-size;
-    font-weight: $display1-weight;
-    line-height: $display-line-height;
-}
-
-.ant-display-2 {
-    font-size: $display2-size;
-    font-weight: $display2-weight;
-    line-height: $display-line-height;
-}
-
-.ant-display-3 {
-    font-size: $display3-size;
-    font-weight: $display3-weight;
-    line-height: $display-line-height;
-}
-
-.ant-display-4 {
-    font-size: $display4-size;
-    font-weight: $display4-weight;
-    line-height: $display-line-height;
-}
-
-.ant-typography-white {
-    color: $ant-white !important;
-}
-
-@each $name, $value in $theme-colors {
-    .ant-typography-#{$name} {
-        color: $value !important;
-    }
-
-    .ant-typography-#{$name}-emphasis {
-        color: #{map-get($theme-colors-text-emphasis, $name)} !important;
-    }
-}
-
-.ant-typography-body {
-    color: $body-color !important;
-}
-
-.ant-typography-body-emphasis {
-    color: shade-color($body-color, $text-emphasis-shade-weight) !important;
-}
-
-.ant-typography-muted {
-    color: $text-muted !important;
-}
-
-.ant-typography-muted-emphasis {
-    color: shade-color($text-muted, $text-emphasis-shade-weight) !important;
-}
-
-.ant-typography-black-50 {
-    color: rgba($ant-black, .5) !important;
-}
-
-.ant-typography-black-50-emphasis {
-    color: rgba($ant-black, 0.7) !important;
-}
-
-.ant-typography-white-50 {
-    color: rgba($ant-white, .5) !important;
-}
-
-.ant-typography-white-50-emphasis {
-    color: rgba($ant-white, 0.8) !important;
-}
-
-// Blockquotes
-.ant-blockquote {
-    margin-bottom: $spacer;
-    font-size: $blockquote-font-size;
-}
-
-.ant-blockquote-footer {
-    display: block;
-    font-size: $blockquote-small-font-size;
-    color: $blockquote-small-color;
-
-    &::before {
-        content: "\2014\00A0"; // em dash, nbsp
-    }
-}
-
-.ant-typography {
+﻿.b-ant-text {
     &-left {
         text-align: left !important;
     }
@@ -102,12 +16,6 @@
     }
 }
 
-.ant-lead {
-    font-size: 1.25rem;
-    font-weight: 300;
-    margin-bottom: 1rem;
-}
-
 @each $breakpoint in map-keys($grid-breakpoints) {
     $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
@@ -115,7 +23,7 @@
         @each $name, $fs in $font-sizes {
             $lh: map-get($line-heights, $name);
 
-            .ant-font-size#{$infix}-#{$name} {
+            .b-ant-font-size#{$infix}-#{$name} {
                 font-size: $fs;
                 line-height: $lh;
             }
@@ -123,18 +31,20 @@
     }
 }
 
-.ant-typography-wrap {
+.b-ant-typography-wrap {
     white-space: normal !important;
 }
 
-.ant-typography-nowrap {
+.b-ant-typography-nowrap {
     white-space: nowrap !important;
 }
 
-.ant-typography-truncate {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.ant-typography-ellipsis {
+    display: inline-block !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
 }
 
 .ant-unordered-list {
@@ -144,19 +54,19 @@
     }
 }
 
-.ant-typography-lowercase {
+.b-ant-text-lowercase {
     text-transform: lowercase !important;
 }
 
-.ant-typography-uppercase {
+.b-ant-text-uppercase {
     text-transform: uppercase !important;
 }
 
-.ant-typography-capitalize {
+.b-ant-text-capitalize {
     text-transform: capitalize !important;
 }
 
-.ant-typography-italic {
+.b-ant-typography-italic {
     font-style: italic !important;
 }
 
@@ -183,7 +93,7 @@ ol.ant-ordered-list {
     }
 }
 
-.ant-font-weight {
+.b-ant-font-weight {
     &-bold {
         font-weight: 700;
     }
@@ -192,10 +102,7 @@ ol.ant-ordered-list {
         font-weight: 600;
     }
 
-    &-normal {
-        font-weight: 400;
-    }
-
+    &-normal,
     &-default {
         font-weight: 400;
     }
@@ -205,7 +112,7 @@ ol.ant-ordered-list {
     }
 }
 
-.ant-typography-decoration {
+.b-ant-text-decoration {
     &-underline {
         text-decoration: underline !important;
     }
@@ -225,4 +132,110 @@ ol.ant-ordered-list {
     &-none {
         text-decoration: none !important;
     }
+}
+
+.ant-typography-secondary {
+    color: var(--ant-color-text-description) !important;
+}
+
+.ant-typography-primary {
+    color: var(--b-theme-text-primary, var(--ant-color-primary)) !important;
+}
+
+.ant-typography-success {
+    color: var(--b-theme-text-success, var(--ant-color-success)) !important;
+}
+
+.ant-typography-info {
+    color: var(--b-theme-text-info, var(--ant-color-info)) !important;
+}
+
+.ant-typography-warning {
+    color: var(--b-theme-text-warning, var(--ant-color-warning)) !important;
+}
+
+.ant-typography-danger,
+.ant-typography-error {
+    color: var(--b-theme-text-danger, var(--ant-color-error)) !important;
+}
+
+.ant-typography-light {
+    color: var(--b-theme-text-light, #fafafa) !important;
+}
+
+.ant-typography-dark {
+    color: var(--b-theme-text-dark, #343a40) !important;
+}
+
+.ant-typography-body {
+    color: var(--b-theme-text-body, var(--ant-color-text)) !important;
+}
+
+.ant-typography-body-emphasis {
+    color: var(--b-theme-text-body-emphasis, var(--ant-color-text-heading)) !important;
+}
+
+.ant-typography-muted {
+    color: var(--b-theme-text-muted, var(--ant-color-text-description)) !important;
+}
+
+.ant-typography-muted-emphasis {
+    color: var(--b-theme-text-muted-emphasis, var(--ant-color-text-secondary)) !important;
+}
+
+.ant-typography-white {
+    color: var(--b-theme-text-white, var(--ant-color-text-light-solid)) !important;
+}
+
+.ant-typography-white-emphasis {
+    color: var(--b-theme-text-white-emphasis, var(--b-theme-text-white, var(--ant-color-text-light-solid))) !important;
+}
+
+.ant-typography-black-50 {
+    color: var(--b-theme-text-black-50, rgba(0, 0, 0, .5)) !important;
+}
+
+.ant-typography-black-50-emphasis {
+    color: var(--b-theme-text-black-50-emphasis, rgba(0, 0, 0, 0.7)) !important;
+}
+
+.ant-typography-white-50 {
+    color: var(--b-theme-text-white-50, rgba(255, 255, 255, .5)) !important;
+}
+
+.ant-typography-white-50-emphasis {
+    color: var(--b-theme-text-white-50-emphasis, rgba(255, 255, 255, 0.8)) !important;
+}
+
+.ant-typography-primary-emphasis {
+    color: var(--b-theme-text-primary-emphasis, var(--ant-color-primary-active)) !important;
+}
+
+.ant-typography-secondary-emphasis {
+    color: var(--b-theme-text-secondary-emphasis, var(--ant-color-text-heading)) !important;
+}
+
+.ant-typography-success-emphasis {
+    color: var(--b-theme-text-success-emphasis, var(--ant-color-success-active)) !important;
+}
+
+.ant-typography-info-emphasis {
+    color: var(--b-theme-text-info-emphasis, var(--ant-color-info-active)) !important;
+}
+
+.ant-typography-warning-emphasis {
+    color: var(--b-theme-text-warning-emphasis, var(--ant-color-warning-active)) !important;
+}
+
+.ant-typography-danger-emphasis,
+.ant-typography-error-emphasis {
+    color: var(--b-theme-text-danger-emphasis, var(--ant-color-error-active)) !important;
+}
+
+.ant-typography-light-emphasis {
+    color: var(--b-theme-text-light-emphasis, var(--b-theme-text-light, var(--ant-color-text-light-solid))) !important;
+}
+
+.ant-typography-dark-emphasis {
+    color: var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading)) !important;
 }

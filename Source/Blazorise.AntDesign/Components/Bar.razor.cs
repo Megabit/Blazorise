@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using Blazorise.Utilities;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -14,6 +15,16 @@ public partial class Bar : Blazorise.Bar
     #endregion
 
     #region Methods
+
+    protected override async Task OnFirstAfterRenderAsync()
+    {
+        await base.OnFirstAfterRenderAsync();
+
+        if ( initialMode != BarMode.Horizontal )
+            return;
+
+        await OnBreakpoint( BreakpointActivatorAdapter.IsBroken( Breakpoint, await JSBreakpointModule.GetBreakpoint() ) );
+    }
 
     protected override void BuildClasses( ClassBuilder builder )
     {

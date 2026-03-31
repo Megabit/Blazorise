@@ -33,7 +33,7 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Holds the reference to the confirmation dialog component.
     /// </summary>
-    private _FilePickerConfirmModal filePickerConfirmModalRef;
+    protected _FilePickerConfirmModal filePickerConfirmModalRef;
 
     #endregion
 
@@ -243,21 +243,21 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     /// Internal method. Facilitates named binding.
     /// </summary>
     /// <returns></returns>
-    private Task RemoveFileWithConfirm( IFileEntry file )
+    protected Task RemoveFileWithConfirm( IFileEntry file )
         => RemoveFile( file, true );
 
     /// <summary>
     /// Internal method. Facilitates named binding.
     /// </summary>
     /// <returns></returns>
-    private Task ClearWithConfirm()
+    protected Task ClearWithConfirm()
         => Clear( true );
 
     /// <summary>
     /// Internal method. Facilitates named binding.
     /// </summary>
     /// <returns></returns>
-    private Task CancelWithConfirm()
+    protected Task CancelWithConfirm()
         => Cancel( true );
 
     private CancellationTokenSource cts;
@@ -314,7 +314,7 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Gets or sets the main container element id.
     /// </summary>
-    private string ElementContainerId { get; set; }
+    protected string ElementContainerId { get; set; }
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;

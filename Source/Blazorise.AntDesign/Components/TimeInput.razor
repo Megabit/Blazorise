@@ -1,0 +1,40 @@
+@using Blazorise.Utilities
+@typeparam TValue
+@inherits Blazorise.TimeInput<TValue>
+@if ( Plaintext )
+{
+    <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @CurrentValueAsString
+    </span>
+}
+else
+{
+    <div class="@ContainerClassNames" style="@StyleNames" @onclick="@OnPickerClickHandler">
+        <div class="ant-picker-input">
+            <input @ref="@ElementRef" id="@ElementId" type="time" name="@NameAttributeValue" disabled="@IsDisabled" readonly="@ReadOnly" pattern="@Pattern" step="@Step" value="@CurrentValueAsString" tabindex="@TabIndex" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ExplicitAriaLabelledBy" @onchange="@OnChangeHandler" placeholder="@Placeholder" min="@MinValueString" max="@MaxValueString" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        </div>
+        <span class="ant-picker-suffix" aria-hidden="true" @onclick="@OnPickerClickHandler">
+            <span role="img" aria-label="clock-circle" class="anticon anticon-clock-circle">
+                <svg viewBox="64 64 896 896" focusable="false" data-icon="clock-circle" width="1em" height="1em" fill="currentColor" aria-hidden="true">
+                    <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372S306.6 140 512 140s372 166.6 372 372-166.6 372-372 372zm20-592h-56c-4.4 0-8 3.6-8 8v240c0 2.7 1.3 5.2 3.6 6.7l168 112c3.7 2.5 8.7 1.5 11.2-2.2l31.2-46.8c2.5-3.7 1.5-8.7-2.2-11.2L548 521.5V300c0-4.4-3.6-8-8-8z"></path>
+                </svg>
+            </span>
+        </span>
+    </div>
+}
+@ChildContent
+@Feedback
+@code {
+    string ContainerClassNames => IsDisabled
+        ? $"{ClassNames} ant-picker-disabled"
+        : ClassNames;
+
+    string MinValueString => Min?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() );
+
+    string MaxValueString => Max?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() );
+
+    Task OnPickerClickHandler()
+        => IsDisabled || ReadOnly
+            ? Task.CompletedTask
+            : ShowPicker();
+}

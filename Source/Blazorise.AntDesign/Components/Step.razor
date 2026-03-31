@@ -1,53 +1,58 @@
-﻿@inherits Blazorise.Step
+@inherits Blazorise.Step
 @using Blazorise.Utilities
 <CascadingValue Value="@this" IsFixed>
-    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
+    <div @ref="@ElementRef" id="@ElementId" class="@RootClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
         <div class="@ContainerClassNames" style="@ContainerStyleNames">
-            <div class="ant-steps-item-tail"></div>
-            @if ( Marker != null || Caption != null )
-            {
-
-                @if ( Marker != null )
+            <div class="@MarkerClassNames" style="@Styles?.Marker">
+                @if ( Completed )
                 {
-                    <span class="@MarkerClassNames" style="@Styles?.Marker">
-                        <span class="ant-steps-icon">
-                            @Marker
-                        </span>
+                    <span class="ant-steps-item-icon-finish">
+                        &#10003;
                     </span>
                 }
-                @if ( Caption != null )
+                else if ( Marker != null )
                 {
-                    <div class="@DescriptionClassNames" style="@Styles?.Description">
-                        <div class="ant-steps-item-title">
-                            @Caption
-                        </div>
-                    </div>
+                    @Marker
                 }
-            }
-            else
-            {
-                <div class="@MarkerClassNames" style="@Styles?.Marker">
-                    <span class="ant-steps-icon">
+                else
+                {
+                    <span class="ant-steps-item-icon-number">
                         @CalculatedIndex
                     </span>
-                </div>
-                <div class="@DescriptionClassNames" style="@Styles?.Description">
+                }
+            </div>
+            <div class="@DescriptionClassNames" style="@Styles?.Description">
+                <div class="ant-steps-item-header">
                     <div class="ant-steps-item-title">
-                        @ChildContent
+                        @if ( Caption != null )
+                        {
+                            @Caption
+                        }
+                        else
+                        {
+                            @ChildContent
+                        }
                     </div>
+                    <div class="@RailClassNames"></div>
                 </div>
-            }
+            </div>
         </div>
     </div>
 </CascadingValue>
 @code {
+    string RootClassNames => new ClassBuilder( classBuilder =>
+    {
+        classBuilder.Append( ClassNames );
+        classBuilder.Append( "ant-steps-item-wait", !Active && !Completed );
+    } ).Class;
+
     string ContainerClassNames
     {
         get
         {
             var builder = new ClassBuilder( classBuilder =>
             {
-                classBuilder.Append( "ant-steps-item-container" );
+                classBuilder.Append( "ant-steps-item-wrapper" );
                 classBuilder.Append( Classes?.Container );
                 AppendWrapperUtilities( classBuilder );
             } );
@@ -68,5 +73,17 @@
 
             return builder.Styles;
         }
+    }
+
+    string RailClassNames => new ClassBuilder( classBuilder =>
+    {
+        classBuilder.Append( "ant-steps-item-rail" );
+        classBuilder.Append( Active || Completed ? "ant-steps-item-rail-process" : "ant-steps-item-rail-wait" );
+    } ).Class;
+
+    protected override void BuildMarkerClasses( ClassBuilder builder )
+    {
+        base.BuildMarkerClasses( builder );
+        builder.Append( "ant-wave-target" );
     }
 }

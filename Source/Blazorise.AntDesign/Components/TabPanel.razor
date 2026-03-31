@@ -1,6 +1,9 @@
 ﻿@inherits Blazorise.TabPanel
 <div @ref="@ElementRef" id="@ElementId" role="tabpanel" tabindex="@TabIndex" class="@ClassNames" style="@StyleNames" aria-hidden="@AriaHidden" @attributes="@Attributes">
-    @ChildContent
+    @if ( RenderMode == TabsRenderMode.Default || ( RenderMode == TabsRenderMode.LazyReload && Active ) || ( RenderMode == TabsRenderMode.LazyLoad && LazyLoaded ) )
+    {
+        @ChildContent
+    }
 </div>
 @code {
     int TabIndex => Active ? 0 : -1;

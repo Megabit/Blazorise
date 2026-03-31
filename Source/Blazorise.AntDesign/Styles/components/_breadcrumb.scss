@@ -1,0 +1,40 @@
+.ant-breadcrumb {
+    > ol {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .ant-breadcrumb-item,
+    .ant-breadcrumb-separator {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .ant-breadcrumb-separator {
+        margin-inline: var(--ant-margin-xs);
+        color: var(--ant-color-text-description);
+    }
+
+    .ant-breadcrumb-link {
+        color: var(--ant-color-text-description);
+
+        a {
+            color: inherit;
+        }
+    }
+
+    .ant-breadcrumb-link:hover,
+    .ant-breadcrumb-link:has(> a:hover) {
+        color: var(--ant-color-text);
+    }
+
+    .ant-breadcrumb-item[aria-current="page"] {
+        .ant-breadcrumb-link {
+            color: var(--ant-color-text);
+        }
+    }
+}

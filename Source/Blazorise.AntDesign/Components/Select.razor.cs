@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -93,7 +94,7 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
         // An element location must be known every time we need to show the dropdown. The reason is mainly
         // because sometimes input can have different offset based on the changes on the page. For example
         // when validation is triggered the input can be pushed down by the error messages.
-        elementInfo = await JSUtilitiesModule.GetElementInfo( ElementRef, ElementId );
+        elementInfo = await JSUtilitiesModule.GetElementInfo( RootElementRef, ElementId );
 
         await JSClosableModule.Register( dotNetObjectRef, ElementRef );
 
@@ -120,9 +121,11 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
         // We could just set SelectedValue(s) directly but that would skip validation process
         // and we would also need to handle event handlers.
         // Thats why we need to call CurrentValueHandler that will trigger all that is required.
-        if ( Multiple && Value is IEnumerable<TValue> values )
+        if ( Multiple )
         {
-            var list = new List<object>( values?.Select( x => (object)x ) ?? Enumerable.Empty<object>() );
+            var list = Value is IEnumerable values && Value is not string
+                ? new List<object>( values.Cast<object>() )
+                : new List<object>();
 
             if ( list.Any( x => x.IsEqual( selectValue ) ) )
                 list.Remove( selectValue );
@@ -179,7 +182,7 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
         }
     }
 
-    protected Task RemoveSelectedItem( TValue value )
+    protected Task RemoveSelectedItem( object value )
     {
         return NotifySelectValueChanged( value );
     }
@@ -224,6 +227,8 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
 
     protected ElementReference DropdownElementRef { get; set; }
 
+    protected ElementReference RootElementRef { get; set; }
+
     /// <summary>
     /// Gets the selected items render fragments.
     /// </summary>
@@ -231,9 +236,9 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
     {
         get
         {
-            if ( Value is IEnumerable<TValue> values )
+            if ( Value is IEnumerable values && Value is not string )
             {
-                foreach ( var selectedValue in values )
+                foreach ( var selectedValue in values.Cast<object>() )
                 {
                     var item = SelectItems.FirstOrDefault( i => i.CompareTo( selectedValue ) );
 
@@ -264,6 +269,15 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
         }
     }
 
+    protected IEnumerable<object> SelectedValues
+        => Value is IEnumerable values && Value is not string
+            ? values.Cast<object>()
+            : Enumerable.Empty<object>();
+
+    protected bool HasSingleSelection => !Multiple && Value is not null && SelectedItem is not null;
+
+    protected bool HasMultipleSelections => Multiple && SelectedValues.Any();
+
     string SelectListId =>
         $"select_list_{ElementId}";
 
@@ -271,21 +285,16 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
     {
         get
         {
-            var sb = new StringBuilder( "ant-select ant-select-show-arrow" );
-
-            if ( ThemeSize != Blazorise.Size.Default )
-                sb.Append( $" ant-select-{ClassProvider.ToSize( ThemeSize )}" );
-
-            if ( Multiple )
-                sb.Append( " ant-select-multiple" );
-            else
-                sb.Append( " ant-select-single" );
+            var sb = new StringBuilder( ClassNames );
 
             if ( Expanded )
                 sb.Append( " ant-select-focused ant-select-open" );
 
             if ( Disabled )
                 sb.Append( " ant-select-disabled" );
+
+            if ( Loading )
+                sb.Append( " ant-select-loading" );
 
             return sb.ToString();
         }

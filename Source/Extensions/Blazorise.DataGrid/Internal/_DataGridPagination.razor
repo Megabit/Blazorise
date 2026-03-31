@@ -64,7 +64,7 @@
     {
         @if ( ShowButtonRow )
         {
-            <Field Display="DisplayInlineBlock">
+            <Div Display="DisplayInlineBlock">
                 @{
                     var newButtonString = Localizer.Localize( ParentDataGrid.Localizers?.NewButtonLocalizer, "New" );
                     var editButtonString = Localizer.Localize( ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit" );
@@ -80,36 +80,36 @@
                             Clicked = NewClick,
                             LocalizationString = newButtonString,
                         },
-        EditCommand = new()
-        {
-            Clicked = EditClick,
-            LocalizationString = editButtonString,
-            Item = SelectedRow
-        },
-        DeleteCommand = new()
-        {
-            Clicked = DeleteClick,
-            LocalizationString = deleteButtonString,
-            Item = SelectedRow
-        },
-        ClearFilterCommand = new()
-        {
-            Clicked = ClearFilterClick,
-            LocalizationString = clearFilterButtonString,
-        },
-        SaveBatchCommand = new()
-        {
-            Clicked = SaveBatchClick,
-            LocalizationString = saveBatchButtonString,
-        },
-        CancelBatchCommand = new()
-        {
-            Clicked = CancelBatchClick,
-            LocalizationString = cancelBatchButtonString,
-        }
-        } )
-        }
-            </Field>
+                        EditCommand = new()
+                        {
+                            Clicked = EditClick,
+                            LocalizationString = editButtonString,
+                            Item = SelectedRow
+                        },
+                        DeleteCommand = new()
+                        {
+                            Clicked = DeleteClick,
+                            LocalizationString = deleteButtonString,
+                            Item = SelectedRow
+                        },
+                        ClearFilterCommand = new()
+                        {
+                            Clicked = ClearFilterClick,
+                            LocalizationString = clearFilterButtonString,
+                        },
+                        SaveBatchCommand = new()
+                        {
+                            Clicked = SaveBatchClick,
+                            LocalizationString = saveBatchButtonString,
+                        },
+                        CancelBatchCommand = new()
+                        {
+                            Clicked = CancelBatchClick,
+                            LocalizationString = cancelBatchButtonString,
+                        }
+                    } )
+                }
+            </Div>
         }
     };
 

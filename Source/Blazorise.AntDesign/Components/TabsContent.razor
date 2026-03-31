@@ -1,10 +1,8 @@
-﻿@inherits Blazorise.TabsContent
+@inherits Blazorise.TabsContent
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
-        <div class="ant-tabs-content-holder">
-            <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                @ChildContent
-            </div>
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @ChildContent
         </div>
     </CascadingValue>
 </CascadingValue>

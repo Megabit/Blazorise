@@ -1,88 +1,168 @@
-﻿.ant-steps-item.ant-steps-item-active.ant-steps-item-process.ant-steps-item-finish {
-    .ant-steps-item-icon {
-        background-color: $primary;
-
-        .ant-steps-icon {
-            color: $ant-white;
-        }
-    }
-}
-
-@each $name, $value in $theme-colors {
-    $color: $value;
-
+.ant-steps {
     .ant-steps-item {
-        &-#{$name} {
-            &.ant-steps-item-finish {
-                .ant-steps-item-content {
-                    .ant-steps-item-title {
-                        color: $color;
-                    }
-                }
-            }
+        flex: 1 1 0;
+        min-width: 0;
+    }
 
-            &.ant-steps-item-wait {
-                .ant-steps-item-icon {
-                    border-color: $color;
-                    color: $ant-white;
-                }
+    .ant-steps-item-wrapper {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--ant-margin-sm);
+    }
 
-                .ant-steps-item-content {
-                    .ant-steps-item-title {
-                        color: $color;
-                    }
-                }
-            }
+    .ant-steps-item-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+        width: var(--ant-steps-icon-size);
+        height: var(--ant-steps-icon-size);
+        font-size: var(--ant-steps-icon-font-size);
+        color: var(--ant-color-primary);
+        background: var(--ant-color-bg-container);
+        border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-primary-border);
+        border-radius: 50%;
+        transition: all var(--ant-motion-duration-mid) var(--ant-motion-ease-in-out);
+    }
 
-            &.ant-steps-item-active {
-                &.ant-steps-item-finish {
-                    .ant-steps-item-icon {
-                        background-color: $primary;
-                        border-color: $primary;
-                        color: $ant-white;
-                    }
-                }
+    .ant-steps-item-icon-number,
+    .ant-steps-item-icon-finish {
+        line-height: 1;
+    }
 
-                &.ant-steps-item-process {
-                    .ant-steps-icon {
-                        border-color: $primary;
-                        color: $ant-white;
-                    }
+    .ant-steps-item:not(.ant-steps-item-disabled) .ant-steps-item-icon,
+    .ant-steps-item:not(.ant-steps-item-disabled) .ant-steps-item-icon-number,
+    .ant-steps-item:not(.ant-steps-item-disabled) .ant-steps-item-icon-finish {
+        cursor: pointer;
+    }
 
-                    .ant-steps-item-content {
-                        .ant-steps-item-title {
-                            color: $color;
-                        }
-                    }
-                }
-            }
+    .ant-steps-item-section {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
 
+    .ant-steps-item-header {
+        display: flex;
+        align-items: center;
+        gap: var(--ant-margin-sm);
+    }
 
+    .ant-steps-item-title {
+        color: var(--ant-color-text);
+        font-size: var(--ant-font-size);
+        line-height: var(--ant-line-height);
+        white-space: nowrap;
+    }
+
+    .ant-steps-item-rail {
+        flex: 1 1 auto;
+        height: var(--ant-line-width-bold);
+        background: var(--ant-color-split);
+        border-radius: var(--ant-line-width-bold);
+    }
+
+    .ant-steps-item-rail-process {
+        background: var(--ant-color-primary);
+    }
+
+    .ant-steps-item.ant-steps-item-process {
+        .ant-steps-item-icon {
+            border-color: var(--ant-color-primary);
+            box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-control-outline);
+        }
+
+        .ant-steps-item-title {
+            color: var(--ant-color-text-heading);
+            font-weight: var(--ant-font-weight-strong);
+        }
+    }
+
+    .ant-steps-item.ant-steps-item-finish {
+        .ant-steps-item-icon {
+            color: var(--ant-color-text-light-solid);
+            background: var(--ant-color-primary);
+            border-color: var(--ant-color-primary);
+        }
+    }
+
+    .ant-steps-item.ant-steps-item-wait {
+        .ant-steps-item-icon {
+            color: var(--ant-color-text-description);
+            border-color: var(--ant-color-border);
+        }
+
+        .ant-steps-item-title {
+            color: var(--ant-color-text-description);
+        }
+    }
+
+    .ant-steps-item:last-child {
+        .ant-steps-item-rail {
+            display: none;
+        }
+    }
+}
+
+@mixin ant-steps-variant($name, $color) {
+    .ant-steps-item.ant-steps-item-#{$name} {
+        &.ant-steps-item-process {
             .ant-steps-item-icon {
-                border-color: $color;
-
-                .ant-steps-icon {
-                    color: $color;
-                }
+                border-color: #{$color};
+                box-shadow: 0 0 0 var(--ant-control-outline-width) color-mix(in srgb, #{$color} 10%, transparent);
             }
 
-            .ant-steps-item-content {
-                .ant-steps-item-title {
-                    color: $color;
-                }
+            .ant-steps-item-title {
+                color: #{$color};
+            }
+
+            .ant-steps-item-rail {
+                background: #{$color};
+            }
+        }
+
+        &.ant-steps-item-finish {
+            .ant-steps-item-icon,
+            .ant-steps-item-rail-process {
+                background: #{$color};
+                border-color: #{$color};
+            }
+
+            .ant-steps-item-title {
+                color: #{$color};
+            }
+        }
+
+        &.ant-steps-item-wait {
+            .ant-steps-item-icon {
+                color: #{$color};
+                border-color: #{$color};
+            }
+
+            .ant-steps-item-title {
+                color: #{$color};
             }
         }
     }
 }
+
+@include ant-steps-variant(primary, var(--b-theme-primary, var(--ant-color-primary)));
+@include ant-steps-variant(secondary, var(--b-theme-secondary, var(--ant-color-text-secondary)));
+@include ant-steps-variant(success, var(--b-theme-success, var(--ant-color-success)));
+@include ant-steps-variant(info, var(--b-theme-info, var(--ant-color-info)));
+@include ant-steps-variant(warning, var(--b-theme-warning, var(--ant-color-warning)));
+@include ant-steps-variant(danger, var(--b-theme-danger, var(--ant-color-error)));
+@include ant-steps-variant(light, var(--b-theme-light, var(--ant-color-text-light-solid)));
+@include ant-steps-variant(dark, var(--b-theme-dark, var(--ant-color-text-heading)));
+@include ant-steps-variant(link, var(--b-theme-link, var(--ant-color-link)));
 
 .ant-steps-content {
-    margin: 1rem 0;
+    margin-block-start: var(--ant-margin);
 
     > .ant-steps-panel {
         display: none;
     }
 
-    > .ant-steps-panel-active {
+    > .ant-steps-panel.ant-steps-panel-active {
         display: block;
     }
 }

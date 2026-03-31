@@ -1,15 +1,22 @@
 ﻿@inherits Blazorise.BarItem
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
-        @if ( HasDropdown && State.Mode != BarMode.Horizontal )
+        @if ( HasDropdown )
         {
             @ChildContent
         }
         else
         {
-            <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menuitem" aria-disabled="@State.Disabled.ToString().ToLowerInvariant()" @attributes="@Attributes">
+            <li @ref="@ElementRef" id="@ElementId" class="@ItemClassNames" style="@StyleNames" role="menuitem" aria-disabled="@State.Disabled.ToString().ToLowerInvariant()" @attributes="@Attributes">
                 @ChildContent
             </li>
         }
     </CascadingValue>
 </CascadingValue>
+@code {
+    [CascadingParameter] protected Blazorise.AntDesign.Components.BarBrand ParentAntDesignBarBrand { get; set; }
+
+    string ItemClassNames => ParentAntDesignBarBrand is not null
+        ? $"{ClassNames} b-ant-menu-brand-item"
+        : ClassNames;
+}
