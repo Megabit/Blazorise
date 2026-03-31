@@ -169,7 +169,8 @@ public class DataGridGroupingComponentTest : TestContext
 
         var groupedData = dataGrid.Instance.DisplayGroupedData.ToList();
         var johnGroup = groupedData.Single( x => x.Key == "John" );
-        var nestedGroups = johnGroup.NestedGroup.Should().NotBeNull().Subject.ToList();
+        johnGroup.NestedGroup.Should().NotBeNull();
+        var nestedGroups = johnGroup.NestedGroup!.ToList();
 
         // validate
         groupedData.Should().HaveCount( 2 );
