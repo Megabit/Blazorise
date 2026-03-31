@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -1062,7 +1062,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             } )
             .ToList();
 
-            GroupSyncState( groupedData, newGroupedData );
+            RecursiveGroup( 1, groupedData, newGroupedData );
             groupedData = newGroupedData;
         }
         else

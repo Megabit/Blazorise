@@ -141,4 +141,38 @@ public class DataGridGroupingComponentTest : TestContext
             groupingChanged.Should().BeEmpty();
         }, TimeSpan.FromSeconds( 3 ) );
     }
+
+    [Fact]
+    public void DisplayGroupedData_Should_CreateNestedGroups_When_MultipleColumnsAreGrouped()
+    {
+        // setup
+        IEnumerable<Employee> data = new[]
+        {
+            new Employee { Name = "John", Department = "Engineering", City = "Zagreb" },
+            new Employee { Name = "John", Department = "Sales", City = "Rijeka" },
+            new Employee { Name = "Ana", Department = "Engineering", City = "Split" },
+        };
+
+        var comp = RenderComponent<BasicTestApp.Client.DataGridGroupingComponent>( parameters =>
+        {
+            parameters.Add( x => x.Data, data );
+        } );
+
+        var dataGrid = comp.FindComponent<DataGrid<Employee>>();
+        var columns = dataGrid.FindComponents<DataGridColumn<Employee>>();
+        var nameColumn = columns.Single( x => x.Instance.Field == nameof( Employee.Name ) );
+        var departmentColumn = columns.Single( x => x.Instance.Field == nameof( Employee.Department ) );
+
+        // test
+        dataGrid.Instance.AddGroupColumn( nameColumn.Instance );
+        dataGrid.Instance.AddGroupColumn( departmentColumn.Instance );
+
+        var groupedData = dataGrid.Instance.DisplayGroupedData.ToList();
+        var johnGroup = groupedData.Single( x => x.Key == "John" );
+        var nestedGroups = johnGroup.NestedGroup.Should().NotBeNull().Subject.ToList();
+
+        // validate
+        groupedData.Should().HaveCount( 2 );
+        nestedGroups.Select( x => x.Key ).Should().Equal( "Engineering", "Sales" );
+    }
 }
