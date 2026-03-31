@@ -38,13 +38,13 @@ export function scheduleResponsiveResizePatch(instance, resetSize) {
         return;
     }
 
-    const schedule = typeof requestAnimationFrame === "function"
-        ? requestAnimationFrame
+    const schedule = typeof window !== "undefined" && typeof window.requestAnimationFrame === "function"
+        ? (callback) => window.requestAnimationFrame(callback)
         : (callback) => setTimeout(callback, 16);
 
-    const cancel = typeof cancelAnimationFrame === "function"
-        ? cancelAnimationFrame
-        : clearTimeout;
+    const cancel = typeof window !== "undefined" && typeof window.cancelAnimationFrame === "function"
+        ? (requestId) => window.cancelAnimationFrame(requestId)
+        : (requestId) => clearTimeout(requestId);
 
     instance.cancelResizeRequest = cancel;
     instance.resizeRequestId = schedule(() => {
