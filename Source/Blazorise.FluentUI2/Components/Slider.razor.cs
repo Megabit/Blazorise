@@ -1,5 +1,6 @@
 #region Using directives
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 #endregion
 
@@ -74,7 +75,7 @@ public partial class Slider<TValue>
         TValue max = Converters.ChangeType<TValue>( Max );
 
         var currentValue = MathUtils.Clamp( CurrentValue, min, max );
-        var valuePercent = MathUtils.GetPercent( currentValue, min, max );
+        var valuePercent = MathUtils.GetPercent( currentValue, min, max ).ToCultureInvariantString();
 
         builder.Append( $"--fui-Slider--direction: 90deg;--fui-Slider--progress: {valuePercent}%;" );
 
