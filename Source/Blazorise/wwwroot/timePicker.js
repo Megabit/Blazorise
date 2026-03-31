@@ -73,6 +73,8 @@ export function initialize(element, elementId, options) {
             }
         }
     });
+    picker.classMutationObserver = mutationObserver;
+    picker.disconnectCleanupId = utilities.registerDisconnectCleanup(element, () => destroy(null, elementId, false));
 
     if (options) {
         picker.altInput.disabled = utilities.coalesce(options.disabled, false);
@@ -93,12 +95,22 @@ export function initialize(element, elementId, options) {
     _pickers[elementId] = picker;
 }
 
-export function destroy(element, elementId) {
+export function destroy(element, elementId, unregisterCleanup = true) {
     const instances = _pickers || {};
-
     const instance = instances[elementId];
 
-    if (instance) {
+    if (!instance)
+        return;
+
+    if (unregisterCleanup) {
+        utilities.unregisterDisconnectCleanup(instance.disconnectCleanupId);
+    }
+
+    if (instance.classMutationObserver) {
+        instance.classMutationObserver.disconnect();
+    }
+
+    if (typeof instance.destroy === "function") {
         instance.destroy();
     }
 
