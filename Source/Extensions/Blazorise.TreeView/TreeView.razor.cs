@@ -154,11 +154,47 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     {
         treeViewNodeStates = new();
 
-        await foreach ( var nodeState in Nodes.ToNodeStates( HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
+        foreach ( TreeViewNodeState<TNode> nodeState in await CreateNodeStatesAsync( Nodes ) )
         {
             AddTreeViewNodeState( nodeState );
         }
 
+        await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Triggers the reload of a specific node and its subtree.
+    /// </summary>
+    /// <param name="node">Node to reload.</param>
+    /// <returns>Returns the awaitable task.</returns>
+    public async Task ReloadNode( TNode node )
+    {
+        if ( treeViewNodeStates.IsNullOrEmpty() )
+            return;
+
+        if ( !TryFindNodeState( treeViewNodeStates, treeViewNodeRef, node, out TreeViewNodeState<TNode> nodeState, out _TreeViewNode<TNode> ownerView ) )
+            return;
+
+        TreeViewNodeState<TNode> updatedNodeState = await CreateNodeStateAsync( node );
+
+        ownerView?.UnregisterNodeState( nodeState );
+
+        nodeState.Node = updatedNodeState.Node;
+        nodeState.HasChildren = updatedNodeState.HasChildren;
+        nodeState.Disabled = updatedNodeState.Disabled;
+        nodeState.Expanded = updatedNodeState.HasChildren && updatedNodeState.Expanded;
+
+        if ( !nodeState.HasChildren && ExpandedNodes.Remove( nodeState.Node ) )
+        {
+            await ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
+        }
+
+        nodeState.Children.Clear();
+        nodeState.ViewRef?.ReloadNodeStatesSubscriptions( nodeState.Children );
+
+        ownerView?.RegisterNodeState( nodeState );
+
+        DirtyClasses();
         await InvokeAsync( StateHasChanged );
     }
 
@@ -175,6 +211,53 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
         }
 
         treeViewNodeStates.Add( treeViewNodeState );
+    }
+
+    internal async Task<TreeViewNodeState<TNode>> CreateNodeStateAsync( TNode node )
+    {
+        bool hasChildren = HasChildNodesAsync is not null
+            ? await HasChildNodesAsync( node )
+            : DetermineHasChildNodes( node );
+
+        bool expanded = ExpandedNodes?.Contains( node ) == true;
+        bool disabled = DetermineIsDisabled( node );
+
+        return new TreeViewNodeState<TNode>( node, hasChildren, expanded, disabled );
+    }
+
+    internal async Task<List<TreeViewNodeState<TNode>>> CreateNodeStatesAsync( IEnumerable<TNode> nodes )
+    {
+        List<TreeViewNodeState<TNode>> nodeStates = new();
+
+        foreach ( TNode node in nodes ?? Enumerable.Empty<TNode>() )
+        {
+            nodeStates.Add( await CreateNodeStateAsync( node ) );
+        }
+
+        return nodeStates;
+    }
+
+    private bool TryFindNodeState( IList<TreeViewNodeState<TNode>> nodeStates, _TreeViewNode<TNode> ownerView, TNode node, out TreeViewNodeState<TNode> foundNodeState, out _TreeViewNode<TNode> foundOwnerView )
+    {
+        if ( nodeStates is not null )
+        {
+            foreach ( TreeViewNodeState<TNode> nodeState in nodeStates )
+            {
+                if ( nodeState.Node.IsEqual( node ) )
+                {
+                    foundNodeState = nodeState;
+                    foundOwnerView = ownerView;
+                    return true;
+                }
+
+                if ( TryFindNodeState( nodeState.Children, nodeState.ViewRef, node, out foundNodeState, out foundOwnerView ) )
+                    return true;
+            }
+        }
+
+        foundNodeState = null;
+        foundOwnerView = null;
+        return false;
     }
 
     protected override void Dispose( bool disposing )
