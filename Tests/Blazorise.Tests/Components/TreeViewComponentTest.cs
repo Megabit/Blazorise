@@ -261,4 +261,41 @@ public class TreeViewComponentTest : TestContext
             refreshedNodes[1].TextContent.Should().Contain( "Child 1" );
         } );
     }
+
+    [Fact]
+    public async Task ReloadNode_Should_Expand_Node_From_ExpandedNodes()
+    {
+        var parent = new Item()
+        {
+            Text = "Parent",
+            Children = Array.Empty<Item>(),
+        };
+
+        var expandedNodes = new List<Item>();
+
+        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        {
+            parameters.Add( p => p.Nodes, new[] { parent } );
+            parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
+            parameters.Add( p => p.HasChildNodes, (Func<Item, bool>)( node => node.Children?.Any() == true ) );
+            parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
+            parameters.Add( p => p.ExpandedNodes, expandedNodes );
+        } );
+
+        parent.Children = new[]
+        {
+            new Item() { Text = "Child 1" },
+        };
+
+        expandedNodes.Add( parent );
+
+        await cut.Instance.ReloadNode( parent );
+
+        cut.WaitForAssertion( () =>
+        {
+            var nodes = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
+            nodes.Count.Should().Be( 2 );
+            nodes[1].TextContent.Should().Contain( "Child 1" );
+        } );
+    }
 }
