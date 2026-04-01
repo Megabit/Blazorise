@@ -15,10 +15,10 @@
 @code {
     protected virtual RenderFragment VerticalIconTemplate => __builder =>
     {
-        <Span Class="b-bar-dropdown-toggle-content" @onclick:stopPropagation="@ShouldStopToggleAreaPropagation">
-            <Span Class="b-bar-dropdown-toggle-content-text">
+        <span class="b-bar-dropdown-toggle-content" @onclick:stopPropagation="@ShouldStopToggleAreaPropagation">
+            <span class="b-bar-dropdown-toggle-content-text">
                 @ChildContent
-            </Span>
+            </span>
 
             @if ( IsToggleIconVisible )
             {
@@ -35,6 +35,6 @@
                     </span>
                 </Span>
             }
-        </Span>
+        </span>
     };
 }
