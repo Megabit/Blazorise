@@ -15,14 +15,14 @@
 @code {
     protected virtual RenderFragment VerticalIconTemplate => __builder =>
     {
-        <Span Flex="FlexAlignItemsCenterJustifyContentBetween" @onclick:stopPropagation="@ShouldStopToggleAreaPropagation">
-            <Span>
+        <Span Class="b-bar-dropdown-toggle-content" @onclick:stopPropagation="@ShouldStopToggleAreaPropagation">
+            <Span Class="b-bar-dropdown-toggle-content-text">
                 @ChildContent
             </Span>
 
             @if ( IsToggleIconVisible )
             {
-                <Span Padding="PaddingIs2OnX">
+                <Span Class="b-bar-dropdown-toggle-content-icon" Padding="PaddingIs2OnX">
                     <span @onclick="@OnToggleIconClicked" @onclick:stopPropagation="@ShouldStopIconClickPropagation" @onclick:preventDefault="@ShouldPreventDefaultOnIconClick">
                         <Span Class="@ToggleIconContainerClassNames" Position="PositionRelative" Display="DisplayInlineFlex" Width="WidthRem1" Height="HeightRem1" Flex="FlexInlineFlexAlignItemsCenterJustifyContentCenter">
                             <Span Class="@GetToggleIconLayerClass( true )" Position="PositionAbsoluteTopIs0StartIs0" Width="WidthIs100" Height="HeightIs100" Flex="FlexInlineFlexAlignItemsCenterJustifyContentCenter">
