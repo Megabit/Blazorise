@@ -735,6 +735,12 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BarDropdownToggleIcon( bool isToggleIconVisible );
 
+    public virtual string BarDropdownToggleContent( BarMode mode ) => "b-bar-dropdown-toggle-content";
+
+    public virtual string BarDropdownToggleContentText( BarMode mode ) => "b-bar-dropdown-toggle-content-text";
+
+    public virtual string BarDropdownToggleContentIcon( BarMode mode ) => "b-bar-dropdown-toggle-content-icon";
+
     public abstract string BarDropdownToggleIconContainer( BarMode mode );
 
     public abstract string BarDropdownToggleIconLayer( BarMode mode );

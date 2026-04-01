@@ -5,7 +5,6 @@ namespace Blazorise;
 /// </summary>
 internal static class BarFluentConstants
 {
-    internal static readonly IFluentFlex FlexAlignItemsCenterJustifyContentBetween = Flex.AlignItems.Center.JustifyContent.Between;
     internal static readonly IFluentFlex FlexInlineFlexAlignItemsCenterJustifyContentCenter = Flex.InlineFlex.AlignItems.Center.JustifyContent.Center;
 
     internal static readonly IFluentDisplay DisplayInlineFlex = Display.InlineFlex;

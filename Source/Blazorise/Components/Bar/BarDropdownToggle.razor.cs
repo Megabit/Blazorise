@@ -26,6 +26,29 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
 
     private DateTime? lastKeyboardToggleTimestampUtc;
 
+    private double indentation = 1.5d;
+
+    private bool? toggleIconVisible;
+
+    private Theme theme;
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// A default <see cref="BarDropdownToggle"/> constructor.
+    /// </summary>
+    public BarDropdownToggle()
+    {
+        ToggleContentClassBuilder = new( BuildToggleContentClasses );
+        ToggleContentTextClassBuilder = new( BuildToggleContentTextClasses );
+        ToggleContentIconClassBuilder = new( BuildToggleContentIconClasses );
+        ToggleIconContainerClassBuilder = new( BuildToggleIconContainerClasses );
+        ExpandedToggleIconLayerClassBuilder = new( BuildExpandedToggleIconLayerClasses );
+        CollapsedToggleIconLayerClassBuilder = new( BuildCollapsedToggleIconLayerClasses );
+    }
+
     #endregion
 
     #region Methods
@@ -154,15 +177,30 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     }
 
     /// <summary>
-    /// Returns the class used for a single icon animation layer.
+    /// Builds class names for toggle content wrapper.
     /// </summary>
-    /// <param name="expandedStateLayer">True for expanded-state icon layer; otherwise collapsed-state icon layer.</param>
-    /// <returns>Class string.</returns>
-    protected string GetToggleIconLayerClass( bool expandedStateLayer )
+    /// <param name="builder">Class builder.</param>
+    protected virtual void BuildToggleContentClasses( ClassBuilder builder )
     {
-        var builder = new ClassBuilder( b => BuildToggleIconLayerClasses( b, expandedStateLayer ) );
+        builder.Append( ClassProvider.BarDropdownToggleContent( ParentBarDropdownState?.Mode ?? BarMode.Horizontal ) );
+    }
 
-        return builder.Class;
+    /// <summary>
+    /// Builds class names for toggle content text wrapper.
+    /// </summary>
+    /// <param name="builder">Class builder.</param>
+    protected virtual void BuildToggleContentTextClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.BarDropdownToggleContentText( ParentBarDropdownState?.Mode ?? BarMode.Horizontal ) );
+    }
+
+    /// <summary>
+    /// Builds class names for toggle content icon wrapper.
+    /// </summary>
+    /// <param name="builder">Class builder.</param>
+    protected virtual void BuildToggleContentIconClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.BarDropdownToggleContentIcon( ParentBarDropdownState?.Mode ?? BarMode.Horizontal ) );
     }
 
     /// <summary>
@@ -196,6 +234,24 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
             builder.Append( ClassProvider.BarDropdownToggleIconLayerHiddenCollapse( barMode, isExpanded ) );
             builder.Append( ClassProvider.BarDropdownToggleIconLayerVisible( barMode, !isExpanded ) );
         }
+    }
+
+    /// <summary>
+    /// Builds class names for expanded-state icon layer.
+    /// </summary>
+    /// <param name="builder">Class builder.</param>
+    protected virtual void BuildExpandedToggleIconLayerClasses( ClassBuilder builder )
+    {
+        BuildToggleIconLayerClasses( builder, true );
+    }
+
+    /// <summary>
+    /// Builds class names for collapsed-state icon layer.
+    /// </summary>
+    /// <param name="builder">Class builder.</param>
+    protected virtual void BuildCollapsedToggleIconLayerClasses( ClassBuilder builder )
+    {
+        BuildToggleIconLayerClasses( builder, false );
     }
 
     /// <summary>
@@ -287,6 +343,19 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
         DirtyStyles();
     }
 
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        ToggleContentClassBuilder?.Dirty();
+        ToggleContentTextClassBuilder?.Dirty();
+        ToggleContentIconClassBuilder?.Dirty();
+        ToggleIconContainerClassBuilder?.Dirty();
+        ExpandedToggleIconLayerClassBuilder?.Dirty();
+        CollapsedToggleIconLayerClassBuilder?.Dirty();
+
+        base.DirtyClasses();
+    }
+
     #endregion
 
     #region Properties
@@ -340,6 +409,21 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     protected bool IsRouteMatchTriggerEnabled => HasTrigger( BarDropdownToggleTrigger.RouteMatch );
 
     /// <summary>
+    /// Gets the class names for toggle content wrapper.
+    /// </summary>
+    protected string ToggleContentClassNames => ToggleContentClassBuilder.Class;
+
+    /// <summary>
+    /// Gets the class names for toggle content text wrapper.
+    /// </summary>
+    protected string ToggleContentTextClassNames => ToggleContentTextClassBuilder.Class;
+
+    /// <summary>
+    /// Gets the class names for toggle content icon wrapper.
+    /// </summary>
+    protected string ToggleContentIconClassNames => ToggleContentIconClassBuilder.Class;
+
+    /// <summary>
     /// Indicates whether toggle-area click should stop event propagation.
     /// </summary>
     protected bool ShouldStopToggleAreaPropagation => HasNavigationTarget && !IsToggleClickTriggerEnabled;
@@ -362,15 +446,47 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     /// <summary>
     /// Gets the class names for toggle icon container.
     /// </summary>
-    protected string ToggleIconContainerClassNames
-    {
-        get
-        {
-            var builder = new ClassBuilder( BuildToggleIconContainerClasses );
+    protected string ToggleIconContainerClassNames => ToggleIconContainerClassBuilder.Class;
 
-            return builder.Class;
-        }
-    }
+    /// <summary>
+    /// Gets the class names for the expanded-state icon layer.
+    /// </summary>
+    protected string ExpandedToggleIconLayerClassNames => ExpandedToggleIconLayerClassBuilder.Class;
+
+    /// <summary>
+    /// Gets the class names for the collapsed-state icon layer.
+    /// </summary>
+    protected string CollapsedToggleIconLayerClassNames => CollapsedToggleIconLayerClassBuilder.Class;
+
+    /// <summary>
+    /// Toggle content wrapper class builder.
+    /// </summary>
+    protected ClassBuilder ToggleContentClassBuilder { get; private set; }
+
+    /// <summary>
+    /// Toggle content text wrapper class builder.
+    /// </summary>
+    protected ClassBuilder ToggleContentTextClassBuilder { get; private set; }
+
+    /// <summary>
+    /// Toggle content icon wrapper class builder.
+    /// </summary>
+    protected ClassBuilder ToggleContentIconClassBuilder { get; private set; }
+
+    /// <summary>
+    /// Toggle icon container class builder.
+    /// </summary>
+    protected ClassBuilder ToggleIconContainerClassBuilder { get; private set; }
+
+    /// <summary>
+    /// Expanded-state toggle icon layer class builder.
+    /// </summary>
+    protected ClassBuilder ExpandedToggleIconLayerClassBuilder { get; private set; }
+
+    /// <summary>
+    /// Collapsed-state toggle icon layer class builder.
+    /// </summary>
+    protected ClassBuilder CollapsedToggleIconLayerClassBuilder { get; private set; }
 
     private BarDropdownToggleTrigger EffectiveTrigger
         => Trigger == BarDropdownToggleTrigger.Auto
@@ -390,7 +506,20 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     /// <summary>
     /// Determines how much left padding will be applied to the dropdown toggle. (in rem unit)
     /// </summary>
-    [Parameter] public double Indentation { get; set; } = 1.5d;
+    [Parameter]
+    public double Indentation
+    {
+        get => indentation;
+        set
+        {
+            if ( indentation == value )
+                return;
+
+            indentation = value;
+
+            DirtyStyles();
+        }
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether the dropdown toggle icon is visible.
@@ -399,7 +528,20 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     /// <c>true</c> if [show toggle]; otherwise, <c>false</c>.
     /// </value>
     /// <remarks>Default: True</remarks>
-    [Parameter] public bool? ToggleIconVisible { get; set; }
+    [Parameter]
+    public bool? ToggleIconVisible
+    {
+        get => toggleIconVisible;
+        set
+        {
+            if ( toggleIconVisible == value )
+                return;
+
+            toggleIconVisible = value;
+
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
     /// Defines which interactions can trigger the dropdown toggle.
@@ -463,7 +605,20 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     /// <summary>
     /// The applied theme.
     /// </summary>
-    [CascadingParameter] protected Theme Theme { get; set; }
+    [CascadingParameter]
+    protected Theme Theme
+    {
+        get => theme;
+        set
+        {
+            if ( theme == value )
+                return;
+
+            theme = value;
+
+            DirtyClasses();
+        }
+    }
 
     #endregion
 }

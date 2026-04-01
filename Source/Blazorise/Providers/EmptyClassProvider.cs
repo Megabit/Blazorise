@@ -739,6 +739,12 @@ class EmptyClassProvider : IClassProvider
 
     public string BarDropdownToggleIcon( bool isToggleIconVisible ) => null;
 
+    public string BarDropdownToggleContent( BarMode mode ) => null;
+
+    public string BarDropdownToggleContentText( BarMode mode ) => null;
+
+    public string BarDropdownToggleContentIcon( BarMode mode ) => null;
+
     public string BarDropdownToggleIconContainer( BarMode mode ) => null;
 
     public string BarDropdownToggleIconLayer( BarMode mode ) => null;

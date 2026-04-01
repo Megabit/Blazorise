@@ -778,6 +778,12 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string BarDropdownToggleIcon( bool isToggleIconVisible ) => isToggleIconVisible ? null : "b-bar-dropdown-toggle-hidden";
 
+    public override string BarDropdownToggleContent( BarMode mode ) => "b-bar-dropdown-toggle-content";
+
+    public override string BarDropdownToggleContentText( BarMode mode ) => "b-bar-dropdown-toggle-content-text";
+
+    public override string BarDropdownToggleContentIcon( BarMode mode ) => "b-bar-dropdown-toggle-content-icon";
+
     public override string BarDropdownToggleIconContainer( BarMode mode ) => "b-bar-dropdown-toggle-icon-container";
 
     public override string BarDropdownToggleIconLayer( BarMode mode ) => "b-bar-dropdown-toggle-icon-layer";

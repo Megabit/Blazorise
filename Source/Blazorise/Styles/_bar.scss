@@ -89,6 +89,17 @@
     transform: rotate(90deg);
 }
 
+.b-bar-dropdown-toggle-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.b-bar-dropdown-toggle-content-text {
+    min-width: 0;
+}
+
 .b-bar-horizontal {
     &[data-collapse=hide] {
         flex-wrap: nowrap;
@@ -486,6 +497,16 @@
             transition: font-size 100ms ease-out;
 
             &:after {
+                display: none;
+            }
+        }
+
+        > .b-bar-dropdown > .b-bar-link {
+            .b-bar-dropdown-toggle-content {
+                justify-content: center;
+            }
+
+            .b-bar-dropdown-toggle-content-icon {
                 display: none;
             }
         }
