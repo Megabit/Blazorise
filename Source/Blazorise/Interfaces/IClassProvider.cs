@@ -734,6 +734,12 @@ public interface IClassProvider
 
     string BarDropdownToggleIcon( bool isToggleIconVisible );
 
+    string BarDropdownToggleContent( BarMode mode );
+
+    string BarDropdownToggleContentText( BarMode mode );
+
+    string BarDropdownToggleContentIcon( BarMode mode );
+
     string BarDropdownToggleIconContainer( BarMode mode );
 
     string BarDropdownToggleIconLayer( BarMode mode );
