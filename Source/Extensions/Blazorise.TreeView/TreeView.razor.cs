@@ -99,6 +99,7 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
                 await foreach ( var nodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
                 {
                     AddTreeViewNodeState( nodeState );
+                    treeViewNodeRef?.RegisterNodeState( nodeState );
                 }
             } );
         }

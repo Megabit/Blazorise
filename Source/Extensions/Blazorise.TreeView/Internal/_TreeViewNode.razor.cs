@@ -19,8 +19,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
     #region Members
 
     private bool checkChildrenLoaded;
-
-    internal NotifyCollectionChangedEventHandler PreviousNotifyCollectionChangedEventHandler;
+    private bool nodeStatesChanged;
 
     private int? expandedNodesHash;
 
@@ -29,6 +28,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
     private ClassBuilder nodeIconClassBuilder;
     private StyleBuilder nodeIconStyleBuilder;
     private TreeViewNodeContext<TNode> nodeContext;
+    private Dictionary<string, (INotifyCollectionChanged ObservableCollection, NotifyCollectionChangedEventHandler Handler)> childCollectionSubscriptions = new();
 
     #endregion
 
@@ -69,12 +69,21 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         checkChildrenLoaded = true;
+        nodeStatesChanged = parameters.TryGetValue<IEnumerable<TreeViewNodeState<TNode>>>( nameof( NodeStates ), out var paramNodeStates )
+            && !ReferenceEquals( paramNodeStates, NodeStates );
 
         await base.SetParametersAsync( parameters );
     }
 
     protected override async Task OnParametersSetAsync()
     {
+        if ( nodeStatesChanged )
+        {
+            ClearChildCollectionSubscriptions();
+            RegisterNodeStates( NodeStates );
+            nodeStatesChanged = false;
+        }
+
         var expandedNodesHashChanged = SyncExpandedNodesHash();
 
         if ( expandedNodesHashChanged )
@@ -100,6 +109,75 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
 
         DirtyClasses();
         DirtyStyles();
+    }
+
+    internal void RegisterNodeState( TreeViewNodeState<TNode> nodeState )
+    {
+        if ( nodeState is null || GetChildNodes is null )
+            return;
+
+        SubscribeToChildCollection( nodeState, GetChildNodes( nodeState.Node ) );
+    }
+
+    internal void UnregisterNodeState( TreeViewNodeState<TNode> nodeState )
+    {
+        if ( nodeState is null )
+            return;
+
+        if ( childCollectionSubscriptions.TryGetValue( nodeState.Key, out var subscription ) )
+        {
+            subscription.ObservableCollection.CollectionChanged -= subscription.Handler;
+            childCollectionSubscriptions.Remove( nodeState.Key );
+        }
+    }
+
+    internal void ReloadNodeStatesSubscriptions( IEnumerable<TreeViewNodeState<TNode>> nodeStates )
+    {
+        ClearChildCollectionSubscriptions();
+        RegisterNodeStates( nodeStates );
+    }
+
+    private void RegisterNodeStates( IEnumerable<TreeViewNodeState<TNode>> nodeStates )
+    {
+        if ( nodeStates is null )
+            return;
+
+        foreach ( var nodeState in nodeStates )
+        {
+            RegisterNodeState( nodeState );
+        }
+    }
+
+    private void SubscribeToChildCollection( TreeViewNodeState<TNode> nodeState, IEnumerable<TNode> childNodes )
+    {
+        if ( nodeState is null || childNodes is not INotifyCollectionChanged observableCollection )
+            return;
+
+        if ( childCollectionSubscriptions.TryGetValue( nodeState.Key, out var existingSubscription ) )
+        {
+            if ( ReferenceEquals( existingSubscription.ObservableCollection, observableCollection ) )
+                return;
+
+            existingSubscription.ObservableCollection.CollectionChanged -= existingSubscription.Handler;
+        }
+
+        NotifyCollectionChangedEventHandler childrenChangedHandler = ( sender, e ) =>
+        {
+            OnChildrenChanged( sender, e, nodeState, childNodes );
+        };
+
+        observableCollection.CollectionChanged += childrenChangedHandler;
+        childCollectionSubscriptions[nodeState.Key] = (observableCollection, childrenChangedHandler);
+    }
+
+    private void ClearChildCollectionSubscriptions()
+    {
+        foreach ( var subscription in childCollectionSubscriptions.Values )
+        {
+            subscription.ObservableCollection.CollectionChanged -= subscription.Handler;
+        }
+
+        childCollectionSubscriptions.Clear();
     }
 
     protected override void BuildClasses( ClassBuilder builder )
@@ -198,21 +276,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
                 ? GetChildNodes( nodeState.Node )
                 : null;
 
-        NotifyCollectionChangedEventHandler childrenChangedHandler = ( sender, e ) =>
-        {
-            OnChildrenChanged( sender, e, nodeState, childNodes );
-        };
-
-        if ( childNodes is INotifyCollectionChanged observableCollection )
-        {
-            if ( PreviousNotifyCollectionChangedEventHandler is not null )
-            {
-                observableCollection.CollectionChanged -= PreviousNotifyCollectionChangedEventHandler;
-            }
-
-            observableCollection.CollectionChanged += childrenChangedHandler;
-            PreviousNotifyCollectionChangedEventHandler = childrenChangedHandler;
-        }
+        SubscribeToChildCollection( nodeState, childNodes );
 
         if ( !nodeState.Children.Select( x => x.Node ).AreEqual( childNodes ) )
         {
@@ -229,21 +293,56 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         {
             nodeState.Children.Add( childNodeState );
         }
+
+        nodeState.ViewRef?.ReloadNodeStatesSubscriptions( nodeState.Children );
     }
 
     private async void OnChildrenChanged( object sender, NotifyCollectionChangedEventArgs e, TreeViewNodeState<TNode> nodeState, IEnumerable<TNode> childNodes )
     {
+        if ( !nodeState.HasChildren )
+        {
+            nodeState.HasChildren = true;
+
+            if ( nodeState.Expanded || ExpandedNodes?.Contains( nodeState.Node ) == true )
+            {
+                nodeState.Expanded = true;
+                await LoadChildNodes( nodeState );
+                await InvokeAsync( StateHasChanged );
+                return;
+            }
+
+            if ( AutoExpandAll && !nodeState.AutoExpanded )
+            {
+                nodeState.AutoExpanded = true;
+                await ToggleNode( nodeState, false );
+                await InvokeAsync( StateHasChanged );
+                return;
+            }
+        }
+
         if ( e.Action == NotifyCollectionChangedAction.Add )
         {
             await foreach ( var childNodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
             {
                 if ( !nodeState.Children.Exists( x => x.Node.IsEqual( childNodeState.Node ) ) )
+                {
                     nodeState.Children.Add( childNodeState );
+                    nodeState.ViewRef?.RegisterNodeState( childNodeState );
+                }
             }
         }
         else if ( e.Action == NotifyCollectionChangedAction.Remove )
         {
+            var removedNodeStates = nodeState.Children.Where( x => e.OldItems.Contains( x.Node ) ).ToList();
             nodeState.Children.RemoveAll( x => e.OldItems.Contains( x.Node ) );
+
+            if ( nodeState.ViewRef is not null )
+            {
+                foreach ( var removedNodeState in removedNodeStates )
+                {
+                    nodeState.ViewRef.UnregisterNodeState( removedNodeState );
+                }
+            }
         }
         else
         {
@@ -253,7 +352,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
             }
         }
 
-        StateHasChanged();
+        await InvokeAsync( StateHasChanged );
     }
 
     private bool SyncExpandedNodesHash()
@@ -304,13 +403,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
     {
         if ( disposing )
         {
-            if ( ParentNode?.PreviousNotifyCollectionChangedEventHandler is not null )
-            {
-                if ( NodeStates is INotifyCollectionChanged observableCollection )
-                {
-                    observableCollection.CollectionChanged -= ParentNode.PreviousNotifyCollectionChangedEventHandler;
-                }
-            }
+            ClearChildCollectionSubscriptions();
         }
 
         base.Dispose( disposing );

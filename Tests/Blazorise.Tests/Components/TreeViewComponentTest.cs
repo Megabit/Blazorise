@@ -224,4 +224,41 @@ public class TreeViewComponentTest : TestContext
             nodes.Count.Should().Be( 3 );
         } );
     }
+
+    [Fact]
+    public void AutoExpandAll_Should_Expand_Node_When_ObservableChildren_Are_Added_After_InitialRender()
+    {
+        var children = new ObservableCollection<Item>();
+        var root = new Item()
+        {
+            Text = "Root",
+            Children = children
+        };
+
+        var items = new ObservableCollection<Item>() { root };
+
+        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        {
+            parameters.Add( p => p.Nodes, items );
+            parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
+            parameters.Add( p => p.HasChildNodes, (Func<Item, bool>)( node => node.Children?.Any() == true ) );
+            parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
+            parameters.Add( p => p.AutoExpandAll, true );
+        } );
+
+        var nodes = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
+        nodes.Count.Should().Be( 1 );
+        nodes[0].TextContent.Should().Contain( "Root" );
+
+        children.Add( new Item() { Text = "Child 1" } );
+
+        cut.Render();
+
+        cut.WaitForAssertion( () =>
+        {
+            var refreshedNodes = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
+            refreshedNodes.Count.Should().Be( 2 );
+            refreshedNodes[1].TextContent.Should().Contain( "Child 1" );
+        } );
+    }
 }
