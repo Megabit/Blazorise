@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Licensing;
+using Blazorise.TreeView.EventArguments;
 using Blazorise.TreeView.Extensions;
 using Blazorise.TreeView.Internal;
 using Blazorise.Utilities;
@@ -96,7 +97,7 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
         {
             InvokeAsync( async () =>
             {
-                await foreach ( var nodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
+                await foreach ( var nodeState in e.NewItems.ToNodeStates( null, HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
                 {
                     AddTreeViewNodeState( nodeState );
                     treeViewNodeRef?.RegisterNodeState( nodeState );
@@ -213,7 +214,7 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
         treeViewNodeStates.Add( treeViewNodeState );
     }
 
-    internal async Task<TreeViewNodeState<TNode>> CreateNodeStateAsync( TNode node )
+    internal async Task<TreeViewNodeState<TNode>> CreateNodeStateAsync( TNode node, TreeViewNodeState<TNode> parent = null )
     {
         bool hasChildren = HasChildNodesAsync is not null
             ? await HasChildNodesAsync( node )
@@ -222,16 +223,16 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
         bool expanded = ExpandedNodes?.Contains( node ) == true;
         bool disabled = DetermineIsDisabled( node );
 
-        return new TreeViewNodeState<TNode>( node, hasChildren, expanded, disabled );
+        return new TreeViewNodeState<TNode>( node, hasChildren, expanded, disabled, parent );
     }
 
-    internal async Task<List<TreeViewNodeState<TNode>>> CreateNodeStatesAsync( IEnumerable<TNode> nodes )
+    internal async Task<List<TreeViewNodeState<TNode>>> CreateNodeStatesAsync( IEnumerable<TNode> nodes, TreeViewNodeState<TNode> parent = null )
     {
         List<TreeViewNodeState<TNode>> nodeStates = new();
 
         foreach ( TNode node in nodes ?? Enumerable.Empty<TNode>() )
         {
-            nodeStates.Add( await CreateNodeStateAsync( node ) );
+            nodeStates.Add( await CreateNodeStateAsync( node, parent ) );
         }
 
         return nodeStates;
@@ -516,6 +517,31 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     /// Specifies the content to be rendered inside this <see cref="TreeView{TNode}"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Enables native dragging of tree nodes.
+    /// </summary>
+    [Parameter] public bool Draggable { get; set; }
+
+    /// <summary>
+    /// Determines whether a node can be dragged.
+    /// </summary>
+    [Parameter] public Func<TNode, bool> CanDrag { get; set; } = _ => true;
+
+    /// <summary>
+    /// Determines whether the dragged node can be dropped on the target node.
+    /// </summary>
+    [Parameter] public Func<TreeViewNodeDragEventArgs<TNode>, bool> CanDrop { get; set; } = _ => true;
+
+    /// <summary>
+    /// Fired when a dragged node is dropped on a target node.
+    /// </summary>
+    [Parameter] public EventCallback<TreeViewNodeDragEventArgs<TNode>> NodeDropped { get; set; }
+
+    /// <summary>
+    /// The node that is currently being dragged.
+    /// </summary>
+    internal TreeViewNodeState<TNode> DraggedNode { get; set; }
 
     #endregion
 }

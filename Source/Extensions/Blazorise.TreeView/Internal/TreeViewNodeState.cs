@@ -18,13 +18,15 @@ public record TreeViewNodeState<TNode>
     /// <param name="hasChildren">Indicates if the node has any child node.</param>
     /// <param name="expanded">True if the node should be expanded.</param>
     /// <param name="disabled">True if the node should be disabled from selection.</param>
-    public TreeViewNodeState( TNode node, bool hasChildren, bool expanded, bool disabled )
+    /// <param name="parent">Parent node of this node.</param>
+    public TreeViewNodeState( TNode node, bool hasChildren, bool expanded, bool disabled, TreeViewNodeState<TNode> parent = null )
     {
         Key = Guid.NewGuid().ToString();
         Node = node;
         HasChildren = hasChildren;
         Expanded = expanded;
         Disabled = disabled;
+        Parent = parent;
     }
 
     /// <summary>
@@ -51,6 +53,11 @@ public record TreeViewNodeState<TNode>
     /// Indicates if the node is disabled.
     /// </summary>
     public bool Disabled { get; set; }
+
+    /// <summary>
+    /// The parent node state.
+    /// </summary>
+    public TreeViewNodeState<TNode> Parent { get; }
 
     /// <summary>
     /// Indicates if the node was auto expanded. Can happen only once when node is first loaded.

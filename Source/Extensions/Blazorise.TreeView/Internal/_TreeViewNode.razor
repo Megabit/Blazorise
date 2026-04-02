@@ -44,7 +44,14 @@
                                   NodeStyling="@NodeStyling"
                                   SelectionMode="@SelectionMode"
                                   SelectedNodeStyling="@SelectedNodeStyling"
-                                  DisabledNodeStyling="@DisabledNodeStyling">
+                                  DisabledNodeStyling="@DisabledNodeStyling"
+                                  Draggable="@IsNodeDraggable( nodeState )"
+                                  DragOverPreventDefault="@IsDropAllowed( nodeState )"
+                                  DropPreventDefault="@IsDropAllowed( nodeState )"
+                                  OnDragStart="@((eventArgs) => OnDragStartHandler( nodeState, eventArgs ))"
+                                  OnDragOver="@((eventArgs) => OnDragOverHandler( nodeState, eventArgs ))"
+                                  OnDrop="@((eventArgs) => OnDropHandler( nodeState, eventArgs ))"
+                                  OnDragEnd="@((eventArgs) => OnDragEndHandler( nodeState, eventArgs ))">
                 @NodeContent( nodeState.Node )
             </_TreeViewNodeContent>
 
@@ -72,6 +79,10 @@
                                SelectionMode="@SelectionMode"
                                ContextMenu="@ContextMenu"
                                ContextMenuPreventDefault="@ContextMenuPreventDefault"
+                               Draggable="@Draggable"
+                               CanDrag="@CanDrag"
+                               CanDrop="@CanDrop"
+                               NodeDropped="@NodeDropped"
                                Virtualize="@Virtualize" />
             }
         </div>

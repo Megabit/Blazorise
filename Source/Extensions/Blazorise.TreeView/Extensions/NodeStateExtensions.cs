@@ -12,6 +12,7 @@ namespace Blazorise.TreeView.Extensions
     internal static class NodeStateExtensions
     {
         public static async IAsyncEnumerable<TreeViewNodeState<TNode>> ToNodeStates<TNode>( this IEnumerable<TNode> nodes,
+            TreeViewNodeState<TNode> parent,
             Func<TNode, Task<bool>> hasChildNodesAsync,
             Func<TNode, bool> hasChildNodes,
             Func<TNode, bool> isExpanded,
@@ -26,11 +27,12 @@ namespace Blazorise.TreeView.Extensions
                 var expanded = isExpanded( node );
                 var disabled = isDisabled( node );
 
-                yield return new TreeViewNodeState<TNode>( node, hasChildren, expanded, disabled );
+                yield return new TreeViewNodeState<TNode>( node, hasChildren, expanded, disabled, parent );
             }
         }
 
         public static async IAsyncEnumerable<TreeViewNodeState<TNode>> ToNodeStates<TNode>( this IList nodes,
+            TreeViewNodeState<TNode> parent,
             Func<TNode, Task<bool>> hasChildNodesAsync,
             Func<TNode, bool> hasChildNodes,
             Func<TNode, bool> isExpanded,
@@ -47,7 +49,7 @@ namespace Blazorise.TreeView.Extensions
                     var expanded = isExpanded( tNode );
                     var disabled = isDisabled( tNode );
 
-                    yield return new TreeViewNodeState<TNode>( tNode, hasChildren, expanded, disabled );
+                    yield return new TreeViewNodeState<TNode>( tNode, hasChildren, expanded, disabled, parent );
                 }
             }
         }

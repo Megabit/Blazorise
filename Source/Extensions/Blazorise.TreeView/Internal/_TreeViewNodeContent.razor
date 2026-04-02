@@ -7,7 +7,15 @@
             <Check TValue="bool" Value="@Checked" ValueChanged="@OnCheckedChanged" Disabled="@NodeState.Disabled" />
         </div>
     }
-    <span class="@ClassNames" style="@NodeContentStyleNames" @onclick="@OnClick">
+    <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@NodeContentStyleNames" @onclick="@OnClick"
+          draggable="@(Draggable ? "true" : null)"
+          @ondragstart="@OnDragStart"
+          @ondragstart:preventDefault="@DragStartPreventDefault"
+          @ondragover="@OnDragOver"
+          @ondragover:preventDefault="@DragOverPreventDefault"
+          @ondrop="@OnDrop"
+          @ondrop:preventDefault="@DropPreventDefault"
+          @ondragend="@OnDragEnd">
         @ChildContent
     </span>
 </div>

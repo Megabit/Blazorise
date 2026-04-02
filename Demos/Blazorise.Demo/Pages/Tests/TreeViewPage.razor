@@ -62,7 +62,11 @@
                           NodeStyling="@((item, style) => { style.TextColor = (item.Children?.Any() == true) ? TextColor.Primary : TextColor.Dark; style.Style = "font-weight:bold"; })"
                           SelectedNodeStyling="@((item, style) => {style.Background = Background.Success; style.TextColor = TextColor.White; })"
                           NodeContextMenu="@OnNodeContextMenu"
-                          NodeContextMenuPreventDefault>
+                          NodeContextMenuPreventDefault
+                          Draggable
+                          CanDrag="CanDrag"
+                          CanDrop="CanDrop"
+                          NodeDropped="OnNodeDropped">
                     <NodeContent>
                         <Icon Name="IconName.Folder" />
                         @context.Text

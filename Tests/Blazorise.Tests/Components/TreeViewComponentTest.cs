@@ -5,8 +5,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.TreeView;
+using Blazorise.TreeView.EventArguments;
 using Bunit;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Xunit;
 using static BasicTestApp.Client.TreeViewComponent;
 #endregion
@@ -297,5 +299,63 @@ public class TreeViewComponentTest : TestContext
             nodes.Count.Should().Be( 2 );
             nodes[1].TextContent.Should().Contain( "Child 1" );
         } );
+    }
+
+    [Fact]
+    public async Task DragDrop_Should_Invoke_ItemDropped_With_Target_And_Dragged_Node()
+    {
+        var dragged = new Item() { Text = "Dragged" };
+        var target = new Item() { Text = "Target" };
+        TreeViewNodeDragEventArgs<Item> droppedArgs = null;
+
+        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        {
+            parameters.Add( p => p.Nodes, new[] { dragged, target } );
+            parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
+            parameters.Add( p => p.Draggable, true );
+            parameters.Add( p => p.NodeDropped, EventCallback.Factory.Create<TreeViewNodeDragEventArgs<Item>>( this, args => droppedArgs = args ) );
+        } );
+
+        var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
+
+        await nodeContents[0].DragStartAsync( new DragEventArgs() );
+        await nodeContents[1].DropAsync( new DragEventArgs() );
+
+        droppedArgs.Should().NotBeNull();
+        droppedArgs.DraggedNode.Should().BeSameAs( dragged );
+        droppedArgs.TargetNode.Should().BeSameAs( target );
+    }
+
+    [Fact]
+    public async Task DragDrop_Should_Include_Source_Node()
+    {
+        var dragged = new Item() { Text = "Dragged" };
+        var source = new Item()
+        {
+            Text = "Source",
+            Children = new[] { dragged },
+        };
+        var target = new Item() { Text = "Target" };
+        TreeViewNodeDragEventArgs<Item> droppedArgs = null;
+        var expandedNodes = new List<Item> { source };
+
+        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        {
+            parameters.Add( p => p.Nodes, new[] { source, target } );
+            parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
+            parameters.Add( p => p.HasChildNodes, (Func<Item, bool>)( node => node.Children?.Any() == true ) );
+            parameters.Add( p => p.ExpandedNodes, expandedNodes );
+            parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
+            parameters.Add( p => p.Draggable, true );
+            parameters.Add( p => p.NodeDropped, EventCallback.Factory.Create<TreeViewNodeDragEventArgs<Item>>( this, args => droppedArgs = args ) );
+        } );
+
+        var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
+
+        await nodeContents[1].DragStartAsync( new DragEventArgs() );
+        await nodeContents[2].DropAsync( new DragEventArgs() );
+
+        droppedArgs.Should().NotBeNull();
+        droppedArgs.SourceNode.Should().BeSameAs( source );
     }
 }

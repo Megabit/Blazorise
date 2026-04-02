@@ -1,8 +1,10 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.TreeView.Internal;
@@ -117,6 +119,22 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
         return base.OnParametersSetAsync();
     }
 
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        await base.OnAfterRenderAsync( firstRender );
+
+        if ( Draggable && !dragDropInitialized )
+        {
+            await JSDragDropModule.Initialize( ElementRef, ElementId );
+            dragDropInitialized = true;
+        }
+        else if ( !Draggable && dragDropInitialized )
+        {
+            await JSDragDropModule.Destroy( ElementRef, ElementId );
+            dragDropInitialized = false;
+        }
+    }
+
     private string GetCurrentStyle()
     {
         if ( Selected )
@@ -218,6 +236,8 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
     #region Properties
 
+    private bool dragDropInitialized;
+
     protected bool Selected
         => SelectionMode == TreeViewSelectionMode.Single && ParentTreeViewState.SelectedNode != null && ParentTreeViewState.SelectedNode.Equals( NodeState.Node );
 
@@ -275,6 +295,39 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     /// Specifies the content to be rendered inside this <see cref="_TreeViewNodeContent{TNode}"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    [Parameter] public bool Draggable { get; set; }
+
+    [Parameter] public bool DragStartPreventDefault { get; set; }
+
+    [Parameter] public bool DragOverPreventDefault { get; set; }
+
+    [Parameter] public bool DropPreventDefault { get; set; }
+
+    [Parameter] public EventCallback<DragEventArgs> OnDragStart { get; set; }
+
+    [Parameter] public EventCallback<DragEventArgs> OnDragOver { get; set; }
+
+    [Parameter] public EventCallback<DragEventArgs> OnDrop { get; set; }
+
+    [Parameter] public EventCallback<DragEventArgs> OnDragEnd { get; set; }
+
+    [Inject] protected IJSDragDropModule JSDragDropModule { get; set; }
+
+    #endregion
+
+    #region Dispose
+
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing && dragDropInitialized )
+        {
+            await JSDragDropModule.Destroy( ElementRef, ElementId );
+            dragDropInitialized = false;
+        }
+
+        await base.DisposeAsync( disposing );
+    }
 
     #endregion
 }

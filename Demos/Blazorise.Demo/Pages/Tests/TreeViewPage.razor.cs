@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Security;
 using System.Threading.Tasks;
 using Blazorise.TreeView;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise.Demo.Pages.Tests;
 
@@ -22,7 +20,7 @@ public partial class TreeViewPage : ComponentBase
     public class NodeInfo
     {
         public string Text { get; set; }
-        public ObservableCollection<NodeInfo> Children { get; set; }
+        public ObservableCollection<NodeInfo> Children { get; init; } = [];
         public bool Disabled { get; set; }
     }
 
@@ -79,7 +77,6 @@ public partial class TreeViewPage : ComponentBase
     private async Task AddNode()
     {
         count++;
-        selectedNode.Children ??= new ObservableCollection<NodeInfo>();
         selectedNode.Children.Add( new NodeInfo()
         {
             Text = selectedNode.Text + count,
@@ -150,4 +147,21 @@ public partial class TreeViewPage : ComponentBase
 
         return Task.CompletedTask;
     }
+
+    private Task OnNodeDropped( TreeView.EventArguments.TreeViewNodeDragEventArgs<NodeInfo> args )
+    {
+        Console.WriteLine( $"Dropped: {args.DraggedNode.Text} from {args.SourceNode?.Text} => {args.TargetNode.Text}" );
+
+        args.TargetNode.Children.Add( args.DraggedNode );
+        args.SourceNode?.Children.Remove( args.DraggedNode );
+
+        return Task.CompletedTask;
+    }
+
+    private bool CanDrag( NodeInfo node )
+        => !node.Disabled;
+
+    // Cannot drop on same parent
+    private bool CanDrop( TreeView.EventArguments.TreeViewNodeDragEventArgs<NodeInfo> args )
+        => args.TargetNode != args.SourceNode;
 }
