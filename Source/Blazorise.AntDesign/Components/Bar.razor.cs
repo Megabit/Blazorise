@@ -20,10 +20,10 @@ public partial class Bar : Blazorise.Bar
     {
         await base.OnFirstAfterRenderAsync();
 
-        if ( initialMode != BarMode.Horizontal )
+        if ( initialMode != BarMode.Horizontal || !BreakpointService.IsResolved )
             return;
 
-        await OnBreakpoint( BreakpointActivatorAdapter.IsBroken( Breakpoint, await JSBreakpointModule.GetBreakpoint() ) );
+        await ApplyBreakpointAsync( BreakpointService.Current );
     }
 
     protected override void BuildClasses( ClassBuilder builder )

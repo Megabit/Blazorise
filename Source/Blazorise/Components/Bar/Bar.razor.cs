@@ -2,12 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise;
@@ -15,7 +13,7 @@ namespace Blazorise;
 /// <summary>
 /// The <see cref="Bar"/> component is a wrapper that positions branding, navigation, and other elements into a concise header or sidebar.
 /// </summary>
-public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
+public partial class Bar : BaseComponent, IAsyncDisposable
 {
     #region Members
 
@@ -23,11 +21,6 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
     /// Used to keep track of the breakpoint state for this component.
     /// </summary>
     private bool isBroken = true;
-
-    /// <summary>
-    /// Reference to the object that should be accessed through JSInterop.
-    /// </summary>
-    private DotNetObjectReference<BreakpointActivatorAdapter> dotNetObjectRef;
 
     /// <summary>
     /// Holds the state for this bar component.
@@ -48,6 +41,11 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
     /// </summary>
     private bool initial = true;
 
+    /// <summary>
+    /// Indicates if the bar has subscribed to the shared breakpoint service.
+    /// </summary>
+    private bool subscribedToBreakpoints;
+
     #endregion
 
     #region Methods
@@ -64,16 +62,22 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
     /// <inheritdoc/>
     protected override async Task OnFirstAfterRenderAsync()
     {
-        dotNetObjectRef ??= CreateDotNetObjectRef( new BreakpointActivatorAdapter( this ) );
+        if ( !subscribedToBreakpoints )
+        {
+            BreakpointService.Changed += OnBreakpointChanged;
+            subscribedToBreakpoints = true;
+        }
 
-        await JSBreakpointModule.RegisterBreakpoint( dotNetObjectRef, ElementId );
+        await BreakpointService.EnsureInitializedAsync();
 
         if ( Mode != BarMode.Horizontal )
         {
             // Check if we need to collapse the Bar based on the current screen width against the breakpoint defined for this component.
-            // This needs to be run to set the initial state, RegisterBreakpointComponent and OnBreakpoint will handle
+            // This needs to be run to set the initial state, the shared breakpoint service will handle
             // additional changes to responsive breakpoints from there.
-            isBroken = BreakpointActivatorAdapter.IsBroken( Breakpoint, await JSBreakpointModule.GetBreakpoint() );
+            isBroken = Breakpoint != Breakpoint.None && BreakpointService.IsResolved
+                ? BreakpointService.IsBelow( Breakpoint )
+                : false;
 
             if ( isBroken )
             {
@@ -116,9 +120,15 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
         return InvokeAsync( StateHasChanged );
     }
 
-    /// <inheritdoc/>
-    public Task OnBreakpoint( bool broken )
+    /// <summary>
+    /// Applies a new responsive breakpoint state to the bar.
+    /// </summary>
+    /// <param name="currentBreakpoint">The currently active responsive breakpoint.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected Task ApplyBreakpointAsync( Breakpoint currentBreakpoint )
     {
+        bool broken = currentBreakpoint.IsBelow( Breakpoint );
+
         // If the breakpoint state has changed, we need to toggle the visibility of this component.
         // broken = true, hide the component
         // broken = false, show the component
@@ -136,24 +146,10 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
     {
         if ( disposing )
         {
-            // make sure to unregister listener
-            if ( Rendered )
+            if ( subscribedToBreakpoints && BreakpointService is not null )
             {
-                var task = JSBreakpointModule.UnregisterBreakpoint( this );
-
-                try
-                {
-                    await task;
-                }
-                catch when ( task.IsCanceled )
-                {
-                }
-                catch ( Microsoft.JSInterop.JSDisconnectedException )
-                {
-                }
-
-                DisposeDotNetObjectRef( dotNetObjectRef );
-                dotNetObjectRef = null;
+                BreakpointService.Changed -= OnBreakpointChanged;
+                subscribedToBreakpoints = false;
             }
 
             if ( NavigationBreakpoint != Breakpoint.None )
@@ -171,8 +167,20 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
     private async void OnLocationChanged( object sender, LocationChangedEventArgs args )
     {
         // Collapse the bar automatically
-        if ( Visible && BreakpointActivatorAdapter.IsBroken( NavigationBreakpoint, await JSBreakpointModule.GetBreakpoint() ) )
+        await BreakpointService.EnsureInitializedAsync();
+
+        if ( Visible && BreakpointService.IsBelow( NavigationBreakpoint ) )
             await Toggle();
+    }
+
+    /// <summary>
+    /// Handles shared breakpoint changes for this bar instance.
+    /// </summary>
+    /// <param name="currentBreakpoint">The currently active responsive breakpoint.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    private Task OnBreakpointChanged( Breakpoint currentBreakpoint )
+    {
+        return ApplyBreakpointAsync( currentBreakpoint );
     }
 
     /// <summary>
@@ -250,9 +258,9 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
     }
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSBreakpointModule"/> instance.
+    /// Gets or sets the shared <see cref="IBreakpointService"/> instance.
     /// </summary>
-    [Inject] public IJSBreakpointModule JSBreakpointModule { get; set; }
+    [Inject] protected IBreakpointService BreakpointService { get; set; }
 
     /// <summary>
     /// Injects the navigation manager.

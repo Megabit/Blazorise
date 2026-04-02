@@ -91,6 +91,7 @@ public static class Config
         { typeof( IMessageService ), typeof( MessageService ) },
         { typeof( INotificationService ), typeof( NotificationService ) },
         { typeof( IPageProgressService ), typeof( PageProgressService ) },
+        { typeof( IBreakpointService ), typeof( BreakpointService ) },
         { typeof( IModalService ), typeof( ModalService ) },
         { typeof( IToastService ), typeof( ToastService ) },
         { typeof( IDropdownCoordinator ), typeof( DropdownCoordinator ) },

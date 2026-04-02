@@ -40,6 +40,7 @@ public static class Configuration
         // Shared component context. Must be defined as scoped as we want to make it available for the user session.
         services.AddScoped<IModalSharedContext, ModalSharedContext>();
         services.AddScoped<IMessageService, MockMessageService>();
+        services.AddScoped<IBreakpointService, BreakpointService>();
         services.AddScoped<IDropdownCoordinator, DropdownCoordinator>();
 
         services.AddSingleton( sp => new BlazoriseOptions( sp, ( options ) => { } ) );
