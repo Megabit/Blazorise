@@ -187,24 +187,6 @@ public partial class Modal : BaseComponent<ModalClasses, ModalStyles>, ICloseAct
 
             DisposeDotNetObjectRef( dotNetObjectRef );
             dotNetObjectRef = null;
-
-            // TODO: implement IAsyncDisposable once it is supported by Blazor!
-            //
-            // Sometimes user can navigates to another page based on the action runned on modal. The problem is
-            // that for providers like Bootstrap, some classnames can be left behind. So to cover those situation
-            // we need to close modal and dispose of any claassnames in case there is any left.
-            var closeModalTask = JSModalModule.CloseModal( ElementRef );
-
-            try
-            {
-                await closeModalTask;
-            }
-            catch when ( closeModalTask.IsCanceled )
-            {
-            }
-            catch ( Microsoft.JSInterop.JSDisconnectedException )
-            {
-            }
         }
 
         await base.DisposeAsync( disposing );

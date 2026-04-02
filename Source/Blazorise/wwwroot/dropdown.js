@@ -1,4 +1,4 @@
-import { getRequiredElement } from "./utilities.js?v=2.0.3.0";
+import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "./utilities.js?v=2.0.3.0";
 import { createFloatingUiAutoUpdate } from './floatingUi.js?v=2.0.3.0';
 
 const _instances = [];
@@ -27,22 +27,25 @@ export function initialize(element, elementId, targetElementId, menuElementId, o
 
     const instanceCleanupFunction = createFloatingUiAutoUpdate(targetElement, menuElement, options);
 
-    _instances[elementId] = instanceCleanupFunction;
+    _instances[elementId] = {
+        cleanupFunction: instanceCleanupFunction,
+        disconnectCleanupId: registerDisconnectCleanup(element, () => destroy(null, elementId, false))
+    };
 }
 
-
-export function destroy(element, elementId) {
-    element = getRequiredElement(element, elementId);
-
-    if (!element)
-        return;
-
+export function destroy(element, elementId, unregisterCleanup = true) {
     const instances = _instances || {};
+    const instance = instances[elementId];
 
-    const instanceCleanupFunction = instances[elementId];
+    if (instance) {
+        if (unregisterCleanup) {
+            unregisterDisconnectCleanup(instance.disconnectCleanupId);
+        }
 
-    if (instanceCleanupFunction) {
-        instanceCleanupFunction();
+        if (instance.cleanupFunction) {
+            instance.cleanupFunction();
+        }
+
         delete instances[elementId];
     }
 }

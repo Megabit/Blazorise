@@ -8,6 +8,7 @@ import "./vendors/chartjs-adapter-luxon.js?v=2.0.3.0";
 import "./vendors/chartjs-plugin-streaming.js?v=2.0.3.0";
 
 import { parseFunction, deepClone } from "./utilities.js?v=2.0.3.0";
+import { registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.0.3.0";
 import {
     scheduleResponsiveResizePatch,
     setupResponsiveResizePatchHandlers,
@@ -72,15 +73,7 @@ export function initialize(dotnetAdapter, eventOptions, canvas, canvasId, type, 
     canvas = canvas || document.getElementById(canvasId);
 
     if (canvas) {
-        const previousInstance = _instances[canvasId];
-
-        if (previousInstance) {
-            cleanupResponsiveResizePatchHandlers(previousInstance);
-
-            if (previousInstance.chart) {
-                previousInstance.chart.destroy();
-            }
-        }
+        destroy(null, canvasId);
 
         const chart = createChart(dotnetAdapter, eventOptions, canvas, canvasId, type, data, options, pluginNames);
 
@@ -94,7 +87,8 @@ export function initialize(dotnetAdapter, eventOptions, canvas, canvasId, type, 
             hasExplicitCanvasSize: !!canvas.getAttribute("width")
                 || !!canvas.getAttribute("height")
                 || !!canvas.style.width
-                || !!canvas.style.height
+                || !!canvas.style.height,
+            disconnectCleanupId: registerDisconnectCleanup(canvas, () => destroy(null, canvasId, false))
         };
 
         setupResponsiveResizePatchHandlers(_instances[canvasId]);
@@ -174,22 +168,25 @@ export function compileOptionCallbacks(options) {
     return options;
 }
 
-export function destroy(canvas, canvasId) {
-    var instances = _instances || {};
-
+export function destroy(canvas, canvasId, unregisterCleanup = true) {
+    const instances = _instances || {};
     const instance = instances[canvasId];
 
-    if (instance) {
-        cleanupResponsiveResizePatchHandlers(instance);
-
-        const chart = instance.chart;
-
-        if (chart) {
-            chart.destroy();
-        }
-
-        delete instances[canvasId];
+    if (!instance) {
+        return;
     }
+
+    if (unregisterCleanup) {
+        unregisterDisconnectCleanup(instance.disconnectCleanupId);
+    }
+
+    cleanupResponsiveResizePatchHandlers(instance);
+
+    if (instance.chart) {
+        instance.chart.destroy();
+    }
+
+    delete instances[canvasId];
 }
 
 export function setOptions(canvasId, options, optionsJsonString, optionsObject) {

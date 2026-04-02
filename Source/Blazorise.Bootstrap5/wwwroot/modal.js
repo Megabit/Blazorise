@@ -1,130 +1,39 @@
 import { addClassToBody, removeClassFromBody } from "../Blazorise/utilities.js?v=2.0.3.0";
+import { adjustDialogDimensionsBeforeShow, closeStackedModal, openStackedModal, registerModalDisconnectCleanup, resetAdjustments, unregisterModalDisconnectCleanup } from "../Blazorise/modal.js?v=2.0.3.0";
+
+const modalAdjustmentSelectors = {
+    fixedContentSelector: ".fixed-top, .fixed-bottom, .is-fixed, .sticky-top",
+    stickyContentSelector: ".sticky-top"
+};
 
 export function open(element, scrollToTop) {
-    adjustDialogDimensionsBeforeShow(element);
+    registerModalDisconnectCleanup(element, () => closeCore(element));
 
-    var modals = Number(document.body.getAttribute("data-modals") || "0");
-
-    if (modals === 0) {
-        // Save the original overflow value
-        const originalOverflow = document.body.style.overflow || '';
-        document.body.setAttribute('data-original-overflow', originalOverflow);
-
-        // Hide the scrollbar
-        document.body.style.overflow = 'hidden';
-
-        addClassToBody("modal-open");
-    }
-
-    modals += 1;
-
-    document.body.setAttribute("data-modals", modals.toString());
-
-    if (scrollToTop) {
-        const modalBody = element.querySelector('.modal-body');
-
-        if (modalBody) {
-            modalBody.scrollTop = 0;
-        }
-    }
+    openStackedModal(element, {
+        beforeOpen: (modalElement) => adjustDialogDimensionsBeforeShow(modalElement, modalAdjustmentSelectors),
+        onFirstModalOpen: () => {
+            const originalOverflow = document.body.style.overflow || '';
+            document.body.setAttribute('data-original-overflow', originalOverflow);
+            document.body.style.overflow = 'hidden';
+            addClassToBody("modal-open");
+        },
+        scrollToTop: scrollToTop,
+        bodySelector: ".modal-body"
+    });
 }
 
 export function close(element) {
-    var modals = Number(document.body.getAttribute("data-modals") || "0");
-
-    modals -= 1;
-
-    if (modals < 0) {
-        modals = 0;
-    }
-
-    if (modals === 0) {
-        // Restore the original overflow value
-        document.body.style.overflow = document.body.getAttribute('data-original-overflow') || '';
-        document.body.removeAttribute('data-original-overflow');
-        removeClassFromBody("modal-open");
-    }
-
-    document.body.setAttribute("data-modals", modals.toString());
-
-    resetAdjustments(element);
+    unregisterModalDisconnectCleanup(element);
+    closeCore(element);
 }
 
-export function adjustDialogDimensionsBeforeShow(element) {
-    if (element) {
-        const rect = document.body.getBoundingClientRect();
-        const isBodyOverflowing = Math.round(rect.left + rect.right) < window.innerWidth;
-        const scrollbarWidth = getScrollBarWidth();
-
-        if (isBodyOverflowing) {
-            const fixedContent = [].slice.call(document.querySelectorAll('.fixed-top, .fixed-bottom, .is-fixed, .sticky-top'));
-            const stickyContent = [].slice.call(document.querySelectorAll('.sticky-top'));
-
-            // Adjust fixed content padding
-            if (fixedContent) {
-                fixedContent.forEach((fixedContentElement) => {
-                    const calculatedPadding = fixedContentElement.style.paddingRight;
-
-                    fixedContentElement.style.paddingRight = `${parseFloat(calculatedPadding) + scrollbarWidth}px`;
-                });
-            }
-
-            // Adjust sticky content margin
-            if (stickyContent) {
-                stickyContent.forEach((stickyContentElement) => {
-                    const calculatedMargin = stickyContentElement.style.marginRight;
-
-                    stickyContentElement.style.marginRight = `${parseFloat(calculatedMargin) - scrollbarWidth}px`;
-                });
-            }
-
-            // Adjust body padding
-            const calculatedPadding = document.body.style.paddingRight;
-
-            document.body.style.paddingRight = `${calculatedPadding + scrollbarWidth}px`;
-        }
-
-        const isModalOverflowing = element.scrollHeight > document.documentElement.clientHeight;
-
-        if (!isBodyOverflowing && isModalOverflowing) {
-            element.style.paddingLeft = `${scrollbarWidth}px`;
-        }
-
-        if (isBodyOverflowing && !isModalOverflowing) {
-            element.style.paddingRight = `${scrollbarWidth}px`;
-        }
-    }
-}
-
-export function resetAdjustments(element) {
-    // Restore element padding
-    if (element && element.style) {
-        element.style.paddingLeft = ''
-        element.style.paddingRight = '';
-    }
-
-    const fixedContent = [].slice.call(document.querySelectorAll('.fixed-top, .fixed-bottom, .is-fixed, .sticky-top'));
-    const stickyContent = [].slice.call(document.querySelectorAll('.sticky-top'));
-
-    // Restore fixed content padding
-    if (fixedContent) {
-        fixedContent.forEach((fixedContentElement) => {
-            fixedContentElement.style.paddingRight = '';
-        });
-    }
-
-    // Restore sticky content
-    if (stickyContent) {
-        stickyContent.forEach((stickyContentElement) => {
-            stickyContentElement.style.marginRight = '';
-        });
-    }
-
-    // Restore body padding
-    document.body.style.paddingRight = '';
-}
-
-export function getScrollBarWidth() {
-    const documentWidth = document.documentElement.clientWidth;
-    return Math.abs(window.innerWidth - documentWidth);
+function closeCore(element) {
+    closeStackedModal(element, {
+        onLastModalClose: () => {
+            document.body.style.overflow = document.body.getAttribute('data-original-overflow') || '';
+            document.body.removeAttribute('data-original-overflow');
+            removeClassFromBody("modal-open");
+        },
+        afterClose: (modalElement) => resetAdjustments(modalElement, modalAdjustmentSelectors)
+    });
 }

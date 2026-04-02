@@ -1,6 +1,6 @@
 import { VidstackPlayer, PlyrLayout } from "./vendors/vidstack.js?v=2.0.3.0";
 
-import { getRequiredElement, isString, firstNonNull } from "../Blazorise/utilities.js?v=2.0.3.0";
+import { getRequiredElement, isString, firstNonNull, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.0.3.0";
 
 document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Video/vendors/vidstack.css\" />");
 
@@ -17,7 +17,12 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         player: null,
         hls: null,
         dash: null,
+        destroyed: false,
+        disconnectCleanupId: null,
     };
+
+    _instances[elementId] = instance;
+    instance.disconnectCleanupId = registerDisconnectCleanup(element, () => destroy(null, elementId, false));
 
     // if no controls are provided then we will not show any controls
     if (!options.controls) {
@@ -48,6 +53,10 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         quality: firstNonNull(options.defaultQuality, 576),
         layout: layout,
     });
+
+    if (instance.destroyed) {
+        return;
+    }
 
     instance.player = player;
 
@@ -83,15 +92,19 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
     });
 
     registerToEvents(dotNetAdapter, instance.player, options);
-
-    _instances[elementId] = instance;
 }
 
-export function destroy(element, elementId) {
+export function destroy(element, elementId, unregisterCleanup = true) {
     const instances = _instances || {};
     const instance = instances[elementId];
 
     if (instance) {
+        instance.destroyed = true;
+
+        if (unregisterCleanup) {
+            unregisterDisconnectCleanup(instance.disconnectCleanupId);
+        }
+
         if (instance.player) {
             try {
                 instance.player.destroy();
@@ -115,6 +128,11 @@ export function destroy(element, elementId) {
                 console.error(e);
             }
         }
+
+        instance.player = null;
+        instance.dash = null;
+        instance.hls = null;
+        instance.disconnectCleanupId = null;
 
         delete instances[elementId];
     }
