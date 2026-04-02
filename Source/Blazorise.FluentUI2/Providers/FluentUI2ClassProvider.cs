@@ -749,7 +749,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
         return mode == Blazorise.BarMode.Horizontal
             ? breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"fui-NavigationBar-expand-{ToBreakpoint( breakpoint )}" : null
-            : breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"navbar-expand-{ToBreakpoint( breakpoint )}" : null;
+            : breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"fui-bar-expand-{ToBreakpoint( breakpoint )}" : null;
     }
 
     public override string BarMode( BarMode mode ) => mode == Blazorise.BarMode.Horizontal

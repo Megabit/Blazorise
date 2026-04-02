@@ -50,24 +50,6 @@ public class BreakpointActivatorAdapter
     /// <returns>True if breakpoint was broken.</returns>
     public static bool IsBroken( Breakpoint checkBreakpoint, string currentBreakpointString )
     {
-        return checkBreakpoint > GetBreakpoint( currentBreakpointString );
-    }
-
-    /// <summary>
-    /// Gets the <see cref="Breakpoint"/> by its name.
-    /// </summary>
-    /// <param name="breakpoint">Breakpoint name.</param>
-    /// <returns>Returns <see cref="Breakpoint"/>.</returns>
-    private static Breakpoint GetBreakpoint( string breakpoint )
-    {
-        return breakpoint switch
-        {
-            "mobile" => Breakpoint.Mobile,
-            "tablet" => Breakpoint.Tablet,
-            "desktop" => Breakpoint.Desktop,
-            "widescreen" => Breakpoint.Widescreen,
-            "fullhd" => Breakpoint.FullHD,
-            _ => Breakpoint.None,
-        };
+        return currentBreakpointString.ParseBreakpoint().IsBelow( checkBreakpoint );
     }
 }

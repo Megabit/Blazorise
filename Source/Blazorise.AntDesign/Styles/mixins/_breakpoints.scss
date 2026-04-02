@@ -1,0 +1,67 @@
+@mixin emit-breakpoint-observer($breakpoints, $breakpoint-content-map, $selector: "body:before") {
+    $previous-content: null;
+
+    #{$selector} {
+        display: none;
+        visibility: hidden;
+    }
+
+    @each $breakpoint, $content in $breakpoint-content-map {
+        @if $previous-content == null {
+            #{$selector} {
+                content: "#{$content}";
+            }
+
+            $previous-content: $content;
+        }
+        @else if $content != $previous-content {
+            @include media-breakpoint-up($breakpoint, $breakpoints) {
+                #{$selector} {
+                    content: "#{$content}";
+                }
+            }
+
+            $previous-content: $content;
+        }
+    }
+}
+
+@mixin emit-initial-bar-breakpoints($selector, $breakpoints, $class-breakpoint-map) {
+    @each $class-name, $breakpoint in $class-breakpoint-map {
+        @include media-breakpoint-up($breakpoint, $breakpoints) {
+            #{$selector}.#{$class-name} {
+                display: flex !important;
+            }
+        }
+    }
+}
+
+$breakpoint-observer-breakpoints: (
+    "xxs": 0,
+    "xs": map-get($grid-breakpoints, "xs"),
+    "sm": map-get($grid-breakpoints, "sm"),
+    "md": map-get($grid-breakpoints, "md"),
+    "lg": map-get($grid-breakpoints, "lg"),
+    "xl": map-get($grid-breakpoints, "xl"),
+    "xxl": 2560px,
+);
+
+$breakpoint-observer-map: (
+    "xxs": mobile,
+    "xs": mobile,
+    "sm": tablet,
+    "md": desktop,
+    "lg": widescreen,
+    "xl": fullhd,
+    "xxl": quadhd,
+);
+
+$bar-initial-breakpoints: (
+    "ant-bar-expand-sm": "sm",
+    "ant-bar-expand-md": "md",
+    "ant-bar-expand-lg": "lg",
+    "ant-bar-expand-xl": "xl",
+    "ant-bar-expand-xxl": "xxl",
+);
+
+@include emit-breakpoint-observer($breakpoint-observer-breakpoints, $breakpoint-observer-map);

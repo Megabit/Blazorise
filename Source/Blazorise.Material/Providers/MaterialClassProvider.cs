@@ -756,7 +756,10 @@ public class MaterialClassProvider : ClassProvider
             ? "mui-bar-dark"
             : null;
 
-    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => mode == Blazorise.BarMode.Horizontal && breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"mui-bar-expand-{ToBreakpoint( breakpoint )}" : null;
+    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint )
+        => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile
+            ? $"mui-bar-expand-{ToBreakpoint( breakpoint )}"
+            : null;
 
     public override string BarMode( BarMode mode ) => $"mui-bar-{ToBarMode( mode )}";
 
