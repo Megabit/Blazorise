@@ -53,6 +53,8 @@ public partial class Bar : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override Task OnInitializedAsync()
     {
+        InitializeInitialState();
+
         if ( NavigationBreakpoint != Breakpoint.None )
             NavigationManager.LocationChanged += OnLocationChanged;
 
@@ -72,24 +74,11 @@ public partial class Bar : BaseComponent, IAsyncDisposable
 
         if ( Mode != BarMode.Horizontal )
         {
-            // Check if we need to collapse the Bar based on the current screen width against the breakpoint defined for this component.
-            // This needs to be run to set the initial state, the shared breakpoint service will handle
-            // additional changes to responsive breakpoints from there.
-            isBroken = Breakpoint != Breakpoint.None && BreakpointService.IsResolved
-                ? BreakpointService.IsBelow( Breakpoint )
-                : false;
-
-            if ( isBroken )
+            if ( initial )
             {
-                initial = false;
+                // Complete the initial responsive state once the client breakpoint has been detected.
+                ApplyInitialResponsiveState();
 
-                await Toggle();
-            }
-            else if ( initial )
-            {
-                initial = false;
-
-                DirtyClasses();
                 await InvokeAsync( StateHasChanged );
             }
         }
@@ -181,6 +170,46 @@ public partial class Bar : BaseComponent, IAsyncDisposable
     private Task OnBreakpointChanged( Breakpoint currentBreakpoint )
     {
         return ApplyBreakpointAsync( currentBreakpoint );
+    }
+
+    /// <summary>
+    /// Initializes the first-render state when the bar visibility can already be determined.
+    /// </summary>
+    private void InitializeInitialState()
+    {
+        if ( Mode == BarMode.Horizontal )
+            return;
+
+        if ( Breakpoint == Breakpoint.None )
+        {
+            isBroken = false;
+            initial = false;
+            return;
+        }
+
+        if ( BreakpointService?.IsResolved == true )
+        {
+            ApplyInitialResponsiveState();
+        }
+    }
+
+    /// <summary>
+    /// Applies the initial responsive state once the active breakpoint is known.
+    /// </summary>
+    private void ApplyInitialResponsiveState()
+    {
+        isBroken = Breakpoint != Breakpoint.None && BreakpointService.IsResolved
+            ? BreakpointService.IsBelow( Breakpoint )
+            : false;
+
+        initial = false;
+
+        if ( isBroken )
+        {
+            Visible = false;
+        }
+
+        DirtyClasses();
     }
 
     /// <summary>

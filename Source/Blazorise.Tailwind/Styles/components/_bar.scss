@@ -1,4 +1,6 @@
-﻿.b-bar-horizontal {
+@include emit-initial-bar-breakpoints(".b-bar-initial", $breakpoint-observer-breakpoints, $bar-initial-breakpoints);
+
+.b-bar-horizontal {
     .b-bar-dropdown {
         > .b-bar-dropdown-toggle {
             > .b-bar-dropdown-toggle-arrow {

@@ -590,6 +590,8 @@
     display: none !important;
 }
 
+@include emit-initial-bar-breakpoints(".mui-bar-initial", $breakpoint-observer-breakpoints, $bar-initial-breakpoints);
+
 .mui-bar-vertical-inline,
 .mui-bar-vertical-popout,
 .mui-bar-vertical-small {

@@ -136,6 +136,40 @@
   --mui-curve-easy-ease: cubic-bezier(0.33,0,0.67,1);
 }
 
+body:before {
+  display: none;
+  visibility: hidden;
+}
+
+body:before {
+  content: "mobile";
+}
+
+@media (min-width: 600px) {
+  body:before {
+    content: "tablet";
+  }
+}
+@media (min-width: 960px) {
+  body:before {
+    content: "desktop";
+  }
+}
+@media (min-width: 1280px) {
+  body:before {
+    content: "widescreen";
+  }
+}
+@media (min-width: 1920px) {
+  body:before {
+    content: "fullhd";
+  }
+}
+@media (min-width: 2560px) {
+  body:before {
+    content: "quadhd";
+  }
+}
 @font-face {
   font-family: "Material Symbols Outlined";
   font-style: normal;
@@ -2036,6 +2070,31 @@ body {
   display: none !important;
 }
 
+@media (min-width: 600px) {
+  .mui-bar-initial.mui-bar-expand-sm {
+    display: flex !important;
+  }
+}
+@media (min-width: 960px) {
+  .mui-bar-initial.mui-bar-expand-md {
+    display: flex !important;
+  }
+}
+@media (min-width: 1280px) {
+  .mui-bar-initial.mui-bar-expand-lg {
+    display: flex !important;
+  }
+}
+@media (min-width: 1920px) {
+  .mui-bar-initial.mui-bar-expand-xl {
+    display: flex !important;
+  }
+}
+@media (min-width: 2560px) {
+  .mui-bar-initial.mui-bar-expand-xxl {
+    display: flex !important;
+  }
+}
 .mui-bar-vertical-inline,
 .mui-bar-vertical-popout,
 .mui-bar-vertical-small {

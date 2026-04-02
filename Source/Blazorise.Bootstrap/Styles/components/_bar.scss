@@ -1,4 +1,6 @@
-﻿.nav .nav-link:hover {
+@include emit-initial-bar-breakpoints(".b-bar-initial", $breakpoint-observer-breakpoints, $bar-initial-breakpoints);
+
+.nav .nav-link:hover {
     cursor: pointer;
 }
 

@@ -1,4 +1,6 @@
-﻿.b-bar-vertical-inline,
+@include emit-initial-bar-breakpoints(".b-bar-initial", $breakpoint-observer-breakpoints, $bar-initial-breakpoints);
+
+.b-bar-vertical-inline,
 .b-bar-vertical {
     &.b-bar-dark {
         .is-active {

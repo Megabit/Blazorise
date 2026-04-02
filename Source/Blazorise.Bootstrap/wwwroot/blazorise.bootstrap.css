@@ -2,6 +2,40 @@
   --b-bar-horizontal-height: 60px;
 }
 
+body:before {
+  display: none;
+  visibility: hidden;
+}
+
+body:before {
+  content: "mobile";
+}
+
+@media (min-width: 576px) {
+  body:before {
+    content: "tablet";
+  }
+}
+@media (min-width: 768px) {
+  body:before {
+    content: "desktop";
+  }
+}
+@media (min-width: 992px) {
+  body:before {
+    content: "widescreen";
+  }
+}
+@media (min-width: 1200px) {
+  body:before {
+    content: "fullhd";
+  }
+}
+@media (min-width: 1400px) {
+  body:before {
+    content: "quadhd";
+  }
+}
 .badge-close {
   cursor: pointer;
 }
@@ -61,6 +95,31 @@
   border-color: #adb5bd;
 }
 
+@media (min-width: 576px) {
+  .b-bar-initial.navbar-expand-sm {
+    display: flex !important;
+  }
+}
+@media (min-width: 768px) {
+  .b-bar-initial.navbar-expand-md {
+    display: flex !important;
+  }
+}
+@media (min-width: 992px) {
+  .b-bar-initial.navbar-expand-lg {
+    display: flex !important;
+  }
+}
+@media (min-width: 1200px) {
+  .b-bar-initial.navbar-expand-xl {
+    display: flex !important;
+  }
+}
+@media (min-width: 1400px) {
+  .b-bar-initial.navbar-expand-xxl {
+    display: flex !important;
+  }
+}
 .nav .nav-link:hover {
   cursor: pointer;
 }
