@@ -7,8 +7,12 @@
 
         var styling = new DataGridRowStyling();
         var selectedStyling = new DataGridRowStyling { Color = Blazorise.Color.Primary };
-        var rowBatchEditStyling = new DataGridRowStyling() { Background = isBatchDeleted ? Background.Warning : Background.Default };
+        var rowBatchEditStyling = new DataGridRowStyling();
 
+        if ( isBatchDeleted )
+        {
+            rowBatchEditStyling.Background = Background.Warning;
+        }
 
         @if ( IsSelected )
         {
@@ -48,7 +52,12 @@
 
                 var styling = new DataGridCellStyling();
                 var selectedStyling = new DataGridCellStyling();
-                var cellBatchEditStyling = new DataGridCellStyling() { Background = isBatchModified ? Background.Success : Background.Default };
+                var cellBatchEditStyling = new DataGridCellStyling();
+
+                if ( isBatchModified )
+                {
+                    cellBatchEditStyling.Background = Background.Success;
+                }
 
                 @if ( IsSelected )
                 {
