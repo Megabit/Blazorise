@@ -1,6 +1,6 @@
-import "./vendors/tippy.js?v=2.0.3.0";
-import "./vendors/popper.js?v=2.0.3.0";
-import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "./utilities.js?v=2.0.3.0";
+import "./vendors/tippy.js?v=2.0.4.0";
+import "./vendors/popper.js?v=2.0.4.0";
+import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "./utilities.js?v=2.0.4.0";
 
 const _instances = [];
 

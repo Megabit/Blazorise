@@ -1,4 +1,4 @@
-import { scrollModalBodyToTop } from "../Blazorise/modal.js?v=2.0.3.0";
+import { scrollModalBodyToTop } from "../Blazorise/modal.js?v=2.0.4.0";
 
 export function open(element, scrollToTop) {
     scrollModalBodyToTop(element, scrollToTop, ".modal-card-body");

@@ -39,7 +39,12 @@ for /r "." %%P in (*.csproj) do (
         ) else (
             echo Publishing %%~nxP using FolderProfile.pubxml...
             echo   Target: !publishDir!
-            dotnet publish "!projectPath!" -c Release -p:PublishProfile=FolderProfile -p:PublishDir="!publishDir!"
+            rem Match Visual Studio folder publish so FileSystem profile cleanup is honored.
+            dotnet build "!projectPath!" -c Release ^
+                -p:PublishProfile=FolderProfile ^
+                -p:DeployOnBuild=true ^
+                -p:PublishUrl="!publishDir!" ^
+                -p:PublishDir="!publishDir!"
             if errorlevel 1 (
                 echo Publish failed: %%~fP
                 set /a failed+=1
