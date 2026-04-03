@@ -1,18 +1,18 @@
-import "./vendors/chart.js?v=2.0.3.0";
+import "./vendors/chart.js?v=2.0.4.0";
 
-import "./vendors/chartjs-plugin-datalabels.js?v=2.0.3.0";
-import "./vendors/chartjs-plugin-annotation.js?v=2.0.3.0";
+import "./vendors/chartjs-plugin-datalabels.js?v=2.0.4.0";
+import "./vendors/chartjs-plugin-annotation.js?v=2.0.4.0";
 
-import "./vendors/luxon.js?v=2.0.3.0";
-import "./vendors/chartjs-adapter-luxon.js?v=2.0.3.0";
-import "./vendors/chartjs-plugin-streaming.js?v=2.0.3.0";
+import "./vendors/luxon.js?v=2.0.4.0";
+import "./vendors/chartjs-adapter-luxon.js?v=2.0.4.0";
+import "./vendors/chartjs-plugin-streaming.js?v=2.0.4.0";
 
-import { parseFunction, deepClone } from "./utilities.js?v=2.0.3.0";
+import { parseFunction, deepClone } from "./utilities.js?v=2.0.4.0";
 import {
     scheduleResponsiveResizePatch,
     setupResponsiveResizePatchHandlers,
     cleanupResponsiveResizePatchHandlers
-} from "./patches/chartResponsiveResizePatch.js?v=2.0.3.0";
+} from "./patches/chartResponsiveResizePatch.js?v=2.0.4.0";
 
 const _instances = [];
 
