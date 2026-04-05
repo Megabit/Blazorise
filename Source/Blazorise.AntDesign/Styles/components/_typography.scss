@@ -39,16 +39,34 @@
 }
 
 .ant-blockquote {
-    margin-bottom: var(--ant-margin);
-    font-size: calc(var(--ant-font-size) * 1.25);
+    margin: 0 0 var(--ant-margin);
+    padding: var(--ant-padding) var(--ant-padding-lg);
+    color: var(--ant-color-text);
+    font-size: var(--ant-font-size-lg);
+    line-height: var(--ant-line-height);
+    background: var(--ant-color-fill-quaternary);
+    border: var(--ant-line-width) solid var(--ant-color-split);
+    border-inline-start-width: calc(var(--ant-line-width) * 4);
+    border-inline-start-color: var(--ant-color-primary-border);
+    border-radius: var(--ant-border-radius);
+
+    > :last-child {
+        margin-bottom: 0;
+    }
 }
 
 .ant-blockquote-footer {
     display: block;
+    margin-top: var(--ant-margin-sm);
     font-size: var(--ant-font-size-sm);
     color: var(--ant-color-text-description);
 
     &::before {
         content: "\2014\00A0";
+    }
+
+    cite {
+        color: inherit;
+        font-style: normal;
     }
 }
