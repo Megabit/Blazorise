@@ -73,6 +73,7 @@
     .mui-chip-close {
         color: var(--mui-on-surface-variant);
         cursor: pointer;
+        pointer-events: auto;
         inline-size: var(--mui-chip-close-size);
         block-size: var(--mui-chip-close-size);
         display: inline-flex;

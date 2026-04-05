@@ -147,6 +147,16 @@ fieldset.mui-row > legend.mui-field-label-horizontal {
     min-inline-size: 0;
 }
 
+.mui-field > .mui-button,
+.mui-field > .mui-field-body > .mui-button {
+    align-self: flex-start;
+}
+
+.mui-field > .mui-button.mui-button-block,
+.mui-field > .mui-field-body > .mui-button.mui-button-block {
+    align-self: stretch;
+}
+
 .mui-field > .mui-field-label:not(.mui-field-label-horizontal) {
     display: inline-flex;
     align-items: center;
