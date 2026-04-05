@@ -1286,7 +1286,11 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TextTransform( TextTransform textTransform ) => $"is-{ToTextTransform( textTransform )}";
 
-    public override string TextDecoration( TextDecoration textDecoration ) => $"has-text-decoration-{ToTextDecoration( textDecoration )}";
+    public override string TextDecoration( TextDecoration textDecoration ) => textDecoration switch
+    {
+        Blazorise.TextDecoration.Underline => "is-underlined",
+        _ => $"has-text-decoration-{ToTextDecoration( textDecoration )}",
+    };
 
     public override string TextWeight( TextWeight textWeight ) => $"has-text-weight-{ToTextWeight( textWeight )}";
 
@@ -1327,7 +1331,7 @@ public class BulmaClassProvider : ClassProvider
 
     #region Lead
 
-    public override string Lead() => "lead";
+    public override string Lead() => "is-size-5 has-text-weight-light mb-4";
 
     #endregion
 
@@ -1343,7 +1347,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Blockquote() => "blockquote";
 
-    public override string BlockquoteFooter() => "blockquote-footer";
+    public override string BlockquoteFooter() => "blockquote-footer is-block is-size-7 has-text-grey";
 
     #endregion
 
