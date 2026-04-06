@@ -5478,7 +5478,7 @@ input::file-selector-button {
 .fui-Label.fui-Label-strong {
   font-weight: var(--fontWeightSemibold);
 }
-.fui-Label.fui-Label-pointer {
+.fui-Label-pointer {
   cursor: pointer;
 }
 .fui-Label.fui-Label-xs {

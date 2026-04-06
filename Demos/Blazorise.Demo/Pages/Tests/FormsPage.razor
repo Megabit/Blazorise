@@ -108,6 +108,16 @@
                         <FileInput Placeholder="Please select the file..." />
                     </FieldBody>
                 </Field>
+
+                <Field Horizontal>
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">File label cursor</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                        <Label For="demo-file-hidden" Type="LabelType.File" Cursor="Cursor.Pointer">
+                            Upload document
+                        </Label>
+                        <FileInput ElementId="demo-file-hidden" Visibility="Visibility.Invisible" />
+                    </FieldBody>
+                </Field>
                 <Field Horizontal>
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Date</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">

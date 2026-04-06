@@ -1406,6 +1406,22 @@ namespace Blazorise.Docs.Models
     <FileInput Filter="".jpg, .png, .gif"" />
 </Field>";
 
+        public const string FileInputLabelCursorExample = @"<Field>
+    <Label For=""file-input-label-cursor""
+           Type=""LabelType.File""
+           Cursor=""Cursor.Pointer"">
+        Upload document
+    </Label>
+    <FileInput ElementId=""file-input-label-cursor"" Changed=""@OnChanged"" />
+</Field>
+
+@code {
+    Task OnChanged( FileChangedEventArgs e )
+    {
+        return Task.CompletedTask;
+    }
+}";
+
         public const string FileInputMultipleDirectoryExample = @"<Field>
     <FileInput Changed=""@OnChanged"" Directory Multiple />
 </Field>

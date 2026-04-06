@@ -4925,6 +4925,10 @@ td:focus {
   cursor: pointer;
 }
 
+.label-pointer {
+  cursor: pointer;
+}
+
 @media (min-width: 769px) {
   .is-flex-direction-tablet-row {
     flex-direction: row !important;

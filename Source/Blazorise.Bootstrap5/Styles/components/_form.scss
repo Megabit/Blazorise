@@ -1,7 +1,11 @@
-.form-check > .form-check-input.form-check-input-pointer,
+﻿.form-check > .form-check-input.form-check-input-pointer,
 .form-check > .form-check-label.form-check-label-pointer,
 .form-switch > .form-check-input.form-check-input-pointer,
 .form-switch > .form-check-label.form-check-label-pointer {
+    cursor: pointer;
+}
+
+.form-check-label-pointer {
     cursor: pointer;
 }
 
