@@ -5,6 +5,12 @@ namespace Blazorise.Material.Providers;
 
 public class MaterialClassProvider : BootstrapClassProvider
 {
+    #region Label
+
+    public override string LabelCursor( Cursor cursor ) => cursor != Cursor.Default ? $"cursor-{ToCursor( cursor )}" : null;
+
+    #endregion
+
     #region Steps
 
     public override string Steps() => "stepper-horiz";

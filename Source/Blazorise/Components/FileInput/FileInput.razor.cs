@@ -45,6 +45,14 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        // FileInput is rendered as a composite control in several providers, so
+        // display/visibility utilities need to target the visible wrapper by default.
+        if ( !parameters.TryGetValue<UtilityTarget>( nameof( UtilityTarget ), out _ )
+             && UtilityTarget == UtilityTarget.Self )
+        {
+            UtilityTarget = UtilityTarget.Wrapper;
+        }
+
         await base.SetParametersAsync( parameters );
 
         if ( ParentValidation is not null )

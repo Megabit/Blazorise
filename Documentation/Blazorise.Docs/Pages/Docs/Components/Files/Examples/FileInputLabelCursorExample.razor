@@ -1,17 +1,12 @@
 @namespace Blazorise.Docs.Docs.Examples
 
 <Field>
-    <Label For="file-input-label-cursor"
-           Type="LabelType.File"
-           Cursor="Cursor.Pointer">
-        Upload document
-    </Label>
-    <FileInput ElementId="file-input-label-cursor" Changed="@OnChanged" />
+    <Control Role="ControlRole.File">
+        <input id="file-input-label-cursor" type="file" style="display: none;" />
+        <Label For="file-input-label-cursor"
+               Type="LabelType.File"
+               Cursor="Cursor.Pointer">
+            Upload document
+        </Label>
+    </Control>
 </Field>
-
-@code {
-    Task OnChanged( FileChangedEventArgs e )
-    {
-        return Task.CompletedTask;
-    }
-}

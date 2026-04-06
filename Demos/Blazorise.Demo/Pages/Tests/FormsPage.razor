@@ -110,12 +110,15 @@
                 </Field>
 
                 <Field Horizontal>
-                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">File label cursor</FieldLabel>
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Custom file label</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <Label For="demo-file-hidden" Type="LabelType.File" Cursor="Cursor.Pointer">
-                            Upload document
-                        </Label>
-                        <FileInput ElementId="demo-file-hidden" Visibility="Visibility.Invisible" />
+                        <Control Role="ControlRole.File" Border="Border.Is1.Rounded.Subtle" Padding="Padding.Is1.OnY.Is2.OnX">
+                            <FileInput ElementId="demo-file-hidden" Display="Display.None" />
+                            <Label For="demo-file-hidden" Type="LabelType.File" Cursor="Cursor.Pointer" Border="Border.Is0">
+                                <Icon Name="IconName.FileUpload" Margin="Margin.Is2.FromEnd" />
+                                Upload document
+                            </Label>
+                        </Control>
                     </FieldBody>
                 </Field>
                 <Field Horizontal>

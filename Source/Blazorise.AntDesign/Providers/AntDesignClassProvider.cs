@@ -240,7 +240,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string LabelType( LabelType labelType ) => null;
 
-    public override string LabelCursor( Cursor cursor ) => null;
+    public override string LabelCursor( Cursor cursor ) => cursor != Cursor.Default ? $"ant-cursor-{ToCursor( cursor )}" : null;
 
     #endregion
 
