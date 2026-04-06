@@ -1,185 +1,196 @@
 ﻿@page "/"
 @inject IVersionProvider VersionProvider
 
-<Heading Size="HeadingSize.Is1" Margin="Margin.Is3.OnY">
-    Blazorise UI Components for Blazor
-</Heading>
+<Card Background="Background.Primary.Subtle" Shadow="Shadow.Default" Margin="Margin.Is4.OnY">
+    <CardBody Padding="Padding.Is4">
+        <Row>
+            <Column ColumnSize="ColumnSize.Is8.OnDesktop.Is12.OnMobile">
+                <Heading Size="HeadingSize.Is1" Margin="Margin.Is2.FromBottom">
+                    Blazorise Demo App
+                </Heading>
 
-<Lead Margin="Margin.Is4.OnY">
-    Blazorise is a component library built on top of Blazor and CSS frameworks like <Anchor To="https://getbootstrap.com/" Target="Target.Blank">Bootstrap</Anchor>, <Anchor To="https://tailwindcss.com/" Target="Target.Blank">Tailwind</Anchor>, <Anchor To="https://bulma.io/" Target="Target.Blank">Bulma</Anchor>, <Anchor To="https://ant.design/" Target="Target.Blank">Ant Design</Anchor>, and <Anchor To="http://daemonite.github.io/material/" Target="Target.Blank">Material</Anchor>. It can be used to build responsive, single-page web applications.
-</Lead>
+                <Lead Margin="Margin.Is3.FromBottom">
+                    The shared testing ground for every Blazorise provider.
+                </Lead>
+
+                <Paragraph>
+                    This app exists to exercise the same Blazorise pages across providers, validate component behavior, and cover real UI scenarios in one consistent environment.
+                </Paragraph>
+
+                <Div Flex="Flex.Wrap" Gap="Gap.Is2" Margin="Margin.Is3.FromTop">
+                    <Badge Color="Color.Light" Pill>All providers</Badge>
+                    <Badge Color="Color.Light" Pill>UI scenarios</Badge>
+                    <Badge Color="Color.Light" Pill>All components</Badge>
+                </Div>
+            </Column>
+
+            <Column ColumnSize="ColumnSize.Is4.OnDesktop.Is12.OnMobile">
+                <Card Background="Background.White" Shadow="Shadow.Default" Margin="Margin.Is3.FromTop">
+                    <CardBody>
+                        <Heading Size="HeadingSize.Is5" TextColor="TextColor.Dark" Margin="Margin.Is2.FromBottom">
+                            What we verify here
+                        </Heading>
+
+                        <Paragraph TextColor="TextColor.Body" Margin="Margin.Is2.FromBottom">
+                            Provider coverage across the full Blazorise stack.
+                        </Paragraph>
+
+                        <Paragraph TextColor="TextColor.Body" Margin="Margin.Is2.FromBottom">
+                            Component behavior from basic inputs to advanced extensions.
+                        </Paragraph>
+
+                        <Paragraph TextColor="TextColor.Body" Margin="Margin.Is0.FromBottom">
+                            Real layouts, forms, overlays, data workflows, and utility-driven pages.
+                        </Paragraph>
+                    </CardBody>
+                </Card>
+            </Column>
+        </Row>
+    </CardBody>
+</Card>
 
 <Row>
-    <Column Margin="Margin.Is3.FromBottom">
-        <Paragraph>
-            This demo app is designed to showcase a variety of UI elements and how they behave in different scenarios. With the demo app, you can explore the features and functionality of Blazorise, a component library for building modern web applications with <Anchor To="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor" Target="Target.Blank">Blazor</Anchor>. You'll find a range of UI elements, including buttons, forms, tables, and more, all of which are fully interactive and responsive.
-        </Paragraph>
+    <Column ColumnSize="ColumnSize.Is4.OnDesktop.Is12.OnMobile" Margin="Margin.Is4.FromBottom">
+        <Card Shadow="Shadow.Default" Height="Height.Is100">
+            <CardBody>
+                <Icon Name="IconName.Wrench" IconSize="IconSize.x2" TextColor="TextColor.Primary" Margin="Margin.Is2.FromBottom" />
+                <CardTitle Size="HeadingSize.Is4">Provider testing</CardTitle>
+                <CardText>
+                    We run the same demo content against Blazorise providers to catch styling, rendering, and interaction differences quickly.
+                </CardText>
+            </CardBody>
+        </Card>
+    </Column>
 
-        <Paragraph>
-            Whether you're new to Blazorise or an experienced developer, this demo app is a great way to get a feel for how the components work and how they can be used in your own projects. So go ahead and start exploring – we hope you find the demo app useful and informative!
-        </Paragraph>
+    <Column ColumnSize="ColumnSize.Is4.OnDesktop.Is12.OnMobile" Margin="Margin.Is4.FromBottom">
+        <Card Shadow="Shadow.Default" Height="Height.Is100">
+            <CardBody>
+                <Icon Name="IconName.Dashboard" IconSize="IconSize.x2" TextColor="TextColor.Info" Margin="Margin.Is2.FromBottom" />
+                <CardTitle Size="HeadingSize.Is4">Scenario coverage</CardTitle>
+                <CardText>
+                    The pages test forms, grids, navigation, dialogs, uploads, charts, utilities, and other UI combinations used in real apps.
+                </CardText>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.Is4.OnDesktop.Is12.OnMobile" Margin="Margin.Is4.FromBottom">
+        <Card Shadow="Shadow.Default" Height="Height.Is100">
+            <CardBody>
+                <Icon Name="IconName.PuzzlePiece" IconSize="IconSize.x2" TextColor="TextColor.Success" Margin="Margin.Is2.FromBottom" />
+                <CardTitle Size="HeadingSize.Is4">Component coverage</CardTitle>
+                <CardText>
+                    Core components, extensions, and utilities all live here, so this homepage points directly into the main areas of the catalog.
+                </CardText>
+            </CardBody>
+        </Card>
     </Column>
 </Row>
 
-<Heading Size="HeadingSize.Is2" Margin="Margin.Is4.OnY">
-    Most popular Blazor components
+<Alert Color="Color.Light" Visible Margin="Margin.Is4.FromBottom">
+    <AlertMessage>Why this app matters</AlertMessage>
+    <AlertDescription>
+        It is not just a showcase. It is the place where Blazorise changes are exercised across providers and where UI behavior can be checked under different usage patterns before moving on.
+    </AlertDescription>
+</Alert>
+
+<Heading Size="HeadingSize.Is2" Margin="Margin.Is4.FromBottom">
+    Start with these areas
 </Heading>
-
-<Grid Rows="GridRows.Are2" Columns="GridColumns.Are4.OnDesktop.Are1.OnMobile">
-    <Card Height="Height.Is100">
-        <CardBody>
-            <Media>
-                <MediaLeft>
-                    <Icon Name="IconName.Dashboard" IconSize="IconSize.x3" Padding="Padding.Is3" />
-                </MediaLeft>
-                <MediaBody>
-                    <Anchor To="tests/datagrid" Stretched TextColor="TextColor.Body">
-                        <Heading Size="HeadingSize.Is5">Blazor DataGrid</Heading>
-                    </Anchor>
-                    <Paragraph>
-                        An incredibly quick and responsive grid component that allows users to display and manipulate data in a grid format within a Blazor application.
-                    </Paragraph>
-                </MediaBody>
-            </Media>
-        </CardBody>
-    </Card>
-    <Card Height="Height.Is100">
-        <CardBody>
-            <Media>
-                <MediaLeft>
-                    <Icon Name="IconName.ChartPie" IconSize="IconSize.x3" Padding="Padding.Is3" />
-                </MediaLeft>
-                <MediaBody>
-                    <Anchor To="tests/charts" Stretched TextColor="TextColor.Body">
-                        <Heading Size="HeadingSize.Is5">Blazor Charts</Heading>
-                    </Anchor>
-                    <Paragraph>
-                        The chart component offers various options for presenting data and is efficient and lightweight.
-                    </Paragraph>
-                </MediaBody>
-            </Media>
-        </CardBody>
-    </Card>
-    <Card Height="Height.Is100">
-        <CardBody>
-            <Media>
-                <MediaLeft>
-                    <Icon Name="IconName.CalendarDay" IconSize="IconSize.x3" Padding="Padding.Is3" />
-                </MediaLeft>
-                <MediaBody>
-                    <Anchor To="tests/forms" Stretched TextColor="TextColor.Body">
-                        <Heading Size="HeadingSize.Is5">Blazor Editors</Heading>
-                    </Anchor>
-                    <Paragraph>
-                        UI elements that allow users to enter and submit data in a form, such as text boxes, dropdown lists, and checkboxes.
-                    </Paragraph>
-                </MediaBody>
-            </Media>
-        </CardBody>
-    </Card>
-    <Card Height="Height.Is100">
-        <CardBody>
-            <Media>
-                <MediaLeft>
-                    <Icon Name="IconName.FileUpload" IconSize="IconSize.x3" Padding="Padding.Is3" />
-                </MediaLeft>
-                <MediaBody>
-                    <Anchor To="tests/file-picker" Stretched TextColor="TextColor.Body">
-                        <Heading Size="HeadingSize.Is5">Blazor Upload</Heading>
-                    </Anchor>
-                    <Paragraph>
-                        An intuitive Blazor UI element created to track and control the file upload procedure in real time.
-                    </Paragraph>
-                </MediaBody>
-            </Media>
-        </CardBody>
-    </Card>
-    <Card Height="Height.Is100">
-        <CardBody>
-            <Media>
-                <MediaLeft>
-                    <Icon Name="IconName.Check" IconSize="IconSize.x3" Padding="Padding.Is3" />
-                </MediaLeft>
-                <MediaBody>
-                    <Anchor To="tests/validations" Stretched TextColor="TextColor.Body">
-                        <Heading Size="HeadingSize.Is5">Blazor Validation</Heading>
-                    </Anchor>
-                    <Paragraph>
-                        Validation is a component that provides support for form validation in Blazor applications.
-                    </Paragraph>
-                </MediaBody>
-            </Media>
-        </CardBody>
-    </Card>
-    <Card Height="Height.Is100">
-        <CardBody>
-            <Media>
-                <MediaLeft>
-                    <Icon Name="IconName.Expand" IconSize="IconSize.x3" Padding="Padding.Is3" />
-                </MediaLeft>
-                <MediaBody>
-                    <Anchor To="tests/modals" Stretched TextColor="TextColor.Body">
-                        <Heading Size="HeadingSize.Is5">Blazor Modal</Heading>
-                    </Anchor>
-                    <Paragraph>
-                        Displays content in a separate window or overlay on top of the current page, often used to display additional information or to prompt the user for input.
-                    </Paragraph>
-                </MediaBody>
-            </Media>
-        </CardBody>
-    </Card>
-    <Card Height="Height.Is100">
-        <CardBody>
-            <Media>
-                <MediaLeft>
-                    <Icon Name="IconName.Search" IconSize="IconSize.x3" Padding="Padding.Is3" />
-                </MediaLeft>
-                <MediaBody>
-                    <Anchor To="tests/autocomplete" Stretched TextColor="TextColor.Body">
-                        <Heading Size="HeadingSize.Is5">Blazor Autocomplete</Heading>
-                    </Anchor>
-                    <Paragraph>
-                        Provides suggestions as the user types, based on a pre-defined list of options, in order to help the user quickly find and select the desired item.
-                    </Paragraph>
-                </MediaBody>
-            </Media>
-        </CardBody>
-    </Card>
-    <Card Height="Height.Is100">
-        <CardBody>
-            <Media>
-                <MediaLeft>
-                    <Icon Name="IconName.Link" IconSize="IconSize.x3" Padding="Padding.Is3" />
-                </MediaLeft>
-                <MediaBody>
-                    <Anchor To="tests/qrcode" Stretched TextColor="TextColor.Body">
-                        <Heading Size="HeadingSize.Is5">Blazor QRCode</Heading>
-                    </Anchor>
-                    <Paragraph>
-                        Generates and displays a QR code image, which can be scanned by a QR code reader to access information or a website URL.
-                    </Paragraph>
-                </MediaBody>
-            </Media>
-        </CardBody>
-    </Card>
-</Grid>
-
-<Heading Size="HeadingSize.Is2" Margin="Margin.Is4.OnY">
-    Where can I find the code?
-</Heading>
-
-<Paragraph>
-    Full source code for this demo application can be found on <Anchor To="https://github.com/Megabit/Blazorise/tree/master/Demos/Blazorise.Demo" Target="Target.Blank">GitHub</Anchor>.
-</Paragraph>
-
-<Paragraph>
-    If you wish to learn more about Blazorise please go to the <Anchor To="https://blazorise.com/docs/" Target="Target.Blank">official documentation</Anchor>.
-</Paragraph>
 
 <Row>
-    <Column Margin="Margin.Is4.OnY">
-        <Paragraph>
-            <Strong>Demo application for</Strong>: Blazorise @($"v{VersionProvider.MilestoneVersion}")
-        </Paragraph>
+    <Column ColumnSize="ColumnSize.Is4.OnDesktop.Is6.OnTablet.Is12.OnMobile" Margin="Margin.Is4.FromBottom">
+        <Card Shadow="Shadow.Default" Height="Height.Is100">
+            <CardBody>
+                <Icon Name="IconName.Wrench" IconSize="IconSize.x2" TextColor="TextColor.Primary" Margin="Margin.Is2.FromBottom" />
+                <Anchor To="tests/buttons" Stretched TextColor="TextColor.Body">
+                    <CardTitle Size="HeadingSize.Is4">UI Elements</CardTitle>
+                </Anchor>
+                <CardText>
+                    Buttons, alerts, cards, tabs, modals, tables, and the rest of the core building blocks.
+                </CardText>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.Is4.OnDesktop.Is6.OnTablet.Is12.OnMobile" Margin="Margin.Is4.FromBottom">
+        <Card Shadow="Shadow.Default" Height="Height.Is100">
+            <CardBody>
+                <Icon Name="IconName.Edit" IconSize="IconSize.x2" TextColor="TextColor.Warning" Margin="Margin.Is2.FromBottom" />
+                <Anchor To="tests/forms" Stretched TextColor="TextColor.Body">
+                    <CardTitle Size="HeadingSize.Is4">Forms</CardTitle>
+                </Anchor>
+                <CardText>
+                    Inputs, validation flows, pickers, focus handling, and more involved editing scenarios.
+                </CardText>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.Is4.OnDesktop.Is6.OnTablet.Is12.OnMobile" Margin="Margin.Is4.FromBottom">
+        <Card Shadow="Shadow.Default" Height="Height.Is100">
+            <CardBody>
+                <Icon Name="IconName.Table" IconSize="IconSize.x2" TextColor="TextColor.Info" Margin="Margin.Is2.FromBottom" />
+                <Anchor To="tests/datagrid" Stretched TextColor="TextColor.Body">
+                    <CardTitle Size="HeadingSize.Is4">DataGrid</CardTitle>
+                </Anchor>
+                <CardText>
+                    Sorting, filtering, grouping, editing, virtualization, state management, and selection behavior.
+                </CardText>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.Is4.OnDesktop.Is6.OnTablet.Is12.OnMobile" Margin="Margin.Is4.FromBottom">
+        <Card Shadow="Shadow.Default" Height="Height.Is100">
+            <CardBody>
+                <Icon Name="IconName.ChartPie" IconSize="IconSize.x2" TextColor="TextColor.Danger" Margin="Margin.Is2.FromBottom" />
+                <Anchor To="tests/charts" Stretched TextColor="TextColor.Body">
+                    <CardTitle Size="HeadingSize.Is4">Extensions</CardTitle>
+                </Anchor>
+                <CardText>
+                    Charts, autocomplete, markdown, scheduler, video, QR code, tree view, and other advanced features.
+                </CardText>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.Is4.OnDesktop.Is6.OnTablet.Is12.OnMobile" Margin="Margin.Is4.FromBottom">
+        <Card Shadow="Shadow.Default" Height="Height.Is100">
+            <CardBody>
+                <Icon Name="IconName.Flask" IconSize="IconSize.x2" TextColor="TextColor.Secondary" Margin="Margin.Is2.FromBottom" />
+                <Anchor To="tests/utilities/grid" Stretched TextColor="TextColor.Body">
+                    <CardTitle Size="HeadingSize.Is4">Utilities</CardTitle>
+                </Anchor>
+                <CardText>
+                    Layout, spacing, colors, borders, shadows, positioning, and the utility layer used across the pages.
+                </CardText>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.Is4.OnDesktop.Is6.OnTablet.Is12.OnMobile" Margin="Margin.Is4.FromBottom">
+        <Card Shadow="Shadow.Default" Height="Height.Is100">
+            <CardBody>
+                <Icon Name="IconName.Smartphone" IconSize="IconSize.x2" TextColor="TextColor.Success" Margin="Margin.Is2.FromBottom" />
+                <Anchor To="apps/todo" Stretched TextColor="TextColor.Body">
+                    <CardTitle Size="HeadingSize.Is4">Sample Apps</CardTitle>
+                </Anchor>
+                <CardText>
+                    Small app-style demos that show how Blazorise components work together in a more complete workflow.
+                </CardText>
+            </CardBody>
+        </Card>
     </Column>
 </Row>
+
+<Alert Color="Color.Info" Visible Margin="Margin.Is4.FromBottom">
+    <AlertMessage>Source and documentation</AlertMessage>
+    <AlertDescription>
+        Full source code for this demo application is available on <Anchor To="https://github.com/Megabit/Blazorise/tree/master/Demos/Blazorise.Demo" Target="Target.Blank">GitHub</Anchor>. For component documentation and usage guidance, visit the <Anchor To="https://blazorise.com/docs/" Target="Target.Blank">official Blazorise docs</Anchor>.
+    </AlertDescription>
+</Alert>
+
+<Paragraph TextColor="TextColor.Muted">
+    <Strong>Demo application for</Strong>: Blazorise @($"v{VersionProvider.MilestoneVersion}")
+</Paragraph>
