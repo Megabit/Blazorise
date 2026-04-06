@@ -1,7 +1,7 @@
 ﻿<div class="b-docs-page-section-header">
     @if ( Title != null )
     {
-        <Heading Size="HeadingSize.Is3">
+        <Heading Size="HeadingSize.Is3" ElementId="@ElementId">
             @Title
         </Heading>
     }
@@ -10,6 +10,8 @@
 
 @code {
     [Parameter] public string Title { get; set; }
+    
+    [Parameter] public string ElementId { get; set; }
 
     [Parameter] public RenderFragment ChildContent { get; set; }
 }

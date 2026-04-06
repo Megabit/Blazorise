@@ -107,7 +107,7 @@
 </UnorderedList>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Top Bar (with dropdown)">
+    <DocsPageSectionHeader Title="Top Bar (with dropdown)" ElementId="bar-top-bar">
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined>
         <TopBarExample />
@@ -116,9 +116,21 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Dropdown toggle with navigation target">
+        <Code>BarDropdownToggle</Code> supports <Code>To</Code> the same way as other Blazorise link components.
+        With the default <Code>Trigger="BarDropdownToggleTrigger.Auto"</Code>, setting <Code>To</Code> makes the label navigate while the chevron icon toggles the submenu.
+        This example uses <Code>Match="Match.Prefix"</Code> so the parent link stays active while the example items navigate to sections of the Bar docs page.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <BarDropdownToggleToExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BarDropdownToggleToExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Dropdown trigger: icon toggles, label navigates">
-        Use this pattern when a parent item should act as a normal link, while the chevron icon independently opens the submenu.
-        Set <Code>To</Code> for navigation and <Code>Trigger="BarDropdownToggleTrigger.IconClick"</Code> so only the icon toggles the dropdown.
+        This is the explicit form of the default <Code>To</Code> behavior.
+        Use it when you want the intent to be visible in markup or when composing trigger flags elsewhere in the menu.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined>
         <BarDropdownToggleIconClickExample />
@@ -138,7 +150,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Vertical Bar (Sidebar)">
+    <DocsPageSectionHeader Title="Vertical Bar (Sidebar)" ElementId="bar-vertical-sidebar">
         When using the Bar in one of the <strong>Vertical</strong> modes for the purpose of a Sidebar, you need to place it inside the <Code>LayoutSiderContent</Code> component.
 
         Please see the <Anchor To="docs/components/layout">Layout docs </Anchor> for more information on setup with Sidebar.
@@ -231,7 +243,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Nested Dropdowns">
+    <DocsPageSectionHeader Title="Nested Dropdowns" ElementId="bar-nested-dropdowns">
         To create nested <Code>BarDropdowns</Code>, you can simply add a <Code>BarDropdown</Code> component inside the structure of an existing <Code>BarDropdownMenu</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined>
@@ -246,4 +258,4 @@
     </DocsPageSectionHeader>
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(Bar), typeof(BarLink)]" />
+<ComponentApiDocs ComponentTypes="[typeof(Bar), typeof(BarLink), typeof(BarDropdownToggle)]" />
