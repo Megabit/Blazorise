@@ -1,5 +1,5 @@
-import Inputmask from "./vendors/inputmask.js?v=2.0.3.0";
-import { getRequiredElement } from "./utilities.js?v=2.0.3.0";
+import Inputmask from "./vendors/inputmask.js?v=2.0.4.0";
+import { getRequiredElement } from "./utilities.js?v=2.0.4.0";
 
 let _instances = [];
 
@@ -60,6 +60,24 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 
 export function destroy(element, elementId) {
     let instances = _instances || {};
+    const instance = instances[elementId];
+
+    if (instance) {
+        try {
+            if (instance.element && instance.element.inputmask && typeof instance.element.inputmask.remove === "function") {
+                instance.element.inputmask.remove();
+            }
+            else if (instance.inputMask && typeof instance.inputMask.remove === "function") {
+                instance.inputMask.remove();
+            }
+        }
+        catch (error) {
+            console.error(error);
+        }
+
+        instance.inputMask = null;
+    }
+
     delete instances[elementId];
 }
 

@@ -1,5 +1,5 @@
-import "./vendors/quill.js?v=2.0.3.0";
-import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.3.0";
+import "./vendors/quill.js?v=2.0.4.0";
+import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.0.4.0";
 
 var rteLoadedStyleUrls = new Set();
 var rteSanitizedPasteLoaded = false;
@@ -15,7 +15,7 @@ async function loadSanitizedPasteModule() {
         return rteSanitizedPasteModule;
 
     if (!rteSanitizedPasteLoader) {
-        rteSanitizedPasteLoader = import("./vendors/quill-paste-smart.js?v=2.0.3.0")
+        rteSanitizedPasteLoader = import("./vendors/quill-paste-smart.js?v=2.0.4.0")
             .then((module) => {
                 rteSanitizedPasteModule = module;
                 rteSanitizedPasteLoaded = true;
@@ -37,7 +37,7 @@ async function loadTableBetterModule() {
         return;
 
     if (!rteTableBetterLoader) {
-        rteTableBetterLoader = import("./vendors/quill-table-better.js?v=2.0.3.0")
+        rteTableBetterLoader = import("./vendors/quill-table-better.js?v=2.0.4.0")
             .then(() => {
                 rteTableBetterLoaded = true;
             });
@@ -56,7 +56,7 @@ async function loadResizeModule() {
         return;
 
     if (!rteResizeLoader) {
-        rteResizeLoader = import("./vendors/quill-resize-module.js?v=2.0.3.0")
+        rteResizeLoader = import("./vendors/quill-resize-module.js?v=2.0.4.0")
             .then(() => {
                 rteResizeLoaded = true;
             });
@@ -313,6 +313,7 @@ export async function initialize(dotnetAdapter, element, elementId, options) {
     setContent();
 
     editorRef.quill = quill;
+    editorRef.disconnectCleanupId = registerDisconnectCleanup(element, () => destroy(editorRef, elementId));
 }
 
 export function configure(functionName, context, args) {
@@ -328,16 +329,21 @@ export function destroy(editorRef, editorId) {
     if (!editorRef)
         return false;
 
+    if (editorRef.disconnectCleanupId) {
+        unregisterDisconnectCleanup(editorRef.disconnectCleanupId);
+    }
+
     if (editorRef._stopArrowKeyPropagation) {
         document.removeEventListener("keydown", editorRef._stopArrowKeyPropagation, true);
         document.removeEventListener("keyup", editorRef._stopArrowKeyPropagation, true);
     }
 
-    if (editorRef.quill.contentObserver)
+    if (editorRef.quill?.contentObserver)
         editorRef.quill.contentObserver.disconnect();
 
     delete editorRef.quill;
     delete editorRef._stopArrowKeyPropagation;
+    delete editorRef.disconnectCleanupId;
     return true;
 }
 

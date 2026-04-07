@@ -1383,7 +1383,7 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Blockquote
 
-    public override string Blockquote() => "ant-blockquote";
+    public override string Blockquote() => "ant-blockquote ant-typography";
 
     public override string BlockquoteFooter() => "ant-blockquote-footer";
 

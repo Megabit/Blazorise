@@ -1,8 +1,10 @@
-import { addClassToBody, removeClassFromBody } from "../Blazorise/utilities.js?v=2.0.3.0";
+import { addClassToBody, removeClassFromBody } from "../Blazorise/utilities.js?v=2.0.4.0";
+import { registerModalDisconnectCleanup, scrollModalBodyToTop, unregisterModalDisconnectCleanup } from "../Blazorise/modal.js?v=2.0.4.0";
 
 let closeCleanupTimeoutId = null;
 
 export function open(element, scrollToTop) {
+    registerModalDisconnectCleanup(element, () => closeCore(element));
     clearCloseCleanupTimeout();
     adjustDialogDimensionsBeforeShow(element);
 
@@ -23,16 +25,15 @@ export function open(element, scrollToTop) {
 
     document.body.setAttribute("data-modals", modals.toString());
 
-    if (scrollToTop) {
-        const modalBody = element.querySelector('.mui-modal-body, .modal-body');
-
-        if (modalBody) {
-            modalBody.scrollTop = 0;
-        }
-    }
+    scrollModalBodyToTop(element, scrollToTop, ".mui-modal-body, .modal-body");
 }
 
 export function close(element) {
+    unregisterModalDisconnectCleanup(element);
+    closeCore(element);
+}
+
+function closeCore(element) {
     var modals = Number(document.body.getAttribute("data-modals") || "0");
 
     modals -= 1;

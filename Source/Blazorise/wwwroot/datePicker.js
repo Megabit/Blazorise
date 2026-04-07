@@ -1,8 +1,8 @@
-import "./vendors/flatpickr.js?v=2.0.3.0";
-import "./vendors/flatpickr-monthselect.js?v=2.0.3.0";
-import * as utilities from "./utilities.js?v=2.0.3.0";
-import * as inputmask from "./inputMask.js?v=2.0.3.0";
-import { ClassWatcher } from "./observer.js?v=2.0.3.0";
+import "./vendors/flatpickr.js?v=2.0.4.0";
+import "./vendors/flatpickr-monthselect.js?v=2.0.4.0";
+import * as utilities from "./utilities.js?v=2.0.4.0";
+import * as inputmask from "./inputMask.js?v=2.0.4.0";
+import { ClassWatcher } from "./observer.js?v=2.0.4.0";
 
 const _pickers = [];
 
@@ -106,6 +106,8 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     } : {};
 
     const picker = flatpickr(element, Object.assign({}, defaultOptions, pluginOptions));
+    picker.classMutationObserver = mutationObserver;
+    picker.disconnectCleanupId = utilities.registerDisconnectCleanup(element, () => destroy(null, elementId, false));
 
     picker.altInput.dotnetAdapter = dotnetAdapter;
 
@@ -230,24 +232,38 @@ function blurHandler(e) {
     }
 }
 
-export function destroy(element, elementId) {
+export function destroy(element, elementId, unregisterCleanup = true) {
     const instances = _pickers || {};
-
     const instance = instances[elementId];
 
-    if (instance && instance.altInput) {
+    if (!instance)
+        return;
+
+    if (unregisterCleanup) {
+        utilities.unregisterDisconnectCleanup(instance.disconnectCleanupId);
+    }
+
+    if (instance.altInput) {
         removeEventHandlers(instance.altInput);
     }
 
-    if (instance) {
-        if (instance.errorClassWatcher) {
-            instance.errorClassWatcher.disconnect();
-        }
+    if (instance.classMutationObserver) {
+        instance.classMutationObserver.disconnect();
+    }
 
-        if (instance.successClassWatcher) {
-            instance.successClassWatcher.disconnect();
-        }
+    if (instance.errorClassWatcher) {
+        instance.errorClassWatcher.disconnect();
+    }
 
+    if (instance.successClassWatcher) {
+        instance.successClassWatcher.disconnect();
+    }
+
+    if (instance.inputMask && instance.inputMask.remove) {
+        instance.inputMask.remove();
+    }
+
+    if (typeof instance.destroy === "function") {
         instance.destroy();
     }
 

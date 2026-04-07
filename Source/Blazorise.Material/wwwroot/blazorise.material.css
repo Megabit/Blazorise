@@ -389,6 +389,8 @@ body {
 .mui-addons > :is(.mui-addon-start, .mui-addon-body, .mui-addon-end) > .mui-numeric,
 .mui-addons > .mui-numeric {
   --mui-numeric-input-border-radius: var(--mui-addon-gap-radius);
+  --mui-numeric-input-border-radius-start: var(--mui-addon-gap-radius);
+  --mui-numeric-input-border-radius-end: var(--mui-addon-gap-radius);
 }
 .mui-addons > :first-child > :is(.mui-input, .mui-select, .mui-addon-text),
 .mui-addons > :first-child:is(.mui-input, .mui-select, .mui-addon-text) {
@@ -397,6 +399,7 @@ body {
 }
 .mui-addons > :first-child > .mui-numeric,
 .mui-addons > :first-child:is(.mui-numeric) {
+  --mui-numeric-input-border-radius-start: var(--mui-addon-border-radius);
   border-top-left-radius: var(--mui-addon-border-radius);
   border-bottom-left-radius: var(--mui-addon-border-radius);
 }
@@ -407,6 +410,7 @@ body {
 }
 .mui-addons > :last-child > .mui-numeric,
 .mui-addons > :last-child:is(.mui-numeric) {
+  --mui-numeric-input-border-radius-end: var(--mui-addon-border-radius);
   border-top-right-radius: var(--mui-addon-border-radius);
   border-bottom-right-radius: var(--mui-addon-border-radius);
 }
@@ -1095,6 +1099,7 @@ body {
 .mui-chip .mui-chip-close {
   color: var(--mui-on-surface-variant);
   cursor: pointer;
+  pointer-events: auto;
   inline-size: var(--mui-chip-close-size);
   block-size: var(--mui-chip-close-size);
   display: inline-flex;
@@ -3977,6 +3982,16 @@ fieldset.mui-row > legend.mui-field-label-horizontal {
   min-inline-size: 0;
 }
 
+.mui-field > .mui-button,
+.mui-field > .mui-field-body > .mui-button {
+  align-self: flex-start;
+}
+
+.mui-field > .mui-button.mui-button-block,
+.mui-field > .mui-field-body > .mui-button.mui-button-block {
+  align-self: stretch;
+}
+
 .mui-field > .mui-field-label:not(.mui-field-label-horizontal) {
   display: inline-flex;
   align-items: center;
@@ -4516,13 +4531,22 @@ textarea.mui-input:not([rows]) {
   --mui-numeric-input-size: var(--mui-input-size, 2.5rem);
   --mui-numeric-input-font-size: var(--mui-input-font-size, 1rem);
   --mui-numeric-input-border-radius: var(--mui-input-border-radius, 0.5rem);
+  --mui-numeric-input-border-radius-start: var(--mui-numeric-input-border-radius);
+  --mui-numeric-input-border-radius-end: var(--mui-numeric-input-border-radius);
   --mui-numeric-step-width: 1.375rem;
   --mui-numeric-icon-size: 1rem;
   position: relative;
   display: inline-flex;
   align-items: stretch;
   inline-size: 100%;
-  border-radius: var(--mui-numeric-input-border-radius);
+  border-start-start-radius: var(--mui-numeric-input-border-radius-start);
+  border-end-start-radius: var(--mui-numeric-input-border-radius-start);
+  border-start-end-radius: var(--mui-numeric-input-border-radius-end);
+  border-end-end-radius: var(--mui-numeric-input-border-radius-end);
+  border-top-left-radius: var(--mui-numeric-input-border-radius-start);
+  border-bottom-left-radius: var(--mui-numeric-input-border-radius-start);
+  border-top-right-radius: var(--mui-numeric-input-border-radius-end);
+  border-bottom-right-radius: var(--mui-numeric-input-border-radius-end);
   overflow: hidden;
 }
 .mui-numeric > .mui-input,
@@ -4530,6 +4554,14 @@ textarea.mui-input:not([rows]) {
   --mui-input-size: var(--mui-numeric-input-size);
   --mui-input-font-size: var(--mui-numeric-input-font-size);
   --mui-input-border-radius: var(--mui-numeric-input-border-radius);
+  border-start-start-radius: var(--mui-numeric-input-border-radius-start);
+  border-end-start-radius: var(--mui-numeric-input-border-radius-start);
+  border-start-end-radius: var(--mui-numeric-input-border-radius-end);
+  border-end-end-radius: var(--mui-numeric-input-border-radius-end);
+  border-top-left-radius: var(--mui-numeric-input-border-radius-start);
+  border-bottom-left-radius: var(--mui-numeric-input-border-radius-start);
+  border-top-right-radius: var(--mui-numeric-input-border-radius-end);
+  border-bottom-right-radius: var(--mui-numeric-input-border-radius-end);
   padding-inline-end: calc(var(--mui-numeric-step-width) + 0.75rem);
 }
 .mui-numeric > .mui-input:focus {
@@ -4549,10 +4581,10 @@ textarea.mui-input:not([rows]) {
   flex-direction: column;
   padding-block: 0.0625rem;
   overflow: hidden;
-  border-start-end-radius: calc(var(--mui-numeric-input-border-radius) - 0.0625rem);
-  border-end-end-radius: calc(var(--mui-numeric-input-border-radius) - 0.0625rem);
-  border-top-right-radius: calc(var(--mui-numeric-input-border-radius) - 0.0625rem);
-  border-bottom-right-radius: calc(var(--mui-numeric-input-border-radius) - 0.0625rem);
+  border-start-end-radius: calc(var(--mui-numeric-input-border-radius-end) - 0.0625rem);
+  border-end-end-radius: calc(var(--mui-numeric-input-border-radius-end) - 0.0625rem);
+  border-top-right-radius: calc(var(--mui-numeric-input-border-radius-end) - 0.0625rem);
+  border-bottom-right-radius: calc(var(--mui-numeric-input-border-radius-end) - 0.0625rem);
   border-start-start-radius: 0;
   border-end-start-radius: 0;
   border-top-left-radius: 0;
@@ -4565,10 +4597,10 @@ textarea.mui-input:not([rows]) {
 .mui-numeric > .mui-input:focus + .mui-numeric-buttons {
   inset-block: 0.125rem;
   inset-inline-end: 0.0625rem;
-  border-start-end-radius: calc(var(--mui-numeric-input-border-radius) - 0.125rem);
-  border-end-end-radius: calc(var(--mui-numeric-input-border-radius) - 0.125rem);
-  border-top-right-radius: calc(var(--mui-numeric-input-border-radius) - 0.125rem);
-  border-bottom-right-radius: calc(var(--mui-numeric-input-border-radius) - 0.125rem);
+  border-start-end-radius: calc(var(--mui-numeric-input-border-radius-end) - 0.125rem);
+  border-end-end-radius: calc(var(--mui-numeric-input-border-radius-end) - 0.125rem);
+  border-top-right-radius: calc(var(--mui-numeric-input-border-radius-end) - 0.125rem);
+  border-bottom-right-radius: calc(var(--mui-numeric-input-border-radius-end) - 0.125rem);
 }
 
 .mui-numeric-button {
@@ -8974,12 +9006,14 @@ body.modal-open {
   --mui-picker-selected-hover: var(--mui-primary-hover);
   --mui-picker-range-bg: color-mix(in srgb, var(--mui-primary) 16%, transparent);
   --mui-picker-today-border: var(--mui-outline);
+  --mui-picker-day-size: 2.5rem;
   z-index: var(--mui-zindex-popover);
   border: 0.0625rem solid var(--mui-picker-border);
   border-radius: 1rem;
   background-color: var(--mui-picker-bg);
   color: var(--mui-picker-color);
   box-shadow: var(--mui-elevate2);
+  inline-size: calc(var(--mui-picker-day-size) * 7 + 1rem);
   overflow: hidden;
   font-family: var(--mui-font-family);
   font-size: 0.875rem;
@@ -9088,6 +9122,8 @@ body.modal-open {
 }
 
 .flatpickr-weekdays {
+  box-sizing: border-box;
+  inline-size: 100%;
   padding: 0 0.5rem;
 }
 
@@ -9099,7 +9135,16 @@ span.flatpickr-weekday {
 }
 
 .flatpickr-days {
+  box-sizing: border-box;
+  inline-size: 100%;
   padding: 0 0.5rem 0.5rem;
+}
+
+.dayContainer {
+  gap: 0;
+  inline-size: calc(var(--mui-picker-day-size) * 7);
+  min-inline-size: calc(var(--mui-picker-day-size) * 7);
+  max-inline-size: calc(var(--mui-picker-day-size) * 7);
 }
 
 .flatpickr-day {
@@ -9108,6 +9153,10 @@ span.flatpickr-weekday {
   color: var(--mui-picker-color);
   font-size: 0.9375rem;
   font-weight: 500;
+  inline-size: var(--mui-picker-day-size);
+  max-inline-size: var(--mui-picker-day-size);
+  block-size: var(--mui-picker-day-size);
+  line-height: calc(var(--mui-picker-day-size) - 0.125rem);
   transition: background-color var(--mui-duration-normal), border-color var(--mui-duration-normal), color var(--mui-duration-normal);
 }
 .flatpickr-day.today {

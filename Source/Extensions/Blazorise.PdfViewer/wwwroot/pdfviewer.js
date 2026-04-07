@@ -1,16 +1,16 @@
-import "./vendors/pdf.min.mjs?v=2.0.3.0";
-import { getRequiredElement, insertCSSIntoDocumentHead } from "../Blazorise/utilities.js?v=2.0.3.0";
+import "./vendors/pdf.min.mjs?v=2.0.4.0";
+import { getRequiredElement, insertCSSIntoDocumentHead, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.0.4.0";
 
 const { pdfjsLib } = globalThis;
 
 if (pdfjsLib && pdfjsLib.GlobalWorkerOptions) {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "_content/Blazorise.PdfViewer/vendors/pdf.worker.min.mjs?v=2.0.3.0";
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "_content/Blazorise.PdfViewer/vendors/pdf.worker.min.mjs?v=2.0.4.0";
 }
 else {
     console.error("Blazorise.PdfViewer: Could not find pdfjsLib.");
 }
 
-insertCSSIntoDocumentHead("_content/Blazorise.PdfViewer/vendors/pdf_viewer.min.css?v=2.0.3.0");
+insertCSSIntoDocumentHead("_content/Blazorise.PdfViewer/vendors/pdf_viewer.min.css?v=2.0.4.0");
 
 const _instances = [];
 
@@ -34,18 +34,29 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         documentTitle: null,
         loadingTask: null,
         loadingVersion: 0,
+        destroyed: false,
+        disconnectCleanupId: null,
     };
 
-    loadDocument(instance, instance.source);
-
     _instances[elementId] = instance;
+    instance.disconnectCleanupId = registerDisconnectCleanup(element, () => destroy(null, elementId, false));
+
+    loadDocument(instance, instance.source);
 }
 
-export function destroy(element, elementId) {
+export function destroy(element, elementId, unregisterCleanup = true) {
     const instances = _instances || {};
     const instance = instances[elementId];
 
     if (instance) {
+        instance.destroyed = true;
+        instance.loadingVersion++;
+        instance.pageNumberPending = null;
+
+        if (unregisterCleanup) {
+            unregisterDisconnectCleanup(instance.disconnectCleanupId);
+        }
+
         if (instance.loadingTask) {
             try {
                 instance.loadingTask.destroy();
@@ -55,8 +66,16 @@ export function destroy(element, elementId) {
         }
 
         if (instance.pdf) {
-            instance.pdf.destroy();
+            try {
+                instance.pdf.destroy();
+            }
+            catch {
+            }
         }
+
+        instance.loadingTask = null;
+        instance.pdf = null;
+        instance.disconnectCleanupId = null;
 
         delete instances[elementId];
     }
@@ -99,7 +118,7 @@ export function updateOptions(element, elementId, newOptions) {
 }
 
 function loadDocument(instance, source) {
-    if (!instance || !source) {
+    if (!instance || instance.destroyed || !source) {
         return;
     }
 
@@ -130,7 +149,7 @@ function loadDocument(instance, source) {
     let attempt = 0;
 
     loadingTask.onPassword = async (updatePassword, reason) => {
-        if (currentLoadingVersion !== instance.loadingVersion) {
+        if (instance.destroyed || currentLoadingVersion !== instance.loadingVersion) {
             return;
         }
 
@@ -164,7 +183,7 @@ function loadDocument(instance, source) {
     };
 
     loadingTask.promise.then(async function (pdf) {
-        if (currentLoadingVersion !== instance.loadingVersion) {
+        if (instance.destroyed || currentLoadingVersion !== instance.loadingVersion) {
             if (pdf) {
                 pdf.destroy();
             }
@@ -174,7 +193,7 @@ function loadDocument(instance, source) {
 
         instance.documentTitle = await getDocumentTitle(pdf);
 
-        if (currentLoadingVersion !== instance.loadingVersion) {
+        if (instance.destroyed || currentLoadingVersion !== instance.loadingVersion) {
             if (pdf) {
                 pdf.destroy();
             }
@@ -198,7 +217,7 @@ function loadDocument(instance, source) {
 
         NotifyPdfInitialized(instance);
     }, function (reason) {
-        if (currentLoadingVersion !== instance.loadingVersion) {
+        if (instance.destroyed || currentLoadingVersion !== instance.loadingVersion) {
             return;
         }
 
@@ -208,7 +227,7 @@ function loadDocument(instance, source) {
 }
 
 async function requestPasswordFromDotNet(instance, reason, attempt) {
-    if (!instance || !instance.dotNetAdapter) {
+    if (!instance || instance.destroyed || !instance.dotNetAdapter) {
         return null;
     }
 
@@ -280,6 +299,10 @@ function applyPasswordToSource(source, password) {
 }
 
 function renderPage(instance, pageNumber) {
+    if (!instance || instance.destroyed || !instance.pdf) {
+        return;
+    }
+
     instance.pageRendering = true;
 
     instance.pdf.getPage(pageNumber).then(function (page) {
@@ -298,6 +321,10 @@ function renderPage(instance, pageNumber) {
         const renderTask = page.render(renderContext);
 
         renderTask.promise.then(function () {
+            if (instance.destroyed) {
+                return;
+            }
+
             instance.pageRendering = false;
 
             if (instance.pageNumberPending !== null) {
@@ -475,6 +502,10 @@ export function setScale(element, elementId, scale) {
 }
 
 function NotifyPdfInitialized(instance) {
+    if (!instance || instance.destroyed || !instance.dotNetAdapter) {
+        return;
+    }
+
     instance.dotNetAdapter.invokeMethodAsync('NotifyPdfInitialized', {
         pageNumber: instance.pageNumber,
         totalPages: instance.totalPages,
@@ -484,6 +515,10 @@ function NotifyPdfInitialized(instance) {
 }
 
 function NotifyPdfChanged(instance) {
+    if (!instance || instance.destroyed || !instance.dotNetAdapter) {
+        return;
+    }
+
     instance.dotNetAdapter.invokeMethodAsync('NotifyPdfChanged', {
         pageNumber: instance.pageNumber,
         totalPages: instance.totalPages,

@@ -1,14 +1,31 @@
-import "./vendors/easymde.js?v=2.0.3.0";
-import "./vendors/highlight.js?v=2.0.3.0";
-import { removeAllFileEntries } from "../Blazorise/io.js?v=2.0.3.0";
+import "./vendors/easymde.js?v=2.0.4.0";
+import "./vendors/highlight.js?v=2.0.4.0";
+import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.0.4.0";
+import { removeAllFileEntries } from "../Blazorise/io.js?v=2.0.4.0";
 
-document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Markdown/vendors/easymde.css?v=2.0.3.0\" />");
-document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Markdown/markdown.css?v=2.0.3.0\" />");
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Markdown/vendors/easymde.css?v=2.0.4.0\" />");
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Markdown/markdown.css?v=2.0.4.0\" />");
 
 const _instances = [];
 
 export function initialize(dotNetObjectRef, element, elementId, options) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element) {
+        return;
+    }
+
     const instances = _instances;
+    const instance = {
+        dotNetObjectRef: dotNetObjectRef,
+        element: element,
+        elementId: elementId,
+        editor: null,
+        imageUploadNotifier: null,
+        notifyUploadTimer: null,
+        disconnectCleanupId: null,
+        destroyed: false
+    };
 
     if (!options.toolbar) {
         // remove empty toolbar so that we can fallback to the default items
@@ -53,10 +70,11 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
     };
 
     let fileEntriesToNotifyBuffer = [];
-    let notifyUploadTimer = null;
+
+    instance.imageUploadNotifier = imageUploadNotifier;
 
     const mdeOptions = {
-        element: document.getElementById(elementId),
+        element: element,
         hideIcons: options.hideIcons,
         showIcons: options.showIcons,
         initialValue: options.value,
@@ -105,11 +123,17 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
             fileEntriesToNotifyBuffer.push(fileEntry);
 
             // Reset debounce timer: if a new file is added within 100ms, reset the timer
-            if (notifyUploadTimer) {
-                clearTimeout(notifyUploadTimer);
+            if (instance.notifyUploadTimer) {
+                clearTimeout(instance.notifyUploadTimer);
             }
 
-            notifyUploadTimer = setTimeout(() => {
+            instance.notifyUploadTimer = setTimeout(() => {
+                if (instance.destroyed) {
+                    fileEntriesToNotifyBuffer = [];
+                    instance.notifyUploadTimer = null;
+                    return;
+                }
+
                 // Send batched files to .NET when no more files arrive within 100ms
                 dotNetObjectRef.invokeMethodAsync('NotifyImageUpload', fileEntriesToNotifyBuffer)
                     .then(() => {
@@ -120,7 +144,7 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
                         throw new Error(err);
                     });
 
-                notifyUploadTimer = null;
+                instance.notifyUploadTimer = null;
             }, 100);
         },
 
@@ -175,36 +199,53 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
 
     const easyMDE = new EasyMDE(mdeOptions);
 
-    easyMDE.codemirror.on("change", function (instance, changeObj) {
+    easyMDE.codemirror.on("change", function (codeMirrorInstance, changeObj) {
         if (changeObj && changeObj.origin === "setValue") {
+            return;
+        }
+
+        if (instance.destroyed) {
             return;
         }
 
         dotNetObjectRef.invokeMethodAsync("UpdateInternalValue", easyMDE.value());
     });
 
-    instances[elementId] = {
-        dotNetObjectRef: dotNetObjectRef,
-        elementId: elementId,
-        editor: easyMDE,
-        imageUploadNotifier: imageUploadNotifier
-    };
+    instance.editor = easyMDE;
+    instance.disconnectCleanupId = registerDisconnectCleanup(element, () => destroy(null, elementId, false));
 
-    applyBaseInputOptions(instances[elementId], options);
+    instances[elementId] = instance;
+
+    applyBaseInputOptions(instance, options);
 }
 
-export function destroy(element, elementId) {
+export function destroy(element, elementId, unregisterCleanup = true) {
     const instances = _instances || {};
 
     const instance = instances[elementId];
 
     if (instance) {
-        if (element) {
-            removeAllFileEntries(element);
+        instance.destroyed = true;
+
+        if (unregisterCleanup) {
+            unregisterDisconnectCleanup(instance.disconnectCleanupId);
         }
 
-        instance.editor.toTextArea();
-        instance.editor = null;
+        if (instance.notifyUploadTimer) {
+            clearTimeout(instance.notifyUploadTimer);
+            instance.notifyUploadTimer = null;
+        }
+
+        if (instance.element) {
+            removeAllFileEntries(instance.element);
+        }
+
+        if (instance.editor) {
+            instance.editor.toTextArea();
+            instance.editor = null;
+        }
+
+        instance.disconnectCleanupId = null;
 
         delete instances[elementId];
     }

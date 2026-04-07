@@ -82,6 +82,8 @@
     > :is(.mui-addon-start, .mui-addon-body, .mui-addon-end) > .mui-numeric,
     > .mui-numeric {
         --mui-numeric-input-border-radius: var(--mui-addon-gap-radius);
+        --mui-numeric-input-border-radius-start: var(--mui-addon-gap-radius);
+        --mui-numeric-input-border-radius-end: var(--mui-addon-gap-radius);
     }
 
     > :first-child > :is(.mui-input, .mui-select, .mui-addon-text),
@@ -91,6 +93,7 @@
 
     > :first-child > .mui-numeric,
     > :first-child:is(.mui-numeric) {
+        --mui-numeric-input-border-radius-start: var(--mui-addon-border-radius);
         @include border-start-radius(var(--mui-addon-border-radius));
     }
 
@@ -101,6 +104,7 @@
 
     > :last-child > .mui-numeric,
     > :last-child:is(.mui-numeric) {
+        --mui-numeric-input-border-radius-end: var(--mui-addon-border-radius);
         @include border-end-radius(var(--mui-addon-border-radius));
     }
 

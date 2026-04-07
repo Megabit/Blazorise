@@ -115,15 +115,14 @@ body:before {
 }
 
 .blockquote {
-  margin-bottom: 1rem;
-  font-size: 1.25rem;
+  background-color: var(--bulma-content-blockquote-background-color, var(--bulma-background));
+  border-inline-start: var(--bulma-content-blockquote-border-left, 5px solid var(--bulma-border));
+  padding: var(--bulma-content-blockquote-padding, 1.25em 1.5em);
+}
+.blockquote:not(:last-child) {
+  margin-bottom: var(--bulma-content-block-margin-bottom, 1em);
 }
 
-.blockquote-footer {
-  display: block;
-  font-size: 0.75rem;
-  color: hsl(221, 14%, 48%);
-}
 .blockquote-footer::before {
   content: "— ";
 }
@@ -10034,15 +10033,6 @@ ol.is-ordered-list-upper-roman {
   list-style-type: upper-roman;
 }
 
-.lead {
-  font-size: 1.25rem;
-  font-weight: 300;
-  margin-bottom: 1rem;
-}
-
-.has-text-decoration-underline {
-  text-decoration: underline !important;
-}
 .has-text-decoration-overline {
   text-decoration: overline !important;
 }

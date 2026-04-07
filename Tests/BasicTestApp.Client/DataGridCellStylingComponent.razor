@@ -1,0 +1,38 @@
+<DataGrid TItem="Employee"
+          Data="InMemoryData"
+          CellStyling="@OnCellStyling">
+    <DataGridColumns>
+        <DataGridColumn TItem="Employee"
+                        Field="@nameof( Employee.Id )"
+                        Caption="#" />
+        <DataGridColumn TItem="Employee"
+                        Field="@nameof( Employee.FirstName )"
+                        Caption="First Name" />
+    </DataGridColumns>
+</DataGrid>
+
+@code {
+    public class Employee
+    {
+        public int Id { get; set; }
+
+        public string FirstName { get; set; }
+
+        public bool IsActive { get; set; }
+    }
+
+    public List<Employee> InMemoryData { get; set; } = new()
+    {
+        new() { Id = 1, FirstName = "John", IsActive = true },
+        new() { Id = 2, FirstName = "Cora", IsActive = false },
+    };
+
+    private void OnCellStyling( Employee employee, DataGridColumn<Employee> column, DataGridCellStyling styling )
+    {
+        if ( !employee.IsActive )
+        {
+            styling.Background = Background.Secondary;
+            styling.TextColor = TextColor.Muted;
+        }
+    }
+}

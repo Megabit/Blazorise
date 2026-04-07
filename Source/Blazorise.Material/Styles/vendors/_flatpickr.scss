@@ -1,4 +1,4 @@
-﻿.flatpickr-calendar {
+.flatpickr-calendar {
     --mui-picker-bg: var(--mui-surface-container-lowest);
     --mui-picker-bg-muted: var(--mui-surface-container-low);
     --mui-picker-color: var(--mui-on-surface);
@@ -10,12 +10,14 @@
     --mui-picker-selected-hover: var(--mui-primary-hover);
     --mui-picker-range-bg: color-mix(in srgb, var(--mui-primary) 16%, transparent);
     --mui-picker-today-border: var(--mui-outline);
+    --mui-picker-day-size: 2.5rem;
     z-index: var(--mui-zindex-popover);
     border: 0.0625rem solid var(--mui-picker-border);
     border-radius: 1rem;
     background-color: var(--mui-picker-bg);
     color: var(--mui-picker-color);
     box-shadow: var(--mui-elevate2);
+    inline-size: calc(var(--mui-picker-day-size) * 7 + 1rem);
     overflow: hidden;
     font-family: var(--mui-font-family);
     font-size: 0.875rem;
@@ -137,6 +139,8 @@
 }
 
 .flatpickr-weekdays {
+    box-sizing: border-box;
+    inline-size: 100%;
     padding: 0 0.5rem;
 }
 
@@ -148,7 +152,16 @@ span.flatpickr-weekday {
 }
 
 .flatpickr-days {
+    box-sizing: border-box;
+    inline-size: 100%;
     padding: 0 0.5rem 0.5rem;
+}
+
+.dayContainer {
+    gap: 0;
+    inline-size: calc(var(--mui-picker-day-size) * 7);
+    min-inline-size: calc(var(--mui-picker-day-size) * 7);
+    max-inline-size: calc(var(--mui-picker-day-size) * 7);
 }
 
 .flatpickr-day {
@@ -157,6 +170,10 @@ span.flatpickr-weekday {
     color: var(--mui-picker-color);
     font-size: 0.9375rem;
     font-weight: 500;
+    inline-size: var(--mui-picker-day-size);
+    max-inline-size: var(--mui-picker-day-size);
+    block-size: var(--mui-picker-day-size);
+    line-height: calc(var(--mui-picker-day-size) - 0.125rem);
     transition: background-color var(--mui-duration-normal), border-color var(--mui-duration-normal), color var(--mui-duration-normal);
 
     &.today {

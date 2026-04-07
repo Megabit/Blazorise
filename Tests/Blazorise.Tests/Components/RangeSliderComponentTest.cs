@@ -142,4 +142,24 @@ public class RangeSliderComponentTest : TestContext
         Assert.Equal( 20, comp.Instance.Value.Start );
         Assert.Equal( 25, comp.Instance.Value.End );
     }
+
+    [Fact]
+    public void RangeSliderValue_ImplicitlyConvertsFromTuple()
+    {
+        RangeSliderValue<decimal> range = (50m, 175m);
+
+        Assert.Equal( 50m, range.Start );
+        Assert.Equal( 175m, range.End );
+    }
+
+    [Fact]
+    public void RangeSliderValue_ImplicitlyConvertsToTuple()
+    {
+        RangeSliderValue<decimal> range = new( 50m, 175m );
+
+        (decimal Start, decimal End) tuple = range;
+
+        Assert.Equal( 50m, tuple.Start );
+        Assert.Equal( 175m, tuple.End );
+    }
 }

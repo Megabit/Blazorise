@@ -1,8 +1,8 @@
-import './vendors/split.js?v=2.0.3.0';
+import './vendors/split.js?v=2.0.4.0';
 
-import { getRequiredElement } from "../Blazorise/utilities.js?v=2.0.3.0";
+import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.0.4.0";
 
-document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Splitter/blazorise.splitter.css?v=2.0.3.0\" />");
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Splitter/blazorise.splitter.css?v=2.0.4.0\" />");
 
 const _instances = [];
 
@@ -52,17 +52,22 @@ export function initializeSplitter(element, elementId, elements, splitterOptions
     const instance = {
         element: element,
         elementId: elementId,
-        split: split
+        split: split,
+        disconnectCleanupId: registerDisconnectCleanup(element, () => destroy(null, elementId, false))
     };
 
     _instances[elementId] = instance;
 }
 
-export function destroy(element, elementId) {
+export function destroy(element, elementId, unregisterCleanup = true) {
     const instances = _instances || {};
     const instance = instances[elementId];
 
-    if (instance && instance.split) {
+    if (instance) {
+        if (unregisterCleanup) {
+            unregisterDisconnectCleanup(instance.disconnectCleanupId);
+        }
+
         if (instance.split) {
             try {
                 instance.split.destroy();
@@ -70,6 +75,9 @@ export function destroy(element, elementId) {
                 console.error(e);
             }
         }
+
+        instance.split = null;
+        instance.disconnectCleanupId = null;
 
         delete instances[elementId];
     }
