@@ -101,7 +101,7 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                 </TableRowCell>
             </TableRow>
         }
-        <TableRow>
+        <TableRow data-row-index="@ParentDataGrid.ResolveItemIndex( Item )">
             @ParentDataGrid.groupIndentationFragment
 
             @foreach ( var column in DisplayableColumns )
