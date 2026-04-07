@@ -134,7 +134,21 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                 }
                 else if ( column.Displaying )
                 {
-                    <TableRowCell @key=column Class="@column.CellClass?.Invoke( Item )" Style="@column.BuildCellStyle( Item )"
+                    var cellStyle = column.BuildCellStyle( Item );
+                    if ( column.CellValueIsEditable )
+                    {
+                        cellStyle = string.IsNullOrWhiteSpace( cellStyle )
+                            ? "min-width:0;overflow:hidden;"
+                            : $"{cellStyle};min-width:0;overflow:hidden;";
+
+                        if ( column.CellEditing && !string.IsNullOrWhiteSpace( ParentDataGrid.activeCellEditWidth ) )
+                        {
+                            cellStyle = $"{cellStyle};width:{ParentDataGrid.activeCellEditWidth};min-width:{ParentDataGrid.activeCellEditWidth};max-width:{ParentDataGrid.activeCellEditWidth};";
+                        }
+                    }
+
+                    <TableRowCell @key=column Class="@column.CellClass?.Invoke( Item )" Style="@cellStyle"
+                                  data-column-id="@column.ElementId"
                                   @onkeydown="@(ParentDataGrid.IsCellEdit? async( args) => await HandleCellKeyDown( args, column ) : default)"
                                   @onclick=@(ParentDataGrid.IsCellEditOnSingleClick && !column.CellValueIsEditable ? async () => await HandleCellClick( column ) : default)
                                   @ondblclick=@(ParentDataGrid.IsCellEditOnDoubleClick && !column.CellValueIsEditable ? async () => await HandleCellClick( column ) : default)
@@ -143,7 +157,9 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                                   MobileModeCaption="@column.Caption">
                         @if ( column.CellValueIsEditable )
                         {
-                            <_DataGridCell TItem="TItem" Column="@column" Item="@Item" ValidationItem="@ValidationItem" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
+                            <Div Style="width:100%;max-width:100%;min-width:0;overflow:hidden;">
+                                <_DataGridCell TItem="TItem" Column="@column" Item="@Item" ValidationItem="@ValidationItem" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
+                            </Div>
                         }
                         else
                         {

@@ -56,6 +56,12 @@ public class JSDataGridModule : BaseJSModule
         await moduleInstance.InvokeVoidAsync( "blurActiveCellEditor", elementRef, elementId );
     }
 
+    public virtual async ValueTask<int> GetCellWidth( ElementReference elementRef, string elementId, int rowIndex, string columnId )
+    {
+        var moduleInstance = await Module;
+
+        return await moduleInstance.InvokeAsync<int>( "getCellWidth", elementRef, elementId, rowIndex, columnId );
+    }
 
     public virtual async ValueTask<int> ScrollTo( ElementReference elementRef, string classname )
     {

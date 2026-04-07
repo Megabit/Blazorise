@@ -158,6 +158,17 @@ export function blurActiveCellEditor(element, elementId) {
     }
 }
 
+export function getCellWidth(element, elementId, rowIndex, columnId) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element || rowIndex < 0 || !columnId) {
+        return 0;
+    }
+
+    const cell = element.querySelector(`tbody tr[data-row-index="${rowIndex}"] td[data-column-id="${columnId}"]`);
+    return cell ? Math.round(cell.getBoundingClientRect().width) : 0;
+}
+
 function preventSubmitOnEnter(e) {
     if (e.keyCode == 13) {
         e.preventDefault();

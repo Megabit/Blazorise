@@ -90,6 +90,7 @@
                 else
                 {
                     <TableRowCell @key=column
+                                  data-column-id="@column.ElementId"
                                   @onclick=@(ParentDataGrid.IsCellEditOnSingleClick && ParentDataGrid.EditState != DataGridEditState.New ? async () => await ParentDataGrid.HandleCellEdit( column, GetCurrentItem() ) : default)
                                   @ondblclick=@(ParentDataGrid.IsCellEditOnDoubleClick && ParentDataGrid.EditState != DataGridEditState.New ? async () => await ParentDataGrid.HandleCellEdit( column, GetCurrentItem() ) : default)
                                   @onkeydown="@(args => ParentDataGrid.IsCellEdit && ParentDataGrid.EditState != DataGridEditState.New ? HandleCellKeyDown( args, column ) : default)"
