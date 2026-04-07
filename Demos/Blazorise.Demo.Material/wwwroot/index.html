@@ -30,9 +30,15 @@
 </head>
 <body>
     <div id="app">
-        <div style="position:fixed; height:100%; width:100%; margin:0;">
-            <div style="display: flex; justify-content: center; align-items:center; height:100%; width:100%;">
-                <img src="_content/Blazorise.Demo/img/logos/blazorise-small.svg" class="b-demo-loading" style="height: 250px;" />
+        <div class="b-demo-startup">
+            <div class="b-demo-startup-shell" role="status" aria-label="Loading the demo application">
+                <img src="_content/Blazorise.Demo/img/logos/blazorise-small.svg" class="b-demo-startup-logo" alt="" />
+                <p class="b-demo-startup-label">Loading demo</p>
+                <div class="loading-progress"></div>
+                <div class="b-demo-startup-meta">
+                    <div class="b-demo-startup-caption"></div>
+                    <div class="loading-progress-text"></div>
+                </div>
             </div>
         </div>
     </div>
