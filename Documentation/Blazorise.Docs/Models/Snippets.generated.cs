@@ -265,6 +265,26 @@ namespace Blazorise.Docs.Models
     </BarMenu>
 </Bar>";
 
+        public const string BarDropdownToggleToExample = @"<Bar Mode=""BarMode.VerticalInline"">
+    <BarMenu>
+        <BarStart>
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle To=""/docs/components/bar"" Match=""Match.Prefix"">
+                        <BarIcon IconName=""IconName.Dashboard"" />
+                        Bar docs
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem To=""/docs/components/bar#bar-top-bar"">Top Bar</BarDropdownItem>
+                        <BarDropdownItem To=""/docs/components/bar#bar-vertical-sidebar"">Vertical Sidebar</BarDropdownItem>
+                        <BarDropdownItem To=""/docs/components/bar#bar-nested-dropdowns"">Nested Dropdowns</BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+        </BarStart>
+    </BarMenu>
+</Bar>";
+
         public const string TopBarExample = @"<Bar Breakpoint=""Breakpoint.Desktop""
      Background=""Background.Light""
      ThemeContrast=""ThemeContrast.Light"">
