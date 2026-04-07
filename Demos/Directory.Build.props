@@ -3,6 +3,8 @@
     <ProjectReference Include="$(MSBuildThisFileDirectory)..\Source\Helpers\Blazorise.Analyzers\Blazorise.Analyzers.csproj"
                       OutputItemType="Analyzer"
                       ReferenceOutputAssembly="false"
-                      PrivateAssets="all" />
+                      PrivateAssets="all">
+      <BuildReference Condition="'$(BlazoriseSkipAnalyzerProjectReference)' == 'true' or '$(_PublishingBlazorWasmProject)' == 'true'">false</BuildReference>
+    </ProjectReference>
   </ItemGroup>
 </Project>
