@@ -1,3 +1,5 @@
+@include emit-initial-bar-breakpoints(".b-bar-initial", $breakpoint-observer-breakpoints, $bar-initial-breakpoints);
+
 .ant-menu-submenu-horizontal > .ant-menu-submenu-title {
     display: flex;
     align-items: center;
@@ -80,6 +82,34 @@
 
 .b-layout-header .ant-menu {
     line-height: inherit;
+}
+
+.b-bar-initial {
+    display: none !important;
+}
+
+@media (min-width: 768px) {
+    .b-bar-initial.ant-bar-expand-sm {
+        display: flex !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .b-bar-initial.ant-bar-expand-md {
+        display: flex !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .b-bar-initial.ant-bar-expand-lg {
+        display: flex !important;
+    }
+}
+
+@media (min-width: 1400px) {
+    .b-bar-initial.ant-bar-expand-xl {
+        display: flex !important;
+    }
 }
 
 /* *** Vertical menu *** */

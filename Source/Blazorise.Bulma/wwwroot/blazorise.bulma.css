@@ -16,6 +16,69 @@
 }
 
 /*https://github.com/jgthms/bulma/issues/451#issuecomment-331758839*/
+body:before {
+  display: none;
+  visibility: hidden;
+}
+
+body:before {
+  content: "mobile";
+}
+
+@media (min-width: 769px) {
+  body:before {
+    content: "tablet";
+  }
+}
+@media (min-width: 1024px) {
+  body:before {
+    content: "desktop";
+  }
+}
+@media (min-width: 1216px) {
+  body:before {
+    content: "widescreen";
+  }
+}
+@media (min-width: 1408px) {
+  body:before {
+    content: "fullhd";
+  }
+}
+@media (min-width: 2560px) {
+  body:before {
+    content: "quadhd";
+  }
+}
+.b-bar-initial.navbar-expand-mobile {
+  display: flex !important;
+}
+
+@media (min-width: 769px) {
+  .b-bar-initial.navbar-expand-tablet {
+    display: flex !important;
+  }
+}
+@media (min-width: 1024px) {
+  .b-bar-initial.navbar-expand-desktop {
+    display: flex !important;
+  }
+}
+@media (min-width: 1216px) {
+  .b-bar-initial.navbar-expand-widescreen {
+    display: flex !important;
+  }
+}
+@media (min-width: 1408px) {
+  .b-bar-initial.navbar-expand-fullhd {
+    display: flex !important;
+  }
+}
+@media (min-width: 2560px) {
+  .b-bar-initial.navbar-expand-quadhd {
+    display: flex !important;
+  }
+}
 .b-bar-vertical-inline.b-bar-dark .is-active,
 .b-bar-vertical.b-bar-dark .is-active {
   color: #fff !important;

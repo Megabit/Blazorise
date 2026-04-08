@@ -1,0 +1,58 @@
+@mixin emit-breakpoint-observer($breakpoints, $breakpoint-content-map, $selector: "body:before") {
+    $previous-content: null;
+
+    #{$selector} {
+        display: none;
+        visibility: hidden;
+    }
+
+    @each $breakpoint, $content in $breakpoint-content-map {
+        @if $previous-content == null {
+            #{$selector} {
+                content: "#{$content}";
+            }
+
+            $previous-content: $content;
+        }
+        @else if $content != $previous-content {
+            @include media-breakpoint-up($breakpoint, $breakpoints) {
+                #{$selector} {
+                    content: "#{$content}";
+                }
+            }
+
+            $previous-content: $content;
+        }
+    }
+}
+
+@mixin emit-initial-bar-breakpoints($selector, $breakpoints, $class-breakpoint-map) {
+    @each $class-name, $breakpoint in $class-breakpoint-map {
+        @include media-breakpoint-up($breakpoint, $breakpoints) {
+            #{$selector}.#{$class-name} {
+                display: flex !important;
+            }
+        }
+    }
+}
+
+$breakpoint-observer-breakpoints: $grid-breakpoints;
+
+$breakpoint-observer-map: (
+    xs: mobile,
+    sm: tablet,
+    md: desktop,
+    lg: widescreen,
+    xl: fullhd,
+    xxl: quadhd,
+);
+
+$bar-initial-breakpoints: (
+    "navbar-expand-sm": sm,
+    "navbar-expand-md": md,
+    "navbar-expand-lg": lg,
+    "navbar-expand-xl": xl,
+    "navbar-expand-xxl": xxl,
+);
+
+@include emit-breakpoint-observer($breakpoint-observer-breakpoints, $breakpoint-observer-map);

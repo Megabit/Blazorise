@@ -35,7 +35,7 @@ public static class JSInterop
         module.SetupVoid( "destroy", _ => true ).SetVoidResult();
         module.SetupVoid( "registerBreakpointComponent", _ => true ).SetVoidResult();
         module.SetupVoid( "unregisterBreakpointComponent", _ => true ).SetVoidResult();
-        module.SetupVoid( "getBreakpoint", _ => true ).SetVoidResult();
+        module.Setup<string>( "getBreakpoint", _ => true ).SetResult( "desktop" );
 
         return jsInterop;
     }

@@ -1,0 +1,41 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BreakpointObserver</span> <span class="htmlAttributeName">Context</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">breakpoint</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Card</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CardBody</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
+                    Current breakpoint
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Badge</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>GetBreakpointLabel( breakpoint )<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Badge</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+
+            <span class="atSign">&#64;</span>if ( breakpoint != Breakpoint.None &amp;&amp; breakpoint.IsBelow( Breakpoint.Desktop ) )
+            {
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Alert</span> <span class="htmlAttributeName">Visible</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Info</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromTop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                    Showing compact content for mobile and tablet screens.
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Alert</span><span class="htmlTagDelimiter">&gt;</span>
+            }
+            else if ( breakpoint != Breakpoint.None )
+            {
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Alert</span> <span class="htmlAttributeName">Visible</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Success</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromTop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                    Showing expanded content for desktop and larger screens.
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Alert</span><span class="htmlTagDelimiter">&gt;</span>
+            }
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">CardBody</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Card</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BreakpointObserver</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">string</span> GetBreakpointLabel( Breakpoint breakpoint )
+    {
+        <span class="keyword">return</span> breakpoint == Breakpoint.None
+            ? <span class="string">&quot;Resolving...&quot;</span>
+            : breakpoint.ToString();
+    }
+}
+</pre></div>
+</div>

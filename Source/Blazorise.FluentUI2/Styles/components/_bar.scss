@@ -1,4 +1,6 @@
-﻿.fui-NavigationBar {
+@include emit-initial-bar-breakpoints(".b-bar-initial", $breakpoint-observer-breakpoints, $bar-initial-breakpoints);
+
+.fui-NavigationBar {
     position: relative;
     display: flex;
     flex-wrap: wrap;
@@ -264,6 +266,34 @@
 
 .fui-NavigationBar__dropdown-menu {
     position: absolute;
+}
+
+.b-bar-initial {
+    display: none !important;
+}
+
+@media (min-width: 768px) {
+    .b-bar-initial.fui-bar-expand-sm {
+        display: flex !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .b-bar-initial.fui-bar-expand-md {
+        display: flex !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .b-bar-initial.fui-bar-expand-lg {
+        display: flex !important;
+    }
+}
+
+@media (min-width: 1400px) {
+    .b-bar-initial.fui-bar-expand-xl {
+        display: flex !important;
+    }
 }
 
 .fui-NavigationBar__item,

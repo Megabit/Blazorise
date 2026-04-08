@@ -525,6 +525,114 @@ namespace Blazorise.Docs.Models
     </BreadcrumbItem>
 </Breadcrumb>";
 
+        public const string BreakpointObserverActionsExample = @"<BreakpointObserver Context=""breakpoint"">
+    <Card>
+        <CardBody>
+            <Paragraph Margin=""Margin.Is3.FromBottom"">
+                Actions can also change with the active breakpoint.
+            </Paragraph>
+
+            @if ( breakpoint != Breakpoint.None && breakpoint.IsBelow( Breakpoint.Desktop ) )
+            {
+                <Button Color=""Color.Primary"" Block>
+                    Continue
+                </Button>
+            }
+            else if ( breakpoint != Breakpoint.None )
+            {
+                <Buttons>
+                    <Button Color=""Color.Light"">
+                        Cancel
+                    </Button>
+                    <Button Color=""Color.Secondary"">
+                        Save Draft
+                    </Button>
+                    <Button Color=""Color.Primary"">
+                        Publish
+                    </Button>
+                </Buttons>
+            }
+        </CardBody>
+    </Card>
+</BreakpointObserver>";
+
+        public const string BreakpointObserverBasicExample = @"<BreakpointObserver Context=""breakpoint"">
+    <Card>
+        <CardBody>
+            <Field>
+                <FieldLabel>
+                    Current breakpoint
+                </FieldLabel>
+                <FieldBody>
+                    <Badge Color=""Color.Primary"">@GetBreakpointLabel( breakpoint )</Badge>
+                </FieldBody>
+            </Field>
+
+            @if ( breakpoint != Breakpoint.None && breakpoint.IsBelow( Breakpoint.Desktop ) )
+            {
+                <Alert Visible Color=""Color.Info"" Margin=""Margin.Is3.FromTop"">
+                    Showing compact content for mobile and tablet screens.
+                </Alert>
+            }
+            else if ( breakpoint != Breakpoint.None )
+            {
+                <Alert Visible Color=""Color.Success"" Margin=""Margin.Is3.FromTop"">
+                    Showing expanded content for desktop and larger screens.
+                </Alert>
+            }
+        </CardBody>
+    </Card>
+</BreakpointObserver>
+
+@code {
+    private static string GetBreakpointLabel( Breakpoint breakpoint )
+    {
+        return breakpoint == Breakpoint.None
+            ? ""Resolving...""
+            : breakpoint.ToString();
+    }
+}";
+
+        public const string BreakpointObserverLayoutExample = @"<BreakpointObserver Context=""breakpoint"">
+    @if ( breakpoint != Breakpoint.None && breakpoint.IsBelow( Breakpoint.Desktop ) )
+    {
+        <Div Padding=""Padding.Is3""
+             Background=""Background.Light""
+             Border=""Border.Is1.Secondary.Subtle"">
+            <Div Padding=""Padding.Is3""
+                 Margin=""Margin.Is3.FromBottom""
+                 Background=""Background.Primary.Subtle""
+                 Border=""Border.Is1.Primary.Subtle"">
+                Sidebar content
+            </Div>
+            <Div Padding=""Padding.Is3""
+                 Background=""Background.Info.Subtle""
+                 Border=""Border.Is1.Info.Subtle"">
+                Main content
+            </Div>
+        </Div>
+    }
+    else
+    {
+        <Row>
+            <Column ColumnSize=""ColumnSize.Is4"">
+                <Div Padding=""Padding.Is3""
+                     Background=""Background.Primary.Subtle""
+                     Border=""Border.Is1.Primary.Subtle"">
+                    Sidebar content
+                </Div>
+            </Column>
+            <Column ColumnSize=""ColumnSize.Is8"">
+                <Div Padding=""Padding.Is3""
+                     Background=""Background.Info.Subtle""
+                     Border=""Border.Is1.Info.Subtle"">
+                    Main content
+                </Div>
+            </Column>
+        </Row>
+    }
+</BreakpointObserver>";
+
         public const string ActiveButtonExample = @"<Button Color=""Color.Primary"" Active>Primary</Button>
 <Button Color=""Color.Secondary"" Active>Secondary</Button>";
 

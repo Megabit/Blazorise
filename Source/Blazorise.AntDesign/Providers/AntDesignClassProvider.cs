@@ -732,7 +732,10 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => themeContrast != ThemeContrast.None ? $"ant-menu-{ToThemeContrast( themeContrast )}" : null;
 
-    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => null;
+    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint )
+        => mode != Blazorise.BarMode.Horizontal && breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile
+            ? $"ant-bar-expand-{ToBreakpoint( breakpoint )}"
+            : null;
 
     public override string BarMode( BarMode mode ) => $"ant-menu-{ToBarMode( mode )} {( mode == Blazorise.BarMode.VerticalSmall ? "ant-menu-inline-collapsed" : null )}";
 
