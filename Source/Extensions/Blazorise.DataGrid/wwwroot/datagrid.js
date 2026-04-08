@@ -348,6 +348,7 @@ function KeyDownCellNavigation(e) {
     let isPageDown = e.key === "PageDown" || e.keyCode == 34;
     let isEnd = e.key === "End" || e.keyCode == 35;
     let isHome = e.key === "Home" || e.keyCode == 36;
+    let isTabKey = e.key === "Tab" || e.keyCode == 9;
     let isArrow = isLeft || isUp || isRight || isDown;
     let isNavigationKey = isArrow || isPageUp || isPageDown || isHome || isEnd;
     let isEnterKey = e.keyCode == 13;
@@ -396,6 +397,13 @@ function KeyDownCellNavigation(e) {
     }
 
     if (isInputFocused) {
+        if (isTabKey) {
+            // Cell edit Tab navigation is handled by the DataGrid edit flow.
+            // Prevent native browser tabbing so providers with td:focus styling
+            // do not flash an intermediate cell outline before the next editor focuses.
+            e.preventDefault();
+        }
+
         return;
     }
 
