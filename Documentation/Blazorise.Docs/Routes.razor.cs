@@ -68,6 +68,11 @@ public partial class Routes
         InputOptions = new ThemeInputOptions
         {
             CheckColor = "#9333ea",
+            SliderColor = "#9333ea",
+        },
+        SpinKitOptions = new ThemeSpinKitOptions
+        {
+            Color = "#9333ea",
         },
     };
 
@@ -144,6 +149,11 @@ public partial class Routes
         InputOptions = new ThemeInputOptions
         {
             CheckColor = "#9333ea",
+            SliderColor = "#9333ea",
+        },
+        SpinKitOptions = new ThemeSpinKitOptions
+        {
+            Color = "#9333ea",
         },
     };
 
