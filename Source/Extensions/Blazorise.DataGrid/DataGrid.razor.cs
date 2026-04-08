@@ -126,6 +126,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     protected internal string activeCellEditWidth;
 
     /// <summary>
+    /// Requests a one-time refocus of the active cell editor after validation keeps cell edit mode open.
+    /// </summary>
+    private bool pendingCellEditFocusRestore;
+
+    /// <summary>
     /// Holds the pagination templates
     /// </summary>
     protected PaginationTemplates<TItem> paginationTemplates;
@@ -1633,10 +1638,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         await BlurActiveCellEditorAsync();
 
+        pendingCellEditFocusRestore = IsCellEdit;
+
         if ( !await ValidateAll() )
         {
+            await InvokeAsync( StateHasChanged );
             return;
         }
+
+        pendingCellEditFocusRestore = false;
 
         if ( BatchEdit )
         {
@@ -1799,10 +1809,21 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         editState = DataGridEditState.None;
         activeCellEditWidth = null;
+        pendingCellEditFocusRestore = false;
 
         await VirtualizeOnEditCompleteScroll().AsTask();
 
         await InvokeAsync( StateHasChanged );
+    }
+
+    internal bool ConsumePendingCellEditFocusRestore()
+    {
+        if ( !pendingCellEditFocusRestore )
+            return false;
+
+        pendingCellEditFocusRestore = false;
+
+        return true;
     }
 
     /// <summary>
