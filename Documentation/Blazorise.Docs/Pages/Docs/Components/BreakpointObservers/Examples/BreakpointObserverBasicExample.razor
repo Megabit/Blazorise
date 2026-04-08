@@ -1,0 +1,38 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<BreakpointObserver Context="breakpoint">
+    <Card>
+        <CardBody>
+            <Field>
+                <FieldLabel>
+                    Current breakpoint
+                </FieldLabel>
+                <FieldBody>
+                    <Badge Color="Color.Primary">@GetBreakpointLabel( breakpoint )</Badge>
+                </FieldBody>
+            </Field>
+
+            @if ( breakpoint != Breakpoint.None && breakpoint.IsBelow( Breakpoint.Desktop ) )
+            {
+                <Alert Visible Color="Color.Info" Margin="Margin.Is3.FromTop">
+                    Showing compact content for mobile and tablet screens.
+                </Alert>
+            }
+            else if ( breakpoint != Breakpoint.None )
+            {
+                <Alert Visible Color="Color.Success" Margin="Margin.Is3.FromTop">
+                    Showing expanded content for desktop and larger screens.
+                </Alert>
+            }
+        </CardBody>
+    </Card>
+</BreakpointObserver>
+
+@code {
+    private static string GetBreakpointLabel( Breakpoint breakpoint )
+    {
+        return breakpoint == Breakpoint.None
+            ? "Resolving..."
+            : breakpoint.ToString();
+    }
+}

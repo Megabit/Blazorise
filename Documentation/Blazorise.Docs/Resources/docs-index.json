@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-04-06T18:11:11.9066016Z",
+  "generatedUtc": "2026-04-08T18:01:03.5028055Z",
   "pages": [
     {
       "route": "/docs",
@@ -399,6 +399,44 @@
         {
           "kind": "type",
           "name": "BreadcrumbLink"
+        }
+      ]
+    },
+    {
+      "route": "/docs/components/breakpoint-observer",
+      "title": "Blazorise BreakpointObserver component",
+      "description": "Render different content at runtime based on the current responsive breakpoint with the Blazorise BreakpointObserver component.",
+      "pagePath": "Pages/Docs/Components/BreakpointObservers/BreakpointObserverPage.razor",
+      "examples": [
+        {
+          "code": "BreakpointObserverBasicExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/BreakpointObservers/Examples/BreakpointObserverBasicExample.razor",
+          "content": "<BreakpointObserver Context=\"breakpoint\">\r\n    <Card>\r\n        <CardBody>\r\n            <Field>\r\n                <FieldLabel>\r\n                    Current breakpoint\r\n                </FieldLabel>\r\n                <FieldBody>\r\n                    <Badge Color=\"Color.Primary\">@GetBreakpointLabel( breakpoint )</Badge>\r\n                </FieldBody>\r\n            </Field>\r\n\r\n            @if ( breakpoint != Breakpoint.None && breakpoint.IsBelow( Breakpoint.Desktop ) )\r\n            {\r\n                <Alert Visible Color=\"Color.Info\" Margin=\"Margin.Is3.FromTop\">\r\n                    Showing compact content for mobile and tablet screens.\r\n                </Alert>\r\n            }\r\n            else if ( breakpoint != Breakpoint.None )\r\n            {\r\n                <Alert Visible Color=\"Color.Success\" Margin=\"Margin.Is3.FromTop\">\r\n                    Showing expanded content for desktop and larger screens.\r\n                </Alert>\r\n            }\r\n        </CardBody>\r\n    </Card>\r\n</BreakpointObserver>\r\n\r\n@code {\r\n    private static string GetBreakpointLabel( Breakpoint breakpoint )\r\n    {\r\n        return breakpoint == Breakpoint.None\r\n            ? \"Resolving...\"\r\n            : breakpoint.ToString();\r\n    }\r\n}",
+          "title": "Conditional Content",
+          "description": "This example shows the current breakpoint and swaps the message based on whether the screen is below the desktop breakpoint or not."
+        },
+        {
+          "code": "BreakpointObserverLayoutExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/BreakpointObservers/Examples/BreakpointObserverLayoutExample.razor",
+          "content": "<BreakpointObserver Context=\"breakpoint\">\r\n    @if ( breakpoint != Breakpoint.None && breakpoint.IsBelow( Breakpoint.Desktop ) )\r\n    {\r\n        <Div Padding=\"Padding.Is3\"\r\n             Background=\"Background.Light\"\r\n             Border=\"Border.Is1.Secondary.Subtle\">\r\n            <Div Padding=\"Padding.Is3\"\r\n                 Margin=\"Margin.Is3.FromBottom\"\r\n                 Background=\"Background.Primary.Subtle\"\r\n                 Border=\"Border.Is1.Primary.Subtle\">\r\n                Sidebar content\r\n            </Div>\r\n            <Div Padding=\"Padding.Is3\"\r\n                 Background=\"Background.Info.Subtle\"\r\n                 Border=\"Border.Is1.Info.Subtle\">\r\n                Main content\r\n            </Div>\r\n        </Div>\r\n    }\r\n    else\r\n    {\r\n        <Row>\r\n            <Column ColumnSize=\"ColumnSize.Is4\">\r\n                <Div Padding=\"Padding.Is3\"\r\n                     Background=\"Background.Primary.Subtle\"\r\n                     Border=\"Border.Is1.Primary.Subtle\">\r\n                    Sidebar content\r\n                </Div>\r\n            </Column>\r\n            <Column ColumnSize=\"ColumnSize.Is8\">\r\n                <Div Padding=\"Padding.Is3\"\r\n                     Background=\"Background.Info.Subtle\"\r\n                     Border=\"Border.Is1.Info.Subtle\">\r\n                    Main content\r\n                </Div>\r\n            </Column>\r\n        </Row>\r\n    }\r\n</BreakpointObserver>",
+          "title": "Conditional Layout",
+          "description": "Here the same information is rendered in two different layouts. Small screens get a stacked layout, while desktop and larger screens get a split two-column layout."
+        },
+        {
+          "code": "BreakpointObserverActionsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/BreakpointObservers/Examples/BreakpointObserverActionsExample.razor",
+          "content": "<BreakpointObserver Context=\"breakpoint\">\r\n    <Card>\r\n        <CardBody>\r\n            <Paragraph Margin=\"Margin.Is3.FromBottom\">\r\n                Actions can also change with the active breakpoint.\r\n            </Paragraph>\r\n\r\n            @if ( breakpoint != Breakpoint.None && breakpoint.IsBelow( Breakpoint.Desktop ) )\r\n            {\r\n                <Button Color=\"Color.Primary\" Block>\r\n                    Continue\r\n                </Button>\r\n            }\r\n            else if ( breakpoint != Breakpoint.None )\r\n            {\r\n                <Buttons>\r\n                    <Button Color=\"Color.Light\">\r\n                        Cancel\r\n                    </Button>\r\n                    <Button Color=\"Color.Secondary\">\r\n                        Save Draft\r\n                    </Button>\r\n                    <Button Color=\"Color.Primary\">\r\n                        Publish\r\n                    </Button>\r\n                </Buttons>\r\n            }\r\n        </CardBody>\r\n    </Card>\r\n</BreakpointObserver>",
+          "title": "Conditional Actions",
+          "description": "Runtime breakpoint detection is useful when the available actions should change, not only their styling. This example shows a single primary action on smaller screens and a fuller action set on larger screens."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "BreakpointObserver"
         }
       ]
     },

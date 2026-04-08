@@ -1,0 +1,41 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<BreakpointObserver Context="breakpoint">
+    @if ( breakpoint != Breakpoint.None && breakpoint.IsBelow( Breakpoint.Desktop ) )
+    {
+        <Div Padding="Padding.Is3"
+             Background="Background.Light"
+             Border="Border.Is1.Secondary.Subtle">
+            <Div Padding="Padding.Is3"
+                 Margin="Margin.Is3.FromBottom"
+                 Background="Background.Primary.Subtle"
+                 Border="Border.Is1.Primary.Subtle">
+                Sidebar content
+            </Div>
+            <Div Padding="Padding.Is3"
+                 Background="Background.Info.Subtle"
+                 Border="Border.Is1.Info.Subtle">
+                Main content
+            </Div>
+        </Div>
+    }
+    else
+    {
+        <Row>
+            <Column ColumnSize="ColumnSize.Is4">
+                <Div Padding="Padding.Is3"
+                     Background="Background.Primary.Subtle"
+                     Border="Border.Is1.Primary.Subtle">
+                    Sidebar content
+                </Div>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is8">
+                <Div Padding="Padding.Is3"
+                     Background="Background.Info.Subtle"
+                     Border="Border.Is1.Info.Subtle">
+                    Main content
+                </Div>
+            </Column>
+        </Row>
+    }
+</BreakpointObserver>

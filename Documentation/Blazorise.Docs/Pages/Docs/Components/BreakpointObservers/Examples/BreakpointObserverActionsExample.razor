@@ -1,0 +1,32 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<BreakpointObserver Context="breakpoint">
+    <Card>
+        <CardBody>
+            <Paragraph Margin="Margin.Is3.FromBottom">
+                Actions can also change with the active breakpoint.
+            </Paragraph>
+
+            @if ( breakpoint != Breakpoint.None && breakpoint.IsBelow( Breakpoint.Desktop ) )
+            {
+                <Button Color="Color.Primary" Block>
+                    Continue
+                </Button>
+            }
+            else if ( breakpoint != Breakpoint.None )
+            {
+                <Buttons>
+                    <Button Color="Color.Light">
+                        Cancel
+                    </Button>
+                    <Button Color="Color.Secondary">
+                        Save Draft
+                    </Button>
+                    <Button Color="Color.Primary">
+                        Publish
+                    </Button>
+                </Buttons>
+            }
+        </CardBody>
+    </Card>
+</BreakpointObserver>

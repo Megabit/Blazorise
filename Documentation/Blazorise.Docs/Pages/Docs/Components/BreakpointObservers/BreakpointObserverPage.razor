@@ -1,0 +1,63 @@
+@page "/docs/components/breakpoint-observer"
+
+<Seo Canonical="/docs/components/breakpoint-observer" Title="Blazorise BreakpointObserver component" Description="Render different content at runtime based on the current responsive breakpoint with the Blazorise BreakpointObserver component." />
+
+<DocsPageTitle Path="Components/BreakpointObserver">
+    Blazorise BreakpointObserver component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Render different content at runtime based on the current responsive breakpoint.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    <Code Tag>BreakpointObserver</Code> listens to the shared responsive breakpoint service and re-renders its child content whenever the current breakpoint changes. Use it when the markup or behavior needs to change at runtime, not just the CSS classes.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    If you only need styling changes, prefer regular responsive utility classes. Use <Code Tag>BreakpointObserver</Code> when you need to switch layouts, controls, or content based on the active breakpoint.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Conditional Content">
+        This example shows the current breakpoint and swaps the message based on whether the screen is below the desktop breakpoint or not.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BreakpointObserverBasicExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BreakpointObserverBasicExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Conditional Layout">
+        Here the same information is rendered in two different layouts. Small screens get a stacked layout, while desktop and larger screens get a split two-column layout.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BreakpointObserverLayoutExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BreakpointObserverLayoutExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Conditional Actions">
+        Runtime breakpoint detection is useful when the available actions should change, not only their styling. This example shows a single primary action on smaller screens and a fuller action set on larger screens.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BreakpointObserverActionsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BreakpointObserverActionsExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    When to use it
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Use <Code Tag>BreakpointObserver</Code> when you want inline declarative rendering in markup. If you need to react in code-behind instead, inject <Code>IBreakpointService</Code> directly and use its <Code>Current</Code>, <Code>IsResolved</Code>, <Code>IsBelow</Code>, and <Code>IsAtLeast</Code> members.
+</DocsPageParagraph>
+
+<ComponentApiDocs ComponentTypes="[typeof(BreakpointObserver)]" />
