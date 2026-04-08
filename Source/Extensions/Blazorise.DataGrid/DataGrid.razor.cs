@@ -1638,10 +1638,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         await BlurActiveCellEditorAsync();
 
-        pendingCellEditFocusRestore = IsCellEdit;
-
         if ( !await ValidateAll() )
         {
+            pendingCellEditFocusRestore = IsCellEdit;
             await InvokeAsync( StateHasChanged );
             return;
         }
