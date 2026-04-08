@@ -86,7 +86,24 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
 
         if ( args.Code == "Enter" || args.Code == "NumpadEnter" )
         {
+            var batchEditItem = ParentDataGrid.BatchEdit
+                ? ParentDataGrid.GetBatchEditItemByLastEditItem( Item ) ?? ParentDataGrid.GetBatchEditItemByOriginal( Item )
+                : null;
+
             await Save();
+
+            if ( ParentDataGrid.EditState == DataGridEditState.Edit )
+                return;
+
+            if ( args.ShiftKey )
+            {
+                await HandleCellEditSelectPreviousRow( column, batchEditItem );
+            }
+            else
+            {
+                await HandleCellEditSelectNextRow( column, batchEditItem );
+            }
+
             return;
         }
 
@@ -119,26 +136,16 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
 
         if ( nextColumn is not null )
         {
-            var item = batchEditItem is null
-                ? Item
-                : batchEditItem.NewItem;
-            await ParentDataGrid.HandleCellEdit( nextColumn, item );
+            await ParentDataGrid.HandleCellEdit( nextColumn, GetEditingItem( batchEditItem ) );
         }
         else
         {
-            if ( !ParentDataGrid.DisplayData.IsNullOrEmpty() )
-            {
-                var item = batchEditItem is null
-                    ? Item
-                    : batchEditItem.OldItem;
+            var nextRowFirstColumn = OrderedColumnsForEditing.FirstOrDefault();
+            var nextVisibleRow = GetVisibleRowByOffset( batchEditItem, 1 );
 
-                var currentEditRowIdx = ParentDataGrid.DisplayData.Index( x => x.IsEqual( item ) );
-                var nextVisibleRow = ParentDataGrid.DisplayData.ElementAtOrDefault( currentEditRowIdx + 1 );
-                var nextRowFirstColumn = OrderedColumnsForEditing.FirstOrDefault();
-                if ( nextVisibleRow is not null && nextRowFirstColumn is not null )
-                {
-                    await ParentDataGrid.HandleCellEdit( nextRowFirstColumn, nextVisibleRow );
-                }
+            if ( nextVisibleRow is not null && nextRowFirstColumn is not null )
+            {
+                await ParentDataGrid.HandleCellEdit( nextRowFirstColumn, nextVisibleRow );
             }
         }
     }
@@ -150,30 +157,56 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
 
         if ( previousColumn is not null )
         {
-            var item = batchEditItem is null
-                ? Item
-                : batchEditItem.NewItem;
-
-            await ParentDataGrid.HandleCellEdit( previousColumn, item );
+            await ParentDataGrid.HandleCellEdit( previousColumn, GetEditingItem( batchEditItem ) );
         }
         else
         {
-            if ( !ParentDataGrid.DisplayData.IsNullOrEmpty() )
+            var previousRowLastColumn = OrderedColumnsForEditing.LastOrDefault();
+            var previousVisibleRow = GetVisibleRowByOffset( batchEditItem, -1 );
+
+            if ( previousVisibleRow is not null && previousRowLastColumn is not null )
             {
-                var item = batchEditItem is null
-                    ? Item
-                    : batchEditItem.OldItem;
-
-                var currentEditRowIdx = ParentDataGrid.DisplayData.Index( x => x.IsEqual( item ) );
-                var previousVisibleRow = ParentDataGrid.DisplayData.ElementAtOrDefault( currentEditRowIdx - 1 );
-                var previousRowLastColumn = OrderedColumnsForEditing.LastOrDefault();
-                if ( previousVisibleRow is not null && previousRowLastColumn is not null )
-                {
-                    await ParentDataGrid.HandleCellEdit( previousRowLastColumn, previousVisibleRow );
-                }
+                await ParentDataGrid.HandleCellEdit( previousRowLastColumn, previousVisibleRow );
             }
-
         }
+    }
+
+    private Task HandleCellEditSelectNextRow( DataGridColumn<TItem> currentColumn, DataGridBatchEditItem<TItem> batchEditItem )
+        => HandleCellEditSelectRow( currentColumn, batchEditItem, 1 );
+
+    private Task HandleCellEditSelectPreviousRow( DataGridColumn<TItem> currentColumn, DataGridBatchEditItem<TItem> batchEditItem )
+        => HandleCellEditSelectRow( currentColumn, batchEditItem, -1 );
+
+    private async Task HandleCellEditSelectRow( DataGridColumn<TItem> currentColumn, DataGridBatchEditItem<TItem> batchEditItem, int rowOffset )
+    {
+        var visibleRow = GetVisibleRowByOffset( batchEditItem, rowOffset );
+
+        if ( visibleRow is not null )
+        {
+            await ParentDataGrid.HandleCellEdit( currentColumn, visibleRow );
+        }
+    }
+
+    private TItem GetEditingItem( DataGridBatchEditItem<TItem> batchEditItem )
+        => batchEditItem is null
+            ? Item
+            : batchEditItem.NewItem;
+
+    private TItem GetVisibleRowItem( DataGridBatchEditItem<TItem> batchEditItem )
+        => batchEditItem is null
+            ? Item
+            : batchEditItem.OldItem;
+
+    private TItem GetVisibleRowByOffset( DataGridBatchEditItem<TItem> batchEditItem, int rowOffset )
+    {
+        if ( ParentDataGrid.DisplayData.IsNullOrEmpty() )
+            return default;
+
+        var currentEditRowIdx = ParentDataGrid.DisplayData.Index( x => x.IsEqual( GetVisibleRowItem( batchEditItem ) ) );
+
+        return currentEditRowIdx < 0
+            ? default
+            : ParentDataGrid.DisplayData.ElementAtOrDefault( currentEditRowIdx + rowOffset );
     }
 
     protected CellDisplayContext<TItem> BuildCellDisplayContext( DataGridColumn<TItem> column, TItem item, object cellValue = null )
