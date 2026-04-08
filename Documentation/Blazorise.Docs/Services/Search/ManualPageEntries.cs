@@ -21,7 +21,7 @@ public static class ManualPageEntries
     new( "docs/components/alert", "Alert", "Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages." ),
     new( "docs/components/badge", "Badge", "Badges are used to draw attention and display statuses or counts." ),
     new( "docs/components/bar", "Bar", "A responsive navbar that can support images, links, buttons, and dropdowns." ),
-    new( "docs/components/breakpoint-observer", "BreakpointObserver", "Render different content at runtime based on the current responsive breakpoint." ),
+    new( "docs/components/breakpoint-observer", "Breakpoint Observer", "Render different content at runtime based on the current responsive breakpoint." ),
     new( "docs/components/breadcrumb", "Breadcrumb", "A simple breadcrumb component to improve your navigation experience." ),
     new( "docs/components/button", "Button", "Use Blazorise custom button styles for actions in forms, dialogs, and more with support for multiple sizes, states, and more." ),
     new( "docs/components/card", "Card", "Blazorise cards provide a flexible and extensible content container with multiple variants and options." ),
