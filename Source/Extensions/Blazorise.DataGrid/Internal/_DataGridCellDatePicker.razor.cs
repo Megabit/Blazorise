@@ -50,9 +50,11 @@ public partial class _DataGridCellDatePicker<TItem> : ComponentBase
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        if ( firstRender )
+        if ( ParentDataGrid.IsCellEdit && Column.CellEditing )
         {
-            if ( ParentDataGrid.IsCellEdit && Column.CellEditing )
+            var shouldRestoreFocus = ParentDataGrid.ConsumePendingCellEditFocusRestore();
+
+            if ( firstRender || shouldRestoreFocus )
             {
                 await Task.Yield();
                 await Focus();

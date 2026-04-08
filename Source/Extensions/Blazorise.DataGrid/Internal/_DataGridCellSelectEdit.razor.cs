@@ -148,16 +148,23 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        if ( firstRender )
+        if ( ParentDataGrid.IsCellEdit && Column.CellEditing )
         {
-            if ( ParentDataGrid.IsCellEdit && Column.CellEditing )
+            var shouldRestoreFocus = ParentDataGrid.ConsumePendingCellEditFocusRestore();
+
+            if ( firstRender || shouldRestoreFocus )
             {
                 var cellValue = ParentDataGrid.ReadCellEditValue( Column.Field )?.ToString();
                 var columnValue = Column.GetValue( ParentDataGrid.editItem )?.ToString();
                 var valueHasChanged = cellValue != columnValue;
 
                 await Task.Yield();
-                if ( ParentDataGrid.IsCellEditSelectTextOnEdit && !valueHasChanged )
+
+                if ( shouldRestoreFocus )
+                {
+                    await Focus();
+                }
+                else if ( ParentDataGrid.IsCellEditSelectTextOnEdit && !valueHasChanged )
                 {
                     await Select();
                 }

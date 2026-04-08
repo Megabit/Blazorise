@@ -121,6 +121,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     protected Dictionary<string, CellEditContext<TItem>> filterCellValues;
 
     /// <summary>
+    /// Holds the currently edited cell width so entering edit mode does not resize the column.
+    /// </summary>
+    protected internal string activeCellEditWidth;
+
+    /// <summary>
+    /// Requests a one-time refocus of the active cell editor after validation keeps cell edit mode open.
+    /// </summary>
+    private bool pendingCellEditFocusRestore;
+
+    /// <summary>
     /// Holds the pagination templates
     /// </summary>
     protected PaginationTemplates<TItem> paginationTemplates;
@@ -1365,7 +1375,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     #region Commands
 
     /// <summary>
-    /// Sets the DataGrid into the loading state. 
+    /// Sets the DataGrid into the loading state.
     /// <para>Makes sure to invoke the StateHasChanged method.</para>
     /// </summary>
     /// <param name="isLoading">Whether the grid is loading or not</param>
@@ -1630,8 +1640,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         if ( !await ValidateAll() )
         {
+            pendingCellEditFocusRestore = IsCellEdit;
+            await InvokeAsync( StateHasChanged );
             return;
         }
+
+        pendingCellEditFocusRestore = false;
 
         if ( BatchEdit )
         {
@@ -1641,6 +1655,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             await SaveItem();
         }
+
+        activeCellEditWidth = null;
         await InvokeAsync( StateHasChanged );
     }
 
@@ -1791,10 +1807,22 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     protected internal async Task CancelInternal()
     {
         editState = DataGridEditState.None;
+        activeCellEditWidth = null;
+        pendingCellEditFocusRestore = false;
 
         await VirtualizeOnEditCompleteScroll().AsTask();
 
         await InvokeAsync( StateHasChanged );
+    }
+
+    internal bool ConsumePendingCellEditFocusRestore()
+    {
+        if ( !pendingCellEditFocusRestore )
+            return false;
+
+        pendingCellEditFocusRestore = false;
+
+        return true;
     }
 
     /// <summary>
@@ -2207,6 +2235,22 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         await Task.Yield();
     }
 
+    private async Task<string> CaptureCellEditWidth( TItem item, DataGridColumn<TItem> column )
+    {
+        if ( tableRef is null || item is null || column is null )
+            return null;
+
+        var rowIndex = ResolveItemIndex( item );
+        if ( rowIndex < 0 )
+            return null;
+
+        var width = await JSModule.GetCellWidth( tableRef.ElementRef, ElementId, rowIndex, column.ElementId );
+
+        return width > 0
+            ? $"{width}px"
+            : null;
+    }
+
     #endregion
 
     #region Editing
@@ -2260,6 +2304,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         if ( IsCellEdit && column.Editable && EditState != DataGridEditState.New )
         {
+            activeCellEditWidth = await CaptureCellEditWidth( item, column );
+
             foreach ( var editableColumn in EditableColumns )
                 editableColumn.CellEditing = false;
 

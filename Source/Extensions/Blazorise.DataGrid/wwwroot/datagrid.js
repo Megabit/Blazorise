@@ -158,6 +158,17 @@ export function blurActiveCellEditor(element, elementId) {
     }
 }
 
+export function getCellWidth(element, elementId, rowIndex, columnId) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element || rowIndex < 0 || !columnId) {
+        return 0;
+    }
+
+    const cell = element.querySelector(`tbody tr[data-row-index="${rowIndex}"] td[data-column-id="${columnId}"]`);
+    return cell ? Math.round(cell.getBoundingClientRect().width) : 0;
+}
+
 function preventSubmitOnEnter(e) {
     if (e.keyCode == 13) {
         e.preventDefault();
@@ -248,6 +259,50 @@ function getPageJumpRowCount(table, rows) {
     return Math.max(1, Math.floor(containerHeight / averageRowHeight));
 }
 
+function findNavigableCellByPosition(table, preferredRowIndex, preferredCellIndex) {
+    const rows = getBodyRows(table).filter(row => getRowCells(row).some(isFocusableCell));
+    if (!rows || rows.length === 0)
+        return null;
+
+    const startRowIndex = Math.max(0, Math.min(preferredRowIndex, rows.length - 1));
+    const preferredRowCell = findClosestNavigableCell(getRowCells(rows[startRowIndex]), preferredCellIndex);
+    if (preferredRowCell)
+        return preferredRowCell;
+
+    for (let offset = 1; offset < rows.length; offset++) {
+        const previousRowIndex = startRowIndex - offset;
+        if (previousRowIndex >= 0) {
+            const previousRowCell = findClosestNavigableCell(getRowCells(rows[previousRowIndex]), preferredCellIndex);
+            if (previousRowCell)
+                return previousRowCell;
+        }
+
+        const nextRowIndex = startRowIndex + offset;
+        if (nextRowIndex < rows.length) {
+            const nextRowCell = findClosestNavigableCell(getRowCells(rows[nextRowIndex]), preferredCellIndex);
+            if (nextRowCell)
+                return nextRowCell;
+        }
+    }
+
+    return null;
+}
+
+function findNavigableCellByDataRowIndex(table, preferredDataRowIndex, preferredCellIndex) {
+    if (preferredDataRowIndex < 0)
+        return null;
+
+    const rows = getBodyRows(table).filter(row => getRowCells(row).some(isFocusableCell));
+    if (!rows || rows.length === 0)
+        return null;
+
+    const matchingRow = rows.find(row => parseInt(row.getAttribute("data-row-index"), 10) === preferredDataRowIndex);
+    if (!matchingRow)
+        return null;
+
+    return findClosestNavigableCell(getRowCells(matchingRow), preferredCellIndex);
+}
+
 function clickCellNavigation(e) {
     // Do not hijack clicks coming from interactive elements
     const interactiveClosest = e.target.closest('input,select,textarea,button,label,a,[role="button"],[role="checkbox"],[contenteditable="true"]');
@@ -293,6 +348,7 @@ function KeyDownCellNavigation(e) {
     let isPageDown = e.key === "PageDown" || e.keyCode == 34;
     let isEnd = e.key === "End" || e.keyCode == 35;
     let isHome = e.key === "Home" || e.keyCode == 36;
+    let isTabKey = e.key === "Tab" || e.keyCode == 9;
     let isArrow = isLeft || isUp || isRight || isDown;
     let isNavigationKey = isArrow || isPageUp || isPageDown || isHome || isEnd;
     let isEnterKey = e.keyCode == 13;
@@ -313,25 +369,41 @@ function KeyDownCellNavigation(e) {
     let isInputFocused = focusedElement && TAG_NAMES_INPUT.includes(focusedElement.tagName);
 
     if (isInputFocused && (isEnterKey || isEscKey)) {
+        let editingCell = focusedElement?.closest(TAG_NAME_TABLE_COLUMN.toLowerCase());
+        let editingRow = editingCell?.closest("tr");
+        let editingRows = getBodyRows(element).filter(row => getRowCells(row).some(isFocusableCell));
+        let editingRowIndex = editingRow ? editingRows.indexOf(editingRow) : -1;
+        let editingDataRowIndex = editingRow ? parseInt(editingRow.getAttribute("data-row-index"), 10) : -1;
+        let editingCellIndex = editingCell && editingRow ? getRowCells(editingRow).indexOf(editingCell) : -1;
+
         focusedElement.addEventListener("blur", () => {
             window.setTimeout(() => {
                 let inputStillExists = element.contains(focusedElement);
 
-                if (!inputStillExists) {
+                if (inputStillExists)
+                    return;
 
-                    let tdElement = findAncestorByTagName(focusedElement, TAG_NAME_TABLE_COLUMN);
-                    let tdIndex = tdElement ? allCells.indexOf(tdElement) : -1;
-                    let toFocus = tdIndex > 0 ? allCells[tdIndex - 1] : null;
-                    if (focusCell(toFocus)) {
-                        return;
-                    }
-                }
+                let activeElement = document.activeElement;
+                if (activeElement && activeElement !== document.body && element.contains(activeElement))
+                    return;
+
+                let toFocus = findNavigableCellByDataRowIndex(element, editingDataRowIndex, editingCellIndex)
+                    ?? findNavigableCellByPosition(element, editingRowIndex, editingCellIndex);
+                if (focusCell(toFocus))
+                    return;
             }, 50);
 
-        });
+        }, { once: true });
     }
 
     if (isInputFocused) {
+        if (isTabKey) {
+            // Cell edit Tab navigation is handled by the DataGrid edit flow.
+            // Prevent native browser tabbing so providers with td:focus styling
+            // do not flash an intermediate cell outline before the next editor focuses.
+            e.preventDefault();
+        }
+
         return;
     }
 
