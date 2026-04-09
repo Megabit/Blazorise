@@ -1,81 +1,92 @@
 ﻿@page "/tests/modal-provider"
 
-<Row>
-    <Column ColumnSize="ColumnSize.IsFull">
-        <Card Margin="Margin.Is4.OnY">
+<Card Shadow="Shadow.Default" Margin="Margin.Is4.OnY">
+    <CardBody>
+        <Div Flex="Flex.Column.Row.OnDesktop.JustifyContent.Between.AlignItems.Start.AlignItems.Center.OnDesktop" Gap="Gap.Is3">
+            <Div>
+                <Heading Size="HeadingSize.Is3" Margin="Margin.Is0.FromBottom">Modal patterns showcase</Heading>
+                <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop">
+                    This page demonstrates the main ways to work with <Code>ModalProvider</Code>: component content, render fragments, persistent state, custom structure, and nested modal flows.
+                </Paragraph>
+            </Div>
+            <Div Flex="Flex.Wrap" Gap="Gap.Is2">
+                <Badge Color="Color.Primary" Pill>Components</Badge>
+                <Badge Color="Color.Info" Pill>Fragments</Badge>
+                <Badge Color="Color.Success" Pill>Stateful</Badge>
+                <Badge Color="Color.Warning" Pill>Nested</Badge>
+            </Div>
+        </Div>
+
+        <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is3.FromTop.Is0.FromBottom">
+            @StatusMessage
+        </Paragraph>
+    </CardBody>
+</Card>
+
+<Row RowColumns="RowColumns.Are1.Are2.OnDesktop">
+    <Column>
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>ModalProvider</CardTitle>
+                <CardTitle>Component modal</CardTitle>
             </CardHeader>
             <CardBody>
-                <Card>
-                    <CardHeader>
-                        Render a custom component with default modal structure.
-                    </CardHeader>
-                    <CardBody>
-                        <Paragraph>
-                            Example shows a Counter component that renders a random number that's passed as a parameter from this page.
-                        </Paragraph>
-                        <Button Color="Color.Primary" Clicked="ShowCounter">Show</Button>
-                    </CardBody>
-                </Card>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Opens a reusable component inside the default modal structure and passes a random number as a parameter.
+                </Paragraph>
+                <Button Color="Color.Primary" Clicked="ShowCounter">Open counter</Button>
             </CardBody>
-
+        </Card>
+    </Column>
+    <Column>
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>RenderFragment modal</CardTitle>
+            </CardHeader>
             <CardBody>
-                <Card>
-                    <CardHeader>
-                        Render a custom defined RenderFragment.
-                    </CardHeader>
-                    <CardBody>
-                        <Paragraph>
-                            Example shows the rendering of a RenderFragment that's programatically constructed on this page.
-                        </Paragraph>
-                        <Button Color="Color.Primary" Clicked="ShowRenderFragment">Show</Button>
-                    </CardBody>
-                </Card>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Shows a modal built from a custom render fragment when the content is lightweight and page-local.
+                </Paragraph>
+                <Button Color="Color.Info" Clicked="ShowRenderFragment">Open fragment</Button>
             </CardBody>
-
+        </Card>
+    </Column>
+    <Column>
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Stateful modal</CardTitle>
+            </CardHeader>
             <CardBody>
-                <Card>
-                    <CardHeader>
-                        Keeps the state even after being closed.
-                    </CardHeader>
-                    <CardBody>
-                        <Paragraph>
-                            Example shows a Modal that keeps the state even after being closed.
-                        </Paragraph>
-                        <Button Color="Color.Primary" Clicked="ShowStateful">Show</Button>
-                    </CardBody>
-                </Card>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Reopens the same modal instance so the internal counter value survives close and reopen cycles.
+                </Paragraph>
+                <Button Color="Color.Success" Clicked="ShowStateful">Reopen stateful modal</Button>
             </CardBody>
-
+        </Card>
+    </Column>
+    <Column>
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Custom structure modal</CardTitle>
+            </CardHeader>
             <CardBody>
-                <Card>
-                    <CardHeader>
-                        Render a custom component and define modal structure inside it by overriding the modal provider options. Take advantage of passing in parameters.
-                    </CardHeader>
-                    <CardBody>
-                        <Paragraph>
-                            @formularyMessage
-                        </Paragraph>
-                        <Button Color="Color.Success" Clicked="ShowFormulary">Show</Button>
-                    </CardBody>
-                </Card>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Uses a custom component that defines its own modal layout and returns a success message after validation.
+                </Paragraph>
+                <Button Color="Color.Warning" Clicked="ShowFormulary">Open employee form</Button>
             </CardBody>
-
+        </Card>
+    </Column>
+    <Column>
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Nested modal flow</CardTitle>
+            </CardHeader>
             <CardBody>
-                <Card>
-                    <CardHeader>
-                        Handle the opening of Multiple Modals
-                    </CardHeader>
-                    <CardBody>
-                        <Paragraph>
-                            Example shows the opening of this page as a modal by using the ModalService. You can then keep opening modals as ModalProvider will manage them for you.
-                        </Paragraph>
-                        <Button Color="Color.Success" Clicked="ShowModalWithinModal">Show</Button>
-                    </CardBody>
-                </Card>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Opens this page as another modal to demonstrate how <Code>ModalProvider</Code> manages multiple levels of dialogs.
+                </Paragraph>
+                <Button Color="Color.Secondary" Clicked="ShowModalWithinModal">Open nested modal</Button>
             </CardBody>
-
         </Card>
     </Column>
 </Row>
@@ -84,13 +95,23 @@
 @code {
 
     [Inject] public IModalService ModalService { get; set; }
+
     private ModalInstance statefulModalInstance;
+
     private static int id = 1;
+
     private int componentId;
+
+    private string lastAction = "Pick a modal pattern to see how the provider behaves.";
 
     private RenderFragment customFragment => __builder =>
     {
-        <Paragraph>This content is provided by a custom RenderFragment</Paragraph>
+        <Div>
+            <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.FromBottom">Quick fragment content</Heading>
+            <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop">
+                This content is rendered directly from the page without creating a dedicated component.
+            </Paragraph>
+        </Div>
     };
 
     public ModalProviderPage()
@@ -99,15 +120,20 @@
     }
 
     private string formularyMessage = "";
+
+    private string StatusMessage => string.IsNullOrWhiteSpace( formularyMessage ) ? lastAction : formularyMessage;
+
     public Task ShowCounter()
     {
         Random random = new();
         var newValue = random.NextInt64( 100 );
+        lastAction = $"Component modal opened with a starting counter value of {newValue}.";
         return ModalService.Show<Counter>( "My Custom Content!", x => x.Add( x => x.Value, newValue ) );
     }
 
     public Task ShowRenderFragment()
     {
+        lastAction = "RenderFragment modal opened using content defined directly on the page.";
         return ModalService.Show( "My Custom RenderFragment!", customFragment );
     }
 
@@ -115,6 +141,7 @@
     {
         if ( statefulModalInstance is null )
         {
+            lastAction = "Stateful modal created for the first time.";
             statefulModalInstance = await ModalService.Show<Counter>( "My Stateful content", new ModalInstanceOptions()
             {
                 Stateful = true,
@@ -124,21 +151,23 @@
             return;
         }
 
+        lastAction = "Existing stateful modal reopened with its previous internal state.";
         await ModalService.Show( statefulModalInstance );
     }
 
     public Task ShowFormulary()
     {
         formularyMessage = string.Empty;
+        lastAction = "Custom structure modal opened for employee entry.";
         return ModalService.Show<FormularyModal>( x =>
         {
             x.Add( x => x.OnValidate, FormularyValidate );
             x.Add( x => x.OnSuccess, FormularySuccess );
         },
         new ModalInstanceOptions()
-            {
-                UseModalStructure = false
-            } );
+        {
+            UseModalStructure = false
+        } );
     }
 
     private Task<bool> FormularyValidate( Employee employee )
@@ -146,10 +175,14 @@
 
     private Task FormularySuccess( Employee employee )
     {
-        formularyMessage = $"Employee : {employee.FirstName} saved successfully!";
+        formularyMessage = $"Employee {employee.FirstName} was saved successfully.";
+        lastAction = formularyMessage;
         return InvokeAsync( StateHasChanged );
     }
 
     private Task ShowModalWithinModal()
-        => ModalService.Show<ModalProviderPage>( $"Modal #{componentId} Example", new ModalInstanceOptions() { Size = ModalSize.Large } );
+    {
+        lastAction = $"Nested modal #{componentId} opened another instance of this showcase.";
+        return ModalService.Show<ModalProviderPage>( $"Modal #{componentId} Example", new ModalInstanceOptions() { Size = ModalSize.Large } );
+    }
 }

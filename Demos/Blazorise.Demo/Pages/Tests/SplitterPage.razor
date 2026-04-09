@@ -1,24 +1,82 @@
 ﻿@page "/tests/splitter"
+<Card Shadow="Shadow.Default" Margin="Margin.Is4.OnY">
+    <CardBody>
+        <Div Flex="Flex.Column.Row.OnDesktop.JustifyContent.Between.AlignItems.Start.AlignItems.Center.OnDesktop" Gap="Gap.Is3">
+            <Div>
+                <Heading Size="HeadingSize.Is3" Margin="Margin.Is0.FromBottom">Resizable workspace</Heading>
+                <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop">
+                    This demo turns the splitter into a realistic mail-style workspace so the resizing behavior is easier to understand at a glance.
+                </Paragraph>
+            </Div>
+            <Div Flex="Flex.Wrap" Gap="Gap.Is2">
+                <Badge Color="Color.Primary" Pill>@DirectionLabel</Badge>
+                <Badge Color="Color.Info" Pill>Min size: @($"{minSize:0}px")</Badge>
+                <Badge Color="Color.Secondary" Pill>Gutter: @($"{gutterSize:0}px")</Badge>
+            </Div>
+        </Div>
+    </CardBody>
+</Card>
+
 <Row>
-    <Column>
-        <Card Margin="Margin.Is4.OnY">
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is8.OnDesktop">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>Splitter</CardTitle>
+                <CardTitle>Workspace preview</CardTitle>
             </CardHeader>
-            <CardBody Style="height: 300px;">
-                <Splitter Direction="@direction" GutterSize="@gutterSize" Width="@(direction == SplitterDirection.Horizontal ? Width.Is100 : null)" Height="@(direction == SplitterDirection.Vertical ? Height.Is100 : null)">
+            <CardBody Height="Height.Px( 360 )">
+                <Splitter Direction="@direction"
+                          GutterSize="@gutterSize"
+                          Width="@(direction == SplitterDirection.Horizontal ? Width.Is100 : null)"
+                          Height="@(direction == SplitterDirection.Vertical ? Height.Is100 : null)">
                     <SplitterSection MinSize="@minSize">
-                        <div>Hello!</div>
+                        <Div Background="Background.Light" Padding="Padding.Is4" Height="Height.Is100" Overflow="Overflow.Auto">
+                            <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.FromBottom">Inbox</Heading>
+                            <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop">
+                                Resize this panel to focus on the message list or collapse it to prioritize the preview.
+                            </Paragraph>
+                            <Card Margin="Margin.Is3.FromTop">
+                                <CardBody>
+                                    <Heading Size="HeadingSize.Is6" Margin="Margin.Is0.FromBottom">Quarterly planning</Heading>
+                                    <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop">Agenda, owners, and shared notes are ready for review.</Paragraph>
+                                </CardBody>
+                            </Card>
+                            <Card Margin="Margin.Is3.FromTop">
+                                <CardBody>
+                                    <Heading Size="HeadingSize.Is6" Margin="Margin.Is0.FromBottom">Design review</Heading>
+                                    <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop">Updated layout options need a final pass before handoff.</Paragraph>
+                                </CardBody>
+                            </Card>
+                        </Div>
                     </SplitterSection>
                     <SplitterSection MinSize="@minSize">
-                        <div>World!</div>
+                        <Div Background="Background.White" Padding="Padding.Is4" Height="Height.Is100" Overflow="Overflow.Auto">
+                            <Div Flex="Flex.JustifyContent.Between.AlignItems.Start" Gap="Gap.Is3">
+                                <Div>
+                                    <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.FromBottom">Message preview</Heading>
+                                    <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop">
+                                        The preview panel benefits from extra space when you need to read or edit long content.
+                                    </Paragraph>
+                                </Div>
+                                <Badge Color="Color.Success" Pill>Responsive</Badge>
+                            </Div>
+                            <Alert Color="Color.Light" Visible Margin="Margin.Is3.FromTop">
+                                <AlertDescription>
+                                    Try switching between horizontal and vertical modes. The same content becomes useful for desktop mail layouts or stacked mobile-style panes.
+                                </AlertDescription>
+                            </Alert>
+                            <Div Margin="Margin.Is3.FromTop">
+                                <Paragraph>
+                                    Splitter works best when both sections contain meaningful content with different space needs. In this example, the list and preview panels naturally compete for room, which makes the resize handle feel purposeful instead of decorative.
+                                </Paragraph>
+                            </Div>
+                        </Div>
                     </SplitterSection>
                 </Splitter>
             </CardBody>
         </Card>
     </Column>
-    <Column>
-        <Card Margin="Margin.Is4.OnY">
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Settings</CardTitle>
             </CardHeader>
@@ -34,8 +92,8 @@
                 </Field>
                 <Field>
                     <FieldLabel Flex="Flex.JustifyContent.Between">
-                        <Span>Minimum Size</Span>
-                        <Span>@($"{minSize}px")</Span>
+                        <Span>Minimum size</Span>
+                        <Span>@($"{minSize:0}px")</Span>
                     </FieldLabel>
                     <FieldBody>
                         <Slider @bind-Value="@minSize" Min="0" Max="300" />
@@ -43,19 +101,32 @@
                 </Field>
                 <Field>
                     <FieldLabel Flex="Flex.JustifyContent.Between">
-                        <Span>Gutter Size</Span>
-                        <Span>@($"{gutterSize}px")</Span>
+                        <Span>Gutter size</Span>
+                        <Span>@($"{gutterSize:0}px")</Span>
                     </FieldLabel>
                     <FieldBody>
                         <Slider @bind-Value="@gutterSize" Min="1" Max="50" />
                     </FieldBody>
                 </Field>
             </CardBody>
+            <CardBody>
+                <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is0.FromBottom">
+                    @GuidanceText
+                </Paragraph>
+            </CardBody>
         </Card>
     </Column>
 </Row>
 @code {
-    SplitterDirection direction = SplitterDirection.Horizontal;
-    double minSize = 10;
-    double gutterSize = 10;
+    private SplitterDirection direction = SplitterDirection.Horizontal;
+
+    private double minSize = 120;
+
+    private double gutterSize = 12;
+
+    private string DirectionLabel => direction == SplitterDirection.Horizontal ? "Horizontal layout" : "Vertical layout";
+
+    private string GuidanceText => direction == SplitterDirection.Horizontal
+        ? "Horizontal mode is useful for side-by-side workspaces such as inbox and preview, editor and result, or tree and details."
+        : "Vertical mode is useful when the same content should stack, such as a mobile workspace or a top-to-bottom inspector layout.";
 }

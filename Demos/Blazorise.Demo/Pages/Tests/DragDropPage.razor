@@ -30,13 +30,12 @@
                 Sorted: @SortedCount / @items.Count
             </Badge>
         </Div>
+
+        <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is3.FromTop.Is0.FromBottom">
+            @GetStatusTitle() @GetStatusDescription()
+        </Paragraph>
     </CardBody>
 </Card>
-
-<Alert Color="@GetStatusColor()" Visible Margin="Margin.Is4.FromBottom">
-    <AlertMessage>@GetStatusTitle()</AlertMessage>
-    <AlertDescription>@GetStatusDescription()</AlertDescription>
-</Alert>
 
 <DropContainer @ref="dropContainer"
                TItem="DropItem"
@@ -164,8 +163,6 @@
     private string GetItemTypeLabel( DropItem item ) => item.Fruit ? "Fruit" : "Vegetable";
 
     private Color GetProgressColor() => IsSorted ? Color.Success : Color.Info;
-
-    private Color GetStatusColor() => IsSorted ? Color.Success : Color.Info;
 
     private Color GetZoneColor( string zoneName )
     {
