@@ -174,9 +174,7 @@ public class DataGridComponentTest : TestContext
 
         // test
         await Task.Factory.StartNew(
-            // Note: event handling was implemented using Fire & Forget (async call without await keyword!)
-            action: () => dataGrid.Instance.Sort( nameof( Employee.Fraction ), SortDirection.Descending )
-                .GetAwaiter().GetResult(),
+            action: async () => await dataGrid.Instance.Sort( nameof( Employee.Fraction ), SortDirection.Descending ),
             cancellationToken: CancellationToken.None,
             creationOptions: TaskCreationOptions.None,
             scheduler: new CurrentThreadTaskScheduler()
