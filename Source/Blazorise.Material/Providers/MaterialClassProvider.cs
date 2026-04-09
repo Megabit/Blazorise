@@ -111,7 +111,7 @@ public class MaterialClassProvider : ClassProvider
 
     #region ColorPicker
 
-    public override string ColorPicker() => "mui-input mui-color-picker b-input-color-picker";
+    public override string ColorPicker() => "mui-input mui-color-picker";
 
     public override string ColorPickerSize( Size size ) => size != Size.Default ? $"mui-input-{ToSize( size )}" : null;
 

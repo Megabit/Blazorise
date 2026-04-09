@@ -1,0 +1,8 @@
+@inherits Blazorise.ColorPicker
+<div @ref="@ElementRef" id="@ElementId" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" value="@CurrentValueAsString" tabindex="@TabIndex" aria-disabled="@Disabled.ToString().ToLowerInvariant()" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ResolvedAriaLabelledBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+    <div class="mui-color-preview">
+        <span class="mui-color-preview-color"></span>
+    </div>
+</div>
+@ChildContent
+@Feedback

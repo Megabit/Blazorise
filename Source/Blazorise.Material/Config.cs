@@ -44,6 +44,8 @@ public static class Config
         [typeof( Blazorise.Carousel )] = typeof( Components.Carousel ),
         [typeof( Blazorise.Check<> )] = typeof( Components.Check<> ),
         [typeof( Blazorise.CarouselSlide )] = typeof( Components.CarouselSlide ),
+        [typeof( Blazorise.ColorInput )] = typeof( Components.ColorInput ),
+        [typeof( Blazorise.ColorPicker )] = typeof( Components.ColorPicker ),
         [typeof( Blazorise.DropdownToggle )] = typeof( Components.DropdownToggle ),
         [typeof( Blazorise.Field )] = typeof( Components.Field ),
         [typeof( Blazorise.NumericPicker<> )] = typeof( Components.NumericPicker<> ),

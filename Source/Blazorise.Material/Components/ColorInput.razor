@@ -1,0 +1,12 @@
+@inherits Blazorise.ColorInput
+<div class="@ClassNames" style="@StyleNames" data-color="@CurrentValueAsString" aria-disabled="@IsDisabled.ToString().ToLowerInvariant()">
+    <div class="mui-color-preview">
+        <span class="mui-color-preview-color" style="@ColorPreviewStyle"></span>
+    </div>
+    <input @ref="@ElementRef" id="@ElementId" type="color" name="@NameAttributeValue" class="mui-color-input-native" disabled="@IsDisabled" readonly="@ReadOnly" value="@CurrentValueAsString" tabindex="@TabIndex" aria-invalid="@ResolvedAriaInvalid" aria-required="@ResolvedAriaRequired" aria-describedby="@ResolvedAriaDescribedBy" aria-labelledby="@ExplicitAriaLabelledBy" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+</div>
+@ChildContent
+@Feedback
+@code {
+    string ColorPreviewStyle => string.IsNullOrWhiteSpace( CurrentValueAsString ) ? null : $"background-color: {CurrentValueAsString};";
+}
