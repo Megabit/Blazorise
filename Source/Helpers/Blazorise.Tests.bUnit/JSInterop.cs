@@ -5,6 +5,7 @@ using Blazorise.Markdown;
 using Blazorise.Gantt;
 using Blazorise.Modules;
 using Blazorise.RichTextEdit;
+using Blazorise.Scheduler;
 using Blazorise.SignaturePad;
 using Bunit;
 #endregion
@@ -48,6 +49,20 @@ public static class JSInterop
         module.SetupVoid( "import", _ => true ).SetVoidResult();
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
         module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
+    public static BunitJSInterop AddBlazoriseMemoInput( this BunitJSInterop jsInterop )
+    {
+        AddBlazoriseUtilities( jsInterop );
+
+        var module = jsInterop.SetupModule( new JSMemoInputModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
+        module.SetupVoid( "recalculateAutoHeight", _ => true ).SetVoidResult();
+        module.SetupVoid( "refreshDisplay", _ => true ).SetVoidResult();
 
         return jsInterop;
     }
@@ -325,6 +340,23 @@ public static class JSInterop
         module.SetupVoid( "destroy", _ => true ).SetVoidResult();
         module.SetupVoid( "barDragStarted", _ => true ).SetVoidResult();
         module.SetupVoid( "barDragEnded", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
+    public static BunitJSInterop AddBlazoriseScheduler( this BunitJSInterop jsInterop )
+    {
+        AddBlazoriseTextInput( jsInterop );
+        AddBlazoriseMemoInput( jsInterop );
+        AddBlazoriseModal( jsInterop );
+        AddBlazoriseDatePicker( jsInterop );
+        AddBlazoriseTimePicker( jsInterop );
+
+        var module = jsInterop.SetupModule( new JSSchedulerModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ), default, default ).ModuleFileName );
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "selectionStarted", _ => true ).SetVoidResult();
+        module.SetupVoid( "selectionEnded", _ => true ).SetVoidResult();
 
         return jsInterop;
     }

@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\Extensions\Blazorise.RichTextEdit\Blazorise.RichTextEdit.csproj" />
     <ProjectReference Include="..\..\Extensions\Blazorise.SignaturePad\Blazorise.SignaturePad.csproj" />
     <ProjectReference Include="..\..\Extensions\Blazorise.Gantt\Blazorise.Gantt.csproj" />
+    <ProjectReference Include="..\..\Extensions\Blazorise.Scheduler\Blazorise.Scheduler.csproj" />
   </ItemGroup>
 
 </Project>

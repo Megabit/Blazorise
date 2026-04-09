@@ -196,10 +196,16 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         var dateChanged = parameters.TryGetValue<DateOnly>( nameof( Date ), out var paramDate ) && !state.SelectedDate.IsEqual( paramDate );
+        var dataChanged = parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) && !ReferenceEquals( Data, paramData );
 
         if ( dateChanged )
         {
             state.SelectedDate = paramDate;
+        }
+
+        if ( dataChanged )
+        {
+            viewRefreshRevision++;
         }
 
         await base.SetParametersAsync( parameters );
@@ -343,7 +349,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
 
         await DateChanged.InvokeAsync( state.SelectedDate );
-        await Refresh();
+        await RefreshState();
     }
 
 
@@ -375,7 +381,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
 
         await DateChanged.InvokeAsync( state.SelectedDate );
-        await Refresh();
+        await RefreshState();
     }
 
     /// <summary>
@@ -386,7 +392,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         state.SelectedDate = DateOnly.FromDateTime( DateTime.Today );
         await DateChanged.InvokeAsync( state.SelectedDate );
-        await Refresh();
+        await RefreshState();
     }
 
     /// <summary>
@@ -397,7 +403,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         SelectedView = SchedulerView.Day;
         await SelectedViewChanged.InvokeAsync( SelectedView );
-        await Refresh();
+        await RefreshState();
     }
 
     /// <summary>
@@ -408,7 +414,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         SelectedView = SchedulerView.Week;
         await SelectedViewChanged.InvokeAsync( SelectedView );
-        await Refresh();
+        await RefreshState();
     }
 
     /// <summary>
@@ -419,7 +425,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         SelectedView = SchedulerView.WorkWeek;
         await SelectedViewChanged.InvokeAsync( SelectedView );
-        await Refresh();
+        await RefreshState();
     }
 
     /// <summary>
@@ -430,7 +436,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     {
         SelectedView = SchedulerView.Month;
         await SelectedViewChanged.InvokeAsync( SelectedView );
-        await Refresh();
+        await RefreshState();
     }
 
     /// <summary>
@@ -869,10 +875,21 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Triggers a re-evaluation of the component's state and UI.
+    /// Triggers a re-evaluation of the component's state and rebuilds the visible scheduler view.
     /// </summary>
     /// <returns>Returns a Task representing the asynchronous operation.</returns>
-    internal Task Refresh()
+    public Task Refresh()
+    {
+        viewRefreshRevision++;
+
+        return RefreshState();
+    }
+
+    /// <summary>
+    /// Triggers a re-evaluation of the component's state and UI without rebuilding the visible scheduler view.
+    /// </summary>
+    /// <returns>Returns a Task representing the asynchronous operation.</returns>
+    internal Task RefreshState()
     {
         return InvokeAsync( StateHasChanged );
     }
@@ -988,7 +1005,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
                 await DeleteOccurrenceImpl( viewItem.Item );
             }
 
-            await Refresh();
+            await RefreshState();
 
             return true;
         }
@@ -1048,7 +1065,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             editState = SchedulerEditState.None;
 
             viewRefreshRevision++;
-            await Refresh();
+            await RefreshState();
 
             return true;
         }
@@ -1080,7 +1097,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             editState = SchedulerEditState.None;
 
             viewRefreshRevision++;
-            await Refresh();
+            await RefreshState();
 
             return true;
         }
@@ -1776,7 +1793,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
         finally
         {
-            await Refresh();
+            await RefreshState();
         }
     }
 
@@ -1820,7 +1837,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
         finally
         {
-            await Refresh();
+            await RefreshState();
         }
     }
 
@@ -1864,7 +1881,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
         finally
         {
-            await Refresh();
+            await RefreshState();
         }
     }
 
