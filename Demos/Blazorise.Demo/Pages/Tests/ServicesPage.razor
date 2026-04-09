@@ -8,9 +8,16 @@
                     This page demonstrates how message dialogs, notifications, and page progress work together during a realistic cleanup and sync workflow.
                 </Paragraph>
             </Div>
-            <Div Flex="Flex.Wrap" Gap="Gap.Is2">
-                <Badge Color="Color.Primary" Pill>Selected: @selectedRecords.Count</Badge>
-                <Badge Color="Color.Success" Pill>Archived: @archivedRecords.Count</Badge>
+            <Div>
+                <Div Flex="Flex.Wrap" Gap="Gap.Is2">
+                    <Badge Color="Color.Primary" Pill>Selected: @selectedRecords.Count</Badge>
+                    <Badge Color="Color.Success" Pill>Archived: @archivedRecords.Count</Badge>
+                </Div>
+                <Div Flex="Flex.Wrap" Gap="Gap.Is2" Margin="Margin.Is3.FromTop">
+                    <Button Color="Color.Secondary" Outline Size="Size.Small" Clicked="@SelectAllActiveRecords">Select all</Button>
+                    <Button Color="Color.Secondary" Outline Size="Size.Small" Clicked="@ClearSelection">Clear selection</Button>
+                    <Button Color="Color.Secondary" Outline Size="Size.Small" Clicked="@ResetRecords">Reset records</Button>
+                </Div>
             </Div>
         </Div>
 
@@ -76,18 +83,37 @@
     <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnDesktop">
         <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>Selected records</CardTitle>
+                <CardTitle>Record selection</CardTitle>
             </CardHeader>
             <CardBody>
-                @if ( selectedRecords.Count == 0 )
+                @foreach ( var record in activeRecords )
                 {
-                    <Alert Color="Color.Light" Visible>
+                    <Div Border="Border.Is1.Rounded" Padding="Padding.Is3" Margin="Margin.Is3.FromBottom">
+                        <Check @bind-Value="@record.Selected">@record.Name</Check>
+                    </Div>
+                }
+
+                @if ( activeRecords.Count == 0 )
+                {
+                    <Alert Color="Color.Light" Visible Margin="Margin.Is0.FromBottom">
                         <AlertDescription>No active records remain in the current batch.</AlertDescription>
                     </Alert>
                 }
+            </CardBody>
+            <CardBody>
+                <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is0.FromBottom">
+                    Selected records ready for archive:
+                </Paragraph>
+
+                @if ( selectedRecords.Count == 0 )
+                {
+                    <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop.Is0.FromBottom">
+                        No records selected.
+                    </Paragraph>
+                }
                 else
                 {
-                    <Div Flex="Flex.Wrap" Gap="Gap.Is2">
+                    <Div Flex="Flex.Wrap" Gap="Gap.Is2" Margin="Margin.Is2.FromTop">
                         @foreach ( var record in selectedRecords )
                         {
                             <Badge Color="Color.Primary" Pill>@record</Badge>
@@ -123,17 +149,42 @@
     </Column>
 </Row>
 @code {
+    private class ServiceRecord
+    {
+        public string Name { get; set; }
+
+        public bool Selected { get; set; }
+
+        public bool Archived { get; set; }
+    }
+
     [Inject] IMessageService MessageService { get; set; }
 
     [Inject] INotificationService NotificationService { get; set; }
 
     [Inject] IPageProgressService PageProgressService { get; set; }
 
-    private List<string> selectedRecords = new() { "Northwind", "Adventure Works", "Blue Yonder" };
+    private List<ServiceRecord> records = CreateRecords();
 
-    private List<string> archivedRecords = new();
+    private List<ServiceRecord> activeRecords => records.Where( x => !x.Archived ).ToList();
+
+    private List<string> selectedRecords => records.Where( x => !x.Archived && x.Selected ).Select( x => x.Name ).ToList();
+
+    private List<string> archivedRecords => records.Where( x => x.Archived ).Select( x => x.Name ).ToList();
 
     private string lastAction = "Choose an action to see how the services complement each other.";
+
+    private static List<ServiceRecord> CreateRecords()
+    {
+        return new List<ServiceRecord>()
+        {
+            new ServiceRecord() { Name = "Northwind", Selected = true },
+            new ServiceRecord() { Name = "Adventure Works", Selected = true },
+            new ServiceRecord() { Name = "Blue Yonder", Selected = true },
+            new ServiceRecord() { Name = "Contoso", Selected = false },
+            new ServiceRecord() { Name = "Tailspin Toys", Selected = false },
+        };
+    }
 
     async Task ShowInfoMessage()
     {
@@ -152,8 +203,11 @@
 
         if ( await MessageService.Confirm( $"Archive {selectedRecords.Count} selected records?", "Confirm archive" ) )
         {
-            archivedRecords.AddRange( selectedRecords );
-            selectedRecords.Clear();
+            foreach ( var record in records.Where( x => x.Selected && !x.Archived ) )
+            {
+                record.Archived = true;
+                record.Selected = false;
+            }
 
             lastAction = "Selected records were archived after confirmation.";
 
@@ -224,5 +278,31 @@
     Task GoToProgress( int percentage )
     {
         return PageProgressService.Go( percentage, options => { options.Color = Color.Info; } );
+    }
+
+    private void SelectAllActiveRecords()
+    {
+        foreach ( var record in records.Where( x => !x.Archived ) )
+        {
+            record.Selected = true;
+        }
+
+        lastAction = "All active records were selected.";
+    }
+
+    private void ClearSelection()
+    {
+        foreach ( var record in records.Where( x => !x.Archived ) )
+        {
+            record.Selected = false;
+        }
+
+        lastAction = "Selection was cleared.";
+    }
+
+    private void ResetRecords()
+    {
+        records = CreateRecords();
+        lastAction = "Record selection was reset to the initial batch.";
     }
 }
