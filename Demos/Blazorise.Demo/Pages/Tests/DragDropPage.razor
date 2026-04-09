@@ -1,30 +1,105 @@
 ﻿@page "/tests/dragdrop"
 
-<Row>
-    <Column ColumnSize="ColumnSize.IsFull">
-        <DropContainer TItem="DropItem" Items="@items" ItemsFilter="@((item, dropZone) => item.Group == dropZone)" ItemDropped="@ItemDropped" Flex="Flex.Wrap.Grow.Is1">
-            <ChildContent>
-                <DropZone TItem="DropItem" Name="Basket" Border="Border.Rounded" Background="Background.Light" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1">
-                    <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">Basket</Heading>
-                </DropZone>
-                <DropZone TItem="DropItem" Name="Fruit" DropAllowed="@((item) => item.Fruit)" Border="Border.Rounded" Background="Background.Light" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1">
-                    <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">Fruit</Heading>
-                </DropZone>
-                <DropZone TItem="DropItem" Name="Vegetable" DropAllowed="@((item) => !item.Fruit)" Border="Border.Rounded" Background="Background.Light" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1">
-                    <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">Vegetable</Heading>
-                </DropZone>
-            </ChildContent>
-            <ItemTemplate>
-                <Card Shadow="Shadow.Default" Margin="Margin.Is3.OnY">
-                    <CardBody>
-                        <Image Source="@context.Image" Style="width:48px;height:48px;" />
-                        @context.Name
-                    </CardBody>
-                </Card>
-            </ItemTemplate>
-        </DropContainer>
-    </Column>
-</Row>
+<Card Shadow="Shadow.Default" Margin="Margin.Is4.OnY">
+    <CardBody>
+        <Div Flex="Flex.Column.Row.OnDesktop.JustifyContent.Between.AlignItems.Start.AlignItems.Center.OnDesktop" Gap="Gap.Is3">
+            <Div>
+                <Heading Size="HeadingSize.Is3" Margin="Margin.Is0.FromBottom">Sort the basket</Heading>
+                <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop">
+                    Drag each item into the correct group. Fruit and vegetable zones accept only matching items, and every column supports reordering.
+                </Paragraph>
+            </Div>
+            <Button Color="Color.Secondary" Outline Clicked="@ResetItems" Flex="Flex.InlineFlex.AlignItems.Center" Gap="Gap.Is2">
+                <Icon Name="IconName.Undo" />
+                Reset items
+            </Button>
+        </Div>
+
+        <Div Flex="Flex.Wrap" Gap="Gap.Is2" Margin="Margin.Is3.FromTop">
+            <Badge Color="Color.Secondary" Pill>
+                <Icon Name="IconName.ShoppingBasket" Margin="Margin.Is2.FromEnd" />
+                Basket: @GetZoneCount( BasketZoneName )
+            </Badge>
+            <Badge Color="Color.Success" Pill>
+                Fruit: @GetZoneCount( FruitZoneName )
+            </Badge>
+            <Badge Color="Color.Warning" Pill>
+                Vegetable: @GetZoneCount( VegetableZoneName )
+            </Badge>
+            <Badge Color="@GetProgressColor()" Pill>
+                Sorted: @SortedCount / @items.Count
+            </Badge>
+        </Div>
+    </CardBody>
+</Card>
+
+<Alert Color="@GetStatusColor()" Visible Margin="Margin.Is4.FromBottom">
+    <AlertMessage>@GetStatusTitle()</AlertMessage>
+    <AlertDescription>@GetStatusDescription()</AlertDescription>
+</Alert>
+
+<DropContainer @ref="dropContainer"
+               TItem="DropItem"
+               Items="@items"
+               ItemsFilter="@((item, dropZone) => item.Group == dropZone)"
+               ItemDropped="@ItemDropped"
+               DropAllowed="@CanDrop"
+               ApplyDropClassesOnDragStarted
+               Flex="Flex.Column.Row.OnDesktop"
+               Gap="Gap.Is3">
+    <ChildContent>
+        @foreach ( var zoneName in ZoneNames )
+        {
+            <DropZone TItem="DropItem"
+                      Name="@zoneName"
+                      AllowReorder
+                      Border="Border.Is1.Rounded"
+                      Background="Background.Light"
+                      Padding="Padding.Is4"
+                      Flex="Flex.Grow.Is1">
+                <Div Flex="Flex.JustifyContent.Between.AlignItems.Start" Gap="Gap.Is3" Margin="Margin.Is3.FromBottom">
+                    <Div>
+                        <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom">@zoneName</Heading>
+                        <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop">
+                            @GetZoneDescription( zoneName )
+                        </Paragraph>
+                    </Div>
+                    <Badge Color="@GetZoneColor( zoneName )" Pill>
+                        @GetZoneCount( zoneName )
+                    </Badge>
+                </Div>
+
+                @if ( GetZoneCount( zoneName ) == 0 )
+                {
+                    <Alert Color="Color.Light" Visible Margin="Margin.Is3.FromBottom">
+                        <AlertDescription>@GetEmptyStateText( zoneName )</AlertDescription>
+                    </Alert>
+                }
+            </DropZone>
+        }
+    </ChildContent>
+    <ItemTemplate>
+        <Card Background="Background.White" Border="Border.Is1" Shadow="Shadow.Small" Margin="Margin.Is3.FromBottom">
+            <CardBody Padding="Padding.Is3">
+                <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                    <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is3">
+                        <Image Source="@context.Image" Text="@context.Name" Width="Width.Px( 48 )" Height="Height.Px( 48 )" Border="Border.Rounded" />
+                        <Div>
+                            <Heading Size="HeadingSize.Is6" Margin="Margin.Is0.FromBottom">@context.Name</Heading>
+                            <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is1.FromTop">
+                                @GetItemTypeLabel( context )
+                            </Paragraph>
+                        </Div>
+                    </Div>
+                    <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+                        <Badge Color="@GetItemColor( context )" Pill>@GetItemTypeLabel( context )</Badge>
+                        <Icon Name="IconName.GripVertical" TextColor="TextColor.Secondary" />
+                    </Div>
+                </Div>
+            </CardBody>
+        </Card>
+    </ItemTemplate>
+</DropContainer>
 @code {
     public class DropItem
     {
@@ -37,21 +112,142 @@
         public bool Fruit { get; set; }
     }
 
-    private List<DropItem> items = new()
+    private const string BasketZoneName = "Basket";
+    private const string FruitZoneName = "Fruit";
+    private const string VegetableZoneName = "Vegetable";
+    private const string InitialStatusMessage = "Drag an item from the basket to get started.";
+
+    private static readonly string[] ZoneNames = new[] { BasketZoneName, FruitZoneName, VegetableZoneName };
+
+    private DropContainer<DropItem> dropContainer;
+
+    private List<DropItem> items = CreateItems();
+
+    private bool hasInteraction;
+
+    private string lastAction = InitialStatusMessage;
+
+    private int SortedCount => items.Count - GetZoneCount( BasketZoneName );
+
+    private bool IsSorted => SortedCount == items.Count;
+
+    private static List<DropItem> CreateItems()
     {
-        new DropItem() { Name = "Apple", Group = "Basket", Image = "_content/Blazorise.Demo/img/fruit/apple.png", Fruit = true },
-        new DropItem() { Name = "Bananas", Group = "Basket", Image = "_content/Blazorise.Demo/img/fruit/bananas.png", Fruit = true },
-        new DropItem() { Name = "Lemon", Group = "Basket", Image = "_content/Blazorise.Demo/img/fruit/lemon.png", Fruit = true },
-        new DropItem() { Name = "Broccoli", Group = "Basket", Image = "_content/Blazorise.Demo/img/fruit/broccoli.png" },
-        new DropItem() { Name = "Strawberry", Group = "Basket", Image = "_content/Blazorise.Demo/img/fruit/strawberry.png", Fruit = true },
-        new DropItem() { Name = "Cherry", Group = "Basket", Image = "_content/Blazorise.Demo/img/fruit/cherry.png", Fruit = true },
-        new DropItem() { Name = "Cabbage", Group = "Basket", Image = "_content/Blazorise.Demo/img/fruit/cabbage.png" },
-    };
+        return new List<DropItem>()
+        {
+            new DropItem() { Name = "Apple", Group = BasketZoneName, Image = "_content/Blazorise.Demo/img/fruit/apple.png", Fruit = true },
+            new DropItem() { Name = "Bananas", Group = BasketZoneName, Image = "_content/Blazorise.Demo/img/fruit/bananas.png", Fruit = true },
+            new DropItem() { Name = "Lemon", Group = BasketZoneName, Image = "_content/Blazorise.Demo/img/fruit/lemon.png", Fruit = true },
+            new DropItem() { Name = "Broccoli", Group = BasketZoneName, Image = "_content/Blazorise.Demo/img/fruit/broccoli.png" },
+            new DropItem() { Name = "Strawberry", Group = BasketZoneName, Image = "_content/Blazorise.Demo/img/fruit/strawberry.png", Fruit = true },
+            new DropItem() { Name = "Cherry", Group = BasketZoneName, Image = "_content/Blazorise.Demo/img/fruit/cherry.png", Fruit = true },
+            new DropItem() { Name = "Cabbage", Group = BasketZoneName, Image = "_content/Blazorise.Demo/img/fruit/cabbage.png" },
+        };
+    }
+
+    private bool CanDrop( DropItem item, string dropZoneName )
+    {
+        if ( dropZoneName == BasketZoneName )
+            return true;
+
+        if ( dropZoneName == FruitZoneName )
+            return item.Fruit;
+
+        if ( dropZoneName == VegetableZoneName )
+            return item.Fruit == false;
+
+        return false;
+    }
+
+    private Color GetItemColor( DropItem item ) => item.Fruit ? Color.Success : Color.Warning;
+
+    private string GetItemTypeLabel( DropItem item ) => item.Fruit ? "Fruit" : "Vegetable";
+
+    private Color GetProgressColor() => IsSorted ? Color.Success : Color.Info;
+
+    private Color GetStatusColor() => IsSorted ? Color.Success : Color.Info;
+
+    private Color GetZoneColor( string zoneName )
+    {
+        return zoneName switch
+        {
+            BasketZoneName => Color.Secondary,
+            FruitZoneName => Color.Success,
+            VegetableZoneName => Color.Warning,
+            _ => Color.Light,
+        };
+    }
+
+    private string GetStatusDescription()
+    {
+        if ( IsSorted )
+            return $"{lastAction} Use Reset items if you want to start over.";
+
+        if ( hasInteraction == false )
+        {
+            if ( lastAction != InitialStatusMessage )
+                return $"{lastAction} Drag an item from Basket into Fruit or Vegetable to sort again.";
+
+            return "Drag an item from Basket into Fruit or Vegetable. Valid destinations highlight as soon as dragging starts.";
+        }
+
+        return $"{lastAction} You can also drag items within any column to reorder them.";
+    }
+
+    private string GetStatusTitle()
+    {
+        if ( IsSorted )
+            return "Everything is sorted.";
+
+        if ( hasInteraction == false )
+            return "Sort the basket.";
+
+        return "Last move recorded.";
+    }
+
+    private string GetZoneDescription( string zoneName )
+    {
+        return zoneName switch
+        {
+            BasketZoneName => "Starting area. Any item can be moved back here.",
+            FruitZoneName => "Accepts fruit only.",
+            VegetableZoneName => "Accepts vegetables only.",
+            _ => string.Empty,
+        };
+    }
+
+    private string GetEmptyStateText( string zoneName )
+    {
+        return zoneName switch
+        {
+            BasketZoneName => "Basket is empty. Everything is currently sorted into a category.",
+            FruitZoneName => "Drop fruit items here.",
+            VegetableZoneName => "Drop vegetable items here.",
+            _ => string.Empty,
+        };
+    }
+
+    private int GetZoneCount( string zoneName ) => items.Count( x => x.Group == zoneName );
 
     private Task ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
     {
+        hasInteraction = true;
+
+        if ( dropItem.SourceDropZoneName == dropItem.DropZoneName )
+            lastAction = $"{dropItem.Item.Name} was reordered in {dropItem.DropZoneName}.";
+        else
+            lastAction = $"{dropItem.Item.Name} moved from {dropItem.SourceDropZoneName} to {dropItem.DropZoneName}.";
+
         dropItem.Item.Group = dropItem.DropZoneName;
 
         return Task.CompletedTask;
+    }
+
+    private void ResetItems()
+    {
+        items = CreateItems();
+        hasInteraction = false;
+        lastAction = "Items were returned to the basket.";
+        dropContainer?.Refresh();
     }
 }
