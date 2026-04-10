@@ -8381,6 +8381,16 @@ td:focus {
   .fui-Table-mobile td, .fui-Table-mobile th {
     /* Behave  like a "row" */
     position: relative;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    inline-size: 100% !important;
+    max-inline-size: none !important;
+    left: auto !important;
+    right: auto !important;
+    inset-inline-start: auto !important;
+    inset-inline-end: auto !important;
+    box-sizing: border-box;
     padding-top: 1.25rem !important;
   }
   .fui-Table-mobile td:before, .fui-Table-mobile th:before {
