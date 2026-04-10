@@ -7679,6 +7679,10 @@ body.modal-open {
   cursor: pointer;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .mui-table-bordered {
   border: var(--mui-table-border-width) solid var(--mui-table-border-color);
   border-inline-end-width: 0;

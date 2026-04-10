@@ -8,10 +8,6 @@
         font-weight: var(--fontWeightSemibold);
     }
 
-    &.fui-Label-pointer {
-        cursor: pointer;
-    }
-
     &.fui-Label-xs {
         font-size: var(--fontSizeBase100);
         line-height: var(--lineHeightBase100);
@@ -31,4 +27,8 @@
         font-size: var(--fontSizeBase500);
         line-height: var(--lineHeightBase500);
     }
+}
+
+.fui-Label-pointer {
+    cursor: pointer;
 }
