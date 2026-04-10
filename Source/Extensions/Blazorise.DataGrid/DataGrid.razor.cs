@@ -4843,11 +4843,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     /// <summary>
     /// Custom handler for each row in the datagrid.
+    /// Applied to the <c>tr</c> element, so provider table CSS may still override text or background styles on the row cells.
     /// </summary>
     [Parameter] public Action<TItem, DataGridRowStyling> RowStyling { get; set; }
 
     /// <summary>
     /// Custom handler for currently selected row.
+    /// Applied to the <c>tr</c> element, so provider table CSS may still override text or background styles on the row cells.
     /// </summary>
     [Parameter] public Action<TItem, DataGridRowStyling> SelectedRowStyling { get; set; }
 
@@ -5054,11 +5056,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     /// <summary>
     /// Custom handler for the cell styling.
+    /// Prefer this when provider-specific table CSS overrides row-level styling.
     /// </summary>
     [Parameter] public Action<TItem, DataGridColumn<TItem>, DataGridCellStyling> CellStyling { get; set; }
 
     /// <summary>
     /// Custom handler for the selected cell styling.
+    /// Prefer this when provider-specific table CSS overrides selected row styling.
     /// </summary>
     [Parameter] public Action<TItem, DataGridColumn<TItem>, DataGridCellStyling> SelectedCellStyling { get; set; }
 

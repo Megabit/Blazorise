@@ -1,27 +1,28 @@
 ﻿namespace Blazorise.DataGrid;
 
 /// <summary>
-/// Helpers class to override default cell styling.
+/// Helper class used to override default cell styling.
+/// Applied to the rendered cell element.
 /// </summary>
 public class DataGridCellStyling
 {
     /// <summary>
-    /// Row custom class names.
+    /// Cell custom class names.
     /// </summary>
     public string Class { get; set; }
 
     /// <summary>
-    /// Row custom styles.
+    /// Cell custom inline styles.
     /// </summary>
     public string Style { get; set; }
 
     /// <summary>
-    /// Cell custom color.
+    /// Cell variant color.
     /// </summary>
     public Color Color { get; set; }
 
     /// <summary>
-    /// Cell custom background color.
+    /// Cell background utility color.
     /// </summary>
     public Background Background { get; set; }
 

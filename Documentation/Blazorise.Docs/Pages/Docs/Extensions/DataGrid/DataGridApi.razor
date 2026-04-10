@@ -208,10 +208,10 @@
         Used to prevent the default action for an <Code>RowContextMenu</Code> event.
     </DocsAttributesItem>
     <DocsAttributesItem Name="RowStyling" Type="Action<TItem, DataGridRowStyling>">
-        Custom handler for each row in the datagrid.
+        Custom handler for each row in the datagrid. Applied to the <Code>tr</Code> element, so provider table CSS may still override text or background styles on the row cells.
     </DocsAttributesItem>
     <DocsAttributesItem Name="SelectedRowStyling" Type="Action<TItem, DataGridRowStyling>">
-        Custom handler for currently selected row.
+        Custom handler for currently selected row. Applied to the <Code>tr</Code> element, so provider table CSS may still override text or background styles on the row cells.
     </DocsAttributesItem>
     <DocsAttributesItem Name="CustomFilter" Type="DataGridCustomFilter<TItem> ">
         Handler for custom filtering on datagrid item.
@@ -316,10 +316,10 @@
         Event called after a batch change is made.
     </DocsAttributesItem>
     <DocsAttributesItem Name="CellStyling" Type="Action<TItem, DataGridColumn<TItem>, DataGridCellStyling>">
-        Custom handler for the cell styling.
+        Custom handler for the cell styling. Prefer this when provider-specific table CSS overrides row-level styling.
     </DocsAttributesItem>
     <DocsAttributesItem Name="SelectedCellStyling" Type="Action<TItem, DataGridColumn<TItem>, DataGridCellStyling>">
-        Custom handler for the selected cell styling.
+        Custom handler for the selected cell styling. Prefer this when provider-specific table CSS overrides selected row styling.
     </DocsAttributesItem>
     <DocsAttributesItem Name="BatchEditCellStyling" Type="Action<DataGridBatchEditItem<TItem>, DataGridColumn<TItem>, DataGridCellStyling>">
         Custom handler for the cell styling when the cell has batch edit changes.
