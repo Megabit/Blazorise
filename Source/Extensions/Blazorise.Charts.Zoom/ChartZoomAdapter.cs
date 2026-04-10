@@ -49,5 +49,21 @@ public class ChartZoomAdapter<TItem>
         await chartZoom.Zoomed.Invoke( zoomLevel, trigger );
     }
 
+    /// <summary>
+    /// Notifies the system of a pan action.
+    /// </summary>
+    /// <param name="deltaX">The pan delta on the X axis.</param>
+    /// <param name="deltaY">The pan delta on the Y axis.</param>
+    /// <param name="trigger">Indicates the event that triggered the pan action.</param>
+    /// <returns>A <see cref="ValueTask"/> that represents the asynchronous operation.</returns>
+    [JSInvokable]
+    public async ValueTask NotifyPanned( double deltaX, double deltaY, string trigger )
+    {
+        if ( chartZoom?.Panned is null )
+            return;
+
+        await chartZoom.Panned.Invoke( deltaX, deltaY, trigger );
+    }
+
     #endregion
 }

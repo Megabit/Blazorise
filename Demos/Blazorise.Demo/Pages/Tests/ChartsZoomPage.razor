@@ -18,7 +18,7 @@
             </CardHeader>
             <CardBody>
                 <LineChart @ref="lineChart" TItem="double" Options="@lineChartOptions">
-                    <ChartZoom @ref="@lineChartZoom" TItem="double" Options="@lineChartZoomOptions" Zoomed="@OnZoomed" />
+                    <ChartZoom @ref="@lineChartZoom" TItem="double" Options="@lineChartZoomOptions" Zoomed="@OnZoomed" Panned="@OnPanned" />
                 </LineChart>
             </CardBody>
         </Card>
