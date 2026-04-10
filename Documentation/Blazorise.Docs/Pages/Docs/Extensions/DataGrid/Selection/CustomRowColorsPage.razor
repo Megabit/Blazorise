@@ -18,6 +18,22 @@
     You have full control over appearance of each row, including the selected rows.
 </DocsPageParagraph>
 
+<Alert Color="Color.Info" Visible>
+    <Paragraph Margin="Margin.Is0.FromBottom">
+        <Code>RowStyling</Code> and <Code>SelectedRowStyling</Code> are applied to the table row element. Some CSS frameworks, especially Bootstrap table styles, can also style table cells directly and override row-level text or background styles.
+    </Paragraph>
+    <Paragraph Margin="Margin.Is0.FromBottom">
+        If you need the styling to apply reliably to the full rendered row, prefer <Code>CellStyling</Code> and <Code>SelectedCellStyling</Code>, or assign a custom class and target the row cells with a selector like <Code>tr.my-row &gt; td</Code>.
+    </Paragraph>
+    <Paragraph Margin="Margin.Is0.FromBottom">
+        As a last resort, you can also use an explicit <Code>!important</Code> in your custom CSS or style string.
+    </Paragraph>
+</Alert>
+
+<DocsPageParagraph>
+    The example below uses cell styling so the row colors remain consistent across providers.
+</DocsPageParagraph>
+
 <DocsPageSubtitle>
     Examples
 </DocsPageSubtitle>

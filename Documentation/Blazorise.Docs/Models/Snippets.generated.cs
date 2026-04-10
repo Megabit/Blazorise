@@ -7637,8 +7637,8 @@ Install-Package Blazorise.Chart.Zoom";
         public const string DataGridCustomRowColorsExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
-          RowStyling=""@OnRowStyling""
-          SelectedRowStyling=""@OnSelectedRowStyling""
+          CellStyling=""@OnCellStyling""
+          SelectedCellStyling=""@OnSelectedCellStyling""
           Responsive>
     <DataGridCommandColumn />
     <DataGridColumn Field=""@nameof( Employee.Id )"" Caption=""#"" Sortable=""false"" />
@@ -7664,13 +7664,13 @@ Install-Package Blazorise.Chart.Zoom";
         await base.OnInitializedAsync();
     }
 
-    private void OnRowStyling( Employee employee, DataGridRowStyling styling )
+    private void OnCellStyling( Employee employee, DataGridColumn<Employee> column, DataGridCellStyling styling )
     {
         if ( !employee.IsActive )
-            styling.Style = ""color: red;"";
+            styling.TextColor = TextColor.Danger;
     }
 
-    private void OnSelectedRowStyling( Employee employee, DataGridRowStyling styling )
+    private void OnSelectedCellStyling( Employee employee, DataGridColumn<Employee> column, DataGridCellStyling styling )
     {
         styling.Background = Background.Info;
     }
