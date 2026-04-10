@@ -58,6 +58,11 @@ public partial class ChartsZoomPage
                 Enabled = true
             }
         },
+        Pan = new()
+        {
+            Enabled = true,
+            Mode = "y"
+        },
         Limits = new()
         {
             Y = new()
@@ -309,6 +314,13 @@ public partial class ChartsZoomPage
     Task OnZoomed( double zoomLevel, string trigger )
     {
         Console.WriteLine( $"Zoomed to {zoomLevel}; Triger: {trigger};" );
+
+        return Task.CompletedTask;
+    }
+
+    Task OnPanned( double deltaX, double deltaY, string trigger )
+    {
+        Console.WriteLine( $"Panned by X: {deltaX}, Y: {deltaY}; Trigger: {trigger};" );
 
         return Task.CompletedTask;
     }

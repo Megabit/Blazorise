@@ -164,5 +164,10 @@ public partial class ChartZoom<TItem> : ChartPlugin<TItem, JSChartZoomModule>
     /// </summary>
     [Parameter] public Func<double, string, Task> Zoomed { get; set; }
 
+    /// <summary>
+    /// Called while the chart is being panned.
+    /// </summary>
+    [Parameter] public Func<double, double, string, Task> Panned { get; set; }
+
     #endregion
 }

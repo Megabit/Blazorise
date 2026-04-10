@@ -30,6 +30,14 @@ export function initialize(dotNetAdapter, canvasId, pluginOptions) {
                 };
             }
 
+            if (pluginOptions.pan) {
+                pluginOptions.pan.onPan = ({ delta, trigger }) => {
+                    if (dotNetAdapter && delta) {
+                        invokeDotNetMethodAsync(dotNetAdapter, "NotifyPanned", delta.x ?? 0, delta.y ?? 0, trigger);
+                    }
+                };
+            }
+
             chart.options.plugins.zoom = pluginOptions;
 
             if (pluginOptions.transition) {
