@@ -1,120 +1,308 @@
 ﻿@page "/tests/utilities/services"
-<Row>
-    <Column>
-        <Card Margin="Margin.Is4.OnY">
-            <CardHeader>
-                <CardTitle>Message Service</CardTitle>
-            </CardHeader>
-            <CardBody>
-                <CardText><code>IMessageService</code> is used to show a simple message or prompt dialog with an optional icon.</CardText>
-            </CardBody>
-            <CardBody>
-                <Button Color="Color.Primary" Clicked="@ShowInfoMessage">Say hi!</Button>
-                <Button Color="Color.Danger" Clicked="@ShowConfirmMessage">Confirm</Button>
-            </CardBody>
-        </Card>
-    </Column>
-</Row>
-<Row>
-    <Column>
-        <Card Margin="Margin.Is4.OnY">
-            <CardHeader>
-                <CardTitle>Notification Service</CardTitle>
-            </CardHeader>
-            <CardBody>
-                <CardText><code>INotificationService</code> is used to show a simple alerts.</CardText>
-            </CardBody>
-            <CardBody>
-                <Button Color="Color.Warning" Clicked="@ShowWarningNotification">Show alert!</Button>
-            </CardBody>
-        </Card>
-    </Column>
-</Row>
-<Row>
-    <Column>
-        <Card Margin="Margin.Is4.OnY">
-            <CardHeader>
-                <CardTitle>PageProgress Service</CardTitle>
-            </CardHeader>
-            <CardBody>
-                <CardText><code>IPageProgressService</code> is used to show a simple page progress at the top of the page.</CardText>
-            </CardBody>
-            <CardBody>
-                <Button Color="Color.Primary" Clicked="@SetPageProgress25">25 %</Button>
-                <Button Color="Color.Primary" Clicked="@SetPageProgress50">50 %</Button>
-                <Button Color="Color.Primary" Clicked="@SetPageProgress75">75 %</Button>
-                <Button Color="Color.Primary" Clicked="@SetPageProgress100">100 %</Button>
+<Card Shadow="Shadow.Default" Margin="Margin.Is4.OnY">
+    <CardBody>
+        <Div Flex="Flex.Column.Row.OnDesktop.JustifyContent.Between.AlignItems.Start.AlignItems.Center.OnDesktop" Gap="Gap.Is3">
+            <Div>
+                <Heading Size="HeadingSize.Is3" Margin="Margin.Is0.FromBottom">Service workflow showcase</Heading>
+                <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop">
+                    This page demonstrates how message dialogs, notifications, and page progress work together during a realistic cleanup and sync workflow.
+                </Paragraph>
+            </Div>
+            <Div>
+                <Div Flex="Flex.Wrap" Gap="Gap.Is2">
+                    <Badge Color="Color.Primary" Pill>Selected: @selectedRecords.Count</Badge>
+                    <Badge Color="Color.Success" Pill>Archived: @archivedRecords.Count</Badge>
+                </Div>
+                <Div Flex="Flex.Wrap" Gap="Gap.Is2" Margin="Margin.Is3.FromTop">
+                    <Button Color="Color.Secondary" Outline Size="Size.Small" Clicked="@SelectAllActiveRecords">Select all</Button>
+                    <Button Color="Color.Secondary" Outline Size="Size.Small" Clicked="@ClearSelection">Clear selection</Button>
+                    <Button Color="Color.Secondary" Outline Size="Size.Small" Clicked="@ResetRecords">Reset records</Button>
+                </Div>
+            </Div>
+        </Div>
 
-                <Button Color="Color.Secondary" Clicked="@SetPageProgressIndeterminate">Indeterminate</Button>
+        <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is3.FromTop.Is0.FromBottom">
+            @lastAction
+        </Paragraph>
+    </CardBody>
+</Card>
 
-                <Button Color="Color.Secondary" Clicked="@SetPageProgressHidden">Hide</Button>
+<Row>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Message service</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Use <Code>IMessageService</Code> when an action needs explanation or confirmation before changing state.
+                </Paragraph>
+                <Div Flex="Flex.Wrap" Gap="Gap.Is2">
+                    <Button Color="Color.Primary" Clicked="@ShowInfoMessage">Preview maintenance note</Button>
+                    <Button Color="Color.Danger" Clicked="@ShowConfirmMessage">Archive selected records</Button>
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Notification service</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Use <Code>INotificationService</Code> for short-lived feedback after a change succeeds or when something needs attention.
+                </Paragraph>
+                <Div Flex="Flex.Wrap" Gap="Gap.Is2">
+                    <Button Color="Color.Success" Clicked="@ShowSuccessNotification">Show success notice</Button>
+                    <Button Color="Color.Warning" Clicked="@ShowWarningNotification">Show warning notice</Button>
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Page progress service</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Use <Code>IPageProgressService</Code> for background work that should stay visible while the user remains on the page.
+                </Paragraph>
+                <Div Flex="Flex.Wrap" Gap="Gap.Is2">
+                    <Button Color="Color.Primary" Clicked="@RunSyncProgress">Run sync</Button>
+                    <Button Color="Color.Secondary" Clicked="@SetPageProgressIndeterminate">Indeterminate</Button>
+                    <Button Color="Color.Secondary" Clicked="@SetPageProgressHidden">Hide</Button>
+                </Div>
             </CardBody>
         </Card>
     </Column>
 </Row>
-@code{
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnDesktop">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Record selection</CardTitle>
+            </CardHeader>
+            <CardBody>
+                @foreach ( var record in activeRecords )
+                {
+                    <Div Border="Border.Is1.Rounded" Padding="Padding.Is3" Margin="Margin.Is3.FromBottom">
+                        <Check @bind-Value="@record.Selected">@record.Name</Check>
+                    </Div>
+                }
+
+                @if ( activeRecords.Count == 0 )
+                {
+                    <Alert Color="Color.Light" Visible Margin="Margin.Is0.FromBottom">
+                        <AlertDescription>No active records remain in the current batch.</AlertDescription>
+                    </Alert>
+                }
+            </CardBody>
+            <CardBody>
+                <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is0.FromBottom">
+                    Selected records ready for archive:
+                </Paragraph>
+
+                @if ( selectedRecords.Count == 0 )
+                {
+                    <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop.Is0.FromBottom">
+                        No records selected.
+                    </Paragraph>
+                }
+                else
+                {
+                    <Div Flex="Flex.Wrap" Gap="Gap.Is2" Margin="Margin.Is2.FromTop">
+                        @foreach ( var record in selectedRecords )
+                        {
+                            <Badge Color="Color.Primary" Pill>@record</Badge>
+                        }
+                    </Div>
+                }
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnDesktop">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Archived records</CardTitle>
+            </CardHeader>
+            <CardBody>
+                @if ( archivedRecords.Count == 0 )
+                {
+                    <Alert Color="Color.Light" Visible>
+                        <AlertDescription>No records have been archived yet.</AlertDescription>
+                    </Alert>
+                }
+                else
+                {
+                    <Div Flex="Flex.Wrap" Gap="Gap.Is2">
+                        @foreach ( var record in archivedRecords )
+                        {
+                            <Badge Color="Color.Success" Pill>@record</Badge>
+                        }
+                    </Div>
+                }
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code {
+    private class ServiceRecord
+    {
+        public string Name { get; set; }
+
+        public bool Selected { get; set; }
+
+        public bool Archived { get; set; }
+    }
+
     [Inject] IMessageService MessageService { get; set; }
 
     [Inject] INotificationService NotificationService { get; set; }
 
     [Inject] IPageProgressService PageProgressService { get; set; }
 
-    Task ShowInfoMessage()
+    private List<ServiceRecord> records = CreateRecords();
+
+    private List<ServiceRecord> activeRecords => records.Where( x => !x.Archived ).ToList();
+
+    private List<string> selectedRecords => records.Where( x => !x.Archived && x.Selected ).Select( x => x.Name ).ToList();
+
+    private List<string> archivedRecords => records.Where( x => x.Archived ).Select( x => x.Name ).ToList();
+
+    private string lastAction = "Choose an action to see how the services complement each other.";
+
+    private static List<ServiceRecord> CreateRecords()
     {
-        return MessageService.Info( "This is a simple info message!", "Hello" );
+        return new List<ServiceRecord>()
+        {
+            new ServiceRecord() { Name = "Northwind", Selected = true },
+            new ServiceRecord() { Name = "Adventure Works", Selected = true },
+            new ServiceRecord() { Name = "Blue Yonder", Selected = true },
+            new ServiceRecord() { Name = "Contoso", Selected = false },
+            new ServiceRecord() { Name = "Tailspin Toys", Selected = false },
+        };
+    }
+
+    async Task ShowInfoMessage()
+    {
+        await MessageService.Info( "Tonight's maintenance will archive finished records and refresh the sync cache. Review the batch before confirming the change.", "Maintenance window" );
+        lastAction = "Maintenance details were displayed through IMessageService.";
     }
 
     async Task ShowConfirmMessage()
     {
-        if ( await MessageService.Confirm( "Are you sure you want to confirm?", "Confirmation" ) )
+        if ( selectedRecords.Count == 0 )
         {
-            Console.WriteLine( "OK Clicked" );
+            await MessageService.Info( "There are no active records left to archive.", "Nothing to archive" );
+            lastAction = "Archive was skipped because there were no selected records.";
+            return;
+        }
+
+        if ( await MessageService.Confirm( $"Archive {selectedRecords.Count} selected records?", "Confirm archive" ) )
+        {
+            foreach ( var record in records.Where( x => x.Selected && !x.Archived ) )
+            {
+                record.Archived = true;
+                record.Selected = false;
+            }
+
+            lastAction = "Selected records were archived after confirmation.";
+
+            await NotificationService.Success( "The selected records were archived successfully.", "Archive completed", options =>
+            {
+                options.IntervalBeforeClose = 2000;
+            } );
         }
         else
         {
-            Console.WriteLine( "Cancel Clicked" );
+            lastAction = "Archive confirmation was canceled.";
         }
     }
 
     Task ShowWarningNotification()
     {
-        return NotificationService.Warning( "Are you sure you want to remove the selected item!", "Removal", options =>
+        lastAction = "A warning notification was shown to highlight a risky action.";
+
+        return NotificationService.Warning( "One record could not be synced because it is currently locked by another user.", "Sync warning", options =>
         {
-            options.IntervalBeforeClose = 2000;
+            options.IntervalBeforeClose = 2500;
             options.Multiline = true;
             options.ShowOkButton = true;
-            options.OkButtonIcon = IconName.Delete;
-            options.OkButtonText = "Remove";
+            options.OkButtonIcon = IconName.InfoCircle;
+            options.OkButtonText = "Review";
         } );
     }
 
-    Task SetPageProgress25()
+    Task ShowSuccessNotification()
     {
-        return PageProgressService.Go( 25, options => { options.Color = Color.Warning; } );
+        lastAction = "A success notification was shown for a completed action.";
+
+        return NotificationService.Success( "Customer records were exported and are ready for download.", "Export ready", options =>
+        {
+            options.IntervalBeforeClose = 2000;
+        } );
     }
 
-    Task SetPageProgress50()
+    async Task RunSyncProgress()
     {
-        return PageProgressService.Go( 50, options => { options.Color = Color.Warning; } );
-    }
+        lastAction = "Background sync started and page progress is now visible.";
 
-    Task SetPageProgress75()
-    {
-        return PageProgressService.Go( 75, options => { options.Color = Color.Warning; } );
-    }
+        await GoToProgress( 20 );
+        await Task.Delay( 250 );
+        await GoToProgress( 45 );
+        await Task.Delay( 250 );
+        await GoToProgress( 75 );
+        await Task.Delay( 250 );
+        await GoToProgress( 100 );
+        await Task.Delay( 150 );
+        await SetPageProgressHidden();
 
-    Task SetPageProgress100()
-    {
-        return PageProgressService.Go( 100, options => { options.Color = Color.Warning; } );
+        lastAction = "Background sync completed successfully.";
     }
 
     Task SetPageProgressIndeterminate()
     {
-        return PageProgressService.Go( null, options => { options.Color = Color.Warning; } );
+        lastAction = "Page progress was switched to indeterminate mode.";
+        return PageProgressService.Go( null, options => { options.Color = Color.Info; } );
     }
 
     Task SetPageProgressHidden()
     {
+        lastAction = "Page progress was hidden.";
         return PageProgressService.Go( -1 );
+    }
+
+    Task GoToProgress( int percentage )
+    {
+        return PageProgressService.Go( percentage, options => { options.Color = Color.Info; } );
+    }
+
+    private void SelectAllActiveRecords()
+    {
+        foreach ( var record in records.Where( x => !x.Archived ) )
+        {
+            record.Selected = true;
+        }
+
+        lastAction = "All active records were selected.";
+    }
+
+    private void ClearSelection()
+    {
+        foreach ( var record in records.Where( x => !x.Archived ) )
+        {
+            record.Selected = false;
+        }
+
+        lastAction = "Selection was cleared.";
+    }
+
+    private void ResetRecords()
+    {
+        records = CreateRecords();
+        lastAction = "Record selection was reset to the initial batch.";
     }
 }

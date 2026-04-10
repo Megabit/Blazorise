@@ -1,37 +1,41 @@
 ﻿@page "/tests/transferlist"
 @using Blazorise.Components.ListView
 
+<Card Shadow="Shadow.Default" Margin="Margin.Is4.OnY">
+    <CardBody>
+        <Div Flex="Flex.Column.Row.OnDesktop.JustifyContent.Between.AlignItems.Start.AlignItems.Center.OnDesktop" Gap="Gap.Is3">
+            <Div>
+                <Heading Size="HeadingSize.Is3" Margin="Margin.Is0.FromBottom">Build a grocery pickup order</Heading>
+                <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop">
+                    Use the transfer list to move items from store inventory into the pickup cart. The page also demonstrates selection, move-all, scroll mode, and transfer rules.
+                </Paragraph>
+            </Div>
+            <Button Color="Color.Secondary" Outline Clicked="@ResetLists" Flex="Flex.InlineFlex.AlignItems.Center" Gap="Gap.Is2">
+                <Icon Name="IconName.Undo" />
+                Reset order
+            </Button>
+        </Div>
+
+        <Div Flex="Flex.Wrap" Gap="Gap.Is2" Margin="Margin.Is3.FromTop">
+            <Badge Color="Color.Primary" Pill>Inventory: @listStart.Count</Badge>
+            <Badge Color="Color.Success" Pill>Cart: @CartCount</Badge>
+            <Badge Color="Color.Info" Pill>Selection: @SelectionModeLabel</Badge>
+            <Badge Color="Color.Secondary" Pill>Move all: @(moveAll ? "On" : "Off")</Badge>
+        </Div>
+
+        <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is3.FromTop.Is0.FromBottom">
+            Cabbage cannot be added to the pickup cart, and Strawberry and Cherry stay locked in the cart after they are added.
+        </Paragraph>
+    </CardBody>
+</Card>
+
 <Row>
-    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
-        <Card Margin="Margin.Is4.OnY">
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is8.OnDesktop">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>Transfer List</CardTitle>
+                <CardTitle>Transfer items</CardTitle>
             </CardHeader>
             <CardBody>
-                <Fields>
-                    <Field>
-                        <Switch @bind-Value="@scrollable">
-                            Scroll Mode
-                        </Switch>
-                    </Field>
-                    <Field>
-                        <Switch @bind-Value="@multipleMode">
-                            Multiple Mode
-                        </Switch>
-                    </Field>
-                    <Field>
-                        <Switch @bind-Value="@moveAll">
-                            Move All
-                        </Switch>
-                    </Field>
-                    <Field>
-                        <Switch @bind-Value="@showCaptions">
-                            Show Captions
-                        </Switch>
-                    </Field>
-                </Fields>
-            </CardBody>
-            <CardBody Height="Height.Max100">
                 <TransferList TItem="string"
                               Items="@list"
                               @bind-ItemsStart="@listStart"
@@ -42,9 +46,9 @@
                               Mode="ListGroupMode.Selectable"
                               ShowMoveAll="@moveAll"
                               MaxHeight="@maxHeight"
-                              Scrollable=@scrollable
-                              StartCaption="In Store"
-                              EndCaption="My Cart"
+                              Scrollable="@scrollable"
+                              StartCaption="Store inventory"
+                              EndCaption="Pickup cart"
                               ShowCaptions="@showCaptions"
                               ValueField="@(item => item)"
                               TextField="@(item => item)">
@@ -58,40 +62,90 @@
             </CardBody>
         </Card>
     </Column>
-</Row>
-
-<Row Margin="Margin.Is1.FromTop">
-    <Column ColumnSize="ColumnSize.Is6">
-        <Card>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>List 1</CardTitle>
+                <CardTitle>Options</CardTitle>
             </CardHeader>
             <CardBody>
                 <Fields>
                     <Field>
-                        <FieldLabel>Items</FieldLabel>
-                        <FieldBody>
-                            <TextInput ReadOnly Value="@(listStart != null ? string.Join( ',', listStart ) : "")"></TextInput>
-                        </FieldBody>
+                        <Switch @bind-Value="@scrollable">
+                            Scroll mode
+                        </Switch>
+                    </Field>
+                    <Field>
+                        <Switch @bind-Value="@multipleMode">
+                            Multiple selection
+                        </Switch>
+                    </Field>
+                    <Field>
+                        <Switch @bind-Value="@moveAll">
+                            Show move all
+                        </Switch>
+                    </Field>
+                    <Field>
+                        <Switch @bind-Value="@showCaptions">
+                            Show captions
+                        </Switch>
                     </Field>
                 </Fields>
             </CardBody>
+            <CardBody>
+                <Paragraph Margin="Margin.Is0.FromBottom" TextColor="TextColor.Secondary">
+                    @GetModeDescription()
+                </Paragraph>
+            </CardBody>
         </Card>
     </Column>
-    <Column ColumnSize="ColumnSize.Is6">
-        <Card>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnDesktop">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>List 2</CardTitle>
+                <CardTitle>Store inventory</CardTitle>
             </CardHeader>
             <CardBody>
-                <Fields>
-                    <Field>
-                        <FieldLabel>Items</FieldLabel>
-                        <FieldBody>
-                            <TextInput ReadOnly Value="@(listEnd != null ? string.Join( ',', listEnd ) : "")"></TextInput>
-                        </FieldBody>
-                    </Field>
-                </Fields>
+                @if ( listStart.Count == 0 )
+                {
+                    <Alert Color="Color.Light" Visible>
+                        <AlertDescription>All movable items have been added to the pickup cart.</AlertDescription>
+                    </Alert>
+                }
+                else
+                {
+                    <Div Flex="Flex.Wrap" Gap="Gap.Is2">
+                        @foreach ( var item in listStart )
+                        {
+                            <Badge Color="@GetItemColor( item )" Pill>@item</Badge>
+                        }
+                    </Div>
+                }
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnDesktop">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Pickup cart</CardTitle>
+            </CardHeader>
+            <CardBody>
+                @if ( CartCount == 0 )
+                {
+                    <Alert Color="Color.Light" Visible>
+                        <AlertDescription>Your pickup cart is empty.</AlertDescription>
+                    </Alert>
+                }
+                else
+                {
+                    <Div Flex="Flex.Wrap" Gap="Gap.Is2">
+                        @foreach ( var item in listEnd )
+                        {
+                            <Badge Color="@GetItemColor( item )" Pill>@item</Badge>
+                        }
+                    </Div>
+                }
             </CardBody>
         </Card>
     </Column>
@@ -101,25 +155,61 @@
 @code {
     private RenderFragment<ItemContext<string>> transferListItemContent => item => __builder =>
         {
-            <Card Background=Background.Info Shadow="Shadow.Default">
-                <CardBody>
-                    @{
-                        var imageSource = $"_content/Blazorise.Demo/img/fruit/{item.Value.ToLower()}.png";
-                    }
-                    <Image Source="@imageSource" Style="width:24px;height:24px;" />
-                    @item.Value
+            <Card Background="Background.White" Border="Border.Is1" Shadow="Shadow.Small" Margin="Margin.Is2.FromBottom">
+                <CardBody Padding="Padding.Is3">
+                    <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                        <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is3">
+                            <Image Source="@GetItemImage( item.Value )" Text="@item.Value" Width="Width.Px( 32 )" Height="Height.Px( 32 )" Border="Border.Rounded" />
+                            <Span>@item.Value</Span>
+                        </Div>
+                        <Badge Color="@GetItemColor( item.Value )" Pill>@GetItemType( item.Value )</Badge>
+                    </Div>
                 </CardBody>
             </Card>
         };
-    private List<string> list = new List<string> { "Apple", "Bananas", "Lemon", "Broccoli", "Strawberry", "Cherry", "Cabbage" };
-    private List<string> listStart = new List<string>() { "Cabbage", "Broccoli" };
-    private List<string> listEnd;
 
-    private string maxHeight
-        => scrollable ? "300px" : null;
+    private readonly List<string> list = new() { "Apple", "Bananas", "Lemon", "Broccoli", "Strawberry", "Cherry", "Cabbage" };
 
-    private bool scrollable = false;
+    private List<string> listStart = new() { "Cabbage", "Broccoli" };
+
+    private List<string> listEnd = new() { "Apple", "Bananas", "Lemon", "Strawberry", "Cherry" };
+
+    private string maxHeight => scrollable ? "320px" : null;
+
+    private int CartCount => listEnd?.Count ?? 0;
+
+    private string SelectionModeLabel => multipleMode ? "Multiple" : "Single";
+
+    private bool scrollable;
+
     private bool multipleMode = true;
+
     private bool moveAll = true;
+
     private bool showCaptions = true;
+
+    private string GetItemImage( string item ) => $"_content/Blazorise.Demo/img/fruit/{item.ToLower()}.png";
+
+    private Color GetItemColor( string item ) => IsFruit( item ) ? Color.Success : Color.Warning;
+
+    private string GetItemType( string item ) => IsFruit( item ) ? "Fruit" : "Vegetable";
+
+    private bool IsFruit( string item ) => item != "Broccoli" && item != "Cabbage";
+
+    private string GetModeDescription()
+    {
+        if ( scrollable )
+            return "Scrollable mode keeps long lists compact while still allowing the same transfer interactions.";
+
+        if ( multipleMode )
+            return "Multiple selection is enabled, so shoppers can move several items in one step.";
+
+        return "Single selection is enabled to show a simpler, more guided transfer flow.";
+    }
+
+    private void ResetLists()
+    {
+        listStart = new List<string>() { "Cabbage", "Broccoli" };
+        listEnd = new List<string>() { "Apple", "Bananas", "Lemon", "Strawberry", "Cherry" };
+    }
 }

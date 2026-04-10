@@ -3,23 +3,46 @@
 @using System.IO
 @using Blazorise.Extensions
 
+<Card Shadow="Shadow.Default" Margin="Margin.Is4.OnY">
+    <CardBody>
+        <Div Flex="Flex.Column.Row.OnDesktop.JustifyContent.Between.AlignItems.Start.AlignItems.Center.OnDesktop" Gap="Gap.Is3">
+            <Div>
+                <Heading Size="HeadingSize.Is3" Margin="Margin.Is0.FromBottom">File picker showcase</Heading>
+                <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop">
+                    Compare standard and buffered uploads, explore different picker presentation modes, and watch upload state update directly in the UI.
+                </Paragraph>
+            </Div>
+            <Div Flex="Flex.Wrap" Gap="Gap.Is2">
+                <Badge Color="Color.Primary" Pill>Progress: @(disableProgressReport ? "Off" : "On")</Badge>
+                <Badge Color="Color.Info" Pill>Directory upload: @(directory ? "On" : "Off")</Badge>
+                <Badge Color="Color.Success" Pill>Last file: @lastUploadedFile</Badge>
+            </Div>
+        </Div>
+
+        <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is3.FromTop.Is0.FromBottom">
+            @lastUploadMessage
+        </Paragraph>
+    </CardBody>
+</Card>
+
 <Row>
     <Column ColumnSize="ColumnSize.Is12">
-        <Card Margin="Margin.Is4.OnY">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Options</CardTitle>
             </CardHeader>
             <CardBody>
                 <Field>
                     <FieldBody>
-                        <Check @bind-Value="@disableProgressReport">Disable Report Progress</Check>
-                        <Paragraph>By disabling progress report, file transfer can be significantly improved.</Paragraph>
+                        <Check @bind-Value="@disableProgressReport">Disable progress reporting</Check>
                     </FieldBody>
+                    <FieldHelp>Disabling progress reporting can improve transfer throughput when detailed progress updates are not required.</FieldHelp>
                 </Field>
                 <Field>
                     <FieldBody>
-                        <Check @bind-Value="@directory">Upload Directory?</Check>
+                        <Check @bind-Value="@directory">Allow directory upload</Check>
                     </FieldBody>
+                    <FieldHelp>Enable this to test directory selection in supported browsers.</FieldHelp>
                 </Field>
             </CardBody>
         </Card>
@@ -28,11 +51,14 @@
 
 <Row>
     <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
-        <Card Margin="Margin.Is2.OnY">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Standard Upload</CardTitle>
             </CardHeader>
             <CardBody>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Streams files through the standard upload path and is a good baseline when comparing transfer strategies.
+                </Paragraph>
                 <FilePicker @ref=filePicker
                             Multiple
                             MaxChunkSize=FileMaxChunkSize
@@ -48,11 +74,14 @@
         </Card>
     </Column>
     <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
-        <Card Margin="Margin.Is2.OnY">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Buffered Upload</CardTitle>
             </CardHeader>
             <CardBody>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Uses an explicitly buffered read path so you can compare behavior and elapsed time with the standard flow.
+                </Paragraph>
                 <FilePicker @ref=filePickerBuffered
                             Multiple
                             MaxChunkSize=FileMaxChunkSize
@@ -71,11 +100,14 @@
 
 <Row>
     <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
-        <Card Margin="Margin.Is4.OnY">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Dropdown Show Mode</CardTitle>
             </CardHeader>
             <CardBody>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Presents queued files in a compact dropdown, which is useful when upload controls need to stay small.
+                </Paragraph>
                 <FilePicker @ref=filePickerDropdown
                             Multiple
                             MaxChunkSize=FileMaxChunkSize
@@ -91,11 +123,14 @@
         </Card>
     </Column>
     <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
-        <Card Margin="Margin.Is4.OnY">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>Custom</CardTitle>
+                <CardTitle>Custom template</CardTitle>
             </CardHeader>
             <CardBody>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Demonstrates a fully customized file list with explicit action buttons and a progress bar.
+                </Paragraph>
                 <FilePicker @ref=filePickerCustom
                             Multiple
                             MaxChunkSize=FileMaxChunkSize
@@ -107,12 +142,13 @@
                             Directory="@directory"
                             DisableProgressReport="@disableProgressReport">
                     <FileTemplate>
-                        <Div Flex="Flex.JustifyContent.Between">
-                            <Div>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is3">
+                                <Icon Name="IconName.FileUpload" TextColor="TextColor.Primary" />
                                 <Heading Size="HeadingSize.Is5">@context.File.Name</Heading>
-                                <Paragraph>@FilePicker.GetFileSizeReadable(context.File)</Paragraph>
                             </Div>
-                            <Div>
+                            <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+                                <Badge Color="Color.Secondary" Pill>@FilePicker.GetFileSizeReadable( context.File )</Badge>
                                 @if ( context.File.Status == FileEntryStatus.Ready )
                                 {
                                     <Icon TextColor="TextColor.Primary" Name="IconName.FileUpload" />
@@ -149,11 +185,55 @@
     </Column>
 </Row>
 
+<Row>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnDesktop">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Transfer summary</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph Margin="Margin.Is2.FromBottom"><Strong>Mode:</Strong> @lastUploadMode</Paragraph>
+                <Paragraph Margin="Margin.Is2.FromBottom"><Strong>File:</Strong> @lastUploadedFile</Paragraph>
+                <Paragraph Margin="Margin.Is2.FromBottom"><Strong>Progress:</Strong> @lastProgressText</Paragraph>
+                <Paragraph Margin="Margin.Is0.FromBottom"><Strong>Elapsed:</Strong> @lastElapsedText</Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnDesktop">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Recent activity</CardTitle>
+            </CardHeader>
+            <CardBody>
+                @if ( activityLog.Count == 0 )
+                {
+                    <Alert Color="Color.Light" Visible>
+                        <AlertDescription>No upload activity has been recorded yet.</AlertDescription>
+                    </Alert>
+                }
+                else
+                {
+                    @foreach ( var activity in activityLog )
+                    {
+                        <Paragraph Margin="Margin.Is2.FromBottom">@activity</Paragraph>
+                    }
+                }
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
 @code {
     private bool disableProgressReport = false;
     private bool directory = false;
     private Stopwatch sw = new();
     private readonly int FileMaxChunkSize = 24 * 1024;
+    private string lastUploadMode = "No uploads yet";
+    private string lastUploadedFile = "None";
+    private string lastUploadMessage = "Select files in any picker to see live feedback here.";
+    private string lastProgressText = "0%";
+    private string lastElapsedText = "Not measured yet";
+    private List<string> activityLog = new();
     private FilePicker filePicker { get; set; }
     private FilePicker filePickerBuffered { get; set; }
     private FilePicker filePickerDropdown { get; set; }
@@ -172,16 +252,25 @@
 
     private void OnFileUploadEnded( FileEndedEventArgs e )
     {
+        lastUploadedFile = e.File.Name;
+        lastUploadMessage = $"File {e.File.Name} upload {( e.Success ? "succeeded" : "failed" )}.";
+        AddActivity( lastUploadMessage );
         Console.WriteLine( $"File {e.File.Name} upload {( e.Success ? "succeeded" : "failed" )}." );
     }
 
     private async Task OnFileUpload( FileUploadEventArgs e )
     {
+        lastUploadMode = "Standard upload";
+        lastUploadedFile = e.File.Name;
+        lastUploadMessage = $"Uploading {e.File.Name} with the standard stream path.";
         var bytes = await FileUpload( e.File );
     }
 
     private async Task OnFileUploadBuffered( FileUploadEventArgs e )
     {
+        lastUploadMode = "Buffered upload";
+        lastUploadedFile = e.File.Name;
+        lastUploadMessage = $"Uploading {e.File.Name} with the buffered read path.";
         var bytes = await FileUploadBuffered( e.File );
     }
 
@@ -190,6 +279,8 @@
         sw.Restart();
         byte[] result = await Read( file );
         sw.Stop();
+        lastElapsedText = $"{sw.ElapsedMilliseconds} ms";
+        AddActivity( $"Standard upload finished for {file.Name} in {sw.ElapsedMilliseconds} ms." );
         Console.WriteLine( "file upload without explicit buffering took " + sw.ElapsedMilliseconds + " ms" );
         return result;
     }
@@ -199,6 +290,8 @@
         sw.Restart();
         byte[] result = await ReadBuffered( file );
         sw.Stop();
+        lastElapsedText = $"{sw.ElapsedMilliseconds} ms";
+        AddActivity( $"Buffered upload finished for {file.Name} in {sw.ElapsedMilliseconds} ms." );
         Console.WriteLine( "file upload using buffer took " + sw.ElapsedMilliseconds + " ms" );
         return result;
     }
@@ -229,6 +322,17 @@
 
     private void OnFileUploadProgressChanged( FileProgressedEventArgs e )
     {
+        lastUploadedFile = e.File.Name;
+        lastProgressText = $"{e.Percentage:0.0}%";
+        lastUploadMessage = $"Uploading {e.File.Name}: {lastProgressText} complete.";
         Console.WriteLine( $"File upload progress: {e.Percentage:0.0} %" );
+    }
+
+    private void AddActivity( string message )
+    {
+        activityLog.Insert( 0, message );
+
+        if ( activityLog.Count > 6 )
+            activityLog.RemoveAt( activityLog.Count - 1 );
     }
 }
