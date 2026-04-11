@@ -7935,6 +7935,12 @@ body.modal-open {
 }
 
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+  .mui-table:not(.mui-table-mobile) {
+    --mui-table-cell-padding-x: 0.5rem;
+  }
+  .mui-table:not(.mui-table-mobile) > :is(.mui-table-header, thead) > :is(.mui-table-row, tr) > :is(.mui-table-header-cell, th) {
+    white-space: normal;
+  }
   .mui-table-mobile [data-caption]::before {
     content: attr(data-caption);
   }
