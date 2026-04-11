@@ -11,11 +11,11 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    Blazorise Material is a Material 3 focused provider. It ships with provider styles and behavior, so you no longer need to download third-party Material CSS files manually.
+    Blazorise Material is a <Anchor To="https://m3.material.io/" Target="Target.Blank">Material 3</Anchor> focused provider. It ships with provider styles, behavior, and Material Symbols font files, so you no longer need to download third-party Material CSS files manually.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    Material Design is a design system from Google. Blazorise Material is an independent Blazor implementation inspired by Material 3 principles.
+    Material 3 Design is a design system from Google. Blazorise Material is an independent Blazor implementation inspired by Material 3 principles.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
@@ -53,7 +53,7 @@
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    3. Add static file references in your app host file:
+    3. Add static file references in your app host file. The Material provider stylesheet loads its packaged Material Symbols fonts from <Code>_content/Blazorise.Material/fonts/</Code>. The Google Material Icons stylesheet is needed only when you use <Code>Blazorise.Icons.Material</Code>.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
@@ -72,7 +72,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader>
-        Add these lines inside the <Code Tag>head</Code> section, and place the script near the end of <Code Tag>body</Code> before the Blazor script:
+        Add the styles inside the <Code Tag>head</Code> section, and place <Code>blazorise.material.js</Code> near the end of <Code Tag>body</Code> before the Blazor script:
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="MaterialGuideSourceFilesExample" />
 </DocsPageSection>

@@ -46,11 +46,13 @@
                         </BarItem>
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarIntegrationsMenuVisible">
-                                <BarDropdownToggle To="docs/usage">
+                                <BarDropdownToggle To="docs/usage" Trigger="BarDropdownToggleTrigger.All">
                                     <BarIcon IconName="IconName.BookReader" /> Integrations
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/usage/ant-design">Ant Design</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/ant-design" Flex="Flex.JustifyContent.Between">
+                                        <DocsNewFeatureBadge>Ant Design</DocsNewFeatureBadge>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/usage/bootstrap4">Bootstrap 4</BarDropdownItem>
                                     <BarDropdownItem To="docs/usage/bootstrap5">Bootstrap 5</BarDropdownItem>
                                     <BarDropdownItem To="docs/usage/bulma">Bulma</BarDropdownItem>
