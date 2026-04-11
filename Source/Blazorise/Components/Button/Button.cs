@@ -210,7 +210,7 @@ public partial class Button : BaseComponent, IAsyncDisposable
             command.CanExecuteChanged += OnCanExecuteChanged;
         }
 
-        OnCanExecuteChanged( this, EventArgs.Empty );
+        OnCanExecuteChanged( value, EventArgs.Empty );
     }
 
     /// <summary>
@@ -226,7 +226,6 @@ public partial class Button : BaseComponent, IAsyncDisposable
         {
             canExecuteCommand = canExecute;
 
-            // Keep cached classes/styles aligned even before the next render happens.
             DirtyStyles();
             DirtyClasses();
             InvokeAsync( StateHasChanged );
