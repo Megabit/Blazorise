@@ -4918,8 +4918,13 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string AnalyzerSeverityExample = @"dotnet_diagnostic.BLZP004.severity = error";
 
-        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=2.0.4.0"" type=""module""></script>
-<script src=""_content/Blazorise.AntDesign/tooltip.js?v=2.0.4.0"" type=""module""></script>";
+        public const string AnimateScriptsExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=2.0.4.0""></script>";
+
+        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/bar.js?v=2.0.4.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/modal.js?v=2.0.4.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/segmented.js?v=2.0.4.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/tooltip.js?v=2.0.4.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/wave.js?v=2.0.4.0"" type=""module""></script>";
 
         public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=2.0.4.0"" type=""module""></script>
 <script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=2.0.4.0"" type=""module""></script>";
@@ -4932,11 +4937,19 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string ButtonJavascriptMockTestingExample = @"JSInterop.AddBlazoriseButton();";
 
+        public const string CaptchaReCaptchaScriptsExample = @"<script src=""_content/Blazorise.Captcha.ReCaptcha/blazorise.recaptcha.js?v=2.0.4.0"" type=""module""></script>";
+
+        public const string ChartsAnnotationScriptsExample = @"<script src=""_content/Blazorise.Charts.Annotation/chart.annotation.js?v=2.0.4.0"" type=""module""></script>";
+
+        public const string ChartsDataLabelsScriptsExample = @"<script src=""_content/Blazorise.Charts.DataLabels/chart.datalabels.js?v=2.0.4.0"" type=""module""></script>";
+
         public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=2.0.4.0"" type=""module""></script>";
 
         public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.0.4.0"" type=""module""></script>";
 
         public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.0.4.0"" type=""module""></script>";
+
+        public const string ChartsZoomScriptsExample = @"<script src=""_content/Blazorise.Charts.Zoom/chart.zoom.js?v=2.0.4.0"" type=""module""></script>";
 
         public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=2.0.4.0"" type=""module""></script>
 <script src=""_content/Blazorise/button.js?v=2.0.4.0"" type=""module""></script>
@@ -4947,19 +4960,24 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 <script src=""_content/Blazorise/dropdown.js?v=2.0.4.0"" type=""module""></script>
 <script src=""_content/Blazorise/fileInput.js?v=2.0.4.0"" type=""module""></script>
 <script src=""_content/Blazorise/filePicker.js?v=2.0.4.0"" type=""module""></script>
+<script src=""_content/Blazorise/floatingUi.js?v=2.0.4.0"" type=""module""></script>
 <script src=""_content/Blazorise/inputMask.js?v=2.0.4.0"" type=""module""></script>
 <script src=""_content/Blazorise/io.js?v=2.0.4.0"" type=""module""></script>
-<script src=""_content/Blazorise/memoEdit.js?v=2.0.4.0"" type=""module""></script>
+<script src=""_content/Blazorise/memoInput.js?v=2.0.4.0"" type=""module""></script>
+<script src=""_content/Blazorise/modal.js?v=2.0.4.0"" type=""module""></script>
 <script src=""_content/Blazorise/numericPicker.js?v=2.0.4.0"" type=""module""></script>
 <script src=""_content/Blazorise/observer.js?v=2.0.4.0"" type=""module""></script>
+<script src=""_content/Blazorise/rangeSlider.js?v=2.0.4.0"" type=""module""></script>
 <script src=""_content/Blazorise/table.js?v=2.0.4.0"" type=""module""></script>
-<script src=""_content/Blazorise/textEdit.js?v=2.0.4.0"" type=""module""></script>
+<script src=""_content/Blazorise/textInput.js?v=2.0.4.0"" type=""module""></script>
 <script src=""_content/Blazorise/theme.js?v=2.0.4.0"" type=""module""></script>
 <script src=""_content/Blazorise/timePicker.js?v=2.0.4.0"" type=""module""></script>
 <script src=""_content/Blazorise/tooltip.js?v=2.0.4.0"" type=""module""></script>
 <script src=""_content/Blazorise/utilities.js?v=2.0.4.0"" type=""module""></script>";
 
         public const string ComponentsImportExample = @"@using Blazorise.Components";
+
+        public const string CropperScriptsExample = @"<script src=""_content/Blazorise.Cropper/blazorise.cropper.js?v=2.0.4.0"" type=""module""></script>";
 
         public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=2.0.4.0"" type=""module""></script>";
 
@@ -4969,9 +4987,17 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     .AddEmptyProviders();
 }";
 
+        public const string FluentUI2ScriptsExample = @"<script src=""_content/Blazorise.FluentUI2/modal.js?v=2.0.4.0"" type=""module""></script>
+<script src=""_content/Blazorise.FluentUI2/tooltip.js?v=2.0.4.0"" type=""module""></script>";
+
+        public const string GanttScriptsExample = @"<script src=""_content/Blazorise.Gantt/gantt.js?v=2.0.4.0"" type=""module""></script>";
+
+        public const string LottieAnimationScriptsExample = @"<script src=""_content/Blazorise.LottieAnimation/lottie-animation.js?v=2.0.4.0"" type=""module""></script>";
+
         public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=2.0.4.0"" type=""module""></script>";
 
-        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=2.0.4.0"" type=""module""></script>
+        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/blazorise.material.js?v=2.0.4.0""></script>
+<script src=""_content/Blazorise.Material/modal.js?v=2.0.4.0"" type=""module""></script>
 <script src=""_content/Blazorise.Material/tooltip.js?v=2.0.4.0"" type=""module""></script>";
 
         public const string McpClientConfigExample = @"{
@@ -5015,7 +5041,17 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
         public const string MigrationSmokeTestExample = @"blazorise-migrate --version";
 
+        public const string PdfViewerScriptsExample = @"<script src=""_content/Blazorise.PdfViewer/pdfviewer.js?v=2.0.4.0"" type=""module""></script>";
+
+        public const string QRCodeScriptsExample = @"<script src=""_content/Blazorise.QRCode/blazorise.qrcode.js?v=2.0.4.0"" type=""module""></script>";
+
         public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=2.0.4.0"" type=""module""></script>";
+
+        public const string SchedulerScriptsExample = @"<script src=""_content/Blazorise.Scheduler/scheduler.js?v=2.0.4.0"" type=""module""></script>";
+
+        public const string SignaturePadScriptsExample = @"<script src=""_content/Blazorise.SignaturePad/signaturepad.js"" type=""module""></script>";
+
+        public const string SplitterScriptsExample = @"<script src=""_content/Blazorise.Splitter/blazorise.splitter.js?v=2.0.4.0"" type=""module""></script>";
 
         public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=2.0.4.0"" type=""module""></script>
 <script src=""_content/Blazorise.Tailwind/tooltip.js?v=2.0.4.0"" type=""module""></script>";
