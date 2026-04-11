@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-04-10T12:02:09.1323888Z",
+  "generatedUtc": "2026-04-11T13:42:53.1044250Z",
   "pages": [
     {
       "route": "/docs",
@@ -8845,7 +8845,7 @@
           "code": "AntDesignGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/AntDesign/Examples/AntDesignGuideSourceFilesExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/antd/4.24.15/antd.min.css\" integrity=\"sha512-Ac6zlwN6S+uQSinFAcV27Gd/TtKEDt7XWXn2xWO4Xi9dTbbpT9/vJb+VT5af6nZywrgBD3qUFTb5y1VN4YD94Q==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.0.4.0\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.0.4.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.AntDesign/antd.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.0.4.0\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.0.4.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -9090,8 +9090,8 @@
           "code": "MaterialGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideSourceFilesExample.snippet",
-          "content": "<!-- In <head> -->\r\n<!-- Optional: Material icons webfont (recommended when using Blazorise.Icons.Material) -->\r\n<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Material/blazorise.material.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n\r\n<!-- Before </body> (before the Blazor framework script) -->\r\n<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.0.4.0\"></script>",
-          "description": "Add these lines inside the head section, and place the script near the end of body before the Blazor script:"
+          "content": "<!-- In <head> -->\r\n<!-- Required when using Blazorise.Icons.Material -->\r\n<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Material/blazorise.material.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n\r\n<!-- Before </body> (before the Blazor framework script) -->\r\n<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.0.4.0\"></script>",
+          "description": "Add the styles inside the head section, and place blazorise.material.js near the end of body before the Blazor script:"
         },
         {
           "code": "MaterialGuideUsingExample",

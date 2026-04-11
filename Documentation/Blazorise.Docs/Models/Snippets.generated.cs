@@ -13366,7 +13366,7 @@ builder.Services
     .AddAntDesignProviders()
     .AddFontAwesomeIcons();";
 
-        public const string AntDesignGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdnjs.cloudflare.com/ajax/libs/antd/4.24.15/antd.min.css"" integrity=""sha512-Ac6zlwN6S+uQSinFAcV27Gd/TtKEDt7XWXn2xWO4Xi9dTbbpT9/vJb+VT5af6nZywrgBD3qUFTb5y1VN4YD94Q=="" crossorigin=""anonymous"" referrerpolicy=""no-referrer"" />
+        public const string AntDesignGuideSourceFilesExample = @"<link href=""_content/Blazorise.AntDesign/antd.css?v=2.0.4.0"" rel=""stylesheet"" />
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.0.4.0"" rel=""stylesheet"">
 
 <link href=""_content/Blazorise/blazorise.css?v=2.0.4.0"" rel=""stylesheet"" />
@@ -13523,7 +13523,7 @@ builder.Services
     .AddMaterialIcons();";
 
         public const string MaterialGuideSourceFilesExample = @"<!-- In <head> -->
-<!-- Optional: Material icons webfont (recommended when using Blazorise.Icons.Material) -->
+<!-- Required when using Blazorise.Icons.Material -->
 <link href=""https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone"" rel=""stylesheet"">
 
 <link href=""_content/Blazorise/blazorise.css?v=2.0.4.0"" rel=""stylesheet"" />
