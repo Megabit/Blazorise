@@ -12706,6 +12706,10 @@ span.flatpickr-weekday {
   text-transform: capitalize !important;
 }
 
+.mui-cursor-pointer {
+  cursor: pointer;
+}
+
 .mui-display-none {
   display: none !important;
 }

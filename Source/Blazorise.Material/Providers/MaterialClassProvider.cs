@@ -296,7 +296,7 @@ public class MaterialClassProvider : ClassProvider
         };
     }
 
-    public override string LabelCursor( Cursor cursor ) => cursor != Cursor.Default ? $"form-check-label-{ToCursor( cursor )}" : null;
+    public override string LabelCursor( Cursor cursor ) => cursor != Cursor.Default ? $"mui-cursor-{ToCursor( cursor )}" : null;
 
     #endregion
 

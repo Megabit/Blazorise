@@ -597,6 +597,10 @@ hr.divider.divider-text::before {
   cursor: pointer;
 }
 
+.form-check-label-pointer {
+  cursor: pointer;
+}
+
 .form-control-plaintext.form-control-xs, .form-control-plaintext.form-control-md, .form-control-plaintext.form-control-xl {
   padding-right: 0;
   padding-left: 0;

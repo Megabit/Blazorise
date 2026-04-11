@@ -5965,9 +5965,6 @@ input::file-selector-button {
 .fui-Label.fui-Label-strong {
   font-weight: var(--fontWeightSemibold);
 }
-.fui-Label.fui-Label-pointer {
-  cursor: pointer;
-}
 .fui-Label.fui-Label-xs {
   font-size: var(--fontSizeBase100);
   line-height: var(--lineHeightBase100);
@@ -5983,6 +5980,10 @@ input::file-selector-button {
 .fui-Label.fui-Label-xl {
   font-size: var(--fontSizeBase500);
   line-height: var(--lineHeightBase500);
+}
+
+.fui-Label-pointer {
+  cursor: pointer;
 }
 
 .b-layout-header-fixed {
