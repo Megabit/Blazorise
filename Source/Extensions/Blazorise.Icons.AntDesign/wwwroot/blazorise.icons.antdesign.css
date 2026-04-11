@@ -1,0 +1,67 @@
+.anticon {
+    display: inline-flex;
+    align-items: center;
+    line-height: 0;
+    vertical-align: -0.125em;
+}
+
+.anticon > svg {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+}
+
+.anticon-xs {
+    font-size: .75em;
+}
+
+.anticon-sm {
+    font-size: .875em;
+}
+
+.anticon-lg {
+    font-size: 1.33333em;
+    line-height: .75em;
+    vertical-align: -.0667em;
+}
+
+.anticon-1x {
+    font-size: 1em;
+}
+
+.anticon-2x {
+    font-size: 2em;
+}
+
+.anticon-3x {
+    font-size: 3em;
+}
+
+.anticon-4x {
+    font-size: 4em;
+}
+
+.anticon-5x {
+    font-size: 5em;
+}
+
+.anticon-6x {
+    font-size: 6em;
+}
+
+.anticon-7x {
+    font-size: 7em;
+}
+
+.anticon-8x {
+    font-size: 8em;
+}
+
+.anticon-9x {
+    font-size: 9em;
+}
+
+.anticon-10x {
+    font-size: 10em;
+}

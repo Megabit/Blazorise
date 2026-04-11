@@ -1,7 +1,7 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
 using Blazorise.AntDesign;
-using Blazorise.Icons.FontAwesome;
+using Blazorise.Icons.AntDesign;
 using Blazorise.RichTextEdit;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +19,7 @@ public class Program
         builder.Services
             .SetupDemoServices( builder.Configuration["Licensing:ProductToken"], builder.Configuration["ReCaptchaSiteKey"] )
             .AddAntDesignProviders()
-            .AddFontAwesomeIcons();
+            .AddAntDesignIcons();
 
         builder.RootComponents.Add<App>( "#app" );
         var host = builder.Build();
