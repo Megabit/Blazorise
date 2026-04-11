@@ -287,6 +287,14 @@
 }
 
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+    .mui-table:not(.mui-table-mobile) {
+        --mui-table-cell-padding-x: 0.5rem;
+    }
+
+    .mui-table:not(.mui-table-mobile) > :is(.mui-table-header, thead) > :is(.mui-table-row, tr) > :is(.mui-table-header-cell, th) {
+        white-space: normal;
+    }
+
     .mui-table-mobile [data-caption]::before {
         content: attr(data-caption);
     }
@@ -303,7 +311,16 @@
 
     .mui-table-mobile :is(td, th) {
         position: relative;
-        inline-size: 100%;
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        inline-size: 100% !important;
+        max-inline-size: none !important;
+        left: auto !important;
+        right: auto !important;
+        inset-inline-start: auto !important;
+        inset-inline-end: auto !important;
+        box-sizing: border-box;
         padding-top: 1.75rem !important;
     }
 
