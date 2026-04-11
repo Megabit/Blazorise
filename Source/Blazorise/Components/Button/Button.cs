@@ -228,7 +228,15 @@ public partial class Button : BaseComponent, IAsyncDisposable
 
             DirtyStyles();
             DirtyClasses();
-            InvokeAsync( StateHasChanged );
+
+            if ( Rendered )
+            {
+                InvokeAsync( StateHasChanged );
+            }
+            else
+            {
+                ExecuteAfterRender( () => InvokeAsync( StateHasChanged ) );
+            }
         }
     }
 
