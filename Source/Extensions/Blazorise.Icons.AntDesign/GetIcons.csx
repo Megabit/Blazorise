@@ -1,5 +1,7 @@
 #r "System.IO.Compression"
 #r "System.IO.Compression.ZipFile"
+#r "System.Net.Http"
+#r "System.Text.Json"
 #r "System.Xml.Linq"
 
 using System;
@@ -7,24 +9,34 @@ using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Collections.Generic;
 
-GenerateAntDesignIcons();
+await GenerateAntDesignIcons();
 
-void GenerateAntDesignIcons()
+async Task GenerateAntDesignIcons()
 {
-    var packageVersion = "6.1.1";
-    var zipPath = Path.GetFullPath( Path.Combine( Directory.GetCurrentDirectory(), "..", "..", "..", "ant-design-icons-master.zip" ) );
+    // Download the GitHub repository archive
+    string url = "https://codeload.github.com/ant-design/ant-design-icons/zip/refs/heads/master";
 
-    if ( !File.Exists( zipPath ) )
-        throw new FileNotFoundException( "Could not find ant-design-icons-master.zip in the repository root.", zipPath );
+    using HttpClient client = new();
+    using Stream stream = await client.GetStreamAsync( url );
+    using MemoryStream archiveStream = new();
+    await stream.CopyToAsync( archiveStream );
+    archiveStream.Position = 0;
+    using ZipArchive archive = new( archiveStream, ZipArchiveMode.Read );
 
-    using var archive = ZipFile.OpenRead( zipPath );
+    string archiveRoot = GetArchiveRoot( archive )
+        ?? throw new InvalidOperationException( "Could not resolve GitHub archive root folder." );
+    string packageVersion = ReadPackageVersion( archive, archiveRoot ) ?? "6.1.1";
+    string svgRoot = $"{archiveRoot}/packages/icons-svg/svg/";
 
-    var icons = archive.Entries
-        .Where( x => x.FullName.StartsWith( "ant-design-icons-master/packages/icons-svg/svg/", StringComparison.Ordinal ) )
+    IReadOnlyList<IconEntry> icons = archive.Entries
+        .Where( x => x.FullName.StartsWith( svgRoot, StringComparison.Ordinal ) )
         .Where( x => x.FullName.EndsWith( ".svg", StringComparison.Ordinal ) )
         .Select( x => ReadIcon( x ) )
         .OrderBy( x => x.ConstantName )
@@ -34,6 +46,28 @@ void GenerateAntDesignIcons()
     WriteAntDesignIconSvg( icons, packageVersion );
 
     Console.WriteLine( $"Exported {icons.Count} Ant Design icons." );
+}
+
+string GetArchiveRoot( ZipArchive archive )
+{
+    return archive.Entries
+        .Select( x => x.FullName.Split( '/' ).FirstOrDefault() )
+        .FirstOrDefault( x => !string.IsNullOrWhiteSpace( x ) );
+}
+
+string ReadPackageVersion( ZipArchive archive, string archiveRoot )
+{
+    ZipArchiveEntry entry = archive.GetEntry( $"{archiveRoot}/packages/icons-react/package.json" );
+
+    if ( entry is null )
+        return null;
+
+    using Stream stream = entry.Open();
+    using JsonDocument document = JsonDocument.Parse( stream );
+
+    return document.RootElement.TryGetProperty( "version", out JsonElement version )
+        ? version.GetString()
+        : null;
 }
 
 IconEntry ReadIcon( ZipArchiveEntry entry )

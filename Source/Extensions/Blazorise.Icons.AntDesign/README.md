@@ -1,6 +1,6 @@
 ## Build Process
 
-The Ant Design icon list and inline SVG table are generated from `ant-design-icons-master.zip`.
+The Ant Design icon list and inline SVG table are generated from the Ant Design icons GitHub repository.
 
 There are two ways to build the icons by running the `GetIcons.csx` script:
 
@@ -33,6 +33,5 @@ dotnet script GetIcons.csx
 
 ## Update Process
 
-- Replace `ant-design-icons-master.zip` in the repository root with a fresh archive from https://github.com/ant-design/ant-design-icons.
 - Run `GetIcons.csx`.
-- Update the version number in generated file headers if the package version changes.
+- Check generated file headers if the package version changes.
