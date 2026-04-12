@@ -226,13 +226,16 @@ public partial class Button : BaseComponent, IAsyncDisposable
         {
             canExecuteCommand = canExecute;
 
+            DirtyStyles();
+            DirtyClasses();
+
             if ( Rendered )
             {
-                // in case some provider is using Disabled flag for custom styles
-                DirtyStyles();
-                DirtyClasses();
-
                 InvokeAsync( StateHasChanged );
+            }
+            else
+            {
+                ExecuteAfterRender( () => InvokeAsync( StateHasChanged ) );
             }
         }
     }

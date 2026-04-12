@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-04-08T18:01:03.5028055Z",
+  "generatedUtc": "2026-04-11T16:46:03.5843713Z",
   "pages": [
     {
       "route": "/docs",
@@ -5229,7 +5229,7 @@
           "code": "DataGridCustomRowColorsExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridCustomRowColorsExample.razor",
-          "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"@employeeList\"\r\n          @bind-SelectedRow=\"@selectedEmployee\"\r\n          RowStyling=\"@OnRowStyling\"\r\n          SelectedRowStyling=\"@OnSelectedRowStyling\"\r\n          Responsive>\r\n    <DataGridCommandColumn />\r\n    <DataGridColumn Field=\"@nameof( Employee.Id )\" Caption=\"#\" Sortable=\"false\" />\r\n    <DataGridColumn Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.Email )\" Caption=\"Email\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" Editable>\r\n        <EditTemplate>\r\n            <NumericInput TValue=\"decimal\" Value=\"@((decimal)context.CellValue)\" ValueChanged=\"@(v => context.CellValue = v)\" />\r\n        </EditTemplate>\r\n    </DataGridColumn>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n    private Employee selectedEmployee;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private void OnRowStyling( Employee employee, DataGridRowStyling styling )\r\n    {\r\n        if ( !employee.IsActive )\r\n            styling.Style = \"color: red;\";\r\n    }\r\n\r\n    private void OnSelectedRowStyling( Employee employee, DataGridRowStyling styling )\r\n    {\r\n        styling.Background = Background.Info;\r\n    }\r\n}",
+          "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"@employeeList\"\r\n          @bind-SelectedRow=\"@selectedEmployee\"\r\n          CellStyling=\"@OnCellStyling\"\r\n          SelectedCellStyling=\"@OnSelectedCellStyling\"\r\n          Responsive>\r\n    <DataGridCommandColumn />\r\n    <DataGridColumn Field=\"@nameof( Employee.Id )\" Caption=\"#\" Sortable=\"false\" />\r\n    <DataGridColumn Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.Email )\" Caption=\"Email\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" Editable>\r\n        <EditTemplate>\r\n            <NumericInput TValue=\"decimal\" Value=\"@((decimal)context.CellValue)\" ValueChanged=\"@(v => context.CellValue = v)\" />\r\n        </EditTemplate>\r\n    </DataGridColumn>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n    private Employee selectedEmployee;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private void OnCellStyling( Employee employee, DataGridColumn<Employee> column, DataGridCellStyling styling )\r\n    {\r\n        if ( !employee.IsActive )\r\n            styling.TextColor = TextColor.Danger;\r\n    }\r\n\r\n    private void OnSelectedCellStyling( Employee employee, DataGridColumn<Employee> column, DataGridCellStyling styling )\r\n    {\r\n        styling.Background = Background.Info;\r\n    }\r\n}",
           "title": "Custom Row Colors"
         }
       ]
@@ -8004,13 +8004,13 @@
           "code": "CommonScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/CommonScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise/breakpoint.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/button.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/closable.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/colorPicker.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/datePicker.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dragDrop.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dropdown.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/fileInput.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/filePicker.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/inputMask.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/io.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/memoEdit.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/numericPicker.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/observer.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/table.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/textEdit.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/theme.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/timePicker.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/tooltip.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/utilities.js?v=2.0.4.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise/breakpoint.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/button.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/closable.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/colorPicker.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/datePicker.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dragDrop.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dropdown.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/fileInput.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/filePicker.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/floatingUi.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/inputMask.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/io.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/memoInput.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/modal.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/numericPicker.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/observer.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/rangeSlider.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/table.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/textInput.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/theme.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/timePicker.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/tooltip.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/utilities.js?v=2.0.4.0\" type=\"module\"></script>"
         },
         {
           "code": "AntDesignScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/AntDesignScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.AntDesign/modal.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/tooltip.js?v=2.0.4.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.AntDesign/bar.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/modal.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/segmented.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/tooltip.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/wave.js?v=2.0.4.0\" type=\"module\"></script>"
         },
         {
           "code": "BootstrapScriptsExample",
@@ -8031,6 +8031,12 @@
           "content": "<script src=\"_content/Blazorise.Bulma/modal.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bulma/tooltip.js?v=2.0.4.0\" type=\"module\"></script>"
         },
         {
+          "code": "FluentUI2ScriptsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/FluentUI2ScriptsExample.snippet",
+          "content": "<script src=\"_content/Blazorise.FluentUI2/modal.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.FluentUI2/tooltip.js?v=2.0.4.0\" type=\"module\"></script>"
+        },
+        {
           "code": "TailwindScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/TailwindScriptsExample.snippet",
@@ -8040,13 +8046,37 @@
           "code": "MaterialScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/MaterialScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Material/modal.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Material/tooltip.js?v=2.0.4.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.0.4.0\"></script>\r\n<script src=\"_content/Blazorise.Material/modal.js?v=2.0.4.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Material/tooltip.js?v=2.0.4.0\" type=\"module\"></script>"
+        },
+        {
+          "code": "AnimateScriptsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/AnimateScriptsExample.snippet",
+          "content": "<script src=\"_content/Blazorise.Animate/blazorise.animate.js?v=2.0.4.0\"></script>"
+        },
+        {
+          "code": "CaptchaReCaptchaScriptsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/CaptchaReCaptchaScriptsExample.snippet",
+          "content": "<script src=\"_content/Blazorise.Captcha.ReCaptcha/blazorise.recaptcha.js?v=2.0.4.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsScriptsExample.snippet",
           "content": "<script src=\"_content/Blazorise.Charts/charts.js?v=2.0.4.0\" type=\"module\"></script>"
+        },
+        {
+          "code": "ChartsAnnotationScriptsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/ChartsAnnotationScriptsExample.snippet",
+          "content": "<script src=\"_content/Blazorise.Charts.Annotation/chart.annotation.js?v=2.0.4.0\" type=\"module\"></script>"
+        },
+        {
+          "code": "ChartsDataLabelsScriptsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/ChartsDataLabelsScriptsExample.snippet",
+          "content": "<script src=\"_content/Blazorise.Charts.DataLabels/chart.datalabels.js?v=2.0.4.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsStreamingScriptsExample",
@@ -8061,10 +8091,34 @@
           "content": "<script src=\"_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.0.4.0\" type=\"module\"></script>"
         },
         {
+          "code": "ChartsZoomScriptsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/ChartsZoomScriptsExample.snippet",
+          "content": "<script src=\"_content/Blazorise.Charts.Zoom/chart.zoom.js?v=2.0.4.0\" type=\"module\"></script>"
+        },
+        {
+          "code": "CropperScriptsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/CropperScriptsExample.snippet",
+          "content": "<script src=\"_content/Blazorise.Cropper/blazorise.cropper.js?v=2.0.4.0\" type=\"module\"></script>"
+        },
+        {
           "code": "DatagridScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/DatagridScriptsExample.snippet",
           "content": "<script src=\"_content/Blazorise.DataGrid/datagrid.js?v=2.0.4.0\" type=\"module\"></script>"
+        },
+        {
+          "code": "GanttScriptsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/GanttScriptsExample.snippet",
+          "content": "<script src=\"_content/Blazorise.Gantt/gantt.js?v=2.0.4.0\" type=\"module\"></script>"
+        },
+        {
+          "code": "LottieAnimationScriptsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/LottieAnimationScriptsExample.snippet",
+          "content": "<script src=\"_content/Blazorise.LottieAnimation/lottie-animation.js?v=2.0.4.0\" type=\"module\"></script>"
         },
         {
           "code": "MarkdownScriptsExample",
@@ -8073,10 +8127,40 @@
           "content": "<script src=\"_content/Blazorise.Markdown/markdown.js?v=2.0.4.0\" type=\"module\"></script>"
         },
         {
+          "code": "PdfViewerScriptsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/PdfViewerScriptsExample.snippet",
+          "content": "<script src=\"_content/Blazorise.PdfViewer/pdfviewer.js?v=2.0.4.0\" type=\"module\"></script>"
+        },
+        {
+          "code": "QRCodeScriptsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/QRCodeScriptsExample.snippet",
+          "content": "<script src=\"_content/Blazorise.QRCode/blazorise.qrcode.js?v=2.0.4.0\" type=\"module\"></script>"
+        },
+        {
           "code": "RichTextEditScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/RichTextEditScriptsExample.snippet",
           "content": "<script src=\"_content/Blazorise.RichTextEdit/richtextedit.js?v=2.0.4.0\" type=\"module\"></script>"
+        },
+        {
+          "code": "SchedulerScriptsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/SchedulerScriptsExample.snippet",
+          "content": "<script src=\"_content/Blazorise.Scheduler/scheduler.js?v=2.0.4.0\" type=\"module\"></script>"
+        },
+        {
+          "code": "SignaturePadScriptsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/SignaturePadScriptsExample.snippet",
+          "content": "<script src=\"_content/Blazorise.SignaturePad/signaturepad.js\" type=\"module\"></script>"
+        },
+        {
+          "code": "SplitterScriptsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Examples/SplitterScriptsExample.snippet",
+          "content": "<script src=\"_content/Blazorise.Splitter/blazorise.splitter.js?v=2.0.4.0\" type=\"module\"></script>"
         },
         {
           "code": "VideoScriptsExample",
@@ -8845,7 +8929,7 @@
           "code": "AntDesignGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/AntDesign/Examples/AntDesignGuideSourceFilesExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/antd/4.24.15/antd.min.css\" integrity=\"sha512-Ac6zlwN6S+uQSinFAcV27Gd/TtKEDt7XWXn2xWO4Xi9dTbbpT9/vJb+VT5af6nZywrgBD3qUFTb5y1VN4YD94Q==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.0.4.0\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.0.4.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.AntDesign/antd.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.0.4.0\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.0.4.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -9090,8 +9174,8 @@
           "code": "MaterialGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideSourceFilesExample.snippet",
-          "content": "<!-- In <head> -->\r\n<!-- Optional: Material icons webfont (recommended when using Blazorise.Icons.Material) -->\r\n<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Material/blazorise.material.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n\r\n<!-- Before </body> (before the Blazor framework script) -->\r\n<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.0.4.0\"></script>",
-          "description": "Add these lines inside the head section, and place the script near the end of body before the Blazor script:"
+          "content": "<!-- In <head> -->\r\n<!-- Required when using Blazorise.Icons.Material -->\r\n<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Material/blazorise.material.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n\r\n<!-- Before </body> (before the Blazor framework script) -->\r\n<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.0.4.0\"></script>",
+          "description": "Add the styles inside the head section, and place blazorise.material.js near the end of body before the Blazor script:"
         },
         {
           "code": "MaterialGuideUsingExample",

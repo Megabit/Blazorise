@@ -3866,6 +3866,16 @@ td:focus {
   .is-table-mobile td, .is-table-mobile th {
     /* Behave  like a "row" */
     position: relative;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    inline-size: 100% !important;
+    max-inline-size: none !important;
+    left: auto !important;
+    right: auto !important;
+    inset-inline-start: auto !important;
+    inset-inline-end: auto !important;
+    box-sizing: border-box;
     padding-top: 1.5rem !important;
   }
   .is-table-mobile td:before, .is-table-mobile th:before {
@@ -5279,6 +5289,10 @@ td:focus {
 }
 
 .is-cursor-pointer {
+  cursor: pointer;
+}
+
+.label-pointer {
   cursor: pointer;
 }
 

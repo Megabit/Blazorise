@@ -459,6 +459,11 @@ body:before {
   cursor: pointer;
 }
 
+.form-check-label-pointer,
+.custom-control-label-pointer {
+  cursor: pointer;
+}
+
 .form-control-plaintext.form-control-xs, .form-control-plaintext.form-control-md, .form-control-plaintext.form-control-xl {
   padding-right: 0;
   padding-left: 0;
@@ -2552,6 +2557,16 @@ td:focus {
   .table-mobile td, .table-mobile th {
     /* Behave  like a "row" */
     position: relative;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    inline-size: 100% !important;
+    max-inline-size: none !important;
+    left: auto !important;
+    right: auto !important;
+    inset-inline-start: auto !important;
+    inset-inline-end: auto !important;
+    box-sizing: border-box;
     padding-top: 1.5rem !important;
   }
   .table-mobile td:before, .table-mobile th:before {

@@ -7,8 +7,16 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Quickly install Blazorise with Ant Design, one of the world's most popular Blazor UI framework.
+    Quickly install Blazorise with Ant Design, one of the world's most popular UI frameworks.
 </DocsPageLead>
+
+<DocsPageParagraph>
+    Blazorise AntDesign is a provider for the <Anchor To="https://ant.design/" Target="Target.Blank">Ant Design CSS</Anchor> framework. It includes provider styles, behavior, and Ant Design icons, so you don't need to download third-party Ant Design CSS files manually.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Ant Design is a design system developed by Alibaba. Blazorise Ant Design is an independent Blazor implementation inspired by Ant Design principles.
+</DocsPageParagraph>
 
 <DocsPageParagraph>
     <Alert Color="Color.Info" Visible>
@@ -45,7 +53,7 @@
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    Modify your project's HTML template to include the necessary CSS files. The files you add depend on whether you're working with a WebAssembly or Server project:
+    Modify your project's HTML template to include the necessary CSS files. Blazorise Ant Design ships the Ant Design stylesheet as a package static asset, so reference it from <Code>_content/Blazorise.AntDesign/antd.css</Code> instead of an external Ant Design CDN file. The host file you update depends on whether you're working with a WebAssembly or Server project:
 </DocsPageParagraph>
 
 <DocsPageParagraph>
@@ -68,6 +76,10 @@
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="AntDesignGuideSourceFilesExample" />
 </DocsPageSection>
+
+<DocsPageParagraph>
+    Ant Design provider scripts such as <Code>bar.js</Code>, <Code>segmented.js</Code>, <Code>wave.js</Code>, <Code>modal.js</Code>, and <Code>tooltip.js</Code> are loaded by Blazorise when the related components need them. Add provider scripts manually only when following the <Anchor To="docs/pwa">PWA offline support</Anchor> guidance.
+</DocsPageParagraph>
 
 <Alert Color="Color.Info" Visible>
     <AlertDescription>

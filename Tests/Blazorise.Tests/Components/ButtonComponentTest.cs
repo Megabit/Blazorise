@@ -1,6 +1,9 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using Xunit;
 #endregion
 
@@ -76,5 +79,63 @@ public class ButtonComponentTest : TestContext
         this.JSInterop.VerifyNotInvoke( "initialize" );
         Assert.Equal( "1", result1 );
         Assert.Equal( "2", result2 );
+    }
+
+    [Fact]
+    public void Render_ShouldRefreshDisabledState_When_Command_BecomesExecutable_During_FirstRenderCycle()
+    {
+        // setup
+        var command = new ToggleCommand( canExecute: false );
+
+        // test
+        var comp = RenderComponent<FirstRenderCanExecuteChangedButton>( parameters => parameters
+            .Add( x => x.Command, command )
+            .AddChildContent( "Click" ) );
+
+        // validate
+        comp.WaitForAssertion( () => Assert.False( comp.Instance.Disabled ) );
+        Assert.False( comp.Find( "button" ).HasAttribute( "disabled" ) );
+    }
+
+    private sealed class FirstRenderCanExecuteChangedButton : Button
+    {
+        protected override Task OnFirstAfterRenderAsync()
+        {
+            if ( Command is ToggleCommand command )
+            {
+                command.SetCanExecute( true );
+                command.FireCanExecuteChanged();
+            }
+
+            return Task.CompletedTask;
+        }
+    }
+
+    private sealed class ToggleCommand : ICommand
+    {
+        private bool canExecute;
+
+        public ToggleCommand( bool canExecute )
+        {
+            this.canExecute = canExecute;
+        }
+
+        public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute( object parameter ) => canExecute;
+
+        public void Execute( object parameter )
+        {
+        }
+
+        public void SetCanExecute( bool canExecute )
+        {
+            this.canExecute = canExecute;
+        }
+
+        public void FireCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke( this, EventArgs.Empty );
+        }
     }
 }
