@@ -420,6 +420,8 @@ class AntDesignIconProvider : BaseIconProvider
 
     #region Properties
 
+    public override IconStyle DefaultIconStyle => IconStyle.Regular;
+
     public override bool IconNameAsContent => false;
 
     #endregion

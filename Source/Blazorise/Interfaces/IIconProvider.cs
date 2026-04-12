@@ -46,6 +46,11 @@ public interface IIconProvider
     string GetIconName( string customName );
 
     /// <summary>
+    /// Gets the default icon style when it is not specified by the icon or global options.
+    /// </summary>
+    IconStyle DefaultIconStyle => IconStyle.Solid;
+
+    /// <summary>
     /// Indicates if the classname will be defined as tag content. 
     /// </summary>
     bool IconNameAsContent { get; }
