@@ -64,6 +64,7 @@
     <Project Path="Source/Extensions/Blazorise.Icons.Bootstrap/Blazorise.Icons.Bootstrap.csproj" />
     <Project Path="Source/Extensions/Blazorise.Icons.FluentUI/Blazorise.Icons.FluentUI.csproj" />
     <Project Path="Source/Extensions/Blazorise.Icons.FontAwesome/Blazorise.Icons.FontAwesome.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Icons.Lucide/Blazorise.Icons.Lucide.csproj" />
     <Project Path="Source/Extensions/Blazorise.Icons.Material/Blazorise.Icons.Material.csproj" />
     <Project Path="Source/Extensions/Blazorise.LoadingIndicator/Blazorise.LoadingIndicator.csproj" />
     <Project Path="Source/Extensions/Blazorise.LottieAnimation/Blazorise.LottieAnimation.csproj" />

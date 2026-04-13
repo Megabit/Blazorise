@@ -10952,11 +10952,13 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     }
 }";
 
-        public const string BootstrapIconsCSSExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"">";
+        public const string AntDesignIconsCSSExample = @"<link href=""_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.1.0.0"" rel=""stylesheet"" />";
+
+        public const string BootstrapIconsCSSExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css?v=2.1.0.0"">";
 
         public const string FluentIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.1.0.0"" rel=""stylesheet"" />";
 
-        public const string FontAwesomeCSSExample = @"<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">";
+        public const string FontAwesomeCSSExample = @"<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.1.0.0"" rel=""stylesheet"">";
 
         public const string IconBasicExample = @"<Icon Name=""IconName.Mail"" />";
 
@@ -11005,9 +11007,15 @@ Install-Package Blazorise.Icons.FontAwesome
 
 or
 
+Install-Package Blazorise.Icons.Lucide
+
+or
+
 Install-Package Blazorise.Icons.Material";
 
-        public const string MaterialCSSExample = @"<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css"" rel=""stylesheet"" />";
+        public const string LucideIconsCSSExample = @"<link href=""_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.1.0.0"" rel=""stylesheet"" />";
+
+        public const string MaterialCSSExample = @"<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.1.0.0"" rel=""stylesheet"" />";
 
         public const string RegistrationsExample = @"builder.Services
 	.AddBlazorise()
@@ -13464,11 +13472,11 @@ builder.Services
 
         public const string BulmaGuideNuget1Example = @"Install-Package Blazorise.Bulma";
 
-        public const string BulmaGuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
+        public const string BulmaGuideNuget2Example = @"Install-Package Blazorise.Icons.Lucide";
 
         public const string BulmaGuideRegistrationExample = @"using Blazorise;
 using Blazorise.Bulma;
-using Blazorise.Icons.FontAwesome;
+using Blazorise.Icons.Lucide;
 
 builder.Services
     .AddBlazorise( options =>
@@ -13476,10 +13484,10 @@ builder.Services
         options.Immediate = true;
     } )
     .AddBulmaProviders()
-    .AddFontAwesomeIcons();";
+    .AddLucideIcons();";
 
         public const string BulmaGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"" />
-<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
+<link href=""_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.1.0.0"" rel=""stylesheet"" />
 
 <link href=""_content/Blazorise/blazorise.css?v=2.1.0.0"" rel=""stylesheet"" />
 <link href=""_content/Blazorise.Bulma/blazorise.bulma.css?v=2.1.0.0"" rel=""stylesheet"" />";

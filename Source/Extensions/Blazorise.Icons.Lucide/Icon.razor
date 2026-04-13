@@ -1,0 +1,7 @@
+@inherits Blazorise.Icon
+@inject LucideIconProvider LucideIconProvider
+@using Microsoft.AspNetCore.Components
+
+<span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler" @onmouseover="@OnMouseOverHandler" @onmouseout="@OnMouseOutHandler" @attributes="@Attributes">
+    @((MarkupString)LucideIconProvider.GetSvg( Name, GetIconStyle() ))
+</span>

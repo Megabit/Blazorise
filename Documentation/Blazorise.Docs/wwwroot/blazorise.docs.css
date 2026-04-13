@@ -557,7 +557,7 @@ body[data-bs-theme=dark] .home-customer-feedback-customer-cards:hover {
   background-color: #212529;
   border-radius: 0.25rem;
 }
-.b-docs-page .b-docs-example-blazorise-icon span {
+.b-docs-page .b-docs-example-blazorise-icon > span {
   width: 150px;
   overflow-wrap: break-word;
 }
