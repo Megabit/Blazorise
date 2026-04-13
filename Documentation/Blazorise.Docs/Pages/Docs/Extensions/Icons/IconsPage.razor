@@ -120,18 +120,90 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Style">
-        By default all icons will have Solid style. To change it you can use one of the supported styles:
+        Blazorise exposes common icon styles through <Code>IconStyle</Code>. To change it you can use one of the supported styles:
         <UnorderedList>
             <UnorderedListItem>Solid</UnorderedListItem>
             <UnorderedListItem>Regular</UnorderedListItem>
             <UnorderedListItem>Light</UnorderedListItem>
             <UnorderedListItem>DuoTone</UnorderedListItem>
         </UnorderedList>
+
+        Not all icon providers support all styles. If a style is not supported by the selected provider, it can fall back to the provider default or render the same base icon.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <IconStyleExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="IconStyleExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Style support">
+        The table below compares how the built-in icon providers handle <Code>IconStyle</Code> values.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <Table>
+            <TableHeader ThemeContrast="ThemeContrast.Light">
+                <TableRow>
+                    <TableHeaderCell>Provider</TableHeaderCell>
+                    <TableHeaderCell>Solid</TableHeaderCell>
+                    <TableHeaderCell>Regular</TableHeaderCell>
+                    <TableHeaderCell>Light</TableHeaderCell>
+                    <TableHeaderCell>DuoTone</TableHeaderCell>
+                    <TableHeaderCell>Notes</TableHeaderCell>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                <TableRow>
+                    <TableRowCell>AntDesign</TableRowCell>
+                    <TableRowCell>Filled</TableRowCell>
+                    <TableRowCell>Outlined</TableRowCell>
+                    <TableRowCell>Outlined fallback</TableRowCell>
+                    <TableRowCell>TwoTone</TableRowCell>
+                    <TableRowCell>Uses AntDesign icon themes.</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowCell>Bootstrap Icons</TableRowCell>
+                    <TableRowCell>Same icon</TableRowCell>
+                    <TableRowCell>Same icon</TableRowCell>
+                    <TableRowCell>Same icon</TableRowCell>
+                    <TableRowCell>Same icon</TableRowCell>
+                    <TableRowCell><Code>IconStyle</Code> is ignored by the provider.</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowCell>Fluent UI</TableRowCell>
+                    <TableRowCell>Filled</TableRowCell>
+                    <TableRowCell>Regular</TableRowCell>
+                    <TableRowCell>Regular fallback</TableRowCell>
+                    <TableRowCell>Regular fallback</TableRowCell>
+                    <TableRowCell>Predefined icons switch between regular and filled variants.</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowCell>Font Awesome</TableRowCell>
+                    <TableRowCell>Supported</TableRowCell>
+                    <TableRowCell>Supported</TableRowCell>
+                    <TableRowCell>Requires matching Font Awesome assets</TableRowCell>
+                    <TableRowCell>Requires matching Font Awesome assets</TableRowCell>
+                    <TableRowCell>Support depends on the Font Awesome CSS and font files loaded by the app.</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowCell>Material Icons</TableRowCell>
+                    <TableRowCell>Filled</TableRowCell>
+                    <TableRowCell>Outlined</TableRowCell>
+                    <TableRowCell>Sharp</TableRowCell>
+                    <TableRowCell>Two Tone</TableRowCell>
+                    <TableRowCell>Maps Blazorise styles to Material icon font families.</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowCell>Lucide</TableRowCell>
+                    <TableRowCell>Same icon</TableRowCell>
+                    <TableRowCell>Default</TableRowCell>
+                    <TableRowCell>Same icon</TableRowCell>
+                    <TableRowCell>Same icon</TableRowCell>
+                    <TableRowCell>Lucide is a single outline SVG icon set.</TableRowCell>
+                </TableRow>
+            </TableBody>
+        </Table>
+    </DocsPageSectionContent>
 </DocsPageSection>
 
 <DocsPageSection>

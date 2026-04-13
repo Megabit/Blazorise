@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-04-13T12:15:40.9093938Z",
+  "generatedUtc": "2026-04-13T14:28:33.0446300Z",
   "pages": [
     {
       "route": "/docs",
@@ -5731,7 +5731,7 @@
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/IconStyleExample.razor",
           "content": "<Icon Name=\"IconName.Mail\" IconStyle=\"IconStyle.Regular\" />",
           "title": "Style",
-          "description": "By default all icons will have Solid style. To change it you can use one of the supported styles: Solid Regular Light DuoTone"
+          "description": "Blazorise exposes common icon styles through IconStyle . To change it you can use one of the supported styles: Solid Regular Light DuoTone Not all icon providers support all styles. If a style is not supported by the selected provider, it can fall back to the provider default or render the same base icon."
         },
         {
           "code": "IconSizeExample",
