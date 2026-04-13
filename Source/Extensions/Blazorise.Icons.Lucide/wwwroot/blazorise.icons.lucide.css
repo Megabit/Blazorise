@@ -1,0 +1,67 @@
+.lucide {
+    display: inline-block;
+    line-height: 0;
+    vertical-align: -0.125em;
+}
+
+    .lucide > svg {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        fill: none;
+        stroke: currentColor;
+    }
+
+.lucide-xs {
+    font-size: .75em;
+}
+
+.lucide-sm {
+    font-size: .875em;
+}
+
+.lucide-lg {
+    font-size: 1.33333em;
+    line-height: .75em;
+    vertical-align: -.0667em;
+}
+
+.lucide-1x {
+    font-size: 1em;
+}
+
+.lucide-2x {
+    font-size: 2em;
+}
+
+.lucide-3x {
+    font-size: 3em;
+}
+
+.lucide-4x {
+    font-size: 4em;
+}
+
+.lucide-5x {
+    font-size: 5em;
+}
+
+.lucide-6x {
+    font-size: 6em;
+}
+
+.lucide-7x {
+    font-size: 7em;
+}
+
+.lucide-8x {
+    font-size: 8em;
+}
+
+.lucide-9x {
+    font-size: 9em;
+}
+
+.lucide-10x {
+    font-size: 10em;
+}
