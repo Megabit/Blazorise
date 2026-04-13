@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-04-13T09:41:17.7984364Z",
+  "generatedUtc": "2026-04-13T12:15:40.9093938Z",
   "pages": [
     {
       "route": "/docs",
@@ -5641,15 +5641,23 @@
           "code": "IconsNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/IconsNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Icons.Bootstrap\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.AntDesign\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.FluentUI\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.FontAwesome\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.Material",
+          "content": "Install-Package Blazorise.Icons.Bootstrap\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.AntDesign\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.FluentUI\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.FontAwesome\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.Lucide\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.Material",
           "title": "NuGet",
           "description": "Install extension from NuGet."
+        },
+        {
+          "code": "AntDesignIconsCSSExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/Icons/Examples/AntDesignIconsCSSExample.snippet",
+          "content": "<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.1.0.0\" rel=\"stylesheet\" />",
+          "title": "AntDesign Icons CSS",
+          "description": "Note: If you use AntDesign icons, define blazorise.icons.antdesign.css in your index.html or _Layout.cshtml / _Host.cshtml file."
         },
         {
           "code": "BootstrapIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/BootstrapIconsCSSExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css\">",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css?v=2.1.0.0\">",
           "title": "Bootstrap Icons CSS",
           "description": "Note: If you use Bootstrap icons, define bootstrap-icons.min.css in your index.html or _Layout.cshtml / _Host.cshtml file. This file is required for some custom icon styles to work."
         },
@@ -5665,7 +5673,7 @@
           "code": "FontAwesomeCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FontAwesomeCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">",
+          "content": "<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.1.0.0\" rel=\"stylesheet\">",
           "title": "Font Awesome Icons CSS",
           "description": "Include CSS link into your index.html or _Layout.cshtml / _Host.cshtml file, depending if you're using a Blazor WebAssembly or Blazor Server side project."
         },
@@ -5673,16 +5681,25 @@
           "code": "MaterialCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/MaterialCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.1.0.0\" rel=\"stylesheet\" />",
           "title": "Material Icons CSS",
           "description": "Note: If you use Material icons, define blazorise.icons.material.css in your index.html or _Layout.cshtml / _Host.cshtml file. This file is required for some custom icon styles to work."
+        },
+        {
+          "code": "LucideIconsCSSExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/Icons/Examples/LucideIconsCSSExample.snippet",
+          "content": "<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.1.0.0\" rel=\"stylesheet\" />",
+          "title": "Lucide Icons CSS",
+          "description": "Note: If you use Lucide icons, define blazorise.icons.lucide.css in your index.html or _Layout.cshtml / _Host.cshtml file."
         },
         {
           "code": "RegistrationsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/RegistrationsExample.snippet",
           "content": "builder.Services\r\n\t.AddBlazorise()\r\n\t.AddBootstrapProviders()\r\n+   .AddFontAwesomeIcons();",
-          "title": "Registrations"
+          "title": "Registrations",
+          "description": "Register the icon provider that matches the package you installed, such as AddFontAwesomeIcons or AddLucideIcons ."
         },
         {
           "code": "IconBasicExample",
@@ -5706,7 +5723,7 @@
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/IconNamesExample.razor",
           "content": "<Icon Name=\"Blazorise.Icons.FontAwesome.FontAwesomeIcons.Voicemail\" />",
           "title": "Icon Names",
-          "description": "Preferred way to define icon is to use an enum IconName . That way every icon will be applied automatically based on the icon package that you're using. In case you cannot find an icon in the provided enum, you can also use prebuilt list of icon names that comes with every icon package. For example for Ant Design you would use AntDesignIcons , for font-awesome you would use FontAwesomeIcons , while for material that would be MaterialIcons ."
+          "description": "Preferred way to define icon is to use an enum IconName . That way every icon will be applied automatically based on the icon package that you're using. In case you cannot find an icon in the provided enum, you can also use prebuilt list of icon names that comes with every icon package. For example for Ant Design you would use AntDesignIcons , for font-awesome you would use FontAwesomeIcons , for material that would be MaterialIcons , while for Lucide that would be LucideIcons ."
         },
         {
           "code": "IconStyleExample",
@@ -9037,7 +9054,7 @@
     {
       "route": "/docs/usage/bulma",
       "title": "Blazorise Bulma Usage",
-      "description": "Learn all the steps on how to quickly install and setup Blazorise for Bulma CSS framework and FontAwesome icons.",
+      "description": "Learn all the steps on how to quickly install and setup Blazorise for Bulma CSS framework and Lucide icons.",
       "pagePath": "Pages/Docs/Guides/Bulma/BulmaGuidePage.razor",
       "examples": [
         {
@@ -9051,14 +9068,14 @@
           "code": "BulmaGuideNuget2Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bulma/Examples/BulmaGuideNuget2Example.snippet",
-          "content": "Install-Package Blazorise.Icons.FontAwesome",
+          "content": "Install-Package Blazorise.Icons.Lucide",
           "description": "You also need to install the icon package:"
         },
         {
           "code": "BulmaGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bulma/Examples/BulmaGuideSourceFilesExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bulma/blazorise.bulma.css?v=2.1.0.0\" rel=\"stylesheet\" />",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css\" />\r\n<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.1.0.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bulma/blazorise.bulma.css?v=2.1.0.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -9072,7 +9089,7 @@
           "code": "BulmaGuideRegistrationExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bulma/Examples/BulmaGuideRegistrationExample.snippet",
-          "content": "using Blazorise;\r\nusing Blazorise.Bulma;\r\nusing Blazorise.Icons.FontAwesome;\r\n\r\nbuilder.Services\r\n    .AddBlazorise( options =>\r\n    {\r\n        options.Immediate = true;\r\n    } )\r\n    .AddBulmaProviders()\r\n    .AddFontAwesomeIcons();",
+          "content": "using Blazorise;\r\nusing Blazorise.Bulma;\r\nusing Blazorise.Icons.Lucide;\r\n\r\nbuilder.Services\r\n    .AddBlazorise( options =>\r\n    {\r\n        options.Immediate = true;\r\n    } )\r\n    .AddBulmaProviders()\r\n    .AddLucideIcons();",
           "description": "Add the following lines to the relevant sections of Program.cs ."
         }
       ]

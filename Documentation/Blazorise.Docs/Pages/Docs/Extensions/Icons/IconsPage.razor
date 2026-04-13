@@ -38,6 +38,13 @@
 </DocsPageParagraph>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="AntDesign Icons CSS">
+        Note: If you use AntDesign icons, define <Code>blazorise.icons.antdesign.css</Code> in your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="AntDesignIconsCSSExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Bootstrap Icons CSS">
         Note: If you use Bootstrap icons, define <Code>bootstrap-icons.min.css</Code> in your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file. This file is required for some custom icon styles to work.
     </DocsPageSectionHeader>
@@ -66,7 +73,16 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Registrations" />
+    <DocsPageSectionHeader Title="Lucide Icons CSS">
+        Note: If you use Lucide icons, define <Code>blazorise.icons.lucide.css</Code> in your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="LucideIconsCSSExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Registrations">
+        Register the icon provider that matches the package you installed, such as <Code>AddFontAwesomeIcons</Code> or <Code>AddLucideIcons</Code>.
+    </DocsPageSectionHeader>
     <DocsPageSectionSource Code="RegistrationsExample" />
 </DocsPageSection>
 
@@ -94,7 +110,7 @@
     <DocsPageSectionHeader Title="Icon Names">
         Preferred way to define icon is to use an enum <Code>IconName</Code>. That way every icon will be applied automatically based on the icon package that you're using.
 
-        In case you cannot find an icon in the provided enum, you can also use prebuilt list of icon names that comes with every icon package. For example for Ant Design you would use <Code>AntDesignIcons</Code>, for font-awesome you would use <Code>FontAwesomeIcons</Code>, while for material that would be <Code>MaterialIcons</Code>.
+        In case you cannot find an icon in the provided enum, you can also use prebuilt list of icon names that comes with every icon package. For example for Ant Design you would use <Code>AntDesignIcons</Code>, for font-awesome you would use <Code>FontAwesomeIcons</Code>, for material that would be <Code>MaterialIcons</Code>, while for Lucide that would be <Code>LucideIcons</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <IconNamesExample />

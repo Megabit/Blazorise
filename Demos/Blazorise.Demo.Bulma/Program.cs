@@ -1,7 +1,7 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Bulma;
-using Blazorise.Icons.FontAwesome;
+using Blazorise.Icons.Lucide;
 using Blazorise.RichTextEdit;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +18,7 @@ public class Program
         builder.Services
             .SetupDemoServices( builder.Configuration["Licensing:ProductToken"], builder.Configuration["ReCaptchaSiteKey"] )
             .AddBulmaProviders()
-            .AddFontAwesomeIcons();
+            .AddLucideIcons();
 
         builder.RootComponents.Add<App>( "#app" );
         var host = builder.Build();
