@@ -76,6 +76,10 @@
 
     &-secondary.ant-btn-variant-solid {
         @include ant-btn-solid-vars(var(--b-theme-secondary, var(--ant-color-text-secondary)), var(--ant-color-text-light-solid));
+        --ant-btn-border-color: transparent;
+        --ant-btn-border-color-hover: transparent;
+        --ant-btn-border-color-active: transparent;
+        --ant-btn-compact-connect-border-color: transparent;
     }
 
     &-success.ant-btn-variant-solid {
@@ -145,6 +149,12 @@
     position: relative;
     display: inline-flex;
     vertical-align: middle;
+
+    > .ant-btn-secondary.ant-btn-variant-solid:not(:first-child),
+    > span:not(:first-child):has(> .ant-btn-secondary.ant-btn-variant-solid),
+    > .b-ant-dropdown:not(:first-child):has(> .ant-btn-secondary.ant-btn-variant-solid) {
+        margin-inline-start: 0;
+    }
 
     > .ant-btn {
         position: relative;

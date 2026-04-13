@@ -2979,6 +2979,10 @@ template {
   --ant-btn-bg-color-active: color-mix(in srgb, var(--b-theme-secondary, var(--ant-color-text-secondary)) 85%, black);
   --ant-btn-bg-color-disabled: var(--ant-color-bg-container-disabled);
   box-shadow: var(--ant-btn-shadow);
+  --ant-btn-border-color: transparent;
+  --ant-btn-border-color-hover: transparent;
+  --ant-btn-border-color-active: transparent;
+  --ant-btn-compact-connect-border-color: transparent;
 }
 .ant-btn-success.ant-btn-variant-solid {
   --ant-btn-color-base: var(--b-theme-success, var(--ant-color-success));
@@ -3271,6 +3275,14 @@ template {
   position: relative;
   display: inline-flex;
   vertical-align: middle;
+}
+.ant-btn-group > .ant-btn-secondary.ant-btn-variant-solid:not(:first-child),
+.ant-btn-group > span:not(:first-child):has(> .ant-btn-secondary.ant-btn-variant-solid),
+.ant-btn-group > .b-ant-dropdown:not(:first-child):has(> .ant-btn-secondary.ant-btn-variant-solid),
+.ant-btn-group-vertical > .ant-btn-secondary.ant-btn-variant-solid:not(:first-child),
+.ant-btn-group-vertical > span:not(:first-child):has(> .ant-btn-secondary.ant-btn-variant-solid),
+.ant-btn-group-vertical > .b-ant-dropdown:not(:first-child):has(> .ant-btn-secondary.ant-btn-variant-solid) {
+  margin-inline-start: 0;
 }
 .ant-btn-group > .ant-btn,
 .ant-btn-group-vertical > .ant-btn {
