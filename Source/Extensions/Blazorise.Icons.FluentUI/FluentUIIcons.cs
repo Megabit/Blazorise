@@ -922,6 +922,8 @@ public static class FluentUIIcons
     public const string CallAddFilled = "icon-ic_fluent_call_add_20_filled";
     public const string CallCheckmark = "icon-ic_fluent_call_checkmark_20_regular";
     public const string CallCheckmarkFilled = "icon-ic_fluent_call_checkmark_20_filled";
+    public const string CallChevronDown = "icon-ic_fluent_call_chevron_down_20_regular";
+    public const string CallChevronDownFilled = "icon-ic_fluent_call_chevron_down_20_filled";
     public const string CallConnecting = "icon-ic_fluent_call_connecting_20_regular";
     public const string CallConnectingFilled = "icon-ic_fluent_call_connecting_20_filled";
     public const string CallDismiss = "icon-ic_fluent_call_dismiss_20_regular";
@@ -1708,6 +1710,10 @@ public static class FluentUIIcons
     public const string DeviceMeetingRoomBar = "icon-ic_fluent_device_meeting_room_bar_20_regular";
     public const string DeviceMeetingRoomBarFilled = "icon-ic_fluent_device_meeting_room_bar_20_filled";
     public const string DeviceMeetingRoomFilled = "icon-ic_fluent_device_meeting_room_20_filled";
+    public const string DeviceMeetingRoomMicrophoneAbove = "icon-ic_fluent_device_meeting_room_microphone_above_20_regular";
+    public const string DeviceMeetingRoomMicrophoneAboveFilled = "icon-ic_fluent_device_meeting_room_microphone_above_20_filled";
+    public const string DeviceMeetingRoomMicrophoneBelow = "icon-ic_fluent_device_meeting_room_microphone_below_20_regular";
+    public const string DeviceMeetingRoomMicrophoneBelowFilled = "icon-ic_fluent_device_meeting_room_microphone_below_20_filled";
     public const string DeviceMeetingRoomRemote = "icon-ic_fluent_device_meeting_room_remote_20_regular";
     public const string DeviceMeetingRoomRemoteFilled = "icon-ic_fluent_device_meeting_room_remote_20_filled";
     public const string Diagram = "icon-ic_fluent_diagram_20_regular";
@@ -2144,6 +2150,8 @@ public static class FluentUIIcons
     public const string EraserToolFilled = "icon-ic_fluent_eraser_tool_20_filled";
     public const string ErrorCircle = "icon-ic_fluent_error_circle_20_regular";
     public const string ErrorCircleFilled = "icon-ic_fluent_error_circle_20_filled";
+    public const string ErrorCircleHint = "icon-ic_fluent_error_circle_hint_20_regular";
+    public const string ErrorCircleHintFilled = "icon-ic_fluent_error_circle_hint_20_filled";
     public const string ErrorCircleSettings = "icon-ic_fluent_error_circle_settings_20_regular";
     public const string ErrorCircleSettingsFilled = "icon-ic_fluent_error_circle_settings_20_filled";
     public const string ExpandUpLeft = "icon-ic_fluent_expand_up_left_20_regular";
@@ -2503,7 +2511,11 @@ public static class FluentUIIcons
     public const string HdrOff = "icon-ic_fluent_hdr_off_20_regular";
     public const string HdrOffFilled = "icon-ic_fluent_hdr_off_20_filled";
     public const string Headphones = "icon-ic_fluent_headphones_20_regular";
+    public const string HeadphonesConvertible = "icon-ic_fluent_headphones_convertible_20_regular";
+    public const string HeadphonesConvertibleFilled = "icon-ic_fluent_headphones_convertible_20_filled";
     public const string HeadphonesFilled = "icon-ic_fluent_headphones_20_filled";
+    public const string HeadphonesMonoaural = "icon-ic_fluent_headphones_monoaural_20_regular";
+    public const string HeadphonesMonoauralFilled = "icon-ic_fluent_headphones_monoaural_20_filled";
     public const string HeadphonesSoundWave = "icon-ic_fluent_headphones_sound_wave_20_regular";
     public const string HeadphonesSoundWaveFilled = "icon-ic_fluent_headphones_sound_wave_20_filled";
     public const string Headset = "icon-ic_fluent_headset_20_regular";
@@ -2815,6 +2827,8 @@ public static class FluentUIIcons
     public const string LightbulbFilled = "icon-ic_fluent_lightbulb_20_filled";
     public const string LightbulbPerson = "icon-ic_fluent_lightbulb_person_20_regular";
     public const string LightbulbPersonFilled = "icon-ic_fluent_lightbulb_person_20_filled";
+    public const string LightbulbPulse = "icon-ic_fluent_lightbulb_pulse_20_regular";
+    public const string LightbulbPulseFilled = "icon-ic_fluent_lightbulb_pulse_20_filled";
     public const string Likert = "icon-ic_fluent_likert_20_regular";
     public const string LikertFilled = "icon-ic_fluent_likert_20_filled";
     public const string Line = "icon-ic_fluent_line_20_regular";
@@ -3073,6 +3087,8 @@ public static class FluentUIIcons
     public const string MicPulseOffFilled = "icon-ic_fluent_mic_pulse_off_20_filled";
     public const string MicRecord = "icon-ic_fluent_mic_record_20_regular";
     public const string MicRecordFilled = "icon-ic_fluent_mic_record_20_filled";
+    public const string MicrophoneChat = "icon-ic_fluent_microphone_chat_20_regular";
+    public const string MicrophoneChatFilled = "icon-ic_fluent_microphone_chat_20_filled";
     public const string Microscope = "icon-ic_fluent_microscope_20_regular";
     public const string MicroscopeFilled = "icon-ic_fluent_microscope_20_filled";
     public const string Microwave = "icon-ic_fluent_microwave_20_regular";
@@ -5332,6 +5348,8 @@ public static class FluentUIIcons
     public const string ViewDesktopFilled = "icon-ic_fluent_view_desktop_20_filled";
     public const string ViewDesktopMobile = "icon-ic_fluent_view_desktop_mobile_20_regular";
     public const string ViewDesktopMobileFilled = "icon-ic_fluent_view_desktop_mobile_20_filled";
+    public const string Vip = "icon-ic_fluent_vip_20_regular";
+    public const string VipFilled = "icon-ic_fluent_vip_20_filled";
     public const string VirtualNetwork = "icon-ic_fluent_virtual_network_20_regular";
     public const string VirtualNetworkFilled = "icon-ic_fluent_virtual_network_20_filled";
     public const string VirtualNetworkToolbox = "icon-ic_fluent_virtual_network_toolbox_20_regular";
