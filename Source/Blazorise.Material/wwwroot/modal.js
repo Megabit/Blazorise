@@ -1,5 +1,5 @@
-import { addClassToBody, removeClassFromBody } from "../Blazorise/utilities.js?v=2.0.4.0";
-import { registerModalDisconnectCleanup, scrollModalBodyToTop, unregisterModalDisconnectCleanup } from "../Blazorise/modal.js?v=2.0.4.0";
+import { addClassToBody, removeClassFromBody } from "../Blazorise/utilities.js?v=2.1.0.0";
+import { registerModalDisconnectCleanup, scrollModalBodyToTop, unregisterModalDisconnectCleanup } from "../Blazorise/modal.js?v=2.1.0.0";
 
 let closeCleanupTimeoutId = null;
 
