@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
@@ -34,6 +35,11 @@ public class ComponentActivator : IComponentActivator
     /// <returns>Return the newly created component or raises an exception if the specified typo is invalid.</returns>
     public IComponent CreateInstance( Type componentType )
     {
+        if ( TryCreateMappedInstance( componentType, out IComponent mappedComponent ) )
+        {
+            return mappedComponent;
+        }
+
         var instance = ServiceProvider.GetService( componentType );
 
         if ( instance is null )
@@ -47,6 +53,43 @@ public class ComponentActivator : IComponentActivator
         }
 
         return component;
+    }
+
+    private bool TryCreateMappedInstance( Type componentType, out IComponent component )
+    {
+        component = null;
+
+        if ( RuntimeFeature.IsDynamicCodeSupported
+             || !componentType.IsConstructedGenericType
+             || !ContainsValueTypeGenericArgument( componentType )
+             || !GeneratedComponentMappingRegistry.TryResolve( componentType, out Type mappedType ) )
+        {
+            return false;
+        }
+
+        object instance = ActivatorUtilities.CreateInstance( ServiceProvider, mappedType );
+
+        if ( instance is not IComponent resolvedComponent )
+        {
+            throw new ArgumentException( $"The type {mappedType.FullName} does not implement {nameof( IComponent )}.", nameof( componentType ) );
+        }
+
+        component = resolvedComponent;
+
+        return true;
+    }
+
+    private static bool ContainsValueTypeGenericArgument( Type componentType )
+    {
+        foreach ( Type genericArgument in componentType.GetGenericArguments() )
+        {
+            if ( genericArgument.IsValueType )
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     #endregion

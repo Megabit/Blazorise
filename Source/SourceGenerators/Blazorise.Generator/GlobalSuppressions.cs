@@ -6,3 +6,5 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage( "MicrosoftCodeAnalysisCorrectness", "RS1036:Specify analyzer banned API enforcement setting", Justification = "Not used for now.", Scope = "type", Target = "~T:Blazorise.Generator.EqualitySourceGenerator" )]
+[assembly: SuppressMessage( "MicrosoftCodeAnalysisCorrectness", "RS1036:Specify analyzer banned API enforcement setting", Justification = "Not used for now.", Scope = "type", Target = "~T:Blazorise.Generator.AotComponentMappingSourceGenerator" )]
+[assembly: SuppressMessage( "MicrosoftCodeAnalysisCorrectness", "RS1036:Specify analyzer banned API enforcement setting", Justification = "Not used for now.", Scope = "type", Target = "~T:Blazorise.Generator.ProviderComponentMappingAttributeSourceGenerator" )]
