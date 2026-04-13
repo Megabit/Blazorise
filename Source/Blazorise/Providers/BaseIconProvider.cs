@@ -71,6 +71,9 @@ public abstract class BaseIconProvider : IIconProvider
 
     #region Properties
 
+    /// <inheritdoc/>
+    public virtual IconStyle DefaultIconStyle => IconStyle.Solid;
+
     /// <summary>
     /// True if icon name should be placed as en element content.
     /// </summary>

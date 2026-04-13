@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-04-11T16:46:03.5843713Z",
+  "generatedUtc": "2026-04-11T20:59:22.6204767Z",
   "pages": [
     {
       "route": "/docs",
@@ -5641,7 +5641,7 @@
           "code": "IconsNugetInstallExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/IconsNugetInstallExample.snippet",
-          "content": "Install-Package Blazorise.Icons.Bootstrap\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.FluentUI\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.FontAwesome\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.Material",
+          "content": "Install-Package Blazorise.Icons.Bootstrap\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.AntDesign\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.FluentUI\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.FontAwesome\r\n\r\nor\r\n\r\nInstall-Package Blazorise.Icons.Material",
           "title": "NuGet",
           "description": "Install extension from NuGet."
         },
@@ -5706,7 +5706,7 @@
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/IconNamesExample.razor",
           "content": "<Icon Name=\"Blazorise.Icons.FontAwesome.FontAwesomeIcons.Voicemail\" />",
           "title": "Icon Names",
-          "description": "Preferred way to define icon is to use an enum IconName . That way every icon will be applied automatically based on the icon package that you're using. In case you cannot find an icon in the provided enum, you can also use prebuilt list of icon names that comes with every icon package. For example for font-awesome you would use FontAwesomeIcons , while for material that would be MaterialIcons ."
+          "description": "Preferred way to define icon is to use an enum IconName . That way every icon will be applied automatically based on the icon package that you're using. In case you cannot find an icon in the provided enum, you can also use prebuilt list of icon names that comes with every icon package. For example for Ant Design you would use AntDesignIcons , for font-awesome you would use FontAwesomeIcons , while for material that would be MaterialIcons ."
         },
         {
           "code": "IconStyleExample",
@@ -8908,7 +8908,7 @@
     {
       "route": "/docs/usage/ant-design",
       "title": "Blazorise AntDesign Usage",
-      "description": "Learn all the steps on how to quickly install and setup Blazorise for AntDesign CSS framework and FontAwesome icons.",
+      "description": "Learn all the steps on how to quickly install and setup Blazorise for AntDesign CSS framework and Ant Design icons.",
       "pagePath": "Pages/Docs/Guides/AntDesign/AntDesignGuidePage.razor",
       "examples": [
         {
@@ -8922,14 +8922,14 @@
           "code": "AntDesignGuideNuget2Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/AntDesign/Examples/AntDesignGuideNuget2Example.snippet",
-          "content": "Install-Package Blazorise.Icons.FontAwesome",
+          "content": "Install-Package Blazorise.Icons.AntDesign",
           "description": "You also need to install the icon package:"
         },
         {
           "code": "AntDesignGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/AntDesign/Examples/AntDesignGuideSourceFilesExample.snippet",
-          "content": "<link href=\"_content/Blazorise.AntDesign/antd.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.0.4.0\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.0.4.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.AntDesign/antd.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.0.4.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.0.4.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -8943,7 +8943,7 @@
           "code": "AntDesignGuideRegistrationExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/AntDesign/Examples/AntDesignGuideRegistrationExample.snippet",
-          "content": "using Blazorise;\r\nusing Blazorise.AntDesign;\r\nusing Blazorise.Icons.FontAwesome;\r\n\r\nbuilder.Services\r\n    .AddBlazorise( options =>\r\n    {\r\n        options.Immediate = true;\r\n    } )\r\n    .AddAntDesignProviders()\r\n    .AddFontAwesomeIcons();",
+          "content": "using Blazorise;\r\nusing Blazorise.AntDesign;\r\nusing Blazorise.Icons.AntDesign;\r\n\r\nbuilder.Services\r\n    .AddBlazorise( options =>\r\n    {\r\n        options.Immediate = true;\r\n    } )\r\n    .AddAntDesignProviders()\r\n    .AddAntDesignIcons();",
           "description": "Add the following lines to the relevant sections of Program.cs ."
         }
       ]

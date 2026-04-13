@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <Import Project="..\..\..\Build\Blazorise.props" />
+
+  <PropertyGroup>
+    <PackageTags>blazorise blazor components icons antdesign ant-design</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
+  </ItemGroup>
+
+</Project>

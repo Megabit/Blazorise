@@ -69,7 +69,7 @@ public partial class Icon : BaseComponent
     /// Get the icon style based on the current settings.
     /// </summary>
     /// <returns>Icon style.</returns>
-    protected IconStyle GetIconStyle() => IconStyle ?? Options.IconStyle ?? Blazorise.IconStyle.Solid;
+    protected IconStyle GetIconStyle() => IconStyle ?? Options.IconStyle ?? IconProvider.DefaultIconStyle;
 
     /// <summary>
     /// Get the icon size based on the current settings.

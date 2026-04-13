@@ -10993,6 +10993,10 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
 or
 
+Install-Package Blazorise.Icons.AntDesign
+
+or
+
 Install-Package Blazorise.Icons.FluentUI
 
 or
@@ -13388,11 +13392,11 @@ builder.Services
 
         public const string AntDesignGuideNuget1Example = @"Install-Package Blazorise.AntDesign";
 
-        public const string AntDesignGuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
+        public const string AntDesignGuideNuget2Example = @"Install-Package Blazorise.Icons.AntDesign";
 
         public const string AntDesignGuideRegistrationExample = @"using Blazorise;
 using Blazorise.AntDesign;
-using Blazorise.Icons.FontAwesome;
+using Blazorise.Icons.AntDesign;
 
 builder.Services
     .AddBlazorise( options =>
@@ -13400,10 +13404,10 @@ builder.Services
         options.Immediate = true;
     } )
     .AddAntDesignProviders()
-    .AddFontAwesomeIcons();";
+    .AddAntDesignIcons();";
 
         public const string AntDesignGuideSourceFilesExample = @"<link href=""_content/Blazorise.AntDesign/antd.css?v=2.0.4.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.0.4.0"" rel=""stylesheet"">
+<link href=""_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.0.4.0"" rel=""stylesheet"" />
 
 <link href=""_content/Blazorise/blazorise.css?v=2.0.4.0"" rel=""stylesheet"" />
 <link href=""_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.0.4.0"" rel=""stylesheet"" />";

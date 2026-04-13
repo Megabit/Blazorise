@@ -60,6 +60,7 @@
     <Project Path="Source/Extensions/Blazorise.DataGrid/Blazorise.DataGrid.csproj" />
     <Project Path="Source/Extensions/Blazorise.FluentValidation/Blazorise.FluentValidation.csproj" />
     <Project Path="Source/Extensions/Blazorise.Gantt/Blazorise.Gantt.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Icons.AntDesign/Blazorise.Icons.AntDesign.csproj" />
     <Project Path="Source/Extensions/Blazorise.Icons.Bootstrap/Blazorise.Icons.Bootstrap.csproj" />
     <Project Path="Source/Extensions/Blazorise.Icons.FluentUI/Blazorise.Icons.FluentUI.csproj" />
     <Project Path="Source/Extensions/Blazorise.Icons.FontAwesome/Blazorise.Icons.FontAwesome.csproj" />
