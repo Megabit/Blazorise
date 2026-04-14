@@ -225,13 +225,19 @@ function createMarkerLayer(instance, layer) {
     const group = globalThis.L.layerGroup();
 
     for (const markerOptions of layer.markers || []) {
-        const marker = globalThis.L.marker(toLatLng(markerOptions.position), {
+        const options = {
             title: markerOptions.title,
             draggable: markerOptions.draggable,
-            icon: toMarkerIcon(markerOptions.icon),
             interactive: layer.interactive,
             opacity: layer.opacity ?? 1,
-        });
+        };
+
+        const icon = toMarkerIcon(markerOptions.icon);
+
+        if (icon)
+            options.icon = icon;
+
+        const marker = globalThis.L.marker(toLatLng(markerOptions.position), options);
 
         if (markerOptions.tooltipText)
             marker.bindTooltip(markerOptions.tooltipText);
@@ -416,14 +422,17 @@ function toLatLngBounds(bounds) {
 }
 
 function ensureLeaflet(version) {
-    if (globalThis.L?.map)
+    const assetVersion = version || "2.1.0.0";
+
+    if (globalThis.L?.map) {
+        configureLeafletDefaultIcons(globalThis.L, assetVersion);
         return Promise.resolve(globalThis.L);
+    }
 
     if (leafletLoader)
         return leafletLoader;
 
     leafletLoader = new Promise((resolve) => {
-        const assetVersion = version || "2.1.0.0";
         const leafletCssUrl = `_content/Blazorise.Maps/vendors/leaflet.css?v=${assetVersion}`;
         const leafletScriptUrl = `_content/Blazorise.Maps/vendors/leaflet.js?v=${assetVersion}`;
 
@@ -432,12 +441,27 @@ function ensureLeaflet(version) {
         const script = document.createElement("script");
         script.src = leafletScriptUrl;
         script.async = true;
-        script.onload = () => resolve(globalThis.L);
+        script.onload = () => {
+            configureLeafletDefaultIcons(globalThis.L, assetVersion);
+            resolve(globalThis.L);
+        };
         script.onerror = () => resolve(null);
         document.head.appendChild(script);
     });
 
     return leafletLoader;
+}
+
+function configureLeafletDefaultIcons(L, assetVersion) {
+    if (!L?.Icon?.Default)
+        return;
+
+    L.Icon.Default.imagePath = "";
+    L.Icon.Default.mergeOptions({
+        iconRetinaUrl: `_content/Blazorise.Maps/vendors/images/marker-icon-2x.png?v=${assetVersion}`,
+        iconUrl: `_content/Blazorise.Maps/vendors/images/marker-icon.png?v=${assetVersion}`,
+        shadowUrl: `_content/Blazorise.Maps/vendors/images/marker-shadow.png?v=${assetVersion}`,
+    });
 }
 
 function appendStylesheet(url) {
