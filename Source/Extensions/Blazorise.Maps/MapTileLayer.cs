@@ -7,6 +7,8 @@ namespace Blazorise.Maps;
 /// </summary>
 public class MapTileLayer : MapLayer
 {
+    #region Methods
+
     /// <inheritdoc/>
     internal override MapLayerDefinition ToDefinition()
     {
@@ -25,6 +27,10 @@ public class MapTileLayer : MapLayer
 
         return definition;
     }
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Defines the raster tile source URL, typically using {z}, {x}, and {y} placeholders.
@@ -55,4 +61,6 @@ public class MapTileLayer : MapLayer
     /// Defines optional tile subdomains used by the source URL.
     /// </summary>
     [Parameter] public string[] Subdomains { get; set; }
+
+    #endregion
 }

@@ -14,7 +14,13 @@ namespace Blazorise.Maps;
 /// <typeparam name="TItem">The marker item type.</typeparam>
 public class MapMarkerLayer<TItem> : MapLayer
 {
+    #region Members
+
     private List<( string Id, TItem Item )> materializedItems = new();
+
+    #endregion
+
+    #region Methods
 
     /// <inheritdoc/>
     internal override MapLayerDefinition ToDefinition()
@@ -85,6 +91,10 @@ public class MapMarkerLayer<TItem> : MapLayer
         return false;
     }
 
+    #endregion
+
+    #region Properties
+
     /// <summary>
     /// Provides the data items used to create markers.
     /// </summary>
@@ -134,4 +144,6 @@ public class MapMarkerLayer<TItem> : MapLayer
     /// Handles completed drag operations for data-bound markers.
     /// </summary>
     [Parameter] public EventCallback<MapMarkerDraggedEventArgs<TItem>> MarkerDragged { get; set; }
+
+    #endregion
 }

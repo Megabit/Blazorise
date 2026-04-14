@@ -10,6 +10,8 @@ namespace Blazorise.Maps;
 /// </summary>
 public class MapMarker : MapLayer
 {
+    #region Methods
+
     /// <inheritdoc/>
     internal override MapLayerDefinition ToDefinition()
     {
@@ -54,6 +56,10 @@ public class MapMarker : MapLayer
         }
     }
 
+    #endregion
+
+    #region Properties
+
     /// <summary>
     /// Defines the marker coordinate.
     /// </summary>
@@ -93,4 +99,6 @@ public class MapMarker : MapLayer
     /// Handles completed drag operations for this marker.
     /// </summary>
     [Parameter] public EventCallback<MapMarkerDraggedEventArgs> Dragged { get; set; }
+
+    #endregion
 }

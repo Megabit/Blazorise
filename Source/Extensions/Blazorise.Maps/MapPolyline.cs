@@ -8,6 +8,8 @@ namespace Blazorise.Maps;
 /// </summary>
 public class MapPolyline : MapLayer
 {
+    #region Methods
+
     /// <inheritdoc/>
     internal override MapLayerDefinition ToDefinition()
     {
@@ -23,6 +25,10 @@ public class MapPolyline : MapLayer
         return definition;
     }
 
+    #endregion
+
+    #region Properties
+
     /// <summary>
     /// Defines the ordered coordinates connected by the polyline.
     /// </summary>
@@ -32,4 +38,6 @@ public class MapPolyline : MapLayer
     /// Controls the polyline stroke styling.
     /// </summary>
     [Parameter] public MapShapeStyle Style { get; set; } = new();
+
+    #endregion
 }

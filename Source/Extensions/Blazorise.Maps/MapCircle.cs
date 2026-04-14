@@ -7,6 +7,8 @@ namespace Blazorise.Maps;
 /// </summary>
 public class MapCircle : MapLayer
 {
+    #region Methods
+
     /// <inheritdoc/>
     internal override MapLayerDefinition ToDefinition()
     {
@@ -23,6 +25,10 @@ public class MapCircle : MapLayer
         return definition;
     }
 
+    #endregion
+
+    #region Properties
+
     /// <summary>
     /// Defines the circle center coordinate.
     /// </summary>
@@ -37,4 +43,6 @@ public class MapCircle : MapLayer
     /// Controls the circle stroke and fill styling.
     /// </summary>
     [Parameter] public MapShapeStyle Style { get; set; } = new();
+
+    #endregion
 }

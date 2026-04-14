@@ -8,6 +8,8 @@ namespace Blazorise.Maps;
 /// </summary>
 public class MapPolygon : MapLayer
 {
+    #region Methods
+
     /// <inheritdoc/>
     internal override MapLayerDefinition ToDefinition()
     {
@@ -23,6 +25,10 @@ public class MapPolygon : MapLayer
         return definition;
     }
 
+    #endregion
+
+    #region Properties
+
     /// <summary>
     /// Defines the polygon rings. The first ring is the outer boundary; additional rings can represent holes.
     /// </summary>
@@ -32,4 +38,6 @@ public class MapPolygon : MapLayer
     /// Controls the polygon stroke and fill styling.
     /// </summary>
     [Parameter] public MapShapeStyle Style { get; set; } = new();
+
+    #endregion
 }
