@@ -94,12 +94,12 @@ public class MapMarkerEventArgs : EventArgs
     /// Initializes a new marker event args instance.
     /// </summary>
     /// <param name="id">The marker id.</param>
-    /// <param name="position">The marker position.</param>
+    /// <param name="coordinate">The marker coordinate.</param>
     /// <param name="mouseEventArgs">The map mouse event args.</param>
-    public MapMarkerEventArgs( string id, MapCoordinate position, MapMouseEventArgs mouseEventArgs )
+    public MapMarkerEventArgs( string id, MapCoordinate coordinate, MapMouseEventArgs mouseEventArgs )
     {
         Id = id;
-        Position = position;
+        Coordinate = coordinate;
         MouseEventArgs = mouseEventArgs;
     }
 
@@ -111,7 +111,7 @@ public class MapMarkerEventArgs : EventArgs
     /// <summary>
     /// Contains the marker coordinate.
     /// </summary>
-    public MapCoordinate Position { get; }
+    public MapCoordinate Coordinate { get; }
 
     /// <summary>
     /// Contains the originating map mouse interaction.
@@ -128,11 +128,11 @@ public class MapMarkerDraggedEventArgs : EventArgs
     /// Initializes a new marker drag event args instance.
     /// </summary>
     /// <param name="id">The marker id.</param>
-    /// <param name="position">The new marker position.</param>
-    public MapMarkerDraggedEventArgs( string id, MapCoordinate position )
+    /// <param name="coordinate">The new marker coordinate.</param>
+    public MapMarkerDraggedEventArgs( string id, MapCoordinate coordinate )
     {
         Id = id;
-        Position = position;
+        Coordinate = coordinate;
     }
 
     /// <summary>
@@ -143,7 +143,7 @@ public class MapMarkerDraggedEventArgs : EventArgs
     /// <summary>
     /// Contains the marker coordinate after dragging.
     /// </summary>
-    public MapCoordinate Position { get; }
+    public MapCoordinate Coordinate { get; }
 }
 
 /// <summary>
@@ -192,12 +192,12 @@ public class MapMarkerDraggedEventArgs<TItem> : EventArgs
     /// </summary>
     /// <param name="item">The marker item.</param>
     /// <param name="id">The marker id.</param>
-    /// <param name="position">The new marker position.</param>
-    public MapMarkerDraggedEventArgs( TItem item, string id, MapCoordinate position )
+    /// <param name="coordinate">The new marker coordinate.</param>
+    public MapMarkerDraggedEventArgs( TItem item, string id, MapCoordinate coordinate )
     {
         Item = item;
         Id = id;
-        Position = position;
+        Coordinate = coordinate;
     }
 
     /// <summary>
@@ -213,5 +213,5 @@ public class MapMarkerDraggedEventArgs<TItem> : EventArgs
     /// <summary>
     /// Contains the marker coordinate after dragging.
     /// </summary>
-    public MapCoordinate Position { get; }
+    public MapCoordinate Coordinate { get; }
 }

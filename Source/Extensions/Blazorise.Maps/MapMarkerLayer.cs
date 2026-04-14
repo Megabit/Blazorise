@@ -43,12 +43,12 @@ public class MapMarkerLayer<TItem> : MapLayer
         }
     }
 
-    internal override async ValueTask NotifyDragged( string itemId, MapCoordinate position )
+    internal override async ValueTask NotifyDragged( string itemId, MapCoordinate coordinate )
     {
         if ( MarkerDragged.HasDelegate
             && TryFindItem( itemId, out var item ) )
         {
-            await MarkerDragged.InvokeAsync( new MapMarkerDraggedEventArgs<TItem>( item, itemId, position ) );
+            await MarkerDragged.InvokeAsync( new MapMarkerDraggedEventArgs<TItem>( item, itemId, coordinate ) );
         }
     }
 
@@ -61,7 +61,7 @@ public class MapMarkerLayer<TItem> : MapLayer
         return new()
         {
             Id = id,
-            Position = PositionSelector is not null ? PositionSelector.Invoke( item ) : default,
+            Coordinate = CoordinateSelector is not null ? CoordinateSelector.Invoke( item ) : default,
             Title = TitleSelector?.Invoke( item ),
             TooltipText = TooltipTextSelector?.Invoke( item ),
             PopupText = PopupTextSelector?.Invoke( item ),
@@ -98,7 +98,7 @@ public class MapMarkerLayer<TItem> : MapLayer
     /// <summary>
     /// Selects the marker coordinate from each data item.
     /// </summary>
-    [Parameter, EditorRequired] public Func<TItem, MapCoordinate> PositionSelector { get; set; }
+    [Parameter, EditorRequired] public Func<TItem, MapCoordinate> CoordinateSelector { get; set; }
 
     /// <summary>
     /// Selects the browser title text for each marker.

@@ -11383,7 +11383,7 @@ Install-Package Blazorise.Icons.Material";
         public const string MapsBasicExample = @"<Map View=""@view"" Height=""Height.Rem( 28 )"">
     <MapTileLayer Source=""https://tile.openstreetmap.org/{z}/{x}/{y}.png""
                   Attribution=""&copy; OpenStreetMap contributors"" />
-    <MapMarker Position=""@zagreb""
+    <MapMarker Coordinate=""@zagreb""
                Title=""Zagreb""
                PopupText=""Zagreb, Croatia"" />
 </Map>
@@ -11414,7 +11414,7 @@ Install-Package Blazorise.Icons.Material";
      Height=""Height.Rem( 28 )"">
     <MapTileLayer Source=""https://tile.openstreetmap.org/{z}/{x}/{y}.png""
                   Attribution=""&copy; OpenStreetMap contributors"" />
-    <MapMarker Position=""@zagreb""
+    <MapMarker Coordinate=""@zagreb""
                Title=""Zagreb""
                PopupText=""Zagreb, Croatia"" />
 </Map>
@@ -11473,7 +11473,7 @@ Install-Package Blazorise.Icons.Material";
     <MapMarkerLayer TItem=""MapPlace""
                     Data=""@places""
                     IdSelector=""@( place => place.Id )""
-                    PositionSelector=""@( place => place.Position )""
+                    CoordinateSelector=""@( place => place.Coordinate )""
                     TitleSelector=""@( place => place.Name )""
                     PopupTextSelector=""@( place => place.Description )""
                     MarkerClicked=""@OnPlaceClicked"" />
@@ -11506,7 +11506,7 @@ Install-Package Blazorise.Icons.Material";
         return Task.CompletedTask;
     }
 
-    private sealed record MapPlace( string Id, string Name, MapCoordinate Position, string Description );
+    private sealed record MapPlace( string Id, string Name, MapCoordinate Coordinate, string Description );
 }";
 
         public const string MapsNugetInstallExample = @"Install-Package Blazorise.Maps";

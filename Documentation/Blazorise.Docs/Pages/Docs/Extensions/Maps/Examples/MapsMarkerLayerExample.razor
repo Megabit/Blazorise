@@ -6,7 +6,7 @@
     <MapMarkerLayer TItem="MapPlace"
                     Data="@places"
                     IdSelector="@( place => place.Id )"
-                    PositionSelector="@( place => place.Position )"
+                    CoordinateSelector="@( place => place.Coordinate )"
                     TitleSelector="@( place => place.Name )"
                     PopupTextSelector="@( place => place.Description )"
                     MarkerClicked="@OnPlaceClicked" />
@@ -39,5 +39,5 @@
         return Task.CompletedTask;
     }
 
-    private sealed record MapPlace( string Id, string Name, MapCoordinate Position, string Description );
+    private sealed record MapPlace( string Id, string Name, MapCoordinate Coordinate, string Description );
 }

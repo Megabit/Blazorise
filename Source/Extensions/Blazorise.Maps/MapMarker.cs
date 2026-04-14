@@ -21,7 +21,7 @@ public class MapMarker : MapLayer
                 new()
                 {
                     Id = Id,
-                    Position = Position,
+                    Coordinate = Coordinate,
                     Title = Title,
                     TooltipText = TooltipText,
                     PopupText = PopupText,
@@ -40,24 +40,24 @@ public class MapMarker : MapLayer
     {
         if ( Clicked.HasDelegate )
         {
-            await Clicked.InvokeAsync( new MapMarkerEventArgs( Id, Position, eventArgs ) );
+            await Clicked.InvokeAsync( new MapMarkerEventArgs( Id, Coordinate, eventArgs ) );
         }
     }
 
-    internal override async ValueTask NotifyDragged( string itemId, MapCoordinate position )
+    internal override async ValueTask NotifyDragged( string itemId, MapCoordinate coordinate )
     {
-        Position = position;
+        Coordinate = coordinate;
 
         if ( Dragged.HasDelegate )
         {
-            await Dragged.InvokeAsync( new MapMarkerDraggedEventArgs( Id, position ) );
+            await Dragged.InvokeAsync( new MapMarkerDraggedEventArgs( Id, coordinate ) );
         }
     }
 
     /// <summary>
     /// Defines the marker coordinate.
     /// </summary>
-    [Parameter] public MapCoordinate Position { get; set; }
+    [Parameter] public MapCoordinate Coordinate { get; set; }
 
     /// <summary>
     /// Provides browser title text for the marker.

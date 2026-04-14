@@ -145,10 +145,10 @@ public partial class Map : BaseComponent, IAsyncDisposable
             await layer.NotifyClicked( itemId, mouseEventArgs );
     }
 
-    internal async ValueTask NotifyMarkerDragged( string layerId, string itemId, MapCoordinate position )
+    internal async ValueTask NotifyMarkerDragged( string layerId, string itemId, MapCoordinate coordinate )
     {
         if ( layers.TryGetValue( layerId, out var layer ) )
-            await layer.NotifyDragged( itemId, position );
+            await layer.NotifyDragged( itemId, coordinate );
     }
 
     private ValueTask SetLayer( MapLayer layer )

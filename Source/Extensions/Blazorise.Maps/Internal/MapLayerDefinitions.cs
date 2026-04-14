@@ -67,7 +67,7 @@ internal class MapMarkerDefinition
 {
     public string Id { get; set; }
 
-    public MapCoordinate Position { get; set; }
+    public MapCoordinate Coordinate { get; set; }
 
     public string Title { get; set; }
 

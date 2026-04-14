@@ -45,7 +45,7 @@ public abstract class MapLayer : ComponentBase, IDisposable
     internal virtual ValueTask NotifyClicked( string itemId, MapMouseEventArgs eventArgs )
         => ValueTask.CompletedTask;
 
-    internal virtual ValueTask NotifyDragged( string itemId, MapCoordinate position )
+    internal virtual ValueTask NotifyDragged( string itemId, MapCoordinate coordinate )
         => ValueTask.CompletedTask;
 
     private protected void ApplyBaseDefinition( MapLayerDefinition definition )

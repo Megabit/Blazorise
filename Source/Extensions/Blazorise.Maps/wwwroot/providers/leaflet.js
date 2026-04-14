@@ -237,7 +237,7 @@ function createMarkerLayer(instance, layer) {
         if (icon)
             options.icon = icon;
 
-        const marker = globalThis.L.marker(toLatLng(markerOptions.position), options);
+        const marker = globalThis.L.marker(toLatLng(markerOptions.coordinate), options);
 
         if (markerOptions.tooltipText)
             marker.bindTooltip(markerOptions.tooltipText);
@@ -250,8 +250,8 @@ function createMarkerLayer(instance, layer) {
         });
 
         marker.on("dragend", () => {
-            const position = marker.getLatLng();
-            instance.adapter.invokeMethodAsync("MarkerDragged", layer.id, markerOptions.id, toCoordinate(position));
+            const coordinate = marker.getLatLng();
+            instance.adapter.invokeMethodAsync("MarkerDragged", layer.id, markerOptions.id, toCoordinate(coordinate));
         });
 
         group.addLayer(marker);

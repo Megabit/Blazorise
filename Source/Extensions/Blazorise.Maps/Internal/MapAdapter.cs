@@ -35,6 +35,6 @@ internal class MapAdapter
         => map.NotifyMarkerClicked( layerId, itemId, eventArgs );
 
     [JSInvokable( "MarkerDragged" )]
-    public ValueTask MarkerDragged( string layerId, string itemId, MapCoordinate position )
-        => map.NotifyMarkerDragged( layerId, itemId, position );
+    public ValueTask MarkerDragged( string layerId, string itemId, MapCoordinate coordinate )
+        => map.NotifyMarkerDragged( layerId, itemId, coordinate );
 }

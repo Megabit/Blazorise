@@ -6,7 +6,7 @@
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">MapMarkerLayer</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">MapPlace</span><span class="quot">&quot;</span>
                     <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>places</span><span class="quot">&quot;</span>
                     <span class="htmlAttributeName">IdSelector</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( place =&gt; place.Id )</span><span class="quot">&quot;</span>
-                    <span class="htmlAttributeName">PositionSelector</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( place =&gt; place.Position )</span><span class="quot">&quot;</span>
+                    <span class="htmlAttributeName">CoordinateSelector</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( place =&gt; place.Coordinate )</span><span class="quot">&quot;</span>
                     <span class="htmlAttributeName">TitleSelector</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( place =&gt; place.Name )</span><span class="quot">&quot;</span>
                     <span class="htmlAttributeName">PopupTextSelector</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( place =&gt; place.Description )</span><span class="quot">&quot;</span>
                     <span class="htmlAttributeName">MarkerClicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnPlaceClicked</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
@@ -40,7 +40,7 @@
         <span class="keyword">return</span> Task.CompletedTask;
     }
 
-    <span class="keyword">private</span> <span class="keyword">sealed</span> record MapPlace( <span class="keyword">string</span> Id, <span class="keyword">string</span> Name, MapCoordinate Position, <span class="keyword">string</span> Description );
+    <span class="keyword">private</span> <span class="keyword">sealed</span> record MapPlace( <span class="keyword">string</span> Id, <span class="keyword">string</span> Name, MapCoordinate Coordinate, <span class="keyword">string</span> Description );
 }
 </pre></div>
 </div>
