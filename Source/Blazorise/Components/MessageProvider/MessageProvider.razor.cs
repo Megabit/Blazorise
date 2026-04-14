@@ -40,13 +40,17 @@ public partial class MessageProvider : BaseComponent, IDisposable
 
     private async void OnMessageReceived( object sender, MessageEventArgs e )
     {
-        MessageType = e.MessageType;
-        Message = e.Message;
-        Title = e.Title;
-        Options = e.Options;
-        Callback = e.Callback;
+        await InvokeAsync( () =>
+        {
+            MessageType = e.MessageType;
+            Message = e.Message;
+            Title = e.Title;
+            Options = e.Options;
+            Callback = e.Callback;
+            ModalVisible = true;
 
-        await InvokeAsync( ModalRef.Show );
+            StateHasChanged();
+        } );
     }
 
     /// <summary>
@@ -141,6 +145,11 @@ public partial class MessageProvider : BaseComponent, IDisposable
     /// Gets or sets the <see cref="Modal"/> reference.
     /// </summary>
     protected Modal ModalRef { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the message modal is visible.
+    /// </summary>
+    protected bool ModalVisible { get; set; }
 
     /// <summary>
     /// If true, modal will act as a prompt dialog.
