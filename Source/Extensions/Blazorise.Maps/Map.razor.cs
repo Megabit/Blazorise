@@ -135,8 +135,8 @@ public partial class Map : BaseComponent, IAsyncDisposable
         if ( ViewChanged.HasDelegate )
             await ViewChanged.InvokeAsync( eventArgs.View );
 
-        if ( ViewChangedDetailed.HasDelegate )
-            await ViewChangedDetailed.InvokeAsync( eventArgs );
+        if ( ViewChangedInfo.HasDelegate )
+            await ViewChangedInfo.InvokeAsync( eventArgs );
     }
 
     internal async ValueTask NotifyMarkerClicked( string layerId, string itemId, MapMouseEventArgs mouseEventArgs )
@@ -295,7 +295,7 @@ public partial class Map : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Reports view changes with bounds and the reason for the change.
     /// </summary>
-    [Parameter] public EventCallback<MapViewChangedEventArgs> ViewChangedDetailed { get; set; }
+    [Parameter] public EventCallback<MapViewChangedEventArgs> ViewChangedInfo { get; set; }
 
     /// <summary>
     /// Handles single-click interaction on the map surface.
