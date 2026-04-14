@@ -36,6 +36,7 @@ async function initialize(dotNetAdapter, element, elementId, options) {
         adapter: dotNetAdapter,
         map: map,
         layers: {},
+        interactive: options?.options?.interactive ?? true,
         programmaticViewChange: false,
     };
 
@@ -187,11 +188,11 @@ function createLayer(instance, layer) {
         case 1:
             return createMarkerLayer(instance, layer);
         case 2:
-            return createCircleLayer(layer);
+            return createCircleLayer(instance, layer);
         case 3:
-            return createPolylineLayer(layer);
+            return createPolylineLayer(instance, layer);
         case 4:
-            return createPolygonLayer(layer);
+            return createPolygonLayer(instance, layer);
         default:
             return null;
     }
@@ -225,10 +226,11 @@ function createMarkerLayer(instance, layer) {
     const group = globalThis.L.layerGroup();
 
     for (const markerOptions of layer.markers || []) {
+        const interactive = instance.interactive && layer.interactive;
         const options = {
             title: markerOptions.title,
-            draggable: markerOptions.draggable,
-            interactive: layer.interactive,
+            draggable: interactive && markerOptions.draggable,
+            interactive: interactive,
             opacity: layer.opacity ?? 1,
         };
 
@@ -260,31 +262,40 @@ function createMarkerLayer(instance, layer) {
     return group;
 }
 
-function createCircleLayer(layer) {
+function createCircleLayer(instance, layer) {
     return globalThis.L.circle(toLatLng(layer.center), {
-        ...toPathOptions(layer),
+        ...toPathOptions(instance, layer),
         radius: layer.radius,
     });
 }
 
-function createPolylineLayer(layer) {
-    return globalThis.L.polyline((layer.coordinates || []).map(toLatLng), toPathOptions(layer));
+function createPolylineLayer(instance, layer) {
+    return globalThis.L.polyline((layer.coordinates || []).map(toLatLng), toPathOptions(instance, layer));
 }
 
-function createPolygonLayer(layer) {
-    return globalThis.L.polygon((layer.rings || []).map((ring) => ring.map(toLatLng)), toPathOptions(layer));
+function createPolygonLayer(instance, layer) {
+    return globalThis.L.polygon((layer.rings || []).map((ring) => ring.map(toLatLng)), toPathOptions(instance, layer));
 }
 
 function registerMapEvents(instance) {
     instance.map.on("click", (event) => {
+        if (!instance.interactive)
+            return;
+
         instance.adapter.invokeMethodAsync("Click", toMouseEventArgs(event));
     });
 
     instance.map.on("dblclick", (event) => {
+        if (!instance.interactive)
+            return;
+
         instance.adapter.invokeMethodAsync("DoubleClick", toMouseEventArgs(event));
     });
 
     instance.map.on("contextmenu", (event) => {
+        if (!instance.interactive)
+            return;
+
         instance.adapter.invokeMethodAsync("ContextMenu", toMouseEventArgs(event));
     });
 
@@ -351,17 +362,18 @@ function toFitBoundsOptions(options) {
     return result;
 }
 
-function toPathOptions(layer) {
+function toPathOptions(instance, layer) {
     const style = layer.style || {};
+    const opacity = layer.opacity ?? 1;
 
     return {
-        interactive: layer.interactive,
-        opacity: style.strokeOpacity ?? 1,
+        interactive: instance.interactive && layer.interactive,
+        opacity: (style.strokeOpacity ?? 1) * opacity,
         color: style.strokeColor || "#3388ff",
         weight: style.strokeWidth ?? 3,
         dashArray: style.strokeDashArray,
         fillColor: style.fillColor || style.strokeColor,
-        fillOpacity: style.fillOpacity ?? 0.2,
+        fillOpacity: (style.fillOpacity ?? 0.2) * opacity,
     };
 }
 

@@ -11,15 +11,20 @@ namespace Blazorise.Maps;
 /// </summary>
 public abstract class MapLayer : ComponentBase, IDisposable
 {
+    #region Members
+
+    private string registeredId;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        if ( string.IsNullOrWhiteSpace( Id ) )
-        {
-            Id = Guid.NewGuid().ToString( "N" );
-        }
+        EnsureId();
+
+        registeredId = Id;
 
         ParentMap?.RegisterLayer( this );
 
@@ -29,7 +34,21 @@ public abstract class MapLayer : ComponentBase, IDisposable
     /// <inheritdoc/>
     protected override Task OnParametersSetAsync()
     {
-        ParentMap?.NotifyLayerChanged( this );
+        EnsureId();
+
+        if ( registeredId is not null
+            && !string.Equals( registeredId, Id, StringComparison.Ordinal ) )
+        {
+            ParentMap?.UnregisterLayer( registeredId );
+
+            registeredId = Id;
+
+            ParentMap?.RegisterLayer( this );
+        }
+        else
+        {
+            ParentMap?.NotifyLayerChanged( this );
+        }
 
         return base.OnParametersSetAsync();
     }
@@ -37,7 +56,7 @@ public abstract class MapLayer : ComponentBase, IDisposable
     /// <inheritdoc/>
     public void Dispose()
     {
-        ParentMap?.UnregisterLayer( this );
+        ParentMap?.UnregisterLayer( registeredId ?? Id );
     }
 
     internal abstract MapLayerDefinition ToDefinition();
@@ -58,6 +77,14 @@ public abstract class MapLayer : ComponentBase, IDisposable
         definition.Interactive = Interactive;
     }
 
+    private void EnsureId()
+    {
+        if ( string.IsNullOrWhiteSpace( Id ) )
+        {
+            Id = Guid.NewGuid().ToString( "N" );
+        }
+    }
+
     #endregion
 
     #region Properties
@@ -68,7 +95,7 @@ public abstract class MapLayer : ComponentBase, IDisposable
     [CascadingParameter] protected Map ParentMap { get; set; }
 
     /// <summary>
-    /// Identifies this layer for updates, events, and removal.
+    /// Identifies this layer for updates, events, and removal. Changing the value after initialization removes the previous provider layer and registers a new one.
     /// </summary>
     [Parameter] public string Id { get; set; }
 
@@ -83,7 +110,7 @@ public abstract class MapLayer : ComponentBase, IDisposable
     [Parameter] public bool Visible { get; set; } = true;
 
     /// <summary>
-    /// Controls the layer opacity, where 1 is fully opaque and 0 is fully transparent.
+    /// Applies layer opacity to tile, marker, and shape rendering, where 1 is fully opaque and 0 is fully transparent.
     /// </summary>
     [Parameter] public double Opacity { get; set; } = 1d;
 

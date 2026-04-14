@@ -27,6 +27,8 @@ public class MapMarkerLayer<TItem> : MapLayer
     {
         materializedItems = new();
 
+        ValidateSelectors();
+
         var markers = Data?.Select( CreateMarker ).ToList() ?? [];
 
         var definition = new MapLayerDefinition
@@ -60,14 +62,17 @@ public class MapMarkerLayer<TItem> : MapLayer
 
     private MapMarkerDefinition CreateMarker( TItem item )
     {
-        var id = IdSelector?.Invoke( item ) ?? Guid.NewGuid().ToString( "N" );
+        var id = IdSelector.Invoke( item );
+
+        if ( string.IsNullOrWhiteSpace( id ) )
+            throw new InvalidOperationException( $"The {nameof( IdSelector )} parameter must return a non-empty marker identifier." );
 
         materializedItems.Add( ( id, item ) );
 
         return new()
         {
             Id = id,
-            Coordinate = CoordinateSelector is not null ? CoordinateSelector.Invoke( item ) : default,
+            Coordinate = CoordinateSelector.Invoke( item ),
             Title = TitleSelector?.Invoke( item ),
             TooltipText = TooltipTextSelector?.Invoke( item ),
             PopupText = PopupTextSelector?.Invoke( item ),
@@ -91,6 +96,15 @@ public class MapMarkerLayer<TItem> : MapLayer
         return false;
     }
 
+    private void ValidateSelectors()
+    {
+        if ( IdSelector is null )
+            throw new InvalidOperationException( $"The {nameof( IdSelector )} parameter is required." );
+
+        if ( CoordinateSelector is null )
+            throw new InvalidOperationException( $"The {nameof( CoordinateSelector )} parameter is required." );
+    }
+
     #endregion
 
     #region Properties
@@ -103,7 +117,7 @@ public class MapMarkerLayer<TItem> : MapLayer
     /// <summary>
     /// Selects a stable marker identifier from each data item.
     /// </summary>
-    [Parameter] public Func<TItem, string> IdSelector { get; set; }
+    [Parameter, EditorRequired] public Func<TItem, string> IdSelector { get; set; }
 
     /// <summary>
     /// Selects the marker coordinate from each data item.

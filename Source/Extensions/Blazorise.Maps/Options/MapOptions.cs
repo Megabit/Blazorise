@@ -11,7 +11,7 @@ public class MapOptions
     public MapProvider Provider { get; set; } = MapProvider.Leaflet;
 
     /// <summary>
-    /// Enables or disables map interaction globally.
+    /// Enables or disables user interaction with the map surface and child layers.
     /// </summary>
     public bool Interactive { get; set; } = true;
 

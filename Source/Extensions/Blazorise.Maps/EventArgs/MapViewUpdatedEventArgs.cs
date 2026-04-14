@@ -3,9 +3,9 @@ using System;
 namespace Blazorise.Maps;
 
 /// <summary>
-/// Provides data for map view changes.
+/// Provides data for map view updates.
 /// </summary>
-public class MapViewChangedEventArgs : EventArgs
+public class MapViewUpdatedEventArgs : EventArgs
 {
     /// <summary>
     /// Contains the updated map view.

@@ -96,10 +96,18 @@ public partial class Map : BaseComponent, IAsyncDisposable
         if ( layer is null || string.IsNullOrWhiteSpace( layer.Id ) )
             return;
 
-        layers.Remove( layer.Id );
+        UnregisterLayer( layer.Id );
+    }
+
+    internal void UnregisterLayer( string layerId )
+    {
+        if ( string.IsNullOrWhiteSpace( layerId ) )
+            return;
+
+        layers.Remove( layerId );
 
         if ( initialized )
-            ExecuteAfterRender( async () => await JSModule.RemoveLayer( ElementRef, ElementId, layer.Id ) );
+            ExecuteAfterRender( async () => await JSModule.RemoveLayer( ElementRef, ElementId, layerId ) );
     }
 
     internal void NotifyLayerChanged( MapLayer layer )
@@ -128,7 +136,7 @@ public partial class Map : BaseComponent, IAsyncDisposable
             await ContextMenu.InvokeAsync( eventArgs );
     }
 
-    internal async ValueTask NotifyViewChanged( MapViewChangedEventArgs eventArgs )
+    internal async ValueTask NotifyViewChanged( MapViewUpdatedEventArgs eventArgs )
     {
         View = eventArgs.View;
 
@@ -295,7 +303,7 @@ public partial class Map : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Reports view changes with bounds and the reason for the change.
     /// </summary>
-    [Parameter] public EventCallback<MapViewChangedEventArgs> ViewUpdated { get; set; }
+    [Parameter] public EventCallback<MapViewUpdatedEventArgs> ViewUpdated { get; set; }
 
     /// <summary>
     /// Handles single-click interaction on the map surface.

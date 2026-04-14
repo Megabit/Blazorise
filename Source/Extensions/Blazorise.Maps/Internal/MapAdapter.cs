@@ -27,7 +27,7 @@ internal class MapAdapter
         => map.NotifyContextMenu( eventArgs );
 
     [JSInvokable( "ViewChanged" )]
-    public ValueTask ViewChanged( MapViewChangedEventArgs eventArgs )
+    public ValueTask ViewChanged( MapViewUpdatedEventArgs eventArgs )
         => map.NotifyViewChanged( eventArgs );
 
     [JSInvokable( "MarkerClick" )]
