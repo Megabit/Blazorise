@@ -1,0 +1,7 @@
+@namespace Blazorise.Maps
+@inherits BaseComponent
+
+<CascadingValue Value="@this" IsFixed="true">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes"></div>
+    @ChildContent
+</CascadingValue>
