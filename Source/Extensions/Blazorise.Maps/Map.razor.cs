@@ -24,6 +24,8 @@ public partial class Map : BaseComponent, IAsyncDisposable
 
     private bool initialized;
 
+    private MapView synchronizedView;
+
     #endregion
 
     #region Methods
@@ -38,6 +40,21 @@ public partial class Map : BaseComponent, IAsyncDisposable
     }
 
     /// <inheritdoc/>
+    protected override void OnParametersSet()
+    {
+        if ( initialized && !MapViewUtils.IsSameView( View, synchronizedView ) )
+        {
+            MapView view = MapViewUtils.CloneView( View ?? new MapView() );
+
+            synchronizedView = MapViewUtils.CloneView( view );
+
+            ExecuteAfterRender( async () => await SetProviderView( view ) );
+        }
+
+        base.OnParametersSet();
+    }
+
+    /// <inheritdoc/>
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         await base.OnAfterRenderAsync( firstRender );
@@ -45,6 +62,8 @@ public partial class Map : BaseComponent, IAsyncDisposable
         if ( firstRender )
         {
             await JSModule.Initialize( adapter, ElementRef, ElementId, CreateJSOptions() );
+
+            synchronizedView = MapViewUtils.CloneView( View ?? new MapView() );
 
             initialized = true;
 
@@ -139,6 +158,7 @@ public partial class Map : BaseComponent, IAsyncDisposable
     internal async ValueTask NotifyViewChanged( MapViewUpdatedEventArgs eventArgs )
     {
         View = eventArgs.View;
+        synchronizedView = MapViewUtils.CloneView( eventArgs.View );
 
         if ( ViewChanged.HasDelegate )
             await ViewChanged.InvokeAsync( eventArgs.View );
@@ -161,6 +181,9 @@ public partial class Map : BaseComponent, IAsyncDisposable
 
     private ValueTask SetLayer( MapLayer layer )
         => JSModule.SetLayer( ElementRef, ElementId, layer.ToDefinition() );
+
+    private ValueTask SetProviderView( MapView view, MapAnimationOptions options = null )
+        => JSModule.SetView( ElementRef, ElementId, view, options );
 
     private MapJSOptions CreateJSOptions()
     {
@@ -188,8 +211,10 @@ public partial class Map : BaseComponent, IAsyncDisposable
             Zoom = zoom,
         };
 
+        synchronizedView = MapViewUtils.CloneView( View );
+
         return initialized
-            ? JSModule.SetView( ElementRef, ElementId, View, options )
+            ? SetProviderView( View, options )
             : ValueTask.CompletedTask;
     }
 
@@ -203,6 +228,8 @@ public partial class Map : BaseComponent, IAsyncDisposable
     {
         View ??= new MapView();
         View.Center = center;
+
+        synchronizedView = MapViewUtils.CloneView( View );
 
         return initialized
             ? JSModule.PanTo( ElementRef, ElementId, center, options )
@@ -281,7 +308,7 @@ public partial class Map : BaseComponent, IAsyncDisposable
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Defines the map center, zoom level, and optional bounds.
+    /// Defines the map center, zoom level, and optional bounds. Updating the value after render moves the displayed map view.
     /// </summary>
     [Parameter] public MapView View { get; set; } = new();
 

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-04-14T14:47:36.8129949Z",
+  "generatedUtc": "2026-04-14T15:19:15.4735115Z",
   "pages": [
     {
       "route": "/docs",
@@ -6057,7 +6057,7 @@
           "sourcePath": "Pages/Docs/Extensions/Maps/Examples/MapsEventsExample.razor",
           "content": "<Buttons Margin=\"Margin.Is3.FromBottom\">\r\n    <Button Color=\"Color.Primary\" Clicked=\"@ShowSplit\">\r\n        Split\r\n    </Button>\r\n    <Button Color=\"Color.Secondary\" Clicked=\"@ShowCroatia\">\r\n        Croatia\r\n    </Button>\r\n</Buttons>\r\n\r\n<Map @ref=\"@mapRef\"\r\n     View=\"@view\"\r\n     ViewChanged=\"@OnViewChanged\"\r\n     Clicked=\"@OnMapClicked\"\r\n     Height=\"Height.Rem( 28 )\">\r\n    <MapTileLayer Source=\"https://tile.openstreetmap.org/{z}/{x}/{y}.png\"\r\n                  Attribution=\"&copy; OpenStreetMap contributors\" />\r\n    <MapMarker Coordinate=\"@split\"\r\n               Title=\"Split\"\r\n               PopupText=\"Split, Croatia\" />\r\n</Map>\r\n\r\n<Paragraph Margin=\"Margin.Is3.FromTop.Is0.FromBottom\">\r\n    Center: @view.Center.Latitude.ToString( \"0.0000\" ), @view.Center.Longitude.ToString( \"0.0000\" )\r\n    | Zoom: @view.Zoom.ToString( \"0.0\" )\r\n    | Last click: @lastMapClick\r\n</Paragraph>\r\n\r\n@code {\r\n    private Map mapRef;\r\n\r\n    private readonly MapCoordinate split = new( 43.5081, 16.4402 );\r\n\r\n    private MapView view = new()\r\n    {\r\n        Center = new( 43.5081, 16.4402 ),\r\n        Zoom = 13,\r\n    };\r\n\r\n    private string lastMapClick = \"none\";\r\n\r\n    private Task ShowSplit()\r\n        => mapRef.SetView( split, 13 ).AsTask();\r\n\r\n    private Task ShowCroatia()\r\n    {\r\n        var bounds = new MapBounds(\r\n            new MapCoordinate( 42.30, 13.40 ),\r\n            new MapCoordinate( 46.60, 19.50 ) );\r\n\r\n        return mapRef.FitBounds( bounds, new() { Padding = new( 24, 24 ) } ).AsTask();\r\n    }\r\n\r\n    private Task OnViewChanged( MapView changedView )\r\n    {\r\n        view = changedView;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task OnMapClicked( MapMouseEventArgs eventArgs )\r\n    {\r\n        lastMapClick = $\"{eventArgs.Coordinate.Latitude:0.0000}, {eventArgs.Coordinate.Longitude:0.0000}\";\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n}",
           "title": "Events And Navigation",
-          "description": "Handle map events and move the map programmatically with the component reference."
+          "description": "Handle map events and move the map programmatically with the component reference, or by updating the bound View ."
         }
       ],
       "apiRefs": [
