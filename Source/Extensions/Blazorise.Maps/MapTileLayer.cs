@@ -13,7 +13,7 @@ public class MapTileLayer : MapLayer
         var definition = new MapLayerDefinition
         {
             Kind = MapLayerKind.Tile,
-            UrlTemplate = UrlTemplate,
+            Source = Source,
             Attribution = Attribution,
             TileSize = TileSize,
             MinZoom = MinZoom,
@@ -27,9 +27,9 @@ public class MapTileLayer : MapLayer
     }
 
     /// <summary>
-    /// Defines the raster tile URL template, typically using {z}, {x}, and {y} placeholders.
+    /// Defines the raster tile source URL, typically using {z}, {x}, and {y} placeholders.
     /// </summary>
-    [Parameter, EditorRequired] public string UrlTemplate { get; set; }
+    [Parameter, EditorRequired] public string Source { get; set; }
 
     /// <summary>
     /// Provides attribution text required by the tile provider.
@@ -52,7 +52,7 @@ public class MapTileLayer : MapLayer
     [Parameter] public double? MaxZoom { get; set; }
 
     /// <summary>
-    /// Defines optional tile subdomains used by the URL template.
+    /// Defines optional tile subdomains used by the source URL.
     /// </summary>
     [Parameter] public string[] Subdomains { get; set; }
 }

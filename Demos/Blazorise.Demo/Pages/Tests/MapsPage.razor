@@ -29,7 +29,7 @@
                      Options="@options"
                      Clicked="@OnMapClicked"
                      Height="Height.Rem( 35 )">
-                    <MapTileLayer UrlTemplate="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    <MapTileLayer Source="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
                                   Attribution="&copy; OpenStreetMap contributors" />
                     <MapMarkerLayer TItem="MapPlace"
                                     Data="@places"

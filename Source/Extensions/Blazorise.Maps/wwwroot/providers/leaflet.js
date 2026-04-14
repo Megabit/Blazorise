@@ -198,7 +198,7 @@ function createLayer(instance, layer) {
 }
 
 function createTileLayer(layer) {
-    if (!layer.urlTemplate)
+    if (!layer.source)
         return null;
 
     const options = {
@@ -218,7 +218,7 @@ function createTileLayer(layer) {
     if (layer.subdomains !== null && layer.subdomains !== undefined && layer.subdomains.length > 0)
         options.subdomains = layer.subdomains;
 
-    return globalThis.L.tileLayer(layer.urlTemplate, options);
+    return globalThis.L.tileLayer(layer.source, options);
 }
 
 function createMarkerLayer(instance, layer) {
@@ -365,11 +365,11 @@ function toPathOptions(layer) {
 }
 
 function toMarkerIcon(icon) {
-    if (!icon || !icon.url)
+    if (!icon || !icon.source)
         return undefined;
 
     return globalThis.L.icon({
-        iconUrl: icon.url,
+        iconUrl: icon.source,
         iconSize: icon.size ? [icon.size.width, icon.size.height] : undefined,
         iconAnchor: icon.anchor ? [icon.anchor.x, icon.anchor.y] : undefined,
         className: icon.cssClass,

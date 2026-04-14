@@ -91,9 +91,9 @@ public class MapShapeStyle
 public class MapMarkerIcon
 {
     /// <summary>
-    /// Provides the icon image URL.
+    /// Provides the icon image source.
     /// </summary>
-    public string Url { get; set; }
+    public string Source { get; set; }
 
     /// <summary>
     /// Defines the icon image size.

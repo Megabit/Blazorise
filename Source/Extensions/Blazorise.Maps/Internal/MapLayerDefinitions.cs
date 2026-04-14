@@ -29,7 +29,7 @@ internal class MapLayerDefinition
 
     public bool Interactive { get; set; } = true;
 
-    public string UrlTemplate { get; set; }
+    public string Source { get; set; }
 
     public string Attribution { get; set; }
 

@@ -11381,7 +11381,7 @@ Install-Package Blazorise.Icons.Material";
         public const string LottieAnimationNugetInstallExample = @"Install-Package Blazorise.LottieAnimation";
 
         public const string MapsBasicExample = @"<Map View=""@view"" Height=""Height.Rem( 28 )"">
-    <MapTileLayer UrlTemplate=""https://tile.openstreetmap.org/{z}/{x}/{y}.png""
+    <MapTileLayer Source=""https://tile.openstreetmap.org/{z}/{x}/{y}.png""
                   Attribution=""&copy; OpenStreetMap contributors"" />
     <MapMarker Position=""@zagreb""
                Title=""Zagreb""
@@ -11412,7 +11412,7 @@ Install-Package Blazorise.Icons.Material";
      ViewChanged=""@OnViewChanged""
      Clicked=""@OnMapClicked""
      Height=""Height.Rem( 28 )"">
-    <MapTileLayer UrlTemplate=""https://tile.openstreetmap.org/{z}/{x}/{y}.png""
+    <MapTileLayer Source=""https://tile.openstreetmap.org/{z}/{x}/{y}.png""
                   Attribution=""&copy; OpenStreetMap contributors"" />
     <MapMarker Position=""@zagreb""
                Title=""Zagreb""
@@ -11468,7 +11468,7 @@ Install-Package Blazorise.Icons.Material";
         public const string MapsImportsExample = @"@using Blazorise.Maps";
 
         public const string MapsMarkerLayerExample = @"<Map View=""@view"" Height=""Height.Rem( 28 )"">
-    <MapTileLayer UrlTemplate=""https://tile.openstreetmap.org/{z}/{x}/{y}.png""
+    <MapTileLayer Source=""https://tile.openstreetmap.org/{z}/{x}/{y}.png""
                   Attribution=""&copy; OpenStreetMap contributors"" />
     <MapMarkerLayer TItem=""MapPlace""
                     Data=""@places""
@@ -11516,7 +11516,7 @@ Install-Package Blazorise.Icons.Material";
     .AddBlazoriseMaps();";
 
         public const string MapsShapesExample = @"<Map View=""@view"" Height=""Height.Rem( 28 )"">
-    <MapTileLayer UrlTemplate=""https://tile.openstreetmap.org/{z}/{x}/{y}.png""
+    <MapTileLayer Source=""https://tile.openstreetmap.org/{z}/{x}/{y}.png""
                   Attribution=""&copy; OpenStreetMap contributors"" />
     <MapCircle Center=""@zagreb""
                Radius=""1200""
