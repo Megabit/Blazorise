@@ -1,12 +1,12 @@
 namespace Blazorise.Maps;
 
 /// <summary>
-/// Represents fit-bounds options.
+/// Configures how bounds are fitted into the visible map area.
 /// </summary>
 public class MapFitBoundsOptions : MapAnimationOptions
 {
     /// <summary>
-    /// Gets or sets padding in pixels.
+    /// Adds padding in pixels around the fitted bounds.
     /// </summary>
     public MapPoint? Padding { get; set; }
 }

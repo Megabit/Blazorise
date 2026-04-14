@@ -55,42 +55,42 @@ public class MapMarker : MapLayer
     }
 
     /// <summary>
-    /// Gets or sets the marker position.
+    /// Defines the marker coordinate.
     /// </summary>
     [Parameter] public MapCoordinate Position { get; set; }
 
     /// <summary>
-    /// Gets or sets the marker title.
+    /// Provides browser title text for the marker.
     /// </summary>
     [Parameter] public string Title { get; set; }
 
     /// <summary>
-    /// Gets or sets the marker tooltip text.
+    /// Provides tooltip text displayed near the marker.
     /// </summary>
     [Parameter] public string TooltipText { get; set; }
 
     /// <summary>
-    /// Gets or sets the marker popup text.
+    /// Provides popup text opened by the marker.
     /// </summary>
     [Parameter] public string PopupText { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the marker can be dragged.
+    /// Allows the marker to be moved by dragging.
     /// </summary>
     [Parameter] public bool Draggable { get; set; }
 
     /// <summary>
-    /// Gets or sets the marker icon.
+    /// Defines a custom marker icon.
     /// </summary>
     [Parameter] public MapMarkerIcon Icon { get; set; }
 
     /// <summary>
-    /// Occurs when the marker is clicked.
+    /// Handles clicks on this marker.
     /// </summary>
     [Parameter] public EventCallback<MapMarkerEventArgs> Clicked { get; set; }
 
     /// <summary>
-    /// Occurs when the marker is dragged.
+    /// Handles completed drag operations for this marker.
     /// </summary>
     [Parameter] public EventCallback<MapMarkerDraggedEventArgs> Dragged { get; set; }
 }

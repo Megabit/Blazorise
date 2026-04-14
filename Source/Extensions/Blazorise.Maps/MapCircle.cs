@@ -24,17 +24,17 @@ public class MapCircle : MapLayer
     }
 
     /// <summary>
-    /// Gets or sets the circle center.
+    /// Defines the circle center coordinate.
     /// </summary>
     [Parameter] public MapCoordinate Center { get; set; }
 
     /// <summary>
-    /// Gets or sets the circle radius in meters.
+    /// Defines the circle radius in meters.
     /// </summary>
     [Parameter] public double Radius { get; set; }
 
     /// <summary>
-    /// Gets or sets the circle style.
+    /// Controls the circle stroke and fill styling.
     /// </summary>
     [Parameter] public MapShapeStyle Style { get; set; } = new();
 }

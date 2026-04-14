@@ -1,57 +1,57 @@
 namespace Blazorise.Maps;
 
 /// <summary>
-/// Represents map interaction options.
+/// Configures map provider, interactions, zoom limits, and controls.
 /// </summary>
 public class MapOptions
 {
     /// <summary>
-    /// Gets or sets the map provider.
+    /// Selects the map provider implementation.
     /// </summary>
     public MapProvider Provider { get; set; } = MapProvider.Leaflet;
 
     /// <summary>
-    /// Gets or sets whether the map is interactive.
+    /// Enables or disables map interaction globally.
     /// </summary>
     public bool Interactive { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether dragging is enabled.
+    /// Allows users to pan the map by dragging.
     /// </summary>
     public bool Dragging { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether scroll wheel zoom is enabled.
+    /// Allows users to zoom with the mouse wheel or trackpad.
     /// </summary>
     public bool ScrollWheelZoom { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether double-click zoom is enabled.
+    /// Allows users to zoom by double-clicking the map.
     /// </summary>
     public bool DoubleClickZoom { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether keyboard navigation is enabled.
+    /// Allows keyboard navigation when the map has focus.
     /// </summary>
     public bool Keyboard { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether touch zoom is enabled.
+    /// Allows touch and pinch zoom gestures.
     /// </summary>
     public bool TouchZoom { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets the minimum zoom level.
+    /// Defines the minimum allowed map zoom level.
     /// </summary>
     public double? MinZoom { get; set; }
 
     /// <summary>
-    /// Gets or sets the maximum zoom level.
+    /// Defines the maximum allowed map zoom level.
     /// </summary>
     public double? MaxZoom { get; set; }
 
     /// <summary>
-    /// Gets or sets the map control options.
+    /// Configures built-in map controls.
     /// </summary>
     public MapControlOptions Controls { get; set; } = new();
 }

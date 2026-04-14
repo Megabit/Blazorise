@@ -240,7 +240,7 @@ public partial class Map : BaseComponent, IAsyncDisposable
             : ValueTask.CompletedTask;
 
     /// <summary>
-    /// Gets the current map view.
+    /// Reads the current center, zoom level, and visible bounds from the rendered map.
     /// </summary>
     /// <returns>The current map view.</returns>
     public ValueTask<MapView> GetView()
@@ -249,7 +249,7 @@ public partial class Map : BaseComponent, IAsyncDisposable
             : new( View );
 
     /// <summary>
-    /// Gets the current visible bounds.
+    /// Reads the currently visible geographic bounds from the rendered map.
     /// </summary>
     /// <returns>The current visible bounds.</returns>
     public ValueTask<MapBounds> GetBounds()
@@ -273,47 +273,47 @@ public partial class Map : BaseComponent, IAsyncDisposable
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Gets or sets the current map view.
+    /// Defines the map center, zoom level, and optional bounds.
     /// </summary>
     [Parameter] public MapView View { get; set; } = new();
 
     /// <summary>
-    /// Occurs when the current map view changes.
+    /// Notifies when the bound map view changes.
     /// </summary>
     [Parameter] public EventCallback<MapView> ViewChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the map options.
+    /// Configures map interaction, provider, zoom limits, and controls.
     /// </summary>
     [Parameter] public MapOptions Options { get; set; } = new();
 
     /// <summary>
-    /// Occurs when the map is initialized.
+    /// Runs after the map provider has initialized the rendered map.
     /// </summary>
     [Parameter] public EventCallback<MapReadyEventArgs> Ready { get; set; }
 
     /// <summary>
-    /// Occurs when the map view changes and includes bounds and reason details.
+    /// Reports view changes with bounds and the reason for the change.
     /// </summary>
     [Parameter] public EventCallback<MapViewChangedEventArgs> ViewChangedDetailed { get; set; }
 
     /// <summary>
-    /// Occurs when the map is clicked.
+    /// Handles single-click interaction on the map surface.
     /// </summary>
     [Parameter] public EventCallback<MapMouseEventArgs> Clicked { get; set; }
 
     /// <summary>
-    /// Occurs when the map is double-clicked.
+    /// Handles double-click interaction on the map surface.
     /// </summary>
     [Parameter] public EventCallback<MapMouseEventArgs> DoubleClicked { get; set; }
 
     /// <summary>
-    /// Occurs when the map context menu is requested.
+    /// Handles context-menu interaction on the map surface.
     /// </summary>
     [Parameter] public EventCallback<MapMouseEventArgs> ContextMenu { get; set; }
 
     /// <summary>
-    /// Gets or sets child layers and shapes.
+    /// Defines tile layers, markers, shapes, and other map content rendered inside the map.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -24,12 +24,12 @@ public class MapPolyline : MapLayer
     }
 
     /// <summary>
-    /// Gets or sets the polyline coordinates.
+    /// Defines the ordered coordinates connected by the polyline.
     /// </summary>
     [Parameter] public IReadOnlyList<MapCoordinate> Coordinates { get; set; }
 
     /// <summary>
-    /// Gets or sets the polyline style.
+    /// Controls the polyline stroke styling.
     /// </summary>
     [Parameter] public MapShapeStyle Style { get; set; } = new();
 }

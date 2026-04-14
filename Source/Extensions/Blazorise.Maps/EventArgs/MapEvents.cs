@@ -3,7 +3,7 @@ using System;
 namespace Blazorise.Maps;
 
 /// <summary>
-/// Event args for map readiness.
+/// Provides data for the map ready event.
 /// </summary>
 public class MapReadyEventArgs : EventArgs
 {
@@ -17,44 +17,44 @@ public class MapReadyEventArgs : EventArgs
     }
 
     /// <summary>
-    /// Gets the map instance.
+    /// References the initialized map instance.
     /// </summary>
     public Map Map { get; }
 }
 
 /// <summary>
-/// Event args for map mouse interaction.
+/// Provides coordinates for map mouse interactions.
 /// </summary>
 public class MapMouseEventArgs : EventArgs
 {
     /// <summary>
-    /// Gets or sets the map coordinate.
+    /// Identifies the geographic coordinate where the interaction occurred.
     /// </summary>
     public MapCoordinate Coordinate { get; set; }
 
     /// <summary>
-    /// Gets or sets the point within the map container.
+    /// Identifies the pointer position relative to the map container.
     /// </summary>
     public MapPoint ContainerPoint { get; set; }
 }
 
 /// <summary>
-/// Event args for map view changes.
+/// Provides data for map view changes.
 /// </summary>
 public class MapViewChangedEventArgs : EventArgs
 {
     /// <summary>
-    /// Gets or sets the new view.
+    /// Contains the updated map view.
     /// </summary>
     public MapView View { get; set; }
 
     /// <summary>
-    /// Gets or sets the visible bounds.
+    /// Contains the visible geographic bounds after the change.
     /// </summary>
     public MapBounds Bounds { get; set; }
 
     /// <summary>
-    /// Gets or sets the change reason.
+    /// Identifies what caused the view change.
     /// </summary>
     public MapChangeReason Reason { get; set; }
 }
@@ -86,7 +86,7 @@ public enum MapChangeReason
 }
 
 /// <summary>
-/// Event args for a marker click.
+/// Provides data for marker click events.
 /// </summary>
 public class MapMarkerEventArgs : EventArgs
 {
@@ -104,23 +104,23 @@ public class MapMarkerEventArgs : EventArgs
     }
 
     /// <summary>
-    /// Gets the marker id.
+    /// Identifies the marker involved in the event.
     /// </summary>
     public string Id { get; }
 
     /// <summary>
-    /// Gets the marker position.
+    /// Contains the marker coordinate.
     /// </summary>
     public MapCoordinate Position { get; }
 
     /// <summary>
-    /// Gets the map mouse event args.
+    /// Contains the originating map mouse interaction.
     /// </summary>
     public MapMouseEventArgs MouseEventArgs { get; }
 }
 
 /// <summary>
-/// Event args for a marker drag.
+/// Provides data for marker drag events.
 /// </summary>
 public class MapMarkerDraggedEventArgs : EventArgs
 {
@@ -136,18 +136,18 @@ public class MapMarkerDraggedEventArgs : EventArgs
     }
 
     /// <summary>
-    /// Gets the marker id.
+    /// Identifies the marker involved in the event.
     /// </summary>
     public string Id { get; }
 
     /// <summary>
-    /// Gets the new marker position.
+    /// Contains the marker coordinate after dragging.
     /// </summary>
     public MapCoordinate Position { get; }
 }
 
 /// <summary>
-/// Event args for a data-bound marker click.
+/// Provides data for data-bound marker click events.
 /// </summary>
 /// <typeparam name="TItem">The marker item type.</typeparam>
 public class MapMarkerClickedEventArgs<TItem> : EventArgs
@@ -166,23 +166,23 @@ public class MapMarkerClickedEventArgs<TItem> : EventArgs
     }
 
     /// <summary>
-    /// Gets the marker item.
+    /// Contains the data item represented by the marker.
     /// </summary>
     public TItem Item { get; }
 
     /// <summary>
-    /// Gets the marker id.
+    /// Identifies the marker involved in the event.
     /// </summary>
     public string Id { get; }
 
     /// <summary>
-    /// Gets the map mouse event args.
+    /// Contains the originating map mouse interaction.
     /// </summary>
     public MapMouseEventArgs MouseEventArgs { get; }
 }
 
 /// <summary>
-/// Event args for a data-bound marker drag.
+/// Provides data for data-bound marker drag events.
 /// </summary>
 /// <typeparam name="TItem">The marker item type.</typeparam>
 public class MapMarkerDraggedEventArgs<TItem> : EventArgs
@@ -201,17 +201,17 @@ public class MapMarkerDraggedEventArgs<TItem> : EventArgs
     }
 
     /// <summary>
-    /// Gets the marker item.
+    /// Contains the data item represented by the marker.
     /// </summary>
     public TItem Item { get; }
 
     /// <summary>
-    /// Gets the marker id.
+    /// Identifies the marker involved in the event.
     /// </summary>
     public string Id { get; }
 
     /// <summary>
-    /// Gets the new marker position.
+    /// Contains the marker coordinate after dragging.
     /// </summary>
     public MapCoordinate Position { get; }
 }

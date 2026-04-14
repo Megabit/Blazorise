@@ -1,22 +1,22 @@
 namespace Blazorise.Maps;
 
 /// <summary>
-/// Represents map control options.
+/// Configures built-in map controls.
 /// </summary>
 public class MapControlOptions
 {
     /// <summary>
-    /// Gets or sets whether the zoom control is shown.
+    /// Shows or hides the zoom control.
     /// </summary>
     public bool Zoom { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether attribution is shown.
+    /// Shows or hides provider attribution.
     /// </summary>
     public bool Attribution { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether the scale control is shown.
+    /// Shows or hides the scale control.
     /// </summary>
     public bool Scale { get; set; }
 }

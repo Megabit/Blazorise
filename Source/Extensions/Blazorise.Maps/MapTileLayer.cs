@@ -27,32 +27,32 @@ public class MapTileLayer : MapLayer
     }
 
     /// <summary>
-    /// Gets or sets the tile URL template.
+    /// Defines the raster tile URL template, typically using {z}, {x}, and {y} placeholders.
     /// </summary>
     [Parameter, EditorRequired] public string UrlTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets the attribution text required by the tile provider.
+    /// Provides attribution text required by the tile provider.
     /// </summary>
     [Parameter] public string Attribution { get; set; }
 
     /// <summary>
-    /// Gets or sets the tile size in pixels.
+    /// Defines the tile size in pixels.
     /// </summary>
     [Parameter] public int TileSize { get; set; } = 256;
 
     /// <summary>
-    /// Gets or sets the minimum zoom level for this layer.
+    /// Limits this tile layer to the specified minimum zoom level.
     /// </summary>
     [Parameter] public double? MinZoom { get; set; }
 
     /// <summary>
-    /// Gets or sets the maximum zoom level for this layer.
+    /// Limits this tile layer to the specified maximum zoom level.
     /// </summary>
     [Parameter] public double? MaxZoom { get; set; }
 
     /// <summary>
-    /// Gets or sets tile subdomains.
+    /// Defines optional tile subdomains used by the URL template.
     /// </summary>
     [Parameter] public string[] Subdomains { get; set; }
 }

@@ -63,37 +63,37 @@ public abstract class MapLayer : ComponentBase, IDisposable
     #region Properties
 
     /// <summary>
-    /// Gets the parent map.
+    /// Provides the map instance that owns this layer.
     /// </summary>
     [CascadingParameter] protected Map ParentMap { get; set; }
 
     /// <summary>
-    /// Gets or sets the layer identifier.
+    /// Identifies this layer for updates, events, and removal.
     /// </summary>
     [Parameter] public string Id { get; set; }
 
     /// <summary>
-    /// Gets or sets the display name for the layer.
+    /// Provides an optional display name for UI or diagnostics.
     /// </summary>
     [Parameter] public string Name { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the layer is visible.
+    /// Controls whether this layer is rendered on the map.
     /// </summary>
     [Parameter] public bool Visible { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets the layer opacity.
+    /// Controls the layer opacity, where 1 is fully opaque and 0 is fully transparent.
     /// </summary>
     [Parameter] public double Opacity { get; set; } = 1d;
 
     /// <summary>
-    /// Gets or sets the layer z-index.
+    /// Controls the layer ordering relative to other layers when supported by the provider.
     /// </summary>
     [Parameter] public int? ZIndex { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the layer participates in pointer interaction.
+    /// Enables pointer interaction for this layer when supported by the provider.
     /// </summary>
     [Parameter] public bool Interactive { get; set; } = true;
 

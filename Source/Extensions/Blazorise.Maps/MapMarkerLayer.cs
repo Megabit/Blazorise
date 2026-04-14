@@ -86,52 +86,52 @@ public class MapMarkerLayer<TItem> : MapLayer
     }
 
     /// <summary>
-    /// Gets or sets the layer data.
+    /// Provides the data items used to create markers.
     /// </summary>
     [Parameter] public IEnumerable<TItem> Data { get; set; }
 
     /// <summary>
-    /// Gets or sets the marker id selector.
+    /// Selects a stable marker identifier from each data item.
     /// </summary>
     [Parameter] public Func<TItem, string> IdSelector { get; set; }
 
     /// <summary>
-    /// Gets or sets the marker position selector.
+    /// Selects the marker coordinate from each data item.
     /// </summary>
     [Parameter, EditorRequired] public Func<TItem, MapCoordinate> PositionSelector { get; set; }
 
     /// <summary>
-    /// Gets or sets the marker title selector.
+    /// Selects the browser title text for each marker.
     /// </summary>
     [Parameter] public Func<TItem, string> TitleSelector { get; set; }
 
     /// <summary>
-    /// Gets or sets the marker tooltip text selector.
+    /// Selects tooltip text for each marker.
     /// </summary>
     [Parameter] public Func<TItem, string> TooltipTextSelector { get; set; }
 
     /// <summary>
-    /// Gets or sets the marker popup text selector.
+    /// Selects popup text for each marker.
     /// </summary>
     [Parameter] public Func<TItem, string> PopupTextSelector { get; set; }
 
     /// <summary>
-    /// Gets or sets the marker draggable selector.
+    /// Determines whether each marker can be dragged.
     /// </summary>
     [Parameter] public Func<TItem, bool> DraggableSelector { get; set; }
 
     /// <summary>
-    /// Gets or sets the marker icon selector.
+    /// Selects a custom icon for each marker.
     /// </summary>
     [Parameter] public Func<TItem, MapMarkerIcon> IconSelector { get; set; }
 
     /// <summary>
-    /// Occurs when a marker is clicked.
+    /// Handles clicks on data-bound markers.
     /// </summary>
     [Parameter] public EventCallback<MapMarkerClickedEventArgs<TItem>> MarkerClicked { get; set; }
 
     /// <summary>
-    /// Occurs when a marker is dragged.
+    /// Handles completed drag operations for data-bound markers.
     /// </summary>
     [Parameter] public EventCallback<MapMarkerDraggedEventArgs<TItem>> MarkerDragged { get; set; }
 }

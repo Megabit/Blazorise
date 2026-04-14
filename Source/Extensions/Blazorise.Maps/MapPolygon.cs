@@ -24,12 +24,12 @@ public class MapPolygon : MapLayer
     }
 
     /// <summary>
-    /// Gets or sets the polygon rings.
+    /// Defines the polygon rings. The first ring is the outer boundary; additional rings can represent holes.
     /// </summary>
     [Parameter] public IReadOnlyList<IReadOnlyList<MapCoordinate>> Rings { get; set; }
 
     /// <summary>
-    /// Gets or sets the polygon style.
+    /// Controls the polygon stroke and fill styling.
     /// </summary>
     [Parameter] public MapShapeStyle Style { get; set; } = new();
 }

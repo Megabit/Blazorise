@@ -1,17 +1,17 @@
 namespace Blazorise.Maps;
 
 /// <summary>
-/// Represents animation options for map movement.
+/// Configures animation for map movement.
 /// </summary>
 public class MapAnimationOptions
 {
     /// <summary>
-    /// Gets or sets whether animation is enabled.
+    /// Enables animated map movement.
     /// </summary>
     public bool Animate { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets animation duration in seconds.
+    /// Defines animation duration in seconds.
     /// </summary>
     public double? Duration { get; set; }
 }

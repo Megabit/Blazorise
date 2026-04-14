@@ -29,84 +29,84 @@ public readonly record struct MapPoint( double X, double Y );
 public readonly record struct MapSize( double Width, double Height );
 
 /// <summary>
-/// Represents the map view.
+/// Describes the map camera state.
 /// </summary>
 public class MapView
 {
     /// <summary>
-    /// Gets or sets the map center.
+    /// Defines the coordinate at the center of the map.
     /// </summary>
     public MapCoordinate Center { get; set; }
 
     /// <summary>
-    /// Gets or sets the map zoom level.
+    /// Defines the map zoom level.
     /// </summary>
     public double Zoom { get; set; } = 13d;
 
     /// <summary>
-    /// Gets or sets the visible bounds.
+    /// Stores the visible bounds reported by the map provider.
     /// </summary>
     public MapBounds? Bounds { get; set; }
 }
 
 /// <summary>
-/// Represents shape style.
+/// Describes stroke and fill styling for map shapes.
 /// </summary>
 public class MapShapeStyle
 {
     /// <summary>
-    /// Gets or sets the stroke color.
+    /// Defines the stroke color.
     /// </summary>
     public string StrokeColor { get; set; } = "#3388ff";
 
     /// <summary>
-    /// Gets or sets the stroke opacity.
+    /// Controls stroke opacity.
     /// </summary>
     public double StrokeOpacity { get; set; } = 1d;
 
     /// <summary>
-    /// Gets or sets the stroke width.
+    /// Defines stroke width in pixels.
     /// </summary>
     public double StrokeWidth { get; set; } = 3d;
 
     /// <summary>
-    /// Gets or sets the stroke dash array.
+    /// Defines the stroke dash pattern.
     /// </summary>
     public string StrokeDashArray { get; set; }
 
     /// <summary>
-    /// Gets or sets the fill color.
+    /// Defines the fill color.
     /// </summary>
     public string FillColor { get; set; }
 
     /// <summary>
-    /// Gets or sets the fill opacity.
+    /// Controls fill opacity.
     /// </summary>
     public double FillOpacity { get; set; } = 0.2d;
 }
 
 /// <summary>
-/// Represents a marker icon.
+/// Describes a custom marker icon.
 /// </summary>
 public class MapMarkerIcon
 {
     /// <summary>
-    /// Gets or sets the icon URL.
+    /// Provides the icon image URL.
     /// </summary>
     public string Url { get; set; }
 
     /// <summary>
-    /// Gets or sets the icon size.
+    /// Defines the icon image size.
     /// </summary>
     public MapSize? Size { get; set; }
 
     /// <summary>
-    /// Gets or sets the icon anchor.
+    /// Defines the pixel point on the icon that anchors to the marker coordinate.
     /// </summary>
     public MapPoint? Anchor { get; set; }
 
     /// <summary>
-    /// Gets or sets a CSS class for the icon.
+    /// Applies a CSS class to the icon element.
     /// </summary>
     public string CssClass { get; set; }
 }
