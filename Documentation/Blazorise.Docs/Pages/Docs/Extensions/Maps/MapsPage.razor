@@ -11,16 +11,67 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The Maps extension follows the same abstraction principles as the rest of Blazorise: applications work with Blazorise components and models instead of being coupled directly to a JavaScript map library.
+    The Maps extension follows the same abstraction principles as the rest of Blazorise: applications work with Blazorise components and models instead of being coupled directly to a specific map provider.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    Leaflet is currently used as the first map provider. The public API is intentionally provider-neutral so additional providers can be supported over time without changing the component model used by applications.
+    The first implementation uses Leaflet internally while keeping the public component model provider-neutral. This allows additional map providers to be supported over time without changing how applications compose maps, layers, markers, and shapes.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
     To use the <Code>Map</Code> component, install the <Code>Blazorise.Maps</Code> package first.
 </DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Components
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Maps are composed from a parent <Code>Map</Code> and one or more child layer components. The child components describe what should be rendered; the selected provider handles the rendering details internally.
+</DocsPageParagraph>
+
+<Table>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>Component</TableHeaderCell>
+            <TableHeaderCell>Purpose</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell><Code>Map</Code></TableRowCell>
+            <TableRowCell>Hosts the interactive map, manages the current view, and coordinates child layers, events, and programmatic navigation.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>MapTileLayer</Code></TableRowCell>
+            <TableRowCell>Defines the raster tile source used as the base map, including the source URL, attribution, zoom range, tile size, and optional subdomains.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>MapMarker</Code></TableRowCell>
+            <TableRowCell>Displays a single marker at a coordinate, with optional title, tooltip, popup text, custom icon, click handling, and dragging.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>MapMarkerLayer&lt;TItem&gt;</Code></TableRowCell>
+            <TableRowCell>Creates markers from a data collection by using selector functions for coordinates, text, icons, identifiers, and marker behavior.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>MapCircle</Code></TableRowCell>
+            <TableRowCell>Draws a circular area from a center coordinate and radius, with provider-neutral stroke and fill styling.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>MapPolyline</Code></TableRowCell>
+            <TableRowCell>Draws an ordered path through multiple coordinates, typically used for routes, tracks, or connections.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>MapPolygon</Code></TableRowCell>
+            <TableRowCell>Draws one or more closed rings to represent areas, boundaries, or zones, with optional stroke and fill styling.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>MapLayer</Code></TableRowCell>
+            <TableRowCell>Provides the shared base behavior for map layers, including visibility, opacity, ordering, interaction, and registration with the parent map.</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
 
 <DocsPageSubtitle>
     Installation
