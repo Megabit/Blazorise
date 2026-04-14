@@ -11380,6 +11380,202 @@ Install-Package Blazorise.Icons.Material";
 
         public const string LottieAnimationNugetInstallExample = @"Install-Package Blazorise.LottieAnimation";
 
+        public const string MapsBasicExample = @"<Map View=""@view"" Height=""Height.Rem( 28 )"">
+    <MapTileLayer Source=""https://tile.openstreetmap.org/{z}/{x}/{y}.png""
+                  Attribution=""&copy; OpenStreetMap contributors"" />
+    <MapMarker Coordinate=""@split""
+               Title=""Split""
+               PopupText=""Split, Croatia"" />
+</Map>
+
+@code {
+    private readonly MapCoordinate split = new( 43.5081, 16.4402 );
+
+    private MapView view = new()
+    {
+        Center = new( 43.5081, 16.4402 ),
+        Zoom = 13,
+    };
+}";
+
+        public const string MapsEventsExample = @"<Buttons Margin=""Margin.Is3.FromBottom"">
+    <Button Color=""Color.Primary"" Clicked=""@ShowSplit"">
+        Split
+    </Button>
+    <Button Color=""Color.Secondary"" Clicked=""@ShowCroatia"">
+        Croatia
+    </Button>
+</Buttons>
+
+<Map @ref=""@mapRef""
+     View=""@view""
+     ViewChanged=""@OnViewChanged""
+     Clicked=""@OnMapClicked""
+     Height=""Height.Rem( 28 )"">
+    <MapTileLayer Source=""https://tile.openstreetmap.org/{z}/{x}/{y}.png""
+                  Attribution=""&copy; OpenStreetMap contributors"" />
+    <MapMarker Coordinate=""@split""
+               Title=""Split""
+               PopupText=""Split, Croatia"" />
+</Map>
+
+<Paragraph Margin=""Margin.Is3.FromTop.Is0.FromBottom"">
+    Center: @view.Center.Latitude.ToString( ""0.0000"" ), @view.Center.Longitude.ToString( ""0.0000"" )
+    | Zoom: @view.Zoom.ToString( ""0.0"" )
+    | Last click: @lastMapClick
+</Paragraph>
+
+@code {
+    private Map mapRef;
+
+    private readonly MapCoordinate split = new( 43.5081, 16.4402 );
+
+    private MapView view = new()
+    {
+        Center = new( 43.5081, 16.4402 ),
+        Zoom = 13,
+    };
+
+    private string lastMapClick = ""none"";
+
+    private Task ShowSplit()
+        => mapRef.SetView( split, 13 ).AsTask();
+
+    private Task ShowCroatia()
+    {
+        var bounds = new MapBounds(
+            new MapCoordinate( 42.30, 13.40 ),
+            new MapCoordinate( 46.60, 19.50 ) );
+
+        return mapRef.FitBounds( bounds, new() { Padding = new( 24, 24 ) } ).AsTask();
+    }
+
+    private Task OnViewChanged( MapView changedView )
+    {
+        view = changedView;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnMapClicked( MapMouseEventArgs eventArgs )
+    {
+        lastMapClick = $""{eventArgs.Coordinate.Latitude:0.0000}, {eventArgs.Coordinate.Longitude:0.0000}"";
+
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string MapsImportsExample = @"@using Blazorise.Maps";
+
+        public const string MapsMarkerLayerExample = @"<Map View=""@view"" Height=""Height.Rem( 28 )"">
+    <MapTileLayer Source=""https://tile.openstreetmap.org/{z}/{x}/{y}.png""
+                  Attribution=""&copy; OpenStreetMap contributors"" />
+    <MapMarkerLayer TItem=""MapPlace""
+                    Data=""@places""
+                    IdSelector=""@( place => place.Id )""
+                    CoordinateSelector=""@( place => place.Coordinate )""
+                    TitleSelector=""@( place => place.Name )""
+                    PopupTextSelector=""@( place => place.Description )""
+                    MarkerClicked=""@OnPlaceClicked"" />
+</Map>
+
+<Paragraph Margin=""Margin.Is3.FromTop.Is0.FromBottom"">
+    Selected place: @selectedPlace
+</Paragraph>
+
+@code {
+    private MapView view = new()
+    {
+        Center = new( 43.5081, 16.4402 ),
+        Zoom = 13,
+    };
+
+    private readonly List<MapPlace> places =
+    [
+        new( ""riva"", ""Riva Promenade"", new( 43.5073, 16.4379 ), ""Waterfront promenade by the harbor."" ),
+        new( ""diocletian-palace"", ""Diocletian's Palace"", new( 43.5081, 16.4402 ), ""Historic palace in the city center."" ),
+        new( ""marjan"", ""Marjan Hill"", new( 43.5107, 16.4147 ), ""Forested hill and park west of the old town."" ),
+    ];
+
+    private string selectedPlace = ""none"";
+
+    private Task OnPlaceClicked( MapMarkerClickedEventArgs<MapPlace> eventArgs )
+    {
+        selectedPlace = eventArgs.Item.Name;
+
+        return Task.CompletedTask;
+    }
+
+    private sealed record MapPlace( string Id, string Name, MapCoordinate Coordinate, string Description );
+}";
+
+        public const string MapsNugetInstallExample = @"Install-Package Blazorise.Maps";
+
+        public const string MapsServiceRegistrationExample = @"builder.Services
+    .AddBlazorise()
+    .AddBlazoriseMaps();";
+
+        public const string MapsShapesExample = @"<Map View=""@view"" Height=""Height.Rem( 28 )"">
+    <MapTileLayer Source=""https://tile.openstreetmap.org/{z}/{x}/{y}.png""
+                  Attribution=""&copy; OpenStreetMap contributors"" />
+    <MapCircle Center=""@split""
+               Radius=""1200""
+               Style=""@cityAreaStyle"" />
+    <MapPolyline Coordinates=""@route""
+                 Style=""@routeStyle"" />
+    <MapPolygon Rings=""@polygon""
+                Style=""@polygonStyle"" />
+</Map>
+
+@code {
+    private readonly MapCoordinate split = new( 43.5081, 16.4402 );
+
+    private MapView view = new()
+    {
+        Center = new( 43.5081, 16.4402 ),
+        Zoom = 13,
+    };
+
+    private readonly MapShapeStyle cityAreaStyle = new()
+    {
+        StrokeColor = ""#2f80ed"",
+        FillColor = ""#2f80ed"",
+        FillOpacity = 0.12,
+    };
+
+    private readonly MapShapeStyle routeStyle = new()
+    {
+        StrokeColor = ""#d9480f"",
+        StrokeWidth = 4,
+    };
+
+    private readonly MapShapeStyle polygonStyle = new()
+    {
+        StrokeColor = ""#2f9e44"",
+        FillColor = ""#2f9e44"",
+        FillOpacity = 0.16,
+    };
+
+    private readonly IReadOnlyList<MapCoordinate> route =
+    [
+        new( 43.5073, 16.4379 ),
+        new( 43.5081, 16.4402 ),
+        new( 43.5094, 16.4349 ),
+        new( 43.5107, 16.4147 ),
+    ];
+
+    private readonly IReadOnlyList<IReadOnlyList<MapCoordinate>> polygon =
+    [
+        [
+            new( 43.5066, 16.4366 ),
+            new( 43.5094, 16.4384 ),
+            new( 43.5101, 16.4432 ),
+            new( 43.5069, 16.4445 ),
+            new( 43.5066, 16.4366 ),
+        ],
+    ];
+}";
+
         public const string ImportMarkdownExample = @"@using Blazorise.Markdown";
 
         public const string MarkdownCustomButtonsExample = @"<Markdown @bind-Value=""@markdownValue"" CustomButtonClicked=""@OnCustomButtonClicked"">

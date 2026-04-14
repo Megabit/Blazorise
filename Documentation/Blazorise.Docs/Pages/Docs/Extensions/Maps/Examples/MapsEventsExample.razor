@@ -1,0 +1,68 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Buttons Margin="Margin.Is3.FromBottom">
+    <Button Color="Color.Primary" Clicked="@ShowSplit">
+        Split
+    </Button>
+    <Button Color="Color.Secondary" Clicked="@ShowCroatia">
+        Croatia
+    </Button>
+</Buttons>
+
+<Map @ref="@mapRef"
+     View="@view"
+     ViewChanged="@OnViewChanged"
+     Clicked="@OnMapClicked"
+     Height="Height.Rem( 28 )">
+    <MapTileLayer Source="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  Attribution="&copy; OpenStreetMap contributors" />
+    <MapMarker Coordinate="@split"
+               Title="Split"
+               PopupText="Split, Croatia" />
+</Map>
+
+<Paragraph Margin="Margin.Is3.FromTop.Is0.FromBottom">
+    Center: @view.Center.Latitude.ToString( "0.0000" ), @view.Center.Longitude.ToString( "0.0000" )
+    | Zoom: @view.Zoom.ToString( "0.0" )
+    | Last click: @lastMapClick
+</Paragraph>
+
+@code {
+    private Map mapRef;
+
+    private readonly MapCoordinate split = new( 43.5081, 16.4402 );
+
+    private MapView view = new()
+    {
+        Center = new( 43.5081, 16.4402 ),
+        Zoom = 13,
+    };
+
+    private string lastMapClick = "none";
+
+    private Task ShowSplit()
+        => mapRef.SetView( split, 13 ).AsTask();
+
+    private Task ShowCroatia()
+    {
+        var bounds = new MapBounds(
+            new MapCoordinate( 42.30, 13.40 ),
+            new MapCoordinate( 46.60, 19.50 ) );
+
+        return mapRef.FitBounds( bounds, new() { Padding = new( 24, 24 ) } ).AsTask();
+    }
+
+    private Task OnViewChanged( MapView changedView )
+    {
+        view = changedView;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnMapClicked( MapMouseEventArgs eventArgs )
+    {
+        lastMapClick = $"{eventArgs.Coordinate.Latitude:0.0000}, {eventArgs.Coordinate.Longitude:0.0000}";
+
+        return Task.CompletedTask;
+    }
+}

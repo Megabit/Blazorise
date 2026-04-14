@@ -1,0 +1,19 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Map View="@view" Height="Height.Rem( 28 )">
+    <MapTileLayer Source="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  Attribution="&copy; OpenStreetMap contributors" />
+    <MapMarker Coordinate="@split"
+               Title="Split"
+               PopupText="Split, Croatia" />
+</Map>
+
+@code {
+    private readonly MapCoordinate split = new( 43.5081, 16.4402 );
+
+    private MapView view = new()
+    {
+        Center = new( 43.5081, 16.4402 ),
+        Zoom = 13,
+    };
+}

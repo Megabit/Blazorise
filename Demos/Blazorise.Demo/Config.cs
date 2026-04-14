@@ -4,6 +4,7 @@ using Blazorise.Captcha.ReCaptcha;
 using Blazorise.Components;
 using Blazorise.FluentValidation;
 using Blazorise.LoadingIndicator;
+using Blazorise.Maps;
 using Blazorise.RichTextEdit;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +30,7 @@ public static class Config
                 options.UseResize = true;
             } )
             .AddLoadingIndicator()
+            .AddBlazoriseMaps()
             .AddBlazoriseFluentValidation()
             .AddBlazoriseGoogleReCaptcha( options =>
             {

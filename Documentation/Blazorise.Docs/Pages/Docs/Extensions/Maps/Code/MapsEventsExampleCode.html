@@ -1,0 +1,71 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Buttons</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ShowSplit</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        Split
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Secondary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ShowCroatia</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        Croatia
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Buttons</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Map</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>mapRef</span><span class="quot">&quot;</span>
+     <span class="htmlAttributeName">View</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>view</span><span class="quot">&quot;</span>
+     <span class="htmlAttributeName">ViewChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnViewChanged</span><span class="quot">&quot;</span>
+     <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnMapClicked</span><span class="quot">&quot;</span>
+     <span class="htmlAttributeName">Height</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Height.Rem( 28 )</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">MapTileLayer</span> <span class="htmlAttributeName">Source</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">https://tile.openstreetmap.org/{z}/{x}/{y}.png</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">Attribution</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">&amp;copy; OpenStreetMap contributors</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">MapMarker</span> <span class="htmlAttributeName">Coordinate</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>split</span><span class="quot">&quot;</span>
+               <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Split</span><span class="quot">&quot;</span>
+               <span class="htmlAttributeName">PopupText</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Split, Croatia</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Map</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromTop.Is0.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    Center: <span class="atSign">&#64;</span>view.Center.Latitude.ToString( &quot;0.0000&quot; ), <span class="atSign">&#64;</span>view.Center.Longitude.ToString( &quot;0.0000&quot; )
+    | Zoom: <span class="atSign">&#64;</span>view.Zoom.ToString( &quot;0.0&quot; )
+    | Last click: <span class="atSign">&#64;</span>lastMapClick
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> Map mapRef;
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> MapCoordinate split = <span class="keyword">new</span>( <span class="number">43</span>.<span class="number">5081</span>, <span class="number">16</span>.<span class="number">4402</span> );
+
+    <span class="keyword">private</span> MapView view = <span class="keyword">new</span>()
+    {
+        Center = <span class="keyword">new</span>( <span class="number">43</span>.<span class="number">5081</span>, <span class="number">16</span>.<span class="number">4402</span> ),
+        Zoom = <span class="number">13</span>,
+    };
+
+    <span class="keyword">private</span> <span class="keyword">string</span> lastMapClick = <span class="string">&quot;none&quot;</span>;
+
+    <span class="keyword">private</span> Task ShowSplit()
+        =&gt; mapRef.SetView( split, <span class="number">13</span> ).AsTask();
+
+    <span class="keyword">private</span> Task ShowCroatia()
+    {
+        <span class="keyword">var</span> bounds = <span class="keyword">new</span> MapBounds(
+            <span class="keyword">new</span> MapCoordinate( <span class="number">42</span>.<span class="number">30</span>, <span class="number">13</span>.<span class="number">40</span> ),
+            <span class="keyword">new</span> MapCoordinate( <span class="number">46</span>.<span class="number">60</span>, <span class="number">19</span>.<span class="number">50</span> ) );
+
+        <span class="keyword">return</span> mapRef.FitBounds( bounds, <span class="keyword">new</span>() { Padding = <span class="keyword">new</span>( <span class="number">24</span>, <span class="number">24</span> ) } ).AsTask();
+    }
+
+    <span class="keyword">private</span> Task OnViewChanged( MapView changedView )
+    {
+        view = changedView;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> Task OnMapClicked( MapMouseEventArgs eventArgs )
+    {
+        lastMapClick = $<span class="string">&quot;{eventArgs.Coordinate.Latitude:0.0000}, {eventArgs.Coordinate.Longitude:0.0000}&quot;</span>;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+}
+</pre></div>
+</div>

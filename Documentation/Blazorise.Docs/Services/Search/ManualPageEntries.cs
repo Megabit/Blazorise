@@ -136,6 +136,7 @@ public static class ManualPageEntries
     new( "docs/extensions/lottie-animation", "Lottie Animation", "The LottieAnimation component is used to embed JSON-based Lottie animations." ),
     new( "docs/extensions/cropper", "Cropper", "A component used to crop images." ),
     new( "docs/extensions/loadingindicator", "LoadingIndicator", "A wrapper component used to add loading indocators UI to other components." ),
+    new( "docs/extensions/maps", "Maps", "Display interactive maps with tile layers, markers, and geographic shapes." ),
     new( "docs/extensions/markdown", "Markdown", "The Markdown component allows you to edit markdown strings." ),
     new( "docs/extensions/onetimeinput", "OneTimeInput", "Build OTP, verification code, recovery key, and grouped token inputs with auto-advance, paste support, and validation." ),
     new( "docs/extensions/passwordstrength", "PasswordStrength", "The PasswordStrength component helps users create stronger passwords with configurable policies, validation integration, and localized feedback." ),

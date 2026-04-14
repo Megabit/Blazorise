@@ -1,0 +1,65 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Map</span> <span class="htmlAttributeName">View</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>view</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Height</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Height.Rem( 28 )</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">MapTileLayer</span> <span class="htmlAttributeName">Source</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">https://tile.openstreetmap.org/{z}/{x}/{y}.png</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">Attribution</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">&amp;copy; OpenStreetMap contributors</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">MapCircle</span> <span class="htmlAttributeName">Center</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>split</span><span class="quot">&quot;</span>
+               <span class="htmlAttributeName">Radius</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">1200</span><span class="quot">&quot;</span>
+               <span class="htmlAttributeName">Style</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>cityAreaStyle</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">MapPolyline</span> <span class="htmlAttributeName">Coordinates</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>route</span><span class="quot">&quot;</span>
+                 <span class="htmlAttributeName">Style</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>routeStyle</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">MapPolygon</span> <span class="htmlAttributeName">Rings</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>polygon</span><span class="quot">&quot;</span>
+                <span class="htmlAttributeName">Style</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>polygonStyle</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Map</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">readonly</span> MapCoordinate split = <span class="keyword">new</span>( <span class="number">43</span>.<span class="number">5081</span>, <span class="number">16</span>.<span class="number">4402</span> );
+
+    <span class="keyword">private</span> MapView view = <span class="keyword">new</span>()
+    {
+        Center = <span class="keyword">new</span>( <span class="number">43</span>.<span class="number">5081</span>, <span class="number">16</span>.<span class="number">4402</span> ),
+        Zoom = <span class="number">13</span>,
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> MapShapeStyle cityAreaStyle = <span class="keyword">new</span>()
+    {
+        StrokeColor = <span class="string">&quot;#2f80ed&quot;</span>,
+        FillColor = <span class="string">&quot;#2f80ed&quot;</span>,
+        FillOpacity = <span class="number">0</span>.<span class="number">12</span>,
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> MapShapeStyle routeStyle = <span class="keyword">new</span>()
+    {
+        StrokeColor = <span class="string">&quot;#d9480f&quot;</span>,
+        StrokeWidth = <span class="number">4</span>,
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> MapShapeStyle polygonStyle = <span class="keyword">new</span>()
+    {
+        StrokeColor = <span class="string">&quot;#2f9e44&quot;</span>,
+        FillColor = <span class="string">&quot;#2f9e44&quot;</span>,
+        FillOpacity = <span class="number">0</span>.<span class="number">16</span>,
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IReadOnlyList&lt;MapCoordinate&gt; route =
+    [
+        <span class="keyword">new</span>( <span class="number">43</span>.<span class="number">5073</span>, <span class="number">16</span>.<span class="number">4379</span> ),
+        <span class="keyword">new</span>( <span class="number">43</span>.<span class="number">5081</span>, <span class="number">16</span>.<span class="number">4402</span> ),
+        <span class="keyword">new</span>( <span class="number">43</span>.<span class="number">5094</span>, <span class="number">16</span>.<span class="number">4349</span> ),
+        <span class="keyword">new</span>( <span class="number">43</span>.<span class="number">5107</span>, <span class="number">16</span>.<span class="number">4147</span> ),
+    ];
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IReadOnlyList&lt;IReadOnlyList&lt;MapCoordinate&gt;&gt; polygon =
+    [
+        [
+            <span class="keyword">new</span>( <span class="number">43</span>.<span class="number">5066</span>, <span class="number">16</span>.<span class="number">4366</span> ),
+            <span class="keyword">new</span>( <span class="number">43</span>.<span class="number">5094</span>, <span class="number">16</span>.<span class="number">4384</span> ),
+            <span class="keyword">new</span>( <span class="number">43</span>.<span class="number">5101</span>, <span class="number">16</span>.<span class="number">4432</span> ),
+            <span class="keyword">new</span>( <span class="number">43</span>.<span class="number">5069</span>, <span class="number">16</span>.<span class="number">4445</span> ),
+            <span class="keyword">new</span>( <span class="number">43</span>.<span class="number">5066</span>, <span class="number">16</span>.<span class="number">4366</span> ),
+        ],
+    ];
+}
+</pre></div>
+</div>

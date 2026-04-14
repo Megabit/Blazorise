@@ -69,6 +69,7 @@
     <Project Path="Source/Extensions/Blazorise.LoadingIndicator/Blazorise.LoadingIndicator.csproj" />
     <Project Path="Source/Extensions/Blazorise.LottieAnimation/Blazorise.LottieAnimation.csproj" />
     <Project Path="Source/Extensions/Blazorise.Markdown/Blazorise.Markdown.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Maps/Blazorise.Maps.csproj" />
     <Project Path="Source/Extensions/Blazorise.PdfViewer/Blazorise.PdfViewer.csproj" />
     <Project Path="Source/Extensions/Blazorise.QRCode/Blazorise.QRCode.csproj" />
     <Project Path="Source/Extensions/Blazorise.RichTextEdit/Blazorise.RichTextEdit.csproj" />

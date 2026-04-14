@@ -1,0 +1,161 @@
+@page "/docs/extensions/maps"
+
+<Seo Canonical="/docs/extensions/maps" Title="Blazorise Maps component" Description="Learn how to use the Blazorise Maps component to display interactive maps, markers, and map shapes." />
+
+<DocsPageTitle Path="Extensions/Maps">
+    Blazorise Maps component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Display interactive maps with tile layers, markers, and geographic shapes.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    The Maps extension follows the same abstraction principles as the rest of Blazorise: applications work with Blazorise components and models instead of being coupled directly to a specific map provider.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    The first implementation uses Leaflet internally while keeping the public component model provider-neutral. This allows additional map providers to be supported over time without changing how applications compose maps, layers, markers, and shapes.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    To use the <Code>Map</Code> component, install the <Code>Blazorise.Maps</Code> package first.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Components
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Maps are composed from a parent <Code>Map</Code> and one or more child layer components. The child components describe what should be rendered; the selected provider handles the rendering details internally.
+</DocsPageParagraph>
+
+<Table>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>Component</TableHeaderCell>
+            <TableHeaderCell>Purpose</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell><Code>Map</Code></TableRowCell>
+            <TableRowCell>Hosts the interactive map, manages the current view, and coordinates child layers, events, and programmatic navigation.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>MapTileLayer</Code></TableRowCell>
+            <TableRowCell>Defines the raster tile source used as the base map, including the source URL, attribution, zoom range, tile size, and optional subdomains.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>MapMarker</Code></TableRowCell>
+            <TableRowCell>Displays a single marker at a coordinate, with optional title, tooltip, popup text, custom icon, click handling, and dragging.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>MapMarkerLayer&lt;TItem&gt;</Code></TableRowCell>
+            <TableRowCell>Creates markers from a data collection by using selector functions for coordinates, text, icons, identifiers, and marker behavior.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>MapCircle</Code></TableRowCell>
+            <TableRowCell>Draws a circular area from a center coordinate and radius, with provider-neutral stroke and fill styling.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>MapPolyline</Code></TableRowCell>
+            <TableRowCell>Draws an ordered path through multiple coordinates, typically used for routes, tracks, or connections.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>MapPolygon</Code></TableRowCell>
+            <TableRowCell>Draws one or more closed rings to represent areas, boundaries, or zones, with optional stroke and fill styling.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell><Code>MapLayer</Code></TableRowCell>
+            <TableRowCell>Provides the shared base behavior for map layers, including visibility, opacity, ordering, interaction, and registration with the parent map.</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="MapsNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="MapsImportsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Service Registration">
+        Register the Maps extension after the Blazorise services.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="MapsServiceRegistrationExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        Use <Code>MapTileLayer</Code> to define the base map and <Code>MapMarker</Code> to display a location.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <MapsBasicExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MapsBasicExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Markers From Data">
+        Use <Code>MapMarkerLayer&lt;TItem&gt;</Code> to render markers from a collection. Provide <Code>IdSelector</Code> so each marker has a stable identifier across renders.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <MapsMarkerLayerExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MapsMarkerLayerExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Shapes">
+        Add circles, polylines, and polygons as child layers inside the map.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <MapsShapesExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MapsShapesExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Events And Navigation">
+        Handle map events and move the map programmatically with the component reference, or by updating the bound <Code>View</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <MapsEventsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MapsEventsExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Providers
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The current provider supports raster XYZ tile services through <Code>MapTileLayer</Code>. You can use OpenStreetMap or another compatible tile service by setting <Code>Source</Code>, <Code>Subdomains</Code>, and <Code>Attribution</Code> according to the service requirements.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Future providers can build on the same Blazorise map concepts, such as <Code>Map</Code>, <Code>MapMarker</Code>, <Code>MapCircle</Code>, <Code>MapPolyline</Code>, and <Code>MapPolygon</Code>, while adapting the rendering details internally.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Attribution is optional in the API, but tile providers often require it. When using OpenStreetMap tiles, set <Code>Attribution</Code> to credit OpenStreetMap contributors.
+</DocsPageParagraph>
+
+<ComponentApiDocs ComponentTypes="[typeof(Blazorise.Maps.Map), typeof(MapTileLayer), typeof(MapMarker), typeof(MapMarkerLayer<>), typeof(MapCircle), typeof(MapPolyline), typeof(MapPolygon)]" />
