@@ -16,6 +16,7 @@ using Blazorise.Docs.Services;
 using Blazorise.Docs.Services.Search;
 using Blazorise.FluentValidation;
 using Blazorise.Icons.FontAwesome;
+using Blazorise.Maps;
 using Blazorise.RichTextEdit;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
@@ -67,6 +68,7 @@ public class Startup
             } )
             .AddBlazoriseFluentValidation()
             .AddBlazoriseGoogleReCaptcha( x => x.SiteKey = Configuration[key: "ReCaptchaSiteKey"] )
+            .AddBlazoriseMaps()
             .AddBlazoriseRouterTabs();
 
         services.Configure<BlogOptions>( Configuration.GetSection( "Blog" ) );

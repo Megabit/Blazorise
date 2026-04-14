@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-04-13T14:28:33.0446300Z",
+  "generatedUtc": "2026-04-14T11:07:22.2225038Z",
   "pages": [
     {
       "route": "/docs",
@@ -5994,6 +5994,100 @@
         {
           "kind": "type",
           "name": "LottieAnimation"
+        }
+      ]
+    },
+    {
+      "route": "/docs/extensions/maps",
+      "title": "Blazorise Maps component",
+      "description": "Learn how to use the Blazorise Maps component to display interactive maps, markers, and map shapes.",
+      "pagePath": "Pages/Docs/Extensions/Maps/MapsPage.razor",
+      "examples": [
+        {
+          "code": "MapsNugetInstallExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/Maps/Examples/MapsNugetInstallExample.snippet",
+          "content": "Install-Package Blazorise.Maps",
+          "title": "NuGet",
+          "description": "Install extension from NuGet."
+        },
+        {
+          "code": "MapsImportsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/Maps/Examples/MapsImportsExample.snippet",
+          "content": "@using Blazorise.Maps",
+          "title": "Imports",
+          "description": "In your main _Imports.razor add:"
+        },
+        {
+          "code": "MapsServiceRegistrationExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/Maps/Examples/MapsServiceRegistrationExample.snippet",
+          "content": "builder.Services\r\n    .AddBlazorise()\r\n    .AddBlazoriseMaps();",
+          "title": "Service Registration",
+          "description": "Register the Maps extension after the Blazorise services."
+        },
+        {
+          "code": "MapsBasicExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Maps/Examples/MapsBasicExample.razor",
+          "content": "<Map View=\"@view\" Height=\"Height.Rem( 28 )\">\r\n    <MapTileLayer UrlTemplate=\"https://tile.openstreetmap.org/{z}/{x}/{y}.png\"\r\n                  Attribution=\"&copy; OpenStreetMap contributors\" />\r\n    <MapMarker Position=\"@zagreb\"\r\n               Title=\"Zagreb\"\r\n               PopupText=\"Zagreb, Croatia\" />\r\n</Map>\r\n\r\n@code {\r\n    private readonly MapCoordinate zagreb = new( 45.8150, 15.9819 );\r\n\r\n    private MapView view = new()\r\n    {\r\n        Center = new( 45.8150, 15.9819 ),\r\n        Zoom = 13,\r\n    };\r\n}",
+          "title": "Basic",
+          "description": "Use MapTileLayer to define the base map and MapMarker to display a location."
+        },
+        {
+          "code": "MapsMarkerLayerExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Maps/Examples/MapsMarkerLayerExample.razor",
+          "content": "<Map View=\"@view\" Height=\"Height.Rem( 28 )\">\r\n    <MapTileLayer UrlTemplate=\"https://tile.openstreetmap.org/{z}/{x}/{y}.png\"\r\n                  Attribution=\"&copy; OpenStreetMap contributors\" />\r\n    <MapMarkerLayer TItem=\"MapPlace\"\r\n                    Data=\"@places\"\r\n                    IdSelector=\"@( place => place.Id )\"\r\n                    PositionSelector=\"@( place => place.Position )\"\r\n                    TitleSelector=\"@( place => place.Name )\"\r\n                    PopupTextSelector=\"@( place => place.Description )\"\r\n                    MarkerClicked=\"@OnPlaceClicked\" />\r\n</Map>\r\n\r\n<Paragraph Margin=\"Margin.Is3.FromTop.Is0.FromBottom\">\r\n    Selected place: @selectedPlace\r\n</Paragraph>\r\n\r\n@code {\r\n    private MapView view = new()\r\n    {\r\n        Center = new( 45.8150, 15.9819 ),\r\n        Zoom = 13,\r\n    };\r\n\r\n    private readonly List<MapPlace> places =\r\n    [\r\n        new( \"ban-jelacic\", \"Ban Jelacic Square\", new( 45.8131, 15.9775 ), \"Main city square.\" ),\r\n        new( \"cathedral\", \"Zagreb Cathedral\", new( 45.8144, 15.9799 ), \"Historic cathedral near Kaptol.\" ),\r\n        new( \"maksimir\", \"Maksimir Park\", new( 45.8296, 16.0176 ), \"Large public park in eastern Zagreb.\" ),\r\n    ];\r\n\r\n    private string selectedPlace = \"none\";\r\n\r\n    private Task OnPlaceClicked( MapMarkerClickedEventArgs<MapPlace> eventArgs )\r\n    {\r\n        selectedPlace = eventArgs.Item.Name;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private sealed record MapPlace( string Id, string Name, MapCoordinate Position, string Description );\r\n}",
+          "title": "Markers From Data",
+          "description": "Use MapMarkerLayer&lt;TItem&gt; to render markers from a collection."
+        },
+        {
+          "code": "MapsShapesExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Maps/Examples/MapsShapesExample.razor",
+          "content": "<Map View=\"@view\" Height=\"Height.Rem( 28 )\">\r\n    <MapTileLayer UrlTemplate=\"https://tile.openstreetmap.org/{z}/{x}/{y}.png\"\r\n                  Attribution=\"&copy; OpenStreetMap contributors\" />\r\n    <MapCircle Center=\"@zagreb\"\r\n               Radius=\"1200\"\r\n               Style=\"@cityAreaStyle\" />\r\n    <MapPolyline Coordinates=\"@route\"\r\n                 Style=\"@routeStyle\" />\r\n    <MapPolygon Rings=\"@polygon\"\r\n                Style=\"@polygonStyle\" />\r\n</Map>\r\n\r\n@code {\r\n    private readonly MapCoordinate zagreb = new( 45.8150, 15.9819 );\r\n\r\n    private MapView view = new()\r\n    {\r\n        Center = new( 45.8150, 15.9819 ),\r\n        Zoom = 13,\r\n    };\r\n\r\n    private readonly MapShapeStyle cityAreaStyle = new()\r\n    {\r\n        StrokeColor = \"#2f80ed\",\r\n        FillColor = \"#2f80ed\",\r\n        FillOpacity = 0.12,\r\n    };\r\n\r\n    private readonly MapShapeStyle routeStyle = new()\r\n    {\r\n        StrokeColor = \"#d9480f\",\r\n        StrokeWidth = 4,\r\n    };\r\n\r\n    private readonly MapShapeStyle polygonStyle = new()\r\n    {\r\n        StrokeColor = \"#2f9e44\",\r\n        FillColor = \"#2f9e44\",\r\n        FillOpacity = 0.16,\r\n    };\r\n\r\n    private readonly IReadOnlyList<MapCoordinate> route =\r\n    [\r\n        new( 45.8131, 15.9775 ),\r\n        new( 45.8144, 15.9799 ),\r\n        new( 45.8170, 15.9910 ),\r\n        new( 45.8296, 16.0176 ),\r\n    ];\r\n\r\n    private readonly IReadOnlyList<IReadOnlyList<MapCoordinate>> polygon =\r\n    [\r\n        [\r\n            new( 45.8120, 15.9700 ),\r\n            new( 45.8190, 15.9730 ),\r\n            new( 45.8210, 15.9870 ),\r\n            new( 45.8110, 15.9880 ),\r\n            new( 45.8120, 15.9700 ),\r\n        ],\r\n    ];\r\n}",
+          "title": "Shapes",
+          "description": "Add circles, polylines, and polygons as child layers inside the map."
+        },
+        {
+          "code": "MapsEventsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Maps/Examples/MapsEventsExample.razor",
+          "content": "<Buttons Margin=\"Margin.Is3.FromBottom\">\r\n    <Button Color=\"Color.Primary\" Clicked=\"@ShowZagreb\">\r\n        Zagreb\r\n    </Button>\r\n    <Button Color=\"Color.Secondary\" Clicked=\"@ShowCroatia\">\r\n        Croatia\r\n    </Button>\r\n</Buttons>\r\n\r\n<Map @ref=\"@mapRef\"\r\n     View=\"@view\"\r\n     ViewChanged=\"@OnViewChanged\"\r\n     Clicked=\"@OnMapClicked\"\r\n     Height=\"Height.Rem( 28 )\">\r\n    <MapTileLayer UrlTemplate=\"https://tile.openstreetmap.org/{z}/{x}/{y}.png\"\r\n                  Attribution=\"&copy; OpenStreetMap contributors\" />\r\n    <MapMarker Position=\"@zagreb\"\r\n               Title=\"Zagreb\"\r\n               PopupText=\"Zagreb, Croatia\" />\r\n</Map>\r\n\r\n<Paragraph Margin=\"Margin.Is3.FromTop.Is0.FromBottom\">\r\n    Center: @view.Center.Latitude.ToString( \"0.0000\" ), @view.Center.Longitude.ToString( \"0.0000\" )\r\n    | Zoom: @view.Zoom.ToString( \"0.0\" )\r\n    | Last click: @lastMapClick\r\n</Paragraph>\r\n\r\n@code {\r\n    private Map mapRef;\r\n\r\n    private readonly MapCoordinate zagreb = new( 45.8150, 15.9819 );\r\n\r\n    private MapView view = new()\r\n    {\r\n        Center = new( 45.8150, 15.9819 ),\r\n        Zoom = 13,\r\n    };\r\n\r\n    private string lastMapClick = \"none\";\r\n\r\n    private Task ShowZagreb()\r\n        => mapRef.SetView( zagreb, 13 ).AsTask();\r\n\r\n    private Task ShowCroatia()\r\n    {\r\n        var bounds = new MapBounds(\r\n            new MapCoordinate( 42.30, 13.40 ),\r\n            new MapCoordinate( 46.60, 19.50 ) );\r\n\r\n        return mapRef.FitBounds( bounds, new() { Padding = new( 24, 24 ) } ).AsTask();\r\n    }\r\n\r\n    private Task OnViewChanged( MapView changedView )\r\n    {\r\n        view = changedView;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task OnMapClicked( MapMouseEventArgs eventArgs )\r\n    {\r\n        lastMapClick = $\"{eventArgs.Coordinate.Latitude:0.0000}, {eventArgs.Coordinate.Longitude:0.0000}\";\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n}",
+          "title": "Events And Navigation",
+          "description": "Handle map events and move the map programmatically with the component reference."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Map"
+        },
+        {
+          "kind": "type",
+          "name": "MapTileLayer"
+        },
+        {
+          "kind": "type",
+          "name": "MapMarker"
+        },
+        {
+          "kind": "type",
+          "name": "MapMarkerLayer"
+        },
+        {
+          "kind": "type",
+          "name": "MapCircle"
+        },
+        {
+          "kind": "type",
+          "name": "MapPolyline"
+        },
+        {
+          "kind": "type",
+          "name": "MapPolygon"
         }
       ]
     },

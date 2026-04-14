@@ -1,0 +1,46 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Map</span> <span class="htmlAttributeName">View</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>view</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Height</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Height.Rem( 28 )</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">MapTileLayer</span> <span class="htmlAttributeName">UrlTemplate</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">https://tile.openstreetmap.org/{z}/{x}/{y}.png</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">Attribution</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">&amp;copy; OpenStreetMap contributors</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">MapMarkerLayer</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">MapPlace</span><span class="quot">&quot;</span>
+                    <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>places</span><span class="quot">&quot;</span>
+                    <span class="htmlAttributeName">IdSelector</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( place =&gt; place.Id )</span><span class="quot">&quot;</span>
+                    <span class="htmlAttributeName">PositionSelector</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( place =&gt; place.Position )</span><span class="quot">&quot;</span>
+                    <span class="htmlAttributeName">TitleSelector</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( place =&gt; place.Name )</span><span class="quot">&quot;</span>
+                    <span class="htmlAttributeName">PopupTextSelector</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( place =&gt; place.Description )</span><span class="quot">&quot;</span>
+                    <span class="htmlAttributeName">MarkerClicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnPlaceClicked</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Map</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromTop.Is0.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    Selected place: <span class="atSign">&#64;</span>selectedPlace
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> MapView view = <span class="keyword">new</span>()
+    {
+        Center = <span class="keyword">new</span>( <span class="number">45</span>.<span class="number">8150</span>, <span class="number">15</span>.<span class="number">9819</span> ),
+        Zoom = <span class="number">13</span>,
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> List&lt;MapPlace&gt; places =
+    [
+        <span class="keyword">new</span>( <span class="string">&quot;ban-jelacic&quot;</span>, <span class="string">&quot;Ban Jelacic Square&quot;</span>, <span class="keyword">new</span>( <span class="number">45</span>.<span class="number">8131</span>, <span class="number">15</span>.<span class="number">9775</span> ), <span class="string">&quot;Main city square.&quot;</span> ),
+        <span class="keyword">new</span>( <span class="string">&quot;cathedral&quot;</span>, <span class="string">&quot;Zagreb Cathedral&quot;</span>, <span class="keyword">new</span>( <span class="number">45</span>.<span class="number">8144</span>, <span class="number">15</span>.<span class="number">9799</span> ), <span class="string">&quot;Historic cathedral near Kaptol.&quot;</span> ),
+        <span class="keyword">new</span>( <span class="string">&quot;maksimir&quot;</span>, <span class="string">&quot;Maksimir Park&quot;</span>, <span class="keyword">new</span>( <span class="number">45</span>.<span class="number">8296</span>, <span class="number">16</span>.<span class="number">0176</span> ), <span class="string">&quot;Large public park in eastern Zagreb.&quot;</span> ),
+    ];
+
+    <span class="keyword">private</span> <span class="keyword">string</span> selectedPlace = <span class="string">&quot;none&quot;</span>;
+
+    <span class="keyword">private</span> Task OnPlaceClicked( MapMarkerClickedEventArgs&lt;MapPlace&gt; eventArgs )
+    {
+        selectedPlace = eventArgs.Item.Name;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">sealed</span> record MapPlace( <span class="keyword">string</span> Id, <span class="keyword">string</span> Name, MapCoordinate Position, <span class="keyword">string</span> Description );
+}
+</pre></div>
+</div>

@@ -1,0 +1,62 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Map View="@view" Height="Height.Rem( 28 )">
+    <MapTileLayer UrlTemplate="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  Attribution="&copy; OpenStreetMap contributors" />
+    <MapCircle Center="@zagreb"
+               Radius="1200"
+               Style="@cityAreaStyle" />
+    <MapPolyline Coordinates="@route"
+                 Style="@routeStyle" />
+    <MapPolygon Rings="@polygon"
+                Style="@polygonStyle" />
+</Map>
+
+@code {
+    private readonly MapCoordinate zagreb = new( 45.8150, 15.9819 );
+
+    private MapView view = new()
+    {
+        Center = new( 45.8150, 15.9819 ),
+        Zoom = 13,
+    };
+
+    private readonly MapShapeStyle cityAreaStyle = new()
+    {
+        StrokeColor = "#2f80ed",
+        FillColor = "#2f80ed",
+        FillOpacity = 0.12,
+    };
+
+    private readonly MapShapeStyle routeStyle = new()
+    {
+        StrokeColor = "#d9480f",
+        StrokeWidth = 4,
+    };
+
+    private readonly MapShapeStyle polygonStyle = new()
+    {
+        StrokeColor = "#2f9e44",
+        FillColor = "#2f9e44",
+        FillOpacity = 0.16,
+    };
+
+    private readonly IReadOnlyList<MapCoordinate> route =
+    [
+        new( 45.8131, 15.9775 ),
+        new( 45.8144, 15.9799 ),
+        new( 45.8170, 15.9910 ),
+        new( 45.8296, 16.0176 ),
+    ];
+
+    private readonly IReadOnlyList<IReadOnlyList<MapCoordinate>> polygon =
+    [
+        [
+            new( 45.8120, 15.9700 ),
+            new( 45.8190, 15.9730 ),
+            new( 45.8210, 15.9870 ),
+            new( 45.8110, 15.9880 ),
+            new( 45.8120, 15.9700 ),
+        ],
+    ];
+}

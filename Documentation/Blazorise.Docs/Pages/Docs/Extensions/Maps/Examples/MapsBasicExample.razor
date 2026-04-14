@@ -1,0 +1,19 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Map View="@view" Height="Height.Rem( 28 )">
+    <MapTileLayer UrlTemplate="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  Attribution="&copy; OpenStreetMap contributors" />
+    <MapMarker Position="@zagreb"
+               Title="Zagreb"
+               PopupText="Zagreb, Croatia" />
+</Map>
+
+@code {
+    private readonly MapCoordinate zagreb = new( 45.8150, 15.9819 );
+
+    private MapView view = new()
+    {
+        Center = new( 45.8150, 15.9819 ),
+        Zoom = 13,
+    };
+}

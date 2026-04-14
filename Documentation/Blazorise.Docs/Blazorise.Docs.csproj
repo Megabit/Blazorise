@@ -43,6 +43,7 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.PdfViewer\Blazorise.PdfViewer.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Scheduler\Blazorise.Scheduler.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Gantt\Blazorise.Gantt.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Maps\Blazorise.Maps.csproj" />
     <PackageReference Include="MailKit" />
     <PackageReference Include="MimeKit" />
     <PackageReference Include="Blazored.LocalStorage" />

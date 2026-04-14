@@ -1,0 +1,43 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Map View="@view" Height="Height.Rem( 28 )">
+    <MapTileLayer UrlTemplate="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  Attribution="&copy; OpenStreetMap contributors" />
+    <MapMarkerLayer TItem="MapPlace"
+                    Data="@places"
+                    IdSelector="@( place => place.Id )"
+                    PositionSelector="@( place => place.Position )"
+                    TitleSelector="@( place => place.Name )"
+                    PopupTextSelector="@( place => place.Description )"
+                    MarkerClicked="@OnPlaceClicked" />
+</Map>
+
+<Paragraph Margin="Margin.Is3.FromTop.Is0.FromBottom">
+    Selected place: @selectedPlace
+</Paragraph>
+
+@code {
+    private MapView view = new()
+    {
+        Center = new( 45.8150, 15.9819 ),
+        Zoom = 13,
+    };
+
+    private readonly List<MapPlace> places =
+    [
+        new( "ban-jelacic", "Ban Jelacic Square", new( 45.8131, 15.9775 ), "Main city square." ),
+        new( "cathedral", "Zagreb Cathedral", new( 45.8144, 15.9799 ), "Historic cathedral near Kaptol." ),
+        new( "maksimir", "Maksimir Park", new( 45.8296, 16.0176 ), "Large public park in eastern Zagreb." ),
+    ];
+
+    private string selectedPlace = "none";
+
+    private Task OnPlaceClicked( MapMarkerClickedEventArgs<MapPlace> eventArgs )
+    {
+        selectedPlace = eventArgs.Item.Name;
+
+        return Task.CompletedTask;
+    }
+
+    private sealed record MapPlace( string Id, string Name, MapCoordinate Position, string Description );
+}
