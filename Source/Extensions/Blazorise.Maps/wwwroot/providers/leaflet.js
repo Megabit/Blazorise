@@ -296,7 +296,7 @@ function registerMapEvents(instance) {
 function registerControls(instance, options) {
     const controls = options?.controls || {};
 
-    if (controls.scale)
+    if (controls.showScale)
         globalThis.L.control.scale().addTo(instance.map);
 }
 
@@ -311,15 +311,16 @@ function notifyViewChanged(instance, reason) {
 function toLeafletMapOptions(options) {
     options = options || {};
     const controls = options.controls || {};
+    const interactive = options.interactive ?? true;
 
     const mapOptions = {
-        dragging: options.interactive && options.dragging,
-        scrollWheelZoom: options.interactive && options.scrollWheelZoom,
-        doubleClickZoom: options.interactive && options.doubleClickZoom,
-        keyboard: options.interactive && options.keyboard,
-        touchZoom: options.interactive && options.touchZoom,
-        zoomControl: controls.zoom,
-        attributionControl: controls.attribution,
+        dragging: interactive && (options.panning ?? true),
+        scrollWheelZoom: interactive && (options.zoomOnScroll ?? true),
+        doubleClickZoom: interactive && (options.zoomOnDoubleClick ?? true),
+        keyboard: interactive && (options.keyboardNavigation ?? true),
+        touchZoom: interactive && (options.zoomOnTouch ?? true),
+        zoomControl: controls.showZoom ?? true,
+        attributionControl: controls.showAttribution ?? true,
     };
 
     if (options.minZoom !== null && options.minZoom !== undefined)
@@ -336,7 +337,7 @@ function toAnimationOptions(options) {
         return {};
 
     return {
-        animate: options.animate,
+        animate: options.animated ?? true,
         duration: options.duration,
     };
 }

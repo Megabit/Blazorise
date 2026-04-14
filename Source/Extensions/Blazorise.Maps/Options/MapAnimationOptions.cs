@@ -8,7 +8,7 @@ public class MapAnimationOptions
     /// <summary>
     /// Enables animated map movement.
     /// </summary>
-    public bool Animate { get; set; } = true;
+    public bool Animated { get; set; } = true;
 
     /// <summary>
     /// Defines animation duration in seconds.

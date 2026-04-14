@@ -8,15 +8,15 @@ public class MapControlOptions
     /// <summary>
     /// Shows or hides the zoom control.
     /// </summary>
-    public bool Zoom { get; set; } = true;
+    public bool ShowZoom { get; set; } = true;
 
     /// <summary>
     /// Shows or hides provider attribution.
     /// </summary>
-    public bool Attribution { get; set; } = true;
+    public bool ShowAttribution { get; set; } = true;
 
     /// <summary>
     /// Shows or hides the scale control.
     /// </summary>
-    public bool Scale { get; set; }
+    public bool ShowScale { get; set; }
 }
