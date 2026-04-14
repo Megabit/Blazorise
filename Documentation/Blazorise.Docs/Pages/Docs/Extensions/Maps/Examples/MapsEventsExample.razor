@@ -1,8 +1,8 @@
 @namespace Blazorise.Docs.Docs.Examples
 
 <Buttons Margin="Margin.Is3.FromBottom">
-    <Button Color="Color.Primary" Clicked="@ShowZagreb">
-        Zagreb
+    <Button Color="Color.Primary" Clicked="@ShowSplit">
+        Split
     </Button>
     <Button Color="Color.Secondary" Clicked="@ShowCroatia">
         Croatia
@@ -16,9 +16,9 @@
      Height="Height.Rem( 28 )">
     <MapTileLayer Source="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
                   Attribution="&copy; OpenStreetMap contributors" />
-    <MapMarker Coordinate="@zagreb"
-               Title="Zagreb"
-               PopupText="Zagreb, Croatia" />
+    <MapMarker Coordinate="@split"
+               Title="Split"
+               PopupText="Split, Croatia" />
 </Map>
 
 <Paragraph Margin="Margin.Is3.FromTop.Is0.FromBottom">
@@ -30,18 +30,18 @@
 @code {
     private Map mapRef;
 
-    private readonly MapCoordinate zagreb = new( 45.8150, 15.9819 );
+    private readonly MapCoordinate split = new( 43.5081, 16.4402 );
 
     private MapView view = new()
     {
-        Center = new( 45.8150, 15.9819 ),
+        Center = new( 43.5081, 16.4402 ),
         Zoom = 13,
     };
 
     private string lastMapClick = "none";
 
-    private Task ShowZagreb()
-        => mapRef.SetView( zagreb, 13 ).AsTask();
+    private Task ShowSplit()
+        => mapRef.SetView( split, 13 ).AsTask();
 
     private Task ShowCroatia()
     {

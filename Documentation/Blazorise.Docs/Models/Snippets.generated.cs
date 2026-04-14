@@ -11383,24 +11383,24 @@ Install-Package Blazorise.Icons.Material";
         public const string MapsBasicExample = @"<Map View=""@view"" Height=""Height.Rem( 28 )"">
     <MapTileLayer Source=""https://tile.openstreetmap.org/{z}/{x}/{y}.png""
                   Attribution=""&copy; OpenStreetMap contributors"" />
-    <MapMarker Coordinate=""@zagreb""
-               Title=""Zagreb""
-               PopupText=""Zagreb, Croatia"" />
+    <MapMarker Coordinate=""@split""
+               Title=""Split""
+               PopupText=""Split, Croatia"" />
 </Map>
 
 @code {
-    private readonly MapCoordinate zagreb = new( 45.8150, 15.9819 );
+    private readonly MapCoordinate split = new( 43.5081, 16.4402 );
 
     private MapView view = new()
     {
-        Center = new( 45.8150, 15.9819 ),
+        Center = new( 43.5081, 16.4402 ),
         Zoom = 13,
     };
 }";
 
         public const string MapsEventsExample = @"<Buttons Margin=""Margin.Is3.FromBottom"">
-    <Button Color=""Color.Primary"" Clicked=""@ShowZagreb"">
-        Zagreb
+    <Button Color=""Color.Primary"" Clicked=""@ShowSplit"">
+        Split
     </Button>
     <Button Color=""Color.Secondary"" Clicked=""@ShowCroatia"">
         Croatia
@@ -11414,9 +11414,9 @@ Install-Package Blazorise.Icons.Material";
      Height=""Height.Rem( 28 )"">
     <MapTileLayer Source=""https://tile.openstreetmap.org/{z}/{x}/{y}.png""
                   Attribution=""&copy; OpenStreetMap contributors"" />
-    <MapMarker Coordinate=""@zagreb""
-               Title=""Zagreb""
-               PopupText=""Zagreb, Croatia"" />
+    <MapMarker Coordinate=""@split""
+               Title=""Split""
+               PopupText=""Split, Croatia"" />
 </Map>
 
 <Paragraph Margin=""Margin.Is3.FromTop.Is0.FromBottom"">
@@ -11428,18 +11428,18 @@ Install-Package Blazorise.Icons.Material";
 @code {
     private Map mapRef;
 
-    private readonly MapCoordinate zagreb = new( 45.8150, 15.9819 );
+    private readonly MapCoordinate split = new( 43.5081, 16.4402 );
 
     private MapView view = new()
     {
-        Center = new( 45.8150, 15.9819 ),
+        Center = new( 43.5081, 16.4402 ),
         Zoom = 13,
     };
 
     private string lastMapClick = ""none"";
 
-    private Task ShowZagreb()
-        => mapRef.SetView( zagreb, 13 ).AsTask();
+    private Task ShowSplit()
+        => mapRef.SetView( split, 13 ).AsTask();
 
     private Task ShowCroatia()
     {
@@ -11486,15 +11486,15 @@ Install-Package Blazorise.Icons.Material";
 @code {
     private MapView view = new()
     {
-        Center = new( 45.8150, 15.9819 ),
+        Center = new( 43.5081, 16.4402 ),
         Zoom = 13,
     };
 
     private readonly List<MapPlace> places =
     [
-        new( ""ban-jelacic"", ""Ban Jelacic Square"", new( 45.8131, 15.9775 ), ""Main city square."" ),
-        new( ""cathedral"", ""Zagreb Cathedral"", new( 45.8144, 15.9799 ), ""Historic cathedral near Kaptol."" ),
-        new( ""maksimir"", ""Maksimir Park"", new( 45.8296, 16.0176 ), ""Large public park in eastern Zagreb."" ),
+        new( ""riva"", ""Riva Promenade"", new( 43.5073, 16.4379 ), ""Waterfront promenade by the harbor."" ),
+        new( ""diocletian-palace"", ""Diocletian's Palace"", new( 43.5081, 16.4402 ), ""Historic palace in the city center."" ),
+        new( ""marjan"", ""Marjan Hill"", new( 43.5107, 16.4147 ), ""Forested hill and park west of the old town."" ),
     ];
 
     private string selectedPlace = ""none"";
@@ -11518,7 +11518,7 @@ Install-Package Blazorise.Icons.Material";
         public const string MapsShapesExample = @"<Map View=""@view"" Height=""Height.Rem( 28 )"">
     <MapTileLayer Source=""https://tile.openstreetmap.org/{z}/{x}/{y}.png""
                   Attribution=""&copy; OpenStreetMap contributors"" />
-    <MapCircle Center=""@zagreb""
+    <MapCircle Center=""@split""
                Radius=""1200""
                Style=""@cityAreaStyle"" />
     <MapPolyline Coordinates=""@route""
@@ -11528,11 +11528,11 @@ Install-Package Blazorise.Icons.Material";
 </Map>
 
 @code {
-    private readonly MapCoordinate zagreb = new( 45.8150, 15.9819 );
+    private readonly MapCoordinate split = new( 43.5081, 16.4402 );
 
     private MapView view = new()
     {
-        Center = new( 45.8150, 15.9819 ),
+        Center = new( 43.5081, 16.4402 ),
         Zoom = 13,
     };
 
@@ -11558,20 +11558,20 @@ Install-Package Blazorise.Icons.Material";
 
     private readonly IReadOnlyList<MapCoordinate> route =
     [
-        new( 45.8131, 15.9775 ),
-        new( 45.8144, 15.9799 ),
-        new( 45.8170, 15.9910 ),
-        new( 45.8296, 16.0176 ),
+        new( 43.5073, 16.4379 ),
+        new( 43.5081, 16.4402 ),
+        new( 43.5094, 16.4349 ),
+        new( 43.5107, 16.4147 ),
     ];
 
     private readonly IReadOnlyList<IReadOnlyList<MapCoordinate>> polygon =
     [
         [
-            new( 45.8120, 15.9700 ),
-            new( 45.8190, 15.9730 ),
-            new( 45.8210, 15.9870 ),
-            new( 45.8110, 15.9880 ),
-            new( 45.8120, 15.9700 ),
+            new( 43.5066, 16.4366 ),
+            new( 43.5094, 16.4384 ),
+            new( 43.5101, 16.4432 ),
+            new( 43.5069, 16.4445 ),
+            new( 43.5066, 16.4366 ),
         ],
     ];
 }";

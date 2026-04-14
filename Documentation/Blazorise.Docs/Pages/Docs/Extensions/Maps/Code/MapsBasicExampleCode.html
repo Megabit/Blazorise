@@ -3,18 +3,18 @@
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Map</span> <span class="htmlAttributeName">View</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>view</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Height</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Height.Rem( 28 )</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">MapTileLayer</span> <span class="htmlAttributeName">Source</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">https://tile.openstreetmap.org/{z}/{x}/{y}.png</span><span class="quot">&quot;</span>
                   <span class="htmlAttributeName">Attribution</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">&amp;copy; OpenStreetMap contributors</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">MapMarker</span> <span class="htmlAttributeName">Coordinate</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>zagreb</span><span class="quot">&quot;</span>
-               <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Zagreb</span><span class="quot">&quot;</span>
-               <span class="htmlAttributeName">PopupText</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Zagreb, Croatia</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">MapMarker</span> <span class="htmlAttributeName">Coordinate</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>split</span><span class="quot">&quot;</span>
+               <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Split</span><span class="quot">&quot;</span>
+               <span class="htmlAttributeName">PopupText</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Split, Croatia</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Map</span><span class="htmlTagDelimiter">&gt;</span>
 </pre></div>
 <div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
-    <span class="keyword">private</span> <span class="keyword">readonly</span> MapCoordinate zagreb = <span class="keyword">new</span>( <span class="number">45</span>.<span class="number">8150</span>, <span class="number">15</span>.<span class="number">9819</span> );
+    <span class="keyword">private</span> <span class="keyword">readonly</span> MapCoordinate split = <span class="keyword">new</span>( <span class="number">43</span>.<span class="number">5081</span>, <span class="number">16</span>.<span class="number">4402</span> );
 
     <span class="keyword">private</span> MapView view = <span class="keyword">new</span>()
     {
-        Center = <span class="keyword">new</span>( <span class="number">45</span>.<span class="number">8150</span>, <span class="number">15</span>.<span class="number">9819</span> ),
+        Center = <span class="keyword">new</span>( <span class="number">43</span>.<span class="number">5081</span>, <span class="number">16</span>.<span class="number">4402</span> ),
         Zoom = <span class="number">13</span>,
     };
 }
