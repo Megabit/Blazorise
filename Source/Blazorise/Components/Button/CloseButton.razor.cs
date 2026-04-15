@@ -50,6 +50,10 @@ public partial class CloseButton : BaseComponent
             {
                 await ParentModal.Hide();
             }
+            else if ( ParentOffcanvas is not null )
+            {
+                await ParentOffcanvas.Hide();
+            }
         }
 
         await Clicked.InvokeAsync( eventArgs );
@@ -87,7 +91,7 @@ public partial class CloseButton : BaseComponent
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
     /// <summary>
-    /// If true, the parent <see cref="Alert"/> or <see cref="Modal"/> with be automatically closed
+    /// If true, the parent <see cref="Alert"/>, <see cref="Modal"/>, <see cref="Toast"/>, or <see cref="Offcanvas"/> will be automatically closed
     /// when <see cref="CloseButton"/> button is placed inside of them.
     /// </summary>
     [Parameter] public bool? AutoClose { get; set; }
@@ -106,6 +110,11 @@ public partial class CloseButton : BaseComponent
     /// Cascaded <see cref="Toast"/> component in which this <see cref="CloseButton"/> is placed.
     /// </summary>
     [CascadingParameter] protected Toast ParentToast { get; set; }
+
+    /// <summary>
+    /// Cascaded <see cref="Offcanvas"/> component in which this <see cref="CloseButton"/> is placed.
+    /// </summary>
+    [CascadingParameter] protected Offcanvas ParentOffcanvas { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="CloseButton"/>.
