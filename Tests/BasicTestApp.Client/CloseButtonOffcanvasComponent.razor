@@ -1,0 +1,22 @@
+﻿<Offcanvas Visible="@offcanvasVisible" VisibleChanged="@OffcanvasVisibleChanged" Closed="@OffcanvasClosed" Animated="false">
+    <OffcanvasHeader>
+        <CloseButton ElementId="autoclose-offcanvas-button" />
+    </OffcanvasHeader>
+</Offcanvas>
+
+<span id="autoclose-offcanvas-button-event-result">@offcanvasClosedCounter</span>
+
+@code{
+    int offcanvasClosedCounter = 0;
+    bool offcanvasVisible = true;
+
+    void OffcanvasVisibleChanged( bool visible )
+    {
+        offcanvasVisible = visible;
+    }
+
+    void OffcanvasClosed()
+    {
+        offcanvasClosedCounter++;
+    }
+}

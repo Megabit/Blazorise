@@ -72,4 +72,20 @@ public class CloseButtonComponentTest : TestContext
         // validate
         Assert.Equal( "1", result1 );
     }
+
+    [Fact]
+    public async Task CanAutoCloseOffcanvas()
+    {
+        // setup
+        var comp = RenderComponent<CloseButtonOffcanvasComponent>();
+        var result = comp.Find( "#autoclose-offcanvas-button-event-result" );
+        var button = comp.Find( "#autoclose-offcanvas-button" );
+
+        // test
+        await button.ClickAsync( new() { Button = 0 } );
+        var result1 = result.InnerHtml;
+
+        // validate
+        Assert.Equal( "1", result1 );
+    }
 }
