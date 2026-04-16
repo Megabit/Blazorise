@@ -113,11 +113,7 @@
                     async function attemptReload() {
                         if (!isReloading) {
                             isReloading = true;
-                            var request = new Request({
-                                url: '/healthcheck',
-                                method: 'GET'
-                            });
-                            var result = await fetch(request);
+                            var result = await fetch('/healthcheck', { method: 'GET' });
                             if (result.status == 200) {
                                 document.location.reload();
                             }

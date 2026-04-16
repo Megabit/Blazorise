@@ -155,6 +155,7 @@ public class Startup
             .AddInteractiveServerRenderMode();
 
         app.MapControllers();
+        app.MapHealthChecks( "/healthcheck" );
 
         //app.UseRouting();
 
@@ -169,9 +170,9 @@ public class Startup
         //permanent redirects
         app.Use( async ( context, next ) =>
         {
-            var path = context.Request.Path.Value?.ToLowerInvariant();
+            var path = context.Request.Path.Value;
 
-            if ( path is not null && PermanentRedirects.Map.TryGetValue( path, out var newPath ) )
+            if ( path is not null && PermanentRedirects.TryGetValue( path, out var newPath ) )
             {
                 context.Response.StatusCode = StatusCodes.Status301MovedPermanently;
                 context.Response.Headers.Location = newPath;

@@ -26,39 +26,27 @@ public class SeoGenerator
 
     public static async Task GenerateSitemap( HttpContext context )
     {
-        var pages = typeof( App ).Assembly.ExportedTypes.Where( p => p.IsSubclassOf( typeof( ComponentBase ) )
-                                                                     && p.Namespace.StartsWith( "Blazorise.Docs.Pages" )
-                                                                     && p.Namespace != "Blazorise.Docs.Docs.Examples" );
+        var urls = GetSitemapUrls( context );
 
-        var baseUrl = GetBaseUrl( context );
+        context.Response.ContentType = "text/plain";
 
-        foreach ( var page in pages )
+        foreach ( var url in urls )
         {
-            if ( page.CustomAttributes != null )
-            {
-                foreach ( var routeAttribute in page.GetCustomAttributes<RouteAttribute>() )
-                {
-                    await context.Response.WriteAsync( $"{baseUrl}{routeAttribute.Template}\n" );
-                }
-            }
+            await context.Response.WriteAsync( $"{url}\n" );
         }
     }
 
     public static async Task GenerateSitemapXml( HttpContext context )
     {
-        var pages = typeof( App ).Assembly.ExportedTypes.Where( p => p.IsSubclassOf( typeof( ComponentBase ) )
-                                                                     && p.Namespace.StartsWith( "Blazorise.Docs.Pages" )
-                                                                     && p.Namespace != "Blazorise.Docs.Docs.Examples" );
+        var urls = GetSitemapUrls( context );
+        var sitemapNamespace = XNamespace.Get( "http://www.sitemaps.org/schemas/sitemap/0.9" );
 
-        var baseUrl = GetBaseUrl( context );
-        var urls = pages.Where( x => x.CustomAttributes is not null ).SelectMany( x => x.GetCustomAttributes<RouteAttribute>() ).Select( x => $"{baseUrl}{x.Template}" ).ToList();
+        context.Response.ContentType = "application/xml";
 
-        var sitemap = new XElement( "urlset",
-                 new XAttribute( XNamespace.Xmlns + "x", "http://www.sitemaps.org/schemas/sitemap/0.9" ),
+        var sitemap = new XElement( sitemapNamespace + "urlset",
                  from url in urls
-                 select new XElement( "url",
-                     new XElement( "loc", url ),
-                     new XElement( "lastmod", DateTime.UtcNow.ToString( "yyyy-MM-ddTHH:mm:ssZ" ) ) ) );
+                 select new XElement( sitemapNamespace + "url",
+                     new XElement( sitemapNamespace + "loc", url ) ) );
 
         await context.Response.WriteAsync( sitemap.ToString() );
     }
@@ -101,6 +89,31 @@ public class SeoGenerator
             permalink = "/" + permalink;
 
         return baseUrl + permalink;
+    }
+
+    private static string[] GetSitemapUrls( HttpContext context )
+    {
+        var baseUrl = GetBaseUrl( context );
+
+        return typeof( App ).Assembly.ExportedTypes
+            .Where( p => p.IsSubclassOf( typeof( ComponentBase ) )
+                         && p.Namespace.StartsWith( "Blazorise.Docs.Pages" )
+                         && p.Namespace != "Blazorise.Docs.Docs.Examples" )
+            .Where( p => p.CustomAttributes is not null )
+            .SelectMany( x => x.GetCustomAttributes<RouteAttribute>() )
+            .Select( x => x.Template )
+            .Where( IsConcreteRoute )
+            .Distinct( StringComparer.OrdinalIgnoreCase )
+            .OrderBy( x => x, StringComparer.OrdinalIgnoreCase )
+            .Select( x => $"{baseUrl}{x}" )
+            .ToArray();
+    }
+
+    private static bool IsConcreteRoute( string routeTemplate )
+    {
+        return !string.IsNullOrWhiteSpace( routeTemplate )
+               && !routeTemplate.Contains( "{", StringComparison.Ordinal )
+               && !routeTemplate.Contains( "}", StringComparison.Ordinal );
     }
 
     private static string GetBaseUrl( HttpContext context )
