@@ -19,7 +19,9 @@ public class SeoGenerator
         context.Response.ContentType = "text/plain";
 
         await context.Response.WriteAsync( $"User-agent: *\n" );
-        await context.Response.WriteAsync( $"Disallow: \n\n" );
+        await context.Response.WriteAsync( $"Disallow: /block/\n" );
+        await context.Response.WriteAsync( $"Disallow: /blocks/\n" );
+        await context.Response.WriteAsync( $"Disallow: /support/\n\n" );
 
         await context.Response.WriteAsync( $"Sitemap: {baseUrl}/sitemap.txt" );
     }
