@@ -147,8 +147,25 @@ public class Startup
         }
 
         app.UseHttpsRedirection();
+        app.UseStatusCodePages( context =>
+        {
+            if ( context.HttpContext.Response.StatusCode == StatusCodes.Status404NotFound )
+            {
+                context.HttpContext.Response.ContentType = "text/plain; charset=utf-8";
+                return context.HttpContext.Response.WriteAsync( "Not found" );
+            }
 
-        app.UseStaticFiles();
+            return System.Threading.Tasks.Task.CompletedTask;
+        } );
+
+        app.UseStaticFiles( new StaticFileOptions
+        {
+            OnPrepareResponse = context =>
+            {
+                const int cacheDurationInSeconds = 60 * 60 * 24 * 365;
+                context.Context.Response.Headers.CacheControl = $"public,max-age={cacheDurationInSeconds},immutable";
+            }
+        } );
         app.UseAntiforgery();
 
         app.MapRazorComponents<App>()

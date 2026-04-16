@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-04-14T15:19:15.4735115Z",
+  "generatedUtc": "2026-04-16T11:50:13.3434113Z",
   "pages": [
     {
       "route": "/docs",
@@ -1301,7 +1301,7 @@
     },
     {
       "route": "/docs/components/field",
-      "title": "Blazorise Field Component - Form Layout & Input Grouping",
+      "title": "Blazorise Field Component - Form Layout &amp; Input Grouping",
       "description": "Learn how to use the Blazorise Field component to structure form layouts, align labels, add help text, and group input controls using Bootstrap-inspired patterns.",
       "pagePath": "Pages/Docs/Components/Fields/FieldPage.razor",
       "examples": [
@@ -1611,7 +1611,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Helpers/Utilities/Grids/Examples/BasicGridExample.razor",
           "content": "<Row>\r\n    <Column ColumnSize=\"ColumnSize.Is12\">\r\n        <Alert Color=\"Color.Primary\" Visible>\r\n            Is12\r\n        </Alert>\r\n    </Column>\r\n</Row>\r\n<Row>\r\n    <Column ColumnSize=\"ColumnSize.Is8\">\r\n        <Alert Color=\"Color.Primary\" Visible>\r\n            Is8\r\n        </Alert>\r\n    </Column>\r\n    <Column ColumnSize=\"ColumnSize.Is4\">\r\n        <Alert Color=\"Color.Secondary\" Visible>\r\n            Is4\r\n        </Alert>\r\n    </Column>\r\n</Row>\r\n<Row RowColumns=\"RowColumns.Are3\" Margin=\"Margin.Is3.FromTop\">\r\n    <Column>\r\n        <Alert Color=\"Color.Success\" Visible>\r\n            Auto 1\r\n        </Alert>\r\n    </Column>\r\n    <Column>\r\n        <Alert Color=\"Color.Info\" Visible>\r\n            Auto 2\r\n        </Alert>\r\n    </Column>\r\n    <Column>\r\n        <Alert Color=\"Color.Warning\" Visible>\r\n            Auto 3\r\n        </Alert>\r\n    </Column>\r\n</Row>",
-          "title": "Rows & Columns",
+          "title": "Rows &amp; Columns",
           "description": "As the grid can be divided into 12 columns, there are size classes for each division. These can be set using ColumnSize followed by .Is1 -> .Is12 . This makes responsive layouts predictable without hand-tuning widths in CSS. The final row uses RowColumns to create equal-width columns quickly."
         },
         {
@@ -1735,7 +1735,7 @@
           "code": "ImageFallbackExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Image/Examples/ImageFallbackExample.razor",
-          "content": "<Image Source=\"http://some-404-img\" FallbackSource=\"_content/Blazorise.Docs/assets/img/animals/animal-06.jpg\" />",
+          "content": "<Image Source=\"data:image/png;base64,invalid\" FallbackSource=\"_content/Blazorise.Docs/assets/img/animals/animal-06.jpg\" Text=\"Fallback animal image\" />",
           "title": "Fallback image",
           "description": "By setting the FallbackSource parameter, you can set an fallback image that will be displayed when loading of the Source fails."
         }
@@ -2300,8 +2300,8 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Numerics/Examples/NumericPickerMinMaxExample.razor",
           "content": "<NumericPicker @bind-Value=\"@value\" Min=\"10\" Max=\"20\" />\r\n\r\n@code{\r\n    decimal value = 15;\r\n}",
-          "title": "Setting the Min & Max",
-          "description": "Set the Min & Max to limit the values allowed into the input."
+          "title": "Setting the Min &amp; Max",
+          "description": "Set the Min &amp; Max to limit the values allowed into the input."
         },
         {
           "code": "NumericPickerIntegerExample",
@@ -4090,7 +4090,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Autocomplete/Examples/AutocompleteSuggestMultipleCheckboxExample.razor",
           "content": "<Autocomplete TItem=\"Country\"\r\n              TValue=\"string\"\r\n              Data=\"@Countries\"\r\n              TextField=\"@(( item ) => item.Name)\"\r\n              ValueField=\"@(( item ) => item.Iso)\"\r\n              Placeholder=\"Search...\"\r\n              SelectionMode=\"AutocompleteSelectionMode.Checkbox\"\r\n              CloseOnSelection=\"false\"\r\n              @bind-SelectedValues=\"multipleSelectionData\"\r\n              @bind-SelectedTexts=\"multipleSelectionTexts\">\r\n</Autocomplete>\r\n\r\n<Field Horizontal>\r\n    <FieldBody ColumnSize=\"ColumnSize.Is12\">\r\n        Selected Values: @string.Join(',', multipleSelectionData)\r\n    </FieldBody>\r\n    <FieldBody ColumnSize=\"ColumnSize.Is12\">\r\n        Selected Texts: @(multipleSelectionTexts == null ? null : string.Join(',', multipleSelectionTexts))\r\n    </FieldBody>\r\n</Field>\r\n\r\n@code {\r\n    [Inject]\r\n    public CountryData CountryData { get; set; }\r\n    public IEnumerable<Country> Countries;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        Countries = await CountryData.GetDataAsync();\r\n        multipleSelectionData = new List<string>() { Countries.ElementAt( 1 ).Iso, Countries.ElementAt( 3 ).Iso };\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    List<string> multipleSelectionData;\r\n    List<string> multipleSelectionTexts;\r\n}",
-          "title": "Suggesting already selected items && Checkbox support",
+          "title": "Suggesting already selected items and Checkbox support",
           "description": "Enabling ` AutocompleteSelectionMode.Checkbox ` adds checkboxes to all items in the autocomplete menu, while also keeping previously selected items visible. Note: Make sure to set CloseOnSelection to false if you want to keep the dropdown open whenever an item is selected."
         },
         {
@@ -5253,7 +5253,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridRowSelectableMultipleSelectionExample.razor",
           "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"@employeeList\"\r\n          @bind-SelectedRow=\"@selectedEmployee\"\r\n          SelectionMode=\"DataGridSelectionMode.Multiple\"\r\n          @bind-SelectedRows=\"selectedEmployees\"\r\n          Responsive\r\n          RowSelectable=\"RowSelectableHandler\">\r\n    <DataGridMultiSelectColumn TItem=\"Employee\" Width=\"Width.Px( 30 )\"></DataGridMultiSelectColumn>\r\n    <DataGridCommandColumn TItem=\"Employee\" />\r\n    <DataGridColumn Field=\"@nameof( Employee.Id )\" Caption=\"#\" Sortable=\"false\" />\r\n    <DataGridColumn Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.Email )\" Caption=\"Email\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" Editable>\r\n        <EditTemplate>\r\n            <NumericInput TValue=\"decimal\" Value=\"@((decimal)context.CellValue)\" ValueChanged=\"@(v => context.CellValue = v)\" />\r\n        </EditTemplate>\r\n    </DataGridColumn>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n    private Employee selectedEmployee;\r\n    private List<Employee> selectedEmployees;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private bool RowSelectableHandler( RowSelectableEventArgs<Employee> rowSelectableEventArgs )\r\n        => rowSelectableEventArgs.SelectReason is not DataGridSelectReason.RowClick;\r\n}",
-          "title": "RowSelectable & Multiple Selection",
+          "title": "RowSelectable &amp; Multiple Selection",
           "description": "Here's an example of combining both RowSelectable and Multiple Selection. We've disabled regular selection through row click, and only enabled selection through clicking the provided multi select checkboxes."
         }
       ]
@@ -7729,7 +7729,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Helpers/Utilities/Grids/Examples/BasicGridExample.razor",
           "content": "<Row>\r\n    <Column ColumnSize=\"ColumnSize.Is12\">\r\n        <Alert Color=\"Color.Primary\" Visible>\r\n            Is12\r\n        </Alert>\r\n    </Column>\r\n</Row>\r\n<Row>\r\n    <Column ColumnSize=\"ColumnSize.Is8\">\r\n        <Alert Color=\"Color.Primary\" Visible>\r\n            Is8\r\n        </Alert>\r\n    </Column>\r\n    <Column ColumnSize=\"ColumnSize.Is4\">\r\n        <Alert Color=\"Color.Secondary\" Visible>\r\n            Is4\r\n        </Alert>\r\n    </Column>\r\n</Row>\r\n<Row RowColumns=\"RowColumns.Are3\" Margin=\"Margin.Is3.FromTop\">\r\n    <Column>\r\n        <Alert Color=\"Color.Success\" Visible>\r\n            Auto 1\r\n        </Alert>\r\n    </Column>\r\n    <Column>\r\n        <Alert Color=\"Color.Info\" Visible>\r\n            Auto 2\r\n        </Alert>\r\n    </Column>\r\n    <Column>\r\n        <Alert Color=\"Color.Warning\" Visible>\r\n            Auto 3\r\n        </Alert>\r\n    </Column>\r\n</Row>",
-          "title": "Rows & Columns",
+          "title": "Rows &amp; Columns",
           "description": "As the grid can be divided into 12 columns, there are size classes for each division. These can be set using ColumnSize followed by .Is1 -> .Is12 . This makes responsive layouts predictable without hand-tuning widths in CSS. The final row uses RowColumns to create equal-width columns quickly."
         },
         {
@@ -8849,7 +8849,7 @@
           "sourcePath": "Pages/Docs/Examples/TemplatesVersionInstallExample.snippet",
           "content": "dotnet new install Blazorise.Templates::1.1.0",
           "title": "Versioning",
-          "description": "We use our Templates versioning to match & install the latest corresponding Blazorise major & minor version."
+          "description": "We use our Templates versioning to match &amp; install the latest corresponding Blazorise major &amp; minor version."
         },
         {
           "code": "TemplatesCLIUsageExample",

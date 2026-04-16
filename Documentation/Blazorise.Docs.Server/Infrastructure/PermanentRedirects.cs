@@ -12,6 +12,9 @@ static class PermanentRedirects
         ["/commercial/community"] = "/community",
         ["/commercial/enterprise-plus"] = "/enterprise-plus",
         ["/commercial/pricing"] = "/pricing",
+        ["/forgot-password"] = "/account/forgot-password",
+        ["/login"] = "/account/login",
+        ["/register"] = "/account/register",
         ["/docs/components/date"] = "/docs/components/date-input",
         ["/docs/components/file"] = "/docs/components/file-input",
         ["/docs/components/memo"] = "/docs/components/memo-input",
@@ -43,6 +46,12 @@ static class PermanentRedirects
             return true;
         }
 
+        if ( IsBlocksAliasPath( path ) )
+        {
+            newPath = "/blocks" + path;
+            return true;
+        }
+
         newPath = null;
         return false;
     }
@@ -57,5 +66,14 @@ static class PermanentRedirects
         }
 
         return path;
+    }
+
+    private static bool IsBlocksAliasPath( string path )
+    {
+        return path.StartsWith( "/applications/", StringComparison.Ordinal )
+            || path.StartsWith( "/ecommerce/", StringComparison.Ordinal )
+            || path.StartsWith( "/forms/", StringComparison.Ordinal )
+            || path.StartsWith( "/marketing/", StringComparison.Ordinal )
+            || path.StartsWith( "/publisher/", StringComparison.Ordinal );
     }
 }
