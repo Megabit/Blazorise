@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Docs.Components;
-using ColorCode;
 using Markdig.Extensions.Tables;
 using Markdig.Renderers.Html;
 using Markdig.Syntax;
@@ -36,8 +35,7 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
     private int codeIndex = 0;
     private readonly string blogName;
     private readonly Func<string, string> rewriteImageUrl;
-    private static readonly HtmlClassFormatter htmlClassFormatter = new();
-    private static readonly MarkupBuilder markupBuilder = new( htmlClassFormatter );
+    private static readonly MarkupBuilder markupBuilder = new();
 
     public BlogRuntimeSink( string blogName, Func<string, string> rewriteImageUrl )
     {

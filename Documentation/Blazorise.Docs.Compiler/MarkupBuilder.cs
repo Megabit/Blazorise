@@ -12,11 +12,8 @@ namespace Blazorise.Docs.Compiler;
 
 public class MarkupBuilder
 {
-    private readonly HtmlClassFormatter formatter;
-
-    public MarkupBuilder( HtmlClassFormatter formatter )
+    public MarkupBuilder()
     {
-        this.formatter = formatter;
     }
 
     public string Build( string source, string language )
@@ -29,7 +26,7 @@ public class MarkupBuilder
         {
             cb.AddLine( "<div class=\"blazorise-codeblock\">" );
 
-            string html = formatter.GetHtmlString( strippedSource, Languages.CSharp )
+            string html = Format( strippedSource, Languages.CSharp )
                 .Replace( "@", "<span class=\"atSign\">&#64;</span>" );
             html = PreserveIndentation( html, strippedSource );
 
@@ -41,7 +38,7 @@ public class MarkupBuilder
         {
             cb.AddLine( "<div class=\"blazorise-codeblock\">" );
 
-            string html = formatter.GetHtmlString( strippedSource, Languages.Css )
+            string html = Format( strippedSource, Languages.Css )
                 .Replace( "@", "<span class=\"atSign\">&#64;</span>" );
             html = PreserveIndentation( html, strippedSource );
 
@@ -53,7 +50,7 @@ public class MarkupBuilder
         {
             cb.AddLine( "<div class=\"blazorise-codeblock\">" );
 
-            string html = formatter.GetHtmlString( strippedSource, Languages.PowerShell )
+            string html = Format( strippedSource, Languages.PowerShell )
                 .Replace( "@", "<span class=\"atSign\">&#64;</span>" );
             html = PreserveIndentation( html, strippedSource );
 
@@ -70,7 +67,7 @@ public class MarkupBuilder
                 .Trim();
 
             // Note: the @ creates problems and thus we replace it with an unlikely placeholder and in the markup replace back.
-            string html = formatter.GetHtmlString( blocks0, Languages.Html ).Replace( "PlaceholdeR", "@" );
+            string html = Format( blocks0, Languages.Html ).Replace( "PlaceholdeR", "@" );
             html = AttributePostprocessing( html ).Replace( "@", "<span class=\"atSign\">&#64;</span>" );
             html = PreserveIndentation( html, blocks0 );
 
@@ -80,7 +77,7 @@ public class MarkupBuilder
             if ( blocks.Length == 2 )
             {
                 string codeSource = "@code" + blocks[1];
-                string codeHtml = formatter.GetHtmlString( codeSource, Languages.CSharp )
+                string codeHtml = Format( codeSource, Languages.CSharp )
                     .Replace( "@", "<span class=\"atSign\">&#64;</span>" );
                 codeHtml = PreserveIndentation( codeHtml, codeSource );
 
@@ -91,6 +88,11 @@ public class MarkupBuilder
         }
 
         return cb.ToString().NormalizeGeneratedText();
+    }
+
+    private static string Format( string source, ILanguage language )
+    {
+        return new HtmlClassFormatter().GetHtmlString( source, language );
     }
 
     private static string StripComponentSource( string source )
