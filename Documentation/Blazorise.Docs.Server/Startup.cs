@@ -147,14 +147,32 @@ public class Startup
         }
 
         app.UseHttpsRedirection();
+        app.UseStatusCodePages( context =>
+        {
+            if ( context.HttpContext.Response.StatusCode == StatusCodes.Status404NotFound )
+            {
+                context.HttpContext.Response.ContentType = "text/plain; charset=utf-8";
+                return context.HttpContext.Response.WriteAsync( "Not found" );
+            }
 
-        app.UseStaticFiles();
+            return System.Threading.Tasks.Task.CompletedTask;
+        } );
+
+        app.UseStaticFiles( new StaticFileOptions
+        {
+            OnPrepareResponse = context =>
+            {
+                const int cacheDurationInSeconds = 60 * 60 * 24 * 365;
+                context.Context.Response.Headers.CacheControl = $"public,max-age={cacheDurationInSeconds},immutable";
+            }
+        } );
         app.UseAntiforgery();
 
         app.MapRazorComponents<App>()
             .AddInteractiveServerRenderMode();
 
         app.MapControllers();
+        app.MapHealthChecks( "/healthcheck" );
 
         //app.UseRouting();
 
@@ -169,9 +187,9 @@ public class Startup
         //permanent redirects
         app.Use( async ( context, next ) =>
         {
-            var path = context.Request.Path.Value?.ToLowerInvariant();
+            var path = context.Request.Path.Value;
 
-            if ( path is not null && PermanentRedirects.Map.TryGetValue( path, out var newPath ) )
+            if ( path is not null && PermanentRedirects.TryGetValue( path, out var newPath ) )
             {
                 context.Response.StatusCode = StatusCodes.Status301MovedPermanently;
                 context.Response.Headers.Location = newPath;

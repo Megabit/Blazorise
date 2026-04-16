@@ -50,6 +50,11 @@ public partial class SelectItem<TValue> : BaseComponent, ISelectItem<TValue>, ID
     protected bool Selected => ParentSelect?.ContainsValue( Value ) == true;
 
     /// <summary>
+    /// Gets the flag that indicates if selected attribute should be rendered.
+    /// </summary>
+    protected bool RenderSelectedAttribute => ParentSelect?.Multiple == true && Selected;
+
+    /// <summary>
     /// Convert the value to string because option tags are working with string internally. Otherwise some datatypes like booleans will not work as expected.
     /// </summary>
     protected string StringValue => Value?.ToString() ?? string.Empty;

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-04-14T15:19:15.4735115Z",
+  "generatedUtc": "2026-04-16T12:20:18.1691884Z",
   "pages": [
     {
       "route": "/docs",
@@ -205,7 +205,7 @@
     },
     {
       "route": "/docs/components/badge",
-      "title": "Blazorise Badge Component – Labels, Status Indicators, and Counts",
+      "title": "Blazorise Badge Component - Labels and Status",
       "description": "Learn how to use the Blazorise Badge component to display labels, notifications, or status indicators. Explore color variants, shapes, subtle themes, icons, and interactive badges with close functionality.",
       "pagePath": "Pages/Docs/Components/Badges/BadgePage.razor",
       "examples": [
@@ -1301,7 +1301,7 @@
     },
     {
       "route": "/docs/components/field",
-      "title": "Blazorise Field Component - Form Layout & Input Grouping",
+      "title": "Blazorise Field Component - Form Layout &amp; Input Grouping",
       "description": "Learn how to use the Blazorise Field component to structure form layouts, align labels, add help text, and group input controls using Bootstrap-inspired patterns.",
       "pagePath": "Pages/Docs/Components/Fields/FieldPage.razor",
       "examples": [
@@ -1611,7 +1611,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Helpers/Utilities/Grids/Examples/BasicGridExample.razor",
           "content": "<Row>\r\n    <Column ColumnSize=\"ColumnSize.Is12\">\r\n        <Alert Color=\"Color.Primary\" Visible>\r\n            Is12\r\n        </Alert>\r\n    </Column>\r\n</Row>\r\n<Row>\r\n    <Column ColumnSize=\"ColumnSize.Is8\">\r\n        <Alert Color=\"Color.Primary\" Visible>\r\n            Is8\r\n        </Alert>\r\n    </Column>\r\n    <Column ColumnSize=\"ColumnSize.Is4\">\r\n        <Alert Color=\"Color.Secondary\" Visible>\r\n            Is4\r\n        </Alert>\r\n    </Column>\r\n</Row>\r\n<Row RowColumns=\"RowColumns.Are3\" Margin=\"Margin.Is3.FromTop\">\r\n    <Column>\r\n        <Alert Color=\"Color.Success\" Visible>\r\n            Auto 1\r\n        </Alert>\r\n    </Column>\r\n    <Column>\r\n        <Alert Color=\"Color.Info\" Visible>\r\n            Auto 2\r\n        </Alert>\r\n    </Column>\r\n    <Column>\r\n        <Alert Color=\"Color.Warning\" Visible>\r\n            Auto 3\r\n        </Alert>\r\n    </Column>\r\n</Row>",
-          "title": "Rows & Columns",
+          "title": "Rows &amp; Columns",
           "description": "As the grid can be divided into 12 columns, there are size classes for each division. These can be set using ColumnSize followed by .Is1 -> .Is12 . This makes responsive layouts predictable without hand-tuning widths in CSS. The final row uses RowColumns to create equal-width columns quickly."
         },
         {
@@ -1735,7 +1735,7 @@
           "code": "ImageFallbackExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Image/Examples/ImageFallbackExample.razor",
-          "content": "<Image Source=\"http://some-404-img\" FallbackSource=\"_content/Blazorise.Docs/assets/img/animals/animal-06.jpg\" />",
+          "content": "<Image Source=\"data:image/png;base64,invalid\" FallbackSource=\"_content/Blazorise.Docs/assets/img/animals/animal-06.jpg\" Text=\"Fallback animal image\" />",
           "title": "Fallback image",
           "description": "By setting the FallbackSource parameter, you can set an fallback image that will be displayed when loading of the Source fails."
         }
@@ -2300,8 +2300,8 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Numerics/Examples/NumericPickerMinMaxExample.razor",
           "content": "<NumericPicker @bind-Value=\"@value\" Min=\"10\" Max=\"20\" />\r\n\r\n@code{\r\n    decimal value = 15;\r\n}",
-          "title": "Setting the Min & Max",
-          "description": "Set the Min & Max to limit the values allowed into the input."
+          "title": "Setting the Min &amp; Max",
+          "description": "Set the Min &amp; Max to limit the values allowed into the input."
         },
         {
           "code": "NumericPickerIntegerExample",
@@ -3743,7 +3743,7 @@
           "code": "TypographyDisplayHeadingAliasesExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Typographies/Examples/TypographyDisplayHeadingAliasesExample.razor",
-          "content": "<DisplayHeading1>Display 1</DisplayHeading1>\r\n<DisplayHeading2>Display 2</DisplayHeading2>\r\n<DisplayHeading3>Display 3</DisplayHeading3>\r\n<DisplayHeading4>Display 4</DisplayHeading4>",
+          "content": "<DisplayHeading1 AlternativeTagName=\"div\" Margin=\"Margin.Is0.FromTop.Is2.FromBottom\">Display 1</DisplayHeading1>\r\n<DisplayHeading2 AlternativeTagName=\"div\" Margin=\"Margin.Is0.FromTop.Is2.FromBottom\">Display 2</DisplayHeading2>\r\n<DisplayHeading3 AlternativeTagName=\"div\" Margin=\"Margin.Is0.FromTop.Is2.FromBottom\">Display 3</DisplayHeading3>\r\n<DisplayHeading4 AlternativeTagName=\"div\" Margin=\"Margin.Is0.FromTop.Is2.FromBottom\">Display 4</DisplayHeading4>",
           "title": "Display Heading Aliases",
           "description": "For convenience, Blazorise provides display heading alias components for each display heading level."
         },
@@ -4090,7 +4090,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Autocomplete/Examples/AutocompleteSuggestMultipleCheckboxExample.razor",
           "content": "<Autocomplete TItem=\"Country\"\r\n              TValue=\"string\"\r\n              Data=\"@Countries\"\r\n              TextField=\"@(( item ) => item.Name)\"\r\n              ValueField=\"@(( item ) => item.Iso)\"\r\n              Placeholder=\"Search...\"\r\n              SelectionMode=\"AutocompleteSelectionMode.Checkbox\"\r\n              CloseOnSelection=\"false\"\r\n              @bind-SelectedValues=\"multipleSelectionData\"\r\n              @bind-SelectedTexts=\"multipleSelectionTexts\">\r\n</Autocomplete>\r\n\r\n<Field Horizontal>\r\n    <FieldBody ColumnSize=\"ColumnSize.Is12\">\r\n        Selected Values: @string.Join(',', multipleSelectionData)\r\n    </FieldBody>\r\n    <FieldBody ColumnSize=\"ColumnSize.Is12\">\r\n        Selected Texts: @(multipleSelectionTexts == null ? null : string.Join(',', multipleSelectionTexts))\r\n    </FieldBody>\r\n</Field>\r\n\r\n@code {\r\n    [Inject]\r\n    public CountryData CountryData { get; set; }\r\n    public IEnumerable<Country> Countries;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        Countries = await CountryData.GetDataAsync();\r\n        multipleSelectionData = new List<string>() { Countries.ElementAt( 1 ).Iso, Countries.ElementAt( 3 ).Iso };\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    List<string> multipleSelectionData;\r\n    List<string> multipleSelectionTexts;\r\n}",
-          "title": "Suggesting already selected items && Checkbox support",
+          "title": "Suggesting already selected items and Checkbox support",
           "description": "Enabling ` AutocompleteSelectionMode.Checkbox ` adds checkboxes to all items in the autocomplete menu, while also keeping previously selected items visible. Note: Make sure to set CloseOnSelection to false if you want to keep the dropdown open whenever an item is selected."
         },
         {
@@ -4190,7 +4190,7 @@
     {
       "route": "/docs/extensions/chart",
       "title": "Blazorise Chart component",
-      "description": "Learn how to use the Blazorise Chart components to build Chart.js-based graphs and visualizations.",
+      "description": "Learn how to use Blazorise Chart components to build Chart.js-based graphs and visualizations, including line, bar, pie, radar, polar area, and custom chart options.",
       "pagePath": "Pages/Docs/Extensions/Chart/ChartPage.razor",
       "examples": [
         {
@@ -4252,7 +4252,7 @@
     {
       "route": "/docs/extensions/chart-annotation",
       "title": "Blazorise Chart Annotation component",
-      "description": "Learn how to use the Blazorise Chart Annotation component to add annotations to Chart.js charts.",
+      "description": "Learn how to use the Blazorise Chart Annotation component to add lines, labels, boxes, and contextual markers to Chart.js charts in Blazor applications.",
       "pagePath": "Pages/Docs/Extensions/ChartsAnnotation/ChartAnnotationPage.razor",
       "examples": [
         {
@@ -4394,7 +4394,7 @@
     {
       "route": "/docs/extensions/chart-zoom",
       "title": "Blazorise Chart Zoom component",
-      "description": "Learn how to use the Blazorise Chart Zoom component to zoom and pan Chart.js charts.",
+      "description": "Learn how to use the Blazorise Chart Zoom component to add pan and zoom interactions to Chart.js charts, including wheel, drag, pinch, and reset behavior.",
       "pagePath": "Pages/Docs/Extensions/ChartsZoom/ChartsZoomPage.razor",
       "examples": [
         {
@@ -4423,7 +4423,7 @@
     {
       "route": "/docs/extensions/cropper",
       "title": "Blazorise Cropper component",
-      "description": "Learn how to use the Blazorise Cropper component to crop images in all major browsers.",
+      "description": "Learn how to use the Blazorise Cropper component to crop, preview, resize, and export images in Blazor applications across all major browsers.",
       "pagePath": "Pages/Docs/Extensions/Cropper/CropperPage.razor",
       "examples": [
         {
@@ -4485,7 +4485,7 @@
     {
       "route": "/docs/extensions/datagrid",
       "title": "Blazorise DataGrid component",
-      "description": "Learn how to use the Blazorise DataGrid component to build advanced CRUD data tables.",
+      "description": "Learn how to use the Blazorise DataGrid component to build advanced CRUD data tables with sorting, filtering, paging, selection, templates, validation, and inline editing.",
       "pagePath": "Pages/Docs/Extensions/DataGrid/GettingStartedPage.razor",
       "examples": [
         {
@@ -5178,7 +5178,7 @@
     {
       "route": "/docs/extensions/datagrid/getting-started",
       "title": "Blazorise DataGrid component",
-      "description": "Learn how to use the Blazorise DataGrid component to build advanced CRUD data tables.",
+      "description": "Learn how to use the Blazorise DataGrid component to build advanced CRUD data tables with sorting, filtering, paging, selection, templates, validation, and inline editing.",
       "pagePath": "Pages/Docs/Extensions/DataGrid/GettingStartedPage.razor",
       "examples": [
         {
@@ -5253,7 +5253,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridRowSelectableMultipleSelectionExample.razor",
           "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"@employeeList\"\r\n          @bind-SelectedRow=\"@selectedEmployee\"\r\n          SelectionMode=\"DataGridSelectionMode.Multiple\"\r\n          @bind-SelectedRows=\"selectedEmployees\"\r\n          Responsive\r\n          RowSelectable=\"RowSelectableHandler\">\r\n    <DataGridMultiSelectColumn TItem=\"Employee\" Width=\"Width.Px( 30 )\"></DataGridMultiSelectColumn>\r\n    <DataGridCommandColumn TItem=\"Employee\" />\r\n    <DataGridColumn Field=\"@nameof( Employee.Id )\" Caption=\"#\" Sortable=\"false\" />\r\n    <DataGridColumn Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.Email )\" Caption=\"Email\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" Editable>\r\n        <EditTemplate>\r\n            <NumericInput TValue=\"decimal\" Value=\"@((decimal)context.CellValue)\" ValueChanged=\"@(v => context.CellValue = v)\" />\r\n        </EditTemplate>\r\n    </DataGridColumn>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n    private Employee selectedEmployee;\r\n    private List<Employee> selectedEmployees;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private bool RowSelectableHandler( RowSelectableEventArgs<Employee> rowSelectableEventArgs )\r\n        => rowSelectableEventArgs.SelectReason is not DataGridSelectReason.RowClick;\r\n}",
-          "title": "RowSelectable & Multiple Selection",
+          "title": "RowSelectable &amp; Multiple Selection",
           "description": "Here's an example of combining both RowSelectable and Multiple Selection. We've disabled regular selection through row click, and only enabled selection through clicking the provided multi select checkboxes."
         }
       ]
@@ -5464,7 +5464,7 @@
     {
       "route": "/docs/extensions/fluent-validation",
       "title": "Blazorise FluentValidation component",
-      "description": "Learn how to use the Blazorise FluentValidation component to build strongly typed validation rules.",
+      "description": "Learn how to use the Blazorise FluentValidation extension to build strongly typed validation rules, wire validators into forms, and show validation feedback.",
       "pagePath": "Pages/Docs/Extensions/FluentValidation/FluentValidationPage.razor",
       "examples": [
         {
@@ -5634,7 +5634,7 @@
     {
       "route": "/docs/extensions/icons",
       "title": "Blazorise Icons component",
-      "description": "Learn how to use the Blazorise Icons component and icon providers to represent actions and states.",
+      "description": "Learn how to use Blazorise icon components and icon providers to represent actions, states, navigation, and commands with Font Awesome and other supported icon sets.",
       "pagePath": "Pages/Docs/Extensions/Icons/IconsPage.razor",
       "examples": [
         {
@@ -5828,7 +5828,7 @@
     {
       "route": "/docs/extensions/loadingindicator",
       "title": "Blazorise LoadingIndicator component",
-      "description": "Learn how to use the Blazorise LoadingIndicator component to show loading states for child content.",
+      "description": "Learn how to use the Blazorise LoadingIndicator component to show loading states for child content, async operations, data fetches, and custom progress overlays.",
       "pagePath": "Pages/Docs/Extensions/LoadingIndicator/LoadingIndicatortPage.razor",
       "examples": [
         {
@@ -5962,7 +5962,7 @@
     {
       "route": "/docs/extensions/lottie-animation",
       "title": "Blazorise Lottie Animation component",
-      "description": "Learn how to use the Blazorise Lottie Animation component to embed JSON-based Lottie animations.",
+      "description": "Learn how to use the Blazorise Lottie Animation component to embed JSON-based Lottie animations with playback options, sizing, looping, and reusable assets.",
       "pagePath": "Pages/Docs/Extensions/LottieAnimation/LottieAnimationPage.razor",
       "examples": [
         {
@@ -6000,7 +6000,7 @@
     {
       "route": "/docs/extensions/maps",
       "title": "Blazorise Maps component",
-      "description": "Learn how to use the Blazorise Maps component to display interactive maps, markers, and map shapes.",
+      "description": "Learn how to use the Blazorise Maps component to display interactive maps, markers, popups, shapes, and location data in Blazor applications.",
       "pagePath": "Pages/Docs/Extensions/Maps/MapsPage.razor",
       "examples": [
         {
@@ -6094,7 +6094,7 @@
     {
       "route": "/docs/extensions/markdown",
       "title": "Blazorise Markdown component",
-      "description": "Learn how to use the Blazorise Markdown component to edit Markdown strings.",
+      "description": "Learn how to use the Blazorise Markdown component to edit Markdown strings with toolbar actions, previews, editor options, validation, and form integration.",
       "pagePath": "Pages/Docs/Extensions/Markdown/MarkdownPage.razor",
       "examples": [
         {
@@ -6295,7 +6295,7 @@
     {
       "route": "/docs/extensions/pdfviewer",
       "title": "Blazorise PdfViewer component",
-      "description": "Learn how to use the Blazorise PdfViewer component to display and navigate PDF documents.",
+      "description": "Learn how to use the Blazorise PdfViewer component to display and navigate PDF documents with paging, zooming, toolbar controls, and responsive viewer layouts.",
       "pagePath": "Pages/Docs/Extensions/PdfViewer/PdfViewerPage.razor",
       "examples": [
         {
@@ -6436,7 +6436,7 @@
     {
       "route": "/docs/extensions/richtextedit",
       "title": "Blazorise RichTextEdit component",
-      "description": "Learn how to use the Blazorise RichTextEdit component to add a WYSIWYG rich text editor.",
+      "description": "Learn how to use the Blazorise RichTextEdit component to add a WYSIWYG editor with formatting, tables, toolbar options, HTML content, and forms.",
       "pagePath": "Pages/Docs/Extensions/RichTextEdit/RichTextEditPage.razor",
       "examples": [
         {
@@ -6592,7 +6592,7 @@
     {
       "route": "/docs/extensions/scheduler",
       "title": "Blazorise Scheduler component",
-      "description": "Learn how to use the Blazorise Scheduler component to create and manage calendar appointments.",
+      "description": "Learn how to use the Blazorise Scheduler component to create and manage calendar appointments with views, resources, recurrence, editing, drag and drop, and templates.",
       "pagePath": "Pages/Docs/Extensions/Scheduler/SchedulerPage.razor",
       "examples": [
         {
@@ -6772,7 +6772,7 @@
     {
       "route": "/docs/extensions/signaturepad",
       "title": "Blazorise SignaturePad component",
-      "description": "Learn how to use the Blazorise SignaturePad component to capture and display user signatures.",
+      "description": "Learn how to use the Blazorise SignaturePad component to capture, clear, export, and display handwritten signatures in forms and approval workflows.",
       "pagePath": "Pages/Docs/Extensions/SignaturePad/SignaturePadPage.razor",
       "examples": [
         {
@@ -6890,7 +6890,7 @@
     {
       "route": "/docs/extensions/snackbar",
       "title": "Blazorise Snackbar component",
-      "description": "Learn how to use the Blazorise Snackbar component to show brief messages about app processes.",
+      "description": "Learn how to use the Blazorise Snackbar component to show brief messages about app processes, confirmations, errors, positions, durations, and actions.",
       "pagePath": "Pages/Docs/Extensions/Snackbar/SnackbarPage.razor",
       "examples": [
         {
@@ -6952,7 +6952,7 @@
     {
       "route": "/docs/extensions/spinkit",
       "title": "Blazorise SpinKit component",
-      "description": "Learn how to use the Blazorise SpinKit component to show CSS-based loading indicators.",
+      "description": "Learn how to use the Blazorise SpinKit component to show CSS-based loading indicators with multiple animation styles, colors, sizes, and loading states.",
       "pagePath": "Pages/Docs/Extensions/SpinKit/SpinKitPage.razor",
       "examples": [
         {
@@ -7196,7 +7196,7 @@
     {
       "route": "/docs/extensions/treeview",
       "title": "Blazorise TreeView component",
-      "description": "Learn how to use the Blazorise TreeView component to display hierarchical data.",
+      "description": "Learn how to use the Blazorise TreeView component to display hierarchical data with expandable nodes, templates, selection, lazy loading, and nested structures.",
       "pagePath": "Pages/Docs/Extensions/TreeView/TreeViewPage.razor",
       "examples": [
         {
@@ -7288,7 +7288,7 @@
     {
       "route": "/docs/extensions/video",
       "title": "Blazorise Video component",
-      "description": "Learn how to use the Blazorise Video component to play local or streaming media.",
+      "description": "Learn how to use the Blazorise Video component to play local or streaming media with configurable sources, playback controls, responsive sizing, and browser-friendly markup.",
       "pagePath": "Pages/Docs/Extensions/Video/VideoPage.razor",
       "examples": [
         {
@@ -7601,7 +7601,7 @@
     },
     {
       "route": "/docs/helpers/utilities",
-      "title": "Blazorise Utilities – Helper Classes for Layout, Spacing, and Styling",
+      "title": "Blazorise Utilities - Layout and Styling Helpers",
       "description": "Master Blazorise utility helpers to quickly configure layout, spacing, borders, display, flex, and overflow properties. Learn how to efficiently style and align elements using fluent builder patterns in Blazorise.",
       "pagePath": "Pages/Docs/Helpers/Utilities/UtilitiesPage.razor",
       "examples": []
@@ -7625,7 +7625,7 @@
     {
       "route": "/docs/helpers/utilities/column-size",
       "title": "Blazorise Column Size Utilities - Responsive Grid Columns",
-      "description": "Define responsive column widths using the Blazorise ColumnSize fluent builder for grid columns.",
+      "description": "Define responsive column widths using the Blazorise ColumnSize fluent builder for grid columns. Configure mobile, tablet, desktop, and widescreen layouts with readable utility syntax.",
       "pagePath": "Pages/Docs/Helpers/Utilities/ColumnSize/ColumnSizePage.razor",
       "examples": [
         {
@@ -7680,8 +7680,8 @@
     },
     {
       "route": "/docs/helpers/utilities/display",
-      "title": "Blazorise Display Utilities - Responsive Visibility and Layout",
-      "description": "Toggle element visibility and display styles across breakpoints with Blazorise display utilities.",
+      "title": "Blazorise Display Utilities for Layout",
+      "description": "Toggle element visibility and display styles across responsive breakpoints with Blazorise display utilities. Use fluent helpers to control block, flex, inline, and hidden states.",
       "pagePath": "Pages/Docs/Helpers/Utilities/Display/DisplayPage.razor",
       "examples": [
         {
@@ -7729,7 +7729,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Helpers/Utilities/Grids/Examples/BasicGridExample.razor",
           "content": "<Row>\r\n    <Column ColumnSize=\"ColumnSize.Is12\">\r\n        <Alert Color=\"Color.Primary\" Visible>\r\n            Is12\r\n        </Alert>\r\n    </Column>\r\n</Row>\r\n<Row>\r\n    <Column ColumnSize=\"ColumnSize.Is8\">\r\n        <Alert Color=\"Color.Primary\" Visible>\r\n            Is8\r\n        </Alert>\r\n    </Column>\r\n    <Column ColumnSize=\"ColumnSize.Is4\">\r\n        <Alert Color=\"Color.Secondary\" Visible>\r\n            Is4\r\n        </Alert>\r\n    </Column>\r\n</Row>\r\n<Row RowColumns=\"RowColumns.Are3\" Margin=\"Margin.Is3.FromTop\">\r\n    <Column>\r\n        <Alert Color=\"Color.Success\" Visible>\r\n            Auto 1\r\n        </Alert>\r\n    </Column>\r\n    <Column>\r\n        <Alert Color=\"Color.Info\" Visible>\r\n            Auto 2\r\n        </Alert>\r\n    </Column>\r\n    <Column>\r\n        <Alert Color=\"Color.Warning\" Visible>\r\n            Auto 3\r\n        </Alert>\r\n    </Column>\r\n</Row>",
-          "title": "Rows & Columns",
+          "title": "Rows &amp; Columns",
           "description": "As the grid can be divided into 12 columns, there are size classes for each division. These can be set using ColumnSize followed by .Is1 -> .Is12 . This makes responsive layouts predictable without hand-tuning widths in CSS. The final row uses RowColumns to create equal-width columns quickly."
         },
         {
@@ -8849,7 +8849,7 @@
           "sourcePath": "Pages/Docs/Examples/TemplatesVersionInstallExample.snippet",
           "content": "dotnet new install Blazorise.Templates::1.1.0",
           "title": "Versioning",
-          "description": "We use our Templates versioning to match & install the latest corresponding Blazorise major & minor version."
+          "description": "We use our Templates versioning to match &amp; install the latest corresponding Blazorise major &amp; minor version."
         },
         {
           "code": "TemplatesCLIUsageExample",

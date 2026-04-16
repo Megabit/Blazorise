@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using ColorCode;
 
 namespace Blazorise.Docs.Compiler;
 
@@ -18,7 +17,6 @@ public class CodeExamplesMarkup
 
         try
         {
-            var formatter = new HtmlClassFormatter();
             var lastCheckedTime = new DateTime();
             if ( File.Exists( Paths.NewFilesToBuildPath() ) )
             {
@@ -73,7 +71,7 @@ public class CodeExamplesMarkup
                     currentCode = File.ReadAllText( markupPath ).NormalizeGeneratedText();
                 }
 
-                builtCode = new MarkupBuilder( formatter ).Build( source, isCSharp ? "cs" : null );
+                builtCode = new MarkupBuilder().Build( source, isCSharp ? "cs" : null );
 
                 if ( currentCode != builtCode )
                 {

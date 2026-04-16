@@ -2065,7 +2065,7 @@ namespace Blazorise.Docs.Models
 
         public const string BasicImageExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/animals/animal-01.jpg"" Text=""A lovely animal..."" />";
 
-        public const string ImageFallbackExample = @"<Image Source=""http://some-404-img"" FallbackSource=""_content/Blazorise.Docs/assets/img/animals/animal-06.jpg"" />";
+        public const string ImageFallbackExample = @"<Image Source=""data:image/png;base64,invalid"" FallbackSource=""_content/Blazorise.Docs/assets/img/animals/animal-06.jpg"" Text=""Fallback animal image"" />";
 
         public const string ImageFluidExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/animals/animal-02-large.jpg"" Text=""A lovely animal..."" Fluid />";
 
@@ -4395,10 +4395,10 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 <Heading Size=""HeadingSize.Is5"" AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">h5. Blazorise heading</Heading>
 <Heading Size=""HeadingSize.Is6"" AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">h6. Blazorise heading</Heading>";
 
-        public const string TypographyDisplayHeadingAliasesExample = @"<DisplayHeading1>Display 1</DisplayHeading1>
-<DisplayHeading2>Display 2</DisplayHeading2>
-<DisplayHeading3>Display 3</DisplayHeading3>
-<DisplayHeading4>Display 4</DisplayHeading4>";
+        public const string TypographyDisplayHeadingAliasesExample = @"<DisplayHeading1 AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">Display 1</DisplayHeading1>
+<DisplayHeading2 AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">Display 2</DisplayHeading2>
+<DisplayHeading3 AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">Display 3</DisplayHeading3>
+<DisplayHeading4 AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">Display 4</DisplayHeading4>";
 
         public const string TypographyDisplayHeadingExample = @"<DisplayHeading Size=""DisplayHeadingSize.Is1"">Display 1</DisplayHeading>
 <DisplayHeading Size=""DisplayHeadingSize.Is2"">Display 2</DisplayHeading>
