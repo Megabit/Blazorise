@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-04-16T11:50:13.3434113Z",
+  "generatedUtc": "2026-04-16T12:20:18.1691884Z",
   "pages": [
     {
       "route": "/docs",
@@ -205,7 +205,7 @@
     },
     {
       "route": "/docs/components/badge",
-      "title": "Blazorise Badge Component – Labels, Status Indicators, and Counts",
+      "title": "Blazorise Badge Component - Labels and Status",
       "description": "Learn how to use the Blazorise Badge component to display labels, notifications, or status indicators. Explore color variants, shapes, subtle themes, icons, and interactive badges with close functionality.",
       "pagePath": "Pages/Docs/Components/Badges/BadgePage.razor",
       "examples": [
@@ -3743,7 +3743,7 @@
           "code": "TypographyDisplayHeadingAliasesExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Typographies/Examples/TypographyDisplayHeadingAliasesExample.razor",
-          "content": "<DisplayHeading1>Display 1</DisplayHeading1>\r\n<DisplayHeading2>Display 2</DisplayHeading2>\r\n<DisplayHeading3>Display 3</DisplayHeading3>\r\n<DisplayHeading4>Display 4</DisplayHeading4>",
+          "content": "<DisplayHeading1 AlternativeTagName=\"div\" Margin=\"Margin.Is0.FromTop.Is2.FromBottom\">Display 1</DisplayHeading1>\r\n<DisplayHeading2 AlternativeTagName=\"div\" Margin=\"Margin.Is0.FromTop.Is2.FromBottom\">Display 2</DisplayHeading2>\r\n<DisplayHeading3 AlternativeTagName=\"div\" Margin=\"Margin.Is0.FromTop.Is2.FromBottom\">Display 3</DisplayHeading3>\r\n<DisplayHeading4 AlternativeTagName=\"div\" Margin=\"Margin.Is0.FromTop.Is2.FromBottom\">Display 4</DisplayHeading4>",
           "title": "Display Heading Aliases",
           "description": "For convenience, Blazorise provides display heading alias components for each display heading level."
         },
@@ -4190,7 +4190,7 @@
     {
       "route": "/docs/extensions/chart",
       "title": "Blazorise Chart component",
-      "description": "Learn how to use the Blazorise Chart components to build Chart.js-based graphs and visualizations.",
+      "description": "Learn how to use Blazorise Chart components to build Chart.js-based graphs and visualizations, including line, bar, pie, radar, polar area, and custom chart options.",
       "pagePath": "Pages/Docs/Extensions/Chart/ChartPage.razor",
       "examples": [
         {
@@ -4252,7 +4252,7 @@
     {
       "route": "/docs/extensions/chart-annotation",
       "title": "Blazorise Chart Annotation component",
-      "description": "Learn how to use the Blazorise Chart Annotation component to add annotations to Chart.js charts.",
+      "description": "Learn how to use the Blazorise Chart Annotation component to add lines, labels, boxes, and contextual markers to Chart.js charts in Blazor applications.",
       "pagePath": "Pages/Docs/Extensions/ChartsAnnotation/ChartAnnotationPage.razor",
       "examples": [
         {
@@ -4394,7 +4394,7 @@
     {
       "route": "/docs/extensions/chart-zoom",
       "title": "Blazorise Chart Zoom component",
-      "description": "Learn how to use the Blazorise Chart Zoom component to zoom and pan Chart.js charts.",
+      "description": "Learn how to use the Blazorise Chart Zoom component to add pan and zoom interactions to Chart.js charts, including wheel, drag, pinch, and reset behavior.",
       "pagePath": "Pages/Docs/Extensions/ChartsZoom/ChartsZoomPage.razor",
       "examples": [
         {
@@ -4423,7 +4423,7 @@
     {
       "route": "/docs/extensions/cropper",
       "title": "Blazorise Cropper component",
-      "description": "Learn how to use the Blazorise Cropper component to crop images in all major browsers.",
+      "description": "Learn how to use the Blazorise Cropper component to crop, preview, resize, and export images in Blazor applications across all major browsers.",
       "pagePath": "Pages/Docs/Extensions/Cropper/CropperPage.razor",
       "examples": [
         {
@@ -4485,7 +4485,7 @@
     {
       "route": "/docs/extensions/datagrid",
       "title": "Blazorise DataGrid component",
-      "description": "Learn how to use the Blazorise DataGrid component to build advanced CRUD data tables.",
+      "description": "Learn how to use the Blazorise DataGrid component to build advanced CRUD data tables with sorting, filtering, paging, selection, templates, validation, and inline editing.",
       "pagePath": "Pages/Docs/Extensions/DataGrid/GettingStartedPage.razor",
       "examples": [
         {
@@ -5178,7 +5178,7 @@
     {
       "route": "/docs/extensions/datagrid/getting-started",
       "title": "Blazorise DataGrid component",
-      "description": "Learn how to use the Blazorise DataGrid component to build advanced CRUD data tables.",
+      "description": "Learn how to use the Blazorise DataGrid component to build advanced CRUD data tables with sorting, filtering, paging, selection, templates, validation, and inline editing.",
       "pagePath": "Pages/Docs/Extensions/DataGrid/GettingStartedPage.razor",
       "examples": [
         {
@@ -5464,7 +5464,7 @@
     {
       "route": "/docs/extensions/fluent-validation",
       "title": "Blazorise FluentValidation component",
-      "description": "Learn how to use the Blazorise FluentValidation component to build strongly typed validation rules.",
+      "description": "Learn how to use the Blazorise FluentValidation extension to build strongly typed validation rules, wire validators into forms, and show validation feedback.",
       "pagePath": "Pages/Docs/Extensions/FluentValidation/FluentValidationPage.razor",
       "examples": [
         {
@@ -5634,7 +5634,7 @@
     {
       "route": "/docs/extensions/icons",
       "title": "Blazorise Icons component",
-      "description": "Learn how to use the Blazorise Icons component and icon providers to represent actions and states.",
+      "description": "Learn how to use Blazorise icon components and icon providers to represent actions, states, navigation, and commands with Font Awesome and other supported icon sets.",
       "pagePath": "Pages/Docs/Extensions/Icons/IconsPage.razor",
       "examples": [
         {
@@ -5828,7 +5828,7 @@
     {
       "route": "/docs/extensions/loadingindicator",
       "title": "Blazorise LoadingIndicator component",
-      "description": "Learn how to use the Blazorise LoadingIndicator component to show loading states for child content.",
+      "description": "Learn how to use the Blazorise LoadingIndicator component to show loading states for child content, async operations, data fetches, and custom progress overlays.",
       "pagePath": "Pages/Docs/Extensions/LoadingIndicator/LoadingIndicatortPage.razor",
       "examples": [
         {
@@ -5962,7 +5962,7 @@
     {
       "route": "/docs/extensions/lottie-animation",
       "title": "Blazorise Lottie Animation component",
-      "description": "Learn how to use the Blazorise Lottie Animation component to embed JSON-based Lottie animations.",
+      "description": "Learn how to use the Blazorise Lottie Animation component to embed JSON-based Lottie animations with playback options, sizing, looping, and reusable assets.",
       "pagePath": "Pages/Docs/Extensions/LottieAnimation/LottieAnimationPage.razor",
       "examples": [
         {
@@ -6000,7 +6000,7 @@
     {
       "route": "/docs/extensions/maps",
       "title": "Blazorise Maps component",
-      "description": "Learn how to use the Blazorise Maps component to display interactive maps, markers, and map shapes.",
+      "description": "Learn how to use the Blazorise Maps component to display interactive maps, markers, popups, shapes, and location data in Blazor applications.",
       "pagePath": "Pages/Docs/Extensions/Maps/MapsPage.razor",
       "examples": [
         {
@@ -6094,7 +6094,7 @@
     {
       "route": "/docs/extensions/markdown",
       "title": "Blazorise Markdown component",
-      "description": "Learn how to use the Blazorise Markdown component to edit Markdown strings.",
+      "description": "Learn how to use the Blazorise Markdown component to edit Markdown strings with toolbar actions, previews, editor options, validation, and form integration.",
       "pagePath": "Pages/Docs/Extensions/Markdown/MarkdownPage.razor",
       "examples": [
         {
@@ -6295,7 +6295,7 @@
     {
       "route": "/docs/extensions/pdfviewer",
       "title": "Blazorise PdfViewer component",
-      "description": "Learn how to use the Blazorise PdfViewer component to display and navigate PDF documents.",
+      "description": "Learn how to use the Blazorise PdfViewer component to display and navigate PDF documents with paging, zooming, toolbar controls, and responsive viewer layouts.",
       "pagePath": "Pages/Docs/Extensions/PdfViewer/PdfViewerPage.razor",
       "examples": [
         {
@@ -6436,7 +6436,7 @@
     {
       "route": "/docs/extensions/richtextedit",
       "title": "Blazorise RichTextEdit component",
-      "description": "Learn how to use the Blazorise RichTextEdit component to add a WYSIWYG rich text editor.",
+      "description": "Learn how to use the Blazorise RichTextEdit component to add a WYSIWYG editor with formatting, tables, toolbar options, HTML content, and forms.",
       "pagePath": "Pages/Docs/Extensions/RichTextEdit/RichTextEditPage.razor",
       "examples": [
         {
@@ -6592,7 +6592,7 @@
     {
       "route": "/docs/extensions/scheduler",
       "title": "Blazorise Scheduler component",
-      "description": "Learn how to use the Blazorise Scheduler component to create and manage calendar appointments.",
+      "description": "Learn how to use the Blazorise Scheduler component to create and manage calendar appointments with views, resources, recurrence, editing, drag and drop, and templates.",
       "pagePath": "Pages/Docs/Extensions/Scheduler/SchedulerPage.razor",
       "examples": [
         {
@@ -6772,7 +6772,7 @@
     {
       "route": "/docs/extensions/signaturepad",
       "title": "Blazorise SignaturePad component",
-      "description": "Learn how to use the Blazorise SignaturePad component to capture and display user signatures.",
+      "description": "Learn how to use the Blazorise SignaturePad component to capture, clear, export, and display handwritten signatures in forms and approval workflows.",
       "pagePath": "Pages/Docs/Extensions/SignaturePad/SignaturePadPage.razor",
       "examples": [
         {
@@ -6890,7 +6890,7 @@
     {
       "route": "/docs/extensions/snackbar",
       "title": "Blazorise Snackbar component",
-      "description": "Learn how to use the Blazorise Snackbar component to show brief messages about app processes.",
+      "description": "Learn how to use the Blazorise Snackbar component to show brief messages about app processes, confirmations, errors, positions, durations, and actions.",
       "pagePath": "Pages/Docs/Extensions/Snackbar/SnackbarPage.razor",
       "examples": [
         {
@@ -6952,7 +6952,7 @@
     {
       "route": "/docs/extensions/spinkit",
       "title": "Blazorise SpinKit component",
-      "description": "Learn how to use the Blazorise SpinKit component to show CSS-based loading indicators.",
+      "description": "Learn how to use the Blazorise SpinKit component to show CSS-based loading indicators with multiple animation styles, colors, sizes, and loading states.",
       "pagePath": "Pages/Docs/Extensions/SpinKit/SpinKitPage.razor",
       "examples": [
         {
@@ -7196,7 +7196,7 @@
     {
       "route": "/docs/extensions/treeview",
       "title": "Blazorise TreeView component",
-      "description": "Learn how to use the Blazorise TreeView component to display hierarchical data.",
+      "description": "Learn how to use the Blazorise TreeView component to display hierarchical data with expandable nodes, templates, selection, lazy loading, and nested structures.",
       "pagePath": "Pages/Docs/Extensions/TreeView/TreeViewPage.razor",
       "examples": [
         {
@@ -7288,7 +7288,7 @@
     {
       "route": "/docs/extensions/video",
       "title": "Blazorise Video component",
-      "description": "Learn how to use the Blazorise Video component to play local or streaming media.",
+      "description": "Learn how to use the Blazorise Video component to play local or streaming media with configurable sources, playback controls, responsive sizing, and browser-friendly markup.",
       "pagePath": "Pages/Docs/Extensions/Video/VideoPage.razor",
       "examples": [
         {
@@ -7601,7 +7601,7 @@
     },
     {
       "route": "/docs/helpers/utilities",
-      "title": "Blazorise Utilities – Helper Classes for Layout, Spacing, and Styling",
+      "title": "Blazorise Utilities - Layout and Styling Helpers",
       "description": "Master Blazorise utility helpers to quickly configure layout, spacing, borders, display, flex, and overflow properties. Learn how to efficiently style and align elements using fluent builder patterns in Blazorise.",
       "pagePath": "Pages/Docs/Helpers/Utilities/UtilitiesPage.razor",
       "examples": []
@@ -7625,7 +7625,7 @@
     {
       "route": "/docs/helpers/utilities/column-size",
       "title": "Blazorise Column Size Utilities - Responsive Grid Columns",
-      "description": "Define responsive column widths using the Blazorise ColumnSize fluent builder for grid columns.",
+      "description": "Define responsive column widths using the Blazorise ColumnSize fluent builder for grid columns. Configure mobile, tablet, desktop, and widescreen layouts with readable utility syntax.",
       "pagePath": "Pages/Docs/Helpers/Utilities/ColumnSize/ColumnSizePage.razor",
       "examples": [
         {
@@ -7680,8 +7680,8 @@
     },
     {
       "route": "/docs/helpers/utilities/display",
-      "title": "Blazorise Display Utilities - Responsive Visibility and Layout",
-      "description": "Toggle element visibility and display styles across breakpoints with Blazorise display utilities.",
+      "title": "Blazorise Display Utilities for Layout",
+      "description": "Toggle element visibility and display styles across responsive breakpoints with Blazorise display utilities. Use fluent helpers to control block, flex, inline, and hidden states.",
       "pagePath": "Pages/Docs/Helpers/Utilities/Display/DisplayPage.razor",
       "examples": [
         {
