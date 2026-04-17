@@ -665,9 +665,9 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
 
     [Parameter] public bool Draggable { get; set; }
 
-    [Parameter] public Func<TNode, bool> CanDrag { get; set; }
+    [Parameter] public Func<TNode, bool> CanDragNode { get; set; }
 
-    [Parameter] public Func<TreeViewNodeDragEventArgs<TNode>, bool> CanDrop { get; set; }
+    [Parameter] public Func<TreeViewNodeDragEventArgs<TNode>, bool> CanDropNode { get; set; }
 
     [Parameter] public EventCallback<TreeViewNodeDragEventArgs<TNode>> NodeDropped { get; set; }
 
@@ -689,7 +689,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         if ( !Draggable || nodeState is null )
             return Task.CompletedTask;
 
-        if ( CanDrag is not null && !CanDrag( nodeState.Node ) )
+        if ( CanDragNode is not null && !CanDragNode( nodeState.Node ) )
             return Task.CompletedTask;
 
         if ( ParentTreeView is not null )
@@ -713,7 +713,11 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         if ( !IsDropAllowed( nodeState ) )
             return;
 
-        TreeViewNodeDragEventArgs<TNode> dragEventArgs = new( nodeState, draggedNodeState, eventArgs );
+        TreeViewNodeDragEventArgs<TNode> dragEventArgs = new(
+            eventArgs,
+            draggedNodeState.Node,
+            nodeState.Node,
+            draggedNodeState.Parent?.Node );
 
         if ( NodeDropped.HasDelegate )
             await NodeDropped.InvokeAsync( dragEventArgs );
@@ -734,7 +738,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         if ( !Draggable || nodeState is null )
             return false;
 
-        return CanDrag?.Invoke( nodeState.Node ) ?? true;
+        return CanDragNode?.Invoke( nodeState.Node ) ?? true;
     }
 
     private bool IsDropAllowed( TreeViewNodeState<TNode> nodeState )
@@ -750,9 +754,13 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         if ( IsDescendantOf( nodeState, draggedNodeState ) )
             return false;
 
-        TreeViewNodeDragEventArgs<TNode> dragEventArgs = new( nodeState, draggedNodeState, null );
+        TreeViewNodeDragEventArgs<TNode> dragEventArgs = new(
+            null,
+            draggedNodeState.Node,
+            nodeState.Node,
+            draggedNodeState.Parent?.Node );
 
-        return CanDrop?.Invoke( dragEventArgs ) ?? true;
+        return CanDropNode?.Invoke( dragEventArgs ) ?? true;
     }
 
     private static bool IsDescendantOf( TreeViewNodeState<TNode> potentialDescendant, TreeViewNodeState<TNode> potentialAncestor )

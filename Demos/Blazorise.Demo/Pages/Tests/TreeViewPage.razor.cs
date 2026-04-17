@@ -150,18 +150,33 @@ public partial class TreeViewPage : ComponentBase
 
     private Task OnNodeDropped( TreeView.EventArguments.TreeViewNodeDragEventArgs<NodeInfo> args )
     {
-        Console.WriteLine( $"Dropped: {args.DraggedNode.Text} from {args.SourceNode?.Text} => {args.TargetNode.Text}" );
+        Console.WriteLine( $"Dropped: {args.DraggedNode.Text} from {args.OldParentNode?.Text} => {args.NewParentNode?.Text}" );
 
-        args.TargetNode.Children.Add( args.DraggedNode );
-        args.SourceNode?.Children.Remove( args.DraggedNode );
+        if ( args.NewParentNode is null ) // Dropped on root
+        {
+            Nodes.Add( args.DraggedNode );
+        }
+        else
+        {
+            args.NewParentNode.Children.Add( args.DraggedNode );
+        }
+
+        if ( args.OldParentNode is null ) // Dragged from root
+        {
+            Nodes.Remove( args.DraggedNode );
+        }
+        else
+        {
+            args.OldParentNode.Children.Remove( args.DraggedNode );
+        }
 
         return Task.CompletedTask;
     }
 
-    private bool CanDrag( NodeInfo node )
+    private bool CanDragNode( NodeInfo node )
         => !node.Disabled;
 
     // Cannot drop on same parent
-    private bool CanDrop( TreeView.EventArguments.TreeViewNodeDragEventArgs<NodeInfo> args )
-        => args.TargetNode != args.SourceNode;
+    private bool CanDropNode( TreeView.EventArguments.TreeViewNodeDragEventArgs<NodeInfo> args )
+        => args.NewParentNode != args.OldParentNode;
 }

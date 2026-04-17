@@ -1,4 +1,3 @@
-using Blazorise.TreeView.Internal;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise.TreeView.EventArguments;
@@ -12,45 +11,30 @@ public class TreeViewNodeDragEventArgs<TNode>
     /// <summary>
     /// Creates a new instance of <see cref="TreeViewNodeDragEventArgs{TNode}"/>.
     /// </summary>
-    /// <param name="target">The target node state.</param>
-    /// <param name="dragged">The dragged node state.</param>
-    /// <param name="eventArgs">The source drag event args.</param>
-    public TreeViewNodeDragEventArgs( TreeViewNodeState<TNode> target, TreeViewNodeState<TNode> dragged, DragEventArgs eventArgs )
+    public TreeViewNodeDragEventArgs( DragEventArgs eventArgs, TNode dragged, TNode newParent, TNode oldParent )
     {
-        TargetState = target;
-        DraggedState = dragged;
+        DraggedNode = dragged;
+        NewParentNode = newParent;
+        OldParentNode = oldParent;
         DragEventArgs = eventArgs;
     }
 
     /// <summary>
-    /// The target node state where the dragged node is dragged over or dropped.
+    /// The dragged tree node.
     /// </summary>
-    public TreeViewNodeState<TNode> TargetState { get; }
+    public TNode DraggedNode { get; }
 
     /// <summary>
-    /// The target node.
+    /// The target node where the node is dragged over or dropped on.
+    /// Can be null if over root of TreeView.
     /// </summary>
-    public TNode TargetNode => TargetState.Node;
-
-    /// <summary>
-    /// The dragged node state.
-    /// </summary>
-    public TreeViewNodeState<TNode> DraggedState { get; }
-
-    /// <summary>
-    /// The dragged node.
-    /// </summary>
-    public TNode DraggedNode => DraggedState.Node;
-
-    /// <summary>
-    /// The source parent node state that the dragged node came from.
-    /// </summary>
-    public TreeViewNodeState<TNode> SourceState => DraggedState.Parent;
+    public TNode NewParentNode { get; }
 
     /// <summary>
     /// The source parent node that the dragged node came from.
+    /// Can be null if source was root of TreeView.
     /// </summary>
-    public TNode SourceNode => SourceState is not null ? SourceState.Node : default;
+    public TNode OldParentNode { get; }
 
     /// <summary>
     /// The original drag event args.

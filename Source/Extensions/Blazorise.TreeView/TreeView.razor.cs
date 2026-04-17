@@ -526,12 +526,12 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     /// <summary>
     /// Determines whether a node can be dragged.
     /// </summary>
-    [Parameter] public Func<TNode, bool> CanDrag { get; set; } = _ => true;
+    [Parameter] public Func<TNode, bool> CanDragNode { get; set; } = _ => true;
 
     /// <summary>
     /// Determines whether the dragged node can be dropped on the target node.
     /// </summary>
-    [Parameter] public Func<TreeViewNodeDragEventArgs<TNode>, bool> CanDrop { get; set; } = _ => true;
+    [Parameter] public Func<TreeViewNodeDragEventArgs<TNode>, bool> CanDropNode { get; set; } = _ => true;
 
     /// <summary>
     /// Fired when a dragged node is dropped on a target node.
