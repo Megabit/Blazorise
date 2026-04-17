@@ -166,14 +166,8 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
         if ( ParentTreeView.Draggable && IsActiveDropTarget )
         {
-            if ( ParentTreeView.ActiveDropAsChild )
-            {
-                builder.Append( ClassProvider.BackgroundColor( Background.Primary.Subtle ) );
-            }
-            else
-            {
-                builder.Append( Blazorise.Border.Is2.Primary.OnTop.Class( ClassProvider ) );
-            }
+            builder.Append( ClassProvider.BackgroundColor( Background.Primary.Subtle ), ParentTreeView.ActiveDropAsChild );
+            builder.Append( "b-tree-view-node-title-drop-before", !ParentTreeView.ActiveDropAsChild );
         }
 
         string nodeTitleClass = ParentTreeView?.Classes?.NodeTitle;

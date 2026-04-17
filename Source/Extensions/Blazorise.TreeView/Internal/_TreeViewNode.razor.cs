@@ -797,31 +797,37 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         if ( targetNodeState is null )
             return null;
 
-        if ( !dropAsChild && ReferenceEquals( draggedNodeState.Parent, targetNodeState.Parent ) )
+        if ( !dropAsChild )
             return targetNodeState.Parent;
 
         return targetNodeState;
     }
 
-    private int GetDropIndex( TreeViewNodeState<TNode> draggedNodeState, TreeViewNodeState<TNode> newParentNodeState, bool dropAsChild )
+    private int GetDropIndex( TreeViewNodeState<TNode> draggedNodeState, TreeViewNodeState<TNode> targetNodeState, bool dropAsChild )
     {
-        TreeViewNodeState<TNode> dropParentNodeState = GetDropParentNodeState( draggedNodeState, newParentNodeState, dropAsChild );
+        TreeViewNodeState<TNode> dropParentNodeState = GetDropParentNodeState( draggedNodeState, targetNodeState, dropAsChild );
         IList<TreeViewNodeState<TNode>> destinationNodeStates = dropParentNodeState?.Children ?? ParentTreeView?.RootNodeStates;
 
         if ( destinationNodeStates is null )
             return 0;
 
-        if ( !dropAsChild && newParentNodeState is not null && ReferenceEquals( draggedNodeState.Parent, newParentNodeState.Parent ) )
+        if ( !dropAsChild && targetNodeState is not null )
         {
-            int oldIndex = GetNodeIndex( draggedNodeState );
-            int targetIndex = destinationNodeStates.IndexOf( newParentNodeState );
+            int targetIndex = destinationNodeStates.IndexOf( targetNodeState );
 
             if ( targetIndex < 0 )
                 return destinationNodeStates.Count;
 
-            return oldIndex < targetIndex
-                ? targetIndex - 1
-                : targetIndex;
+            if ( ReferenceEquals( draggedNodeState.Parent, dropParentNodeState ) )
+            {
+                int oldIndex = GetNodeIndex( draggedNodeState );
+
+                return oldIndex < targetIndex
+                    ? targetIndex - 1
+                    : targetIndex;
+            }
+
+            return targetIndex;
         }
 
         int newIndex = destinationNodeStates.Count;

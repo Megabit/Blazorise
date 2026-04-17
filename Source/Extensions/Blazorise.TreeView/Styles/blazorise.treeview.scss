@@ -29,11 +29,24 @@
             min-height: 1.75rem;
             padding-left: 1.5rem;
             vertical-align: middle;
+            position: relative;
 
             > .cursor-pointer {
                 display: inline-flex;
                 align-items: center;
                 gap: .375rem;
+            }
+
+            &.b-tree-view-node-title-drop-before {
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: -1px;
+                    left: 0;
+                    right: 0;
+                    height: 0;
+                    border-top: 2px dashed #0d6efd;
+                }
             }
 
             > .b-tree-view-node-check {
