@@ -149,7 +149,7 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
         => nodeTitleClassBuilder.Class;
 
     protected string NodeTitleStyleNames
-        => nodeTitleStyleBuilder.Styles;
+    => nodeTitleStyleBuilder.Styles;
 
     protected string NodeCheckClassNames
         => nodeCheckClassBuilder.Class;
@@ -163,6 +163,18 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     private void BuildNodeTitleClasses( ClassBuilder builder )
     {
         builder.Append( "b-tree-view-node-title" );
+
+        if ( ParentTreeView.Draggable && IsActiveDropTarget )
+        {
+            if ( ParentTreeView.ActiveDropAsChild )
+            {
+                builder.Append( ClassProvider.BackgroundColor( Background.Primary.Subtle ) );
+            }
+            else
+            {
+                builder.Append( Blazorise.Border.Is2.Primary.OnTop.Class( ClassProvider ) );
+            }
+        }
 
         string nodeTitleClass = ParentTreeView?.Classes?.NodeTitle;
         if ( !string.IsNullOrWhiteSpace( nodeTitleClass ) )
@@ -243,6 +255,11 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
     protected bool Checked
         => SelectionMode == TreeViewSelectionMode.Multiple && ParentTreeViewState.SelectedNodes != null && ParentTreeViewState.SelectedNodes.Contains( NodeState.Node );
+
+    protected bool IsActiveDropTarget
+        => NodeState is not null
+            && ParentTreeView?.ActiveDropNode is not null
+            && Equals( ParentTreeView.ActiveDropNode.Node, NodeState.Node );
 
     [Parameter] public TreeViewNodeState<TNode> NodeState { get; set; }
 

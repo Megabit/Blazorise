@@ -11,11 +11,13 @@ public class TreeViewNodeDragEventArgs<TNode>
     /// <summary>
     /// Creates a new instance of <see cref="TreeViewNodeDragEventArgs{TNode}"/>.
     /// </summary>
-    public TreeViewNodeDragEventArgs( DragEventArgs eventArgs, TNode dragged, TNode newParent, TNode oldParent )
+    public TreeViewNodeDragEventArgs( DragEventArgs eventArgs, TNode dragged, TNode newParent, TNode oldParent, int newIndex, int oldIndex )
     {
         DraggedNode = dragged;
         NewParentNode = newParent;
         OldParentNode = oldParent;
+        NewIndex = newIndex;
+        OldIndex = oldIndex;
         DragEventArgs = eventArgs;
     }
 
@@ -25,8 +27,8 @@ public class TreeViewNodeDragEventArgs<TNode>
     public TNode DraggedNode { get; }
 
     /// <summary>
-    /// The target node where the node is dragged over or dropped on.
-    /// Can be null if over root of TreeView.
+    /// The destination parent node where the dragged node will be inserted.
+    /// Can be null if the destination is the TreeView root.
     /// </summary>
     public TNode NewParentNode { get; }
 
@@ -35,6 +37,18 @@ public class TreeViewNodeDragEventArgs<TNode>
     /// Can be null if source was root of TreeView.
     /// </summary>
     public TNode OldParentNode { get; }
+
+    /// <summary>
+    /// The destination index within the new parent node children collection.
+    /// If <see cref="NewParentNode"/> is null, the index is relative to the TreeView root nodes.
+    /// </summary>
+    public int NewIndex { get; }
+
+    /// <summary>
+    /// The original index within the old parent node children collection.
+    /// If <see cref="OldParentNode"/> is null, the index is relative to the TreeView root nodes.
+    /// </summary>
+    public int OldIndex { get; }
 
     /// <summary>
     /// The original drag event args.

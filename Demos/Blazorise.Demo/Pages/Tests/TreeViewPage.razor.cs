@@ -150,24 +150,19 @@ public partial class TreeViewPage : ComponentBase
 
     private Task OnNodeDropped( TreeView.EventArguments.TreeViewNodeDragEventArgs<NodeInfo> args )
     {
-        Console.WriteLine( $"Dropped: {args.DraggedNode.Text} from {args.OldParentNode?.Text} => {args.NewParentNode?.Text}" );
+        Console.WriteLine( $"Dropped: {args.DraggedNode.Text} from {args.OldParentNode?.Text}[{args.OldIndex}] => {args.NewParentNode?.Text}[{args.NewIndex}]" );
 
-        if ( args.NewParentNode is null ) // Dropped on root
+        var source = args.OldParentNode?.Children ?? Nodes;
+        var destination = args.NewParentNode?.Children ?? Nodes;
+
+        if ( source == destination )
         {
-            Nodes.Add( args.DraggedNode );
+            source.Move( args.OldIndex, args.NewIndex );
         }
         else
         {
-            args.NewParentNode.Children.Add( args.DraggedNode );
-        }
-
-        if ( args.OldParentNode is null ) // Dragged from root
-        {
-            Nodes.Remove( args.DraggedNode );
-        }
-        else
-        {
-            args.OldParentNode.Children.Remove( args.DraggedNode );
+            source.RemoveAt( args.OldIndex );
+            destination.Insert( args.NewIndex, args.DraggedNode );
         }
 
         return Task.CompletedTask;
@@ -176,7 +171,7 @@ public partial class TreeViewPage : ComponentBase
     private bool CanDragNode( NodeInfo node )
         => !node.Disabled;
 
-    // Cannot drop on same parent
+    // Allow same-parent drops so a node can be reordered to the end of its current siblings.
     private bool CanDropNode( TreeView.EventArguments.TreeViewNodeDragEventArgs<NodeInfo> args )
-        => args.NewParentNode != args.OldParentNode;
+        => args.NewParentNode?.Disabled is true ? false : true;
 }

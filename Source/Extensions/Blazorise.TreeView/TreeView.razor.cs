@@ -543,5 +543,22 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     /// </summary>
     internal TreeViewNodeState<TNode> DraggedNode { get; set; }
 
+    internal TreeViewNodeState<TNode> ActiveDropNode { get; private set; }
+
+    internal bool ActiveDropAsChild { get; private set; }
+
+    internal IList<TreeViewNodeState<TNode>> RootNodeStates => treeViewNodeStates;
+
+    internal Task SetActiveDropNode( TreeViewNodeState<TNode> nodeState, bool asChild )
+    {
+        if ( ReferenceEquals( ActiveDropNode, nodeState ) && ActiveDropAsChild == asChild )
+            return Task.CompletedTask;
+
+        ActiveDropNode = nodeState;
+        ActiveDropAsChild = asChild;
+
+        return InvokeAsync( StateHasChanged );
+    }
+
     #endregion
 }
