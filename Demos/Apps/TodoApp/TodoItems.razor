@@ -1,60 +1,96 @@
 ﻿@inherits BaseTodoItems
 <Container Fluid>
     <Row>
-        <Column>
-            <Card Margin="Margin.Is4.FromTop">
-                <CardHeader Padding="Padding.Is1.FromBottom">
-                    <Heading Size="HeadingSize.Is4">Todo List</Heading>
+        <Column ColumnSize="ColumnSize.Is12.OnMobile.Is8.OnDesktop">
+            <Card Shadow="Shadow.Default" Margin="Margin.Is4.OnY">
+                <CardHeader>
+                    <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                        <CardTitle Margin="Margin.Is0">Task list</CardTitle>
+                        <Buttons Role="ButtonsRole.Addons">
+                            <Button Color="Color.Secondary" Clicked="@(() => SetFilter( Filter.All ))" Active="@(filter == Filter.All)">All</Button>
+                            <Button Color="Color.Secondary" Clicked="@(() => SetFilter( Filter.Active ))" Active="@(filter == Filter.Active)">Active</Button>
+                            <Button Color="Color.Secondary" Clicked="@(() => SetFilter( Filter.Completed ))" Active="@(filter == Filter.Completed)">Done</Button>
+                        </Buttons>
+                    </Div>
                 </CardHeader>
-                <CardBody Padding="Padding.Is0.FromBottom">
-                    <Fields>
-                        <Column ColumnSize="ColumnSize.Is1">
-                            <Field>
-                                <Check TValue="bool" Value="@Todos.All(x=>x.Completed)" ValueChanged="@OnCheckAll">All</Check>
-                            </Field>
-                        </Column>
-                        <Column ColumnSize="ColumnSize.Is11">
-                            <Field>
-                                <Addons>
-                                    <Addon AddonType="AddonType.Body">
-                                        <Validations @ref="validations" Mode="ValidationMode.Manual">
-                                            <Validation Validator="@ValidationRule.IsNotEmpty">
-                                                <TextInput @bind-Value="@description" Placeholder="What needs to be done?"></TextInput>
-                                            </Validation>
-                                        </Validations>
-                                    </Addon>
-                                    <Addon AddonType="AddonType.End">
-                                        <Button Color="Color.Primary" Clicked="@OnAddTodo">
-                                            <Icon Name="IconName.Add" />Add
-                                        </Button>
-                                    </Addon>
-                                </Addons>
-                            </Field>
-                        </Column>
-                    </Fields>
+                <CardBody>
+                    <Field>
+                        <Addons>
+                            <Addon AddonType="AddonType.Body">
+                                <Validations @ref="validations" Mode="ValidationMode.Manual">
+                                    <Validation Validator="@ValidationRule.IsNotEmpty">
+                                        <TextInput @bind-Value="@description" Placeholder="Add a task"></TextInput>
+                                    </Validation>
+                                </Validations>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Primary" Clicked="@OnAddTodo" Flex="Flex.InlineFlex.AlignItems.Center" Gap="Gap.Is2">
+                                    <Icon Name="IconName.Add" />
+                                    Add task
+                                </Button>
+                            </Addon>
+                        </Addons>
+                    </Field>
                 </CardBody>
                 <CardBody Padding="Padding.Is0.OnY">
-                    <ListGroup Flush>
-                        @foreach ( var todo in Todos )
-                        {
-                            <TodoItem Todo="@todo" StatusChanged="@OnTodoStatusChanged" />
-                        }
-                    </ListGroup>
+                    @if ( FilteredCount == 0 )
+                    {
+                        <Alert Color="Color.Light" Visible Margin="Margin.Is3.OnX.Is3.FromBottom">
+                            <AlertMessage>@GetEmptyTitle()</AlertMessage>
+                            <AlertDescription>@GetEmptyDescription()</AlertDescription>
+                        </Alert>
+                    }
+                    else
+                    {
+                        <ListGroup Flush>
+                            @foreach ( var todo in Todos )
+                            {
+                                <TodoItem Todo="@todo" StatusChanged="@OnTodoStatusChanged" RemoveClicked="@OnRemoveTodo" />
+                            }
+                        </ListGroup>
+                    }
                 </CardBody>
-                <CardFooter Padding="Padding.Is3.FromBottom">
-                    <Field Horizontal>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Buttons Role="ButtonsRole.Addons">
-                                <Button Color="Color.Info" Clicked="@(() => SetFilter( Filter.All ))" Active="@(filter == Filter.All)">All</Button>
-                                <Button Color="Color.Info" Clicked="@(() => SetFilter( Filter.Active ))" Active="@(filter == Filter.Active)">Active</Button>
-                                <Button Color="Color.Info" Clicked="@(() => SetFilter( Filter.Completed ))" Active="@(filter == Filter.Completed)">Completed</Button>
-                            </Buttons>
-                        </FieldBody>
-                        <FieldBody ColumnSize="ColumnSize.Is2">
-                            <Button Color="Color.Warning" Float="Float.End" Clicked="@OnClearCompleted" Display="@(todos.Any(x=>x.Completed) ? Display.Always : Display.None)">Clear Completed</Button>
-                        </FieldBody>
-                    </Field>
+                <CardFooter>
+                    <Div Flex="Flex.Column.Row.OnDesktop.JustifyContent.Between.AlignItems.Start.AlignItems.Center.OnDesktop" Gap="Gap.Is3">
+                        <Check TValue="bool" Value="@IsAllChecked" ValueChanged="@OnCheckAll" Disabled="@(HasTodos == false)">
+                            Mark all complete
+                        </Check>
+                        <Button Color="Color.Warning" Outline Clicked="@OnClearCompleted" Disabled="@(HasCompletedTodos == false)" Flex="Flex.InlineFlex.AlignItems.Center" Gap="Gap.Is2">
+                            <Icon Name="IconName.Delete" />
+                            Clear completed
+                        </Button>
+                    </Div>
                 </CardFooter>
+            </Card>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop">
+            <Card Shadow="Shadow.Default" Margin="Margin.Is4.OnY">
+                <CardHeader>
+                    <Div Flex="Flex.Column.Row.OnDesktop.JustifyContent.Between.AlignItems.Start.AlignItems.Center.OnDesktop" Gap="Gap.Is3">
+                        <CardTitle Margin="Margin.Is0">Overview</CardTitle>
+                        <Button Color="Color.Secondary" Outline Clicked="@ResetTodos" Flex="Flex.InlineFlex.AlignItems.Center" Gap="Gap.Is2">
+                            <Icon Name="IconName.Undo" />
+                            Reset demo
+                        </Button>
+                    </Div>
+                </CardHeader>
+                <CardBody>
+                    <Div Flex="Flex.Wrap" Gap="Gap.Is2" Margin="Margin.Is3.FromBottom">
+                        <Badge Color="Color.Primary" Subtle Pill>Total: @TotalCount</Badge>
+                        <Badge Color="Color.Info" Subtle Pill>Active: @ActiveCount</Badge>
+                        <Badge Color="Color.Success" Subtle Pill>Completed: @CompletedCount</Badge>
+                    </Div>
+
+                    <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Margin="Margin.Is2.FromBottom">
+                        <Span TextColor="TextColor.Secondary">Progress</Span>
+                        <Strong>@CompletionPercentage%</Strong>
+                    </Div>
+                    <Progress Color="@GetCompletionColor()" Value="@CompletionPercentage" Margin="Margin.Is4.FromBottom" />
+
+                    <Alert Color="@GetCompletionColor()" Visible Margin="Margin.Is4.FromTop.Is0.FromBottom">
+                        <AlertDescription>@GetSummaryText()</AlertDescription>
+                    </Alert>
+                </CardBody>
             </Card>
         </Column>
     </Row>
