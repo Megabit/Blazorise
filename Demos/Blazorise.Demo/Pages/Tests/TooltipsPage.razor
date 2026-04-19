@@ -1,5 +1,6 @@
 ﻿@page "/tests/tooltip";
 @page "/tests/tooltips";
+@using System.Timers
 
 <Row>
     <Column ColumnSize="ColumnSize.Is12">
@@ -13,8 +14,8 @@
             <CardBody>
                 <Row>
                     <Column ColumnSize="ColumnSize.Is6">
-                        <Tooltip Text="Hello tooltip">
-                            <Button Color="Color.Primary">Tooltip</Button>
+                        <Tooltip Text="@tooltipText">
+                            <Button Color="Color.Primary" Clicked="UpdateTooltip">Tooltip</Button>
                         </Tooltip>
                         <Tooltip Text="Tooltip with a long Text. So we use Multiline modifier to force multiline display." Multiline>
                             <Button Color="Color.Primary">Multiline Tooltip</Button>
@@ -170,3 +171,19 @@
         </Card>
     </Column>
 </Row>
+@code {
+    private string tooltipText = "Hello tooltip [Click to start updating]";
+
+    private void UpdateTooltip(MouseEventArgs args)
+    {
+        Timer timer = new(1000);
+
+        timer.Elapsed += (s, e) =>
+        {
+            tooltipText = $"Tooltip updated at {DateTime.Now:T}";
+            InvokeAsync(StateHasChanged);
+        };
+
+        timer.Start();
+    }
+}

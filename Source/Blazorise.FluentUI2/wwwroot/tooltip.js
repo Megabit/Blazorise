@@ -10,17 +10,17 @@ export function initialize(element, elementId, options) {
     }
 
     if (tippyInstance && tippyInstance.popper) {
-        tippyInstance.popper.className = "fui-Tooltip";
+        tippyInstance.popper.classList.add("fui-Tooltip");
 
         const tippyBox = tippyInstance.popper.querySelector(".tippy-box");
 
         if (tippyBox) {
-            tippyBox.className = "fui-Tooltip__box";
+            tippyBox.classList.add("fui-Tooltip__box");
 
             const tippyContent = tippyBox.querySelector(".tippy-content");
 
             if (tippyContent) {
-                tippyContent.className = "fui-Tooltip__content";
+                tippyContent.classList.add("fui-Tooltip__content");
             }
             const tippyArrow = tippyBox.querySelector(".tippy-arrow");
 
