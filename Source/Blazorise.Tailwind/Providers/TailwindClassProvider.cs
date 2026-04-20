@@ -2205,7 +2205,7 @@ public class TailwindClassProvider : ClassProvider
     {
         if ( unstyled )
         {
-            return "font-medium text-inherit hover:underline";
+            return "font-medium text-inherit";
         }
         else
         {
