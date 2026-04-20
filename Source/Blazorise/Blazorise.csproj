@@ -36,19 +36,6 @@
     <Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\SourceGenerators\Blazorise.Generator\bin\$(Configuration)\netstandard2.0\Blazorise.Generator.dll"
-          Pack="true"
-          PackagePath="analyzers/dotnet/cs"
-          Visible="false"
-          Condition="Exists('..\SourceGenerators\Blazorise.Generator\bin\$(Configuration)\netstandard2.0\Blazorise.Generator.dll')" />
-    <None Include="..\SourceGenerators\Blazorise.Generator.Features\bin\$(Configuration)\netstandard2.0\Blazorise.Generator.Features.dll"
-          Pack="true"
-          PackagePath="analyzers/dotnet/cs"
-          Visible="false"
-          Condition="Exists('..\SourceGenerators\Blazorise.Generator.Features\bin\$(Configuration)\netstandard2.0\Blazorise.Generator.Features.dll')" />
-  </ItemGroup>
-
   <PropertyGroup>
     <WeaverConfiguration>
       <Weavers>
