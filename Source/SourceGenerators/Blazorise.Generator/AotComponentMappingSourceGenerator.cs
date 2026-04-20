@@ -17,30 +17,23 @@ namespace Blazorise.Generator
         public void Initialize( IncrementalGeneratorInitializationContext context )
         {
             IncrementalValuesProvider<InvocationExpressionSyntax> providerRegistrations = context.SyntaxProvider.CreateSyntaxProvider(
-                static ( node, _ ) => node is InvocationExpressionSyntax,
+                static ( node, _ ) => IsProviderRegistrationCandidate( node ),
                 static ( ctx, _ ) => (InvocationExpressionSyntax)ctx.Node );
 
-            IncrementalValuesProvider<GenericNameSyntax> genericTypeReferences = context.SyntaxProvider.CreateSyntaxProvider(
-                static ( node, _ ) => node is GenericNameSyntax,
-                static ( ctx, _ ) => (GenericNameSyntax)ctx.Node );
-
-            IncrementalValueProvider<(Compilation compilation, ImmutableArray<InvocationExpressionSyntax> registrations, ImmutableArray<GenericNameSyntax> genericTypes)> source =
+            IncrementalValueProvider<(Compilation compilation, ImmutableArray<InvocationExpressionSyntax> registrations)> source =
                 context.CompilationProvider
-                    .Combine( providerRegistrations.Collect() )
-                    .Combine( genericTypeReferences.Collect() )
-                    .Select( static ( tuple, _ ) => (tuple.Left.Left, tuple.Left.Right, tuple.Right) );
+                    .Combine( providerRegistrations.Collect() );
 
             context.RegisterSourceOutput( source, static ( productionContext, sourceContext ) =>
             {
-                AddAotComponentMappingsSource( productionContext, sourceContext.compilation, sourceContext.registrations, sourceContext.genericTypes );
+                AddAotComponentMappingsSource( productionContext, sourceContext.compilation, sourceContext.registrations );
             } );
         }
 
         private static void AddAotComponentMappingsSource(
             SourceProductionContext context,
             Compilation compilation,
-            ImmutableArray<InvocationExpressionSyntax> registrations,
-            ImmutableArray<GenericNameSyntax> genericTypes )
+            ImmutableArray<InvocationExpressionSyntax> registrations )
         {
             ImmutableArray<ProviderMapping> providerMappings = GetProviderMappings( compilation );
 
@@ -71,6 +64,10 @@ namespace Blazorise.Generator
             }
 
             string providerAssemblyName = activeProviderAssemblies.Single();
+            ImmutableHashSet<string> genericComponentNames = providerMappings
+                .Where( x => string.Equals( x.ProviderAssemblyName, providerAssemblyName, StringComparison.Ordinal ) )
+                .Select( x => x.ComponentTypeDefinitionName )
+                .ToImmutableHashSet( StringComparer.Ordinal );
 
             Dictionary<string, ProviderMapping> providerMappingsByComponent = providerMappings
                 .Where( x => string.Equals( x.ProviderAssemblyName, providerAssemblyName, StringComparison.Ordinal ) )
@@ -82,7 +79,7 @@ namespace Blazorise.Generator
                 return;
             }
 
-            SortedDictionary<string, string> closedMappings = GetClosedMappings( compilation, genericTypes, providerMappingsByComponent );
+            SortedDictionary<string, string> closedMappings = GetClosedMappings( compilation, providerMappingsByComponent, genericComponentNames, context.CancellationToken );
 
             if ( closedMappings.Count == 0 )
             {
@@ -116,6 +113,32 @@ namespace Blazorise.Generator
             context.AddSource( "BlazoriseAotComponentMappings.g.cs", SourceText.From( sb.ToString(), Encoding.UTF8 ) );
         }
 
+        private static bool IsProviderRegistrationCandidate( SyntaxNode node )
+        {
+            if ( node is not InvocationExpressionSyntax invocationExpression )
+            {
+                return false;
+            }
+
+            string methodName = GetInvocationMethodName( invocationExpression );
+
+            return methodName is not null
+                   && methodName.Length > "AddProviders".Length
+                   && methodName.StartsWith( "Add", StringComparison.Ordinal )
+                   && methodName.EndsWith( "Providers", StringComparison.Ordinal );
+        }
+
+        private static string GetInvocationMethodName( InvocationExpressionSyntax invocationExpression )
+        {
+            return invocationExpression.Expression switch
+            {
+                IdentifierNameSyntax identifierName => identifierName.Identifier.ValueText,
+                MemberAccessExpressionSyntax memberAccess => memberAccess.Name.Identifier.ValueText,
+                MemberBindingExpressionSyntax memberBinding => memberBinding.Name.Identifier.ValueText,
+                _ => null
+            };
+        }
+
         private static ImmutableArray<ProviderMapping> GetProviderMappings( Compilation compilation )
         {
             List<ProviderMapping> mappings = new();
@@ -138,6 +161,7 @@ namespace Blazorise.Generator
 
                     mappings.Add( new ProviderMapping(
                         assemblySymbol.Name,
+                        componentType.OriginalDefinition.Name,
                         componentType.ToDisplayString( SymbolDisplayFormat.FullyQualifiedFormat ),
                         implementationType ) );
                 }
@@ -172,35 +196,51 @@ namespace Blazorise.Generator
 
         private static SortedDictionary<string, string> GetClosedMappings(
             Compilation compilation,
-            ImmutableArray<GenericNameSyntax> genericTypes,
-            Dictionary<string, ProviderMapping> providerMappingsByComponent )
+            Dictionary<string, ProviderMapping> providerMappingsByComponent,
+            ImmutableHashSet<string> genericComponentNames,
+            System.Threading.CancellationToken cancellationToken )
         {
             SortedDictionary<string, string> mappings = new( StringComparer.Ordinal );
 
-            foreach ( GenericNameSyntax genericType in genericTypes )
+            foreach ( SyntaxTree syntaxTree in compilation.SyntaxTrees )
             {
-                SemanticModel semanticModel = compilation.GetSemanticModel( genericType.SyntaxTree );
-                ITypeSymbol resolvedType = semanticModel.GetTypeInfo( genericType ).Type;
-                INamedTypeSymbol componentType = resolvedType as INamedTypeSymbol;
+                cancellationToken.ThrowIfCancellationRequested();
 
-                if ( componentType is null
-                     || componentType.IsUnboundGenericType )
+                SyntaxNode root = syntaxTree.GetRoot( cancellationToken );
+                SemanticModel semanticModel = null;
+
+                foreach ( SyntaxNode node in root.DescendantNodes() )
                 {
-                    continue;
+                    if ( node is not GenericNameSyntax genericType
+                         || !genericComponentNames.Contains( genericType.Identifier.ValueText ) )
+                    {
+                        continue;
+                    }
+
+                    semanticModel ??= compilation.GetSemanticModel( syntaxTree );
+
+                    ITypeSymbol resolvedType = semanticModel.GetTypeInfo( genericType, cancellationToken ).Type;
+                    INamedTypeSymbol componentType = resolvedType as INamedTypeSymbol;
+
+                    if ( componentType is null
+                         || componentType.IsUnboundGenericType )
+                    {
+                        continue;
+                    }
+
+                    string componentDefinitionDisplay = componentType.OriginalDefinition.ToDisplayString( SymbolDisplayFormat.FullyQualifiedFormat );
+
+                    if ( !providerMappingsByComponent.TryGetValue( componentDefinitionDisplay, out ProviderMapping providerMapping ) )
+                    {
+                        continue;
+                    }
+
+                    INamedTypeSymbol implementationType = providerMapping.ImplementationTypeDefinition.Construct( componentType.TypeArguments.ToArray() );
+                    string componentDisplay = componentType.ToDisplayString( SymbolDisplayFormat.FullyQualifiedFormat );
+                    string implementationDisplay = implementationType.ToDisplayString( SymbolDisplayFormat.FullyQualifiedFormat );
+
+                    mappings[componentDisplay] = implementationDisplay;
                 }
-
-                string componentDefinitionDisplay = componentType.OriginalDefinition.ToDisplayString( SymbolDisplayFormat.FullyQualifiedFormat );
-
-                if ( !providerMappingsByComponent.TryGetValue( componentDefinitionDisplay, out ProviderMapping providerMapping ) )
-                {
-                    continue;
-                }
-
-                INamedTypeSymbol implementationType = providerMapping.ImplementationTypeDefinition.Construct( componentType.TypeArguments.ToArray() );
-                string componentDisplay = componentType.ToDisplayString( SymbolDisplayFormat.FullyQualifiedFormat );
-                string implementationDisplay = implementationType.ToDisplayString( SymbolDisplayFormat.FullyQualifiedFormat );
-
-                mappings[componentDisplay] = implementationDisplay;
             }
 
             return mappings;
@@ -208,14 +248,17 @@ namespace Blazorise.Generator
 
         private sealed class ProviderMapping
         {
-            public ProviderMapping( string providerAssemblyName, string componentTypeDefinitionDisplay, INamedTypeSymbol implementationTypeDefinition )
+            public ProviderMapping( string providerAssemblyName, string componentTypeDefinitionName, string componentTypeDefinitionDisplay, INamedTypeSymbol implementationTypeDefinition )
             {
                 ProviderAssemblyName = providerAssemblyName;
+                ComponentTypeDefinitionName = componentTypeDefinitionName;
                 ComponentTypeDefinitionDisplay = componentTypeDefinitionDisplay;
                 ImplementationTypeDefinition = implementationTypeDefinition;
             }
 
             public string ProviderAssemblyName { get; }
+
+            public string ComponentTypeDefinitionName { get; }
 
             public string ComponentTypeDefinitionDisplay { get; }
 
