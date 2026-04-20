@@ -32,6 +32,12 @@
     To use the <Code>Snackbar</Code> component, install the <Code>Blazorise.Snackbar</Code> package first.
 </DocsPageParagraph>
 
+<DocsPageParagraph>
+    Snackbar has its own default styling and is not provider-native. If the application does not define theme color variables,
+    Snackbar falls back to its bundled colors. Defining <Code>Theme.ColorOptions</Code>, including <Code>new()</Code> without
+    explicit color assignments, enables the default Blazorise theme colors and generates Snackbar color variables.
+</DocsPageParagraph>
+
 <DocsPageSubtitle>
     Installation
 </DocsPageSubtitle>
