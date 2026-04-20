@@ -67,6 +67,14 @@ export function setZoomLevel(canvasId, zoomLevel) {
     }
 }
 
+export function pan(canvasId, delta) {
+    const chart = getChart(canvasId);
+
+    if (chart) {
+        chart.pan(delta);
+    }
+}
+
 export function resetZoomLevel(canvasId) {
     const chart = getChart(canvasId);
 
