@@ -20,7 +20,8 @@ export function initialize(element, elementId, options) {
             const tippyContent = tippyBox.querySelector(".tippy-content");
 
             if (tippyContent) {
-                tippyContent.className = "fui-Tooltip__content";
+                tippyContent.classList.add("fui-Tooltip__content");
+                tippyContent.style.padding = "0";
             }
             const tippyArrow = tippyBox.querySelector(".tippy-arrow");
 
