@@ -1,18 +1,21 @@
 ﻿@page "/tests/charts/zoom"
 <Row>
-    <Column>
+    <Column Margin="Margin.Is4.OnY">
         <Button Color="Color.Primary" Clicked="@OnResetZoomLevelClicked">
             Reset Zoom
         </Button>
         <Button Color="Color.Primary" Clicked="@OnSetZoomLevelClicked">
             Zoom x2
         </Button>
+        <Button Color="Color.Primary" Clicked="@OnPanClicked">
+            Pan y100
+        </Button>
     </Column>
 </Row>
 
 <Row>
     <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
-        <Card Margin="Margin.Is4.OnY">
+        <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Line</CardTitle>
             </CardHeader>
@@ -24,7 +27,7 @@
         </Card>
     </Column>
     <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
-        <Card Margin="Margin.Is4.OnY">
+        <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Bar</CardTitle>
             </CardHeader>
