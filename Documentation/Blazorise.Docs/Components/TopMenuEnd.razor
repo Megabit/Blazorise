@@ -12,7 +12,7 @@
 <BarItem>
     <BarLink To="https://github.com/Megabit/Blazorise" Target="Target.Blank" aria-label="Star Blazorise on GitHub">
         <Div Display="Display.Flex.Row.Block.OnDesktop" Flex="Flex.Default.OnWidescreen.Flex.AlignItems.Center">
-            <Icon Name="IconName.Star" IconStyle="IconStyle.Regular" IconSize="IconSize.Large" TextColor="TextColor.Warning"/>
+            <Icon Name="IconName.Star" IconStyle="IconStyle.Regular" IconSize="IconSize.Large" TextColor="TextColor.Warning" />
             <Span Margin="Margin.Is2.FromStart" Display="Display.Block.OnMobile.None.OnDesktop.Block.OnWidescreen">
                 Star us on GitHub
             </Span>
@@ -36,14 +36,20 @@
             }
         </BarDropdownToggle>
         <BarDropdownMenu>
-            <BarDropdownItem Clicked="@(()=>ThemeService.SetLightTheme())" Flex="Flex.AlignItems.Center">
-                <Icon Name="IconName.Sun" Margin="Margin.Is2.FromEnd" /> Light <Icon Name="IconName.Check" Margin="Margin.IsAuto.FromStart" Visibility="@(ThemeService.IsLight ? Visibility.Visible : Visibility.Invisible)" />
+            <BarDropdownItem Clicked="@(() => ThemeService.SetLightTheme())">
+                <Span Display="Display.Flex" Flex="Flex.AlignItems.Center" Width="Width.Is100">
+                    <Icon Name="IconName.Sun" Margin="Margin.Is2.FromEnd" /> Light <Icon Name="IconName.Check" Margin="Margin.IsAuto.FromStart" Visibility="@(ThemeService.IsLight ? Visibility.Visible : Visibility.Invisible)" />
+                </Span>
             </BarDropdownItem>
-            <BarDropdownItem Clicked="@(()=>ThemeService.SetDarkTheme())" Flex="Flex.AlignItems.Center">
-                <Icon Name="IconName.Moon" Margin="Margin.Is2.FromEnd" /> Dark <Icon Name="IconName.Check" Margin="Margin.IsAuto.FromStart" Visibility="@(ThemeService.IsDark ? Visibility.Visible : Visibility.Invisible)" />
+            <BarDropdownItem Clicked="@(() => ThemeService.SetDarkTheme())">
+                <Span Display="Display.Flex" Flex="Flex.AlignItems.Center" Width="Width.Is100">
+                    <Icon Name="IconName.Moon" Margin="Margin.Is2.FromEnd" /> Dark <Icon Name="IconName.Check" Margin="Margin.IsAuto.FromStart" Visibility="@(ThemeService.IsDark ? Visibility.Visible : Visibility.Invisible)" />
+                </Span>
             </BarDropdownItem>
-            <BarDropdownItem Clicked="@(()=>ThemeService.SetSystemTheme())" Flex="Flex.AlignItems.Center">
-                <Icon Name="IconName.Adjust" Margin="Margin.Is2.FromEnd" /> System <Icon Name="IconName.Check" Margin="Margin.IsAuto.FromStart" Visibility="@(ThemeService.IsSystem ? Visibility.Visible : Visibility.Invisible)" />
+            <BarDropdownItem Clicked="@(() => ThemeService.SetSystemTheme())">
+                <Span Display="Display.Flex" Flex="Flex.AlignItems.Center" Width="Width.Is100">
+                    <Icon Name="IconName.Adjust" Margin="Margin.Is2.FromEnd" /> System <Icon Name="IconName.Check" Margin="Margin.IsAuto.FromStart" Visibility="@(ThemeService.IsSystem ? Visibility.Visible : Visibility.Invisible)" />
+                </Span>
             </BarDropdownItem>
         </BarDropdownMenu>
     </BarDropdown>
@@ -65,6 +71,6 @@
 
     void OnThemeChanged( object sender, string theme )
     {
-        InvokeAsync(StateHasChanged);
+        InvokeAsync( StateHasChanged );
     }
 }

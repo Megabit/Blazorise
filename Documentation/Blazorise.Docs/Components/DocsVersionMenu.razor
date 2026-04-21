@@ -8,12 +8,14 @@
             {
                 @if ( IsActiveUrl( version.BaseUrl ) )
                 {
-                    <BarDropdownItem To="@version.DocsUrl" Flex="Flex.InlineFlex.JustifyContent.Between.AlignItems.Center" Border="Border.Is1.OnTop.Is1.OnBottom">
-                        <Span>@version.Name</Span>
-                        @if ( IsActiveUrl( version.BaseUrl ) )
-                        {
-                            <Icon Name="IconName.Check" Padding="Padding.Is2.FromStart" TextColor="TextColor.Primary" />
-                        }
+                    <BarDropdownItem To="@version.DocsUrl" Border="Border.Is1.OnTop.Is1.OnBottom">
+                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between.AlignItems.Center" Width="Width.Is100">
+                            <Span>@version.Name</Span>
+                            @if ( IsActiveUrl( version.BaseUrl ) )
+                            {
+                                <Icon Name="IconName.Check" Padding="Padding.Is2.FromStart" TextColor="TextColor.Primary" />
+                            }
+                        </Span>
                     </BarDropdownItem>
                 }
                 else
