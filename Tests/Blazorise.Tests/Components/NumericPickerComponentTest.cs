@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Modules;
 using Bunit;
 using Xunit;
@@ -6,11 +6,12 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class NumericPickerComponentTest : TestContext
+public class NumericPickerComponentTest : BunitContext
 {
     public NumericPickerComponentTest()
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop.AddBlazoriseUtilities();
 
         var module = JSInterop.SetupModule( new JSNumericPickerModule( JSInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "import", _ => true ).SetVoidResult();
@@ -23,11 +24,11 @@ public class NumericPickerComponentTest : TestContext
     public void SetParametersAndRender_Should_SendRawValue_ToJsUpdateValue()
     {
         // setup
-        var comp = RenderComponent<NumericPicker<decimal>>( parameters =>
+        var comp = Render<NumericPicker<decimal>>( parameters =>
             parameters.Add( x => x.Value, 10m ) );
 
         // test
-        comp.SetParametersAndRender( parameters =>
+        comp.Render( parameters =>
             parameters.Add( x => x.Value, 99m ) );
 
         // validate

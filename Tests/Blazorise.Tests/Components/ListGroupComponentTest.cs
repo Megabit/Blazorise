@@ -6,18 +6,19 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class ListGroupComponentTest : TestContext
+public class ListGroupComponentTest : BunitContext
 {
     public ListGroupComponentTest()
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop.AddBlazoriseUtilities();
     }
 
     [Fact]
     public void SelectableListGroup_ShouldRenderListboxRole()
     {
         // setup
-        var comp = RenderComponent<ListGroupComponent>();
+        var comp = Render<ListGroupComponent>();
 
         // test
         var listGroupElement = comp.Find( "#selectable-list-group" );
@@ -31,7 +32,7 @@ public class ListGroupComponentTest : TestContext
     public void SelectableMultiListGroup_ShouldRenderAriaMultiselectable()
     {
         // setup
-        var comp = RenderComponent<ListGroupComponent>(
+        var comp = Render<ListGroupComponent>(
             parameters => parameters.Add( x => x.SelectionMode, ListGroupSelectionMode.Multiple ) );
 
         // test
@@ -46,7 +47,7 @@ public class ListGroupComponentTest : TestContext
     public void SelectableListGroupItems_ShouldBeTabbable()
     {
         // setup
-        var comp = RenderComponent<ListGroupComponent>();
+        var comp = Render<ListGroupComponent>();
 
         // test
         var firstItem = comp.Find( "#list-group-item-1" );
@@ -65,7 +66,7 @@ public class ListGroupComponentTest : TestContext
     public async Task Enter_OnFocusedSelectableItem_ShouldSelectItem()
     {
         // setup
-        var comp = RenderComponent<ListGroupComponent>();
+        var comp = Render<ListGroupComponent>();
         var secondItem = comp.Find( "#list-group-item-2" );
 
         // test
@@ -82,7 +83,7 @@ public class ListGroupComponentTest : TestContext
     public async Task Space_OnFocusedSelectableItem_ShouldSelectItem()
     {
         // setup
-        var comp = RenderComponent<ListGroupComponent>();
+        var comp = Render<ListGroupComponent>();
         var firstItem = comp.Find( "#list-group-item-1" );
 
         // test

@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class ValidateAnnotationsAccessibilityOptionsComponentTest : TestContext
+public class ValidateAnnotationsAccessibilityOptionsComponentTest : BunitContext
 {
     private const string NameRequired = "The Name field is required.";
 
@@ -25,7 +25,7 @@ public class ValidateAnnotationsAccessibilityOptionsComponentTest : TestContext
     public async Task CanAutoValidateName_OnBlur_WhenValidationOnBlurIsEnabled()
     {
         // setup
-        var comp = RenderComponent<ValidateAnnotationsComponent>();
+        var comp = Render<ValidateAnnotationsComponent>();
         var edit = comp.Find( "#auto-validate-name-on-blur input" );
 
         Assert.DoesNotContain( "is-invalid", edit.ClassList );

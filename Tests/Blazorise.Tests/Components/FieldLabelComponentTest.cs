@@ -14,7 +14,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class FieldLabelComponentTest : TestContext
+public class FieldLabelComponentTest : BunitContext
 {
     public FieldLabelComponentTest()
     {
@@ -42,7 +42,7 @@ public class FieldLabelComponentTest : TestContext
         // setup
 
         // test
-        var cut = RenderComponent<FieldLabel>( parameters =>
+        var cut = Render<FieldLabel>( parameters =>
         {
             parameters.Add( x => x.RequiredIndicator, true );
             parameters.AddChildContent( "Required Field" );
@@ -57,7 +57,7 @@ public class FieldLabelComponentTest : TestContext
     public void FieldLabel_Should_LinkToNestedTextInput()
     {
         // setup
-        var cut = RenderComponent<Field>( parameters => parameters
+        var cut = Render<Field>( parameters => parameters
             .AddChildContent( builder =>
             {
                 builder.OpenComponent<FieldLabel>( 0 );
@@ -87,7 +87,7 @@ public class FieldLabelComponentTest : TestContext
     public void FieldLabel_For_Should_OverrideParentFieldTarget()
     {
         // setup
-        var cut = RenderComponent<Field>( parameters => parameters
+        var cut = Render<Field>( parameters => parameters
             .AddChildContent( builder =>
             {
                 builder.OpenComponent<FieldLabel>( 0 );
@@ -114,7 +114,7 @@ public class FieldLabelComponentTest : TestContext
     public void FieldLabel_Should_LinkToAutocompleteInput()
     {
         // setup
-        var cut = RenderComponent<Field>( parameters => parameters
+        var cut = Render<Field>( parameters => parameters
             .AddChildContent( builder =>
             {
                 builder.OpenComponent<FieldLabel>( 0 );
@@ -142,7 +142,7 @@ public class FieldLabelComponentTest : TestContext
     public void FieldLabel_Should_LabelColorPickerWithAriaLabelledBy()
     {
         // setup
-        var cut = RenderComponent<Field>( parameters => parameters
+        var cut = Render<Field>( parameters => parameters
             .AddChildContent( builder =>
             {
                 builder.OpenComponent<FieldLabel>( 0 );
@@ -169,7 +169,7 @@ public class FieldLabelComponentTest : TestContext
     [Fact]
     public void FieldLabel_Should_UseExplicitAriaLabelledBy_WhenProvided()
     {
-        var cut = RenderComponent<Field>( parameters => parameters
+        var cut = Render<Field>( parameters => parameters
             .AddChildContent( builder =>
             {
                 builder.OpenComponent<FieldLabel>( 0 );
@@ -197,7 +197,7 @@ public class FieldLabelComponentTest : TestContext
     public void FieldLabel_Should_LabelRadioGroupWithAriaLabelledBy()
     {
         // setup
-        var cut = RenderComponent<Field>( parameters => parameters
+        var cut = Render<Field>( parameters => parameters
             .AddChildContent( builder =>
             {
                 builder.OpenComponent<FieldLabel>( 0 );
@@ -224,7 +224,7 @@ public class FieldLabelComponentTest : TestContext
     [Fact]
     public void GroupedFieldLabel_Should_RenderLegend()
     {
-        var cut = RenderComponent<Field>( parameters => parameters
+        var cut = Render<Field>( parameters => parameters
             .Add( p => p.Group, true )
             .AddChildContent( builder =>
             {
@@ -242,7 +242,7 @@ public class FieldLabelComponentTest : TestContext
     [Fact]
     public void GroupedFieldLabel_Should_LabelRadioGroupWithAriaLabelledBy()
     {
-        var cut = RenderComponent<Field>( parameters => parameters
+        var cut = Render<Field>( parameters => parameters
             .Add( p => p.Group, true )
             .AddChildContent( builder =>
             {
@@ -269,7 +269,7 @@ public class FieldLabelComponentTest : TestContext
     public void FieldLabel_Should_LabelRichTextEditWithAriaLabelledBy()
     {
         // setup
-        var cut = RenderComponent<Field>( parameters => parameters
+        var cut = Render<Field>( parameters => parameters
             .AddChildContent( builder =>
             {
                 builder.OpenComponent<FieldLabel>( 0 );
@@ -297,7 +297,7 @@ public class FieldLabelComponentTest : TestContext
     public void FieldLabel_Should_LabelMarkdownWithAriaLabelledBy()
     {
         // setup
-        var cut = RenderComponent<Field>( parameters => parameters
+        var cut = Render<Field>( parameters => parameters
             .AddChildContent( builder =>
             {
                 builder.OpenComponent<FieldLabel>( 0 );
@@ -325,7 +325,7 @@ public class FieldLabelComponentTest : TestContext
     public void FieldLabel_Should_LabelSignaturePadWithAriaLabelledBy()
     {
         // setup
-        var cut = RenderComponent<Field>( parameters => parameters
+        var cut = Render<Field>( parameters => parameters
             .AddChildContent( builder =>
             {
                 builder.OpenComponent<FieldLabel>( 0 );
@@ -350,7 +350,7 @@ public class FieldLabelComponentTest : TestContext
     }
 }
 
-public class FieldLabelAccessibilityOptionsComponentTest : TestContext
+public class FieldLabelAccessibilityOptionsComponentTest : BunitContext
 {
     public FieldLabelAccessibilityOptionsComponentTest()
     {
@@ -368,7 +368,7 @@ public class FieldLabelAccessibilityOptionsComponentTest : TestContext
     [Fact]
     public void FieldLabel_Should_Not_LinkToNestedTextInput_WhenAccessibilityOptionsAreDisabled()
     {
-        var cut = RenderComponent<Field>( parameters => parameters
+        var cut = Render<Field>( parameters => parameters
             .AddChildContent( builder =>
             {
                 builder.OpenComponent<FieldLabel>( 0 );

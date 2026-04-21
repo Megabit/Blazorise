@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Bunit;
 using Xunit;
@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class DataGridDetailRowComponentTest : TestContext
+public class DataGridDetailRowComponentTest : BunitContext
 {
     public DataGridDetailRowComponentTest()
     {
@@ -18,7 +18,7 @@ public class DataGridDetailRowComponentTest : TestContext
     public void DetailRow_DetailRowStartsVisible_True_ShouldRender()
     {
         // setup
-        var comp = RenderComponent<DataGridDetailRowComponent>();
+        var comp = Render<DataGridDetailRowComponent>();
 
         // test
         var rows = comp.FindAll( "#lblFraction" );
@@ -33,7 +33,7 @@ public class DataGridDetailRowComponentTest : TestContext
     public void DetailRow_DetailRowStartsVisible_False_ShouldNotRender()
     {
         // setup
-        var comp = RenderComponent<DataGridDetailRowComponent>(
+        var comp = Render<DataGridDetailRowComponent>(
             parameters => parameters.Add( x => x.DetailRowStartsVisible, false ) );
 
         // test
@@ -47,7 +47,7 @@ public class DataGridDetailRowComponentTest : TestContext
     public async Task DetailRow_OnClick_ShouldHide()
     {
         // setup
-        var comp = RenderComponent<DataGridDetailRowComponent>();
+        var comp = Render<DataGridDetailRowComponent>();
 
         // test
         var rowsFraction = comp.FindAll( "tbody tr.table-row-selectable" );
@@ -66,7 +66,7 @@ public class DataGridDetailRowComponentTest : TestContext
     public async Task DetailRow_OnToggleDetailRowTrigger_ShouldTrigger()
     {
         // setup
-        var comp = RenderComponent<DataGridDetailRowComponent>();
+        var comp = Render<DataGridDetailRowComponent>();
 
         // test
         var rowsBefore = comp.FindAll( "#lblFraction" );
@@ -94,7 +94,7 @@ public class DataGridDetailRowComponentTest : TestContext
     public async Task DetailRow_OnForceToggleButtonClick_ShouldNotBeRevertedByRowClick()
     {
         // setup
-        var comp = RenderComponent<DataGridDetailRowForceToggleComponent>();
+        var comp = Render<DataGridDetailRowForceToggleComponent>();
 
         // test
         Assert.Empty( comp.FindAll( "#lblForcedDetail" ) );
@@ -117,7 +117,7 @@ public class DataGridDetailRowComponentTest : TestContext
     public async Task DetailRow_OnClick_Single_ToggleableFalse_ShouldTriggerOnlyOne()
     {
         // setup
-        var comp = RenderComponent<DataGridDetailRowComponent>(
+        var comp = Render<DataGridDetailRowComponent>(
             parameters =>
             {
                 parameters.Add( x => x.DetailRowStartsVisible, false );
@@ -155,7 +155,7 @@ public class DataGridDetailRowComponentTest : TestContext
     public async Task DetailRow_OnClick_Single_ShouldTriggerOnlyOne()
     {
         // setup
-        var comp = RenderComponent<DataGridDetailRowComponent>(
+        var comp = Render<DataGridDetailRowComponent>(
             parameters =>
             {
                 parameters.Add( x => x.DetailRowStartsVisible, false );
@@ -194,7 +194,7 @@ public class DataGridDetailRowComponentTest : TestContext
     public async Task DetailRow_OnClick_ToggleableFalse_ShouldNotHide()
     {
         // setup
-        var comp = RenderComponent<DataGridDetailRowComponent>(
+        var comp = Render<DataGridDetailRowComponent>(
             parameters =>
             {
                 parameters.Add( x => x.DetailRowStartsVisible, false );

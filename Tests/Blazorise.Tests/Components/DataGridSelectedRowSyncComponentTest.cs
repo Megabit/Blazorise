@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class DataGridSelectedRowSyncComponentTest : TestContext
+public class DataGridSelectedRowSyncComponentTest : BunitContext
 {
     public DataGridSelectedRowSyncComponentTest()
     {
@@ -18,7 +18,7 @@ public class DataGridSelectedRowSyncComponentTest : TestContext
     [Fact]
     public async Task Delete_Should_ClearSelectedRow_AndInvokeOnce()
     {
-        var comp = RenderComponent<BasicTestApp.Client.DataGridSelectedRowSyncComponent>();
+        var comp = Render<BasicTestApp.Client.DataGridSelectedRowSyncComponent>();
 
         var rows = comp.FindAll( "tbody tr.table-row-selectable" );
         await rows[0].ClickAsync();

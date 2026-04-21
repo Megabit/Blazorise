@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class DropdownComponentTest : TestContext
+public class DropdownComponentTest : BunitContext
 {
     public DropdownComponentTest()
     {
@@ -18,7 +18,7 @@ public class DropdownComponentTest : TestContext
     public async Task CanShowAndHideDropdownComponent()
     {
         // setup
-        var comp = RenderComponent<DropdownComponent>();
+        var comp = Render<DropdownComponent>();
         var drpElement = comp.Find( "#dropdown" );
         var btnElement = comp.Find( "button" );
         var mnuElement = comp.Find( "#dropdown-menu" );
@@ -43,7 +43,7 @@ public class DropdownComponentTest : TestContext
     public async Task Enter_OnFocusedItem_Should_SelectItem_AndCloseDropdown()
     {
         // setup
-        var comp = RenderComponent<DropdownComponent>();
+        var comp = Render<DropdownComponent>();
         var drpElement = comp.Find( "#dropdown" );
         var btnElement = comp.Find( "button" );
         var mnuElement = comp.Find( "#dropdown-menu" );
@@ -63,7 +63,7 @@ public class DropdownComponentTest : TestContext
     public void DropdownMenu_ShouldHaveRoleMenu()
     {
         // setup
-        var comp = RenderComponent<DropdownComponent>();
+        var comp = Render<DropdownComponent>();
 
         // test
         var menuElement = comp.Find( "#dropdown-menu" );
@@ -76,7 +76,7 @@ public class DropdownComponentTest : TestContext
     public void DropdownItem_ShouldHaveRoleMenuitem()
     {
         // setup
-        var comp = RenderComponent<DropdownComponent>();
+        var comp = Render<DropdownComponent>();
 
         // test
         var firstMenuItemElement = comp.Find( "#dropdown-menu a" );
@@ -89,7 +89,7 @@ public class DropdownComponentTest : TestContext
     public void DropdownItem_Should_Have_AriaLabelledBy_That_PointsToItemText()
     {
         // setup
-        var comp = RenderComponent<DropdownComponent>();
+        var comp = Render<DropdownComponent>();
 
         // test
         var firstMenuItemElement = comp.Find( "#dropdown-menu a" );
@@ -107,7 +107,7 @@ public class DropdownComponentTest : TestContext
     public async Task Checkbox_Should_RenderCheckbox()
     {
         // setup
-        var comp = RenderComponent<DropdownComponent>(
+        var comp = Render<DropdownComponent>(
             p => p.Add( x => x.ShowCheckbox, true ) );
         var drpElement = comp.Find( "#dropdown" );
         var btnElement = comp.Find( "button" );
@@ -128,7 +128,7 @@ public class DropdownComponentTest : TestContext
     public async Task Checkbox_Should_Be_Editable()
     {
         // setup
-        var comp = RenderComponent<DropdownComponent>(
+        var comp = Render<DropdownComponent>(
             p => p.Add( x => x.ShowCheckbox, true ) );
         var drpElement = comp.Find( "#dropdown" );
         var btnElement = comp.Find( "button" );

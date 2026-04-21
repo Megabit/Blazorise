@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class DataGridSelectionSyncComponentTest : TestContext
+public class DataGridSelectionSyncComponentTest : BunitContext
 {
     public DataGridSelectionSyncComponentTest()
     {
@@ -17,7 +17,7 @@ public class DataGridSelectionSyncComponentTest : TestContext
     [Fact]
     public async Task RemovingItems_Should_ClearSelectedRows()
     {
-        var comp = RenderComponent<BasicTestApp.Client.DataGridSelectionSyncComponent>();
+        var comp = Render<BasicTestApp.Client.DataGridSelectionSyncComponent>();
 
         await comp.Find( "thead input[type=checkbox]" ).ChangeAsync( "true" );
 
@@ -35,7 +35,7 @@ public class DataGridSelectionSyncComponentTest : TestContext
     [Fact]
     public async Task RowCheckbox_Should_Select_And_Unselect_Row()
     {
-        var comp = RenderComponent<BasicTestApp.Client.DataGridSelectionSyncComponent>();
+        var comp = Render<BasicTestApp.Client.DataGridSelectionSyncComponent>();
 
         await comp.Find( "tbody input[type=checkbox]" ).ChangeAsync( "true" );
 

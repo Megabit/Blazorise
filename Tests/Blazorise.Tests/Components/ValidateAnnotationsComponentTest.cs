@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using AngleSharp.Dom;
 using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class ValidateAnnotationsComponentTest : TestContext
+public class ValidateAnnotationsComponentTest : BunitContext
 {
     private const string NameRequired = "The Name field is required.";
     private const string PasswordLength = "The field Password must be a string with a minimum length of 5 and a maximum length of 8.";
@@ -24,7 +24,7 @@ public class ValidateAnnotationsComponentTest : TestContext
     public async Task CanAutoValidateName_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<ValidateAnnotationsComponent>();
+        var comp = Render<ValidateAnnotationsComponent>();
         var edit = comp.Find( "#auto-validate-name-initially-blank input" );
 
         Assert.Contains( "is-invalid", edit.ClassList );
@@ -47,7 +47,7 @@ public class ValidateAnnotationsComponentTest : TestContext
     public async Task CanAutoValidateName_InitiallyPopulated()
     {
         // setup
-        var comp = RenderComponent<ValidateAnnotationsComponent>();
+        var comp = Render<ValidateAnnotationsComponent>();
         var edit = comp.Find( "#auto-validate-name-initially-populated input" );
 
         Assert.Contains( "is-valid", edit.ClassList );
@@ -70,7 +70,7 @@ public class ValidateAnnotationsComponentTest : TestContext
     public async Task CanAutoValidateName_OnBlur_WhenValidateOnLoadIsDisabled()
     {
         // setup
-        var comp = RenderComponent<ValidateAnnotationsComponent>();
+        var comp = Render<ValidateAnnotationsComponent>();
         var edit = comp.Find( "#auto-validate-name-on-blur input" );
 
         Assert.DoesNotContain( "is-invalid", edit.ClassList );
@@ -88,7 +88,7 @@ public class ValidateAnnotationsComponentTest : TestContext
     public async Task CanAutoValidatePassword_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<ValidateAnnotationsComponent>();
+        var comp = Render<ValidateAnnotationsComponent>();
         var edit = comp.Find( "#auto-validate-password-initially-blank input" );
 
         Assert.Contains( "is-invalid", edit.ClassList );
@@ -122,7 +122,7 @@ public class ValidateAnnotationsComponentTest : TestContext
     public async Task CanAutoValidatePassword_InitiallyPopulated()
     {
         // setup
-        var comp = RenderComponent<ValidateAnnotationsComponent>();
+        var comp = Render<ValidateAnnotationsComponent>();
         var edit = comp.Find( "#auto-validate-password-initially-populated input" );
 
         Assert.Contains( "is-valid", edit.ClassList );
@@ -156,7 +156,7 @@ public class ValidateAnnotationsComponentTest : TestContext
     public async Task CanAutoValidatePasswordWithDisplay_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<ValidateAnnotationsComponent>();
+        var comp = Render<ValidateAnnotationsComponent>();
         var edit = comp.Find( "#auto-validate-password-with-display-initially-blank input" );
 
         Assert.Contains( "is-invalid", edit.ClassList );
@@ -174,7 +174,7 @@ public class ValidateAnnotationsComponentTest : TestContext
     public async Task CanManuallyValidateName_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<ValidateAnnotationsComponent>();
+        var comp = Render<ValidateAnnotationsComponent>();
         var edit = comp.Find( "#manually-validate-name-initially-blank input" );
         var btn = comp.Nodes.QuerySelector( "#manually-validate-name-initially-blank button" );
 
@@ -203,7 +203,7 @@ public class ValidateAnnotationsComponentTest : TestContext
     public async Task CanManuallyValidateName_InitiallyPopulated()
     {
         // setup
-        var comp = RenderComponent<ValidateAnnotationsComponent>();
+        var comp = Render<ValidateAnnotationsComponent>();
         var edit = comp.Find( "#manually-validate-name-initially-populated input" );
         var btn = comp.Find( "#manually-validate-name-initially-populated button" );
 
@@ -232,7 +232,7 @@ public class ValidateAnnotationsComponentTest : TestContext
     public async Task CanAutoValidateName_InitiallyPopulated_ErrorOverride()
     {
         // setup
-        var comp = RenderComponent<ValidateAnnotationsComponent>();
+        var comp = Render<ValidateAnnotationsComponent>();
         var edit = comp.Find( "#auto-validate-name-initially-populated-error-override input" );
 
         Assert.Contains( "is-valid", edit.ClassList );

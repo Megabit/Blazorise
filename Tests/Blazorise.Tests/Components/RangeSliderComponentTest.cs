@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class RangeSliderComponentTest : TestContext
+public class RangeSliderComponentTest : BunitContext
 {
     public RangeSliderComponentTest()
     {
@@ -20,7 +20,7 @@ public class RangeSliderComponentTest : TestContext
     public async Task SwapsHandlesByDefault()
     {
         // setup
-        IRenderedComponent<RangeSlider<int>> comp = RenderComponent<RangeSlider<int>>( parameters => parameters
+        IRenderedComponent<RangeSlider<int>> comp = Render<RangeSlider<int>>( parameters => parameters
             .Add( x => x.Value, new RangeSliderValue<int>( 20, 70 ) )
             .Add( x => x.Min, 0 )
             .Add( x => x.Max, 100 )
@@ -40,7 +40,7 @@ public class RangeSliderComponentTest : TestContext
     public async Task PreventsStartHandleFromCrossingWhenClampToOtherHandleIsTrue()
     {
         // setup
-        IRenderedComponent<RangeSlider<int>> comp = RenderComponent<RangeSlider<int>>( parameters => parameters
+        IRenderedComponent<RangeSlider<int>> comp = Render<RangeSlider<int>>( parameters => parameters
             .Add( x => x.Value, new RangeSliderValue<int>( 20, 70 ) )
             .Add( x => x.Min, 0 )
             .Add( x => x.Max, 100 )
@@ -61,7 +61,7 @@ public class RangeSliderComponentTest : TestContext
     public void KeepsFullInputBoundsWhenClampToOtherHandleIsTrue()
     {
         // setup
-        IRenderedComponent<RangeSlider<int>> comp = RenderComponent<RangeSlider<int>>( parameters => parameters
+        IRenderedComponent<RangeSlider<int>> comp = Render<RangeSlider<int>>( parameters => parameters
             .Add( x => x.Value, new RangeSliderValue<int>( 20, 70 ) )
             .Add( x => x.Min, 0 )
             .Add( x => x.Max, 100 )
@@ -82,7 +82,7 @@ public class RangeSliderComponentTest : TestContext
     public async Task PreventsEndHandleFromCrossingWhenClampToOtherHandleIsTrue()
     {
         // setup
-        IRenderedComponent<RangeSlider<int>> comp = RenderComponent<RangeSlider<int>>( parameters => parameters
+        IRenderedComponent<RangeSlider<int>> comp = Render<RangeSlider<int>>( parameters => parameters
             .Add( x => x.Value, new RangeSliderValue<int>( 20, 70 ) )
             .Add( x => x.Min, 0 )
             .Add( x => x.Max, 100 )
@@ -103,7 +103,7 @@ public class RangeSliderComponentTest : TestContext
     public async Task PreventsStartHandleFromMatchingEndWhenAllowEqualValuesIsFalse()
     {
         // setup
-        IRenderedComponent<RangeSlider<int>> comp = RenderComponent<RangeSlider<int>>( parameters => parameters
+        IRenderedComponent<RangeSlider<int>> comp = Render<RangeSlider<int>>( parameters => parameters
             .Add( x => x.Value, new RangeSliderValue<int>( 20, 70 ) )
             .Add( x => x.Min, 0 )
             .Add( x => x.Max, 100 )
@@ -125,7 +125,7 @@ public class RangeSliderComponentTest : TestContext
     public async Task PreventsEndHandleFromMatchingStartWhenAllowEqualValuesIsFalse()
     {
         // setup
-        IRenderedComponent<RangeSlider<int>> comp = RenderComponent<RangeSlider<int>>( parameters => parameters
+        IRenderedComponent<RangeSlider<int>> comp = Render<RangeSlider<int>>( parameters => parameters
             .Add( x => x.Value, new RangeSliderValue<int>( 20, 70 ) )
             .Add( x => x.Min, 0 )
             .Add( x => x.Max, 100 )

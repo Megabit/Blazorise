@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class ButtonComponentTest : TestContext
+public class ButtonComponentTest : BunitContext
 {
     public ButtonComponentTest()
     {
@@ -26,7 +26,7 @@ public class ButtonComponentTest : TestContext
         var buttonClose = "</button>";
 
         // test
-        var comp = RenderComponent<Button>( parameters =>
+        var comp = Render<Button>( parameters =>
         parameters.Add( x => x.PreventDefaultOnSubmit, true ) );
 
         // validate
@@ -45,7 +45,7 @@ public class ButtonComponentTest : TestContext
         var counterOutput = @"<span id=""basic-button-event-result"">0</span>";
 
         // test
-        var comp = RenderComponent<ButtonComponent>();
+        var comp = Render<ButtonComponent>();
 
         // validate
         this.JSInterop.VerifyNotInvoke( "initialize" );
@@ -63,7 +63,7 @@ public class ButtonComponentTest : TestContext
     public async Task CanRaiseCallback()
     {
         // setup
-        var comp = RenderComponent<ButtonComponent>();
+        var comp = Render<ButtonComponent>();
 
         var result = comp.Find( "#basic-button-event-result" );
         var button = comp.Find( "#basic-button" );
@@ -88,7 +88,7 @@ public class ButtonComponentTest : TestContext
         var command = new ToggleCommand( canExecute: false );
 
         // test
-        var comp = RenderComponent<FirstRenderCanExecuteChangedButton>( parameters => parameters
+        var comp = Render<FirstRenderCanExecuteChangedButton>( parameters => parameters
             .Add( x => x.Command, command )
             .AddChildContent( "Click" ) );
 

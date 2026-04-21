@@ -1,9 +1,9 @@
-﻿using Bunit;
+using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class TemplateComponentTest : TestContext
+public class TemplateComponentTest : BunitContext
 {
     public TemplateComponentTest()
     {
