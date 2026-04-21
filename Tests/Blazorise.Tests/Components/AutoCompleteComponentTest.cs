@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise;
@@ -26,7 +26,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     public void AriaAttributes_AreAppliedToDropdown()
     {
         // setup
-        var comp = RenderComponent<Autocomplete<string, string>>( parameters => parameters
+        var comp = Render<Autocomplete<string, string>>( parameters => parameters
             .Add( p => p.Data, new List<string> { "Alpha" } )
             .Add( p => p.TextField, item => item )
             .Add( p => p.ValueField, item => item )
@@ -50,7 +50,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     [Fact]
     public void AriaLabelledBy_IsAppliedToDropdown_WhenProvided()
     {
-        var comp = RenderComponent<Autocomplete<string, string>>( parameters => parameters
+        var comp = Render<Autocomplete<string, string>>( parameters => parameters
             .Add( p => p.Data, new List<string> { "Alpha" } )
             .Add( p => p.TextField, item => item )
             .Add( p => p.ValueField, item => item )
@@ -66,7 +66,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     [Fact]
     public async Task FreeTypingNotFoundTemplate_Should_DisplayDefinedContent_WhenFreeTypingIsTrue()
     {
-        var comp = RenderComponent<AutocompleteComponent>(
+        var comp = Render<AutocompleteComponent>(
             p => p.Add( x => x.FreeTyping, true ) );
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
@@ -83,7 +83,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     [Fact]
     public async Task NotfoundContent_Should_DisplayDefinedContent_When_FreeTypingIsFalse()
     {
-        var comp = RenderComponent<AutocompleteComponent>(
+        var comp = Render<AutocompleteComponent>(
             p => p.Add( x => x.FreeTyping, false ) );
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
@@ -101,7 +101,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     public async Task SearchTextChanged_ShouldTrigger_Once()
     {
         var changedCount = 0;
-        var comp = RenderComponent<AutocompleteComponent>( p =>
+        var comp = Render<AutocompleteComponent>( p =>
             p.Add( x => x.SearchTextChanged, ( x ) => changedCount++ ) );
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
@@ -114,11 +114,11 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     public async Task SearchKeyDown_ShouldTrigger_Once()
     {
         var changedCount = 0;
-        var comp = RenderComponent<AutocompleteComponent>( p =>
+        var comp = Render<AutocompleteComponent>( p =>
             p.Add( x => x.SearchKeyDown, ( x ) => changedCount++ ) );
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
-        await autoComplete.KeyDownAsync( new() { Key = "S" } );
+        await autoComplete.KeyDownAsync( Key.Get( 'S' ) );
 
         Assert.Equal( 1, changedCount );
     }
@@ -127,7 +127,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     public async Task SearchBlur_ShouldTrigger_Once()
     {
         var changedCount = 0;
-        var comp = RenderComponent<AutocompleteComponent>( p =>
+        var comp = Render<AutocompleteComponent>( p =>
             p.Add( x => x.SearchBlur, ( x ) => changedCount++ ) );
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
@@ -141,7 +141,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     public async Task SearchFocus_ShouldTrigger_Once()
     {
         var changedCount = 0;
-        var comp = RenderComponent<AutocompleteComponent>( p =>
+        var comp = Render<AutocompleteComponent>( p =>
             p.Add( x => x.SearchFocus, ( x ) => changedCount++ ) );
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
@@ -155,7 +155,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     public async Task Opened_ShouldTrigger_Once()
     {
         var changedCount = 0;
-        var comp = RenderComponent<AutocompleteComponent>( p =>
+        var comp = Render<AutocompleteComponent>( p =>
             p.Add( x => x.Opened, ( x ) => changedCount++ ) );
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
@@ -170,7 +170,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     public async Task Closed_ShouldTrigger_OnAutocompleteClosed_Once()
     {
         var changedCount = 0;
-        var comp = RenderComponent<AutocompleteComponent>( p =>
+        var comp = Render<AutocompleteComponent>( p =>
             p.Add( x => x.Closed, ( x ) => changedCount++ ) );
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
@@ -185,7 +185,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     public async Task SelectedValueChanged_ShouldOnlyTrigger_WhenValueHasBeenFound()
     {
         var changedCount = 0;
-        var comp = RenderComponent<AutocompleteComponent>( p =>
+        var comp = Render<AutocompleteComponent>( p =>
             p.Add( x => x.SelectedValueChanged, ( x ) => changedCount++ ) );
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
@@ -201,7 +201,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     {
         var changedCount = 0;
         var selectedValue = string.Empty;
-        var comp = RenderComponent<AutocompleteComponent>( p =>
+        var comp = Render<AutocompleteComponent>( p =>
             p.Add( x => x.SelectedValueChanged, ( x ) =>
             {
                 selectedValue = x;
@@ -213,16 +213,16 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
 
         await Input( autoComplete, input, true );
 
-        await autoComplete.KeyDownAsync( new() { Code = "Backspace" } );
+        await autoComplete.KeyDownAsync( Key.Backspace );
         await autoComplete.InputAsync( "Portuga" );
-        await autoComplete.KeyDownAsync( new() { Code = "Backspace" } );
+        await autoComplete.KeyDownAsync( Key.Backspace );
         await autoComplete.InputAsync( "Portug" );
 
         Assert.Equal( 1, changedCount );
         Assert.Equal( "PT", selectedValue );
 
         //Selects first item in dropdown, shouldn't retrigger ValueChanged
-        await autoComplete.KeyDownAsync( new() { Code = "Enter" } );
+        await autoComplete.KeyDownAsync( Key.Enter );
         Assert.Equal( 1, changedCount );
         Assert.Equal( "PT", selectedValue );
     }
@@ -232,7 +232,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     {
         var changedCount = 0;
         var selectedValue = string.Empty;
-        var comp = RenderComponent<AutocompleteComponent>( p =>
+        var comp = Render<AutocompleteComponent>( p =>
             p.Add( x => x.SelectedValueChanged, ( x ) =>
             {
                 selectedValue = x;
@@ -244,9 +244,9 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
 
         await Input( autoComplete, input, true );
 
-        await autoComplete.KeyDownAsync( new() { Code = "Backspace" } );
+        await autoComplete.KeyDownAsync( Key.Backspace );
         await autoComplete.InputAsync( "Portuga" );
-        await autoComplete.KeyDownAsync( new() { Code = "Backspace" } );
+        await autoComplete.KeyDownAsync( Key.Backspace );
         await autoComplete.InputAsync( "Portug" );
 
         Assert.Equal( 1, changedCount );
@@ -262,7 +262,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     {
         var changedCount = 0;
         var selectedValue = string.Empty;
-        var comp = RenderComponent<AutocompleteComponent>( p =>
+        var comp = Render<AutocompleteComponent>( p =>
             p.Add( x => x.SelectedValueChanged, ( x ) =>
             {
                 selectedValue = x;
@@ -274,9 +274,9 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
 
         await Input( autoComplete, input, true );
 
-        await autoComplete.KeyDownAsync( new() { Code = "Backspace" } );
+        await autoComplete.KeyDownAsync( Key.Backspace );
         await autoComplete.InputAsync( "Portuga" );
-        await autoComplete.KeyDownAsync( new() { Code = "Backspace" } );
+        await autoComplete.KeyDownAsync( Key.Backspace );
         await autoComplete.InputAsync( "Portug" );
         await autoComplete.InputAsync( "Portugl" );
 
@@ -284,7 +284,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         Assert.Equal( "PT", selectedValue );
 
         //Selects first item in dropdown, shouldn't retrigger ValueChanged
-        await autoComplete.KeyDownAsync( new() { Code = "Enter" } );
+        await autoComplete.KeyDownAsync( Key.Enter );
         Assert.Equal( 2, changedCount );
         Assert.Null( selectedValue );
     }
@@ -294,7 +294,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     {
         var changedCount = 0;
         var selectedValue = string.Empty;
-        var comp = RenderComponent<AutocompleteComponent>( p =>
+        var comp = Render<AutocompleteComponent>( p =>
             p.Add( x => x.SelectedValueChanged, ( x ) =>
             {
                 selectedValue = x;
@@ -306,9 +306,9 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
 
         await Input( autoComplete, input, true );
 
-        await autoComplete.KeyDownAsync( new() { Code = "Backspace" } );
+        await autoComplete.KeyDownAsync( Key.Backspace );
         await autoComplete.InputAsync( "Portuga" );
-        await autoComplete.KeyDownAsync( new() { Code = "Backspace" } );
+        await autoComplete.KeyDownAsync( Key.Backspace );
         await autoComplete.InputAsync( "Portug" );
         await autoComplete.InputAsync( "Portugl" );
 
@@ -326,7 +326,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         var changedCount = 0;
         var selectedValue = string.Empty;
 
-        var comp = RenderComponent<AutocompleteComponent>( p =>
+        var comp = Render<AutocompleteComponent>( p =>
             p.Add( x => x.SelectedValueChanged, ( x ) =>
             {
                 selectedValue = x;
@@ -351,7 +351,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     public async Task SelectedValueChanged_ShouldOnlyTrigger_WhenValueHasBeenFoundAndCommitted()
     {
         var changedCount = 0;
-        var comp = RenderComponent<AutocompleteComponent>( p =>
+        var comp = Render<AutocompleteComponent>( p =>
         {
             p.Add( x => x.SelectedValueChanged, ( x ) => changedCount++ );
             p.Add( x => x.Countries,
@@ -372,7 +372,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     {
         var changedCount = 0;
         var selectedValue = "PT";
-        var comp = RenderComponent<AutocompleteComponent>( p =>
+        var comp = Render<AutocompleteComponent>( p =>
             {
                 p.Add( x => x.SelectedValue, selectedValue );
                 p.Add( x => x.SelectedValueChanged, ( x ) => { selectedValue = x; changedCount++; } );
@@ -393,7 +393,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     public async Task SelectedTextChanged_ShouldOnlyTrigger_WhenValueHasBeenFound()
     {
         var changedCount = 0;
-        var comp = RenderComponent<AutocompleteComponent>( p =>
+        var comp = Render<AutocompleteComponent>( p =>
         {
             p.Add( x => x.SelectedTextChanged, ( x ) => changedCount++ );
             p.Add( x => x.FreeTyping, false );
@@ -411,7 +411,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     public async Task SelectedTextChanged_FreeTyping_ShouldOnlyTrigger_OnEveryKeyStroke()
     {
         var changedCount = 0;
-        var comp = RenderComponent<AutocompleteComponent>( p =>
+        var comp = Render<AutocompleteComponent>( p =>
         {
             p.Add( x => x.SelectedTextChanged, ( x ) => changedCount++ );
             p.Add( x => x.FreeTyping, true );
@@ -430,7 +430,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     {
         var changedCount = 0;
         var selectedText = "Portugal";
-        var comp = RenderComponent<AutocompleteComponent>( p =>
+        var comp = Render<AutocompleteComponent>( p =>
             {
                 p.Add( x => x.FreeTyping, false );
                 p.Add( x => x.SelectedText, selectedText );

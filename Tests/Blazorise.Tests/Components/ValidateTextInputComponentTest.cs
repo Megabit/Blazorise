@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class ValidateTextInputComponentTest : TestContext
+public class ValidateTextInputComponentTest : BunitContext
 {
     public ValidateTextInputComponentTest()
     {
@@ -16,7 +16,7 @@ public class ValidateTextInputComponentTest : TestContext
     public async Task CanValidateText_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<ValidateTextInputComponent>();
+        var comp = Render<ValidateTextInputComponent>();
         var paragraph = comp.Find( "#validate-text-initially-blank" );
         var edit = comp.Find( "#validate-text-initially-blank input" );
 
@@ -35,7 +35,7 @@ public class ValidateTextInputComponentTest : TestContext
     public async Task CanValidateText_InitiallyPopulated()
     {
         // setup
-        var comp = RenderComponent<ValidateTextInputComponent>();
+        var comp = Render<ValidateTextInputComponent>();
         var paragraph = comp.Find( "#validate-text-initially-populated" );
         var edit = comp.Find( "#validate-text-initially-populated input" );
 
@@ -54,7 +54,7 @@ public class ValidateTextInputComponentTest : TestContext
     public async Task CanValidateTextWithBind_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<ValidateTextInputComponent>();
+        var comp = Render<ValidateTextInputComponent>();
         var paragraph = comp.Find( "#validate-text-with-bind-initially-blank" );
         var edit = comp.Find( "#validate-text-with-bind-initially-blank input" );
 
@@ -73,7 +73,7 @@ public class ValidateTextInputComponentTest : TestContext
     public async Task CanValidateTextWithBind_InitiallyPopulated()
     {
         // setup
-        var comp = RenderComponent<ValidateTextInputComponent>();
+        var comp = Render<ValidateTextInputComponent>();
         var paragraph = comp.Find( "#validate-text-with-bind-initially-populated" );
         var edit = comp.Find( "#validate-text-with-bind-initially-populated input" );
 
@@ -92,7 +92,7 @@ public class ValidateTextInputComponentTest : TestContext
     public async Task CanValidateTextWithEvent_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<ValidateTextInputComponent>();
+        var comp = Render<ValidateTextInputComponent>();
         var paragraph = comp.Find( "#validate-text-with-event-initially-blank" );
         var edit = comp.Find( "#validate-text-with-event-initially-blank input" );
 
@@ -111,7 +111,7 @@ public class ValidateTextInputComponentTest : TestContext
     public async Task CanValidateTextWithEvent_InitiallyPopulated()
     {
         // setup
-        var comp = RenderComponent<ValidateTextInputComponent>();
+        var comp = Render<ValidateTextInputComponent>();
         var paragraph = comp.Find( "#validate-text-with-event-initially-populated" );
         var edit = comp.Find( "#validate-text-with-event-initially-populated input" );
 
@@ -130,7 +130,7 @@ public class ValidateTextInputComponentTest : TestContext
     public async Task CanValidatePattern_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<ValidateTextInputComponent>();
+        var comp = Render<ValidateTextInputComponent>();
         var paragraph = comp.Find( "#validate-text-using-pattern-initially-blank" );
         var edit = comp.Find( "#validate-text-using-pattern-initially-blank input" );
 
@@ -153,7 +153,7 @@ public class ValidateTextInputComponentTest : TestContext
     public async Task CanValidatePattern_InitiallyPopulated()
     {
         // setup
-        var comp = RenderComponent<ValidateTextInputComponent>();
+        var comp = Render<ValidateTextInputComponent>();
         var paragraph = comp.Find( "#validate-text-using-pattern-initially-populated" );
         var edit = comp.Find( "#validate-text-using-pattern-initially-populated input" );
 

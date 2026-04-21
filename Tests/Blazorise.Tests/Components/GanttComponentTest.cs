@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class GanttComponentTest : TestContext
+public class GanttComponentTest : BunitContext
 {
     public GanttComponentTest()
     {
@@ -24,7 +24,7 @@ public class GanttComponentTest : TestContext
     {
         var readDataEvents = new List<GanttReadDataEventArgs<GanttComponent.TaskItem>>();
 
-        var comp = RenderComponent<GanttComponent>( parameters =>
+        var comp = Render<GanttComponent>( parameters =>
         {
             parameters.Add( x => x.UseInternalEditing, false );
             parameters.Add( x => x.ReadData, e => readDataEvents.Add( e ) );
@@ -60,7 +60,7 @@ public class GanttComponentTest : TestContext
     {
         GanttCommandContext<GanttComponent.TaskItem> capturedContext = null;
 
-        var comp = RenderComponent<GanttComponent>( parameters =>
+        var comp = Render<GanttComponent>( parameters =>
         {
             parameters.Add( x => x.UseInternalEditing, false );
             parameters.Add( x => x.NewItemClicked, e => capturedContext = e );
@@ -81,7 +81,7 @@ public class GanttComponentTest : TestContext
     {
         GanttCommandContext<GanttComponent.TaskItem> capturedContext = null;
 
-        var comp = RenderComponent<GanttComponent>( parameters =>
+        var comp = Render<GanttComponent>( parameters =>
         {
             parameters.Add( x => x.UseInternalEditing, false );
             parameters.Add( x => x.AddChildItemClicked, e => capturedContext = e );
@@ -103,7 +103,7 @@ public class GanttComponentTest : TestContext
     {
         GanttItemClickedEventArgs<GanttComponent.TaskItem> capturedEventArgs = null;
 
-        var comp = RenderComponent<GanttComponent>( parameters =>
+        var comp = Render<GanttComponent>( parameters =>
         {
             parameters.Add( x => x.UseInternalEditing, false );
             parameters.Add( x => x.EditItemClicked, e => capturedEventArgs = e );
@@ -123,7 +123,7 @@ public class GanttComponentTest : TestContext
         var data = GanttComponent.CreateTasks();
         GanttItemClickedEventArgs<GanttComponent.TaskItem> capturedEventArgs = null;
 
-        var comp = RenderComponent<GanttComponent>( parameters =>
+        var comp = Render<GanttComponent>( parameters =>
         {
             parameters.Add( x => x.UseInternalEditing, false );
             parameters.Add( x => x.Data, data );

@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class SchedulerComponentTest : TestContext
+public class SchedulerComponentTest : BunitContext
 {
     public SchedulerComponentTest()
     {
@@ -33,13 +33,13 @@ public class SchedulerComponentTest : TestContext
             new Appointment { Id = "2", Title = "Updated", Start = DateTime.Today.AddHours( 11 ), End = DateTime.Today.AddHours( 12 ) },
         };
 
-        IRenderedComponent<Scheduler<Appointment>> component = RenderComponent<Scheduler<Appointment>>( parameters => parameters
+        IRenderedComponent<Scheduler<Appointment>> component = Render<Scheduler<Appointment>>( parameters => parameters
             .Add( x => x.Date, selectedDate )
             .Add( x => x.Data, initialData ) );
 
         int initialRevision = GetViewRefreshRevision( component.Instance );
 
-        component.SetParametersAndRender( parameters => parameters
+        component.Render( parameters => parameters
             .Add( x => x.Date, selectedDate )
             .Add( x => x.Data, updatedData ) );
 
@@ -54,7 +54,7 @@ public class SchedulerComponentTest : TestContext
         DateOnly selectedDate = DateOnly.FromDateTime( DateTime.Today );
         List<Appointment> data = new();
 
-        IRenderedComponent<Scheduler<Appointment>> component = RenderComponent<Scheduler<Appointment>>( parameters => parameters
+        IRenderedComponent<Scheduler<Appointment>> component = Render<Scheduler<Appointment>>( parameters => parameters
             .Add( x => x.Date, selectedDate )
             .Add( x => x.Data, data ) );
 

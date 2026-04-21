@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class ValidateRichTextEditComponentTest : TestContext
+public class ValidateRichTextEditComponentTest : BunitContext
 {
     public ValidateRichTextEditComponentTest()
     {
@@ -20,7 +20,7 @@ public class ValidateRichTextEditComponentTest : TestContext
     public async Task CanValidateRichTextEdit_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<ValidateRichTextEditComponent>();
+        var comp = Render<ValidateRichTextEditComponent>();
         var edit = comp.Find( "#validate-richtext-initially-blank-editor" );
         var rte = comp.FindComponents<RichTextEditComponent>()
             .Single( component => component.Instance.ElementId == "validate-richtext-initially-blank-editor" )
@@ -38,7 +38,7 @@ public class ValidateRichTextEditComponentTest : TestContext
     public async Task CanValidateRichTextEdit_InitiallyPopulated()
     {
         // setup
-        var comp = RenderComponent<ValidateRichTextEditComponent>();
+        var comp = Render<ValidateRichTextEditComponent>();
         var edit = comp.Find( "#validate-richtext-initially-populated-editor" );
         var rte = comp.FindComponents<RichTextEditComponent>()
             .Single( component => component.Instance.ElementId == "validate-richtext-initially-populated-editor" )

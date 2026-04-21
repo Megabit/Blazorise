@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class FieldsLabelComponentTest : TestContext
+public class FieldsLabelComponentTest : BunitContext
 {
     public FieldsLabelComponentTest()
     {
@@ -20,7 +20,7 @@ public class FieldsLabelComponentTest : TestContext
     [Fact]
     public void GroupedFields_Should_RenderLegendFromFieldsLabel()
     {
-        var cut = RenderComponent<Fields>( parameters => parameters
+        var cut = Render<Fields>( parameters => parameters
             .Add( p => p.Group, true )
             .AddChildContent( builder =>
             {
@@ -39,7 +39,7 @@ public class FieldsLabelComponentTest : TestContext
     [Fact]
     public void FieldsLabel_Should_LabelDirectChildRadioGroupWithAriaLabelledBy()
     {
-        var cut = RenderComponent<Fields>( parameters => parameters
+        var cut = Render<Fields>( parameters => parameters
             .Add( p => p.Group, true )
             .AddChildContent( builder =>
             {

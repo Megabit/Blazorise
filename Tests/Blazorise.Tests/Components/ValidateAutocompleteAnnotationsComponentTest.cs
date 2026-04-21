@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class ValidateAutocompleteAnnotationsComponentTest : TestContext
+public class ValidateAutocompleteAnnotationsComponentTest : BunitContext
 {
     public ValidateAutocompleteAnnotationsComponentTest()
     {
@@ -23,7 +23,7 @@ public class ValidateAutocompleteAnnotationsComponentTest : TestContext
     [Fact]
     public async Task CanAutoValidateAutocompleteSingle_InitiallyBlank()
     {
-        var comp = RenderComponent<ValidateAutocompleteAnnotationsComponent>();
+        var comp = Render<ValidateAutocompleteAnnotationsComponent>();
         var wrapperSelector = "#auto-validate-autocomplete-single .b-is-autocomplete";
 
         Assert.Contains( "is-invalid", comp.Find( wrapperSelector ).ClassList );
@@ -38,7 +38,7 @@ public class ValidateAutocompleteAnnotationsComponentTest : TestContext
     [Fact]
     public async Task CanAutoValidateAutocompleteMultiple_InitiallyBlank()
     {
-        var comp = RenderComponent<ValidateAutocompleteAnnotationsComponent>();
+        var comp = Render<ValidateAutocompleteAnnotationsComponent>();
         var wrapperSelector = "#auto-validate-autocomplete-multiple .b-is-autocomplete";
 
         Assert.Contains( "is-invalid", comp.Find( wrapperSelector ).ClassList );

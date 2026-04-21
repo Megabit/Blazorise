@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class TabsComponentTest : TestContext
+public class TabsComponentTest : BunitContext
 {
     public TabsComponentTest()
     {
@@ -16,7 +16,7 @@ public class TabsComponentTest : TestContext
     public async Task CanSelectTabs()
     {
         // setup
-        var comp = RenderComponent<TabsComponent>();
+        var comp = Render<TabsComponent>();
         var paragraph = comp.Find( "#basic-tabs" );
         var links = comp.FindAll( "a" );
         var panels = comp.FindAll( ".tab-pane" );

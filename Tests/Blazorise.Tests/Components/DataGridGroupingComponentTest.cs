@@ -14,7 +14,7 @@ using Employee = BasicTestApp.Client.DataGridGroupingComponent.Employee;
 
 namespace Blazorise.Tests.Components;
 
-public class DataGridGroupingComponentTest : TestContext
+public class DataGridGroupingComponentTest : BunitContext
 {
     public DataGridGroupingComponentTest()
     {
@@ -27,7 +27,7 @@ public class DataGridGroupingComponentTest : TestContext
     {
         // setup
         var groupingChanged = new List<DataGridGroupingChangedEventArgs<Employee>>();
-        var comp = RenderComponent<BasicTestApp.Client.DataGridGroupingComponent>( parameters =>
+        var comp = Render<BasicTestApp.Client.DataGridGroupingComponent>( parameters =>
         {
             parameters.Add(
                 parameterSelector: x => x.GroupingChanged,
@@ -75,7 +75,7 @@ public class DataGridGroupingComponentTest : TestContext
     public async Task GetState_Should_Include_ColumnGroupingStates()
     {
         // setup
-        var comp = RenderComponent<BasicTestApp.Client.DataGridGroupingComponent>();
+        var comp = Render<BasicTestApp.Client.DataGridGroupingComponent>();
         var dataGrid = comp.FindComponent<DataGrid<Employee>>();
         var columns = dataGrid.FindComponents<DataGridColumn<Employee>>();
         var nameColumn = columns.Single( x => x.Instance.Field == nameof( Employee.Name ) );
@@ -97,7 +97,7 @@ public class DataGridGroupingComponentTest : TestContext
     public async Task LoadState_Should_Restore_ColumnGroupingStates()
     {
         // setup
-        var comp = RenderComponent<BasicTestApp.Client.DataGridGroupingComponent>();
+        var comp = Render<BasicTestApp.Client.DataGridGroupingComponent>();
         var dataGrid = comp.FindComponent<DataGrid<Employee>>();
         var columns = dataGrid.FindComponents<DataGridColumn<Employee>>();
         var nameColumn = columns.Single( x => x.Instance.Field == nameof( Employee.Name ) );
@@ -121,7 +121,7 @@ public class DataGridGroupingComponentTest : TestContext
     {
         // setup
         var groupingChanged = new List<DataGridGroupingChangedEventArgs<Employee>>();
-        var comp = RenderComponent<BasicTestApp.Client.DataGridGroupingComponent>( parameters =>
+        var comp = Render<BasicTestApp.Client.DataGridGroupingComponent>( parameters =>
         {
             parameters.Add(
                 parameterSelector: x => x.GroupingChanged,
@@ -153,7 +153,7 @@ public class DataGridGroupingComponentTest : TestContext
             new Employee { Name = "Ana", Department = "Engineering", City = "Split" },
         };
 
-        var comp = RenderComponent<BasicTestApp.Client.DataGridGroupingComponent>( parameters =>
+        var comp = Render<BasicTestApp.Client.DataGridGroupingComponent>( parameters =>
         {
             parameters.Add( x => x.Data, data );
         } );

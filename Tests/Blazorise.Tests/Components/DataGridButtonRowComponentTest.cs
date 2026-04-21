@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.DataGrid;
 using Bunit;
@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class DataGridButtonRowComponentTest : TestContext
+public class DataGridButtonRowComponentTest : BunitContext
 {
     public DataGridButtonRowComponentTest()
     {
@@ -22,7 +22,7 @@ public class DataGridButtonRowComponentTest : TestContext
     public async Task New_Should_AddNewItem( DataGridEditMode editMode )
     {
         // setup
-        var comp = RenderComponent<DataGridButtonRowComponent>( parameters =>
+        var comp = Render<DataGridButtonRowComponent>( parameters =>
             parameters.Add( x => x.DataGridEditMode, editMode ) );
 
         var startingDataCount = comp.Instance.InMemoryData.Count;
@@ -46,7 +46,7 @@ public class DataGridButtonRowComponentTest : TestContext
     {
         // setup
         var updatedName = "RaulFromEdit";
-        var comp = RenderComponent<DataGridButtonRowComponent>( parameters =>
+        var comp = Render<DataGridButtonRowComponent>( parameters =>
             parameters.Add( x => x.DataGridEditMode, editMode ) );
 
         // test
@@ -71,7 +71,7 @@ public class DataGridButtonRowComponentTest : TestContext
     public async Task Delete_Should_DeleteItem( DataGridEditMode editMode )
     {
         // setup
-        var comp = RenderComponent<DataGridButtonRowComponent>( parameters =>
+        var comp = Render<DataGridButtonRowComponent>( parameters =>
             parameters.Add( x => x.DataGridEditMode, editMode ) );
         var startingDataCount = comp.Instance.InMemoryData.Count;
 

@@ -1,11 +1,11 @@
-﻿#region Using directives
+#region Using directives
 using Bunit;
 using Xunit;
 #endregion
 
 namespace Blazorise.Tests.Components;
 
-public class ButtonOnlyComponentTest : TestContext
+public class ButtonOnlyComponentTest : BunitContext
 {
     public ButtonOnlyComponentTest()
     {
@@ -24,7 +24,7 @@ public class ButtonOnlyComponentTest : TestContext
         var buttonContent = "hello primary";
 
         // test
-        var comp = RenderComponent<ButtonOnlyComponent>();
+        var comp = Render<ButtonOnlyComponent>();
 
         // validate
         this.JSInterop.VerifyNotInvoke( "initialize");

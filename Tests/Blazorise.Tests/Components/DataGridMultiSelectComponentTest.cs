@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Bunit;
 using Xunit;
@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class DataGridMultiSelectComponentTest : TestContext
+public class DataGridMultiSelectComponentTest : BunitContext
 {
     public DataGridMultiSelectComponentTest()
     {
@@ -17,7 +17,7 @@ public class DataGridMultiSelectComponentTest : TestContext
     [Fact]
     public async Task MultipleSelectAll_Should_Select_Unselect_AllRows()
     {
-        var comp = RenderComponent<DataGridMultiSelectComponent>();
+        var comp = Render<DataGridMultiSelectComponent>();
         await comp.Find( "input[type=checkbox]:first-child" ).ChangeAsync( "true" );
         var allCheckbox = comp.FindAll( "input[type=checkbox]" );
         foreach ( var checkbox in allCheckbox )
