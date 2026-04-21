@@ -9195,11 +9195,11 @@ Install-Package Blazorise.Chart.Zoom";
     }
 }";
 
-        public const string DataGridSelectColumnMultipleExample = @"<DataGrid TItem=""EmployeeActivity"" Data=""@employeeList"" PageSize=""5"" Responsive Editable>
+        public const string DataGridSelectColumnMultipleExample = @"<DataGrid TItem=""EmployeeActivity"" Data=""@employeeList"" ShowPager PageSize=""5"" Responsive Editable>
     <DataGridSelectColumn TItem=""EmployeeActivity"" Field=""@nameof( EmployeeActivity.Activities )""
-                          Caption=""Activity"" 
+                          Caption=""Activity""
                           Editable
-                          Multiple 
+                          Multiple
                           Data=""activities""
                           ValueField=""(x) => ((Activity)x).Code""
                           TextField=""(x) => ((Activity)x).Description"" />
@@ -9213,13 +9213,13 @@ Install-Package Blazorise.Chart.Zoom";
 
     protected override async Task OnInitializedAsync()
     {
-        employeeList = (await EmployeeData.GetDataAsync()).Select(x => new EmployeeActivity(x)
-            {
-                Activities = activities
-                        .OrderBy(x => Random.Shared.Next())
-                        .Take(Random.Shared.Next(5))
-                        .Select(x => x.Code).ToArray()
-            }).ToList();
+        employeeList = ( await EmployeeData.GetDataAsync() ).Select( x => new EmployeeActivity( x )
+        {
+            Activities = activities
+                        .OrderBy( x => Random.Shared.Next() )
+                        .Take( Random.Shared.Next( 5 ) )
+                        .Select( x => x.Code ).ToArray()
+        } ).ToList();
 
         await base.OnInitializedAsync();
     }
@@ -9237,7 +9237,7 @@ Install-Package Blazorise.Chart.Zoom";
     {
         public string[] Activities { get; set; }
 
-        public EmployeeActivity(Employee employee)
+        public EmployeeActivity( Employee employee )
         {
             this.City = employee.City;
             this.Email = employee.Email;
