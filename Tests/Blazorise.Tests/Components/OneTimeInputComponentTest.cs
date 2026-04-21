@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class OneTimeInputComponentTest : TestContext
+public class OneTimeInputComponentTest : BunitContext
 {
     public OneTimeInputComponentTest()
     {
@@ -19,7 +19,7 @@ public class OneTimeInputComponentTest : TestContext
     [Fact]
     public void RendersDefaultGroupingForSixDigits()
     {
-        var comp = RenderComponent<OneTimeInput>( parameters => parameters
+        var comp = Render<OneTimeInput>( parameters => parameters
             .Add( x => x.Digits, 6 ) );
 
         var inputs = comp.FindAll( "input" );
@@ -36,7 +36,7 @@ public class OneTimeInputComponentTest : TestContext
     [Fact]
     public void RendersCustomGrouping()
     {
-        var comp = RenderComponent<OneTimeInput>( parameters => parameters
+        var comp = Render<OneTimeInput>( parameters => parameters
             .Add( x => x.Digits, 5 )
             .Add( x => x.Group, "2,3" ) );
 
@@ -52,7 +52,7 @@ public class OneTimeInputComponentTest : TestContext
     [Fact]
     public async Task MovesFocusToNextEmptySlotWhenPasteDoesNotFillRemainingSlots()
     {
-        var comp = RenderComponent<OneTimeInput>( parameters => parameters
+        var comp = Render<OneTimeInput>( parameters => parameters
             .Add( x => x.Digits, 4 ) );
 
         var inputs = comp.FindAll( "input" );
@@ -77,7 +77,7 @@ public class OneTimeInputComponentTest : TestContext
     [Fact]
     public async Task MovesFocusToLastFilledSlotWhenPasteFillsRemainingSlots()
     {
-        var comp = RenderComponent<OneTimeInput>( parameters => parameters
+        var comp = Render<OneTimeInput>( parameters => parameters
             .Add( x => x.Digits, 4 ) );
 
         var inputs = comp.FindAll( "input" );
@@ -103,7 +103,7 @@ public class OneTimeInputComponentTest : TestContext
     [Fact]
     public void RendersFeedbackAsSiblingOfTheInputContainer()
     {
-        var comp = RenderComponent<OneTimeInput>( parameters => parameters
+        var comp = Render<OneTimeInput>( parameters => parameters
             .Add<RenderFragment>( x => x.Feedback, builder =>
             {
                 builder.OpenElement( 0, "div" );
@@ -118,13 +118,13 @@ public class OneTimeInputComponentTest : TestContext
     [Fact]
     public async Task ClearsCurrentSlotAndMovesFocusToPreviousSlotOnBackspace()
     {
-        var comp = RenderComponent<OneTimeInput>( parameters => parameters
+        var comp = Render<OneTimeInput>( parameters => parameters
             .Add( x => x.Digits, 4 )
             .Add( x => x.Value, "12" ) );
 
         var inputs = comp.FindAll( "input" );
 
-        await inputs[1].KeyDownAsync( new() { Code = "Backspace" } );
+        await inputs[1].KeyDownAsync( Key.Backspace );
 
         inputs = comp.FindAll( "input" );
 
@@ -143,13 +143,13 @@ public class OneTimeInputComponentTest : TestContext
     [Fact]
     public void SynchronizesSlotsFromBoundValue()
     {
-        var comp = RenderComponent<OneTimeInput>( parameters => parameters
+        var comp = Render<OneTimeInput>( parameters => parameters
             .Add( x => x.Digits, 4 )
             .Add( x => x.Value, "12" ) );
 
         Assert.Equal( new[] { "1", "2", null, null }, ReadSlotValues( comp ) );
 
-        comp.SetParametersAndRender( parameters => parameters
+        comp.Render( parameters => parameters
             .Add( x => x.Digits, 4 )
             .Add( x => x.Value, "9876" ) );
 
@@ -159,7 +159,7 @@ public class OneTimeInputComponentTest : TestContext
     [Fact]
     public void AppliesAriaRequiredToAllSlots()
     {
-        var comp = RenderComponent<OneTimeInput>( parameters => parameters
+        var comp = Render<OneTimeInput>( parameters => parameters
             .Add( x => x.Digits, 4 )
             .Add( x => x.AriaRequired, true ) );
 
@@ -231,7 +231,7 @@ public class OneTimeInputComponentTest : TestContext
         Assert.All( inputs, input => Assert.Contains( "is-valid", input.GetAttribute( "class" ) ?? string.Empty ) );
     }
 
-    private static string[] ReadSlotValues( IRenderedFragment fragment )
+    private static string[] ReadSlotValues<TComponent>( IRenderedComponent<TComponent> fragment ) where TComponent : IComponent
         => fragment.FindAll( "input" )
             .Select( input => string.IsNullOrEmpty( input.GetAttribute( "value" ) ) ? null : input.GetAttribute( "value" ) )
             .ToArray();

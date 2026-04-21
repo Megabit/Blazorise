@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class DataGridCellStylingComponentTest : TestContext
+public class DataGridCellStylingComponentTest : BunitContext
 {
     public DataGridCellStylingComponentTest()
     {
@@ -16,7 +16,7 @@ public class DataGridCellStylingComponentTest : TestContext
     [Fact]
     public void CellStyling_Should_Apply_Background_Class_To_TableCells()
     {
-        var comp = RenderComponent<DataGridCellStylingComponent>();
+        var comp = Render<DataGridCellStylingComponent>();
 
         var inactiveRowCells = comp.FindAll( "tbody tr:nth-child(2) td" );
 

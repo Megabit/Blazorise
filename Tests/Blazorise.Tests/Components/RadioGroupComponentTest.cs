@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class RadioGroupComponentTest : TestContext
+public class RadioGroupComponentTest : BunitContext
 {
     public RadioGroupComponentTest()
     {
@@ -16,7 +16,7 @@ public class RadioGroupComponentTest : TestContext
     public async Task CanCheckString_InitiallyChecked()
     {
         // setup
-        var comp = RenderComponent<RadioGroupComponent>();
+        var comp = Render<RadioGroupComponent>();
         var para = comp.Find( "#radiogroup-event-initially-selected" );
         var radioR = comp.Find( ".radioR" );
         var radioG = comp.Find( ".radioG" );

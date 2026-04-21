@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Linq;
 using System.Threading.Tasks;
 using Bunit;
@@ -60,7 +60,7 @@ public class AutocompleteMultipleReadDataComponentTest : AutocompleteMultipleBas
     [Fact]
     public async Task RemovePreviousSelection_WhenLastReadDataDoesNotContainIt_ShouldKeepRemainingSelection()
     {
-        var comp = RenderComponent<AutocompleteMultipleReadDataComponent>( parameters =>
+        var comp = Render<AutocompleteMultipleReadDataComponent>( parameters =>
             parameters.Add( p => p.MinSearchLength, 0 ) );
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
@@ -80,7 +80,7 @@ public class AutocompleteMultipleReadDataComponentTest : AutocompleteMultipleBas
 
         comp.WaitForAssertion( () =>
         {
-            badges.Refresh();
+            badges = comp.FindAll( ".b-is-autocomplete .badge" );
             Assert.Single( badges );
             Assert.Equal( "Zambia", badges[0].TextContent.Replace( "×", "" ) );
             Assert.Equal( new[] { "Zambia" }, comp.Instance.SelectedTexts );

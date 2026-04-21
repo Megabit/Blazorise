@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class TextInputComponentTest : TestContext
+public class TextInputComponentTest : BunitContext
 {
     public TextInputComponentTest()
     {
@@ -22,7 +22,7 @@ public class TextInputComponentTest : TestContext
     public async Task CanChangeText()
     {
         // setup
-        var comp = RenderComponent<TextInputComponent>();
+        var comp = Render<TextInputComponent>();
         var paragraph = comp.Find( "#text-basic" );
         var text = comp.Find( "input" );
 
@@ -39,7 +39,7 @@ public class TextInputComponentTest : TestContext
     public async Task CanChangeTextUsingEvent()
     {
         // setup
-        var comp = RenderComponent<TextInputComponent>();
+        var comp = Render<TextInputComponent>();
         var paragraph = comp.Find( "#text-event-initially-blank" );
         var text = comp.Find( "#text-with-event" );
         var result = comp.Find( "#text-event-initially-blank-result" );
@@ -64,7 +64,7 @@ public class TextInputComponentTest : TestContext
     public async Task CanChangeTextUsingBind()
     {
         // setup
-        var comp = RenderComponent<TextInputComponent>();
+        var comp = Render<TextInputComponent>();
         var paragraph = comp.Find( "#text-bind-initially-blank" );
         var text = comp.Find( "#text-binding" );
         var result = comp.Find( "#text-bind-initially-blank-result" );
@@ -85,7 +85,7 @@ public class TextInputComponentTest : TestContext
     public void AriaAttributes_AreRenderedFromParameters()
     {
         // setup
-        var comp = RenderComponent<TextInput>( parameters => parameters
+        var comp = Render<TextInput>( parameters => parameters
             .Add( p => p.AriaInvalid, "true" )
             .Add( p => p.AriaRequired, true )
             .Add( p => p.AriaDescribedBy, "text-help" )
@@ -116,7 +116,7 @@ public class TextInputComponentTest : TestContext
     public void ExplicitAriaRequired_False_OverridesAutomaticRequiredState()
     {
         var model = new RequiredTextModel();
-        var comp = RenderComponent<Validations>( parameters => parameters
+        var comp = Render<Validations>( parameters => parameters
             .Add( p => p.Model, model )
             .Add( p => p.ChildContent, (RenderFragment)( builder =>
             {
@@ -141,7 +141,7 @@ public class TextInputComponentTest : TestContext
     [Fact]
     public void ValidationError_RemainsMounted_BeforeErrorState()
     {
-        var comp = RenderComponent<Validation>( parameters => parameters
+        var comp = Render<Validation>( parameters => parameters
             .Add( p => p.Validator, ValidationRule.IsNotEmpty )
             .Add( p => p.Status, ValidationStatus.None )
             .Add( p => p.ChildContent, (RenderFragment)( builder =>
@@ -165,7 +165,7 @@ public class TextInputComponentTest : TestContext
 
     private IRenderedComponent<Validations> RenderRequiredTextInput( RequiredTextModel model )
     {
-        return RenderComponent<Validations>( parameters => parameters
+        return Render<Validations>( parameters => parameters
             .Add( p => p.Model, model )
             .Add( p => p.ChildContent, (RenderFragment)( builder =>
             {
@@ -183,7 +183,7 @@ public class TextInputComponentTest : TestContext
     }
 }
 
-public class TextInputAccessibilityOptionsComponentTest : TestContext
+public class TextInputAccessibilityOptionsComponentTest : BunitContext
 {
     public TextInputAccessibilityOptionsComponentTest()
     {
@@ -200,7 +200,7 @@ public class TextInputAccessibilityOptionsComponentTest : TestContext
     [Fact]
     public void ExplicitAriaAttributes_AreRendered_WhenAutoOptionsAreDisabled()
     {
-        var comp = RenderComponent<TextInput>( parameters => parameters
+        var comp = Render<TextInput>( parameters => parameters
             .Add( p => p.AriaInvalid, "true" )
             .Add( p => p.AriaRequired, true )
             .Add( p => p.AriaDescribedBy, "text-help" )
@@ -217,7 +217,7 @@ public class TextInputAccessibilityOptionsComponentTest : TestContext
     [Fact]
     public void AutoAriaAttributes_AreNotRendered_WhenDisabled()
     {
-        var comp = RenderComponent<Validation>( parameters => parameters
+        var comp = Render<Validation>( parameters => parameters
             .Add( p => p.Validator, ValidationRule.IsNotEmpty )
             .Add( p => p.Status, ValidationStatus.Error )
             .Add( p => p.ChildContent, (RenderFragment)( builder =>
@@ -252,7 +252,7 @@ public class TextInputAccessibilityOptionsComponentTest : TestContext
     public void AutoAriaRequired_IsNotRendered_WhenDisabled()
     {
         var model = new RequiredTextModel();
-        var comp = RenderComponent<Validations>( parameters => parameters
+        var comp = Render<Validations>( parameters => parameters
             .Add( p => p.Model, model )
             .Add( p => p.ChildContent, (RenderFragment)( builder =>
             {

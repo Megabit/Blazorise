@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -24,7 +24,7 @@ public class AutocompleteCheckboxComponentTest : AutocompleteMultipleBaseCompone
     [Fact]
     public async Task Suggestions_ShouldShow_Checkboxes()
     {
-        var comp = RenderComponent<AutocompleteCheckboxComponent>();
+        var comp = Render<AutocompleteCheckboxComponent>();
 
         // test
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
@@ -85,7 +85,7 @@ public class AutocompleteCheckboxComponentTest : AutocompleteMultipleBaseCompone
     {
         var selectedValuesChanged = 0;
 
-        var comp = RenderComponent<AutocompleteCheckboxComponent>( parameters =>
+        var comp = Render<AutocompleteCheckboxComponent>( parameters =>
         {
             parameters.Add( x => x.SelectedValues, new List<string> { "PT", "HR" } );
             parameters.Add( x => x.SelectedValuesChanged, ( List<string> values ) => selectedValuesChanged++ );
@@ -95,7 +95,7 @@ public class AutocompleteCheckboxComponentTest : AutocompleteMultipleBaseCompone
 
         await autoComplete.FocusAsync( new() );
         await autoComplete.InputAsync( "A" );
-        await autoComplete.KeyDownAsync( new() { Code = "Enter" } );
+        await autoComplete.KeyDownAsync( Key.Enter );
 
         comp.WaitForAssertion( () => Assert.Equal( new[] { "Portugal", "Croatia" }, comp.Instance.SelectedTexts ), TestExtensions.WaitTime );
         Assert.Equal( 0, selectedValuesChanged );

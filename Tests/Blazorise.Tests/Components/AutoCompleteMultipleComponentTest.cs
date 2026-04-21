@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,16 +23,15 @@ public class AutocompleteMultipleComponentTest : AutocompleteMultipleBaseCompone
     [Fact]
     public async Task TagTemplate_Should_BeAbleTo_Remove()
     {
-        var comp = RenderComponent<AutocompleteMultipleComponent>( parameters =>
+        var comp = Render<AutocompleteMultipleComponent>( parameters =>
         {
             parameters.Add( x => x.UseBadgeTemplate, true );
             parameters.Add( x => x.SelectedTexts, new List<string>() { "Portugal", "Croatia" } );
         } );
 
-        var tags = comp.FindAll( ".badge" );
         comp.WaitForAssertion( () =>
         {
-            tags.Refresh();
+            var tags = comp.FindAll( ".badge" );
             tags.Count.Should().Be( 2 );
         } );
 
@@ -40,7 +39,7 @@ public class AutocompleteMultipleComponentTest : AutocompleteMultipleBaseCompone
 
         comp.WaitForAssertion( () =>
         {
-            tags.Refresh();
+            var tags = comp.FindAll( ".badge" );
             tags.Count.Should().Be( 1 );
         } );
     }
@@ -48,16 +47,15 @@ public class AutocompleteMultipleComponentTest : AutocompleteMultipleBaseCompone
     [Fact]
     public Task TagTemplate_Should_Render()
     {
-        var comp = RenderComponent<AutocompleteMultipleComponent>( parameters =>
+        var comp = Render<AutocompleteMultipleComponent>( parameters =>
         {
             parameters.Add( x => x.UseBadgeTemplate, true );
             parameters.Add( x => x.SelectedTexts, new List<string>() { "Portugal", "Croatia" } );
         } );
 
-        var tags = comp.FindAll( ".badge" );
         comp.WaitForAssertion( () =>
         {
-            tags.Refresh();
+            var tags = comp.FindAll( ".badge" );
             tags.Count.Should().Be( 2 );
             //The x represents the close button.
             tags.Select( x => x.TextContent ).Should().BeEquivalentTo( new[] { "Portugal×", "Croatia×" } );

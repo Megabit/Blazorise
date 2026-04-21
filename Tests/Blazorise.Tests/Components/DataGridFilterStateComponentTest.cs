@@ -13,7 +13,7 @@ using Employee = BasicTestApp.Client.DataGridFilterStateComponent.Employee;
 
 namespace Blazorise.Tests.Components;
 
-public class DataGridFilterStateComponentTest : TestContext
+public class DataGridFilterStateComponentTest : BunitContext
 {
     public DataGridFilterStateComponentTest()
     {
@@ -25,7 +25,7 @@ public class DataGridFilterStateComponentTest : TestContext
     public async Task LoadState_And_GetState_Should_RoundTrip_ColumnFilterMethod()
     {
         // setup
-        var comp = RenderComponent<BasicTestApp.Client.DataGridFilterStateComponent>();
+        var comp = Render<BasicTestApp.Client.DataGridFilterStateComponent>();
         var dataGrid = comp.FindComponent<DataGrid<Employee>>();
         var state = new DataGridState<Employee>();
         state.AddFilterState( nameof( Employee.Name ), "oh", DataGridColumnFilterMethod.StartsWith );
