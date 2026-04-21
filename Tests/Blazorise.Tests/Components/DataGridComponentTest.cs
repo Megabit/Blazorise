@@ -91,6 +91,26 @@ public class DataGridComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task SortByMultipleSelectColumn_Should_NotThrowAndShould_ReorderRows()
+    {
+        // setup
+        string[] expectedOrderedValues = ["CODE, TEST", "MEET", "TRAIN"];
+        IRenderedComponent<DataGridSelectColumnMultipleSortComponent> comp = Render<DataGridSelectColumnMultipleSortComponent>();
+
+        // test
+        await comp.Find( "thead tr th:first-child" ).ClickAsync();
+
+        // validate
+        comp.WaitForAssertion( () =>
+        {
+            comp.FindAll( "tbody tr td" )
+                .Select( x => x.TextContent )
+                .Should()
+                .Equal( expectedOrderedValues );
+        } );
+    }
+
+    [Fact]
     public async Task SortByField_Should_RaiseSortChangedEvent()
     {
         // setup
