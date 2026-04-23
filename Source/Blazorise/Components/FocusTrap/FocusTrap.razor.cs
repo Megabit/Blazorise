@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -142,7 +142,7 @@ public partial class FocusTrap : BaseFocusableContainerComponent
     [Parameter] public bool Active { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="FocusTrap"/> component.
+    /// Defines the content rendered inside the focus trap.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

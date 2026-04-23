@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -122,7 +122,7 @@ public partial class DropdownMenu : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Dropdown"/> component.
+    /// Provides the reference to the parent <see cref="Dropdown"/> component.
     /// </summary>
     [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
 

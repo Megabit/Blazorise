@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -40,7 +40,7 @@ public partial class PdfViewerContainer : BaseComponent
     protected internal PdfViewerState State => state;
 
     /// <summary>
-    /// Gets or sets the content to be rendered inside the component.
+    /// Defines the content to be rendered inside the component.
     /// </summary>
     /// <remarks>
     /// This property allows developers to define custom content within the PDF container component.

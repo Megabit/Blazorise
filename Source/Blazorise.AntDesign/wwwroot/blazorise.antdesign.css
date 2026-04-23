@@ -6209,6 +6209,22 @@ a.ant-typography-disabled[aria-disabled=true] {
   color: var(--ant-color-icon-hover);
 }
 
+.ant-drawer.ant-drawer-sm {
+  --b-ant-drawer-size: 320px;
+}
+.ant-drawer.ant-drawer-lg {
+  --b-ant-drawer-size: 520px;
+}
+.ant-drawer.ant-drawer-xl {
+  --b-ant-drawer-size: 720px;
+}
+.ant-drawer.ant-drawer-fullscreen.ant-drawer-left, .ant-drawer.ant-drawer-fullscreen.ant-drawer-right {
+  --b-ant-drawer-size: 100vw;
+}
+.ant-drawer.ant-drawer-fullscreen.ant-drawer-top, .ant-drawer.ant-drawer-fullscreen.ant-drawer-bottom {
+  --b-ant-drawer-size: 100vh;
+}
+
 .ant-pagination {
   --ant-pagination-item-size-actual: var(--ant-pagination-item-size);
   --ant-pagination-item-spacing-actual: var(--ant-margin-xs);

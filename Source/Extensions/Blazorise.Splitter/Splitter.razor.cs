@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -199,17 +199,17 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     protected JSSplitModule JSModule { get; private set; }
 
     /// <summary>
-    /// Gets or sets the JS runtime.
+    /// Specifies the JS runtime.
     /// </summary>
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     /// <summary>
-    /// Gets or sets the version provider.
+    /// Specifies the version provider.
     /// </summary>
     [Inject] private IVersionProvider VersionProvider { get; set; }
 
     /// <summary>
-    /// Gets or sets the blazorise options.
+    /// Specifies the blazorise options.
     /// </summary>
     [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 

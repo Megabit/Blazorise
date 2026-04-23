@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -193,17 +193,17 @@ public partial class TableRowCell : BaseDraggableComponent, IDisposable
     };
 
     /// <summary>
-    /// Gets or sets the cascaded parent table component.
+    /// Specifies the cascaded parent table component.
     /// </summary>
     [CascadingParameter] protected Table ParentTable { get; set; }
 
     /// <summary>
-    /// Gets or sets the cascaded parent table row component.
+    /// Specifies the cascaded parent table row component.
     /// </summary>
     [CascadingParameter] protected TableRow ParentTableRow { get; set; }
 
     /// <summary>
-    /// Gets or sets the cell variant color.
+    /// Specifies the cell variant color.
     /// </summary>
     [Parameter]
     public Color Color
@@ -218,7 +218,7 @@ public partial class TableRowCell : BaseDraggableComponent, IDisposable
     }
 
     /// <summary>
-    /// Gets or sets the cell variant intent.
+    /// Specifies the cell variant intent.
     /// </summary>
     [Parameter]
     public Intent Intent
@@ -238,12 +238,12 @@ public partial class TableRowCell : BaseDraggableComponent, IDisposable
     [Parameter] public int? ColumnSpan { get; set; }
 
     /// <summary>
-    /// Defines the fixed position of the row cell within the table.
+    /// Specifies the fixed position of the row cell within the table.
     /// </summary>
     [Parameter] public TableColumnFixedPosition FixedPosition { get; set; }
 
     /// <summary>
-    /// Occurs when the row cell is clicked.
+    /// Notifies when the row cell is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 

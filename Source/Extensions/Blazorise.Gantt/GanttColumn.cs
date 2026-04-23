@@ -35,22 +35,22 @@ public class GanttColumn<TItem> : BaseGanttColumn<TItem>
     #region Properties
 
     /// <summary>
-    /// Gets or sets whether this column is editable in edit forms.
+    /// Determines whether this column is editable in edit forms.
     /// </summary>
     [Parameter] public bool Editable { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether this column is editable during new-item command.
+    /// Determines whether this column is editable during new-item command.
     /// </summary>
     [Parameter] public bool CellsEditableOnNewCommand { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether this column is editable during edit-item command.
+    /// Determines whether this column is editable during edit-item command.
     /// </summary>
     [Parameter] public bool CellsEditableOnEditCommand { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets custom display template.
+    /// Defines custom display template.
     /// </summary>
     [Parameter]
     public new RenderFragment<GanttColumnDisplayContext<TItem>> DisplayTemplate

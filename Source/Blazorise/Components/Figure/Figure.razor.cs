@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -32,7 +32,7 @@ public partial class Figure : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the figure size.
+    /// Specifies the figure size.
     /// </summary>
     [Parameter]
     public FigureSize Size
@@ -47,7 +47,7 @@ public partial class Figure : BaseComponent
     }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Figure"/> component.
+    /// Defines the content rendered inside the figure.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

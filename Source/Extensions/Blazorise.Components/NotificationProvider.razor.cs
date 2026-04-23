@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Snackbar;
@@ -106,17 +106,17 @@ public partial class NotificationProvider : BaseComponent, IDisposable
     protected SnackbarStack SnackbarStack { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="INotificationService"/> to which this component is responding.
+    /// Specifies the <see cref="INotificationService"/> to which this component is responding.
     /// </summary>
     [Inject] protected INotificationService NotificationService { get; set; }
 
     /// <summary>
-    /// Gets or sets the notification location.
+    /// Specifies the notification location.
     /// </summary>
     [Parameter] public NotificationLocation Location { get; set; } = NotificationLocation.Center;
 
     /// <summary>
-    /// Defines the default interval (in milliseconds) after which the notification alert will be automatically closed (used if IntervalBeforeClose is not set on PushAsync call).
+    /// Specifies the default interval (in milliseconds) after which the notification alert will be automatically closed (used if IntervalBeforeClose is not set on PushAsync call).
     /// </summary>
     [Parameter] public double? DefaultInterval { get; set; }
 

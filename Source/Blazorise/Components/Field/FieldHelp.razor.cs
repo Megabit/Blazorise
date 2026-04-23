@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -53,12 +53,12 @@ public partial class FieldHelp : BaseComponent, IDisposable
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="FieldBody"/> component.
+    /// Provides the reference to the parent <see cref="FieldBody"/> component.
     /// </summary>
     [CascadingParameter] protected FieldBody ParentFieldBody { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Field"/> component.
+    /// Provides the reference to the parent <see cref="Field"/> component.
     /// </summary>
     [CascadingParameter] protected Field ParentField { get; set; }
 

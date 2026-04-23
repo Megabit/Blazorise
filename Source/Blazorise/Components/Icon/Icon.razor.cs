@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -122,7 +122,7 @@ public partial class Icon : BaseComponent
     }
 
     /// <summary>
-    /// Defines the icon size.
+    /// Specifies the icon size.
     /// </summary>
     [Parameter]
     public IconSize? IconSize
@@ -137,17 +137,17 @@ public partial class Icon : BaseComponent
     }
 
     /// <summary>
-    /// Occurs when the icon is clicked.
+    /// Notifies when the icon is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
     /// <summary>
-    /// Occurs when the mouse has entered the icon area.
+    /// Notifies when the mouse has entered the icon area.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> MouseOver { get; set; }
 
     /// <summary>
-    /// Occurs when the mouse has left the icon area.
+    /// Notifies when the mouse has left the icon area.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> MouseOut { get; set; }
 

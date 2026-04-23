@@ -398,12 +398,12 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     public ElementReference EditorRef { get; protected set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="JSRichTextEditModule"/> instance.
+    /// Defines the <see cref="JSRichTextEditModule"/> instance.
     /// </summary>
     [Inject] private JSRichTextEditModule JSModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the options used to configure the behavior and features of the RichTextEdit component.
+    /// Defines the options used to configure the behavior and features of the RichTextEdit component.
     /// </summary>
     [Inject] private RichTextEditOptions GlobalOptions { get; set; }
 
@@ -470,12 +470,12 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     [Parameter] public RichTextEditSanitizedPasteOptions SanitizedPasteOptions { get; set; }
 
     /// <summary>
-    /// Occurs when the content within the editor changes.
+    /// Notifies when the content within the editor changes.
     /// </summary>
     [Parameter] public EventCallback ContentChanged { get; set; }
 
     /// <summary>
-    /// Occurs when the enter key is pressed within the editor.
+    /// Notifies when the enter key is pressed within the editor.
     /// </summary>
     /// <remarks>
     /// This event is triggered only when <see cref="SubmitOnEnter"/> is enabled.
@@ -483,12 +483,12 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     [Parameter] public EventCallback EnterPressed { get; set; }
 
     /// <summary>
-    /// Occurs when the editor gains focus.
+    /// Notifies when the editor gains focus.
     /// </summary>
     [Parameter] public EventCallback EditorFocus { get; set; }
 
     /// <summary>
-    /// Occurs when the editor loses focus.
+    /// Notifies when the editor loses focus.
     /// </summary>
     [Parameter] public EventCallback EditorBlur { get; set; }
 

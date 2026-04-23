@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Modules;
@@ -44,7 +44,7 @@ public abstract class BaseTypographyComponent : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+    /// Specifies the <see cref="IJSUtilitiesModule"/> instance.
     /// </summary>
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 

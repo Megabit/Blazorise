@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -29,7 +29,7 @@ public partial class Help : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Help"/> component.
+    /// Defines the content rendered inside the help component.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.States;
@@ -186,12 +186,12 @@ public partial class Alert : BaseComponent
     }
 
     /// <summary>
-    /// Occurs when the alert visibility state changes.
+    /// Notifies when the alert visibility state changes.
     /// </summary>
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the alert color.
+    /// Specifies the alert color.
     /// </summary>
     [Parameter]
     public Color Color
@@ -206,7 +206,7 @@ public partial class Alert : BaseComponent
     }
 
     /// <summary>
-    /// Gets or sets the alert intent.
+    /// Specifies the alert intent.
     /// </summary>
     [Parameter]
     public Intent Intent

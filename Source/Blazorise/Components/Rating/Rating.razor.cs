@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -136,22 +136,22 @@ public partial class Rating : BaseComponent
     [Parameter] public int MaxValue { get; set; } = 5;
 
     /// <summary>
-    /// Defines the selected icon name.
+    /// Specifies the selected icon name.
     /// </summary>
     [Parameter] public virtual object FullIcon { get; set; } = IconName.Star;
 
     /// <summary>
-    /// Defines the non-selected icon name.
+    /// Specifies the non-selected icon name.
     /// </summary>
     [Parameter] public virtual object EmptyIcon { get; set; } = IconName.Star;
 
     /// <summary>
-    /// Defines the selected icon style.
+    /// Specifies the selected icon style.
     /// </summary>
     [Parameter] public IconStyle? FullIconStyle { get; set; } = IconStyle.Solid;
 
     /// <summary>
-    /// Defines the non-selected icon style.
+    /// Specifies the non-selected icon style.
     /// </summary>
     [Parameter] public IconStyle? EmptyIconStyle { get; set; } = IconStyle.Regular;
 
@@ -194,7 +194,7 @@ public partial class Rating : BaseComponent
     }
 
     /// <summary>
-    /// Gets or sets the currently selected rating value.
+    /// Specifies the currently selected rating value.
     /// </summary>
     [Parameter]
     public int SelectedValue

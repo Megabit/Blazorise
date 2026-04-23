@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Modules;
@@ -83,7 +83,7 @@ public partial class _DataGridCellEdit<TItem> : ComponentBase
 
     [Inject] public IIdGenerator IdGenerator { get; set; }
     /// <summary>
-    /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+    /// Specifies the <see cref="IJSUtilitiesModule"/> instance.
     /// </summary>
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 

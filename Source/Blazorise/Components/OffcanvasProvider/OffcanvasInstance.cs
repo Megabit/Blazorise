@@ -31,7 +31,7 @@ public class OffcanvasInstance
         Title = title;
         ChildContent = childContent;
         OffcanvasInstanceOptions = offcanvasInstanceOptions;
-        Visible = true;
+        Visible = false;
     }
 
     #endregion
@@ -52,6 +52,11 @@ public class OffcanvasInstance
     /// Controls the offcanvas visibility.
     /// </summary>
     public bool Visible { get; set; }
+
+    /// <summary>
+    /// Indicates that the offcanvas should be opened on the next provider render cycle.
+    /// </summary>
+    internal bool PendingOpen { get; set; } = true;
 
     /// <summary>
     /// The offcanvas provider.
@@ -208,6 +213,11 @@ public class OffcanvasInstance
     /// Specifies the position of the offcanvas.
     /// </summary>
     public Placement Placement => OffcanvasInstanceOptions?.Placement ?? OffcanvasProvider.Placement;
+
+    /// <summary>
+    /// Changes the size of the offcanvas.
+    /// </summary>
+    public OffcanvasSize Size => OffcanvasInstanceOptions?.Size ?? OffcanvasProvider.Size;
 
     #endregion
 

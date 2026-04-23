@@ -30,12 +30,12 @@ public class MapCircle : MapLayer
     #region Properties
 
     /// <summary>
-    /// Defines the circle center coordinate.
+    /// Specifies the circle center coordinate.
     /// </summary>
     [Parameter] public MapCoordinate Center { get; set; }
 
     /// <summary>
-    /// Defines the circle radius in meters.
+    /// Specifies the circle radius in meters.
     /// </summary>
     [Parameter] public double Radius { get; set; }
 

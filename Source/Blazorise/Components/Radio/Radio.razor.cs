@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Drawing;
 using System.Linq.Expressions;
@@ -146,7 +146,7 @@ public partial class Radio<TValue> : BaseRadioComponent<TValue, RadioClasses, Ra
     }
 
     /// <summary>
-    /// Defines the color of a radio button(only when <see cref="RadioGroup{TValue}.Buttons"/> is true).
+    /// Specifies the color of a radio button(only when <see cref="RadioGroup{TValue}.Buttons"/> is true).
     /// </summary>
     [Parameter]
     public Color Color
@@ -161,7 +161,7 @@ public partial class Radio<TValue> : BaseRadioComponent<TValue, RadioClasses, Ra
     }
 
     /// <summary>
-    /// Defines the intent of a radio button(only when <see cref="RadioGroup{TValue}.Buttons"/> is true).
+    /// Specifies the intent of a radio button(only when <see cref="RadioGroup{TValue}.Buttons"/> is true).
     /// </summary>
     [Parameter]
     public Intent Intent

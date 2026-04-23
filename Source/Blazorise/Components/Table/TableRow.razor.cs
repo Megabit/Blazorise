@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -388,7 +388,7 @@ public partial class TableRow : BaseDraggableComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the cascaded parent table component.
+    /// Specifies the cascaded parent table component.
     /// </summary>
     [CascadingParameter] protected Table ParentTable { get; set; }
 
@@ -396,7 +396,7 @@ public partial class TableRow : BaseDraggableComponent
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Gets or sets the row variant color.
+    /// Specifies the row variant color.
     /// </summary>
     [Parameter]
     public Color Color
@@ -411,7 +411,7 @@ public partial class TableRow : BaseDraggableComponent
     }
 
     /// <summary>
-    /// Gets or sets the row variant intent.
+    /// Specifies the row variant intent.
     /// </summary>
     [Parameter]
     public Intent Intent
@@ -436,7 +436,7 @@ public partial class TableRow : BaseDraggableComponent
     }
 
     /// <summary>
-    /// Gets or sets the applied cursor when the row is hovered over.
+    /// Specifies the applied cursor when the row is hovered over.
     /// </summary>
     [Parameter]
     public Cursor HoverCursor
@@ -451,22 +451,22 @@ public partial class TableRow : BaseDraggableComponent
     }
 
     /// <summary>
-    /// Occurs when the row is clicked.
+    /// Notifies when the row is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
     /// <summary>
-    /// Occurs when the row is double clicked.
+    /// Notifies when the row is double clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> DoubleClicked { get; set; }
 
     /// <summary>
-    /// Occurs when the row is mouse overed.
+    /// Notifies when the row is mouse overed.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> MouseOver { get; set; }
 
     /// <summary>
-    /// Occurs when the row is mouse leaved.
+    /// Notifies when the row is mouse leaved.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> MouseLeave { get; set; }
 

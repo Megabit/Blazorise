@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Scheduler.Utilities;
@@ -95,22 +95,22 @@ public partial class _SchedulerDayAllDayItem<TItem>
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
     /// <summary>
-    /// Gets or sets the data item displayed in this all-day slot.
+    /// Specifies the data item displayed in this all-day slot.
     /// </summary>
     [Parameter] public TItem Item { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the item overflows from the previous day.
+    /// Determines whether the item overflows from the previous day.
     /// </summary>
     [Parameter] public bool OverflowingFromStart { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the item overflows into the next day.
+    /// Determines whether the item overflows into the next day.
     /// </summary>
     [Parameter] public bool OverflowingOnEnd { get; set; }
 
     /// <summary>
-    /// Gets or sets the flag that indicates whether the item occurs repeatedly.
+    /// Specifies the flag that indicates whether the item occurs repeatedly.
     /// </summary>
     [Parameter] public bool IsRecurring { get; set; }
 
@@ -120,7 +120,7 @@ public partial class _SchedulerDayAllDayItem<TItem>
     [Parameter] public Func<TItem, Task> Clicked { get; set; }
 
     /// <summary>
-    /// Gets or sets the area to be used when initiating transactional operations.
+    /// Specifies the area to be used when initiating transactional operations.
     /// </summary>
     [Parameter] public SchedulerSection Section { get; set; }
 

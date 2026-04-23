@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -146,32 +146,32 @@ public partial class _SchedulerSlotItem<TItem>
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
     /// <summary>
-    /// Gets or sets the index of the currently rendered item.
+    /// Specifies the index of the currently rendered item.
     /// </summary>
     [Parameter] public int ItemIndex { get; set; }
 
     /// <summary>
-    /// Gets or sets the total number of items to be rendered in a slot.
+    /// Specifies the total number of items available when data is loaded through <see cref="ReadData"/>.
     /// </summary>
     [Parameter] public int TotalItems { get; set; }
 
     /// <summary>
-    /// Gets or sets the view information for a scheduler item.
+    /// Specifies the view information for a scheduler item.
     /// </summary>
     [Parameter] public SchedulerItemViewInfo<TItem> ViewItem { get; set; }
 
     /// <summary>
-    /// Gets or sets the start time of the slot.
+    /// Specifies the start time of the slot.
     /// </summary>
     [Parameter] public DateTime SlotStart { get; set; }
 
     /// <summary>
-    /// Gets or sets the end time of the slot.
+    /// Specifies the end time of the slot.
     /// </summary>
     [Parameter] public DateTime SlotEnd { get; set; }
 
     /// <summary>
-    /// Gets or sets the cell height used to render items.
+    /// Specifies the cell height used to render items.
     /// </summary>
     [Parameter] public double ItemCellHeight { get; set; }
 

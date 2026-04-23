@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
@@ -27,7 +27,7 @@ public abstract class _BaseDataGridDetailRow<TItem> : BaseDataGridComponent
     [Parameter] public IReadOnlyList<DataGridColumn<TItem>> Columns { get; set; }
 
     /// <summary>
-    /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
+    /// Specifies the parent <see cref="DataGrid{TItem}"/> of the this component.
     /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 

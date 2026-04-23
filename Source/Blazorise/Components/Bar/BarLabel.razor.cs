@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -50,7 +50,7 @@ public partial class BarLabel : BaseComponent
     }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="BarLabel"/> component.
+    /// Defines the content rendered inside the bar label.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

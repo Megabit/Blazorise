@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Extensions;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -86,17 +86,17 @@ public partial class _ModalBackdrop : BaseComponent
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Gets or sets whether the component has any animations.
+    /// Determines whether the component has any animations.
     /// </summary>
     [Parameter] public bool Animated { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets the animation duration.
+    /// Specifies the animation duration.
     /// </summary>
     [Parameter] public int AnimationDuration { get; set; } = 150;
 
     /// <summary>
-    /// Gets or sets the cascaded parent modal component.
+    /// Specifies the cascaded parent modal component.
     /// </summary>
     [CascadingParameter] protected Modal ParentModal { get; set; }
 

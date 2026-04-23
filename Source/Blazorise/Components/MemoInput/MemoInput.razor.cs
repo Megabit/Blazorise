@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -217,12 +217,12 @@ public partial class MemoInput : BaseBufferedTextInput<string, MemoInputClasses,
     protected override string DefaultValue => string.Empty;
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSMemoInputModule"/> instance.
+    /// Specifies the <see cref="IJSMemoInputModule"/> instance.
     /// </summary>
     [Inject] public IJSMemoInputModule JSModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Modal"/> component.
+    /// Provides the reference to the parent <see cref="Modal"/> component.
     /// </summary>
     [CascadingParameter] protected Modal ParentModal { get; set; }
 
@@ -242,7 +242,7 @@ public partial class MemoInput : BaseBufferedTextInput<string, MemoInputClasses,
     [Parameter] public bool ReplaceTab { get; set; } = false;
 
     /// <summary>
-    /// Defines the number of characters that tab key will override.
+    /// Specifies the number of characters that tab key will override.
     /// </summary>
     [Parameter] public int TabSize { get; set; } = 4;
 

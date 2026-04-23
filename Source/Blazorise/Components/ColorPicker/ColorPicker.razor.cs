@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -244,17 +244,17 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
     protected virtual string ColorValueElementSelector => ":scope > .b-input-color-picker-preview > .b-input-color-picker-curent-value";
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSColorPickerModule"/> instance.
+    /// Specifies the <see cref="IJSColorPickerModule"/> instance.
     /// </summary>
     [Inject] public IJSColorPickerModule JSModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.
+    /// Specifies the DI registered <see cref="ITextLocalizerService"/>.
     /// </summary>
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     /// <summary>
-    /// Gets or sets the DI registered <see cref="ITextLocalizer{ColorPicker}"/>.
+    /// Specifies the DI registered <see cref="ITextLocalizer{ColorPicker}"/>.
     /// </summary>
     [Inject] protected ITextLocalizer<ColorPicker> Localizer { get; set; }
 

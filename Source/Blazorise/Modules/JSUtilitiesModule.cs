@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -111,6 +111,10 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
     /// <inheritdoc/>
     public ValueTask Log( bool showBanner, string message, params string[] args )
         => InvokeSafeVoidAsync( "log", showBanner, message, args );
+
+    /// <inheritdoc/>
+    public ValueTask WaitForAnimationFrame()
+        => InvokeSafeVoidAsync( "waitForAnimationFrame" );
 
     private ElementReference? ResolveElementReference( ElementReference elementReference )
         => elementReference.Context is null ? null : elementReference;

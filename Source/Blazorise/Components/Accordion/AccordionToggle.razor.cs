@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
@@ -88,17 +88,17 @@ public partial class AccordionToggle : BaseComponent, IDisposable
     protected string AriaControls => ParentAccordionItem?.BodyElementId;
 
     /// <summary>
-    /// Gets or sets the cascaded parent accordion component.
+    /// Specifies the cascaded parent accordion component.
     /// </summary>
     [CascadingParameter] protected Accordion ParentAccordion { get; set; }
 
     /// <summary>
-    /// Gets or sets the cascaded parent accordion item component.
+    /// Specifies the cascaded parent accordion item component.
     /// </summary>
     [CascadingParameter] public AccordionItem ParentAccordionItem { get; set; }
 
     /// <summary>
-    /// Gets or sets the content visibility.
+    /// Defines the content visibility.
     /// </summary>
     [CascadingParameter( Name = "CollapseVisible" )]
     public bool CollapseVisible
@@ -116,7 +116,7 @@ public partial class AccordionToggle : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Gets or sets the content visibility.
+    /// Defines the content visibility.
     /// </summary>
     [CascadingParameter( Name = "AccordionItemVisible" )]
     public bool AccordionItemVisible
@@ -134,7 +134,7 @@ public partial class AccordionToggle : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Occurs when the toggle button is clicked.
+    /// Notifies when the toggle button is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 

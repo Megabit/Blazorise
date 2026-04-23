@@ -676,7 +676,7 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     }
 
     /// <summary>
-    /// Autoplays the carousel slides.
+    /// Determines whether playback starts automatically.
     /// </summary>
     [Parameter]
     public bool Autoplay
@@ -721,7 +721,7 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     }
 
     /// <summary>
-    /// Defines the interval (in milliseconds) after which the item will automatically slide.
+    /// Specifies the interval (in milliseconds) after which the item will automatically slide.
     /// </summary>
     [Parameter] public double Interval { get; set; } = 2000;
 
@@ -736,7 +736,7 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     [Parameter] public bool ShowControls { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets currently selected slide name.
+    /// Specifies the currently selected slide name.
     /// </summary>
     [Parameter]
     public string SelectedSlide

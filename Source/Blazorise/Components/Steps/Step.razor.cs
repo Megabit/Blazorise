@@ -153,7 +153,7 @@ public partial class Step : BaseComponent<StepClasses, StepStyles>, IDisposable
     [Parameter] public int? Index { get; set; }
 
     /// <summary>
-    /// Defines the step name.
+    /// Specifies the step name.
     /// </summary>
     [Parameter] public string Name { get; set; }
 
@@ -198,7 +198,7 @@ public partial class Step : BaseComponent<StepClasses, StepStyles>, IDisposable
     }
 
     /// <summary>
-    /// Occurs when the item is clicked.
+    /// Notifies when the item is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
@@ -236,7 +236,7 @@ public partial class Step : BaseComponent<StepClasses, StepStyles>, IDisposable
     }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Steps"/> component.
+    /// Provides the reference to the parent <see cref="Steps"/> component.
     /// </summary>
     [CascadingParameter] protected Steps ParentSteps { get; set; }
 

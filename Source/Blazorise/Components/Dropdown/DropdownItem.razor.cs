@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -141,7 +141,7 @@ public partial class DropdownItem : BaseComponent
     [Parameter] public object Value { get; set; }
 
     /// <summary>
-    /// Gets or sets the tabindex value for keyboard navigation.
+    /// Specifies the tabindex value for keyboard navigation.
     /// </summary>
     [Parameter] public int? TabIndex { get; set; }
 
@@ -182,7 +182,7 @@ public partial class DropdownItem : BaseComponent
     }
 
     /// <summary>
-    /// Occurs when the item is clicked.
+    /// Notifies when the item is clicked.
     /// </summary>
     [Parameter] public EventCallback<object> Clicked { get; set; }
 
@@ -192,7 +192,7 @@ public partial class DropdownItem : BaseComponent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent dropdown.
+    /// Provides the reference to the parent dropdown.
     /// </summary>
     [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
 
@@ -212,7 +212,7 @@ public partial class DropdownItem : BaseComponent
     [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
 
     /// <summary>
-    /// Defines whether clicking this item should close the entire dropdown hierarchy or only the current dropdown.
+    /// Specifies whether clicking this item should close the entire dropdown hierarchy or only the current dropdown.
     /// </summary>
     [Parameter] public bool CloseParentDropdowns { get; set; } = true;
 

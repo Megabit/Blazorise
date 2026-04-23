@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -238,12 +238,12 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
     [Parameter] public RenderFragment<AggregateContext<TItem>> DisplayTemplate { get; set; }
 
     /// <summary>
-    /// Defines the format for display value.
+    /// Specifies the format for display value.
     /// </summary>
     [Parameter] public string DisplayFormat { get; set; }
 
     /// <summary>
-    /// Defines the format provider info for display value.
+    /// Specifies the format provider info for display value.
     /// </summary>
     [Parameter] public IFormatProvider DisplayFormatProvider { get; set; }
 
@@ -253,7 +253,7 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
+    /// Specifies the parent <see cref="DataGrid{TItem}"/> of the this component.
     /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 

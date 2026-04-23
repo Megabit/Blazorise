@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -173,12 +173,12 @@ public partial class TableRowHeader : BaseDraggableComponent, IDisposable
     #region Properties
 
     /// <summary>
-    /// Gets or sets the cascaded parent table component.
+    /// Specifies the cascaded parent table component.
     /// </summary>
     [CascadingParameter] protected Table ParentTable { get; set; }
 
     /// <summary>
-    /// Gets or sets the cascaded parent table row component.
+    /// Specifies the cascaded parent table row component.
     /// </summary>
     [CascadingParameter] protected TableRow ParentTableRow { get; set; }
 
@@ -193,12 +193,12 @@ public partial class TableRowHeader : BaseDraggableComponent, IDisposable
     [Parameter] public int? ColumnSpan { get; set; }
 
     /// <summary>
-    /// Defines the fixed position of the row header within the table.
+    /// Specifies the fixed position of the row header within the table.
     /// </summary>
     [Parameter] public TableColumnFixedPosition FixedPosition { get; set; }
 
     /// <summary>
-    /// Occurs when the row header is clicked.
+    /// Notifies when the row header is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 

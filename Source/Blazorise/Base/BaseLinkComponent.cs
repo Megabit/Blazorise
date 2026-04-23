@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -219,12 +219,12 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     protected string AriaCurrentString => Active ? "page" : null;
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+    /// Specifies the <see cref="IJSUtilitiesModule"/> instance.
     /// </summary>
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the navigation manager instance.
+    /// Specifies the navigation manager instance.
     /// </summary>
     [Inject] private NavigationManager NavigationManager { get; set; }
 
@@ -274,7 +274,7 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
-    /// Occurs when the link is clicked.
+    /// Notifies when the link is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 

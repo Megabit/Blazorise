@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -443,7 +443,7 @@ public partial class _SchedulerItemOccurrenceModal<TItem> : BaseComponent, IDisp
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     /// <summary>
-    /// Gets or sets the scheduler instance cascading to this modal.
+    /// Specifies the scheduler instance cascading to this modal.
     /// </summary>
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
@@ -458,7 +458,7 @@ public partial class _SchedulerItemOccurrenceModal<TItem> : BaseComponent, IDisp
     [Parameter] public Func<TItem, Task<bool>> DeleteOccurrenceRequested { get; set; }
 
     /// <summary>
-    /// Gets or sets the first day of the week, for recurrence/calendar logic.
+    /// Specifies the first day of the week used for date calculations.
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
 

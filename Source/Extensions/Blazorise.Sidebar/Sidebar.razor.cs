@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -62,7 +62,7 @@ public partial class Sidebar : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the sidebar visibility state.
+    /// Specifies the sidebar visibility state.
     /// </summary>
     [Parameter]
     public bool Visible

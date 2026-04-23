@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -333,7 +333,7 @@ public partial class Field : BaseColumnComponent, IDisposable
     }
 
     /// <summary>
-    /// Defines how the container's items are aligned along the main axis when there is extra space available.
+    /// Specifies how the container's items are aligned along the main axis when there is extra space available.
     /// </summary>
     [Parameter]
     public JustifyContent JustifyContent

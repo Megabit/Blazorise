@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -62,6 +62,16 @@ public partial class Offcanvas : BaseComponent<OffcanvasClasses, OffcanvasStyles
     private CloseableAdapter closeableAdapter;
 
     ///<summary>
+    /// Defines the offcanvas size.
+    ///</summary>
+    private OffcanvasSize size = OffcanvasSize.Default;
+
+    ///<summary>
+    /// Defines the offcanvas placement.
+    ///</summary>
+    private Placement placement = Placement.Start;
+
+    ///<summary>
     /// Event that is triggered when the Offcanvas is opened.
     ///</summary>
     internal event Action _Opened;
@@ -121,6 +131,7 @@ public partial class Offcanvas : BaseComponent<OffcanvasClasses, OffcanvasStyles
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Offcanvas() );
+        builder.Append( ClassProvider.OffcanvasSize( Size ) );
         builder.Append( ClassProvider.OffcanvasPlacement( Placement, IsVisible ) );
         builder.Append( ClassProvider.OffcanvasFade( Animated && State.Showing, Animated && State.Hiding ) );
         builder.Append( ClassProvider.OffcanvasVisible( IsVisible ) );
@@ -531,7 +542,7 @@ public partial class Offcanvas : BaseComponent<OffcanvasClasses, OffcanvasStyles
     [Inject] public IJSClosableModule JSClosableModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the visibility state of the Offcanvas.
+    /// Specifies the visibility state of the Offcanvas.
     /// </summary>
     [Parameter] public bool Visible { get; set; }
 
@@ -563,7 +574,40 @@ public partial class Offcanvas : BaseComponent<OffcanvasClasses, OffcanvasStyles
     /// <summary>
     /// Specifies the position of the Offcanvas.
     /// </summary>
-    [Parameter] public Placement Placement { get; set; } = Placement.Start;
+    [Parameter]
+    public Placement Placement
+    {
+        get => placement;
+        set
+        {
+            if ( placement == value )
+                return;
+
+            placement = value;
+
+            DirtyClasses();
+            DirtyStyles();
+        }
+    }
+
+    /// <summary>
+    /// Changes the size of the offcanvas.
+    /// </summary>
+    [Parameter]
+    public OffcanvasSize Size
+    {
+        get => size;
+        set
+        {
+            if ( size == value )
+                return;
+
+            size = value;
+
+            DirtyClasses();
+            DirtyStyles();
+        }
+    }
 
     /// <summary>
     /// Specifies whether the Offcanvas should have an animated transition.

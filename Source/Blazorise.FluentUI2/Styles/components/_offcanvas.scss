@@ -1,4 +1,4 @@
-﻿.fui-OverlayDrawer__backdrop {
+.fui-OverlayDrawer__backdrop {
     will-change: opacity, visibility;
     transition-timing-function: var(--curveEasyEase);
     transition-property: opacity, visibility;
@@ -148,5 +148,31 @@
         align-items: center;
         justify-content: space-between;
         box-sizing: border-box;
+    }
+}
+
+.fui-OverlayDrawer {
+    &.fui-OverlayDrawer-sm {
+        --fui-Drawer--size: 280px;
+    }
+
+    &.fui-OverlayDrawer-lg {
+        --fui-Drawer--size: 480px;
+    }
+
+    &.fui-OverlayDrawer-xl {
+        --fui-Drawer--size: 640px;
+    }
+
+    &.fui-OverlayDrawer-fullscreen {
+        &.fui-OverlayDrawer-start,
+        &.fui-OverlayDrawer-end {
+            --fui-Drawer--size: 100vw;
+        }
+
+        &.fui-OverlayDrawer-top,
+        &.fui-OverlayDrawer-bottom {
+            --fui-Drawer--size: 100vh;
+        }
     }
 }

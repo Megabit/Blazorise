@@ -33,7 +33,7 @@ public class MapTileLayer : MapLayer
     #region Properties
 
     /// <summary>
-    /// Defines the raster tile source URL, typically using {z}, {x}, and {y} placeholders.
+    /// Specifies the raster tile source URL, typically using {z}, {x}, and {y} placeholders.
     /// </summary>
     [Parameter, EditorRequired] public string Source { get; set; }
 
@@ -43,7 +43,7 @@ public class MapTileLayer : MapLayer
     [Parameter] public string Attribution { get; set; }
 
     /// <summary>
-    /// Defines the tile size in pixels.
+    /// Specifies the tile size in pixels.
     /// </summary>
     [Parameter] public int TileSize { get; set; } = 256;
 
@@ -58,7 +58,7 @@ public class MapTileLayer : MapLayer
     [Parameter] public double? MaxZoom { get; set; }
 
     /// <summary>
-    /// Defines optional tile subdomains used by the source URL.
+    /// Specifies optional tile subdomains used by the source URL.
     /// </summary>
     [Parameter] public string[] Subdomains { get; set; }
 

@@ -69,7 +69,7 @@ public partial class BarIcon : BaseComponent
     [Parameter] public IconStyle IconStyle { get; set; }
 
     /// <summary>
-    /// Defines the icon size.
+    /// Specifies the icon size.
     /// </summary>
     [Parameter] public IconSize IconSize { get; set; }
 

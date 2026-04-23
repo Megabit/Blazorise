@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -79,7 +79,7 @@ public abstract class BaseValidationResult : BaseComponent, IDisposable
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Gets or sets the reference to the parent validation.
+    /// Provides the reference to the parent validation.
     /// </summary>
     [CascadingParameter] protected Validation ParentValidation { get; set; }
 

@@ -683,12 +683,12 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     /// <summary>
-    /// Gets or sets the version provider.
+    /// Specifies the version provider.
     /// </summary>
     [Inject] private IVersionProvider VersionProvider { get; set; }
 
     /// <summary>
-    /// Gets or sets the blazorise options.
+    /// Specifies the blazorise options.
     /// </summary>
     [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
@@ -779,7 +779,7 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
     [Parameter] public bool UploadImage { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets the max chunk size when uploading the file.
+    /// Specifies the max chunk size when uploading the file.
     /// Take note that if you're using <see cref="OpenReadStream(IFileEntry, CancellationToken)"/> you're provided with a stream and should configure the chunk size when handling with the stream.
     /// </summary>
     /// <remarks>
@@ -788,7 +788,7 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
     [Parameter] public int MaxUploadImageChunkSize { get; set; } = 20 * 1024;
 
     /// <summary>
-    /// Gets or sets the Segment Fetch Timeout when uploading the file.
+    /// Specifies the Segment Fetch Timeout when uploading the file.
     /// </summary>
     [Parameter] public TimeSpan SegmentFetchTimeout { get; set; } = TimeSpan.FromMinutes( 1 );
 
@@ -834,12 +834,12 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
     [Parameter] public Func<FileChangedEventArgs, Task> ImageUploadChanged { get; set; }
 
     /// <summary>
-    /// Occurs when an individual image upload has started.
+    /// Provides a callback when an individual image upload has started.
     /// </summary>
     [Parameter] public Func<FileStartedEventArgs, Task> ImageUploadStarted { get; set; }
 
     /// <summary>
-    /// Occurs when an individual image upload has ended.
+    /// Provides a callback when an individual image upload has ended.
     /// </summary>
     [Parameter] public Func<FileEndedEventArgs, Task> ImageUploadEnded { get; set; }
 
@@ -993,7 +993,7 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
     [Parameter] public string UnorderedListStyle { get; set; } = "*";
 
     /// <summary>
-    /// Gets or sets whether report progress should be disabled. By enabling this setting, ImageUploadProgressed and ImageUploadWritten callbacks won't be called. Internal file progress won't be tracked.
+    /// Determines whether report progress should be disabled. By enabling this setting, ImageUploadProgressed and ImageUploadWritten callbacks won't be called. Internal file progress won't be tracked.
     /// <para>This setting can speed up file transfer considerably.</para>
     /// </summary>
     [Parameter] public bool DisableProgressReport { get; set; } = false;

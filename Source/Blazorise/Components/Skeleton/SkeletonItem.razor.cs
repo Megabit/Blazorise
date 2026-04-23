@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -48,7 +48,7 @@ public partial class SkeletonItem : BaseComponent
     protected virtual bool PreventColumnSize => false;
 
     /// <summary>
-    /// Gets or sets the column size configuration for the skeleton item.
+    /// Specifies the column size configuration for the skeleton item.
     /// </summary>
     /// <value>
     /// An <see cref="IFluentColumn"/> that specifies the column size for the skeleton item.
@@ -66,7 +66,7 @@ public partial class SkeletonItem : BaseComponent
     }
 
     /// <summary>
-    /// Gets or sets the child content to be rendered inside the skeleton item component.
+    /// Defines the child content to be rendered inside the skeleton item component.
     /// </summary>
     /// <value>
     /// A <see cref="RenderFragment"/> that represents the content to be displayed within the skeleton item.

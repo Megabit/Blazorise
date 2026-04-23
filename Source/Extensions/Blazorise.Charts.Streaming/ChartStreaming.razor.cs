@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -136,7 +136,7 @@ public partial class ChartStreaming<TItem> : ChartPlugin<TItem, JSChartStreaming
     [Parameter] public bool Vertical { get; set; }
 
     /// <summary>
-    /// Defines the stream options.
+    /// Specifies the stream options.
     /// </summary>
     [Parameter] public ChartStreamingOptions Options { get; set; } = new();
 

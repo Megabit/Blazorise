@@ -1708,6 +1708,31 @@ li.list-group-item-action {
   overflow-y: auto;
 }
 
+.offcanvas.offcanvas-size-sm.offcanvas-start, .offcanvas.offcanvas-size-sm.offcanvas-end {
+  --offcanvas-width: 300px;
+}
+.offcanvas.offcanvas-size-sm.offcanvas-top, .offcanvas.offcanvas-size-sm.offcanvas-bottom {
+  --offcanvas-height: 20vh;
+}
+.offcanvas.offcanvas-size-lg.offcanvas-start, .offcanvas.offcanvas-size-lg.offcanvas-end {
+  --offcanvas-width: 500px;
+}
+.offcanvas.offcanvas-size-lg.offcanvas-top, .offcanvas.offcanvas-size-lg.offcanvas-bottom {
+  --offcanvas-height: 40vh;
+}
+.offcanvas.offcanvas-size-xl.offcanvas-start, .offcanvas.offcanvas-size-xl.offcanvas-end {
+  --offcanvas-width: 650px;
+}
+.offcanvas.offcanvas-size-xl.offcanvas-top, .offcanvas.offcanvas-size-xl.offcanvas-bottom {
+  --offcanvas-height: 50vh;
+}
+.offcanvas.offcanvas-size-fullscreen.offcanvas-start, .offcanvas.offcanvas-size-fullscreen.offcanvas-end {
+  --offcanvas-width: 100vw;
+}
+.offcanvas.offcanvas-size-fullscreen.offcanvas-top, .offcanvas.offcanvas-size-fullscreen.offcanvas-bottom {
+  --offcanvas-height: 100vh;
+}
+
 .page-item:not(.disabled) .page-link {
   cursor: pointer;
 }

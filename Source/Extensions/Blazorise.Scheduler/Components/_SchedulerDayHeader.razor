@@ -1,4 +1,4 @@
-﻿@using Blazorise.Localization
+@using Blazorise.Localization
 @typeparam TItem
 @implements IDisposable
 <Div Flex="FlexColumnJustifyContentCenterAlignItemsCenter" Width="WidthIs100" Height="Height.Px( HeaderCellHeight )" TextOverflow="TextOverflow.Truncate" Border="BorderIs1OnBottomIs1OnStartIs1OnTop" Background="@BackgroundColor" @onclick="@(() => Console.WriteLine( $"header click: {Date}" ))">
@@ -32,7 +32,7 @@
         : Blazorise.Background.Default;
 
     /// <summary>
-    /// Tracks global localization changes.
+    /// Specifies the anchor date used by the selected view.
     /// </summary>
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 

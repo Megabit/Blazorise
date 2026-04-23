@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -38,7 +38,7 @@ public partial class DisplayHeading : BaseTypographyComponent
         : AlternativeTagName;
 
     /// <summary>
-    /// Gets or sets the display heading size.
+    /// Specifies the display heading size.
     /// </summary>
     [Parameter]
     public DisplayHeadingSize Size
@@ -56,7 +56,7 @@ public partial class DisplayHeading : BaseTypographyComponent
     }
 
     /// <summary>
-    /// Defines the alternative tag name for the heading element. Default is set to <c>h1</c>.
+    /// Specifies the alternative tag name for the heading element. Default is set to <c>h1</c>.
     /// </summary>
     [Parameter] public string AlternativeTagName { get; set; }
 

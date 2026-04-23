@@ -290,7 +290,7 @@ public partial class Table : BaseDraggableComponent<TableClasses, TableStyles>, 
     protected bool HasContainer => Responsive || FixedHeader || Resizable || FixedColumns;
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSTableModule"/> instance.
+    /// Specifies the <see cref="IJSTableModule"/> instance.
     /// </summary>
     [Inject] public IJSTableModule JSModule { get; set; }
 
@@ -444,7 +444,7 @@ public partial class Table : BaseDraggableComponent<TableClasses, TableStyles>, 
     }
 
     /// <summary>
-    /// Gets or sets whether the <see cref="FixedColumns"/> feature automatically resynchronizes the columns positions when they are added or removed.
+    /// Determines whether the <see cref="FixedColumns"/> feature automatically resynchronizes the columns positions when they are added or removed.
     /// </summary>
     /// <remarks>
     /// Enabling this feature may impact performance due to constant recalculations of fixed column positions.
@@ -484,7 +484,7 @@ public partial class Table : BaseDraggableComponent<TableClasses, TableStyles>, 
     }
 
     /// <summary>
-    /// Gets or sets whether users can resize Table's columns.
+    /// Determines whether users can resize Table's columns.
     /// </summary>
     [Parameter]
     public bool Resizable
@@ -505,7 +505,7 @@ public partial class Table : BaseDraggableComponent<TableClasses, TableStyles>, 
     }
 
     /// <summary>
-    /// Gets or sets whether the user can resize on header or columns.
+    /// Determines whether the user can resize on header or columns.
     /// </summary>
     [Parameter] public TableResizeMode ResizeMode { get; set; }
 
@@ -515,7 +515,7 @@ public partial class Table : BaseDraggableComponent<TableClasses, TableStyles>, 
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the Table's responsive mode.
+    /// Specifies the Table's responsive mode.
     /// </summary>
     [Parameter]
     public TableResponsiveMode ResponsiveMode

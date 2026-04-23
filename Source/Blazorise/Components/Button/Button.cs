@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -281,27 +281,27 @@ public partial class Button : BaseComponent, IAsyncDisposable
     protected Size ThemeSize => Size.GetValueOrDefault( ParentAddons?.Size ?? Theme?.InputOptions?.Size ?? Blazorise.Size.Default );
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSButtonModule"/> instance.
+    /// Specifies the <see cref="IJSButtonModule"/> instance.
     /// </summary>
     [Inject] public IJSButtonModule JSModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+    /// Specifies the <see cref="IJSUtilitiesModule"/> instance.
     /// </summary>
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
     /// <summary>
-    /// Occurs when the button is clicked.
+    /// Notifies when the button is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
     /// <summary>
-    /// Defines the button type.
+    /// Specifies the button type.
     /// </summary>
     [Parameter] public ButtonType Type { get; set; } = ButtonType.Button;
 
     /// <summary>
-    /// Gets or sets the button color.
+    /// Specifies the button color.
     /// </summary>
     [Parameter]
     public Color Color
@@ -316,7 +316,7 @@ public partial class Button : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Gets or sets the button intent.
+    /// Specifies the button intent.
     /// </summary>
     [Parameter]
     public Intent Intent
@@ -416,7 +416,7 @@ public partial class Button : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Gets or sets the component loading template.
+    /// Defines the component loading template.
     /// </summary>
     [Parameter] public RenderFragment LoadingTemplate { get; set; }
 
@@ -426,27 +426,27 @@ public partial class Button : BaseComponent, IAsyncDisposable
     [Parameter] public bool PreventDefaultOnSubmit { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent dropdown.
+    /// Provides the reference to the parent dropdown.
     /// </summary>
     [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent buttons.
+    /// Provides the reference to the parent buttons.
     /// </summary>
     [CascadingParameter] protected Buttons ParentButtons { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent addons.
+    /// Provides the reference to the parent addons.
     /// </summary>
     [CascadingParameter] protected Addons ParentAddons { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent field.
+    /// Provides the reference to the parent field.
     /// </summary>
     [CascadingParameter] protected Field ParentField { get; set; }
 
     /// <summary>
-    /// Gets or sets the parent dropdown state object.
+    /// Specifies the parent dropdown state object.
     /// </summary>
     [CascadingParameter]
     protected DropdownState ParentDropdownState
@@ -464,7 +464,7 @@ public partial class Button : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Gets or sets the command to be executed when clicked on a button.
+    /// Specifies the command to be executed when clicked on a button.
     /// </summary>
     [Parameter]
     public ICommand Command

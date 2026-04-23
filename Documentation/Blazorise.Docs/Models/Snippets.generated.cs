@@ -2786,6 +2786,131 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string OffcanvasSizeExample = @"<Offcanvas @ref=""offcanvasEndSmallRef"" ShowBackdrop Placement=""Placement.End"" Size=""OffcanvasSize.Small"">
+    <OffcanvasHeader>
+        Small End Offcanvas
+        <CloseButton Clicked=""@(() => HideOffcanvas( offcanvasEndSmallRef ))"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Small size applied to an end-positioned offcanvas.
+    </OffcanvasBody>
+</Offcanvas>
+
+<Offcanvas @ref=""offcanvasEndLargeRef"" ShowBackdrop Placement=""Placement.End"" Size=""OffcanvasSize.Large"">
+    <OffcanvasHeader>
+        Large End Offcanvas
+        <CloseButton Clicked=""@(() => HideOffcanvas( offcanvasEndLargeRef ))"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Large size applied to an end-positioned offcanvas.
+    </OffcanvasBody>
+</Offcanvas>
+
+<Offcanvas @ref=""offcanvasEndExtraLargeRef"" ShowBackdrop Placement=""Placement.End"" Size=""OffcanvasSize.ExtraLarge"">
+    <OffcanvasHeader>
+        Extra Large End Offcanvas
+        <CloseButton Clicked=""@(() => HideOffcanvas( offcanvasEndExtraLargeRef ))"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Extra large size applied to an end-positioned offcanvas.
+    </OffcanvasBody>
+</Offcanvas>
+
+<Offcanvas @ref=""offcanvasEndFullscreenRef"" ShowBackdrop Placement=""Placement.End"" Size=""OffcanvasSize.Fullscreen"">
+    <OffcanvasHeader>
+        Fullscreen End Offcanvas
+        <CloseButton Clicked=""@(() => HideOffcanvas( offcanvasEndFullscreenRef ))"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Fullscreen size applied to an end-positioned offcanvas.
+    </OffcanvasBody>
+</Offcanvas>
+
+<Offcanvas @ref=""offcanvasTopSmallRef"" ShowBackdrop Placement=""Placement.Top"" Size=""OffcanvasSize.Small"">
+    <OffcanvasHeader>
+        Small Top Offcanvas
+        <CloseButton Clicked=""@(() => HideOffcanvas( offcanvasTopSmallRef ))"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Small size applied to a top-positioned offcanvas.
+    </OffcanvasBody>
+</Offcanvas>
+
+<Offcanvas @ref=""offcanvasTopLargeRef"" ShowBackdrop Placement=""Placement.Top"" Size=""OffcanvasSize.Large"">
+    <OffcanvasHeader>
+        Large Top Offcanvas
+        <CloseButton Clicked=""@(() => HideOffcanvas( offcanvasTopLargeRef ))"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Large size applied to a top-positioned offcanvas.
+    </OffcanvasBody>
+</Offcanvas>
+
+<Offcanvas @ref=""offcanvasTopExtraLargeRef"" ShowBackdrop Placement=""Placement.Top"" Size=""OffcanvasSize.ExtraLarge"">
+    <OffcanvasHeader>
+        Extra Large Top Offcanvas
+        <CloseButton Clicked=""@(() => HideOffcanvas( offcanvasTopExtraLargeRef ))"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Extra large size applied to a top-positioned offcanvas.
+    </OffcanvasBody>
+</Offcanvas>
+
+<Offcanvas @ref=""offcanvasTopFullscreenRef"" ShowBackdrop Placement=""Placement.Top"" Size=""OffcanvasSize.Fullscreen"">
+    <OffcanvasHeader>
+        Fullscreen Top Offcanvas
+        <CloseButton Clicked=""@(() => HideOffcanvas( offcanvasTopFullscreenRef ))"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Fullscreen size applied to a top-positioned offcanvas.
+    </OffcanvasBody>
+</Offcanvas>
+
+<Div Margin=""Margin.Is3.FromBottom"">
+    <Button Color=""Color.Primary"" Margin=""Margin.Is2.FromEnd"" Clicked=""@(() => ShowOffcanvas( Placement.End, OffcanvasSize.Small ))"">Small End</Button>
+    <Button Color=""Color.Primary"" Margin=""Margin.Is2.FromEnd"" Clicked=""@(() => ShowOffcanvas( Placement.End, OffcanvasSize.Large ))"">Large End</Button>
+    <Button Color=""Color.Primary"" Margin=""Margin.Is2.FromEnd"" Clicked=""@(() => ShowOffcanvas( Placement.End, OffcanvasSize.ExtraLarge ))"">Extra Large End</Button>
+    <Button Color=""Color.Primary"" Margin=""Margin.Is2.FromEnd"" Clicked=""@(() => ShowOffcanvas( Placement.End, OffcanvasSize.Fullscreen ))"">Fullscreen End</Button>
+</Div>
+<Div>
+    <Button Color=""Color.Secondary"" Margin=""Margin.Is2.FromEnd"" Clicked=""@(() => ShowOffcanvas( Placement.Top, OffcanvasSize.Small ))"">Small Top</Button>
+    <Button Color=""Color.Secondary"" Margin=""Margin.Is2.FromEnd"" Clicked=""@(() => ShowOffcanvas( Placement.Top, OffcanvasSize.Large ))"">Large Top</Button>
+    <Button Color=""Color.Secondary"" Margin=""Margin.Is2.FromEnd"" Clicked=""@(() => ShowOffcanvas( Placement.Top, OffcanvasSize.ExtraLarge ))"">Extra Large Top</Button>
+    <Button Color=""Color.Secondary"" Clicked=""@(() => ShowOffcanvas( Placement.Top, OffcanvasSize.Fullscreen ))"">Fullscreen Top</Button>
+</Div>
+
+@code {
+    private Offcanvas offcanvasEndSmallRef;
+    private Offcanvas offcanvasEndLargeRef;
+    private Offcanvas offcanvasEndExtraLargeRef;
+    private Offcanvas offcanvasEndFullscreenRef;
+    private Offcanvas offcanvasTopSmallRef;
+    private Offcanvas offcanvasTopLargeRef;
+    private Offcanvas offcanvasTopExtraLargeRef;
+    private Offcanvas offcanvasTopFullscreenRef;
+
+    private Task ShowOffcanvas( Placement nextPlacement, OffcanvasSize nextSize )
+    {
+        return (nextPlacement, nextSize) switch
+        {
+            (Placement.End, OffcanvasSize.Small ) => offcanvasEndSmallRef.Show(),
+            (Placement.End, OffcanvasSize.Large ) => offcanvasEndLargeRef.Show(),
+            (Placement.End, OffcanvasSize.ExtraLarge ) => offcanvasEndExtraLargeRef.Show(),
+            (Placement.End, OffcanvasSize.Fullscreen ) => offcanvasEndFullscreenRef.Show(),
+            (Placement.Top, OffcanvasSize.Small ) => offcanvasTopSmallRef.Show(),
+            (Placement.Top, OffcanvasSize.Large ) => offcanvasTopLargeRef.Show(),
+            (Placement.Top, OffcanvasSize.ExtraLarge ) => offcanvasTopExtraLargeRef.Show(),
+            (Placement.Top, OffcanvasSize.Fullscreen ) => offcanvasTopFullscreenRef.Show(),
+            _ => Task.CompletedTask,
+        };
+    }
+
+    private Task HideOffcanvas( Offcanvas offcanvas )
+    {
+        return offcanvas.Hide();
+    }
+}";
+
         public const string OffcanvasStartExample = @"<Offcanvas @ref=""offcanvasRef"" ShowBackdrop Placement=""Placement.Start"">
     <OffcanvasHeader>
         Offcanvas Start
@@ -9245,11 +9370,11 @@ Install-Package Blazorise.Chart.Zoom";
     }
 }";
 
-        public const string DataGridSelectColumnMultipleExample = @"<DataGrid TItem=""EmployeeActivity"" Data=""@employeeList"" PageSize=""5"" Responsive Editable>
+        public const string DataGridSelectColumnMultipleExample = @"<DataGrid TItem=""EmployeeActivity"" Data=""@employeeList"" ShowPager PageSize=""5"" Responsive Editable>
     <DataGridSelectColumn TItem=""EmployeeActivity"" Field=""@nameof( EmployeeActivity.Activities )""
-                          Caption=""Activity"" 
+                          Caption=""Activity""
                           Editable
-                          Multiple 
+                          Multiple
                           Data=""activities""
                           ValueField=""(x) => ((Activity)x).Code""
                           TextField=""(x) => ((Activity)x).Description"" />
@@ -9263,13 +9388,13 @@ Install-Package Blazorise.Chart.Zoom";
 
     protected override async Task OnInitializedAsync()
     {
-        employeeList = (await EmployeeData.GetDataAsync()).Select(x => new EmployeeActivity(x)
-            {
-                Activities = activities
-                        .OrderBy(x => Random.Shared.Next())
-                        .Take(Random.Shared.Next(5))
-                        .Select(x => x.Code).ToArray()
-            }).ToList();
+        employeeList = ( await EmployeeData.GetDataAsync() ).Select( x => new EmployeeActivity( x )
+        {
+            Activities = activities
+                        .OrderBy( x => Random.Shared.Next() )
+                        .Take( Random.Shared.Next( 5 ) )
+                        .Select( x => x.Code ).ToArray()
+        } ).ToList();
 
         await base.OnInitializedAsync();
     }
@@ -9287,7 +9412,7 @@ Install-Package Blazorise.Chart.Zoom";
     {
         public string[] Activities { get; set; }
 
-        public EmployeeActivity(Employee employee)
+        public EmployeeActivity( Employee employee )
         {
             this.City = employee.City;
             this.Email = employee.Email;
@@ -15537,6 +15662,40 @@ builder.Services
 </Router>
 
 <OffcanvasProvider UseOffcanvasStructure Animated Placement=""Placement.Start"" />";
+
+        public const string OffcanvasProviderSizeExample = @"<Div Margin=""Margin.Is3.FromBottom"">
+    <Button Color=""Color.Primary"" Margin=""Margin.Is2.FromEnd"" Clicked=""@(() => ShowOffcanvas( Placement.End, OffcanvasSize.Small ))"">Small End</Button>
+    <Button Color=""Color.Primary"" Margin=""Margin.Is2.FromEnd"" Clicked=""@(() => ShowOffcanvas( Placement.End, OffcanvasSize.Large ))"">Large End</Button>
+    <Button Color=""Color.Primary"" Margin=""Margin.Is2.FromEnd"" Clicked=""@(() => ShowOffcanvas( Placement.End, OffcanvasSize.ExtraLarge ))"">Extra Large End</Button>
+    <Button Color=""Color.Primary"" Margin=""Margin.Is2.FromEnd"" Clicked=""@(() => ShowOffcanvas( Placement.End, OffcanvasSize.Fullscreen ))"">Fullscreen End</Button>
+</Div>
+<Div>
+    <Button Color=""Color.Secondary"" Margin=""Margin.Is2.FromEnd"" Clicked=""@(() => ShowOffcanvas( Placement.Top, OffcanvasSize.Small ))"">Small Top</Button>
+    <Button Color=""Color.Secondary"" Margin=""Margin.Is2.FromEnd"" Clicked=""@(() => ShowOffcanvas( Placement.Top, OffcanvasSize.Large ))"">Large Top</Button>
+    <Button Color=""Color.Secondary"" Margin=""Margin.Is2.FromEnd"" Clicked=""@(() => ShowOffcanvas( Placement.Top, OffcanvasSize.ExtraLarge ))"">Extra Large Top</Button>
+    <Button Color=""Color.Secondary"" Clicked=""@(() => ShowOffcanvas( Placement.Top, OffcanvasSize.Fullscreen ))"">Fullscreen Top</Button>
+</Div>
+
+@code {
+    [Inject] public IOffcanvasService OffcanvasService { get; set; }
+
+    private Task ShowOffcanvas( Placement placement, OffcanvasSize size )
+    {
+        RenderFragment content = builder =>
+        {
+            builder.AddContent( 0, $""Placement {placement} with size {size}."" );
+        };
+
+        return OffcanvasService.Show(
+            $""{size} {placement} Offcanvas"",
+            content,
+            new OffcanvasInstanceOptions()
+            {
+                Placement = placement,
+                Size = size
+            } );
+    }
+}";
 
         public const string OffcanvasProviderStatefulExample = @"<Button Color=""Color.Primary"" Clicked=""ShowStateful"">Show Stateful</Button>
 

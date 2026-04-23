@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -162,7 +162,7 @@ public partial class ToastProvider : BaseComponent, IDisposable
     #region Properties
 
     /// <summary>
-    /// Gets or sets the <see cref="IToastService"/> to which this component is responding.
+    /// Specifies the <see cref="IToastService"/> to which this component is responding.
     /// </summary>
     [Inject] protected IToastService ToastService { get; set; }
 
