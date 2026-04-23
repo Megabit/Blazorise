@@ -3649,6 +3649,8 @@ button {
   padding-left: var(--fui-Card--size);
   padding-right: var(--fui-Card--size);
   margin-bottom: 0;
+  border-top-left-radius: var(--fui-Card--border-radius);
+  border-top-right-radius: var(--fui-Card--border-radius);
 }
 .fui-Card .fui-CardHeader > .fui-CardHeader__header {
   text-align: start;
@@ -3664,6 +3666,8 @@ button {
   padding-left: var(--fui-Card--size);
   padding-right: var(--fui-Card--size);
   padding-bottom: var(--fui-Card--size);
+  border-bottom-left-radius: var(--fui-Card--border-radius);
+  border-bottom-right-radius: var(--fui-Card--border-radius);
 }
 .fui-Card .fui-CardPreview {
   position: relative;
@@ -3745,8 +3749,8 @@ button {
   .fui-CardGroup > .fui-Card:not(:first-child) .fui-CardHeader {
     border-top-left-radius: 0;
   }
-  .fui-CardGroup > .fui-Card:not(:first-child) .card-img-bottom,
-  .fui-CardGroup > .fui-Card:not(:first-child) .card-footer {
+  .fui-CardGroup > .fui-Card:not(:first-child) .fui-CardPreview,
+  .fui-CardGroup > .fui-Card:not(:first-child) .fui-CardFooter {
     border-bottom-left-radius: 0;
   }
 }
