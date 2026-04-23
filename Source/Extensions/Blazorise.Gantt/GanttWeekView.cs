@@ -12,7 +12,7 @@ namespace Blazorise.Gantt;
 public partial class GanttWeekView<TItem> : BaseGanttView<TItem>
 {
     /// <summary>
-    /// Optional first day of week override for week view calculations.
+    /// Specifies the first day of the week used for date calculations.
     /// </summary>
     [Parameter] public DayOfWeek? FirstDayOfWeek { get; set; }
 

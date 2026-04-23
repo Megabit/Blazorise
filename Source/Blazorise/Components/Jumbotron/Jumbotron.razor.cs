@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -26,7 +26,7 @@ public partial class Jumbotron : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Jumbotron"/> component.
+    /// Defines the content rendered inside the jumbotron.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

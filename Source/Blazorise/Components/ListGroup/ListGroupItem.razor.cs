@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.States;
@@ -161,7 +161,7 @@ public partial class ListGroupItem : BaseComponent
         : null;
 
     /// <summary>
-    /// Defines the item name.
+    /// Specifies the item name.
     /// </summary>
     [Parameter] public string Name { get; set; }
 
@@ -181,7 +181,7 @@ public partial class ListGroupItem : BaseComponent
     }
 
     /// <summary>
-    /// Occurs when the item is clicked.
+    /// Notifies when the item is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
@@ -214,7 +214,7 @@ public partial class ListGroupItem : BaseComponent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the list-group-item color.
+    /// Specifies the list-group-item color.
     /// </summary>
     [Parameter]
     public Color Color
@@ -229,7 +229,7 @@ public partial class ListGroupItem : BaseComponent
     }
 
     /// <summary>
-    /// Gets or sets the list-group-item intent.
+    /// Specifies the list-group-item intent.
     /// </summary>
     [Parameter]
     public Intent Intent

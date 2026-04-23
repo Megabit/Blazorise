@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -44,7 +44,7 @@ public partial class CollapseHeader : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Occurs when the header is clicked.
+    /// Notifies when the header is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
@@ -54,7 +54,7 @@ public partial class CollapseHeader : BaseComponent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Collapse"/> component.
+    /// Provides the reference to the parent <see cref="Collapse"/> component.
     /// </summary>
     [CascadingParameter] public Collapse ParentCollapse { get; set; }
 

@@ -56,42 +56,42 @@ public partial class _PdfViewerPasswordPrompt : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the title shown to the user.
+    /// Specifies the title shown to the user.
     /// </summary>
     [Parameter] public string Title { get; set; }
 
     /// <summary>
-    /// Gets or sets the message shown to the user.
+    /// Specifies the message shown to the user.
     /// </summary>
     [Parameter] public string Message { get; set; }
 
     /// <summary>
-    /// Gets or sets the placeholder shown inside the password input.
+    /// Specifies the placeholder shown inside the password input.
     /// </summary>
     [Parameter] public string PasswordPlaceholder { get; set; }
 
     /// <summary>
-    /// Gets or sets the submit button text.
+    /// Specifies the submit button text.
     /// </summary>
     [Parameter] public string ConfirmButtonText { get; set; }
 
     /// <summary>
-    /// Gets or sets the cancel button text.
+    /// Specifies the cancel button text.
     /// </summary>
     [Parameter] public string CancelButtonText { get; set; }
 
     /// <summary>
-    /// Gets or sets the message shown when a password is not entered.
+    /// Specifies the message shown when a password is not entered.
     /// </summary>
     [Parameter] public string RequiredPasswordValidationMessage { get; set; }
 
     /// <summary>
-    /// Occurs when user confirms the password input.
+    /// Notifies when user confirms the password input.
     /// </summary>
     [Parameter] public EventCallback<string> SubmitRequested { get; set; }
 
     /// <summary>
-    /// Occurs when user cancels the prompt.
+    /// Notifies when user cancels the prompt.
     /// </summary>
     [Parameter] public EventCallback CancelRequested { get; set; }
 

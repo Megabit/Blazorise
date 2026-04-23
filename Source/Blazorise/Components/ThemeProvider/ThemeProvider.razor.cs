@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Text;
 using Microsoft.AspNetCore.Components;
@@ -81,7 +81,7 @@ public partial class ThemeProvider : ComponentBase, IDisposable
     #region Properties
 
     /// <summary>
-    /// Gets or sets the theme options.
+    /// Specifies the theme options.
     /// </summary>
     [Parameter]
     public Theme Theme
@@ -114,7 +114,7 @@ public partial class ThemeProvider : ComponentBase, IDisposable
     [Parameter] public bool WriteVariables { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets the <see cref="IThemeGenerator">Theme Generator</see> used to build the CSS variables and styles.
+    /// Defines the <see cref="IThemeGenerator">Theme Generator</see> used to build the CSS variables and styles.
     /// </summary>
     [Inject] protected IThemeGenerator ThemeGenerator { get; set; }
 

@@ -122,7 +122,7 @@ public partial class PageProgress : BaseComponent<PageProgressClasses, PageProgr
     protected StyleBuilder IndicatorStyleBuilder { get; private set; }
 
     /// <summary>
-    /// Defines the visibility of progress bar.
+    /// Specifies the visibility of progress bar.
     /// </summary>
     [Parameter]
     public bool Visible

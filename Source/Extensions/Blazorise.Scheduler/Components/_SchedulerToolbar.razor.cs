@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Localization;
@@ -138,7 +138,7 @@ public partial class _SchedulerToolbar<TItem> : BaseComponent, IDisposable
     protected bool MonthViewSelected => SelectedView == SchedulerView.Month;
 
     /// <summary>
-    /// Gets or sets the current state of the scheduler (events, callbacks).
+    /// Specifies the current state of the scheduler (events, callbacks).
     /// </summary>
     [CascadingParameter] public SchedulerState SchedulerState { get; set; }
 
@@ -153,52 +153,52 @@ public partial class _SchedulerToolbar<TItem> : BaseComponent, IDisposable
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     /// <summary>
-    /// Gets or sets the parent <see cref="Scheduler{TItem}"/> instance.
+    /// Specifies the parent <see cref="Scheduler{TItem}"/> instance.
     /// </summary>
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
     /// <summary>
-    /// Gets or sets the currently selected date in the scheduler.
+    /// Specifies the currently selected date in the scheduler.
     /// </summary>
     [Parameter] public DateOnly SelectedDate { get; set; }
 
     /// <summary>
-    /// Gets or sets the currently active scheduler view.
+    /// Specifies the currently active scheduler view.
     /// </summary>
     [Parameter] public SchedulerView SelectedView { get; set; }
 
     /// <summary>
-    /// Gets or sets the first day of the week (e.g. Monday or Sunday).
+    /// Specifies the first day of the week used for date calculations.
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
 
     /// <summary>
-    /// Gets or sets the first day of the work week (e.g. Monday).
+    /// Specifies the first day of the work week (e.g. Monday).
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWorkWeek { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the Day View button should be displayed.
+    /// Determines whether the Day View button should be displayed.
     /// </summary>
     [Parameter] public bool ShowDayViewButton { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the Week View button should be displayed.
+    /// Determines whether the Week View button should be displayed.
     /// </summary>
     [Parameter] public bool ShowWeekViewButton { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the Work Week View button should be displayed.
+    /// Determines whether the Work Week View button should be displayed.
     /// </summary>
     [Parameter] public bool ShowWorkWeekViewButton { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the Month View button should be displayed.
+    /// Determines whether the Month View button should be displayed.
     /// </summary>
     [Parameter] public bool ShowMonthViewButton { get; set; }
 
     /// <summary>
-    /// Gets or sets the content to be rendered inside the toolbar.
+    /// Defines the content to be rendered inside the toolbar.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -162,137 +162,137 @@ public partial class _GanttToolbar<TItem> : BaseComponent, IDisposable
     [CascadingParameter] public Gantt<TItem> Gantt { get; set; }
 
     /// <summary>
-    /// Gets or sets the currently displayed date.
+    /// Specifies the currently displayed date.
     /// </summary>
     [Parameter] public DateOnly SelectedDate { get; set; }
 
     /// <summary>
-    /// Gets or sets the currently selected Gantt view.
+    /// Specifies the active Gantt view.
     /// </summary>
     [Parameter] public GanttView SelectedView { get; set; }
 
     /// <summary>
-    /// Gets or sets the visible timeline range start used for toolbar range text.
+    /// Specifies the visible timeline range start used for toolbar range text.
     /// </summary>
     [Parameter] public DateTime? TimelineRangeStart { get; set; }
 
     /// <summary>
-    /// Gets or sets the visible timeline range end used for toolbar range text.
+    /// Specifies the visible timeline range end used for toolbar range text.
     /// </summary>
     [Parameter] public DateTime? TimelineRangeEnd { get; set; }
 
     /// <summary>
-    /// Gets or sets the first day of the week used for range calculations.
+    /// Specifies the first day of the week used for date calculations.
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
 
     /// <summary>
-    /// Gets or sets whether toolbar navigation buttons are enabled.
+    /// Determines whether toolbar navigation buttons are enabled.
     /// </summary>
     [Parameter] public bool NavigationEnabled { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets the current search text.
+    /// Specifies the search text used to filter tree rows.
     /// </summary>
     [Parameter] public string SearchText { get; set; }
 
     /// <summary>
-    /// Gets or sets the width of search input in pixels.
+    /// Specifies the width of search input in pixels.
     /// </summary>
     [Parameter] public double SearchInputWidth { get; set; } = 220d;
 
     /// <summary>
-    /// Gets or sets the column picker entries shown in the toolbar.
+    /// Specifies the column picker entries shown in the toolbar.
     /// </summary>
     [Parameter] public IReadOnlyList<GanttColumnPickerItem> ColumnPickerItems { get; set; } = Array.Empty<GanttColumnPickerItem>();
 
     /// <summary>
-    /// Gets or sets whether Add Task button is visible.
+    /// Determines whether Add Task button is visible.
     /// </summary>
     [Parameter] public bool ShowAddTaskButton { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether expand-all and collapse-all commands are visible.
+    /// Determines whether expand-all and collapse-all commands are visible.
     /// </summary>
     [Parameter] public bool ShowToggleAllCommands { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether the day view button is visible.
+    /// Determines whether the day view button is visible.
     /// </summary>
     [Parameter] public bool ShowDayViewButton { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the week view button is visible.
+    /// Determines whether the week view button is visible.
     /// </summary>
     [Parameter] public bool ShowWeekViewButton { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the month view button is visible.
+    /// Determines whether the month view button is visible.
     /// </summary>
     [Parameter] public bool ShowMonthViewButton { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the year view button is visible.
+    /// Determines whether the year view button is visible.
     /// </summary>
     [Parameter] public bool ShowYearViewButton { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when the previous-period button is clicked.
+    /// Notifies when the previous-period button is clicked.
     /// </summary>
     [Parameter] public EventCallback PreviousClicked { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when the next-period button is clicked.
+    /// Notifies when the next-period button is clicked.
     /// </summary>
     [Parameter] public EventCallback NextClicked { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when the today button is clicked.
+    /// Notifies when the today button is clicked.
     /// </summary>
     [Parameter] public EventCallback TodayClicked { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when the day view button is clicked.
+    /// Notifies when the day view button is clicked.
     /// </summary>
     [Parameter] public EventCallback DayViewClicked { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when the week view button is clicked.
+    /// Notifies when the week view button is clicked.
     /// </summary>
     [Parameter] public EventCallback WeekViewClicked { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when the month view button is clicked.
+    /// Notifies when the month view button is clicked.
     /// </summary>
     [Parameter] public EventCallback MonthViewClicked { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when the year view button is clicked.
+    /// Notifies when the year view button is clicked.
     /// </summary>
     [Parameter] public EventCallback YearViewClicked { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when the add-task button is clicked.
+    /// Notifies when the add-task button is clicked.
     /// </summary>
     [Parameter] public EventCallback AddTaskClicked { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when the expand-all button is clicked.
+    /// Notifies when the expand-all button is clicked.
     /// </summary>
     [Parameter] public EventCallback ExpandAllClicked { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when the collapse-all button is clicked.
+    /// Notifies when the collapse-all button is clicked.
     /// </summary>
     [Parameter] public EventCallback CollapseAllClicked { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when the search text changes.
+    /// Notifies when the search text changes.
     /// </summary>
     [Parameter] public EventCallback<string> SearchTextChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when a column visibility option changes.
+    /// Notifies when a column visibility option changes.
     /// </summary>
     [Parameter] public EventCallback<GanttColumnVisibilityChangedEventArgs> ColumnVisibilityChanged { get; set; }
 

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -136,52 +136,52 @@ public partial class _SchedulerDayCell<TItem>
         : Blazorise.Background.Default;
 
     /// <summary>
-    /// Gets or sets the parent scheduler component.
+    /// Specifies the parent scheduler component.
     /// </summary>
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
     /// <summary>
-    /// Gets or sets the date for the cell.
+    /// Specifies the anchor date used by the selected view.
     /// </summary>
     [Parameter] public DateOnly Date { get; set; }
 
     /// <summary>
-    /// Gets or sets the time for the cell.
+    /// Specifies the time for the cell.
     /// </summary>
     [Parameter] public TimeOnly Time { get; set; }
 
     /// <summary>
-    /// Gets or sets the start of the workday.
+    /// Specifies the start of the workday.
     /// </summary>
     [Parameter] public TimeOnly? WorkDayStart { get; set; }
 
     /// <summary>
-    /// Gets or sets the end of the workday.
+    /// Specifies the end of the workday.
     /// </summary>
     [Parameter] public TimeOnly? WorkDayEnd { get; set; }
 
     /// <summary>
-    /// Gets or sets the number of slots per hour.
+    /// Specifies the number of slots per hour.
     /// </summary>
     [Parameter] public int SlotsPerCell { get; set; }
 
     /// <summary>
-    /// Gets or sets the height of the header cell in pixels.
+    /// Specifies the height of the header cell in pixels.
     /// </summary>
     [Parameter] public double HeaderCellHeight { get; set; }
 
     /// <summary>
-    /// Gets or sets the height of the item cell in pixels.
+    /// Specifies the height of the item cell in pixels.
     /// </summary>
     [Parameter] public double ItemCellHeight { get; set; }
 
     /// <summary>
-    /// Gets or sets the collection of view items to display in the cell.
+    /// Specifies the collection of view items to display in the cell.
     /// </summary>
     [Parameter] public IEnumerable<SchedulerItemViewInfo<TItem>> ViewItems { get; set; }
 
     /// <summary>
-    /// Gets or sets the area to be used when initiating transactional operations.
+    /// Specifies the area to be used when initiating transactional operations.
     /// </summary>
     [Parameter] public SchedulerSection Section { get; set; }
 

@@ -198,7 +198,7 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
     protected bool UseAriaLabelledByAttribute => Options?.AccessibilityOptions?.UseAriaLabelledByAttribute == true;
 
     /// <summary>
-    /// Gets or sets the ID of an element that this label belongs to.
+    /// Specifies the ID of an element that this label belongs to.
     /// </summary>
     [Parameter] public string For { get; set; }
 
@@ -218,7 +218,7 @@ public partial class FieldLabel : BaseSizableFieldComponent<FieldLabelClasses, F
     }
 
     /// <summary>
-    /// Defines the visibility for screen readers.
+    /// Specifies the visibility for screen readers.
     /// </summary>
     [Parameter]
     public Screenreader Screenreader

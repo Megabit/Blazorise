@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.States;
@@ -84,7 +84,7 @@ public partial class StepPanel : BaseComponent, IDisposable
     protected StepsRenderMode RenderMode => ParentStepsState?.RenderMode ?? ParentStepsState?.RenderMode ?? StepsRenderMode.Default;
 
     /// <summary>
-    /// Defines the panel name. Must match the corresponding step name.
+    /// Specifies the panel name. Must match the corresponding step name.
     /// </summary>
     [Parameter] public string Name { get; set; }
 
@@ -130,12 +130,12 @@ public partial class StepPanel : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Steps"/> component.
+    /// Provides the reference to the parent <see cref="Steps"/> component.
     /// </summary>
     [CascadingParameter] protected Steps ParentSteps { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="StepsContent"/> component.
+    /// Provides the reference to the parent <see cref="StepsContent"/> component.
     /// </summary>
     [CascadingParameter] protected StepsContent ParentStepsContent { get; set; }
 

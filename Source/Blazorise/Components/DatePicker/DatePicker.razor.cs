@@ -641,7 +641,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     /// <summary>
-    /// Gets or sets the DI registered <see cref="ITextLocalizer{T}"/>.
+    /// Specifies the DI registered <see cref="ITextLocalizer{T}"/>.
     /// </summary>
     [Inject] protected ITextLocalizer<DatePicker<TValue>> Localizer { get; set; }
 
@@ -661,7 +661,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     [Parameter] public DateInputMode InputMode { get; set; } = DateInputMode.Date;
 
     /// <summary>
-    /// Defines the mode in which the dates can be selected.
+    /// Specifies the mode in which the dates can be selected.
     /// </summary>
     [Parameter] public DateInputSelectionMode SelectionMode { get; set; } = DateInputSelectionMode.Single;
 
@@ -681,17 +681,17 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     [Parameter] public DateTimeOffset? Max { get; set; }
 
     /// <summary>
-    /// Defines the first day of the week.
+    /// Specifies the first day of the week used for date calculations.
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Monday;
 
     /// <summary>
-    /// Defines the display format of the date input.
+    /// Specifies the display format of the date input.
     /// </summary>
     [Parameter] public string DisplayFormat { get; set; }
 
     /// <summary>
-    /// Defines the input format mask of the date input.
+    /// Specifies the input format mask of the date input.
     /// </summary>
     [Parameter] public string InputFormat { get; set; }
 
@@ -745,12 +745,12 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     [Parameter] public bool ShowClearButton { get; set; }
 
     /// <summary>
-    /// Defines the initial value of the hour element.
+    /// Specifies the initial value of the hour element.
     /// </summary>
     [Parameter] public int DefaultHour { get; set; } = 12;
 
     /// <summary>
-    /// Defines the initial value of the minute element.
+    /// Specifies the initial value of the minute element.
     /// </summary>
     [Parameter] public int DefaultMinute { get; set; } = 0;
 

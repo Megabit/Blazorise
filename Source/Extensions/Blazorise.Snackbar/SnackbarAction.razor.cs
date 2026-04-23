@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Snackbar.Utils;
@@ -52,7 +52,7 @@ public partial class SnackbarAction : BaseComponent, IDisposable
     #region Properties
 
     /// <summary>
-    /// Occurs when the button is clicked.
+    /// Notifies when the button is clicked.
     /// </summary>
     [Parameter] public EventCallback Clicked { get; set; }
 

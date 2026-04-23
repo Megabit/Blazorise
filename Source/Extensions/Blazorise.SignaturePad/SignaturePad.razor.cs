@@ -359,7 +359,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     protected bool UseAriaLabelledByAttribute => BlazoriseOptions?.AccessibilityOptions?.UseAriaLabelledByAttribute == true;
 
     /// <summary>
-    /// Gets or sets the parent field.
+    /// Specifies the parent field.
     /// </summary>
     [CascadingParameter] protected Field ParentField { get; set; }
 
@@ -369,17 +369,17 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     [Parameter] public byte[] Value { get; set; }
 
     /// <summary>
-    /// Gets or sets the event that is triggered when the signature pad value changes. The event provides the new signature as a byte array.
+    /// Defines the event that is triggered when the signature pad value changes. The event provides the new signature as a byte array.
     /// </summary>
     [Parameter] public EventCallback<byte[]> ValueChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the event that is triggered when a new stroke begins on the signature pad. The event provides information about the starting point of the stroke.
+    /// Defines the event that is triggered when a new stroke begins on the signature pad. The event provides information about the starting point of the stroke.
     /// </summary>
     [Parameter] public EventCallback<SignaturePadBeginStrokeEventArgs> BeginStroke { get; set; }
 
     /// <summary>
-    /// Gets or sets the event that is triggered when a stroke ends on the signature pad. The event provides the signature pad's current image data as a Data URL.
+    /// Defines the event that is triggered when a stroke ends on the signature pad. The event provides the signature pad's current image data as a Data URL.
     /// </summary>
     [Parameter] public EventCallback<SignaturePadEndStrokeEventArgs> EndStroke { get; set; }
 
@@ -446,7 +446,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     [Parameter] public bool ReadOnly { get; set; }
 
     /// <summary>
-    /// Gets or sets the aria-labelledby attribute value.
+    /// Specifies the aria-labelledby attribute value.
     /// </summary>
     [Parameter] public string AriaLabelledBy { get; set; }
 
@@ -456,12 +456,12 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     [Parameter] public int? TabIndex { get; set; }
 
     /// <summary>
-    /// Defines the width, in pixels, of the underline canvas element.
+    /// Specifies the width, in pixels, of the underline canvas element.
     /// </summary>
     [Parameter] public int? CanvasWidth { get; set; }
 
     /// <summary>
-    /// Defines the height, in pixels, of the underline canvas element.
+    /// Specifies the height, in pixels, of the underline canvas element.
     /// </summary>
     [Parameter] public int? CanvasHeight { get; set; }
 

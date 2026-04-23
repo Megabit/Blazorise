@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -29,7 +29,7 @@ public partial class Breadcrumb : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Defines the breadcrumb activation mode.
+    /// Specifies the breadcrumb activation mode.
     /// </summary>
     [Parameter] public BreadcrumbMode Mode { get; set; }
 

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -369,12 +369,12 @@ public partial class TransferList<TItem> : ComponentBase
         : SelectionMode != ListGroupSelectionMode.Multiple || SelectedItemsEnd.IsNullOrEmpty();
 
     /// <summary>
-    /// Defines how the list groups behave (e.g., selectable, static).
+    /// Specifies how the list groups behave (e.g., selectable, static).
     /// </summary>
     [Parameter] public ListGroupMode Mode { get; set; } = ListGroupMode.Selectable;
 
     /// <summary>
-    /// Defines how many items can be selected at once in each list.
+    /// Specifies how many items can be selected at once in each list.
     /// </summary>
     [Parameter] public ListGroupSelectionMode SelectionMode { get; set; } = ListGroupSelectionMode.Single;
 
@@ -434,7 +434,7 @@ public partial class TransferList<TItem> : ComponentBase
     [Parameter] public Func<TItem, bool> CanMoveToEnd { get; set; }
 
     /// <summary>
-    /// Gets or sets the items displayed in the start (left) list.
+    /// Specifies the items displayed in the start (left) list.
     /// </summary>
     [Parameter] public List<TItem> ItemsStart { get; set; }
 
@@ -444,7 +444,7 @@ public partial class TransferList<TItem> : ComponentBase
     [Parameter] public EventCallback<List<TItem>> ItemsStartChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the items displayed in the end (right) list.
+    /// Specifies the items displayed in the end (right) list.
     /// </summary>
     [Parameter] public List<TItem> ItemsEnd { get; set; }
 
@@ -454,7 +454,7 @@ public partial class TransferList<TItem> : ComponentBase
     [Parameter] public EventCallback<List<TItem>> ItemsEndChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the currently selected item in the start (left) list.
+    /// Specifies the currently selected item in the start (left) list.
     /// </summary>
     [Parameter] public TItem SelectedItemStart { get; set; }
 
@@ -464,7 +464,7 @@ public partial class TransferList<TItem> : ComponentBase
     [Parameter] public EventCallback<TItem> SelectedItemStartChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the currently selected item in the end (right) list.
+    /// Specifies the currently selected item in the end (right) list.
     /// </summary>
     [Parameter] public TItem SelectedItemEnd { get; set; }
 
@@ -474,7 +474,7 @@ public partial class TransferList<TItem> : ComponentBase
     [Parameter] public EventCallback<TItem> SelectedItemEndChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the currently selected items in the start (left) list for multi-selection mode.
+    /// Specifies the currently selected items in the start (left) list for multi-selection mode.
     /// </summary>
     [Parameter] public List<TItem> SelectedItemsStart { get; set; }
 
@@ -484,7 +484,7 @@ public partial class TransferList<TItem> : ComponentBase
     [Parameter] public EventCallback<List<TItem>> SelectedItemsStartChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the currently selected items in the end (right) list for multi-selection mode.
+    /// Specifies the currently selected items in the end (right) list for multi-selection mode.
     /// </summary>
     [Parameter] public List<TItem> SelectedItemsEnd { get; set; }
 
@@ -499,59 +499,59 @@ public partial class TransferList<TItem> : ComponentBase
     [Parameter] public bool ShowCaptions { get; set; }
 
     /// <summary>
-    /// Gets or sets the start caption template, which can be used to render a custom header or caption for the start (left) list.
+    /// Defines the start caption template, which can be used to render a custom header or caption for the start (left) list.
     /// </summary>
     [Parameter] public RenderFragment StartCaptionTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets the start caption text for the start (left) list.
+    /// Specifies the start caption text for the start (left) list.
     /// Used only when <see cref="StartCaptionTemplate"/> is not provided.
     /// </summary>
     [Parameter] public string StartCaption { get; set; } = "Start";
 
     /// <summary>
-    /// Gets or sets the end caption template, which can be used to render a custom header or caption for the end (right) list.
+    /// Defines the end caption template, which can be used to render a custom header or caption for the end (right) list.
     /// </summary>
     [Parameter] public RenderFragment EndCaptionTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets the end caption text for the end (right) list.
+    /// Specifies the end caption text for the end (right) list.
     /// Used only when <see cref="EndCaptionTemplate"/> is not provided.
     /// </summary>
     [Parameter] public string EndCaption { get; set; } = "End";
 
     /// <summary>
-    /// Defines the icon name of the move to end (right) button.
+    /// Specifies the icon name of the move to end (right) button.
     /// </summary>
     [Parameter] public IconName? MoveToEndIconName { set; get; } = IconName.ChevronRight;
 
     /// <summary>
-    /// Defines the icon name of the move all to end (right) button.
+    /// Specifies the icon name of the move all to end (right) button.
     /// </summary>
     [Parameter] public IconName? MoveAllToEndIconName { set; get; } = IconName.ChevronDoubleRight;
 
     /// <summary>
-    /// Defines the icon name of the move to start (left) button.
+    /// Specifies the icon name of the move to start (left) button.
     /// </summary>
     [Parameter] public IconName? MoveToStartIconName { set; get; } = IconName.ChevronLeft;
 
     /// <summary>
-    /// Defines the icon name of the move all to start (left) button.
+    /// Specifies the icon name of the move all to start (left) button.
     /// </summary>
     [Parameter] public IconName? MoveAllToStartIconName { set; get; } = IconName.ChevronDoubleLeft;
 
     /// <summary>
-    /// Defines the text color of the move icons.
+    /// Specifies the text color of the move icons.
     /// </summary>
     [Parameter] public TextColor MoveButtonsIconTextColor { set; get; }
 
     /// <summary>
-    /// Defines the style of the move icons.
+    /// Specifies the style of the move icons.
     /// </summary>
     [Parameter] public IconStyle? MoveButtonsIconStyle { set; get; }
 
     /// <summary>
-    /// Defines the size of the move icons.
+    /// Specifies the size of the move icons.
     /// </summary>
     [Parameter] public IconSize? MoveButtonsIconSize { set; get; }
 

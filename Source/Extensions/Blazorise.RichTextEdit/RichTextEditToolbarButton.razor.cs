@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.RichTextEdit.Providers;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -38,12 +38,12 @@ public partial class RichTextEditToolbarButton : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the value corresponding to the action.
+    /// Specifies the value corresponding to the action.
     /// </summary>
     [Parameter] public string Value { get; set; }
 
     /// <summary>
-    /// Gets or sets the toolbar action.
+    /// Specifies the toolbar action.
     /// </summary>
     [Parameter]
     public RichTextEditAction? Action

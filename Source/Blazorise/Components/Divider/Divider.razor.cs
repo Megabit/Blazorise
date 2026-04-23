@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
@@ -81,7 +81,7 @@ public partial class Divider : BaseComponent, IDisposable
         => DividerType.GetValueOrDefault( Theme?.DividerOptions?.DividerType ?? Blazorise.DividerType.Solid );
 
     /// <summary>
-    /// Defines the type and style of the divider.
+    /// Specifies the type and style of the divider.
     /// </summary>
     [Parameter]
     public DividerType? DividerType

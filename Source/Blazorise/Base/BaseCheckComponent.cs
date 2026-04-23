@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Globalization;
 using System.Linq.Expressions;
@@ -79,7 +79,7 @@ public abstract class BaseCheckComponent<TValue, TClasses, TStyles> : BaseInputC
     }
 
     /// <summary>
-    /// Defines the mouse cursor based on the behaviour by the current css framework.
+    /// Specifies the mouse cursor based on the behaviour by the current css framework.
     /// </summary>
     [Parameter]
     public Cursor Cursor

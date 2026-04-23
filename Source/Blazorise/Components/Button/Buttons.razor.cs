@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -36,7 +36,7 @@ public partial class Buttons : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the role of the button group.
+    /// Specifies the role of the button group.
     /// </summary>
     [Parameter]
     public ButtonsRole Role
@@ -51,7 +51,7 @@ public partial class Buttons : BaseComponent
     }
 
     /// <summary>
-    /// Gets or sets the button group orientation mode.
+    /// Specifies the button group orientation mode.
     /// </summary>
     [Parameter]
     public Orientation Orientation

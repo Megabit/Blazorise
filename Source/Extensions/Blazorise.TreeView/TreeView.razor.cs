@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -276,37 +276,37 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     protected Func<TNode, bool> DetermineIsDisabled => IsDisabled ?? ( node => false );
 
     /// <summary>
-    /// Gets or sets the license checker for the user session.
+    /// Specifies the license checker for the user session.
     /// </summary>
     [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
 
     /// <summary>
-    /// Defines the name of the treenode expand icon.
+    /// Specifies the name of the treenode expand icon.
     /// </summary>
     [Parameter] public IconName ExpandIconName { get; set; } = IconName.ChevronRight;
 
     /// <summary>
-    /// Defines the style of the treenode expand icon.
+    /// Specifies the style of the treenode expand icon.
     /// </summary>
     [Parameter] public IconStyle? ExpandIconStyle { get; set; }
 
     /// <summary>
-    /// Defines the size of the treenode expand icon.
+    /// Specifies the size of the treenode expand icon.
     /// </summary>
     [Parameter] public IconSize? ExpandIconSize { get; set; }
 
     /// <summary>
-    /// Defines the name of the treenode collapse icon.
+    /// Specifies the name of the treenode collapse icon.
     /// </summary>
     [Parameter] public IconName CollapseIconName { get; set; } = IconName.ChevronDown;
 
     /// <summary>
-    /// Defines the style of the treenode collapse icon.
+    /// Specifies the style of the treenode collapse icon.
     /// </summary>
     [Parameter] public IconStyle? CollapseIconStyle { get; set; }
 
     /// <summary>
-    /// Defines the size of the treenode collapse icon.
+    /// Specifies the size of the treenode collapse icon.
     /// </summary>
     [Parameter] public IconSize? CollapseIconSize { get; set; }
 
@@ -327,7 +327,7 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     public TNode SelectedNode { get; set; }
 
     /// <summary>
-    /// Occurs when the selected TreeView node has changed.
+    /// Notifies when the selected TreeView node has changed.
     /// </summary>
     [Parameter] public EventCallback<TNode> SelectedNodeChanged { get; set; }
 
@@ -338,12 +338,12 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     public IList<TNode> SelectedNodes { get; set; }
 
     /// <summary>
-    /// Occurs when the selected TreeView nodes has changed.
+    /// Notifies when the selected TreeView nodes has changed.
     /// </summary>
     [Parameter] public EventCallback<IList<TNode>> SelectedNodesChanged { get; set; }
 
     /// <summary>
-    /// Defines the selection mode of the <see cref="TreeView{TNode}"/>.
+    /// Specifies the selection mode of the <see cref="TreeView{TNode}"/>.
     /// </summary>
     [Parameter]
     public TreeViewSelectionMode SelectionMode
@@ -359,7 +359,7 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     }
 
     /// <summary>
-    /// Defines if the treenode should be automatically expanded. Note that it can happen only once when the tree is first loaded.
+    /// Specifies if the treenode should be automatically expanded. Note that it can happen only once when the tree is first loaded.
     /// </summary>
     [Parameter] public bool AutoExpandAll { get; set; }
 
@@ -375,7 +375,7 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     [Parameter] public IList<TNode> ExpandedNodes { get; set; } = new List<TNode>();
 
     /// <summary>
-    /// Occurs when the collection of expanded nodes has changed.
+    /// Notifies when the collection of expanded nodes has changed.
     /// </summary>
     [Parameter] public EventCallback<IList<TNode>> ExpandedNodesChanged { get; set; }
 
@@ -405,17 +405,17 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     [Parameter] public Func<TNode, Task<bool>> HasChildNodesAsync { get; set; }
 
     /// <summary>
-    /// Gets or sets selected node styling.
+    /// Defines styling applied to selected nodes.
     /// </summary>
     [Parameter] public Action<TNode, NodeStyling> SelectedNodeStyling { get; set; }
 
     /// <summary>
-    /// Gets or sets disabled node styling.
+    /// Defines styling applied to disabled nodes.
     /// </summary>
     [Parameter] public Action<TNode, NodeStyling> DisabledNodeStyling { get; set; }
 
     /// <summary>
-    /// Gets or sets node styling.
+    /// Defines styling applied to nodes.
     /// </summary>
     [Parameter] public Action<TNode, NodeStyling> NodeStyling { get; set; }
 

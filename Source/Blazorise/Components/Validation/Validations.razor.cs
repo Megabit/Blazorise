@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -222,7 +222,7 @@ public partial class Validations : ComponentBase
     #region Properties
 
     /// <summary>
-    /// Defines the validation mode for validations inside of this container.
+    /// Specifies the validation mode for validations inside of this container.
     /// </summary>
     [Parameter] public ValidationMode Mode { get; set; } = ValidationMode.Auto;
 
@@ -266,7 +266,7 @@ public partial class Validations : ComponentBase
     [Parameter] public string MissingFieldsErrorMessage { get; set; }
 
     /// <summary>
-    /// Defines the default handler type that will be used by the validation, unless it is overriden by <see cref="Validation.HandlerType"/> property.
+    /// Specifies the default handler type that will be used by the validation, unless it is overriden by <see cref="Validation.HandlerType"/> property.
     /// </summary>
     [Parameter] public Type HandlerType { get; set; }
 

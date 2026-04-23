@@ -468,27 +468,27 @@ public partial class OneTimeInput : BaseInputComponent<string, OneTimeInputClass
     protected override string DefaultValue => string.Empty;
 
     /// <summary>
-    /// Gets or sets the number of input slots to render.
+    /// Specifies the number of input slots to render.
     /// </summary>
     [Parameter] public int Digits { get; set; } = 6;
 
     /// <summary>
-    /// Gets or sets the slot grouping definition, such as <c>2,3</c>.
+    /// Specifies the slot grouping definition, such as <c>2,3</c>.
     /// </summary>
     [Parameter] public string Group { get; set; }
 
     /// <summary>
-    /// Gets or sets the role of each slot input.
+    /// Specifies the role of each slot input.
     /// </summary>
     [Parameter] public TextRole Role { get; set; } = TextRole.Text;
 
     /// <summary>
-    /// Gets or sets the input mode used by each slot input.
+    /// Specifies the input mode used by each slot input.
     /// </summary>
     [Parameter] public TextInputMode InputMode { get; set; } = TextInputMode.Numeric;
 
     /// <summary>
-    /// Gets or sets the regex pattern used by pattern-based validation.
+    /// Specifies the regex pattern used by pattern-based validation.
     /// </summary>
     [Parameter] public string Pattern { get; set; }
 

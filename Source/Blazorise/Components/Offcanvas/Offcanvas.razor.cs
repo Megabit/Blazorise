@@ -542,7 +542,7 @@ public partial class Offcanvas : BaseComponent<OffcanvasClasses, OffcanvasStyles
     [Inject] public IJSClosableModule JSClosableModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the visibility state of the Offcanvas.
+    /// Specifies the visibility state of the Offcanvas.
     /// </summary>
     [Parameter] public bool Visible { get; set; }
 

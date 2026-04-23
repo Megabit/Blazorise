@@ -30,7 +30,7 @@ public class MapPolygon : MapLayer
     #region Properties
 
     /// <summary>
-    /// Defines the polygon rings. The first ring is the outer boundary; additional rings can represent holes.
+    /// Specifies the polygon rings. The first ring is the outer boundary; additional rings can represent holes.
     /// </summary>
     [Parameter] public IReadOnlyList<IReadOnlyList<MapCoordinate>> Rings { get; set; }
 

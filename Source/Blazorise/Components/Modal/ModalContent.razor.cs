@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
@@ -161,7 +161,7 @@ public partial class ModalContent : BaseComponent<ModalContentClasses, ModalCont
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Modal"/> component.
+    /// Provides the reference to the parent <see cref="Modal"/> component.
     /// </summary>
     [CascadingParameter] protected Modal ParentModal { get; set; }
 

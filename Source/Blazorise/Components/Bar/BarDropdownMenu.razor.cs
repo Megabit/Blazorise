@@ -131,7 +131,7 @@ public partial class BarDropdownMenu : BaseComponent<BarDropdownMenuClasses, Bar
     }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="BarDropdown"/> component.
+    /// Provides the reference to the parent <see cref="BarDropdown"/> component.
     /// </summary>
     [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
 

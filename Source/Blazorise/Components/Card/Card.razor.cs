@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -58,7 +58,7 @@ public partial class Card : BaseComponent<CardClasses, CardStyles>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent deck component.
+    /// Provides the reference to the parent deck component.
     /// </summary>
     [CascadingParameter] protected CardDeck ParentCardDeck { get; set; }
 

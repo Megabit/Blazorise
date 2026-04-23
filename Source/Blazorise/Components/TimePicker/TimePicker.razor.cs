@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -376,12 +376,12 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     [Inject] public IJSTimePickerModule JSModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.
+    /// Specifies the DI registered <see cref="ITextLocalizerService"/>.
     /// </summary>
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     /// <summary>
-    /// Gets or sets the DI registered <see cref="ITextLocalizer{T}"/>.
+    /// Specifies the DI registered <see cref="ITextLocalizer{T}"/>.
     /// </summary>
     [Inject] protected ITextLocalizer<TimePicker<TValue>> Localizer { get; set; }
 
@@ -401,7 +401,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     [Parameter] public TimeSpan? Max { get; set; }
 
     /// <summary>
-    /// Defines the display format of the time input.
+    /// Specifies the display format of the time input.
     /// </summary>
     [Parameter] public string DisplayFormat { get; set; }
 
@@ -441,12 +441,12 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     [Parameter] public int MinuteIncrement { get; set; } = 1;
 
     /// <summary>
-    /// Defines the initial value of the hour element.
+    /// Specifies the initial value of the hour element.
     /// </summary>
     [Parameter] public int DefaultHour { get; set; } = 12;
 
     /// <summary>
-    /// Defines the initial value of the minute element.
+    /// Specifies the initial value of the minute element.
     /// </summary>
     [Parameter] public int DefaultMinute { get; set; } = 0;
 

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -33,7 +33,7 @@ public partial class ModalFooter : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the cascaded parent modal-content component.
+    /// Specifies the cascaded parent modal-content component.
     /// </summary>
     [CascadingParameter] protected ModalContent ParentModalContent { get; set; }
 

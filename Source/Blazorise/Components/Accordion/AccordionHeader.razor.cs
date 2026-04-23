@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -40,12 +40,12 @@ public partial class AccordionHeader : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="AccordionItem"/> component.
+    /// Provides the reference to the parent <see cref="AccordionItem"/> component.
     /// </summary>
     [CascadingParameter] public AccordionItem ParentAccordionItem { get; set; }
 
     /// <summary>
-    /// Occurs when the accordion header is clicked.
+    /// Notifies when the accordion header is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 

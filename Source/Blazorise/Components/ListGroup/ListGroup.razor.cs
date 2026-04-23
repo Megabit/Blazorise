@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -193,7 +193,7 @@ public partial class ListGroup : BaseComponent
     }
 
     /// <summary>
-    /// Defines the list-group behavior mode.
+    /// Specifies the list-group behavior mode.
     /// </summary>
     [Parameter]
     public ListGroupMode Mode
@@ -208,7 +208,7 @@ public partial class ListGroup : BaseComponent
     }
 
     /// <summary>
-    /// Defines the list-group selection mode.
+    /// Specifies the list-group selection mode.
     /// </summary>
     [Parameter]
     public ListGroupSelectionMode SelectionMode
@@ -223,7 +223,7 @@ public partial class ListGroup : BaseComponent
     }
 
     /// <summary>
-    /// Gets or sets currently selected item name.
+    /// Specifies the currently selected item name.
     /// </summary>
     [Parameter]
     public string SelectedItem
@@ -245,7 +245,7 @@ public partial class ListGroup : BaseComponent
     }
 
     /// <summary>
-    /// Gets or sets currently selected items names.
+    /// Specifies the currently selected items names.
     /// </summary>
     [Parameter]
     public List<string> SelectedItems
@@ -273,7 +273,7 @@ public partial class ListGroup : BaseComponent
     [Parameter] public EventCallback<List<string>> SelectedItemsChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the component child content.
+    /// Defines the component child content.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

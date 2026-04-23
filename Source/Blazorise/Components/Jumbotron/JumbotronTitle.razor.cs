@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -44,7 +44,7 @@ public partial class JumbotronTitle : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the jumbotron text size.
+    /// Specifies the jumbotron text size.
     /// </summary>
     [Parameter]
     public JumbotronTitleSize Size
@@ -59,7 +59,7 @@ public partial class JumbotronTitle : BaseComponent
     }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="JumbotronTitle"/> component.
+    /// Defines the content rendered inside the jumbotron title.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

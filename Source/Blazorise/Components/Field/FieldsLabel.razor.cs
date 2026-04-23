@@ -71,7 +71,7 @@ public partial class FieldsLabel : BaseColumnComponent, IDisposable
     protected override bool ShouldAutoGenerateId => UseAriaLabelledByAttribute;
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Fields"/> component.
+    /// Provides the reference to the parent <see cref="Fields"/> component.
     /// </summary>
     [CascadingParameter] protected Fields ParentFields { get; set; }
 
@@ -91,7 +91,7 @@ public partial class FieldsLabel : BaseColumnComponent, IDisposable
     }
 
     /// <summary>
-    /// Defines the visibility for screen readers.
+    /// Specifies the visibility for screen readers.
     /// </summary>
     [Parameter]
     public Screenreader Screenreader

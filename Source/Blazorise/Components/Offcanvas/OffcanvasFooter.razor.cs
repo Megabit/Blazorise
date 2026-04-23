@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
@@ -48,7 +48,7 @@ public partial class OffcanvasFooter : BaseComponent, IDisposable
     #region Properties
 
     /// <summary>
-    /// Gets or sets the cascaded parent Offcanvas component.
+    /// Specifies the cascaded parent Offcanvas component.
     /// </summary>
     [CascadingParameter] protected Offcanvas ParentOffcanvas { get; set; }
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Localization;
@@ -99,12 +99,12 @@ public partial class _SchedulerWeeklyRulePicker<TItem> : BaseComponent, IDisposa
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     /// <summary>
-    /// Gets or sets the parent <see cref="Scheduler{TItem}"/> instance.
+    /// Specifies the parent <see cref="Scheduler{TItem}"/> instance.
     /// </summary>
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
     /// <summary>
-    /// Gets or sets the list of selected days of the week for the recurrence rule.
+    /// Specifies the list of selected days of the week for the recurrence rule.
     /// </summary>
     [Parameter] public List<DayOfWeek> ByDay { get; set; } = new() { DateTime.Today.AddDays( 1 ).DayOfWeek };
 
@@ -114,7 +114,7 @@ public partial class _SchedulerWeeklyRulePicker<TItem> : BaseComponent, IDisposa
     [Parameter] public EventCallback<List<DayOfWeek>> ByDayChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the first day of the week, used for rendering order.
+    /// Specifies the first day of the week used for date calculations.
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
 }

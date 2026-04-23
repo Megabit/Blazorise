@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -68,7 +68,7 @@ public partial class Switch<TValue> : BaseCheckComponent<TValue, SwitchClasses, 
     protected bool IsChecked => string.Compare( Value?.ToString(), TrueValueName, StringComparison.InvariantCultureIgnoreCase ) == 0;
 
     /// <summary>
-    /// Defines the switch named color.
+    /// Specifies the switch named color.
     /// </summary>
     [Parameter]
     public Color Color
@@ -82,7 +82,7 @@ public partial class Switch<TValue> : BaseCheckComponent<TValue, SwitchClasses, 
     }
 
     /// <summary>
-    /// Defines the switch named intent.
+    /// Specifies the switch named intent.
     /// </summary>
     [Parameter]
     public Intent Intent

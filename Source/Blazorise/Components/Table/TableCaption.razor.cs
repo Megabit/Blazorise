@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -32,7 +32,7 @@ public partial class TableCaption : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the position of the table caption relative to the table.
+    /// Specifies the position of the table caption relative to the table.
     /// </summary>
     [Parameter]
     public TableCaptionSide Side
@@ -50,7 +50,7 @@ public partial class TableCaption : BaseComponent
     }
 
     /// <summary>
-    /// Gets or sets the content to be rendered inside the component.
+    /// Defines the content to be rendered inside the component.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

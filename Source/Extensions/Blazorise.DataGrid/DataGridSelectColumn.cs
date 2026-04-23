@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,7 +30,7 @@ public class DataGridSelectColumn<TItem> : DataGridColumn<TItem>
     public override DataGridColumnType ColumnType => DataGridColumnType.Select;
 
     /// <summary>
-    /// Gets or sets the select data-source.
+    /// Specifies the select data source.
     /// </summary>
     [Parameter] public IEnumerable<object> Data { get; set; }
 

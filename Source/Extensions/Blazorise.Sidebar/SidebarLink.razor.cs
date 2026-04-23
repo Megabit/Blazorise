@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,7 +85,7 @@ public partial class SidebarLink : BaseComponent
     }
 
     /// <summary>
-    /// Defines the visibility of the link.
+    /// Specifies the visibility of the link.
     /// </summary>
     [Parameter]
     public bool Visible

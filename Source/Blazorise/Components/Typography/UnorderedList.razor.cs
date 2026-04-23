@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -63,7 +63,7 @@ public partial class UnorderedList : BaseTypographyComponent
     }
 
     /// <summary>
-    /// Defines the marker images for list items. The paremeter accepts Base64 encoded string that represents an image, or a URL.
+    /// Specifies the marker images for list items. The paremeter accepts Base64 encoded string that represents an image, or a URL.
     /// </summary>
     [Parameter]
     public string ListStyleImage

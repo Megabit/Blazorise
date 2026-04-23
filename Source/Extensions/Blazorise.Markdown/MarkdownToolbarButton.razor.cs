@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using Blazorise.Markdown.Providers;
 using Blazorise.Utilities;
@@ -65,7 +65,7 @@ public partial class MarkdownToolbarButton : BaseComponent, IDisposable
     #region Properties
 
     /// <summary>
-    /// Gets or sets the predefined toolbar action. If undefined <see cref="Name"/> will be used.
+    /// Specifies the predefined toolbar action. If undefined <see cref="Name"/> will be used.
     /// </summary>
     [Parameter]
     public MarkdownAction? Action
@@ -80,27 +80,27 @@ public partial class MarkdownToolbarButton : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Gets or sets the custom name corresponding to the action.
+    /// Specifies the custom name corresponding to the action.
     /// </summary>
     [Parameter] public string Name { get; set; }
 
     /// <summary>
-    /// Gets or sets the custom value corresponding to the action.
+    /// Specifies the custom value corresponding to the action.
     /// </summary>
     [Parameter] public object Value { get; set; }
 
     /// <summary>
-    /// Gets or sets the custom icon name corresponding to the action.
+    /// Specifies the custom icon name corresponding to the action.
     /// </summary>
     [Parameter] public string Icon { get; set; }
 
     /// <summary>
-    /// Gets or sets the text that appears along with the button.
+    /// Specifies the text that appears along with the button.
     /// </summary>
     [Parameter] public string Text { get; set; }
 
     /// <summary>
-    /// Gets or sets the small tooltip that appears via the <c>title=""</c> attribute.
+    /// Specifies the small tooltip that appears via the <c>title=""</c> attribute.
     /// </summary>
     [Parameter] public string Title { get; set; }
 
@@ -110,7 +110,7 @@ public partial class MarkdownToolbarButton : BaseComponent, IDisposable
     [Parameter] public bool Separator { get; set; }
 
     /// <summary>
-    /// Gets or sets the parent markdown instance.
+    /// Specifies the parent markdown instance.
     /// </summary>
     [CascadingParameter] protected Markdown ParentMarkdown { get; set; }
 

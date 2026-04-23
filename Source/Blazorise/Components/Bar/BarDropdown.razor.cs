@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Modules;
@@ -426,7 +426,7 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
     public string SelectedBarDropdownElementId { get; set; }
 
     /// <summary>
-    /// Gets or sets the JavaScript dropdown module used to position floating bar menus.
+    /// Specifies the JavaScript dropdown module used to position floating bar menus.
     /// </summary>
     [Inject] public IJSDropdownModule JSModule { get; set; }
 
@@ -436,7 +436,7 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
     [Parameter] public bool Visible { get; set; }
 
     /// <summary>
-    /// Occurs when the component visibility changes.
+    /// Notifies when the component visibility changes.
     /// </summary>
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
@@ -506,7 +506,7 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Gets or sets the cascaded parent BarDropdown component.
+    /// Specifies the cascaded parent BarDropdown component.
     /// </summary>
     [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
 

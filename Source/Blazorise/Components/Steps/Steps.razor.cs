@@ -212,12 +212,12 @@ public partial class Steps : BaseComponent<StepsClasses, StepsStyles>
     protected string ContentClassNames => ContentClassBuilder.Class;
 
     /// <summary>
-    /// Gets or sets currently selected step name.
+    /// Specifies the currently selected step name.
     /// </summary>
     [Parameter] public string SelectedStep { get; set; }
 
     /// <summary>
-    /// Defines how the steps content will be rendered.
+    /// Specifies how the steps content will be rendered.
     /// </summary>
     [Parameter]
     public StepsRenderMode RenderMode

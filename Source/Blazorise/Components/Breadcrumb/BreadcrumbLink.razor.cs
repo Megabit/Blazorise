@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -82,7 +82,7 @@ public partial class BreadcrumbLink : BaseComponent
     }
 
     /// <summary>
-    /// Occurs when the item is clicked.
+    /// Notifies when the item is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
@@ -102,7 +102,7 @@ public partial class BreadcrumbLink : BaseComponent
     [Parameter] public Match Match { get; set; } = Match.All;
 
     /// <summary>
-    /// Defines the title of a link, which appears to the user as a tooltip.
+    /// Specifies the title of a link, which appears to the user as a tooltip.
     /// </summary>
     [Parameter] public string Title { get; set; }
 
@@ -112,7 +112,7 @@ public partial class BreadcrumbLink : BaseComponent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="BreadcrumbItem"/> component.
+    /// Provides the reference to the parent <see cref="BreadcrumbItem"/> component.
     /// </summary>
     [CascadingParameter] protected BreadcrumbItem ParentBreadcrumbItem { get; set; }
 

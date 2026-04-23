@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -309,17 +309,17 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     protected IJSObjectReference JSAnimationReference { get; private set; }
 
     /// <summary>
-    /// Gets or sets the JS runtime.
+    /// Specifies the JS runtime.
     /// </summary>
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     /// <summary>
-    /// Gets or sets the version provider.
+    /// Specifies the version provider.
     /// </summary>
     [Inject] private IVersionProvider VersionProvider { get; set; }
 
     /// <summary>
-    /// Gets or sets the blazorise options.
+    /// Specifies the blazorise options.
     /// </summary>
     [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
@@ -378,7 +378,7 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     [Parameter] public EventCallback LoopCompleted { get; set; }
 
     /// <summary>
-    /// Called when the animation finishes loading and the elements have been added to the DOM
+    /// Notifies when the PDF document finishes loading.
     /// </summary>
     [Parameter] public EventCallback<LottieAnimationLoadedEventArgs> Loaded { get; set; }
 

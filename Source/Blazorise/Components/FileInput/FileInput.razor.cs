@@ -357,7 +357,7 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
     }
 
     /// <summary>
-    /// Gets or Sets whether file picker should upload directories.
+    /// Determines whether file picker should upload directories.
     /// </summary>
     [Parameter]
     public bool Directory
@@ -385,7 +385,7 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
     [Parameter] public string Filter { get; set; }
 
     /// <summary>
-    /// Gets or sets the max chunk size when uploading the file.
+    /// Specifies the max chunk size when uploading the file.
     /// Take note that if you're using <see cref="OpenReadStream(IFileEntry, CancellationToken)"/> you're provided with a stream and should configure the chunk size when handling with the stream.
     /// </summary>
     /// <remarks>
@@ -400,7 +400,7 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
     [Parameter] public long MaxFileSize { get; set; } = long.MaxValue;
 
     /// <summary>
-    /// Gets or sets the Segment Fetch Timeout when uploading the file.
+    /// Specifies the Segment Fetch Timeout when uploading the file.
     /// </summary>
     [Parameter] public TimeSpan SegmentFetchTimeout { get; set; } = TimeSpan.FromMinutes( 1 );
 
@@ -410,12 +410,12 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
     [Parameter] public EventCallback<FileChangedEventArgs> Changed { get; set; }
 
     /// <summary>
-    /// Occurs when an individual file upload has started.
+    /// Notifies when an individual file upload has started.
     /// </summary>
     [Parameter] public EventCallback<FileStartedEventArgs> Started { get; set; }
 
     /// <summary>
-    /// Occurs when an individual file upload has ended.
+    /// Notifies when an individual file upload has ended.
     /// </summary>
     [Parameter] public EventCallback<FileEndedEventArgs> Ended { get; set; }
 
@@ -440,7 +440,7 @@ public partial class FileInput : BaseInputComponent<IFileEntry[], FileInputClass
     [Parameter] public TextLocalizerHandler BrowseButtonLocalizer { get; set; }
 
     /// <summary>
-    /// Gets or sets whether report progress should be disabled. By enabling this setting, Progressed and Written callbacks won't be called. Internal file progress won't be tracked.
+    /// Determines whether report progress should be disabled. By enabling this setting, Progressed and Written callbacks won't be called. Internal file progress won't be tracked.
     /// <para>This setting can speed up file transfer considerably.</para>
     /// </summary>
     [Parameter] public bool DisableProgressReport { get; set; } = false;

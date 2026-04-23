@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -60,7 +60,7 @@ public partial class PaginationLink : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the page name.
+    /// Specifies the page name.
     /// </summary>
     [Parameter] public string Page { get; set; }
 
@@ -75,7 +75,7 @@ public partial class PaginationLink : BaseComponent
     protected string AriaDisabled => ParentPaginationItemState.Disabled ? "true" : null;
 
     /// <summary>
-    /// Occurs when the item link is clicked.
+    /// Notifies when the item link is clicked.
     /// </summary>
     [Parameter] public EventCallback<string> Clicked { get; set; }
 

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -202,7 +202,7 @@ public partial class Select<TValue> : BaseInputComponent<TValue, SelectClasses, 
     [Parameter] public int? MaxVisibleItems { get; set; }
 
     /// <summary>
-    /// Gets or sets loading property.
+    /// Specifies loading property.
     /// </summary>
     [Parameter]
     public bool Loading

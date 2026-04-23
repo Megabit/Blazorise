@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
@@ -123,17 +123,17 @@ public partial class RatingItem : BaseComponent
     protected bool IsSelected => Rating.SelectedValue == Value;
 
     /// <summary>
-    /// Gets or sets the item value.
+    /// Specifies the item value.
     /// </summary>
     [Parameter] public int Value { get; set; }
 
     /// <summary>
-    /// Gets or sets the item color.
+    /// Specifies the item color.
     /// </summary>
     [Parameter] public Color Color { get; set; } = Color.Warning;
 
     /// <summary>
-    /// Gets or sets the item intent.
+    /// Specifies the item intent.
     /// </summary>
     [Parameter]
     public Intent Intent
@@ -143,12 +143,12 @@ public partial class RatingItem : BaseComponent
     }
 
     /// <summary>
-    /// Occurs when the item is clicked.
+    /// Notifies when the item is clicked.
     /// </summary>
     [Parameter] public EventCallback<int> ItemClicked { get; set; }
 
     /// <summary>
-    /// Occurs when the item is hovered.
+    /// Notifies when the item is hovered.
     /// </summary>
     [Parameter] public EventCallback<int?> ItemHovered { get; set; }
 

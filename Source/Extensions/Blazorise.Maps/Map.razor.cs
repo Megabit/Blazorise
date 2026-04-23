@@ -308,7 +308,7 @@ public partial class Map : BaseComponent, IAsyncDisposable
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Defines the map center, zoom level, and optional bounds. Updating the value after render moves the displayed map view.
+    /// Specifies the map center, zoom level, and optional bounds. Updating the value after render moves the displayed map view.
     /// </summary>
     [Parameter] public MapView View { get; set; } = new();
 

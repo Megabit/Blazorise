@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -215,17 +215,17 @@ public partial class ListView<TItem> : ComponentBase
     #region Properties
 
     /// <summary>
-    /// Gets or sets the license checker for the user session.
+    /// Specifies the license checker for the user session.
     /// </summary>
     [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
 
     /// <summary>
-    /// Defines the list-group behavior mode.
+    /// Specifies the list-group behavior mode.
     /// </summary>
     [Parameter] public ListGroupMode Mode { get; set; }
 
     /// <summary>
-    /// Defines the list-group selection mode.
+    /// Specifies the list-group selection mode.
     /// </summary>
     [Parameter] public ListGroupSelectionMode SelectionMode { get; set; }
 
@@ -240,7 +240,7 @@ public partial class ListView<TItem> : ComponentBase
     [Parameter] public bool Scrollable { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets the items data-source.
+    /// Specifies the items data source.
     /// </summary>
     [EditorRequired]
     [Parameter] public IEnumerable<TItem> Data { get; set; }
@@ -323,13 +323,13 @@ public partial class ListView<TItem> : ComponentBase
     [Parameter] public string Style { get; set; }
 
     /// <summary>
-    /// Sets the ListView Height. 
+    /// Sets the ListView Height.
     /// Defaults to empty.
     /// </summary>
     [Parameter] public string Height { get; set; }
 
     /// <summary>
-    /// Sets the ListView MaxHeight. 
+    /// Sets the ListView MaxHeight.
     /// Defaults to 250px.
     /// </summary>
     [Parameter] public string MaxHeight { get; set; } = "250px";
@@ -340,7 +340,7 @@ public partial class ListView<TItem> : ComponentBase
     [Parameter] public RenderFragment<ItemContext<TItem>> ItemTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the listview will use the Virtualize functionality.
+    /// Determines whether the listview will use the Virtualize functionality.
     /// </summary>
     [Parameter] public bool Virtualize { get; set; }
 
