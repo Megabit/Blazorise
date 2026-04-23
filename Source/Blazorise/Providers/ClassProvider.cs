@@ -910,6 +910,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Offcanvas();
 
+    public abstract string OffcanvasSize( OffcanvasSize offcanvasSize );
+
     public abstract string OffcanvasPlacement( Placement placement, bool visible );
 
     public abstract string OffcanvasFade( bool showing, bool hiding );
@@ -1735,6 +1737,18 @@ public abstract class ClassProvider : IClassProvider
             Blazorise.ModalSize.Small => "sm",
             Blazorise.ModalSize.Large => "lg",
             Blazorise.ModalSize.ExtraLarge => "xl",
+            _ => null,
+        };
+    }
+
+    public virtual string ToOffcanvasSize( OffcanvasSize offcanvasSize )
+    {
+        return offcanvasSize switch
+        {
+            Blazorise.OffcanvasSize.Small => "sm",
+            Blazorise.OffcanvasSize.Large => "lg",
+            Blazorise.OffcanvasSize.ExtraLarge => "xl",
+            Blazorise.OffcanvasSize.Fullscreen => "fullscreen",
             _ => null,
         };
     }

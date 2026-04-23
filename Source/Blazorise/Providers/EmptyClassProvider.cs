@@ -913,6 +913,8 @@ class EmptyClassProvider : IClassProvider
 
     public string Offcanvas() => null;
 
+    public string OffcanvasSize( OffcanvasSize offcanvasSize ) => null;
+
     public string OffcanvasPlacement( Placement placement, bool visible ) => null;
 
     public string OffcanvasFade( bool showing, bool hiding ) => null;

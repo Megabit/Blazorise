@@ -209,6 +209,11 @@ public class OffcanvasInstance
     /// </summary>
     public Placement Placement => OffcanvasInstanceOptions?.Placement ?? OffcanvasProvider.Placement;
 
+    /// <summary>
+    /// Changes the size of the offcanvas.
+    /// </summary>
+    public OffcanvasSize Size => OffcanvasInstanceOptions?.Size ?? OffcanvasProvider.Size;
+
     #endregion
 
     #endregion

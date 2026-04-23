@@ -1512,14 +1512,23 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Offcanvas() => "fixed flex flex-col z-40 bg-white dark:bg-gray-800 transition-transform";
 
+    public override string OffcanvasSize( OffcanvasSize offcanvasSize ) => offcanvasSize switch
+    {
+        Blazorise.OffcanvasSize.Small => "[&.tw-offcanvas-start]:w-64 [&.tw-offcanvas-end]:w-64 [&.tw-offcanvas-top]:h-48 [&.tw-offcanvas-bottom]:h-48",
+        Blazorise.OffcanvasSize.Large => "[&.tw-offcanvas-start]:w-96 [&.tw-offcanvas-end]:w-96 [&.tw-offcanvas-top]:h-80 [&.tw-offcanvas-bottom]:h-80",
+        Blazorise.OffcanvasSize.ExtraLarge => "[&.tw-offcanvas-start]:w-[min(32rem,100vw)] [&.tw-offcanvas-end]:w-[min(32rem,100vw)] [&.tw-offcanvas-top]:h-[min(24rem,100dvh)] [&.tw-offcanvas-bottom]:h-[min(24rem,100dvh)]",
+        Blazorise.OffcanvasSize.Fullscreen => "[&.tw-offcanvas-start]:w-screen [&.tw-offcanvas-end]:w-screen [&.tw-offcanvas-top]:h-screen [&.tw-offcanvas-bottom]:h-screen",
+        _ => null,
+    };
+
     public override string OffcanvasPlacement( Placement placement, bool visible )
     {
         var sb = new StringBuilder( placement switch
         {
-            Placement.End => "top-0 right-0 h-screen overflow-y-auto border-l w-80 border-gray-200",
-            Placement.Top => "top-0 left-0 right-0 w-full h-60",
-            Placement.Bottom => "bottom-0 left-0 right-0 w-full h-60",
-            _ => "top-0 left-0 h-screen overflow-y-auto border-r w-80 border-gray-200",
+            Placement.End => "top-0 right-0 h-screen overflow-y-auto border-l w-80 border-gray-200 tw-offcanvas-end",
+            Placement.Top => "top-0 left-0 right-0 w-full h-60 tw-offcanvas-top",
+            Placement.Bottom => "bottom-0 left-0 right-0 w-full h-60 tw-offcanvas-bottom",
+            _ => "top-0 left-0 h-screen overflow-y-auto border-r w-80 border-gray-200 tw-offcanvas-start",
         } );
 
         if ( !visible )

@@ -6774,6 +6774,22 @@ input::file-selector-button {
   box-sizing: border-box;
 }
 
+.fui-OverlayDrawer.fui-OverlayDrawer-sm {
+  --fui-Drawer--size: 280px;
+}
+.fui-OverlayDrawer.fui-OverlayDrawer-lg {
+  --fui-Drawer--size: 480px;
+}
+.fui-OverlayDrawer.fui-OverlayDrawer-xl {
+  --fui-Drawer--size: 640px;
+}
+.fui-OverlayDrawer.fui-OverlayDrawer-fullscreen.fui-OverlayDrawer-start, .fui-OverlayDrawer.fui-OverlayDrawer-fullscreen.fui-OverlayDrawer-end {
+  --fui-Drawer--size: 100vw;
+}
+.fui-OverlayDrawer.fui-OverlayDrawer-fullscreen.fui-OverlayDrawer-top, .fui-OverlayDrawer.fui-OverlayDrawer-fullscreen.fui-OverlayDrawer-bottom {
+  --fui-Drawer--size: 100vh;
+}
+
 .fui-Pagination {
   display: flex;
   padding-left: 0;

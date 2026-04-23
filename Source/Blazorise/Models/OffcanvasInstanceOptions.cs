@@ -41,6 +41,11 @@ public class OffcanvasInstanceOptions
     /// </summary>
     public Placement? Placement { get; set; }
 
+    /// <summary>
+    /// Changes the size of the offcanvas.
+    /// </summary>
+    public OffcanvasSize? Size { get; set; }
+
     #region Offcanvas
 
     /// <summary>

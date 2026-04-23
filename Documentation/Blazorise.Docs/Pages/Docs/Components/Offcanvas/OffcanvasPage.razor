@@ -1,4 +1,4 @@
-﻿@page "/docs/components/offcanvas"
+@page "/docs/components/offcanvas"
 
 <Seo Canonical="/docs/components/offcanvas" Title="Blazorise Offcanvas component" Description="Learn to use and work with the Blazorise Offcanvas component, which provides a flexible way to display content off-canvas." />
 
@@ -99,6 +99,21 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Sizes">
+        <Paragraph>
+            Use <Code>Size</Code> to apply predefined offcanvas dimensions on the active axis for the current placement.
+        </Paragraph>
+        <Paragraph>
+            Treat <Code>Placement</Code> and <Code>Size</Code> as instance configuration. When switching between horizontal and vertical placements, use separate offcanvas instances.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OffcanvasSizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OffcanvasSizeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Closing">
         If you want to prevent modal from closing you can use <Code>Closing</Code> event.
     </DocsPageSectionHeader>
@@ -119,4 +134,4 @@
 </DocsPageSection>
 
 
-<ComponentApiDocs ComponentTypes="[typeof(Offcanvas),typeof(OffcanvasHeader),typeof(OffcanvasBody),typeof(OffcanvasFooter)]" />
+<ComponentApiDocs ComponentTypes="[typeof( Offcanvas ), typeof( OffcanvasHeader ), typeof( OffcanvasBody ), typeof( OffcanvasFooter )]" />

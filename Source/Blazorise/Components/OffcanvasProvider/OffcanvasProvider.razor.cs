@@ -203,5 +203,10 @@ public partial class OffcanvasProvider : BaseComponent
     /// </summary>
     [Parameter] public Placement Placement { get; set; } = Placement.End;
 
+    /// <summary>
+    /// Changes the size of the offcanvas.
+    /// </summary>
+    [Parameter] public OffcanvasSize Size { get; set; }
+
     #endregion
 }

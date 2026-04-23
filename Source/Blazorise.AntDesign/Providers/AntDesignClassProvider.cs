@@ -1028,6 +1028,10 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Offcanvas() => "ant-drawer";
 
+    public override string OffcanvasSize( OffcanvasSize offcanvasSize ) => offcanvasSize == Blazorise.OffcanvasSize.Default
+        ? null
+        : $"ant-drawer-{ToOffcanvasSize( offcanvasSize )}";
+
     public override string OffcanvasPlacement( Placement placement, bool visible )
     {
         return placement switch
