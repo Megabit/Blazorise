@@ -51,17 +51,17 @@ public partial class _GanttProgressEditor : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets progress value in percentage range 0..100.
+    /// Specifies progress value in percentage range 0..100.
     /// </summary>
     [Parameter] public int Value { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when <see cref="Value"/> changes.
+    /// Notifies when <see cref="Value"/> changes.
     /// </summary>
     [Parameter] public EventCallback<int> ValueChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets whether progress editor is disabled.
+    /// Determines whether progress editor is disabled.
     /// </summary>
     [Parameter] public bool Disabled { get; set; }
 

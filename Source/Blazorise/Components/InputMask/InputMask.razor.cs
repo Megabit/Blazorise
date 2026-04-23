@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -153,7 +153,7 @@ public partial class InputMask : BaseBufferedTextInput<string>, IAsyncDisposable
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSInputMaskModule"/> instance.
+    /// Specifies the <see cref="IJSInputMaskModule"/> instance.
     /// </summary>
     [Inject] public IJSInputMaskModule JSModule { get; set; }
 
@@ -180,12 +180,12 @@ public partial class InputMask : BaseBufferedTextInput<string>, IAsyncDisposable
     [Parameter] public string Alias { get; set; }
 
     /// <summary>
-    /// Defines the input format when the <see cref="Alias"/> is used.
+    /// Specifies the input format when the <see cref="Alias"/> is used.
     /// </summary>
     [Parameter] public string InputFormat { get; set; }
 
     /// <summary>
-    /// Defines the output format of the <see cref="BaseInputComponent{TValue, TClasses, TStyles}.Value"/> when the <see cref="Alias"/> is used.
+    /// Specifies the output format of the <see cref="BaseInputComponent{TValue, TClasses, TStyles}.Value"/> when the <see cref="Alias"/> is used.
     /// </summary>
     [Parameter] public string OutputFormat { get; set; }
 
@@ -234,7 +234,7 @@ public partial class InputMask : BaseBufferedTextInput<string>, IAsyncDisposable
     [Parameter] public bool AutoUnmask { get; set; }
 
     /// <summary>
-    /// Defines the positioning of the caret on click.
+    /// Specifies the positioning of the caret on click.
     /// </summary>
     [Parameter] public InputMaskCaretPosition PositionCaretOnClick { get; set; } = InputMaskCaretPosition.LastValidPosition;
 

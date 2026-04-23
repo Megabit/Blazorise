@@ -206,7 +206,7 @@ public partial class Progress : BaseComponent<ProgressClasses, ProgressStyles>, 
     protected StyleBuilder ProgressBarStyleBuilder { get; private set; }
 
     /// <summary>
-    /// Defines the progress bar color.
+    /// Specifies the progress bar color.
     /// </summary>
     [Parameter]
     public Color Color
@@ -221,7 +221,7 @@ public partial class Progress : BaseComponent<ProgressClasses, ProgressStyles>, 
     }
 
     /// <summary>
-    /// Defines the progress bar intent.
+    /// Specifies the progress bar intent.
     /// </summary>
     [Parameter]
     public Intent Intent

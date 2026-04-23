@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -185,25 +185,25 @@ public partial class ModalProvider : BaseComponent
     [Parameter] public bool ShowBackdrop { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether the component has any animations.
+    /// Determines whether the component has any animations.
     /// Global Option.
     /// </summary>
     [Parameter] public bool Animated { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets the animation duration.
+    /// Specifies the animation duration.
     /// Global Option.
     /// </summary>
     [Parameter] public int AnimationDuration { get; set; } = 150;
 
     /// <summary>
-    /// Defines how the modal content will be rendered.
+    /// Specifies how the modal content will be rendered.
     /// Global Option.
     /// </summary>
     [Parameter] public ModalRenderMode RenderMode { get; set; }
 
     /// <summary>
-    /// Defines if the modal should keep the input focus at all times.
+    /// Specifies if the modal should keep the input focus at all times.
     /// Global Option.
     /// </summary>
     [Parameter] public bool? FocusTrap { get; set; }

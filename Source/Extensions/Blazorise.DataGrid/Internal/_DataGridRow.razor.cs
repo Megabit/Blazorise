@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -444,7 +444,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         => selectedStyling?.TextColor ?? batchEditStyling?.TextColor ?? styling.TextColor ?? Blazorise.TextColor.Default;
 
     /// <summary>
-    /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
+    /// Specifies the parent <see cref="DataGrid{TItem}"/> of the this component.
     /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
@@ -456,12 +456,12 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets currently selected row.
+    /// Specifies the currently selected tree row item.
     /// </summary>
     [Parameter] public TItem SelectedRow { get; set; }
 
     /// <summary>
-    /// Gets or sets currently selected rows.
+    /// Specifies the currently selected rows.
     /// </summary>
     [Parameter] public List<TItem> SelectedRows { get; set; }
 

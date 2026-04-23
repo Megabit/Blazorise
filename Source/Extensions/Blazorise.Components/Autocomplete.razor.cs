@@ -1702,17 +1702,17 @@ public partial class Autocomplete<TItem, TValue>
     protected bool IsMultiple => SelectionMode == AutocompleteSelectionMode.Multiple || SelectionMode == AutocompleteSelectionMode.Checkbox;
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSClosableModule"/> instance.
+    /// Specifies the <see cref="IJSClosableModule"/> instance.
     /// </summary>
     [Inject] public IJSClosableModule JSClosableModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the license checker for the user session.
+    /// Specifies the license checker for the user session.
     /// </summary>
     [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
 
     /// <summary>
-    /// Defines the method by which the search will be done.
+    /// Specifies the method by which the search will be done.
     /// </summary>
     [Parameter] public AutocompleteFilter Filter { get; set; } = AutocompleteFilter.StartsWith;
 
@@ -1737,7 +1737,7 @@ public partial class Autocomplete<TItem, TValue>
     [Parameter] public string Placeholder { get; set; }
 
     /// <summary>
-    /// Gets or sets the autocomplete data-source.
+    /// Specifies the autocomplete data source.
     /// </summary>
     [EditorRequired]
     [Parameter]
@@ -1824,7 +1824,7 @@ public partial class Autocomplete<TItem, TValue>
     }
 
     /// <summary>
-    /// Gets or sets an expression that identifies the selected value.
+    /// Specifies an expression that identifies the selected value.
     /// </summary>
     [Parameter]
     public Expression<Func<TValue>> SelectedValueExpression
@@ -1834,23 +1834,23 @@ public partial class Autocomplete<TItem, TValue>
     }
 
     /// <summary>
-    /// Gets or sets the currently selected item text.
+    /// Specifies the currently selected item text.
     /// </summary>
     [Parameter]
     public string SelectedText { get; set; }
 
     /// <summary>
-    /// Gets or sets an expression that identifies the selected text.
+    /// Specifies an expression that identifies the selected text.
     /// </summary>
     [Parameter] public Expression<Func<string>> SelectedTextExpression { get; set; }
 
     /// <summary>
-    /// Gets or sets the currently selected item text.
+    /// Specifies the currently selected item text.
     /// </summary>
     [Parameter] public EventCallback<string> SelectedTextChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the currently selected item text.
+    /// Specifies the currently selected item text.
     /// </summary>
     [Parameter]
     public string Search
@@ -1870,22 +1870,22 @@ public partial class Autocomplete<TItem, TValue>
     [Parameter] public bool HighlightSearch { get; set; }
 
     /// <summary>
-    /// Defines the background color of the search field.
+    /// Specifies the background color of the search field.
     /// </summary>
     [Parameter] public Background SearchBackground { get; set; }
 
     /// <summary>
-    /// Defines the text color of the search field.
+    /// Specifies the text color of the search field.
     /// </summary>
     [Parameter] public TextColor SearchTextColor { get; set; }
 
     /// <summary>
-    /// Defines class for search field.
+    /// Specifies class for search field.
     /// </summary>
     [Parameter] public string SearchClass { get; set; }
 
     /// <summary>
-    /// Defines style for search field.
+    /// Specifies style for search field.
     /// </summary>
     [Parameter] public string SearchStyle { get; set; }
 
@@ -1962,7 +1962,7 @@ public partial class Autocomplete<TItem, TValue>
     [Parameter] public EventCallback<List<TValue>> SelectedValuesChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets an expression that identifies the selected values.
+    /// Specifies an expression that identifies the selected values.
     /// Used when multiple selection is set.
     /// </summary>
     [Parameter] public Expression<Func<List<TValue>>> SelectedValuesExpression { get; set; }
@@ -1979,7 +1979,7 @@ public partial class Autocomplete<TItem, TValue>
     }
 
     /// <summary>
-    /// Gets or sets an expression that identifies the selected texts.
+    /// Specifies an expression that identifies the selected texts.
     /// Used when multiple selection is set.
     /// </summary>
     [Parameter] public Expression<Func<List<string>>> SelectedTextsExpression { get; set; }
@@ -2055,7 +2055,7 @@ public partial class Autocomplete<TItem, TValue>
     [Parameter] public bool SuggestSelectedItems { get; set; }
 
     /// <summary>
-    /// Gets or sets an array of the keyboard pressed values for the ConfirmKey.
+    /// Specifies an array of the keyboard pressed values for the ConfirmKey.
     /// If this is null or empty, there will be no confirmation key.
     /// <para>Defauls to: { "Enter", "NumpadEnter", "Tab" }.</para>
     /// </summary>
@@ -2066,28 +2066,28 @@ public partial class Autocomplete<TItem, TValue>
     [Parameter] public string[] ConfirmKey { get; set; } = new[] { "Enter", "NumpadEnter" };
 
     /// <summary>
-    /// Gets or sets whether <see cref="Autocomplete{TItem, TValue}"/> auto preselects the first item displayed on the dropdown.
+    /// Determines whether <see cref="Autocomplete{TItem, TValue}"/> auto preselects the first item displayed on the dropdown.
     /// Defauls to true.
     /// </summary>
     [Parameter] public bool AutoPreSelect { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets the <see cref="Autocomplete{TItem, TValue}"/> Selection Mode.
+    /// Specifies the <see cref="Autocomplete{TItem, TValue}"/> Selection Mode.
     /// </summary>
     [Parameter] public AutocompleteSelectionMode SelectionMode { get; set; } = AutocompleteSelectionMode.Default;
 
     /// <summary>
-    /// Gets or sets the whether first item in the list should be selected
+    /// Specifies the whether first item in the list should be selected
     /// </summary>
     [Parameter] public bool AutoSelectFirstItem { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the Autocomplete will use the Virtualize functionality.
+    /// Determines whether the Autocomplete will use the Virtualize functionality.
     /// </summary>
     [Parameter] public bool Virtualize { get; set; }
 
     /// <summary>
-    /// Gets or sets the total number of items. Used only when <see cref="ReadData"/> and <see cref="Virtualize"/> is used to load the data.
+    /// Specifies the total number of items available when data is loaded through <see cref="ReadData"/>.
     /// </summary>
     /// <remarks>
     /// This field must be set only when <see cref="ReadData"/> and <see cref="Virtualize"/> is used to load the data.
@@ -2105,12 +2105,12 @@ public partial class Autocomplete<TItem, TValue>
     [Parameter] public EventCallback<string> SearchTextChanged { get; set; }
 
     /// <summary>
-    /// Occurs when a key is pressed down while the search box has focus.
+    /// Notifies when a key is pressed down while the search box has focus.
     /// </summary>
     [Parameter] public EventCallback<KeyboardEventArgs> SearchKeyDown { get; set; }
 
     /// <summary>
-    /// Occurs when the search box gains or loses focus.
+    /// Notifies when the search box gains or loses focus.
     /// </summary>
     [Parameter] public EventCallback<FocusEventArgs> SearchFocus { get; set; }
 
@@ -2120,7 +2120,7 @@ public partial class Autocomplete<TItem, TValue>
     [Parameter] public EventCallback<FocusEventArgs> SearchBlur { get; set; }
 
     /// <summary>
-    /// Defines the positioning strategy of the dropdown menu as a 'floating' element.
+    /// Specifies the positioning strategy of the dropdown menu as a 'floating' element.
     /// </summary>
     [Parameter] public DropdownPositionStrategy PositionStrategy { get; set; } = DropdownPositionStrategy.Absolute;
 
@@ -2130,7 +2130,7 @@ public partial class Autocomplete<TItem, TValue>
     [Parameter] public Func<TItem, bool> DisabledItem { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether parent dropdown menus should be closed when this component is activated.
+    /// Specifies a value indicating whether parent dropdown menus should be closed when this component is activated.
     /// </summary>
     /// <remarks>Set this property to <see langword="true"/> to automatically close any open parent dropdowns
     /// when the component is triggered. This can be useful for ensuring only one dropdown is open at a time in nested

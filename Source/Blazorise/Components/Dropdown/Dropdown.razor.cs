@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -453,12 +453,12 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     internal string DropdownMenuElementId => childrenDropdownMenus?.FirstOrDefault()?.ElementId;
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSDropdownModule"/> instance.
+    /// Specifies the <see cref="IJSDropdownModule"/> instance.
     /// </summary>
     [Inject] public IJSDropdownModule JSModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the service provider.
+    /// Specifies the service provider.
     /// </summary>
     [Inject] public IDropdownCoordinator DropdownCoordinator { get; set; }
 
@@ -533,17 +533,17 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the cascaded parent buttons component.
+    /// Specifies the cascaded parent buttons component.
     /// </summary>
     [CascadingParameter] protected Buttons ParentButtons { get; set; }
 
     /// <summary>
-    /// Gets or sets the cascaded parent table component.
+    /// Specifies the cascaded parent table component.
     /// </summary>
     [CascadingParameter] protected Table ParentTable { get; set; }
 
     /// <summary>
-    /// Gets or sets the cascaded parent Dropdown component.
+    /// Specifies the cascaded parent Dropdown component.
     /// </summary>
     [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
 
@@ -553,7 +553,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Defines the positioning strategy of the dropdown menu as a 'floating' element.
+    /// Specifies the positioning strategy of the dropdown menu as a 'floating' element.
     /// </summary>
     [Parameter] public DropdownPositionStrategy PositionStrategy { get; set; } = DropdownPositionStrategy.Fixed;
 
@@ -564,7 +564,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     [Parameter] public string DropdownMenuTargetId { get; set; }
 
     /// <summary>
-    /// Gets or sets the aria-invalid attribute value for the dropdown root element.
+    /// Specifies the aria-invalid attribute value for the dropdown root element.
     /// </summary>
     /// <remarks>
     /// When set, this value is rendered as-is on the dropdown root element.
@@ -572,7 +572,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     [Parameter] public string AriaInvalid { get; set; }
 
     /// <summary>
-    /// Gets or sets the aria-required attribute value for the dropdown root element.
+    /// Specifies the aria-required attribute value for the dropdown root element.
     /// </summary>
     /// <remarks>
     /// When set, this value is rendered as-is on the dropdown root element.
@@ -580,7 +580,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     [Parameter] public string AriaRequired { get; set; }
 
     /// <summary>
-    /// Gets or sets the aria-describedby attribute value for the dropdown root element.
+    /// Specifies the aria-describedby attribute value for the dropdown root element.
     /// </summary>
     /// <remarks>
     /// When set, this value is rendered as-is on the dropdown root element.
@@ -588,7 +588,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     [Parameter] public string AriaDescribedBy { get; set; }
 
     /// <summary>
-    /// Gets or sets the aria-labelledby attribute value for the dropdown root element.
+    /// Specifies the aria-labelledby attribute value for the dropdown root element.
     /// </summary>
     /// <remarks>
     /// When set, this value is rendered as-is on the dropdown root element.

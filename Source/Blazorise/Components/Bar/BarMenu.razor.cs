@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -33,7 +33,7 @@ public partial class BarMenu : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="BarMenu"/> component.
+    /// Defines the content rendered inside the bar menu.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

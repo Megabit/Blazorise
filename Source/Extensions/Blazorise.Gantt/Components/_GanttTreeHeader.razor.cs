@@ -25,7 +25,7 @@ public partial class _GanttTreeHeader : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the content rendered inside the tree header.
+    /// Defines the content rendered inside the tree header.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

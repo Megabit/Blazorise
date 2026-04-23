@@ -116,7 +116,7 @@ public partial class Tab : BaseComponent<TabClasses, TabStyles>
     protected bool Active => ParentTabsState?.SelectedTab == Name;
 
     /// <summary>
-    /// Defines the tab name. Must match the corresponding panel name.
+    /// Specifies the tab name. Must match the corresponding panel name.
     /// </summary>
     [Parameter] public string Name { get; set; }
 
@@ -136,7 +136,7 @@ public partial class Tab : BaseComponent<TabClasses, TabStyles>
     }
 
     /// <summary>
-    /// Occurs when the item is clicked.
+    /// Notifies when the item is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 

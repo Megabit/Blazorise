@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -133,7 +133,7 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
     }
 
     /// <summary>
-    /// Defines the orientation of the radio elements.
+    /// Specifies the orientation of the radio elements.
     /// </summary>
     [Parameter]
     public Orientation Orientation
@@ -148,7 +148,7 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
     }
 
     /// <summary>
-    /// Defines the color or radio buttons(only when <see cref="Buttons"/> is true).
+    /// Specifies the color or radio buttons(only when <see cref="Buttons"/> is true).
     /// </summary>
     [Parameter]
     public Color Color
@@ -163,7 +163,7 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
     }
 
     /// <summary>
-    /// Defines the intent of radio buttons(only when <see cref="Buttons"/> is true).
+    /// Specifies the intent of radio buttons(only when <see cref="Buttons"/> is true).
     /// </summary>
     [Parameter]
     public Intent Intent

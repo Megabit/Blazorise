@@ -722,7 +722,7 @@ public partial class RangeSlider<TValue> : BaseInputComponent<RangeSliderValue<T
     [Parameter] public bool ShowValueTooltips { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSRangeSliderModule"/> instance.
+    /// Specifies the <see cref="IJSRangeSliderModule"/> instance.
     /// </summary>
     [Inject] public IJSRangeSliderModule JSModule { get; set; }
 

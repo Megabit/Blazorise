@@ -45,17 +45,17 @@ public partial class _GanttTreeRows : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the content rendered inside the tree rows host.
+    /// Defines the content rendered inside the tree rows host.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the tab index used for keyboard focus.
+    /// Specifies the tab index used for keyboard focus.
     /// </summary>
     [Parameter] public int TabIndex { get; set; }
 
     /// <summary>
-    /// Gets or sets keyboard event callback.
+    /// Defines keyboard event callback.
     /// </summary>
     [Parameter] public EventCallback<KeyboardEventArgs> KeyDown { get; set; }
 

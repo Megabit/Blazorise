@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -50,7 +50,7 @@ public partial class _DataGridAggregateRow<TItem> : BaseDataGridComponent
     [Parameter] public Color Color { get; set; }
 
     /// <summary>
-    /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
+    /// Specifies the parent <see cref="DataGrid{TItem}"/> of the this component.
     /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 

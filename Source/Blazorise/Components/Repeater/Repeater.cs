@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -174,7 +174,7 @@ public class Repeater<TItem> : IComponent, IDisposable
     [Parameter] public long? Skip { get; set; }
 
     /// <summary>
-    /// Occurs when <see cref="Items"/> collection changes.
+    /// Notifies when <see cref="Items"/> collection changes.
     /// </summary>
     [Parameter] public EventCallback<NotifyCollectionChangedEventArgs> CollectionChanged { get; set; }
 

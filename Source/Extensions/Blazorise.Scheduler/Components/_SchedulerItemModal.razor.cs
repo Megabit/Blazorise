@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -496,22 +496,22 @@ public partial class _SchedulerItemModal<TItem> : BaseComponent, IDisposable
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     /// <summary>
-    /// Gets or sets the cascading instance of the parent <see cref="Scheduler{TItem}"/> component.
+    /// Specifies the cascading instance of the parent <see cref="Scheduler{TItem}"/> component.
     /// </summary>
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
     /// <summary>
-    /// Occurs when the user submits the form to save the appointment.
+    /// Provides a callback when the user submits the form to save the appointment.
     /// </summary>
     [Parameter] public Func<TItem, Task<bool>> SaveRequested { get; set; }
 
     /// <summary>
-    /// Occurs when the user requests deletion of the appointment.
+    /// Provides a callback when the user requests deletion of the appointment.
     /// </summary>
     [Parameter] public Func<TItem, Task<bool>> DeleteRequested { get; set; }
 
     /// <summary>
-    /// Gets or sets the first day of the week, used for recurrence options and date pickers.
+    /// Specifies the first day of the week used for date calculations.
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
 

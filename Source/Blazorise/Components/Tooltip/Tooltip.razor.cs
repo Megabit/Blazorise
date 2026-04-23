@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -134,17 +134,17 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     [Inject] protected BlazoriseOptions Options { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSTooltipModule"/> instance.
+    /// Specifies the <see cref="IJSTooltipModule"/> instance.
     /// </summary>
     [Inject] public IJSTooltipModule JSModule { get; set; }
 
     /// <summary>
-    /// Gets or sets a regular tooltip's content. 
+    /// Specifies a regular tooltip's content.
     /// </summary>
     [Parameter] public string Text { get; set; }
 
     /// <summary>
-    /// Gets or sets the tooltip location relative to its component.
+    /// Specifies the tooltip location relative to its component.
     /// </summary>
     [Parameter]
     public TooltipPlacement Placement
@@ -198,7 +198,7 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Gets or sets the tooltip arrow visibility.
+    /// Specifies the tooltip arrow visibility.
     /// </summary>
     [Parameter]
     public bool ShowArrow

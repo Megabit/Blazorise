@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,7 +12,7 @@ public partial class Form : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Form"/> component.
+    /// Defines the content rendered inside the form.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

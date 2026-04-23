@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -14,17 +14,17 @@ public class BaseSchedulerView<TItem> : ComponentBase
     #region Properties
 
     /// <summary>
-    /// Gets or sets the scheduler component that the view belongs to.
+    /// Specifies the scheduler component that the view belongs to.
     /// </summary>
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
     /// <summary>
-    /// Defines the first hour displayed in the view. Default is 00:00.
+    /// Specifies the first hour displayed in the view. Default is 00:00.
     /// </summary>
     [Parameter] public TimeOnly? StartTime { get; set; }
 
     /// <summary>
-    /// Defines when the day ends.
+    /// Specifies when the day ends.
     /// </summary>
     [Parameter] public TimeOnly? EndTime { get; set; }
 
@@ -39,7 +39,7 @@ public class BaseSchedulerView<TItem> : ComponentBase
     [Parameter] public TimeOnly? WorkDayEnd { get; set; }
 
     /// <summary>
-    /// Defines the number of slots available per cell, defaulting to 2. This parameter can be adjusted to change the cell configuration.
+    /// Specifies the number of slots available per cell, defaulting to 2. This parameter can be adjusted to change the cell configuration.
     /// </summary>
     [Parameter] public int SlotsPerCell { get; set; } = 2;
 
@@ -49,7 +49,7 @@ public class BaseSchedulerView<TItem> : ComponentBase
     [Parameter] public double HeaderCellHeight { get; set; } = 60;
 
     /// <summary>
-    /// The first day of the week. Determines the first day of the week that is displayed in the scheduler. Default is Sunday.
+    /// Specifies the first day of the week used for date calculations.
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Sunday;
 

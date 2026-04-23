@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -37,7 +37,7 @@ public partial class CardSubtitle : BaseTypographyComponent
     protected bool InsideHeader => ParentCardHeader is not null;
 
     /// <summary>
-    /// Defines the subtitle size where the smaller number means larger text. Defaults to <see cref="HeadingSize.Is6"/>.
+    /// Specifies the subtitle size where the smaller number means larger text. Defaults to <see cref="HeadingSize.Is6"/>.
     /// </summary>
     [Parameter]
     public HeadingSize? Size
@@ -55,7 +55,7 @@ public partial class CardSubtitle : BaseTypographyComponent
     }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="CardHeader"/> component.
+    /// Provides the reference to the parent <see cref="CardHeader"/> component.
     /// </summary>
     [CascadingParameter] public CardHeader ParentCardHeader { get; set; }
 

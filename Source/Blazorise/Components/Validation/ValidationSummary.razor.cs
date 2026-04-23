@@ -168,7 +168,7 @@ public partial class ValidationSummary : BaseComponent<ValidationSummaryClasses,
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Validations"/> component.
+    /// Provides the reference to the parent <see cref="Validations"/> component.
     /// </summary>
     [CascadingParameter] protected Validations ParentValidations { get; set; }
 

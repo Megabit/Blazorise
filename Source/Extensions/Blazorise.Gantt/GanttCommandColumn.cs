@@ -36,7 +36,7 @@ public class GanttCommandColumn<TItem> : BaseGanttColumn<TItem>
     #region Properties
 
     /// <summary>
-    /// Gets or sets custom command display template.
+    /// Defines custom command display template.
     /// </summary>
     [Parameter] public new RenderFragment<GanttCommandColumnDisplayContext<TItem>> DisplayTemplate { get; set; }
 

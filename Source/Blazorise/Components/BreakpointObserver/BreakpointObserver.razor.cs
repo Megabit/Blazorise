@@ -70,7 +70,7 @@ public partial class BreakpointObserver : BaseAfterRenderComponent, IDisposable
     protected Breakpoint CurrentBreakpoint { get; set; }
 
     /// <summary>
-    /// Gets or sets the shared breakpoint service.
+    /// Defines the shared breakpoint service.
     /// </summary>
     [Inject] protected IBreakpointService BreakpointService { get; set; }
 

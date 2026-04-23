@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -105,12 +105,12 @@ public partial class Animate:ComponentBase
     [Inject] private IOptionsSnapshot<AnimateOptions> OptionsAccessor { get; set; }
 
     /// <summary>
-    /// Gets or sets the animate element id.
+    /// Specifies the animate element id.
     /// </summary>
     [Parameter] public string ElementId { get; set; }
 
     /// <summary>
-    /// Gets or sets the animation effect.
+    /// Specifies the animation effect.
     /// </summary>
     /// <remarks>
     /// The list of all supported animations can be found in <see cref="Animations"/> class.
@@ -118,7 +118,7 @@ public partial class Animate:ComponentBase
     [Parameter] public IAnimation Animation { get; set; }
 
     /// <summary>
-    /// Gets or sets the easing effect.
+    /// Specifies the easing effect.
     /// </summary>
     /// <remarks>
     /// The list of all supported easings can be found in <see cref="Easings"/> class.
@@ -178,22 +178,22 @@ public partial class Animate:ComponentBase
     [Parameter] public string Anchor { get; set; }
 
     /// <summary>
-    /// Defines which position of the element regarding to window should trigger the animation.
+    /// Specifies which position of the element regarding to window should trigger the animation.
     /// </summary>
     [Parameter] public string AnchorPlacement { get; set; }
 
     /// <summary>
-    /// Defines the custom name of the options to get from the configuration.
+    /// Specifies the custom name of the options to get from the configuration.
     /// </summary>
     [Parameter] public string OptionsName { get; set; } = Microsoft.Extensions.Options.Options.DefaultName;
 
     /// <summary>
-    /// Defines the animate options.
+    /// Specifies the animate options.
     /// </summary>
     [Parameter] public AnimateOptions Options { get; set; }
 
     /// <summary>
-    /// True if the animation will be executed automatically. Otherwise if false it needs to 
+    /// True if the animation will be executed automatically. Otherwise if false it needs to
     /// be run manually with <see cref="Run"/> method.
     /// </summary>
     [Parameter] public bool Auto { get; set; } = true;

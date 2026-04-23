@@ -71,7 +71,7 @@ public partial class CollapseBody : BaseComponent<CollapseBodyClasses, CollapseB
     protected string ContentClassNames => ContentClassBuilder.Class;
 
     /// <summary>
-    /// Gets or sets the content visibility.
+    /// Defines the content visibility.
     /// </summary>
     [CascadingParameter( Name = "CollapseVisible" )]
     public bool Visible
@@ -86,7 +86,7 @@ public partial class CollapseBody : BaseComponent<CollapseBodyClasses, CollapseB
     }
 
     /// <summary>
-    /// Gets or sets the cascaded parent collapse component.
+    /// Specifies the cascaded parent collapse component.
     /// </summary>
     [CascadingParameter] public Collapse ParentCollapse { get; set; }
 

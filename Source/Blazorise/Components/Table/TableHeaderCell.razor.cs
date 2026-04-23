@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -187,12 +187,12 @@ public partial class TableHeaderCell : BaseDraggableComponent, IDisposable
     };
 
     /// <summary>
-    /// Gets or sets the cascaded parent table component.
+    /// Specifies the cascaded parent table component.
     /// </summary>
     [CascadingParameter] protected Table ParentTable { get; set; }
 
     /// <summary>
-    /// Gets or sets the cascaded parent table row component.
+    /// Specifies the cascaded parent table row component.
     /// </summary>
     [CascadingParameter] protected TableRow ParentTableRow { get; set; }
 
@@ -207,12 +207,12 @@ public partial class TableHeaderCell : BaseDraggableComponent, IDisposable
     [Parameter] public int? ColumnSpan { get; set; }
 
     /// <summary>
-    /// Defines the fixed position of the header cell within the table.
+    /// Specifies the fixed position of the header cell within the table.
     /// </summary>
     [Parameter] public TableColumnFixedPosition FixedPosition { get; set; }
 
     /// <summary>
-    /// Defines the mouse cursor based on the behaviour by the current css framework.
+    /// Specifies the mouse cursor based on the behaviour by the current css framework.
     /// </summary>
     [Parameter]
     public Cursor Cursor
@@ -230,7 +230,7 @@ public partial class TableHeaderCell : BaseDraggableComponent, IDisposable
     }
 
     /// <summary>
-    /// Occurs when the header cell is clicked.
+    /// Notifies when the header cell is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 

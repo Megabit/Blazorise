@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -116,7 +116,7 @@ public partial class FieldSet : BaseColumnComponent, IDisposable
     }
 
     /// <summary>
-    /// Gets or sets the parent validation component.
+    /// Specifies the parent validation component.
     /// </summary>
     [CascadingParameter] protected Validation ParentValidation { get; set; }
 

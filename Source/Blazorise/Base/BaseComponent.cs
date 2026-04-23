@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -469,7 +469,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     public ElementReference ElementRef { get; set; }
 
     /// <summary>
-    /// Gets or sets the unique id of the element.
+    /// Specifies the unique id of the element.
     /// </summary>
     /// <remarks>
     /// Note that this ID is not defined for the component but instead for the underlined element that it represents.
@@ -564,17 +564,17 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     [Inject] protected IClassProvider ClassProvider { get; set; }
 
     /// <summary>
-    /// Gets or sets the style provider.
+    /// Specifies the style provider.
     /// </summary>
     [Inject] protected IStyleProvider StyleProvider { get; set; }
 
     /// <summary>
-    /// Gets or sets the IJSUtilitiesModule reference.
+    /// Specifies the IJSUtilitiesModule reference.
     /// </summary>
     [Inject] private IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the license checker for the user session.
+    /// Specifies the license checker for the user session.
     /// </summary>
     [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
 
@@ -657,7 +657,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Defines the width of the component using responsive sizing utilities.
+    /// Specifies the width of the component using responsive sizing utilities.
     /// </summary>
     [Parameter]
     public IFluentSizing Width
@@ -676,7 +676,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Defines the height of the component using responsive sizing utilities.
+    /// Specifies the height of the component using responsive sizing utilities.
     /// </summary>
     [Parameter]
     public IFluentSizing Height
@@ -854,7 +854,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Defines the text color of the component.
+    /// Specifies the text color of the component.
     /// </summary>
     [Parameter]
     public TextColor TextColor
@@ -899,7 +899,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Defines the text decoration style (e.g., underline, none) for the component.
+    /// Specifies the text decoration style (e.g., underline, none) for the component.
     /// </summary>
     [Parameter]
     public TextDecoration TextDecoration

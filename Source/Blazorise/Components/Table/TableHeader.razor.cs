@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -75,7 +75,7 @@ public partial class TableHeader : BaseDraggableComponent
     }
 
     /// <summary>
-    /// Gets or sets the cascaded parent table component.
+    /// Specifies the cascaded parent table component.
     /// </summary>
     [CascadingParameter] protected Table ParentTable { get; set; }
 

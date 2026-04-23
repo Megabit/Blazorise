@@ -102,7 +102,7 @@ public partial class AccordionBody : BaseComponent<AccordionBodyClasses, Accordi
     protected string ContentClassNames => ContentClassBuilder.Class;
 
     /// <summary>
-    /// Gets or sets the content visibility.
+    /// Defines the content visibility.
     /// </summary>
     [CascadingParameter( Name = "AccordionItemVisible" )]
     public bool Visible
@@ -117,7 +117,7 @@ public partial class AccordionBody : BaseComponent<AccordionBodyClasses, Accordi
     }
 
     /// <summary>
-    /// Gets or sets the cascaded parent accordion item component.
+    /// Specifies the cascaded parent accordion item component.
     /// </summary>
     [CascadingParameter] public AccordionItem ParentAccordionItem { get; set; }
 

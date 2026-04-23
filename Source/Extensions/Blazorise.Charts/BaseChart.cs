@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -443,32 +443,32 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     }
 
     /// <summary>
-    /// Gets or sets the license checker for the user session.
+    /// Specifies the license checker for the user session.
     /// </summary>
     [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
 
     /// <summary>
-    /// Defines the chart type.
+    /// Specifies the chart type.
     /// </summary>
     [Parameter] public ChartType Type { get; set; }
 
     /// <summary>
-    /// Defines the chart options.
+    /// Specifies the chart options.
     /// </summary>
     [Parameter] public TOptions Options { get; set; }
 
     /// <summary>
-    /// Defines the chart data that is serialized as json string.
+    /// Specifies the chart data that is serialized as json string.
     /// </summary>
     [Parameter] public string DataJsonString { get; set; }
 
     /// <summary>
-    /// Defines the chart options that is serialized as json string.
+    /// Specifies the chart options that is serialized as json string.
     /// </summary>
     [Parameter] public string OptionsJsonString { get; set; }
 
     /// <summary>
-    /// Defines the chart options that is serialized as json object.
+    /// Specifies the chart options that is serialized as json object.
     /// </summary>
     [Parameter] public object OptionsObject { get; set; }
 

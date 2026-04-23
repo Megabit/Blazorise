@@ -789,133 +789,133 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="NavigationManager"/>.
+    /// Specifies the <see cref="NavigationManager"/>.
     /// </summary>
     [Inject] private NavigationManager NavigationManager { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="IVersionProvider"/> for the JS module.
+    /// Specifies the <see cref="IVersionProvider"/> for the JS module.
     /// </summary>
     [Inject] private IVersionProvider VersionProvider { get; set; }
 
     /// <summary>
-    /// Gets or sets the blazorise options.
+    /// Specifies the blazorise options.
     /// </summary>
     [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <summary>
-    /// Gets or sets the state of the PDF viewer.
+    /// Specifies the state of the PDF viewer.
     /// </summary>
     [CascadingParameter] public PdfViewerState ViewerState { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="IModalService"/> used for the default password prompt.
+    /// Specifies the <see cref="IModalService"/> used for the default password prompt.
     /// </summary>
     [Inject] protected IModalService ModalService { get; set; }
 
     /// <summary>
-    /// Gets or sets the DI registered <see cref="ITextLocalizer"/>.
+    /// Specifies the DI registered <see cref="ITextLocalizer"/>.
     /// </summary>
     [Inject] protected ITextLocalizer<PdfViewer> Localizer { get; set; }
 
     /// <summary>
-    /// Gets or sets the source URL or base64 formated string of the PDF document to be loaded.
+    /// Specifies the source URL or base64 formated string of the PDF document to be loaded.
     /// </summary>
     [Parameter] public string Source { get; set; }
 
     /// <summary>
-    /// Gets or sets the current page number of the PDF document.
+    /// Specifies the current page number of the PDF document.
     /// The default value is <c>1</c>.
     /// </summary>
     [Parameter] public int PageNumber { get; set; } = 1;
 
     /// <summary>
-    /// Gets or sets the callback event that is triggered when the page number changes.
+    /// Notifies when the current page number changes.
     /// </summary>
     [Parameter] public EventCallback<int> PageNumberChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the callback event that is triggered when the PDF document is loaded.
+    /// Notifies when the PDF document finishes loading.
     /// </summary>
     [Parameter] public EventCallback<PdfLoadedEventArgs> Loaded { get; set; }
 
     /// <summary>
-    /// Gets or sets the callback event that is triggered when the PDF document is requested to be printed.
+    /// Notifies when printing is requested for the PDF document.
     /// </summary>
     [Parameter] public EventCallback PrintRequested { get; set; }
 
     /// <summary>
-    /// Gets or sets the callback event that is triggered when the PDF document is requested to be downloaded.
+    /// Notifies when downloading is requested for the PDF document.
     /// </summary>
     [Parameter] public EventCallback DownloadRequested { get; set; }
 
     /// <summary>
-    /// Gets or sets an explicit filename used when downloading the PDF document.
+    /// Specifies an explicit filename used when downloading the PDF document.
     /// If not provided, the filename is resolved from PDF metadata title or source.
     /// </summary>
     [Parameter] public string DownloadFileName { get; set; }
 
     /// <summary>
-    /// Occurs when a download filename is requested.
+    /// Provides a callback when a download filename is requested.
     /// If not set, the default modal prompt is used when <see cref="UseModalDownloadFileNamePrompt"/> is enabled.
     /// </summary>
     [Parameter] public Func<PdfDownloadFileNameRequestedEventArgs, Task<string>> DownloadFileNameRequested { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the default modal prompt should be used when <see cref="DownloadFileNameRequested"/> is not provided.
+    /// Determines whether the default modal prompt should be used when <see cref="DownloadFileNameRequested"/> is not provided.
     /// </summary>
     [Parameter] public bool UseModalDownloadFileNamePrompt { get; set; }
 
     /// <summary>
-    /// Gets or sets options for customizing the default modal download filename prompt.
+    /// Defines options for customizing the default modal download filename prompt.
     /// </summary>
     [Parameter] public PdfDownloadFileNamePromptOptions DownloadFileNamePromptOptions { get; set; } = new();
 
     /// <summary>
-    /// Gets or sets the callback event that is triggered when the download filename request is canceled.
+    /// Notifies when the download filename request is canceled.
     /// </summary>
     [Parameter] public EventCallback DownloadCanceled { get; set; }
 
     /// <summary>
-    /// Occurs when a password is required to open a protected PDF document.
+    /// Provides a callback when a password is required to open a protected PDF document.
     /// If not set, a default modal prompt is shown when <see cref="UseModalPasswordPrompt"/> is enabled.
     /// </summary>
     [Parameter] public Func<PdfPasswordRequestedEventArgs, Task<string>> PasswordRequested { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the default modal prompt should be used when <see cref="PasswordRequested"/> is not provided.
+    /// Determines whether the default modal prompt should be used when <see cref="PasswordRequested"/> is not provided.
     /// </summary>
     [Parameter] public bool UseModalPasswordPrompt { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets options for customizing the default modal password prompt.
+    /// Defines options for customizing the default modal password prompt.
     /// </summary>
     [Parameter] public PdfPasswordPromptOptions PasswordPromptOptions { get; set; } = new();
 
     /// <summary>
-    /// Gets or sets the callback event that is triggered when the password request is canceled.
+    /// Notifies when the password request is canceled.
     /// </summary>
     [Parameter] public EventCallback PasswordCanceled { get; set; }
 
     /// <summary>
-    /// Gets or sets the scale factor for displaying the PDF document.
+    /// Specifies the scale factor for displaying the PDF document.
     /// The default value is <c>1</c>, which represents the original size.
     /// </summary>
     [Parameter] public double Scale { get; set; } = 1;
 
     /// <summary>
-    /// Gets or sets the callback event that is triggered when the scale changes.
+    /// Notifies when the zoom scale changes.
     /// </summary>
     [Parameter] public EventCallback<double> ScaleChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the orientation of the PDF document.
+    /// Specifies the orientation of the PDF document.
     /// The default value is <see cref="PdfOrientation.Portrait"/>.
     /// </summary>
     [Parameter] public PdfOrientation Orientation { get; set; } = PdfOrientation.Portrait;
 
     /// <summary>
-    /// Gets or sets the content to be rendered inside the component.
+    /// Defines the content to be rendered inside the component.
     /// </summary>
     /// <remarks>
     /// This property allows developers to define custom content within the PDF viewer component.

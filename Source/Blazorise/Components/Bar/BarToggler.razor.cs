@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -92,7 +92,7 @@ public partial class BarToggler : BaseComponent
     protected BarTogglerState State => state;
 
     /// <summary>
-    /// Occurs when the button is clicked.
+    /// Notifies when the button is clicked.
     /// </summary>
     [Parameter]
     public EventCallback<MouseEventArgs> Clicked
@@ -126,7 +126,7 @@ public partial class BarToggler : BaseComponent
     }
 
     /// <summary>
-    /// Controls which <see cref="Bar"/> will be toggled. Uses parent <see cref="Bar"/> by default. 
+    /// Controls which <see cref="Bar"/> will be toggled. Uses parent <see cref="Bar"/> by default.
     /// </summary>
     [Parameter]
     public Bar Bar

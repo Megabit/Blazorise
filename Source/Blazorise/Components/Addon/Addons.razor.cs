@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -210,7 +210,7 @@ public partial class Addons : BaseComponent, IDisposable
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Field"/> component.
+    /// Provides the reference to the parent <see cref="Field"/> component.
     /// </summary>
     [CascadingParameter] protected Field ParentField { get; set; }
 

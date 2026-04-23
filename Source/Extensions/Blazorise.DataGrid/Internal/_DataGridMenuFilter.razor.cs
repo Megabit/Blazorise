@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using Blazorise.Extensions;
 using Blazorise.Localization;
@@ -81,7 +81,7 @@ public partial class _DataGridMenuFilter<TItem> : ComponentBase, IDisposable
     #region Properties
 
     /// <summary>
-    /// Gets or sets the DI registered <see cref="ITextLocalizer"/> for <see cref="DataGrid{TItem}"/> />.
+    /// Specifies the DI registered <see cref="ITextLocalizer"/> for <see cref="DataGrid{TItem}"/> />.
     /// </summary>
     [Inject] protected ITextLocalizer<DataGrid<TItem>> Localizer { get; set; }
 

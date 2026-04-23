@@ -187,13 +187,13 @@ public partial class OffcanvasProvider : BaseComponent
     [Parameter] public bool ShowBackdrop { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether the component has any animations.
+    /// Determines whether the component has any animations.
     /// Global option.
     /// </summary>
     [Parameter] public bool Animated { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets the animation duration.
+    /// Specifies the animation duration.
     /// Global option.
     /// </summary>
     [Parameter] public int AnimationDuration { get; set; } = 150;

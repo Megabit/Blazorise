@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -568,69 +568,67 @@ public partial class Video : BaseComponent, IAsyncDisposable
     [Inject] private IVersionProvider VersionProvider { get; set; }
 
     /// <summary>
-    /// Gets or sets the blazorise options.
+    /// Determines whether player controls are visible.
     /// </summary>
     [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <summary>
-    /// Gets or sets the controls visibility of the player.
+    /// Determines whether player controls are visible.
     /// </summary>
     [Parameter] public bool Controls { get; set; } = true;
 
     /// <summary>
-    /// The default amount of delay in milliseconds while media playback is progressing without user activity to indicate an idle state and hide controls.
+    /// Specifies how long the controls remain visible after the last user interaction, in milliseconds.
     /// </summary>
     [Parameter] public double ControlsDelay { get; set; } = 2000;
 
     /// <summary>
-    /// Hide video controls automatically after 2s of no mouse or focus movement, on control element blur (tab out), on playback
-    /// start or entering fullscreen. As soon as the mouse is moved, a control element is focused or playback is paused, the
-    /// controls reappear instantly.
+    /// Determines whether the controls hide automatically when the player becomes idle.
     /// </summary>
     [Parameter] public bool AutomaticallyHideControls { get; set; }
 
     /// <summary>
-    /// Gets or sets the autoplay state of the player.
+    /// Determines whether playback starts automatically.
     /// </summary>
     [Parameter] public bool AutoPlay { get; set; }
 
     /// <summary>
-    /// Only allow one player playing at once.
+    /// Determines whether starting this player pauses any other active player.
     /// </summary>
     [Parameter] public bool AutoPause { get; set; } = true;
 
     /// <summary>
-    /// Whether to start playback muted.
+    /// Determines whether playback starts muted.
     /// </summary>
     [Parameter] public bool Muted { get; set; }
 
     /// <summary>
-    /// Gets or sets the current source for the player.
+    /// Specifies the media source used by the player.
     /// </summary>
     [Parameter] public VideoSource Source { get; set; }
 
     /// <summary>
-    /// Gets or sets the the URL of media poster or thumbnail image, generally before playback begins.
+    /// Specifies the poster image shown before playback begins.
     /// </summary>
     [Parameter] public string Poster { get; set; }
 
     /// <summary>
-    /// Gets or sets the URL of thumbnails which will be used to display preview images when interacting with the time slider and in the chapters menu.
+    /// Specifies the thumbnail track used for timeline previews and chapter navigation.
     /// </summary>
     [Parameter] public string Thumbnails { get; set; }
 
     /// <summary>
-    /// If defined the video will run in streaming mode.
+    /// Specifies the streaming library used for playback.
     /// </summary>
     [Parameter] public StreamingLibrary StreamingLibrary { get; set; } = StreamingLibrary.None;
 
     /// <summary>
-    /// The time, in seconds, to seek when a user hits fast forward or rewind.
+    /// Specifies how many seconds to skip when seeking forward or backward.
     /// </summary>
     [Parameter] public int SeekTime { get; set; } = 10;
 
     /// <summary>
-    /// Gets or sets the currentTime for the player.
+    /// Specifies the current playback time, in seconds.
     /// </summary>
     [Parameter] public double CurrentTime { get; set; }
 
@@ -667,32 +665,32 @@ public partial class Video : BaseComponent, IAsyncDisposable
     [Parameter] public bool InvertTime { get; set; } = true;
 
     /// <summary>
-    /// Defines the encoding type used for the DRM protection.
+    /// Specifies the encoding type used for the DRM protection.
     /// </summary>
     [Parameter] public VideoProtectionType ProtectionType { get; set; }
 
     /// <summary>
-    /// Defines the manual structure of the protection data. If defined, it will override the usage of <see cref="ProtectionServerUrl"/> and <see cref="ProtectionHttpRequestHeaders"/>.
+    /// Specifies the manual structure of the protection data. If defined, it will override the usage of <see cref="ProtectionServerUrl"/> and <see cref="ProtectionHttpRequestHeaders"/>.
     /// </summary>
     [Parameter] public object ProtectionData { get; set; }
 
     /// <summary>
-    /// Defines the server url of the DRM protection.
+    /// Specifies the server url of the DRM protection.
     /// </summary>
     [Parameter] public string ProtectionServerUrl { get; set; }
 
     /// <summary>
-    /// Defines the server certificate url of the DRM protection (currently used only with FairPlay).
+    /// Specifies the server certificate url of the DRM protection (currently used only with FairPlay).
     /// </summary>
     [Parameter] public string ProtectionServerCertificateUrl { get; set; }
 
     /// <summary>
-    /// Defines the protection token for the http header that is sent to the server.
+    /// Specifies the protection token for the http header that is sent to the server.
     /// </summary>
     [Parameter] public string ProtectionHttpRequestHeaders { get; set; }
 
     /// <summary>
-    /// Defines the customized list of player controls. 
+    /// Specifies the customized list of player controls.
     /// </summary>
     [Parameter] public string[] ControlsList { get; set; } = new string[] { VideoControlsType.PlayLarge, VideoControlsType.Play, VideoControlsType.Progress, VideoControlsType.CurrentTime, VideoControlsType.Mute, VideoControlsType.Volume, VideoControlsType.Captions, VideoControlsType.Settings, VideoControlsType.Pip, VideoControlsType.Airplay, VideoControlsType.Fullscreen };
 
@@ -707,12 +705,12 @@ public partial class Video : BaseComponent, IAsyncDisposable
     [Parameter] public Func<double, Task> Progress { get; set; }
 
     /// <summary>
-    /// Gets or sets the default quality for the player.
+    /// Specifies the default playback quality.
     /// </summary>
     [Parameter] public int? DefaultQuality { get; set; }
 
     /// <summary>
-    /// Defines the list of available quality options. Defaults to [4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240].
+    /// Specifies the list of available quality options. Defaults to [4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240].
     /// </summary>
     [Parameter] public int[] AvailableQualities { get; set; }
 
@@ -802,7 +800,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
     [Parameter] public Func<Task> Ready { get; set; }
 
     /// <summary>
-    /// The quality of playback has changed. 
+    /// The quality of playback has changed.
     /// <para>
     /// If the quality argument is <c>null</c> it is considered that a default quality value was selected.
     /// </para>

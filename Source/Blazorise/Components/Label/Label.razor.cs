@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -54,7 +54,7 @@ public partial class Label : BaseComponent
     }
 
     /// <summary>
-    /// Defines the mouse cursor when mouse od placed over the label.
+    /// Specifies the mouse cursor when mouse od placed over the label.
     /// </summary>
     [Parameter]
     public Cursor Cursor
@@ -69,7 +69,7 @@ public partial class Label : BaseComponent
     }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="JumbotronTitle"/> component.
+    /// Defines the content rendered inside the label.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

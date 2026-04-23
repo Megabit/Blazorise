@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -186,7 +186,7 @@ public partial class ChartZoom<TItem> : ChartPlugin<TItem, JSChartZoomModule>
     protected override JSChartZoomModule JSModule { get; set; }
 
     /// <summary>
-    /// Defines the options for an annotation.
+    /// Specifies the options for an annotation.
     /// </summary>
     [Parameter] public ChartZoomPluginOptions Options { get; set; }
 

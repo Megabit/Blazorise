@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.States;
@@ -97,7 +97,7 @@ public partial class TabPanel : BaseComponent, IDisposable
     protected TabsRenderMode RenderMode => ParentTabsState?.RenderMode ?? ParentTabsContentState?.RenderMode ?? TabsRenderMode.Default;
 
     /// <summary>
-    /// Defines the panel name. Must match the corresponding tab name.
+    /// Specifies the panel name. Must match the corresponding tab name.
     /// </summary>
     [Parameter] public string Name { get; set; }
 

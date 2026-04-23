@@ -481,42 +481,42 @@ public partial class PasswordStrength : BaseTextInput<string>
     protected string RuleTextStyleNames => PasswordStrengthStyles?.RuleText;
 
     /// <summary>
-    /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.
+    /// Specifies the DI registered <see cref="ITextLocalizerService"/>.
     /// </summary>
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     /// <summary>
-    /// Gets or sets the DI registered <see cref="ITextLocalizer{PasswordStrength}"/>.
+    /// Specifies the DI registered <see cref="ITextLocalizer{PasswordStrength}"/>.
     /// </summary>
     [Inject] protected ITextLocalizer<PasswordStrength> Localizer { get; set; }
 
     /// <summary>
-    /// Gets or sets whether to display password strength details.
+    /// Determines whether to display password strength details.
     /// </summary>
     [Parameter] public bool ShowStrength { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether to display the checklist of active rules.
+    /// Determines whether to display the checklist of active rules.
     /// </summary>
     [Parameter] public bool ShowRules { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether to show a toggle button for password visibility.
+    /// Determines whether to show a toggle button for password visibility.
     /// </summary>
     [Parameter] public bool ShowPasswordToggle { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets the color for the password visibility toggle button.
+    /// Specifies the color for the password visibility toggle button.
     /// </summary>
     [Parameter] public Color ShowPasswordButtonColor { get; set; } = Color.Light;
 
     /// <summary>
-    /// Gets or sets the color used for satisfied password rules.
+    /// Specifies the color used for satisfied password rules.
     /// </summary>
     [Parameter] public TextColor RuleSatisfiedColor { get; set; } = TextColor.Success;
 
     /// <summary>
-    /// Gets or sets the color used for unsatisfied password rules.
+    /// Specifies the color used for unsatisfied password rules.
     /// </summary>
     [Parameter] public TextColor RuleUnsatisfiedColor { get; set; } = TextColor.Default;
 
@@ -583,7 +583,7 @@ public partial class PasswordStrength : BaseTextInput<string>
     [Parameter] public bool UseDefaultBlockedPasswordList { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets additional blocked passwords used during validation.
+    /// Specifies additional blocked passwords used during validation.
     /// </summary>
     [Parameter] public IEnumerable<string> BlockedPasswords { get; set; }
 

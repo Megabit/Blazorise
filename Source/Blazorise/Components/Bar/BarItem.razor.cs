@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.States;
@@ -137,7 +137,7 @@ public partial class BarItem : BaseComponent, IAsyncDisposable
     protected bool HasDropdown => barDropdown is not null;
 
     /// <summary>
-    /// Gets or sets the flag to indicate if <see cref="BarItem"/> is active, or focused.
+    /// Specifies the flag to indicate if <see cref="BarItem"/> is active, or focused.
     /// </summary>
     [Parameter]
     public bool Active
@@ -152,7 +152,7 @@ public partial class BarItem : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Gets or sets the disabled state to make <see cref="BarItem"/> inactive.
+    /// Specifies the disabled state to make <see cref="BarItem"/> inactive.
     /// </summary>
     [Parameter]
     public bool Disabled
@@ -187,7 +187,7 @@ public partial class BarItem : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Bar"/> component.
+    /// Provides the reference to the parent <see cref="Bar"/> component.
     /// </summary>
     [CascadingParameter] protected Bar ParentBar { get; set; }
 
