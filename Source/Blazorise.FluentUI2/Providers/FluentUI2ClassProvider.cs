@@ -1692,6 +1692,12 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
+    #region Float
+
+    public override string Float( Float @float ) => $"fui-Float-{ToFloat( @float )}";
+
+    #endregion
+
     #region Visibility
 
     public override string Visibility( Visibility visibility )
@@ -1811,6 +1817,16 @@ public class FluentUI2ClassProvider : ClassProvider
         {
             Blazorise.Spacing.Margin => "Margin",
             Blazorise.Spacing.Padding => "Padding",
+            _ => null,
+        };
+    }
+
+    public override string ToFloat( Float @float )
+    {
+        return @float switch
+        {
+            Blazorise.Float.Start => "start",
+            Blazorise.Float.End => "end",
             _ => null,
         };
     }
