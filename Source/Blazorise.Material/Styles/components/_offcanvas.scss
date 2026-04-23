@@ -193,6 +193,28 @@
     transition-delay: 0s;
 }
 
+.mui-offcanvas {
+    &.mui-offcanvas-sm {
+        --mui-offcanvas-inline-size: min(18rem, 100vw);
+        --mui-offcanvas-block-size: min(18rem, 100dvh);
+    }
+
+    &.mui-offcanvas-lg {
+        --mui-offcanvas-inline-size: min(28rem, 100vw);
+        --mui-offcanvas-block-size: min(32rem, 100dvh);
+    }
+
+    &.mui-offcanvas-xl {
+        --mui-offcanvas-inline-size: min(36rem, 100vw);
+        --mui-offcanvas-block-size: min(40rem, 100dvh);
+    }
+
+    &.mui-offcanvas-fullscreen {
+        --mui-offcanvas-inline-size: 100vw;
+        --mui-offcanvas-block-size: 100dvh;
+    }
+}
+
 @keyframes mui-offcanvas-backdrop-fade-in {
     from {
         opacity: 0;

@@ -1,4 +1,4 @@
-﻿@page "/tests/offcanvas"
+@page "/tests/offcanvas"
 
 <Row>
     <Column>
@@ -63,6 +63,47 @@
     </Column>
 </Row>
 
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Offcanvas Sizes</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Predefined sizes are configured per offcanvas instance. Use separate instances when placement changes across axes.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Margin="Margin.Is2.FromEnd" Clicked="@(() => ShowOffcanvas( offcanvasEndSmallRef ))">
+                    Small End
+                </Button>
+                <Button Color="Color.Primary" Margin="Margin.Is2.FromEnd" Clicked="@(() => ShowOffcanvas( offcanvasEndLargeRef ))">
+                    Large End
+                </Button>
+                <Button Color="Color.Primary" Margin="Margin.Is2.FromEnd" Clicked="@(() => ShowOffcanvas( offcanvasEndExtraLargeRef ))">
+                    Extra Large End
+                </Button>
+                <Button Color="Color.Primary" Margin="Margin.Is2.FromEnd" Clicked="@(() => ShowOffcanvas( offcanvasEndFullscreenRef ))">
+                    Fullscreen End
+                </Button>
+                <Button Color="Color.Secondary" Margin="Margin.Is2.FromEnd" Clicked="@(() => ShowOffcanvas( offcanvasTopSmallRef ))">
+                    Small Top
+                </Button>
+                <Button Color="Color.Secondary" Margin="Margin.Is2.FromEnd" Clicked="@(() => ShowOffcanvas( offcanvasTopLargeRef ))">
+                    Large Top
+                </Button>
+                <Button Color="Color.Secondary" Margin="Margin.Is2.FromEnd" Clicked="@(() => ShowOffcanvas( offcanvasTopExtraLargeRef ))">
+                    Extra Large Top
+                </Button>
+                <Button Color="Color.Secondary" Clicked="@(() => ShowOffcanvas( offcanvasTopFullscreenRef ))">
+                    Fullscreen Top
+                </Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
 <Offcanvas @ref="offcanvasRef1" Placement="Placement.Start" Animated="@animation" AnimationDuration="@animationDuration">
     <OffcanvasHeader>
         Offcanvas Header
@@ -119,11 +160,123 @@
     </OffcanvasFooter>
 </Offcanvas>
 
+<Offcanvas @ref="offcanvasEndSmallRef" Placement="Placement.End" Size="OffcanvasSize.Small" Animated="@animation" AnimationDuration="@animationDuration">
+    <OffcanvasHeader>
+        Small End Offcanvas
+        <CloseButton Clicked="@(() => HideOffcanvas( offcanvasEndSmallRef ))" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        <p>Small size applied to an end-positioned offcanvas.</p>
+    </OffcanvasBody>
+    <OffcanvasFooter>
+        <Button Color="Color.Primary" Clicked="@(() => HideOffcanvas( offcanvasEndSmallRef ))">Close Action</Button>
+    </OffcanvasFooter>
+</Offcanvas>
+
+<Offcanvas @ref="offcanvasEndLargeRef" Placement="Placement.End" Size="OffcanvasSize.Large" Animated="@animation" AnimationDuration="@animationDuration">
+    <OffcanvasHeader>
+        Large End Offcanvas
+        <CloseButton Clicked="@(() => HideOffcanvas( offcanvasEndLargeRef ))" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        <p>Large size applied to an end-positioned offcanvas.</p>
+    </OffcanvasBody>
+    <OffcanvasFooter>
+        <Button Color="Color.Primary" Clicked="@(() => HideOffcanvas( offcanvasEndLargeRef ))">Close Action</Button>
+    </OffcanvasFooter>
+</Offcanvas>
+
+<Offcanvas @ref="offcanvasEndExtraLargeRef" Placement="Placement.End" Size="OffcanvasSize.ExtraLarge" Animated="@animation" AnimationDuration="@animationDuration">
+    <OffcanvasHeader>
+        Extra Large End Offcanvas
+        <CloseButton Clicked="@(() => HideOffcanvas( offcanvasEndExtraLargeRef ))" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        <p>Extra large size applied to an end-positioned offcanvas.</p>
+    </OffcanvasBody>
+    <OffcanvasFooter>
+        <Button Color="Color.Primary" Clicked="@(() => HideOffcanvas( offcanvasEndExtraLargeRef ))">Close Action</Button>
+    </OffcanvasFooter>
+</Offcanvas>
+
+<Offcanvas @ref="offcanvasEndFullscreenRef" Placement="Placement.End" Size="OffcanvasSize.Fullscreen" Animated="@animation" AnimationDuration="@animationDuration">
+    <OffcanvasHeader>
+        Fullscreen End Offcanvas
+        <CloseButton Clicked="@(() => HideOffcanvas( offcanvasEndFullscreenRef ))" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        <p>Fullscreen size applied to an end-positioned offcanvas.</p>
+    </OffcanvasBody>
+    <OffcanvasFooter>
+        <Button Color="Color.Primary" Clicked="@(() => HideOffcanvas( offcanvasEndFullscreenRef ))">Close Action</Button>
+    </OffcanvasFooter>
+</Offcanvas>
+
+<Offcanvas @ref="offcanvasTopSmallRef" Placement="Placement.Top" Size="OffcanvasSize.Small" Animated="@animation" AnimationDuration="@animationDuration">
+    <OffcanvasHeader>
+        Small Top Offcanvas
+        <CloseButton Clicked="@(() => HideOffcanvas( offcanvasTopSmallRef ))" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        <p>Small size applied to a top-positioned offcanvas.</p>
+    </OffcanvasBody>
+    <OffcanvasFooter>
+        <Button Color="Color.Primary" Clicked="@(() => HideOffcanvas( offcanvasTopSmallRef ))">Close Action</Button>
+    </OffcanvasFooter>
+</Offcanvas>
+
+<Offcanvas @ref="offcanvasTopLargeRef" Placement="Placement.Top" Size="OffcanvasSize.Large" Animated="@animation" AnimationDuration="@animationDuration">
+    <OffcanvasHeader>
+        Large Top Offcanvas
+        <CloseButton Clicked="@(() => HideOffcanvas( offcanvasTopLargeRef ))" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        <p>Large size applied to a top-positioned offcanvas.</p>
+    </OffcanvasBody>
+    <OffcanvasFooter>
+        <Button Color="Color.Primary" Clicked="@(() => HideOffcanvas( offcanvasTopLargeRef ))">Close Action</Button>
+    </OffcanvasFooter>
+</Offcanvas>
+
+<Offcanvas @ref="offcanvasTopExtraLargeRef" Placement="Placement.Top" Size="OffcanvasSize.ExtraLarge" Animated="@animation" AnimationDuration="@animationDuration">
+    <OffcanvasHeader>
+        Extra Large Top Offcanvas
+        <CloseButton Clicked="@(() => HideOffcanvas( offcanvasTopExtraLargeRef ))" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        <p>Extra large size applied to a top-positioned offcanvas.</p>
+    </OffcanvasBody>
+    <OffcanvasFooter>
+        <Button Color="Color.Primary" Clicked="@(() => HideOffcanvas( offcanvasTopExtraLargeRef ))">Close Action</Button>
+    </OffcanvasFooter>
+</Offcanvas>
+
+<Offcanvas @ref="offcanvasTopFullscreenRef" Placement="Placement.Top" Size="OffcanvasSize.Fullscreen" Animated="@animation" AnimationDuration="@animationDuration">
+    <OffcanvasHeader>
+        Fullscreen Top Offcanvas
+        <CloseButton Clicked="@(() => HideOffcanvas( offcanvasTopFullscreenRef ))" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        <p>Fullscreen size applied to a top-positioned offcanvas.</p>
+    </OffcanvasBody>
+    <OffcanvasFooter>
+        <Button Color="Color.Primary" Clicked="@(() => HideOffcanvas( offcanvasTopFullscreenRef ))">Close Action</Button>
+    </OffcanvasFooter>
+</Offcanvas>
+
 @code {
     private Offcanvas offcanvasRef1;
     private Offcanvas offcanvasRef2;
     private Offcanvas offcanvasRef3;
     private Offcanvas offcanvasRef4;
+    private Offcanvas offcanvasEndSmallRef;
+    private Offcanvas offcanvasEndLargeRef;
+    private Offcanvas offcanvasEndExtraLargeRef;
+    private Offcanvas offcanvasEndFullscreenRef;
+    private Offcanvas offcanvasTopSmallRef;
+    private Offcanvas offcanvasTopLargeRef;
+    private Offcanvas offcanvasTopExtraLargeRef;
+    private Offcanvas offcanvasTopFullscreenRef;
 
     private bool animation = true;
     private int animationDuration = 300;
@@ -146,5 +299,15 @@
     private Task HideOffcanvas4()
     {
         return offcanvasRef4.Hide();
+    }
+
+    private Task ShowOffcanvas( Offcanvas offcanvas )
+    {
+        return offcanvas.Show();
+    }
+
+    private Task HideOffcanvas( Offcanvas offcanvas )
+    {
+        return offcanvas.Hide();
     }
 }

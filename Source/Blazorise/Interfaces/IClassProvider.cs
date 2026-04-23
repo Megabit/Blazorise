@@ -908,6 +908,8 @@ public interface IClassProvider
 
     string Offcanvas();
 
+    string OffcanvasSize( OffcanvasSize offcanvasSize );
+
     string OffcanvasPlacement( Placement placement, bool visible );
 
     string OffcanvasFade( bool showing, bool hiding );

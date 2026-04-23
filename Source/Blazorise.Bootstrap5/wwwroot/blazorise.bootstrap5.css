@@ -1380,6 +1380,31 @@ li.list-group-item-action {
   padding: var(--bs-offcanvas-padding-y) var(--bs-offcanvas-padding-x);
 }
 
+.offcanvas.offcanvas-size-sm.offcanvas-start, .offcanvas.offcanvas-size-sm.offcanvas-end {
+  --bs-offcanvas-width: 300px;
+}
+.offcanvas.offcanvas-size-sm.offcanvas-top, .offcanvas.offcanvas-size-sm.offcanvas-bottom {
+  --bs-offcanvas-height: 20vh;
+}
+.offcanvas.offcanvas-size-lg.offcanvas-start, .offcanvas.offcanvas-size-lg.offcanvas-end {
+  --bs-offcanvas-width: 500px;
+}
+.offcanvas.offcanvas-size-lg.offcanvas-top, .offcanvas.offcanvas-size-lg.offcanvas-bottom {
+  --bs-offcanvas-height: 40vh;
+}
+.offcanvas.offcanvas-size-xl.offcanvas-start, .offcanvas.offcanvas-size-xl.offcanvas-end {
+  --bs-offcanvas-width: 650px;
+}
+.offcanvas.offcanvas-size-xl.offcanvas-top, .offcanvas.offcanvas-size-xl.offcanvas-bottom {
+  --bs-offcanvas-height: 50vh;
+}
+.offcanvas.offcanvas-size-fullscreen.offcanvas-start, .offcanvas.offcanvas-size-fullscreen.offcanvas-end {
+  --bs-offcanvas-width: 100vw;
+}
+.offcanvas.offcanvas-size-fullscreen.offcanvas-top, .offcanvas.offcanvas-size-fullscreen.offcanvas-bottom {
+  --bs-offcanvas-height: 100vh;
+}
+
 .page-item:not(.disabled) .page-link {
   cursor: pointer;
 }

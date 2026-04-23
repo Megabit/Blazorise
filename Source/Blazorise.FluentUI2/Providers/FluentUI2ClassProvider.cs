@@ -1064,6 +1064,10 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Offcanvas() => "fui-OverlayDrawer";
 
+    public override string OffcanvasSize( OffcanvasSize offcanvasSize ) => offcanvasSize == Blazorise.OffcanvasSize.Default
+        ? null
+        : $"fui-OverlayDrawer-{ToOffcanvasSize( offcanvasSize )}";
+
     public override string OffcanvasPlacement( Placement placement, bool visible )
     {
         return placement switch
