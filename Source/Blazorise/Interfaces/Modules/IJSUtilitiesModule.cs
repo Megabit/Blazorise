@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -174,6 +174,12 @@ public interface IJSUtilitiesModule : IBaseJSModule
     /// <param name="args">Optional parameters.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     ValueTask Log( bool showBanner, string message, params string[] args );
+
+    /// <summary>
+    /// Waits until the next browser animation frame.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask WaitForAnimationFrame();
 
     /// <summary>
     /// Checks if the current system theme is in dark mode.

@@ -500,6 +500,10 @@ export function log(showBanner, message, args) {
     }
 }
 
+export function waitForAnimationFrame() {
+    return new Promise(resolve => window.requestAnimationFrame(() => resolve()));
+}
+
 export function createEvent(name) {
     const e = document.createEvent("Event");
     e.initEvent(name, true, true);
