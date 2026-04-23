@@ -25,7 +25,7 @@ public partial class _GanttTimelineInner : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the content rendered inside the inner timeline container.
+    /// Defines the content rendered inside the inner timeline container.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

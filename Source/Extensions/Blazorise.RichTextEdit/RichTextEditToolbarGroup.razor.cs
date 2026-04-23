@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -25,7 +25,7 @@ public partial class RichTextEditToolbarGroup : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the child content.
+    /// Defines the child content.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

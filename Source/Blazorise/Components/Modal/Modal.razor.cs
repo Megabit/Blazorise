@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -604,28 +604,28 @@ public partial class Modal : BaseComponent<ModalClasses, ModalStyles>, ICloseAct
         => closeActivatorElementIds;
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSModalModule"/> instance.
+    /// Specifies the <see cref="IJSModalModule"/> instance.
     /// </summary>
     [Inject] public IJSModalModule JSModalModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSClosableModule"/> instance.
+    /// Specifies the <see cref="IJSClosableModule"/> instance.
     /// </summary>
     [Inject] public IJSClosableModule JSClosableModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the modal shared context.
+    /// Specifies the modal shared context.
     /// </summary>
     [Inject] private IModalSharedContext ModalContext { get; set; }
 
     /// <summary>
-    /// Defines the visibility of modal dialog.
+    /// Specifies the visibility of modal dialog.
     /// </summary>
     /// <remarks>The <see cref="Visible"/> parameter should only be used in .razor code.</remarks>
     [Parameter] public bool Visible { get; set; }
 
     /// <summary>
-    /// Occurs when the modal visibility state changes.
+    /// Notifies when the modal visibility state changes.
     /// </summary>
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
@@ -666,12 +666,12 @@ public partial class Modal : BaseComponent<ModalClasses, ModalStyles>, ICloseAct
     [Parameter] public int AnimationDuration { get; set; } = 150;
 
     /// <summary>
-    /// Defines how the modal content will be rendered.
+    /// Specifies how the modal content will be rendered.
     /// </summary>
     [Parameter] public ModalRenderMode RenderMode { get; set; }
 
     /// <summary>
-    /// Defines if the modal should keep the input focus at all times.
+    /// Specifies if the modal should keep the input focus at all times.
     /// </summary>
     [Parameter] public bool? FocusTrap { get; set; }
 

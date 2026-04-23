@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -60,7 +60,7 @@ public partial class SelectItem<TValue> : BaseComponent, ISelectItem<TValue>, ID
     protected string StringValue => Value?.ToString() ?? string.Empty;
 
     /// <summary>
-    /// Gets or sets the item value.
+    /// Specifies the item value.
     /// </summary>
     [Parameter] public TValue Value { get; set; }
 

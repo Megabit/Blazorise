@@ -300,12 +300,12 @@ public partial class LoadingIndicator : BaseComponent<LoadingIndicatorClasses, L
     }
 
     /// <summary>
-    /// Occurs when Initializing state has changed.
+    /// Notifies when Initializing state has changed.
     /// </summary>
     [Parameter] public EventCallback<bool> InitializingChanged { get; set; }
 
     /// <summary>
-    /// Occurs when Visible state has changed.
+    /// Notifies when Visible state has changed.
     /// </summary>
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
@@ -330,17 +330,17 @@ public partial class LoadingIndicator : BaseComponent<LoadingIndicatorClasses, L
     [Parameter] public Background SpinnerBackground { get; set; } = "#c0c0c0";
 
     /// <summary>
-    /// Defines the spinner color in a HEX format.
+    /// Specifies the spinner color in a HEX format.
     /// </summary>
     [Parameter] public Color SpinnerColor { get; set; } = "#000000";
 
     /// <summary>
-    /// Defines the spinner HTML width, eg. "64px".
+    /// Specifies the spinner HTML width, eg. "64px".
     /// </summary>
     [Parameter] public string SpinnerWidth { get; set; }
 
     /// <summary>
-    /// Defines the spinner HTML height, eg. "64px".
+    /// Specifies the spinner HTML height, eg. "64px".
     /// </summary>
     [Parameter] public string SpinnerHeight { get; set; } = "64px";
 

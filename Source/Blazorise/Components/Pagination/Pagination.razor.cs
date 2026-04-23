@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
@@ -86,7 +86,7 @@ public partial class Pagination : BaseComponent, IDisposable
     protected string AriaLabelAttribute => string.IsNullOrWhiteSpace( AriaLabel ) ? null : AriaLabel;
 
     /// <summary>
-    /// Gets or sets the pagination size.
+    /// Specifies the pagination size.
     /// </summary>
     [Parameter]
     public Size? Size
@@ -101,7 +101,7 @@ public partial class Pagination : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Gets or sets the pagination alignment.
+    /// Specifies the pagination alignment.
     /// </summary>
     [Parameter]
     public Alignment Alignment
@@ -116,7 +116,7 @@ public partial class Pagination : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Gets or sets the aria-label value for the pagination navigation.
+    /// Specifies the aria-label value for the pagination navigation.
     /// </summary>
     [Parameter] public string AriaLabel { get; set; } = "Pagination";
 

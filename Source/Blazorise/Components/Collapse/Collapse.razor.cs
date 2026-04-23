@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
@@ -63,7 +63,7 @@ public partial class Collapse : BaseComponent, IDisposable
     #region Properties
 
     /// <summary>
-    /// Gets or sets the collapse visibility state.
+    /// Specifies the collapse visibility state.
     /// </summary>
     [Parameter]
     public bool Visible
@@ -82,12 +82,12 @@ public partial class Collapse : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Occurs when the collapse visibility state changes.
+    /// Notifies when the collapse visibility state changes.
     /// </summary>
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the cascaded parent accordion component.
+    /// Specifies the cascaded parent accordion component.
     /// </summary>
     [CascadingParameter] protected Accordion ParentAccordion { get; set; }
 

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -295,22 +295,22 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     protected string AriaControls => ParentDropdown?.DropdownMenuElementId;
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSClosableModule"/> instance.
+    /// Specifies the <see cref="IJSClosableModule"/> instance.
     /// </summary>
     [Inject] public IJSClosableModule JSClosableModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+    /// Specifies the <see cref="IJSUtilitiesModule"/> instance.
     /// </summary>
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the dropdown color.
+    /// Specifies the dropdown color.
     /// </summary>
     [Parameter] public Color Color { get; set; } = Color.Default;
 
     /// <summary>
-    /// Gets or sets the dropdown intent.
+    /// Specifies the dropdown intent.
     /// </summary>
     [Parameter]
     public Intent Intent
@@ -320,7 +320,7 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     }
 
     /// <summary>
-    /// Gets or sets the dropdown size.
+    /// Specifies the dropdown size.
     /// </summary>
     [Parameter] public Size? Size { get; set; }
 
@@ -360,7 +360,7 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     }
 
     /// <summary>
-    /// Gets or sets the parent dropdown state object.
+    /// Specifies the parent dropdown state object.
     /// </summary>
     [CascadingParameter]
     protected DropdownState ParentDropdownState
@@ -378,7 +378,7 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the dropdown toggle icon is visible.
+    /// Specifies a value indicating whether the dropdown toggle icon is visible.
     /// </summary>
     /// <value>
     /// <c>true</c> if [show toggle]; otherwise, <c>false</c>.
@@ -392,7 +392,7 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     [Parameter] public int? TabIndex { get; set; }
 
     /// <summary>
-    /// Occurs when the toggle button is clicked.
+    /// Notifies when the toggle button is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
@@ -402,7 +402,7 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     [CascadingParameter] protected Theme Theme { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent dropdown.
+    /// Provides the reference to the parent dropdown.
     /// </summary>
     [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
 

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -2140,12 +2140,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     [Parameter] public IEnumerable<TItem> Data { get; set; }
 
     /// <summary>
-    /// The currently selected date. Determines the date that is displayed in the scheduler. Defaults to the current date.
+    /// Specifies the anchor date used by the selected view.
     /// </summary>
     [Parameter] public DateOnly Date { get; set; }
 
     /// <summary>
-    /// Occurs when the selected date changes.
+    /// Notifies when the selected date changes.
     /// </summary>
     [Parameter] public EventCallback<DateOnly> DateChanged { get; set; }
 
@@ -2160,7 +2160,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     [Parameter] public SchedulerView SelectedView { get; set; }
 
     /// <summary>
-    /// Occurs when the selected view changes.
+    /// Notifies when the selected view changes.
     /// </summary>
     [Parameter] public EventCallback<SchedulerView> SelectedViewChanged { get; set; }
 
@@ -2170,57 +2170,57 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     [Parameter] public bool ShowToolbar { get; set; } = true;
 
     /// <summary>
-    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the unique identifier of the appointment. Defaults to "Id".
+    /// Specifies the field name of the <see cref="Scheduler{TItem}"/> that represents the unique identifier of the appointment. Defaults to "Id".
     /// </summary>
     [Parameter] public string IdField { get; set; } = "Id";
 
     /// <summary>
-    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the start date of the appointment. Defaults to "Start".
+    /// Specifies the field name of the <see cref="Scheduler{TItem}"/> that represents the start date of the appointment. Defaults to "Start".
     /// </summary>
     [Parameter] public string StartField { get; set; } = "Start";
 
     /// <summary>
-    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the end date of the appointment. Defaults to "End".
+    /// Specifies the field name of the <see cref="Scheduler{TItem}"/> that represents the end date of the appointment. Defaults to "End".
     /// </summary>
     [Parameter] public string EndField { get; set; } = "End";
 
     /// <summary>
-    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the title of the appointment. Defaults to "Title".
+    /// Specifies the field name of the <see cref="Scheduler{TItem}"/> that represents the title of the appointment. Defaults to "Title".
     /// </summary>
     [Parameter] public string TitleField { get; set; } = "Title";
 
     /// <summary>
-    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the description of the appointment. Defaults to "Description".
+    /// Specifies the field name of the <see cref="Scheduler{TItem}"/> that represents the description of the appointment. Defaults to "Description".
     /// </summary>
     [Parameter] public string DescriptionField { get; set; } = "Description";
 
     /// <summary>
-    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the all-day status of the appointment. Defaults to "AllDay".
+    /// Specifies the field name of the <see cref="Scheduler{TItem}"/> that represents the all-day status of the appointment. Defaults to "AllDay".
     /// </summary>
     [Parameter] public string AllDayField { get; set; } = "AllDay";
 
     /// <summary>
-    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the recurrence rule string in <see href="https://icalendar.org/RFC-Specifications/iCalendar-RFC-5545/">iCalendar (RFC 5545)</see> compliance rules.
+    /// Specifies the field name of the <see cref="Scheduler{TItem}"/> that represents the recurrence rule string in <see href="https://icalendar.org/RFC-Specifications/iCalendar-RFC-5545/">iCalendar (RFC 5545)</see> compliance rules.
     /// </summary>
     [Parameter] public string RecurrenceRuleField { get; set; } = "RecurrenceRule";
 
     /// <summary>
-    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the recurrence ID of the appointment. This is used to identify the master appointment in a recurring series.
+    /// Specifies the field name of the <see cref="Scheduler{TItem}"/> that represents the recurrence ID of the appointment. This is used to identify the master appointment in a recurring series.
     /// </summary>
     [Parameter] public string RecurrenceIdField { get; set; } = "RecurrenceId";
 
     /// <summary>
-    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the original start date of the appointment. This is used to store the original start date of a recurring series.
+    /// Specifies the field name of the <see cref="Scheduler{TItem}"/> that represents the original start date of the appointment. This is used to store the original start date of a recurring series.
     /// </summary>
     [Parameter] public string OriginalStartField { get; set; } = "OriginalStart";
 
     /// <summary>
-    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the recurrence exceptions. This is used to store the dates of the exceptions in a recurring series.
+    /// Specifies the field name of the <see cref="Scheduler{TItem}"/> that represents the recurrence exceptions. This is used to store the dates of the exceptions in a recurring series.
     /// </summary>
     [Parameter] public string RecurrenceExceptionsField { get; set; } = "RecurrenceExceptions";
 
     /// <summary>
-    /// Defines the field name of the <see cref="Scheduler{TItem}"/> that represents the deleted occurrences. This is used to store the dates of the deleted occurrences in a recurring series.
+    /// Specifies the field name of the <see cref="Scheduler{TItem}"/> that represents the deleted occurrences. This is used to store the dates of the deleted occurrences in a recurring series.
     /// </summary>
     [Parameter] public string DeletedOccurrencesField { get; set; } = "DeletedOccurrences";
 
@@ -2285,12 +2285,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     [Parameter] public EventCallback<SchedulerUpdatedItem<TItem>> ItemRemoved { get; set; }
 
     /// <summary>
-    /// Occurs when an empty slot is clicked.
+    /// Notifies when an empty slot is clicked.
     /// </summary>
     [Parameter] public EventCallback<SchedulerSlotClickedEventArgs> SlotClicked { get; set; }
 
     /// <summary>
-    /// Occurs when an empty slot is clicked.
+    /// Notifies when an empty slot is clicked.
     /// </summary>
     [Parameter] public EventCallback<SchedulerSlotsSelectedEventArgs> SlotsSelected { get; set; }
 
@@ -2330,12 +2330,12 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
     [Parameter] public SchedulerLocalizers Localizers { get; set; }
 
     /// <summary>
-    /// Defines a callback for customizing the styling of items in a <see cref="Scheduler{TItem}"/>.
+    /// Specifies a callback for customizing the styling of items in a <see cref="Scheduler{TItem}"/>.
     /// </summary>
     [Parameter] public Action<TItem, SchedulerItemStyling> ItemStyling { get; set; }
 
     /// <summary>
-    /// Gets or sets the content to be rendered inside the component.
+    /// Defines the content to be rendered inside the component.
     /// </summary>
     /// <remarks>
     /// This property allows developers to define custom content within the <see cref="Scheduler{TItem}"/> component.

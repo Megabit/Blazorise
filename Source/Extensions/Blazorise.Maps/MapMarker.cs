@@ -61,7 +61,7 @@ public class MapMarker : MapLayer
     #region Properties
 
     /// <summary>
-    /// Defines the marker coordinate.
+    /// Specifies the marker coordinate.
     /// </summary>
     [Parameter] public MapCoordinate Coordinate { get; set; }
 
@@ -86,7 +86,7 @@ public class MapMarker : MapLayer
     [Parameter] public bool Draggable { get; set; }
 
     /// <summary>
-    /// Defines a custom marker icon.
+    /// Specifies a custom marker icon.
     /// </summary>
     [Parameter] public MapMarkerIcon Icon { get; set; }
 

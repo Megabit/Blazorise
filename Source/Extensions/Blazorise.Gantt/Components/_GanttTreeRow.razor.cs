@@ -26,22 +26,22 @@ public partial class _GanttTreeRow : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets callback invoked when row is clicked.
+    /// Notifies when row is clicked.
     /// </summary>
     [Parameter] public EventCallback Clicked { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when row is double-clicked.
+    /// Notifies when row is double-clicked.
     /// </summary>
     [Parameter] public EventCallback DoubleClicked { get; set; }
 
     /// <summary>
-    /// Gets or sets whether row is currently selected.
+    /// Determines whether row is currently selected.
     /// </summary>
     [Parameter] public bool Selected { get; set; }
 
     /// <summary>
-    /// Gets or sets the content rendered inside the tree row.
+    /// Defines the content rendered inside the tree row.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

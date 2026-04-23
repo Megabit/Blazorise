@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Localization;
@@ -124,12 +124,12 @@ partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
     [Inject] protected ITextLocalizer<DataGrid<TItem>> Localizer { get; set; }
 
     /// <summary>
-    /// Gets or sets the pagination context.
+    /// Specifies the pagination context.
     /// </summary>
     [Parameter] public PaginationContext<TItem> PaginationContext { get; set; }
 
     /// <summary>
-    /// Gets or sets the pagination templates.
+    /// Specifies the pagination templates.
     /// </summary>
     [Parameter]
     public PaginationTemplates<TItem> PaginationTemplates
@@ -166,64 +166,64 @@ partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Gets or sets currently selected row.
+    /// Specifies the currently selected tree row item.
     /// </summary>
     [Parameter] public TItem SelectedRow { get; set; }
 
     /// <summary>
-    /// Gets or sets content of page buttons of pager.
+    /// Defines content of page buttons of pager.
     /// </summary>
     [Parameter] public RenderFragment<PageButtonContext> PageButtonTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets content of first button of pager.
+    /// Defines content of first button of pager.
     /// </summary>
     [Parameter] public RenderFragment FirstPageButtonTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets content of last button of pager.
+    /// Defines content of last button of pager.
     /// </summary>
     [Parameter] public RenderFragment LastPageButtonTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets content of previous button of pager.
+    /// Defines content of previous button of pager.
     /// </summary>
     [Parameter] public RenderFragment PreviousPageButtonTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets content of next button of pager.
+    /// Defines content of next button of pager.
     /// </summary>
     [Parameter] public RenderFragment NextPageButtonTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets content of items per page of grid.
+    /// Defines content of items per page of grid.
     /// </summary>
     [Parameter] public RenderFragment ItemsPerPageTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets content of the page selector. The selector is only displayed under the tablets breakpoint. You will have to construct it using the provided pagination context.
+    /// Defines content of the page selector. The selector is only displayed under the tablets breakpoint. You will have to construct it using the provided pagination context.
     /// </summary>
     [Parameter] public RenderFragment<PaginationContext<TItem>> PageSelectorTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets content of the page sizes selector. You will have to construct it using the provided pagination context.
+    /// Defines content of the page sizes selector. You will have to construct it using the provided pagination context.
     /// </summary>
     [Parameter] public RenderFragment<PaginationContext<TItem>> PageSizesTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets content of total items grid for small devices.
+    /// Defines content of total items grid for small devices.
     /// </summary>
     [Parameter] public RenderFragment<PaginationContext<TItem>> TotalItemsShortTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets content of total items grid.
+    /// Defines content of total items grid.
     /// </summary>
     [Parameter] public RenderFragment<PaginationContext<TItem>> TotalItemsTemplate { get; set; }
 
     [Parameter] public EventCallback<string> OnPaginationItemClick { get; set; }
 
     /// <summary>
-    /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
+    /// Specifies the parent <see cref="DataGrid{TItem}"/> of the this component.
     /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 

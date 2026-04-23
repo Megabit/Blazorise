@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -54,12 +54,12 @@ public class BaseDataGridComponent : BaseAfterRenderComponent, IAsyncDisposable
     [Inject] protected IVersionProvider VersionProvider { get; set; }
 
     /// <summary>
-    /// Gets or sets the blazorise options.
+    /// Specifies the blazorise options.
     /// </summary>
     [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <summary>
-    /// Gets or sets the classname provider.
+    /// Specifies the classname provider.
     /// </summary>
     [Inject] protected IClassProvider ClassProvider { get; set; }
 
@@ -69,7 +69,7 @@ public class BaseDataGridComponent : BaseAfterRenderComponent, IAsyncDisposable
     [Inject] protected IIdGenerator IdGenerator { get; set; }
 
     /// <summary>
-    /// Gets or sets the datagrid element id.
+    /// Specifies the datagrid element id.
     /// </summary>
     [Parameter] public string ElementId { get; set; }
 

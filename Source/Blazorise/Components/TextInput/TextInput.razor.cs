@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -70,12 +70,12 @@ public partial class TextInput : BaseBufferedTextInput<string, TextInputClasses,
     protected override string DefaultValue => string.Empty;
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSTextInputModule"/> instance.
+    /// Specifies the <see cref="IJSTextInputModule"/> instance.
     /// </summary>
     [Inject] public IJSTextInputModule JSModule { get; set; }
 
     /// <summary>
-    /// Defines the role of the input text.
+    /// Specifies the role of the input text.
     /// </summary>
     [Parameter] public TextRole Role { get; set; } = TextRole.Text;
 

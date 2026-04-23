@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -63,7 +63,7 @@ public partial class OrderedList : BaseTypographyComponent
     }
 
     /// <summary>
-    /// Defines the type of item markers.
+    /// Specifies the type of item markers.
     /// </summary>
     [Parameter]
     public OrderedListType ListType
@@ -78,7 +78,7 @@ public partial class OrderedList : BaseTypographyComponent
     }
 
     /// <summary>
-    /// Defines the marker images for list items.
+    /// Specifies the marker images for list items.
     /// </summary>
     [Parameter]
     public string ListStyleImage

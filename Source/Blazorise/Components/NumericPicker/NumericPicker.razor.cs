@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Globalization;
 using System.Threading;
@@ -564,7 +564,7 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
     protected string InputMode => inputMode;
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSNumericPickerModule"/> instance.
+    /// Specifies the <see cref="IJSNumericPickerModule"/> instance.
     /// </summary>
     [Inject] public IJSNumericPickerModule JSModule { get; set; }
 
@@ -589,17 +589,17 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
     [Parameter] public string AlternativeDecimalSeparator { get; set; } = ",";
 
     /// <summary>
-    /// Defines the thousand grouping separator character.
+    /// Specifies the thousand grouping separator character.
     /// </summary>
     [Parameter] public string GroupSeparator { get; set; }
 
     /// <summary>
-    /// Defines how many numbers should be grouped together (usually for the thousand separator).
+    /// Specifies how many numbers should be grouped together (usually for the thousand separator).
     /// </summary>
     [Parameter] public string GroupSpacing { get; set; } = "3";
 
     /// <summary>
-    /// Defines the currency symbol to display.
+    /// Specifies the currency symbol to display.
     /// </summary>
     [Parameter] public string CurrencySymbol { get; set; }
 
@@ -614,7 +614,7 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
     [Parameter] public NumericRoundingMethod RoundingMethod { get; set; } = NumericRoundingMethod.HalfUpSymmetric;
 
     /// <summary>
-    /// Allow padding the decimal places with zeros. If set to <c>Floats</c>, padding is only done when there are some decimals. 
+    /// Allow padding the decimal places with zeros. If set to <c>Floats</c>, padding is only done when there are some decimals.
     /// </summary>
     /// <remarks>
     /// Setting AllowDecimalPadding to 'false' will override the <see cref="Decimals"/> setting.
@@ -622,7 +622,7 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
     [Parameter] public NumericAllowDecimalPadding AllowDecimalPadding { get; set; } = NumericAllowDecimalPadding.Always;
 
     /// <summary>
-    /// Defines if the decimal character or decimal character alternative should be accepted when there is already a decimal character shown in the element.
+    /// Specifies if the decimal character or decimal character alternative should be accepted when there is already a decimal character shown in the element.
     /// </summary>
     [Parameter] public bool AlwaysAllowDecimalSeparator { get; set; }
 

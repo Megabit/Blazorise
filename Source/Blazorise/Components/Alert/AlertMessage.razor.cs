@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -37,7 +37,7 @@ public partial class AlertMessage : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Alert"/> component.
+    /// Provides the reference to the parent <see cref="Alert"/> component.
     /// </summary>
     [CascadingParameter] protected Alert ParentAlert { get; set; }
 

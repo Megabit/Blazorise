@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -118,17 +118,17 @@ public partial class QRCode : BaseComponent, IAsyncDisposable
     protected JSQRCodeModule JSModule { get; private set; }
 
     /// <summary>
-    /// Gets or sets the JS runtime.
+    /// Specifies the JS runtime.
     /// </summary>
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     /// <summary>
-    /// Gets or sets the version provider.
+    /// Specifies the version provider.
     /// </summary>
     [Inject] private IVersionProvider VersionProvider { get; set; }
 
     /// <summary>
-    /// Gets or sets the blazorise options.
+    /// Specifies the blazorise options.
     /// </summary>
     [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
@@ -178,12 +178,12 @@ public partial class QRCode : BaseComponent, IAsyncDisposable
     [Parameter] public string Icon { get; set; }
 
     /// <summary>
-    /// Defines how much space the icon will occupy within the QRCode.
+    /// Specifies how much space the icon will occupy within the QRCode.
     /// </summary>
     [Parameter] public int IconSizePercentage { get; set; } = 40;
 
     /// <summary>
-    /// Defines how large the borders will be for the icon that is placed within the QRCode.
+    /// Specifies how large the borders will be for the icon that is placed within the QRCode.
     /// </summary>
     [Parameter] public int IconBorderWidth { get; set; } = 0;
 

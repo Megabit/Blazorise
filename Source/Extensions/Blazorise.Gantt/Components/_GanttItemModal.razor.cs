@@ -770,7 +770,7 @@ public partial class _GanttItemModal<TItem> : BaseComponent, IDisposable
     [Parameter] public EventCallback Closed { get; set; }
 
     /// <summary>
-    /// Gets or sets the first day of week used by date pickers.
+    /// Specifies the first day of the week used for date calculations.
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
 

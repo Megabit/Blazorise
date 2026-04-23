@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -470,7 +470,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     #region Properties
 
     /// <summary>
-    /// Gets or sets the default visibility of the column.
+    /// Specifies the default visibility of the column.
     /// This parameter is only used as the initial/default state; runtime visibility is managed by column visibility actions.
     /// </summary>
     [Parameter] public bool Displaying { get; set; } = true;
@@ -747,12 +747,12 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     public bool IsCommandColumn => ColumnType == DataGridColumnType.Command;
 
     /// <summary>
-    /// Gets or sets the column's display caption.
+    /// Specifies the column's display caption.
     /// </summary>
     [Parameter] public string Caption { get; set; }
 
     /// <summary>
-    /// Gets or sets the column's display caption template.
+    /// Defines the column's display caption template.
     /// </summary>
     [Parameter] public RenderFragment<DataGridColumn<TItem>> CaptionTemplate { get; set; }
 
@@ -767,22 +767,22 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public DataGridColumnCustomFilter CustomFilter { get; set; }
 
     /// <summary>
-    /// Defines the alignment for column filter cell. If not set, it will fallback to the TextAlignment.
+    /// Specifies the alignment for column filter cell. If not set, it will fallback to the TextAlignment.
     /// </summary>
     [Parameter] public TextAlignment? FilterTextAlignment { get; set; }
 
     /// <summary>
-    /// Gets or sets the text transformation for column filter cell. If not set, it will fallback to the TextTransform.
+    /// Specifies the text transformation for column filter cell. If not set, it will fallback to the TextTransform.
     /// </summary>
     [Parameter] public TextTransform? FilterTextTransform { get; set; }
 
     /// <summary>
-    /// Gets or sets the text decoration for column filter cell. If not set, it will fallback to the TextDecoration.
+    /// Specifies the text decoration for column filter cell. If not set, it will fallback to the TextDecoration.
     /// </summary>
     [Parameter] public TextDecoration? FilterTextDecoration { get; set; }
 
     /// <summary>
-    /// Gets or sets the text weight for column filter cell. If not set, it will fallback to the TextWeight.
+    /// Specifies the text weight for column filter cell. If not set, it will fallback to the TextWeight.
     /// </summary>
     [Parameter] public TextWeight? FilterTextWeight { get; set; }
 
@@ -797,7 +797,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public IFluentTextSize FilterTextSize { get; set; }
 
     /// <summary>
-    /// Defines the vertical alignment for column filter cell.
+    /// Specifies the vertical alignment for column filter cell.
     /// </summary>
     [Parameter] public VerticalAlignment? FilterVerticalAlignment { get; set; }
 
@@ -817,43 +817,43 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public IFluentGap FilterGap { get; set; }
 
     /// <summary>
-    /// Gets or sets the column initial sort direction.
+    /// Specifies the column initial sort direction.
     /// </summary>
     [Parameter] public SortDirection SortDirection { get; set; }
 
     /// <summary>
-    /// Gets or sets the custom comparer used for sorting the items in this column. 
+    /// Specifies the custom comparer used for sorting the items in this column.
     /// Note that this comparer can only be used with in-memory data.
     /// </summary>
     [Parameter] public IComparer<TItem> SortComparer { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the sort direction will be reversed.
+    /// Determines whether the sort direction will be reversed.
     /// </summary>
     [Parameter] public bool ReverseSorting { get; set; }
 
     /// <summary>
-    /// Gets or sets the column's display sort direction template.
+    /// Defines the column's display sort direction template.
     /// </summary>
     [Parameter] public RenderFragment<SortDirectionContext<TItem>> SortDirectionTemplate { get; set; }
 
     /// <summary>
-    /// Defines the alignment for the table cell.
+    /// Specifies the alignment for the table cell.
     /// </summary>
     [Parameter] public TextAlignment TextAlignment { get; set; }
 
     /// <summary>
-    /// Gets or sets the text transformation for the table cell.
+    /// Specifies the text transformation for the table cell.
     /// </summary>
     [Parameter] public TextTransform TextTransform { get; set; }
 
     /// <summary>
-    /// Gets or sets the text decoration for the table cell.
+    /// Specifies the text decoration for the table cell.
     /// </summary>
     [Parameter] public TextDecoration TextDecoration { get; set; }
 
     /// <summary>
-    /// Gets or sets the text weight for the table cell.
+    /// Specifies the text weight for the table cell.
     /// </summary>
     [Parameter] public TextWeight TextWeight { get; set; }
 
@@ -868,7 +868,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public IFluentTextSize TextSize { get; set; }
 
     /// <summary>
-    /// Defines the vertical alignment for the table cell.
+    /// Specifies the vertical alignment for the table cell.
     /// </summary>
     [Parameter] public VerticalAlignment VerticalAlignment { get; set; }
 
@@ -888,22 +888,22 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public IFluentGap Gap { get; set; }
 
     /// <summary>
-    /// Defines the alignment for column header cell. If not set, it will fallback to the TextAlignment.
+    /// Specifies the alignment for column header cell. If not set, it will fallback to the TextAlignment.
     /// </summary>
     [Parameter] public TextAlignment? HeaderTextAlignment { get; set; }
 
     /// <summary>
-    /// Gets or sets the text transformation for column header cell. If not set, it will fallback to the TextTransform.
+    /// Specifies the text transformation for column header cell. If not set, it will fallback to the TextTransform.
     /// </summary>
     [Parameter] public TextTransform? HeaderTextTransform { get; set; }
 
     /// <summary>
-    /// Gets or sets the text decoration for column header cell. If not set, it will fallback to the TextDecoration.
+    /// Specifies the text decoration for column header cell. If not set, it will fallback to the TextDecoration.
     /// </summary>
     [Parameter] public TextDecoration? HeaderTextDecoration { get; set; }
 
     /// <summary>
-    /// Gets or sets the text weight for column header cell. If not set, it will fallback to the TextWeight.
+    /// Specifies the text weight for column header cell. If not set, it will fallback to the TextWeight.
     /// </summary>
     [Parameter] public TextWeight? HeaderTextWeight { get; set; }
 
@@ -918,7 +918,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public IFluentTextSize HeaderTextSize { get; set; }
 
     /// <summary>
-    /// Defines the vertical alignment for column header cell.
+    /// Specifies the vertical alignment for column header cell.
     /// </summary>
     [Parameter] public VerticalAlignment? HeaderVerticalAlignment { get; set; }
 
@@ -938,22 +938,22 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public IFluentGap HeaderGap { get; set; }
 
     /// <summary>
-    /// Gets or sets whether users can edit cell values under this column.
+    /// Determines whether users can edit cell values under this column.
     /// </summary>
     [Parameter] public bool Editable { get; set; }
 
     /// <summary>
-    /// Gets or sets whether column can be displayed on a grid.
+    /// Determines whether column can be displayed on a grid.
     /// </summary>
     [Parameter] public bool Displayable { get; set; } = true;
 
     /// <summary>
-    /// Defines the initial display order of the column.
+    /// Specifies the initial display order of the column.
     /// </summary>
     [Parameter] public int DisplayOrder { get; set; }
 
     /// <summary>
-    /// Defines the initial display order of the column.
+    /// Specifies the initial display order of the column.
     /// </summary>
     [Parameter] public int? EditOrder { get; set; }
 
@@ -968,42 +968,42 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public bool CellsEditableOnEditCommand { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether end-users can sort data by the column's values.
+    /// Determines whether end-users can sort data by the column's values.
     /// </summary>
     [Parameter] public bool Sortable { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets a value indicating whether the column can be reordered by the user.
+    /// Specifies a value indicating whether the column can be reordered by the user.
     /// </summary>
     [Parameter] public bool Reorderable { get; set; }
 
     /// <summary>
-    /// Gets or sets whether end-users are prevented from editing the column's cell values.
+    /// Determines whether end-users are prevented from editing the column's cell values.
     /// </summary>
     [Parameter] public bool Readonly { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the column's caption is displayed within the column header.
+    /// Determines whether the column's caption is displayed within the column header.
     /// </summary>
     [Parameter] public bool ShowCaption { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether users can filter rows by its cell values.
+    /// Determines whether users can filter rows by its cell values.
     /// </summary>
     [Parameter] public bool Filterable { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether the column is eligible to be used as a Group Field. A custom <see cref="GroupBy"/> function can however be provided.
+    /// Determines whether the column is eligible to be used as a Group Field. A custom <see cref="GroupBy"/> function can however be provided.
     /// </summary>
     [Parameter] public bool Groupable { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the column should start grouped.
+    /// Determines whether the column should start grouped.
     /// </summary>
     [Parameter] public bool Grouping { get; set; }
 
     /// <summary>
-    /// Gets or sets a custom GroupBy function. <see cref="Groupable"/> needs to be active.
+    /// Defines a custom GroupBy function. <see cref="Groupable"/> needs to be active.
     /// </summary>
     [Parameter] public Func<TItem, object> GroupBy { get; set; }
 
@@ -1053,22 +1053,22 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public string AggregateCellStyle { get; set; }
 
     /// <summary>
-    /// Defines the alignment for column the aggregate cell. If not set, it will fallback to the TextAlignment.
+    /// Specifies the alignment for column the aggregate cell. If not set, it will fallback to the TextAlignment.
     /// </summary>
     [Parameter] public TextAlignment? AggregateTextAlignment { get; set; }
 
     /// <summary>
-    /// Gets or sets the text transformation for column the aggregate cell. If not set, it will fallback to the TextTransform.
+    /// Specifies the text transformation for column the aggregate cell. If not set, it will fallback to the TextTransform.
     /// </summary>
     [Parameter] public TextTransform? AggregateTextTransform { get; set; }
 
     /// <summary>
-    /// Gets or sets the text decoration for column the aggregate cell. If not set, it will fallback to the TextDecoration.
+    /// Specifies the text decoration for column the aggregate cell. If not set, it will fallback to the TextDecoration.
     /// </summary>
     [Parameter] public TextDecoration? AggregateTextDecoration { get; set; }
 
     /// <summary>
-    /// Gets or sets the text weight for column the aggregate cell. If not set, it will fallback to the TextWeight.
+    /// Specifies the text weight for column the aggregate cell. If not set, it will fallback to the TextWeight.
     /// </summary>
     [Parameter] public TextWeight? AggregateTextWeight { get; set; }
 
@@ -1083,7 +1083,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public IFluentTextSize AggregateTextSize { get; set; }
 
     /// <summary>
-    /// Defines the vertical alignment for column the aggregate cell.
+    /// Specifies the vertical alignment for column the aggregate cell.
     /// </summary>
     [Parameter] public VerticalAlignment? AggregateVerticalAlignment { get; set; }
 
@@ -1124,7 +1124,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public RenderFragment<FilterContext<TItem>> FilterTemplate { get; set; }
 
     /// <summary>
-    /// Defines the size of an edit field for popup modal and edit form.
+    /// Specifies the size of an edit field for popup modal and edit form.
     /// </summary>
     [Parameter] public IFluentColumn EditFieldColumnSize { get; set; }
 
@@ -1159,7 +1159,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public bool PreventRowClick { get; set; }
 
     /// <summary>
-    /// Gets or sets the order for sorting when Sorting is set to multiple. 
+    /// Specifies the order for sorting when Sorting is set to multiple.
     /// </summary>
     [Parameter] public int SortOrder { get; set; }
 
@@ -1197,7 +1197,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public DataGridFilterMode? FilterMode { get; set; }
 
     /// <summary>
-    /// Defines the fixed position of the row cell within the table.
+    /// Specifies the fixed position of the row cell within the table.
     /// </summary>
     [Parameter] public TableColumnFixedPosition FixedPosition { get; set; }
 

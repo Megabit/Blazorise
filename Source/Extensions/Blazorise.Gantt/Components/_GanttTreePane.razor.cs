@@ -25,7 +25,7 @@ public partial class _GanttTreePane : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the content rendered inside the tree pane.
+    /// Defines the content rendered inside the tree pane.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

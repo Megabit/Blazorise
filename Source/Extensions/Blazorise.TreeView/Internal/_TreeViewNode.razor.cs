@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -588,12 +588,12 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
     [Parameter] public TreeViewSelectionMode SelectionMode { get; set; }
 
     /// <summary>
-    /// Defines if the treenode should be expanded.
+    /// Specifies if the treenode should be expanded.
     /// </summary>
     [Parameter] public bool Expanded { get; set; }
 
     /// <summary>
-    /// Defines if the treenode should be automatically expanded. Note that it can happen only once when the tree is first loaded.
+    /// Specifies if the treenode should be automatically expanded. Note that it can happen only once when the tree is first loaded.
     /// </summary>
     [Parameter] public bool AutoExpandAll { get; set; }
 
@@ -604,47 +604,47 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
     [Parameter] public bool Virtualize { get; set; }
 
     /// <summary>
-    /// Defines the name of the treenode expand icon.
+    /// Specifies the name of the treenode expand icon.
     /// </summary>
     [Parameter] public IconName ExpandIconName { get; set; }
 
     /// <summary>
-    /// Defines the style of the treenode expand icon.
+    /// Specifies the style of the treenode expand icon.
     /// </summary>
     [Parameter] public IconStyle? ExpandIconStyle { get; set; }
 
     /// <summary>
-    /// Defines the size of the treenode expand icon.
+    /// Specifies the size of the treenode expand icon.
     /// </summary>
     [Parameter] public IconSize? ExpandIconSize { get; set; }
 
     /// <summary>
-    /// Defines the name of the treenode collapse icon.
+    /// Specifies the name of the treenode collapse icon.
     /// </summary>
     [Parameter] public IconName CollapseIconName { get; set; }
 
     /// <summary>
-    /// Defines the style of the treenode collapse icon.
+    /// Specifies the style of the treenode collapse icon.
     /// </summary>
     [Parameter] public IconStyle? CollapseIconStyle { get; set; }
 
     /// <summary>
-    /// Defines the size of the treenode collapse icon.
+    /// Specifies the size of the treenode collapse icon.
     /// </summary>
     [Parameter] public IconSize? CollapseIconSize { get; set; }
 
     /// <summary>
-    /// Gets or sets selected node styling.
+    /// Defines styling applied to selected nodes.
     /// </summary>
     [Parameter] public Action<TNode, NodeStyling> SelectedNodeStyling { get; set; }
 
     /// <summary>
-    /// Gets or sets disabled node styling.
+    /// Defines styling applied to disabled nodes.
     /// </summary>
     [Parameter] public Action<TNode, NodeStyling> DisabledNodeStyling { get; set; }
 
     /// <summary>
-    /// Gets or sets node styling.
+    /// Defines styling applied to nodes.
     /// </summary>
     [Parameter] public Action<TNode, NodeStyling> NodeStyling { get; set; }
 

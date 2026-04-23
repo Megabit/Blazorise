@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -36,7 +36,7 @@ public partial class Link : BaseLinkComponent, IDisposable
     #region Properties
 
     /// <summary>
-    /// Gets or sets the aria-labelledby attribute value.
+    /// Specifies the aria-labelledby attribute value.
     /// </summary>
     [Parameter] public string AriaLabelledBy { get; set; }
 
@@ -46,7 +46,7 @@ public partial class Link : BaseLinkComponent, IDisposable
     [Parameter] public EventCallback<KeyboardEventArgs> KeyDown { get; set; }
 
     /// <summary>
-    /// Gets or sets the role attribute value.
+    /// Specifies the role attribute value.
     /// </summary>
     [Parameter] public string Role { get; set; }
 

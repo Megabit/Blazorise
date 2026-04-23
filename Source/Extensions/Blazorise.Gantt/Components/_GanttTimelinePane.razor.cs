@@ -25,7 +25,7 @@ public partial class _GanttTimelinePane : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the content rendered inside the timeline pane.
+    /// Defines the content rendered inside the timeline pane.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

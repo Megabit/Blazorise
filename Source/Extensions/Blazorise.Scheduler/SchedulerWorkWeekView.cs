@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -32,7 +32,7 @@ public partial class SchedulerWorkWeekView<TItem> : BaseSchedulerView<TItem>
     #region Properties
 
     /// <summary>
-    /// Gets or sets the first day of the work week.
+    /// Specifies the first day of the work week.
     /// Determines the starting day of the work week in the scheduler view.
     /// </summary>
     /// <remarks>
@@ -41,7 +41,7 @@ public partial class SchedulerWorkWeekView<TItem> : BaseSchedulerView<TItem>
     [Parameter] public DayOfWeek FirstDayOfWorkWeek { get; set; } = DayOfWeek.Monday;
 
     /// <summary>
-    /// Gets or sets the height of each appointment cell in the layout.
+    /// Specifies the height of each appointment cell in the layout.
     /// </summary>
     /// <remarks>
     /// The value is in pixels and affects vertical sizing of time slots.

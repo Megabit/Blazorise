@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -47,7 +47,7 @@ public abstract class _BaseDataGridRowMultiSelect<TItem> : ComponentBase
     [Parameter] public TItem Item { get; set; }
 
     /// <summary>
-    /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
+    /// Specifies the parent <see cref="DataGrid{TItem}"/> of the this component.
     /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -32,7 +32,7 @@ public partial class SchedulerMonthView<TItem> : BaseSchedulerView<TItem>
     #region Properties
 
     /// <summary>
-    /// Gets or sets the height of each day cell in the month view layout, measured in pixels.
+    /// Specifies the height of each day cell in the month view layout, measured in pixels.
     /// </summary>
     /// <remarks>
     /// This value controls the vertical space allocated to each day in the month grid.

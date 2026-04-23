@@ -446,12 +446,12 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
     protected ClassBuilder PlaceholderClassBuilder { get; private set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSDragDropModule"/> instance.
+    /// Specifies the <see cref="IJSDragDropModule"/> instance.
     /// </summary>
     [Inject] public IJSDragDropModule JSModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the unique name of the dropzone.
+    /// Specifies the unique name of the dropzone.
     /// </summary>
     [Parameter] public string Name { get; set; }
 
@@ -526,7 +526,7 @@ public partial class DropZone<TItem> : BaseComponent<DropZoneClasses, DropZoneSt
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="DropContainer{TItem}"/> component.
+    /// Provides the reference to the parent <see cref="DropContainer{TItem}"/> component.
     /// </summary>
     [CascadingParameter] protected DropContainer<TItem> ParentContainer { get; set; }
 

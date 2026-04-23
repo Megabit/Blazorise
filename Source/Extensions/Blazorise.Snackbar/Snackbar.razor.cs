@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -254,7 +254,7 @@ public partial class Snackbar : BaseComponent, IDisposable
     protected double CloseAnimationDuration => AnimationDuration;
 
     /// <summary>
-    /// Gets or sets the cascaded parent SnackbarStack component.
+    /// Specifies the cascaded parent SnackbarStack component.
     /// </summary>
     [CascadingParameter] protected SnackbarStack ParentSnackbar { get; set; }
 
@@ -269,7 +269,7 @@ public partial class Snackbar : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Defines the visibility of snackbar.
+    /// Specifies the visibility of snackbar.
     /// </summary>
     [Parameter]
     public bool Visible
@@ -303,7 +303,7 @@ public partial class Snackbar : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Defines the snackbar location.
+    /// Specifies the snackbar location.
     /// </summary>
     [Parameter]
     public SnackbarLocation Location
@@ -318,7 +318,7 @@ public partial class Snackbar : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Defines the snackbar color.
+    /// Specifies the snackbar color.
     /// </summary>
     [Parameter]
     public SnackbarColor Color
@@ -333,12 +333,12 @@ public partial class Snackbar : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Defines the interval (in milliseconds) after which the snackbar will be automatically closed.
+    /// Specifies the interval (in milliseconds) after which the snackbar will be automatically closed.
     /// </summary>
     [Parameter] public double Interval { get; set; } = Constants.DefaultIntervalBeforeClose;
 
     /// <summary>
-    /// Defines the base animation duration in milliseconds.
+    /// Specifies the base animation duration in milliseconds.
     /// </summary>
     [Parameter] public double AnimationDuration { get; set; } = Constants.DefaultAnimationDuration;
 
@@ -348,7 +348,7 @@ public partial class Snackbar : BaseComponent, IDisposable
     [Parameter] public bool DelayCloseOnClick { get; set; }
 
     /// <summary>
-    /// Defines the interval (in milliseconds) by which the snackbar will be delayed from closing.
+    /// Specifies the interval (in milliseconds) by which the snackbar will be delayed from closing.
     /// </summary>
     [Parameter] public double? DelayCloseOnClickInterval { get; set; }
 

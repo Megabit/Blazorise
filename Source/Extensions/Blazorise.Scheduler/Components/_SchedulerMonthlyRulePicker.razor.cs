@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -107,12 +107,12 @@ public partial class _SchedulerMonthlyRulePicker<TItem> : RadioGroup<string>, ID
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     /// <summary>
-    /// Gets or sets the parent scheduler component.
+    /// Specifies the parent scheduler component.
     /// </summary>
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
     /// <summary>
-    /// Gets or sets the selected days of the month (e.g. 1, 15, 30).
+    /// Specifies the selected days of the month (e.g. 1, 15, 30).
     /// </summary>
     [Parameter] public List<int> ByMonthDay { get; set; }
 
@@ -122,7 +122,7 @@ public partial class _SchedulerMonthlyRulePicker<TItem> : RadioGroup<string>, ID
     [Parameter] public EventCallback<List<int>> ByMonthDayChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the week number in the month (e.g. first, second, last).
+    /// Specifies the week number in the month (e.g. first, second, last).
     /// </summary>
     [Parameter] public SchedulerWeek? ByWeek { get; set; }
 
@@ -132,7 +132,7 @@ public partial class _SchedulerMonthlyRulePicker<TItem> : RadioGroup<string>, ID
     [Parameter] public EventCallback<SchedulerWeek?> ByWeekChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the day of the week (e.g. Monday, Friday).
+    /// Specifies the day of the week (e.g. Monday, Friday).
     /// </summary>
     [Parameter] public DayOfWeek? ByWeekDay { get; set; }
 
@@ -142,12 +142,12 @@ public partial class _SchedulerMonthlyRulePicker<TItem> : RadioGroup<string>, ID
     [Parameter] public EventCallback<DayOfWeek?> ByWeekDayChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the month dropdown is visible.
+    /// Determines whether the month dropdown is visible.
     /// </summary>
     [Parameter] public bool ShowMonth { get; set; }
 
     /// <summary>
-    /// Gets or sets the selected month (optional).
+    /// Specifies the selected month (optional).
     /// </summary>
     [Parameter] public SchedulerMonth? ByMonth { get; set; }
 

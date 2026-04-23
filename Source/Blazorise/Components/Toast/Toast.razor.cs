@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Modules;
@@ -404,7 +404,7 @@ public partial class Toast : BaseComponent<ToastClasses, ToastStyles>, IAnimated
     [Inject] public IJSClosableModule JSClosableModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the visibility state of the Toast.
+    /// Specifies the visibility state of the Toast.
     /// </summary>
     [Parameter] public bool Visible { get; set; }
 

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Extensions;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -85,7 +85,7 @@ public partial class _OffcanvasBackdrop : BaseComponent
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Gets or sets the cascaded parent offcanvas component.
+    /// Specifies the cascaded parent offcanvas component.
     /// </summary>
     [CascadingParameter] protected Offcanvas ParentOffcanvas { get; set; }
 

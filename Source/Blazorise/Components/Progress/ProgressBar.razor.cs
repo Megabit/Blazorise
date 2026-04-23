@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
@@ -91,7 +91,7 @@ public partial class ProgressBar : BaseComponent
     protected bool IsShowValue => ParentProgress?.ShowValue ?? true;
 
     /// <summary>
-    /// Defines the progress bar color.
+    /// Specifies the progress bar color.
     /// </summary>
     [Parameter]
     public Color Color
@@ -106,7 +106,7 @@ public partial class ProgressBar : BaseComponent
     }
 
     /// <summary>
-    /// Defines the progress bar intent.
+    /// Specifies the progress bar intent.
     /// </summary>
     [Parameter]
     public Intent Intent
@@ -196,7 +196,7 @@ public partial class ProgressBar : BaseComponent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Progress"/> component.
+    /// Provides the reference to the parent <see cref="Progress"/> component.
     /// </summary>
     [CascadingParameter] protected Progress ParentProgress { get; set; }
 

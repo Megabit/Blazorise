@@ -128,52 +128,52 @@ public abstract class BaseGanttColumn<TItem> : ComponentBase, IDisposable
     [Parameter] public string Title { get; set; }
 
     /// <summary>
-    /// Gets or sets whether column is currently visible.
+    /// Determines whether column is currently visible.
     /// </summary>
     [Parameter] public bool Visible { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether column can be shown in column picker.
+    /// Determines whether column can be shown in column picker.
     /// </summary>
     [Parameter] public bool Displayable { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether this column can be sorted.
+    /// Determines whether this column can be sorted.
     /// </summary>
     [Parameter] public bool Sortable { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets field used by sort operation. Defaults to <see cref="Field"/>.
+    /// Specifies field used by sort operation. Defaults to <see cref="Field"/>.
     /// </summary>
     [Parameter] public string SortField { get; set; }
 
     /// <summary>
-    /// Gets or sets width.
+    /// Specifies width.
     /// </summary>
     [Parameter] public IFluentSizing Width { get; set; }
 
     /// <summary>
-    /// Gets or sets text alignment for header and cell.
+    /// Specifies text alignment for header and cell.
     /// </summary>
     [Parameter] public TextAlignment TextAlignment { get; set; } = TextAlignment.Default;
 
     /// <summary>
-    /// Gets or sets display format for default display text.
+    /// Specifies display format for default display text.
     /// </summary>
     [Parameter] public string DisplayFormat { get; set; }
 
     /// <summary>
-    /// Gets or sets display format provider.
+    /// Specifies display format provider.
     /// </summary>
     [Parameter] public IFormatProvider DisplayFormatProvider { get; set; }
 
     /// <summary>
-    /// Gets or sets whether this column should render tree expander.
+    /// Determines whether this column should render tree expander.
     /// </summary>
     [Parameter] public bool Expandable { get; set; }
 
     /// <summary>
-    /// Gets or sets custom header template.
+    /// Defines custom header template.
     /// </summary>
     [Parameter] public RenderFragment<GanttColumnHeaderContext<TItem>> HeaderTemplate { get; set; }
 
@@ -183,7 +183,7 @@ public abstract class BaseGanttColumn<TItem> : ComponentBase, IDisposable
     public RenderFragment<GanttColumnDisplayContext<TItem>> DisplayTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets custom edit template.
+    /// Defines custom edit template.
     /// </summary>
     [Parameter] public RenderFragment<GanttColumnEditContext<TItem>> EditTemplate { get; set; }
 

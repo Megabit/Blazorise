@@ -27,52 +27,52 @@ public partial class _GanttItemBar : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the custom CSS class applied to the item bar.
+    /// Specifies the custom CSS class applied to the item bar.
     /// </summary>
     [Parameter] public string CustomClass { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when the item bar is clicked.
+    /// Notifies when the item bar is clicked.
     /// </summary>
     [Parameter] public EventCallback Clicked { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when the mouse button is pressed on the item bar.
+    /// Notifies when the mouse button is pressed on the item bar.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> MouseDown { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when the mouse button is pressed on the start resize handle.
+    /// Notifies when the mouse button is pressed on the start resize handle.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> StartResizeMouseDown { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when the mouse button is pressed on the end resize handle.
+    /// Notifies when the mouse button is pressed on the end resize handle.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> EndResizeMouseDown { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the start resize handle is rendered.
+    /// Determines whether the start resize handle is rendered.
     /// </summary>
     [Parameter] public bool ShowStartResizeHandle { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the end resize handle is rendered.
+    /// Determines whether the end resize handle is rendered.
     /// </summary>
     [Parameter] public bool ShowEndResizeHandle { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the item start continues before the visible timeline range.
+    /// Determines whether the item start continues before the visible timeline range.
     /// </summary>
     [Parameter] public bool ShowStartOverflowIndicator { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the item end continues after the visible timeline range.
+    /// Determines whether the item end continues after the visible timeline range.
     /// </summary>
     [Parameter] public bool ShowEndOverflowIndicator { get; set; }
 
     /// <summary>
-    /// Gets or sets the content rendered inside the item bar.
+    /// Defines the content rendered inside the item bar.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using Blazorise.Utilities;
@@ -138,7 +138,7 @@ public partial class Fields : BaseColumnComponent
     }
 
     /// <summary>
-    /// Defines the padding between your columns, used to responsively space and align content in the Blazorise grid system.
+    /// Specifies the padding between your columns, used to responsively space and align content in the Blazorise grid system.
     /// </summary>
     [Parameter]
     public IFluentGutter Gutter

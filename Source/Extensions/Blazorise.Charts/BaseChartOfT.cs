@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -131,12 +131,12 @@ public class BaseChart<TItem> : BaseComponent, IAsyncDisposable
     [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <summary>
-    /// Defines the chart data.
+    /// Specifies the chart data.
     /// </summary>
     [Parameter] public ChartData<TItem> Data { get; set; }
 
     /// <summary>
-    /// Raised when clicked on data point. 
+    /// Raised when clicked on data point.
     /// </summary>
     [Parameter] public EventCallback<ChartMouseEventArgs> Clicked { get; set; }
 

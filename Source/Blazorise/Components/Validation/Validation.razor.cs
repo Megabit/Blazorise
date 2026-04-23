@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -485,7 +485,7 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
     public Regex Pattern => pattern;
 
     /// <summary>
-    /// Gets or sets the DI reference for the <see cref="IValidationHandlerFactory"/>.
+    /// Specifies the DI reference for the <see cref="IValidationHandlerFactory"/>.
     /// </summary>
     [Inject] protected IValidationHandlerFactory ValidationHandlerFactory { get; set; }
 
