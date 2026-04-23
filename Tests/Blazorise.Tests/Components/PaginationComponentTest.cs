@@ -4,11 +4,12 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class PaginationComponentTest : TestContext
+public class PaginationComponentTest : BunitContext
 {
     public PaginationComponentTest()
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop.AddBlazoriseUtilities();
     }
 
     [Fact]
@@ -45,7 +46,7 @@ public class PaginationComponentTest : TestContext
 
     private IRenderedComponent<Pagination> RenderPaginationLink( bool disabled = false, bool active = false )
     {
-        return RenderComponent<Pagination>( parameters => parameters
+        return Render<Pagination>( parameters => parameters
             .AddChildContent( builder =>
             {
                 builder.OpenComponent<PaginationItem>( 0 );

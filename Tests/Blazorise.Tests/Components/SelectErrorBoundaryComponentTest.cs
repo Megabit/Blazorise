@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class SelectErrorBoundaryComponentTest : TestContext
+public class SelectErrorBoundaryComponentTest : BunitContext
 {
     public SelectErrorBoundaryComponentTest()
     {
@@ -16,7 +16,7 @@ public class SelectErrorBoundaryComponentTest : TestContext
     [Fact]
     public async Task ValueChanged_Exception_TriggersErrorBoundary()
     {
-        var comp = RenderComponent<SelectErrorBoundaryComponent>();
+        var comp = Render<SelectErrorBoundaryComponent>();
         var select = comp.Find( "select" );
 
         await select.ChangeAsync( "2" );

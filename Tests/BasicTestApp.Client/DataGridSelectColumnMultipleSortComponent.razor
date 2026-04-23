@@ -1,0 +1,43 @@
+<DataGrid TItem="EmployeeActivity"
+          Data="@Data"
+          Sortable>
+    <DataGridColumns>
+        <DataGridSelectColumn TItem="EmployeeActivity"
+                              Field="@nameof( EmployeeActivity.Activities )"
+                              Caption="Activity"
+                              Multiple
+                              Data="activities"
+                              ValueField="( x ) => ( (Activity)x ).Code"
+                              TextField="( x ) => ( (Activity)x ).Description" />
+    </DataGridColumns>
+</DataGrid>
+
+@code {
+    [Parameter]
+    public IEnumerable<EmployeeActivity> Data { get; set; } = new List<EmployeeActivity>
+    {
+        new() { Activities = ["TRAIN"] },
+        new() { Activities = ["CODE", "TEST"] },
+        new() { Activities = ["MEET"] },
+    };
+
+    private readonly List<Activity> activities = new()
+    {
+        new() { Code = "MEET", Description = "Meeting" },
+        new() { Code = "TRAIN", Description = "Training" },
+        new() { Code = "CODE", Description = "Coding" },
+        new() { Code = "TEST", Description = "Testing" },
+    };
+
+    public class EmployeeActivity
+    {
+        public string[] Activities { get; set; }
+    }
+
+    public class Activity
+    {
+        public string Code { get; set; }
+
+        public string Description { get; set; }
+    }
+}

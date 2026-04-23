@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Bunit;
 using Xunit;
@@ -6,21 +6,22 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class BarComponentTest : TestContext
+public class BarComponentTest : BunitContext
 {
     public BarComponentTest()
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop
             .AddBlazoriseBreakpoint()
-            .AddBlazoriseClosable();
+            .AddBlazoriseClosable()
+            .AddBlazoriseDropdown();
     }
 
     [Fact]
     public async Task BarTroggle_ShouldTriggerClicked()
     {
         // setup
-        var comp = RenderComponent<BarComponent>();
+        var comp = Render<BarComponent>();
         var barToggler = comp.Find( ".dropdown-toggle" );
 
         // test
@@ -35,7 +36,7 @@ public class BarComponentTest : TestContext
     public async Task BarDropdownToggle_Enter_ShouldCloseDropdownWhenVisible()
     {
         // setup
-        var comp = RenderComponent<BarComponent>();
+        var comp = Render<BarComponent>();
         var barToggle = comp.Find( ".dropdown-toggle" );
         var dropdownMenu = comp.Find( ".dropdown-menu" );
 
@@ -51,7 +52,7 @@ public class BarComponentTest : TestContext
     public async Task BarDropdownItem_Enter_ShouldTriggerClickedAndCloseDropdown()
     {
         // setup
-        var comp = RenderComponent<BarComponent>();
+        var comp = Render<BarComponent>();
         var barToggle = comp.Find( ".dropdown-toggle" );
         var dropdownMenu = comp.Find( ".dropdown-menu" );
 
@@ -70,7 +71,7 @@ public class BarComponentTest : TestContext
     public void BarDropdownMenu_ShouldHaveRoleMenu()
     {
         // setup
-        var comp = RenderComponent<BarComponent>();
+        var comp = Render<BarComponent>();
 
         // test
         var dropdownMenu = comp.Find( ".dropdown-menu" );
@@ -83,7 +84,7 @@ public class BarComponentTest : TestContext
     public void BarDropdownItem_ShouldHaveRoleMenuitem()
     {
         // setup
-        var comp = RenderComponent<BarComponent>();
+        var comp = Render<BarComponent>();
 
         // test
         var dropdownItem = comp.Find( "#bar-dropdown-item" );
@@ -96,7 +97,7 @@ public class BarComponentTest : TestContext
     public void BarDropdownItem_ShouldHaveAriaLabelledBy_ThatPointsToItemText()
     {
         // setup
-        var comp = RenderComponent<BarComponent>();
+        var comp = Render<BarComponent>();
 
         // test
         var dropdownItem = comp.Find( "#bar-dropdown-item" );

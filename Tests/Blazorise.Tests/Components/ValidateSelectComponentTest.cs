@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class ValidateSelectComponentTest : TestContext
+public class ValidateSelectComponentTest : BunitContext
 {
     public ValidateSelectComponentTest()
     {
@@ -16,7 +16,7 @@ public class ValidateSelectComponentTest : TestContext
     public async Task CanValidateText_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<ValidateSelectComponent>();
+        var comp = Render<ValidateSelectComponent>();
         var paragraph = comp.Find( "#validate-string-initially-blank" );
         var select = comp.Find( "#validate-string-initially-blank select" );
 
@@ -35,7 +35,7 @@ public class ValidateSelectComponentTest : TestContext
     public async Task CanValidateStringWithBind_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<ValidateSelectComponent>();
+        var comp = Render<ValidateSelectComponent>();
         var paragraph = comp.Find( "#validate-string-with-bind-initially-blank" );
         var select = comp.Find( "#validate-string-with-bind-initially-blank select" );
 
@@ -54,7 +54,7 @@ public class ValidateSelectComponentTest : TestContext
     public async Task CanValidateStringWithBind_InitiallySelected()
     {
         // setup
-        var comp = RenderComponent<ValidateSelectComponent>();
+        var comp = Render<ValidateSelectComponent>();
         var paragraph = comp.Find( "#validate-string-with-bind-initially-selected" );
         var select = comp.Find( "#validate-string-with-bind-initially-selected select" );
 
@@ -73,7 +73,7 @@ public class ValidateSelectComponentTest : TestContext
     public async Task CanValidateStringWithEvent_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<ValidateSelectComponent>();
+        var comp = Render<ValidateSelectComponent>();
         var paragraph = comp.Find( "#validate-string-with-event-initially-blank" );
         var select = comp.Find( "#validate-string-with-event-initially-blank select" );
 
@@ -93,7 +93,7 @@ public class ValidateSelectComponentTest : TestContext
     public async Task CanValidateStringWithEvent_InitiallySelected()
     {
         // setup
-        var comp = RenderComponent<ValidateSelectComponent>();
+        var comp = Render<ValidateSelectComponent>();
         var paragraph = comp.Find( "#validate-string-with-event-initially-selected" );
         var select = comp.Find( "#validate-string-with-event-initially-selected select" );
 
@@ -112,7 +112,7 @@ public class ValidateSelectComponentTest : TestContext
     public async Task CanValidateInt_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<ValidateSelectComponent>();
+        var comp = Render<ValidateSelectComponent>();
         var paragraph = comp.Find( "#validate-int-initially-blank" );
         var select = comp.Find( "#validate-int-initially-blank select" );
 
@@ -131,7 +131,7 @@ public class ValidateSelectComponentTest : TestContext
     public async Task CanValidateIntWithBind_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<ValidateSelectComponent>();
+        var comp = Render<ValidateSelectComponent>();
         var paragraph = comp.Find( "#validate-int-with-bind-initially-blank" );
         var select = comp.Find( "#validate-int-with-bind-initially-blank select" );
 
@@ -150,7 +150,7 @@ public class ValidateSelectComponentTest : TestContext
     public async Task CanValidateIntWithBind_InitiallySelected()
     {
         // setup
-        var comp = RenderComponent<ValidateSelectComponent>();
+        var comp = Render<ValidateSelectComponent>();
         var paragraph = comp.Find( "#validate-int-with-bind-initially-selected" );
         var select = comp.Find( "#validate-int-with-bind-initially-selected select" );
 
@@ -169,7 +169,7 @@ public class ValidateSelectComponentTest : TestContext
     public async Task CanValidateEnum_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<ValidateSelectComponent>();
+        var comp = Render<ValidateSelectComponent>();
         var paragraph = comp.Find( "#validate-enum-initially-blank" );
         var select = comp.Find( "#validate-enum-initially-blank select" );
 
@@ -188,7 +188,7 @@ public class ValidateSelectComponentTest : TestContext
     public async Task CanValidateEnumWithBind_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<ValidateSelectComponent>();
+        var comp = Render<ValidateSelectComponent>();
         var paragraph = comp.Find( "#validate-enum-with-bind-initially-blank" );
         var select = comp.Find( "#validate-enum-with-bind-initially-blank select" );
 
@@ -207,7 +207,7 @@ public class ValidateSelectComponentTest : TestContext
     public async Task CanValidateEnumWithBind_InitiallySelected()
     {
         // setup
-        var comp = RenderComponent<ValidateSelectComponent>();
+        var comp = Render<ValidateSelectComponent>();
         var paragraph = comp.Find( "#validate-enum-with-bind-initially-selected" );
         var select = comp.Find( "#validate-enum-with-bind-initially-selected select" );
 
@@ -227,7 +227,7 @@ public class ValidateSelectComponentTest : TestContext
     public async Task CanValidateMultiString_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<ValidateSelectComponent>();
+        var comp = Render<ValidateSelectComponent>();
         var paragraph = comp.Find( "#validate-multi-string-initially-blank" );
         var select = comp.Find( "#validate-multi-string-initially-blank select" );
 

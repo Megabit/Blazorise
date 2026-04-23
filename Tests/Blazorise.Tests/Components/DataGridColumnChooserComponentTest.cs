@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ using Employee = BasicTestApp.Client.DataGridColumnChooserComponent.Employee;
 
 namespace Blazorise.Tests.Components;
 
-public class DataGridColumnChooserComponentTest : TestContext
+public class DataGridColumnChooserComponentTest : BunitContext
 {
     public DataGridColumnChooserComponentTest()
     {
@@ -22,7 +22,7 @@ public class DataGridColumnChooserComponentTest : TestContext
     public async Task Column_With_Displaying_False_Should_BeHidden_Initially_And_Toggleable_From_ColumnChooser()
     {
         // setup
-        var comp = RenderComponent<DataGridColumnChooserComponent>();
+        var comp = Render<DataGridColumnChooserComponent>();
         var dataGrid = comp.FindComponent<DataGrid<Employee>>();
         var salaryColumn = dataGrid
             .FindComponents<DataGridColumn<Employee>>()
@@ -59,7 +59,7 @@ public class DataGridColumnChooserComponentTest : TestContext
     public async Task LoadState_Without_ColumnDisplayingStates_Should_Reset_To_Displaying_Parameter_Default()
     {
         // setup
-        var comp = RenderComponent<DataGridColumnChooserComponent>();
+        var comp = Render<DataGridColumnChooserComponent>();
         var dataGrid = comp.FindComponent<DataGrid<Employee>>();
         var salaryColumn = dataGrid
             .FindComponents<DataGridColumn<Employee>>()

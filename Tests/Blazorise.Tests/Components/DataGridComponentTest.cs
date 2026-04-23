@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,7 +16,7 @@ using Employee = BasicTestApp.Client.DataGridComponent.Employee;
 
 namespace Blazorise.Tests.Components;
 
-public class DataGridComponentTest : TestContext
+public class DataGridComponentTest : BunitContext
 {
     public DataGridComponentTest()
     {
@@ -28,21 +28,16 @@ public class DataGridComponentTest : TestContext
     [Fact]
     public async Task OnSelection_Should_Render_EmptyTemplate()
     {
-        //Arrange
-        var numRenders = 0;
-
-        //Act
-        var comp = RenderComponent<DataGridComponent>();
-
-        comp.OnAfterRender += ( sender, args ) =>
-        {
-            numRenders++;
-        };
+        var comp = Render<DataGridComponent>();
 
         var rowsFraction = comp.FindAll( "tbody tr.table-row-selectable" );
         await rowsFraction[0].ClickAsync( new() { Detail = 1 } );
-        //Assert
-        Assert.Equal( 1, numRenders );
+
+        comp.WaitForAssertion( () =>
+        {
+            Assert.Equal( 5, comp.FindAll( "tbody tr.table-row-selectable" ).Count );
+            Assert.DoesNotContain( "No Records...", comp.Markup );
+        } );
     }
 
     [Fact]
@@ -52,7 +47,7 @@ public class DataGridComponentTest : TestContext
         var expectedEmptyTemplate = "No Records...";
 
         // test
-        var comp = RenderComponent<DataGridComponent>( parameters =>
+        var comp = Render<DataGridComponent>( parameters =>
             parameters.Add( x => x.Data, null ) );
 
         // validate
@@ -68,7 +63,7 @@ public class DataGridComponentTest : TestContext
         var expectedOrderedValues = new[] { "1/8", "1/4", "1/3", "1/2", "3/4" };
 
         // test
-        var comp = RenderComponent<DataGridComponent>();
+        var comp = Render<DataGridComponent>();
 
         // validate
         comp.FindAll( "tbody tr td:nth-child(2)" )
@@ -82,7 +77,7 @@ public class DataGridComponentTest : TestContext
     {
         // setup
         var expectedOrderedValues = new[] { "3/4", "1/2", "1/3", "1/4", "1/8" };
-        var comp = RenderComponent<DataGridComponent>();
+        var comp = Render<DataGridComponent>();
 
         // test
         await comp.Find( "thead tr th:nth-child(2)" )
@@ -96,11 +91,31 @@ public class DataGridComponentTest : TestContext
     }
 
     [Fact]
+    public async Task SortByMultipleSelectColumn_Should_NotThrowAndShould_ReorderRows()
+    {
+        // setup
+        string[] expectedOrderedValues = ["CODE, TEST", "MEET", "TRAIN"];
+        IRenderedComponent<DataGridSelectColumnMultipleSortComponent> comp = Render<DataGridSelectColumnMultipleSortComponent>();
+
+        // test
+        await comp.Find( "thead tr th:first-child" ).ClickAsync();
+
+        // validate
+        comp.WaitForAssertion( () =>
+        {
+            comp.FindAll( "tbody tr td" )
+                .Select( x => x.TextContent )
+                .Should()
+                .Equal( expectedOrderedValues );
+        } );
+    }
+
+    [Fact]
     public async Task SortByField_Should_RaiseSortChangedEvent()
     {
         // setup
         var sortChanged = new List<DataGridSortChangedEventArgs>();
-        var comp = RenderComponent<DataGridComponent>( parameters =>
+        var comp = Render<DataGridComponent>( parameters =>
         {
             parameters.Add(
                 parameterSelector: x => x.SortChanged,
@@ -134,7 +149,7 @@ public class DataGridComponentTest : TestContext
     {
         // setup
         var sortingChanged = new List<DataGridSortChangedEventArgs>();
-        var comp = RenderComponent<DataGridComponent>( parameters =>
+        var comp = Render<DataGridComponent>( parameters =>
         {
             parameters.Add(
                 parameterSelector: x => x.SortChanged,
@@ -169,7 +184,7 @@ public class DataGridComponentTest : TestContext
     {
         // setup
         var expectedOrderedValues = new[] { "3/4", "1/2", "1/3", "1/4", "1/8" };
-        var comp = RenderComponent<DataGridComponent>();
+        var comp = Render<DataGridComponent>();
         var dataGrid = comp.FindComponent<DataGrid<Employee>>();
 
         // test
@@ -195,7 +210,7 @@ public class DataGridComponentTest : TestContext
     {
         // setup
         var expectedOrderedValues = new[] { "3/4", "1/3", "1/2", "1/8", "1/4" };
-        var comp = RenderComponent<DataGridComponent>();
+        var comp = Render<DataGridComponent>();
         var dataGrid = comp.FindComponent<DataGrid<Employee>>();
 
         // test
@@ -223,7 +238,7 @@ public class DataGridComponentTest : TestContext
     {
         // setup
         var sortingChanged = new List<DataGridSortChangedEventArgs>();
-        var comp = RenderComponent<DataGridComponent>( parameters =>
+        var comp = Render<DataGridComponent>( parameters =>
         {
             parameters.Add(
                 parameterSelector: x => x.SortChanged,
@@ -267,7 +282,7 @@ public class DataGridComponentTest : TestContext
     {
         // setup
         var expectedOrderedValues = new[] { "1/2", "1/4", "1/8", "3/4", "1/3" };
-        var comp = RenderComponent<DataGridComponent>();
+        var comp = Render<DataGridComponent>();
         var dataGrid = comp.FindComponent<DataGrid<Employee>>();
 
         // test
@@ -288,7 +303,7 @@ public class DataGridComponentTest : TestContext
     {
         // setup
         var expectedOrderedValues = new[] { "3/4", "1/2", "1/3", "1/8", "1/4" };
-        var comp = RenderComponent<DataGridComponent>( p => p.Add( x => x.SortMode, DataGridSortMode.Single ) );
+        var comp = Render<DataGridComponent>( p => p.Add( x => x.SortMode, DataGridSortMode.Single ) );
         var dataGrid = comp.FindComponent<DataGrid<Employee>>();
 
         // test
@@ -313,7 +328,7 @@ public class DataGridComponentTest : TestContext
     {
         // setup
         var expectedOrderedValues = new[] { "1/2", "1/4", "1/8", "3/4", "1/3" };
-        var comp = RenderComponent<DataGridComponent>( p => p.Add( x => x.SortMode, DataGridSortMode.Single ) );
+        var comp = Render<DataGridComponent>( p => p.Add( x => x.SortMode, DataGridSortMode.Single ) );
         var dataGrid = comp.FindComponent<DataGrid<Employee>>();
 
         // test
@@ -334,7 +349,7 @@ public class DataGridComponentTest : TestContext
     {
         // setup
         var sortingChanged = new List<DataGridSortChangedEventArgs>();
-        var comp = RenderComponent<DataGridComponent>( parameters =>
+        var comp = Render<DataGridComponent>( parameters =>
         {
             parameters.Add( x => x.SortMode, DataGridSortMode.Single );
             parameters.Add(
@@ -370,7 +385,7 @@ public class DataGridComponentTest : TestContext
     {
         // setup
         var sortingChanged = new List<DataGridSortChangedEventArgs>();
-        var comp = RenderComponent<DataGridComponent>( parameters =>
+        var comp = Render<DataGridComponent>( parameters =>
         {
             parameters.Add(
                 parameterSelector: x => x.SortChanged,
@@ -411,7 +426,7 @@ public class DataGridComponentTest : TestContext
     public async Task New_Should_AddNewItem( DataGridEditMode editMode )
     {
         // setup
-        var comp = RenderComponent<DataGridComponent>( parameters =>
+        var comp = Render<DataGridComponent>( parameters =>
             parameters.Add( x => x.DataGridEditMode, editMode ) );
         var startingDataCount = comp.Instance.Data.Count();
 
@@ -443,7 +458,7 @@ public class DataGridComponentTest : TestContext
         Employee EmployeeInsertedOld = null;
         Employee EmployeeInsertedNew = null;
 
-        var comp = RenderComponent<DataGridComponent>( parameters =>
+        var comp = Render<DataGridComponent>( parameters =>
         {
             //Avoid mutating the original Item
             parameters.Add( x => x.UseInternalEditing, false );
@@ -522,7 +537,7 @@ public class DataGridComponentTest : TestContext
         Employee EmployeeUpdatedOld = null;
         Employee EmployeeUpdatedNew = null;
 
-        var comp = RenderComponent<DataGridComponent>( parameters =>
+        var comp = Render<DataGridComponent>( parameters =>
         {
             //Avoid mutating the original Item
             parameters.Add( x => x.UseInternalEditing, false );
@@ -603,7 +618,7 @@ public class DataGridComponentTest : TestContext
         Employee EmployeeUpdatedOld = null;
         Employee EmployeeUpdatedNew = null;
 
-        var comp = RenderComponent<DataGridComponent>( parameters =>
+        var comp = Render<DataGridComponent>( parameters =>
         {
             //Avoid mutating the original Item
             parameters.Add( x => x.UseInternalEditing, false );
@@ -670,7 +685,7 @@ public class DataGridComponentTest : TestContext
         Employee EmployeeRemovingNew = null;
         Employee EmployeeRemoved = null;
 
-        var comp = RenderComponent<DataGridComponent>( parameters =>
+        var comp = Render<DataGridComponent>( parameters =>
         {
             parameters.Add( x => x.DataGridEditMode, editMode );
             parameters.Add( x => x.RowRemoved, ( e ) =>
@@ -712,7 +727,7 @@ public class DataGridComponentTest : TestContext
     {
         // setup
         var updatedName = "RaulFromEdit";
-        var comp = RenderComponent<DataGridComponent>( parameters =>
+        var comp = Render<DataGridComponent>( parameters =>
             parameters.Add( x => x.DataGridEditMode, editMode ) );
 
         // test
@@ -736,7 +751,7 @@ public class DataGridComponentTest : TestContext
     public async Task Delete_Should_DeleteItem( DataGridEditMode editMode )
     {
         // setup
-        var comp = RenderComponent<DataGridComponent>( parameters =>
+        var comp = Render<DataGridComponent>( parameters =>
             parameters.Add( x => x.DataGridEditMode, editMode ) );
         var startingDataCount = comp.Instance.Data.Count();
 

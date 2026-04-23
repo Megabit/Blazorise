@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class SelectComponentTest : TestContext
+public class SelectComponentTest : BunitContext
 {
     public SelectComponentTest()
     {
@@ -16,7 +16,7 @@ public class SelectComponentTest : TestContext
     public async Task CanSelectString_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<SelectComponent>();
+        var comp = Render<SelectComponent>();
         var paragraph = comp.Find( "#select-string-initially-blank" );
         var select = comp.Find( "#select-string-initially-blank select" );
         var result = comp.Find( "#select-string-initially-blank-result" );
@@ -44,7 +44,7 @@ public class SelectComponentTest : TestContext
     public async Task CanSelectString_InitiallySelected()
     {
         // setup
-        var comp = RenderComponent<SelectComponent>();
+        var comp = Render<SelectComponent>();
         var paragraph = comp.Find( "#select-string-initially-selected" );
         var select = comp.Find( "#select-string-initially-selected select" );
         var result = comp.Find( "#select-string-initially-selected-result" );
@@ -67,7 +67,7 @@ public class SelectComponentTest : TestContext
     public async Task CanSelectInt_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<SelectComponent>();
+        var comp = Render<SelectComponent>();
         var paragraph = comp.Find( "#select-int-initially-blank" );
         var select = comp.Find( "#select-int-initially-blank select" );
         var result = comp.Find( "#select-int-initially-blank-result" );
@@ -95,7 +95,7 @@ public class SelectComponentTest : TestContext
     public async Task CanSelectInt_InitiallySelected()
     {
         // setup
-        var comp = RenderComponent<SelectComponent>();
+        var comp = Render<SelectComponent>();
         var paragraph = comp.Find( "#select-int-initially-selected" );
         var select = comp.Find( "#select-int-initially-selected select" );
         var result = comp.Find( "#select-int-initially-selected-result" );
@@ -118,7 +118,7 @@ public class SelectComponentTest : TestContext
     public async Task CanSelectNullableInt_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<SelectComponent>();
+        var comp = Render<SelectComponent>();
         var paragraph = comp.Find( "#select-nullable-int-initially-blank" );
         var select = comp.Find( "#select-nullable-int-initially-blank select" );
         var result = comp.Find( "#select-nullable-int-initially-blank-result" );
@@ -146,7 +146,7 @@ public class SelectComponentTest : TestContext
     public async Task CanSelectNullableInt_InitiallySelected()
     {
         // setup
-        var comp = RenderComponent<SelectComponent>();
+        var comp = Render<SelectComponent>();
         var paragraph = comp.Find( "#select-nullable-int-initially-selected" );
         var select = comp.Find( "#select-nullable-int-initially-selected select" );
         var result = comp.Find( "#select-nullable-int-initially-selected-result" );
@@ -169,7 +169,7 @@ public class SelectComponentTest : TestContext
     public async Task CanSelectGuid_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<SelectComponent>();
+        var comp = Render<SelectComponent>();
         var paragraph = comp.Find( "#select-guid-initially-blank" );
         var select = comp.Find( "#select-guid-initially-blank select" );
         var result = comp.Find( "#select-guid-initially-blank-result" );
@@ -197,7 +197,7 @@ public class SelectComponentTest : TestContext
     public async Task CanSelectGuid_InitiallySelected()
     {
         // setup
-        var comp = RenderComponent<SelectComponent>();
+        var comp = Render<SelectComponent>();
         var paragraph = comp.Find( "#select-guid-initially-selected" );
         var select = comp.Find( "#select-guid-initially-selected select" );
         var result = comp.Find( "#select-guid-initially-selected-result" );
@@ -220,7 +220,7 @@ public class SelectComponentTest : TestContext
     public async Task CanSelectNullableGuid_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<SelectComponent>();
+        var comp = Render<SelectComponent>();
         var paragraph = comp.Find( "#select-nullable-guid-initially-blank" );
         var select = comp.Find( "#select-nullable-guid-initially-blank select" );
         var result = comp.Find( "#select-nullable-guid-initially-blank-result" );
@@ -248,7 +248,7 @@ public class SelectComponentTest : TestContext
     public async Task CanSelectNullableGuid_InitiallySelected()
     {
         // setup
-        var comp = RenderComponent<SelectComponent>();
+        var comp = Render<SelectComponent>();
         var paragraph = comp.Find( "#select-nullable-guid-initially-selected" );
         var select = comp.Find( "#select-nullable-guid-initially-selected select" );
         var result = comp.Find( "#select-nullable-guid-initially-selected-result" );
@@ -276,7 +276,7 @@ public class SelectComponentTest : TestContext
     public async Task CanSelectBool_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<SelectComponent>();
+        var comp = Render<SelectComponent>();
         var paragraph = comp.Find( "#select-bool-initially-blank" );
         var select = comp.Find( "#select-bool-initially-blank select" );
         var result = comp.Find( "#select-bool-initially-blank-result" );
@@ -299,7 +299,7 @@ public class SelectComponentTest : TestContext
     public async Task CanSelectBool_InitiallySelected()
     {
         // setup
-        var comp = RenderComponent<SelectComponent>();
+        var comp = Render<SelectComponent>();
         var paragraph = comp.Find( "#select-bool-initially-selected" );
         var select = comp.Find( "#select-bool-initially-selected select" );
         var result = comp.Find( "#select-bool-initially-selected-result" );
@@ -322,7 +322,7 @@ public class SelectComponentTest : TestContext
     public async Task CanSelectNullableBool_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<SelectComponent>();
+        var comp = Render<SelectComponent>();
         var paragraph = comp.Find( "#select-nullable-bool-initially-blank" );
         var select = comp.Find( "#select-nullable-bool-initially-blank select" );
         var result = comp.Find( "#select-nullable-bool-initially-blank-result" );
@@ -345,7 +345,7 @@ public class SelectComponentTest : TestContext
     public async Task CanSelectNullableBool_InitiallySelected()
     {
         // setup
-        var comp = RenderComponent<SelectComponent>();
+        var comp = Render<SelectComponent>();
         var paragraph = comp.Find( "#select-nullable-bool-initially-selected" );
         var select = comp.Find( "#select-nullable-bool-initially-selected select" );
         var result = comp.Find( "#select-nullable-bool-initially-selected-result" );
@@ -368,7 +368,7 @@ public class SelectComponentTest : TestContext
     public async Task CanSelectEnum_InitiallySelected()
     {
         // setup
-        var comp = RenderComponent<SelectComponent>();
+        var comp = Render<SelectComponent>();
         var paragraph = comp.Find( "#select-enum-initially-selected" );
         var select = comp.Find( "#select-enum-initially-selected select" );
         var result = comp.Find( "#select-enum-initially-selected-result" );
@@ -396,7 +396,7 @@ public class SelectComponentTest : TestContext
     public async Task CanSelectNullableEnum_InitiallyBlank()
     {
         // setup
-        var comp = RenderComponent<SelectComponent>();
+        var comp = Render<SelectComponent>();
         var paragraph = comp.Find( "#select-nullable-enum-initially-blank" );
         var select = comp.Find( "#select-nullable-enum-initially-blank select" );
         var result = comp.Find( "#select-nullable-enum-initially-blank-result" );
@@ -424,7 +424,7 @@ public class SelectComponentTest : TestContext
     public async Task CanSelectNullableEnum_InitiallySelected()
     {
         // setup
-        var comp = RenderComponent<SelectComponent>();
+        var comp = Render<SelectComponent>();
         var paragraph = comp.Find( "#select-nullable-enum-initially-selected" );
         var select = comp.Find( "#select-nullable-enum-initially-selected select" );
         var result = comp.Find( "#select-nullable-enum-initially-selected-result" );

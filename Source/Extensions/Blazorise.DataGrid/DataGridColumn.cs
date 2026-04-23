@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -269,9 +270,20 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <param name="item">Item for which to get the value.</param>
     /// <returns></returns>
     internal object GetValueForSort( TItem item )
-        => string.IsNullOrWhiteSpace( SortField )
+        => NormalizeValueForSort( string.IsNullOrWhiteSpace( SortField )
             ? GetValue( item )
-            : GetSortValue( item );
+            : GetSortValue( item ) );
+
+    protected internal virtual object NormalizeValueForSort( object value )
+    {
+        if ( value is null || value is string || value is IComparable )
+            return value;
+
+        if ( value is IEnumerable enumerable )
+            return string.Join( ", ", enumerable.Cast<object>().Select( x => x?.ToString() ) );
+
+        return value.ToString();
+    }
 
     /// <summary>
     /// Gets wether the column is able to sort.
