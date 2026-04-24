@@ -13422,6 +13422,16 @@ code {
     flex-basis: 100% !important;
   }
 }
+.fui-Float-start {
+  float: left !important;
+  float: inline-start !important;
+}
+
+.fui-Float-end {
+  float: right !important;
+  float: inline-end !important;
+}
+
 .fui-Row {
   display: flex;
   flex-wrap: wrap;
