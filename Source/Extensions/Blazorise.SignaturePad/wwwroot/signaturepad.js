@@ -1,5 +1,5 @@
-import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.1.0.0";
-import "./vendors/sigpad.js?v=2.1.0.0";
+import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.1.1.0";
+import "./vendors/sigpad.js?v=2.1.1.0";
 
 const _instances = [];
 let resizeHandlerRegistered = false;
