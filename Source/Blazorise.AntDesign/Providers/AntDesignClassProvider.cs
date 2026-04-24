@@ -1722,6 +1722,12 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
+    #region Float
+
+    public override string Float( Float @float ) => $"ant-float-{ToFloat( @float )}";
+
+    #endregion
+
     #region Visibility
 
     public override string Visibility( Visibility visibility )
@@ -1937,6 +1943,16 @@ public class AntDesignClassProvider : ClassProvider
         {
             Blazorise.ValidationStatus.Success => "ant-input-status-success",
             Blazorise.ValidationStatus.Error => "ant-input-status-error",
+            _ => null,
+        };
+    }
+
+    public override string ToFloat( Float @float )
+    {
+        return @float switch
+        {
+            Blazorise.Float.Start => "start",
+            Blazorise.Float.End => "end",
             _ => null,
         };
     }
