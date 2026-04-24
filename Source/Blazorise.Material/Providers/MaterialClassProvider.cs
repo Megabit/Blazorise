@@ -1399,7 +1399,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string Image() => null;
 
-    public override string ImageFluid( bool fluid ) => fluid ? "img-fluid" : null;
+    public override string ImageFluid( bool fluid ) => fluid ? "mui-image-fluid" : null;
 
     #endregion
 

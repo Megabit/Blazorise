@@ -4196,6 +4196,11 @@ fieldset.mui-row > legend.mui-field-label-horizontal {
   block-size: var(--mui-figure-size);
 }
 
+.mui-image-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
 .mui-input,
 .mui-input-plaintext,
 .mui-select {
