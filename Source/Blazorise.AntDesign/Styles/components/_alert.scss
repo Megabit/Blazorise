@@ -1,11 +1,15 @@
 ﻿@mixin ant-alert-variant($name, $color, $background, $border) {
     &-#{$name} {
-        color: #{$color};
-        background-color: #{$background};
-        border-color: #{$border};
+        --b-ant-alert-color: #{$color};
+        --b-ant-alert-bg: #{$background};
+        --b-ant-alert-border-color: #{$border};
+        --b-ant-alert-link-color: #{$color};
+        color: var(--b-ant-alert-color);
+        background-color: var(--b-ant-alert-bg);
+        border-color: var(--b-ant-alert-border-color);
 
         .ant-alert-icon {
-            color: #{$color};
+            color: var(--b-ant-alert-color);
         }
     }
 }
@@ -32,6 +36,16 @@
     &.ant-alert-with-description.b-ant-alert-dismissible .ant-alert-close-icon {
         top: var(--ant-padding-md);
         transform: none;
+    }
+
+    &.ant-alert-with-description .ant-alert-title,
+    &.ant-alert-with-description .ant-alert-description,
+    .ant-alert-close-icon {
+        color: var(--b-ant-alert-color);
+    }
+
+    .alert-link {
+        color: var(--b-ant-alert-link-color);
     }
 
     @include ant-alert-variant(primary, var(--b-theme-text-primary-emphasis, var(--ant-color-primary)), var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg)), var(--b-theme-border-primary-subtle, var(--ant-color-primary-border)));
