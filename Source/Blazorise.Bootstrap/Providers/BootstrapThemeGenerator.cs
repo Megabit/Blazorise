@@ -793,7 +793,7 @@ public class BootstrapThemeGenerator : ThemeGenerator
             .Append( $"border-color: {border};" )
             .AppendLine( "}" );
 
-        sb.Append( $".alert-{variant}.alert-link" ).Append( "{" )
+        sb.Append( $".alert-{variant} .alert-link" ).Append( "{" )
             .Append( $"color: {alertLink};" )
             .AppendLine( "}" );
     }

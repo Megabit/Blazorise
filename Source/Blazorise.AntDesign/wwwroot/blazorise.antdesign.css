@@ -1275,53 +1275,84 @@ template {
   top: var(--ant-padding-md);
   transform: none;
 }
+.ant-alert.ant-alert-with-description .ant-alert-title, .ant-alert.ant-alert-with-description .ant-alert-description,
+.ant-alert .ant-alert-close-icon {
+  color: var(--b-ant-alert-color);
+}
+.ant-alert .alert-link {
+  color: var(--b-ant-alert-link-color);
+}
 .ant-alert-primary {
-  color: var(--b-theme-text-primary-emphasis, var(--ant-color-primary));
-  background-color: var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg));
-  border-color: var(--b-theme-border-primary-subtle, var(--ant-color-primary-border));
+  --b-ant-alert-color: var(--b-theme-text-primary-emphasis, var(--ant-color-primary));
+  --b-ant-alert-bg: var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg));
+  --b-ant-alert-border-color: var(--b-theme-border-primary-subtle, var(--ant-color-primary-border));
+  --b-ant-alert-link-color: var(--b-theme-text-primary-emphasis, var(--ant-color-primary));
+  color: var(--b-ant-alert-color);
+  background-color: var(--b-ant-alert-bg);
+  border-color: var(--b-ant-alert-border-color);
 }
 .ant-alert-primary .ant-alert-icon {
-  color: var(--b-theme-text-primary-emphasis, var(--ant-color-primary));
+  color: var(--b-ant-alert-color);
 }
 .ant-alert-secondary {
-  color: var(--b-theme-text-secondary-emphasis, var(--ant-color-text-secondary));
-  background-color: var(--b-theme-background-secondary-subtle, var(--ant-color-fill-alter));
-  border-color: var(--b-theme-border-secondary-subtle, var(--ant-color-border));
+  --b-ant-alert-color: var(--b-theme-text-secondary-emphasis, var(--ant-color-text-secondary));
+  --b-ant-alert-bg: var(--b-theme-background-secondary-subtle, var(--ant-color-fill-alter));
+  --b-ant-alert-border-color: var(--b-theme-border-secondary-subtle, var(--ant-color-border));
+  --b-ant-alert-link-color: var(--b-theme-text-secondary-emphasis, var(--ant-color-text-secondary));
+  color: var(--b-ant-alert-color);
+  background-color: var(--b-ant-alert-bg);
+  border-color: var(--b-ant-alert-border-color);
 }
 .ant-alert-secondary .ant-alert-icon {
-  color: var(--b-theme-text-secondary-emphasis, var(--ant-color-text-secondary));
+  color: var(--b-ant-alert-color);
 }
 .ant-alert-danger {
-  color: var(--b-theme-text-danger-emphasis, var(--ant-color-error));
-  background-color: var(--b-theme-background-danger-subtle, var(--ant-color-error-bg));
-  border-color: var(--b-theme-border-danger-subtle, var(--ant-color-error-border));
+  --b-ant-alert-color: var(--b-theme-text-danger-emphasis, var(--ant-color-error));
+  --b-ant-alert-bg: var(--b-theme-background-danger-subtle, var(--ant-color-error-bg));
+  --b-ant-alert-border-color: var(--b-theme-border-danger-subtle, var(--ant-color-error-border));
+  --b-ant-alert-link-color: var(--b-theme-text-danger-emphasis, var(--ant-color-error));
+  color: var(--b-ant-alert-color);
+  background-color: var(--b-ant-alert-bg);
+  border-color: var(--b-ant-alert-border-color);
 }
 .ant-alert-danger .ant-alert-icon {
-  color: var(--b-theme-text-danger-emphasis, var(--ant-color-error));
+  color: var(--b-ant-alert-color);
 }
 .ant-alert-light {
-  color: var(--b-theme-text-light-emphasis, var(--ant-color-text));
-  background-color: var(--b-theme-background-light-subtle, var(--ant-color-bg-container));
-  border-color: var(--b-theme-border-light-subtle, var(--ant-color-border));
+  --b-ant-alert-color: var(--b-theme-text-light-emphasis, var(--ant-color-text));
+  --b-ant-alert-bg: var(--b-theme-background-light-subtle, var(--ant-color-bg-container));
+  --b-ant-alert-border-color: var(--b-theme-border-light-subtle, var(--ant-color-border));
+  --b-ant-alert-link-color: var(--b-theme-text-light-emphasis, var(--ant-color-text));
+  color: var(--b-ant-alert-color);
+  background-color: var(--b-ant-alert-bg);
+  border-color: var(--b-ant-alert-border-color);
 }
 .ant-alert-light .ant-alert-icon {
-  color: var(--b-theme-text-light-emphasis, var(--ant-color-text));
+  color: var(--b-ant-alert-color);
 }
 .ant-alert-dark {
-  color: var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading));
-  background-color: var(--b-theme-background-dark-subtle, var(--ant-color-fill-alter));
-  border-color: var(--b-theme-border-dark-subtle, var(--ant-color-border-secondary));
+  --b-ant-alert-color: var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading));
+  --b-ant-alert-bg: var(--b-theme-background-dark-subtle, var(--ant-color-fill-alter));
+  --b-ant-alert-border-color: var(--b-theme-border-dark-subtle, var(--ant-color-border-secondary));
+  --b-ant-alert-link-color: var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading));
+  color: var(--b-ant-alert-color);
+  background-color: var(--b-ant-alert-bg);
+  border-color: var(--b-ant-alert-border-color);
 }
 .ant-alert-dark .ant-alert-icon {
-  color: var(--b-theme-text-dark-emphasis, var(--ant-color-text-heading));
+  color: var(--b-ant-alert-color);
 }
 .ant-alert-link {
-  color: var(--b-theme-link, var(--ant-color-link));
-  background-color: var(--b-theme-background-link-subtle, var(--ant-color-primary-bg));
-  border-color: var(--b-theme-border-link-subtle, var(--ant-color-primary-border));
+  --b-ant-alert-color: var(--b-theme-link, var(--ant-color-link));
+  --b-ant-alert-bg: var(--b-theme-background-link-subtle, var(--ant-color-primary-bg));
+  --b-ant-alert-border-color: var(--b-theme-border-link-subtle, var(--ant-color-primary-border));
+  --b-ant-alert-link-color: var(--b-theme-link, var(--ant-color-link));
+  color: var(--b-ant-alert-color);
+  background-color: var(--b-ant-alert-bg);
+  border-color: var(--b-ant-alert-border-color);
 }
 .ant-alert-link .ant-alert-icon {
-  color: var(--b-theme-link, var(--ant-color-link));
+  color: var(--b-ant-alert-color);
 }
 
 .ant-collapse .ant-collapse-panel {
