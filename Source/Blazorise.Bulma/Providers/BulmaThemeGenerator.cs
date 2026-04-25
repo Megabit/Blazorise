@@ -753,17 +753,15 @@ public class BulmaThemeGenerator : ThemeGenerator
         var alertLink = ToHex( alertLinkColor );
 
         sb.Append( $".notification.is-{variant}" ).Append( "{" )
-            .Append( $"--b-bulma-alert-color: {text};" )
-            .Append( $"--b-bulma-alert-bg: {background};" )
-            .Append( $"--b-bulma-alert-border-color: {border};" )
-            .Append( $"--b-bulma-alert-link-color: {alertLink};" )
-            .Append( "color: var(--b-bulma-alert-color);" )
+            .Append( $"--bulma-notification-color: {text};" )
+            .Append( $"--bulma-notification-background-color: {background};" )
+            .Append( "color: var(--bulma-notification-color);" )
             .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
-            .Append( "border-color: var(--b-bulma-alert-border-color);" )
+            .Append( $"border-color: {border};" )
             .AppendLine( "}" );
 
         sb.Append( $".notification.is-{variant} .alert-link" ).Append( "{" )
-            .Append( "color: var(--b-bulma-alert-link-color);" )
+            .Append( $"color: {alertLink};" )
             .AppendLine( "}" );
     }
 

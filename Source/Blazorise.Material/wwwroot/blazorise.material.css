@@ -717,147 +717,111 @@ body {
   margin-inline-start: 0.5rem;
 }
 .mui-alert-primary {
-  --b-mui-alert-color: var(--mui-on-primary-container);
-  --b-mui-alert-bg: var(--mui-primary-container);
-  --b-mui-alert-border-color: var(--mui-primary-container);
-  --b-mui-alert-link-color: var(--b-mui-alert-color);
-  background-color: var(--b-mui-alert-bg);
-  color: var(--b-mui-alert-color);
-  border-color: var(--b-mui-alert-border-color);
+  background-color: var(--mui-primary-container);
+  color: var(--mui-on-primary-container);
+  border-color: var(--mui-primary-container);
 }
 .mui-alert-primary.mui-alert-closable .mui-button-close {
-  color: var(--b-mui-alert-color);
+  color: var(--mui-on-primary-container);
 }
 .mui-alert-primary.mui-alert-closable .mui-button-close:hover {
-  color: var(--b-mui-alert-color);
+  color: var(--mui-on-primary-container);
 }
 .mui-alert-secondary {
-  --b-mui-alert-color: var(--mui-on-secondary-container);
-  --b-mui-alert-bg: var(--mui-secondary-container);
-  --b-mui-alert-border-color: var(--mui-secondary-container);
-  --b-mui-alert-link-color: var(--b-mui-alert-color);
-  background-color: var(--b-mui-alert-bg);
-  color: var(--b-mui-alert-color);
-  border-color: var(--b-mui-alert-border-color);
+  background-color: var(--mui-secondary-container);
+  color: var(--mui-on-secondary-container);
+  border-color: var(--mui-secondary-container);
 }
 .mui-alert-secondary.mui-alert-closable .mui-button-close {
-  color: var(--b-mui-alert-color);
+  color: var(--mui-on-secondary-container);
 }
 .mui-alert-secondary.mui-alert-closable .mui-button-close:hover {
-  color: var(--b-mui-alert-color);
+  color: var(--mui-on-secondary-container);
 }
 .mui-alert-tertiary {
-  --b-mui-alert-color: var(--mui-on-tertiary-container);
-  --b-mui-alert-bg: var(--mui-tertiary-container);
-  --b-mui-alert-border-color: var(--mui-tertiary-container);
-  --b-mui-alert-link-color: var(--b-mui-alert-color);
-  background-color: var(--b-mui-alert-bg);
-  color: var(--b-mui-alert-color);
-  border-color: var(--b-mui-alert-border-color);
+  background-color: var(--mui-tertiary-container);
+  color: var(--mui-on-tertiary-container);
+  border-color: var(--mui-tertiary-container);
 }
 .mui-alert-tertiary.mui-alert-closable .mui-button-close {
-  color: var(--b-mui-alert-color);
+  color: var(--mui-on-tertiary-container);
 }
 .mui-alert-tertiary.mui-alert-closable .mui-button-close:hover {
-  color: var(--b-mui-alert-color);
+  color: var(--mui-on-tertiary-container);
 }
 .mui-alert-error {
-  --b-mui-alert-color: var(--mui-on-error-container);
-  --b-mui-alert-bg: var(--mui-error-container);
-  --b-mui-alert-border-color: var(--mui-error-container);
-  --b-mui-alert-link-color: var(--b-mui-alert-color);
-  background-color: var(--b-mui-alert-bg);
-  color: var(--b-mui-alert-color);
-  border-color: var(--b-mui-alert-border-color);
+  background-color: var(--mui-error-container);
+  color: var(--mui-on-error-container);
+  border-color: var(--mui-error-container);
 }
 .mui-alert-error.mui-alert-closable .mui-button-close {
-  color: var(--b-mui-alert-color);
+  color: var(--mui-on-error-container);
 }
 .mui-alert-error.mui-alert-closable .mui-button-close:hover {
-  color: var(--b-mui-alert-color);
+  color: var(--mui-on-error-container);
 }
 .mui-alert-success {
-  --b-mui-alert-color: var(--mui-on-success-container);
-  --b-mui-alert-bg: var(--mui-success-container);
-  --b-mui-alert-border-color: var(--mui-success-container);
-  --b-mui-alert-link-color: var(--b-mui-alert-color);
-  background-color: var(--b-mui-alert-bg);
-  color: var(--b-mui-alert-color);
-  border-color: var(--b-mui-alert-border-color);
+  background-color: var(--mui-success-container);
+  color: var(--mui-on-success-container);
+  border-color: var(--mui-success-container);
 }
 .mui-alert-success.mui-alert-closable .mui-button-close {
-  color: var(--b-mui-alert-color);
+  color: var(--mui-on-success-container);
 }
 .mui-alert-success.mui-alert-closable .mui-button-close:hover {
-  color: var(--b-mui-alert-color);
+  color: var(--mui-on-success-container);
 }
 .mui-alert-warning {
-  --b-mui-alert-color: var(--mui-on-warning-container);
-  --b-mui-alert-bg: var(--mui-warning-container);
-  --b-mui-alert-border-color: var(--mui-warning-container);
-  --b-mui-alert-link-color: var(--b-mui-alert-color);
-  background-color: var(--b-mui-alert-bg);
-  color: var(--b-mui-alert-color);
-  border-color: var(--b-mui-alert-border-color);
+  background-color: var(--mui-warning-container);
+  color: var(--mui-on-warning-container);
+  border-color: var(--mui-warning-container);
 }
 .mui-alert-warning.mui-alert-closable .mui-button-close {
-  color: var(--b-mui-alert-color);
+  color: var(--mui-on-warning-container);
 }
 .mui-alert-warning.mui-alert-closable .mui-button-close:hover {
-  color: var(--b-mui-alert-color);
+  color: var(--mui-on-warning-container);
 }
 .mui-alert-info {
-  --b-mui-alert-color: var(--mui-on-info-container);
-  --b-mui-alert-bg: var(--mui-info-container);
-  --b-mui-alert-border-color: var(--mui-info-container);
-  --b-mui-alert-link-color: var(--b-mui-alert-color);
-  background-color: var(--b-mui-alert-bg);
-  color: var(--b-mui-alert-color);
-  border-color: var(--b-mui-alert-border-color);
+  background-color: var(--mui-info-container);
+  color: var(--mui-on-info-container);
+  border-color: var(--mui-info-container);
 }
 .mui-alert-info.mui-alert-closable .mui-button-close {
-  color: var(--b-mui-alert-color);
+  color: var(--mui-on-info-container);
 }
 .mui-alert-info.mui-alert-closable .mui-button-close:hover {
-  color: var(--b-mui-alert-color);
+  color: var(--mui-on-info-container);
 }
 .mui-alert-light {
-  --b-mui-alert-color: var(--mui-on-light-container);
-  --b-mui-alert-bg: var(--mui-light-container);
-  --b-mui-alert-border-color: var(--mui-light-container);
-  --b-mui-alert-link-color: var(--b-mui-alert-color);
-  background-color: var(--b-mui-alert-bg);
-  color: var(--b-mui-alert-color);
-  border-color: var(--b-mui-alert-border-color);
+  background-color: var(--mui-light-container);
+  color: var(--mui-on-light-container);
+  border-color: var(--mui-light-container);
 }
 .mui-alert-light.mui-alert-closable .mui-button-close {
-  color: var(--b-mui-alert-color);
+  color: var(--mui-on-light-container);
 }
 .mui-alert-light.mui-alert-closable .mui-button-close:hover {
-  color: var(--b-mui-alert-color);
+  color: var(--mui-on-light-container);
 }
 .mui-alert-dark {
-  --b-mui-alert-color: var(--mui-on-dark-container);
-  --b-mui-alert-bg: var(--mui-dark-container);
-  --b-mui-alert-border-color: var(--mui-dark-container);
-  --b-mui-alert-link-color: var(--b-mui-alert-color);
-  background-color: var(--b-mui-alert-bg);
-  color: var(--b-mui-alert-color);
-  border-color: var(--b-mui-alert-border-color);
+  background-color: var(--mui-dark-container);
+  color: var(--mui-on-dark-container);
+  border-color: var(--mui-dark-container);
 }
 .mui-alert-dark.mui-alert-closable .mui-button-close {
-  color: var(--b-mui-alert-color);
+  color: var(--mui-on-dark-container);
 }
 .mui-alert-dark.mui-alert-closable .mui-button-close:hover {
-  color: var(--b-mui-alert-color);
+  color: var(--mui-on-dark-container);
 }
 .mui-alert-link {
-  color: var(--b-mui-alert-link-color, var(--mui-primary));
+  color: var(--mui-primary);
   text-decoration: underline;
   cursor: pointer;
 }
 .mui-alert-link:hover {
-  color: var(--b-mui-alert-link-color, var(--mui-on-primary));
+  color: var(--mui-on-primary);
 }
 .mui-alert + .mui-alert {
   margin-top: 0;

@@ -265,6 +265,9 @@ public class MaterialThemeGenerator : ThemeGenerator
         var border = ToHex( borderColor );
         var text = ToHex( textColor );
         var alertLink = ToHex( alertLinkColor );
+        var alertVariant = variant == "danger"
+            ? "error"
+            : variant;
         var alertSelector = variant == "danger"
             ? ".mui-alert.mui-alert-danger,.mui-alert.mui-alert-error"
             : $".mui-alert.mui-alert-{variant}";
@@ -279,24 +282,24 @@ public class MaterialThemeGenerator : ThemeGenerator
             : $".mui-alert.mui-alert-{variant} .mui-alert-link,.mui-alert.mui-alert-{variant} .alert-link";
 
         sb.Append( alertSelector ).Append( "{" )
-            .Append( $"--b-mui-alert-color: {text};" )
-            .Append( $"--b-mui-alert-bg: {background};" )
-            .Append( $"--b-mui-alert-border-color: {border};" )
-            .Append( $"--b-mui-alert-link-color: {alertLink};" )
-            .Append( "color: var(--b-mui-alert-color);" )
+            .Append( $"--mui-{alertVariant}-container: {background};" )
+            .Append( $"--mui-on-{alertVariant}-container: {text};" )
+            .Append( $"--mui-primary: {alertLink};" )
+            .Append( $"--mui-on-primary: {alertLink};" )
+            .Append( $"color: var(--mui-on-{alertVariant}-container);" )
             .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
-            .Append( "border-color: var(--b-mui-alert-border-color);" )
+            .Append( $"border-color: {border};" )
             .AppendLine( "}" );
 
         sb.Append( closeButtonSelector ).Append( "," )
             .Append( closeButtonHoverSelector )
             .Append( "{" )
-            .Append( "color: var(--b-mui-alert-color);" )
+            .Append( $"color: var(--mui-on-{alertVariant}-container);" )
             .AppendLine( "}" );
 
         sb.Append( alertLinkSelector )
             .Append( "{" )
-            .Append( "color: var(--b-mui-alert-link-color);" )
+            .Append( "color: var(--mui-primary);" )
             .AppendLine( "}" );
     }
 

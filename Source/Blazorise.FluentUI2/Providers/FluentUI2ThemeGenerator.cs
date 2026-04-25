@@ -566,27 +566,22 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
         var alertLink = ToHex( alertLinkColor );
 
         sb.Append( $".fui-MessageBar.fui-MessageBar-{variant}" ).Append( "{" )
-            .Append( $"--b-fui-alert-color: {text};" )
-            .Append( $"--b-fui-alert-bg: {background};" )
-            .Append( $"--b-fui-alert-border-color: {border};" )
-            .Append( $"--b-fui-alert-icon-color: {text};" )
-            .Append( $"--b-fui-alert-link-color: {alertLink};" )
-            .Append( "color: var(--b-fui-alert-color);" )
+            .Append( $"color: {text};" )
             .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
-            .Append( "border-color: var(--b-fui-alert-border-color);" )
-            .Append( "border-top-color: var(--b-fui-alert-border-color);" )
-            .Append( "border-right-color: var(--b-fui-alert-border-color);" )
-            .Append( "border-bottom-color: var(--b-fui-alert-border-color);" )
-            .Append( "border-left-color: var(--b-fui-alert-border-color);" )
+            .Append( $"border-color: {border};" )
+            .Append( $"border-top-color: {border};" )
+            .Append( $"border-right-color: {border};" )
+            .Append( $"border-bottom-color: {border};" )
+            .Append( $"border-left-color: {border};" )
             .AppendLine( "}" );
 
         sb.Append( $".fui-MessageBar.fui-MessageBar-{variant} .fui-MessageBar__icon" )
             .Append( "{" )
-            .Append( "color: var(--b-fui-alert-icon-color);" )
+            .Append( $"color: {text};" )
             .AppendLine( "}" );
 
         sb.Append( $".fui-MessageBar.fui-MessageBar-{variant} .alert-link" ).Append( "{" )
-            .Append( "color: var(--b-fui-alert-link-color);" )
+            .Append( $"color: {alertLink};" )
             .AppendLine( "}" );
     }
     protected override void GenerateTableVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor ) { }
