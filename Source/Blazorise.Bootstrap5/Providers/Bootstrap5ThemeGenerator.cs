@@ -800,13 +800,17 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
         var text = ToHex( textColor );
         var alertLink = ToHex( alertLinkColor );
 
-        sb.Append( $".alert-{variant}" ).Append( "{" )
+        sb.Append( $".alert.alert-{variant}" ).Append( "{" )
+            .Append( $"--bs-alert-color: {text};" )
+            .Append( $"--bs-alert-bg: {background};" )
+            .Append( $"--bs-alert-border-color: {border};" )
+            .Append( $"--bs-alert-link-color: {alertLink};" )
             .Append( $"color: {text};" )
             .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
             .Append( $"border-color: {border};" )
             .AppendLine( "}" );
 
-        sb.Append( $".alert-{variant}.alert-link" ).Append( "{" )
+        sb.Append( $".alert.alert-{variant} .alert-link" ).Append( "{" )
             .Append( $"color: {alertLink};" )
             .AppendLine( "}" );
     }

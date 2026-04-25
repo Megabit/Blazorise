@@ -1,4 +1,4 @@
-import { getRequiredElement } from "./utilities.js?v=2.1.0.0";
+import { getRequiredElement } from "./utilities.js?v=2.1.1.0";
 
 function getRangeSliderStep(element) {
     const step = Number.parseFloat(element?.step);

@@ -49,6 +49,22 @@ public class BarComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task BarDropdownToggle_FocusOut_ShouldCloseDropdownWhenVisible()
+    {
+        // setup
+        var comp = Render<BarComponent>();
+        var barToggle = comp.Find( ".dropdown-toggle" );
+        var dropdownMenu = comp.Find( ".dropdown-menu" );
+
+        // test
+        await barToggle.KeyDownAsync( new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs() { Key = "Enter" } );
+        await barToggle.TriggerEventAsync( "onfocusout", new Microsoft.AspNetCore.Components.Web.FocusEventArgs() );
+
+        // validate
+        Assert.DoesNotContain( "show", dropdownMenu.GetAttribute( "class" ) );
+    }
+
+    [Fact]
     public async Task BarDropdownItem_Enter_ShouldTriggerClickedAndCloseDropdown()
     {
         // setup
