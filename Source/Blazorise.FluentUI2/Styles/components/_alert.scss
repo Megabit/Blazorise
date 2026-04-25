@@ -10,6 +10,11 @@
 }
 
 .fui-MessageBar {
+    --b-fui-alert-color: inherit;
+    --b-fui-alert-bg: var(--colorNeutralBackground3);
+    --b-fui-alert-border-color: var(--colorNeutralStroke1);
+    --b-fui-alert-icon-color: var(--colorNeutralForeground3);
+    --b-fui-alert-link-color: var(--b-fui-alert-color);
     position: relative;
     align-items: center;
     padding-left: var(--spacingHorizontalM);
@@ -21,17 +26,18 @@
     border-bottom-width: var(--strokeWidthThin);
     border-left-width: var(--strokeWidthThin);
     border-style: solid;
-    border-top-color: var(--colorNeutralStroke1);
-    border-right-color: var(--colorNeutralStroke1);
-    border-bottom-color: var(--colorNeutralStroke1);
-    border-left-color: var(--colorNeutralStroke1);
+    border-top-color: var(--b-fui-alert-border-color);
+    border-right-color: var(--b-fui-alert-border-color);
+    border-bottom-color: var(--b-fui-alert-border-color);
+    border-left-color: var(--b-fui-alert-border-color);
     border-bottom-right-radius: var(--borderRadiusMedium);
     border-bottom-left-radius: var(--borderRadiusMedium);
     border-top-right-radius: var(--borderRadiusMedium);
     border-top-left-radius: var(--borderRadiusMedium);
     min-height: 36px;
     box-sizing: border-box;
-    background-color: var(--colorNeutralBackground3);
+    color: var(--b-fui-alert-color);
+    background-color: var(--b-fui-alert-bg);
     margin-bottom: var(--spacingVerticalM);
 
     &-closable {
@@ -72,7 +78,7 @@
     .fui-MessageBar__icon {
         font-size: var(--fontSizeBase500);
         margin-right: var(--spacingHorizontalS);
-        color: var(--colorNeutralForeground3);
+        color: var(--b-fui-alert-icon-color);
         display: inline-flex;
         align-items: center;
     }
@@ -91,99 +97,59 @@
     }
 
     &-primary {
-        border-bottom-color: var(--colorBrandStroke2);
-        border-left-color: var(--colorBrandStroke2);
-        border-right-color: var(--colorBrandStroke2);
-        border-top-color: var(--colorBrandStroke2);
-        background-color: var(--colorBrandBackground2);
-
-        .fui-MessageBar__icon {
-            color: var(--colorBrandForeground2)
-        }
+        --b-fui-alert-bg: var(--colorBrandBackground2);
+        --b-fui-alert-border-color: var(--colorBrandStroke2);
+        --b-fui-alert-icon-color: var(--colorBrandForeground2);
     }
 
     &-secondary {
-        border-bottom-color: var(--colorNeutralStroke1);
-        border-left-color: var(--colorNeutralStroke1);
-        border-right-color: var(--colorNeutralStroke1);
-        border-top-color: var(--colorNeutralStroke1);
-        background-color: var(--colorNeutralBackground3);
-
-        .fui-MessageBar__icon {
-            color: var(--colorNeutralForeground3)
-        }
+        --b-fui-alert-bg: var(--colorNeutralBackground3);
+        --b-fui-alert-border-color: var(--colorNeutralStroke1);
+        --b-fui-alert-icon-color: var(--colorNeutralForeground3);
     }
 
     &-success {
-        border-bottom-color: var(--colorStatusSuccessBorder1);
-        border-left-color: var(--colorStatusSuccessBorder1);
-        border-right-color: var(--colorStatusSuccessBorder1);
-        border-top-color: var(--colorStatusSuccessBorder1);
-        background-color: var(--colorStatusSuccessBackground1);
-
-        .fui-MessageBar__icon {
-            color: var(--colorStatusSuccessForeground1);
-        }
+        --b-fui-alert-bg: var(--colorStatusSuccessBackground1);
+        --b-fui-alert-border-color: var(--colorStatusSuccessBorder1);
+        --b-fui-alert-icon-color: var(--colorStatusSuccessForeground1);
     }
 
     &-danger {
-        border-bottom-color: var(--colorStatusDangerBorder1);
-        border-left-color: var(--colorStatusDangerBorder1);
-        border-right-color: var(--colorStatusDangerBorder1);
-        border-top-color: var(--colorStatusDangerBorder1);
-        background-color: var(--colorStatusDangerBackground1);
-
-        .fui-MessageBar__icon {
-            color: var(--colorStatusDangerForeground1);
-        }
+        --b-fui-alert-bg: var(--colorStatusDangerBackground1);
+        --b-fui-alert-border-color: var(--colorStatusDangerBorder1);
+        --b-fui-alert-icon-color: var(--colorStatusDangerForeground1);
     }
 
     &-warning {
-        border-bottom-color: var(--colorStatusWarningBorder1);
-        border-left-color: var(--colorStatusWarningBorder1);
-        border-right-color: var(--colorStatusWarningBorder1);
-        border-top-color: var(--colorStatusWarningBorder1);
-        background-color: var(--colorStatusWarningBackground1);
-
-        .fui-MessageBar__icon {
-            color: var(--colorStatusWarningForeground3);
-        }
+        --b-fui-alert-bg: var(--colorStatusWarningBackground1);
+        --b-fui-alert-border-color: var(--colorStatusWarningBorder1);
+        --b-fui-alert-icon-color: var(--colorStatusWarningForeground3);
     }
 
     &-info {
     }
 
     &-light {
-        border-bottom-color: var(--colorNeutralStroke1);
-        border-left-color: var(--colorNeutralStroke1);
-        border-right-color: var(--colorNeutralStroke1);
-        border-top-color: var(--colorNeutralStroke1);
-        background-color: var(--colorNeutralBackground1);
+        --b-fui-alert-bg: var(--colorNeutralBackground1);
+        --b-fui-alert-border-color: var(--colorNeutralStroke1);
     }
 
     &-dark {
-        border-bottom-color: var(--colorNeutralStroke2);
-        border-left-color: var(--colorNeutralStroke2);
-        border-right-color: var(--colorNeutralStroke2);
-        border-top-color: var(--colorNeutralStroke2);
-        background-color: var(--colorNeutralForeground3);
-        color: var(--colorNeutralBackground1);
-
-        .fui-MessageBar__icon {
-            color: var(--colorNeutralBackground1);
-        }
+        --b-fui-alert-color: var(--colorNeutralBackground1);
+        --b-fui-alert-bg: var(--colorNeutralForeground3);
+        --b-fui-alert-border-color: var(--colorNeutralStroke2);
+        --b-fui-alert-icon-color: var(--colorNeutralBackground1);
     }
 
     &-link {
-        border-top-color: var(--colorTransparentStroke);
-        border-right-color: var(--colorTransparentStroke);
-        border-bottom-color: var(--colorTransparentStroke);
-        border-left-color: var(--colorTransparentStroke);
-        background-color: var(--colorTransparentBackground);
-        color: var(--colorBrandForegroundLink);
+        --b-fui-alert-color: var(--colorBrandForegroundLink);
+        --b-fui-alert-bg: var(--colorTransparentBackground);
+        --b-fui-alert-border-color: var(--colorTransparentStroke);
+        --b-fui-alert-icon-color: var(--colorBrandForegroundLink);
+        --b-fui-alert-link-color: var(--colorBrandForegroundLink);
+    }
 
-        .fui-MessageBar__icon {
-            color: var(--colorBrandForegroundLink);
-        }
+    .alert-link {
+        color: var(--b-fui-alert-link-color);
     }
 }
