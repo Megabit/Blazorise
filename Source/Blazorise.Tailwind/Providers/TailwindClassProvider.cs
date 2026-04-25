@@ -1437,16 +1437,16 @@ public class TailwindClassProvider : ClassProvider
 
         return name switch
         {
-            "primary" => "b-alert-primary text-primary-800 bg-primary-300 dark:bg-primary-500 dark:text-primary-800",
-            "secondary" => "b-alert-secondary text-secondary-500 bg-secondary-300 dark:bg-secondary-100 dark:text-secondary-600",
-            "success" => "b-alert-success text-success-700 bg-success-100 dark:bg-success-200 dark:text-success-800",
-            "danger" => "b-alert-danger text-danger-700 bg-danger-100 dark:bg-danger-200 dark:text-danger-800",
-            "warning" => "b-alert-warning text-warning-700 bg-warning-100 dark:bg-warning-200 dark:text-warning-800",
-            "info" => "b-alert-info text-info-700 bg-info-100 dark:bg-info-200 dark:text-info-800",
-            "light" => "b-alert-light text-light-500 bg-light-100 dark:bg-light-100 dark:text-light-600",
-            "dark" => "b-alert-dark text-dark-100 bg-dark-800 dark:bg-dark-300 dark:text-dark-700",
-            "link" => "b-alert-link text-primary-600 dark:text-primary-500 hover:underline",
-            _ => $"b-alert-{name} {name}",
+            "primary" => "text-primary-800 bg-primary-300 dark:bg-primary-500 dark:text-primary-800",
+            "secondary" => "text-secondary-500 bg-secondary-300 dark:bg-secondary-100 dark:text-secondary-600",
+            "success" => "text-success-700 bg-success-100 dark:bg-success-200 dark:text-success-800",
+            "danger" => "text-danger-700 bg-danger-100 dark:bg-danger-200 dark:text-danger-800",
+            "warning" => "text-warning-700 bg-warning-100 dark:bg-warning-200 dark:text-warning-800",
+            "info" => "text-info-700 bg-info-100 dark:bg-info-200 dark:text-info-800",
+            "light" => "text-light-500 bg-light-100 dark:bg-light-100 dark:text-light-600",
+            "dark" => "text-dark-100 bg-dark-800 dark:bg-dark-300 dark:text-dark-700",
+            "link" => "text-primary-600 dark:text-primary-500 hover:underline",
+            _ => name,
         };
     }
 
