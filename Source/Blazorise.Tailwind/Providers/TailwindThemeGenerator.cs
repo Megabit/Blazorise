@@ -936,26 +936,26 @@ public class TailwindThemeGenerator : ThemeGenerator
 
     protected override void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options )
     {
-        //var backgroundColor = ParseColor( inBackgroundColor );
-        //var borderColor = ParseColor( inBorderColor );
-        //var textColor = ParseColor( inColor );
+        var backgroundColor = ParseColor( inBackgroundColor );
+        var borderColor = ParseColor( inBorderColor );
+        var textColor = ParseColor( inColor );
 
-        //var alertLinkColor = Darken( textColor, 10f );
+        var alertLinkColor = Darken( textColor, 10f );
 
-        //var background = ToHex( backgroundColor );
-        //var border = ToHex( borderColor );
-        //var text = ToHex( textColor );
-        //var alertLink = ToHex( alertLinkColor );
+        var background = ToHex( backgroundColor );
+        var border = ToHex( borderColor );
+        var text = ToHex( textColor );
+        var alertLink = ToHex( alertLinkColor );
 
-        //sb.Append( $".alert-{variant}" ).Append( "{" )
-        //    .Append( $"color: {text};" )
-        //    .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
-        //    .Append( $"border-color: {border};" )
-        //    .AppendLine( "}" );
+        sb.Append( $".b-alert.b-alert-{variant}" ).Append( "{" )
+            .Append( $"color: {text};" )
+            .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
+            .Append( $"border-color: {border};" )
+            .AppendLine( "}" );
 
-        //sb.Append( $".alert-{variant}.alert-link" ).Append( "{" )
-        //    .Append( $"color: {alertLink};" )
-        //    .AppendLine( "}" );
+        sb.Append( $".b-alert.b-alert-{variant} .alert-link" ).Append( "{" )
+            .Append( $"color: {alertLink};" )
+            .AppendLine( "}" );
     }
 
     protected override void GenerateTableVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor )
