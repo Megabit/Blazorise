@@ -64,7 +64,7 @@
     transform: rotate(90deg);
 }
 
-.mui-bar {
+:root {
     --mui-bar-height: 4rem;
     --mui-bar-padding-inline: 0.75rem;
     --mui-bar-drawer-width: min(16rem, 92vw);
@@ -82,6 +82,9 @@
     --mui-bar-active-bg: var(--mui-secondary-container);
     --mui-bar-active-color: var(--mui-on-secondary-container);
     --mui-bar-shadow: var(--mui-elevate1);
+}
+
+.mui-bar {
     position: relative;
     z-index: var(--mui-zindex-navigation);
     box-sizing: border-box;
