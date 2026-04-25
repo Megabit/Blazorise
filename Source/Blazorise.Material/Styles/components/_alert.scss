@@ -1,15 +1,19 @@
 @mixin make-alert-variant($name, $color) {
     &-#{$name} {
-        background-color: var(--mui-#{$color}-container);
-        color: var(--mui-on-#{$color}-container);
-        border-color: var(--mui-#{$color}-container);
+        --b-mui-alert-color: var(--mui-on-#{$color}-container);
+        --b-mui-alert-bg: var(--mui-#{$color}-container);
+        --b-mui-alert-border-color: var(--mui-#{$color}-container);
+        --b-mui-alert-link-color: var(--b-mui-alert-color);
+        background-color: var(--b-mui-alert-bg);
+        color: var(--b-mui-alert-color);
+        border-color: var(--b-mui-alert-border-color);
 
         &.mui-alert-closable {
             .mui-button-close {
-                color: var(--mui-on-#{$color}-container);
+                color: var(--b-mui-alert-color);
 
                 &:hover {
-                    color: var(--mui-on-#{$color}-container);
+                    color: var(--b-mui-alert-color);
                 }
             }
         }
@@ -42,12 +46,12 @@
     }
 
     &-link {
-        color: var(--mui-primary);
+        color: var(--b-mui-alert-link-color, var(--mui-primary));
         text-decoration: underline;
         cursor: pointer;
 
         &:hover {
-            color: var(--mui-on-primary);
+            color: var(--b-mui-alert-link-color, var(--mui-on-primary));
         }
     }
 
