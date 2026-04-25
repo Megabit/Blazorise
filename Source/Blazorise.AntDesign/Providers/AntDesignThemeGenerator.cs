@@ -899,6 +899,9 @@ public class AntDesignThemeGenerator : ThemeGenerator
         var alertSelector = variant == "danger"
             ? ".ant-alert.ant-alert-danger,.ant-alert.ant-alert-error"
             : $".ant-alert.ant-alert-{variant}";
+        var alertColorVariant = variant == "danger"
+            ? "danger"
+            : variant;
         var alertContentSelector = variant == "danger"
             ? ".ant-alert.ant-alert-danger .ant-alert-icon,.ant-alert.ant-alert-error .ant-alert-icon,.ant-alert.ant-alert-danger .ant-alert-title,.ant-alert.ant-alert-error .ant-alert-title,.ant-alert.ant-alert-danger .ant-alert-description,.ant-alert.ant-alert-error .ant-alert-description,.ant-alert.ant-alert-danger .ant-alert-close-icon,.ant-alert.ant-alert-error .ant-alert-close-icon"
             : $".ant-alert.ant-alert-{variant} .ant-alert-icon,.ant-alert.ant-alert-{variant} .ant-alert-title,.ant-alert.ant-alert-{variant} .ant-alert-description,.ant-alert.ant-alert-{variant} .ant-alert-close-icon";
@@ -907,21 +910,22 @@ public class AntDesignThemeGenerator : ThemeGenerator
             : $".ant-alert.ant-alert-{variant} .alert-link";
 
         sb.Append( alertSelector ).Append( "{" )
-            .Append( $"--b-ant-alert-color: {text};" )
-            .Append( $"--b-ant-alert-bg: {background};" )
-            .Append( $"--b-ant-alert-border-color: {border};" )
-            .Append( $"--b-ant-alert-link-color: {alertLink};" )
-            .Append( "color: var(--b-ant-alert-color);" )
+            .Append( $"--b-theme-text-{alertColorVariant}-emphasis: {text};" )
+            .Append( $"--b-theme-background-{alertColorVariant}-subtle: {background};" )
+            .Append( $"--b-theme-border-{alertColorVariant}-subtle: {border};" )
+            .Append( $"--ant-color-text: {text};" )
+            .Append( $"--ant-color-link: {alertLink};" )
+            .Append( $"color: var(--b-theme-text-{alertColorVariant}-emphasis);" )
             .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
-            .Append( "border-color: var(--b-ant-alert-border-color);" )
+            .Append( $"border-color: var(--b-theme-border-{alertColorVariant}-subtle);" )
             .AppendLine( "}" );
 
         sb.Append( alertContentSelector ).Append( "{" )
-            .Append( "color: var(--b-ant-alert-color);" )
+            .Append( $"color: var(--b-theme-text-{alertColorVariant}-emphasis);" )
             .AppendLine( "}" );
 
         sb.Append( alertLinkSelector ).Append( "{" )
-            .Append( "color: var(--b-ant-alert-link-color);" )
+            .Append( "color: var(--ant-color-link);" )
             .AppendLine( "}" );
     }
 
