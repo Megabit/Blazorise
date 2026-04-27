@@ -671,6 +671,8 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
 
     [Parameter] public bool Draggable { get; set; }
 
+    [Parameter] public bool Reorderable { get; set; }
+
     [Parameter] public Func<TNode, bool> CanDragNode { get; set; }
 
     [Parameter] public Func<TreeViewNodeDragEventArgs<TNode>, bool> CanDropNode { get; set; }
@@ -767,6 +769,9 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         if ( !Draggable || ParentTreeView?.DraggedNode is null )
             return false;
 
+        if ( !dropAsChild && !Reorderable )
+            return false;
+
         TreeViewNodeState<TNode> draggedNodeState = ParentTreeView.DraggedNode;
         TreeViewNodeState<TNode> newParentNodeState = GetDropParentNodeState( draggedNodeState, nodeState, dropAsChild );
         int oldIndex = GetNodeIndex( draggedNodeState );
@@ -843,8 +848,8 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         return newIndex;
     }
 
-    private static bool ShouldDropAsChild( DragEventArgs eventArgs )
-        => eventArgs?.OffsetY > ReorderBeforeThreshold;
+    private bool ShouldDropAsChild( DragEventArgs eventArgs )
+        => !Reorderable || eventArgs?.OffsetY > ReorderBeforeThreshold;
 
     private int GetNodeIndex( TreeViewNodeState<TNode> nodeState )
     {

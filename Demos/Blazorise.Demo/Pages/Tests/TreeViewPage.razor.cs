@@ -16,6 +16,8 @@ public partial class TreeViewPage : ComponentBase
     private NodeInfo selectedNode;
     private TreeViewSelectionMode selectionMode;
     private bool virtualize;
+    private bool dragnDrop = true;
+    private bool reorder = true;
 
     public class NodeInfo
     {

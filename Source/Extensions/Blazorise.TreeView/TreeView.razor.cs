@@ -524,6 +524,11 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     [Parameter] public bool Draggable { get; set; }
 
     /// <summary>
+    /// Enables reordering dragged tree nodes before other nodes.
+    /// </summary>
+    [Parameter] public bool Reorderable { get; set; }
+
+    /// <summary>
     /// Determines whether a node can be dragged.
     /// </summary>
     [Parameter] public Func<TNode, bool> CanDragNode { get; set; } = _ => true;

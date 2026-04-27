@@ -388,6 +388,7 @@ public class TreeViewComponentTest : TestContext
             parameters.Add( p => p.ExpandedNodes, expandedNodes );
             parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
             parameters.Add( p => p.Draggable, true );
+            parameters.Add( p => p.Reorderable, true );
             parameters.Add( p => p.NodeDropped, EventCallback.Factory.Create<TreeViewNodeDragEventArgs<Item>>( this, args => droppedArgs = args ) );
         } );
 
@@ -401,6 +402,45 @@ public class TreeViewComponentTest : TestContext
         droppedArgs.DraggedNode.Should().BeSameAs( child3 );
         droppedArgs.OldParentNode.Should().BeSameAs( parent );
         droppedArgs.NewParentNode.Should().BeSameAs( parent );
+        droppedArgs.OldIndex.Should().Be( 2 );
+        droppedArgs.NewIndex.Should().Be( 0 );
+    }
+
+    [Fact]
+    public async Task DragDrop_Should_Not_Reorder_When_Reorderable_Is_False()
+    {
+        var child1 = new Item() { Text = "Child 1" };
+        var child2 = new Item() { Text = "Child 2" };
+        var child3 = new Item() { Text = "Child 3" };
+        var parent = new Item()
+        {
+            Text = "Parent",
+            Children = new[] { child1, child2, child3 },
+        };
+        TreeViewNodeDragEventArgs<Item> droppedArgs = null;
+        var expandedNodes = new List<Item> { parent };
+
+        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        {
+            parameters.Add( p => p.Nodes, new[] { parent } );
+            parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
+            parameters.Add( p => p.HasChildNodes, (Func<Item, bool>)( node => node.Children?.Any() == true ) );
+            parameters.Add( p => p.ExpandedNodes, expandedNodes );
+            parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
+            parameters.Add( p => p.Draggable, true );
+            parameters.Add( p => p.NodeDropped, EventCallback.Factory.Create<TreeViewNodeDragEventArgs<Item>>( this, args => droppedArgs = args ) );
+        } );
+
+        var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
+
+        await nodeContents[3].DragStartAsync( new DragEventArgs() );
+        nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
+        await nodeContents[1].DropAsync( new DragEventArgs() { OffsetY = 1 } );
+
+        droppedArgs.Should().NotBeNull();
+        droppedArgs.DraggedNode.Should().BeSameAs( child3 );
+        droppedArgs.OldParentNode.Should().BeSameAs( parent );
+        droppedArgs.NewParentNode.Should().BeSameAs( child1 );
         droppedArgs.OldIndex.Should().Be( 2 );
         droppedArgs.NewIndex.Should().Be( 0 );
     }
@@ -469,6 +509,7 @@ public class TreeViewComponentTest : TestContext
             parameters.Add( p => p.ExpandedNodes, expandedNodes );
             parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
             parameters.Add( p => p.Draggable, true );
+            parameters.Add( p => p.Reorderable, true );
             parameters.Add( p => p.NodeDropped, EventCallback.Factory.Create<TreeViewNodeDragEventArgs<Item>>( this, args => droppedArgs = args ) );
         } );
 
@@ -508,6 +549,7 @@ public class TreeViewComponentTest : TestContext
             parameters.Add( p => p.ExpandedNodes, expandedNodes );
             parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
             parameters.Add( p => p.Draggable, true );
+            parameters.Add( p => p.Reorderable, true );
             parameters.Add( p => p.NodeDropped, EventCallback.Factory.Create<TreeViewNodeDragEventArgs<Item>>( this, args => droppedArgs = args ) );
         } );
 

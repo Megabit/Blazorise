@@ -44,6 +44,8 @@
                     </Column>
                     <Column ColumnSize="ColumnSize.IsAuto">
                         <Switch @bind-Value=virtualize>Virtualize</Switch>
+                        <Switch @bind-Value=dragnDrop>Drag&Drop</Switch>
+                        <Switch @bind-Value=reorder>Reorder</Switch>
                     </Column>
                 </Row>
             </CardBody>
@@ -63,7 +65,8 @@
                           SelectedNodeStyling="@((item, style) => {style.Background = Background.Success; style.TextColor = TextColor.White; })"
                           NodeContextMenu="@OnNodeContextMenu"
                           NodeContextMenuPreventDefault
-                          Draggable
+                          Draggable="@dragnDrop"
+                          Reorderable="@reorder"
                           CanDragNode="CanDragNode"
                           CanDropNode="CanDropNode"
                           NodeDropped="OnNodeDropped">
