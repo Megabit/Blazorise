@@ -1275,6 +1275,13 @@ template {
   top: var(--ant-padding-md);
   transform: none;
 }
+.ant-alert.ant-alert-with-description .ant-alert-title, .ant-alert.ant-alert-with-description .ant-alert-description,
+.ant-alert .ant-alert-close-icon {
+  color: currentColor;
+}
+.ant-alert .alert-link {
+  color: var(--ant-color-link);
+}
 .ant-alert-primary {
   color: var(--b-theme-text-primary-emphasis, var(--ant-color-primary));
   background-color: var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg));
@@ -11613,6 +11620,16 @@ a.ant-typography-disabled[aria-disabled=true] {
     flex-basis: 100% !important;
   }
 }
+.ant-float-start {
+  float: left !important;
+  float: inline-start !important;
+}
+
+.ant-float-end {
+  float: right !important;
+  float: inline-end !important;
+}
+
 .ant-row {
   margin-left: calc(var(--ant-padding-xs) * -1);
   margin-right: calc(var(--ant-padding-xs) * -1);

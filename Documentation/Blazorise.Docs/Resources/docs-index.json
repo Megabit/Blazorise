@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-04-21T07:04:04.0195501Z",
+  "generatedUtc": "2026-04-27T06:59:47.1414963Z",
   "pages": [
     {
       "route": "/docs",
@@ -34,7 +34,7 @@
           "code": "AnalyzerPackageReferenceExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/AnalyzerPackageReferenceExample.snippet",
-          "content": "<PackageReference Include=\"Blazorise.Analyzers\" Version=\"2.1.0\" PrivateAssets=\"all\" />",
+          "content": "<PackageReference Include=\"Blazorise.Analyzers\" Version=\"2.1.1\" PrivateAssets=\"all\" />",
           "title": "Project file reference",
           "description": "If you prefer editing the project file directly, add the package reference in the target .csproj ."
         },
@@ -2374,6 +2374,14 @@
           "description": "The Offcanvas with the end placement appears from the end of the screen."
         },
         {
+          "code": "OffcanvasSizeExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Offcanvas/Examples/OffcanvasSizeExample.razor",
+          "content": "<Offcanvas @ref=\"offcanvasEndSmallRef\" ShowBackdrop Placement=\"Placement.End\" Size=\"OffcanvasSize.Small\">\r\n    <OffcanvasHeader>\r\n        Small End Offcanvas\r\n        <CloseButton Clicked=\"@(() => HideOffcanvas( offcanvasEndSmallRef ))\" />\r\n    </OffcanvasHeader>\r\n    <OffcanvasBody>\r\n        Small size applied to an end-positioned offcanvas.\r\n    </OffcanvasBody>\r\n</Offcanvas>\r\n\r\n<Offcanvas @ref=\"offcanvasEndLargeRef\" ShowBackdrop Placement=\"Placement.End\" Size=\"OffcanvasSize.Large\">\r\n    <OffcanvasHeader>\r\n        Large End Offcanvas\r\n        <CloseButton Clicked=\"@(() => HideOffcanvas( offcanvasEndLargeRef ))\" />\r\n    </OffcanvasHeader>\r\n    <OffcanvasBody>\r\n        Large size applied to an end-positioned offcanvas.\r\n    </OffcanvasBody>\r\n</Offcanvas>\r\n\r\n<Offcanvas @ref=\"offcanvasEndExtraLargeRef\" ShowBackdrop Placement=\"Placement.End\" Size=\"OffcanvasSize.ExtraLarge\">\r\n    <OffcanvasHeader>\r\n        Extra Large End Offcanvas\r\n        <CloseButton Clicked=\"@(() => HideOffcanvas( offcanvasEndExtraLargeRef ))\" />\r\n    </OffcanvasHeader>\r\n    <OffcanvasBody>\r\n        Extra large size applied to an end-positioned offcanvas.\r\n    </OffcanvasBody>\r\n</Offcanvas>\r\n\r\n<Offcanvas @ref=\"offcanvasEndFullscreenRef\" ShowBackdrop Placement=\"Placement.End\" Size=\"OffcanvasSize.Fullscreen\">\r\n    <OffcanvasHeader>\r\n        Fullscreen End Offcanvas\r\n        <CloseButton Clicked=\"@(() => HideOffcanvas( offcanvasEndFullscreenRef ))\" />\r\n    </OffcanvasHeader>\r\n    <OffcanvasBody>\r\n        Fullscreen size applied to an end-positioned offcanvas.\r\n    </OffcanvasBody>\r\n</Offcanvas>\r\n\r\n<Offcanvas @ref=\"offcanvasTopSmallRef\" ShowBackdrop Placement=\"Placement.Top\" Size=\"OffcanvasSize.Small\">\r\n    <OffcanvasHeader>\r\n        Small Top Offcanvas\r\n        <CloseButton Clicked=\"@(() => HideOffcanvas( offcanvasTopSmallRef ))\" />\r\n    </OffcanvasHeader>\r\n    <OffcanvasBody>\r\n        Small size applied to a top-positioned offcanvas.\r\n    </OffcanvasBody>\r\n</Offcanvas>\r\n\r\n<Offcanvas @ref=\"offcanvasTopLargeRef\" ShowBackdrop Placement=\"Placement.Top\" Size=\"OffcanvasSize.Large\">\r\n    <OffcanvasHeader>\r\n        Large Top Offcanvas\r\n        <CloseButton Clicked=\"@(() => HideOffcanvas( offcanvasTopLargeRef ))\" />\r\n    </OffcanvasHeader>\r\n    <OffcanvasBody>\r\n        Large size applied to a top-positioned offcanvas.\r\n    </OffcanvasBody>\r\n</Offcanvas>\r\n\r\n<Offcanvas @ref=\"offcanvasTopExtraLargeRef\" ShowBackdrop Placement=\"Placement.Top\" Size=\"OffcanvasSize.ExtraLarge\">\r\n    <OffcanvasHeader>\r\n        Extra Large Top Offcanvas\r\n        <CloseButton Clicked=\"@(() => HideOffcanvas( offcanvasTopExtraLargeRef ))\" />\r\n    </OffcanvasHeader>\r\n    <OffcanvasBody>\r\n        Extra large size applied to a top-positioned offcanvas.\r\n    </OffcanvasBody>\r\n</Offcanvas>\r\n\r\n<Offcanvas @ref=\"offcanvasTopFullscreenRef\" ShowBackdrop Placement=\"Placement.Top\" Size=\"OffcanvasSize.Fullscreen\">\r\n    <OffcanvasHeader>\r\n        Fullscreen Top Offcanvas\r\n        <CloseButton Clicked=\"@(() => HideOffcanvas( offcanvasTopFullscreenRef ))\" />\r\n    </OffcanvasHeader>\r\n    <OffcanvasBody>\r\n        Fullscreen size applied to a top-positioned offcanvas.\r\n    </OffcanvasBody>\r\n</Offcanvas>\r\n\r\n<Div Margin=\"Margin.Is3.FromBottom\">\r\n    <Button Color=\"Color.Primary\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@(() => ShowOffcanvas( Placement.End, OffcanvasSize.Small ))\">Small End</Button>\r\n    <Button Color=\"Color.Primary\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@(() => ShowOffcanvas( Placement.End, OffcanvasSize.Large ))\">Large End</Button>\r\n    <Button Color=\"Color.Primary\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@(() => ShowOffcanvas( Placement.End, OffcanvasSize.ExtraLarge ))\">Extra Large End</Button>\r\n    <Button Color=\"Color.Primary\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@(() => ShowOffcanvas( Placement.End, OffcanvasSize.Fullscreen ))\">Fullscreen End</Button>\r\n</Div>\r\n<Div>\r\n    <Button Color=\"Color.Secondary\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@(() => ShowOffcanvas( Placement.Top, OffcanvasSize.Small ))\">Small Top</Button>\r\n    <Button Color=\"Color.Secondary\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@(() => ShowOffcanvas( Placement.Top, OffcanvasSize.Large ))\">Large Top</Button>\r\n    <Button Color=\"Color.Secondary\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@(() => ShowOffcanvas( Placement.Top, OffcanvasSize.ExtraLarge ))\">Extra Large Top</Button>\r\n    <Button Color=\"Color.Secondary\" Clicked=\"@(() => ShowOffcanvas( Placement.Top, OffcanvasSize.Fullscreen ))\">Fullscreen Top</Button>\r\n</Div>\r\n\r\n@code {\r\n    private Offcanvas offcanvasEndSmallRef;\r\n    private Offcanvas offcanvasEndLargeRef;\r\n    private Offcanvas offcanvasEndExtraLargeRef;\r\n    private Offcanvas offcanvasEndFullscreenRef;\r\n    private Offcanvas offcanvasTopSmallRef;\r\n    private Offcanvas offcanvasTopLargeRef;\r\n    private Offcanvas offcanvasTopExtraLargeRef;\r\n    private Offcanvas offcanvasTopFullscreenRef;\r\n\r\n    private Task ShowOffcanvas( Placement nextPlacement, OffcanvasSize nextSize )\r\n    {\r\n        return (nextPlacement, nextSize) switch\r\n        {\r\n            (Placement.End, OffcanvasSize.Small ) => offcanvasEndSmallRef.Show(),\r\n            (Placement.End, OffcanvasSize.Large ) => offcanvasEndLargeRef.Show(),\r\n            (Placement.End, OffcanvasSize.ExtraLarge ) => offcanvasEndExtraLargeRef.Show(),\r\n            (Placement.End, OffcanvasSize.Fullscreen ) => offcanvasEndFullscreenRef.Show(),\r\n            (Placement.Top, OffcanvasSize.Small ) => offcanvasTopSmallRef.Show(),\r\n            (Placement.Top, OffcanvasSize.Large ) => offcanvasTopLargeRef.Show(),\r\n            (Placement.Top, OffcanvasSize.ExtraLarge ) => offcanvasTopExtraLargeRef.Show(),\r\n            (Placement.Top, OffcanvasSize.Fullscreen ) => offcanvasTopFullscreenRef.Show(),\r\n            _ => Task.CompletedTask,\r\n        };\r\n    }\r\n\r\n    private Task HideOffcanvas( Offcanvas offcanvas )\r\n    {\r\n        return offcanvas.Hide();\r\n    }\r\n}",
+          "title": "Sizes",
+          "description": "Use Size to apply predefined offcanvas dimensions on the active axis for the current placement. Treat Placement and Size as instance configuration. When switching between horizontal and vertical placements, use separate offcanvas instances."
+        },
+        {
           "code": "OffcanvasClosingExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Offcanvas/Examples/OffcanvasClosingExample.razor",
@@ -3990,7 +3998,7 @@
           "code": "AnimateResourcesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Animate/Examples/AnimateResourcesExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Animate/blazorise.animate.js?v=2.1.0.0\"></script>",
+          "content": "<script src=\"_content/Blazorise.Animate/blazorise.animate.js?v=2.1.1.0\"></script>",
           "title": "Static Files",
           "description": "Add animate.js to your index.html or _Host.cshtml file, depending if you're using a Blazor WebAssembly or Blazor Server side project."
         },
@@ -4753,7 +4761,7 @@
           "code": "DataGridSelectColumnMultipleExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridSelectColumnMultipleExample.razor",
-          "content": "<DataGrid TItem=\"EmployeeActivity\" Data=\"@employeeList\" PageSize=\"5\" Responsive Editable>\r\n    <DataGridSelectColumn TItem=\"EmployeeActivity\" Field=\"@nameof( EmployeeActivity.Activities )\"\r\n                          Caption=\"Activity\" \r\n                          Editable\r\n                          Multiple \r\n                          Data=\"activities\"\r\n                          ValueField=\"(x) => ((Activity)x).Code\"\r\n                          TextField=\"(x) => ((Activity)x).Description\" />\r\n    <DataGridCommandColumn />\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<EmployeeActivity> employeeList;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = (await EmployeeData.GetDataAsync()).Select(x => new EmployeeActivity(x)\r\n            {\r\n                Activities = activities\r\n                        .OrderBy(x => Random.Shared.Next())\r\n                        .Take(Random.Shared.Next(5))\r\n                        .Select(x => x.Code).ToArray()\r\n            }).ToList();\r\n\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private List<Activity> activities = new List<Activity>\r\n    {\r\n        new Activity { Code = \"MEET\", Description = \"Meeting\" },\r\n        new Activity { Code = \"TRAIN\", Description = \"Training\" },\r\n        new Activity { Code = \"CODE\", Description = \"Coding\" },\r\n        new Activity { Code = \"R&D\", Description = \"Research\" },\r\n        new Activity { Code = \"TEST\", Description = \"Testing\" },\r\n    };\r\n\r\n    public class EmployeeActivity : Employee\r\n    {\r\n        public string[] Activities { get; set; }\r\n\r\n        public EmployeeActivity(Employee employee)\r\n        {\r\n            this.City = employee.City;\r\n            this.Email = employee.Email;\r\n            this.FirstName = employee.FirstName;\r\n            this.LastName = employee.LastName;\r\n            this.Salary = employee.Salary;\r\n            this.DateOfBirth = employee.DateOfBirth;\r\n            this.Gender = employee.Gender;\r\n            this.Childrens = employee.Childrens;\r\n            this.Id = employee.Id;\r\n            this.Zip = employee.Zip;\r\n            this.Tax = employee.Tax;\r\n            this.Salaries = employee.Salaries;\r\n            this.IsActive = employee.IsActive;\r\n        }\r\n    }\r\n\r\n    public class Activity\r\n    {\r\n        public string Code { get; set; }\r\n        public string Description { get; set; }\r\n    }\r\n}",
+          "content": "<DataGrid TItem=\"EmployeeActivity\" Data=\"@employeeList\" ShowPager PageSize=\"5\" Responsive Editable>\r\n    <DataGridSelectColumn TItem=\"EmployeeActivity\" Field=\"@nameof( EmployeeActivity.Activities )\"\r\n                          Caption=\"Activity\"\r\n                          Editable\r\n                          Multiple\r\n                          Data=\"activities\"\r\n                          ValueField=\"(x) => ((Activity)x).Code\"\r\n                          TextField=\"(x) => ((Activity)x).Description\" />\r\n    <DataGridCommandColumn />\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<EmployeeActivity> employeeList;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = ( await EmployeeData.GetDataAsync() ).Select( x => new EmployeeActivity( x )\r\n        {\r\n            Activities = activities\r\n                        .OrderBy( x => Random.Shared.Next() )\r\n                        .Take( Random.Shared.Next( 5 ) )\r\n                        .Select( x => x.Code ).ToArray()\r\n        } ).ToList();\r\n\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private List<Activity> activities = new List<Activity>\r\n    {\r\n        new Activity { Code = \"MEET\", Description = \"Meeting\" },\r\n        new Activity { Code = \"TRAIN\", Description = \"Training\" },\r\n        new Activity { Code = \"CODE\", Description = \"Coding\" },\r\n        new Activity { Code = \"R&D\", Description = \"Research\" },\r\n        new Activity { Code = \"TEST\", Description = \"Testing\" },\r\n    };\r\n\r\n    public class EmployeeActivity : Employee\r\n    {\r\n        public string[] Activities { get; set; }\r\n\r\n        public EmployeeActivity( Employee employee )\r\n        {\r\n            this.City = employee.City;\r\n            this.Email = employee.Email;\r\n            this.FirstName = employee.FirstName;\r\n            this.LastName = employee.LastName;\r\n            this.Salary = employee.Salary;\r\n            this.DateOfBirth = employee.DateOfBirth;\r\n            this.Gender = employee.Gender;\r\n            this.Childrens = employee.Childrens;\r\n            this.Id = employee.Id;\r\n            this.Zip = employee.Zip;\r\n            this.Tax = employee.Tax;\r\n            this.Salaries = employee.Salaries;\r\n            this.IsActive = employee.IsActive;\r\n        }\r\n    }\r\n\r\n    public class Activity\r\n    {\r\n        public string Code { get; set; }\r\n        public string Description { get; set; }\r\n    }\r\n}",
           "title": "Select Column Multiple",
           "description": "Column template for selectable values. Allow multiple values support by setting Multiple to true. Bind a string or value type array."
         }
@@ -4841,22 +4849,6 @@
           "content": "@using System.Drawing\r\n\r\n<DataGrid @ref=\"@dataGridRef\"\r\n          TItem=\"Employee\"\r\n          Data=\"@employeeList\"\r\n          @bind-SelectedRow=\"@selectedEmployee\"\r\n          RowContextMenu=\"@OnRowContextMenu\"\r\n          RowContextMenuPreventDefault=\"true\"\r\n          Responsive\r\n          Editable>\r\n    <DataGridColumn Field=\"@nameof( Employee.Id )\" Caption=\"#\" Sortable=\"false\" />\r\n    <DataGridColumn Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.Email )\" Caption=\"Email\" Editable />\r\n</DataGrid>\r\n\r\n@if ( showContextMenu )\r\n{\r\n    <Div Position=\"Position.Fixed\" Background=\"Background.Danger\" Style=\"@($\"left:{contextMenuPos.X}px; top:{contextMenuPos.Y}px;\")\">\r\n        <ListGroup>\r\n            <ListGroupItem Clicked=\"@(() => OnContextItemEditClicked( contextMenuEmployee ))\">\r\n                <Icon Name=\"IconName.Edit\" TextColor=\"TextColor.Secondary\" /> Edit\r\n            </ListGroupItem>\r\n            <ListGroupItem Clicked=\"@(() => OnContextItemDeleteClicked( contextMenuEmployee ))\">\r\n                <Icon Name=\"IconName.Delete\" TextColor=\"TextColor.Danger\" /> Delete\r\n            </ListGroupItem>\r\n        </ListGroup>\r\n    </Div>\r\n}\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n    private Employee selectedEmployee;\r\n    private DataGrid<Employee> dataGridRef;\r\n\r\n    bool showContextMenu = false;\r\n    Employee contextMenuEmployee;\r\n    Point contextMenuPos;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    protected Task OnRowContextMenu( DataGridRowMouseEventArgs<Employee> eventArgs )\r\n    {\r\n        showContextMenu = true;\r\n        contextMenuEmployee = eventArgs.Item;\r\n        contextMenuPos = new Point( (int)eventArgs.MouseEventArgs.ClientX, (int)eventArgs.MouseEventArgs.ClientY );\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    protected async Task OnContextItemEditClicked( Employee employee )\r\n    {\r\n        await dataGridRef.Edit( employee );\r\n\r\n        showContextMenu = false;\r\n    }\r\n\r\n    protected async Task OnContextItemDeleteClicked( Employee employee )\r\n    {\r\n        await dataGridRef.Delete( employee );\r\n\r\n        showContextMenu = false;\r\n    }\r\n}",
           "title": "Row Context Menu",
           "description": "To integrate the context menu with the DataGrid, you need to: Use the grid's RowContextMenu event to get the current row model and show the menu. Use the context menu's MouseEventArgs parameter to handle the desired operation. In this example, the context menu is used to show the menu items, put an item in edit mode and delete items."
-        }
-      ]
-    },
-    {
-      "route": "/docs/extensions/datagrid/features/detail-row",
-      "title": "Blazorise DataGrid Detail Row Template",
-      "description": "Learn Blazorise by the example. Easily expand and display additional information for each row using the Blazorise DataGrid's detail row template feature.",
-      "pagePath": "Pages/Docs/Extensions/DataGrid/Features/DetailRowTemplate.razor",
-      "examples": [
-        {
-          "code": "DataGridDetailRowTemplateExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridDetailRowTemplateExample.razor",
-          "content": "<DataGrid TItem=\"Employee\"\r\n          @ref=\"dataGridRef\"\r\n          Data=\"@employeeList\"\r\n          DetailRowTrigger=\"@(e => DisplayDetailRow(e.Item))\"\r\n          DetailRowStartsVisible=\"false\"\r\n          Responsive>\r\n    <DataGridColumns>\r\n        <DataGridCommandColumn />\r\n        <DataGridColumn TItem=Employee>\r\n            <DisplayTemplate>\r\n                @if ( DisplayDetailRow( context.Item ) )\r\n                {\r\n                    <Button>\r\n                        <Icon Name=\"@(dataGridRef.GetRowInfo( context.Item ).DetailRowVisible ? IconName.ExpandLess : IconName.ExpandMore)\" />\r\n                    </Button>\r\n                }\r\n            </DisplayTemplate>\r\n        </DataGridColumn>\r\n        <DataGridColumn Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" />\r\n    </DataGridColumns>\r\n    <DetailRowTemplate>\r\n        @{\r\n            var salaries = context.Item?.Salaries;\r\n\r\n            <DataGrid TItem=\"Salary\"\r\n                      Data=\"salaries\"\r\n                      Sortable=\"false\"\r\n                      ShowCaptions=\"false\">\r\n                <DataGridCommandColumn />\r\n                <DataGridDateColumn Field=\"@nameof( Salary.Date )\" Caption=\"Date\" />\r\n                <DataGridNumericColumn Field=\"@nameof( Salary.Total )\" Caption=\"Total\" />\r\n            </DataGrid>\r\n        }\r\n    </DetailRowTemplate>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n    DataGrid<Employee> dataGridRef;\r\n\r\n    bool DisplayDetailRow( Employee employee ) => employee.Salaries?.Count > 0;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
-          "title": "DetailRowTemplate",
-          "description": "DetailRowTemplate allows you to display nested structure below each row in the grid. One of the examples is “master-detail” relationship between two data-source inside the DataGrid . For this template the context value is a DetailRowContext&lt;TItem&gt; , which provides the row item via context.Item along with row state and grid metadata. Once it's defined a detail-row will be visible for every row in the grid by default. You may change this behaviour by setting DetailRowStartsVisible to false. If you want to control the visibility of detail-row you can use DetailRowTrigger attribute that can be defined in it's parent grid. Once defined, whenever a user clicks a row, the DetailRowTrigger will be evaluated. You may also use the DataGrid API, ToggleDetailRow to programatically trigger the detail-row."
         }
       ]
     },
@@ -5067,6 +5059,54 @@
       ]
     },
     {
+      "route": "/docs/extensions/datagrid/features/hierarchy/detail-row",
+      "title": "Blazorise DataGrid Detail Row Template",
+      "description": "Learn Blazorise by the example. Easily expand and display additional information for each row using the Blazorise DataGrid's detail row template feature.",
+      "pagePath": "Pages/Docs/Extensions/DataGrid/Features/DetailRowTemplate.razor",
+      "examples": [
+        {
+          "code": "DataGridDetailRowTemplateExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridDetailRowTemplateExample.razor",
+          "content": "<DataGrid TItem=\"Employee\"\r\n          @ref=\"dataGridRef\"\r\n          Data=\"@employeeList\"\r\n          DetailRowTrigger=\"@(e => DisplayDetailRow(e.Item))\"\r\n          DetailRowStartsVisible=\"false\"\r\n          Responsive>\r\n    <DataGridColumns>\r\n        <DataGridCommandColumn />\r\n        <DataGridColumn TItem=Employee>\r\n            <DisplayTemplate>\r\n                @if ( DisplayDetailRow( context.Item ) )\r\n                {\r\n                    <Button>\r\n                        <Icon Name=\"@(dataGridRef.GetRowInfo( context.Item ).DetailRowVisible ? IconName.ExpandLess : IconName.ExpandMore)\" />\r\n                    </Button>\r\n                }\r\n            </DisplayTemplate>\r\n        </DataGridColumn>\r\n        <DataGridColumn Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" />\r\n    </DataGridColumns>\r\n    <DetailRowTemplate>\r\n        @{\r\n            var salaries = context.Item?.Salaries;\r\n\r\n            <DataGrid TItem=\"Salary\"\r\n                      Data=\"salaries\"\r\n                      Sortable=\"false\"\r\n                      ShowCaptions=\"false\">\r\n                <DataGridCommandColumn />\r\n                <DataGridDateColumn Field=\"@nameof( Salary.Date )\" Caption=\"Date\" />\r\n                <DataGridNumericColumn Field=\"@nameof( Salary.Total )\" Caption=\"Total\" />\r\n            </DataGrid>\r\n        }\r\n    </DetailRowTemplate>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n    DataGrid<Employee> dataGridRef;\r\n\r\n    bool DisplayDetailRow( Employee employee ) => employee.Salaries?.Count > 0;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
+          "title": "DetailRowTemplate",
+          "description": "DetailRowTemplate allows you to display nested structure below each row in the grid. One of the examples is “master-detail” relationship between two data-source inside the DataGrid . For this template the context value is a DetailRowContext&lt;TItem&gt; , which provides the row item via context.Item along with row state and grid metadata. Once it's defined a detail-row will be visible for every row in the grid by default. You may change this behaviour by setting DetailRowStartsVisible to false. If you want to control the visibility of detail-row you can use DetailRowTrigger attribute that can be defined in it's parent grid. Once defined, whenever a user clicks a row, the DetailRowTrigger will be evaluated. You may also use the DataGrid API, ToggleDetailRow to programatically trigger the detail-row."
+        }
+      ]
+    },
+    {
+      "route": "/docs/extensions/datagrid/features/hierarchy/self-reference",
+      "title": "Blazorise DataGrid Self Reference",
+      "description": "Learn Blazorise by the example. Render hierarchical rows and control expand and collapse actions programmatically through DataGrid self-reference.",
+      "pagePath": "Pages/Docs/Extensions/DataGrid/Features/SelfReferencePage.razor",
+      "examples": [
+        {
+          "code": "DataGridSelfReferenceExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridSelfReferenceExample.razor",
+          "content": "<Button Color=\"Color.Primary\" Margin=\"Margin.Is2.FromEnd\" Disabled=\"@(!CanToggleSelectedRow)\" Clicked=\"@ExpandSelectedRow\">Expand Selected</Button>\r\n<Button Color=\"Color.Secondary\" Margin=\"Margin.Is2.FromEnd\" Disabled=\"@(!CanToggleSelectedRow)\" Clicked=\"@CollapseSelectedRow\">Collapse Selected</Button>\r\n<Button Color=\"Color.Success\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@ExpandAllRows\">Expand All</Button>\r\n<Button Color=\"Color.Warning\" Clicked=\"@CollapseAllRows\">Collapse All</Button>\r\n\r\n<DataGrid @ref=\"dataGridRef\"\r\n          TItem=\"SelfReferenceEmployee\"\r\n          Data=\"@rootItems\"\r\n          ExpandTrigger=\"DataGridExpandTrigger.RowAndToggleClick\"\r\n          ExpandRowTrigger=\"OnExpandRowTrigger\"\r\n          ReadChildData=\"OnReadChildData\"\r\n          @bind-SelectedRow=\"@selectedEmployee\"\r\n          Responsive\r\n          ShowPager>\r\n    <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.FullName )\" Caption=\"Employee\" Width=\"Width.Px( 280 )\" />\r\n    <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.City )\" Caption=\"City\" />\r\n    <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" />\r\n    <DataGridCheckColumn Field=\"@nameof( SelfReferenceEmployee.IsActive )\" Caption=\"Active\" />\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] public EmployeeData EmployeeData { get; set; }\r\n\r\n    private DataGrid<SelfReferenceEmployee> dataGridRef;\r\n    private SelfReferenceEmployee selectedEmployee;\r\n    private List<SelfReferenceEmployee> rootItems = new();\r\n    private Dictionary<int, List<SelfReferenceEmployee>> childLookup = new();\r\n\r\n    private bool CanToggleSelectedRow\r\n        => selectedEmployee is not null;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        var employees = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 24 ).ToList();\r\n        BuildSelfReferenceData( employees );\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private void BuildSelfReferenceData( IReadOnlyList<Employee> employees )\r\n    {\r\n        var selfReferenceEmployees = employees.Select( x => new SelfReferenceEmployee\r\n        {\r\n            Id = x.Id,\r\n            FullName = $\"{x.FirstName} {x.LastName}\",\r\n            City = x.City,\r\n            Salary = x.Salary,\r\n            IsActive = x.IsActive,\r\n        } ).ToList();\r\n\r\n        var roots = selfReferenceEmployees.Take( 3 ).ToList();\r\n        var levelOneNodes = new List<SelfReferenceEmployee>();\r\n        var currentIndex = roots.Count;\r\n\r\n        for ( var rootIndex = 0; rootIndex < roots.Count && currentIndex < selfReferenceEmployees.Count; rootIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 3 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = roots[rootIndex].Id;\r\n                levelOneNodes.Add( child );\r\n            }\r\n        }\r\n\r\n        for ( var levelOneIndex = 0; levelOneIndex < levelOneNodes.Count && currentIndex < selfReferenceEmployees.Count; levelOneIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 2 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = levelOneNodes[levelOneIndex].Id;\r\n            }\r\n        }\r\n\r\n        childLookup = selfReferenceEmployees\r\n            .Where( x => x.ParentId.HasValue )\r\n            .GroupBy( x => x.ParentId!.Value )\r\n            .ToDictionary( x => x.Key, x => x.ToList() );\r\n\r\n        rootItems = selfReferenceEmployees.Where( x => !x.ParentId.HasValue ).ToList();\r\n    }\r\n\r\n    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Expandable = childLookup.ContainsKey( args.Item.Id );\r\n        return true;\r\n    }\r\n\r\n    private void OnReadChildData( DataGridReadChildDataEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Data = childLookup.TryGetValue( args.Item.Id, out var children )\r\n            ? children\r\n            : Enumerable.Empty<SelfReferenceEmployee>();\r\n    }\r\n\r\n    private Task ExpandSelectedRow()\r\n        => selectedEmployee is null\r\n            ? Task.CompletedTask\r\n            : dataGridRef.ExpandRow( selectedEmployee );\r\n\r\n    private Task CollapseSelectedRow()\r\n        => selectedEmployee is null\r\n            ? Task.CompletedTask\r\n            : dataGridRef.CollapseRow( selectedEmployee );\r\n\r\n    private Task ExpandAllRows()\r\n        => dataGridRef.ExpandAllRows();\r\n\r\n    private Task CollapseAllRows()\r\n        => dataGridRef.CollapseAllRows();\r\n\r\n    private sealed class SelfReferenceEmployee\r\n    {\r\n        public int Id { get; set; }\r\n\r\n        public int? ParentId { get; set; }\r\n\r\n        public string FullName { get; set; }\r\n\r\n        public string City { get; set; }\r\n\r\n        public decimal Salary { get; set; }\r\n\r\n        public bool IsActive { get; set; }\r\n    }\r\n}",
+          "title": "Self Reference",
+          "description": "This example uses ExpandRowTrigger and ReadChildData for hierarchical rows, and calls ExpandRow , CollapseRow , ExpandAllRows , and CollapseAllRows through a DataGrid self-reference."
+        },
+        {
+          "code": "DataGridSelfReferenceEditingExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridSelfReferenceEditingExample.razor",
+          "content": "<Button Color=\"Color.Success\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@ExpandAllRows\">Expand All</Button>\r\n<Button Color=\"Color.Warning\" Margin=\"Margin.Is4.FromEnd\" Clicked=\"@CollapseAllRows\">Collapse All</Button>\r\n\r\n<DataGrid @ref=\"dataGridRef\"\r\n          TItem=\"SelfReferenceEmployee\"\r\n          Data=\"@rootItems\"\r\n          ExpandTrigger=\"DataGridExpandTrigger.RowAndToggleClick\"\r\n          ExpandRowTrigger=\"OnExpandRowTrigger\"\r\n          ReadChildData=\"OnReadChildData\"\r\n          RowUpdated=\"OnRowUpdated\"\r\n          Editable\r\n          EditMode=\"DataGridEditMode.Inline\"\r\n          Responsive\r\n          ShowPager>\r\n    <DataGridColumns>\r\n        <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.FullName )\" Caption=\"Employee\" Width=\"Width.Px( 280 )\" Editable />\r\n        <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.City )\" Caption=\"City\" Editable />\r\n        <DataGridNumericColumn Field=\"@nameof( SelfReferenceEmployee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" Editable />\r\n        <DataGridCheckColumn Field=\"@nameof( SelfReferenceEmployee.IsActive )\" Caption=\"Active\" Editable />\r\n        <DataGridCommandColumn NewCommandAllowed=\"false\" DeleteCommandAllowed=\"false\" />\r\n    </DataGridColumns>\r\n</DataGrid>\r\n\r\n@if ( lastUpdatedEmployee is not null )\r\n{\r\n    <Alert Color=\"Color.Info\" Margin=\"Margin.Is3.FromTop\">\r\n        Last updated row: <strong>@lastUpdatedEmployee.FullName</strong> (@lastUpdatedEmployee.City)\r\n    </Alert>\r\n}\r\n\r\n@code {\r\n    [Inject] public EmployeeData EmployeeData { get; set; }\r\n\r\n    private DataGrid<SelfReferenceEmployee> dataGridRef;\r\n    private SelfReferenceEmployee lastUpdatedEmployee;\r\n    private List<SelfReferenceEmployee> rootItems = new();\r\n    private Dictionary<int, List<SelfReferenceEmployee>> childLookup = new();\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        var employees = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 24 ).ToList();\r\n        BuildSelfReferenceData( employees );\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private void BuildSelfReferenceData( IReadOnlyList<Employee> employees )\r\n    {\r\n        var selfReferenceEmployees = employees.Select( x => new SelfReferenceEmployee\r\n        {\r\n            Id = x.Id,\r\n            FullName = $\"{x.FirstName} {x.LastName}\",\r\n            City = x.City,\r\n            Salary = x.Salary,\r\n            IsActive = x.IsActive,\r\n        } ).ToList();\r\n\r\n        var roots = selfReferenceEmployees.Take( 3 ).ToList();\r\n        var levelOneNodes = new List<SelfReferenceEmployee>();\r\n        var currentIndex = roots.Count;\r\n\r\n        for ( var rootIndex = 0; rootIndex < roots.Count && currentIndex < selfReferenceEmployees.Count; rootIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 3 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = roots[rootIndex].Id;\r\n                levelOneNodes.Add( child );\r\n            }\r\n        }\r\n\r\n        for ( var levelOneIndex = 0; levelOneIndex < levelOneNodes.Count && currentIndex < selfReferenceEmployees.Count; levelOneIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 2 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = levelOneNodes[levelOneIndex].Id;\r\n            }\r\n        }\r\n\r\n        childLookup = selfReferenceEmployees\r\n            .Where( x => x.ParentId.HasValue )\r\n            .GroupBy( x => x.ParentId!.Value )\r\n            .ToDictionary( x => x.Key, x => x.ToList() );\r\n\r\n        rootItems = selfReferenceEmployees.Where( x => !x.ParentId.HasValue ).ToList();\r\n    }\r\n\r\n    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Expandable = childLookup.ContainsKey( args.Item.Id );\r\n        return true;\r\n    }\r\n\r\n    private void OnReadChildData( DataGridReadChildDataEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Data = childLookup.TryGetValue( args.Item.Id, out var children )\r\n            ? children\r\n            : Enumerable.Empty<SelfReferenceEmployee>();\r\n    }\r\n\r\n    private Task OnRowUpdated( SavedRowItem<SelfReferenceEmployee, Dictionary<string, object>> args )\r\n    {\r\n        lastUpdatedEmployee = args.NewItem;\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task ExpandAllRows()\r\n        => dataGridRef.ExpandAllRows();\r\n\r\n    private Task CollapseAllRows()\r\n        => dataGridRef.CollapseAllRows();\r\n\r\n    private sealed class SelfReferenceEmployee\r\n    {\r\n        public int Id { get; set; }\r\n\r\n        public int? ParentId { get; set; }\r\n\r\n        public string FullName { get; set; }\r\n\r\n        public string City { get; set; }\r\n\r\n        public decimal Salary { get; set; }\r\n\r\n        public bool IsActive { get; set; }\r\n    }\r\n}",
+          "title": "Row Editing",
+          "description": "This example keeps self-reference enabled while turning on Editable rows with DataGridEditMode.Inline . Parent and child rows can both be edited."
+        },
+        {
+          "code": "DataGridSelfReferenceTemplateExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridSelfReferenceTemplateExample.razor",
+          "content": "<DataGrid TItem=\"SelfReferenceEmployee\"\r\n          Data=\"@rootItems\"\r\n          ExpandTrigger=\"DataGridExpandTrigger.ToggleClick\"\r\n          ExpandRowTrigger=\"OnExpandRowTrigger\"\r\n          ReadChildData=\"OnReadChildData\"\r\n          Responsive\r\n          ShowPager>\r\n    <DataGridColumns>\r\n        <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.FullName )\" Caption=\"Employee\" Width=\"Width.Px( 300 )\">\r\n            <ExpandTemplate Context=\"row\">\r\n                <Span Display=\"Display.InlineFlex\" VerticalAlignment=\"VerticalAlignment.Middle\" TextOverflow=\"TextOverflow.NoWrap\">\r\n                    @if ( row.Level > 0 )\r\n                    {\r\n                        <Span Display=\"Display.InlineBlock\" Width=\"@Width.Rem( row.Level )\"></Span>\r\n                    }\r\n\r\n                    @if ( row.Expandable )\r\n                    {\r\n                        <Button Size=\"Size.ExtraSmall\"\r\n                                Color=\"Color.Light\"\r\n                                Margin=\"Margin.Is2.FromEnd\"\r\n                                Clicked=\"@(() => row.Toggle())\">\r\n                            <Icon Name=\"@(row.Expanded ? IconName.ChevronDown : IconName.ChevronRight)\" />\r\n                        </Button>\r\n                    }\r\n                    else\r\n                    {\r\n                        <Span Display=\"Display.InlineBlock\" Width=\"@Width.Rem( 1 )\" Margin=\"Margin.Is2.FromEnd\"></Span>\r\n                    }\r\n                </Span>\r\n            </ExpandTemplate>\r\n            <DisplayTemplate Context=\"cell\">\r\n                <Span TextWeight=\"TextWeight.SemiBold\">@cell.DisplayValue</Span>\r\n            </DisplayTemplate>\r\n        </DataGridColumn>\r\n        <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.City )\" Caption=\"City\" />\r\n        <DataGridNumericColumn Field=\"@nameof( SelfReferenceEmployee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" />\r\n    </DataGridColumns>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] public EmployeeData EmployeeData { get; set; }\r\n\r\n    private List<SelfReferenceEmployee> rootItems = new();\r\n    private Dictionary<int, List<SelfReferenceEmployee>> childLookup = new();\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        var employees = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 24 ).ToList();\r\n        BuildSelfReferenceData( employees );\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private void BuildSelfReferenceData( IReadOnlyList<Employee> employees )\r\n    {\r\n        var selfReferenceEmployees = employees.Select( x => new SelfReferenceEmployee\r\n        {\r\n            Id = x.Id,\r\n            FullName = $\"{x.FirstName} {x.LastName}\",\r\n            City = x.City,\r\n            Salary = x.Salary,\r\n        } ).ToList();\r\n\r\n        var roots = selfReferenceEmployees.Take( 3 ).ToList();\r\n        var levelOneNodes = new List<SelfReferenceEmployee>();\r\n        var currentIndex = roots.Count;\r\n\r\n        for ( var rootIndex = 0; rootIndex < roots.Count && currentIndex < selfReferenceEmployees.Count; rootIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 3 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = roots[rootIndex].Id;\r\n                levelOneNodes.Add( child );\r\n            }\r\n        }\r\n\r\n        for ( var levelOneIndex = 0; levelOneIndex < levelOneNodes.Count && currentIndex < selfReferenceEmployees.Count; levelOneIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 2 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = levelOneNodes[levelOneIndex].Id;\r\n            }\r\n        }\r\n\r\n        childLookup = selfReferenceEmployees\r\n            .Where( x => x.ParentId.HasValue )\r\n            .GroupBy( x => x.ParentId!.Value )\r\n            .ToDictionary( x => x.Key, x => x.ToList() );\r\n\r\n        rootItems = selfReferenceEmployees.Where( x => !x.ParentId.HasValue ).ToList();\r\n    }\r\n\r\n    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Expandable = childLookup.ContainsKey( args.Item.Id );\r\n        return true;\r\n    }\r\n\r\n    private void OnReadChildData( DataGridReadChildDataEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Data = childLookup.TryGetValue( args.Item.Id, out var children )\r\n            ? children\r\n            : Enumerable.Empty<SelfReferenceEmployee>();\r\n    }\r\n\r\n    private sealed class SelfReferenceEmployee\r\n    {\r\n        public int Id { get; set; }\r\n\r\n        public int? ParentId { get; set; }\r\n\r\n        public string FullName { get; set; }\r\n\r\n        public string City { get; set; }\r\n\r\n        public decimal Salary { get; set; }\r\n    }\r\n}",
+          "title": "Custom Expand Template",
+          "description": "Use column ExpandTemplate when you need full control over self-reference expand rendering. The first regular column with ExpandTemplate becomes the self-reference host, and the template context exposes Item , Level , Expandable , Expanded , and Toggle() ."
+        }
+      ]
+    },
+    {
       "route": "/docs/extensions/datagrid/features/mobile-mode",
       "title": "Blazorise DataGrid Mobile Mode",
       "description": "Learn Blazorise by the example. The table will have a dedicated layout for mobile devices where the columns are stacked on top of each other.",
@@ -5132,38 +5172,6 @@
           "content": "<Field>\r\n    <FieldLabel>\r\n        Resize Mode\r\n    </FieldLabel>\r\n    <FieldBody>\r\n        <Select @bind-Value=\"@resizeMode\">\r\n            <SelectItem Value=\"TableResizeMode.Header\">Header</SelectItem>\r\n            <SelectItem Value=\"TableResizeMode.Columns\">Columns</SelectItem>\r\n        </Select>\r\n    </FieldBody>\r\n</Field>\r\n\r\n<DataGrid TItem=\"Employee\"\r\n          Data=\"@employeeList\"\r\n          @bind-SelectedRow=\"@selectedEmployee\"\r\n          Responsive\r\n          Resizable\r\n          ResizeMode=\"@resizeMode\">\r\n    <DataGridCommandColumn />\r\n    <DataGridColumn Field=\"@nameof( Employee.Id )\" Caption=\"#\" Sortable=\"false\" />\r\n    <DataGridColumn Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.Email )\" Caption=\"Email\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" Editable>\r\n        <EditTemplate>\r\n            <NumericInput TValue=\"decimal\" Value=\"@((decimal)context.CellValue)\" ValueChanged=\"@(v => context.CellValue = v)\" />\r\n        </EditTemplate>\r\n    </DataGridColumn>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n    private Employee selectedEmployee;\r\n    private TableResizeMode resizeMode = TableResizeMode.Header;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
           "title": "Resizable",
           "description": "The resizable column feature is easy to enable in the Blazorise DataGrid. Just define the Resizable and ResizeMode parameters."
-        }
-      ]
-    },
-    {
-      "route": "/docs/extensions/datagrid/features/self-reference",
-      "title": "Blazorise DataGrid Self Reference",
-      "description": "Learn Blazorise by the example. Render hierarchical rows and control expand and collapse actions programmatically through DataGrid self-reference.",
-      "pagePath": "Pages/Docs/Extensions/DataGrid/Features/SelfReferencePage.razor",
-      "examples": [
-        {
-          "code": "DataGridSelfReferenceExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridSelfReferenceExample.razor",
-          "content": "<Button Color=\"Color.Primary\" Margin=\"Margin.Is2.FromEnd\" Disabled=\"@(!CanToggleSelectedRow)\" Clicked=\"@ExpandSelectedRow\">Expand Selected</Button>\r\n<Button Color=\"Color.Secondary\" Margin=\"Margin.Is2.FromEnd\" Disabled=\"@(!CanToggleSelectedRow)\" Clicked=\"@CollapseSelectedRow\">Collapse Selected</Button>\r\n<Button Color=\"Color.Success\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@ExpandAllRows\">Expand All</Button>\r\n<Button Color=\"Color.Warning\" Clicked=\"@CollapseAllRows\">Collapse All</Button>\r\n\r\n<DataGrid @ref=\"dataGridRef\"\r\n          TItem=\"SelfReferenceEmployee\"\r\n          Data=\"@rootItems\"\r\n          ExpandTrigger=\"DataGridExpandTrigger.RowAndToggleClick\"\r\n          ExpandRowTrigger=\"OnExpandRowTrigger\"\r\n          ReadChildData=\"OnReadChildData\"\r\n          @bind-SelectedRow=\"@selectedEmployee\"\r\n          Responsive\r\n          ShowPager>\r\n    <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.FullName )\" Caption=\"Employee\" Width=\"Width.Px( 280 )\" />\r\n    <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.City )\" Caption=\"City\" />\r\n    <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" />\r\n    <DataGridCheckColumn Field=\"@nameof( SelfReferenceEmployee.IsActive )\" Caption=\"Active\" />\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] public EmployeeData EmployeeData { get; set; }\r\n\r\n    private DataGrid<SelfReferenceEmployee> dataGridRef;\r\n    private SelfReferenceEmployee selectedEmployee;\r\n    private List<SelfReferenceEmployee> rootItems = new();\r\n    private Dictionary<int, List<SelfReferenceEmployee>> childLookup = new();\r\n\r\n    private bool CanToggleSelectedRow\r\n        => selectedEmployee is not null;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        var employees = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 24 ).ToList();\r\n        BuildSelfReferenceData( employees );\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private void BuildSelfReferenceData( IReadOnlyList<Employee> employees )\r\n    {\r\n        var selfReferenceEmployees = employees.Select( x => new SelfReferenceEmployee\r\n        {\r\n            Id = x.Id,\r\n            FullName = $\"{x.FirstName} {x.LastName}\",\r\n            City = x.City,\r\n            Salary = x.Salary,\r\n            IsActive = x.IsActive,\r\n        } ).ToList();\r\n\r\n        var roots = selfReferenceEmployees.Take( 3 ).ToList();\r\n        var levelOneNodes = new List<SelfReferenceEmployee>();\r\n        var currentIndex = roots.Count;\r\n\r\n        for ( var rootIndex = 0; rootIndex < roots.Count && currentIndex < selfReferenceEmployees.Count; rootIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 3 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = roots[rootIndex].Id;\r\n                levelOneNodes.Add( child );\r\n            }\r\n        }\r\n\r\n        for ( var levelOneIndex = 0; levelOneIndex < levelOneNodes.Count && currentIndex < selfReferenceEmployees.Count; levelOneIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 2 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = levelOneNodes[levelOneIndex].Id;\r\n            }\r\n        }\r\n\r\n        childLookup = selfReferenceEmployees\r\n            .Where( x => x.ParentId.HasValue )\r\n            .GroupBy( x => x.ParentId!.Value )\r\n            .ToDictionary( x => x.Key, x => x.ToList() );\r\n\r\n        rootItems = selfReferenceEmployees.Where( x => !x.ParentId.HasValue ).ToList();\r\n    }\r\n\r\n    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Expandable = childLookup.ContainsKey( args.Item.Id );\r\n        return true;\r\n    }\r\n\r\n    private void OnReadChildData( DataGridReadChildDataEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Data = childLookup.TryGetValue( args.Item.Id, out var children )\r\n            ? children\r\n            : Enumerable.Empty<SelfReferenceEmployee>();\r\n    }\r\n\r\n    private Task ExpandSelectedRow()\r\n        => selectedEmployee is null\r\n            ? Task.CompletedTask\r\n            : dataGridRef.ExpandRow( selectedEmployee );\r\n\r\n    private Task CollapseSelectedRow()\r\n        => selectedEmployee is null\r\n            ? Task.CompletedTask\r\n            : dataGridRef.CollapseRow( selectedEmployee );\r\n\r\n    private Task ExpandAllRows()\r\n        => dataGridRef.ExpandAllRows();\r\n\r\n    private Task CollapseAllRows()\r\n        => dataGridRef.CollapseAllRows();\r\n\r\n    private sealed class SelfReferenceEmployee\r\n    {\r\n        public int Id { get; set; }\r\n\r\n        public int? ParentId { get; set; }\r\n\r\n        public string FullName { get; set; }\r\n\r\n        public string City { get; set; }\r\n\r\n        public decimal Salary { get; set; }\r\n\r\n        public bool IsActive { get; set; }\r\n    }\r\n}",
-          "title": "Self Reference",
-          "description": "This example uses ExpandRowTrigger and ReadChildData for hierarchical rows, and calls ExpandRow , CollapseRow , ExpandAllRows , and CollapseAllRows through a DataGrid self-reference."
-        },
-        {
-          "code": "DataGridSelfReferenceEditingExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridSelfReferenceEditingExample.razor",
-          "content": "<Button Color=\"Color.Success\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@ExpandAllRows\">Expand All</Button>\r\n<Button Color=\"Color.Warning\" Margin=\"Margin.Is4.FromEnd\" Clicked=\"@CollapseAllRows\">Collapse All</Button>\r\n\r\n<DataGrid @ref=\"dataGridRef\"\r\n          TItem=\"SelfReferenceEmployee\"\r\n          Data=\"@rootItems\"\r\n          ExpandTrigger=\"DataGridExpandTrigger.RowAndToggleClick\"\r\n          ExpandRowTrigger=\"OnExpandRowTrigger\"\r\n          ReadChildData=\"OnReadChildData\"\r\n          RowUpdated=\"OnRowUpdated\"\r\n          Editable\r\n          EditMode=\"DataGridEditMode.Inline\"\r\n          Responsive\r\n          ShowPager>\r\n    <DataGridColumns>\r\n        <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.FullName )\" Caption=\"Employee\" Width=\"Width.Px( 280 )\" Editable />\r\n        <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.City )\" Caption=\"City\" Editable />\r\n        <DataGridNumericColumn Field=\"@nameof( SelfReferenceEmployee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" Editable />\r\n        <DataGridCheckColumn Field=\"@nameof( SelfReferenceEmployee.IsActive )\" Caption=\"Active\" Editable />\r\n        <DataGridCommandColumn NewCommandAllowed=\"false\" DeleteCommandAllowed=\"false\" />\r\n    </DataGridColumns>\r\n</DataGrid>\r\n\r\n@if ( lastUpdatedEmployee is not null )\r\n{\r\n    <Alert Color=\"Color.Info\" Margin=\"Margin.Is3.FromTop\">\r\n        Last updated row: <strong>@lastUpdatedEmployee.FullName</strong> (@lastUpdatedEmployee.City)\r\n    </Alert>\r\n}\r\n\r\n@code {\r\n    [Inject] public EmployeeData EmployeeData { get; set; }\r\n\r\n    private DataGrid<SelfReferenceEmployee> dataGridRef;\r\n    private SelfReferenceEmployee lastUpdatedEmployee;\r\n    private List<SelfReferenceEmployee> rootItems = new();\r\n    private Dictionary<int, List<SelfReferenceEmployee>> childLookup = new();\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        var employees = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 24 ).ToList();\r\n        BuildSelfReferenceData( employees );\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private void BuildSelfReferenceData( IReadOnlyList<Employee> employees )\r\n    {\r\n        var selfReferenceEmployees = employees.Select( x => new SelfReferenceEmployee\r\n        {\r\n            Id = x.Id,\r\n            FullName = $\"{x.FirstName} {x.LastName}\",\r\n            City = x.City,\r\n            Salary = x.Salary,\r\n            IsActive = x.IsActive,\r\n        } ).ToList();\r\n\r\n        var roots = selfReferenceEmployees.Take( 3 ).ToList();\r\n        var levelOneNodes = new List<SelfReferenceEmployee>();\r\n        var currentIndex = roots.Count;\r\n\r\n        for ( var rootIndex = 0; rootIndex < roots.Count && currentIndex < selfReferenceEmployees.Count; rootIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 3 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = roots[rootIndex].Id;\r\n                levelOneNodes.Add( child );\r\n            }\r\n        }\r\n\r\n        for ( var levelOneIndex = 0; levelOneIndex < levelOneNodes.Count && currentIndex < selfReferenceEmployees.Count; levelOneIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 2 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = levelOneNodes[levelOneIndex].Id;\r\n            }\r\n        }\r\n\r\n        childLookup = selfReferenceEmployees\r\n            .Where( x => x.ParentId.HasValue )\r\n            .GroupBy( x => x.ParentId!.Value )\r\n            .ToDictionary( x => x.Key, x => x.ToList() );\r\n\r\n        rootItems = selfReferenceEmployees.Where( x => !x.ParentId.HasValue ).ToList();\r\n    }\r\n\r\n    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Expandable = childLookup.ContainsKey( args.Item.Id );\r\n        return true;\r\n    }\r\n\r\n    private void OnReadChildData( DataGridReadChildDataEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Data = childLookup.TryGetValue( args.Item.Id, out var children )\r\n            ? children\r\n            : Enumerable.Empty<SelfReferenceEmployee>();\r\n    }\r\n\r\n    private Task OnRowUpdated( SavedRowItem<SelfReferenceEmployee, Dictionary<string, object>> args )\r\n    {\r\n        lastUpdatedEmployee = args.NewItem;\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task ExpandAllRows()\r\n        => dataGridRef.ExpandAllRows();\r\n\r\n    private Task CollapseAllRows()\r\n        => dataGridRef.CollapseAllRows();\r\n\r\n    private sealed class SelfReferenceEmployee\r\n    {\r\n        public int Id { get; set; }\r\n\r\n        public int? ParentId { get; set; }\r\n\r\n        public string FullName { get; set; }\r\n\r\n        public string City { get; set; }\r\n\r\n        public decimal Salary { get; set; }\r\n\r\n        public bool IsActive { get; set; }\r\n    }\r\n}",
-          "title": "Row Editing",
-          "description": "This example keeps self-reference enabled while turning on Editable rows with DataGridEditMode.Inline . Parent and child rows can both be edited."
-        },
-        {
-          "code": "DataGridSelfReferenceTemplateExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridSelfReferenceTemplateExample.razor",
-          "content": "<DataGrid TItem=\"SelfReferenceEmployee\"\r\n          Data=\"@rootItems\"\r\n          ExpandTrigger=\"DataGridExpandTrigger.ToggleClick\"\r\n          ExpandRowTrigger=\"OnExpandRowTrigger\"\r\n          ReadChildData=\"OnReadChildData\"\r\n          Responsive\r\n          ShowPager>\r\n    <DataGridColumns>\r\n        <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.FullName )\" Caption=\"Employee\" Width=\"Width.Px( 300 )\">\r\n            <ExpandTemplate Context=\"row\">\r\n                <Span Display=\"Display.InlineFlex\" VerticalAlignment=\"VerticalAlignment.Middle\" TextOverflow=\"TextOverflow.NoWrap\">\r\n                    @if ( row.Level > 0 )\r\n                    {\r\n                        <Span Display=\"Display.InlineBlock\" Width=\"@Width.Rem( row.Level )\"></Span>\r\n                    }\r\n\r\n                    @if ( row.Expandable )\r\n                    {\r\n                        <Button Size=\"Size.ExtraSmall\"\r\n                                Color=\"Color.Light\"\r\n                                Margin=\"Margin.Is2.FromEnd\"\r\n                                Clicked=\"@(() => row.Toggle())\">\r\n                            <Icon Name=\"@(row.Expanded ? IconName.ChevronDown : IconName.ChevronRight)\" />\r\n                        </Button>\r\n                    }\r\n                    else\r\n                    {\r\n                        <Span Display=\"Display.InlineBlock\" Width=\"@Width.Rem( 1 )\" Margin=\"Margin.Is2.FromEnd\"></Span>\r\n                    }\r\n                </Span>\r\n            </ExpandTemplate>\r\n            <DisplayTemplate Context=\"cell\">\r\n                <Span TextWeight=\"TextWeight.SemiBold\">@cell.DisplayValue</Span>\r\n            </DisplayTemplate>\r\n        </DataGridColumn>\r\n        <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.City )\" Caption=\"City\" />\r\n        <DataGridNumericColumn Field=\"@nameof( SelfReferenceEmployee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" />\r\n    </DataGridColumns>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] public EmployeeData EmployeeData { get; set; }\r\n\r\n    private List<SelfReferenceEmployee> rootItems = new();\r\n    private Dictionary<int, List<SelfReferenceEmployee>> childLookup = new();\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        var employees = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 24 ).ToList();\r\n        BuildSelfReferenceData( employees );\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private void BuildSelfReferenceData( IReadOnlyList<Employee> employees )\r\n    {\r\n        var selfReferenceEmployees = employees.Select( x => new SelfReferenceEmployee\r\n        {\r\n            Id = x.Id,\r\n            FullName = $\"{x.FirstName} {x.LastName}\",\r\n            City = x.City,\r\n            Salary = x.Salary,\r\n        } ).ToList();\r\n\r\n        var roots = selfReferenceEmployees.Take( 3 ).ToList();\r\n        var levelOneNodes = new List<SelfReferenceEmployee>();\r\n        var currentIndex = roots.Count;\r\n\r\n        for ( var rootIndex = 0; rootIndex < roots.Count && currentIndex < selfReferenceEmployees.Count; rootIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 3 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = roots[rootIndex].Id;\r\n                levelOneNodes.Add( child );\r\n            }\r\n        }\r\n\r\n        for ( var levelOneIndex = 0; levelOneIndex < levelOneNodes.Count && currentIndex < selfReferenceEmployees.Count; levelOneIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 2 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = levelOneNodes[levelOneIndex].Id;\r\n            }\r\n        }\r\n\r\n        childLookup = selfReferenceEmployees\r\n            .Where( x => x.ParentId.HasValue )\r\n            .GroupBy( x => x.ParentId!.Value )\r\n            .ToDictionary( x => x.Key, x => x.ToList() );\r\n\r\n        rootItems = selfReferenceEmployees.Where( x => !x.ParentId.HasValue ).ToList();\r\n    }\r\n\r\n    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Expandable = childLookup.ContainsKey( args.Item.Id );\r\n        return true;\r\n    }\r\n\r\n    private void OnReadChildData( DataGridReadChildDataEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Data = childLookup.TryGetValue( args.Item.Id, out var children )\r\n            ? children\r\n            : Enumerable.Empty<SelfReferenceEmployee>();\r\n    }\r\n\r\n    private sealed class SelfReferenceEmployee\r\n    {\r\n        public int Id { get; set; }\r\n\r\n        public int? ParentId { get; set; }\r\n\r\n        public string FullName { get; set; }\r\n\r\n        public string City { get; set; }\r\n\r\n        public decimal Salary { get; set; }\r\n    }\r\n}",
-          "title": "Custom Expand Template",
-          "description": "Use column ExpandTemplate when you need full control over self-reference expand rendering. The first regular column with ExpandTemplate becomes the self-reference host, and the template context exposes Item , Level , Expandable , Expanded , and Toggle() ."
         }
       ]
     },
@@ -5705,7 +5713,7 @@
           "code": "AntDesignIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/AntDesignIconsCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.1.0.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.1.1.0\" rel=\"stylesheet\" />",
           "title": "AntDesign Icons CSS",
           "description": "Note: If you use AntDesign icons, define blazorise.icons.antdesign.css in your index.html or _Layout.cshtml / _Host.cshtml file."
         },
@@ -5713,7 +5721,7 @@
           "code": "BootstrapIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/BootstrapIconsCSSExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css?v=2.1.0.0\">",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css?v=2.1.1.0\">",
           "title": "Bootstrap Icons CSS",
           "description": "Note: If you use Bootstrap icons, define bootstrap-icons.min.css in your index.html or _Layout.cshtml / _Host.cshtml file. This file is required for some custom icon styles to work."
         },
@@ -5721,7 +5729,7 @@
           "code": "FluentIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FluentIconsCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.1.0.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.1.1.0\" rel=\"stylesheet\" />",
           "title": "Fluent Icons CSS",
           "description": "Note: If you use Fluent icons, define FluentSystemIcons-Resizable.css in your index.html or _Layout.cshtml / _Host.cshtml file. This file is required for some custom icon styles to work."
         },
@@ -5729,7 +5737,7 @@
           "code": "FontAwesomeCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FontAwesomeCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.1.0.0\" rel=\"stylesheet\">",
+          "content": "<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.1.1.0\" rel=\"stylesheet\">",
           "title": "Font Awesome Icons CSS",
           "description": "Include CSS link into your index.html or _Layout.cshtml / _Host.cshtml file, depending if you're using a Blazor WebAssembly or Blazor Server side project."
         },
@@ -5737,7 +5745,7 @@
           "code": "MaterialCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/MaterialCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.1.0.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.1.1.0\" rel=\"stylesheet\" />",
           "title": "Material Icons CSS",
           "description": "Note: If you use Material icons, define blazorise.icons.material.css in your index.html or _Layout.cshtml / _Host.cshtml file. This file is required for some custom icon styles to work."
         },
@@ -5745,7 +5753,7 @@
           "code": "LucideIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/LucideIconsCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.1.0.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.1.1.0\" rel=\"stylesheet\" />",
           "title": "Lucide Icons CSS",
           "description": "Note: If you use Lucide icons, define blazorise.icons.lucide.css in your index.html or _Layout.cshtml / _Host.cshtml file."
         },
@@ -8171,151 +8179,151 @@
           "code": "CommonScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/CommonScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise/breakpoint.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/button.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/closable.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/colorPicker.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/datePicker.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dragDrop.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dropdown.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/fileInput.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/filePicker.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/floatingUi.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/inputMask.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/io.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/memoInput.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/modal.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/numericPicker.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/observer.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/rangeSlider.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/table.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/textInput.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/theme.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/timePicker.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/tooltip.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/utilities.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise/breakpoint.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/button.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/closable.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/colorPicker.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/datePicker.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dragDrop.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dropdown.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/fileInput.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/filePicker.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/floatingUi.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/inputMask.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/io.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/memoInput.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/modal.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/numericPicker.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/observer.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/rangeSlider.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/table.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/textInput.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/theme.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/timePicker.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/tooltip.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/utilities.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "AntDesignScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/AntDesignScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.AntDesign/bar.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/modal.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/segmented.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/tooltip.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/wave.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.AntDesign/bar.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/modal.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/segmented.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/tooltip.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/wave.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "BootstrapScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/BootstrapScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Bootstrap/modal.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap/tooltip.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Bootstrap/modal.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap/tooltip.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "Bootstrap5ScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/Bootstrap5ScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Bootstrap5/modal.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap5/tooltip.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Bootstrap5/modal.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap5/tooltip.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "BulmaScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/BulmaScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Bulma/modal.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bulma/tooltip.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Bulma/modal.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bulma/tooltip.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "FluentUI2ScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/FluentUI2ScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.FluentUI2/modal.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.FluentUI2/tooltip.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.FluentUI2/modal.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.FluentUI2/tooltip.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "TailwindScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/TailwindScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Tailwind/modal.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Tailwind/tooltip.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Tailwind/modal.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Tailwind/tooltip.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "MaterialScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/MaterialScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.1.0.0\"></script>\r\n<script src=\"_content/Blazorise.Material/modal.js?v=2.1.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Material/tooltip.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.1.1.0\"></script>\r\n<script src=\"_content/Blazorise.Material/modal.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Material/tooltip.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "AnimateScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/AnimateScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Animate/blazorise.animate.js?v=2.1.0.0\"></script>"
+          "content": "<script src=\"_content/Blazorise.Animate/blazorise.animate.js?v=2.1.1.0\"></script>"
         },
         {
           "code": "CaptchaReCaptchaScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/CaptchaReCaptchaScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Captcha.ReCaptcha/blazorise.recaptcha.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Captcha.ReCaptcha/blazorise.recaptcha.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts/charts.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts/charts.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsAnnotationScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsAnnotationScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Annotation/chart.annotation.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Annotation/chart.annotation.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsDataLabelsScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsDataLabelsScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.DataLabels/chart.datalabels.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.DataLabels/chart.datalabels.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsStreamingScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsStreamingScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsTrendlineScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsTrendlineScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsZoomScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsZoomScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Zoom/chart.zoom.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Zoom/chart.zoom.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "CropperScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/CropperScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Cropper/blazorise.cropper.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Cropper/blazorise.cropper.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "DatagridScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/DatagridScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.DataGrid/datagrid.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.DataGrid/datagrid.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "GanttScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/GanttScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Gantt/gantt.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Gantt/gantt.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "LottieAnimationScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/LottieAnimationScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.LottieAnimation/lottie-animation.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.LottieAnimation/lottie-animation.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "MarkdownScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/MarkdownScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Markdown/markdown.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Markdown/markdown.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "PdfViewerScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/PdfViewerScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.PdfViewer/pdfviewer.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.PdfViewer/pdfviewer.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "QRCodeScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/QRCodeScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.QRCode/blazorise.qrcode.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.QRCode/blazorise.qrcode.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "RichTextEditScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/RichTextEditScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.RichTextEdit/richtextedit.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.RichTextEdit/richtextedit.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "SchedulerScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/SchedulerScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Scheduler/scheduler.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Scheduler/scheduler.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "SignaturePadScriptsExample",
@@ -8327,13 +8335,13 @@
           "code": "SplitterScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/SplitterScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Splitter/blazorise.splitter.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Splitter/blazorise.splitter.js?v=2.1.1.0\" type=\"module\"></script>"
         },
         {
           "code": "VideoScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/VideoScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Video/video.js?v=2.1.0.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Video/video.js?v=2.1.1.0\" type=\"module\"></script>"
         }
       ]
     },
@@ -8663,7 +8671,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/OffcanvasProvider/Examples/OffcanvasProviderInstantiationExample.razor",
           "content": "<Button Color=\"Color.Primary\" Clicked=\"ShowCounter\">Show Counter</Button>\r\n\r\n@code {\r\n    [Inject] public IOffcanvasService OffcanvasService { get; set; }\r\n\r\n    public Task ShowCounter()\r\n    {\r\n        Random random = new();\r\n        var newValue = random.NextInt64( 100 );\r\n        return OffcanvasService.Show<CounterExample>( \"My Custom Content!\", x => x.Add( x => x.Value, newValue ) );\r\n    }\r\n}",
-          "title": "Instantiate an offcanvas with a custom component",
+          "title": "Custom Component",
           "description": "Instantiates an offcanvas with a counter example taking in the counter number from the provided parameter. OffcanvasService.Show provides various overloads you can use to instantiate your custom content."
         },
         {
@@ -8671,7 +8679,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/ModalProvider/Examples/CounterExample.razor",
           "content": "<Heading>Counter</Heading>\r\n\r\n<Paragraph>@Value</Paragraph>\r\n\r\n<Button Color=\"Color.Primary\" Clicked=\"Increment\">Increment</Button>\r\n@code {\r\n    [Parameter] public long Value { get; set; }\r\n\r\n    private void Increment()\r\n    {\r\n        Value++;\r\n    }\r\n}",
-          "title": "Instantiate an offcanvas with a custom component",
+          "title": "Custom Component",
           "description": "Instantiates an offcanvas with a counter example taking in the counter number from the provided parameter. OffcanvasService.Show provides various overloads you can use to instantiate your custom content."
         },
         {
@@ -8679,14 +8687,22 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/OffcanvasProvider/Examples/OffcanvasProviderCustomRenderFragmentExample.razor",
           "content": "<Button Color=\"Color.Primary\" Clicked=\"ShowRenderFragment\">Show Custom Structure</Button>\r\n\r\n@code {\r\n    [Inject] public IOffcanvasService OffcanvasService { get; set; }\r\n\r\n    private RenderFragment customFragment => __builder =>\r\n    {\r\n        <Paragraph>This content is provided by a custom RenderFragment</Paragraph>\r\n    };\r\n\r\n    public Task ShowRenderFragment()\r\n    {\r\n        return OffcanvasService.Show( \"My Custom RenderFragment!\", customFragment );\r\n    }\r\n}",
-          "title": "Instantiate an offcanvas with a custom render fragment"
+          "title": "Render Fragment"
+        },
+        {
+          "code": "OffcanvasProviderSizeExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Services/OffcanvasProvider/Examples/OffcanvasProviderSizeExample.razor",
+          "content": "<Div Margin=\"Margin.Is3.FromBottom\">\r\n    <Button Color=\"Color.Primary\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@(() => ShowOffcanvas( Placement.End, OffcanvasSize.Small ))\">Small End</Button>\r\n    <Button Color=\"Color.Primary\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@(() => ShowOffcanvas( Placement.End, OffcanvasSize.Large ))\">Large End</Button>\r\n    <Button Color=\"Color.Primary\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@(() => ShowOffcanvas( Placement.End, OffcanvasSize.ExtraLarge ))\">Extra Large End</Button>\r\n    <Button Color=\"Color.Primary\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@(() => ShowOffcanvas( Placement.End, OffcanvasSize.Fullscreen ))\">Fullscreen End</Button>\r\n</Div>\r\n<Div>\r\n    <Button Color=\"Color.Secondary\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@(() => ShowOffcanvas( Placement.Top, OffcanvasSize.Small ))\">Small Top</Button>\r\n    <Button Color=\"Color.Secondary\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@(() => ShowOffcanvas( Placement.Top, OffcanvasSize.Large ))\">Large Top</Button>\r\n    <Button Color=\"Color.Secondary\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@(() => ShowOffcanvas( Placement.Top, OffcanvasSize.ExtraLarge ))\">Extra Large Top</Button>\r\n    <Button Color=\"Color.Secondary\" Clicked=\"@(() => ShowOffcanvas( Placement.Top, OffcanvasSize.Fullscreen ))\">Fullscreen Top</Button>\r\n</Div>\r\n\r\n@code {\r\n    [Inject] public IOffcanvasService OffcanvasService { get; set; }\r\n\r\n    private Task ShowOffcanvas( Placement placement, OffcanvasSize size )\r\n    {\r\n        RenderFragment content = builder =>\r\n        {\r\n            builder.AddContent( 0, $\"Placement {placement} with size {size}.\" );\r\n        };\r\n\r\n        return OffcanvasService.Show(\r\n            $\"{size} {placement} Offcanvas\",\r\n            content,\r\n            new OffcanvasInstanceOptions()\r\n            {\r\n                Placement = placement,\r\n                Size = size\r\n            } );\r\n    }\r\n}",
+          "title": "Predefined Size",
+          "description": "Use OffcanvasInstanceOptions.Size to apply one of the predefined offcanvas sizes when opening an instance through the service. Service calls create new offcanvas instances, so varying Placement and Size between openings is supported through the service."
         },
         {
           "code": "OffcanvasProviderCustomStructureExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/OffcanvasProvider/Examples/OffcanvasProviderCustomStructureExample.razor",
           "content": "<Field Horizontal>\r\n    <FieldLabel ColumnSize=\"ColumnSize.IsFull.OnTablet.Is2.OnDesktop\">User Name</FieldLabel>\r\n    <FieldBody ColumnSize=\"ColumnSize.IsFull.OnTablet.Is10.OnDesktop\">\r\n        <TextInput @bind-Value=\"userName\"></TextInput>\r\n    </FieldBody>\r\n</Field>\r\n\r\n<Button Color=\"Color.Primary\" Clicked=\"ShowCustomStructure\">Show Custom Structure</Button>\r\n\r\n@code {\r\n    [Inject] public IOffcanvasService OffcanvasService { get; set; }\r\n    private string userName = \"John Doe\";\r\n\r\n    public Task ShowCustomStructure()\r\n    {\r\n        return OffcanvasService.Show<CustomStructureOffcanvasExample>(\r\n            parameters => parameters.Add( x => x.UserName, userName ),\r\n            new OffcanvasInstanceOptions() { UseOffcanvasStructure = false } );\r\n    }\r\n}",
-          "title": "Instantiate an offcanvas with custom structure",
+          "title": "Custom Structure",
           "description": "If you want to customize the offcanvas structure, you can do so, by setting UseOffcanvasStructure to false and providing the structure inside the custom content you are instantiating. You may do this by providing your custom html or by using the internal Offcanvas components. OffcanvasHeader OffcanvasBody OffcanvasFooter"
         },
         {
@@ -8694,7 +8710,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/OffcanvasProvider/Examples/CustomStructureOffcanvasExample.razor",
           "content": "<OffcanvasHeader>\r\n    <Heading Size=\"HeadingSize.Is5\">My Custom Structure</Heading>\r\n    <CloseButton />\r\n</OffcanvasHeader>\r\n<OffcanvasBody>\r\n    Welcome @UserName!\r\n</OffcanvasBody>\r\n<OffcanvasFooter>\r\n    <Button Color=\"Color.Success\" Clicked=\"Confirm\">Cheers!</Button>\r\n</OffcanvasFooter>\r\n\r\n@code {\r\n    [Inject] public IOffcanvasService OffcanvasService { get; set; }\r\n\r\n    [Parameter] public string UserName { get; set; }\r\n\r\n    private Task Confirm()\r\n    {\r\n        return OffcanvasService.Hide();\r\n    }\r\n}",
-          "title": "Instantiate an offcanvas with custom structure",
+          "title": "Custom Structure",
           "description": "If you want to customize the offcanvas structure, you can do so, by setting UseOffcanvasStructure to false and providing the structure inside the custom content you are instantiating. You may do this by providing your custom html or by using the internal Offcanvas components. OffcanvasHeader OffcanvasBody OffcanvasFooter"
         },
         {
@@ -8718,7 +8734,7 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/OffcanvasProvider/Examples/OffcanvasProviderStatefulExample.razor",
           "content": "<Button Color=\"Color.Primary\" Clicked=\"ShowStateful\">Show Stateful</Button>\r\n\r\n@code {\r\n    [Inject] public IOffcanvasService OffcanvasService { get; set; }\r\n\r\n    public Task ShowStateful()\r\n    {\r\n        return OffcanvasService.Show<CounterExample>( \"My Stateful content\", new OffcanvasInstanceOptions()\r\n        {\r\n            Stateful = true,\r\n            ElementId = \"StatefulOffcanvas\",\r\n            Placement = Placement.Start\r\n        } );\r\n    }\r\n}",
-          "title": "Instantiate a stateful offcanvas"
+          "title": "Stateful Offcanvas"
         }
       ]
     },
@@ -8867,7 +8883,7 @@
           "code": "Bootstrap5GuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap5/Examples/Bootstrap5GuideSourceFilesExample.snippet",
-          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.1.0.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.1.1.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -9096,7 +9112,7 @@
           "code": "AntDesignGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/AntDesign/Examples/AntDesignGuideSourceFilesExample.snippet",
-          "content": "<link href=\"_content/Blazorise.AntDesign/antd.css?v=2.1.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.1.0.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.1.0.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.AntDesign/antd.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.1.1.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -9139,7 +9155,7 @@
           "code": "BootstrapGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap/Examples/BootstrapGuideSourceFilesExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css\" integrity=\"sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=2.1.0.0\" rel=\"stylesheet\" />",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css\" integrity=\"sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=2.1.1.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -9182,7 +9198,7 @@
           "code": "Bootstrap5GuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap5/Examples/Bootstrap5GuideSourceFilesExample.snippet",
-          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.1.0.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.1.1.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -9225,7 +9241,7 @@
           "code": "BulmaGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bulma/Examples/BulmaGuideSourceFilesExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css\" />\r\n<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.1.0.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bulma/blazorise.bulma.css?v=2.1.0.0\" rel=\"stylesheet\" />",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css\" />\r\n<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bulma/blazorise.bulma.css?v=2.1.1.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -9268,7 +9284,7 @@
           "code": "FluentUI2GuideSourceFiles1Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/FluentUI2/Examples/FluentUI2GuideSourceFiles1Example.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.1.0.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/reboot.css?v=2.1.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.1.0.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/reboot.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.1.1.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -9341,7 +9357,7 @@
           "code": "MaterialGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideSourceFilesExample.snippet",
-          "content": "<!-- In <head> -->\r\n<!-- Required when using Blazorise.Icons.Material -->\r\n<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Material/blazorise.material.css?v=2.1.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.1.0.0\" rel=\"stylesheet\" />\r\n\r\n<!-- Before </body> (before the Blazor framework script) -->\r\n<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.1.0.0\"></script>",
+          "content": "<!-- In <head> -->\r\n<!-- Required when using Blazorise.Icons.Material -->\r\n<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Material/blazorise.material.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n\r\n<!-- Before </body> (before the Blazor framework script) -->\r\n<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.1.1.0\"></script>",
           "description": "Add the styles inside the head section, and place blazorise.material.js near the end of body before the Blazor script:"
         },
         {
@@ -9391,7 +9407,7 @@
           "code": "TailwindGuideSourceFiles3Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Tailwind/Examples/TailwindGuideSourceFiles3Example.snippet",
-          "content": "<link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap\" rel=\"stylesheet\">\r\n<link href=\"https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.1.0.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap\" rel=\"stylesheet\">\r\n<link href=\"https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.1.1.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {

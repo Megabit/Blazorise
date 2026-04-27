@@ -255,6 +255,52 @@ public class MaterialThemeGenerator : ThemeGenerator
 
     protected override void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options )
     {
+        var backgroundColor = ParseColor( inBackgroundColor );
+        var borderColor = ParseColor( inBorderColor );
+        var textColor = ParseColor( inColor );
+
+        var alertLinkColor = Darken( textColor, 10f );
+
+        var background = ToHex( backgroundColor );
+        var border = ToHex( borderColor );
+        var text = ToHex( textColor );
+        var alertLink = ToHex( alertLinkColor );
+        var alertVariant = variant == "danger"
+            ? "error"
+            : variant;
+        var alertSelector = variant == "danger"
+            ? ".mui-alert.mui-alert-danger,.mui-alert.mui-alert-error"
+            : $".mui-alert.mui-alert-{variant}";
+        var closeButtonSelector = variant == "danger"
+            ? ".mui-alert.mui-alert-danger.mui-alert-closable .mui-button-close,.mui-alert.mui-alert-error.mui-alert-closable .mui-button-close"
+            : $".mui-alert.mui-alert-{variant}.mui-alert-closable .mui-button-close";
+        var closeButtonHoverSelector = variant == "danger"
+            ? ".mui-alert.mui-alert-danger.mui-alert-closable .mui-button-close:hover,.mui-alert.mui-alert-error.mui-alert-closable .mui-button-close:hover"
+            : $".mui-alert.mui-alert-{variant}.mui-alert-closable .mui-button-close:hover";
+        var alertLinkSelector = variant == "danger"
+            ? ".mui-alert.mui-alert-danger .mui-alert-link,.mui-alert.mui-alert-error .mui-alert-link,.mui-alert.mui-alert-danger .alert-link,.mui-alert.mui-alert-error .alert-link"
+            : $".mui-alert.mui-alert-{variant} .mui-alert-link,.mui-alert.mui-alert-{variant} .alert-link";
+
+        sb.Append( alertSelector ).Append( "{" )
+            .Append( $"--mui-{alertVariant}-container: {background};" )
+            .Append( $"--mui-on-{alertVariant}-container: {text};" )
+            .Append( $"--mui-primary: {alertLink};" )
+            .Append( $"--mui-on-primary: {alertLink};" )
+            .Append( $"color: var(--mui-on-{alertVariant}-container);" )
+            .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
+            .Append( $"border-color: {border};" )
+            .AppendLine( "}" );
+
+        sb.Append( closeButtonSelector ).Append( "," )
+            .Append( closeButtonHoverSelector )
+            .Append( "{" )
+            .Append( $"color: var(--mui-on-{alertVariant}-container);" )
+            .AppendLine( "}" );
+
+        sb.Append( alertLinkSelector )
+            .Append( "{" )
+            .Append( "color: var(--mui-primary);" )
+            .AppendLine( "}" );
     }
 
     protected override void GenerateTableVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor )

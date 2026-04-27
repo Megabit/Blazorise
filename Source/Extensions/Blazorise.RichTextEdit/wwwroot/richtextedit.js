@@ -1,5 +1,5 @@
-import "./vendors/quill.js?v=2.1.0.0";
-import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.1.0.0";
+import "./vendors/quill.js?v=2.1.1.0";
+import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.1.1.0";
 
 var rteLoadedStyleUrls = new Set();
 var rteSanitizedPasteLoaded = false;
@@ -15,7 +15,7 @@ async function loadSanitizedPasteModule() {
         return rteSanitizedPasteModule;
 
     if (!rteSanitizedPasteLoader) {
-        rteSanitizedPasteLoader = import("./vendors/quill-paste-smart.js?v=2.1.0.0")
+        rteSanitizedPasteLoader = import("./vendors/quill-paste-smart.js?v=2.1.1.0")
             .then((module) => {
                 rteSanitizedPasteModule = module;
                 rteSanitizedPasteLoaded = true;
@@ -37,7 +37,7 @@ async function loadTableBetterModule() {
         return;
 
     if (!rteTableBetterLoader) {
-        rteTableBetterLoader = import("./vendors/quill-table-better.js?v=2.1.0.0")
+        rteTableBetterLoader = import("./vendors/quill-table-better.js?v=2.1.1.0")
             .then(() => {
                 rteTableBetterLoaded = true;
             });
@@ -56,7 +56,7 @@ async function loadResizeModule() {
         return;
 
     if (!rteResizeLoader) {
-        rteResizeLoader = import("./vendors/quill-resize-module.js?v=2.1.0.0")
+        rteResizeLoader = import("./vendors/quill-resize-module.js?v=2.1.1.0")
             .then(() => {
                 rteResizeLoaded = true;
             });

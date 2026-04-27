@@ -34,6 +34,16 @@
         transform: none;
     }
 
+    &.ant-alert-with-description .ant-alert-title,
+    &.ant-alert-with-description .ant-alert-description,
+    .ant-alert-close-icon {
+        color: currentColor;
+    }
+
+    .alert-link {
+        color: var(--ant-color-link);
+    }
+
     @include ant-alert-variant(primary, var(--b-theme-text-primary-emphasis, var(--ant-color-primary)), var(--b-theme-background-primary-subtle, var(--ant-color-primary-bg)), var(--b-theme-border-primary-subtle, var(--ant-color-primary-border)));
     @include ant-alert-variant(secondary, var(--b-theme-text-secondary-emphasis, var(--ant-color-text-secondary)), var(--b-theme-background-secondary-subtle, var(--ant-color-fill-alter)), var(--b-theme-border-secondary-subtle, var(--ant-color-border)));
     @include ant-alert-variant(danger, var(--b-theme-text-danger-emphasis, var(--ant-color-error)), var(--b-theme-background-danger-subtle, var(--ant-color-error-bg)), var(--b-theme-border-danger-subtle, var(--ant-color-error-border)));

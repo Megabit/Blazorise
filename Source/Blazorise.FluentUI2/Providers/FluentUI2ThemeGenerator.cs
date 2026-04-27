@@ -552,7 +552,38 @@ public class FluentUI2ThemeGenerator : ThemeGenerator
     protected override void GenerateStepsVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeStepsOptions stepsOptions ) { }
     protected override void GenerateRatingStyles( StringBuilder sb, Theme theme, ThemeRatingOptions ratingOptions ) { }
     protected override void GenerateRatingVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeRatingOptions ratingOptions ) { }
-    protected override void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options ) { }
+    protected override void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options )
+    {
+        var backgroundColor = ParseColor( inBackgroundColor );
+        var borderColor = ParseColor( inBorderColor );
+        var textColor = ParseColor( inColor );
+
+        var alertLinkColor = Darken( textColor, 10f );
+
+        var background = ToHex( backgroundColor );
+        var border = ToHex( borderColor );
+        var text = ToHex( textColor );
+        var alertLink = ToHex( alertLinkColor );
+
+        sb.Append( $".fui-MessageBar.fui-MessageBar-{variant}" ).Append( "{" )
+            .Append( $"color: {text};" )
+            .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
+            .Append( $"border-color: {border};" )
+            .Append( $"border-top-color: {border};" )
+            .Append( $"border-right-color: {border};" )
+            .Append( $"border-bottom-color: {border};" )
+            .Append( $"border-left-color: {border};" )
+            .AppendLine( "}" );
+
+        sb.Append( $".fui-MessageBar.fui-MessageBar-{variant} .fui-MessageBar__icon" )
+            .Append( "{" )
+            .Append( $"color: {text};" )
+            .AppendLine( "}" );
+
+        sb.Append( $".fui-MessageBar.fui-MessageBar-{variant} .alert-link" ).Append( "{" )
+            .Append( $"color: {alertLink};" )
+            .AppendLine( "}" );
+    }
     protected override void GenerateTableVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor ) { }
     protected override void GenerateCardStyles( StringBuilder sb, Theme theme, ThemeCardOptions options ) { }
     protected override void GenerateModalStyles( StringBuilder sb, Theme theme, ThemeModalOptions options ) { }

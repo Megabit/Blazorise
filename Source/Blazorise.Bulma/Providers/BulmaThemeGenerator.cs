@@ -741,9 +741,6 @@ public class BulmaThemeGenerator : ThemeGenerator
 
     protected override void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options )
     {
-        if ( BulmaThemeColors.Contains( variant ) )
-            return;
-
         var backgroundColor = ParseColor( inBackgroundColor );
         var borderColor = ParseColor( inBorderColor );
         var textColor = ParseColor( inColor );
@@ -756,9 +753,15 @@ public class BulmaThemeGenerator : ThemeGenerator
         var alertLink = ToHex( alertLinkColor );
 
         sb.Append( $".notification.is-{variant}" ).Append( "{" )
-            .Append( $"color: {text};" )
+            .Append( $"--bulma-notification-color: {text};" )
+            .Append( $"--bulma-notification-background-color: {background};" )
+            .Append( "color: var(--bulma-notification-color);" )
             .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
             .Append( $"border-color: {border};" )
+            .AppendLine( "}" );
+
+        sb.Append( $".notification.is-{variant} .alert-link" ).Append( "{" )
+            .Append( $"color: {alertLink};" )
             .AppendLine( "}" );
     }
 
