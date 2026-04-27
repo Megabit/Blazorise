@@ -88,7 +88,6 @@ function getBarcodeProvider() {
 }
 
 function toBarcodeOptions(options) {
-    const providerOptions = options.providerOptions || {};
     const barcodeOptions = {
         bcid: getMappedValue(barcodeTypeMap, options.type),
         text: options.value,
@@ -124,7 +123,7 @@ function toBarcodeOptions(options) {
         barcodeOptions.paddingleft = options.paddingStart;
     }
 
-    return { ...barcodeOptions, ...providerOptions };
+    return barcodeOptions;
 }
 
 function getMappedValue(map, value) {

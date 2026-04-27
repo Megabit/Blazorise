@@ -1,6 +1,5 @@
 #region Using directives
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -36,7 +35,6 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
             var paddingEndChanged = parameters.TryGetValue<int?>( nameof( PaddingEnd ), out var paramPaddingEnd ) && paramPaddingEnd != PaddingEnd;
             var paddingBottomChanged = parameters.TryGetValue<int?>( nameof( PaddingBottom ), out var paramPaddingBottom ) && paramPaddingBottom != PaddingBottom;
             var paddingStartChanged = parameters.TryGetValue<int?>( nameof( PaddingStart ), out var paramPaddingStart ) && paramPaddingStart != PaddingStart;
-            var providerOptionsChanged = parameters.TryGetValue<Dictionary<string, object>>( nameof( ProviderOptions ), out var paramProviderOptions ) && paramProviderOptions != ProviderOptions;
 
             if ( valueChanged
                  || typeChanged
@@ -52,8 +50,7 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
                  || paddingTopChanged
                  || paddingEndChanged
                  || paddingBottomChanged
-                 || paddingStartChanged
-                 || providerOptionsChanged )
+                 || paddingStartChanged )
             {
                 ExecuteAfterRender( SynchronizeBarcode );
             }
@@ -117,7 +114,6 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
             PaddingEnd = PaddingEnd,
             PaddingBottom = PaddingBottom,
             PaddingStart = PaddingStart,
-            ProviderOptions = ProviderOptions,
         };
     }
 
@@ -221,11 +217,6 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
     /// Defines the start padding.
     /// </summary>
     [Parameter] public int? PaddingStart { get; set; }
-
-    /// <summary>
-    /// Provides additional provider-specific options for advanced scenarios.
-    /// </summary>
-    [Parameter] public Dictionary<string, object> ProviderOptions { get; set; }
 
     #endregion
 }

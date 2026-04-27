@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Blazorise.Barcode;
 
 /// <summary>
@@ -81,9 +79,4 @@ public class BarcodeJSOptions
     /// Gets or sets the start padding.
     /// </summary>
     public int? PaddingStart { get; set; }
-
-    /// <summary>
-    /// Gets or sets additional provider options.
-    /// </summary>
-    public Dictionary<string, object> ProviderOptions { get; set; }
 }
