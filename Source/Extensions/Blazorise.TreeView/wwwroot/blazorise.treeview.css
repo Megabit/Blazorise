@@ -1,4 +1,7 @@
-﻿.b-tree-view > .b-tree-view-node {
+﻿.b-tree-view {
+  --b-tree-view-primary: var(--b-theme-primary, #0d6efd);
+}
+.b-tree-view > .b-tree-view-node {
   margin-left: 0;
 }
 .b-tree-view .b-tree-view-node {
@@ -39,7 +42,9 @@
   left: 0;
   right: 0;
   height: 0;
-  border-top: 2px dashed #0d6efd;
+  border-top-color: var(--b-tree-view-primary, #0d6efd);
+  border-top-style: dashed;
+  border-top-width: 2px;
 }
 .b-tree-view .b-tree-view-node .b-tree-view-node-title > .b-tree-view-node-check {
   display: inline-flex;

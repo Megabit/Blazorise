@@ -18,7 +18,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
 {
     #region Members
 
-    private const double ReorderBeforeThreshold = 4;
+    private const double ReorderBeforeThreshold = 8;
 
     private bool checkChildrenLoaded;
     private bool nodeStatesChanged;
