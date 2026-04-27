@@ -544,6 +544,31 @@ public partial class PivotGrid<TItem> : BaseComponent
     [Parameter] public RenderFragment MissingValuesTemplate { get; set; }
 
     /// <summary>
+    /// Custom content for row field header cells.
+    /// </summary>
+    [Parameter] public RenderFragment<PivotGridHeaderContext<TItem>> HeaderTemplate { get; set; }
+
+    /// <summary>
+    /// Custom content for column header cells.
+    /// </summary>
+    [Parameter] public RenderFragment<PivotGridColumnHeaderContext<TItem>> ColumnHeaderTemplate { get; set; }
+
+    /// <summary>
+    /// Custom content for row header cells.
+    /// </summary>
+    [Parameter] public RenderFragment<PivotGridRowHeaderContext<TItem>> RowHeaderTemplate { get; set; }
+
+    /// <summary>
+    /// Custom content for aggregate header cells.
+    /// </summary>
+    [Parameter] public RenderFragment<PivotGridAggregateHeaderContext<TItem>> AggregateHeaderTemplate { get; set; }
+
+    /// <summary>
+    /// Custom content for aggregate value cells.
+    /// </summary>
+    [Parameter] public RenderFragment<PivotGridCellContext<TItem>> CellTemplate { get; set; }
+
+    /// <summary>
     /// Custom localizer handlers to override default <see cref="PivotGrid{TItem}"/> localization.
     /// </summary>
     [Parameter] public PivotGridLocalizers Localizers { get; set; }

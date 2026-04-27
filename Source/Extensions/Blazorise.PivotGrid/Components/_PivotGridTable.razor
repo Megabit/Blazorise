@@ -53,16 +53,41 @@ else
                     @for ( var i = 0; i < RowHeaderColumnCount; i++ )
                     {
                         var rowHeaderIndex = i;
+                        var headerContext = GetHeaderContext( rowHeaderIndex );
 
                         <TableHeaderCell RowSpan="@HeaderRowSpan" Background="BackgroundBody" TextWeight="TextWeight.Bold">
-                            @GetRowHeaderCaption( rowHeaderIndex )
+                            @if ( headerContext.Field?.HeaderTemplate is not null )
+                            {
+                                @headerContext.Field.HeaderTemplate( headerContext )
+                            }
+                            else if ( PivotGrid.HeaderTemplate is not null )
+                            {
+                                @PivotGrid.HeaderTemplate( headerContext )
+                            }
+                            else
+                            {
+                                @headerContext.Caption
+                            }
                         </TableHeaderCell>
                     }
 
                     @foreach ( var columnGroup in ColumnGroups )
                     {
+                        var columnHeaderContext = GetColumnHeaderContext( columnGroup );
+
                         <TableHeaderCell ColumnSpan="@ValueColumnSpan" Background="BackgroundBody" TextWeight="TextWeight.Bold" TextAlignment="TextAlignment.Center">
-                            @GetColumnHeaderText( columnGroup )
+                            @if ( columnHeaderContext.Field?.DisplayTemplate is not null )
+                            {
+                                @columnHeaderContext.Field.DisplayTemplate( GetColumnFieldValueContext( columnHeaderContext ) )
+                            }
+                            else if ( PivotGrid.ColumnHeaderTemplate is not null )
+                            {
+                                @PivotGrid.ColumnHeaderTemplate( columnHeaderContext )
+                            }
+                            else
+                            {
+                                @columnHeaderContext.Text
+                            }
                         </TableHeaderCell>
                     }
                 </TableRow>
@@ -72,8 +97,22 @@ else
                     <TableRow>
                         @foreach ( var dataColumn in Result.DataColumns )
                         {
+                            var aggregateHeaderContext = GetAggregateHeaderContext( dataColumn );
+                            var headerContext = GetAggregateFieldHeaderContext( aggregateHeaderContext );
+
                             <TableHeaderCell Background="BackgroundBody" TextAlignment="TextAlignment.End">
-                                @dataColumn.Aggregate.GetCaption()
+                                @if ( aggregateHeaderContext.Aggregate.HeaderTemplate is not null )
+                                {
+                                    @aggregateHeaderContext.Aggregate.HeaderTemplate( headerContext )
+                                }
+                                else if ( PivotGrid.AggregateHeaderTemplate is not null )
+                                {
+                                    @PivotGrid.AggregateHeaderTemplate( aggregateHeaderContext )
+                                }
+                                else
+                                {
+                                    @aggregateHeaderContext.Caption
+                                }
                             </TableHeaderCell>
                         }
                     </TableRow>
@@ -86,11 +125,23 @@ else
                         @for ( var i = 0; i < RowHeaderColumnCount; i++ )
                         {
                             var rowHeaderIndex = i;
+                            var rowHeaderContext = GetRowHeaderContext( row, rowHeaderIndex );
 
                             <TableRowCell Background="@GetRowHeaderBackground( row.Row )"
                                           TextWeight="@GetRowHeaderTextWeight( row.Row )"
                                           TextAlignment="TextAlignment.Start">
-                                @GetRowHeaderText( row, rowHeaderIndex )
+                                @if ( rowHeaderContext.Field?.DisplayTemplate is not null )
+                                {
+                                    @rowHeaderContext.Field.DisplayTemplate( GetRowFieldValueContext( rowHeaderContext ) )
+                                }
+                                else if ( PivotGrid.RowHeaderTemplate is not null )
+                                {
+                                    @PivotGrid.RowHeaderTemplate( rowHeaderContext )
+                                }
+                                else
+                                {
+                                    @rowHeaderContext.Text
+                                }
                             </TableRowCell>
                         }
 

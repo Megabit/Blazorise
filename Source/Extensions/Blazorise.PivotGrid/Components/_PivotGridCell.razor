@@ -8,6 +8,10 @@
     {
         @Cell.DataColumn.Aggregate.CellTemplate( CellContext )
     }
+    else if ( PivotGrid.CellTemplate is not null )
+    {
+        @PivotGrid.CellTemplate( CellContext )
+    }
     else
     {
         @Cell.FormattedValue

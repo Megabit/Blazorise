@@ -52,6 +52,17 @@ public partial class _PivotGridTable<TItem>
         return Result.RowFields.Count == 0 ? ValuesText : string.Empty;
     }
 
+    private PivotGridHeaderContext<TItem> GetHeaderContext( int index )
+    {
+        var field = GetRowField( index );
+
+        return new(
+            field,
+            GetRowHeaderCaption( index ),
+            index,
+            [] );
+    }
+
     private string GetColumnHeaderText( PivotGridAxisItem<TItem> column )
     {
         if ( column.IsGrandTotal || Result.ColumnFields.Count == 0 )
@@ -65,36 +76,146 @@ public partial class _PivotGridTable<TItem>
         return string.Join( " / ", labels );
     }
 
+    private PivotGridColumnHeaderContext<TItem> GetColumnHeaderContext( PivotGridAxisItem<TItem> column )
+    {
+        if ( column.IsGrandTotal || Result.ColumnFields.Count == 0 || column.Values.Count == 0 )
+        {
+            var text = GetColumnHeaderText( column );
+
+            return new(
+                null,
+                null,
+                text,
+                text,
+                column.Level,
+                column.Values,
+                column,
+                column.Items,
+                column.IsTotal,
+                column.IsGrandTotal );
+        }
+
+        var level = System.Math.Min( column.Level, Result.ColumnFields.Count - 1 );
+        var field = Result.ColumnFields[level];
+        var value = level < column.Values.Count ? column.Values[level] : null;
+        var formattedValue = field.FormatValue( value );
+
+        return new(
+            field,
+            value,
+            formattedValue,
+            GetColumnHeaderText( column ),
+            level,
+            column.Values,
+            column,
+            column.Items,
+            column.IsTotal,
+            column.IsGrandTotal );
+    }
+
+    private static PivotGridFieldValueContext<TItem> GetColumnFieldValueContext( PivotGridColumnHeaderContext<TItem> context )
+        => new(
+            context.Field,
+            context.Value,
+            context.FormattedValue,
+            context.Level,
+            context.Path,
+            context.IsTotal,
+            context.IsGrandTotal );
+
+    private PivotGridAggregateHeaderContext<TItem> GetAggregateHeaderContext( PivotGridDataColumn<TItem> dataColumn )
+        => new(
+            dataColumn.Aggregate,
+            dataColumn.Aggregate.GetCaption(),
+            dataColumn,
+            dataColumn.Column.Values,
+            dataColumn.Column.IsTotal,
+            dataColumn.Column.IsGrandTotal );
+
+    private static PivotGridHeaderContext<TItem> GetAggregateFieldHeaderContext( PivotGridAggregateHeaderContext<TItem> context )
+        => new(
+            context.Aggregate,
+            context.Caption,
+            0,
+            context.ColumnValues );
+
     private Background GetRowHeaderBackground( PivotGridAxisItem<TItem> row )
         => row.IsGrandTotal ? Background.Primary.Subtle : row.IsTotal ? Background.Light : Background.Default;
 
     private TextWeight GetRowHeaderTextWeight( PivotGridAxisItem<TItem> row )
         => row.IsTotal || row.IsGrandTotal ? TextWeight.Bold : TextWeight.Default;
 
-    private string GetRowHeaderText( PivotGridResultRow<TItem> resultRow, int index )
+    private PivotGridRowHeaderContext<TItem> GetRowHeaderContext( PivotGridResultRow<TItem> resultRow, int index )
     {
         var row = resultRow.Row;
+        var field = GetRowField( index );
 
         if ( row.IsGrandTotal )
-            return index == 0 ? GrandTotalText : string.Empty;
+        {
+            var grandTotalText = index == 0 ? GrandTotalText : string.Empty;
+
+            return new(
+                field,
+                null,
+                grandTotalText,
+                grandTotalText,
+                index,
+                row.Values,
+                row,
+                row.Items,
+                false,
+                true );
+        }
 
         if ( index > row.Level || index >= Result.RowFields.Count )
-            return string.Empty;
+        {
+            return new(
+                field,
+                null,
+                string.Empty,
+                string.Empty,
+                index,
+                row.Values,
+                row,
+                row.Items,
+                false,
+                false );
+        }
 
-        var field = Result.RowFields[index];
         var value = index < row.Values.Count
             ? row.Values[index]
             : resultRow.Row.Items.Count > 0
                 ? field.GetValue( resultRow.Row.Items[0] )
                 : null;
 
-        var text = field.FormatValue( value );
+        var formattedValue = field.FormatValue( value );
+        var text = formattedValue;
 
         if ( row.IsTotal && index == row.Level )
             text = $"{text} {TotalText}";
 
-        return text;
+        return new(
+            field,
+            value,
+            formattedValue,
+            text,
+            index,
+            row.Values,
+            row,
+            row.Items,
+            row.IsTotal,
+            row.IsGrandTotal );
     }
+
+    private static PivotGridFieldValueContext<TItem> GetRowFieldValueContext( PivotGridRowHeaderContext<TItem> context )
+        => new(
+            context.Field,
+            context.Value,
+            context.FormattedValue,
+            context.Level,
+            context.Path,
+            context.IsTotal,
+            context.IsGrandTotal );
 
     /// <summary>
     /// Pivot result to render.
