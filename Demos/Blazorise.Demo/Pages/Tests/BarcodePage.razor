@@ -1,0 +1,204 @@
+@page "/tests/barcode"
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Barcode Component (based on <Anchor To="https://github.com/metafloor/bwip-js">bwip-js</Anchor> library)</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is12">
+                        <Fields>
+                            <Field>
+                                <FieldLabel>
+                                    Barcode Type
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Select @bind-Value="@SelectedType">
+                                        @foreach ( var barcodeType in System.Enum.GetValues<BarcodeType>() )
+                                        {
+                                            <SelectItem Value="@barcodeType">@barcodeType</SelectItem>
+                                        }
+                                    </Select>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Value
+                                </FieldLabel>
+                                <FieldBody>
+                                    <TextInput @bind-Value="@value" />
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Render Mode
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Select @bind-Value="@renderMode">
+                                        <SelectItem Value="BarcodeRenderMode.Canvas">Canvas</SelectItem>
+                                        <SelectItem Value="BarcodeRenderMode.Svg">SVG</SelectItem>
+                                    </Select>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Show Value
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Switch @bind-Value="@showValue" />
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Value Alignment
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Select @bind-Value="@valueAlignment">
+                                        <SelectItem Value="BarcodeValueAlignment.Start">Start</SelectItem>
+                                        <SelectItem Value="BarcodeValueAlignment.Center">Center</SelectItem>
+                                        <SelectItem Value="BarcodeValueAlignment.End">End</SelectItem>
+                                    </Select>
+                                </FieldBody>
+                            </Field>
+                        </Fields>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is12">
+                        <Fields>
+                            <Field>
+                                <FieldLabel>
+                                    Foreground Color
+                                </FieldLabel>
+                                <FieldBody>
+                                    <ColorPicker @bind-Value="@foregroundColor" />
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Background Color
+                                </FieldLabel>
+                                <FieldBody>
+                                    <ColorPicker @bind-Value="@backgroundColor" />
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Scale
+                                </FieldLabel>
+                                <FieldBody>
+                                    <NumericPicker @bind-Value="@scale" Min="1" ShowStepButtons="false" Decimals="0" />
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Symbol Width
+                                </FieldLabel>
+                                <FieldBody>
+                                    <NumericPicker TValue="int?" @bind-Value="@symbolWidth" Min="0" ShowStepButtons="false" Decimals="0" />
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Symbol Height
+                                </FieldLabel>
+                                <FieldBody>
+                                    <NumericPicker TValue="int?" @bind-Value="@symbolHeight" Min="0" ShowStepButtons="false" Decimals="0" />
+                                </FieldBody>
+                            </Field>
+                        </Fields>
+                    </Column>
+                </Row>
+            </CardBody>
+            <CardBody>
+                <Barcode Value="@value"
+                         Type="@selectedType"
+                         RenderMode="@renderMode"
+                         ForegroundColor="@foregroundColor"
+                         BackgroundColor="@backgroundColor"
+                         Scale="@scale"
+                         SymbolWidth="@ResolvedSymbolWidth"
+                         SymbolHeight="@ResolvedSymbolHeight"
+                         ShowValue="@showValue"
+                         ValueAlignment="@valueAlignment"
+                         PaddingTop="8"
+                         PaddingEnd="8"
+                         PaddingBottom="8"
+                         PaddingStart="8" />
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    private BarcodeType selectedType = BarcodeType.Code128;
+    private BarcodeRenderMode renderMode = BarcodeRenderMode.Canvas;
+    private BarcodeValueAlignment valueAlignment = BarcodeValueAlignment.Center;
+    private string value = "0123456789";
+    private string foregroundColor = "#000000";
+    private string backgroundColor = "#ffffff";
+    private int scale = 2;
+    private int? symbolWidth;
+    private int? symbolHeight = 20;
+    private bool showValue = true;
+
+    private BarcodeType SelectedType
+    {
+        get => selectedType;
+        set
+        {
+            selectedType = value;
+            this.value = GetExampleValue( value );
+            showValue = IsLinearBarcode( value );
+            symbolHeight = IsLinearBarcode( value ) ? 20 : null;
+        }
+    }
+
+    private int? ResolvedSymbolWidth => symbolWidth > 0 ? symbolWidth : null;
+
+    private int? ResolvedSymbolHeight => symbolHeight > 0 ? symbolHeight : null;
+
+    private static string GetExampleValue( BarcodeType barcodeType ) => barcodeType switch
+    {
+        BarcodeType.Aztec => "Blazorise Aztec",
+        BarcodeType.Codabar => "A123456A",
+        BarcodeType.CodablockF => "Codablock F",
+        BarcodeType.Code39 => "CODE39",
+        BarcodeType.Code93 => "CODE93",
+        BarcodeType.DataMatrix => "Blazorise Data Matrix",
+        BarcodeType.DotCode => "0101234567890128",
+        BarcodeType.Ean13 => "5901234123457",
+        BarcodeType.Ean8 => "96385074",
+        BarcodeType.HanXin => "Blazorise Han Xin",
+        BarcodeType.Interleaved2Of5 => "1234567890",
+        BarcodeType.Itf14 => "10012345000017",
+        BarcodeType.Mailmark => "JGB 012100123412345678AB19XY1A 0",
+        BarcodeType.MaxiCode => "MaxiCode",
+        BarcodeType.MicroPdf417 => "MicroPDF417",
+        BarcodeType.Msi => "1234567",
+        BarcodeType.Pdf417 => "PDF417 barcode",
+        BarcodeType.Pharmacode => "117480",
+        BarcodeType.QrCode => "https://blazorise.com",
+        BarcodeType.UpcA => "725272730706",
+        BarcodeType.UpcE => "01234565",
+        _ => "0123456789",
+    };
+
+    private static bool IsLinearBarcode( BarcodeType barcodeType ) => barcodeType switch
+    {
+        BarcodeType.Code128 => true,
+        BarcodeType.Code39 => true,
+        BarcodeType.Code93 => true,
+        BarcodeType.Codabar => true,
+        BarcodeType.Ean13 => true,
+        BarcodeType.Ean8 => true,
+        BarcodeType.Interleaved2Of5 => true,
+        BarcodeType.Itf14 => true,
+        BarcodeType.Mailmark => true,
+        BarcodeType.Msi => true,
+        BarcodeType.Pharmacode => true,
+        BarcodeType.UpcA => true,
+        BarcodeType.UpcE => true,
+        _ => false,
+    };
+}

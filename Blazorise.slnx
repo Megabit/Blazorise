@@ -47,6 +47,7 @@
   </Folder>
   <Folder Name="/Source/Extensions/">
     <Project Path="Source/Extensions/Blazorise.Animate/Blazorise.Animate.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Barcode/Blazorise.Barcode.csproj" />
     <Project Path="Source/Extensions/Blazorise.Captcha.ReCaptcha/Blazorise.Captcha.ReCaptcha.csproj" />
     <Project Path="Source/Extensions/Blazorise.Captcha/Blazorise.Captcha.csproj" />
     <Project Path="Source/Extensions/Blazorise.Charts.Annotation/Blazorise.Charts.Annotation.csproj" />

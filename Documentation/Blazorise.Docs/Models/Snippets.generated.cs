@@ -5719,6 +5719,56 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
     public string selectedSearchValue { get; set; }
 }";
 
+        public const string BarcodeStylingExample = @"<Barcode Value=""BLAZORISE""
+         Type=""BarcodeType.Code128""
+         RenderMode=""BarcodeRenderMode.Svg""
+         ForegroundColor=""#7474ed""
+         BackgroundColor=""#f7f7ff""
+         ShowValue
+         ValueAlignment=""BarcodeValueAlignment.End""
+         SymbolHeight=""20""
+         PaddingTop=""8""
+         PaddingEnd=""8""
+         PaddingBottom=""8""
+         PaddingStart=""8"" />";
+
+        public const string BarcodeTargetDimensionsExample = @"<Barcode Value=""5901234123457""
+         Type=""BarcodeType.Ean13""
+         RenderMode=""BarcodeRenderMode.Canvas""
+         ShowValue
+         SymbolWidth=""45""
+         SymbolHeight=""18""
+         Scale=""3"" />";
+
+        public const string BarcodeTypesExample = @"<Grid Columns=""GridColumns.Are1.OnTablet.Are2.OnDesktop"">
+    <Column>
+        <Div Flex=""Flex.Column"" Gap=""Gap.Is2"">
+            <Text TextWeight=""TextWeight.SemiBold"">Code 128</Text>
+            <Barcode Value=""0123456789"" Type=""BarcodeType.Code128"" ShowValue SymbolHeight=""16"" />
+        </Div>
+    </Column>
+    <Column>
+        <Div Flex=""Flex.Column"" Gap=""Gap.Is2"">
+            <Text TextWeight=""TextWeight.SemiBold"">EAN-13</Text>
+            <Barcode Value=""5901234123457"" Type=""BarcodeType.Ean13"" ShowValue SymbolHeight=""16"" />
+        </Div>
+    </Column>
+    <Column>
+        <Div Flex=""Flex.Column"" Gap=""Gap.Is2"">
+            <Text TextWeight=""TextWeight.SemiBold"">QR Code</Text>
+            <Barcode Value=""https://blazorise.com"" Type=""BarcodeType.QrCode"" SymbolWidth=""32"" SymbolHeight=""32"" />
+        </Div>
+    </Column>
+    <Column>
+        <Div Flex=""Flex.Column"" Gap=""Gap.Is2"">
+            <Text TextWeight=""TextWeight.SemiBold"">Data Matrix</Text>
+            <Barcode Value=""Blazorise"" Type=""BarcodeType.DataMatrix"" SymbolWidth=""32"" SymbolHeight=""32"" />
+        </Div>
+    </Column>
+</Grid>";
+
+        public const string BasicBarcodeExample = @"<Barcode Value=""0123456789"" Type=""BarcodeType.Code128"" ShowValue SymbolHeight=""20"" />";
+
         public const string CaptchaImportsExample = @"@using Blazorise.Captcha";
 
         public const string CaptchaNugetInstallExample = @"Install-Package Blazorise.Captcha";
