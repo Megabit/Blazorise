@@ -10,10 +10,6 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <NoWarn>1701;1702;SYSLIB0013;CS1591;CS0612</NoWarn>
-  </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
   </ItemGroup>
