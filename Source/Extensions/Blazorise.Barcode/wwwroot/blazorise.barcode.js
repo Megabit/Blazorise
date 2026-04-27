@@ -100,28 +100,28 @@ function toBarcodeOptions(options) {
         backgroundcolor: normalizeColor(options.backgroundColor)
     };
 
-    if (options.maxSymbolWidth !== null && options.maxSymbolWidth !== undefined) {
-        barcodeOptions.width = options.maxSymbolWidth;
+    if (options.symbolWidth !== null && options.symbolWidth !== undefined) {
+        barcodeOptions.width = options.symbolWidth;
     }
 
-    if (options.maxSymbolHeight !== null && options.maxSymbolHeight !== undefined) {
-        barcodeOptions.height = options.maxSymbolHeight;
+    if (options.symbolHeight !== null && options.symbolHeight !== undefined) {
+        barcodeOptions.height = options.symbolHeight;
     }
 
     if (options.paddingTop !== null && options.paddingTop !== undefined) {
         barcodeOptions.paddingtop = options.paddingTop;
     }
 
-    if (options.paddingRight !== null && options.paddingRight !== undefined) {
-        barcodeOptions.paddingright = options.paddingRight;
+    if (options.paddingEnd !== null && options.paddingEnd !== undefined) {
+        barcodeOptions.paddingright = options.paddingEnd;
     }
 
     if (options.paddingBottom !== null && options.paddingBottom !== undefined) {
         barcodeOptions.paddingbottom = options.paddingBottom;
     }
 
-    if (options.paddingLeft !== null && options.paddingLeft !== undefined) {
-        barcodeOptions.paddingleft = options.paddingLeft;
+    if (options.paddingStart !== null && options.paddingStart !== undefined) {
+        barcodeOptions.paddingleft = options.paddingStart;
     }
 
     return { ...barcodeOptions, ...providerOptions };

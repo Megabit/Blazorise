@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-04-27T07:39:00.8137418Z",
+  "generatedUtc": "2026-04-27T07:52:59.7170270Z",
   "pages": [
     {
       "route": "/docs",
@@ -4153,7 +4153,7 @@
           "code": "BasicBarcodeExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Barcode/Examples/BasicBarcodeExample.razor",
-          "content": "<Barcode Value=\"0123456789\" Type=\"BarcodeType.Code128\" ShowValue MaxSymbolHeight=\"20\" />",
+          "content": "<Barcode Value=\"0123456789\" Type=\"BarcodeType.Code128\" ShowValue SymbolHeight=\"20\" />",
           "title": "Basic",
           "description": "Define a Value and choose the barcode Type ."
         },
@@ -4161,7 +4161,7 @@
           "code": "BarcodeTypesExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Barcode/Examples/BarcodeTypesExample.razor",
-          "content": "<Grid Columns=\"GridColumns.Are1.OnTablet.Are2.OnDesktop\">\r\n    <Column>\r\n        <Div Flex=\"Flex.Column\" Gap=\"Gap.Is2\">\r\n            <Text TextWeight=\"TextWeight.SemiBold\">Code 128</Text>\r\n            <Barcode Value=\"0123456789\" Type=\"BarcodeType.Code128\" ShowValue MaxSymbolHeight=\"16\" />\r\n        </Div>\r\n    </Column>\r\n    <Column>\r\n        <Div Flex=\"Flex.Column\" Gap=\"Gap.Is2\">\r\n            <Text TextWeight=\"TextWeight.SemiBold\">EAN-13</Text>\r\n            <Barcode Value=\"5901234123457\" Type=\"BarcodeType.Ean13\" ShowValue MaxSymbolHeight=\"16\" />\r\n        </Div>\r\n    </Column>\r\n    <Column>\r\n        <Div Flex=\"Flex.Column\" Gap=\"Gap.Is2\">\r\n            <Text TextWeight=\"TextWeight.SemiBold\">QR Code</Text>\r\n            <Barcode Value=\"https://blazorise.com\" Type=\"BarcodeType.QrCode\" MaxSymbolWidth=\"32\" MaxSymbolHeight=\"32\" />\r\n        </Div>\r\n    </Column>\r\n    <Column>\r\n        <Div Flex=\"Flex.Column\" Gap=\"Gap.Is2\">\r\n            <Text TextWeight=\"TextWeight.SemiBold\">Data Matrix</Text>\r\n            <Barcode Value=\"Blazorise\" Type=\"BarcodeType.DataMatrix\" MaxSymbolWidth=\"32\" MaxSymbolHeight=\"32\" />\r\n        </Div>\r\n    </Column>\r\n</Grid>",
+          "content": "<Grid Columns=\"GridColumns.Are1.OnTablet.Are2.OnDesktop\">\r\n    <Column>\r\n        <Div Flex=\"Flex.Column\" Gap=\"Gap.Is2\">\r\n            <Text TextWeight=\"TextWeight.SemiBold\">Code 128</Text>\r\n            <Barcode Value=\"0123456789\" Type=\"BarcodeType.Code128\" ShowValue SymbolHeight=\"16\" />\r\n        </Div>\r\n    </Column>\r\n    <Column>\r\n        <Div Flex=\"Flex.Column\" Gap=\"Gap.Is2\">\r\n            <Text TextWeight=\"TextWeight.SemiBold\">EAN-13</Text>\r\n            <Barcode Value=\"5901234123457\" Type=\"BarcodeType.Ean13\" ShowValue SymbolHeight=\"16\" />\r\n        </Div>\r\n    </Column>\r\n    <Column>\r\n        <Div Flex=\"Flex.Column\" Gap=\"Gap.Is2\">\r\n            <Text TextWeight=\"TextWeight.SemiBold\">QR Code</Text>\r\n            <Barcode Value=\"https://blazorise.com\" Type=\"BarcodeType.QrCode\" SymbolWidth=\"32\" SymbolHeight=\"32\" />\r\n        </Div>\r\n    </Column>\r\n    <Column>\r\n        <Div Flex=\"Flex.Column\" Gap=\"Gap.Is2\">\r\n            <Text TextWeight=\"TextWeight.SemiBold\">Data Matrix</Text>\r\n            <Barcode Value=\"Blazorise\" Type=\"BarcodeType.DataMatrix\" SymbolWidth=\"32\" SymbolHeight=\"32\" />\r\n        </Div>\r\n    </Column>\r\n</Grid>",
           "title": "Barcode Types",
           "description": "Use Type to render different symbologies."
         },
@@ -4169,7 +4169,7 @@
           "code": "BarcodeStylingExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Barcode/Examples/BarcodeStylingExample.razor",
-          "content": "<Barcode Value=\"BLAZORISE\"\r\n         Type=\"BarcodeType.Code128\"\r\n         RenderMode=\"BarcodeRenderMode.Svg\"\r\n         ForegroundColor=\"#7474ed\"\r\n         BackgroundColor=\"#f7f7ff\"\r\n         ShowValue\r\n         ValueAlignment=\"BarcodeValueAlignment.End\"\r\n         MaxSymbolHeight=\"20\"\r\n         PaddingTop=\"8\"\r\n         PaddingRight=\"8\"\r\n         PaddingBottom=\"8\"\r\n         PaddingLeft=\"8\" />",
+          "content": "<Barcode Value=\"BLAZORISE\"\r\n         Type=\"BarcodeType.Code128\"\r\n         RenderMode=\"BarcodeRenderMode.Svg\"\r\n         ForegroundColor=\"#7474ed\"\r\n         BackgroundColor=\"#f7f7ff\"\r\n         ShowValue\r\n         ValueAlignment=\"BarcodeValueAlignment.End\"\r\n         SymbolHeight=\"20\"\r\n         PaddingTop=\"8\"\r\n         PaddingEnd=\"8\"\r\n         PaddingBottom=\"8\"\r\n         PaddingStart=\"8\" />",
           "title": "Styling",
           "description": "Use colors, value visibility, and value alignment to adjust the barcode output."
         },
@@ -4177,9 +4177,9 @@
           "code": "BarcodeTargetDimensionsExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Barcode/Examples/BarcodeTargetDimensionsExample.razor",
-          "content": "<Barcode Value=\"5901234123457\"\r\n         Type=\"BarcodeType.Ean13\"\r\n         RenderMode=\"BarcodeRenderMode.Canvas\"\r\n         ShowValue\r\n         MaxSymbolWidth=\"45\"\r\n         MaxSymbolHeight=\"18\"\r\n         Scale=\"3\" />",
+          "content": "<Barcode Value=\"5901234123457\"\r\n         Type=\"BarcodeType.Ean13\"\r\n         RenderMode=\"BarcodeRenderMode.Canvas\"\r\n         ShowValue\r\n         SymbolWidth=\"45\"\r\n         SymbolHeight=\"18\"\r\n         Scale=\"3\" />",
           "title": "Target Dimensions",
-          "description": "MaxSymbolWidth and MaxSymbolHeight define the maximum requested barcode symbol dimensions. The provider can render a smaller symbol when it needs to keep a valid module size."
+          "description": "SymbolWidth and SymbolHeight define the requested barcode symbol dimensions. The provider can render a smaller symbol when it needs to keep a valid module size."
         }
       ],
       "apiRefs": [

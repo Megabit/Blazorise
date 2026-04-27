@@ -23,14 +23,14 @@ public class BarcodeJSOptions
     public string RenderMode { get; set; }
 
     /// <summary>
-    /// Gets or sets the maximum requested barcode symbol width.
+    /// Gets or sets the requested barcode symbol width.
     /// </summary>
-    public int? MaxSymbolWidth { get; set; }
+    public int? SymbolWidth { get; set; }
 
     /// <summary>
-    /// Gets or sets the maximum requested barcode symbol height.
+    /// Gets or sets the requested barcode symbol height.
     /// </summary>
-    public int? MaxSymbolHeight { get; set; }
+    public int? SymbolHeight { get; set; }
 
     /// <summary>
     /// Gets or sets the scale of the barcode.
@@ -68,9 +68,9 @@ public class BarcodeJSOptions
     public int? PaddingTop { get; set; }
 
     /// <summary>
-    /// Gets or sets the right padding.
+    /// Gets or sets the end padding.
     /// </summary>
-    public int? PaddingRight { get; set; }
+    public int? PaddingEnd { get; set; }
 
     /// <summary>
     /// Gets or sets the bottom padding.
@@ -78,9 +78,9 @@ public class BarcodeJSOptions
     public int? PaddingBottom { get; set; }
 
     /// <summary>
-    /// Gets or sets the left padding.
+    /// Gets or sets the start padding.
     /// </summary>
-    public int? PaddingLeft { get; set; }
+    public int? PaddingStart { get; set; }
 
     /// <summary>
     /// Gets or sets additional provider options.

@@ -24,8 +24,8 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
             var valueChanged = parameters.TryGetValue<string>( nameof( Value ), out var paramValue ) && paramValue != Value;
             var typeChanged = parameters.TryGetValue<BarcodeType>( nameof( Type ), out var paramType ) && paramType != Type;
             var renderModeChanged = parameters.TryGetValue<BarcodeRenderMode>( nameof( RenderMode ), out var paramRenderMode ) && paramRenderMode != RenderMode;
-            var maxSymbolWidthChanged = parameters.TryGetValue<int?>( nameof( MaxSymbolWidth ), out var paramMaxSymbolWidth ) && paramMaxSymbolWidth != MaxSymbolWidth;
-            var maxSymbolHeightChanged = parameters.TryGetValue<int?>( nameof( MaxSymbolHeight ), out var paramMaxSymbolHeight ) && paramMaxSymbolHeight != MaxSymbolHeight;
+            var symbolWidthChanged = parameters.TryGetValue<int?>( nameof( SymbolWidth ), out var paramSymbolWidth ) && paramSymbolWidth != SymbolWidth;
+            var symbolHeightChanged = parameters.TryGetValue<int?>( nameof( SymbolHeight ), out var paramSymbolHeight ) && paramSymbolHeight != SymbolHeight;
             var scaleChanged = parameters.TryGetValue<int>( nameof( Scale ), out var paramScale ) && paramScale != Scale;
             var foregroundColorChanged = parameters.TryGetValue<string>( nameof( ForegroundColor ), out var paramForegroundColor ) && paramForegroundColor != ForegroundColor;
             var backgroundColorChanged = parameters.TryGetValue<string>( nameof( BackgroundColor ), out var paramBackgroundColor ) && paramBackgroundColor != BackgroundColor;
@@ -33,16 +33,16 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
             var valueAlignmentChanged = parameters.TryGetValue<BarcodeValueAlignment>( nameof( ValueAlignment ), out var paramValueAlignment ) && paramValueAlignment != ValueAlignment;
             var rotationChanged = parameters.TryGetValue<BarcodeRotation>( nameof( Rotation ), out var paramRotation ) && paramRotation != Rotation;
             var paddingTopChanged = parameters.TryGetValue<int?>( nameof( PaddingTop ), out var paramPaddingTop ) && paramPaddingTop != PaddingTop;
-            var paddingRightChanged = parameters.TryGetValue<int?>( nameof( PaddingRight ), out var paramPaddingRight ) && paramPaddingRight != PaddingRight;
+            var paddingEndChanged = parameters.TryGetValue<int?>( nameof( PaddingEnd ), out var paramPaddingEnd ) && paramPaddingEnd != PaddingEnd;
             var paddingBottomChanged = parameters.TryGetValue<int?>( nameof( PaddingBottom ), out var paramPaddingBottom ) && paramPaddingBottom != PaddingBottom;
-            var paddingLeftChanged = parameters.TryGetValue<int?>( nameof( PaddingLeft ), out var paramPaddingLeft ) && paramPaddingLeft != PaddingLeft;
+            var paddingStartChanged = parameters.TryGetValue<int?>( nameof( PaddingStart ), out var paramPaddingStart ) && paramPaddingStart != PaddingStart;
             var providerOptionsChanged = parameters.TryGetValue<Dictionary<string, object>>( nameof( ProviderOptions ), out var paramProviderOptions ) && paramProviderOptions != ProviderOptions;
 
             if ( valueChanged
                  || typeChanged
                  || renderModeChanged
-                 || maxSymbolWidthChanged
-                 || maxSymbolHeightChanged
+                 || symbolWidthChanged
+                 || symbolHeightChanged
                  || scaleChanged
                  || foregroundColorChanged
                  || backgroundColorChanged
@@ -50,9 +50,9 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
                  || valueAlignmentChanged
                  || rotationChanged
                  || paddingTopChanged
-                 || paddingRightChanged
+                 || paddingEndChanged
                  || paddingBottomChanged
-                 || paddingLeftChanged
+                 || paddingStartChanged
                  || providerOptionsChanged )
             {
                 ExecuteAfterRender( SynchronizeBarcode );
@@ -105,8 +105,8 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
             Value = Value,
             Type = Type.ToString(),
             RenderMode = RenderMode.ToString(),
-            MaxSymbolWidth = MaxSymbolWidth,
-            MaxSymbolHeight = MaxSymbolHeight,
+            SymbolWidth = SymbolWidth,
+            SymbolHeight = SymbolHeight,
             Scale = Scale,
             ForegroundColor = ForegroundColor,
             BackgroundColor = BackgroundColor,
@@ -114,9 +114,9 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
             ValueAlignment = ValueAlignment.ToString(),
             Rotation = Rotation.ToString(),
             PaddingTop = PaddingTop,
-            PaddingRight = PaddingRight,
+            PaddingEnd = PaddingEnd,
             PaddingBottom = PaddingBottom,
-            PaddingLeft = PaddingLeft,
+            PaddingStart = PaddingStart,
             ProviderOptions = ProviderOptions,
         };
     }
@@ -161,16 +161,16 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
     [Parameter] public BarcodeRenderMode RenderMode { get; set; } = BarcodeRenderMode.Canvas;
 
     /// <summary>
-    /// Defines the maximum requested barcode symbol width.
+    /// Defines the requested barcode symbol width.
     /// The provider preserves valid module sizing, so the rendered symbol can be smaller than this value.
     /// </summary>
-    [Parameter] public int? MaxSymbolWidth { get; set; }
+    [Parameter] public int? SymbolWidth { get; set; }
 
     /// <summary>
-    /// Defines the maximum requested barcode symbol height.
+    /// Defines the requested barcode symbol height.
     /// The provider preserves valid module sizing, so the rendered symbol can be smaller than this value.
     /// </summary>
-    [Parameter] public int? MaxSymbolHeight { get; set; }
+    [Parameter] public int? SymbolHeight { get; set; }
 
     /// <summary>
     /// Defines the barcode scale.
@@ -208,9 +208,9 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
     [Parameter] public int? PaddingTop { get; set; }
 
     /// <summary>
-    /// Defines the right padding.
+    /// Defines the end padding.
     /// </summary>
-    [Parameter] public int? PaddingRight { get; set; }
+    [Parameter] public int? PaddingEnd { get; set; }
 
     /// <summary>
     /// Defines the bottom padding.
@@ -218,9 +218,9 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
     [Parameter] public int? PaddingBottom { get; set; }
 
     /// <summary>
-    /// Defines the left padding.
+    /// Defines the start padding.
     /// </summary>
-    [Parameter] public int? PaddingLeft { get; set; }
+    [Parameter] public int? PaddingStart { get; set; }
 
     /// <summary>
     /// Provides additional provider-specific options for advanced scenarios.

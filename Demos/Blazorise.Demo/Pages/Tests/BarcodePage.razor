@@ -92,18 +92,18 @@
                             </Field>
                             <Field>
                                 <FieldLabel>
-                                    Max Symbol Width
+                                    Symbol Width
                                 </FieldLabel>
                                 <FieldBody>
-                                    <NumericPicker TValue="int?" @bind-Value="@maxSymbolWidth" Min="0" ShowStepButtons="false" Decimals="0" />
+                                    <NumericPicker TValue="int?" @bind-Value="@symbolWidth" Min="0" ShowStepButtons="false" Decimals="0" />
                                 </FieldBody>
                             </Field>
                             <Field>
                                 <FieldLabel>
-                                    Max Symbol Height
+                                    Symbol Height
                                 </FieldLabel>
                                 <FieldBody>
-                                    <NumericPicker TValue="int?" @bind-Value="@maxSymbolHeight" Min="0" ShowStepButtons="false" Decimals="0" />
+                                    <NumericPicker TValue="int?" @bind-Value="@symbolHeight" Min="0" ShowStepButtons="false" Decimals="0" />
                                 </FieldBody>
                             </Field>
                         </Fields>
@@ -117,14 +117,14 @@
                          ForegroundColor="@foregroundColor"
                          BackgroundColor="@backgroundColor"
                          Scale="@scale"
-                         MaxSymbolWidth="@ResolvedMaxSymbolWidth"
-                         MaxSymbolHeight="@ResolvedMaxSymbolHeight"
+                         SymbolWidth="@ResolvedSymbolWidth"
+                         SymbolHeight="@ResolvedSymbolHeight"
                          ShowValue="@showValue"
                          ValueAlignment="@valueAlignment"
                          PaddingTop="8"
-                         PaddingRight="8"
+                         PaddingEnd="8"
                          PaddingBottom="8"
-                         PaddingLeft="8" />
+                         PaddingStart="8" />
             </CardBody>
         </Card>
     </Column>
@@ -138,8 +138,8 @@
     private string foregroundColor = "#000000";
     private string backgroundColor = "#ffffff";
     private int scale = 2;
-    private int? maxSymbolWidth;
-    private int? maxSymbolHeight = 20;
+    private int? symbolWidth;
+    private int? symbolHeight = 20;
     private bool showValue = true;
 
     private BarcodeType SelectedType
@@ -150,13 +150,13 @@
             selectedType = value;
             this.value = GetExampleValue( value );
             showValue = IsLinearBarcode( value );
-            maxSymbolHeight = IsLinearBarcode( value ) ? 20 : null;
+            symbolHeight = IsLinearBarcode( value ) ? 20 : null;
         }
     }
 
-    private int? ResolvedMaxSymbolWidth => maxSymbolWidth > 0 ? maxSymbolWidth : null;
+    private int? ResolvedSymbolWidth => symbolWidth > 0 ? symbolWidth : null;
 
-    private int? ResolvedMaxSymbolHeight => maxSymbolHeight > 0 ? maxSymbolHeight : null;
+    private int? ResolvedSymbolHeight => symbolHeight > 0 ? symbolHeight : null;
 
     private static string GetExampleValue( BarcodeType barcodeType ) => barcodeType switch
     {
