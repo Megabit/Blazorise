@@ -23,14 +23,14 @@ public class BarcodeJSOptions
     public string RenderMode { get; set; }
 
     /// <summary>
-    /// Gets or sets the target width of the barcode.
+    /// Gets or sets the maximum requested barcode symbol width.
     /// </summary>
-    public int? Width { get; set; }
+    public int? MaxSymbolWidth { get; set; }
 
     /// <summary>
-    /// Gets or sets the target height of the barcode.
+    /// Gets or sets the maximum requested barcode symbol height.
     /// </summary>
-    public int? Height { get; set; }
+    public int? MaxSymbolHeight { get; set; }
 
     /// <summary>
     /// Gets or sets the scale of the barcode.

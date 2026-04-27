@@ -24,8 +24,8 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
             var valueChanged = parameters.TryGetValue<string>( nameof( Value ), out var paramValue ) && paramValue != Value;
             var typeChanged = parameters.TryGetValue<BarcodeType>( nameof( Type ), out var paramType ) && paramType != Type;
             var renderModeChanged = parameters.TryGetValue<BarcodeRenderMode>( nameof( RenderMode ), out var paramRenderMode ) && paramRenderMode != RenderMode;
-            var targetWidthChanged = parameters.TryGetValue<int?>( nameof( TargetWidth ), out var paramTargetWidth ) && paramTargetWidth != TargetWidth;
-            var targetHeightChanged = parameters.TryGetValue<int?>( nameof( TargetHeight ), out var paramTargetHeight ) && paramTargetHeight != TargetHeight;
+            var maxSymbolWidthChanged = parameters.TryGetValue<int?>( nameof( MaxSymbolWidth ), out var paramMaxSymbolWidth ) && paramMaxSymbolWidth != MaxSymbolWidth;
+            var maxSymbolHeightChanged = parameters.TryGetValue<int?>( nameof( MaxSymbolHeight ), out var paramMaxSymbolHeight ) && paramMaxSymbolHeight != MaxSymbolHeight;
             var scaleChanged = parameters.TryGetValue<int>( nameof( Scale ), out var paramScale ) && paramScale != Scale;
             var foregroundColorChanged = parameters.TryGetValue<string>( nameof( ForegroundColor ), out var paramForegroundColor ) && paramForegroundColor != ForegroundColor;
             var backgroundColorChanged = parameters.TryGetValue<string>( nameof( BackgroundColor ), out var paramBackgroundColor ) && paramBackgroundColor != BackgroundColor;
@@ -41,8 +41,8 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
             if ( valueChanged
                  || typeChanged
                  || renderModeChanged
-                 || targetWidthChanged
-                 || targetHeightChanged
+                 || maxSymbolWidthChanged
+                 || maxSymbolHeightChanged
                  || scaleChanged
                  || foregroundColorChanged
                  || backgroundColorChanged
@@ -105,8 +105,8 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
             Value = Value,
             Type = Type.ToString(),
             RenderMode = RenderMode.ToString(),
-            Width = TargetWidth,
-            Height = TargetHeight,
+            MaxSymbolWidth = MaxSymbolWidth,
+            MaxSymbolHeight = MaxSymbolHeight,
             Scale = Scale,
             ForegroundColor = ForegroundColor,
             BackgroundColor = BackgroundColor,
@@ -161,16 +161,16 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
     [Parameter] public BarcodeRenderMode RenderMode { get; set; } = BarcodeRenderMode.Canvas;
 
     /// <summary>
-    /// Defines the requested barcode generation width.
-    /// The provider can use this value to choose an appropriate module size, so the rendered barcode can be smaller than the requested width.
+    /// Defines the maximum requested barcode symbol width.
+    /// The provider preserves valid module sizing, so the rendered symbol can be smaller than this value.
     /// </summary>
-    [Parameter] public int? TargetWidth { get; set; }
+    [Parameter] public int? MaxSymbolWidth { get; set; }
 
     /// <summary>
-    /// Defines the requested barcode generation height.
-    /// The provider can use this value to choose an appropriate module size, so the rendered barcode can be smaller than the requested height.
+    /// Defines the maximum requested barcode symbol height.
+    /// The provider preserves valid module sizing, so the rendered symbol can be smaller than this value.
     /// </summary>
-    [Parameter] public int? TargetHeight { get; set; }
+    [Parameter] public int? MaxSymbolHeight { get; set; }
 
     /// <summary>
     /// Defines the barcode scale.

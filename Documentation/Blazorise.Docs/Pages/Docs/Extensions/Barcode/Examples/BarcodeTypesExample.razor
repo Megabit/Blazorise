@@ -4,25 +4,25 @@
     <Column>
         <Div Flex="Flex.Column" Gap="Gap.Is2">
             <Text TextWeight="TextWeight.SemiBold">Code 128</Text>
-            <Barcode Value="0123456789" Type="BarcodeType.Code128" ShowValue TargetHeight="16" />
+            <Barcode Value="0123456789" Type="BarcodeType.Code128" ShowValue MaxSymbolHeight="16" />
         </Div>
     </Column>
     <Column>
         <Div Flex="Flex.Column" Gap="Gap.Is2">
             <Text TextWeight="TextWeight.SemiBold">EAN-13</Text>
-            <Barcode Value="5901234123457" Type="BarcodeType.Ean13" ShowValue TargetHeight="16" />
+            <Barcode Value="5901234123457" Type="BarcodeType.Ean13" ShowValue MaxSymbolHeight="16" />
         </Div>
     </Column>
     <Column>
         <Div Flex="Flex.Column" Gap="Gap.Is2">
             <Text TextWeight="TextWeight.SemiBold">QR Code</Text>
-            <Barcode Value="https://blazorise.com" Type="BarcodeType.QrCode" TargetWidth="32" TargetHeight="32" />
+            <Barcode Value="https://blazorise.com" Type="BarcodeType.QrCode" MaxSymbolWidth="32" MaxSymbolHeight="32" />
         </Div>
     </Column>
     <Column>
         <Div Flex="Flex.Column" Gap="Gap.Is2">
             <Text TextWeight="TextWeight.SemiBold">Data Matrix</Text>
-            <Barcode Value="Blazorise" Type="BarcodeType.DataMatrix" TargetWidth="32" TargetHeight="32" />
+            <Barcode Value="Blazorise" Type="BarcodeType.DataMatrix" MaxSymbolWidth="32" MaxSymbolHeight="32" />
         </Div>
     </Column>
 </Grid>

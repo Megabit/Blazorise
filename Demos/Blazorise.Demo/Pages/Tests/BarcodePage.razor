@@ -92,18 +92,18 @@
                             </Field>
                             <Field>
                                 <FieldLabel>
-                                    Width
+                                    Max Symbol Width
                                 </FieldLabel>
                                 <FieldBody>
-                                    <NumericPicker TValue="int?" @bind-Value="@width" Min="0" ShowStepButtons="false" Decimals="0" />
+                                    <NumericPicker TValue="int?" @bind-Value="@maxSymbolWidth" Min="0" ShowStepButtons="false" Decimals="0" />
                                 </FieldBody>
                             </Field>
                             <Field>
                                 <FieldLabel>
-                                    Height
+                                    Max Symbol Height
                                 </FieldLabel>
                                 <FieldBody>
-                                    <NumericPicker TValue="int?" @bind-Value="@height" Min="0" ShowStepButtons="false" Decimals="0" />
+                                    <NumericPicker TValue="int?" @bind-Value="@maxSymbolHeight" Min="0" ShowStepButtons="false" Decimals="0" />
                                 </FieldBody>
                             </Field>
                         </Fields>
@@ -117,8 +117,8 @@
                          ForegroundColor="@foregroundColor"
                          BackgroundColor="@backgroundColor"
                          Scale="@scale"
-                         TargetWidth="@ResolvedTargetWidth"
-                         TargetHeight="@ResolvedTargetHeight"
+                         MaxSymbolWidth="@ResolvedMaxSymbolWidth"
+                         MaxSymbolHeight="@ResolvedMaxSymbolHeight"
                          ShowValue="@showValue"
                          ValueAlignment="@valueAlignment"
                          PaddingTop="8"
@@ -138,8 +138,8 @@
     private string foregroundColor = "#000000";
     private string backgroundColor = "#ffffff";
     private int scale = 2;
-    private int? width;
-    private int? height = 20;
+    private int? maxSymbolWidth;
+    private int? maxSymbolHeight = 20;
     private bool showValue = true;
 
     private BarcodeType SelectedType
@@ -150,13 +150,13 @@
             selectedType = value;
             this.value = GetExampleValue( value );
             showValue = IsLinearBarcode( value );
-            height = IsLinearBarcode( value ) ? 20 : null;
+            maxSymbolHeight = IsLinearBarcode( value ) ? 20 : null;
         }
     }
 
-    private int? ResolvedTargetWidth => width > 0 ? width : null;
+    private int? ResolvedMaxSymbolWidth => maxSymbolWidth > 0 ? maxSymbolWidth : null;
 
-    private int? ResolvedTargetHeight => height > 0 ? height : null;
+    private int? ResolvedMaxSymbolHeight => maxSymbolHeight > 0 ? maxSymbolHeight : null;
 
     private static string GetExampleValue( BarcodeType barcodeType ) => barcodeType switch
     {

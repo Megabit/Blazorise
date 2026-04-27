@@ -100,12 +100,12 @@ function toBarcodeOptions(options) {
         backgroundcolor: normalizeColor(options.backgroundColor)
     };
 
-    if (options.width !== null && options.width !== undefined) {
-        barcodeOptions.width = options.width;
+    if (options.maxSymbolWidth !== null && options.maxSymbolWidth !== undefined) {
+        barcodeOptions.width = options.maxSymbolWidth;
     }
 
-    if (options.height !== null && options.height !== undefined) {
-        barcodeOptions.height = options.height;
+    if (options.maxSymbolHeight !== null && options.maxSymbolHeight !== undefined) {
+        barcodeOptions.height = options.maxSymbolHeight;
     }
 
     if (options.paddingTop !== null && options.paddingTop !== undefined) {
