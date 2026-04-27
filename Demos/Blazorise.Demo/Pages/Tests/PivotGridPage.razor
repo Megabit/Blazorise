@@ -21,7 +21,8 @@
                     <PivotGridAggregates>
                         <PivotGridAggregate Field="@nameof( PivotModel.ContractValue )"
                                             Caption="Contract value"
-                                            DisplayFormat="{0:C0}" />
+                                            DisplayFormat="{0:C}"
+                                            DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" />
                         <PivotGridAggregate Field="@nameof( PivotModel.Units )"
                                             Caption="Units"
                                             AggregateFunction="PivotGridAggregateFunction.Sum" />
