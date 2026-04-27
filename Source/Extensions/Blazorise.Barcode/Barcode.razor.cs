@@ -62,10 +62,7 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override Task OnInitializedAsync()
     {
-        if ( JSModule == null )
-        {
-            JSModule = new JSBarcodeModule( JSRuntime, VersionProvider, BlazoriseOptions );
-        }
+        JSModule ??= new JSBarcodeModule( JSRuntime, VersionProvider, BlazoriseOptions );
 
         return base.OnInitializedAsync();
     }
