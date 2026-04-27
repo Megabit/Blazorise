@@ -1,0 +1,64 @@
+@page "/tests/pivotgrid"
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>PivotGrid</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <PivotGrid TItem="PivotModel"
+                           Items="@contracts"
+                           Striped
+                           Hoverable>
+                    <PivotGridColumns>
+                        <PivotGridColumn Field="@nameof( PivotModel.City )" Caption="City" />
+                    </PivotGridColumns>
+                    <PivotGridRows>
+                        <PivotGridRow Field="@nameof( PivotModel.Category )" Caption="Category" />
+                        <PivotGridRow Field="@nameof( PivotModel.Product )" Caption="Product" />
+                    </PivotGridRows>
+                    <PivotGridAggregates>
+                        <PivotGridAggregate Field="@nameof( PivotModel.ContractValue )"
+                                            Caption="Contract value"
+                                            DisplayFormat="{0:C0}" />
+                        <PivotGridAggregate Field="@nameof( PivotModel.Units )"
+                                            Caption="Units"
+                                            AggregateFunction="PivotGridAggregateFunction.Sum" />
+                    </PivotGridAggregates>
+                </PivotGrid>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    private readonly List<PivotModel> contracts =
+    [
+        new() { City = "London", Category = "Hardware", Product = "Laptops", ContractValue = 127500m, Units = 34 },
+        new() { City = "London", Category = "Hardware", Product = "Monitors", ContractValue = 43800m, Units = 96 },
+        new() { City = "London", Category = "Software", Product = "Licenses", ContractValue = 89200m, Units = 240 },
+        new() { City = "Paris", Category = "Hardware", Product = "Laptops", ContractValue = 98400m, Units = 28 },
+        new() { City = "Paris", Category = "Software", Product = "Licenses", ContractValue = 116300m, Units = 310 },
+        new() { City = "Paris", Category = "Services", Product = "Consulting", ContractValue = 75400m, Units = 42 },
+        new() { City = "Berlin", Category = "Hardware", Product = "Monitors", ContractValue = 51200m, Units = 118 },
+        new() { City = "Berlin", Category = "Services", Product = "Consulting", ContractValue = 104900m, Units = 58 },
+        new() { City = "Berlin", Category = "Software", Product = "Support", ContractValue = 39600m, Units = 120 },
+        new() { City = "Madrid", Category = "Hardware", Product = "Laptops", ContractValue = 68200m, Units = 19 },
+        new() { City = "Madrid", Category = "Services", Product = "Training", ContractValue = 28700m, Units = 64 },
+        new() { City = "Madrid", Category = "Software", Product = "Support", ContractValue = 45100m, Units = 135 },
+    ];
+
+    public class PivotModel
+    {
+        public string City { get; set; }
+
+        public string Category { get; set; }
+
+        public string Product { get; set; }
+
+        public decimal ContractValue { get; set; }
+
+        public int Units { get; set; }
+    }
+}

@@ -1,0 +1,15 @@
+@typeparam TItem
+
+<TableRowCell TextAlignment="TextAlignment.End"
+              TextWeight="@CellTextWeight"
+              Background="@CellBackground"
+              Clicked="@OnClicked">
+    @if ( Cell.DataColumn.Aggregate.CellTemplate is not null )
+    {
+        @Cell.DataColumn.Aggregate.CellTemplate( CellContext )
+    }
+    else
+    {
+        @Cell.FormattedValue
+    }
+</TableRowCell>

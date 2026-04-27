@@ -1,0 +1,28 @@
+@inherits BaseComponent
+@typeparam TItem
+
+<CascadingValue Value="@this" IsFixed>
+    @ChildContent
+
+    <Div ElementId="@ElementId"
+         Class="@ClassNames"
+         Style="@StyleNames"
+         Flex="FlexColumn"
+         Border="@Border"
+         role="table"
+         @attributes="@Attributes">
+        <_PivotGridTable TItem="TItem"
+                         Result="@pivotResult"
+                         Bordered="@Bordered"
+                         Striped="@Striped"
+                         Hoverable="@Hoverable"
+                         Narrow="@Narrow"
+                         Responsive="@Responsive"
+                         HeaderThemeContrast="@HeaderThemeContrast"
+                         EmptyText="@MissingValuesText"
+                         NoDataText="@NoDataText"
+                         GrandTotalText="@GrandTotalText"
+                         TotalText="@TotalText"
+                         ValuesText="@ValuesText" />
+    </Div>
+</CascadingValue>

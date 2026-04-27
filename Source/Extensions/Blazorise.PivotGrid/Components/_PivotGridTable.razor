@@ -1,0 +1,75 @@
+@typeparam TItem
+
+@if ( Result is null || !Result.HasValues )
+{
+    <Div Padding="PaddingIs3" TextColor="TextColorMuted">@EmptyText</Div>
+}
+else if ( Result.Rows.Count == 0 )
+{
+    <Div Padding="PaddingIs3" TextColor="TextColorMuted">@NoDataText</Div>
+}
+else
+{
+    <Div Class="b-pivot-grid-table-container" Overflow="OverflowAuto">
+        <Table Class="b-pivot-grid-table"
+               Bordered="@Bordered"
+               Striped="@Striped"
+               Hoverable="@Hoverable"
+               Narrow="@Narrow"
+               Responsive="@Responsive">
+            <TableHeader ThemeContrast="@HeaderThemeContrast">
+                <TableRow>
+                    @for ( var i = 0; i < RowHeaderColumnCount; i++ )
+                    {
+                        var rowHeaderIndex = i;
+
+                        <TableHeaderCell RowSpan="@HeaderRowSpan" Background="BackgroundBody" TextWeight="TextWeight.Bold">
+                            @GetRowHeaderCaption( rowHeaderIndex )
+                        </TableHeaderCell>
+                    }
+
+                    @foreach ( var columnGroup in ColumnGroups )
+                    {
+                        <TableHeaderCell ColumnSpan="@ValueColumnSpan" Background="BackgroundBody" TextWeight="TextWeight.Bold" TextAlignment="TextAlignment.Center">
+                            @GetColumnHeaderText( columnGroup )
+                        </TableHeaderCell>
+                    }
+                </TableRow>
+
+                @if ( ShowValueHeaderRow )
+                {
+                    <TableRow>
+                        @foreach ( var dataColumn in Result.DataColumns )
+                        {
+                            <TableHeaderCell Background="BackgroundBody" TextAlignment="TextAlignment.End">
+                                @dataColumn.Aggregate.GetCaption()
+                            </TableHeaderCell>
+                        }
+                    </TableRow>
+                }
+            </TableHeader>
+            <TableBody>
+                @foreach ( var row in Result.Rows )
+                {
+                    <TableRow @key="@row">
+                        @for ( var i = 0; i < RowHeaderColumnCount; i++ )
+                        {
+                            var rowHeaderIndex = i;
+
+                            <TableRowCell Background="@GetRowHeaderBackground( row.Row )"
+                                          TextWeight="@GetRowHeaderTextWeight( row.Row )"
+                                          TextAlignment="TextAlignment.Start">
+                                @GetRowHeaderText( row, rowHeaderIndex )
+                            </TableRowCell>
+                        }
+
+                        @foreach ( var cell in row.Cells )
+                        {
+                            <_PivotGridCell TItem="TItem" Row="@row.Row" Cell="@cell" />
+                        }
+                    </TableRow>
+                }
+            </TableBody>
+        </Table>
+    </Div>
+}
