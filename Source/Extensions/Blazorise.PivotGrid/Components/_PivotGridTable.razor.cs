@@ -33,6 +33,15 @@ public partial class _PivotGridTable<TItem>
     private BasePivotGridField<TItem> GetRowField( int index )
         => index < Result.RowFields.Count ? Result.RowFields[index] : null;
 
+    private string GrandTotalText
+        => PivotGrid.LocalizedGrandTotalText;
+
+    private string TotalText
+        => PivotGrid.LocalizedTotalText;
+
+    private string ValuesText
+        => PivotGrid.LocalizedValuesText;
+
     private string GetRowHeaderCaption( int index )
     {
         var field = GetRowField( index );
@@ -123,27 +132,7 @@ public partial class _PivotGridTable<TItem>
     [Parameter] public ThemeContrast HeaderThemeContrast { get; set; }
 
     /// <summary>
-    /// Text shown when no value fields are declared.
+    /// Parent PivotGrid component.
     /// </summary>
-    [Parameter] public string EmptyText { get; set; }
-
-    /// <summary>
-    /// Text shown when no data rows are available.
-    /// </summary>
-    [Parameter] public string NoDataText { get; set; }
-
-    /// <summary>
-    /// Text used for grand total labels.
-    /// </summary>
-    [Parameter] public string GrandTotalText { get; set; }
-
-    /// <summary>
-    /// Text appended to subtotal labels.
-    /// </summary>
-    [Parameter] public string TotalText { get; set; }
-
-    /// <summary>
-    /// Text shown when there are no column dimensions.
-    /// </summary>
-    [Parameter] public string ValuesText { get; set; }
+    [CascadingParameter] public PivotGrid<TItem> PivotGrid { get; set; }
 }

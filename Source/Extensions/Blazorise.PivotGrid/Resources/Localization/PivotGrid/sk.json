@@ -1,0 +1,11 @@
+{
+  "culture": "sk",
+  "translations": {
+    "No pivot data to display.": "Žiadne kontingenčné údaje na zobrazenie.",
+    "No value fields are declared.": "Nie sú deklarované žiadne hodnotové polia.",
+    "No data to display.": "Žiadne údaje na zobrazenie.",
+    "Grand Total": "Celkový súčet",
+    "Total": "Súčet",
+    "Values": "Hodnoty"
+  }
+}

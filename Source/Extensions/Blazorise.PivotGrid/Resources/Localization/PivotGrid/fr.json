@@ -1,0 +1,11 @@
+{
+  "culture": "fr",
+  "translations": {
+    "No pivot data to display.": "Aucune donnée de tableau croisé dynamique à afficher.",
+    "No value fields are declared.": "Aucun champ de valeur n'est déclaré.",
+    "No data to display.": "Aucune donnée à afficher.",
+    "Grand Total": "Total général",
+    "Total": "Total",
+    "Values": "Valeurs"
+  }
+}

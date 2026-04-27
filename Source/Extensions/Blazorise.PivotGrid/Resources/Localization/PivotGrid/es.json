@@ -1,0 +1,11 @@
+{
+  "culture": "es",
+  "translations": {
+    "No pivot data to display.": "No hay datos de tabla dinámica para mostrar.",
+    "No value fields are declared.": "No se han declarado campos de valores.",
+    "No data to display.": "No hay datos para mostrar.",
+    "Grand Total": "Total general",
+    "Total": "Total",
+    "Values": "Valores"
+  }
+}

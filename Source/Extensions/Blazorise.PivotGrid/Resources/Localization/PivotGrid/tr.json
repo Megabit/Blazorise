@@ -1,0 +1,11 @@
+{
+  "culture": "tr",
+  "translations": {
+    "No pivot data to display.": "Görüntülenecek pivot veri yok.",
+    "No value fields are declared.": "Hiçbir değer alanı bildirilmedi.",
+    "No data to display.": "Görüntülenecek veri yok.",
+    "Grand Total": "Genel Toplam",
+    "Total": "Toplam",
+    "Values": "Değerler"
+  }
+}

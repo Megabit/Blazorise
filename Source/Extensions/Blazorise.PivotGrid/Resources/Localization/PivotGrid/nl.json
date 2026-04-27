@@ -1,0 +1,11 @@
+{
+  "culture": "nl",
+  "translations": {
+    "No pivot data to display.": "Geen draaitabelgegevens om weer te geven.",
+    "No value fields are declared.": "Er zijn geen waardevelden gedeclareerd.",
+    "No data to display.": "Geen gegevens om weer te geven.",
+    "Grand Total": "Eindtotaal",
+    "Total": "Totaal",
+    "Values": "Waarden"
+  }
+}

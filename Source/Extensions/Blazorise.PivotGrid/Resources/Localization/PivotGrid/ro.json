@@ -1,0 +1,11 @@
+{
+  "culture": "ro",
+  "translations": {
+    "No pivot data to display.": "Nu există date pivot de afișat.",
+    "No value fields are declared.": "Nu sunt declarate câmpuri de valori.",
+    "No data to display.": "Nu există date de afișat.",
+    "Grand Total": "Total general",
+    "Total": "Total",
+    "Values": "Valori"
+  }
+}

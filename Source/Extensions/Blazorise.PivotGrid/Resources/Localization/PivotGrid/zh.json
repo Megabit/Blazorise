@@ -1,0 +1,11 @@
+{
+  "culture": "zh",
+  "translations": {
+    "No pivot data to display.": "没有可显示的数据透视表数据。",
+    "No value fields are declared.": "未声明任何值字段。",
+    "No data to display.": "没有可显示的数据。",
+    "Grand Total": "总计",
+    "Total": "合计",
+    "Values": "值"
+  }
+}

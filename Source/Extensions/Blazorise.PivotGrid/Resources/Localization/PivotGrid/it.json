@@ -1,0 +1,11 @@
+{
+  "culture": "it",
+  "translations": {
+    "No pivot data to display.": "Nessun dato pivot da visualizzare.",
+    "No value fields are declared.": "Non sono stati dichiarati campi valore.",
+    "No data to display.": "Nessun dato da visualizzare.",
+    "Grand Total": "Totale complessivo",
+    "Total": "Totale",
+    "Values": "Valori"
+  }
+}

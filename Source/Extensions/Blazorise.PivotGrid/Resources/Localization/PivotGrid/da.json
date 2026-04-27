@@ -1,0 +1,11 @@
+{
+  "culture": "da",
+  "translations": {
+    "No pivot data to display.": "Ingen pivotdata at vise.",
+    "No value fields are declared.": "Der er ikke deklareret nogen værdifelter.",
+    "No data to display.": "Ingen data at vise.",
+    "Grand Total": "Hovedtotal",
+    "Total": "Total",
+    "Values": "Værdier"
+  }
+}

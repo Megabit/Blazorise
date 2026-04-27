@@ -1,0 +1,11 @@
+{
+  "culture": "ru",
+  "translations": {
+    "No pivot data to display.": "Нет сводных данных для отображения.",
+    "No value fields are declared.": "Поля значений не объявлены.",
+    "No data to display.": "Нет данных для отображения.",
+    "Grand Total": "Общий итог",
+    "Total": "Итого",
+    "Values": "Значения"
+  }
+}

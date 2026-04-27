@@ -1,12 +1,43 @@
 @typeparam TItem
 
-@if ( Result is null || !Result.HasValues )
+@if ( Result is null )
 {
-    <Div Padding="PaddingIs3" TextColor="TextColorMuted">@EmptyText</Div>
+    <Div Padding="PaddingIs3" TextColor="TextColorMuted">
+        @if ( PivotGrid.EmptyTemplate is not null )
+        {
+            @PivotGrid.EmptyTemplate
+        }
+        else
+        {
+            @PivotGrid.LocalizedEmptyText
+        }
+    </Div>
+}
+else if ( !Result.HasValues )
+{
+    <Div Padding="PaddingIs3" TextColor="TextColorMuted">
+        @if ( PivotGrid.MissingValuesTemplate is not null )
+        {
+            @PivotGrid.MissingValuesTemplate
+        }
+        else
+        {
+            @PivotGrid.LocalizedMissingValuesText
+        }
+    </Div>
 }
 else if ( Result.Rows.Count == 0 )
 {
-    <Div Padding="PaddingIs3" TextColor="TextColorMuted">@NoDataText</Div>
+    <Div Padding="PaddingIs3" TextColor="TextColorMuted">
+        @if ( PivotGrid.NoDataTemplate is not null )
+        {
+            @PivotGrid.NoDataTemplate
+        }
+        else
+        {
+            @PivotGrid.LocalizedNoDataText
+        }
+    </Div>
 }
 else
 {

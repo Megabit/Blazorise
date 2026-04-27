@@ -15,4 +15,9 @@
     <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Resources\Localization\**\*.json" />
+    <EmbeddedResource Include="Resources\Localization\**\*.json" />
+  </ItemGroup>
+
 </Project>

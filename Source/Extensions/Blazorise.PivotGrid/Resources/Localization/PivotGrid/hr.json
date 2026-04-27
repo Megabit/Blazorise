@@ -1,0 +1,11 @@
+{
+  "culture": "hr",
+  "translations": {
+    "No pivot data to display.": "Nema pivot podataka za prikaz.",
+    "No value fields are declared.": "Nisu deklarirana polja vrijednosti.",
+    "No data to display.": "Nema podataka za prikaz.",
+    "Grand Total": "Ukupno",
+    "Total": "Zbroj",
+    "Values": "Vrijednosti"
+  }
+}

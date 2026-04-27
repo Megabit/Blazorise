@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Localization;
+using Blazorise.PivotGrid.Extensions;
 using Blazorise.PivotGrid.Utilities;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -28,6 +30,17 @@ public partial class PivotGrid<TItem> : BaseComponent
     #region Methods
 
     /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        if ( LocalizerService is not null )
+        {
+            LocalizerService.LocalizationChanged += OnLocalizationChanged;
+        }
+
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc />
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         await base.SetParametersAsync( parameters );
@@ -41,6 +54,22 @@ public partial class PivotGrid<TItem> : BaseComponent
         builder.Append( "b-pivot-grid" );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc />
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing && LocalizerService is not null )
+        {
+            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+        }
+
+        base.Dispose( disposing );
+    }
+
+    private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
+    {
+        await InvokeAsync( StateHasChanged );
     }
 
     internal void RegisterField( BasePivotGridField<TItem> field )
@@ -107,6 +136,13 @@ public partial class PivotGrid<TItem> : BaseComponent
         }
 
         var sourceItems = Items?.ToList() ?? [];
+
+        if ( sourceItems.Count == 0 )
+        {
+            pivotResult = new( rowFields, columnFields, aggregates, [], [] );
+            return;
+        }
+
         var rowAxisItems = BuildAxisItems( sourceItems, rowFields, ShowRowSubtotals, ShowRowTotals, RowTotalPosition );
         var columnAxisItems = BuildAxisItems( sourceItems, columnFields, ShowColumnSubtotals, ShowColumnTotals, ColumnTotalPosition );
         var dataColumns = columnAxisItems
@@ -208,9 +244,37 @@ public partial class PivotGrid<TItem> : BaseComponent
         return true;
     }
 
+    internal string LocalizedEmptyText
+        => Localizer.Localize( Localizers?.EmptyLocalizer, LocalizationConstants.Empty );
+
+    internal string LocalizedNoDataText
+        => Localizer.Localize( Localizers?.NoDataLocalizer, LocalizationConstants.NoData );
+
+    internal string LocalizedMissingValuesText
+        => Localizer.Localize( Localizers?.MissingValuesLocalizer, LocalizationConstants.MissingValues );
+
+    internal string LocalizedGrandTotalText
+        => Localizer.Localize( Localizers?.GrandTotalLocalizer, LocalizationConstants.GrandTotal );
+
+    internal string LocalizedTotalText
+        => Localizer.Localize( Localizers?.TotalLocalizer, LocalizationConstants.Total );
+
+    internal string LocalizedValuesText
+        => Localizer.Localize( Localizers?.ValuesLocalizer, LocalizationConstants.Values );
+
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets text localizer used by this component.
+    /// </summary>
+    [Inject] protected ITextLocalizer<PivotGrid<TItem>> Localizer { get; set; }
+
+    /// <summary>
+    /// Gets text localizer service.
+    /// </summary>
+    [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     /// <summary>
     /// Defines the source items to be analyzed.
@@ -283,34 +347,24 @@ public partial class PivotGrid<TItem> : BaseComponent
     [Parameter] public ThemeContrast HeaderThemeContrast { get; set; } = ThemeContrast.Light;
 
     /// <summary>
-    /// Text shown for empty values.
+    /// Custom content shown when the pivot result is empty.
     /// </summary>
-    [Parameter] public string EmptyText { get; set; } = string.Empty;
+    [Parameter] public RenderFragment EmptyTemplate { get; set; }
 
     /// <summary>
-    /// Text shown when there are no data rows.
+    /// Custom content shown when there are no data rows.
     /// </summary>
-    [Parameter] public string NoDataText { get; set; } = "No data to display.";
+    [Parameter] public RenderFragment NoDataTemplate { get; set; }
 
     /// <summary>
-    /// Text shown when no value fields are declared.
+    /// Custom content shown when no value fields are declared.
     /// </summary>
-    [Parameter] public string MissingValuesText { get; set; } = "No value fields are declared.";
+    [Parameter] public RenderFragment MissingValuesTemplate { get; set; }
 
     /// <summary>
-    /// Text used for grand total row and column labels.
+    /// Custom localizer handlers to override default <see cref="PivotGrid{TItem}"/> localization.
     /// </summary>
-    [Parameter] public string GrandTotalText { get; set; } = "Grand Total";
-
-    /// <summary>
-    /// Text appended to subtotal row and column labels.
-    /// </summary>
-    [Parameter] public string TotalText { get; set; } = "Total";
-
-    /// <summary>
-    /// Text used for the value field header.
-    /// </summary>
-    [Parameter] public string ValuesText { get; set; } = "Values";
+    [Parameter] public PivotGridLocalizers Localizers { get; set; }
 
     /// <summary>
     /// Occurs when an aggregate cell is clicked.
