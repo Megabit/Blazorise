@@ -298,19 +298,11 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
 
     private async void OnChildrenChanged( object sender, NotifyCollectionChangedEventArgs e, TreeViewNodeState<TNode> nodeState, IEnumerable<TNode> childNodes )
     {
-        bool shouldReloadRootNode = nodeState.Parent is null
-            && ( ( e.Action == NotifyCollectionChangedAction.Add && !nodeState.HasChildren )
-                || ( e.Action == NotifyCollectionChangedAction.Remove && childNodes?.Any() != true ) );
+        bool nodeHadChildren = nodeState.HasChildren;
 
         if ( !nodeState.HasChildren )
         {
             nodeState.HasChildren = true;
-
-            if ( shouldReloadRootNode )
-            {
-                await ParentTreeView.ReloadNode( nodeState.Node );
-                return;
-            }
 
             if ( nodeState.Expanded || ExpandedNodes?.Contains( nodeState.Node ) == true )
             {
@@ -366,7 +358,14 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
             }
         }
 
-        nodeState.HasChildren = childNodes?.Any() == true;
+        nodeState.HasChildren = nodeState.Children.Count > 0;
+
+        // Force refresh of a root node (no parent) if HasChildren changes
+        if ( nodeState.Parent == null && nodeHadChildren != nodeState.HasChildren )
+        {
+            await ParentTreeView.ReloadNode( nodeState.Node );
+            return;
+        }
 
         await InvokeAsync( StateHasChanged );
     }
