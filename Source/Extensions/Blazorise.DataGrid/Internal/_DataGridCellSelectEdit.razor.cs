@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -196,7 +196,7 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
     [Inject] public IIdGenerator IdGenerator { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+    /// Specifies the <see cref="IJSUtilitiesModule"/> instance.
     /// </summary>
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 

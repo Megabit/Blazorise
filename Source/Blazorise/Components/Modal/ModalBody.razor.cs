@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -79,12 +79,12 @@ public partial class ModalBody : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Gets or sets the cascaded parent modal-content component.
+    /// Specifies the cascaded parent modal-content component.
     /// </summary>
     [CascadingParameter] protected ModalContent ParentModalContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the cascaded parent modal component.
+    /// Specifies the cascaded parent modal component.
     /// </summary>
     [CascadingParameter] protected Modal ParentModal { get; set; }
 

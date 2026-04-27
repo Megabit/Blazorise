@@ -176,12 +176,12 @@ public partial class TableRowGroup : BaseDraggableComponent<TableRowGroupClasses
     protected ClassBuilder RowIndentCellClassBuilder { get; private set; }
 
     /// <summary>
-    /// Gets or sets the cascaded parent table component.
+    /// Specifies the cascaded parent table component.
     /// </summary>
     [CascadingParameter] protected Table ParentTable { get; set; }
 
     /// <summary>
-    /// Defines if the group is expanded.
+    /// Specifies if the group is expanded.
     /// </summary>
     [Parameter]
     public bool Expanded
@@ -199,12 +199,12 @@ public partial class TableRowGroup : BaseDraggableComponent<TableRowGroupClasses
     }
 
     /// <summary>
-    /// Defines if the group is expanded.
+    /// Specifies if the group is expanded.
     /// </summary>
     [Parameter] public EventCallback<bool> ExpandedChanged { get; set; }
 
     /// <summary>
-    /// Defines if the group <see cref="Expanded"/> property can be toggled by clicking. It is still possible to toggle it programatically.
+    /// Specifies if the group <see cref="Expanded"/> property can be toggled by clicking. It is still possible to toggle it programatically.
     /// </summary>
     [Parameter]
     public bool Toggleable { get; set; } = true;
@@ -215,12 +215,12 @@ public partial class TableRowGroup : BaseDraggableComponent<TableRowGroupClasses
     [Parameter] public int ColumnSpan { get; set; } = 1000;
 
     /// <summary>
-    /// Occurs when the row is clicked.
+    /// Notifies when the row is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
     /// <summary>
-    /// Occurs when the row is double clicked.
+    /// Notifies when the row is double clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> DoubleClicked { get; set; }
 

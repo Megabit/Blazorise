@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -32,7 +32,7 @@ public partial class Addon : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Defines the location and behaviour of addon container.
+    /// Specifies the location and behaviour of addon container.
     /// </summary>
     [Parameter]
     public AddonType AddonType
@@ -52,7 +52,7 @@ public partial class Addon : BaseComponent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent addons.
+    /// Provides the reference to the parent addons.
     /// </summary>
     [CascadingParameter] protected Addons ParentAddons { get; set; }
 

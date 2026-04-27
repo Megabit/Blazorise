@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class ComponentRenderingTest : TestContext
+public class ComponentRenderingTest : BunitContext
 {
     public ComponentRenderingTest()
     {
@@ -20,7 +20,7 @@ public class ComponentRenderingTest : TestContext
         // setup
 
         // test
-        var appElement = RenderComponent<TextOnlyComponent>();
+        var appElement = Render<TextOnlyComponent>();
 
         // validate
         Assert.Contains( "Hello from TextOnlyComponent", appElement.Markup );
@@ -36,7 +36,7 @@ public class ComponentRenderingTest : TestContext
         var buttonContent = "hello primary";
 
         // test
-        var comp = RenderComponent<ButtonOnlyComponent>();
+        var comp = Render<ButtonOnlyComponent>();
 
         // validate
         this.JSInterop.VerifyNotInvoke( "initialize" );
@@ -50,7 +50,7 @@ public class ComponentRenderingTest : TestContext
     public async Task CannotChangeElementId()
     {
         // setup
-        var comp = RenderComponent<ElementIdComponent>();
+        var comp = Render<ElementIdComponent>();
         var date = comp.Find( "input" );
         var button = comp.Find( "button" );
 

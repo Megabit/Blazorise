@@ -169,3 +169,53 @@
     padding: var(--offcanvas-padding-y) var(--offcanvas-padding-x);
     overflow-y: auto;
 }
+
+.offcanvas {
+    &.offcanvas-size-sm {
+        &.offcanvas-start,
+        &.offcanvas-end {
+            --offcanvas-width: 300px;
+        }
+
+        &.offcanvas-top,
+        &.offcanvas-bottom {
+            --offcanvas-height: 20vh;
+        }
+    }
+
+    &.offcanvas-size-lg {
+        &.offcanvas-start,
+        &.offcanvas-end {
+            --offcanvas-width: 500px;
+        }
+
+        &.offcanvas-top,
+        &.offcanvas-bottom {
+            --offcanvas-height: 40vh;
+        }
+    }
+
+    &.offcanvas-size-xl {
+        &.offcanvas-start,
+        &.offcanvas-end {
+            --offcanvas-width: 650px;
+        }
+
+        &.offcanvas-top,
+        &.offcanvas-bottom {
+            --offcanvas-height: 50vh;
+        }
+    }
+
+    &.offcanvas-size-fullscreen {
+        &.offcanvas-start,
+        &.offcanvas-end {
+            --offcanvas-width: 100vw;
+        }
+
+        &.offcanvas-top,
+        &.offcanvas-bottom {
+            --offcanvas-height: 100vh;
+        }
+    }
+}

@@ -936,26 +936,39 @@ public class TailwindThemeGenerator : ThemeGenerator
 
     protected override void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options )
     {
-        //var backgroundColor = ParseColor( inBackgroundColor );
-        //var borderColor = ParseColor( inBorderColor );
-        //var textColor = ParseColor( inColor );
+        var backgroundColor = ParseColor( inBackgroundColor );
+        var borderColor = ParseColor( inBorderColor );
+        var textColor = ParseColor( inColor );
 
-        //var alertLinkColor = Darken( textColor, 10f );
+        var alertLinkColor = Darken( textColor, 10f );
 
-        //var background = ToHex( backgroundColor );
-        //var border = ToHex( borderColor );
-        //var text = ToHex( textColor );
-        //var alertLink = ToHex( alertLinkColor );
+        var background = ToHex( backgroundColor );
+        var border = ToHex( borderColor );
+        var text = ToHex( textColor );
+        var alertLink = ToHex( alertLinkColor );
+        var alertSelector = variant switch
+        {
+            "primary" => ".b-alert.text-primary-800.bg-primary-300",
+            "secondary" => ".b-alert.text-secondary-500.bg-secondary-300",
+            "success" => ".b-alert.text-success-700.bg-success-100",
+            "danger" => ".b-alert.text-danger-700.bg-danger-100",
+            "warning" => ".b-alert.text-warning-700.bg-warning-100",
+            "info" => ".b-alert.text-info-700.bg-info-100",
+            "light" => ".b-alert.text-light-500.bg-light-100",
+            "dark" => ".b-alert.text-dark-100.bg-dark-800",
+            "link" => ".b-alert.text-primary-600",
+            _ => $".b-alert.{variant}",
+        };
 
-        //sb.Append( $".alert-{variant}" ).Append( "{" )
-        //    .Append( $"color: {text};" )
-        //    .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
-        //    .Append( $"border-color: {border};" )
-        //    .AppendLine( "}" );
+        sb.Append( alertSelector ).Append( "{" )
+            .Append( $"color: {text};" )
+            .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
+            .Append( $"border-color: {border};" )
+            .AppendLine( "}" );
 
-        //sb.Append( $".alert-{variant}.alert-link" ).Append( "{" )
-        //    .Append( $"color: {alertLink};" )
-        //    .AppendLine( "}" );
+        sb.Append( alertSelector ).Append( " .alert-link" ).Append( "{" )
+            .Append( $"color: {alertLink};" )
+            .AppendLine( "}" );
     }
 
     protected override void GenerateTableVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor )

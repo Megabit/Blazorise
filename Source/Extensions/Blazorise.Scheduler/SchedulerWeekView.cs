@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -33,7 +33,7 @@ public partial class SchedulerWeekView<TItem> : BaseSchedulerView<TItem>
     #region Properties    
 
     /// <summary>
-    /// Gets or sets the height of each appointment cell in the grid.
+    /// Specifies the height of each appointment cell in the grid.
     /// </summary>
     /// <remarks>
     /// The value is a double representing the height in pixels.

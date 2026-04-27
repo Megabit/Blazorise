@@ -1329,6 +1329,9 @@ html[data-theme=dark] .surface {
 .fui-MessageBar-link .fui-MessageBar__icon {
   color: var(--colorBrandForegroundLink);
 }
+.fui-MessageBar .alert-link {
+  color: var(--colorBrandForegroundLink);
+}
 
 .fui-Badge {
   display: inline-flex;
@@ -3649,6 +3652,8 @@ button {
   padding-left: var(--fui-Card--size);
   padding-right: var(--fui-Card--size);
   margin-bottom: 0;
+  border-top-left-radius: var(--fui-Card--border-radius);
+  border-top-right-radius: var(--fui-Card--border-radius);
 }
 .fui-Card .fui-CardHeader > .fui-CardHeader__header {
   text-align: start;
@@ -3664,6 +3669,8 @@ button {
   padding-left: var(--fui-Card--size);
   padding-right: var(--fui-Card--size);
   padding-bottom: var(--fui-Card--size);
+  border-bottom-left-radius: var(--fui-Card--border-radius);
+  border-bottom-right-radius: var(--fui-Card--border-radius);
 }
 .fui-Card .fui-CardPreview {
   position: relative;
@@ -3745,8 +3752,8 @@ button {
   .fui-CardGroup > .fui-Card:not(:first-child) .fui-CardHeader {
     border-top-left-radius: 0;
   }
-  .fui-CardGroup > .fui-Card:not(:first-child) .card-img-bottom,
-  .fui-CardGroup > .fui-Card:not(:first-child) .card-footer {
+  .fui-CardGroup > .fui-Card:not(:first-child) .fui-CardPreview,
+  .fui-CardGroup > .fui-Card:not(:first-child) .fui-CardFooter {
     border-bottom-left-radius: 0;
   }
 }
@@ -6772,6 +6779,22 @@ input::file-selector-button {
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
+}
+
+.fui-OverlayDrawer.fui-OverlayDrawer-sm {
+  --fui-Drawer--size: 280px;
+}
+.fui-OverlayDrawer.fui-OverlayDrawer-lg {
+  --fui-Drawer--size: 480px;
+}
+.fui-OverlayDrawer.fui-OverlayDrawer-xl {
+  --fui-Drawer--size: 640px;
+}
+.fui-OverlayDrawer.fui-OverlayDrawer-fullscreen.fui-OverlayDrawer-start, .fui-OverlayDrawer.fui-OverlayDrawer-fullscreen.fui-OverlayDrawer-end {
+  --fui-Drawer--size: 100vw;
+}
+.fui-OverlayDrawer.fui-OverlayDrawer-fullscreen.fui-OverlayDrawer-top, .fui-OverlayDrawer.fui-OverlayDrawer-fullscreen.fui-OverlayDrawer-bottom {
+  --fui-Drawer--size: 100vh;
 }
 
 .fui-Pagination {
@@ -13418,6 +13441,16 @@ code {
     flex-basis: 100% !important;
   }
 }
+.fui-Float-start {
+  float: left !important;
+  float: inline-start !important;
+}
+
+.fui-Float-end {
+  float: right !important;
+  float: inline-end !important;
+}
+
 .fui-Row {
   display: flex;
   flex-wrap: wrap;

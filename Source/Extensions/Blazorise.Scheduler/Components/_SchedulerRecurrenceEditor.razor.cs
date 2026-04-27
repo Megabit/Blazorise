@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -271,22 +271,22 @@ public partial class _SchedulerRecurrenceEditor<TItem> : BaseComponent, IDisposa
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     /// <summary>
-    /// Gets or sets the parent scheduler component.
+    /// Specifies the parent scheduler component.
     /// </summary>
     [CascadingParameter] public Scheduler<TItem> Scheduler { get; set; }
 
     /// <summary>
-    /// Gets or sets the first day of the week, used in recurrence rules.
+    /// Specifies the first day of the week used for date calculations.
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; }
 
     /// <summary>
-    /// Gets or sets the minimum end date for the recurrence rule.
+    /// Specifies the minimum end date for the recurrence rule.
     /// </summary>
     [Parameter] public DateTime? MinEndDate { get; set; }
 
     /// <summary>
-    /// Gets or sets the recurrence rule string (in RFC 5545 format).
+    /// Specifies the recurrence rule string (in RFC 5545 format).
     /// </summary>
     [Parameter] public string RecurrenceRule { get; set; }
 

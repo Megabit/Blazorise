@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -48,7 +48,7 @@ public partial class OffcanvasHeader : BaseComponent, IDisposable
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Gets or sets the cascaded parent Offcanvas component.
+    /// Specifies the cascaded parent Offcanvas component.
     /// </summary>
     [CascadingParameter] protected Offcanvas ParentOffcanvas { get; set; }
 

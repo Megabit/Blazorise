@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -287,7 +287,7 @@ public partial class Bar : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Gets or sets the shared <see cref="IBreakpointService"/> instance.
+    /// Specifies the shared <see cref="IBreakpointService"/> instance.
     /// </summary>
     [Inject] protected IBreakpointService BreakpointService { get; set; }
 
@@ -318,7 +318,7 @@ public partial class Bar : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Occurs when the bar visibility changes.
+    /// Notifies when the bar visibility changes.
     /// </summary>
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
@@ -354,7 +354,7 @@ public partial class Bar : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Defines the preferred theme contrast for this <see cref="Bar"/> component.
+    /// Specifies the preferred theme contrast for this <see cref="Bar"/> component.
     /// </summary>
     [Parameter]
     public ThemeContrast ThemeContrast
@@ -369,7 +369,7 @@ public partial class Bar : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Defines the alignment within bar.
+    /// Specifies the alignment within bar.
     /// </summary>
     [Parameter]
     public Alignment Alignment
@@ -384,7 +384,7 @@ public partial class Bar : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Defines the orientation for the bar. <c>Vertical*</c> is required when using as a Sidebar.
+    /// Specifies the orientation for the bar. <c>Vertical*</c> is required when using as a Sidebar.
     /// </summary>
     [Parameter]
     public virtual BarMode Mode
@@ -402,7 +402,7 @@ public partial class Bar : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Defines how the bar will be collapsed.
+    /// Specifies how the bar will be collapsed.
     /// </summary>
     [Parameter]
     public BarCollapseMode CollapseMode
@@ -435,7 +435,7 @@ public partial class Bar : BaseComponent, IAsyncDisposable
     [CascadingParameter] protected LayoutHeader LayoutHeader { get; set; }
 
     /// <summary>
-    /// Defines how the bar menu will behave when toggled.
+    /// Specifies how the bar menu will behave when toggled.
     /// </summary>
     [Parameter] public BarMenuToggleBehavior MenuToggleBehavior { get; set; } = BarMenuToggleBehavior.AllowMultipleMenus;
 

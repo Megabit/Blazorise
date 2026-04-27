@@ -211,3 +211,29 @@
         color: var(--ant-color-icon-hover);
     }
 }
+
+.ant-drawer {
+    &.ant-drawer-sm {
+        --b-ant-drawer-size: 320px;
+    }
+
+    &.ant-drawer-lg {
+        --b-ant-drawer-size: 520px;
+    }
+
+    &.ant-drawer-xl {
+        --b-ant-drawer-size: 720px;
+    }
+
+    &.ant-drawer-fullscreen {
+        &.ant-drawer-left,
+        &.ant-drawer-right {
+            --b-ant-drawer-size: 100vw;
+        }
+
+        &.ant-drawer-top,
+        &.ant-drawer-bottom {
+            --b-ant-drawer-size: 100vh;
+        }
+    }
+}

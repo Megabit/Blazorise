@@ -44,6 +44,16 @@ public class JSChartZoomModule : BaseJSModule
         await InvokeSafeVoidAsync( "setZoomLevel", canvasId, new { x = zoomLevelX, y = zoomLevelY } );
     }
 
+    public virtual async ValueTask Pan( string canvasId, double delta )
+    {
+        await InvokeSafeVoidAsync( "pan", canvasId, delta );
+    }
+
+    public virtual async ValueTask Pan( string canvasId, double deltaX, double deltaY )
+    {
+        await InvokeSafeVoidAsync( "pan", canvasId, new { x = deltaX, y = deltaY } );
+    }
+
     public virtual async ValueTask<bool> IsZoomingOrPanning( string canvasId )
     {
         return await InvokeSafeAsync<bool>( "isZoomingOrPanning", canvasId );

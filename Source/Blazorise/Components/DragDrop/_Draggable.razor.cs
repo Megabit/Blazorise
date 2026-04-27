@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
@@ -151,7 +151,7 @@ public partial class _Draggable<TItem> : BaseComponent
     [Parameter] public string DraggingClass { get; set; }
 
     /// <summary>
-    /// Defines the index of the draggable item.
+    /// Specifies the index of the draggable item.
     /// </summary>
     [Parameter] public int Index { get; set; } = -1;
 
@@ -166,7 +166,7 @@ public partial class _Draggable<TItem> : BaseComponent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="DropContainer{TItem}"/> component.
+    /// Provides the reference to the parent <see cref="DropContainer{TItem}"/> component.
     /// </summary>
     [CascadingParameter] protected DropContainer<TItem> ParentContainer { get; set; }
 

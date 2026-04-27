@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Bunit;
 using Xunit;
@@ -6,13 +6,14 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class CloseButtonComponentTest : TestContext
+public class CloseButtonComponentTest : BunitContext
 {
     public CloseButtonComponentTest()
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop
-            .AddBlazoriseUtilities();
+            .AddBlazoriseUtilities()
+            .AddBlazoriseClosable();
     }
 
     [Fact]
@@ -25,7 +26,7 @@ public class CloseButtonComponentTest : TestContext
         var counterOutput = @"<span id=""close-button-event-result"">0</span>";
 
         // test
-        var comp = RenderComponent<CloseButtonComponent>();
+        var comp = Render<CloseButtonComponent>();
 
         // validate
         Assert.Contains( buttonOpen, comp.Markup );
@@ -41,7 +42,7 @@ public class CloseButtonComponentTest : TestContext
     public async Task CanRaiseCallback()
     {
         // setup
-        var comp = RenderComponent<CloseButtonComponent>();
+        var comp = Render<CloseButtonComponent>();
         var result = comp.Find( "#close-button-event-result" );
         var button = comp.Find( "#close-button" );
 
@@ -61,7 +62,7 @@ public class CloseButtonComponentTest : TestContext
     public async Task CanAutoClose()
     {
         // setup
-        var comp = RenderComponent<CloseButtonComponent>();
+        var comp = Render<CloseButtonComponent>();
         var result = comp.Find( "#autoclose-button-event-result" );
         var button = comp.Find( "#autoclose-button" );
 
@@ -77,7 +78,7 @@ public class CloseButtonComponentTest : TestContext
     public async Task CanAutoCloseOffcanvas()
     {
         // setup
-        var comp = RenderComponent<CloseButtonOffcanvasComponent>();
+        var comp = Render<CloseButtonOffcanvasComponent>();
         var result = comp.Find( "#autoclose-offcanvas-button-event-result" );
         var button = comp.Find( "#autoclose-offcanvas-button" );
 

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -221,7 +221,7 @@ public abstract class BaseDraggableComponent<TClasses, TStyles> : BaseComponent<
     protected string DraggableString => Draggable ? "true" : null;
 
     /// <summary>
-    /// Gets or sets the <see cref="JSDragDropModule"/> instance.
+    /// Specifies the <see cref="JSDragDropModule"/> instance.
     /// </summary>
     [Inject] public IJSDragDropModule JSDragDropModule { get; set; }
 

@@ -1,4 +1,4 @@
-﻿.fui-Card {
+.fui-Card {
     --fui-Card--size: 12px;
     --fui-Card--border-radius: var(--borderRadiusMedium);
     box-sizing: border-box;
@@ -22,6 +22,8 @@
         padding-left: var(--fui-Card--size);
         padding-right: var(--fui-Card--size);
         margin-bottom: 0;
+        border-top-left-radius: var(--fui-Card--border-radius);
+        border-top-right-radius: var(--fui-Card--border-radius);
 
         > .fui-CardHeader__header {
             text-align: start;
@@ -39,6 +41,8 @@
         padding-left: var(--fui-Card--size);
         padding-right: var(--fui-Card--size);
         padding-bottom: var(--fui-Card--size);
+        border-bottom-left-radius: var(--fui-Card--border-radius);
+        border-bottom-right-radius: var(--fui-Card--border-radius);
     }
 
     .fui-CardPreview {
@@ -133,8 +137,8 @@
                     border-top-left-radius: 0;
                 }
 
-                .card-img-bottom,
-                .card-footer {
+                .fui-CardPreview,
+                .fui-CardFooter {
                     border-bottom-left-radius: 0;
                 }
             }

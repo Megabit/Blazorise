@@ -1034,6 +1034,10 @@ public class MaterialClassProvider : ClassProvider
 
     public override string Offcanvas() => "mui-offcanvas";
 
+    public override string OffcanvasSize( OffcanvasSize offcanvasSize ) => offcanvasSize == Blazorise.OffcanvasSize.Default
+        ? null
+        : $"mui-offcanvas-{ToOffcanvasSize( offcanvasSize )}";
+
     public override string OffcanvasPlacement( Placement placement, bool visible )
     {
         return placement switch
@@ -1399,7 +1403,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string Image() => null;
 
-    public override string ImageFluid( bool fluid ) => fluid ? "img-fluid" : null;
+    public override string ImageFluid( bool fluid ) => fluid ? "mui-image-fluid" : null;
 
     #endregion
 

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -310,37 +310,37 @@ public partial class MessageProvider : BaseComponent, IDisposable
         => Options?.Choices ?? Enumerable.Empty<MessageOptionsChoice>();
 
     /// <summary>
-    /// Gets or sets the <see cref="IMessageService"/> to which this dialog is responding.
+    /// Specifies the <see cref="IMessageService"/> to which this dialog is responding.
     /// </summary>
     [Inject] protected IMessageService MessageService { get; set; }
 
     /// <summary>
-    /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.
+    /// Specifies the DI registered <see cref="ITextLocalizerService"/>.
     /// </summary>
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     /// <summary>
-    /// Gets or sets the DI registered <see cref="ITextLocalizer{MessageProvider}"/>.
+    /// Specifies the DI registered <see cref="ITextLocalizer{MessageProvider}"/>.
     /// </summary>
     [Inject] protected ITextLocalizer<MessageProvider> Localizer { get; set; }
 
     /// <summary>
-    /// Gets or sets the message type.
+    /// Specifies the message type.
     /// </summary>
     [Parameter] public MessageType MessageType { get; set; }
 
     /// <summary>
-    /// Gets or sets the message title.
+    /// Specifies the message title.
     /// </summary>
     [Parameter] public string Title { get; set; }
 
     /// <summary>
-    /// Gets or sets the message content.
+    /// Specifies the message content.
     /// </summary>
     [Parameter] public MarkupString Message { get; set; }
 
     /// <summary>
-    /// Gets or sets the custom message options.
+    /// Specifies the custom message options.
     /// </summary>
     [Parameter] public MessageOptions Options { get; set; }
 

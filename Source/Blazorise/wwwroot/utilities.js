@@ -1,5 +1,5 @@
-import "./vendors/jsencrypt.js?v=2.1.0.0";
-import "./vendors/sha512.js?v=2.1.0.0";
+import "./vendors/jsencrypt.js?v=2.1.1.0";
+import "./vendors/sha512.js?v=2.1.1.0";
 
 // adds a classname to the specified element
 export function addClass(element, classname) {
@@ -498,6 +498,10 @@ export function log(showBanner, message, args) {
         });
         st.attrObserver.observe(host, { attributes: true, attributeFilter: ["style", "class", "hidden"] });
     }
+}
+
+export function waitForAnimationFrame() {
+    return new Promise(resolve => window.requestAnimationFrame(() => resolve()));
 }
 
 export function createEvent(name) {

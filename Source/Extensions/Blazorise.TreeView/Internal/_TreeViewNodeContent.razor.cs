@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
@@ -301,14 +301,14 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     }
 
     /// <summary>
-    /// Gets or sets selected node styling.
+    /// Defines styling applied to selected nodes.
     /// </summary>
     [Parameter] public Action<TNode, NodeStyling> SelectedNodeStyling { get; set; }
 
     [Parameter] public Action<TNode, NodeStyling> DisabledNodeStyling { get; set; }
 
     /// <summary>
-    /// Gets or sets node styling.
+    /// Defines styling applied to nodes.
     /// </summary>
     [Parameter] public Action<TNode, NodeStyling> NodeStyling { get; set; }
 

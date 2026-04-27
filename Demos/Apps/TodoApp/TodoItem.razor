@@ -1,22 +1,38 @@
 ﻿<ListGroupItem>
-    <Field Horizontal Padding="Padding.IsAuto.OnAll">
-        <FieldBody ColumnSize="ColumnSize.Is1">
+    <Div Flex="Flex.Column.Row.OnDesktop.JustifyContent.Between.AlignItems.Start.AlignItems.Center.OnDesktop" Gap="Gap.Is3">
+        <Div Flex="Flex.AlignItems.Start" Gap="Gap.Is3">
             <Check TValue="bool" Value="@Todo.Completed" ValueChanged="@OnCheckedChanged"></Check>
-        </FieldBody>
-        <FieldBody ColumnSize="ColumnSize.Is11">
-            @Todo.Description
-        </FieldBody>
-    </Field>
+            <Div>
+                <Text TextDecoration="@(Todo.Completed ? TextDecoration.LineThrough : TextDecoration.Default)" TextColor="@(Todo.Completed ? TextColor.Muted : TextColor.Body)">
+                    @Todo.Description
+                </Text>
+                <Div Margin="Margin.Is1.FromTop">
+                    <Badge Color="@(Todo.Completed ? Color.Success : Color.Info)" Subtle Pill>
+                        @(Todo.Completed ? "Completed" : "Active")
+                    </Badge>
+                </Div>
+            </Div>
+        </Div>
+        <Button Color="Color.Danger" Outline Size="Size.Small" Clicked="@OnRemoveClicked" Flex="Flex.InlineFlex.AlignItems.Center" Gap="Gap.Is2">
+            <Icon Name="IconName.Delete" />
+            Remove
+        </Button>
+    </Div>
 </ListGroupItem>
-@code{
-    void OnCheckedChanged( bool isChecked )
+@code {
+    private async Task OnCheckedChanged( bool isChecked )
     {
         Todo.Completed = isChecked;
 
-        StatusChanged?.Invoke( isChecked );
+        await StatusChanged.InvokeAsync( isChecked );
     }
+
+    private Task OnRemoveClicked()
+        => RemoveClicked.InvokeAsync( Todo );
 
     [Parameter] public Todo Todo { get; set; }
 
-    [Parameter] public Action<bool> StatusChanged { get; set; }
+    [Parameter] public EventCallback<bool> StatusChanged { get; set; }
+
+    [Parameter] public EventCallback<Todo> RemoveClicked { get; set; }
 }

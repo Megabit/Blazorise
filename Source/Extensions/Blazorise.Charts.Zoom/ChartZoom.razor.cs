@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -96,6 +96,37 @@ public partial class ChartZoom<TItem> : ChartPlugin<TItem, JSChartZoomModule>
     }
 
     /// <summary>
+    /// Pans the chart by the specified delta on both axes.
+    /// </summary>
+    /// <remarks>This method applies a relative pan movement to the chart. If the JavaScript module is not
+    /// initialized, the method will return without performing any action.</remarks>
+    /// <param name="delta">The pan delta to apply on both the X and Y axes.</param>
+    /// <returns>A <see cref="ValueTask"/> that represents the asynchronous operation.</returns>
+    public async ValueTask Pan( double delta )
+    {
+        if ( JSModule is null )
+            return;
+
+        await JSModule.Pan( ParentChart.ElementId, delta );
+    }
+
+    /// <summary>
+    /// Pans the chart by the specified deltas along the X and Y axes.
+    /// </summary>
+    /// <remarks>This method applies a relative pan movement to the chart. If the JavaScript module is not
+    /// initialized, the method will return without performing any action.</remarks>
+    /// <param name="deltaX">The pan delta to apply on the X-axis.</param>
+    /// <param name="deltaY">The pan delta to apply on the Y-axis.</param>
+    /// <returns>A <see cref="ValueTask"/> that represents the asynchronous operation.</returns>
+    public async ValueTask Pan( double deltaX, double deltaY )
+    {
+        if ( JSModule is null )
+            return;
+
+        await JSModule.Pan( ParentChart.ElementId, deltaX, deltaY );
+    }
+
+    /// <summary>
     /// Resets the zoom level of the chart to its default state.
     /// </summary>
     /// <remarks>This method asynchronously resets the zoom level of the chart associated with the current
@@ -155,7 +186,7 @@ public partial class ChartZoom<TItem> : ChartPlugin<TItem, JSChartZoomModule>
     protected override JSChartZoomModule JSModule { get; set; }
 
     /// <summary>
-    /// Defines the options for an annotation.
+    /// Specifies the options for an annotation.
     /// </summary>
     [Parameter] public ChartZoomPluginOptions Options { get; set; }
 

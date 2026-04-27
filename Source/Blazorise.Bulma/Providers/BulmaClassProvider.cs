@@ -1002,6 +1002,15 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Offcanvas() => "offcanvas";
 
+    public override string OffcanvasSize( OffcanvasSize offcanvasSize ) => offcanvasSize switch
+    {
+        Blazorise.OffcanvasSize.Small => "is-small",
+        Blazorise.OffcanvasSize.Large => "is-large",
+        Blazorise.OffcanvasSize.ExtraLarge => "is-extra-large",
+        Blazorise.OffcanvasSize.Fullscreen => "is-fullscreen",
+        _ => null,
+    };
+
     public override string OffcanvasPlacement( Placement placement, bool visible )
     {
         return placement switch

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.DataGrid;
 using Bunit;
 using Xunit;
@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class DataGridAggregateRowComponentTest : TestContext
+public class DataGridAggregateRowComponentTest : BunitContext
 {
     public DataGridAggregateRowComponentTest()
     {
@@ -18,7 +18,7 @@ public class DataGridAggregateRowComponentTest : TestContext
     public void AggregateRow_DisplaysCorrectAggregation()
     {
         // setup
-        var comp = RenderComponent<DataGridAggregateRowComponent>();
+        var comp = Render<DataGridAggregateRowComponent>();
 
         // test
         var aggregateRow = comp.Find( "thead tr:nth-child(2) td:nth-child(2)" );
@@ -31,7 +31,7 @@ public class DataGridAggregateRowComponentTest : TestContext
     public void AggregateRow_RendersTop()
     {
         // setup
-        var comp = RenderComponent<DataGridAggregateRowComponent>(
+        var comp = Render<DataGridAggregateRowComponent>(
             parameters => parameters.Add( x => x.AggregateRowPosition, DataGridAggregateRowPosition.Top ) );
 
         // test
@@ -45,7 +45,7 @@ public class DataGridAggregateRowComponentTest : TestContext
     public void AggregateRow_RendersBottom()
     {
         // setup
-        var comp = RenderComponent<DataGridAggregateRowComponent>(
+        var comp = Render<DataGridAggregateRowComponent>(
             parameters => parameters.Add( x => x.AggregateRowPosition, DataGridAggregateRowPosition.Bottom ) );
 
         // test
@@ -60,7 +60,7 @@ public class DataGridAggregateRowComponentTest : TestContext
     public void AggregateRow_RendersTopAndBottom()
     {
         // setup
-        var comp = RenderComponent<DataGridAggregateRowComponent>(
+        var comp = Render<DataGridAggregateRowComponent>(
             parameters => parameters.Add( x => x.AggregateRowPosition, DataGridAggregateRowPosition.TopAndBottom ) );
 
         // test

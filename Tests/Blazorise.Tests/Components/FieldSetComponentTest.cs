@@ -1,11 +1,11 @@
-﻿using Bunit;
+using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class FieldSetComponentTest : TestContext
+public class FieldSetComponentTest : BunitContext
 {
     public FieldSetComponentTest()
     {
@@ -20,7 +20,7 @@ public class FieldSetComponentTest : TestContext
     [Fact]
     public void FieldSet_Should_RenderSemanticElements()
     {
-        var cut = RenderComponent<FieldSet>( parameters => parameters
+        var cut = Render<FieldSet>( parameters => parameters
             .AddChildContent( builder =>
             {
                 builder.OpenComponent<Legend>( 0 );
@@ -38,7 +38,7 @@ public class FieldSetComponentTest : TestContext
     [Fact]
     public void FieldSet_Horizontal_Should_RenderProviderClass()
     {
-        var cut = RenderComponent<FieldSet>( parameters => parameters
+        var cut = Render<FieldSet>( parameters => parameters
             .Add( x => x.Horizontal, true ) );
 
         var fieldSet = cut.Find( "fieldset" );
@@ -49,7 +49,7 @@ public class FieldSetComponentTest : TestContext
     [Fact]
     public void Legend_RequiredIndicator_Should_RenderProviderClass()
     {
-        var cut = RenderComponent<Legend>( parameters => parameters
+        var cut = Render<Legend>( parameters => parameters
             .Add( x => x.RequiredIndicator, true )
             .AddChildContent( "Contact preferences" ) );
 
@@ -61,7 +61,7 @@ public class FieldSetComponentTest : TestContext
     [Fact]
     public void Legend_Screenreader_Should_RenderProviderClass()
     {
-        var cut = RenderComponent<Legend>( parameters => parameters
+        var cut = Render<Legend>( parameters => parameters
             .Add( x => x.Screenreader, Screenreader.Only )
             .AddChildContent( "Contact preferences" ) );
 
@@ -73,7 +73,7 @@ public class FieldSetComponentTest : TestContext
     [Fact]
     public void Legend_Should_Not_Automatically_LabelRadioGroup()
     {
-        var cut = RenderComponent<FieldSet>( parameters => parameters
+        var cut = Render<FieldSet>( parameters => parameters
             .AddChildContent( builder =>
             {
                 builder.OpenComponent<Legend>( 0 );
@@ -98,7 +98,7 @@ public class FieldSetComponentTest : TestContext
     [Fact]
     public void Legend_Should_Not_Interfere_With_ExplicitAriaLabelledBy()
     {
-        var cut = RenderComponent<FieldSet>( parameters => parameters
+        var cut = Render<FieldSet>( parameters => parameters
             .AddChildContent( builder =>
             {
                 builder.OpenComponent<Legend>( 0 );

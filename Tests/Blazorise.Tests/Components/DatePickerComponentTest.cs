@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class DatePickerComponentTest : TestContext
+public class DatePickerComponentTest : BunitContext
 {
     public DatePickerComponentTest()
     {
@@ -24,7 +24,7 @@ public class DatePickerComponentTest : TestContext
         var nullableOutput = @"<span id=""nullable-date-event-initially-null-result""></span>";
 
         // test
-        var comp = RenderComponent<DatePickerComponent>();
+        var comp = Render<DatePickerComponent>();
 
         // validate
         Assert.Contains( dateOpen, comp.Markup );
@@ -53,7 +53,7 @@ public class DatePickerComponentTest : TestContext
         var nullableOutput = @"<span id=""nullable-date-only-event-initially-null-result""></span>";
 
         // test
-        var comp = RenderComponent<DatePickerComponent>();
+        var comp = Render<DatePickerComponent>();
 
         // validate
         Assert.Contains( dateOpen, comp.Markup );
@@ -82,7 +82,7 @@ public class DatePickerComponentTest : TestContext
         var nullableOutput = @"<span id=""nullable-date-offset-event-initially-null-result""></span>";
 
         // test
-        var comp = RenderComponent<DatePickerComponent>();
+        var comp = Render<DatePickerComponent>();
 
         // validate
         Assert.Contains( dateOpen, comp.Markup );
@@ -104,7 +104,7 @@ public class DatePickerComponentTest : TestContext
     {
         // setup
         var dateOutput = @"<span id=""date-event-initially-undefined-result"">" + new DateTime( 1970, 5, 3 ).ToString() + "</span>";
-        var comp = RenderComponent<DatePickerComponent>();
+        var comp = Render<DatePickerComponent>();
 
         // test
         comp.Instance.DateValue = new( 1970, 5, 3 );
@@ -119,7 +119,7 @@ public class DatePickerComponentTest : TestContext
     {
         // setup
         var dateOutput = @"<span id=""nullable-date-event-initially-null-result"">" + new DateTime( 1970, 5, 3 ).ToString() + "</span>";
-        var comp = RenderComponent<DatePickerComponent>();
+        var comp = Render<DatePickerComponent>();
 
         // test
         comp.Instance.NullableDateValue = new DateTime( 1970, 5, 3 );
@@ -135,7 +135,7 @@ public class DatePickerComponentTest : TestContext
         // setup
         var dateonly = new DateOnly( 2020, 4, 13 );
         var dateOutput = @"<span id=""date-only-event-initially-undefined-result"">" + dateonly.ToString() + "</span>";
-        var comp = RenderComponent<DatePickerComponent>();
+        var comp = Render<DatePickerComponent>();
 
         // test
         comp.Instance.DateOnlyValue = dateonly;
@@ -151,7 +151,7 @@ public class DatePickerComponentTest : TestContext
         // setup
         var dateonly = new DateOnly( 2020, 4, 13 );
         var dateOutput = @"<span id=""nullable-date-only-event-initially-null-result"">" + dateonly.ToString() + "</span>";
-        var comp = RenderComponent<DatePickerComponent>();
+        var comp = Render<DatePickerComponent>();
 
         // test
         comp.Instance.NullableDateOnlyValue = dateonly;
@@ -167,7 +167,7 @@ public class DatePickerComponentTest : TestContext
         // setup
         var offset = new DateTimeOffset( new( 2020, 4, 13 ) );
         var dateOutput = @"<span id=""date-offset-event-initially-undefined-result"">" + offset.ToString() + "</span>";
-        var comp = RenderComponent<DatePickerComponent>();
+        var comp = Render<DatePickerComponent>();
 
         // test
         comp.Instance.OffsetValue = offset;
@@ -183,7 +183,7 @@ public class DatePickerComponentTest : TestContext
         // setup
         var offset = new DateTimeOffset( new( 2020, 4, 13 ) );
         var dateOutput = @"<span id=""nullable-date-offset-event-initially-null-result"">" + offset.ToString() + "</span>";
-        var comp = RenderComponent<DatePickerComponent>();
+        var comp = Render<DatePickerComponent>();
 
         // test
         comp.Instance.NullableOffsetValue = offset;

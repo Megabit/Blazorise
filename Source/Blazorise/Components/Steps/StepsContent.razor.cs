@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.States;
@@ -70,7 +70,7 @@ public partial class StepsContent : BaseComponent
     protected int IndexOfSelectedPanel => stepPanels.IndexOf( state.SelectedPanel ) + 1;
 
     /// <summary>
-    /// Gets or sets currently selected panel name.
+    /// Specifies the currently selected panel name.
     /// </summary>
     [Parameter]
     public string SelectedPanel

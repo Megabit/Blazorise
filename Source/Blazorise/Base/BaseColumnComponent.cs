@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -57,7 +57,7 @@ public abstract class BaseColumnComponent<TClasses, TStyles> : BaseComponent<TCl
     [CascadingParameter] public Grid ParentGrid { get; set; }
 
     /// <summary>
-    /// Defines the sizing configuration for the column, supporting responsive layouts and custom size definitions.
+    /// Specifies the sizing configuration for the column, supporting responsive layouts and custom size definitions.
     /// </summary>
     [Parameter]
     public IFluentColumn ColumnSize

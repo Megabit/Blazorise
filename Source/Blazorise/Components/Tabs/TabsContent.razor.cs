@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.States;
@@ -84,7 +84,7 @@ public partial class TabsContent : BaseComponent
     protected int IndexOfSelectedPanel => tabPanels.IndexOf( state.SelectedPanel );
 
     /// <summary>
-    /// Gets or sets currently selected panel name.
+    /// Specifies the currently selected panel name.
     /// </summary>
     [Parameter]
     public string SelectedPanel
@@ -116,7 +116,7 @@ public partial class TabsContent : BaseComponent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Defines how the tabs content will be rendered.
+    /// Specifies how the tabs content will be rendered.
     /// </summary>
     [Parameter]
     public TabsRenderMode RenderMode

@@ -104,7 +104,7 @@
 </DocsPageSubtitle>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Instantiate an offcanvas with a custom component">
+    <DocsPageSectionHeader Title="Custom Component">
         Instantiates an offcanvas with a counter example taking in the counter number from the provided parameter.
         <Code>OffcanvasService.Show</Code> provides various overloads you can use to instantiate your custom content.
     </DocsPageSectionHeader>
@@ -120,7 +120,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Instantiate an offcanvas with a custom render fragment">
+    <DocsPageSectionHeader Title="Render Fragment">
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <OffcanvasProviderCustomRenderFragmentExample />
@@ -129,7 +129,22 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Instantiate an offcanvas with custom structure">
+    <DocsPageSectionHeader Title="Predefined Size">
+        <Paragraph>
+            Use <Code>OffcanvasInstanceOptions.Size</Code> to apply one of the predefined offcanvas sizes when opening an instance through the service.
+        </Paragraph>
+        <Paragraph>
+            Service calls create new offcanvas instances, so varying <Code>Placement</Code> and <Code>Size</Code> between openings is supported through the service.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OffcanvasProviderSizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OffcanvasProviderSizeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom Structure">
         <Paragraph>
             If you want to customize the offcanvas structure, you can do so, by setting <Code>UseOffcanvasStructure</Code> to <Code>false</Code> and providing the structure inside the custom content you are instantiating.
             You may do this by providing your custom html or by using the internal <Code>Offcanvas</Code> components.
@@ -177,7 +192,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Instantiate a stateful offcanvas">
+    <DocsPageSectionHeader Title="Stateful Offcanvas">
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <OffcanvasProviderStatefulExample />
@@ -230,5 +245,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Placement" Type="Placement" Default="End">
         Specifies the position of the offcanvas.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Size" Type="OffcanvasSize" Default="Default">
+        Changes the size of the offcanvas.
     </DocsAttributesItem>
 </DocsAttributes>

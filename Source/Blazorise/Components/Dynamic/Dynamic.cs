@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
@@ -39,12 +39,12 @@ public class Dynamic : ComponentBase
     #region Properties
 
     /// <summary>
-    /// Gets or sets the name of the element to render.
+    /// Specifies the name of the element to render.
     /// </summary>
     [Parameter] public string TagName { get; set; }
 
     /// <summary>
-    /// Gets or sets the element reference.
+    /// Specifies the element reference.
     /// </summary>
     [Parameter] public ElementReference ElementRef { get; set; }
 

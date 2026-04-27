@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -53,13 +54,40 @@ public partial class OffcanvasProvider : BaseComponent
         }
         else
         {
-            offcanvasInstance.Visible = true;
             offcanvasInstances.Add( offcanvasInstance );
         }
 
         await InvokeAsync( StateHasChanged );
 
         return existingOffcanvasInstance ?? offcanvasInstance;
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        await base.OnAfterRenderAsync( firstRender );
+
+        if ( offcanvasInstances.IsNullOrEmpty() )
+        {
+            return;
+        }
+
+        var pendingInstances = offcanvasInstances.Where( x => x.PendingOpen ).ToArray();
+
+        if ( pendingInstances.Length == 0 )
+        {
+            return;
+        }
+
+        await JSUtilitiesModule.WaitForAnimationFrame();
+
+        foreach ( var pendingInstance in pendingInstances )
+        {
+            pendingInstance.PendingOpen = false;
+            pendingInstance.Visible = true;
+        }
+
+        await InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
@@ -132,6 +160,11 @@ public partial class OffcanvasProvider : BaseComponent
     [Inject] protected IOffcanvasService OffcanvasService { get; set; }
 
     /// <summary>
+    /// The <see cref="IJSUtilitiesModule"/>.
+    /// </summary>
+    [Inject] protected IJSUtilitiesModule JSUtilitiesModule { get; set; }
+
+    /// <summary>
     /// Uses the offcanvas standard structure, by setting this to true you are only in charge of providing the custom content.
     /// Defaults to true.
     /// Global option.
@@ -187,13 +220,13 @@ public partial class OffcanvasProvider : BaseComponent
     [Parameter] public bool ShowBackdrop { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether the component has any animations.
+    /// Determines whether the component has any animations.
     /// Global option.
     /// </summary>
     [Parameter] public bool Animated { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets the animation duration.
+    /// Specifies the animation duration.
     /// Global option.
     /// </summary>
     [Parameter] public int AnimationDuration { get; set; } = 150;
@@ -202,6 +235,11 @@ public partial class OffcanvasProvider : BaseComponent
     /// Specifies the position of the offcanvas.
     /// </summary>
     [Parameter] public Placement Placement { get; set; } = Placement.End;
+
+    /// <summary>
+    /// Changes the size of the offcanvas.
+    /// </summary>
+    [Parameter] public OffcanvasSize Size { get; set; }
 
     #endregion
 }

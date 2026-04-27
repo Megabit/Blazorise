@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class SelectNavigationComponentTest : TestContext
+public class SelectNavigationComponentTest : BunitContext
 {
     public SelectNavigationComponentTest()
     {
@@ -20,7 +20,7 @@ public class SelectNavigationComponentTest : TestContext
     public async Task TestNavigation()
     {
         // setup
-        var comp = RenderComponent<SelectNavigationsComponent>();
+        var comp = Render<SelectNavigationsComponent>();
         var paragraph = comp.Find( "#select-value-initialy-selected" );
         var select = comp.Find( "select" );
         var result = comp.Find( "#select-value-initialy-selected-result" );

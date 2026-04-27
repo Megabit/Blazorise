@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,12 +15,14 @@ using static BasicTestApp.Client.TreeViewComponent;
 
 namespace Blazorise.Tests.Components;
 
-public class TreeViewComponentTest : TestContext
+public class TreeViewComponentTest : BunitContext
 {
     public TreeViewComponentTest()
     {
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
-        JSInterop.AddBlazoriseButton();
+        JSInterop
+            .AddBlazoriseButton()
+            .AddBlazoriseDragDrop();
     }
 
     [Fact]
@@ -38,17 +40,16 @@ public class TreeViewComponentTest : TestContext
             }
         };
 
-        var cut = RenderComponent<TreeViewComponent>( parameters =>
+        var cut = Render<TreeViewComponent>( parameters =>
         {
             parameters.Add( x => x.Items, items );
         } );
 
         await cut.ClickOnAsync( "#btnAdd" );
 
-        var nodes = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
         cut.WaitForAssertion( () =>
         {
-            nodes.Refresh();
+            var nodes = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
             nodes.Count.Should().Be( 3 );
             nodes[2].TextContent.Should().Contain( "Item 3" );
         } );
@@ -69,17 +70,16 @@ public class TreeViewComponentTest : TestContext
             }
         };
 
-        var cut = RenderComponent<TreeViewComponent>( parameters =>
+        var cut = Render<TreeViewComponent>( parameters =>
         {
             parameters.Add( x => x.Items, items );
         } );
 
         await cut.ClickOnAsync( "#btnRemove" );
 
-        var nodes = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
         cut.WaitForAssertion( () =>
         {
-            nodes.Refresh();
+            var nodes = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
             nodes.Count.Should().Be( 1 );
         } );
     }
@@ -99,7 +99,7 @@ public class TreeViewComponentTest : TestContext
             }
         };
 
-        var cut = RenderComponent<TreeViewComponent>( parameters =>
+        var cut = Render<TreeViewComponent>( parameters =>
         {
             parameters.Add( x => x.Items, items );
         } );
@@ -111,10 +111,9 @@ public class TreeViewComponentTest : TestContext
 
         cut.Render();
 
-        var nodes = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
         cut.WaitForAssertion( () =>
         {
-            nodes.Refresh();
+            var nodes = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
             nodes.Count.Should().Be( 2 );
             nodes[0].TextContent.Should().Contain( "Item Mutated" );
         } );
@@ -135,7 +134,7 @@ public class TreeViewComponentTest : TestContext
             }
         };
 
-        var cut = RenderComponent<TreeViewComponent>( parameters =>
+        var cut = Render<TreeViewComponent>( parameters =>
         {
             parameters.Add( x => x.Items, items );
         } );
@@ -144,10 +143,9 @@ public class TreeViewComponentTest : TestContext
 
         cut.Render();
 
-        var nodes = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
         cut.WaitForAssertion( () =>
         {
-            nodes.Refresh();
+            var nodes = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
             nodes.Count.Should().Be( 0 );
         } );
     }
@@ -165,7 +163,7 @@ public class TreeViewComponentTest : TestContext
         var items = new List<Item> { parent };
         var expandedNodes = new List<Item>();
 
-        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        var cut = Render<TreeView<Item>>( parameters =>
         {
             parameters.Add( p => p.Nodes, items );
             parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
@@ -205,7 +203,7 @@ public class TreeViewComponentTest : TestContext
             }
         };
 
-        var cut = RenderComponent<TreeViewComponent>( parameters =>
+        var cut = Render<TreeViewComponent>( parameters =>
         {
             parameters.Add( x => x.Items, items );
         } );
@@ -219,10 +217,9 @@ public class TreeViewComponentTest : TestContext
 
         await treeView.Instance.Reload();
 
-        var nodes = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
         cut.WaitForAssertion( () =>
         {
-            nodes.Refresh();
+            var nodes = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
             nodes.Count.Should().Be( 3 );
         } );
     }
@@ -239,7 +236,7 @@ public class TreeViewComponentTest : TestContext
 
         var items = new ObservableCollection<Item>() { root };
 
-        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        var cut = Render<TreeView<Item>>( parameters =>
         {
             parameters.Add( p => p.Nodes, items );
             parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
@@ -275,7 +272,7 @@ public class TreeViewComponentTest : TestContext
 
         var expandedNodes = new List<Item>();
 
-        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        var cut = Render<TreeView<Item>>( parameters =>
         {
             parameters.Add( p => p.Nodes, new[] { parent } );
             parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
@@ -308,7 +305,7 @@ public class TreeViewComponentTest : TestContext
         var target = new Item() { Text = "Target" };
         TreeViewNodeDragEventArgs<Item> droppedArgs = null;
 
-        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        var cut = Render<TreeView<Item>>( parameters =>
         {
             parameters.Add( p => p.Nodes, new[] { dragged, target } );
             parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
@@ -343,7 +340,7 @@ public class TreeViewComponentTest : TestContext
         TreeViewNodeDragEventArgs<Item> droppedArgs = null;
         var expandedNodes = new List<Item> { source };
 
-        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        var cut = Render<TreeView<Item>>( parameters =>
         {
             parameters.Add( p => p.Nodes, new[] { source, target } );
             parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
@@ -380,7 +377,7 @@ public class TreeViewComponentTest : TestContext
         TreeViewNodeDragEventArgs<Item> droppedArgs = null;
         var expandedNodes = new List<Item> { parent };
 
-        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        var cut = Render<TreeView<Item>>( parameters =>
         {
             parameters.Add( p => p.Nodes, new[] { parent } );
             parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
@@ -420,7 +417,7 @@ public class TreeViewComponentTest : TestContext
         TreeViewNodeDragEventArgs<Item> droppedArgs = null;
         var expandedNodes = new List<Item> { parent };
 
-        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        var cut = Render<TreeView<Item>>( parameters =>
         {
             parameters.Add( p => p.Nodes, new[] { parent } );
             parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
@@ -463,7 +460,7 @@ public class TreeViewComponentTest : TestContext
         TreeViewNodeDragEventArgs<Item> droppedArgs = null;
         var expandedNodes = new List<Item> { sourceParent, targetParent };
 
-        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        var cut = Render<TreeView<Item>>( parameters =>
         {
             parameters.Add( p => p.Nodes, new[] { sourceParent, targetParent } );
             parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
@@ -501,7 +498,7 @@ public class TreeViewComponentTest : TestContext
         TreeViewNodeDragEventArgs<Item> droppedArgs = null;
         var expandedNodes = new List<Item> { sourceParent };
 
-        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        var cut = Render<TreeView<Item>>( parameters =>
         {
             parameters.Add( p => p.Nodes, new[] { sourceParent, rootTarget } );
             parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
@@ -540,7 +537,7 @@ public class TreeViewComponentTest : TestContext
         TreeViewNodeDragEventArgs<Item> droppedArgs = null;
         var expandedNodes = new List<Item> { sourceParent };
 
-        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        var cut = Render<TreeView<Item>>( parameters =>
         {
             parameters.Add( p => p.Nodes, new[] { sourceParent, rootTarget } );
             parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
@@ -581,7 +578,7 @@ public class TreeViewComponentTest : TestContext
         var nodes = new ObservableCollection<Item>() { firstRoot, sourceParent, secondRoot, thirdRoot };
         var expandedNodes = new List<Item> { sourceParent };
 
-        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        var cut = Render<TreeView<Item>>( parameters =>
         {
             parameters.Add( p => p.Nodes, nodes );
             parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
@@ -633,7 +630,7 @@ public class TreeViewComponentTest : TestContext
         TreeViewNodeDragEventArgs<Item> droppedArgs = null;
         var expandedNodes = new List<Item> { sourceParent };
 
-        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        var cut = Render<TreeView<Item>>( parameters =>
         {
             parameters.Add( p => p.Nodes, new[] { firstRoot, sourceParent, secondRoot } );
             parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
@@ -665,7 +662,7 @@ public class TreeViewComponentTest : TestContext
         var dragged = new Item() { Text = "Dragged" };
         var target = new Item() { Text = "Target" };
 
-        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        var cut = Render<TreeView<Item>>( parameters =>
         {
             parameters.Add( p => p.Nodes, new[] { dragged, target } );
             parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
@@ -689,7 +686,7 @@ public class TreeViewComponentTest : TestContext
             Children = children,
         };
 
-        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        var cut = Render<TreeView<Item>>( parameters =>
         {
             parameters.Add( p => p.Nodes, new[] { root } );
             parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -82,7 +82,7 @@ public abstract class _BaseDataGridRowCommand<TItem> : ComponentBase, IDisposabl
     [Parameter] public EventCallback Save { get; set; }
 
     /// <summary>
-    /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
+    /// Specifies the parent <see cref="DataGrid{TItem}"/> of the this component.
     /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 

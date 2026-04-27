@@ -333,17 +333,17 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSFilePickerModule"/> instance.
+    /// Defines the <see cref="IJSFilePickerModule"/> instance.
     /// </summary>
     [Inject] public IJSFilePickerModule JSFilePickerModule { get; set; }
 
     /// <summary>
-    /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.
+    /// Defines the DI registered <see cref="ITextLocalizerService"/>.
     /// </summary>
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     /// <summary>
-    /// Gets or sets the DI registered <see cref="ITextLocalizer{FilePicker}"/>.
+    /// Defines the DI registered <see cref="ITextLocalizer{FilePicker}"/>.
     /// </summary>
     [Inject] protected ITextLocalizer<FilePicker> Localizer { get; set; }
 
@@ -373,7 +373,7 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     [Parameter] public string Filter { get; set; }
 
     /// <summary>
-    /// Gets or sets the max chunk size when uploading the file.
+    /// Specifies the max chunk size when uploading the file.
     /// </summary>
     [Parameter] public int MaxChunkSize { get; set; } = 20 * 1024;
 
@@ -384,7 +384,7 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     [Parameter] public long MaxFileSize { get; set; } = long.MaxValue;
 
     /// <summary>
-    /// Gets or sets the Segment Fetch Timeout when uploading the file.
+    /// Specifies the Segment Fetch Timeout when uploading the file.
     /// </summary>
     [Parameter] public TimeSpan SegmentFetchTimeout { get; set; } = TimeSpan.FromMinutes( 1 );
 
@@ -394,12 +394,12 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     [Parameter] public EventCallback<FileChangedEventArgs> Changed { get; set; }
 
     /// <summary>
-    /// Occurs when an individual file upload has started.
+    /// Notifies when an individual file upload has started.
     /// </summary>
     [Parameter] public EventCallback<FileStartedEventArgs> Started { get; set; }
 
     /// <summary>
-    /// Occurs when an individual file upload has ended.
+    /// Notifies when an individual file upload has ended.
     /// </summary>
     [Parameter] public EventCallback<FileEndedEventArgs> Ended { get; set; }
 
@@ -439,19 +439,19 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     [Parameter] public RenderFragment<FilePickerButtonsContext> ButtonsTemplate { get; set; }
 
     /// <summary>
-    /// Gets or Sets FilePicker's show mode.
+    /// Specifies FilePicker's show mode.
     /// Defaults to <see cref="FilePickerShowMode.List"/>
     /// </summary>
     [Parameter] public FilePickerShowMode ShowMode { get; set; } = FilePickerShowMode.List;
 
     /// <summary>
-    /// Gets or sets whether report progress should be disabled. By enabling this setting, Progressed and Written callbacks won't be called. Internal file progress won't be tracked.
+    /// Determines whether report progress should be disabled. By enabling this setting, Progressed and Written callbacks won't be called. Internal file progress won't be tracked.
     /// <para>This setting can speed up file transfer considerably.</para>
     /// </summary>
     [Parameter] public bool DisableProgressReport { get; set; } = false;
 
     /// <summary>
-    /// Gets or Sets whether file picker should upload directories.
+    /// Determines whether file picker should upload directories.
     /// </summary>
     [Parameter] public bool Directory { get; set; }
 

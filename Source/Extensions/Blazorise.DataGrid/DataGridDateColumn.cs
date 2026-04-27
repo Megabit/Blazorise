@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
@@ -32,12 +32,12 @@ public class DataGridDateColumn<TItem> : DataGridColumn<TItem>
     [Parameter] public DateTimeOffset? Max { get; set; }
 
     /// <summary>
-    /// Defines the first day of the week.
+    /// Specifies the first day of the week used for date calculations.
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Monday;
 
     /// <summary>
-    /// Defines the input format mask of the date input.
+    /// Specifies the input format mask of the date input.
     /// </summary>
     [Parameter] public string InputFormat { get; set; }
 

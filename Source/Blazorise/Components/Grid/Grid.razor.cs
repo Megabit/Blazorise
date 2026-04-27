@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -40,7 +40,7 @@ public partial class Grid : BaseGridComponent
     #region Properties
 
     /// <summary>
-    /// Defines the number of rows to show in a grid.
+    /// Specifies the number of rows to show in a grid.
     /// </summary>
     [Parameter]
     public IFluentGridRows Rows
@@ -55,7 +55,7 @@ public partial class Grid : BaseGridComponent
     }
 
     /// <summary>
-    /// Defines the number of columns to show in a grid.
+    /// Specifies the number of columns to show in a grid.
     /// </summary>
     [Parameter]
     public IFluentGridColumns Columns

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -142,7 +142,7 @@ public partial class SpinKit : BaseComponent
     }
 
     /// <summary>
-    /// Gets or sets the spinner type.
+    /// Specifies the spinner type.
     /// </summary>
     [Parameter]
     public SpinKitType Type
@@ -160,7 +160,7 @@ public partial class SpinKit : BaseComponent
     }
 
     /// <summary>
-    /// Gets or sets the spinner color variant.
+    /// Specifies the spinner color variant.
     /// </summary>
     [Parameter]
     public Color Color
@@ -178,7 +178,7 @@ public partial class SpinKit : BaseComponent
     }
 
     /// <summary>
-    /// Gets or sets the spinner custom hex color that overrides the color variant.
+    /// Specifies the spinner custom hex color that overrides the color variant.
     /// </summary>
     [Parameter]
     public string HexColor
@@ -196,7 +196,7 @@ public partial class SpinKit : BaseComponent
     }
 
     /// <summary>
-    /// Gets or sets the spinner size.
+    /// Specifies the spinner size.
     /// </summary>
     [Parameter]
     public Size Size

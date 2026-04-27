@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -197,17 +197,17 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     private string FilterText { get; set; }
 
     /// <summary>
-    /// Gets or sets the dropdown element id.
+    /// Specifies the dropdown element id.
     /// </summary>
     [Parameter] public string ElementId { get; set; }
 
     /// <summary>
-    /// Defines the color of toggle button.
+    /// Specifies the color of toggle button.
     /// </summary>
     [Parameter] public Color Color { get; set; }
 
     /// <summary>
-    /// Defines the size of toggle button.
+    /// Specifies the size of toggle button.
     /// </summary>
     [Parameter] public Size DropdownToggleSize { get; set; }
 
@@ -227,7 +227,7 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     [Parameter] public Direction Direction { get; set; }
 
     /// <summary>
-    /// Gets or sets the DropdownList data-source.
+    /// Specifies the DropdownList data source.
     /// </summary>
     [Parameter] public IEnumerable<TItem> Data { get; set; }
 
@@ -291,7 +291,7 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     [Parameter] public string MaxMenuHeight { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the dropdown will use the Virtualize functionality.
+    /// Determines whether the dropdown will use the Virtualize functionality.
     /// </summary>
     [Parameter] public bool Virtualize { get; set; }
 
@@ -307,7 +307,7 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="DropdownList{TItem, TValue}"/> Selection Mode.
+    /// Specifies the <see cref="DropdownList{TItem, TValue}"/> Selection Mode.
     /// </summary>
     [Parameter] public DropdownListSelectionMode SelectionMode { get; set; } = DropdownListSelectionMode.Default;
 

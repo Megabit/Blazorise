@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,7 +12,7 @@ public partial class SelectGroup : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the group label.
+    /// Specifies the group label.
     /// </summary>
     [Parameter] public string Label { get; set; }
 

@@ -499,7 +499,7 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
         => ( EffectiveTrigger & trigger ) == trigger;
 
     /// <summary>
-    /// Gets or sets the <see cref="IJSClosableModule"/> instance.
+    /// Specifies the <see cref="IJSClosableModule"/> instance.
     /// </summary>
     [Inject] public IJSClosableModule JSClosableModule { get; set; }
 
@@ -522,7 +522,7 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the dropdown toggle icon is visible.
+    /// Specifies a value indicating whether the dropdown toggle icon is visible.
     /// </summary>
     /// <value>
     /// <c>true</c> if [show toggle]; otherwise, <c>false</c>.
@@ -544,12 +544,12 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     }
 
     /// <summary>
-    /// Defines which interactions can trigger the dropdown toggle.
+    /// Specifies which interactions can trigger the dropdown toggle.
     /// </summary>
     [Parameter] public BarDropdownToggleTrigger Trigger { get; set; } = BarDropdownToggleTrigger.Auto;
 
     /// <summary>
-    /// Gets or sets the parent dropdown state object.
+    /// Specifies the parent dropdown state object.
     /// </summary>
     [CascadingParameter]
     public BarDropdownState ParentBarDropdownState
@@ -574,7 +574,7 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     }
 
     /// <summary>
-    /// Gets or sets the reference to the parent dropdown.
+    /// Provides the reference to the parent dropdown.
     /// </summary>
     [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
 
@@ -584,7 +584,7 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     [CascadingParameter] protected BarItem ParentBarItem { get; set; }
 
     /// <summary>
-    /// Gets or sets the parent bar-item state object.
+    /// Specifies the parent bar-item state object.
     /// </summary>
     [CascadingParameter]
     public BarItemState ParentBarItemState

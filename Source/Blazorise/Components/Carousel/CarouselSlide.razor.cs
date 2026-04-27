@@ -222,7 +222,7 @@ public partial class CarouselSlide : BaseComponent<CarouselSlideClasses, Carouse
     }
 
     /// <summary>
-    /// Defines the interval (in milliseconds) after which this item will automatically slide.
+    /// Specifies the interval (in milliseconds) after which this item will automatically slide.
     /// </summary>
     [Parameter] public int? Interval { get; set; }
 
@@ -247,7 +247,7 @@ public partial class CarouselSlide : BaseComponent<CarouselSlideClasses, Carouse
     public string IndicatorStyleNames => IndicatorStyleBuilder.Styles;
 
     /// <summary>
-    /// Defines the slide name.
+    /// Specifies the slide name.
     /// </summary>
     [Parameter] public string Name { get; set; }
 

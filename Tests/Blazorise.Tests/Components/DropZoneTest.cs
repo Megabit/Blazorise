@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Tests.TestServices;
 using Bunit;
@@ -10,12 +10,11 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class DropZoneTest : TestContext
+public class DropZoneTest : BunitContext
 {
     public DropZoneTest()
     {
-        var testServices = new TestServiceProvider( Services.AddSingleton<NavigationManager, TestNavigationManager>() );
-
+        Services.AddSingleton<NavigationManager, TestNavigationManager>();
         Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop
             .AddBlazoriseDragDrop()
@@ -84,7 +83,7 @@ public class DropZoneTest : TestContext
     [Fact]
     public async Task DropZone_Reorder_PlaceIntoEmptyZone()
     {
-        var comp = RenderComponent<DropZoneReorderComponent>();
+        var comp = Render<DropZoneReorderComponent>();
 
         comp.Find( ".b-drop-zone" );
         var firstDropZone = comp.Find( ".dropzone-1" );
@@ -124,7 +123,7 @@ public class DropZoneTest : TestContext
     [Fact]
     public async Task DropZone_Reorder_NoPreviewOnSameItem()
     {
-        var comp = RenderComponent<DropZoneReorderComponent>();
+        var comp = Render<DropZoneReorderComponent>();
 
         comp.Find( ".b-drop-zone" );
         var firstDropZone = comp.Find( ".dropzone-1" );
@@ -167,7 +166,7 @@ public class DropZoneTest : TestContext
     [Fact]
     public async Task DropZone_Reorder_MoveWithinContainer_Down()
     {
-        var comp = RenderComponent<DropZoneReorderComponent>();
+        var comp = Render<DropZoneReorderComponent>();
 
         comp.Find( ".b-drop-zone" );
         var firstDropZone = comp.Find( ".dropzone-1" );
@@ -204,7 +203,7 @@ public class DropZoneTest : TestContext
     [Fact]
     public async Task DropZone_Reorder_MoveWithinContainer_Up()
     {
-        var comp = RenderComponent<DropZoneReorderComponent>();
+        var comp = Render<DropZoneReorderComponent>();
 
         comp.Find( ".b-drop-zone" );
         var firstDropZone = comp.Find( ".dropzone-1" );
@@ -241,7 +240,7 @@ public class DropZoneTest : TestContext
     [Fact]
     public async Task DropZone_Reorder_MoveWithinContainer_ToBottom()
     {
-        var comp = RenderComponent<DropZoneReorderComponent>();
+        var comp = Render<DropZoneReorderComponent>();
 
         comp.Find( ".b-drop-zone" );
         var firstDropZone = comp.Find( ".dropzone-1" );
@@ -279,7 +278,7 @@ public class DropZoneTest : TestContext
     [Fact]
     public async Task DropZone_Reorder_MoveWithinContainer_Top()
     {
-        var comp = RenderComponent<DropZoneReorderComponent>();
+        var comp = Render<DropZoneReorderComponent>();
 
         comp.Find( ".b-drop-zone" );
         var firstDropZone = comp.Find( ".dropzone-1" );
@@ -316,7 +315,7 @@ public class DropZoneTest : TestContext
     [Fact]
     public async Task DropZone_Reorder_MoveBetweenZones()
     {
-        var comp = RenderComponent<DropZoneReorderComponent>();
+        var comp = Render<DropZoneReorderComponent>();
 
         comp.Find( ".b-drop-zone" );
         var firstDropZone = comp.Find( ".dropzone-1" );

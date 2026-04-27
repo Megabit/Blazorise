@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -39,7 +39,7 @@ public partial class Skeleton : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the animation style applied to the skeleton.
+    /// Specifies the animation style applied to the skeleton.
     /// </summary>
     /// <value>
     /// A <see cref="SkeletonAnimation"/> value that determines the animation style.
@@ -60,7 +60,7 @@ public partial class Skeleton : BaseComponent
     }
 
     /// <summary>
-    /// Gets or sets the child content to be rendered inside the skeleton component.
+    /// Defines the child content to be rendered inside the skeleton component.
     /// </summary>
     /// <value>
     /// A <see cref="RenderFragment"/> that represents the content to be displayed within the skeleton.

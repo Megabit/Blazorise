@@ -311,6 +311,11 @@ public partial class ChartsZoomPage
         await lineChartZoom.SetZoomLevel( 2 );
     }
 
+    async Task OnPanClicked()
+    {
+        await lineChartZoom.Pan( 0, 100 );
+    }
+
     Task OnZoomed( double zoomLevel, string trigger )
     {
         Console.WriteLine( $"Zoomed to {zoomLevel}; Triger: {trigger};" );

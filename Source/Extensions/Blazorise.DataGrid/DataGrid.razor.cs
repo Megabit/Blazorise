@@ -4164,7 +4164,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         || ( Filterable && !SubmitFormOnEnter ); //prevents submits on Enter within Filter input
 
     /// <summary>
-    /// Defines the size of popup dialog.
+    /// Specifies the size of popup dialog.
     /// </summary>
     [Parameter] public ModalSize PopupSize { get; set; } = ModalSize.Default;
 
@@ -4227,13 +4227,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     protected PaginationTemplates<TItem> PaginationTemplates => paginationTemplates;
 
     /// <summary>
-    /// Gets or sets the datagrid data-source.
+    /// Specifies the data source displayed by the data grid.
     /// </summary>
     [Parameter]
     public IEnumerable<TItem> Data { get; set; }
 
     /// <summary>
-    /// Gets or sets the calculated aggregate data.
+    /// Specifies the aggregate data shown when using manual read mode.
     /// </summary>
     /// <remarks>
     /// Used only in manual read mode along with the <see cref="ReadData"/> handler.
@@ -4241,7 +4241,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public IEnumerable<TItem> AggregateData { get; set; }
 
     /// <summary>
-    /// Gets or sets the total number of items. Used only when <see cref="ReadData"/> is used to load the data.
+    /// Specifies the total number of items available when data is loaded through <see cref="ReadData"/>.
     /// </summary>
     /// <remarks>
     /// This field must be set only when <see cref="ReadData"/> is used to load the data.
@@ -4317,103 +4317,103 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public bool UseInternalEditing { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether users can edit datagrid rows.
+    /// Determines whether users can edit datagrid rows.
     /// </summary>
     [Parameter] public bool Editable { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the datagrid will use the Virtualize functionality.
+    /// Determines whether the datagrid will use the Virtualize functionality.
     /// </summary>
     [Parameter] public bool Virtualize { get; set; }
 
     /// <summary>
-    /// Gets or sets Virtualize options when using the Virtualize functionality.
+    /// Specifies Virtualize options when using the Virtualize functionality.
     /// </summary>
     [Parameter] public VirtualizeOptions VirtualizeOptions { get; set; }
 
     /// <summary>
-    /// Gets or sets Pager options.
+    /// Specifies Pager options.
     /// </summary>
     [Parameter] public DataGridPagerOptions PagerOptions { get; set; }
 
     /// <summary>
-    /// Gets or sets whether users can resize datagrid columns.
+    /// Determines whether users can resize datagrid columns.
     /// </summary>
     [Parameter] public bool Resizable { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the user can resize on header or columns.
+    /// Determines whether the user can resize on header or columns.
     /// </summary>
     [Parameter] public TableResizeMode ResizeMode { get; set; }
 
     /// <summary>
-    /// Gets or sets whether end-users can sort data by the column's values.
+    /// Determines whether end-users can sort data by the column's values.
     /// </summary>
     [Parameter] public bool Sortable { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether the user can sort only by one column or by multiple.
+    /// Determines whether the user can sort only by one column or by multiple.
     /// </summary>
     [Parameter] public DataGridSortMode SortMode { get; set; } = DataGridSortMode.Multiple;
 
     /// <summary>
-    /// Gets or sets whether users can filter rows by its cell values.
+    /// Determines whether users can filter rows by its cell values.
     /// </summary>
     [Parameter] public bool Filterable { get; set; }
 
     /// <summary>
-    /// Gets or sets the filter mode.
+    /// Specifies the filter mode.
     /// </summary>
     [Parameter] public DataGridFilterMode FilterMode { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the data will be grouped. Column groups need to be configured.
+    /// Determines whether the data will be grouped. Column groups need to be configured.
     /// </summary>
     [Parameter] public bool Groupable { get; set; }
 
     /// <summary>
-    /// Gets or sets a custom GroupBy function. <see cref="Groupable"/> needs to be active.
+    /// Defines a custom GroupBy function. <see cref="Groupable"/> needs to be active.
     /// If this is defined at the DataGrid level, column grouping will not be considered.
     /// </summary>
     [Parameter] public Func<TItem, object> GroupBy { get; set; }
 
     /// <summary>
-    /// Gets or sets whether user can see and edit column grouping.
+    /// Determines whether user can see and edit column grouping.
     /// </summary>
     [Parameter] public bool ShowGrouping { get; set; }
 
     /// <summary>
-    /// Gets or sets whether user can see a column captions.
+    /// Determines whether user can see a column captions.
     /// </summary>
     [Parameter] public bool ShowCaptions { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether users can navigate datagrid by using pagination controls.
+    /// Determines whether users can navigate datagrid by using pagination controls.
     /// </summary>
     [Parameter] public bool ShowPager { get; set; }
 
     /// <summary>
-    /// Gets or sets the position of the pager.
+    /// Specifies the position of the pager.
     /// </summary>
     [Parameter] public DataGridPagerPosition PagerPosition { get; set; } = DataGridPagerPosition.Bottom;
 
     /// <summary>
-    /// Gets or sets the position of the aggregate row.
+    /// Specifies the position of the aggregate row.
     /// </summary>
     [Parameter] public DataGridAggregateRowPosition AggregateRowPosition { get; set; } = DataGridAggregateRowPosition.Bottom;
 
     /// <summary>
-    /// Gets or sets whether users can adjust the page size of the datagrid.
+    /// Determines whether users can adjust the page size of the datagrid.
     /// </summary>
     [Parameter] public bool ShowPageSizes { get => paginationContext.ShowPageSizes; set => paginationContext.ShowPageSizes = value; }
 
     /// <summary>
-    /// Gets or sets the chooseable page sizes of the datagrid.
+    /// Specifies the chooseable page sizes of the datagrid.
     /// </summary>
     [Parameter] public IEnumerable<int> PageSizes { get => paginationContext.PageSizes; set => paginationContext.PageSizes = value; }
 
     /// <summary>
-    /// Gets or sets the current page number.
+    /// Specifies the current page number.
     /// </summary>
     [Parameter] public int Page { get => paginationContext.Page; set => paginationContext.Page = value; }
 
@@ -4423,87 +4423,87 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public EventCallback<int> PageChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets content of table body for empty DisplayData.
+    /// Defines content of table body for empty DisplayData.
     /// </summary>
     [Parameter] public RenderFragment EmptyTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets content of table body for the empty filter DisplayData.
+    /// Defines content of table body for the empty filter DisplayData.
     /// </summary>
     [Parameter] public RenderFragment EmptyFilterTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets content of cell body for empty DisplayData.
+    /// Defines content of cell body for empty DisplayData.
     /// </summary>
     [Parameter] public RenderFragment<CellDisplayContext<TItem>> EmptyCellTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets content of table body for handle ReadData.
+    /// Defines content of table body for handle ReadData.
     /// </summary>
     [Parameter] public RenderFragment LoadingTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets content of button row of pager.
+    /// Defines content of button row of pager.
     /// </summary>
     [Parameter] public RenderFragment<ButtonRowContext<TItem>> ButtonRowTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets content of column chooser of pager.
+    /// Defines content of column chooser of pager.
     /// </summary>
     [Parameter] public RenderFragment<ColumnChooserContext<TItem>> ColumnChooserTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets content of first button of pager.
+    /// Defines content of first button of pager.
     /// </summary>
     [Parameter] public RenderFragment FirstPageButtonTemplate { get => paginationTemplates.FirstPageButtonTemplate; set => paginationTemplates.FirstPageButtonTemplate = value; }
 
     /// <summary>
-    /// Gets or sets content of last button of pager.
+    /// Defines content of last button of pager.
     /// </summary>
     [Parameter] public RenderFragment LastPageButtonTemplate { get => paginationTemplates.LastPageButtonTemplate; set => paginationTemplates.LastPageButtonTemplate = value; }
 
     /// <summary>
-    /// Gets or sets content of previous button of pager.
+    /// Defines content of previous button of pager.
     /// </summary>
     [Parameter] public RenderFragment PreviousPageButtonTemplate { get => paginationTemplates.PreviousPageButtonTemplate; set => paginationTemplates.PreviousPageButtonTemplate = value; }
 
     /// <summary>
-    /// Gets or sets content of next button of pager.
+    /// Defines content of next button of pager.
     /// </summary>
     [Parameter] public RenderFragment NextPageButtonTemplate { get => paginationTemplates.NextPageButtonTemplate; set => paginationTemplates.NextPageButtonTemplate = value; }
 
     /// <summary>
-    /// Gets or sets content of page buttons of pager.
+    /// Defines content of page buttons of pager.
     /// </summary>
     [Parameter] public RenderFragment<PageButtonContext> PageButtonTemplate { get => paginationTemplates.PageButtonTemplate; set => paginationTemplates.PageButtonTemplate = value; }
 
     /// <summary>
-    /// Gets or sets content of items per page of grid.
+    /// Defines content of items per page of grid.
     /// </summary>
     [Parameter] public RenderFragment ItemsPerPageTemplate { get => paginationTemplates.ItemsPerPageTemplate; set => paginationTemplates.ItemsPerPageTemplate = value; }
 
     /// <summary>
-    /// Gets or sets content of total items grid for small devices.
+    /// Defines content of total items grid for small devices.
     /// </summary>
     [Parameter] public RenderFragment<PaginationContext<TItem>> TotalItemsShortTemplate { get => paginationTemplates.TotalItemsShortTemplate; set => paginationTemplates.TotalItemsShortTemplate = value; }
 
     /// <summary>
-    /// Gets or sets content of total items grid.
+    /// Defines content of total items grid.
     /// </summary>In
     [Parameter] public RenderFragment<PaginationContext<TItem>> TotalItemsTemplate { get => paginationTemplates.TotalItemsTemplate; set => paginationTemplates.TotalItemsTemplate = value; }
 
     /// <summary>
-    /// Gets or sets content of the page selector. The selector is only displayed under the tablets breakpoint. You will have to construct it using the provided pagination context.
+    /// Defines content of the page selector. The selector is only displayed under the tablets breakpoint. You will have to construct it using the provided pagination context.
     /// </summary>
     [Parameter] public RenderFragment<PaginationContext<TItem>> PageSelectorTemplate { get => paginationTemplates.PageSelectorTemplate; set => paginationTemplates.PageSelectorTemplate = value; }
 
     /// <summary>
-    /// Gets or sets content of the page sizes selector. You will have to construct it using the provided pagination context.
+    /// Defines content of the page sizes selector. You will have to construct it using the provided pagination context.
     /// </summary>
     [Parameter] public RenderFragment<PaginationContext<TItem>> PageSizesTemplate { get => paginationTemplates.PageSizesTemplate; set => paginationTemplates.PageSizesTemplate = value; }
 
     /// <summary>
-    /// Gets or sets the maximum number of items for each page.
+    /// Specifies the maximum number of items for each page.
     /// </summary>
     [Parameter] public int PageSize { get => paginationContext.PageSize; set => paginationContext.PageSize = value; }
 
@@ -4513,27 +4513,27 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public EventCallback<int> PageSizeChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the maximum number of visible pagination links. It has to be odd for well look.
+    /// Specifies the maximum number of visible pagination links. It has to be odd for well look.
     /// </summary>
     [Parameter] public int MaxPaginationLinks { get => paginationContext.MaxPaginationLinks; set => paginationContext.MaxPaginationLinks = value; }
 
     /// <summary>
-    /// Defines the filter method to be applied when filtering data in the grid.
+    /// Specifies the filter method to be applied when filtering data in the grid.
     /// </summary>
     [Parameter] public DataGridFilterMethod FilterMethod { get; set; }
 
     /// <summary>
-    /// Gets or sets currently selected row.
+    /// Specifies the currently selected tree row item.
     /// </summary>
     [Parameter] public TItem SelectedRow { get; set; }
 
     /// <summary>
-    /// Gets or sets currently selected rows.
+    /// Specifies the currently selected rows.
     /// </summary>
     [Parameter] public List<TItem> SelectedRows { get; set; }
 
     /// <summary>
-    /// Gets or sets current selection mode.
+    /// Specifies the current selection mode.
     /// </summary>
     [Parameter] public DataGridSelectionMode SelectionMode { get; set; }
 
@@ -4675,7 +4675,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public EventCallback<DataGridExpandRowEventArgs<TItem>> RowCollapsed { get; set; }
 
     /// <summary>
-    /// Gets or sets the currently expanded self-reference rows.
+    /// Specifies the currently expanded self-reference rows.
     /// </summary>
     [Parameter] public IList<TItem> ExpandedRows { get; set; }
 
@@ -4685,17 +4685,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public EventCallback<IList<TItem>> ExpandedRowsChanged { get; set; }
 
     /// <summary>
-    /// Defines row expand mode.
+    /// Specifies row expand mode.
     /// </summary>
     [Parameter] public DataGridExpandMode ExpandMode { get; set; } = DataGridExpandMode.Multiple;
 
     /// <summary>
-    /// Defines how a row expansion can be triggered.
+    /// Specifies how a row expansion can be triggered.
     /// </summary>
     [Parameter] public DataGridExpandTrigger ExpandTrigger { get; set; } = DataGridExpandTrigger.ToggleClick;
 
     /// <summary>
-    /// Defines row expand related behavior options.
+    /// Specifies row expand related behavior options.
     /// </summary>
     [Parameter] public DataGridExpandOptions ExpandOptions { get; set; }
 
@@ -4832,12 +4832,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
-    /// Defines the element margin spacing.
+    /// Specifies the element margin spacing.
     /// </summary>
     [Parameter] public IFluentSpacing Margin { get; set; }
 
     /// <summary>
-    /// Defines the element padding spacing.
+    /// Specifies the element padding spacing.
     /// </summary>
     [Parameter] public IFluentSpacing Padding { get; set; }
 
@@ -4914,7 +4914,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public string[] ValidationsSummaryErrors { get; set; }
 
     /// <summary>
-    /// Defines the default handler type that will be used by the validation, unless it is overriden by <see cref="Validation.HandlerType"/> property.
+    /// Specifies the default handler type that will be used by the validation, unless it is overriden by <see cref="Validation.HandlerType"/> property.
     /// </summary>
     [Parameter] public Type ValidationsHandlerType { get; set; }
 
@@ -4939,7 +4939,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public bool FixedColumns { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the <see cref="FixedColumns"/> feature automatically resynchronizes the columns positions when they are added or removed.
+    /// Determines whether the <see cref="FixedColumns"/> feature automatically resynchronizes the columns positions when they are added or removed.
     /// </summary>
     /// <remarks>
     /// Enabling this feature may impact performance due to constant recalculations of fixed column positions.
@@ -4972,7 +4972,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public bool DetailRowStartsVisible { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether default sort icon should display.
+    /// Determines whether default sort icon should display.
     /// </summary>
     [Parameter] public bool ShowDefaultSortIcon { get; set; }
 
@@ -5009,17 +5009,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public RenderFragment<RowOverlayContext<TItem>> RowOverlayTemplate { get; set; }
 
     /// <summary>
-    /// Defines the position of the row overlay.
+    /// Specifies the position of the row overlay.
     /// </summary>
     [Parameter] public DataGridRowOverlayPosition RowOverlayPosition { get; set; } = DataGridRowOverlayPosition.End;
 
     /// <summary>
-    /// Defines the background of the row overlay.
+    /// Specifies the background of the row overlay.
     /// </summary>
     [Parameter] public Background RowOverlayBackground { get; set; } = Background.Light;
 
     /// <summary>
-    /// Gets or sets whether user can see defined header group captions.
+    /// Determines whether user can see defined header group captions.
     /// </summary>
     [Parameter] public bool ShowHeaderGroupCaptions { get; set; }
 
@@ -5072,7 +5072,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public Action<DataGridBatchEditItem<TItem>, DataGridColumn<TItem>, DataGridCellStyling> BatchEditCellStyling { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the column chooser is visible.
+    /// Determines whether the column chooser is visible.
     /// </summary>
     [Parameter] public bool ShowColumnChooser { get; set; }
 
@@ -5087,29 +5087,29 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public EventCallback<ColumnDisplayOrderChangedEventArgs<TItem>> ColumnDisplayOrderChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the DataGrid should automatically generate columns.
+    /// Determines whether the DataGrid should automatically generate columns.
     /// <para>Columns will only be automatically generated if no columns have been provided.</para>
     /// <para>Defaults to true.</para>
     /// </summary>
     [Parameter] public bool AutoGenerateColumns { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets DataGridEditMode options, allowing to customize how the edit mode will work.
+    /// Specifies DataGridEditMode options, allowing to customize how the edit mode will work.
     /// </summary>
     [Parameter] public DataGridEditModeOptions EditModeOptions { get; set; }
 
     /// <summary>
-    /// Gets or sets the DataGrid navigation mode, allowing to control the navigation via keyboard.
+    /// Specifies the DataGrid navigation mode, allowing to control the navigation via keyboard.
     /// </summary>
     [Parameter] public DataGridNavigationMode NavigationMode { get; set; }
 
     /// <summary>
-    /// Gets or sets the Table's responsive mode.
+    /// Specifies the Table's responsive mode.
     /// </summary>
     [Parameter] public TableResponsiveMode ResponsiveMode { get; set; }
 
     /// <summary>
-    /// Gets or sets the currently selected cell in the data grid.
+    /// Specifies the currently selected cell in the data grid.
     /// </summary>
     /// <remarks>
     /// This property is only applicable when <see cref="NavigationMode"/> is set to <see cref="DataGridNavigationMode.Cell"/>.
@@ -5126,12 +5126,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public EventCallback<DataGridCellInfo<TItem>> SelectedCellChanged { get; set; }
 
     /// <summary>
-    /// Defines the caption of the table, usually used to describe the table content.
+    /// Specifies the caption of the table, usually used to describe the table content.
     /// </summary>
     [Parameter] public string Caption { get; set; }
 
     /// <summary>
-    /// Defines the placement of the <see cref="Caption"/> element.
+    /// Specifies the placement of the <see cref="Caption"/> element.
     /// </summary>
     [Parameter] public TableCaptionSide CaptionSide { get; set; }
 

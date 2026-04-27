@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -125,12 +125,12 @@ public partial class BarDropdownItem : BaseComponent
     }
 
     /// <summary>
-    /// Gets or sets the reference to the parent BarDropdown.
+    /// Provides the reference to the parent BarDropdown.
     /// </summary>
     [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
 
     /// <summary>
-    /// Occurs when the item is clicked.
+    /// Notifies when the item is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 

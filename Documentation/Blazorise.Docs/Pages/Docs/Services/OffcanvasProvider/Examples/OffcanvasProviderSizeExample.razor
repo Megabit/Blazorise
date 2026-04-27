@@ -1,0 +1,35 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div Margin="Margin.Is3.FromBottom">
+    <Button Color="Color.Primary" Margin="Margin.Is2.FromEnd" Clicked="@(() => ShowOffcanvas( Placement.End, OffcanvasSize.Small ))">Small End</Button>
+    <Button Color="Color.Primary" Margin="Margin.Is2.FromEnd" Clicked="@(() => ShowOffcanvas( Placement.End, OffcanvasSize.Large ))">Large End</Button>
+    <Button Color="Color.Primary" Margin="Margin.Is2.FromEnd" Clicked="@(() => ShowOffcanvas( Placement.End, OffcanvasSize.ExtraLarge ))">Extra Large End</Button>
+    <Button Color="Color.Primary" Margin="Margin.Is2.FromEnd" Clicked="@(() => ShowOffcanvas( Placement.End, OffcanvasSize.Fullscreen ))">Fullscreen End</Button>
+</Div>
+<Div>
+    <Button Color="Color.Secondary" Margin="Margin.Is2.FromEnd" Clicked="@(() => ShowOffcanvas( Placement.Top, OffcanvasSize.Small ))">Small Top</Button>
+    <Button Color="Color.Secondary" Margin="Margin.Is2.FromEnd" Clicked="@(() => ShowOffcanvas( Placement.Top, OffcanvasSize.Large ))">Large Top</Button>
+    <Button Color="Color.Secondary" Margin="Margin.Is2.FromEnd" Clicked="@(() => ShowOffcanvas( Placement.Top, OffcanvasSize.ExtraLarge ))">Extra Large Top</Button>
+    <Button Color="Color.Secondary" Clicked="@(() => ShowOffcanvas( Placement.Top, OffcanvasSize.Fullscreen ))">Fullscreen Top</Button>
+</Div>
+
+@code {
+    [Inject] public IOffcanvasService OffcanvasService { get; set; }
+
+    private Task ShowOffcanvas( Placement placement, OffcanvasSize size )
+    {
+        RenderFragment content = builder =>
+        {
+            builder.AddContent( 0, $"Placement {placement} with size {size}." );
+        };
+
+        return OffcanvasService.Show(
+            $"{size} {placement} Offcanvas",
+            content,
+            new OffcanvasInstanceOptions()
+            {
+                Placement = placement,
+                Size = size
+            } );
+    }
+}

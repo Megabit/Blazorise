@@ -98,7 +98,7 @@
         background-color: var(--colorBrandBackground2);
 
         .fui-MessageBar__icon {
-            color: var(--colorBrandForeground2)
+            color: var(--colorBrandForeground2);
         }
     }
 
@@ -110,7 +110,7 @@
         background-color: var(--colorNeutralBackground3);
 
         .fui-MessageBar__icon {
-            color: var(--colorNeutralForeground3)
+            color: var(--colorNeutralForeground3);
         }
     }
 
@@ -185,5 +185,9 @@
         .fui-MessageBar__icon {
             color: var(--colorBrandForegroundLink);
         }
+    }
+
+    .alert-link {
+        color: var(--colorBrandForegroundLink);
     }
 }

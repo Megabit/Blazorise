@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -9,17 +9,17 @@ public partial class RichTextEditToolbarSelectItem
     #region Properties
 
     /// <summary>
-    /// Gets or sets a value indicating whether this option is selected, eg the default value.
+    /// Specifies a value indicating whether this option is selected, eg the default value.
     /// </summary>
     [Parameter] public bool Selected { get; set; }
 
     /// <summary>
-    /// Gets or sets the value of this option.
+    /// Specifies the value of this option.
     /// </summary>
     [Parameter] public string Value { get; set; }
 
     /// <summary>
-    /// Gets or sets the child content.
+    /// Defines the child content.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

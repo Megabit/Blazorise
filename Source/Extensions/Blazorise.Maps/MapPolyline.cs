@@ -30,7 +30,7 @@ public class MapPolyline : MapLayer
     #region Properties
 
     /// <summary>
-    /// Defines the ordered coordinates connected by the polyline.
+    /// Specifies the ordered coordinates connected by the polyline.
     /// </summary>
     [Parameter] public IReadOnlyList<MapCoordinate> Coordinates { get; set; }
 

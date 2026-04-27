@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Linq;
 using System.Web;
 using Bunit;
@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class ListViewComponentTest : TestContext
+public class ListViewComponentTest : BunitContext
 {
     public ListViewComponentTest()
     {
@@ -26,7 +26,7 @@ public class ListViewComponentTest : TestContext
         var listViewClass = "list-group-scrollable";
 
         // test
-        var comp = RenderComponent<ListViewComponent>();
+        var comp = Render<ListViewComponent>();
         var htmlLists = comp.FindAll( "li" );
         var htmlList = comp.Find( "ul" );
 
@@ -47,7 +47,7 @@ public class ListViewComponentTest : TestContext
     public void ProvidedData_ShouldRender_ListItems()
     {
         // test
-        var comp = RenderComponent<ListViewComponent>();
+        var comp = Render<ListViewComponent>();
         var htmlLists = comp.FindAll( "li" );
 
         // validate

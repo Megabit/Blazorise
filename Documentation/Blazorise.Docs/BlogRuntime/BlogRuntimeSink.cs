@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Docs.Components;
-using ColorCode;
 using Markdig.Extensions.Tables;
 using Markdig.Renderers.Html;
 using Markdig.Syntax;
@@ -36,8 +35,7 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
     private int codeIndex = 0;
     private readonly string blogName;
     private readonly Func<string, string> rewriteImageUrl;
-    private static readonly HtmlClassFormatter htmlClassFormatter = new();
-    private static readonly MarkupBuilder markupBuilder = new( htmlClassFormatter );
+    private static readonly MarkupBuilder markupBuilder = new();
 
     public BlogRuntimeSink( string blogName, Func<string, string> rewriteImageUrl )
     {
@@ -315,9 +313,10 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
                 case LinkInline link when !link.IsImage:
                     var attrs = link.GetAttributes();
                     var targetAttr = attrs?.Properties?.FirstOrDefault( p => p.Key.Equals( "target", StringComparison.OrdinalIgnoreCase ) ).Value;
+                    var linkUrl = RewriteLinkUrl( link.Url );
 
                     // Heuristic: treat absolute http(s) URLs as external
-                    bool isExternal = Uri.TryCreate( link.Url, UriKind.Absolute, out var uri ) &&
+                    bool isExternal = Uri.TryCreate( linkUrl, UriKind.Absolute, out var uri ) &&
                                       ( uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps );
 
                     // Map to Blazorise target
@@ -331,7 +330,7 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
                     };
 
                     b.OpenComponent( 130, typeof( Anchor ) );
-                    b.AddAttribute( 131, nameof( Anchor.To ), link.Url );
+                    b.AddAttribute( 131, nameof( Anchor.To ), linkUrl );
                     var title = string.IsNullOrEmpty( link.Title ) ? link.FirstChild?.ToString() : link.Title;
                     b.AddAttribute( 132, nameof( Anchor.Title ), $"Link to {title}" );
                     b.AddAttribute( 133, nameof( Anchor.Target ), target );
@@ -421,6 +420,17 @@ internal sealed class BlogRuntimeSink : IBlogSink<RenderFragment>
             "powershell" or "ps" or "ps1" => "powershell",
             // anything else (html, razor, etc.) falls into the "else" branch in MarkupBuilder
             _ => ""
+        };
+    }
+
+    private static string RewriteLinkUrl( string url )
+    {
+        return url switch
+        {
+            "https://learn.microsoft.com/aspnet/core/blazor/components/key" => "https://learn.microsoft.com/en-us/aspnet/core/blazor/components/element-component-model-relationships?view=aspnetcore-10.0",
+            "https://github.com/Megabit/Blazorise/blob/master/Source/Blazorise.Tailwind/wwwroot/tailwind.safelist.config.js" => "https://github.com/Megabit/Blazorise/tree/master/Source/Blazorise.Tailwind",
+            "https://github.com/Megabit/Blazorise/blob/master/Source/Blazorise.Tailwind/wwwroot/tailwind.config.js" => "https://github.com/Megabit/Blazorise/tree/master/Source/Blazorise.Tailwind",
+            _ => url
         };
     }
 }

@@ -1286,7 +1286,7 @@ body {
   transform: rotate(90deg);
 }
 
-.mui-bar {
+:root {
   --mui-bar-height: 4rem;
   --mui-bar-padding-inline: 0.75rem;
   --mui-bar-drawer-width: min(16rem, 92vw);
@@ -1304,6 +1304,9 @@ body {
   --mui-bar-active-bg: var(--mui-secondary-container);
   --mui-bar-active-color: var(--mui-on-secondary-container);
   --mui-bar-shadow: var(--mui-elevate1);
+}
+
+.mui-bar {
   position: relative;
   z-index: var(--mui-zindex-navigation);
   box-sizing: border-box;
@@ -2819,6 +2822,7 @@ body {
   --mui-btn-border-color: transparent;
   --mui-btn-border-style: solid;
   --mui-btn-border-radius: var(--mui-btn-size);
+  --mui-btn-hover-bg: var(--mui-btn-bg);
   box-sizing: border-box;
   position: relative;
   display: inline-flex;
@@ -2839,7 +2843,7 @@ body {
   border: var(--mui-btn-border-width) var(--mui-btn-border-style) var(--mui-btn-border-color);
   border-radius: var(--mui-btn-border-radius);
   background-position: center;
-  background-image: radial-gradient(circle, var(--mui-btn-bg) 1%, transparent 1%);
+  background-image: radial-gradient(circle, var(--mui-btn-hover-bg) 1%, transparent 1%);
 }
 .mui-button:after {
   content: "";
@@ -2949,55 +2953,66 @@ body {
   --mui-btn-bg: transparent;
   --mui-btn-color: var(--mui-on-surface);
   --mui-btn-border-color: var(--mui-outline-variant);
+  --mui-btn-hover-bg: color-mix(in srgb, currentColor 8%, transparent);
 }
 .mui-button-outline-primary {
   --mui-btn-bg: transparent;
   --mui-btn-color: var(--mui-primary);
   --mui-btn-border-color: var(--mui-primary);
+  --mui-btn-hover-bg: color-mix(in srgb, var(--mui-primary) 8%, transparent);
 }
 .mui-button-outline-secondary {
   --mui-btn-bg: transparent;
   --mui-btn-color: var(--mui-secondary);
   --mui-btn-border-color: var(--mui-secondary);
+  --mui-btn-hover-bg: color-mix(in srgb, var(--mui-secondary) 8%, transparent);
 }
 .mui-button-outline-tertiary {
   --mui-btn-bg: transparent;
   --mui-btn-color: var(--mui-tertiary);
   --mui-btn-border-color: var(--mui-tertiary);
+  --mui-btn-hover-bg: color-mix(in srgb, var(--mui-tertiary) 8%, transparent);
 }
 .mui-button-outline-info {
   --mui-btn-bg: transparent;
   --mui-btn-color: var(--mui-info);
   --mui-btn-border-color: var(--mui-info);
+  --mui-btn-hover-bg: color-mix(in srgb, var(--mui-info) 8%, transparent);
 }
 .mui-button-outline-success {
   --mui-btn-bg: transparent;
   --mui-btn-color: var(--mui-success);
   --mui-btn-border-color: var(--mui-success);
+  --mui-btn-hover-bg: color-mix(in srgb, var(--mui-success) 8%, transparent);
 }
 .mui-button-outline-warning {
   --mui-btn-bg: transparent;
   --mui-btn-color: var(--mui-warning);
   --mui-btn-border-color: var(--mui-warning);
+  --mui-btn-hover-bg: color-mix(in srgb, var(--mui-warning) 8%, transparent);
 }
 .mui-button-outline-error {
   --mui-btn-bg: transparent;
   --mui-btn-color: var(--mui-error);
   --mui-btn-border-color: var(--mui-error);
+  --mui-btn-hover-bg: color-mix(in srgb, var(--mui-error) 8%, transparent);
 }
 .mui-button-outline-light {
   --mui-btn-bg: transparent;
   --mui-btn-color: var(--mui-light);
   --mui-btn-border-color: var(--mui-light);
+  --mui-btn-hover-bg: color-mix(in srgb, var(--mui-light) 8%, transparent);
 }
 .mui-button-outline-dark {
   --mui-btn-bg: transparent;
   --mui-btn-color: var(--mui-dark);
   --mui-btn-border-color: var(--mui-dark);
+  --mui-btn-hover-bg: color-mix(in srgb, var(--mui-dark) 8%, transparent);
 }
 .mui-button-outline-link {
   --mui-btn-bg: transparent;
   --mui-btn-color: var(--mui-primary);
+  --mui-btn-hover-bg: color-mix(in srgb, var(--mui-primary) 8%, transparent);
   text-decoration: underline;
 }
 
@@ -4184,6 +4199,11 @@ fieldset.mui-row > legend.mui-field-label-horizontal {
   block-size: var(--mui-figure-size);
 }
 
+.mui-image-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
 .mui-input,
 .mui-input-plaintext,
 .mui-select {
@@ -5224,6 +5244,23 @@ a:is(.mui-link-disabled, .link-disabled)[aria-disabled=true] {
   opacity: 0;
   pointer-events: none;
   transition-delay: 0s;
+}
+
+.mui-offcanvas.mui-offcanvas-sm {
+  --mui-offcanvas-inline-size: min(18rem, 100vw);
+  --mui-offcanvas-block-size: min(18rem, 100dvh);
+}
+.mui-offcanvas.mui-offcanvas-lg {
+  --mui-offcanvas-inline-size: min(28rem, 100vw);
+  --mui-offcanvas-block-size: min(32rem, 100dvh);
+}
+.mui-offcanvas.mui-offcanvas-xl {
+  --mui-offcanvas-inline-size: min(36rem, 100vw);
+  --mui-offcanvas-block-size: min(40rem, 100dvh);
+}
+.mui-offcanvas.mui-offcanvas-fullscreen {
+  --mui-offcanvas-inline-size: 100vw;
+  --mui-offcanvas-block-size: 100dvh;
 }
 
 @keyframes mui-offcanvas-backdrop-fade-in {

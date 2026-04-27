@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class MessageProviderComponentTest : TestContext
+public class MessageProviderComponentTest : BunitContext
 {
     public MessageProviderComponentTest()
     {
@@ -20,7 +20,7 @@ public class MessageProviderComponentTest : TestContext
     [Fact]
     public async Task InfoAppliesRequestedSizeBeforeOpening()
     {
-        var component = RenderComponent<MessageProvider>();
+        var component = Render<MessageProvider>();
 
         await ShowInfoMessage( component, options => options.Size = ModalSize.Large );
 
@@ -30,7 +30,7 @@ public class MessageProviderComponentTest : TestContext
     [Fact]
     public async Task InfoDoesNotReusePreviousSize()
     {
-        var component = RenderComponent<MessageProvider>();
+        var component = Render<MessageProvider>();
 
         await ShowInfoMessage( component, options => options.Size = ModalSize.Large );
         component.WaitForAssertion( () => Assert.Contains( "modal-lg", component.Find( ".modal-dialog" ).ClassName ) );

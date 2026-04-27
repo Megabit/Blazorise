@@ -20,6 +20,18 @@
     alerts and notifications.
 </DocsPageParagraph>
 
+<DocsPageParagraph>
+    Because notifications are rendered by the <Code>Snackbar</Code> extension, they use Snackbar styling instead of provider-native
+    toast or alert styling. When no theme variables are available, Snackbar uses its bundled default colors. Defining
+    <Code>Theme.ColorOptions</Code>, even as <Code>new()</Code>, enables the default Blazorise theme colors and can change
+    notification colors through generated Snackbar CSS variables.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    For notifications that should follow the native styling and behavior of the selected provider, such as Bootstrap toasts,
+    use <Anchor To="docs/services/toast-provider">IToastService</Anchor> instead.
+</DocsPageParagraph>
+
 <DocsPageSubtitle>
     Quick Setup
 </DocsPageSubtitle>

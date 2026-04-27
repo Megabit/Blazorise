@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -38,7 +38,7 @@ public partial class ChartAnnotation<TItem> : ChartPlugin<TItem, JSChartAnnotati
     protected override JSChartAnnotationModule JSModule { get; set; }
 
     /// <summary>
-    /// Defines the options for an annotation.
+    /// Specifies the options for an annotation.
     /// </summary>
     [Parameter] public Dictionary<string, ChartAnnotationOptions> Options { get; set; }
 

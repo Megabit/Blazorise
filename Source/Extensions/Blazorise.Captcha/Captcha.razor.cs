@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -105,7 +105,7 @@ public partial class Captcha : BaseComponent
     #region Properties
 
     /// <summary>
-    /// A Captcha solved event. 
+    /// A Captcha solved event.
     /// <para>Provides contextual information about the Captcha state after the user has solved.</para>
     /// </summary>
     [Parameter] public EventCallback<CaptchaState> Solved { get; set; }

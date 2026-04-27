@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -30,7 +30,7 @@ public partial class _SchedulerViews<TItem> : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the content to be rendered inside the component.
+    /// Defines the content to be rendered inside the component.
     /// </summary>
     /// <remarks>
     /// This property allows developers to define custom content within the <see cref="_SchedulerViews{TItem}"/> component.

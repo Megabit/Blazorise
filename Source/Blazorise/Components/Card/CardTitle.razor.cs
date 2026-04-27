@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -51,7 +51,7 @@ public partial class CardTitle : BaseTypographyComponent
     };
 
     /// <summary>
-    /// Defines the title size where the smaller number means larger text.
+    /// Specifies the title size where the smaller number means larger text.
     /// </summary>
     [Parameter]
     public HeadingSize? Size
@@ -69,7 +69,7 @@ public partial class CardTitle : BaseTypographyComponent
     }
 
     /// <summary>
-    /// Gets or sets the reference to the parent <see cref="CardHeader"/> component.
+    /// Provides the reference to the parent <see cref="CardHeader"/> component.
     /// </summary>
     [CascadingParameter] public CardHeader ParentCardHeader { get; set; }
 

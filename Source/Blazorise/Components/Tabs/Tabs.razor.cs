@@ -230,7 +230,7 @@ public partial class Tabs : BaseComponent<TabsClasses, TabsStyles>
     }
 
     /// <summary>
-    /// Defines how the tabs content will be rendered.
+    /// Specifies how the tabs content will be rendered.
     /// </summary>
     [Parameter]
     public TabsRenderMode RenderMode
@@ -250,7 +250,7 @@ public partial class Tabs : BaseComponent<TabsClasses, TabsStyles>
     [Parameter] public IFluentColumn VerticalItemsColumnSize { get; set; }
 
     /// <summary>
-    /// Gets or sets currently selected tab name.
+    /// Specifies the currently selected tab name.
     /// </summary>
     [Parameter]
     public string SelectedTab

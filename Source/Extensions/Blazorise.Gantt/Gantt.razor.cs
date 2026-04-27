@@ -4509,317 +4509,317 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     [Inject] protected IMessageService MessageService { get; set; }
 
     /// <summary>
-    /// Gets or sets data source displayed by the Gantt.
+    /// Specifies the data source displayed by the Gantt chart.
     /// </summary>
     [Parameter] public IEnumerable<TItem> Data { get; set; }
 
     /// <summary>
-    /// Gets or sets current anchor date used by selected view.
+    /// Specifies the anchor date used by the selected view.
     /// </summary>
     [Parameter] public DateOnly Date { get; set; } = DateOnly.FromDateTime( DateTime.Today );
 
     /// <summary>
-    /// Gets or sets callback raised when <see cref="Date"/> changes.
+    /// Notifies when <see cref="Date"/> changes.
     /// </summary>
     [Parameter] public EventCallback<DateOnly> DateChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets currently selected view mode.
+    /// Specifies the active Gantt view.
     /// </summary>
     [Parameter] public GanttView SelectedView { get; set; } = GanttView.Week;
 
     /// <summary>
-    /// Gets or sets callback raised when <see cref="SelectedView"/> changes.
+    /// Notifies when <see cref="SelectedView"/> changes.
     /// </summary>
     [Parameter] public EventCallback<GanttView> SelectedViewChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the active view range automatically expands to include all items.
+    /// Determines whether the active view range automatically expands to include all items.
     /// </summary>
     [Parameter] public bool AutoExpandView { get; set; }
 
     /// <summary>
-    /// Gets or sets first day of week used by weekly calculations.
+    /// Specifies the first day of the week used for date calculations.
     /// </summary>
     [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Monday;
 
     /// <summary>
-    /// Gets or sets whether toolbar is rendered.
+    /// Determines whether toolbar is rendered.
     /// </summary>
     [Parameter] public bool ShowToolbar { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets search text used to filter tree rows.
+    /// Specifies the search text used to filter tree rows.
     /// </summary>
     [Parameter] public string SearchText { get; set; }
 
     /// <summary>
-    /// Gets or sets callback raised when <see cref="SearchText"/> changes.
+    /// Notifies when <see cref="SearchText"/> changes.
     /// </summary>
     [Parameter] public EventCallback<string> SearchTextChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets currently selected tree row item.
+    /// Specifies the currently selected tree row item.
     /// </summary>
     [Parameter] public TItem SelectedRow { get; set; }
 
     /// <summary>
-    /// Gets or sets callback raised when <see cref="SelectedRow"/> changes.
+    /// Notifies when <see cref="SelectedRow"/> changes.
     /// </summary>
     [Parameter] public EventCallback<TItem> SelectedRowChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets whether toggle-all commands (expand/collapse all) are visible in the toolbar.
+    /// Determines whether toggle-all commands (expand/collapse all) are visible in the toolbar.
     /// </summary>
     [Parameter] public bool ShowToggleAllCommands { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether tree column sorting is enabled.
+    /// Determines whether tree column sorting is enabled.
     /// </summary>
     [Parameter] public bool Sortable { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether basic keyboard navigation is enabled for tree rows.
+    /// Determines whether basic keyboard navigation is enabled for tree rows.
     /// </summary>
     [Parameter] public bool KeyboardNavigation { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets item identifier field name.
+    /// Specifies the data field that contains each item's unique identifier.
     /// </summary>
     [Parameter] public string IdField { get; set; } = "Id";
 
     /// <summary>
-    /// Gets or sets parent identifier field name.
+    /// Specifies the data field that contains each item's parent identifier.
     /// </summary>
     [Parameter] public string ParentIdField { get; set; } = "ParentId";
 
     /// <summary>
-    /// Gets or sets child item collection field name.
+    /// Specifies the data field that contains child items for hierarchical data.
     /// </summary>
     [Parameter] public string ItemsField { get; set; } = "Items";
 
     /// <summary>
-    /// Gets or sets whether hierarchical data mode is forced when both parent-id and items mapping exist.
+    /// Determines whether hierarchical data mode is forced when both parent-id and items mapping exist.
     /// </summary>
     [Parameter] public bool HierarchicalData { get; set; }
 
     /// <summary>
-    /// Gets or sets title field name.
+    /// Specifies the data field used for item titles.
     /// </summary>
     [Parameter] public string TitleField { get; set; } = "Title";
 
     /// <summary>
-    /// Gets or sets description field name.
+    /// Specifies the data field used for item descriptions.
     /// </summary>
     [Parameter] public string DescriptionField { get; set; } = "Description";
 
     /// <summary>
-    /// Gets or sets start date field name.
+    /// Specifies the data field used for item start dates.
     /// </summary>
     [Parameter] public string StartField { get; set; } = "Start";
 
     /// <summary>
-    /// Gets or sets end date field name.
+    /// Specifies the data field used for item end dates.
     /// </summary>
     [Parameter] public string EndField { get; set; } = "End";
 
     /// <summary>
-    /// Gets or sets duration (days) field name.
+    /// Specifies the data field used for item duration, in days.
     /// </summary>
     [Parameter] public string DurationField { get; set; } = "Duration";
 
     /// <summary>
-    /// Gets or sets progress field name.
+    /// Specifies the data field used for item progress values.
     /// </summary>
     [Parameter] public string ProgressField { get; set; } = "Progress";
 
     /// <summary>
-    /// Gets or sets whether item editing is enabled.
+    /// Determines whether item editing is enabled.
     /// </summary>
     [Parameter] public bool Editable { get; set; }
 
     /// <summary>
-    /// Gets or sets whether timeline item bars can be dragged to move their start and end dates together.
+    /// Determines whether timeline item bars can be dragged to move their start and end dates together.
     /// </summary>
     [Parameter] public bool Draggable { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether timeline item bars can be resized by dragging their start and end edges.
+    /// Determines whether timeline item bars can be resized by dragging their start and end edges.
     /// </summary>
     [Parameter] public bool Resizable { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether creating new top-level items is allowed.
+    /// Determines whether creating new top-level items is allowed.
     /// </summary>
     [Parameter] public bool NewCommandAllowed { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether creating child items is allowed.
+    /// Determines whether creating child items is allowed.
     /// </summary>
     [Parameter] public bool AddChildCommandAllowed { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether editing existing items is allowed.
+    /// Determines whether editing existing items is allowed.
     /// </summary>
     [Parameter] public bool EditCommandAllowed { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether deleting existing items is allowed.
+    /// Determines whether deleting existing items is allowed.
     /// </summary>
     [Parameter] public bool DeleteCommandAllowed { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets callback used to allow or deny command execution per item.
+    /// Provides a callback that determines whether a command is allowed for a given item.
     /// </summary>
     [Parameter] public Func<GanttCommandContext<TItem>, bool> CommandAllowed { get; set; }
 
     /// <summary>
-    /// Gets or sets whether built-in modal editing and internal data mutation are used.
+    /// Determines whether built-in modal editing and internal data mutation are used.
     /// </summary>
     [Parameter] public bool UseInternalEditing { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets custom factory used to create new item instances.
+    /// Provides a factory used to create new item instances.
     /// </summary>
     [Parameter] public Func<TItem> NewItemCreator { get; set; }
 
     /// <summary>
-    /// Gets or sets custom factory used to create new item identifiers.
+    /// Provides a factory used to create new item identifiers.
     /// </summary>
     [Parameter] public Func<object> NewIdCreator { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when the new-item command is triggered.
+    /// Notifies when the new-item command is triggered.
     /// </summary>
     [Parameter] public EventCallback<GanttCommandContext<TItem>> NewItemClicked { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when the add-child command is triggered.
+    /// Notifies when the add-child command is triggered.
     /// </summary>
     [Parameter] public EventCallback<GanttCommandContext<TItem>> AddChildItemClicked { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked before an item is inserted.
+    /// Notifies before a new item is inserted.
     /// </summary>
     [Parameter] public EventCallback<GanttCancellableItemChange<TItem>> ItemInserting { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked before an item is updated.
+    /// Notifies before an existing item is updated.
     /// </summary>
     [Parameter] public EventCallback<GanttCancellableItemChange<TItem>> ItemUpdating { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked before an item is removed.
+    /// Notifies before an item is removed.
     /// </summary>
     [Parameter] public EventCallback<GanttCancellableItemChange<TItem>> ItemRemoving { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked after item insertion.
+    /// Notifies after a new item is inserted.
     /// </summary>
     [Parameter] public EventCallback<GanttInsertedItem<TItem>> ItemInserted { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked after item update.
+    /// Notifies after an item is updated.
     /// </summary>
     [Parameter] public EventCallback<GanttUpdatedItem<TItem>> ItemUpdated { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked after item removal.
+    /// Notifies after an item is removed.
     /// </summary>
     [Parameter] public EventCallback<GanttUpdatedItem<TItem>> ItemRemoved { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when a timeline item is clicked.
+    /// Notifies when a timeline item is clicked.
     /// </summary>
     [Parameter] public EventCallback<GanttItemClickedEventArgs<TItem>> ItemClicked { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when edit action is triggered for item.
+    /// Notifies when the edit action is triggered for an item.
     /// </summary>
     [Parameter] public EventCallback<GanttItemClickedEventArgs<TItem>> EditItemClicked { get; set; }
 
     /// <summary>
-    /// Gets or sets callback invoked when delete action is triggered for item.
+    /// Notifies when the delete action is triggered for an item.
     /// </summary>
     [Parameter] public EventCallback<GanttItemClickedEventArgs<TItem>> DeleteItemClicked { get; set; }
 
     /// <summary>
-    /// Gets or sets callback used for API-style data reads.
+    /// Notifies when the Gantt requests data in manual read mode.
     /// </summary>
     [Parameter] public EventCallback<GanttReadDataEventArgs<TItem>> ReadData { get; set; }
 
     /// <summary>
-    /// Gets or sets custom localizers for Gantt texts.
+    /// Provides custom localizers for Gantt UI text.
     /// </summary>
     [Parameter] public GanttLocalizers Localizers { get; set; }
 
     /// <summary>
-    /// Gets or sets item styling callback for timeline bars.
+    /// Defines styling applied to timeline bars for each item.
     /// </summary>
     [Parameter] public Action<TItem, GanttItemStyling> ItemStyling { get; set; }
 
     /// <summary>
-    /// Gets or sets template used to render command header content.
+    /// Defines template used to render command header content.
     /// </summary>
     [Parameter] public RenderFragment<GanttTreeCommandHeaderContext<TItem>> TreeCommandHeaderTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets template used to render command cell content.
+    /// Defines template used to render command cell content.
     /// </summary>
     [Parameter] public RenderFragment<GanttTreeCommandCellContext<TItem>> TreeCommandCellTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets template used to render timeline header cells.
+    /// Defines template used to render timeline header cells.
     /// </summary>
     [Parameter] public RenderFragment<GanttTimelineHeaderCellContext> TimelineHeaderCellTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets template used to render timeline task content.
+    /// Defines template used to render timeline task content.
     /// </summary>
     [Parameter] public RenderFragment<GanttItemContext<TItem>> TaskItemTemplate { get; set; }
 
     /// <summary>
-    /// Gets or sets title column width in pixels.
+    /// Specifies title column width in pixels.
     /// </summary>
     [Parameter] public double TitleColumnWidth { get; set; } = 320d;
 
     /// <summary>
-    /// Gets or sets fallback date column width in pixels used when an auto-sized value cannot be calculated.
+    /// Specifies fallback date column width in pixels used when an auto-sized value cannot be calculated.
     /// </summary>
     [Parameter] public double DateColumnWidth { get; set; } = 140d;
 
     /// <summary>
-    /// Gets or sets action column width in pixels.
+    /// Specifies action column width in pixels.
     /// </summary>
     [Parameter] public double ActionColumnWidth { get; set; } = 42d;
 
     /// <summary>
-    /// Gets or sets header row height in pixels.
+    /// Specifies header row height in pixels.
     /// </summary>
     [Parameter] public double HeaderRowHeight { get; set; } = DefaultHeaderRowHeight;
 
     /// <summary>
-    /// Gets or sets search input width in pixels.
+    /// Specifies search input width in pixels.
     /// </summary>
     [Parameter] public double SearchInputWidth { get; set; } = DefaultSearchInputWidth;
 
     /// <summary>
-    /// Gets or sets tree toggle placeholder width in pixels.
+    /// Specifies tree toggle placeholder width in pixels.
     /// </summary>
     [Parameter] public double TreeToggleWidth { get; set; } = DefaultTreeToggleWidth;
 
     /// <summary>
-    /// Gets or sets tree indentation size per level in pixels.
+    /// Specifies tree indentation size per level in pixels.
     /// </summary>
     [Parameter] public double TreeIndentSize { get; set; } = 18d;
 
     /// <summary>
-    /// Gets or sets minimum item bar width in pixels.
+    /// Specifies minimum item bar width in pixels.
     /// </summary>
     [Parameter] public double MinBarWidth { get; set; } = 14d;
 
     /// <summary>
-    /// Gets or sets child content used to declare toolbar and views.
+    /// Defines child content used to declare toolbar and views.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

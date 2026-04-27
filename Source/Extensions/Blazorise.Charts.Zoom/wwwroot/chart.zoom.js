@@ -1,7 +1,7 @@
-import { getChart } from "../Blazorise.Charts/charts.js?v=2.1.0.0";
+import { getChart } from "../Blazorise.Charts/charts.js?v=2.1.1.0";
 
-import "./vendors/hammerjs.js?v=2.1.0.0";
-import "./vendors/chartjs-plugin-zoom.js?v=2.1.0.0";
+import "./vendors/hammerjs.js?v=2.1.1.0";
+import "./vendors/chartjs-plugin-zoom.js?v=2.1.1.0";
 
 export function initialize(dotNetAdapter, canvasId, pluginOptions) {
     const chart = getChart(canvasId);
@@ -64,6 +64,14 @@ export function setZoomLevel(canvasId, zoomLevel) {
 
     if (chart) {
         chart.zoom(zoomLevel);
+    }
+}
+
+export function pan(canvasId, delta) {
+    const chart = getChart(canvasId);
+
+    if (chart) {
+        chart.pan(delta);
     }
 }
 

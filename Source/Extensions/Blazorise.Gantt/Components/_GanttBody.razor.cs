@@ -25,7 +25,7 @@ public partial class _GanttBody : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the content rendered inside the body container.
+    /// Defines the content rendered inside the body container.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

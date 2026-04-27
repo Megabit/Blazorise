@@ -25,7 +25,7 @@ public partial class _GanttTimeHeader : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the content rendered inside the timeline header.
+    /// Defines the content rendered inside the timeline header.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

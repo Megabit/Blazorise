@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -201,7 +201,7 @@ public partial class SnackbarStack : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Defines the snackbar stack location.
+    /// Specifies the snackbar stack location.
     /// </summary>
     [Parameter]
     public SnackbarStackLocation Location
@@ -216,7 +216,7 @@ public partial class SnackbarStack : BaseComponent
     }
 
     /// <summary>
-    /// Defines the default interval (in milliseconds) after which the snackbars will be automatically closed (used if IntervalBeforeClose is not set on PushAsync call).
+    /// Specifies the default interval (in milliseconds) after which the snackbars will be automatically closed (used if IntervalBeforeClose is not set on PushAsync call).
     /// </summary>
     [Parameter] public double? DefaultInterval { get; set; } = Constants.DefaultIntervalBeforeClose;
 
@@ -226,32 +226,32 @@ public partial class SnackbarStack : BaseComponent
     [Parameter] public bool DelayCloseOnClick { get; set; }
 
     /// <summary>
-    /// Defines the interval (in milliseconds) by which the snackbar will be delayed from closing.
+    /// Specifies the interval (in milliseconds) by which the snackbar will be delayed from closing.
     /// </summary>
     [Parameter] public double? DelayCloseOnClickInterval { get; set; }
 
     /// <summary>
-    /// Defines a text to show for snackbar close button. Leave as null to not show it!
+    /// Specifies a text to show for snackbar close button. Leave as null to not show it!
     /// </summary>
     [Parameter] public string CloseButtonText { get; set; }
 
     /// <summary>
-    /// Defines an icon to show for snackbar close button. Leave as null to not show it!
+    /// Specifies an icon to show for snackbar close button. Leave as null to not show it!
     /// </summary>
     [Parameter] public object CloseButtonIcon { get; set; }
 
     /// <summary>
-    /// Defines a text to show for snackbar action button. Leave as null to not show it!
+    /// Specifies a text to show for snackbar action button. Leave as null to not show it!
     /// </summary>
     [Parameter] public string ActionButtonText { get; set; }
 
     /// <summary>
-    /// Defines an icon to show for snackbar action button. Leave as null to not show it!
+    /// Specifies an icon to show for snackbar action button. Leave as null to not show it!
     /// </summary>
     [Parameter] public object ActionButtonIcon { get; set; }
 
     /// <summary>
-    /// Defines the duration of the animation of the stack snackbar.
+    /// Specifies the duration of the animation of the stack snackbar.
     /// </summary>
     [Parameter]
     public double AnimationDuration

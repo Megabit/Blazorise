@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -40,7 +40,7 @@ public partial class Row : BaseRowComponent
     #region Properties
 
     /// <summary>
-    /// Defines the number of columns to show in a row.
+    /// Specifies the number of columns to show in a row.
     /// </summary>
     [Parameter]
     public IFluentRowColumns RowColumns
@@ -55,7 +55,7 @@ public partial class Row : BaseRowComponent
     }
 
     /// <summary>
-    /// Defines the padding between your columns, used to responsively space and align content in the Blazorise grid system.
+    /// Specifies the padding between your columns, used to responsively space and align content in the Blazorise grid system.
     /// </summary>
     [Parameter]
     public IFluentGutter Gutter

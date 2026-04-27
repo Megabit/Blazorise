@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -86,7 +86,7 @@ public partial class CloseButton : BaseComponent
     [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
-    /// Occurs when the button is clicked.
+    /// Notifies when the button is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 

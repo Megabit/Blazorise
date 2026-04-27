@@ -1,6 +1,6 @@
 ﻿@page "/docs/extensions/snackbar"
 
-<Seo Canonical="/docs/extensions/snackbar" Title="Blazorise Snackbar component" Description="Learn how to use the Blazorise Snackbar component to show brief messages about app processes." />
+<Seo Canonical="/docs/extensions/snackbar" Title="Blazorise Snackbar component" Description="Learn how to use the Blazorise Snackbar component to show brief messages about app processes, confirmations, errors, positions, durations, and actions." />
 
 <DocsPageTitle Path="Extensions/Snackbar">
     Blazorise Snackbar component
@@ -30,6 +30,12 @@
 
 <DocsPageParagraph>
     To use the <Code>Snackbar</Code> component, install the <Code>Blazorise.Snackbar</Code> package first.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Snackbar has its own default styling and is not provider-native. If the application does not define theme color variables,
+    Snackbar falls back to its bundled colors. Defining <Code>Theme.ColorOptions</Code>, including <Code>new()</Code> without
+    explicit color assignments, enables the default Blazorise theme colors and generates Snackbar color variables.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>

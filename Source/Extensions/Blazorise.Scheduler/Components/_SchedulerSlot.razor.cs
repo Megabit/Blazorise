@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -339,17 +339,17 @@ public class _SchedulerSlot<TItem> : ComponentBase
     [CascadingParameter] public SchedulerState State { get; set; }
 
     /// <summary>
-    /// Gets or sets the list of view items to display in the slot.
+    /// Specifies the list of view items to display in the slot.
     /// </summary>
     [Parameter] public List<SchedulerItemViewInfo<TItem>> ViewItems { get; set; }
 
     /// <summary>
-    /// Gets or sets the start time of the slot.
+    /// Specifies the start time of the slot.
     /// </summary>
     [Parameter] public DateTime SlotStart { get; set; }
 
     /// <summary>
-    /// Gets or sets the end time of the slot.
+    /// Specifies the end time of the slot.
     /// </summary>
     [Parameter] public DateTime SlotEnd { get; set; }
 
@@ -359,7 +359,7 @@ public class _SchedulerSlot<TItem> : ComponentBase
     [Parameter] public bool LastSlot { get; set; }
 
     /// <summary>
-    /// Gets or sets the cell height used to render items.
+    /// Specifies the cell height used to render items.
     /// </summary>
     [Parameter] public double ItemCellHeight { get; set; }
 
@@ -379,7 +379,7 @@ public class _SchedulerSlot<TItem> : ComponentBase
     [Parameter] public Func<SchedulerItemViewInfo<TItem>, Task> DeleteItemClicked { get; set; }
 
     /// <summary>
-    /// Gets or sets the area to be used when initiating transactional operations.
+    /// Specifies the area to be used when initiating transactional operations.
     /// </summary>
     [Parameter] public SchedulerSection Section { get; set; }
 

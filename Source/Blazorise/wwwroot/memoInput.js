@@ -1,5 +1,5 @@
-import { Behave } from "./vendors/Behave.js?v=2.1.0.0";
-import { getRequiredElement } from "./utilities.js?v=2.1.0.0";
+import { Behave } from "./vendors/Behave.js?v=2.1.1.0";
+import { getRequiredElement } from "./utilities.js?v=2.1.1.0";
 
 const _instances = [];
 
@@ -184,4 +184,4 @@ function getMinimumRowsHeight(textarea, computedStyle) {
     const borderBottom = Number.parseFloat(computedStyle.borderBottomWidth) || 0;
 
     return (lineHeight * rows) + paddingTop + paddingBottom + borderTop + borderBottom;
-} 
+}

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
@@ -74,7 +74,7 @@ public partial class Check<TValue> : BaseCheckComponent<TValue, CheckClasses, Ch
     [Parameter] public bool? Indeterminate { get; set; }
 
     /// <summary>
-    /// Defines the name attribute of a checkbox.
+    /// Specifies the name attribute of a checkbox.
     /// </summary>
     /// <remarks>
     /// The name attribute is used to identify form data after it has been submitted to the server, or to reference form data using JavaScript on the client side.

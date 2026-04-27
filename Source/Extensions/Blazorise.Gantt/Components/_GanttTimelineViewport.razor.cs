@@ -25,7 +25,7 @@ public partial class _GanttTimelineViewport : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets or sets the content rendered inside the timeline viewport.
+    /// Defines the content rendered inside the timeline viewport.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

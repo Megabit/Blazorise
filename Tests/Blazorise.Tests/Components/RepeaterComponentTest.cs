@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
@@ -15,9 +15,9 @@ public class RepeaterComponentTest
     [Fact]
     public void ItemsNull_DoesNothing()
     {
-        var ctx = new TestContext();
+        using BunitContext ctx = new();
 
-        var comp = ctx.RenderComponent<Repeater<int>>( builder => builder
+        var comp = ctx.Render<Repeater<int>>( builder => builder
             .Add( p => p.Items, default )
         );
 
@@ -27,11 +27,11 @@ public class RepeaterComponentTest
     [Fact]
     public void Items_Render()
     {
-        var ctx = new TestContext();
+        using BunitContext ctx = new();
 
         var items = Enumerable.Range( 0, 10 ).ToList();
 
-        var comp = ctx.RenderComponent<Repeater<int>>( builder => builder
+        var comp = ctx.Render<Repeater<int>>( builder => builder
             .Add( p => p.Items, items )
             .Add( p => p.ChildContent, x => x.ToString() )
         );
@@ -42,13 +42,13 @@ public class RepeaterComponentTest
     [Fact]
     public void CollectionChanged_Updates()
     {
-        var ctx = new TestContext();
+        using BunitContext ctx = new();
 
         var items = new ObservableCollection<int>( Enumerable.Range( 0, 10 ) );
 
         var watcher = new CollectionChangedWatcher();
 
-        var comp = ctx.RenderComponent<Repeater<int>>( builder => builder
+        var comp = ctx.Render<Repeater<int>>( builder => builder
             .Add( p => p.Items, items )
             .Add( p => p.ChildContent, x => x.ToString() )
             .Add( p => p.CollectionChanged, callbackFactory.Create( watcher, (Action<NotifyCollectionChangedEventArgs>)watcher.OnCollectionChanged ) )
@@ -71,13 +71,13 @@ public class RepeaterComponentTest
     [Fact]
     public void ReplaceCollection_Updates()
     {
-        var ctx = new TestContext();
+        using BunitContext ctx = new();
 
         var items = new ObservableCollection<int>( Enumerable.Range( 0, 10 ) );
 
         var watcher = new CollectionChangedWatcher();
 
-        var comp = ctx.RenderComponent<Repeater<int>>( builder => builder
+        var comp = ctx.Render<Repeater<int>>( builder => builder
             .Add( p => p.Items, items )
             .Add( p => p.ChildContent, x => x.ToString() )
             .Add( p => p.CollectionChanged, callbackFactory.Create( watcher, (Action<NotifyCollectionChangedEventArgs>)watcher.OnCollectionChanged ) )
@@ -86,13 +86,13 @@ public class RepeaterComponentTest
         Assert.Equal( string.Concat( items.Select( x => x.ToString() ) ), comp.Markup );
         Assert.Equal( 1, watcher.Count );
 
-        comp.SetParametersAndRender( builder => builder.Add( p => p.Items, items ) );
+        comp.Render( builder => builder.Add( p => p.Items, items ) );
 
         Assert.Equal( string.Concat( items.Select( x => x.ToString() ) ), comp.Markup );
         Assert.Equal( 1, watcher.Count );
 
         var updated = Enumerable.Range( 10, 20 ).ToList();
-        comp.SetParametersAndRender( builder => builder.Add( p => p.Items, updated ) );
+        comp.Render( builder => builder.Add( p => p.Items, updated ) );
 
         Assert.Equal( string.Concat( updated.Select( x => x.ToString() ) ), comp.Markup );
         Assert.Equal( 2, watcher.Count );
@@ -101,18 +101,18 @@ public class RepeaterComponentTest
     [Fact]
     public void ReplaceCollectionWithNull_Clears()
     {
-        var ctx = new TestContext();
+        using BunitContext ctx = new();
 
         var items = Enumerable.Range( 0, 10 ).ToList();
 
-        var comp = ctx.RenderComponent<Repeater<int>>( builder => builder
+        var comp = ctx.Render<Repeater<int>>( builder => builder
             .Add( p => p.Items, items )
             .Add( p => p.ChildContent, x => x.ToString() )
         );
 
         Assert.Equal( string.Concat( items.Select( x => x.ToString() ) ), comp.Markup );
 
-        comp.SetParametersAndRender( builder => builder.Add( p => p.Items, default ) );
+        comp.Render( builder => builder.Add( p => p.Items, default ) );
 
         Assert.True( string.IsNullOrWhiteSpace( comp.Markup ) );
     }
@@ -120,11 +120,11 @@ public class RepeaterComponentTest
     [Fact]
     public void TakeSkip_Renders()
     {
-        var ctx = new TestContext();
+        using BunitContext ctx = new();
 
         var items = Enumerable.Range( 0, 10 ).ToList();
 
-        var comp = ctx.RenderComponent<Repeater<int>>( builder => builder
+        var comp = ctx.Render<Repeater<int>>( builder => builder
             .Add( p => p.Items, items )
             .Add( p => p.Take, 2 )
             .Add( p => p.Skip, 2 )
@@ -133,7 +133,7 @@ public class RepeaterComponentTest
 
         Assert.Equal( string.Concat( items.Take( 2 ).Skip( 2 ).Select( x => x.ToString() ) ), comp.Markup );
 
-        comp.SetParametersAndRender( builder => builder.Add( p => p.Take, default ) );
+        comp.Render( builder => builder.Add( p => p.Take, default ) );
 
         Assert.Equal( string.Concat( items.Skip( 2 ).Select( x => x.ToString() ) ), comp.Markup );
     }

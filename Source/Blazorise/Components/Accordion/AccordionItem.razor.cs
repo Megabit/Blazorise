@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
@@ -177,7 +177,7 @@ public partial class AccordionItem : BaseComponent, IDisposable
     public string ToggleElementId => accordionToggle?.ElementId ?? generatedToggleElementId;
 
     /// <summary>
-    /// Gets or sets the accordion item visibility state.
+    /// Specifies the accordion item visibility state.
     /// </summary>
     [Parameter]
     public bool Visible
@@ -196,12 +196,12 @@ public partial class AccordionItem : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Occurs when the accordion item visibility state changes.
+    /// Notifies when the accordion item visibility state changes.
     /// </summary>
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the cascaded parent accordion component.
+    /// Specifies the cascaded parent accordion component.
     /// </summary>
     [CascadingParameter] protected Accordion ParentAccordion { get; set; }
 

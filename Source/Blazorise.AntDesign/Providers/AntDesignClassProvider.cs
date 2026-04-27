@@ -1028,6 +1028,10 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Offcanvas() => "ant-drawer";
 
+    public override string OffcanvasSize( OffcanvasSize offcanvasSize ) => offcanvasSize == Blazorise.OffcanvasSize.Default
+        ? null
+        : $"ant-drawer-{ToOffcanvasSize( offcanvasSize )}";
+
     public override string OffcanvasPlacement( Placement placement, bool visible )
     {
         return placement switch
@@ -1722,6 +1726,12 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
+    #region Float
+
+    public override string Float( Float @float ) => $"ant-float-{ToFloat( @float )}";
+
+    #endregion
+
     #region Visibility
 
     public override string Visibility( Visibility visibility )
@@ -1937,6 +1947,16 @@ public class AntDesignClassProvider : ClassProvider
         {
             Blazorise.ValidationStatus.Success => "ant-input-status-success",
             Blazorise.ValidationStatus.Error => "ant-input-status-error",
+            _ => null,
+        };
+    }
+
+    public override string ToFloat( Float @float )
+    {
+        return @float switch
+        {
+            Blazorise.Float.Start => "start",
+            Blazorise.Float.End => "end",
             _ => null,
         };
     }

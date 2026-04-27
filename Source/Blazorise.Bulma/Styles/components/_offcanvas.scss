@@ -1,4 +1,5 @@
 .offcanvas {
+    --offcanvas-size: 20rem;
     position: fixed;
     display: flex;
     flex-direction: column;
@@ -27,7 +28,7 @@
     top: 0;
     left: 0;
     height: 100%;
-    width: 20rem;
+    width: var(--offcanvas-size);
     transform-origin: left;
 }
 
@@ -39,7 +40,7 @@
 
     &.is-active {
         transform: none;
-        width: 20rem;
+        width: var(--offcanvas-size);
     }
 }
 
@@ -53,7 +54,7 @@
 
     &.is-active {
         transform: none;
-        height: 20rem;
+        height: var(--offcanvas-size);
     }
 }
 
@@ -67,7 +68,7 @@
 
     &.is-active {
         transform: none;
-        height: 20rem;
+        height: var(--offcanvas-size);
     }
 }
 
@@ -108,5 +109,31 @@
 
     &.is-active {
         opacity: 1;
+    }
+}
+
+.offcanvas {
+    &.is-small {
+        --offcanvas-size: 16rem;
+    }
+
+    &.is-large {
+        --offcanvas-size: 24rem;
+    }
+
+    &.is-extra-large {
+        --offcanvas-size: 32rem;
+    }
+
+    &.is-fullscreen {
+        &.is-start,
+        &.is-end {
+            --offcanvas-size: 100vw;
+        }
+
+        &.is-top,
+        &.is-bottom {
+            --offcanvas-size: 100vh;
+        }
     }
 }

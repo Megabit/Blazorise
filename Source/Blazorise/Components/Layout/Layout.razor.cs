@@ -124,7 +124,7 @@ public partial class Layout : BaseComponent<LayoutClasses, LayoutStyles>
     }
 
     /// <summary>
-    /// Occurs when loading state had changed.
+    /// Notifies when loading state had changed.
     /// </summary>
     [Parameter] public EventCallback<bool> LoadingChanged { get; set; }
 

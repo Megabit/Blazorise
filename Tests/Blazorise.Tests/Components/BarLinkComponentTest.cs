@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Blazorise.Tests.TestServices;
 using Bunit;
 using Microsoft.AspNetCore.Components;
@@ -8,13 +8,12 @@ using Xunit;
 
 namespace Blazorise.Tests.Components;
 
-public class BarLinkComponentTest : TestContext
+public class BarLinkComponentTest : BunitContext
 {
     public BarLinkComponentTest()
     {
-        var testServices = new TestServiceProvider( Services.AddSingleton<NavigationManager, TestNavigationManager>() );
-
-        testServices.AddBlazoriseTests().AddBootstrapProviders();
+        Services.AddSingleton<NavigationManager, TestNavigationManager>();
+        Services.AddBlazoriseTests().AddBootstrapProviders();
         JSInterop
             .AddBlazoriseButton();
     }
@@ -27,7 +26,7 @@ public class BarLinkComponentTest : TestContext
         var testCallback = new EventCallback<MouseEventArgs>( null, ( MouseEventArgs e ) => wasClicked = true );
 
         // test
-        var comp = RenderComponent<BarLink>( builder =>
+        var comp = Render<BarLink>( builder =>
             builder
                 .Add( p => p.Clicked, testCallback ) );
 
@@ -45,7 +44,7 @@ public class BarLinkComponentTest : TestContext
         var testCallback = new EventCallback<MouseEventArgs>( null, ( MouseEventArgs e ) => wasClicked = true );
 
         // test
-        var comp = RenderComponent<BarLink>( builder =>
+        var comp = Render<BarLink>( builder =>
             builder
                 .Add( p => p.To, "test" )
                 .Add( p => p.Clicked, testCallback ) );
@@ -61,7 +60,7 @@ public class BarLinkComponentTest : TestContext
     public void ShouldSetAriaCurrent_WhenLinkIsActive()
     {
         // test
-        var comp = RenderComponent<BarLink>( builder =>
+        var comp = Render<BarLink>( builder =>
             builder
                 .Add( p => p.To, "base" ) );
 
@@ -75,7 +74,7 @@ public class BarLinkComponentTest : TestContext
     public void ShouldNotSetAriaCurrent_WhenLinkIsNotActive()
     {
         // test
-        var comp = RenderComponent<BarLink>( builder =>
+        var comp = Render<BarLink>( builder =>
             builder
                 .Add( p => p.To, "test" ) );
 

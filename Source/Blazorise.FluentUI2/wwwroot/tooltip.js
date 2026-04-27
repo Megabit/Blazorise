@@ -1,4 +1,4 @@
-import { initialize as baseInitialize, destroy, updateContent } from "../Blazorise/tooltip.js?v=2.1.0.0";
+import { initialize as baseInitialize, destroy, updateContent } from "../Blazorise/tooltip.js?v=2.1.1.0";
 
 export function initialize(element, elementId, options) {
     options = Object.assign({}, options, { theme: "fluentui", zIndex: "var(--zIndexTooltip)" });
@@ -20,7 +20,8 @@ export function initialize(element, elementId, options) {
             const tippyContent = tippyBox.querySelector(".tippy-content");
 
             if (tippyContent) {
-                tippyContent.className = "fui-Tooltip__content";
+                tippyContent.classList.add("fui-Tooltip__content");
+                tippyContent.style.padding = "0";
             }
             const tippyArrow = tippyBox.querySelector(".tippy-arrow");
 

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -64,7 +64,7 @@ public partial class SelectList<TItem, TValue> : ComponentBase
     [Inject] protected IIdGenerator IdGenerator { get; set; }
 
     /// <summary>
-    /// Gets or sets the select element id.
+    /// Specifies the select element id.
     /// </summary>
     [Parameter] public string ElementId { get; set; }
 
@@ -74,7 +74,7 @@ public partial class SelectList<TItem, TValue> : ComponentBase
     [Parameter] public bool Multiple { get; set; }
 
     /// <summary>
-    /// Gets or sets the select data-source.
+    /// Specifies the select data source.
     /// </summary>
     [Parameter] public IEnumerable<TItem> Data { get; set; }
 
@@ -104,7 +104,7 @@ public partial class SelectList<TItem, TValue> : ComponentBase
     [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets an expression that identifies the selected value.
+    /// Specifies an expression that identifies the selected value.
     /// </summary>
     [Parameter] public Expression<Func<TValue>> ValueExpression { get; set; }
 

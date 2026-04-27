@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -202,27 +202,27 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
     protected bool ShowToolbar => ShowPaging || ShowZooming || ShowPrinting;
 
     /// <summary>
-    /// Gets or sets the viewer state.
+    /// Specifies the viewer state.
     /// </summary>
     [CascadingParameter] public PdfViewerState ViewerState { get; set; }
 
     /// <summary>
-    /// Defines if the paging buttons should be displayed.
+    /// Specifies if the paging buttons should be displayed.
     /// </summary>
     [Parameter] public bool ShowPaging { get; set; } = true;
 
     /// <summary>
-    /// Defines if the zoom buttons should be displayed.
+    /// Specifies if the zoom buttons should be displayed.
     /// </summary>
     [Parameter] public bool ShowZooming { get; set; } = true;
 
     /// <summary>
-    /// Defines if the print button should be displayed.
+    /// Specifies if the print button should be displayed.
     /// </summary>
     [Parameter] public bool ShowPrinting { get; set; } = true;
 
     /// <summary>
-    /// Defines if the download button should be displayed.
+    /// Specifies if the download button should be displayed.
     /// </summary>
     [Parameter] public bool ShowDownloading { get; set; } = true;
 
