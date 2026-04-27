@@ -324,11 +324,16 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
 
         if ( e.Action == NotifyCollectionChangedAction.Add )
         {
+            int insertIndex = e.NewStartingIndex >= 0
+                ? e.NewStartingIndex
+                : nodeState.Children.Count;
+
             await foreach ( var childNodeState in e.NewItems.ToNodeStates( nodeState, HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
             {
                 if ( !nodeState.Children.Exists( x => x.Node.IsEqual( childNodeState.Node ) ) )
                 {
-                    nodeState.Children.Add( childNodeState );
+                    nodeState.Children.Insert( Math.Clamp( insertIndex, 0, nodeState.Children.Count ), childNodeState );
+                    insertIndex++;
                     nodeState.ViewRef?.RegisterNodeState( childNodeState );
                 }
             }
@@ -708,7 +713,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
 
     protected Task OnDragOverHandler( TreeViewNodeState<TNode> nodeState, DragEventArgs eventArgs )
     {
-        bool dropAsChild = ShouldDropAsChild( eventArgs );
+        bool dropAsChild = ShouldDropAsChild( nodeState, eventArgs );
 
         if ( IsDropAllowed( nodeState, dropAsChild ) )
             return ParentTreeView?.SetActiveDropNode( nodeState, dropAsChild ) ?? Task.CompletedTask;
@@ -722,7 +727,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
             return;
 
         TreeViewNodeState<TNode> draggedNodeState = ParentTreeView.DraggedNode;
-        bool dropAsChild = ShouldDropAsChild( eventArgs );
+        bool dropAsChild = ShouldDropAsChild( nodeState, eventArgs );
         TreeViewNodeState<TNode> newParentNodeState = GetDropParentNodeState( draggedNodeState, nodeState, dropAsChild );
         int oldIndex = GetNodeIndex( draggedNodeState );
         int newIndex = GetDropIndex( draggedNodeState, nodeState, dropAsChild );
@@ -848,8 +853,16 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         return newIndex;
     }
 
-    private bool ShouldDropAsChild( DragEventArgs eventArgs )
-        => !Reorderable || eventArgs?.OffsetY > ReorderBeforeThreshold;
+    private bool ShouldDropAsChild( TreeViewNodeState<TNode> targetNodeState, DragEventArgs eventArgs )
+    {
+        if ( !Reorderable )
+            return true;
+
+        if ( ParentTreeView?.DraggedNode?.Parent is not null && targetNodeState?.Parent is null )
+            return false;
+
+        return eventArgs?.OffsetY > ReorderBeforeThreshold;
+    }
 
     private int GetNodeIndex( TreeViewNodeState<TNode> nodeState )
     {

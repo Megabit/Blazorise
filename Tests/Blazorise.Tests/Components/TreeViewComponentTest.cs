@@ -528,6 +528,98 @@ public class TreeViewComponentTest : TestContext
     }
 
     [Fact]
+    public async Task DragDrop_Should_Reorder_SubNode_To_Root_Level_When_Dropped_On_Root_Node()
+    {
+        var dragged = new Item() { Text = "Dragged" };
+        var sourceParent = new Item()
+        {
+            Text = "Source",
+            Children = new[] { dragged },
+        };
+        var rootTarget = new Item() { Text = "Root Target" };
+        TreeViewNodeDragEventArgs<Item> droppedArgs = null;
+        var expandedNodes = new List<Item> { sourceParent };
+
+        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        {
+            parameters.Add( p => p.Nodes, new[] { sourceParent, rootTarget } );
+            parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
+            parameters.Add( p => p.HasChildNodes, (Func<Item, bool>)( node => node.Children?.Any() == true ) );
+            parameters.Add( p => p.ExpandedNodes, expandedNodes );
+            parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
+            parameters.Add( p => p.Draggable, true );
+            parameters.Add( p => p.Reorderable, true );
+            parameters.Add( p => p.NodeDropped, EventCallback.Factory.Create<TreeViewNodeDragEventArgs<Item>>( this, args => droppedArgs = args ) );
+        } );
+
+        var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
+
+        await nodeContents[1].DragStartAsync( new DragEventArgs() );
+        nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
+        await nodeContents[2].DropAsync( new DragEventArgs() { OffsetY = 12 } );
+
+        droppedArgs.Should().NotBeNull();
+        droppedArgs.DraggedNode.Should().BeSameAs( dragged );
+        droppedArgs.OldParentNode.Should().BeSameAs( sourceParent );
+        droppedArgs.NewParentNode.Should().BeNull();
+        droppedArgs.OldIndex.Should().Be( 0 );
+        droppedArgs.NewIndex.Should().Be( 1 );
+    }
+
+    [Fact]
+    public async Task DragDrop_Should_Render_SubNode_At_Root_Insert_Index_When_Collections_Are_Observable()
+    {
+        var firstRoot = new Item() { Text = "First Root" };
+        var dragged = new Item() { Text = "Dragged" };
+        var sourceParent = new Item()
+        {
+            Text = "Source",
+            Children = new ObservableCollection<Item>() { dragged },
+        };
+        var secondRoot = new Item() { Text = "Second Root" };
+        var thirdRoot = new Item() { Text = "Third Root" };
+        var nodes = new ObservableCollection<Item>() { firstRoot, sourceParent, secondRoot, thirdRoot };
+        var expandedNodes = new List<Item> { sourceParent };
+
+        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        {
+            parameters.Add( p => p.Nodes, nodes );
+            parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
+            parameters.Add( p => p.HasChildNodes, (Func<Item, bool>)( node => node.Children?.Any() == true ) );
+            parameters.Add( p => p.ExpandedNodes, expandedNodes );
+            parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
+            parameters.Add( p => p.Draggable, true );
+            parameters.Add( p => p.Reorderable, true );
+            parameters.Add( p => p.NodeDropped, EventCallback.Factory.Create<TreeViewNodeDragEventArgs<Item>>( this, args =>
+            {
+                var source = (IList<Item>)( args.OldParentNode?.Children ?? nodes );
+                var destination = (IList<Item>)( args.NewParentNode?.Children ?? nodes );
+
+                source.RemoveAt( args.OldIndex );
+                destination.Insert( args.NewIndex, args.DraggedNode );
+            } ) );
+        } );
+
+        var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
+
+        await nodeContents[2].DragStartAsync( new DragEventArgs() );
+        nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
+        await nodeContents[4].DropAsync( new DragEventArgs() { OffsetY = 12 } );
+
+        cut.WaitForAssertion( () =>
+        {
+            var refreshedNodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
+
+            refreshedNodeContents.Select( x => x.TextContent.Trim() ).Should().Equal(
+                "First Root",
+                "Source",
+                "Second Root",
+                "Dragged",
+                "Third Root" );
+        } );
+    }
+
+    [Fact]
     public async Task DragDrop_Should_Allow_Reordering_SubNode_Before_First_Root_Node()
     {
         var dragged = new Item() { Text = "Dragged" };

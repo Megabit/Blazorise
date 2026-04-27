@@ -97,11 +97,17 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
         {
             InvokeAsync( async () =>
             {
+                int insertIndex = e.NewStartingIndex >= 0
+                    ? e.NewStartingIndex
+                    : treeViewNodeStates.Count;
+
                 await foreach ( var nodeState in e.NewItems.ToNodeStates( null, HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
                 {
-                    AddTreeViewNodeState( nodeState );
+                    InsertTreeViewNodeState( nodeState, insertIndex++ );
                     treeViewNodeRef?.RegisterNodeState( nodeState );
                 }
+
+                await InvokeAsync( StateHasChanged );
             } );
         }
 
@@ -200,6 +206,9 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     }
 
     private void AddTreeViewNodeState( TreeViewNodeState<TNode> treeViewNodeState )
+        => InsertTreeViewNodeState( treeViewNodeState, treeViewNodeStates.Count );
+
+    private void InsertTreeViewNodeState( TreeViewNodeState<TNode> treeViewNodeState, int index )
     {
         var maxRowsLimit = BlazoriseLicenseLimitsHelper.GetTreeViewRowsLimit( LicenseChecker );
 
@@ -211,7 +220,7 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
             }
         }
 
-        treeViewNodeStates.Add( treeViewNodeState );
+        treeViewNodeStates.Insert( Math.Clamp( index, 0, treeViewNodeStates.Count ), treeViewNodeState );
     }
 
     internal async Task<TreeViewNodeState<TNode>> CreateNodeStateAsync( TNode node, TreeViewNodeState<TNode> parent = null )
