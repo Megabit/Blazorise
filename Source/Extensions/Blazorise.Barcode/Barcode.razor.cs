@@ -196,22 +196,22 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
     [Parameter] public BarcodeRotation Rotation { get; set; } = BarcodeRotation.None;
 
     /// <summary>
-    /// Defines the top padding.
+    /// Defines the top padding inside the generated barcode image.
     /// </summary>
     [Parameter] public int? PaddingTop { get; set; }
 
     /// <summary>
-    /// Defines the end padding.
+    /// Defines the end padding inside the generated barcode image.
     /// </summary>
     [Parameter] public int? PaddingEnd { get; set; }
 
     /// <summary>
-    /// Defines the bottom padding.
+    /// Defines the bottom padding inside the generated barcode image.
     /// </summary>
     [Parameter] public int? PaddingBottom { get; set; }
 
     /// <summary>
-    /// Defines the start padding.
+    /// Defines the start padding inside the generated barcode image.
     /// </summary>
     [Parameter] public int? PaddingStart { get; set; }
 
