@@ -48,14 +48,14 @@ public class BarcodeJSOptions
     public string BackgroundColor { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether human-readable text should be shown.
+    /// Gets or sets a value indicating whether the encoded value should be shown as human-readable text.
     /// </summary>
-    public bool ShowText { get; set; }
+    public bool ShowValue { get; set; }
 
     /// <summary>
-    /// Gets or sets the text alignment.
+    /// Gets or sets the human-readable value alignment.
     /// </summary>
-    public string TextAlignment { get; set; }
+    public string ValueAlignment { get; set; }
 
     /// <summary>
     /// Gets or sets the barcode rotation.

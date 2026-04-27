@@ -30,7 +30,7 @@ const renderModeMap = {
     svg: "svg"
 };
 
-const textAlignmentMap = {
+const valueAlignmentMap = {
     center: "center",
     end: "right",
     start: "left"
@@ -94,8 +94,8 @@ function toBarcodeOptions(options) {
         text: options.value,
         scale: options.scale || 2,
         rotate: getMappedValue(rotationMap, options.rotation),
-        includetext: options.showText === true,
-        textxalign: getMappedValue(textAlignmentMap, options.textAlignment),
+        includetext: options.showValue === true,
+        textxalign: getMappedValue(valueAlignmentMap, options.valueAlignment),
         barcolor: normalizeColor(options.foregroundColor),
         backgroundcolor: normalizeColor(options.backgroundColor)
     };

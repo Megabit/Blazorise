@@ -44,21 +44,21 @@
                             </Field>
                             <Field>
                                 <FieldLabel>
-                                    Show Text
+                                    Show Value
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Switch @bind-Value="@showText" />
+                                    <Switch @bind-Value="@showValue" />
                                 </FieldBody>
                             </Field>
                             <Field>
                                 <FieldLabel>
-                                    Text Alignment
+                                    Value Alignment
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Select @bind-Value="@humanReadableTextAlignment">
-                                        <SelectItem Value="BarcodeTextAlignment.Start">Start</SelectItem>
-                                        <SelectItem Value="BarcodeTextAlignment.Center">Center</SelectItem>
-                                        <SelectItem Value="BarcodeTextAlignment.End">End</SelectItem>
+                                    <Select @bind-Value="@valueAlignment">
+                                        <SelectItem Value="BarcodeValueAlignment.Start">Start</SelectItem>
+                                        <SelectItem Value="BarcodeValueAlignment.Center">Center</SelectItem>
+                                        <SelectItem Value="BarcodeValueAlignment.End">End</SelectItem>
                                     </Select>
                                 </FieldBody>
                             </Field>
@@ -119,8 +119,8 @@
                          Scale="@scale"
                          TargetWidth="@ResolvedTargetWidth"
                          TargetHeight="@ResolvedTargetHeight"
-                         ShowText="@showText"
-                         HumanReadableTextAlignment="@humanReadableTextAlignment"
+                         ShowValue="@showValue"
+                         ValueAlignment="@valueAlignment"
                          PaddingTop="8"
                          PaddingRight="8"
                          PaddingBottom="8"
@@ -133,14 +133,14 @@
 @code {
     private BarcodeType selectedType = BarcodeType.Code128;
     private BarcodeRenderMode renderMode = BarcodeRenderMode.Canvas;
-    private BarcodeTextAlignment humanReadableTextAlignment = BarcodeTextAlignment.Center;
+    private BarcodeValueAlignment valueAlignment = BarcodeValueAlignment.Center;
     private string value = "0123456789";
     private string foregroundColor = "#000000";
     private string backgroundColor = "#ffffff";
     private int scale = 2;
     private int? width;
     private int? height = 20;
-    private bool showText = true;
+    private bool showValue = true;
 
     private BarcodeType SelectedType
     {
@@ -149,7 +149,7 @@
         {
             selectedType = value;
             this.value = GetExampleValue( value );
-            showText = IsLinearBarcode( value );
+            showValue = IsLinearBarcode( value );
             height = IsLinearBarcode( value ) ? 20 : null;
         }
     }

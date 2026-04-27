@@ -5724,8 +5724,8 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
          RenderMode=""BarcodeRenderMode.Svg""
          ForegroundColor=""#7474ed""
          BackgroundColor=""#f7f7ff""
-         ShowText
-         HumanReadableTextAlignment=""BarcodeTextAlignment.End""
+         ShowValue
+         ValueAlignment=""BarcodeValueAlignment.End""
          TargetHeight=""20""
          PaddingTop=""8""
          PaddingRight=""8""
@@ -5735,7 +5735,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
         public const string BarcodeTargetDimensionsExample = @"<Barcode Value=""5901234123457""
          Type=""BarcodeType.Ean13""
          RenderMode=""BarcodeRenderMode.Canvas""
-         ShowText
+         ShowValue
          TargetWidth=""45""
          TargetHeight=""18""
          Scale=""3"" />";
@@ -5744,13 +5744,13 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
     <Column>
         <Div Flex=""Flex.Column"" Gap=""Gap.Is2"">
             <Text TextWeight=""TextWeight.SemiBold"">Code 128</Text>
-            <Barcode Value=""0123456789"" Type=""BarcodeType.Code128"" ShowText TargetHeight=""16"" />
+            <Barcode Value=""0123456789"" Type=""BarcodeType.Code128"" ShowValue TargetHeight=""16"" />
         </Div>
     </Column>
     <Column>
         <Div Flex=""Flex.Column"" Gap=""Gap.Is2"">
             <Text TextWeight=""TextWeight.SemiBold"">EAN-13</Text>
-            <Barcode Value=""5901234123457"" Type=""BarcodeType.Ean13"" ShowText TargetHeight=""16"" />
+            <Barcode Value=""5901234123457"" Type=""BarcodeType.Ean13"" ShowValue TargetHeight=""16"" />
         </Div>
     </Column>
     <Column>
@@ -5767,7 +5767,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
     </Column>
 </Grid>";
 
-        public const string BasicBarcodeExample = @"<Barcode Value=""0123456789"" Type=""BarcodeType.Code128"" ShowText TargetHeight=""20"" />";
+        public const string BasicBarcodeExample = @"<Barcode Value=""0123456789"" Type=""BarcodeType.Code128"" ShowValue TargetHeight=""20"" />";
 
         public const string CaptchaImportsExample = @"@using Blazorise.Captcha";
 

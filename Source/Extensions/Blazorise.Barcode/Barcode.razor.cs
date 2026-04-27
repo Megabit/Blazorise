@@ -29,8 +29,8 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
             var scaleChanged = parameters.TryGetValue<int>( nameof( Scale ), out var paramScale ) && paramScale != Scale;
             var foregroundColorChanged = parameters.TryGetValue<string>( nameof( ForegroundColor ), out var paramForegroundColor ) && paramForegroundColor != ForegroundColor;
             var backgroundColorChanged = parameters.TryGetValue<string>( nameof( BackgroundColor ), out var paramBackgroundColor ) && paramBackgroundColor != BackgroundColor;
-            var showTextChanged = parameters.TryGetValue<bool>( nameof( ShowText ), out var paramShowText ) && paramShowText != ShowText;
-            var humanReadableTextAlignmentChanged = parameters.TryGetValue<BarcodeTextAlignment>( nameof( HumanReadableTextAlignment ), out var paramHumanReadableTextAlignment ) && paramHumanReadableTextAlignment != HumanReadableTextAlignment;
+            var showValueChanged = parameters.TryGetValue<bool>( nameof( ShowValue ), out var paramShowValue ) && paramShowValue != ShowValue;
+            var valueAlignmentChanged = parameters.TryGetValue<BarcodeValueAlignment>( nameof( ValueAlignment ), out var paramValueAlignment ) && paramValueAlignment != ValueAlignment;
             var rotationChanged = parameters.TryGetValue<BarcodeRotation>( nameof( Rotation ), out var paramRotation ) && paramRotation != Rotation;
             var paddingTopChanged = parameters.TryGetValue<int?>( nameof( PaddingTop ), out var paramPaddingTop ) && paramPaddingTop != PaddingTop;
             var paddingRightChanged = parameters.TryGetValue<int?>( nameof( PaddingRight ), out var paramPaddingRight ) && paramPaddingRight != PaddingRight;
@@ -46,8 +46,8 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
                  || scaleChanged
                  || foregroundColorChanged
                  || backgroundColorChanged
-                 || showTextChanged
-                 || humanReadableTextAlignmentChanged
+                 || showValueChanged
+                 || valueAlignmentChanged
                  || rotationChanged
                  || paddingTopChanged
                  || paddingRightChanged
@@ -110,8 +110,8 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
             Scale = Scale,
             ForegroundColor = ForegroundColor,
             BackgroundColor = BackgroundColor,
-            ShowText = ShowText,
-            TextAlignment = HumanReadableTextAlignment.ToString(),
+            ShowValue = ShowValue,
+            ValueAlignment = ValueAlignment.ToString(),
             Rotation = Rotation.ToString(),
             PaddingTop = PaddingTop,
             PaddingRight = PaddingRight,
@@ -188,14 +188,14 @@ public partial class Barcode : BaseComponent, IAsyncDisposable
     [Parameter] public string BackgroundColor { get; set; } = "#ffffff";
 
     /// <summary>
-    /// Defines whether human-readable text should be shown.
+    /// Defines whether the encoded value should be shown as human-readable text.
     /// </summary>
-    [Parameter] public bool ShowText { get; set; }
+    [Parameter] public bool ShowValue { get; set; }
 
     /// <summary>
-    /// Defines the alignment of the human-readable text.
+    /// Defines the alignment of the human-readable value text.
     /// </summary>
-    [Parameter] public BarcodeTextAlignment HumanReadableTextAlignment { get; set; } = BarcodeTextAlignment.Center;
+    [Parameter] public BarcodeValueAlignment ValueAlignment { get; set; } = BarcodeValueAlignment.Center;
 
     /// <summary>
     /// Defines the barcode rotation.
