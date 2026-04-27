@@ -176,7 +176,7 @@ public partial class PivotGrid<TItem> : BaseComponent
             return;
         }
 
-        var sourceItems = Items?.ToList() ?? [];
+        var sourceItems = Data?.ToList() ?? [];
 
         if ( sourceItems.Count == 0 )
         {
@@ -414,9 +414,9 @@ public partial class PivotGrid<TItem> : BaseComponent
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     /// <summary>
-    /// Defines the source items to be analyzed.
+    /// Defines the source data to be analyzed.
     /// </summary>
-    [Parameter] public IEnumerable<TItem> Items { get; set; }
+    [Parameter] public IEnumerable<TItem> Data { get; set; }
 
     /// <summary>
     /// Defines child content. Field components can be declared directly here.
