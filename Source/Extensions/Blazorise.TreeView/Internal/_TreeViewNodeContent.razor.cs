@@ -1,10 +1,8 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
-using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.TreeView.Internal;
@@ -123,14 +121,14 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     {
         await base.OnAfterRenderAsync( firstRender );
 
-        if ( Draggable && !dragDropInitialized )
+        if ( ParentTreeView.Draggable && !dragDropInitialized )
         {
-            await JSDragDropModule.Initialize( ElementRef, ElementId );
+            await ParentTreeView.DragDropHelper.Attach( ElementRef, ElementId );
             dragDropInitialized = true;
         }
-        else if ( !Draggable && dragDropInitialized )
+        else if ( !ParentTreeView.Draggable && dragDropInitialized )
         {
-            await JSDragDropModule.Destroy( ElementRef, ElementId );
+            await ParentTreeView.DragDropHelper.Detach( ElementRef, ElementId );
             dragDropInitialized = false;
         }
     }
@@ -164,10 +162,10 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     {
         builder.Append( "b-tree-view-node-title" );
 
-        if ( ParentTreeView.Draggable && IsActiveDropTarget )
+        if ( ParentTreeView.Draggable && ParentTreeView.DragDropHelper.ActiveDropNode == NodeState )
         {
-            builder.Append( ClassProvider.BackgroundColor( Background.Primary.Subtle ), ParentTreeView.ActiveDropAsChild );
-            builder.Append( "b-tree-view-node-title-drop-before", !ParentTreeView.ActiveDropAsChild );
+            builder.Append( ClassProvider.BackgroundColor( Background.Primary.Subtle ), ParentTreeView.DragDropHelper.ActiveDropAsChild );
+            builder.Append( "b-tree-view-node-title-drop-before", !ParentTreeView.DragDropHelper.ActiveDropAsChild );
         }
 
         string nodeTitleClass = ParentTreeView?.Classes?.NodeTitle;
@@ -238,6 +236,17 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
         base.DirtyStyles();
     }
 
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing && dragDropInitialized )
+        {
+            await ParentTreeView.DragDropHelper.Detach( ElementRef, ElementId );
+            dragDropInitialized = false;
+        }
+
+        await base.DisposeAsync( disposing );
+    }
+
     #endregion
 
     #region Properties
@@ -249,11 +258,6 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
     protected bool Checked
         => SelectionMode == TreeViewSelectionMode.Multiple && ParentTreeViewState.SelectedNodes != null && ParentTreeViewState.SelectedNodes.Contains( NodeState.Node );
-
-    protected bool IsActiveDropTarget
-        => NodeState is not null
-            && ParentTreeView?.ActiveDropNode is not null
-            && Equals( ParentTreeView.ActiveDropNode.Node, NodeState.Node );
 
     [Parameter] public TreeViewNodeState<TNode> NodeState { get; set; }
 
@@ -306,39 +310,6 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     /// Specifies the content to be rendered inside this <see cref="_TreeViewNodeContent{TNode}"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
-
-    [Parameter] public bool Draggable { get; set; }
-
-    [Parameter] public bool DragStartPreventDefault { get; set; }
-
-    [Parameter] public bool DragOverPreventDefault { get; set; }
-
-    [Parameter] public bool DropPreventDefault { get; set; }
-
-    [Parameter] public EventCallback<DragEventArgs> OnDragStart { get; set; }
-
-    [Parameter] public EventCallback<DragEventArgs> OnDragOver { get; set; }
-
-    [Parameter] public EventCallback<DragEventArgs> OnDrop { get; set; }
-
-    [Parameter] public EventCallback<DragEventArgs> OnDragEnd { get; set; }
-
-    [Inject] protected IJSDragDropModule JSDragDropModule { get; set; }
-
-    #endregion
-
-    #region Dispose
-
-    protected override async ValueTask DisposeAsync( bool disposing )
-    {
-        if ( disposing && dragDropInitialized )
-        {
-            await JSDragDropModule.Destroy( ElementRef, ElementId );
-            dragDropInitialized = false;
-        }
-
-        await base.DisposeAsync( disposing );
-    }
 
     #endregion
 }

@@ -528,7 +528,7 @@ public class TreeViewComponentTest : TestContext
     }
 
     [Fact]
-    public async Task DragDrop_Should_Reorder_SubNode_To_Root_Level_When_Dropped_On_Root_Node()
+    public async Task DragDrop_Should_Drop_SubNode_As_Child_When_Dropped_On_Root_Node()
     {
         var dragged = new Item() { Text = "Dragged" };
         var sourceParent = new Item()
@@ -561,9 +561,9 @@ public class TreeViewComponentTest : TestContext
         droppedArgs.Should().NotBeNull();
         droppedArgs.DraggedNode.Should().BeSameAs( dragged );
         droppedArgs.OldParentNode.Should().BeSameAs( sourceParent );
-        droppedArgs.NewParentNode.Should().BeNull();
+        droppedArgs.NewParentNode.Should().BeSameAs( rootTarget );
         droppedArgs.OldIndex.Should().Be( 0 );
-        droppedArgs.NewIndex.Should().Be( 1 );
+        droppedArgs.NewIndex.Should().Be( 0 );
     }
 
     [Fact]
@@ -604,7 +604,7 @@ public class TreeViewComponentTest : TestContext
 
         await nodeContents[2].DragStartAsync( new DragEventArgs() );
         nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
-        await nodeContents[4].DropAsync( new DragEventArgs() { OffsetY = 12 } );
+        await nodeContents[4].DropAsync( new DragEventArgs() { OffsetY = 1 } );
 
         cut.WaitForAssertion( () =>
         {

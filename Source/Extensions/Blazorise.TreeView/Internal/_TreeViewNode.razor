@@ -25,7 +25,8 @@
 @code {
     protected RenderFragment<TreeViewNodeState<TNode>> nodeFragment => nodeState => __builder =>
     {
-        <div @key="@nodeState.Key" class="@NodeClassNames( nodeState )" style="@NodeStyleNames( nodeState )" @oncontextmenu="@((eventArgs)=>OnContextMenuHandler(nodeState, eventArgs))" @oncontextmenu:stopPropagation @oncontextmenu:preventDefault="@ContextMenuPreventDefault">
+        <div @key="@nodeState.Key" class="@NodeClassNames( nodeState )" style="@NodeStyleNames( nodeState )" @oncontextmenu="@((e) => OnContextMenuHandler(nodeState, e))" @oncontextmenu:stopPropagation @oncontextmenu:preventDefault="@ContextMenuPreventDefault">
+
             @if ( nodeState.HasChildren )
             {
                 <span class="@NodeIconClassNames" style="@NodeIconStyleNames" @onclick="@(()=>ToggleNode(nodeState))">
@@ -44,14 +45,7 @@
                                   NodeStyling="@NodeStyling"
                                   SelectionMode="@SelectionMode"
                                   SelectedNodeStyling="@SelectedNodeStyling"
-                                  DisabledNodeStyling="@DisabledNodeStyling"
-                                  Draggable="@IsNodeDraggable( nodeState )"
-                                  DragOverPreventDefault="@( IsDropAllowed( nodeState, true ) || IsDropAllowed( nodeState, false ) )"
-                                  DropPreventDefault="@( IsDropAllowed( nodeState, true ) || IsDropAllowed( nodeState, false ) )"
-                                  OnDragStart="@((eventArgs) => OnDragStartHandler( nodeState, eventArgs ))"
-                                  OnDragOver="@((eventArgs) => OnDragOverHandler( nodeState, eventArgs ))"
-                                  OnDrop="@((eventArgs) => OnDropHandler( nodeState, eventArgs ))"
-                                  OnDragEnd="@((eventArgs) => OnDragEndHandler( nodeState, eventArgs ))">
+                                  DisabledNodeStyling="@DisabledNodeStyling">
                 @NodeContent( nodeState.Node )
             </_TreeViewNodeContent>
 
@@ -79,11 +73,6 @@
                                SelectionMode="@SelectionMode"
                                ContextMenu="@ContextMenu"
                                ContextMenuPreventDefault="@ContextMenuPreventDefault"
-                               Draggable="@Draggable"
-                               Reorderable="@Reorderable"
-                               CanDragNode="@CanDragNode"
-                               CanDropNode="@CanDropNode"
-                               NodeDropped="@NodeDropped"
                                Virtualize="@Virtualize" />
             }
         </div>

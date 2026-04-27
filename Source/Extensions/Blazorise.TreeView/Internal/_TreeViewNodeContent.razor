@@ -8,14 +8,14 @@
         </div>
     }
     <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@NodeContentStyleNames" @onclick="@OnClick"
-          draggable="@(Draggable ? "true" : null)"
-          @ondragstart="@OnDragStart"
-          @ondragstart:preventDefault="@DragStartPreventDefault"
-          @ondragover="@OnDragOver"
-          @ondragover:preventDefault="@DragOverPreventDefault"
-          @ondrop="@OnDrop"
-          @ondrop:preventDefault="@DropPreventDefault"
-          @ondragend="@OnDragEnd">
+          draggable="@(ParentTreeView.Draggable ? "true" : null)"
+          @ondragstart="@((e) => ParentTreeView.DragDropHelper.OnDragStart( NodeState, e))"
+          @ondragstart:preventDefault="@ParentTreeView.DragDropHelper.IsNodeDraggable( NodeState )"
+          @ondragover="@((e) => ParentTreeView.DragDropHelper.OnDragOver( NodeState, e ))"
+          @ondragover:preventDefault="@ParentTreeView.DragDropHelper.IsDropAllowed( NodeState )"
+          @ondrop="@((e) => ParentTreeView.DragDropHelper.OnDrop(NodeState, e))"
+          @ondrop:preventDefault="@ParentTreeView.DragDropHelper.IsDropAllowed(NodeState)"
+          @ondragend="@((e) => ParentTreeView.DragDropHelper.OnDragEnd(NodeState, e))">
         @ChildContent
     </span>
 </div>

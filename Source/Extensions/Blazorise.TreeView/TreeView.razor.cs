@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Licensing;
+using Blazorise.Modules;
 using Blazorise.TreeView.EventArguments;
 using Blazorise.TreeView.Extensions;
 using Blazorise.TreeView.Internal;
@@ -91,7 +92,12 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
         }
     }
 
-    private void OnCollectionChanged( object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e )
+    /// <summary>
+    /// Handles root node collection changes.
+    /// </summary>
+    /// <param name="sender">The observable collection that raised the event.</param>
+    /// <param name="e">Supplies information about the collection change.</param>
+    private void OnCollectionChanged( object sender, NotifyCollectionChangedEventArgs e )
     {
         if ( e.Action == NotifyCollectionChangedAction.Add )
         {
@@ -205,9 +211,18 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
         await InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Adds a root node state to the end of the root node state collection.
+    /// </summary>
+    /// <param name="treeViewNodeState">The node state to add.</param>
     private void AddTreeViewNodeState( TreeViewNodeState<TNode> treeViewNodeState )
         => InsertTreeViewNodeState( treeViewNodeState, treeViewNodeStates.Count );
 
+    /// <summary>
+    /// Inserts a root node state at the requested index while respecting license row limits.
+    /// </summary>
+    /// <param name="treeViewNodeState">The node state to insert.</param>
+    /// <param name="index">The requested insertion index.</param>
     private void InsertTreeViewNodeState( TreeViewNodeState<TNode> treeViewNodeState, int index )
     {
         var maxRowsLimit = BlazoriseLicenseLimitsHelper.GetTreeViewRowsLimit( LicenseChecker );
@@ -359,6 +374,11 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     #region Properties
 
     /// <summary>
+    /// Helper class for handling drag and drop events
+    /// </summary>
+    internal TreeViewDragDropHelper<TNode> DragDropHelper { get => field ??= new( this, () => InvokeAsync( StateHasChanged ) ); }
+
+    /// <summary>
     /// Indicates if the node has child elements.
     /// </summary>
     protected Func<TNode, bool> DetermineHasChildNodes => HasChildNodes ?? ( node => false );
@@ -369,9 +389,19 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     protected Func<TNode, bool> DetermineIsDisabled => IsDisabled ?? ( node => false );
 
     /// <summary>
+    /// Gets the root node states rendered by the TreeView.
+    /// </summary>
+    internal IList<TreeViewNodeState<TNode>> RootNodeStates => treeViewNodeStates;
+
+    /// <summary>
     /// Gets or sets the license checker for the user session.
     /// </summary>
     [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
+
+    /// <summary>
+    /// Gets or sets the JS drag and drop module.
+    /// </summary>
+    [Inject] internal IJSDragDropModule JSDragDropModule { get; set; }
 
     /// <summary>
     /// Defines the name of the treenode expand icon.
@@ -416,8 +446,7 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     /// <summary>
     /// Currently selected TreeView item/node.
     /// </summary>
-    [Parameter]
-    public TNode SelectedNode { get; set; }
+    [Parameter] public TNode SelectedNode { get; set; }
 
     /// <summary>
     /// Occurs when the selected TreeView node has changed.
@@ -427,8 +456,7 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     /// <summary>
     /// Currently selected TreeView items/nodes.
     /// </summary>
-    [Parameter]
-    public IList<TNode> SelectedNodes { get; set; }
+    [Parameter] public IList<TNode> SelectedNodes { get; set; }
 
     /// <summary>
     /// Occurs when the selected TreeView nodes has changed.
@@ -551,28 +579,6 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     /// Fired when a dragged node is dropped on a target node.
     /// </summary>
     [Parameter] public EventCallback<TreeViewNodeDragEventArgs<TNode>> NodeDropped { get; set; }
-
-    /// <summary>
-    /// The node that is currently being dragged.
-    /// </summary>
-    internal TreeViewNodeState<TNode> DraggedNode { get; set; }
-
-    internal TreeViewNodeState<TNode> ActiveDropNode { get; private set; }
-
-    internal bool ActiveDropAsChild { get; private set; }
-
-    internal IList<TreeViewNodeState<TNode>> RootNodeStates => treeViewNodeStates;
-
-    internal Task SetActiveDropNode( TreeViewNodeState<TNode> nodeState, bool asChild )
-    {
-        if ( ReferenceEquals( ActiveDropNode, nodeState ) && ActiveDropAsChild == asChild )
-            return Task.CompletedTask;
-
-        ActiveDropNode = nodeState;
-        ActiveDropAsChild = asChild;
-
-        return InvokeAsync( StateHasChanged );
-    }
 
     #endregion
 }

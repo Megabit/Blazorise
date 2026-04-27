@@ -173,7 +173,11 @@ public partial class TreeViewPage : ComponentBase
     private bool CanDragNode( NodeInfo node )
         => !node.Disabled;
 
-    // Allow same-parent drops so a node can be reordered to the end of its current siblings.
     private bool CanDropNode( TreeView.EventArguments.TreeViewNodeDragEventArgs<NodeInfo> args )
-        => args.NewParentNode?.Disabled is true ? false : true;
+    {
+        var canDrop = args.NewParentNode?.Disabled is true ? false : true;
+
+        Console.WriteLine( $@"CanDropNode [{( canDrop ? "Y" : "N" )}] {args.DraggedNode.Text} => {args.NewParentNode?.Text}" );
+        return canDrop;
+    }
 }
