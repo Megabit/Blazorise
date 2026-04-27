@@ -9,6 +9,9 @@
             <CardBody>
                 <PivotGrid TItem="PivotModel"
                            Items="@contracts"
+                           ShowPager
+                           ShowPageSizes
+                           PageSize="5"
                            Striped
                            Hoverable>
                     <PivotGridColumns>

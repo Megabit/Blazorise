@@ -6,6 +6,13 @@
     "No data to display.": "Nu există date de afișat.",
     "Grand Total": "Total general",
     "Total": "Total",
-    "Values": "Valori"
+    "Values": "Valori",
+    "Pagination": "Paginare",
+    "First": "Prima",
+    "Prev": "Anterior",
+    "Next": "Următoarea",
+    "Last": "Ultima",
+    "items per page": "elemente pe pagină",
+    "{0} - {1} of {2} items": "{0} - {1} din {2} elemente"
   }
 }

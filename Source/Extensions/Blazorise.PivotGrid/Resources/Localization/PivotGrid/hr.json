@@ -6,6 +6,13 @@
     "No data to display.": "Nema podataka za prikaz.",
     "Grand Total": "Ukupno",
     "Total": "Zbroj",
-    "Values": "Vrijednosti"
+    "Values": "Vrijednosti",
+    "Pagination": "Straničenje",
+    "First": "Prva",
+    "Prev": "Prethodna",
+    "Next": "Sljedeća",
+    "Last": "Zadnja",
+    "items per page": "stavki po stranici",
+    "{0} - {1} of {2} items": "{0} - {1} od {2} stavki"
   }
 }

@@ -6,6 +6,13 @@
     "No data to display.": "Žádná data k zobrazení.",
     "Grand Total": "Celkový součet",
     "Total": "Součet",
-    "Values": "Hodnoty"
+    "Values": "Hodnoty",
+    "Pagination": "Stránkování",
+    "First": "První",
+    "Prev": "Předchozí",
+    "Next": "Další",
+    "Last": "Poslední",
+    "items per page": "položek na stránku",
+    "{0} - {1} of {2} items": "{0} - {1} z {2} položek"
   }
 }

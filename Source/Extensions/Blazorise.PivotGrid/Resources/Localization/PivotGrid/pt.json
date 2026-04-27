@@ -6,6 +6,13 @@
     "No data to display.": "Não há dados para exibir.",
     "Grand Total": "Total geral",
     "Total": "Total",
-    "Values": "Valores"
+    "Values": "Valores",
+    "Pagination": "Paginação",
+    "First": "Primeira",
+    "Prev": "Anterior",
+    "Next": "Seguinte",
+    "Last": "Última",
+    "items per page": "itens por página",
+    "{0} - {1} of {2} items": "{0} - {1} de {2} itens"
   }
 }

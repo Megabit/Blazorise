@@ -1,0 +1,64 @@
+@typeparam TItem
+
+@if ( PivotGrid.IsPagerVisible )
+{
+    <Row Margin="MarginIs2FromTop">
+        <Column ColumnSize="ColumnSizeIsAuto">
+            <Pagination @key="PaginationStateKey" Size="@PivotGrid.PaginationSize" AriaLabel="@PivotGrid.LocalizedPaginationText">
+                <PaginationItem Disabled="@( CurrentPage <= 1 )">
+                    <PaginationLink Page="first" Clicked="@SelectPage">
+                        @PivotGrid.LocalizedFirstText
+                    </PaginationLink>
+                </PaginationItem>
+                <PaginationItem Disabled="@( CurrentPage <= 1 )">
+                    <PaginationLink Page="prev" Clicked="@SelectPage">
+                        @PivotGrid.LocalizedPreviousText
+                    </PaginationLink>
+                </PaginationItem>
+
+                @foreach ( var pageNumber in PivotGrid.VisiblePageNumbers )
+                {
+                    var pageNumberString = pageNumber.ToString();
+                    var pageActive = pageNumber == CurrentPage;
+
+                    <PaginationItem Active="@pageActive" Disabled="@pageActive">
+                        <PaginationLink Page="@pageNumberString" Clicked="@SelectPage">
+                            @pageNumberString
+                        </PaginationLink>
+                    </PaginationItem>
+                }
+
+                <PaginationItem Disabled="@( CurrentPage >= LastPage )">
+                    <PaginationLink Page="next" Clicked="@SelectPage">
+                        @PivotGrid.LocalizedNextText
+                    </PaginationLink>
+                </PaginationItem>
+                <PaginationItem Disabled="@( CurrentPage >= LastPage )">
+                    <PaginationLink Page="last" Clicked="@SelectPage">
+                        @PivotGrid.LocalizedLastText
+                    </PaginationLink>
+                </PaginationItem>
+
+                @if ( PivotGrid.ShowPageSizes )
+                {
+                    <PaginationItem Margin="MarginIs0FromBottomIs3FromStart">
+                        <Select TValue="int" Size="@PivotGrid.PaginationSize" Value="@PageSize" ValueChanged="@SetPageSize">
+                            @foreach ( var pageSize in PivotGrid.EffectivePageSizes )
+                            {
+                                <SelectItem TValue="int" Value="@pageSize">@pageSize</SelectItem>
+                            }
+                        </Select>
+                    </PaginationItem>
+                }
+            </Pagination>
+        </Column>
+
+        <Column ColumnSize="ColumnSizeIsAuto" Margin="MarginIsAutoFromStart" Flex="FlexRowAlignItemsCenter">
+            <Text>@PivotGrid.LocalizedItemsRangeText</Text>
+            @if ( PivotGrid.ShowPageSizes )
+            {
+                <Span Margin="MarginIs2FromStart">@PivotGrid.LocalizedItemsPerPageText</Span>
+            }
+        </Column>
+    </Row>
+}

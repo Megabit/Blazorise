@@ -7,8 +7,14 @@ internal static class FluentConstants
 {
     internal static readonly IFluentBorder BorderIs1 = Border.Is1;
     internal static readonly IFluentBorder BorderIs1OnBottom = Border.Is1.OnBottom;
+    internal static readonly IFluentColumn ColumnSizeIsAuto = ColumnSize.IsAuto;
     internal static readonly IFluentFlex FlexColumn = Flex.Column;
+    internal static readonly IFluentFlex FlexRowAlignItemsCenter = Flex.AlignItems.Center;
     internal static readonly IFluentGap GapIs1 = Gap.Is1;
+    internal static readonly IFluentSpacing MarginIs0FromBottomIs3FromStart = Margin.Is0.FromBottom.Is3.FromStart;
+    internal static readonly IFluentSpacing MarginIs2FromStart = Margin.Is2.FromStart;
+    internal static readonly IFluentSpacing MarginIs2FromTop = Margin.Is2.FromTop;
+    internal static readonly IFluentSpacing MarginIsAutoFromStart = Margin.IsAuto.FromStart;
     internal static readonly IFluentOverflow OverflowAuto = Overflow.Auto;
     internal static readonly IFluentSpacing PaddingIs2 = Padding.Is2;
     internal static readonly IFluentSpacing PaddingIs2OnX = Padding.Is2.OnX;

@@ -123,6 +123,47 @@ public partial class PivotGrid<TItem> : BaseComponent
             cell.Items ) );
     }
 
+    internal async Task SelectPage( string page )
+    {
+        var newPage = page switch
+        {
+            "first" => 1,
+            "prev" => CurrentPage - 1,
+            "next" => CurrentPage + 1,
+            "last" => LastPage,
+            _ => int.TryParse( page, out var pageNumber ) ? pageNumber : CurrentPage,
+        };
+
+        await SetPage( newPage );
+    }
+
+    internal async Task SetPage( int page )
+    {
+        var newPage = Math.Clamp( page, 1, LastPage );
+
+        if ( Page == newPage )
+            return;
+
+        Page = newPage;
+
+        await PageChanged.InvokeAsync( newPage );
+        await InvokeAsync( StateHasChanged );
+    }
+
+    internal async Task SetPageSize( int pageSize )
+    {
+        var newPageSize = Math.Max( 1, pageSize );
+
+        if ( PageSize != newPageSize )
+        {
+            PageSize = newPageSize;
+            await PageSizeChanged.InvokeAsync( newPageSize );
+        }
+
+        await SetPage( 1 );
+        await InvokeAsync( StateHasChanged );
+    }
+
     private void RebuildPivot()
     {
         var rowFields = fields.Where( x => x.Visible && x.FieldArea == PivotGridFieldArea.Row ).ToList();
@@ -262,6 +303,102 @@ public partial class PivotGrid<TItem> : BaseComponent
     internal string LocalizedValuesText
         => Localizer.Localize( Localizers?.ValuesLocalizer, LocalizationConstants.Values );
 
+    internal string LocalizedPaginationText
+        => Localizer.Localize( Localizers?.PaginationLocalizer, LocalizationConstants.Pagination );
+
+    internal string LocalizedFirstText
+        => Localizer.Localize( Localizers?.FirstPageButtonLocalizer, LocalizationConstants.First );
+
+    internal string LocalizedPreviousText
+        => Localizer.Localize( Localizers?.PreviousPageButtonLocalizer, LocalizationConstants.Previous );
+
+    internal string LocalizedNextText
+        => Localizer.Localize( Localizers?.NextPageButtonLocalizer, LocalizationConstants.Next );
+
+    internal string LocalizedLastText
+        => Localizer.Localize( Localizers?.LastPageButtonLocalizer, LocalizationConstants.Last );
+
+    internal string LocalizedItemsPerPageText
+        => Localizer.Localize( Localizers?.ItemsPerPageLocalizer, LocalizationConstants.ItemsPerPage );
+
+    internal string LocalizedItemsRangeText
+    {
+        get
+        {
+            if ( TotalRows == 0 )
+                return Localizer.Localize( Localizers?.NumbersOfItemsLocalizer, LocalizationConstants.NumbersOfItems, 0, 0, 0 );
+
+            var firstItem = ( CurrentPage - 1 ) * EffectivePageSize + 1;
+            var lastItem = Math.Min( CurrentPage * EffectivePageSize, TotalRows );
+
+            return Localizer.Localize( Localizers?.NumbersOfItemsLocalizer, LocalizationConstants.NumbersOfItems, firstItem, lastItem, TotalRows );
+        }
+    }
+
+    internal PivotGridResult<TItem> VisiblePivotResult
+    {
+        get
+        {
+            if ( !ShowPager || pivotResult is null || !pivotResult.HasValues )
+                return pivotResult;
+
+            var rows = pivotResult.Rows
+                .Skip( ( CurrentPage - 1 ) * EffectivePageSize )
+                .Take( EffectivePageSize )
+                .ToList();
+
+            return new( pivotResult.RowFields, pivotResult.ColumnFields, pivotResult.Aggregates, pivotResult.DataColumns, rows );
+        }
+    }
+
+    internal bool IsPagerVisible
+        => ShowPager && pivotResult is not null && pivotResult.HasValues && pivotResult.Rows.Count > 0;
+
+    internal int TotalRows
+        => pivotResult?.Rows.Count ?? 0;
+
+    internal int EffectivePageSize
+        => Math.Max( 1, PageSize );
+
+    internal int CurrentPage
+        => Math.Clamp( Page <= 0 ? 1 : Page, 1, LastPage );
+
+    internal int LastPage
+        => Math.Max( 1, (int)Math.Ceiling( TotalRows / (double)EffectivePageSize ) );
+
+    internal Size PaginationSize
+        => PagerSize ?? Size.Default;
+
+    internal IReadOnlyList<int> EffectivePageSizes
+    {
+        get
+        {
+            var pageSizes = ( PageSizes ?? Array.Empty<int>() )
+                .Append( EffectivePageSize )
+                .Where( x => x > 0 )
+                .Distinct()
+                .OrderBy( x => x )
+                .ToList();
+
+            return pageSizes.Count == 0 ? [EffectivePageSize] : pageSizes;
+        }
+    }
+
+    internal IReadOnlyList<int> VisiblePageNumbers
+    {
+        get
+        {
+            var maxPaginationLinks = Math.Max( 1, MaxPaginationLinks );
+            var half = maxPaginationLinks / 2;
+            var firstPage = Math.Max( 1, CurrentPage - half );
+            var lastPage = Math.Min( LastPage, firstPage + maxPaginationLinks - 1 );
+
+            firstPage = Math.Max( 1, lastPage - maxPaginationLinks + 1 );
+
+            return Enumerable.Range( firstPage, lastPage - firstPage + 1 ).ToList();
+        }
+    }
+
     #endregion
 
     #region Properties
@@ -345,6 +482,51 @@ public partial class PivotGrid<TItem> : BaseComponent
     /// Defines whether header uses theme contrast.
     /// </summary>
     [Parameter] public ThemeContrast HeaderThemeContrast { get; set; } = ThemeContrast.Light;
+
+    /// <summary>
+    /// Shows pager controls for rendered pivot rows.
+    /// </summary>
+    [Parameter] public bool ShowPager { get; set; }
+
+    /// <summary>
+    /// Shows page size selector in the pager.
+    /// </summary>
+    [Parameter] public bool ShowPageSizes { get; set; }
+
+    /// <summary>
+    /// Currently selected page.
+    /// </summary>
+    [Parameter] public int Page { get; set; } = 1;
+
+    /// <summary>
+    /// Occurs after the page has changed.
+    /// </summary>
+    [Parameter] public EventCallback<int> PageChanged { get; set; }
+
+    /// <summary>
+    /// Number of rendered pivot rows per page.
+    /// </summary>
+    [Parameter] public int PageSize { get; set; } = 10;
+
+    /// <summary>
+    /// Occurs after the page size has changed.
+    /// </summary>
+    [Parameter] public EventCallback<int> PageSizeChanged { get; set; }
+
+    /// <summary>
+    /// Available page size options.
+    /// </summary>
+    [Parameter] public IEnumerable<int> PageSizes { get; set; } = [5, 10, 25, 50, 100];
+
+    /// <summary>
+    /// Maximum number of page links visible at once.
+    /// </summary>
+    [Parameter] public int MaxPaginationLinks { get; set; } = 5;
+
+    /// <summary>
+    /// Pager control size.
+    /// </summary>
+    [Parameter] public Size? PagerSize { get; set; }
 
     /// <summary>
     /// Custom content shown when the pivot result is empty.

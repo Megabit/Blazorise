@@ -6,6 +6,13 @@
     "No data to display.": "Görüntülenecek veri yok.",
     "Grand Total": "Genel Toplam",
     "Total": "Toplam",
-    "Values": "Değerler"
+    "Values": "Değerler",
+    "Pagination": "Sayfalama",
+    "First": "İlk",
+    "Prev": "Önceki",
+    "Next": "Sonraki",
+    "Last": "Son",
+    "items per page": "sayfa başına öğe",
+    "{0} - {1} of {2} items": "{0} - {1} / {2} öğe"
   }
 }

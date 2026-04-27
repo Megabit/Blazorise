@@ -6,6 +6,13 @@
     "No data to display.": "Ingen data at vise.",
     "Grand Total": "Hovedtotal",
     "Total": "Total",
-    "Values": "Værdier"
+    "Values": "Værdier",
+    "Pagination": "Sideinddeling",
+    "First": "Første",
+    "Prev": "Forrige",
+    "Next": "Næste",
+    "Last": "Sidste",
+    "items per page": "elementer pr. side",
+    "{0} - {1} of {2} items": "{0} - {1} af {2} elementer"
   }
 }

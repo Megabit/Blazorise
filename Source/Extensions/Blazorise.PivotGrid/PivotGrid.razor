@@ -12,12 +12,18 @@
          role="table"
          @attributes="@Attributes">
         <_PivotGridTable TItem="TItem"
-                         Result="@pivotResult"
+                         Result="@VisiblePivotResult"
                          Bordered="@Bordered"
                          Striped="@Striped"
                          Hoverable="@Hoverable"
                          Narrow="@Narrow"
                          Responsive="@Responsive"
                          HeaderThemeContrast="@HeaderThemeContrast" />
+
+        <_PivotGridPagination TItem="TItem"
+                              CurrentPage="@CurrentPage"
+                              LastPage="@LastPage"
+                              PageSize="@EffectivePageSize"
+                              TotalRows="@TotalRows" />
     </Div>
 </CascadingValue>

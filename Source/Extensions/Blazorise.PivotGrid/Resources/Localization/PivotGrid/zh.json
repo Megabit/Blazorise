@@ -6,6 +6,13 @@
     "No data to display.": "没有可显示的数据。",
     "Grand Total": "总计",
     "Total": "合计",
-    "Values": "值"
+    "Values": "值",
+    "Pagination": "分页",
+    "First": "第一页",
+    "Prev": "上一页",
+    "Next": "下一页",
+    "Last": "最后一页",
+    "items per page": "每页项数",
+    "{0} - {1} of {2} items": "{0} - {1} / 共 {2} 项"
   }
 }

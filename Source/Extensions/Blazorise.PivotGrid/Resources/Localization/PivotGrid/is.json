@@ -6,6 +6,13 @@
     "No data to display.": "Engin gögn til að birta.",
     "Grand Total": "Heildarsamtala",
     "Total": "Samtals",
-    "Values": "Gildi"
+    "Values": "Gildi",
+    "Pagination": "Síðuskipting",
+    "First": "Fyrsta",
+    "Prev": "Fyrri",
+    "Next": "Næsta",
+    "Last": "Síðasta",
+    "items per page": "atriði á síðu",
+    "{0} - {1} of {2} items": "{0} - {1} af {2} atriðum"
   }
 }
