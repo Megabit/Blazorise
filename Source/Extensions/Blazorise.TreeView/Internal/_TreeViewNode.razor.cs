@@ -488,10 +488,6 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
 
     private void BuildNodeClasses( ClassBuilder builder )
     {
-        builder.Append( "b-tree-view-node-drop-target", nodeContext is not null
-            && ParentTreeView?.DragDropHelper.ActiveDropNode is not null
-            && ParentTreeView.DragDropHelper.ActiveDropNode.Node.IsEqual( nodeContext.Node ) );
-
         string nodeClass = ParentTreeView?.Classes?.Node?.Invoke( nodeContext );
         builder.Append( nodeClass );
     }

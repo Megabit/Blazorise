@@ -8,14 +8,13 @@
         </div>
     }
     <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@NodeContentStyleNames" @onclick="@OnClick"
-          draggable="@(ParentTreeView.Draggable ? "true" : null)"
-          @ondragstart="@((e) => ParentTreeView.DragDropHelper.OnDragStart( NodeState, e))"
-          @ondragstart:preventDefault="@ParentTreeView.DragDropHelper.IsNodeDraggable( NodeState )"
-          @ondragover="@((e) => ParentTreeView.DragDropHelper.OnDragOver( NodeState, e ))"
-          @ondragover:preventDefault="@ParentTreeView.DragDropHelper.IsDropAllowed( NodeState )"
-          @ondrop="@((e) => ParentTreeView.DragDropHelper.OnDrop(NodeState, e))"
-          @ondrop:preventDefault="@ParentTreeView.DragDropHelper.IsDropAllowed(NodeState)"
-          @ondragend="@((e) => ParentTreeView.DragDropHelper.OnDragEnd(NodeState, e))">
+          draggable="@(ParentTreeView.DragDrop.IsNodeDraggable( NodeState ) ? "true" : null)"
+          @ondragstart="@((e) => ParentTreeView.DragDrop.OnDragStart( NodeState, e ))"
+          @ondragover="@((e) => ParentTreeView.DragDrop.OnDragOver( NodeState, e ))"
+          @ondragover:preventDefault="@ParentTreeView.DragDrop.CanDropOnNode( NodeState )"
+          @ondrop="@((e) => ParentTreeView.DragDrop.OnDrop( NodeState, e ))"
+          @ondrop:preventDefault="@ParentTreeView.DragDrop.CanDropOnNode( NodeState )"
+          @ondragend="@((e) => ParentTreeView.DragDrop.OnDragEnd( NodeState, e ))">
         @ChildContent
     </span>
 </div>

@@ -374,9 +374,9 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     #region Properties
 
     /// <summary>
-    /// Helper class for handling drag and drop events
+    /// Behavior class for handling drag and drop events
     /// </summary>
-    internal TreeViewDragDropHelper<TNode> DragDropHelper { get => field ??= new( this, () => InvokeAsync( StateHasChanged ) ); }
+    internal TreeViewDragDropBehavior<TNode> DragDrop { get => field ??= new( this, () => InvokeAsync( StateHasChanged ) ); }
 
     /// <summary>
     /// Indicates if the node has child elements.

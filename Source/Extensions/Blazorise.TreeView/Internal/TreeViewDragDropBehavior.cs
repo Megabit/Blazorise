@@ -7,24 +7,13 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise.TreeView.Internal;
 
-internal sealed class TreeViewDragDropHelper<TNode>( TreeView<TNode> treeView, Func<Task> stateHasChanged )
+internal sealed class TreeViewDragDropBehavior<TNode>( TreeView<TNode> treeView, Func<Task> stateHasChanged )
 {
-    #region Properties
+    #region Members
 
-    /// <summary>
-    /// The node that is currently being dragged.
-    /// </summary>
-    public TreeViewNodeState<TNode> DraggedNode { get; set; }
-
-    /// <summary>
-    /// The node that is currently the target of a drag and drop operation.
-    /// </summary>
-    public TreeViewNodeState<TNode> ActiveDropNode { get; private set; }
-
-    /// <summary>
-    /// Indicates whether the active drop target will insert the dragged node as a child.
-    /// </summary>
-    public bool ActiveDropAsChild { get; private set; }
+    private TreeViewNodeState<TNode> draggedNode;
+    private TreeViewNodeState<TNode> activeDropNode;
+    private bool activeDropAsChild;
 
     #endregion
 
@@ -51,7 +40,7 @@ internal sealed class TreeViewDragDropHelper<TNode>( TreeView<TNode> treeView, F
         if ( treeView.CanDragNode?.Invoke( nodeState.Node ) is not true )
             return Task.CompletedTask;
 
-        DraggedNode = nodeState;
+        draggedNode = nodeState;
         return Task.CompletedTask;
     }
 
@@ -67,10 +56,10 @@ internal sealed class TreeViewDragDropHelper<TNode>( TreeView<TNode> treeView, F
 
     public async Task OnDrop( TreeViewNodeState<TNode> nodeState, DragEventArgs eventArgs )
     {
-        if ( DraggedNode is null || nodeState is null )
+        if ( draggedNode is null || nodeState is null )
             return;
 
-        TreeViewNodeState<TNode> draggedNodeState = DraggedNode;
+        TreeViewNodeState<TNode> draggedNodeState = draggedNode;
         bool dropAsChild = ShouldDropAsChild( eventArgs );
         TreeViewNodeState<TNode> newParentNodeState = GetDropParentNodeState( nodeState, dropAsChild );
         int oldIndex = GetNodeIndex( draggedNodeState );
@@ -91,13 +80,13 @@ internal sealed class TreeViewDragDropHelper<TNode>( TreeView<TNode> treeView, F
             await treeView.NodeDropped.InvokeAsync( dragEventArgs );
 
         await SetActiveDropNode( null, false );
-        DraggedNode = null;
+        draggedNode = null;
     }
 
     public async Task OnDragEnd( TreeViewNodeState<TNode> nodeState, DragEventArgs eventArgs )
     {
         await SetActiveDropNode( null, false );
-        DraggedNode = null;
+        draggedNode = null;
     }
 
     public bool IsNodeDraggable( TreeViewNodeState<TNode> nodeState )
@@ -110,13 +99,13 @@ internal sealed class TreeViewDragDropHelper<TNode>( TreeView<TNode> treeView, F
 
     public bool IsDropAllowed( TreeViewNodeState<TNode> nodeState, bool dropAsChild = true )
     {
-        if ( !treeView.Draggable || DraggedNode is null )
+        if ( !treeView.Draggable || draggedNode is null )
             return false;
 
         if ( !dropAsChild && !treeView.Reorderable )
             return false;
 
-        TreeViewNodeState<TNode> draggedNodeState = DraggedNode;
+        TreeViewNodeState<TNode> draggedNodeState = draggedNode;
         TreeViewNodeState<TNode> newParentNodeState = GetDropParentNodeState( nodeState, dropAsChild );
         int oldIndex = GetNodeIndex( draggedNodeState );
         int newIndex = GetDropIndex( draggedNodeState, nodeState, dropAsChild );
@@ -137,6 +126,9 @@ internal sealed class TreeViewDragDropHelper<TNode>( TreeView<TNode> treeView, F
 
         return treeView.CanDropNode?.Invoke( dragEventArgs ) ?? true;
     }
+
+    public bool CanDropOnNode( TreeViewNodeState<TNode> nodeState )
+        => IsDropAllowed( nodeState, true ) || IsDropAllowed( nodeState, false );
 
     private static TreeViewNodeState<TNode> GetDropParentNodeState( TreeViewNodeState<TNode> targetNodeState, bool dropAsChild )
     {
@@ -220,13 +212,25 @@ internal sealed class TreeViewDragDropHelper<TNode>( TreeView<TNode> treeView, F
 
     internal async Task SetActiveDropNode( TreeViewNodeState<TNode> nodeState, bool asChild )
     {
-        if ( ReferenceEquals( ActiveDropNode, nodeState ) && ActiveDropAsChild == asChild )
+        if ( ReferenceEquals( activeDropNode, nodeState ) && activeDropAsChild == asChild )
             return;
 
-        ActiveDropNode = nodeState;
-        ActiveDropAsChild = asChild;
+        activeDropNode = nodeState;
+        activeDropAsChild = asChild;
 
         await stateHasChanged();
+    }
+
+    public TargetDropState GetDropState( TreeViewNodeState<TNode> target )
+    {
+        if ( !treeView.Draggable || !ReferenceEquals( activeDropNode, target ) )
+        {
+            return TargetDropState.None;
+        }
+
+        return activeDropAsChild
+            ? TargetDropState.DropAsChild
+            : TargetDropState.InsertBefore;
     }
 
     #endregion

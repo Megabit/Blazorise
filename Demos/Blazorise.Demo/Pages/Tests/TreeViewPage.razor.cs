@@ -174,10 +174,5 @@ public partial class TreeViewPage : ComponentBase
         => !node.Disabled;
 
     private bool CanDropNode( TreeView.EventArguments.TreeViewNodeDragEventArgs<NodeInfo> args )
-    {
-        var canDrop = args.NewParentNode?.Disabled is true ? false : true;
-
-        Console.WriteLine( $@"CanDropNode [{( canDrop ? "Y" : "N" )}] {args.DraggedNode.Text} => {args.NewParentNode?.Text}" );
-        return canDrop;
-    }
+        => args.NewParentNode?.Disabled is true ? false : true;
 }

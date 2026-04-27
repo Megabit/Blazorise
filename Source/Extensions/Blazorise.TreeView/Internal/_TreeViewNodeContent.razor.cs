@@ -123,12 +123,12 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
         if ( ParentTreeView.Draggable && !dragDropInitialized )
         {
-            await ParentTreeView.DragDropHelper.Attach( ElementRef, ElementId );
+            await ParentTreeView.DragDrop.Attach( ElementRef, ElementId );
             dragDropInitialized = true;
         }
         else if ( !ParentTreeView.Draggable && dragDropInitialized )
         {
-            await ParentTreeView.DragDropHelper.Detach( ElementRef, ElementId );
+            await ParentTreeView.DragDrop.Detach( ElementRef, ElementId );
             dragDropInitialized = false;
         }
     }
@@ -162,10 +162,16 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     {
         builder.Append( "b-tree-view-node-title" );
 
-        if ( ParentTreeView.Draggable && ParentTreeView.DragDropHelper.ActiveDropNode == NodeState )
+        switch ( ParentTreeView.DragDrop.GetDropState( NodeState ) )
         {
-            builder.Append( ClassProvider.BackgroundColor( Background.Primary.Subtle ), ParentTreeView.DragDropHelper.ActiveDropAsChild );
-            builder.Append( "b-tree-view-node-title-drop-before", !ParentTreeView.DragDropHelper.ActiveDropAsChild );
+            case TargetDropState.InsertBefore:
+                builder.Append( "b-tree-view-node-title-drop-before" );
+                break;
+            case TargetDropState.DropAsChild:
+                builder.Append( ClassProvider.BackgroundColor( Background.Primary.Subtle ) );
+                break;
+            default:
+                break;
         }
 
         string nodeTitleClass = ParentTreeView?.Classes?.NodeTitle;
@@ -240,7 +246,7 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     {
         if ( disposing && dragDropInitialized )
         {
-            await ParentTreeView.DragDropHelper.Detach( ElementRef, ElementId );
+            await ParentTreeView.DragDrop.Detach( ElementRef, ElementId );
             dragDropInitialized = false;
         }
 
