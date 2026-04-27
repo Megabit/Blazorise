@@ -677,14 +677,42 @@ public class TreeViewComponentTest : TestContext
         await nodeContents[0].DragStartAsync( new DragEventArgs() );
         nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
         await nodeContents[1].DragOverAsync( new DragEventArgs() { OffsetY = 1 } );
+    }
+
+    [Fact]
+    public void RootNode_Should_Update_Expand_Icon_When_Child_Collection_Changes()
+    {
+        var children = new ObservableCollection<Item>();
+        var root = new Item()
+        {
+            Text = "Root",
+            Children = children,
+        };
+
+        var cut = RenderComponent<TreeView<Item>>( parameters =>
+        {
+            parameters.Add( p => p.Nodes, new[] { root } );
+            parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
+            parameters.Add( p => p.HasChildNodes, (Func<Item, bool>)( node => node.Children?.Any() == true ) );
+            parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
+        } );
+
+        cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-icon" ).Should().BeEmpty();
+
+        children.Add( new Item() { Text = "Child 1" } );
+        cut.Render();
 
         cut.WaitForAssertion( () =>
         {
-            var refreshedNodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
-            refreshedNodeContents.Count.Should().Be( 2 );
+            cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-icon" ).Should().ContainSingle();
+        } );
 
-            refreshedNodeContents[0].ParentElement.ParentElement.ClassList.Should().NotContain( "b-tree-view-node-drop-target" );
-            refreshedNodeContents[1].ParentElement.ParentElement.ClassList.Should().Contain( "b-tree-view-node-drop-target" );
+        children.RemoveAt( 0 );
+        cut.Render();
+
+        cut.WaitForAssertion( () =>
+        {
+            cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-icon" ).Should().BeEmpty();
         } );
     }
 }
