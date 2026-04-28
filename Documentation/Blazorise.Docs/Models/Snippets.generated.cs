@@ -4888,20 +4888,49 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     </TextInput>
 </Validation>";
 
-        public const string ValidationFeedbackExample = @"<Validation Validator=""@ValidateCheck"">
-    <Check TValue=""bool"">
-        <ChildContent>
-            Check me out
-        </ChildContent>
+        public const string ValidationFeedbackExample = @"<Validation Validator=""@ValidateDisplayName"">
+    <TextInput Placeholder=""Enter display name"">
         <Feedback>
-            <ValidationError>You must check me out!</ValidationError>
+            <ValidationNone>Please enter a display name.</ValidationNone>
+            <ValidationWarning>Short display names are allowed, but longer names are easier to recognize.</ValidationWarning>
+            <ValidationSuccess>Display name looks good.</ValidationSuccess>
+            <ValidationError>Display name is required.</ValidationError>
         </Feedback>
-    </Check>
+    </TextInput>
+</Validation>
+
+<Validation Validator=""@ValidateUserName"">
+    <TextInput Placeholder=""Enter username"">
+        <Feedback>
+            <ValidationFeedback>
+                <None>Please enter a username.</None>
+                <Warning>Short usernames are allowed, but longer usernames are easier to identify.</Warning>
+                <Success>Username looks good.</Success>
+                <Error>Username is required.</Error>
+            </ValidationFeedback>
+        </Feedback>
+    </TextInput>
 </Validation>
 @code{
-    void ValidateCheck( ValidatorEventArgs e )
+    void ValidateDisplayName( ValidatorEventArgs e )
     {
-        // ...
+        ValidateNameLength( e );
+    }
+
+    void ValidateUserName( ValidatorEventArgs e )
+    {
+        ValidateNameLength( e );
+    }
+
+    void ValidateNameLength( ValidatorEventArgs e )
+    {
+        var name = Convert.ToString( e.Value );
+
+        e.Status = string.IsNullOrWhiteSpace( name )
+            ? ValidationStatus.Error
+            : name.Length < 4
+                ? ValidationStatus.Warning
+                : ValidationStatus.Success;
     }
 }";
 

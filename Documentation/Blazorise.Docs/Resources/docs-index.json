@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-04-27T07:52:59.7170270Z",
+  "generatedUtc": "2026-04-28T08:42:32.0541111Z",
   "pages": [
     {
       "route": "/docs",
@@ -3861,8 +3861,9 @@
           "code": "ValidationFeedbackExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Validations/Examples/ValidationFeedbackExample.razor",
-          "content": "<Validation Validator=\"@ValidateCheck\">\r\n    <Check TValue=\"bool\">\r\n        <ChildContent>\r\n            Check me out\r\n        </ChildContent>\r\n        <Feedback>\r\n            <ValidationError>You must check me out!</ValidationError>\r\n        </Feedback>\r\n    </Check>\r\n</Validation>\r\n@code{\r\n    void ValidateCheck( ValidatorEventArgs e )\r\n    {\r\n        // ...\r\n    }\r\n}",
-          "description": "The same structure applies to all Edit components (check, radio, select, etc.). Note that some components have special rules when defining the validation structure. For example, for Check you must use the ChildContent tag along with the Feedback tag. This is a limitation in Blazor and may be addressed in the future."
+          "content": "<Validation Validator=\"@ValidateDisplayName\">\r\n    <TextInput Placeholder=\"Enter display name\">\r\n        <Feedback>\r\n            <ValidationNone>Please enter a display name.</ValidationNone>\r\n            <ValidationWarning>Short display names are allowed, but longer names are easier to recognize.</ValidationWarning>\r\n            <ValidationSuccess>Display name looks good.</ValidationSuccess>\r\n            <ValidationError>Display name is required.</ValidationError>\r\n        </Feedback>\r\n    </TextInput>\r\n</Validation>\r\n\r\n<Validation Validator=\"@ValidateUserName\">\r\n    <TextInput Placeholder=\"Enter username\">\r\n        <Feedback>\r\n            <ValidationFeedback>\r\n                <None>Please enter a username.</None>\r\n                <Warning>Short usernames are allowed, but longer usernames are easier to identify.</Warning>\r\n                <Success>Username looks good.</Success>\r\n                <Error>Username is required.</Error>\r\n            </ValidationFeedback>\r\n        </Feedback>\r\n    </TextInput>\r\n</Validation>\r\n@code{\r\n    void ValidateDisplayName( ValidatorEventArgs e )\r\n    {\r\n        ValidateNameLength( e );\r\n    }\r\n\r\n    void ValidateUserName( ValidatorEventArgs e )\r\n    {\r\n        ValidateNameLength( e );\r\n    }\r\n\r\n    void ValidateNameLength( ValidatorEventArgs e )\r\n    {\r\n        var name = Convert.ToString( e.Value );\r\n\r\n        e.Status = string.IsNullOrWhiteSpace( name )\r\n            ? ValidationStatus.Error\r\n            : name.Length < 4\r\n                ? ValidationStatus.Warning\r\n                : ValidationStatus.Success;\r\n    }\r\n}",
+          "title": "Warning and grouped feedback",
+          "description": "Use ValidationWarning when a value is acceptable but should still show non-blocking guidance. To keep all feedback fragments together, use ValidationFeedback with None , Warning , Success , and Error child fragments. The same feedback structure applies to all Edit components (check, radio, select, etc.). Some components have special rules when defining child content and feedback."
         },
         {
           "code": "DataAnnotationValidationExample",
@@ -3956,7 +3957,23 @@
         },
         {
           "kind": "type",
+          "name": "ValidationNone"
+        },
+        {
+          "kind": "type",
+          "name": "ValidationSuccess"
+        },
+        {
+          "kind": "type",
+          "name": "ValidationWarning"
+        },
+        {
+          "kind": "type",
           "name": "ValidationError"
+        },
+        {
+          "kind": "type",
+          "name": "ValidationFeedback"
         }
       ]
     },
