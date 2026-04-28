@@ -2,14 +2,14 @@
 
 @if ( PivotGrid.ToolbarTemplate is not null )
 {
-    @PivotGrid.ToolbarTemplate
+    @PivotGrid.ToolbarTemplate( Context )
 }
 else
 {
     <Div Flex="FlexRow" Gap="GapIs2" Padding="PaddingIs2">
-        @if ( PivotGrid.ShowFieldChooser )
+        @if ( Context.CanOpenFieldChooser )
         {
-            <Button Color="Color.Primary" Clicked="@OpenFieldChooser">
+            <Button Color="Color.Primary" Clicked="@Context.OpenFieldChooserCommand">
                 @PivotGrid.LocalizedFieldsText
             </Button>
         }

@@ -177,6 +177,15 @@ public partial class PivotGrid<TItem> : BaseComponent
     internal Task OpenFieldChooser()
         => fieldChooserRef?.Show() ?? Task.CompletedTask;
 
+    internal PivotGridToolbarContext<TItem> CreateToolbarContext()
+        => new(
+            this,
+            OpenFieldChooser,
+            () => SetPage( 1 ),
+            () => SetPage( CurrentPage - 1 ),
+            () => SetPage( CurrentPage + 1 ),
+            () => SetPage( LastPage ) );
+
     internal void ApplyFieldChooserState( IReadOnlyList<PivotGridFieldState> rows, IReadOnlyList<PivotGridFieldState> columns, IReadOnlyList<PivotGridFieldState> aggregates, IReadOnlyList<PivotGridFieldState> filters )
     {
         runtimeRows.Clear();
@@ -854,7 +863,7 @@ public partial class PivotGrid<TItem> : BaseComponent
     /// <summary>
     /// Custom toolbar content.
     /// </summary>
-    [Parameter] public RenderFragment ToolbarTemplate { get; set; }
+    [Parameter] public RenderFragment<PivotGridToolbarContext<TItem>> ToolbarTemplate { get; set; }
 
     /// <summary>
     /// Custom content for row field header cells.

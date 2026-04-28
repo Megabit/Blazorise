@@ -1,5 +1,4 @@
 #region Using directives
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -11,8 +10,8 @@ namespace Blazorise.PivotGrid.Components;
 /// <typeparam name="TItem">Item type.</typeparam>
 public partial class _PivotGridToolbar<TItem>
 {
-    private Task OpenFieldChooser()
-        => PivotGrid.OpenFieldChooser();
+    private PivotGridToolbarContext<TItem> Context
+        => PivotGrid.CreateToolbarContext();
 
     /// <summary>
     /// Parent PivotGrid component.
