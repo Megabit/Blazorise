@@ -6,6 +6,11 @@ namespace Blazorise.PivotGrid;
 public enum PivotGridFieldArea
 {
     /// <summary>
+    /// Field is available for runtime layout customization.
+    /// </summary>
+    Available,
+
+    /// <summary>
     /// Field is used as a row dimension.
     /// </summary>
     Row,
@@ -18,5 +23,10 @@ public enum PivotGridFieldArea
     /// <summary>
     /// Field is used as an aggregate value.
     /// </summary>
-    Aggregate
+    Aggregate,
+
+    /// <summary>
+    /// Field is used as a filter.
+    /// </summary>
+    Filter
 }

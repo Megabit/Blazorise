@@ -11,9 +11,17 @@
                            Data="@contracts"
                            ShowPager
                            ShowPageSizes
+                           ShowFieldChooser
                            PageSize="5"
                            Striped
                            Hoverable>
+                    <PivotGridFields>
+                        <PivotGridField Field="@nameof( PivotModel.City )" Caption="City" />
+                        <PivotGridField Field="@nameof( PivotModel.Category )" Caption="Category" />
+                        <PivotGridField Field="@nameof( PivotModel.Product )" Caption="Product" />
+                        <PivotGridField Field="@nameof( PivotModel.ContractValue )" Caption="Contract value" />
+                        <PivotGridField Field="@nameof( PivotModel.Units )" Caption="Units" />
+                    </PivotGridFields>
                     <PivotGridColumns>
                         <PivotGridColumn Field="@nameof( PivotModel.City )" Caption="City" />
                     </PivotGridColumns>

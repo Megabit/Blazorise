@@ -1,0 +1,17 @@
+@typeparam TItem
+
+@if ( PivotGrid.ToolbarTemplate is not null )
+{
+    @PivotGrid.ToolbarTemplate
+}
+else
+{
+    <Div Flex="FlexRow" Gap="GapIs2" Padding="PaddingIs2">
+        @if ( PivotGrid.ShowFieldChooser )
+        {
+            <Button Color="Color.Primary" Clicked="@OpenFieldChooser">
+                @PivotGrid.LocalizedFieldsText
+            </Button>
+        }
+    </Div>
+}

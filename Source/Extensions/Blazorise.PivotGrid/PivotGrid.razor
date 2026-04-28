@@ -11,6 +11,11 @@
          Border="@Border"
          role="table"
          @attributes="@Attributes">
+        @if ( IsToolbarVisible )
+        {
+            <_PivotGridToolbar TItem="TItem" />
+        }
+
         <_PivotGridTable TItem="TItem"
                          Result="@VisiblePivotResult"
                          Bordered="@Bordered"
@@ -25,5 +30,7 @@
                               LastPage="@LastPage"
                               PageSize="@EffectivePageSize"
                               TotalRows="@TotalRows" />
+
+        <_PivotGridFieldChooser TItem="TItem" @ref="@fieldChooserRef" />
     </Div>
 </CascadingValue>

@@ -1,0 +1,105 @@
+@typeparam TItem
+
+<Modal @ref="@modalRef" Centered Size="ModalSize.ExtraLarge">
+    <ModalContent>
+        <ModalHeader>
+            <Div>
+                <ModalTitle>@PivotGrid.LocalizedFieldsText</ModalTitle>
+                <Div TextColor="TextColorMuted" TextSize="TextSizeSmall" Margin="MarginIs2FromTop">@PivotGrid.LocalizedDragFieldsText</Div>
+            </Div>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <DropContainer TItem="PivotGridFieldChooserItem"
+                           @ref="@dropContainerRef"
+                           Items="@chooserItems"
+                           ItemsFilter="@FieldChooserItemFilter"
+                           DropAllowed="@CanDrop"
+                           ItemDropped="@OnItemDropped"
+                           ApplyDropClassesOnDragStarted>
+                <ChildContent>
+                    <Grid Columns="GridColumnsAre3" Gap="GapIs2" Height="HeightVh60">
+                        <Column ColumnSize="ColumnSizeIs1" Flex="FlexColumn" Height="HeightIs100">
+                            <DropZone TItem="PivotGridFieldChooserItem" Name="@AvailableZoneName" Padding="PaddingIs2" Border="BorderIs1" Height="HeightIs100" Overflow="OverflowAuto">
+                                <Div TextColor="TextColorMuted" Padding="PaddingIs2OnX">@PivotGrid.LocalizedAvailableFieldsText</Div>
+                            </DropZone>
+                        </Column>
+                        <Column ColumnSize="ColumnSizeIs2" Flex="FlexColumn" Height="HeightIs100">
+                            <Grid Columns="GridColumnsAre2" Rows="GridRowsAre2" Gap="GapIs2" Height="HeightIs100">
+                                <Div Flex="FlexColumn" Height="HeightIs100">
+                                    <DropZone TItem="PivotGridFieldChooserItem" Name="@FiltersZoneName" AllowReorder Padding="PaddingIs2" Border="BorderIs1" Height="HeightIs100" Overflow="OverflowAuto">
+                                        <Div TextColor="TextColorMuted" Padding="PaddingIs2OnX">@PivotGrid.LocalizedFiltersText</Div>
+                                        @if ( !HasItems( PivotGridFieldArea.Filter ) )
+                                        {
+                                            <Div TextColor="TextColorMuted" TextAlignment="TextAlignment.Center" Padding="PaddingIs3">@PivotGrid.LocalizedDropFieldText</Div>
+                                        }
+                                    </DropZone>
+                                </Div>
+                                <Div Flex="FlexColumn" Height="HeightIs100">
+                                    <DropZone TItem="PivotGridFieldChooserItem" Name="@ColumnsZoneName" AllowReorder Padding="PaddingIs2" Border="BorderIs1" Height="HeightIs100" Overflow="OverflowAuto">
+                                        <Div TextColor="TextColorMuted" Padding="PaddingIs2OnX">@PivotGrid.LocalizedColumnsText</Div>
+                                        @if ( !HasItems( PivotGridFieldArea.Column ) )
+                                        {
+                                            <Div TextColor="TextColorMuted" TextAlignment="TextAlignment.Center" Padding="PaddingIs3">@PivotGrid.LocalizedDropFieldText</Div>
+                                        }
+                                    </DropZone>
+                                </Div>
+                                <Div Flex="FlexColumn" Height="HeightIs100">
+                                    <DropZone TItem="PivotGridFieldChooserItem" Name="@RowsZoneName" AllowReorder Padding="PaddingIs2" Border="BorderIs1" Height="HeightIs100" Overflow="OverflowAuto">
+                                        <Div TextColor="TextColorMuted" Padding="PaddingIs2OnX">@PivotGrid.LocalizedRowsText</Div>
+                                        @if ( !HasItems( PivotGridFieldArea.Row ) )
+                                        {
+                                            <Div TextColor="TextColorMuted" TextAlignment="TextAlignment.Center" Padding="PaddingIs3">@PivotGrid.LocalizedDropFieldText</Div>
+                                        }
+                                    </DropZone>
+                                </Div>
+                                <Div Flex="FlexColumn" Height="HeightIs100">
+                                    <DropZone TItem="PivotGridFieldChooserItem" Name="@AggregatesZoneName" AllowReorder Padding="PaddingIs2" Border="BorderIs1" Height="HeightIs100" Overflow="OverflowAuto">
+                                        <Div TextColor="TextColorMuted" Padding="PaddingIs2OnX">@PivotGrid.LocalizedValuesText</Div>
+                                        @if ( !HasItems( PivotGridFieldArea.Aggregate ) )
+                                        {
+                                            <Div TextColor="TextColorMuted" TextAlignment="TextAlignment.Center" Padding="PaddingIs3">@PivotGrid.LocalizedDropFieldText</Div>
+                                        }
+                                    </DropZone>
+                                </Div>
+                            </Grid>
+                        </Column>
+                    </Grid>
+                </ChildContent>
+                <ItemTemplate>
+                    <Div @key="@context.Key" Flex="FlexRowAlignItemsCenter" Gap="GapIs2" Padding="PaddingIs2" Border="BorderIs1OnBottom">
+                        @if ( context.IsAvailableField )
+                        {
+                            <Check TValue="bool" Value="@IsAvailableFieldChecked( context )" ValueChanged="@(( value ) => ToggleAvailableField( context, value ))" @onclick:stopPropagation />
+                        }
+                        <Div Flex="FlexGrowIs1" TextWeight="@( context.IsAvailableField ? TextWeight.Normal : TextWeight.Bold )">@context.Caption</Div>
+                        @if ( !context.IsAvailableField && context.Area == PivotGridFieldArea.Aggregate )
+                        {
+                            <Select TValue="PivotGridAggregateFunction" Value="@context.AggregateFunction" ValueChanged="@(( value ) => SetAggregateFunction( context, value ))">
+                                @foreach ( var aggregateFunction in AggregateFunctions )
+                                {
+                                    <SelectItem TValue="PivotGridAggregateFunction" Value="@aggregateFunction">@PivotGrid.LocalizeAggregateFunction( aggregateFunction )</SelectItem>
+                                }
+                            </Select>
+                        }
+                        else if ( !context.IsAvailableField && context.Area == PivotGridFieldArea.Filter )
+                        {
+                            <Select TValue="string" Value="@context.FilterValueKey" ValueChanged="@(( value ) => SetFilterValue( context, value ))">
+                                <SelectItem TValue="string" Value="@( string.Empty )">@PivotGrid.LocalizedAllText</SelectItem>
+                                @foreach ( var option in PivotGrid.GetFilterOptions( context ) )
+                                {
+                                    <SelectItem TValue="string" Value="@option.Key">@option.Text</SelectItem>
+                                }
+                            </Select>
+                        }
+                        <Icon Name="IconName.GripVertical" TextColor="TextColor.Secondary" Margin="MarginIsAutoFromStart" />
+                    </Div>
+                </ItemTemplate>
+            </DropContainer>
+        </ModalBody>
+        <ModalFooter Flex="FlexRowJustifyContentEnd" Gap="GapIs2">
+            <Button Color="Color.Secondary" Outline Clicked="@Cancel">@PivotGrid.LocalizedCancelText</Button>
+            <Button Color="Color.Primary" Clicked="@Apply">@PivotGrid.LocalizedApplyText</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>

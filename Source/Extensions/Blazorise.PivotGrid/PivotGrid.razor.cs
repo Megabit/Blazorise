@@ -1,9 +1,12 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Localization;
+using Blazorise.PivotGrid.Components;
 using Blazorise.PivotGrid.Extensions;
 using Blazorise.PivotGrid.Utilities;
 using Blazorise.Utilities;
@@ -23,6 +26,13 @@ public partial class PivotGrid<TItem> : BaseComponent
 
     private readonly List<BasePivotGridField<TItem>> fields = new();
     private readonly Dictionary<BasePivotGridField<TItem>, int> fieldStateHashes = new();
+    private readonly List<PivotGridFieldState> runtimeRows = new();
+    private readonly List<PivotGridFieldState> runtimeColumns = new();
+    private readonly List<PivotGridFieldState> runtimeAggregates = new();
+    private readonly List<PivotGridFieldState> runtimeFilters = new();
+    private bool runtimeStateInitialized;
+    private bool runtimeStateUserModified;
+    private _PivotGridFieldChooser<TItem> fieldChooserRef;
     private PivotGridResult<TItem> pivotResult = PivotGridResult<TItem>.Empty;
 
     #endregion
@@ -164,11 +174,39 @@ public partial class PivotGrid<TItem> : BaseComponent
         await InvokeAsync( StateHasChanged );
     }
 
+    internal Task OpenFieldChooser()
+        => fieldChooserRef?.Show() ?? Task.CompletedTask;
+
+    internal void ApplyFieldChooserState( IReadOnlyList<PivotGridFieldState> rows, IReadOnlyList<PivotGridFieldState> columns, IReadOnlyList<PivotGridFieldState> aggregates, IReadOnlyList<PivotGridFieldState> filters )
+    {
+        runtimeRows.Clear();
+        runtimeRows.AddRange( rows.Select( CloneFieldState ) );
+
+        runtimeColumns.Clear();
+        runtimeColumns.AddRange( columns.Select( CloneFieldState ) );
+
+        runtimeAggregates.Clear();
+        runtimeAggregates.AddRange( aggregates.Select( CloneFieldState ) );
+
+        runtimeFilters.Clear();
+        runtimeFilters.AddRange( filters.Select( CloneFieldState ) );
+
+        runtimeStateInitialized = true;
+        runtimeStateUserModified = true;
+        Page = 1;
+
+        RebuildPivot();
+
+        _ = InvokeAsync( StateHasChanged );
+    }
+
     private void RebuildPivot()
     {
-        var rowFields = fields.Where( x => x.Visible && x.FieldArea == PivotGridFieldArea.Row ).ToList();
-        var columnFields = fields.Where( x => x.Visible && x.FieldArea == PivotGridFieldArea.Column ).ToList();
-        var aggregates = fields.OfType<PivotGridAggregate<TItem>>().Where( x => x.Visible && x.FieldArea == PivotGridFieldArea.Aggregate ).ToList();
+        EnsureRuntimeState();
+
+        var rowFields = GetEffectiveRowFields();
+        var columnFields = GetEffectiveColumnFields();
+        var aggregates = GetEffectiveAggregates();
 
         if ( aggregates.Count == 0 )
         {
@@ -176,7 +214,7 @@ public partial class PivotGrid<TItem> : BaseComponent
             return;
         }
 
-        var sourceItems = Data?.ToList() ?? [];
+        var sourceItems = ApplyFilters( Data?.ToList() ?? [] );
 
         if ( sourceItems.Count == 0 )
         {
@@ -196,6 +234,227 @@ public partial class PivotGrid<TItem> : BaseComponent
 
         pivotResult = new( rowFields, columnFields, aggregates, dataColumns, rows );
     }
+
+    private void EnsureRuntimeState()
+    {
+        if ( !ShowFieldChooser || ( runtimeStateInitialized && runtimeStateUserModified ) )
+            return;
+
+        runtimeRows.Clear();
+        runtimeRows.AddRange( fields.Where( x => x.Visible && x.FieldArea == PivotGridFieldArea.Row ).Select( x => CreateFieldState( x, PivotGridFieldArea.Row ) ) );
+
+        runtimeColumns.Clear();
+        runtimeColumns.AddRange( fields.Where( x => x.Visible && x.FieldArea == PivotGridFieldArea.Column ).Select( x => CreateFieldState( x, PivotGridFieldArea.Column ) ) );
+
+        runtimeAggregates.Clear();
+        runtimeAggregates.AddRange( fields.OfType<PivotGridAggregate<TItem>>().Where( x => x.Visible && x.FieldArea == PivotGridFieldArea.Aggregate ).Select( x => CreateFieldState( x, PivotGridFieldArea.Aggregate ) ) );
+
+        runtimeFilters.Clear();
+        runtimeStateInitialized = true;
+    }
+
+    private IReadOnlyList<BasePivotGridField<TItem>> GetEffectiveRowFields()
+        => ShowFieldChooser
+            ? runtimeRows.Select( x => CreateRuntimeField( x, PivotGridFieldArea.Row ) ).ToList()
+            : fields.Where( x => x.Visible && x.FieldArea == PivotGridFieldArea.Row ).ToList();
+
+    private IReadOnlyList<BasePivotGridField<TItem>> GetEffectiveColumnFields()
+        => ShowFieldChooser
+            ? runtimeColumns.Select( x => CreateRuntimeField( x, PivotGridFieldArea.Column ) ).ToList()
+            : fields.Where( x => x.Visible && x.FieldArea == PivotGridFieldArea.Column ).ToList();
+
+    private IReadOnlyList<PivotGridAggregate<TItem>> GetEffectiveAggregates()
+        => ShowFieldChooser
+            ? runtimeAggregates.Select( CreateRuntimeAggregate ).ToList()
+            : fields.OfType<PivotGridAggregate<TItem>>().Where( x => x.Visible && x.FieldArea == PivotGridFieldArea.Aggregate ).ToList();
+
+    private IReadOnlyList<TItem> ApplyFilters( IReadOnlyList<TItem> sourceItems )
+    {
+        if ( !ShowFieldChooser || runtimeFilters.Count == 0 )
+            return sourceItems;
+
+        var activeFilters = runtimeFilters
+            .Where( x => !string.IsNullOrEmpty( x.FilterValueKey ) )
+            .ToList();
+
+        if ( activeFilters.Count == 0 )
+            return sourceItems;
+
+        return sourceItems
+            .Where( item => activeFilters.All( filter =>
+            {
+                var field = CreateRuntimeField( filter, PivotGridFieldArea.Filter );
+                return string.Equals( CreateFilterValueKey( field.GetValue( item ) ), filter.FilterValueKey, StringComparison.Ordinal );
+            } ) )
+            .ToList();
+    }
+
+    private PivotGridFieldState CreateFieldState( BasePivotGridField<TItem> field, PivotGridFieldArea area )
+        => new()
+        {
+            Field = field.Field,
+            Caption = field.GetCaption(),
+            FieldType = GetFieldValueType( field.Field ),
+            Area = area,
+            AggregateFunction = field is PivotGridAggregate<TItem> aggregate ? aggregate.AggregateFunction : PivotGridAggregateFunction.Sum
+        };
+
+    internal static PivotGridFieldState CloneFieldState( PivotGridFieldState state )
+        => new()
+        {
+            Field = state.Field,
+            Caption = state.Caption,
+            FieldType = state.FieldType,
+            Area = state.Area,
+            AggregateFunction = state.AggregateFunction,
+            FilterValueKey = state.FilterValueKey
+        };
+
+    private static Type GetFieldValueType( string fieldName )
+    {
+        if ( string.IsNullOrWhiteSpace( fieldName ) )
+            return typeof( object );
+
+        try
+        {
+            ParameterExpression item = Expression.Parameter( typeof( TItem ), "item" );
+            Expression expression = PivotGridExpressionCompiler.GetSafePropertyOrFieldExpression( item, fieldName );
+
+            return Nullable.GetUnderlyingType( expression.Type ) ?? expression.Type;
+        }
+        catch
+        {
+            return typeof( object );
+        }
+    }
+
+    private BasePivotGridField<TItem> CreateRuntimeField( PivotGridFieldState state, PivotGridFieldArea area )
+    {
+        var source = FindFieldMetadata( state.Field );
+        var field = new PivotGridRuntimeField<TItem>( area );
+
+        CopyFieldMetadata( source, field, state );
+
+        return field;
+    }
+
+    private PivotGridAggregate<TItem> CreateRuntimeAggregate( PivotGridFieldState state )
+    {
+        var source = FindFieldMetadata( state.Field );
+        var aggregate = new PivotGridAggregate<TItem>();
+
+        CopyFieldMetadata( source, aggregate, state );
+
+        if ( source is PivotGridAggregate<TItem> sourceAggregate )
+        {
+            aggregate.Aggregator = sourceAggregate.Aggregator;
+            aggregate.CellTemplate = sourceAggregate.CellTemplate;
+        }
+
+        aggregate.AggregateFunction = state.AggregateFunction;
+
+        return aggregate;
+    }
+
+    private void CopyFieldMetadata( BasePivotGridField<TItem> source, BasePivotGridField<TItem> target, PivotGridFieldState state )
+    {
+        target.Field = state.Field;
+        target.Caption = string.IsNullOrWhiteSpace( state.Caption ) ? state.Field : state.Caption;
+
+        if ( source is null )
+            return;
+
+        target.Caption = source.Caption;
+        target.DisplayFormat = source.DisplayFormat;
+        target.DisplayFormatProvider = source.DisplayFormatProvider;
+        target.EmptyText = source.EmptyText;
+        target.HeaderTemplate = source.HeaderTemplate;
+        target.DisplayTemplate = source.DisplayTemplate;
+        target.Visible = source.Visible;
+    }
+
+    private BasePivotGridField<TItem> FindFieldMetadata( string fieldName )
+        => fields.FirstOrDefault( x => string.Equals( x.Field, fieldName, StringComparison.Ordinal ) && x.FieldArea == PivotGridFieldArea.Available )
+            ?? fields.FirstOrDefault( x => string.Equals( x.Field, fieldName, StringComparison.Ordinal ) );
+
+    internal IReadOnlyList<PivotGridFieldState> GetFieldChooserCatalog()
+    {
+        var explicitFields = fields
+            .Where( x => x.Visible && !string.IsNullOrWhiteSpace( x.Field ) && x.FieldArea == PivotGridFieldArea.Available )
+            .ToList();
+        var declaredFields = fields
+            .Where( x => x.Visible && !string.IsNullOrWhiteSpace( x.Field ) && x.FieldArea is PivotGridFieldArea.Row or PivotGridFieldArea.Column or PivotGridFieldArea.Aggregate )
+            .ToList();
+        var catalog = new Dictionary<string, PivotGridFieldState>( StringComparer.Ordinal );
+
+        if ( explicitFields.Count == 0 )
+        {
+            foreach ( var property in typeof( TItem ).GetProperties().Where( x => x.GetMethod is not null && x.GetMethod.IsPublic && x.GetIndexParameters().Length == 0 ) )
+            {
+                catalog[property.Name] = new()
+                {
+                    Field = property.Name,
+                    Caption = property.Name,
+                    FieldType = Nullable.GetUnderlyingType( property.PropertyType ) ?? property.PropertyType,
+                    Area = PivotGridFieldArea.Available,
+                };
+            }
+        }
+
+        foreach ( var field in explicitFields )
+        {
+            catalog[field.Field] = CreateFieldState( field, PivotGridFieldArea.Available );
+        }
+
+        foreach ( var field in declaredFields )
+        {
+            if ( !catalog.ContainsKey( field.Field ) )
+                catalog[field.Field] = CreateFieldState( field, PivotGridFieldArea.Available );
+        }
+
+        return catalog.Values.OrderBy( x => x.Caption, StringComparer.CurrentCultureIgnoreCase ).ToList();
+    }
+
+    internal IReadOnlyList<PivotGridFieldState> GetRuntimeRows()
+    {
+        EnsureRuntimeState();
+        return runtimeRows.Select( CloneFieldState ).ToList();
+    }
+
+    internal IReadOnlyList<PivotGridFieldState> GetRuntimeColumns()
+    {
+        EnsureRuntimeState();
+        return runtimeColumns.Select( CloneFieldState ).ToList();
+    }
+
+    internal IReadOnlyList<PivotGridFieldState> GetRuntimeAggregates()
+    {
+        EnsureRuntimeState();
+        return runtimeAggregates.Select( CloneFieldState ).ToList();
+    }
+
+    internal IReadOnlyList<PivotGridFieldState> GetRuntimeFilters()
+    {
+        EnsureRuntimeState();
+        return runtimeFilters.Select( CloneFieldState ).ToList();
+    }
+
+    internal IReadOnlyList<PivotGridFilterOption> GetFilterOptions( PivotGridFieldState state )
+    {
+        var field = CreateRuntimeField( state, PivotGridFieldArea.Filter );
+
+        return ( Data?.ToList() ?? [] )
+            .Select( item => field.GetValue( item ) )
+            .Distinct( PivotGridObjectEqualityComparer.Instance )
+            .OrderBy( value => field.FormatValue( value ), StringComparer.CurrentCultureIgnoreCase )
+            .Select( value => new PivotGridFilterOption( CreateFilterValueKey( value ), field.FormatValue( value ) ) )
+            .ToList();
+    }
+
+    internal static string CreateFilterValueKey( object value )
+        => value is null
+            ? "null:"
+            : $"value:{Convert.ToString( value, CultureInfo.InvariantCulture )}";
 
     private IReadOnlyList<PivotGridCell<TItem>> BuildCells( PivotGridAxisItem<TItem> row, IReadOnlyList<BasePivotGridField<TItem>> columnFields, IReadOnlyList<PivotGridDataColumn<TItem>> dataColumns )
     {
@@ -303,6 +562,42 @@ public partial class PivotGrid<TItem> : BaseComponent
     internal string LocalizedValuesText
         => Localizer.Localize( Localizers?.ValuesLocalizer, LocalizationConstants.Values );
 
+    internal string LocalizedFieldsText
+        => Localizer.Localize( Localizers?.FieldsLocalizer, LocalizationConstants.Fields );
+
+    internal string LocalizedAvailableFieldsText
+        => Localizer.Localize( Localizers?.AvailableFieldsLocalizer, LocalizationConstants.AvailableFields );
+
+    internal string LocalizedDragFieldsText
+        => Localizer.Localize( Localizers?.DragFieldsLocalizer, LocalizationConstants.DragFields );
+
+    internal string LocalizedDropFieldText
+        => Localizer.Localize( Localizers?.DropFieldLocalizer, LocalizationConstants.DropField );
+
+    internal string LocalizedRowsText
+        => Localizer.Localize( Localizers?.RowsLocalizer, LocalizationConstants.Rows );
+
+    internal string LocalizedColumnsText
+        => Localizer.Localize( Localizers?.ColumnsLocalizer, LocalizationConstants.Columns );
+
+    internal string LocalizedFiltersText
+        => Localizer.Localize( Localizers?.FiltersLocalizer, LocalizationConstants.Filters );
+
+    internal string LocalizedApplyText
+        => Localizer.Localize( Localizers?.ApplyLocalizer, LocalizationConstants.Apply );
+
+    internal string LocalizedCancelText
+        => Localizer.Localize( Localizers?.CancelLocalizer, LocalizationConstants.Cancel );
+
+    internal string LocalizedAllText
+        => Localizer.Localize( Localizers?.AllLocalizer, LocalizationConstants.All );
+
+    internal string LocalizedAggregateText
+        => Localizer.Localize( Localizers?.AggregateLocalizer, LocalizationConstants.Aggregate );
+
+    internal string LocalizeAggregateFunction( PivotGridAggregateFunction aggregateFunction )
+        => Localizer.Localize( null, aggregateFunction.ToString() );
+
     internal string LocalizedPaginationText
         => Localizer.Localize( Localizers?.PaginationLocalizer, LocalizationConstants.Pagination );
 
@@ -399,6 +694,9 @@ public partial class PivotGrid<TItem> : BaseComponent
         }
     }
 
+    internal bool IsToolbarVisible
+        => ToolbarTemplate is not null || ShowToolbar || ShowFieldChooser;
+
     #endregion
 
     #region Properties
@@ -494,6 +792,16 @@ public partial class PivotGrid<TItem> : BaseComponent
     [Parameter] public bool ShowPageSizes { get; set; }
 
     /// <summary>
+    /// Shows the PivotGrid toolbar.
+    /// </summary>
+    [Parameter] public bool ShowToolbar { get; set; }
+
+    /// <summary>
+    /// Shows the runtime field chooser.
+    /// </summary>
+    [Parameter] public bool ShowFieldChooser { get; set; }
+
+    /// <summary>
     /// Currently selected page.
     /// </summary>
     [Parameter] public int Page { get; set; } = 1;
@@ -542,6 +850,11 @@ public partial class PivotGrid<TItem> : BaseComponent
     /// Custom content shown when no value fields are declared.
     /// </summary>
     [Parameter] public RenderFragment MissingValuesTemplate { get; set; }
+
+    /// <summary>
+    /// Custom toolbar content.
+    /// </summary>
+    [Parameter] public RenderFragment ToolbarTemplate { get; set; }
 
     /// <summary>
     /// Custom content for row field header cells.
