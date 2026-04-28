@@ -42,6 +42,10 @@ public partial class Switch<TValue>
         {
             builder.Append( "fui-Switch-error" );
         }
+        else if ( ParentValidation?.Status == ValidationStatus.Warning )
+        {
+            builder.Append( "fui-Switch-warning" );
+        }
         else if ( ParentValidation?.Status == ValidationStatus.Success )
         {
             builder.Append( "fui-Switch-success" );

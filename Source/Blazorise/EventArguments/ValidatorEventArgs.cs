@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 #endregion
@@ -32,6 +32,11 @@ public class ValidatorEventArgs : EventArgs
     /// Gets or sets the validation custom error message.
     /// </summary>
     public string ErrorText { get; set; }
+
+    /// <summary>
+    /// Gets or sets the validation custom warning message.
+    /// </summary>
+    public string WarningText { get; set; }
 
     /// <summary>
     /// Gets the collection of member names that indicate which fields have validation errors.

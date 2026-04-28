@@ -1,0 +1,25 @@
+@inherits Blazorise.ValidationWarning
+<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="status" aria-live="polite" @attributes="@Attributes">
+    <div class="ant-form-item-explain-warning">
+        @if ( ChildContent is not null )
+        {
+            @ChildContent
+        }
+        else if ( WarningMessages is not null && WarningMessages.Any() )
+        {
+            @if ( Multiline )
+            {
+                <OrderedList Unstyled>
+                    @foreach ( var warningMessage in WarningMessages )
+                    {
+                        <OrderedListItem @key="@warningMessage">@warningMessage</OrderedListItem>
+                    }
+                </OrderedList>
+            }
+            else
+            {
+                @string.Join( ";", WarningMessages )
+            }
+        }
+    </div>
+</div>

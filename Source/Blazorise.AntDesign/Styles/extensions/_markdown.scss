@@ -8,6 +8,30 @@
     }
 }
 
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning {
+    .editor-toolbar,
+    .CodeMirror,
+    .editor-preview-side,
+    .editor-preview-full,
+    .editor-statusbar {
+        border-color: var(--b-theme-warning, var(--ant-color-warning));
+    }
+
+    + .ant-form-item-explain:not([role]),
+    + .valid-feedback,
+    + .ant-form-item-explain:not([role]) + .valid-feedback {
+        display: none;
+    }
+
+    + .ant-form-item-explain[role='status'],
+    + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role='status'],
+    + .valid-feedback + .ant-form-item-explain[role='status'],
+    + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role='status'] {
+        display: block;
+        color: var(--b-theme-warning, var(--ant-color-warning));
+    }
+}
+
 .EasyMDEContainer.b-markdown-invalid.b-markdown-invalid {
     .editor-toolbar,
     .CodeMirror,

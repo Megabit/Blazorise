@@ -270,11 +270,16 @@ textarea.mui-input:not([rows]) {
     border-color: var(--mui-success) !important;
 }
 
+:is(.mui-input, .mui-select).is-warning {
+    border-color: var(--mui-warning) !important;
+}
+
 :is(.mui-input, .mui-select).is-invalid {
     border-color: var(--mui-error) !important;
 }
 
 .valid-feedback,
+.warning-feedback,
 .invalid-feedback {
     display: none;
     font-size: 0.75rem;
@@ -287,30 +292,46 @@ textarea.mui-input:not([rows]) {
     color: var(--mui-success);
 }
 
+.warning-feedback {
+    color: var(--mui-warning);
+}
+
 .invalid-feedback {
     color: var(--mui-error);
 }
 
 :is(.mui-input, .mui-select).is-valid + .valid-feedback,
 :is(.mui-input, .mui-select).is-valid + .form-text.text-muted + .valid-feedback,
+:is(.mui-input, .mui-select).is-warning + .warning-feedback,
+:is(.mui-input, .mui-select).is-warning + .form-text.text-muted + .warning-feedback,
+:is(.mui-input, .mui-select).is-warning + .valid-feedback + .warning-feedback,
+:is(.mui-input, .mui-select).is-warning + .form-text.text-muted + .valid-feedback + .warning-feedback,
 :is(.mui-input, .mui-select).is-invalid + .invalid-feedback,
 :is(.mui-input, .mui-select).is-invalid + .form-text.text-muted + .invalid-feedback,
 :is(.mui-input, .mui-select).is-invalid + .valid-feedback + .invalid-feedback,
-:is(.mui-input, .mui-select).is-invalid + .form-text.text-muted + .valid-feedback + .invalid-feedback {
+:is(.mui-input, .mui-select).is-invalid + .form-text.text-muted + .valid-feedback + .invalid-feedback,
+:is(.mui-input, .mui-select).is-invalid + .warning-feedback + .invalid-feedback,
+:is(.mui-input, .mui-select).is-invalid + .form-text.text-muted + .warning-feedback + .invalid-feedback,
+:is(.mui-input, .mui-select).is-invalid + .valid-feedback + .warning-feedback + .invalid-feedback,
+:is(.mui-input, .mui-select).is-invalid + .form-text.text-muted + .valid-feedback + .warning-feedback + .invalid-feedback {
     display: inline-block;
 }
 
 .mui-check.is-valid > .valid-feedback,
+.mui-check.is-warning > .warning-feedback,
 .mui-check.is-invalid > .invalid-feedback,
 .mui-radio.is-valid > .valid-feedback,
+.mui-radio.is-warning > .warning-feedback,
 .mui-radio.is-invalid > .invalid-feedback,
 .mui-switch.is-valid > .valid-feedback,
+.mui-switch.is-warning > .warning-feedback,
 .mui-switch.is-invalid > .invalid-feedback {
     display: block;
     inline-size: 100%;
 }
 
 :is(.mui-input, .mui-select).is-valid + .form-text.text-muted,
+:is(.mui-input, .mui-select).is-warning + .form-text.text-muted,
 :is(.mui-input, .mui-select).is-invalid + .form-text.text-muted {
     display: none;
 }

@@ -157,6 +157,18 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 
                     picker.successClassWatcher = new ClassWatcher(picker.altInput, options.validationStatus.successClass, successClassAddHandler, successClassRemoveHandler);
                 }
+
+                if (options.validationStatus.warningClass) {
+                    function warningClassAddHandler() {
+                        flatpickrWrapper.classList.add(options.validationStatus.warningClass);
+                    }
+
+                    function warningClassRemoveHandler() {
+                        flatpickrWrapper.classList.remove(options.validationStatus.warningClass);
+                    }
+
+                    picker.warningClassWatcher = new ClassWatcher(picker.altInput, options.validationStatus.warningClass, warningClassAddHandler, warningClassRemoveHandler);
+                }
             }
         }
     }
@@ -257,6 +269,10 @@ export function destroy(element, elementId, unregisterCleanup = true) {
 
     if (instance.successClassWatcher) {
         instance.successClassWatcher.disconnect();
+    }
+
+    if (instance.warningClassWatcher) {
+        instance.warningClassWatcher.disconnect();
     }
 
     if (instance.inputMask && instance.inputMask.remove) {

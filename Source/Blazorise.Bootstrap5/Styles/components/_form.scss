@@ -1,4 +1,4 @@
-﻿.form-check > .form-check-input.form-check-input-pointer,
+.form-check > .form-check-input.form-check-input-pointer,
 .form-check > .form-check-label.form-check-label-pointer,
 .form-switch > .form-check-input.form-check-input-pointer,
 .form-switch > .form-check-label.form-check-label-pointer {
@@ -436,20 +436,47 @@ input[readonly="readonly"][type=range] {
 }
 
 .valid-feedback,
+.warning-feedback,
 .invalid-feedback {
     display: none;
 }
 
+.form-control.is-warning,
+.form-select.is-warning {
+    border-color: var(--b-theme-warning, $warning);
+
+    &:focus {
+        border-color: var(--b-theme-warning, $warning);
+        box-shadow: 0 0 0 $input-focus-width rgba($warning, .25);
+    }
+}
+
+.warning-feedback {
+    width: 100%;
+    margin-top: $form-feedback-margin-top;
+    font-size: $form-feedback-font-size;
+    color: var(--b-theme-warning, $warning);
+}
+
 :is(.form-control, .form-select).is-valid + .valid-feedback,
 :is(.form-control, .form-select).is-valid + .form-text.text-muted + .valid-feedback,
+:is(.form-control, .form-select).is-warning + .warning-feedback,
+:is(.form-control, .form-select).is-warning + .form-text.text-muted + .warning-feedback,
+:is(.form-control, .form-select).is-warning + .valid-feedback + .warning-feedback,
+:is(.form-control, .form-select).is-warning + .form-text.text-muted + .valid-feedback + .warning-feedback,
 :is(.form-control, .form-select).is-invalid + .invalid-feedback,
 :is(.form-control, .form-select).is-invalid + .form-text.text-muted + .invalid-feedback,
 :is(.form-control, .form-select).is-invalid + .valid-feedback + .invalid-feedback,
-:is(.form-control, .form-select).is-invalid + .form-text.text-muted + .valid-feedback + .invalid-feedback {
+:is(.form-control, .form-select).is-invalid + .form-text.text-muted + .valid-feedback + .invalid-feedback,
+:is(.form-control, .form-select).is-invalid + .warning-feedback + .invalid-feedback,
+:is(.form-control, .form-select).is-invalid + .form-text.text-muted + .warning-feedback + .invalid-feedback,
+:is(.form-control, .form-select).is-invalid + .valid-feedback + .warning-feedback + .invalid-feedback,
+:is(.form-control, .form-select).is-invalid + .form-text.text-muted + .valid-feedback + .warning-feedback + .invalid-feedback {
     display: block;
 }
 
 :is(.form-control, .form-select).is-valid + .form-text.text-muted,
+:is(.form-control, .form-select).is-warning + .form-text.text-muted,
 :is(.form-control, .form-select).is-invalid + .form-text.text-muted {
     display: none;
 }

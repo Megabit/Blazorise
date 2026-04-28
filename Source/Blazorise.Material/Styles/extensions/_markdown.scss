@@ -1,4 +1,5 @@
 .mui-field-body > .EasyMDEContainer.b-markdown-valid,
+.mui-field-body > .EasyMDEContainer.b-markdown-warning,
 .mui-field-body > .EasyMDEContainer.b-markdown-invalid {
     .editor-statusbar {
         padding-block: 0.25rem 0;
@@ -15,6 +16,31 @@
     }
 
     + .valid-feedback {
+        display: block;
+        inline-size: 100%;
+        margin-block-start: 0;
+        padding: 0;
+    }
+}
+
+.mui-field-body > .EasyMDEContainer.b-markdown-warning {
+    .editor-toolbar,
+    .CodeMirror,
+    .editor-preview-side,
+    .editor-preview-full {
+        border-color: var(--mui-warning);
+    }
+
+    + .form-text.text-muted,
+    + .valid-feedback,
+    + .form-text.text-muted + .valid-feedback {
+        display: none;
+    }
+
+    + .warning-feedback,
+    + .form-text.text-muted + .warning-feedback,
+    + .valid-feedback + .warning-feedback,
+    + .form-text.text-muted + .valid-feedback + .warning-feedback {
         display: block;
         inline-size: 100%;
         margin-block-start: 0;

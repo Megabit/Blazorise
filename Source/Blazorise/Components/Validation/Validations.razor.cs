@@ -65,7 +65,14 @@ public partial class Validations : ComponentBase
 
         if ( result )
         {
-            RaiseStatusChanged( ValidationStatus.Success, null, null );
+            if ( HasWarningValidations )
+            {
+                RaiseStatusChanged( ValidationStatus.Warning, WarningValidations, null );
+            }
+            else
+            {
+                RaiseStatusChanged( ValidationStatus.Success, null, null );
+            }
 
             await InvokeAsync( () => ValidatedAll.InvokeAsync() );
         }
@@ -143,15 +150,21 @@ public partial class Validations : ComponentBase
         // Try to come up with solution that StatusChanged will be called only once while it will
         // still provide all of the failed messages.
 
-        if ( AllValidationsSuccessful )
+        if ( HasFailedValidations )
+        {
+            RaiseStatusChanged( ValidationStatus.Error, FailedValidations, validation );
+        }
+        else if ( HasWarningValidations )
+        {
+            RaiseStatusChanged( ValidationStatus.Warning, WarningValidations, validation );
+
+            ValidatedAll.InvokeAsync();
+        }
+        else if ( AllValidationsSuccessful )
         {
             RaiseStatusChanged( ValidationStatus.Success, null, validation );
 
             ValidatedAll.InvokeAsync();
-        }
-        else if ( HasFailedValidations )
-        {
-            RaiseStatusChanged( ValidationStatus.Error, FailedValidations, validation );
         }
         else
         {
@@ -303,6 +316,12 @@ public partial class Validations : ComponentBase
         => validations.Any( x => x.Status == ValidationStatus.Error );
 
     /// <summary>
+    /// Indicates if there are any validation warnings.
+    /// </summary>
+    public bool HasWarningValidations
+        => validations.Any( x => x.Status == ValidationStatus.Warning );
+
+    /// <summary>
     /// Gets the filtered list of failed validations.
     /// </summary>
     public IReadOnlyCollection<string> FailedValidations
@@ -322,6 +341,15 @@ public partial class Validations : ComponentBase
                 .ToList();
         }
     }
+
+    /// <summary>
+    /// Gets the filtered list of validation warnings.
+    /// </summary>
+    public IReadOnlyCollection<string> WarningValidations
+        => validations
+            .Where( x => x.Status == ValidationStatus.Warning && x.Messages?.Count() > 0 )
+            .SelectMany( x => x.Messages )
+            .ToList();
 
     #endregion
 }

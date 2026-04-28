@@ -278,6 +278,10 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ValidationSuccessTooltip() => "help is-success"; // TODO
 
+    public override string ValidationWarning() => "help is-warning";
+
+    public override string ValidationWarningTooltip() => "help is-warning"; // TODO
+
     public override string ValidationError() => "help is-danger";
 
     public override string ValidationErrorTooltip() => "help is-danger"; // TODO
@@ -1859,6 +1863,8 @@ public class BulmaClassProvider : ClassProvider
         {
             case Blazorise.ValidationStatus.Success:
                 return "is-success";
+            case Blazorise.ValidationStatus.Warning:
+                return "is-warning";
             case Blazorise.ValidationStatus.Error:
                 return "is-danger";
             default:

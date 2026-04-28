@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -295,6 +295,10 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ValidationSuccessTooltip() => "valid-tooltip";
 
+    public override string ValidationWarning() => "warning-feedback";
+
+    public override string ValidationWarningTooltip() => "warning-tooltip";
+
     public override string ValidationError() => "invalid-feedback";
 
     public override string ValidationErrorTooltip() => "invalid-tooltip";
@@ -414,6 +418,7 @@ public class Bootstrap5ClassProvider : ClassProvider
     public override string AddonsValidation( ValidationStatus validationStatus ) => validationStatus switch
     {
         ValidationStatus.Success => "is-valid has-validation",
+        ValidationStatus.Warning => "is-warning has-validation",
         ValidationStatus.Error => "is-invalid has-validation",
         _ => "has-validation",
     };

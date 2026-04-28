@@ -47,6 +47,10 @@ public partial class MemoInput
         {
             builder.Append( "fui-Textarea-error" );
         }
+        else if ( ParentValidation?.Status == ValidationStatus.Warning )
+        {
+            builder.Append( "fui-Textarea-warning" );
+        }
         else if ( ParentValidation?.Status == ValidationStatus.Success )
         {
             builder.Append( "fui-Textarea-success" );
