@@ -175,7 +175,11 @@ public partial class PivotGrid<TItem> : BaseComponent
     }
 
     internal Task OpenFieldChooser()
-        => fieldChooserRef?.Show() ?? Task.CompletedTask;
+    {
+        EnsureRuntimeState();
+
+        return fieldChooserRef?.Show() ?? Task.CompletedTask;
+    }
 
     internal PivotGridToolbarContext<TItem> CreateToolbarContext()
         => new(
@@ -425,28 +429,16 @@ public partial class PivotGrid<TItem> : BaseComponent
     }
 
     internal IReadOnlyList<PivotGridFieldState> GetRuntimeRows()
-    {
-        EnsureRuntimeState();
-        return runtimeRows.Select( CloneFieldState ).ToList();
-    }
+        => runtimeRows.Select( CloneFieldState ).ToList();
 
     internal IReadOnlyList<PivotGridFieldState> GetRuntimeColumns()
-    {
-        EnsureRuntimeState();
-        return runtimeColumns.Select( CloneFieldState ).ToList();
-    }
+        => runtimeColumns.Select( CloneFieldState ).ToList();
 
     internal IReadOnlyList<PivotGridFieldState> GetRuntimeAggregates()
-    {
-        EnsureRuntimeState();
-        return runtimeAggregates.Select( CloneFieldState ).ToList();
-    }
+        => runtimeAggregates.Select( CloneFieldState ).ToList();
 
     internal IReadOnlyList<PivotGridFieldState> GetRuntimeFilters()
-    {
-        EnsureRuntimeState();
-        return runtimeFilters.Select( CloneFieldState ).ToList();
-    }
+        => runtimeFilters.Select( CloneFieldState ).ToList();
 
     internal IReadOnlyList<PivotGridFilterOption> GetFilterOptions( PivotGridFieldState state )
     {
