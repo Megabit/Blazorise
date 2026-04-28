@@ -165,7 +165,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// <returns>A task that represents the asynchronous operation.</returns>
     protected virtual async Task OnAfterSetParametersAsync( ParameterView parameters )
     {
-        if ( ParentValidation is not null )
+        if ( UsesValidation && ParentValidation is not null )
         {
             if ( paramValueExpression.Defined )
                 await ParentValidation.InitializeInputExpression( paramValueExpression.Value );
@@ -817,6 +817,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     /// Gets a value indicating whether validation should run when the component loses focus.
     /// </summary>
     protected bool UseValidationOnBlur => Options?.AccessibilityOptions?.UseValidationOnBlur == true;
+
+    /// <summary>
+    /// Gets a value indicating whether this component should register itself as the input for the parent <see cref="Validation"/>.
+    /// </summary>
+    protected virtual bool UsesValidation => true;
 
     /// <summary>
     /// Gets a value indicating whether an explicit <c>aria-labelledby</c> parameter was supplied.
