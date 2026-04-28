@@ -114,6 +114,14 @@
         --ant-slider-dot-active-border-color: var(--ant-color-success);
     }
 
+    &.ant-input-status-warning {
+        --ant-slider-track-bg: var(--ant-color-warning);
+        --ant-slider-track-hover-bg: var(--ant-color-warning);
+        --ant-slider-handle-color: var(--ant-color-warning);
+        --ant-slider-handle-active-color: var(--ant-color-warning);
+        --ant-slider-dot-active-border-color: var(--ant-color-warning);
+    }
+
     &.ant-input-status-error {
         --ant-slider-track-bg: var(--ant-color-error);
         --ant-slider-track-hover-bg: var(--ant-color-error);

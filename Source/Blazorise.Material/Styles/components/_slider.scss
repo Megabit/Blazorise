@@ -178,6 +178,10 @@
     --mui-slider-color: var(--mui-success);
 }
 
+.mui-slider.is-warning {
+    --mui-slider-color: var(--mui-warning);
+}
+
 .mui-slider.is-invalid {
     --mui-slider-color: var(--mui-error);
 }

@@ -275,6 +275,10 @@ class EmptyClassProvider : IClassProvider
 
     public string ValidationSuccessTooltip() => null;
 
+    public string ValidationWarning() => null;
+
+    public string ValidationWarningTooltip() => null;
+
     public string ValidationError() => null;
 
     public string ValidationErrorTooltip() => null;

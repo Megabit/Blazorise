@@ -32,6 +32,34 @@
     }
 }
 
+.b-richtextedit.is-warning {
+    > .b-richtextedit-editor.ql-bubble,
+    > .b-richtextedit-toolbar.ql-bubble,
+    > .ql-toolbar.ql-bubble {
+        border-style: solid;
+        border-width: $input-border-width;
+    }
+
+    > .b-richtextedit-editor.ql-container,
+    > .b-richtextedit-toolbar.ql-toolbar,
+    > .ql-toolbar.ql-bubble {
+        border-color: var(--b-theme-warning, $warning);
+    }
+
+    + .form-text.text-muted,
+    + .valid-feedback,
+    + .form-text.text-muted + .valid-feedback {
+        display: none;
+    }
+
+    + .warning-feedback,
+    + .form-text.text-muted + .warning-feedback,
+    + .valid-feedback + .warning-feedback,
+    + .form-text.text-muted + .valid-feedback + .warning-feedback {
+        display: block;
+    }
+}
+
 .b-richtextedit.is-invalid {
     > .b-richtextedit-editor.ql-bubble,
     > .b-richtextedit-toolbar.ql-bubble,

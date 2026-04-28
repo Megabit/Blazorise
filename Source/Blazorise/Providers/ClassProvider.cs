@@ -273,6 +273,10 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ValidationSuccessTooltip();
 
+    public abstract string ValidationWarning();
+
+    public abstract string ValidationWarningTooltip();
+
     public abstract string ValidationError();
 
     public abstract string ValidationErrorTooltip();
@@ -1879,6 +1883,7 @@ public abstract class ClassProvider : IClassProvider
         return validationStatus switch
         {
             Blazorise.ValidationStatus.Success => "is-valid",
+            Blazorise.ValidationStatus.Warning => "is-warning",
             Blazorise.ValidationStatus.Error => "is-invalid",
             _ => null,
         };

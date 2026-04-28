@@ -663,19 +663,19 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     private string BuildAriaDescribedBy()
     {
         var helpTextId = ParentField?.HelpTextElementId;
-        var errorTextId = ParentValidation?.Status == ValidationStatus.Error
+        var validationTextId = ParentValidation?.Status is ValidationStatus.Error or ValidationStatus.Warning
             ? ParentValidation?.ValidationMessageElementId
             : null;
 
         if ( string.IsNullOrEmpty( helpTextId ) )
-            return string.IsNullOrEmpty( errorTextId ) ? null : errorTextId;
+            return string.IsNullOrEmpty( validationTextId ) ? null : validationTextId;
 
-        if ( string.IsNullOrEmpty( errorTextId ) )
+        if ( string.IsNullOrEmpty( validationTextId ) )
             return helpTextId;
 
-        return string.Equals( helpTextId, errorTextId, StringComparison.Ordinal )
+        return string.Equals( helpTextId, validationTextId, StringComparison.Ordinal )
             ? helpTextId
-            : $"{helpTextId} {errorTextId}";
+            : $"{helpTextId} {validationTextId}";
     }
 
     /// <summary>

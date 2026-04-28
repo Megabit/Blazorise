@@ -312,6 +312,10 @@ public class MaterialClassProvider : ClassProvider
 
     public override string ValidationSuccessTooltip() => "valid-tooltip";
 
+    public override string ValidationWarning() => "warning-feedback";
+
+    public override string ValidationWarningTooltip() => "warning-tooltip";
+
     public override string ValidationError() => "invalid-feedback";
 
     public override string ValidationErrorTooltip() => "invalid-tooltip";

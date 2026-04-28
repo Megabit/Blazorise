@@ -128,6 +128,20 @@
             }
         }
 
+        &.is-warning {
+            &::-webkit-slider-thumb {
+                background-color: $warning;
+            }
+
+            &::-webkit-slider-thumb:active {
+                background-color: $warning;
+            }
+
+            &::-moz-range-thumb {
+                background-color: $warning;
+            }
+        }
+
         &.is-invalid {
             &::-webkit-slider-thumb {
                 background-color: $danger;

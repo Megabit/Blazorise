@@ -42,6 +42,10 @@ public partial class Select<TValue>
         {
             builder.Append( "fui-Select-error" );
         }
+        else if ( ParentValidation?.Status == ValidationStatus.Warning )
+        {
+            builder.Append( "fui-Select-warning" );
+        }
         else if ( ParentValidation?.Status == ValidationStatus.Success )
         {
             builder.Append( "fui-Select-success" );

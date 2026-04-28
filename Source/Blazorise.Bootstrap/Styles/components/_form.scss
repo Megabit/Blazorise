@@ -1,4 +1,4 @@
-﻿.form-check > .form-check-input.form-check-input-pointer,
+.form-check > .form-check-input.form-check-input-pointer,
 .form-check > .form-check-label.form-check-label-pointer,
 .custom-checkbox > .custom-control-input.custom-control-input-pointer,
 .custom-checkbox > .custom-control-label.custom-control-label-pointer,
@@ -409,28 +409,64 @@ input[readonly="readonly"][type=range] {
 }
 
 .valid-feedback,
+.warning-feedback,
 .invalid-feedback {
     display: none;
+}
+
+.form-control.is-warning,
+.custom-select.is-warning {
+    border-color: var(--b-theme-warning, $warning);
+
+    &:focus {
+        border-color: var(--b-theme-warning, $warning);
+        box-shadow: 0 0 0 $input-focus-width rgba($warning, .25);
+    }
+}
+
+.warning-feedback {
+    width: 100%;
+    margin-top: $form-feedback-margin-top;
+    font-size: $form-feedback-font-size;
+    color: var(--b-theme-warning, $warning);
 }
 
 :is(.form-control, .custom-select).is-valid + .valid-feedback,
 :is(.form-control, .custom-select).is-valid + .form-text.text-muted + .valid-feedback,
 .custom-file-input.is-valid + .custom-file-label + .valid-feedback,
 .custom-file-input.is-valid + .custom-file-label + .form-text.text-muted + .valid-feedback,
+:is(.form-control, .custom-select).is-warning + .warning-feedback,
+:is(.form-control, .custom-select).is-warning + .form-text.text-muted + .warning-feedback,
+:is(.form-control, .custom-select).is-warning + .valid-feedback + .warning-feedback,
+:is(.form-control, .custom-select).is-warning + .form-text.text-muted + .valid-feedback + .warning-feedback,
+.custom-file-input.is-warning + .custom-file-label + .warning-feedback,
+.custom-file-input.is-warning + .custom-file-label + .form-text.text-muted + .warning-feedback,
+.custom-file-input.is-warning + .custom-file-label + .valid-feedback + .warning-feedback,
+.custom-file-input.is-warning + .custom-file-label + .form-text.text-muted + .valid-feedback + .warning-feedback,
 :is(.form-control, .custom-select).is-invalid + .invalid-feedback,
 :is(.form-control, .custom-select).is-invalid + .form-text.text-muted + .invalid-feedback,
 :is(.form-control, .custom-select).is-invalid + .valid-feedback + .invalid-feedback,
 :is(.form-control, .custom-select).is-invalid + .form-text.text-muted + .valid-feedback + .invalid-feedback,
+:is(.form-control, .custom-select).is-invalid + .warning-feedback + .invalid-feedback,
+:is(.form-control, .custom-select).is-invalid + .form-text.text-muted + .warning-feedback + .invalid-feedback,
+:is(.form-control, .custom-select).is-invalid + .valid-feedback + .warning-feedback + .invalid-feedback,
+:is(.form-control, .custom-select).is-invalid + .form-text.text-muted + .valid-feedback + .warning-feedback + .invalid-feedback,
 .custom-file-input.is-invalid + .custom-file-label + .invalid-feedback,
 .custom-file-input.is-invalid + .custom-file-label + .form-text.text-muted + .invalid-feedback,
 .custom-file-input.is-invalid + .custom-file-label + .valid-feedback + .invalid-feedback,
-.custom-file-input.is-invalid + .custom-file-label + .form-text.text-muted + .valid-feedback + .invalid-feedback {
+.custom-file-input.is-invalid + .custom-file-label + .form-text.text-muted + .valid-feedback + .invalid-feedback,
+.custom-file-input.is-invalid + .custom-file-label + .warning-feedback + .invalid-feedback,
+.custom-file-input.is-invalid + .custom-file-label + .form-text.text-muted + .warning-feedback + .invalid-feedback,
+.custom-file-input.is-invalid + .custom-file-label + .valid-feedback + .warning-feedback + .invalid-feedback,
+.custom-file-input.is-invalid + .custom-file-label + .form-text.text-muted + .valid-feedback + .warning-feedback + .invalid-feedback {
     display: block;
 }
 
 :is(.form-control, .custom-select).is-valid + .form-text.text-muted,
+:is(.form-control, .custom-select).is-warning + .form-text.text-muted,
 :is(.form-control, .custom-select).is-invalid + .form-text.text-muted,
 .custom-file-input.is-valid + .custom-file-label + .form-text.text-muted,
+.custom-file-input.is-warning + .custom-file-label + .form-text.text-muted,
 .custom-file-input.is-invalid + .custom-file-label + .form-text.text-muted {
     display: none;
 }

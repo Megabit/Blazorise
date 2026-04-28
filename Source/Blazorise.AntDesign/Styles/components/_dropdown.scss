@@ -122,6 +122,7 @@
 
 .b-is-autocomplete {
     &.ant-input-status-success,
+    &.ant-input-status-warning,
     &.ant-input-status-error {
         border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border);
         border-radius: var(--ant-border-radius);
@@ -129,6 +130,10 @@
 
     &.ant-input-status-success {
         border-color: var(--ant-color-success);
+    }
+
+    &.ant-input-status-warning {
+        border-color: var(--ant-color-warning);
     }
 
     &.ant-input-status-error {
@@ -141,6 +146,12 @@
         box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-success-color-outline);
     }
 
+    &.ant-input-status-warning.focus {
+        border-color: var(--ant-color-warning);
+        -webkit-box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-color-warning-outline);
+        box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-color-warning-outline);
+    }
+
     &.ant-input-status-error.focus {
         border-color: var(--ant-color-error);
         -webkit-box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-error-color-outline);
@@ -148,6 +159,7 @@
     }
 
     &.ant-input-status-success > input.ant-input,
+    &.ant-input-status-warning > input.ant-input,
     &.ant-input-status-error > input.ant-input {
         border-color: transparent;
         box-shadow: none;
