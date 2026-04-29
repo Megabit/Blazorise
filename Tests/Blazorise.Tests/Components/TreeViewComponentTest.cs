@@ -316,8 +316,8 @@ public class TreeViewComponentTest : BunitContext
         var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
 
         await nodeContents[0].DragStartAsync( new DragEventArgs() );
-        nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
-        await nodeContents[1].DropAsync( new DragEventArgs() { OffsetY = 12 } );
+        var nodeTitles = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
+        await nodeTitles[1].DropAsync( new DragEventArgs() { OffsetY = 12 } );
 
         droppedArgs.Should().NotBeNull();
         droppedArgs.DraggedNode.Should().BeSameAs( dragged );
@@ -352,8 +352,8 @@ public class TreeViewComponentTest : BunitContext
         var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
 
         await nodeContents[0].DragStartAsync( new DragEventArgs() );
-        nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
-        await nodeContents[1].DragOverAsync( new DragEventArgs() { OffsetY = 12 } );
+        var nodeTitles = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
+        await nodeTitles[1].DragOverAsync( new DragEventArgs() { OffsetY = 12 } );
 
         canDropNodeCalled.Should().BeTrue();
         dragEventArgsProvided.Should().BeTrue();
@@ -386,7 +386,8 @@ public class TreeViewComponentTest : BunitContext
         var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
 
         await nodeContents[1].DragStartAsync( new DragEventArgs() );
-        await nodeContents[2].DropAsync( new DragEventArgs() { OffsetY = 12 } );
+        var nodeTitles = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
+        await nodeTitles[2].DropAsync( new DragEventArgs() { OffsetY = 12 } );
 
         droppedArgs.Should().NotBeNull();
         droppedArgs.OldParentNode.Should().BeSameAs( source );
@@ -424,8 +425,49 @@ public class TreeViewComponentTest : BunitContext
         var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
 
         await nodeContents[3].DragStartAsync( new DragEventArgs() );
-        nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
-        await nodeContents[1].DropAsync( new DragEventArgs() { OffsetY = 1 } );
+        var nodeTitles = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
+        await nodeTitles[1].DropAsync( new DragEventArgs() { OffsetY = 1 } );
+
+        droppedArgs.Should().NotBeNull();
+        droppedArgs.DraggedNode.Should().BeSameAs( child3 );
+        droppedArgs.OldParentNode.Should().BeSameAs( parent );
+        droppedArgs.NewParentNode.Should().BeSameAs( parent );
+        droppedArgs.OldIndex.Should().Be( 2 );
+        droppedArgs.NewIndex.Should().Be( 0 );
+    }
+
+    [Fact]
+    public async Task DragDrop_Should_Use_Active_Visual_Indicator_When_Drop_Offset_Changes()
+    {
+        var child1 = new Item() { Text = "Child 1" };
+        var child2 = new Item() { Text = "Child 2" };
+        var child3 = new Item() { Text = "Child 3" };
+        var parent = new Item()
+        {
+            Text = "Parent",
+            Children = new[] { child1, child2, child3 },
+        };
+        TreeViewNodeDragEventArgs<Item> droppedArgs = null;
+        var expandedNodes = new List<Item> { parent };
+
+        var cut = Render<TreeView<Item>>( parameters =>
+        {
+            parameters.Add( p => p.Nodes, new[] { parent } );
+            parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
+            parameters.Add( p => p.HasChildNodes, (Func<Item, bool>)( node => node.Children?.Any() == true ) );
+            parameters.Add( p => p.ExpandedNodes, expandedNodes );
+            parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
+            parameters.Add( p => p.Draggable, true );
+            parameters.Add( p => p.Reorderable, true );
+            parameters.Add( p => p.NodeDropped, EventCallback.Factory.Create<TreeViewNodeDragEventArgs<Item>>( this, args => droppedArgs = args ) );
+        } );
+
+        var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
+
+        await nodeContents[3].DragStartAsync( new DragEventArgs() );
+        var nodeTitles = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
+        await nodeTitles[1].DragOverAsync( new DragEventArgs() { OffsetY = 1 } );
+        await nodeTitles[1].DropAsync( new DragEventArgs() { OffsetY = 12 } );
 
         droppedArgs.Should().NotBeNull();
         droppedArgs.DraggedNode.Should().BeSameAs( child3 );
@@ -463,8 +505,8 @@ public class TreeViewComponentTest : BunitContext
         var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
 
         await nodeContents[3].DragStartAsync( new DragEventArgs() );
-        nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
-        await nodeContents[1].DropAsync( new DragEventArgs() { OffsetY = 1 } );
+        var nodeTitles = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
+        await nodeTitles[1].DropAsync( new DragEventArgs() { OffsetY = 1 } );
 
         droppedArgs.Should().NotBeNull();
         droppedArgs.DraggedNode.Should().BeSameAs( child3 );
@@ -506,8 +548,8 @@ public class TreeViewComponentTest : BunitContext
         var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
 
         await nodeContents[1].DragStartAsync( new DragEventArgs() );
-        nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
-        await nodeContents[3].DropAsync( new DragEventArgs() { OffsetY = 12 } );
+        var nodeTitles = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
+        await nodeTitles[3].DropAsync( new DragEventArgs() { OffsetY = 12 } );
 
         droppedArgs.Should().NotBeNull();
         droppedArgs.DraggedNode.Should().BeSameAs( dragged );
@@ -545,8 +587,8 @@ public class TreeViewComponentTest : BunitContext
         var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
 
         await nodeContents[1].DragStartAsync( new DragEventArgs() );
-        nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
-        await nodeContents[2].DropAsync( new DragEventArgs() { OffsetY = 1 } );
+        var nodeTitles = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
+        await nodeTitles[2].DropAsync( new DragEventArgs() { OffsetY = 1 } );
 
         droppedArgs.Should().NotBeNull();
         droppedArgs.DraggedNode.Should().BeSameAs( dragged );
@@ -584,8 +626,8 @@ public class TreeViewComponentTest : BunitContext
         var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
 
         await nodeContents[1].DragStartAsync( new DragEventArgs() );
-        nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
-        await nodeContents[2].DropAsync( new DragEventArgs() { OffsetY = 12 } );
+        var nodeTitles = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
+        await nodeTitles[2].DropAsync( new DragEventArgs() { OffsetY = 12 } );
 
         droppedArgs.Should().NotBeNull();
         droppedArgs.DraggedNode.Should().BeSameAs( dragged );
@@ -624,8 +666,8 @@ public class TreeViewComponentTest : BunitContext
         var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
 
         await nodeContents[2].DragStartAsync( new DragEventArgs() );
-        nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
-        await nodeContents[4].DropAsync( new DragEventArgs() { OffsetY = 1 } );
+        var nodeTitles = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
+        await nodeTitles[4].DropAsync( new DragEventArgs() { OffsetY = 1 } );
 
         cut.WaitForAssertion( () =>
         {
@@ -669,8 +711,8 @@ public class TreeViewComponentTest : BunitContext
         var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
 
         await nodeContents[2].DragStartAsync( new DragEventArgs() );
-        nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
-        await nodeContents[0].DropAsync( new DragEventArgs() { OffsetY = 1 } );
+        var nodeTitles = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
+        await nodeTitles[0].DropAsync( new DragEventArgs() { OffsetY = 1 } );
 
         droppedArgs.Should().NotBeNull();
         droppedArgs.DraggedNode.Should().BeSameAs( dragged );
@@ -691,15 +733,16 @@ public class TreeViewComponentTest : BunitContext
             parameters.Add( p => p.Nodes, new[] { dragged, target } );
             parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
             parameters.Add( p => p.Draggable, true );
+            parameters.Add( p => p.Reorderable, true );
         } );
 
         var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
 
         await nodeContents[0].DragStartAsync( new DragEventArgs() );
-        nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
-        await nodeContents[1].DragOverAsync( new DragEventArgs() { OffsetY = 1 } );
+        var nodeTitles = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
+        await nodeTitles[1].DragOverAsync( new DragEventArgs() { OffsetY = 1 } );
 
-        cut.FindAll( ".b-tree-view-node-title.b-tree-view-node-drop-target" ).Should().ContainSingle();
+        cut.FindAll( ".b-tree-view-node-title.b-tree-view-node-drop-target.b-tree-view-node-title-drop-before" ).Should().ContainSingle();
     }
 
     [Fact]

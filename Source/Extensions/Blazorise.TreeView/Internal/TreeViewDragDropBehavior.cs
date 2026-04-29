@@ -62,7 +62,9 @@ internal sealed class TreeViewDragDropBehavior<TNode>( TreeView<TNode> treeView,
             return;
 
         TreeViewNodeState<TNode> draggedNodeState = draggedNode;
-        bool dropAsChild = ShouldDropAsChild( eventArgs );
+        bool dropAsChild = ReferenceEquals( activeDropNode, nodeState )
+            ? activeDropAsChild
+            : ShouldDropAsChild( eventArgs );
         TreeViewNodeState<TNode> newParentNodeState = GetDropParentNodeState( nodeState, dropAsChild );
         int oldIndex = GetNodeIndex( draggedNodeState );
         int newIndex = GetDropIndex( draggedNodeState, nodeState, dropAsChild );
