@@ -13475,6 +13475,70 @@ builder.Services
     }
 }";
 
+        public const string TreeViewDragDropExample = @"@using System.Collections.ObjectModel
+@using Blazorise.TreeView.EventArguments
+
+<TreeView Nodes=""Items""
+          GetChildNodes=""@(item => item.Children)""
+          HasChildNodes=""@(item => item.Children?.Any() == true)""
+          @bind-ExpandedNodes=""expandedNodes""
+          Draggable
+          Reorderable
+          CanDragNode=""@(item => !item.Locked)""
+          CanDropNode=""CanDropNode"">
+    <NodeContent>
+        <Icon Name=""IconName.Folder"" />
+        @context.Text
+        @if ( context.Locked )
+        {
+            <Badge Color=""Color.Warning"" Margin=""Margin.Is2.FromStart"">Locked</Badge>
+        }
+    </NodeContent>
+</TreeView>
+
+@code {
+    public class Item
+    {
+        public string Text { get; set; }
+        public ObservableCollection<Item> Children { get; } = new();
+        public bool Locked { get; set; }
+    }
+
+    ObservableCollection<Item> Items = new()
+    {
+        new Item { Text = ""Documents"" },
+        new Item
+        {
+            Text = ""Projects"",
+            Children =
+            {
+                new Item { Text = ""Blazorise"" },
+                new Item { Text = ""Roadmap"" },
+                new Item { Text = ""Archive"", Locked = true },
+            }
+        },
+        new Item
+        {
+            Text = ""Media"",
+            Children =
+            {
+                new Item { Text = ""Images"" },
+                new Item { Text = ""Videos"" },
+            }
+        },
+    };
+
+    IList<Item> expandedNodes;
+
+    protected override void OnInitialized()
+    {
+        expandedNodes = Items.Where( item => item.Children.Any() ).ToList();
+    }
+
+    private bool CanDropNode( TreeViewNodeDragEventArgs<Item> args )
+        => args.NewParentNode?.Locked is not true;
+}";
+
         public const string TreeViewExample = @"<TreeView Nodes=""Items""
           GetChildNodes=""@(item => item.Children)""
           HasChildNodes=""@(item => item.Children?.Any() == true)""
