@@ -1,9 +1,11 @@
-﻿using System;
+#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.TreeView.EventArguments;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+#endregion
 
 namespace Blazorise.TreeView.Internal;
 
@@ -48,7 +50,7 @@ internal sealed class TreeViewDragDropBehavior<TNode>( TreeView<TNode> treeView,
     {
         bool dropAsChild = ShouldDropAsChild( eventArgs );
 
-        if ( IsDropAllowed( nodeState, dropAsChild ) )
+        if ( IsDropAllowed( nodeState, dropAsChild, eventArgs, true ) )
             return SetActiveDropNode( nodeState, dropAsChild ) ?? Task.CompletedTask;
 
         return SetActiveDropNode( null, false ) ?? Task.CompletedTask;
@@ -65,7 +67,7 @@ internal sealed class TreeViewDragDropBehavior<TNode>( TreeView<TNode> treeView,
         int oldIndex = GetNodeIndex( draggedNodeState );
         int newIndex = GetDropIndex( draggedNodeState, nodeState, dropAsChild );
 
-        if ( !IsDropAllowed( nodeState, dropAsChild ) )
+        if ( !IsDropAllowed( nodeState, dropAsChild, eventArgs, true ) )
             return;
 
         TreeViewNodeDragEventArgs<TNode> dragEventArgs = new(
@@ -98,6 +100,9 @@ internal sealed class TreeViewDragDropBehavior<TNode>( TreeView<TNode> treeView,
     }
 
     public bool IsDropAllowed( TreeViewNodeState<TNode> nodeState, bool dropAsChild = true )
+        => IsDropAllowed( nodeState, dropAsChild, null, false );
+
+    private bool IsDropAllowed( TreeViewNodeState<TNode> nodeState, bool dropAsChild, DragEventArgs eventArgs, bool evaluateUserPredicate )
     {
         if ( !treeView.Draggable || draggedNode is null )
             return false;
@@ -116,8 +121,11 @@ internal sealed class TreeViewDragDropBehavior<TNode>( TreeView<TNode> treeView,
         if ( nodeState != null && IsDescendantOf( nodeState, draggedNodeState ) )
             return false;
 
+        if ( !evaluateUserPredicate )
+            return true;
+
         TreeViewNodeDragEventArgs<TNode> dragEventArgs = new(
-            null,
+            eventArgs,
             draggedNodeState.Node,
             newParentNodeState is null ? default : newParentNodeState.Node,
             draggedNodeState.Parent is null ? default : draggedNodeState.Parent.Node,

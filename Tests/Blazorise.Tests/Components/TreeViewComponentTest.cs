@@ -328,6 +328,38 @@ public class TreeViewComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task DragDrop_Should_Provide_DragEventArgs_To_CanDropNode()
+    {
+        var dragged = new Item() { Text = "Dragged" };
+        var target = new Item() { Text = "Target" };
+        bool canDropNodeCalled = false;
+        bool dragEventArgsProvided = false;
+
+        var cut = Render<TreeView<Item>>( parameters =>
+        {
+            parameters.Add( p => p.Nodes, new[] { dragged, target } );
+            parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
+            parameters.Add( p => p.Draggable, true );
+            parameters.Add( p => p.CanDropNode, args =>
+            {
+                canDropNodeCalled = true;
+                dragEventArgsProvided = args.DragEventArgs is not null;
+
+                return true;
+            } );
+        } );
+
+        var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
+
+        await nodeContents[0].DragStartAsync( new DragEventArgs() );
+        nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
+        await nodeContents[1].DragOverAsync( new DragEventArgs() { OffsetY = 12 } );
+
+        canDropNodeCalled.Should().BeTrue();
+        dragEventArgsProvided.Should().BeTrue();
+    }
+
+    [Fact]
     public async Task DragDrop_Should_Include_Old_Parent_And_Indexes()
     {
         var dragged = new Item() { Text = "Dragged" };
@@ -674,6 +706,8 @@ public class TreeViewComponentTest : BunitContext
         await nodeContents[0].DragStartAsync( new DragEventArgs() );
         nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
         await nodeContents[1].DragOverAsync( new DragEventArgs() { OffsetY = 1 } );
+
+        cut.FindAll( ".b-tree-view-node-title.b-tree-view-node-drop-target.b-tree-view-node-title-drop-before" ).Should().ContainSingle();
     }
 
     [Fact]
