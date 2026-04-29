@@ -1,0 +1,53 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Gestures Direction="GestureDirection.Horizontal"
+          TouchAction="GestureTouchAction.PanY"
+          Swiped="@OnSwiped">
+    <Div Border="Border.Is1.Rounded" Background="Background.Light" Padding="Padding.Is3" Style="min-height: 240px; user-select: none;">
+        <Div Flex="Flex.Row" Gap="Gap.Is3">
+            @if ( sidebarVisible )
+            {
+                <Div Background="Background.Primary" TextColor="TextColor.White" Padding="Padding.Is3" Border="Border.Rounded" Width="Width.Px( 160 )">
+                    <Heading Size="HeadingSize.Is6" Margin="Margin.Is0.FromBottom">
+                        Navigation
+                    </Heading>
+                    <Paragraph TextColor="TextColor.White50" Margin="Margin.Is2.FromTop">
+                        Swipe left to collapse.
+                    </Paragraph>
+                </Div>
+            }
+
+            <Div Flex="Flex.Grow.Is1" Padding="Padding.Is2">
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.FromBottom">
+                    Content
+                </Heading>
+                <Paragraph Margin="Margin.Is2.FromTop">
+                    Swipe right to expand the panel and swipe left to collapse it.
+                </Paragraph>
+                <Button Color="Color.Primary" Outline Clicked="@ToggleSidebar">
+                    <Icon Name="@( sidebarVisible ? IconName.Compress : IconName.Expand )" Margin="Margin.Is2.FromEnd" />
+                    @( sidebarVisible ? "Collapse" : "Expand" )
+                </Button>
+            </Div>
+        </Div>
+    </Div>
+</Gestures>
+
+@code {
+    private bool sidebarVisible = true;
+
+    private Task OnSwiped( SwipeEventArgs eventArgs )
+    {
+        if ( eventArgs.Direction == GestureDirection.Left )
+            sidebarVisible = false;
+        else if ( eventArgs.Direction == GestureDirection.Right )
+            sidebarVisible = true;
+
+        return Task.CompletedTask;
+    }
+
+    private void ToggleSidebar()
+    {
+        sidebarVisible = !sidebarVisible;
+    }
+}

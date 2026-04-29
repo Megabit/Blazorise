@@ -1972,6 +1972,316 @@ namespace Blazorise.Docs.Models
     bool focusTrapActive = false;
 }";
 
+        public const string GesturesBasicExample = @"<Gestures Direction=""GestureDirection.Horizontal""
+          TouchAction=""GestureTouchAction.PanY""
+          Swiped=""@OnSwiped""
+          Tapped=""@OnTapped""
+          LongPressed=""@OnLongPressed"">
+    <Alert Visible=""@(!dismissed)"" Color=""@AlertColor"" Style=""user-select: none;"">
+        <Div Flex=""Flex.JustifyContent.Between.AlignItems.Start"" Gap=""Gap.Is3"">
+            <Div Flex=""Flex.AlignItems.Start"" Gap=""Gap.Is3"">
+                <Icon Name=""IconName.InfoCircle"" TextColor=""@StatusTextColor"" Margin=""Margin.Is1.FromTop"" />
+                <Div>
+                    <AlertMessage>
+                        Security update available
+                    </AlertMessage>
+                    <AlertDescription>
+                        @message
+                    </AlertDescription>
+                </Div>
+            </Div>
+            <Badge Color=""@BadgeColor"" Pill>@status</Badge>
+        </Div>
+    </Alert>
+</Gestures>
+
+@if ( dismissed )
+{
+    <Alert Visible Color=""Color.Success"" Margin=""Margin.Is3.FromTop.Is0.FromBottom"">
+        <AlertMessage>Alert dismissed.</AlertMessage>
+        <AlertDescription>
+            The horizontal swipe was handled by <Code>Gestures</Code>.
+        </AlertDescription>
+        <Button Color=""Color.Success"" Outline Size=""Size.Small"" Margin=""Margin.Is2.FromTop"" Clicked=""@ResetAlert"">
+            Show alert again
+        </Button>
+    </Alert>
+}
+
+@code {
+    private string status = ""New"";
+
+    private string message = ""Tap for details, long press to pin, or swipe left or right to dismiss."";
+
+    private bool dismissed;
+
+    private bool pinned;
+
+    private Color AlertColor { get; set; } = Color.Info;
+
+    private Color BadgeColor { get; set; } = Color.Info;
+
+    private TextColor StatusTextColor
+    {
+        get
+        {
+            return pinned ? TextColor.Warning : TextColor.Info;
+        }
+    }
+
+    private Task OnSwiped( SwipeEventArgs _ )
+    {
+        dismissed = true;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnTapped( TapEventArgs _ )
+    {
+        status = ""Details"";
+        BadgeColor = Color.Primary;
+        AlertColor = Color.Primary;
+        message = ""Version 2.1.4 includes security fixes and is ready to install."";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnLongPressed( LongPressEventArgs _ )
+    {
+        pinned = true;
+        status = ""Pinned"";
+        BadgeColor = Color.Warning;
+        AlertColor = Color.Warning;
+        message = ""Pinned alerts stay visible until the user handles them explicitly."";
+
+        return Task.CompletedTask;
+    }
+
+    private Task ResetAlert()
+    {
+        dismissed = false;
+        pinned = false;
+        status = ""New"";
+        BadgeColor = Color.Info;
+        AlertColor = Color.Info;
+        message = ""Tap for details, long press to pin, or swipe left or right to dismiss."";
+
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string GesturesGalleryExample = @"<Gestures Direction=""GestureDirection.Horizontal""
+          TouchAction=""GestureTouchAction.PanY""
+          Swiped=""@OnSwiped"">
+    <Card Background=""@CurrentSlide.Background"" TextColor=""TextColor.White"" Style=""min-height: 260px; user-select: none;"">
+        <CardBody Padding=""Padding.Is5"">
+            <Div Flex=""Flex.Column.JustifyContent.Between"" Style=""min-height: 220px;"">
+                <Div>
+                    <Badge Color=""Color.Light"" TextColor=""TextColor.Dark"" Pill>
+                        @( currentIndex + 1 ) / @slides.Count
+                    </Badge>
+                    <Heading Size=""HeadingSize.Is2"" Margin=""Margin.Is4.FromTop.Is2.FromBottom"">
+                        @CurrentSlide.Title
+                    </Heading>
+                    <Paragraph TextColor=""TextColor.White50"">
+                        @CurrentSlide.Description
+                    </Paragraph>
+                </Div>
+                <Div Flex=""Flex.JustifyContent.Between.AlignItems.Center"" Gap=""Gap.Is3"">
+                    <Button Color=""Color.Light"" Outline Clicked=""@ShowPrevious"">
+                        <Icon Name=""IconName.ArrowLeft"" />
+                    </Button>
+                    <Badge Color=""Color.Light"" TextColor=""TextColor.Dark"" Pill>
+                        Swipe left or right
+                    </Badge>
+                    <Button Color=""Color.Light"" Outline Clicked=""@ShowNext"">
+                        <Icon Name=""IconName.ArrowRight"" />
+                    </Button>
+                </Div>
+            </Div>
+        </CardBody>
+    </Card>
+</Gestures>
+
+@code {
+    private readonly List<GallerySlide> slides = new List<GallerySlide>
+    {
+        new GallerySlide( ""Overview"", ""Introduce key content one panel at a time."", Background.Primary ),
+        new GallerySlide( ""Details"", ""Let users move through content with direct touch interaction."", Background.Info ),
+        new GallerySlide( ""Summary"", ""Keep buttons available for mouse and keyboard users."", Background.Success ),
+    };
+
+    private int currentIndex;
+
+    private GallerySlide CurrentSlide => slides[currentIndex];
+
+    private Task OnSwiped( SwipeEventArgs eventArgs )
+    {
+        if ( eventArgs.Direction == GestureDirection.Left )
+            ShowNext();
+        else if ( eventArgs.Direction == GestureDirection.Right )
+            ShowPrevious();
+
+        return Task.CompletedTask;
+    }
+
+    private void ShowPrevious()
+    {
+        currentIndex = currentIndex == 0 ? slides.Count - 1 : currentIndex - 1;
+    }
+
+    private void ShowNext()
+    {
+        currentIndex = currentIndex == slides.Count - 1 ? 0 : currentIndex + 1;
+    }
+
+    private class GallerySlide
+    {
+        public GallerySlide( string title, string description, Background background )
+        {
+            Title = title;
+            Description = description;
+            Background = background;
+        }
+
+        public string Title { get; }
+
+        public string Description { get; }
+
+        public Background Background { get; }
+    }
+}";
+
+        public const string GesturesLifecycleExample = @"<Gestures Direction=""GestureDirection.Horizontal""
+          TouchAction=""GestureTouchAction.PanY""
+          GestureStarted=""@OnGestureStarted""
+          GestureMoved=""@OnGestureMoved""
+          GestureEnded=""@OnGestureEnded""
+          Swiped=""@OnSwiped"">
+    <Card Border=""Border.Is1.Rounded"" Background=""Background.Light"" Style=""user-select: none;"">
+        <CardBody Padding=""Padding.Is4"">
+            <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">
+                Swipe progress
+            </Heading>
+            <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop"">
+                Move horizontally inside this card to update the progress while the gesture is active.
+            </Paragraph>
+            <Progress Value=""@progress"" Color=""@progressColor"" />
+            <Div Flex=""Flex.Wrap"" Gap=""Gap.Is2"" Margin=""Margin.Is3.FromTop"">
+                <Badge Color=""Color.Primary"" Pill>@state</Badge>
+                <Badge Color=""Color.Info"" Pill>@direction</Badge>
+                <Badge Color=""Color.Secondary"" Pill>Delta X: @deltaX</Badge>
+            </Div>
+        </CardBody>
+    </Card>
+</Gestures>
+
+@code {
+    private int progress;
+
+    private string state = ""Waiting"";
+
+    private string direction = ""None"";
+
+    private string deltaX = ""0"";
+
+    private Color progressColor = Color.Primary;
+
+    private Task OnGestureStarted( GestureEventArgs eventArgs )
+    {
+        state = ""Started"";
+        progress = 0;
+        progressColor = Color.Primary;
+        UpdateDetails( eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnGestureMoved( GestureEventArgs eventArgs )
+    {
+        state = ""Moving"";
+        progress = System.Math.Min( 100, System.Convert.ToInt32( System.Math.Abs( eventArgs.DeltaX ) ) );
+        UpdateDetails( eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnGestureEnded( GestureEventArgs eventArgs )
+    {
+        state = eventArgs.Canceled ? ""Canceled"" : ""Ended"";
+        UpdateDetails( eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnSwiped( SwipeEventArgs eventArgs )
+    {
+        progress = 100;
+        progressColor = Color.Success;
+        UpdateDetails( eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private void UpdateDetails( GestureEventArgs eventArgs )
+    {
+        direction = eventArgs.Direction.ToString();
+        deltaX = eventArgs.DeltaX.ToString( ""0"" );
+    }
+}";
+
+        public const string GesturesSidebarExample = @"<Gestures Direction=""GestureDirection.Horizontal""
+          TouchAction=""GestureTouchAction.PanY""
+          Swiped=""@OnSwiped"">
+    <Div Border=""Border.Is1.Rounded"" Background=""Background.Light"" Padding=""Padding.Is3"" Style=""min-height: 240px; user-select: none;"">
+        <Div Flex=""Flex.Row"" Gap=""Gap.Is3"">
+            @if ( sidebarVisible )
+            {
+                <Div Background=""Background.Primary"" TextColor=""TextColor.White"" Padding=""Padding.Is3"" Border=""Border.Rounded"" Width=""Width.Px( 160 )"">
+                    <Heading Size=""HeadingSize.Is6"" Margin=""Margin.Is0.FromBottom"">
+                        Navigation
+                    </Heading>
+                    <Paragraph TextColor=""TextColor.White50"" Margin=""Margin.Is2.FromTop"">
+                        Swipe left to collapse.
+                    </Paragraph>
+                </Div>
+            }
+
+            <Div Flex=""Flex.Grow.Is1"" Padding=""Padding.Is2"">
+                <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">
+                    Content
+                </Heading>
+                <Paragraph Margin=""Margin.Is2.FromTop"">
+                    Swipe right to expand the panel and swipe left to collapse it.
+                </Paragraph>
+                <Button Color=""Color.Primary"" Outline Clicked=""@ToggleSidebar"">
+                    <Icon Name=""@( sidebarVisible ? IconName.Compress : IconName.Expand )"" Margin=""Margin.Is2.FromEnd"" />
+                    @( sidebarVisible ? ""Collapse"" : ""Expand"" )
+                </Button>
+            </Div>
+        </Div>
+    </Div>
+</Gestures>
+
+@code {
+    private bool sidebarVisible = true;
+
+    private Task OnSwiped( SwipeEventArgs eventArgs )
+    {
+        if ( eventArgs.Direction == GestureDirection.Left )
+            sidebarVisible = false;
+        else if ( eventArgs.Direction == GestureDirection.Right )
+            sidebarVisible = true;
+
+        return Task.CompletedTask;
+    }
+
+    private void ToggleSidebar()
+    {
+        sidebarVisible = !sidebarVisible;
+    }
+}";
+
         public const string BasicHighlighterExample = @"<Field>
     <FieldLabel>Search value</FieldLabel>
     <FieldBody>

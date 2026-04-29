@@ -1,0 +1,99 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Gestures Direction="GestureDirection.Horizontal"
+          TouchAction="GestureTouchAction.PanY"
+          Swiped="@OnSwiped"
+          Tapped="@OnTapped"
+          LongPressed="@OnLongPressed">
+    <Alert Visible="@(!dismissed)" Color="@AlertColor" Style="user-select: none;">
+        <Div Flex="Flex.JustifyContent.Between.AlignItems.Start" Gap="Gap.Is3">
+            <Div Flex="Flex.AlignItems.Start" Gap="Gap.Is3">
+                <Icon Name="IconName.InfoCircle" TextColor="@StatusTextColor" Margin="Margin.Is1.FromTop" />
+                <Div>
+                    <AlertMessage>
+                        Security update available
+                    </AlertMessage>
+                    <AlertDescription>
+                        @message
+                    </AlertDescription>
+                </Div>
+            </Div>
+            <Badge Color="@BadgeColor" Pill>@status</Badge>
+        </Div>
+    </Alert>
+</Gestures>
+
+@if ( dismissed )
+{
+    <Alert Visible Color="Color.Success" Margin="Margin.Is3.FromTop.Is0.FromBottom">
+        <AlertMessage>Alert dismissed.</AlertMessage>
+        <AlertDescription>
+            The horizontal swipe was handled by <Code>Gestures</Code>.
+        </AlertDescription>
+        <Button Color="Color.Success" Outline Size="Size.Small" Margin="Margin.Is2.FromTop" Clicked="@ResetAlert">
+            Show alert again
+        </Button>
+    </Alert>
+}
+
+@code {
+    private string status = "New";
+
+    private string message = "Tap for details, long press to pin, or swipe left or right to dismiss.";
+
+    private bool dismissed;
+
+    private bool pinned;
+
+    private Color AlertColor { get; set; } = Color.Info;
+
+    private Color BadgeColor { get; set; } = Color.Info;
+
+    private TextColor StatusTextColor
+    {
+        get
+        {
+            return pinned ? TextColor.Warning : TextColor.Info;
+        }
+    }
+
+    private Task OnSwiped( SwipeEventArgs _ )
+    {
+        dismissed = true;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnTapped( TapEventArgs _ )
+    {
+        status = "Details";
+        BadgeColor = Color.Primary;
+        AlertColor = Color.Primary;
+        message = "Version 2.1.4 includes security fixes and is ready to install.";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnLongPressed( LongPressEventArgs _ )
+    {
+        pinned = true;
+        status = "Pinned";
+        BadgeColor = Color.Warning;
+        AlertColor = Color.Warning;
+        message = "Pinned alerts stay visible until the user handles them explicitly.";
+
+        return Task.CompletedTask;
+    }
+
+    private Task ResetAlert()
+    {
+        dismissed = false;
+        pinned = false;
+        status = "New";
+        BadgeColor = Color.Info;
+        AlertColor = Color.Info;
+        message = "Tap for details, long press to pin, or swipe left or right to dismiss.";
+
+        return Task.CompletedTask;
+    }
+}
