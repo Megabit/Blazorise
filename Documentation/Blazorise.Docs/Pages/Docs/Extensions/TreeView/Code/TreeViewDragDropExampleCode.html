@@ -1,0 +1,68 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="atSign">&#64;</span>using System.Collections.ObjectModel
+<span class="atSign">&#64;</span>using Blazorise.TreeView.EventArguments
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TreeView</span> <span class="htmlAttributeName">Nodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Items</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">GetChildNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(item =&gt; item.Children)</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">HasChildNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(item =&gt; item.Children?.Any() == true)</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-ExpandedNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">expandedNodes</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">Draggable</span>
+          <span class="htmlAttributeName">Reorderable</span>
+          <span class="htmlAttributeName">CanDragNode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(item =&gt; !item.Locked)</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">CanDropNode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">CanDropNode</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">NodeContent</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Folder</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="atSign">&#64;</span>context.Text
+        <span class="atSign">&#64;</span>if ( context.Locked )
+        {
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Badge</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Warning</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is2.FromStart</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Locked<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Badge</span><span class="htmlTagDelimiter">&gt;</span>
+        }
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">NodeContent</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TreeView</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">public</span> <span class="keyword">class</span> Item
+    {
+        <span class="keyword">public</span> <span class="keyword">string</span> Text { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+        <span class="keyword">public</span> ObservableCollection&lt;Item&gt; Children { <span class="keyword">get</span>; } = <span class="keyword">new</span>();
+        <span class="keyword">public</span> <span class="keyword">bool</span> Locked { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+
+    ObservableCollection&lt;Item&gt; Items = <span class="keyword">new</span>()
+    {
+        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Documents&quot;</span> },
+        <span class="keyword">new</span> Item
+        {
+            Text = <span class="string">&quot;Projects&quot;</span>,
+            Children =
+            {
+                <span class="keyword">new</span> Item { Text = <span class="string">&quot;Blazorise&quot;</span> },
+                <span class="keyword">new</span> Item { Text = <span class="string">&quot;Roadmap&quot;</span> },
+                <span class="keyword">new</span> Item { Text = <span class="string">&quot;Archive&quot;</span>, Locked = <span class="keyword">true</span> },
+            }
+        },
+        <span class="keyword">new</span> Item
+        {
+            Text = <span class="string">&quot;Media&quot;</span>,
+            Children =
+            {
+                <span class="keyword">new</span> Item { Text = <span class="string">&quot;Images&quot;</span> },
+                <span class="keyword">new</span> Item { Text = <span class="string">&quot;Videos&quot;</span> },
+            }
+        },
+    };
+
+    IList&lt;Item&gt; expandedNodes;
+
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> OnInitialized()
+    {
+        expandedNodes = Items.Where( item =&gt; item.Children.Any() ).ToList();
+    }
+
+    <span class="keyword">private</span> <span class="keyword">bool</span> CanDropNode( TreeViewNodeDragEventArgs&lt;Item&gt; args )
+        =&gt; args.NewParentNode?.Locked <span class="keyword">is</span> not <span class="keyword">true</span>;
+}
+</pre></div>
+</div>

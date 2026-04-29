@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.AspNetCore.Components.Web.Virtualization
 @typeparam TNode
 @inherits BaseComponent
 <CascadingValue Value="@this" IsFixed>
@@ -25,10 +25,10 @@
 @code {
     protected RenderFragment<TreeViewNodeState<TNode>> nodeFragment => nodeState => __builder =>
     {
-        <div @key="@nodeState.Key" class="@NodeClassNames( nodeState )" style="@NodeStyleNames( nodeState )" @oncontextmenu="@((eventArgs)=>OnContextMenuHandler(nodeState, eventArgs))" @oncontextmenu:stopPropagation @oncontextmenu:preventDefault="@ContextMenuPreventDefault">
+        <div @key="@nodeState.Key" class="@NodeClassNames( nodeState )" style="@NodeStyleNames( nodeState )" @oncontextmenu="@(( e ) => OnContextMenuHandler( nodeState, e ))" @oncontextmenu:stopPropagation @oncontextmenu:preventDefault="@ContextMenuPreventDefault">
             @if ( nodeState.HasChildren )
             {
-                <span class="@NodeIconClassNames" style="@NodeIconStyleNames" @onclick="@(()=>ToggleNode(nodeState))">
+                <span class="@NodeIconClassNames" style="@NodeIconStyleNames" @onclick="@(() => ToggleNode( nodeState ))">
                     @if ( nodeState.Expanded )
                     {
                         <Icon Name="@CollapseIconName" IconStyle="@CollapseIconStyle" IconSize="@CollapseIconSize" />

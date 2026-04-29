@@ -1,11 +1,14 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Licensing;
+using Blazorise.Modules;
+using Blazorise.TreeView.EventArguments;
 using Blazorise.TreeView.Extensions;
 using Blazorise.TreeView.Internal;
 using Blazorise.Utilities;
@@ -90,17 +93,28 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
         }
     }
 
-    private void OnCollectionChanged( object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e )
+    /// <summary>
+    /// Handles root node collection changes.
+    /// </summary>
+    /// <param name="sender">The observable collection that raised the event.</param>
+    /// <param name="e">Supplies information about the collection change.</param>
+    private void OnCollectionChanged( object sender, NotifyCollectionChangedEventArgs e )
     {
         if ( e.Action == NotifyCollectionChangedAction.Add )
         {
             InvokeAsync( async () =>
             {
-                await foreach ( var nodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
+                int insertIndex = e.NewStartingIndex >= 0
+                    ? e.NewStartingIndex
+                    : treeViewNodeStates.Count;
+
+                await foreach ( var nodeState in e.NewItems.ToNodeStates( null, HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
                 {
-                    AddTreeViewNodeState( nodeState );
+                    InsertTreeViewNodeState( nodeState, insertIndex++ );
                     treeViewNodeRef?.RegisterNodeState( nodeState );
                 }
+
+                await InvokeAsync( StateHasChanged );
             } );
         }
 
@@ -154,7 +168,7 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     {
         treeViewNodeStates = new();
 
-        await foreach ( var nodeState in Nodes.ToNodeStates( HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
+        foreach ( TreeViewNodeState<TNode> nodeState in await CreateNodeStatesAsync( Nodes ) )
         {
             AddTreeViewNodeState( nodeState );
         }
@@ -162,7 +176,55 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
         await InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Triggers the reload of a specific node and its subtree.
+    /// </summary>
+    /// <param name="node">Node to reload.</param>
+    /// <returns>Returns the awaitable task.</returns>
+    public async Task ReloadNode( TNode node )
+    {
+        if ( treeViewNodeStates.IsNullOrEmpty() )
+            return;
+
+        if ( !TryFindNodeState( treeViewNodeStates, treeViewNodeRef, node, out TreeViewNodeState<TNode> nodeState, out _TreeViewNode<TNode> ownerView ) )
+            return;
+
+        TreeViewNodeState<TNode> updatedNodeState = await CreateNodeStateAsync( node );
+
+        ownerView?.UnregisterNodeState( nodeState );
+
+        nodeState.Node = updatedNodeState.Node;
+        nodeState.HasChildren = updatedNodeState.HasChildren;
+        nodeState.Disabled = updatedNodeState.Disabled;
+        nodeState.Expanded = updatedNodeState.HasChildren && updatedNodeState.Expanded;
+
+        if ( !nodeState.HasChildren && ExpandedNodes.Remove( nodeState.Node ) )
+        {
+            await ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
+        }
+
+        nodeState.Children.Clear();
+        nodeState.ViewRef?.ReloadNodeStatesSubscriptions( nodeState.Children );
+
+        ownerView?.RegisterNodeState( nodeState );
+
+        DirtyClasses();
+        await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Adds a root node state to the end of the root node state collection.
+    /// </summary>
+    /// <param name="treeViewNodeState">The node state to add.</param>
     private void AddTreeViewNodeState( TreeViewNodeState<TNode> treeViewNodeState )
+        => InsertTreeViewNodeState( treeViewNodeState, treeViewNodeStates.Count );
+
+    /// <summary>
+    /// Inserts a root node state at the requested index while respecting license row limits.
+    /// </summary>
+    /// <param name="treeViewNodeState">The node state to insert.</param>
+    /// <param name="index">The requested insertion index.</param>
+    private void InsertTreeViewNodeState( TreeViewNodeState<TNode> treeViewNodeState, int index )
     {
         var maxRowsLimit = BlazoriseLicenseLimitsHelper.GetTreeViewRowsLimit( LicenseChecker );
 
@@ -174,7 +236,113 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
             }
         }
 
-        treeViewNodeStates.Add( treeViewNodeState );
+        treeViewNodeStates.Insert( Math.Clamp( index, 0, treeViewNodeStates.Count ), treeViewNodeState );
+    }
+
+    internal async Task<TreeViewNodeState<TNode>> CreateNodeStateAsync( TNode node, TreeViewNodeState<TNode> parent = null )
+    {
+        bool hasChildren = HasChildNodesAsync is not null
+            ? await HasChildNodesAsync( node )
+            : DetermineHasChildNodes( node );
+
+        bool expanded = ExpandedNodes?.Contains( node ) == true;
+        bool disabled = DetermineIsDisabled( node );
+
+        return new TreeViewNodeState<TNode>( node, hasChildren, expanded, disabled, parent );
+    }
+
+    internal async Task<List<TreeViewNodeState<TNode>>> CreateNodeStatesAsync( IEnumerable<TNode> nodes, TreeViewNodeState<TNode> parent = null )
+    {
+        List<TreeViewNodeState<TNode>> nodeStates = new();
+
+        foreach ( TNode node in nodes ?? Enumerable.Empty<TNode>() )
+        {
+            nodeStates.Add( await CreateNodeStateAsync( node, parent ) );
+        }
+
+        return nodeStates;
+    }
+
+    private bool TryFindNodeState( IList<TreeViewNodeState<TNode>> nodeStates, _TreeViewNode<TNode> ownerView, TNode node, out TreeViewNodeState<TNode> foundNodeState, out _TreeViewNode<TNode> foundOwnerView )
+    {
+        if ( nodeStates is not null )
+        {
+            foreach ( TreeViewNodeState<TNode> nodeState in nodeStates )
+            {
+                if ( nodeState.Node.IsEqual( node ) )
+                {
+                    foundNodeState = nodeState;
+                    foundOwnerView = ownerView;
+                    return true;
+                }
+
+                if ( TryFindNodeState( nodeState.Children, nodeState.ViewRef, node, out foundNodeState, out foundOwnerView ) )
+                    return true;
+            }
+        }
+
+        foundNodeState = null;
+        foundOwnerView = null;
+        return false;
+    }
+
+    internal async Task<bool> TryMoveNodeAsync( TreeViewNodeState<TNode> draggedNodeState, TreeViewNodeState<TNode> newParentNodeState, int oldIndex, int newIndex )
+    {
+        if ( draggedNodeState is null )
+            return false;
+
+        IList<TNode> sourceNodes = await GetMutableNodeCollection( draggedNodeState.Parent );
+        IList<TNode> destinationNodes = await GetMutableNodeCollection( newParentNodeState );
+
+        if ( sourceNodes is null || destinationNodes is null )
+            return false;
+
+        if ( oldIndex < 0 || oldIndex >= sourceNodes.Count || newIndex < 0 || newIndex > destinationNodes.Count )
+            return false;
+
+        TNode draggedNode = draggedNodeState.Node;
+
+        if ( ReferenceEquals( sourceNodes, destinationNodes ) )
+        {
+            if ( newIndex >= sourceNodes.Count )
+                return false;
+
+            if ( oldIndex == newIndex )
+                return true;
+
+            if ( sourceNodes is ObservableCollection<TNode> observableSourceNodes )
+            {
+                observableSourceNodes.Move( oldIndex, newIndex );
+            }
+            else
+            {
+                sourceNodes.RemoveAt( oldIndex );
+                sourceNodes.Insert( newIndex, draggedNode );
+            }
+        }
+        else
+        {
+            sourceNodes.RemoveAt( oldIndex );
+            destinationNodes.Insert( newIndex, draggedNode );
+        }
+
+        await Reload();
+
+        return true;
+    }
+
+    private async Task<IList<TNode>> GetMutableNodeCollection( TreeViewNodeState<TNode> parentNodeState )
+    {
+        IEnumerable<TNode> nodes = parentNodeState is null
+            ? Nodes
+            : GetChildNodesAsync is not null
+                ? await GetChildNodesAsync( parentNodeState.Node )
+                : GetChildNodes?.Invoke( parentNodeState.Node );
+
+        if ( nodes is not IList<TNode> nodeList )
+            return null;
+
+        return nodeList.IsReadOnly ? null : nodeList;
     }
 
     protected override void Dispose( bool disposing )
@@ -266,6 +434,11 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     #region Properties
 
     /// <summary>
+    /// Behavior class for handling drag and drop events
+    /// </summary>
+    internal TreeViewDragDropBehavior<TNode> DragDrop { get => field ??= new( this, () => InvokeAsync( StateHasChanged ) ); }
+
+    /// <summary>
     /// Indicates if the node has child elements.
     /// </summary>
     protected Func<TNode, bool> DetermineHasChildNodes => HasChildNodes ?? ( node => false );
@@ -276,9 +449,19 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     protected Func<TNode, bool> DetermineIsDisabled => IsDisabled ?? ( node => false );
 
     /// <summary>
+    /// Gets the root node states rendered by the TreeView.
+    /// </summary>
+    internal IList<TreeViewNodeState<TNode>> RootNodeStates => treeViewNodeStates;
+
+    /// <summary>
     /// Specifies the license checker for the user session.
     /// </summary>
     [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
+
+    /// <summary>
+    /// Gets or sets the JS drag and drop module.
+    /// </summary>
+    [Inject] internal IJSDragDropModule JSDragDropModule { get; set; }
 
     /// <summary>
     /// Specifies the name of the treenode expand icon.
@@ -323,8 +506,7 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     /// <summary>
     /// Currently selected TreeView item/node.
     /// </summary>
-    [Parameter]
-    public TNode SelectedNode { get; set; }
+    [Parameter] public TNode SelectedNode { get; set; }
 
     /// <summary>
     /// Notifies when the selected TreeView node has changed.
@@ -334,8 +516,7 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     /// <summary>
     /// Currently selected TreeView items/nodes.
     /// </summary>
-    [Parameter]
-    public IList<TNode> SelectedNodes { get; set; }
+    [Parameter] public IList<TNode> SelectedNodes { get; set; }
 
     /// <summary>
     /// Notifies when the selected TreeView nodes has changed.
@@ -433,6 +614,32 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     /// Specifies the content to be rendered inside this <see cref="TreeView{TNode}"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Enables TreeView nodes to be dragged with the browser drag-and-drop API.
+    /// </summary>
+    [Parameter] public bool Draggable { get; set; }
+
+    /// <summary>
+    /// Enables dropping a dragged node before another node instead of only dropping it as a child.
+    /// </summary>
+    [Parameter] public bool Reorderable { get; set; }
+
+    /// <summary>
+    /// Determines whether the specified node can be dragged.
+    /// </summary>
+    [Parameter] public Func<TNode, bool> CanDragNode { get; set; } = _ => true;
+
+    /// <summary>
+    /// Determines whether a proposed drop operation is allowed.
+    /// </summary>
+    [Parameter] public Func<TreeViewNodeDragEventArgs<TNode>, bool> CanDropNode { get; set; } = _ => true;
+
+    /// <summary>
+    /// Occurs when a node is dropped on a valid target.
+    /// </summary>
+    /// <remarks>When this callback is not handled, the TreeView tries to move the node in the bound mutable collections automatically. When handled, this callback overrides the built-in move behavior.</remarks>
+    [Parameter] public EventCallback<TreeViewNodeDragEventArgs<TNode>> NodeDropped { get; set; }
 
     #endregion
 }

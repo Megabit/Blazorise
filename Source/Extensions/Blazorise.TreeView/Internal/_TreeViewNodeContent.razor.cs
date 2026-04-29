@@ -117,6 +117,22 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
         return base.OnParametersSetAsync();
     }
 
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        await base.OnAfterRenderAsync( firstRender );
+
+        if ( ParentTreeView.Draggable && !dragDropInitialized )
+        {
+            await ParentTreeView.DragDrop.Attach( ElementRef, ElementId );
+            dragDropInitialized = true;
+        }
+        else if ( !ParentTreeView.Draggable && dragDropInitialized )
+        {
+            await ParentTreeView.DragDrop.Detach( ElementRef, ElementId );
+            dragDropInitialized = false;
+        }
+    }
+
     private string GetCurrentStyle()
     {
         if ( Selected )
@@ -131,7 +147,7 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
         => nodeTitleClassBuilder.Class;
 
     protected string NodeTitleStyleNames
-        => nodeTitleStyleBuilder.Styles;
+    => nodeTitleStyleBuilder.Styles;
 
     protected string NodeCheckClassNames
         => nodeCheckClassBuilder.Class;
@@ -145,6 +161,21 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     private void BuildNodeTitleClasses( ClassBuilder builder )
     {
         builder.Append( "b-tree-view-node-title" );
+
+        switch ( ParentTreeView.DragDrop.GetDropState( NodeState ) )
+        {
+            case TreeViewDropIndicator.InsertBefore:
+                builder.Append( ["b-tree-view-node-drop-target", "b-tree-view-node-title-drop-before"] );
+                break;
+            case TreeViewDropIndicator.InsertAfter:
+                builder.Append( ["b-tree-view-node-drop-target", "b-tree-view-node-title-drop-after"] );
+                break;
+            case TreeViewDropIndicator.DropAsChild:
+                builder.Append( ["b-tree-view-node-drop-target", ClassProvider.BackgroundColor( Background.Primary.Subtle )] );
+                break;
+            default:
+                break;
+        }
 
         string nodeTitleClass = ParentTreeView?.Classes?.NodeTitle;
         if ( !string.IsNullOrWhiteSpace( nodeTitleClass ) )
@@ -214,9 +245,22 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
         base.DirtyStyles();
     }
 
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing && dragDropInitialized )
+        {
+            await ParentTreeView.DragDrop.Detach( ElementRef, ElementId );
+            dragDropInitialized = false;
+        }
+
+        await base.DisposeAsync( disposing );
+    }
+
     #endregion
 
     #region Properties
+
+    private bool dragDropInitialized;
 
     protected bool Selected
         => SelectionMode == TreeViewSelectionMode.Single && ParentTreeViewState.SelectedNode != null && ParentTreeViewState.SelectedNode.Equals( NodeState.Node );

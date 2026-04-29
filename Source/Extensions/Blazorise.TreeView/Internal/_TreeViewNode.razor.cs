@@ -5,7 +5,6 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
-using Blazorise.TreeView;
 using Blazorise.TreeView.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -289,7 +288,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
     {
         nodeState.Children.Clear();
 
-        await foreach ( var childNodeState in childNodes.ToNodeStates( HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
+        await foreach ( var childNodeState in childNodes.ToNodeStates( nodeState, HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
         {
             nodeState.Children.Add( childNodeState );
         }
@@ -299,6 +298,8 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
 
     private async void OnChildrenChanged( object sender, NotifyCollectionChangedEventArgs e, TreeViewNodeState<TNode> nodeState, IEnumerable<TNode> childNodes )
     {
+        bool nodeHadChildren = nodeState.HasChildren;
+
         if ( !nodeState.HasChildren )
         {
             nodeState.HasChildren = true;
@@ -322,11 +323,16 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
 
         if ( e.Action == NotifyCollectionChangedAction.Add )
         {
-            await foreach ( var childNodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
+            int insertIndex = e.NewStartingIndex >= 0
+                ? e.NewStartingIndex
+                : nodeState.Children.Count;
+
+            await foreach ( var childNodeState in e.NewItems.ToNodeStates( nodeState, HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
             {
                 if ( !nodeState.Children.Exists( x => x.Node.IsEqual( childNodeState.Node ) ) )
                 {
-                    nodeState.Children.Add( childNodeState );
+                    nodeState.Children.Insert( Math.Clamp( insertIndex, 0, nodeState.Children.Count ), childNodeState );
+                    insertIndex++;
                     nodeState.ViewRef?.RegisterNodeState( childNodeState );
                 }
             }
@@ -350,6 +356,15 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
             {
                 await ReloadChildren( nodeState, childNodes );
             }
+        }
+
+        nodeState.HasChildren = nodeState.Children.Count > 0;
+
+        // Force refresh of a root node (no parent) if HasChildren changes
+        if ( nodeState.Parent == null && nodeHadChildren != nodeState.HasChildren )
+        {
+            await ParentTreeView.ReloadNode( nodeState.Node );
+            return;
         }
 
         await InvokeAsync( StateHasChanged );
@@ -556,7 +571,6 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
     #endregion
 
     #region Properties
-
     /// <summary>
     /// Indicates if the node has child elements.
     /// </summary>
@@ -668,8 +682,14 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
     /// </summary>
     [CascadingParameter] public _TreeViewNode<TNode> ParentNode { get; set; }
 
+    /// <summary>
+    /// Gets or sets the parent TreeView component.
+    /// </summary>
     [CascadingParameter] public TreeView<TNode> ParentTreeView { get; set; }
 
+    /// <summary>
+    /// Gets or sets the parent TreeView state.
+    /// </summary>
     [CascadingParameter] protected TreeViewState<TNode> ParentTreeViewState { get; set; }
 
     #endregion
