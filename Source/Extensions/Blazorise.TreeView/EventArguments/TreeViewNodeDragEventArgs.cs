@@ -12,14 +12,14 @@ public class TreeViewNodeDragEventArgs<TNode>
     /// Creates a new instance of <see cref="TreeViewNodeDragEventArgs{TNode}"/>.
     /// </summary>
     /// <param name="eventArgs">The underlying browser drag event.</param>
-    /// <param name="dragged">The dragged node.</param>
+    /// <param name="draggedNode">The dragged node.</param>
     /// <param name="newParent">The proposed destination parent node, or the default value when dropping at the TreeView root.</param>
     /// <param name="oldParent">The source parent node, or the default value when the dragged node comes from the TreeView root.</param>
     /// <param name="newIndex">The proposed destination index within the destination parent or root collection.</param>
     /// <param name="oldIndex">The original index within the source parent or root collection.</param>
-    public TreeViewNodeDragEventArgs( DragEventArgs eventArgs, TNode dragged, TNode newParent, TNode oldParent, int newIndex, int oldIndex )
+    public TreeViewNodeDragEventArgs( DragEventArgs eventArgs, TNode draggedNode, TNode newParent, TNode oldParent, int newIndex, int oldIndex )
     {
-        DraggedNode = dragged;
+        DraggedNode = draggedNode;
         NewParentNode = newParent;
         OldParentNode = oldParent;
         NewIndex = newIndex;
