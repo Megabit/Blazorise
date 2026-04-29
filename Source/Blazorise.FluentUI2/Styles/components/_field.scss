@@ -46,7 +46,10 @@
 .fui-SpinButton,
 .fui-Checkbox,
 .fui-ColorPicker,
-.fui-RadioGroup__horizontal {
+.fui-RadioGroup,
+.fui-RadioGroup__horizontal,
+.fui-RadioGroup__buttons,
+.fui-RadioGroup__horizontal-buttons {
     & + .fui-Field__validationMessage-error,
     & + .fui-Field__validationMessage-warning,
     & + .fui-Field__validationMessage-success,
