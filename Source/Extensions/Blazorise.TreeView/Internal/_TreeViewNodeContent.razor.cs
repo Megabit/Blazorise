@@ -164,10 +164,10 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
         switch ( ParentTreeView.DragDrop.GetDropState( NodeState ) )
         {
-            case TargetDropState.InsertBefore:
+            case TreeViewDropIndicator.InsertBefore:
                 builder.Append( ["b-tree-view-node-drop-target", "b-tree-view-node-title-drop-before"] );
                 break;
-            case TargetDropState.DropAsChild:
+            case TreeViewDropIndicator.DropAsChild:
                 builder.Append( ["b-tree-view-node-drop-target", ClassProvider.BackgroundColor( Background.Primary.Subtle )] );
                 break;
             default:

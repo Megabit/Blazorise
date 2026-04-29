@@ -1,9 +1,9 @@
-﻿namespace Blazorise.TreeView.Internal;
+namespace Blazorise.TreeView.Internal;
 
 /// <summary>
 /// Drop state defination when a node is dragged over another node.
 /// </summary>
-internal enum TargetDropState
+internal enum TreeViewDropIndicator
 {
     /// <summary>
     /// Nothing

@@ -229,16 +229,16 @@ internal sealed class TreeViewDragDropBehavior<TNode>( TreeView<TNode> treeView,
         await stateHasChanged();
     }
 
-    public TargetDropState GetDropState( TreeViewNodeState<TNode> target )
+    public TreeViewDropIndicator GetDropState( TreeViewNodeState<TNode> target )
     {
         if ( !treeView.Draggable || !ReferenceEquals( activeDropNode, target ) )
         {
-            return TargetDropState.None;
+            return TreeViewDropIndicator.None;
         }
 
         return activeDropAsChild
-            ? TargetDropState.DropAsChild
-            : TargetDropState.InsertBefore;
+            ? TreeViewDropIndicator.DropAsChild
+            : TreeViewDropIndicator.InsertBefore;
     }
 
     #endregion
