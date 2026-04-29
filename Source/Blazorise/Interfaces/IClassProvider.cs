@@ -272,6 +272,10 @@ public interface IClassProvider
 
     string ValidationSuccessTooltip();
 
+    string ValidationWarning();
+
+    string ValidationWarningTooltip();
+
     string ValidationError();
 
     string ValidationErrorTooltip();

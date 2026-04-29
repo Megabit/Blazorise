@@ -461,6 +461,19 @@
     }
 }
 
+.mui-check.is-warning,
+.mui-radio.is-warning {
+    > .mui-check-label,
+    > .mui-radio-label {
+        > span::before,
+        > span::after,
+        > span > i {
+            border-color: var(--mui-warning);
+            color: var(--mui-warning);
+        }
+    }
+}
+
 .mui-check.is-invalid,
 .mui-radio.is-invalid {
     > .mui-check-label,
@@ -481,12 +494,20 @@
     box-shadow: inset 0 0 0 1px var(--mui-success);
 }
 
+.mui-radio-button.is-warning > .mui-button {
+    box-shadow: inset 0 0 0 1px var(--mui-warning);
+}
+
 .mui-radio-button.is-invalid > .mui-button {
     box-shadow: inset 0 0 0 1px var(--mui-error);
 }
 
 .mui-switch.is-valid > .mui-switch-label > input:checked + span::after {
     background-color: var(--mui-success);
+}
+
+.mui-switch.is-warning > .mui-switch-label > input:checked + span::after {
+    background-color: var(--mui-warning);
 }
 
 .mui-switch.is-invalid > .mui-switch-label > input:checked + span::after {

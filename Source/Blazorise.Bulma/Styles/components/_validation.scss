@@ -1,36 +1,57 @@
 :is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help.is-success,
+:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help.is-warning,
 :is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help.is-danger,
-:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help:not(.is-success):not(.is-danger) + .help.is-success,
-:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help:not(.is-success):not(.is-danger) + .help.is-danger,
+:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help:not(.is-success):not(.is-warning):not(.is-danger) + .help.is-success,
+:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help:not(.is-success):not(.is-warning):not(.is-danger) + .help.is-warning,
+:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help:not(.is-success):not(.is-warning):not(.is-danger) + .help.is-danger,
 :is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help.is-success + .help.is-danger,
-:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help:not(.is-success):not(.is-danger) + .help.is-success + .help.is-danger,
+:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help.is-success + .help.is-warning,
+:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help.is-warning + .help.is-danger,
+:is(.control, input, textarea, .EasyMDEContainer, .b-richtextedit) + .help:not(.is-success):not(.is-warning):not(.is-danger) + .help.is-success + .help.is-danger,
 input + label + .help.is-success,
+input + label + .help.is-warning,
 input + label + .help.is-danger,
-input + label + .help:not(.is-success):not(.is-danger) + .help.is-success,
-input + label + .help:not(.is-success):not(.is-danger) + .help.is-danger,
+input + label + .help:not(.is-success):not(.is-warning):not(.is-danger) + .help.is-success,
+input + label + .help:not(.is-success):not(.is-warning):not(.is-danger) + .help.is-warning,
+input + label + .help:not(.is-success):not(.is-warning):not(.is-danger) + .help.is-danger,
 input + label + .help.is-success + .help.is-danger,
-input + label + .help:not(.is-success):not(.is-danger) + .help.is-success + .help.is-danger,
+input + label + .help.is-success + .help.is-warning,
+input + label + .help.is-warning + .help.is-danger,
+input + label + .help:not(.is-success):not(.is-warning):not(.is-danger) + .help.is-success + .help.is-danger,
 .b-password-strength > .help.is-success,
+.b-password-strength > .help.is-warning,
 .b-password-strength > .help.is-danger {
     display: none;
 }
 
-:is(.control:has(.is-success), .control:has(.is-danger), input.is-success, input.is-danger, textarea.is-success, textarea.is-danger, .EasyMDEContainer.b-markdown-valid, .EasyMDEContainer.b-markdown-invalid, .b-richtextedit.is-success, .b-richtextedit.is-danger) + .help:not(.is-success):not(.is-danger),
-input:is(.is-success, .is-danger) + label + .help:not(.is-success):not(.is-danger) {
+:is(.control:has(.is-success), .control:has(.is-warning), .control:has(.is-danger), input.is-success, input.is-warning, input.is-danger, textarea.is-success, textarea.is-warning, textarea.is-danger, .EasyMDEContainer.b-markdown-valid, .EasyMDEContainer.b-markdown-warning, .EasyMDEContainer.b-markdown-invalid, .b-richtextedit.is-success, .b-richtextedit.is-warning, .b-richtextedit.is-danger) + .help:not(.is-success):not(.is-warning):not(.is-danger),
+input:is(.is-success, .is-warning, .is-danger) + label + .help:not(.is-success):not(.is-warning):not(.is-danger) {
     display: none;
 }
 
 .b-password-strength:has(.field.has-addons > .control .input.is-success),
+.b-password-strength:has(.field.has-addons > .control .input.is-warning),
 .b-password-strength:has(.field.has-addons > .control .input.is-danger) {
-    > .help:not(.is-success):not(.is-danger) {
+    > .help:not(.is-success):not(.is-warning):not(.is-danger) {
         display: none;
     }
 }
 
 :is(.control:has(.is-success), input.is-success, textarea.is-success, .EasyMDEContainer.b-markdown-valid, .b-richtextedit.is-success) + .help.is-success,
-:is(.control:has(.is-success), input.is-success, textarea.is-success, .EasyMDEContainer.b-markdown-valid, .b-richtextedit.is-success) + .help:not(.is-success):not(.is-danger) + .help.is-success,
+:is(.control:has(.is-success), input.is-success, textarea.is-success, .EasyMDEContainer.b-markdown-valid, .b-richtextedit.is-success) + .help:not(.is-success):not(.is-warning):not(.is-danger) + .help.is-success,
 input.is-success + label + .help.is-success,
-input.is-success + label + .help:not(.is-success):not(.is-danger) + .help.is-success {
+input.is-success + label + .help:not(.is-success):not(.is-warning):not(.is-danger) + .help.is-success {
+    display: block;
+}
+
+:is(.control:has(.is-warning), input.is-warning, textarea.is-warning, .EasyMDEContainer.b-markdown-warning, .b-richtextedit.is-warning) + .help.is-warning,
+:is(.control:has(.is-warning), input.is-warning, textarea.is-warning, .EasyMDEContainer.b-markdown-warning, .b-richtextedit.is-warning) + .help:not(.is-success):not(.is-warning):not(.is-danger) + .help.is-warning,
+:is(.control:has(.is-warning), input.is-warning, textarea.is-warning, .EasyMDEContainer.b-markdown-warning, .b-richtextedit.is-warning) + .help.is-success + .help.is-warning,
+:is(.control:has(.is-warning), input.is-warning, textarea.is-warning, .EasyMDEContainer.b-markdown-warning, .b-richtextedit.is-warning) + .help:not(.is-success):not(.is-warning):not(.is-danger) + .help.is-success + .help.is-warning,
+input.is-warning + label + .help.is-warning,
+input.is-warning + label + .help:not(.is-success):not(.is-warning):not(.is-danger) + .help.is-warning,
+input.is-warning + label + .help.is-success + .help.is-warning,
+input.is-warning + label + .help:not(.is-success):not(.is-warning):not(.is-danger) + .help.is-success + .help.is-warning {
     display: block;
 }
 
@@ -44,14 +65,27 @@ input.is-success + label + .help:not(.is-success):not(.is-danger) + .help.is-suc
     }
 }
 
+.b-password-strength:has(.field.has-addons > .control .input.is-warning) {
+    > .help.is-warning {
+        display: block;
+    }
+
+    > .help.is-success,
+    > .help.is-danger {
+        display: none;
+    }
+}
+
 :is(.control:has(.is-danger), input.is-danger, textarea.is-danger, .EasyMDEContainer.b-markdown-invalid, .b-richtextedit.is-danger) + .help.is-danger,
-:is(.control:has(.is-danger), input.is-danger, textarea.is-danger, .EasyMDEContainer.b-markdown-invalid, .b-richtextedit.is-danger) + .help:not(.is-success):not(.is-danger) + .help.is-danger,
+:is(.control:has(.is-danger), input.is-danger, textarea.is-danger, .EasyMDEContainer.b-markdown-invalid, .b-richtextedit.is-danger) + .help:not(.is-success):not(.is-warning):not(.is-danger) + .help.is-danger,
 :is(.control:has(.is-danger), input.is-danger, textarea.is-danger, .EasyMDEContainer.b-markdown-invalid, .b-richtextedit.is-danger) + .help.is-success + .help.is-danger,
-:is(.control:has(.is-danger), input.is-danger, textarea.is-danger, .EasyMDEContainer.b-markdown-invalid, .b-richtextedit.is-danger) + .help:not(.is-success):not(.is-danger) + .help.is-success + .help.is-danger,
+:is(.control:has(.is-danger), input.is-danger, textarea.is-danger, .EasyMDEContainer.b-markdown-invalid, .b-richtextedit.is-danger) + .help.is-warning + .help.is-danger,
+:is(.control:has(.is-danger), input.is-danger, textarea.is-danger, .EasyMDEContainer.b-markdown-invalid, .b-richtextedit.is-danger) + .help:not(.is-success):not(.is-warning):not(.is-danger) + .help.is-success + .help.is-danger,
+input.is-danger + label + .help.is-warning + .help.is-danger,
 input.is-danger + label + .help.is-danger,
-input.is-danger + label + .help:not(.is-success):not(.is-danger) + .help.is-danger,
+input.is-danger + label + .help:not(.is-success):not(.is-warning):not(.is-danger) + .help.is-danger,
 input.is-danger + label + .help.is-success + .help.is-danger,
-input.is-danger + label + .help:not(.is-success):not(.is-danger) + .help.is-success + .help.is-danger {
+input.is-danger + label + .help:not(.is-success):not(.is-warning):not(.is-danger) + .help.is-success + .help.is-danger {
     display: block;
 }
 

@@ -288,6 +288,10 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ValidationSuccessTooltip() => "valid-tooltip";
 
+    public override string ValidationWarning() => "ant-form-item-explain ant-form-item-explain-warning";
+
+    public override string ValidationWarningTooltip() => "warning-tooltip";
+
     public override string ValidationError() => "ant-form-item-explain ant-form-item-explain-error";
 
     public override string ValidationErrorTooltip() => "invalid-tooltip";
@@ -319,6 +323,7 @@ public class AntDesignClassProvider : ClassProvider
     public override string FieldSetValidation( ValidationStatus validationStatus ) => validationStatus switch
     {
         ValidationStatus.Error => "ant-form-item-has-feedback ant-form-item-has-error",
+        ValidationStatus.Warning => "ant-form-item-has-feedback ant-form-item-has-warning",
         ValidationStatus.Success => "ant-form-item-has-feedback ant-form-item-has-success",
         _ => null,
     };
@@ -340,6 +345,7 @@ public class AntDesignClassProvider : ClassProvider
     public override string FieldValidation( ValidationStatus validationStatus ) => validationStatus switch
     {
         ValidationStatus.Error => "ant-form-item-has-feedback ant-form-item-has-error",
+        ValidationStatus.Warning => "ant-form-item-has-feedback ant-form-item-has-warning",
         ValidationStatus.Success => "ant-form-item-has-feedback ant-form-item-has-success",
         _ => null,
     };
@@ -418,6 +424,7 @@ public class AntDesignClassProvider : ClassProvider
         => validationStatus switch
         {
             ValidationStatus.Error => "ant-input-group-wrapper-status-error",
+            ValidationStatus.Warning => "ant-input-group-wrapper-status-warning",
             ValidationStatus.Success => "ant-input-group-wrapper-status-success",
             _ => null,
         };
@@ -1946,6 +1953,7 @@ public class AntDesignClassProvider : ClassProvider
         return validationStatus switch
         {
             Blazorise.ValidationStatus.Success => "ant-input-status-success",
+            Blazorise.ValidationStatus.Warning => "ant-input-status-warning",
             Blazorise.ValidationStatus.Error => "ant-input-status-error",
             _ => null,
         };
@@ -2006,6 +2014,7 @@ public class AntDesignClassProvider : ClassProvider
         string suffix = validationStatus switch
         {
             Blazorise.ValidationStatus.Success => "success",
+            Blazorise.ValidationStatus.Warning => "warning",
             Blazorise.ValidationStatus.Error => "error",
             _ => null,
         };

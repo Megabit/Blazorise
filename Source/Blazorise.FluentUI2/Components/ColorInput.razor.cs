@@ -43,6 +43,10 @@ public partial class ColorInput
         {
             builder.Append( "fui-Input-error" );
         }
+        else if ( ParentValidation?.Status == ValidationStatus.Warning )
+        {
+            builder.Append( "fui-Input-warning" );
+        }
         else if ( ParentValidation?.Status == ValidationStatus.Success )
         {
             builder.Append( "fui-Input-success" );

@@ -302,6 +302,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
             ValidationStatus = new
             {
                 SuccessClass = ClassProvider.DatePickerValidation( ValidationStatus.Success ),
+                WarningClass = ClassProvider.DatePickerValidation( ValidationStatus.Warning ),
                 ErrorClass = ClassProvider.DatePickerValidation( ValidationStatus.Error ),
             }
         } );

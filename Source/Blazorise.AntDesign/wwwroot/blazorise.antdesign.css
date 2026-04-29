@@ -3960,12 +3960,15 @@ template {
   border-color: var(--ant-color-primary-hover);
 }
 
-.b-is-autocomplete.ant-input-status-success, .b-is-autocomplete.ant-input-status-error {
+.b-is-autocomplete.ant-input-status-success, .b-is-autocomplete.ant-input-status-warning, .b-is-autocomplete.ant-input-status-error {
   border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border);
   border-radius: var(--ant-border-radius);
 }
 .b-is-autocomplete.ant-input-status-success {
   border-color: var(--ant-color-success);
+}
+.b-is-autocomplete.ant-input-status-warning {
+  border-color: var(--ant-color-warning);
 }
 .b-is-autocomplete.ant-input-status-error {
   border-color: var(--ant-color-error);
@@ -3975,12 +3978,17 @@ template {
   -webkit-box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-success-color-outline);
   box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-success-color-outline);
 }
+.b-is-autocomplete.ant-input-status-warning.focus {
+  border-color: var(--ant-color-warning);
+  -webkit-box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-color-warning-outline);
+  box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-color-warning-outline);
+}
 .b-is-autocomplete.ant-input-status-error.focus {
   border-color: var(--ant-color-error);
   -webkit-box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-error-color-outline);
   box-shadow: 0 0 0 var(--ant-control-outline-width) var(--ant-error-color-outline);
 }
-.b-is-autocomplete.ant-input-status-success > input.ant-input, .b-is-autocomplete.ant-input-status-error > input.ant-input {
+.b-is-autocomplete.ant-input-status-success > input.ant-input, .b-is-autocomplete.ant-input-status-warning > input.ant-input, .b-is-autocomplete.ant-input-status-error > input.ant-input {
   border-color: transparent;
   box-shadow: none;
 }
@@ -4205,33 +4213,62 @@ template {
   border-color: var(--ant-color-success);
 }
 
+.ant-form-item-has-warning .ant-input,
+.ant-form-item-has-warning .ant-input-affix-wrapper,
+.ant-form-item-has-warning .ant-input:hover,
+.ant-form-item-has-warning .ant-input-affix-wrapper:hover,
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number).ant-input-status-warning,
+.b-richtextedit.ant-input-status-warning {
+  border-color: var(--b-theme-warning, var(--ant-color-warning));
+}
+
 :is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .valid-feedback,
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain[role=status],
 :is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain[role=alert],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role=alert]) + .valid-feedback,
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role=alert]) + .ant-form-item-explain[role=alert],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .valid-feedback,
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=status],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=alert],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .valid-feedback + .ant-form-item-explain[role=status],
 :is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .valid-feedback + .ant-form-item-explain[role=alert],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role=alert]) + .valid-feedback + .ant-form-item-explain[role=alert] {
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role=status],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role=alert],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain[role=status] + .ant-form-item-explain[role=alert],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=status] + .ant-form-item-explain[role=alert] {
   display: none;
 }
 
-:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .ant-form-item-explain:not([role=alert]) {
+:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .ant-form-item-explain:not([role]) {
   display: none;
 }
 
 :is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .valid-feedback,
-:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .ant-form-item-explain:not([role=alert]) + .valid-feedback {
+:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .ant-form-item-explain:not([role]) + .valid-feedback {
   display: block;
   color: var(--b-theme-success, var(--ant-color-success));
 }
 
-:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role=alert]) {
+:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-picker-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .ant-form-item-explain:not([role]) {
+  display: none;
+}
+
+:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-picker-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .ant-form-item-explain[role=status],
+:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-picker-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=status],
+:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-picker-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .valid-feedback + .ant-form-item-explain[role=status],
+:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-picker-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role=status] {
+  display: block;
+  color: var(--b-theme-warning, var(--ant-color-warning));
+}
+
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role]) {
   display: none;
 }
 
 :is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain[role=alert],
-:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role=alert]) + .ant-form-item-explain[role=alert],
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=alert],
 :is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .valid-feedback + .ant-form-item-explain[role=alert],
-:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role=alert]) + .valid-feedback + .ant-form-item-explain[role=alert] {
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role=alert],
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain[role=status] + .ant-form-item-explain[role=alert],
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=status] + .ant-form-item-explain[role=alert] {
   display: block;
 }
 
@@ -4253,6 +4290,7 @@ template {
 }
 
 .ant-form-item .valid-feedback,
+.ant-form-item .ant-form-item-explain[role=status],
 .ant-form-item .ant-form-item-explain[role=alert] {
   display: none;
 }
@@ -4264,6 +4302,14 @@ template {
   display: block;
 }
 .ant-form-item.ant-form-item-has-error .valid-feedback {
+  display: none;
+}
+.ant-form-item.ant-form-item-has-warning .ant-form-item-explain[role=status] {
+  display: block;
+  color: var(--b-theme-warning, var(--ant-color-warning));
+}
+.ant-form-item.ant-form-item-has-warning .valid-feedback,
+.ant-form-item.ant-form-item-has-warning .ant-form-item-explain[role=alert] {
   display: none;
 }
 .ant-form-item > .ant-col.ant-form-item-label {
@@ -7125,6 +7171,13 @@ a.ant-typography-disabled[aria-disabled=true] {
   --ant-slider-handle-active-color: var(--ant-color-success);
   --ant-slider-dot-active-border-color: var(--ant-color-success);
 }
+.ant-slider.ant-input-status-warning {
+  --ant-slider-track-bg: var(--ant-color-warning);
+  --ant-slider-track-hover-bg: var(--ant-color-warning);
+  --ant-slider-handle-color: var(--ant-color-warning);
+  --ant-slider-handle-active-color: var(--ant-color-warning);
+  --ant-slider-dot-active-border-color: var(--ant-color-warning);
+}
 .ant-slider.ant-input-status-error {
   --ant-slider-track-bg: var(--ant-color-error);
   --ant-slider-track-hover-bg: var(--ant-color-error);
@@ -7229,6 +7282,14 @@ a.ant-typography-disabled[aria-disabled=true] {
   --ant-slider-handle-color: var(--ant-color-success);
   --ant-slider-handle-active-color: var(--ant-color-success);
   --ant-slider-dot-active-border-color: var(--ant-color-success);
+}
+
+.b-ant-range-slider.ant-input-status-warning {
+  --ant-slider-track-bg: var(--ant-color-warning);
+  --ant-slider-track-hover-bg: var(--ant-color-warning);
+  --ant-slider-handle-color: var(--ant-color-warning);
+  --ant-slider-handle-active-color: var(--ant-color-warning);
+  --ant-slider-dot-active-border-color: var(--ant-color-warning);
 }
 
 .b-ant-range-slider.ant-input-status-error {
@@ -8740,6 +8801,26 @@ a.ant-typography-disabled[aria-disabled=true] {
   border-color: var(--b-theme-success, var(--ant-success-color));
 }
 
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning .editor-toolbar,
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning .CodeMirror,
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning .editor-preview-side,
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning .editor-preview-full,
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning .editor-statusbar {
+  border-color: var(--b-theme-warning, var(--ant-color-warning));
+}
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning + .ant-form-item-explain:not([role]),
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning + .valid-feedback,
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning + .ant-form-item-explain:not([role]) + .valid-feedback {
+  display: none;
+}
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning + .ant-form-item-explain[role=status],
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role=status],
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning + .valid-feedback + .ant-form-item-explain[role=status],
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role=status] {
+  display: block;
+  color: var(--b-theme-warning, var(--ant-color-warning));
+}
+
 .EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-toolbar,
 .EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .CodeMirror,
 .EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-preview-side,
@@ -8773,6 +8854,18 @@ a.ant-typography-disabled[aria-disabled=true] {
 .b-richtextedit.ant-input-status-success > .b-richtextedit-toolbar.ql-toolbar,
 .b-richtextedit.ant-input-status-success > .ql-toolbar.ql-bubble {
   border-color: var(--b-theme-success, var(--ant-color-success));
+}
+
+.b-richtextedit.ant-input-status-warning > .b-richtextedit-editor.ql-bubble,
+.b-richtextedit.ant-input-status-warning > .b-richtextedit-toolbar.ql-bubble,
+.b-richtextedit.ant-input-status-warning > .ql-toolbar.ql-bubble {
+  border-style: solid;
+  border-width: var(--ant-line-width);
+}
+.b-richtextedit.ant-input-status-warning > .b-richtextedit-editor.ql-container,
+.b-richtextedit.ant-input-status-warning > .b-richtextedit-toolbar.ql-toolbar,
+.b-richtextedit.ant-input-status-warning > .ql-toolbar.ql-bubble {
+  border-color: var(--b-theme-warning, var(--ant-color-warning));
 }
 
 .b-richtextedit.ant-input-status-error > .b-richtextedit-editor.ql-bubble,

@@ -41,17 +41,29 @@
 }
 
 .fui-Input,
+.fui-Textarea,
 .fui-Select,
 .fui-SpinButton,
 .fui-Checkbox,
 .fui-ColorPicker,
-.fui-RadioGroup__horizontal {
+.fui-RadioGroup,
+.fui-RadioGroup__horizontal,
+.fui-RadioGroup__buttons,
+.fui-RadioGroup__horizontal-buttons {
     & + .fui-Field__validationMessage-error,
+    & + .fui-Field__validationMessage-warning,
     & + .fui-Field__validationMessage-success,
     & + .fui-Field__hint + .fui-Field__validationMessage-error,
+    & + .fui-Field__hint + .fui-Field__validationMessage-warning,
     & + .fui-Field__hint + .fui-Field__validationMessage-success,
     & + .fui-Field__validationMessage-success + .fui-Field__validationMessage-error,
-    & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-error {
+    & + .fui-Field__validationMessage-success + .fui-Field__validationMessage-warning,
+    & + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error,
+    & + .fui-Field__validationMessage-success + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error,
+    & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-error,
+    & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-warning,
+    & + .fui-Field__hint + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error,
+    & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error {
         display: none;
         margin-top: var(--spacingVerticalXXS);
         color: var(--colorNeutralForeground3);
@@ -72,6 +84,7 @@
     }
 
     &.fui-Input-error,
+    &.fui-Textarea-error,
     &.fui-Select-error,
     &.fui-SpinButton-error,
     &.fui-Checkbox-error,
@@ -84,7 +97,11 @@
         & + .fui-Field__validationMessage-error,
         & + .fui-Field__hint + .fui-Field__validationMessage-error,
         & + .fui-Field__validationMessage-success + .fui-Field__validationMessage-error,
-        & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-error {
+        & + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error,
+        & + .fui-Field__validationMessage-success + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error,
+        & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-error,
+        & + .fui-Field__hint + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error,
+        & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error {
             display: block;
             color: var(--colorPaletteRedForeground1);
 
@@ -94,7 +111,32 @@
         }
     }
 
+    &.fui-Input-warning,
+    &.fui-Textarea-warning,
+    &.fui-Select-warning,
+    &.fui-SpinButton-warning,
+    &.fui-Checkbox-warning,
+    &.fui-ColorPicker-warning,
+    &.fui-RadioGroup-warning {
+        & + .fui-Field__hint {
+            display: none;
+        }
+
+        & + .fui-Field__validationMessage-warning,
+        & + .fui-Field__hint + .fui-Field__validationMessage-warning,
+        & + .fui-Field__validationMessage-success + .fui-Field__validationMessage-warning,
+        & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-warning {
+            display: block;
+            color: var(--colorStatusWarningForeground2);
+
+            .fui-Field__validationMessageIcon {
+                color: var(--colorStatusWarningForeground2);
+            }
+        }
+    }
+
     &.fui-Input-success,
+    &.fui-Textarea-success,
     &.fui-Select-success,
     &.fui-SpinButton-success,
     &.fui-Checkbox-success,

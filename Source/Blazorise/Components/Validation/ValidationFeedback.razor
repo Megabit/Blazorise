@@ -1,0 +1,34 @@
+@namespace Blazorise
+@inherits BaseValidationResult
+@if ( None is not null )
+{
+    <ValidationNone>
+        @None
+    </ValidationNone>
+}
+@if ( Success is not null )
+{
+    <ValidationSuccess Tooltip="@Tooltip">
+        @Success
+    </ValidationSuccess>
+}
+@if ( Warning is not null )
+{
+    <ValidationWarning Multiline="@Multiline" Tooltip="@Tooltip">
+        @Warning
+    </ValidationWarning>
+}
+else
+{
+    <ValidationWarning Multiline="@Multiline" Tooltip="@Tooltip" />
+}
+@if ( Error is not null )
+{
+    <ValidationError Multiline="@Multiline" Tooltip="@Tooltip">
+        @Error
+    </ValidationError>
+}
+else
+{
+    <ValidationError Multiline="@Multiline" Tooltip="@Tooltip" />
+}

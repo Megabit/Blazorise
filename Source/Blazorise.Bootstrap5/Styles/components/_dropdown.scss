@@ -1,4 +1,4 @@
-﻿.table-fixed-header .table thead tr th.dropdown-table-fixed-header-visible {
+.table-fixed-header .table thead tr th.dropdown-table-fixed-header-visible {
     z-index: 11;
 }
 
@@ -62,7 +62,7 @@
     border: $input-border-width solid $input-border-color;
     border-radius: $input-border-radius;
 
-    > input.form-control:not(.is-valid, .is-invalid) {
+    > input.form-control:not(.is-valid, .is-warning, .is-invalid) {
         border: none;
     }
 
@@ -92,6 +92,7 @@
 
 .b-is-autocomplete {
     &.is-valid,
+    &.is-warning,
     &.is-invalid {
         border: $input-border-width solid transparent;
         border-radius: $input-border-radius;
@@ -99,6 +100,10 @@
 
     &.is-valid {
         border-color: $form-feedback-valid-color;
+    }
+
+    &.is-warning {
+        border-color: var(--b-theme-warning, $warning);
     }
 
     &.is-invalid {
@@ -110,12 +115,18 @@
         box-shadow: 0 0 0 $input-focus-width rgba($form-feedback-valid-color, .25);
     }
 
+    &.is-warning.focus {
+        border-color: var(--b-theme-warning, $warning);
+        box-shadow: 0 0 0 $input-focus-width rgba($warning, .25);
+    }
+
     &.is-invalid.focus {
         border-color: $form-feedback-invalid-color;
         box-shadow: 0 0 0 $input-focus-width rgba($form-feedback-invalid-color, .25);
     }
 
     &.is-valid > input.form-control,
+    &.is-warning > input.form-control,
     &.is-invalid > input.form-control {
         border-color: transparent;
         box-shadow: none;

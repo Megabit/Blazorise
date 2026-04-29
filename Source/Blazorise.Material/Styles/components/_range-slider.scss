@@ -12,6 +12,10 @@
         --mui-slider-color: var(--mui-success);
     }
 
+    &:has(> .mui-range-slider-input.is-warning) {
+        --mui-slider-color: var(--mui-warning);
+    }
+
     &:has(> .mui-range-slider-input.is-invalid) {
         --mui-slider-color: var(--mui-error);
     }
@@ -135,6 +139,11 @@
         &.is-valid::-webkit-slider-thumb,
         &.is-valid::-moz-range-thumb {
             background-color: var(--mui-success);
+        }
+
+        &.is-warning::-webkit-slider-thumb,
+        &.is-warning::-moz-range-thumb {
+            background-color: var(--mui-warning);
         }
 
         &.is-invalid::-webkit-slider-thumb,

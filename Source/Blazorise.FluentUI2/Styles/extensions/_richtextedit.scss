@@ -1,5 +1,6 @@
 .b-richtextedit {
     ~ .fui-Field__validationMessage-error,
+    ~ .fui-Field__validationMessage-warning,
     ~ .fui-Field__validationMessage-success {
         display: none;
     }
@@ -43,6 +44,34 @@
 
     .fui-Field__validationMessageIcon {
         color: var(--colorPaletteRedForeground1);
+    }
+}
+
+.b-richtextedit.fui-Textarea__input-warning {
+    > .b-richtextedit-editor.ql-bubble,
+    > .b-richtextedit-toolbar.ql-bubble,
+    > .ql-toolbar.ql-bubble {
+        border-style: solid;
+        border-width: var(--strokeWidthThin);
+    }
+
+    > .b-richtextedit-editor.ql-container,
+    > .b-richtextedit-toolbar.ql-toolbar,
+    > .ql-toolbar.ql-bubble {
+        border-color: var(--colorStatusWarningForeground2);
+    }
+}
+
+.b-richtextedit.fui-Textarea__input-warning ~ .fui-Field__hint {
+    display: none;
+}
+
+.b-richtextedit.fui-Textarea__input-warning ~ .fui-Field__validationMessage-warning {
+    display: block;
+    color: var(--colorStatusWarningForeground2);
+
+    .fui-Field__validationMessageIcon {
+        color: var(--colorStatusWarningForeground2);
     }
 }
 

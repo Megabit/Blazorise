@@ -1,0 +1,26 @@
+@inherits Blazorise.ValidationWarning
+<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="status" aria-live="polite" @attributes="@Attributes">
+    <span class="fui-Field__validationMessageIcon">
+        <svg fill="currentColor" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M5.14 1.6a1 1 0 0 1 1.72 0l4 6.86A1 1 0 0 1 10 10H2a1 1 0 0 1-.86-1.54l4-6.86ZM6.5 8.25a.5.5 0 1 0-1 0 .5.5 0 0 0 1 0ZM6 3.5a.5.5 0 0 0-.5.5v2.25a.5.5 0 0 0 1 0V4a.5.5 0 0 0-.5-.5Z" fill="currentColor"></path></svg>
+    </span>
+    @if ( ChildContent is not null )
+    {
+        @ChildContent
+    }
+    else if ( WarningMessages is not null && WarningMessages.Any() )
+    {
+        @if ( Multiline )
+        {
+            <OrderedList Unstyled>
+                @foreach ( var warningMessage in WarningMessages )
+                {
+                    <OrderedListItem @key="@warningMessage">@warningMessage</OrderedListItem>
+                }
+            </OrderedList>
+        }
+        else
+        {
+            @string.Join( ";", WarningMessages )
+        }
+    }
+</div>

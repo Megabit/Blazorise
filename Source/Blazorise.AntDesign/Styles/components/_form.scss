@@ -6,33 +6,62 @@
     border-color: var(--ant-color-success);
 }
 
+.ant-form-item-has-warning .ant-input,
+.ant-form-item-has-warning .ant-input-affix-wrapper,
+.ant-form-item-has-warning .ant-input:hover,
+.ant-form-item-has-warning .ant-input-affix-wrapper:hover,
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number).ant-input-status-warning,
+.b-richtextedit.ant-input-status-warning {
+    border-color: var(--b-theme-warning, var(--ant-color-warning));
+}
+
 :is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .valid-feedback,
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain[role='status'],
 :is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain[role='alert'],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role='alert']) + .valid-feedback,
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role='alert']) + .ant-form-item-explain[role='alert'],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .valid-feedback,
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role='status'],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role='alert'],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .valid-feedback + .ant-form-item-explain[role='status'],
 :is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .valid-feedback + .ant-form-item-explain[role='alert'],
-:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role='alert']) + .valid-feedback + .ant-form-item-explain[role='alert'] {
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role='status'],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role='alert'],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain[role='status'] + .ant-form-item-explain[role='alert'],
+:is(.ant-input, .ant-input-affix-wrapper, .ant-select, .ant-picker, .ant-input-number, .b-richtextedit, .b-ant-select-root) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role='status'] + .ant-form-item-explain[role='alert'] {
     display: none;
 }
 
-:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .ant-form-item-explain:not([role='alert']) {
+:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .ant-form-item-explain:not([role]) {
     display: none;
 }
 
 :is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .valid-feedback,
-:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .ant-form-item-explain:not([role='alert']) + .valid-feedback {
+:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .ant-form-item-explain:not([role]) + .valid-feedback {
     display: block;
     color: var(--b-theme-success, var(--ant-color-success));
 }
 
-:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role='alert']) {
+:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-picker-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .ant-form-item-explain:not([role]) {
+    display: none;
+}
+
+:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-picker-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .ant-form-item-explain[role='status'],
+:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-picker-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role='status'],
+:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-picker-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .valid-feedback + .ant-form-item-explain[role='status'],
+:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-picker-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role='status'] {
+    display: block;
+    color: var(--b-theme-warning, var(--ant-color-warning));
+}
+
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role]) {
     display: none;
 }
 
 :is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain[role='alert'],
-:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role='alert']) + .ant-form-item-explain[role='alert'],
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role='alert'],
 :is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .valid-feedback + .ant-form-item-explain[role='alert'],
-:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role='alert']) + .valid-feedback + .ant-form-item-explain[role='alert'] {
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role]) + .valid-feedback + .ant-form-item-explain[role='alert'],
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain[role='status'] + .ant-form-item-explain[role='alert'],
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role]) + .ant-form-item-explain[role='status'] + .ant-form-item-explain[role='alert'] {
     display: block;
 }
 
@@ -56,6 +85,7 @@
 
 .ant-form-item {
     .valid-feedback,
+    .ant-form-item-explain[role='status'],
     .ant-form-item-explain[role='alert'] {
         display: none;
     }
@@ -73,6 +103,18 @@
         }
 
         .valid-feedback {
+            display: none;
+        }
+    }
+
+    &.ant-form-item-has-warning {
+        .ant-form-item-explain[role='status'] {
+            display: block;
+            color: var(--b-theme-warning, var(--ant-color-warning));
+        }
+
+        .valid-feedback,
+        .ant-form-item-explain[role='alert'] {
             display: none;
         }
     }

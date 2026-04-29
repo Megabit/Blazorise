@@ -270,7 +270,7 @@ body:before {
   outline: 1px solid #ced4da;
   border-radius: 0.25rem;
 }
-.b-is-autocomplete.b-is-autocomplete-multipleselection > input.form-control:not(.is-valid, .is-invalid) {
+.b-is-autocomplete.b-is-autocomplete-multipleselection > input.form-control:not(.is-valid, .is-warning, .is-invalid) {
   border: none;
 }
 .b-is-autocomplete.b-is-autocomplete-multipleselection > input.form-control {
@@ -296,12 +296,15 @@ body:before {
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-.b-is-autocomplete.is-valid, .b-is-autocomplete.is-invalid {
+.b-is-autocomplete.is-valid, .b-is-autocomplete.is-warning, .b-is-autocomplete.is-invalid {
   outline: 1px solid transparent;
   border-radius: 0.25rem;
 }
 .b-is-autocomplete.is-valid {
   outline-color: #28a745;
+}
+.b-is-autocomplete.is-warning {
+  outline-color: var(--b-theme-warning, #ffc107);
 }
 .b-is-autocomplete.is-invalid {
   outline-color: #dc3545;
@@ -310,11 +313,15 @@ body:before {
   outline-color: #28a745;
   box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
 }
+.b-is-autocomplete.is-warning.focus {
+  outline-color: var(--b-theme-warning, #ffc107);
+  box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+}
 .b-is-autocomplete.is-invalid.focus {
   outline-color: #dc3545;
   box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
 }
-.b-is-autocomplete.is-valid > input.form-control, .b-is-autocomplete.is-invalid > input.form-control {
+.b-is-autocomplete.is-valid > input.form-control, .b-is-autocomplete.is-warning > input.form-control, .b-is-autocomplete.is-invalid > input.form-control {
   border-color: transparent;
   box-shadow: none;
 }
@@ -890,28 +897,64 @@ input[readonly=readonly][type=range]::-ms-thumb {
 }
 
 .valid-feedback,
+.warning-feedback,
 .invalid-feedback {
   display: none;
+}
+
+.form-control.is-warning,
+.custom-select.is-warning {
+  border-color: var(--b-theme-warning, #ffc107);
+}
+.form-control.is-warning:focus,
+.custom-select.is-warning:focus {
+  border-color: var(--b-theme-warning, #ffc107);
+  box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+}
+
+.warning-feedback {
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 0.875em;
+  color: var(--b-theme-warning, #ffc107);
 }
 
 :is(.form-control, .custom-select).is-valid + .valid-feedback,
 :is(.form-control, .custom-select).is-valid + .form-text.text-muted + .valid-feedback,
 .custom-file-input.is-valid + .custom-file-label + .valid-feedback,
 .custom-file-input.is-valid + .custom-file-label + .form-text.text-muted + .valid-feedback,
+:is(.form-control, .custom-select).is-warning + .warning-feedback,
+:is(.form-control, .custom-select).is-warning + .form-text.text-muted + .warning-feedback,
+:is(.form-control, .custom-select).is-warning + .valid-feedback + .warning-feedback,
+:is(.form-control, .custom-select).is-warning + .form-text.text-muted + .valid-feedback + .warning-feedback,
+.custom-file-input.is-warning + .custom-file-label + .warning-feedback,
+.custom-file-input.is-warning + .custom-file-label + .form-text.text-muted + .warning-feedback,
+.custom-file-input.is-warning + .custom-file-label + .valid-feedback + .warning-feedback,
+.custom-file-input.is-warning + .custom-file-label + .form-text.text-muted + .valid-feedback + .warning-feedback,
 :is(.form-control, .custom-select).is-invalid + .invalid-feedback,
 :is(.form-control, .custom-select).is-invalid + .form-text.text-muted + .invalid-feedback,
 :is(.form-control, .custom-select).is-invalid + .valid-feedback + .invalid-feedback,
 :is(.form-control, .custom-select).is-invalid + .form-text.text-muted + .valid-feedback + .invalid-feedback,
+:is(.form-control, .custom-select).is-invalid + .warning-feedback + .invalid-feedback,
+:is(.form-control, .custom-select).is-invalid + .form-text.text-muted + .warning-feedback + .invalid-feedback,
+:is(.form-control, .custom-select).is-invalid + .valid-feedback + .warning-feedback + .invalid-feedback,
+:is(.form-control, .custom-select).is-invalid + .form-text.text-muted + .valid-feedback + .warning-feedback + .invalid-feedback,
 .custom-file-input.is-invalid + .custom-file-label + .invalid-feedback,
 .custom-file-input.is-invalid + .custom-file-label + .form-text.text-muted + .invalid-feedback,
 .custom-file-input.is-invalid + .custom-file-label + .valid-feedback + .invalid-feedback,
-.custom-file-input.is-invalid + .custom-file-label + .form-text.text-muted + .valid-feedback + .invalid-feedback {
+.custom-file-input.is-invalid + .custom-file-label + .form-text.text-muted + .valid-feedback + .invalid-feedback,
+.custom-file-input.is-invalid + .custom-file-label + .warning-feedback + .invalid-feedback,
+.custom-file-input.is-invalid + .custom-file-label + .form-text.text-muted + .warning-feedback + .invalid-feedback,
+.custom-file-input.is-invalid + .custom-file-label + .valid-feedback + .warning-feedback + .invalid-feedback,
+.custom-file-input.is-invalid + .custom-file-label + .form-text.text-muted + .valid-feedback + .warning-feedback + .invalid-feedback {
   display: block;
 }
 
 :is(.form-control, .custom-select).is-valid + .form-text.text-muted,
+:is(.form-control, .custom-select).is-warning + .form-text.text-muted,
 :is(.form-control, .custom-select).is-invalid + .form-text.text-muted,
 .custom-file-input.is-valid + .custom-file-label + .form-text.text-muted,
+.custom-file-input.is-warning + .custom-file-label + .form-text.text-muted,
 .custom-file-input.is-invalid + .custom-file-label + .form-text.text-muted {
   display: none;
 }
@@ -1042,6 +1085,12 @@ input[readonly=readonly][type=range]::-ms-thumb {
 }
 .range-slider > .range-slider-input.is-valid::-moz-range-thumb {
   background-color: #28a745;
+}
+.range-slider > .range-slider-input.is-warning::-webkit-slider-thumb {
+  background-color: #ffc107;
+}
+.range-slider > .range-slider-input.is-warning::-moz-range-thumb {
+  background-color: #ffc107;
 }
 .range-slider > .range-slider-input.is-invalid::-webkit-slider-thumb {
   background-color: #dc3545;
@@ -2644,6 +2693,25 @@ td:focus {
   border-color: var(--b-theme-success, #28a745);
 }
 
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning .editor-toolbar,
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning .CodeMirror,
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning .editor-preview-side,
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning .editor-preview-full,
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning .editor-statusbar {
+  border-color: var(--b-theme-warning, #ffc107);
+}
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning + .form-text.text-muted,
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning + .valid-feedback,
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning + .form-text.text-muted + .valid-feedback {
+  display: none;
+}
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning + .warning-feedback,
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning + .form-text.text-muted + .warning-feedback,
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning + .valid-feedback + .warning-feedback,
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning + .form-text.text-muted + .valid-feedback + .warning-feedback {
+  display: block;
+}
+
 .EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-toolbar,
 .EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .CodeMirror,
 .EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-preview-side,
@@ -2677,6 +2745,29 @@ td:focus {
 .b-richtextedit.is-valid > .b-richtextedit-toolbar.ql-toolbar,
 .b-richtextedit.is-valid > .ql-toolbar.ql-bubble {
   border-color: var(--b-theme-success, #28a745);
+}
+
+.b-richtextedit.is-warning > .b-richtextedit-editor.ql-bubble,
+.b-richtextedit.is-warning > .b-richtextedit-toolbar.ql-bubble,
+.b-richtextedit.is-warning > .ql-toolbar.ql-bubble {
+  border-style: solid;
+  border-width: 1px;
+}
+.b-richtextedit.is-warning > .b-richtextedit-editor.ql-container,
+.b-richtextedit.is-warning > .b-richtextedit-toolbar.ql-toolbar,
+.b-richtextedit.is-warning > .ql-toolbar.ql-bubble {
+  border-color: var(--b-theme-warning, #ffc107);
+}
+.b-richtextedit.is-warning + .form-text.text-muted,
+.b-richtextedit.is-warning + .valid-feedback,
+.b-richtextedit.is-warning + .form-text.text-muted + .valid-feedback {
+  display: none;
+}
+.b-richtextedit.is-warning + .warning-feedback,
+.b-richtextedit.is-warning + .form-text.text-muted + .warning-feedback,
+.b-richtextedit.is-warning + .valid-feedback + .warning-feedback,
+.b-richtextedit.is-warning + .form-text.text-muted + .valid-feedback + .warning-feedback {
+  display: block;
 }
 
 .b-richtextedit.is-invalid > .b-richtextedit-editor.ql-bubble,

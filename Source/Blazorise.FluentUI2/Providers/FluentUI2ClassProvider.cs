@@ -292,6 +292,10 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ValidationSuccessTooltip() => "fui-Field__validationTooltip";
 
+    public override string ValidationWarning() => "fui-Field__validationMessage-warning";
+
+    public override string ValidationWarningTooltip() => "fui-Field__validationTooltip";
+
     public override string ValidationError() => "fui-Field__validationMessage-error";
 
     public override string ValidationErrorTooltip() => "fui-Field__validationTooltip";
@@ -1854,6 +1858,7 @@ public class FluentUI2ClassProvider : ClassProvider
         return validationStatus switch
         {
             Blazorise.ValidationStatus.Success => "success",
+            Blazorise.ValidationStatus.Warning => "warning",
             Blazorise.ValidationStatus.Error => "error",
             _ => null,
         };

@@ -309,6 +309,7 @@ public class TailwindClassProvider : ClassProvider
     public override string RangeSliderValidation( ValidationStatus validationStatus ) => validationStatus switch
     {
         ValidationStatus.Success => "tw-range-slider-success",
+        ValidationStatus.Warning => "tw-range-slider-warning",
         ValidationStatus.Error => "tw-range-slider-danger",
         _ => null,
     };
@@ -383,6 +384,7 @@ public class TailwindClassProvider : ClassProvider
         return validationStatus switch
         {
             ValidationStatus.Success => "accent-green-500 dark:accent-green-500 [&::-webkit-slider-thumb]:bg-green-500 dark:[&::-webkit-slider-thumb]:bg-green-500 [&::-moz-range-thumb]:bg-green-500 dark:[&::-moz-range-thumb]:bg-green-500",
+            ValidationStatus.Warning => "accent-warning-500 dark:accent-warning-500 [&::-webkit-slider-thumb]:bg-warning-500 dark:[&::-webkit-slider-thumb]:bg-warning-500 [&::-moz-range-thumb]:bg-warning-500 dark:[&::-moz-range-thumb]:bg-warning-500",
             ValidationStatus.Error => "accent-red-500 dark:accent-red-500 [&::-webkit-slider-thumb]:bg-red-500 dark:[&::-webkit-slider-thumb]:bg-red-500 [&::-moz-range-thumb]:bg-red-500 dark:[&::-moz-range-thumb]:bg-red-500",
             _ => null,
         };
@@ -448,6 +450,10 @@ public class TailwindClassProvider : ClassProvider
     public override string ValidationSuccess() => "b-validation-success mt-2 text-sm text-success-600 dark:text-success-500";
 
     public override string ValidationSuccessTooltip() => "valid-tooltip";
+
+    public override string ValidationWarning() => "b-validation-warning mt-2 text-sm text-warning-600 dark:text-warning-500";
+
+    public override string ValidationWarningTooltip() => "warning-tooltip";
 
     public override string ValidationError() => "b-validation-error mt-2 text-sm text-danger-600 dark:text-danger-500";
 
@@ -2710,6 +2716,7 @@ public class TailwindClassProvider : ClassProvider
         return validationStatus switch
         {
             Blazorise.ValidationStatus.Success => "b-is-valid bg-green-50 border border-green-500 text-green-900 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-green-500",
+            Blazorise.ValidationStatus.Warning => "b-is-warning bg-warning-50 border border-warning-500 text-warning-900 placeholder-warning-700 focus:ring-warning-500 dark:bg-gray-700 focus:border-warning-500 dark:text-warning-500 dark:placeholder-warning-500 dark:border-warning-500",
             Blazorise.ValidationStatus.Error => "b-is-invalid bg-red-50 border border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 dark:bg-gray-700 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500",
             _ => null,
         };
