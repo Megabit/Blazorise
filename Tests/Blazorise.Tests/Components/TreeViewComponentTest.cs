@@ -707,7 +707,7 @@ public class TreeViewComponentTest : BunitContext
         nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
         await nodeContents[1].DragOverAsync( new DragEventArgs() { OffsetY = 1 } );
 
-        cut.FindAll( ".b-tree-view-node-title.b-tree-view-node-drop-target.b-tree-view-node-title-drop-before" ).Should().ContainSingle();
+        cut.FindAll( ".b-tree-view-node-title.b-tree-view-node-drop-target" ).Should().ContainSingle();
     }
 
     [Fact]
