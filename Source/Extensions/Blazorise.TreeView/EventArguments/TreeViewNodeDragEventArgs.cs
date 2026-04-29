@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise.TreeView.EventArguments;
@@ -6,7 +7,7 @@ namespace Blazorise.TreeView.EventArguments;
 /// Provides information about a TreeView node drag-and-drop operation.
 /// </summary>
 /// <typeparam name="TNode">The node item type.</typeparam>
-public class TreeViewNodeDragEventArgs<TNode>
+public class TreeViewNodeDragEventArgs<TNode> : EventArgs
 {
     /// <summary>
     /// Creates a new instance of <see cref="TreeViewNodeDragEventArgs{TNode}"/>.
