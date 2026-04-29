@@ -86,8 +86,10 @@ export function focus(element, elementId) {
 }
 
 function getFocusableElements(element) {
-    return Array.from(element.querySelectorAll(focusableSelector))
-        .filter(isFocusable)
+    const focusableElements = Array.from(element.querySelectorAll(focusableSelector));
+
+    return focusableElements
+        .filter((focusableElement) => isFocusable(focusableElement, focusableElements))
         .map((focusableElement, index) => ({
             element: focusableElement,
             index,
@@ -112,8 +114,12 @@ function compareTabOrder(left, right) {
     return left.index - right.index;
 }
 
-function isFocusable(element) {
-    if (!element || element.closest("[inert]") || element.getAttribute("aria-hidden") === "true") {
+function isFocusable(element, focusableElements) {
+    if (!element
+        || element.closest("[inert]")
+        || hasHiddenAncestor(element)
+        || isDisabled(element)
+        || !isTabbableRadio(element, focusableElements)) {
         return false;
     }
 
@@ -124,6 +130,64 @@ function isFocusable(element) {
     }
 
     return element.tabIndex >= 0 && element.getClientRects().length > 0;
+}
+
+function hasHiddenAncestor(element) {
+    for (let current = element; current; current = current.parentElement) {
+        if (current.getAttribute("aria-hidden")?.toLowerCase() === "true") {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function isDisabled(element) {
+    if (element.disabled) {
+        return true;
+    }
+
+    const disabledFieldset = element.closest("fieldset[disabled]");
+
+    if (disabledFieldset) {
+        const firstLegend = Array.from(disabledFieldset.children).find((child) => child.tagName === "LEGEND");
+
+        if (!firstLegend || !firstLegend.contains(element)) {
+            return true;
+        }
+    }
+
+    const closedDetails = element.closest("details:not([open])");
+
+    if (closedDetails) {
+        const firstSummary = Array.from(closedDetails.children).find((child) => child.tagName === "SUMMARY");
+
+        if (!firstSummary || !firstSummary.contains(element)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function isTabbableRadio(element, focusableElements) {
+    if (element.tagName !== "INPUT" || element.type !== "radio" || !element.name) {
+        return true;
+    }
+
+    const radioGroup = focusableElements.filter((focusableElement) =>
+        focusableElement.tagName === "INPUT"
+        && focusableElement.type === "radio"
+        && focusableElement.name === element.name
+        && focusableElement.form === element.form);
+
+    const checkedRadio = radioGroup.find((radio) => radio.checked);
+
+    if (checkedRadio) {
+        return checkedRadio === element;
+    }
+
+    return radioGroup[0] === element;
 }
 
 function focusElement(element) {
