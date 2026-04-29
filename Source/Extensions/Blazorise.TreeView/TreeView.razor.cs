@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
@@ -283,6 +284,65 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
         foundNodeState = null;
         foundOwnerView = null;
         return false;
+    }
+
+    internal async Task<bool> TryMoveNodeAsync( TreeViewNodeState<TNode> draggedNodeState, TreeViewNodeState<TNode> newParentNodeState, int oldIndex, int newIndex )
+    {
+        if ( draggedNodeState is null )
+            return false;
+
+        IList<TNode> sourceNodes = await GetMutableNodeCollection( draggedNodeState.Parent );
+        IList<TNode> destinationNodes = await GetMutableNodeCollection( newParentNodeState );
+
+        if ( sourceNodes is null || destinationNodes is null )
+            return false;
+
+        if ( oldIndex < 0 || oldIndex >= sourceNodes.Count || newIndex < 0 || newIndex > destinationNodes.Count )
+            return false;
+
+        TNode draggedNode = draggedNodeState.Node;
+
+        if ( ReferenceEquals( sourceNodes, destinationNodes ) )
+        {
+            if ( newIndex >= sourceNodes.Count )
+                return false;
+
+            if ( oldIndex == newIndex )
+                return true;
+
+            if ( sourceNodes is ObservableCollection<TNode> observableSourceNodes )
+            {
+                observableSourceNodes.Move( oldIndex, newIndex );
+            }
+            else
+            {
+                sourceNodes.RemoveAt( oldIndex );
+                sourceNodes.Insert( newIndex, draggedNode );
+            }
+        }
+        else
+        {
+            sourceNodes.RemoveAt( oldIndex );
+            destinationNodes.Insert( newIndex, draggedNode );
+        }
+
+        await Reload();
+
+        return true;
+    }
+
+    private async Task<IList<TNode>> GetMutableNodeCollection( TreeViewNodeState<TNode> parentNodeState )
+    {
+        IEnumerable<TNode> nodes = parentNodeState is null
+            ? Nodes
+            : GetChildNodesAsync is not null
+                ? await GetChildNodesAsync( parentNodeState.Node )
+                : GetChildNodes?.Invoke( parentNodeState.Node );
+
+        if ( nodes is not IList<TNode> nodeList )
+            return null;
+
+        return nodeList.IsReadOnly ? null : nodeList;
     }
 
     protected override void Dispose( bool disposing )
@@ -578,7 +638,7 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     /// <summary>
     /// Occurs when a node is dropped on a valid target.
     /// </summary>
-    /// <remarks>The TreeView does not modify the bound node collection automatically. Update the source collection in this callback to persist the drop.</remarks>
+    /// <remarks>When this callback is not handled, the TreeView tries to move the node in the bound mutable collections automatically. When handled, this callback overrides the built-in move behavior.</remarks>
     [Parameter] public EventCallback<TreeViewNodeDragEventArgs<TNode>> NodeDropped { get; set; }
 
     #endregion

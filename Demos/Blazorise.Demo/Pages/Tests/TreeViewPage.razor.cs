@@ -150,26 +150,6 @@ public partial class TreeViewPage : ComponentBase
         return Task.CompletedTask;
     }
 
-    private Task OnNodeDropped( TreeView.EventArguments.TreeViewNodeDragEventArgs<NodeInfo> args )
-    {
-        Console.WriteLine( $"Dropped: {args.DraggedNode.Text} from {args.OldParentNode?.Text}[{args.OldIndex}] => {args.NewParentNode?.Text}[{args.NewIndex}]" );
-
-        var source = args.OldParentNode?.Children ?? Nodes;
-        var destination = args.NewParentNode?.Children ?? Nodes;
-
-        if ( source == destination )
-        {
-            source.Move( args.OldIndex, args.NewIndex );
-        }
-        else
-        {
-            source.RemoveAt( args.OldIndex );
-            destination.Insert( args.NewIndex, args.DraggedNode );
-        }
-
-        return Task.CompletedTask;
-    }
-
     private bool CanDragNode( NodeInfo node )
         => !node.Disabled;
 

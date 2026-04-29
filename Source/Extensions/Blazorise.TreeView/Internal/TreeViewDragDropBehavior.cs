@@ -79,7 +79,13 @@ internal sealed class TreeViewDragDropBehavior<TNode>( TreeView<TNode> treeView,
             oldIndex );
 
         if ( treeView.NodeDropped.HasDelegate )
+        {
             await treeView.NodeDropped.InvokeAsync( dragEventArgs );
+        }
+        else
+        {
+            await treeView.TryMoveNodeAsync( draggedNodeState, newParentNodeState, oldIndex, newIndex );
+        }
 
         await SetActiveDropNode( null, false );
         draggedNode = null;

@@ -619,14 +619,6 @@ public class TreeViewComponentTest : BunitContext
             parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
             parameters.Add( p => p.Draggable, true );
             parameters.Add( p => p.Reorderable, true );
-            parameters.Add( p => p.NodeDropped, EventCallback.Factory.Create<TreeViewNodeDragEventArgs<Item>>( this, args =>
-            {
-                var source = (IList<Item>)( args.OldParentNode?.Children ?? nodes );
-                var destination = (IList<Item>)( args.NewParentNode?.Children ?? nodes );
-
-                source.RemoveAt( args.OldIndex );
-                destination.Insert( args.NewIndex, args.DraggedNode );
-            } ) );
         } );
 
         var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
