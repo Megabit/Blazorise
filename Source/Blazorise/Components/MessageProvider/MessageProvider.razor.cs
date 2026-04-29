@@ -95,13 +95,7 @@ public partial class MessageProvider : BaseComponent, IDisposable
         return InvokeAsync( async () =>
         {
             await ModalRef.Hide();
-
-            if ( IsConfirmation && Callback is not null && !Callback.Task.IsCompleted )
-            {
-                await InvokeAsync( () => Callback.SetResult( false ) );
-            }
-
-            await Canceled.InvokeAsync();
+            await NotifyCanceled();
         } );
     }
 
@@ -129,12 +123,38 @@ public partial class MessageProvider : BaseComponent, IDisposable
     /// Handles the <see cref="Modal"/> closing event.
     /// </summary>
     /// <param name="eventArgs">Provides the data for the modal closing event.</param>
-    protected virtual Task OnModalClosing( ModalClosingEventArgs eventArgs )
+    protected virtual async Task OnModalClosing( ModalClosingEventArgs eventArgs )
     {
-        eventArgs.Cancel = ( Options?.BackgroundCancel ?? BackgroundCancel )
-            && ( eventArgs.CloseReason == CloseReason.EscapeClosing || eventArgs.CloseReason == CloseReason.FocusLostClosing );
+        var isEscapeClosing = eventArgs.CloseReason == CloseReason.EscapeClosing;
+        var isFocusLostClosing = eventArgs.CloseReason == CloseReason.FocusLostClosing;
 
-        return Task.CompletedTask;
+        if ( isEscapeClosing && ( Options?.CloseOnEscape ?? CloseOnEscape ) )
+        {
+            await NotifyCanceled();
+
+            return;
+        }
+
+        eventArgs.Cancel = ( Options?.BackgroundCancel ?? BackgroundCancel )
+            && ( isEscapeClosing || isFocusLostClosing );
+    }
+
+    /// <summary>
+    /// Notifies that the message dialog was canceled.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    private async Task NotifyCanceled()
+    {
+        if ( IsConfirmation && Callback is not null && !Callback.Task.IsCompleted )
+        {
+            await InvokeAsync( () => Callback.SetResult( false ) );
+        }
+        else if ( IsChoice && Callback is not null && !Callback.Task.IsCompleted )
+        {
+            await InvokeAsync( () => Callback.SetResult( null ) );
+        }
+
+        await Canceled.InvokeAsync();
     }
 
     #endregion
@@ -369,6 +389,12 @@ public partial class MessageProvider : BaseComponent, IDisposable
     /// This behavior can be disabled by setting <see cref="BackgroundCancel"/> to false.
     /// </summary>
     [Parameter] public bool BackgroundCancel { get; set; } = true;
+
+    /// <summary>
+    /// If true, the message dialog will be closed when the user presses the Escape key.
+    /// Confirmation dialogs will treat Escape as a cancel action.
+    /// </summary>
+    [Parameter] public bool CloseOnEscape { get; set; }
 
     #endregion
 }

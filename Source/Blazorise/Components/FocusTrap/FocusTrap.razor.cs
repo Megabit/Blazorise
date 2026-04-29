@@ -1,8 +1,8 @@
 #region Using directives
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise;
@@ -14,17 +14,7 @@ public partial class FocusTrap : BaseFocusableContainerComponent
 {
     #region Members
 
-    private ElementReference startFirstRef;
-
-    private ElementReference startSecondRef;
-
-    private ElementReference endFirstRef;
-
-    private ElementReference endSecondRef;
-
-    private bool shiftTabPressed;
-
-    private bool shouldRender = true;
+    private bool jsInitialized;
 
     #endregion
 
@@ -33,9 +23,16 @@ public partial class FocusTrap : BaseFocusableContainerComponent
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        if ( Rendered && parameters.TryGetValue<bool>( nameof( Active ), out var activeParam ) && Active != activeParam && activeParam )
+        if ( Rendered && parameters.TryGetValue<bool>( nameof( Active ), out var activeParam ) && Active != activeParam )
         {
-            ExecuteAfterRender( SetFocus );
+            if ( activeParam )
+            {
+                ExecuteAfterRender( InitializeAndSetFocus );
+            }
+            else
+            {
+                ExecuteAfterRender( DestroyFocusTrap );
+            }
         }
 
         await base.SetParametersAsync( parameters );
@@ -46,10 +43,21 @@ public partial class FocusTrap : BaseFocusableContainerComponent
     {
         if ( firstRender && Active )
         {
-            ExecuteAfterRender( SetFocus );
+            ExecuteAfterRender( InitializeAndSetFocus );
         }
 
         return base.OnAfterRenderAsync( firstRender );
+    }
+
+    /// <inheritdoc/>
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing && Rendered )
+        {
+            await DestroyFocusTrap();
+        }
+
+        await base.DisposeAsync( disposing );
     }
 
     /// <inheritdoc/>
@@ -69,62 +77,52 @@ public partial class FocusTrap : BaseFocusableContainerComponent
         if ( Rendered )
         {
             if ( HasFocusableComponents )
+            {
                 await HandleFocusableComponent();
+            }
             else
-                await startFirstRef.FocusAsync();
+            {
+                await JSFocusTrapModule.Focus( ElementRef, ElementId );
+            }
         }
     }
 
     /// <summary>
-    /// Handles the focus start event.
+    /// Initializes the focus trap and sets focus to the first focusable child.
     /// </summary>
-    /// <param name="args">Supplies information about a focus event that is being raised.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    protected virtual async Task OnFocusStartHandler( FocusEventArgs args )
+    private async Task InitializeAndSetFocus()
     {
-        if ( !shiftTabPressed )
+        await InitializeFocusTrap();
+        await SetFocus();
+    }
+
+    /// <summary>
+    /// Initializes the JavaScript focus trap handler.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    private async Task InitializeFocusTrap()
+    {
+        if ( !jsInitialized )
         {
-            await startFirstRef.FocusAsync();
+            jsInitialized = true;
+
+            await JSFocusTrapModule.Initialize( ElementRef, ElementId );
         }
     }
 
     /// <summary>
-    /// Handles the focus end event.
+    /// Destroys the JavaScript focus trap handler.
     /// </summary>
-    /// <param name="args">Supplies information about a focus event that is being raised.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    protected virtual async Task OnFocusEndHandler( FocusEventArgs args )
+    private async Task DestroyFocusTrap()
     {
-        if ( shiftTabPressed )
+        if ( jsInitialized )
         {
-            await endFirstRef.FocusAsync();
+            jsInitialized = false;
+
+            await JSFocusTrapModule.Destroy( ElementRef, ElementId );
         }
-    }
-
-    /// <summary>
-    /// Handles the keyboard events.
-    /// </summary>
-    /// <param name="args">Supplies information about a keyboard event that is being raised.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    protected virtual void OnKeyPressedHandler( KeyboardEventArgs args )
-    {
-        shouldRender = false;
-
-        if ( args.Key == "Tab" )
-        {
-            shiftTabPressed = args.ShiftKey;
-        }
-    }
-
-    /// <inheritdoc/>
-    protected override bool ShouldRender()
-    {
-        if ( shouldRender )
-            return true;
-
-        shouldRender = true;
-
-        return false;
     }
 
     #endregion
@@ -132,9 +130,9 @@ public partial class FocusTrap : BaseFocusableContainerComponent
     #region Properties
 
     /// <summary>
-    /// Gets the focusable element tab index.
+    /// Specifies the <see cref="IJSFocusTrapModule"/> instance.
     /// </summary>
-    protected int FocusableTabIndex => Active ? 0 : -1;
+    [Inject] protected IJSFocusTrapModule JSFocusTrapModule { get; set; }
 
     /// <summary>
     /// If true the TAB focus will be activated.

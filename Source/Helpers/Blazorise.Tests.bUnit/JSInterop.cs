@@ -26,6 +26,19 @@ public static class JSInterop
         return jsInterop;
     }
 
+    public static BunitJSInterop AddBlazoriseFocusTrap( this BunitJSInterop jsInterop )
+    {
+        AddBlazoriseUtilities( jsInterop );
+
+        var module = jsInterop.SetupModule( new JSFocusTrapModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
+        module.SetupVoid( "import", _ => true ).SetVoidResult();
+        module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+        module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "focus", _ => true ).SetVoidResult();
+
+        return jsInterop;
+    }
+
     public static BunitJSInterop AddBlazoriseBreakpoint( this BunitJSInterop jsInterop )
     {
         AddBlazoriseUtilities( jsInterop );
@@ -231,6 +244,7 @@ public static class JSInterop
     public static BunitJSInterop AddBlazoriseModal( this BunitJSInterop jsInterop )
     {
         AddBlazoriseUtilities( jsInterop );
+        AddBlazoriseFocusTrap( jsInterop );
 
         var module = jsInterop.SetupModule( new MockJsModalModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "import", _ => true ).SetVoidResult();
