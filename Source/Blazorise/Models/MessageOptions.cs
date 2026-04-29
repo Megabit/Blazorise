@@ -156,6 +156,12 @@ public class MessageOptions
     public bool? BackgroundCancel { get; set; }
 
     /// <summary>
+    /// If defined the message dialog will be closed when the user presses the Escape key.
+    /// Confirmation dialogs will treat Escape as a cancel action.
+    /// </summary>
+    public bool? CloseOnEscape { get; set; }
+
+    /// <summary>
     /// Creates the default message options.
     /// </summary>
     /// <returns>Default message options.</returns>
