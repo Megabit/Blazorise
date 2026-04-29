@@ -34,7 +34,7 @@ internal sealed class TreeViewDragDropBehavior<TNode>( TreeView<TNode> treeView,
         await treeView.JSDragDropModule.Destroy( @ref, elementId );
     }
 
-    public Task OnDragStart( TreeViewNodeState<TNode> nodeState, DragEventArgs eventArgs )
+    public Task OnDragStart( TreeViewNodeState<TNode> nodeState )
     {
         if ( !treeView.Draggable || nodeState is null )
             return Task.CompletedTask;
@@ -51,9 +51,9 @@ internal sealed class TreeViewDragDropBehavior<TNode>( TreeView<TNode> treeView,
         bool dropAsChild = ShouldDropAsChild( eventArgs );
 
         if ( IsDropAllowed( nodeState, dropAsChild, eventArgs, true ) )
-            return SetActiveDropNode( nodeState, dropAsChild ) ?? Task.CompletedTask;
+            return SetActiveDropNode( nodeState, dropAsChild );
 
-        return SetActiveDropNode( null, false ) ?? Task.CompletedTask;
+        return SetActiveDropNode( null, false );
     }
 
     public async Task OnDrop( TreeViewNodeState<TNode> nodeState, DragEventArgs eventArgs )
@@ -85,7 +85,7 @@ internal sealed class TreeViewDragDropBehavior<TNode>( TreeView<TNode> treeView,
         draggedNode = null;
     }
 
-    public async Task OnDragEnd( TreeViewNodeState<TNode> nodeState, DragEventArgs eventArgs )
+    public async Task OnDragEnd()
     {
         await SetActiveDropNode( null, false );
         draggedNode = null;
