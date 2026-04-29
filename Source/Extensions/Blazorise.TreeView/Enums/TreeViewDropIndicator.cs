@@ -1,22 +1,22 @@
 namespace Blazorise.TreeView.Internal;
 
 /// <summary>
-/// Drop state defination when a node is dragged over another node.
+/// Identifies the visual drop indicator shown for a tree node while another node is dragged over it.
 /// </summary>
 internal enum TreeViewDropIndicator
 {
     /// <summary>
-    /// Nothing
+    /// No drop indicator is shown.
     /// </summary>
     None,
 
     /// <summary>
-    /// Node will be dropped as a child of the target node.
+    /// Indicates that the dragged node can be dropped as a child of the target node.
     /// </summary>
     DropAsChild,
 
     /// <summary>
-    /// Node will be inserted before the target node.
+    /// Indicates that the dragged node can be inserted before the target node.
     /// </summary>
     InsertBefore
 }

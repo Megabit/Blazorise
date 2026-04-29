@@ -556,28 +556,29 @@ public partial class TreeView<TNode> : BaseComponent<TreeViewClasses<TNode>, Tre
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Enables native dragging of tree nodes.
+    /// Enables TreeView nodes to be dragged with the browser drag-and-drop API.
     /// </summary>
     [Parameter] public bool Draggable { get; set; }
 
     /// <summary>
-    /// Enables reordering dragged tree nodes before other nodes.
+    /// Enables dropping a dragged node before another node instead of only dropping it as a child.
     /// </summary>
     [Parameter] public bool Reorderable { get; set; }
 
     /// <summary>
-    /// Determines whether a node can be dragged.
+    /// Determines whether the specified node can be dragged.
     /// </summary>
     [Parameter] public Func<TNode, bool> CanDragNode { get; set; } = _ => true;
 
     /// <summary>
-    /// Determines whether the dragged node can be dropped on the target node.
+    /// Determines whether a proposed drop operation is allowed.
     /// </summary>
     [Parameter] public Func<TreeViewNodeDragEventArgs<TNode>, bool> CanDropNode { get; set; } = _ => true;
 
     /// <summary>
-    /// Fired when a dragged node is dropped on a target node.
+    /// Occurs when a node is dropped on a valid target.
     /// </summary>
+    /// <remarks>The TreeView does not modify the bound node collection automatically. Update the source collection in this callback to persist the drop.</remarks>
     [Parameter] public EventCallback<TreeViewNodeDragEventArgs<TNode>> NodeDropped { get; set; }
 
     #endregion
