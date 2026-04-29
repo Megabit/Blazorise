@@ -167,6 +167,9 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
             case TreeViewDropIndicator.InsertBefore:
                 builder.Append( ["b-tree-view-node-drop-target", "b-tree-view-node-title-drop-before"] );
                 break;
+            case TreeViewDropIndicator.InsertAfter:
+                builder.Append( ["b-tree-view-node-drop-target", "b-tree-view-node-title-drop-after"] );
+                break;
             case TreeViewDropIndicator.DropAsChild:
                 builder.Append( ["b-tree-view-node-drop-target", ClassProvider.BackgroundColor( Background.Primary.Subtle )] );
                 break;

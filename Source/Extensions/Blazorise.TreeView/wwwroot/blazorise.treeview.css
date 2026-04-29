@@ -46,6 +46,17 @@
   border-top-style: dashed;
   border-top-width: 2px;
 }
+.b-tree-view .b-tree-view-node .b-tree-view-node-title.b-tree-view-node-title-drop-after::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top-color: var(--b-tree-view-primary, #0d6efd);
+  border-top-style: dashed;
+  border-top-width: 2px;
+}
 .b-tree-view .b-tree-view-node .b-tree-view-node-title > .b-tree-view-node-check {
   display: inline-flex;
   align-items: center;

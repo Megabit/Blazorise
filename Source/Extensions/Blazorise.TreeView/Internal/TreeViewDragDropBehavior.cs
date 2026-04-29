@@ -15,7 +15,7 @@ internal sealed class TreeViewDragDropBehavior<TNode>( TreeView<TNode> treeView,
 
     private TreeViewNodeState<TNode> draggedNode;
     private TreeViewNodeState<TNode> activeDropNode;
-    private bool activeDropAsChild;
+    private TreeViewDropIndicator activeDropIndicator;
 
     #endregion
 
@@ -48,12 +48,12 @@ internal sealed class TreeViewDragDropBehavior<TNode>( TreeView<TNode> treeView,
 
     public Task OnDragOver( TreeViewNodeState<TNode> nodeState, DragEventArgs eventArgs )
     {
-        bool dropAsChild = ShouldDropAsChild( eventArgs );
+        TreeViewDropIndicator dropIndicator = GetDropIndicator( eventArgs );
 
-        if ( IsDropAllowed( nodeState, dropAsChild, eventArgs, true ) )
-            return SetActiveDropNode( nodeState, dropAsChild );
+        if ( IsDropAllowed( nodeState, dropIndicator, eventArgs, true ) )
+            return SetActiveDropNode( nodeState, dropIndicator );
 
-        return SetActiveDropNode( null, false );
+        return SetActiveDropNode( null, TreeViewDropIndicator.None );
     }
 
     public async Task OnDrop( TreeViewNodeState<TNode> nodeState, DragEventArgs eventArgs )
@@ -62,14 +62,14 @@ internal sealed class TreeViewDragDropBehavior<TNode>( TreeView<TNode> treeView,
             return;
 
         TreeViewNodeState<TNode> draggedNodeState = draggedNode;
-        bool dropAsChild = ReferenceEquals( activeDropNode, nodeState )
-            ? activeDropAsChild
-            : ShouldDropAsChild( eventArgs );
-        TreeViewNodeState<TNode> newParentNodeState = GetDropParentNodeState( nodeState, dropAsChild );
+        TreeViewDropIndicator dropIndicator = ReferenceEquals( activeDropNode, nodeState )
+            ? activeDropIndicator
+            : GetDropIndicator( eventArgs );
+        TreeViewNodeState<TNode> newParentNodeState = GetDropParentNodeState( nodeState, dropIndicator );
         int oldIndex = GetNodeIndex( draggedNodeState );
-        int newIndex = GetDropIndex( draggedNodeState, nodeState, dropAsChild );
+        int newIndex = GetDropIndex( draggedNodeState, nodeState, dropIndicator );
 
-        if ( !IsDropAllowed( nodeState, dropAsChild, eventArgs, true ) )
+        if ( !IsDropAllowed( nodeState, dropIndicator, eventArgs, true ) )
             return;
 
         TreeViewNodeDragEventArgs<TNode> dragEventArgs = new(
@@ -89,13 +89,13 @@ internal sealed class TreeViewDragDropBehavior<TNode>( TreeView<TNode> treeView,
             await treeView.TryMoveNodeAsync( draggedNodeState, newParentNodeState, oldIndex, newIndex );
         }
 
-        await SetActiveDropNode( null, false );
+        await SetActiveDropNode( null, TreeViewDropIndicator.None );
         draggedNode = null;
     }
 
     public async Task OnDragEnd()
     {
-        await SetActiveDropNode( null, false );
+        await SetActiveDropNode( null, TreeViewDropIndicator.None );
         draggedNode = null;
     }
 
@@ -107,21 +107,24 @@ internal sealed class TreeViewDragDropBehavior<TNode>( TreeView<TNode> treeView,
         return treeView.CanDragNode?.Invoke( nodeState.Node ) ?? true;
     }
 
-    public bool IsDropAllowed( TreeViewNodeState<TNode> nodeState, bool dropAsChild = true )
-        => IsDropAllowed( nodeState, dropAsChild, null, false );
+    public bool IsDropAllowed( TreeViewNodeState<TNode> nodeState, TreeViewDropIndicator dropIndicator = TreeViewDropIndicator.DropAsChild )
+        => IsDropAllowed( nodeState, dropIndicator, null, false );
 
-    private bool IsDropAllowed( TreeViewNodeState<TNode> nodeState, bool dropAsChild, DragEventArgs eventArgs, bool evaluateUserPredicate )
+    private bool IsDropAllowed( TreeViewNodeState<TNode> nodeState, TreeViewDropIndicator dropIndicator, DragEventArgs eventArgs, bool evaluateUserPredicate )
     {
         if ( !treeView.Draggable || draggedNode is null )
             return false;
 
-        if ( !dropAsChild && !treeView.Reorderable )
+        if ( dropIndicator is TreeViewDropIndicator.None )
+            return false;
+
+        if ( dropIndicator is not TreeViewDropIndicator.DropAsChild && !treeView.Reorderable )
             return false;
 
         TreeViewNodeState<TNode> draggedNodeState = draggedNode;
-        TreeViewNodeState<TNode> newParentNodeState = GetDropParentNodeState( nodeState, dropAsChild );
+        TreeViewNodeState<TNode> newParentNodeState = GetDropParentNodeState( nodeState, dropIndicator );
         int oldIndex = GetNodeIndex( draggedNodeState );
-        int newIndex = GetDropIndex( draggedNodeState, nodeState, dropAsChild );
+        int newIndex = GetDropIndex( draggedNodeState, nodeState, dropIndicator );
 
         if ( ReferenceEquals( draggedNodeState, nodeState ) )
             return false;
@@ -144,41 +147,49 @@ internal sealed class TreeViewDragDropBehavior<TNode>( TreeView<TNode> treeView,
     }
 
     public bool CanDropOnNode( TreeViewNodeState<TNode> nodeState )
-        => IsDropAllowed( nodeState, true ) || IsDropAllowed( nodeState, false );
+        => IsDropAllowed( nodeState, TreeViewDropIndicator.DropAsChild )
+           || IsDropAllowed( nodeState, TreeViewDropIndicator.InsertBefore )
+           || IsDropAllowed( nodeState, TreeViewDropIndicator.InsertAfter );
 
-    private static TreeViewNodeState<TNode> GetDropParentNodeState( TreeViewNodeState<TNode> targetNodeState, bool dropAsChild )
+    private static TreeViewNodeState<TNode> GetDropParentNodeState( TreeViewNodeState<TNode> targetNodeState, TreeViewDropIndicator dropIndicator )
     {
         if ( targetNodeState is null )
             return null;
 
-        return dropAsChild ? targetNodeState : targetNodeState.Parent;
+        return dropIndicator is TreeViewDropIndicator.DropAsChild
+            ? targetNodeState
+            : targetNodeState.Parent;
     }
 
-    private int GetDropIndex( TreeViewNodeState<TNode> draggedNodeState, TreeViewNodeState<TNode> targetNodeState, bool dropAsChild )
+    private int GetDropIndex( TreeViewNodeState<TNode> draggedNodeState, TreeViewNodeState<TNode> targetNodeState, TreeViewDropIndicator dropIndicator )
     {
-        TreeViewNodeState<TNode> dropParentNodeState = GetDropParentNodeState( targetNodeState, dropAsChild );
+        TreeViewNodeState<TNode> dropParentNodeState = GetDropParentNodeState( targetNodeState, dropIndicator );
         IList<TreeViewNodeState<TNode>> destinationNodeStates = dropParentNodeState?.Children ?? treeView?.RootNodeStates;
 
         if ( destinationNodeStates is null )
             return 0;
 
-        if ( !dropAsChild && targetNodeState is not null )
+        if ( dropIndicator is TreeViewDropIndicator.InsertBefore or TreeViewDropIndicator.InsertAfter && targetNodeState is not null )
         {
             int targetIndex = destinationNodeStates.IndexOf( targetNodeState );
 
             if ( targetIndex < 0 )
                 return destinationNodeStates.Count;
 
+            int targetDropIndex = dropIndicator is TreeViewDropIndicator.InsertAfter
+                ? targetIndex + 1
+                : targetIndex;
+
             if ( ReferenceEquals( draggedNodeState.Parent, dropParentNodeState ) )
             {
                 int oldIndex = GetNodeIndex( draggedNodeState );
 
-                return oldIndex < targetIndex
-                    ? targetIndex - 1
-                    : targetIndex;
+                return oldIndex < targetDropIndex
+                    ? targetDropIndex - 1
+                    : targetDropIndex;
             }
 
-            return targetIndex;
+            return targetDropIndex;
         }
 
         int newIndex = destinationNodeStates.Count;
@@ -194,14 +205,21 @@ internal sealed class TreeViewDragDropBehavior<TNode>( TreeView<TNode> treeView,
         return newIndex;
     }
 
-    private bool ShouldDropAsChild( DragEventArgs eventArgs )
+    private TreeViewDropIndicator GetDropIndicator( DragEventArgs eventArgs )
     {
-        const double dropBeforeZoneHeight = 8;
+        const double dropEdgeZoneHeight = 8;
+        const double nodeTitleMinHeight = 28;
 
         if ( !treeView.Reorderable )
-            return true;
+            return TreeViewDropIndicator.DropAsChild;
 
-        return eventArgs.OffsetY > dropBeforeZoneHeight;
+        if ( eventArgs.OffsetY <= dropEdgeZoneHeight )
+            return TreeViewDropIndicator.InsertBefore;
+
+        if ( eventArgs.OffsetY >= nodeTitleMinHeight - dropEdgeZoneHeight )
+            return TreeViewDropIndicator.InsertAfter;
+
+        return TreeViewDropIndicator.DropAsChild;
     }
 
     private int GetNodeIndex( TreeViewNodeState<TNode> nodeState )
@@ -226,13 +244,13 @@ internal sealed class TreeViewDragDropBehavior<TNode>( TreeView<TNode> treeView,
         return false;
     }
 
-    internal async Task SetActiveDropNode( TreeViewNodeState<TNode> nodeState, bool asChild )
+    internal async Task SetActiveDropNode( TreeViewNodeState<TNode> nodeState, TreeViewDropIndicator dropIndicator )
     {
-        if ( ReferenceEquals( activeDropNode, nodeState ) && activeDropAsChild == asChild )
+        if ( ReferenceEquals( activeDropNode, nodeState ) && activeDropIndicator == dropIndicator )
             return;
 
         activeDropNode = nodeState;
-        activeDropAsChild = asChild;
+        activeDropIndicator = dropIndicator;
 
         await stateHasChanged();
     }
@@ -244,9 +262,7 @@ internal sealed class TreeViewDragDropBehavior<TNode>( TreeView<TNode> treeView,
             return TreeViewDropIndicator.None;
         }
 
-        return activeDropAsChild
-            ? TreeViewDropIndicator.DropAsChild
-            : TreeViewDropIndicator.InsertBefore;
+        return activeDropIndicator;
     }
 
     #endregion

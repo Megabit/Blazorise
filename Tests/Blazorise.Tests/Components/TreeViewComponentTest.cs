@@ -478,6 +478,46 @@ public class TreeViewComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task DragDrop_Should_Reorder_SubNodes_After_Target()
+    {
+        var child1 = new Item() { Text = "Child 1" };
+        var child2 = new Item() { Text = "Child 2" };
+        var child3 = new Item() { Text = "Child 3" };
+        var parent = new Item()
+        {
+            Text = "Parent",
+            Children = new[] { child1, child2, child3 },
+        };
+        TreeViewNodeDragEventArgs<Item> droppedArgs = null;
+        var expandedNodes = new List<Item> { parent };
+
+        var cut = Render<TreeView<Item>>( parameters =>
+        {
+            parameters.Add( p => p.Nodes, new[] { parent } );
+            parameters.Add( p => p.GetChildNodes, (Func<Item, IEnumerable<Item>>)( node => node.Children ) );
+            parameters.Add( p => p.HasChildNodes, (Func<Item, bool>)( node => node.Children?.Any() == true ) );
+            parameters.Add( p => p.ExpandedNodes, expandedNodes );
+            parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
+            parameters.Add( p => p.Draggable, true );
+            parameters.Add( p => p.Reorderable, true );
+            parameters.Add( p => p.NodeDropped, EventCallback.Factory.Create<TreeViewNodeDragEventArgs<Item>>( this, args => droppedArgs = args ) );
+        } );
+
+        var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
+
+        await nodeContents[1].DragStartAsync( new DragEventArgs() );
+        var nodeTitles = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
+        await nodeTitles[3].DropAsync( new DragEventArgs() { OffsetY = 24 } );
+
+        droppedArgs.Should().NotBeNull();
+        droppedArgs.DraggedNode.Should().BeSameAs( child1 );
+        droppedArgs.OldParentNode.Should().BeSameAs( parent );
+        droppedArgs.NewParentNode.Should().BeSameAs( parent );
+        droppedArgs.OldIndex.Should().Be( 0 );
+        droppedArgs.NewIndex.Should().Be( 2 );
+    }
+
+    [Fact]
     public async Task DragDrop_Should_Not_Reorder_When_Reorderable_Is_False()
     {
         var child1 = new Item() { Text = "Child 1" };
@@ -723,7 +763,7 @@ public class TreeViewComponentTest : BunitContext
     }
 
     [Fact]
-    public async Task DragDrop_Should_Show_Visual_Indicator_On_Active_Drop_Target()
+    public async Task DragDrop_Should_Show_Before_Visual_Indicator_On_Active_Drop_Target()
     {
         var dragged = new Item() { Text = "Dragged" };
         var target = new Item() { Text = "Target" };
@@ -743,6 +783,29 @@ public class TreeViewComponentTest : BunitContext
         await nodeTitles[1].DragOverAsync( new DragEventArgs() { OffsetY = 1 } );
 
         cut.FindAll( ".b-tree-view-node-title.b-tree-view-node-drop-target.b-tree-view-node-title-drop-before" ).Should().ContainSingle();
+    }
+
+    [Fact]
+    public async Task DragDrop_Should_Show_After_Visual_Indicator_On_Active_Drop_Target()
+    {
+        var dragged = new Item() { Text = "Dragged" };
+        var target = new Item() { Text = "Target" };
+
+        var cut = Render<TreeView<Item>>( parameters =>
+        {
+            parameters.Add( p => p.Nodes, new[] { dragged, target } );
+            parameters.Add( p => p.NodeContent, (RenderFragment<Item>)( context => builder => builder.AddContent( 0, context.Text ) ) );
+            parameters.Add( p => p.Draggable, true );
+            parameters.Add( p => p.Reorderable, true );
+        } );
+
+        var nodeContents = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title > span" );
+
+        await nodeContents[0].DragStartAsync( new DragEventArgs() );
+        var nodeTitles = cut.FindAll( ".b-tree-view .b-tree-view-node .b-tree-view-node-title" );
+        await nodeTitles[1].DragOverAsync( new DragEventArgs() { OffsetY = 24 } );
+
+        cut.FindAll( ".b-tree-view-node-title.b-tree-view-node-drop-target.b-tree-view-node-title-drop-after" ).Should().ContainSingle();
     }
 
     [Fact]

@@ -18,5 +18,10 @@ internal enum TreeViewDropIndicator
     /// <summary>
     /// Indicates that the dragged node can be inserted before the target node.
     /// </summary>
-    InsertBefore
+    InsertBefore,
+
+    /// <summary>
+    /// Indicates that the dragged node can be inserted after the target node.
+    /// </summary>
+    InsertAfter
 }
