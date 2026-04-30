@@ -64,7 +64,7 @@ class MessageService : IMessageService
         var messageOptions = MessageOptions.Default;
         options?.Invoke( messageOptions );
 
-        var callback = new TaskCompletionSource<object>();
+        var callback = new TaskCompletionSource<object>( TaskCreationOptions.RunContinuationsAsynchronously );
 
         MessageReceived?.Invoke( this, new( MessageType.Confirmation, message, title, messageOptions, callback ) );
 
@@ -83,7 +83,7 @@ class MessageService : IMessageService
         var messageOptions = MessageOptions.Default;
         options?.Invoke( messageOptions );
 
-        var callback = new TaskCompletionSource<object>();
+        var callback = new TaskCompletionSource<object>( TaskCreationOptions.RunContinuationsAsynchronously );
 
         MessageReceived?.Invoke( this, new( MessageType.Choice, message, title, messageOptions, callback ) );
 
