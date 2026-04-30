@@ -526,7 +526,11 @@
         & + .fui-Field__validationMessage-error,
         & + .fui-Field__hint + .fui-Field__validationMessage-error,
         & + .fui-Field__validationMessage-success + .fui-Field__validationMessage-error,
-        & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-error {
+        & + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error,
+        & + .fui-Field__validationMessage-success + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error,
+        & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-error,
+        & + .fui-Field__hint + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error,
+        & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error {
             display: block;
             color: var(--colorPaletteRedForeground1);
 
@@ -578,7 +582,11 @@
     & + .fui-Field__validationMessage-success + .fui-Field__validationMessage-error,
     & + .fui-Field__validationMessage-success + .fui-Field__validationMessage-warning,
     & + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error,
-    & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-error {
+    & + .fui-Field__validationMessage-success + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error,
+    & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-error,
+    & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-warning,
+    & + .fui-Field__hint + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error,
+    & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error {
         display: none;
     }
 }

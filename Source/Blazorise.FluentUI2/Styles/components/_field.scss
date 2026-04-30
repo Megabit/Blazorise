@@ -46,7 +46,10 @@
 .fui-SpinButton,
 .fui-Checkbox,
 .fui-ColorPicker,
-.fui-RadioGroup__horizontal {
+.fui-RadioGroup,
+.fui-RadioGroup__horizontal,
+.fui-RadioGroup__buttons,
+.fui-RadioGroup__horizontal-buttons {
     & + .fui-Field__validationMessage-error,
     & + .fui-Field__validationMessage-warning,
     & + .fui-Field__validationMessage-success,
@@ -56,7 +59,11 @@
     & + .fui-Field__validationMessage-success + .fui-Field__validationMessage-error,
     & + .fui-Field__validationMessage-success + .fui-Field__validationMessage-warning,
     & + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error,
-    & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-error {
+    & + .fui-Field__validationMessage-success + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error,
+    & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-error,
+    & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-warning,
+    & + .fui-Field__hint + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error,
+    & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error {
         display: none;
         margin-top: var(--spacingVerticalXXS);
         color: var(--colorNeutralForeground3);
@@ -90,7 +97,11 @@
         & + .fui-Field__validationMessage-error,
         & + .fui-Field__hint + .fui-Field__validationMessage-error,
         & + .fui-Field__validationMessage-success + .fui-Field__validationMessage-error,
-        & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-error {
+        & + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error,
+        & + .fui-Field__validationMessage-success + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error,
+        & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-error,
+        & + .fui-Field__hint + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error,
+        & + .fui-Field__hint + .fui-Field__validationMessage-success + .fui-Field__validationMessage-warning + .fui-Field__validationMessage-error {
             display: block;
             color: var(--colorPaletteRedForeground1);
 

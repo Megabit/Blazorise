@@ -1,4 +1,6 @@
 .b-tree-view {
+    --b-tree-view-primary: var(--b-theme-primary, #0d6efd);
+
     > .b-tree-view-node {
         margin-left: 0;
     }
@@ -29,11 +31,40 @@
             min-height: 1.75rem;
             padding-left: 1.5rem;
             vertical-align: middle;
+            position: relative;
 
             > .cursor-pointer {
                 display: inline-flex;
                 align-items: center;
                 gap: .375rem;
+            }
+
+            &.b-tree-view-node-title-drop-before {
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: -1px;
+                    left: 0;
+                    right: 0;
+                    height: 0;
+                    border-top-color: var(--b-tree-view-primary, #0d6efd);
+                    border-top-style: dashed;
+                    border-top-width: 2px;
+                }
+            }
+
+            &.b-tree-view-node-title-drop-after {
+                &::after {
+                    content: "";
+                    position: absolute;
+                    bottom: -1px;
+                    left: 0;
+                    right: 0;
+                    height: 0;
+                    border-top-color: var(--b-tree-view-primary, #0d6efd);
+                    border-top-style: dashed;
+                    border-top-width: 2px;
+                }
             }
 
             > .b-tree-view-node-check {
