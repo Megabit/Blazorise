@@ -13,7 +13,10 @@ namespace Blazorise.PivotGrid.Components;
 public partial class _PivotGridTable<TItem>
 {
     private int RowHeaderColumnCount
-        => System.Math.Max( 1, Result.RowFields.Count );
+        => UseTreeRowHeader ? 1 : System.Math.Max( 1, Result.RowFields.Count );
+
+    private bool UseTreeRowHeader
+        => PivotGrid.ExpandableRows && Result.RowFields.Count > 0;
 
     private int HeaderRowSpan
         => ShowValueHeaderRow ? 2 : 1;
@@ -44,6 +47,9 @@ public partial class _PivotGridTable<TItem>
 
     private string GetRowHeaderCaption( int index )
     {
+        if ( UseTreeRowHeader )
+            return string.Join( " / ", Result.RowFields.Select( field => field.GetCaption() ) );
+
         var field = GetRowField( index );
 
         if ( field is not null )
@@ -54,7 +60,7 @@ public partial class _PivotGridTable<TItem>
 
     private PivotGridHeaderContext<TItem> GetHeaderContext( int index )
     {
-        var field = GetRowField( index );
+        var field = UseTreeRowHeader ? null : GetRowField( index );
 
         return new(
             field,
@@ -145,21 +151,35 @@ public partial class _PivotGridTable<TItem>
     private TextWeight GetRowHeaderTextWeight( PivotGridAxisItem<TItem> row )
         => row.IsTotal || row.IsGrandTotal ? TextWeight.Bold : TextWeight.Default;
 
+    private IconName GetRowExpansionIcon( PivotGridAxisItem<TItem> row )
+        => PivotGrid.IsRowExpanded( row ) ? IconName.ChevronDown : IconName.ChevronRight;
+
+    private IconName GetColumnExpansionIcon( PivotGridAxisItem<TItem> column )
+        => PivotGrid.IsColumnExpanded( column ) ? IconName.ChevronDown : IconName.ChevronRight;
+
+    private bool IsRowTreeCell( PivotGridAxisItem<TItem> row, int index )
+        => UseTreeRowHeader
+            && !row.IsGrandTotal
+            && index == 0;
+
     private PivotGridRowHeaderContext<TItem> GetRowHeaderContext( PivotGridResultRow<TItem> resultRow, int index )
     {
         var row = resultRow.Row;
-        var field = GetRowField( index );
+        var level = UseTreeRowHeader
+            ? System.Math.Min( row.Level, Result.RowFields.Count - 1 )
+            : index;
+        var field = GetRowField( level );
 
         if ( row.IsGrandTotal )
         {
-            var grandTotalText = index == 0 ? GrandTotalText : string.Empty;
+            var grandTotalText = UseTreeRowHeader || index == 0 ? GrandTotalText : string.Empty;
 
             return new(
                 field,
                 null,
                 grandTotalText,
                 grandTotalText,
-                index,
+                level,
                 row.Values,
                 row,
                 row.Items,
@@ -167,7 +187,7 @@ public partial class _PivotGridTable<TItem>
                 true );
         }
 
-        if ( index > row.Level || index >= Result.RowFields.Count )
+        if ( !UseTreeRowHeader && ( index > row.Level || index >= Result.RowFields.Count ) )
         {
             return new(
                 field,
@@ -182,8 +202,8 @@ public partial class _PivotGridTable<TItem>
                 false );
         }
 
-        var value = index < row.Values.Count
-            ? row.Values[index]
+        var value = level < row.Values.Count
+            ? row.Values[level]
             : resultRow.Row.Items.Count > 0
                 ? field.GetValue( resultRow.Row.Items[0] )
                 : null;
@@ -191,7 +211,7 @@ public partial class _PivotGridTable<TItem>
         var formattedValue = field.FormatValue( value );
         var text = formattedValue;
 
-        if ( row.IsTotal && index == row.Level )
+        if ( row.IsTotal && level == row.Level )
             text = $"{text} {TotalText}";
 
         return new(
@@ -199,7 +219,7 @@ public partial class _PivotGridTable<TItem>
             value,
             formattedValue,
             text,
-            index,
+            level,
             row.Values,
             row,
             row.Items,

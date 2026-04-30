@@ -32,6 +32,7 @@ public class PivotGridToolbarContext<TItem>
         LastPage = pivotGrid.LastPage;
         TotalRows = pivotGrid.TotalRows;
         PageSize = pivotGrid.EffectivePageSize;
+        PageByGroups = pivotGrid.PageByGroups;
     }
 
     /// <summary>
@@ -50,7 +51,7 @@ public class PivotGridToolbarContext<TItem>
     public int LastPage { get; }
 
     /// <summary>
-    /// Gets the total row count.
+    /// Gets the total row count, or the total top-level group count when group paging is enabled.
     /// </summary>
     public int TotalRows { get; }
 
@@ -58,6 +59,11 @@ public class PivotGridToolbarContext<TItem>
     /// Gets the effective page size.
     /// </summary>
     public int PageSize { get; }
+
+    /// <summary>
+    /// Gets whether paging is applied to top-level row groups instead of rendered pivot rows.
+    /// </summary>
+    public bool PageByGroups { get; }
 
     /// <summary>
     /// Opens the field chooser dialog.

@@ -47,7 +47,7 @@ public partial class _PivotGridPagination<TItem>
     [Parameter] public int PageSize { get; set; }
 
     /// <summary>
-    /// Total number of pivot rows.
+    /// Total number of pivot rows, or top-level groups when group paging is enabled.
     /// </summary>
     [Parameter] public int TotalRows { get; set; }
 

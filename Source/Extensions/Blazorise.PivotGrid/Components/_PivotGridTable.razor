@@ -76,6 +76,13 @@ else
                         var columnHeaderContext = GetColumnHeaderContext( columnGroup );
 
                         <TableHeaderCell ColumnSpan="@ValueColumnSpan" Background="BackgroundBody" TextWeight="TextWeight.Bold" TextAlignment="TextAlignment.Center">
+                            @if ( PivotGrid.CanToggleColumnExpansion( columnGroup ) )
+                            {
+                                <Button Color="Color.Link" Size="Size.Small" Clicked="@(() => PivotGrid.ToggleColumnExpanded( columnGroup ))">
+                                    <Icon Name="@GetColumnExpansionIcon( columnGroup )" />
+                                </Button>
+                            }
+
                             @if ( columnHeaderContext.Field?.DisplayTemplate is not null )
                             {
                                 @columnHeaderContext.Field.DisplayTemplate( GetColumnFieldValueContext( columnHeaderContext ) )
@@ -130,6 +137,27 @@ else
                             <TableRowCell Background="@GetRowHeaderBackground( row.Row )"
                                           TextWeight="@GetRowHeaderTextWeight( row.Row )"
                                           TextAlignment="TextAlignment.Start">
+                                @if ( IsRowTreeCell( row.Row, rowHeaderIndex ) )
+                                {
+                                    <Span Display="Display.InlineFlex" VerticalAlignment="VerticalAlignment.Middle" TextOverflow="TextOverflow.NoWrap">
+                                        @if ( row.Row.Level > 0 )
+                                        {
+                                            <Span Display="Display.InlineBlock" Width="@Width.Rem( row.Row.Level * 1.5d )"></Span>
+                                        }
+
+                                        @if ( PivotGrid.CanToggleRowExpansion( row.Row ) )
+                                        {
+                                            <Button Color="Color.Link" Size="Size.Small" Clicked="@(() => PivotGrid.ToggleRowExpanded( row.Row ))">
+                                                <Icon Name="@GetRowExpansionIcon( row.Row )" />
+                                            </Button>
+                                        }
+                                        else
+                                        {
+                                            <Span Display="Display.InlineBlock" Width="@Width.Rem( 1.5d )"></Span>
+                                        }
+                                    </Span>
+                                }
+
                                 @if ( rowHeaderContext.Field?.DisplayTemplate is not null )
                                 {
                                     @rowHeaderContext.Field.DisplayTemplate( GetRowFieldValueContext( rowHeaderContext ) )
