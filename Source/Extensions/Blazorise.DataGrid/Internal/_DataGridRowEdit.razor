@@ -135,11 +135,21 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                 else if ( column.Displaying )
                 {
                     var cellStyle = column.BuildCellStyle( Item );
+                    var isCustomEditTemplate = column.EditTemplate is not null;
+                    var cellEditWrapperStyle = isCustomEditTemplate
+                        ? "width:100%;max-width:100%;min-width:0;"
+                        : "width:100%;max-width:100%;min-width:0;overflow:hidden;";
+
                     if ( column.CellValueIsEditable )
                     {
                         cellStyle = string.IsNullOrWhiteSpace( cellStyle )
-                            ? "min-width:0;overflow:hidden;"
-                            : $"{cellStyle};min-width:0;overflow:hidden;";
+                            ? "min-width:0;"
+                            : $"{cellStyle};min-width:0;";
+
+                        if ( !isCustomEditTemplate )
+                        {
+                            cellStyle = $"{cellStyle};overflow:hidden;";
+                        }
 
                         if ( column.CellEditing && !string.IsNullOrWhiteSpace( ParentDataGrid.activeCellEditWidth ) )
                         {
@@ -149,7 +159,7 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
 
                     <TableRowCell @key=column Class="@column.CellClass?.Invoke( Item )" Style="@cellStyle"
                                   data-column-id="@column.ElementId"
-                                  @onkeydown="@(ParentDataGrid.IsCellEdit? async( args) => await HandleCellKeyDown( args, column ) : default)"
+                                  @onkeydown="@(ParentDataGrid.IsCellEdit ? async ( args ) => await HandleCellKeyDown( args, column ) : default)"
                                   @onclick=@(ParentDataGrid.IsCellEditOnSingleClick && !column.CellValueIsEditable ? async () => await HandleCellClick( column ) : default)
                                   @ondblclick=@(ParentDataGrid.IsCellEditOnDoubleClick && !column.CellValueIsEditable ? async () => await HandleCellClick( column ) : default)
                                   TextAlignment="@column.TextAlignment" TextTransform="@column.TextTransform" TextDecoration="@column.TextDecoration" TextWeight="@column.TextWeight" TextOverflow="@column.TextOverflow" TextSize="@column.TextSize"
@@ -157,7 +167,7 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                                   MobileModeCaption="@column.Caption">
                         @if ( column.CellValueIsEditable )
                         {
-                            <Div Style="width:100%;max-width:100%;min-width:0;overflow:hidden;">
+                            <Div Style="@cellEditWrapperStyle">
                                 <_DataGridCell TItem="TItem" Column="@column" Item="@Item" ValidationItem="@ValidationItem" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
                             </Div>
                         }

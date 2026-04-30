@@ -34,18 +34,37 @@
             <ClearFilterCommandTemplate>
                 <Button ElementId="btnClearFilter" Color="Color.Warning" Clicked="@context.Clicked">@context.LocalizationString</Button>
             </ClearFilterCommandTemplate>
-            </DataGridCommandColumn>
-            <DataGridColumn TextAlignment="TextAlignment.Center"
+        </DataGridCommandColumn>
+        <DataGridColumn TextAlignment="TextAlignment.Center"
                         TItem="Employee"
                         Field="@nameof( Employee.Fraction )"
                         Caption="Fraction"
                         SortField="@nameof( Employee.FractionValue )"
                         SortDirection="SortDirection.Ascending"
                         Editable="false" />
+        @if ( UseNameEditTemplate )
+        {
             <DataGridColumn TItem="Employee"
-                        Field="@nameof( Employee.Name )"
-                        Caption="Name"
-                                Editable />
+                            Field="@nameof( Employee.Name )"
+                            Caption="Name"
+                            Editable>
+                <EditTemplate>
+                    <Autocomplete TValue="string"
+                                  TItem="string"
+                                  Data="@Names"
+                                  TextField="name => name"
+                                  ValueField="name => name"
+                                  MinSearchLength="0" />
+                </EditTemplate>
+            </DataGridColumn>
+        }
+        else
+        {
+            <DataGridColumn TItem="Employee"
+                            Field="@nameof( Employee.Name )"
+                            Caption="Name"
+                            Editable />
+        }
     </DataGridColumns>
     <EmptyTemplate>
         No Records...
@@ -65,6 +84,17 @@
 
     [Parameter]
     public DataGridEditMode DataGridEditMode { get; set; }
+
+    [Parameter]
+    public bool UseNameEditTemplate { get; set; }
+
+    public IEnumerable<string> Names { get; set; } = new List<string>
+    {
+        "John",
+        "Sarah",
+        "Paul",
+        "Ana",
+    };
 
     [Parameter]
     public IEnumerable<Employee> Data { get; set; } = new List<Employee>()
