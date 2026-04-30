@@ -292,7 +292,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ValidationErrorTooltip() => "invalid-tooltip";
 
-    public override string ValidationNone() => "ant-form-item-explain";
+    public override string ValidationNone() => "ant-form-item-explain ant-form-item-explain-none";
 
     public override string ValidationSummary() => "ant-typography-danger";
 

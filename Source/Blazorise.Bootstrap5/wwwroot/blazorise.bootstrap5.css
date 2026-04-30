@@ -1021,8 +1021,8 @@ input[readonly=readonly][type=range]::-ms-thumb {
   display: block;
 }
 
-:is(.form-control, .form-select).is-valid + .form-text.text-muted,
-:is(.form-control, .form-select).is-invalid + .form-text.text-muted {
+:is(.form-control, .form-select).is-valid + .none-feedback,
+:is(.form-control, .form-select).is-invalid + .none-feedback {
   display: none;
 }
 

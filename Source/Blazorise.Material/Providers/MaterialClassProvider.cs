@@ -316,7 +316,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string ValidationErrorTooltip() => "invalid-tooltip";
 
-    public override string ValidationNone() => "form-text text-muted";
+    public override string ValidationNone() => "form-text text-muted none-feedback";
 
     public override string ValidationSummary() => "text-danger";
 

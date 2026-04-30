@@ -80,7 +80,7 @@
     &.fui-Checkbox-error,
     &.fui-ColorPicker-error,
     &.fui-RadioGroup-error {
-        & + .fui-Field__hint {
+        & + .fui-Field__validationMessage-none {
             display: none;
         }
 
@@ -103,7 +103,7 @@
     &.fui-Checkbox-success,
     &.fui-ColorPicker-success,
     &.fui-RadioGroup-success {
-        & + .fui-Field__hint {
+        & + .fui-Field__validationMessage-none {
             display: none;
         }
 
