@@ -296,7 +296,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ValidationErrorTooltip() => "fui-Field__validationTooltip";
 
-    public override string ValidationNone() => "fui-Field__hint fui-TextColor-muted";
+    public override string ValidationNone() => "fui-Field__hint fui-Field__validationMessage-none fui-TextColor-muted";
 
     public override string ValidationSummary() => "fui-TextColor-danger";
 

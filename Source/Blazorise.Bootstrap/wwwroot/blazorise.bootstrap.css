@@ -909,10 +909,10 @@ input[readonly=readonly][type=range]::-ms-thumb {
   display: block;
 }
 
-:is(.form-control, .custom-select).is-valid + .form-text.text-muted,
-:is(.form-control, .custom-select).is-invalid + .form-text.text-muted,
-.custom-file-input.is-valid + .custom-file-label + .form-text.text-muted,
-.custom-file-input.is-invalid + .custom-file-label + .form-text.text-muted {
+:is(.form-control, .custom-select).is-valid + .none-feedback,
+:is(.form-control, .custom-select).is-invalid + .none-feedback,
+.custom-file-input.is-valid + .custom-file-label + .none-feedback,
+.custom-file-input.is-invalid + .custom-file-label + .none-feedback {
   display: none;
 }
 

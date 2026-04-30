@@ -282,7 +282,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ValidationErrorTooltip() => "help is-danger"; // TODO
 
-    public override string ValidationNone() => "help";
+    public override string ValidationNone() => "help is-none";
 
     public override string ValidationSummary() => "has-text-danger";
 

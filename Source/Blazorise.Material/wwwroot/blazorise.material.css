@@ -4530,8 +4530,8 @@ textarea.mui-input:not([rows]) {
   inline-size: 100%;
 }
 
-:is(.mui-input, .mui-select).is-valid + .form-text.text-muted,
-:is(.mui-input, .mui-select).is-invalid + .form-text.text-muted {
+:is(.mui-input, .mui-select).is-valid + .none-feedback,
+:is(.mui-input, .mui-select).is-invalid + .none-feedback {
   display: none;
 }
 
