@@ -7,16 +7,97 @@
                 <CardTitle>PivotGrid</CardTitle>
             </CardHeader>
             <CardBody>
+                <Row Margin="Margin.Is3.FromBottom">
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                        <Field>
+                            <Switch @bind-Value="@expandableRows">Expandable rows</Switch>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                        <Field>
+                            <Switch @bind-Value="@expandableColumns">Expandable columns</Switch>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                        <Field>
+                            <Switch @bind-Value="@initiallyExpanded">Initially expanded</Switch>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                        <Field>
+                            <Switch @bind-Value="@pageByGroups">Page by groups</Switch>
+                        </Field>
+                    </Column>
+                </Row>
+
+                <Row Margin="Margin.Is3.FromBottom">
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                        <Field>
+                            <Switch @bind-Value="@showRowSubtotals">Row subtotals</Switch>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                        <Field>
+                            <Switch @bind-Value="@showColumnSubtotals">Column subtotals</Switch>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                        <Field>
+                            <Switch @bind-Value="@showRowTotals">Row totals</Switch>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                        <Field>
+                            <Switch @bind-Value="@showColumnTotals">Column totals</Switch>
+                        </Field>
+                    </Column>
+                </Row>
+
+                <Row Margin="Margin.Is3.FromBottom">
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnDesktop">
+                        <Field>
+                            <FieldLabel>Row total position</FieldLabel>
+                            <FieldBody>
+                                <Select TValue="PivotGridTotalPosition" @bind-Value="@rowTotalPosition" Disabled="@expandableRows">
+                                    <SelectItem TValue="PivotGridTotalPosition" Value="PivotGridTotalPosition.Before">Before</SelectItem>
+                                    <SelectItem TValue="PivotGridTotalPosition" Value="PivotGridTotalPosition.After">After</SelectItem>
+                                </Select>
+                            </FieldBody>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnDesktop">
+                        <Field>
+                            <FieldLabel>Column total position</FieldLabel>
+                            <FieldBody>
+                                <Select TValue="PivotGridTotalPosition" @bind-Value="@columnTotalPosition" Disabled="@expandableColumns">
+                                    <SelectItem TValue="PivotGridTotalPosition" Value="PivotGridTotalPosition.Before">Before</SelectItem>
+                                    <SelectItem TValue="PivotGridTotalPosition" Value="PivotGridTotalPosition.After">After</SelectItem>
+                                </Select>
+                            </FieldBody>
+                        </Field>
+                    </Column>
+                </Row>
+
                 <PivotGrid TItem="PivotModel"
                            Data="@contracts"
                            ShowPager
                            ShowPageSizes
                            ShowFieldChooser
-                           PageByGroups
+                           ExpandableRows="@expandableRows"
+                           ExpandableColumns="@expandableColumns"
+                           InitiallyExpanded="@initiallyExpanded"
+                           PageByGroups="@pageByGroups"
+                           ShowRowSubtotals="@showRowSubtotals"
+                           ShowColumnSubtotals="@showColumnSubtotals"
+                           ShowRowTotals="@showRowTotals"
+                           ShowColumnTotals="@showColumnTotals"
+                           RowTotalPosition="@rowTotalPosition"
+                           ColumnTotalPosition="@columnTotalPosition"
                            PageSize="5"
                            Striped
                            Hoverable>
                     <PivotGridFields>
+                        <PivotGridField Field="@nameof( PivotModel.Region )" Caption="Region" />
                         <PivotGridField Field="@nameof( PivotModel.City )" Caption="City" />
                         <PivotGridField Field="@nameof( PivotModel.Category )" Caption="Category" />
                         <PivotGridField Field="@nameof( PivotModel.Product )" Caption="Product" />
@@ -24,6 +105,7 @@
                         <PivotGridField Field="@nameof( PivotModel.Units )" Caption="Units" />
                     </PivotGridFields>
                     <PivotGridColumns>
+                        <PivotGridColumn Field="@nameof( PivotModel.Region )" Caption="Region" />
                         <PivotGridColumn Field="@nameof( PivotModel.City )" Caption="City" />
                     </PivotGridColumns>
                     <PivotGridRows>
@@ -46,24 +128,46 @@
 </Row>
 
 @code {
+    private bool expandableRows = true;
+
+    private bool expandableColumns;
+
+    private bool initiallyExpanded = true;
+
+    private bool pageByGroups = true;
+
+    private bool showRowSubtotals = true;
+
+    private bool showColumnSubtotals = true;
+
+    private bool showRowTotals = true;
+
+    private bool showColumnTotals = true;
+
+    private PivotGridTotalPosition rowTotalPosition = PivotGridTotalPosition.After;
+
+    private PivotGridTotalPosition columnTotalPosition = PivotGridTotalPosition.After;
+
     private readonly List<PivotModel> contracts =
     [
-        new() { City = "London", Category = "Hardware", Product = "Laptops", ContractValue = 127500m, Units = 34 },
-        new() { City = "London", Category = "Hardware", Product = "Monitors", ContractValue = 43800m, Units = 96 },
-        new() { City = "London", Category = "Software", Product = "Licenses", ContractValue = 89200m, Units = 240 },
-        new() { City = "Paris", Category = "Hardware", Product = "Laptops", ContractValue = 98400m, Units = 28 },
-        new() { City = "Paris", Category = "Software", Product = "Licenses", ContractValue = 116300m, Units = 310 },
-        new() { City = "Paris", Category = "Services", Product = "Consulting", ContractValue = 75400m, Units = 42 },
-        new() { City = "Berlin", Category = "Hardware", Product = "Monitors", ContractValue = 51200m, Units = 118 },
-        new() { City = "Berlin", Category = "Services", Product = "Consulting", ContractValue = 104900m, Units = 58 },
-        new() { City = "Berlin", Category = "Software", Product = "Support", ContractValue = 39600m, Units = 120 },
-        new() { City = "Madrid", Category = "Hardware", Product = "Laptops", ContractValue = 68200m, Units = 19 },
-        new() { City = "Madrid", Category = "Services", Product = "Training", ContractValue = 28700m, Units = 64 },
-        new() { City = "Madrid", Category = "Software", Product = "Support", ContractValue = 45100m, Units = 135 },
+        new() { Region = "Western", City = "London", Category = "Hardware", Product = "Laptops", ContractValue = 127500m, Units = 34 },
+        new() { Region = "Western", City = "London", Category = "Hardware", Product = "Monitors", ContractValue = 43800m, Units = 96 },
+        new() { Region = "Western", City = "London", Category = "Software", Product = "Licenses", ContractValue = 89200m, Units = 240 },
+        new() { Region = "Western", City = "Paris", Category = "Hardware", Product = "Laptops", ContractValue = 98400m, Units = 28 },
+        new() { Region = "Western", City = "Paris", Category = "Software", Product = "Licenses", ContractValue = 116300m, Units = 310 },
+        new() { Region = "Western", City = "Paris", Category = "Services", Product = "Consulting", ContractValue = 75400m, Units = 42 },
+        new() { Region = "Central", City = "Berlin", Category = "Hardware", Product = "Monitors", ContractValue = 51200m, Units = 118 },
+        new() { Region = "Central", City = "Berlin", Category = "Services", Product = "Consulting", ContractValue = 104900m, Units = 58 },
+        new() { Region = "Central", City = "Berlin", Category = "Software", Product = "Support", ContractValue = 39600m, Units = 120 },
+        new() { Region = "Central", City = "Madrid", Category = "Hardware", Product = "Laptops", ContractValue = 68200m, Units = 19 },
+        new() { Region = "Central", City = "Madrid", Category = "Services", Product = "Training", ContractValue = 28700m, Units = 64 },
+        new() { Region = "Central", City = "Madrid", Category = "Software", Product = "Support", ContractValue = 45100m, Units = 135 },
     ];
 
     public class PivotModel
     {
+        public string Region { get; set; }
+
         public string City { get; set; }
 
         public string Category { get; set; }
