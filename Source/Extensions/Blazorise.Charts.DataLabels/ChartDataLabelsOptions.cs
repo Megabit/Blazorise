@@ -56,6 +56,9 @@ public class ChartDataLabelsOptions
     public ChartMathFormatter? Formatter { get; set; }
 
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public string SoftCodeFormatter { get; set; }
+
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public object Labels { get; set; }
 
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
