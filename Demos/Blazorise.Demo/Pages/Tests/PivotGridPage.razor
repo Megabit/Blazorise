@@ -7,7 +7,7 @@
                 <CardTitle>PivotGrid</CardTitle>
             </CardHeader>
             <CardBody>
-                <Row Margin="Margin.Is3.FromBottom">
+                <Row>
                     <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
                         <Field>
                             <Switch @bind-Value="@expandableRows">Expandable rows</Switch>
@@ -15,14 +15,14 @@
                     </Column>
                     <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
                         <Field>
-                            <Switch @bind-Value="@expandableColumns">Expandable columns</Switch>
+                            <Switch @bind-Value="@showRowSubtotals">Row subtotals</Switch>
                         </Field>
                     </Column>
                     <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
                         <Field>
-                            <Switch @bind-Value="@initiallyExpanded">Initially expanded</Switch>
+                            <Switch @bind-Value="@showRowTotals">Row totals</Switch>
                         </Field>
-                    </Column>
+                    </Column>                   
                     <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
                         <Field>
                             <Switch @bind-Value="@pageByGroups">Page by groups</Switch>
@@ -30,12 +30,12 @@
                     </Column>
                 </Row>
 
-                <Row Margin="Margin.Is3.FromBottom">
+                <Row>
                     <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
                         <Field>
-                            <Switch @bind-Value="@showRowSubtotals">Row subtotals</Switch>
+                            <Switch @bind-Value="@expandableColumns">Expandable columns</Switch>
                         </Field>
-                    </Column>
+                    </Column>                    
                     <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
                         <Field>
                             <Switch @bind-Value="@showColumnSubtotals">Column subtotals</Switch>
@@ -43,18 +43,18 @@
                     </Column>
                     <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
                         <Field>
-                            <Switch @bind-Value="@showRowTotals">Row totals</Switch>
+                            <Switch @bind-Value="@showColumnTotals">Column totals</Switch>
                         </Field>
                     </Column>
                     <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
                         <Field>
-                            <Switch @bind-Value="@showColumnTotals">Column totals</Switch>
+                            <Switch @bind-Value="@initiallyExpanded">Initially expanded</Switch>
                         </Field>
                     </Column>
                 </Row>
 
-                <Row Margin="Margin.Is3.FromBottom">
-                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnDesktop">
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop">
                         <Field>
                             <FieldLabel>Row total position</FieldLabel>
                             <FieldBody>
@@ -65,7 +65,7 @@
                             </FieldBody>
                         </Field>
                     </Column>
-                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnDesktop">
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop">
                         <Field>
                             <FieldLabel>Column total position</FieldLabel>
                             <FieldBody>
@@ -76,10 +76,24 @@
                             </FieldBody>
                         </Field>
                     </Column>
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop">
+                        <Field>
+                            <FieldLabel>Data source</FieldLabel>
+                            <FieldBody>
+                                <Select TValue="PivotGridDemoDataMode" @bind-Value="@dataMode">
+                                    <SelectItem TValue="PivotGridDemoDataMode" Value="PivotGridDemoDataMode.Data">Data</SelectItem>
+                                    <SelectItem TValue="PivotGridDemoDataMode" Value="PivotGridDemoDataMode.ReadData">ReadData</SelectItem>
+                                    <SelectItem TValue="PivotGridDemoDataMode" Value="PivotGridDemoDataMode.DataSource">DataSource</SelectItem>
+                                </Select>
+                            </FieldBody>
+                        </Field>
+                    </Column>
                 </Row>
 
                 <PivotGrid TItem="PivotModel"
-                           Data="@contracts"
+                           Data="@CurrentData"
+                           ReadData="@CurrentReadData"
+                           DataSource="@CurrentDataSource"
                            ShowPager
                            ShowPageSizes
                            ShowFieldChooser
@@ -148,6 +162,10 @@
 
     private PivotGridTotalPosition columnTotalPosition = PivotGridTotalPosition.After;
 
+    private PivotGridDemoDataMode dataMode;
+
+    private IPivotGridDataSource<PivotModel> contractsDataSource;
+
     private readonly List<PivotModel> contracts =
     [
         new() { Region = "Western", City = "London", Category = "Hardware", Product = "Laptops", ContractValue = 127500m, Units = 34 },
@@ -163,6 +181,54 @@
         new() { Region = "Central", City = "Madrid", Category = "Services", Product = "Training", ContractValue = 28700m, Units = 64 },
         new() { Region = "Central", City = "Madrid", Category = "Software", Product = "Support", ContractValue = 45100m, Units = 135 },
     ];
+
+    protected override void OnInitialized()
+    {
+        contractsDataSource = new DemoPivotGridDataSource( contracts );
+    }
+
+    private IEnumerable<PivotModel> CurrentData
+        => dataMode == PivotGridDemoDataMode.Data ? contracts : null;
+
+    private EventCallback<PivotGridReadDataEventArgs<PivotModel>> CurrentReadData
+        => dataMode == PivotGridDemoDataMode.ReadData
+            ? EventCallback.Factory.Create<PivotGridReadDataEventArgs<PivotModel>>( this, ReadPivotData )
+            : default;
+
+    private IPivotGridDataSource<PivotModel> CurrentDataSource
+        => dataMode == PivotGridDemoDataMode.DataSource ? contractsDataSource : null;
+
+    private Task ReadPivotData( PivotGridReadDataEventArgs<PivotModel> eventArgs )
+    {
+        eventArgs.Data = contracts;
+        eventArgs.TotalItems = contracts.Count;
+
+        return Task.CompletedTask;
+    }
+
+    private enum PivotGridDemoDataMode
+    {
+        Data,
+        ReadData,
+        DataSource,
+    }
+
+    private sealed class DemoPivotGridDataSource : IPivotGridDataSource<PivotModel>
+    {
+        private readonly IReadOnlyList<PivotModel> data;
+
+        public DemoPivotGridDataSource( IReadOnlyList<PivotModel> data )
+        {
+            this.data = data;
+        }
+
+        public Task<PivotGridDataResult<PivotModel>> ReadDataAsync( PivotGridDataRequest request, System.Threading.CancellationToken cancellationToken )
+            => Task.FromResult( new PivotGridDataResult<PivotModel>
+            {
+                Data = data,
+                TotalItems = data.Count,
+            } );
+    }
 
     public class PivotModel
     {
