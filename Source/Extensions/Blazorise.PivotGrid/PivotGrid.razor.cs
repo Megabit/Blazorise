@@ -486,7 +486,6 @@ public partial class PivotGrid<TItem> : BaseComponent
             ExpandableRows = ExpandableRows,
             ExpandableColumns = ExpandableColumns,
             InitiallyExpanded = InitiallyExpanded,
-            RequiresRawData = true,
         };
     }
 

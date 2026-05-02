@@ -94,8 +94,4 @@ public class PivotGridDataRequest
     /// </summary>
     public bool InitiallyExpanded { get; set; }
 
-    /// <summary>
-    /// Gets or sets whether the provider should return raw data items for local pivoting.
-    /// </summary>
-    public bool RequiresRawData { get; set; } = true;
 }
