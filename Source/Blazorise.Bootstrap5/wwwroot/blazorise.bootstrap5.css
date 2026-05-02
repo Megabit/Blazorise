@@ -369,9 +369,9 @@ hr.divider.divider-text::before {
 .dropdown {
   position: relative;
 }
-.dropdown .btn.dropdown-toggle:not(.btn-outline) {
+.dropdown .btn.dropdown-toggle:not([class^=btn-outline]):not([class*=" btn-outline"]) {
   box-shadow: none;
-  border: none;
+  border-color: transparent;
 }
 .dropdown.dropdown-disabled.b-is-autocomplete {
   background-color: var(--b-theme-light, #e9ecef);

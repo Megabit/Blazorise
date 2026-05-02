@@ -131,9 +131,9 @@
 .dropdown {
     position: relative;
 
-    .btn.dropdown-toggle:not(.btn-outline) {
+    .btn.dropdown-toggle:not([class^="btn-outline"]):not([class*=" btn-outline"]) {
         box-shadow: none;
-        border: none;
+        border-color: transparent;
     }
 
     &.dropdown-disabled.b-is-autocomplete {
