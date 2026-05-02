@@ -48,7 +48,7 @@ public partial class _PivotGridTable<TItem>
     private string GetRowHeaderCaption( int index )
     {
         if ( UseTreeRowHeader )
-            return string.Join( " / ", Result.RowFields.Select( field => field.GetCaption() ) );
+            return string.Join( PivotGrid.GroupCaptionSeparator, Result.RowFields.Select( field => field.GetCaption() ) );
 
         var field = GetRowField( index );
 
@@ -74,12 +74,27 @@ public partial class _PivotGridTable<TItem>
         if ( column.IsGrandTotal || Result.ColumnFields.Count == 0 )
             return Result.ColumnFields.Count == 0 ? ValuesText : GrandTotalText;
 
-        var labels = column.Values.Select( ( value, index ) => Result.ColumnFields[index].FormatValue( value ) ).ToList();
+        return GetAxisItemCaption( column, Result.ColumnFields, PivotGrid.ColumnGroupCaptionMode );
+    }
 
-        if ( column.IsTotal && labels.Count > 0 )
-            labels[^1] = $"{labels[^1]} {TotalText}";
+    private string GetAxisItemCaption( PivotGridAxisItem<TItem> axisItem, IReadOnlyList<BasePivotGridField<TItem>> axisFields, PivotGridGroupCaptionMode captionMode )
+    {
+        if ( axisItem.Values.Count == 0 || axisFields.Count == 0 || captionMode == PivotGridGroupCaptionMode.Hidden )
+            return string.Empty;
 
-        return string.Join( " / ", labels );
+        var level = System.Math.Min( axisItem.Level, axisFields.Count - 1 );
+
+        var text = captionMode switch
+        {
+            PivotGridGroupCaptionMode.FullPath => string.Join( PivotGrid.GroupCaptionSeparator, axisItem.Values.Take( axisFields.Count ).Select( ( value, index ) => axisFields[index].FormatValue( value ) ) ),
+            PivotGridGroupCaptionMode.Field => axisFields[level].GetCaption(),
+            _ => axisFields[level].FormatValue( axisItem.Values[System.Math.Min( level, axisItem.Values.Count - 1 )] ),
+        };
+
+        if ( axisItem.IsTotal )
+            text = $"{text} {TotalText}";
+
+        return text;
     }
 
     private PivotGridColumnHeaderContext<TItem> GetColumnHeaderContext( PivotGridAxisItem<TItem> column )
@@ -209,9 +224,11 @@ public partial class _PivotGridTable<TItem>
                 : null;
 
         var formattedValue = field.FormatValue( value );
-        var text = formattedValue;
+        var text = UseTreeRowHeader
+            ? GetAxisItemCaption( row, Result.RowFields, PivotGrid.RowGroupCaptionMode )
+            : formattedValue;
 
-        if ( row.IsTotal && level == row.Level )
+        if ( !UseTreeRowHeader && row.IsTotal && level == row.Level )
             text = $"{text} {TotalText}";
 
         return new(

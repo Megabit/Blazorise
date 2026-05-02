@@ -1291,6 +1291,21 @@ public partial class PivotGrid<TItem> : BaseComponent
     [Parameter] public bool PageByGroups { get; set; }
 
     /// <summary>
+    /// Defines how row group captions are displayed.
+    /// </summary>
+    [Parameter] public PivotGridGroupCaptionMode RowGroupCaptionMode { get; set; } = PivotGridGroupCaptionMode.FullPath;
+
+    /// <summary>
+    /// Defines how column group captions are displayed.
+    /// </summary>
+    [Parameter] public PivotGridGroupCaptionMode ColumnGroupCaptionMode { get; set; } = PivotGridGroupCaptionMode.Leaf;
+
+    /// <summary>
+    /// Defines the separator used when group captions show the full path.
+    /// </summary>
+    [Parameter] public string GroupCaptionSeparator { get; set; } = " / ";
+
+    /// <summary>
     /// Currently selected page.
     /// </summary>
     [Parameter] public int Page { get; set; } = 1;
