@@ -512,7 +512,7 @@ public class BulmaClassProvider : ClassProvider
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item" : "button dropdown-trigger";
 
     public override string DropdownToggleColor( Color color, bool outline ) => outline
-        ? color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : $"is-outlined"
+        ? color.IsNotNullOrDefault() ? $"is-{ToColor( color )} is-outlined" : $"is-outlined"
         : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string DropdownToggleSize( Size size, bool outline )

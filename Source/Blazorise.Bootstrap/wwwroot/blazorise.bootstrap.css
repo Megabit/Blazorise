@@ -322,7 +322,7 @@ body:before {
 .dropdown {
   position: relative;
 }
-.dropdown .btn.dropdown-toggle:not(.btn-outline) {
+.dropdown .btn.dropdown-toggle:not([class^=btn-outline]):not([class*=" btn-outline"]) {
   box-shadow: none;
 }
 .dropdown.dropdown-disabled.b-is-autocomplete {
