@@ -602,7 +602,7 @@ public partial class PivotGrid<TItem> : BaseComponent
 
     private BasePivotGridField<TItem> CreateRuntimeField( PivotGridFieldState state, PivotGridFieldArea area )
     {
-        var source = FindFieldMetadata( state.Field );
+        var source = FindFieldMetadata( state.Field, area );
         var field = new PivotGridRuntimeField<TItem>( area );
 
         CopyFieldMetadata( source, field, state );
@@ -612,7 +612,7 @@ public partial class PivotGrid<TItem> : BaseComponent
 
     private PivotGridAggregate<TItem> CreateRuntimeAggregate( PivotGridFieldState state )
     {
-        var source = FindFieldMetadata( state.Field );
+        var source = FindFieldMetadata( state.Field, PivotGridFieldArea.Aggregate );
         var aggregate = new PivotGridAggregate<TItem>();
 
         CopyFieldMetadata( source, aggregate, state );
@@ -636,7 +636,9 @@ public partial class PivotGrid<TItem> : BaseComponent
         if ( source is null )
             return;
 
-        target.Caption = source.Caption;
+        if ( !string.IsNullOrWhiteSpace( source.Caption ) )
+            target.Caption = source.Caption;
+
         target.DisplayFormat = source.DisplayFormat;
         target.DisplayFormatProvider = source.DisplayFormatProvider;
         target.EmptyText = source.EmptyText;
@@ -645,8 +647,9 @@ public partial class PivotGrid<TItem> : BaseComponent
         target.Visible = source.Visible;
     }
 
-    private BasePivotGridField<TItem> FindFieldMetadata( string fieldName )
-        => fields.FirstOrDefault( x => string.Equals( x.Field, fieldName, StringComparison.Ordinal ) && x.FieldArea == PivotGridFieldArea.Available )
+    private BasePivotGridField<TItem> FindFieldMetadata( string fieldName, PivotGridFieldArea area )
+        => fields.FirstOrDefault( x => string.Equals( x.Field, fieldName, StringComparison.Ordinal ) && x.FieldArea == area )
+            ?? fields.FirstOrDefault( x => string.Equals( x.Field, fieldName, StringComparison.Ordinal ) && x.FieldArea == PivotGridFieldArea.Available )
             ?? fields.FirstOrDefault( x => string.Equals( x.Field, fieldName, StringComparison.Ordinal ) );
 
     internal IReadOnlyList<PivotGridFieldState> GetFieldChooserCatalog()
@@ -1384,6 +1387,21 @@ public partial class PivotGrid<TItem> : BaseComponent
     /// Custom content for aggregate value cells.
     /// </summary>
     [Parameter] public RenderFragment<PivotGridCellContext<TItem>> CellTemplate { get; set; }
+
+    /// <summary>
+    /// Custom styling for aggregate value cells.
+    /// </summary>
+    [Parameter] public Action<PivotGridCellContext<TItem>, PivotGridCellStyling> CellStyling { get; set; }
+
+    /// <summary>
+    /// Custom styling for row header cells.
+    /// </summary>
+    [Parameter] public Action<PivotGridRowHeaderContext<TItem>, PivotGridCellStyling> RowHeaderStyling { get; set; }
+
+    /// <summary>
+    /// Custom styling for column header cells.
+    /// </summary>
+    [Parameter] public Action<PivotGridColumnHeaderContext<TItem>, PivotGridCellStyling> ColumnHeaderStyling { get; set; }
 
     /// <summary>
     /// Custom localizer handlers to override default <see cref="PivotGrid{TItem}"/> localization.

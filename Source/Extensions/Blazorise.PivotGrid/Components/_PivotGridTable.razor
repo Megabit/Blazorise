@@ -74,8 +74,14 @@ else
                     @foreach ( var columnGroup in ColumnGroups )
                     {
                         var columnHeaderContext = GetColumnHeaderContext( columnGroup );
+                        var columnHeaderStyling = GetColumnHeaderStyling( columnHeaderContext );
 
-                        <TableHeaderCell ColumnSpan="@ValueColumnSpan" Background="BackgroundBody" TextWeight="TextWeight.Bold" TextAlignment="TextAlignment.Center">
+                        <TableHeaderCell ColumnSpan="@ValueColumnSpan"
+                                         Class="@columnHeaderStyling.Class"
+                                         Style="@columnHeaderStyling.Style"
+                                         Background="@columnHeaderStyling.Background"
+                                         TextWeight="@columnHeaderStyling.TextWeight"
+                                         TextAlignment="TextAlignment.Center">
                             @if ( PivotGrid.CanToggleColumnExpansion( columnGroup ) )
                             {
                                 <Button Color="Color.Link" Size="Size.Small" Clicked="@(() => PivotGrid.ToggleColumnExpanded( columnGroup ))">
@@ -133,9 +139,14 @@ else
                         {
                             var rowHeaderIndex = i;
                             var rowHeaderContext = GetRowHeaderContext( row, rowHeaderIndex );
+                            var rowHeaderStyling = GetRowHeaderStyling( rowHeaderContext );
 
-                            <TableRowCell Background="@GetRowHeaderBackground( row.Row )"
-                                          TextWeight="@GetRowHeaderTextWeight( row.Row )"
+                            <TableRowCell Class="@rowHeaderStyling.Class"
+                                          Style="@rowHeaderStyling.Style"
+                                          Color="@rowHeaderStyling.Color"
+                                          Background="@rowHeaderStyling.Background"
+                                          TextColor="@rowHeaderStyling.TextColor"
+                                          TextWeight="@rowHeaderStyling.TextWeight"
                                           TextAlignment="TextAlignment.Start">
                                 @if ( IsRowTreeCell( row.Row, rowHeaderIndex ) )
                                 {

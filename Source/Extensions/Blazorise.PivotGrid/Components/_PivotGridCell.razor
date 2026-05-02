@@ -1,8 +1,16 @@
 @typeparam TItem
 
+@{
+    var styling = GetCellStyling();
+}
+
 <TableRowCell TextAlignment="TextAlignment.End"
-              TextWeight="@CellTextWeight"
-              Background="@CellBackground"
+              Class="@styling.Class"
+              Style="@styling.Style"
+              Color="@styling.Color"
+              TextColor="@styling.TextColor"
+              TextWeight="@styling.TextWeight"
+              Background="@styling.Background"
               Clicked="@OnClicked">
     @if ( Cell.DataColumn.Aggregate.CellTemplate is not null )
     {

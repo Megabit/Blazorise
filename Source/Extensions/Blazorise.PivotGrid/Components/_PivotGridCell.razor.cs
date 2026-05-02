@@ -30,6 +30,19 @@ public partial class _PivotGridCell<TItem>
     private Background CellBackground
         => Cell.IsGrandTotal ? Background.Primary.Subtle : Cell.IsRowTotal || Cell.IsColumnTotal ? Background.Light : Background.Default;
 
+    private PivotGridCellStyling GetCellStyling()
+    {
+        var styling = new PivotGridCellStyling
+        {
+            Background = CellBackground,
+            TextWeight = CellTextWeight,
+        };
+
+        PivotGrid.CellStyling?.Invoke( CellContext, styling );
+
+        return styling;
+    }
+
     private Task OnClicked( MouseEventArgs eventArgs )
         => PivotGrid.NotifyCellClicked( Cell, Row );
 

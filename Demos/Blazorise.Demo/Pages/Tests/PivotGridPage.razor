@@ -107,6 +107,9 @@
                            ShowColumnTotals="@showColumnTotals"
                            RowTotalPosition="@rowTotalPosition"
                            ColumnTotalPosition="@columnTotalPosition"
+                           CellStyling="@OnCellStyling"
+                           RowHeaderStyling="@OnRowHeaderStyling"
+                           ColumnHeaderStyling="@OnColumnHeaderStyling"
                            PageSize="5"
                            Striped
                            Hoverable>
@@ -204,6 +207,48 @@
         eventArgs.TotalItems = contracts.Count;
 
         return Task.CompletedTask;
+    }
+
+    private void OnCellStyling( PivotGridCellContext<PivotModel> context, PivotGridCellStyling styling )
+    {
+        if ( context.Aggregate.Field != nameof( PivotModel.ContractValue ) || context.Value is not decimal value )
+            return;
+
+        if ( value >= 100000m )
+        {
+            styling.Background = Background.Success;
+            styling.TextColor = TextColor.White;
+            styling.TextWeight = TextWeight.Bold;
+        }
+        else if ( value <= 30000m )
+        {
+            styling.Background = Background.Danger;
+            styling.TextColor = TextColor.White;
+            styling.TextWeight = TextWeight.Bold;
+        }
+    }
+
+    private void OnRowHeaderStyling( PivotGridRowHeaderContext<PivotModel> context, PivotGridCellStyling styling )
+    {
+        if ( context.IsGrandTotal )
+        {
+            styling.Background = Background.Primary.Subtle;
+            styling.TextWeight = TextWeight.Bold;
+        }
+        else if ( context.IsTotal )
+        {
+            styling.Background = Background.Light;
+            styling.TextWeight = TextWeight.Bold;
+        }
+    }
+
+    private void OnColumnHeaderStyling( PivotGridColumnHeaderContext<PivotModel> context, PivotGridCellStyling styling )
+    {
+        if ( context.IsGrandTotal || context.IsTotal )
+        {
+            styling.Background = Background.Primary.Subtle;
+            styling.TextWeight = TextWeight.Bold;
+        }
     }
 
     private enum PivotGridDemoDataMode

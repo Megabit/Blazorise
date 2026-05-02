@@ -166,6 +166,32 @@ public partial class _PivotGridTable<TItem>
     private TextWeight GetRowHeaderTextWeight( PivotGridAxisItem<TItem> row )
         => row.IsTotal || row.IsGrandTotal ? TextWeight.Bold : TextWeight.Default;
 
+    private PivotGridCellStyling GetColumnHeaderStyling( PivotGridColumnHeaderContext<TItem> context )
+    {
+        var styling = new PivotGridCellStyling
+        {
+            Background = Background.Body,
+            TextWeight = TextWeight.Bold,
+        };
+
+        PivotGrid.ColumnHeaderStyling?.Invoke( context, styling );
+
+        return styling;
+    }
+
+    private PivotGridCellStyling GetRowHeaderStyling( PivotGridRowHeaderContext<TItem> context )
+    {
+        var styling = new PivotGridCellStyling
+        {
+            Background = GetRowHeaderBackground( context.Row ),
+            TextWeight = GetRowHeaderTextWeight( context.Row ),
+        };
+
+        PivotGrid.RowHeaderStyling?.Invoke( context, styling );
+
+        return styling;
+    }
+
     private IconName GetRowExpansionIcon( PivotGridAxisItem<TItem> row )
         => PivotGrid.IsRowExpanded( row ) ? IconName.ChevronDown : IconName.ChevronRight;
 
