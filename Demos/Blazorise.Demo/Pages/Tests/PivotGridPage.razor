@@ -22,7 +22,7 @@
                         <Field>
                             <Switch @bind-Value="@showRowTotals">Row totals</Switch>
                         </Field>
-                    </Column>                   
+                    </Column>
                     <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
                         <Field>
                             <Switch @bind-Value="@pageByGroups">Page by groups</Switch>
@@ -35,7 +35,7 @@
                         <Field>
                             <Switch @bind-Value="@expandableColumns">Expandable columns</Switch>
                         </Field>
-                    </Column>                    
+                    </Column>
                     <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
                         <Field>
                             <Switch @bind-Value="@showColumnSubtotals">Column subtotals</Switch>
@@ -54,7 +54,7 @@
                 </Row>
 
                 <Row>
-                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop">
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
                         <Field>
                             <FieldLabel>Row total position</FieldLabel>
                             <FieldBody>
@@ -65,7 +65,7 @@
                             </FieldBody>
                         </Field>
                     </Column>
-                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop">
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
                         <Field>
                             <FieldLabel>Column total position</FieldLabel>
                             <FieldBody>
@@ -76,7 +76,7 @@
                             </FieldBody>
                         </Field>
                     </Column>
-                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop">
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
                         <Field>
                             <FieldLabel>Data source</FieldLabel>
                             <FieldBody>
@@ -88,14 +88,21 @@
                             </FieldBody>
                         </Field>
                     </Column>
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                        <Field>
+                            <Switch @bind-Value="@virtualize">Virtualize rows</Switch>
+                        </Field>
+                    </Column>
                 </Row>
 
                 <PivotGrid TItem="PivotModel"
                            Data="@CurrentData"
                            ReadData="@CurrentReadData"
                            DataSource="@CurrentDataSource"
-                           ShowPager
-                           ShowPageSizes
+                           ShowPager="@(!virtualize)"
+                           ShowPageSizes="@(!virtualize)"
+                           Virtualize="@virtualize"
+                           VirtualizeOptions="@virtualizeOptions"
                            ShowFieldChooser
                            ExpandableRows="@expandableRows"
                            ExpandableColumns="@expandableColumns"
@@ -122,7 +129,6 @@
                         <PivotGridField Field="@nameof( PivotModel.Units )" Caption="Units" />
                     </PivotGridFields>
                     <PivotGridColumns>
-                        <PivotGridColumn Field="@nameof( PivotModel.Region )" Caption="Region" />
                         <PivotGridColumn Field="@nameof( PivotModel.City )" Caption="City" />
                     </PivotGridColumns>
                     <PivotGridRows>
@@ -133,7 +139,7 @@
                         <PivotGridAggregate Field="@nameof( PivotModel.ContractValue )"
                                             Caption="Contract value"
                                             DisplayFormat="{0:C}"
-                                            DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "fr-FR" )" />
+                                            DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "de-DE" )" />
                         <PivotGridAggregate Field="@nameof( PivotModel.Units )"
                                             Caption="Units"
                                             AggregateFunction="PivotGridAggregateFunction.Sum" />
@@ -167,23 +173,65 @@
 
     private PivotGridDemoDataMode dataMode;
 
+    private bool virtualize;
+
+    private readonly PivotGridVirtualizeOptions virtualizeOptions = new()
+    {
+        Height = "500px",
+        MaxHeight = "500px",
+        ItemSize = 45f,
+        OverscanCount = 5,
+    };
+
     private IPivotGridDataSource<PivotModel> contractsDataSource;
 
-    private readonly List<PivotModel> contracts =
-    [
-        new() { Region = "Western", City = "London", Category = "Hardware", Product = "Laptops", ContractValue = 127500m, Units = 34 },
-        new() { Region = "Western", City = "London", Category = "Hardware", Product = "Monitors", ContractValue = 43800m, Units = 96 },
-        new() { Region = "Western", City = "London", Category = "Software", Product = "Licenses", ContractValue = 89200m, Units = 240 },
-        new() { Region = "Western", City = "Paris", Category = "Hardware", Product = "Laptops", ContractValue = 98400m, Units = 28 },
-        new() { Region = "Western", City = "Paris", Category = "Software", Product = "Licenses", ContractValue = 116300m, Units = 310 },
-        new() { Region = "Western", City = "Paris", Category = "Services", Product = "Consulting", ContractValue = 75400m, Units = 42 },
-        new() { Region = "Central", City = "Berlin", Category = "Hardware", Product = "Monitors", ContractValue = 51200m, Units = 118 },
-        new() { Region = "Central", City = "Berlin", Category = "Services", Product = "Consulting", ContractValue = 104900m, Units = 58 },
-        new() { Region = "Central", City = "Berlin", Category = "Software", Product = "Support", ContractValue = 39600m, Units = 120 },
-        new() { Region = "Central", City = "Madrid", Category = "Hardware", Product = "Laptops", ContractValue = 68200m, Units = 19 },
-        new() { Region = "Central", City = "Madrid", Category = "Services", Product = "Training", ContractValue = 28700m, Units = 64 },
-        new() { Region = "Central", City = "Madrid", Category = "Software", Product = "Support", ContractValue = 45100m, Units = 135 },
-    ];
+    private readonly List<PivotModel> contracts = CreateContracts();
+
+    private static List<PivotModel> CreateContracts()
+    {
+        (string City, string Region)[] markets =
+        [
+            ("Berlin", "Central"),
+            ("London", "Western"),
+            ("Madrid", "Central"),
+            ("Paris", "Western"),
+        ];
+
+        (string Category, string[] Products)[] rows =
+        [
+            ("Hardware", ["Laptops", "Monitors", "Tablets", "Peripherals"]),
+            ("Software", ["Licenses", "Subscriptions", "Support", "Analytics"]),
+            ("Services", ["Consulting", "Implementation", "Training", "Migration"]),
+            ("Security", ["Firewall", "Identity", "Monitoring", "Audit"]),
+            ("Cloud", ["Compute", "Storage", "Backup", "Database"]),
+        ];
+
+        List<PivotModel> data = new();
+
+        for ( int rowIndex = 0; rowIndex < rows.Length; rowIndex++ )
+        {
+            for ( int productIndex = 0; productIndex < rows[rowIndex].Products.Length; productIndex++ )
+            {
+                for ( int marketIndex = 0; marketIndex < markets.Length; marketIndex++ )
+                {
+                    if ( ( rowIndex + productIndex + marketIndex ) % 5 == 0 )
+                        continue;
+
+                    data.Add( new()
+                    {
+                        Region = markets[marketIndex].Region,
+                        City = markets[marketIndex].City,
+                        Category = rows[rowIndex].Category,
+                        Product = rows[rowIndex].Products[productIndex],
+                        ContractValue = 22000m + ( rowIndex * 28500m ) + ( productIndex * 9400m ) + ( marketIndex * 17300m ),
+                        Units = 18 + ( rowIndex * 31 ) + ( productIndex * 27 ) + ( marketIndex * 11 ),
+                    } );
+                }
+            }
+        }
+
+        return data;
+    }
 
     protected override void OnInitialized()
     {

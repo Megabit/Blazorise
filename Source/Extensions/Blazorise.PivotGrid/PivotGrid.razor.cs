@@ -1103,6 +1103,21 @@ public partial class PivotGrid<TItem> : BaseComponent
     internal bool IsPagerVisible
         => ShowPager && pivotResult is not null && pivotResult.HasValues && TotalRows > 0;
 
+    internal bool IsVirtualizeActive
+        => Virtualize && !ShowPager;
+
+    internal int VirtualizeOverscanCount
+        => VirtualizeOptions?.OverscanCount ?? 10;
+
+    internal float VirtualizeItemSize
+        => VirtualizeOptions?.ItemSize ?? 50f;
+
+    internal string VirtualizeTableHeight
+        => VirtualizeOptions?.Height ?? "500px";
+
+    internal string VirtualizeTableMaxHeight
+        => VirtualizeOptions?.MaxHeight ?? VirtualizeTableHeight;
+
     internal bool IsGroupPagingActive
         => PageByGroups && pivotResult is not null && pivotResult.HasValues && pivotResult.RowFields.Count > 0;
 
@@ -1262,6 +1277,16 @@ public partial class PivotGrid<TItem> : BaseComponent
     /// Shows page size selector in the pager.
     /// </summary>
     [Parameter] public bool ShowPageSizes { get; set; }
+
+    /// <summary>
+    /// Enables virtualized rendering of pivot rows. Ignored when <see cref="ShowPager"/> is enabled.
+    /// </summary>
+    [Parameter] public bool Virtualize { get; set; }
+
+    /// <summary>
+    /// Defines virtualized row rendering options.
+    /// </summary>
+    [Parameter] public PivotGridVirtualizeOptions VirtualizeOptions { get; set; }
 
     /// <summary>
     /// Shows the PivotGrid toolbar.
