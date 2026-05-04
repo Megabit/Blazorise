@@ -51,5 +51,10 @@ public partial class _PivotGridPagination<TItem>
     /// </summary>
     [Parameter] public int TotalRows { get; set; }
 
+    /// <summary>
+    /// Controls whether page size selector is visible.
+    /// </summary>
+    [Parameter] public bool ShowPageSizes { get; set; }
+
     #endregion
 }

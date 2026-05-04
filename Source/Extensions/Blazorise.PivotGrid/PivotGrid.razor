@@ -25,11 +25,15 @@
                          Responsive="@Responsive"
                          HeaderThemeContrast="@HeaderThemeContrast" />
 
-        <_PivotGridPagination TItem="TItem"
-                              CurrentPage="@CurrentPage"
-                              LastPage="@LastPage"
-                              PageSize="@EffectivePageSize"
-                              TotalRows="@TotalRows" />
+        @if ( IsPagerVisible )
+        {
+            <_PivotGridPagination TItem="TItem"
+                                  CurrentPage="@CurrentPage"
+                                  LastPage="@LastPage"
+                                  PageSize="@EffectivePageSize"
+                                  TotalRows="@TotalRows"
+                                  ShowPageSizes="@ShowPageSizes" />
+        }
 
         <_PivotGridFieldChooser TItem="TItem" @ref="@fieldChooserRef" />
     </Div>
