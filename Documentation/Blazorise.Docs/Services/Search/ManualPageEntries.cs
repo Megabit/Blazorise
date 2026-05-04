@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Docs.Models;
 
@@ -141,6 +141,7 @@ public static class ManualPageEntries
     new( "docs/extensions/onetimeinput", "OneTimeInput", "Build OTP, verification code, recovery key, and grouped token inputs with auto-advance, paste support, and validation." ),
     new( "docs/extensions/passwordstrength", "PasswordStrength", "The PasswordStrength component helps users create stronger passwords with configurable policies, validation integration, and localized feedback." ),
     new( "docs/extensions/pdfviewer", "PdfViewer", "A PdfViewer component used to display a regular PDF document." ),
+    new( "docs/extensions/pivotgrid", "PivotGrid", "Create read-only Excel-like pivot tables for multi-dimensional data analysis with rows, columns, aggregates, totals, field chooser, paging, virtualization, and styling." ),
     new( "docs/extensions/richtextedit", "RichTextEdit", "The RichTextEdit component allows you to add and use a 'WYSIWYG' rich text editor." ),
     new( "docs/extensions/routertabs", "RouterTabs", "Learn to use and work with the Blazorise RouterTabs to render a tab for each navigation." ),
     new( "docs/extensions/gantt", "Gantt", "Plan and track project timelines with tree and timeline views, editing, templates, and hierarchical task support." ),

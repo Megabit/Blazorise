@@ -1,0 +1,60 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">PivotSale</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Sales</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">ShowRowTotals</span>
+           <span class="htmlAttributeName">ShowColumnTotals</span>
+           <span class="htmlAttributeName">ShowRowSubtotals</span>
+           <span class="htmlAttributeName">Striped</span>
+           <span class="htmlAttributeName">Hoverable</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridColumns</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( PivotSale.City )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">City</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PivotGridColumns</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridRows</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridRow</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( PivotSale.Category )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Category</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridRow</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( PivotSale.Product )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Product</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PivotGridRows</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridAggregates</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridAggregate</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( PivotSale.Amount )</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Amount</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">DisplayFormat</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">{0:C0}</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">DisplayFormatProvider</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>System.Globalization.CultureInfo.GetCultureInfo( &quot;en-US&quot; )</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridAggregate</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( PivotSale.Units )</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Units</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">AggregateFunction</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">PivotGridAggregateFunction</span><span class="enumValue">.Sum</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PivotGridAggregates</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PivotGrid</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">readonly</span> List&lt;PivotSale&gt; Sales =
+    [
+        <span class="keyword">new</span>() { City = <span class="string">&quot;Berlin&quot;</span>, Category = <span class="string">&quot;Hardware&quot;</span>, Product = <span class="string">&quot;Laptops&quot;</span>, Amount = 51200m, Units = <span class="number">18</span> },
+        <span class="keyword">new</span>() { City = <span class="string">&quot;Berlin&quot;</span>, Category = <span class="string">&quot;Hardware&quot;</span>, Product = <span class="string">&quot;Monitors&quot;</span>, Amount = 38400m, Units = <span class="number">82</span> },
+        <span class="keyword">new</span>() { City = <span class="string">&quot;Berlin&quot;</span>, Category = <span class="string">&quot;Software&quot;</span>, Product = <span class="string">&quot;Licenses&quot;</span>, Amount = 94200m, Units = <span class="number">205</span> },
+        <span class="keyword">new</span>() { City = <span class="string">&quot;London&quot;</span>, Category = <span class="string">&quot;Hardware&quot;</span>, Product = <span class="string">&quot;Laptops&quot;</span>, Amount = 127500m, Units = <span class="number">34</span> },
+        <span class="keyword">new</span>() { City = <span class="string">&quot;London&quot;</span>, Category = <span class="string">&quot;Services&quot;</span>, Product = <span class="string">&quot;Consulting&quot;</span>, Amount = 66300m, Units = <span class="number">36</span> },
+        <span class="keyword">new</span>() { City = <span class="string">&quot;London&quot;</span>, Category = <span class="string">&quot;Software&quot;</span>, Product = <span class="string">&quot;Support&quot;</span>, Amount = 76800m, Units = <span class="number">192</span> },
+        <span class="keyword">new</span>() { City = <span class="string">&quot;Madrid&quot;</span>, Category = <span class="string">&quot;Hardware&quot;</span>, Product = <span class="string">&quot;Laptops&quot;</span>, Amount = 68200m, Units = <span class="number">19</span> },
+        <span class="keyword">new</span>() { City = <span class="string">&quot;Madrid&quot;</span>, Category = <span class="string">&quot;Services&quot;</span>, Product = <span class="string">&quot;Training&quot;</span>, Amount = 28700m, Units = <span class="number">64</span> },
+        <span class="keyword">new</span>() { City = <span class="string">&quot;Madrid&quot;</span>, Category = <span class="string">&quot;Software&quot;</span>, Product = <span class="string">&quot;Support&quot;</span>, Amount = 45100m, Units = <span class="number">135</span> },
+        <span class="keyword">new</span>() { City = <span class="string">&quot;Paris&quot;</span>, Category = <span class="string">&quot;Hardware&quot;</span>, Product = <span class="string">&quot;Laptops&quot;</span>, Amount = 98400m, Units = <span class="number">28</span> },
+        <span class="keyword">new</span>() { City = <span class="string">&quot;Paris&quot;</span>, Category = <span class="string">&quot;Services&quot;</span>, Product = <span class="string">&quot;Implementation&quot;</span>, Amount = 118600m, Units = <span class="number">47</span> },
+        <span class="keyword">new</span>() { City = <span class="string">&quot;Paris&quot;</span>, Category = <span class="string">&quot;Software&quot;</span>, Product = <span class="string">&quot;Subscriptions&quot;</span>, Amount = 124500m, Units = <span class="number">355</span> },
+    ];
+
+    <span class="keyword">public</span> <span class="keyword">class</span> PivotSale
+    {
+        <span class="keyword">public</span> <span class="keyword">string</span> City { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Category { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Product { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">decimal</span> Amount { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">int</span> Units { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+}
+</pre></div>
+</div>

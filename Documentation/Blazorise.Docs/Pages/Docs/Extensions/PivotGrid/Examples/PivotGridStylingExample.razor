@@ -1,0 +1,95 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<PivotGrid TItem="PivotSale"
+           Data="@Sales"
+           CellStyling="@OnCellStyling"
+           RowHeaderStyling="@OnRowHeaderStyling"
+           ColumnHeaderStyling="@OnColumnHeaderStyling"
+           ShowRowTotals
+           ShowColumnTotals
+           ShowRowSubtotals
+           Striped>
+    <PivotGridColumns>
+        <PivotGridColumn Field="@nameof( PivotSale.City )" Caption="City" />
+    </PivotGridColumns>
+    <PivotGridRows>
+        <PivotGridRow Field="@nameof( PivotSale.Category )" Caption="Category" />
+        <PivotGridRow Field="@nameof( PivotSale.Product )" Caption="Product" />
+    </PivotGridRows>
+    <PivotGridAggregates>
+        <PivotGridAggregate Field="@nameof( PivotSale.Amount )"
+                            Caption="Amount"
+                            DisplayFormat="{0:C0}"
+                            DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "en-US" )" />
+        <PivotGridAggregate Field="@nameof( PivotSale.Units )"
+                            Caption="Units"
+                            AggregateFunction="PivotGridAggregateFunction.Sum" />
+    </PivotGridAggregates>
+</PivotGrid>
+
+@code {
+    private readonly List<PivotSale> Sales =
+    [
+        new() { City = "Berlin", Category = "Hardware", Product = "Laptops", Amount = 51200m, Units = 18 },
+        new() { City = "Berlin", Category = "Software", Product = "Licenses", Amount = 94200m, Units = 205 },
+        new() { City = "London", Category = "Hardware", Product = "Laptops", Amount = 127500m, Units = 34 },
+        new() { City = "London", Category = "Services", Product = "Consulting", Amount = 66300m, Units = 36 },
+        new() { City = "Madrid", Category = "Services", Product = "Training", Amount = 28700m, Units = 64 },
+        new() { City = "Paris", Category = "Software", Product = "Subscriptions", Amount = 124500m, Units = 355 },
+    ];
+
+    private void OnCellStyling( PivotGridCellContext<PivotSale> context, PivotGridCellStyling styling )
+    {
+        if ( context.Aggregate.Field != nameof( PivotSale.Amount ) || context.Value is not decimal amount )
+            return;
+
+        if ( amount >= 100000m )
+        {
+            styling.Background = Background.Success;
+            styling.TextColor = TextColor.White;
+            styling.TextWeight = TextWeight.Bold;
+        }
+        else if ( amount <= 30000m )
+        {
+            styling.Background = Background.Danger;
+            styling.TextColor = TextColor.White;
+            styling.TextWeight = TextWeight.Bold;
+        }
+    }
+
+    private void OnRowHeaderStyling( PivotGridRowHeaderContext<PivotSale> context, PivotGridCellStyling styling )
+    {
+        if ( context.IsGrandTotal )
+        {
+            styling.Background = Background.Primary.Subtle;
+            styling.TextWeight = TextWeight.Bold;
+        }
+        else if ( context.IsTotal )
+        {
+            styling.Background = Background.Light;
+            styling.TextWeight = TextWeight.Bold;
+        }
+    }
+
+    private void OnColumnHeaderStyling( PivotGridColumnHeaderContext<PivotSale> context, PivotGridCellStyling styling )
+    {
+        if ( context.IsGrandTotal || context.IsTotal )
+        {
+            styling.Background = Background.Primary.Subtle;
+            styling.TextWeight = TextWeight.Bold;
+        }
+    }
+
+    public class PivotSale
+    {
+        public string City { get; set; }
+
+        public string Category { get; set; }
+
+        public string Product { get; set; }
+
+        public decimal Amount { get; set; }
+
+        public int Units { get; set; }
+    }
+}

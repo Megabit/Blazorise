@@ -1,0 +1,103 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Field>
+    <Switch @bind-Value="@virtualize">Virtualize rows</Switch>
+</Field>
+
+<PivotGrid TItem="PivotSale"
+           Data="@Sales"
+           ShowPager="@(!virtualize)"
+           ShowPageSizes="@(!virtualize)"
+           PageSize="8"
+           PageSizes="@pageSizes"
+           Virtualize="@virtualize"
+           VirtualizeOptions="@virtualizeOptions"
+           ShowRowTotals
+           ShowColumnTotals
+           ShowRowSubtotals
+           Striped>
+    <PivotGridColumns>
+        <PivotGridColumn Field="@nameof( PivotSale.City )" Caption="City" />
+    </PivotGridColumns>
+    <PivotGridRows>
+        <PivotGridRow Field="@nameof( PivotSale.Category )" Caption="Category" />
+        <PivotGridRow Field="@nameof( PivotSale.Product )" Caption="Product" />
+    </PivotGridRows>
+    <PivotGridAggregates>
+        <PivotGridAggregate Field="@nameof( PivotSale.Amount )"
+                            Caption="Amount"
+                            DisplayFormat="{0:C0}"
+                            DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "en-US" )" />
+        <PivotGridAggregate Field="@nameof( PivotSale.Units )"
+                            Caption="Units"
+                            AggregateFunction="PivotGridAggregateFunction.Sum" />
+    </PivotGridAggregates>
+</PivotGrid>
+
+@code {
+    private bool virtualize;
+
+    private readonly int[] pageSizes = [8, 16, 32];
+
+    private readonly PivotGridVirtualizeOptions virtualizeOptions = new()
+    {
+        Height = "420px",
+        MaxHeight = "420px",
+        ItemSize = 44f,
+        OverscanCount = 6,
+    };
+
+    private readonly List<PivotSale> Sales = CreateSales();
+
+    private static List<PivotSale> CreateSales()
+    {
+        string[] cities = ["Berlin", "London", "Madrid", "Paris"];
+
+        (string Category, string[] Products)[] rows =
+        [
+            ("Hardware", ["Laptops", "Monitors", "Tablets", "Peripherals"]),
+            ("Software", ["Licenses", "Subscriptions", "Support", "Analytics"]),
+            ("Services", ["Consulting", "Implementation", "Training", "Migration"]),
+            ("Security", ["Firewall", "Identity", "Monitoring", "Audit"]),
+            ("Cloud", ["Compute", "Storage", "Backup", "Database"]),
+        ];
+
+        List<PivotSale> data = new();
+
+        for ( int rowIndex = 0; rowIndex < rows.Length; rowIndex++ )
+        {
+            for ( int productIndex = 0; productIndex < rows[rowIndex].Products.Length; productIndex++ )
+            {
+                for ( int cityIndex = 0; cityIndex < cities.Length; cityIndex++ )
+                {
+                    if ( ( rowIndex + productIndex + cityIndex ) % 5 == 0 )
+                        continue;
+
+                    data.Add( new()
+                    {
+                        City = cities[cityIndex],
+                        Category = rows[rowIndex].Category,
+                        Product = rows[rowIndex].Products[productIndex],
+                        Amount = 22000m + ( rowIndex * 28500m ) + ( productIndex * 9400m ) + ( cityIndex * 17300m ),
+                        Units = 18 + ( rowIndex * 31 ) + ( productIndex * 27 ) + ( cityIndex * 11 ),
+                    } );
+                }
+            }
+        }
+
+        return data;
+    }
+
+    public class PivotSale
+    {
+        public string City { get; set; }
+
+        public string Category { get; set; }
+
+        public string Product { get; set; }
+
+        public decimal Amount { get; set; }
+
+        public int Units { get; set; }
+    }
+}

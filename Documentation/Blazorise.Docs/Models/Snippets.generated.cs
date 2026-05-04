@@ -12138,6 +12138,323 @@ Install-Package Blazorise.Icons.Material";
     <PdfViewer Source=""_content/Blazorise.Docs/assets/files/compressed.tracemonkey-pldi-09.pdf"" />
 </PdfViewerContainer>";
 
+        public const string PivotGridBasicExample = @"<PivotGrid TItem=""PivotSale""
+           Data=""@Sales""
+           ShowRowTotals
+           ShowColumnTotals
+           ShowRowSubtotals
+           Striped
+           Hoverable>
+    <PivotGridColumns>
+        <PivotGridColumn Field=""@nameof( PivotSale.City )"" Caption=""City"" />
+    </PivotGridColumns>
+    <PivotGridRows>
+        <PivotGridRow Field=""@nameof( PivotSale.Category )"" Caption=""Category"" />
+        <PivotGridRow Field=""@nameof( PivotSale.Product )"" Caption=""Product"" />
+    </PivotGridRows>
+    <PivotGridAggregates>
+        <PivotGridAggregate Field=""@nameof( PivotSale.Amount )""
+                            Caption=""Amount""
+                            DisplayFormat=""{0:C0}""
+                            DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
+        <PivotGridAggregate Field=""@nameof( PivotSale.Units )""
+                            Caption=""Units""
+                            AggregateFunction=""PivotGridAggregateFunction.Sum"" />
+    </PivotGridAggregates>
+</PivotGrid>
+
+@code {
+    private readonly List<PivotSale> Sales =
+    [
+        new() { City = ""Berlin"", Category = ""Hardware"", Product = ""Laptops"", Amount = 51200m, Units = 18 },
+        new() { City = ""Berlin"", Category = ""Hardware"", Product = ""Monitors"", Amount = 38400m, Units = 82 },
+        new() { City = ""Berlin"", Category = ""Software"", Product = ""Licenses"", Amount = 94200m, Units = 205 },
+        new() { City = ""London"", Category = ""Hardware"", Product = ""Laptops"", Amount = 127500m, Units = 34 },
+        new() { City = ""London"", Category = ""Services"", Product = ""Consulting"", Amount = 66300m, Units = 36 },
+        new() { City = ""London"", Category = ""Software"", Product = ""Support"", Amount = 76800m, Units = 192 },
+        new() { City = ""Madrid"", Category = ""Hardware"", Product = ""Laptops"", Amount = 68200m, Units = 19 },
+        new() { City = ""Madrid"", Category = ""Services"", Product = ""Training"", Amount = 28700m, Units = 64 },
+        new() { City = ""Madrid"", Category = ""Software"", Product = ""Support"", Amount = 45100m, Units = 135 },
+        new() { City = ""Paris"", Category = ""Hardware"", Product = ""Laptops"", Amount = 98400m, Units = 28 },
+        new() { City = ""Paris"", Category = ""Services"", Product = ""Implementation"", Amount = 118600m, Units = 47 },
+        new() { City = ""Paris"", Category = ""Software"", Product = ""Subscriptions"", Amount = 124500m, Units = 355 },
+    ];
+
+    public class PivotSale
+    {
+        public string City { get; set; }
+
+        public string Category { get; set; }
+
+        public string Product { get; set; }
+
+        public decimal Amount { get; set; }
+
+        public int Units { get; set; }
+    }
+}";
+
+        public const string PivotGridFieldChooserExample = @"<PivotGrid TItem=""PivotSale""
+           Data=""@Sales""
+           ShowToolbar
+           ShowFieldChooser
+           ShowRowTotals
+           ShowColumnTotals
+           ShowRowSubtotals
+           Striped>
+    <PivotGridFields>
+        <PivotGridField Field=""@nameof( PivotSale.Region )"" Caption=""Region"" />
+        <PivotGridField Field=""@nameof( PivotSale.City )"" Caption=""City"" />
+        <PivotGridField Field=""@nameof( PivotSale.Category )"" Caption=""Category"" />
+        <PivotGridField Field=""@nameof( PivotSale.Product )"" Caption=""Product"" />
+        <PivotGridField Field=""@nameof( PivotSale.Amount )"" Caption=""Amount"" />
+        <PivotGridField Field=""@nameof( PivotSale.Units )"" Caption=""Units"" />
+    </PivotGridFields>
+    <PivotGridColumns>
+        <PivotGridColumn Field=""@nameof( PivotSale.City )"" Caption=""City"" />
+    </PivotGridColumns>
+    <PivotGridRows>
+        <PivotGridRow Field=""@nameof( PivotSale.Category )"" Caption=""Category"" />
+        <PivotGridRow Field=""@nameof( PivotSale.Product )"" Caption=""Product"" />
+    </PivotGridRows>
+    <PivotGridAggregates>
+        <PivotGridAggregate Field=""@nameof( PivotSale.Amount )""
+                            Caption=""Amount""
+                            DisplayFormat=""{0:C0}""
+                            DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
+        <PivotGridAggregate Field=""@nameof( PivotSale.Units )""
+                            Caption=""Units""
+                            AggregateFunction=""PivotGridAggregateFunction.Sum"" />
+    </PivotGridAggregates>
+</PivotGrid>
+
+@code {
+    private readonly List<PivotSale> Sales =
+    [
+        new() { Region = ""Central"", City = ""Berlin"", Category = ""Hardware"", Product = ""Laptops"", Amount = 51200m, Units = 18 },
+        new() { Region = ""Central"", City = ""Berlin"", Category = ""Software"", Product = ""Licenses"", Amount = 94200m, Units = 205 },
+        new() { Region = ""Western"", City = ""London"", Category = ""Hardware"", Product = ""Laptops"", Amount = 127500m, Units = 34 },
+        new() { Region = ""Western"", City = ""London"", Category = ""Services"", Product = ""Consulting"", Amount = 66300m, Units = 36 },
+        new() { Region = ""Central"", City = ""Madrid"", Category = ""Services"", Product = ""Training"", Amount = 28700m, Units = 64 },
+        new() { Region = ""Western"", City = ""Paris"", Category = ""Software"", Product = ""Subscriptions"", Amount = 124500m, Units = 355 },
+    ];
+
+    public class PivotSale
+    {
+        public string Region { get; set; }
+
+        public string City { get; set; }
+
+        public string Category { get; set; }
+
+        public string Product { get; set; }
+
+        public decimal Amount { get; set; }
+
+        public int Units { get; set; }
+    }
+}";
+
+        public const string PivotGridImportsExample = @"@using Blazorise.PivotGrid";
+
+        public const string PivotGridNugetInstallExample = @"Install-Package Blazorise.PivotGrid";
+
+        public const string PivotGridPagingVirtualizationExample = @"<Field>
+    <Switch @bind-Value=""@virtualize"">Virtualize rows</Switch>
+</Field>
+
+<PivotGrid TItem=""PivotSale""
+           Data=""@Sales""
+           ShowPager=""@(!virtualize)""
+           ShowPageSizes=""@(!virtualize)""
+           PageSize=""8""
+           PageSizes=""@pageSizes""
+           Virtualize=""@virtualize""
+           VirtualizeOptions=""@virtualizeOptions""
+           ShowRowTotals
+           ShowColumnTotals
+           ShowRowSubtotals
+           Striped>
+    <PivotGridColumns>
+        <PivotGridColumn Field=""@nameof( PivotSale.City )"" Caption=""City"" />
+    </PivotGridColumns>
+    <PivotGridRows>
+        <PivotGridRow Field=""@nameof( PivotSale.Category )"" Caption=""Category"" />
+        <PivotGridRow Field=""@nameof( PivotSale.Product )"" Caption=""Product"" />
+    </PivotGridRows>
+    <PivotGridAggregates>
+        <PivotGridAggregate Field=""@nameof( PivotSale.Amount )""
+                            Caption=""Amount""
+                            DisplayFormat=""{0:C0}""
+                            DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
+        <PivotGridAggregate Field=""@nameof( PivotSale.Units )""
+                            Caption=""Units""
+                            AggregateFunction=""PivotGridAggregateFunction.Sum"" />
+    </PivotGridAggregates>
+</PivotGrid>
+
+@code {
+    private bool virtualize;
+
+    private readonly int[] pageSizes = [8, 16, 32];
+
+    private readonly PivotGridVirtualizeOptions virtualizeOptions = new()
+    {
+        Height = ""420px"",
+        MaxHeight = ""420px"",
+        ItemSize = 44f,
+        OverscanCount = 6,
+    };
+
+    private readonly List<PivotSale> Sales = CreateSales();
+
+    private static List<PivotSale> CreateSales()
+    {
+        string[] cities = [""Berlin"", ""London"", ""Madrid"", ""Paris""];
+
+        (string Category, string[] Products)[] rows =
+        [
+            (""Hardware"", [""Laptops"", ""Monitors"", ""Tablets"", ""Peripherals""]),
+            (""Software"", [""Licenses"", ""Subscriptions"", ""Support"", ""Analytics""]),
+            (""Services"", [""Consulting"", ""Implementation"", ""Training"", ""Migration""]),
+            (""Security"", [""Firewall"", ""Identity"", ""Monitoring"", ""Audit""]),
+            (""Cloud"", [""Compute"", ""Storage"", ""Backup"", ""Database""]),
+        ];
+
+        List<PivotSale> data = new();
+
+        for ( int rowIndex = 0; rowIndex < rows.Length; rowIndex++ )
+        {
+            for ( int productIndex = 0; productIndex < rows[rowIndex].Products.Length; productIndex++ )
+            {
+                for ( int cityIndex = 0; cityIndex < cities.Length; cityIndex++ )
+                {
+                    if ( ( rowIndex + productIndex + cityIndex ) % 5 == 0 )
+                        continue;
+
+                    data.Add( new()
+                    {
+                        City = cities[cityIndex],
+                        Category = rows[rowIndex].Category,
+                        Product = rows[rowIndex].Products[productIndex],
+                        Amount = 22000m + ( rowIndex * 28500m ) + ( productIndex * 9400m ) + ( cityIndex * 17300m ),
+                        Units = 18 + ( rowIndex * 31 ) + ( productIndex * 27 ) + ( cityIndex * 11 ),
+                    } );
+                }
+            }
+        }
+
+        return data;
+    }
+
+    public class PivotSale
+    {
+        public string City { get; set; }
+
+        public string Category { get; set; }
+
+        public string Product { get; set; }
+
+        public decimal Amount { get; set; }
+
+        public int Units { get; set; }
+    }
+}";
+
+        public const string PivotGridStylingExample = @"<PivotGrid TItem=""PivotSale""
+           Data=""@Sales""
+           CellStyling=""@OnCellStyling""
+           RowHeaderStyling=""@OnRowHeaderStyling""
+           ColumnHeaderStyling=""@OnColumnHeaderStyling""
+           ShowRowTotals
+           ShowColumnTotals
+           ShowRowSubtotals
+           Striped>
+    <PivotGridColumns>
+        <PivotGridColumn Field=""@nameof( PivotSale.City )"" Caption=""City"" />
+    </PivotGridColumns>
+    <PivotGridRows>
+        <PivotGridRow Field=""@nameof( PivotSale.Category )"" Caption=""Category"" />
+        <PivotGridRow Field=""@nameof( PivotSale.Product )"" Caption=""Product"" />
+    </PivotGridRows>
+    <PivotGridAggregates>
+        <PivotGridAggregate Field=""@nameof( PivotSale.Amount )""
+                            Caption=""Amount""
+                            DisplayFormat=""{0:C0}""
+                            DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
+        <PivotGridAggregate Field=""@nameof( PivotSale.Units )""
+                            Caption=""Units""
+                            AggregateFunction=""PivotGridAggregateFunction.Sum"" />
+    </PivotGridAggregates>
+</PivotGrid>
+
+@code {
+    private readonly List<PivotSale> Sales =
+    [
+        new() { City = ""Berlin"", Category = ""Hardware"", Product = ""Laptops"", Amount = 51200m, Units = 18 },
+        new() { City = ""Berlin"", Category = ""Software"", Product = ""Licenses"", Amount = 94200m, Units = 205 },
+        new() { City = ""London"", Category = ""Hardware"", Product = ""Laptops"", Amount = 127500m, Units = 34 },
+        new() { City = ""London"", Category = ""Services"", Product = ""Consulting"", Amount = 66300m, Units = 36 },
+        new() { City = ""Madrid"", Category = ""Services"", Product = ""Training"", Amount = 28700m, Units = 64 },
+        new() { City = ""Paris"", Category = ""Software"", Product = ""Subscriptions"", Amount = 124500m, Units = 355 },
+    ];
+
+    private void OnCellStyling( PivotGridCellContext<PivotSale> context, PivotGridCellStyling styling )
+    {
+        if ( context.Aggregate.Field != nameof( PivotSale.Amount ) || context.Value is not decimal amount )
+            return;
+
+        if ( amount >= 100000m )
+        {
+            styling.Background = Background.Success;
+            styling.TextColor = TextColor.White;
+            styling.TextWeight = TextWeight.Bold;
+        }
+        else if ( amount <= 30000m )
+        {
+            styling.Background = Background.Danger;
+            styling.TextColor = TextColor.White;
+            styling.TextWeight = TextWeight.Bold;
+        }
+    }
+
+    private void OnRowHeaderStyling( PivotGridRowHeaderContext<PivotSale> context, PivotGridCellStyling styling )
+    {
+        if ( context.IsGrandTotal )
+        {
+            styling.Background = Background.Primary.Subtle;
+            styling.TextWeight = TextWeight.Bold;
+        }
+        else if ( context.IsTotal )
+        {
+            styling.Background = Background.Light;
+            styling.TextWeight = TextWeight.Bold;
+        }
+    }
+
+    private void OnColumnHeaderStyling( PivotGridColumnHeaderContext<PivotSale> context, PivotGridCellStyling styling )
+    {
+        if ( context.IsGrandTotal || context.IsTotal )
+        {
+            styling.Background = Background.Primary.Subtle;
+            styling.TextWeight = TextWeight.Bold;
+        }
+    }
+
+    public class PivotSale
+    {
+        public string City { get; set; }
+
+        public string Category { get; set; }
+
+        public string Product { get; set; }
+
+        public decimal Amount { get; set; }
+
+        public int Units { get; set; }
+    }
+}";
+
         public const string BasicQRCodeExample = @"<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" />";
 
         public const string ImportQRCodeExample = @"@using Blazorise.QRCode";

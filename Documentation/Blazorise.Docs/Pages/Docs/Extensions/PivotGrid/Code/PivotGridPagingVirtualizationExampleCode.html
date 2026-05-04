@@ -1,0 +1,106 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Switch</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>virtualize</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Virtualize rows<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Switch</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">PivotSale</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Sales</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">ShowPager</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(!virtualize)</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">ShowPageSizes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(!virtualize)</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">PageSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">8</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">PageSizes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>pageSizes</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">Virtualize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>virtualize</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">VirtualizeOptions</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>virtualizeOptions</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">ShowRowTotals</span>
+           <span class="htmlAttributeName">ShowColumnTotals</span>
+           <span class="htmlAttributeName">ShowRowSubtotals</span>
+           <span class="htmlAttributeName">Striped</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridColumns</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( PivotSale.City )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">City</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PivotGridColumns</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridRows</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridRow</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( PivotSale.Category )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Category</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridRow</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( PivotSale.Product )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Product</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PivotGridRows</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridAggregates</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridAggregate</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( PivotSale.Amount )</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Amount</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">DisplayFormat</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">{0:C0}</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">DisplayFormatProvider</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>System.Globalization.CultureInfo.GetCultureInfo( &quot;en-US&quot; )</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridAggregate</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( PivotSale.Units )</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Units</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">AggregateFunction</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">PivotGridAggregateFunction</span><span class="enumValue">.Sum</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PivotGridAggregates</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PivotGrid</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">bool</span> virtualize;
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> <span class="keyword">int</span>[] pageSizes = [<span class="number">8</span>, <span class="number">16</span>, <span class="number">32</span>];
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> PivotGridVirtualizeOptions virtualizeOptions = <span class="keyword">new</span>()
+    {
+        Height = <span class="string">&quot;420px&quot;</span>,
+        MaxHeight = <span class="string">&quot;420px&quot;</span>,
+        ItemSize = 44f,
+        OverscanCount = <span class="number">6</span>,
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> List&lt;PivotSale&gt; Sales = CreateSales();
+
+    <span class="keyword">private</span> <span class="keyword">static</span> List&lt;PivotSale&gt; CreateSales()
+    {
+        <span class="keyword">string</span>[] cities = [<span class="string">&quot;Berlin&quot;</span>, <span class="string">&quot;London&quot;</span>, <span class="string">&quot;Madrid&quot;</span>, <span class="string">&quot;Paris&quot;</span>];
+
+        (<span class="keyword">string</span> Category, <span class="keyword">string</span>[] Products)[] rows =
+        [
+            (<span class="string">&quot;Hardware&quot;</span>, [<span class="string">&quot;Laptops&quot;</span>, <span class="string">&quot;Monitors&quot;</span>, <span class="string">&quot;Tablets&quot;</span>, <span class="string">&quot;Peripherals&quot;</span>]),
+            (<span class="string">&quot;Software&quot;</span>, [<span class="string">&quot;Licenses&quot;</span>, <span class="string">&quot;Subscriptions&quot;</span>, <span class="string">&quot;Support&quot;</span>, <span class="string">&quot;Analytics&quot;</span>]),
+            (<span class="string">&quot;Services&quot;</span>, [<span class="string">&quot;Consulting&quot;</span>, <span class="string">&quot;Implementation&quot;</span>, <span class="string">&quot;Training&quot;</span>, <span class="string">&quot;Migration&quot;</span>]),
+            (<span class="string">&quot;Security&quot;</span>, [<span class="string">&quot;Firewall&quot;</span>, <span class="string">&quot;Identity&quot;</span>, <span class="string">&quot;Monitoring&quot;</span>, <span class="string">&quot;Audit&quot;</span>]),
+            (<span class="string">&quot;Cloud&quot;</span>, [<span class="string">&quot;Compute&quot;</span>, <span class="string">&quot;Storage&quot;</span>, <span class="string">&quot;Backup&quot;</span>, <span class="string">&quot;Database&quot;</span>]),
+        ];
+
+        List&lt;PivotSale&gt; data = <span class="keyword">new</span>();
+
+        <span class="keyword">for</span> ( <span class="keyword">int</span> rowIndex = <span class="number">0</span>; rowIndex &lt; rows.Length; rowIndex++ )
+        {
+            <span class="keyword">for</span> ( <span class="keyword">int</span> productIndex = <span class="number">0</span>; productIndex &lt; rows[rowIndex].Products.Length; productIndex++ )
+            {
+                <span class="keyword">for</span> ( <span class="keyword">int</span> cityIndex = <span class="number">0</span>; cityIndex &lt; cities.Length; cityIndex++ )
+                {
+                    <span class="keyword">if</span> ( ( rowIndex + productIndex + cityIndex ) % <span class="number">5</span> == <span class="number">0</span> )
+                        <span class="keyword">continue</span>;
+
+                    data.Add( <span class="keyword">new</span>()
+                    {
+                        City = cities[cityIndex],
+                        Category = rows[rowIndex].Category,
+                        Product = rows[rowIndex].Products[productIndex],
+                        Amount = 22000m + ( rowIndex * 28500m ) + ( productIndex * 9400m ) + ( cityIndex * 17300m ),
+                        Units = <span class="number">18</span> + ( rowIndex * <span class="number">31</span> ) + ( productIndex * <span class="number">27</span> ) + ( cityIndex * <span class="number">11</span> ),
+                    } );
+                }
+            }
+        }
+
+        <span class="keyword">return</span> data;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">class</span> PivotSale
+    {
+        <span class="keyword">public</span> <span class="keyword">string</span> City { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Category { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Product { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">decimal</span> Amount { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">int</span> Units { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+}
+</pre></div>
+</div>

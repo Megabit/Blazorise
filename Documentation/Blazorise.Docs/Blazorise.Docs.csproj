@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <Import Project="..\..\Build\Blazorise.Docs.props" />
 
@@ -44,6 +44,7 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Scheduler\Blazorise.Scheduler.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Gantt\Blazorise.Gantt.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Maps\Blazorise.Maps.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.PivotGrid\Blazorise.PivotGrid.csproj" />
     <PackageReference Include="MailKit" />
     <PackageReference Include="MimeKit" />
     <PackageReference Include="Blazored.LocalStorage" />

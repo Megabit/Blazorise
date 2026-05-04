@@ -1,0 +1,120 @@
+@page "/docs/extensions/pivotgrid"
+
+<Seo Canonical="/docs/extensions/pivotgrid" Title="Blazorise PivotGrid component" Description="Analyze multi-dimensional data with the Blazorise PivotGrid component, including rows, columns, aggregates, field chooser, paging, virtualization, and styling." />
+
+<DocsPageTitle Path="Extensions/PivotGrid" AddedVersion="Added in v2.1">
+    Blazorise PivotGrid component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Build read-only Excel-like pivot tables for multi-dimensional data analysis.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    The <Code>PivotGrid</Code> component groups source records into row and column dimensions, calculates aggregate values, and renders totals and subtotals in a table layout. It is designed for analysis and reporting scenarios where users inspect summarized data instead of editing source records.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    To use the <Code>PivotGrid</Code> component, install the <Code>Blazorise.PivotGrid</Code> package first.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="PivotGridNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="PivotGridImportsExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Fundamentals
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Data Areas
+</Heading>
+
+<DocsPageParagraph>
+    PivotGrid uses declarative child components to define each data area:
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem><Code>PivotGridColumns</Code>: fields that create column groups.</UnorderedListItem>
+        <UnorderedListItem><Code>PivotGridRows</Code>: fields that create row groups.</UnorderedListItem>
+        <UnorderedListItem><Code>PivotGridAggregates</Code>: value fields that calculate totals, such as sum or count.</UnorderedListItem>
+        <UnorderedListItem><Code>PivotGridFields</Code>: optional field catalog used by the runtime field chooser.</UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Runtime Layout
+</Heading>
+
+<DocsPageParagraph>
+    Enable <Code>ShowFieldChooser</Code> and <Code>ShowToolbar</Code> when users should rearrange the pivot layout at runtime. The field chooser lets users move available fields into rows, columns, values, and filters.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Data Loading
+</Heading>
+
+<DocsPageParagraph>
+    Bind in-memory data with <Code>Data</Code>, handle callback loading with <Code>ReadData</Code>, or provide a reusable implementation with <Code>DataSource</Code>. A data source can be implemented in a separate package when the data comes from a specific backend or protocol.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic Pivot Table">
+        Define columns, rows, and aggregates declaratively.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <PivotGridBasicExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="PivotGridBasicExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Field Chooser">
+        Enable <Code>ShowToolbar</Code> and <Code>ShowFieldChooser</Code> to show the built-in toolbar button and modal field chooser.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <PivotGridFieldChooserExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="PivotGridFieldChooserExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Paging and Virtualization">
+        Use <Code>ShowPager</Code> for explicit page navigation, or <Code>Virtualize</Code> when users should scroll through a larger pivot result.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <PivotGridPagingVirtualizationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="PivotGridPagingVirtualizationExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Styling">
+        Use <Code>CellStyling</Code>, <Code>RowHeaderStyling</Code>, and <Code>ColumnHeaderStyling</Code> to apply conditional styling.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <PivotGridStylingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="PivotGridStylingExample" />
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof(PivotGrid<>)]" />
