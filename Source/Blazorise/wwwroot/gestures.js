@@ -107,6 +107,9 @@ function pointerDownHandler(instance, e) {
     if (e.pointerType === "mouse" && e.button !== 0)
         return;
 
+    if (isInteractiveElement(e.target, instance.element))
+        return;
+
     instance.active = true;
     instance.pointerId = e.pointerId;
     instance.startClientX = e.clientX;
@@ -307,6 +310,15 @@ function isHorizontal(direction) {
 
 function getDistance(deltaX, deltaY) {
     return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+}
+
+function isInteractiveElement(target, root) {
+    if (!target || !root || target === root || !target.closest)
+        return false;
+
+    const interactiveElement = target.closest("button, a, input, select, textarea, label, summary, [role='button'], [role='link'], [contenteditable='true'], [data-gesture-ignore]");
+
+    return !!interactiveElement && root.contains(interactiveElement);
 }
 
 function normalizeOptions(options) {
