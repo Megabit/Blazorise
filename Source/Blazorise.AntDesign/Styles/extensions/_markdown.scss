@@ -17,7 +17,7 @@
         border-color: var(--b-theme-warning, var(--ant-color-warning));
     }
 
-    + .ant-form-item-explain:not([role]),
+    + .ant-form-item-explain-none,
     + .valid-feedback,
     + .ant-form-item-explain:not([role]) + .valid-feedback {
         display: none;

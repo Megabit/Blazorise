@@ -1,27 +1,36 @@
-﻿@namespace Blazorise.Docs.Docs.Examples
+@namespace Blazorise.Docs.Docs.Examples
 
 <Bar Breakpoint="Breakpoint.Desktop"
      Background="Background.Light"
-     ThemeContrast="ThemeContrast.Light">
+     ThemeContrast="ThemeContrast.Light"
+     Border="Border.Is1">
+    <BarBrand>
+        <BarItem>
+            <BarLink To="#admin">
+                <BarIcon IconName="IconName.Settings" />
+                Admin
+            </BarLink>
+        </BarItem>
+    </BarBrand>
+    <BarToggler />
     <BarMenu>
         <BarStart>
             <BarItem>
                 <BarDropdown>
                     <BarDropdownToggle>
-                        Top-level toggler
+                        Organization
                     </BarDropdownToggle>
                     <BarDropdownMenu>
-                        <BarDropdownItem>
-                            Top-level item
-                        </BarDropdownItem>
+                        <BarDropdownItem To="#teams">Teams</BarDropdownItem>
+                        <BarDropdownItem To="#members">Members</BarDropdownItem>
                         <BarDropdown>
                             <BarDropdownToggle>
-                                Nested toggler
+                                Security
                             </BarDropdownToggle>
                             <BarDropdownMenu>
-                                <BarDropdownItem>
-                                    Nested item
-                                </BarDropdownItem>
+                                <BarDropdownItem To="#roles">Roles</BarDropdownItem>
+                                <BarDropdownItem To="#permissions">Permissions</BarDropdownItem>
+                                <BarDropdownItem To="#audit-log">Audit log</BarDropdownItem>
                             </BarDropdownMenu>
                         </BarDropdown>
                     </BarDropdownMenu>

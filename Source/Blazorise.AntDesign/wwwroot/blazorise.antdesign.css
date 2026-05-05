@@ -4237,7 +4237,7 @@ template {
   display: none;
 }
 
-:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .ant-form-item-explain:not([role]) {
+:is(.ant-input-status-success, .ant-input-affix-wrapper-status-success, .ant-select-status-success, .ant-picker-status-success, .ant-input-number-status-success, .b-richtextedit.ant-input-status-success) + .ant-form-item-explain-none {
   display: none;
 }
 
@@ -4247,7 +4247,7 @@ template {
   color: var(--b-theme-success, var(--ant-color-success));
 }
 
-:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-picker-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .ant-form-item-explain:not([role]) {
+:is(.ant-input-status-warning, .ant-input-affix-wrapper-status-warning, .ant-select-status-warning, .ant-picker-status-warning, .ant-input-number-status-warning, .b-richtextedit.ant-input-status-warning) + .ant-form-item-explain-none {
   display: none;
 }
 
@@ -4259,7 +4259,7 @@ template {
   color: var(--b-theme-warning, var(--ant-color-warning));
 }
 
-:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain:not([role]) {
+:is(.ant-input-status-error, .ant-input-affix-wrapper-status-error, .ant-select-status-error, .ant-picker-status-error, .ant-input-number-status-error, .b-richtextedit.ant-input-status-error) + .ant-form-item-explain-none {
   display: none;
 }
 
@@ -8808,7 +8808,7 @@ a.ant-typography-disabled[aria-disabled=true] {
 .EasyMDEContainer.b-markdown-warning.b-markdown-warning .editor-statusbar {
   border-color: var(--b-theme-warning, var(--ant-color-warning));
 }
-.EasyMDEContainer.b-markdown-warning.b-markdown-warning + .ant-form-item-explain:not([role]),
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning + .ant-form-item-explain-none,
 .EasyMDEContainer.b-markdown-warning.b-markdown-warning + .valid-feedback,
 .EasyMDEContainer.b-markdown-warning.b-markdown-warning + .ant-form-item-explain:not([role]) + .valid-feedback {
   display: none;

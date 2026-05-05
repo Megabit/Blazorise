@@ -296,7 +296,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ValidationErrorTooltip() => "invalid-tooltip";
 
-    public override string ValidationNone() => "ant-form-item-explain";
+    public override string ValidationNone() => "ant-form-item-explain ant-form-item-explain-none";
 
     public override string ValidationSummary() => "ant-typography-danger";
 
@@ -827,6 +827,8 @@ public class AntDesignClassProvider : ClassProvider
     public override string BarDropdownMenuRight( BarMode mode, bool rightAligned ) => null;
 
     public override string BarDropdownMenuContainer( BarMode mode ) => "ant-menu-submenu-popup";
+
+    public override string BarDropdownMenuPositionStrategy( BarMode mode, DropdownPositionStrategy positionStrategy ) => "absolute";
 
     public override string BarCollapsed( BarMode mode, bool visible ) => visible ? null : $"ant-menu-{ToBarMode( mode )}-collapsed";
 

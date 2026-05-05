@@ -59,6 +59,9 @@ public partial class BarDropdownMenu : BaseComponent<BarDropdownMenuClasses, Bar
     /// <param name="builder">Style builder used to append the styles.</param>
     protected virtual void BuildContainerStyles( StyleBuilder builder )
     {
+        string positionStrategy = ClassProvider.BarDropdownMenuPositionStrategy( ParentDropdownState.Mode, ParentDropdownState.PositionStrategy );
+
+        builder.Append( $"position: {positionStrategy}", positionStrategy is not null && ParentDropdownState.Mode != BarMode.Horizontal && !ParentDropdownState.IsInlineDisplay );
         AppendWrapperUtilities( builder );
     }
 
@@ -127,6 +130,7 @@ public partial class BarDropdownMenu : BaseComponent<BarDropdownMenuClasses, Bar
             parentDropdownState = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 
