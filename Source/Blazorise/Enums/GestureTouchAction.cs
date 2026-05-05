@@ -1,4 +1,4 @@
-﻿﻿namespace Blazorise;
+namespace Blazorise;
 
 /// <summary>
 /// Defines the browser touch-action behavior for gesture detection.

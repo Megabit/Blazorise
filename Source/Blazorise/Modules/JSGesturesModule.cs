@@ -1,4 +1,4 @@
-﻿﻿﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;

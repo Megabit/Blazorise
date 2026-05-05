@@ -1,4 +1,4 @@
-﻿﻿namespace Blazorise;
+namespace Blazorise;
 
 /// <summary>
 /// Supplies information about a detected tap gesture.

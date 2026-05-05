@@ -1,4 +1,4 @@
-﻿﻿﻿namespace Blazorise.Modules;
+namespace Blazorise.Modules;
 
 /// <summary>
 /// Represents JavaScript options specific to gesture handling.
