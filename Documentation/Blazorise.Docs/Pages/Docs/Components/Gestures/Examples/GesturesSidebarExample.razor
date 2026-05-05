@@ -3,8 +3,8 @@
 <Gestures Direction="GestureDirection.Horizontal"
           TouchAction="GestureTouchAction.PanY"
           Swiped="@OnSwiped">
-    <Div Border="Border.Is1.Rounded" Background="Background.Light" Padding="Padding.Is3" Style="min-height: 240px; user-select: none;">
-        <Div Flex="Flex.Row" Gap="Gap.Is3">
+    <Div Flex="Flex.Row" Border="Border.Is1.Rounded" Background="Background.Light" Padding="Padding.Is3" Style="min-height: 240px; user-select: none;">
+        <Div Flex="Flex.Row.Grow.Is1.AlignItems.Stretch" Gap="Gap.Is3">
             @if ( sidebarVisible )
             {
                 <Div Background="Background.Primary" TextColor="TextColor.White" Padding="Padding.Is3" Border="Border.Rounded" Width="Width.Px( 160 )">
