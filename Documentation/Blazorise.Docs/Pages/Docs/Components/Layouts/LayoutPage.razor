@@ -7,19 +7,21 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Handling the overall layout of a page.
+    Structure application pages with headers, sidebars, content regions, and footers.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The <Code Tag>Layout</Code> is a component for building common application layouts.
+    The <Code Tag>Layout</Code> component is the outer structure for common application shells.
+    It composes with <Code Tag>Bar</Code>, utility parameters, and normal content components to create page layouts without custom wrapper markup.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    The layout consists of four diferent sections: a horizontal navigation bar (LayoutHeader), a collapsible navigation sidebar (LayoutSider) and a content area (LayoutContent). An applicationss main navigation blocks should be positioned in the navbar and/or sidebar, whereas views are rendered in the content area.
+    A layout can include a horizontal header, an optional sidebar, the main content area, and a footer.
+    Place application-wide navigation in <Code>LayoutHeader</Code> or <Code>LayoutSider</Code>, and render page content in <Code>LayoutContent</Code>.
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    Layout is responsive and adjusts automatically to fit desktop, tablet, and mobile screen sizes.
+    Layout adjusts to desktop, tablet, and mobile screen sizes, while utility parameters handle most visual spacing, sizing, background, and alignment needs.
 </DocsPageParagraph>
 
 <UnorderedList>
@@ -66,35 +68,37 @@
 </DocsPageSubtitle>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Basic">
+    <DocsPageSectionHeader Title="Basic App Shell">
+        Use <Code>LayoutHeader</Code>, <Code>LayoutContent</Code>, and <Code>LayoutFooter</Code> for a simple single-column application shell.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <BasicLayoutStyledExample />
+        <BasicLayoutExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="BasicLayoutExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Sider with Header on top">
+    <DocsPageSectionHeader Title="Header Above Sidebar">
         <Paragraph>
-            The <Code>LayoutHeader</Code> can be located on top or to the side of the drawer.
+            Place <Code>LayoutHeader</Code> before a nested <Code>Layout Sider</Code> when the header should span the full page width.
         </Paragraph>
         <Paragraph>
-            When put on top, the <Code>LayoutHeader</Code> is typically used as an application header. Application headers contain, for example, the application's name and branding, as well as actions that apply to the entire application, such as notifications, settings, etc.
+            This pattern is common for products with global search, notifications, and account actions in the header, plus primary navigation in the sidebar.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <LayoutWithSiderAndTopHeaderStyledExample />
+        <LayoutWithSiderAndTopHeaderExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="LayoutWithSiderAndTopHeaderExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="With Sider">
-        When placed to the side, the <Code>LayoutHeader</Code> is often seen as a view header, housing the view's title, and actions and secondary navigation that relate only to the current view.
+    <DocsPageSectionHeader Title="Sidebar With View Header">
+        Put <Code>LayoutHeader</Code> inside the content-side layout when the header belongs to the current view rather than the whole application.
+        This works well for dashboards, detail pages, and workspace screens with contextual actions.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <LayoutWithSiderStyledExample />
+        <LayoutWithSiderExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="LayoutWithSiderExample" />
 </DocsPageSection>

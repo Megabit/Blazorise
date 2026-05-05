@@ -29,7 +29,8 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
     /// </summary>
     private BarDropdownState state = new()
     {
-        NestedIndex = 1
+        NestedIndex = 1,
+        PositionStrategy = DropdownPositionStrategy.Fixed
     };
 
     /// <summary>
@@ -84,7 +85,7 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
                         DropdownToggleClassNames = dropdownToggleClassNames,
                         DropdownMenuClassNames = dropdownMenuClassNames,
                         DropdownShowClassName = ClassProvider.BarDropdownMenuVisible( State.Mode, visible: true ),
-                        Strategy = "absolute",
+                        Strategy = GetFloatingPositionStrategy(),
                         OnlyWhenPositioned = true,
                     } );
             }
@@ -207,6 +208,15 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
+    /// Gets the Floating UI positioning strategy.
+    /// </summary>
+    /// <returns>The Floating UI positioning strategy.</returns>
+    private string GetFloatingPositionStrategy()
+    {
+        return ClassProvider.BarDropdownMenuPositionStrategy( State.Mode, PositionStrategy );
+    }
+
+    /// <summary>
     /// Sets the WasToggled Flag on the current Dropdown and every existing ParentDropdown.
     /// </summary>
     /// <param name="wasToggled"></param>
@@ -233,7 +243,7 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task OnMouseEnterHandler()
     {
-        ShouldClose = false;
+        SetShouldCloseForHierarchy( false );
 
         if ( ParentBarItemState is not null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
             return Task.CompletedTask;
@@ -245,14 +255,17 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
     /// Handles the onmouseleave event.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public Task OnMouseLeaveHandler()
+    public async Task OnMouseLeaveHandler()
     {
-        ShouldClose = true;
+        SetShouldCloseForHierarchy( true );
 
         if ( ParentBarItemState is not null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
-            return Task.CompletedTask;
+            return;
 
-        return Hide();
+        await Task.Delay( 150 );
+
+        if ( ShouldClose )
+            await Hide();
     }
 
     /// <summary>
@@ -264,7 +277,7 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
         if ( State.Mode != BarMode.Horizontal || State.IsInlineDisplay )
             return Task.CompletedTask;
 
-        ShouldClose = false;
+        SetShouldCloseForHierarchy( false );
 
         return Task.CompletedTask;
     }
@@ -279,7 +292,7 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
             return Task.CompletedTask;
 
         lastInternalMenuPointerInteractionUtc = DateTime.UtcNow;
-        ShouldClose = false;
+        SetShouldCloseForHierarchy( false );
 
         return Task.CompletedTask;
     }
@@ -298,13 +311,23 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
         if ( DateTime.UtcNow.Subtract( lastInternalMenuPointerInteractionUtc ).TotalMilliseconds < 250 )
             return;
 
-        ShouldClose = true;
+        SetShouldCloseForHierarchy( true );
 
         // Allow focus transitions inside the dropdown to settle before deciding to close.
         await Task.Delay( 10 );
 
         if ( ShouldClose )
             await Hide();
+    }
+
+    /// <summary>
+    /// Updates the close intent for this dropdown and its parent chain.
+    /// </summary>
+    /// <param name="shouldClose">True if the dropdown hierarchy should close.</param>
+    private void SetShouldCloseForHierarchy( bool shouldClose )
+    {
+        ShouldClose = shouldClose;
+        ParentBarDropdown?.SetShouldCloseForHierarchy( shouldClose );
     }
 
     /// <summary>
@@ -439,6 +462,19 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
     /// Notifies when the component visibility changes.
     /// </summary>
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
+
+    /// <summary>
+    /// Defines the positioning strategy of a floating <see cref="BarDropdownMenu"/>.
+    /// </summary>
+    [Parameter]
+    public DropdownPositionStrategy PositionStrategy
+    {
+        get => state.PositionStrategy;
+        set
+        {
+            state = state with { PositionStrategy = value };
+        }
+    }
 
     /// <summary>
     /// If true, a dropdown menu will be right aligned.

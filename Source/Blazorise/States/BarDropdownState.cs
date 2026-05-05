@@ -31,6 +31,11 @@ public record BarDropdownState
     public int NestedIndex { get; init; }
 
     /// <summary>
+    /// Gets or sets the dropdown menu positioning strategy.
+    /// </summary>
+    public DropdownPositionStrategy PositionStrategy { get; init; }
+
+    /// <summary>
     /// True if dropdown is in vertical inline mode and the bar is visible.
     /// </summary>
     public bool IsInlineDisplay => Mode == BarMode.VerticalInline && BarVisible;

@@ -839,6 +839,9 @@ public class MaterialClassProvider : ClassProvider
 
     public override string BarDropdownMenuContainer( BarMode mode ) => "mui-bar-dropdown-menu-container";
 
+    public override string BarDropdownMenuPositionStrategy( BarMode mode, DropdownPositionStrategy positionStrategy )
+        => ToDropdownPositionStrategy( mode == Blazorise.BarMode.Horizontal ? DropdownPositionStrategy.Absolute : positionStrategy );
+
     public override string BarCollapsed( BarMode mode, bool visible ) => visible ? null : "mui-bar-collapsed";
 
     public override string BarLabel( BarMode mode ) => "mui-bar-label";

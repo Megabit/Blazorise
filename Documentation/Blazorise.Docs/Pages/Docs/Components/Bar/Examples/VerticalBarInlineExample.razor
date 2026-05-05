@@ -1,19 +1,47 @@
-﻿@namespace Blazorise.Docs.Docs.Examples
+@namespace Blazorise.Docs.Docs.Examples
 
 <Bar Mode="BarMode.VerticalInline"
+     CollapseMode="BarCollapseMode.Small"
      Breakpoint="Breakpoint.Desktop"
      Background="Background.Light"
-     ThemeContrast="ThemeContrast.Light">
+     ThemeContrast="ThemeContrast.Light"
+     Border="Border.Is1">
     <BarToggler />
     <BarBrand>
         <BarItem>
-            <BarLink To="#">
-                <BarIcon IconName="IconName.Dashboard" />
-                Example
+            <BarLink To="#inventory">
+                <BarIcon IconName="IconName.Store" />
+                Inventory
             </BarLink>
         </BarItem>
     </BarBrand>
     <BarMenu>
-        <BarItem>Example</BarItem>
+        <BarStart>
+            <BarItem>
+                <BarLink To="#products">
+                    <BarIcon IconName="IconName.ShoppingBag" />
+                    Products
+                </BarLink>
+            </BarItem>
+            <BarItem>
+                <BarLink To="#orders">
+                    <BarIcon IconName="IconName.ShoppingCart" />
+                    Orders
+                </BarLink>
+            </BarItem>
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle>
+                        <BarIcon IconName="IconName.Truck" />
+                        Shipping
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem To="#labels">Labels</BarDropdownItem>
+                        <BarDropdownItem To="#carriers">Carriers</BarDropdownItem>
+                        <BarDropdownItem To="#returns">Returns</BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+        </BarStart>
     </BarMenu>
 </Bar>

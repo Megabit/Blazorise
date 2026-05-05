@@ -1,19 +1,41 @@
-﻿@namespace Blazorise.Docs.Docs.Examples
+@namespace Blazorise.Docs.Docs.Examples
 
 <Bar Mode="BarMode.VerticalInline"
+     CollapseMode="BarCollapseMode.Small"
      Breakpoint="Breakpoint.Desktop"
      Background="Background.Light"
-     ThemeContrast="ThemeContrast.Light">
+     ThemeContrast="ThemeContrast.Light"
+     Border="Border.Is1">
     <BarBrand>
         <BarItem>
-            <BarLink To="#">
-                <BarIcon IconName="IconName.Dashboard" />
-                Blazorise Demo
+            <BarLink To="#support">
+                <BarIcon IconName="IconName.Headset" />
+                Support
             </BarLink>
         </BarItem>
     </BarBrand>
     <BarToggler Mode="BarTogglerMode.Popout" />
     <BarMenu>
-        <BarItem>Popout!</BarItem>
+        <BarStart>
+            <BarItem>
+                <BarLink To="#queue">
+                    <BarIcon IconName="IconName.Inbox" />
+                    Queue
+                </BarLink>
+            </BarItem>
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle>
+                        <BarIcon IconName="IconName.Book" />
+                        Knowledge
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem To="#articles">Articles</BarDropdownItem>
+                        <BarDropdownItem To="#macros">Macros</BarDropdownItem>
+                        <BarDropdownItem To="#training">Training</BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+        </BarStart>
     </BarMenu>
 </Bar>

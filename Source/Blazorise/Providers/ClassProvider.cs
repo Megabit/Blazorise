@@ -767,9 +767,18 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BarDropdownMenuContainer( BarMode mode );
 
+    public virtual string BarDropdownMenuPositionStrategy( BarMode mode, DropdownPositionStrategy positionStrategy ) => ToDropdownPositionStrategy( positionStrategy );
+
     public abstract string BarCollapsed( BarMode mode, bool visible );
 
     public abstract string BarLabel( BarMode mode );
+
+    #endregion
+
+    #region Utilities
+
+    protected static string ToDropdownPositionStrategy( DropdownPositionStrategy positionStrategy )
+        => positionStrategy == DropdownPositionStrategy.Fixed ? "fixed" : "absolute";
 
     #endregion
 

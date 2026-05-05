@@ -1,35 +1,69 @@
-﻿@namespace Blazorise.Docs.Docs.Examples
+@namespace Blazorise.Docs.Docs.Examples
 
 <Bar Breakpoint="Breakpoint.Desktop"
      Background="Background.Light"
-     ThemeContrast="ThemeContrast.Light">
+     ThemeContrast="ThemeContrast.Light"
+     Shadow="Shadow.Default">
     <BarBrand>
-        Brandname
+        <BarItem>
+            <BarLink To="#dashboard">
+                <BarIcon IconName="IconName.LayerGroup" />
+                Atlas CRM
+            </BarLink>
+        </BarItem>
     </BarBrand>
     <BarToggler />
     <BarMenu>
         <BarStart>
             <BarItem>
-                <BarLink To="#home">Home</BarLink>
+                <BarLink To="#pipeline">
+                    Pipeline
+                </BarLink>
             </BarItem>
             <BarItem>
-                <BarLink To="#docs">Documentation</BarLink>
+                <BarLink To="#accounts">
+                    Accounts
+                </BarLink>
             </BarItem>
             <BarItem>
                 <BarDropdown>
-                    <BarDropdownToggle>Dropdown</BarDropdownToggle>
+                    <BarDropdownToggle>
+                        Reports
+                    </BarDropdownToggle>
                     <BarDropdownMenu>
-                        <BarDropdownItem>Action</BarDropdownItem>
+                        <BarDropdownItem To="#sales-report">Sales summary</BarDropdownItem>
+                        <BarDropdownItem To="#activity-report">Team activity</BarDropdownItem>
                         <BarDropdownDivider />
-                        <BarDropdownItem>Another action</BarDropdownItem>
+                        <BarDropdownItem To="#scheduled-reports">Scheduled reports</BarDropdownItem>
                     </BarDropdownMenu>
                 </BarDropdown>
             </BarItem>
         </BarStart>
         <BarEnd>
             <BarItem>
-                <Button Color="Color.Primary">Sign up</Button>
-                <Button Color="Color.Secondary">Log in</Button>
+                <Button Color="Color.Light" Outline>
+                    <Icon Name="IconName.Search" />
+                </Button>
+            </BarItem>
+            <BarItem>
+                <Button Color="Color.Light" Outline>
+                    <Icon Name="IconName.Bell" />
+                    <Badge Color="Color.Danger" Pill>3</Badge>
+                </Button>
+            </BarItem>
+            <BarItem>
+                <BarDropdown RightAligned>
+                    <BarDropdownToggle>
+                        <BarIcon IconName="IconName.UserCircle" />
+                        Maya Stone
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem To="#profile">Profile</BarDropdownItem>
+                        <BarDropdownItem To="#preferences">Preferences</BarDropdownItem>
+                        <BarDropdownDivider />
+                        <BarDropdownItem To="#sign-out">Sign out</BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
             </BarItem>
         </BarEnd>
     </BarMenu>

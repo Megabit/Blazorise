@@ -1,41 +1,87 @@
-﻿@namespace Blazorise.Docs.Docs.Examples
+@namespace Blazorise.Docs.Docs.Examples
 
-<Bar Mode="BarMode.VerticalInline"
-     CollapseMode="BarCollapseMode.Small"
-     Breakpoint="Breakpoint.Desktop"
-     NavigationBreakpoint="Breakpoint.Tablet"
-     ThemeContrast="ThemeContrast.Dark">
-    <BarBrand>
-        <BarItem>
-            <BarLink To="#">
-                <BarIcon IconName="IconName.Dashboard" />
-                Blazorise Demo
-            </BarLink>
-        </BarItem>
-    </BarBrand>
-    <BarMenu>
-        <BarStart>
-            <BarItem>
-                <BarLink To="#home">
-                    <BarIcon IconName="IconName.Dashboard" />
-                    Home
-                </BarLink>
-            </BarItem>
-            <BarItem>
-                <BarLink To="#docs">Documentation</BarLink>
-            </BarItem>
-            <BarItem>
-                <BarDropdown>
-                    <BarDropdownToggle>
-                        <BarIcon IconName="IconName.Edit" />
-                        Dropdown
-                    </BarDropdownToggle>
-                    <BarDropdownMenu>
-                        <BarDropdownItem>Action</BarDropdownItem>
-                        <BarDropdownItem>Another action</BarDropdownItem>
-                    </BarDropdownMenu>
-                </BarDropdown>
-            </BarItem>
-        </BarStart>
-    </BarMenu>
-</Bar>
+<Layout Sider Style="min-height: 420px;">
+    <LayoutSider>
+        <LayoutSiderContent>
+            <Bar Mode="BarMode.VerticalInline"
+                 CollapseMode="BarCollapseMode.Small"
+                 Breakpoint="Breakpoint.Desktop"
+                 NavigationBreakpoint="Breakpoint.Tablet"
+                 ThemeContrast="ThemeContrast.Dark"
+                 MenuToggleBehavior="BarMenuToggleBehavior.AllowSingleMenu">
+                <BarBrand>
+                    <BarItem>
+                        <BarLink To="#workspace">
+                            <BarIcon IconName="IconName.LayerGroup" />
+                            Ops Console
+                        </BarLink>
+                    </BarItem>
+                </BarBrand>
+                <BarMenu>
+                    <BarStart>
+                        <BarItem>
+                            <BarLink To="#overview">
+                                <BarIcon IconName="IconName.Dashboard" />
+                                Overview
+                            </BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarDropdown>
+                                <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.ChartLine" />
+                                    Analytics
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="#traffic">Traffic</BarDropdownItem>
+                                    <BarDropdownItem To="#conversion">Conversion</BarDropdownItem>
+                                    <BarDropdownItem To="#retention">Retention</BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarDropdown>
+                                <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.Users" />
+                                    Customers
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="#all-customers">All customers</BarDropdownItem>
+                                    <BarDropdownItem To="#segments">Segments</BarDropdownItem>
+                                    <BarDropdownItem To="#imports">Imports</BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To="#billing">
+                                <BarIcon IconName="IconName.Receipt" />
+                                Billing
+                            </BarLink>
+                        </BarItem>
+                    </BarStart>
+                    <BarEnd>
+                        <BarItem>
+                            <BarLink To="#settings">
+                                <BarIcon IconName="IconName.Settings" />
+                                Settings
+                            </BarLink>
+                        </BarItem>
+                    </BarEnd>
+                </BarMenu>
+            </Bar>
+        </LayoutSiderContent>
+    </LayoutSider>
+    <Layout>
+        <LayoutHeader Fixed>
+            <Div Padding="Padding.Is3" Background="Background.Light" Border="Border.Is1.OnBottom">
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0">Workspace overview</Heading>
+            </Div>
+        </LayoutHeader>
+        <LayoutContent Padding="Padding.Is3">
+            <Card>
+                <CardBody>
+                    The vertical Bar works well as the primary navigation inside a layout sider.
+                </CardBody>
+            </Card>
+        </LayoutContent>
+    </Layout>
+</Layout>
