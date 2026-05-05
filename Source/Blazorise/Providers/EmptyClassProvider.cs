@@ -771,6 +771,8 @@ class EmptyClassProvider : IClassProvider
 
     public string BarDropdownMenuContainer( BarMode mode ) => null;
 
+    public string BarDropdownMenuPositionStrategy( BarMode mode, DropdownPositionStrategy positionStrategy ) => positionStrategy == DropdownPositionStrategy.Fixed ? "fixed" : "absolute";
+
     public string BarCollapsed( BarMode mode, bool visible ) => null;
 
     public string BarLabel( BarMode mode ) => null;

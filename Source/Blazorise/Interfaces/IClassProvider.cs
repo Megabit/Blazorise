@@ -766,6 +766,8 @@ public interface IClassProvider
 
     string BarDropdownMenuContainer( BarMode mode );
 
+    string BarDropdownMenuPositionStrategy( BarMode mode, DropdownPositionStrategy positionStrategy );
+
     string BarCollapsed( BarMode mode, bool visible );
 
     string BarLabel( BarMode mode );

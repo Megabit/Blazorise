@@ -821,6 +821,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string BarDropdownMenuContainer( BarMode mode ) => "ant-menu-submenu-popup";
 
+    public override string BarDropdownMenuPositionStrategy( BarMode mode, DropdownPositionStrategy positionStrategy ) => "absolute";
+
     public override string BarCollapsed( BarMode mode, bool visible ) => visible ? null : $"ant-menu-{ToBarMode( mode )}-collapsed";
 
     public override string BarLabel( BarMode mode ) => "ant-menu-label";

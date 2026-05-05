@@ -1,7 +1,9 @@
 ﻿@mixin b-bar-popout-menu-container {
     z-index: 100;
     max-height: 50vh;
-    position: absolute !important;
+    position: absolute;
+    right: auto;
+    bottom: auto;
     margin: -42px 5px 0px 5px;
     display: flex;
     width: var(--b-vertical-bar-popout-menu-width, 180px);
@@ -162,6 +164,9 @@
         width: 100%;
         display: flex;
         flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
         justify-content: space-between;
         flex-direction: column;
         align-self: stretch;
