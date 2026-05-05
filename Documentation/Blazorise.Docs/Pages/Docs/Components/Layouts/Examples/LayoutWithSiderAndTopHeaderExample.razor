@@ -1,18 +1,71 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Layout>
-    <LayoutHeader Fixed>
-        Header
+<Layout Height="Height.Px(360)"
+        Border="Border.Is1.Rounded"
+        Overflow="Overflow.Hidden">
+    <LayoutHeader Background="Background.Primary"
+                  TextColor="TextColor.White"
+                  Padding="Padding.Is3">
+        <Div Width="Width.Is100"
+             Flex="Flex.JustifyContent.Between.AlignItems.Center"
+             Gap="Gap.Is3">
+            <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+                <Icon Name="IconName.LayerGroup" />
+                <Span TextWeight="TextWeight.SemiBold">Operations</Span>
+            </Div>
+            <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+                <Button Color="Color.Light" Outline>
+                    <Icon Name="IconName.Bell" />
+                    <Badge Color="Color.Warning" Pill>2</Badge>
+                </Button>
+                <Button Color="Color.Light" Outline>
+                    Account
+                </Button>
+            </Div>
+        </Div>
     </LayoutHeader>
     <Layout Sider>
-        <LayoutSider>
-            <LayoutSiderContent>
-                Sider
+        <LayoutSider Width="Width.Px(230).Min(230).Max(230)"
+                     Background="Background.Dark"
+                     TextColor="TextColor.White">
+            <LayoutSiderContent Width="Width.Is100">
+                <Div Padding="Padding.Is3" Flex="Flex.Column" Gap="Gap.Is2">
+                    <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Padding="Padding.Is2">
+                        <Icon Name="IconName.Dashboard" />
+                        <Span>Overview</Span>
+                    </Div>
+                    <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Padding="Padding.Is2">
+                        <Icon Name="IconName.Receipt" />
+                        <Span>Orders</Span>
+                    </Div>
+                    <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Padding="Padding.Is2">
+                        <Icon Name="IconName.Users" />
+                        <Span>Customers</Span>
+                    </Div>
+                </Div>
             </LayoutSiderContent>
         </LayoutSider>
         <Layout>
-            <LayoutContent>
-                Content
+            <LayoutContent Background="Background.Light"
+                           Padding="Padding.Is4">
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
+                        <Card>
+                            <CardBody>
+                                <CardTitle Size="HeadingSize.Is5">Fulfillment</CardTitle>
+                                <Paragraph Margin="Margin.Is0">84 orders ready for dispatch.</Paragraph>
+                            </CardBody>
+                        </Card>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
+                        <Card>
+                            <CardBody>
+                                <CardTitle Size="HeadingSize.Is5">Customer health</CardTitle>
+                                <Paragraph Margin="Margin.Is0">12 accounts need follow-up.</Paragraph>
+                            </CardBody>
+                        </Card>
+                    </Column>
+                </Row>
             </LayoutContent>
         </Layout>
     </Layout>

@@ -320,7 +320,7 @@ public class MaterialClassProvider : ClassProvider
 
     public override string ValidationErrorTooltip() => "invalid-tooltip";
 
-    public override string ValidationNone() => "form-text text-muted";
+    public override string ValidationNone() => "form-text text-muted none-feedback";
 
     public override string ValidationSummary() => "text-danger";
 
@@ -842,6 +842,9 @@ public class MaterialClassProvider : ClassProvider
     public override string BarDropdownMenuRight( BarMode mode, bool rightAligned ) => rightAligned ? "mui-bar-dropdown-menu-right" : null;
 
     public override string BarDropdownMenuContainer( BarMode mode ) => "mui-bar-dropdown-menu-container";
+
+    public override string BarDropdownMenuPositionStrategy( BarMode mode, DropdownPositionStrategy positionStrategy )
+        => ToDropdownPositionStrategy( mode == Blazorise.BarMode.Horizontal ? DropdownPositionStrategy.Absolute : positionStrategy );
 
     public override string BarCollapsed( BarMode mode, bool visible ) => visible ? null : "mui-bar-collapsed";
 

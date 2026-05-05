@@ -49,7 +49,7 @@
         border-color: var(--b-theme-warning, $warning);
     }
 
-    + .form-text.text-muted,
+    + .none-feedback,
     + .valid-feedback,
     + .form-text.text-muted + .valid-feedback {
         display: none;

@@ -1,17 +1,58 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Layout Sider>
-    <LayoutSider>
-        <LayoutSiderContent>
-            Sider
+<Layout Sider
+        Height="Height.Px(360)"
+        Border="Border.Is1.Rounded"
+        Overflow="Overflow.Hidden">
+    <LayoutSider Width="Width.Px(230).Min(230).Max(230)"
+                 Background="Background.Dark"
+                 TextColor="TextColor.White">
+        <LayoutSiderContent Width="Width.Is100">
+            <Div Padding="Padding.Is3" Flex="Flex.Column" Gap="Gap.Is2">
+                <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Padding="Padding.Is2">
+                    <Icon Name="IconName.Briefcase" />
+                    <Span TextWeight="TextWeight.SemiBold">Workspace</Span>
+                </Div>
+                <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Padding="Padding.Is2">
+                    <Icon Name="IconName.FolderOpen" />
+                    <Span>Projects</Span>
+                </Div>
+                <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Padding="Padding.Is2">
+                    <Icon Name="IconName.Calendar" />
+                    <Span>Calendar</Span>
+                </Div>
+                <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Padding="Padding.Is2">
+                    <Icon Name="IconName.FileAlt" />
+                    <Span>Files</Span>
+                </Div>
+            </Div>
         </LayoutSiderContent>
     </LayoutSider>
     <Layout>
-        <LayoutHeader Fixed>
-            Header
+        <LayoutHeader Background="Background.Body"
+                      Border="Border.Is1.OnBottom"
+                      Padding="Padding.Is3"
+                      Flex="Flex.JustifyContent.Between.AlignItems.Center">
+            <Div>
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0">
+                    Project Alpha
+                </Heading>
+                <Small TextColor="TextColor.Muted">Workspace dashboard</Small>
+            </Div>
+            <Button Color="Color.Primary">
+                Share
+            </Button>
         </LayoutHeader>
-        <LayoutContent>
-            Content
+        <LayoutContent Background="Background.Light"
+                       Padding="Padding.Is4">
+            <Card>
+                <CardBody>
+                    <CardTitle Size="HeadingSize.Is5">Current sprint</CardTitle>
+                    <Paragraph Margin="Margin.Is0">
+                        18 tasks open, 6 in review, and 3 blocked by external dependencies.
+                    </Paragraph>
+                </CardBody>
+            </Card>
         </LayoutContent>
     </Layout>
 </Layout>

@@ -519,7 +519,7 @@
     }
 
     &.fui-Input__input-error {
-        & + .fui-Field__hint {
+        & + .fui-Field__validationMessage-none {
             display: none;
         }
 
@@ -541,7 +541,7 @@
     }
 
     &.fui-Input__input-warning {
-        & + .fui-Field__hint {
+        & + .fui-Field__validationMessage-none {
             display: none;
         }
 
@@ -559,7 +559,7 @@
     }
 
     &.fui-Input__input-success {
-        & + .fui-Field__hint {
+        & + .fui-Field__validationMessage-none {
             display: none;
         }
 

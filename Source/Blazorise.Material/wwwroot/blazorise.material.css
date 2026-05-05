@@ -2180,6 +2180,8 @@ body {
   justify-content: space-between;
   inline-size: 100%;
   min-block-size: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .mui-bar-vertical-inline .mui-bar-start,
 .mui-bar-vertical-inline .mui-bar-end,
@@ -2335,6 +2337,8 @@ body {
   position: absolute;
   inset-block-start: 0;
   inset-inline-start: calc(100% - 0.125rem);
+  inset-block-end: auto;
+  inset-inline-end: auto;
   inline-size: var(--mui-bar-popout-menu-width);
   min-inline-size: 11rem;
   z-index: calc(var(--mui-zindex-dropdown) + 1);
@@ -2389,6 +2393,8 @@ body {
   position: absolute;
   inset-block-start: 0;
   inset-inline-start: calc(100% - 0.125rem);
+  inset-block-end: auto;
+  inset-inline-end: auto;
   inline-size: var(--mui-bar-popout-menu-width);
   min-inline-size: 11rem;
   z-index: calc(var(--mui-zindex-dropdown) + 1);
@@ -4554,9 +4560,9 @@ textarea.mui-input:not([rows]) {
   inline-size: 100%;
 }
 
-:is(.mui-input, .mui-select).is-valid + .form-text.text-muted,
-:is(.mui-input, .mui-select).is-warning + .form-text.text-muted,
-:is(.mui-input, .mui-select).is-invalid + .form-text.text-muted {
+:is(.mui-input, .mui-select).is-valid + .none-feedback,
+:is(.mui-input, .mui-select).is-warning + .none-feedback,
+:is(.mui-input, .mui-select).is-invalid + .none-feedback {
   display: none;
 }
 
@@ -8767,7 +8773,7 @@ body.modal-open {
 .mui-field-body > .EasyMDEContainer.b-markdown-warning .editor-preview-full {
   border-color: var(--mui-warning);
 }
-.mui-field-body > .EasyMDEContainer.b-markdown-warning + .form-text.text-muted,
+.mui-field-body > .EasyMDEContainer.b-markdown-warning + .none-feedback,
 .mui-field-body > .EasyMDEContainer.b-markdown-warning + .valid-feedback,
 .mui-field-body > .EasyMDEContainer.b-markdown-warning + .form-text.text-muted + .valid-feedback {
   display: none;
@@ -8869,7 +8875,7 @@ body.modal-open {
 .b-richtextedit.is-warning > .ql-toolbar.ql-bubble {
   border-color: var(--mui-warning);
 }
-.b-richtextedit.is-warning + .form-text.text-muted,
+.b-richtextedit.is-warning + .none-feedback,
 .b-richtextedit.is-warning + .valid-feedback,
 .b-richtextedit.is-warning + .form-text.text-muted + .valid-feedback {
   display: none;

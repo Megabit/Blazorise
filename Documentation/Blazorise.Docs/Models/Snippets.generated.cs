@@ -287,70 +287,143 @@ namespace Blazorise.Docs.Models
 
         public const string TopBarExample = @"<Bar Breakpoint=""Breakpoint.Desktop""
      Background=""Background.Light""
-     ThemeContrast=""ThemeContrast.Light"">
+     ThemeContrast=""ThemeContrast.Light""
+     Shadow=""Shadow.Default"">
     <BarBrand>
-        Brandname
+        <BarItem>
+            <BarLink To=""#dashboard"">
+                <BarIcon IconName=""IconName.LayerGroup"" />
+                Atlas CRM
+            </BarLink>
+        </BarItem>
     </BarBrand>
     <BarToggler />
     <BarMenu>
         <BarStart>
             <BarItem>
-                <BarLink To=""#home"">Home</BarLink>
+                <BarLink To=""#pipeline"">
+                    Pipeline
+                </BarLink>
             </BarItem>
             <BarItem>
-                <BarLink To=""#docs"">Documentation</BarLink>
+                <BarLink To=""#accounts"">
+                    Accounts
+                </BarLink>
             </BarItem>
             <BarItem>
                 <BarDropdown>
-                    <BarDropdownToggle>Dropdown</BarDropdownToggle>
+                    <BarDropdownToggle>
+                        Reports
+                    </BarDropdownToggle>
                     <BarDropdownMenu>
-                        <BarDropdownItem>Action</BarDropdownItem>
+                        <BarDropdownItem To=""#sales-report"">Sales summary</BarDropdownItem>
+                        <BarDropdownItem To=""#activity-report"">Team activity</BarDropdownItem>
                         <BarDropdownDivider />
-                        <BarDropdownItem>Another action</BarDropdownItem>
+                        <BarDropdownItem To=""#scheduled-reports"">Scheduled reports</BarDropdownItem>
                     </BarDropdownMenu>
                 </BarDropdown>
             </BarItem>
         </BarStart>
         <BarEnd>
             <BarItem>
-                <Button Color=""Color.Primary"">Sign up</Button>
-                <Button Color=""Color.Secondary"">Log in</Button>
+                <Button Color=""Color.Light"" Outline>
+                    <Icon Name=""IconName.Search"" />
+                </Button>
+            </BarItem>
+            <BarItem>
+                <Button Color=""Color.Light"" Outline>
+                    <Icon Name=""IconName.Bell"" />
+                    <Badge Color=""Color.Danger"" Pill>3</Badge>
+                </Button>
+            </BarItem>
+            <BarItem>
+                <BarDropdown RightAligned>
+                    <BarDropdownToggle>
+                        <BarIcon IconName=""IconName.UserCircle"" />
+                        Maya Stone
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem To=""#profile"">Profile</BarDropdownItem>
+                        <BarDropdownItem To=""#preferences"">Preferences</BarDropdownItem>
+                        <BarDropdownDivider />
+                        <BarDropdownItem To=""#sign-out"">Sign out</BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
             </BarItem>
         </BarEnd>
     </BarMenu>
 </Bar>";
 
-        public const string VerticalBarExternalExample = @"<Layout Sider>
+        public const string TopBarExamplePage = @"<TopBarExample />";
+
+        public const string VerticalBarExternalExample = @"<Layout Sider Style=""min-height: 360px;"">
     <LayoutSider>
         <LayoutSiderContent>
-            <Bar @ref=""@sidebar"" Mode=""BarMode.VerticalInline""
+            <Bar @ref=""@sidebar""
+                 Mode=""BarMode.VerticalInline""
+                 CollapseMode=""BarCollapseMode.Small""
                  Breakpoint=""Breakpoint.Desktop""
                  Background=""Background.Light""
                  ThemeContrast=""ThemeContrast.Light"">
-                <BarItem>Example</BarItem>
+                <BarBrand>
+                    <BarItem>
+                        <BarLink To=""#projects"">
+                            <BarIcon IconName=""IconName.Briefcase"" />
+                            Projects
+                        </BarLink>
+                    </BarItem>
+                </BarBrand>
+                <BarMenu>
+                    <BarStart>
+                        <BarItem>
+                            <BarLink To=""#roadmap"">
+                                <BarIcon IconName=""IconName.Map"" />
+                                Roadmap
+                            </BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To=""#calendar"">
+                                <BarIcon IconName=""IconName.Calendar"" />
+                                Calendar
+                            </BarLink>
+                        </BarItem>
+                    </BarStart>
+                </BarMenu>
             </Bar>
         </LayoutSiderContent>
     </LayoutSider>
     <Layout>
         <LayoutHeader Fixed>
             <Bar Mode=""BarMode.Horizontal""
+                 Breakpoint=""Breakpoint.Desktop""
                  Background=""Background.Light""
-                 ThemeContrast=""ThemeContrast.Light"">
+                 ThemeContrast=""ThemeContrast.Light""
+                 Shadow=""Shadow.Default"">
                 <BarToggler Bar=""@sidebar"" />
                 <BarBrand>
                     <BarItem>
-                        <BarLink To=""#"">
-                            <BarIcon IconName=""IconName.Dashboard"" />
-                            Example
+                        <BarLink To=""#planning"">
+                            Planning
                         </BarLink>
                     </BarItem>
                 </BarBrand>
                 <BarMenu>
-                    <BarItem>Example</BarItem>
+                    <BarEnd>
+                        <BarItem>
+                            <Button Color=""Color.Primary"">
+                                New project
+                            </Button>
+                        </BarItem>
+                    </BarEnd>
                 </BarMenu>
                 <BarToggler />
             </Bar>
         </LayoutHeader>
+        <LayoutContent Padding=""Padding.Is3"">
+            <Paragraph>
+                The first toggler controls the sidebar. The second toggler controls the horizontal bar menu.
+            </Paragraph>
+        </LayoutContent>
     </Layout>
 </Layout>
 
@@ -359,45 +432,82 @@ namespace Blazorise.Docs.Models
 }";
 
         public const string VerticalBarInlineExample = @"<Bar Mode=""BarMode.VerticalInline""
+     CollapseMode=""BarCollapseMode.Small""
      Breakpoint=""Breakpoint.Desktop""
      Background=""Background.Light""
-     ThemeContrast=""ThemeContrast.Light"">
+     ThemeContrast=""ThemeContrast.Light""
+     Border=""Border.Is1"">
     <BarToggler />
     <BarBrand>
         <BarItem>
-            <BarLink To=""#"">
-                <BarIcon IconName=""IconName.Dashboard"" />
-                Example
+            <BarLink To=""#inventory"">
+                <BarIcon IconName=""IconName.Store"" />
+                Inventory
             </BarLink>
         </BarItem>
     </BarBrand>
     <BarMenu>
-        <BarItem>Example</BarItem>
+        <BarStart>
+            <BarItem>
+                <BarLink To=""#products"">
+                    <BarIcon IconName=""IconName.ShoppingBag"" />
+                    Products
+                </BarLink>
+            </BarItem>
+            <BarItem>
+                <BarLink To=""#orders"">
+                    <BarIcon IconName=""IconName.ShoppingCart"" />
+                    Orders
+                </BarLink>
+            </BarItem>
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle>
+                        <BarIcon IconName=""IconName.Truck"" />
+                        Shipping
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem To=""#labels"">Labels</BarDropdownItem>
+                        <BarDropdownItem To=""#carriers"">Carriers</BarDropdownItem>
+                        <BarDropdownItem To=""#returns"">Returns</BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+        </BarStart>
     </BarMenu>
 </Bar>";
 
         public const string VerticalBarNestedDropdownsExample = @"<Bar Breakpoint=""Breakpoint.Desktop""
      Background=""Background.Light""
-     ThemeContrast=""ThemeContrast.Light"">
+     ThemeContrast=""ThemeContrast.Light""
+     Border=""Border.Is1"">
+    <BarBrand>
+        <BarItem>
+            <BarLink To=""#admin"">
+                <BarIcon IconName=""IconName.Settings"" />
+                Admin
+            </BarLink>
+        </BarItem>
+    </BarBrand>
+    <BarToggler />
     <BarMenu>
         <BarStart>
             <BarItem>
                 <BarDropdown>
                     <BarDropdownToggle>
-                        Top-level toggler
+                        Organization
                     </BarDropdownToggle>
                     <BarDropdownMenu>
-                        <BarDropdownItem>
-                            Top-level item
-                        </BarDropdownItem>
+                        <BarDropdownItem To=""#teams"">Teams</BarDropdownItem>
+                        <BarDropdownItem To=""#members"">Members</BarDropdownItem>
                         <BarDropdown>
                             <BarDropdownToggle>
-                                Nested toggler
+                                Security
                             </BarDropdownToggle>
                             <BarDropdownMenu>
-                                <BarDropdownItem>
-                                    Nested item
-                                </BarDropdownItem>
+                                <BarDropdownItem To=""#roles"">Roles</BarDropdownItem>
+                                <BarDropdownItem To=""#permissions"">Permissions</BarDropdownItem>
+                                <BarDropdownItem To=""#audit-log"">Audit log</BarDropdownItem>
                             </BarDropdownMenu>
                         </BarDropdown>
                     </BarDropdownMenu>
@@ -408,35 +518,67 @@ namespace Blazorise.Docs.Models
 </Bar>";
 
         public const string VerticalBarPopoutExample = @"<Bar Mode=""BarMode.VerticalInline""
+     CollapseMode=""BarCollapseMode.Small""
      Breakpoint=""Breakpoint.Desktop""
      Background=""Background.Light""
-     ThemeContrast=""ThemeContrast.Light"">
+     ThemeContrast=""ThemeContrast.Light""
+     Border=""Border.Is1"">
     <BarBrand>
         <BarItem>
-            <BarLink To=""#"">
-                <BarIcon IconName=""IconName.Dashboard"" />
-                Blazorise Demo
+            <BarLink To=""#support"">
+                <BarIcon IconName=""IconName.Headset"" />
+                Support
             </BarLink>
         </BarItem>
     </BarBrand>
     <BarToggler Mode=""BarTogglerMode.Popout"" />
     <BarMenu>
-        <BarItem>Popout!</BarItem>
+        <BarStart>
+            <BarItem>
+                <BarLink To=""#queue"">
+                    <BarIcon IconName=""IconName.Inbox"" />
+                    Queue
+                </BarLink>
+            </BarItem>
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle>
+                        <BarIcon IconName=""IconName.Book"" />
+                        Knowledge
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem To=""#articles"">Articles</BarDropdownItem>
+                        <BarDropdownItem To=""#macros"">Macros</BarDropdownItem>
+                        <BarDropdownItem To=""#training"">Training</BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+        </BarStart>
     </BarMenu>
 </Bar>";
 
-        public const string VerticalBarRightAlignedExample = @"<Layout Sider>
+        public const string VerticalBarRightAlignedExample = @"<Layout Sider Style=""min-height: 360px;"">
+    <Layout>
+        <LayoutContent Padding=""Padding.Is3"">
+            <Card>
+                <CardBody>
+                    Right-side navigation is useful for context tools, inspectors, and account panels.
+                </CardBody>
+            </Card>
+        </LayoutContent>
+    </Layout>
     <LayoutSider>
         <LayoutSiderContent>
-            <Bar Mode=""BarMode.VerticalInline"" CollapseMode=""BarCollapseMode.Small""
+            <Bar Mode=""BarMode.VerticalInline""
+                 CollapseMode=""BarCollapseMode.Small""
                  Breakpoint=""Breakpoint.Desktop""
                  Background=""Background.Light""
                  ThemeContrast=""ThemeContrast.Light"">
                 <BarBrand>
                     <BarItem>
-                        <BarLink To=""#"">
-                            <BarIcon IconName=""IconName.Dashboard"" />
-                            Example
+                        <BarLink To=""#inspector"">
+                            <BarIcon IconName=""IconName.SliderHorizontal"" />
+                            Inspector
                         </BarLink>
                     </BarItem>
                 </BarBrand>
@@ -445,14 +587,21 @@ namespace Blazorise.Docs.Models
                         <BarItem>
                             <BarDropdown RightAligned>
                                 <BarDropdownToggle>
-                                    <BarIcon IconName=""IconName.Edit"" />
-                                    Toggle
+                                    <BarIcon IconName=""IconName.Filter"" />
+                                    Filters
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem>Action</BarDropdownItem>
-                                    <BarDropdownItem>Another action</BarDropdownItem>
+                                    <BarDropdownItem To=""#assigned"">Assigned to me</BarDropdownItem>
+                                    <BarDropdownItem To=""#due-soon"">Due soon</BarDropdownItem>
+                                    <BarDropdownItem To=""#blocked"">Blocked</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To=""#activity"">
+                                <BarIcon IconName=""IconName.History"" />
+                                Activity
+                            </BarLink>
                         </BarItem>
                     </BarStart>
                 </BarMenu>
@@ -461,45 +610,93 @@ namespace Blazorise.Docs.Models
     </LayoutSider>
 </Layout>";
 
-        public const string VerticalBarSideBarExample = @"<Bar Mode=""BarMode.VerticalInline""
-     CollapseMode=""BarCollapseMode.Small""
-     Breakpoint=""Breakpoint.Desktop""
-     NavigationBreakpoint=""Breakpoint.Tablet""
-     ThemeContrast=""ThemeContrast.Dark"">
-    <BarBrand>
-        <BarItem>
-            <BarLink To=""#"">
-                <BarIcon IconName=""IconName.Dashboard"" />
-                Blazorise Demo
-            </BarLink>
-        </BarItem>
-    </BarBrand>
-    <BarMenu>
-        <BarStart>
-            <BarItem>
-                <BarLink To=""#home"">
-                    <BarIcon IconName=""IconName.Dashboard"" />
-                    Home
-                </BarLink>
-            </BarItem>
-            <BarItem>
-                <BarLink To=""#docs"">Documentation</BarLink>
-            </BarItem>
-            <BarItem>
-                <BarDropdown>
-                    <BarDropdownToggle>
-                        <BarIcon IconName=""IconName.Edit"" />
-                        Dropdown
-                    </BarDropdownToggle>
-                    <BarDropdownMenu>
-                        <BarDropdownItem>Action</BarDropdownItem>
-                        <BarDropdownItem>Another action</BarDropdownItem>
-                    </BarDropdownMenu>
-                </BarDropdown>
-            </BarItem>
-        </BarStart>
-    </BarMenu>
-</Bar>";
+        public const string VerticalBarSideBarExample = @"<Layout Sider Style=""min-height: 420px;"">
+    <LayoutSider>
+        <LayoutSiderContent>
+            <Bar Mode=""BarMode.VerticalInline""
+                 CollapseMode=""BarCollapseMode.Small""
+                 Breakpoint=""Breakpoint.Desktop""
+                 NavigationBreakpoint=""Breakpoint.Tablet""
+                 ThemeContrast=""ThemeContrast.Dark""
+                 MenuToggleBehavior=""BarMenuToggleBehavior.AllowSingleMenu"">
+                <BarBrand>
+                    <BarItem>
+                        <BarLink To=""#workspace"">
+                            <BarIcon IconName=""IconName.LayerGroup"" />
+                            Ops Console
+                        </BarLink>
+                    </BarItem>
+                </BarBrand>
+                <BarMenu>
+                    <BarStart>
+                        <BarItem>
+                            <BarLink To=""#overview"">
+                                <BarIcon IconName=""IconName.Dashboard"" />
+                                Overview
+                            </BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarDropdown>
+                                <BarDropdownToggle>
+                                    <BarIcon IconName=""IconName.ChartLine"" />
+                                    Analytics
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To=""#traffic"">Traffic</BarDropdownItem>
+                                    <BarDropdownItem To=""#conversion"">Conversion</BarDropdownItem>
+                                    <BarDropdownItem To=""#retention"">Retention</BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarDropdown>
+                                <BarDropdownToggle>
+                                    <BarIcon IconName=""IconName.Users"" />
+                                    Customers
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To=""#all-customers"">All customers</BarDropdownItem>
+                                    <BarDropdownItem To=""#segments"">Segments</BarDropdownItem>
+                                    <BarDropdownItem To=""#imports"">Imports</BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To=""#billing"">
+                                <BarIcon IconName=""IconName.Receipt"" />
+                                Billing
+                            </BarLink>
+                        </BarItem>
+                    </BarStart>
+                    <BarEnd>
+                        <BarItem>
+                            <BarLink To=""#settings"">
+                                <BarIcon IconName=""IconName.Settings"" />
+                                Settings
+                            </BarLink>
+                        </BarItem>
+                    </BarEnd>
+                </BarMenu>
+            </Bar>
+        </LayoutSiderContent>
+    </LayoutSider>
+    <Layout>
+        <LayoutHeader Fixed>
+            <Div Padding=""Padding.Is3"" Background=""Background.Light"" Border=""Border.Is1.OnBottom"">
+                <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0"">Workspace overview</Heading>
+            </Div>
+        </LayoutHeader>
+        <LayoutContent Padding=""Padding.Is3"">
+            <Card>
+                <CardBody>
+                    The vertical Bar works well as the primary navigation inside a layout sider.
+                </CardBody>
+            </Card>
+        </LayoutContent>
+    </Layout>
+</Layout>";
+
+        public const string VerticalBarSideBarExamplePage = @"<VerticalBarSideBarExample />";
 
         public const string BreadcrumbAutoExample = @"<Breadcrumb Mode=""BreadcrumbMode.Auto"">
     <BreadcrumbItem>
@@ -2090,94 +2287,157 @@ namespace Blazorise.Docs.Models
     </Paragraph>
 </Jumbotron>";
 
-        public const string BasicLayoutExample = @"<Layout>
-    <LayoutHeader>
-        Header
+        public const string BasicLayoutExample = @"<Layout Height=""Height.Px(320)""
+        Border=""Border.Is1.Rounded""
+        TextAlignment=""TextAlignment.Center"">
+    <LayoutHeader Background=""Background.Primary""
+                  TextColor=""TextColor.White""
+                  Padding=""Padding.Is3""
+                  Flex=""Flex.JustifyContent.Center.AlignItems.Center"">
+        Sales Portal
     </LayoutHeader>
-    <LayoutContent>
-        Content
+    <LayoutContent Background=""Background.Light""
+                   Padding=""Padding.Is4"">
+        <Card>
+            <CardBody>
+                <Heading Size=""HeadingSize.Is5"">Quarterly pipeline</Heading>
+                <Paragraph Margin=""Margin.Is0"">
+                    Track open opportunities, team activity, and forecast changes from the main content region.
+                </Paragraph>
+            </CardBody>
+        </Card>
     </LayoutContent>
-    <LayoutFooter>
-        Footer
+    <LayoutFooter Background=""Background.Body""
+                  Border=""Border.Is1.OnTop""
+                  Padding=""Padding.Is3"">
+        Updated 12 minutes ago
     </LayoutFooter>
 </Layout>";
 
-        public const string BasicLayoutStyledExample = @"<Layout TextAlignment=""TextAlignment.Center"" Style=""height: 300px;"">
-    <LayoutHeader Style=""background: #7dbcea; color: white; line-height: 60px;"">
-        Header
-    </LayoutHeader>
-    <LayoutContent Style=""background: rgba(16, 142, 233, 1); color: white; line-height: 120px;"">
-        Content
-    </LayoutContent>
-    <LayoutFooter Style=""background: #7dbcea; color: white; line-height: 60px;"">
-        Footer
-    </LayoutFooter>
-</Layout>";
-
-        public const string LayoutWithSiderAndTopHeaderExample = @"<Layout>
-    <LayoutHeader Fixed>
-        Header
+        public const string LayoutWithSiderAndTopHeaderExample = @"<Layout Height=""Height.Px(360)""
+        Border=""Border.Is1.Rounded""
+        Overflow=""Overflow.Hidden"">
+    <LayoutHeader Background=""Background.Primary""
+                  TextColor=""TextColor.White""
+                  Padding=""Padding.Is3"">
+        <Div Width=""Width.Is100""
+             Flex=""Flex.JustifyContent.Between.AlignItems.Center""
+             Gap=""Gap.Is3"">
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Icon Name=""IconName.LayerGroup"" />
+                <Span TextWeight=""TextWeight.SemiBold"">Operations</Span>
+            </Div>
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Button Color=""Color.Light"" Outline>
+                    <Icon Name=""IconName.Bell"" />
+                    <Badge Color=""Color.Warning"" Pill>2</Badge>
+                </Button>
+                <Button Color=""Color.Light"" Outline>
+                    Account
+                </Button>
+            </Div>
+        </Div>
     </LayoutHeader>
     <Layout Sider>
-        <LayoutSider>
-            <LayoutSiderContent>
-                Sider
+        <LayoutSider Width=""Width.Px(230).Min(230).Max(230)""
+                     Background=""Background.Dark""
+                     TextColor=""TextColor.White"">
+            <LayoutSiderContent Width=""Width.Is100"">
+                <Div Padding=""Padding.Is3"" Flex=""Flex.Column"" Gap=""Gap.Is2"">
+                    <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                        <Icon Name=""IconName.Dashboard"" />
+                        <Span>Overview</Span>
+                    </Div>
+                    <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                        <Icon Name=""IconName.Receipt"" />
+                        <Span>Orders</Span>
+                    </Div>
+                    <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                        <Icon Name=""IconName.Users"" />
+                        <Span>Customers</Span>
+                    </Div>
+                </Div>
             </LayoutSiderContent>
         </LayoutSider>
         <Layout>
-            <LayoutContent>
-                Content
+            <LayoutContent Background=""Background.Light""
+                           Padding=""Padding.Is4"">
+                <Row>
+                    <Column ColumnSize=""ColumnSize.Is12.Is6.OnTablet"">
+                        <Card>
+                            <CardBody>
+                                <CardTitle Size=""HeadingSize.Is5"">Fulfillment</CardTitle>
+                                <Paragraph Margin=""Margin.Is0"">84 orders ready for dispatch.</Paragraph>
+                            </CardBody>
+                        </Card>
+                    </Column>
+                    <Column ColumnSize=""ColumnSize.Is12.Is6.OnTablet"">
+                        <Card>
+                            <CardBody>
+                                <CardTitle Size=""HeadingSize.Is5"">Customer health</CardTitle>
+                                <Paragraph Margin=""Margin.Is0"">12 accounts need follow-up.</Paragraph>
+                            </CardBody>
+                        </Card>
+                    </Column>
+                </Row>
             </LayoutContent>
         </Layout>
     </Layout>
 </Layout>";
 
-        public const string LayoutWithSiderAndTopHeaderStyledExample = @"<Layout TextAlignment=""TextAlignment.Center"">
-    <LayoutHeader Fixed Style=""background: #7dbcea; color: white; line-height: 60px; z-index: 10;"">
-        Header
-    </LayoutHeader>
-    <Layout Sider Style=""height: 240px;"">
-        <LayoutSider Style=""flex: 0 0 100px; width: 100px; max-width: 100px; min-width: 100px; background: #3ba0e9; color: white; line-height: 120px;"">
-            <LayoutSiderContent>
-                Sider
-            </LayoutSiderContent>
-        </LayoutSider>
-        <Layout>
-            <LayoutContent Style=""background: rgba(16, 142, 233, 1); color: white; line-height: 120px;"">
-                Content
-            </LayoutContent>
-        </Layout>
-    </Layout>
-</Layout>";
-
-        public const string LayoutWithSiderExample = @"<Layout Sider>
-    <LayoutSider>
-        <LayoutSiderContent>
-            Sider
+        public const string LayoutWithSiderExample = @"<Layout Sider
+        Height=""Height.Px(360)""
+        Border=""Border.Is1.Rounded""
+        Overflow=""Overflow.Hidden"">
+    <LayoutSider Width=""Width.Px(230).Min(230).Max(230)""
+                 Background=""Background.Dark""
+                 TextColor=""TextColor.White"">
+        <LayoutSiderContent Width=""Width.Is100"">
+            <Div Padding=""Padding.Is3"" Flex=""Flex.Column"" Gap=""Gap.Is2"">
+                <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                    <Icon Name=""IconName.Briefcase"" />
+                    <Span TextWeight=""TextWeight.SemiBold"">Workspace</Span>
+                </Div>
+                <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                    <Icon Name=""IconName.FolderOpen"" />
+                    <Span>Projects</Span>
+                </Div>
+                <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                    <Icon Name=""IconName.Calendar"" />
+                    <Span>Calendar</Span>
+                </Div>
+                <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                    <Icon Name=""IconName.FileAlt"" />
+                    <Span>Files</Span>
+                </Div>
+            </Div>
         </LayoutSiderContent>
     </LayoutSider>
     <Layout>
-        <LayoutHeader Fixed>
-            Header
+        <LayoutHeader Background=""Background.Body""
+                      Border=""Border.Is1.OnBottom""
+                      Padding=""Padding.Is3""
+                      Flex=""Flex.JustifyContent.Between.AlignItems.Center"">
+            <Div>
+                <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0"">
+                    Project Alpha
+                </Heading>
+                <Small TextColor=""TextColor.Muted"">Workspace dashboard</Small>
+            </Div>
+            <Button Color=""Color.Primary"">
+                Share
+            </Button>
         </LayoutHeader>
-        <LayoutContent>
-            Content
-        </LayoutContent>
-    </Layout>
-</Layout>";
-
-        public const string LayoutWithSiderStyledExample = @"<Layout Sider TextAlignment=""TextAlignment.Center"">
-    <LayoutSider Style=""flex: 0 0 100px; width: 100px; max-width: 100px; min-width: 100px; background: #3ba0e9; color: white; line-height: 120px;"">
-        <LayoutSiderContent>
-            Sider
-        </LayoutSiderContent>
-    </LayoutSider>
-    <Layout Style=""height: 300px;"">
-        <LayoutHeader Fixed Style=""background: #7dbcea; color: white; line-height: 60px; z-index: 10;"">
-            Header
-        </LayoutHeader>
-        <LayoutContent Style=""background: rgba(16, 142, 233, 1); color: white; line-height: 120px;"">
-            Content
+        <LayoutContent Background=""Background.Light""
+                       Padding=""Padding.Is4"">
+            <Card>
+                <CardBody>
+                    <CardTitle Size=""HeadingSize.Is5"">Current sprint</CardTitle>
+                    <Paragraph Margin=""Margin.Is0"">
+                        18 tasks open, 6 in review, and 3 blocked by external dependencies.
+                    </Paragraph>
+                </CardBody>
+            </Card>
         </LayoutContent>
     </Layout>
 </Layout>";
