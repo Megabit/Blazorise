@@ -1,17 +1,27 @@
-﻿@namespace Blazorise.Docs.Docs.Examples
+@namespace Blazorise.Docs.Docs.Examples
 
-<Layout Sider>
+<Layout Sider Style="min-height: 360px;">
+    <Layout>
+        <LayoutContent Padding="Padding.Is3">
+            <Card>
+                <CardBody>
+                    Right-side navigation is useful for context tools, inspectors, and account panels.
+                </CardBody>
+            </Card>
+        </LayoutContent>
+    </Layout>
     <LayoutSider>
         <LayoutSiderContent>
-            <Bar Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small"
+            <Bar Mode="BarMode.VerticalInline"
+                 CollapseMode="BarCollapseMode.Small"
                  Breakpoint="Breakpoint.Desktop"
                  Background="Background.Light"
                  ThemeContrast="ThemeContrast.Light">
                 <BarBrand>
                     <BarItem>
-                        <BarLink To="#">
-                            <BarIcon IconName="IconName.Dashboard" />
-                            Example
+                        <BarLink To="#inspector">
+                            <BarIcon IconName="IconName.SliderHorizontal" />
+                            Inspector
                         </BarLink>
                     </BarItem>
                 </BarBrand>
@@ -20,14 +30,21 @@
                         <BarItem>
                             <BarDropdown RightAligned>
                                 <BarDropdownToggle>
-                                    <BarIcon IconName="IconName.Edit" />
-                                    Toggle
+                                    <BarIcon IconName="IconName.Filter" />
+                                    Filters
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem>Action</BarDropdownItem>
-                                    <BarDropdownItem>Another action</BarDropdownItem>
+                                    <BarDropdownItem To="#assigned">Assigned to me</BarDropdownItem>
+                                    <BarDropdownItem To="#due-soon">Due soon</BarDropdownItem>
+                                    <BarDropdownItem To="#blocked">Blocked</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To="#activity">
+                                <BarIcon IconName="IconName.History" />
+                                Activity
+                            </BarLink>
                         </BarItem>
                     </BarStart>
                 </BarMenu>

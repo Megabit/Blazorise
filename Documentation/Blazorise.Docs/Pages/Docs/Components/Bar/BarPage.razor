@@ -7,11 +7,12 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    A responsive navbar that can support images, links, buttons, and dropdowns.
+    A responsive navigation component for application headers, sidebars, account menus, and nested navigation.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The <code>Bar</code> component is a responsive and versatile navigation bar that can be used as a top menu in <strong>Horizontal</strong> mode or as a sidebar in one of the three <strong>Vertical</strong> modes.
+    The <code>Bar</code> component can be used as a top menu in <strong>Horizontal</strong> mode or as a sidebar in one of the <strong>Vertical</strong> modes.
+    Most applications combine <Code>BarBrand</Code>, <Code>BarStart</Code>, <Code>BarEnd</Code>, links, dropdowns, and one or more togglers.
 </DocsPageParagraph>
 
 <UnorderedList>
@@ -107,9 +108,11 @@
 </UnorderedList>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Top Bar (with dropdown)" ElementId="bar-top-bar">
+    <DocsPageSectionHeader Title="Application Header" ElementId="bar-top-bar">
+        A typical horizontal Bar has a brand, primary navigation, utility actions, and an account dropdown.
+        Use <Code>BarStart</Code> for main navigation and <Code>BarEnd</Code> for actions that should stay aligned to the opposite side.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
+    <DocsPageSectionContent Outlined FullWidth FrameUrl="docs/components/bar/top-bar-iframe">
         <TopBarExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="TopBarExample" />
@@ -150,12 +153,13 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Vertical Bar (Sidebar)" ElementId="bar-vertical-sidebar">
-        When using the Bar in one of the <strong>Vertical</strong> modes for the purpose of a Sidebar, you need to place it inside the <Code>LayoutSiderContent</Code> component.
+    <DocsPageSectionHeader Title="Application Sidebar" ElementId="bar-vertical-sidebar">
+        For a sidebar layout, place the vertical <Code>Bar</Code> inside <Code>LayoutSiderContent</Code>.
+        This pattern keeps navigation, content, and header regions in predictable layout slots.
 
         Please see the <Anchor To="docs/components/layout">Layout docs </Anchor> for more information on setup with Sidebar.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
+    <DocsPageSectionContent Outlined FullWidth FrameUrl="docs/components/bar/sidebar-iframe">
         <VerticalBarSideBarExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="VerticalBarSideBarExample" />
@@ -164,24 +168,23 @@
 <Alert Color="Color.Info" Visible>
     <AlertDescription>
         <Strong>Note:</Strong> The <Code>BarIcon</Code> is required for each <Code>BarLink</Code> or <Code>BarDropdownToggle</Code> when using <Code>BarMode.VerticalSmall</Code> or <Code>BarCollapseMode.Small</Code>, in order for it work correctly.
-        For a demo of the Vertical bar in action, please check out <Anchor To="https://demos.blazorise.com/wasm/bootstrap4/" Target="Target.Blank">this Blazorise demo</Anchor>.
+        For a full demo of the vertical bar in action, please check out the <Anchor To="https://demos.blazorise.com/wasm/bootstrap5/" Target="Target.Blank">Blazorise Bootstrap 5 demo</Anchor>.
     </AlertDescription>
 </Alert>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Right-aligned Vertical Bar">
-        You can create a right-aligned <Code>Vertical</Code> style <Code>Bar </Code>easily by following two key principals.
+    <DocsPageSectionHeader Title="Right-aligned Sidebar">
+        You can create a right-aligned <Code>Vertical</Code> style <Code>Bar</Code> by following two key principles.
         <UnorderedList>
             <UnorderedListItem>
-                Using the <Code>Layout</Code> to accommodate the right-align bar, by putting the <Code>LayoutSider </Code>section after the <Code>Layout</Code> section (see in example below).
+                Use <Code>Layout</Code> to place the <Code>LayoutSider</Code> after the main <Code>Layout</Code> section.
             </UnorderedListItem>
             <UnorderedListItem>
-                Adding <Code>RightAligned</Code> to ALL <Code>BarDropdownMenu</Code> within the <Code>Vertical</Code> bar.
+                Add <Code>RightAligned</Code> to dropdowns that should open toward the left side of the right rail.
             </UnorderedListItem>
         </UnorderedList>
-        Right-aligned vertical bar example:
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
+    <DocsPageSectionContent Outlined FullWidth>
         <VerticalBarRightAlignedExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="VerticalBarRightAlignedExample" />
@@ -189,16 +192,16 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Vertical Bar Toggler">
-        The <Code>BarToggler</Code> for Vertical Bar supports 2 modes:
+        The <Code>BarToggler</Code> for a vertical Bar supports two modes:
         <UnorderedList>
             <UnorderedListItem><Code>BarTogglerMode.Normal (default)</Code></UnorderedListItem>
             <UnorderedListItem><Code>BarTogglerMode.Popout</Code></UnorderedListItem>
         </UnorderedList>
-        These 2 modes, along with an external implementation, provides 3 easy to configure implementations.
+        These modes, along with an external implementation, provide three common implementations.
         <Paragraph>
             <Strong>1. Inline</Strong>
         </Paragraph>
-        By simply adding the <Code>BarToggler</Code> anywhere inside the Vertical <Code>Bar</Code> component (at the top level), you will have an inline toggler added to your bar at this location.
+        Add the <Code>BarToggler</Code> inside the vertical <Code>Bar</Code> to let the user collapse and expand the rail in place.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined>
         <VerticalBarInlineExample />
@@ -210,7 +213,7 @@
     <DocsPageSectionHeader>
         <Strong>2. Popout</Strong>
 
-        Once again, by simply adding the BarToggler anywhere inside the Vertical Bar component (at the top level), and setting the Mode to Popout you will have an popout toggler added to your bar at this location.
+        Set <Code>Mode="BarTogglerMode.Popout"</Code> when the toggler should sit outside the collapsed rail.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined>
         <VerticalBarPopoutExample />
@@ -222,21 +225,18 @@
     <DocsPageSectionHeader>
         <Strong>3. External (controlled by Top Bar)</Strong>
 
-        For an externally controlled <Code>BarToggler</Code>, you need to be using the top bar.
-
-        Where you have a top bar and vertical bar, you can add multiple <Code>BarTogglers</Code> to the top bar and choose to have one of these control the vertical bar by simply setting the <Code>Bar</Code> property.
-
-        In the example below, we will create two <Code>BarTogglers</Code> inside the top bar.
+        In layouts with both a top bar and a sidebar, a top-bar toggler can control the sidebar by setting the <Code>Bar</Code> property.
+        The example below uses two togglers inside the top bar.
         <UnorderedList>
             <UnorderedListItem>
-                One to control the Vertical Bar (closest to it)
+                One controls the vertical Bar.
             </UnorderedListItem>
             <UnorderedListItem>
-                One to control the Top Bar (at the opposite end)
+                One controls the horizontal Bar menu.
             </UnorderedListItem>
         </UnorderedList>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
+    <DocsPageSectionContent Outlined FullWidth>
         <VerticalBarExternalExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="VerticalBarExternalExample" />
@@ -244,9 +244,10 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Nested Dropdowns" ElementId="bar-nested-dropdowns">
-        To create nested <Code>BarDropdowns</Code>, you can simply add a <Code>BarDropdown</Code> component inside the structure of an existing <Code>BarDropdownMenu</Code>.
+        To create nested dropdowns, place a <Code>BarDropdown</Code> inside an existing <Code>BarDropdownMenu</Code>.
+        This is useful for admin, reporting, and settings menus where the top-level item groups related actions.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
+    <DocsPageSectionContent Outlined FullWidth>
         <VerticalBarNestedDropdownsExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="VerticalBarNestedDropdownsExample" />
