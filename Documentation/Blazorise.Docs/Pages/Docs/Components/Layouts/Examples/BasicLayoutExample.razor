@@ -1,13 +1,28 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Layout>
-    <LayoutHeader>
-        Header
+<Layout Height="Height.Px(320)"
+        Border="Border.Is1.Rounded"
+        TextAlignment="TextAlignment.Center">
+    <LayoutHeader Background="Background.Primary"
+                  TextColor="TextColor.White"
+                  Padding="Padding.Is3"
+                  Flex="Flex.JustifyContent.Center.AlignItems.Center">
+        Sales Portal
     </LayoutHeader>
-    <LayoutContent>
-        Content
+    <LayoutContent Background="Background.Light"
+                   Padding="Padding.Is4">
+        <Card>
+            <CardBody>
+                <Heading Size="HeadingSize.Is5">Quarterly pipeline</Heading>
+                <Paragraph Margin="Margin.Is0">
+                    Track open opportunities, team activity, and forecast changes from the main content region.
+                </Paragraph>
+            </CardBody>
+        </Card>
     </LayoutContent>
-    <LayoutFooter>
-        Footer
+    <LayoutFooter Background="Background.Body"
+                  Border="Border.Is1.OnTop"
+                  Padding="Padding.Is3">
+        Updated 12 minutes ago
     </LayoutFooter>
 </Layout>

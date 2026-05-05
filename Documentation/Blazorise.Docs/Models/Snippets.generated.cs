@@ -2287,94 +2287,157 @@ namespace Blazorise.Docs.Models
     </Paragraph>
 </Jumbotron>";
 
-        public const string BasicLayoutExample = @"<Layout>
-    <LayoutHeader>
-        Header
+        public const string BasicLayoutExample = @"<Layout Height=""Height.Px(320)""
+        Border=""Border.Is1.Rounded""
+        TextAlignment=""TextAlignment.Center"">
+    <LayoutHeader Background=""Background.Primary""
+                  TextColor=""TextColor.White""
+                  Padding=""Padding.Is3""
+                  Flex=""Flex.JustifyContent.Center.AlignItems.Center"">
+        Sales Portal
     </LayoutHeader>
-    <LayoutContent>
-        Content
+    <LayoutContent Background=""Background.Light""
+                   Padding=""Padding.Is4"">
+        <Card>
+            <CardBody>
+                <Heading Size=""HeadingSize.Is5"">Quarterly pipeline</Heading>
+                <Paragraph Margin=""Margin.Is0"">
+                    Track open opportunities, team activity, and forecast changes from the main content region.
+                </Paragraph>
+            </CardBody>
+        </Card>
     </LayoutContent>
-    <LayoutFooter>
-        Footer
+    <LayoutFooter Background=""Background.Body""
+                  Border=""Border.Is1.OnTop""
+                  Padding=""Padding.Is3"">
+        Updated 12 minutes ago
     </LayoutFooter>
 </Layout>";
 
-        public const string BasicLayoutStyledExample = @"<Layout TextAlignment=""TextAlignment.Center"" Style=""height: 300px;"">
-    <LayoutHeader Style=""background: #7dbcea; color: white; line-height: 60px;"">
-        Header
-    </LayoutHeader>
-    <LayoutContent Style=""background: rgba(16, 142, 233, 1); color: white; line-height: 120px;"">
-        Content
-    </LayoutContent>
-    <LayoutFooter Style=""background: #7dbcea; color: white; line-height: 60px;"">
-        Footer
-    </LayoutFooter>
-</Layout>";
-
-        public const string LayoutWithSiderAndTopHeaderExample = @"<Layout>
-    <LayoutHeader Fixed>
-        Header
+        public const string LayoutWithSiderAndTopHeaderExample = @"<Layout Height=""Height.Px(360)""
+        Border=""Border.Is1.Rounded""
+        Overflow=""Overflow.Hidden"">
+    <LayoutHeader Background=""Background.Primary""
+                  TextColor=""TextColor.White""
+                  Padding=""Padding.Is3"">
+        <Div Width=""Width.Is100""
+             Flex=""Flex.JustifyContent.Between.AlignItems.Center""
+             Gap=""Gap.Is3"">
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Icon Name=""IconName.LayerGroup"" />
+                <Span TextWeight=""TextWeight.SemiBold"">Operations</Span>
+            </Div>
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Button Color=""Color.Light"" Outline>
+                    <Icon Name=""IconName.Bell"" />
+                    <Badge Color=""Color.Warning"" Pill>2</Badge>
+                </Button>
+                <Button Color=""Color.Light"" Outline>
+                    Account
+                </Button>
+            </Div>
+        </Div>
     </LayoutHeader>
     <Layout Sider>
-        <LayoutSider>
-            <LayoutSiderContent>
-                Sider
+        <LayoutSider Width=""Width.Px(230).Min(230).Max(230)""
+                     Background=""Background.Dark""
+                     TextColor=""TextColor.White"">
+            <LayoutSiderContent Width=""Width.Is100"">
+                <Div Padding=""Padding.Is3"" Flex=""Flex.Column"" Gap=""Gap.Is2"">
+                    <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                        <Icon Name=""IconName.Dashboard"" />
+                        <Span>Overview</Span>
+                    </Div>
+                    <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                        <Icon Name=""IconName.Receipt"" />
+                        <Span>Orders</Span>
+                    </Div>
+                    <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                        <Icon Name=""IconName.Users"" />
+                        <Span>Customers</Span>
+                    </Div>
+                </Div>
             </LayoutSiderContent>
         </LayoutSider>
         <Layout>
-            <LayoutContent>
-                Content
+            <LayoutContent Background=""Background.Light""
+                           Padding=""Padding.Is4"">
+                <Row>
+                    <Column ColumnSize=""ColumnSize.Is12.Is6.OnTablet"">
+                        <Card>
+                            <CardBody>
+                                <CardTitle Size=""HeadingSize.Is5"">Fulfillment</CardTitle>
+                                <Paragraph Margin=""Margin.Is0"">84 orders ready for dispatch.</Paragraph>
+                            </CardBody>
+                        </Card>
+                    </Column>
+                    <Column ColumnSize=""ColumnSize.Is12.Is6.OnTablet"">
+                        <Card>
+                            <CardBody>
+                                <CardTitle Size=""HeadingSize.Is5"">Customer health</CardTitle>
+                                <Paragraph Margin=""Margin.Is0"">12 accounts need follow-up.</Paragraph>
+                            </CardBody>
+                        </Card>
+                    </Column>
+                </Row>
             </LayoutContent>
         </Layout>
     </Layout>
 </Layout>";
 
-        public const string LayoutWithSiderAndTopHeaderStyledExample = @"<Layout TextAlignment=""TextAlignment.Center"">
-    <LayoutHeader Fixed Style=""background: #7dbcea; color: white; line-height: 60px; z-index: 10;"">
-        Header
-    </LayoutHeader>
-    <Layout Sider Style=""height: 240px;"">
-        <LayoutSider Style=""flex: 0 0 100px; width: 100px; max-width: 100px; min-width: 100px; background: #3ba0e9; color: white; line-height: 120px;"">
-            <LayoutSiderContent>
-                Sider
-            </LayoutSiderContent>
-        </LayoutSider>
-        <Layout>
-            <LayoutContent Style=""background: rgba(16, 142, 233, 1); color: white; line-height: 120px;"">
-                Content
-            </LayoutContent>
-        </Layout>
-    </Layout>
-</Layout>";
-
-        public const string LayoutWithSiderExample = @"<Layout Sider>
-    <LayoutSider>
-        <LayoutSiderContent>
-            Sider
+        public const string LayoutWithSiderExample = @"<Layout Sider
+        Height=""Height.Px(360)""
+        Border=""Border.Is1.Rounded""
+        Overflow=""Overflow.Hidden"">
+    <LayoutSider Width=""Width.Px(230).Min(230).Max(230)""
+                 Background=""Background.Dark""
+                 TextColor=""TextColor.White"">
+        <LayoutSiderContent Width=""Width.Is100"">
+            <Div Padding=""Padding.Is3"" Flex=""Flex.Column"" Gap=""Gap.Is2"">
+                <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                    <Icon Name=""IconName.Briefcase"" />
+                    <Span TextWeight=""TextWeight.SemiBold"">Workspace</Span>
+                </Div>
+                <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                    <Icon Name=""IconName.FolderOpen"" />
+                    <Span>Projects</Span>
+                </Div>
+                <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                    <Icon Name=""IconName.Calendar"" />
+                    <Span>Calendar</Span>
+                </Div>
+                <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                    <Icon Name=""IconName.FileAlt"" />
+                    <Span>Files</Span>
+                </Div>
+            </Div>
         </LayoutSiderContent>
     </LayoutSider>
     <Layout>
-        <LayoutHeader Fixed>
-            Header
+        <LayoutHeader Background=""Background.Body""
+                      Border=""Border.Is1.OnBottom""
+                      Padding=""Padding.Is3""
+                      Flex=""Flex.JustifyContent.Between.AlignItems.Center"">
+            <Div>
+                <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0"">
+                    Project Alpha
+                </Heading>
+                <Small TextColor=""TextColor.Muted"">Workspace dashboard</Small>
+            </Div>
+            <Button Color=""Color.Primary"">
+                Share
+            </Button>
         </LayoutHeader>
-        <LayoutContent>
-            Content
-        </LayoutContent>
-    </Layout>
-</Layout>";
-
-        public const string LayoutWithSiderStyledExample = @"<Layout Sider TextAlignment=""TextAlignment.Center"">
-    <LayoutSider Style=""flex: 0 0 100px; width: 100px; max-width: 100px; min-width: 100px; background: #3ba0e9; color: white; line-height: 120px;"">
-        <LayoutSiderContent>
-            Sider
-        </LayoutSiderContent>
-    </LayoutSider>
-    <Layout Style=""height: 300px;"">
-        <LayoutHeader Fixed Style=""background: #7dbcea; color: white; line-height: 60px; z-index: 10;"">
-            Header
-        </LayoutHeader>
-        <LayoutContent Style=""background: rgba(16, 142, 233, 1); color: white; line-height: 120px;"">
-            Content
+        <LayoutContent Background=""Background.Light""
+                       Padding=""Padding.Is4"">
+            <Card>
+                <CardBody>
+                    <CardTitle Size=""HeadingSize.Is5"">Current sprint</CardTitle>
+                    <Paragraph Margin=""Margin.Is0"">
+                        18 tasks open, 6 in review, and 3 blocked by external dependencies.
+                    </Paragraph>
+                </CardBody>
+            </Card>
         </LayoutContent>
     </Layout>
 </Layout>";
