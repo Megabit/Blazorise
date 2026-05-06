@@ -1,6 +1,6 @@
-﻿@page "/docs/extensions/animate"
+@page "/docs/extensions/animate"
 
-<Seo Canonical="/docs/extensions/animate" Title="Blazorise Animate component" Description="Learn how to use the Blazorise Animate component to add scroll-based animations with the AOS library." />
+<Seo Canonical="/docs/extensions/animate" Title="Blazorise Animate component" Description="Learn how to use the Blazorise Animate component to add scroll-based and component animations." />
 
 <DocsPageTitle Path="Extensions/Animate">
     Blazorise Animate component
@@ -11,12 +11,12 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The Animate component wraps the <Anchor Target="Target.Blank" To="https://michalsnik.github.io/aos/">AOS JavaScript library</Anchor> to animate content as it enters the viewport.
+    The Animate component uses the Motion runtime to animate content as it enters the viewport or when component visibility changes.
 </DocsPageParagraph>
 
 <Alert Color="Color.Info" Visible>
     <AlertDescription>
-        <Paragraph>Blazorise wraps the animation functionality provided by the <Anchor To="https://michalsnik.github.io/aos/">AOS library</Anchor>. If you run into issues, also review the AOS repository.</Paragraph>
+        <Paragraph>Blazorise wraps Motion animation functionality and exposes it through the <Code>Animate</Code> component.</Paragraph>
 
         <Paragraph>Some content cannot be animated because of how it is structured or styled.</Paragraph>
         <Paragraph>It is not possible to animate:</Paragraph>
@@ -28,7 +28,7 @@
 
 <Alert Color="Color.Info" Visible>
     <AlertDescription>
-        Note that certain elements on the page may affect how the AOS library finds the "offset" element needed to trigger animations. Sidebars are a known example.
+        Note that certain elements on the page may affect how the runtime finds the offset element needed to trigger viewport animations.
         To make sure your content is successfully animated you may configure the <Code>Anchor</Code> parameter giving the <Code>Animate</Code> component the necessary information to work.
 
         For example, the animate example below is configured this way.

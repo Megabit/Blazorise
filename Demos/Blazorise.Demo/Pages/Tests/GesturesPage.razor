@@ -76,17 +76,16 @@
                 <Gestures Direction="GestureDirection.Horizontal"
                           TouchAction="GestureTouchAction.PanY"
                           Swiped="@OnSidebarSwiped">
-                    <Div Flex="Flex.Row" Border="Border.Is1.Rounded" Background="Background.Light" Padding="Padding.Is3" Style="min-height: 260px; user-select: none;">
+                    <Div Flex="Flex.Row" Border="Border.Is1.Rounded" Background="Background.Light" Padding="Padding.Is3" Height="Height.Px( 260 )" Style="user-select: none;">
                         <Div Flex="Flex.Row.Grow.Is1.AlignItems.Stretch" Gap="Gap.Is3">
-                            @if ( sidebarVisible )
-                            {
-                                <Div Background="Background.Primary" TextColor="TextColor.White" Padding="Padding.Is3" Border="Border.Rounded" Width="Width.Px( 150 )">
+                            <Animate Animation="Animations.SlideRight" Duration="@SidebarAnimationDuration" Trigger="AnimationTrigger.Render" Visible="@sidebarVisible" AnimateOnInitialRender="false" Layout="AnimationLayout.Width" style="height: 100%;">
+                                <Div Background="Background.Primary" TextColor="TextColor.White" Padding="Padding.Is3" Border="Border.Rounded" Width="@SidebarExpandedWidth" Height="Height.Is100">
                                     <Heading Size="HeadingSize.Is6" Margin="Margin.Is0.FromBottom">Panel</Heading>
                                     <Paragraph TextColor="TextColor.White50" Margin="Margin.Is2.FromTop">
                                         Swipe left to collapse.
                                     </Paragraph>
                                 </Div>
-                            }
+                            </Animate>
                             <Div Flex="Flex.Grow.Is1" Padding="Padding.Is2">
                                 <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.FromBottom">
                                     Content area
@@ -143,6 +142,10 @@
     private int activeSlideIndex;
 
     private bool sidebarVisible = true;
+
+    private static readonly TimeSpan SidebarAnimationDuration = TimeSpan.FromMilliseconds( 250 );
+
+    private static readonly IFluentSizing SidebarExpandedWidth = Width.Px( 150 );
 
     private string gestureState = "Waiting";
 

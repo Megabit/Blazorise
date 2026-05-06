@@ -2171,97 +2171,34 @@ namespace Blazorise.Docs.Models
 
         public const string GesturesBasicExample = @"<Gestures Direction=""GestureDirection.Horizontal""
           TouchAction=""GestureTouchAction.PanY""
-          Swiped=""@OnSwiped""
-          Tapped=""@OnTapped""
-          LongPressed=""@OnLongPressed"">
-    <Alert Visible=""@(!dismissed)"" Color=""@AlertColor"" Style=""user-select: none;"">
-        <Div Flex=""Flex.JustifyContent.Between.AlignItems.Start"" Gap=""Gap.Is3"">
-            <Div Flex=""Flex.AlignItems.Start"" Gap=""Gap.Is3"">
-                <Icon Name=""IconName.InfoCircle"" TextColor=""@StatusTextColor"" Margin=""Margin.Is1.FromTop"" />
-                <Div>
-                    <AlertMessage>
-                        Security update available
-                    </AlertMessage>
-                    <AlertDescription>
-                        @message
-                    </AlertDescription>
-                </Div>
+          Swiped=""@OnSwiped"">
+    <Div Border=""Border.Is1.Rounded"" Background=""Background.Light"" Padding=""Padding.Is4"" Style=""user-select: none;"">
+        <Div Flex=""Flex.JustifyContent.Between.AlignItems.Center"" Gap=""Gap.Is3"">
+            <Div>
+                <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">
+                    @Title
+                </Heading>
+                <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+                    Swipe left or right inside this area.
+                </Paragraph>
             </Div>
-            <Badge Color=""@BadgeColor"" Pill>@status</Badge>
+            <Badge Color=""@BadgeColor"" Pill>@DirectionText</Badge>
         </Div>
-    </Alert>
+    </Div>
 </Gestures>
 
-@if ( dismissed )
-{
-    <Alert Visible Color=""Color.Success"" Margin=""Margin.Is3.FromTop.Is0.FromBottom"">
-        <AlertMessage>Alert dismissed.</AlertMessage>
-        <AlertDescription>
-            The horizontal swipe was handled by <Code>Gestures</Code>.
-        </AlertDescription>
-        <Button Color=""Color.Success"" Outline Size=""Size.Small"" Margin=""Margin.Is2.FromTop"" Clicked=""@ResetAlert"">
-            Show alert again
-        </Button>
-    </Alert>
-}
-
 @code {
-    private string status = ""New"";
+    private string Title { get; set; } = ""Waiting for swipe"";
 
-    private string message = ""Tap for details, long press to pin, or swipe left or right to dismiss."";
+    private string DirectionText { get; set; } = ""None"";
 
-    private bool dismissed;
+    private Color BadgeColor { get; set; } = Color.Secondary;
 
-    private bool pinned;
-
-    private Color AlertColor { get; set; } = Color.Info;
-
-    private Color BadgeColor { get; set; } = Color.Info;
-
-    private TextColor StatusTextColor
+    private Task OnSwiped( SwipeEventArgs eventArgs )
     {
-        get
-        {
-            return pinned ? TextColor.Warning : TextColor.Info;
-        }
-    }
-
-    private Task OnSwiped( SwipeEventArgs _ )
-    {
-        dismissed = true;
-
-        return Task.CompletedTask;
-    }
-
-    private Task OnTapped( TapEventArgs _ )
-    {
-        status = ""Details"";
-        BadgeColor = Color.Primary;
-        AlertColor = Color.Primary;
-        message = ""Version 2.1.4 includes security fixes and is ready to install."";
-
-        return Task.CompletedTask;
-    }
-
-    private Task OnLongPressed( LongPressEventArgs _ )
-    {
-        pinned = true;
-        status = ""Pinned"";
-        BadgeColor = Color.Warning;
-        AlertColor = Color.Warning;
-        message = ""Pinned alerts stay visible until the user handles them explicitly."";
-
-        return Task.CompletedTask;
-    }
-
-    private Task ResetAlert()
-    {
-        dismissed = false;
-        pinned = false;
-        status = ""New"";
-        BadgeColor = Color.Info;
-        AlertColor = Color.Info;
-        message = ""Tap for details, long press to pin, or swipe left or right to dismiss."";
+        DirectionText = eventArgs.Direction.ToString();
+        Title = $""Swiped {DirectionText.ToLowerInvariant()}"";
+        BadgeColor = eventArgs.Direction == GestureDirection.Left ? Color.Primary : Color.Info;
 
         return Task.CompletedTask;
     }
@@ -2430,11 +2367,10 @@ namespace Blazorise.Docs.Models
         public const string GesturesSidebarExample = @"<Gestures Direction=""GestureDirection.Horizontal""
           TouchAction=""GestureTouchAction.PanY""
           Swiped=""@OnSwiped"">
-    <Div Flex=""Flex.Row"" Border=""Border.Is1.Rounded"" Background=""Background.Light"" Padding=""Padding.Is3"" Style=""min-height: 240px; user-select: none;"">
+    <Div Flex=""Flex.Row"" Border=""Border.Is1.Rounded"" Background=""Background.Light"" Padding=""Padding.Is3"" Height=""Height.Px( 240 )"" Style=""user-select: none;"">
         <Div Flex=""Flex.Row.Grow.Is1.AlignItems.Stretch"" Gap=""Gap.Is3"">
-            @if ( sidebarVisible )
-            {
-                <Div Background=""Background.Primary"" TextColor=""TextColor.White"" Padding=""Padding.Is3"" Border=""Border.Rounded"" Width=""Width.Px( 160 )"">
+            <Animate Animation=""Animations.SlideRight"" Duration=""@SidebarAnimationDuration"" Trigger=""AnimationTrigger.Render"" Visible=""@sidebarExpanded"" AnimateOnInitialRender=""false"" Layout=""AnimationLayout.Width"" style=""height: 100%;"">
+                <Div Height=""Height.Is100"" Background=""Background.Primary"" TextColor=""TextColor.White"" Padding=""Padding.Is3"" Border=""Border.Rounded"" Width=""@SidebarExpandedWidth"">
                     <Heading Size=""HeadingSize.Is6"" Margin=""Margin.Is0.FromBottom"">
                         Navigation
                     </Heading>
@@ -2442,7 +2378,7 @@ namespace Blazorise.Docs.Models
                         Swipe left to collapse.
                     </Paragraph>
                 </Div>
-            }
+            </Animate>
 
             <Div Flex=""Flex.Grow.Is1"" Padding=""Padding.Is2"">
                 <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">
@@ -2452,8 +2388,8 @@ namespace Blazorise.Docs.Models
                     Swipe right to expand the panel and swipe left to collapse it.
                 </Paragraph>
                 <Button Color=""Color.Primary"" Outline Clicked=""@ToggleSidebar"">
-                    <Icon Name=""@( sidebarVisible ? IconName.Compress : IconName.Expand )"" Margin=""Margin.Is2.FromEnd"" />
-                    @( sidebarVisible ? ""Collapse"" : ""Expand"" )
+                    <Icon Name=""@( sidebarExpanded ? IconName.Compress : IconName.Expand)"" Margin=""Margin.Is2.FromEnd"" />
+                    @( sidebarExpanded ? ""Collapse"" : ""Expand"" )
                 </Button>
             </Div>
         </Div>
@@ -2461,21 +2397,29 @@ namespace Blazorise.Docs.Models
 </Gestures>
 
 @code {
-    private bool sidebarVisible = true;
+    private static readonly TimeSpan SidebarAnimationDuration = TimeSpan.FromMilliseconds( 250 );
+
+    private static readonly IFluentSizing SidebarExpandedWidth = Width.Px( 160 );
+
+    private bool sidebarExpanded = true;
 
     private Task OnSwiped( SwipeEventArgs eventArgs )
     {
         if ( eventArgs.Direction == GestureDirection.Left )
-            sidebarVisible = false;
+        {
+            sidebarExpanded = false;
+        }
         else if ( eventArgs.Direction == GestureDirection.Right )
-            sidebarVisible = true;
+        {
+            sidebarExpanded = true;
+        }
 
         return Task.CompletedTask;
     }
 
     private void ToggleSidebar()
     {
-        sidebarVisible = !sidebarVisible;
+        sidebarExpanded = !sidebarExpanded;
     }
 }";
 
