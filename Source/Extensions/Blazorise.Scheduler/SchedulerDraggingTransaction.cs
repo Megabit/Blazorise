@@ -17,9 +17,13 @@ public class SchedulerDraggingTransaction<TItem> : SchedulerTransaction<TItem>
     /// <summary>
     /// Initializes a new instance of the <see cref="SchedulerDraggingTransaction{TItem}"/> class.
     /// </summary>
-    public SchedulerDraggingTransaction( Scheduler<TItem> scheduler, TItem item, SchedulerSection section )
+    public SchedulerDraggingTransaction( Scheduler<TItem> scheduler, TItem item, SchedulerSection section, DateOnly? dragAnchorDate = null )
         : base( scheduler, item, section )
     {
+        if ( dragAnchorDate is not null )
+        {
+            DragOffsetDays = ( dragAnchorDate.Value.ToDateTime( TimeOnly.MinValue ) - scheduler.GetItemStartTime( item ).Date ).Days;
+        }
     }
 
     #endregion
@@ -51,6 +55,15 @@ public class SchedulerDraggingTransaction<TItem> : SchedulerTransaction<TItem>
         if ( !success )
             throw new InvalidOperationException( "Saving the drop item failed." );
     }
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Gets the number of days between the item start date and the date from which the item drag started.
+    /// </summary>
+    public int DragOffsetDays { get; }
 
     #endregion
 }
