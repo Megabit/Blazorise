@@ -5586,7 +5586,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string AnalyzerSeverityExample = @"dotnet_diagnostic.BLZP004.severity = error";
 
-        public const string AnimateScriptsExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=2.1.1.0""></script>";
+        public const string AnimateScriptsExample = @"<!-- No script tag is required. Animate imports its JavaScript module automatically. -->";
 
         public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/bar.js?v=2.1.1.0"" type=""module""></script>
 <script src=""_content/Blazorise.AntDesign/modal.js?v=2.1.1.0"" type=""module""></script>
@@ -5800,7 +5800,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
         public const string AnimateNugetInstallExample = @"Install-Package Blazorise.Animate";
 
-        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=2.1.1.0""></script>";
+        public const string AnimateResourcesExample = @"<!-- No script tag is required. Animate imports its JavaScript module automatically. -->";
 
         public const string AutocompleteDataAnnotationValidationExample = @"@using System.ComponentModel.DataAnnotations
 

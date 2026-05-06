@@ -6,9 +6,9 @@ The public Blazor API remains compatible with previous releases. Existing animat
 
 ## Runtime Integration
 
-The vendored Motion browser bundle lives in `wwwroot/motion.js`. The Blazorise wrapper in `wwwroot/blazorise.animate.js` loads it internally by injecting `_content/Blazorise.Animate/motion.js` when the first animation is requested.
+The vendored Motion browser bundle lives in `wwwroot/motion.js`. The Blazorise wrapper in `wwwroot/animate.js` is imported by the `Animate` component as a JavaScript module and loads Motion internally by injecting `_content/Blazorise.Animate/motion.js` when the first animation is requested.
 
-The runtime exposes the stable `window.blazoriseAnimate` entry point used by the Blazor component:
+The runtime exports the module functions used by the Blazor component:
 
 - `init()` returns whether the runtime is available;
 - `animate( element, options )` starts or observes an animation for the rendered element;
@@ -16,6 +16,8 @@ The runtime exposes the stable `window.blazoriseAnimate` entry point used by the
 - `dispose( element )` cancels any animation and observer owned by the element.
 
 The Blazor component owns the runtime state and passes a typed options object to the JavaScript wrapper.
+
+`wwwroot/blazorise.animate.js` and its generated variants are obsolete compatibility shims. They only print a console warning. New code must use the Blazor component, which imports `animate.js` automatically.
 
 ## Compatibility
 
@@ -43,9 +45,9 @@ Motion is vendored from the `motion` npm package. The current vendored version i
 
 When changing the runtime:
 
-1. Update `wwwroot/blazorise.animate.js`.
+1. Update `wwwroot/animate.js`.
 2. Update `wwwroot/motion.js` only from an official `motion` npm package release.
 3. Update `MOTION_LICENSE.md` if the vendored package license changes.
-4. Regenerate minified or transpiled files only as part of the normal asset pipeline.
+4. Keep `wwwroot/blazorise.animate.js` as an obsolete compatibility shim unless the migration policy changes.
 5. Keep generated documentation snippet files untouched.
 6. Manually verify initial page load, route navigation, dynamically rendered `Animate` components, removed and reinserted components, viewport-triggered animations, and `AnimationTrigger.Render`.

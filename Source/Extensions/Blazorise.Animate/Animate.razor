@@ -1,6 +1,8 @@
+@inherits BaseComponent
+
 @if ( ShouldRenderElement )
 {
-    <div @ref="@ElementRef" id="@ElementId" data-blazorise-animate @attributes="@Attributes">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-blazorise-animate @attributes="@Attributes">
         @ChildContent
     </div>
 }

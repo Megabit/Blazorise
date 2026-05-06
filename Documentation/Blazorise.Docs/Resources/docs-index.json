@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-06T20:16:57.5700897Z",
+  "generatedUtc": "2026-05-06T20:25:41.1387450Z",
   "pages": [
     {
       "route": "/docs",
@@ -4073,9 +4073,9 @@
           "code": "AnimateResourcesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Animate/Examples/AnimateResourcesExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Animate/blazorise.animate.js?v=2.1.1.0\"></script>",
+          "content": "<!-- No script tag is required. Animate imports its JavaScript module automatically. -->",
           "title": "Static Files",
-          "description": "Add animate.js to your index.html or _Host.cshtml file, depending if you're using a Blazor WebAssembly or Blazor Server side project."
+          "description": "No script tag is required. The Animate component imports its JavaScript module automatically."
         },
         {
           "code": "AnimateExample",
@@ -8310,7 +8310,7 @@
           "code": "AnimateScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/AnimateScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Animate/blazorise.animate.js?v=2.1.1.0\"></script>"
+          "content": "<!-- No script tag is required. Animate imports its JavaScript module automatically. -->"
         },
         {
           "code": "CaptchaReCaptchaScriptsExample",

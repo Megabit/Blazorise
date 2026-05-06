@@ -1,7 +1,7 @@
 #region Using directives
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
 using Microsoft.JSInterop;
@@ -12,7 +12,7 @@ namespace Blazorise.Animate;
 /// <summary>
 /// Runs animations for any content places inside of <see cref="Animate"/>. component.
 /// </summary>
-public partial class Animate : ComponentBase
+public partial class Animate : BaseComponent, IAsyncDisposable
 {
     #region Members
 
@@ -50,6 +50,14 @@ public partial class Animate : ComponentBase
 
     #region Methods
 
+    /// <inheritdoc/>
+    protected override Task OnInitializedAsync()
+    {
+        JSModule ??= new JSAnimateModule( JSRuntime, VersionProvider, BlazoriseOptions );
+
+        return base.OnInitializedAsync();
+    }
+
     /// <summary>
     /// Gets the options from global settings.
     /// </summary>
@@ -79,6 +87,8 @@ public partial class Animate : ComponentBase
             pendingAnimation = shouldRenderElement && AnimateOnInitialRender;
             animationDirection = "in";
 
+            base.OnParametersSet();
+
             return;
         }
 
@@ -93,26 +103,28 @@ public partial class Animate : ComponentBase
                 shouldRenderElement = Auto || manuallyExecuted;
             }
         }
+
+        base.OnParametersSet();
     }
 
     /// <inheritdoc/>
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        if ( !ShouldRenderElement || !pendingAnimation )
+        if ( ShouldRenderElement && pendingAnimation )
         {
-            return;
+            pendingAnimation = false;
+
+            bool completed = await AnimateElement();
+
+            if ( completed && animationDirection == "out" && Layout == AnimationLayout.None )
+            {
+                shouldRenderElement = false;
+
+                await InvokeAsync( StateHasChanged );
+            }
         }
 
-        pendingAnimation = false;
-
-        bool completed = await AnimateElement();
-
-        if ( completed && animationDirection == "out" && Layout == AnimationLayout.None )
-        {
-            shouldRenderElement = false;
-
-            await InvokeAsync( StateHasChanged );
-        }
+        await base.OnAfterRenderAsync( firstRender );
     }
 
     /// <summary>
@@ -135,7 +147,7 @@ public partial class Animate : ComponentBase
     {
         try
         {
-            return await JSRuntime.InvokeAsync<bool>( "blazoriseAnimate.animate", ElementRef, AnimationOptions );
+            return await JSModule.Animate( ElementRef, AnimationOptions );
         }
         catch ( JSException )
         {
@@ -145,6 +157,32 @@ public partial class Animate : ComponentBase
         }
 
         return true;
+    }
+
+    /// <inheritdoc/>
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing && JSModule is not null )
+        {
+            try
+            {
+                await JSModule.DisposeElement( ElementRef );
+                await JSModule.SafeDisposeAsync();
+            }
+            catch ( JSDisconnectedException )
+            {
+            }
+            catch ( JSException )
+            {
+            }
+            catch ( InvalidOperationException )
+            {
+            }
+
+            JSModule = null;
+        }
+
+        await base.DisposeAsync( disposing );
     }
 
     #endregion
@@ -221,11 +259,6 @@ public partial class Animate : ComponentBase
         => shouldRenderElement;
 
     /// <summary>
-    /// Gets or sets the reference to the rendered element.
-    /// </summary>
-    public ElementReference ElementRef { get; set; }
-
-    /// <summary>
     /// Injects the globally configured <see cref="AnimateOptions"/>.
     /// </summary>
     [Inject] private IOptionsSnapshot<AnimateOptions> OptionsAccessor { get; set; }
@@ -236,9 +269,19 @@ public partial class Animate : ComponentBase
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     /// <summary>
-    /// Specifies the animate element id.
+    /// Gets or sets the version provider.
     /// </summary>
-    [Parameter] public string ElementId { get; set; }
+    [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the blazorise options.
+    /// </summary>
+    [Inject] private BlazoriseOptions BlazoriseOptions { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="JSAnimateModule"/> instance.
+    /// </summary>
+    protected JSAnimateModule JSModule { get; private set; }
 
     /// <summary>
     /// Specifies the animation effect.
@@ -348,12 +391,6 @@ public partial class Animate : ComponentBase
     /// be run manually with <see cref="Run"/> method.
     /// </summary>
     [Parameter] public bool Auto { get; set; } = true;
-
-    /// <summary>
-    /// Captures all the custom attribute that are not part of <see cref="Animate"/> component.
-    /// </summary>
-    [Parameter( CaptureUnmatchedValues = true )]
-    public Dictionary<string, object> Attributes { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="Animate"/>.
