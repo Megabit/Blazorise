@@ -1,0 +1,38 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div ElementId="animate-viewport-example" Padding="Padding.Is3">
+    <Div Flex="Flex.Row.Wrap" Gap="Gap.Is3">
+        <Animate Anchor="#animate-viewport-example" Animation="Animations.FadeUp" DurationMilliseconds="250" Once="true">
+            <Card Width="Width.Px( 220 )">
+                <CardBody>
+                    <CardTitle Size="HeadingSize.Is6">Profile</CardTitle>
+                    <CardText>
+                        Reveal content as it enters the viewport.
+                    </CardText>
+                </CardBody>
+            </Card>
+        </Animate>
+
+        <Animate Anchor="#animate-viewport-example" Animation="Animations.FadeUp" DurationMilliseconds="250" DelayMilliseconds="100" Once="true">
+            <Card Width="Width.Px( 220 )">
+                <CardBody>
+                    <CardTitle Size="HeadingSize.Is6">Activity</CardTitle>
+                    <CardText>
+                        Add a small delay to create a simple sequence.
+                    </CardText>
+                </CardBody>
+            </Card>
+        </Animate>
+
+        <Animate Anchor="#animate-viewport-example" Animation="Animations.FadeUp" DurationMilliseconds="250" DelayMilliseconds="200" Once="true">
+            <Card Width="Width.Px( 220 )">
+                <CardBody>
+                    <CardTitle Size="HeadingSize.Is6">Summary</CardTitle>
+                    <CardText>
+                        Keep the animation vocabulary in Blazor code.
+                    </CardText>
+                </CardBody>
+            </Card>
+        </Animate>
+    </Div>
+</Div>

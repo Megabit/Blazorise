@@ -1,0 +1,29 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Display</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Display</span><span class="enumValue">.Flex</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Flex</span><span class="enumValue">.Column</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Gap</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Gap</span><span class="enumValue">.Is3</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Outline</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ToggleDetails</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="atSign">&#64;</span>( detailsVisible ? &quot;Hide details&quot; : &quot;Show details&quot; )
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Animate</span> <span class="htmlAttributeName">Animation</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Animations</span><span class="enumValue">.FadeDown</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Trigger</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">AnimationTrigger</span><span class="enumValue">.Render</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Visible</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>detailsVisible</span><span class="quot">&quot;</span> <span class="htmlAttributeName">AnimateOnInitialRender</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DurationMilliseconds</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">220</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Alert</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Info</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Visible</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">AlertDescription</span><span class="htmlTagDelimiter">&gt;</span>
+                This content stays in normal Blazor markup. The animation is controlled by the <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span>Visible<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span> parameter.
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">AlertDescription</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Alert</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Animate</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">bool</span> detailsVisible = <span class="keyword">true</span>;
+
+    <span class="keyword">private</span> <span class="keyword">void</span> ToggleDetails()
+    {
+        detailsVisible = !detailsVisible;
+    }
+}
+</pre></div>
+</div>

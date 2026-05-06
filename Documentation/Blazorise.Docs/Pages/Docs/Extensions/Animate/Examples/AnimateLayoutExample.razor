@@ -1,0 +1,40 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div Display="Display.Flex" Flex="Flex.Column" Gap="Gap.Is3">
+    <Div>
+        <Button Color="Color.Primary" Outline Clicked="@TogglePanel">
+            @( panelVisible ? "Collapse panel" : "Expand panel" )
+        </Button>
+    </Div>
+
+    <Div Flex="Flex.Row.AlignItems.Stretch" Border="Border.Is1.Rounded" Background="Background.Light" Height="Height.Px( 220 )" Overflow="Overflow.Hidden">
+        <Animate Animation="Animations.SlideRight" Trigger="AnimationTrigger.Render" Visible="@panelVisible" AnimateOnInitialRender="false" Layout="AnimationLayout.Width" DurationMilliseconds="250" Height="Height.Is100">
+            <Div Width="Width.Px( 180 )" Height="Height.Is100" Background="Background.Primary" TextColor="TextColor.White" Padding="Padding.Is3">
+                <Heading Size="HeadingSize.Is6" Margin="Margin.Is0.FromBottom">
+                    Filters
+                </Heading>
+                <Paragraph TextColor="TextColor.White50" Margin="Margin.Is2.FromTop">
+                    Width is animated together with the slide.
+                </Paragraph>
+            </Div>
+        </Animate>
+
+        <Div Flex="Flex.Grow.Is1" Padding="Padding.Is3">
+            <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.FromBottom">
+                Results
+            </Heading>
+            <Paragraph Margin="Margin.Is2.FromTop">
+                The content area moves because the animated panel changes its occupied layout width.
+            </Paragraph>
+        </Div>
+    </Div>
+</Div>
+
+@code {
+    private bool panelVisible = true;
+
+    private void TogglePanel()
+    {
+        panelVisible = !panelVisible;
+    }
+}

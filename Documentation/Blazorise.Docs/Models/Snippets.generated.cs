@@ -5798,9 +5798,138 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
         public const string AnimateImportsExample = @"@using Blazorise.Animate";
 
+        public const string AnimateLayoutExample = @"<Div Display=""Display.Flex"" Flex=""Flex.Column"" Gap=""Gap.Is3"">
+    <Div>
+        <Button Color=""Color.Primary"" Outline Clicked=""@TogglePanel"">
+            @( panelVisible ? ""Collapse panel"" : ""Expand panel"" )
+        </Button>
+    </Div>
+
+    <Div Flex=""Flex.Row.AlignItems.Stretch"" Border=""Border.Is1.Rounded"" Background=""Background.Light"" Height=""Height.Px( 220 )"" Overflow=""Overflow.Hidden"">
+        <Animate Animation=""Animations.SlideRight"" Trigger=""AnimationTrigger.Render"" Visible=""@panelVisible"" AnimateOnInitialRender=""false"" Layout=""AnimationLayout.Width"" DurationMilliseconds=""250"" Height=""Height.Is100"">
+            <Div Width=""Width.Px( 180 )"" Height=""Height.Is100"" Background=""Background.Primary"" TextColor=""TextColor.White"" Padding=""Padding.Is3"">
+                <Heading Size=""HeadingSize.Is6"" Margin=""Margin.Is0.FromBottom"">
+                    Filters
+                </Heading>
+                <Paragraph TextColor=""TextColor.White50"" Margin=""Margin.Is2.FromTop"">
+                    Width is animated together with the slide.
+                </Paragraph>
+            </Div>
+        </Animate>
+
+        <Div Flex=""Flex.Grow.Is1"" Padding=""Padding.Is3"">
+            <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">
+                Results
+            </Heading>
+            <Paragraph Margin=""Margin.Is2.FromTop"">
+                The content area moves because the animated panel changes its occupied layout width.
+            </Paragraph>
+        </Div>
+    </Div>
+</Div>
+
+@code {
+    private bool panelVisible = true;
+
+    private void TogglePanel()
+    {
+        panelVisible = !panelVisible;
+    }
+}";
+
+        public const string AnimateManualExample = @"<Div Display=""Display.Flex"" Flex=""Flex.Column"" Gap=""Gap.Is3"">
+    <Div>
+        <Button Color=""Color.Primary"" Clicked=""@RunAnimation"">
+            Run animation
+        </Button>
+    </Div>
+
+    <Animate @ref=""@animateRef"" Auto=""false"" Animation=""Animations.ZoomIn"" Trigger=""AnimationTrigger.Render"" DurationMilliseconds=""250"">
+        <Card Width=""Width.Px( 260 )"">
+            <CardBody>
+                <CardTitle Size=""HeadingSize.Is6"">Manual animation</CardTitle>
+                <CardText>
+                    The component renders and animates when <Code>Run()</Code> is called.
+                </CardText>
+            </CardBody>
+        </Card>
+    </Animate>
+</Div>
+
+@code {
+    private Blazorise.Animate.Animate animateRef;
+
+    private void RunAnimation()
+    {
+        animateRef?.Run();
+    }
+}";
+
         public const string AnimateNugetInstallExample = @"Install-Package Blazorise.Animate";
 
         public const string AnimateResourcesExample = @"<!-- No script tag is required. Animate imports its JavaScript module automatically. -->";
+
+        public const string AnimateViewportExample = @"<Div ElementId=""animate-viewport-example"" Padding=""Padding.Is3"">
+    <Div Flex=""Flex.Row.Wrap"" Gap=""Gap.Is3"">
+        <Animate Anchor=""#animate-viewport-example"" Animation=""Animations.FadeUp"" DurationMilliseconds=""250"" Once=""true"">
+            <Card Width=""Width.Px( 220 )"">
+                <CardBody>
+                    <CardTitle Size=""HeadingSize.Is6"">Profile</CardTitle>
+                    <CardText>
+                        Reveal content as it enters the viewport.
+                    </CardText>
+                </CardBody>
+            </Card>
+        </Animate>
+
+        <Animate Anchor=""#animate-viewport-example"" Animation=""Animations.FadeUp"" DurationMilliseconds=""250"" DelayMilliseconds=""100"" Once=""true"">
+            <Card Width=""Width.Px( 220 )"">
+                <CardBody>
+                    <CardTitle Size=""HeadingSize.Is6"">Activity</CardTitle>
+                    <CardText>
+                        Add a small delay to create a simple sequence.
+                    </CardText>
+                </CardBody>
+            </Card>
+        </Animate>
+
+        <Animate Anchor=""#animate-viewport-example"" Animation=""Animations.FadeUp"" DurationMilliseconds=""250"" DelayMilliseconds=""200"" Once=""true"">
+            <Card Width=""Width.Px( 220 )"">
+                <CardBody>
+                    <CardTitle Size=""HeadingSize.Is6"">Summary</CardTitle>
+                    <CardText>
+                        Keep the animation vocabulary in Blazor code.
+                    </CardText>
+                </CardBody>
+            </Card>
+        </Animate>
+    </Div>
+</Div>";
+
+        public const string AnimateVisibilityExample = @"<Div Display=""Display.Flex"" Flex=""Flex.Column"" Gap=""Gap.Is3"">
+    <Div>
+        <Button Color=""Color.Primary"" Outline Clicked=""@ToggleDetails"">
+            @( detailsVisible ? ""Hide details"" : ""Show details"" )
+        </Button>
+    </Div>
+
+    <Animate Animation=""Animations.FadeDown"" Trigger=""AnimationTrigger.Render"" Visible=""@detailsVisible"" AnimateOnInitialRender=""false"" DurationMilliseconds=""220"">
+        <Alert Color=""Color.Info"" Visible>
+            <AlertDescription>
+                This content stays in normal Blazor markup. The animation is controlled by the <Code>Visible</Code> parameter.
+            </AlertDescription>
+        </Alert>
+    </Animate>
+</Div>
+
+@code {
+    private bool detailsVisible = true;
+
+    private void ToggleDetails()
+    {
+        detailsVisible = !detailsVisible;
+    }
+}";
 
         public const string AutocompleteDataAnnotationValidationExample = @"@using System.ComponentModel.DataAnnotations
 
