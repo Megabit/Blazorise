@@ -1,12 +1,9 @@
 "use strict";
 
-var global = window;
-
-var instances = new WeakMap();
-var motionPromise = null;
-var motionScriptId = "blazorise-motion-script";
-var motionScriptUrl = "_content/Blazorise.Animate/motion.js";
-var defaultOptions = {
+const _instances = new WeakMap();
+const motionScriptId = "blazorise-motion-script";
+const motionScriptUrl = "_content/Blazorise.Animate/motion.js";
+const defaultOptions = {
     animation: "fade",
     keyframes: null,
     easing: "ease",
@@ -24,29 +21,31 @@ var defaultOptions = {
     animatedSize: "None"
 };
 
+let motionPromise = null;
+
 function loadMotion() {
-    if (global.Motion) {
-        return Promise.resolve(global.Motion);
+    if (window.Motion) {
+        return Promise.resolve(window.Motion);
     }
 
     if (motionPromise) {
         return motionPromise;
     }
 
-    motionPromise = new Promise(function (resolve, reject) {
-        var existingScript = document.getElementById(motionScriptId);
+    motionPromise = new Promise((resolve, reject) => {
+        const existingScript = document.getElementById(motionScriptId);
 
         if (existingScript) {
-            existingScript.addEventListener("load", function () { resolve(global.Motion); });
+            existingScript.addEventListener("load", () => resolve(window.Motion));
             existingScript.addEventListener("error", reject);
             return;
         }
 
-        var script = document.createElement("script");
+        const script = document.createElement("script");
         script.id = motionScriptId;
         script.src = motionScriptUrl;
         script.async = true;
-        script.onload = function () { resolve(global.Motion); };
+        script.onload = () => resolve(window.Motion);
         script.onerror = reject;
 
         document.head.appendChild(script);
@@ -82,7 +81,7 @@ function toNumber(value, fallback) {
         return fallback;
     }
 
-    var number = Number(value);
+    const number = Number(value);
 
     return isNaN(number) ? fallback : number;
 }
@@ -128,22 +127,22 @@ function normalizeKeyframes(keyframes) {
         return defaultOptions.keyframes;
     }
 
-    var normalized = keyframes.map(normalizeFrame).filter(function (frame) {
-        return Object.keys(frame).length > 0;
-    });
+    const normalized = keyframes
+        .map(normalizeFrame)
+        .filter((frame) => Object.keys(frame).length > 0);
 
     return normalized.length >= 2 ? normalized : defaultOptions.keyframes;
 }
 
 function normalizeFrame(frame) {
-    var normalized = {};
+    const normalized = {};
 
     if (!frame) {
         return normalized;
     }
 
-    Object.keys(frame).forEach(function (key) {
-        var value = frame[key];
+    Object.keys(frame).forEach((key) => {
+        const value = frame[key];
 
         if (value !== null && value !== undefined) {
             normalized[key] = value;
@@ -188,7 +187,7 @@ function applyFrame(element, frame) {
         element.style.opacity = frame.opacity;
     }
 
-    var transform = frame.transform !== undefined ? frame.transform : createTransform(frame);
+    const transform = frame.transform !== undefined ? frame.transform : createTransform(frame);
 
     if (transform !== null) {
         element.style.transform = transform;
@@ -198,9 +197,9 @@ function applyFrame(element, frame) {
 }
 
 function createTransform(frame) {
-    var transforms = [];
-    var x = frame.x || "0";
-    var y = frame.y || "0";
+    const transforms = [];
+    const x = frame.x || "0";
+    const y = frame.y || "0";
 
     if (frame.transformPerspective !== undefined) {
         transforms.push("perspective(" + frame.transformPerspective + ")");
@@ -234,25 +233,21 @@ function createTransform(frame) {
 }
 
 function createKeyframes(settings, original, reversed) {
-    var frames = settings.keyframes || getDefaultKeyframes();
-    var keyframes = frames.map(cloneFrame);
-    var to = keyframes[keyframes.length - 1];
+    const frames = settings.keyframes || getDefaultKeyframes();
+    const keyframes = frames.map(cloneFrame);
+    const to = keyframes[keyframes.length - 1];
 
     if (to.opacity === undefined) {
         to.opacity = original.opacity || "1";
     }
 
-    if (reversed) {
-        return keyframes.reverse();
-    }
-
-    return keyframes;
+    return reversed ? keyframes.reverse() : keyframes;
 }
 
 function cloneFrame(frame) {
-    var clone = {};
+    const clone = {};
 
-    Object.keys(frame).forEach(function (key) {
+    Object.keys(frame).forEach((key) => {
         clone[key] = frame[key];
     });
 
@@ -260,22 +255,20 @@ function cloneFrame(frame) {
 }
 
 function toMotionKeyframes(keyframes) {
-    var target = {};
+    const target = {};
 
-    keyframes.forEach(function (frame) {
-        Object.keys(frame).forEach(function (key) {
+    keyframes.forEach((frame) => {
+        Object.keys(frame).forEach((key) => {
             if (!target[key]) {
                 target[key] = [];
             }
         });
     });
 
-    Object.keys(target).forEach(function (key) {
-        target[key] = keyframes.map(function (frame) {
-            return frame[key];
-        }).filter(function (value) {
-            return value !== undefined;
-        });
+    Object.keys(target).forEach((key) => {
+        target[key] = keyframes
+            .map((frame) => frame[key])
+            .filter((value) => value !== undefined);
     });
 
     return target;
@@ -298,14 +291,14 @@ function getAnchorElement(anchor) {
 }
 
 function createViewportMargin(settings) {
-    var offset = Math.max(settings.offset || 0, 0);
+    const offset = Math.max(settings.offset || 0, 0);
 
     if (settings.anchorPlacement && settings.anchorPlacement.indexOf("-top") > -1) {
         return offset + "px 0px 0px 0px";
     }
 
     if (settings.anchorPlacement && settings.anchorPlacement.indexOf("-center") > -1) {
-        return "0px 0px -" + Math.max(Math.round(global.innerHeight / 2) - offset, 0) + "px 0px";
+        return "0px 0px -" + Math.max(Math.round(window.innerHeight / 2) - offset, 0) + "px 0px";
     }
 
     return "0px 0px -" + offset + "px 0px";
@@ -324,9 +317,9 @@ function getVisualElement(element, settings) {
 }
 
 function measureLayoutSize(element, settings) {
-    var isWidth = settings.animatedSize === "Width";
-    var rect = element.getBoundingClientRect();
-    var size = isWidth ? rect.width : rect.height;
+    const isWidth = settings.animatedSize === "Width";
+    let rect = element.getBoundingClientRect();
+    let size = isWidth ? rect.width : rect.height;
 
     if (!size) {
         size = isWidth ? element.scrollWidth : element.scrollHeight;
@@ -345,11 +338,11 @@ function createLayoutTarget(element, settings, reversed) {
         return null;
     }
 
-    var property = settings.animatedSize === "Width" ? "width" : "height";
-    var minProperty = settings.animatedSize === "Width" ? "minWidth" : "minHeight";
-    var expanded = measureLayoutSize(element, settings) + "px";
-    var collapsed = "0px";
-    var target = {};
+    const property = settings.animatedSize === "Width" ? "width" : "height";
+    const minProperty = settings.animatedSize === "Width" ? "minWidth" : "minHeight";
+    const expanded = measureLayoutSize(element, settings) + "px";
+    const collapsed = "0px";
+    const target = {};
 
     target[property] = reversed ? [expanded, collapsed] : [collapsed, expanded];
     target[minProperty] = reversed ? [expanded, collapsed] : [collapsed, expanded];
@@ -382,8 +375,8 @@ function applyLayoutFrame(element, target, index) {
 }
 
 function restoreExpandedLayoutStyles(element, original, settings) {
-    var property = settings.animatedSize === "Width" ? "width" : "height";
-    var minProperty = settings.animatedSize === "Width" ? "minWidth" : "minHeight";
+    const property = settings.animatedSize === "Width" ? "width" : "height";
+    const minProperty = settings.animatedSize === "Width" ? "minWidth" : "minHeight";
 
     element.removeAttribute("data-blazorise-animate-collapsed");
     element.style.overflow = original.overflow;
@@ -423,7 +416,7 @@ function stopAnimation(animation) {
 }
 
 function cleanup(element) {
-    var instance = instances.get(element);
+    const instance = _instances.get(element);
 
     if (!instance) {
         return;
@@ -436,20 +429,20 @@ function cleanup(element) {
     instance.cancelled = true;
 
     stopAnimation(instance.animation);
-    instances.delete(element);
+    _instances.delete(element);
 }
 
 function runAnimation(motion, element, settings, original, reversed, completed, isCancelled) {
-    var visualElement = getVisualElement(element, settings);
-    var visualOriginal = visualElement === element ? original : readOriginalStyles(visualElement);
-    var keyframes = createKeyframes(settings, visualOriginal, reversed);
-    var target = toMotionKeyframes(keyframes);
-    var layoutTarget = createLayoutTarget(element, settings, reversed);
-    var animations = [];
-    var pendingAnimations = 0;
-    var resolved = false;
-    var resolveFinished;
-    var finished = new Promise(function (resolve) {
+    const visualElement = getVisualElement(element, settings);
+    const visualOriginal = visualElement === element ? original : readOriginalStyles(visualElement);
+    const keyframes = createKeyframes(settings, visualOriginal, reversed);
+    const target = toMotionKeyframes(keyframes);
+    const layoutTarget = createLayoutTarget(element, settings, reversed);
+    const animations = [];
+    let pendingAnimations = 0;
+    let resolved = false;
+    let resolveFinished;
+    const finished = new Promise((resolve) => {
         resolveFinished = resolve;
     });
 
@@ -463,7 +456,7 @@ function runAnimation(motion, element, settings, original, reversed, completed, 
     visualElement.style.transformOrigin = visualOriginal.transformOrigin || "center center";
     visualElement.style.backfaceVisibility = visualOriginal.backfaceVisibility || "hidden";
 
-    var finish = function () {
+    const finish = () => {
         if (resolved) {
             return;
         }
@@ -497,7 +490,7 @@ function runAnimation(motion, element, settings, original, reversed, completed, 
         resolveFinished(true);
     };
 
-    var completeAnimation = function () {
+    const completeAnimation = () => {
         pendingAnimations--;
 
         if (pendingAnimations <= 0) {
@@ -505,8 +498,8 @@ function runAnimation(motion, element, settings, original, reversed, completed, 
         }
     };
 
-    var startAnimation = function (targetElement, animationTarget) {
-        var keys = Object.keys(animationTarget);
+    const startAnimation = (targetElement, animationTarget) => {
+        const keys = Object.keys(animationTarget);
 
         if (keys.length === 0) {
             return;
@@ -514,8 +507,8 @@ function runAnimation(motion, element, settings, original, reversed, completed, 
 
         pendingAnimations++;
 
-        var animationCompleted = false;
-        var markAnimationComplete = function () {
+        let animationCompleted = false;
+        const markAnimationComplete = () => {
             if (animationCompleted) {
                 return;
             }
@@ -523,7 +516,7 @@ function runAnimation(motion, element, settings, original, reversed, completed, 
             animationCompleted = true;
             completeAnimation();
         };
-        var animation = motion.animate(targetElement, animationTarget, {
+        const animation = motion.animate(targetElement, animationTarget, {
             duration: settings.duration / 1000,
             delay: settings.delay / 1000,
             ease: resolveEasing(settings.easingValue || settings.easing),
@@ -545,7 +538,7 @@ function runAnimation(motion, element, settings, original, reversed, completed, 
         startAnimation(element, layoutTarget);
     }
 
-    global.setTimeout(finish, settings.delay + settings.duration + 100);
+    window.setTimeout(finish, settings.delay + settings.duration + 100);
 
     return {
         animation: animations,
@@ -554,19 +547,17 @@ function runAnimation(motion, element, settings, original, reversed, completed, 
 }
 
 function setupInView(motion, element, settings, original, instance) {
-    var target = getAnchorElement(settings.anchor) || element;
+    const target = getAnchorElement(settings.anchor) || element;
 
     applyFrame(element, createKeyframes(settings, original, false)[0]);
 
-    instance.stop = motion.inView(target, function () {
+    instance.stop = motion.inView(target, () => {
         if (!instance.animated) {
             stopAnimation(instance.animation);
 
-            var enterResult = runAnimation(motion, element, settings, original, false, function () {
+            const enterResult = runAnimation(motion, element, settings, original, false, () => {
                 instance.animated = true;
-            }, function () {
-                return instance.cancelled;
-            });
+            }, () => instance.cancelled);
             instance.animation = enterResult.animation;
         }
 
@@ -574,15 +565,13 @@ function setupInView(motion, element, settings, original, instance) {
             return;
         }
 
-        return function (leaveInfo) {
+        return (leaveInfo) => {
             if (settings.mirror && leaveInfo.boundingClientRect.top < 0) {
                 stopAnimation(instance.animation);
 
-                var exitResult = runAnimation(motion, element, settings, original, true, function () {
+                const exitResult = runAnimation(motion, element, settings, original, true, () => {
                     instance.animated = false;
-                }, function () {
-                    return instance.cancelled;
-                });
+                }, () => instance.cancelled);
                 instance.animation = exitResult.animation;
             } else if (leaveInfo.boundingClientRect.top > 0) {
                 stopAnimation(instance.animation);
@@ -597,9 +586,7 @@ function setupInView(motion, element, settings, original, instance) {
 }
 
 export function init() {
-    return loadMotion().then(function () {
-        return true;
-    });
+    return loadMotion().then(() => true);
 }
 
 export function refresh() {
@@ -613,28 +600,26 @@ export function animate(element, options) {
 
     cleanup(element);
 
-    var settings = normalizeOptions(options);
-    var original = readOriginalStyles(element);
-    var instance = {
+    const settings = normalizeOptions(options);
+    const original = readOriginalStyles(element);
+    const instance = {
         animation: null,
         stop: null,
         animated: false,
         cancelled: false
     };
 
-    instances.set(element, instance);
+    _instances.set(element, instance);
 
-    return loadMotion().then(function (motion) {
+    return loadMotion().then((motion) => {
         if (!motion || !motion.animate || !motion.inView) {
             return true;
         }
 
         if (settings.trigger === "Render" || settings.direction === "out") {
-            var result = runAnimation(motion, element, settings, original, settings.direction === "out", function () {
+            const result = runAnimation(motion, element, settings, original, settings.direction === "out", () => {
                 instance.animated = settings.direction !== "out";
-            }, function () {
-                return instance.cancelled;
-            });
+            }, () => instance.cancelled);
             instance.animation = result.animation;
 
             return settings.waitForCompletion ? result.finished : true;
