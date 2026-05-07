@@ -18,16 +18,18 @@
         </Tooltip>
     </Div>
 }
-<Div Class="@ClassNames" Border="@(Outlined ? ShowFrame ? Border.Is1.OnAll : Border.Is1.RoundedTop : null)">
-    <Div Class="b-docs-page-section-content-inner">
+<Div Padding="@ContentPadding" Display="Display.Flex" Flex="Flex.JustifyContent.Start" Position="Position.Relative" Border="@ContentBorder">
+    <Div Width="@ContentWidth" Position="Position.Relative">
         @if ( FrameView == "desktop" )
         {
             @ChildContent
         }
         else
         {
-            <Div Height="Height.Px(500)" Background="Background.Light">
-                <iframe src="@FrameUrl" style="@FrameStyle" />
+            <Div Height="Height.Px(500)" Background="Background.Light" Flex="Flex.JustifyContent.Center" Width="Width.Is100">
+                <Div Height="Height.Is100" Width="@FrameWidth">
+                    <iframe src="@FrameUrl" width="100%" height="100%"></iframe>
+                </Div>
             </Div>
         }
     </Div>

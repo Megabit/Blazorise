@@ -1,6 +1,6 @@
 ﻿#region Using directives
-using System.Text;
 using System.Threading.Tasks;
+using Blazorise;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -34,50 +34,33 @@ public partial class DocsPageSectionContent
 
     #region Properties
 
-    protected string FrameStyle
-    {
-        get
-        {
-            var sb = new StringBuilder( "margin-left: auto; margin-right: auto; display: block; vertical-align: middle; height: 100%;" );
-
-            sb.Append( FrameWidth );
-
-            return sb.ToString();
-        }
-    }
     private string FrameView { get; set; } = "desktop";
 
-    private string FrameWidth
+    private IFluentSizing FrameWidth
     {
         get
         {
             switch ( FrameView )
             {
                 case "tablet":
-                    return "width: 768px;";
+                    return Width.Px( 768 );
                 case "mobile":
-                    return "width: 425px;";
+                    return Width.Px( 425 );
                 default:
-                    return "width: 100%;";
+                    return Width.Is100;
             }
         }
     }
 
-    private string ClassNames
-    {
-        get
-        {
-            var sb = new StringBuilder( "b-docs-page-section-content" );
+    private IFluentSpacing ContentPadding => Outlined
+        ? Padding.Is3
+        : Padding.Is3.OnY.Is3.FromEnd;
 
-            if ( Outlined )
-                sb.Append( " b-docs-page-section-content-outlined" );
+    private IFluentSizing ContentWidth => FullWidth ? Width.Is100 : null;
 
-            if ( FullWidth )
-                sb.Append( " b-docs-page-section-content-fullwidth" );
-
-            return sb.ToString();
-        }
-    }
+    private IFluentBorder ContentBorder => Outlined
+        ? ShowFrame ? Border.Is1.OnAll : Border.Is1.RoundedTop
+        : null;
 
     bool ShowFrame => !string.IsNullOrEmpty( FrameUrl );
 

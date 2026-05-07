@@ -2,7 +2,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Blazorise.Docs.Models;
 using Microsoft.AspNetCore.Components;
@@ -55,24 +54,9 @@ public partial class DocsPageSectionSource
 
     #region Properties
 
-    private string SourceCodeClassNames
-    {
-        get
-        {
-            var sb = new StringBuilder( "b-docs-page-section-source-code" );
-
-            if ( ShowCode )
-                sb.Append( " b-docs-page-section-source-code-show" );
-            else
-                sb.Append( " b-docs-page-section-source-code-hide" );
-
-            return sb.ToString();
-        }
-    }
+    private IFluentDisplay SourceCodeDisplay => ShowCode ? Display.Block : Display.None;
 
     private string CurrentCode { get; set; }
-
-    private TextColor ButtonColor => ShowCode ? TextColor.White : TextColor.Dark;
 
     [Inject] public INotificationService NotificationService { get; set; }
 

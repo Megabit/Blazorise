@@ -1,17 +1,17 @@
-﻿<Div Class="b-docs-page-section-source">
-    <Div Class="b-docs-page-section-source-toolbar">
+﻿<Div Position="Position.Relative" Height="Height.Is100">
+    <Div Position="Position.Absolute.Top.Is0.End.Is0">
         <Tooltip Text="@(ShowCode ? "Hide code example" : "Show code example")" Inline>
-            <Button Clicked="@OnToggleCode">
+            <Button TextColor="TextColor.Secondary" Clicked="@OnToggleCode">
                 <Icon Name="IconName.Code" />
             </Button>
         </Tooltip>
         <Tooltip Text="Copy code" Inline>
-            <Button Clicked="@OnCopyCode">
+            <Button TextColor="TextColor.Secondary" Clicked="@OnCopyCode">
                 <Icon Name="@("fas fa-copy")" />
             </Button>
         </Tooltip>
     </Div>
-    <Div Class="@SourceCodeClassNames">
+    <Div Height="Height.Is100" Display="@SourceCodeDisplay">
         @CodeComponent( CurrentCode )
     </Div>
 </Div>
