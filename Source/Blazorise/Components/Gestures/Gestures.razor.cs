@@ -11,7 +11,7 @@ namespace Blazorise;
 /// <summary>
 /// Detects pointer-based gestures on the wrapped content.
 /// </summary>
-public partial class Gestures : BaseComponent, IDisposable, IAsyncDisposable
+public partial class Gestures : BaseComponent, IAsyncDisposable
 {
     #region Members
 
@@ -44,24 +44,6 @@ public partial class Gestures : BaseComponent, IDisposable, IAsyncDisposable
         }
 
         base.OnParametersSet();
-    }
-
-    /// <inheritdoc/>
-    protected override void Dispose( bool disposing )
-    {
-        if ( disposing )
-        {
-            if ( jsInitialized )
-            {
-                jsInitialized = false;
-                _ = JSGesturesModule.Destroy( ElementRef, ElementId );
-            }
-
-            DisposeDotNetObjectRef( dotNetObjectRef );
-            dotNetObjectRef = null;
-        }
-
-        base.Dispose( disposing );
     }
 
     /// <inheritdoc/>
@@ -137,7 +119,7 @@ public partial class Gestures : BaseComponent, IDisposable, IAsyncDisposable
         => LongPressed.InvokeAsync( eventArgs );
 
     private GesturesJSOptions CreateOptions()
-        => new GesturesJSOptions()
+        => new()
         {
             Disabled = Disabled,
             Direction = Direction,
