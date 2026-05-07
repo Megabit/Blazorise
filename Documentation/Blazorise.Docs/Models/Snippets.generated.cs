@@ -4077,7 +4077,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         </StepPanel>
     </Content>
 </Steps>
-<Div Display=""Display.Flex"" Class=""justify-content-center"">
+<Div Flex=""Flex.JustifyContent.Center"">
     <Button Color=""Color.Secondary"" Margin=""Margin.Is2.FromEnd"" Clicked=""() => stepsRef.PreviousStep()"">
         Previous
     </Button>

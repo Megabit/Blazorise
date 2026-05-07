@@ -12,20 +12,20 @@
             }
             @if ( Description != null )
             {
-                <Paragraph Class="lead">
+                <Paragraph TextSize="TextSize.Large">
                     @Description
                 </Paragraph>
             }
             @if ( Actions != null )
             {
                 <Div Flex="@ButtonFlex">
-                   @Actions
+                    @Actions
                 </Div>
             }
         </Column>
     </Row>
 </Container>
-@code{
+@code {
     private IFluentFlex RowFlex => Reversed
         ? Flex.ReverseRow.OnWidescreen.AlignItems.Center
         : Flex.Row.OnWidescreen.AlignItems.Center;
