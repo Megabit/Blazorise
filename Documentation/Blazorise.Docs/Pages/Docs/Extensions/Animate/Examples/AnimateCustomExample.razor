@@ -1,0 +1,38 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div Display="Display.Flex" Flex="Flex.Column" Gap="Gap.Is3">
+    <Div>
+        <Button Color="Color.Primary" Clicked="@RunAnimation">
+            Run custom animation
+        </Button>
+    </Div>
+
+    <Animate @ref="@animateRef" Auto="false" Animation="@SoftEnter" Trigger="AnimationTrigger.Render" DurationMilliseconds="360">
+        <Card Width="Width.Px( 320 )">
+            <CardBody>
+                <CardTitle Size="HeadingSize.Is6">Custom keyframes</CardTitle>
+                <CardText>
+                    This animation is defined in C# with opacity, translation, scale, and rotation keyframes.
+                </CardText>
+            </CardBody>
+        </Card>
+    </Animate>
+</Div>
+
+@code {
+    private static readonly IAnimation SoftEnter = new AnimationDefinition(
+        "soft-enter",
+        new[]
+        {
+            new AnimationFrame { Opacity = 0, Y = "1rem", Scale = 0.96, Rotate = "-2deg" },
+            new AnimationFrame { Opacity = 0.7, Y = "0.25rem", Scale = 1.02, Rotate = "1deg" },
+            new AnimationFrame { Opacity = 1, Y = "0", Scale = 1, Rotate = "0deg" },
+        } );
+
+    private Blazorise.Animate.Animate animateRef;
+
+    private void RunAnimation()
+    {
+        animateRef?.Run();
+    }
+}

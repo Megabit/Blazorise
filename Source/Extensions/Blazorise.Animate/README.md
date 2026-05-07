@@ -35,6 +35,27 @@ The default trigger is viewport based to preserve existing scroll-reveal behavio
 
 `AnimatedSize` can be set to `AnimatedSize.Width` or `AnimatedSize.Height` when the element should animate its occupied size as part of a visibility transition. This is intended for components such as sidebars, drawers, or vertical disclosure panels where a transform-only animation would visually move the content while still reserving its original space.
 
+## Custom Animations
+
+`IAnimation` remains the stable animation contract. Existing implementations only need to provide `Name`.
+
+For animations that should carry their own runtime keyframes, implement `IAnimationDefinition` or use `AnimationDefinition`:
+
+```csharp
+public static class AppAnimations
+{
+    public static IAnimation SoftEnter => new AnimationDefinition(
+        "soft-enter",
+        new[]
+        {
+            new AnimationFrame { Opacity = 0, Y = "1rem", Scale = 0.98 },
+            new AnimationFrame { Opacity = 1, Y = "0", Scale = 1 },
+        } );
+}
+```
+
+The `Animate` component sends structured keyframes to the JavaScript module when available. If keyframes are missing or invalid, the runtime falls back to a simple fade animation.
+
 ## Motion Notes
 
 The wrapper uses Motion's `animate()` API for element animations and Motion's `inView()` API for viewport-triggered animations. Application code should continue to reference only Blazorise's `Animate` component.

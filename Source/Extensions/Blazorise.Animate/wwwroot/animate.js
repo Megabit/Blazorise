@@ -8,6 +8,7 @@ var motionScriptId = "blazorise-motion-script";
 var motionScriptUrl = "_content/Blazorise.Animate/motion.js";
 var defaultOptions = {
     animation: "fade",
+    keyframes: null,
     easing: "ease",
     duration: 400,
     delay: 0,
@@ -81,6 +82,7 @@ function normalizeOptions(options) {
 
     return {
         animation: options.animation || defaultOptions.animation,
+        keyframes: normalizeKeyframes(options.keyframes),
         easing: options.easing || defaultOptions.easing,
         duration: toNumber(options.duration, defaultOptions.duration),
         delay: toNumber(options.delay, defaultOptions.delay),
@@ -124,6 +126,36 @@ function toBoolean(value, fallback) {
 
 function resolveEasing(easing) {
     return easingMap[easing] || easingMap[String(easing).toLowerCase()] || easingMap.ease;
+}
+
+function normalizeKeyframes(keyframes) {
+    if (!Array.isArray(keyframes) || keyframes.length < 2) {
+        return defaultOptions.keyframes;
+    }
+
+    var normalized = keyframes.map(normalizeFrame).filter(function (frame) {
+        return Object.keys(frame).length > 0;
+    });
+
+    return normalized.length >= 2 ? normalized : defaultOptions.keyframes;
+}
+
+function normalizeFrame(frame) {
+    var normalized = {};
+
+    if (!frame) {
+        return normalized;
+    }
+
+    Object.keys(frame).forEach(function (key) {
+        var value = frame[key];
+
+        if (value !== null && value !== undefined) {
+            normalized[key] = value;
+        }
+    });
+
+    return normalized;
 }
 
 function readOriginalStyles(element) {
@@ -195,23 +227,31 @@ function createTransform(frame) {
         transforms.push("rotateY(" + frame.rotateY + ")");
     }
 
+    if (frame.rotate !== undefined) {
+        transforms.push("rotate(" + frame.rotate + ")");
+    }
+
+    if (frame.rotateZ !== undefined) {
+        transforms.push("rotateZ(" + frame.rotateZ + ")");
+    }
+
     return transforms.length > 0 ? transforms.join(" ") : null;
 }
 
-function createKeyframes(animation, original, reversed) {
-    var frames = getAnimationFrames(animation);
-    var from = cloneFrame(frames[0]);
-    var to = cloneFrame(frames[1]);
+function createKeyframes(settings, original, reversed) {
+    var frames = settings.keyframes || getDefaultKeyframes();
+    var keyframes = frames.map(cloneFrame);
+    var to = keyframes[keyframes.length - 1];
 
     if (to.opacity === undefined) {
         to.opacity = original.opacity || "1";
     }
 
     if (reversed) {
-        return [to, from];
+        return keyframes.reverse();
     }
 
-    return [from, to];
+    return keyframes;
 }
 
 function cloneFrame(frame) {
@@ -246,65 +286,8 @@ function toMotionKeyframes(keyframes) {
     return target;
 }
 
-function getAnimationFrames(animation) {
-    switch (animation) {
-        case "fade-up":
-            return [{ opacity: 0, y: "100px" }, { opacity: 1, y: "0px" }];
-        case "fade-down":
-            return [{ opacity: 0, y: "-100px" }, { opacity: 1, y: "0px" }];
-        case "fade-left":
-            return [{ opacity: 0, x: "100px" }, { opacity: 1, x: "0px" }];
-        case "fade-right":
-            return [{ opacity: 0, x: "-100px" }, { opacity: 1, x: "0px" }];
-        case "fade-up-right":
-            return [{ opacity: 0, x: "-100px", y: "100px" }, { opacity: 1, x: "0px", y: "0px" }];
-        case "fade-up-left":
-            return [{ opacity: 0, x: "100px", y: "100px" }, { opacity: 1, x: "0px", y: "0px" }];
-        case "fade-down-right":
-            return [{ opacity: 0, x: "-100px", y: "-100px" }, { opacity: 1, x: "0px", y: "0px" }];
-        case "fade-down-left":
-            return [{ opacity: 0, x: "100px", y: "-100px" }, { opacity: 1, x: "0px", y: "0px" }];
-        case "flip-up":
-            return [{ opacity: 0, transformPerspective: "2500px", rotateX: "-100deg" }, { opacity: 1, transformPerspective: "2500px", rotateX: "0deg" }];
-        case "flip-down":
-            return [{ opacity: 0, transformPerspective: "2500px", rotateX: "100deg" }, { opacity: 1, transformPerspective: "2500px", rotateX: "0deg" }];
-        case "flip-left":
-            return [{ opacity: 0, transformPerspective: "2500px", rotateY: "-100deg" }, { opacity: 1, transformPerspective: "2500px", rotateY: "0deg" }];
-        case "flip-right":
-            return [{ opacity: 0, transformPerspective: "2500px", rotateY: "100deg" }, { opacity: 1, transformPerspective: "2500px", rotateY: "0deg" }];
-        case "slide-up":
-            return [{ y: "100%" }, { y: "0%" }];
-        case "slide-down":
-            return [{ y: "-100%" }, { y: "0%" }];
-        case "slide-left":
-            return [{ x: "100%" }, { x: "0%" }];
-        case "slide-right":
-            return [{ x: "-100%" }, { x: "0%" }];
-        case "zoom-in":
-            return [{ opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1 }];
-        case "zoom-in-up":
-            return [{ opacity: 0, y: "100px", scale: 0.6 }, { opacity: 1, y: "0px", scale: 1 }];
-        case "zoom-in-down":
-            return [{ opacity: 0, y: "-100px", scale: 0.6 }, { opacity: 1, y: "0px", scale: 1 }];
-        case "zoom-in-left":
-            return [{ opacity: 0, x: "100px", scale: 0.6 }, { opacity: 1, x: "0px", scale: 1 }];
-        case "zoom-in-right":
-            return [{ opacity: 0, x: "-100px", scale: 0.6 }, { opacity: 1, x: "0px", scale: 1 }];
-        case "zoom-out":
-            return [{ opacity: 0, scale: 1.2 }, { opacity: 1, scale: 1 }];
-        case "zoom-out-up":
-            return [{ opacity: 0, y: "100px", scale: 1.2 }, { opacity: 1, y: "0px", scale: 1 }];
-        case "zoom-out-down":
-            return [{ opacity: 0, y: "-100px", scale: 1.2 }, { opacity: 1, y: "0px", scale: 1 }];
-        case "zoom-out-left":
-            return [{ opacity: 0, x: "100px", scale: 1.2 }, { opacity: 1, x: "0px", scale: 1 }];
-        case "zoom-out-right":
-            return [{ opacity: 0, x: "-100px", scale: 1.2 }, { opacity: 1, x: "0px", scale: 1 }];
-        case "fade":
-        case "fade-in":
-        default:
-            return [{ opacity: 0 }, { opacity: 1 }];
-    }
+function getDefaultKeyframes() {
+    return [{ opacity: 0 }, { opacity: 1 }];
 }
 
 function getAnchorElement(anchor) {
@@ -464,7 +447,7 @@ function cleanup(element) {
 function runAnimation(motion, element, settings, original, reversed, completed, isCancelled) {
     var visualElement = getVisualElement(element, settings);
     var visualOriginal = visualElement === element ? original : readOriginalStyles(visualElement);
-    var keyframes = createKeyframes(settings.animation, visualOriginal, reversed);
+    var keyframes = createKeyframes(settings, visualOriginal, reversed);
     var target = toMotionKeyframes(keyframes);
     var layoutTarget = createLayoutTarget(element, settings, reversed);
     var animations = [];
@@ -498,7 +481,7 @@ function runAnimation(motion, element, settings, original, reversed, completed, 
         }
 
         if (reversed) {
-            applyFrame(visualElement, keyframes[1]);
+            applyFrame(visualElement, keyframes[keyframes.length - 1]);
             applyLayoutFrame(element, layoutTarget, 1);
 
             if (layoutTarget) {
@@ -578,7 +561,7 @@ function runAnimation(motion, element, settings, original, reversed, completed, 
 function setupInView(motion, element, settings, original, instance) {
     var target = getAnchorElement(settings.anchor) || element;
 
-    applyFrame(element, createKeyframes(settings.animation, original, false)[0]);
+    applyFrame(element, createKeyframes(settings, original, false)[0]);
 
     instance.stop = motion.inView(target, function () {
         if (!instance.animated) {
@@ -608,7 +591,7 @@ function setupInView(motion, element, settings, original, instance) {
                 instance.animation = exitResult.animation;
             } else if (leaveInfo.boundingClientRect.top > 0) {
                 stopAnimation(instance.animation);
-                applyFrame(element, createKeyframes(settings.animation, original, false)[0]);
+                applyFrame(element, createKeyframes(settings, original, false)[0]);
                 instance.animated = false;
             }
         };

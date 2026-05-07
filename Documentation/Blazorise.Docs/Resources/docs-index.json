@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-07T08:04:50.2134009Z",
+  "generatedUtc": "2026-05-07T08:23:09.6612634Z",
   "pages": [
     {
       "route": "/docs",
@@ -4108,6 +4108,14 @@
           "content": "<Div Display=\"Display.Flex\" Flex=\"Flex.Column\" Gap=\"Gap.Is3\">\r\n    <Div>\r\n        <Button Color=\"Color.Primary\" Outline Clicked=\"@TogglePanel\">\r\n            @( panelVisible ? \"Collapse panel\" : \"Expand panel\" )\r\n        </Button>\r\n    </Div>\r\n\r\n    <Div Flex=\"Flex.Row.AlignItems.Stretch\" Border=\"Border.Is1.Rounded\" Background=\"Background.Light\" Height=\"Height.Px( 220 )\" Overflow=\"Overflow.Hidden\">\r\n        <Animate Animation=\"Animations.SlideRight\" Trigger=\"AnimationTrigger.Render\" Visible=\"@panelVisible\" AnimateOnInitialRender=\"false\" AnimatedSize=\"AnimatedSize.Width\" DurationMilliseconds=\"250\" Height=\"Height.Is100\">\r\n            <Div Width=\"Width.Px( 180 )\" Height=\"Height.Is100\" Background=\"Background.Primary\" TextColor=\"TextColor.White\" Padding=\"Padding.Is3\">\r\n                <Heading Size=\"HeadingSize.Is6\" Margin=\"Margin.Is0.FromBottom\">\r\n                    Filters\r\n                </Heading>\r\n                <Paragraph TextColor=\"TextColor.White50\" Margin=\"Margin.Is2.FromTop\">\r\n                    Width is animated together with the slide.\r\n                </Paragraph>\r\n            </Div>\r\n        </Animate>\r\n\r\n        <Div Flex=\"Flex.Grow.Is1\" Padding=\"Padding.Is3\">\r\n            <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is0.FromBottom\">\r\n                Results\r\n            </Heading>\r\n            <Paragraph Margin=\"Margin.Is2.FromTop\">\r\n                The content area moves because the animated panel changes its occupied width.\r\n            </Paragraph>\r\n        </Div>\r\n    </Div>\r\n</Div>\r\n\r\n@code {\r\n    private bool panelVisible = true;\r\n\r\n    private void TogglePanel()\r\n    {\r\n        panelVisible = !panelVisible;\r\n    }\r\n}",
           "title": "Animated Size",
           "description": "Use AnimatedSize when the animated element should also change the space it occupies, such as a drawer, sidebar, or disclosure panel."
+        },
+        {
+          "code": "AnimateCustomExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Animate/Examples/AnimateCustomExample.razor",
+          "content": "<Div Display=\"Display.Flex\" Flex=\"Flex.Column\" Gap=\"Gap.Is3\">\r\n    <Div>\r\n        <Button Color=\"Color.Primary\" Clicked=\"@RunAnimation\">\r\n            Run custom animation\r\n        </Button>\r\n    </Div>\r\n\r\n    <Animate @ref=\"@animateRef\" Auto=\"false\" Animation=\"@SoftEnter\" Trigger=\"AnimationTrigger.Render\" DurationMilliseconds=\"360\">\r\n        <Card Width=\"Width.Px( 320 )\">\r\n            <CardBody>\r\n                <CardTitle Size=\"HeadingSize.Is6\">Custom keyframes</CardTitle>\r\n                <CardText>\r\n                    This animation is defined in C# with opacity, translation, scale, and rotation keyframes.\r\n                </CardText>\r\n            </CardBody>\r\n        </Card>\r\n    </Animate>\r\n</Div>\r\n\r\n@code {\r\n    private static readonly IAnimation SoftEnter = new AnimationDefinition(\r\n        \"soft-enter\",\r\n        new[]\r\n        {\r\n            new AnimationFrame { Opacity = 0, Y = \"1rem\", Scale = 0.96, Rotate = \"-2deg\" },\r\n            new AnimationFrame { Opacity = 0.7, Y = \"0.25rem\", Scale = 1.02, Rotate = \"1deg\" },\r\n            new AnimationFrame { Opacity = 1, Y = \"0\", Scale = 1, Rotate = \"0deg\" },\r\n        } );\r\n\r\n    private Blazorise.Animate.Animate animateRef;\r\n\r\n    private void RunAnimation()\r\n    {\r\n        animateRef?.Run();\r\n    }\r\n}",
+          "title": "Custom Keyframes",
+          "description": "Use AnimationDefinition when an animation should be defined in C# instead of by a built-in animation name."
         },
         {
           "code": "AnimateManualExample",

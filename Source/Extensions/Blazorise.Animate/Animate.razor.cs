@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -209,10 +210,22 @@ public partial class Animate : BaseComponent, IAsyncDisposable
     #region Properties
 
     /// <summary>
+    /// Gets the configured animation.
+    /// </summary>
+    private IAnimation AnimationValue
+        => Animation ?? GetOptions()?.Animation;
+
+    /// <summary>
     /// Gets the animation name.
     /// </summary>
     private string AnimationName
-        => Animation?.Name ?? GetOptions()?.Animation?.Name ?? string.Empty;
+        => AnimationValue?.Name ?? string.Empty;
+
+    /// <summary>
+    /// Gets the animation keyframes.
+    /// </summary>
+    private IReadOnlyList<AnimationFrame> AnimationKeyframes
+        => Animations.GetKeyframes( AnimationValue );
 
     /// <summary>
     /// Gets the easing name.
@@ -258,6 +271,7 @@ public partial class Animate : BaseComponent, IAsyncDisposable
         {
             animation = AnimationName,
             easing = EasingName,
+            keyframes = AnimationKeyframes,
             duration = DurationMillisecondsValue,
             delay = DelayMillisecondsValue,
             mirror = MirrorValue,
