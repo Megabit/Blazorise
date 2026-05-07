@@ -65,6 +65,9 @@ public abstract class BaseColumnComponent<TClasses, TStyles> : BaseComponent<TCl
         get => columnSize;
         set
         {
+            if ( columnSize == value )
+                return;
+
             columnSize = value;
 
             DirtyClasses();

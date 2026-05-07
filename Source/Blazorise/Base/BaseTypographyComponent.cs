@@ -57,6 +57,9 @@ public abstract class BaseTypographyComponent : BaseComponent
         get => italic;
         set
         {
+            if ( italic == value )
+                return;
+
             italic = value;
 
             DirtyClasses();

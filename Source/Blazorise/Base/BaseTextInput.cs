@@ -127,6 +127,9 @@ public abstract class BaseTextInput<TValue, TClasses, TStyles> : BaseInputCompon
         get => color;
         set
         {
+            if ( color == value )
+                return;
+
             color = value;
 
             DirtyClasses();
