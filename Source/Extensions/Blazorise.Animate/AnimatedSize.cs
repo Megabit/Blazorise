@@ -1,12 +1,12 @@
 namespace Blazorise.Animate;
 
 /// <summary>
-/// Defines which layout dimension should be animated together with the configured animation.
+/// Defines which size dimension should be animated together with the configured animation.
 /// </summary>
-public enum AnimationLayout
+public enum AnimatedSize
 {
     /// <summary>
-    /// Does not animate layout dimensions.
+    /// Does not animate size dimensions.
     /// </summary>
     None,
 

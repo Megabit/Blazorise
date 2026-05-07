@@ -8,7 +8,7 @@
     </Div>
 
     <Div Flex="Flex.Row.AlignItems.Stretch" Border="Border.Is1.Rounded" Background="Background.Light" Height="Height.Px( 220 )" Overflow="Overflow.Hidden">
-        <Animate Animation="Animations.SlideRight" Trigger="AnimationTrigger.Render" Visible="@panelVisible" AnimateOnInitialRender="false" Layout="AnimationLayout.Width" DurationMilliseconds="250" Height="Height.Is100">
+        <Animate Animation="Animations.SlideRight" Trigger="AnimationTrigger.Render" Visible="@panelVisible" AnimateOnInitialRender="false" AnimatedSize="AnimatedSize.Width" DurationMilliseconds="250" Height="Height.Is100">
             <Div Width="Width.Px( 180 )" Height="Height.Is100" Background="Background.Primary" TextColor="TextColor.White" Padding="Padding.Is3">
                 <Heading Size="HeadingSize.Is6" Margin="Margin.Is0.FromBottom">
                     Filters
@@ -24,7 +24,7 @@
                 Results
             </Heading>
             <Paragraph Margin="Margin.Is2.FromTop">
-                The content area moves because the animated panel changes its occupied layout width.
+                The content area moves because the animated panel changes its occupied width.
             </Paragraph>
         </Div>
     </Div>

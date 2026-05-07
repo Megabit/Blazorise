@@ -19,7 +19,7 @@ var defaultOptions = {
     trigger: "InView",
     direction: "in",
     waitForCompletion: false,
-    layout: "None"
+    animatedSize: "None"
 };
 var easingMap = {
     "Ease": [0.25, 0.1, 0.25, 1],
@@ -92,7 +92,7 @@ function normalizeOptions(options) {
         trigger: options.trigger || defaultOptions.trigger,
         direction: options.direction || defaultOptions.direction,
         waitForCompletion: toBoolean(options.waitForCompletion, defaultOptions.waitForCompletion),
-        layout: options.layout || defaultOptions.layout
+        animatedSize: options.animatedSize || options.layout || defaultOptions.animatedSize
     };
 }
 
@@ -333,12 +333,12 @@ function createViewportMargin(settings) {
     return "0px 0px -" + offset + "px 0px";
 }
 
-function hasLayoutAnimation(settings) {
-    return settings.layout === "Width" || settings.layout === "Height";
+function hasSizeAnimation(settings) {
+    return settings.animatedSize === "Width" || settings.animatedSize === "Height";
 }
 
 function getVisualElement(element, settings) {
-    if (!hasLayoutAnimation(settings)) {
+    if (!hasSizeAnimation(settings)) {
         return element;
     }
 
@@ -346,7 +346,7 @@ function getVisualElement(element, settings) {
 }
 
 function measureLayoutSize(element, settings) {
-    var isWidth = settings.layout === "Width";
+    var isWidth = settings.animatedSize === "Width";
     var rect = element.getBoundingClientRect();
     var size = isWidth ? rect.width : rect.height;
 
@@ -363,12 +363,12 @@ function measureLayoutSize(element, settings) {
 }
 
 function createLayoutTarget(element, settings, reversed) {
-    if (!hasLayoutAnimation(settings)) {
+    if (!hasSizeAnimation(settings)) {
         return null;
     }
 
-    var property = settings.layout === "Width" ? "width" : "height";
-    var minProperty = settings.layout === "Width" ? "minWidth" : "minHeight";
+    var property = settings.animatedSize === "Width" ? "width" : "height";
+    var minProperty = settings.animatedSize === "Width" ? "minWidth" : "minHeight";
     var expanded = measureLayoutSize(element, settings) + "px";
     var collapsed = "0px";
     var target = {};
@@ -404,8 +404,8 @@ function applyLayoutFrame(element, target, index) {
 }
 
 function restoreExpandedLayoutStyles(element, original, settings) {
-    var property = settings.layout === "Width" ? "width" : "height";
-    var minProperty = settings.layout === "Width" ? "minWidth" : "minHeight";
+    var property = settings.animatedSize === "Width" ? "width" : "height";
+    var minProperty = settings.animatedSize === "Width" ? "minWidth" : "minHeight";
 
     element.removeAttribute("data-blazorise-animate-collapsed");
     element.style.overflow = original.overflow;

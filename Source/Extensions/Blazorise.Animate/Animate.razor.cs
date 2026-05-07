@@ -135,7 +135,7 @@ public partial class Animate : BaseComponent, IAsyncDisposable
 
             bool completed = await AnimateElement();
 
-            if ( completed && animationDirection == "out" && Layout == AnimationLayout.None )
+            if ( completed && animationDirection == "out" && AnimatedSize == Blazorise.Animate.AnimatedSize.None )
             {
                 shouldRenderElement = false;
 
@@ -268,7 +268,7 @@ public partial class Animate : BaseComponent, IAsyncDisposable
             trigger = Trigger.ToString(),
             direction = animationDirection,
             waitForCompletion = animationDirection == "out",
-            layout = Layout.ToString()
+            animatedSize = AnimatedSize.ToString()
         };
 
     /// <summary>
@@ -391,9 +391,9 @@ public partial class Animate : BaseComponent, IAsyncDisposable
     [Parameter] public bool AnimateOnInitialRender { get; set; } = true;
 
     /// <summary>
-    /// Specifies which layout dimension should be animated together with the configured animation.
+    /// Specifies which size dimension should be animated together with the configured animation.
     /// </summary>
-    [Parameter] public AnimationLayout Layout { get; set; } = AnimationLayout.None;
+    [Parameter] public Blazorise.Animate.AnimatedSize AnimatedSize { get; set; } = Blazorise.Animate.AnimatedSize.None;
 
     /// <summary>
     /// Specifies the custom name of the options to get from the configuration.

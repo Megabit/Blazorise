@@ -2369,7 +2369,7 @@ namespace Blazorise.Docs.Models
           Swiped=""@OnSwiped"">
     <Div Flex=""Flex.Row"" Border=""Border.Is1.Rounded"" Background=""Background.Light"" Padding=""Padding.Is3"" Height=""Height.Px( 240 )"" Style=""user-select: none;"">
         <Div Flex=""Flex.Row.Grow.Is1.AlignItems.Stretch"" Gap=""Gap.Is3"">
-            <Animate Animation=""Animations.SlideRight"" Duration=""@SidebarAnimationDuration"" Trigger=""AnimationTrigger.Render"" Visible=""@sidebarExpanded"" AnimateOnInitialRender=""false"" Layout=""AnimationLayout.Width"" Height=""Height.Is100"">
+            <Animate Animation=""Animations.SlideRight"" Duration=""@SidebarAnimationDuration"" Trigger=""AnimationTrigger.Render"" Visible=""@sidebarExpanded"" AnimateOnInitialRender=""false"" AnimatedSize=""AnimatedSize.Width"" Height=""Height.Is100"">
                 <Div Height=""Height.Is100"" Background=""Background.Primary"" TextColor=""TextColor.White"" Padding=""Padding.Is3"" Border=""Border.Rounded"" Width=""@SidebarExpandedWidth"">
                     <Heading Size=""HeadingSize.Is6"" Margin=""Margin.Is0.FromBottom"">
                         Navigation
@@ -5806,7 +5806,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
     </Div>
 
     <Div Flex=""Flex.Row.AlignItems.Stretch"" Border=""Border.Is1.Rounded"" Background=""Background.Light"" Height=""Height.Px( 220 )"" Overflow=""Overflow.Hidden"">
-        <Animate Animation=""Animations.SlideRight"" Trigger=""AnimationTrigger.Render"" Visible=""@panelVisible"" AnimateOnInitialRender=""false"" Layout=""AnimationLayout.Width"" DurationMilliseconds=""250"" Height=""Height.Is100"">
+        <Animate Animation=""Animations.SlideRight"" Trigger=""AnimationTrigger.Render"" Visible=""@panelVisible"" AnimateOnInitialRender=""false"" AnimatedSize=""AnimatedSize.Width"" DurationMilliseconds=""250"" Height=""Height.Is100"">
             <Div Width=""Width.Px( 180 )"" Height=""Height.Is100"" Background=""Background.Primary"" TextColor=""TextColor.White"" Padding=""Padding.Is3"">
                 <Heading Size=""HeadingSize.Is6"" Margin=""Margin.Is0.FromBottom"">
                     Filters
@@ -5822,7 +5822,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
                 Results
             </Heading>
             <Paragraph Margin=""Margin.Is2.FromTop"">
-                The content area moves because the animated panel changes its occupied layout width.
+                The content area moves because the animated panel changes its occupied width.
             </Paragraph>
         </Div>
     </Div>

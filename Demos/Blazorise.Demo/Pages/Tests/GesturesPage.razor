@@ -78,7 +78,7 @@
                           Swiped="@OnSidebarSwiped">
                     <Div Flex="Flex.Row" Border="Border.Is1.Rounded" Background="Background.Light" Padding="Padding.Is3" Height="Height.Px( 260 )" Style="user-select: none;">
                         <Div Flex="Flex.Row.Grow.Is1.AlignItems.Stretch" Gap="Gap.Is3">
-                            <Animate Animation="Animations.SlideRight" Duration="@SidebarAnimationDuration" Trigger="AnimationTrigger.Render" Visible="@sidebarVisible" AnimateOnInitialRender="false" Layout="AnimationLayout.Width" Height="Height.Is100">
+                            <Animate Animation="Animations.SlideRight" Duration="@SidebarAnimationDuration" Trigger="AnimationTrigger.Render" Visible="@sidebarVisible" AnimateOnInitialRender="false" AnimatedSize="AnimatedSize.Width" Height="Height.Is100">
                                 <Div Background="Background.Primary" TextColor="TextColor.White" Padding="Padding.Is3" Border="Border.Rounded" Width="@SidebarExpandedWidth" Height="Height.Is100">
                                     <Heading Size="HeadingSize.Is6" Margin="Margin.Is0.FromBottom">Panel</Heading>
                                     <Paragraph TextColor="TextColor.White50" Margin="Margin.Is2.FromTop">

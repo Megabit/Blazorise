@@ -33,7 +33,7 @@ The default trigger is viewport based to preserve existing scroll-reveal behavio
 
 `Visible` can be used for enter and leave animations without wrapping the component in an `@if`. When `Visible` changes to `false`, the component keeps its content rendered until the exit animation completes. `AnimateOnInitialRender` can be set to `false` when content should appear immediately on page load and only animate on later visibility changes.
 
-`Layout` can be set to `AnimationLayout.Width` or `AnimationLayout.Height` when the element should animate its occupied layout space as part of a visibility transition. This is intended for components such as sidebars, drawers, or vertical disclosure panels where a transform-only animation would visually move the content while still reserving its original space.
+`AnimatedSize` can be set to `AnimatedSize.Width` or `AnimatedSize.Height` when the element should animate its occupied size as part of a visibility transition. This is intended for components such as sidebars, drawers, or vertical disclosure panels where a transform-only animation would visually move the content while still reserving its original space.
 
 ## Motion Notes
 
