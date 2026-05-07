@@ -1,4 +1,4 @@
-﻿<Div Class="b-blog-post-info" Flex="Flex.AlignItems.Center" Margin="Margin.Is3.OnY">
+﻿<Div Flex="Flex.AlignItems.Center" Margin="Margin.Is3.OnY">
     <Div Margin="Margin.Is2.FromEnd">
         @{
             // If the ImageName already looks like a URL, use it as-is
@@ -8,13 +8,13 @@
             ? ImageName
             : $"img/avatars/{ImageName}.png";
         }
-        <Image Source="@avatarSrc" Text="Blog creator avatar image" Border="Border.Rounded" Loading Class="img-circle" Style="width:48px;height:48px;" />
+        <Image Source="@avatarSrc" Text="Blog creator avatar image" Border="Border.RoundedCircle" Loading Width="Width.Px(48)" Height="Height.Px(48)" />
     </Div>
     <Div>
-        <Div Class="b-blog-post-info-user">
+        <Div TextSize="TextSize.Large">
             <Span>@UserName</Span>
         </Div>
-        <Div Class="b-blog-post-info-date">
+        <Div>
             <Span>@PostedOn</Span>
             <Span>·</Span>
             <Span>@Read</Span>

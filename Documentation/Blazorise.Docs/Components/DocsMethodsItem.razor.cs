@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -50,13 +51,13 @@ public partial class DocsMethodsItem : IDisposable
 
     #region Properties
 
-    internal string DefaultClassNames => Parameters switch
+    internal TextColor ParametersTextColor => Parameters switch
     {
-        "true" => "b-method-token boolean",
-        "false" => "b-method-token boolean",
-        "null" => "b-method-token keyword",
-        "None" => "b-method-token keyword",
-        _ => "b-method-token string",
+        "true" => TextColor.Danger,
+        "false" => TextColor.Danger,
+        "null" => TextColor.Info,
+        "None" => TextColor.Info,
+        _ => TextColor.Success,
     };
 
     [CascadingParameter] public DocsMethods ParentDocsMethods { get; set; }

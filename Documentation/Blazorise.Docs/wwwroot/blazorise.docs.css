@@ -378,60 +378,8 @@ body[data-bs-theme=dark] .home-customer-feedback-customer-cards:hover {
   /*background: linear-gradient(90deg,#9317e18c,#e91e6396);*/
 }
 
-.b-docs-page .b-docs-page-title {
-  margin-bottom: 1.5rem;
-}
-.b-docs-page .b-docs-page-subtitle {
-  padding-bottom: 0.5em;
-  border-bottom: 1px solid #f2f3f3;
-}
-.b-docs-page .b-docs-page-paragraph {
-  margin-bottom: 1.5rem;
-}
-.b-docs-page .b-docs-page-lead {
-  font-size: calc(1.275rem + 0.3vw);
-  font-weight: 300;
-}
-@media (min-width: 1200px) {
-  .b-docs-page .b-docs-page-lead {
-    font-size: 1.5rem;
-  }
-}
-.b-docs-page .b-docs-page-unordered-list .b-docs-page-unordered-list-item {
-  margin-bottom: 0.5rem;
-}
 .b-docs-page .b-docs .b-bar-vertical-inline .b-bar-dropdown .b-bar-dropdown-menu-container .b-bar-dropdown-menu .b-bar-dropdown-item {
   padding: 0.3rem;
-}
-.b-docs-page .b-docs-attributes tbody tr td:first-child code {
-  color: var(--b-code-color);
-}
-.b-docs-page .b-docs-attributes tbody tr td:nth-child(2) code {
-  color: #690;
-}
-.b-docs-page .b-docs-attributes tbody tr .b-attribute-token.boolean code {
-  color: #905;
-}
-.b-docs-page .b-docs-attributes tbody tr .b-attribute-token.keyword code {
-  color: #07a;
-}
-.b-docs-page .b-docs-attributes tbody tr .b-attribute-token.string code {
-  color: #690;
-}
-.b-docs-page .b-docs-methods tbody tr td:first-child code {
-  color: var(--b-code-color);
-}
-.b-docs-page .b-docs-methods tbody tr td:nth-child(2) code {
-  color: #690;
-}
-.b-docs-page .b-docs-methods tbody tr .b-method-token.boolean code {
-  color: #905;
-}
-.b-docs-page .b-docs-methods tbody tr .b-method-token.keyword code {
-  color: #07a;
-}
-.b-docs-page .b-docs-methods tbody tr .b-method-token.string code {
-  color: #690;
 }
 .b-docs-page .b-docs-example {
   position: relative;
@@ -518,33 +466,6 @@ body[data-bs-theme=dark] .home-customer-feedback-customer-cards:hover {
   scrollbar-color: var(--b-scrollbar-thumb-background) var(--bs-body-bg);
 }
 
-body[data-bs-theme=dark] .b-docs-page .b-docs-page-subtitle {
-  border-bottom-color: var(--bs-border-color);
-}
-body[data-bs-theme=dark] .b-docs-page .b-docs-attributes tbody tr td:nth-child(2) code {
-  color: #6ee7b7;
-}
-body[data-bs-theme=dark] .b-docs-page .b-docs-attributes tbody tr .b-attribute-token.boolean code {
-  color: #fca5a5;
-}
-body[data-bs-theme=dark] .b-docs-page .b-docs-attributes tbody tr .b-attribute-token.keyword code {
-  color: #93c5fd;
-}
-body[data-bs-theme=dark] .b-docs-page .b-docs-attributes tbody tr .b-attribute-token.string code {
-  color: #6ee7b7;
-}
-body[data-bs-theme=dark] .b-docs-page .b-docs-methods tbody tr td:nth-child(2) code {
-  color: #6ee7b7;
-}
-body[data-bs-theme=dark] .b-docs-page .b-docs-methods tbody tr .b-method-token.boolean code {
-  color: #fca5a5;
-}
-body[data-bs-theme=dark] .b-docs-page .b-docs-methods tbody tr .b-method-token.keyword code {
-  color: #93c5fd;
-}
-body[data-bs-theme=dark] .b-docs-page .b-docs-methods tbody tr .b-method-token.string code {
-  color: #6ee7b7;
-}
 body[data-bs-theme=dark] .b-docs-page .b-docs-example {
   border-color: var(--bs-border-color);
 }
@@ -826,34 +747,6 @@ body[data-bs-theme=dark] .blazorise-codeblock .powershell .comment {
   color: var(--b-code-color);
   font-weight: 400;
 }
-.b-blog .b-blog-post-info .b-blog-post-info-user {
-  font-size: 1.125rem;
-}
-.b-blog .b-blog-post-info .b-blog-post-info-date {
-  font-size: 1rem;
-}
-
-.blog-page-section-source {
-  position: relative;
-  height: 100%;
-}
-.blog-page-section-source .blog-page-section-source-toolbar {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-.blog-page-section-source .blog-page-section-source-code {
-  height: 100%;
-}
-.blog-page-section-source .blog-page-section-source-code.blog-page-section-source-code-show {
-  display: block;
-}
-.blog-page-section-source .blog-page-section-source-code.blog-page-section-source-code-hide {
-  display: none;
-}
-.blog-page-section-source .btn {
-  color: #576b85;
-}
 
 body[data-bs-theme=dark] .b-blog .b-blog-content h2 {
   border-bottom-color: var(--bs-border-color);
@@ -863,9 +756,6 @@ body[data-bs-theme=dark] .b-blog .b-blog-content h3 {
 }
 body[data-bs-theme=dark] .b-blog .b-blog-content p > code, body[data-bs-theme=dark] .b-blog .b-blog-content a > code, body[data-bs-theme=dark] .b-blog .b-blog-content li > code, body[data-bs-theme=dark] .b-blog .b-blog-content td > code {
   background: var(--bs-secondary-bg);
-}
-body[data-bs-theme=dark] .blog-page-section-source .btn {
-  color: var(--bs-secondary-color);
 }
 
 .nav.pricing-tabs > .nav-item > .nav-link {

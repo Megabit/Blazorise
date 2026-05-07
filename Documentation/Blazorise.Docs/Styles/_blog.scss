@@ -96,43 +96,6 @@
             font-weight: 400;
         }
     }
-
-    .b-blog-post-info {
-        .b-blog-post-info-user {
-            font-size: 1.125rem;
-        }
-
-        .b-blog-post-info-date {
-            font-size: 1rem;
-        }
-    }
-}
-
-.blog-page-section-source {
-    position: relative;
-    height: 100%;
-
-    .blog-page-section-source-toolbar {
-        position: absolute;
-        top: 0;
-        right: 0;
-    }
-
-    & .blog-page-section-source-code {
-        height: 100%;
-
-        &.blog-page-section-source-code-show {
-            display: block;
-        }
-
-        &.blog-page-section-source-code-hide {
-            display: none;
-        }
-    }
-
-    .btn {
-        color: #576b85;
-    }
 }
 
 body[data-bs-theme="dark"] {
@@ -151,12 +114,6 @@ body[data-bs-theme="dark"] {
                     background: var(--bs-secondary-bg);
                 }
             }
-        }
-    }
-
-    .blog-page-section-source {
-        .btn {
-            color: var(--bs-secondary-color);
         }
     }
 }
