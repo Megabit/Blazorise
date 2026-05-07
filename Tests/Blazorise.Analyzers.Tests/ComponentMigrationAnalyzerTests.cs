@@ -274,7 +274,7 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
             {
                 (path: "wwwroot/index.html", content: @"
 <script src=""_content/Blazorise.Animate/blazorise.animate.js""></script>
-<script src=""_content/Blazorise.Animate/blazorise.animate.min.js?v=2.1.1.0""></script>
+<script src=""_content/Blazorise.Animate/blazorise.animate.min.js?v=2.1.2.0""></script>
 "),
             } );
 
@@ -291,7 +291,7 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
             sources: new[] { string.Empty },
             additionalFiles: new[]
             {
-                (path: "wwwroot/index.html", content: @"<script type=""module"" src=""_content/Blazorise.Animate/animate.js?v=2.1.1.0""></script>"),
+                (path: "wwwroot/index.html", content: @"<script type=""module"" src=""_content/Blazorise.Animate/animate.js?v=2.1.2.0""></script>"),
             } );
 
         Assert.DoesNotContain( diagnostics, d => d.Id == "BLZJS002" );

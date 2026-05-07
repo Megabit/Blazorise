@@ -1719,7 +1719,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             .Count();
     }
 
-    internal async Task StartDrag( TItem item, SchedulerSection section )
+    internal async Task StartDrag( TItem item, SchedulerSection section, DateOnly? dragAnchorDate = null )
     {
         // Cancel any existing transaction
         if ( currentDraggingTransaction is not null )
@@ -1733,7 +1733,7 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         editState = SchedulerEditState.Edit;
 
         // Create a new transaction
-        currentDraggingTransaction = new SchedulerDraggingTransaction<TItem>( this, item, section );
+        currentDraggingTransaction = new SchedulerDraggingTransaction<TItem>( this, item, section, dragAnchorDate );
         isDragging = true;
 
         if ( DragStarted is not null )
@@ -1841,6 +1841,19 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
         }
     }
 
+    internal Task<bool> DropMonthItem( DateOnly date, SchedulerSection section )
+    {
+        if ( currentDraggingTransaction is null )
+            return Task.FromResult( false );
+
+        var allDay = GetItemAllDay( currentDraggingTransaction.Item );
+        var duration = GetItemDuration( currentDraggingTransaction.Item );
+
+        return allDay || duration.Days >= 1
+            ? DropAllDayItem( date, section )
+            : DropDateItem( date, section );
+    }
+
     internal async Task<bool> DropAllDayItem( DateOnly date, SchedulerSection section )
     {
         if ( currentDraggingTransaction is null )
@@ -1858,7 +1871,8 @@ public partial class Scheduler<TItem> : BaseComponent, IAsyncDisposable
             var start = GetItemStartTime( currentDraggingTransaction.Item );
             var duration = GetItemDuration( currentDraggingTransaction.Item );
 
-            var newStart = new DateTime( date.Year, date.Month, date.Day, start.Hour, start.Minute, start.Second );
+            var anchoredDate = date.AddDays( -currentDraggingTransaction.DragOffsetDays );
+            var newStart = new DateTime( anchoredDate.Year, anchoredDate.Month, anchoredDate.Day, start.Hour, start.Minute, start.Second );
             var newEnd = newStart.Add( duration );
 
             SetItemDates( currentDraggingTransaction.Item, newStart, newEnd );
