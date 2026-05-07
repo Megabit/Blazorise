@@ -266,6 +266,38 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
     }
 
     [Fact]
+    public async Task Reports_obsolete_animate_static_scripts()
+    {
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync(
+            sources: new[] { string.Empty },
+            additionalFiles: new[]
+            {
+                (path: "wwwroot/index.html", content: @"
+<script src=""_content/Blazorise.Animate/blazorise.animate.js""></script>
+<script src=""_content/Blazorise.Animate/blazorise.animate.min.js?v=2.1.1.0""></script>
+"),
+            } );
+
+        var animateDiagnostics = diagnostics.Where( d => d.Id == "BLZJS002" ).ToArray();
+        Assert.Equal( 2, animateDiagnostics.Length );
+        Assert.Contains( animateDiagnostics, d => d.GetMessage().Contains( "blazorise.animate.js" ) );
+        Assert.Contains( animateDiagnostics, d => d.GetMessage().Contains( "blazorise.animate.min.js" ) );
+    }
+
+    [Fact]
+    public async Task Does_not_report_animate_module_script()
+    {
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync(
+            sources: new[] { string.Empty },
+            additionalFiles: new[]
+            {
+                (path: "wwwroot/index.html", content: @"<script type=""module"" src=""_content/Blazorise.Animate/animate.js?v=2.1.1.0""></script>"),
+            } );
+
+        Assert.DoesNotContain( diagnostics, d => d.Id == "BLZJS002" );
+    }
+
+    [Fact]
     public async Task Reports_multi_value_used_for_single_shape()
     {
         var source = @"
