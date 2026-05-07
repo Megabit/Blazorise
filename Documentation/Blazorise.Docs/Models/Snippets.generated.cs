@@ -5741,7 +5741,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
         </Button>
     </Div>
 
-    <Animate @ref=""@animateRef"" Auto=""false"" Animation=""@SoftEnter"" Trigger=""AnimationTrigger.Render"" DurationMilliseconds=""360"">
+    <Animate @ref=""@animateRef"" Auto=""false"" Animation=""@SoftEnter"" Easing=""@SoftBack"" Trigger=""AnimationTrigger.Render"" DurationMilliseconds=""360"">
         <Card Width=""Width.Px( 320 )"">
             <CardBody>
                 <CardTitle Size=""HeadingSize.Is6"">Custom keyframes</CardTitle>
@@ -5762,6 +5762,10 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
             new AnimationFrame { Opacity = 0.7, Y = ""0.25rem"", Scale = 1.02, Rotate = ""1deg"" },
             new AnimationFrame { Opacity = 1, Y = ""0"", Scale = 1, Rotate = ""0deg"" },
         } );
+
+    private static readonly IEasing SoftBack = new EasingDefinition(
+        ""soft-back"",
+        new[] { 0.175, 0.885, 0.32, 1.275 } );
 
     private Blazorise.Animate.Animate animateRef;
 

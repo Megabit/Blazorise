@@ -228,10 +228,22 @@ public partial class Animate : BaseComponent, IAsyncDisposable
         => Animations.GetKeyframes( AnimationValue );
 
     /// <summary>
+    /// Gets the configured easing.
+    /// </summary>
+    private IEasing EasingValue
+        => Easing ?? GetOptions()?.Easing ?? Easings.Ease;
+
+    /// <summary>
     /// Gets the easing name.
     /// </summary>
     private string EasingName
-        => Easing?.Name ?? GetOptions()?.Easing?.Name ?? Easings.Ease.Name;
+        => EasingValue?.Name ?? Easings.Ease.Name;
+
+    /// <summary>
+    /// Gets the easing value.
+    /// </summary>
+    private object EasingRuntimeValue
+        => Easings.GetValue( EasingValue );
 
     /// <summary>
     /// Gets the duration value normalized as milliseconds.
@@ -271,6 +283,7 @@ public partial class Animate : BaseComponent, IAsyncDisposable
         {
             animation = AnimationName,
             easing = EasingName,
+            easingValue = EasingRuntimeValue,
             keyframes = AnimationKeyframes,
             duration = DurationMillisecondsValue,
             delay = DelayMillisecondsValue,

@@ -10,6 +10,7 @@ var defaultOptions = {
     animation: "fade",
     keyframes: null,
     easing: "ease",
+    easingValue: [0.25, 0.1, 0.25, 1],
     duration: 400,
     delay: 0,
     mirror: false,
@@ -21,29 +22,6 @@ var defaultOptions = {
     direction: "in",
     waitForCompletion: false,
     animatedSize: "None"
-};
-var easingMap = {
-    "Ease": [0.25, 0.1, 0.25, 1],
-    "linear": "linear",
-    "ease": [0.25, 0.1, 0.25, 1],
-    "ease-in": "easeIn",
-    "ease-out": "easeOut",
-    "ease-in-out": "easeInOut",
-    "ease-in-back": [0.6, -0.28, 0.735, 0.045],
-    "ease-out-back": [0.175, 0.885, 0.32, 1.275],
-    "ease-in-out-back": [0.68, -0.55, 0.265, 1.55],
-    "ease-in-sine": [0.47, 0, 0.745, 0.715],
-    "ease-out-sine": [0.39, 0.575, 0.565, 1],
-    "ease-in-out-sine": [0.445, 0.05, 0.55, 0.95],
-    "ease-in-quad": [0.55, 0.085, 0.68, 0.53],
-    "ease-out-quad": [0.25, 0.46, 0.45, 0.94],
-    "ease-in-out-quad": [0.455, 0.03, 0.515, 0.955],
-    "ease-in-cubic": [0.55, 0.085, 0.68, 0.53],
-    "ease-out-cubic": [0.25, 0.46, 0.45, 0.94],
-    "ease-in-out-cubic": [0.455, 0.03, 0.515, 0.955],
-    "ease-in-quart": [0.55, 0.085, 0.68, 0.53],
-    "ease-out-quart": [0.25, 0.46, 0.45, 0.94],
-    "ease-in-out-quart": [0.455, 0.03, 0.515, 0.955]
 };
 
 function loadMotion() {
@@ -84,6 +62,7 @@ function normalizeOptions(options) {
         animation: options.animation || defaultOptions.animation,
         keyframes: normalizeKeyframes(options.keyframes),
         easing: options.easing || defaultOptions.easing,
+        easingValue: normalizeEasing(options.easingValue),
         duration: toNumber(options.duration, defaultOptions.duration),
         delay: toNumber(options.delay, defaultOptions.delay),
         mirror: toBoolean(options.mirror, defaultOptions.mirror),
@@ -125,7 +104,23 @@ function toBoolean(value, fallback) {
 }
 
 function resolveEasing(easing) {
-    return easingMap[easing] || easingMap[String(easing).toLowerCase()] || easingMap.ease;
+    return normalizeEasing(easing);
+}
+
+function normalizeEasing(easing) {
+    if (typeof easing === "string" && easing.length > 0) {
+        return easing;
+    }
+
+    if (Array.isArray(easing) && easing.length === 4 && easing.every(isFiniteNumber)) {
+        return easing;
+    }
+
+    return defaultOptions.easingValue;
+}
+
+function isFiniteNumber(value) {
+    return typeof value === "number" && isFinite(value);
 }
 
 function normalizeKeyframes(keyframes) {
@@ -531,7 +526,7 @@ function runAnimation(motion, element, settings, original, reversed, completed, 
         var animation = motion.animate(targetElement, animationTarget, {
             duration: settings.duration / 1000,
             delay: settings.delay / 1000,
-            ease: resolveEasing(settings.easing),
+            ease: resolveEasing(settings.easingValue || settings.easing),
             onComplete: markAnimationComplete
         });
 

@@ -56,6 +56,19 @@ public static class AppAnimations
 
 The `Animate` component sends structured keyframes to the JavaScript module when available. If keyframes are missing or invalid, the runtime falls back to a simple fade animation.
 
+Custom easings can be provided with `EasingDefinition`:
+
+```csharp
+public static class AppEasings
+{
+    public static IEasing SoftBack => new EasingDefinition(
+        "soft-back",
+        new[] { 0.175, 0.885, 0.32, 1.275 } );
+}
+```
+
+The easing value can be a Motion easing name such as `linear`, `easeIn`, `easeOut`, or `easeInOut`, or a four-value cubic bezier array.
+
 ## Motion Notes
 
 The wrapper uses Motion's `animate()` API for element animations and Motion's `inView()` API for viewport-triggered animations. Application code should continue to reference only Blazorise's `Animate` component.
