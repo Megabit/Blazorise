@@ -1,8 +1,6 @@
-"use strict";
+import { animate as motionAnimate, inView as motionInView } from "./vendors/motion.js";
 
 const _instances = new WeakMap();
-const motionScriptId = "blazorise-motion-script";
-const motionScriptUrl = "_content/Blazorise.Animate/motion.js";
 const defaultOptions = {
     animation: "fade",
     keyframes: null,
@@ -20,39 +18,6 @@ const defaultOptions = {
     waitForCompletion: false,
     animatedSize: "None"
 };
-
-let motionPromise = null;
-
-function loadMotion() {
-    if (window.Motion) {
-        return Promise.resolve(window.Motion);
-    }
-
-    if (motionPromise) {
-        return motionPromise;
-    }
-
-    motionPromise = new Promise((resolve, reject) => {
-        const existingScript = document.getElementById(motionScriptId);
-
-        if (existingScript) {
-            existingScript.addEventListener("load", () => resolve(window.Motion));
-            existingScript.addEventListener("error", reject);
-            return;
-        }
-
-        const script = document.createElement("script");
-        script.id = motionScriptId;
-        script.src = motionScriptUrl;
-        script.async = true;
-        script.onload = () => resolve(window.Motion);
-        script.onerror = reject;
-
-        document.head.appendChild(script);
-    });
-
-    return motionPromise;
-}
 
 function normalizeOptions(options) {
     options = options || {};
@@ -432,7 +397,7 @@ function cleanup(element) {
     _instances.delete(element);
 }
 
-function runAnimation(motion, element, settings, original, reversed, completed, isCancelled) {
+function runAnimation(element, settings, original, reversed, completed, isCancelled) {
     const visualElement = getVisualElement(element, settings);
     const visualOriginal = visualElement === element ? original : readOriginalStyles(visualElement);
     const keyframes = createKeyframes(settings, visualOriginal, reversed);
@@ -516,7 +481,7 @@ function runAnimation(motion, element, settings, original, reversed, completed, 
             animationCompleted = true;
             completeAnimation();
         };
-        const animation = motion.animate(targetElement, animationTarget, {
+        const animation = motionAnimate(targetElement, animationTarget, {
             duration: settings.duration / 1000,
             delay: settings.delay / 1000,
             ease: resolveEasing(settings.easingValue || settings.easing),
@@ -546,16 +511,16 @@ function runAnimation(motion, element, settings, original, reversed, completed, 
     };
 }
 
-function setupInView(motion, element, settings, original, instance) {
+function setupInView(element, settings, original, instance) {
     const target = getAnchorElement(settings.anchor) || element;
 
     applyFrame(element, createKeyframes(settings, original, false)[0]);
 
-    instance.stop = motion.inView(target, () => {
+    instance.stop = motionInView(target, () => {
         if (!instance.animated) {
             stopAnimation(instance.animation);
 
-            const enterResult = runAnimation(motion, element, settings, original, false, () => {
+            const enterResult = runAnimation(element, settings, original, false, () => {
                 instance.animated = true;
             }, () => instance.cancelled);
             instance.animation = enterResult.animation;
@@ -569,7 +534,7 @@ function setupInView(motion, element, settings, original, instance) {
             if (settings.mirror && leaveInfo.boundingClientRect.top < 0) {
                 stopAnimation(instance.animation);
 
-                const exitResult = runAnimation(motion, element, settings, original, true, () => {
+                const exitResult = runAnimation(element, settings, original, true, () => {
                     instance.animated = false;
                 }, () => instance.cancelled);
                 instance.animation = exitResult.animation;
@@ -586,7 +551,7 @@ function setupInView(motion, element, settings, original, instance) {
 }
 
 export function init() {
-    return loadMotion().then(() => true);
+    return true;
 }
 
 export function refresh() {
@@ -611,24 +576,18 @@ export function animate(element, options) {
 
     _instances.set(element, instance);
 
-    return loadMotion().then((motion) => {
-        if (!motion || !motion.animate || !motion.inView) {
-            return true;
-        }
+    if (settings.trigger === "Render" || settings.direction === "out") {
+        const result = runAnimation(element, settings, original, settings.direction === "out", () => {
+            instance.animated = settings.direction !== "out";
+        }, () => instance.cancelled);
+        instance.animation = result.animation;
 
-        if (settings.trigger === "Render" || settings.direction === "out") {
-            const result = runAnimation(motion, element, settings, original, settings.direction === "out", () => {
-                instance.animated = settings.direction !== "out";
-            }, () => instance.cancelled);
-            instance.animation = result.animation;
+        return settings.waitForCompletion ? result.finished : true;
+    }
 
-            return settings.waitForCompletion ? result.finished : true;
-        }
+    setupInView(element, settings, original, instance);
 
-        setupInView(motion, element, settings, original, instance);
-
-        return true;
-    });
+    return true;
 }
 
 export function dispose(element) {

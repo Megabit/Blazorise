@@ -6,7 +6,7 @@ The public Blazor API remains compatible with previous releases. Existing animat
 
 ## Runtime Integration
 
-The vendored Motion browser bundle lives in `wwwroot/motion.js`. The Blazorise wrapper in `wwwroot/animate.js` is imported by the `Animate` component as a JavaScript module and loads Motion internally by injecting `_content/Blazorise.Animate/motion.js` when the first animation is requested.
+The vendored Motion modules live in `wwwroot/vendors`. The Blazorise wrapper in `wwwroot/animate.js` is imported by the `Animate` component as a JavaScript module and statically imports the local Motion module from `./vendors/motion.js`.
 
 The runtime exports the module functions used by the Blazor component:
 
@@ -73,14 +73,14 @@ The easing value can be a Motion easing name such as `linear`, `easeIn`, `easeOu
 
 The wrapper uses Motion's `animate()` API for element animations and Motion's `inView()` API for viewport-triggered animations. Application code should continue to reference only Blazorise's `Animate` component.
 
-Motion is vendored from the `motion` npm package. The current vendored version is `12.38.0`; its MIT license is copied to `MOTION_LICENSE.md`.
+Motion is vendored from the official package chain used by `motion@12.38.0`: `framer-motion@12.38.0`, `motion-dom@12.38.0`, and `motion-utils@12.36.0`. Its MIT license is copied to `MOTION_LICENSE.md`.
 
 ## Updating
 
 When changing the runtime:
 
 1. Update `wwwroot/animate.js`.
-2. Update `wwwroot/motion.js` only from an official `motion` npm package release.
+2. Update `wwwroot/vendors/motion.js`, `wwwroot/vendors/motion-dom.js`, and `wwwroot/vendors/motion-utils.js` only from official npm package releases.
 3. Update `MOTION_LICENSE.md` if the vendored package license changes.
 4. Keep `wwwroot/blazorise.animate.js` as an obsolete compatibility shim unless the migration policy changes.
 5. Keep generated documentation snippet files untouched.
