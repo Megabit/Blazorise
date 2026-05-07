@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -108,6 +108,7 @@ public static class Config
         { typeof( IJSButtonModule ), typeof( JSButtonModule ) },
         { typeof( IJSClosableModule ), typeof( JSClosableModule ) },
         { typeof( IJSBreakpointModule ), typeof( JSBreakpointModule ) },
+        { typeof( IJSGesturesModule ), typeof( JSGesturesModule ) },
         { typeof( IJSTextInputModule ), typeof( JSTextInputModule ) },
         { typeof( IJSRangeSliderModule ), typeof( JSRangeSliderModule ) },
         { typeof( IJSMemoInputModule ), typeof( JSMemoInputModule ) },

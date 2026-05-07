@@ -1,9 +1,11 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Animate;
@@ -11,7 +13,7 @@ namespace Blazorise.Animate;
 /// <summary>
 /// Runs animations for any content places inside of <see cref="Animate"/>. component.
 /// </summary>
-public partial class Animate:ComponentBase
+public partial class Animate : BaseComponent, IAsyncDisposable
 {
     #region Members
 
@@ -20,9 +22,61 @@ public partial class Animate:ComponentBase
     /// </summary>
     private bool manuallyExecuted;
 
+    /// <summary>
+    /// Flag that indicates if the component has been initialized.
+    /// </summary>
+    private bool initialized;
+
+    /// <summary>
+    /// Flag that indicates if the child content should be rendered.
+    /// </summary>
+    private bool shouldRenderElement;
+
+    /// <summary>
+    /// Flag that indicates if an animation should run after rendering.
+    /// </summary>
+    private bool pendingAnimation;
+
+    /// <summary>
+    /// Stores the last visible state.
+    /// </summary>
+    private bool lastVisible;
+
+    /// <summary>
+    /// Stores the animation direction for the next pending animation.
+    /// </summary>
+    private string animationDirection = "in";
+
+    /// <summary>
+    /// Captured Mirror parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<bool> paramMirror;
+
+    /// <summary>
+    /// Captured Once parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<bool> paramOnce;
+
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override Task OnInitializedAsync()
+    {
+        JSModule ??= new JSAnimateModule( JSRuntime, VersionProvider, BlazoriseOptions );
+
+        return base.OnInitializedAsync();
+    }
+
+    /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( Mirror, out paramMirror );
+        parameters.TryGetParameter( Once, out paramOnce );
+
+        return base.SetParametersAsync( parameters );
+    }
 
     /// <summary>
     /// Gets the options from global settings.
@@ -42,12 +96,113 @@ public partial class Animate:ComponentBase
         return result;
     }
 
+    /// <inheritdoc/>
+    protected override void OnParametersSet()
+    {
+        if ( !initialized )
+        {
+            initialized = true;
+            lastVisible = Visible;
+            shouldRenderElement = ( Auto || manuallyExecuted ) && Visible;
+            pendingAnimation = shouldRenderElement && AnimateOnInitialRender;
+            animationDirection = "in";
+
+            base.OnParametersSet();
+
+            return;
+        }
+
+        if ( Visible != lastVisible )
+        {
+            lastVisible = Visible;
+            animationDirection = Visible ? "in" : "out";
+            pendingAnimation = Auto || manuallyExecuted;
+
+            if ( Visible )
+            {
+                shouldRenderElement = Auto || manuallyExecuted;
+            }
+        }
+
+        base.OnParametersSet();
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( ShouldRenderElement && pendingAnimation )
+        {
+            pendingAnimation = false;
+
+            bool completed = await AnimateElement();
+
+            if ( completed && animationDirection == "out" && AnimatedSize == Blazorise.Animate.AnimatedSize.None )
+            {
+                shouldRenderElement = false;
+
+                await InvokeAsync( StateHasChanged );
+            }
+        }
+
+        await base.OnAfterRenderAsync( firstRender );
+    }
+
     /// <summary>
     /// Runs the animation manually.
     /// </summary>
     public void Run()
     {
         manuallyExecuted = true;
+        shouldRenderElement = true;
+        pendingAnimation = true;
+        animationDirection = "in";
+
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Runs the animation for the rendered element.
+    /// </summary>
+    private async Task<bool> AnimateElement()
+    {
+        try
+        {
+            return await JSModule.Animate( ElementRef, AnimationOptions );
+        }
+        catch ( JSException )
+        {
+        }
+        catch ( InvalidOperationException )
+        {
+        }
+
+        return true;
+    }
+
+    /// <inheritdoc/>
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing && JSModule is not null )
+        {
+            try
+            {
+                await JSModule.DisposeElement( ElementRef );
+                await JSModule.SafeDisposeAsync();
+            }
+            catch ( JSDisconnectedException )
+            {
+            }
+            catch ( JSException )
+            {
+            }
+            catch ( InvalidOperationException )
+            {
+            }
+
+            JSModule = null;
+        }
+
+        await base.DisposeAsync( disposing );
     }
 
     #endregion
@@ -55,49 +210,99 @@ public partial class Animate:ComponentBase
     #region Properties
 
     /// <summary>
+    /// Gets the configured animation.
+    /// </summary>
+    private IAnimation AnimationValue
+        => Animation ?? GetOptions()?.Animation;
+
+    /// <summary>
     /// Gets the animation name.
     /// </summary>
     private string AnimationName
-        => Animation?.Name ?? string.Empty;
+        => AnimationValue?.Name ?? string.Empty;
+
+    /// <summary>
+    /// Gets the animation keyframes.
+    /// </summary>
+    private IReadOnlyList<AnimationFrame> AnimationKeyframes
+        => Animations.GetKeyframes( AnimationValue );
+
+    /// <summary>
+    /// Gets the configured easing.
+    /// </summary>
+    private IEasing EasingValue
+        => Easing ?? GetOptions()?.Easing ?? Easings.Ease;
 
     /// <summary>
     /// Gets the easing name.
     /// </summary>
     private string EasingName
-        => Easing?.Name ?? Easings.Ease.Name;
+        => EasingValue?.Name ?? Easings.Ease.Name;
 
     /// <summary>
-    /// Gets the duration value normalized as string.
+    /// Gets the easing value.
     /// </summary>
-    private string DurationString
-        => Duration != null ? Duration.GetValueOrDefault().TotalMilliseconds.ToString( CultureInfo.InvariantCulture )
-            : DurationMilliseconds != null ? DelayMilliseconds.GetValueOrDefault().ToString()
-            : string.Empty;
+    private object EasingRuntimeValue
+        => Easings.GetValue( EasingValue );
 
     /// <summary>
-    /// Gets the delay value normalized as string.
+    /// Gets the duration value normalized as milliseconds.
     /// </summary>
-    private string DelayString
-        => Delay != null ? Delay.GetValueOrDefault().TotalMilliseconds.ToString( CultureInfo.InvariantCulture )
-            : DelayMilliseconds != null ? DelayMilliseconds.GetValueOrDefault().ToString()
-            : string.Empty;
+    private int? DurationMillisecondsValue
+        => Duration is not null ? Convert.ToInt32( Duration.GetValueOrDefault().TotalMilliseconds )
+            : DurationMilliseconds is not null ? DurationMilliseconds.GetValueOrDefault()
+            : GetOptions()?.Duration > TimeSpan.Zero ? Convert.ToInt32( GetOptions().Duration.TotalMilliseconds )
+            : null;
 
     /// <summary>
-    /// Gets the mirror flag normalized as string.
+    /// Gets the delay value normalized as milliseconds.
     /// </summary>
-    private string MirrorString
-        => GetOptions()?.Mirror.ToString().ToLowerInvariant() ?? string.Empty;
+    private int? DelayMillisecondsValue
+        => Delay is not null ? Convert.ToInt32( Delay.GetValueOrDefault().TotalMilliseconds )
+            : DelayMilliseconds is not null ? DelayMilliseconds.GetValueOrDefault()
+            : GetOptions()?.Delay > TimeSpan.Zero ? Convert.ToInt32( GetOptions().Delay.TotalMilliseconds )
+            : null;
 
     /// <summary>
-    /// Gets the once flag normalized as string.
+    /// Gets the mirror flag.
     /// </summary>
-    private string OnceString
-        => GetOptions()?.Once.ToString().ToLowerInvariant() ?? string.Empty;
+    private bool MirrorValue
+        => paramMirror.GetValueOrDefault( GetOptions()?.Mirror ?? false );
 
     /// <summary>
-    /// Gets or sets the reference to the rendered element.
+    /// Gets the once flag.
     /// </summary>
-    public ElementReference ElementRef { get; set; }
+    private bool OnceValue
+        => paramOnce.GetValueOrDefault( GetOptions()?.Once ?? false );
+
+    /// <summary>
+    /// Gets the animation options to pass to the JavaScript runtime.
+    /// </summary>
+    private object AnimationOptions
+        => new
+        {
+            animation = AnimationName,
+            easing = EasingName,
+            easingValue = EasingRuntimeValue,
+            keyframes = AnimationKeyframes,
+            duration = DurationMillisecondsValue,
+            delay = DelayMillisecondsValue,
+            mirror = MirrorValue,
+            once = OnceValue,
+            offset = Offset,
+            anchor = Anchor,
+            anchorPlacement = AnchorPlacement,
+            trigger = Trigger.ToString(),
+            direction = animationDirection,
+            waitForCompletion = animationDirection == "out",
+            animatedSize = AnimatedSize.ToString()
+        };
+
+    /// <summary>
+    /// Gets a flag that indicates if the child content should be rendered.
+    /// </summary>
+    private bool ShouldRenderElement
+        => shouldRenderElement;
 
     /// <summary>
     /// Injects the globally configured <see cref="AnimateOptions"/>.
@@ -105,9 +310,24 @@ public partial class Animate:ComponentBase
     [Inject] private IOptionsSnapshot<AnimateOptions> OptionsAccessor { get; set; }
 
     /// <summary>
-    /// Specifies the animate element id.
+    /// Injects a javascript runtime.
     /// </summary>
-    [Parameter] public string ElementId { get; set; }
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    /// <summary>
+    /// Gets or sets the version provider.
+    /// </summary>
+    [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the blazorise options.
+    /// </summary>
+    [Inject] private BlazoriseOptions BlazoriseOptions { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="JSAnimateModule"/> instance.
+    /// </summary>
+    protected JSAnimateModule JSModule { get; private set; }
 
     /// <summary>
     /// Specifies the animation effect.
@@ -160,12 +380,12 @@ public partial class Animate:ComponentBase
     /// <summary>
     /// Whether elements should animate out while scrolling past them.
     /// </summary>
-    [Parameter] public bool? Mirror { get; set; }
+    [Parameter] public bool Mirror { get; set; }
 
     /// <summary>
     /// Whether animation should happen only once - while scrolling down.
     /// </summary>
-    [Parameter] public bool? Once { get; set; }
+    [Parameter] public bool Once { get; set; }
 
     /// <summary>
     /// Shifts the trigger point of the animation.
@@ -183,6 +403,26 @@ public partial class Animate:ComponentBase
     [Parameter] public string AnchorPlacement { get; set; }
 
     /// <summary>
+    /// Specifies when the animation should run.
+    /// </summary>
+    [Parameter] public AnimationTrigger Trigger { get; set; } = AnimationTrigger.InView;
+
+    /// <summary>
+    /// Specifies whether the content is visible.
+    /// </summary>
+    [Parameter] public bool Visible { get; set; } = true;
+
+    /// <summary>
+    /// Specifies whether the animation should run on the first render.
+    /// </summary>
+    [Parameter] public bool AnimateOnInitialRender { get; set; } = true;
+
+    /// <summary>
+    /// Specifies which size dimension should be animated together with the configured animation.
+    /// </summary>
+    [Parameter] public Blazorise.Animate.AnimatedSize AnimatedSize { get; set; } = Blazorise.Animate.AnimatedSize.None;
+
+    /// <summary>
     /// Specifies the custom name of the options to get from the configuration.
     /// </summary>
     [Parameter] public string OptionsName { get; set; } = Microsoft.Extensions.Options.Options.DefaultName;
@@ -197,12 +437,6 @@ public partial class Animate:ComponentBase
     /// be run manually with <see cref="Run"/> method.
     /// </summary>
     [Parameter] public bool Auto { get; set; } = true;
-
-    /// <summary>
-    /// Captures all the custom attribute that are not part of <see cref="Animate"/> component.
-    /// </summary>
-    [Parameter( CaptureUnmatchedValues = true )]
-    public Dictionary<string, object> Attributes { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="Animate"/>.

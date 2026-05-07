@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-05T11:20:52.2705979Z",
+  "generatedUtc": "2026-05-07T08:50:15.3914487Z",
   "pages": [
     {
       "route": "/docs",
@@ -1608,6 +1608,52 @@
         {
           "kind": "type",
           "name": "FocusTrap"
+        }
+      ]
+    },
+    {
+      "route": "/docs/components/gestures",
+      "title": "Blazorise Gestures component",
+      "description": "Detect swipes and pointer gesture lifecycle events on wrapped content with the Blazorise Gestures component.",
+      "pagePath": "Pages/Docs/Components/Gestures/GesturesPage.razor",
+      "examples": [
+        {
+          "code": "GesturesBasicExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Gestures/Examples/GesturesBasicExample.razor",
+          "content": "<Gestures Direction=\"GestureDirection.Horizontal\"\r\n          TouchAction=\"GestureTouchAction.PanY\"\r\n          Swiped=\"@OnSwiped\">\r\n    <Div Border=\"Border.Is1.Rounded\" Background=\"Background.Light\" Padding=\"Padding.Is4\" Style=\"user-select: none;\">\r\n        <Div Flex=\"Flex.JustifyContent.Between.AlignItems.Center\" Gap=\"Gap.Is3\">\r\n            <Div>\r\n                <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is0.FromBottom\">\r\n                    @Title\r\n                </Heading>\r\n                <Paragraph TextColor=\"TextColor.Secondary\" Margin=\"Margin.Is2.FromTop.Is0.FromBottom\">\r\n                    Swipe left or right inside this area.\r\n                </Paragraph>\r\n            </Div>\r\n            <Badge Color=\"@BadgeColor\" Pill>@DirectionText</Badge>\r\n        </Div>\r\n    </Div>\r\n</Gestures>\r\n\r\n@code {\r\n    private string Title { get; set; } = \"Waiting for swipe\";\r\n\r\n    private string DirectionText { get; set; } = \"None\";\r\n\r\n    private Color BadgeColor { get; set; } = Color.Secondary;\r\n\r\n    private Task OnSwiped( SwipeEventArgs eventArgs )\r\n    {\r\n        DirectionText = eventArgs.Direction.ToString();\r\n        Title = $\"Swiped {DirectionText.ToLowerInvariant()}\";\r\n        BadgeColor = eventArgs.Direction == GestureDirection.Left ? Color.Primary : Color.Info;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n}",
+          "title": "Basic Swipe",
+          "description": "Wrap content with Gestures and handle Swiped to react to a horizontal swipe."
+        },
+        {
+          "code": "GesturesGalleryExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Gestures/Examples/GesturesGalleryExample.razor",
+          "content": "<Gestures Direction=\"GestureDirection.Horizontal\"\r\n          TouchAction=\"GestureTouchAction.PanY\"\r\n          Swiped=\"@OnSwiped\">\r\n    <Card Background=\"@CurrentSlide.Background\" TextColor=\"TextColor.White\" Style=\"min-height: 260px; user-select: none;\">\r\n        <CardBody Padding=\"Padding.Is5\">\r\n            <Div Flex=\"Flex.Column.JustifyContent.Between\" Style=\"min-height: 220px;\">\r\n                <Div>\r\n                    <Badge Color=\"Color.Light\" TextColor=\"TextColor.Dark\" Pill>\r\n                        @( currentIndex + 1 ) / @slides.Count\r\n                    </Badge>\r\n                    <Heading Size=\"HeadingSize.Is2\" Margin=\"Margin.Is4.FromTop.Is2.FromBottom\">\r\n                        @CurrentSlide.Title\r\n                    </Heading>\r\n                    <Paragraph TextColor=\"TextColor.White50\">\r\n                        @CurrentSlide.Description\r\n                    </Paragraph>\r\n                </Div>\r\n                <Div Flex=\"Flex.JustifyContent.Between.AlignItems.Center\" Gap=\"Gap.Is3\">\r\n                    <Button Color=\"Color.Light\" Outline Clicked=\"@ShowPrevious\">\r\n                        <Icon Name=\"IconName.ArrowLeft\" />\r\n                    </Button>\r\n                    <Badge Color=\"Color.Light\" TextColor=\"TextColor.Dark\" Pill>\r\n                        Swipe left or right\r\n                    </Badge>\r\n                    <Button Color=\"Color.Light\" Outline Clicked=\"@ShowNext\">\r\n                        <Icon Name=\"IconName.ArrowRight\" />\r\n                    </Button>\r\n                </Div>\r\n            </Div>\r\n        </CardBody>\r\n    </Card>\r\n</Gestures>\r\n\r\n@code {\r\n    private readonly List<GallerySlide> slides = new List<GallerySlide>\r\n    {\r\n        new GallerySlide( \"Overview\", \"Introduce key content one panel at a time.\", Background.Primary ),\r\n        new GallerySlide( \"Details\", \"Let users move through content with direct touch interaction.\", Background.Info ),\r\n        new GallerySlide( \"Summary\", \"Keep buttons available for mouse and keyboard users.\", Background.Success ),\r\n    };\r\n\r\n    private int currentIndex;\r\n\r\n    private GallerySlide CurrentSlide => slides[currentIndex];\r\n\r\n    private Task OnSwiped( SwipeEventArgs eventArgs )\r\n    {\r\n        if ( eventArgs.Direction == GestureDirection.Left )\r\n            ShowNext();\r\n        else if ( eventArgs.Direction == GestureDirection.Right )\r\n            ShowPrevious();\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private void ShowPrevious()\r\n    {\r\n        currentIndex = currentIndex == 0 ? slides.Count - 1 : currentIndex - 1;\r\n    }\r\n\r\n    private void ShowNext()\r\n    {\r\n        currentIndex = currentIndex == slides.Count - 1 ? 0 : currentIndex + 1;\r\n    }\r\n\r\n    private class GallerySlide\r\n    {\r\n        public GallerySlide( string title, string description, Background background )\r\n        {\r\n            Title = title;\r\n            Description = description;\r\n            Background = background;\r\n        }\r\n\r\n        public string Title { get; }\r\n\r\n        public string Description { get; }\r\n\r\n        public Background Background { get; }\r\n    }\r\n}",
+          "title": "Swipe Gallery",
+          "description": "Horizontal swipe gestures are useful for galleries, carousels, onboarding panels, and other item-by-item navigation."
+        },
+        {
+          "code": "GesturesSidebarExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Gestures/Examples/GesturesSidebarExample.razor",
+          "content": "<Gestures Direction=\"GestureDirection.Horizontal\"\r\n          TouchAction=\"GestureTouchAction.PanY\"\r\n          Swiped=\"@OnSwiped\">\r\n    <Div Flex=\"Flex.Row\" Border=\"Border.Is1.Rounded\" Background=\"Background.Light\" Padding=\"Padding.Is3\" Height=\"Height.Px( 240 )\" Style=\"user-select: none;\">\r\n        <Div Flex=\"Flex.Row.Grow.Is1.AlignItems.Stretch\" Gap=\"Gap.Is3\">\r\n            <Animate Animation=\"Animations.SlideRight\" Duration=\"@SidebarAnimationDuration\" Trigger=\"AnimationTrigger.Render\" Visible=\"@sidebarExpanded\" AnimateOnInitialRender=\"false\" AnimatedSize=\"AnimatedSize.Width\" Height=\"Height.Is100\">\r\n                <Div Height=\"Height.Is100\" Background=\"Background.Primary\" TextColor=\"TextColor.White\" Padding=\"Padding.Is3\" Border=\"Border.Rounded\" Width=\"@SidebarExpandedWidth\">\r\n                    <Heading Size=\"HeadingSize.Is6\" Margin=\"Margin.Is0.FromBottom\">\r\n                        Navigation\r\n                    </Heading>\r\n                    <Paragraph TextColor=\"TextColor.White50\" Margin=\"Margin.Is2.FromTop\">\r\n                        Swipe left to collapse.\r\n                    </Paragraph>\r\n                </Div>\r\n            </Animate>\r\n\r\n            <Div Flex=\"Flex.Grow.Is1\" Padding=\"Padding.Is2\">\r\n                <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is0.FromBottom\">\r\n                    Content\r\n                </Heading>\r\n                <Paragraph Margin=\"Margin.Is2.FromTop\">\r\n                    Swipe right to expand the panel and swipe left to collapse it.\r\n                </Paragraph>\r\n                <Button Color=\"Color.Primary\" Outline Clicked=\"@ToggleSidebar\">\r\n                    <Icon Name=\"@( sidebarExpanded ? IconName.Compress : IconName.Expand)\" Margin=\"Margin.Is2.FromEnd\" />\r\n                    @( sidebarExpanded ? \"Collapse\" : \"Expand\" )\r\n                </Button>\r\n            </Div>\r\n        </Div>\r\n    </Div>\r\n</Gestures>\r\n\r\n@code {\r\n    private static readonly TimeSpan SidebarAnimationDuration = TimeSpan.FromMilliseconds( 250 );\r\n\r\n    private static readonly IFluentSizing SidebarExpandedWidth = Width.Px( 160 );\r\n\r\n    private bool sidebarExpanded = true;\r\n\r\n    private Task OnSwiped( SwipeEventArgs eventArgs )\r\n    {\r\n        if ( eventArgs.Direction == GestureDirection.Left )\r\n        {\r\n            sidebarExpanded = false;\r\n        }\r\n        else if ( eventArgs.Direction == GestureDirection.Right )\r\n        {\r\n            sidebarExpanded = true;\r\n        }\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private void ToggleSidebar()\r\n    {\r\n        sidebarExpanded = !sidebarExpanded;\r\n    }\r\n}",
+          "title": "Sidebar Toggle",
+          "description": "Directional swipes can collapse or expand a side panel. Pair it with Animate for a slide transition while keeping regular vertical page scrolling available with TouchAction=\"GestureTouchAction.PanY\" ."
+        },
+        {
+          "code": "GesturesLifecycleExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Gestures/Examples/GesturesLifecycleExample.razor",
+          "content": "<Gestures Direction=\"GestureDirection.Horizontal\"\r\n          TouchAction=\"GestureTouchAction.PanY\"\r\n          GestureStarted=\"@OnGestureStarted\"\r\n          GestureMoved=\"@OnGestureMoved\"\r\n          GestureEnded=\"@OnGestureEnded\"\r\n          Swiped=\"@OnSwiped\">\r\n    <Card Border=\"Border.Is1.Rounded\" Background=\"Background.Light\" Style=\"user-select: none;\">\r\n        <CardBody Padding=\"Padding.Is4\">\r\n            <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is0.FromBottom\">\r\n                Swipe progress\r\n            </Heading>\r\n            <Paragraph TextColor=\"TextColor.Secondary\" Margin=\"Margin.Is2.FromTop\">\r\n                Move horizontally inside this card to update the progress while the gesture is active.\r\n            </Paragraph>\r\n            <Progress Value=\"@progress\" Color=\"@progressColor\" />\r\n            <Div Flex=\"Flex.Wrap\" Gap=\"Gap.Is2\" Margin=\"Margin.Is3.FromTop\">\r\n                <Badge Color=\"Color.Primary\" Pill>@state</Badge>\r\n                <Badge Color=\"Color.Info\" Pill>@direction</Badge>\r\n                <Badge Color=\"Color.Secondary\" Pill>Delta X: @deltaX</Badge>\r\n            </Div>\r\n        </CardBody>\r\n    </Card>\r\n</Gestures>\r\n\r\n@code {\r\n    private int progress;\r\n\r\n    private string state = \"Waiting\";\r\n\r\n    private string direction = \"None\";\r\n\r\n    private string deltaX = \"0\";\r\n\r\n    private Color progressColor = Color.Primary;\r\n\r\n    private Task OnGestureStarted( GestureEventArgs eventArgs )\r\n    {\r\n        state = \"Started\";\r\n        progress = 0;\r\n        progressColor = Color.Primary;\r\n        UpdateDetails( eventArgs );\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task OnGestureMoved( GestureEventArgs eventArgs )\r\n    {\r\n        state = \"Moving\";\r\n        progress = System.Math.Min( 100, System.Convert.ToInt32( System.Math.Abs( eventArgs.DeltaX ) ) );\r\n        UpdateDetails( eventArgs );\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task OnGestureEnded( GestureEventArgs eventArgs )\r\n    {\r\n        state = eventArgs.Canceled ? \"Canceled\" : \"Ended\";\r\n        UpdateDetails( eventArgs );\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task OnSwiped( SwipeEventArgs eventArgs )\r\n    {\r\n        progress = 100;\r\n        progressColor = Color.Success;\r\n        UpdateDetails( eventArgs );\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private void UpdateDetails( GestureEventArgs eventArgs )\r\n    {\r\n        direction = eventArgs.Direction.ToString();\r\n        deltaX = eventArgs.DeltaX.ToString( \"0\" );\r\n    }\r\n}",
+          "title": "Gesture Lifecycle",
+          "description": "Use lifecycle events when the UI should update while the pointer is moving, for example a progress indicator, custom drawer motion, or swipe-to-dismiss preview."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Gestures"
         }
       ]
     },
@@ -4004,7 +4050,7 @@
     {
       "route": "/docs/extensions/animate",
       "title": "Blazorise Animate component",
-      "description": "Learn how to use the Blazorise Animate component to add scroll-based animations with the AOS library.",
+      "description": "Learn how to use the Blazorise Animate component to add scroll-based and component animations.",
       "pagePath": "Pages/Docs/Extensions/Animate/AnimatePage.razor",
       "examples": [
         {
@@ -4027,16 +4073,57 @@
           "code": "AnimateResourcesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Animate/Examples/AnimateResourcesExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Animate/blazorise.animate.js?v=2.1.1.0\"></script>",
+          "content": "<!-- No script tag is required. Animate imports its JavaScript module automatically. -->",
           "title": "Static Files",
-          "description": "Add animate.js to your index.html or _Host.cshtml file, depending if you're using a Blazor WebAssembly or Blazor Server side project."
+          "description": "No script tag is required. The Animate component imports its JavaScript module automatically."
         },
         {
           "code": "AnimateExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Animate/Examples/AnimateExample.razor",
           "content": "<Field>\r\n    <Select TValue=\"string\" ValueChanged=\"@OnSelectedAnimationChanged\">\r\n        @foreach ( var availableAnimation in Animations.GetNames() )\r\n        {\r\n            <SelectItem Value=\"@availableAnimation\">@availableAnimation</SelectItem>\r\n        }\r\n    </Select>\r\n</Field>\r\n\r\n@if ( showAnimate )\r\n{\r\n    <Div ElementId=\"#b-animate\">\r\n        <Animate Anchor=\"#b-animate\" Auto Animation=\"selectedAnimation\" DelayMilliseconds=\"500\">\r\n            <Card Margin=\"Margin.Is4.OnY\">\r\n                <CardBody>\r\n                    <CardTitle Size=\"HeadingSize.Is5\">Animation Example</CardTitle>\r\n                    <CardText>\r\n                        Some content.\r\n                    </CardText>\r\n                </CardBody>\r\n            </Card>\r\n        </Animate>\r\n    </Div>\r\n}\r\n<Button Color=\"Color.Primary\" Clicked=\"@Animate\">\r\n    @buttonText\r\n</Button>\r\n@code {\r\n    private IAnimation selectedAnimation = Animations.FadeIn;\r\n    private bool showAnimate = false;\r\n    private string buttonText = \"Animate!\";\r\n\r\n    private Task OnSelectedAnimationChanged( string selectedAnimationName )\r\n    {\r\n        showAnimate = false;\r\n\r\n        if ( Animations.TryParse( selectedAnimationName, out var animation ) )\r\n            selectedAnimation = animation;\r\n        else\r\n            selectedAnimation = null;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private async Task Animate()\r\n    {\r\n        if ( !showAnimate )\r\n        {\r\n            showAnimate = true;\r\n            await InvokeAsync( StateHasChanged );\r\n            buttonText = \"Restart!\";\r\n        }\r\n        else\r\n        {\r\n            showAnimate = false;\r\n            buttonText = \"Animate!\";\r\n        }\r\n\r\n        await InvokeAsync( StateHasChanged );\r\n    }\r\n}",
-          "title": "Example"
+          "title": "Animation Picker",
+          "description": "Select an animation and restart it to compare the built-in effects."
+        },
+        {
+          "code": "AnimateViewportExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Animate/Examples/AnimateViewportExample.razor",
+          "content": "<Div ElementId=\"animate-viewport-example\" Padding=\"Padding.Is3\">\r\n    <Div Flex=\"Flex.Row.Wrap\" Gap=\"Gap.Is3\">\r\n        <Animate Anchor=\"#animate-viewport-example\" Animation=\"Animations.FadeUp\" DurationMilliseconds=\"250\" Once>\r\n            <Card Width=\"Width.Px( 220 )\">\r\n                <CardBody>\r\n                    <CardTitle Size=\"HeadingSize.Is6\">Profile</CardTitle>\r\n                    <CardText>\r\n                        Reveal content as it enters the viewport.\r\n                    </CardText>\r\n                </CardBody>\r\n            </Card>\r\n        </Animate>\r\n\r\n        <Animate Anchor=\"#animate-viewport-example\" Animation=\"Animations.FadeUp\" DurationMilliseconds=\"250\" DelayMilliseconds=\"100\" Once>\r\n            <Card Width=\"Width.Px( 220 )\">\r\n                <CardBody>\r\n                    <CardTitle Size=\"HeadingSize.Is6\">Activity</CardTitle>\r\n                    <CardText>\r\n                        Add a small delay to create a simple sequence.\r\n                    </CardText>\r\n                </CardBody>\r\n            </Card>\r\n        </Animate>\r\n\r\n        <Animate Anchor=\"#animate-viewport-example\" Animation=\"Animations.FadeUp\" DurationMilliseconds=\"250\" DelayMilliseconds=\"200\" Once>\r\n            <Card Width=\"Width.Px( 220 )\">\r\n                <CardBody>\r\n                    <CardTitle Size=\"HeadingSize.Is6\">Summary</CardTitle>\r\n                    <CardText>\r\n                        Keep the animation vocabulary in Blazor code.\r\n                    </CardText>\r\n                </CardBody>\r\n            </Card>\r\n        </Animate>\r\n    </Div>\r\n</Div>",
+          "title": "Viewport Reveal",
+          "description": "The default trigger runs when content enters the viewport. Use Once when the animation should only happen the first time the element is seen."
+        },
+        {
+          "code": "AnimateVisibilityExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Animate/Examples/AnimateVisibilityExample.razor",
+          "content": "<Div Display=\"Display.Flex\" Flex=\"Flex.Column\" Gap=\"Gap.Is3\">\r\n    <Div>\r\n        <Button Color=\"Color.Primary\" Outline Clicked=\"@ToggleDetails\">\r\n            @( detailsVisible ? \"Hide details\" : \"Show details\" )\r\n        </Button>\r\n    </Div>\r\n\r\n    <Animate Animation=\"Animations.FadeDown\" Trigger=\"AnimationTrigger.Render\" Visible=\"@detailsVisible\" AnimateOnInitialRender=\"false\" DurationMilliseconds=\"220\">\r\n        <Alert Color=\"Color.Info\" Visible>\r\n            <AlertDescription>\r\n                This content stays in normal Blazor markup. The animation is controlled by the <Code>Visible</Code> parameter.\r\n            </AlertDescription>\r\n        </Alert>\r\n    </Animate>\r\n</Div>\r\n\r\n@code {\r\n    private bool detailsVisible = true;\r\n\r\n    private void ToggleDetails()\r\n    {\r\n        detailsVisible = !detailsVisible;\r\n    }\r\n}",
+          "title": "Visibility Toggle",
+          "description": "Bind Visible to component state and use AnimationTrigger.Render for enter and leave animations that are not tied to scrolling."
+        },
+        {
+          "code": "AnimateLayoutExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Animate/Examples/AnimateLayoutExample.razor",
+          "content": "<Div Display=\"Display.Flex\" Flex=\"Flex.Column\" Gap=\"Gap.Is3\">\r\n    <Div>\r\n        <Button Color=\"Color.Primary\" Outline Clicked=\"@TogglePanel\">\r\n            @( panelVisible ? \"Collapse panel\" : \"Expand panel\" )\r\n        </Button>\r\n    </Div>\r\n\r\n    <Div Flex=\"Flex.Row.AlignItems.Stretch\" Border=\"Border.Is1.Rounded\" Background=\"Background.Light\" Height=\"Height.Px( 220 )\" Overflow=\"Overflow.Hidden\">\r\n        <Animate Animation=\"Animations.SlideRight\" Trigger=\"AnimationTrigger.Render\" Visible=\"@panelVisible\" AnimateOnInitialRender=\"false\" AnimatedSize=\"AnimatedSize.Width\" DurationMilliseconds=\"250\" Height=\"Height.Is100\">\r\n            <Div Width=\"Width.Px( 180 )\" Height=\"Height.Is100\" Background=\"Background.Primary\" TextColor=\"TextColor.White\" Padding=\"Padding.Is3\">\r\n                <Heading Size=\"HeadingSize.Is6\" Margin=\"Margin.Is0.FromBottom\">\r\n                    Filters\r\n                </Heading>\r\n                <Paragraph TextColor=\"TextColor.White50\" Margin=\"Margin.Is2.FromTop\">\r\n                    Width is animated together with the slide.\r\n                </Paragraph>\r\n            </Div>\r\n        </Animate>\r\n\r\n        <Div Flex=\"Flex.Grow.Is1\" Padding=\"Padding.Is3\">\r\n            <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is0.FromBottom\">\r\n                Results\r\n            </Heading>\r\n            <Paragraph Margin=\"Margin.Is2.FromTop\">\r\n                The content area moves because the animated panel changes its occupied width.\r\n            </Paragraph>\r\n        </Div>\r\n    </Div>\r\n</Div>\r\n\r\n@code {\r\n    private bool panelVisible = true;\r\n\r\n    private void TogglePanel()\r\n    {\r\n        panelVisible = !panelVisible;\r\n    }\r\n}",
+          "title": "Animated Size",
+          "description": "Use AnimatedSize when the animated element should also change the space it occupies, such as a drawer, sidebar, or disclosure panel."
+        },
+        {
+          "code": "AnimateCustomExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Animate/Examples/AnimateCustomExample.razor",
+          "content": "<Div Display=\"Display.Flex\" Flex=\"Flex.Column\" Gap=\"Gap.Is3\">\r\n    <Div>\r\n        <Button Color=\"Color.Primary\" Clicked=\"@RunAnimation\">\r\n            Run custom animation\r\n        </Button>\r\n    </Div>\r\n\r\n    <Animate @ref=\"@animateRef\" Auto=\"false\" Animation=\"@SoftEnter\" Easing=\"@SoftBack\" Trigger=\"AnimationTrigger.Render\" DurationMilliseconds=\"360\">\r\n        <Card Width=\"Width.Px( 320 )\">\r\n            <CardBody>\r\n                <CardTitle Size=\"HeadingSize.Is6\">Custom keyframes</CardTitle>\r\n                <CardText>\r\n                    This animation is defined in C# with opacity, translation, scale, and rotation keyframes.\r\n                </CardText>\r\n            </CardBody>\r\n        </Card>\r\n    </Animate>\r\n</Div>\r\n\r\n@code {\r\n    private static readonly IAnimation SoftEnter = new AnimationDefinition(\r\n        \"soft-enter\",\r\n        new[]\r\n        {\r\n            new AnimationFrame { Opacity = 0, Y = \"1rem\", Scale = 0.96, Rotate = \"-2deg\" },\r\n            new AnimationFrame { Opacity = 0.7, Y = \"0.25rem\", Scale = 1.02, Rotate = \"1deg\" },\r\n            new AnimationFrame { Opacity = 1, Y = \"0\", Scale = 1, Rotate = \"0deg\" },\r\n        } );\r\n\r\n    private static readonly IEasing SoftBack = new EasingDefinition(\r\n        \"soft-back\",\r\n        new[] { 0.175, 0.885, 0.32, 1.275 } );\r\n\r\n    private Blazorise.Animate.Animate animateRef;\r\n\r\n    private void RunAnimation()\r\n    {\r\n        animateRef?.Run();\r\n    }\r\n}",
+          "title": "Custom Keyframes",
+          "description": "Use AnimationDefinition when an animation should be defined in C# instead of by a built-in animation name."
+        },
+        {
+          "code": "AnimateManualExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Animate/Examples/AnimateManualExample.razor",
+          "content": "<Div Display=\"Display.Flex\" Flex=\"Flex.Column\" Gap=\"Gap.Is3\">\r\n    <Div>\r\n        <Button Color=\"Color.Primary\" Clicked=\"@RunAnimation\">\r\n            Run animation\r\n        </Button>\r\n    </Div>\r\n\r\n    <Animate @ref=\"@animateRef\" Auto=\"false\" Animation=\"Animations.ZoomIn\" Trigger=\"AnimationTrigger.Render\" DurationMilliseconds=\"250\">\r\n        <Card Width=\"Width.Px( 260 )\">\r\n            <CardBody>\r\n                <CardTitle Size=\"HeadingSize.Is6\">Manual animation</CardTitle>\r\n                <CardText>\r\n                    The component renders and animates when <Code>Run()</Code> is called.\r\n                </CardText>\r\n            </CardBody>\r\n        </Card>\r\n    </Animate>\r\n</Div>\r\n\r\n@code {\r\n    private Blazorise.Animate.Animate animateRef;\r\n\r\n    private void RunAnimation()\r\n    {\r\n        animateRef?.Run();\r\n    }\r\n}",
+          "title": "Manual Run",
+          "description": "Set Auto to false and call Run() when the animation should be started from code."
         }
       ],
       "apiRefs": [
@@ -8264,7 +8351,7 @@
           "code": "AnimateScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/AnimateScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Animate/blazorise.animate.js?v=2.1.1.0\"></script>"
+          "content": "<!-- No script tag is required. Animate imports its JavaScript module automatically. -->"
         },
         {
           "code": "CaptchaReCaptchaScriptsExample",

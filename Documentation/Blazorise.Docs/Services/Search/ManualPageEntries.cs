@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Blazorise.Docs.Models;
 
@@ -40,6 +40,7 @@ public static class ManualPageEntries
     new( "docs/components/file-input", "File Input", "The FileInput component is a specialized input that provides a clean interface for selecting files." ),
     new( "docs/components/file-picker", "File Picker", "The FilePicker component provides extra functionality, listing and detailing files, providing clear and upload buttons, and inbuilt progress." ),
     new( "docs/components/focus-trap", "FocusTrap", "Manages focus of the forms and its input elements." ),
+    new( "docs/components/gestures", "Gestures", "Detect swipes and pointer gesture lifecycle events on wrapped content." ),
     new( "docs/components/grid", "Grid", "A simple way to build responsive columns." ),
     new( "docs/components/highlighter", "Highlighter", "Visually highlight part of the text based on the search term." ),
     new( "docs/components/jumbotron", "Jumbotron", "Lightweight, flexible component for showcasing hero unit style content." ),

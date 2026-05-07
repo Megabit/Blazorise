@@ -1,6 +1,6 @@
-﻿@page "/docs/extensions/animate"
+@page "/docs/extensions/animate"
 
-<Seo Canonical="/docs/extensions/animate" Title="Blazorise Animate component" Description="Learn how to use the Blazorise Animate component to add scroll-based animations with the AOS library." />
+<Seo Canonical="/docs/extensions/animate" Title="Blazorise Animate component" Description="Learn how to use the Blazorise Animate component to add scroll-based and component animations." />
 
 <DocsPageTitle Path="Extensions/Animate">
     Blazorise Animate component
@@ -11,30 +11,13 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The Animate component wraps the <Anchor Target="Target.Blank" To="https://michalsnik.github.io/aos/">AOS JavaScript library</Anchor> to animate content as it enters the viewport.
+    The Animate component uses the Motion runtime to animate content as it enters the viewport or when component visibility changes.
 </DocsPageParagraph>
 
-<Alert Color="Color.Info" Visible>
-    <AlertDescription>
-        <Paragraph>Blazorise wraps the animation functionality provided by the <Anchor To="https://michalsnik.github.io/aos/">AOS library</Anchor>. If you run into issues, also review the AOS repository.</Paragraph>
+<DocsPageParagraph>
+    Viewport animations observe the rendered <Code>Animate</Code> element by default. Use <Code>Anchor</Code> only when the viewport trigger should be based on another element, such as a shared container that starts several animations together.
+</DocsPageParagraph>
 
-        <Paragraph>Some content cannot be animated because of how it is structured or styled.</Paragraph>
-        <Paragraph>It is not possible to animate:</Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>Modal</UnorderedListItem>
-        </UnorderedList>
-    </AlertDescription>
-</Alert>
-
-<Alert Color="Color.Info" Visible>
-    <AlertDescription>
-        Note that certain elements on the page may affect how the AOS library finds the "offset" element needed to trigger animations. Sidebars are a known example.
-        To make sure your content is successfully animated you may configure the <Code>Anchor</Code> parameter giving the <Code>Animate</Code> component the necessary information to work.
-
-        For example, the animate example below is configured this way.
-    </AlertDescription>
-
-</Alert>
 <DocsPageParagraph>
     To use the <Code>Animate</Code> component, install the <Code>Blazorise.Animate</Code> package first.
 </DocsPageParagraph>
@@ -59,18 +42,69 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Static Files">
-        Add <Code>animate.js</Code> to your <Code>index.html</Code> or <Code>_Host.cshtml</Code> file, depending if you're using a Blazor WebAssembly or Blazor Server side project.
+        No script tag is required. The <Code>Animate</Code> component imports its JavaScript module automatically.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="AnimateResourcesExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Example">
+    <DocsPageSectionHeader Title="Animation Picker">
+        Select an animation and restart it to compare the built-in effects.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <AnimateExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="AnimateExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Viewport Reveal">
+        The default trigger runs when content enters the viewport. Use <Code>Once</Code> when the animation should only happen the first time the element is seen.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AnimateViewportExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AnimateViewportExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Visibility Toggle">
+        Bind <Code>Visible</Code> to component state and use <Code>AnimationTrigger.Render</Code> for enter and leave animations that are not tied to scrolling.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AnimateVisibilityExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AnimateVisibilityExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Animated Size">
+        Use <Code>AnimatedSize</Code> when the animated element should also change the space it occupies, such as a drawer, sidebar, or disclosure panel.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AnimateLayoutExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AnimateLayoutExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom Keyframes">
+        Use <Code>AnimationDefinition</Code> when an animation should be defined in C# instead of by a built-in animation name.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AnimateCustomExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AnimateCustomExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Manual Run">
+        Set <Code>Auto</Code> to false and call <Code>Run()</Code> when the animation should be started from code.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AnimateManualExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AnimateManualExample" />
 </DocsPageSection>
 
 <ComponentApiDocs ComponentTypes="[typeof(Animate)]" />

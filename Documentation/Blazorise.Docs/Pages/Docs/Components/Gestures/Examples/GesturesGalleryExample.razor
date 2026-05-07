@@ -1,0 +1,83 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Gestures Direction="GestureDirection.Horizontal"
+          TouchAction="GestureTouchAction.PanY"
+          Swiped="@OnSwiped">
+    <Card Background="@CurrentSlide.Background" TextColor="TextColor.White" Style="min-height: 260px; user-select: none;">
+        <CardBody Padding="Padding.Is5">
+            <Div Flex="Flex.Column.JustifyContent.Between" Style="min-height: 220px;">
+                <Div>
+                    <Badge Color="Color.Light" TextColor="TextColor.Dark" Pill>
+                        @( currentIndex + 1 ) / @slides.Count
+                    </Badge>
+                    <Heading Size="HeadingSize.Is2" Margin="Margin.Is4.FromTop.Is2.FromBottom">
+                        @CurrentSlide.Title
+                    </Heading>
+                    <Paragraph TextColor="TextColor.White50">
+                        @CurrentSlide.Description
+                    </Paragraph>
+                </Div>
+                <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                    <Button Color="Color.Light" Outline Clicked="@ShowPrevious">
+                        <Icon Name="IconName.ArrowLeft" />
+                    </Button>
+                    <Badge Color="Color.Light" TextColor="TextColor.Dark" Pill>
+                        Swipe left or right
+                    </Badge>
+                    <Button Color="Color.Light" Outline Clicked="@ShowNext">
+                        <Icon Name="IconName.ArrowRight" />
+                    </Button>
+                </Div>
+            </Div>
+        </CardBody>
+    </Card>
+</Gestures>
+
+@code {
+    private readonly List<GallerySlide> slides = new List<GallerySlide>
+    {
+        new GallerySlide( "Overview", "Introduce key content one panel at a time.", Background.Primary ),
+        new GallerySlide( "Details", "Let users move through content with direct touch interaction.", Background.Info ),
+        new GallerySlide( "Summary", "Keep buttons available for mouse and keyboard users.", Background.Success ),
+    };
+
+    private int currentIndex;
+
+    private GallerySlide CurrentSlide => slides[currentIndex];
+
+    private Task OnSwiped( SwipeEventArgs eventArgs )
+    {
+        if ( eventArgs.Direction == GestureDirection.Left )
+            ShowNext();
+        else if ( eventArgs.Direction == GestureDirection.Right )
+            ShowPrevious();
+
+        return Task.CompletedTask;
+    }
+
+    private void ShowPrevious()
+    {
+        currentIndex = currentIndex == 0 ? slides.Count - 1 : currentIndex - 1;
+    }
+
+    private void ShowNext()
+    {
+        currentIndex = currentIndex == slides.Count - 1 ? 0 : currentIndex + 1;
+    }
+
+    private class GallerySlide
+    {
+        public GallerySlide( string title, string description, Background background )
+        {
+            Title = title;
+            Description = description;
+            Background = background;
+        }
+
+        public string Title { get; }
+
+        public string Description { get; }
+
+        public Background Background { get; }
+    }
+}

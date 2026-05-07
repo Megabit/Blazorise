@@ -1,0 +1,39 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Gestures</span> <span class="htmlAttributeName">Direction</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">GestureDirection</span><span class="enumValue">.Horizontal</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">TouchAction</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">GestureTouchAction</span><span class="enumValue">.PanY</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">Swiped</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnSwiped</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Border</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Border.Is1.Rounded</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Background</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Background</span><span class="enumValue">.Light</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Padding</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Padding</span><span class="enumValue">.Is4</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Style</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">user-select: none;</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.JustifyContent.Between.AlignItems.Center</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Gap</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Gap</span><span class="enumValue">.Is3</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Heading</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">HeadingSize</span><span class="enumValue">.Is5</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is0.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="atSign">&#64;</span>Title
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Heading</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextColor</span><span class="enumValue">.Secondary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is2.FromTop.Is0.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                    Swipe left or right inside this area.
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Badge</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>BadgeColor</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Pill</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>DirectionText<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Badge</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Gestures</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">string</span> Title { <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="string">&quot;Waiting for swipe&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> DirectionText { <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="string">&quot;None&quot;</span>;
+
+    <span class="keyword">private</span> Color BadgeColor { <span class="keyword">get</span>; <span class="keyword">set</span>; } = Color.Secondary;
+
+    <span class="keyword">private</span> Task OnSwiped( SwipeEventArgs eventArgs )
+    {
+        DirectionText = eventArgs.Direction.ToString();
+        Title = $<span class="string">&quot;Swiped {DirectionText.ToLowerInvariant()}&quot;</span>;
+        BadgeColor = eventArgs.Direction == GestureDirection.Left ? Color.Primary : Color.Info;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+}
+</pre></div>
+</div>

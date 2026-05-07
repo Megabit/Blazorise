@@ -1,0 +1,60 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Gestures Direction="GestureDirection.Horizontal"
+          TouchAction="GestureTouchAction.PanY"
+          Swiped="@OnSwiped">
+    <Div Flex="Flex.Row" Border="Border.Is1.Rounded" Background="Background.Light" Padding="Padding.Is3" Height="Height.Px( 240 )" Style="user-select: none;">
+        <Div Flex="Flex.Row.Grow.Is1.AlignItems.Stretch" Gap="Gap.Is3">
+            <Animate Animation="Animations.SlideRight" Duration="@SidebarAnimationDuration" Trigger="AnimationTrigger.Render" Visible="@sidebarExpanded" AnimateOnInitialRender="false" AnimatedSize="AnimatedSize.Width" Height="Height.Is100">
+                <Div Height="Height.Is100" Background="Background.Primary" TextColor="TextColor.White" Padding="Padding.Is3" Border="Border.Rounded" Width="@SidebarExpandedWidth">
+                    <Heading Size="HeadingSize.Is6" Margin="Margin.Is0.FromBottom">
+                        Navigation
+                    </Heading>
+                    <Paragraph TextColor="TextColor.White50" Margin="Margin.Is2.FromTop">
+                        Swipe left to collapse.
+                    </Paragraph>
+                </Div>
+            </Animate>
+
+            <Div Flex="Flex.Grow.Is1" Padding="Padding.Is2">
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.FromBottom">
+                    Content
+                </Heading>
+                <Paragraph Margin="Margin.Is2.FromTop">
+                    Swipe right to expand the panel and swipe left to collapse it.
+                </Paragraph>
+                <Button Color="Color.Primary" Outline Clicked="@ToggleSidebar">
+                    <Icon Name="@( sidebarExpanded ? IconName.Compress : IconName.Expand)" Margin="Margin.Is2.FromEnd" />
+                    @( sidebarExpanded ? "Collapse" : "Expand" )
+                </Button>
+            </Div>
+        </Div>
+    </Div>
+</Gestures>
+
+@code {
+    private static readonly TimeSpan SidebarAnimationDuration = TimeSpan.FromMilliseconds( 250 );
+
+    private static readonly IFluentSizing SidebarExpandedWidth = Width.Px( 160 );
+
+    private bool sidebarExpanded = true;
+
+    private Task OnSwiped( SwipeEventArgs eventArgs )
+    {
+        if ( eventArgs.Direction == GestureDirection.Left )
+        {
+            sidebarExpanded = false;
+        }
+        else if ( eventArgs.Direction == GestureDirection.Right )
+        {
+            sidebarExpanded = true;
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private void ToggleSidebar()
+    {
+        sidebarExpanded = !sidebarExpanded;
+    }
+}
