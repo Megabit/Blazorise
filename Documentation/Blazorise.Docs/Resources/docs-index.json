@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-04T11:33:09.5928234Z",
+  "generatedUtc": "2026-05-07T14:28:29.5840360Z",
   "pages": [
     {
       "route": "/docs",
@@ -34,7 +34,7 @@
           "code": "AnalyzerPackageReferenceExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/AnalyzerPackageReferenceExample.snippet",
-          "content": "<PackageReference Include=\"Blazorise.Analyzers\" Version=\"2.1.1\" PrivateAssets=\"all\" />",
+          "content": "<PackageReference Include=\"Blazorise.Analyzers\" Version=\"2.1.2\" PrivateAssets=\"all\" />",
           "title": "Project file reference",
           "description": "If you prefer editing the project file directly, add the package reference in the target .csproj ."
         },
@@ -275,8 +275,9 @@
           "code": "TopBarExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Bar/Examples/TopBarExample.razor",
-          "content": "<Bar Breakpoint=\"Breakpoint.Desktop\"\r\n     Background=\"Background.Light\"\r\n     ThemeContrast=\"ThemeContrast.Light\">\r\n    <BarBrand>\r\n        Brandname\r\n    </BarBrand>\r\n    <BarToggler />\r\n    <BarMenu>\r\n        <BarStart>\r\n            <BarItem>\r\n                <BarLink To=\"#home\">Home</BarLink>\r\n            </BarItem>\r\n            <BarItem>\r\n                <BarLink To=\"#docs\">Documentation</BarLink>\r\n            </BarItem>\r\n            <BarItem>\r\n                <BarDropdown>\r\n                    <BarDropdownToggle>Dropdown</BarDropdownToggle>\r\n                    <BarDropdownMenu>\r\n                        <BarDropdownItem>Action</BarDropdownItem>\r\n                        <BarDropdownDivider />\r\n                        <BarDropdownItem>Another action</BarDropdownItem>\r\n                    </BarDropdownMenu>\r\n                </BarDropdown>\r\n            </BarItem>\r\n        </BarStart>\r\n        <BarEnd>\r\n            <BarItem>\r\n                <Button Color=\"Color.Primary\">Sign up</Button>\r\n                <Button Color=\"Color.Secondary\">Log in</Button>\r\n            </BarItem>\r\n        </BarEnd>\r\n    </BarMenu>\r\n</Bar>",
-          "title": "Top Bar (with dropdown)"
+          "content": "<Bar Breakpoint=\"Breakpoint.Desktop\"\r\n     Background=\"Background.Light\"\r\n     ThemeContrast=\"ThemeContrast.Light\"\r\n     Shadow=\"Shadow.Default\">\r\n    <BarBrand>\r\n        <BarItem>\r\n            <BarLink To=\"#dashboard\">\r\n                <BarIcon IconName=\"IconName.LayerGroup\" />\r\n                Atlas CRM\r\n            </BarLink>\r\n        </BarItem>\r\n    </BarBrand>\r\n    <BarToggler />\r\n    <BarMenu>\r\n        <BarStart>\r\n            <BarItem>\r\n                <BarLink To=\"#pipeline\">\r\n                    Pipeline\r\n                </BarLink>\r\n            </BarItem>\r\n            <BarItem>\r\n                <BarLink To=\"#accounts\">\r\n                    Accounts\r\n                </BarLink>\r\n            </BarItem>\r\n            <BarItem>\r\n                <BarDropdown>\r\n                    <BarDropdownToggle>\r\n                        Reports\r\n                    </BarDropdownToggle>\r\n                    <BarDropdownMenu>\r\n                        <BarDropdownItem To=\"#sales-report\">Sales summary</BarDropdownItem>\r\n                        <BarDropdownItem To=\"#activity-report\">Team activity</BarDropdownItem>\r\n                        <BarDropdownDivider />\r\n                        <BarDropdownItem To=\"#scheduled-reports\">Scheduled reports</BarDropdownItem>\r\n                    </BarDropdownMenu>\r\n                </BarDropdown>\r\n            </BarItem>\r\n        </BarStart>\r\n        <BarEnd>\r\n            <BarItem>\r\n                <Button Color=\"Color.Light\" Outline>\r\n                    <Icon Name=\"IconName.Search\" />\r\n                </Button>\r\n            </BarItem>\r\n            <BarItem>\r\n                <Button Color=\"Color.Light\" Outline>\r\n                    <Icon Name=\"IconName.Bell\" />\r\n                    <Badge Color=\"Color.Danger\" Pill>3</Badge>\r\n                </Button>\r\n            </BarItem>\r\n            <BarItem>\r\n                <BarDropdown RightAligned>\r\n                    <BarDropdownToggle>\r\n                        <BarIcon IconName=\"IconName.UserCircle\" />\r\n                        Maya Stone\r\n                    </BarDropdownToggle>\r\n                    <BarDropdownMenu>\r\n                        <BarDropdownItem To=\"#profile\">Profile</BarDropdownItem>\r\n                        <BarDropdownItem To=\"#preferences\">Preferences</BarDropdownItem>\r\n                        <BarDropdownDivider />\r\n                        <BarDropdownItem To=\"#sign-out\">Sign out</BarDropdownItem>\r\n                    </BarDropdownMenu>\r\n                </BarDropdown>\r\n            </BarItem>\r\n        </BarEnd>\r\n    </BarMenu>\r\n</Bar>",
+          "title": "Application Header",
+          "description": "A typical horizontal Bar has a brand, primary navigation, utility actions, and an account dropdown. Use BarStart for main navigation and BarEnd for actions that should stay aligned to the opposite side."
         },
         {
           "code": "BarDropdownToggleToExample",
@@ -306,47 +307,47 @@
           "code": "VerticalBarSideBarExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Bar/Examples/VerticalBarSideBarExample.razor",
-          "content": "<Bar Mode=\"BarMode.VerticalInline\"\r\n     CollapseMode=\"BarCollapseMode.Small\"\r\n     Breakpoint=\"Breakpoint.Desktop\"\r\n     NavigationBreakpoint=\"Breakpoint.Tablet\"\r\n     ThemeContrast=\"ThemeContrast.Dark\">\r\n    <BarBrand>\r\n        <BarItem>\r\n            <BarLink To=\"#\">\r\n                <BarIcon IconName=\"IconName.Dashboard\" />\r\n                Blazorise Demo\r\n            </BarLink>\r\n        </BarItem>\r\n    </BarBrand>\r\n    <BarMenu>\r\n        <BarStart>\r\n            <BarItem>\r\n                <BarLink To=\"#home\">\r\n                    <BarIcon IconName=\"IconName.Dashboard\" />\r\n                    Home\r\n                </BarLink>\r\n            </BarItem>\r\n            <BarItem>\r\n                <BarLink To=\"#docs\">Documentation</BarLink>\r\n            </BarItem>\r\n            <BarItem>\r\n                <BarDropdown>\r\n                    <BarDropdownToggle>\r\n                        <BarIcon IconName=\"IconName.Edit\" />\r\n                        Dropdown\r\n                    </BarDropdownToggle>\r\n                    <BarDropdownMenu>\r\n                        <BarDropdownItem>Action</BarDropdownItem>\r\n                        <BarDropdownItem>Another action</BarDropdownItem>\r\n                    </BarDropdownMenu>\r\n                </BarDropdown>\r\n            </BarItem>\r\n        </BarStart>\r\n    </BarMenu>\r\n</Bar>",
-          "title": "Vertical Bar (Sidebar)",
-          "description": "When using the Bar in one of the Vertical modes for the purpose of a Sidebar, you need to place it inside the LayoutSiderContent component. Please see the Layout docs for more information on setup with Sidebar."
+          "content": "<Layout Sider Style=\"min-height: 420px;\">\r\n    <LayoutSider>\r\n        <LayoutSiderContent>\r\n            <Bar Mode=\"BarMode.VerticalInline\"\r\n                 CollapseMode=\"BarCollapseMode.Small\"\r\n                 Breakpoint=\"Breakpoint.Desktop\"\r\n                 NavigationBreakpoint=\"Breakpoint.Tablet\"\r\n                 ThemeContrast=\"ThemeContrast.Dark\"\r\n                 MenuToggleBehavior=\"BarMenuToggleBehavior.AllowSingleMenu\">\r\n                <BarBrand>\r\n                    <BarItem>\r\n                        <BarLink To=\"#workspace\">\r\n                            <BarIcon IconName=\"IconName.LayerGroup\" />\r\n                            Ops Console\r\n                        </BarLink>\r\n                    </BarItem>\r\n                </BarBrand>\r\n                <BarMenu>\r\n                    <BarStart>\r\n                        <BarItem>\r\n                            <BarLink To=\"#overview\">\r\n                                <BarIcon IconName=\"IconName.Dashboard\" />\r\n                                Overview\r\n                            </BarLink>\r\n                        </BarItem>\r\n                        <BarItem>\r\n                            <BarDropdown>\r\n                                <BarDropdownToggle>\r\n                                    <BarIcon IconName=\"IconName.ChartLine\" />\r\n                                    Analytics\r\n                                </BarDropdownToggle>\r\n                                <BarDropdownMenu>\r\n                                    <BarDropdownItem To=\"#traffic\">Traffic</BarDropdownItem>\r\n                                    <BarDropdownItem To=\"#conversion\">Conversion</BarDropdownItem>\r\n                                    <BarDropdownItem To=\"#retention\">Retention</BarDropdownItem>\r\n                                </BarDropdownMenu>\r\n                            </BarDropdown>\r\n                        </BarItem>\r\n                        <BarItem>\r\n                            <BarDropdown>\r\n                                <BarDropdownToggle>\r\n                                    <BarIcon IconName=\"IconName.Users\" />\r\n                                    Customers\r\n                                </BarDropdownToggle>\r\n                                <BarDropdownMenu>\r\n                                    <BarDropdownItem To=\"#all-customers\">All customers</BarDropdownItem>\r\n                                    <BarDropdownItem To=\"#segments\">Segments</BarDropdownItem>\r\n                                    <BarDropdownItem To=\"#imports\">Imports</BarDropdownItem>\r\n                                </BarDropdownMenu>\r\n                            </BarDropdown>\r\n                        </BarItem>\r\n                        <BarItem>\r\n                            <BarLink To=\"#billing\">\r\n                                <BarIcon IconName=\"IconName.Receipt\" />\r\n                                Billing\r\n                            </BarLink>\r\n                        </BarItem>\r\n                    </BarStart>\r\n                    <BarEnd>\r\n                        <BarItem>\r\n                            <BarLink To=\"#settings\">\r\n                                <BarIcon IconName=\"IconName.Settings\" />\r\n                                Settings\r\n                            </BarLink>\r\n                        </BarItem>\r\n                    </BarEnd>\r\n                </BarMenu>\r\n            </Bar>\r\n        </LayoutSiderContent>\r\n    </LayoutSider>\r\n    <Layout>\r\n        <LayoutHeader Fixed>\r\n            <Div Padding=\"Padding.Is3\" Background=\"Background.Light\" Border=\"Border.Is1.OnBottom\">\r\n                <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is0\">Workspace overview</Heading>\r\n            </Div>\r\n        </LayoutHeader>\r\n        <LayoutContent Padding=\"Padding.Is3\">\r\n            <Card>\r\n                <CardBody>\r\n                    The vertical Bar works well as the primary navigation inside a layout sider.\r\n                </CardBody>\r\n            </Card>\r\n        </LayoutContent>\r\n    </Layout>\r\n</Layout>",
+          "title": "Application Sidebar",
+          "description": "For a sidebar layout, place the vertical Bar inside LayoutSiderContent . This pattern keeps navigation, content, and header regions in predictable layout slots. Please see the Layout docs for more information on setup with Sidebar."
         },
         {
           "code": "VerticalBarRightAlignedExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Bar/Examples/VerticalBarRightAlignedExample.razor",
-          "content": "<Layout Sider>\r\n    <LayoutSider>\r\n        <LayoutSiderContent>\r\n            <Bar Mode=\"BarMode.VerticalInline\" CollapseMode=\"BarCollapseMode.Small\"\r\n                 Breakpoint=\"Breakpoint.Desktop\"\r\n                 Background=\"Background.Light\"\r\n                 ThemeContrast=\"ThemeContrast.Light\">\r\n                <BarBrand>\r\n                    <BarItem>\r\n                        <BarLink To=\"#\">\r\n                            <BarIcon IconName=\"IconName.Dashboard\" />\r\n                            Example\r\n                        </BarLink>\r\n                    </BarItem>\r\n                </BarBrand>\r\n                <BarMenu>\r\n                    <BarStart>\r\n                        <BarItem>\r\n                            <BarDropdown RightAligned>\r\n                                <BarDropdownToggle>\r\n                                    <BarIcon IconName=\"IconName.Edit\" />\r\n                                    Toggle\r\n                                </BarDropdownToggle>\r\n                                <BarDropdownMenu>\r\n                                    <BarDropdownItem>Action</BarDropdownItem>\r\n                                    <BarDropdownItem>Another action</BarDropdownItem>\r\n                                </BarDropdownMenu>\r\n                            </BarDropdown>\r\n                        </BarItem>\r\n                    </BarStart>\r\n                </BarMenu>\r\n            </Bar>\r\n        </LayoutSiderContent>\r\n    </LayoutSider>\r\n</Layout>",
-          "title": "Right-aligned Vertical Bar",
-          "description": "You can create a right-aligned Vertical style Bar easily by following two key principals. Using the Layout to accommodate the right-align bar, by putting the LayoutSider section after the Layout section (see in example below). Adding RightAligned to ALL BarDropdownMenu within the Vertical bar. Right-aligned vertical bar example:"
+          "content": "<Layout Sider Style=\"min-height: 360px;\">\r\n    <Layout>\r\n        <LayoutContent Padding=\"Padding.Is3\">\r\n            <Card>\r\n                <CardBody>\r\n                    Right-side navigation is useful for context tools, inspectors, and account panels.\r\n                </CardBody>\r\n            </Card>\r\n        </LayoutContent>\r\n    </Layout>\r\n    <LayoutSider>\r\n        <LayoutSiderContent>\r\n            <Bar Mode=\"BarMode.VerticalInline\"\r\n                 CollapseMode=\"BarCollapseMode.Small\"\r\n                 Breakpoint=\"Breakpoint.Desktop\"\r\n                 Background=\"Background.Light\"\r\n                 ThemeContrast=\"ThemeContrast.Light\">\r\n                <BarBrand>\r\n                    <BarItem>\r\n                        <BarLink To=\"#inspector\">\r\n                            <BarIcon IconName=\"IconName.SliderHorizontal\" />\r\n                            Inspector\r\n                        </BarLink>\r\n                    </BarItem>\r\n                </BarBrand>\r\n                <BarMenu>\r\n                    <BarStart>\r\n                        <BarItem>\r\n                            <BarDropdown RightAligned>\r\n                                <BarDropdownToggle>\r\n                                    <BarIcon IconName=\"IconName.Filter\" />\r\n                                    Filters\r\n                                </BarDropdownToggle>\r\n                                <BarDropdownMenu>\r\n                                    <BarDropdownItem To=\"#assigned\">Assigned to me</BarDropdownItem>\r\n                                    <BarDropdownItem To=\"#due-soon\">Due soon</BarDropdownItem>\r\n                                    <BarDropdownItem To=\"#blocked\">Blocked</BarDropdownItem>\r\n                                </BarDropdownMenu>\r\n                            </BarDropdown>\r\n                        </BarItem>\r\n                        <BarItem>\r\n                            <BarLink To=\"#activity\">\r\n                                <BarIcon IconName=\"IconName.History\" />\r\n                                Activity\r\n                            </BarLink>\r\n                        </BarItem>\r\n                    </BarStart>\r\n                </BarMenu>\r\n            </Bar>\r\n        </LayoutSiderContent>\r\n    </LayoutSider>\r\n</Layout>",
+          "title": "Right-aligned Sidebar",
+          "description": "You can create a right-aligned Vertical style Bar by following two key principles. Use Layout to place the LayoutSider after the main Layout section. Add RightAligned to dropdowns that should open toward the left side of the right rail."
         },
         {
           "code": "VerticalBarInlineExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Bar/Examples/VerticalBarInlineExample.razor",
-          "content": "<Bar Mode=\"BarMode.VerticalInline\"\r\n     Breakpoint=\"Breakpoint.Desktop\"\r\n     Background=\"Background.Light\"\r\n     ThemeContrast=\"ThemeContrast.Light\">\r\n    <BarToggler />\r\n    <BarBrand>\r\n        <BarItem>\r\n            <BarLink To=\"#\">\r\n                <BarIcon IconName=\"IconName.Dashboard\" />\r\n                Example\r\n            </BarLink>\r\n        </BarItem>\r\n    </BarBrand>\r\n    <BarMenu>\r\n        <BarItem>Example</BarItem>\r\n    </BarMenu>\r\n</Bar>",
+          "content": "<Bar Mode=\"BarMode.VerticalInline\"\r\n     CollapseMode=\"BarCollapseMode.Small\"\r\n     Breakpoint=\"Breakpoint.Desktop\"\r\n     Background=\"Background.Light\"\r\n     ThemeContrast=\"ThemeContrast.Light\"\r\n     Border=\"Border.Is1\">\r\n    <BarToggler />\r\n    <BarBrand>\r\n        <BarItem>\r\n            <BarLink To=\"#inventory\">\r\n                <BarIcon IconName=\"IconName.Store\" />\r\n                Inventory\r\n            </BarLink>\r\n        </BarItem>\r\n    </BarBrand>\r\n    <BarMenu>\r\n        <BarStart>\r\n            <BarItem>\r\n                <BarLink To=\"#products\">\r\n                    <BarIcon IconName=\"IconName.ShoppingBag\" />\r\n                    Products\r\n                </BarLink>\r\n            </BarItem>\r\n            <BarItem>\r\n                <BarLink To=\"#orders\">\r\n                    <BarIcon IconName=\"IconName.ShoppingCart\" />\r\n                    Orders\r\n                </BarLink>\r\n            </BarItem>\r\n            <BarItem>\r\n                <BarDropdown>\r\n                    <BarDropdownToggle>\r\n                        <BarIcon IconName=\"IconName.Truck\" />\r\n                        Shipping\r\n                    </BarDropdownToggle>\r\n                    <BarDropdownMenu>\r\n                        <BarDropdownItem To=\"#labels\">Labels</BarDropdownItem>\r\n                        <BarDropdownItem To=\"#carriers\">Carriers</BarDropdownItem>\r\n                        <BarDropdownItem To=\"#returns\">Returns</BarDropdownItem>\r\n                    </BarDropdownMenu>\r\n                </BarDropdown>\r\n            </BarItem>\r\n        </BarStart>\r\n    </BarMenu>\r\n</Bar>",
           "title": "Vertical Bar Toggler",
-          "description": "The BarToggler for Vertical Bar supports 2 modes: BarTogglerMode.Normal (default) BarTogglerMode.Popout These 2 modes, along with an external implementation, provides 3 easy to configure implementations. 1. Inline By simply adding the BarToggler anywhere inside the Vertical Bar component (at the top level), you will have an inline toggler added to your bar at this location."
+          "description": "The BarToggler for a vertical Bar supports two modes: BarTogglerMode.Normal (default) BarTogglerMode.Popout These modes, along with an external implementation, provide three common implementations. 1. Inline Add the BarToggler inside the vertical Bar to let the user collapse and expand the rail in place."
         },
         {
           "code": "VerticalBarPopoutExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Bar/Examples/VerticalBarPopoutExample.razor",
-          "content": "<Bar Mode=\"BarMode.VerticalInline\"\r\n     Breakpoint=\"Breakpoint.Desktop\"\r\n     Background=\"Background.Light\"\r\n     ThemeContrast=\"ThemeContrast.Light\">\r\n    <BarBrand>\r\n        <BarItem>\r\n            <BarLink To=\"#\">\r\n                <BarIcon IconName=\"IconName.Dashboard\" />\r\n                Blazorise Demo\r\n            </BarLink>\r\n        </BarItem>\r\n    </BarBrand>\r\n    <BarToggler Mode=\"BarTogglerMode.Popout\" />\r\n    <BarMenu>\r\n        <BarItem>Popout!</BarItem>\r\n    </BarMenu>\r\n</Bar>",
-          "description": "2. Popout Once again, by simply adding the BarToggler anywhere inside the Vertical Bar component (at the top level), and setting the Mode to Popout you will have an popout toggler added to your bar at this location."
+          "content": "<Bar Mode=\"BarMode.VerticalInline\"\r\n     CollapseMode=\"BarCollapseMode.Small\"\r\n     Breakpoint=\"Breakpoint.Desktop\"\r\n     Background=\"Background.Light\"\r\n     ThemeContrast=\"ThemeContrast.Light\"\r\n     Border=\"Border.Is1\">\r\n    <BarBrand>\r\n        <BarItem>\r\n            <BarLink To=\"#support\">\r\n                <BarIcon IconName=\"IconName.Headset\" />\r\n                Support\r\n            </BarLink>\r\n        </BarItem>\r\n    </BarBrand>\r\n    <BarToggler Mode=\"BarTogglerMode.Popout\" />\r\n    <BarMenu>\r\n        <BarStart>\r\n            <BarItem>\r\n                <BarLink To=\"#queue\">\r\n                    <BarIcon IconName=\"IconName.Inbox\" />\r\n                    Queue\r\n                </BarLink>\r\n            </BarItem>\r\n            <BarItem>\r\n                <BarDropdown>\r\n                    <BarDropdownToggle>\r\n                        <BarIcon IconName=\"IconName.Book\" />\r\n                        Knowledge\r\n                    </BarDropdownToggle>\r\n                    <BarDropdownMenu>\r\n                        <BarDropdownItem To=\"#articles\">Articles</BarDropdownItem>\r\n                        <BarDropdownItem To=\"#macros\">Macros</BarDropdownItem>\r\n                        <BarDropdownItem To=\"#training\">Training</BarDropdownItem>\r\n                    </BarDropdownMenu>\r\n                </BarDropdown>\r\n            </BarItem>\r\n        </BarStart>\r\n    </BarMenu>\r\n</Bar>",
+          "description": "2. Popout Set Mode=\"BarTogglerMode.Popout\" when the toggler should sit outside the collapsed rail."
         },
         {
           "code": "VerticalBarExternalExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Bar/Examples/VerticalBarExternalExample.razor",
-          "content": "<Layout Sider>\r\n    <LayoutSider>\r\n        <LayoutSiderContent>\r\n            <Bar @ref=\"@sidebar\" Mode=\"BarMode.VerticalInline\"\r\n                 Breakpoint=\"Breakpoint.Desktop\"\r\n                 Background=\"Background.Light\"\r\n                 ThemeContrast=\"ThemeContrast.Light\">\r\n                <BarItem>Example</BarItem>\r\n            </Bar>\r\n        </LayoutSiderContent>\r\n    </LayoutSider>\r\n    <Layout>\r\n        <LayoutHeader Fixed>\r\n            <Bar Mode=\"BarMode.Horizontal\"\r\n                 Background=\"Background.Light\"\r\n                 ThemeContrast=\"ThemeContrast.Light\">\r\n                <BarToggler Bar=\"@sidebar\" />\r\n                <BarBrand>\r\n                    <BarItem>\r\n                        <BarLink To=\"#\">\r\n                            <BarIcon IconName=\"IconName.Dashboard\" />\r\n                            Example\r\n                        </BarLink>\r\n                    </BarItem>\r\n                </BarBrand>\r\n                <BarMenu>\r\n                    <BarItem>Example</BarItem>\r\n                </BarMenu>\r\n                <BarToggler />\r\n            </Bar>\r\n        </LayoutHeader>\r\n    </Layout>\r\n</Layout>\r\n\r\n@code {\r\n    private Bar sidebar;\r\n}",
-          "description": "3. External (controlled by Top Bar) For an externally controlled BarToggler , you need to be using the top bar. Where you have a top bar and vertical bar, you can add multiple BarTogglers to the top bar and choose to have one of these control the vertical bar by simply setting the Bar property. In the example below, we will create two BarTogglers inside the top bar. One to control the Vertical Bar (closest to it) One to control the Top Bar (at the opposite end)"
+          "content": "<Layout Sider Style=\"min-height: 360px;\">\r\n    <LayoutSider>\r\n        <LayoutSiderContent>\r\n            <Bar @ref=\"@sidebar\"\r\n                 Mode=\"BarMode.VerticalInline\"\r\n                 CollapseMode=\"BarCollapseMode.Small\"\r\n                 Breakpoint=\"Breakpoint.Desktop\"\r\n                 Background=\"Background.Light\"\r\n                 ThemeContrast=\"ThemeContrast.Light\">\r\n                <BarBrand>\r\n                    <BarItem>\r\n                        <BarLink To=\"#projects\">\r\n                            <BarIcon IconName=\"IconName.Briefcase\" />\r\n                            Projects\r\n                        </BarLink>\r\n                    </BarItem>\r\n                </BarBrand>\r\n                <BarMenu>\r\n                    <BarStart>\r\n                        <BarItem>\r\n                            <BarLink To=\"#roadmap\">\r\n                                <BarIcon IconName=\"IconName.Map\" />\r\n                                Roadmap\r\n                            </BarLink>\r\n                        </BarItem>\r\n                        <BarItem>\r\n                            <BarLink To=\"#calendar\">\r\n                                <BarIcon IconName=\"IconName.Calendar\" />\r\n                                Calendar\r\n                            </BarLink>\r\n                        </BarItem>\r\n                    </BarStart>\r\n                </BarMenu>\r\n            </Bar>\r\n        </LayoutSiderContent>\r\n    </LayoutSider>\r\n    <Layout>\r\n        <LayoutHeader Fixed>\r\n            <Bar Mode=\"BarMode.Horizontal\"\r\n                 Breakpoint=\"Breakpoint.Desktop\"\r\n                 Background=\"Background.Light\"\r\n                 ThemeContrast=\"ThemeContrast.Light\"\r\n                 Shadow=\"Shadow.Default\">\r\n                <BarToggler Bar=\"@sidebar\" />\r\n                <BarBrand>\r\n                    <BarItem>\r\n                        <BarLink To=\"#planning\">\r\n                            Planning\r\n                        </BarLink>\r\n                    </BarItem>\r\n                </BarBrand>\r\n                <BarMenu>\r\n                    <BarEnd>\r\n                        <BarItem>\r\n                            <Button Color=\"Color.Primary\">\r\n                                New project\r\n                            </Button>\r\n                        </BarItem>\r\n                    </BarEnd>\r\n                </BarMenu>\r\n                <BarToggler />\r\n            </Bar>\r\n        </LayoutHeader>\r\n        <LayoutContent Padding=\"Padding.Is3\">\r\n            <Paragraph>\r\n                The first toggler controls the sidebar. The second toggler controls the horizontal bar menu.\r\n            </Paragraph>\r\n        </LayoutContent>\r\n    </Layout>\r\n</Layout>\r\n\r\n@code {\r\n    private Bar sidebar;\r\n}",
+          "description": "3. External (controlled by Top Bar) In layouts with both a top bar and a sidebar, a top-bar toggler can control the sidebar by setting the Bar property. The example below uses two togglers inside the top bar. One controls the vertical Bar. One controls the horizontal Bar menu."
         },
         {
           "code": "VerticalBarNestedDropdownsExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Bar/Examples/VerticalBarNestedDropdownsExample.razor",
-          "content": "<Bar Breakpoint=\"Breakpoint.Desktop\"\r\n     Background=\"Background.Light\"\r\n     ThemeContrast=\"ThemeContrast.Light\">\r\n    <BarMenu>\r\n        <BarStart>\r\n            <BarItem>\r\n                <BarDropdown>\r\n                    <BarDropdownToggle>\r\n                        Top-level toggler\r\n                    </BarDropdownToggle>\r\n                    <BarDropdownMenu>\r\n                        <BarDropdownItem>\r\n                            Top-level item\r\n                        </BarDropdownItem>\r\n                        <BarDropdown>\r\n                            <BarDropdownToggle>\r\n                                Nested toggler\r\n                            </BarDropdownToggle>\r\n                            <BarDropdownMenu>\r\n                                <BarDropdownItem>\r\n                                    Nested item\r\n                                </BarDropdownItem>\r\n                            </BarDropdownMenu>\r\n                        </BarDropdown>\r\n                    </BarDropdownMenu>\r\n                </BarDropdown>\r\n            </BarItem>\r\n        </BarStart>\r\n    </BarMenu>\r\n</Bar>",
+          "content": "<Bar Breakpoint=\"Breakpoint.Desktop\"\r\n     Background=\"Background.Light\"\r\n     ThemeContrast=\"ThemeContrast.Light\"\r\n     Border=\"Border.Is1\">\r\n    <BarBrand>\r\n        <BarItem>\r\n            <BarLink To=\"#admin\">\r\n                <BarIcon IconName=\"IconName.Settings\" />\r\n                Admin\r\n            </BarLink>\r\n        </BarItem>\r\n    </BarBrand>\r\n    <BarToggler />\r\n    <BarMenu>\r\n        <BarStart>\r\n            <BarItem>\r\n                <BarDropdown>\r\n                    <BarDropdownToggle>\r\n                        Organization\r\n                    </BarDropdownToggle>\r\n                    <BarDropdownMenu>\r\n                        <BarDropdownItem To=\"#teams\">Teams</BarDropdownItem>\r\n                        <BarDropdownItem To=\"#members\">Members</BarDropdownItem>\r\n                        <BarDropdown>\r\n                            <BarDropdownToggle>\r\n                                Security\r\n                            </BarDropdownToggle>\r\n                            <BarDropdownMenu>\r\n                                <BarDropdownItem To=\"#roles\">Roles</BarDropdownItem>\r\n                                <BarDropdownItem To=\"#permissions\">Permissions</BarDropdownItem>\r\n                                <BarDropdownItem To=\"#audit-log\">Audit log</BarDropdownItem>\r\n                            </BarDropdownMenu>\r\n                        </BarDropdown>\r\n                    </BarDropdownMenu>\r\n                </BarDropdown>\r\n            </BarItem>\r\n        </BarStart>\r\n    </BarMenu>\r\n</Bar>",
           "title": "Nested Dropdowns",
-          "description": "To create nested BarDropdowns , you can simply add a BarDropdown component inside the structure of an existing BarDropdownMenu ."
+          "description": "To create nested dropdowns, place a BarDropdown inside an existing BarDropdownMenu . This is useful for admin, reporting, and settings menus where the top-level item groups related actions."
         }
       ],
       "apiRefs": [
@@ -363,6 +364,16 @@
           "name": "BarDropdownToggle"
         }
       ]
+    },
+    {
+      "route": "/docs/components/bar/sidebar-iframe",
+      "pagePath": "Pages/Docs/Components/Bar/Examples/VerticalBarSideBarExamplePage.razor",
+      "examples": []
+    },
+    {
+      "route": "/docs/components/bar/top-bar-iframe",
+      "pagePath": "Pages/Docs/Components/Bar/Examples/TopBarExamplePage.razor",
+      "examples": []
     },
     {
       "route": "/docs/components/breadcrumb",
@@ -1601,6 +1612,52 @@
       ]
     },
     {
+      "route": "/docs/components/gestures",
+      "title": "Blazorise Gestures component",
+      "description": "Detect swipes and pointer gesture lifecycle events on wrapped content with the Blazorise Gestures component.",
+      "pagePath": "Pages/Docs/Components/Gestures/GesturesPage.razor",
+      "examples": [
+        {
+          "code": "GesturesBasicExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Gestures/Examples/GesturesBasicExample.razor",
+          "content": "<Gestures Direction=\"GestureDirection.Horizontal\"\r\n          TouchAction=\"GestureTouchAction.PanY\"\r\n          Swiped=\"@OnSwiped\">\r\n    <Div Border=\"Border.Is1.Rounded\" Background=\"Background.Light\" Padding=\"Padding.Is4\" Style=\"user-select: none;\">\r\n        <Div Flex=\"Flex.JustifyContent.Between.AlignItems.Center\" Gap=\"Gap.Is3\">\r\n            <Div>\r\n                <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is0.FromBottom\">\r\n                    @Title\r\n                </Heading>\r\n                <Paragraph TextColor=\"TextColor.Secondary\" Margin=\"Margin.Is2.FromTop.Is0.FromBottom\">\r\n                    Swipe left or right inside this area.\r\n                </Paragraph>\r\n            </Div>\r\n            <Badge Color=\"@BadgeColor\" Pill>@DirectionText</Badge>\r\n        </Div>\r\n    </Div>\r\n</Gestures>\r\n\r\n@code {\r\n    private string Title { get; set; } = \"Waiting for swipe\";\r\n\r\n    private string DirectionText { get; set; } = \"None\";\r\n\r\n    private Color BadgeColor { get; set; } = Color.Secondary;\r\n\r\n    private Task OnSwiped( SwipeEventArgs eventArgs )\r\n    {\r\n        DirectionText = eventArgs.Direction.ToString();\r\n        Title = $\"Swiped {DirectionText.ToLowerInvariant()}\";\r\n        BadgeColor = eventArgs.Direction == GestureDirection.Left ? Color.Primary : Color.Info;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n}",
+          "title": "Basic Swipe",
+          "description": "Wrap content with Gestures and handle Swiped to react to a horizontal swipe."
+        },
+        {
+          "code": "GesturesGalleryExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Gestures/Examples/GesturesGalleryExample.razor",
+          "content": "<Gestures Direction=\"GestureDirection.Horizontal\"\r\n          TouchAction=\"GestureTouchAction.PanY\"\r\n          Swiped=\"@OnSwiped\">\r\n    <Card Background=\"@CurrentSlide.Background\" TextColor=\"TextColor.White\" Style=\"min-height: 260px; user-select: none;\">\r\n        <CardBody Padding=\"Padding.Is5\">\r\n            <Div Flex=\"Flex.Column.JustifyContent.Between\" Style=\"min-height: 220px;\">\r\n                <Div>\r\n                    <Badge Color=\"Color.Light\" TextColor=\"TextColor.Dark\" Pill>\r\n                        @( currentIndex + 1 ) / @slides.Count\r\n                    </Badge>\r\n                    <Heading Size=\"HeadingSize.Is2\" Margin=\"Margin.Is4.FromTop.Is2.FromBottom\">\r\n                        @CurrentSlide.Title\r\n                    </Heading>\r\n                    <Paragraph TextColor=\"TextColor.White50\">\r\n                        @CurrentSlide.Description\r\n                    </Paragraph>\r\n                </Div>\r\n                <Div Flex=\"Flex.JustifyContent.Between.AlignItems.Center\" Gap=\"Gap.Is3\">\r\n                    <Button Color=\"Color.Light\" Outline Clicked=\"@ShowPrevious\">\r\n                        <Icon Name=\"IconName.ArrowLeft\" />\r\n                    </Button>\r\n                    <Badge Color=\"Color.Light\" TextColor=\"TextColor.Dark\" Pill>\r\n                        Swipe left or right\r\n                    </Badge>\r\n                    <Button Color=\"Color.Light\" Outline Clicked=\"@ShowNext\">\r\n                        <Icon Name=\"IconName.ArrowRight\" />\r\n                    </Button>\r\n                </Div>\r\n            </Div>\r\n        </CardBody>\r\n    </Card>\r\n</Gestures>\r\n\r\n@code {\r\n    private readonly List<GallerySlide> slides = new List<GallerySlide>\r\n    {\r\n        new GallerySlide( \"Overview\", \"Introduce key content one panel at a time.\", Background.Primary ),\r\n        new GallerySlide( \"Details\", \"Let users move through content with direct touch interaction.\", Background.Info ),\r\n        new GallerySlide( \"Summary\", \"Keep buttons available for mouse and keyboard users.\", Background.Success ),\r\n    };\r\n\r\n    private int currentIndex;\r\n\r\n    private GallerySlide CurrentSlide => slides[currentIndex];\r\n\r\n    private Task OnSwiped( SwipeEventArgs eventArgs )\r\n    {\r\n        if ( eventArgs.Direction == GestureDirection.Left )\r\n            ShowNext();\r\n        else if ( eventArgs.Direction == GestureDirection.Right )\r\n            ShowPrevious();\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private void ShowPrevious()\r\n    {\r\n        currentIndex = currentIndex == 0 ? slides.Count - 1 : currentIndex - 1;\r\n    }\r\n\r\n    private void ShowNext()\r\n    {\r\n        currentIndex = currentIndex == slides.Count - 1 ? 0 : currentIndex + 1;\r\n    }\r\n\r\n    private class GallerySlide\r\n    {\r\n        public GallerySlide( string title, string description, Background background )\r\n        {\r\n            Title = title;\r\n            Description = description;\r\n            Background = background;\r\n        }\r\n\r\n        public string Title { get; }\r\n\r\n        public string Description { get; }\r\n\r\n        public Background Background { get; }\r\n    }\r\n}",
+          "title": "Swipe Gallery",
+          "description": "Horizontal swipe gestures are useful for galleries, carousels, onboarding panels, and other item-by-item navigation."
+        },
+        {
+          "code": "GesturesSidebarExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Gestures/Examples/GesturesSidebarExample.razor",
+          "content": "<Gestures Direction=\"GestureDirection.Horizontal\"\r\n          TouchAction=\"GestureTouchAction.PanY\"\r\n          Swiped=\"@OnSwiped\">\r\n    <Div Flex=\"Flex.Row\" Border=\"Border.Is1.Rounded\" Background=\"Background.Light\" Padding=\"Padding.Is3\" Height=\"Height.Px( 240 )\" Style=\"user-select: none;\">\r\n        <Div Flex=\"Flex.Row.Grow.Is1.AlignItems.Stretch\" Gap=\"Gap.Is3\">\r\n            <Animate Animation=\"Animations.SlideRight\" Duration=\"@SidebarAnimationDuration\" Trigger=\"AnimationTrigger.Render\" Visible=\"@sidebarExpanded\" AnimateOnInitialRender=\"false\" AnimatedSize=\"AnimatedSize.Width\" Height=\"Height.Is100\">\r\n                <Div Height=\"Height.Is100\" Background=\"Background.Primary\" TextColor=\"TextColor.White\" Padding=\"Padding.Is3\" Border=\"Border.Rounded\" Width=\"@SidebarExpandedWidth\">\r\n                    <Heading Size=\"HeadingSize.Is6\" Margin=\"Margin.Is0.FromBottom\">\r\n                        Navigation\r\n                    </Heading>\r\n                    <Paragraph TextColor=\"TextColor.White50\" Margin=\"Margin.Is2.FromTop\">\r\n                        Swipe left to collapse.\r\n                    </Paragraph>\r\n                </Div>\r\n            </Animate>\r\n\r\n            <Div Flex=\"Flex.Grow.Is1\" Padding=\"Padding.Is2\">\r\n                <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is0.FromBottom\">\r\n                    Content\r\n                </Heading>\r\n                <Paragraph Margin=\"Margin.Is2.FromTop\">\r\n                    Swipe right to expand the panel and swipe left to collapse it.\r\n                </Paragraph>\r\n                <Button Color=\"Color.Primary\" Outline Clicked=\"@ToggleSidebar\">\r\n                    <Icon Name=\"@( sidebarExpanded ? IconName.Compress : IconName.Expand)\" Margin=\"Margin.Is2.FromEnd\" />\r\n                    @( sidebarExpanded ? \"Collapse\" : \"Expand\" )\r\n                </Button>\r\n            </Div>\r\n        </Div>\r\n    </Div>\r\n</Gestures>\r\n\r\n@code {\r\n    private static readonly TimeSpan SidebarAnimationDuration = TimeSpan.FromMilliseconds( 250 );\r\n\r\n    private static readonly IFluentSizing SidebarExpandedWidth = Width.Px( 160 );\r\n\r\n    private bool sidebarExpanded = true;\r\n\r\n    private Task OnSwiped( SwipeEventArgs eventArgs )\r\n    {\r\n        if ( eventArgs.Direction == GestureDirection.Left )\r\n        {\r\n            sidebarExpanded = false;\r\n        }\r\n        else if ( eventArgs.Direction == GestureDirection.Right )\r\n        {\r\n            sidebarExpanded = true;\r\n        }\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private void ToggleSidebar()\r\n    {\r\n        sidebarExpanded = !sidebarExpanded;\r\n    }\r\n}",
+          "title": "Sidebar Toggle",
+          "description": "Directional swipes can collapse or expand a side panel. Pair it with Animate for a slide transition while keeping regular vertical page scrolling available with TouchAction=\"GestureTouchAction.PanY\" ."
+        },
+        {
+          "code": "GesturesLifecycleExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Gestures/Examples/GesturesLifecycleExample.razor",
+          "content": "<Gestures Direction=\"GestureDirection.Horizontal\"\r\n          TouchAction=\"GestureTouchAction.PanY\"\r\n          GestureStarted=\"@OnGestureStarted\"\r\n          GestureMoved=\"@OnGestureMoved\"\r\n          GestureEnded=\"@OnGestureEnded\"\r\n          Swiped=\"@OnSwiped\">\r\n    <Card Border=\"Border.Is1.Rounded\" Background=\"Background.Light\" Style=\"user-select: none;\">\r\n        <CardBody Padding=\"Padding.Is4\">\r\n            <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is0.FromBottom\">\r\n                Swipe progress\r\n            </Heading>\r\n            <Paragraph TextColor=\"TextColor.Secondary\" Margin=\"Margin.Is2.FromTop\">\r\n                Move horizontally inside this card to update the progress while the gesture is active.\r\n            </Paragraph>\r\n            <Progress Value=\"@progress\" Color=\"@progressColor\" />\r\n            <Div Flex=\"Flex.Wrap\" Gap=\"Gap.Is2\" Margin=\"Margin.Is3.FromTop\">\r\n                <Badge Color=\"Color.Primary\" Pill>@state</Badge>\r\n                <Badge Color=\"Color.Info\" Pill>@direction</Badge>\r\n                <Badge Color=\"Color.Secondary\" Pill>Delta X: @deltaX</Badge>\r\n            </Div>\r\n        </CardBody>\r\n    </Card>\r\n</Gestures>\r\n\r\n@code {\r\n    private int progress;\r\n\r\n    private string state = \"Waiting\";\r\n\r\n    private string direction = \"None\";\r\n\r\n    private string deltaX = \"0\";\r\n\r\n    private Color progressColor = Color.Primary;\r\n\r\n    private Task OnGestureStarted( GestureEventArgs eventArgs )\r\n    {\r\n        state = \"Started\";\r\n        progress = 0;\r\n        progressColor = Color.Primary;\r\n        UpdateDetails( eventArgs );\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task OnGestureMoved( GestureEventArgs eventArgs )\r\n    {\r\n        state = \"Moving\";\r\n        progress = System.Math.Min( 100, System.Convert.ToInt32( System.Math.Abs( eventArgs.DeltaX ) ) );\r\n        UpdateDetails( eventArgs );\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task OnGestureEnded( GestureEventArgs eventArgs )\r\n    {\r\n        state = eventArgs.Canceled ? \"Canceled\" : \"Ended\";\r\n        UpdateDetails( eventArgs );\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task OnSwiped( SwipeEventArgs eventArgs )\r\n    {\r\n        progress = 100;\r\n        progressColor = Color.Success;\r\n        UpdateDetails( eventArgs );\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private void UpdateDetails( GestureEventArgs eventArgs )\r\n    {\r\n        direction = eventArgs.Direction.ToString();\r\n        deltaX = eventArgs.DeltaX.ToString( \"0\" );\r\n    }\r\n}",
+          "title": "Gesture Lifecycle",
+          "description": "Use lifecycle events when the UI should update while the pointer is moving, for example a progress indicator, custom drawer motion, or swipe-to-dismiss preview."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Gestures"
+        }
+      ]
+    },
+    {
       "route": "/docs/components/grid",
       "title": "Blazorise Grid system",
       "description": "Learn to use and work with the Blazorise Rows and Columns that comes with a 12 point grid system built using flexbox.",
@@ -1817,24 +1874,25 @@
           "code": "BasicLayoutExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Layouts/Examples/BasicLayoutExample.razor",
-          "content": "<Layout>\r\n    <LayoutHeader>\r\n        Header\r\n    </LayoutHeader>\r\n    <LayoutContent>\r\n        Content\r\n    </LayoutContent>\r\n    <LayoutFooter>\r\n        Footer\r\n    </LayoutFooter>\r\n</Layout>",
-          "title": "Basic"
+          "content": "<Layout Height=\"Height.Px(320)\"\r\n        Border=\"Border.Is1.Rounded\"\r\n        TextAlignment=\"TextAlignment.Center\">\r\n    <LayoutHeader Background=\"Background.Primary\"\r\n                  TextColor=\"TextColor.White\"\r\n                  Padding=\"Padding.Is3\"\r\n                  Flex=\"Flex.JustifyContent.Center.AlignItems.Center\">\r\n        Sales Portal\r\n    </LayoutHeader>\r\n    <LayoutContent Background=\"Background.Light\"\r\n                   Padding=\"Padding.Is4\">\r\n        <Card>\r\n            <CardBody>\r\n                <Heading Size=\"HeadingSize.Is5\">Quarterly pipeline</Heading>\r\n                <Paragraph Margin=\"Margin.Is0\">\r\n                    Track open opportunities, team activity, and forecast changes from the main content region.\r\n                </Paragraph>\r\n            </CardBody>\r\n        </Card>\r\n    </LayoutContent>\r\n    <LayoutFooter Background=\"Background.Body\"\r\n                  Border=\"Border.Is1.OnTop\"\r\n                  Padding=\"Padding.Is3\">\r\n        Updated 12 minutes ago\r\n    </LayoutFooter>\r\n</Layout>",
+          "title": "Basic App Shell",
+          "description": "Use LayoutHeader , LayoutContent , and LayoutFooter for a simple single-column application shell."
         },
         {
           "code": "LayoutWithSiderAndTopHeaderExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Layouts/Examples/LayoutWithSiderAndTopHeaderExample.razor",
-          "content": "<Layout>\r\n    <LayoutHeader Fixed>\r\n        Header\r\n    </LayoutHeader>\r\n    <Layout Sider>\r\n        <LayoutSider>\r\n            <LayoutSiderContent>\r\n                Sider\r\n            </LayoutSiderContent>\r\n        </LayoutSider>\r\n        <Layout>\r\n            <LayoutContent>\r\n                Content\r\n            </LayoutContent>\r\n        </Layout>\r\n    </Layout>\r\n</Layout>",
-          "title": "Sider with Header on top",
-          "description": "The LayoutHeader can be located on top or to the side of the drawer. When put on top, the LayoutHeader is typically used as an application header. Application headers contain, for example, the application's name and branding, as well as actions that apply to the entire application, such as notifications, settings, etc."
+          "content": "<Layout Height=\"Height.Px(360)\"\r\n        Border=\"Border.Is1.Rounded\"\r\n        Overflow=\"Overflow.Hidden\">\r\n    <LayoutHeader Background=\"Background.Primary\"\r\n                  TextColor=\"TextColor.White\"\r\n                  Padding=\"Padding.Is3\">\r\n        <Div Width=\"Width.Is100\"\r\n             Flex=\"Flex.JustifyContent.Between.AlignItems.Center\"\r\n             Gap=\"Gap.Is3\">\r\n            <Div Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is2\">\r\n                <Icon Name=\"IconName.LayerGroup\" />\r\n                <Span TextWeight=\"TextWeight.SemiBold\">Operations</Span>\r\n            </Div>\r\n            <Div Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is2\">\r\n                <Button Color=\"Color.Light\" Outline>\r\n                    <Icon Name=\"IconName.Bell\" />\r\n                    <Badge Color=\"Color.Warning\" Pill>2</Badge>\r\n                </Button>\r\n                <Button Color=\"Color.Light\" Outline>\r\n                    Account\r\n                </Button>\r\n            </Div>\r\n        </Div>\r\n    </LayoutHeader>\r\n    <Layout Sider>\r\n        <LayoutSider Width=\"Width.Px(230).Min(230).Max(230)\"\r\n                     Background=\"Background.Dark\"\r\n                     TextColor=\"TextColor.White\">\r\n            <LayoutSiderContent Width=\"Width.Is100\">\r\n                <Div Padding=\"Padding.Is3\" Flex=\"Flex.Column\" Gap=\"Gap.Is2\">\r\n                    <Div Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is2\" Padding=\"Padding.Is2\">\r\n                        <Icon Name=\"IconName.Dashboard\" />\r\n                        <Span>Overview</Span>\r\n                    </Div>\r\n                    <Div Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is2\" Padding=\"Padding.Is2\">\r\n                        <Icon Name=\"IconName.Receipt\" />\r\n                        <Span>Orders</Span>\r\n                    </Div>\r\n                    <Div Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is2\" Padding=\"Padding.Is2\">\r\n                        <Icon Name=\"IconName.Users\" />\r\n                        <Span>Customers</Span>\r\n                    </Div>\r\n                </Div>\r\n            </LayoutSiderContent>\r\n        </LayoutSider>\r\n        <Layout>\r\n            <LayoutContent Background=\"Background.Light\"\r\n                           Padding=\"Padding.Is4\">\r\n                <Row>\r\n                    <Column ColumnSize=\"ColumnSize.Is12.Is6.OnTablet\">\r\n                        <Card>\r\n                            <CardBody>\r\n                                <CardTitle Size=\"HeadingSize.Is5\">Fulfillment</CardTitle>\r\n                                <Paragraph Margin=\"Margin.Is0\">84 orders ready for dispatch.</Paragraph>\r\n                            </CardBody>\r\n                        </Card>\r\n                    </Column>\r\n                    <Column ColumnSize=\"ColumnSize.Is12.Is6.OnTablet\">\r\n                        <Card>\r\n                            <CardBody>\r\n                                <CardTitle Size=\"HeadingSize.Is5\">Customer health</CardTitle>\r\n                                <Paragraph Margin=\"Margin.Is0\">12 accounts need follow-up.</Paragraph>\r\n                            </CardBody>\r\n                        </Card>\r\n                    </Column>\r\n                </Row>\r\n            </LayoutContent>\r\n        </Layout>\r\n    </Layout>\r\n</Layout>",
+          "title": "Header Above Sidebar",
+          "description": "Place LayoutHeader before a nested Layout Sider when the header should span the full page width. This pattern is common for products with global search, notifications, and account actions in the header, plus primary navigation in the sidebar."
         },
         {
           "code": "LayoutWithSiderExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Layouts/Examples/LayoutWithSiderExample.razor",
-          "content": "<Layout Sider>\r\n    <LayoutSider>\r\n        <LayoutSiderContent>\r\n            Sider\r\n        </LayoutSiderContent>\r\n    </LayoutSider>\r\n    <Layout>\r\n        <LayoutHeader Fixed>\r\n            Header\r\n        </LayoutHeader>\r\n        <LayoutContent>\r\n            Content\r\n        </LayoutContent>\r\n    </Layout>\r\n</Layout>",
-          "title": "With Sider",
-          "description": "When placed to the side, the LayoutHeader is often seen as a view header, housing the view's title, and actions and secondary navigation that relate only to the current view."
+          "content": "<Layout Sider\r\n        Height=\"Height.Px(360)\"\r\n        Border=\"Border.Is1.Rounded\"\r\n        Overflow=\"Overflow.Hidden\">\r\n    <LayoutSider Width=\"Width.Px(230).Min(230).Max(230)\"\r\n                 Background=\"Background.Dark\"\r\n                 TextColor=\"TextColor.White\">\r\n        <LayoutSiderContent Width=\"Width.Is100\">\r\n            <Div Padding=\"Padding.Is3\" Flex=\"Flex.Column\" Gap=\"Gap.Is2\">\r\n                <Div Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is2\" Padding=\"Padding.Is2\">\r\n                    <Icon Name=\"IconName.Briefcase\" />\r\n                    <Span TextWeight=\"TextWeight.SemiBold\">Workspace</Span>\r\n                </Div>\r\n                <Div Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is2\" Padding=\"Padding.Is2\">\r\n                    <Icon Name=\"IconName.FolderOpen\" />\r\n                    <Span>Projects</Span>\r\n                </Div>\r\n                <Div Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is2\" Padding=\"Padding.Is2\">\r\n                    <Icon Name=\"IconName.Calendar\" />\r\n                    <Span>Calendar</Span>\r\n                </Div>\r\n                <Div Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is2\" Padding=\"Padding.Is2\">\r\n                    <Icon Name=\"IconName.FileAlt\" />\r\n                    <Span>Files</Span>\r\n                </Div>\r\n            </Div>\r\n        </LayoutSiderContent>\r\n    </LayoutSider>\r\n    <Layout>\r\n        <LayoutHeader Background=\"Background.Body\"\r\n                      Border=\"Border.Is1.OnBottom\"\r\n                      Padding=\"Padding.Is3\"\r\n                      Flex=\"Flex.JustifyContent.Between.AlignItems.Center\">\r\n            <Div>\r\n                <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is0\">\r\n                    Project Alpha\r\n                </Heading>\r\n                <Small TextColor=\"TextColor.Muted\">Workspace dashboard</Small>\r\n            </Div>\r\n            <Button Color=\"Color.Primary\">\r\n                Share\r\n            </Button>\r\n        </LayoutHeader>\r\n        <LayoutContent Background=\"Background.Light\"\r\n                       Padding=\"Padding.Is4\">\r\n            <Card>\r\n                <CardBody>\r\n                    <CardTitle Size=\"HeadingSize.Is5\">Current sprint</CardTitle>\r\n                    <Paragraph Margin=\"Margin.Is0\">\r\n                        18 tasks open, 6 in review, and 3 blocked by external dependencies.\r\n                    </Paragraph>\r\n                </CardBody>\r\n            </Card>\r\n        </LayoutContent>\r\n    </Layout>\r\n</Layout>",
+          "title": "Sidebar With View Header",
+          "description": "Put LayoutHeader inside the content-side layout when the header belongs to the current view rather than the whole application. This works well for dashboards, detail pages, and workspace screens with contextual actions."
         }
       ],
       "apiRefs": [
@@ -3861,8 +3919,9 @@
           "code": "ValidationFeedbackExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Components/Validations/Examples/ValidationFeedbackExample.razor",
-          "content": "<Validation Validator=\"@ValidateCheck\">\r\n    <Check TValue=\"bool\">\r\n        <ChildContent>\r\n            Check me out\r\n        </ChildContent>\r\n        <Feedback>\r\n            <ValidationError>You must check me out!</ValidationError>\r\n        </Feedback>\r\n    </Check>\r\n</Validation>\r\n@code{\r\n    void ValidateCheck( ValidatorEventArgs e )\r\n    {\r\n        // ...\r\n    }\r\n}",
-          "description": "The same structure applies to all Edit components (check, radio, select, etc.). Note that some components have special rules when defining the validation structure. For example, for Check you must use the ChildContent tag along with the Feedback tag. This is a limitation in Blazor and may be addressed in the future."
+          "content": "<Validation Validator=\"@ValidateDisplayName\">\r\n    <TextInput Placeholder=\"Enter display name\">\r\n        <Feedback>\r\n            <ValidationNone>Please enter a display name.</ValidationNone>\r\n            <ValidationWarning>Short display names are allowed, but longer names are easier to recognize.</ValidationWarning>\r\n            <ValidationSuccess>Display name looks good.</ValidationSuccess>\r\n            <ValidationError>Display name is required.</ValidationError>\r\n        </Feedback>\r\n    </TextInput>\r\n</Validation>\r\n\r\n<Validation Validator=\"@ValidateUserName\">\r\n    <TextInput Placeholder=\"Enter username\">\r\n        <Feedback>\r\n            <ValidationFeedback>\r\n                <None>Please enter a username.</None>\r\n                <Warning>Short usernames are allowed, but longer usernames are easier to identify.</Warning>\r\n                <Success>Username looks good.</Success>\r\n                <Error>Username is required.</Error>\r\n            </ValidationFeedback>\r\n        </Feedback>\r\n    </TextInput>\r\n</Validation>\r\n@code{\r\n    void ValidateDisplayName( ValidatorEventArgs e )\r\n    {\r\n        ValidateNameLength( e );\r\n    }\r\n\r\n    void ValidateUserName( ValidatorEventArgs e )\r\n    {\r\n        ValidateNameLength( e );\r\n    }\r\n\r\n    void ValidateNameLength( ValidatorEventArgs e )\r\n    {\r\n        var name = Convert.ToString( e.Value );\r\n\r\n        e.Status = string.IsNullOrWhiteSpace( name )\r\n            ? ValidationStatus.Error\r\n            : name.Length < 4\r\n                ? ValidationStatus.Warning\r\n                : ValidationStatus.Success;\r\n    }\r\n}",
+          "title": "Warning and grouped feedback",
+          "description": "Use ValidationWarning when a value is acceptable but should still show non-blocking guidance. To keep all feedback fragments together, use ValidationFeedback with None , Warning , Success , and Error child fragments. The same feedback structure applies to all Edit components (check, radio, select, etc.). Some components have special rules when defining child content and feedback."
         },
         {
           "code": "DataAnnotationValidationExample",
@@ -3956,7 +4015,23 @@
         },
         {
           "kind": "type",
+          "name": "ValidationNone"
+        },
+        {
+          "kind": "type",
+          "name": "ValidationSuccess"
+        },
+        {
+          "kind": "type",
+          "name": "ValidationWarning"
+        },
+        {
+          "kind": "type",
           "name": "ValidationError"
+        },
+        {
+          "kind": "type",
+          "name": "ValidationFeedback"
         }
       ]
     },
@@ -3975,7 +4050,7 @@
     {
       "route": "/docs/extensions/animate",
       "title": "Blazorise Animate component",
-      "description": "Learn how to use the Blazorise Animate component to add scroll-based animations with the AOS library.",
+      "description": "Learn how to use the Blazorise Animate component to add scroll-based and component animations.",
       "pagePath": "Pages/Docs/Extensions/Animate/AnimatePage.razor",
       "examples": [
         {
@@ -3998,16 +4073,57 @@
           "code": "AnimateResourcesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Animate/Examples/AnimateResourcesExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Animate/blazorise.animate.js?v=2.1.1.0\"></script>",
+          "content": "<!-- No script tag is required. Animate imports its JavaScript module automatically. -->",
           "title": "Static Files",
-          "description": "Add animate.js to your index.html or _Host.cshtml file, depending if you're using a Blazor WebAssembly or Blazor Server side project."
+          "description": "No script tag is required. The Animate component imports its JavaScript module automatically."
         },
         {
           "code": "AnimateExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Animate/Examples/AnimateExample.razor",
           "content": "<Field>\r\n    <Select TValue=\"string\" ValueChanged=\"@OnSelectedAnimationChanged\">\r\n        @foreach ( var availableAnimation in Animations.GetNames() )\r\n        {\r\n            <SelectItem Value=\"@availableAnimation\">@availableAnimation</SelectItem>\r\n        }\r\n    </Select>\r\n</Field>\r\n\r\n@if ( showAnimate )\r\n{\r\n    <Div ElementId=\"#b-animate\">\r\n        <Animate Anchor=\"#b-animate\" Auto Animation=\"selectedAnimation\" DelayMilliseconds=\"500\">\r\n            <Card Margin=\"Margin.Is4.OnY\">\r\n                <CardBody>\r\n                    <CardTitle Size=\"HeadingSize.Is5\">Animation Example</CardTitle>\r\n                    <CardText>\r\n                        Some content.\r\n                    </CardText>\r\n                </CardBody>\r\n            </Card>\r\n        </Animate>\r\n    </Div>\r\n}\r\n<Button Color=\"Color.Primary\" Clicked=\"@Animate\">\r\n    @buttonText\r\n</Button>\r\n@code {\r\n    private IAnimation selectedAnimation = Animations.FadeIn;\r\n    private bool showAnimate = false;\r\n    private string buttonText = \"Animate!\";\r\n\r\n    private Task OnSelectedAnimationChanged( string selectedAnimationName )\r\n    {\r\n        showAnimate = false;\r\n\r\n        if ( Animations.TryParse( selectedAnimationName, out var animation ) )\r\n            selectedAnimation = animation;\r\n        else\r\n            selectedAnimation = null;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private async Task Animate()\r\n    {\r\n        if ( !showAnimate )\r\n        {\r\n            showAnimate = true;\r\n            await InvokeAsync( StateHasChanged );\r\n            buttonText = \"Restart!\";\r\n        }\r\n        else\r\n        {\r\n            showAnimate = false;\r\n            buttonText = \"Animate!\";\r\n        }\r\n\r\n        await InvokeAsync( StateHasChanged );\r\n    }\r\n}",
-          "title": "Example"
+          "title": "Animation Picker",
+          "description": "Select an animation and restart it to compare the built-in effects."
+        },
+        {
+          "code": "AnimateViewportExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Animate/Examples/AnimateViewportExample.razor",
+          "content": "<Div ElementId=\"animate-viewport-example\" Padding=\"Padding.Is3\">\r\n    <Div Flex=\"Flex.Row.Wrap\" Gap=\"Gap.Is3\">\r\n        <Animate Anchor=\"#animate-viewport-example\" Animation=\"Animations.FadeUp\" DurationMilliseconds=\"250\" Once>\r\n            <Card Width=\"Width.Px( 220 )\">\r\n                <CardBody>\r\n                    <CardTitle Size=\"HeadingSize.Is6\">Profile</CardTitle>\r\n                    <CardText>\r\n                        Reveal content as it enters the viewport.\r\n                    </CardText>\r\n                </CardBody>\r\n            </Card>\r\n        </Animate>\r\n\r\n        <Animate Anchor=\"#animate-viewport-example\" Animation=\"Animations.FadeUp\" DurationMilliseconds=\"250\" DelayMilliseconds=\"100\" Once>\r\n            <Card Width=\"Width.Px( 220 )\">\r\n                <CardBody>\r\n                    <CardTitle Size=\"HeadingSize.Is6\">Activity</CardTitle>\r\n                    <CardText>\r\n                        Add a small delay to create a simple sequence.\r\n                    </CardText>\r\n                </CardBody>\r\n            </Card>\r\n        </Animate>\r\n\r\n        <Animate Anchor=\"#animate-viewport-example\" Animation=\"Animations.FadeUp\" DurationMilliseconds=\"250\" DelayMilliseconds=\"200\" Once>\r\n            <Card Width=\"Width.Px( 220 )\">\r\n                <CardBody>\r\n                    <CardTitle Size=\"HeadingSize.Is6\">Summary</CardTitle>\r\n                    <CardText>\r\n                        Keep the animation vocabulary in Blazor code.\r\n                    </CardText>\r\n                </CardBody>\r\n            </Card>\r\n        </Animate>\r\n    </Div>\r\n</Div>",
+          "title": "Viewport Reveal",
+          "description": "The default trigger runs when content enters the viewport. Use Once when the animation should only happen the first time the element is seen."
+        },
+        {
+          "code": "AnimateVisibilityExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Animate/Examples/AnimateVisibilityExample.razor",
+          "content": "<Div Display=\"Display.Flex\" Flex=\"Flex.Column\" Gap=\"Gap.Is3\">\r\n    <Div>\r\n        <Button Color=\"Color.Primary\" Outline Clicked=\"@ToggleDetails\">\r\n            @( detailsVisible ? \"Hide details\" : \"Show details\" )\r\n        </Button>\r\n    </Div>\r\n\r\n    <Animate Animation=\"Animations.FadeDown\" Trigger=\"AnimationTrigger.Render\" Visible=\"@detailsVisible\" AnimateOnInitialRender=\"false\" DurationMilliseconds=\"220\">\r\n        <Alert Color=\"Color.Info\" Visible>\r\n            <AlertDescription>\r\n                This content stays in normal Blazor markup. The animation is controlled by the <Code>Visible</Code> parameter.\r\n            </AlertDescription>\r\n        </Alert>\r\n    </Animate>\r\n</Div>\r\n\r\n@code {\r\n    private bool detailsVisible = true;\r\n\r\n    private void ToggleDetails()\r\n    {\r\n        detailsVisible = !detailsVisible;\r\n    }\r\n}",
+          "title": "Visibility Toggle",
+          "description": "Bind Visible to component state and use AnimationTrigger.Render for enter and leave animations that are not tied to scrolling."
+        },
+        {
+          "code": "AnimateLayoutExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Animate/Examples/AnimateLayoutExample.razor",
+          "content": "<Div Display=\"Display.Flex\" Flex=\"Flex.Column\" Gap=\"Gap.Is3\">\r\n    <Div>\r\n        <Button Color=\"Color.Primary\" Outline Clicked=\"@TogglePanel\">\r\n            @( panelVisible ? \"Collapse panel\" : \"Expand panel\" )\r\n        </Button>\r\n    </Div>\r\n\r\n    <Div Flex=\"Flex.Row.AlignItems.Stretch\" Border=\"Border.Is1.Rounded\" Background=\"Background.Light\" Height=\"Height.Px( 220 )\" Overflow=\"Overflow.Hidden\">\r\n        <Animate Animation=\"Animations.SlideRight\" Trigger=\"AnimationTrigger.Render\" Visible=\"@panelVisible\" AnimateOnInitialRender=\"false\" AnimatedSize=\"AnimatedSize.Width\" DurationMilliseconds=\"250\" Height=\"Height.Is100\">\r\n            <Div Width=\"Width.Px( 180 )\" Height=\"Height.Is100\" Background=\"Background.Primary\" TextColor=\"TextColor.White\" Padding=\"Padding.Is3\">\r\n                <Heading Size=\"HeadingSize.Is6\" Margin=\"Margin.Is0.FromBottom\">\r\n                    Filters\r\n                </Heading>\r\n                <Paragraph TextColor=\"TextColor.White50\" Margin=\"Margin.Is2.FromTop\">\r\n                    Width is animated together with the slide.\r\n                </Paragraph>\r\n            </Div>\r\n        </Animate>\r\n\r\n        <Div Flex=\"Flex.Grow.Is1\" Padding=\"Padding.Is3\">\r\n            <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is0.FromBottom\">\r\n                Results\r\n            </Heading>\r\n            <Paragraph Margin=\"Margin.Is2.FromTop\">\r\n                The content area moves because the animated panel changes its occupied width.\r\n            </Paragraph>\r\n        </Div>\r\n    </Div>\r\n</Div>\r\n\r\n@code {\r\n    private bool panelVisible = true;\r\n\r\n    private void TogglePanel()\r\n    {\r\n        panelVisible = !panelVisible;\r\n    }\r\n}",
+          "title": "Animated Size",
+          "description": "Use AnimatedSize when the animated element should also change the space it occupies, such as a drawer, sidebar, or disclosure panel."
+        },
+        {
+          "code": "AnimateCustomExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Animate/Examples/AnimateCustomExample.razor",
+          "content": "<Div Display=\"Display.Flex\" Flex=\"Flex.Column\" Gap=\"Gap.Is3\">\r\n    <Div>\r\n        <Button Color=\"Color.Primary\" Clicked=\"@RunAnimation\">\r\n            Run custom animation\r\n        </Button>\r\n    </Div>\r\n\r\n    <Animate @ref=\"@animateRef\" Auto=\"false\" Animation=\"@SoftEnter\" Easing=\"@SoftBack\" Trigger=\"AnimationTrigger.Render\" DurationMilliseconds=\"360\">\r\n        <Card Width=\"Width.Px( 320 )\">\r\n            <CardBody>\r\n                <CardTitle Size=\"HeadingSize.Is6\">Custom keyframes</CardTitle>\r\n                <CardText>\r\n                    This animation is defined in C# with opacity, translation, scale, and rotation keyframes.\r\n                </CardText>\r\n            </CardBody>\r\n        </Card>\r\n    </Animate>\r\n</Div>\r\n\r\n@code {\r\n    private static readonly IAnimation SoftEnter = new AnimationDefinition(\r\n        \"soft-enter\",\r\n        new[]\r\n        {\r\n            new AnimationFrame { Opacity = 0, Y = \"1rem\", Scale = 0.96, Rotate = \"-2deg\" },\r\n            new AnimationFrame { Opacity = 0.7, Y = \"0.25rem\", Scale = 1.02, Rotate = \"1deg\" },\r\n            new AnimationFrame { Opacity = 1, Y = \"0\", Scale = 1, Rotate = \"0deg\" },\r\n        } );\r\n\r\n    private static readonly IEasing SoftBack = new EasingDefinition(\r\n        \"soft-back\",\r\n        new[] { 0.175, 0.885, 0.32, 1.275 } );\r\n\r\n    private Blazorise.Animate.Animate animateRef;\r\n\r\n    private void RunAnimation()\r\n    {\r\n        animateRef?.Run();\r\n    }\r\n}",
+          "title": "Custom Keyframes",
+          "description": "Use AnimationDefinition when an animation should be defined in C# instead of by a built-in animation name."
+        },
+        {
+          "code": "AnimateManualExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Animate/Examples/AnimateManualExample.razor",
+          "content": "<Div Display=\"Display.Flex\" Flex=\"Flex.Column\" Gap=\"Gap.Is3\">\r\n    <Div>\r\n        <Button Color=\"Color.Primary\" Clicked=\"@RunAnimation\">\r\n            Run animation\r\n        </Button>\r\n    </Div>\r\n\r\n    <Animate @ref=\"@animateRef\" Auto=\"false\" Animation=\"Animations.ZoomIn\" Trigger=\"AnimationTrigger.Render\" DurationMilliseconds=\"250\">\r\n        <Card Width=\"Width.Px( 260 )\">\r\n            <CardBody>\r\n                <CardTitle Size=\"HeadingSize.Is6\">Manual animation</CardTitle>\r\n                <CardText>\r\n                    The component renders and animates when <Code>Run()</Code> is called.\r\n                </CardText>\r\n            </CardBody>\r\n        </Card>\r\n    </Animate>\r\n</Div>\r\n\r\n@code {\r\n    private Blazorise.Animate.Animate animateRef;\r\n\r\n    private void RunAnimation()\r\n    {\r\n        animateRef?.Run();\r\n    }\r\n}",
+          "title": "Manual Run",
+          "description": "Set Auto to false and call Run() when the animation should be started from code."
         }
       ],
       "apiRefs": [
@@ -4130,6 +4246,62 @@
         {
           "kind": "type",
           "name": "Autocomplete"
+        }
+      ]
+    },
+    {
+      "route": "/docs/extensions/barcode",
+      "title": "Blazorise Barcode component",
+      "description": "Learn how to generate linear and two-dimensional barcodes with the Blazorise Barcode component.",
+      "pagePath": "Pages/Docs/Extensions/Barcode/BarcodePage.razor",
+      "examples": [
+        {
+          "code": "BarcodeNugetInstallExample",
+          "title": "NuGet",
+          "description": "Install extension from NuGet."
+        },
+        {
+          "code": "ImportBarcodeExample",
+          "title": "Imports",
+          "description": "In your main _Imports.razor add:"
+        },
+        {
+          "code": "BasicBarcodeExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Barcode/Examples/BasicBarcodeExample.razor",
+          "content": "<Barcode Value=\"0123456789\" Type=\"BarcodeType.Code128\" ShowValue SymbolHeight=\"20\" />",
+          "title": "Basic",
+          "description": "Define a Value and choose the barcode Type ."
+        },
+        {
+          "code": "BarcodeTypesExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Barcode/Examples/BarcodeTypesExample.razor",
+          "content": "<Grid Columns=\"GridColumns.Are1.OnTablet.Are2.OnDesktop\">\r\n    <Column>\r\n        <Div Flex=\"Flex.Column\" Gap=\"Gap.Is2\">\r\n            <Text TextWeight=\"TextWeight.SemiBold\">Code 128</Text>\r\n            <Barcode Value=\"0123456789\" Type=\"BarcodeType.Code128\" ShowValue SymbolHeight=\"16\" />\r\n        </Div>\r\n    </Column>\r\n    <Column>\r\n        <Div Flex=\"Flex.Column\" Gap=\"Gap.Is2\">\r\n            <Text TextWeight=\"TextWeight.SemiBold\">EAN-13</Text>\r\n            <Barcode Value=\"5901234123457\" Type=\"BarcodeType.Ean13\" ShowValue SymbolHeight=\"16\" />\r\n        </Div>\r\n    </Column>\r\n    <Column>\r\n        <Div Flex=\"Flex.Column\" Gap=\"Gap.Is2\">\r\n            <Text TextWeight=\"TextWeight.SemiBold\">QR Code</Text>\r\n            <Barcode Value=\"https://blazorise.com\" Type=\"BarcodeType.QrCode\" SymbolWidth=\"32\" SymbolHeight=\"32\" />\r\n        </Div>\r\n    </Column>\r\n    <Column>\r\n        <Div Flex=\"Flex.Column\" Gap=\"Gap.Is2\">\r\n            <Text TextWeight=\"TextWeight.SemiBold\">Data Matrix</Text>\r\n            <Barcode Value=\"Blazorise\" Type=\"BarcodeType.DataMatrix\" SymbolWidth=\"32\" SymbolHeight=\"32\" />\r\n        </Div>\r\n    </Column>\r\n</Grid>",
+          "title": "Barcode Types",
+          "description": "Use Type to render different symbologies."
+        },
+        {
+          "code": "BarcodeStylingExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Barcode/Examples/BarcodeStylingExample.razor",
+          "content": "<Barcode Value=\"BLAZORISE\"\r\n         Type=\"BarcodeType.Code128\"\r\n         RenderMode=\"BarcodeRenderMode.Svg\"\r\n         ForegroundColor=\"#7474ed\"\r\n         BackgroundColor=\"#f7f7ff\"\r\n         ShowValue\r\n         ValueAlignment=\"BarcodeValueAlignment.End\"\r\n         SymbolHeight=\"20\"\r\n         PaddingTop=\"8\"\r\n         PaddingEnd=\"8\"\r\n         PaddingBottom=\"8\"\r\n         PaddingStart=\"8\" />",
+          "title": "Styling",
+          "description": "Use colors, value visibility, and value alignment to adjust the barcode output."
+        },
+        {
+          "code": "BarcodeTargetDimensionsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/Barcode/Examples/BarcodeTargetDimensionsExample.razor",
+          "content": "<Barcode Value=\"5901234123457\"\r\n         Type=\"BarcodeType.Ean13\"\r\n         RenderMode=\"BarcodeRenderMode.Canvas\"\r\n         ShowValue\r\n         SymbolWidth=\"45\"\r\n         SymbolHeight=\"18\"\r\n         Scale=\"3\" />",
+          "title": "Target Dimensions",
+          "description": "SymbolWidth and SymbolHeight define the requested barcode symbol dimensions. The provider can render a smaller symbol when it needs to keep a valid module size."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "Barcode"
         }
       ]
     },
@@ -4797,22 +4969,6 @@
       ]
     },
     {
-      "route": "/docs/extensions/datagrid/features/detail-row",
-      "title": "Blazorise DataGrid Detail Row Template",
-      "description": "Learn Blazorise by the example. Easily expand and display additional information for each row using the Blazorise DataGrid's detail row template feature.",
-      "pagePath": "Pages/Docs/Extensions/DataGrid/Features/DetailRowTemplate.razor",
-      "examples": [
-        {
-          "code": "DataGridDetailRowTemplateExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridDetailRowTemplateExample.razor",
-          "content": "<DataGrid TItem=\"Employee\"\r\n          @ref=\"dataGridRef\"\r\n          Data=\"@employeeList\"\r\n          DetailRowTrigger=\"@(e => DisplayDetailRow(e.Item))\"\r\n          DetailRowStartsVisible=\"false\"\r\n          Responsive>\r\n    <DataGridColumns>\r\n        <DataGridCommandColumn />\r\n        <DataGridColumn TItem=Employee>\r\n            <DisplayTemplate>\r\n                @if ( DisplayDetailRow( context.Item ) )\r\n                {\r\n                    <Button>\r\n                        <Icon Name=\"@(dataGridRef.GetRowInfo( context.Item ).DetailRowVisible ? IconName.ExpandLess : IconName.ExpandMore)\" />\r\n                    </Button>\r\n                }\r\n            </DisplayTemplate>\r\n        </DataGridColumn>\r\n        <DataGridColumn Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" />\r\n    </DataGridColumns>\r\n    <DetailRowTemplate>\r\n        @{\r\n            var salaries = context.Item?.Salaries;\r\n\r\n            <DataGrid TItem=\"Salary\"\r\n                      Data=\"salaries\"\r\n                      Sortable=\"false\"\r\n                      ShowCaptions=\"false\">\r\n                <DataGridCommandColumn />\r\n                <DataGridDateColumn Field=\"@nameof( Salary.Date )\" Caption=\"Date\" />\r\n                <DataGridNumericColumn Field=\"@nameof( Salary.Total )\" Caption=\"Total\" />\r\n            </DataGrid>\r\n        }\r\n    </DetailRowTemplate>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n    DataGrid<Employee> dataGridRef;\r\n\r\n    bool DisplayDetailRow( Employee employee ) => employee.Salaries?.Count > 0;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
-          "title": "DetailRowTemplate",
-          "description": "DetailRowTemplate allows you to display nested structure below each row in the grid. One of the examples is “master-detail” relationship between two data-source inside the DataGrid . For this template the context value is a DetailRowContext&lt;TItem&gt; , which provides the row item via context.Item along with row state and grid metadata. Once it's defined a detail-row will be visible for every row in the grid by default. You may change this behaviour by setting DetailRowStartsVisible to false. If you want to control the visibility of detail-row you can use DetailRowTrigger attribute that can be defined in it's parent grid. Once defined, whenever a user clicks a row, the DetailRowTrigger will be evaluated. You may also use the DataGrid API, ToggleDetailRow to programatically trigger the detail-row."
-        }
-      ]
-    },
-    {
       "route": "/docs/extensions/datagrid/features/editing",
       "title": "Blazorise DataGrid Editing",
       "description": "Learn Blazorise by the example. The DataGrid can perform some basic CRUD operations on the supplied Data collection.",
@@ -5019,6 +5175,54 @@
       ]
     },
     {
+      "route": "/docs/extensions/datagrid/features/hierarchy/detail-row",
+      "title": "Blazorise DataGrid Detail Row Template",
+      "description": "Learn Blazorise by the example. Easily expand and display additional information for each row using the Blazorise DataGrid's detail row template feature.",
+      "pagePath": "Pages/Docs/Extensions/DataGrid/Features/DetailRowTemplate.razor",
+      "examples": [
+        {
+          "code": "DataGridDetailRowTemplateExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridDetailRowTemplateExample.razor",
+          "content": "<DataGrid TItem=\"Employee\"\r\n          @ref=\"dataGridRef\"\r\n          Data=\"@employeeList\"\r\n          DetailRowTrigger=\"@(e => DisplayDetailRow(e.Item))\"\r\n          DetailRowStartsVisible=\"false\"\r\n          Responsive>\r\n    <DataGridColumns>\r\n        <DataGridCommandColumn />\r\n        <DataGridColumn TItem=Employee>\r\n            <DisplayTemplate>\r\n                @if ( DisplayDetailRow( context.Item ) )\r\n                {\r\n                    <Button>\r\n                        <Icon Name=\"@(dataGridRef.GetRowInfo( context.Item ).DetailRowVisible ? IconName.ExpandLess : IconName.ExpandMore)\" />\r\n                    </Button>\r\n                }\r\n            </DisplayTemplate>\r\n        </DataGridColumn>\r\n        <DataGridColumn Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" />\r\n    </DataGridColumns>\r\n    <DetailRowTemplate>\r\n        @{\r\n            var salaries = context.Item?.Salaries;\r\n\r\n            <DataGrid TItem=\"Salary\"\r\n                      Data=\"salaries\"\r\n                      Sortable=\"false\"\r\n                      ShowCaptions=\"false\">\r\n                <DataGridCommandColumn />\r\n                <DataGridDateColumn Field=\"@nameof( Salary.Date )\" Caption=\"Date\" />\r\n                <DataGridNumericColumn Field=\"@nameof( Salary.Total )\" Caption=\"Total\" />\r\n            </DataGrid>\r\n        }\r\n    </DetailRowTemplate>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n    DataGrid<Employee> dataGridRef;\r\n\r\n    bool DisplayDetailRow( Employee employee ) => employee.Salaries?.Count > 0;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
+          "title": "DetailRowTemplate",
+          "description": "DetailRowTemplate allows you to display nested structure below each row in the grid. One of the examples is “master-detail” relationship between two data-source inside the DataGrid . For this template the context value is a DetailRowContext&lt;TItem&gt; , which provides the row item via context.Item along with row state and grid metadata. Once it's defined a detail-row will be visible for every row in the grid by default. You may change this behaviour by setting DetailRowStartsVisible to false. If you want to control the visibility of detail-row you can use DetailRowTrigger attribute that can be defined in it's parent grid. Once defined, whenever a user clicks a row, the DetailRowTrigger will be evaluated. You may also use the DataGrid API, ToggleDetailRow to programatically trigger the detail-row."
+        }
+      ]
+    },
+    {
+      "route": "/docs/extensions/datagrid/features/hierarchy/self-reference",
+      "title": "Blazorise DataGrid Self Reference",
+      "description": "Learn Blazorise by the example. Render hierarchical rows and control expand and collapse actions programmatically through DataGrid self-reference.",
+      "pagePath": "Pages/Docs/Extensions/DataGrid/Features/SelfReferencePage.razor",
+      "examples": [
+        {
+          "code": "DataGridSelfReferenceExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridSelfReferenceExample.razor",
+          "content": "<Button Color=\"Color.Primary\" Margin=\"Margin.Is2.FromEnd\" Disabled=\"@(!CanToggleSelectedRow)\" Clicked=\"@ExpandSelectedRow\">Expand Selected</Button>\r\n<Button Color=\"Color.Secondary\" Margin=\"Margin.Is2.FromEnd\" Disabled=\"@(!CanToggleSelectedRow)\" Clicked=\"@CollapseSelectedRow\">Collapse Selected</Button>\r\n<Button Color=\"Color.Success\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@ExpandAllRows\">Expand All</Button>\r\n<Button Color=\"Color.Warning\" Clicked=\"@CollapseAllRows\">Collapse All</Button>\r\n\r\n<DataGrid @ref=\"dataGridRef\"\r\n          TItem=\"SelfReferenceEmployee\"\r\n          Data=\"@rootItems\"\r\n          ExpandTrigger=\"DataGridExpandTrigger.RowAndToggleClick\"\r\n          ExpandRowTrigger=\"OnExpandRowTrigger\"\r\n          ReadChildData=\"OnReadChildData\"\r\n          @bind-SelectedRow=\"@selectedEmployee\"\r\n          Responsive\r\n          ShowPager>\r\n    <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.FullName )\" Caption=\"Employee\" Width=\"Width.Px( 280 )\" />\r\n    <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.City )\" Caption=\"City\" />\r\n    <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" />\r\n    <DataGridCheckColumn Field=\"@nameof( SelfReferenceEmployee.IsActive )\" Caption=\"Active\" />\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] public EmployeeData EmployeeData { get; set; }\r\n\r\n    private DataGrid<SelfReferenceEmployee> dataGridRef;\r\n    private SelfReferenceEmployee selectedEmployee;\r\n    private List<SelfReferenceEmployee> rootItems = new();\r\n    private Dictionary<int, List<SelfReferenceEmployee>> childLookup = new();\r\n\r\n    private bool CanToggleSelectedRow\r\n        => selectedEmployee is not null;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        var employees = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 24 ).ToList();\r\n        BuildSelfReferenceData( employees );\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private void BuildSelfReferenceData( IReadOnlyList<Employee> employees )\r\n    {\r\n        var selfReferenceEmployees = employees.Select( x => new SelfReferenceEmployee\r\n        {\r\n            Id = x.Id,\r\n            FullName = $\"{x.FirstName} {x.LastName}\",\r\n            City = x.City,\r\n            Salary = x.Salary,\r\n            IsActive = x.IsActive,\r\n        } ).ToList();\r\n\r\n        var roots = selfReferenceEmployees.Take( 3 ).ToList();\r\n        var levelOneNodes = new List<SelfReferenceEmployee>();\r\n        var currentIndex = roots.Count;\r\n\r\n        for ( var rootIndex = 0; rootIndex < roots.Count && currentIndex < selfReferenceEmployees.Count; rootIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 3 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = roots[rootIndex].Id;\r\n                levelOneNodes.Add( child );\r\n            }\r\n        }\r\n\r\n        for ( var levelOneIndex = 0; levelOneIndex < levelOneNodes.Count && currentIndex < selfReferenceEmployees.Count; levelOneIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 2 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = levelOneNodes[levelOneIndex].Id;\r\n            }\r\n        }\r\n\r\n        childLookup = selfReferenceEmployees\r\n            .Where( x => x.ParentId.HasValue )\r\n            .GroupBy( x => x.ParentId!.Value )\r\n            .ToDictionary( x => x.Key, x => x.ToList() );\r\n\r\n        rootItems = selfReferenceEmployees.Where( x => !x.ParentId.HasValue ).ToList();\r\n    }\r\n\r\n    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Expandable = childLookup.ContainsKey( args.Item.Id );\r\n        return true;\r\n    }\r\n\r\n    private void OnReadChildData( DataGridReadChildDataEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Data = childLookup.TryGetValue( args.Item.Id, out var children )\r\n            ? children\r\n            : Enumerable.Empty<SelfReferenceEmployee>();\r\n    }\r\n\r\n    private Task ExpandSelectedRow()\r\n        => selectedEmployee is null\r\n            ? Task.CompletedTask\r\n            : dataGridRef.ExpandRow( selectedEmployee );\r\n\r\n    private Task CollapseSelectedRow()\r\n        => selectedEmployee is null\r\n            ? Task.CompletedTask\r\n            : dataGridRef.CollapseRow( selectedEmployee );\r\n\r\n    private Task ExpandAllRows()\r\n        => dataGridRef.ExpandAllRows();\r\n\r\n    private Task CollapseAllRows()\r\n        => dataGridRef.CollapseAllRows();\r\n\r\n    private sealed class SelfReferenceEmployee\r\n    {\r\n        public int Id { get; set; }\r\n\r\n        public int? ParentId { get; set; }\r\n\r\n        public string FullName { get; set; }\r\n\r\n        public string City { get; set; }\r\n\r\n        public decimal Salary { get; set; }\r\n\r\n        public bool IsActive { get; set; }\r\n    }\r\n}",
+          "title": "Self Reference",
+          "description": "This example uses ExpandRowTrigger and ReadChildData for hierarchical rows, and calls ExpandRow , CollapseRow , ExpandAllRows , and CollapseAllRows through a DataGrid self-reference."
+        },
+        {
+          "code": "DataGridSelfReferenceEditingExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridSelfReferenceEditingExample.razor",
+          "content": "<Button Color=\"Color.Success\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@ExpandAllRows\">Expand All</Button>\r\n<Button Color=\"Color.Warning\" Margin=\"Margin.Is4.FromEnd\" Clicked=\"@CollapseAllRows\">Collapse All</Button>\r\n\r\n<DataGrid @ref=\"dataGridRef\"\r\n          TItem=\"SelfReferenceEmployee\"\r\n          Data=\"@rootItems\"\r\n          ExpandTrigger=\"DataGridExpandTrigger.RowAndToggleClick\"\r\n          ExpandRowTrigger=\"OnExpandRowTrigger\"\r\n          ReadChildData=\"OnReadChildData\"\r\n          RowUpdated=\"OnRowUpdated\"\r\n          Editable\r\n          EditMode=\"DataGridEditMode.Inline\"\r\n          Responsive\r\n          ShowPager>\r\n    <DataGridColumns>\r\n        <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.FullName )\" Caption=\"Employee\" Width=\"Width.Px( 280 )\" Editable />\r\n        <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.City )\" Caption=\"City\" Editable />\r\n        <DataGridNumericColumn Field=\"@nameof( SelfReferenceEmployee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" Editable />\r\n        <DataGridCheckColumn Field=\"@nameof( SelfReferenceEmployee.IsActive )\" Caption=\"Active\" Editable />\r\n        <DataGridCommandColumn NewCommandAllowed=\"false\" DeleteCommandAllowed=\"false\" />\r\n    </DataGridColumns>\r\n</DataGrid>\r\n\r\n@if ( lastUpdatedEmployee is not null )\r\n{\r\n    <Alert Color=\"Color.Info\" Margin=\"Margin.Is3.FromTop\">\r\n        Last updated row: <strong>@lastUpdatedEmployee.FullName</strong> (@lastUpdatedEmployee.City)\r\n    </Alert>\r\n}\r\n\r\n@code {\r\n    [Inject] public EmployeeData EmployeeData { get; set; }\r\n\r\n    private DataGrid<SelfReferenceEmployee> dataGridRef;\r\n    private SelfReferenceEmployee lastUpdatedEmployee;\r\n    private List<SelfReferenceEmployee> rootItems = new();\r\n    private Dictionary<int, List<SelfReferenceEmployee>> childLookup = new();\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        var employees = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 24 ).ToList();\r\n        BuildSelfReferenceData( employees );\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private void BuildSelfReferenceData( IReadOnlyList<Employee> employees )\r\n    {\r\n        var selfReferenceEmployees = employees.Select( x => new SelfReferenceEmployee\r\n        {\r\n            Id = x.Id,\r\n            FullName = $\"{x.FirstName} {x.LastName}\",\r\n            City = x.City,\r\n            Salary = x.Salary,\r\n            IsActive = x.IsActive,\r\n        } ).ToList();\r\n\r\n        var roots = selfReferenceEmployees.Take( 3 ).ToList();\r\n        var levelOneNodes = new List<SelfReferenceEmployee>();\r\n        var currentIndex = roots.Count;\r\n\r\n        for ( var rootIndex = 0; rootIndex < roots.Count && currentIndex < selfReferenceEmployees.Count; rootIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 3 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = roots[rootIndex].Id;\r\n                levelOneNodes.Add( child );\r\n            }\r\n        }\r\n\r\n        for ( var levelOneIndex = 0; levelOneIndex < levelOneNodes.Count && currentIndex < selfReferenceEmployees.Count; levelOneIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 2 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = levelOneNodes[levelOneIndex].Id;\r\n            }\r\n        }\r\n\r\n        childLookup = selfReferenceEmployees\r\n            .Where( x => x.ParentId.HasValue )\r\n            .GroupBy( x => x.ParentId!.Value )\r\n            .ToDictionary( x => x.Key, x => x.ToList() );\r\n\r\n        rootItems = selfReferenceEmployees.Where( x => !x.ParentId.HasValue ).ToList();\r\n    }\r\n\r\n    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Expandable = childLookup.ContainsKey( args.Item.Id );\r\n        return true;\r\n    }\r\n\r\n    private void OnReadChildData( DataGridReadChildDataEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Data = childLookup.TryGetValue( args.Item.Id, out var children )\r\n            ? children\r\n            : Enumerable.Empty<SelfReferenceEmployee>();\r\n    }\r\n\r\n    private Task OnRowUpdated( SavedRowItem<SelfReferenceEmployee, Dictionary<string, object>> args )\r\n    {\r\n        lastUpdatedEmployee = args.NewItem;\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task ExpandAllRows()\r\n        => dataGridRef.ExpandAllRows();\r\n\r\n    private Task CollapseAllRows()\r\n        => dataGridRef.CollapseAllRows();\r\n\r\n    private sealed class SelfReferenceEmployee\r\n    {\r\n        public int Id { get; set; }\r\n\r\n        public int? ParentId { get; set; }\r\n\r\n        public string FullName { get; set; }\r\n\r\n        public string City { get; set; }\r\n\r\n        public decimal Salary { get; set; }\r\n\r\n        public bool IsActive { get; set; }\r\n    }\r\n}",
+          "title": "Row Editing",
+          "description": "This example keeps self-reference enabled while turning on Editable rows with DataGridEditMode.Inline . Parent and child rows can both be edited."
+        },
+        {
+          "code": "DataGridSelfReferenceTemplateExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridSelfReferenceTemplateExample.razor",
+          "content": "<DataGrid TItem=\"SelfReferenceEmployee\"\r\n          Data=\"@rootItems\"\r\n          ExpandTrigger=\"DataGridExpandTrigger.ToggleClick\"\r\n          ExpandRowTrigger=\"OnExpandRowTrigger\"\r\n          ReadChildData=\"OnReadChildData\"\r\n          Responsive\r\n          ShowPager>\r\n    <DataGridColumns>\r\n        <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.FullName )\" Caption=\"Employee\" Width=\"Width.Px( 300 )\">\r\n            <ExpandTemplate Context=\"row\">\r\n                <Span Display=\"Display.InlineFlex\" VerticalAlignment=\"VerticalAlignment.Middle\" TextOverflow=\"TextOverflow.NoWrap\">\r\n                    @if ( row.Level > 0 )\r\n                    {\r\n                        <Span Display=\"Display.InlineBlock\" Width=\"@Width.Rem( row.Level )\"></Span>\r\n                    }\r\n\r\n                    @if ( row.Expandable )\r\n                    {\r\n                        <Button Size=\"Size.ExtraSmall\"\r\n                                Color=\"Color.Light\"\r\n                                Margin=\"Margin.Is2.FromEnd\"\r\n                                Clicked=\"@(() => row.Toggle())\">\r\n                            <Icon Name=\"@(row.Expanded ? IconName.ChevronDown : IconName.ChevronRight)\" />\r\n                        </Button>\r\n                    }\r\n                    else\r\n                    {\r\n                        <Span Display=\"Display.InlineBlock\" Width=\"@Width.Rem( 1 )\" Margin=\"Margin.Is2.FromEnd\"></Span>\r\n                    }\r\n                </Span>\r\n            </ExpandTemplate>\r\n            <DisplayTemplate Context=\"cell\">\r\n                <Span TextWeight=\"TextWeight.SemiBold\">@cell.DisplayValue</Span>\r\n            </DisplayTemplate>\r\n        </DataGridColumn>\r\n        <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.City )\" Caption=\"City\" />\r\n        <DataGridNumericColumn Field=\"@nameof( SelfReferenceEmployee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" />\r\n    </DataGridColumns>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] public EmployeeData EmployeeData { get; set; }\r\n\r\n    private List<SelfReferenceEmployee> rootItems = new();\r\n    private Dictionary<int, List<SelfReferenceEmployee>> childLookup = new();\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        var employees = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 24 ).ToList();\r\n        BuildSelfReferenceData( employees );\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private void BuildSelfReferenceData( IReadOnlyList<Employee> employees )\r\n    {\r\n        var selfReferenceEmployees = employees.Select( x => new SelfReferenceEmployee\r\n        {\r\n            Id = x.Id,\r\n            FullName = $\"{x.FirstName} {x.LastName}\",\r\n            City = x.City,\r\n            Salary = x.Salary,\r\n        } ).ToList();\r\n\r\n        var roots = selfReferenceEmployees.Take( 3 ).ToList();\r\n        var levelOneNodes = new List<SelfReferenceEmployee>();\r\n        var currentIndex = roots.Count;\r\n\r\n        for ( var rootIndex = 0; rootIndex < roots.Count && currentIndex < selfReferenceEmployees.Count; rootIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 3 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = roots[rootIndex].Id;\r\n                levelOneNodes.Add( child );\r\n            }\r\n        }\r\n\r\n        for ( var levelOneIndex = 0; levelOneIndex < levelOneNodes.Count && currentIndex < selfReferenceEmployees.Count; levelOneIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 2 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = levelOneNodes[levelOneIndex].Id;\r\n            }\r\n        }\r\n\r\n        childLookup = selfReferenceEmployees\r\n            .Where( x => x.ParentId.HasValue )\r\n            .GroupBy( x => x.ParentId!.Value )\r\n            .ToDictionary( x => x.Key, x => x.ToList() );\r\n\r\n        rootItems = selfReferenceEmployees.Where( x => !x.ParentId.HasValue ).ToList();\r\n    }\r\n\r\n    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Expandable = childLookup.ContainsKey( args.Item.Id );\r\n        return true;\r\n    }\r\n\r\n    private void OnReadChildData( DataGridReadChildDataEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Data = childLookup.TryGetValue( args.Item.Id, out var children )\r\n            ? children\r\n            : Enumerable.Empty<SelfReferenceEmployee>();\r\n    }\r\n\r\n    private sealed class SelfReferenceEmployee\r\n    {\r\n        public int Id { get; set; }\r\n\r\n        public int? ParentId { get; set; }\r\n\r\n        public string FullName { get; set; }\r\n\r\n        public string City { get; set; }\r\n\r\n        public decimal Salary { get; set; }\r\n    }\r\n}",
+          "title": "Custom Expand Template",
+          "description": "Use column ExpandTemplate when you need full control over self-reference expand rendering. The first regular column with ExpandTemplate becomes the self-reference host, and the template context exposes Item , Level , Expandable , Expanded , and Toggle() ."
+        }
+      ]
+    },
+    {
       "route": "/docs/extensions/datagrid/features/mobile-mode",
       "title": "Blazorise DataGrid Mobile Mode",
       "description": "Learn Blazorise by the example. The table will have a dedicated layout for mobile devices where the columns are stacked on top of each other.",
@@ -5084,38 +5288,6 @@
           "content": "<Field>\r\n    <FieldLabel>\r\n        Resize Mode\r\n    </FieldLabel>\r\n    <FieldBody>\r\n        <Select @bind-Value=\"@resizeMode\">\r\n            <SelectItem Value=\"TableResizeMode.Header\">Header</SelectItem>\r\n            <SelectItem Value=\"TableResizeMode.Columns\">Columns</SelectItem>\r\n        </Select>\r\n    </FieldBody>\r\n</Field>\r\n\r\n<DataGrid TItem=\"Employee\"\r\n          Data=\"@employeeList\"\r\n          @bind-SelectedRow=\"@selectedEmployee\"\r\n          Responsive\r\n          Resizable\r\n          ResizeMode=\"@resizeMode\">\r\n    <DataGridCommandColumn />\r\n    <DataGridColumn Field=\"@nameof( Employee.Id )\" Caption=\"#\" Sortable=\"false\" />\r\n    <DataGridColumn Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.Email )\" Caption=\"Email\" Editable />\r\n    <DataGridColumn Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" Editable>\r\n        <EditTemplate>\r\n            <NumericInput TValue=\"decimal\" Value=\"@((decimal)context.CellValue)\" ValueChanged=\"@(v => context.CellValue = v)\" />\r\n        </EditTemplate>\r\n    </DataGridColumn>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n    private Employee selectedEmployee;\r\n    private TableResizeMode resizeMode = TableResizeMode.Header;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
           "title": "Resizable",
           "description": "The resizable column feature is easy to enable in the Blazorise DataGrid. Just define the Resizable and ResizeMode parameters."
-        }
-      ]
-    },
-    {
-      "route": "/docs/extensions/datagrid/features/self-reference",
-      "title": "Blazorise DataGrid Self Reference",
-      "description": "Learn Blazorise by the example. Render hierarchical rows and control expand and collapse actions programmatically through DataGrid self-reference.",
-      "pagePath": "Pages/Docs/Extensions/DataGrid/Features/SelfReferencePage.razor",
-      "examples": [
-        {
-          "code": "DataGridSelfReferenceExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridSelfReferenceExample.razor",
-          "content": "<Button Color=\"Color.Primary\" Margin=\"Margin.Is2.FromEnd\" Disabled=\"@(!CanToggleSelectedRow)\" Clicked=\"@ExpandSelectedRow\">Expand Selected</Button>\r\n<Button Color=\"Color.Secondary\" Margin=\"Margin.Is2.FromEnd\" Disabled=\"@(!CanToggleSelectedRow)\" Clicked=\"@CollapseSelectedRow\">Collapse Selected</Button>\r\n<Button Color=\"Color.Success\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@ExpandAllRows\">Expand All</Button>\r\n<Button Color=\"Color.Warning\" Clicked=\"@CollapseAllRows\">Collapse All</Button>\r\n\r\n<DataGrid @ref=\"dataGridRef\"\r\n          TItem=\"SelfReferenceEmployee\"\r\n          Data=\"@rootItems\"\r\n          ExpandTrigger=\"DataGridExpandTrigger.RowAndToggleClick\"\r\n          ExpandRowTrigger=\"OnExpandRowTrigger\"\r\n          ReadChildData=\"OnReadChildData\"\r\n          @bind-SelectedRow=\"@selectedEmployee\"\r\n          Responsive\r\n          ShowPager>\r\n    <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.FullName )\" Caption=\"Employee\" Width=\"Width.Px( 280 )\" />\r\n    <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.City )\" Caption=\"City\" />\r\n    <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" />\r\n    <DataGridCheckColumn Field=\"@nameof( SelfReferenceEmployee.IsActive )\" Caption=\"Active\" />\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] public EmployeeData EmployeeData { get; set; }\r\n\r\n    private DataGrid<SelfReferenceEmployee> dataGridRef;\r\n    private SelfReferenceEmployee selectedEmployee;\r\n    private List<SelfReferenceEmployee> rootItems = new();\r\n    private Dictionary<int, List<SelfReferenceEmployee>> childLookup = new();\r\n\r\n    private bool CanToggleSelectedRow\r\n        => selectedEmployee is not null;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        var employees = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 24 ).ToList();\r\n        BuildSelfReferenceData( employees );\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private void BuildSelfReferenceData( IReadOnlyList<Employee> employees )\r\n    {\r\n        var selfReferenceEmployees = employees.Select( x => new SelfReferenceEmployee\r\n        {\r\n            Id = x.Id,\r\n            FullName = $\"{x.FirstName} {x.LastName}\",\r\n            City = x.City,\r\n            Salary = x.Salary,\r\n            IsActive = x.IsActive,\r\n        } ).ToList();\r\n\r\n        var roots = selfReferenceEmployees.Take( 3 ).ToList();\r\n        var levelOneNodes = new List<SelfReferenceEmployee>();\r\n        var currentIndex = roots.Count;\r\n\r\n        for ( var rootIndex = 0; rootIndex < roots.Count && currentIndex < selfReferenceEmployees.Count; rootIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 3 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = roots[rootIndex].Id;\r\n                levelOneNodes.Add( child );\r\n            }\r\n        }\r\n\r\n        for ( var levelOneIndex = 0; levelOneIndex < levelOneNodes.Count && currentIndex < selfReferenceEmployees.Count; levelOneIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 2 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = levelOneNodes[levelOneIndex].Id;\r\n            }\r\n        }\r\n\r\n        childLookup = selfReferenceEmployees\r\n            .Where( x => x.ParentId.HasValue )\r\n            .GroupBy( x => x.ParentId!.Value )\r\n            .ToDictionary( x => x.Key, x => x.ToList() );\r\n\r\n        rootItems = selfReferenceEmployees.Where( x => !x.ParentId.HasValue ).ToList();\r\n    }\r\n\r\n    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Expandable = childLookup.ContainsKey( args.Item.Id );\r\n        return true;\r\n    }\r\n\r\n    private void OnReadChildData( DataGridReadChildDataEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Data = childLookup.TryGetValue( args.Item.Id, out var children )\r\n            ? children\r\n            : Enumerable.Empty<SelfReferenceEmployee>();\r\n    }\r\n\r\n    private Task ExpandSelectedRow()\r\n        => selectedEmployee is null\r\n            ? Task.CompletedTask\r\n            : dataGridRef.ExpandRow( selectedEmployee );\r\n\r\n    private Task CollapseSelectedRow()\r\n        => selectedEmployee is null\r\n            ? Task.CompletedTask\r\n            : dataGridRef.CollapseRow( selectedEmployee );\r\n\r\n    private Task ExpandAllRows()\r\n        => dataGridRef.ExpandAllRows();\r\n\r\n    private Task CollapseAllRows()\r\n        => dataGridRef.CollapseAllRows();\r\n\r\n    private sealed class SelfReferenceEmployee\r\n    {\r\n        public int Id { get; set; }\r\n\r\n        public int? ParentId { get; set; }\r\n\r\n        public string FullName { get; set; }\r\n\r\n        public string City { get; set; }\r\n\r\n        public decimal Salary { get; set; }\r\n\r\n        public bool IsActive { get; set; }\r\n    }\r\n}",
-          "title": "Self Reference",
-          "description": "This example uses ExpandRowTrigger and ReadChildData for hierarchical rows, and calls ExpandRow , CollapseRow , ExpandAllRows , and CollapseAllRows through a DataGrid self-reference."
-        },
-        {
-          "code": "DataGridSelfReferenceEditingExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridSelfReferenceEditingExample.razor",
-          "content": "<Button Color=\"Color.Success\" Margin=\"Margin.Is2.FromEnd\" Clicked=\"@ExpandAllRows\">Expand All</Button>\r\n<Button Color=\"Color.Warning\" Margin=\"Margin.Is4.FromEnd\" Clicked=\"@CollapseAllRows\">Collapse All</Button>\r\n\r\n<DataGrid @ref=\"dataGridRef\"\r\n          TItem=\"SelfReferenceEmployee\"\r\n          Data=\"@rootItems\"\r\n          ExpandTrigger=\"DataGridExpandTrigger.RowAndToggleClick\"\r\n          ExpandRowTrigger=\"OnExpandRowTrigger\"\r\n          ReadChildData=\"OnReadChildData\"\r\n          RowUpdated=\"OnRowUpdated\"\r\n          Editable\r\n          EditMode=\"DataGridEditMode.Inline\"\r\n          Responsive\r\n          ShowPager>\r\n    <DataGridColumns>\r\n        <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.FullName )\" Caption=\"Employee\" Width=\"Width.Px( 280 )\" Editable />\r\n        <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.City )\" Caption=\"City\" Editable />\r\n        <DataGridNumericColumn Field=\"@nameof( SelfReferenceEmployee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" Editable />\r\n        <DataGridCheckColumn Field=\"@nameof( SelfReferenceEmployee.IsActive )\" Caption=\"Active\" Editable />\r\n        <DataGridCommandColumn NewCommandAllowed=\"false\" DeleteCommandAllowed=\"false\" />\r\n    </DataGridColumns>\r\n</DataGrid>\r\n\r\n@if ( lastUpdatedEmployee is not null )\r\n{\r\n    <Alert Color=\"Color.Info\" Margin=\"Margin.Is3.FromTop\">\r\n        Last updated row: <strong>@lastUpdatedEmployee.FullName</strong> (@lastUpdatedEmployee.City)\r\n    </Alert>\r\n}\r\n\r\n@code {\r\n    [Inject] public EmployeeData EmployeeData { get; set; }\r\n\r\n    private DataGrid<SelfReferenceEmployee> dataGridRef;\r\n    private SelfReferenceEmployee lastUpdatedEmployee;\r\n    private List<SelfReferenceEmployee> rootItems = new();\r\n    private Dictionary<int, List<SelfReferenceEmployee>> childLookup = new();\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        var employees = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 24 ).ToList();\r\n        BuildSelfReferenceData( employees );\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private void BuildSelfReferenceData( IReadOnlyList<Employee> employees )\r\n    {\r\n        var selfReferenceEmployees = employees.Select( x => new SelfReferenceEmployee\r\n        {\r\n            Id = x.Id,\r\n            FullName = $\"{x.FirstName} {x.LastName}\",\r\n            City = x.City,\r\n            Salary = x.Salary,\r\n            IsActive = x.IsActive,\r\n        } ).ToList();\r\n\r\n        var roots = selfReferenceEmployees.Take( 3 ).ToList();\r\n        var levelOneNodes = new List<SelfReferenceEmployee>();\r\n        var currentIndex = roots.Count;\r\n\r\n        for ( var rootIndex = 0; rootIndex < roots.Count && currentIndex < selfReferenceEmployees.Count; rootIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 3 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = roots[rootIndex].Id;\r\n                levelOneNodes.Add( child );\r\n            }\r\n        }\r\n\r\n        for ( var levelOneIndex = 0; levelOneIndex < levelOneNodes.Count && currentIndex < selfReferenceEmployees.Count; levelOneIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 2 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = levelOneNodes[levelOneIndex].Id;\r\n            }\r\n        }\r\n\r\n        childLookup = selfReferenceEmployees\r\n            .Where( x => x.ParentId.HasValue )\r\n            .GroupBy( x => x.ParentId!.Value )\r\n            .ToDictionary( x => x.Key, x => x.ToList() );\r\n\r\n        rootItems = selfReferenceEmployees.Where( x => !x.ParentId.HasValue ).ToList();\r\n    }\r\n\r\n    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Expandable = childLookup.ContainsKey( args.Item.Id );\r\n        return true;\r\n    }\r\n\r\n    private void OnReadChildData( DataGridReadChildDataEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Data = childLookup.TryGetValue( args.Item.Id, out var children )\r\n            ? children\r\n            : Enumerable.Empty<SelfReferenceEmployee>();\r\n    }\r\n\r\n    private Task OnRowUpdated( SavedRowItem<SelfReferenceEmployee, Dictionary<string, object>> args )\r\n    {\r\n        lastUpdatedEmployee = args.NewItem;\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task ExpandAllRows()\r\n        => dataGridRef.ExpandAllRows();\r\n\r\n    private Task CollapseAllRows()\r\n        => dataGridRef.CollapseAllRows();\r\n\r\n    private sealed class SelfReferenceEmployee\r\n    {\r\n        public int Id { get; set; }\r\n\r\n        public int? ParentId { get; set; }\r\n\r\n        public string FullName { get; set; }\r\n\r\n        public string City { get; set; }\r\n\r\n        public decimal Salary { get; set; }\r\n\r\n        public bool IsActive { get; set; }\r\n    }\r\n}",
-          "title": "Row Editing",
-          "description": "This example keeps self-reference enabled while turning on Editable rows with DataGridEditMode.Inline . Parent and child rows can both be edited."
-        },
-        {
-          "code": "DataGridSelfReferenceTemplateExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridSelfReferenceTemplateExample.razor",
-          "content": "<DataGrid TItem=\"SelfReferenceEmployee\"\r\n          Data=\"@rootItems\"\r\n          ExpandTrigger=\"DataGridExpandTrigger.ToggleClick\"\r\n          ExpandRowTrigger=\"OnExpandRowTrigger\"\r\n          ReadChildData=\"OnReadChildData\"\r\n          Responsive\r\n          ShowPager>\r\n    <DataGridColumns>\r\n        <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.FullName )\" Caption=\"Employee\" Width=\"Width.Px( 300 )\">\r\n            <ExpandTemplate Context=\"row\">\r\n                <Span Display=\"Display.InlineFlex\" VerticalAlignment=\"VerticalAlignment.Middle\" TextOverflow=\"TextOverflow.NoWrap\">\r\n                    @if ( row.Level > 0 )\r\n                    {\r\n                        <Span Display=\"Display.InlineBlock\" Width=\"@Width.Rem( row.Level )\"></Span>\r\n                    }\r\n\r\n                    @if ( row.Expandable )\r\n                    {\r\n                        <Button Size=\"Size.ExtraSmall\"\r\n                                Color=\"Color.Light\"\r\n                                Margin=\"Margin.Is2.FromEnd\"\r\n                                Clicked=\"@(() => row.Toggle())\">\r\n                            <Icon Name=\"@(row.Expanded ? IconName.ChevronDown : IconName.ChevronRight)\" />\r\n                        </Button>\r\n                    }\r\n                    else\r\n                    {\r\n                        <Span Display=\"Display.InlineBlock\" Width=\"@Width.Rem( 1 )\" Margin=\"Margin.Is2.FromEnd\"></Span>\r\n                    }\r\n                </Span>\r\n            </ExpandTemplate>\r\n            <DisplayTemplate Context=\"cell\">\r\n                <Span TextWeight=\"TextWeight.SemiBold\">@cell.DisplayValue</Span>\r\n            </DisplayTemplate>\r\n        </DataGridColumn>\r\n        <DataGridColumn Field=\"@nameof( SelfReferenceEmployee.City )\" Caption=\"City\" />\r\n        <DataGridNumericColumn Field=\"@nameof( SelfReferenceEmployee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" />\r\n    </DataGridColumns>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject] public EmployeeData EmployeeData { get; set; }\r\n\r\n    private List<SelfReferenceEmployee> rootItems = new();\r\n    private Dictionary<int, List<SelfReferenceEmployee>> childLookup = new();\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        var employees = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 24 ).ToList();\r\n        BuildSelfReferenceData( employees );\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private void BuildSelfReferenceData( IReadOnlyList<Employee> employees )\r\n    {\r\n        var selfReferenceEmployees = employees.Select( x => new SelfReferenceEmployee\r\n        {\r\n            Id = x.Id,\r\n            FullName = $\"{x.FirstName} {x.LastName}\",\r\n            City = x.City,\r\n            Salary = x.Salary,\r\n        } ).ToList();\r\n\r\n        var roots = selfReferenceEmployees.Take( 3 ).ToList();\r\n        var levelOneNodes = new List<SelfReferenceEmployee>();\r\n        var currentIndex = roots.Count;\r\n\r\n        for ( var rootIndex = 0; rootIndex < roots.Count && currentIndex < selfReferenceEmployees.Count; rootIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 3 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = roots[rootIndex].Id;\r\n                levelOneNodes.Add( child );\r\n            }\r\n        }\r\n\r\n        for ( var levelOneIndex = 0; levelOneIndex < levelOneNodes.Count && currentIndex < selfReferenceEmployees.Count; levelOneIndex++ )\r\n        {\r\n            for ( var childIndex = 0; childIndex < 2 && currentIndex < selfReferenceEmployees.Count; childIndex++ )\r\n            {\r\n                var child = selfReferenceEmployees[currentIndex++];\r\n                child.ParentId = levelOneNodes[levelOneIndex].Id;\r\n            }\r\n        }\r\n\r\n        childLookup = selfReferenceEmployees\r\n            .Where( x => x.ParentId.HasValue )\r\n            .GroupBy( x => x.ParentId!.Value )\r\n            .ToDictionary( x => x.Key, x => x.ToList() );\r\n\r\n        rootItems = selfReferenceEmployees.Where( x => !x.ParentId.HasValue ).ToList();\r\n    }\r\n\r\n    private bool OnExpandRowTrigger( DataGridExpandRowTriggerEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Expandable = childLookup.ContainsKey( args.Item.Id );\r\n        return true;\r\n    }\r\n\r\n    private void OnReadChildData( DataGridReadChildDataEventArgs<SelfReferenceEmployee> args )\r\n    {\r\n        args.Data = childLookup.TryGetValue( args.Item.Id, out var children )\r\n            ? children\r\n            : Enumerable.Empty<SelfReferenceEmployee>();\r\n    }\r\n\r\n    private sealed class SelfReferenceEmployee\r\n    {\r\n        public int Id { get; set; }\r\n\r\n        public int? ParentId { get; set; }\r\n\r\n        public string FullName { get; set; }\r\n\r\n        public string City { get; set; }\r\n\r\n        public decimal Salary { get; set; }\r\n    }\r\n}",
-          "title": "Custom Expand Template",
-          "description": "Use column ExpandTemplate when you need full control over self-reference expand rendering. The first regular column with ExpandTemplate becomes the self-reference host, and the template context exposes Item , Level , Expandable , Expanded , and Toggle() ."
         }
       ]
     },
@@ -5657,7 +5829,7 @@
           "code": "AntDesignIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/AntDesignIconsCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.1.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.1.2.0\" rel=\"stylesheet\" />",
           "title": "AntDesign Icons CSS",
           "description": "Note: If you use AntDesign icons, define blazorise.icons.antdesign.css in your index.html or _Layout.cshtml / _Host.cshtml file."
         },
@@ -5665,7 +5837,7 @@
           "code": "BootstrapIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/BootstrapIconsCSSExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css?v=2.1.1.0\">",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css?v=2.1.2.0\">",
           "title": "Bootstrap Icons CSS",
           "description": "Note: If you use Bootstrap icons, define bootstrap-icons.min.css in your index.html or _Layout.cshtml / _Host.cshtml file. This file is required for some custom icon styles to work."
         },
@@ -5673,7 +5845,7 @@
           "code": "FluentIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FluentIconsCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.1.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.1.2.0\" rel=\"stylesheet\" />",
           "title": "Fluent Icons CSS",
           "description": "Note: If you use Fluent icons, define FluentSystemIcons-Resizable.css in your index.html or _Layout.cshtml / _Host.cshtml file. This file is required for some custom icon styles to work."
         },
@@ -5681,7 +5853,7 @@
           "code": "FontAwesomeCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FontAwesomeCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.1.1.0\" rel=\"stylesheet\">",
+          "content": "<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.1.2.0\" rel=\"stylesheet\">",
           "title": "Font Awesome Icons CSS",
           "description": "Include CSS link into your index.html or _Layout.cshtml / _Host.cshtml file, depending if you're using a Blazor WebAssembly or Blazor Server side project."
         },
@@ -5689,7 +5861,7 @@
           "code": "MaterialCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/MaterialCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.1.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.1.2.0\" rel=\"stylesheet\" />",
           "title": "Material Icons CSS",
           "description": "Note: If you use Material icons, define blazorise.icons.material.css in your index.html or _Layout.cshtml / _Host.cshtml file. This file is required for some custom icon styles to work."
         },
@@ -5697,7 +5869,7 @@
           "code": "LucideIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/LucideIconsCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.1.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.1.2.0\" rel=\"stylesheet\" />",
           "title": "Lucide Icons CSS",
           "description": "Note: If you use Lucide icons, define blazorise.icons.lucide.css in your index.html or _Layout.cshtml / _Host.cshtml file."
         },
@@ -7332,6 +7504,14 @@
           "description": "The Observable Lists feature in Blazorise TreeView component enables automatic updates and synchronization of the TreeView data with the underlying data source. This is achieved through the implementation of an observable pattern where the TreeView component listens to changes in the data source, and updates its visual representation accordingly. When using Observable Lists in the Blazorise TreeView component, any modifications to the underlying data source, such as adding, removing, or updating nodes, will automatically trigger the necessary updates in the TreeView component. This ensures that the TreeView always reflects the most up-to-date state of the data. It is of note that the Nodes parameter is a one way bound collection and as such, if you want to add and remove items, it is recommended that it is used as an ObservableCollection in order to keep the TreeView properly synced across refreshes."
         },
         {
+          "code": "TreeViewDragDropExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/TreeView/Examples/TreeViewDragDropExample.razor",
+          "content": "@using System.Collections.ObjectModel\r\n@using Blazorise.TreeView.EventArguments\r\n\r\n<TreeView Nodes=\"Items\"\r\n          GetChildNodes=\"@(item => item.Children)\"\r\n          HasChildNodes=\"@(item => item.Children?.Any() == true)\"\r\n          @bind-ExpandedNodes=\"expandedNodes\"\r\n          Draggable\r\n          Reorderable\r\n          CanDragNode=\"@(item => !item.Locked)\"\r\n          CanDropNode=\"CanDropNode\">\r\n    <NodeContent>\r\n        <Icon Name=\"IconName.Folder\" />\r\n        @context.Text\r\n        @if ( context.Locked )\r\n        {\r\n            <Badge Color=\"Color.Warning\" Margin=\"Margin.Is2.FromStart\">Locked</Badge>\r\n        }\r\n    </NodeContent>\r\n</TreeView>\r\n\r\n@code {\r\n    public class Item\r\n    {\r\n        public string Text { get; set; }\r\n        public ObservableCollection<Item> Children { get; } = new();\r\n        public bool Locked { get; set; }\r\n    }\r\n\r\n    ObservableCollection<Item> Items = new()\r\n    {\r\n        new Item { Text = \"Documents\" },\r\n        new Item\r\n        {\r\n            Text = \"Projects\",\r\n            Children =\r\n            {\r\n                new Item { Text = \"Blazorise\" },\r\n                new Item { Text = \"Roadmap\" },\r\n                new Item { Text = \"Archive\", Locked = true },\r\n            }\r\n        },\r\n        new Item\r\n        {\r\n            Text = \"Media\",\r\n            Children =\r\n            {\r\n                new Item { Text = \"Images\" },\r\n                new Item { Text = \"Videos\" },\r\n            }\r\n        },\r\n    };\r\n\r\n    IList<Item> expandedNodes;\r\n\r\n    protected override void OnInitialized()\r\n    {\r\n        expandedNodes = Items.Where( item => item.Children.Any() ).ToList();\r\n    }\r\n\r\n    private bool CanDropNode( TreeViewNodeDragEventArgs<Item> args )\r\n        => args.NewParentNode?.Locked is not true;\r\n}",
+          "title": "Drag and drop",
+          "description": "Enable Draggable to allow users to drag nodes. When the root and child node collections are mutable, such as ObservableCollection&lt;T&gt; , the TreeView moves nodes automatically. Use Reorderable to allow dropping a node before another node. Use CanDragNode and CanDropNode to restrict drag and drop operations. Handle NodeDropped only when you want to override the built-in move behavior."
+        },
+        {
           "code": "TreeViewContextMenuExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/TreeView/Examples/TreeViewContextMenuExample.razor",
@@ -8185,151 +8365,151 @@
           "code": "CommonScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/CommonScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise/breakpoint.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/button.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/closable.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/colorPicker.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/datePicker.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dragDrop.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dropdown.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/fileInput.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/filePicker.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/floatingUi.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/inputMask.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/io.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/memoInput.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/modal.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/numericPicker.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/observer.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/rangeSlider.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/table.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/textInput.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/theme.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/timePicker.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/tooltip.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/utilities.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise/breakpoint.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/button.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/closable.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/colorPicker.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/datePicker.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dragDrop.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dropdown.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/fileInput.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/filePicker.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/floatingUi.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/inputMask.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/io.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/memoInput.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/modal.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/numericPicker.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/observer.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/rangeSlider.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/table.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/textInput.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/theme.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/timePicker.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/tooltip.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/utilities.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "AntDesignScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/AntDesignScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.AntDesign/bar.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/modal.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/segmented.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/tooltip.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/wave.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.AntDesign/bar.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/modal.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/segmented.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/tooltip.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/wave.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "BootstrapScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/BootstrapScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Bootstrap/modal.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap/tooltip.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Bootstrap/modal.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap/tooltip.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "Bootstrap5ScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/Bootstrap5ScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Bootstrap5/modal.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap5/tooltip.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Bootstrap5/modal.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap5/tooltip.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "BulmaScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/BulmaScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Bulma/modal.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bulma/tooltip.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Bulma/modal.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bulma/tooltip.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "FluentUI2ScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/FluentUI2ScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.FluentUI2/modal.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.FluentUI2/tooltip.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.FluentUI2/modal.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.FluentUI2/tooltip.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "TailwindScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/TailwindScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Tailwind/modal.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Tailwind/tooltip.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Tailwind/modal.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Tailwind/tooltip.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "MaterialScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/MaterialScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.1.1.0\"></script>\r\n<script src=\"_content/Blazorise.Material/modal.js?v=2.1.1.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Material/tooltip.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.1.2.0\"></script>\r\n<script src=\"_content/Blazorise.Material/modal.js?v=2.1.2.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Material/tooltip.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "AnimateScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/AnimateScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Animate/blazorise.animate.js?v=2.1.1.0\"></script>"
+          "content": "<!-- No script tag is required. Animate imports its JavaScript module automatically. -->"
         },
         {
           "code": "CaptchaReCaptchaScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/CaptchaReCaptchaScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Captcha.ReCaptcha/blazorise.recaptcha.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Captcha.ReCaptcha/blazorise.recaptcha.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts/charts.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts/charts.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsAnnotationScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsAnnotationScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Annotation/chart.annotation.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Annotation/chart.annotation.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsDataLabelsScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsDataLabelsScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.DataLabels/chart.datalabels.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.DataLabels/chart.datalabels.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsStreamingScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsStreamingScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsTrendlineScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsTrendlineScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsZoomScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsZoomScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Zoom/chart.zoom.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Zoom/chart.zoom.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "CropperScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/CropperScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Cropper/blazorise.cropper.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Cropper/blazorise.cropper.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "DatagridScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/DatagridScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.DataGrid/datagrid.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.DataGrid/datagrid.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "GanttScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/GanttScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Gantt/gantt.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Gantt/gantt.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "LottieAnimationScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/LottieAnimationScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.LottieAnimation/lottie-animation.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.LottieAnimation/lottie-animation.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "MarkdownScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/MarkdownScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Markdown/markdown.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Markdown/markdown.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "PdfViewerScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/PdfViewerScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.PdfViewer/pdfviewer.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.PdfViewer/pdfviewer.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "QRCodeScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/QRCodeScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.QRCode/blazorise.qrcode.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.QRCode/blazorise.qrcode.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "RichTextEditScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/RichTextEditScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.RichTextEdit/richtextedit.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.RichTextEdit/richtextedit.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "SchedulerScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/SchedulerScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Scheduler/scheduler.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Scheduler/scheduler.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "SignaturePadScriptsExample",
@@ -8341,13 +8521,13 @@
           "code": "SplitterScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/SplitterScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Splitter/blazorise.splitter.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Splitter/blazorise.splitter.js?v=2.1.2.0\" type=\"module\"></script>"
         },
         {
           "code": "VideoScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/VideoScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Video/video.js?v=2.1.1.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Video/video.js?v=2.1.2.0\" type=\"module\"></script>"
         }
       ]
     },
@@ -8889,7 +9069,7 @@
           "code": "Bootstrap5GuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap5/Examples/Bootstrap5GuideSourceFilesExample.snippet",
-          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.1.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.1.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -9118,7 +9298,7 @@
           "code": "AntDesignGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/AntDesign/Examples/AntDesignGuideSourceFilesExample.snippet",
-          "content": "<link href=\"_content/Blazorise.AntDesign/antd.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.1.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.AntDesign/antd.css?v=2.1.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.1.2.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.1.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -9161,7 +9341,7 @@
           "code": "BootstrapGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap/Examples/BootstrapGuideSourceFilesExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css\" integrity=\"sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=2.1.1.0\" rel=\"stylesheet\" />",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css\" integrity=\"sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=2.1.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -9204,7 +9384,7 @@
           "code": "Bootstrap5GuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap5/Examples/Bootstrap5GuideSourceFilesExample.snippet",
-          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.1.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.1.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -9247,7 +9427,7 @@
           "code": "BulmaGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bulma/Examples/BulmaGuideSourceFilesExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css\" />\r\n<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bulma/blazorise.bulma.css?v=2.1.1.0\" rel=\"stylesheet\" />",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css\" />\r\n<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.1.2.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bulma/blazorise.bulma.css?v=2.1.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -9290,7 +9470,7 @@
           "code": "FluentUI2GuideSourceFiles1Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/FluentUI2/Examples/FluentUI2GuideSourceFiles1Example.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/reboot.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.1.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.1.2.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/reboot.css?v=2.1.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.1.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -9363,7 +9543,7 @@
           "code": "MaterialGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideSourceFilesExample.snippet",
-          "content": "<!-- In <head> -->\r\n<!-- Required when using Blazorise.Icons.Material -->\r\n<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Material/blazorise.material.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n\r\n<!-- Before </body> (before the Blazor framework script) -->\r\n<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.1.1.0\"></script>",
+          "content": "<!-- In <head> -->\r\n<!-- Required when using Blazorise.Icons.Material -->\r\n<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Material/blazorise.material.css?v=2.1.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.1.2.0\" rel=\"stylesheet\" />\r\n\r\n<!-- Before </body> (before the Blazor framework script) -->\r\n<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.1.2.0\"></script>",
           "description": "Add the styles inside the head section, and place blazorise.material.js near the end of body before the Blazor script:"
         },
         {
@@ -9413,7 +9593,7 @@
           "code": "TailwindGuideSourceFiles3Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Tailwind/Examples/TailwindGuideSourceFiles3Example.snippet",
-          "content": "<link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap\" rel=\"stylesheet\">\r\n<link href=\"https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.1.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.1.1.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap\" rel=\"stylesheet\">\r\n<link href=\"https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.2.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.1.2.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
