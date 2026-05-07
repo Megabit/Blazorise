@@ -98,7 +98,7 @@ export function destroy(element, elementId) {
 }
 
 function pointerDownHandler(instance, e) {
-    if (!instance.options.enabled || !instance.dotnetAdapter)
+    if (instance.options.disabled || !instance.dotnetAdapter)
         return;
 
     if (e.isPrimary === false)
@@ -140,7 +140,7 @@ function pointerMoveHandler(instance, e) {
     if (!instance.active || e.pointerId !== instance.pointerId)
         return;
 
-    if (!instance.options.enabled) {
+    if (instance.options.disabled) {
         resetGesture(instance, e);
         return;
     }
@@ -175,7 +175,7 @@ function pointerUpHandler(instance, e, canceled) {
 
     const direction = resolveDirection(e.clientX - instance.startClientX, e.clientY - instance.startClientY);
     const gestureArgs = createGestureArgs(instance, e, direction, canceled);
-    const swipe = !canceled && instance.options.enabled && !instance.longPressFired && isSwipe(instance, gestureArgs);
+    const swipe = !canceled && !instance.options.disabled && !instance.longPressFired && isSwipe(instance, gestureArgs);
 
     if (instance.options.notifyGestureEnded) {
         instance.dotnetAdapter.invokeMethodAsync("OnGestureEnded", gestureArgs);
@@ -184,7 +184,7 @@ function pointerUpHandler(instance, e, canceled) {
     if (swipe && instance.options.notifySwiped) {
         instance.dotnetAdapter.invokeMethodAsync("OnSwiped", gestureArgs);
     }
-    else if (!canceled && instance.options.enabled && !instance.longPressFired && instance.options.notifyTapped && isTap(instance, gestureArgs)) {
+    else if (!canceled && !instance.options.disabled && !instance.longPressFired && instance.options.notifyTapped && isTap(instance, gestureArgs)) {
         instance.dotnetAdapter.invokeMethodAsync("OnTapped", gestureArgs);
     }
 
@@ -268,7 +268,7 @@ function startLongPressTimer(instance) {
         return;
 
     instance.longPressTimer = setTimeout(function () {
-        if (!instance.active || !instance.options.enabled || !instance.dotnetAdapter)
+        if (!instance.active || instance.options.disabled || !instance.dotnetAdapter)
             return;
 
         const deltaX = instance.lastClientX - instance.startClientX;
@@ -326,7 +326,7 @@ function normalizeOptions(options) {
     const defaultDirection = GestureDirection.left | GestureDirection.right | GestureDirection.up | GestureDirection.down;
 
     return {
-        enabled: options.enabled !== false,
+        disabled: options.disabled === true,
         direction: typeof options.direction === "number" ? options.direction : defaultDirection,
         swipeThreshold: numberOrDefault(options.swipeThreshold, 50),
         swipeVelocityThreshold: numberOrDefault(options.swipeVelocityThreshold, 0.3),

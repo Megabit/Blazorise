@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Threading.Tasks;
 using Blazorise.Modules;
@@ -139,7 +139,7 @@ public partial class Gestures : BaseComponent, IDisposable, IAsyncDisposable
     private GesturesJSOptions CreateOptions()
         => new GesturesJSOptions()
         {
-            Enabled = Enabled,
+            Disabled = Disabled,
             Direction = Direction,
             SwipeThreshold = SwipeThreshold,
             SwipeVelocityThreshold = SwipeVelocityThreshold,
@@ -175,9 +175,9 @@ public partial class Gestures : BaseComponent, IDisposable, IAsyncDisposable
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// Enables or disables gesture handling.
+    /// Disables gesture handling.
     /// </summary>
-    [Parameter] public bool Enabled { get; set; } = true;
+    [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
     /// Gets or sets the directions that can produce swipe events.

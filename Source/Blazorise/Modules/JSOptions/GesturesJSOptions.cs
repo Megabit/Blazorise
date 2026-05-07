@@ -6,9 +6,9 @@ namespace Blazorise.Modules;
 public class GesturesJSOptions
 {
     /// <summary>
-    /// Gets or sets whether gesture handling is enabled.
+    /// Gets or sets whether gesture handling is disabled.
     /// </summary>
-    public bool Enabled { get; set; }
+    public bool Disabled { get; set; }
 
     /// <summary>
     /// Gets or sets the directions that can produce swipe events.
