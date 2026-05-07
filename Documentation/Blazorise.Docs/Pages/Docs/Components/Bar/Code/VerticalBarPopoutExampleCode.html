@@ -1,20 +1,42 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Bar</span> <span class="htmlAttributeName">Mode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">BarMode</span><span class="enumValue">.VerticalInline</span><span class="quot">&quot;</span>
+     <span class="htmlAttributeName">CollapseMode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">BarCollapseMode</span><span class="enumValue">.Small</span><span class="quot">&quot;</span>
      <span class="htmlAttributeName">Breakpoint</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Breakpoint</span><span class="enumValue">.Desktop</span><span class="quot">&quot;</span>
      <span class="htmlAttributeName">Background</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Background</span><span class="enumValue">.Light</span><span class="quot">&quot;</span>
-     <span class="htmlAttributeName">ThemeContrast</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ThemeContrast</span><span class="enumValue">.Light</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+     <span class="htmlAttributeName">ThemeContrast</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ThemeContrast</span><span class="enumValue">.Light</span><span class="quot">&quot;</span>
+     <span class="htmlAttributeName">Border</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Border</span><span class="enumValue">.Is1</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarBrand</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarItem</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarLink</span> <span class="htmlAttributeName">To</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">#</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarIcon</span> <span class="htmlAttributeName">IconName</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Dashboard</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-                Blazorise Demo
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarLink</span> <span class="htmlAttributeName">To</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">#support</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarIcon</span> <span class="htmlAttributeName">IconName</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Headset</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+                Support
             <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarLink</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarItem</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarBrand</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarToggler</span> <span class="htmlAttributeName">Mode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">BarTogglerMode</span><span class="enumValue">.Popout</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarMenu</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarItem</span><span class="htmlTagDelimiter">&gt;</span>Popout!<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarItem</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarStart</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarItem</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarLink</span> <span class="htmlAttributeName">To</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">#queue</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarIcon</span> <span class="htmlAttributeName">IconName</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Inbox</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+                    Queue
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarLink</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarItem</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarItem</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarDropdown</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarDropdownToggle</span><span class="htmlTagDelimiter">&gt;</span>
+                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarIcon</span> <span class="htmlAttributeName">IconName</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Book</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+                        Knowledge
+                    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarDropdownToggle</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarDropdownMenu</span><span class="htmlTagDelimiter">&gt;</span>
+                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarDropdownItem</span> <span class="htmlAttributeName">To</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">#articles</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Articles<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarDropdownItem</span><span class="htmlTagDelimiter">&gt;</span>
+                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarDropdownItem</span> <span class="htmlAttributeName">To</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">#macros</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Macros<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarDropdownItem</span><span class="htmlTagDelimiter">&gt;</span>
+                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarDropdownItem</span> <span class="htmlAttributeName">To</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">#training</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Training<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarDropdownItem</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarDropdownMenu</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarDropdown</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarItem</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarStart</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarMenu</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Bar</span><span class="htmlTagDelimiter">&gt;</span>
 </pre></div>

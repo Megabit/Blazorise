@@ -2,26 +2,35 @@
 <div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Bar</span> <span class="htmlAttributeName">Breakpoint</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Breakpoint</span><span class="enumValue">.Desktop</span><span class="quot">&quot;</span>
      <span class="htmlAttributeName">Background</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Background</span><span class="enumValue">.Light</span><span class="quot">&quot;</span>
-     <span class="htmlAttributeName">ThemeContrast</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ThemeContrast</span><span class="enumValue">.Light</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+     <span class="htmlAttributeName">ThemeContrast</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ThemeContrast</span><span class="enumValue">.Light</span><span class="quot">&quot;</span>
+     <span class="htmlAttributeName">Border</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Border</span><span class="enumValue">.Is1</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarBrand</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarItem</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarLink</span> <span class="htmlAttributeName">To</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">#admin</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarIcon</span> <span class="htmlAttributeName">IconName</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Settings</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+                Admin
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarLink</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarItem</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarBrand</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarToggler</span> <span class="htmlTagDelimiter">/&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarMenu</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarStart</span><span class="htmlTagDelimiter">&gt;</span>
             <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarItem</span><span class="htmlTagDelimiter">&gt;</span>
                 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarDropdown</span><span class="htmlTagDelimiter">&gt;</span>
                     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarDropdownToggle</span><span class="htmlTagDelimiter">&gt;</span>
-                        Top-level toggler
+                        Organization
                     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarDropdownToggle</span><span class="htmlTagDelimiter">&gt;</span>
                     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarDropdownMenu</span><span class="htmlTagDelimiter">&gt;</span>
-                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarDropdownItem</span><span class="htmlTagDelimiter">&gt;</span>
-                            Top-level item
-                        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarDropdownItem</span><span class="htmlTagDelimiter">&gt;</span>
+                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarDropdownItem</span> <span class="htmlAttributeName">To</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">#teams</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Teams<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarDropdownItem</span><span class="htmlTagDelimiter">&gt;</span>
+                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarDropdownItem</span> <span class="htmlAttributeName">To</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">#members</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Members<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarDropdownItem</span><span class="htmlTagDelimiter">&gt;</span>
                         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarDropdown</span><span class="htmlTagDelimiter">&gt;</span>
                             <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarDropdownToggle</span><span class="htmlTagDelimiter">&gt;</span>
-                                Nested toggler
+                                Security
                             <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarDropdownToggle</span><span class="htmlTagDelimiter">&gt;</span>
                             <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarDropdownMenu</span><span class="htmlTagDelimiter">&gt;</span>
-                                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarDropdownItem</span><span class="htmlTagDelimiter">&gt;</span>
-                                    Nested item
-                                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarDropdownItem</span><span class="htmlTagDelimiter">&gt;</span>
+                                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarDropdownItem</span> <span class="htmlAttributeName">To</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">#roles</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Roles<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarDropdownItem</span><span class="htmlTagDelimiter">&gt;</span>
+                                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarDropdownItem</span> <span class="htmlAttributeName">To</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">#permissions</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Permissions<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarDropdownItem</span><span class="htmlTagDelimiter">&gt;</span>
+                                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarDropdownItem</span> <span class="htmlAttributeName">To</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">#audit-log</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Audit log<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarDropdownItem</span><span class="htmlTagDelimiter">&gt;</span>
                             <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarDropdownMenu</span><span class="htmlTagDelimiter">&gt;</span>
                         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarDropdown</span><span class="htmlTagDelimiter">&gt;</span>
                     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">BarDropdownMenu</span><span class="htmlTagDelimiter">&gt;</span>

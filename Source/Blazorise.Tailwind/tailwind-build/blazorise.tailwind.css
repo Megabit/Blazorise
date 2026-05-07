@@ -707,6 +707,7 @@ p {
 }
 
 .b-validation-success,
+.b-validation-warning,
 .b-validation-error {
   display: none;
 }
@@ -716,8 +717,10 @@ p {
 }
 
 .b-is-valid + .b-validation-none,
+.b-is-warning + .b-validation-none,
 .b-is-invalid + .b-validation-none,
 :is(div, label):has(.b-is-valid) + .b-validation-none,
+:is(div, label):has(.b-is-warning) + .b-validation-none,
 :is(div, label):has(.b-is-invalid) + .b-validation-none {
   display: none;
 }
@@ -729,14 +732,33 @@ p {
   display: block;
 }
 
+.b-is-warning + .b-validation-warning,
+.b-is-warning + .b-validation-none + .b-validation-warning,
+.b-is-warning + .b-validation-success + .b-validation-warning,
+.b-is-warning + .b-validation-none + .b-validation-success + .b-validation-warning,
+:is(div, label):has(.b-is-warning) + .b-validation-warning,
+:is(div, label):has(.b-is-warning) + .b-validation-none + .b-validation-warning,
+:is(div, label):has(.b-is-warning) + .b-validation-success + .b-validation-warning,
+:is(div, label):has(.b-is-warning) + .b-validation-none + .b-validation-success + .b-validation-warning {
+  display: block;
+}
+
 .b-is-invalid + .b-validation-error,
 .b-is-invalid + .b-validation-none + .b-validation-error,
 .b-is-invalid + .b-validation-success + .b-validation-error,
 .b-is-invalid + .b-validation-none + .b-validation-success + .b-validation-error,
+.b-is-invalid + .b-validation-warning + .b-validation-error,
+.b-is-invalid + .b-validation-none + .b-validation-warning + .b-validation-error,
+.b-is-invalid + .b-validation-success + .b-validation-warning + .b-validation-error,
+.b-is-invalid + .b-validation-none + .b-validation-success + .b-validation-warning + .b-validation-error,
 :is(div, label):has(.b-is-invalid) + .b-validation-error,
 :is(div, label):has(.b-is-invalid) + .b-validation-none + .b-validation-error,
 :is(div, label):has(.b-is-invalid) + .b-validation-success + .b-validation-error,
-:is(div, label):has(.b-is-invalid) + .b-validation-none + .b-validation-success + .b-validation-error {
+:is(div, label):has(.b-is-invalid) + .b-validation-none + .b-validation-success + .b-validation-error,
+:is(div, label):has(.b-is-invalid) + .b-validation-warning + .b-validation-error,
+:is(div, label):has(.b-is-invalid) + .b-validation-none + .b-validation-warning + .b-validation-error,
+:is(div, label):has(.b-is-invalid) + .b-validation-success + .b-validation-warning + .b-validation-error,
+:is(div, label):has(.b-is-invalid) + .b-validation-none + .b-validation-success + .b-validation-warning + .b-validation-error {
   display: block;
 }
 
@@ -768,6 +790,14 @@ p {
 .EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-preview-full,
 .EasyMDEContainer.b-markdown-valid.b-markdown-valid .editor-statusbar {
   border-color: var(--b-theme-success, #22c55e);
+}
+
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning .editor-toolbar,
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning .CodeMirror,
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning .editor-preview-side,
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning .editor-preview-full,
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning .editor-statusbar {
+  border-color: var(--b-theme-warning, #f59e0b);
 }
 
 .EasyMDEContainer.b-markdown-invalid.b-markdown-invalid .editor-toolbar,
@@ -803,6 +833,18 @@ p {
 .b-richtextedit.border-green-500 > .b-richtextedit-toolbar.ql-toolbar,
 .b-richtextedit.border-green-500 > .ql-toolbar.ql-bubble {
   border-color: var(--b-theme-success, #22c55e);
+}
+
+.b-richtextedit.border-warning-500 > .b-richtextedit-editor.ql-bubble,
+.b-richtextedit.border-warning-500 > .b-richtextedit-toolbar.ql-bubble,
+.b-richtextedit.border-warning-500 > .ql-toolbar.ql-bubble {
+  border-style: solid;
+  border-width: 1px;
+}
+.b-richtextedit.border-warning-500 > .b-richtextedit-editor.ql-container,
+.b-richtextedit.border-warning-500 > .b-richtextedit-toolbar.ql-toolbar,
+.b-richtextedit.border-warning-500 > .ql-toolbar.ql-bubble {
+  border-color: var(--b-theme-warning, #f59e0b);
 }
 
 .b-richtextedit.border-red-500 > .b-richtextedit-editor.ql-bubble,

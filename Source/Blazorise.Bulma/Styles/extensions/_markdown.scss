@@ -8,6 +8,16 @@
     }
 }
 
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning {
+    .editor-toolbar,
+    .CodeMirror,
+    .editor-preview-side,
+    .editor-preview-full,
+    .editor-statusbar {
+        border-color: var(--b-theme-warning, $warning);
+    }
+}
+
 .EasyMDEContainer.b-markdown-invalid.b-markdown-invalid {
     .editor-toolbar,
     .CodeMirror,

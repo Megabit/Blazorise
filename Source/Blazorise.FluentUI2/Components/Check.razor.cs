@@ -42,6 +42,10 @@ public partial class Check<TValue>
         {
             builder.Append( "fui-Checkbox-error" );
         }
+        else if ( ParentValidation?.Status == ValidationStatus.Warning )
+        {
+            builder.Append( "fui-Checkbox-warning" );
+        }
         else if ( ParentValidation?.Status == ValidationStatus.Success )
         {
             builder.Append( "fui-Checkbox-success" );

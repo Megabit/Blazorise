@@ -41,6 +41,9 @@
             Allow Node Items to be disabled for selection.
         </UnorderedListItem>
         <UnorderedListItem>
+            Drag and drop nodes between mutable collections.
+        </UnorderedListItem>
+        <UnorderedListItem>
             Customize the appearance of the nodes using templates.
         </UnorderedListItem>
         <UnorderedListItem>
@@ -145,6 +148,21 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Drag and drop">
+        <Paragraph>
+            Enable <Code>Draggable</Code> to allow users to drag nodes. When the root and child node collections are mutable, such as <Code>ObservableCollection&lt;T&gt;</Code>, the TreeView moves nodes automatically.
+        </Paragraph>
+        <Paragraph>
+            Use <Code>Reorderable</Code> to allow dropping a node before another node. Use <Code>CanDragNode</Code> and <Code>CanDropNode</Code> to restrict drag and drop operations. Handle <Code>NodeDropped</Code> only when you want to override the built-in move behavior.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TreeViewDragDropExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TreeViewDragDropExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Node Context Menu">
         <Paragraph>
             To integrate the context menu with the <Strong>TreeView</Strong>, you need to:
@@ -201,4 +219,4 @@
     <DocsPageSectionSource Code="TreeViewVirtualizationExample" />
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(TreeView<> )]" />
+<ComponentApiDocs ComponentTypes="[typeof( TreeView<> )]" />

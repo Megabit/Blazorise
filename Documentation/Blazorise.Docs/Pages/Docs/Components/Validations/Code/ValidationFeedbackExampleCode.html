@@ -1,21 +1,50 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
-<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Validation</span> <span class="htmlAttributeName">Validator</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ValidateCheck</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Check</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">bool</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ChildContent</span><span class="htmlTagDelimiter">&gt;</span>
-            Check me out
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ChildContent</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Validation</span> <span class="htmlAttributeName">Validator</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ValidateDisplayName</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextInput</span> <span class="htmlAttributeName">Placeholder</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Enter display name</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Feedback</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ValidationError</span><span class="htmlTagDelimiter">&gt;</span>You must check me out!<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ValidationError</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ValidationNone</span><span class="htmlTagDelimiter">&gt;</span>Please enter a display name.<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ValidationNone</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ValidationWarning</span><span class="htmlTagDelimiter">&gt;</span>Short display names are allowed, but longer names are easier to recognize.<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ValidationWarning</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ValidationSuccess</span><span class="htmlTagDelimiter">&gt;</span>Display name looks good.<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ValidationSuccess</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ValidationError</span><span class="htmlTagDelimiter">&gt;</span>Display name is required.<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ValidationError</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Feedback</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Check</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TextInput</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Validation</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Validation</span> <span class="htmlAttributeName">Validator</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ValidateUserName</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextInput</span> <span class="htmlAttributeName">Placeholder</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Enter username</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Feedback</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ValidationFeedback</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">None</span><span class="htmlTagDelimiter">&gt;</span>Please enter a username.<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">None</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Warning</span><span class="htmlTagDelimiter">&gt;</span>Short usernames are allowed, but longer usernames are easier to identify.<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Warning</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Success</span><span class="htmlTagDelimiter">&gt;</span>Username looks good.<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Success</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Error</span><span class="htmlTagDelimiter">&gt;</span>Username is required.<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Error</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ValidationFeedback</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Feedback</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TextInput</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Validation</span><span class="htmlTagDelimiter">&gt;</span>
 </pre></div>
 <div class="csharp"><pre>
 <span class="atSign">&#64;</span>code{
-    <span class="keyword">void</span> ValidateCheck( ValidatorEventArgs e )
+    <span class="keyword">void</span> ValidateDisplayName( ValidatorEventArgs e )
     {
-        <span class="comment">// ...</span>
+        ValidateNameLength( e );
+    }
+
+    <span class="keyword">void</span> ValidateUserName( ValidatorEventArgs e )
+    {
+        ValidateNameLength( e );
+    }
+
+    <span class="keyword">void</span> ValidateNameLength( ValidatorEventArgs e )
+    {
+        <span class="keyword">var</span> name = Convert.ToString( e.Value );
+
+        e.Status = <span class="keyword">string</span>.IsNullOrWhiteSpace( name )
+            ? ValidationStatus.Error
+            : name.Length &lt; <span class="number">4</span>
+                ? ValidationStatus.Warning
+                : ValidationStatus.Success;
     }
 }
 </pre></div>

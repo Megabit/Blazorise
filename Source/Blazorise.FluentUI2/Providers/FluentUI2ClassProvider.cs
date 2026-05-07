@@ -292,11 +292,15 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ValidationSuccessTooltip() => "fui-Field__validationTooltip";
 
+    public override string ValidationWarning() => "fui-Field__validationMessage-warning";
+
+    public override string ValidationWarningTooltip() => "fui-Field__validationTooltip";
+
     public override string ValidationError() => "fui-Field__validationMessage-error";
 
     public override string ValidationErrorTooltip() => "fui-Field__validationTooltip";
 
-    public override string ValidationNone() => "fui-Field__hint fui-TextColor-muted";
+    public override string ValidationNone() => "fui-Field__hint fui-Field__validationMessage-none fui-TextColor-muted";
 
     public override string ValidationSummary() => "fui-TextColor-danger";
 
@@ -882,6 +886,9 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string BarDropdownMenuContainer( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ?
         null :
         "b-bar-dropdown-menu-container";
+
+    public override string BarDropdownMenuPositionStrategy( BarMode mode, DropdownPositionStrategy positionStrategy )
+        => ToDropdownPositionStrategy( mode == Blazorise.BarMode.Horizontal ? DropdownPositionStrategy.Absolute : positionStrategy );
 
     public override string BarCollapsed( BarMode mode, bool visible ) => null;
 
@@ -1854,6 +1861,7 @@ public class FluentUI2ClassProvider : ClassProvider
         return validationStatus switch
         {
             Blazorise.ValidationStatus.Success => "success",
+            Blazorise.ValidationStatus.Warning => "warning",
             Blazorise.ValidationStatus.Error => "error",
             _ => null,
         };

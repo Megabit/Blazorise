@@ -278,11 +278,15 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ValidationSuccessTooltip() => "help is-success"; // TODO
 
+    public override string ValidationWarning() => "help is-warning";
+
+    public override string ValidationWarningTooltip() => "help is-warning"; // TODO
+
     public override string ValidationError() => "help is-danger";
 
     public override string ValidationErrorTooltip() => "help is-danger"; // TODO
 
-    public override string ValidationNone() => "help";
+    public override string ValidationNone() => "help is-none";
 
     public override string ValidationSummary() => "has-text-danger";
 
@@ -512,7 +516,7 @@ public class BulmaClassProvider : ClassProvider
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item" : "button dropdown-trigger";
 
     public override string DropdownToggleColor( Color color, bool outline ) => outline
-        ? color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : $"is-outlined"
+        ? color.IsNotNullOrDefault() ? $"is-{ToColor( color )} is-outlined" : $"is-outlined"
         : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string DropdownToggleSize( Size size, bool outline )
@@ -800,6 +804,9 @@ public class BulmaClassProvider : ClassProvider
     public override string BarDropdownMenuRight( BarMode mode, bool rightAligned ) => rightAligned && mode == Blazorise.BarMode.Horizontal ? "is-right" : null;
 
     public override string BarDropdownMenuContainer( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "b-bar-dropdown-menu-container";
+
+    public override string BarDropdownMenuPositionStrategy( BarMode mode, DropdownPositionStrategy positionStrategy )
+        => ToDropdownPositionStrategy( mode == Blazorise.BarMode.Horizontal ? DropdownPositionStrategy.Absolute : positionStrategy );
 
     public override string BarCollapsed( BarMode mode, bool visible ) => null;
 
@@ -1859,6 +1866,8 @@ public class BulmaClassProvider : ClassProvider
         {
             case Blazorise.ValidationStatus.Success:
                 return "is-success";
+            case Blazorise.ValidationStatus.Warning:
+                return "is-warning";
             case Blazorise.ValidationStatus.Error:
                 return "is-danger";
             default:

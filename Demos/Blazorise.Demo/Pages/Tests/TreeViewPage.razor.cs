@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Security;
 using System.Threading.Tasks;
 using Blazorise.TreeView;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise.Demo.Pages.Tests;
 
@@ -18,11 +16,13 @@ public partial class TreeViewPage : ComponentBase
     private NodeInfo selectedNode;
     private TreeViewSelectionMode selectionMode;
     private bool virtualize;
+    private bool dragnDrop = true;
+    private bool reorder = true;
 
     public class NodeInfo
     {
         public string Text { get; set; }
-        public ObservableCollection<NodeInfo> Children { get; set; }
+        public ObservableCollection<NodeInfo> Children { get; init; } = [];
         public bool Disabled { get; set; }
     }
 
@@ -79,7 +79,6 @@ public partial class TreeViewPage : ComponentBase
     private async Task AddNode()
     {
         count++;
-        selectedNode.Children ??= new ObservableCollection<NodeInfo>();
         selectedNode.Children.Add( new NodeInfo()
         {
             Text = selectedNode.Text + count,
@@ -150,4 +149,10 @@ public partial class TreeViewPage : ComponentBase
 
         return Task.CompletedTask;
     }
+
+    private bool CanDragNode( NodeInfo node )
+        => !node.Disabled;
+
+    private bool CanDropNode( TreeView.EventArguments.TreeViewNodeDragEventArgs<NodeInfo> args )
+        => args.NewParentNode?.Disabled is true ? false : true;
 }

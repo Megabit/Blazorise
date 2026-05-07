@@ -19,7 +19,7 @@ public partial class _SchedulerSlotItem<TItem>
     /// <summary>
     /// Defines a static readonly instance of SchedulerItemStyling with a default background set to Info.
     /// </summary>
-    private static readonly SchedulerItemStyling DefaultItemStyling = new SchedulerItemStyling
+    private static readonly SchedulerItemStyling DefaultItemStyling = new()
     {
         Background = Background.Info,
     };
@@ -74,7 +74,6 @@ public partial class _SchedulerSlotItem<TItem>
     {
         if ( string.IsNullOrEmpty( customClass ) )
             return "b-scheduler-item";
-
 
         return $"b-scheduler-item {customClass}";
     }
@@ -151,7 +150,7 @@ public partial class _SchedulerSlotItem<TItem>
     [Parameter] public int ItemIndex { get; set; }
 
     /// <summary>
-    /// Specifies the total number of items available when data is loaded through <see cref="ReadData"/>.
+    /// Specifies the total number of items rendered in the slot.
     /// </summary>
     [Parameter] public int TotalItems { get; set; }
 

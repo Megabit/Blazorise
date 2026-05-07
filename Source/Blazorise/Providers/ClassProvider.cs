@@ -273,6 +273,10 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ValidationSuccessTooltip();
 
+    public abstract string ValidationWarning();
+
+    public abstract string ValidationWarningTooltip();
+
     public abstract string ValidationError();
 
     public abstract string ValidationErrorTooltip();
@@ -767,9 +771,18 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BarDropdownMenuContainer( BarMode mode );
 
+    public virtual string BarDropdownMenuPositionStrategy( BarMode mode, DropdownPositionStrategy positionStrategy ) => ToDropdownPositionStrategy( positionStrategy );
+
     public abstract string BarCollapsed( BarMode mode, bool visible );
 
     public abstract string BarLabel( BarMode mode );
+
+    #endregion
+
+    #region Utilities
+
+    protected static string ToDropdownPositionStrategy( DropdownPositionStrategy positionStrategy )
+        => positionStrategy == DropdownPositionStrategy.Fixed ? "fixed" : "absolute";
 
     #endregion
 
@@ -1879,6 +1892,7 @@ public abstract class ClassProvider : IClassProvider
         return validationStatus switch
         {
             Blazorise.ValidationStatus.Success => "is-valid",
+            Blazorise.ValidationStatus.Warning => "is-warning",
             Blazorise.ValidationStatus.Error => "is-invalid",
             _ => null,
         };

@@ -259,6 +259,37 @@
     <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
+                <CardTitle>Validation Feedback</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Example on how to use the <code>ValidationFeedback</code> component for all validation states.</CardText>
+            </CardBody>
+            <CardBody>
+                <Validations Mode="ValidationMode.Auto" ValidateOnLoad="false">
+                    <Validation Validator="@ValidateFeedbackName">
+                        <Field>
+                            <FieldLabel RequiredIndicator>Display name</FieldLabel>
+                            <TextInput Placeholder="Enter display name" @bind-Value="@feedbackName">
+                                <Feedback>
+                                    <ValidationFeedback>
+                                        <None>Please enter a display name.</None>
+                                        <Warning>Short display names are allowed, but longer names are easier to recognize.</Warning>
+                                        <Success>Display name looks good.</Success>
+                                        <Error>Display name is required.</Error>
+                                    </ValidationFeedback>
+                                </Feedback>
+                            </TextInput>
+                        </Field>
+                    </Validation>
+                </Validations>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
                 <CardTitle>Annotation Validation</CardTitle>
             </CardHeader>
             <CardBody>
@@ -636,6 +667,7 @@
 
     string passwordAuto;
     string passwordManual;
+    string feedbackName;
 
     Random random = new();
 
@@ -708,6 +740,24 @@
         {
             e.Status = ValidationStatus.Error;
             e.ErrorText = "Date cannot be less then 01.01.1900!";
+        }
+        else
+        {
+            e.Status = ValidationStatus.Success;
+        }
+    }
+
+    void ValidateFeedbackName( ValidatorEventArgs e )
+    {
+        string displayName = Convert.ToString( e.Value );
+
+        if ( string.IsNullOrWhiteSpace( displayName ) )
+        {
+            e.Status = ValidationStatus.Error;
+        }
+        else if ( displayName.Length < 4 )
+        {
+            e.Status = ValidationStatus.Warning;
         }
         else
         {

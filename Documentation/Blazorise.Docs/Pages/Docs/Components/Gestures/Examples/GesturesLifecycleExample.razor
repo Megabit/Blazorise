@@ -1,0 +1,79 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Gestures Direction="GestureDirection.Horizontal"
+          TouchAction="GestureTouchAction.PanY"
+          GestureStarted="@OnGestureStarted"
+          GestureMoved="@OnGestureMoved"
+          GestureEnded="@OnGestureEnded"
+          Swiped="@OnSwiped">
+    <Card Border="Border.Is1.Rounded" Background="Background.Light" Style="user-select: none;">
+        <CardBody Padding="Padding.Is4">
+            <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.FromBottom">
+                Swipe progress
+            </Heading>
+            <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop">
+                Move horizontally inside this card to update the progress while the gesture is active.
+            </Paragraph>
+            <Progress Value="@progress" Color="@progressColor" />
+            <Div Flex="Flex.Wrap" Gap="Gap.Is2" Margin="Margin.Is3.FromTop">
+                <Badge Color="Color.Primary" Pill>@state</Badge>
+                <Badge Color="Color.Info" Pill>@direction</Badge>
+                <Badge Color="Color.Secondary" Pill>Delta X: @deltaX</Badge>
+            </Div>
+        </CardBody>
+    </Card>
+</Gestures>
+
+@code {
+    private int progress;
+
+    private string state = "Waiting";
+
+    private string direction = "None";
+
+    private string deltaX = "0";
+
+    private Color progressColor = Color.Primary;
+
+    private Task OnGestureStarted( GestureEventArgs eventArgs )
+    {
+        state = "Started";
+        progress = 0;
+        progressColor = Color.Primary;
+        UpdateDetails( eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnGestureMoved( GestureEventArgs eventArgs )
+    {
+        state = "Moving";
+        progress = System.Math.Min( 100, System.Convert.ToInt32( System.Math.Abs( eventArgs.DeltaX ) ) );
+        UpdateDetails( eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnGestureEnded( GestureEventArgs eventArgs )
+    {
+        state = eventArgs.Canceled ? "Canceled" : "Ended";
+        UpdateDetails( eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnSwiped( SwipeEventArgs eventArgs )
+    {
+        progress = 100;
+        progressColor = Color.Success;
+        UpdateDetails( eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private void UpdateDetails( GestureEventArgs eventArgs )
+    {
+        direction = eventArgs.Direction.ToString();
+        deltaX = eventArgs.DeltaX.ToString( "0" );
+    }
+}

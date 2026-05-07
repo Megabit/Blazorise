@@ -1,0 +1,28 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Grid Columns="GridColumns.Are1.OnTablet.Are2.OnDesktop">
+    <Column>
+        <Div Flex="Flex.Column" Gap="Gap.Is2">
+            <Text TextWeight="TextWeight.SemiBold">Code 128</Text>
+            <Barcode Value="0123456789" Type="BarcodeType.Code128" ShowValue SymbolHeight="16" />
+        </Div>
+    </Column>
+    <Column>
+        <Div Flex="Flex.Column" Gap="Gap.Is2">
+            <Text TextWeight="TextWeight.SemiBold">EAN-13</Text>
+            <Barcode Value="5901234123457" Type="BarcodeType.Ean13" ShowValue SymbolHeight="16" />
+        </Div>
+    </Column>
+    <Column>
+        <Div Flex="Flex.Column" Gap="Gap.Is2">
+            <Text TextWeight="TextWeight.SemiBold">QR Code</Text>
+            <Barcode Value="https://blazorise.com" Type="BarcodeType.QrCode" SymbolWidth="32" SymbolHeight="32" />
+        </Div>
+    </Column>
+    <Column>
+        <Div Flex="Flex.Column" Gap="Gap.Is2">
+            <Text TextWeight="TextWeight.SemiBold">Data Matrix</Text>
+            <Barcode Value="Blazorise" Type="BarcodeType.DataMatrix" SymbolWidth="32" SymbolHeight="32" />
+        </Div>
+    </Column>
+</Grid>

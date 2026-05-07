@@ -47,7 +47,7 @@ public partial class _SchedulerDayAllDayItem<TItem>
     /// <param name="item">The item being dragged.</param>
     protected Task OnItemDragStart( DragEventArgs e, TItem item )
     {
-        return Scheduler.StartDrag( item, Section );
+        return Scheduler.StartDrag( item, Section, DragAnchorDate );
     }
 
     private string GetItemClass( string customClass )
@@ -113,6 +113,11 @@ public partial class _SchedulerDayAllDayItem<TItem>
     /// Specifies the flag that indicates whether the item occurs repeatedly.
     /// </summary>
     [Parameter] public bool IsRecurring { get; set; }
+
+    /// <summary>
+    /// Specifies the date under the pointer when dragging starts, used by month view to preserve multi-day item offsets.
+    /// </summary>
+    [Parameter] public DateOnly? DragAnchorDate { get; set; }
 
     /// <summary>
     /// Callback triggered when the item is clicked.

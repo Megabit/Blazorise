@@ -51,6 +51,10 @@ public partial class Radio<TValue>
         {
             builder.Append( "fui-Radio-error" );
         }
+        else if ( ParentValidation?.Status == ValidationStatus.Warning )
+        {
+            builder.Append( "fui-Radio-warning" );
+        }
         else if ( ParentValidation?.Status == ValidationStatus.Success )
         {
             builder.Append( "fui-Radio-success" );

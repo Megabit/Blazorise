@@ -1,0 +1,26 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div Display="Display.Flex" Flex="Flex.Column" Gap="Gap.Is3">
+    <Div>
+        <Button Color="Color.Primary" Outline Clicked="@ToggleDetails">
+            @( detailsVisible ? "Hide details" : "Show details" )
+        </Button>
+    </Div>
+
+    <Animate Animation="Animations.FadeDown" Trigger="AnimationTrigger.Render" Visible="@detailsVisible" AnimateOnInitialRender="false" DurationMilliseconds="220">
+        <Alert Color="Color.Info" Visible>
+            <AlertDescription>
+                This content stays in normal Blazor markup. The animation is controlled by the <Code>Visible</Code> parameter.
+            </AlertDescription>
+        </Alert>
+    </Animate>
+</Div>
+
+@code {
+    private bool detailsVisible = true;
+
+    private void ToggleDetails()
+    {
+        detailsVisible = !detailsVisible;
+    }
+}

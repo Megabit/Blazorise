@@ -11,8 +11,8 @@
             <CardBody>
                 <Row>
                     <Column ColumnSize="ColumnSize.IsAuto">
-                        <Button Color="Color.Primary" Clicked="@(()=>treeViewRef.ExpandAll())">Expand all</Button>
-                        <Button Color="Color.Secondary" Clicked="@(()=>treeViewRef.CollapseAll())">Collapse all</Button>
+                        <Button Color="Color.Primary" Clicked="@(() => treeViewRef.ExpandAll())">Expand all</Button>
+                        <Button Color="Color.Secondary" Clicked="@(() => treeViewRef.CollapseAll())">Collapse all</Button>
                     </Column>
                     <Column ColumnSize="ColumnSize.IsAuto">
                         <Field Horizontal>
@@ -35,15 +35,17 @@
                     <Column ColumnSize="ColumnSize.IsAuto">
                         @if ( selectionMode == TreeViewSelectionMode.Single )
                         {
-                            <Button Color="Color.Secondary" Clicked="@(()=>selectedNode = Nodes.ElementAt(2))">Select single node</Button>
+                            <Button Color="Color.Secondary" Clicked="@(() => selectedNode = Nodes.ElementAt( 2 ))">Select single node</Button>
                         }
                         else
                         {
-                            <Button Color="Color.Secondary" Clicked="@(()=>selectedNodes = Nodes.Take(3).ToList())">Select multiple nodes</Button>
+                            <Button Color="Color.Secondary" Clicked="@(() => selectedNodes = Nodes.Take( 3 ).ToList())">Select multiple nodes</Button>
                         }
                     </Column>
                     <Column ColumnSize="ColumnSize.IsAuto">
                         <Switch @bind-Value=virtualize>Virtualize</Switch>
+                        <Switch @bind-Value=dragnDrop>Drag&Drop</Switch>
+                        <Switch @bind-Value=reorder>Reorder</Switch>
                     </Column>
                 </Row>
             </CardBody>
@@ -62,7 +64,11 @@
                           NodeStyling="@((item, style) => { style.TextColor = (item.Children?.Any() == true) ? TextColor.Primary : TextColor.Dark; style.Style = "font-weight:bold"; })"
                           SelectedNodeStyling="@((item, style) => {style.Background = Background.Success; style.TextColor = TextColor.White; })"
                           NodeContextMenu="@OnNodeContextMenu"
-                          NodeContextMenuPreventDefault>
+                          NodeContextMenuPreventDefault
+                          Draggable="@dragnDrop"
+                          Reorderable="@reorder"
+                          CanDragNode="CanDragNode"
+                          CanDropNode="CanDropNode">
                     <NodeContent>
                         <Icon Name="IconName.Folder" />
                         @context.Text

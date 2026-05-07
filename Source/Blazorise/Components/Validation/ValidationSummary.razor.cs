@@ -112,7 +112,10 @@ public partial class ValidationSummary : BaseComponent<ValidationSummaryClasses,
 
     private async void OnValidationsStatusChanged( ValidationsStatusChangedEventArgs eventArgs )
     {
-        internalErrorMessages = eventArgs.Messages?.Where( x => !string.IsNullOrEmpty( x ) )?.ToArray();
+        internalErrorMessages = eventArgs.Status == ValidationStatus.Error
+            ? eventArgs.Messages?.Where( x => !string.IsNullOrEmpty( x ) )?.ToArray()
+            : null;
+
         await InvokeAsync( StateHasChanged );
     }
 

@@ -1,5 +1,6 @@
 .EasyMDEContainer {
     ~ .fui-Field__validationMessage-error,
+    ~ .fui-Field__validationMessage-warning,
     ~ .fui-Field__validationMessage-success {
         display: none;
     }
@@ -19,6 +20,29 @@
 
         .fui-Field__validationMessageIcon {
             color: var(--colorPaletteGreenForeground1);
+        }
+    }
+}
+
+.EasyMDEContainer.b-markdown-warning.b-markdown-warning {
+    .editor-toolbar,
+    .CodeMirror,
+    .editor-preview-side,
+    .editor-preview-full,
+    .editor-statusbar {
+        border-color: var(--colorStatusWarningForeground2);
+    }
+
+    ~ .fui-Field__hint {
+        display: none;
+    }
+
+    ~ .fui-Field__validationMessage-warning {
+        display: block;
+        color: var(--colorStatusWarningForeground2);
+
+        .fui-Field__validationMessageIcon {
+            color: var(--colorStatusWarningForeground2);
         }
     }
 }

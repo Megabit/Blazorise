@@ -40,6 +40,7 @@ public static class ManualPageEntries
     new( "docs/components/file-input", "File Input", "The FileInput component is a specialized input that provides a clean interface for selecting files." ),
     new( "docs/components/file-picker", "File Picker", "The FilePicker component provides extra functionality, listing and detailing files, providing clear and upload buttons, and inbuilt progress." ),
     new( "docs/components/focus-trap", "FocusTrap", "Manages focus of the forms and its input elements." ),
+    new( "docs/components/gestures", "Gestures", "Detect swipes and pointer gesture lifecycle events on wrapped content." ),
     new( "docs/components/grid", "Grid", "A simple way to build responsive columns." ),
     new( "docs/components/highlighter", "Highlighter", "Visually highlight part of the text based on the search term." ),
     new( "docs/components/jumbotron", "Jumbotron", "Lightweight, flexible component for showcasing hero unit style content." ),
@@ -110,8 +111,8 @@ public static class ManualPageEntries
     new( "docs/extensions/datagrid/features/header-group", "DataGrid Header Group", "Header Group feature for Blazorise DataGrid allows you to easily group a set of defined columns by rendering a top row header which groups the columns by the defined Caption" ),
     new( "docs/extensions/datagrid/features/state-management", "DataGrid State Management", "You are able to manage the state of the DataGrid by using the provided GetState and LoadState methods." ),
     new( "docs/extensions/datagrid/features/mobile-mode", "DataGrid Mobile Mode", "The table will have a dedicated layout for mobile devices where the columns are stacked on top of each other." ),
-    new( "docs/extensions/datagrid/features/detail-row", "DataGrid Templates : Detail Row", "Easily expand and display additional information for each row using the Blazorise DataGrid's detail row template feature." ),
-    new( "docs/extensions/datagrid/features/self-reference", "DataGrid Self Reference", "Render hierarchical rows and load child data on demand with expand/collapse triggers and programmatic row control." ),
+    new( "docs/extensions/datagrid/features/hierarchy/detail-row", "DataGrid Templates : Detail Row", "Easily expand and display additional information for each row using the Blazorise DataGrid's detail row template feature." ),
+    new( "docs/extensions/datagrid/features/hierarchy/self-reference", "DataGrid Self Reference", "Render hierarchical rows and load child data on demand with expand/collapse triggers and programmatic row control." ),
 
     new( "docs/extensions/datagrid/selection", "DataGrid Selection" ),
     new( "docs/extensions/datagrid/selection/single", "DataGrid Single Selection", "Easily select and manage a single row of data with the Blazorise DataGrid's single selection feature. Select a row by clicking on it or programmatically, and access the selected data for further use." ),

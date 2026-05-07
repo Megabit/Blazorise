@@ -100,7 +100,7 @@
                         </BarItem>
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarComponentsMenuVisible">
-                                <BarDropdownToggle>
+                                <BarDropdownToggle To="docs/components" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
                                     <BarIcon IconName="IconName.Wrench" /> Components
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
@@ -133,6 +133,11 @@
                                     <BarDropdownItem To="docs/components/file-input">File Input</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/file-picker">File Picker</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/focus-trap">FocusTrap</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/gestures">
+                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                            <DocsNewFeatureBadge>Gestures</DocsNewFeatureBadge>
+                                        </Span>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/components/highlighter">Highlighter</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/image">Image</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/jumbotron">Jumbotron</BarDropdownItem>
@@ -174,15 +179,22 @@
                         </BarItem>
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarExtensionsMenuVisible">
-                                <BarDropdownToggle>
+                                <BarDropdownToggle To="docs/extensions" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
                                     <BarIcon IconName="IconName.PuzzlePiece" /> Extensions
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="docs/extensions/animate">Animate</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/autocomplete">Autocomplete</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/barcode">
+                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                            <DocsNewFeatureBadge>Barcode</DocsNewFeatureBadge>
+                                        </Span>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/captcha">Captcha</BarDropdownItem>
                                     <BarDropdown>
-                                        <BarDropdownToggle>Chart</BarDropdownToggle>
+                                        <BarDropdownToggle To="docs/extensions/chart" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                            Chart
+                                        </BarDropdownToggle>
                                         <BarDropdownMenu>
                                             <BarDropdownItem To="docs/extensions/chart">Start Here</BarDropdownItem>
                                             <BarDropdownItem To="docs/extensions/chart-annotation">Annotation</BarDropdownItem>
@@ -194,12 +206,16 @@
                                     </BarDropdown>
                                     <BarDropdownItem To="docs/extensions/cropper">Cropper</BarDropdownItem>
                                     <BarDropdown>
-                                        <BarDropdownToggle>DataGrid</BarDropdownToggle>
+                                        <BarDropdownToggle To="docs/extensions/datagrid" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                            DataGrid
+                                        </BarDropdownToggle>
                                         <BarDropdownMenu>
                                             <BarDropdownItem To="docs/extensions/datagrid/getting-started">Getting Started</BarDropdownItem>
 
                                             <BarDropdown>
-                                                <BarDropdownToggle>Binding Data</BarDropdownToggle>
+                                                <BarDropdownToggle To="docs/extensions/datagrid/binding-data" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                                    Binding Data
+                                                </BarDropdownToggle>
                                                 <BarDropdownMenu>
                                                     <BarDropdownItem To="docs/extensions/datagrid/binding-data/in-memory">In Memory</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/binding-data/large-data">From an External Source</BarDropdownItem>
@@ -214,7 +230,9 @@
                                             <BarDropdownItem To="docs/extensions/datagrid/columns">Columns</BarDropdownItem>
 
                                             <BarDropdown>
-                                                <BarDropdownToggle>Features</BarDropdownToggle>
+                                                <BarDropdownToggle To="docs/extensions/datagrid/features" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                                    Features
+                                                </BarDropdownToggle>
                                                 <BarDropdownMenu>
                                                     <BarDropdownItem To="docs/extensions/datagrid/features/paging">Paging</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/features/sorting">Sorting</BarDropdownItem>
@@ -252,10 +270,12 @@
                                             </BarDropdown>
 
                                             <BarDropdown>
-                                                <BarDropdownToggle>Hierarchy</BarDropdownToggle>
+                                                <BarDropdownToggle To="docs/extensions/datagrid/features/hierarchy" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                                    Hierarchy
+                                                </BarDropdownToggle>
                                                 <BarDropdownMenu>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/detail-row">Detail Row</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/self-reference">
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/hierarchy/detail-row">Detail Row</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/hierarchy/self-reference">
                                                         <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
                                                             <DocsNewFeatureBadge>Self Reference</DocsNewFeatureBadge>
                                                         </Span>
@@ -264,7 +284,9 @@
                                             </BarDropdown>
 
                                             <BarDropdown>
-                                                <BarDropdownToggle>Selection</BarDropdownToggle>
+                                                <BarDropdownToggle To="docs/extensions/datagrid/selection" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                                    Selection
+                                                </BarDropdownToggle>
                                                 <BarDropdownMenu>
                                                     <BarDropdownItem To="docs/extensions/datagrid/selection/single">Single</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/selection/multiple">Multiple</BarDropdownItem>
@@ -274,7 +296,9 @@
                                             </BarDropdown>
 
                                             <BarDropdown>
-                                                <BarDropdownToggle>Templates</BarDropdownToggle>
+                                                <BarDropdownToggle To="docs/extensions/datagrid/templates" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                                    Templates
+                                                </BarDropdownToggle>
                                                 <BarDropdownMenu>
                                                     <BarDropdownItem To="docs/extensions/datagrid/templates/display">Display</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/templates/edit">Edit</BarDropdownItem>
@@ -296,7 +320,9 @@
                                         </Span>
                                     </BarDropdownItem>
                                     <BarDropdown>
-                                        <BarDropdownToggle>Icons</BarDropdownToggle>
+                                        <BarDropdownToggle To="docs/extensions/icons" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                            Icons
+                                        </BarDropdownToggle>
                                         <BarDropdownMenu>
                                             <BarDropdownItem To="docs/extensions/icons">Usage</BarDropdownItem>
                                             <BarDropdownItem To="docs/extensions/icons-available">Available Icons</BarDropdownItem>
@@ -349,7 +375,7 @@
                         </BarItem>
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarServicesMenuVisible">
-                                <BarDropdownToggle>
+                                <BarDropdownToggle To="docs/services" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
                                     <BarIcon IconName="IconName.Comment" /> Services
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
@@ -368,7 +394,7 @@
                         </BarItem>
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarHelpersMenuVisible">
-                                <BarDropdownToggle>
+                                <BarDropdownToggle To="docs/helpers" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
                                     <BarIcon IconName="IconName.Flask" />
                                     Helpers
                                 </BarDropdownToggle>
@@ -381,7 +407,9 @@
                                     <BarDropdownItem To="docs/helpers/utilities/column-size">Column Size</BarDropdownItem>
                                     <BarDropdownItem To="docs/helpers/utilities/display">Display</BarDropdownItem>
                                     <BarDropdown>
-                                        <BarDropdownToggle>Enums</BarDropdownToggle>
+                                        <BarDropdownToggle To="docs/helpers/enums" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                            Enums
+                                        </BarDropdownToggle>
                                         <BarDropdownMenu>
                                             <BarDropdownItem To="docs/helpers/enums/common">Common</BarDropdownItem>
                                             <BarDropdownItem To="docs/helpers/enums/bar">Bar</BarDropdownItem>
@@ -428,7 +456,7 @@
                         </BarItem>
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarSpecificationsMenuVisible">
-                                <BarDropdownToggle>
+                                <BarDropdownToggle To="docs/specifications" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
                                     <BarIcon IconName="IconName.Book" /> Specifications
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>

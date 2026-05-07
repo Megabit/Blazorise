@@ -1,0 +1,82 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Gestures</span> <span class="htmlAttributeName">Direction</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">GestureDirection</span><span class="enumValue">.Horizontal</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">TouchAction</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">GestureTouchAction</span><span class="enumValue">.PanY</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">GestureStarted</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnGestureStarted</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">GestureMoved</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnGestureMoved</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">GestureEnded</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnGestureEnded</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">Swiped</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnSwiped</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Card</span> <span class="htmlAttributeName">Border</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Border.Is1.Rounded</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Background</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Background</span><span class="enumValue">.Light</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Style</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">user-select: none;</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CardBody</span> <span class="htmlAttributeName">Padding</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Padding</span><span class="enumValue">.Is4</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Heading</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">HeadingSize</span><span class="enumValue">.Is5</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is0.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                Swipe progress
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Heading</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextColor</span><span class="enumValue">.Secondary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is2.FromTop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                Move horizontally inside this card to update the progress while the gesture is active.
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Progress</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>progress</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>progressColor</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Flex</span><span class="enumValue">.Wrap</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Gap</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Gap</span><span class="enumValue">.Is2</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromTop</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Badge</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Pill</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>state<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Badge</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Badge</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Info</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Pill</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>direction<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Badge</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Badge</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Secondary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Pill</span><span class="htmlTagDelimiter">&gt;</span>Delta X: <span class="atSign">&#64;</span>deltaX<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Badge</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">CardBody</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Card</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Gestures</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">int</span> progress;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> state = <span class="string">&quot;Waiting&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> direction = <span class="string">&quot;None&quot;</span>;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> deltaX = <span class="string">&quot;0&quot;</span>;
+
+    <span class="keyword">private</span> Color progressColor = Color.Primary;
+
+    <span class="keyword">private</span> Task OnGestureStarted( GestureEventArgs eventArgs )
+    {
+        state = <span class="string">&quot;Started&quot;</span>;
+        progress = <span class="number">0</span>;
+        progressColor = Color.Primary;
+        UpdateDetails( eventArgs );
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> Task OnGestureMoved( GestureEventArgs eventArgs )
+    {
+        state = <span class="string">&quot;Moving&quot;</span>;
+        progress = System.Math.Min( <span class="number">100</span>, System.Convert.ToInt32( System.Math.Abs( eventArgs.DeltaX ) ) );
+        UpdateDetails( eventArgs );
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> Task OnGestureEnded( GestureEventArgs eventArgs )
+    {
+        state = eventArgs.Canceled ? <span class="string">&quot;Canceled&quot;</span> : <span class="string">&quot;Ended&quot;</span>;
+        UpdateDetails( eventArgs );
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> Task OnSwiped( SwipeEventArgs eventArgs )
+    {
+        progress = <span class="number">100</span>;
+        progressColor = Color.Success;
+        UpdateDetails( eventArgs );
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> UpdateDetails( GestureEventArgs eventArgs )
+    {
+        direction = eventArgs.Direction.ToString();
+        deltaX = eventArgs.DeltaX.ToString( <span class="string">&quot;0&quot;</span> );
+    }
+}
+</pre></div>
+</div>

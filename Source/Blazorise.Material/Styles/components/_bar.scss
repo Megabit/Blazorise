@@ -2,6 +2,8 @@
     position: absolute;
     inset-block-start: 0;
     inset-inline-start: calc(100% - 0.125rem);
+    inset-block-end: auto;
+    inset-inline-end: auto;
     inline-size: var(--mui-bar-popout-menu-width);
     min-inline-size: 11rem;
     z-index: calc(var(--mui-zindex-dropdown) + 1);
@@ -658,6 +660,8 @@
         justify-content: space-between;
         inline-size: 100%;
         min-block-size: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 
     .mui-bar-start,

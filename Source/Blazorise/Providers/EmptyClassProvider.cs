@@ -275,6 +275,10 @@ class EmptyClassProvider : IClassProvider
 
     public string ValidationSuccessTooltip() => null;
 
+    public string ValidationWarning() => null;
+
+    public string ValidationWarningTooltip() => null;
+
     public string ValidationError() => null;
 
     public string ValidationErrorTooltip() => null;
@@ -770,6 +774,8 @@ class EmptyClassProvider : IClassProvider
     public string BarDropdownMenuRight( BarMode mode, bool rightAligned ) => null;
 
     public string BarDropdownMenuContainer( BarMode mode ) => null;
+
+    public string BarDropdownMenuPositionStrategy( BarMode mode, DropdownPositionStrategy positionStrategy ) => positionStrategy == DropdownPositionStrategy.Fixed ? "fixed" : "absolute";
 
     public string BarCollapsed( BarMode mode, bool visible ) => null;
 

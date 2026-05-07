@@ -46,6 +46,7 @@ public static class Configuration
         services.AddSingleton( sp => new BlazoriseOptions( sp, ( options ) => { } ) );
 
         services.AddScoped<IJSUtilitiesModule, JSUtilitiesModule>();
+        services.AddScoped<IJSFocusTrapModule, JSFocusTrapModule>();
         services.AddScoped<IJSButtonModule, JSButtonModule>();
         services.AddScoped<IJSClosableModule, JSClosableModule>();
         services.AddScoped<IJSBreakpointModule, JSBreakpointModule>();

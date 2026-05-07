@@ -1,0 +1,81 @@
+@page "/docs/components/gestures"
+
+<Seo Canonical="/docs/components/gestures" Title="Blazorise Gestures component" Description="Detect swipes and pointer gesture lifecycle events on wrapped content with the Blazorise Gestures component." />
+
+<DocsPageTitle Path="Components/Gestures" AddedVersion="Added in v2.2">
+    Blazorise Gestures component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Detect swipes and pointer gesture lifecycle events on wrapped content.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    <Code Tag>Gestures</Code> is a wrapper component for touch, pen, and mouse pointer gestures. Use it around content that should react to directional swipes, such as sidebars, galleries, item cards, or custom mobile navigation.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    The high-level <Code>Swiped</Code>, <Code>Tapped</Code>, and <Code>LongPressed</Code> events are best for most scenarios. Use <Code>GestureStarted</Code>, <Code>GestureMoved</Code>, and <Code>GestureEnded</Code> when the UI needs to react while the pointer is moving.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic Swipe">
+        Wrap content with <Code>Gestures</Code> and handle <Code>Swiped</Code> to react to a horizontal swipe.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <GesturesBasicExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="GesturesBasicExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Swipe Gallery">
+        Horizontal swipe gestures are useful for galleries, carousels, onboarding panels, and other item-by-item navigation.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <GesturesGalleryExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="GesturesGalleryExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Sidebar Toggle">
+        Directional swipes can collapse or expand a side panel. Pair it with <Code>Animate</Code> for a slide transition while keeping regular vertical page scrolling available with <Code>TouchAction="GestureTouchAction.PanY"</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <GesturesSidebarExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="GesturesSidebarExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Gesture Lifecycle">
+        Use lifecycle events when the UI should update while the pointer is moving, for example a progress indicator, custom drawer motion, or swipe-to-dismiss preview.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <GesturesLifecycleExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="GesturesLifecycleExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Touch action
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    <Code>TouchAction</Code> maps to the browser CSS <Code>touch-action</Code> behavior. For horizontal swipe areas inside a scrollable page, use <Code>GestureTouchAction.PanY</Code> so the page can still scroll vertically. For vertical swipe areas, use <Code>GestureTouchAction.PanX</Code>. Use <Code>GestureTouchAction.None</Code> only for surfaces where the component should own all touch movement.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Text selection
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    <Code>Gestures</Code> does not disable text selection. If a gesture surface contains text and is meant to be dragged or swiped as a single control, you may want to apply CSS such as <Code>user-select: none;</Code> to that surface. This prevents accidental text selection during mouse dragging on desktop. Avoid applying it to areas where users should be able to select or copy text.
+</DocsPageParagraph>
+
+<ComponentApiDocs ComponentTypes="[typeof( Gestures )]" />

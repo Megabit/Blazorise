@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -104,9 +104,11 @@ public static class Config
     public static IDictionary<Type, Type> JSModuleMap => new Dictionary<Type, Type>
     {
         { typeof( IJSUtilitiesModule ), typeof( JSUtilitiesModule ) },
+        { typeof( IJSFocusTrapModule ), typeof( JSFocusTrapModule ) },
         { typeof( IJSButtonModule ), typeof( JSButtonModule ) },
         { typeof( IJSClosableModule ), typeof( JSClosableModule ) },
         { typeof( IJSBreakpointModule ), typeof( JSBreakpointModule ) },
+        { typeof( IJSGesturesModule ), typeof( JSGesturesModule ) },
         { typeof( IJSTextInputModule ), typeof( JSTextInputModule ) },
         { typeof( IJSRangeSliderModule ), typeof( JSRangeSliderModule ) },
         { typeof( IJSMemoInputModule ), typeof( JSMemoInputModule ) },

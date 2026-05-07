@@ -82,6 +82,16 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
     private BaseValidationResult validationMessageComponent;
 
     /// <summary>
+    /// Holds the current warning validation message component.
+    /// </summary>
+    private BaseValidationResult validationWarningMessageComponent;
+
+    /// <summary>
+    /// Holds the current error validation message component.
+    /// </summary>
+    private BaseValidationResult validationErrorMessageComponent;
+
+    /// <summary>
     /// Define the cancellation token.
     /// </summary>
     private CancellationTokenSource cancellationTokenSource;
@@ -431,10 +441,28 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
         if ( validationMessage is null )
             return;
 
-        if ( ReferenceEquals( validationMessageComponent, validationMessage ) )
-            return;
+        if ( validationMessage is ValidationWarning )
+        {
+            if ( ReferenceEquals( validationWarningMessageComponent, validationMessage ) )
+                return;
 
-        validationMessageComponent = validationMessage;
+            validationWarningMessageComponent = validationMessage;
+        }
+        else if ( validationMessage is ValidationError )
+        {
+            if ( ReferenceEquals( validationErrorMessageComponent, validationMessage ) )
+                return;
+
+            validationErrorMessageComponent = validationMessage;
+        }
+        else
+        {
+            if ( ReferenceEquals( validationMessageComponent, validationMessage ) )
+                return;
+
+            validationMessageComponent = validationMessage;
+        }
+
         ValidationMessageChanged?.Invoke();
     }
 
@@ -444,11 +472,28 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
     /// <param name="validationMessage">Validation message component.</param>
     internal void NotifyValidationMessageRemoved( BaseValidationResult validationMessage )
     {
-        if ( !ReferenceEquals( validationMessageComponent, validationMessage ) )
-            return;
+        var changed = false;
 
-        validationMessageComponent = null;
-        ValidationMessageChanged?.Invoke();
+        if ( ReferenceEquals( validationWarningMessageComponent, validationMessage ) )
+        {
+            validationWarningMessageComponent = null;
+            changed = true;
+        }
+
+        if ( ReferenceEquals( validationErrorMessageComponent, validationMessage ) )
+        {
+            validationErrorMessageComponent = null;
+            changed = true;
+        }
+
+        if ( ReferenceEquals( validationMessageComponent, validationMessage ) )
+        {
+            validationMessageComponent = null;
+            changed = true;
+        }
+
+        if ( changed )
+            ValidationMessageChanged?.Invoke();
     }
 
     #endregion
@@ -471,7 +516,12 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
     /// <summary>
     /// Gets the element id of the validation message container.
     /// </summary>
-    internal string ValidationMessageElementId => validationMessageComponent?.ElementId;
+    internal string ValidationMessageElementId => Status switch
+    {
+        ValidationStatus.Warning => validationWarningMessageComponent?.ElementId ?? validationMessageComponent?.ElementId,
+        ValidationStatus.Error => validationErrorMessageComponent?.ElementId ?? validationMessageComponent?.ElementId,
+        _ => validationMessageComponent?.ElementId,
+    };
 
     /// <inheritdoc/>
     public FieldIdentifier FieldIdentifier => fieldIdentifier;

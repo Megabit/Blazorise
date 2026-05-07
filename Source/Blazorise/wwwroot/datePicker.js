@@ -1,8 +1,8 @@
-import "./vendors/flatpickr.js?v=2.1.1.0";
-import "./vendors/flatpickr-monthselect.js?v=2.1.1.0";
-import * as utilities from "./utilities.js?v=2.1.1.0";
-import * as inputmask from "./inputMask.js?v=2.1.1.0";
-import { ClassWatcher } from "./observer.js?v=2.1.1.0";
+import "./vendors/flatpickr.js?v=2.1.2.0";
+import "./vendors/flatpickr-monthselect.js?v=2.1.2.0";
+import * as utilities from "./utilities.js?v=2.1.2.0";
+import * as inputmask from "./inputMask.js?v=2.1.2.0";
+import { ClassWatcher } from "./observer.js?v=2.1.2.0";
 
 const _pickers = [];
 
@@ -157,6 +157,18 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 
                     picker.successClassWatcher = new ClassWatcher(picker.altInput, options.validationStatus.successClass, successClassAddHandler, successClassRemoveHandler);
                 }
+
+                if (options.validationStatus.warningClass) {
+                    function warningClassAddHandler() {
+                        flatpickrWrapper.classList.add(options.validationStatus.warningClass);
+                    }
+
+                    function warningClassRemoveHandler() {
+                        flatpickrWrapper.classList.remove(options.validationStatus.warningClass);
+                    }
+
+                    picker.warningClassWatcher = new ClassWatcher(picker.altInput, options.validationStatus.warningClass, warningClassAddHandler, warningClassRemoveHandler);
+                }
             }
         }
     }
@@ -257,6 +269,10 @@ export function destroy(element, elementId, unregisterCleanup = true) {
 
     if (instance.successClassWatcher) {
         instance.successClassWatcher.disconnect();
+    }
+
+    if (instance.warningClassWatcher) {
+        instance.warningClassWatcher.disconnect();
     }
 
     if (instance.inputMask && instance.inputMask.remove) {

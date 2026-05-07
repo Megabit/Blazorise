@@ -1,0 +1,86 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Gestures</span> <span class="htmlAttributeName">Direction</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">GestureDirection</span><span class="enumValue">.Horizontal</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">TouchAction</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">GestureTouchAction</span><span class="enumValue">.PanY</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">Swiped</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnSwiped</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Card</span> <span class="htmlAttributeName">Background</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>CurrentSlide.Background</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextColor</span><span class="enumValue">.White</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Style</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">min-height: 260px; user-select: none;</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CardBody</span> <span class="htmlAttributeName">Padding</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Padding</span><span class="enumValue">.Is5</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.Column.JustifyContent.Between</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Style</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">min-height: 220px;</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Badge</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Light</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextColor</span><span class="enumValue">.Dark</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Pill</span><span class="htmlTagDelimiter">&gt;</span>
+                        <span class="atSign">&#64;</span>( currentIndex + 1 ) / <span class="atSign">&#64;</span>slides.Count
+                    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Badge</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Heading</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">HeadingSize</span><span class="enumValue">.Is2</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is4.FromTop.Is2.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                        <span class="atSign">&#64;</span>CurrentSlide.Title
+                    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Heading</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextColor</span><span class="enumValue">.White50</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                        <span class="atSign">&#64;</span>CurrentSlide.Description
+                    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.JustifyContent.Between.AlignItems.Center</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Gap</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Gap</span><span class="enumValue">.Is3</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Light</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Outline</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ShowPrevious</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.ArrowLeft</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Badge</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Light</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextColor</span><span class="enumValue">.Dark</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Pill</span><span class="htmlTagDelimiter">&gt;</span>
+                        Swipe left or right
+                    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Badge</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Light</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Outline</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ShowNext</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.ArrowRight</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">CardBody</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Card</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Gestures</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">readonly</span> List&lt;GallerySlide&gt; slides = <span class="keyword">new</span> List&lt;GallerySlide&gt;
+    {
+        <span class="keyword">new</span> GallerySlide( <span class="string">&quot;Overview&quot;</span>, <span class="string">&quot;Introduce key content one panel at a time.&quot;</span>, Background.Primary ),
+        <span class="keyword">new</span> GallerySlide( <span class="string">&quot;Details&quot;</span>, <span class="string">&quot;Let users move through content with direct touch interaction.&quot;</span>, Background.Info ),
+        <span class="keyword">new</span> GallerySlide( <span class="string">&quot;Summary&quot;</span>, <span class="string">&quot;Keep buttons available for mouse and keyboard users.&quot;</span>, Background.Success ),
+    };
+
+    <span class="keyword">private</span> <span class="keyword">int</span> currentIndex;
+
+    <span class="keyword">private</span> GallerySlide CurrentSlide =&gt; slides[currentIndex];
+
+    <span class="keyword">private</span> Task OnSwiped( SwipeEventArgs eventArgs )
+    {
+        <span class="keyword">if</span> ( eventArgs.Direction == GestureDirection.Left )
+            ShowNext();
+        <span class="keyword">else</span> <span class="keyword">if</span> ( eventArgs.Direction == GestureDirection.Right )
+            ShowPrevious();
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> ShowPrevious()
+    {
+        currentIndex = currentIndex == <span class="number">0</span> ? slides.Count - <span class="number">1</span> : currentIndex - <span class="number">1</span>;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> ShowNext()
+    {
+        currentIndex = currentIndex == slides.Count - <span class="number">1</span> ? <span class="number">0</span> : currentIndex + <span class="number">1</span>;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">class</span> GallerySlide
+    {
+        <span class="keyword">public</span> GallerySlide( <span class="keyword">string</span> title, <span class="keyword">string</span> description, Background background )
+        {
+            Title = title;
+            Description = description;
+            Background = background;
+        }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Title { <span class="keyword">get</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Description { <span class="keyword">get</span>; }
+
+        <span class="keyword">public</span> Background Background { <span class="keyword">get</span>; }
+    }
+}
+</pre></div>
+</div>

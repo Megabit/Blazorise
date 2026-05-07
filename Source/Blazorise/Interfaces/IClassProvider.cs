@@ -272,6 +272,10 @@ public interface IClassProvider
 
     string ValidationSuccessTooltip();
 
+    string ValidationWarning();
+
+    string ValidationWarningTooltip();
+
     string ValidationError();
 
     string ValidationErrorTooltip();
@@ -765,6 +769,8 @@ public interface IClassProvider
     string BarDropdownMenuRight( BarMode mode, bool rightAligned );
 
     string BarDropdownMenuContainer( BarMode mode );
+
+    string BarDropdownMenuPositionStrategy( BarMode mode, DropdownPositionStrategy positionStrategy );
 
     string BarCollapsed( BarMode mode, bool visible );
 

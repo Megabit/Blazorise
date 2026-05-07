@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <Import Project="..\..\..\Build\Blazorise.props" />
+
+  <PropertyGroup>
+    <PackageTags>blazorise blazor components barcode qrcode datamatrix pdf417 aztec</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
+  </ItemGroup>
+
+</Project>

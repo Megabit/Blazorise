@@ -287,70 +287,143 @@ namespace Blazorise.Docs.Models
 
         public const string TopBarExample = @"<Bar Breakpoint=""Breakpoint.Desktop""
      Background=""Background.Light""
-     ThemeContrast=""ThemeContrast.Light"">
+     ThemeContrast=""ThemeContrast.Light""
+     Shadow=""Shadow.Default"">
     <BarBrand>
-        Brandname
+        <BarItem>
+            <BarLink To=""#dashboard"">
+                <BarIcon IconName=""IconName.LayerGroup"" />
+                Atlas CRM
+            </BarLink>
+        </BarItem>
     </BarBrand>
     <BarToggler />
     <BarMenu>
         <BarStart>
             <BarItem>
-                <BarLink To=""#home"">Home</BarLink>
+                <BarLink To=""#pipeline"">
+                    Pipeline
+                </BarLink>
             </BarItem>
             <BarItem>
-                <BarLink To=""#docs"">Documentation</BarLink>
+                <BarLink To=""#accounts"">
+                    Accounts
+                </BarLink>
             </BarItem>
             <BarItem>
                 <BarDropdown>
-                    <BarDropdownToggle>Dropdown</BarDropdownToggle>
+                    <BarDropdownToggle>
+                        Reports
+                    </BarDropdownToggle>
                     <BarDropdownMenu>
-                        <BarDropdownItem>Action</BarDropdownItem>
+                        <BarDropdownItem To=""#sales-report"">Sales summary</BarDropdownItem>
+                        <BarDropdownItem To=""#activity-report"">Team activity</BarDropdownItem>
                         <BarDropdownDivider />
-                        <BarDropdownItem>Another action</BarDropdownItem>
+                        <BarDropdownItem To=""#scheduled-reports"">Scheduled reports</BarDropdownItem>
                     </BarDropdownMenu>
                 </BarDropdown>
             </BarItem>
         </BarStart>
         <BarEnd>
             <BarItem>
-                <Button Color=""Color.Primary"">Sign up</Button>
-                <Button Color=""Color.Secondary"">Log in</Button>
+                <Button Color=""Color.Light"" Outline>
+                    <Icon Name=""IconName.Search"" />
+                </Button>
+            </BarItem>
+            <BarItem>
+                <Button Color=""Color.Light"" Outline>
+                    <Icon Name=""IconName.Bell"" />
+                    <Badge Color=""Color.Danger"" Pill>3</Badge>
+                </Button>
+            </BarItem>
+            <BarItem>
+                <BarDropdown RightAligned>
+                    <BarDropdownToggle>
+                        <BarIcon IconName=""IconName.UserCircle"" />
+                        Maya Stone
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem To=""#profile"">Profile</BarDropdownItem>
+                        <BarDropdownItem To=""#preferences"">Preferences</BarDropdownItem>
+                        <BarDropdownDivider />
+                        <BarDropdownItem To=""#sign-out"">Sign out</BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
             </BarItem>
         </BarEnd>
     </BarMenu>
 </Bar>";
 
-        public const string VerticalBarExternalExample = @"<Layout Sider>
+        public const string TopBarExamplePage = @"<TopBarExample />";
+
+        public const string VerticalBarExternalExample = @"<Layout Sider Style=""min-height: 360px;"">
     <LayoutSider>
         <LayoutSiderContent>
-            <Bar @ref=""@sidebar"" Mode=""BarMode.VerticalInline""
+            <Bar @ref=""@sidebar""
+                 Mode=""BarMode.VerticalInline""
+                 CollapseMode=""BarCollapseMode.Small""
                  Breakpoint=""Breakpoint.Desktop""
                  Background=""Background.Light""
                  ThemeContrast=""ThemeContrast.Light"">
-                <BarItem>Example</BarItem>
+                <BarBrand>
+                    <BarItem>
+                        <BarLink To=""#projects"">
+                            <BarIcon IconName=""IconName.Briefcase"" />
+                            Projects
+                        </BarLink>
+                    </BarItem>
+                </BarBrand>
+                <BarMenu>
+                    <BarStart>
+                        <BarItem>
+                            <BarLink To=""#roadmap"">
+                                <BarIcon IconName=""IconName.Map"" />
+                                Roadmap
+                            </BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To=""#calendar"">
+                                <BarIcon IconName=""IconName.Calendar"" />
+                                Calendar
+                            </BarLink>
+                        </BarItem>
+                    </BarStart>
+                </BarMenu>
             </Bar>
         </LayoutSiderContent>
     </LayoutSider>
     <Layout>
         <LayoutHeader Fixed>
             <Bar Mode=""BarMode.Horizontal""
+                 Breakpoint=""Breakpoint.Desktop""
                  Background=""Background.Light""
-                 ThemeContrast=""ThemeContrast.Light"">
+                 ThemeContrast=""ThemeContrast.Light""
+                 Shadow=""Shadow.Default"">
                 <BarToggler Bar=""@sidebar"" />
                 <BarBrand>
                     <BarItem>
-                        <BarLink To=""#"">
-                            <BarIcon IconName=""IconName.Dashboard"" />
-                            Example
+                        <BarLink To=""#planning"">
+                            Planning
                         </BarLink>
                     </BarItem>
                 </BarBrand>
                 <BarMenu>
-                    <BarItem>Example</BarItem>
+                    <BarEnd>
+                        <BarItem>
+                            <Button Color=""Color.Primary"">
+                                New project
+                            </Button>
+                        </BarItem>
+                    </BarEnd>
                 </BarMenu>
                 <BarToggler />
             </Bar>
         </LayoutHeader>
+        <LayoutContent Padding=""Padding.Is3"">
+            <Paragraph>
+                The first toggler controls the sidebar. The second toggler controls the horizontal bar menu.
+            </Paragraph>
+        </LayoutContent>
     </Layout>
 </Layout>
 
@@ -359,45 +432,82 @@ namespace Blazorise.Docs.Models
 }";
 
         public const string VerticalBarInlineExample = @"<Bar Mode=""BarMode.VerticalInline""
+     CollapseMode=""BarCollapseMode.Small""
      Breakpoint=""Breakpoint.Desktop""
      Background=""Background.Light""
-     ThemeContrast=""ThemeContrast.Light"">
+     ThemeContrast=""ThemeContrast.Light""
+     Border=""Border.Is1"">
     <BarToggler />
     <BarBrand>
         <BarItem>
-            <BarLink To=""#"">
-                <BarIcon IconName=""IconName.Dashboard"" />
-                Example
+            <BarLink To=""#inventory"">
+                <BarIcon IconName=""IconName.Store"" />
+                Inventory
             </BarLink>
         </BarItem>
     </BarBrand>
     <BarMenu>
-        <BarItem>Example</BarItem>
+        <BarStart>
+            <BarItem>
+                <BarLink To=""#products"">
+                    <BarIcon IconName=""IconName.ShoppingBag"" />
+                    Products
+                </BarLink>
+            </BarItem>
+            <BarItem>
+                <BarLink To=""#orders"">
+                    <BarIcon IconName=""IconName.ShoppingCart"" />
+                    Orders
+                </BarLink>
+            </BarItem>
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle>
+                        <BarIcon IconName=""IconName.Truck"" />
+                        Shipping
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem To=""#labels"">Labels</BarDropdownItem>
+                        <BarDropdownItem To=""#carriers"">Carriers</BarDropdownItem>
+                        <BarDropdownItem To=""#returns"">Returns</BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+        </BarStart>
     </BarMenu>
 </Bar>";
 
         public const string VerticalBarNestedDropdownsExample = @"<Bar Breakpoint=""Breakpoint.Desktop""
      Background=""Background.Light""
-     ThemeContrast=""ThemeContrast.Light"">
+     ThemeContrast=""ThemeContrast.Light""
+     Border=""Border.Is1"">
+    <BarBrand>
+        <BarItem>
+            <BarLink To=""#admin"">
+                <BarIcon IconName=""IconName.Settings"" />
+                Admin
+            </BarLink>
+        </BarItem>
+    </BarBrand>
+    <BarToggler />
     <BarMenu>
         <BarStart>
             <BarItem>
                 <BarDropdown>
                     <BarDropdownToggle>
-                        Top-level toggler
+                        Organization
                     </BarDropdownToggle>
                     <BarDropdownMenu>
-                        <BarDropdownItem>
-                            Top-level item
-                        </BarDropdownItem>
+                        <BarDropdownItem To=""#teams"">Teams</BarDropdownItem>
+                        <BarDropdownItem To=""#members"">Members</BarDropdownItem>
                         <BarDropdown>
                             <BarDropdownToggle>
-                                Nested toggler
+                                Security
                             </BarDropdownToggle>
                             <BarDropdownMenu>
-                                <BarDropdownItem>
-                                    Nested item
-                                </BarDropdownItem>
+                                <BarDropdownItem To=""#roles"">Roles</BarDropdownItem>
+                                <BarDropdownItem To=""#permissions"">Permissions</BarDropdownItem>
+                                <BarDropdownItem To=""#audit-log"">Audit log</BarDropdownItem>
                             </BarDropdownMenu>
                         </BarDropdown>
                     </BarDropdownMenu>
@@ -408,35 +518,67 @@ namespace Blazorise.Docs.Models
 </Bar>";
 
         public const string VerticalBarPopoutExample = @"<Bar Mode=""BarMode.VerticalInline""
+     CollapseMode=""BarCollapseMode.Small""
      Breakpoint=""Breakpoint.Desktop""
      Background=""Background.Light""
-     ThemeContrast=""ThemeContrast.Light"">
+     ThemeContrast=""ThemeContrast.Light""
+     Border=""Border.Is1"">
     <BarBrand>
         <BarItem>
-            <BarLink To=""#"">
-                <BarIcon IconName=""IconName.Dashboard"" />
-                Blazorise Demo
+            <BarLink To=""#support"">
+                <BarIcon IconName=""IconName.Headset"" />
+                Support
             </BarLink>
         </BarItem>
     </BarBrand>
     <BarToggler Mode=""BarTogglerMode.Popout"" />
     <BarMenu>
-        <BarItem>Popout!</BarItem>
+        <BarStart>
+            <BarItem>
+                <BarLink To=""#queue"">
+                    <BarIcon IconName=""IconName.Inbox"" />
+                    Queue
+                </BarLink>
+            </BarItem>
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle>
+                        <BarIcon IconName=""IconName.Book"" />
+                        Knowledge
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarDropdownItem To=""#articles"">Articles</BarDropdownItem>
+                        <BarDropdownItem To=""#macros"">Macros</BarDropdownItem>
+                        <BarDropdownItem To=""#training"">Training</BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+        </BarStart>
     </BarMenu>
 </Bar>";
 
-        public const string VerticalBarRightAlignedExample = @"<Layout Sider>
+        public const string VerticalBarRightAlignedExample = @"<Layout Sider Style=""min-height: 360px;"">
+    <Layout>
+        <LayoutContent Padding=""Padding.Is3"">
+            <Card>
+                <CardBody>
+                    Right-side navigation is useful for context tools, inspectors, and account panels.
+                </CardBody>
+            </Card>
+        </LayoutContent>
+    </Layout>
     <LayoutSider>
         <LayoutSiderContent>
-            <Bar Mode=""BarMode.VerticalInline"" CollapseMode=""BarCollapseMode.Small""
+            <Bar Mode=""BarMode.VerticalInline""
+                 CollapseMode=""BarCollapseMode.Small""
                  Breakpoint=""Breakpoint.Desktop""
                  Background=""Background.Light""
                  ThemeContrast=""ThemeContrast.Light"">
                 <BarBrand>
                     <BarItem>
-                        <BarLink To=""#"">
-                            <BarIcon IconName=""IconName.Dashboard"" />
-                            Example
+                        <BarLink To=""#inspector"">
+                            <BarIcon IconName=""IconName.SliderHorizontal"" />
+                            Inspector
                         </BarLink>
                     </BarItem>
                 </BarBrand>
@@ -445,14 +587,21 @@ namespace Blazorise.Docs.Models
                         <BarItem>
                             <BarDropdown RightAligned>
                                 <BarDropdownToggle>
-                                    <BarIcon IconName=""IconName.Edit"" />
-                                    Toggle
+                                    <BarIcon IconName=""IconName.Filter"" />
+                                    Filters
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem>Action</BarDropdownItem>
-                                    <BarDropdownItem>Another action</BarDropdownItem>
+                                    <BarDropdownItem To=""#assigned"">Assigned to me</BarDropdownItem>
+                                    <BarDropdownItem To=""#due-soon"">Due soon</BarDropdownItem>
+                                    <BarDropdownItem To=""#blocked"">Blocked</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To=""#activity"">
+                                <BarIcon IconName=""IconName.History"" />
+                                Activity
+                            </BarLink>
                         </BarItem>
                     </BarStart>
                 </BarMenu>
@@ -461,45 +610,93 @@ namespace Blazorise.Docs.Models
     </LayoutSider>
 </Layout>";
 
-        public const string VerticalBarSideBarExample = @"<Bar Mode=""BarMode.VerticalInline""
-     CollapseMode=""BarCollapseMode.Small""
-     Breakpoint=""Breakpoint.Desktop""
-     NavigationBreakpoint=""Breakpoint.Tablet""
-     ThemeContrast=""ThemeContrast.Dark"">
-    <BarBrand>
-        <BarItem>
-            <BarLink To=""#"">
-                <BarIcon IconName=""IconName.Dashboard"" />
-                Blazorise Demo
-            </BarLink>
-        </BarItem>
-    </BarBrand>
-    <BarMenu>
-        <BarStart>
-            <BarItem>
-                <BarLink To=""#home"">
-                    <BarIcon IconName=""IconName.Dashboard"" />
-                    Home
-                </BarLink>
-            </BarItem>
-            <BarItem>
-                <BarLink To=""#docs"">Documentation</BarLink>
-            </BarItem>
-            <BarItem>
-                <BarDropdown>
-                    <BarDropdownToggle>
-                        <BarIcon IconName=""IconName.Edit"" />
-                        Dropdown
-                    </BarDropdownToggle>
-                    <BarDropdownMenu>
-                        <BarDropdownItem>Action</BarDropdownItem>
-                        <BarDropdownItem>Another action</BarDropdownItem>
-                    </BarDropdownMenu>
-                </BarDropdown>
-            </BarItem>
-        </BarStart>
-    </BarMenu>
-</Bar>";
+        public const string VerticalBarSideBarExample = @"<Layout Sider Style=""min-height: 420px;"">
+    <LayoutSider>
+        <LayoutSiderContent>
+            <Bar Mode=""BarMode.VerticalInline""
+                 CollapseMode=""BarCollapseMode.Small""
+                 Breakpoint=""Breakpoint.Desktop""
+                 NavigationBreakpoint=""Breakpoint.Tablet""
+                 ThemeContrast=""ThemeContrast.Dark""
+                 MenuToggleBehavior=""BarMenuToggleBehavior.AllowSingleMenu"">
+                <BarBrand>
+                    <BarItem>
+                        <BarLink To=""#workspace"">
+                            <BarIcon IconName=""IconName.LayerGroup"" />
+                            Ops Console
+                        </BarLink>
+                    </BarItem>
+                </BarBrand>
+                <BarMenu>
+                    <BarStart>
+                        <BarItem>
+                            <BarLink To=""#overview"">
+                                <BarIcon IconName=""IconName.Dashboard"" />
+                                Overview
+                            </BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarDropdown>
+                                <BarDropdownToggle>
+                                    <BarIcon IconName=""IconName.ChartLine"" />
+                                    Analytics
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To=""#traffic"">Traffic</BarDropdownItem>
+                                    <BarDropdownItem To=""#conversion"">Conversion</BarDropdownItem>
+                                    <BarDropdownItem To=""#retention"">Retention</BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarDropdown>
+                                <BarDropdownToggle>
+                                    <BarIcon IconName=""IconName.Users"" />
+                                    Customers
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To=""#all-customers"">All customers</BarDropdownItem>
+                                    <BarDropdownItem To=""#segments"">Segments</BarDropdownItem>
+                                    <BarDropdownItem To=""#imports"">Imports</BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To=""#billing"">
+                                <BarIcon IconName=""IconName.Receipt"" />
+                                Billing
+                            </BarLink>
+                        </BarItem>
+                    </BarStart>
+                    <BarEnd>
+                        <BarItem>
+                            <BarLink To=""#settings"">
+                                <BarIcon IconName=""IconName.Settings"" />
+                                Settings
+                            </BarLink>
+                        </BarItem>
+                    </BarEnd>
+                </BarMenu>
+            </Bar>
+        </LayoutSiderContent>
+    </LayoutSider>
+    <Layout>
+        <LayoutHeader Fixed>
+            <Div Padding=""Padding.Is3"" Background=""Background.Light"" Border=""Border.Is1.OnBottom"">
+                <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0"">Workspace overview</Heading>
+            </Div>
+        </LayoutHeader>
+        <LayoutContent Padding=""Padding.Is3"">
+            <Card>
+                <CardBody>
+                    The vertical Bar works well as the primary navigation inside a layout sider.
+                </CardBody>
+            </Card>
+        </LayoutContent>
+    </Layout>
+</Layout>";
+
+        public const string VerticalBarSideBarExamplePage = @"<VerticalBarSideBarExample />";
 
         public const string BreadcrumbAutoExample = @"<Breadcrumb Mode=""BreadcrumbMode.Auto"">
     <BreadcrumbItem>
@@ -1972,6 +2169,260 @@ namespace Blazorise.Docs.Models
     bool focusTrapActive = false;
 }";
 
+        public const string GesturesBasicExample = @"<Gestures Direction=""GestureDirection.Horizontal""
+          TouchAction=""GestureTouchAction.PanY""
+          Swiped=""@OnSwiped"">
+    <Div Border=""Border.Is1.Rounded"" Background=""Background.Light"" Padding=""Padding.Is4"" Style=""user-select: none;"">
+        <Div Flex=""Flex.JustifyContent.Between.AlignItems.Center"" Gap=""Gap.Is3"">
+            <Div>
+                <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">
+                    @Title
+                </Heading>
+                <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop.Is0.FromBottom"">
+                    Swipe left or right inside this area.
+                </Paragraph>
+            </Div>
+            <Badge Color=""@BadgeColor"" Pill>@DirectionText</Badge>
+        </Div>
+    </Div>
+</Gestures>
+
+@code {
+    private string Title { get; set; } = ""Waiting for swipe"";
+
+    private string DirectionText { get; set; } = ""None"";
+
+    private Color BadgeColor { get; set; } = Color.Secondary;
+
+    private Task OnSwiped( SwipeEventArgs eventArgs )
+    {
+        DirectionText = eventArgs.Direction.ToString();
+        Title = $""Swiped {DirectionText.ToLowerInvariant()}"";
+        BadgeColor = eventArgs.Direction == GestureDirection.Left ? Color.Primary : Color.Info;
+
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string GesturesGalleryExample = @"<Gestures Direction=""GestureDirection.Horizontal""
+          TouchAction=""GestureTouchAction.PanY""
+          Swiped=""@OnSwiped"">
+    <Card Background=""@CurrentSlide.Background"" TextColor=""TextColor.White"" Style=""min-height: 260px; user-select: none;"">
+        <CardBody Padding=""Padding.Is5"">
+            <Div Flex=""Flex.Column.JustifyContent.Between"" Style=""min-height: 220px;"">
+                <Div>
+                    <Badge Color=""Color.Light"" TextColor=""TextColor.Dark"" Pill>
+                        @( currentIndex + 1 ) / @slides.Count
+                    </Badge>
+                    <Heading Size=""HeadingSize.Is2"" Margin=""Margin.Is4.FromTop.Is2.FromBottom"">
+                        @CurrentSlide.Title
+                    </Heading>
+                    <Paragraph TextColor=""TextColor.White50"">
+                        @CurrentSlide.Description
+                    </Paragraph>
+                </Div>
+                <Div Flex=""Flex.JustifyContent.Between.AlignItems.Center"" Gap=""Gap.Is3"">
+                    <Button Color=""Color.Light"" Outline Clicked=""@ShowPrevious"">
+                        <Icon Name=""IconName.ArrowLeft"" />
+                    </Button>
+                    <Badge Color=""Color.Light"" TextColor=""TextColor.Dark"" Pill>
+                        Swipe left or right
+                    </Badge>
+                    <Button Color=""Color.Light"" Outline Clicked=""@ShowNext"">
+                        <Icon Name=""IconName.ArrowRight"" />
+                    </Button>
+                </Div>
+            </Div>
+        </CardBody>
+    </Card>
+</Gestures>
+
+@code {
+    private readonly List<GallerySlide> slides = new List<GallerySlide>
+    {
+        new GallerySlide( ""Overview"", ""Introduce key content one panel at a time."", Background.Primary ),
+        new GallerySlide( ""Details"", ""Let users move through content with direct touch interaction."", Background.Info ),
+        new GallerySlide( ""Summary"", ""Keep buttons available for mouse and keyboard users."", Background.Success ),
+    };
+
+    private int currentIndex;
+
+    private GallerySlide CurrentSlide => slides[currentIndex];
+
+    private Task OnSwiped( SwipeEventArgs eventArgs )
+    {
+        if ( eventArgs.Direction == GestureDirection.Left )
+            ShowNext();
+        else if ( eventArgs.Direction == GestureDirection.Right )
+            ShowPrevious();
+
+        return Task.CompletedTask;
+    }
+
+    private void ShowPrevious()
+    {
+        currentIndex = currentIndex == 0 ? slides.Count - 1 : currentIndex - 1;
+    }
+
+    private void ShowNext()
+    {
+        currentIndex = currentIndex == slides.Count - 1 ? 0 : currentIndex + 1;
+    }
+
+    private class GallerySlide
+    {
+        public GallerySlide( string title, string description, Background background )
+        {
+            Title = title;
+            Description = description;
+            Background = background;
+        }
+
+        public string Title { get; }
+
+        public string Description { get; }
+
+        public Background Background { get; }
+    }
+}";
+
+        public const string GesturesLifecycleExample = @"<Gestures Direction=""GestureDirection.Horizontal""
+          TouchAction=""GestureTouchAction.PanY""
+          GestureStarted=""@OnGestureStarted""
+          GestureMoved=""@OnGestureMoved""
+          GestureEnded=""@OnGestureEnded""
+          Swiped=""@OnSwiped"">
+    <Card Border=""Border.Is1.Rounded"" Background=""Background.Light"" Style=""user-select: none;"">
+        <CardBody Padding=""Padding.Is4"">
+            <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">
+                Swipe progress
+            </Heading>
+            <Paragraph TextColor=""TextColor.Secondary"" Margin=""Margin.Is2.FromTop"">
+                Move horizontally inside this card to update the progress while the gesture is active.
+            </Paragraph>
+            <Progress Value=""@progress"" Color=""@progressColor"" />
+            <Div Flex=""Flex.Wrap"" Gap=""Gap.Is2"" Margin=""Margin.Is3.FromTop"">
+                <Badge Color=""Color.Primary"" Pill>@state</Badge>
+                <Badge Color=""Color.Info"" Pill>@direction</Badge>
+                <Badge Color=""Color.Secondary"" Pill>Delta X: @deltaX</Badge>
+            </Div>
+        </CardBody>
+    </Card>
+</Gestures>
+
+@code {
+    private int progress;
+
+    private string state = ""Waiting"";
+
+    private string direction = ""None"";
+
+    private string deltaX = ""0"";
+
+    private Color progressColor = Color.Primary;
+
+    private Task OnGestureStarted( GestureEventArgs eventArgs )
+    {
+        state = ""Started"";
+        progress = 0;
+        progressColor = Color.Primary;
+        UpdateDetails( eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnGestureMoved( GestureEventArgs eventArgs )
+    {
+        state = ""Moving"";
+        progress = System.Math.Min( 100, System.Convert.ToInt32( System.Math.Abs( eventArgs.DeltaX ) ) );
+        UpdateDetails( eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnGestureEnded( GestureEventArgs eventArgs )
+    {
+        state = eventArgs.Canceled ? ""Canceled"" : ""Ended"";
+        UpdateDetails( eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnSwiped( SwipeEventArgs eventArgs )
+    {
+        progress = 100;
+        progressColor = Color.Success;
+        UpdateDetails( eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private void UpdateDetails( GestureEventArgs eventArgs )
+    {
+        direction = eventArgs.Direction.ToString();
+        deltaX = eventArgs.DeltaX.ToString( ""0"" );
+    }
+}";
+
+        public const string GesturesSidebarExample = @"<Gestures Direction=""GestureDirection.Horizontal""
+          TouchAction=""GestureTouchAction.PanY""
+          Swiped=""@OnSwiped"">
+    <Div Flex=""Flex.Row"" Border=""Border.Is1.Rounded"" Background=""Background.Light"" Padding=""Padding.Is3"" Height=""Height.Px( 240 )"" Style=""user-select: none;"">
+        <Div Flex=""Flex.Row.Grow.Is1.AlignItems.Stretch"" Gap=""Gap.Is3"">
+            <Animate Animation=""Animations.SlideRight"" Duration=""@SidebarAnimationDuration"" Trigger=""AnimationTrigger.Render"" Visible=""@sidebarExpanded"" AnimateOnInitialRender=""false"" AnimatedSize=""AnimatedSize.Width"" Height=""Height.Is100"">
+                <Div Height=""Height.Is100"" Background=""Background.Primary"" TextColor=""TextColor.White"" Padding=""Padding.Is3"" Border=""Border.Rounded"" Width=""@SidebarExpandedWidth"">
+                    <Heading Size=""HeadingSize.Is6"" Margin=""Margin.Is0.FromBottom"">
+                        Navigation
+                    </Heading>
+                    <Paragraph TextColor=""TextColor.White50"" Margin=""Margin.Is2.FromTop"">
+                        Swipe left to collapse.
+                    </Paragraph>
+                </Div>
+            </Animate>
+
+            <Div Flex=""Flex.Grow.Is1"" Padding=""Padding.Is2"">
+                <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">
+                    Content
+                </Heading>
+                <Paragraph Margin=""Margin.Is2.FromTop"">
+                    Swipe right to expand the panel and swipe left to collapse it.
+                </Paragraph>
+                <Button Color=""Color.Primary"" Outline Clicked=""@ToggleSidebar"">
+                    <Icon Name=""@( sidebarExpanded ? IconName.Compress : IconName.Expand)"" Margin=""Margin.Is2.FromEnd"" />
+                    @( sidebarExpanded ? ""Collapse"" : ""Expand"" )
+                </Button>
+            </Div>
+        </Div>
+    </Div>
+</Gestures>
+
+@code {
+    private static readonly TimeSpan SidebarAnimationDuration = TimeSpan.FromMilliseconds( 250 );
+
+    private static readonly IFluentSizing SidebarExpandedWidth = Width.Px( 160 );
+
+    private bool sidebarExpanded = true;
+
+    private Task OnSwiped( SwipeEventArgs eventArgs )
+    {
+        if ( eventArgs.Direction == GestureDirection.Left )
+        {
+            sidebarExpanded = false;
+        }
+        else if ( eventArgs.Direction == GestureDirection.Right )
+        {
+            sidebarExpanded = true;
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private void ToggleSidebar()
+    {
+        sidebarExpanded = !sidebarExpanded;
+    }
+}";
+
         public const string BasicHighlighterExample = @"<Field>
     <FieldLabel>Search value</FieldLabel>
     <FieldBody>
@@ -2090,94 +2541,157 @@ namespace Blazorise.Docs.Models
     </Paragraph>
 </Jumbotron>";
 
-        public const string BasicLayoutExample = @"<Layout>
-    <LayoutHeader>
-        Header
+        public const string BasicLayoutExample = @"<Layout Height=""Height.Px(320)""
+        Border=""Border.Is1.Rounded""
+        TextAlignment=""TextAlignment.Center"">
+    <LayoutHeader Background=""Background.Primary""
+                  TextColor=""TextColor.White""
+                  Padding=""Padding.Is3""
+                  Flex=""Flex.JustifyContent.Center.AlignItems.Center"">
+        Sales Portal
     </LayoutHeader>
-    <LayoutContent>
-        Content
+    <LayoutContent Background=""Background.Light""
+                   Padding=""Padding.Is4"">
+        <Card>
+            <CardBody>
+                <Heading Size=""HeadingSize.Is5"">Quarterly pipeline</Heading>
+                <Paragraph Margin=""Margin.Is0"">
+                    Track open opportunities, team activity, and forecast changes from the main content region.
+                </Paragraph>
+            </CardBody>
+        </Card>
     </LayoutContent>
-    <LayoutFooter>
-        Footer
+    <LayoutFooter Background=""Background.Body""
+                  Border=""Border.Is1.OnTop""
+                  Padding=""Padding.Is3"">
+        Updated 12 minutes ago
     </LayoutFooter>
 </Layout>";
 
-        public const string BasicLayoutStyledExample = @"<Layout TextAlignment=""TextAlignment.Center"" Style=""height: 300px;"">
-    <LayoutHeader Style=""background: #7dbcea; color: white; line-height: 60px;"">
-        Header
-    </LayoutHeader>
-    <LayoutContent Style=""background: rgba(16, 142, 233, 1); color: white; line-height: 120px;"">
-        Content
-    </LayoutContent>
-    <LayoutFooter Style=""background: #7dbcea; color: white; line-height: 60px;"">
-        Footer
-    </LayoutFooter>
-</Layout>";
-
-        public const string LayoutWithSiderAndTopHeaderExample = @"<Layout>
-    <LayoutHeader Fixed>
-        Header
+        public const string LayoutWithSiderAndTopHeaderExample = @"<Layout Height=""Height.Px(360)""
+        Border=""Border.Is1.Rounded""
+        Overflow=""Overflow.Hidden"">
+    <LayoutHeader Background=""Background.Primary""
+                  TextColor=""TextColor.White""
+                  Padding=""Padding.Is3"">
+        <Div Width=""Width.Is100""
+             Flex=""Flex.JustifyContent.Between.AlignItems.Center""
+             Gap=""Gap.Is3"">
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Icon Name=""IconName.LayerGroup"" />
+                <Span TextWeight=""TextWeight.SemiBold"">Operations</Span>
+            </Div>
+            <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+                <Button Color=""Color.Light"" Outline>
+                    <Icon Name=""IconName.Bell"" />
+                    <Badge Color=""Color.Warning"" Pill>2</Badge>
+                </Button>
+                <Button Color=""Color.Light"" Outline>
+                    Account
+                </Button>
+            </Div>
+        </Div>
     </LayoutHeader>
     <Layout Sider>
-        <LayoutSider>
-            <LayoutSiderContent>
-                Sider
+        <LayoutSider Width=""Width.Px(230).Min(230).Max(230)""
+                     Background=""Background.Dark""
+                     TextColor=""TextColor.White"">
+            <LayoutSiderContent Width=""Width.Is100"">
+                <Div Padding=""Padding.Is3"" Flex=""Flex.Column"" Gap=""Gap.Is2"">
+                    <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                        <Icon Name=""IconName.Dashboard"" />
+                        <Span>Overview</Span>
+                    </Div>
+                    <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                        <Icon Name=""IconName.Receipt"" />
+                        <Span>Orders</Span>
+                    </Div>
+                    <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                        <Icon Name=""IconName.Users"" />
+                        <Span>Customers</Span>
+                    </Div>
+                </Div>
             </LayoutSiderContent>
         </LayoutSider>
         <Layout>
-            <LayoutContent>
-                Content
+            <LayoutContent Background=""Background.Light""
+                           Padding=""Padding.Is4"">
+                <Row>
+                    <Column ColumnSize=""ColumnSize.Is12.Is6.OnTablet"">
+                        <Card>
+                            <CardBody>
+                                <CardTitle Size=""HeadingSize.Is5"">Fulfillment</CardTitle>
+                                <Paragraph Margin=""Margin.Is0"">84 orders ready for dispatch.</Paragraph>
+                            </CardBody>
+                        </Card>
+                    </Column>
+                    <Column ColumnSize=""ColumnSize.Is12.Is6.OnTablet"">
+                        <Card>
+                            <CardBody>
+                                <CardTitle Size=""HeadingSize.Is5"">Customer health</CardTitle>
+                                <Paragraph Margin=""Margin.Is0"">12 accounts need follow-up.</Paragraph>
+                            </CardBody>
+                        </Card>
+                    </Column>
+                </Row>
             </LayoutContent>
         </Layout>
     </Layout>
 </Layout>";
 
-        public const string LayoutWithSiderAndTopHeaderStyledExample = @"<Layout TextAlignment=""TextAlignment.Center"">
-    <LayoutHeader Fixed Style=""background: #7dbcea; color: white; line-height: 60px; z-index: 10;"">
-        Header
-    </LayoutHeader>
-    <Layout Sider Style=""height: 240px;"">
-        <LayoutSider Style=""flex: 0 0 100px; width: 100px; max-width: 100px; min-width: 100px; background: #3ba0e9; color: white; line-height: 120px;"">
-            <LayoutSiderContent>
-                Sider
-            </LayoutSiderContent>
-        </LayoutSider>
-        <Layout>
-            <LayoutContent Style=""background: rgba(16, 142, 233, 1); color: white; line-height: 120px;"">
-                Content
-            </LayoutContent>
-        </Layout>
-    </Layout>
-</Layout>";
-
-        public const string LayoutWithSiderExample = @"<Layout Sider>
-    <LayoutSider>
-        <LayoutSiderContent>
-            Sider
+        public const string LayoutWithSiderExample = @"<Layout Sider
+        Height=""Height.Px(360)""
+        Border=""Border.Is1.Rounded""
+        Overflow=""Overflow.Hidden"">
+    <LayoutSider Width=""Width.Px(230).Min(230).Max(230)""
+                 Background=""Background.Dark""
+                 TextColor=""TextColor.White"">
+        <LayoutSiderContent Width=""Width.Is100"">
+            <Div Padding=""Padding.Is3"" Flex=""Flex.Column"" Gap=""Gap.Is2"">
+                <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                    <Icon Name=""IconName.Briefcase"" />
+                    <Span TextWeight=""TextWeight.SemiBold"">Workspace</Span>
+                </Div>
+                <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                    <Icon Name=""IconName.FolderOpen"" />
+                    <Span>Projects</Span>
+                </Div>
+                <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                    <Icon Name=""IconName.Calendar"" />
+                    <Span>Calendar</Span>
+                </Div>
+                <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"" Padding=""Padding.Is2"">
+                    <Icon Name=""IconName.FileAlt"" />
+                    <Span>Files</Span>
+                </Div>
+            </Div>
         </LayoutSiderContent>
     </LayoutSider>
     <Layout>
-        <LayoutHeader Fixed>
-            Header
+        <LayoutHeader Background=""Background.Body""
+                      Border=""Border.Is1.OnBottom""
+                      Padding=""Padding.Is3""
+                      Flex=""Flex.JustifyContent.Between.AlignItems.Center"">
+            <Div>
+                <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0"">
+                    Project Alpha
+                </Heading>
+                <Small TextColor=""TextColor.Muted"">Workspace dashboard</Small>
+            </Div>
+            <Button Color=""Color.Primary"">
+                Share
+            </Button>
         </LayoutHeader>
-        <LayoutContent>
-            Content
-        </LayoutContent>
-    </Layout>
-</Layout>";
-
-        public const string LayoutWithSiderStyledExample = @"<Layout Sider TextAlignment=""TextAlignment.Center"">
-    <LayoutSider Style=""flex: 0 0 100px; width: 100px; max-width: 100px; min-width: 100px; background: #3ba0e9; color: white; line-height: 120px;"">
-        <LayoutSiderContent>
-            Sider
-        </LayoutSiderContent>
-    </LayoutSider>
-    <Layout Style=""height: 300px;"">
-        <LayoutHeader Fixed Style=""background: #7dbcea; color: white; line-height: 60px; z-index: 10;"">
-            Header
-        </LayoutHeader>
-        <LayoutContent Style=""background: rgba(16, 142, 233, 1); color: white; line-height: 120px;"">
-            Content
+        <LayoutContent Background=""Background.Light""
+                       Padding=""Padding.Is4"">
+            <Card>
+                <CardBody>
+                    <CardTitle Size=""HeadingSize.Is5"">Current sprint</CardTitle>
+                    <Paragraph Margin=""Margin.Is0"">
+                        18 tasks open, 6 in review, and 3 blocked by external dependencies.
+                    </Paragraph>
+                </CardBody>
+            </Card>
         </LayoutContent>
     </Layout>
 </Layout>";
@@ -4888,20 +5402,49 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     </TextInput>
 </Validation>";
 
-        public const string ValidationFeedbackExample = @"<Validation Validator=""@ValidateCheck"">
-    <Check TValue=""bool"">
-        <ChildContent>
-            Check me out
-        </ChildContent>
+        public const string ValidationFeedbackExample = @"<Validation Validator=""@ValidateDisplayName"">
+    <TextInput Placeholder=""Enter display name"">
         <Feedback>
-            <ValidationError>You must check me out!</ValidationError>
+            <ValidationNone>Please enter a display name.</ValidationNone>
+            <ValidationWarning>Short display names are allowed, but longer names are easier to recognize.</ValidationWarning>
+            <ValidationSuccess>Display name looks good.</ValidationSuccess>
+            <ValidationError>Display name is required.</ValidationError>
         </Feedback>
-    </Check>
+    </TextInput>
+</Validation>
+
+<Validation Validator=""@ValidateUserName"">
+    <TextInput Placeholder=""Enter username"">
+        <Feedback>
+            <ValidationFeedback>
+                <None>Please enter a username.</None>
+                <Warning>Short usernames are allowed, but longer usernames are easier to identify.</Warning>
+                <Success>Username looks good.</Success>
+                <Error>Username is required.</Error>
+            </ValidationFeedback>
+        </Feedback>
+    </TextInput>
 </Validation>
 @code{
-    void ValidateCheck( ValidatorEventArgs e )
+    void ValidateDisplayName( ValidatorEventArgs e )
     {
-        // ...
+        ValidateNameLength( e );
+    }
+
+    void ValidateUserName( ValidatorEventArgs e )
+    {
+        ValidateNameLength( e );
+    }
+
+    void ValidateNameLength( ValidatorEventArgs e )
+    {
+        var name = Convert.ToString( e.Value );
+
+        e.Status = string.IsNullOrWhiteSpace( name )
+            ? ValidationStatus.Error
+            : name.Length < 4
+                ? ValidationStatus.Warning
+                : ValidationStatus.Success;
     }
 }";
 
@@ -5039,72 +5582,72 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string AnalyzerInstallStableExample = @"dotnet add package Blazorise.Analyzers";
 
-        public const string AnalyzerPackageReferenceExample = @"<PackageReference Include=""Blazorise.Analyzers"" Version=""2.1.1"" PrivateAssets=""all"" />";
+        public const string AnalyzerPackageReferenceExample = @"<PackageReference Include=""Blazorise.Analyzers"" Version=""2.1.2"" PrivateAssets=""all"" />";
 
         public const string AnalyzerSeverityExample = @"dotnet_diagnostic.BLZP004.severity = error";
 
-        public const string AnimateScriptsExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=2.1.1.0""></script>";
+        public const string AnimateScriptsExample = @"<!-- No script tag is required. Animate imports its JavaScript module automatically. -->";
 
-        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/bar.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.AntDesign/modal.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.AntDesign/segmented.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.AntDesign/tooltip.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.AntDesign/wave.js?v=2.1.1.0"" type=""module""></script>";
+        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/bar.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/modal.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/segmented.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/tooltip.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/wave.js?v=2.1.2.0"" type=""module""></script>";
 
-        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=2.1.1.0"" type=""module""></script>";
+        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=2.1.2.0"" type=""module""></script>";
 
-        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=2.1.1.0"" type=""module""></script>";
+        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=2.1.2.0"" type=""module""></script>";
 
-        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bulma/tooltip.js?v=2.1.1.0"" type=""module""></script>";
+        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bulma/tooltip.js?v=2.1.2.0"" type=""module""></script>";
 
         public const string ButtonJavascriptMockTestingExample = @"JSInterop.AddBlazoriseButton();";
 
-        public const string CaptchaReCaptchaScriptsExample = @"<script src=""_content/Blazorise.Captcha.ReCaptcha/blazorise.recaptcha.js?v=2.1.1.0"" type=""module""></script>";
+        public const string CaptchaReCaptchaScriptsExample = @"<script src=""_content/Blazorise.Captcha.ReCaptcha/blazorise.recaptcha.js?v=2.1.2.0"" type=""module""></script>";
 
-        public const string ChartsAnnotationScriptsExample = @"<script src=""_content/Blazorise.Charts.Annotation/chart.annotation.js?v=2.1.1.0"" type=""module""></script>";
+        public const string ChartsAnnotationScriptsExample = @"<script src=""_content/Blazorise.Charts.Annotation/chart.annotation.js?v=2.1.2.0"" type=""module""></script>";
 
-        public const string ChartsDataLabelsScriptsExample = @"<script src=""_content/Blazorise.Charts.DataLabels/chart.datalabels.js?v=2.1.1.0"" type=""module""></script>";
+        public const string ChartsDataLabelsScriptsExample = @"<script src=""_content/Blazorise.Charts.DataLabels/chart.datalabels.js?v=2.1.2.0"" type=""module""></script>";
 
-        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=2.1.1.0"" type=""module""></script>";
+        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=2.1.2.0"" type=""module""></script>";
 
-        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.1.1.0"" type=""module""></script>";
+        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.1.2.0"" type=""module""></script>";
 
-        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.1.1.0"" type=""module""></script>";
+        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.1.2.0"" type=""module""></script>";
 
-        public const string ChartsZoomScriptsExample = @"<script src=""_content/Blazorise.Charts.Zoom/chart.zoom.js?v=2.1.1.0"" type=""module""></script>";
+        public const string ChartsZoomScriptsExample = @"<script src=""_content/Blazorise.Charts.Zoom/chart.zoom.js?v=2.1.2.0"" type=""module""></script>";
 
-        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/button.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/closable.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/colorPicker.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/datePicker.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/dragDrop.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/dropdown.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/fileInput.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/filePicker.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/floatingUi.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/inputMask.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/io.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/memoInput.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/modal.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/numericPicker.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/observer.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/rangeSlider.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/table.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/textInput.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/theme.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/timePicker.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/tooltip.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/utilities.js?v=2.1.1.0"" type=""module""></script>";
+        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/button.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/closable.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/colorPicker.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/datePicker.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/dragDrop.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/dropdown.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/fileInput.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/filePicker.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/floatingUi.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/inputMask.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/io.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/memoInput.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/modal.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/numericPicker.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/observer.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/rangeSlider.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/table.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/textInput.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/theme.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/timePicker.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/tooltip.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/utilities.js?v=2.1.2.0"" type=""module""></script>";
 
         public const string ComponentsImportExample = @"@using Blazorise.Components";
 
-        public const string CropperScriptsExample = @"<script src=""_content/Blazorise.Cropper/blazorise.cropper.js?v=2.1.1.0"" type=""module""></script>";
+        public const string CropperScriptsExample = @"<script src=""_content/Blazorise.Cropper/blazorise.cropper.js?v=2.1.2.0"" type=""module""></script>";
 
-        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=2.1.1.0"" type=""module""></script>";
+        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=2.1.2.0"" type=""module""></script>";
 
         public const string EmptyProviderExample = @"public void ConfigureServices( IServiceCollection services )
 {
@@ -5112,18 +5655,18 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     .AddEmptyProviders();
 }";
 
-        public const string FluentUI2ScriptsExample = @"<script src=""_content/Blazorise.FluentUI2/modal.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.FluentUI2/tooltip.js?v=2.1.1.0"" type=""module""></script>";
+        public const string FluentUI2ScriptsExample = @"<script src=""_content/Blazorise.FluentUI2/modal.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.FluentUI2/tooltip.js?v=2.1.2.0"" type=""module""></script>";
 
-        public const string GanttScriptsExample = @"<script src=""_content/Blazorise.Gantt/gantt.js?v=2.1.1.0"" type=""module""></script>";
+        public const string GanttScriptsExample = @"<script src=""_content/Blazorise.Gantt/gantt.js?v=2.1.2.0"" type=""module""></script>";
 
-        public const string LottieAnimationScriptsExample = @"<script src=""_content/Blazorise.LottieAnimation/lottie-animation.js?v=2.1.1.0"" type=""module""></script>";
+        public const string LottieAnimationScriptsExample = @"<script src=""_content/Blazorise.LottieAnimation/lottie-animation.js?v=2.1.2.0"" type=""module""></script>";
 
-        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=2.1.1.0"" type=""module""></script>";
+        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=2.1.2.0"" type=""module""></script>";
 
-        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/blazorise.material.js?v=2.1.1.0""></script>
-<script src=""_content/Blazorise.Material/modal.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Material/tooltip.js?v=2.1.1.0"" type=""module""></script>";
+        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/blazorise.material.js?v=2.1.2.0""></script>
+<script src=""_content/Blazorise.Material/modal.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.Material/tooltip.js?v=2.1.2.0"" type=""module""></script>";
 
         public const string McpClientConfigExample = @"{
   ""servers"": {
@@ -5166,20 +5709,20 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
         public const string MigrationSmokeTestExample = @"blazorise-migrate --version";
 
-        public const string PdfViewerScriptsExample = @"<script src=""_content/Blazorise.PdfViewer/pdfviewer.js?v=2.1.1.0"" type=""module""></script>";
+        public const string PdfViewerScriptsExample = @"<script src=""_content/Blazorise.PdfViewer/pdfviewer.js?v=2.1.2.0"" type=""module""></script>";
 
-        public const string QRCodeScriptsExample = @"<script src=""_content/Blazorise.QRCode/blazorise.qrcode.js?v=2.1.1.0"" type=""module""></script>";
+        public const string QRCodeScriptsExample = @"<script src=""_content/Blazorise.QRCode/blazorise.qrcode.js?v=2.1.2.0"" type=""module""></script>";
 
-        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=2.1.1.0"" type=""module""></script>";
+        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=2.1.2.0"" type=""module""></script>";
 
-        public const string SchedulerScriptsExample = @"<script src=""_content/Blazorise.Scheduler/scheduler.js?v=2.1.1.0"" type=""module""></script>";
+        public const string SchedulerScriptsExample = @"<script src=""_content/Blazorise.Scheduler/scheduler.js?v=2.1.2.0"" type=""module""></script>";
 
         public const string SignaturePadScriptsExample = @"<script src=""_content/Blazorise.SignaturePad/signaturepad.js"" type=""module""></script>";
 
-        public const string SplitterScriptsExample = @"<script src=""_content/Blazorise.Splitter/blazorise.splitter.js?v=2.1.1.0"" type=""module""></script>";
+        public const string SplitterScriptsExample = @"<script src=""_content/Blazorise.Splitter/blazorise.splitter.js?v=2.1.2.0"" type=""module""></script>";
 
-        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=2.1.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Tailwind/tooltip.js?v=2.1.1.0"" type=""module""></script>";
+        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=2.1.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.Tailwind/tooltip.js?v=2.1.2.0"" type=""module""></script>";
 
         public const string TemplatesCLIUsageExample = @"dotnet new blazorise -n MyNewBlazoriseApp -p Bootstrap5 -bh Server -ut false -f net10.0";
 
@@ -5189,7 +5732,48 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
         public const string TestingbUnitNugetExample = @"Install-Package Blazorise.Tests.bUnit";
 
-        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=2.1.1.0"" type=""module""></script>";
+        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=2.1.2.0"" type=""module""></script>";
+
+        public const string AnimateCustomExample = @"<Div Display=""Display.Flex"" Flex=""Flex.Column"" Gap=""Gap.Is3"">
+    <Div>
+        <Button Color=""Color.Primary"" Clicked=""@RunAnimation"">
+            Run custom animation
+        </Button>
+    </Div>
+
+    <Animate @ref=""@animateRef"" Auto=""false"" Animation=""@SoftEnter"" Easing=""@SoftBack"" Trigger=""AnimationTrigger.Render"" DurationMilliseconds=""360"">
+        <Card Width=""Width.Px( 320 )"">
+            <CardBody>
+                <CardTitle Size=""HeadingSize.Is6"">Custom keyframes</CardTitle>
+                <CardText>
+                    This animation is defined in C# with opacity, translation, scale, and rotation keyframes.
+                </CardText>
+            </CardBody>
+        </Card>
+    </Animate>
+</Div>
+
+@code {
+    private static readonly IAnimation SoftEnter = new AnimationDefinition(
+        ""soft-enter"",
+        new[]
+        {
+            new AnimationFrame { Opacity = 0, Y = ""1rem"", Scale = 0.96, Rotate = ""-2deg"" },
+            new AnimationFrame { Opacity = 0.7, Y = ""0.25rem"", Scale = 1.02, Rotate = ""1deg"" },
+            new AnimationFrame { Opacity = 1, Y = ""0"", Scale = 1, Rotate = ""0deg"" },
+        } );
+
+    private static readonly IEasing SoftBack = new EasingDefinition(
+        ""soft-back"",
+        new[] { 0.175, 0.885, 0.32, 1.275 } );
+
+    private Blazorise.Animate.Animate animateRef;
+
+    private void RunAnimation()
+    {
+        animateRef?.Run();
+    }
+}";
 
         public const string AnimateExample = @"<Field>
     <Select TValue=""string"" ValueChanged=""@OnSelectedAnimationChanged"">
@@ -5255,9 +5839,138 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
         public const string AnimateImportsExample = @"@using Blazorise.Animate";
 
+        public const string AnimateLayoutExample = @"<Div Display=""Display.Flex"" Flex=""Flex.Column"" Gap=""Gap.Is3"">
+    <Div>
+        <Button Color=""Color.Primary"" Outline Clicked=""@TogglePanel"">
+            @( panelVisible ? ""Collapse panel"" : ""Expand panel"" )
+        </Button>
+    </Div>
+
+    <Div Flex=""Flex.Row.AlignItems.Stretch"" Border=""Border.Is1.Rounded"" Background=""Background.Light"" Height=""Height.Px( 220 )"" Overflow=""Overflow.Hidden"">
+        <Animate Animation=""Animations.SlideRight"" Trigger=""AnimationTrigger.Render"" Visible=""@panelVisible"" AnimateOnInitialRender=""false"" AnimatedSize=""AnimatedSize.Width"" DurationMilliseconds=""250"" Height=""Height.Is100"">
+            <Div Width=""Width.Px( 180 )"" Height=""Height.Is100"" Background=""Background.Primary"" TextColor=""TextColor.White"" Padding=""Padding.Is3"">
+                <Heading Size=""HeadingSize.Is6"" Margin=""Margin.Is0.FromBottom"">
+                    Filters
+                </Heading>
+                <Paragraph TextColor=""TextColor.White50"" Margin=""Margin.Is2.FromTop"">
+                    Width is animated together with the slide.
+                </Paragraph>
+            </Div>
+        </Animate>
+
+        <Div Flex=""Flex.Grow.Is1"" Padding=""Padding.Is3"">
+            <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">
+                Results
+            </Heading>
+            <Paragraph Margin=""Margin.Is2.FromTop"">
+                The content area moves because the animated panel changes its occupied width.
+            </Paragraph>
+        </Div>
+    </Div>
+</Div>
+
+@code {
+    private bool panelVisible = true;
+
+    private void TogglePanel()
+    {
+        panelVisible = !panelVisible;
+    }
+}";
+
+        public const string AnimateManualExample = @"<Div Display=""Display.Flex"" Flex=""Flex.Column"" Gap=""Gap.Is3"">
+    <Div>
+        <Button Color=""Color.Primary"" Clicked=""@RunAnimation"">
+            Run animation
+        </Button>
+    </Div>
+
+    <Animate @ref=""@animateRef"" Auto=""false"" Animation=""Animations.ZoomIn"" Trigger=""AnimationTrigger.Render"" DurationMilliseconds=""250"">
+        <Card Width=""Width.Px( 260 )"">
+            <CardBody>
+                <CardTitle Size=""HeadingSize.Is6"">Manual animation</CardTitle>
+                <CardText>
+                    The component renders and animates when <Code>Run()</Code> is called.
+                </CardText>
+            </CardBody>
+        </Card>
+    </Animate>
+</Div>
+
+@code {
+    private Blazorise.Animate.Animate animateRef;
+
+    private void RunAnimation()
+    {
+        animateRef?.Run();
+    }
+}";
+
         public const string AnimateNugetInstallExample = @"Install-Package Blazorise.Animate";
 
-        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=2.1.1.0""></script>";
+        public const string AnimateResourcesExample = @"<!-- No script tag is required. Animate imports its JavaScript module automatically. -->";
+
+        public const string AnimateViewportExample = @"<Div ElementId=""animate-viewport-example"" Padding=""Padding.Is3"">
+    <Div Flex=""Flex.Row.Wrap"" Gap=""Gap.Is3"">
+        <Animate Anchor=""#animate-viewport-example"" Animation=""Animations.FadeUp"" DurationMilliseconds=""250"" Once>
+            <Card Width=""Width.Px( 220 )"">
+                <CardBody>
+                    <CardTitle Size=""HeadingSize.Is6"">Profile</CardTitle>
+                    <CardText>
+                        Reveal content as it enters the viewport.
+                    </CardText>
+                </CardBody>
+            </Card>
+        </Animate>
+
+        <Animate Anchor=""#animate-viewport-example"" Animation=""Animations.FadeUp"" DurationMilliseconds=""250"" DelayMilliseconds=""100"" Once>
+            <Card Width=""Width.Px( 220 )"">
+                <CardBody>
+                    <CardTitle Size=""HeadingSize.Is6"">Activity</CardTitle>
+                    <CardText>
+                        Add a small delay to create a simple sequence.
+                    </CardText>
+                </CardBody>
+            </Card>
+        </Animate>
+
+        <Animate Anchor=""#animate-viewport-example"" Animation=""Animations.FadeUp"" DurationMilliseconds=""250"" DelayMilliseconds=""200"" Once>
+            <Card Width=""Width.Px( 220 )"">
+                <CardBody>
+                    <CardTitle Size=""HeadingSize.Is6"">Summary</CardTitle>
+                    <CardText>
+                        Keep the animation vocabulary in Blazor code.
+                    </CardText>
+                </CardBody>
+            </Card>
+        </Animate>
+    </Div>
+</Div>";
+
+        public const string AnimateVisibilityExample = @"<Div Display=""Display.Flex"" Flex=""Flex.Column"" Gap=""Gap.Is3"">
+    <Div>
+        <Button Color=""Color.Primary"" Outline Clicked=""@ToggleDetails"">
+            @( detailsVisible ? ""Hide details"" : ""Show details"" )
+        </Button>
+    </Div>
+
+    <Animate Animation=""Animations.FadeDown"" Trigger=""AnimationTrigger.Render"" Visible=""@detailsVisible"" AnimateOnInitialRender=""false"" DurationMilliseconds=""220"">
+        <Alert Color=""Color.Info"" Visible>
+            <AlertDescription>
+                This content stays in normal Blazor markup. The animation is controlled by the <Code>Visible</Code> parameter.
+            </AlertDescription>
+        </Alert>
+    </Animate>
+</Div>
+
+@code {
+    private bool detailsVisible = true;
+
+    private void ToggleDetails()
+    {
+        detailsVisible = !detailsVisible;
+    }
+}";
 
         public const string AutocompleteDataAnnotationValidationExample = @"@using System.ComponentModel.DataAnnotations
 
@@ -5718,6 +6431,56 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
     public string selectedSearchValue { get; set; }
 }";
+
+        public const string BarcodeStylingExample = @"<Barcode Value=""BLAZORISE""
+         Type=""BarcodeType.Code128""
+         RenderMode=""BarcodeRenderMode.Svg""
+         ForegroundColor=""#7474ed""
+         BackgroundColor=""#f7f7ff""
+         ShowValue
+         ValueAlignment=""BarcodeValueAlignment.End""
+         SymbolHeight=""20""
+         PaddingTop=""8""
+         PaddingEnd=""8""
+         PaddingBottom=""8""
+         PaddingStart=""8"" />";
+
+        public const string BarcodeTargetDimensionsExample = @"<Barcode Value=""5901234123457""
+         Type=""BarcodeType.Ean13""
+         RenderMode=""BarcodeRenderMode.Canvas""
+         ShowValue
+         SymbolWidth=""45""
+         SymbolHeight=""18""
+         Scale=""3"" />";
+
+        public const string BarcodeTypesExample = @"<Grid Columns=""GridColumns.Are1.OnTablet.Are2.OnDesktop"">
+    <Column>
+        <Div Flex=""Flex.Column"" Gap=""Gap.Is2"">
+            <Text TextWeight=""TextWeight.SemiBold"">Code 128</Text>
+            <Barcode Value=""0123456789"" Type=""BarcodeType.Code128"" ShowValue SymbolHeight=""16"" />
+        </Div>
+    </Column>
+    <Column>
+        <Div Flex=""Flex.Column"" Gap=""Gap.Is2"">
+            <Text TextWeight=""TextWeight.SemiBold"">EAN-13</Text>
+            <Barcode Value=""5901234123457"" Type=""BarcodeType.Ean13"" ShowValue SymbolHeight=""16"" />
+        </Div>
+    </Column>
+    <Column>
+        <Div Flex=""Flex.Column"" Gap=""Gap.Is2"">
+            <Text TextWeight=""TextWeight.SemiBold"">QR Code</Text>
+            <Barcode Value=""https://blazorise.com"" Type=""BarcodeType.QrCode"" SymbolWidth=""32"" SymbolHeight=""32"" />
+        </Div>
+    </Column>
+    <Column>
+        <Div Flex=""Flex.Column"" Gap=""Gap.Is2"">
+            <Text TextWeight=""TextWeight.SemiBold"">Data Matrix</Text>
+            <Barcode Value=""Blazorise"" Type=""BarcodeType.DataMatrix"" SymbolWidth=""32"" SymbolHeight=""32"" />
+        </Div>
+    </Column>
+</Grid>";
+
+        public const string BasicBarcodeExample = @"<Barcode Value=""0123456789"" Type=""BarcodeType.Code128"" ShowValue SymbolHeight=""20"" />";
 
         public const string CaptchaImportsExample = @"@using Blazorise.Captcha";
 
@@ -11077,13 +11840,13 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     }
 }";
 
-        public const string AntDesignIconsCSSExample = @"<link href=""_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.1.1.0"" rel=""stylesheet"" />";
+        public const string AntDesignIconsCSSExample = @"<link href=""_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.1.2.0"" rel=""stylesheet"" />";
 
-        public const string BootstrapIconsCSSExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css?v=2.1.1.0"">";
+        public const string BootstrapIconsCSSExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css?v=2.1.2.0"">";
 
-        public const string FluentIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.1.1.0"" rel=""stylesheet"" />";
+        public const string FluentIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.1.2.0"" rel=""stylesheet"" />";
 
-        public const string FontAwesomeCSSExample = @"<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.1.1.0"" rel=""stylesheet"">";
+        public const string FontAwesomeCSSExample = @"<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.1.2.0"" rel=""stylesheet"">";
 
         public const string IconBasicExample = @"<Icon Name=""IconName.Mail"" />";
 
@@ -11138,9 +11901,9 @@ or
 
 Install-Package Blazorise.Icons.Material";
 
-        public const string LucideIconsCSSExample = @"<link href=""_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.1.1.0"" rel=""stylesheet"" />";
+        public const string LucideIconsCSSExample = @"<link href=""_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.1.2.0"" rel=""stylesheet"" />";
 
-        public const string MaterialCSSExample = @"<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.1.1.0"" rel=""stylesheet"" />";
+        public const string MaterialCSSExample = @"<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.1.2.0"" rel=""stylesheet"" />";
 
         public const string RegistrationsExample = @"builder.Services
 	.AddBlazorise()
@@ -13713,6 +14476,70 @@ builder.Services
     }
 }";
 
+        public const string TreeViewDragDropExample = @"@using System.Collections.ObjectModel
+@using Blazorise.TreeView.EventArguments
+
+<TreeView Nodes=""Items""
+          GetChildNodes=""@(item => item.Children)""
+          HasChildNodes=""@(item => item.Children?.Any() == true)""
+          @bind-ExpandedNodes=""expandedNodes""
+          Draggable
+          Reorderable
+          CanDragNode=""@(item => !item.Locked)""
+          CanDropNode=""CanDropNode"">
+    <NodeContent>
+        <Icon Name=""IconName.Folder"" />
+        @context.Text
+        @if ( context.Locked )
+        {
+            <Badge Color=""Color.Warning"" Margin=""Margin.Is2.FromStart"">Locked</Badge>
+        }
+    </NodeContent>
+</TreeView>
+
+@code {
+    public class Item
+    {
+        public string Text { get; set; }
+        public ObservableCollection<Item> Children { get; } = new();
+        public bool Locked { get; set; }
+    }
+
+    ObservableCollection<Item> Items = new()
+    {
+        new Item { Text = ""Documents"" },
+        new Item
+        {
+            Text = ""Projects"",
+            Children =
+            {
+                new Item { Text = ""Blazorise"" },
+                new Item { Text = ""Roadmap"" },
+                new Item { Text = ""Archive"", Locked = true },
+            }
+        },
+        new Item
+        {
+            Text = ""Media"",
+            Children =
+            {
+                new Item { Text = ""Images"" },
+                new Item { Text = ""Videos"" },
+            }
+        },
+    };
+
+    IList<Item> expandedNodes;
+
+    protected override void OnInitialized()
+    {
+        expandedNodes = Items.Where( item => item.Children.Any() ).ToList();
+    }
+
+    private bool CanDropNode( TreeViewNodeDragEventArgs<Item> args )
+        => args.NewParentNode?.Locked is not true;
+}";
+
         public const string TreeViewExample = @"<TreeView Nodes=""Items""
           GetChildNodes=""@(item => item.Children)""
           HasChildNodes=""@(item => item.Children?.Any() == true)""
@@ -14052,11 +14879,11 @@ builder.Services
     .AddAntDesignProviders()
     .AddAntDesignIcons();";
 
-        public const string AntDesignGuideSourceFilesExample = @"<link href=""_content/Blazorise.AntDesign/antd.css?v=2.1.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.1.1.0"" rel=""stylesheet"" />
+        public const string AntDesignGuideSourceFilesExample = @"<link href=""_content/Blazorise.AntDesign/antd.css?v=2.1.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.1.2.0"" rel=""stylesheet"" />
 
-<link href=""_content/Blazorise/blazorise.css?v=2.1.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.1.1.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.1.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.1.2.0"" rel=""stylesheet"" />";
 
         public const string AntDesignGuideUsingExample = @"@using Blazorise";
 
@@ -14079,8 +14906,8 @@ builder.Services
         public const string BootstrapGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"" integrity=""sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"" crossorigin=""anonymous"">
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=2.1.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=2.1.1.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.1.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=2.1.2.0"" rel=""stylesheet"" />";
 
         public const string BootstrapGuideUsingExample = @"@using Blazorise";
 
@@ -14103,8 +14930,8 @@ builder.Services
         public const string Bootstrap5GuideSourceFilesExample = @"<link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"" crossorigin=""anonymous"">
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=2.1.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.1.1.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.1.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.1.2.0"" rel=""stylesheet"" />";
 
         public const string Bootstrap5GuideUsingExample = @"@using Blazorise";
 
@@ -14125,10 +14952,10 @@ builder.Services
     .AddLucideIcons();";
 
         public const string BulmaGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"" />
-<link href=""_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.1.1.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.1.2.0"" rel=""stylesheet"" />
 
-<link href=""_content/Blazorise/blazorise.css?v=2.1.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bulma/blazorise.bulma.css?v=2.1.1.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.1.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bulma/blazorise.bulma.css?v=2.1.2.0"" rel=""stylesheet"" />";
 
         public const string BulmaGuideUsingExample = @"@using Blazorise";
 
@@ -14155,11 +14982,11 @@ builder.Services
     .AddFluentUI2Providers()
     .AddFluentUIIcons();";
 
-        public const string FluentUI2GuideSourceFiles1Example = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.1.1.0"" rel=""stylesheet"" />
+        public const string FluentUI2GuideSourceFiles1Example = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.1.2.0"" rel=""stylesheet"" />
 
-<link href=""_content/Blazorise/blazorise.css?v=2.1.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.FluentUI2/reboot.css?v=2.1.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.1.1.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.1.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.FluentUI2/reboot.css?v=2.1.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.1.2.0"" rel=""stylesheet"" />";
 
         public const string FluentUI2GuideUsingExample = @"@using Blazorise";
 
@@ -14212,12 +15039,12 @@ builder.Services
 <!-- Required when using Blazorise.Icons.Material -->
 <link href=""https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=2.1.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Material/blazorise.material.css?v=2.1.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.1.1.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise/blazorise.css?v=2.1.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Material/blazorise.material.css?v=2.1.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.1.2.0"" rel=""stylesheet"" />
 
 <!-- Before </body> (before the Blazor framework script) -->
-<script src=""_content/Blazorise.Material/blazorise.material.js?v=2.1.1.0""></script>";
+<script src=""_content/Blazorise.Material/blazorise.material.js?v=2.1.2.0""></script>";
 
         public const string MaterialGuideUsingExample = @"@using Blazorise";
 
@@ -14240,8 +15067,8 @@ builder.Services
 <link href=""https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css"" rel=""stylesheet"" />
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-<link href=""_content/Blazorise/blazorise.css?v=2.1.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.1.1.0"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css?v=2.1.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.1.2.0"" rel=""stylesheet"" />";
 
         public const string TailwindGuideUsingExample = @"@using Blazorise";
 

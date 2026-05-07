@@ -259,3 +259,7 @@ fieldset.mui-row > legend.mui-field-label-horizontal {
 .mui-field:has(> :is(.mui-input, .mui-select).is-valid, > .mui-field-body > :is(.mui-input, .mui-select).is-valid) > .mui-field-label:not(.mui-field-label-horizontal) {
     color: var(--mui-success);
 }
+
+.mui-field:has(> :is(.mui-input, .mui-select).is-warning, > .mui-field-body > :is(.mui-input, .mui-select).is-warning) > .mui-field-label:not(.mui-field-label-horizontal) {
+    color: var(--mui-warning);
+}

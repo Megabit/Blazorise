@@ -1,0 +1,275 @@
+@page "/tests/gestures"
+
+<Card Shadow="Shadow.Default" Margin="Margin.Is4.OnY">
+    <CardBody>
+        <Div Flex="Flex.Column.Row.OnDesktop.JustifyContent.Between.AlignItems.Start.AlignItems.Center.OnDesktop" Gap="Gap.Is3">
+            <Div>
+                <Heading Size="HeadingSize.Is3" Margin="Margin.Is0.FromBottom">Gestures</Heading>
+                <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop">
+                    Swipe inside the demo areas to change the gallery item or toggle the side panel.
+                </Paragraph>
+            </Div>
+            <Div Flex="Flex.Wrap" Gap="Gap.Is2">
+                <Badge Color="Color.Primary" Pill>@gestureState</Badge>
+                <Badge Color="Color.Info" Pill>@lastDirection</Badge>
+                <Badge Color="Color.Secondary" Pill>Delta X: @lastDeltaX</Badge>
+                <Badge Color="Color.Secondary" Pill>Velocity: @lastVelocity</Badge>
+            </Div>
+        </Div>
+    </CardBody>
+</Card>
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is7.OnDesktop.Is12.OnMobile">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Swipe gallery</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Gestures Direction="GestureDirection.Horizontal"
+                          TouchAction="GestureTouchAction.PanY"
+                          Swiped="@OnGallerySwiped"
+                          Tapped="@OnTapped"
+                          LongPressed="@OnLongPressed"
+                          GestureStarted="@OnGestureStarted"
+                          GestureMoved="@OnGestureMoved"
+                          GestureEnded="@OnGestureEnded">
+                    <Card Background="@ActiveSlide.Background" TextColor="TextColor.White" Style="min-height: 260px; user-select: none;">
+                        <CardBody Padding="Padding.Is5">
+                            <Div Flex="Flex.Column.JustifyContent.Between" Style="min-height: 220px;">
+                                <Div>
+                                    <Badge Color="Color.Light" TextColor="TextColor.Dark" Pill>
+                                        @( activeSlideIndex + 1 ) / @slides.Count
+                                    </Badge>
+                                    <Heading Size="HeadingSize.Is2" Margin="Margin.Is4.FromTop.Is2.FromBottom">
+                                        @ActiveSlide.Title
+                                    </Heading>
+                                    <Paragraph TextColor="TextColor.White50">
+                                        @ActiveSlide.Description
+                                    </Paragraph>
+                                </Div>
+                                <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                                    <Button Color="Color.Light" Outline Clicked="@ShowPreviousSlide">
+                                        <Icon Name="IconName.ArrowLeft" />
+                                    </Button>
+                                    <Badge Color="Color.Light" TextColor="TextColor.Dark" Pill>
+                                        Swipe left or right
+                                    </Badge>
+                                    <Button Color="Color.Light" Outline Clicked="@ShowNextSlide">
+                                        <Icon Name="IconName.ArrowRight" />
+                                    </Button>
+                                </Div>
+                            </Div>
+                        </CardBody>
+                    </Card>
+                </Gestures>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.Is5.OnDesktop.Is12.OnMobile">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Side panel</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Gestures Direction="GestureDirection.Horizontal"
+                          TouchAction="GestureTouchAction.PanY"
+                          Swiped="@OnSidebarSwiped">
+                    <Div Flex="Flex.Row" Border="Border.Is1.Rounded" Background="Background.Light" Padding="Padding.Is3" Height="Height.Px( 260 )" Style="user-select: none;">
+                        <Div Flex="Flex.Row.Grow.Is1.AlignItems.Stretch" Gap="Gap.Is3">
+                            <Animate Animation="Animations.SlideRight" Duration="@SidebarAnimationDuration" Trigger="AnimationTrigger.Render" Visible="@sidebarVisible" AnimateOnInitialRender="false" AnimatedSize="AnimatedSize.Width" Height="Height.Is100">
+                                <Div Background="Background.Primary" TextColor="TextColor.White" Padding="Padding.Is3" Border="Border.Rounded" Width="@SidebarExpandedWidth" Height="Height.Is100">
+                                    <Heading Size="HeadingSize.Is6" Margin="Margin.Is0.FromBottom">Panel</Heading>
+                                    <Paragraph TextColor="TextColor.White50" Margin="Margin.Is2.FromTop">
+                                        Swipe left to collapse.
+                                    </Paragraph>
+                                </Div>
+                            </Animate>
+                            <Div Flex="Flex.Grow.Is1" Padding="Padding.Is2">
+                                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.FromBottom">
+                                    Content area
+                                </Heading>
+                                <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop">
+                                    Swipe right to expand the panel and swipe left to collapse it.
+                                </Paragraph>
+                                <Button Color="Color.Primary" Outline Clicked="@ToggleSidebar">
+                                    <Icon Name="@( sidebarVisible ? IconName.Compress : IconName.Expand)" Margin="Margin.Is2.FromEnd" />
+                                    @( sidebarVisible ? "Collapse" : "Expand" )
+                                </Button>
+                            </Div>
+                        </Div>
+                    </Div>
+                </Gestures>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Card Margin="Margin.Is4.FromBottom">
+    <CardHeader>
+        <CardTitle>Event log</CardTitle>
+    </CardHeader>
+    <CardBody>
+        @if ( eventLog.Count == 0 )
+        {
+            <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is0">
+                No gesture events recorded yet.
+            </Paragraph>
+        }
+        else
+        {
+            <ListGroup Flush>
+                @foreach ( var item in eventLog )
+                {
+                    <ListGroupItem>@item</ListGroupItem>
+                }
+            </ListGroup>
+        }
+    </CardBody>
+</Card>
+
+@code {
+    private readonly List<DemoSlide> slides = new List<DemoSlide>
+    {
+        new DemoSlide( "Navigation", "Use a horizontal swipe to move through items without exposing extra controls.", Background.Primary ),
+        new DemoSlide( "Sidebar", "Use a swipe direction to collapse or expand contextual UI.", Background.Info ),
+        new DemoSlide( "Cards", "Use the lifecycle events when content should follow the pointer while moving.", Background.Success ),
+    };
+
+    private readonly List<string> eventLog = new List<string>();
+
+    private int activeSlideIndex;
+
+    private bool sidebarVisible = true;
+
+    private static readonly TimeSpan SidebarAnimationDuration = TimeSpan.FromMilliseconds( 250 );
+
+    private static readonly IFluentSizing SidebarExpandedWidth = Width.Px( 150 );
+
+    private string gestureState = "Waiting";
+
+    private string lastDirection = "None";
+
+    private string lastDeltaX = "0";
+
+    private string lastVelocity = "0";
+
+    private DemoSlide ActiveSlide => slides[activeSlideIndex];
+
+    private Task OnGallerySwiped( SwipeEventArgs eventArgs )
+    {
+        if ( eventArgs.Direction == GestureDirection.Left )
+            ShowNextSlide();
+        else if ( eventArgs.Direction == GestureDirection.Right )
+            ShowPreviousSlide();
+
+        AddEventLog( $"Gallery swiped {eventArgs.Direction}." );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnSidebarSwiped( SwipeEventArgs eventArgs )
+    {
+        if ( eventArgs.Direction == GestureDirection.Left )
+            sidebarVisible = false;
+        else if ( eventArgs.Direction == GestureDirection.Right )
+            sidebarVisible = true;
+
+        AddEventLog( $"Side panel swiped {eventArgs.Direction}." );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnTapped( TapEventArgs eventArgs )
+    {
+        gestureState = "Tapped";
+        UpdateGestureDetails( eventArgs );
+        AddEventLog( "Gallery tapped." );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnLongPressed( LongPressEventArgs eventArgs )
+    {
+        gestureState = "Long pressed";
+        UpdateGestureDetails( eventArgs );
+        AddEventLog( "Gallery long pressed." );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnGestureStarted( GestureEventArgs eventArgs )
+    {
+        gestureState = "Started";
+        UpdateGestureDetails( eventArgs );
+        AddEventLog( "Gesture started." );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnGestureMoved( GestureEventArgs eventArgs )
+    {
+        gestureState = "Moving";
+        UpdateGestureDetails( eventArgs );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnGestureEnded( GestureEventArgs eventArgs )
+    {
+        gestureState = eventArgs.Canceled ? "Canceled" : "Ended";
+        UpdateGestureDetails( eventArgs );
+        AddEventLog( $"Gesture {gestureState.ToLowerInvariant()} with {eventArgs.Direction} direction." );
+
+        return Task.CompletedTask;
+    }
+
+    private void ShowPreviousSlide()
+    {
+        activeSlideIndex = activeSlideIndex == 0 ? slides.Count - 1 : activeSlideIndex - 1;
+    }
+
+    private void ShowNextSlide()
+    {
+        activeSlideIndex = activeSlideIndex == slides.Count - 1 ? 0 : activeSlideIndex + 1;
+    }
+
+    private void ToggleSidebar()
+    {
+        sidebarVisible = !sidebarVisible;
+    }
+
+    private void UpdateGestureDetails( GestureEventArgs eventArgs )
+    {
+        lastDirection = eventArgs.Direction.ToString();
+        lastDeltaX = eventArgs.DeltaX.ToString( "0" );
+        lastVelocity = eventArgs.Velocity.ToString( "0.00" );
+    }
+
+    private void AddEventLog( string message )
+    {
+        eventLog.Insert( 0, $"{DateTime.Now:HH:mm:ss} {message}" );
+
+        if ( eventLog.Count > 6 )
+        {
+            eventLog.RemoveAt( eventLog.Count - 1 );
+        }
+    }
+
+    private class DemoSlide
+    {
+        public DemoSlide( string title, string description, Background background )
+        {
+            Title = title;
+            Description = description;
+            Background = background;
+        }
+
+        public string Title { get; }
+
+        public string Description { get; }
+
+        public Background Background { get; }
+    }
+}

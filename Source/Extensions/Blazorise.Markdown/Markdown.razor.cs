@@ -507,6 +507,10 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
         {
             builder.Append( "b-markdown-invalid" );
         }
+        else if ( validationStatus == ValidationStatus.Warning )
+        {
+            builder.Append( "b-markdown-warning" );
+        }
         else if ( validationStatus == ValidationStatus.Success )
         {
             builder.Append( "b-markdown-valid" );

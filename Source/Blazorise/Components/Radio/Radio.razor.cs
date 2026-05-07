@@ -113,6 +113,9 @@ public partial class Radio<TValue> : BaseRadioComponent<TValue, RadioClasses, Ra
     /// </summary>
     protected bool ParentIsRadioGroup => ParentRadioGroup is not null;
 
+    /// <inheritdoc/>
+    protected override bool UsesValidation => ParentRadioGroup is null;
+
     /// <summary>
     /// True if radio should look as a regular button.
     /// </summary>

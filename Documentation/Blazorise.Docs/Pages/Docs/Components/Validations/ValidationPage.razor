@@ -52,12 +52,22 @@
                             </UnorderedListItem>
                             <UnorderedListItem>
                                 <Paragraph>
+                                    <Code Tag>ValidationWarning</Code> displays a non-blocking warning message.
+                                </Paragraph>
+                            </UnorderedListItem>
+                            <UnorderedListItem>
+                                <Paragraph>
                                     <Code Tag>ValidationError</Code> displays the error message.
                                 </Paragraph>
                             </UnorderedListItem>
                             <UnorderedListItem>
                                 <Paragraph>
                                     <Code Tag>ValidationNone</Code> displays a message when nothing has happened.
+                                </Paragraph>
+                            </UnorderedListItem>
+                            <UnorderedListItem>
+                                <Paragraph>
+                                    <Code Tag>ValidationFeedback</Code> groups the <Code>None</Code>, <Code>Warning</Code>, <Code>Success</Code>, and <Code>Error</Code> fragments in one component.
                                 </Paragraph>
                             </UnorderedListItem>
                         </UnorderedList>
@@ -110,12 +120,20 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader>
-        The same structure applies to all <Code>Edit</Code> components (check, radio, select, etc.). Note that some components
-        have special rules when defining the validation structure. For example, for <Code>Check</Code> you must use the
-        <Code>ChildContent</Code> tag along with the <Code>Feedback</Code> tag. This is a limitation in Blazor and may be
-        addressed in the future.
+    <DocsPageSectionHeader Title="Warning and grouped feedback">
+        <Paragraph>
+            Use <Code Tag>ValidationWarning</Code> when a value is acceptable but should still show non-blocking guidance.
+            To keep all feedback fragments together, use <Code Tag>ValidationFeedback</Code> with <Code Tag>None</Code>,
+            <Code Tag>Warning</Code>, <Code Tag>Success</Code>, and <Code Tag>Error</Code> child fragments.
+        </Paragraph>
+        <Paragraph>
+            The same feedback structure applies to all <Code>Edit</Code> components (check, radio, select, etc.). Some components
+            have special rules when defining child content and feedback.
+        </Paragraph>
     </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ValidationFeedbackExample />
+    </DocsPageSectionContent>
     <DocsPageSectionSource Code="ValidationFeedbackExample" />
 </DocsPageSection>
 
@@ -316,4 +334,4 @@
     </DocsMethodsItem>
 </DocsMethods>
 
-<ComponentApiDocs ComponentTypes="[typeof(Validations),typeof(Validation),typeof(ValidationError)]" />
+<ComponentApiDocs ComponentTypes="[typeof( Validations ), typeof( Validation ), typeof( ValidationNone ), typeof( ValidationSuccess ), typeof( ValidationWarning ), typeof( ValidationError ), typeof( ValidationFeedback )]" />

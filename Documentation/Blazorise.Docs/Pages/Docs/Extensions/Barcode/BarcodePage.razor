@@ -1,0 +1,83 @@
+@page "/docs/extensions/barcode"
+
+<Seo Canonical="/docs/extensions/barcode" Title="Blazorise Barcode component" Description="Learn how to generate linear and two-dimensional barcodes with the Blazorise Barcode component." />
+
+<DocsPageTitle Path="Extensions/Barcode">
+    Blazorise Barcode component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Generate linear and two-dimensional barcodes such as Code 128, EAN, QR Code, Data Matrix, PDF417, and Aztec.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    The <Code>Barcode</Code> component renders barcode images from a value and a symbology. It can render to canvas or SVG and exposes Blazorise-friendly parameters so the underlying generator can be replaced without changing the main component API.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    To use the <Code>Barcode</Code> component, install the <Code>Blazorise.Barcode</Code> package first.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="BarcodeNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ImportBarcodeExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        Define a <Code>Value</Code> and choose the barcode <Code>Type</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicBarcodeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicBarcodeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Barcode Types">
+        Use <Code>Type</Code> to render different symbologies.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BarcodeTypesExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BarcodeTypesExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Styling">
+        Use colors, value visibility, and value alignment to adjust the barcode output.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BarcodeStylingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BarcodeStylingExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Target Dimensions">
+        <Code>SymbolWidth</Code> and <Code>SymbolHeight</Code> define the requested barcode symbol dimensions. The provider can render a smaller symbol when it needs to keep a valid module size.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BarcodeTargetDimensionsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BarcodeTargetDimensionsExample" />
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof(Barcode)]" />

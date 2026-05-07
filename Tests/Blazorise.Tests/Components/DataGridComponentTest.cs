@@ -744,6 +744,35 @@ public class DataGridComponentTest : BunitContext
         comp.WaitForAssertion( () => Assert.Contains( comp.Instance.Data, x => x.Name == updatedName ), System.TimeSpan.FromSeconds( 3 ) );
     }
 
+    [Fact]
+    public async Task EditTemplate_Should_NotClip_CustomEditor()
+    {
+        // setup
+        var comp = Render<DataGridComponent>( parameters =>
+        {
+            parameters.Add( x => x.DataGridEditMode, DataGridEditMode.Inline );
+            parameters.Add( x => x.UseNameEditTemplate, true );
+        } );
+
+        // test
+        await comp.Click( "#btnEdit" );
+
+        var autocomplete = comp.Find( ".b-is-autocomplete" );
+        var wrapper = autocomplete.ParentElement;
+        var cell = wrapper;
+
+        while ( cell is not null && cell.TagName != "TD" )
+        {
+            cell = cell.ParentElement;
+        }
+
+        // validate
+        Assert.NotNull( wrapper );
+        Assert.NotNull( cell );
+        Assert.DoesNotContain( "overflow:hidden", wrapper.GetAttribute( "style" ) );
+        Assert.DoesNotContain( "overflow:hidden", cell.GetAttribute( "style" ) );
+    }
+
     [Theory]
     [InlineData( DataGridEditMode.Form )]
     [InlineData( DataGridEditMode.Inline )]

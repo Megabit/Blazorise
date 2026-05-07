@@ -19,9 +19,7 @@ public class ValidatorValidationHandler : IValidationHandler
 
         validation.Validator?.Invoke( validatorEventArgs );
 
-        var matchMessages = validatorEventArgs.Status == ValidationStatus.Error && !string.IsNullOrEmpty( validatorEventArgs.ErrorText )
-            ? new string[] { validatorEventArgs.ErrorText }
-            : null;
+        var matchMessages = GetValidationMessages( validatorEventArgs );
 
         validation.NotifyValidationStatusChanged( validatorEventArgs.Status, matchMessages );
     }
@@ -42,12 +40,20 @@ public class ValidatorValidationHandler : IValidationHandler
         else
             validation.Validator?.Invoke( validatorEventArgs );
 
-        var matchMessages = validatorEventArgs.Status == ValidationStatus.Error && !string.IsNullOrEmpty( validatorEventArgs.ErrorText )
-            ? new string[] { validatorEventArgs.ErrorText }
-            : null;
+        var matchMessages = GetValidationMessages( validatorEventArgs );
 
         cancellationToken.ThrowIfCancellationRequested();
 
         validation.NotifyValidationStatusChanged( validatorEventArgs.Status, matchMessages );
+    }
+
+    private static string[] GetValidationMessages( ValidatorEventArgs validatorEventArgs )
+    {
+        return validatorEventArgs.Status switch
+        {
+            ValidationStatus.Error when !string.IsNullOrEmpty( validatorEventArgs.ErrorText ) => new string[] { validatorEventArgs.ErrorText },
+            ValidationStatus.Warning when !string.IsNullOrEmpty( validatorEventArgs.WarningText ) => new string[] { validatorEventArgs.WarningText },
+            _ => null,
+        };
     }
 }

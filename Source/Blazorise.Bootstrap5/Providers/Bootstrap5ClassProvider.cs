@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -295,11 +295,15 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ValidationSuccessTooltip() => "valid-tooltip";
 
+    public override string ValidationWarning() => "warning-feedback";
+
+    public override string ValidationWarningTooltip() => "warning-tooltip";
+
     public override string ValidationError() => "invalid-feedback";
 
     public override string ValidationErrorTooltip() => "invalid-tooltip";
 
-    public override string ValidationNone() => "form-text text-muted";
+    public override string ValidationNone() => "form-text text-muted none-feedback";
 
     public override string ValidationSummary() => "text-danger";
 
@@ -414,6 +418,7 @@ public class Bootstrap5ClassProvider : ClassProvider
     public override string AddonsValidation( ValidationStatus validationStatus ) => validationStatus switch
     {
         ValidationStatus.Success => "is-valid has-validation",
+        ValidationStatus.Warning => "is-warning has-validation",
         ValidationStatus.Error => "is-invalid has-validation",
         _ => "has-validation",
     };
@@ -809,6 +814,9 @@ public class Bootstrap5ClassProvider : ClassProvider
     public override string BarDropdownMenuRight( BarMode mode, bool rightAligned ) => rightAligned ? mode == Blazorise.BarMode.Horizontal ? "dropdown-menu-end" : "b-bar-right" : null;
 
     public override string BarDropdownMenuContainer( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "b-bar-dropdown-menu-container";
+
+    public override string BarDropdownMenuPositionStrategy( BarMode mode, DropdownPositionStrategy positionStrategy )
+        => ToDropdownPositionStrategy( mode == Blazorise.BarMode.Horizontal ? DropdownPositionStrategy.Absolute : positionStrategy );
 
     public override string BarCollapsed( BarMode mode, bool visible ) => null;
 
