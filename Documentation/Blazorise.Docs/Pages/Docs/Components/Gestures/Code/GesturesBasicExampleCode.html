@@ -2,98 +2,35 @@
 <div class="html"><pre>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Gestures</span> <span class="htmlAttributeName">Direction</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">GestureDirection</span><span class="enumValue">.Horizontal</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">TouchAction</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">GestureTouchAction</span><span class="enumValue">.PanY</span><span class="quot">&quot;</span>
-          <span class="htmlAttributeName">Swiped</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnSwiped</span><span class="quot">&quot;</span>
-          <span class="htmlAttributeName">Tapped</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnTapped</span><span class="quot">&quot;</span>
-          <span class="htmlAttributeName">LongPressed</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnLongPressed</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Alert</span> <span class="htmlAttributeName">Visible</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(!dismissed)</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>AlertColor</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Style</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">user-select: none;</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.JustifyContent.Between.AlignItems.Start</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Gap</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Gap</span><span class="enumValue">.Is3</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.AlignItems.Start</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Gap</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Gap</span><span class="enumValue">.Is3</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.InfoCircle</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>StatusTextColor</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is1.FromTop</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
-                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
-                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">AlertMessage</span><span class="htmlTagDelimiter">&gt;</span>
-                        Security update available
-                    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">AlertMessage</span><span class="htmlTagDelimiter">&gt;</span>
-                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">AlertDescription</span><span class="htmlTagDelimiter">&gt;</span>
-                        <span class="atSign">&#64;</span>message
-                    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">AlertDescription</span><span class="htmlTagDelimiter">&gt;</span>
-                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+          <span class="htmlAttributeName">Swiped</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnSwiped</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Border</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Border.Is1.Rounded</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Background</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Background</span><span class="enumValue">.Light</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Padding</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Padding</span><span class="enumValue">.Is4</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Style</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">user-select: none;</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Flex.JustifyContent.Between.AlignItems.Center</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Gap</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Gap</span><span class="enumValue">.Is3</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Heading</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">HeadingSize</span><span class="enumValue">.Is5</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is0.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="atSign">&#64;</span>Title
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Heading</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span> <span class="htmlAttributeName">TextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">TextColor</span><span class="enumValue">.Secondary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is2.FromTop.Is0.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                    Swipe left or right inside this area.
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
             <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Badge</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>BadgeColor</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Pill</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>status<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Badge</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Badge</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>BadgeColor</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Pill</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>DirectionText<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Badge</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Alert</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Gestures</span><span class="htmlTagDelimiter">&gt;</span>
-
-<span class="atSign">&#64;</span>if ( dismissed )
-{
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Alert</span> <span class="htmlAttributeName">Visible</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Success</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromTop.Is0.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">AlertMessage</span><span class="htmlTagDelimiter">&gt;</span>Alert dismissed.<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">AlertMessage</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">AlertDescription</span><span class="htmlTagDelimiter">&gt;</span>
-            The horizontal swipe was handled by <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span>Gestures<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span>.
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">AlertDescription</span><span class="htmlTagDelimiter">&gt;</span>
-        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Success</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Outline</span> <span class="htmlAttributeName">Size</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Size</span><span class="enumValue">.Small</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is2.FromTop</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ResetAlert</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-            Show alert again
-        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Alert</span><span class="htmlTagDelimiter">&gt;</span>
-}
 </pre></div>
 <div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
-    <span class="keyword">private</span> <span class="keyword">string</span> status = <span class="string">&quot;New&quot;</span>;
+    <span class="keyword">private</span> <span class="keyword">string</span> Title { <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="string">&quot;Waiting for swipe&quot;</span>;
 
-    <span class="keyword">private</span> <span class="keyword">string</span> message = <span class="string">&quot;Tap for details, long press to pin, or swipe left or right to dismiss.&quot;</span>;
+    <span class="keyword">private</span> <span class="keyword">string</span> DirectionText { <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="string">&quot;None&quot;</span>;
 
-    <span class="keyword">private</span> <span class="keyword">bool</span> dismissed;
+    <span class="keyword">private</span> Color BadgeColor { <span class="keyword">get</span>; <span class="keyword">set</span>; } = Color.Secondary;
 
-    <span class="keyword">private</span> <span class="keyword">bool</span> pinned;
-
-    <span class="keyword">private</span> Color AlertColor { <span class="keyword">get</span>; <span class="keyword">set</span>; } = Color.Info;
-
-    <span class="keyword">private</span> Color BadgeColor { <span class="keyword">get</span>; <span class="keyword">set</span>; } = Color.Info;
-
-    <span class="keyword">private</span> TextColor StatusTextColor
+    <span class="keyword">private</span> Task OnSwiped( SwipeEventArgs eventArgs )
     {
-        <span class="keyword">get</span>
-        {
-            <span class="keyword">return</span> pinned ? TextColor.Warning : TextColor.Info;
-        }
-    }
-
-    <span class="keyword">private</span> Task OnSwiped( SwipeEventArgs _ )
-    {
-        dismissed = <span class="keyword">true</span>;
-
-        <span class="keyword">return</span> Task.CompletedTask;
-    }
-
-    <span class="keyword">private</span> Task OnTapped( TapEventArgs _ )
-    {
-        status = <span class="string">&quot;Details&quot;</span>;
-        BadgeColor = Color.Primary;
-        AlertColor = Color.Primary;
-        message = <span class="string">&quot;Version 2.1.4 includes security fixes and is ready to install.&quot;</span>;
-
-        <span class="keyword">return</span> Task.CompletedTask;
-    }
-
-    <span class="keyword">private</span> Task OnLongPressed( LongPressEventArgs _ )
-    {
-        pinned = <span class="keyword">true</span>;
-        status = <span class="string">&quot;Pinned&quot;</span>;
-        BadgeColor = Color.Warning;
-        AlertColor = Color.Warning;
-        message = <span class="string">&quot;Pinned alerts stay visible until the user handles them explicitly.&quot;</span>;
-
-        <span class="keyword">return</span> Task.CompletedTask;
-    }
-
-    <span class="keyword">private</span> Task ResetAlert()
-    {
-        dismissed = <span class="keyword">false</span>;
-        pinned = <span class="keyword">false</span>;
-        status = <span class="string">&quot;New&quot;</span>;
-        BadgeColor = Color.Info;
-        AlertColor = Color.Info;
-        message = <span class="string">&quot;Tap for details, long press to pin, or swipe left or right to dismiss.&quot;</span>;
+        DirectionText = eventArgs.Direction.ToString();
+        Title = $<span class="string">&quot;Swiped {DirectionText.ToLowerInvariant()}&quot;</span>;
+        BadgeColor = eventArgs.Direction == GestureDirection.Left ? Color.Primary : Color.Info;
 
         <span class="keyword">return</span> Task.CompletedTask;
     }

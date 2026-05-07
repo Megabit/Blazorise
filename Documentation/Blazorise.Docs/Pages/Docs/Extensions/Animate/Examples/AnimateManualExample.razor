@@ -1,0 +1,29 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div Display="Display.Flex" Flex="Flex.Column" Gap="Gap.Is3">
+    <Div>
+        <Button Color="Color.Primary" Clicked="@RunAnimation">
+            Run animation
+        </Button>
+    </Div>
+
+    <Animate @ref="@animateRef" Auto="false" Animation="Animations.ZoomIn" Trigger="AnimationTrigger.Render" DurationMilliseconds="250">
+        <Card Width="Width.Px( 260 )">
+            <CardBody>
+                <CardTitle Size="HeadingSize.Is6">Manual animation</CardTitle>
+                <CardText>
+                    The component renders and animates when <Code>Run()</Code> is called.
+                </CardText>
+            </CardBody>
+        </Card>
+    </Animate>
+</Div>
+
+@code {
+    private Blazorise.Animate.Animate animateRef;
+
+    private void RunAnimation()
+    {
+        animateRef?.Run();
+    }
+}

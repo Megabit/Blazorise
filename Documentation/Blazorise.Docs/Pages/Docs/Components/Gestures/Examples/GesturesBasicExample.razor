@@ -2,97 +2,34 @@
 
 <Gestures Direction="GestureDirection.Horizontal"
           TouchAction="GestureTouchAction.PanY"
-          Swiped="@OnSwiped"
-          Tapped="@OnTapped"
-          LongPressed="@OnLongPressed">
-    <Alert Visible="@(!dismissed)" Color="@AlertColor" Style="user-select: none;">
-        <Div Flex="Flex.JustifyContent.Between.AlignItems.Start" Gap="Gap.Is3">
-            <Div Flex="Flex.AlignItems.Start" Gap="Gap.Is3">
-                <Icon Name="IconName.InfoCircle" TextColor="@StatusTextColor" Margin="Margin.Is1.FromTop" />
-                <Div>
-                    <AlertMessage>
-                        Security update available
-                    </AlertMessage>
-                    <AlertDescription>
-                        @message
-                    </AlertDescription>
-                </Div>
+          Swiped="@OnSwiped">
+    <Div Border="Border.Is1.Rounded" Background="Background.Light" Padding="Padding.Is4" Style="user-select: none;">
+        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+            <Div>
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.FromBottom">
+                    @Title
+                </Heading>
+                <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop.Is0.FromBottom">
+                    Swipe left or right inside this area.
+                </Paragraph>
             </Div>
-            <Badge Color="@BadgeColor" Pill>@status</Badge>
+            <Badge Color="@BadgeColor" Pill>@DirectionText</Badge>
         </Div>
-    </Alert>
+    </Div>
 </Gestures>
 
-@if ( dismissed )
-{
-    <Alert Visible Color="Color.Success" Margin="Margin.Is3.FromTop.Is0.FromBottom">
-        <AlertMessage>Alert dismissed.</AlertMessage>
-        <AlertDescription>
-            The horizontal swipe was handled by <Code>Gestures</Code>.
-        </AlertDescription>
-        <Button Color="Color.Success" Outline Size="Size.Small" Margin="Margin.Is2.FromTop" Clicked="@ResetAlert">
-            Show alert again
-        </Button>
-    </Alert>
-}
-
 @code {
-    private string status = "New";
+    private string Title { get; set; } = "Waiting for swipe";
 
-    private string message = "Tap for details, long press to pin, or swipe left or right to dismiss.";
+    private string DirectionText { get; set; } = "None";
 
-    private bool dismissed;
+    private Color BadgeColor { get; set; } = Color.Secondary;
 
-    private bool pinned;
-
-    private Color AlertColor { get; set; } = Color.Info;
-
-    private Color BadgeColor { get; set; } = Color.Info;
-
-    private TextColor StatusTextColor
+    private Task OnSwiped( SwipeEventArgs eventArgs )
     {
-        get
-        {
-            return pinned ? TextColor.Warning : TextColor.Info;
-        }
-    }
-
-    private Task OnSwiped( SwipeEventArgs _ )
-    {
-        dismissed = true;
-
-        return Task.CompletedTask;
-    }
-
-    private Task OnTapped( TapEventArgs _ )
-    {
-        status = "Details";
-        BadgeColor = Color.Primary;
-        AlertColor = Color.Primary;
-        message = "Version 2.1.4 includes security fixes and is ready to install.";
-
-        return Task.CompletedTask;
-    }
-
-    private Task OnLongPressed( LongPressEventArgs _ )
-    {
-        pinned = true;
-        status = "Pinned";
-        BadgeColor = Color.Warning;
-        AlertColor = Color.Warning;
-        message = "Pinned alerts stay visible until the user handles them explicitly.";
-
-        return Task.CompletedTask;
-    }
-
-    private Task ResetAlert()
-    {
-        dismissed = false;
-        pinned = false;
-        status = "New";
-        BadgeColor = Color.Info;
-        AlertColor = Color.Info;
-        message = "Tap for details, long press to pin, or swipe left or right to dismiss.";
+        DirectionText = eventArgs.Direction.ToString();
+        Title = $"Swiped {DirectionText.ToLowerInvariant()}";
+        BadgeColor = eventArgs.Direction == GestureDirection.Left ? Color.Primary : Color.Info;
 
         return Task.CompletedTask;
     }

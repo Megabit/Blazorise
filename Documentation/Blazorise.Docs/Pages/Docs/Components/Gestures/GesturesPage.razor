@@ -23,8 +23,8 @@
 </DocsPageSubtitle>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Dismissible Alert">
-        Combine <Code>Swiped</Code>, <Code>Tapped</Code>, and <Code>LongPressed</Code> for a compact alert: tap to show details, long press to pin, and swipe horizontally to dismiss.
+    <DocsPageSectionHeader Title="Basic Swipe">
+        Wrap content with <Code>Gestures</Code> and handle <Code>Swiped</Code> to react to a horizontal swipe.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <GesturesBasicExample />
@@ -44,7 +44,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Sidebar Toggle">
-        Directional swipes can collapse or expand a side panel while keeping regular vertical page scrolling available with <Code>TouchAction="GestureTouchAction.PanY"</Code>.
+        Directional swipes can collapse or expand a side panel. Pair it with <Code>Animate</Code> for a slide transition while keeping regular vertical page scrolling available with <Code>TouchAction="GestureTouchAction.PanY"</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <GesturesSidebarExample />
