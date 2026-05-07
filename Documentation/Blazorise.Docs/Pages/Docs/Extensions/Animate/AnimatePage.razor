@@ -14,27 +14,10 @@
     The Animate component uses the Motion runtime to animate content as it enters the viewport or when component visibility changes.
 </DocsPageParagraph>
 
-<Alert Color="Color.Info" Visible>
-    <AlertDescription>
-        <Paragraph>Blazorise wraps Motion animation functionality and exposes it through the <Code>Animate</Code> component.</Paragraph>
+<DocsPageParagraph>
+    Viewport animations observe the rendered <Code>Animate</Code> element by default. Use <Code>Anchor</Code> only when the viewport trigger should be based on another element, such as a shared container that starts several animations together.
+</DocsPageParagraph>
 
-        <Paragraph>Some content cannot be animated because of how it is structured or styled.</Paragraph>
-        <Paragraph>It is not possible to animate:</Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>Modal</UnorderedListItem>
-        </UnorderedList>
-    </AlertDescription>
-</Alert>
-
-<Alert Color="Color.Info" Visible>
-    <AlertDescription>
-        Note that certain elements on the page may affect how the runtime finds the offset element needed to trigger viewport animations.
-        To make sure your content is successfully animated you may configure the <Code>Anchor</Code> parameter giving the <Code>Animate</Code> component the necessary information to work.
-
-        For example, the animate example below is configured this way.
-    </AlertDescription>
-
-</Alert>
 <DocsPageParagraph>
     To use the <Code>Animate</Code> component, install the <Code>Blazorise.Animate</Code> package first.
 </DocsPageParagraph>
