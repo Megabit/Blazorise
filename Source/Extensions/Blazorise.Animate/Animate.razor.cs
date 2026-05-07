@@ -46,6 +46,16 @@ public partial class Animate : BaseComponent, IAsyncDisposable
     /// </summary>
     private string animationDirection = "in";
 
+    /// <summary>
+    /// Captured Mirror parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<bool> paramMirror;
+
+    /// <summary>
+    /// Captured Once parameter snapshot.
+    /// </summary>
+    private ComponentParameterInfo<bool> paramOnce;
+
     #endregion
 
     #region Methods
@@ -56,6 +66,15 @@ public partial class Animate : BaseComponent, IAsyncDisposable
         JSModule ??= new JSAnimateModule( JSRuntime, VersionProvider, BlazoriseOptions );
 
         return base.OnInitializedAsync();
+    }
+
+    /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( Mirror, out paramMirror );
+        parameters.TryGetParameter( Once, out paramOnce );
+
+        return base.SetParametersAsync( parameters );
     }
 
     /// <summary>
@@ -223,13 +242,13 @@ public partial class Animate : BaseComponent, IAsyncDisposable
     /// Gets the mirror flag.
     /// </summary>
     private bool MirrorValue
-        => Mirror ?? GetOptions()?.Mirror ?? false;
+        => paramMirror.GetValueOrDefault( GetOptions()?.Mirror ?? false );
 
     /// <summary>
     /// Gets the once flag.
     /// </summary>
     private bool OnceValue
-        => Once ?? GetOptions()?.Once ?? false;
+        => paramOnce.GetValueOrDefault( GetOptions()?.Once ?? false );
 
     /// <summary>
     /// Gets the animation options to pass to the JavaScript runtime.
@@ -334,12 +353,12 @@ public partial class Animate : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Whether elements should animate out while scrolling past them.
     /// </summary>
-    [Parameter] public bool? Mirror { get; set; }
+    [Parameter] public bool Mirror { get; set; }
 
     /// <summary>
     /// Whether animation should happen only once - while scrolling down.
     /// </summary>
-    [Parameter] public bool? Once { get; set; }
+    [Parameter] public bool Once { get; set; }
 
     /// <summary>
     /// Shifts the trigger point of the animation.

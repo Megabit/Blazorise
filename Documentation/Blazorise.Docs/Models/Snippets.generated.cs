@@ -5871,7 +5871,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
 
         public const string AnimateViewportExample = @"<Div ElementId=""animate-viewport-example"" Padding=""Padding.Is3"">
     <Div Flex=""Flex.Row.Wrap"" Gap=""Gap.Is3"">
-        <Animate Anchor=""#animate-viewport-example"" Animation=""Animations.FadeUp"" DurationMilliseconds=""250"" Once=""true"">
+        <Animate Anchor=""#animate-viewport-example"" Animation=""Animations.FadeUp"" DurationMilliseconds=""250"" Once>
             <Card Width=""Width.Px( 220 )"">
                 <CardBody>
                     <CardTitle Size=""HeadingSize.Is6"">Profile</CardTitle>
@@ -5882,7 +5882,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
             </Card>
         </Animate>
 
-        <Animate Anchor=""#animate-viewport-example"" Animation=""Animations.FadeUp"" DurationMilliseconds=""250"" DelayMilliseconds=""100"" Once=""true"">
+        <Animate Anchor=""#animate-viewport-example"" Animation=""Animations.FadeUp"" DurationMilliseconds=""250"" DelayMilliseconds=""100"" Once>
             <Card Width=""Width.Px( 220 )"">
                 <CardBody>
                     <CardTitle Size=""HeadingSize.Is6"">Activity</CardTitle>
@@ -5893,7 +5893,7 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
             </Card>
         </Animate>
 
-        <Animate Anchor=""#animate-viewport-example"" Animation=""Animations.FadeUp"" DurationMilliseconds=""250"" DelayMilliseconds=""200"" Once=""true"">
+        <Animate Anchor=""#animate-viewport-example"" Animation=""Animations.FadeUp"" DurationMilliseconds=""250"" DelayMilliseconds=""200"" Once>
             <Card Width=""Width.Px( 220 )"">
                 <CardBody>
                     <CardTitle Size=""HeadingSize.Is6"">Summary</CardTitle>
