@@ -2369,7 +2369,7 @@ namespace Blazorise.Docs.Models
           Swiped=""@OnSwiped"">
     <Div Flex=""Flex.Row"" Border=""Border.Is1.Rounded"" Background=""Background.Light"" Padding=""Padding.Is3"" Height=""Height.Px( 240 )"" Style=""user-select: none;"">
         <Div Flex=""Flex.Row.Grow.Is1.AlignItems.Stretch"" Gap=""Gap.Is3"">
-            <Animate Animation=""Animations.SlideRight"" Duration=""@SidebarAnimationDuration"" Trigger=""AnimationTrigger.Render"" Visible=""@sidebarExpanded"" AnimateOnInitialRender=""false"" Layout=""AnimationLayout.Width"" style=""height: 100%;"">
+            <Animate Animation=""Animations.SlideRight"" Duration=""@SidebarAnimationDuration"" Trigger=""AnimationTrigger.Render"" Visible=""@sidebarExpanded"" AnimateOnInitialRender=""false"" Layout=""AnimationLayout.Width"" Height=""Height.Is100"">
                 <Div Height=""Height.Is100"" Background=""Background.Primary"" TextColor=""TextColor.White"" Padding=""Padding.Is3"" Border=""Border.Rounded"" Width=""@SidebarExpandedWidth"">
                     <Heading Size=""HeadingSize.Is6"" Margin=""Margin.Is0.FromBottom"">
                         Navigation
