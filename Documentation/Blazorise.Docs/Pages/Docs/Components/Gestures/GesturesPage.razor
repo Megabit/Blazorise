@@ -70,4 +70,12 @@
     <Code>TouchAction</Code> maps to the browser CSS <Code>touch-action</Code> behavior. For horizontal swipe areas inside a scrollable page, use <Code>GestureTouchAction.PanY</Code> so the page can still scroll vertically. For vertical swipe areas, use <Code>GestureTouchAction.PanX</Code>. Use <Code>GestureTouchAction.None</Code> only for surfaces where the component should own all touch movement.
 </DocsPageParagraph>
 
+<DocsPageSubtitle>
+    Text selection
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    <Code>Gestures</Code> does not disable text selection. If a gesture surface contains text and is meant to be dragged or swiped as a single control, you may want to apply CSS such as <Code>user-select: none;</Code> to that surface. This prevents accidental text selection during mouse dragging on desktop. Avoid applying it to areas where users should be able to select or copy text.
+</DocsPageParagraph>
+
 <ComponentApiDocs ComponentTypes="[typeof( Gestures )]" />
