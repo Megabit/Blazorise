@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-07T12:17:48.1357686Z",
+  "generatedUtc": "2026-05-07T19:00:39.5580501Z",
   "pages": [
     {
       "route": "/docs",
@@ -4697,8 +4697,8 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridAggregatesLargeDataExample.razor",
           "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"@employeeList\"\r\n          ReadData=\"@OnReadData\"\r\n          TotalItems=\"@totalEmployees\"\r\n          AggregateData=\"@employeeSummary\"\r\n          Responsive>\r\n    <DataGridAggregates>\r\n        <DataGridAggregate Field=\"@nameof( Employee.Email )\" Aggregate=\"DataGridAggregateType.Count\">\r\n            <DisplayTemplate>\r\n                @($\"Total emails: {context.Value}\")\r\n            </DisplayTemplate>\r\n        </DataGridAggregate>\r\n        <DataGridAggregate Field=\"@nameof( Employee.Salary )\" Aggregate=\"DataGridAggregateType.Sum\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" />\r\n        <DataGridAggregate Field=\"@nameof( Employee.IsActive )\" Aggregate=\"DataGridAggregateType.TrueCount\" />\r\n    </DataGridAggregates>\r\n    <DataGridColumns>\r\n        <DataGridColumn Field=\"@nameof( Employee.Id )\" Caption=\"#\" Sortable=\"false\" />\r\n        <DataGridColumn Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" Editable />\r\n        <DataGridColumn Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" Editable />\r\n        <DataGridColumn Field=\"@nameof( Employee.Email )\" Caption=\"Email\" Editable />\r\n        <DataGridColumn Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" Editable>\r\n            <EditTemplate>\r\n                <NumericInput TValue=\"decimal\" Value=\"@((decimal)context.CellValue)\" ValueChanged=\"@(v => context.CellValue = v)\" />\r\n            </EditTemplate>\r\n        </DataGridColumn>\r\n    </DataGridColumns>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private int totalEmployees;\r\n    private List<Employee> employeeSummary;\r\n\r\n    private Task OnReadData( DataGridReadDataEventArgs<Employee> e )\r\n    {\r\n        if ( !e.CancellationToken.IsCancellationRequested )\r\n        {\r\n            List<Employee> response = null;\r\n\r\n            // this can be call to anything, in this case we're calling a fictional api\r\n            //var response = await Http.GetJsonAsync<Employee[]>( $\"some-api/employees?page={e.Page}&pageSize={e.PageSize}\" );\r\n            if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )\r\n                response = employeeList.Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();\r\n            else if ( e.ReadDataMode is DataGridReadDataMode.Paging )\r\n                response = employeeList.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();\r\n            else\r\n                throw new Exception( \"Unhandled ReadDataMode\" );\r\n\r\n\r\n            if ( !e.CancellationToken.IsCancellationRequested )\r\n            {\r\n                totalEmployees = employeeList.Count;\r\n                employeeList = new List<Employee>( response ); // an actual data for the current page\r\n                                                               //var aggregateResponse = await Http.GetJsonAsync<Employee[]>( $\"some-aggregate-api/employees\" );\r\n                employeeSummary = employeeList; //aggregateResponse.Data\r\n            }\r\n        }\r\n        return Task.CompletedTask;\r\n    }\r\n}",
-          "title": "Large Data",
-          "description": "By default all aggregate operations are run on in-memory Data . When working with large datasets that is not possible. So just as in the previous examples for large datasets you need to work with ReadData and set the AggregateData property."
+          "title": "Aggregates",
+          "description": "DataGrid will automatically generate necessary group cells based on the defined DataGridAggregate options."
         }
       ]
     },
@@ -5918,8 +5918,8 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/IconSizeExample.razor",
           "content": "<Div Flex=\"Flex.Row.Wrap.JustifyContent.Start.AlignItems.Start\">\r\n    @foreach ( var iconSize in Enum.GetValues<IconSize>() )\r\n    {\r\n        @if ( iconSize == IconSize.Default )\r\n            continue;\r\n\r\n        <Div Flex=\"Flex.Column.JustifyContent.Center\">\r\n            <Span Flex=\"Flex.JustifyContent.Center.AlignItems.Center\" Padding=\"Padding.Is5\">\r\n                <Icon Name=\"IconName.Camera\" IconSize=\"@iconSize\" />\r\n            </Span>\r\n            <Text TextAlignment=\"TextAlignment.Center\">\r\n                @iconSize\r\n            </Text>\r\n        </Div>\r\n    }\r\n</Div>",
-          "title": "Size",
-          "description": "You can set the size to one of the supported below."
+          "title": "Style support",
+          "description": "The table below compares how the built-in icon providers handle IconStyle values."
         },
         {
           "code": "IconGlobalSettingsExample",
@@ -6651,18 +6651,18 @@
           "title": "Basic"
         },
         {
-          "code": "RichTextEditTableStartupExample",
-          "kind": "snippet",
-          "sourcePath": "Pages/Docs/Extensions/RichTextEdit/Examples/RichTextEditTableStartupExample.snippet",
-          "content": ".AddBlazoriseRichTextEdit( options =>\r\n{\r\n    options.UseTables = true;\r\n} )",
-          "title": "With Tables",
-          "description": "To enable table support within the RichTextEdit component, you need to configure it in your Startup.cs file as follows:"
-        },
-        {
           "code": "RichTextEditTableExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/RichTextEdit/Examples/RichTextEditTableExample.razor",
           "content": "<RichTextEdit Value=\"My example content\">\r\n    <Toolbar>\r\n        <RichTextEditToolbarGroup>\r\n            <RichTextEditToolbarButton Action=\"RichTextEditAction.Bold\" />\r\n            <RichTextEditToolbarButton Action=\"RichTextEditAction.Italic\" />\r\n            <RichTextEditToolbarSelect Action=\"RichTextEditAction.Size\">\r\n                <RichTextEditToolbarSelectItem Value=\"small\" />\r\n                <RichTextEditToolbarSelectItem Selected />\r\n                <RichTextEditToolbarSelectItem Value=\"large\" />\r\n                <RichTextEditToolbarSelectItem Value=\"huge\">Very Big</RichTextEditToolbarSelectItem>\r\n            </RichTextEditToolbarSelect>\r\n            <RichTextEditToolbarButton Action=\"RichTextEditAction.List\" Value=\"ordered\" />\r\n            <RichTextEditToolbarButton Action=\"RichTextEditAction.List\" Value=\"bullet\" />\r\n        </RichTextEditToolbarGroup>\r\n        <RichTextEditToolbarGroup>\r\n            <RichTextEditToolbarButton Action=\"RichTextEditAction.Table\" />\r\n        </RichTextEditToolbarGroup>\r\n    </Toolbar>\r\n</RichTextEdit>",
+          "title": "Validation",
+          "description": "Use Validation with RichTextEdit to validate the editor's content."
+        },
+        {
+          "code": "RichTextEditTableStartupExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/RichTextEdit/Examples/RichTextEditTableStartupExample.snippet",
+          "content": ".AddBlazoriseRichTextEdit( options =>\r\n{\r\n    options.UseTables = true;\r\n} )",
           "title": "With Tables",
           "description": "To enable table support within the RichTextEdit component, you need to configure it in your Startup.cs file as follows:"
         },
@@ -6687,8 +6687,8 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/RichTextEdit/Examples/RichTextEditConfigurationExample.razor",
           "content": "<RichTextEdit ConfigureQuillJsMethod=\"myComponent.configureQuillJs\" />\r\n\r\n@* Define this configuration in a javascript file\r\n    window.myComponent = {\r\n        configureQuillJs: () => {\r\n            var link = Quill.import(\"formats/link\");\r\n\r\n            link.sanitize = url => {\r\n                let newUrl = window.decodeURIComponent(url);\r\n                newUrl = newUrl.trim().replace(/\\s/g, \"\");\r\n\r\n                if (/^(:\\/\\/)/.test(newUrl)) {\r\n                    return `http${newUrl}`;\r\n                }\r\n\r\n                if (!/^(f|ht)tps?:\\/\\//i.test(newUrl)) {\r\n                    return `http://${newUrl}`;\r\n                }\r\n\r\n                return newUrl;\r\n            }\r\n        }\r\n    }\r\n*@",
-          "title": "QuillJS Configuration",
-          "description": "The RichTextEdit has the option to inject additional QuillJS configuration logic or load additional modules . Use the ConfigureQuillJSMethod property to indicate which JavaScript method needs to be called during initialization. If you for example want to change the way how links are sanitized you can use the following logic. Default all user typed url's are relative to your pages base url. So when a user types google.com this will result in something like https://baseurl/google.com , but if you would probably like https://google.com then use the following configuration routine."
+          "title": "Theming",
+          "description": "The RichTextEdit comes default with 2 themes Snow and Bubble . The Snow theme is a simple flat toolbar theme and the Bubble theme is a tooltip based theme where the toolbar will be displayed in the tooltip."
         }
       ]
     },

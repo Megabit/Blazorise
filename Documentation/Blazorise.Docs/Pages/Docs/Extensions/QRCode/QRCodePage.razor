@@ -44,30 +44,27 @@
     <DocsPageSectionHeader Title="Basic">
         To generate a QR code you only need to define a <Code>Value</Code> parameter.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="BasicQRCodeExample" Outlined FullWidth>
         <BasicQRCodeExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="BasicQRCodeExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Color">
         Use the <Code>DarkColor</Code> and <Code>LightColor</Code> attributes to modify the QR code's colors. You should always ensure good contrast for optimal compatibility with QR code scanners.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="QRCodeColorExample" Outlined FullWidth>
         <QRCodeColorExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="QRCodeColorExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Error Correction">
         QR codes can be rendered with various levels of <Anchor To="https://www.qrcode.com/en/about/error_correction.html" Title="Link to error correction">error correction</Anchor> that can be set using the <Code>EccLevel</Code> attribute. This example generates four codes with the same value using different error correction levels.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="QRCodeErrorCorrectionExample" Outlined FullWidth>
         <QRCodeErrorCorrectionExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="QRCodeErrorCorrectionExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -79,20 +76,18 @@
             Please be aware that placing an icon in the middle will also cover part of the QR code and make it unreadable. So it would be best to increase the error level by setting the <Code>EccLevel</Code> parameter.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="QRCodeIconExample" Outlined FullWidth>
         <QRCodeIconExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="QRCodeIconExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="With Text">
         <Code>QRCode</Code> doesn't have a built-in way to add text below the QR code. However, you can use Blazorise utilities to achieve this. The example below shows how to use the <Code>Flex</Code> component to center the QR code and text.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="QRCodeTextExample" Outlined FullWidth>
         <QRCodeTextExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="QRCodeTextExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>

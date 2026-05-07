@@ -33,4 +33,7 @@
     </Div>
 </Div>
 
-
+@if ( !string.IsNullOrWhiteSpace( Code ) )
+{
+    <DocsPageSectionSource Code="@Code" ShowCode="@ShowCode" />
+}
