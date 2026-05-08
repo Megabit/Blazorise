@@ -52,9 +52,10 @@ $sizes: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667%, 75: 75%, 
 
 $grid-breakpoints: ( xs: 0, sm: 600px, md: 960px, lg: 1280px, xl: 1920px, xxl: 2560px ) !default;
 
-$container-max-widths: ( sm: 540px, md: 920px, lg: 1220px, xl: 1880px, xxl: 2520px) !default;
+$container-max-widths: ( sm: 540px, md: 720px, lg: 960px, xl: 1140px, xxl: 1320px ) !default;
 
 $grid-rows: 6 !default;
 $grid-columns: 12 !default;
 $grid-gutter-width: 1rem !default;
+$container-padding-x: $grid-gutter-width !default;
 $grid-row-columns: 6 !default;

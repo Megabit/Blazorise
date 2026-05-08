@@ -1699,6 +1699,13 @@ body {
   padding-inline-start: 0.625rem;
 }
 
+.mui-bar-horizontal > :is(.mui-container, .mui-container-fluid, .mui-container-sm, .mui-container-md, .mui-container-lg, .mui-container-xl, .mui-container-xxl) {
+  display: flex;
+  flex-wrap: inherit;
+  align-items: center;
+  justify-content: space-between;
+}
+
 @media (min-width: 600px) {
   .mui-bar-horizontal.mui-bar-expand-sm {
     flex-wrap: nowrap;
@@ -3645,6 +3652,47 @@ body {
   .mui-carousel {
     --mui-carousel-control-size: 2rem;
     --mui-carousel-control-offset: 0.5rem;
+  }
+}
+.mui-container,
+.mui-container-fluid,
+.mui-container-sm,
+.mui-container-md,
+.mui-container-lg,
+.mui-container-xl,
+.mui-container-xxl {
+  --mui-gutter-x: 1rem;
+  --mui-gutter-y: 0;
+  width: 100%;
+  padding-right: calc(var(--mui-gutter-x) * 0.5);
+  padding-left: calc(var(--mui-gutter-x) * 0.5);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 600px) {
+  .mui-container-sm, .mui-container {
+    max-width: 540px;
+  }
+}
+@media (min-width: 960px) {
+  .mui-container-md, .mui-container-sm, .mui-container {
+    max-width: 720px;
+  }
+}
+@media (min-width: 1280px) {
+  .mui-container-lg, .mui-container-md, .mui-container-sm, .mui-container {
+    max-width: 960px;
+  }
+}
+@media (min-width: 1920px) {
+  .mui-container-xl, .mui-container-lg, .mui-container-md, .mui-container-sm, .mui-container {
+    max-width: 1140px;
+  }
+}
+@media (min-width: 2560px) {
+  .mui-container-xxl, .mui-container-xl, .mui-container-lg, .mui-container-md, .mui-container-sm, .mui-container {
+    max-width: 1320px;
   }
 }
 @keyframes mui-dropdown-fadein {

@@ -1,0 +1,37 @@
+.mui-container,
+.mui-container-fluid,
+.mui-container-sm,
+.mui-container-md,
+.mui-container-lg,
+.mui-container-xl,
+.mui-container-xxl {
+    --mui-gutter-x: #{$container-padding-x};
+    --mui-gutter-y: 0;
+    width: 100%;
+    padding-right: calc(var(--mui-gutter-x) * .5);
+    padding-left: calc(var(--mui-gutter-x) * .5);
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@each $breakpoint, $container-max-width in $container-max-widths {
+    @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+        %responsive-container-#{$breakpoint} {
+            max-width: $container-max-width;
+        }
+
+        $extend-breakpoint: true;
+
+        @each $name, $width in $grid-breakpoints {
+            @if $extend-breakpoint {
+                .mui-container#{breakpoint-infix($name, $grid-breakpoints)} {
+                    @extend %responsive-container-#{$breakpoint};
+                }
+
+                @if $breakpoint == $name {
+                    $extend-breakpoint: false;
+                }
+            }
+        }
+    }
+}

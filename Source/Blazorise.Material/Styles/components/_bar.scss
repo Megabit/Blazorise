@@ -494,6 +494,13 @@
     }
 }
 
+.mui-bar-horizontal > :is(.mui-container, .mui-container-fluid, .mui-container-sm, .mui-container-md, .mui-container-lg, .mui-container-xl, .mui-container-xxl) {
+    display: flex;
+    flex-wrap: inherit;
+    align-items: center;
+    justify-content: space-between;
+}
+
 @each $breakpoint, $value in $grid-breakpoints {
     @if $breakpoint != xs {
         .mui-bar-horizontal.mui-bar-expand-#{$breakpoint} {
