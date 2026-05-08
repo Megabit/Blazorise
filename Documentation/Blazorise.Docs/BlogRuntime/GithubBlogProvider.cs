@@ -81,9 +81,10 @@ public sealed class GithubBlogProvider : IBlogProvider
         if ( !string.IsNullOrWhiteSpace( root ) )
         {
             q = q
-                .Where( i => string.Equals( i.Root, root, StringComparison.OrdinalIgnoreCase ) )
-                .OrderByDescending( x => x.PostedOn );
+                .Where( i => string.Equals( i.Root, root, StringComparison.OrdinalIgnoreCase ) );
         }
+
+        q = q.OrderByDescending( x => x.PostedOn );
 
         if ( skip > 0 )
             q = q.Skip( skip );
