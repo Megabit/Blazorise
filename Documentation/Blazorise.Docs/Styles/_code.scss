@@ -25,105 +25,105 @@
     & .html {
 
         & .htmlTagDelimiter {
-            color: #979797;
+            color: var(--b-codeblock-tag-delimiter-color);
         }
 
         & .htmlElementName {
-            color: #1a81fa;
+            color: var(--b-codeblock-element-color);
         }
 
         & .htmlAttributeName {
-            color: #ff3a49;
+            color: var(--b-codeblock-attribute-name-color);
         }
 
         & .htmlOperator, .quot {
-            color: #576b85;
+            color: var(--b-codeblock-operator-color);
         }
 
         & .htmlAttributeValue {
-            color: #1ba875;
+            color: var(--b-codeblock-attribute-value-color);
         }
 
         & .htmlLink {
-            color: #61afef;
+            color: var(--b-codeblock-link-color);
             text-decoration: underline;
         }
 
         & .enum {
-            color: #1ba875;
-            background-color: rgba(255,255,255,0.15);
+            color: var(--b-codeblock-enum-color);
+            background-color: var(--b-codeblock-token-background-color);
         }
 
         & .enumValue, .sharpVariable {
             color: var(--b-codeblock-enum-value-color);
-            background-color: rgba(255,255,255,0.15);
+            background-color: var(--b-codeblock-token-background-color);
         }
 
         & .keyword {
-            color: #61afef;
-            background-color: rgba(255,255,255,0.15);
+            color: var(--b-codeblock-keyword-color);
+            background-color: var(--b-codeblock-token-background-color);
         }
 
         & .atSign {
-            color: #3f4d62;
-            background-color: #e8e8e8;
+            color: var(--b-codeblock-at-sign-color);
+            background-color: var(--b-codeblock-at-sign-background-color);
         }
 
         & .comment {
-            color: #57a64a;
+            color: var(--b-codeblock-comment-color);
         }
     }
 
     & .csharp {
         & .atSign {
-            color: #3f4d62;
-            background-color: #e8e8e8;
+            color: var(--b-codeblock-at-sign-color);
+            background-color: var(--b-codeblock-at-sign-background-color);
         }
 
         & .keyword {
-            color: #5748ff;
+            color: var(--b-codeblock-keyword-color);
         }
 
         & .string {
-            color: #d69d85;
+            color: var(--b-codeblock-string-color);
         }
 
         & .function {
-            color: #68B6F8;
+            color: var(--b-codeblock-function-color);
         }
 
         & .class {
-            color: #ff3a49
+            color: var(--b-codeblock-type-color);
         }
 
         & .localVar {
-            color: #FFC74C;
+            color: var(--b-codeblock-variable-color);
         }
 
         & .interface {
-            color: #b0d7a3;
+            color: var(--b-codeblock-interface-color);
         }
 
         & .number {
-            color: #b0d7a3;
+            color: var(--b-codeblock-number-color);
         }
 
         & .enum {
-            color: #1ba875;
+            color: var(--b-codeblock-enum-color);
         }
 
         & .comment {
-            color: #57a64a;
+            color: var(--b-codeblock-comment-color);
         }
     }
 
     & .powershell {
         & .comment {
-            color: #57a64a;
+            color: var(--b-codeblock-comment-color);
         }
 
         & .powershellOperator {
-            color: red;
+            color: var(--b-codeblock-powershell-operator-color);
         }
     }
 }
@@ -132,108 +132,4 @@ code {
     color: var(--b-code-color);
     padding: 0.25em 0.375em;
     background-color: var(--b-code-background-color);
-}
-
-body[data-bs-theme="dark"] {
-    .blazorise-codeblock {
-        border: 1px solid rgba(148, 163, 184, 0.2);
-
-        .html {
-            .htmlTagDelimiter {
-                color: #94a3b8;
-            }
-
-            .htmlElementName {
-                color: #7dd3fc;
-            }
-
-            .htmlAttributeName {
-                color: #fda4af;
-            }
-
-            .htmlOperator, .quot {
-                color: #cbd5e1;
-            }
-
-            .htmlAttributeValue {
-                color: #6ee7b7;
-            }
-
-            .htmlLink {
-                color: #93c5fd;
-            }
-
-            .enum {
-                color: #6ee7b7;
-                background-color: rgba(148, 163, 184, 0.16);
-            }
-
-            .enumValue, .sharpVariable {
-                background-color: rgba(148, 163, 184, 0.16);
-            }
-
-            .keyword {
-                color: #93c5fd;
-                background-color: rgba(148, 163, 184, 0.16);
-            }
-
-            .atSign {
-                color: #e2e8f0;
-                background-color: rgba(148, 163, 184, 0.2);
-            }
-
-            .comment {
-                color: #7bc77b;
-            }
-        }
-
-        .csharp {
-            .atSign {
-                color: #e2e8f0;
-                background-color: rgba(148, 163, 184, 0.2);
-            }
-
-            .keyword {
-                color: #c4b5fd;
-            }
-
-            .string {
-                color: #f2c18d;
-            }
-
-            .function {
-                color: #7dd3fc;
-            }
-
-            .class {
-                color: #fda4af;
-            }
-
-            .localVar {
-                color: #fcd34d;
-            }
-
-            .interface {
-                color: #a7f3d0;
-            }
-
-            .number {
-                color: #a7f3d0;
-            }
-
-            .enum {
-                color: #6ee7b7;
-            }
-
-            .comment {
-                color: #7bc77b;
-            }
-        }
-
-        .powershell {
-            .comment {
-                color: #7bc77b;
-            }
-        }
-    }
 }

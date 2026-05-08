@@ -3,7 +3,7 @@
     <OrderedListItem Margin="Margin.Is2.FromBottom">
         @if ( To != null )
         {
-            <Anchor To="@To" TextColor="TextColor.Primary">@ToText</Anchor>
+            <Anchor To="@To" TextColor="TextColor.Primary" Unstyled>@ToText</Anchor>
         }
         @ChildContent
     </OrderedListItem>
@@ -13,7 +13,7 @@ else
     <UnorderedListItem Margin="Margin.Is2.FromBottom">
         @if ( To != null )
         {
-            <Anchor To="@To" TextColor="TextColor.Primary">@ToText</Anchor>
+            <Anchor To="@To" TextColor="TextColor.Primary" Unstyled>@ToText</Anchor>
         }
         @ChildContent
     </UnorderedListItem>

@@ -13,13 +13,25 @@
 
         a {
             color: var(--b-link-color);
-            border-bottom: 2px solid transparent;
+            border-bottom: 2px solid var(--b-theme-primary);
             text-decoration: none;
             transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 
             &:hover {
                 border-color: var(--b-theme-primary);
                 color: var(--b-theme-primary);
+            }
+        }
+
+        .card {
+            a {
+                color: var(--b-link-text-color);
+                border-bottom-color: transparent;
+
+                &:hover {
+                    border-color: var(--b-theme-primary);
+                    color: var(--b-link-text-color);
+                }
             }
         }
 
