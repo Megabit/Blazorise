@@ -1,12 +1,18 @@
-﻿@page "/about"
+@page "/about"
 @inherits BasePage
 
-<Seo Canonical="/about" Title="About Blazorise" Description="Know more about the Blazorise Team, our Partners, Mission statements, Customer quotes, our achievements and Awards." />
+<Seo Canonical="/about" Title="About Blazorise" Description="Learn about Blazorise, the source-available Blazor UI component library built by Megabit, including mission, company details, and commercial contact information." />
 
 <PageHeader>
     <Title>
-        About Us
+        About <Span Class="gradient-commercial">Blazorise</Span>
     </Title>
+    <Subtitle>
+        A source-available Blazor UI platform built and maintained by Megabit.
+    </Subtitle>
+    <Description>
+        We build Blazorise so .NET teams can ship polished, maintainable applications without rebuilding the same UI foundation in every product. The library combines production-ready components, provider flexibility, fluent utilities, documentation, and commercial support.
+    </Description>
     <Actions>
         <Button Type="ButtonType.Link" To="contact" Color="Color.Primary" Size="Size.Large" Padding="Padding.Is4.OnX.Is3.FromEnd.OnTablet">
             <Icon Name="IconName.Comment" />
@@ -19,108 +25,202 @@
     </Actions>
 </PageHeader>
 
-<Container Padding="Padding.Is5.OnY" TextAlignment="TextAlignment.Center">
+<Container Padding="Padding.Is5.OnY">
     <Row>
-        <Column Margin="Margin.Is3.FromBottom">
-            <Lead>
-                Megabit d.o.o. is engaged in the production and maintenance of Blazorise component library.
+        @foreach ( AboutStat item in AboutStats )
+        {
+            <Column @key="@item.Label" ColumnSize="ColumnSize.Is12.Is4.OnDesktop" Margin="Margin.Is3.FromBottom">
+                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                    <CardBody>
+                        <Paragraph TextSize="TextSize.Heading2" TextWeight="TextWeight.Bold" Margin="Margin.Is0.FromBottom">@item.Value</Paragraph>
+                        <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is1.FromBottom">@item.Label</Paragraph>
+                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">@item.Description</Paragraph>
+                    </CardBody>
+                </Card>
+            </Column>
+        }
+    </Row>
+</Container>
+
+<Container Padding="Padding.Is5.OnY">
+    <Row Flex="Flex.AlignItems.Center">
+        <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop" Margin="Margin.Is4.FromBottom.OnMobile">
+            <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+                Built by a focused product team in Croatia
+            </Heading>
+            <Lead TextColor="TextColor.Muted">
+                Megabit d.o.o. develops and maintains Blazorise, the component library behind the documentation, demos, commercial plans, and support services.
             </Lead>
-
-            <Paragraph>
-                The Blazorise component library is a set of components for Blazor applications that are built on top of Blazor and CSS frameworks like Bootstrap, Bulma, and Material.
+            <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted">
+                Blazorise is designed for teams that want productive Blazor development without being locked into one CSS framework. It renders provider-specific markup while keeping the component model familiar across Bootstrap, Tailwind, Fluent 2, Bulma, Material, Ant Design, and more.
             </Paragraph>
+            <Div Flex="Flex.Column.Row.OnTablet" Gap="Gap.Is3" Margin="Margin.Is4.FromTop">
+                <Button Type="ButtonType.Link" To="features" Color="Color.Primary">
+                    Explore Features
+                </Button>
+                <Button Type="ButtonType.Link" To="commercial" Color="Color.Light">
+                    Commercial Options
+                </Button>
+            </Div>
         </Column>
-    </Row>
-    <Row>
-        <Column Margin="Margin.IsAuto.OnX" TextAlignment="TextAlignment.Center">
-            <Table Responsive Borderless Striped>
-                <TableBody>
-                    <TableRow>
-                        <TableRowHeader TextAlignment="TextAlignment.Start">Company:</TableRowHeader>
-                        <TableRowCell TextAlignment="TextAlignment.End">Megabit d.o.o.</TableRowCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableRowHeader TextAlignment="TextAlignment.Start">Headquarter:</TableRowHeader>
-                        <TableRowCell TextAlignment="TextAlignment.End">Hrvojeva 11, 21204 Dugopolje, Croatia</TableRowCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableRowHeader TextAlignment="TextAlignment.Start">OIB:</TableRowHeader>
-                        <TableRowCell TextAlignment="TextAlignment.End">11987636635</TableRowCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableRowHeader TextAlignment="TextAlignment.Start">VAT:</TableRowHeader>
-                        <TableRowCell TextAlignment="TextAlignment.End">HR11987636635</TableRowCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableRowHeader TextAlignment="TextAlignment.Start">MBS:</TableRowHeader>
-                        <TableRowCell TextAlignment="TextAlignment.End">2687593</TableRowCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableRowHeader TextAlignment="TextAlignment.Start">Commercial Court:</TableRowHeader>
-                        <TableRowCell TextAlignment="TextAlignment.End">Split, Tt-10/2258-2</TableRowCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableRowHeader TextAlignment="TextAlignment.Start">Activities:</TableRowHeader>
-                        <TableRowCell TextAlignment="TextAlignment.End">6201 Computer programming</TableRowCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableRowHeader TextAlignment="TextAlignment.Start">Key Person:</TableRowHeader>
-                        <TableRowCell TextAlignment="TextAlignment.End">Mladen Macanović, board member</TableRowCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableRowHeader TextAlignment="TextAlignment.Start">Year Of Foundation:</TableRowHeader>
-                        <TableRowCell TextAlignment="TextAlignment.End">2010</TableRowCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableRowHeader TextAlignment="TextAlignment.Start">Size:</TableRowHeader>
-                        <TableRowCell TextAlignment="TextAlignment.End">Small</TableRowCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableRowHeader TextAlignment="TextAlignment.Start">Website:</TableRowHeader>
-                        <TableRowCell TextAlignment="TextAlignment.End">
-                            <Anchor To="https://megabitsoft.com/" Target="Target.Blank">megabitsoft.com</Anchor>
-                        </TableRowCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableRowHeader TextAlignment="TextAlignment.Start">Contact:</TableRowHeader>
-                        <TableRowCell TextAlignment="TextAlignment.End">
-                            <Anchor To="@($"mailto:{MailToLink}")">@MailToAddress</Anchor>
-                        </TableRowCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
-        </Column>
-    </Row>
 
-    <Row>
-        <Column Margin="Margin.IsAuto.OnX" TextAlignment="TextAlignment.Center">
-            <Paragraph>
-                Bank details
-            </Paragraph>
-            <Table Responsive Borderless Striped>
-                <TableBody>
-                    <TableRow>
-                        <TableRowHeader TextAlignment="TextAlignment.Start">Bank:</TableRowHeader>
-                        <TableRowCell TextAlignment="TextAlignment.End">Podravska banka d.d.</TableRowCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableRowHeader TextAlignment="TextAlignment.Start">Headquarter:</TableRowHeader>
-                        <TableRowCell TextAlignment="TextAlignment.End">Opatička 3, 48000 Koprivnica, Croatia</TableRowCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableRowHeader TextAlignment="TextAlignment.Start">OIB:</TableRowHeader>
-                        <TableRowCell TextAlignment="TextAlignment.End">97326283154</TableRowCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableRowHeader TextAlignment="TextAlignment.Start">IBAN:</TableRowHeader>
-                        <TableRowCell TextAlignment="TextAlignment.End">HR8023860021110095639</TableRowCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableRowHeader TextAlignment="TextAlignment.Start">Swift:</TableRowHeader>
-                        <TableRowCell TextAlignment="TextAlignment.End">PDKCHR2X</TableRowCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
+        <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop">
+            <Card Border="Border.Rounded" Shadow="Shadow.Small">
+                <CardBody>
+                    <Heading Size="HeadingSize.Is3" TextWeight="TextWeight.Bold" Margin="Margin.Is3.FromBottom">
+                        Company Details
+                    </Heading>
+                    <Table Responsive Borderless>
+                        <TableBody>
+                            @foreach ( CompanyFact item in CompanyFacts )
+                            {
+                                <TableRow @key="@item.Label">
+                                    <TableRowHeader TextAlignment="TextAlignment.Start">@item.Label</TableRowHeader>
+                                    <TableRowCell TextAlignment="TextAlignment.End">@item.Value</TableRowCell>
+                                </TableRow>
+                            }
+                            <TableRow>
+                                <TableRowHeader TextAlignment="TextAlignment.Start">Website</TableRowHeader>
+                                <TableRowCell TextAlignment="TextAlignment.End">
+                                    <Anchor To="https://megabitsoft.com/" Target="Target.Blank">megabitsoft.com</Anchor>
+                                </TableRowCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableRowHeader TextAlignment="TextAlignment.Start">Contact</TableRowHeader>
+                                <TableRowCell TextAlignment="TextAlignment.End">
+                                    <Anchor To="@($"mailto:{MailToLink}")">@MailToAddress</Anchor>
+                                </TableRowCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </CardBody>
+            </Card>
         </Column>
     </Row>
 </Container>
+
+<Container Padding="Padding.Is5.OnY">
+    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
+        <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+            What guides the work
+        </Heading>
+        <Lead TextColor="TextColor.Muted">
+            Blazorise is shaped around practical product development, provider flexibility, and long-term maintainability.
+        </Lead>
+    </Div>
+
+    <Row>
+        @foreach ( AboutPrinciple item in AboutPrinciples )
+        {
+            <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
+                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                    <CardBody>
+                        <Icon Name="@item.Icon" IconSize="IconSize.x2" TextColor="@item.TextColor" Margin="Margin.Is3.FromBottom" />
+                        <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.SemiBold">@item.Title</Heading>
+                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">@item.Description</Paragraph>
+                    </CardBody>
+                </Card>
+            </Column>
+        }
+    </Row>
+</Container>
+
+<Container Padding="Padding.Is5.OnY">
+    <Card Border="Border.Rounded" Shadow="Shadow.Small">
+        <CardBody Padding="Padding.Is5">
+            <Row>
+                <Column ColumnSize="ColumnSize.Is12.Is5.OnDesktop" Margin="Margin.Is4.FromBottom.OnMobile">
+                    <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+                        Bank Details
+                    </Heading>
+                    <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">
+                        Official payment information for Megabit d.o.o.
+                    </Paragraph>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is7.OnDesktop">
+                    <Table Responsive Borderless>
+                        <TableBody>
+                            @foreach ( CompanyFact item in BankFacts )
+                            {
+                                <TableRow @key="@item.Label">
+                                    <TableRowHeader TextAlignment="TextAlignment.Start">@item.Label</TableRowHeader>
+                                    <TableRowCell TextAlignment="TextAlignment.End">@item.Value</TableRowCell>
+                                </TableRow>
+                            }
+                        </TableBody>
+                    </Table>
+                </Column>
+            </Row>
+        </CardBody>
+    </Card>
+</Container>
+
+<Container Padding="Padding.Is5.OnY">
+    <Card Border="Border.Rounded" Shadow="Shadow.Small">
+        <CardBody Padding="Padding.Is5">
+            <Row Flex="Flex.AlignItems.Center">
+                <Column ColumnSize="ColumnSize.Is12.Is8.OnDesktop">
+                    <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+                        Want to work with the team behind Blazorise?
+                    </Heading>
+                    <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">
+                        Contact us for licensing, support, services, partnerships, or product questions.
+                    </Paragraph>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is4.OnDesktop" TextAlignment="TextAlignment.End" Margin="Margin.Is4.FromTop.OnMobile">
+                    <Button Type="ButtonType.Link" To="contact" Color="Color.Primary" Size="Size.Large">
+                        Contact Us
+                    </Button>
+                </Column>
+            </Row>
+        </CardBody>
+    </Card>
+</Container>
+
+@code {
+    private static readonly AboutStat[] AboutStats =
+    [
+        new( "2010", "Founded", "Megabit has been building software products and services for more than a decade." ),
+        new( "100+", "UI components", "Blazorise covers common application UI, complex data workflows, and provider utilities." ),
+        new( "7+", "CSS providers", "Use Bootstrap, Tailwind, Fluent 2, Bulma, Material, Ant Design, and more." )
+    ];
+
+    private static readonly AboutPrinciple[] AboutPrinciples =
+    [
+        new( IconName.Code, TextColor.Primary, "Productive Blazor", "Keep product teams focused on features instead of repeating low-level UI work." ),
+        new( IconName.LayerGroup, TextColor.Info, "Provider flexibility", "Support multiple CSS frameworks while preserving a consistent component model." ),
+        new( IconName.Palette, TextColor.Secondary, "Design-system fit", "Make it practical to align Blazor applications with product-specific visual standards." ),
+        new( IconName.Shield, TextColor.Success, "Source available", "Give teams visibility into the library they depend on and a path to commercial support." ),
+        new( IconName.Book, TextColor.Primary, "Practical docs", "Maintain examples, guidance, and API details that help teams implement real screens." ),
+        new( IconName.Users, TextColor.Info, "Community shaped", "Use feedback from customers and the wider Blazor community to guide roadmap priorities." )
+    ];
+
+    private static readonly CompanyFact[] CompanyFacts =
+    [
+        new( "Company", "Megabit d.o.o." ),
+        new( "Headquarters", "Hrvojeva 11, 21204 Dugopolje, Croatia" ),
+        new( "OIB", "11987636635" ),
+        new( "VAT", "HR11987636635" ),
+        new( "MBS", "2687593" ),
+        new( "Commercial Court", "Split, Tt-10/2258-2" ),
+        new( "Activities", "6201 Computer programming" ),
+        new( "Key Person", "Mladen Macanović, board member" ),
+        new( "Year Founded", "2010" ),
+        new( "Size", "Small" )
+    ];
+
+    private static readonly CompanyFact[] BankFacts =
+    [
+        new( "Bank", "Podravska banka d.d." ),
+        new( "Headquarters", "Opatička 3, 48000 Koprivnica, Croatia" ),
+        new( "OIB", "97326283154" ),
+        new( "IBAN", "HR8023860021110095639" ),
+        new( "Swift", "PDKCHR2X" )
+    ];
+
+    private sealed record AboutStat( string Value, string Label, string Description );
+
+    private sealed record AboutPrinciple( IconName Icon, TextColor TextColor, string Title, string Description );
+
+    private sealed record CompanyFact( string Label, string Value );
+}
