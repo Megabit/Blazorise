@@ -73,6 +73,9 @@
                     <Anchor To="about" Title="About">About</Anchor>
                 </UnorderedListItem>
                 <UnorderedListItem Margin="Margin.Is1.FromBottom">
+                    <Anchor To="vision" Title="Vision">Vision</Anchor>
+                </UnorderedListItem>
+                <UnorderedListItem Margin="Margin.Is1.FromBottom">
                     <Anchor To="news" Title="News">News</Anchor>
                 </UnorderedListItem>
                 <UnorderedListItem Margin="Margin.Is1.FromBottom">
@@ -109,7 +112,7 @@
     [Inject] private ThemeService ThemeService { get; set; }
 
     private TextColor IconTextColor => ThemeService.ShouldDark ? TextColor.Light : TextColor.Dark;
-    
+
     protected override void OnInitialized()
     {
         ThemeService.ThemeChanged += OnThemeChanged;
