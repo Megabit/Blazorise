@@ -21,7 +21,20 @@
                 return;
             }
 
-            document.querySelectorAll('.b-docs-page>h2, .b-docs-page>h3, .b-docs-page>h4, .b-docs-page-section-header>h3').forEach(function (el) {
+            const contentSelector = '.b-docs-page';
+            const headingSelector = [
+                '.b-docs-page > h2',
+                '.b-docs-page > h3',
+                '.b-docs-page > h4',
+                '.b-docs-page > div > h2',
+                '.b-docs-page > div > h3',
+                '.b-docs-page > div > h4',
+                '.b-docs-page > div > div > h2',
+                '.b-docs-page > div > div > h3',
+                '.b-docs-page > div > div > h4'
+            ].join(', ');
+
+            document.querySelectorAll(headingSelector).forEach(function (el) {
                 if (el && !el.id && el.textContent) {
                     const textContent = el.textContent.trim();
                     el.id = 'toc_' + textContent.replace(/[^A-Za-z0-9]/g, '-');
@@ -32,8 +45,8 @@
             tocbot.init({
                 basePath: options.basePath,
                 tocSelector: '#TableOfContents',
-                contentSelector: '.b-docs-page',
-                headingSelector: '.b-docs-page>h2, .b-docs-page>h3, .b-docs-page>h4, .b-docs-page-section-header>h3',
+                contentSelector: contentSelector,
+                headingSelector: headingSelector,
                 hasInnerContainers: false,
                 orderedList: false,
                 activeLinkClass: 'active',
