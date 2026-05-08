@@ -1,4 +1,4 @@
-﻿<Div Position="Position.Relative" Height="Height.Is100">
+<Div Position="Position.Relative" Height="Height.Is100">
     <Div Position="Position.Absolute.Top.Is0.End.Is0">
         <Tooltip Text="@(ShowCode ? "Hide code example" : "Show code example")" Inline>
             <Button TextColor="TextColor.Secondary" Clicked="@OnToggleCode">
@@ -7,7 +7,7 @@
         </Tooltip>
         <Tooltip Text="Copy code" Inline>
             <Button TextColor="TextColor.Secondary" Clicked="@OnCopyCode">
-                <Icon Name="@("fas fa-copy")" />
+                <Icon Name="IconName.Copy" />
             </Button>
         </Tooltip>
     </Div>
