@@ -2,13 +2,13 @@
     --mui-btn-padding: 1rem;
     --mui-btn-size: 2.5rem;
     --mui-btn-font-size: 0.875rem;
-    --mui-btn-bg: var(--mui-surface-container-high);
+    --mui-btn-bg: transparent;
     --mui-btn-color: var(--mui-on-surface);
     --mui-btn-border-width: 1px;
     --mui-btn-border-color: transparent;
     --mui-btn-border-style: solid;
     --mui-btn-border-radius: var(--mui-btn-size);
-    --mui-btn-hover-bg: var(--mui-btn-bg);
+    --mui-btn-hover-bg: color-mix(in srgb, currentColor 8%, transparent);
     box-sizing: border-box;
     position: relative;
     display: inline-flex;
