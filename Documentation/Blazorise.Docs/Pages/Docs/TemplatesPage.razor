@@ -168,6 +168,27 @@
             </UnorderedList>
         </Paragraph>
     </DocsAttributesItem>
+    <DocsAttributesItem Name="-mcp" Type="Choice" Default="GitHub">
+        <Paragraph>
+            Specifies the MCP client configuration generated for Blazorise documentation support.
+        </Paragraph>
+        <Paragraph>
+            The generated project includes a <Code>.mcp.json</Code> file configured for the selected client type.
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>
+                    GitHub - GitHub.com coding agent configuration using <Code>mcpServers</Code> and <Code>tools</Code>.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    Http - Streamable HTTP MCP transport configuration.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    Sse - SSE MCP transport configuration.
+                </UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+    </DocsAttributesItem>
     <DocsAttributesItem Name="-ut" Type="bool" Default="true">Whether the program entry point, should use <Anchor To="https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/top-level-statements">top level statements</Anchor>. </DocsAttributesItem>
     <DocsAttributesItem Name="-tcolor-primary" Type="string" Default="#0288D1">The Theme's starting primary color.</DocsAttributesItem>
     <DocsAttributesItem Name="-tcolor-secondary" Type="string" Default="#A65529">The Theme's starting secondary color.</DocsAttributesItem>
