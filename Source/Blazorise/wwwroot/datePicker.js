@@ -88,6 +88,11 @@ export function initialize(dotnetAdapter, element, elementId, options) {
                 }
             }
         },
+        onClose: (selectedDates, dateStr, instance) => {
+            if (instance && instance.config && instance.config.mode === "range" && selectedDates && selectedDates.length === 1) {
+                instance.setDate([selectedDates[0], selectedDates[0]], true);
+            }
+        },
 
     };
 
