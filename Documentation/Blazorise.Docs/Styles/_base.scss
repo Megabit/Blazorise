@@ -145,4 +145,15 @@ html, body * {
 
 .b-layout-footer {
     color: inherit;
+
+    a {
+        color: var(--b-link-text-color);
+        text-decoration: none;
+        transition: color 0.15s ease-in-out;
+
+        &:hover {
+            color: var(--b-theme-primary);
+            text-decoration: underline;
+        }
+    }
 }

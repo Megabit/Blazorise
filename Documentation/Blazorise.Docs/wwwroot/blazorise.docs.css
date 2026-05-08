@@ -204,6 +204,15 @@ html, body * {
 .b-layout-footer {
   color: inherit;
 }
+.b-layout-footer a {
+  color: var(--b-link-text-color);
+  text-decoration: none;
+  transition: color 0.15s ease-in-out;
+}
+.b-layout-footer a:hover {
+  color: var(--b-theme-primary);
+  text-decoration: underline;
+}
 
 :root {
   --bd-purple: #4c0bce;
