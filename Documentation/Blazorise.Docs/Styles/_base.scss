@@ -15,7 +15,7 @@
 
 body {
     &:not([data-bs-theme="dark"]) {
-        --b-link-color: #3f4d62;
+        --b-link-color: var(--b-theme-primary, #1a81fa);
         --b-code-color: #5748ff;
         --b-code-background-color: #f5f8fd;
         --b-codeblock-color: #3f4d62;
@@ -26,7 +26,7 @@ body {
     }
 
     &[data-bs-theme="dark"] {
-        --b-link-color: #c7b5ff;
+        --b-link-color: var(--b-theme-primary, #1a81fa);
         --b-code-color: #d7ccff;
         --b-code-background-color: var(--bs-secondary-bg);
         --b-codeblock-color: var(--bs-body-color);
@@ -39,7 +39,7 @@ body {
 }
 
 a {
-    color: var(--b-theme-primary, #1a81fa);
+    color: var(--b-link-color);
 }
 
 .b-top-bar {

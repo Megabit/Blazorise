@@ -82,12 +82,13 @@
     }
 
     a:not(.dropdown-item):not(.page-link):not(.b-bar-link):not(.b-bar-dropdown-item):not(.nav-link):not(.b-bar-toggler-inline):not(.navbar-toggler):not([role=button]) {
-        color: inherit;
-        border-bottom: 2px solid var(--b-theme-primary);
+        color: var(--b-link-color);
+        border-bottom: 2px solid transparent;
         text-decoration: none;
-        transition: color 0.5s ease-in-out;
+        transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 
         &:hover {
+            border-color: var(--b-theme-primary);
             color: var(--b-theme-primary);
         }
     }

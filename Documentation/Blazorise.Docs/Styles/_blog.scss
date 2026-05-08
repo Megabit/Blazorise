@@ -13,8 +13,14 @@
 
         a {
             color: var(--b-link-color);
-            border-bottom: 2px solid var(--b-theme-primary);
+            border-bottom: 2px solid transparent;
             text-decoration: none;
+            transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+
+            &:hover {
+                border-color: var(--b-theme-primary);
+                color: var(--b-theme-primary);
+            }
         }
 
         p {

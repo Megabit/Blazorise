@@ -42,6 +42,7 @@ public partial class Routes
             Light = "#dce7ed",
             Dark = "#181C32",
             Info = "#48addb",
+            Link = "#9333ea",
         },
         BackgroundOptions = new ThemeBackgroundOptions
         {

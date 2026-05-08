@@ -86,7 +86,7 @@ body:not([data-bs-theme=dark]) {
 }
 
 body:not([data-bs-theme=dark]) {
-  --b-link-color: #3f4d62;
+  --b-link-color: var(--b-theme-primary, #1a81fa);
   --b-code-color: #5748ff;
   --b-code-background-color: #f5f8fd;
   --b-codeblock-color: #3f4d62;
@@ -96,7 +96,7 @@ body:not([data-bs-theme=dark]) {
   --b-blockquote-background-color: #f5f8fd;
 }
 body[data-bs-theme=dark] {
-  --b-link-color: #c7b5ff;
+  --b-link-color: var(--b-theme-primary, #1a81fa);
   --b-code-color: #d7ccff;
   --b-code-background-color: var(--bs-secondary-bg);
   --b-codeblock-color: var(--bs-body-color);
@@ -108,7 +108,7 @@ body[data-bs-theme=dark] {
 }
 
 a {
-  color: var(--b-theme-primary, #1a81fa);
+  color: var(--b-link-color);
 }
 
 .b-top-bar .navbar-nav .nav-link {
@@ -190,7 +190,7 @@ body[data-bs-theme=dark] .page-header {
 body[data-bs-theme=dark] .home-features a:not(.home-feature-info-image),
 body[data-bs-theme=dark] .home-popular-components a,
 body[data-bs-theme=dark] .home-testimonials a {
-  color: var(--bs-body-color);
+  color: var(--b-link-color);
 }
 body[data-bs-theme=dark] .home-case-studies .color-cards .card-details p {
   color: var(--bs-secondary-color);
@@ -246,12 +246,13 @@ body[data-bs-theme=dark] .home-customer-feedback-customer-cards:hover {
   }
 }
 .home-features a:not(.home-feature-info-image) {
-  color: #3f4d62;
-  border-bottom: 2px solid var(--b-theme-primary);
+  color: var(--b-link-color);
+  border-bottom: 2px solid transparent;
   text-decoration: none;
-  transition: color 0.5s ease-in-out;
+  transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 }
 .home-features a:not(.home-feature-info-image):hover {
+  border-color: var(--b-theme-primary);
   color: var(--b-theme-primary);
 }
 
@@ -329,22 +330,24 @@ body[data-bs-theme=dark] .home-customer-feedback-customer-cards:hover {
   color: var(--b-theme-secondary);
 }
 .home-popular-components a {
-  color: #3f4d62;
-  border-bottom: 2px solid var(--b-theme-primary);
+  color: var(--b-link-color);
+  border-bottom: 2px solid transparent;
   text-decoration: none;
-  transition: color 0.5s ease-in-out;
+  transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 }
 .home-popular-components a:hover {
+  border-color: var(--b-theme-primary);
   color: var(--b-theme-primary);
 }
 
 .home-testimonials a {
-  color: #3f4d62;
-  border-bottom: 2px solid var(--b-theme-primary);
+  color: var(--b-link-color);
+  border-bottom: 2px solid transparent;
   text-decoration: none;
-  transition: color 0.5s ease-in-out;
+  transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 }
 .home-testimonials a:hover {
+  border-color: var(--b-theme-primary);
   color: var(--b-theme-primary);
 }
 
@@ -441,12 +444,13 @@ body[data-bs-theme=dark] .home-customer-feedback-customer-cards:hover {
   overflow-wrap: break-word;
 }
 .b-docs-page a:not(.dropdown-item):not(.page-link):not(.b-bar-link):not(.b-bar-dropdown-item):not(.nav-link):not(.b-bar-toggler-inline):not(.navbar-toggler):not([role=button]) {
-  color: inherit;
-  border-bottom: 2px solid var(--b-theme-primary);
+  color: var(--b-link-color);
+  border-bottom: 2px solid transparent;
   text-decoration: none;
-  transition: color 0.5s ease-in-out;
+  transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 }
 .b-docs-page a:not(.dropdown-item):not(.page-link):not(.b-bar-link):not(.b-bar-dropdown-item):not(.nav-link):not(.b-bar-toggler-inline):not(.navbar-toggler):not([role=button]):hover {
+  border-color: var(--b-theme-primary);
   color: var(--b-theme-primary);
 }
 
@@ -672,8 +676,13 @@ body[data-bs-theme=dark] .blazorise-codeblock .powershell .comment {
 }
 .b-blog .b-blog-content a {
   color: var(--b-link-color);
-  border-bottom: 2px solid var(--b-theme-primary);
+  border-bottom: 2px solid transparent;
   text-decoration: none;
+  transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+.b-blog .b-blog-content a:hover {
+  border-color: var(--b-theme-primary);
+  color: var(--b-theme-primary);
 }
 .b-blog .b-blog-content p {
   margin-bottom: 1.3rem;
