@@ -30,6 +30,13 @@ public partial class DocsPageSectionSource
         return Task.CompletedTask;
     }
 
+    private Task OnToggleSourceExpanded()
+    {
+        SourceExpanded = !SourceExpanded;
+
+        return Task.CompletedTask;
+    }
+
     private async Task OnCopyCode()
     {
         await JSRuntime.InvokeVoidAsync( "blazoriseDocs.code.copyToClipboard", Snippets.GetCode( CurrentCode ) );
@@ -72,6 +79,10 @@ public partial class DocsPageSectionSource
     #region Properties
 
     private IFluentDisplay SourceCodeDisplay => ShowCode ? Display.Block : Display.None;
+
+    private IFluentSizing SourceCodeHeight => SourceExpanded ? null : Height.Px().Max( 280 );
+
+    private bool SourceExpanded { get; set; }
 
     private IReadOnlyList<DocsCodeSource> CodeSources
     {

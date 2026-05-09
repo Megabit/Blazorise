@@ -17,6 +17,14 @@
             }
         </Div>
         <Div Flex="Flex.AlignItems.Center">
+            @if ( ShowCode )
+            {
+                <Tooltip Text="@(SourceExpanded ? "Collapse code example" : "Expand code example")" Inline>
+                    <Button Color="Color.Default" Size="Size.Small" TextColor="TextColor.Secondary" Clicked="@OnToggleSourceExpanded">
+                        <Icon Name="@(SourceExpanded ? IconName.Compress : IconName.Expand)" />
+                    </Button>
+                </Tooltip>
+            }
             <Tooltip Text="@(ShowCode ? "Hide code example" : "Show code example")" Inline>
                 <Button Color="Color.Default" Size="Size.Small" TextColor="TextColor.Secondary" Clicked="@OnToggleCode">
                     <Icon Name="IconName.Code" />
@@ -29,7 +37,7 @@
             </Tooltip>
         </Div>
     </Div>
-    <Div Height="Height.Is100" Display="@SourceCodeDisplay">
+    <Div Height="@SourceCodeHeight" Overflow="Overflow.Auto" Display="@SourceCodeDisplay">
         @CodeComponent( CurrentCode )
     </Div>
 </Div>
