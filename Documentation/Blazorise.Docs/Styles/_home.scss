@@ -12,7 +12,7 @@
 
 .page-header {
     text-align: center;
-    background-image: linear-gradient(180deg,rgba(var(--bs-body-bg-rgb),.01),rgba(var(--bs-body-bg-rgb),1) 85%),radial-gradient(ellipse at top left,rgba(var(--bs-primary-rgb),.5),transparent 50%),radial-gradient(ellipse at top right,rgba(var(--bd-accent-rgb),.5),transparent 50%),radial-gradient(ellipse at center right,rgba(var(--bd-violet-rgb),.5),transparent 50%),radial-gradient(ellipse at center left,rgba(var(--bd-pink-rgb),.5),transparent 50%);
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(var(--bs-body-bg-rgb), 1) 88%), radial-gradient(ellipse at top left, rgba(125, 211, 252, 0.42), transparent 56%), radial-gradient(ellipse at top right, rgba(196, 181, 253, 0.34), transparent 54%), radial-gradient(ellipse at center, rgba(124, 58, 237, 0.16), transparent 62%), radial-gradient(ellipse at 28% 62%, rgba(244, 114, 182, 0.16), transparent 58%);
 
     &-img {
         aspect-ratio: 3;
@@ -21,7 +21,7 @@
 
 body[data-bs-theme="dark"] {
     .page-header {
-        background-image: linear-gradient(180deg, rgba(17, 24, 39, 0.85), rgba(var(--bs-body-bg-rgb), 1) 90%), radial-gradient(ellipse at top left, rgba(147, 51, 234, 0.50), transparent 60%), radial-gradient(ellipse at top right, rgba(99, 102, 241, 0.40), transparent 60%), radial-gradient(ellipse at center right, rgba(59, 130, 246, 0.35), transparent 60%), radial-gradient(ellipse at center left, rgba(236, 72, 153, 0.30), transparent 65%), radial-gradient(ellipse at bottom left, rgba(244, 114, 182, 0.25), transparent 70%), radial-gradient(ellipse at bottom right, rgba(251, 191, 36, 0.10), transparent 75%);
+        background-image: linear-gradient(180deg, rgba(15, 23, 42, 0.82), rgba(var(--bs-body-bg-rgb), 1) 90%), radial-gradient(ellipse at top left, rgba(56, 189, 248, 0.24), transparent 58%), radial-gradient(ellipse at top right, rgba(124, 58, 237, 0.34), transparent 58%), radial-gradient(ellipse at center, rgba(196, 181, 253, 0.16), transparent 64%), radial-gradient(ellipse at 28% 64%, rgba(244, 114, 182, 0.12), transparent 62%);
     }
 
     .home-features a:not(.home-feature-info-image),
@@ -261,14 +261,8 @@ body[data-bs-theme="dark"] {
 
 .home-newsletter-container {
     padding: 50px 50px;
-    /*height: 200px;*/
     position: relative;
     border-radius: 13px;
-    /*background-image: linear-gradient( 106.4deg,  rgba(255,104,192,1) 11.1%, rgba(104,84,249,1) 81.3% );*/
-    background-image: linear-gradient( 111.6deg, rgba(174,68,223,1) 27.3%, rgba(246,135,135,1) 112.7% );
-    /*background-image: linear-gradient( 109.6deg,  rgba(209,0,116,1) 11.2%, rgba(110,44,107,1) 91.1% );*/
-    /*background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);*/
-    /*background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);*/
-    /*background-image: linear-gradient(to right, #fc5c7d, #6a82fb);*/
-    /*background: linear-gradient(90deg,#9317e18c,#e91e6396);*/
+    background-color: #7c3aed;
+    background-image: radial-gradient(circle at 16% 20%, rgba(255, 255, 255, 0.18), transparent 28%), radial-gradient(circle at 86% 18%, rgba(56, 189, 248, 0.26), transparent 30%), radial-gradient(circle at 92% 92%, rgba(244, 114, 182, 0.30), transparent 34%), linear-gradient(125deg, #6d28d9 0%, #7c3aed 42%, #be4b9d 100%);
 }
