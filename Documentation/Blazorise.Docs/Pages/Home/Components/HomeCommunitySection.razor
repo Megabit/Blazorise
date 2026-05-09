@@ -1,62 +1,40 @@
-﻿<section class="home-community" id="community-section">
-    <Row>
-        <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.Center">
-            <Heading Size="HeadingSize.Is2" Padding="Padding.Is3.FromBottom">
-                Join Our Community
-            </Heading>
-            <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.FromBottom" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
-                Every great product has a great community behind it, and Blazorise is no exception.
-                We made Blazorise source-available early because we believe in transparency, collaboration, and shared progress.
-                Our roadmap is public, our priorities are community-driven, and our code is yours to explore.
-                Jump into our <Strong>GitHub</Strong>, chat with us on <Strong>Discord</Strong>, or follow along on <Strong>X</Strong> and <Strong>Reddit</Strong>.
-                Your ideas and feedback help shape the future of Blazorise.
-            </Heading>
-        </Column>
-    </Row>
+<Container Padding="Padding.Is5.OnY">
+    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
+        <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+            Join the Blazorise community
+        </Heading>
+        <Lead TextColor="TextColor.Muted">
+            Follow product updates, discuss implementation details, report issues, and help shape the roadmap.
+        </Lead>
+    </Div>
 
     <Row>
-        <Column ColumnSize="ColumnSize.Is12.Is3.OnDesktop" TextAlignment="TextAlignment.Center">
-            <Image Source="img/logos/icons8-twitter-x.svg" Text="X (Twitter) icon" Class="home-community-img-icons" />
-            <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">X (Twitter)</Heading>
-            <Paragraph TextColor="TextColor.Muted">
-                Follow us for news, product updates, and insights from the Blazorise team.
-            </Paragraph>
-            <Anchor To="https://twitter.com/Blazorise" Title="Link to Blazorise on X (Twitter)" Target="Target.Blank" Class="home-community-readmore-link">
-                <Paragraph>Follow us</Paragraph>
-            </Anchor>
-        </Column>
-
-        <Column ColumnSize="ColumnSize.Is12.Is3.OnDesktop" TextAlignment="TextAlignment.Center">
-            <Image Source="img/logos/icons8-discord.svg" Text="Discord icon" Class="home-community-img-icons" />
-            <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">Discord</Heading>
-            <Paragraph TextColor="TextColor.Muted">
-                Chat live with other developers and maintainers. A team member is almost always online.
-            </Paragraph>
-            <Anchor To="https://discord.gg/cVmq8xBSnG" Title="Link to Blazorise Discord" Target="Target.Blank" Class="home-community-readmore-link">
-                <Paragraph>Join the conversation</Paragraph>
-            </Anchor>
-        </Column>
-
-        <Column ColumnSize="ColumnSize.Is12.Is3.OnDesktop" TextAlignment="TextAlignment.Center">
-            <Image Source="img/logos/icons8-reddit.svg" Text="Reddit icon" Class="home-community-img-icons" />
-            <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">Reddit</Heading>
-            <Paragraph TextColor="TextColor.Muted">
-                Join the Blazorise subreddit for discussions, release news, and community highlights.
-            </Paragraph>
-            <Anchor To="https://www.reddit.com/r/Blazorise/" Title="Link to Blazorise Reddit" Target="Target.Blank" Class="home-community-readmore-link">
-                <Paragraph>Subscribe</Paragraph>
-            </Anchor>
-        </Column>
-
-        <Column ColumnSize="ColumnSize.Is12.Is3.OnDesktop" TextAlignment="TextAlignment.Center">
-            <Image Source="img/logos/icons8-github.svg" Text="GitHub icon" Class="home-community-img-icons" />
-            <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">GitHub</Heading>
-            <Paragraph TextColor="TextColor.Muted">
-                Found a bug? Have a suggestion? Open an issue or contribute directly to Blazorise on GitHub.
-            </Paragraph>
-            <Anchor To="https://github.com/Megabit/Blazorise" Title="Link to Blazorise GitHub" Target="Target.Blank" Class="home-community-readmore-link">
-                <Paragraph>Contribute on GitHub</Paragraph>
-            </Anchor>
-        </Column>
+        @foreach ( CommunityLink item in CommunityLinks )
+        {
+            <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is3.OnDesktop" Margin="Margin.Is4.FromBottom" TextAlignment="TextAlignment.Center">
+                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                    <CardBody>
+                        <Image Source="@item.Icon" Text="@item.Title" Width="Width.Px( 40 )" Height="Height.Px( 40 )" Margin="Margin.Is3.FromBottom" />
+                        <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.SemiBold">@item.Title</Heading>
+                        <Paragraph TextColor="TextColor.Muted">@item.Description</Paragraph>
+                        <Anchor To="@item.Url" Title="@item.LinkTitle" Target="Target.Blank">
+                            @item.Action
+                        </Anchor>
+                    </CardBody>
+                </Card>
+            </Column>
+        }
     </Row>
-</section>
+</Container>
+
+@code {
+    private static readonly CommunityLink[] CommunityLinks =
+    [
+        new( "X", "img/logos/icons8-twitter-x.svg", "Follow release news, product updates, and notes from the Blazorise team.", "Follow us", "https://twitter.com/Blazorise", "Link to Blazorise on X" ),
+        new( "Discord", "img/logos/icons8-discord.svg", "Chat with other developers and maintainers when you are working through implementation details.", "Join Discord", "https://discord.gg/cVmq8xBSnG", "Link to Blazorise Discord" ),
+        new( "Reddit", "img/logos/icons8-reddit.svg", "Join discussions, release threads, and community conversations around Blazorise.", "Subscribe", "https://www.reddit.com/r/Blazorise/", "Link to Blazorise Reddit" ),
+        new( "GitHub", "img/logos/icons8-github.svg", "Open issues, inspect the source, and contribute improvements to the project.", "Contribute", "https://github.com/Megabit/Blazorise", "Link to Blazorise GitHub" )
+    ];
+
+    private sealed record CommunityLink( string Title, string Icon, string Description, string Action, string Url, string LinkTitle );
+}
