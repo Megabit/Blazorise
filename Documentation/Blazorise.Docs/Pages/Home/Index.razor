@@ -177,12 +177,14 @@
         {
             <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
                 <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
-                    <CardBody>
+                    <CardBody Flex="Flex.Column" Height="Height.Is100">
                         <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.SemiBold">@item.Title</Heading>
                         <Paragraph TextColor="TextColor.Muted">@item.Description</Paragraph>
-                        <Anchor To="@item.Url" Title="@($"Open {item.Title} documentation")">
-                            View documentation
-                        </Anchor>
+                        <Div Margin="Margin.IsAuto.FromTop">
+                            <Anchor To="@item.Url" Title="@($"Open {item.Title} documentation")">
+                                View documentation
+                            </Anchor>
+                        </Div>
                     </CardBody>
                 </Card>
             </Column>
