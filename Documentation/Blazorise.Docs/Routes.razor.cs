@@ -15,28 +15,28 @@ public partial class Routes
 
     private static class DocsThemeColors
     {
-        public const string Brand = "#9333ea";
-        public const string BrandTextDark = "#c084fc";
+        public const string Brand = "#7c3aed";
+        public const string BrandTextDark = "#c4b5fd";
 
-        public const string Body = "#3f4d62";
-        public const string BodyStrong = "#111827";
-        public const string Muted = "#667085";
+        public const string Body = "#475569";
+        public const string BodyStrong = "#0f172a";
+        public const string Muted = "#64748b";
 
         public const string DarkBody = "#e5e7eb";
         public const string DarkBodyStrong = "#f8fafc";
-        public const string DarkMuted = "#9aa4b2";
-        public const string DarkSurface = "#1f232a";
-        public const string DarkSurfaceElevated = "#151a22";
-        public const string DarkTopBarItemBackground = "#262c35";
+        public const string DarkMuted = "#94a3b8";
+        public const string DarkSurface = "#111827";
+        public const string DarkSurfaceElevated = "#0f172a";
+        public const string DarkTopBarItemBackground = "#1f2937";
 
-        public const string Secondary = "#d7dae7";
-        public const string Success = "#13a668";
-        public const string Danger = "#e11d48";
-        public const string Warning = "#ffa800";
-        public const string Info = "#48addb";
-        public const string Light = "#dce7ed";
-        public const string Dark = "#181c32";
-        public const string TopBarActiveBackground = "#dedede";
+        public const string Secondary = "#64748b";
+        public const string Success = "#0f9f6e";
+        public const string Danger = "#dc2626";
+        public const string Warning = "#f59e0b";
+        public const string Info = "#0284c7";
+        public const string Light = "#f1f5f9";
+        public const string Dark = "#111827";
+        public const string TopBarActiveBackground = "#eef2f7";
     }
 
     private readonly Theme lightTheme = new Theme

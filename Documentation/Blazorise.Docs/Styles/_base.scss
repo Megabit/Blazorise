@@ -1,6 +1,6 @@
 ﻿body {
     &:not([data-bs-theme="dark"]) {
-        color: #3f4d62;
+        color: #475569;
     }
 
     font-family: 'Inter', 'Open Sans', 'Helvetica','Arial','sans-serif';
@@ -15,7 +15,7 @@
 
 body {
     &:not([data-bs-theme="dark"]) {
-        --b-link-color: #3f4d62;
+        --b-link-color: #475569;
         --b-link-text-color: #111827;
         --b-code-color: #155eef;
         --b-code-background-color: #f5f8fd;
