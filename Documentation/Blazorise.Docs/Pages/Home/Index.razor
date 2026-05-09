@@ -201,10 +201,28 @@
         @foreach ( var item in Testimonials )
         {
             <Column @key="@item.Name" ColumnSize="ColumnSize.Is12.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
-                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                <Card Border="Border.Rounded"
+                      Shadow="Shadow.Small"
+                      Height="Height.Is100"
+                      @onclick="@(() => ToggleTestimonial( item.Name ))"
+                      @onkeydown="@(( KeyboardEventArgs eventArgs ) => OnTestimonialKeyDown( eventArgs, item.Name ))"
+                      role="button"
+                      tabindex="0"
+                      aria-expanded="@IsTestimonialExpanded( item.Name )"
+                      Style="cursor: pointer;">
                     <CardBody>
                         <Rating SelectedValue="5" ReadOnly />
-                        <Blockquote>@item.Quote</Blockquote>
+                        <Blockquote Margin="Margin.Is0.FromBottom">
+                            @GetTestimonialPreview( item.Quote )@( CanExpandTestimonial( item.Quote ) && !IsTestimonialExpanded( item.Name ) ? "..." : null )
+                        </Blockquote>
+                        @if ( CanExpandTestimonial( item.Quote ) && IsTestimonialExpanded( item.Name ) )
+                        {
+                            <Animate Animation="Animations.Fade" Trigger="AnimationTrigger.Render" AnimatedSize="AnimatedSize.Height" DurationMilliseconds="180">
+                                <Blockquote Margin="Margin.Is0.FromTop">
+                                    @GetTestimonialContinuation( item.Quote )
+                                </Blockquote>
+                            </Animate>
+                        }
                         <Strong>@item.Name</Strong>
                         <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is1.FromTop.Is0.FromBottom">@item.Company</Paragraph>
                     </CardBody>
@@ -327,6 +345,56 @@
 
     private static readonly string UtilityExampleMarkup = new Blazorise.Docs.BlogRuntime.MarkupBuilder().Build( UtilityExampleSource, "razor" );
 
+    private const int TestimonialPreviewLength = 58;
+
+    private string expandedTestimonialName;
+
+    private bool IsTestimonialExpanded( string name )
+        => string.Equals( expandedTestimonialName, name, StringComparison.Ordinal );
+
+    private void ToggleTestimonial( string name )
+    {
+        expandedTestimonialName = IsTestimonialExpanded( name )
+            ? null
+            : name;
+    }
+
+    private void OnTestimonialKeyDown( KeyboardEventArgs eventArgs, string name )
+    {
+        if ( eventArgs.Key is "Enter" or " " )
+        {
+            ToggleTestimonial( name );
+        }
+    }
+
+    private static string GetTestimonialPreview( string quote )
+    {
+        if ( string.IsNullOrWhiteSpace( quote ) || quote.Length <= TestimonialPreviewLength )
+        {
+            return quote;
+        }
+
+        int lastSpace = quote.LastIndexOf( ' ', TestimonialPreviewLength );
+
+        return quote[..( lastSpace > 0 ? lastSpace : TestimonialPreviewLength )];
+    }
+
+    private static string GetTestimonialContinuation( string quote )
+    {
+        if ( string.IsNullOrWhiteSpace( quote ) || quote.Length <= TestimonialPreviewLength )
+        {
+            return string.Empty;
+        }
+
+        int lastSpace = quote.LastIndexOf( ' ', TestimonialPreviewLength );
+        int splitIndex = lastSpace > 0 ? lastSpace : TestimonialPreviewLength;
+
+        return quote[splitIndex..].TrimStart();
+    }
+
+    private static bool CanExpandTestimonial( string quote )
+        => !string.IsNullOrWhiteSpace( GetTestimonialContinuation( quote ) );
+
     private static readonly PopularComponent[] PopularComponents =
     [
         new( "DataGrid", "Sorting, filtering, grouping, virtualization, editing, templates, and validation for complex data screens.", "docs/extensions/datagrid/getting-started" ),
@@ -339,9 +407,9 @@
 
     private static readonly Testimonial[] Testimonials =
     [
-        new( "Cristian Recoseanu", "Pebble", "Blazorise helped us build new products quickly while focusing on the features that make them distinctive." ),
-        new( "Mark Davis", "Dark Matter Consulting", "Being able to target Bootstrap on desktop and Material for mobile with the same markup is amazing." ),
-        new( "ABP Framework", "ABP", "Blazorise is one of the most complete Blazor component libraries and is easy to learn, use, and customize." )
+        new( "Cristian Recoseanu", "Pebble", "Blazorise has been a key framework which allowed us to quickly build new products while focusing on distinguishing features. The diverse offering of components and compelling documentation made thinking about new features and visualising them much quicker. The customisation layer offered is also excellent and allows us to really make our products and solutions feel coherent and in line with the company brand." ),
+        new( "Mark Davis", "Dark Matter Consulting", "We moved from Radzen to Blazorise a year ago and never looked back. Being able to target Bootstrap on the desktop and Material for mobile with the same markup is amazing." ),
+        new( "ABP Framework", "ABP", "Blazorise is one of the most complete Blazor component libraries. It provides built-in solutions for all the essential UI requirements. It is easy to learn, use, and customize. We trust it in our solutions, and it is highly recommended." )
     ];
 
     private static readonly CommunityLink[] CommunityLinks =
