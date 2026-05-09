@@ -7,6 +7,7 @@
         int componentCustomerPageCount = GetComponentCustomerPageCount( filteredComponentCustomers.Count );
         int currentComponentCustomerPage = GetCurrentComponentCustomerPage( componentCustomerPageCount );
         IReadOnlyList<ComponentCustomer> visibleComponentCustomers = GetVisibleComponentCustomers( filteredComponentCustomers, currentComponentCustomerPage );
+        int selectedComponentCustomerCount = GetSelectedComponentCustomerCount( filteredComponentCustomers );
     }
 
     <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
@@ -34,10 +35,10 @@
                     <TableRow>
                         <TableHeaderCell>
                             <Check TValue="bool"
-                                   Value="@AreVisibleComponentCustomersSelected( visibleComponentCustomers )"
-                                   Indeterminate="@AreSomeVisibleComponentCustomersSelected( visibleComponentCustomers )"
-                                   ValueChanged="@(( bool value ) => SetVisibleComponentCustomersSelected( visibleComponentCustomers, value ))"
-                                   Disabled="@( visibleComponentCustomers.Count == 0 )" />
+                                   Value="@AreComponentCustomersSelected( filteredComponentCustomers )"
+                                   Indeterminate="@AreSomeComponentCustomersSelected( filteredComponentCustomers )"
+                                   ValueChanged="@(( bool value ) => SetComponentCustomersSelected( filteredComponentCustomers, value ))"
+                                   Disabled="@( filteredComponentCustomers.Count == 0 )" />
                         </TableHeaderCell>
                         <TableHeaderCell>Name</TableHeaderCell>
                         <TableHeaderCell>Country</TableHeaderCell>
@@ -100,7 +101,7 @@
             <Div Flex="Flex.Column.Row.OnTablet.AlignItems.Center.JustifyContent.Between" Gap="Gap.Is3" Margin="Margin.Is3.FromTop">
                 <Span TextColor="TextColor.Muted" TextSize="TextSize.Small">
                     Showing @visibleComponentCustomers.Count of @filteredComponentCustomers.Count customers
-                    <Span TextColor="TextColor.Muted">- @selectedComponentCustomerIds.Count selected</Span>
+                    <Span TextColor="TextColor.Muted">- @selectedComponentCustomerCount selected</Span>
                 </Span>
                 <Pagination Size="Size.Small">
                     <PaginationItem Disabled="@( currentComponentCustomerPage <= 1 )" @onclick="@(() => SetComponentCustomerPage( currentComponentCustomerPage - 1 ))">
@@ -199,16 +200,19 @@
         }
     }
 
-    private bool AreVisibleComponentCustomersSelected( IReadOnlyList<ComponentCustomer> visibleCustomers )
-        => visibleCustomers.Count > 0 && visibleCustomers.All( item => IsComponentCustomerSelected( item.Id ) );
+    private int GetSelectedComponentCustomerCount( IReadOnlyList<ComponentCustomer> customers )
+        => customers.Count( item => IsComponentCustomerSelected( item.Id ) );
 
-    private bool AreSomeVisibleComponentCustomersSelected( IReadOnlyList<ComponentCustomer> visibleCustomers )
-        => visibleCustomers.Any( item => IsComponentCustomerSelected( item.Id ) )
-            && !AreVisibleComponentCustomersSelected( visibleCustomers );
+    private bool AreComponentCustomersSelected( IReadOnlyList<ComponentCustomer> customers )
+        => customers.Count > 0 && customers.All( item => IsComponentCustomerSelected( item.Id ) );
 
-    private void SetVisibleComponentCustomersSelected( IReadOnlyList<ComponentCustomer> visibleCustomers, bool selected )
+    private bool AreSomeComponentCustomersSelected( IReadOnlyList<ComponentCustomer> customers )
+        => GetSelectedComponentCustomerCount( customers ) > 0
+            && !AreComponentCustomersSelected( customers );
+
+    private void SetComponentCustomersSelected( IReadOnlyList<ComponentCustomer> customers, bool selected )
     {
-        foreach ( ComponentCustomer item in visibleCustomers )
+        foreach ( ComponentCustomer item in customers )
         {
             SetComponentCustomerSelected( item.Id, selected );
         }
