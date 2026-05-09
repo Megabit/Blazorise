@@ -134,6 +134,8 @@ public partial class DocsPageSectionSource
 
     private IFluentSizing SourceCodeHeight => SourceExpanded ? null : Height.Px().Max( 280 );
 
+    private IFluentSpacing SourceActionEndMargin => CanExpandSource ? Margin.Is2.FromEnd : null;
+
     private bool SourceExpanded { get; set; }
 
     private bool CanExpandSource { get; set; }
