@@ -1129,6 +1129,61 @@ namespace Blazorise.Docs.Models
 
         public const string CheckExample = @"<Check TValue=""bool"">Check me out</Check>";
 
+        public const string CheckIndeterminateExample = @"@using System.Collections.Generic
+
+<Check TValue=""bool"" Value=""@AreAllSelected"" Indeterminate=""@AreSomeSelected"" ValueChanged=""@OnSelectAllChanged"">
+    Select all
+</Check>
+
+<Div Display=""Display.Flex"" Flex=""Flex.Column"" Gap=""Gap.Is2"" Margin=""Margin.Is3.FromTop"">
+    @foreach ( string item in Items )
+    {
+        <Check TValue=""bool"" Value=""@selectedItems.Contains( item )"" ValueChanged=""@(( bool value ) => OnItemChanged( item, value ))"">
+            @item
+        </Check>
+    }
+</Div>
+
+@code {
+    private static readonly string[] Items =
+    [
+        ""Documentation"",
+        ""Examples"",
+        ""Tests""
+    ];
+
+    private readonly HashSet<string> selectedItems = new() { ""Documentation"" };
+
+    private bool AreAllSelected => selectedItems.Count == Items.Length;
+
+    private bool AreSomeSelected => selectedItems.Count > 0 && !AreAllSelected;
+
+    private void OnSelectAllChanged( bool value )
+    {
+        selectedItems.Clear();
+
+        if ( value )
+        {
+            foreach ( string item in Items )
+            {
+                selectedItems.Add( item );
+            }
+        }
+    }
+
+    private void OnItemChanged( string item, bool value )
+    {
+        if ( value )
+        {
+            selectedItems.Add( item );
+        }
+        else
+        {
+            selectedItems.Remove( item );
+        }
+    }
+}";
+
         public const string CheckWithBindExample = @"<Check TValue=""bool"" @bind-Value=""@rememberMe"">Remember Me</Check>
 
 @code{

@@ -3954,19 +3954,19 @@ button {
   top: 0px;
   width: calc(16px + 2 * var(--spacingHorizontalS));
 }
-.fui-Checkbox__input:not(:disabled):checked .fui-Checkbox__icon {
+.fui-Checkbox__input:not(:disabled):checked .fui-Checkbox__icon, .fui-Checkbox__input:not(:disabled):indeterminate .fui-Checkbox__icon {
   display: inline;
   line-height: 0;
 }
-.fui-Checkbox__input:not(:disabled):checked:hover + .fui-Checkbox__indicator {
+.fui-Checkbox__input:not(:disabled):checked:hover + .fui-Checkbox__indicator, .fui-Checkbox__input:not(:disabled):indeterminate:hover + .fui-Checkbox__indicator {
   background-color: var(--colorCompoundBrandBackgroundHover);
   border-color: var(--colorCompoundBrandBackgroundPressed);
 }
-.fui-Checkbox__input:not(:disabled):checked:active + .fui-Checkbox__indicator {
+.fui-Checkbox__input:not(:disabled):checked:active + .fui-Checkbox__indicator, .fui-Checkbox__input:not(:disabled):indeterminate:active + .fui-Checkbox__indicator {
   background-color: var(--colorCompoundBrandBackgroundHover);
   border-color: var(--colorCompoundBrandBackgroundPressed);
 }
-.fui-Checkbox__input:not(:disabled):checked + .fui-Checkbox__indicator {
+.fui-Checkbox__input:not(:disabled):checked + .fui-Checkbox__indicator, .fui-Checkbox__input:not(:disabled):indeterminate + .fui-Checkbox__indicator {
   color: var(--fui-Checkbox__indicator--color);
   background-color: var(--fui-Checkbox__indicator--backgroundColor);
   border-color: var(--fui-Checkbox__indicator--borderColor, var(--colorNeutralStrokeAccessible));
@@ -3978,8 +3978,19 @@ button {
 .fui-Checkbox__input:disabled + .fui-Checkbox__indicator + .fui-Checkbox__label {
   color: var(--colorNeutralForegroundDisabled);
 }
-.fui-Checkbox__input:checked + .fui-Checkbox__indicator .fui-Checkbox__icon {
+.fui-Checkbox__input:checked + .fui-Checkbox__indicator .fui-Checkbox__icon, .fui-Checkbox__input:indeterminate + .fui-Checkbox__indicator .fui-Checkbox__icon {
   display: block;
+}
+.fui-Checkbox__input:indeterminate + .fui-Checkbox__indicator .fui-Checkbox__icon {
+  display: none;
+}
+.fui-Checkbox__input:indeterminate + .fui-Checkbox__indicator::before {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 2px;
+  border-radius: 1px;
+  background-color: currentcolor;
 }
 .fui-Checkbox__input + .fui-Checkbox__indicator {
   align-self: flex-start;

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-08T20:57:51.5223457Z",
+  "generatedUtc": "2026-05-09T11:26:48.5631874Z",
   "pages": [
     {
       "route": "/docs",
@@ -731,6 +731,14 @@
           "sourcePath": "Pages/Docs/Components/Checks/Examples/CheckWithEventExample.razor",
           "content": "<Check TValue=\"bool\" Value=\"@rememberMe\" ValueChanged=\"@OnRememberMeChanged\">Remember Me</Check>\r\n\r\n@code{\r\n    bool rememberMe;\r\n\r\n    void OnRememberMeChanged( bool value )\r\n    {\r\n        rememberMe = value;\r\n    }\r\n}",
           "title": "With event"
+        },
+        {
+          "code": "CheckIndeterminateExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Checks/Examples/CheckIndeterminateExample.razor",
+          "content": "@using System.Collections.Generic\r\n\r\n<Check TValue=\"bool\" Value=\"@AreAllSelected\" Indeterminate=\"@AreSomeSelected\" ValueChanged=\"@OnSelectAllChanged\">\r\n    Select all\r\n</Check>\r\n\r\n<Div Display=\"Display.Flex\" Flex=\"Flex.Column\" Gap=\"Gap.Is2\" Margin=\"Margin.Is3.FromTop\">\r\n    @foreach ( string item in Items )\r\n    {\r\n        <Check TValue=\"bool\" Value=\"@selectedItems.Contains( item )\" ValueChanged=\"@(( bool value ) => OnItemChanged( item, value ))\">\r\n            @item\r\n        </Check>\r\n    }\r\n</Div>\r\n\r\n@code {\r\n    private static readonly string[] Items =\r\n    [\r\n        \"Documentation\",\r\n        \"Examples\",\r\n        \"Tests\"\r\n    ];\r\n\r\n    private readonly HashSet<string> selectedItems = new() { \"Documentation\" };\r\n\r\n    private bool AreAllSelected => selectedItems.Count == Items.Length;\r\n\r\n    private bool AreSomeSelected => selectedItems.Count > 0 && !AreAllSelected;\r\n\r\n    private void OnSelectAllChanged( bool value )\r\n    {\r\n        selectedItems.Clear();\r\n\r\n        if ( value )\r\n        {\r\n            foreach ( string item in Items )\r\n            {\r\n                selectedItems.Add( item );\r\n            }\r\n        }\r\n    }\r\n\r\n    private void OnItemChanged( string item, bool value )\r\n    {\r\n        if ( value )\r\n        {\r\n            selectedItems.Add( item );\r\n        }\r\n        else\r\n        {\r\n            selectedItems.Remove( item );\r\n        }\r\n    }\r\n}",
+          "title": "Indeterminate",
+          "description": "Use Indeterminate when a parent checkbox represents a partial selection."
         }
       ],
       "apiRefs": [
