@@ -29,7 +29,7 @@
             @SourceActions
         </Div>
     }
-    <Div Height="@SourceCodeHeight" Overflow="Overflow.Auto" Display="@SourceCodeDisplay">
+    <Div ElementId="@SourceCodeElementId" Height="@SourceCodeHeight" Overflow="Overflow.Auto" Display="@SourceCodeDisplay">
         @CodeComponent( CurrentCode )
     </Div>
 </Div>
@@ -37,7 +37,7 @@
 @code {
     private RenderFragment SourceActions =>
         @<text>
-            @if ( ShowCode )
+            @if ( ShowCode && CanExpandSource )
             {
                 <Tooltip Text="@(SourceExpanded ? "Collapse code example" : "Expand code example")" Inline>
                     <Button Color="Color.Default" Size="Size.Small" TextColor="TextColor.Secondary" Clicked="@OnToggleSourceExpanded">

@@ -20,6 +20,32 @@ public partial class DocsPageSectionSource
         if ( string.IsNullOrWhiteSpace( CurrentCode ) || !CodeSources.Any( source => source.Code == CurrentCode ) )
         {
             CurrentCode = Code;
+            RequestSourceOverflowMeasure();
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( ShowCode && !SourceExpanded && shouldMeasureSourceOverflow )
+        {
+            shouldMeasureSourceOverflow = false;
+
+            try
+            {
+                bool canExpandSource = await JSRuntime.InvokeAsync<bool>( "blazoriseDocs.code.hasVerticalOverflow", SourceCodeElementId );
+
+                if ( CanExpandSource != canExpandSource )
+                {
+                    CanExpandSource = canExpandSource;
+                    await InvokeAsync( StateHasChanged );
+                }
+            }
+            catch ( JSException )
+            {
+            }
+            catch ( InvalidOperationException )
+            {
+            }
         }
     }
 
@@ -27,12 +53,23 @@ public partial class DocsPageSectionSource
     {
         ShowCode = !ShowCode;
 
+        if ( ShowCode )
+        {
+            SourceExpanded = false;
+            RequestSourceOverflowMeasure();
+        }
+
         return Task.CompletedTask;
     }
 
     private Task OnToggleSourceExpanded()
     {
         SourceExpanded = !SourceExpanded;
+
+        if ( !SourceExpanded )
+        {
+            RequestSourceOverflowMeasure();
+        }
 
         return Task.CompletedTask;
     }
@@ -45,9 +82,24 @@ public partial class DocsPageSectionSource
 
     private Task OnSelectCodeSource( string code )
     {
-        CurrentCode = code;
+        if ( CurrentCode != code )
+        {
+            CurrentCode = code;
+            SourceExpanded = false;
+            RequestSourceOverflowMeasure();
+        }
 
         return Task.CompletedTask;
+    }
+
+    private void RequestSourceOverflowMeasure()
+    {
+        if ( !SourceExpanded )
+        {
+            CanExpandSource = false;
+        }
+
+        shouldMeasureSourceOverflow = true;
     }
 
     private TextColor SourceSelectorTextColor( string code )
@@ -83,6 +135,12 @@ public partial class DocsPageSectionSource
     private IFluentSizing SourceCodeHeight => SourceExpanded ? null : Height.Px().Max( 280 );
 
     private bool SourceExpanded { get; set; }
+
+    private bool CanExpandSource { get; set; }
+
+    private bool shouldMeasureSourceOverflow = true;
+
+    private string SourceCodeElementId { get; } = $"b-docs-page-section-source-{Guid.NewGuid():N}";
 
     private IReadOnlyList<DocsCodeSource> CodeSources
     {

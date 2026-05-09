@@ -2,6 +2,11 @@
     code: {
         copyToClipboard: (text) => {
             navigator.clipboard.writeText(text);
+        },
+        hasVerticalOverflow: (elementId) => {
+            const element = document.getElementById(elementId);
+
+            return element ? element.scrollHeight > element.clientHeight : false;
         }
     },
 
