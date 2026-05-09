@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-09T11:26:48.5631874Z",
+  "generatedUtc": "2026-05-09T16:25:57.9009708Z",
   "pages": [
     {
       "route": "/docs",
@@ -4701,12 +4701,20 @@
       "pagePath": "Pages/Docs/Extensions/DataGrid/AggregatesPage.razor",
       "examples": [
         {
+          "code": "DataGridAggregatesExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridAggregatesExample.razor",
+          "content": "<DataGrid TItem=\"Employee\" Data=\"@employeeList\" Responsive>\r\n    <DataGridAggregates>\r\n        <DataGridAggregate Field=\"@nameof( Employee.Email )\" Aggregate=\"DataGridAggregateType.Count\">\r\n            <DisplayTemplate>\r\n                @($\"Total emails: {context.Value}\")\r\n            </DisplayTemplate>\r\n        </DataGridAggregate>\r\n        <DataGridAggregate Field=\"@nameof( Employee.Salary )\" Aggregate=\"DataGridAggregateType.Sum\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" />\r\n        <DataGridAggregate Field=\"@nameof( Employee.IsActive )\" Aggregate=\"DataGridAggregateType.TrueCount\" />\r\n    </DataGridAggregates>\r\n    <DataGridColumns>\r\n        <DataGridColumn Field=\"@nameof( Employee.Id )\" Caption=\"#\" Sortable=\"false\" />\r\n        <DataGridColumn Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" Editable />\r\n        <DataGridColumn Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" Editable />\r\n        <DataGridColumn Field=\"@nameof( Employee.Email )\" Caption=\"Email\" Editable />\r\n        <DataGridColumn Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" Editable>\r\n            <EditTemplate>\r\n                <NumericInput TValue=\"decimal\" Value=\"@((decimal)context.CellValue)\" ValueChanged=\"@(v => context.CellValue = v)\" />\r\n            </EditTemplate>\r\n        </DataGridColumn>\r\n    </DataGridColumns>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n}",
+          "title": "Aggregates",
+          "description": "DataGrid will automatically generate necessary group cells based on the defined DataGridAggregate options."
+        },
+        {
           "code": "DataGridAggregatesLargeDataExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/DataGrid/Examples/DataGridAggregatesLargeDataExample.razor",
           "content": "<DataGrid TItem=\"Employee\"\r\n          Data=\"@employeeList\"\r\n          ReadData=\"@OnReadData\"\r\n          TotalItems=\"@totalEmployees\"\r\n          AggregateData=\"@employeeSummary\"\r\n          Responsive>\r\n    <DataGridAggregates>\r\n        <DataGridAggregate Field=\"@nameof( Employee.Email )\" Aggregate=\"DataGridAggregateType.Count\">\r\n            <DisplayTemplate>\r\n                @($\"Total emails: {context.Value}\")\r\n            </DisplayTemplate>\r\n        </DataGridAggregate>\r\n        <DataGridAggregate Field=\"@nameof( Employee.Salary )\" Aggregate=\"DataGridAggregateType.Sum\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" />\r\n        <DataGridAggregate Field=\"@nameof( Employee.IsActive )\" Aggregate=\"DataGridAggregateType.TrueCount\" />\r\n    </DataGridAggregates>\r\n    <DataGridColumns>\r\n        <DataGridColumn Field=\"@nameof( Employee.Id )\" Caption=\"#\" Sortable=\"false\" />\r\n        <DataGridColumn Field=\"@nameof( Employee.FirstName )\" Caption=\"First Name\" Editable />\r\n        <DataGridColumn Field=\"@nameof( Employee.LastName )\" Caption=\"Last Name\" Editable />\r\n        <DataGridColumn Field=\"@nameof( Employee.Email )\" Caption=\"Email\" Editable />\r\n        <DataGridColumn Field=\"@nameof( Employee.Salary )\" Caption=\"Salary\" DisplayFormat=\"{0:C}\" DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"fr-FR\" )\" Editable>\r\n            <EditTemplate>\r\n                <NumericInput TValue=\"decimal\" Value=\"@((decimal)context.CellValue)\" ValueChanged=\"@(v => context.CellValue = v)\" />\r\n            </EditTemplate>\r\n        </DataGridColumn>\r\n    </DataGridColumns>\r\n</DataGrid>\r\n\r\n@code {\r\n    [Inject]\r\n    public EmployeeData EmployeeData { get; set; }\r\n    private List<Employee> employeeList;\r\n\r\n    protected override async Task OnInitializedAsync()\r\n    {\r\n        employeeList = await EmployeeData.GetDataAsync();\r\n        await base.OnInitializedAsync();\r\n    }\r\n\r\n    private int totalEmployees;\r\n    private List<Employee> employeeSummary;\r\n\r\n    private Task OnReadData( DataGridReadDataEventArgs<Employee> e )\r\n    {\r\n        if ( !e.CancellationToken.IsCancellationRequested )\r\n        {\r\n            List<Employee> response = null;\r\n\r\n            // this can be call to anything, in this case we're calling a fictional api\r\n            //var response = await Http.GetJsonAsync<Employee[]>( $\"some-api/employees?page={e.Page}&pageSize={e.PageSize}\" );\r\n            if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )\r\n                response = employeeList.Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();\r\n            else if ( e.ReadDataMode is DataGridReadDataMode.Paging )\r\n                response = employeeList.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();\r\n            else\r\n                throw new Exception( \"Unhandled ReadDataMode\" );\r\n\r\n\r\n            if ( !e.CancellationToken.IsCancellationRequested )\r\n            {\r\n                totalEmployees = employeeList.Count;\r\n                employeeList = new List<Employee>( response ); // an actual data for the current page\r\n                                                               //var aggregateResponse = await Http.GetJsonAsync<Employee[]>( $\"some-aggregate-api/employees\" );\r\n                employeeSummary = employeeList; //aggregateResponse.Data\r\n            }\r\n        }\r\n        return Task.CompletedTask;\r\n    }\r\n}",
-          "title": "Aggregates",
-          "description": "DataGrid will automatically generate necessary group cells based on the defined DataGridAggregate options."
+          "title": "Large Data",
+          "description": "By default all aggregate operations are run on in-memory Data . When working with large datasets that is not possible. So just as in the previous examples for large datasets you need to work with ReadData and set the AggregateData property."
         }
       ]
     },
@@ -5684,14 +5692,6 @@
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/FluentValidation/Examples/BasicFluentValidationExample.razor",
           "content": "@using Blazorise.FluentValidation\r\n\r\n<Validations @ref=\"@fluentValidations\" Mode=\"ValidationMode.Manual\" Model=\"@person\" HandlerType=\"typeof(FluentValidationHandler)\">\r\n    <Validation>\r\n        <Field>\r\n            <FieldLabel>First name</FieldLabel>\r\n            <TextInput Placeholder=\"Enter first name...\" @bind-Value=\"@person.FirstName\">\r\n                <Feedback>\r\n                    <ValidationError />\r\n                </Feedback>\r\n            </TextInput>\r\n        </Field>\r\n    </Validation>\r\n    <Validation>\r\n        <Field>\r\n            <FieldLabel>Last name</FieldLabel>\r\n            <TextInput Placeholder=\"Enter last name...\" @bind-Value=\"@person.LastName\">\r\n                <Feedback>\r\n                    <ValidationError />\r\n                </Feedback>\r\n            </TextInput>\r\n        </Field>\r\n    </Validation>\r\n    <Validation>\r\n        <Field>\r\n            <FieldLabel>Age</FieldLabel>\r\n            <NumericInput Placeholder=\"Enter age...\" @bind-Value=\"@person.Age\">\r\n                <Feedback>\r\n                    <ValidationError />\r\n                </Feedback>\r\n            </NumericInput>\r\n        </Field>\r\n    </Validation>\r\n</Validations>\r\n\r\n<Button Color=\"Color.Primary\" Clicked=\"@OnSavePerson\">Save</Button>\r\n\r\n@code {\r\n    Validations fluentValidations;\r\n\r\n    Person person = new();\r\n\r\n    protected async Task OnSavePerson()\r\n    {\r\n        if ( await fluentValidations.ValidateAll() )\r\n        {\r\n            // the person is validated and we can proceed with the saving process\r\n        }\r\n    }\r\n}",
-          "title": "Basic",
-          "description": "The process of validating the model is similar to our data annotation on our Validation component . First, as usual, we define the Model parameter. After which, we need to determine the HandlerType . To make it easier, we have allowed the definition of HandlerType on the Validations level. By defining the handler type on a Validations level, it will be shared and used by all the Validation components inside it. Thus, no need to specify the handler type on each Validation component."
-        },
-        {
-          "code": "FluentValidationAbstractValidatorExample",
-          "kind": "snippet",
-          "sourcePath": "Pages/Docs/Extensions/FluentValidation/Examples/FluentValidationAbstractValidatorExample.snippet",
-          "content": "public class PersonValidator : AbstractValidator<Person>\r\n{\r\n    public PersonValidator()\r\n    {\r\n        RuleFor( vm => vm.FirstName )\r\n            .NotEmpty()\r\n            .MaximumLength( 30 );\r\n\r\n        RuleFor( vm => vm.LastName )\r\n            .NotEmpty()\r\n            .MaximumLength( 30 );\r\n\r\n        RuleFor( vm => vm.Age )\r\n            .GreaterThanOrEqualTo( 18 );\r\n    }\r\n}",
           "title": "Basic",
           "description": "The process of validating the model is similar to our data annotation on our Validation component . First, as usual, we define the Model parameter. After which, we need to determine the HandlerType . To make it easier, we have allowed the definition of HandlerType on the Validations level. By defining the handler type on a Validations level, it will be shared and used by all the Validation components inside it. Thus, no need to specify the handler type on each Validation component."
         }
@@ -8601,14 +8601,6 @@
           "description": "Instantiates a modal with a counter example taking in the counter number from the provided parameter. ModalService.Show provides various overloads you can use to instantiate your custom content."
         },
         {
-          "code": "CounterExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Services/ModalProvider/Examples/CounterExample.razor",
-          "content": "<Heading>Counter</Heading>\r\n\r\n<Paragraph>@Value</Paragraph>\r\n\r\n<Button Color=\"Color.Primary\" Clicked=\"Increment\">Increment</Button>\r\n@code {\r\n    [Parameter] public long Value { get; set; }\r\n\r\n    private void Increment()\r\n    {\r\n        Value++;\r\n    }\r\n}",
-          "title": "Instantiate a modal with a custom component",
-          "description": "Instantiates a modal with a counter example taking in the counter number from the provided parameter. ModalService.Show provides various overloads you can use to instantiate your custom content."
-        },
-        {
           "code": "ModalProviderCustomRenderFragmentExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/ModalProvider/Examples/ModalProviderCustomRenderFragmentExample.razor",
@@ -8624,26 +8616,10 @@
           "description": "If you want to customize the modal structure, you can do so, by setting UseModalStructure to false and providing the structure inside the custom content you are instantiating. You may do this by providing your custom html or by using the internal Modal components. ModalHeader ModalBody ModalFooter"
         },
         {
-          "code": "CustomStructureModalExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Services/ModalProvider/Examples/CustomStructureModalExample.razor",
-          "content": "<ModalHeader>\r\n    <ModalTitle>My Custom Structure</ModalTitle>\r\n    <CloseButton />\r\n</ModalHeader>\r\n<ModalBody MaxHeight=\"70\">\r\n    Welcome @UserName!\r\n</ModalBody>\r\n<ModalFooter>\r\n    <Button Color=\"Color.Success\" Clicked=\"Confirm\">Cheers!</Button>\r\n</ModalFooter>\r\n\r\n@code {\r\n    [Inject] public IModalService ModalService { get; set; }\r\n\r\n    [Parameter] public string UserName { get; set; }\r\n\r\n    private async Task Confirm()\r\n    {\r\n        await ModalService.Hide();\r\n    }\r\n}",
-          "title": "Instantiate a modal with custom structure",
-          "description": "If you want to customize the modal structure, you can do so, by setting UseModalStructure to false and providing the structure inside the custom content you are instantiating. You may do this by providing your custom html or by using the internal Modal components. ModalHeader ModalBody ModalFooter"
-        },
-        {
           "code": "ModalProviderFormularyExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/ModalProvider/Examples/ModalProviderFormularyExample.razor",
           "content": "<Paragraph>\r\n    @formularyMessage\r\n</Paragraph>\r\n<Button Color=\"Color.Primary\" Clicked=\"ShowFormulary\">Show</Button>\r\n\r\n@code {\r\n    [Inject] public IModalService ModalService { get; set; }\r\n\r\n    private string formularyMessage = \"\";\r\n\r\n    public Task ShowFormulary()\r\n    {\r\n        formularyMessage = string.Empty;\r\n        return ModalService.Show<FormularyModalExample>( x =>\r\n        {\r\n            x.Add( x => x.OnValidate, FormularyValidate );\r\n            x.Add( x => x.OnSuccess, FormularySuccess );\r\n        },\r\n        new ModalInstanceOptions()\r\n            {\r\n                UseModalStructure = false\r\n            } );\r\n    }\r\n\r\n    private Task<bool> FormularyValidate( Employee employee )\r\n        => Task.FromResult( !string.IsNullOrWhiteSpace( employee.FirstName ) && !string.IsNullOrWhiteSpace( employee.Email ) );\r\n\r\n    private Task FormularySuccess( Employee employee )\r\n    {\r\n        formularyMessage = $\"Employee : {employee.FirstName} saved successfully!\";\r\n        return InvokeAsync( StateHasChanged );\r\n    }\r\n}",
-          "title": "Interaction",
-          "description": "Since you can pass in parameters into your component, you can take advantage of this to interact with your Modal . A common example, might be a generic formulary where the validation and success logic are not necessarily known by this component and are provided from \"outside\". The following example, setups a simple formulary showcasing this."
-        },
-        {
-          "code": "FormularyModalExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Services/ModalProvider/Examples/FormularyModalExample.razor",
-          "content": "<ModalHeader>\r\n    <ModalTitle>\r\n        Please fill in the formulary\r\n    </ModalTitle>\r\n    <CloseButton />\r\n</ModalHeader>\r\n<ModalBody>\r\n    <Field Horizontal>\r\n        <FieldLabel ColumnSize=\"ColumnSize.IsFull.OnTablet.Is3.OnDesktop\">First Name</FieldLabel>\r\n        <FieldBody ColumnSize=\"ColumnSize.IsFull.OnTablet.Is9.OnDesktop\">\r\n            <TextInput @bind-Value=\"model.FirstName\"></TextInput>\r\n        </FieldBody>\r\n    </Field>\r\n\r\n    <Field Horizontal>\r\n        <FieldLabel ColumnSize=\"ColumnSize.IsFull.OnTablet.Is3.OnDesktop\">Email</FieldLabel>\r\n        <FieldBody ColumnSize=\"ColumnSize.IsFull.OnTablet.Is9.OnDesktop\">\r\n            <TextInput @bind-Value=\"model.Email\"></TextInput>\r\n        </FieldBody>\r\n    </Field>\r\n\r\n    @if ( !isValid )\r\n    {\r\n        <Paragraph>\r\n            <Label>Invalid Submission!</Label>\r\n        </Paragraph>\r\n    }\r\n</ModalBody>\r\n<ModalFooter>\r\n    <Button Color=\"Color.Success \" Clicked=\"Confirm\">Confirm</Button>\r\n    <Button Color=\"Color.Secondary\" Clicked=\"ModalService.Hide\">Close</Button>\r\n</ModalFooter>\r\n@code {\r\n    private Employee model = new();\r\n    private bool isValid = true;\r\n    [Inject] public IModalService ModalService { get; set; }\r\n    [Parameter] public Func<Employee, Task<bool>> OnValidate { get; set; }\r\n    [Parameter] public Func<Employee, Task> OnSuccess { get; set; }\r\n\r\n    private async Task Confirm()\r\n    {\r\n        if ( OnValidate is not null )\r\n            isValid = await OnValidate( model );\r\n\r\n        if ( !isValid )\r\n        {\r\n            return;\r\n        }\r\n\r\n        await OnSuccess( model );\r\n        await ModalService.Hide();\r\n    }\r\n}",
           "title": "Interaction",
           "description": "Since you can pass in parameters into your component, you can take advantage of this to interact with your Modal . A common example, might be a generic formulary where the validation and success logic are not necessarily known by this component and are provided from \"outside\". The following example, setups a simple formulary showcasing this."
         },
@@ -8807,14 +8783,6 @@
           "description": "Instantiates an offcanvas with a counter example taking in the counter number from the provided parameter. OffcanvasService.Show provides various overloads you can use to instantiate your custom content."
         },
         {
-          "code": "CounterExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Services/ModalProvider/Examples/CounterExample.razor",
-          "content": "<Heading>Counter</Heading>\r\n\r\n<Paragraph>@Value</Paragraph>\r\n\r\n<Button Color=\"Color.Primary\" Clicked=\"Increment\">Increment</Button>\r\n@code {\r\n    [Parameter] public long Value { get; set; }\r\n\r\n    private void Increment()\r\n    {\r\n        Value++;\r\n    }\r\n}",
-          "title": "Custom Component",
-          "description": "Instantiates an offcanvas with a counter example taking in the counter number from the provided parameter. OffcanvasService.Show provides various overloads you can use to instantiate your custom content."
-        },
-        {
           "code": "OffcanvasProviderCustomRenderFragmentExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/OffcanvasProvider/Examples/OffcanvasProviderCustomRenderFragmentExample.razor",
@@ -8838,26 +8806,10 @@
           "description": "If you want to customize the offcanvas structure, you can do so, by setting UseOffcanvasStructure to false and providing the structure inside the custom content you are instantiating. You may do this by providing your custom html or by using the internal Offcanvas components. OffcanvasHeader OffcanvasBody OffcanvasFooter"
         },
         {
-          "code": "CustomStructureOffcanvasExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Services/OffcanvasProvider/Examples/CustomStructureOffcanvasExample.razor",
-          "content": "<OffcanvasHeader>\r\n    <Heading Size=\"HeadingSize.Is5\">My Custom Structure</Heading>\r\n    <CloseButton />\r\n</OffcanvasHeader>\r\n<OffcanvasBody>\r\n    Welcome @UserName!\r\n</OffcanvasBody>\r\n<OffcanvasFooter>\r\n    <Button Color=\"Color.Success\" Clicked=\"Confirm\">Cheers!</Button>\r\n</OffcanvasFooter>\r\n\r\n@code {\r\n    [Inject] public IOffcanvasService OffcanvasService { get; set; }\r\n\r\n    [Parameter] public string UserName { get; set; }\r\n\r\n    private Task Confirm()\r\n    {\r\n        return OffcanvasService.Hide();\r\n    }\r\n}",
-          "title": "Custom Structure",
-          "description": "If you want to customize the offcanvas structure, you can do so, by setting UseOffcanvasStructure to false and providing the structure inside the custom content you are instantiating. You may do this by providing your custom html or by using the internal Offcanvas components. OffcanvasHeader OffcanvasBody OffcanvasFooter"
-        },
-        {
           "code": "OffcanvasProviderFormularyExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Services/OffcanvasProvider/Examples/OffcanvasProviderFormularyExample.razor",
           "content": "<Paragraph>\r\n    @formularyMessage\r\n</Paragraph>\r\n<Button Color=\"Color.Primary\" Clicked=\"ShowFormulary\">Show</Button>\r\n\r\n@code {\r\n    [Inject] public IOffcanvasService OffcanvasService { get; set; }\r\n\r\n    private string formularyMessage = string.Empty;\r\n\r\n    public Task ShowFormulary()\r\n    {\r\n        formularyMessage = string.Empty;\r\n        return OffcanvasService.Show<FormularyOffcanvasExample>( x =>\r\n        {\r\n            x.Add( x => x.OnValidate, FormularyValidate );\r\n            x.Add( x => x.OnSuccess, FormularySuccess );\r\n        },\r\n        new OffcanvasInstanceOptions()\r\n            {\r\n                UseOffcanvasStructure = false\r\n            } );\r\n    }\r\n\r\n    private Task<bool> FormularyValidate( Employee employee )\r\n        => Task.FromResult( !string.IsNullOrWhiteSpace( employee.FirstName ) && !string.IsNullOrWhiteSpace( employee.Email ) );\r\n\r\n    private Task FormularySuccess( Employee employee )\r\n    {\r\n        formularyMessage = $\"Employee : {employee.FirstName} saved successfully!\";\r\n        return InvokeAsync( StateHasChanged );\r\n    }\r\n}",
-          "title": "Interaction",
-          "description": "Since you can pass in parameters into your component, you can take advantage of this to interact with your Offcanvas . A common example, might be a generic formulary where the validation and success logic are not necessarily known by this component and are provided from \"outside\". The following example setups a simple formulary showcasing this."
-        },
-        {
-          "code": "FormularyOffcanvasExample",
-          "kind": "razor",
-          "sourcePath": "Pages/Docs/Services/OffcanvasProvider/Examples/FormularyOffcanvasExample.razor",
-          "content": "<OffcanvasHeader>\r\n    <Heading Size=\"HeadingSize.Is5\">Please fill in the formulary</Heading>\r\n    <CloseButton />\r\n</OffcanvasHeader>\r\n<OffcanvasBody>\r\n    <Field Horizontal>\r\n        <FieldLabel ColumnSize=\"ColumnSize.IsFull.OnTablet.Is3.OnDesktop\">First Name</FieldLabel>\r\n        <FieldBody ColumnSize=\"ColumnSize.IsFull.OnTablet.Is9.OnDesktop\">\r\n            <TextInput @bind-Value=\"model.FirstName\"></TextInput>\r\n        </FieldBody>\r\n    </Field>\r\n\r\n    <Field Horizontal>\r\n        <FieldLabel ColumnSize=\"ColumnSize.IsFull.OnTablet.Is3.OnDesktop\">Email</FieldLabel>\r\n        <FieldBody ColumnSize=\"ColumnSize.IsFull.OnTablet.Is9.OnDesktop\">\r\n            <TextInput @bind-Value=\"model.Email\"></TextInput>\r\n        </FieldBody>\r\n    </Field>\r\n\r\n    @if ( !isValid )\r\n    {\r\n        <Paragraph>\r\n            <Label>Invalid Submission!</Label>\r\n        </Paragraph>\r\n    }\r\n</OffcanvasBody>\r\n<OffcanvasFooter>\r\n    <Button Color=\"Color.Success\" Clicked=\"Confirm\">Confirm</Button>\r\n    <Button Color=\"Color.Secondary\" Clicked=\"OffcanvasService.Hide\">Close</Button>\r\n</OffcanvasFooter>\r\n@code {\r\n    private Employee model = new();\r\n    private bool isValid = true;\r\n\r\n    [Inject] public IOffcanvasService OffcanvasService { get; set; }\r\n\r\n    [Parameter] public Func<Employee, Task<bool>> OnValidate { get; set; }\r\n\r\n    [Parameter] public Func<Employee, Task> OnSuccess { get; set; }\r\n\r\n    private async Task Confirm()\r\n    {\r\n        if ( OnValidate is not null )\r\n            isValid = await OnValidate( model );\r\n\r\n        if ( !isValid )\r\n        {\r\n            return;\r\n        }\r\n\r\n        await OnSuccess( model );\r\n        await OffcanvasService.Hide();\r\n    }\r\n}",
           "title": "Interaction",
           "description": "Since you can pass in parameters into your component, you can take advantage of this to interact with your Offcanvas . A common example, might be a generic formulary where the validation and success logic are not necessarily known by this component and are provided from \"outside\". The following example setups a simple formulary showcasing this."
         },

@@ -6487,6 +6487,60 @@ blazorise-migrate migrate --path C:\src\MyApp.sln --backup";
     public string selectedSearchValue { get; set; }
 }";
 
+        public const string Country = @"namespace Blazorise.Shared.Models;
+
+public class Country
+{
+    public Country( string name, string iso, string capital )
+    {
+        Name = name;
+        Iso = iso;
+        Capital = capital;
+    }
+
+    public string Name { get; }
+
+    public string Iso { get; }
+
+    public string Capital { get; }
+}";
+
+        public const string CountryData = @"using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Blazorise.Shared.Models;
+using Microsoft.Extensions.Caching.Memory;
+
+namespace Blazorise.Shared.Data;
+
+public class CountryData
+{
+    private readonly IMemoryCache cache;
+    private readonly string cacheKey = ""cache_countries"";
+
+    /// <summary>
+    /// Simplified code to get and cache data in memory.
+    /// </summary>
+    public CountryData( IMemoryCache memoryCache )
+    {
+        cache = memoryCache;
+    }
+
+    public Task<IEnumerable<Country>> GetDataAsync()
+        => cache.GetOrCreateAsync( cacheKey, LoadData );
+
+    private Task<IEnumerable<Country>> LoadData( ICacheEntry cacheEntry )
+    {
+        Assembly assembly = typeof( EmployeeData ).Assembly;
+        using Stream stream = assembly.GetManifestResourceStream( ""Blazorise.Shared.Resources.CountryData.json"" );
+
+        return Task.FromResult( JsonSerializer.Deserialize<List<Country>>( new StreamReader( stream ).ReadToEnd() ).AsEnumerable() );
+    }
+}";
+
         public const string BarcodeStylingExample = @"<Barcode Value=""BLAZORISE""
          Type=""BarcodeType.Code128""
          RenderMode=""BarcodeRenderMode.Svg""
@@ -8998,6 +9052,165 @@ Install-Package Blazorise.Chart.Zoom";
     }
 }";
 
+        public const string DataGridEmployee = @"using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace Blazorise.Shared.Models;
+
+public class Employee
+{
+    public Employee()
+    {
+    }
+
+    public Employee( Employee other )
+    {
+        Id = other.Id;
+        Childrens = other.Childrens;
+        DateOfBirth = other.DateOfBirth;
+        City = other.City;
+        Email = other.Email;
+        FirstName = other.FirstName;
+        LastName = other.LastName;
+        Gender = other.Gender;
+        IsActive = other.IsActive;
+        Salaries = other.Salaries;
+        Salary = other.Salary;
+        Tax = other.Tax;
+        Zip = other.Zip;
+    }
+
+    [Display( Name = ""Id"" )]
+    public int Id { get; set; }
+
+    [Required]
+    public string FirstName { get; set; }
+
+    [Required]
+    public string LastName { get; set; }
+
+    [Required]
+    [EmailAddress]
+    [Display( Name = ""Email"" )]
+    public string Email { get; set; }
+
+    [Display( Name = ""City"" )]
+    public string City { get; set; }
+
+    [Display( Name = ""Zip"" )]
+    public string Zip { get; set; }
+
+    [Display( Name = ""DOB"" )]
+    public DateTime? DateOfBirth { get; set; }
+
+    [Display( Name = ""Childrens"" )]
+    public int? Childrens { get; set; }
+
+    [Display( Name = ""Gender"" )]
+    public string Gender { get; set; }
+
+    [Display( Name = ""Salary"" )]
+    public decimal Salary { get; set; }
+
+    [Display( Name = ""Tax"" )]
+    public decimal Tax
+    {
+        get
+        {
+            if ( tax == 0 && Salary > 0 )
+            {
+                tax = Salary * TaxPercentage;
+            }
+
+            return tax;
+        }
+        set
+        {
+            tax = value;
+        }
+    }
+
+    [Display( Name = ""Active"" )]
+    public bool IsActive { get; set; }
+
+    public List<Salary> Salaries { get; set; } = new();
+
+    public decimal ChildrensPerSalary
+        => Salary == 0m
+            ? 0m
+            : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+
+    public decimal TaxPercentage = 0.25m;
+
+    private decimal tax;
+}";
+
+        public const string DataGridEmployeeData = @"using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Blazorise.Shared.Models;
+using Microsoft.Extensions.Caching.Memory;
+
+namespace Blazorise.Shared.Data;
+
+public class Gender
+{
+    public string Code { get; set; }
+    public string Description { get; set; }
+}
+
+public class EmployeeData
+{
+    private readonly IMemoryCache cache;
+    private readonly string employeesCacheKey = ""cache_employees"";
+
+    public EmployeeData( IMemoryCache memoryCache )
+    {
+        cache = memoryCache;
+    }
+
+    public static IEnumerable<Gender> Genders = new List<Gender>()
+    {
+        new()
+        {
+            Code = null,
+            Description = string.Empty
+        },
+        new()
+        {
+            Code = ""M"",
+            Description = ""Male""
+        },
+        new()
+        {
+            Code = ""F"",
+            Description = ""Female""
+        },
+        new()
+        {
+            Code = ""D"",
+            Description = ""Diverse""
+        }
+    };
+
+    public async Task<List<Employee>> GetDataAsync()
+        => ( await cache.GetOrCreateAsync( employeesCacheKey, LoadData ) )
+            .Select( x => new Employee( x ) )
+            .ToList();
+
+    private Task<List<Employee>> LoadData( ICacheEntry cacheEntry )
+    {
+        Assembly assembly = typeof( EmployeeData ).Assembly;
+        using Stream stream = assembly.GetManifestResourceStream( ""Blazorise.Shared.Resources.EmployeeData.json"" );
+
+        return Task.FromResult( JsonSerializer.Deserialize<List<Employee>>( new StreamReader( stream ).ReadToEnd() ) );
+    }
+}";
+
         public const string DataGridEmptyCellTemplateExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
@@ -10074,6 +10287,16 @@ Install-Package Blazorise.Chart.Zoom";
 
     private bool RowSelectableHandler( RowSelectableEventArgs<Employee> rowSelectableEventArgs )
         => rowSelectableEventArgs.SelectReason is not DataGridSelectReason.RowClick;
+}";
+
+        public const string DataGridSalary = @"using System;
+
+namespace Blazorise.Shared.Models;
+
+public class Salary
+{
+    public DateTime Date { get; set; }
+    public decimal Total { get; set; }
 }";
 
         public const string DataGridScrollToExample = @"<Button Size=""Size.Small"" Color=""Color.Primary"" Clicked=""@ScrollToRow"">Scroll To Row</Button>
@@ -11186,6 +11409,28 @@ builder.Services
     .AddBlazoriseFluentValidation();
 
 services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
+
+        public const string PersonValidator = @"using Blazorise.Shared.Models;
+using FluentValidation;
+
+namespace Blazorise.Docs.Pages.Docs.Extensions.FluentValidation.Validators;
+
+public class PersonValidator : AbstractValidator<Person>
+{
+    public PersonValidator()
+    {
+        RuleFor( vm => vm.FirstName )
+            .NotEmpty()
+            .MaximumLength( 30 );
+
+        RuleFor( vm => vm.LastName )
+            .NotEmpty()
+            .MaximumLength( 30 );
+
+        RuleFor( vm => vm.Age )
+            .GreaterThanOrEqualTo( 18 );
+    }
+}";
 
         public const string GanttAutoExpandViewExample = @"<Field Margin=""Margin.Is3.FromBottom"">
     <Switch @bind-Value=""@autoExpandView"">Auto expand current view to the loaded task range</Switch>

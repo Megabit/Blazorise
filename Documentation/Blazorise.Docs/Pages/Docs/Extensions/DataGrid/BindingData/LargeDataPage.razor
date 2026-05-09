@@ -1,4 +1,4 @@
-﻿@page "/docs/extensions/datagrid/binding-data/large-data"
+@page "/docs/extensions/datagrid/binding-data/large-data"
 
 <Seo Canonical="/docs/extensions/datagrid/binding-data/large-data" Title="Blazorise DataGrid Binding Large Data" Description="The DataGrid Read Data feature allows you to handle Large Data by providing you with a centralized ReadData Method that allows you to query your data by pages." />
 
@@ -33,7 +33,7 @@
             Additionally you will find the support for generating an ODataQuery by using the provided extension <Code>ToODataString</Code>.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="DataGridLargeDataExample" FullWidth>
+    <DocsPageSectionContent Code="DataGridLargeDataExample" AdditionalCodes="@DocsCodeSources.DataGridSharedData" FullWidth>
         <DataGridLargeDataExample />
     </DocsPageSectionContent>
 </DocsPageSection>
@@ -47,7 +47,7 @@
             The <Code>ExpressionCompiler</Code> can work alongside the <Code>DataGridColumnInfo</Code> collection provided by <Code>ReadData</Code> to create expression-based queries (<Code>IQueryables</Code>) that can be utilized in ORMs like Entity Framework.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="DataGridLargeDataExpressionCompilerExample" FullWidth Outlined>
+    <DocsPageSectionContent Code="DataGridLargeDataExpressionCompilerExample" AdditionalCodes="@DocsCodeSources.DataGridSharedData" FullWidth Outlined>
         <DataGridLargeDataExpressionCompilerExample />
     </DocsPageSectionContent>
 </DocsPageSection>

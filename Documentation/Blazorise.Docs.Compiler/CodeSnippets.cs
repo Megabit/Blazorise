@@ -40,7 +40,9 @@ public class CodeSnippets
             {
                 var filename = Path.GetFileName( entry );
                 var componentName = Path.GetFileNameWithoutExtension( filename );
-                if ( !componentName.Contains( Paths.ExampleDiscriminator ) )
+                bool isCSharp = entry.EndsWith( ".csharp" );
+
+                if ( !isCSharp && !componentName.Contains( Paths.ExampleDiscriminator ) )
                     continue;
                 cb.AddLine( $"public const string {componentName} = @\"{EscapeComponentSource( entry )}\";" );
                 cb.AddLine();

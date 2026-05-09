@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,9 +15,12 @@ public partial class DocsPageSectionSource
 {
     #region Methods
 
-    protected override void OnInitialized()
+    protected override void OnParametersSet()
     {
-        CurrentCode = Code;
+        if ( string.IsNullOrWhiteSpace( CurrentCode ) || !CodeSources.Any( source => source.Code == CurrentCode ) )
+        {
+            CurrentCode = Code;
+        }
     }
 
     private Task OnToggleCode()
@@ -28,7 +32,7 @@ public partial class DocsPageSectionSource
 
     private async Task OnCopyCode()
     {
-        await JSRuntime.InvokeVoidAsync( "blazoriseDocs.code.copyToClipboard", Snippets.GetCode( Code ) );
+        await JSRuntime.InvokeVoidAsync( "blazoriseDocs.code.copyToClipboard", Snippets.GetCode( CurrentCode ) );
         await NotificationService.Info( $"Copied code example!" );
     }
 
@@ -56,6 +60,26 @@ public partial class DocsPageSectionSource
 
     private IFluentDisplay SourceCodeDisplay => ShowCode ? Display.Block : Display.None;
 
+    private IReadOnlyList<DocsCodeSource> CodeSources
+    {
+        get
+        {
+            List<DocsCodeSource> sources = new()
+            {
+                new( Code, CodeTitle )
+            };
+
+            if ( AdditionalCodes is not null )
+            {
+                sources.AddRange( AdditionalCodes.Where( source => source is not null && !string.IsNullOrWhiteSpace( source.Code ) ) );
+            }
+
+            return sources;
+        }
+    }
+
+    private bool HasMultipleCodeSources => CodeSources.Count > 1;
+
     private string CurrentCode { get; set; }
 
     [Inject] public INotificationService NotificationService { get; set; }
@@ -63,6 +87,10 @@ public partial class DocsPageSectionSource
     [Inject] public IJSRuntime JSRuntime { get; set; }
 
     [Parameter] public string Code { get; set; }
+
+    [Parameter] public string CodeTitle { get; set; } = "Example.razor";
+
+    [Parameter] public IReadOnlyList<DocsCodeSource> AdditionalCodes { get; set; }
 
     [Parameter] public bool ShowCode { get; set; } = true;
 

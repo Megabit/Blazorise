@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise;
 using Microsoft.AspNetCore.Components;
@@ -73,6 +74,10 @@ public partial class DocsPageSectionContent
     [Parameter] public string FrameUrl { get; set; }
 
     [Parameter] public string Code { get; set; }
+
+    [Parameter] public string CodeTitle { get; set; } = "Example.razor";
+
+    [Parameter] public IReadOnlyList<DocsCodeSource> AdditionalCodes { get; set; }
 
     [Parameter] public bool ShowCode { get; set; } = true;
 

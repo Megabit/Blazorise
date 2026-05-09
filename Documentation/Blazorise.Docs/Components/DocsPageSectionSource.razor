@@ -12,6 +12,30 @@
         </Tooltip>
     </Div>
     <Div Height="Height.Is100" Display="@SourceCodeDisplay">
-        @CodeComponent( CurrentCode )
+        @if ( HasMultipleCodeSources )
+        {
+            <Tabs @bind-SelectedTab="@CurrentCode" Pills>
+                <Items>
+                    @foreach ( DocsCodeSource source in CodeSources )
+                    {
+                        <Tab Name="@source.Code">
+                            @source.Title
+                        </Tab>
+                    }
+                </Items>
+                <Content>
+                    @foreach ( DocsCodeSource source in CodeSources )
+                    {
+                        <TabPanel Name="@source.Code">
+                            @CodeComponent( source.Code )
+                        </TabPanel>
+                    }
+                </Content>
+            </Tabs>
+        }
+        else
+        {
+            @CodeComponent( CurrentCode )
+        }
     </Div>
 </Div>

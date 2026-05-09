@@ -1,4 +1,4 @@
-﻿@page "/docs/extensions/datagrid/validations"
+@page "/docs/extensions/datagrid/validations"
 
 <Seo Canonical="/docs/extensions/datagrid/validations" Title="Blazorise DataGrid validations" Description="Learn to use and work with the Blazorise DataGrid DataGrid validations to validate a user forms and input fields." />
 
@@ -47,11 +47,11 @@
             </AlertDescription>
         </Alert>
     </DocsPageSectionContent>
-    <DocsPageSectionContent Code="DataGridValidatorExample" FullWidth>
+    <DocsPageSectionContent Code="DataGridValidatorExample" AdditionalCodes="@DocsCodeSources.DataGridSharedData" FullWidth>
         To override data-annotation you only need to define a <Code>Validator</Code> attribute and assign it to your validation method.
         <DataGridValidatorExample />
     </DocsPageSectionContent>
-    <DocsPageSectionContent Code="DataGridValidatorEditTemplateExample" FullWidth>
+    <DocsPageSectionContent Code="DataGridValidatorEditTemplateExample" AdditionalCodes="@DocsCodeSources.DataGridSharedData" FullWidth>
         If you use <Code>EditTemplate</Code> to customize editing of columns, then using <Code>Validator</Code> or <Code>ValidationPattern</Code> will not work and you have to use <Code>Validation</Code> like in the following example:
         <DataGridValidatorEditTemplateExample />
     </DocsPageSectionContent>
