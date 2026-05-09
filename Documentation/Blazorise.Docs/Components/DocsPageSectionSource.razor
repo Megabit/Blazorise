@@ -1,22 +1,42 @@
-<Div Height="Height.Is100">
-    <Div Flex="Flex.AlignItems.Center.JustifyContent.Between" Gap="Gap.Is2" Padding="Padding.Is2.OnX.Is1.OnY">
-        <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is3">
-            @if ( ShowCode && HasMultipleCodeSources )
-            {
-                @foreach ( DocsCodeSource source in CodeSources )
+<Div Position="Position.Relative" Height="Height.Is100">
+    @if ( HasMultipleCodeSources )
+    {
+        <Div Flex="Flex.AlignItems.Center.JustifyContent.Between" Gap="Gap.Is2" Padding="Padding.Is2.OnX.Is1.OnY">
+            <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is3">
+                @if ( ShowCode )
                 {
-                    <Button Color="Color.Default"
-                            Size="Size.Small"
-                            TextColor="@SourceSelectorTextColor( source.Code )"
-                            TextWeight="@SourceSelectorTextWeight( source.Code )"
-                            Padding="Padding.Is0"
-                            Clicked="@(() => OnSelectCodeSource( source.Code ))">
-                        @source.Title
-                    </Button>
+                    @foreach ( DocsCodeSource source in CodeSources )
+                    {
+                        <Button Color="Color.Default"
+                                Size="Size.Small"
+                                TextColor="@SourceSelectorTextColor( source.Code )"
+                                TextWeight="@SourceSelectorTextWeight( source.Code )"
+                                Padding="Padding.Is0"
+                                Clicked="@(() => OnSelectCodeSource( source.Code ))">
+                            @source.Title
+                        </Button>
+                    }
                 }
-            }
+            </Div>
+            <Div Flex="Flex.AlignItems.Center">
+                @SourceActions
+            </Div>
         </Div>
-        <Div Flex="Flex.AlignItems.Center">
+    }
+    else
+    {
+        <Div Position="Position.Absolute.Top.Is0.End.Is0">
+            @SourceActions
+        </Div>
+    }
+    <Div Height="@SourceCodeHeight" Overflow="Overflow.Auto" Display="@SourceCodeDisplay">
+        @CodeComponent( CurrentCode )
+    </Div>
+</Div>
+
+@code {
+    private RenderFragment SourceActions =>
+        @<text>
             @if ( ShowCode )
             {
                 <Tooltip Text="@(SourceExpanded ? "Collapse code example" : "Expand code example")" Inline>
@@ -35,9 +55,5 @@
                     <Icon Name="IconName.Copy" />
                 </Button>
             </Tooltip>
-        </Div>
-    </Div>
-    <Div Height="@SourceCodeHeight" Overflow="Overflow.Auto" Display="@SourceCodeDisplay">
-        @CodeComponent( CurrentCode )
-    </Div>
-</Div>
+        </text>;
+}
