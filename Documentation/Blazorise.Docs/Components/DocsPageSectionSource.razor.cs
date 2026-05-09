@@ -36,6 +36,19 @@ public partial class DocsPageSectionSource
         await NotificationService.Info( $"Copied code example!" );
     }
 
+    private Task OnSelectCodeSource( string code )
+    {
+        CurrentCode = code;
+
+        return Task.CompletedTask;
+    }
+
+    private TextColor SourceSelectorTextColor( string code )
+        => CurrentCode == code ? TextColor.Primary : TextColor.Body;
+
+    private TextWeight SourceSelectorTextWeight( string code )
+        => CurrentCode == code ? TextWeight.SemiBold : TextWeight.Normal;
+
     private RenderFragment CodeComponent( string code ) => builder =>
     {
         try
