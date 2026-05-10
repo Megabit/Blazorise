@@ -6601,7 +6601,7 @@ public class CountryData
 <Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is3"">
     <Captcha @ref=""@captcha"" Solved=""@Solved"" Validate=""@Validate"" Expired=""Expired"" />
 
-    <Button Background=""Background.Primary"" Clicked=""@Reset"">
+    <Button Color=""Color.Primary"" Clicked=""@Reset"">
         Reset
     </Button>
 </Div>
@@ -9817,7 +9817,7 @@ public class EmployeeData
     </LoadingTemplate>
 </DataGrid>
 
-<Button Background=""Background.Primary"" Color=""Color.Light"" Clicked=""() => datagridRef.Reload()"">Load</Button>
+<Button Color=""Color.Primary"" Clicked=""() => datagridRef.Reload()"">Load</Button>
 
 @code {
     protected DataGrid.DataGrid<Employee> datagridRef;
