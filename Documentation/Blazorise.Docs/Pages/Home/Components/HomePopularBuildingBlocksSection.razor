@@ -1,10 +1,10 @@
 <Container Padding="Padding.Is5.OnY">
     <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
         <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
-            Popular building blocks
+            Popular Components
         </Heading>
         <Lead TextColor="TextColor.Muted">
-            Start with polished components for common product work.
+            Start with the components used most in Blazor apps.
         </Lead>
     </Div>
 
@@ -18,7 +18,7 @@
                         <Paragraph TextColor="TextColor.Muted">@item.Description</Paragraph>
                         <Div Margin="Margin.IsAuto.FromTop">
                             <Anchor To="@item.Url" Title="@($"Open {item.Title} documentation")">
-                                View documentation
+                                View docs
                             </Anchor>
                         </Div>
                     </CardBody>
@@ -31,11 +31,11 @@
 @code {
     private static readonly PopularComponent[] PopularComponents =
     [
-        new( "DataGrid", "Sorting, filtering, grouping, virtualization, editing, templates, and validation for complex data views.", "docs/extensions/datagrid/getting-started" ),
-        new( "Scheduler", "Day, week, month, resources, recurrence, and drag-and-drop for calendar-heavy workflows.", "docs/extensions/scheduler" ),
+        new( "DataGrid", "Sorting, filtering, grouping, virtualization, editing, templates, and validation for large data sets.", "docs/extensions/datagrid/getting-started" ),
+        new( "Scheduler", "Calendar views, resources, recurrence, and drag-and-drop for scheduling workflows.", "docs/extensions/scheduler" ),
         new( "Charts", "Interactive charts for dashboards, reports, and data visualization in Blazor.", "docs/extensions/chart" ),
         new( "Validation", "Data annotations, custom validators, async checks, localization, and full form workflows.", "docs/components/validation" ),
-        new( "Autocomplete", "Fast typeahead, templates, keyboard navigation, and remote data scenarios.", "docs/extensions/autocomplete" ),
+        new( "Autocomplete", "Typeahead, templates, keyboard navigation, and remote data loading.", "docs/extensions/autocomplete" ),
         new( "Video", "HLS, DASH, static files, live streams, and protected media support.", "docs/extensions/video" )
     ];
 
