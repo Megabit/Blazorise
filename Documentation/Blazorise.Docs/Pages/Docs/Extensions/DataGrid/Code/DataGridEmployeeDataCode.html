@@ -1,0 +1,68 @@
+<div class="blazorise-codeblock">
+<div class="csharp"><pre>
+<span class="keyword">using</span> System.Collections.Generic;
+<span class="keyword">using</span> System.IO;
+<span class="keyword">using</span> System.Linq;
+<span class="keyword">using</span> System.Reflection;
+<span class="keyword">using</span> System.Text.Json;
+<span class="keyword">using</span> System.Threading.Tasks;
+<span class="keyword">using</span> Blazorise.Shared.Models;
+<span class="keyword">using</span> Microsoft.Extensions.Caching.Memory;
+
+<span class="keyword">namespace</span> Blazorise.Shared.Data;
+
+<span class="keyword">public</span> <span class="keyword">class</span> Gender
+{
+    <span class="keyword">public</span> <span class="keyword">string</span> Code { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> <span class="keyword">string</span> Description { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+}
+
+<span class="keyword">public</span> <span class="keyword">class</span> EmployeeData
+{
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IMemoryCache cache;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> <span class="keyword">string</span> employeesCacheKey = <span class="string">&quot;cache_employees&quot;</span>;
+
+    <span class="keyword">public</span> EmployeeData( IMemoryCache memoryCache )
+    {
+        cache = memoryCache;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> IEnumerable&lt;Gender&gt; Genders = <span class="keyword">new</span> List&lt;Gender&gt;()
+    {
+        <span class="keyword">new</span>()
+        {
+            Code = <span class="keyword">null</span>,
+            Description = <span class="keyword">string</span>.Empty
+        },
+        <span class="keyword">new</span>()
+        {
+            Code = <span class="string">&quot;M&quot;</span>,
+            Description = <span class="string">&quot;Male&quot;</span>
+        },
+        <span class="keyword">new</span>()
+        {
+            Code = <span class="string">&quot;F&quot;</span>,
+            Description = <span class="string">&quot;Female&quot;</span>
+        },
+        <span class="keyword">new</span>()
+        {
+            Code = <span class="string">&quot;D&quot;</span>,
+            Description = <span class="string">&quot;Diverse&quot;</span>
+        }
+    };
+
+    <span class="keyword">public</span> <span class="keyword">async</span> Task&lt;List&lt;Employee&gt;&gt; GetDataAsync()
+        =&gt; ( <span class="keyword">await</span> cache.GetOrCreateAsync( employeesCacheKey, LoadData ) )
+            .Select( x =&gt; <span class="keyword">new</span> Employee( x ) )
+            .ToList();
+
+    <span class="keyword">private</span> Task&lt;List&lt;Employee&gt;&gt; LoadData( ICacheEntry cacheEntry )
+    {
+        Assembly assembly = <span class="keyword">typeof</span>( EmployeeData ).Assembly;
+        <span class="keyword">using</span> Stream stream = assembly.GetManifestResourceStream( <span class="string">&quot;Blazorise.Shared.Resources.EmployeeData.json&quot;</span> );
+
+        <span class="keyword">return</span> Task.FromResult( JsonSerializer.Deserialize&lt;List&lt;Employee&gt;&gt;( <span class="keyword">new</span> StreamReader( stream ).ReadToEnd() ) );
+    }
+}
+</pre></div>
+</div>

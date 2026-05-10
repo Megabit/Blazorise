@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <Import Project="..\..\..\Build\Blazorise.Demo.props" />
+
+  <PropertyGroup>
+    <RootNamespace>Blazorise.Demo</RootNamespace>
+    <OutputType>Library</OutputType>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Blazorise.Shared\Blazorise.Shared.csproj" />
+    <ProjectReference Include="..\..\..\Source\Blazorise\Blazorise.csproj" />
+    <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Charts\Blazorise.Charts.csproj" />
+    <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Charts.Annotation\Blazorise.Charts.Annotation.csproj" />
+    <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Charts.DataLabels\Blazorise.Charts.DataLabels.csproj" />
+    <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Charts.Streaming\Blazorise.Charts.Streaming.csproj" />
+    <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Charts.Zoom\Blazorise.Charts.Zoom.csproj" />
+  </ItemGroup>
+
+</Project>

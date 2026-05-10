@@ -1,4 +1,4 @@
-﻿@page "/docs/extensions/datagrid/aggregates"
+@page "/docs/extensions/datagrid/aggregates"
 
 <Seo Canonical="/docs/extensions/datagrid/aggregates" Title="Blazorise DataGrid aggregates" Description="Learn to use and work with the Blazorise DataGrid aggregates, that helps you to calculate and summarize data to better represent it in the UI." />
 
@@ -38,7 +38,7 @@
     <DocsPageSectionHeader Title="Aggregates">
         DataGrid will automatically generate necessary group cells based on the defined <Code>DataGridAggregate</Code> options.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent FullWidth>
+    <DocsPageSectionContent Code="DataGridAggregatesExample" AdditionalCodes="@DocsCodeSources.DataGridSharedData" FullWidth>
         <DataGridAggregatesExample />
     </DocsPageSectionContent>
 </DocsPageSection>
@@ -47,10 +47,9 @@
     <DocsPageSectionHeader Title="Large Data">
         By default all aggregate operations are run on in-memory <Code>Data</Code>. When working with large datasets that is not possible. So just as in the previous examples for large datasets you need to work with <Code>ReadData</Code> and set the <Code>AggregateData</Code> property.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent FullWidth>
+    <DocsPageSectionContent Code="DataGridAggregatesLargeDataExample" AdditionalCodes="@DocsCodeSources.DataGridSharedData" FullWidth>
         <DataGridAggregatesLargeDataExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="DataGridAggregatesLargeDataExample" />
 </DocsPageSection>
 
 <DocsPageApi>

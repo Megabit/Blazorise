@@ -25,7 +25,7 @@ internal static class BlogAstWalker
 
         var doc = Markdig.Markdown.Parse( info.MarkdownText, pipeline );
 
-        sink.AddPageAndSeo( info.Permalink, info.Title, info.Description, resolvedCover ?? "", info.ImageTitle );
+        sink.AddPageAndSeo( BlogPermalinks.ToCanonicalBlogPath( info.Permalink ), info.Title, info.Description, resolvedCover ?? "", info.ImageTitle );
 
         foreach ( var block in doc )
         {

@@ -1,0 +1,25 @@
+<div class="blazorise-codeblock">
+<div class="csharp"><pre>
+<span class="keyword">using</span> Blazorise.Shared.Models;
+<span class="keyword">using</span> FluentValidation;
+
+<span class="keyword">namespace</span> Blazorise.Docs.Pages.Docs.Extensions.FluentValidation.Validators;
+
+<span class="keyword">public</span> <span class="keyword">class</span> PersonValidator : AbstractValidator&lt;Person&gt;
+{
+    <span class="keyword">public</span> PersonValidator()
+    {
+        RuleFor( vm =&gt; vm.FirstName )
+            .NotEmpty()
+            .MaximumLength( <span class="number">30</span> );
+
+        RuleFor( vm =&gt; vm.LastName )
+            .NotEmpty()
+            .MaximumLength( <span class="number">30</span> );
+
+        RuleFor( vm =&gt; vm.Age )
+            .GreaterThanOrEqualTo( <span class="number">18</span> );
+    }
+}
+</pre></div>
+</div>

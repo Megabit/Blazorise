@@ -12,10 +12,16 @@
       <Deploy />
     </Project>
     <Project Path="Demos/Blazorise.Demo.Tailwind/Blazorise.Demo.Tailwind.csproj" />
-    <Project Path="Demos/Blazorise.Demo/Blazorise.Demo.csproj" />
   </Folder>
   <Folder Name="/Demos/Apps/">
     <Project Path="Demos/Apps/TodoApp/TodoApp.csproj" />
+  </Folder>
+  <Folder Name="/Demos/Shared/">
+    <Project Path="Demos/Shared/Blazorise.Demo.Charts/Blazorise.Demo.Charts.csproj" />
+    <Project Path="Demos/Shared/Blazorise.Demo.Components/Blazorise.Demo.Components.csproj" />
+    <Project Path="Demos/Shared/Blazorise.Demo.DataGrid/Blazorise.Demo.DataGrid.csproj" />
+    <Project Path="Demos/Shared/Blazorise.Demo.Extensions/Blazorise.Demo.Extensions.csproj" />
+    <Project Path="Demos/Shared/Blazorise.Demo/Blazorise.Demo.csproj" />
   </Folder>
   <Folder Name="/Documentation/">
     <Project Path="Documentation/Blazorise.Docs.Compiler/Blazorise.Docs.Compiler.csproj" />

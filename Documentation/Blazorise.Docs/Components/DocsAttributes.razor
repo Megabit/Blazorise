@@ -4,12 +4,12 @@
 
 @if ( Title != null )
 {
-    <Heading Class="b-docs-page-attributes-title" Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">
+    <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.FromBottom">
         @Title
     </Heading>
 }
 
-<Table Class="b-docs-attributes" Responsive Margin="Margin.Is4.FromBottom">
+<Table Responsive Margin="Margin.Is4.FromBottom">
     <TableHeader ThemeContrast="@ThemeContrast">
         <TableRow>
             <TableHeaderCell>@Name</TableHeaderCell>
@@ -45,10 +45,10 @@
                 </TableRowCell>
                 @if ( ShowDefaults )
                 {
-                    <TableRowCell Class="@docsAttributesItem.DefaultClassNames">
+                    <TableRowCell>
                         @if ( docsAttributesItem.Default != null )
                         {
-                            <Code>@docsAttributesItem.Default</Code>
+                            <Code TextColor="@docsAttributesItem.DefaultTextColor">@docsAttributesItem.Default</Code>
                         }
                     </TableRowCell>
                 }
@@ -56,5 +56,3 @@
         }
     </TableBody>
 </Table>
-
-

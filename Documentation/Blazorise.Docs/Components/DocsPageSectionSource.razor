@@ -1,17 +1,59 @@
-﻿<Div Class="b-docs-page-section-source">
-    <Div Class="b-docs-page-section-source-toolbar">
-        <Tooltip Text="@(ShowCode ? "Hide code example" : "Show code example")" Inline>
-            <Button Clicked="@OnToggleCode">
-                <Icon Name="IconName.Code" />
-            </Button>
-        </Tooltip>
-        <Tooltip Text="Copy code" Inline>
-            <Button Clicked="@OnCopyCode">
-                <Icon Name="@("fas fa-copy")" />
-            </Button>
-        </Tooltip>
-    </Div>
-    <Div Class="@SourceCodeClassNames">
+<Div Position="Position.Relative" Height="Height.Is100">
+    @if ( HasMultipleCodeSources )
+    {
+        <Div Flex="Flex.AlignItems.Center.JustifyContent.Between" Gap="Gap.Is2" Padding="Padding.Is2.OnX.Is1.OnY">
+            <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is3">
+                @if ( ShowCode )
+                {
+                    @foreach ( DocsCodeSource source in CodeSources )
+                    {
+                        <Button Color="Color.Default"
+                                Size="Size.Small"
+                                TextColor="@SourceSelectorTextColor( source.Code )"
+                                TextWeight="@SourceSelectorTextWeight( source.Code )"
+                                Padding="Padding.Is0"
+                                Clicked="@(() => OnSelectCodeSource( source.Code ))">
+                            @source.Title
+                        </Button>
+                    }
+                }
+            </Div>
+            <Div Flex="Flex.AlignItems.Center">
+                @SourceActions
+            </Div>
+        </Div>
+    }
+    else
+    {
+        <Div Position="Position.Absolute.Top.Is0.End.Is0">
+            @SourceActions
+        </Div>
+    }
+    <Div ElementId="@SourceCodeElementId" Height="@SourceCodeHeight" Overflow="Overflow.Auto" Display="@SourceCodeDisplay">
         @CodeComponent( CurrentCode )
     </Div>
 </Div>
+
+@code {
+    private RenderFragment SourceActions =>
+        @<text>
+            @if ( ShowCode && CanExpandSource )
+            {
+                <Tooltip Text="@(SourceExpanded ? "Collapse code example" : "Expand code example")" Inline>
+                    <Button Color="Color.Default" Size="Size.Small" TextColor="TextColor.Secondary" Clicked="@OnToggleSourceExpanded">
+                        <Icon Name="@(SourceExpanded ? IconName.Compress : IconName.Expand)" />
+                    </Button>
+                </Tooltip>
+            }
+            <Tooltip Text="@(ShowCode ? "Hide code example" : "Show code example")" Inline>
+                <Button Color="Color.Default" Size="Size.Small" TextColor="TextColor.Secondary" Clicked="@OnToggleCode">
+                    <Icon Name="IconName.Code" />
+                </Button>
+            </Tooltip>
+            <Tooltip Text="Copy code" Inline>
+                <Button Color="Color.Default" Size="Size.Small" TextColor="TextColor.Secondary" Margin="@SourceActionEndMargin" Clicked="@OnCopyCode">
+                    <Icon Name="IconName.Copy" />
+                </Button>
+            </Tooltip>
+        </text>;
+}

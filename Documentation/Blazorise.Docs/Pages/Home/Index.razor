@@ -1,55 +1,41 @@
-﻿@page "/"
+@page "/"
 
-<Seo Canonical="/" Title="Blazorise - Blazor Component Library" Description="Ship accessible, production-ready Blazor apps quickly with 90+ components, consistent theming, and first-class support for Bootstrap, Tailwind, Bulma, AntDesign, and Material." />
+<Seo Canonical="/" Title="Blazorise - Blazor Component Library" Description="Ship accessible, production-ready Blazor apps quickly with 100+ components, consistent theming, and first-class support for Bootstrap, Tailwind, Bulma, AntDesign, Material, Fluent UI, and more." />
 
 <PageHeader>
     <Title>
         We handle the <Span Class="gradient-commercial">UI</Span>. You handle the product.
     </Title>
     <Subtitle>
-        From grids to schedulers, we cover the UI stack so you can stay focused on building features your users love.
+        Components, providers, utilities, and support for teams that need to ship reliable web applications in C#.
     </Subtitle>
+    <Description>
+        Blazorise gives you a complete UI foundation for real product work: data-heavy features, responsive layouts, validation, theming, commercial support, and provider flexibility across the CSS frameworks your team already knows.
+    </Description>
     <Actions>
-        <Button Class="btn-primary-gradient" Type="ButtonType.Link" To="docs/start" Color="Color.Primary" Size="Size.Large">
+        <Button Type="ButtonType.Link" To="docs/start" Color="Color.Primary" Size="Size.Large" Padding="Padding.Is4.OnX">
+            <Icon Name="IconName.Book" />
             Get Started
-            <Icon Name="IconName.ArrowRight" Margin="Margin.Is2.FromStart" />
         </Button>
-        <Button Type="ButtonType.Link" To="blocks" Color="Color.Secondary" Size="Size.Large">
+        <Button Type="ButtonType.Link" To="blocks" Color="Color.Secondary" Size="Size.Large" Padding="Padding.Is4.OnX">
             <Icon Name="IconName.PlayCircle" />
-            See it in Action
+            View Blocks
         </Button>
     </Actions>
 </PageHeader>
 
-<Div Padding="Padding.Is5.OnY">
-    <Container>
-        <section class="home-logos" id="logos-section">
-            <HomeClientLogos />
-            <Row>
-                <Column>
-                    <Paragraph Margin="Margin.Is4.FromTop" TextColor="TextColor.Muted" TextAlignment="TextAlignment.Center">
-                        Trusted by teams at leading companies worldwide.
-                    </Paragraph>
-                </Column>
-            </Row>
-        </section>
-        <Divider Margin="Margin.Is5.OnY" />
-        <HomeCSSFrameworksSection />
-        <Divider Margin="Margin.Is5.OnY" />
-        <HomeCaseStudiesSection />
-        <Divider Margin="Margin.Is5.OnY" />
-        <HomePopularComponentsSection />
-        <Divider Margin="Margin.Is5.OnY" />
-        <HomeTestimonialsSection />
-        <Divider Margin="Margin.Is5.OnY" />
-        <HomeSpecialistsSection />
-        <Divider Margin="Margin.Is5.OnY" />
-        <HomeCommunitySection />
-        <Divider Margin="Margin.Is5.OnY" />
-        <section class="home-newsletter" id="newsletter-section">
-            <Container>
-                <HomeNewsletterWidget />
-            </Container>
-        </section>
-    </Container>
-</Div>
+<HomeStatsSection />
+<HomeTrustedBySection />
+<HomeProviderOverviewSection />
+<HomeProductHighlightsSection />
+<HomeComponentsShowcaseSection />
+<HomeFrameworksSection />
+<HomeUtilitySection />
+<HomePopularBuildingBlocksSection />
+<HomeExpandableTestimonialsSection />
+<HomeCommercialCalloutSection />
+<HomeCommunitySection />
+
+<Container Padding="Padding.Is5.OnY">
+    <HomeNewsletterWidget />
+</Container>

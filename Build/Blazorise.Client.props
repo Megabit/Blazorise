@@ -1,4 +1,4 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
@@ -9,6 +9,36 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
     	<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" PrivateAssets="all" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Demo.Charts.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Charts.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Charts.Annotation.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Charts.DataLabels.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Charts.Streaming.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Charts.Zoom.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Lambda2Js.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Demo.DataGrid.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.DataGrid.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Demo.Components.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Demo.Extensions.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Animate.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Barcode.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Cropper.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Gantt.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.LottieAnimation.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Maps.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Markdown.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.PdfViewer.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.PivotGrid.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.QRCode.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Scheduler.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.SignaturePad.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.SpinKit.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Splitter.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.TreeView.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Video.wasm" />
 	</ItemGroup>
 
 </Project>

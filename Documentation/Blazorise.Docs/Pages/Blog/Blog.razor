@@ -2,7 +2,7 @@
 @using Blazorise.Docs.BlogRuntime
 @inject Blazorise.Docs.BlogRuntime.IBlogProvider BlogProvider
 
-<Seo Canonical="/blog" Title="Blazorise Blog" Description="Blazorise blogs for .NET development, cross-platform, mobile apps, Blazorise UI controls, news and more." ImageUrl="@BlogEntries?.FirstOrDefault( x => x.Pinned )?.ImageUrl" />
+<Seo Canonical="/blog" Title="Blazorise Blog" Description="Blazorise blogs, product news, release updates, .NET development, cross-platform, mobile apps, Blazorise UI controls, and more." ImageUrl="@BlogEntries?.FirstOrDefault( x => x.Pinned )?.ImageUrl" />
 
 <BlogPageTitle>
     Blazorise Blog
@@ -35,7 +35,7 @@
                             <CardTitle>
                                 @if ( pinnedBlog.Permalink != null )
                                 {
-                                    <Anchor To="@pinnedBlog.Permalink" Stretched>
+                                    <Anchor To="@BlogPermalinks.ToCanonicalBlogPath( pinnedBlog.Permalink )" Stretched>
                                         @pinnedBlog.Summary
                                     </Anchor>
                                 }
@@ -59,7 +59,7 @@
 <BlogPageEntries Year="2022">
     @foreach ( var item in BlogEntries.Where( x => ( ( selectedCategory == "All" || !string.IsNullOrEmpty( search ) ) || x.Category == selectedCategory ) && x.Summary.Contains( search ?? string.Empty, StringComparison.InvariantCultureIgnoreCase ) ) )
     {
-        <BlogPageEntriesItem @key="@item" To="@item.Permalink" ToText="@item.Title" ImageSource="@item.ImageUrl" AuthorName="@item.AuthorName" AuthorImage="@item.AuthorImage" PostedOn="@item.PostedOn" ReadTime="@item.ReadTime" />
+        <BlogPageEntriesItem @key="@item" To="@BlogPermalinks.ToCanonicalBlogPath( item.Permalink )" ToText="@item.Title" ImageSource="@item.ImageUrl" AuthorName="@item.AuthorName" AuthorImage="@item.AuthorImage" PostedOn="@item.PostedOn" ReadTime="@item.ReadTime" />
     }
 </BlogPageEntries>
 
@@ -71,6 +71,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        BlogEntries = await BlogProvider.GetListAsync( "blog" );
+        BlogEntries = await BlogProvider.GetListAsync( null );
     }
 }

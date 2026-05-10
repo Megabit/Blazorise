@@ -30,39 +30,39 @@
             </Div>
             <Paragraph Margin="Margin.Is3.FromBottom" TextColor="TextColor.Muted">
                 <Span>
-                    Copyright © 2018-@DateTime.Today.Year Megabit
+                    © 2018-@DateTime.Today.Year Megabit Ltd. All rights reserved.
                 </Span>
             </Paragraph>
             <Paragraph Margin="Margin.Is3.FromBottom">
-                Powered by <Anchor TextColor="TextColor.Primary" To="https://blazorise.com/" Title="Blazorise">Blazorise</Anchor>.
+                Built with <Anchor To="https://blazorise.com/" Title="Blazorise">Blazorise</Anchor>.
             </Paragraph>
         </Column>
         <Column ColumnSize="ColumnSize.Is12.Is3.OnDesktop">
             <Heading Size="HeadingSize.Is5">Product</Heading>
             <UnorderedList Unstyled>
                 <UnorderedListItem Margin="Margin.Is1.FromBottom">
-                    <Anchor TextColor="TextColor.Primary" To="community" Title="Community">Community</Anchor>
+                    <Anchor To="community" Title="Community">Community</Anchor>
                 </UnorderedListItem>
                 <UnorderedListItem Margin="Margin.Is1.FromBottom">
-                    <Anchor TextColor="TextColor.Primary" To="commercial" Title="Commercial">Commercial</Anchor>
+                    <Anchor To="commercial" Title="Commercial">Commercial</Anchor>
                 </UnorderedListItem>
                 <UnorderedListItem Margin="Margin.Is1.FromBottom">
-                    <Anchor TextColor="TextColor.Primary" To="features" Title="Features">Features</Anchor>
+                    <Anchor To="features" Title="Features">Features</Anchor>
                 </UnorderedListItem>
                 <UnorderedListItem Margin="Margin.Is1.FromBottom">
-                    <Anchor TextColor="TextColor.Primary" To="pricing" Title="Pricing">Pricing</Anchor>
+                    <Anchor To="pricing" Title="Pricing">Pricing</Anchor>
                 </UnorderedListItem>
                 <UnorderedListItem Margin="Margin.Is1.FromBottom">
-                    <Anchor TextColor="TextColor.Primary" To="custom-work" Title="Custom work">Custom work</Anchor>
+                    <Anchor To="custom-work" Title="Custom work">Custom work</Anchor>
                 </UnorderedListItem>
                 <UnorderedListItem Margin="Margin.Is1.FromBottom">
-                    <Anchor TextColor="TextColor.Primary" To="customers" Title="Success stories">Success stories</Anchor>
+                    <Anchor To="customers" Title="Success stories">Success stories</Anchor>
                 </UnorderedListItem>
                 <UnorderedListItem Margin="Margin.Is1.FromBottom">
-                    <Anchor TextColor="TextColor.Primary" To="resellers" Title="resellers">Resellers</Anchor>
+                    <Anchor To="resellers" Title="resellers">Resellers</Anchor>
                 </UnorderedListItem>
                 <UnorderedListItem Margin="Margin.Is1.FromBottom">
-                    <Anchor TextColor="TextColor.Primary" To="credits" Title="Credits">Credits</Anchor>
+                    <Anchor To="credits" Title="Credits">Credits</Anchor>
                 </UnorderedListItem>
             </UnorderedList>
         </Column>
@@ -70,19 +70,22 @@
             <Heading Size="HeadingSize.Is5">Company</Heading>
             <UnorderedList Unstyled>
                 <UnorderedListItem Margin="Margin.Is1.FromBottom">
-                    <Anchor TextColor="TextColor.Primary" To="about" Title="About">About</Anchor>
+                    <Anchor To="about" Title="About">About</Anchor>
                 </UnorderedListItem>
                 <UnorderedListItem Margin="Margin.Is1.FromBottom">
-                    <Anchor TextColor="TextColor.Primary" To="news" Title="News">News</Anchor>
+                    <Anchor To="vision" Title="Vision">Vision</Anchor>
                 </UnorderedListItem>
                 <UnorderedListItem Margin="Margin.Is1.FromBottom">
-                    <Anchor TextColor="TextColor.Primary" To="privacy" Title="Privacy">Privacy</Anchor>
+                    <Anchor To="blog" Title="Blog">Blog</Anchor>
                 </UnorderedListItem>
                 <UnorderedListItem Margin="Margin.Is1.FromBottom">
-                    <Anchor TextColor="TextColor.Primary" To="terms" Title="Terms">Terms</Anchor>
+                    <Anchor To="privacy" Title="Privacy">Privacy</Anchor>
                 </UnorderedListItem>
                 <UnorderedListItem Margin="Margin.Is1.FromBottom">
-                    <Anchor TextColor="TextColor.Primary" To="help-us-improve" Title="Help us improve">Help us Improve</Anchor>
+                    <Anchor To="terms" Title="Terms">Terms</Anchor>
+                </UnorderedListItem>
+                <UnorderedListItem Margin="Margin.Is1.FromBottom">
+                    <Anchor To="help-us-improve" Title="Help us improve">Help us Improve</Anchor>
                 </UnorderedListItem>
             </UnorderedList>
         </Column>
@@ -90,16 +93,16 @@
             <Heading Size="HeadingSize.Is5">Resources</Heading>
             <UnorderedList Unstyled>
                 <UnorderedListItem Margin="Margin.Is1.FromBottom">
-                    <Anchor TextColor="TextColor.Primary" To="https://demos.blazorise.com/wasm/bootstrap4/" Title="Online Demos">Online Demos</Anchor>
+                    <Anchor To="https://demos.blazorise.com/wasm/bootstrap4/" Title="Online Demos">Online Demos</Anchor>
                 </UnorderedListItem>
                 <UnorderedListItem Margin="Margin.Is1.FromBottom">
-                    <Anchor TextColor="TextColor.Primary" To="docs" Title="Documentation">Documentation</Anchor>
+                    <Anchor To="docs" Title="Documentation">Documentation</Anchor>
                 </UnorderedListItem>
                 <UnorderedListItem Margin="Margin.Is1.FromBottom">
-                    <Anchor TextColor="TextColor.Primary" To="https://github.com/Megabit/Blazorise/issues" Title="Cummunity">Community</Anchor>
+                    <Anchor To="https://github.com/Megabit/Blazorise/issues" Title="Cummunity">Community</Anchor>
                 </UnorderedListItem>
                 <UnorderedListItem Margin="Margin.Is1.FromBottom">
-                    <Anchor TextColor="TextColor.Primary" To="docs/faq" Title="FAQ">FAQ</Anchor>
+                    <Anchor To="docs/faq" Title="FAQ">FAQ</Anchor>
                 </UnorderedListItem>
             </UnorderedList>
         </Column>
@@ -109,7 +112,7 @@
     [Inject] private ThemeService ThemeService { get; set; }
 
     private TextColor IconTextColor => ThemeService.ShouldDark ? TextColor.Light : TextColor.Dark;
-    
+
     protected override void OnInitialized()
     {
         ThemeService.ThemeChanged += OnThemeChanged;

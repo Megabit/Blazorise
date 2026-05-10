@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.Bootstrap;
@@ -18,7 +18,7 @@ public class Program
             .AddBootstrap5Providers()
             .AddBootstrapIcons();
 
-        builder.RootComponents.Add<App>( "#app" );
+        builder.RootComponents.Add<WasmApp>( "#app" );
         var host = builder.Build();
 
         await host.RunAsync();

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <UserSecretsId>fc0aa134-0281-4ad7-bddc-53b9c74483c4</UserSecretsId>
@@ -9,7 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Blazorise.Bootstrap5\Blazorise.Bootstrap5.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Icons.Bootstrap\Blazorise.Icons.Bootstrap.csproj" />
-    <ProjectReference Include="..\Blazorise.Demo\Blazorise.Demo.csproj" />
+    <ProjectReference Include="..\Shared\Blazorise.Demo\Blazorise.Demo.csproj" />
   </ItemGroup>
 
 </Project>

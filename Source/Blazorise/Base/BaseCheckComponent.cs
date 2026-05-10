@@ -72,6 +72,9 @@ public abstract class BaseCheckComponent<TValue, TClasses, TStyles> : BaseInputC
         get => inline;
         set
         {
+            if ( inline == value )
+                return;
+
             inline = value;
 
             DirtyClasses();
@@ -87,6 +90,9 @@ public abstract class BaseCheckComponent<TValue, TClasses, TStyles> : BaseInputC
         get => cursor;
         set
         {
+            if ( cursor == value )
+                return;
+
             cursor = value;
 
             DirtyClasses();

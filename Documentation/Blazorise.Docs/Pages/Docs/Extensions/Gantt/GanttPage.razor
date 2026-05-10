@@ -134,70 +134,63 @@
             Some columns are hidden by default so the timeline has more space; use the <Strong>Column Picker</Strong> in the toolbar to show them.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="GanttFlatDataExample" Outlined FullWidth>
         <GanttFlatDataExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="GanttFlatDataExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Hierarchical Data Binding">
         Bind directly to nested task collections with <Code>ItemsField</Code> for tree-shaped data models.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="GanttHierarchicalDataExample" Outlined FullWidth>
         <GanttHierarchicalDataExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="GanttHierarchicalDataExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Built-in Editing">
         Enable <Code>Editable</Code> to use built-in create, add-child, update, and delete workflows. This example also demonstrates command-level control through <Code>CommandAllowed</Code>.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="GanttEditableExample" Outlined FullWidth>
         <GanttEditableExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="GanttEditableExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="External Editing">
         By setting the <Code>UseInternalEditing=false</Code> Gantt raises command callbacks with the relevant item and context, but leaves the editing UI and persistence flow to your implementation. This is ideal for keeping Gantt as a pure view component while owning the user experience and data flow of your app.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="GanttExternalEditingExample" Outlined FullWidth>
         <GanttExternalEditingExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="GanttExternalEditingExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Multiple Views">
         Configure all timeline views in one Gantt instance, customize leading and trailing slots per view, and override week start day when needed.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="GanttMultipleViewsExample" Outlined FullWidth>
         <GanttMultipleViewsExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="GanttMultipleViewsExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Auto Expand View">
         Enable <Code>AutoExpandView</Code> when the visible range should follow the loaded task dates instead of the bound <Code>Date</Code>. This sample keeps the anchor date intentionally outside the task range, so switching the toggle off shows the default date-based range again.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="GanttAutoExpandViewExample" Outlined FullWidth>
         <GanttAutoExpandViewExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="GanttAutoExpandViewExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Template Customization">
         Customize multiple Gantt surfaces with templates, including header cells, tree cells, command cells, timeline headers, and task bars.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="GanttTemplatesExample" Outlined FullWidth>
         <GanttTemplatesExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="GanttTemplatesExample" />
 </DocsPageSection>
 
 <ComponentApiDocs ComponentTypes="[typeof(Gantt<>), typeof(GanttColumns<>), typeof(GanttColumn<>), typeof(GanttCommandColumn<>), typeof(GanttToolbar<>), typeof(GanttViews<>), typeof(GanttDayView<>), typeof(GanttWeekView<>), typeof(GanttMonthView<>), typeof(GanttYearView<>)]" />

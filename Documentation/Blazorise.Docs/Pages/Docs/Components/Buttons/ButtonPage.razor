@@ -30,78 +30,70 @@
     <DocsPageSectionHeader Title="Basic button">
         To create a basic button you need to use a Button component.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
+    <DocsPageSectionContent Code="ButtonExample" Outlined>
         <ButtonExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="ButtonExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Clicked event">
         To use button you just handle a button <Code>Clicked</Code> event.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
+    <DocsPageSectionContent Code="ButtonUsageExample" Outlined>
         <ButtonUsageExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="ButtonUsageExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Colors variants">
         The following variants can be used to distinguish between actions of different importance in the UI:
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
+    <DocsPageSectionContent Code="ColorButtonsExample" Outlined>
         <ColorButtonsExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="ColorButtonsExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Outline variants">
         To define button color with a borders use an <Code>Outline</Code> attribute.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
+    <DocsPageSectionContent Code="OutlineButtonExample" Outlined>
         <OutlineButtonExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="OutlineButtonExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Sizes">
         The following size variants are available for Button instances whose size needs to be different from the default:
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
+    <DocsPageSectionContent Code="SizeButtonsExample" Outlined>
         <SizeButtonsExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="SizeButtonsExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Block">
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="BlockButtonExample" Outlined FullWidth>
         <BlockButtonExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="BlockButtonExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Active">
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
+    <DocsPageSectionContent Code="ActiveButtonExample" Outlined>
         <ActiveButtonExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="ActiveButtonExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Disabled">
         Buttons representing actions that are not currently available to the user should be either hidden or disabled. A disabled button is rendered as "dimmed", and is excluded from the focus order (such as when interactive UI elements are focused using the tab key).
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
+    <DocsPageSectionContent Code="DisabledButtonExample" Outlined>
         <DisabledButtonExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="DisabledButtonExample" />
 </DocsPageSection>
 
 <Heading Size="HeadingSize.Is3">
@@ -125,30 +117,27 @@
     <DocsPageSectionHeader Title="Loading">
         Use <Code>Loading</Code> attribute to add spinners within buttons to indicate an action is currently processing or taking place. Use <Code Tag>LoadingTemplate</Code> to add a custom loading template
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
+    <DocsPageSectionContent Code="LoadingButtonExample" Outlined>
         <LoadingButtonExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="LoadingButtonExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Button group">
         If you want to group buttons together on a single line, use the <Code Tag>Buttons</Code> component.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
+    <DocsPageSectionContent Code="ButtonGroupExample" Outlined>
         <ButtonGroupExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="ButtonGroupExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Link Button">
         By default, <Code Tag>Button</Code> works with <Code Tag>button</Code> element, but you can also create an <Code Tag>a</Code> element that will still appear as regular button.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
+    <DocsPageSectionContent Code="LinkButtonExample" Outlined>
         <LinkButtonExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="LinkButtonExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -163,30 +152,27 @@
             Please note that on some CSS providers the <Code Tag>Button</Code> component can have <Code>position: relative</Code> by default, so the link would assume the button to be its relative parent element.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
+    <DocsPageSectionContent Code="StretchedLinkButtonExample" Outlined>
         <StretchedLinkButtonExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="StretchedLinkButtonExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Toolbar">
         To attach buttons together use a <Code>ButtonsRole.Toolbar</Code> role.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
+    <DocsPageSectionContent Code="ToolbarButtonsExample" Outlined>
         <ToolbarButtonsExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="ToolbarButtonsExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Submit button">
         When using a submit button inside of <Code Tag>Form</Code> element the browser will automatically try to post the page. This is the default browser behavior. Because of this a new attribute is introduced to the <Code Tag>Button</Code> element, called <Code>PreventDefaultOnSubmit</Code>. Basically it prevents a default browser behavior when clicking the submit button. So instead of posting the page it will stop it and just call the <Code>Clicked</Code> event handler. Pressing the <Code>Enter</Code> key will still work just as it's supposed to do.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined>
+    <DocsPageSectionContent Code="SubmitButtonExample" Outlined>
         <SubmitButtonExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="SubmitButtonExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -232,10 +218,9 @@
 </Heading>
 
 <DocsPageSection>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="ButtonInFormBestPracticeExample" Outlined FullWidth>
         <ButtonInFormBestPracticeExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="ButtonInFormBestPracticeExample" />
 </DocsPageSection>
 
 <Heading Size="HeadingSize.Is3">
@@ -259,10 +244,9 @@
             </DocsPageUnorderedListItem>
         </DocsPageUnorderedList>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="ButtonInDialogsBestPracticeExample" Outlined FullWidth>
         <ButtonInDialogsBestPracticeExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="ButtonInDialogsBestPracticeExample" />
 </DocsPageSection>
 
 <ComponentApiDocs ComponentTypes="[typeof(Button), typeof(Buttons)]" />

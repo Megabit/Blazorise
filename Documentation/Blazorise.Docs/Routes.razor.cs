@@ -13,66 +13,49 @@ public partial class Routes
     private const string SystemThemeCookieName = "bdocs-system";
     private bool jsReady;
 
+    private static class DocsThemeColors
+    {
+        public const string Brand = "#7c3aed";
+        public const string BrandTextDark = "#c4b5fd";
+
+        public const string Body = "#475569";
+        public const string BodyStrong = "#0f172a";
+        public const string Muted = "#64748b";
+
+        public const string DarkBody = "#e5e7eb";
+        public const string DarkBodyStrong = "#f8fafc";
+        public const string DarkMuted = "#94a3b8";
+        public const string DarkSurface = "#111827";
+        public const string DarkSurfaceElevated = "#0f172a";
+
+        public const string Secondary = "#64748b";
+        public const string Success = "#0f9f6e";
+        public const string Danger = "#dc2626";
+        public const string Warning = "#f59e0b";
+        public const string Info = "#0284c7";
+        public const string Light = "#f1f5f9";
+        public const string Dark = "#111827";
+        public const string BarItemActiveBackground = "#ede9fe";
+        public const string BarItemHoverBackground = "#f5f3ff";
+        public const string DarkBarItemActiveBackground = "#312e81";
+        public const string DarkBarItemHoverBackground = "#1e1b4b";
+    }
+
     private readonly Theme lightTheme = new Theme
     {
         LuminanceThreshold = 170,
-        BarOptions = new ThemeBarOptions
-        {
-            VerticalWidth = "280px",
-            HorizontalHeight = "64px",
-            VerticalBrandHeight = "64px",
-            LightColors = new ThemeBarColorOptions
-            {
-                ItemColorOptions = new ThemeBarItemColorOptions
-                {
-                    ActiveBackgroundColor = "#dedede",
-                    ActiveColor = "#000000",
-                    HoverBackgroundColor = "#dedede",
-                    HoverColor = "#000000",
-                },
-            },
-        },
-        ColorOptions = new ThemeColorOptions
-        {
-            Primary = "#9333ea",
-            Secondary = "#d7dae7",
-            Success = "#13a668",
-            Danger = "#e11d48",
-            Warning = "#FFA800",
-            Light = "#dce7ed",
-            Dark = "#181C32",
-            Info = "#48addb",
-        },
-        BackgroundOptions = new ThemeBackgroundOptions
-        {
-            Primary = "#9333ea",
-            Secondary = "#d7dae7",
-            Success = "#13a668",
-            Danger = "#e11d48",
-            Warning = "#FFA800",
-            Light = "#dce7ed",
-            Dark = "#181C32",
-            Info = "#48addb",
-        },
-        TextColorOptions = new ThemeTextColorOptions
-        {
-            Primary = "#9333ea",
-            Secondary = "#d7dae7",
-            Success = "#13a668",
-            Danger = "#e11d48",
-            Warning = "#FFA800",
-            Light = "#dce7ed",
-            Dark = "#181C32",
-            Info = "#48addb",
-        },
+        BarOptions = CreateLightBarOptions(),
+        ColorOptions = CreateColorOptions( DocsThemeColors.Body ),
+        BackgroundOptions = CreateBackgroundOptions(),
+        TextColorOptions = CreateLightTextColorOptions(),
         InputOptions = new ThemeInputOptions
         {
-            CheckColor = "#9333ea",
-            SliderColor = "#9333ea",
+            CheckColor = DocsThemeColors.Brand,
+            SliderColor = DocsThemeColors.Brand,
         },
         SpinKitOptions = new ThemeSpinKitOptions
         {
-            Color = "#9333ea",
+            Color = DocsThemeColors.Brand,
         },
     };
 
@@ -81,79 +64,120 @@ public partial class Routes
         LuminanceThreshold = 170,
         BodyOptions = new ThemeBodyOptions
         {
-            BackgroundColor = "#1f232a",
-            TextColor = "#e5e7eb",
+            BackgroundColor = DocsThemeColors.DarkSurface,
+            TextColor = DocsThemeColors.DarkBody,
         },
-        BarOptions = new ThemeBarOptions
-        {
-            VerticalWidth = "280px",
-            HorizontalHeight = "64px",
-            VerticalBrandHeight = "64px",
-            LightColors = new ThemeBarColorOptions
-            {
-                ItemColorOptions = new ThemeBarItemColorOptions
-                {
-                    ActiveBackgroundColor = "#dedede",
-                    ActiveColor = "#000000",
-                    HoverBackgroundColor = "#dedede",
-                    HoverColor = "#000000",
-                },
-            },
-            DarkColors = new ThemeBarColorOptions
-            {
-                BackgroundColor = "#151a22",
-                Color = "#e5e7eb",
-                ItemColorOptions = new ThemeBarItemColorOptions
-                {
-                    ActiveBackgroundColor = "#262c35",
-                    ActiveColor = "#f8fafc",
-                    HoverBackgroundColor = "#262c35",
-                    HoverColor = "#f8fafc",
-                },
-            },
-        },
-        ColorOptions = new ThemeColorOptions
-        {
-            Primary = "#9333ea",
-            Secondary = "#d7dae7",
-            Success = "#13a668",
-            Danger = "#e11d48",
-            Warning = "#FFA800",
-            Light = "#dce7ed",
-            Dark = "#181C32",
-            Info = "#48addb",
-        },
-        BackgroundOptions = new ThemeBackgroundOptions
-        {
-            Primary = "#9333ea",
-            Secondary = "#d7dae7",
-            Success = "#13a668",
-            Danger = "#e11d48",
-            Warning = "#FFA800",
-            Light = "#dce7ed",
-            Dark = "#181C32",
-            Info = "#48addb",
-        },
-        TextColorOptions = new ThemeTextColorOptions
-        {
-            Primary = "#9333ea",
-            Secondary = "#d7dae7",
-            Success = "#13a668",
-            Danger = "#e11d48",
-            Warning = "#FFA800",
-            Light = "#dce7ed",
-            Dark = "#181C32",
-            Info = "#48addb",
-            Muted = "#9aa4b2",
-        },
+        BarOptions = CreateDarkBarOptions(),
+        ColorOptions = CreateColorOptions( DocsThemeColors.DarkBody ),
+        BackgroundOptions = CreateBackgroundOptions(),
+        TextColorOptions = CreateDarkTextColorOptions(),
         InputOptions = new ThemeInputOptions
         {
-            CheckColor = "#9333ea",
-            SliderColor = "#9333ea",
+            CheckColor = DocsThemeColors.Brand,
+            SliderColor = DocsThemeColors.Brand,
         },
         SpinKitOptions = new ThemeSpinKitOptions
         {
-            Color = "#9333ea",
+            Color = DocsThemeColors.Brand,
+        },
+    };
+
+    private static ThemeColorOptions CreateColorOptions( string linkColor ) => new()
+    {
+        Primary = DocsThemeColors.Brand,
+        Secondary = DocsThemeColors.Secondary,
+        Success = DocsThemeColors.Success,
+        Danger = DocsThemeColors.Danger,
+        Warning = DocsThemeColors.Warning,
+        Light = DocsThemeColors.Light,
+        Dark = DocsThemeColors.Dark,
+        Info = DocsThemeColors.Info,
+        Link = linkColor,
+    };
+
+    private static ThemeBackgroundOptions CreateBackgroundOptions() => new()
+    {
+        Primary = DocsThemeColors.Brand,
+        Secondary = DocsThemeColors.Secondary,
+        Success = DocsThemeColors.Success,
+        Danger = DocsThemeColors.Danger,
+        Warning = DocsThemeColors.Warning,
+        Light = DocsThemeColors.Light,
+        Dark = DocsThemeColors.Dark,
+        Info = DocsThemeColors.Info,
+    };
+
+    private static ThemeTextColorOptions CreateLightTextColorOptions() => new()
+    {
+        Primary = DocsThemeColors.Brand,
+        Secondary = DocsThemeColors.Body,
+        Success = DocsThemeColors.Success,
+        Danger = DocsThemeColors.Danger,
+        Warning = DocsThemeColors.Warning,
+        Light = DocsThemeColors.Light,
+        Dark = DocsThemeColors.BodyStrong,
+        Info = DocsThemeColors.Info,
+        Body = DocsThemeColors.Body,
+        Muted = DocsThemeColors.Muted,
+    };
+
+    private static ThemeTextColorOptions CreateDarkTextColorOptions() => new()
+    {
+        Primary = DocsThemeColors.BrandTextDark,
+        Secondary = DocsThemeColors.DarkBody,
+        Success = DocsThemeColors.Success,
+        Danger = DocsThemeColors.Danger,
+        Warning = DocsThemeColors.Warning,
+        Light = DocsThemeColors.DarkBody,
+        Dark = DocsThemeColors.DarkBodyStrong,
+        Info = DocsThemeColors.Info,
+        Body = DocsThemeColors.DarkBody,
+        Muted = DocsThemeColors.DarkMuted,
+    };
+
+    private static ThemeBarOptions CreateLightBarOptions() => new()
+    {
+        VerticalWidth = "280px",
+        HorizontalHeight = "64px",
+        VerticalBrandHeight = "64px",
+        LightColors = new ThemeBarColorOptions
+        {
+            ItemColorOptions = new ThemeBarItemColorOptions
+            {
+                ActiveBackgroundColor = DocsThemeColors.BarItemActiveBackground,
+                ActiveColor = DocsThemeColors.BodyStrong,
+                HoverBackgroundColor = DocsThemeColors.BarItemHoverBackground,
+                HoverColor = DocsThemeColors.BodyStrong,
+            },
+        },
+    };
+
+    private static ThemeBarOptions CreateDarkBarOptions() => new()
+    {
+        VerticalWidth = "280px",
+        HorizontalHeight = "64px",
+        VerticalBrandHeight = "64px",
+        LightColors = new ThemeBarColorOptions
+        {
+            ItemColorOptions = new ThemeBarItemColorOptions
+            {
+                ActiveBackgroundColor = DocsThemeColors.BarItemActiveBackground,
+                ActiveColor = DocsThemeColors.BodyStrong,
+                HoverBackgroundColor = DocsThemeColors.BarItemHoverBackground,
+                HoverColor = DocsThemeColors.BodyStrong,
+            },
+        },
+        DarkColors = new ThemeBarColorOptions
+        {
+            BackgroundColor = DocsThemeColors.DarkSurfaceElevated,
+            Color = DocsThemeColors.DarkBody,
+            ItemColorOptions = new ThemeBarItemColorOptions
+            {
+                ActiveBackgroundColor = DocsThemeColors.DarkBarItemActiveBackground,
+                ActiveColor = DocsThemeColors.DarkBodyStrong,
+                HoverBackgroundColor = DocsThemeColors.DarkBarItemHoverBackground,
+                HoverColor = DocsThemeColors.DarkBodyStrong,
+            },
         },
     };
 

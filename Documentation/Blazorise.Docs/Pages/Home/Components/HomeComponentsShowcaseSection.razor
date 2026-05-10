@@ -1,0 +1,236 @@
+@using System.Collections.Generic
+@using System.Linq
+
+<Container Padding="Padding.Is5.OnY">
+    @{
+        IReadOnlyList<ComponentCustomer> filteredComponentCustomers = GetFilteredComponentCustomers();
+        int componentCustomerPageCount = GetComponentCustomerPageCount( filteredComponentCustomers.Count );
+        int currentComponentCustomerPage = GetCurrentComponentCustomerPage( componentCustomerPageCount );
+        IReadOnlyList<ComponentCustomer> visibleComponentCustomers = GetVisibleComponentCustomers( filteredComponentCustomers, currentComponentCustomerPage );
+        int selectedComponentCustomerCount = GetSelectedComponentCustomerCount( filteredComponentCustomers );
+    }
+
+    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
+        <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+            Components in Action
+        </Heading>
+        <Lead TextColor="TextColor.Muted">
+            Explore how Blazorise components come together in production-ready interfaces.
+        </Lead>
+    </Div>
+
+    <Card Border="Border.Rounded" Shadow="Shadow.Large">
+        <CardBody Padding="Padding.Is4.Is5.OnDesktop">
+            <Div Flex="Flex.Column.Row.OnTablet.AlignItems.Center.JustifyContent.Between" Gap="Gap.Is3" Margin="Margin.Is3.FromBottom">
+                <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">
+                    Customers
+                </Heading>
+                <Div Width="Width.Is100.OnMobile.Is50.OnTablet.Is25.OnDesktop">
+                    <TextInput Value="@componentCustomerSearch" ValueChanged="@OnComponentCustomerSearchChanged" Placeholder="Search..." />
+                </Div>
+            </Div>
+
+            <Table Responsive Hoverable>
+                <TableHeader>
+                    <TableRow>
+                        <TableHeaderCell>
+                            <Check TValue="bool"
+                                   Value="@AreComponentCustomersSelected( filteredComponentCustomers )"
+                                   Indeterminate="@AreSomeComponentCustomersSelected( filteredComponentCustomers )"
+                                   ValueChanged="@(( bool value ) => SetComponentCustomersSelected( filteredComponentCustomers, value ))"
+                                   Disabled="@( filteredComponentCustomers.Count == 0 )" />
+                        </TableHeaderCell>
+                        <TableHeaderCell>Name</TableHeaderCell>
+                        <TableHeaderCell>Country</TableHeaderCell>
+                        <TableHeaderCell>Owner</TableHeaderCell>
+                        <TableHeaderCell>Renewal</TableHeaderCell>
+                        <TableHeaderCell>ARR</TableHeaderCell>
+                        <TableHeaderCell>Status</TableHeaderCell>
+                        <TableHeaderCell>Usage</TableHeaderCell>
+                        <TableHeaderCell TextAlignment="TextAlignment.End"></TableHeaderCell>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    @if ( visibleComponentCustomers.Count == 0 )
+                    {
+                        <TableRow>
+                            <TableRowCell ColumnSpan="9" TextAlignment="TextAlignment.Center">
+                                <Span TextColor="TextColor.Muted">No customers match the current search.</Span>
+                            </TableRowCell>
+                        </TableRow>
+                    }
+                    else
+                    {
+                        @foreach ( ComponentCustomer item in visibleComponentCustomers )
+                        {
+                            <TableRow @key="@item.Id">
+                                <TableRowCell>
+                                    <Check TValue="bool"
+                                           Value="@IsComponentCustomerSelected( item.Id )"
+                                           ValueChanged="@(( bool value ) => SetComponentCustomerSelected( item.Id, value ) )" />
+                                </TableRowCell>
+                                <TableRowCell>@item.Name</TableRowCell>
+                                <TableRowCell>@item.Country</TableRowCell>
+                                <TableRowCell>
+                                    <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+                                        <Badge Color="@item.OwnerColor" Pill>@item.OwnerInitials</Badge>
+                                        <Span>@item.Owner</Span>
+                                    </Div>
+                                </TableRowCell>
+                                <TableRowCell>@item.Renewal</TableRowCell>
+                                <TableRowCell>@item.AnnualRevenue</TableRowCell>
+                                <TableRowCell>
+                                    <Badge Color="@item.StatusColor" Subtle>@item.Status</Badge>
+                                </TableRowCell>
+                                <TableRowCell>
+                                    <Div Width="Width.Px( 96 )">
+                                        <Progress Value="@item.Usage" Color="@item.UsageColor" ShowValue="false" />
+                                    </Div>
+                                </TableRowCell>
+                                <TableRowCell TextAlignment="TextAlignment.End">
+                                    <Button Color="Color.Light" Size="Size.Small" Outline>
+                                        <Icon Name="IconName.Settings" />
+                                    </Button>
+                                </TableRowCell>
+                            </TableRow>
+                        }
+                    }
+                </TableBody>
+            </Table>
+
+            <Div Flex="Flex.Column.Row.OnTablet.AlignItems.Center.JustifyContent.Between" Gap="Gap.Is3" Margin="Margin.Is3.FromTop">
+                <Span TextColor="TextColor.Muted" TextSize="TextSize.Small">
+                    Showing @visibleComponentCustomers.Count of @filteredComponentCustomers.Count customers
+                    <Span TextColor="TextColor.Muted">- @selectedComponentCustomerCount selected</Span>
+                </Span>
+                <Pagination Size="Size.Small">
+                    <PaginationItem Disabled="@( currentComponentCustomerPage <= 1 )" @onclick="@(() => SetComponentCustomerPage( currentComponentCustomerPage - 1 ))">
+                        <PaginationLink>
+                            <Span>&laquo;</Span>
+                        </PaginationLink>
+                    </PaginationItem>
+                    @for ( int page = 1; page <= componentCustomerPageCount; page++ )
+                    {
+                        int pageNumber = page;
+
+                        <PaginationItem @key="@pageNumber" Active="@( currentComponentCustomerPage == pageNumber )" @onclick="@(() => SetComponentCustomerPage( pageNumber ))">
+                            <PaginationLink Page="@pageNumber.ToString()">
+                                @pageNumber
+                            </PaginationLink>
+                        </PaginationItem>
+                    }
+                    <PaginationItem Disabled="@( currentComponentCustomerPage >= componentCustomerPageCount )" @onclick="@(() => SetComponentCustomerPage( currentComponentCustomerPage + 1 ))">
+                        <PaginationLink>
+                            <Span>&raquo;</Span>
+                        </PaginationLink>
+                    </PaginationItem>
+                </Pagination>
+            </Div>
+        </CardBody>
+    </Card>
+</Container>
+
+@code {
+    private const int ComponentCustomerPageSize = 5;
+
+    private readonly HashSet<string> selectedComponentCustomerIds = ComponentCustomers
+        .Where( item => item.Selected )
+        .Select( item => item.Id )
+        .ToHashSet( StringComparer.Ordinal );
+
+    private string componentCustomerSearch;
+
+    private int componentCustomerPage = 1;
+
+    private void OnComponentCustomerSearchChanged( string value )
+    {
+        componentCustomerSearch = value;
+        componentCustomerPage = 1;
+    }
+
+    private IReadOnlyList<ComponentCustomer> GetFilteredComponentCustomers()
+    {
+        if ( string.IsNullOrWhiteSpace( componentCustomerSearch ) )
+        {
+            return ComponentCustomers;
+        }
+
+        string search = componentCustomerSearch.Trim();
+
+        return ComponentCustomers
+            .Where( item =>
+                item.Name.Contains( search, StringComparison.OrdinalIgnoreCase )
+                || item.Country.Contains( search, StringComparison.OrdinalIgnoreCase )
+                || item.Owner.Contains( search, StringComparison.OrdinalIgnoreCase )
+                || item.Status.Contains( search, StringComparison.OrdinalIgnoreCase ) )
+            .ToArray();
+    }
+
+    private static int GetComponentCustomerPageCount( int itemCount )
+        => Math.Max( 1, (int)Math.Ceiling( itemCount / (double)ComponentCustomerPageSize ) );
+
+    private int GetCurrentComponentCustomerPage( int pageCount )
+        => Math.Min( Math.Max( componentCustomerPage, 1 ), pageCount );
+
+    private static IReadOnlyList<ComponentCustomer> GetVisibleComponentCustomers( IReadOnlyList<ComponentCustomer> customers, int page )
+        => customers
+            .Skip( ( page - 1 ) * ComponentCustomerPageSize )
+            .Take( ComponentCustomerPageSize )
+            .ToArray();
+
+    private void SetComponentCustomerPage( int page )
+    {
+        int pageCount = GetComponentCustomerPageCount( GetFilteredComponentCustomers().Count );
+
+        componentCustomerPage = Math.Min( Math.Max( page, 1 ), pageCount );
+    }
+
+    private bool IsComponentCustomerSelected( string id )
+        => selectedComponentCustomerIds.Contains( id );
+
+    private void SetComponentCustomerSelected( string id, bool selected )
+    {
+        if ( selected )
+        {
+            selectedComponentCustomerIds.Add( id );
+        }
+        else
+        {
+            selectedComponentCustomerIds.Remove( id );
+        }
+    }
+
+    private int GetSelectedComponentCustomerCount( IReadOnlyList<ComponentCustomer> customers )
+        => customers.Count( item => IsComponentCustomerSelected( item.Id ) );
+
+    private bool AreComponentCustomersSelected( IReadOnlyList<ComponentCustomer> customers )
+        => customers.Count > 0 && customers.All( item => IsComponentCustomerSelected( item.Id ) );
+
+    private bool AreSomeComponentCustomersSelected( IReadOnlyList<ComponentCustomer> customers )
+        => GetSelectedComponentCustomerCount( customers ) > 0
+            && !AreComponentCustomersSelected( customers );
+
+    private void SetComponentCustomersSelected( IReadOnlyList<ComponentCustomer> customers, bool selected )
+    {
+        foreach ( ComponentCustomer item in customers )
+        {
+            SetComponentCustomerSelected( item.Id, selected );
+        }
+    }
+
+    private static readonly ComponentCustomer[] ComponentCustomers =
+    [
+        new( "james-butt", true, "James Butt", "Algeria", "Ioni Bowcher", "IB", Color.Info, "09/13/2026", "$70,663", "At risk", Color.Danger, 18, Color.Danger ),
+        new( "josephine-darakjy", false, "Josephine Darakjy", "Egypt", "Amy Elsner", "AE", Color.Warning, "02/09/2026", "$82,429", "Negotiation", Color.Warning, 62, Color.Warning ),
+        new( "art-venere", false, "Art Venere", "Panama", "Asiya Javayant", "AJ", Color.Secondary, "05/13/2026", "$28,334", "Qualified", Color.Success, 77, Color.Success ),
+        new( "lenna-paprocki", false, "Lenna Paprocki", "Slovenia", "Xuxue Feng", "XF", Color.Primary, "09/15/2026", "$88,521", "New", Color.Info, 42, Color.Info ),
+        new( "donette-foller", false, "Donette Foller", "South Africa", "Asiya Javayant", "AJ", Color.Secondary, "05/20/2026", "$93,905", "Negotiation", Color.Warning, 39, Color.Warning ),
+        new( "simona-morley", true, "Simona Morley", "Canada", "Amy Elsner", "AE", Color.Warning, "06/18/2026", "$44,109", "Qualified", Color.Success, 69, Color.Success ),
+        new( "abe-sipes", false, "Abe Sipes", "Netherlands", "Ioni Bowcher", "IB", Color.Info, "08/02/2026", "$57,734", "New", Color.Info, 24, Color.Info ),
+        new( "kiley-estrella", false, "Kiley Estrella", "Germany", "Xuxue Feng", "XF", Color.Primary, "11/07/2026", "$101,280", "Expansion", Color.Primary, 84, Color.Primary ),
+        new( "marcellus-wolf", false, "Marcellus Wolf", "Croatia", "Amy Elsner", "AE", Color.Warning, "12/04/2026", "$36,920", "At risk", Color.Danger, 21, Color.Danger ),
+        new( "alana-wilkins", true, "Alana Wilkins", "United States", "Ioni Bowcher", "IB", Color.Info, "07/29/2026", "$128,400", "Expansion", Color.Primary, 91, Color.Primary )
+    ];
+
+    private sealed record ComponentCustomer( string Id, bool Selected, string Name, string Country, string Owner, string OwnerInitials, Color OwnerColor, string Renewal, string AnnualRevenue, string Status, Color StatusColor, int Usage, Color UsageColor );
+}

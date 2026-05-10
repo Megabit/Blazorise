@@ -98,20 +98,18 @@
     <DocsPageSectionHeader Title="Basic example">
         A basic TreeView that aims to reproduce standard tree-view behavior.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="TreeViewExample" Outlined FullWidth>
         <TreeViewExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TreeViewExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Expanding and Collapsing Nodes">
         By default, all nodes are collapsed except for the root node(s). To expand a node, click on the triangle icon next to its label. To collapse a node, click on the triangle icon again. You can also programmatically expand or collapse nodes using the <Code>ExpandAll()</Code> and <Code>CollapseAll()</Code> property of the TreeView class.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="TreeViewExpandExample" Outlined FullWidth>
         <TreeViewExpandExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TreeViewExpandExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -123,10 +121,9 @@
             The selected nodes can be accessed through the <Code>SelectedNodes</Code> property, which returns a list of the selected nodes. You can also use the <Code>SelectedNodesChanged</Code> event to be notified when the selection changes.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="TreeViewMultiSelectExample" Outlined FullWidth>
         <TreeViewMultiSelectExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TreeViewMultiSelectExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -141,10 +138,9 @@
             It is of note that the <Code>Nodes</Code> parameter is a one way bound collection and as such, if you want to add and remove items, it is recommended that it is used as an <Code>ObservableCollection</Code> in order to keep the TreeView properly synced across refreshes.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="TreeViewObservableExample" Outlined FullWidth>
         <TreeViewObservableExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TreeViewObservableExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -156,10 +152,9 @@
             Use <Code>Reorderable</Code> to allow dropping a node before another node. Use <Code>CanDragNode</Code> and <Code>CanDropNode</Code> to restrict drag and drop operations. Handle <Code>NodeDropped</Code> only when you want to override the built-in move behavior.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="TreeViewDragDropExample" Outlined FullWidth>
         <TreeViewDragDropExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TreeViewDragDropExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -183,10 +178,9 @@
             In this example, the context menu is used to show the menu items, put an item in edit mode and delete items.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="TreeViewContextMenuExample" Outlined FullWidth>
         <TreeViewContextMenuExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TreeViewContextMenuExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -213,10 +207,9 @@
             By default, when <Code>Virtualize</Code> is enabled, we will define <Strong>Height</Strong> and <Strong>Overflow</Strong> for you, if they are not already explicitly defined.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="TreeViewVirtualizationExample" Outlined FullWidth>
         <TreeViewVirtualizationExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TreeViewVirtualizationExample" />
 </DocsPageSection>
 
 <ComponentApiDocs ComponentTypes="[typeof( TreeView<> )]" />

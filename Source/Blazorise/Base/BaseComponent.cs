@@ -587,6 +587,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => customClass;
         set
         {
+            if ( customClass.IsEqual( value ) )
+                return;
+
             customClass = value;
 
             DirtyClasses();
@@ -602,6 +605,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => customStyle;
         set
         {
+            if ( customStyle.IsEqual( value ) )
+                return;
+
             customStyle = value;
 
             DirtyStyles();
@@ -617,6 +623,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => @float;
         set
         {
+            if ( @float == value )
+                return;
+
             @float = value;
 
             DirtyClasses();
@@ -632,6 +641,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => clearfix;
         set
         {
+            if ( clearfix == value )
+                return;
+
             clearfix = value;
 
             DirtyClasses();
@@ -847,6 +859,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => characterCasing;
         set
         {
+            if ( characterCasing == value )
+                return;
+
             characterCasing = value;
 
             DirtyClasses();
@@ -862,6 +877,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => textColor;
         set
         {
+            if ( textColor == value )
+                return;
+
             textColor = value;
 
             DirtyClasses();
@@ -877,6 +895,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => textAlignment;
         set
         {
+            if ( textAlignment == value )
+                return;
+
             textAlignment = value;
 
             DirtyClasses();
@@ -892,6 +913,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => textTransform;
         set
         {
+            if ( textTransform == value )
+                return;
+
             textTransform = value;
 
             DirtyClasses();
@@ -925,6 +949,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => textWeight;
         set
         {
+            if ( textWeight == value )
+                return;
+
             textWeight = value;
 
             DirtyClasses();
@@ -940,6 +967,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => textOverflow;
         set
         {
+            if ( textOverflow == value )
+                return;
+
             textOverflow = value;
 
             DirtyClasses();
@@ -991,6 +1021,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => verticalAlignment;
         set
         {
+            if ( verticalAlignment == value )
+                return;
+
             verticalAlignment = value;
 
             DirtyClasses();
@@ -1006,6 +1039,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => background;
         set
         {
+            if ( background == value )
+                return;
+
             background = value;
 
             DirtyClasses();
@@ -1021,6 +1057,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => shadow;
         set
         {
+            if ( shadow == value )
+                return;
+
             shadow = value;
 
             DirtyClasses();

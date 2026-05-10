@@ -1,0 +1,40 @@
+<Container Padding="Padding.Is5.OnY">
+    <Row>
+        @foreach ( FrameworkCard item in Frameworks )
+        {
+            <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
+                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                    <CardBody Flex="Flex.Column" Height="Height.Is100">
+                        <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is3" Margin="Margin.Is3.FromBottom">
+                            <Image Source="@item.Logo" Text="@item.Title" Width="Width.Px( 32 )" Height="Height.Px( 32 )" />
+                            <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">@item.Title</Heading>
+                        </Div>
+                        <Paragraph TextColor="TextColor.Muted">@item.Description</Paragraph>
+                        <Div Flex="Flex.AlignItems.Center.JustifyContent.Between" Gap="Gap.Is3" Margin="Margin.IsAuto.FromTop">
+                            <Anchor To="@item.Url" Title="@($"Read the {item.Title} provider guide")">
+                                Provider guide
+                            </Anchor>
+                            <Button Type="ButtonType.Link" To="@item.DemoUrl" Target="Target.Blank" Size="Size.Small" Outline>
+                                View demo
+                            </Button>
+                        </Div>
+                    </CardBody>
+                </Card>
+            </Column>
+        }
+    </Row>
+</Container>
+
+@code {
+    private static readonly FrameworkCard[] Frameworks =
+    [
+        new( "Fluent 2", "_content/Blazorise.Docs/assets/img/logos/fluent2.svg", "Create modern Microsoft-inspired interfaces with the same Blazorise component model.", "docs/usage/fluent2", "https://demos.blazorise.com/wasm/fluentui2/" ),
+        new( "Bootstrap 5", "_content/Blazorise.Docs/assets/img/logos/bootstrap-5.svg", "Use the most familiar responsive frontend toolkit with Blazorise APIs.", "docs/usage/bootstrap5", "https://demos.blazorise.com/wasm/bootstrap5/" ),
+        new( "Tailwind", "_content/Blazorise.Docs/assets/img/logos/tailwind.svg", "Pair utility-first styling with productive Blazor components and helpers.", "docs/usage/tailwind", "https://demos.blazorise.com/wasm/tailwind/" ),
+        new( "Bulma", "_content/Blazorise.Docs/assets/img/logos/bulma-small.svg", "Build clean Flexbox-based layouts while keeping component behavior consistent.", "docs/usage/bulma", "https://demos.blazorise.com/wasm/bulma/" ),
+        new( "Material", "_content/Blazorise.Docs/assets/img/logos/material.svg", "Bring Material Design conventions to Blazor apps without changing your product code shape.", "docs/usage/material", "https://demos.blazorise.com/wasm/material/" ),
+        new( "Ant Design", "_content/Blazorise.Docs/assets/img/logos/ant-design.svg", "Use enterprise-style Ant Design visuals through the Blazorise provider abstraction.", "docs/usage/ant-design", "https://demos.blazorise.com/wasm/antdesign/" )
+    ];
+
+    private sealed record FrameworkCard( string Title, string Logo, string Description, string Url, string DemoUrl );
+}

@@ -4,12 +4,12 @@
 
 @if ( Title != null )
 {
-    <Heading Class="b-docs-page-methods-title" Size="HeadingSize.Is4">
+    <Heading Size="HeadingSize.Is4">
         @Title
     </Heading>
 }
 
-<Table Class="b-docs-methods" Responsive Margin="Margin.Is4.FromBottom">
+<Table Responsive Margin="Margin.Is4.FromBottom">
     <TableHeader ThemeContrast="@ThemeContrast">
         <TableRow>
             <TableHeaderCell>@Name</TableHeaderCell>
@@ -45,10 +45,10 @@
                 }
                 @if ( ShowParameters )
                 {
-                    <TableRowCell Class="@docsMethodsItem.DefaultClassNames">
+                    <TableRowCell>
                         @if ( !string.IsNullOrWhiteSpace( docsMethodsItem.Parameters ) )
                         {
-                            <Code>@docsMethodsItem.Parameters</Code>
+                            <Code TextColor="@docsMethodsItem.ParametersTextColor">@docsMethodsItem.Parameters</Code>
                         }
                     </TableRowCell>
                 }
@@ -56,5 +56,3 @@
         }
     </TableBody>
 </Table>
-
-

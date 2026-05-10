@@ -62,16 +62,16 @@ public class SeoGenerator
                  new XAttribute( XNamespace.Xmlns + "atom", "http://www.w3.org/2005/Atom" ),
                  new XAttribute( "version", "2.0" ),
                  new XElement( "channel",
-                     new XElement( "title", "Blazorise News" ),
-                     new XElement( "link", baseUrl ),
-                     new XElement( "description", "Blazorise News Feed" ),
+                     new XElement( "title", "Blazorise Blog" ),
+                     new XElement( "link", CombineUrl( baseUrl, "/blog" ) ),
+                     new XElement( "description", "Blazorise Blog Feed" ),
                      new XElement( "language", "en" ),
                      new XElement( "lastBuildDate", DateTime.UtcNow.ToString( "R" ) ),
                      from p in pages
                      orderby p.PostedOn descending
                      select new XElement( "item",
                          new XElement( "title", p.Title ),
-                         new XElement( "link", CombineUrl( baseUrl, p.Permalink ) ),
+                         new XElement( "link", CombineUrl( baseUrl, BlogPermalinks.ToCanonicalBlogPath( p.Permalink ) ) ),
                          new XElement( "description", p.Summary ),
                          new XElement( "pubDate", DateTime.TryParse( p.PostedOn, CultureInfo.InvariantCulture, out var dt ) ? dt.ToString( "R" ) : null ) ) ) );
 
@@ -105,6 +105,7 @@ public class SeoGenerator
             .SelectMany( x => x.GetCustomAttributes<RouteAttribute>() )
             .Select( x => x.Template )
             .Where( IsConcreteRoute )
+            .Where( x => !string.Equals( x, "/news", StringComparison.OrdinalIgnoreCase ) )
             .Distinct( StringComparer.OrdinalIgnoreCase )
             .OrderBy( x => x, StringComparer.OrdinalIgnoreCase )
             .Select( x => $"{baseUrl}{x}" )

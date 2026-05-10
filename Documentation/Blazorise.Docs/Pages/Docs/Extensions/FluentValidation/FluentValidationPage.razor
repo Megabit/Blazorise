@@ -1,4 +1,4 @@
-﻿@page "/docs/extensions/fluent-validation"
+@page "/docs/extensions/fluent-validation"
 
 <Seo Canonical="/docs/extensions/fluent-validation" Title="Blazorise FluentValidation component" Description="Learn how to use the Blazorise FluentValidation extension to build strongly typed validation rules, wire validators into forms, and show validation feedback." />
 
@@ -56,12 +56,7 @@
             By defining the handler type on a <Code Tag>Validations</Code> level, it will be shared and used by all the <Code Tag>Validation</Code> components inside it. Thus, no need to specify the handler type on each <Code Tag>Validation</Code> component.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="BasicFluentValidationExample" AdditionalCodes="@DocsCodeSources.FluentValidationValidator" Outlined FullWidth>
         <BasicFluentValidationExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="BasicFluentValidationExample" />
-    <DocsPageSectionContent>
-        Don't forget to create the <Strong>AbstractValidator</Strong> for your <Strong>Model</Strong>.
-    </DocsPageSectionContent>
-    <DocsPageSectionSource Code="FluentValidationAbstractValidatorExample" />
 </DocsPageSection>

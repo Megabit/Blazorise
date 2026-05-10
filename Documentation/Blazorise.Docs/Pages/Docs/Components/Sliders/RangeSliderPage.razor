@@ -2,7 +2,7 @@
 
 <Seo Canonical="/docs/components/range-slider" Title="Blazorise RangeSlider component" Description="Build dual-handle range sliders in Blazor with the Blazorise RangeSlider component. Let users choose minimum and maximum values for filters, pricing, distance, scores, and other numeric ranges." />
 
-<DocsPageTitle Path="Components/Range Slider">
+<DocsPageTitle Path="Components/Range Slider" AddedVersion="Added in v2.1">
     Blazorise RangeSlider component
 </DocsPageTitle>
 
@@ -29,10 +29,9 @@
     <DocsPageSectionHeader Title="Basic range selection">
         Bind the selected interval to a <Code>RangeSliderValue&lt;int&gt;</Code> and show the current values below the slider.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="BasicRangeSliderExample" Outlined FullWidth>
         <BasicRangeSliderExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="BasicRangeSliderExample" />
 </DocsPageSection>
 
 <Alert Color="Color.Info" Visible>
@@ -46,10 +45,9 @@
     <DocsPageSectionHeader Title="Decimal values">
         Use <Code>decimal</Code> together with <Code>Step</Code> for prices, measurements, and other non-integer ranges.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="RangeSliderDecimalExample" Outlined FullWidth>
         <RangeSliderDecimalExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="RangeSliderDecimalExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -61,30 +59,27 @@
             Enable <Code>ClampToOtherHandle</Code> when you want the active handle to stop at the other handle instead.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="RangeSliderClampHandlesExample" Outlined FullWidth>
         <RangeSliderClampHandlesExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="RangeSliderClampHandlesExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Prevent overlapping values">
         Combine <Code>ClampToOtherHandle</Code> with <Code>AllowEqualValues="false"</Code> to keep at least one step between the handles.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="RangeSliderNoOverlapExample" Outlined FullWidth>
         <RangeSliderNoOverlapExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="RangeSliderNoOverlapExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Hide value tooltips">
         Set <Code>ShowValueTooltips="false"</Code> when you prefer to show the selected range in surrounding text, filter chips, or field help.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="RangeSliderWithoutTooltipsExample" Outlined FullWidth>
         <RangeSliderWithoutTooltipsExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="RangeSliderWithoutTooltipsExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>

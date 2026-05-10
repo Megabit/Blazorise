@@ -1,22 +1,21 @@
-﻿@using System.Text
 @using System.IO
 @using Blazorise.Docs.Models
 
 <Paragraph>
-    <Div Class="blog-page-section-source">
-        <Div Class="blog-page-section-source-toolbar">
+    <Div Position="Position.Relative" Height="Height.Is100">
+        <Div Position="Position.Absolute.Top.Is0.End.Is0">
             <Tooltip Text="@(ShowCode ? "Hide code example" : "Show code example")" Inline>
-                <Button Clicked="@OnToggleCode">
+                <Button TextColor="TextColor.Secondary" Clicked="@OnToggleCode">
                     <Icon Name="IconName.Code" />
                 </Button>
             </Tooltip>
             <Tooltip Text="Copy code" Inline>
-                <Button Clicked="@OnCopyCode">
-                    <Icon Name="@("fas fa-copy")" />
+                <Button TextColor="TextColor.Secondary" Clicked="@OnCopyCode">
+                    <Icon Name="IconName.Copy" />
                 </Button>
             </Tooltip>
         </Div>
-        <Div Class="@SourceCodeClassNames">
+        <Div Height="Height.Is100" Display="@SourceCodeDisplay">
             @if ( ChildContent != null )
             {
                 @ChildContent
@@ -62,8 +61,7 @@
         catch { }
     };
 
-    private string SourceCodeClassNames
-        => $"blog-page-section-source-code{( ShowCode ? " blog-page-section-source-code-show" : " blog-page-section-source-code-hide" )}";
+    private IFluentDisplay SourceCodeDisplay => ShowCode ? Display.Block : Display.None;
 
     private string CurrentCode { get; set; }
 

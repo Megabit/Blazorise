@@ -954,6 +954,9 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         get => size;
         set
         {
+            if ( size == value )
+                return;
+
             size = value;
 
             DirtyClasses();
@@ -969,6 +972,9 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
         get => readOnly;
         set
         {
+            if ( readOnly == value )
+                return;
+
             readOnly = value;
 
             DirtyClasses();

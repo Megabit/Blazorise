@@ -1,4 +1,4 @@
-﻿@page "/docs/extensions/datagrid/templates/display"
+@page "/docs/extensions/datagrid/templates/display"
 
 <Seo Canonical="/docs/extensions/datagrid/templates/display" Title="Blazorise DataGrid Display Template" Description="Learn Blazorise by the example. Customize how your data is displayed in each cell using the Blazorise DataGrid's display template feature. Assign custom templates to individual columns, allowing for more control over how your data is displayed." />
 
@@ -14,10 +14,9 @@
     <DocsPageSectionHeader Title="DisplayTemplate">
         Display template uses <Code>CellDisplayContext&lt;TItem&gt;</Code> as a context value, exposing the item, column, and display metadata for the cell.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent FullWidth>
+    <DocsPageSectionContent Code="DataGridDisplayTemplateExample" AdditionalCodes="@DocsCodeSources.DataGridSharedData" FullWidth>
         <DataGridDisplayTemplateExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="DataGridDisplayTemplateExample" />
 </DocsPageSection>
 
 <DocsPageApi>

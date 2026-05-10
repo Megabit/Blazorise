@@ -26,9 +26,10 @@ static class PermanentRedirects
         ["/docs/contributing"] = "https://github.com/Megabit/Blazorise/blob/master/CONTRIBUTING.md",
         ["/docs/helpers/utilities/fluent-sizing"] = "/docs/helpers/utilities/sizing",
         ["/docs/licence"] = "/docs/usage/licensing",
-        ["/docs/releases"] = "/news",
+        ["/docs/releases"] = "/blog",
         ["/docs/upgrade"] = "/docs/migration",
         ["/docs/usage/bootstrap"] = "/docs/usage/bootstrap5",
+        ["/news"] = "/blog",
     };
 
     public static bool TryGetValue( string path, out string newPath )
@@ -42,7 +43,13 @@ static class PermanentRedirects
 
         if ( path.StartsWith( "/docs/release-notes/", StringComparison.Ordinal ) )
         {
-            newPath = "/news";
+            newPath = "/blog";
+            return true;
+        }
+
+        if ( path.StartsWith( "/news/", StringComparison.Ordinal ) )
+        {
+            newPath = "/blog/" + path["/news/".Length..];
             return true;
         }
 

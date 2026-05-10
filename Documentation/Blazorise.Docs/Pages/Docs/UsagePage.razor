@@ -73,9 +73,9 @@
     @foreach ( var providerData in CssProvidersService.ProvidersData.Values )
     {
         <Column @key="@providerData" ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile" Margin="Margin.Is3.FromBottom">
-            <Anchor To="@($"docs/usage/{providerData.UsageLink}")" Class="text-decoration-none" TextColor="TextColor.Dark">
+            <Anchor To="@($"docs/usage/{providerData.UsageLink}")" TextDecoration="TextDecoration.None" TextColor="TextColor.Dark">
                 <Card Shadow="Shadow.Small" Border="Border.Is0">
-                    <CardImage Source="@($"_content/Blazorise.Docs/assets/img/logos/{providerData.ImageFileName}")" Alt="@providerData.ImageAltText" Style="height:200px;" />
+                    <CardImage Source="@($"_content/Blazorise.Docs/assets/img/logos/{providerData.ImageFileName}")" Alt="@providerData.ImageAltText" Height="Height.Px( 200 )" />
                     <CardBody>
                         <CardTitle Size="HeadingSize.Is5">@providerData.Title</CardTitle>
                     </CardBody>
