@@ -1,0 +1,27 @@
+<Container Padding="Padding.Is5.OnY">
+    <Row>
+        @foreach ( HomeStat item in HomeStats )
+        {
+            <Column @key="@item.Label" ColumnSize="ColumnSize.Is12.Is4.OnDesktop" Margin="Margin.Is3.FromBottom">
+                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                    <CardBody>
+                        <Paragraph TextSize="TextSize.Heading2" TextWeight="TextWeight.Bold" Margin="Margin.Is0.FromBottom">@item.Value</Paragraph>
+                        <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is1.FromBottom">@item.Label</Paragraph>
+                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">@item.Description</Paragraph>
+                    </CardBody>
+                </Card>
+            </Column>
+        }
+    </Row>
+</Container>
+
+@code {
+    private static readonly HomeStat[] HomeStats =
+    [
+        new( "100+", "UI components", "Forms, data, navigation, charts, scheduling, media, utilities, and application primitives." ),
+        new( "7+", "CSS providers", "Use the framework that matches your product without rewriting component markup." ),
+        new( "100k+", "developers", "A mature Blazor ecosystem used by teams building production applications." )
+    ];
+
+    private sealed record HomeStat( string Value, string Label, string Description );
+}

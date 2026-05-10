@@ -1,0 +1,39 @@
+<div class="blazorise-codeblock">
+<div class="csharp"><pre>
+<span class="keyword">using</span> System.Collections.Generic;
+<span class="keyword">using</span> System.IO;
+<span class="keyword">using</span> System.Linq;
+<span class="keyword">using</span> System.Reflection;
+<span class="keyword">using</span> System.Text.Json;
+<span class="keyword">using</span> System.Threading.Tasks;
+<span class="keyword">using</span> Blazorise.Shared.Models;
+<span class="keyword">using</span> Microsoft.Extensions.Caching.Memory;
+
+<span class="keyword">namespace</span> Blazorise.Shared.Data;
+
+<span class="keyword">public</span> <span class="keyword">class</span> CountryData
+{
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IMemoryCache cache;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> <span class="keyword">string</span> cacheKey = <span class="string">&quot;cache_countries&quot;</span>;
+
+    <span class="xmlDocTag">///</span> <span class="xmlDocTag">&lt;summary&gt;</span>
+    <span class="xmlDocTag">///</span><span class="xmlDocComment"> Simplified code to get and cache data in memory.</span>
+    <span class="xmlDocTag">///</span> <span class="xmlDocTag">&lt;/summary&gt;</span>
+    <span class="keyword">public</span> CountryData( IMemoryCache memoryCache )
+    {
+        cache = memoryCache;
+    }
+
+    <span class="keyword">public</span> Task&lt;IEnumerable&lt;Country&gt;&gt; GetDataAsync()
+        =&gt; cache.GetOrCreateAsync( cacheKey, LoadData );
+
+    <span class="keyword">private</span> Task&lt;IEnumerable&lt;Country&gt;&gt; LoadData( ICacheEntry cacheEntry )
+    {
+        Assembly assembly = <span class="keyword">typeof</span>( EmployeeData ).Assembly;
+        <span class="keyword">using</span> Stream stream = assembly.GetManifestResourceStream( <span class="string">&quot;Blazorise.Shared.Resources.CountryData.json&quot;</span> );
+
+        <span class="keyword">return</span> Task.FromResult( JsonSerializer.Deserialize&lt;List&lt;Country&gt;&gt;( <span class="keyword">new</span> StreamReader( stream ).ReadToEnd() ).AsEnumerable() );
+    }
+}
+</pre></div>
+</div>

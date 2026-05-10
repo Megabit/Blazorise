@@ -1,7 +1,7 @@
 ﻿<Container Padding="Padding.Is5.OnY">
-    <Row Border="Border.Rounded" Shadow="Shadow.Small" Class="overflow-hidden flex-md-row mb-4 h-md-250 position-relative">
+    <Row Border="Border.Rounded" Shadow="Shadow.Small" Overflow="Overflow.Hidden" Flex="Flex.Row.OnDesktop" Margin="Margin.Is4.FromBottom" Position="Position.Relative">
         <Column ColumnSize="ColumnSize.IsAuto" Display="Display.None.Block.OnWidescreen" Border="Border.Is1.OnEnd">
-            <Image Source="@LogoUrl" Text="@LogoText" Style="width: 200px; height: 250px;"></Image>
+            <Image Source="@LogoUrl" Text="@LogoText" Width="Width.Px( 200 )" Height="Height.Px( 250 )"></Image>
         </Column>
         <Column Padding="Padding.Is4" Flex="Flex.Column">
             <Paragraph Class="customer-quote" Margin="Margin.IsAuto.FromBottom">
@@ -11,7 +11,7 @@
         </Column>
     </Row>
 </Container>
-@code{
+@code {
     [Parameter] public string LogoUrl { get; set; }
 
     [Parameter] public string LogoText { get; set; }

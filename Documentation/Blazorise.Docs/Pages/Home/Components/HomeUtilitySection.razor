@@ -1,0 +1,66 @@
+<Container Padding="Padding.Is5.OnY">
+    <Row Flex="Flex.AlignItems.Center">
+        <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop" Margin="Margin.Is4.FromBottom.OnMobile">
+            <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Rem( 24 )">
+                <CardBody Padding="Padding.Is0" Height="Height.Is100">
+                    @((MarkupString)UtilityExampleMarkup)
+                </CardBody>
+            </Card>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop">
+            <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+                Ship consistent UI without scattering custom CSS
+            </Heading>
+            <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted">
+                Use Blazorise components and utility parameters for layout, spacing, typography, borders, responsive behavior, and common interaction states directly from Razor.
+            </Paragraph>
+            <Row Margin="Margin.Is4.FromTop">
+                @foreach ( UtilityBenefit item in UtilityBenefits )
+                {
+                    <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet" Margin="Margin.Is3.FromBottom">
+                        <Div Flex="Flex.AlignItems.Start" Gap="Gap.Is3">
+                            <Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is1.FromTop" />
+                            <Div>
+                                <Strong>@item.Title</Strong>
+                                <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is1.FromTop.Is0.FromBottom">@item.Description</Paragraph>
+                            </Div>
+                        </Div>
+                    </Column>
+                }
+            </Row>
+        </Column>
+    </Row>
+</Container>
+
+@code {
+    private static readonly UtilityBenefit[] UtilityBenefits =
+    [
+        new( "Expressive Razor", "Keep spacing, flex, border, shadow, and sizing decisions close to the component markup." ),
+        new( "Responsive by default", "Compose mobile and desktop behavior through utility parameters instead of isolated CSS patches." ),
+        new( "Provider aware", "Let Blazorise render the right classes and structure for the selected CSS framework." ),
+        new( "Themeable foundation", "Centralize colors, typography, sizing, and visual rules for product-wide consistency." )
+    ];
+
+    private const string UtilityExampleSource = """
+<Card Border="Border.Rounded" Shadow="Shadow.Small">
+    <CardBody Padding="Padding.Is4">
+        <Div Flex="Flex.Column.Row.OnDesktop" Gap="Gap.Is3">
+            <Badge Color="Color.Success" Subtle>Ready</Badge>
+            <Div>
+                <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.SemiBold">
+                    Delivery dashboard
+                </Heading>
+                <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0">
+                    Utility-first layout without custom CSS.
+                </Paragraph>
+            </Div>
+            <Button Color="Color.Primary">Open</Button>
+        </Div>
+    </CardBody>
+</Card>
+""";
+
+    private static readonly string UtilityExampleMarkup = new Blazorise.Docs.BlogRuntime.MarkupBuilder().Build( UtilityExampleSource, "razor" );
+
+    private sealed record UtilityBenefit( string Title, string Description );
+}

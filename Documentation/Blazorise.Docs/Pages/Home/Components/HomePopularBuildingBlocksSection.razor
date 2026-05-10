@@ -1,0 +1,43 @@
+<Container Padding="Padding.Is5.OnY">
+    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
+        <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+            Popular Components
+        </Heading>
+        <Lead TextColor="TextColor.Muted">
+            Start with the components used most in Blazor apps.
+        </Lead>
+    </Div>
+
+    <Row>
+        @foreach ( PopularComponent item in PopularComponents )
+        {
+            <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
+                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                    <CardBody Flex="Flex.Column" Height="Height.Is100">
+                        <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.SemiBold">@item.Title</Heading>
+                        <Paragraph TextColor="TextColor.Muted">@item.Description</Paragraph>
+                        <Div Margin="Margin.IsAuto.FromTop">
+                            <Anchor To="@item.Url" Title="@($"Open {item.Title} documentation")">
+                                View docs
+                            </Anchor>
+                        </Div>
+                    </CardBody>
+                </Card>
+            </Column>
+        }
+    </Row>
+</Container>
+
+@code {
+    private static readonly PopularComponent[] PopularComponents =
+    [
+        new( "DataGrid", "Sorting, filtering, grouping, virtualization, editing, templates, and validation for large data sets.", "docs/extensions/datagrid/getting-started" ),
+        new( "Scheduler", "Calendar views, resources, recurrence, and drag-and-drop for scheduling workflows.", "docs/extensions/scheduler" ),
+        new( "Charts", "Interactive charts for dashboards, reports, and data visualization in Blazor.", "docs/extensions/chart" ),
+        new( "Validation", "Data annotations, custom validators, async checks, localization, and full form workflows.", "docs/components/validation" ),
+        new( "Autocomplete", "Typeahead, templates, keyboard navigation, and remote data loading.", "docs/extensions/autocomplete" ),
+        new( "Video", "HLS, DASH, static files, live streams, and protected media support.", "docs/extensions/video" )
+    ];
+
+    private sealed record PopularComponent( string Title, string Description, string Url );
+}

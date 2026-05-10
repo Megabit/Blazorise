@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -50,13 +51,13 @@ public partial class DocsAttributesItem : IDisposable
 
     #region Properties
 
-    internal string DefaultClassNames => Default switch
+    internal TextColor DefaultTextColor => Default switch
     {
-        "true" => "b-attribute-token boolean",
-        "false" => "b-attribute-token boolean",
-        "null" => "b-attribute-token keyword",
-        "None" => "b-attribute-token keyword",
-        _ => "b-attribute-token string",
+        "true" => TextColor.Danger,
+        "false" => TextColor.Danger,
+        "null" => TextColor.Info,
+        "None" => TextColor.Info,
+        _ => TextColor.Success,
     };
 
     [CascadingParameter] public DocsAttributes ParentDocsAttributes { get; set; }

@@ -26,11 +26,18 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
+        pageModel = null;
+
         try
         {
-            var canonical = CanonicalizeWithSection( Permalink, GetSectionFromUri( NavigationManager.Uri ) );
+            if ( IsNewsRoute( NavigationManager.Uri ) )
+            {
+                NavigationManager.NavigateTo( BlogPermalinks.ToCanonicalBlogPath( Permalink ), replace: true );
+                return;
+            }
 
-            pageModel = await BlogProvider.GetByPermalinkAsync( canonical );
+            pageModel = await BlogProvider.GetByPermalinkAsync( BlogPermalinks.ToCanonicalBlogPath( Permalink ) )
+                ?? await BlogProvider.GetByPermalinkAsync( BlogPermalinks.ToLegacyNewsPath( Permalink ) );
         }
         catch
         {
@@ -38,41 +45,9 @@ else
         }
     }
 
-    private static string GetSectionFromUri( string uri )
+    private static bool IsNewsRoute( string uri )
     {
-        // returns "blog" or "news" (defaults to blog)
-        var path = new Uri( uri ).AbsolutePath ?? "/";
-        if ( path.StartsWith( "/news", StringComparison.OrdinalIgnoreCase ) )
-            return "news";
-        return "blog";
-    }
-
-    private static string CanonicalizeWithSection( string p, string section )
-    {
-        section = string.IsNullOrWhiteSpace( section ) ? "blog" : section.Trim().Trim( '/' );
-
-        // If p already has a section (/blog/... or /news/...), just normalize and return it.
-        var s = ( p ?? string.Empty ).Trim().Replace( '\\', '/' );
-        if ( !s.StartsWith( "/" ) )
-            s = "/" + s;
-
-        if ( s.StartsWith( "/blog/", StringComparison.OrdinalIgnoreCase )
-          || s.StartsWith( "/news/", StringComparison.OrdinalIgnoreCase ) )
-        {
-            // normalize // and trailing /
-            while ( s.Contains( "//", StringComparison.Ordinal ) )
-                s = s.Replace( "//", "/" );
-            if ( s.Length > 1 && s.EndsWith( '/' ) )
-                s = s.TrimEnd( '/' );
-            return s;
-        }
-
-        // Otherwise, prefix with detected section
-        s = $"/{section}/{s.TrimStart( '/' )}";
-        while ( s.Contains( "//", StringComparison.Ordinal ) )
-            s = s.Replace( "//", "/" );
-        if ( s.Length > 1 && s.EndsWith( '/' ) )
-            s = s.TrimEnd( '/' );
-        return s;
+        string path = new Uri( uri ).AbsolutePath ?? "/";
+        return path.StartsWith( "/news", StringComparison.OrdinalIgnoreCase );
     }
 }

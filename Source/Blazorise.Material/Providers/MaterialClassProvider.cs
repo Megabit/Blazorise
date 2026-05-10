@@ -741,9 +741,9 @@ public class MaterialClassProvider : ClassProvider
     #region Container
 
     public override string Container( Breakpoint breakpoint )
-        => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"container-{ToBreakpoint( breakpoint )}" : "container";
+        => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"mui-container-{ToBreakpoint( breakpoint )}" : "mui-container";
 
-    public override string ContainerFluid() => "container-fluid";
+    public override string ContainerFluid() => "mui-container-fluid";
 
     #endregion
 

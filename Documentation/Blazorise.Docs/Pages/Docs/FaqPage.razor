@@ -1,62 +1,296 @@
 ﻿@page "/docs/faq"
 
-<Seo Canonical="/docs/faq" Title="Blazorise FAQ" Description="Read the most frequently asked questions(FAQ) and answers about the Blazorise to learn more about its use cases and how it can help you." />
+<Seo Canonical="/docs/faq" Title="Blazorise FAQ" Description="Answers to common questions about Blazorise components, supported CSS providers, customization, licensing, support, and contributing." />
 
 <DocsPageTitle Path="FAQ">
-    FAQ
+    Frequently Asked Questions
 </DocsPageTitle>
 
 <DocsPageLead>
-    Find answers for the most frequently asked questions
+    Practical answers for teams evaluating, adopting, customizing, and supporting Blazorise in real applications.
 </DocsPageLead>
 
+<Div Margin="Margin.Is5.FromBottom">
+    <Row>
+        @foreach ( FaqHighlight item in FaqHighlights )
+        {
+            <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is4.OnDesktop" Margin="Margin.Is3.FromBottom">
+                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                    <CardBody>
+                        <Icon Name="@item.Icon" IconSize="IconSize.x2" TextColor="@item.TextColor" Margin="Margin.Is3.FromBottom" />
+                        <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.SemiBold">@item.Title</Heading>
+                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">@item.Description</Paragraph>
+                    </CardBody>
+                </Card>
+            </Column>
+        }
+    </Row>
+</Div>
+
 <DocsPageSection>
-    <DocsPageSectionHeader Title="What is Blazorise?">
-        <Paragraph>
-            Blazorise is a user interface component library made on top of a web framework called <Anchor To="https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor" Target="Target.Blank">Blazor</Anchor>, and CSS frameworks like <Anchor To="https://getbootstrap.com/" Target="Target.Blank">Bootstrap</Anchor>, <Anchor To="https://ant.design/" Target="Target.Blank">AntDesign</Anchor>, <Anchor To="https://bulma.io/" Target="Target.Blank">Bulma</Anchor> or <Anchor To="https://djibe.github.io/material/" Target="Target.Blank">Material</Anchor>. Blazorise has two core principles:
-        </Paragraph>
-        <OrderedList>
-            <OrderedListItem>keep stuff simple</OrderedListItem>
-            <OrderedListItem>be extendable</OrderedListItem>
-        </OrderedList>
+    <DocsPageSectionHeader Title="Product and Positioning">
+        <Accordion>
+            <AccordionItem @bind-Visible="@whatIsBlazoriseVisible">
+                <AccordionHeader>
+                    <Heading Size="HeadingSize.Is5">
+                        <AccordionToggle>What is Blazorise?</AccordionToggle>
+                    </Heading>
+                </AccordionHeader>
+                <AccordionBody>
+                    <Paragraph>
+                        Blazorise is a source-available UI component library for <Anchor To="https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor" Target="Target.Blank">Blazor</Anchor>. It provides reusable components, fluent utility parameters, theming, validation, data components, extensions, and provider integrations so teams can build production web applications with C#.
+                    </Paragraph>
+                    <Paragraph Margin="Margin.Is0.FromBottom">
+                        The core idea is simple: keep application UI productive and customizable without forcing every team into one CSS framework.
+                    </Paragraph>
+                </AccordionBody>
+            </AccordionItem>
+
+            <AccordionItem @bind-Visible="@goalVisible">
+                <AccordionHeader>
+                    <Heading Size="HeadingSize.Is5">
+                        <AccordionToggle>What is the goal of Blazorise?</AccordionToggle>
+                    </Heading>
+                </AccordionHeader>
+                <AccordionBody>
+                    <Paragraph Margin="Margin.Is0.FromBottom">
+                        Blazorise exists to help .NET teams ship polished Blazor applications faster. It handles common and advanced UI work: forms, layout, navigation, feedback, data-heavy screens, validation, charts, scheduling, media, and theming, while leaving product teams free to focus on their own workflows.
+                    </Paragraph>
+                </AccordionBody>
+            </AccordionItem>
+
+            <AccordionItem @bind-Visible="@differenceVisible">
+                <AccordionHeader>
+                    <Heading Size="HeadingSize.Is5">
+                        <AccordionToggle>How is Blazorise different from other Blazor UI libraries?</AccordionToggle>
+                    </Heading>
+                </AccordionHeader>
+                <AccordionBody>
+                    <Paragraph Margin="Margin.Is0.FromBottom">
+                        Many UI libraries are designed around a single visual framework. Blazorise uses a provider abstraction, so the same component model can render through Bootstrap, Tailwind, Fluent 2, Bulma, Material, Ant Design, and more. That makes it easier to standardize product code while still choosing the visual foundation that fits each project.
+                    </Paragraph>
+                </AccordionBody>
+            </AccordionItem>
+        </Accordion>
     </DocsPageSectionHeader>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="What is Blazorise goal?">
-        <Paragraph>
-            Our first goal is to empower developers to use Blazor. In this new technological progress, Blazorise recognized the great potential.
-        </Paragraph>
-        <Paragraph>
-            The idea is to provide developers with a much easier way of working with the pre-built components implemented in C# that take full advantage of the Blazor framework. A Blazorise component library does offload everyday UI tasks from the developer without committing to any specific CSS framework.
-        </Paragraph>
-        <Paragraph>
-            We are trying day by day to achieve our goal, which is, among other things, to improve our components and respond to all the requirements of developers.
-        </Paragraph>
+    <DocsPageSectionHeader Title="Providers and Customization">
+        <Accordion>
+            <AccordionItem @bind-Visible="@providersVisible">
+                <AccordionHeader>
+                    <Heading Size="HeadingSize.Is5">
+                        <AccordionToggle>Which CSS frameworks does Blazorise support?</AccordionToggle>
+                    </Heading>
+                </AccordionHeader>
+                <AccordionBody>
+                    <Paragraph>
+                        Blazorise supports multiple providers, including Bootstrap, Tailwind, Fluent 2, Bulma, Material, and Ant Design. See the <Anchor To="docs/usage">usage guide</Anchor> for provider setup and framework-specific installation details.
+                    </Paragraph>
+                    <Paragraph Margin="Margin.Is0.FromBottom">
+                        Provider support is important because it lets teams use Blazorise without giving up the design system or CSS framework already used by their product.
+                    </Paragraph>
+                </AccordionBody>
+            </AccordionItem>
+
+            <AccordionItem @bind-Visible="@themeVisible">
+                <AccordionHeader>
+                    <Heading Size="HeadingSize.Is5">
+                        <AccordionToggle>Can Blazorise match my product brand?</AccordionToggle>
+                    </Heading>
+                </AccordionHeader>
+                <AccordionBody>
+                    <Paragraph Margin="Margin.Is0.FromBottom">
+                        Yes. Blazorise is designed to be themeable and customizable. You can configure theme colors, typography, component options, provider styling, and compose your own components using Blazorise primitives and utilities. The goal is not for every application to look like Blazorise, but for Blazorise to help your application look like your product.
+                    </Paragraph>
+                </AccordionBody>
+            </AccordionItem>
+
+            <AccordionItem @bind-Visible="@switchProviderVisible">
+                <AccordionHeader>
+                    <Heading Size="HeadingSize.Is5">
+                        <AccordionToggle>Can I switch providers later?</AccordionToggle>
+                    </Heading>
+                </AccordionHeader>
+                <AccordionBody>
+                    <Paragraph Margin="Margin.Is0.FromBottom">
+                        The provider abstraction keeps component APIs consistent, which reduces the cost of moving between providers. Some visual details, layout assumptions, and provider-specific integrations may still need review, especially in mature products, but the component model is intentionally shared.
+                    </Paragraph>
+                </AccordionBody>
+            </AccordionItem>
+        </Accordion>
     </DocsPageSectionHeader>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="How Blazorise differs from other libraries?">
-        <Paragraph>Most of third-party component libraries for Blazor are made around only one CSS framework. Blazorise on the other hand does not have any preferred framework. It has it's own abstraction layer that is simple enough and can be used as a building block for almost any CSS framework.</Paragraph>
+    <DocsPageSectionHeader Title="Getting Started">
+        <Accordion>
+            <AccordionItem @bind-Visible="@tryVisible">
+                <AccordionHeader>
+                    <Heading Size="HeadingSize.Is5">
+                        <AccordionToggle>How can I try Blazorise?</AccordionToggle>
+                    </Heading>
+                </AccordionHeader>
+                <AccordionBody>
+                    <Paragraph Margin="Margin.Is0.FromBottom">
+                        Start with the <Anchor To="docs/start">quick start guide</Anchor>. It walks through package installation, provider setup, registrations, and the first components you need to render Blazorise in a Blazor app.
+                    </Paragraph>
+                </AccordionBody>
+            </AccordionItem>
+
+            <AccordionItem @bind-Visible="@whatToInstallVisible">
+                <AccordionHeader>
+                    <Heading Size="HeadingSize.Is5">
+                        <AccordionToggle>What packages do I need?</AccordionToggle>
+                    </Heading>
+                </AccordionHeader>
+                <AccordionBody>
+                    <Paragraph Margin="Margin.Is0.FromBottom">
+                        You generally install the core Blazorise package, one provider package, and one icon package. The exact packages depend on the CSS framework and icon set you choose. The provider guides under <Anchor To="docs/usage">usage</Anchor> show the current setup for each supported framework.
+                    </Paragraph>
+                </AccordionBody>
+            </AccordionItem>
+
+            <AccordionItem @bind-Visible="@examplesVisible">
+                <AccordionHeader>
+                    <Heading Size="HeadingSize.Is5">
+                        <AccordionToggle>Where can I find examples?</AccordionToggle>
+                    </Heading>
+                </AccordionHeader>
+                <AccordionBody>
+                    <Paragraph Margin="Margin.Is0.FromBottom">
+                        Component pages include live examples and source snippets. You can also browse the <Anchor To="https://demos.blazorise.com/wasm/bootstrap4/" Target="Target.Blank">online demos</Anchor> and explore the source on <Anchor To="https://github.com/Megabit/Blazorise" Target="Target.Blank">GitHub</Anchor>.
+                    </Paragraph>
+                </AccordionBody>
+            </AccordionItem>
+        </Accordion>
     </DocsPageSectionHeader>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Why should I use Blazorise?">
-        <Paragraph>It gives you a set of components that you can use to easily create a single page application. That way you can save time and don't need to waste it on building your own set of components. Just import Blazorise and start now!</Paragraph>
+    <DocsPageSectionHeader Title="Licensing and Support">
+        <Accordion>
+            <AccordionItem @bind-Visible="@licenseVisible">
+                <AccordionHeader>
+                    <Heading Size="HeadingSize.Is5">
+                        <AccordionToggle>Can I use Blazorise in commercial products?</AccordionToggle>
+                    </Heading>
+                </AccordionHeader>
+                <AccordionBody>
+                    <Paragraph Margin="Margin.Is0.FromBottom">
+                        Blazorise offers community and commercial licensing paths. If you are building for a company, customer-facing product, internal business system, or need license coverage and support, review the <Anchor To="commercial">commercial options</Anchor> and <Anchor To="pricing">pricing</Anchor> pages.
+                    </Paragraph>
+                </AccordionBody>
+            </AccordionItem>
+
+            <AccordionItem @bind-Visible="@supportVisible">
+                <AccordionHeader>
+                    <Heading Size="HeadingSize.Is5">
+                        <AccordionToggle>Where can I get help?</AccordionToggle>
+                    </Heading>
+                </AccordionHeader>
+                <AccordionBody>
+                    <Paragraph Margin="Margin.Is0.FromBottom">
+                        Start with the docs and GitHub issues for public questions. Commercial plans provide a direct support path for teams that need help with implementation details, production issues, onboarding, migration, or custom development.
+                    </Paragraph>
+                </AccordionBody>
+            </AccordionItem>
+
+            <AccordionItem @bind-Visible="@servicesVisible">
+                <AccordionHeader>
+                    <Heading Size="HeadingSize.Is5">
+                        <AccordionToggle>Does the Blazorise team provide services?</AccordionToggle>
+                    </Heading>
+                </AccordionHeader>
+                <AccordionBody>
+                    <Paragraph Margin="Margin.Is0.FromBottom">
+                        Yes. The team can help with design-system integration, migration, onboarding, training, custom development, and sponsored feature work. See <Anchor To="custom-work">custom work</Anchor> or <Anchor To="contact">contact us</Anchor> to discuss a specific need.
+                    </Paragraph>
+                </AccordionBody>
+            </AccordionItem>
+        </Accordion>
     </DocsPageSectionHeader>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="How can I try out Blazorise?">
-        <Paragraph>To try Blazorise please check out our <Anchor To="docs/start">quick start</Anchor> guide.</Paragraph>
+    <DocsPageSectionHeader Title="Community and Contribution">
+        <Accordion>
+            <AccordionItem @bind-Visible="@contributeVisible">
+                <AccordionHeader>
+                    <Heading Size="HeadingSize.Is5">
+                        <AccordionToggle>Can I contribute to Blazorise?</AccordionToggle>
+                    </Heading>
+                </AccordionHeader>
+                <AccordionBody>
+                    <Paragraph Margin="Margin.Is0.FromBottom">
+                        Yes. Start with the <Anchor To="docs/contributing">contributing guide</Anchor>, then browse <Anchor To="https://github.com/Megabit/Blazorise/issues" Target="Target.Blank">GitHub issues</Anchor>. Good contributions include bug reports, documentation fixes, focused pull requests, examples, and well-described feature requests.
+                    </Paragraph>
+                </AccordionBody>
+            </AccordionItem>
+
+            <AccordionItem @bind-Visible="@roadmapVisible">
+                <AccordionHeader>
+                    <Heading Size="HeadingSize.Is5">
+                        <AccordionToggle>How are priorities decided?</AccordionToggle>
+                    </Heading>
+                </AccordionHeader>
+                <AccordionBody>
+                    <Paragraph Margin="Margin.Is0.FromBottom">
+                        Priorities come from a mix of product direction, customer needs, commercial support work, community feedback, provider maintenance, and long-term framework health. Clear reproduction cases and concrete product scenarios help the team evaluate requests faster.
+                    </Paragraph>
+                </AccordionBody>
+            </AccordionItem>
+        </Accordion>
     </DocsPageSectionHeader>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Can I offer my help with Blazorise?">
-        <Paragraph>Of course. Any help is welcome. You can start by reading the <Anchor To="docs/contributing">contributing</Anchor> guide and by browsing <Anchor To="https://github.com/Megabit/Blazorise/issues" Target="Target.Blank">GitHub issues</Anchor> to see where you can start.</Paragraph>
-        <Paragraph>And you can always contact me on official <Anchor To="https://gitter.im/stsrki/Blazorise" Target="Target.Blank">Gitter</Anchor> channel or send us PM via email (can be found on our <Anchor To="https://github.com/Megabit" Target="Target.Blank">GitHub account</Anchor>).</Paragraph>
+    <DocsPageSectionHeader Title="Still have questions?">
+        <Card Border="Border.Rounded" Shadow="Shadow.Small">
+            <CardBody Padding="Padding.Is4">
+                <Row Flex="Flex.AlignItems.Center">
+                    <Column ColumnSize="ColumnSize.Is12.Is8.OnDesktop">
+                        <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.SemiBold">
+                            Tell us what you are building
+                        </Heading>
+                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">
+                            If your question depends on licensing, migration, support expectations, or product architecture, contact the team with a short description of your project.
+                        </Paragraph>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is12.Is4.OnDesktop" TextAlignment="TextAlignment.End" Margin="Margin.Is4.FromTop.OnMobile">
+                        <Button Type="ButtonType.Link" To="contact" Color="Color.Primary">
+                            Contact Us
+                        </Button>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
     </DocsPageSectionHeader>
 </DocsPageSection>
+
+@code {
+    private bool whatIsBlazoriseVisible = true;
+    private bool goalVisible;
+    private bool differenceVisible;
+    private bool providersVisible = true;
+    private bool themeVisible;
+    private bool switchProviderVisible;
+    private bool tryVisible = true;
+    private bool whatToInstallVisible;
+    private bool examplesVisible;
+    private bool licenseVisible = true;
+    private bool supportVisible;
+    private bool servicesVisible;
+    private bool contributeVisible = true;
+    private bool roadmapVisible;
+
+    private static readonly FaqHighlight[] FaqHighlights =
+    [
+        new( IconName.LayerGroup, TextColor.Primary, "100+ components", "A complete UI layer for forms, data, navigation, feedback, extensions, and product workflows." ),
+        new( IconName.Globe, TextColor.Info, "7+ providers", "Use Bootstrap, Tailwind, Fluent 2, Bulma, Material, Ant Design, and more through one component model." ),
+        new( IconName.QuestionCircle, TextColor.Secondary, "Support paths", "Use docs and community resources, or choose commercial support when delivery risk matters." )
+    ];
+
+    private sealed record FaqHighlight( IconName Icon, TextColor TextColor, string Title, string Description );
+}

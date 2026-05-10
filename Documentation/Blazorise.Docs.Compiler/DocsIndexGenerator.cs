@@ -18,7 +18,7 @@ internal sealed class DocsIndexGenerator
     private static readonly Regex RouteRegex = new( @"^\s*@page\s+""(?<route>[^""]+)""\s*$", RegexOptions.Compiled | RegexOptions.Multiline );
     private static readonly Regex SeoRegex = new( @"<Seo\b[^>]*>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline );
     private static readonly Regex SeoAttributeRegex = new( @"(?<name>\w+)\s*=\s*""(?<value>[^""]*)""", RegexOptions.Compiled | RegexOptions.IgnoreCase );
-    private static readonly Regex ExampleCodeRegex = new( @"<DocsPageSectionSource\b[^>]*\bCode\s*=\s*""(?<code>[^""]+)""[^>]*>", RegexOptions.Compiled | RegexOptions.Singleline );
+    private static readonly Regex ExampleCodeRegex = new( @"<DocsPageSection(?:Source|Content)\b[^>]*\bCode\s*=\s*""(?<code>[^""]+)""[^>]*>", RegexOptions.Compiled | RegexOptions.Singleline );
     private static readonly Regex ComponentApiDocsRegex = new( @"<ComponentApiDocs\b(?<attrs>(?:[^>""]|""[^""]*"")*)>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline );
     private static readonly Regex ComponentTypeofRegex = new( @"typeof\s*\(\s*(?<type>[^)]+)\s*\)", RegexOptions.Compiled | RegexOptions.IgnoreCase );
     private static readonly Regex DocsSectionRegex = new( @"<DocsPageSection\b[^>]*>(?<content>.*?)</DocsPageSection>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline );

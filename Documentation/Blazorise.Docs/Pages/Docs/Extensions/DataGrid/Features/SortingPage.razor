@@ -1,4 +1,4 @@
-﻿@page "/docs/extensions/datagrid/features/sorting"
+@page "/docs/extensions/datagrid/features/sorting"
 
 <Seo Canonical="/docs/extensions/datagrid/features/sorting" Title="Blazorise DataGrid Sorting" Description="Learn Blazorise by the example. Blazorise DataGrid offers efficient data sorting with customizable options." />
 
@@ -30,20 +30,18 @@
     <DocsPageSectionHeader Title="Single">
         By default the DataGrid sorting mode is single column based.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent FullWidth Outlined>
+    <DocsPageSectionContent Code="DataGridSortSingleExample" AdditionalCodes="@DocsCodeSources.DataGridSharedData" FullWidth Outlined>
         <DataGridSortSingleExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="DataGridSortSingleExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Multiple">
         You may also change the DataGrid sorting mode to multiple, to allow sorting on multiple columns.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent FullWidth Outlined>
+    <DocsPageSectionContent Code="DataGridSortMultipleExample" AdditionalCodes="@DocsCodeSources.DataGridSharedData" FullWidth Outlined>
         <DataGridSortMultipleExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="DataGridSortMultipleExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -55,10 +53,9 @@
             In this example, we define the Sort Field of the <code>Childrens</code> Column to be the calculated property <code>ChildrensPerSalary</code>.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent FullWidth Outlined>
+    <DocsPageSectionContent Code="DataGridSortFieldExample" AdditionalCodes="@DocsCodeSources.DataGridSharedData" FullWidth Outlined>
         <DataGridSortFieldExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="DataGridSortFieldExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -74,10 +71,9 @@
             This demonstrates how to implement a multi-criteria sorting mechanism in Blazorise's DataGrid.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent FullWidth Outlined>
+    <DocsPageSectionContent Code="DataGridSortComparerExample" AdditionalCodes="@DocsCodeSources.DataGridSharedData" FullWidth Outlined>
         <DataGridSortComparerExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="DataGridSortComparerExample" />
 </DocsPageSection>
 
 
@@ -90,10 +86,9 @@
             In this example, there are two buttons to change the sort order programmatically.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent FullWidth Outlined>
+    <DocsPageSectionContent Code="DataGridApplySortingExample" AdditionalCodes="@DocsCodeSources.DataGridSharedData" FullWidth Outlined>
         <DataGridApplySortingExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="DataGridApplySortingExample" />
 </DocsPageSection>
 
 <DocsPageApi>

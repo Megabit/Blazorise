@@ -46,7 +46,7 @@
     <DocsPageSectionHeader>
         Optionally you can override these when instantiating an offcanvas through the <Code>OffcanvasService</Code> usage.
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="OffcanvasServiceOptionsExample" />
+    <DocsPageSectionSource Code="OffcanvasServiceOptionsExample" AdditionalCodes="@DocsCodeSources.OffcanvasProviderCustomStructure" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -108,24 +108,17 @@
         Instantiates an offcanvas with a counter example taking in the counter number from the provided parameter.
         <Code>OffcanvasService.Show</Code> provides various overloads you can use to instantiate your custom content.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="OffcanvasProviderInstantiationExample" AdditionalCodes="@DocsCodeSources.OffcanvasProviderCounter" Outlined FullWidth>
         <OffcanvasProviderInstantiationExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="OffcanvasProviderInstantiationExample" />
-    <Divider />
-    <Paragraph>
-        <Strong>ShowCounter.razor</Strong>
-    </Paragraph>
-    <DocsPageSectionSource Code="CounterExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Render Fragment">
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="OffcanvasProviderCustomRenderFragmentExample" Outlined FullWidth>
         <OffcanvasProviderCustomRenderFragmentExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="OffcanvasProviderCustomRenderFragmentExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -137,10 +130,9 @@
             Service calls create new offcanvas instances, so varying <Code>Placement</Code> and <Code>Size</Code> between openings is supported through the service.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="OffcanvasProviderSizeExample" Outlined FullWidth>
         <OffcanvasProviderSizeExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="OffcanvasProviderSizeExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -163,15 +155,9 @@
             </UnorderedList>
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="OffcanvasProviderCustomStructureExample" AdditionalCodes="@DocsCodeSources.OffcanvasProviderCustomStructure" Outlined FullWidth>
         <OffcanvasProviderCustomStructureExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="OffcanvasProviderCustomStructureExample" />
-    <Divider></Divider>
-    <Paragraph>
-        <Strong>CustomStructureOffcanvasExample.razor</Strong>
-    </Paragraph>
-    <DocsPageSectionSource Code="CustomStructureOffcanvasExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -180,24 +166,17 @@
         A common example, might be a generic formulary where the validation and success logic are not necessarily known by this component and are provided from "outside".
         The following example setups a simple formulary showcasing this.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="OffcanvasProviderFormularyExample" AdditionalCodes="@DocsCodeSources.OffcanvasProviderFormulary" Outlined FullWidth>
         <OffcanvasProviderFormularyExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="OffcanvasProviderFormularyExample" />
-    <Divider></Divider>
-    <Paragraph>
-        <Strong>FormularyOffcanvasExample.razor</Strong>
-    </Paragraph>
-    <DocsPageSectionSource Code="FormularyOffcanvasExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Stateful Offcanvas">
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="OffcanvasProviderStatefulExample" AdditionalCodes="@DocsCodeSources.OffcanvasProviderCounter" Outlined FullWidth>
         <OffcanvasProviderStatefulExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="OffcanvasProviderStatefulExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>

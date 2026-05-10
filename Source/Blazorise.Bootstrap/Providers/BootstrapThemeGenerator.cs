@@ -520,8 +520,20 @@ public class BootstrapThemeGenerator : ThemeGenerator
             .AppendLine( "}" );
 
         sb
+            .Append( ".custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::before" ).Append( "{" )
+            .Append( $"background-color: {options.CheckColor};" )
+            .Append( $"border-color: {options.CheckColor};" )
+            .AppendLine( "}" );
+
+        sb
             .Append( ".custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before" ).Append( "{" )
             .Append( $"background-color: {ToHexRGBA( Transparency( options.CheckColor, 128 ) )};" )
+            .AppendLine( "}" );
+
+        sb
+            .Append( ".custom-checkbox .custom-control-input:disabled:indeterminate ~ .custom-control-label::before" ).Append( "{" )
+            .Append( $"background-color: {ToHexRGBA( Transparency( options.CheckColor, 128 ) )};" )
+            .Append( $"border-color: {ToHexRGBA( Transparency( options.CheckColor, 128 ) )};" )
             .AppendLine( "}" );
 
         sb
@@ -531,6 +543,13 @@ public class BootstrapThemeGenerator : ThemeGenerator
 
         sb
             .Append( ".custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
+            .Append( $"color: {options.Color};" )
+            .Append( $"border-color: {options.CheckColor};" )
+            .Append( $"background-color: {options.CheckColor};" )
+            .AppendLine( "}" );
+
+        sb
+            .Append( ".custom-control-input:indeterminate ~ .custom-control-label::before" ).Append( "{" )
             .Append( $"color: {options.Color};" )
             .Append( $"border-color: {options.CheckColor};" )
             .Append( $"background-color: {options.CheckColor};" )

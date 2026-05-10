@@ -1,21 +1,21 @@
-﻿@page "/commercial"
+@page "/commercial"
 
-<Seo Canonical="/commercial" Title="Blazorise Commercial" Description="Unlock the full potential of Blazorise with professional components, premium support, onboarding, and enterprise-grade services. Build scalable, production-ready Blazor apps with confidence." />
+<Seo Canonical="/commercial" Title="Blazorise Commercial" Description="Commercial Blazorise plans provide licensing coverage, premium support, onboarding, and expert services for teams building production Blazor applications." />
 
 <PageHeader>
     <Title>
-        Blazorise <Span Class="gradient-commercial">Commercial</Span>
+        Commercial Blazor UI for teams shipping real products
     </Title>
     <Subtitle>
-        Trusted by teams of all sizes, from startups to global enterprises.
+        Licensing, support, services, and expert guidance for production Blazor applications.
     </Subtitle>
     <Description>
-        Blazorise provides a source-available foundation and commercial extensions to help you build high-quality, cross-platform web applications entirely in C#. Accelerate development with pre-built UI components, templates, and dedicated expert support.
+        Blazorise Commercial helps teams standardize UI delivery, reduce framework risk, and get direct help from the people building the component library. Use it when your product needs reliable support, long-term maintainability, and a clear commercial license.
     </Description>
     <Actions>
         <Button Type="ButtonType.Link" To="pricing" Color="Color.Primary" Size="Size.Large" Padding="Padding.Is4.OnX.Is3.FromEnd.OnTablet">
             <Icon Name="IconName.Key" />
-            Get a License
+            View Pricing
         </Button>
         <Button Type="ButtonType.Link" To="book-a-demo" Color="Color.Secondary" Size="Size.Large" Padding="Padding.Is4.OnX">
             <Icon Name="IconName.Microphone" />
@@ -24,14 +24,31 @@
     </Actions>
 </PageHeader>
 
-<Container Padding="Padding.Is5.FromTop">
+<Container Padding="Padding.Is5.OnY">
+    <Row>
+        @foreach ( var item in CommercialHighlights )
+        {
+            <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is4.OnDesktop" Margin="Margin.Is3.FromBottom">
+                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                    <CardBody>
+                        <Icon Name="@item.Icon" IconSize="IconSize.x2" TextColor="@item.TextColor" Margin="Margin.Is3.FromBottom" />
+                        <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.SemiBold">@item.Title</Heading>
+                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">@item.Description</Paragraph>
+                    </CardBody>
+                </Card>
+            </Column>
+        }
+    </Row>
+</Container>
+
+<Container Padding="Padding.Is5.OnY">
     <Row>
         <Column Margin="Margin.IsAuto.OnX">
-            <Paragraph TextSize="TextSize.Heading1" TextWeight="TextWeight.Normal" TextAlignment="TextAlignment.Center">
-                Trusted By
-            </Paragraph>
+            <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold" TextAlignment="TextAlignment.Center">
+                Trusted by teams building serious Blazor products
+            </Heading>
             <Lead TextColor="TextColor.Muted" TextAlignment="TextAlignment.Center">
-                The world's top product teams rely on Blazorise to deliver exceptional developer and user experiences.
+                Product teams use Blazorise to standardize UI delivery across internal tools, SaaS platforms, customer portals, and line-of-business applications.
             </Lead>
         </Column>
     </Row>
@@ -39,74 +56,67 @@
 </Container>
 
 <Container Padding="Padding.Is5.OnY">
-    <Row>
-        <Column Margin="Margin.IsAuto.OnX">
-            <Paragraph TextSize="TextSize.Heading1" TextWeight="TextWeight.Normal" TextAlignment="TextAlignment.Center">
-                Additional Services
+    <Row Flex="Flex.AlignItems.Center">
+        <Column ColumnSize="ColumnSize.Is12.Is5.OnDesktop" Margin="Margin.Is4.FromBottom.OnMobile">
+            <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+                What commercial teams get
+            </Heading>
+            <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted">
+                Commercial plans are designed for organizations that need more than package access. They combine license coverage with direct support, predictable escalation, and hands-on guidance when delivery depends on the UI layer.
             </Paragraph>
-            <Lead TextColor="TextColor.Muted" TextAlignment="TextAlignment.Center">
-                Need something beyond the standard offering? <Strong>We and our partners can provide it.</Strong>
-            </Lead>
-        </Column>
-    </Row>
-
-    <Row Margin="Margin.Is5.FromTop" Padding="Padding.Is4.FromTop">
-        <Column ColumnSize="ColumnSize.Is4.OnDesktop" Margin="Margin.Is5.FromBottom.OnWidescreen">
-            <Div Margin="Margin.Is4.FromBottom">
-                <Icon Name="IconName.Building" IconSize="IconSize.x3" TextColor="TextColor.Primary" />
-            </Div>
-            <Heading Size="HeadingSize.Is4">Design System Integration</Heading>
-            <Paragraph>Seamless Blazorise integration with your existing design system.</Paragraph>
-        </Column>
-
-        <Column ColumnSize="ColumnSize.Is4.OnDesktop" Margin="Margin.Is5.FromBottom.OnWidescreen">
-            <Div Margin="Margin.Is4.FromBottom">
-                <Icon Name="IconName.Undo" IconSize="IconSize.x3" TextColor="TextColor.Secondary" />
-            </Div>
-            <Heading Size="HeadingSize.Is4">Project Migration</Heading>
-            <Paragraph>Port legacy or non-Blazor projects to a modern Blazor architecture.</Paragraph>
-        </Column>
-
-        <Column ColumnSize="ColumnSize.Is4.OnDesktop" Margin="Margin.Is5.FromBottom.OnWidescreen">
-            <Div Margin="Margin.Is4.FromBottom">
-                <Icon Name="IconName.UmbrellaBeach" IconSize="IconSize.x3" TextColor="TextColor.Primary" />
-            </Div>
-            <Heading Size="HeadingSize.Is4">Custom Development</Heading>
-            <Paragraph>Hire dedicated Blazorise developers for your custom projects.</Paragraph>
-        </Column>
-
-        <Column ColumnSize="ColumnSize.Is4.OnDesktop" Margin="Margin.Is5.FromBottom.OnWidescreen">
-            <Div Margin="Margin.Is4.FromBottom">
-                <Icon Name="IconName.Users" IconSize="IconSize.x3" TextColor="TextColor.Danger" />
-            </Div>
-            <Heading Size="HeadingSize.Is4">Live Remote Support</Heading>
-            <Paragraph>Get direct, real-time help from the Blazorise engineering team.</Paragraph>
-        </Column>
-
-        <Column ColumnSize="ColumnSize.Is4.OnDesktop" Margin="Margin.Is5.FromBottom.OnWidescreen">
-            <Div Margin="Margin.Is4.FromBottom">
-                <Icon Name="IconName.Book" IconSize="IconSize.x3" TextColor="TextColor.Info" />
-            </Div>
-            <Heading Size="HeadingSize.Is4">Training</Heading>
-            <Paragraph>Interactive, hands-on Blazorise training for your development team.</Paragraph>
-        </Column>
-
-        <Column ColumnSize="ColumnSize.Is4.OnDesktop" Margin="Margin.Is5.FromBottom.OnWidescreen">
-            <Div Margin="Margin.Is4.FromBottom">
-                <Icon Name="IconName.HandsHelping" IconSize="IconSize.x3" />
-            </Div>
-            <Heading Size="HeadingSize.Is4">Onboarding</Heading>
-            <Paragraph>Assistance setting up development and CI/CD environments.</Paragraph>
-        </Column>
-    </Row>
-
-    <Row>
-        <Column Flex="Flex.JustifyContent.Center" Margin="Margin.Is5.FromBottom.OnWidescreen">
-            <Button Type="ButtonType.Link" To="contact" Color="Color.Primary" Size="Size.Large">
-                Contact Us
+            <Button Type="ButtonType.Link" To="pricing" Color="Color.Primary" Size="Size.Large">
+                Compare Plans
             </Button>
         </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is7.OnDesktop">
+            <Row>
+                @foreach ( var item in CommercialBenefits )
+                {
+                    <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet" Margin="Margin.Is3.FromBottom">
+                        <Div Flex="Flex.AlignItems.Start" Gap="Gap.Is3">
+                            <Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is1.FromTop" />
+                            <Div>
+                                <Strong>@item.Title</Strong>
+                                <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is1.FromTop.Is0.FromBottom">@item.Description</Paragraph>
+                            </Div>
+                        </Div>
+                    </Column>
+                }
+            </Row>
+        </Column>
     </Row>
+</Container>
+
+<Container Padding="Padding.Is5.OnY">
+    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
+        <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+            Services for teams that need a stronger delivery path
+        </Heading>
+        <Lead TextColor="TextColor.Muted">
+            Use the Blazorise team for integration planning, migration work, onboarding, and production support.
+        </Lead>
+    </Div>
+
+    <Row>
+        @foreach ( var item in ServiceCards )
+        {
+            <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
+                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                    <CardBody>
+                        <Icon Name="@item.Icon" IconSize="IconSize.x2" TextColor="TextColor.Primary" Margin="Margin.Is3.FromBottom" />
+                        <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.SemiBold">@item.Title</Heading>
+                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">@item.Description</Paragraph>
+                    </CardBody>
+                </Card>
+            </Column>
+        }
+    </Row>
+
+    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is3.FromTop">
+        <Button Type="ButtonType.Link" To="contact" Color="Color.Primary" Size="Size.Large">
+            Talk to Us
+        </Button>
+    </Div>
 </Container>
 
 <Container Padding="Padding.Is5.OnY">
@@ -114,46 +124,59 @@
 </Container>
 
 <Container Padding="Padding.Is5.OnY">
-    <Row>
-        <Column Margin="Margin.IsAuto.OnX">
-            <Paragraph TextSize="TextSize.Heading1" TextWeight="TextWeight.Normal" TextAlignment="TextAlignment.Center">
-                Premium Support
-            </Paragraph>
-            <Lead TextColor="TextColor.Muted" TextAlignment="TextAlignment.Center">
-                Commercial users receive prioritized technical assistance from the Blazorise team, ensuring smooth delivery and long-term reliability.
-            </Lead>
-        </Column>
-    </Row>
-
-    <Row Margin="Margin.Is3.FromTop">
-        <Column ColumnSize="ColumnSize.Is6.OnDesktop" Flex="Flex.Column.AlignItems.Baseline.JustifyContent.Between">
-            <Div>
-                <Icon Name="IconName.HandsHelping" IconSize="IconSize.x3" Margin="Margin.Is3.OnY" TextColor="TextColor.Dark" />
-            </Div>
-            <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.Normal">
-                Premium Forum Support
-            </Heading>
-            <Paragraph>
-                Commercial plans include premium forum access and guaranteed response times from Blazorise experts.
-            </Paragraph>
-            <Button Type="ButtonType.Link" To="support" Color="Color.Info" Size="Size.Large">
-                Visit Support Forum
-            </Button>
-        </Column>
-
-        <Column ColumnSize="ColumnSize.Is6.OnDesktop" Flex="Flex.Column.AlignItems.Baseline.JustifyContent.Between">
-            <Div>
-                <Icon Name="IconName.Heart" IconSize="IconSize.x3" Margin="Margin.Is3.OnY" TextColor="TextColor.Info" />
-            </Div>
-            <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.Normal">
-                Private Ticket Support
-            </Heading>
-            <Paragraph>
-                Enterprise and higher tiers include private support via email and ticket system with faster response times.
-            </Paragraph>
-            <Button Type="ButtonType.Link" To="pricing" Color="Color.Primary" Size="Size.Large">
-                Get a License
-            </Button>
-        </Column>
-    </Row>
+    <Card Border="Border.Rounded" Shadow="Shadow.Small">
+        <CardBody Padding="Padding.Is5">
+            <Row Flex="Flex.AlignItems.Center">
+                <Column ColumnSize="ColumnSize.Is12.Is7.OnDesktop">
+                    <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+                        Need help deciding what fits?
+                    </Heading>
+                    <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">
+                        Share your team size, project scope, and support expectations. We can help map the right license, support path, and optional services.
+                    </Paragraph>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is5.OnDesktop" TextAlignment="TextAlignment.End" Margin="Margin.Is4.FromTop.OnMobile">
+                    <Button Type="ButtonType.Link" To="book-a-demo" Color="Color.Primary" Size="Size.Large" Margin="Margin.Is2.FromEnd">
+                        Book a Demo
+                    </Button>
+                    <Button Type="ButtonType.Link" To="pricing" Color="Color.Light" Size="Size.Large">
+                        View Plans
+                    </Button>
+                </Column>
+            </Row>
+        </CardBody>
+    </Card>
 </Container>
+
+@code {
+    private static readonly CommercialHighlight[] CommercialHighlights =
+    [
+        new( IconName.Key, TextColor.Primary, "License clarity", "Commercial use coverage for organizations, teams, and customer-facing products." ),
+        new( IconName.Users, TextColor.Info, "Priority support", "Get direct assistance from Blazorise maintainers when implementation questions block delivery." ),
+        new( IconName.Building, TextColor.Secondary, "Enterprise fit", "Support for design systems, migrations, onboarding, and product-specific delivery needs." )
+    ];
+
+    private static readonly CommercialBenefit[] CommercialBenefits =
+    [
+        new( "Production confidence", "Resolve UI issues with a supported component vendor behind your application." ),
+        new( "Faster delivery", "Use ready-made components and fluent utilities instead of building a private UI kit from scratch." ),
+        new( "Direct escalation", "Move critical questions beyond community channels when timelines matter." ),
+        new( "Long-term maintainability", "Standardize on a consistent component model across teams and products." )
+    ];
+
+    private static readonly ServiceCard[] ServiceCards =
+    [
+        new( IconName.Building, "Design System Integration", "Adapt Blazorise to your existing brand, token system, and product UI conventions." ),
+        new( IconName.Sync, "Project Migration", "Move legacy interfaces or non-Blazor frontends into a modern Blazor architecture." ),
+        new( IconName.Code, "Custom Development", "Add specialized components, pages, and workflows with help from Blazorise experts." ),
+        new( IconName.Users, "Live Remote Support", "Work directly with the team on implementation details, debugging, and delivery risks." ),
+        new( IconName.Book, "Training", "Give your team practical Blazorise and Blazor guidance through hands-on sessions." ),
+        new( IconName.Check, "Onboarding", "Set up project structure, provider configuration, CI/CD expectations, and rollout practices." )
+    ];
+
+    private sealed record CommercialHighlight( IconName Icon, TextColor TextColor, string Title, string Description );
+
+    private sealed record CommercialBenefit( string Title, string Description );
+
+    private sealed record ServiceCard( IconName Icon, string Title, string Description );
+}

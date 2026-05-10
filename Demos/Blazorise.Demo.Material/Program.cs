@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Icons.Material;
 using Blazorise.Material;
@@ -18,7 +18,7 @@ public class Program
             .AddMaterialProviders()
             .AddMaterialIcons();
 
-        builder.RootComponents.Add<App>( "#app" );
+        builder.RootComponents.Add<WasmApp>( "#app" );
         var host = builder.Build();
 
         await host.RunAsync();

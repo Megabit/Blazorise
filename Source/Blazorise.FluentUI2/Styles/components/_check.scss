@@ -29,7 +29,8 @@
     top: 0px;
     width: calc(16px + 2 * var(--spacingHorizontalS));
 
-    &:not(:disabled):checked {
+    &:not(:disabled):checked,
+    &:not(:disabled):indeterminate {
         .fui-Checkbox__icon {
             display: inline;
             line-height: 0;
@@ -67,10 +68,28 @@
         }
     }
 
-    &:checked {
+    &:checked,
+    &:indeterminate {
         + .fui-Checkbox__indicator {
             .fui-Checkbox__icon {
                 display: block;
+            }
+        }
+    }
+
+    &:indeterminate {
+        + .fui-Checkbox__indicator {
+            .fui-Checkbox__icon {
+                display: none;
+            }
+
+            &::before {
+                content: "";
+                display: block;
+                width: 8px;
+                height: 2px;
+                border-radius: 1px;
+                background-color: currentcolor;
             }
         }
     }

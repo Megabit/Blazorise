@@ -108,19 +108,19 @@
     <AlertDescription>
         <strong>Note:</strong> DataGrid supports the <Code>CascadingTypeParameter</Code> feature. We've found out, that there might be a few caveats when using the feature. For most cases you'll be just fine with removing the explicit references to the Generic Type on the children component. But for the very few cases that Blazor complains that it cannot compile, just explicitly define the Generic Type.
         Here's an example:
-        <Paragraph Class="mb-0">
+        <Paragraph Margin="Margin.Is0.FromBottom">
             This will not work:
         </Paragraph>
         <Paragraph>
             <Code>&lt;DataGridAggregate Field="@@nameof( Employee.IsActive )" AggregationFunction=@@(DataGridAggregate&lt;Employee&gt;.TrueCount) /&gt;</Code>
         </Paragraph>
-        <Paragraph Class="mb-0">
+        <Paragraph Margin="Margin.Is0.FromBottom">
             These will work:
         </Paragraph>
-        <Paragraph Class="m-0">
+        <Paragraph Margin="Margin.Is0">
             <Code>&lt;DataGridAggregate Field="@@nameof( Employee.IsActive )" AggregationFunction=@@((x,y) => DataGridAggregate&lt;Employee&gt;.TrueCount(x,y)) /&gt;</Code>
         </Paragraph>
-        <Paragraph Class="m-0">
+        <Paragraph Margin="Margin.Is0">
             <Code>&lt;DataGridAggregate TItem="Employee" Field="@@nameof( Employee.IsActive )" AggregationFunction=@@(DataGridAggregate&lt;Employee&gt;.TrueCount) /&gt;</Code>
         </Paragraph>
     </AlertDescription>

@@ -1,4 +1,4 @@
-﻿<div class="b-docs-page-section-header">
+﻿<Div Margin="Margin.Is4.FromBottom">
     @if ( Title != null )
     {
         <Heading Size="HeadingSize.Is3" ElementId="@ElementId">
@@ -6,7 +6,7 @@
         </Heading>
     }
     @ChildContent
-</div>
+</Div>
 
 @code {
     [Parameter] public string Title { get; set; }

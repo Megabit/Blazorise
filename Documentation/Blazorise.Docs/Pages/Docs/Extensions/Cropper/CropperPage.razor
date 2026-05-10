@@ -55,20 +55,18 @@
     <DocsPageSectionHeader Title="Basic">
         The image cropper is straightforward. You need to define a Source parameter and a reference.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="BasicCropperExample" Outlined FullWidth>
         <BasicCropperExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="BasicCropperExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Viewer">
         To add preview support, use a <Code Tag>CropperViewer</Code> component. Once added you need to connect it to a <Code Tag>Cropper</Code> by assigning the <Code>CropperState</Code> parameter. This parameter is used as a synchronization context between the cropper and a viewer.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="CropperViewerExample" Outlined FullWidth>
         <CropperViewerExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="CropperViewerExample" />
 </DocsPageSection>
 
 <ComponentApiDocs ComponentTypes="[typeof(Cropper),typeof(CropperViewer), typeof(CropperCropOptions)]" />

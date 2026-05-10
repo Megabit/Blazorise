@@ -1,0 +1,37 @@
+<Container Padding="Padding.Is5.OnY">
+    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
+        <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+            Built for product teams, not demos
+        </Heading>
+        <Lead TextColor="TextColor.Muted">
+            Blazorise covers the everyday UI layer and the harder application surfaces that usually slow teams down.
+        </Lead>
+    </Div>
+
+    <Row>
+        @foreach ( ProductHighlight item in ProductHighlights )
+        {
+            <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is3.OnDesktop" Margin="Margin.Is4.FromBottom">
+                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                    <CardBody>
+                        <Icon Name="@item.Icon" IconSize="IconSize.x2" TextColor="@item.TextColor" Margin="Margin.Is3.FromBottom" />
+                        <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.SemiBold">@item.Title</Heading>
+                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">@item.Description</Paragraph>
+                    </CardBody>
+                </Card>
+            </Column>
+        }
+    </Row>
+</Container>
+
+@code {
+    private static readonly ProductHighlight[] ProductHighlights =
+    [
+        new( IconName.LayerGroup, TextColor.Primary, "Complete UI layer", "Reusable components for common UI patterns and advanced product workflows." ),
+        new( IconName.Table, TextColor.Info, "Data-heavy apps", "DataGrid, tables, validation, filtering, editing, charts, and scheduling for operational software." ),
+        new( IconName.Building, TextColor.Secondary, "Design-system ready", "Theme configuration and provider support make it easier to align Blazorise with your brand." ),
+        new( IconName.Headset, TextColor.Success, "Commercial support", "Move critical questions to direct support when delivery timelines matter." )
+    ];
+
+    private sealed record ProductHighlight( IconName Icon, TextColor TextColor, string Title, string Description );
+}

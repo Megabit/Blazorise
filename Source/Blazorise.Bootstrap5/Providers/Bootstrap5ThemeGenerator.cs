@@ -527,12 +527,24 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
             .AppendLine( "}" );
 
         sb
+            .Append( ".form-check-input[type=checkbox].is-valid:indeterminate, .was-validated .form-check-input[type=checkbox]:valid:indeterminate" ).Append( "{" )
+            .Append( $"background-color: {options.CheckColor};" )
+            .Append( $"border-color: {options.CheckColor};" )
+            .AppendLine( "}" );
+
+        sb
             .Append( ".form-check-input.is-valid, .was-validated .form-check-input:valid" ).Append( "{" )
             .Append( $"border-color: {options.CheckColor};" )
             .AppendLine( "}" );
 
         sb
             .Append( ".form-check-input:checked" ).Append( "{" )
+            .Append( $"background-color: {options.CheckColor};" )
+            .Append( $"border-color: {options.CheckColor};" )
+            .AppendLine( "}" );
+
+        sb
+            .Append( ".form-check-input[type=checkbox]:indeterminate" ).Append( "{" )
             .Append( $"background-color: {options.CheckColor};" )
             .Append( $"border-color: {options.CheckColor};" )
             .AppendLine( "}" );

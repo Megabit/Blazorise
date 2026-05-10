@@ -40,7 +40,9 @@ public class CodeExamplesMarkup
                     continue;
                 }
 
-                if ( !entry.Name.Contains( Paths.ExampleDiscriminator ) )
+                bool isCSharp = entry.FullName.EndsWith( ".csharp" );
+
+                if ( !isCSharp && !entry.Name.Contains( Paths.ExampleDiscriminator ) )
                     continue;
 
                 var markupPath = entry.FullName
@@ -63,7 +65,6 @@ public class CodeExamplesMarkup
                 //var cb = new CodeBuilder();
                 var currentCode = string.Empty;
                 var builtCode = string.Empty;
-                var isCSharp = entry.FullName.EndsWith( ".csharp" );
                 var source = File.ReadAllText( entry.FullName, Encoding.UTF8 );
 
                 if ( File.Exists( markupPath ) )

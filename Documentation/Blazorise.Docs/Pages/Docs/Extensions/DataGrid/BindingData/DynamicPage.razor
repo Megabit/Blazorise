@@ -1,4 +1,4 @@
-﻿@page "/docs/extensions/datagrid/binding-data/dynamic"
+@page "/docs/extensions/datagrid/binding-data/dynamic"
 
 <Seo Canonical="/docs/extensions/datagrid/binding-data/dynamic" Title="Blazorise DataGrid Binding Dynamic data" Description="The Blazorise DataGrid component offers the ability to bind to dynamic data, providing enhanced flexibility for various applications." />
 
@@ -14,10 +14,9 @@
     <DocsPageSectionHeader Title="Basic Example">
         To ensure the <Code>DataGrid</Code> correctly interprets the structure and type of your dynamic data during specific operations, such as creating new items or aggregating data, you need to define a representation within the <Code>NewItemCreator</Code> function. Below is an illustrative example.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent FullWidth>
+    <DocsPageSectionContent Code="DataGridDynamicExample" AdditionalCodes="@DocsCodeSources.DataGridSharedData" FullWidth>
         <DataGridDynamicExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="DataGridDynamicExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -29,10 +28,9 @@
             Auto-generated columns support nullable data. If your data includes null values, ensure you provide a <Code>NewItemCreator</Code>. DataGrid requires an item with non-null values to properly generate the columns.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent FullWidth>
+    <DocsPageSectionContent Code="DataGridDynamicAutoGenerateExample" AdditionalCodes="@DocsCodeSources.DataGridSharedData" FullWidth>
         <DataGridDynamicAutoGenerateExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="DataGridDynamicAutoGenerateExample" />
 </DocsPageSection>
 
 <DocsPageApi>

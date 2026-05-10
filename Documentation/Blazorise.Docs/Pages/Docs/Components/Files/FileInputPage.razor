@@ -23,10 +23,9 @@
         On single file mode, when file is selected or user does not cancel Browse dialog, <Code>Changed</Code> event will be raised.
         The return value will be a <Code>FileChangedEventArgs</Code> that will contain only one item in the <Code>Files</Code> property.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="FileInputSingleExample" Outlined FullWidth>
         <FileInputSingleExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="FileInputSingleExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -34,10 +33,9 @@
         Multiple file uploading is supported by enabling <Code>Multiple</Code> attribute to component. In this case <Code>Files</Code> property
         of <Code>FileChangedEventArgs</Code> can contain multiple files.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="FileInputMultipleExample" Outlined FullWidth>
         <FileInputMultipleExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="FileInputMultipleExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -45,10 +43,9 @@
         Directory uploading is supported by enabling <Code>Directory</Code> attribute to component. In this case <Code>Files</Code> property
         of <Code>FileChangedEventArgs</Code> can contain multiple files within a directory.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="FileInputDirectoryExample" Outlined FullWidth>
         <FileInputDirectoryExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="FileInputDirectoryExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -56,10 +53,9 @@
         Multiple Directory uploading is supported by enabling <Code>Directory</Code> and <Code>Multiple</Code> attribute to component. In this case <Code>Files</Code> property
         of <Code>FileChangedEventArgs</Code> can contain multiple files within a directory.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="FileInputMultipleDirectoryExample" Outlined FullWidth>
         <FileInputMultipleDirectoryExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="FileInputMultipleDirectoryExample" />
 </DocsPageSection>
 
 
@@ -78,10 +74,9 @@
             </AlertDescription>
         </Alert>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="FileInputExtensionsLimitExample" Outlined FullWidth>
         <FileInputExtensionsLimitExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="FileInputExtensionsLimitExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -128,10 +123,9 @@
         In this example you can see the usage of all events, including the <Code>Written</Code> and <Code>Progressed</Code>.
         For your own use case you can just focus on <Code>Changed</Code> event.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="FileInputWriteToStreamExample" Outlined FullWidth>
         <FileInputWriteToStreamExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="FileInputWriteToStreamExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -146,10 +140,9 @@
         </Alert>
 
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="FileInputWriteToStreamExample" Outlined FullWidth>
         <FileInputWriteToStreamExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="FileInputWriteToStreamExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -158,10 +151,9 @@
         If you want this behavior disabled and control it manually you need to first set <Code>AutoReset</Code> to <Code>false</Code>.
         After that you can call <Code>Reset()</Code> every time you want the file input to be reset.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="FileInputResetExample" Outlined FullWidth>
         <FileInputResetExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="FileInputResetExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -173,10 +165,9 @@
             <Strong TextColor="TextColor.Info">Note:</Strong> Keep in mind that not all browser will support the <Code>ShowPicker()</Code> function.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="FileInputShowPickerExample" Outlined FullWidth>
         <FileInputShowPickerExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="FileInputShowPickerExample" />
 </DocsPageSection>
 
 <ComponentApiDocs ComponentTypes="[typeof(FileInput)]" />

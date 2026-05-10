@@ -1,4 +1,4 @@
-﻿@page "/docs/extensions/datagrid/features/state-management"
+@page "/docs/extensions/datagrid/features/state-management"
 
 <Seo Canonical="/docs/extensions/datagrid/features/state-management" Title="Blazorise DataGrid State Management" Description="Learn Blazorise by the example. You are able to manage the state of the DataGrid by using the provided GetState and LoadState methods." />
 
@@ -25,10 +25,9 @@
             <UnorderedListItem>The page checks the LocalStorage on first render and loads the saved state if available.</UnorderedListItem>
         </UnorderedList>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent FullWidth Outlined>
+    <DocsPageSectionContent Code="DataGridStateManagementExample" AdditionalCodes="@DocsCodeSources.DataGridSharedData" FullWidth Outlined>
         <DataGridStateManagementExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="DataGridStateManagementExample" />
 </DocsPageSection>
 
 <DocsPageApi>

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -21,7 +21,7 @@ public class Program
             .AddTailwindProviders()
             .AddFontAwesomeIcons();
 
-        builder.RootComponents.Add<App>( "#app" );
+        builder.RootComponents.Add<WasmApp>( "#app" );
         builder.Services.AddScoped( sp => new HttpClient { BaseAddress = new Uri( builder.HostEnvironment.BaseAddress ) } );
 
         await builder.Build().RunAsync();

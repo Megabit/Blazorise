@@ -43,90 +43,78 @@
     <DocsPageSectionHeader Title="Basic example">
         The basic usage scenario for <Code>LoadingIndicator</Code> with default settings using a <Code>LoadingIndicator</Code> object reference.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="LoadingIndicatorBasicExample" Outlined FullWidth>
         <LoadingIndicatorBasicExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="LoadingIndicatorBasicExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Two-way Binding">
         Having a more declarative approach to control the indicator is also supported. To make it work, you just need to bind a variable to the <Code>Visible</Code> parameter, and it will work.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="LoadingIndicatorTwoWayBindingExample" Outlined FullWidth>
         <LoadingIndicatorTwoWayBindingExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="LoadingIndicatorTwoWayBindingExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Status text">
         Display progress text by providing <Code>IndicatorTemplate</Code>. The template receives a <Code>LoadingIndicatorContext</Code> with <Code>Text</Code> and <Code>Progress</Code> updated via <Code>SetStatus</Code>.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="LoadingIndicatorStatusExample" Outlined FullWidth>
         <LoadingIndicatorStatusExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="LoadingIndicatorStatusExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Application busy service">
         Use <Code>ApplicationLoadingIndicator</Code> to add a global application busy UI. Register <Code>ILoadingIndicatorService</Code> as a scoped service in your configuration. <Code>ApplicationLoadingIndicator</Code> automatically registers with <Code>ILoadingIndicatorService</Code> if one is registered or unless <Code>Service</Code> property is set directly. Use dependency injection to obtain a reference to the <Code>ILoadingIndicatorService</Code> to control <Code>ApplicationLoadingIndicator</Code>. The application busy UI comes with an awesome Blazorise logo spinner, which is recommended, but if you prefer the default spinner set <Code>IndicatorTemplate</Code> to <Code>null</Code>.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent>
+    <DocsPageSectionContent Code="LoadingIndicatorAddScopedExample">
         Add <Code>ILoadingIndicatorService</Code> as a scoped service.
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="LoadingIndicatorAddScopedExample" />
-    <DocsPageSectionContent>
+    <DocsPageSectionContent Code="LoadingIndicatorApplicationWrapperExample">
         Add <Code>ApplicationLoadingIndicator</Code> to your <Code>App.razor</Code> file.
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="LoadingIndicatorApplicationWrapperExample" />
-    <DocsPageSectionContent>
+    <DocsPageSectionContent Code="LoadingIndicatorApplicationBusyExample">
         Inject <Code>ILoadingIndicatorService</Code> into your component where you want to trigger the application busy UI from.
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="LoadingIndicatorApplicationBusyExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Using as cascading parameter">
         You can also use the wrapper as a cascading parameter.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent>
+    <DocsPageSectionContent Code="LoadingIndicatorCascadingWrapperExample">
         To implement a global application busy UI using cascading parameter add the wrapper to your main layout.
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="LoadingIndicatorCascadingWrapperExample" />
-    <DocsPageSectionContent>
+    <DocsPageSectionContent Code="LoadingIndicatorCascadingBusyExample">
         Declare a <Code>CascadingParameter</Code> of type <Code>LoadingIndicator</Code> in your component.
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="LoadingIndicatorCascadingBusyExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Disabling input controls">
         While the busy screen prevents click events from reaching child content it has no effect on keyboard input. You may want to disable your input controls such as textboxes and buttons while your component is busy.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent>
+    <DocsPageSectionContent Code="LoadingIndicatorBusyReferenceExample">
         Using the <Code>Visible</Code> property directly.
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="LoadingIndicatorBusyReferenceExample" />
-    <DocsPageSectionContent>
+    <DocsPageSectionContent Code="LoadingIndicatorBusyServiceExample">
         Disabling your controls using <Code>LoadingIndicatorService</Code>.
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="LoadingIndicatorBusyServiceExample" />
-    <DocsPageSectionContent>
+    <DocsPageSectionContent Code="LoadingIndicatorBusyFormExample">
         Disable the entire input form using <Code>&lt;fieldset&gt;</Code>
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="LoadingIndicatorBusyFormExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Using animation">
         Loading indicator can animate its visibility state by fading into view. This is on by default for <Code>ApplicationLoadingIndicator</Code>. You can also use the <Code>Animate</Code> component to add a visual effect.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Outlined FullWidth>
+    <DocsPageSectionContent Code="LoadingIndicatorAnimationExample" Outlined FullWidth>
         <LoadingIndicatorAnimationExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="LoadingIndicatorAnimationExample" />
 </DocsPageSection>
 
 <ComponentApiDocs ComponentTypes="[typeof(LoadingIndicator)]" />

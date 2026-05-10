@@ -1,0 +1,180 @@
+@page "/vision"
+
+<Seo Canonical="/vision" Title="Blazorise Vision" Description="Learn about the Blazorise vision for a flexible, themeable, accessible, and provider-independent Blazor UI platform for modern application development." />
+
+<PageHeader>
+    <Title>
+        Our <Span Class="gradient-commercial">Vision</Span>
+    </Title>
+    <Subtitle>
+        Give Blazor teams an elegant UI foundation that can become fully their own.
+    </Subtitle>
+    <Description>
+        Blazorise starts with proven design systems and CSS frameworks, but the goal is broader: provide the components, utilities, customization model, and developer experience needed to build rich applications that match your product, your brand, and your users.
+    </Description>
+    <Actions>
+        <Button Type="ButtonType.Link" To="features" Color="Color.Primary" Size="Size.Large" Padding="Padding.Is4.OnX">
+            <Icon Name="IconName.LayerGroup" />
+            Explore Features
+        </Button>
+        <Button Type="ButtonType.Link" To="docs/start" Color="Color.Secondary" Size="Size.Large" Padding="Padding.Is4.OnX">
+            <Icon Name="IconName.Book" />
+            Start Building
+        </Button>
+    </Actions>
+</PageHeader>
+
+<Container Padding="Padding.Is5.OnY">
+    <Row>
+        @foreach ( VisionStat item in VisionStats )
+        {
+            <Column @key="@item.Label" ColumnSize="ColumnSize.Is12.Is4.OnDesktop" Margin="Margin.Is3.FromBottom">
+                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                    <CardBody>
+                        <Paragraph TextSize="TextSize.Heading2" TextWeight="TextWeight.Bold" Margin="Margin.Is0.FromBottom">@item.Value</Paragraph>
+                        <Paragraph TextWeight="TextWeight.SemiBold" Margin="Margin.Is1.FromBottom">@item.Label</Paragraph>
+                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">@item.Description</Paragraph>
+                    </CardBody>
+                </Card>
+            </Column>
+        }
+    </Row>
+</Container>
+
+<Container Padding="Padding.Is5.OnY">
+    <Row Flex="Flex.AlignItems.Center">
+        <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop" Margin="Margin.Is4.FromBottom.OnMobile">
+            <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+                Beyond implementing a CSS framework
+            </Heading>
+            <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted">
+                Framework guidelines are an excellent starting point, but applications need more than guidelines. Real products need data workflows, validation, dashboards, navigation, responsive layouts, theming, localization, and components that are simply not covered by a single design system.
+            </Paragraph>
+            <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted">
+                Blazorise is built to be a general-purpose Blazor UI library. It should feel natural with Bootstrap, Tailwind, Fluent 2, Bulma, Material, Ant Design, and future providers, while still giving teams room to express their own brand.
+            </Paragraph>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop">
+            <Card Border="Border.Rounded" Shadow="Shadow.Small">
+                <CardBody Padding="Padding.Is5">
+                    <Heading Size="HeadingSize.Is3" TextWeight="TextWeight.Bold">
+                        We do not want every Blazorise application to look the same.
+                    </Heading>
+                    <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted" Margin="Margin.Is3.FromTop.Is0.FromBottom">
+                        The best outcome is when companies succeed with Blazorise in a way that feels unmistakably like their own product: close to a provider's visual language when useful, and fully customized when the business needs it.
+                    </Paragraph>
+                </CardBody>
+            </Card>
+        </Column>
+    </Row>
+</Container>
+
+<Container Padding="Padding.Is5.OnY">
+    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
+        <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+            What we are building toward
+        </Heading>
+        <Lead TextColor="TextColor.Muted">
+            Blazorise should provide the low-level and high-level tools needed to build rich user interfaces with Blazor.
+        </Lead>
+    </Div>
+
+    <Row>
+        @foreach ( VisionPrinciple item in VisionPrinciples )
+        {
+            <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop" Margin="Margin.Is4.FromBottom">
+                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                    <CardBody>
+                        <Icon Name="@item.Icon" IconSize="IconSize.x2" TextColor="@item.TextColor" Margin="Margin.Is3.FromBottom" />
+                        <Heading Size="HeadingSize.Is4" TextWeight="TextWeight.SemiBold">@item.Title</Heading>
+                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">@item.Description</Paragraph>
+                    </CardBody>
+                </Card>
+            </Column>
+        }
+    </Row>
+</Container>
+
+<Container Padding="Padding.Is5.OnY">
+    <Row Flex="Flex.AlignItems.Center">
+        <Column ColumnSize="ColumnSize.Is12.Is5.OnDesktop" Margin="Margin.Is4.FromBottom.OnMobile">
+            <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+                From a developer's point of view
+            </Heading>
+            <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted">
+                The library should make everyday UI work calmer and more predictable. Teams should be able to compose components, customize them deeply, and learn from examples without fighting the framework.
+            </Paragraph>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is7.OnDesktop">
+            <Row>
+                @foreach ( DeveloperGoal item in DeveloperGoals )
+                {
+                    <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnTablet" Margin="Margin.Is3.FromBottom">
+                        <Div Flex="Flex.AlignItems.Start" Gap="Gap.Is3">
+                            <Icon Name="IconName.Check" TextColor="TextColor.Success" Margin="Margin.Is1.FromTop" />
+                            <Div>
+                                <Strong>@item.Title</Strong>
+                                <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is1.FromTop.Is0.FromBottom">@item.Description</Paragraph>
+                            </Div>
+                        </Div>
+                    </Column>
+                }
+            </Row>
+        </Column>
+    </Row>
+</Container>
+
+<Container Padding="Padding.Is5.OnY">
+    <Card Border="Border.Rounded" Shadow="Shadow.Small">
+        <CardBody Padding="Padding.Is5">
+            <Row Flex="Flex.AlignItems.Center">
+                <Column ColumnSize="ColumnSize.Is12.Is8.OnDesktop">
+                    <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+                        A UI library that grows with real applications
+                    </Heading>
+                    <Paragraph TextSize="TextSize.Large" TextColor="TextColor.Muted" Margin="Margin.Is0.FromBottom">
+                        Blazorise will keep expanding where product teams need practical building blocks: deeper components, stronger customization, better utilities, accessible patterns, and documentation that helps new and experienced developers move together.
+                    </Paragraph>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.Is4.OnDesktop" TextAlignment="TextAlignment.End" Margin="Margin.Is4.FromTop.OnMobile">
+                    <Button Type="ButtonType.Link" To="contact" Color="Color.Primary" Size="Size.Large">
+                        Talk to Us
+                    </Button>
+                </Column>
+            </Row>
+        </CardBody>
+    </Card>
+</Container>
+
+@code {
+    private static readonly VisionStat[] VisionStats =
+    [
+        new( "100+", "UI components", "A broad component foundation for application UI, workflows, and product features." ),
+        new( "7+", "CSS providers", "Provider flexibility without forcing teams into one visual system." ),
+        new( "1 API", "Consistent model", "A predictable Blazor component model across providers, themes, and app types." )
+    ];
+
+    private static readonly VisionPrinciple[] VisionPrinciples =
+    [
+        new( IconName.LayerGroup, TextColor.Primary, "Composable components", "Deliver encapsulated components that can be combined into complex product workflows." ),
+        new( IconName.Palette, TextColor.Secondary, "Deep customization", "Make themes, providers, utilities, and component parameters flexible enough to match real brands." ),
+        new( IconName.Globe, TextColor.Info, "Provider independence", "Let teams choose the visual foundation that fits their project without changing how they think about UI." ),
+        new( IconName.Shield, TextColor.Success, "Accessible by default", "Keep accessibility and cross-browser behavior part of the foundation, not an afterthought." ),
+        new( IconName.Code, TextColor.Primary, "Developer joy", "Keep APIs understandable, discoverable, and productive for both new and experienced Blazor developers." ),
+        new( IconName.Users, TextColor.Info, "Community learning", "Build an environment where customers, contributors, and maintainers learn from one another." )
+    ];
+
+    private static readonly DeveloperGoal[] DeveloperGoals =
+    [
+        new( "Fully encapsulated components", "Components should own their behavior while remaining easy to compose and extend." ),
+        new( "Themeable and customizable", "Teams should be able to adapt Blazorise to their product identity instead of adapting their identity to Blazorise." ),
+        new( "Accessible and compatible", "Application UI should work across browsers, devices, input modes, and user needs." ),
+        new( "Community-centered", "The project should promote useful feedback, practical examples, and shared learning." )
+    ];
+
+    private sealed record VisionStat( string Value, string Label, string Description );
+
+    private sealed record VisionPrinciple( IconName Icon, TextColor TextColor, string Title, string Description );
+
+    private sealed record DeveloperGoal( string Title, string Description );
+}
