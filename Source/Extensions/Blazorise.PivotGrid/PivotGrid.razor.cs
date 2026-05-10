@@ -416,8 +416,11 @@ public partial class PivotGrid<TItem> : BaseComponent
             return;
         }
 
-        var rowAxisItems = BuildAxisItems( sourceItems, rowFields, ShowRowSubtotals, ShowRowTotals, ExpandableRows ? PivotGridTotalPosition.Before : RowTotalPosition );
-        var columnAxisItems = BuildAxisItems( sourceItems, columnFields, ShowColumnSubtotals, ShowColumnTotals, ExpandableColumns ? PivotGridTotalPosition.Before : ColumnTotalPosition );
+        var showColumnTotalsRow = ShowColumnTotals;
+        var showRowTotalsColumn = ShowRowTotals;
+
+        var rowAxisItems = BuildAxisItems( sourceItems, rowFields, ShowRowSubtotals, showColumnTotalsRow, ExpandableRows ? PivotGridTotalPosition.Before : RowTotalPosition );
+        var columnAxisItems = BuildAxisItems( sourceItems, columnFields, ShowColumnSubtotals, showRowTotalsColumn, ExpandableColumns ? PivotGridTotalPosition.Before : ColumnTotalPosition );
         var dataColumns = columnAxisItems
             .SelectMany( column => aggregates.Select( aggregate => new PivotGridDataColumn<TItem>( column, aggregate ) ) )
             .ToList();
@@ -726,14 +729,16 @@ public partial class PivotGrid<TItem> : BaseComponent
             var cellItems = GetMatchingItems( row.Items, columnFields, dataColumn.Column.Values );
             var value = dataColumn.Aggregate.Aggregate( cellItems );
             var formattedValue = dataColumn.Aggregate.FormatValue( value );
+            var isColumnTotalsRow = row.IsTotal || row.IsGrandTotal;
+            var isRowTotalsColumn = dataColumn.Column.IsTotal || dataColumn.Column.IsGrandTotal;
 
             return new PivotGridCell<TItem>(
                 dataColumn,
                 value,
                 formattedValue,
                 cellItems,
-                row.IsTotal || row.IsGrandTotal,
-                dataColumn.Column.IsTotal || dataColumn.Column.IsGrandTotal,
+                isRowTotalsColumn,
+                isColumnTotalsRow,
                 row.IsGrandTotal && dataColumn.Column.IsGrandTotal );
         } ).ToList();
     }
@@ -1219,12 +1224,12 @@ public partial class PivotGrid<TItem> : BaseComponent
     [Parameter] public bool ShowColumnSubtotals { get; set; } = true;
 
     /// <summary>
-    /// Shows the row totals.
+    /// Shows totals for each row as total columns.
     /// </summary>
     [Parameter] public bool ShowRowTotals { get; set; } = true;
 
     /// <summary>
-    /// Shows the column totals.
+    /// Shows totals for each column as total rows.
     /// </summary>
     [Parameter] public bool ShowColumnTotals { get; set; } = true;
 

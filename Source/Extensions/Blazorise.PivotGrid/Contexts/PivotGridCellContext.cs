@@ -57,12 +57,12 @@ public class PivotGridCellContext<TItem>
     public IReadOnlyList<TItem> Items { get; }
 
     /// <summary>
-    /// Gets whether the cell belongs to a row subtotal or grand total.
+    /// Gets whether the cell belongs to a row total column.
     /// </summary>
     public bool IsRowTotal { get; }
 
     /// <summary>
-    /// Gets whether the cell belongs to a column subtotal or grand total.
+    /// Gets whether the cell belongs to a column total row.
     /// </summary>
     public bool IsColumnTotal { get; }
 

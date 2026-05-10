@@ -60,12 +60,12 @@ public class PivotGridDataRequest
     public bool ShowColumnSubtotals { get; set; }
 
     /// <summary>
-    /// Gets or sets whether row totals are requested.
+    /// Gets or sets whether row totals are requested as total columns.
     /// </summary>
     public bool ShowRowTotals { get; set; }
 
     /// <summary>
-    /// Gets or sets whether column totals are requested.
+    /// Gets or sets whether column totals are requested as total rows.
     /// </summary>
     public bool ShowColumnTotals { get; set; }
 
