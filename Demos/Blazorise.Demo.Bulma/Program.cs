@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Bulma;
 using Blazorise.Icons.Lucide;
@@ -20,7 +20,7 @@ public class Program
             .AddBulmaProviders()
             .AddLucideIcons();
 
-        builder.RootComponents.Add<App>( "#app" );
+        builder.RootComponents.Add<WasmApp>( "#app" );
         var host = builder.Build();
 
         await host.RunAsync();

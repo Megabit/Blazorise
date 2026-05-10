@@ -1,0 +1,225 @@
+@*
+    The WASM root keeps heavy demo feature assemblies out of the startup bundle
+    and loads them when their routes are requested.
+*@
+@using System.Reflection
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.WebAssembly.Services
+@using Microsoft.Extensions.Logging
+@inject LazyAssemblyLoader AssemblyLoader
+@inject ILogger<WasmApp> Logger
+
+<Blazorise.ThemeProvider Theme="@theme">
+    <Router AppAssembly="typeof( App ).Assembly"
+            AdditionalAssemblies="@lazyAssemblies"
+            OnNavigateAsync="@OnNavigateAsync">
+        <Found Context="routeData">
+            <CascadingValue Value="routeData">
+                <RouteView RouteData="routeData" DefaultLayout="typeof( MainLayout )" />
+            </CascadingValue>
+        </Found>
+        <NotFound>
+            <p>Sorry, there's nothing at this address.</p>
+        </NotFound>
+    </Router>
+    <MessageProvider />
+    <NotificationProvider />
+    <PageProgressProvider />
+    <ModalProvider UseModalStructure Animated Size="ModalSize.ExtraLarge" />
+    <ApplicationLoadingIndicator />
+</Blazorise.ThemeProvider>
+
+@code {
+    private static readonly string[] chartAssemblies =
+    [
+        "Blazorise.Demo.Charts.wasm",
+        "Blazorise.Charts.wasm",
+        "Blazorise.Charts.Annotation.wasm",
+        "Blazorise.Charts.DataLabels.wasm",
+        "Blazorise.Charts.Streaming.wasm",
+        "Blazorise.Charts.Zoom.wasm",
+        "Lambda2Js.wasm",
+    ];
+
+    private static readonly string[] dataGridAssemblies =
+    [
+        "Blazorise.Demo.DataGrid.wasm",
+        "Blazorise.DataGrid.wasm",
+    ];
+
+    private static readonly string[] componentAssemblies =
+    [
+        "Blazorise.Demo.Components.wasm",
+    ];
+
+    private static readonly string[] extensionAssemblies =
+    [
+        "Blazorise.Demo.Extensions.wasm",
+        "Blazorise.Animate.wasm",
+        "Blazorise.Barcode.wasm",
+        "Blazorise.Cropper.wasm",
+        "Blazorise.Gantt.wasm",
+        "Blazorise.LottieAnimation.wasm",
+        "Blazorise.Maps.wasm",
+        "Blazorise.Markdown.wasm",
+        "Blazorise.PdfViewer.wasm",
+        "Blazorise.QRCode.wasm",
+        "Blazorise.Scheduler.wasm",
+        "Blazorise.SignaturePad.wasm",
+        "Blazorise.SpinKit.wasm",
+        "Blazorise.Splitter.wasm",
+        "Blazorise.TreeView.wasm",
+        "Blazorise.Video.wasm",
+    ];
+
+    private static readonly string[] componentRoutes =
+    [
+        "tests/autocomplete",
+        "tests/dropdownlist",
+        "tests/listview",
+        "tests/onetimeinput",
+        "tests/passwordstrength",
+        "tests/repeater",
+        "tests/selectlist",
+        "tests/transferlist",
+    ];
+
+    private static readonly string[] extensionRoutes =
+    [
+        "tests/animate",
+        "tests/barcode",
+        "tests/captcha",
+        "tests/cropper",
+        "tests/gantt",
+        "tests/loadingindicator",
+        "tests/lottie-animation",
+        "tests/maps",
+        "tests/markdown",
+        "tests/pdfviewer",
+        "tests/qrcode",
+        "tests/richtextedit",
+        "tests/scheduler",
+        "tests/signaturepad",
+        "tests/snackbar",
+        "tests/spinkit",
+        "tests/splitter",
+        "tests/treeview",
+        "tests/video",
+    ];
+
+    private readonly List<Assembly> lazyAssemblies = [];
+
+    private readonly HashSet<string> loadedAssemblyFiles = new( StringComparer.OrdinalIgnoreCase );
+
+    private async Task OnNavigateAsync( NavigationContext context )
+    {
+        var assembliesToLoad = GetAssemblyFilesForRoute( context.Path )
+            .Where( assemblyFile => !loadedAssemblyFiles.Contains( assemblyFile ) )
+            .ToArray();
+
+        if ( assembliesToLoad.Length == 0 )
+            return;
+
+        try
+        {
+            context.CancellationToken.ThrowIfCancellationRequested();
+
+            var loadedAssemblies = await AssemblyLoader.LoadAssembliesAsync( assembliesToLoad );
+
+            context.CancellationToken.ThrowIfCancellationRequested();
+
+            foreach ( var assembly in loadedAssemblies )
+            {
+                if ( !lazyAssemblies.Any( x => x.FullName == assembly.FullName ) )
+                {
+                    lazyAssemblies.Add( assembly );
+                }
+            }
+
+            foreach ( var assemblyFile in assembliesToLoad )
+            {
+                loadedAssemblyFiles.Add( assemblyFile );
+            }
+        }
+        catch ( OperationCanceledException )
+        {
+            throw;
+        }
+        catch ( Exception exception )
+        {
+            Logger.LogError( exception, "Unable to lazy load demo assemblies for route '{Route}'.", context.Path );
+        }
+    }
+
+    private static IEnumerable<string> GetAssemblyFilesForRoute( string path )
+    {
+        if ( path.StartsWith( "tests/charts", StringComparison.OrdinalIgnoreCase ) )
+            return chartAssemblies;
+
+        if ( path.StartsWith( "tests/datagrid", StringComparison.OrdinalIgnoreCase ) )
+            return dataGridAssemblies;
+
+        if ( IsInRouteGroup( path, componentRoutes ) )
+            return componentAssemblies;
+
+        if ( IsInRouteGroup( path, extensionRoutes ) )
+            return extensionAssemblies;
+
+        return [];
+    }
+
+    private static bool IsInRouteGroup( string path, IEnumerable<string> routes )
+    {
+        return routes.Any( route => string.Equals( path, route, StringComparison.OrdinalIgnoreCase ) );
+    }
+
+    private Theme theme = new()
+    {
+        Enabled = false,
+        BarOptions = new()
+        {
+            HorizontalHeight = "72px"
+        },
+        BreakpointOptions = new()
+        {
+        },
+        ColorOptions = new()
+        {
+            Primary = "#6200ea",
+            Secondary = "#6B7280",
+            Success = "#0E9F6E",
+            Danger = "#F05252",
+            Warning = "#C27803",
+            Info = "#03A9F4",
+            Light = "#F3F4F6",
+            Dark = "#1F2937",
+        },
+        BackgroundOptions = new()
+        {
+            Primary = "#6200ea",
+            Secondary = "#6B7280",
+            Success = "#0E9F6E",
+            Danger = "#F05252",
+            Warning = "#C27803",
+            Info = "#03A9F4",
+            Light = "#F3F4F6",
+            Dark = "#1F2937",
+        },
+        TextColorOptions = new()
+        {
+            Primary = "#6200ea",
+            Secondary = "#6B7280",
+            Success = "#0E9F6E",
+            Danger = "#F05252",
+            Warning = "#C27803",
+            Info = "#03A9F4",
+            Light = "#F3F4F6",
+            Dark = "#1F2937",
+        },
+        InputOptions = new()
+        {
+            CheckColor = "#6200ea",
+            SliderColor = "#6200ea",
+        },
+    };
+}

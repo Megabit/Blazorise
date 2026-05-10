@@ -1,0 +1,333 @@
+@page "/tests/loadingindicator"
+@inject ILoadingIndicatorService ApplicationLoadingIndicatorService
+
+<Card Shadow="Shadow.Default" Margin="Margin.Is4.OnY">
+    <CardBody>
+        <Div Flex="Flex.Column.Row.OnDesktop.JustifyContent.Between.AlignItems.Start.AlignItems.Center.OnDesktop" Gap="Gap.Is3">
+            <Div>
+                <Heading Size="HeadingSize.Is3" Margin="Margin.Is0.FromBottom">Loading indicator showcase</Heading>
+                <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop">
+                    Explore the most common loading indicator patterns: blocking a content region, wrapping inline content, sharing a busy state across actions, and customizing the overlay appearance.
+                </Paragraph>
+            </Div>
+            <Div Flex="Flex.Wrap" Gap="Gap.Is2">
+                <Badge Color="Color.Primary" Pill>Content loading</Badge>
+                <Badge Color="Color.Info" Pill>Inline actions</Badge>
+                <Badge Color="Color.Success" Pill>Shared service</Badge>
+                <Badge Color="Color.Warning" Pill>Fullscreen</Badge>
+            </Div>
+        </Div>
+
+        <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is3.FromTop.Is0.FromBottom">
+            @lastAction
+        </Paragraph>
+    </CardBody>
+</Card>
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is8.OnDesktop">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Content area loading</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <LoadingIndicator @ref="lineChartIndicator"
+                                  @bind-Visible="lineChartBusy"
+                                  @bind-Initializing="lineChartInitializing"
+                                  Overflow="Overflow.Hidden"
+                                  SpinnerWidth="@(spinnerWidth == 0 ? null : $"{spinnerWidth}%")"
+                                  SpinnerHeight="@(spinnerHeight == 0 ? null : $"{spinnerHeight}%")"
+                                  IndicatorHorizontalPlacement="spinnerHorizontal"
+                                  IndicatorVerticalPlacement="spinnerVertical"
+                                  IndicatorPadding="@(usePadding ? Padding.Is5 : null)">
+                    <Div Padding="Padding.Is4" Background="Background.Light" Border="Border.Rounded">
+                        <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.FromBottom">Monthly activity</Heading>
+                        <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop.Is3.FromBottom">
+                            Placeholder content for demonstrating a blocking loading state.
+                        </Paragraph>
+                        <Progress Value="68" Color="Color.Primary" Margin="Margin.Is2.FromBottom" />
+                        <Progress Value="42" Color="Color.Info" Margin="Margin.Is2.FromBottom" />
+                        <Progress Value="86" Color="Color.Success" />
+                    </Div>
+                </LoadingIndicator>
+            </CardBody>
+            <CardBody>
+                <Div Flex="Flex.Wrap" Gap="Gap.Is2">
+                    <Button Clicked="ShowChartBusy" Color="Color.Primary">Simulate load</Button>
+                    <Button Clicked="HideChartBusy" Color="Color.Secondary" Outline>Hide indicator</Button>
+                    <Check TValue="bool" @bind-Value="lineChartBusy" Inline>Visible</Check>
+                    <Check TValue="bool" @bind-Value="lineChartInitializing" Inline>Initializing</Check>
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Overlay options</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field>
+                    <FieldLabel Flex="Flex.JustifyContent.Between">
+                        <Span>Width</Span>
+                        <Span>@(spinnerWidth == 0 ? "Auto" : $"{spinnerWidth}%")</Span>
+                    </FieldLabel>
+                    <FieldBody>
+                        <Slider Min="0" Max="100" @bind-Value="spinnerWidth" />
+                    </FieldBody>
+                </Field>
+                <Field>
+                    <FieldLabel Flex="Flex.JustifyContent.Between">
+                        <Span>Height</Span>
+                        <Span>@(spinnerHeight == 0 ? "Auto" : $"{spinnerHeight}%")</Span>
+                    </FieldLabel>
+                    <FieldBody>
+                        <Slider Min="0" Max="100" @bind-Value="spinnerHeight" />
+                    </FieldBody>
+                </Field>
+                <Field>
+                    <FieldLabel>Horizontal placement</FieldLabel>
+                    <FieldBody>
+                        <Select TValue="LoadingIndicatorPlacement" @bind-Value="spinnerHorizontal">
+                            <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Start">Start</SelectItem>
+                            <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Middle">Middle</SelectItem>
+                            <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.End">End</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
+                <Field>
+                    <FieldLabel>Vertical placement</FieldLabel>
+                    <FieldBody>
+                        <Select TValue="LoadingIndicatorPlacement" @bind-Value="spinnerVertical">
+                            <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Top">Top</SelectItem>
+                            <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Middle">Middle</SelectItem>
+                            <SelectItem TValue="LoadingIndicatorPlacement" Value="LoadingIndicatorPlacement.Bottom">Bottom</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
+                <Field>
+                    <Check TValue="bool" @bind-Value="usePadding" Inline>Apply indicator padding</Check>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnDesktop">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Inline submit pattern</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Wrap inline form controls so the user sees that a specific field or action is temporarily busy.
+                </Paragraph>
+                <Field>
+                    <FieldLabel>Message</FieldLabel>
+                    <FieldBody>
+                        <LoadingIndicator @ref="textInputIndicator" Inline SpinnerHeight="80%" IndicatorHorizontalPlacement="LoadingIndicatorPlacement.End" IndicatorPadding="@(Padding.Is2.FromEnd)">
+                            <TextInput Disabled="@(textInputIndicator?.Visible ?? false)" @bind-Value="inlineMessage" />
+                        </LoadingIndicator>
+                    </FieldBody>
+                </Field>
+                <Button Color="Color.Primary" Disabled="@(textInputIndicator?.Visible ?? false)" Clicked="ShowInlineBusy">Send update</Button>
+                <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is3.FromTop">@inlineStatus</Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnDesktop">
+        <Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Shared busy state and fullscreen</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph TextColor="TextColor.Secondary">
+                    Reuse a shared service when several controls should enter the same busy state at once.
+                </Paragraph>
+                <Div Flex="Flex.Wrap" Gap="Gap.Is2">
+                    <LoadingIndicator Inline SpinnerHeight="100%" Service="sharedLoadingIndicatorService">
+                        <Button Clicked="ShowMultipleIndicators" Color="Color.Primary">Save</Button>
+                    </LoadingIndicator>
+                    <LoadingIndicator Inline SpinnerHeight="100%" Service="sharedLoadingIndicatorService">
+                        <Button Clicked="ShowMultipleIndicators" Color="Color.Primary">Publish</Button>
+                    </LoadingIndicator>
+                    <LoadingIndicator Inline SpinnerHeight="100%" Service="sharedLoadingIndicatorService">
+                        <Button Clicked="ShowMultipleIndicators" Color="Color.Primary">Refresh</Button>
+                    </LoadingIndicator>
+                </Div>
+            </CardBody>
+            <CardBody>
+                <Div Flex="Flex.Wrap" Gap="Gap.Is2">
+                    <Button Clicked="ShowApplicationIndicator" Color="Color.Secondary">Application busy service</Button>
+                    <LoadingIndicator @ref="customIndicator" FullScreen>
+                        <IndicatorTemplate>
+                            <Div Flex="Flex.Column.AlignItems.Center" Gap="Gap.Is3">
+                                <SpinKit Type="SpinKitType.Circle" Size="Size.ExtraLarge" />
+                                <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is0.FromBottom">Fullscreen busy state for long-running tasks.</Paragraph>
+                                <Button Clicked="HideCustomIndicator" Color="Color.Primary">Stop</Button>
+                            </Div>
+                        </IndicatorTemplate>
+                        <ChildContent>
+                            <Button Clicked="ShowCustomIndicator" Color="Color.Warning">Open fullscreen template</Button>
+                        </ChildContent>
+                    </LoadingIndicator>
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Card Shadow="Shadow.Default" Margin="Margin.Is4.FromBottom">
+    <CardHeader>
+        <CardTitle>Appearance customization</CardTitle>
+    </CardHeader>
+    <CardBody>
+        <Row>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is7.OnDesktop">
+                <LoadingIndicator @ref="customBasicIndicator"
+                                  Visible="@appearancePreviewVisible"
+                                  SpinnerColor="@spinnerColor"
+                                  SpinnerBackground="@spinnerBackground"
+                                  SpinnerHeight="100%"
+                                  SpinnerWidth="100%"
+                                  IndicatorBackground="@screenColor">
+                    <Div Padding="Padding.Is4" Background="Background.Light" Border="Border.Rounded">
+                        <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.FromBottom">Preview panel</Heading>
+                        <Paragraph TextColor="TextColor.Secondary" Margin="Margin.Is2.FromTop.Is3.FromBottom">
+                            The overlay settings are applied to this content region.
+                        </Paragraph>
+                        <Progress Value="72" Color="Color.Primary" Margin="Margin.Is2.FromBottom" />
+                        <Progress Value="55" Color="Color.Warning" />
+                    </Div>
+                </LoadingIndicator>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is5.OnDesktop">
+                <Field>
+                    <FieldLabel>Spinner color</FieldLabel>
+                    <FieldBody>
+                        <ColorPicker @bind-Value="@spinnerColor" />
+                    </FieldBody>
+                </Field>
+                <Field>
+                    <FieldLabel>Spinner background</FieldLabel>
+                    <FieldBody>
+                        <ColorPicker @bind-Value="spinnerBackground" />
+                    </FieldBody>
+                </Field>
+                <Field>
+                    <FieldLabel>Overlay color</FieldLabel>
+                    <FieldBody>
+                        <ColorPicker @bind-Value="@screenColor" />
+                    </FieldBody>
+                </Field>
+                <Button Clicked="ToggleAppearancePreview" Color="Color.Primary">Toggle preview overlay</Button>
+            </Column>
+        </Row>
+    </CardBody>
+</Card>
+
+@code {
+    private LoadingIndicator lineChartIndicator;
+
+    private bool lineChartBusy;
+
+    private bool lineChartInitializing;
+
+    private int spinnerWidth = 0;
+
+    private int spinnerHeight = 30;
+
+    private LoadingIndicatorPlacement spinnerHorizontal = LoadingIndicatorPlacement.Middle;
+
+    private LoadingIndicatorPlacement spinnerVertical = LoadingIndicatorPlacement.Middle;
+
+    private bool usePadding;
+
+    private string inlineMessage = "Status report is ready to send.";
+
+    private string inlineStatus = "Inline loading is idle.";
+
+    private string lastAction = "Choose a loading pattern to see how the indicator behaves.";
+
+    private string spinnerColor = "skyblue";
+
+    private string spinnerBackground = "pink";
+
+    private string screenColor = "rgba(255, 255, 255, 0.7)";
+
+    private LoadingIndicatorService sharedLoadingIndicatorService = new();
+
+    private LoadingIndicator textInputIndicator;
+
+    private LoadingIndicator customBasicIndicator;
+
+    private LoadingIndicator customIndicator;
+
+    private bool appearancePreviewVisible = true;
+
+    async Task ShowChartBusy()
+    {
+        lastAction = "Chart loading started.";
+        await lineChartIndicator.Show();
+        await Task.Delay( 1000 );
+        await lineChartIndicator.Hide();
+        lastAction = "Chart loading finished.";
+    }
+
+    async Task HideChartBusy()
+    {
+        await lineChartIndicator.Hide();
+        lineChartBusy = false;
+        lastAction = "Chart loading indicator was hidden.";
+    }
+
+    async Task ShowApplicationIndicator()
+    {
+        lastAction = "Application-wide loading indicator was shown.";
+        await ApplicationLoadingIndicatorService.Show();
+        await Task.Delay( 3000 );
+        await ApplicationLoadingIndicatorService.Hide();
+        lastAction = "Application-wide loading indicator completed.";
+    }
+
+    async Task ShowInlineBusy()
+    {
+        inlineStatus = "Sending the inline update...";
+        lastAction = "Inline loading indicator is wrapping the message field.";
+        await textInputIndicator.Show();
+        await Task.Delay( 1500 );
+        await textInputIndicator.Hide();
+        inlineStatus = $"The message '{inlineMessage}' was sent.";
+        lastAction = "Inline loading indicator completed.";
+    }
+
+    async Task ShowMultipleIndicators()
+    {
+        lastAction = "Shared busy state started for multiple actions.";
+        await sharedLoadingIndicatorService.Show();
+        await Task.Delay( 2000 );
+        await sharedLoadingIndicatorService.Hide();
+        lastAction = "Shared busy state finished for all linked actions.";
+    }
+
+    async Task ShowCustomIndicator()
+    {
+        lastAction = "Fullscreen custom indicator was shown.";
+        await customIndicator.Show();
+    }
+
+    async Task HideCustomIndicator()
+    {
+        await customIndicator.Hide();
+        lastAction = "Fullscreen custom indicator was hidden.";
+    }
+
+    private void ToggleAppearancePreview()
+    {
+        appearancePreviewVisible = !appearancePreviewVisible;
+        lastAction = appearancePreviewVisible
+            ? "Appearance preview overlay is visible."
+            : "Appearance preview overlay is hidden.";
+    }
+}

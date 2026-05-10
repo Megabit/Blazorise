@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <!--<TargetFrameworks>net10.0-android;net10.0-ios;net10.0-maccatalyst</TargetFrameworks>-->
@@ -53,7 +53,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Blazorise.Bootstrap5\Blazorise.Bootstrap5.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Icons.FontAwesome\Blazorise.Icons.FontAwesome.csproj" />
-    <ProjectReference Include="..\Blazorise.Demo\Blazorise.Demo.csproj" />
+    <ProjectReference Include="..\Shared\Blazorise.Demo\Blazorise.Demo.csproj" />
   </ItemGroup>
 
 </Project>
