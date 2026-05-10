@@ -10,11 +10,146 @@
         </Paragraph>
     </CardBody>
     <CardBody>
-        <Field>
-            <Switch @bind-Value="@virtualize">Virtualize rows</Switch>
-        </Field>
+        <Row>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Field>
+                    <Switch @bind-Value="@expandableRows">Expandable rows</Switch>
+                </Field>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Field>
+                    <Switch @bind-Value="@showRowSubtotals">Row subtotals</Switch>
+                </Field>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Field>
+                    <Switch @bind-Value="@showRowTotals">Row totals</Switch>
+                </Field>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Field>
+                    <Switch @bind-Value="@pageByGroups">Page by groups</Switch>
+                </Field>
+            </Column>
+        </Row>
+
+        <Row>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Field>
+                    <Switch @bind-Value="@expandableColumns">Expandable columns</Switch>
+                </Field>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Field>
+                    <Switch @bind-Value="@showColumnSubtotals">Column subtotals</Switch>
+                </Field>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Field>
+                    <Switch @bind-Value="@showColumnTotals">Column totals</Switch>
+                </Field>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Field>
+                    <Switch @bind-Value="@initiallyExpanded">Initially expanded</Switch>
+                </Field>
+            </Column>
+        </Row>
+
+        <Row>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Field>
+                    <FieldLabel>Row total position</FieldLabel>
+                    <FieldBody>
+                        <Select TValue="PivotGridTotalPosition" @bind-Value="@rowTotalPosition" Disabled="@expandableRows">
+                            <SelectItem TValue="PivotGridTotalPosition" Value="PivotGridTotalPosition.After">After</SelectItem>
+                            <SelectItem TValue="PivotGridTotalPosition" Value="PivotGridTotalPosition.Before">Before</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Field>
+                    <FieldLabel>Column total position</FieldLabel>
+                    <FieldBody>
+                        <Select TValue="PivotGridTotalPosition" @bind-Value="@columnTotalPosition" Disabled="@expandableColumns">
+                            <SelectItem TValue="PivotGridTotalPosition" Value="PivotGridTotalPosition.After">After</SelectItem>
+                            <SelectItem TValue="PivotGridTotalPosition" Value="PivotGridTotalPosition.Before">Before</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Field>
+                    <FieldLabel>Row captions</FieldLabel>
+                    <FieldBody>
+                        <Select TValue="PivotGridGroupCaptionMode" @bind-Value="@rowGroupCaptionMode">
+                            <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.FullPath">Full path</SelectItem>
+                            <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Leaf">Leaf</SelectItem>
+                            <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Field">Field</SelectItem>
+                            <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Hidden">Hidden</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Field>
+                    <FieldLabel>Column captions</FieldLabel>
+                    <FieldBody>
+                        <Select TValue="PivotGridGroupCaptionMode" @bind-Value="@columnGroupCaptionMode">
+                            <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.FullPath">Full path</SelectItem>
+                            <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Leaf">Leaf</SelectItem>
+                            <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Field">Field</SelectItem>
+                            <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Hidden">Hidden</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
+            </Column>
+        </Row>
+
+        <Row>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Field>
+                    <FieldLabel>Data source</FieldLabel>
+                    <FieldBody>
+                        <Select TValue="PivotGridDemoDataMode" @bind-Value="@dataMode">
+                            <SelectItem TValue="PivotGridDemoDataMode" Value="PivotGridDemoDataMode.Data">Data</SelectItem>
+                            <SelectItem TValue="PivotGridDemoDataMode" Value="PivotGridDemoDataMode.ReadData">ReadData</SelectItem>
+                            <SelectItem TValue="PivotGridDemoDataMode" Value="PivotGridDemoDataMode.DataSource">DataSource</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Field>
+                    <Switch @bind-Value="@virtualize">Virtualize rows</Switch>
+                </Field>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Field>
+                    <Switch @bind-Value="@striped">Striped</Switch>
+                </Field>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Field>
+                    <Switch @bind-Value="@hoverable">Hoverable</Switch>
+                </Field>
+            </Column>
+        </Row>
+
+        <Row>
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Field>
+                    <Switch @bind-Value="@narrow">Narrow</Switch>
+                </Field>
+            </Column>
+        </Row>
+    </CardBody>
+    <CardBody>
         <PivotGrid TItem="PivotSale"
-                   Data="@Sales"
+                   Data="@CurrentData"
+                   ReadData="@CurrentReadData"
+                   DataSource="@CurrentDataSource"
                    ShowToolbar
                    ShowFieldChooser
                    ShowPager="@(!virtualize)"
@@ -23,11 +158,24 @@
                    PageSizes="@pageSizes"
                    Virtualize="@virtualize"
                    VirtualizeOptions="@virtualizeOptions"
-                   ShowRowTotals
-                   ShowColumnTotals
-                   ShowRowSubtotals
-                   Striped
-                   Hoverable>
+                   ExpandableRows="@expandableRows"
+                   ExpandableColumns="@expandableColumns"
+                   InitiallyExpanded="@initiallyExpanded"
+                   PageByGroups="@pageByGroups"
+                   ShowRowTotals="@showRowTotals"
+                   ShowColumnTotals="@showColumnTotals"
+                   ShowRowSubtotals="@showRowSubtotals"
+                   ShowColumnSubtotals="@showColumnSubtotals"
+                   RowTotalPosition="@rowTotalPosition"
+                   ColumnTotalPosition="@columnTotalPosition"
+                   RowGroupCaptionMode="@rowGroupCaptionMode"
+                   ColumnGroupCaptionMode="@columnGroupCaptionMode"
+                   CellStyling="@OnCellStyling"
+                   RowHeaderStyling="@OnRowHeaderStyling"
+                   ColumnHeaderStyling="@OnColumnHeaderStyling"
+                   Striped="@striped"
+                   Hoverable="@hoverable"
+                   Narrow="@narrow">
             <PivotGridFields>
                 <PivotGridField Field="@nameof( PivotSale.Region )" Caption="Region" />
                 <PivotGridField Field="@nameof( PivotSale.City )" Caption="City" />
@@ -57,7 +205,41 @@
 </Card>
 
 @code {
+    private bool expandableRows = true;
+
+    private bool expandableColumns;
+
+    private bool initiallyExpanded = true;
+
+    private bool pageByGroups;
+
+    private bool showRowSubtotals = true;
+
+    private bool showColumnSubtotals = true;
+
+    private bool showRowTotals = true;
+
+    private bool showColumnTotals = true;
+
     private bool virtualize;
+
+    private bool striped = true;
+
+    private bool hoverable = true;
+
+    private bool narrow;
+
+    private PivotGridTotalPosition rowTotalPosition = PivotGridTotalPosition.After;
+
+    private PivotGridTotalPosition columnTotalPosition = PivotGridTotalPosition.After;
+
+    private PivotGridGroupCaptionMode rowGroupCaptionMode = PivotGridGroupCaptionMode.FullPath;
+
+    private PivotGridGroupCaptionMode columnGroupCaptionMode = PivotGridGroupCaptionMode.Leaf;
+
+    private PivotGridDemoDataMode dataMode;
+
+    private IPivotGridDataSource<PivotSale> salesDataSource;
 
     private readonly int[] pageSizes = [8, 16, 32];
 
@@ -70,6 +252,72 @@
     };
 
     private readonly List<PivotSale> Sales = CreateSales();
+
+    protected override void OnInitialized()
+    {
+        salesDataSource = new DemoPivotGridDataSource( Sales );
+    }
+
+    private IEnumerable<PivotSale> CurrentData
+        => dataMode == PivotGridDemoDataMode.Data ? Sales : null;
+
+    private EventCallback<PivotGridReadDataEventArgs<PivotSale>> CurrentReadData
+        => dataMode == PivotGridDemoDataMode.ReadData
+            ? EventCallback.Factory.Create<PivotGridReadDataEventArgs<PivotSale>>( this, ReadPivotData )
+            : default;
+
+    private IPivotGridDataSource<PivotSale> CurrentDataSource
+        => dataMode == PivotGridDemoDataMode.DataSource ? salesDataSource : null;
+
+    private Task ReadPivotData( PivotGridReadDataEventArgs<PivotSale> eventArgs )
+    {
+        eventArgs.Data = Sales;
+        eventArgs.TotalItems = Sales.Count;
+
+        return Task.CompletedTask;
+    }
+
+    private void OnCellStyling( PivotGridCellContext<PivotSale> context, PivotGridCellStyling styling )
+    {
+        if ( context.Aggregate.Field != nameof( PivotSale.Amount ) || context.Value is not decimal value )
+            return;
+
+        if ( value >= 120000m )
+        {
+            styling.Background = Background.Success;
+            styling.TextColor = TextColor.White;
+            styling.TextWeight = TextWeight.Bold;
+        }
+        else if ( value <= 35000m )
+        {
+            styling.Background = Background.Danger;
+            styling.TextColor = TextColor.White;
+            styling.TextWeight = TextWeight.Bold;
+        }
+    }
+
+    private void OnRowHeaderStyling( PivotGridRowHeaderContext<PivotSale> context, PivotGridCellStyling styling )
+    {
+        if ( context.IsGrandTotal )
+        {
+            styling.Background = Background.Primary.Subtle;
+            styling.TextWeight = TextWeight.Bold;
+        }
+        else if ( context.IsTotal )
+        {
+            styling.Background = Background.Light;
+            styling.TextWeight = TextWeight.Bold;
+        }
+    }
+
+    private void OnColumnHeaderStyling( PivotGridColumnHeaderContext<PivotSale> context, PivotGridCellStyling styling )
+    {
+        if ( context.IsGrandTotal || context.IsTotal )
+        {
+            styling.Background = Background.Primary.Subtle;
+            styling.TextWeight = TextWeight.Bold;
+        }
+    }
 
     private static List<PivotSale> CreateSales()
     {
@@ -110,6 +358,30 @@
         }
 
         return data;
+    }
+
+    private enum PivotGridDemoDataMode
+    {
+        Data,
+        ReadData,
+        DataSource,
+    }
+
+    private sealed class DemoPivotGridDataSource : IPivotGridDataSource<PivotSale>
+    {
+        private readonly IReadOnlyList<PivotSale> data;
+
+        public DemoPivotGridDataSource( IReadOnlyList<PivotSale> data )
+        {
+            this.data = data;
+        }
+
+        public Task<PivotGridDataResult<PivotSale>> ReadDataAsync( PivotGridDataRequest request, System.Threading.CancellationToken cancellationToken )
+            => Task.FromResult( new PivotGridDataResult<PivotSale>
+            {
+                Data = data,
+                TotalItems = data.Count,
+            } );
     }
 
     public class PivotSale
