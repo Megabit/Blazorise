@@ -3,67 +3,69 @@
 @using Microsoft.Extensions.DependencyInjection
 @using Microsoft.Extensions.Logging
 @using System.Text.Json
-<Row Class="home-newsletter-container">
-    <Column ColumnSize="ColumnSize.Is12.Is6.OnWidescreen" Padding="Padding.Is0.FromStart">
-        <Heading Size="HeadingSize.Is3" TextColor="TextColor.White">Subscribe to the Newsletter</Heading>
-        <Paragraph TextColor="TextColor.White">
-            Get information about happenings in Blazorise like new releases, free sources, posts, and more.
-        </Paragraph>
-    </Column>
-    <Column ColumnSize="ColumnSize.Is12.Is6.OnWidescreen">
-        <Validations @ref="@validationsRef" Mode="ValidationMode.Manual" ValidateOnLoad>
-            @if ( emailSent )
-            {
-                <Alert Color="Color.Success" Visible>
-                    <AlertDescription>
-                        Thank you for subscribing.
-                    </AlertDescription>
-                </Alert>
-            }
-            else
-            {
-                <Row Margin="Margin.Is2.FromBottom">
-                    <Column ColumnSize="ColumnSize.Is8.Is9.OnDesktop" Padding="Padding.Is2.FromEnd">
-                        <Validation Validator="ValidationRule.IsEmail">
-                            <Field>
-                                <TextInput Role="TextRole.Email" Placeholder="Email Address" @bind-Value="@email" aria-label="Subscription email">
-                                    <Feedback>
-                                        <ValidationError Style="font-size: .85rem;" TextColor="TextColor.Warning">Please complete this required field.</ValidationError>
-                                    </Feedback>
-                                </TextInput>
-                            </Field>
-                        </Validation>
-
-                    </Column>
-                    <Column ColumnSize="ColumnSize.Is4.Is3.OnDesktop" Padding="Padding.Is0">
-                        <Button Color="Color.Primary" Clicked="@OnSubscribeClicked">Subscribe</Button>
-                    </Column>
-                </Row>
-                <Row>
-                    <Column TextColor="TextColor.White">
+<Card Border="Border.Rounded" Background="Background.Primary.Subtle" TextColor="TextColor.Primary.Emphasis" Shadow="Shadow.Small">
+    <CardBody Padding="Padding.Is5">
+        <Row>
+            <Column ColumnSize="ColumnSize.Is12.Is5.OnWidescreen">
+                @if ( ShowHeading )
+                {
+                    <Heading Size="HeadingSize.Is3">Subscribe to the Newsletter</Heading>
+                }
+                <Paragraph Margin="Margin.Is0.FromBottom">
+                    Get information about happenings in Blazorise like new releases, free sources, posts, and more.
+                </Paragraph>
+            </Column>
+            <Column ColumnSize="ColumnSize.Is12.Is7.OnWidescreen">
+                <Validations @ref="@validationsRef" Mode="ValidationMode.Manual" ValidateOnLoad>
+                    @if ( emailSent )
+                    {
+                        <Alert Color="Color.Success" Visible>
+                            <AlertDescription>
+                                Thank you for subscribing.
+                            </AlertDescription>
+                        </Alert>
+                    }
+                    else
+                    {
+                        <Row Margin="Margin.Is3.FromBottom">
+                            <Column ColumnSize="ColumnSize.Is12.Is9.OnDesktop">
+                                <Validation Validator="ValidationRule.IsEmail">
+                                    <Field>
+                                        <TextInput Role="TextRole.Email" Placeholder="Email Address" @bind-Value="@email" aria-label="Subscription email">
+                                            <Feedback>
+                                                <ValidationError Style="font-size: .85rem;" TextColor="TextColor.Danger">Please complete this required field.</ValidationError>
+                                            </Feedback>
+                                        </TextInput>
+                                    </Field>
+                                </Validation>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.Is12.Is3.OnDesktop">
+                                <Button Color="Color.Primary" Clicked="@OnSubscribeClicked" Width="Width.Is100">Subscribe</Button>
+                            </Column>
+                        </Row>
                         <Validation Validator="ValidationRule.IsChecked">
                             <Field Margin="Margin.Is1.FromBottom">
                                 <Check @bind-Value="@termsAgreed">
                                     <ChildContent>
-                                        I agree to the <Anchor To="terms" TextColor="TextColor.Secondary">Terms &amp; Conditions</Anchor> and <Anchor To="privacy" TextColor="TextColor.Secondary">Privacy Policy</Anchor>.
+                                        I agree to the <Anchor To="terms">Terms &amp; Conditions</Anchor> and <Anchor To="privacy">Privacy Policy</Anchor>.
                                     </ChildContent>
                                     <Feedback>
-                                        <ValidationError Style="font-size: .85rem;" TextColor="TextColor.Warning">You must agree to our terms and privacy policy.</ValidationError>
+                                        <ValidationError Style="font-size: .85rem;" TextColor="TextColor.Danger">You must agree to our terms and privacy policy.</ValidationError>
                                     </Feedback>
                                 </Check>
                             </Field>
                         </Validation>
-                        <Field>
+                        <Field Margin="Margin.Is0.FromBottom">
                             <Check TValue="bool" @bind-Value="@marketingAgreed">
                                 I would like to receive marketing materials like product deals &amp; special offers.
                             </Check>
                         </Field>
-                    </Column>
-                </Row>
-            }
-        </Validations>
-    </Column>
-</Row>
+                    }
+                </Validations>
+            </Column>
+        </Row>
+    </CardBody>
+</Card>
 
 @code {
     Validations validationsRef;
