@@ -98,10 +98,10 @@ body:not([data-bs-theme=dark]) {
   --b-codeblock-operator-color: #667085;
   --b-codeblock-attribute-value-color: #067647;
   --b-codeblock-link-color: #1a81fa;
-  --b-codeblock-token-background-color: rgba(26, 129, 250, 0.08);
+  --b-codeblock-token-background-color: transparent;
   --b-codeblock-keyword-color: #6941c6;
   --b-codeblock-at-sign-color: #155eef;
-  --b-codeblock-at-sign-background-color: rgba(26, 129, 250, 0.1);
+  --b-codeblock-at-sign-background-color: transparent;
   --b-codeblock-comment-color: #667085;
   --b-codeblock-string-color: #b54708;
   --b-codeblock-function-color: #0077b6;
@@ -118,8 +118,8 @@ body:not([data-bs-theme=dark]) {
 body[data-bs-theme=dark] {
   --b-link-color: var(--bs-body-color);
   --b-link-text-color: var(--bs-body-color);
-  --b-code-color: #93c5fd;
-  --b-code-background-color: var(--bs-secondary-bg);
+  --b-code-color: #c4b5fd;
+  --b-code-background-color: rgba(196, 181, 253, 0.12);
   --b-codeblock-color: #dbe7f5;
   --b-codeblock-background-color: var(--bs-tertiary-bg);
   --b-codeblock-tag-delimiter-color: #94a3b8;
@@ -128,10 +128,10 @@ body[data-bs-theme=dark] {
   --b-codeblock-operator-color: #cbd5e1;
   --b-codeblock-attribute-value-color: #86efac;
   --b-codeblock-link-color: #7dd3fc;
-  --b-codeblock-token-background-color: rgba(147, 197, 253, 0.12);
+  --b-codeblock-token-background-color: transparent;
   --b-codeblock-keyword-color: #c4b5fd;
   --b-codeblock-at-sign-color: #bfdbfe;
-  --b-codeblock-at-sign-background-color: rgba(147, 197, 253, 0.16);
+  --b-codeblock-at-sign-background-color: transparent;
   --b-codeblock-comment-color: #94a3b8;
   --b-codeblock-string-color: #fbbf24;
   --b-codeblock-function-color: #7dd3fc;
@@ -414,7 +414,7 @@ body[data-bs-theme=dark] .home-customer-feedback-customer-cards:hover {
   position: relative;
   border-radius: 13px;
   background-color: #7c3aed;
-  background-image: radial-gradient(circle at 16% 20%, rgba(255, 255, 255, 0.18), transparent 28%), radial-gradient(circle at 86% 18%, rgba(56, 189, 248, 0.26), transparent 30%), radial-gradient(circle at 92% 92%, rgba(244, 114, 182, 0.3), transparent 34%), linear-gradient(125deg, #6d28d9 0%, #7c3aed 42%, #be4b9d 100%);
+  background-image: radial-gradient(circle at 16% 20%, rgba(255, 255, 255, 0.18), transparent 28%), radial-gradient(circle at 86% 18%, rgba(139, 92, 246, 0.26), transparent 30%), radial-gradient(circle at 92% 92%, rgba(244, 114, 182, 0.3), transparent 34%), linear-gradient(125deg, #6d28d9 0%, #7c3aed 42%, #a855f7 100%);
 }
 
 .b-docs-page .b-docs .b-bar-vertical-inline .b-bar-dropdown .b-bar-dropdown-menu-container .b-bar-dropdown-menu .b-bar-dropdown-item {

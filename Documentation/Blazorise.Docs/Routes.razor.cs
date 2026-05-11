@@ -25,8 +25,8 @@ public partial class Routes
         public const string DarkBody = "#e5e7eb";
         public const string DarkBodyStrong = "#f8fafc";
         public const string DarkMuted = "#94a3b8";
-        public const string DarkSurface = "#111827";
-        public const string DarkSurfaceElevated = "#0f172a";
+        public const string DarkSurface = "#1e293b";
+        public const string DarkSurfaceElevated = "#273449";
 
         public const string Secondary = "#64748b";
         public const string Success = "#0f9f6e";
@@ -34,11 +34,11 @@ public partial class Routes
         public const string Warning = "#f59e0b";
         public const string Info = "#0284c7";
         public const string Light = "#f1f5f9";
-        public const string Dark = "#111827";
-        public const string BarItemActiveBackground = "#ede9fe";
-        public const string BarItemHoverBackground = "#f5f3ff";
-        public const string DarkBarItemActiveBackground = "#312e81";
-        public const string DarkBarItemHoverBackground = "#1e1b4b";
+        public const string Dark = "#1e293b";
+        public const string BarItemActiveBackground = "#eef2f7";
+        public const string BarItemHoverBackground = "#f5f7fb";
+        public const string DarkBarItemActiveBackground = "#334155";
+        public const string DarkBarItemHoverBackground = "#2b384b";
     }
 
     private readonly Theme lightTheme = new Theme
