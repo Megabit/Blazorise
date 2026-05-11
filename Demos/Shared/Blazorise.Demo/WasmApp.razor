@@ -52,6 +52,11 @@
         "Blazorise.Demo.Components.wasm",
     ];
 
+    private static readonly string[] animateAssemblies =
+    [
+        "Blazorise.Animate.wasm",
+    ];
+
     private static readonly string[] extensionAssemblies =
     [
         "Blazorise.Demo.Extensions.wasm",
@@ -107,6 +112,11 @@
         "tests/video",
     ];
 
+    private static readonly Dictionary<string, string[]> routeAssemblyDependencies = new( StringComparer.OrdinalIgnoreCase )
+    {
+        ["tests/gestures"] = animateAssemblies,
+    };
+
     private readonly List<Assembly> lazyAssemblies = [];
 
     private readonly HashSet<string> loadedAssemblyFiles = new( StringComparer.OrdinalIgnoreCase );
@@ -161,6 +171,9 @@
 
         if ( IsInRouteGroup( path, componentRoutes ) )
             return componentAssemblies;
+
+        if ( routeAssemblyDependencies.TryGetValue( path, out string[] routeAssemblies ) )
+            return routeAssemblies;
 
         if ( IsInRouteGroup( path, extensionRoutes ) )
             return extensionAssemblies;
