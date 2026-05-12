@@ -15,7 +15,7 @@ namespace Blazorise;
 /// <summary>
 /// A slideshow component for cycling through elements - images or slides of text.
 /// </summary>
-public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, IDisposable
+public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, IDisposable, IAsyncDisposable
 {
     #region Members
 
@@ -44,6 +44,16 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     /// </summary>
     protected internal readonly List<CarouselSlide> carouselSlides = [];
 
+    /// <summary>
+    /// Active gesture subscription for swipe handling.
+    /// </summary>
+    private IGestureSubscription gestureSubscription;
+
+    /// <summary>
+    /// Indicates whether managed resources have already been disposed.
+    /// </summary>
+    private bool resourcesDisposed;
+
     #endregion
 
     #region Constructors
@@ -67,6 +77,8 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     protected override void OnParametersSet()
     {
         SetTimer();
+
+        QueueGestureSubscriptionUpdate();
 
         base.OnParametersSet();
     }
@@ -102,24 +114,27 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     {
         if ( disposing )
         {
-            if ( Timer is not null )
-            {
-                Timer.Stop();
-                Timer.Elapsed -= OnTimerEvent;
-                Timer.Dispose();
-            }
-
-            if ( TransitionTimer is not null )
-            {
-                TransitionTimer.Stop();
-                TransitionTimer.Elapsed -= OnTransitionTimerEvent;
-                TransitionTimer.Dispose();
-            }
-
-            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+            DisposeManagedResources();
         }
 
         base.Dispose( disposing );
+    }
+
+    /// <inheritdoc/>
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing )
+        {
+            if ( gestureSubscription is not null )
+            {
+                await gestureSubscription.DisposeAsync();
+                gestureSubscription = null;
+            }
+
+            DisposeManagedResources();
+        }
+
+        await base.DisposeAsync( disposing );
     }
 
     /// <inheritdoc/>
@@ -250,6 +265,8 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
                 SelectedSlide = carouselSlides.Single().Name
             };
         }
+
+        QueueGestureSubscriptionUpdate();
     }
 
     /// <summary>
@@ -261,6 +278,7 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
         carouselSlides.Remove( slide );
 
         Reset();
+        QueueGestureSubscriptionUpdate();
     }
 
     private void Reset()
@@ -546,6 +564,94 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     public int SlideIndex( string slideName )
         => carouselSlides.IndexOf( carouselSlides.FirstOrDefault( x => x.Name == slideName ) );
 
+    private async Task UpdateGestureSubscription()
+    {
+        if ( !Swipeable )
+        {
+            if ( gestureSubscription is not null )
+            {
+                await gestureSubscription.DisposeAsync();
+                gestureSubscription = null;
+            }
+
+            return;
+        }
+
+        GestureOptions options = CreateGestureOptions();
+        GestureEventHandlers eventHandlers = CreateGestureEventHandlers();
+
+        if ( gestureSubscription is null )
+        {
+            gestureSubscription = await GestureService.Attach( ElementRef, ElementId, options, eventHandlers );
+        }
+        else
+        {
+            await gestureSubscription.Update( options, eventHandlers );
+        }
+    }
+
+    private void QueueGestureSubscriptionUpdate()
+    {
+        if ( Swipeable || gestureSubscription is not null )
+        {
+            ExecuteAfterRender( UpdateGestureSubscription );
+        }
+    }
+
+    private GestureOptions CreateGestureOptions()
+        => new()
+        {
+            Disabled = !Swipeable || NumberOfSlides < 2,
+            Direction = GestureDirection.Horizontal,
+            SwipeThreshold = SwipeThreshold,
+            SwipeVelocityThreshold = SwipeVelocityThreshold,
+            TouchAction = SwipeTouchAction,
+            PreventNativeDrag = SwipePreventNativeDrag,
+        };
+
+    private GestureEventHandlers CreateGestureEventHandlers()
+        => new()
+        {
+            Swiped = OnSwiped,
+        };
+
+    private Task OnSwiped( SwipeEventArgs eventArgs )
+    {
+        if ( eventArgs.Direction == GestureDirection.Left )
+            return SelectNext();
+
+        if ( eventArgs.Direction == GestureDirection.Right )
+            return SelectPrevious();
+
+        return Task.CompletedTask;
+    }
+
+    private void DisposeManagedResources()
+    {
+        if ( resourcesDisposed )
+            return;
+
+        resourcesDisposed = true;
+
+        if ( Timer is not null )
+        {
+            Timer.Stop();
+            Timer.Elapsed -= OnTimerEvent;
+            Timer.Dispose();
+            Timer = null;
+        }
+
+        if ( TransitionTimer is not null )
+        {
+            TransitionTimer.Stop();
+            TransitionTimer.Elapsed -= OnTransitionTimerEvent;
+            TransitionTimer.Dispose();
+            TransitionTimer = null;
+        }
+
+        LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+    }
+
     #endregion
 
     #region Properties
@@ -644,6 +750,11 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     [Inject] protected ITextLocalizer<Carousel> Localizer { get; set; }
 
     /// <summary>
+    /// Gets or sets the DI registered <see cref="IGestureService"/>.
+    /// </summary>
+    [Inject] protected IGestureService GestureService { get; set; }
+
+    /// <summary>
     /// Gets the localized previous button text.
     /// </summary>
     protected string PreviousButtonString
@@ -734,6 +845,31 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     /// Specifies whether to show the controls that allows the user to navigate to the next or previous slide.
     /// </summary>
     [Parameter] public bool ShowControls { get; set; } = true;
+
+    /// <summary>
+    /// Specifies whether horizontal swipe gestures can navigate between slides.
+    /// </summary>
+    [Parameter] public bool Swipeable { get; set; }
+
+    /// <summary>
+    /// Specifies the browser touch-action behavior applied while swipe gestures are active.
+    /// </summary>
+    [Parameter] public GestureTouchAction SwipeTouchAction { get; set; } = GestureTouchAction.PanY;
+
+    /// <summary>
+    /// Specifies the minimum swipe distance in pixels.
+    /// </summary>
+    [Parameter] public double SwipeThreshold { get; set; } = 50;
+
+    /// <summary>
+    /// Specifies the minimum swipe velocity in pixels per millisecond.
+    /// </summary>
+    [Parameter] public double SwipeVelocityThreshold { get; set; } = 0.3;
+
+    /// <summary>
+    /// Specifies whether native browser dragging is prevented while swipe gestures are active.
+    /// </summary>
+    [Parameter] public bool SwipePreventNativeDrag { get; set; } = true;
 
     /// <summary>
     /// Specifies the currently selected slide name.

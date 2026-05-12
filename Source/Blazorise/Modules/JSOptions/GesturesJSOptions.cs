@@ -56,6 +56,11 @@ public class GesturesJSOptions
     public GestureTouchAction TouchAction { get; set; }
 
     /// <summary>
+    /// Gets or sets whether native browser dragging is prevented inside the gesture area.
+    /// </summary>
+    public bool PreventNativeDrag { get; set; }
+
+    /// <summary>
     /// Gets or sets whether gesture start notifications are enabled.
     /// </summary>
     public bool NotifyGestureStarted { get; set; }
