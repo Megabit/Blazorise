@@ -67,8 +67,12 @@
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
-    Text selection
+    Selection and native drag
 </DocsPageSubtitle>
+
+<DocsPageParagraph>
+    <Code>Gestures</Code> prevents native browser dragging by default so images and links inside the gesture area do not show a drag preview while the user is swiping. Set <Code>PreventNativeDrag="false"</Code> if the content should keep native drag behavior.
+</DocsPageParagraph>
 
 <DocsPageParagraph>
     <Code>Gestures</Code> does not disable text selection. If a gesture surface contains text and is meant to be dragged or swiped as a single control, you may want to apply CSS such as <Code>user-select: none;</Code> to that surface. This prevents accidental text selection during mouse dragging on desktop. Avoid applying it to areas where users should be able to select or copy text.

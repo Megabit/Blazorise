@@ -1127,6 +1127,24 @@ namespace Blazorise.Docs.Models
     private string selectedSlide = ""2"";
 }";
 
+        public const string CarouselSwipeableExample = @"<Carousel @bind-SelectedSlide=""@selectedSlide""
+          Autoplay=""false""
+          Swipeable
+          SwipeTouchAction=""GestureTouchAction.PanY"">
+    <CarouselSlide Name=""1"">
+        <Image Source=""img/gallery/1.jpg"" Text=""Lights image"" Display=""Display.Block"" Width=""Width.Is100"" />
+    </CarouselSlide>
+    <CarouselSlide Name=""2"">
+        <Image Source=""img/gallery/2.jpg"" Text=""Keyboard image"" Display=""Display.Block"" Width=""Width.Is100"" />
+    </CarouselSlide>
+    <CarouselSlide Name=""3"">
+        <Image Source=""img/gallery/3.jpg"" Text=""Road image"" Display=""Display.Block"" Width=""Width.Is100"" />
+    </CarouselSlide>
+</Carousel>
+@code{
+    private string selectedSlide = ""1"";
+}";
+
         public const string CheckExample = @"<Check TValue=""bool"">Check me out</Check>";
 
         public const string CheckIndeterminateExample = @"@using System.Collections.Generic

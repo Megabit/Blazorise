@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-10T08:08:28.8641822Z",
+  "generatedUtc": "2026-05-13T07:54:42.6348832Z",
   "pages": [
     {
       "route": "/docs",
@@ -687,6 +687,14 @@
           "content": "<Carousel @bind-SelectedSlide=\"@selectedSlide\">\r\n    <CarouselSlide Name=\"1\">\r\n        <Image Source=\"img/gallery/1.jpg\" Text=\"Lights image\" Display=\"Display.Block\" Width=\"Width.Is100\" />\r\n    </CarouselSlide>\r\n    <CarouselSlide Name=\"2\">\r\n        <Image Source=\"img/gallery/2.jpg\" Text=\"Keyboard image\" Display=\"Display.Block\" Width=\"Width.Is100\" />\r\n    </CarouselSlide>\r\n    <CarouselSlide Name=\"3\">\r\n        <Image Source=\"img/gallery/3.jpg\" Text=\"Road image\" Display=\"Display.Block\" Width=\"Width.Is100\" />\r\n    </CarouselSlide>\r\n</Carousel>\r\n@code{\r\n    private string selectedSlide = \"2\";\r\n}",
           "title": "Basic",
           "description": "A basic example of a Blazorise Carousel component includes multiple CarouselSlide components, each containing individual content. This Carousel displays one slide at a time, allowing users to navigate between the slides manually or automatically. Despite its simplicity, CarouselSlide components can house a variety of content, such as images, videos, or complex HTML structures."
+        },
+        {
+          "code": "CarouselSwipeableExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Carousels/Examples/CarouselSwipeableExample.razor",
+          "content": "<Carousel @bind-SelectedSlide=\"@selectedSlide\"\r\n          Autoplay=\"false\"\r\n          Swipeable\r\n          SwipeTouchAction=\"GestureTouchAction.PanY\">\r\n    <CarouselSlide Name=\"1\">\r\n        <Image Source=\"img/gallery/1.jpg\" Text=\"Lights image\" Display=\"Display.Block\" Width=\"Width.Is100\" />\r\n    </CarouselSlide>\r\n    <CarouselSlide Name=\"2\">\r\n        <Image Source=\"img/gallery/2.jpg\" Text=\"Keyboard image\" Display=\"Display.Block\" Width=\"Width.Is100\" />\r\n    </CarouselSlide>\r\n    <CarouselSlide Name=\"3\">\r\n        <Image Source=\"img/gallery/3.jpg\" Text=\"Road image\" Display=\"Display.Block\" Width=\"Width.Is100\" />\r\n    </CarouselSlide>\r\n</Carousel>\r\n@code{\r\n    private string selectedSlide = \"1\";\r\n}",
+          "title": "Swipeable",
+          "description": "Enable Swipeable to let users navigate between slides with horizontal swipe gestures. Swipe handling is attached to the Carousel root element, so no extra wrapper markup is rendered. For image slides, native browser dragging is prevented by default while swiping; set SwipePreventNativeDrag=\"false\" to keep native drag behavior."
         }
       ],
       "apiRefs": [
