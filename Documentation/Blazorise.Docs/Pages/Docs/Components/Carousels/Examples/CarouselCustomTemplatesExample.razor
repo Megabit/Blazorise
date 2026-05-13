@@ -1,0 +1,59 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Carousel @bind-SelectedSlide="@selectedSlide"
+          Autoplay="false"
+          Swipeable>
+    <IndicatorTemplate Context="indicator">
+        <Button Color="@(indicator.Active ? Color.Primary : Color.Light)"
+                Size="Size.Small"
+                Clicked="@indicator.Activate"
+                Margin="Margin.Is1.FromEnd">
+            @indicator.Number
+        </Button>
+    </IndicatorTemplate>
+    <PreviousButtonTemplate Context="navigation">
+        <Button Color="Color.Light"
+                Outline
+                Clicked="@navigation.Navigate"
+                Position="Position.Absolute.Top.Is50.Start.Is0.Translate.MiddleY"
+                Margin="Margin.Is3.FromStart">
+            <Icon Name="IconName.ChevronLeft" />
+        </Button>
+    </PreviousButtonTemplate>
+    <NextButtonTemplate Context="navigation">
+        <Button Color="Color.Light"
+                Outline
+                Clicked="@navigation.Navigate"
+                Position="Position.Absolute.Top.Is50.End.Is0.Translate.MiddleY"
+                Margin="Margin.Is3.FromEnd">
+            <Icon Name="IconName.ChevronRight" />
+        </Button>
+    </NextButtonTemplate>
+    <ChildContent>
+        <CarouselSlide Name="1">
+            <ChildContent>
+                <Image Source="img/gallery/1.jpg" Text="Lights image" Display="Display.Block" Width="Width.Is100" />
+            </ChildContent>
+            <Caption>
+                <Div Background="Background.Dark" TextColor="TextColor.White" Padding="Padding.Is3" Position="Position.Absolute.Bottom.Is0.Start.Is0.End.Is0" Margin="Margin.Is3">
+                    <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.FromBottom">Lighting details</Heading>
+                    <Paragraph Margin="Margin.Is1.FromTop.Is0.FromBottom">Use captions to describe product imagery or highlight a selected option.</Paragraph>
+                </Div>
+            </Caption>
+        </CarouselSlide>
+        <CarouselSlide Name="2">
+            <ChildContent>
+                <Image Source="img/gallery/2.jpg" Text="Keyboard image" Display="Display.Block" Width="Width.Is100" />
+            </ChildContent>
+            <Caption>
+                <Div Background="Background.Dark" TextColor="TextColor.White" Padding="Padding.Is3" Position="Position.Absolute.Bottom.Is0.Start.Is0.End.Is0" Margin="Margin.Is3">
+                    <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.FromBottom">Accessory view</Heading>
+                    <Paragraph Margin="Margin.Is1.FromTop.Is0.FromBottom">Templates can be combined with swipe gestures for product galleries.</Paragraph>
+                </Div>
+            </Caption>
+        </CarouselSlide>
+    </ChildContent>
+</Carousel>
+@code {
+    private string selectedSlide = "1";
+}

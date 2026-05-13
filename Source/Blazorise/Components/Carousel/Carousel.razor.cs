@@ -564,6 +564,40 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     public int SlideIndex( string slideName )
         => carouselSlides.IndexOf( carouselSlides.FirstOrDefault( x => x.Name == slideName ) );
 
+    /// <summary>
+    /// Creates the render fragment for a slide content and optional caption.
+    /// </summary>
+    /// <param name="slide">Carousel slide.</param>
+    /// <returns>A render fragment containing slide content and caption.</returns>
+    protected RenderFragment RenderSlideContent( CarouselSlide slide )
+        => __builder =>
+        {
+            __builder.AddContent( 0, slide.ChildContent );
+            __builder.AddContent( 1, slide.Caption );
+        };
+
+    /// <summary>
+    /// Creates the context for an indicator template.
+    /// </summary>
+    /// <param name="index">Slide index.</param>
+    /// <returns>An indicator context.</returns>
+    protected CarouselIndicatorContext CreateIndicatorContext( int index )
+    {
+        CarouselSlide slide = carouselSlides[index];
+
+        return new( this, slide, index, index == SelectedSlideIndex, EventCallback.Factory.Create( this, slide.Activate ) );
+    }
+
+    /// <summary>
+    /// Creates the context for a navigation template.
+    /// </summary>
+    /// <param name="direction">Navigation direction.</param>
+    /// <returns>A navigation context.</returns>
+    protected CarouselNavigationContext CreateNavigationContext( CarouselDirection direction )
+        => direction == CarouselDirection.Previous
+            ? new( this, direction, PreviousButtonString, EventCallback.Factory.Create( this, SelectPrevious ) )
+            : new( this, direction, NextButtonString, EventCallback.Factory.Create( this, SelectNext ) );
+
     private async Task UpdateGestureSubscription()
     {
         if ( !Swipeable )
@@ -845,6 +879,21 @@ public partial class Carousel : BaseComponent<CarouselClasses, CarouselStyles>, 
     /// Specifies whether to show the controls that allows the user to navigate to the next or previous slide.
     /// </summary>
     [Parameter] public bool ShowControls { get; set; } = true;
+
+    /// <summary>
+    /// Specifies a template for rendering carousel indicators.
+    /// </summary>
+    [Parameter] public RenderFragment<CarouselIndicatorContext> IndicatorTemplate { get; set; }
+
+    /// <summary>
+    /// Specifies a template for rendering the previous navigation button.
+    /// </summary>
+    [Parameter] public RenderFragment<CarouselNavigationContext> PreviousButtonTemplate { get; set; }
+
+    /// <summary>
+    /// Specifies a template for rendering the next navigation button.
+    /// </summary>
+    [Parameter] public RenderFragment<CarouselNavigationContext> NextButtonTemplate { get; set; }
 
     /// <summary>
     /// Specifies whether horizontal swipe gestures can navigate between slides.

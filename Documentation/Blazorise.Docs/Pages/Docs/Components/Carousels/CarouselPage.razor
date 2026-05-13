@@ -57,6 +57,15 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom Templates">
+        Use <Code>IndicatorTemplate</Code>, <Code>PreviousButtonTemplate</Code>, and <Code>NextButtonTemplate</Code> to replace the default navigation UI. Add <Code>Caption</Code> content to individual <Code>CarouselSlide</Code> components when slides need custom descriptive overlays.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="CarouselCustomTemplatesExample" Outlined>
+        <CarouselCustomTemplatesExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Best Practices
 </DocsPageSubtitle>
@@ -69,4 +78,4 @@
     For optimal Carousel functionality in Blazorise, maintain uniform dimensions across all slides. Inconsistent sizes can cause disruptive resizing during transitions. This can be prevented by defining consistent widths and heights through additional CSS styles. Uniform slide dimensions provide a smoother user experience and a more visually appealing Carousel component.
 </DocsPageParagraph>
 
-<ComponentApiDocs ComponentTypes="[typeof(Carousel)]" />
+<ComponentApiDocs ComponentTypes="[typeof(Carousel), typeof(CarouselSlide)]" />

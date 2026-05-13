@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-13T07:54:42.6348832Z",
+  "generatedUtc": "2026-05-13T09:36:16.0764030Z",
   "pages": [
     {
       "route": "/docs",
@@ -695,12 +695,24 @@
           "content": "<Carousel @bind-SelectedSlide=\"@selectedSlide\"\r\n          Autoplay=\"false\"\r\n          Swipeable\r\n          SwipeTouchAction=\"GestureTouchAction.PanY\">\r\n    <CarouselSlide Name=\"1\">\r\n        <Image Source=\"img/gallery/1.jpg\" Text=\"Lights image\" Display=\"Display.Block\" Width=\"Width.Is100\" />\r\n    </CarouselSlide>\r\n    <CarouselSlide Name=\"2\">\r\n        <Image Source=\"img/gallery/2.jpg\" Text=\"Keyboard image\" Display=\"Display.Block\" Width=\"Width.Is100\" />\r\n    </CarouselSlide>\r\n    <CarouselSlide Name=\"3\">\r\n        <Image Source=\"img/gallery/3.jpg\" Text=\"Road image\" Display=\"Display.Block\" Width=\"Width.Is100\" />\r\n    </CarouselSlide>\r\n</Carousel>\r\n@code{\r\n    private string selectedSlide = \"1\";\r\n}",
           "title": "Swipeable",
           "description": "Enable Swipeable to let users navigate between slides with horizontal swipe gestures. Swipe handling is attached to the Carousel root element, so no extra wrapper markup is rendered. For image slides, native browser dragging is prevented by default while swiping; set SwipePreventNativeDrag=\"false\" to keep native drag behavior."
+        },
+        {
+          "code": "CarouselCustomTemplatesExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/Carousels/Examples/CarouselCustomTemplatesExample.razor",
+          "content": "<Carousel @bind-SelectedSlide=\"@selectedSlide\"\r\n          Autoplay=\"false\"\r\n          Swipeable>\r\n    <IndicatorTemplate Context=\"indicator\">\r\n        <Button Color=\"@(indicator.Active ? Color.Primary : Color.Light)\"\r\n                Size=\"Size.Small\"\r\n                Clicked=\"@indicator.Activate\"\r\n                Margin=\"Margin.Is1.FromEnd\">\r\n            @indicator.Number\r\n        </Button>\r\n    </IndicatorTemplate>\r\n    <PreviousButtonTemplate Context=\"navigation\">\r\n        <Button Color=\"Color.Light\"\r\n                Outline\r\n                Clicked=\"@navigation.Navigate\"\r\n                Position=\"Position.Absolute.Top.Is50.Start.Is0.Translate.MiddleY\"\r\n                Margin=\"Margin.Is3.FromStart\">\r\n            <Icon Name=\"IconName.ChevronLeft\" />\r\n        </Button>\r\n    </PreviousButtonTemplate>\r\n    <NextButtonTemplate Context=\"navigation\">\r\n        <Button Color=\"Color.Light\"\r\n                Outline\r\n                Clicked=\"@navigation.Navigate\"\r\n                Position=\"Position.Absolute.Top.Is50.End.Is0.Translate.MiddleY\"\r\n                Margin=\"Margin.Is3.FromEnd\">\r\n            <Icon Name=\"IconName.ChevronRight\" />\r\n        </Button>\r\n    </NextButtonTemplate>\r\n    <ChildContent>\r\n        <CarouselSlide Name=\"1\">\r\n            <ChildContent>\r\n                <Image Source=\"img/gallery/1.jpg\" Text=\"Lights image\" Display=\"Display.Block\" Width=\"Width.Is100\" />\r\n            </ChildContent>\r\n            <Caption>\r\n                <Div Background=\"Background.Dark\" TextColor=\"TextColor.White\" Padding=\"Padding.Is3\" Position=\"Position.Absolute.Bottom.Is0.Start.Is0.End.Is0\" Margin=\"Margin.Is3\">\r\n                    <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is0.FromBottom\">Lighting details</Heading>\r\n                    <Paragraph Margin=\"Margin.Is1.FromTop.Is0.FromBottom\">Use captions to describe product imagery or highlight a selected option.</Paragraph>\r\n                </Div>\r\n            </Caption>\r\n        </CarouselSlide>\r\n        <CarouselSlide Name=\"2\">\r\n            <ChildContent>\r\n                <Image Source=\"img/gallery/2.jpg\" Text=\"Keyboard image\" Display=\"Display.Block\" Width=\"Width.Is100\" />\r\n            </ChildContent>\r\n            <Caption>\r\n                <Div Background=\"Background.Dark\" TextColor=\"TextColor.White\" Padding=\"Padding.Is3\" Position=\"Position.Absolute.Bottom.Is0.Start.Is0.End.Is0\" Margin=\"Margin.Is3\">\r\n                    <Heading Size=\"HeadingSize.Is5\" Margin=\"Margin.Is0.FromBottom\">Accessory view</Heading>\r\n                    <Paragraph Margin=\"Margin.Is1.FromTop.Is0.FromBottom\">Templates can be combined with swipe gestures for product galleries.</Paragraph>\r\n                </Div>\r\n            </Caption>\r\n        </CarouselSlide>\r\n    </ChildContent>\r\n</Carousel>\r\n@code {\r\n    private string selectedSlide = \"1\";\r\n}",
+          "title": "Custom Templates",
+          "description": "Use IndicatorTemplate , PreviousButtonTemplate , and NextButtonTemplate to replace the default navigation UI. Add Caption content to individual CarouselSlide components when slides need custom descriptive overlays."
         }
       ],
       "apiRefs": [
         {
           "kind": "type",
           "name": "Carousel"
+        },
+        {
+          "kind": "type",
+          "name": "CarouselSlide"
         }
       ]
     },
