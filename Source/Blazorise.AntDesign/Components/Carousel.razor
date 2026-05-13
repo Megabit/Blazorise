@@ -20,7 +20,7 @@
                         @for ( int i = 0; i < carouselSlides.Count; i++ )
                         {
                             int index = i;
-                            <div data-index="@index" class="@carouselSlides[index].ClassNames" tabindex="-1" aria-hidden="@((!carouselSlides[index].Active).ToString().ToLowerInvariant())" style="@SlickStyle">
+                            <div data-index="@index" class="@carouselSlides[index].ClassNames" tabindex="-1" aria-hidden="@(( !carouselSlides[index].Active ).ToString().ToLowerInvariant())" style="@SlickStyle">
                                 <div>
                                     <div tabindex="-1" style="width: 100%; display: inline-block;">
                                         @RenderSlideContent( carouselSlides[index] )
@@ -31,7 +31,7 @@
                         @for ( int i = 0; i < carouselSlides.Count; i++ )
                         {
                             int index = i;
-                            <div data-index="@(i+carouselSlides.Count)" class="slick-slide slick-cloned" tabindex="-1" aria-hidden="true" style="@SlickClonedStyle">
+                            <div data-index="@(i + carouselSlides.Count)" class="slick-slide slick-cloned" tabindex="-1" aria-hidden="true" style="@SlickClonedStyle">
                                 <div>
                                     <div tabindex="-1" style="width: 100%; display: inline-block;">
                                         @RenderSlideContent( carouselSlides[index] )

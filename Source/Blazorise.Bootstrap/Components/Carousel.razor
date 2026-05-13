@@ -4,15 +4,15 @@
         @ChildContent
 
         <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-ride="carousel" @attributes="@Attributes">
-            @if (ShowIndicators)
+            @if ( ShowIndicators )
             {
                 <ol class="@IndicatorsClassNames" style="@IndicatorsStyleNames">
-                    @for (int i = 0; i < carouselSlides.Count; ++i)
+                    @for ( int i = 0; i < carouselSlides.Count; ++i )
                     {
                         int index = i;
-                        @if (IndicatorTemplate is not null)
+                        @if ( IndicatorTemplate is not null )
                         {
-                            @IndicatorTemplate(CreateIndicatorContext(index))
+                            @IndicatorTemplate( CreateIndicatorContext( index ) )
                         }
                         else
                         {
@@ -23,20 +23,20 @@
             }
 
             <div class="@SlidesClassNames" style="@SlidesStyleNames">
-                @for (int i = 0; i < carouselSlides.Count; ++i)
+                @for ( int i = 0; i < carouselSlides.Count; ++i )
                 {
                     int index = i;
                     <div class="@carouselSlides[index].ClassNames" style="@carouselSlides[index].StyleNames" @attributes="@carouselSlides[index].Attributes">
-                        @RenderSlideContent(carouselSlides[index])
+                        @RenderSlideContent( carouselSlides[index] )
                     </div>
                 }
             </div>
 
-            @if (ShowControls)
+            @if ( ShowControls )
             {
-                @if (PreviousButtonTemplate is not null)
+                @if ( PreviousButtonTemplate is not null )
                 {
-                    @PreviousButtonTemplate(CreateNavigationContext(CarouselDirection.Previous))
+                    @PreviousButtonTemplate( CreateNavigationContext( CarouselDirection.Previous ) )
                 }
                 else
                 {
@@ -46,9 +46,9 @@
                     </a>
                 }
 
-                @if (NextButtonTemplate is not null)
+                @if ( NextButtonTemplate is not null )
                 {
-                    @NextButtonTemplate(CreateNavigationContext(CarouselDirection.Next))
+                    @NextButtonTemplate( CreateNavigationContext( CarouselDirection.Next ) )
                 }
                 else
                 {
