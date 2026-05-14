@@ -1,9 +1,0 @@
-﻿@each $size, $length in $spacers {
-    .gap-y-#{$size} {
-        row-gap: $length !important;
-    }
-
-    .gap-x-#{$size} {
-        column-gap: $length !important;
-    }
-}

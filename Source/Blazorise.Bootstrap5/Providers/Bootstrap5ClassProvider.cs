@@ -1469,11 +1469,12 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Gap( GapSize gapSize, GapSide gapSide )
     {
-        var side = gapSide != GapSide.None && gapSide != GapSide.All
-            ? $"{ToGapSide( gapSide )}-"
-            : null;
-
-        return $"gap-{side}{ToGapSize( gapSize )}";
+        return gapSide switch
+        {
+            GapSide.X => $"column-gap-{ToGapSize( gapSize )}",
+            GapSide.Y => $"row-gap-{ToGapSize( gapSize )}",
+            _ => $"gap-{ToGapSize( gapSize )}",
+        };
     }
 
     public override string Gap( GapSize gapSize, IEnumerable<GapSide> rules )
@@ -1672,7 +1673,7 @@ public class Bootstrap5ClassProvider : ClassProvider
     #region Overflow
 
     public override string Overflow( OverflowType overflowType, OverflowType secondOverflowType ) => secondOverflowType != OverflowType.Default
-        ? $"overflow-{ToOverflowType( overflowType )}-{ToOverflowType( secondOverflowType )}"
+        ? $"overflow-x-{ToOverflowType( overflowType )} overflow-y-{ToOverflowType( secondOverflowType )}"
         : $"overflow-{ToOverflowType( overflowType )}";
 
     #endregion

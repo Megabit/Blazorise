@@ -72,6 +72,24 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
             sb.Append( $".border-{i}.border-{variant}" ).Append( "{" )
                 .Append( $"border-color: {hexBorderColor} !important;" )
                 .AppendLine( "}" );
+
+            sb.Append( $".border-{i}.border-{variant}-subtle" ).Append( "{" )
+                .Append( $"border-color: {hexBorderColorSubtle} !important;" )
+                .AppendLine( "}" );
+        }
+
+        foreach ( var (side, property) in new[] { ("top", "top"), ("end", "right"), ("bottom", "bottom"), ("start", "left") } )
+        {
+            for ( int i = 1; i <= 5; ++i )
+            {
+                sb.Append( $".border-{side}-{i}.border-{variant}" ).Append( "{" )
+                    .Append( $"border-{property}-color: {hexBorderColor} !important;" )
+                    .AppendLine( "}" );
+
+                sb.Append( $".border-{side}-{i}.border-{variant}-subtle" ).Append( "{" )
+                    .Append( $"border-{property}-color: {hexBorderColorSubtle} !important;" )
+                    .AppendLine( "}" );
+            }
         }
     }
 
