@@ -394,6 +394,17 @@ public partial class BarDropdownToggle : BaseLinkComponent, ICloseActivator, IAs
     protected bool HasNavigationTarget => !string.IsNullOrEmpty( To );
 
     /// <summary>
+    /// Gets the aria-haspopup attribute value.
+    /// </summary>
+    protected string AriaHasPopup => "menu";
+
+    /// <summary>
+    /// Gets the aria-expanded attribute value.
+    /// </summary>
+    protected string AriaExpanded
+        => ParentBarDropdownState is null ? null : ParentBarDropdownState.Visible.ToString().ToLowerInvariant();
+
+    /// <summary>
     /// Gets a value indicating whether toggle-area click can trigger menu toggle.
     /// </summary>
     protected bool IsToggleClickTriggerEnabled => HasTrigger( BarDropdownToggleTrigger.ToggleClick );
