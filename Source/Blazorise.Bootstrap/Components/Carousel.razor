@@ -4,37 +4,59 @@
         @ChildContent
 
         <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-ride="carousel" @attributes="@Attributes">
-            @if (ShowIndicators)
+            @if ( ShowIndicators )
             {
                 <ol class="@IndicatorsClassNames" style="@IndicatorsStyleNames">
-                    @for (int i = 0; i < carouselSlides.Count; ++i)
+                    @for ( int i = 0; i < carouselSlides.Count; ++i )
                     {
                         int index = i;
-                        <li @onclick="@carouselSlides[index].Activate" class="@carouselSlides[index].IndicatorClassNames" style="@carouselSlides[index].IndicatorStyleNames"></li>
+                        @if ( IndicatorTemplate is not null )
+                        {
+                            @IndicatorTemplate( CreateIndicatorContext( index ) )
+                        }
+                        else
+                        {
+                            <li @onclick="@carouselSlides[index].Activate" class="@carouselSlides[index].IndicatorClassNames" style="@carouselSlides[index].IndicatorStyleNames"></li>
+                        }
                     }
                 </ol>
             }
 
             <div class="@SlidesClassNames" style="@SlidesStyleNames">
-                @for (int i = 0; i < carouselSlides.Count; ++i)
+                @for ( int i = 0; i < carouselSlides.Count; ++i )
                 {
                     int index = i;
                     <div class="@carouselSlides[index].ClassNames" style="@carouselSlides[index].StyleNames" @attributes="@carouselSlides[index].Attributes">
-                        @carouselSlides[index].ChildContent
+                        @RenderSlideContent( carouselSlides[index] )
                     </div>
                 }
             </div>
 
-            @if (ShowControls)
+            @if ( ShowControls )
             {
-                <a class="carousel-control-prev" @onclick="@SelectPrevious" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">@PreviousButtonString</span>
-                </a>
-                <a class="carousel-control-next" @onclick="@SelectNext" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">@NextButtonString</span>
-                </a>
+                @if ( PreviousButtonTemplate is not null )
+                {
+                    @PreviousButtonTemplate( CreateNavigationContext( CarouselDirection.Previous ) )
+                }
+                else
+                {
+                    <a class="carousel-control-prev" @onclick="@SelectPrevious" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">@PreviousButtonString</span>
+                    </a>
+                }
+
+                @if ( NextButtonTemplate is not null )
+                {
+                    @NextButtonTemplate( CreateNavigationContext( CarouselDirection.Next ) )
+                }
+                else
+                {
+                    <a class="carousel-control-next" @onclick="@SelectNext" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">@NextButtonString</span>
+                    </a>
+                }
             }
         </div>
     </CascadingValue>

@@ -279,5 +279,10 @@ public partial class CarouselSlide : BaseComponent<CarouselSlideClasses, Carouse
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
+    /// <summary>
+    /// Specifies the caption content to be rendered inside this <see cref="CarouselSlide"/>.
+    /// </summary>
+    [Parameter] public RenderFragment Caption { get; set; }
+
     #endregion
 }

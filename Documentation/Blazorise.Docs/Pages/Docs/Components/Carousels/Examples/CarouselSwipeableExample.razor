@@ -1,0 +1,19 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Carousel @bind-SelectedSlide="@selectedSlide"
+          Autoplay="false"
+          Swipeable
+          SwipeTouchAction="GestureTouchAction.PanY">
+    <CarouselSlide Name="1">
+        <Image Source="img/gallery/1.jpg" Text="Lights image" Display="Display.Block" Width="Width.Is100" />
+    </CarouselSlide>
+    <CarouselSlide Name="2">
+        <Image Source="img/gallery/2.jpg" Text="Keyboard image" Display="Display.Block" Width="Width.Is100" />
+    </CarouselSlide>
+    <CarouselSlide Name="3">
+        <Image Source="img/gallery/3.jpg" Text="Road image" Display="Display.Block" Width="Width.Is100" />
+    </CarouselSlide>
+</Carousel>
+@code{
+    private string selectedSlide = "1";
+}

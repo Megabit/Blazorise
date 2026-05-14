@@ -29,7 +29,7 @@ public class JSGesturesModule : BaseJSModule, IJSGesturesModule
     #region Methods
 
     /// <inheritdoc/>
-    public virtual ValueTask Initialize( DotNetObjectReference<Gestures> dotNetObjectRef, ElementReference elementRef, string elementId, GesturesJSOptions options )
+    public virtual ValueTask Initialize( DotNetObjectReference<GestureAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, GesturesJSOptions options )
         => InvokeSafeVoidAsync( "initialize", dotNetObjectRef, elementRef, elementId, options );
 
     /// <inheritdoc/>

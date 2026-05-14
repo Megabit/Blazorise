@@ -15,12 +15,12 @@ public interface IJSGesturesModule : IBaseJSModule,
     /// <summary>
     /// Initializes the new <see cref="Gestures"/> within the JS module.
     /// </summary>
-    /// <param name="dotNetObjectRef">Reference to the gestures component.</param>
+    /// <param name="dotNetObjectRef">Reference to the gestures adapter.</param>
     /// <param name="elementRef">Reference to the rendered element.</param>
     /// <param name="elementId">ID of the rendered element.</param>
     /// <param name="options">Gestures options.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask Initialize( DotNetObjectReference<Gestures> dotNetObjectRef, ElementReference elementRef, string elementId, GesturesJSOptions options );
+    ValueTask Initialize( DotNetObjectReference<GestureAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, GesturesJSOptions options );
 
     /// <summary>
     /// Updates the <see cref="Gestures"/> options.

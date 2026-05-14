@@ -10,7 +10,14 @@
                     @for ( int i = 0; i < carouselSlides.Count; ++i )
                     {
                         int index = i;
-                        <button type="button" @onclick="@carouselSlides[index].Activate" class="@carouselSlides[index].IndicatorClassNames" style="@carouselSlides[index].IndicatorStyleNames" aria-label="@($"Slide {index + 1}")"></button>
+                        @if ( IndicatorTemplate is not null )
+                        {
+                            @IndicatorTemplate( CreateIndicatorContext( index ) )
+                        }
+                        else
+                        {
+                            <button type="button" @onclick="@carouselSlides[index].Activate" class="@carouselSlides[index].IndicatorClassNames" style="@carouselSlides[index].IndicatorStyleNames" aria-label="@($"Slide {index + 1}")"></button>
+                        }
                     }
                 </div>
             }
@@ -20,19 +27,34 @@
                 {
                     int index = i;
                     <div class="@carouselSlides[index].ClassNames" style="@carouselSlides[index].StyleNames" @attributes="@carouselSlides[index].Attributes">
-                        @carouselSlides[index].ChildContent
+                        @RenderSlideContent( carouselSlides[index] )
                     </div>
                 }
             </div>
 
             @if ( ShowControls )
             {
-                <button type="button" class="mui-carousel-control mui-carousel-control-prev" @onclick="@SelectPrevious" aria-label="@PreviousButtonString">
-                    <span class="mui-carousel-control-icon" aria-hidden="true">&#x2039;</span>
-                </button>
-                <button type="button" class="mui-carousel-control mui-carousel-control-next" @onclick="@SelectNext" aria-label="@NextButtonString">
-                    <span class="mui-carousel-control-icon" aria-hidden="true">&#x203A;</span>
-                </button>
+                @if ( PreviousButtonTemplate is not null )
+                {
+                    @PreviousButtonTemplate( CreateNavigationContext( CarouselDirection.Previous ) )
+                }
+                else
+                {
+                    <button type="button" class="mui-carousel-control mui-carousel-control-prev" @onclick="@SelectPrevious" aria-label="@PreviousButtonString">
+                        <span class="mui-carousel-control-icon" aria-hidden="true">&#x2039;</span>
+                    </button>
+                }
+
+                @if ( NextButtonTemplate is not null )
+                {
+                    @NextButtonTemplate( CreateNavigationContext( CarouselDirection.Next ) )
+                }
+                else
+                {
+                    <button type="button" class="mui-carousel-control mui-carousel-control-next" @onclick="@SelectNext" aria-label="@NextButtonString">
+                        <span class="mui-carousel-control-icon" aria-hidden="true">&#x203A;</span>
+                    </button>
+                }
             }
         </div>
     </CascadingValue>
