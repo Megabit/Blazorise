@@ -50,7 +50,7 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
         sb.Append( $".jumbotron-{variant}" ).Append( "{" )
             .Append( $"background-color: {hexBackgroundColor} !important;" )
-            .Append( $"color: {ToHex( Contrast( theme, hexBackgroundColor ) )} !important;" )
+            .Append( $"color: {ToHex( GetContrastColor( theme, hexBackgroundColor ) )} !important;" )
             .AppendLine( "}" );
     }
 
@@ -311,7 +311,7 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
             if ( !backgroundColor.IsEmpty )
             {
                 var background = ToHex( backgroundColor );
-                var color = ToHex( Contrast( theme, background ) );
+                var color = ToHex( GetContrastColor( theme, background ) );
 
                 sb.Append( ".dropdown-item.active," )
                     .Append( ".dropdown-item:active" ).Append( "{" )
@@ -386,7 +386,7 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
         if ( !string.IsNullOrEmpty( validationSuccessColor ) )
         {
             var validationSuccessShadow = ToHexRGBA( Transparency( validationSuccessColor, 64 ) );
-            var validationSuccessTextColor = ToHex( Contrast( theme, validationSuccessColor ) );
+            var validationSuccessTextColor = ToHex( GetContrastColor( theme, validationSuccessColor ) );
 
             sb.Append( ".form-control.is-valid," )
                 .Append( ".form-select.is-valid" )
@@ -423,7 +423,7 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
         if ( !string.IsNullOrEmpty( validationDangerColor ) )
         {
             var validationDangerShadow = ToHexRGBA( Transparency( validationDangerColor, 64 ) );
-            var validationDangerTextColor = ToHex( Contrast( theme, validationDangerColor ) );
+            var validationDangerTextColor = ToHex( GetContrastColor( theme, validationDangerColor ) );
 
             sb.Append( ".form-control.is-invalid," )
                 .Append( ".form-select.is-invalid" )
@@ -646,7 +646,7 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
         if ( backgroundColor.IsEmpty )
             return;
 
-        var yiqBackgroundColor = Contrast( theme, backgroundColor );
+        var yiqBackgroundColor = GetContrastColor( theme, backgroundColor );
 
         var hexBackgroundColor = ToHex( backgroundColor );
         var hexYiqBackgroundColor = ToHex( yiqBackgroundColor );
@@ -853,13 +853,13 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
         var borderColor = ParseColor( inBorderColor );
 
         var background = ToHex( backgroundColor );
-        var color = ToHex( Contrast( theme, background ) );
+        var color = ToHex( GetContrastColor( theme, background ) );
         var stripedBackground = ToHex( stripedBackgroundColor );
-        var stripedColor = ToHex( Contrast( theme, stripedBackground ) );
+        var stripedColor = ToHex( GetContrastColor( theme, stripedBackground ) );
         var hoverBackground = ToHex( hoverBackgroundColor );
-        var hoverColor = ToHex( Contrast( theme, hoverBackground ) );
+        var hoverColor = ToHex( GetContrastColor( theme, hoverBackground ) );
         var activeBackground = ToHex( activeBackgroundColor );
-        var activeColor = ToHex( Contrast( theme, activeBackground ) );
+        var activeColor = ToHex( GetContrastColor( theme, activeBackground ) );
         var border = ToHex( borderColor );
 
         sb.Append( $".table-{variant}" )
@@ -1036,7 +1036,7 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
                 .AppendLine( "}" );
 
             sb.Append( ".page-item.active .page-link" ).Append( "{" )
-                .Append( $"color: {ToHex( Contrast( theme, theme.ColorOptions.Primary ) )};" )
+                .Append( $"color: {ToHex( GetContrastColor( theme, theme.ColorOptions.Primary ) )};" )
                 .Append( $"background-color: {theme.ColorOptions.Primary};" )
                 .Append( $"border-color: {theme.ColorOptions.Primary};" )
                 .AppendLine( "}" );
@@ -1242,6 +1242,92 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
                 sb.Append( "}" );
             }
         }
+    }
+
+    protected override System.Drawing.Color GetContrastColor( Theme theme, string hexColor )
+    {
+        return GetBootstrapContrastColor( theme, ParseColor( hexColor ) );
+    }
+
+    protected override System.Drawing.Color GetContrastColor( Theme theme, System.Drawing.Color color )
+    {
+        return GetBootstrapContrastColor( theme, color );
+    }
+
+    /// <summary>
+    /// Resolves the contrast color by first honoring Blazorise's <see cref="Theme.LuminanceThreshold"/>,
+    /// then falling back to the highest WCAG contrast candidate when the preferred color does not meet
+    /// Bootstrap's minimum contrast ratio.
+    /// </summary>
+    /// <param name="theme">Theme settings used for the preferred white and black colors.</param>
+    /// <param name="background">Background color to contrast against.</param>
+    /// <returns>The preferred threshold-based contrast color, or the best WCAG fallback.</returns>
+    private static System.Drawing.Color GetBootstrapContrastColor( Theme theme, System.Drawing.Color background )
+    {
+        const double minContrastRatio = 4.5d;
+
+        var preferred = Contrast( theme, background );
+
+        if ( GetContrastRatio( background, preferred ) >= minContrastRatio )
+            return preferred;
+
+        var foregrounds = new[]
+        {
+            ParseColor( theme.White ),
+            ParseColor( theme.Black ),
+            System.Drawing.Color.White,
+            System.Drawing.Color.Black,
+        };
+
+        var maxRatio = 0d;
+        var maxRatioColor = preferred;
+
+        foreach ( var foreground in foregrounds )
+        {
+            var contrastRatio = GetContrastRatio( background, foreground );
+
+            if ( contrastRatio > maxRatio )
+            {
+                maxRatio = contrastRatio;
+                maxRatioColor = foreground;
+            }
+        }
+
+        return maxRatioColor;
+    }
+
+    private static double GetContrastRatio( System.Drawing.Color background, System.Drawing.Color foreground )
+    {
+        var backgroundLuminance = GetRelativeLuminance( background );
+        var foregroundLuminance = GetRelativeLuminance( GetOpaqueColor( background, foreground ) );
+
+        return backgroundLuminance > foregroundLuminance
+            ? ( backgroundLuminance + .05d ) / ( foregroundLuminance + .05d )
+            : ( foregroundLuminance + .05d ) / ( backgroundLuminance + .05d );
+    }
+
+    private static double GetRelativeLuminance( System.Drawing.Color color )
+    {
+        static double ChannelLuminance( byte channel )
+        {
+            var value = channel / 255d;
+
+            return value < .04045d
+                ? value / 12.92d
+                : Math.Pow( ( value + .055d ) / 1.055d, 2.4d );
+        }
+
+        return ChannelLuminance( color.R ) * .2126d
+            + ChannelLuminance( color.G ) * .7152d
+            + ChannelLuminance( color.B ) * .0722d;
+    }
+
+    private static System.Drawing.Color GetOpaqueColor( System.Drawing.Color background, System.Drawing.Color foreground )
+    {
+        return Mix(
+            System.Drawing.Color.FromArgb( 255, foreground.R, foreground.G, foreground.B ),
+            background,
+            foreground.A / 255d * 100d );
     }
 
     #endregion
