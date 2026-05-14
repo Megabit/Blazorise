@@ -59,6 +59,8 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Colors">
         With <Code>ColorOptions</Code> you can customize your application variant colors. Note that colors must be defined in hex format!
+        Blazorise uses <Code>LuminanceThreshold</Code> to choose a readable contrast color for themed variants. In the Bootstrap 5 provider,
+        if the threshold-selected color does not meet Bootstrap's minimum contrast ratio, Blazorise falls back to the highest contrast candidate.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ThemingColorsExample" />
 </DocsPageSection>
