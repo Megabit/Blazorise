@@ -24,9 +24,9 @@
 .badge, .badge-close {
     @each $color-name, $color-value in $theme-colors-text {
         &.text-bg-#{$color-name}-subtle {
-            color: #{$color-value};
-            background-color: #{map-get($theme-colors-bg-subtle, $color-name)};
-            border-color: #{map-get($theme-colors-border-subtle, $color-name)};
+            color: var(--#{$prefix}#{$color-name}-text-emphasis, #{$color-value});
+            background-color: var(--#{$prefix}#{$color-name}-bg-subtle, #{map-get($theme-colors-bg-subtle, $color-name)});
+            border-color: var(--#{$prefix}#{$color-name}-border-subtle, #{map-get($theme-colors-border-subtle, $color-name)});
         }
     }
 }
