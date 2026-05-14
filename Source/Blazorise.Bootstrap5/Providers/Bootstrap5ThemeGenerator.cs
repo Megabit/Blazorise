@@ -834,51 +834,47 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
             .Append( $"--bs-alert-color: {text};" )
             .Append( $"--bs-alert-bg: {background};" )
             .Append( $"--bs-alert-border-color: {border};" )
-            .Append( $"--bs-alert-link-color: {alertLink};" )
-            .Append( $"color: {text};" )
-            .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
-            .Append( $"border-color: {border};" )
-            .AppendLine( "}" );
+            .Append( $"--bs-alert-link-color: {alertLink};" );
 
-        sb.Append( $".alert.alert-{variant} .alert-link" ).Append( "{" )
-            .Append( $"color: {alertLink};" )
-            .AppendLine( "}" );
+        if ( theme.IsGradient )
+        {
+            sb.Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) );
+        }
+
+        sb.AppendLine( "}" );
     }
 
     protected override void GenerateTableVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor )
     {
         var backgroundColor = ParseColor( inBackgroundColor );
+        var stripedBackgroundColor = Darken( backgroundColor, 2.5f );
         var hoverBackgroundColor = Darken( backgroundColor, 5 );
+        var activeBackgroundColor = Darken( backgroundColor, 5 );
         var borderColor = ParseColor( inBorderColor );
 
         var background = ToHex( backgroundColor );
+        var color = ToHex( Contrast( theme, background ) );
+        var stripedBackground = ToHex( stripedBackgroundColor );
+        var stripedColor = ToHex( Contrast( theme, stripedBackground ) );
         var hoverBackground = ToHex( hoverBackgroundColor );
+        var hoverColor = ToHex( Contrast( theme, hoverBackground ) );
+        var activeBackground = ToHex( activeBackgroundColor );
+        var activeColor = ToHex( Contrast( theme, activeBackground ) );
         var border = ToHex( borderColor );
 
-        sb.Append( $".table-{variant}," )
-            .Append( $".table-{variant}>th," )
-            .Append( $".table-{variant}>td" )
+        sb.Append( $".table-{variant}" )
             .Append( "{" )
-            .Append( $"background-color: {background};" )
-            .AppendLine( "}" );
-
-        sb.Append( $".table-{variant} th," )
-            .Append( $".table-{variant} td," )
-            .Append( $".table-{variant} thead td," )
-            .Append( $".table-{variant} tbody + tbody" )
-            .Append( "{" )
-            .Append( $"border-color: {border};" )
-            .AppendLine( "}" );
-
-        sb.Append( $".table-hover .table-{variant}:hover" )
-            .Append( "{" )
-            .Append( $"background-color: {hoverBackground};" )
-            .AppendLine( "}" );
-
-        sb.Append( $".table-hover .table-{variant}:hover>td," )
-            .Append( $".table-hover .table-{variant}:hover>th" )
-            .Append( "{" )
-            .Append( $"background-color: {hoverBackground};" )
+            .Append( $"--bs-table-color: {color};" )
+            .Append( $"--bs-table-bg: {background};" )
+            .Append( $"--bs-table-border-color: {border};" )
+            .Append( $"--bs-table-striped-bg: {stripedBackground};" )
+            .Append( $"--bs-table-striped-color: {stripedColor};" )
+            .Append( $"--bs-table-active-bg: {activeBackground};" )
+            .Append( $"--bs-table-active-color: {activeColor};" )
+            .Append( $"--bs-table-hover-bg: {hoverBackground};" )
+            .Append( $"--bs-table-hover-color: {hoverColor};" )
+            .Append( "color: var(--bs-table-color);" )
+            .Append( "border-color: var(--bs-table-border-color);" )
             .AppendLine( "}" );
     }
 
