@@ -2,7 +2,7 @@
 
 @if ( ParentBarDropdownState?.Mode == BarMode.Horizontal && !HasNavigationTarget )
 {
-    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menuitem" tabindex="0" aria-expanded="@ParentBarDropdownState.Visible.ToString().ToLowerInvariant()" aria-haspopup="true" aria-owns="@SubMenuId" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @onmouseenter="@ToggleMouseEnterHandler" @onmouseleave="@ToggleMouseLeaveHandler" @attributes="@Attributes">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menuitem" tabindex="0" aria-haspopup="@AriaHasPopup" aria-expanded="@AriaExpanded" aria-owns="@SubMenuId" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @onmouseenter="@ToggleMouseEnterHandler" @onmouseleave="@ToggleMouseLeaveHandler" @attributes="@Attributes">
         <span class="ant-menu-title-content">@ChildContent</span>
         @if ( IsToggleIconVisible )
         {
@@ -12,7 +12,7 @@
 }
 else
 {
-    <a @ref="@ElementRef" id="@ElementId" href="@GetTo()" rel="@GetRel()" class="@ClassNames" style="@StyleNames" role="menuitem" tabindex="0" aria-expanded="@ParentBarDropdownState.Visible.ToString().ToLowerInvariant()" aria-haspopup="true" aria-owns="@SubMenuId" @onclick="@ClickHandler" @onclick:preventDefault="@ShouldPreventDefaultOnToggleClick" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onmouseenter="@ToggleMouseEnterHandler" @onmouseleave="@ToggleMouseLeaveHandler">
+    <a @ref="@ElementRef" id="@ElementId" href="@GetTo()" rel="@GetRel()" class="@ClassNames" style="@StyleNames" role="menuitem" tabindex="0" aria-haspopup="@AriaHasPopup" aria-expanded="@AriaExpanded" aria-owns="@SubMenuId" @onclick="@ClickHandler" @onclick:preventDefault="@ShouldPreventDefaultOnToggleClick" @onkeydown="@KeyDownHandler" @attributes="@Attributes" @onmouseenter="@ToggleMouseEnterHandler" @onmouseleave="@ToggleMouseLeaveHandler">
         <span class="ant-menu-title-content">@ChildContent</span>
         @if ( IsToggleIconVisible )
         {
