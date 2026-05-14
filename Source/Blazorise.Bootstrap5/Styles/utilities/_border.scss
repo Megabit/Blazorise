@@ -1,37 +1,64 @@
 ﻿$border-sides: ("top":"top", "end":"right", "bottom":"bottom", "start":"left");
-$border-sizes: (1, 2, 3, 4, 5);
 
-@each $size in $border-sizes {
+@each $size, $width in $border-widths {
     .border-#{$size} {
-        border: #{$size}px solid $border-color !important;
+        border: #{$width} var(--#{$prefix}border-style, #{$border-style}) var(--#{$prefix}border-color, #{$border-color}) !important;
 
-        @each $color-name, $color-value in $theme-colors {
+        @each $color-name, $color-value in $utilities-border-colors {
             &.border-#{$color-name} {
-                border-color: $color-value !important;
+                --#{$prefix}border-opacity: 1;
+                border-color: #{$color-value} !important;
             }
         }
 
-        @each $color-name, $color-value in $theme-colors-border-subtle {
-            &.border-#{$color-name}-subtle {
+        @each $color-name, $color-value in $utilities-border-subtle {
+            &.border-#{$color-name} {
                 border-color: #{$color-value} !important;
             }
         }
     }
 
-    @each $color-name, $color-value in $theme-colors {
+    @each $color-name, $color-value in $utilities-border-colors {
         .border-#{$color-name}-#{$size} {
-            border: #{$size}px solid $color-value !important;
+            --#{$prefix}border-opacity: 1;
+            border: #{$width} var(--#{$prefix}border-style, #{$border-style}) #{$color-value} !important;
+        }
+    }
+
+    @each $color-name, $color-value in $utilities-border-subtle {
+        .border-#{$color-name}-#{$size} {
+            border: #{$width} var(--#{$prefix}border-style, #{$border-style}) #{$color-value} !important;
         }
     }
 
     @each $side-name, $side-value in $border-sides {
         .border-#{$side-name}-#{$size} {
-            border-#{$side-value}: #{$size}px solid $border-color !important;
+            border-#{$side-value}: #{$width} var(--#{$prefix}border-style, #{$border-style}) var(--#{$prefix}border-color, #{$border-color}) !important;
+
+            @each $color-name, $color-value in $utilities-border-colors {
+                &.border-#{$color-name} {
+                    --#{$prefix}border-opacity: 1;
+                    border-#{$side-value}-color: #{$color-value} !important;
+                }
+            }
+
+            @each $color-name, $color-value in $utilities-border-subtle {
+                &.border-#{$color-name} {
+                    border-#{$side-value}-color: #{$color-value} !important;
+                }
+            }
         }
 
-        @each $color-name, $color-value in $theme-colors {
+        @each $color-name, $color-value in $utilities-border-colors {
             .border-#{$color-name}-#{$side-name}-#{$size} {
-                border-#{$side-value}: #{$size}px solid $color-value !important;
+                --#{$prefix}border-opacity: 1;
+                border-#{$side-value}: #{$width} var(--#{$prefix}border-style, #{$border-style}) #{$color-value} !important;
+            }
+        }
+
+        @each $color-name, $color-value in $utilities-border-subtle {
+            .border-#{$color-name}-#{$side-name}-#{$size} {
+                border-#{$side-value}: #{$width} var(--#{$prefix}border-style, #{$border-style}) #{$color-value} !important;
             }
         }
     }

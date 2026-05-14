@@ -3,7 +3,7 @@
 @if ( UsePopupContainer )
 {
     <div @ref="@ContainerRef" class="@GetContainerClassNames( UseHorizontalPopupPlacement ? HorizontalMenuClass : VerticalMenuClass )" style="@GetContainerStyleNames()" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
-        <ul @ref="@ElementRef" id="@SubMenuId" direction="ltr" class="@MenuClassNames" style="@StyleNames" role="menu" @attributes="@Attributes" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler" @onkeydown="@ParentBarDropdown.OnKeyDownHandler">
+        <ul @ref="@ElementRef" id="@SubMenuId" direction="ltr" class="@MenuClassNames" style="@StyleNames" role="menu" @attributes="@Attributes" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler" @onkeydown="@ParentBarDropdown.OnKeyDownHandler" @onmousedown="@ParentBarDropdown.OnMenuPointerInteractionHandler" @onmousedown:stopPropagation @onmouseup="@ParentBarDropdown.OnMenuPointerInteractionHandler" @onmouseup:stopPropagation>
             @ChildContent
         </ul>
     </div>
@@ -11,7 +11,7 @@
 }
 else
 {
-    <ul @ref="@ElementRef" id="@SubMenuId" direction="ltr" class="@MenuClassNames" style="@StyleNames" role="menu" @attributes="@Attributes" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler" @onkeydown="@ParentBarDropdown.OnKeyDownHandler">
+    <ul @ref="@ElementRef" id="@SubMenuId" direction="ltr" class="@MenuClassNames" style="@StyleNames" role="menu" @attributes="@Attributes" @onfocusin="@ParentBarDropdown.OnFocusInHandler" @onfocusout="@ParentBarDropdown.OnFocusOutHandler" @onkeydown="@ParentBarDropdown.OnKeyDownHandler" @onmousedown="@ParentBarDropdown.OnMenuPointerInteractionHandler" @onmousedown:stopPropagation @onmouseup="@ParentBarDropdown.OnMenuPointerInteractionHandler" @onmouseup:stopPropagation>
         @ChildContent
     </ul>
 }

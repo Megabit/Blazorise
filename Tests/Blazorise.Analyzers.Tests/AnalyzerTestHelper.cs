@@ -85,6 +85,7 @@ namespace Microsoft.AspNetCore.Components.Rendering
             new Blazorise.Analyzers.Migration.Rules.TypeRemovedAnalyzer(),
             new Blazorise.Analyzers.Migration.Rules.ChartJsStaticFilesAnalyzer(),
             new Blazorise.Analyzers.Migration.Rules.AnimateStaticFilesAnalyzer(),
+            new Blazorise.Analyzers.Migration.Rules.Bootstrap5StaticFilesAnalyzer(),
         };
 
         var options = new AnalyzerOptions( additionalFiles.ToImmutableArray() );

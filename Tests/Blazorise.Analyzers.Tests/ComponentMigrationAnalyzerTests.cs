@@ -298,6 +298,44 @@ public class MyComponent : Microsoft.AspNetCore.Components.ComponentBase
     }
 
     [Fact]
+    public async Task Reports_obsolete_bootstrap5_static_stylesheet_references()
+    {
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync(
+            sources: new[] { string.Empty },
+            additionalFiles: new[]
+            {
+                (path: "wwwroot/index.html", content: @"
+<link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-old"" crossorigin=""anonymous"">
+<link href=""https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"" rel=""stylesheet"">
+"),
+                (path: "App.razor", content: @"<link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-old"" crossorigin=""anonymous"">"),
+                (path: "Pages/_Host.cshtml", content: @"<link href=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"" rel=""stylesheet"">"),
+            } );
+
+        var bootstrapDiagnostics = diagnostics.Where( d => d.Id == "BLZCSS001" ).ToArray();
+        Assert.Equal( 2, bootstrapDiagnostics.Length );
+        Assert.Contains( bootstrapDiagnostics, d => d.GetMessage().Contains( "bootstrap@5.3.3" ) );
+        Assert.Contains( bootstrapDiagnostics, d => d.GetMessage().Contains( "App.razor" ) );
+
+        Assert.DoesNotContain( bootstrapDiagnostics, d => d.GetMessage().Contains( "bootstrap-icons" ) );
+        Assert.DoesNotContain( bootstrapDiagnostics, d => d.GetMessage().Contains( "bootstrap@4.6.2" ) );
+    }
+
+    [Fact]
+    public async Task Does_not_report_current_bootstrap5_static_stylesheet_references()
+    {
+        var diagnostics = await AnalyzerTestHelper.GetDiagnosticsAsync(
+            sources: new[] { string.Empty },
+            additionalFiles: new[]
+            {
+                (path: "wwwroot/index.html", content: @"<link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"" crossorigin=""anonymous"">"),
+                (path: "App.razor", content: @"<link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"" rel=""stylesheet"">"),
+            } );
+
+        Assert.DoesNotContain( diagnostics, d => d.Id == "BLZCSS001" );
+    }
+
+    [Fact]
     public async Task Reports_multi_value_used_for_single_shape()
     {
         var source = @"

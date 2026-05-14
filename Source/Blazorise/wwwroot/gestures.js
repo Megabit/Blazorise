@@ -46,18 +46,21 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         onPointerDown: null,
         onPointerMove: null,
         onPointerUp: null,
-        onPointerCancel: null
+        onPointerCancel: null,
+        onDragStart: null
     };
 
     instance.onPointerDown = (e) => pointerDownHandler(instance, e);
     instance.onPointerMove = (e) => pointerMoveHandler(instance, e);
     instance.onPointerUp = (e) => pointerUpHandler(instance, e, false);
     instance.onPointerCancel = (e) => pointerUpHandler(instance, e, true);
+    instance.onDragStart = (e) => dragStartHandler(instance, e);
 
     element.addEventListener("pointerdown", instance.onPointerDown);
     element.addEventListener("pointermove", instance.onPointerMove);
     element.addEventListener("pointerup", instance.onPointerUp);
     element.addEventListener("pointercancel", instance.onPointerCancel);
+    element.addEventListener("dragstart", instance.onDragStart);
 
     applyTouchAction(instance);
 
@@ -86,6 +89,7 @@ export function destroy(element, elementId) {
         instance.element.removeEventListener("pointermove", instance.onPointerMove);
         instance.element.removeEventListener("pointerup", instance.onPointerUp);
         instance.element.removeEventListener("pointercancel", instance.onPointerCancel);
+        instance.element.removeEventListener("dragstart", instance.onDragStart);
         instance.element.style.touchAction = instance.originalTouchAction;
     }
 
@@ -134,6 +138,16 @@ function pointerDownHandler(instance, e) {
     }
 
     startLongPressTimer(instance);
+}
+
+function dragStartHandler(instance, e) {
+    if (instance.options.disabled || !instance.options.preventNativeDrag)
+        return;
+
+    if (isInteractiveElement(e.target, instance.element))
+        return;
+
+    e.preventDefault();
 }
 
 function pointerMoveHandler(instance, e) {
@@ -336,6 +350,7 @@ function normalizeOptions(options) {
         longPressMoveTolerance: numberOrDefault(options.longPressMoveTolerance, 10),
         moveThrottleInterval: numberOrDefault(options.moveThrottleInterval, 0),
         touchAction: options.touchAction || GestureTouchAction.auto,
+        preventNativeDrag: options.preventNativeDrag !== false,
         notifyGestureStarted: options.notifyGestureStarted === true,
         notifyGestureMoved: options.notifyGestureMoved === true,
         notifyGestureEnded: options.notifyGestureEnded === true,

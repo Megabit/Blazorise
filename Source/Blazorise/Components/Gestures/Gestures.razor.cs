@@ -1,9 +1,7 @@
 #region Using directives
 using System;
 using System.Threading.Tasks;
-using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise;
@@ -15,9 +13,7 @@ public partial class Gestures : BaseComponent, IAsyncDisposable
 {
     #region Members
 
-    private DotNetObjectReference<Gestures> dotNetObjectRef;
-
-    private bool jsInitialized;
+    private IGestureSubscription gestureSubscription;
 
     #endregion
 
@@ -26,11 +22,7 @@ public partial class Gestures : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override async Task OnFirstAfterRenderAsync()
     {
-        dotNetObjectRef = CreateDotNetObjectRef( this );
-
-        await JSGesturesModule.Initialize( dotNetObjectRef, ElementRef, ElementId, CreateOptions() );
-
-        jsInitialized = true;
+        gestureSubscription = await GestureService.Attach( ElementRef, ElementId, CreateOptions(), CreateEventHandlers() );
 
         await base.OnFirstAfterRenderAsync();
     }
@@ -38,9 +30,9 @@ public partial class Gestures : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override void OnParametersSet()
     {
-        if ( Rendered && jsInitialized )
+        if ( Rendered && gestureSubscription is not null )
         {
-            ExecuteAfterRender( async () => await JSGesturesModule.UpdateOptions( ElementRef, ElementId, CreateOptions() ) );
+            ExecuteAfterRender( async () => await gestureSubscription.Update( CreateOptions(), CreateEventHandlers() ) );
         }
 
         base.OnParametersSet();
@@ -51,14 +43,11 @@ public partial class Gestures : BaseComponent, IAsyncDisposable
     {
         if ( disposing )
         {
-            if ( jsInitialized )
+            if ( gestureSubscription is not null )
             {
-                jsInitialized = false;
-                await JSGesturesModule.Destroy( ElementRef, ElementId );
+                await gestureSubscription.DisposeAsync();
+                gestureSubscription = null;
             }
-
-            DisposeDotNetObjectRef( dotNetObjectRef );
-            dotNetObjectRef = null;
         }
 
         await base.DisposeAsync( disposing );
@@ -69,7 +58,6 @@ public partial class Gestures : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <param name="eventArgs">Gesture start information.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    [JSInvokable]
     public virtual Task OnGestureStarted( GestureEventArgs eventArgs )
         => GestureStarted.InvokeAsync( eventArgs );
 
@@ -78,7 +66,6 @@ public partial class Gestures : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <param name="eventArgs">Gesture move information.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    [JSInvokable]
     public virtual Task OnGestureMoved( GestureEventArgs eventArgs )
         => GestureMoved.InvokeAsync( eventArgs );
 
@@ -87,7 +74,6 @@ public partial class Gestures : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <param name="eventArgs">Gesture end information.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    [JSInvokable]
     public virtual Task OnGestureEnded( GestureEventArgs eventArgs )
         => GestureEnded.InvokeAsync( eventArgs );
 
@@ -96,7 +82,6 @@ public partial class Gestures : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <param name="eventArgs">Swipe information.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    [JSInvokable]
     public virtual Task OnSwiped( SwipeEventArgs eventArgs )
         => Swiped.InvokeAsync( eventArgs );
 
@@ -105,7 +90,6 @@ public partial class Gestures : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <param name="eventArgs">Tap information.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    [JSInvokable]
     public virtual Task OnTapped( TapEventArgs eventArgs )
         => Tapped.InvokeAsync( eventArgs );
 
@@ -114,11 +98,10 @@ public partial class Gestures : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <param name="eventArgs">Long-press information.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    [JSInvokable]
     public virtual Task OnLongPressed( LongPressEventArgs eventArgs )
         => LongPressed.InvokeAsync( eventArgs );
 
-    private GesturesJSOptions CreateOptions()
+    private GestureOptions CreateOptions()
         => new()
         {
             Disabled = Disabled,
@@ -131,12 +114,18 @@ public partial class Gestures : BaseComponent, IAsyncDisposable
             LongPressMoveTolerance = LongPressMoveTolerance,
             MoveThrottleInterval = MoveThrottleInterval,
             TouchAction = TouchAction,
-            NotifyGestureStarted = GestureStarted.HasDelegate,
-            NotifyGestureMoved = GestureMoved.HasDelegate,
-            NotifyGestureEnded = GestureEnded.HasDelegate,
-            NotifySwiped = Swiped.HasDelegate,
-            NotifyTapped = Tapped.HasDelegate,
-            NotifyLongPressed = LongPressed.HasDelegate,
+            PreventNativeDrag = PreventNativeDrag,
+        };
+
+    private GestureEventHandlers CreateEventHandlers()
+        => new()
+        {
+            GestureStarted = GestureStarted.HasDelegate ? OnGestureStarted : null,
+            GestureMoved = GestureMoved.HasDelegate ? OnGestureMoved : null,
+            GestureEnded = GestureEnded.HasDelegate ? OnGestureEnded : null,
+            Swiped = Swiped.HasDelegate ? OnSwiped : null,
+            Tapped = Tapped.HasDelegate ? OnTapped : null,
+            LongPressed = LongPressed.HasDelegate ? OnLongPressed : null,
         };
 
     #endregion
@@ -147,9 +136,9 @@ public partial class Gestures : BaseComponent, IAsyncDisposable
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
-    /// Specifies the JS gesture module.
+    /// Specifies the gesture service.
     /// </summary>
-    [Inject] public IJSGesturesModule JSGesturesModule { get; set; }
+    [Inject] public IGestureService GestureService { get; set; }
 
     /// <summary>
     /// Gets or sets the content that will be observed for gestures.
@@ -205,6 +194,11 @@ public partial class Gestures : BaseComponent, IAsyncDisposable
     /// Gets or sets the browser touch-action behavior applied to the gestures element.
     /// </summary>
     [Parameter] public GestureTouchAction TouchAction { get; set; } = GestureTouchAction.Auto;
+
+    /// <summary>
+    /// Gets or sets whether native browser dragging is prevented inside the gesture area.
+    /// </summary>
+    [Parameter] public bool PreventNativeDrag { get; set; } = true;
 
     /// <summary>
     /// Raised when a gesture starts.

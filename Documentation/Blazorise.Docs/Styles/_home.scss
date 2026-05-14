@@ -258,11 +258,3 @@ body[data-bs-theme="dark"] {
         color: none;
     }
 }
-
-.home-newsletter-container {
-    padding: 50px 50px;
-    position: relative;
-    border-radius: 13px;
-    background-color: #7c3aed;
-    background-image: radial-gradient(circle at 16% 20%, rgba(255, 255, 255, 0.18), transparent 28%), radial-gradient(circle at 86% 18%, rgba(56, 189, 248, 0.26), transparent 30%), radial-gradient(circle at 92% 92%, rgba(244, 114, 182, 0.30), transparent 34%), linear-gradient(125deg, #6d28d9 0%, #7c3aed 42%, #be4b9d 100%);
-}

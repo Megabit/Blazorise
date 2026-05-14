@@ -12,7 +12,7 @@
                             <div data-index="-1" class="slick-slide slick-cloned" tabindex="-1" aria-hidden="true" style="@SlickClonedStyle">
                                 <div>
                                     <div tabindex="-1" style="width: 100%; display: inline-block;">
-                                        @carouselSlides.Last().ChildContent
+                                        @RenderSlideContent( carouselSlides.Last() )
                                     </div>
                                 </div>
                             </div>
@@ -20,10 +20,10 @@
                         @for ( int i = 0; i < carouselSlides.Count; i++ )
                         {
                             int index = i;
-                            <div data-index="@index" class="@carouselSlides[index].ClassNames" tabindex="-1" aria-hidden="@((!carouselSlides[index].Active).ToString().ToLowerInvariant())" style="@SlickStyle">
+                            <div data-index="@index" class="@carouselSlides[index].ClassNames" tabindex="-1" aria-hidden="@(( !carouselSlides[index].Active ).ToString().ToLowerInvariant())" style="@SlickStyle">
                                 <div>
                                     <div tabindex="-1" style="width: 100%; display: inline-block;">
-                                        @carouselSlides[index].ChildContent
+                                        @RenderSlideContent( carouselSlides[index] )
                                     </div>
                                 </div>
                             </div>
@@ -31,10 +31,10 @@
                         @for ( int i = 0; i < carouselSlides.Count; i++ )
                         {
                             int index = i;
-                            <div data-index="@(i+carouselSlides.Count)" class="slick-slide slick-cloned" tabindex="-1" aria-hidden="true" style="@SlickClonedStyle">
+                            <div data-index="@(i + carouselSlides.Count)" class="slick-slide slick-cloned" tabindex="-1" aria-hidden="true" style="@SlickClonedStyle">
                                 <div>
                                     <div tabindex="-1" style="width: 100%; display: inline-block;">
-                                        @carouselSlides[index].ChildContent
+                                        @RenderSlideContent( carouselSlides[index] )
                                     </div>
                                 </div>
                             </div>
@@ -48,21 +48,43 @@
                         @for ( int i = 0; i < carouselSlides.Count; i++ )
                         {
                             int index = i;
-                            <li class="@carouselSlides[index].IndicatorClassNames" style="@carouselSlides[index].IndicatorStyleNames">
-                                <button @onclick="carouselSlides[index].Activate">@(index + 1)</button>
-                            </li>
+                            @if ( IndicatorTemplate is not null )
+                            {
+                                @IndicatorTemplate( CreateIndicatorContext( index ) )
+                            }
+                            else
+                            {
+                                <li class="@carouselSlides[index].IndicatorClassNames" style="@carouselSlides[index].IndicatorStyleNames">
+                                    <button @onclick="carouselSlides[index].Activate">@(index + 1)</button>
+                                </li>
+                            }
                         }
                     </ul>
                 }
 
                 @if ( ShowControls )
                 {
-                    <button @onclick="@SelectPrevious" type="button" data-role="none" class="slick-prev slick-arrow" aria-label="@PreviousButtonString" role="button" style="display: block;">
-                        @PreviousButtonString
-                    </button>
-                    <button @onclick="@SelectNext" type="button" data-role="none" class="slick-next slick-arrow" aria-label="@NextButtonString" role="button" style="display: block;">
-                        @NextButtonString
-                    </button>
+                    @if ( PreviousButtonTemplate is not null )
+                    {
+                        @PreviousButtonTemplate( CreateNavigationContext( CarouselDirection.Previous ) )
+                    }
+                    else
+                    {
+                        <button @onclick="@SelectPrevious" type="button" data-role="none" class="slick-prev slick-arrow" aria-label="@PreviousButtonString" role="button" style="display: block;">
+                            @PreviousButtonString
+                        </button>
+                    }
+
+                    @if ( NextButtonTemplate is not null )
+                    {
+                        @NextButtonTemplate( CreateNavigationContext( CarouselDirection.Next ) )
+                    }
+                    else
+                    {
+                        <button @onclick="@SelectNext" type="button" data-role="none" class="slick-next slick-arrow" aria-label="@NextButtonString" role="button" style="display: block;">
+                            @NextButtonString
+                        </button>
+                    }
                 }
             </div>
         </div>

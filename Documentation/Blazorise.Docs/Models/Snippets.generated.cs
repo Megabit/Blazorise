@@ -1112,6 +1112,64 @@ namespace Blazorise.Docs.Models
     </CardBody>
 </Card>";
 
+        public const string CarouselCustomTemplatesExample = @"<Carousel @bind-SelectedSlide=""@selectedSlide""
+          Autoplay=""false""
+          Swipeable>
+    <IndicatorTemplate Context=""indicator"">
+        <Button Color=""@(indicator.Active ? Color.Primary : Color.Light)""
+                Size=""Size.Small""
+                Clicked=""@indicator.Activate""
+                Margin=""Margin.Is1.FromEnd"">
+            @indicator.Number
+        </Button>
+    </IndicatorTemplate>
+    <PreviousButtonTemplate Context=""navigation"">
+        <Button Color=""Color.Light""
+                Outline
+                Clicked=""@navigation.Navigate""
+                Position=""Position.Absolute.Top.Is50.Start.Is0.Translate.MiddleY""
+                Margin=""Margin.Is3.FromStart"">
+            <Icon Name=""IconName.ChevronLeft"" />
+        </Button>
+    </PreviousButtonTemplate>
+    <NextButtonTemplate Context=""navigation"">
+        <Button Color=""Color.Light""
+                Outline
+                Clicked=""@navigation.Navigate""
+                Position=""Position.Absolute.Top.Is50.End.Is0.Translate.MiddleY""
+                Margin=""Margin.Is3.FromEnd"">
+            <Icon Name=""IconName.ChevronRight"" />
+        </Button>
+    </NextButtonTemplate>
+    <ChildContent>
+        <CarouselSlide Name=""1"">
+            <ChildContent>
+                <Image Source=""img/gallery/1.jpg"" Text=""Lights image"" Display=""Display.Block"" Width=""Width.Is100"" />
+            </ChildContent>
+            <Caption>
+                <Div Background=""Background.Dark"" TextColor=""TextColor.White"" Padding=""Padding.Is3"" Position=""Position.Absolute.Bottom.Is0.Start.Is0.End.Is0"" Margin=""Margin.Is3"">
+                    <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Lighting details</Heading>
+                    <Paragraph Margin=""Margin.Is1.FromTop.Is0.FromBottom"">Use captions to describe product imagery or highlight a selected option.</Paragraph>
+                </Div>
+            </Caption>
+        </CarouselSlide>
+        <CarouselSlide Name=""2"">
+            <ChildContent>
+                <Image Source=""img/gallery/2.jpg"" Text=""Keyboard image"" Display=""Display.Block"" Width=""Width.Is100"" />
+            </ChildContent>
+            <Caption>
+                <Div Background=""Background.Dark"" TextColor=""TextColor.White"" Padding=""Padding.Is3"" Position=""Position.Absolute.Bottom.Is0.Start.Is0.End.Is0"" Margin=""Margin.Is3"">
+                    <Heading Size=""HeadingSize.Is5"" Margin=""Margin.Is0.FromBottom"">Accessory view</Heading>
+                    <Paragraph Margin=""Margin.Is1.FromTop.Is0.FromBottom"">Templates can be combined with swipe gestures for product galleries.</Paragraph>
+                </Div>
+            </Caption>
+        </CarouselSlide>
+    </ChildContent>
+</Carousel>
+@code {
+    private string selectedSlide = ""1"";
+}";
+
         public const string CarouselExample = @"<Carousel @bind-SelectedSlide=""@selectedSlide"">
     <CarouselSlide Name=""1"">
         <Image Source=""img/gallery/1.jpg"" Text=""Lights image"" Display=""Display.Block"" Width=""Width.Is100"" />
@@ -1125,6 +1183,24 @@ namespace Blazorise.Docs.Models
 </Carousel>
 @code{
     private string selectedSlide = ""2"";
+}";
+
+        public const string CarouselSwipeableExample = @"<Carousel @bind-SelectedSlide=""@selectedSlide""
+          Autoplay=""false""
+          Swipeable
+          SwipeTouchAction=""GestureTouchAction.PanY"">
+    <CarouselSlide Name=""1"">
+        <Image Source=""img/gallery/1.jpg"" Text=""Lights image"" Display=""Display.Block"" Width=""Width.Is100"" />
+    </CarouselSlide>
+    <CarouselSlide Name=""2"">
+        <Image Source=""img/gallery/2.jpg"" Text=""Keyboard image"" Display=""Display.Block"" Width=""Width.Is100"" />
+    </CarouselSlide>
+    <CarouselSlide Name=""3"">
+        <Image Source=""img/gallery/3.jpg"" Text=""Road image"" Display=""Display.Block"" Width=""Width.Is100"" />
+    </CarouselSlide>
+</Carousel>
+@code{
+    private string selectedSlide = ""1"";
 }";
 
         public const string CheckExample = @"<Check TValue=""bool"">Check me out</Check>";
@@ -15227,7 +15303,7 @@ builder.Services
     .AddBootstrap5Providers()
     .AddFontAwesomeIcons();";
 
-        public const string Bootstrap5GuideSourceFilesExample = @"<link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"" crossorigin=""anonymous"">
+        public const string Bootstrap5GuideSourceFilesExample = @"<link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"" crossorigin=""anonymous"">
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
 <link href=""_content/Blazorise/blazorise.css?v=2.1.2.0"" rel=""stylesheet"" />

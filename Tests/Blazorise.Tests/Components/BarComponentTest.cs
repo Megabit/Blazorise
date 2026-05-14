@@ -97,6 +97,37 @@ public class BarComponentTest : BunitContext
     }
 
     [Fact]
+    public void BarDropdownToggle_ShouldHaveAriaHasPopupMenu()
+    {
+        // setup
+        var comp = Render<BarComponent>();
+
+        // test
+        var barToggle = comp.Find( ".dropdown-toggle" );
+
+        // validate
+        Assert.Equal( "menu", barToggle.GetAttribute( "aria-haspopup" ) );
+    }
+
+    [Fact]
+    public async Task BarDropdownToggle_ShouldUpdateAriaExpanded()
+    {
+        // setup
+        var comp = Render<BarComponent>();
+        var barToggle = comp.Find( ".dropdown-toggle" );
+
+        // validate
+        Assert.Equal( "false", barToggle.GetAttribute( "aria-expanded" ) );
+
+        // test
+        await barToggle.ClickAsync( new() );
+        barToggle = comp.Find( ".dropdown-toggle" );
+
+        // validate
+        Assert.Equal( "true", barToggle.GetAttribute( "aria-expanded" ) );
+    }
+
+    [Fact]
     public void BarDropdownItem_ShouldHaveRoleMenuitem()
     {
         // setup

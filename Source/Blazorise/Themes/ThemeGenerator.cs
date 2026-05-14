@@ -180,9 +180,9 @@ public abstract class ThemeGenerator : IThemeGenerator
         var hoverBorderColor = Lighten( borderColor, options?.HoverLightenColor ?? 20f );
         var activeBackgroundColor = Darken( backgroundColor, options?.ActiveDarkenColor ?? 20f );
         var activeBorderColor = Lighten( borderColor, options?.ActiveLightenColor ?? 25f );
-        var yiqBackgroundColor = Contrast( theme, backgroundColor );
-        var yiqHoverBackgroundColor = Contrast( theme, hoverBackgroundColor );
-        var yiqActiveBackgroundColor = Contrast( theme, activeBackgroundColor );
+        var yiqBackgroundColor = GetContrastColor( theme, backgroundColor );
+        var yiqHoverBackgroundColor = GetContrastColor( theme, hoverBackgroundColor );
+        var yiqActiveBackgroundColor = GetContrastColor( theme, activeBackgroundColor );
 
         var hexBackground = ToHex( backgroundColor );
         var hexBorder = ToHex( borderColor );
@@ -223,7 +223,7 @@ public abstract class ThemeGenerator : IThemeGenerator
             return;
 
         var hexColor = ToHex( borderColor );
-        var hexYiqColor = ToHex( Contrast( theme, borderColor ) );
+        var hexYiqColor = ToHex( GetContrastColor( theme, borderColor ) );
         var hexBoxShadow = ToHexRGBA( Transparency( borderColor, 127 ) );
         var hexHoverColor = ToHex( Lighten( borderColor, options?.HoverLightenColor ?? 20f ) );
         var hexActiveColor = ToHex( Darken( borderColor, options?.ActiveDarkenColor ?? 20f ) );
@@ -249,7 +249,7 @@ public abstract class ThemeGenerator : IThemeGenerator
             return;
 
         var backgroundColor = ThemeColorLevel( theme, inColor, options?.VariantBackgroundColorLevel ?? -3 );
-        var textColor = Contrast( theme, backgroundColor );
+        var textColor = GetContrastColor( theme, backgroundColor );
         var buttonColor = Darken( textColor, 40f );
         var buttonHoverColor = Lighten( textColor, 40f );
         //var textColor = Contrast( ThemeColorLevel( theme, inColor, options?.VariantTextColorLevel ?? 6 ) );
@@ -279,7 +279,7 @@ public abstract class ThemeGenerator : IThemeGenerator
         var hexColor = ToHex( argbColor );
 
         Variables[ThemeVariables.VariantStepsItemIcon( variant )] = hexColor;
-        Variables[ThemeVariables.VariantStepsItemIconYiq( variant )] = ToHex( Contrast( theme, hexColor ) );
+        Variables[ThemeVariables.VariantStepsItemIconYiq( variant )] = ToHex( GetContrastColor( theme, hexColor ) );
         Variables[ThemeVariables.VariantStepsItemText( variant )] = hexColor;
     }
 
@@ -336,7 +336,7 @@ public abstract class ThemeGenerator : IThemeGenerator
         if ( backgroundColor.IsEmpty )
             return;
 
-        var backgroundYiqColor = Contrast( theme, backgroundColor );
+        var backgroundYiqColor = GetContrastColor( theme, backgroundColor );
 
         Variables[ThemeVariables.BackgroundColor( variant )] = ToHex( backgroundColor );
         Variables[ThemeVariables.BackgroundYiqColor( variant )] = ToHex( backgroundYiqColor );
@@ -1674,6 +1674,28 @@ public abstract class ThemeGenerator : IThemeGenerator
             contrast = ParseColor( theme.White ); // dark colors - white font
 
         return contrast;
+    }
+
+    /// <summary>
+    /// Applies the provider contrast algorithm to supplied color value.
+    /// </summary>
+    /// <param name="theme">Theme settings.</param>
+    /// <param name="hexColor">Hexadecimal representation of the color.</param>
+    /// <returns>New color with the applied contrast.</returns>
+    protected virtual System.Drawing.Color GetContrastColor( Theme theme, string hexColor )
+    {
+        return Contrast( theme, hexColor );
+    }
+
+    /// <summary>
+    /// Applies the provider contrast algorithm to supplied color value.
+    /// </summary>
+    /// <param name="theme">Theme settings.</param>
+    /// <param name="color">Color to change.</param>
+    /// <returns>New color with the applied contrast.</returns>
+    protected virtual System.Drawing.Color GetContrastColor( Theme theme, System.Drawing.Color color )
+    {
+        return Contrast( theme, color );
     }
 
     /// <summary>
