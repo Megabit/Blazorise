@@ -552,6 +552,10 @@
         display: flex;
         align-items: center;
     }
+
+    .navbar-nav > .nav-item > .dropdown > .nav-link {
+        padding-left: .75rem !important;
+    }
 }
 
 .navbar[data-mode="vertical-popout"]:not([data-collapse]) {

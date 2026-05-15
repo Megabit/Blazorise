@@ -627,6 +627,9 @@ body:before {
   display: flex;
   align-items: center;
 }
+.navbar[data-mode=vertical-inline]:not([data-collapse]) .navbar-nav > .nav-item > .dropdown > .nav-link {
+  padding-left: 0.75rem !important;
+}
 
 .navbar[data-mode=vertical-popout]:not([data-collapse]) .dropdown > .dropdown-menu-container {
   z-index: 100;
