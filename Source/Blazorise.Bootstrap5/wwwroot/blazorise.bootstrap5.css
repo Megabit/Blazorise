@@ -358,6 +358,11 @@ body:before {
   overflow-wrap: break-word;
   border-radius: var(--bs-border-radius);
 }
+.navbar[data-mode^=vertical] .dropdown-menu .dropdown-item > span[id^=lbl_] {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+}
 .navbar[data-mode^=vertical] .dropdown-menu .dropdown-item i {
   margin-right: 0.3rem;
 }
