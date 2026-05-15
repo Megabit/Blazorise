@@ -554,6 +554,7 @@
         > .dropdown > .nav-link {
             .d-flex {
                 width: auto !important;
+                gap: 0 !important;
                 justify-content: center !important;
             }
 
@@ -563,6 +564,10 @@
 
             .text-truncate {
                 overflow: visible !important;
+            }
+
+            .flex-grow-1.text-truncate {
+                max-width: 1.25rem;
             }
 
             .ms-auto {

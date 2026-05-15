@@ -620,6 +620,7 @@ body:before {
 .navbar[data-mode=vertical-inline][data-collapse=small] .nav-item > .dropdown > .nav-link .d-flex,
 .navbar[data-mode=vertical-popout][data-collapse=small] .nav-item > .dropdown > .nav-link .d-flex {
   width: auto !important;
+  gap: 0 !important;
   justify-content: center !important;
 }
 .navbar[data-mode=vertical-small] .nav-item > .dropdown > .nav-link .flex-grow-1,
@@ -631,6 +632,11 @@ body:before {
 .navbar[data-mode=vertical-inline][data-collapse=small] .nav-item > .dropdown > .nav-link .text-truncate,
 .navbar[data-mode=vertical-popout][data-collapse=small] .nav-item > .dropdown > .nav-link .text-truncate {
   overflow: visible !important;
+}
+.navbar[data-mode=vertical-small] .nav-item > .dropdown > .nav-link .flex-grow-1.text-truncate,
+.navbar[data-mode=vertical-inline][data-collapse=small] .nav-item > .dropdown > .nav-link .flex-grow-1.text-truncate,
+.navbar[data-mode=vertical-popout][data-collapse=small] .nav-item > .dropdown > .nav-link .flex-grow-1.text-truncate {
+  max-width: 1.25rem;
 }
 .navbar[data-mode=vertical-small] .nav-item > .dropdown > .nav-link .ms-auto,
 .navbar[data-mode=vertical-inline][data-collapse=small] .nav-item > .dropdown > .nav-link .ms-auto,
