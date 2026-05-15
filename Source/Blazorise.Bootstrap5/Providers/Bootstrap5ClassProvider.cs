@@ -819,7 +819,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string BarDropdownMenuRight( BarMode mode, bool rightAligned ) => rightAligned ? "dropdown-menu-end" : null;
 
-    public override string BarDropdownMenuContainer( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "dropdown-menu-container position-relative";
+    public override string BarDropdownMenuContainer( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "dropdown-menu-container";
 
     public override string BarDropdownMenuPositionStrategy( BarMode mode, DropdownPositionStrategy positionStrategy )
         => ToDropdownPositionStrategy( mode == Blazorise.BarMode.Horizontal ? DropdownPositionStrategy.Absolute : positionStrategy );
