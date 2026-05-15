@@ -99,7 +99,7 @@ public abstract class BasePivotGridField<TItem> : ComponentBase, IDisposable
     /// <summary>
     /// Field path bound to this PivotGrid field.
     /// </summary>
-    [Parameter] public string Field { get; set; }
+    [Parameter, EditorRequired] public string Field { get; set; }
 
     /// <summary>
     /// Optional caption shown in headers.
