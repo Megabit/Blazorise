@@ -36,7 +36,7 @@ public partial class _PivotGridTable<TItem>
     private ICollection<PivotGridResultRow<TItem>> VirtualizedRows
         => Result.Rows as ICollection<PivotGridResultRow<TItem>> ?? Result.Rows.ToList();
 
-    private BasePivotGridField<TItem> GetRowField( int index )
+    private PivotGridFieldInfo<TItem> GetRowField( int index )
         => index < Result.RowFields.Count ? Result.RowFields[index] : null;
 
     private string GrandTotalText
@@ -80,7 +80,7 @@ public partial class _PivotGridTable<TItem>
         return GetAxisItemCaption( column, Result.ColumnFields, PivotGrid.ColumnGroupCaptionMode );
     }
 
-    private string GetAxisItemCaption( PivotGridAxisItem<TItem> axisItem, IReadOnlyList<BasePivotGridField<TItem>> axisFields, PivotGridGroupCaptionMode captionMode )
+    private string GetAxisItemCaption( PivotGridAxisItem<TItem> axisItem, IReadOnlyList<PivotGridFieldInfo<TItem>> axisFields, PivotGridGroupCaptionMode captionMode )
     {
         if ( axisItem.Values.Count == 0 || axisFields.Count == 0 || captionMode == PivotGridGroupCaptionMode.Hidden )
             return string.Empty;

@@ -13,7 +13,7 @@ public class PivotGridHeaderContext<TItem>
     /// <summary>
     /// Initializes a new <see cref="PivotGridHeaderContext{TItem}"/>.
     /// </summary>
-    public PivotGridHeaderContext( BasePivotGridField<TItem> field, string caption, int level, IReadOnlyList<object> path )
+    public PivotGridHeaderContext( PivotGridFieldInfo<TItem> field, string caption, int level, IReadOnlyList<object> path )
     {
         Field = field;
         Caption = caption;
@@ -24,7 +24,7 @@ public class PivotGridHeaderContext<TItem>
     /// <summary>
     /// Gets the field being rendered.
     /// </summary>
-    public BasePivotGridField<TItem> Field { get; }
+    public PivotGridFieldInfo<TItem> Field { get; }
 
     /// <summary>
     /// Gets the header caption.

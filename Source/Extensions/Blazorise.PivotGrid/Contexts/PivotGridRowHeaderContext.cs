@@ -13,7 +13,7 @@ public class PivotGridRowHeaderContext<TItem>
     /// <summary>
     /// Initializes a new <see cref="PivotGridRowHeaderContext{TItem}"/>.
     /// </summary>
-    public PivotGridRowHeaderContext( BasePivotGridField<TItem> field, object value, string formattedValue, string text, int level, IReadOnlyList<object> path, PivotGridAxisItem<TItem> row, IReadOnlyList<TItem> items, bool isTotal, bool isGrandTotal )
+    public PivotGridRowHeaderContext( PivotGridFieldInfo<TItem> field, object value, string formattedValue, string text, int level, IReadOnlyList<object> path, PivotGridAxisItem<TItem> row, IReadOnlyList<TItem> items, bool isTotal, bool isGrandTotal )
     {
         Field = field;
         Value = value;
@@ -30,7 +30,7 @@ public class PivotGridRowHeaderContext<TItem>
     /// <summary>
     /// Gets the row field being rendered.
     /// </summary>
-    public BasePivotGridField<TItem> Field { get; }
+    public PivotGridFieldInfo<TItem> Field { get; }
 
     /// <summary>
     /// Gets the raw row field value.

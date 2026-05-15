@@ -426,10 +426,13 @@ public partial class PivotGrid<TItem> : BaseComponent
         var rowFields = GetEffectiveRowFields();
         var columnFields = GetEffectiveColumnFields();
         var aggregates = GetEffectiveAggregates();
+        var rowFieldInfos = rowFields.Select( CreateFieldInfo ).ToList();
+        var columnFieldInfos = columnFields.Select( CreateFieldInfo ).ToList();
+        var aggregateInfos = aggregates.Select( CreateAggregateInfo ).ToList();
 
         if ( aggregates.Count == 0 )
         {
-            pivotResult = new( rowFields, columnFields, aggregates, [], [] );
+            pivotResult = new( rowFieldInfos, columnFieldInfos, aggregateInfos, [], [] );
             return;
         }
 
@@ -437,7 +440,7 @@ public partial class PivotGrid<TItem> : BaseComponent
 
         if ( sourceItems.Count == 0 )
         {
-            pivotResult = new( rowFields, columnFields, aggregates, [], [] );
+            pivotResult = new( rowFieldInfos, columnFieldInfos, aggregateInfos, [], [] );
             return;
         }
 
@@ -447,14 +450,14 @@ public partial class PivotGrid<TItem> : BaseComponent
         var rowAxisItems = BuildAxisItems( sourceItems, rowFields, ShowRowSubtotals, showColumnTotalsRow, ExpandableRows ? PivotGridTotalPosition.Before : RowTotalPosition );
         var columnAxisItems = BuildAxisItems( sourceItems, columnFields, ShowColumnSubtotals, showRowTotalsColumn, ExpandableColumns ? PivotGridTotalPosition.Before : ColumnTotalPosition );
         var dataColumns = columnAxisItems
-            .SelectMany( column => aggregates.Select( aggregate => new PivotGridDataColumn<TItem>( column, aggregate ) ) )
+            .SelectMany( column => aggregateInfos.Select( aggregate => new PivotGridDataColumn<TItem>( column, aggregate ) ) )
             .ToList();
 
         var rows = rowAxisItems
             .Select( row => new PivotGridResultRow<TItem>( row, BuildCells( row, columnFields, dataColumns ) ) )
             .ToList();
 
-        pivotResult = new( rowFields, columnFields, aggregates, dataColumns, rows );
+        pivotResult = new( rowFieldInfos, columnFieldInfos, aggregateInfos, dataColumns, rows );
     }
 
     private void EnsureRuntimeState()
@@ -542,6 +545,66 @@ public partial class PivotGrid<TItem> : BaseComponent
             .Where( state => IsRuntimeFieldStateVisible( state, area ) )
             .Select( state => CreateCurrentRuntimeFieldState( state, area ) )
             .ToList();
+
+    private static PivotGridFieldInfo<TItem> CreateFieldInfo( BasePivotGridField<TItem> field )
+        => new ComponentPivotGridFieldInfo( field );
+
+    private static PivotGridAggregateInfo<TItem> CreateAggregateInfo( PivotGridAggregate<TItem> aggregate )
+        => new ComponentPivotGridAggregateInfo( aggregate );
+
+    private sealed class ComponentPivotGridFieldInfo : PivotGridFieldInfo<TItem>
+    {
+        private readonly BasePivotGridField<TItem> field;
+
+        internal ComponentPivotGridFieldInfo( BasePivotGridField<TItem> field )
+        {
+            this.field = field;
+
+            Field = field.Field;
+            Caption = field.Caption;
+            DisplayFormat = field.DisplayFormat;
+            DisplayFormatProvider = field.DisplayFormatProvider;
+            EmptyText = field.EmptyText;
+            HeaderTemplate = field.HeaderTemplate;
+            DisplayTemplate = field.DisplayTemplate;
+        }
+
+        public override object GetValue( TItem item )
+            => field.GetValue( item );
+
+        public override string FormatValue( object value )
+            => field.FormatValue( value );
+    }
+
+    private sealed class ComponentPivotGridAggregateInfo : PivotGridAggregateInfo<TItem>
+    {
+        private readonly PivotGridAggregate<TItem> aggregate;
+
+        internal ComponentPivotGridAggregateInfo( PivotGridAggregate<TItem> aggregate )
+        {
+            this.aggregate = aggregate;
+
+            Field = aggregate.Field;
+            Caption = aggregate.Caption;
+            DisplayFormat = aggregate.DisplayFormat;
+            DisplayFormatProvider = aggregate.DisplayFormatProvider;
+            EmptyText = aggregate.EmptyText;
+            HeaderTemplate = aggregate.HeaderTemplate;
+            DisplayTemplate = aggregate.DisplayTemplate;
+            AggregateFunction = aggregate.AggregateFunction;
+            Aggregator = aggregate.Aggregator;
+            CellTemplate = aggregate.CellTemplate;
+        }
+
+        public override object GetValue( TItem item )
+            => aggregate.GetValue( item );
+
+        public override string FormatValue( object value )
+            => aggregate.FormatValue( value );
+
+        public override object Aggregate( IReadOnlyList<TItem> items )
+            => aggregate.Aggregate( items );
+    }
 
     private bool IsRuntimeFieldStateVisible( PivotGridFieldState state, PivotGridFieldArea area )
     {
@@ -897,7 +960,7 @@ public partial class PivotGrid<TItem> : BaseComponent
         return InvokeAsync( StateHasChanged );
     }
 
-    private static bool CanToggleAxisItemExpansion( PivotGridAxisItem<TItem> axisItem, IReadOnlyList<BasePivotGridField<TItem>> axisFields )
+    private static bool CanToggleAxisItemExpansion( PivotGridAxisItem<TItem> axisItem, IReadOnlyList<PivotGridFieldInfo<TItem>> axisFields )
         => axisItem is not null
             && axisFields is not null
             && axisItem.IsTotal
@@ -973,7 +1036,7 @@ public partial class PivotGrid<TItem> : BaseComponent
             .ToList();
     }
 
-    private bool IsAxisItemVisible( PivotGridAxisItem<TItem> axisItem, IReadOnlyList<BasePivotGridField<TItem>> axisFields, HashSet<string> expandableGroupKeys, HashSet<string> collapsedGroupKeys, HashSet<string> expandedGroupKeys )
+    private bool IsAxisItemVisible( PivotGridAxisItem<TItem> axisItem, IReadOnlyList<PivotGridFieldInfo<TItem>> axisFields, HashSet<string> expandableGroupKeys, HashSet<string> collapsedGroupKeys, HashSet<string> expandedGroupKeys )
     {
         if ( axisItem is null || axisItem.IsGrandTotal || axisFields.Count == 0 )
             return true;

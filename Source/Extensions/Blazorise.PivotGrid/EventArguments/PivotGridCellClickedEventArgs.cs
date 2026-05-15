@@ -13,7 +13,7 @@ public class PivotGridCellClickedEventArgs<TItem>
     /// <summary>
     /// Initializes a new <see cref="PivotGridCellClickedEventArgs{TItem}"/>.
     /// </summary>
-    public PivotGridCellClickedEventArgs( PivotGridAggregate<TItem> aggregate, object value, IReadOnlyList<object> rowValues, IReadOnlyList<object> columnValues, IReadOnlyList<TItem> items )
+    public PivotGridCellClickedEventArgs( PivotGridAggregateInfo<TItem> aggregate, object value, IReadOnlyList<object> rowValues, IReadOnlyList<object> columnValues, IReadOnlyList<TItem> items )
     {
         Aggregate = aggregate;
         Value = value;
@@ -25,7 +25,7 @@ public class PivotGridCellClickedEventArgs<TItem>
     /// <summary>
     /// Gets the aggregate field that produced the clicked cell.
     /// </summary>
-    public PivotGridAggregate<TItem> Aggregate { get; }
+    public PivotGridAggregateInfo<TItem> Aggregate { get; }
 
     /// <summary>
     /// Gets the raw aggregate value.

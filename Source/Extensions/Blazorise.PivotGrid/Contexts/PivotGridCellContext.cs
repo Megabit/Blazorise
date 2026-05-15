@@ -13,7 +13,7 @@ public class PivotGridCellContext<TItem>
     /// <summary>
     /// Initializes a new <see cref="PivotGridCellContext{TItem}"/>.
     /// </summary>
-    public PivotGridCellContext( PivotGridAggregate<TItem> aggregate, object value, string formattedValue, IReadOnlyList<object> rowValues, IReadOnlyList<object> columnValues, IReadOnlyList<TItem> items, bool isRowTotal, bool isColumnTotal, bool isGrandTotal )
+    public PivotGridCellContext( PivotGridAggregateInfo<TItem> aggregate, object value, string formattedValue, IReadOnlyList<object> rowValues, IReadOnlyList<object> columnValues, IReadOnlyList<TItem> items, bool isRowTotal, bool isColumnTotal, bool isGrandTotal )
     {
         Aggregate = aggregate;
         Value = value;
@@ -29,7 +29,7 @@ public class PivotGridCellContext<TItem>
     /// <summary>
     /// Gets the aggregate field that produced this cell.
     /// </summary>
-    public PivotGridAggregate<TItem> Aggregate { get; }
+    public PivotGridAggregateInfo<TItem> Aggregate { get; }
 
     /// <summary>
     /// Gets the raw aggregate value.

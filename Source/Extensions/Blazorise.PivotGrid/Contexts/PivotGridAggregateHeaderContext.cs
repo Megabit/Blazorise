@@ -13,7 +13,7 @@ public class PivotGridAggregateHeaderContext<TItem>
     /// <summary>
     /// Initializes a new <see cref="PivotGridAggregateHeaderContext{TItem}"/>.
     /// </summary>
-    public PivotGridAggregateHeaderContext( PivotGridAggregate<TItem> aggregate, string caption, PivotGridDataColumn<TItem> dataColumn, IReadOnlyList<object> columnValues, bool isColumnTotal, bool isGrandTotal )
+    public PivotGridAggregateHeaderContext( PivotGridAggregateInfo<TItem> aggregate, string caption, PivotGridDataColumn<TItem> dataColumn, IReadOnlyList<object> columnValues, bool isColumnTotal, bool isGrandTotal )
     {
         Aggregate = aggregate;
         Caption = caption;
@@ -26,7 +26,7 @@ public class PivotGridAggregateHeaderContext<TItem>
     /// <summary>
     /// Gets the aggregate field being rendered.
     /// </summary>
-    public PivotGridAggregate<TItem> Aggregate { get; }
+    public PivotGridAggregateInfo<TItem> Aggregate { get; }
 
     /// <summary>
     /// Gets the default aggregate header caption.

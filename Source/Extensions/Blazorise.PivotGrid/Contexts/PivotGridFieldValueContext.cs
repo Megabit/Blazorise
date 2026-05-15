@@ -13,7 +13,7 @@ public class PivotGridFieldValueContext<TItem>
     /// <summary>
     /// Initializes a new <see cref="PivotGridFieldValueContext{TItem}"/>.
     /// </summary>
-    public PivotGridFieldValueContext( BasePivotGridField<TItem> field, object value, string formattedValue, int level, IReadOnlyList<object> path, bool isTotal, bool isGrandTotal )
+    public PivotGridFieldValueContext( PivotGridFieldInfo<TItem> field, object value, string formattedValue, int level, IReadOnlyList<object> path, bool isTotal, bool isGrandTotal )
     {
         Field = field;
         Value = value;
@@ -27,7 +27,7 @@ public class PivotGridFieldValueContext<TItem>
     /// <summary>
     /// Gets the field being rendered.
     /// </summary>
-    public BasePivotGridField<TItem> Field { get; }
+    public PivotGridFieldInfo<TItem> Field { get; }
 
     /// <summary>
     /// Gets the raw field value.
