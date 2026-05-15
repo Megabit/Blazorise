@@ -309,6 +309,20 @@
                 flex: 1 1 auto;
                 min-width: 0;
                 width: 100%;
+
+                > .d-flex.justify-content-between {
+                    align-items: center;
+                    gap: .5rem;
+
+                    > :first-child {
+                        min-width: 0;
+                    }
+
+                    > :last-child {
+                        flex: 0 0 auto;
+                        align-self: center;
+                    }
+                }
             }
 
             i {
