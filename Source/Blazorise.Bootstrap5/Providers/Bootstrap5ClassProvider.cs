@@ -791,7 +791,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string BarDropdownToggleContent( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "d-flex align-items-center justify-content-between w-100 gap-2";
 
-    public override string BarDropdownToggleContentText( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "flex-grow-1 text-truncate";
+    public override string BarDropdownToggleContentText( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "d-flex align-items-center gap-2 flex-grow-1 text-truncate";
 
     public override string BarDropdownToggleContentIcon( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "ms-auto";
 
