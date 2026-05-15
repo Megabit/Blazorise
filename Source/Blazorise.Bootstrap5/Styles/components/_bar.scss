@@ -170,7 +170,7 @@
         }
 
         &::-webkit-scrollbar-thumb {
-            background-color: rgba(var(--bs-emphasis-color-rgb), .35);
+            background-color: var(--b-bar-scrollbar-thumb-bg, rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), .35));
             border-radius: 999px;
         }
 
@@ -234,7 +234,7 @@
         vertical-align: middle;
         font-size: .875rem;
         font-weight: 500;
-        border-radius: var(--bs-border-radius);
+        border-radius: var(--bs-border-radius, .375rem);
         transition: font-size 150ms ease-in;
     }
 
@@ -255,8 +255,8 @@
 
     .dropdown[data-visible=true] > .nav-link,
     .dropdown[data-visible=true] > .dropdown-item {
-        color: rgba(var(--bs-emphasis-color-rgb), .85);
-        background: var(--bs-tertiary-bg);
+        color: var(--b-bar-navbar-hover-color, var(--bs-navbar-hover-color, rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), .85)));
+        background: var(--b-bar-item-hover-bg, var(--bs-tertiary-bg, rgba(0, 0, 0, .05)));
     }
 
     .nav-link > .pe-none,
@@ -303,7 +303,7 @@
             overflow-x: hidden;
             white-space: normal;
             overflow-wrap: break-word;
-            border-radius: var(--bs-border-radius);
+            border-radius: var(--bs-border-radius, .375rem);
 
             > span[id^="lbl_"] {
                 flex: 1 1 auto;
@@ -334,143 +334,187 @@
     }
 
     &.navbar-dark {
-        background: var(--b-bar-dark-background, #001529);
-        color: var(--b-bar-dark-color, rgba(255,255,255, 0.5));
+        --b-bar-background: var(--b-bar-dark-background, #001529);
+        --b-bar-navbar-color: var(--b-bar-dark-color, rgba(255, 255, 255, .5));
+        --b-bar-navbar-hover-color: var(--b-bar-item-dark-hover-color, #fff);
+        --b-bar-nav-active-color: var(--b-bar-item-dark-active-color, #fff);
+        --b-bar-nav-active-bg: var(--b-bar-item-dark-active-background, var(--b-theme-primary, var(--bs-primary, #0d6efd)));
+        --b-bar-item-hover-bg: var(--b-bar-item-dark-hover-background, rgba(255, 255, 255, .075));
+        --b-bar-dropdown-bg: var(--b-bar-dropdown-dark-background, #000c17);
+        --b-bar-brand-bg: var(--b-bar-brand-dark-background, rgba(255, 255, 255, .025));
+        --b-bar-border-color: rgba(255, 255, 255, .1);
+        --b-bar-scrollbar-thumb-bg: rgba(255, 255, 255, .35);
+        --bs-navbar-color: var(--b-bar-navbar-color);
+        --bs-navbar-hover-color: var(--b-bar-navbar-hover-color);
+        --bs-nav-pills-link-active-color: var(--b-bar-nav-active-color);
+        --bs-nav-pills-link-active-bg: var(--b-bar-nav-active-bg);
+        --bs-dropdown-link-hover-color: var(--b-bar-navbar-hover-color);
+        --bs-dropdown-link-hover-bg: var(--b-bar-item-hover-bg);
+        --bs-dropdown-link-active-color: var(--b-bar-nav-active-color);
+        --bs-dropdown-link-active-bg: var(--b-bar-nav-active-bg);
+        background: var(--b-bar-background);
+        color: var(--b-bar-navbar-color);
 
         .navbar-brand {
-            background: var(--b-bar-brand-dark-background, rgba(255,255,255,0.025));
+            background: var(--b-bar-brand-bg);
 
             .nav-link {
-                color: #fff;
+                color: var(--b-bar-navbar-hover-color);
 
                 &.active,
                 &:hover {
-                    color: #fff;
+                    color: var(--b-bar-navbar-hover-color);
                     background: inherit;
                 }
             }
         }
 
         > .navbar-toggler.position-fixed {
-            background: var(--b-bar-dark-background, #001529);
-            color: var(--b-bar-dark-color, rgba(255, 255, 255, 0.5));
+            background: var(--b-bar-background);
+            color: var(--b-bar-navbar-color);
         }
 
         .dropdown-menu {
-            background: var(--b-bar-dropdown-dark-background, #000c17);
+            --bs-dropdown-link-hover-color: var(--b-bar-navbar-hover-color);
+            --bs-dropdown-link-hover-bg: var(--b-bar-item-hover-bg);
+            --bs-dropdown-link-active-color: var(--b-bar-nav-active-color);
+            --bs-dropdown-link-active-bg: var(--b-bar-nav-active-bg);
+            background: var(--b-bar-dropdown-bg);
 
             .dropdown-item {
                 &.active {
-                    color: var(--bs-nav-pills-link-active-color);
-                    background: var(--bs-nav-pills-link-active-bg);
+                    color: var(--b-bar-nav-active-color);
+                    background: var(--b-bar-nav-active-bg);
                 }
 
                 &:hover {
-                    color: var(--bs-navbar-hover-color, #fff);
-                    background: rgba(255,255,255,.075);
+                    color: var(--b-bar-navbar-hover-color);
+                    background: var(--b-bar-item-hover-bg);
                 }
 
                 &.active:hover {
-                    color: var(--bs-nav-pills-link-active-color);
-                    background: rgba(var(--bs-primary-rgb), .85);
+                    color: var(--b-bar-nav-active-color);
+                    background: var(--b-bar-nav-active-bg);
                 }
             }
         }
 
         .nav-link {
-            color: var(--bs-navbar-color, rgba(255,255,255,0.5));
+            color: var(--b-bar-navbar-color);
 
             &.active {
-                color: var(--bs-nav-pills-link-active-color);
-                background: var(--bs-nav-pills-link-active-bg);
+                color: var(--b-bar-nav-active-color);
+                background: var(--b-bar-nav-active-bg);
             }
 
             &.show,
             &[aria-expanded=true] {
-                color: var(--bs-navbar-hover-color, #fff);
-                background: rgba(255,255,255,.075);
+                color: var(--b-bar-navbar-hover-color);
+                background: var(--b-bar-item-hover-bg);
             }
 
             &.show.active,
             &.active[aria-expanded=true] {
-                color: var(--bs-navbar-hover-color, #fff);
-                background: rgba(255,255,255,.075);
+                color: var(--b-bar-navbar-hover-color);
+                background: var(--b-bar-item-hover-bg);
             }
 
             &:hover {
-                color: var(--bs-navbar-hover-color, #fff);
-                background: rgba(255,255,255,.075);
+                color: var(--b-bar-navbar-hover-color);
+                background: var(--b-bar-item-hover-bg);
             }
         }
     }
 
     &.navbar-light {
-        background: var(--bs-body-bg);
-        color: var(--bs-body-color);
+        --b-bar-background: var(--b-bar-light-background, var(--bs-body-bg, #fff));
+        --b-bar-navbar-color: var(--b-bar-light-color, var(--bs-emphasis-color, rgba(0, 0, 0, .85)));
+        --b-bar-navbar-hover-color: var(--b-bar-item-light-hover-color, rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), .85));
+        --b-bar-nav-active-color: var(--b-bar-item-light-active-color, var(--b-theme-white, var(--bs-white, #fff)));
+        --b-bar-nav-active-bg: var(--b-bar-item-light-active-background, var(--b-theme-primary, var(--bs-primary, #0d6efd)));
+        --b-bar-item-hover-bg: var(--b-bar-item-light-hover-background, var(--bs-tertiary-bg, rgba(0, 0, 0, .05)));
+        --b-bar-dropdown-bg: var(--b-bar-dropdown-light-background, var(--bs-tertiary-bg, #f8f9fa));
+        --b-bar-brand-bg: var(--b-bar-brand-light-background, var(--bs-tertiary-bg, #f8f9fa));
+        --b-bar-border-color: var(--bs-border-color, rgba(0, 0, 0, .175));
+        --b-bar-scrollbar-thumb-bg: rgba(0, 0, 0, .35);
+        --bs-navbar-color: var(--b-bar-navbar-color);
+        --bs-navbar-hover-color: var(--b-bar-navbar-hover-color);
+        --bs-nav-pills-link-active-color: var(--b-bar-nav-active-color);
+        --bs-nav-pills-link-active-bg: var(--b-bar-nav-active-bg);
+        --bs-dropdown-link-hover-color: var(--b-bar-navbar-hover-color);
+        --bs-dropdown-link-hover-bg: var(--b-bar-item-hover-bg);
+        --bs-dropdown-link-active-color: var(--b-bar-nav-active-color);
+        --bs-dropdown-link-active-bg: var(--b-bar-nav-active-bg);
+        background: var(--b-bar-background);
+        color: var(--b-bar-navbar-color);
 
         .navbar-brand {
-            background: var(--bs-tertiary-bg);
+            background: var(--b-bar-brand-bg);
 
             .nav-link {
-                color: var(--bs-emphasis-color);
+                color: var(--b-bar-navbar-color);
 
                 &.active,
                 &:hover {
-                    color: var(--bs-emphasis-color);
+                    color: var(--b-bar-navbar-color);
                     background: inherit;
                 }
             }
         }
 
         > .navbar-toggler.position-fixed {
-            background: var(--bs-body-bg);
-            color: var(--bs-body-color);
+            background: var(--b-bar-background);
+            color: var(--b-bar-navbar-color);
         }
 
         .dropdown-menu {
-            background: var(--bs-tertiary-bg);
+            --bs-dropdown-link-hover-color: var(--b-bar-navbar-hover-color);
+            --bs-dropdown-link-hover-bg: var(--b-bar-item-hover-bg);
+            --bs-dropdown-link-active-color: var(--b-bar-nav-active-color);
+            --bs-dropdown-link-active-bg: var(--b-bar-nav-active-bg);
+            background: var(--b-bar-dropdown-bg);
 
             .dropdown-item {
                 &.active {
-                    color: var(--bs-nav-pills-link-active-color);
-                    background: var(--bs-nav-pills-link-active-bg);
+                    color: var(--b-bar-nav-active-color);
+                    background: var(--b-bar-nav-active-bg);
                 }
 
                 &:hover {
-                    color: rgba(var(--bs-emphasis-color-rgb), .85);
-                    background: var(--bs-tertiary-bg);
+                    color: var(--b-bar-navbar-hover-color);
+                    background: var(--b-bar-item-hover-bg);
                 }
 
                 &.active:hover {
-                    color: var(--bs-nav-pills-link-active-color);
-                    background: rgba(var(--bs-primary-rgb), .85);
+                    color: var(--b-bar-nav-active-color);
+                    background: var(--b-bar-nav-active-bg);
                 }
             }
         }
 
         .nav-link {
-            color: var(--bs-emphasis-color);
+            color: var(--b-bar-navbar-color);
 
             &.active {
-                color: var(--bs-nav-pills-link-active-color);
-                background: var(--bs-nav-pills-link-active-bg);
+                color: var(--b-bar-nav-active-color);
+                background: var(--b-bar-nav-active-bg);
             }
 
             &.show,
             &[aria-expanded=true] {
-                color: rgba(var(--bs-emphasis-color-rgb), .85);
-                background: var(--bs-tertiary-bg);
+                color: var(--b-bar-navbar-hover-color);
+                background: var(--b-bar-item-hover-bg);
             }
 
             &.show.active,
             &.active[aria-expanded=true] {
-                color: rgba(var(--bs-emphasis-color-rgb), .85);
-                background: var(--bs-tertiary-bg);
+                color: var(--b-bar-navbar-hover-color);
+                background: var(--b-bar-item-hover-bg);
             }
 
             &:hover {
-                color: rgba(var(--bs-emphasis-color-rgb), .85);
-                background: var(--bs-tertiary-bg);
+                color: var(--b-bar-navbar-hover-color);
+                background: var(--b-bar-item-hover-bg);
             }
         }
     }
@@ -543,7 +587,7 @@
             padding-right: 0px;
             font-size: 0;
             border-radius: 0;
-            border-bottom: 1px solid var(--bs-border-color);
+            border-bottom: 1px solid var(--b-bar-border-color, var(--bs-border-color, rgba(0, 0, 0, .175)));
             transition: font-size 100ms ease-out;
 
             &:after {

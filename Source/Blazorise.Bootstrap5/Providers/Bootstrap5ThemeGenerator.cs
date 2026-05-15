@@ -1056,6 +1056,42 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
                 .Append( $"color: {yiqColor};" )
                 .AppendLine( "}" );
         }
+
+        if ( options is null )
+            return;
+
+        GenerateVerticalBarActiveStyles(
+            sb,
+            theme,
+            ".navbar[data-mode^=vertical].navbar-light",
+            ThemeVariables.BarItemLightActiveBackground,
+            ThemeVariables.BarItemLightActiveColor );
+
+        GenerateVerticalBarActiveStyles(
+            sb,
+            theme,
+            ".navbar[data-mode^=vertical].navbar-dark",
+            ThemeVariables.BarItemDarkActiveBackground,
+            ThemeVariables.BarItemDarkActiveColor );
+    }
+
+    private void GenerateVerticalBarActiveStyles(
+        StringBuilder sb,
+        Theme theme,
+        string selector,
+        string activeBackgroundVariable,
+        string activeColorVariable )
+    {
+        var activeBackground = Var( activeBackgroundVariable, Var( ThemeVariables.Color( "primary" ), "#0d6efd" ) );
+        var activeColor = Var( activeColorVariable, ToHex( GetContrastColor( theme, activeBackground ) ) );
+
+        sb.Append( selector ).Append( " .dropdown-menu .dropdown-item.active," )
+            .Append( selector ).Append( " .dropdown-menu .dropdown-item:active," )
+            .Append( selector ).Append( " .nav-pills .nav-link.active" )
+            .Append( "{" )
+            .Append( $"color: {activeColor} !important;" )
+            .Append( $"background: {activeBackground} !important;" )
+            .AppendLine( "}" );
     }
 
     protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inTextColor )
