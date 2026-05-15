@@ -17,14 +17,14 @@ public class PivotGridAggregate<TItem> : BasePivotGridField<TItem>
     #region Methods
 
     /// <summary>
-    /// Aggregates the supplied source items.
+    /// Calculates the aggregate value for the supplied source items.
     /// </summary>
-    public object Aggregate( IReadOnlyList<TItem> items )
+    public object Calculate( IReadOnlyList<TItem> items )
     {
         if ( Aggregator is not null )
             return Aggregator.Invoke( items );
 
-        return AggregateFunction switch
+        return Aggregate switch
         {
             PivotGridAggregateFunction.Count => items.Count,
             PivotGridAggregateFunction.CountNonNull => items.Count( item => GetValue( item ) is not null ),
@@ -140,7 +140,7 @@ public class PivotGridAggregate<TItem> : BasePivotGridField<TItem>
     internal override int GetFieldStateHash()
         => HashCode.Combine(
             base.GetFieldStateHash(),
-            AggregateFunction,
+            Aggregate,
             Aggregator );
 
     #endregion
@@ -153,10 +153,10 @@ public class PivotGridAggregate<TItem> : BasePivotGridField<TItem>
     /// <summary>
     /// Defines which built-in aggregate function is used.
     /// </summary>
-    [Parameter] public PivotGridAggregateFunction AggregateFunction { get; set; } = PivotGridAggregateFunction.Sum;
+    [Parameter] public PivotGridAggregateFunction Aggregate { get; set; } = PivotGridAggregateFunction.Sum;
 
     /// <summary>
-    /// Defines a custom aggregate function. When set, it takes precedence over <see cref="AggregateFunction"/>.
+    /// Defines a custom aggregate function. When set, it takes precedence over <see cref="Aggregate"/>.
     /// </summary>
     [Parameter] public Func<IReadOnlyList<TItem>, object> Aggregator { get; set; }
 

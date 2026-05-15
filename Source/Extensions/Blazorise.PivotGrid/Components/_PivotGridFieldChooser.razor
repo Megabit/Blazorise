@@ -75,7 +75,7 @@
                         <Div Flex="FlexGrowIs1" TextWeight="@( context.IsAvailableField ? TextWeight.Normal : TextWeight.Bold )">@context.Caption</Div>
                         @if ( !context.IsAvailableField && context.Area == PivotGridFieldArea.Aggregate )
                         {
-                            <Select TValue="PivotGridAggregateFunction" Value="@context.AggregateFunction" ValueChanged="@(( value ) => SetAggregateFunction( context, value ))">
+                            <Select TValue="PivotGridAggregateFunction" Value="@context.Aggregate" ValueChanged="@(( value ) => SetAggregate( context, value ))">
                                 @foreach ( var aggregateFunction in AggregateFunctions )
                                 {
                                     <SelectItem TValue="PivotGridAggregateFunction" Value="@aggregateFunction">@PivotGrid.LocalizeAggregateFunction( aggregateFunction )</SelectItem>

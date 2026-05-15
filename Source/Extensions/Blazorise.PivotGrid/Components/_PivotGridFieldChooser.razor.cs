@@ -98,7 +98,7 @@ public partial class _PivotGridFieldChooser<TItem>
             Caption = source.Caption,
             FieldType = source.FieldType,
             Area = area,
-            AggregateFunction = source.AggregateFunction,
+            Aggregate = source.Aggregate,
             FilterValueKey = source.FilterValueKey,
             IsAvailableField = isAvailableField,
         };
@@ -239,9 +239,9 @@ public partial class _PivotGridFieldChooser<TItem>
             || fieldType == typeof( decimal );
     }
 
-    private static void SetAggregateFunction( PivotGridFieldChooserItem field, PivotGridAggregateFunction aggregateFunction )
+    private static void SetAggregate( PivotGridFieldChooserItem field, PivotGridAggregateFunction aggregate )
     {
-        field.AggregateFunction = aggregateFunction;
+        field.Aggregate = aggregate;
     }
 
     private static void SetFilterValue( PivotGridFieldChooserItem field, string filterValueKey )

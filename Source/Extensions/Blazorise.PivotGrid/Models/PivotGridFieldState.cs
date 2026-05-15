@@ -30,9 +30,9 @@ public class PivotGridFieldState
     public PivotGridFieldArea Area { get; set; }
 
     /// <summary>
-    /// Gets or sets the aggregate function used when <see cref="Area"/> is <see cref="PivotGridFieldArea.Aggregate"/>.
+    /// Gets or sets the built-in aggregate used when <see cref="Area"/> is <see cref="PivotGridFieldArea.Aggregate"/>.
     /// </summary>
-    public PivotGridAggregateFunction AggregateFunction { get; set; } = PivotGridAggregateFunction.Sum;
+    public PivotGridAggregateFunction Aggregate { get; set; } = PivotGridAggregateFunction.Sum;
 
     /// <summary>
     /// Gets or sets the selected filter value key when <see cref="Area"/> is <see cref="PivotGridFieldArea.Filter"/>.

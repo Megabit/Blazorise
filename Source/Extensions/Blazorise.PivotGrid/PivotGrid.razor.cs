@@ -591,7 +591,7 @@ public partial class PivotGrid<TItem> : BaseComponent
             EmptyText = aggregate.EmptyText;
             HeaderTemplate = aggregate.HeaderTemplate;
             DisplayTemplate = aggregate.DisplayTemplate;
-            AggregateFunction = aggregate.AggregateFunction;
+            Aggregate = aggregate.Aggregate;
             Aggregator = aggregate.Aggregator;
             CellTemplate = aggregate.CellTemplate;
         }
@@ -602,8 +602,8 @@ public partial class PivotGrid<TItem> : BaseComponent
         public override string FormatValue( object value )
             => aggregate.FormatValue( value );
 
-        public override object Aggregate( IReadOnlyList<TItem> items )
-            => aggregate.Aggregate( items );
+        public override object Calculate( IReadOnlyList<TItem> items )
+            => aggregate.Calculate( items );
     }
 
     private bool IsRuntimeFieldStateVisible( PivotGridFieldState state, PivotGridFieldArea area )
@@ -657,7 +657,7 @@ public partial class PivotGrid<TItem> : BaseComponent
             state.Caption ?? string.Empty,
             state.FieldType?.FullName ?? string.Empty,
             state.Area.ToString(),
-            state.AggregateFunction.ToString(),
+            state.Aggregate.ToString(),
             state.FilterValueKey ?? string.Empty,
         ] ) ) );
 
@@ -690,7 +690,7 @@ public partial class PivotGrid<TItem> : BaseComponent
             Caption = field.GetCaption(),
             FieldType = GetFieldValueType( field.Field ),
             Area = area,
-            AggregateFunction = field is PivotGridAggregate<TItem> aggregate ? aggregate.AggregateFunction : PivotGridAggregateFunction.Sum
+            Aggregate = field is PivotGridAggregate<TItem> aggregate ? aggregate.Aggregate : PivotGridAggregateFunction.Sum
         };
 
     internal static PivotGridFieldState CloneFieldState( PivotGridFieldState state )
@@ -700,7 +700,7 @@ public partial class PivotGrid<TItem> : BaseComponent
             Caption = state.Caption,
             FieldType = state.FieldType,
             Area = state.Area,
-            AggregateFunction = state.AggregateFunction,
+            Aggregate = state.Aggregate,
             FilterValueKey = state.FilterValueKey
         };
 
@@ -745,7 +745,7 @@ public partial class PivotGrid<TItem> : BaseComponent
             aggregate.CellTemplate = sourceAggregate.CellTemplate;
         }
 
-        aggregate.AggregateFunction = state.AggregateFunction;
+        aggregate.Aggregate = state.Aggregate;
 
         return aggregate;
     }
@@ -849,7 +849,7 @@ public partial class PivotGrid<TItem> : BaseComponent
         return dataColumns.Select( dataColumn =>
         {
             var cellItems = GetMatchingItems( row.Items, columnFields, dataColumn.Column.Values );
-            var value = dataColumn.Aggregate.Aggregate( cellItems );
+            var value = dataColumn.Aggregate.Calculate( cellItems );
             var formattedValue = dataColumn.Aggregate.FormatValue( value );
             var isColumnTotalsRow = row.IsTotal || row.IsGrandTotal;
             var isRowTotalsColumn = dataColumn.Column.IsTotal || dataColumn.Column.IsGrandTotal;

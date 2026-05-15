@@ -13298,7 +13298,7 @@ Install-Package Blazorise.Icons.Material";
                             DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
         <PivotGridAggregate Field=""@nameof( PivotSale.Units )""
                             Caption=""Units""
-                            AggregateFunction=""PivotGridAggregateFunction.Sum"" />
+                            Aggregate=""PivotGridAggregateFunction.Sum"" />
     </PivotGridAggregates>
 </PivotGrid>
 
@@ -13363,7 +13363,7 @@ Install-Package Blazorise.Icons.Material";
                             DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
         <PivotGridAggregate Field=""@nameof( PivotSale.Units )""
                             Caption=""Units""
-                            AggregateFunction=""PivotGridAggregateFunction.Sum"" />
+                            Aggregate=""PivotGridAggregateFunction.Sum"" />
     </PivotGridAggregates>
 </PivotGrid>
 
@@ -13428,7 +13428,7 @@ Install-Package Blazorise.Icons.Material";
                             DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
         <PivotGridAggregate Field=""@nameof( PivotSale.Units )""
                             Caption=""Units""
-                            AggregateFunction=""PivotGridAggregateFunction.Sum"" />
+                            Aggregate=""PivotGridAggregateFunction.Sum"" />
     </PivotGridAggregates>
 </PivotGrid>
 
@@ -13523,7 +13523,7 @@ Install-Package Blazorise.Icons.Material";
                             DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
         <PivotGridAggregate Field=""@nameof( PivotSale.Units )""
                             Caption=""Units""
-                            AggregateFunction=""PivotGridAggregateFunction.Sum"" />
+                            Aggregate=""PivotGridAggregateFunction.Sum"" />
     </PivotGridAggregates>
 </PivotGrid>
 
