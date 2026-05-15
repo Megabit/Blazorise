@@ -344,6 +344,8 @@ body:before {
   gap: 0.5rem;
   width: 100%;
   overflow-x: hidden;
+  white-space: normal;
+  overflow-wrap: break-word;
   border-radius: var(--bs-border-radius);
 }
 .navbar[data-mode^=vertical] .dropdown-menu .dropdown-item i {
