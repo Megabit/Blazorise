@@ -135,6 +135,26 @@ public partial class PivotGrid<TItem> : BaseComponent
         await InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Reloads the PivotGrid data and rebuilds the pivot result.
+    /// </summary>
+    /// <returns>Returns the awaitable task.</returns>
+    public async Task Reload()
+    {
+        lastExternalDataRequestKey = null;
+
+        if ( UsesExternalData )
+        {
+            await ReadExternalDataAsync( true );
+        }
+        else
+        {
+            RebuildPivot();
+
+            await InvokeAsync( StateHasChanged );
+        }
+    }
+
     internal void RegisterField( BasePivotGridField<TItem> field )
     {
         if ( field is null )
@@ -309,14 +329,14 @@ public partial class PivotGrid<TItem> : BaseComponent
         } );
     }
 
-    private async Task ReadExternalDataAsync()
+    private async Task ReadExternalDataAsync( bool force = false )
     {
         EnsureRuntimeState();
 
         var request = CreateDataRequest();
         var requestKey = CreateDataRequestKey( request );
 
-        if ( string.Equals( lastExternalDataRequestKey, requestKey, StringComparison.Ordinal ) )
+        if ( !force && string.Equals( lastExternalDataRequestKey, requestKey, StringComparison.Ordinal ) )
         {
             if ( externalPivotResult is not null )
                 pivotResult = externalPivotResult;
