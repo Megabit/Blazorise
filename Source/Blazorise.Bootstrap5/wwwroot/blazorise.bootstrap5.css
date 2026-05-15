@@ -403,6 +403,10 @@ body:before {
   color: var(--bs-navbar-hover-color, #fff);
   background: rgba(255, 255, 255, 0.075);
 }
+.navbar[data-mode^=vertical].navbar-dark .dropdown-menu .dropdown-item.active:hover {
+  color: var(--bs-nav-pills-link-active-color);
+  background: rgba(var(--bs-primary-rgb), 0.85);
+}
 .navbar[data-mode^=vertical].navbar-dark .nav-link {
   color: var(--bs-navbar-color, rgba(255, 255, 255, 0.5));
 }
@@ -450,6 +454,10 @@ body:before {
 .navbar[data-mode^=vertical].navbar-light .dropdown-menu .dropdown-item:hover {
   color: rgba(var(--bs-emphasis-color-rgb), 0.85);
   background: var(--bs-tertiary-bg);
+}
+.navbar[data-mode^=vertical].navbar-light .dropdown-menu .dropdown-item.active:hover {
+  color: var(--bs-nav-pills-link-active-color);
+  background: rgba(var(--bs-primary-rgb), 0.85);
 }
 .navbar[data-mode^=vertical].navbar-light .nav-link {
   color: var(--bs-emphasis-color);

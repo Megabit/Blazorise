@@ -363,6 +363,11 @@
                     color: var(--bs-navbar-hover-color, #fff);
                     background: rgba(255,255,255,.075);
                 }
+
+                &.active:hover {
+                    color: var(--bs-nav-pills-link-active-color);
+                    background: rgba(var(--bs-primary-rgb), .85);
+                }
             }
         }
 
@@ -428,6 +433,11 @@
                 &:hover {
                     color: rgba(var(--bs-emphasis-color-rgb), .85);
                     background: var(--bs-tertiary-bg);
+                }
+
+                &.active:hover {
+                    color: var(--bs-nav-pills-link-active-color);
+                    background: rgba(var(--bs-primary-rgb), .85);
                 }
             }
         }
