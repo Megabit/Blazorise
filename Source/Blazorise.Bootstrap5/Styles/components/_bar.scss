@@ -157,12 +157,26 @@
         display: flex !important;
         flex: 1;
         min-height: 0;
-        overflow-y: auto;
+        overflow-y: scroll;
         overflow-x: hidden;
+        scrollbar-width: thin;
         justify-content: space-between;
         flex-direction: column;
         align-self: stretch;
         padding: .5rem 0;
+
+        &::-webkit-scrollbar {
+            width: .375rem;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: rgba(var(--bs-emphasis-color-rgb), .35);
+            border-radius: 999px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
     }
 
     .navbar-nav {

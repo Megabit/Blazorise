@@ -228,12 +228,23 @@ body:before {
   display: flex !important;
   flex: 1;
   min-height: 0;
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden;
+  scrollbar-width: thin;
   justify-content: space-between;
   flex-direction: column;
   align-self: stretch;
   padding: 0.5rem 0;
+}
+.navbar[data-mode^=vertical] .navbar-collapse::-webkit-scrollbar {
+  width: 0.375rem;
+}
+.navbar[data-mode^=vertical] .navbar-collapse::-webkit-scrollbar-thumb {
+  background-color: rgba(var(--bs-emphasis-color-rgb), 0.35);
+  border-radius: 999px;
+}
+.navbar[data-mode^=vertical] .navbar-collapse::-webkit-scrollbar-track {
+  background: transparent;
 }
 .navbar[data-mode^=vertical] .navbar-nav {
   width: 100%;
