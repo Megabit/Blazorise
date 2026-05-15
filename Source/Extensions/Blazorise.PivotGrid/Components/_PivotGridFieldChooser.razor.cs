@@ -71,7 +71,7 @@ public partial class _PivotGridFieldChooser<TItem>
 
     private async Task Apply()
     {
-        PivotGrid.ApplyFieldChooserState(
+        await PivotGrid.ApplyFieldChooserState(
             GetActiveFieldStates( PivotGridFieldArea.Row ),
             GetActiveFieldStates( PivotGridFieldArea.Column ),
             GetActiveFieldStates( PivotGridFieldArea.Aggregate ),

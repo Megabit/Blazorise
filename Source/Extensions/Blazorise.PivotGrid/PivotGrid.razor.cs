@@ -277,7 +277,7 @@ public partial class PivotGrid<TItem> : BaseComponent
             () => SetPage( CurrentPage + 1 ),
             () => SetPage( LastPage ) );
 
-    internal void ApplyFieldChooserState( IReadOnlyList<PivotGridFieldState> rows, IReadOnlyList<PivotGridFieldState> columns, IReadOnlyList<PivotGridFieldState> aggregates, IReadOnlyList<PivotGridFieldState> filters )
+    internal async Task ApplyFieldChooserState( IReadOnlyList<PivotGridFieldState> rows, IReadOnlyList<PivotGridFieldState> columns, IReadOnlyList<PivotGridFieldState> aggregates, IReadOnlyList<PivotGridFieldState> filters )
     {
         runtimeRows.Clear();
         runtimeRows.AddRange( rows.Select( CloneFieldState ) );
@@ -293,15 +293,20 @@ public partial class PivotGrid<TItem> : BaseComponent
 
         runtimeStateInitialized = true;
         runtimeStateUserModified = true;
-        Page = 1;
         collapsedRowGroupKeys.Clear();
         collapsedColumnGroupKeys.Clear();
         expandedRowGroupKeys.Clear();
         expandedColumnGroupKeys.Clear();
 
+        if ( Page != 1 )
+        {
+            Page = 1;
+            await PageChanged.InvokeAsync( 1 );
+        }
+
         RequestPivotRefresh();
 
-        _ = InvokeAsync( StateHasChanged );
+        await InvokeAsync( StateHasChanged );
     }
 
     private void RequestPivotRefresh()
