@@ -68,9 +68,12 @@ else
                             {
                                 var rowExpansionLabel = GetRowExpansionLabel( row.Row );
 
-                                <Button Color="Color.Link"
-                                        Size="Size.Small"
+                                <Button Size="Size.Small"
                                         Clicked="@(() => PivotGrid.ToggleRowExpanded( row.Row ))"
+                                        Margin="MarginIs1FromEnd"
+                                        Background="BackgroundTransparent"
+                                        Border="BorderIs0"
+                                        Shadow="ShadowRemove"
                                         aria-label="@rowExpansionLabel"
                                         title="@rowExpansionLabel">
                                     <Icon Name="@GetRowExpansionIcon( row.Row )" />
@@ -152,9 +155,12 @@ else
                             {
                                 var columnExpansionLabel = GetColumnExpansionLabel( columnGroup );
 
-                                <Button Color="Color.Link"
-                                        Size="Size.Small"
+                                <Button Size="Size.Small"
                                         Clicked="@(() => PivotGrid.ToggleColumnExpanded( columnGroup ))"
+                                        Margin="MarginIs1FromEnd"
+                                        Background="BackgroundTransparent"
+                                        Border="BorderIs0"
+                                        Shadow="ShadowRemove"
                                         aria-label="@columnExpansionLabel"
                                         title="@columnExpansionLabel">
                                     <Icon Name="@GetColumnExpansionIcon( columnGroup )" />
