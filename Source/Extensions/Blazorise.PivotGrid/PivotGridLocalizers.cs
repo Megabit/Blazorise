@@ -70,6 +70,26 @@ public class PivotGridLocalizers
     public TextLocalizerHandler ColumnsLocalizer { get; set; }
 
     /// <summary>
+    /// Custom localization handler for expand row button text.
+    /// </summary>
+    public TextLocalizerHandler ExpandRowLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for collapse row button text.
+    /// </summary>
+    public TextLocalizerHandler CollapseRowLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for expand column button text.
+    /// </summary>
+    public TextLocalizerHandler ExpandColumnLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for collapse column button text.
+    /// </summary>
+    public TextLocalizerHandler CollapseColumnLocalizer { get; set; }
+
+    /// <summary>
     /// Custom localization handler for filters text.
     /// </summary>
     public TextLocalizerHandler FiltersLocalizer { get; set; }

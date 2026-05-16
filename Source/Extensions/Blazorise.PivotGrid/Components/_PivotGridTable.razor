@@ -66,7 +66,13 @@ else
 
                             @if ( PivotGrid.CanToggleRowExpansion( row.Row ) )
                             {
-                                <Button Color="Color.Link" Size="Size.Small" Clicked="@(() => PivotGrid.ToggleRowExpanded( row.Row ))">
+                                var rowExpansionLabel = GetRowExpansionLabel( row.Row );
+
+                                <Button Color="Color.Link"
+                                        Size="Size.Small"
+                                        Clicked="@(() => PivotGrid.ToggleRowExpanded( row.Row ))"
+                                        aria-label="@rowExpansionLabel"
+                                        title="@rowExpansionLabel">
                                     <Icon Name="@GetRowExpansionIcon( row.Row )" />
                                 </Button>
                             }
@@ -144,7 +150,13 @@ else
                                          TextAlignment="TextAlignment.Center">
                             @if ( PivotGrid.CanToggleColumnExpansion( columnGroup ) )
                             {
-                                <Button Color="Color.Link" Size="Size.Small" Clicked="@(() => PivotGrid.ToggleColumnExpanded( columnGroup ))">
+                                var columnExpansionLabel = GetColumnExpansionLabel( columnGroup );
+
+                                <Button Color="Color.Link"
+                                        Size="Size.Small"
+                                        Clicked="@(() => PivotGrid.ToggleColumnExpanded( columnGroup ))"
+                                        aria-label="@columnExpansionLabel"
+                                        title="@columnExpansionLabel">
                                     <Icon Name="@GetColumnExpansionIcon( columnGroup )" />
                                 </Button>
                             }

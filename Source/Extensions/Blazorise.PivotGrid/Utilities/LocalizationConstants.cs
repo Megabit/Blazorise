@@ -15,8 +15,12 @@ internal static class LocalizationConstants
     public const string AvailableFields = "Available fields";
     public const string Cancel = "Cancel";
     public const string Columns = "Columns";
+    public const string CollapseColumn = "Collapse column";
+    public const string CollapseRow = "Collapse row";
     public const string DragFields = "Drag and drop fields to arrange";
     public const string DropField = "Drop field here";
+    public const string ExpandColumn = "Expand column";
+    public const string ExpandRow = "Expand row";
     public const string Fields = "Fields";
     public const string Filters = "Filters";
     public const string First = "First";

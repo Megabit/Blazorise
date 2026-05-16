@@ -201,6 +201,16 @@ public partial class _PivotGridTable<TItem>
     private IconName GetColumnExpansionIcon( PivotGridAxisItem<TItem> column )
         => PivotGrid.IsColumnExpanded( column ) ? IconName.ChevronDown : IconName.ChevronRight;
 
+    private string GetRowExpansionLabel( PivotGridAxisItem<TItem> row )
+        => PivotGrid.IsRowExpanded( row )
+            ? PivotGrid.LocalizedCollapseRowText
+            : PivotGrid.LocalizedExpandRowText;
+
+    private string GetColumnExpansionLabel( PivotGridAxisItem<TItem> column )
+        => PivotGrid.IsColumnExpanded( column )
+            ? PivotGrid.LocalizedCollapseColumnText
+            : PivotGrid.LocalizedExpandColumnText;
+
     private bool IsRowTreeCell( PivotGridAxisItem<TItem> row, int index )
         => UseTreeRowHeader
             && !row.IsGrandTotal

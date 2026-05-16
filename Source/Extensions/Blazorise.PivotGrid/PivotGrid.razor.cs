@@ -1151,6 +1151,18 @@ public partial class PivotGrid<TItem> : BaseComponent
     internal string LocalizedColumnsText
         => Localizer.Localize( Localizers?.ColumnsLocalizer, LocalizationConstants.Columns );
 
+    internal string LocalizedExpandRowText
+        => Localizer.Localize( Localizers?.ExpandRowLocalizer, LocalizationConstants.ExpandRow );
+
+    internal string LocalizedCollapseRowText
+        => Localizer.Localize( Localizers?.CollapseRowLocalizer, LocalizationConstants.CollapseRow );
+
+    internal string LocalizedExpandColumnText
+        => Localizer.Localize( Localizers?.ExpandColumnLocalizer, LocalizationConstants.ExpandColumn );
+
+    internal string LocalizedCollapseColumnText
+        => Localizer.Localize( Localizers?.CollapseColumnLocalizer, LocalizationConstants.CollapseColumn );
+
     internal string LocalizedFiltersText
         => Localizer.Localize( Localizers?.FiltersLocalizer, LocalizationConstants.Filters );
 
