@@ -26,7 +26,7 @@ else if ( !Result.HasValues )
         }
     </Div>
 }
-else if ( Result.Rows.Count == 0 )
+else if ( Result.Rows.Count == 0 && !PivotGrid.IsExternalVirtualizeActive )
 {
     <Div Padding="PaddingIs3" TextColor="TextColorMuted">
         @if ( PivotGrid.NoDataTemplate is not null )

@@ -48,6 +48,7 @@ public partial class PivotGrid<TItem> : BaseComponent
     private IPivotGridDataSource<TItem> previousDataSource;
     private bool previousReadDataHasDelegate;
     private bool externalDataReadQueued;
+    private bool externalVirtualizeInitialReadCompleted;
 
     #endregion
 
@@ -81,18 +82,20 @@ public partial class PivotGrid<TItem> : BaseComponent
         if ( !ReferenceEquals( previousDataSource, DataSource ) )
         {
             previousDataSource = DataSource;
-            lastExternalDataRequestKey = null;
+            InvalidateExternalDataRead();
         }
 
         if ( previousReadDataHasDelegate != ReadData.HasDelegate )
         {
             previousReadDataHasDelegate = ReadData.HasDelegate;
-            lastExternalDataRequestKey = null;
+            InvalidateExternalDataRead();
         }
 
         if ( UsesExternalData )
         {
-            if ( fields.Count > 0 || ChildContent is null )
+            if ( IsExternalVirtualizeActive )
+                PrepareExternalVirtualizedData();
+            else if ( fields.Count > 0 || ChildContent is null )
                 await ReadExternalDataAsync();
             else
                 RebuildPivot();
@@ -140,7 +143,7 @@ public partial class PivotGrid<TItem> : BaseComponent
     /// <returns>Returns the awaitable task.</returns>
     public async Task Reload()
     {
-        lastExternalDataRequestKey = null;
+        InvalidateExternalDataRead();
 
         if ( UsesExternalData )
         {
@@ -168,6 +171,7 @@ public partial class PivotGrid<TItem> : BaseComponent
         if ( !fieldExists || previousFieldStateHash != fieldStateHash )
         {
             fieldStateHashes[field] = fieldStateHash;
+            InvalidateExternalDataRead();
             RequestPivotRefresh();
 
             _ = InvokeAsync( StateHasChanged );
@@ -185,6 +189,7 @@ public partial class PivotGrid<TItem> : BaseComponent
 
         if ( removed )
         {
+            InvalidateExternalDataRead();
             RequestPivotRefresh();
             _ = InvokeAsync( StateHasChanged );
         }
@@ -292,6 +297,7 @@ public partial class PivotGrid<TItem> : BaseComponent
 
         runtimeStateInitialized = true;
         runtimeStateUserModified = true;
+        InvalidateExternalDataRead();
         collapsedRowGroupKeys.Clear();
         collapsedColumnGroupKeys.Clear();
         expandedRowGroupKeys.Clear();
@@ -311,9 +317,34 @@ public partial class PivotGrid<TItem> : BaseComponent
     private void RequestPivotRefresh()
     {
         if ( UsesExternalData )
-            QueueExternalDataRead();
+        {
+            if ( IsExternalVirtualizeActive )
+                PrepareExternalVirtualizedData();
+            else
+                QueueExternalDataRead();
+        }
         else
+        {
             RebuildPivot();
+        }
+    }
+
+    private void PrepareExternalVirtualizedData()
+    {
+        if ( externalVirtualizeInitialReadCompleted )
+            return;
+
+        externalData = [];
+        externalPivotResult = null;
+        externalTotalItems = null;
+        externalDataIsPaged = false;
+        pivotResult = BuildPivotResult( [] );
+    }
+
+    private void InvalidateExternalDataRead()
+    {
+        lastExternalDataRequestKey = null;
+        externalVirtualizeInitialReadCompleted = false;
     }
 
     private void QueueExternalDataRead()
@@ -558,12 +589,16 @@ public partial class PivotGrid<TItem> : BaseComponent
 
             if ( dataResult?.Result is not null )
             {
+                ApplyInitialExternalVirtualizedResult( requestKey, dataResult.Result );
+
                 return new( dataResult.Result.Rows, externalTotalItems ?? dataResult.Result.Rows.Count );
             }
 
             var virtualizedData = dataResult?.Data?.ToList() ?? [];
             var virtualizedPivotResult = BuildPivotResult( virtualizedData );
             var rows = virtualizedPivotResult.Rows;
+
+            ApplyInitialExternalVirtualizedResult( requestKey, virtualizedPivotResult );
 
             return new( rows, externalTotalItems ?? rows.Count );
         }
@@ -575,6 +610,19 @@ public partial class PivotGrid<TItem> : BaseComponent
         {
             EndExternalDataRead( cancellationTokenSource );
         }
+    }
+
+    private void ApplyInitialExternalVirtualizedResult( string requestKey, PivotGridResult<TItem> result )
+    {
+        if ( externalVirtualizeInitialReadCompleted )
+            return;
+
+        lastExternalDataRequestKey = requestKey;
+        externalPivotResult = result;
+        pivotResult = result;
+        externalVirtualizeInitialReadCompleted = true;
+
+        _ = InvokeAsync( StateHasChanged );
     }
 
     private PivotGridDataRequest CreateDataRequest( PivotGridReadDataMode? readDataMode = null, int virtualizeOffset = 0, int virtualizeCount = 0 )
@@ -1249,6 +1297,9 @@ public partial class PivotGrid<TItem> : BaseComponent
 
     internal bool IsVirtualizeActive
         => Virtualize && !ShowPager;
+
+    internal bool IsExternalVirtualizeActive
+        => UsesExternalData && IsVirtualizeActive;
 
     internal int VirtualizeOverscanCount
         => VirtualizeOptions?.OverscanCount ?? 10;
