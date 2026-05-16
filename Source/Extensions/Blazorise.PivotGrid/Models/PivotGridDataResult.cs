@@ -27,6 +27,8 @@ public class PivotGridDataResult<TItem>
 
     /// <summary>
     /// Gets or sets an already prepared pivot result. In virtualized result requests, this should contain the requested pivot result rows.
+    /// The result must keep a consistent shape: every row's cells must match <see cref="PivotGridResult{TItem}.DataColumns"/> by count and order.
+    /// During virtualization, data columns and aggregate metadata should remain stable across requests.
     /// </summary>
     public PivotGridResult<TItem> Result { get; set; }
 }

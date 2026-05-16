@@ -395,12 +395,16 @@ public partial class PivotGrid<TItem> : BaseComponent
             externalData = dataResult?.Data?.ToList() ?? [];
             externalTotalItems = dataResult?.TotalItems;
             externalDataIsPaged = dataResult?.IsPaged == true;
-            externalPivotResult = dataResult?.Result;
+            externalPivotResult = PivotGridResultNormalizer.Normalize( dataResult?.Result );
 
             if ( externalPivotResult is not null )
+            {
                 pivotResult = externalPivotResult;
+            }
             else
+            {
                 RebuildPivot();
+            }
 
             await InvokeAsync( StateHasChanged );
         }
@@ -589,9 +593,13 @@ public partial class PivotGrid<TItem> : BaseComponent
 
             if ( dataResult?.Result is not null )
             {
-                ApplyInitialExternalVirtualizedResult( requestKey, dataResult.Result );
+                var virtualizedResult = PivotGridResultNormalizer.NormalizeVirtualized(
+                    dataResult.Result,
+                    externalVirtualizeInitialReadCompleted ? pivotResult : null );
 
-                return new( dataResult.Result.Rows, externalTotalItems ?? dataResult.Result.Rows.Count );
+                ApplyInitialExternalVirtualizedResult( requestKey, virtualizedResult );
+
+                return new( virtualizedResult.Rows, externalTotalItems ?? virtualizedResult.Rows.Count );
             }
 
             var virtualizedData = dataResult?.Data?.ToList() ?? [];

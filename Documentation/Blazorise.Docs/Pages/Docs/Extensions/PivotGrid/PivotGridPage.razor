@@ -2,7 +2,7 @@
 
 <Seo Canonical="/docs/extensions/pivotgrid" Title="Blazorise PivotGrid component" Description="Analyze multi-dimensional data with the Blazorise PivotGrid component, including rows, columns, aggregates, field chooser, paging, virtualization, and styling." />
 
-<DocsPageTitle Path="Extensions/PivotGrid" AddedVersion="Added in v2.1">
+<DocsPageTitle Path="Extensions/PivotGrid" AddedVersion="Added in v2.2">
     Blazorise PivotGrid component
 </DocsPageTitle>
 
@@ -97,11 +97,13 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Paging and Virtualization">
-        Use <Code>ShowPager</Code> for explicit page navigation, or <Code>Virtualize</Code> when users should scroll through a larger pivot result.
+        <Paragraph>
+            Use <Code>ShowPager</Code> for explicit page navigation, or <Code>Virtualize</Code> when users should scroll through a larger pivot result.
+        </Paragraph>
+        <Paragraph>
+            <Code>Virtualize</Code> only limits rendered rows. When using local <Code>Data</Code>, the full pivot result is still computed before rows are virtualized. For large remote datasets, use <Code>ReadData</Code> or <Code>DataSource</Code> with <Code>PivotGridReadDataMode.Virtualize</Code> and return prepared <Code>PivotGridResult</Code> rows for the requested range.
+        </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageParagraph>
-        <Code>Virtualize</Code> only limits rendered rows. When using local <Code>Data</Code>, the full pivot result is still computed before rows are virtualized. For large remote datasets, use <Code>ReadData</Code> or <Code>DataSource</Code> with <Code>PivotGridReadDataMode.Virtualize</Code> and return prepared <Code>PivotGridResult</Code> rows for the requested range.
-    </DocsPageParagraph>
     <DocsPageSectionContent Code="PivotGridPagingVirtualizationExample" Outlined FullWidth>
         <PivotGridPagingVirtualizationExample />
     </DocsPageSectionContent>
@@ -109,7 +111,12 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Remote Virtualization">
-        For remote virtualization, return the requested pivot result rows through <Code>Result</Code> and set <Code>TotalItems</Code> to the total pivot result row count.
+        <Paragraph>
+            For remote virtualization, return the requested pivot result rows through <Code>Result</Code> and set <Code>TotalItems</Code> to the total pivot result row count.
+        </Paragraph>
+        <Paragraph>
+            When returning a prepared <Code>PivotGridResult</Code>, keep the result shape consistent. <Code>DataColumns</Code> defines the cell order, so every returned <Code>PivotGridResultRow</Code> should contain the same number of <Code>Cells</Code>, in the same order. Data columns and aggregate metadata should stay stable across virtualized requests. Row fields, column fields, aggregate info, data columns, rows, and cells should not be <Code>null</Code>.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="PivotGridRemoteVirtualizationExample" Outlined FullWidth>
         <PivotGridRemoteVirtualizationExample />
@@ -118,7 +125,12 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="ReadData and DataSource">
-        Use <Code>ReadData</Code> for callback-based loading, or <Code>DataSource</Code> when the provider should be reusable. For server-side paging, return a prepared <Code>PivotGridResult</Code>, set <Code>IsPaged</Code>, and report the total pivot result row count with <Code>TotalItems</Code>.
+        <Paragraph>
+            Use <Code>ReadData</Code> for callback-based loading, or <Code>DataSource</Code> when the provider should be reusable. For server-side paging, return a prepared <Code>PivotGridResult</Code>, set <Code>IsPaged</Code>, and report the total pivot result row count with <Code>TotalItems</Code>.
+        </Paragraph>
+        <Paragraph>
+            Prepared results returned by providers are normalized before rendering. Null structural entries are ignored, row cells are aligned to <Code>DataColumns</Code>, and missing cells are rendered as empty cells so headers, expansion, and cells stay consistent.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="PivotGridReadDataDataSourceExample" Outlined FullWidth>
         <PivotGridReadDataDataSourceExample />
