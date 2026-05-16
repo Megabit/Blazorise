@@ -196,7 +196,7 @@ else
                 {
                     <Virtualize TItem="PivotGridResultRow<TItem>"
                                 Context="row"
-                                Items="@VirtualizedRows"
+                                ItemsProvider="@PivotGrid.VirtualizeRowsProvider"
                                 ItemSize="@PivotGrid.VirtualizeItemSize"
                                 OverscanCount="@PivotGrid.VirtualizeOverscanCount"
                                 SpacerElement="tr">

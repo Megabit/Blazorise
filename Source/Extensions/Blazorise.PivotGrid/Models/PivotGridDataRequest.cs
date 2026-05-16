@@ -10,6 +10,11 @@ namespace Blazorise.PivotGrid;
 public class PivotGridDataRequest
 {
     /// <summary>
+    /// Gets or sets how data is being requested. When set to <see cref="PivotGridReadDataMode.Virtualize"/>, providers should use <see cref="VirtualizeOffset"/> and <see cref="VirtualizeCount"/> to return the requested pivot result row range.
+    /// </summary>
+    public PivotGridReadDataMode ReadDataMode { get; set; }
+
+    /// <summary>
     /// Gets or sets row field states.
     /// </summary>
     public IReadOnlyList<PivotGridFieldState> Rows { get; set; } = [];
@@ -38,6 +43,16 @@ public class PivotGridDataRequest
     /// Gets or sets the requested page size.
     /// </summary>
     public int PageSize { get; set; } = 10;
+
+    /// <summary>
+    /// Gets or sets the requested virtualized data start index when <see cref="ReadDataMode"/> is <see cref="PivotGridReadDataMode.Virtualize"/>.
+    /// </summary>
+    public int VirtualizeOffset { get; set; }
+
+    /// <summary>
+    /// Gets or sets the requested virtualized data item count when <see cref="ReadDataMode"/> is <see cref="PivotGridReadDataMode.Virtualize"/>.
+    /// </summary>
+    public int VirtualizeCount { get; set; }
 
     /// <summary>
     /// Gets or sets whether paging is applied to top-level groups.
@@ -93,5 +108,4 @@ public class PivotGridDataRequest
     /// Gets or sets whether expandable groups are initially expanded.
     /// </summary>
     public bool InitiallyExpanded { get; set; }
-
 }

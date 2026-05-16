@@ -34,12 +34,12 @@ public class PivotGridReadDataEventArgs<TItem> : EventArgs
     public CancellationToken CancellationToken { get; }
 
     /// <summary>
-    /// Gets or sets raw data items used by the pivot grid to build the result locally.
+    /// Gets or sets raw data items used by the pivot grid to build the result locally. In virtualized result requests, prefer returning <see cref="Result"/> because partial raw data can produce incomplete aggregates.
     /// </summary>
     public IEnumerable<TItem> Data { get; set; }
 
     /// <summary>
-    /// Gets or sets total item count reported by the provider.
+    /// Gets or sets total item count reported by the callback. For virtualized result requests, this is the total number of pivot result rows.
     /// </summary>
     public int? TotalItems { get; set; }
 
@@ -49,7 +49,7 @@ public class PivotGridReadDataEventArgs<TItem> : EventArgs
     public bool IsPaged { get; set; }
 
     /// <summary>
-    /// Gets or sets an already prepared pivot result.
+    /// Gets or sets an already prepared pivot result. In virtualized result requests, this should contain the requested pivot result rows.
     /// </summary>
     public PivotGridResult<TItem> Result { get; set; }
 }

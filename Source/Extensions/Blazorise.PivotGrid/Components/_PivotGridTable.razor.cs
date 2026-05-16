@@ -33,9 +33,6 @@ public partial class _PivotGridTable<TItem>
             .Distinct()
             .ToList();
 
-    private ICollection<PivotGridResultRow<TItem>> VirtualizedRows
-        => Result.Rows as ICollection<PivotGridResultRow<TItem>> ?? Result.Rows.ToList();
-
     private PivotGridFieldInfo<TItem> GetRowField( int index )
         => index < Result.RowFields.Count ? Result.RowFields[index] : null;
 

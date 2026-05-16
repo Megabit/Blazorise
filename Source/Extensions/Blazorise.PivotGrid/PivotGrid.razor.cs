@@ -12,6 +12,7 @@ using Blazorise.PivotGrid.Extensions;
 using Blazorise.PivotGrid.Utilities;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
 #endregion
 
 namespace Blazorise.PivotGrid;
@@ -352,13 +353,7 @@ public partial class PivotGrid<TItem> : BaseComponent
             return;
         }
 
-        lastExternalDataRequestKey = requestKey;
-
-        var previousCancellationTokenSource = readDataCancellationTokenSource;
-        previousCancellationTokenSource?.Cancel();
-
-        var cancellationTokenSource = new CancellationTokenSource();
-        readDataCancellationTokenSource = cancellationTokenSource;
+        var cancellationTokenSource = BeginExternalDataRead();
 
         try
         {
@@ -367,6 +362,7 @@ public partial class PivotGrid<TItem> : BaseComponent
             if ( cancellationTokenSource.IsCancellationRequested )
                 return;
 
+            lastExternalDataRequestKey = requestKey;
             externalData = dataResult?.Data?.ToList() ?? [];
             externalTotalItems = dataResult?.TotalItems;
             externalDataIsPaged = dataResult?.IsPaged == true;
@@ -384,13 +380,32 @@ public partial class PivotGrid<TItem> : BaseComponent
         }
         finally
         {
-            if ( ReferenceEquals( readDataCancellationTokenSource, cancellationTokenSource ) )
-            {
-                readDataCancellationTokenSource = null;
-            }
-
-            cancellationTokenSource.Dispose();
+            EndExternalDataRead( cancellationTokenSource );
         }
+    }
+
+    private CancellationTokenSource BeginExternalDataRead( CancellationToken cancellationToken = default )
+    {
+        var previousCancellationTokenSource = readDataCancellationTokenSource;
+        previousCancellationTokenSource?.Cancel();
+
+        var cancellationTokenSource = cancellationToken.CanBeCanceled
+            ? CancellationTokenSource.CreateLinkedTokenSource( cancellationToken )
+            : new CancellationTokenSource();
+
+        readDataCancellationTokenSource = cancellationTokenSource;
+
+        return cancellationTokenSource;
+    }
+
+    private void EndExternalDataRead( CancellationTokenSource cancellationTokenSource )
+    {
+        if ( ReferenceEquals( readDataCancellationTokenSource, cancellationTokenSource ) )
+        {
+            readDataCancellationTokenSource = null;
+        }
+
+        cancellationTokenSource.Dispose();
     }
 
     private Task<PivotGridDataResult<TItem>> ReadExternalDataResultAsync( PivotGridDataRequest request, CancellationToken cancellationToken )
@@ -423,6 +438,11 @@ public partial class PivotGrid<TItem> : BaseComponent
     {
         EnsureRuntimeState();
 
+        pivotResult = BuildPivotResult( GetCurrentSourceData() );
+    }
+
+    private PivotGridResult<TItem> BuildPivotResult( IReadOnlyList<TItem> sourceData )
+    {
         var rowFields = GetEffectiveRowFields();
         var columnFields = GetEffectiveColumnFields();
         var aggregates = GetEffectiveAggregates();
@@ -432,16 +452,14 @@ public partial class PivotGrid<TItem> : BaseComponent
 
         if ( aggregates.Count == 0 )
         {
-            pivotResult = new( rowFieldInfos, columnFieldInfos, aggregateInfos, [], [] );
-            return;
+            return new( rowFieldInfos, columnFieldInfos, aggregateInfos, [], [] );
         }
 
-        var sourceItems = ApplyFilters( GetCurrentSourceData() );
+        var sourceItems = ApplyFilters( sourceData ?? [] );
 
         if ( sourceItems.Count == 0 )
         {
-            pivotResult = new( rowFieldInfos, columnFieldInfos, aggregateInfos, [], [] );
-            return;
+            return new( rowFieldInfos, columnFieldInfos, aggregateInfos, [], [] );
         }
 
         var showColumnTotalsRow = ShowColumnTotals;
@@ -457,7 +475,7 @@ public partial class PivotGrid<TItem> : BaseComponent
             .Select( row => new PivotGridResultRow<TItem>( row, BuildCells( row, columnFields, dataColumns ) ) )
             .ToList();
 
-        pivotResult = new( rowFieldInfos, columnFieldInfos, aggregateInfos, dataColumns, rows );
+        return new( rowFieldInfos, columnFieldInfos, aggregateInfos, dataColumns, rows );
     }
 
     private void EnsureRuntimeState()
@@ -496,16 +514,92 @@ public partial class PivotGrid<TItem> : BaseComponent
     private IReadOnlyList<TItem> GetCurrentSourceData()
         => UsesExternalData ? externalData : Data?.ToList() ?? [];
 
-    private PivotGridDataRequest CreateDataRequest()
+    internal async ValueTask<ItemsProviderResult<PivotGridResultRow<TItem>>> VirtualizeRowsProvider( ItemsProviderRequest request )
     {
+        if ( request.CancellationToken.IsCancellationRequested )
+            return default;
+
+        if ( UsesExternalData )
+            return await ReadExternalVirtualizedRowsAsync( request );
+
+        var expandedPivotResult = GetExpandedPivotResult();
+        var rows = expandedPivotResult?.Rows ?? [];
+        var totalRows = rows.Count;
+        var requestCount = Math.Min( request.Count, Math.Max( 0, totalRows - request.StartIndex ) );
+
+        return new( rows.Skip( request.StartIndex ).Take( requestCount ).ToList(), totalRows );
+    }
+
+    private async ValueTask<ItemsProviderResult<PivotGridResultRow<TItem>>> ReadExternalVirtualizedRowsAsync( ItemsProviderRequest providerRequest )
+    {
+        EnsureRuntimeState();
+
+        var requestCount = externalTotalItems.HasValue
+            ? Math.Min( providerRequest.Count, Math.Max( 0, externalTotalItems.Value - providerRequest.StartIndex ) )
+            : providerRequest.Count;
+
+        var request = CreateDataRequest( PivotGridReadDataMode.Virtualize, providerRequest.StartIndex, requestCount );
+        var requestKey = CreateDataRequestKey( request );
+
+        if ( readDataCancellationTokenSource is null && string.Equals( lastExternalDataRequestKey, requestKey, StringComparison.Ordinal ) && pivotResult is not null )
+        {
+            return new( pivotResult.Rows, externalTotalItems ?? pivotResult.Rows.Count );
+        }
+
+        var cancellationTokenSource = BeginExternalDataRead( providerRequest.CancellationToken );
+
+        try
+        {
+            var dataResult = await ReadExternalDataResultAsync( request, cancellationTokenSource.Token );
+
+            if ( cancellationTokenSource.IsCancellationRequested )
+                return default;
+
+            externalTotalItems = dataResult?.TotalItems;
+            externalDataIsPaged = dataResult?.IsPaged == true;
+
+            if ( dataResult?.Result is not null )
+            {
+                return new( dataResult.Result.Rows, externalTotalItems ?? dataResult.Result.Rows.Count );
+            }
+
+            var virtualizedData = dataResult?.Data?.ToList() ?? [];
+            var virtualizedPivotResult = BuildPivotResult( virtualizedData );
+            var rows = virtualizedPivotResult.Rows;
+
+            return new( rows, externalTotalItems ?? rows.Count );
+        }
+        catch ( OperationCanceledException )
+        {
+            return default;
+        }
+        finally
+        {
+            EndExternalDataRead( cancellationTokenSource );
+        }
+    }
+
+    private PivotGridDataRequest CreateDataRequest( PivotGridReadDataMode? readDataMode = null, int virtualizeOffset = 0, int virtualizeCount = 0 )
+    {
+        var effectiveReadDataMode = readDataMode
+            ?? ( IsVirtualizeActive ? PivotGridReadDataMode.Virtualize : ShowPager ? PivotGridReadDataMode.Paging : PivotGridReadDataMode.All );
+
+        if ( effectiveReadDataMode == PivotGridReadDataMode.Virtualize && virtualizeCount <= 0 )
+        {
+            virtualizeCount = EffectivePageSize;
+        }
+
         return new()
         {
+            ReadDataMode = effectiveReadDataMode,
             Rows = GetDataRequestRows(),
             Columns = GetDataRequestColumns(),
             Aggregates = GetDataRequestAggregates(),
             Filters = GetDataRequestFilters(),
             Page = CurrentPage,
             PageSize = EffectivePageSize,
+            VirtualizeOffset = effectiveReadDataMode == PivotGridReadDataMode.Virtualize ? Math.Max( 0, virtualizeOffset ) : 0,
+            VirtualizeCount = effectiveReadDataMode == PivotGridReadDataMode.Virtualize ? Math.Max( 0, virtualizeCount ) : 0,
             PageByGroups = PageByGroups,
             ShowPager = ShowPager,
             ShowRowSubtotals = ShowRowSubtotals,
@@ -632,8 +726,11 @@ public partial class PivotGrid<TItem> : BaseComponent
 
     private static string CreateDataRequestKey( PivotGridDataRequest request )
         => string.Join( "|", [
+            request.ReadDataMode.ToString(),
             request.Page.ToString( CultureInfo.InvariantCulture ),
             request.PageSize.ToString( CultureInfo.InvariantCulture ),
+            request.VirtualizeOffset.ToString( CultureInfo.InvariantCulture ),
+            request.VirtualizeCount.ToString( CultureInfo.InvariantCulture ),
             request.PageByGroups.ToString(),
             request.ShowPager.ToString(),
             request.ShowRowSubtotals.ToString(),
@@ -1408,11 +1505,18 @@ public partial class PivotGrid<TItem> : BaseComponent
     /// <summary>
     /// Enables virtualized rendering of pivot rows. Ignored when <see cref="ShowPager"/> is enabled.
     /// </summary>
+    /// <remarks>
+    /// When local <see cref="Data"/> is used, virtualization reduces rendered rows only; the full pivot result is still computed before rendering.
+    /// For large remote datasets, use <see cref="ReadData"/> or <see cref="DataSource"/> with <see cref="PivotGridReadDataMode.Virtualize"/> and return prepared <see cref="PivotGridDataResult{TItem}.Result"/> rows for the requested range.
+    /// </remarks>
     [Parameter] public bool Virtualize { get; set; }
 
     /// <summary>
     /// Defines virtualized row rendering options.
     /// </summary>
+    /// <remarks>
+    /// These options tune rendered row virtualization only. They do not change local pivot grouping or aggregate calculation behavior.
+    /// </remarks>
     [Parameter] public PivotGridVirtualizeOptions VirtualizeOptions { get; set; }
 
     /// <summary>

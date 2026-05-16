@@ -1,7 +1,7 @@
 namespace Blazorise.PivotGrid;
 
 /// <summary>
-/// Defines options for PivotGrid virtualized row rendering.
+/// Defines options for PivotGrid virtualized row rendering. These options do not change local pivot grouping or aggregate calculation behavior.
 /// </summary>
 public class PivotGridVirtualizeOptions
 {

@@ -99,8 +99,20 @@
     <DocsPageSectionHeader Title="Paging and Virtualization">
         Use <Code>ShowPager</Code> for explicit page navigation, or <Code>Virtualize</Code> when users should scroll through a larger pivot result.
     </DocsPageSectionHeader>
+    <DocsPageParagraph>
+        <Code>Virtualize</Code> only limits rendered rows. When using local <Code>Data</Code>, the full pivot result is still computed before rows are virtualized. For large remote datasets, use <Code>ReadData</Code> or <Code>DataSource</Code> with <Code>PivotGridReadDataMode.Virtualize</Code> and return prepared <Code>PivotGridResult</Code> rows for the requested range.
+    </DocsPageParagraph>
     <DocsPageSectionContent Code="PivotGridPagingVirtualizationExample" Outlined FullWidth>
         <PivotGridPagingVirtualizationExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Remote Virtualization">
+        For remote virtualization, return the requested pivot result rows through <Code>Result</Code> and set <Code>TotalItems</Code> to the total pivot result row count.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PivotGridRemoteVirtualizationExample" Outlined FullWidth>
+        <PivotGridRemoteVirtualizationExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 
