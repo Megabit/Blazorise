@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Localization;
@@ -937,9 +938,7 @@ public partial class PivotGrid<TItem> : BaseComponent
     }
 
     internal static string CreateFilterValueKey( object value )
-        => value is null
-            ? "null:"
-            : $"value:{Convert.ToString( value, CultureInfo.InvariantCulture )}";
+        => CreateValueKey( value );
 
     private IReadOnlyList<PivotGridCell<TItem>> BuildCells( PivotGridAxisItem<TItem> row, IReadOnlyList<BasePivotGridField<TItem>> columnFields, IReadOnlyList<PivotGridDataColumn<TItem>> dataColumns )
     {
@@ -1157,7 +1156,51 @@ public partial class PivotGrid<TItem> : BaseComponent
     }
 
     private static string CreateGroupKey( IEnumerable<object> values )
-        => string.Join( "\u001f", values.Select( value => value is null ? "null:" : $"value:{Convert.ToString( value, CultureInfo.InvariantCulture )}" ) );
+    {
+        StringBuilder builder = new();
+
+        foreach ( object value in values )
+        {
+            AppendValueKey( builder, value );
+        }
+
+        return builder.ToString();
+    }
+
+    private static string CreateValueKey( object value )
+    {
+        StringBuilder builder = new();
+
+        AppendValueKey( builder, value );
+
+        return builder.ToString();
+    }
+
+    private static void AppendValueKey( StringBuilder builder, object value )
+    {
+        // Length-prefix both the value type and formatted value so group/filter keys cannot collide
+        // when values contain separators or different value types format to the same text.
+        if ( value is null )
+        {
+            builder.Append( "n;" );
+            return;
+        }
+
+        Type valueType = value.GetType();
+        string typeName = valueType.AssemblyQualifiedName ?? valueType.FullName ?? valueType.Name;
+        string text = value is IFormattable formattable
+            ? formattable.ToString( null, CultureInfo.InvariantCulture )
+            : value.ToString() ?? string.Empty;
+
+        builder
+            .Append( "v;" )
+            .Append( typeName.Length.ToString( CultureInfo.InvariantCulture ) )
+            .Append( ';' )
+            .Append( typeName )
+            .Append( text.Length.ToString( CultureInfo.InvariantCulture ) )
+            .Append( ';' )
+            .Append( text );
+    }
 
     private PivotGridResult<TItem> GetExpandedPivotResult()
     {
