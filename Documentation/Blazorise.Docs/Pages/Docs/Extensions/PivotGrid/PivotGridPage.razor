@@ -117,6 +117,42 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="ReadData and DataSource">
+        Use <Code>ReadData</Code> for callback-based loading, or <Code>DataSource</Code> when the provider should be reusable. For server-side paging, return a prepared <Code>PivotGridResult</Code>, set <Code>IsPaged</Code>, and report the total pivot result row count with <Code>TotalItems</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PivotGridReadDataDataSourceExample" Outlined FullWidth>
+        <PivotGridReadDataDataSourceExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Templates and Cell Clicks">
+        Customize headers, row and column values, aggregate cells, and handle <Code>CellClicked</Code> to inspect the source items behind a pivot value.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PivotGridTemplatesEventsExample" Outlined FullWidth>
+        <PivotGridTemplatesEventsExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Filters and Expansion">
+        Use the field chooser to move fields into filters, and enable expandable rows or columns when users should drill into grouped results.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PivotGridFiltersExpansionExample" Outlined FullWidth>
+        <PivotGridFiltersExpansionExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom Aggregator">
+        Set <Code>Aggregator</Code> when a value field needs domain-specific aggregation instead of one of the built-in aggregate functions.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PivotGridCustomAggregatorExample" Outlined FullWidth>
+        <PivotGridCustomAggregatorExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Styling">
         Use <Code>CellStyling</Code>, <Code>RowHeaderStyling</Code>, and <Code>ColumnHeaderStyling</Code> to apply conditional styling.
     </DocsPageSectionHeader>
@@ -125,4 +161,4 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(PivotGrid<>)]" />
+<ComponentApiDocs ComponentTypes="[typeof(PivotGrid<>), typeof(PivotGridFields<>), typeof(PivotGridField<>), typeof(PivotGridColumns<>), typeof(PivotGridColumn<>), typeof(PivotGridRows<>), typeof(PivotGridRow<>), typeof(PivotGridAggregates<>), typeof(PivotGridAggregate<>), typeof(PivotGridVirtualizeOptions), typeof(PivotGridDataRequest), typeof(PivotGridDataResult<>), typeof(PivotGridReadDataEventArgs<>), typeof(PivotGridCellClickedEventArgs<>), typeof(PivotGridResult<>), typeof(PivotGridAxisItem<>), typeof(PivotGridCell<>), typeof(PivotGridDataColumn<>), typeof(PivotGridResultRow<>), typeof(PivotGridFieldInfo<>), typeof(PivotGridAggregateInfo<>)]" />

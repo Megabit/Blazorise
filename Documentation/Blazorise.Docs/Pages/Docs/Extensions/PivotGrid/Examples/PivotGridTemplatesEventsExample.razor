@@ -1,0 +1,70 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<PivotGrid TItem="TemplateSale"
+           Data="@Sales"
+           CellClicked="@OnCellClicked"
+           ShowRowTotals
+           ShowColumnTotals
+           Striped>
+    <PivotGridColumns>
+        <PivotGridColumn Field="@nameof( TemplateSale.Region )" Caption="Region">
+            <DisplayTemplate Context="context">
+                <Badge Color="Color.Info">@context.FormattedValue</Badge>
+            </DisplayTemplate>
+        </PivotGridColumn>
+    </PivotGridColumns>
+    <PivotGridRows>
+        <PivotGridRow Field="@nameof( TemplateSale.Category )" Caption="Category">
+            <HeaderTemplate Context="context">
+                <Span TextWeight="TextWeight.Bold">@context.Caption</Span>
+            </HeaderTemplate>
+            <DisplayTemplate Context="context">
+                <Span TextColor="@(context.IsTotal ? TextColor.Primary : TextColor.Body)">@context.FormattedValue</Span>
+            </DisplayTemplate>
+        </PivotGridRow>
+    </PivotGridRows>
+    <PivotGridAggregates>
+        <PivotGridAggregate Field="@nameof( TemplateSale.Amount )"
+                            Caption="Revenue"
+                            DisplayFormat="{0:C0}"
+                            DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "en-US" )">
+            <CellTemplate Context="context">
+                <Span TextWeight="@(context.IsGrandTotal ? TextWeight.Bold : TextWeight.Default)">
+                    @context.FormattedValue
+                </Span>
+            </CellTemplate>
+        </PivotGridAggregate>
+    </PivotGridAggregates>
+</PivotGrid>
+
+<Alert Color="Color.Info" Visible="@(!string.IsNullOrWhiteSpace( selectedCellText ))" Margin="Margin.Is3.FromTop">
+    @selectedCellText
+</Alert>
+
+@code {
+    private string selectedCellText;
+
+    private readonly List<TemplateSale> Sales =
+    [
+        new() { Region = "Central", Category = "Hardware", Amount = 51200m },
+        new() { Region = "Central", Category = "Software", Amount = 94200m },
+        new() { Region = "Western", Category = "Hardware", Amount = 127500m },
+        new() { Region = "Western", Category = "Services", Amount = 66300m },
+    ];
+
+    private Task OnCellClicked( PivotGridCellClickedEventArgs<TemplateSale> eventArgs )
+    {
+        selectedCellText = $"{eventArgs.Aggregate.Caption}: {eventArgs.Value:C0} from {eventArgs.Items.Count} source rows";
+
+        return Task.CompletedTask;
+    }
+
+    public class TemplateSale
+    {
+        public string Region { get; set; }
+
+        public string Category { get; set; }
+
+        public decimal Amount { get; set; }
+    }
+}

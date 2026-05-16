@@ -1,0 +1,206 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>Provider<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Select</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">ProviderMode</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>providerMode</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SelectItem</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">ProviderMode</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ProviderMode</span><span class="enumValue">.ReadData</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>ReadData callback<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SelectItem</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SelectItem</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">ProviderMode</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ProviderMode</span><span class="enumValue">.DataSource</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>DataSource implementation<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SelectItem</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Select</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">RemoteSale</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">ReadData</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>CurrentReadData</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">DataSource</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>CurrentDataSource</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">ShowPager</span>
+           <span class="htmlAttributeName">PageSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">4</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">ShowRowTotals</span>
+           <span class="htmlAttributeName">Striped</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridColumns</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridColumn</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( RemoteSale.Quarter )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Quarter</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PivotGridColumns</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridRows</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridRow</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( RemoteSale.Customer )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Customer</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PivotGridRows</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridAggregates</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGridAggregate</span> <span class="htmlAttributeName">Field</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>nameof( RemoteSale.Amount )</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">Caption</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Amount</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">Aggregate</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">PivotGridAggregateFunction</span><span class="enumValue">.Sum</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">DisplayFormat</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">{0:C0}</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">DisplayFormatProvider</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>System.Globalization.CultureInfo.GetCultureInfo( &quot;en-US&quot; )</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PivotGridAggregates</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">PivotGrid</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> <span class="keyword">string</span>[] quarters = [<span class="string">&quot;Q1&quot;</span>, <span class="string">&quot;Q2&quot;</span>, <span class="string">&quot;Q3&quot;</span>, <span class="string">&quot;Q4&quot;</span>];
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> IReadOnlyList&lt;RemoteSale&gt; sales = CreateSales();
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IPivotGridDataSource&lt;RemoteSale&gt; dataSource = <span class="keyword">new</span> RemoteSaleDataSource( sales );
+
+    <span class="keyword">private</span> ProviderMode providerMode = ProviderMode.ReadData;
+
+    <span class="keyword">private</span> EventCallback&lt;PivotGridReadDataEventArgs&lt;RemoteSale&gt;&gt; CurrentReadData
+        =&gt; providerMode == ProviderMode.ReadData
+            ? EventCallback.Factory.Create&lt;PivotGridReadDataEventArgs&lt;RemoteSale&gt;&gt;( <span class="keyword">this</span>, ReadRemoteData )
+            : <span class="keyword">default</span>;
+
+    <span class="keyword">private</span> IPivotGridDataSource&lt;RemoteSale&gt; CurrentDataSource
+        =&gt; providerMode == ProviderMode.DataSource ? dataSource : <span class="keyword">null</span>;
+
+    <span class="keyword">private</span> Task ReadRemoteData( PivotGridReadDataEventArgs&lt;RemoteSale&gt; eventArgs )
+    {
+        PivotGridDataResult&lt;RemoteSale&gt; result = CreatePagedPivotResult( sales, eventArgs.Request );
+
+        eventArgs.Result = result.Result;
+        eventArgs.TotalItems = result.TotalItems;
+        eventArgs.IsPaged = result.IsPaged;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> PivotGridDataResult&lt;RemoteSale&gt; CreatePagedPivotResult( IReadOnlyList&lt;RemoteSale&gt; source, PivotGridDataRequest request )
+    {
+        PivotGridFieldInfo&lt;RemoteSale&gt; rowField = <span class="keyword">new</span>()
+        {
+            Field = nameof( RemoteSale.Customer ),
+            Caption = <span class="string">&quot;Customer&quot;</span>,
+        };
+
+        PivotGridFieldInfo&lt;RemoteSale&gt; columnField = <span class="keyword">new</span>()
+        {
+            Field = nameof( RemoteSale.Quarter ),
+            Caption = <span class="string">&quot;Quarter&quot;</span>,
+        };
+
+        PivotGridAggregateInfo&lt;RemoteSale&gt; aggregate = <span class="keyword">new</span>()
+        {
+            Field = nameof( RemoteSale.Amount ),
+            Caption = <span class="string">&quot;Amount&quot;</span>,
+            Aggregate = PivotGridAggregateFunction.Sum,
+            DisplayFormat = <span class="string">&quot;{0:C0}&quot;</span>,
+            DisplayFormatProvider = System.Globalization.CultureInfo.GetCultureInfo( <span class="string">&quot;en-US&quot;</span> ),
+        };
+
+        List&lt;PivotGridAxisItem&lt;RemoteSale&gt;&gt; columnItems = quarters
+            .Select( quarter =&gt; <span class="keyword">new</span> PivotGridAxisItem&lt;RemoteSale&gt;(
+                [quarter],
+                source.Where( sale =&gt; sale.Quarter == quarter ).ToList(),
+                <span class="number">0</span>,
+                <span class="keyword">false</span>,
+                <span class="keyword">false</span> ) )
+            .ToList();
+
+        <span class="keyword">if</span> ( request.ShowRowTotals )
+        {
+            columnItems.Add( <span class="keyword">new</span> PivotGridAxisItem&lt;RemoteSale&gt;( [], source, <span class="number">0</span>, <span class="keyword">false</span>, <span class="keyword">true</span> ) );
+        }
+
+        List&lt;PivotGridDataColumn&lt;RemoteSale&gt;&gt; dataColumns = columnItems
+            .Select( column =&gt; <span class="keyword">new</span> PivotGridDataColumn&lt;RemoteSale&gt;( column, aggregate ) )
+            .ToList();
+
+        List&lt;IGrouping&lt;<span class="keyword">string</span>, RemoteSale&gt;&gt; customerGroups = source
+            .GroupBy( sale =&gt; sale.Customer )
+            .OrderBy( <span class="keyword">group</span> =&gt; <span class="keyword">group</span>.Key )
+            .ToList();
+
+        <span class="keyword">int</span> totalRows = customerGroups.Count;
+        <span class="keyword">int</span> skip = request.ReadDataMode == PivotGridReadDataMode.Paging
+            ? Math.Max( <span class="number">0</span>, ( request.Page - <span class="number">1</span> ) * request.PageSize )
+            : <span class="number">0</span>;
+        <span class="keyword">int</span> take = request.ReadDataMode == PivotGridReadDataMode.Paging
+            ? request.PageSize
+            : totalRows;
+
+        List&lt;PivotGridResultRow&lt;RemoteSale&gt;&gt; rows = customerGroups
+            .Skip( skip )
+            .Take( take )
+            .Select( <span class="keyword">group</span> =&gt;
+            {
+                List&lt;RemoteSale&gt; rowItems = <span class="keyword">group</span>.ToList();
+                PivotGridAxisItem&lt;RemoteSale&gt; row = <span class="keyword">new</span>( [<span class="keyword">group</span>.Key], rowItems, <span class="number">0</span>, <span class="keyword">false</span>, <span class="keyword">false</span> );
+
+                List&lt;PivotGridCell&lt;RemoteSale&gt;&gt; cells = dataColumns
+                    .Select( dataColumn =&gt;
+                    {
+                        List&lt;RemoteSale&gt; cellItems = dataColumn.Column.IsGrandTotal
+                            ? rowItems
+                            : rowItems.Where( sale =&gt; sale.Quarter == dataColumn.Column.Values[<span class="number">0</span>]?.ToString() ).ToList();
+                        <span class="keyword">object</span> value = aggregate.Calculate( cellItems );
+
+                        <span class="keyword">return</span> <span class="keyword">new</span> PivotGridCell&lt;RemoteSale&gt;(
+                            dataColumn,
+                            value,
+                            aggregate.FormatValue( value ),
+                            cellItems,
+                            dataColumn.Column.IsGrandTotal,
+                            <span class="keyword">false</span>,
+                            <span class="keyword">false</span> );
+                    } )
+                    .ToList();
+
+                <span class="keyword">return</span> <span class="keyword">new</span> PivotGridResultRow&lt;RemoteSale&gt;( row, cells );
+            } )
+            .ToList();
+
+        <span class="keyword">return</span> <span class="keyword">new</span>()
+        {
+            Result = <span class="keyword">new</span>( [rowField], [columnField], [aggregate], dataColumns, rows ),
+            TotalItems = totalRows,
+            IsPaged = <span class="keyword">true</span>,
+        };
+    }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> List&lt;RemoteSale&gt; CreateSales()
+    {
+        List&lt;RemoteSale&gt; data = <span class="keyword">new</span>();
+
+        <span class="keyword">for</span> ( <span class="keyword">int</span> customerIndex = <span class="number">1</span>; customerIndex &lt;= <span class="number">18</span>; customerIndex++ )
+        {
+            <span class="keyword">foreach</span> ( <span class="keyword">string</span> quarter <span class="keyword">in</span> quarters )
+            {
+                data.Add( <span class="keyword">new</span>()
+                {
+                    Customer = $<span class="string">&quot;Customer {customerIndex:00}&quot;</span>,
+                    Quarter = quarter,
+                    Amount = 12000m + ( customerIndex * 950m ) + ( Array.IndexOf( quarters, quarter ) * 2250m ),
+                } );
+            }
+        }
+
+        <span class="keyword">return</span> data;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">enum</span> ProviderMode
+    {
+        ReadData,
+        DataSource,
+    }
+
+    <span class="keyword">private</span> <span class="keyword">sealed</span> <span class="keyword">class</span> RemoteSaleDataSource : IPivotGridDataSource&lt;RemoteSale&gt;
+    {
+        <span class="keyword">private</span> <span class="keyword">readonly</span> IReadOnlyList&lt;RemoteSale&gt; source;
+
+        <span class="keyword">public</span> RemoteSaleDataSource( IReadOnlyList&lt;RemoteSale&gt; source )
+        {
+            <span class="keyword">this</span>.source = source;
+        }
+
+        <span class="keyword">public</span> Task&lt;PivotGridDataResult&lt;RemoteSale&gt;&gt; ReadDataAsync( PivotGridDataRequest request, System.Threading.CancellationToken cancellationToken )
+            =&gt; Task.FromResult( CreatePagedPivotResult( source, request ) );
+    }
+
+    <span class="keyword">public</span> <span class="keyword">class</span> RemoteSale
+    {
+        <span class="keyword">public</span> <span class="keyword">string</span> Customer { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> Quarter { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">decimal</span> Amount { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+}
+</pre></div>
+</div>
