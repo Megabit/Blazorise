@@ -36,10 +36,7 @@ internal static class PivotGridResultNormalizer
 
                 return new PivotGridResultRow<TItem>(
                     rowAxisItem,
-                    dataColumnIndexes.Select( ( sourceIndex, index ) =>
-                        row.Cells is not null && sourceIndex < row.Cells.Count
-                            ? CreateCell( row.Cells[sourceIndex], dataColumns[index], rowAxisItem )
-                            : CreateEmptyCell( dataColumns[index], rowAxisItem ) ).ToList() );
+                    ProjectCells( row.Cells, dataColumns, dataColumnIndexes, rowAxisItem ) );
             } )
             .ToList();
 
@@ -65,10 +62,7 @@ internal static class PivotGridResultNormalizer
         var rows = normalizedResult.Rows
             .Select( row => new PivotGridResultRow<TItem>(
                 row.Row,
-                dataColumnIndexes.Select( ( dataColumnIndex, index ) =>
-                    dataColumnIndex >= 0 && dataColumnIndex < row.Cells.Count
-                        ? CreateCell( row.Cells[dataColumnIndex], currentResult.DataColumns[index], row.Row )
-                        : CreateEmptyCell( currentResult.DataColumns[index], row.Row ) ).ToList() ) )
+                ProjectCells( row.Cells, currentResult.DataColumns, dataColumnIndexes, row.Row ) ) )
             .ToList();
 
         return new( currentResult.RowFields, currentResult.ColumnFields, currentResult.Aggregates, currentResult.DataColumns, rows );
@@ -92,6 +86,14 @@ internal static class PivotGridResultNormalizer
         => string.Equals( aggregate.Field, currentAggregate.Field, StringComparison.Ordinal )
             && string.Equals( aggregate.Caption, currentAggregate.Caption, StringComparison.Ordinal )
             && aggregate.Aggregate == currentAggregate.Aggregate;
+
+    private static IReadOnlyList<PivotGridCell<TItem>> ProjectCells<TItem>( IReadOnlyList<PivotGridCell<TItem>> sourceCells, IReadOnlyList<PivotGridDataColumn<TItem>> dataColumns, IReadOnlyList<int> sourceIndexes, PivotGridAxisItem<TItem> row )
+        => sourceIndexes
+            .Select( ( sourceIndex, index ) =>
+                sourceCells is not null && sourceIndex >= 0 && sourceIndex < sourceCells.Count
+                    ? CreateCell( sourceCells[sourceIndex], dataColumns[index], row )
+                    : CreateEmptyCell( dataColumns[index], row ) )
+            .ToList();
 
     private static PivotGridAxisItem<TItem> NormalizeAxisItem<TItem>( PivotGridAxisItem<TItem> axisItem )
         => axisItem.Values is not null && axisItem.Items is not null

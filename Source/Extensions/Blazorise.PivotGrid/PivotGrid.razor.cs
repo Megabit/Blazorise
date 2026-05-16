@@ -48,7 +48,7 @@ public partial class PivotGrid<TItem> : BaseComponent
     private IPivotGridDataSource<TItem> previousDataSource;
     private bool previousReadDataHasDelegate;
     private bool externalDataReadQueued;
-    private bool externalVirtualizeInitialReadCompleted;
+    private bool externalVirtualizedResultInitialized;
 
     #endregion
 
@@ -331,7 +331,7 @@ public partial class PivotGrid<TItem> : BaseComponent
 
     private void PrepareExternalVirtualizedData()
     {
-        if ( externalVirtualizeInitialReadCompleted )
+        if ( externalVirtualizedResultInitialized )
             return;
 
         externalData = [];
@@ -344,7 +344,7 @@ public partial class PivotGrid<TItem> : BaseComponent
     private void InvalidateExternalDataRead()
     {
         lastExternalDataRequestKey = null;
-        externalVirtualizeInitialReadCompleted = false;
+        externalVirtualizedResultInitialized = false;
     }
 
     private void QueueExternalDataRead()
@@ -392,19 +392,7 @@ public partial class PivotGrid<TItem> : BaseComponent
                 return;
 
             lastExternalDataRequestKey = requestKey;
-            externalData = dataResult?.Data?.ToList() ?? [];
-            externalTotalItems = dataResult?.TotalItems;
-            externalDataIsPaged = dataResult?.IsPaged == true;
-            externalPivotResult = PivotGridResultNormalizer.Normalize( dataResult?.Result );
-
-            if ( externalPivotResult is not null )
-            {
-                pivotResult = externalPivotResult;
-            }
-            else
-            {
-                RebuildPivot();
-            }
+            ApplyExternalDataResult( dataResult );
 
             await InvokeAsync( StateHasChanged );
         }
@@ -415,6 +403,24 @@ public partial class PivotGrid<TItem> : BaseComponent
         {
             EndExternalDataRead( cancellationTokenSource );
         }
+    }
+
+    private void ApplyExternalDataResult( PivotGridDataResult<TItem> dataResult )
+    {
+        externalData = dataResult?.Data?.ToList() ?? [];
+        ApplyExternalDataResultMetadata( dataResult );
+        externalPivotResult = PivotGridResultNormalizer.Normalize( dataResult?.Result );
+
+        if ( externalPivotResult is not null )
+            pivotResult = externalPivotResult;
+        else
+            RebuildPivot();
+    }
+
+    private void ApplyExternalDataResultMetadata( PivotGridDataResult<TItem> dataResult )
+    {
+        externalTotalItems = dataResult?.TotalItems;
+        externalDataIsPaged = dataResult?.IsPaged == true;
     }
 
     private CancellationTokenSource BeginExternalDataRead( CancellationToken cancellationToken = default )
@@ -530,19 +536,22 @@ public partial class PivotGrid<TItem> : BaseComponent
     }
 
     private IReadOnlyList<BasePivotGridField<TItem>> GetEffectiveRowFields()
-        => ShowFieldChooser
-            ? GetActiveRuntimeFieldStates( runtimeRows, PivotGridFieldArea.Row ).Select( x => CreateRuntimeField( x, PivotGridFieldArea.Row ) ).ToList()
-            : fields.Where( x => x.Visible && x.FieldArea == PivotGridFieldArea.Row ).ToList();
+        => GetEffectiveFields( PivotGridFieldArea.Row );
 
     private IReadOnlyList<BasePivotGridField<TItem>> GetEffectiveColumnFields()
-        => ShowFieldChooser
-            ? GetActiveRuntimeFieldStates( runtimeColumns, PivotGridFieldArea.Column ).Select( x => CreateRuntimeField( x, PivotGridFieldArea.Column ) ).ToList()
-            : fields.Where( x => x.Visible && x.FieldArea == PivotGridFieldArea.Column ).ToList();
+        => GetEffectiveFields( PivotGridFieldArea.Column );
 
     private IReadOnlyList<PivotGridAggregate<TItem>> GetEffectiveAggregates()
         => ShowFieldChooser
-            ? GetActiveRuntimeFieldStates( runtimeAggregates, PivotGridFieldArea.Aggregate ).Select( CreateRuntimeAggregate ).ToList()
-            : fields.OfType<PivotGridAggregate<TItem>>().Where( x => x.Visible && x.FieldArea == PivotGridFieldArea.Aggregate ).ToList();
+            ? GetActiveRuntimeFieldStates( GetRuntimeFieldStates( PivotGridFieldArea.Aggregate ), PivotGridFieldArea.Aggregate )
+                .Select( CreateRuntimeAggregate )
+                .ToList()
+            : GetDeclaredAggregates();
+
+    private IReadOnlyList<BasePivotGridField<TItem>> GetEffectiveFields( PivotGridFieldArea area )
+        => ShowFieldChooser
+            ? GetActiveRuntimeFieldStates( GetRuntimeFieldStates( area ), area ).Select( x => CreateRuntimeField( x, area ) ).ToList()
+            : GetDeclaredFields( area );
 
     private IReadOnlyList<TItem> GetCurrentSourceData()
         => UsesExternalData ? externalData : Data?.ToList() ?? [];
@@ -588,14 +597,13 @@ public partial class PivotGrid<TItem> : BaseComponent
             if ( cancellationTokenSource.IsCancellationRequested )
                 return default;
 
-            externalTotalItems = dataResult?.TotalItems;
-            externalDataIsPaged = dataResult?.IsPaged == true;
+            ApplyExternalDataResultMetadata( dataResult );
 
             if ( dataResult?.Result is not null )
             {
                 var virtualizedResult = PivotGridResultNormalizer.NormalizeVirtualized(
                     dataResult.Result,
-                    externalVirtualizeInitialReadCompleted ? pivotResult : null );
+                    externalVirtualizedResultInitialized ? pivotResult : null );
 
                 ApplyInitialExternalVirtualizedResult( requestKey, virtualizedResult );
 
@@ -622,13 +630,13 @@ public partial class PivotGrid<TItem> : BaseComponent
 
     private void ApplyInitialExternalVirtualizedResult( string requestKey, PivotGridResult<TItem> result )
     {
-        if ( externalVirtualizeInitialReadCompleted )
+        if ( externalVirtualizedResultInitialized )
             return;
 
         lastExternalDataRequestKey = requestKey;
         externalPivotResult = result;
         pivotResult = result;
-        externalVirtualizeInitialReadCompleted = true;
+        externalVirtualizedResultInitialized = true;
 
         _ = InvokeAsync( StateHasChanged );
     }
@@ -669,30 +677,61 @@ public partial class PivotGrid<TItem> : BaseComponent
     }
 
     private IReadOnlyList<PivotGridFieldState> GetDataRequestRows()
-        => ShowFieldChooser
-            ? GetRuntimeRows()
-            : fields.Where( x => x.Visible && x.FieldArea == PivotGridFieldArea.Row ).Select( x => CreateFieldState( x, PivotGridFieldArea.Row ) ).ToList();
+        => GetDataRequestFields( PivotGridFieldArea.Row );
 
     private IReadOnlyList<PivotGridFieldState> GetDataRequestColumns()
-        => ShowFieldChooser
-            ? GetRuntimeColumns()
-            : fields.Where( x => x.Visible && x.FieldArea == PivotGridFieldArea.Column ).Select( x => CreateFieldState( x, PivotGridFieldArea.Column ) ).ToList();
+        => GetDataRequestFields( PivotGridFieldArea.Column );
 
     private IReadOnlyList<PivotGridFieldState> GetDataRequestAggregates()
-        => ShowFieldChooser
-            ? GetRuntimeAggregates()
-            : fields.OfType<PivotGridAggregate<TItem>>().Where( x => x.Visible && x.FieldArea == PivotGridFieldArea.Aggregate ).Select( x => CreateFieldState( x, PivotGridFieldArea.Aggregate ) ).ToList();
+        => GetDataRequestFields( PivotGridFieldArea.Aggregate );
 
     private IReadOnlyList<PivotGridFieldState> GetDataRequestFilters()
         => ShowFieldChooser
             ? GetRuntimeFilters()
             : [];
 
+    private IReadOnlyList<PivotGridFieldState> GetDataRequestFields( PivotGridFieldArea area )
+        => ShowFieldChooser
+            ? GetActiveRuntimeFieldStates( GetRuntimeFieldStates( area ), area )
+            : GetDeclaredFieldStates( area );
+
+    private IReadOnlyList<BasePivotGridField<TItem>> GetDeclaredFields( PivotGridFieldArea area )
+        => fields.Where( x => x.Visible && x.FieldArea == area ).ToList();
+
+    private IReadOnlyList<PivotGridAggregate<TItem>> GetDeclaredAggregates()
+        => fields.OfType<PivotGridAggregate<TItem>>().Where( x => x.Visible && x.FieldArea == PivotGridFieldArea.Aggregate ).ToList();
+
+    private IReadOnlyList<PivotGridFieldState> GetDeclaredFieldStates( PivotGridFieldArea area )
+        => area == PivotGridFieldArea.Aggregate
+            ? GetDeclaredAggregates().Select( x => CreateFieldState( x, area ) ).ToList()
+            : GetDeclaredFields( area ).Select( x => CreateFieldState( x, area ) ).ToList();
+
+    private IReadOnlyList<PivotGridFieldState> GetRuntimeFieldStates( PivotGridFieldArea area )
+        => area switch
+        {
+            PivotGridFieldArea.Row => runtimeRows,
+            PivotGridFieldArea.Column => runtimeColumns,
+            PivotGridFieldArea.Aggregate => runtimeAggregates,
+            PivotGridFieldArea.Filter => runtimeFilters,
+            _ => [],
+        };
+
     private IReadOnlyList<PivotGridFieldState> GetActiveRuntimeFieldStates( IReadOnlyList<PivotGridFieldState> states, PivotGridFieldArea area )
-        => states
-            .Where( state => IsRuntimeFieldStateVisible( state, area ) )
-            .Select( state => CreateCurrentRuntimeFieldState( state, area ) )
-            .ToList();
+    {
+        var activeStates = new List<PivotGridFieldState>();
+
+        foreach ( var state in states )
+        {
+            var source = FindRuntimeFieldMetadata( state, area );
+
+            if ( source?.Visible != true )
+                continue;
+
+            activeStates.Add( CreateCurrentRuntimeFieldState( state, source ) );
+        }
+
+        return activeStates;
+    }
 
     private static PivotGridFieldInfo<TItem> CreateFieldInfo( BasePivotGridField<TItem> field )
         => new ComponentPivotGridFieldInfo( field );
@@ -754,26 +793,11 @@ public partial class PivotGrid<TItem> : BaseComponent
             => aggregate.Calculate( items );
     }
 
-    private bool IsRuntimeFieldStateVisible( PivotGridFieldState state, PivotGridFieldArea area )
-    {
-        if ( state is null || string.IsNullOrWhiteSpace( state.Field ) )
-            return false;
-
-        var source = FindFieldMetadata( state.Field, area );
-
-        return source?.Visible == true;
-    }
-
-    private PivotGridFieldState CreateCurrentRuntimeFieldState( PivotGridFieldState state, PivotGridFieldArea area )
+    private PivotGridFieldState CreateCurrentRuntimeFieldState( PivotGridFieldState state, BasePivotGridField<TItem> source )
     {
         var clone = PivotGridFieldStateUtilities.Clone( state );
-        var source = FindFieldMetadata( state.Field, area );
-
-        if ( source is not null )
-        {
-            clone.Caption = source.GetCaption();
-            clone.FieldType = PivotGridFieldUtilities.GetFieldValueType<TItem>( source.Field );
-        }
+        clone.Caption = source.GetCaption();
+        clone.FieldType = PivotGridFieldUtilities.GetFieldValueType<TItem>( source.Field );
 
         return clone;
     }
@@ -783,8 +807,7 @@ public partial class PivotGrid<TItem> : BaseComponent
         if ( !ShowFieldChooser || runtimeFilters.Count == 0 )
             return sourceItems;
 
-        var activeFilters = runtimeFilters
-            .Where( x => IsRuntimeFieldStateVisible( x, PivotGridFieldArea.Filter ) )
+        var activeFilters = GetActiveRuntimeFieldStates( runtimeFilters, PivotGridFieldArea.Filter )
             .Where( x => !string.IsNullOrEmpty( x.FilterValueKey ) )
             .ToList();
 
@@ -861,6 +884,11 @@ public partial class PivotGrid<TItem> : BaseComponent
         => fields.FirstOrDefault( x => string.Equals( x.Field, fieldName, StringComparison.Ordinal ) && x.FieldArea == area )
             ?? fields.FirstOrDefault( x => string.Equals( x.Field, fieldName, StringComparison.Ordinal ) && x.FieldArea == PivotGridFieldArea.Available )
             ?? fields.FirstOrDefault( x => string.Equals( x.Field, fieldName, StringComparison.Ordinal ) );
+
+    private BasePivotGridField<TItem> FindRuntimeFieldMetadata( PivotGridFieldState state, PivotGridFieldArea area )
+        => state is null || string.IsNullOrWhiteSpace( state.Field )
+            ? null
+            : FindFieldMetadata( state.Field, area );
 
     internal IReadOnlyList<PivotGridFieldState> GetFieldChooserCatalog()
     {
@@ -1076,17 +1104,13 @@ public partial class PivotGrid<TItem> : BaseComponent
         if ( pivotResult is null || pivotResult.Rows.Count == 0 )
             return [];
 
-        if ( !ExpandableRows )
-            return pivotResult.Rows;
-
-        var expandableGroupKeys = pivotResult.Rows
-            .Where( row => PivotGridAxisItemUtilities.CanToggleExpansion( row.Row, pivotResult.RowFields ) )
-            .Select( row => PivotGridKeyGenerator.CreateGroupKey( row.Row.Values ) )
-            .ToHashSet( StringComparer.Ordinal );
-
-        return pivotResult.Rows
-            .Where( row => IsAxisItemVisible( row.Row, pivotResult.RowFields, expandableGroupKeys, collapsedRowGroupKeys, expandedRowGroupKeys ) )
-            .ToList();
+        return GetVisibleAxisValues(
+            pivotResult.Rows,
+            row => row.Row,
+            pivotResult.RowFields,
+            ExpandableRows,
+            collapsedRowGroupKeys,
+            expandedRowGroupKeys );
     }
 
     private IReadOnlyList<int> GetExpandedDataColumnIndexes()
@@ -1094,20 +1118,31 @@ public partial class PivotGrid<TItem> : BaseComponent
         if ( pivotResult is null || pivotResult.DataColumns.Count == 0 )
             return [];
 
-        if ( !ExpandableColumns )
-            return Enumerable.Range( 0, pivotResult.DataColumns.Count ).ToList();
+        var indexes = Enumerable.Range( 0, pivotResult.DataColumns.Count ).ToList();
 
-        var expandableGroupKeys = pivotResult.DataColumns
-            .Select( x => x.Column )
-            .Distinct()
-            .Where( column => PivotGridAxisItemUtilities.CanToggleExpansion( column, pivotResult.ColumnFields ) )
-            .Select( column => PivotGridKeyGenerator.CreateGroupKey( column.Values ) )
+        return GetVisibleAxisValues(
+            indexes,
+            index => pivotResult.DataColumns[index].Column,
+            pivotResult.ColumnFields,
+            ExpandableColumns,
+            collapsedColumnGroupKeys,
+            expandedColumnGroupKeys );
+    }
+
+    private IReadOnlyList<TValue> GetVisibleAxisValues<TValue>( IReadOnlyList<TValue> values, Func<TValue, PivotGridAxisItem<TItem>> axisItemSelector, IReadOnlyList<PivotGridFieldInfo<TItem>> axisFields, bool expandable, HashSet<string> collapsedGroupKeys, HashSet<string> expandedGroupKeys )
+    {
+        if ( !expandable )
+            return values;
+
+        var expandableGroupKeys = values
+            .Select( axisItemSelector )
+            .Distinct( PivotGridAxisItemEqualityComparer<TItem>.Instance )
+            .Where( axisItem => PivotGridAxisItemUtilities.CanToggleExpansion( axisItem, axisFields ) )
+            .Select( axisItem => PivotGridKeyGenerator.CreateGroupKey( axisItem.Values ) )
             .ToHashSet( StringComparer.Ordinal );
 
-        return pivotResult.DataColumns
-            .Select( ( dataColumn, index ) => new { dataColumn, index } )
-            .Where( x => IsAxisItemVisible( x.dataColumn.Column, pivotResult.ColumnFields, expandableGroupKeys, collapsedColumnGroupKeys, expandedColumnGroupKeys ) )
-            .Select( x => x.index )
+        return values
+            .Where( value => IsAxisItemVisible( axisItemSelector( value ), axisFields, expandableGroupKeys, collapsedGroupKeys, expandedGroupKeys ) )
             .ToList();
     }
 
