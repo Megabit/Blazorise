@@ -761,7 +761,7 @@ public partial class PivotGrid<TItem> : BaseComponent
 
         var source = FindFieldMetadata( state.Field, area );
 
-        return source?.Visible ?? true;
+        return source?.Visible == true;
     }
 
     private PivotGridFieldState CreateCurrentRuntimeFieldState( PivotGridFieldState state, PivotGridFieldArea area )
