@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.PivotGrid.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -106,7 +107,7 @@ public partial class _PivotGridFieldChooser<TItem>
     private List<PivotGridFieldState> GetActiveFieldStates( PivotGridFieldArea area )
         => chooserItems
             .Where( x => !x.IsAvailableField && x.Area == area )
-            .Select( x => PivotGrid<TItem>.CloneFieldState( x ) )
+            .Select( PivotGridFieldStateUtilities.Clone )
             .ToList();
 
     private bool FieldChooserItemFilter( PivotGridFieldChooserItem item, string dropZoneName )

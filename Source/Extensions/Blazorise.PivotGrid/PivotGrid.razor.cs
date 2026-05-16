@@ -1,10 +1,7 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Localization;
@@ -282,16 +279,16 @@ public partial class PivotGrid<TItem> : BaseComponent
     internal async Task ApplyFieldChooserState( IReadOnlyList<PivotGridFieldState> rows, IReadOnlyList<PivotGridFieldState> columns, IReadOnlyList<PivotGridFieldState> aggregates, IReadOnlyList<PivotGridFieldState> filters )
     {
         runtimeRows.Clear();
-        runtimeRows.AddRange( rows.Select( CloneFieldState ) );
+        runtimeRows.AddRange( rows.Select( PivotGridFieldStateUtilities.Clone ) );
 
         runtimeColumns.Clear();
-        runtimeColumns.AddRange( columns.Select( CloneFieldState ) );
+        runtimeColumns.AddRange( columns.Select( PivotGridFieldStateUtilities.Clone ) );
 
         runtimeAggregates.Clear();
-        runtimeAggregates.AddRange( aggregates.Select( CloneFieldState ) );
+        runtimeAggregates.AddRange( aggregates.Select( PivotGridFieldStateUtilities.Clone ) );
 
         runtimeFilters.Clear();
-        runtimeFilters.AddRange( filters.Select( CloneFieldState ) );
+        runtimeFilters.AddRange( filters.Select( PivotGridFieldStateUtilities.Clone ) );
 
         runtimeStateInitialized = true;
         runtimeStateUserModified = true;
@@ -341,7 +338,7 @@ public partial class PivotGrid<TItem> : BaseComponent
         EnsureRuntimeState();
 
         var request = CreateDataRequest();
-        var requestKey = CreateDataRequestKey( request );
+        var requestKey = PivotGridKeyGenerator.CreateDataRequestKey( request );
 
         if ( !force && string.Equals( lastExternalDataRequestKey, requestKey, StringComparison.Ordinal ) )
         {
@@ -540,7 +537,7 @@ public partial class PivotGrid<TItem> : BaseComponent
             : providerRequest.Count;
 
         var request = CreateDataRequest( PivotGridReadDataMode.Virtualize, providerRequest.StartIndex, requestCount );
-        var requestKey = CreateDataRequestKey( request );
+        var requestKey = PivotGridKeyGenerator.CreateDataRequestKey( request );
 
         if ( readDataCancellationTokenSource is null && string.Equals( lastExternalDataRequestKey, requestKey, StringComparison.Ordinal ) && pivotResult is not null )
         {
@@ -713,51 +710,17 @@ public partial class PivotGrid<TItem> : BaseComponent
 
     private PivotGridFieldState CreateCurrentRuntimeFieldState( PivotGridFieldState state, PivotGridFieldArea area )
     {
-        var clone = CloneFieldState( state );
+        var clone = PivotGridFieldStateUtilities.Clone( state );
         var source = FindFieldMetadata( state.Field, area );
 
         if ( source is not null )
         {
             clone.Caption = source.GetCaption();
-            clone.FieldType = GetFieldValueType( source.Field );
+            clone.FieldType = PivotGridFieldUtilities.GetFieldValueType<TItem>( source.Field );
         }
 
         return clone;
     }
-
-    private static string CreateDataRequestKey( PivotGridDataRequest request )
-        => string.Join( "|", [
-            request.ReadDataMode.ToString(),
-            request.Page.ToString( CultureInfo.InvariantCulture ),
-            request.PageSize.ToString( CultureInfo.InvariantCulture ),
-            request.VirtualizeOffset.ToString( CultureInfo.InvariantCulture ),
-            request.VirtualizeCount.ToString( CultureInfo.InvariantCulture ),
-            request.PageByGroups.ToString(),
-            request.ShowPager.ToString(),
-            request.ShowRowSubtotals.ToString(),
-            request.ShowColumnSubtotals.ToString(),
-            request.ShowRowTotals.ToString(),
-            request.ShowColumnTotals.ToString(),
-            request.RowTotalPosition.ToString(),
-            request.ColumnTotalPosition.ToString(),
-            request.ExpandableRows.ToString(),
-            request.ExpandableColumns.ToString(),
-            request.InitiallyExpanded.ToString(),
-            CreateFieldStatesKey( request.Rows ),
-            CreateFieldStatesKey( request.Columns ),
-            CreateFieldStatesKey( request.Aggregates ),
-            CreateFieldStatesKey( request.Filters ),
-        ] );
-
-    private static string CreateFieldStatesKey( IReadOnlyList<PivotGridFieldState> states )
-        => string.Join( "\u001e", states.Select( state => string.Join( "\u001f", [
-            state.Field ?? string.Empty,
-            state.Caption ?? string.Empty,
-            state.FieldType?.FullName ?? string.Empty,
-            state.Area.ToString(),
-            state.Aggregate.ToString(),
-            state.FilterValueKey ?? string.Empty,
-        ] ) ) );
 
     private IReadOnlyList<TItem> ApplyFilters( IReadOnlyList<TItem> sourceItems )
     {
@@ -776,7 +739,7 @@ public partial class PivotGrid<TItem> : BaseComponent
             .Where( item => activeFilters.All( filter =>
             {
                 var field = CreateRuntimeField( filter, PivotGridFieldArea.Filter );
-                return string.Equals( CreateFilterValueKey( field.GetValue( item ) ), filter.FilterValueKey, StringComparison.Ordinal );
+                return string.Equals( PivotGridKeyGenerator.CreateFilterValueKey( field.GetValue( item ) ), filter.FilterValueKey, StringComparison.Ordinal );
             } ) )
             .ToList();
     }
@@ -786,39 +749,10 @@ public partial class PivotGrid<TItem> : BaseComponent
         {
             Field = field.Field,
             Caption = field.GetCaption(),
-            FieldType = GetFieldValueType( field.Field ),
+            FieldType = PivotGridFieldUtilities.GetFieldValueType<TItem>( field.Field ),
             Area = area,
             Aggregate = field is PivotGridAggregate<TItem> aggregate ? aggregate.Aggregate : PivotGridAggregateFunction.Sum
         };
-
-    internal static PivotGridFieldState CloneFieldState( PivotGridFieldState state )
-        => new()
-        {
-            Field = state.Field,
-            Caption = state.Caption,
-            FieldType = state.FieldType,
-            Area = state.Area,
-            Aggregate = state.Aggregate,
-            FilterValueKey = state.FilterValueKey
-        };
-
-    private static Type GetFieldValueType( string fieldName )
-    {
-        if ( string.IsNullOrWhiteSpace( fieldName ) )
-            return typeof( object );
-
-        try
-        {
-            ParameterExpression item = Expression.Parameter( typeof( TItem ), "item" );
-            Expression expression = PivotGridExpressionCompiler.GetSafePropertyOrFieldExpression( item, fieldName );
-
-            return Nullable.GetUnderlyingType( expression.Type ) ?? expression.Type;
-        }
-        catch
-        {
-            return typeof( object );
-        }
-    }
 
     private BasePivotGridField<TItem> CreateRuntimeField( PivotGridFieldState state, PivotGridFieldArea area )
     {
@@ -933,12 +867,9 @@ public partial class PivotGrid<TItem> : BaseComponent
             .Select( item => field.GetValue( item ) )
             .Distinct( PivotGridObjectEqualityComparer.Instance )
             .OrderBy( value => field.FormatValue( value ), StringComparer.CurrentCultureIgnoreCase )
-            .Select( value => new PivotGridFilterOption( CreateFilterValueKey( value ), field.FormatValue( value ) ) )
+            .Select( value => new PivotGridFilterOption( PivotGridKeyGenerator.CreateFilterValueKey( value ), field.FormatValue( value ) ) )
             .ToList();
     }
-
-    internal static string CreateFilterValueKey( object value )
-        => CreateValueKey( value );
 
     private IReadOnlyList<PivotGridCell<TItem>> BuildCells( PivotGridAxisItem<TItem> row, IReadOnlyList<BasePivotGridField<TItem>> columnFields, IReadOnlyList<PivotGridDataColumn<TItem>> dataColumns )
     {
@@ -1031,10 +962,10 @@ public partial class PivotGrid<TItem> : BaseComponent
     }
 
     internal bool CanToggleRowExpansion( PivotGridAxisItem<TItem> row )
-        => ExpandableRows && CanToggleAxisItemExpansion( row, pivotResult?.RowFields );
+        => ExpandableRows && PivotGridAxisItemUtilities.CanToggleExpansion( row, pivotResult?.RowFields );
 
     internal bool CanToggleColumnExpansion( PivotGridAxisItem<TItem> column )
-        => ExpandableColumns && CanToggleAxisItemExpansion( column, pivotResult?.ColumnFields );
+        => ExpandableColumns && PivotGridAxisItemUtilities.CanToggleExpansion( column, pivotResult?.ColumnFields );
 
     internal bool IsRowExpanded( PivotGridAxisItem<TItem> row )
         => IsAxisItemExpanded( row, collapsedRowGroupKeys, expandedRowGroupKeys );
@@ -1056,17 +987,9 @@ public partial class PivotGrid<TItem> : BaseComponent
         return InvokeAsync( StateHasChanged );
     }
 
-    private static bool CanToggleAxisItemExpansion( PivotGridAxisItem<TItem> axisItem, IReadOnlyList<PivotGridFieldInfo<TItem>> axisFields )
-        => axisItem is not null
-            && axisFields is not null
-            && axisItem.IsTotal
-            && !axisItem.IsGrandTotal
-            && axisItem.Values.Count > 0
-            && axisItem.Values.Count < axisFields.Count;
-
     private bool IsAxisItemExpanded( PivotGridAxisItem<TItem> axisItem, HashSet<string> collapsedGroupKeys, HashSet<string> expandedGroupKeys )
     {
-        var key = CreateGroupKey( axisItem.Values );
+        var key = PivotGridKeyGenerator.CreateGroupKey( axisItem.Values );
 
         return InitiallyExpanded
             ? !collapsedGroupKeys.Contains( key )
@@ -1078,7 +1001,7 @@ public partial class PivotGrid<TItem> : BaseComponent
         if ( axisItem is null )
             return;
 
-        var key = CreateGroupKey( axisItem.Values );
+        var key = PivotGridKeyGenerator.CreateGroupKey( axisItem.Values );
 
         if ( InitiallyExpanded )
         {
@@ -1101,8 +1024,8 @@ public partial class PivotGrid<TItem> : BaseComponent
             return pivotResult.Rows;
 
         var expandableGroupKeys = pivotResult.Rows
-            .Where( row => CanToggleAxisItemExpansion( row.Row, pivotResult.RowFields ) )
-            .Select( row => CreateGroupKey( row.Row.Values ) )
+            .Where( row => PivotGridAxisItemUtilities.CanToggleExpansion( row.Row, pivotResult.RowFields ) )
+            .Select( row => PivotGridKeyGenerator.CreateGroupKey( row.Row.Values ) )
             .ToHashSet( StringComparer.Ordinal );
 
         return pivotResult.Rows
@@ -1121,8 +1044,8 @@ public partial class PivotGrid<TItem> : BaseComponent
         var expandableGroupKeys = pivotResult.DataColumns
             .Select( x => x.Column )
             .Distinct()
-            .Where( column => CanToggleAxisItemExpansion( column, pivotResult.ColumnFields ) )
-            .Select( column => CreateGroupKey( column.Values ) )
+            .Where( column => PivotGridAxisItemUtilities.CanToggleExpansion( column, pivotResult.ColumnFields ) )
+            .Select( column => PivotGridKeyGenerator.CreateGroupKey( column.Values ) )
             .ToHashSet( StringComparer.Ordinal );
 
         return pivotResult.DataColumns
@@ -1139,7 +1062,7 @@ public partial class PivotGrid<TItem> : BaseComponent
 
         for ( var i = 1; i < axisItem.Values.Count; i++ )
         {
-            var key = CreateGroupKey( axisItem.Values.Take( i ) );
+            var key = PivotGridKeyGenerator.CreateGroupKey( axisItem.Values.Take( i ) );
 
             if ( !expandableGroupKeys.Contains( key ) )
                 continue;
@@ -1153,53 +1076,6 @@ public partial class PivotGrid<TItem> : BaseComponent
         }
 
         return true;
-    }
-
-    private static string CreateGroupKey( IEnumerable<object> values )
-    {
-        StringBuilder builder = new();
-
-        foreach ( object value in values )
-        {
-            AppendValueKey( builder, value );
-        }
-
-        return builder.ToString();
-    }
-
-    private static string CreateValueKey( object value )
-    {
-        StringBuilder builder = new();
-
-        AppendValueKey( builder, value );
-
-        return builder.ToString();
-    }
-
-    private static void AppendValueKey( StringBuilder builder, object value )
-    {
-        // Length-prefix both the value type and formatted value so group/filter keys cannot collide
-        // when values contain separators or different value types format to the same text.
-        if ( value is null )
-        {
-            builder.Append( "n;" );
-            return;
-        }
-
-        Type valueType = value.GetType();
-        string typeName = valueType.AssemblyQualifiedName ?? valueType.FullName ?? valueType.Name;
-        string text = value is IFormattable formattable
-            ? formattable.ToString( null, CultureInfo.InvariantCulture )
-            : value.ToString() ?? string.Empty;
-
-        builder
-            .Append( "v;" )
-            .Append( typeName.Length.ToString( CultureInfo.InvariantCulture ) )
-            .Append( ';' )
-            .Append( typeName )
-            .Append( text.Length.ToString( CultureInfo.InvariantCulture ) )
-            .Append( ';' )
-            .Append( text );
     }
 
     private PivotGridResult<TItem> GetExpandedPivotResult()
@@ -1228,7 +1104,7 @@ public partial class PivotGrid<TItem> : BaseComponent
 
         return pivotResult.Rows
             .Where( row => !row.Row.IsGrandTotal && row.Row.Values.Count > 0 )
-            .Select( row => CreateGroupKey( row.Row.Values.Take( 1 ) ) )
+            .Select( row => PivotGridKeyGenerator.CreateGroupKey( row.Row.Values.Take( 1 ) ) )
             .Distinct()
             .ToList();
     }
@@ -1238,17 +1114,6 @@ public partial class PivotGrid<TItem> : BaseComponent
             .Skip( ( CurrentPage - 1 ) * EffectivePageSize )
             .Take( EffectivePageSize )
             .ToList();
-
-    private static bool IsRowInGroupPage( PivotGridAxisItem<TItem> row, HashSet<string> pageRootGroupKeys )
-    {
-        if ( row.IsGrandTotal )
-            return true;
-
-        if ( row.Values.Count == 0 )
-            return false;
-
-        return pageRootGroupKeys.Contains( CreateGroupKey( row.Values.Take( 1 ) ) );
-    }
 
     internal string LocalizedEmptyText
         => Localizer.Localize( Localizers?.EmptyLocalizer, LocalizationConstants.Empty );
@@ -1352,7 +1217,7 @@ public partial class PivotGrid<TItem> : BaseComponent
             {
                 var pageRootGroupKeys = GetCurrentPageRootGroupKeys().ToHashSet( StringComparer.Ordinal );
                 var groupRows = expandedPivotResult.Rows
-                    .Where( row => IsRowInGroupPage( row.Row, pageRootGroupKeys ) )
+                    .Where( row => PivotGridAxisItemUtilities.IsInGroupPage( row.Row, pageRootGroupKeys ) )
                     .ToList();
 
                 return new( expandedPivotResult.RowFields, expandedPivotResult.ColumnFields, expandedPivotResult.Aggregates, expandedPivotResult.DataColumns, groupRows );
