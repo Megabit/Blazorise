@@ -1,6 +1,7 @@
 #region Using directives
 using System.Collections.Generic;
 using System.Linq;
+using Blazorise.PivotGrid.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,6 +13,8 @@ namespace Blazorise.PivotGrid.Components;
 /// <typeparam name="TItem">Item type.</typeparam>
 public partial class _PivotGridTable<TItem>
 {
+    private static readonly IEqualityComparer<PivotGridAxisItem<TItem>> AxisItemEqualityComparer = PivotGridAxisItemEqualityComparer<TItem>.Instance;
+
     private int RowHeaderColumnCount
         => UseTreeRowHeader ? 1 : System.Math.Max( 1, Result.RowFields.Count );
 
@@ -30,7 +33,7 @@ public partial class _PivotGridTable<TItem>
     private IReadOnlyList<PivotGridAxisItem<TItem>> ColumnGroups
         => Result.DataColumns
             .Select( x => x.Column )
-            .Distinct()
+            .Distinct( AxisItemEqualityComparer )
             .ToList();
 
     private PivotGridFieldInfo<TItem> GetRowField( int index )
