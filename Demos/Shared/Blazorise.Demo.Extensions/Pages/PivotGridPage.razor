@@ -271,8 +271,11 @@
 
     private Task ReadPivotData( PivotGridReadDataEventArgs<PivotSale> eventArgs )
     {
-        eventArgs.Data = Sales;
-        eventArgs.TotalItems = Sales.Count;
+        var result = BuildExternalDataResult( eventArgs.Request, Sales );
+
+        eventArgs.Result = result.Result;
+        eventArgs.TotalItems = result.TotalItems;
+        eventArgs.IsPaged = result.IsPaged;
 
         return Task.CompletedTask;
     }
@@ -360,6 +363,137 @@
         return data;
     }
 
+    private static PivotGridDataResult<PivotSale> BuildExternalDataResult( PivotGridDataRequest request, IReadOnlyList<PivotSale> source )
+    {
+        IReadOnlyList<PivotGridFieldInfo<PivotSale>> rowFields = CreateFieldInfos( request.Rows );
+        IReadOnlyList<PivotGridFieldInfo<PivotSale>> columnFields = CreateFieldInfos( request.Columns );
+        IReadOnlyList<PivotGridAggregateInfo<PivotSale>> aggregates = CreateAggregateInfos( request.Aggregates );
+
+        if ( aggregates.Count == 0 )
+        {
+            return new()
+            {
+                Result = new( rowFields, columnFields, aggregates, [], [] ),
+                TotalItems = 0,
+                IsPaged = true,
+            };
+        }
+
+        List<PivotGridAxisItem<PivotSale>> columnItems = BuildAxisItems( source, columnFields, request.ShowRowTotals );
+        List<PivotGridDataColumn<PivotSale>> dataColumns = columnItems
+            .SelectMany( column => aggregates.Select( aggregate => new PivotGridDataColumn<PivotSale>( column, aggregate ) ) )
+            .ToList();
+
+        List<PivotGridResultRow<PivotSale>> allRows = BuildAxisItems( source, rowFields, request.ShowColumnTotals )
+            .Select( row => new PivotGridResultRow<PivotSale>( row, BuildCells( row, columnFields, dataColumns ) ) )
+            .ToList();
+
+        int totalRows = allRows.Count;
+        int skip = request.ReadDataMode == PivotGridReadDataMode.Virtualize
+            ? request.VirtualizeOffset
+            : request.ReadDataMode == PivotGridReadDataMode.Paging
+                ? ( request.Page - 1 ) * request.PageSize
+                : 0;
+        int take = request.ReadDataMode == PivotGridReadDataMode.Virtualize
+            ? request.VirtualizeCount
+            : request.ReadDataMode == PivotGridReadDataMode.Paging
+                ? request.PageSize
+                : totalRows;
+        List<PivotGridResultRow<PivotSale>> rows = allRows
+            .Skip( Math.Max( 0, skip ) )
+            .Take( Math.Max( 0, take ) )
+            .ToList();
+
+        return new()
+        {
+            Result = new( rowFields, columnFields, aggregates, dataColumns, rows ),
+            TotalItems = totalRows,
+            IsPaged = request.ReadDataMode is PivotGridReadDataMode.Paging or PivotGridReadDataMode.Virtualize,
+        };
+    }
+
+    private static IReadOnlyList<PivotGridFieldInfo<PivotSale>> CreateFieldInfos( IReadOnlyList<PivotGridFieldState> states )
+        => states
+            .Where( state => !string.IsNullOrWhiteSpace( state.Field ) )
+            .Select( state => new PivotGridFieldInfo<PivotSale>
+            {
+                Field = state.Field,
+                Caption = state.Caption,
+            } )
+            .ToList();
+
+    private static IReadOnlyList<PivotGridAggregateInfo<PivotSale>> CreateAggregateInfos( IReadOnlyList<PivotGridFieldState> states )
+        => states
+            .Where( state => !string.IsNullOrWhiteSpace( state.Field ) )
+            .Select( state => new PivotGridAggregateInfo<PivotSale>
+            {
+                Field = state.Field,
+                Caption = state.Caption,
+                Aggregate = state.Aggregate,
+                DisplayFormat = state.Field == nameof( PivotSale.Amount ) ? "{0:C0}" : null,
+                DisplayFormatProvider = state.Field == nameof( PivotSale.Amount ) ? System.Globalization.CultureInfo.GetCultureInfo( "en-US" ) : null,
+            } )
+            .ToList();
+
+    private static List<PivotGridAxisItem<PivotSale>> BuildAxisItems( IReadOnlyList<PivotSale> source, IReadOnlyList<PivotGridFieldInfo<PivotSale>> fields, bool includeGrandTotal )
+    {
+        if ( fields.Count == 0 )
+        {
+            return [new PivotGridAxisItem<PivotSale>( [], source, 0, false, true )];
+        }
+
+        List<PivotGridAxisItem<PivotSale>> items = source
+            .GroupBy( item => string.Join( "|", fields.Select( field => field.GetValue( item )?.ToString() ?? string.Empty ) ) )
+            .OrderBy( group => group.Key )
+            .Select( group =>
+            {
+                List<PivotSale> groupItems = group.ToList();
+                IReadOnlyList<object> values = fields.Select( field => field.GetValue( groupItems[0] ) ).ToList();
+
+                return new PivotGridAxisItem<PivotSale>( values, groupItems, fields.Count - 1, false, false );
+            } )
+            .ToList();
+
+        if ( includeGrandTotal )
+        {
+            items.Add( new PivotGridAxisItem<PivotSale>( [], source, 0, false, true ) );
+        }
+
+        return items;
+    }
+
+    private static List<PivotGridCell<PivotSale>> BuildCells( PivotGridAxisItem<PivotSale> row, IReadOnlyList<PivotGridFieldInfo<PivotSale>> columnFields, IReadOnlyList<PivotGridDataColumn<PivotSale>> dataColumns )
+        => dataColumns
+            .Select( dataColumn =>
+            {
+                PivotGridAggregateInfo<PivotSale> aggregate = dataColumn.Aggregate;
+                List<PivotSale> cellItems = dataColumn.Column.IsGrandTotal
+                    ? row.Items.ToList()
+                    : row.Items.Where( item => MatchesAxis( item, dataColumn.Column, columnFields ) ).ToList();
+                object value = aggregate.Calculate( cellItems );
+
+                return new PivotGridCell<PivotSale>(
+                    dataColumn,
+                    value,
+                    aggregate.FormatValue( value ),
+                    cellItems,
+                    dataColumn.Column.IsGrandTotal,
+                    row.IsGrandTotal,
+                    dataColumn.Column.IsGrandTotal && row.IsGrandTotal );
+            } )
+            .ToList();
+
+    private static bool MatchesAxis( PivotSale item, PivotGridAxisItem<PivotSale> axisItem, IReadOnlyList<PivotGridFieldInfo<PivotSale>> fields )
+    {
+        for ( var i = 0; i < fields.Count; i++ )
+        {
+            if ( i >= axisItem.Values.Count || !Equals( fields[i].GetValue( item ), axisItem.Values[i] ) )
+                return false;
+        }
+
+        return true;
+    }
+
     private enum PivotGridDemoDataMode
     {
         Data,
@@ -377,11 +511,7 @@
         }
 
         public Task<PivotGridDataResult<PivotSale>> ReadDataAsync( PivotGridDataRequest request, System.Threading.CancellationToken cancellationToken )
-            => Task.FromResult( new PivotGridDataResult<PivotSale>
-            {
-                Data = data,
-                TotalItems = data.Count,
-            } );
+            => Task.FromResult( BuildExternalDataResult( request, data ) );
     }
 
     public class PivotSale
