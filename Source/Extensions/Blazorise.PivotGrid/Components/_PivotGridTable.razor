@@ -213,6 +213,7 @@ else
                 @if ( PivotGrid.IsVirtualizeActive )
                 {
                     <Virtualize TItem="PivotGridResultRow<TItem>"
+                                @key="@PivotGrid.VirtualizeRowsKey"
                                 Context="row"
                                 ItemsProvider="@PivotGrid.VirtualizeRowsProvider"
                                 ItemSize="@PivotGrid.VirtualizeItemSize"

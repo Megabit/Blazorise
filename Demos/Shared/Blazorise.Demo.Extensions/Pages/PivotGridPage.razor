@@ -379,12 +379,27 @@
             };
         }
 
-        List<PivotGridAxisItem<PivotSale>> columnItems = BuildAxisItems( source, columnFields, request.ShowRowTotals );
+        List<PivotGridAxisItem<PivotSale>> columnItems = BuildAxisItems(
+            source,
+            columnFields,
+            request.ShowColumnSubtotals,
+            request.ShowRowTotals,
+            request.ExpandableColumns ? PivotGridTotalPosition.Before : request.ColumnTotalPosition );
+        columnItems = GetInitiallyVisibleAxisItems( columnItems, columnFields, request.ExpandableColumns, request.InitiallyExpanded );
+
         List<PivotGridDataColumn<PivotSale>> dataColumns = columnItems
             .SelectMany( column => aggregates.Select( aggregate => new PivotGridDataColumn<PivotSale>( column, aggregate ) ) )
             .ToList();
 
-        List<PivotGridResultRow<PivotSale>> allRows = BuildAxisItems( source, rowFields, request.ShowColumnTotals )
+        List<PivotGridAxisItem<PivotSale>> rowItems = BuildAxisItems(
+            source,
+            rowFields,
+            request.ShowRowSubtotals,
+            request.ShowColumnTotals,
+            request.ExpandableRows ? PivotGridTotalPosition.Before : request.RowTotalPosition );
+        rowItems = GetInitiallyVisibleAxisItems( rowItems, rowFields, request.ExpandableRows, request.InitiallyExpanded );
+
+        List<PivotGridResultRow<PivotSale>> allRows = rowItems
             .Select( row => new PivotGridResultRow<PivotSale>( row, BuildCells( row, columnFields, dataColumns ) ) )
             .ToList();
 
@@ -435,31 +450,101 @@
             } )
             .ToList();
 
-    private static List<PivotGridAxisItem<PivotSale>> BuildAxisItems( IReadOnlyList<PivotSale> source, IReadOnlyList<PivotGridFieldInfo<PivotSale>> fields, bool includeGrandTotal )
+    private static List<PivotGridAxisItem<PivotSale>> BuildAxisItems( IReadOnlyList<PivotSale> source, IReadOnlyList<PivotGridFieldInfo<PivotSale>> fields, bool showSubtotals, bool showGrandTotal, PivotGridTotalPosition totalPosition )
     {
+        List<PivotGridAxisItem<PivotSale>> items = new();
+
         if ( fields.Count == 0 )
         {
-            return [new PivotGridAxisItem<PivotSale>( [], source, 0, false, true )];
+            items.Add( new PivotGridAxisItem<PivotSale>( [], source, 0, true, true ) );
+            return items;
         }
 
-        List<PivotGridAxisItem<PivotSale>> items = source
-            .GroupBy( item => string.Join( "|", fields.Select( field => field.GetValue( item )?.ToString() ?? string.Empty ) ) )
-            .OrderBy( group => group.Key )
-            .Select( group =>
-            {
-                List<PivotSale> groupItems = group.ToList();
-                IReadOnlyList<object> values = fields.Select( field => field.GetValue( groupItems[0] ) ).ToList();
+        BuildAxisItems( items, source, fields, 0, [], showSubtotals, totalPosition );
 
-                return new PivotGridAxisItem<PivotSale>( values, groupItems, fields.Count - 1, false, false );
-            } )
-            .ToList();
-
-        if ( includeGrandTotal )
+        if ( showGrandTotal )
         {
-            items.Add( new PivotGridAxisItem<PivotSale>( [], source, 0, false, true ) );
+            items.Add( new PivotGridAxisItem<PivotSale>( [], source, 0, true, true ) );
         }
 
         return items;
+    }
+
+    private static void BuildAxisItems( List<PivotGridAxisItem<PivotSale>> result, IReadOnlyList<PivotSale> source, IReadOnlyList<PivotGridFieldInfo<PivotSale>> fields, int level, IReadOnlyList<object> parentValues, bool showSubtotals, PivotGridTotalPosition totalPosition )
+    {
+        PivotGridFieldInfo<PivotSale> field = fields[level];
+        List<IGrouping<object, PivotSale>> groups = source
+            .GroupBy( field.GetValue )
+            .OrderBy( group => field.FormatValue( group.Key ), StringComparer.CurrentCultureIgnoreCase )
+            .ToList();
+
+        foreach ( IGrouping<object, PivotSale> group in groups )
+        {
+            IReadOnlyList<object> values = parentValues.Concat( [group.Key] ).ToList();
+            List<PivotSale> groupItems = group.ToList();
+            bool isLeafLevel = level == fields.Count - 1;
+            PivotGridAxisItem<PivotSale> subtotal = new( values, groupItems, level, true, false );
+
+            if ( showSubtotals && !isLeafLevel && totalPosition == PivotGridTotalPosition.Before )
+                result.Add( subtotal );
+
+            if ( isLeafLevel )
+                result.Add( new PivotGridAxisItem<PivotSale>( values, groupItems, level, false, false ) );
+            else
+                BuildAxisItems( result, groupItems, fields, level + 1, values, showSubtotals, totalPosition );
+
+            if ( showSubtotals && !isLeafLevel && totalPosition == PivotGridTotalPosition.After )
+                result.Add( subtotal );
+        }
+    }
+
+    private static List<PivotGridAxisItem<PivotSale>> GetInitiallyVisibleAxisItems( List<PivotGridAxisItem<PivotSale>> items, IReadOnlyList<PivotGridFieldInfo<PivotSale>> fields, bool expandable, bool initiallyExpanded )
+    {
+        if ( !expandable || initiallyExpanded || fields.Count == 0 )
+            return items;
+
+        List<PivotGridAxisItem<PivotSale>> expandableItems = items
+            .Where( item => CanToggleExpansion( item, fields ) )
+            .ToList();
+
+        if ( expandableItems.Count == 0 )
+            return items;
+
+        return items
+            .Where( item => !HasCollapsedParent( item, expandableItems ) )
+            .ToList();
+    }
+
+    private static bool CanToggleExpansion( PivotGridAxisItem<PivotSale> item, IReadOnlyList<PivotGridFieldInfo<PivotSale>> fields )
+        => item is not null
+            && item.IsTotal
+            && !item.IsGrandTotal
+            && item.Values.Count > 0
+            && item.Values.Count < fields.Count;
+
+    private static bool HasCollapsedParent( PivotGridAxisItem<PivotSale> item, IReadOnlyList<PivotGridAxisItem<PivotSale>> expandableItems )
+    {
+        if ( item is null || item.IsGrandTotal )
+            return false;
+
+        foreach ( PivotGridAxisItem<PivotSale> expandableItem in expandableItems )
+        {
+            if ( expandableItem.Values.Count < item.Values.Count && ValuesStartWith( item.Values, expandableItem.Values ) )
+                return true;
+        }
+
+        return false;
+    }
+
+    private static bool ValuesStartWith( IReadOnlyList<object> values, IReadOnlyList<object> prefix )
+    {
+        for ( int i = 0; i < prefix.Count; i++ )
+        {
+            if ( i >= values.Count || !Equals( values[i], prefix[i] ) )
+                return false;
+        }
+
+        return true;
     }
 
     private static List<PivotGridCell<PivotSale>> BuildCells( PivotGridAxisItem<PivotSale> row, IReadOnlyList<PivotGridFieldInfo<PivotSale>> columnFields, IReadOnlyList<PivotGridDataColumn<PivotSale>> dataColumns )

@@ -49,6 +49,8 @@ public partial class PivotGrid<TItem> : BaseComponent
     private bool previousReadDataHasDelegate;
     private bool externalDataReadQueued;
     private bool externalVirtualizedResultInitialized;
+    private string externalVirtualizedDataRequestKey;
+    private int externalVirtualizedDataVersion;
 
     #endregion
 
@@ -331,19 +333,31 @@ public partial class PivotGrid<TItem> : BaseComponent
 
     private void PrepareExternalVirtualizedData()
     {
-        if ( externalVirtualizedResultInitialized )
+        EnsureRuntimeState();
+
+        // The virtualized provider keeps its own item cache, so reset the shell result when
+        // fields, totals, expansion, or other request-shape options change.
+        var requestKey = PivotGridKeyGenerator.CreateDataRequestKey( CreateDataRequest( PivotGridReadDataMode.Virtualize ) );
+
+        if ( string.Equals( externalVirtualizedDataRequestKey, requestKey, StringComparison.Ordinal ) )
             return;
 
         externalData = [];
         externalPivotResult = null;
         externalTotalItems = null;
         externalDataIsPaged = false;
+        lastExternalDataRequestKey = null;
+        externalVirtualizedDataRequestKey = requestKey;
+        externalVirtualizedDataVersion++;
+        externalVirtualizedResultInitialized = false;
         pivotResult = BuildPivotResult( [] );
     }
 
     private void InvalidateExternalDataRead()
     {
         lastExternalDataRequestKey = null;
+        externalVirtualizedDataRequestKey = null;
+        externalVirtualizedDataVersion++;
         externalVirtualizedResultInitialized = false;
     }
 
@@ -1343,6 +1357,11 @@ public partial class PivotGrid<TItem> : BaseComponent
 
     internal bool IsExternalVirtualizeActive
         => UsesExternalData && IsVirtualizeActive;
+
+    internal string VirtualizeRowsKey
+        => IsExternalVirtualizeActive
+            ? string.Concat( externalVirtualizedDataVersion, ":", externalVirtualizedDataRequestKey )
+            : null;
 
     internal int VirtualizeOverscanCount
         => VirtualizeOptions?.OverscanCount ?? 10;
