@@ -1523,7 +1523,7 @@ public partial class PivotGrid<TItem> : BaseComponent
     /// <summary>
     /// Defines whether header uses theme contrast.
     /// </summary>
-    [Parameter] public ThemeContrast HeaderThemeContrast { get; set; } = ThemeContrast.Light;
+    [Parameter] public ThemeContrast HeaderThemeContrast { get; set; }
 
     /// <summary>
     /// Shows pager controls for rendered pivot rows.
