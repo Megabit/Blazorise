@@ -13337,7 +13337,8 @@ Install-Package Blazorise.Icons.Material";
            Data=""@Sales""
            ShowRowTotals
            ShowColumnTotals
-           Striped>
+           Striped
+           Hoverable>
     <PivotGridColumns>
         <PivotGridColumn Field=""@nameof( MarginSale.Region )"" Caption=""Region"" />
     </PivotGridColumns>
@@ -13395,7 +13396,8 @@ Install-Package Blazorise.Icons.Material";
            ShowRowTotals
            ShowColumnTotals
            ShowRowSubtotals
-           Striped>
+           Striped
+           Hoverable>
     <PivotGridFields>
         <PivotGridField Field=""@nameof( PivotSale.Region )"" Caption=""Region"" />
         <PivotGridField Field=""@nameof( PivotSale.City )"" Caption=""City"" />
@@ -13460,7 +13462,8 @@ Install-Package Blazorise.Icons.Material";
            ShowColumnTotals
            ShowRowSubtotals
            ShowColumnSubtotals
-           Striped>
+           Striped
+           Hoverable>
     <PivotGridFields>
         <PivotGridField Field=""@nameof( FilterSale.Region )"" Caption=""Region"" />
         <PivotGridField Field=""@nameof( FilterSale.City )"" Caption=""City"" />
@@ -13526,7 +13529,9 @@ Install-Package Blazorise.Icons.Material";
            ShowRowTotals
            ShowColumnTotals
            ShowRowSubtotals
-           Striped>
+           Striped
+           Hoverable
+           Narrow>
     <PivotGridColumns>
         <PivotGridColumn Field=""@nameof( PivotSale.City )"" Caption=""City"" />
     </PivotGridColumns>
@@ -13629,7 +13634,8 @@ Install-Package Blazorise.Icons.Material";
            ShowPager
            PageSize=""4""
            ShowRowTotals
-           Striped>
+           Striped
+           Hoverable>
     <PivotGridColumns>
         <PivotGridColumn Field=""@nameof( RemoteSale.Quarter )"" Caption=""Quarter"" />
     </PivotGridColumns>
@@ -13819,7 +13825,8 @@ Install-Package Blazorise.Icons.Material";
            ReadData=""@ReadRemotePivotData""
            Virtualize
            VirtualizeOptions=""@virtualizeOptions""
-           Striped>
+           Striped
+           Hoverable>
     <PivotGridColumns>
         <PivotGridColumn Field=""@nameof( RemotePivotSale.Quarter )"" Caption=""Quarter"" />
     </PivotGridColumns>
@@ -13994,7 +14001,8 @@ Install-Package Blazorise.Icons.Material";
            ShowRowTotals
            ShowColumnTotals
            ShowRowSubtotals
-           Striped>
+           Striped
+           Hoverable>
     <PivotGridColumns>
         <PivotGridColumn Field=""@nameof( PivotSale.City )"" Caption=""City"" />
     </PivotGridColumns>
@@ -14085,11 +14093,12 @@ Install-Package Blazorise.Icons.Material";
            CellClicked=""@OnCellClicked""
            ShowRowTotals
            ShowColumnTotals
-           Striped>
+           Striped
+           Hoverable>
     <PivotGridColumns>
         <PivotGridColumn Field=""@nameof( TemplateSale.Region )"" Caption=""Region"">
             <DisplayTemplate Context=""context"">
-                <Badge Color=""Color.Info"">@context.FormattedValue</Badge>
+                <Span TextWeight=""TextWeight.SemiBold"" TextTransform=""TextTransform.Uppercase"">@context.FormattedValue</Span>
             </DisplayTemplate>
         </PivotGridColumn>
     </PivotGridColumns>

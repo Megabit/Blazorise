@@ -5,11 +5,12 @@
            CellClicked="@OnCellClicked"
            ShowRowTotals
            ShowColumnTotals
-           Striped>
+           Striped
+           Hoverable>
     <PivotGridColumns>
         <PivotGridColumn Field="@nameof( TemplateSale.Region )" Caption="Region">
             <DisplayTemplate Context="context">
-                <Badge Color="Color.Info">@context.FormattedValue</Badge>
+                <Span TextWeight="TextWeight.SemiBold" TextTransform="TextTransform.Uppercase">@context.FormattedValue</Span>
             </DisplayTemplate>
         </PivotGridColumn>
     </PivotGridColumns>
