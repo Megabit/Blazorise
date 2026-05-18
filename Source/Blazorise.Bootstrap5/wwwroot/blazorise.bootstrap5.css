@@ -255,6 +255,7 @@ body:before {
   width: 100%;
   display: flex;
   align-items: center;
+  position: relative;
   height: var(--b-vertical-bar-brand-height, 64px);
   min-height: var(--b-vertical-bar-brand-height, 64px);
   padding: 0 var(--b-vertical-bar-small-width, 64px) 0 1rem;
@@ -273,8 +274,18 @@ body:before {
   text-overflow: ellipsis;
 }
 .navbar[data-mode^=vertical] .navbar-brand .navbar-toggler {
-  right: 20px;
-  margin: auto;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--b-vertical-bar-small-width, 64px);
+  height: var(--b-vertical-bar-brand-height, 64px);
+  padding: 12px;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
   display: none;
 }
 .navbar[data-mode^=vertical] .nav-item {
