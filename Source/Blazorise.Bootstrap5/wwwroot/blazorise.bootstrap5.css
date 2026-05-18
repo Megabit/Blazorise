@@ -466,7 +466,7 @@ body:before {
 }
 .navbar[data-mode^=vertical].navbar-light {
   --b-bar-background: var(--b-bar-light-background, var(--bs-body-bg, #fff));
-  --b-bar-navbar-color: var(--b-bar-light-color, var(--bs-emphasis-color, rgba(0, 0, 0, .85)));
+  --b-bar-navbar-color: var(--b-bar-light-color, rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), .65));
   --b-bar-navbar-hover-color: var(--b-bar-item-light-hover-color, rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), .85));
   --b-bar-nav-active-color: var(--b-bar-item-light-active-color, var(--b-theme-white, var(--bs-white, #fff)));
   --b-bar-nav-active-bg: var(--b-bar-item-light-active-background, var(--b-theme-primary, var(--bs-primary, #0d6efd)));
