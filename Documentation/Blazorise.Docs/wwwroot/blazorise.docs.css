@@ -82,12 +82,12 @@ body {
   --b-scrollbar-thumb-background: #bfbfbf;
 }
 body:not([data-bs-theme=dark]) {
-  color: #475569;
+  color: #334155;
 }
 
 body:not([data-bs-theme=dark]) {
-  --b-link-color: #475569;
-  --b-link-text-color: #111827;
+  --b-link-color: #334155;
+  --b-link-text-color: var(--b-link-color);
   --b-code-color: #155eef;
   --b-code-background-color: #f5f8fd;
   --b-codeblock-color: #24364b;

@@ -18,7 +18,7 @@ public partial class Routes
         public const string Brand = "#7c3aed";
         public const string BrandTextDark = "#c4b5fd";
 
-        public const string Body = "#475569";
+        public const string Body = "#334155";
         public const string BodyStrong = "#0f172a";
         public const string Muted = "#64748b";
 
@@ -142,6 +142,7 @@ public partial class Routes
         VerticalBrandHeight = "64px",
         LightColors = new ThemeBarColorOptions
         {
+            Color = DocsThemeColors.Body,
             ItemColorOptions = new ThemeBarItemColorOptions
             {
                 ActiveBackgroundColor = DocsThemeColors.BarItemActiveBackground,
@@ -159,6 +160,7 @@ public partial class Routes
         VerticalBrandHeight = "64px",
         LightColors = new ThemeBarColorOptions
         {
+            Color = DocsThemeColors.Body,
             ItemColorOptions = new ThemeBarItemColorOptions
             {
                 ActiveBackgroundColor = DocsThemeColors.BarItemActiveBackground,
