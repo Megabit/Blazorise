@@ -157,13 +157,16 @@ a {
   font-weight: 400;
   padding-top: 2.4px;
   padding-bottom: 2.4px;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
 }
 .b-top-bar .navbar-nav .nav-link:hover {
-  background-color: hsla(201, 50%, 98%, 0.5);
+  color: var(--b-theme-primary);
+  background-color: rgba(124, 58, 237, 0.08);
   border-radius: 7px;
 }
 
 body[data-bs-theme=dark] .b-top-bar .navbar-nav .nav-link:hover {
+  color: var(--b-theme-primary);
   background-color: rgba(255, 255, 255, 0.08);
 }
 
