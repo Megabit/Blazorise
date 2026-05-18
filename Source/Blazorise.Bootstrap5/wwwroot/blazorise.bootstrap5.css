@@ -293,7 +293,7 @@ body:before {
   overflow-x: hidden;
   line-height: 1.5rem;
   vertical-align: middle;
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 500;
   border-radius: var(--bs-border-radius, 0.375rem);
   transition: font-size 150ms ease-in;
@@ -356,6 +356,9 @@ body:before {
   overflow-x: hidden;
   white-space: normal;
   overflow-wrap: break-word;
+  line-height: 1.5rem;
+  font-size: 0.925rem;
+  font-weight: 400;
   border-radius: var(--bs-border-radius, 0.375rem);
 }
 .navbar[data-mode^=vertical] .dropdown-menu .dropdown-item > span[id^=lbl_] {
