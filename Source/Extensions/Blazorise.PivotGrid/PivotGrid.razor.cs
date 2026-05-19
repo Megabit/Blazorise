@@ -37,7 +37,6 @@ public partial class PivotGrid<TItem> : BaseComponent
     private readonly HashSet<string> expandedColumnGroupKeys = new();
     private bool runtimeStateInitialized;
     private bool runtimeStateUserModified;
-    private bool? previousInitiallyExpanded;
     private _PivotGridFieldChooser<TItem> fieldChooserRef;
     private PivotGridResult<TItem> pivotResult = PivotGridResult<TItem>.Empty;
     private IReadOnlyList<TItem> externalData = [];
@@ -53,6 +52,7 @@ public partial class PivotGrid<TItem> : BaseComponent
     private string externalVirtualizedDataRequestKey;
     private int externalVirtualizedDataVersion;
     private ComponentParameterInfo<int> paramPageSize;
+    private ComponentParameterInfo<bool> paramInitiallyExpanded;
 
     #endregion
 
@@ -74,6 +74,7 @@ public partial class PivotGrid<TItem> : BaseComponent
     {
         var previousPageSize = PageSize;
         parameters.TryGetParameter( paramPageSize.GetValueOrDefault( PageSize ), out var nextParamPageSize, nameof( PageSize ) );
+        parameters.TryGetParameter( paramInitiallyExpanded.GetValueOrDefault( InitiallyExpanded ), out var nextParamInitiallyExpanded, nameof( InitiallyExpanded ) );
 
         await base.SetParametersAsync( parameters );
 
@@ -84,14 +85,15 @@ public partial class PivotGrid<TItem> : BaseComponent
 
         paramPageSize = nextParamPageSize;
 
-        if ( previousInitiallyExpanded != InitiallyExpanded )
+        if ( nextParamInitiallyExpanded.Defined && nextParamInitiallyExpanded.Changed )
         {
             collapsedRowGroupKeys.Clear();
             collapsedColumnGroupKeys.Clear();
             expandedRowGroupKeys.Clear();
             expandedColumnGroupKeys.Clear();
-            previousInitiallyExpanded = InitiallyExpanded;
         }
+
+        paramInitiallyExpanded = nextParamInitiallyExpanded;
 
         if ( !ReferenceEquals( previousDataSource, DataSource ) )
         {
