@@ -50,6 +50,7 @@ public partial class PivotGrid<TItem> : BaseComponent
     private bool previousReadDataHasDelegate;
     private bool externalDataReadQueued;
     private bool externalVirtualizedResultInitialized;
+    private bool virtualizedRowsRefreshQueued;
     private string externalVirtualizedDataRequestKey;
     private int externalVirtualizedDataVersion;
     private ComponentParameterInfo<int> paramPageSize;
@@ -115,11 +116,11 @@ public partial class PivotGrid<TItem> : BaseComponent
             else if ( fields.Count > 0 || ChildContent is null )
                 await ReadExternalDataAsync();
             else
-                RebuildPivot();
+                RefreshLocalPivot();
         }
         else
         {
-            RebuildPivot();
+            RefreshLocalPivot();
         }
     }
 
@@ -168,7 +169,7 @@ public partial class PivotGrid<TItem> : BaseComponent
         }
         else
         {
-            RebuildPivot();
+            RefreshLocalPivot();
 
             await InvokeAsync( StateHasChanged );
         }
@@ -342,7 +343,7 @@ public partial class PivotGrid<TItem> : BaseComponent
         }
         else
         {
-            RebuildPivot();
+            RefreshLocalPivot();
         }
     }
 
@@ -511,6 +512,29 @@ public partial class PivotGrid<TItem> : BaseComponent
         EnsureRuntimeState();
 
         pivotResult = BuildPivotResult( GetCurrentSourceData() );
+    }
+
+    private void RefreshLocalPivot()
+    {
+        RebuildPivot();
+        QueueVirtualizedRowsRefresh();
+    }
+
+    private void QueueVirtualizedRowsRefresh()
+    {
+        if ( !IsVirtualizeActive || virtualizedRowsRefreshQueued )
+            return;
+
+        virtualizedRowsRefreshQueued = true;
+
+        _ = InvokeAsync( async () =>
+        {
+            await Task.Yield();
+
+            virtualizedRowsRefreshQueued = false;
+
+            await RefreshVirtualizedRows();
+        } );
     }
 
     private PivotGridResult<TItem> BuildPivotResult( IReadOnlyList<TItem> sourceData )
@@ -1407,7 +1431,14 @@ public partial class PivotGrid<TItem> : BaseComponent
     internal string VirtualizeRowsKey
         => IsExternalVirtualizeActive
             ? string.Concat( externalVirtualizedDataVersion, ":", externalVirtualizedDataRequestKey )
-            : null;
+            : IsVirtualizeActive
+                ? string.Concat( VirtualizeRowHeaderColumnCount, ":", pivotResult?.DataColumns.Count ?? 0 )
+                : null;
+
+    private int VirtualizeRowHeaderColumnCount
+        => ExpandableRows && pivotResult?.RowFields.Count > 0
+            ? 1
+            : Math.Max( 1, pivotResult?.RowFields.Count ?? 0 );
 
     internal int VirtualizeOverscanCount
         => VirtualizeOptions?.OverscanCount ?? 10;
