@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Localization;
 using Blazorise.PivotGrid.Components;
 using Blazorise.PivotGrid.Extensions;
@@ -51,6 +52,7 @@ public partial class PivotGrid<TItem> : BaseComponent
     private bool externalVirtualizedResultInitialized;
     private string externalVirtualizedDataRequestKey;
     private int externalVirtualizedDataVersion;
+    private ComponentParameterInfo<int> paramPageSize;
 
     #endregion
 
@@ -70,7 +72,17 @@ public partial class PivotGrid<TItem> : BaseComponent
     /// <inheritdoc />
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        var previousPageSize = PageSize;
+        parameters.TryGetParameter( paramPageSize.GetValueOrDefault( PageSize ), out var nextParamPageSize, nameof( PageSize ) );
+
         await base.SetParametersAsync( parameters );
+
+        if ( nextParamPageSize.Defined && !nextParamPageSize.Changed )
+        {
+            PageSize = previousPageSize;
+        }
+
+        paramPageSize = nextParamPageSize;
 
         if ( previousInitiallyExpanded != InitiallyExpanded )
         {
