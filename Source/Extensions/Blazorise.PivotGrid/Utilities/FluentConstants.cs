@@ -11,6 +11,7 @@ internal static class FluentConstants
     internal static readonly IFluentColumn ColumnSizeIs1 = ColumnSize.Is1;
     internal static readonly IFluentColumn ColumnSizeIs2 = ColumnSize.Is2;
     internal static readonly IFluentColumn ColumnSizeIsAuto = ColumnSize.IsAuto;
+    internal static readonly IFluentDisplay DisplayNoneOnMobileInlineFlexRowOnDesktop = Display.None.OnMobile.InlineFlex.Row.OnDesktop;
     internal static readonly IFluentFlex FlexColumn = Flex.Column;
     internal static readonly IFluentFlex FlexGrowIs1 = Flex.Grow.Is1;
     internal static readonly IFluentFlex FlexRow = Flex.Row;
@@ -21,6 +22,7 @@ internal static class FluentConstants
     internal static readonly IFluentSpacing MarginIs0FromBottomIs3FromStart = Margin.Is0.FromBottom.Is3.FromStart;
     internal static readonly IFluentSpacing MarginIs2FromStart = Margin.Is2.FromStart;
     internal static readonly IFluentSpacing MarginIs2FromTop = Margin.Is2.FromTop;
+    internal static readonly IFluentSpacing MarginIsAutoOnYIs2FromStart = Margin.IsAuto.OnY.Is2.FromStart;
     internal static readonly IFluentSpacing MarginIsAutoFromStart = Margin.IsAuto.FromStart;
     internal static readonly IFluentOverflow OverflowAuto = Overflow.Auto;
     internal static readonly IFluentSizing HeightIs100 = Height.Is100;

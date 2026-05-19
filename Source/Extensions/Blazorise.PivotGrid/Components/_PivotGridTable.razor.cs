@@ -1,6 +1,8 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Blazorise.Localization;
 using Blazorise.PivotGrid.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -11,9 +13,27 @@ namespace Blazorise.PivotGrid.Components;
 /// Internal PivotGrid table renderer.
 /// </summary>
 /// <typeparam name="TItem">Item type.</typeparam>
-public partial class _PivotGridTable<TItem>
+public partial class _PivotGridTable<TItem> : IDisposable
 {
     private static readonly IEqualityComparer<PivotGridAxisItem<TItem>> AxisItemEqualityComparer = PivotGridAxisItemEqualityComparer<TItem>.Instance;
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+        base.OnInitialized();
+    }
+
+    void IDisposable.Dispose()
+    {
+        LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+    }
+
+    private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
+    {
+        await InvokeAsync( StateHasChanged );
+    }
 
     private int RowHeaderColumnCount
         => UseTreeRowHeader ? 1 : System.Math.Max( 1, Result.RowFields.Count );
@@ -332,4 +352,9 @@ public partial class _PivotGridTable<TItem>
     /// Parent PivotGrid component.
     /// </summary>
     [CascadingParameter] public PivotGrid<TItem> PivotGrid { get; set; }
+
+    /// <summary>
+    /// Gets text localizer service.
+    /// </summary>
+    [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 }

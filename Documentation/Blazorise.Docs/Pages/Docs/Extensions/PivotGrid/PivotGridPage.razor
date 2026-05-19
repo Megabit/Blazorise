@@ -103,6 +103,9 @@
         <Paragraph>
             <Code>Virtualize</Code> only limits rendered rows. When using local <Code>Data</Code>, the full pivot result is still computed before rows are virtualized. For large remote datasets, use <Code>ReadData</Code> or <Code>DataSource</Code> with <Code>PivotGridReadDataMode.Virtualize</Code> and return prepared <Code>PivotGridResult</Code> rows for the requested range.
         </Paragraph>
+        <Paragraph>
+            The pager range reports pivot result rows. When <Code>PageByGroups</Code> is enabled, paging is based on top-level row groups instead of every expanded detail row.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="PivotGridPagingVirtualizationExample" Outlined FullWidth>
         <PivotGridPagingVirtualizationExample />

@@ -1,5 +1,7 @@
 #region Using directives
+using System;
 using System.Threading.Tasks;
+using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -9,9 +11,27 @@ namespace Blazorise.PivotGrid.Components;
 /// Internal PivotGrid pagination renderer.
 /// </summary>
 /// <typeparam name="TItem">Item type.</typeparam>
-public partial class _PivotGridPagination<TItem>
+public partial class _PivotGridPagination<TItem> : IDisposable
 {
     #region Methods
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+        base.OnInitialized();
+    }
+
+    void IDisposable.Dispose()
+    {
+        LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+    }
+
+    private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
+    {
+        await InvokeAsync( StateHasChanged );
+    }
 
     private Task SelectPage( string page )
         => PivotGrid.SelectPage( page );
@@ -55,6 +75,11 @@ public partial class _PivotGridPagination<TItem>
     /// Controls whether page size selector is visible.
     /// </summary>
     [Parameter] public bool ShowPageSizes { get; set; }
+
+    /// <summary>
+    /// Gets text localizer service.
+    /// </summary>
+    [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     #endregion
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Localization;
 using Blazorise.PivotGrid.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -13,7 +14,7 @@ namespace Blazorise.PivotGrid.Components;
 /// Internal PivotGrid field chooser modal.
 /// </summary>
 /// <typeparam name="TItem">Item type.</typeparam>
-public partial class _PivotGridFieldChooser<TItem>
+public partial class _PivotGridFieldChooser<TItem> : IDisposable
 {
     #region Members
 
@@ -34,6 +35,24 @@ public partial class _PivotGridFieldChooser<TItem>
     #endregion
 
     #region Methods
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+        base.OnInitialized();
+    }
+
+    void IDisposable.Dispose()
+    {
+        LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+    }
+
+    private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
+    {
+        await InvokeAsync( StateHasChanged );
+    }
 
     public async Task Show()
     {
@@ -278,6 +297,11 @@ public partial class _PivotGridFieldChooser<TItem>
     /// Parent PivotGrid component.
     /// </summary>
     [CascadingParameter] public PivotGrid<TItem> PivotGrid { get; set; }
+
+    /// <summary>
+    /// Gets text localizer service.
+    /// </summary>
+    [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     #endregion
 }

@@ -47,15 +47,14 @@
                         }
                     </Select>
                 </PaginationItem>
+                <Field Margin="MarginIsAutoOnYIs2FromStart" Flex="FlexRowAlignItemsCenter" Display="DisplayNoneOnMobileInlineFlexRowOnDesktop">
+                    <Text>@PivotGrid.LocalizedItemsPerPageText</Text>
+                </Field>
             }
         </Pagination>
     </Column>
 
     <Column ColumnSize="ColumnSizeIsAuto" Margin="MarginIsAutoFromStart" Flex="FlexRowAlignItemsCenter">
         <Text>@PivotGrid.LocalizedItemsRangeText</Text>
-        @if ( ShowPageSizes )
-        {
-            <Span Margin="MarginIs2FromStart">@PivotGrid.LocalizedItemsPerPageText</Span>
-        }
     </Column>
 </Row>
