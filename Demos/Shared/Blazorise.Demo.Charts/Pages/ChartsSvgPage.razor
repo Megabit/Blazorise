@@ -1,0 +1,236 @@
+@page "/tests/charts/svg"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>SVG column chart - declarative data binding</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgColumnChart TItem="MonthlySales"
+                                Items="@Sales"
+                                Options="@columnOptions"
+                                Clicked="@OnPointClicked">
+                    <SvgChartTitle Text="Monthly revenue" Subtitle="Native SVG renderer" />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled />
+                    <SvgCategoryAxis Value="@( x => x.Month )" />
+                    <SvgLinearAxis BeginAtZero TickCount="6" />
+
+                    <SvgColumnSeries Name="Tokyo" Value="@( x => x.Tokyo )" Color="Color.Primary" BorderRadius="4" />
+                    <SvgColumnSeries Name="New York" Value="@( x => x.NewYork )" Color="Color.Info" BorderRadius="4" />
+                    <SvgColumnSeries Name="London" Value="@( x => x.London )" Color="Color.Success" BorderRadius="4" />
+                </SvgColumnChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>SVG line chart - declarative series</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgLineChart TItem="MonthlySales"
+                              Items="@Sales"
+                              Options="@lineOptions"
+                              Hovered="@OnPointHovered">
+                    <SvgChartTitle Text="Monthly trend" Subtitle="Line series with SVG markers" />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled />
+                    <SvgCategoryAxis Value="@( x => x.Month )" />
+                    <SvgLinearAxis BeginAtZero TickCount="6" />
+
+                    <SvgLineSeries Name="Tokyo" Value="@( x => x.Tokyo )" Color="Color.Primary" StrokeWidth="3" MarkerRadius="4" />
+                    <SvgLineSeries Name="New York" Value="@( x => x.NewYork )" Color="Color.Info" StrokeWidth="3" MarkerRadius="4" />
+                    <SvgLineSeries Name="London" Value="@( x => x.London )" Color="Color.Success" StrokeWidth="3" MarkerRadius="4" />
+                </SvgLineChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG bar chart</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgBarChart TItem="MonthlySales"
+                             Items="@Sales"
+                             Options="@barOptions"
+                             Clicked="@OnPointClicked">
+                    <SvgChartTitle Text="Regional revenue" Subtitle="Horizontal bar series" />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled />
+                    <SvgCategoryAxis Value="@( x => x.Month )" />
+                    <SvgLinearAxis BeginAtZero TickCount="6" />
+
+                    <SvgBarSeries Name="Tokyo" Value="@( x => x.Tokyo )" Color="Color.Primary" BorderRadius="4" />
+                    <SvgBarSeries Name="New York" Value="@( x => x.NewYork )" Color="Color.Info" BorderRadius="4" />
+                    <SvgBarSeries Name="London" Value="@( x => x.London )" Color="Color.Success" BorderRadius="4" />
+                </SvgBarChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG area chart</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgAreaChart TItem="MonthlySales"
+                              Items="@Sales"
+                              Options="@areaOptions"
+                              Hovered="@OnPointHovered">
+                    <SvgChartTitle Text="Revenue shape" Subtitle="Area series with fill opacity" />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled />
+                    <SvgCategoryAxis Value="@( x => x.Month )" />
+                    <SvgLinearAxis BeginAtZero TickCount="6" />
+
+                    <SvgAreaSeries Name="Tokyo" Value="@( x => x.Tokyo )" Color="@customAreaColor" StrokeWidth="3" FillOpacity="0.16" />
+                    <SvgAreaSeries Name="New York" Value="@( x => x.NewYork )" Color="@customCssVariableColor" StrokeWidth="3" FillOpacity="0.16" />
+                </SvgAreaChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG pie chart</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgPieChart TItem="object"
+                             Data="@radialData"
+                             Options="@pieOptions"
+                             Clicked="@OnPointClicked">
+                    <SvgChartTitle Text="Market share" Subtitle="Pie chart from explicit data" />
+                    <SvgChartTooltip Enabled />
+                </SvgPieChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG doughnut chart</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgDoughnutChart TItem="object"
+                                  Data="@radialData"
+                                  Options="@doughnutOptions"
+                                  Clicked="@OnPointClicked">
+                    <SvgChartTitle Text="Market share" Subtitle="Doughnut chart from the same data" />
+                    <SvgChartTooltip Enabled />
+                </SvgDoughnutChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG polar area chart</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgPolarAreaChart TItem="object"
+                                   Data="@radialData"
+                                   Options="@polarAreaOptions"
+                                   Hovered="@OnPointHovered">
+                    <SvgChartTitle Text="Channel mix" Subtitle="Equal-angle radial values" />
+                    <SvgChartTooltip Enabled />
+                </SvgPolarAreaChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG radar chart</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgRadarChart TItem="object"
+                               Data="@radarData"
+                               Options="@radarOptions">
+                    <SvgChartTitle Text="Product fit" Subtitle="Radar series from explicit data" />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                </SvgRadarChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG scatter chart</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgScatterChart TItem="PointSample"
+                                 Items="@Points"
+                                 Options="@scatterOptions"
+                                 Hovered="@OnPointHovered">
+                    <SvgChartTitle Text="Store performance" Subtitle="X/Y values from item selectors" />
+                    <SvgChartTooltip Enabled />
+                    <SvgLinearAxis BeginAtZero TickCount="6" />
+
+                    <SvgScatterSeries Name="Stores" XValue="@( x => x.X )" YValue="@( x => x.Y )" Color="Color.Primary" MarkerRadius="5" />
+                </SvgScatterChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG bubble chart</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgBubbleChart TItem="PointSample"
+                                Items="@Points"
+                                Options="@bubbleOptions"
+                                Clicked="@OnPointClicked">
+                    <SvgChartTitle Text="Store volume" Subtitle="Bubble radius from item selectors" />
+                    <SvgChartTooltip Enabled />
+                    <SvgLinearAxis BeginAtZero TickCount="6" />
+
+                    <SvgBubbleSeries Name="Stores" XValue="@( x => x.X )" YValue="@( x => x.Y )" RadiusValue="@( x => x.Radius )" Color="Color.Info" />
+                </SvgBubbleChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG column chart - imperative updates</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Button Color="Color.Primary" Outline Clicked="@AddMonth">Add Month</Button>
+                <Button Color="Color.Secondary" Outline Clicked="@ToggleLondon">Toggle London</Button>
+                <Button Color="Color.Danger" Outline Clicked="@ClearImperative">Clear</Button>
+            </CardBody>
+            <CardBody>
+                <SvgColumnChart @ref="imperativeChart"
+                                TItem="object"
+                                Data="@imperativeData"
+                                Options="@imperativeOptions"
+                                Clicked="@OnPointClicked" />
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Event state</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph Margin="Margin.Is0">@lastEvent</Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

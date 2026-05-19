@@ -1,0 +1,1725 @@
+#region Using directives
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Blazorise.Utilities;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
+#endregion
+
+namespace Blazorise.Charts.Svg;
+
+/// <summary>
+/// Renders a native SVG chart.
+/// </summary>
+/// <typeparam name="TItem">The chart item type.</typeparam>
+[CascadingTypeParameter( nameof( TItem ) )]
+public class SvgChart<TItem> : SvgChartBase
+{
+    #region Members
+
+    private readonly List<object> seriesComponents = [];
+
+    private readonly List<object> categoryAxisComponents = [];
+
+    private readonly List<SvgLinearAxis> linearAxisComponents = [];
+
+    private readonly List<SvgChartTitle> titleComponents = [];
+
+    private readonly List<SvgChartLegend> legendComponents = [];
+
+    private readonly List<SvgChartTooltip> tooltipComponents = [];
+
+    private readonly HashSet<string> hiddenSeries = [];
+
+    private SvgChartData<double?> internalChartData;
+
+    private SvgChartTooltipContext activeTooltip;
+
+    private bool activeTooltipPinned;
+
+    private static readonly string[] Palette =
+    [
+        "#4c6ef5",
+        "#12b886",
+        "#f59f00",
+        "#e03131",
+        "#845ef7",
+        "#228be6"
+    ];
+
+    #endregion
+
+    #region Methods
+
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( "svg-chart" );
+
+        base.BuildClasses( builder );
+    }
+
+    protected override void BuildRenderTree( RenderTreeBuilder builder )
+    {
+        var sequence = 0;
+        var model = BuildModel();
+        var options = ResolveOptions();
+        var legend = ResolveLegend( options );
+        var title = ResolveTitle( options );
+        var subtitle = ResolveSubtitle( options );
+        var hasTopLegend = legend.Visible && legend.Position == SvgChartLegendPosition.Top;
+        var hasBottomLegend = legend.Visible && legend.Position == SvgChartLegendPosition.Bottom;
+        var plot = BuildPlotArea( options, title, subtitle, hasTopLegend, hasBottomLegend );
+
+        builder.OpenComponent<CascadingValue<SvgChartBase>>( sequence++ );
+        builder.AddAttribute( sequence++, "Value", this );
+        builder.AddAttribute( sequence++, "IsFixed", true );
+        builder.AddAttribute( sequence++, "ChildContent", ChildContent );
+        builder.CloseComponent();
+
+        builder.OpenElement( sequence++, "div" );
+        builder.AddMultipleAttributes( sequence++, Attributes );
+        builder.AddAttribute( sequence++, "id", ElementId );
+        builder.AddAttribute( sequence++, "class", ClassNames );
+        builder.AddAttribute( sequence++, "style", StyleNames );
+
+        builder.OpenElement( sequence++, "svg" );
+        builder.AddAttribute( sequence++, "xmlns", "http://www.w3.org/2000/svg" );
+        builder.AddAttribute( sequence++, "role", "img" );
+        builder.AddAttribute( sequence++, "aria-label", string.IsNullOrWhiteSpace( title ) ? "SVG chart" : title );
+        builder.AddAttribute( sequence++, "viewBox", $"0 0 {Format( options.Width )} {Format( options.Height )}" );
+        builder.AddAttribute( sequence++, "style", options.Responsive ? "display:block;width:100%;height:auto;overflow:visible;" : $"display:block;width:{Format( options.Width )}px;height:{Format( options.Height )}px;overflow:visible;" );
+
+        RenderChartTitle( builder, ref sequence, options, title, subtitle );
+
+        if ( hasTopLegend )
+            RenderLegend( builder, ref sequence, model, options, 48 );
+
+        if ( IsBarChart( model ) )
+            RenderHorizontalGridAndAxes( builder, ref sequence, model, plot );
+        else if ( !IsRadialChart( model ) )
+            RenderGridAndAxes( builder, ref sequence, model, plot );
+
+        if ( IsRadialChart( model ) )
+            RenderRadialChart( builder, ref sequence, model, plot );
+
+        if ( model.Series.Any( x => x.Type == SvgChartType.Area ) )
+            RenderAreas( builder, ref sequence, model, plot );
+
+        if ( model.Series.Any( x => x.Type == SvgChartType.Line ) )
+            RenderLines( builder, ref sequence, model, plot );
+
+        if ( model.Series.Any( x => x.Type == SvgChartType.Column ) )
+            RenderColumns( builder, ref sequence, model, plot );
+
+        if ( model.Series.Any( x => x.Type == SvgChartType.Bar ) )
+            RenderBars( builder, ref sequence, model, plot );
+
+        if ( model.Series.Any( x => IsPointChart( x.Type ) ) )
+            RenderPointCharts( builder, ref sequence, model, plot );
+
+        if ( hasBottomLegend )
+            RenderLegend( builder, ref sequence, model, options, options.Height - 30 );
+
+        RenderActiveTooltip( builder, ref sequence, model );
+
+        builder.CloseElement();
+        builder.CloseElement();
+    }
+
+    private void RenderChartTitle( RenderTreeBuilder builder, ref int sequence, SvgChartOptions options, string title, string subtitle )
+    {
+        if ( !string.IsNullOrWhiteSpace( title ) )
+        {
+            builder.OpenElement( sequence++, "text" );
+            builder.AddAttribute( sequence++, "x", Format( options.Width / 2 ) );
+            builder.AddAttribute( sequence++, "y", "24" );
+            builder.AddAttribute( sequence++, "text-anchor", "middle" );
+            builder.AddAttribute( sequence++, "font-size", "16" );
+            builder.AddAttribute( sequence++, "font-weight", "600" );
+            builder.AddAttribute( sequence++, "fill", "currentColor" );
+            builder.AddContent( sequence++, title );
+            builder.CloseElement();
+        }
+
+        if ( !string.IsNullOrWhiteSpace( subtitle ) )
+        {
+            builder.OpenElement( sequence++, "text" );
+            builder.AddAttribute( sequence++, "x", Format( options.Width / 2 ) );
+            builder.AddAttribute( sequence++, "y", "43" );
+            builder.AddAttribute( sequence++, "text-anchor", "middle" );
+            builder.AddAttribute( sequence++, "font-size", "12" );
+            builder.AddAttribute( sequence++, "fill", "currentColor" );
+            builder.AddAttribute( sequence++, "opacity", "0.7" );
+            builder.AddContent( sequence++, subtitle );
+            builder.CloseElement();
+        }
+    }
+
+    private void RenderGridAndAxes( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
+    {
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-grid" );
+
+        foreach ( var tick in model.Ticks )
+        {
+            var y = GetY( tick, plot, model );
+
+            builder.OpenElement( sequence++, "line" );
+            builder.AddAttribute( sequence++, "x1", Format( plot.Left ) );
+            builder.AddAttribute( sequence++, "x2", Format( plot.Right ) );
+            builder.AddAttribute( sequence++, "y1", Format( y ) );
+            builder.AddAttribute( sequence++, "y2", Format( y ) );
+            builder.AddAttribute( sequence++, "stroke", "currentColor" );
+            builder.AddAttribute( sequence++, "stroke-opacity", "0.14" );
+            builder.CloseElement();
+
+            builder.OpenElement( sequence++, "text" );
+            builder.AddAttribute( sequence++, "x", Format( plot.Left - 10 ) );
+            builder.AddAttribute( sequence++, "y", Format( y + 4 ) );
+            builder.AddAttribute( sequence++, "text-anchor", "end" );
+            builder.AddAttribute( sequence++, "font-size", "11" );
+            builder.AddAttribute( sequence++, "fill", "currentColor" );
+            builder.AddAttribute( sequence++, "opacity", "0.68" );
+            builder.AddContent( sequence++, FormatTick( tick ) );
+            builder.CloseElement();
+        }
+
+        builder.OpenElement( sequence++, "line" );
+        builder.AddAttribute( sequence++, "x1", Format( plot.Left ) );
+        builder.AddAttribute( sequence++, "x2", Format( plot.Left ) );
+        builder.AddAttribute( sequence++, "y1", Format( plot.Top ) );
+        builder.AddAttribute( sequence++, "y2", Format( plot.Bottom ) );
+        builder.AddAttribute( sequence++, "stroke", "currentColor" );
+        builder.AddAttribute( sequence++, "stroke-opacity", "0.22" );
+        builder.CloseElement();
+
+        builder.OpenElement( sequence++, "line" );
+        builder.AddAttribute( sequence++, "x1", Format( plot.Left ) );
+        builder.AddAttribute( sequence++, "x2", Format( plot.Right ) );
+        builder.AddAttribute( sequence++, "y1", Format( plot.Bottom ) );
+        builder.AddAttribute( sequence++, "y2", Format( plot.Bottom ) );
+        builder.AddAttribute( sequence++, "stroke", "currentColor" );
+        builder.AddAttribute( sequence++, "stroke-opacity", "0.22" );
+        builder.CloseElement();
+
+        for ( var i = 0; i < model.Labels.Count; i++ )
+        {
+            var x = plot.Left + plot.Width * ( i + 0.5 ) / Math.Max( model.Labels.Count, 1 );
+
+            builder.OpenElement( sequence++, "text" );
+            builder.AddAttribute( sequence++, "x", Format( x ) );
+            builder.AddAttribute( sequence++, "y", Format( plot.Bottom + 24 ) );
+            builder.AddAttribute( sequence++, "text-anchor", "middle" );
+            builder.AddAttribute( sequence++, "font-size", "11" );
+            builder.AddAttribute( sequence++, "fill", "currentColor" );
+            builder.AddAttribute( sequence++, "opacity", "0.72" );
+            builder.AddContent( sequence++, model.Labels[i]?.ToString() );
+            builder.CloseElement();
+        }
+
+        builder.CloseElement();
+    }
+
+    private void RenderHorizontalGridAndAxes( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
+    {
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-grid" );
+
+        foreach ( var tick in model.Ticks )
+        {
+            var x = GetX( tick, plot, model );
+
+            builder.OpenElement( sequence++, "line" );
+            builder.AddAttribute( sequence++, "x1", Format( x ) );
+            builder.AddAttribute( sequence++, "x2", Format( x ) );
+            builder.AddAttribute( sequence++, "y1", Format( plot.Top ) );
+            builder.AddAttribute( sequence++, "y2", Format( plot.Bottom ) );
+            builder.AddAttribute( sequence++, "stroke", "currentColor" );
+            builder.AddAttribute( sequence++, "stroke-opacity", "0.14" );
+            builder.CloseElement();
+
+            builder.OpenElement( sequence++, "text" );
+            builder.AddAttribute( sequence++, "x", Format( x ) );
+            builder.AddAttribute( sequence++, "y", Format( plot.Bottom + 24 ) );
+            builder.AddAttribute( sequence++, "text-anchor", "middle" );
+            builder.AddAttribute( sequence++, "font-size", "11" );
+            builder.AddAttribute( sequence++, "fill", "currentColor" );
+            builder.AddAttribute( sequence++, "opacity", "0.68" );
+            builder.AddContent( sequence++, FormatTick( tick ) );
+            builder.CloseElement();
+        }
+
+        builder.OpenElement( sequence++, "line" );
+        builder.AddAttribute( sequence++, "x1", Format( plot.Left ) );
+        builder.AddAttribute( sequence++, "x2", Format( plot.Right ) );
+        builder.AddAttribute( sequence++, "y1", Format( plot.Bottom ) );
+        builder.AddAttribute( sequence++, "y2", Format( plot.Bottom ) );
+        builder.AddAttribute( sequence++, "stroke", "currentColor" );
+        builder.AddAttribute( sequence++, "stroke-opacity", "0.22" );
+        builder.CloseElement();
+
+        for ( var i = 0; i < model.Labels.Count; i++ )
+        {
+            var y = plot.Top + plot.Height * ( i + 0.5 ) / Math.Max( model.Labels.Count, 1 );
+
+            builder.OpenElement( sequence++, "text" );
+            builder.AddAttribute( sequence++, "x", Format( plot.Left - 10 ) );
+            builder.AddAttribute( sequence++, "y", Format( y + 4 ) );
+            builder.AddAttribute( sequence++, "text-anchor", "end" );
+            builder.AddAttribute( sequence++, "font-size", "11" );
+            builder.AddAttribute( sequence++, "fill", "currentColor" );
+            builder.AddAttribute( sequence++, "opacity", "0.72" );
+            builder.AddContent( sequence++, model.Labels[i]?.ToString() );
+            builder.CloseElement();
+        }
+
+        builder.CloseElement();
+    }
+
+    private void RenderColumns( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
+    {
+        var visibleColumnSeries = model.Series.Where( x => x.Type == SvgChartType.Column && !x.Hidden ).ToList();
+
+        if ( visibleColumnSeries.Count == 0 || model.Labels.Count == 0 )
+            return;
+
+        var categoryWidth = plot.Width / model.Labels.Count;
+        var groupWidth = categoryWidth * 0.72;
+        var barWidth = Math.Max( 1, groupWidth / visibleColumnSeries.Count );
+        var baseline = GetY( 0, plot, model );
+
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-columns" );
+
+        for ( var seriesIndex = 0; seriesIndex < visibleColumnSeries.Count; seriesIndex++ )
+        {
+            var series = visibleColumnSeries[seriesIndex];
+
+            for ( var pointIndex = 0; pointIndex < model.Labels.Count && pointIndex < series.Values.Count; pointIndex++ )
+            {
+                var value = series.Values[pointIndex];
+
+                if ( !value.HasValue )
+                    continue;
+
+                var categoryStart = plot.Left + categoryWidth * pointIndex + ( categoryWidth - groupWidth ) / 2;
+                var x = categoryStart + barWidth * seriesIndex + barWidth * 0.1;
+                var y = GetY( value.Value, plot, model );
+                var height = Math.Abs( baseline - y );
+                var rectY = Math.Min( y, baseline );
+                var rectWidth = Math.Max( 1, barWidth * 0.8 );
+                var bounds = new SvgChartPointBounds { X = x, Y = rectY, Width = rectWidth, Height = height };
+                var point = CreatePointArgs( model, series, pointIndex, value.Value, bounds );
+
+                builder.OpenElement( sequence++, "rect" );
+                builder.AddAttribute( sequence++, "class", "svg-chart-point svg-chart-column" );
+                builder.AddAttribute( sequence++, "x", Format( x ) );
+                builder.AddAttribute( sequence++, "y", Format( rectY ) );
+                builder.AddAttribute( sequence++, "width", Format( rectWidth ) );
+                builder.AddAttribute( sequence++, "height", Format( height ) );
+                builder.AddAttribute( sequence++, "rx", Format( series.BorderRadius ) );
+                builder.AddAttribute( sequence++, "fill", series.RenderColor );
+                builder.AddAttribute( sequence++, "tabindex", "0" );
+                builder.AddAttribute( sequence++, "role", "img" );
+                builder.AddAttribute( sequence++, "aria-label", GetPointLabel( point ) );
+                builder.AddAttribute( sequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointClicked( point, series.RenderColor ) ) );
+                builder.AddAttribute( sequence++, "onmouseenter", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointHovered( point, series.RenderColor ) ) );
+                builder.AddAttribute( sequence++, "onmouseleave", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointLeft() ) );
+                builder.AddAttribute( sequence++, "onfocus", EventCallback.Factory.Create<FocusEventArgs>( this, () => ShowTooltip( point, series.RenderColor, false ) ) );
+                builder.AddAttribute( sequence++, "onblur", EventCallback.Factory.Create<FocusEventArgs>( this, () => HandlePointLeft() ) );
+
+                builder.CloseElement();
+            }
+        }
+
+        builder.CloseElement();
+    }
+
+    private void RenderBars( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
+    {
+        var visibleBarSeries = model.Series.Where( x => x.Type == SvgChartType.Bar && !x.Hidden ).ToList();
+
+        if ( visibleBarSeries.Count == 0 || model.Labels.Count == 0 )
+            return;
+
+        var categoryHeight = plot.Height / model.Labels.Count;
+        var groupHeight = categoryHeight * 0.72;
+        var barHeight = Math.Max( 1, groupHeight / visibleBarSeries.Count );
+        var baseline = GetX( 0, plot, model );
+
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-bars" );
+
+        for ( var seriesIndex = 0; seriesIndex < visibleBarSeries.Count; seriesIndex++ )
+        {
+            var series = visibleBarSeries[seriesIndex];
+
+            for ( var pointIndex = 0; pointIndex < model.Labels.Count && pointIndex < series.Values.Count; pointIndex++ )
+            {
+                var value = series.Values[pointIndex];
+
+                if ( !value.HasValue )
+                    continue;
+
+                var categoryStart = plot.Top + categoryHeight * pointIndex + ( categoryHeight - groupHeight ) / 2;
+                var x = GetX( value.Value, plot, model );
+                var width = Math.Abs( x - baseline );
+                var rectX = Math.Min( x, baseline );
+                var y = categoryStart + barHeight * seriesIndex + barHeight * 0.1;
+                var rectHeight = Math.Max( 1, barHeight * 0.8 );
+                var bounds = new SvgChartPointBounds { X = rectX, Y = y, Width = width, Height = rectHeight };
+                var point = CreatePointArgs( model, series, pointIndex, value.Value, bounds );
+
+                builder.OpenElement( sequence++, "rect" );
+                builder.AddAttribute( sequence++, "class", "svg-chart-point svg-chart-bar" );
+                builder.AddAttribute( sequence++, "x", Format( rectX ) );
+                builder.AddAttribute( sequence++, "y", Format( y ) );
+                builder.AddAttribute( sequence++, "width", Format( width ) );
+                builder.AddAttribute( sequence++, "height", Format( rectHeight ) );
+                builder.AddAttribute( sequence++, "rx", Format( series.BorderRadius ) );
+                builder.AddAttribute( sequence++, "fill", series.RenderColor );
+                builder.AddAttribute( sequence++, "tabindex", "0" );
+                builder.AddAttribute( sequence++, "role", "img" );
+                builder.AddAttribute( sequence++, "aria-label", GetPointLabel( point ) );
+                builder.AddAttribute( sequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointClicked( point, series.RenderColor ) ) );
+                builder.AddAttribute( sequence++, "onmouseenter", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointHovered( point, series.RenderColor ) ) );
+                builder.AddAttribute( sequence++, "onmouseleave", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointLeft() ) );
+                builder.AddAttribute( sequence++, "onfocus", EventCallback.Factory.Create<FocusEventArgs>( this, () => ShowTooltip( point, series.RenderColor, false ) ) );
+                builder.AddAttribute( sequence++, "onblur", EventCallback.Factory.Create<FocusEventArgs>( this, () => HandlePointLeft() ) );
+
+                builder.CloseElement();
+            }
+        }
+
+        builder.CloseElement();
+    }
+
+    private void RenderLines( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
+    {
+        var lineSeries = model.Series.Where( x => x.Type == SvgChartType.Line && !x.Hidden ).ToList();
+
+        if ( lineSeries.Count == 0 || model.Labels.Count == 0 )
+            return;
+
+        var categoryWidth = plot.Width / model.Labels.Count;
+
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-lines" );
+
+        foreach ( var series in lineSeries )
+        {
+            var points = new List<(int Index, double X, double Y, double Value)>();
+
+            for ( var pointIndex = 0; pointIndex < model.Labels.Count && pointIndex < series.Values.Count; pointIndex++ )
+            {
+                var value = series.Values[pointIndex];
+
+                if ( value.HasValue )
+                {
+                    points.Add( (pointIndex, plot.Left + categoryWidth * ( pointIndex + 0.5 ), GetY( value.Value, plot, model ), value.Value) );
+                }
+            }
+
+            if ( points.Count > 1 )
+            {
+                builder.OpenElement( sequence++, "path" );
+                builder.AddAttribute( sequence++, "class", "svg-chart-line" );
+                builder.AddAttribute( sequence++, "d", BuildLinePath( points ) );
+                builder.AddAttribute( sequence++, "fill", "none" );
+                builder.AddAttribute( sequence++, "stroke", series.RenderColor );
+                builder.AddAttribute( sequence++, "stroke-width", Format( series.StrokeWidth ) );
+                builder.AddAttribute( sequence++, "stroke-linecap", "round" );
+                builder.AddAttribute( sequence++, "stroke-linejoin", "round" );
+                builder.CloseElement();
+            }
+
+            foreach ( var renderedPoint in points )
+            {
+                var bounds = new SvgChartPointBounds
+                {
+                    X = renderedPoint.X - series.MarkerRadius,
+                    Y = renderedPoint.Y - series.MarkerRadius,
+                    Width = series.MarkerRadius * 2,
+                    Height = series.MarkerRadius * 2
+                };
+                var point = CreatePointArgs( model, series, renderedPoint.Index, renderedPoint.Value, bounds );
+
+                builder.OpenElement( sequence++, "circle" );
+                builder.AddAttribute( sequence++, "class", "svg-chart-point svg-chart-marker" );
+                builder.AddAttribute( sequence++, "cx", Format( renderedPoint.X ) );
+                builder.AddAttribute( sequence++, "cy", Format( renderedPoint.Y ) );
+                builder.AddAttribute( sequence++, "r", Format( series.MarkerRadius ) );
+                builder.AddAttribute( sequence++, "fill", series.RenderColor );
+                builder.AddAttribute( sequence++, "stroke", "var(--bs-body-bg, #fff)" );
+                builder.AddAttribute( sequence++, "stroke-width", "1.5" );
+                builder.AddAttribute( sequence++, "tabindex", "0" );
+                builder.AddAttribute( sequence++, "role", "img" );
+                builder.AddAttribute( sequence++, "aria-label", GetPointLabel( point ) );
+                builder.AddAttribute( sequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointClicked( point, series.RenderColor ) ) );
+                builder.AddAttribute( sequence++, "onmouseenter", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointHovered( point, series.RenderColor ) ) );
+                builder.AddAttribute( sequence++, "onmouseleave", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointLeft() ) );
+                builder.AddAttribute( sequence++, "onfocus", EventCallback.Factory.Create<FocusEventArgs>( this, () => ShowTooltip( point, series.RenderColor, false ) ) );
+                builder.AddAttribute( sequence++, "onblur", EventCallback.Factory.Create<FocusEventArgs>( this, () => HandlePointLeft() ) );
+
+                builder.CloseElement();
+            }
+        }
+
+        builder.CloseElement();
+    }
+
+    private void RenderAreas( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
+    {
+        var areaSeries = model.Series.Where( x => x.Type == SvgChartType.Area && !x.Hidden ).ToList();
+
+        if ( areaSeries.Count == 0 || model.Labels.Count == 0 )
+            return;
+
+        var categoryWidth = plot.Width / model.Labels.Count;
+        var baseline = GetY( 0, plot, model );
+
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-areas" );
+
+        foreach ( var series in areaSeries )
+        {
+            var points = new List<(int Index, double X, double Y, double Value)>();
+
+            for ( var pointIndex = 0; pointIndex < model.Labels.Count && pointIndex < series.Values.Count; pointIndex++ )
+            {
+                var value = series.Values[pointIndex];
+
+                if ( value.HasValue )
+                    points.Add( (pointIndex, plot.Left + categoryWidth * ( pointIndex + 0.5 ), GetY( value.Value, plot, model ), value.Value) );
+            }
+
+            if ( points.Count > 1 )
+            {
+                var areaPath = $"{BuildLinePath( points )} L {Format( points[^1].X )} {Format( baseline )} L {Format( points[0].X )} {Format( baseline )} Z";
+
+                builder.OpenElement( sequence++, "path" );
+                builder.AddAttribute( sequence++, "class", "svg-chart-area" );
+                builder.AddAttribute( sequence++, "d", areaPath );
+                builder.AddAttribute( sequence++, "fill", series.RenderColor );
+                builder.AddAttribute( sequence++, "opacity", Format( series.FillOpacity ) );
+                builder.CloseElement();
+
+                builder.OpenElement( sequence++, "path" );
+                builder.AddAttribute( sequence++, "class", "svg-chart-area-line" );
+                builder.AddAttribute( sequence++, "d", BuildLinePath( points ) );
+                builder.AddAttribute( sequence++, "fill", "none" );
+                builder.AddAttribute( sequence++, "stroke", series.RenderColor );
+                builder.AddAttribute( sequence++, "stroke-width", Format( series.StrokeWidth ) );
+                builder.AddAttribute( sequence++, "stroke-linecap", "round" );
+                builder.AddAttribute( sequence++, "stroke-linejoin", "round" );
+                builder.CloseElement();
+            }
+
+            foreach ( var renderedPoint in points )
+            {
+                var markerRadius = Math.Max( 3, series.StrokeWidth + 1 );
+                var bounds = new SvgChartPointBounds
+                {
+                    X = renderedPoint.X - markerRadius,
+                    Y = renderedPoint.Y - markerRadius,
+                    Width = markerRadius * 2,
+                    Height = markerRadius * 2
+                };
+                var point = CreatePointArgs( model, series, renderedPoint.Index, renderedPoint.Value, bounds );
+
+                builder.OpenElement( sequence++, "circle" );
+                builder.AddAttribute( sequence++, "class", "svg-chart-point svg-chart-area-marker" );
+                builder.AddAttribute( sequence++, "cx", Format( renderedPoint.X ) );
+                builder.AddAttribute( sequence++, "cy", Format( renderedPoint.Y ) );
+                builder.AddAttribute( sequence++, "r", Format( markerRadius ) );
+                builder.AddAttribute( sequence++, "fill", series.RenderColor );
+                builder.AddAttribute( sequence++, "stroke", "var(--bs-body-bg, #fff)" );
+                builder.AddAttribute( sequence++, "stroke-width", "1.5" );
+                builder.AddAttribute( sequence++, "tabindex", "0" );
+                builder.AddAttribute( sequence++, "role", "img" );
+                builder.AddAttribute( sequence++, "aria-label", GetPointLabel( point ) );
+                builder.AddAttribute( sequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointClicked( point, series.RenderColor ) ) );
+                builder.AddAttribute( sequence++, "onmouseenter", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointHovered( point, series.RenderColor ) ) );
+                builder.AddAttribute( sequence++, "onmouseleave", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointLeft() ) );
+                builder.AddAttribute( sequence++, "onfocus", EventCallback.Factory.Create<FocusEventArgs>( this, () => ShowTooltip( point, series.RenderColor, false ) ) );
+                builder.AddAttribute( sequence++, "onblur", EventCallback.Factory.Create<FocusEventArgs>( this, () => HandlePointLeft() ) );
+                builder.CloseElement();
+            }
+        }
+
+        builder.CloseElement();
+    }
+
+    private void RenderLegend( RenderTreeBuilder builder, ref int sequence, RenderModel model, SvgChartOptions options, double y )
+    {
+        if ( model.Series.Count == 0 )
+            return;
+
+        var itemWidth = Math.Min( 140, options.Width / Math.Max( model.Series.Count, 1 ) );
+        var totalWidth = itemWidth * model.Series.Count;
+        var startX = Math.Max( 8, ( options.Width - totalWidth ) / 2 );
+
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-legend" );
+
+        for ( var i = 0; i < model.Series.Count; i++ )
+        {
+            var series = model.Series[i];
+            var x = startX + itemWidth * i;
+
+            builder.OpenElement( sequence++, "g" );
+            builder.AddAttribute( sequence++, "class", "svg-chart-legend-item" );
+            builder.AddAttribute( sequence++, "role", "button" );
+            builder.AddAttribute( sequence++, "tabindex", "0" );
+            builder.AddAttribute( sequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => ToggleSeries( series.Name ) ) );
+
+            builder.OpenElement( sequence++, "rect" );
+            builder.AddAttribute( sequence++, "x", Format( x ) );
+            builder.AddAttribute( sequence++, "y", Format( y - 9 ) );
+            builder.AddAttribute( sequence++, "width", "12" );
+            builder.AddAttribute( sequence++, "height", "12" );
+            builder.AddAttribute( sequence++, "rx", "3" );
+            builder.AddAttribute( sequence++, "fill", series.RenderColor );
+            builder.AddAttribute( sequence++, "opacity", series.Hidden ? "0.35" : "1" );
+            builder.CloseElement();
+
+            builder.OpenElement( sequence++, "text" );
+            builder.AddAttribute( sequence++, "x", Format( x + 18 ) );
+            builder.AddAttribute( sequence++, "y", Format( y + 1 ) );
+            builder.AddAttribute( sequence++, "font-size", "12" );
+            builder.AddAttribute( sequence++, "fill", "currentColor" );
+            builder.AddAttribute( sequence++, "opacity", series.Hidden ? "0.45" : "0.8" );
+            builder.AddContent( sequence++, series.Name );
+            builder.CloseElement();
+
+            builder.CloseElement();
+        }
+
+        builder.CloseElement();
+    }
+
+    private void RenderPointCharts( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
+    {
+        var pointSeries = model.Series.Where( x => !x.Hidden && IsPointChart( x.Type ) ).ToList();
+
+        if ( pointSeries.Count == 0 )
+            return;
+
+        var xScale = BuildScale( pointSeries.SelectMany( x => x.XValues ).Where( x => x.HasValue ).Select( x => x.Value ).ToList(), ResolveAxis( ResolveOptions() ) );
+
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-points" );
+
+        foreach ( var series in pointSeries )
+        {
+            for ( var pointIndex = 0; pointIndex < series.YValues.Count; pointIndex++ )
+            {
+                var yValue = series.YValues[pointIndex];
+                var xValue = pointIndex < series.XValues.Count ? series.XValues[pointIndex] : pointIndex;
+
+                if ( !xValue.HasValue || !yValue.HasValue )
+                    continue;
+
+                var x = GetX( xValue.Value, plot, xScale.Min, xScale.Max );
+                var y = GetY( yValue.Value, plot, model );
+                var radius = series.Type == SvgChartType.Bubble
+                    ? Math.Max( 2, pointIndex < series.RadiusValues.Count && series.RadiusValues[pointIndex].HasValue ? series.RadiusValues[pointIndex].Value : series.MarkerRadius )
+                    : series.MarkerRadius;
+                var bounds = new SvgChartPointBounds { X = x - radius, Y = y - radius, Width = radius * 2, Height = radius * 2 };
+                var point = new SvgChartPointEventArgs
+                {
+                    SeriesName = series.Name,
+                    SeriesIndex = model.Series.IndexOf( series ),
+                    PointIndex = pointIndex,
+                    Category = xValue.Value,
+                    Value = yValue.Value,
+                    Bounds = bounds
+                };
+
+                builder.OpenElement( sequence++, "circle" );
+                builder.AddAttribute( sequence++, "class", $"svg-chart-point svg-chart-{series.Type.ToString().ToLowerInvariant()}" );
+                builder.AddAttribute( sequence++, "cx", Format( x ) );
+                builder.AddAttribute( sequence++, "cy", Format( y ) );
+                builder.AddAttribute( sequence++, "r", Format( radius ) );
+                builder.AddAttribute( sequence++, "fill", series.RenderColor );
+                builder.AddAttribute( sequence++, "opacity", series.Type == SvgChartType.Bubble ? "0.72" : "1" );
+                builder.AddAttribute( sequence++, "tabindex", "0" );
+                builder.AddAttribute( sequence++, "role", "img" );
+                builder.AddAttribute( sequence++, "aria-label", GetPointLabel( point ) );
+                builder.AddAttribute( sequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointClicked( point, series.RenderColor ) ) );
+                builder.AddAttribute( sequence++, "onmouseenter", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointHovered( point, series.RenderColor ) ) );
+                builder.AddAttribute( sequence++, "onmouseleave", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointLeft() ) );
+                builder.AddAttribute( sequence++, "onfocus", EventCallback.Factory.Create<FocusEventArgs>( this, () => ShowTooltip( point, series.RenderColor, false ) ) );
+                builder.AddAttribute( sequence++, "onblur", EventCallback.Factory.Create<FocusEventArgs>( this, () => HandlePointLeft() ) );
+
+                builder.CloseElement();
+            }
+        }
+
+        builder.CloseElement();
+    }
+
+    private void RenderRadialChart( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
+    {
+        if ( model.Series.Count == 0 )
+            return;
+
+        var radialType = model.Series.FirstOrDefault()?.Type ?? Type;
+
+        if ( radialType == SvgChartType.Radar )
+        {
+            RenderRadarChart( builder, ref sequence, model, plot );
+            return;
+        }
+
+        var series = model.Series.FirstOrDefault( x => !x.Hidden );
+
+        if ( series is null )
+            return;
+
+        var values = series.Values.Where( x => x.HasValue && x.Value >= 0 ).Select( x => x.Value ).ToList();
+
+        if ( values.Count == 0 )
+            return;
+
+        var centerX = plot.Left + plot.Width / 2;
+        var centerY = plot.Top + plot.Height / 2;
+        var radius = Math.Max( 1, Math.Min( plot.Width, plot.Height ) * 0.42 );
+        var total = radialType == SvgChartType.PolarArea ? values.Count : values.Sum();
+        var startAngle = -Math.PI / 2;
+        var max = values.Max();
+
+        if ( total <= 0 )
+            return;
+
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-radial" );
+
+        for ( var i = 0; i < values.Count; i++ )
+        {
+            var value = values[i];
+            var sweep = radialType == SvgChartType.PolarArea ? ( Math.PI * 2 / values.Count ) : ( value / total * Math.PI * 2 );
+            var endAngle = startAngle + sweep;
+            var pointRadius = radialType == SvgChartType.PolarArea ? radius * Math.Sqrt( value / Math.Max( max, 1 ) ) : radius;
+            var innerRadius = radialType == SvgChartType.Doughnut ? radius * 0.58 : 0;
+            var color = ResolveColor( null, i );
+            var category = i < model.Labels.Count ? model.Labels[i] : i + 1;
+            var bounds = new SvgChartPointBounds { X = centerX - pointRadius, Y = centerY - pointRadius, Width = pointRadius * 2, Height = pointRadius * 2 };
+            var point = new SvgChartPointEventArgs { SeriesName = series.Name, SeriesIndex = model.Series.IndexOf( series ), PointIndex = i, Category = category, Value = value, Bounds = bounds };
+
+            builder.OpenElement( sequence++, "path" );
+            builder.AddAttribute( sequence++, "class", $"svg-chart-point svg-chart-{radialType.ToString().ToLowerInvariant()}-segment" );
+            builder.AddAttribute( sequence++, "d", BuildArcPath( centerX, centerY, innerRadius, pointRadius, startAngle, endAngle ) );
+            builder.AddAttribute( sequence++, "fill", color );
+            builder.AddAttribute( sequence++, "stroke", "var(--bs-body-bg, #fff)" );
+            builder.AddAttribute( sequence++, "stroke-width", "1" );
+            builder.AddAttribute( sequence++, "tabindex", "0" );
+            builder.AddAttribute( sequence++, "role", "img" );
+            builder.AddAttribute( sequence++, "aria-label", GetPointLabel( point ) );
+            builder.AddAttribute( sequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointClicked( point, color ) ) );
+            builder.AddAttribute( sequence++, "onmouseenter", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointHovered( point, color ) ) );
+            builder.AddAttribute( sequence++, "onmouseleave", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointLeft() ) );
+            builder.AddAttribute( sequence++, "onfocus", EventCallback.Factory.Create<FocusEventArgs>( this, () => ShowTooltip( point, color, false ) ) );
+            builder.AddAttribute( sequence++, "onblur", EventCallback.Factory.Create<FocusEventArgs>( this, () => HandlePointLeft() ) );
+
+            builder.CloseElement();
+
+            startAngle = endAngle;
+        }
+
+        builder.CloseElement();
+    }
+
+    private void RenderRadarChart( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
+    {
+        var radarSeries = model.Series.Where( x => x.Type == SvgChartType.Radar && !x.Hidden ).ToList();
+
+        if ( radarSeries.Count == 0 || model.Labels.Count == 0 )
+            return;
+
+        var centerX = plot.Left + plot.Width / 2;
+        var centerY = plot.Top + plot.Height / 2;
+        var radius = Math.Max( 1, Math.Min( plot.Width, plot.Height ) * 0.42 );
+        var max = Math.Max( model.Max, 1 );
+
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-radar" );
+
+        for ( var i = 1; i <= 4; i++ )
+        {
+            builder.OpenElement( sequence++, "polygon" );
+            builder.AddAttribute( sequence++, "points", BuildRadarPoints( Enumerable.Repeat( max * i / 4, model.Labels.Count ).Select( x => (double?)x ).ToList(), centerX, centerY, radius, max ) );
+            builder.AddAttribute( sequence++, "fill", "none" );
+            builder.AddAttribute( sequence++, "stroke", "currentColor" );
+            builder.AddAttribute( sequence++, "stroke-opacity", "0.12" );
+            builder.CloseElement();
+        }
+
+        foreach ( var series in radarSeries )
+        {
+            builder.OpenElement( sequence++, "polygon" );
+            builder.AddAttribute( sequence++, "class", "svg-chart-radar-area" );
+            builder.AddAttribute( sequence++, "points", BuildRadarPoints( series.Values, centerX, centerY, radius, max ) );
+            builder.AddAttribute( sequence++, "fill", series.RenderColor );
+            builder.AddAttribute( sequence++, "opacity", Format( series.FillOpacity ) );
+            builder.AddAttribute( sequence++, "stroke", series.RenderColor );
+            builder.AddAttribute( sequence++, "stroke-width", "2" );
+            builder.CloseElement();
+
+            for ( var pointIndex = 0; pointIndex < model.Labels.Count && pointIndex < series.Values.Count; pointIndex++ )
+            {
+                var value = series.Values[pointIndex];
+
+                if ( !value.HasValue )
+                    continue;
+
+                var angle = -Math.PI / 2 + Math.PI * 2 * pointIndex / model.Labels.Count;
+                var renderedRadius = radius * Math.Max( value.Value, 0 ) / max;
+                var renderedPoint = PolarToCartesian( centerX, centerY, renderedRadius, angle );
+                var markerRadius = 4d;
+                var bounds = new SvgChartPointBounds
+                {
+                    X = renderedPoint.X - markerRadius,
+                    Y = renderedPoint.Y - markerRadius,
+                    Width = markerRadius * 2,
+                    Height = markerRadius * 2
+                };
+                var point = CreatePointArgs( model, series, pointIndex, value.Value, bounds );
+
+                builder.OpenElement( sequence++, "circle" );
+                builder.AddAttribute( sequence++, "class", "svg-chart-point svg-chart-radar-marker" );
+                builder.AddAttribute( sequence++, "cx", Format( renderedPoint.X ) );
+                builder.AddAttribute( sequence++, "cy", Format( renderedPoint.Y ) );
+                builder.AddAttribute( sequence++, "r", Format( markerRadius ) );
+                builder.AddAttribute( sequence++, "fill", series.RenderColor );
+                builder.AddAttribute( sequence++, "stroke", "var(--bs-body-bg, #fff)" );
+                builder.AddAttribute( sequence++, "stroke-width", "1.5" );
+                builder.AddAttribute( sequence++, "tabindex", "0" );
+                builder.AddAttribute( sequence++, "role", "img" );
+                builder.AddAttribute( sequence++, "aria-label", GetPointLabel( point ) );
+                builder.AddAttribute( sequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointClicked( point, series.RenderColor ) ) );
+                builder.AddAttribute( sequence++, "onmouseenter", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointHovered( point, series.RenderColor ) ) );
+                builder.AddAttribute( sequence++, "onmouseleave", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointLeft() ) );
+                builder.AddAttribute( sequence++, "onfocus", EventCallback.Factory.Create<FocusEventArgs>( this, () => ShowTooltip( point, series.RenderColor, false ) ) );
+                builder.AddAttribute( sequence++, "onblur", EventCallback.Factory.Create<FocusEventArgs>( this, () => HandlePointLeft() ) );
+                builder.CloseElement();
+            }
+        }
+
+        builder.CloseElement();
+    }
+
+    private void RenderActiveTooltip( RenderTreeBuilder builder, ref int sequence, RenderModel model )
+    {
+        var tooltip = model.Tooltip;
+        var context = activeTooltip;
+
+        if ( context is null || tooltip is null || !tooltip.Enabled )
+            return;
+
+        builder.OpenElement( sequence++, "foreignObject" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-tooltip" );
+        builder.AddAttribute( sequence++, "x", Format( context.X ) );
+        builder.AddAttribute( sequence++, "y", Format( context.Y ) );
+        builder.AddAttribute( sequence++, "width", Format( context.Width ) );
+        builder.AddAttribute( sequence++, "height", Format( context.Height ) );
+        builder.AddAttribute( sequence++, "style", "pointer-events:none;overflow:visible;" );
+
+        builder.OpenElement( sequence++, "div" );
+        builder.AddAttribute( sequence++, "xmlns", "http://www.w3.org/1999/xhtml" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-tooltip-content" );
+        builder.AddAttribute( sequence++, "style", $"height:100%;box-sizing:border-box;overflow:hidden;border-left:3px solid {context.Color};background:rgba(var(--b-tooltip-background-color-r,33),var(--b-tooltip-background-color-g,37),var(--b-tooltip-background-color-b,41),var(--b-tooltip-background-opacity,.94));color:var(--b-tooltip-color,#fff);border-radius:var(--b-tooltip-border-radius,.375rem);padding:var(--b-tooltip-padding,.5rem .75rem);font-size:var(--b-tooltip-font-size,.875rem);box-shadow:0 .35rem 1rem rgba(0,0,0,.18);" );
+
+        if ( tooltip.Template is not null )
+        {
+            builder.AddContent( sequence++, tooltip.Template( context ) );
+        }
+        else
+        {
+            builder.OpenElement( sequence++, "div" );
+            builder.AddAttribute( sequence++, "style", "font-weight:600;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" );
+            builder.AddContent( sequence++, context.SeriesName );
+            builder.CloseElement();
+
+            builder.OpenElement( sequence++, "div" );
+            builder.AddAttribute( sequence++, "style", "line-height:1.35;opacity:.86;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" );
+            builder.AddContent( sequence++, tooltip.Formatter?.Invoke( context ) ?? context.Text );
+            builder.CloseElement();
+        }
+
+        builder.CloseElement();
+        builder.CloseElement();
+    }
+
+    private RenderModel BuildModel()
+    {
+        var chartData = internalChartData ?? Data;
+        var options = ResolveOptions();
+        var categoryAxis = categoryAxisComponents.OfType<SvgCategoryAxis<TItem>>().LastOrDefault();
+        var childSeries = seriesComponents.OfType<SvgChartSeries<TItem>>().ToList();
+        var items = Items?.ToList() ?? [];
+        var labels = ResolveLabels( chartData, categoryAxis, items );
+        var series = ResolveSeries( chartData, childSeries, items, labels.Count );
+        var visibleValues = series.Where( x => !x.Hidden )
+            .SelectMany( x => IsPointChart( x.Type ) ? x.YValues : x.Values )
+            .Where( x => x.HasValue )
+            .Select( x => x.Value )
+            .ToList();
+        var axis = ResolveAxis( options );
+        var scale = BuildScale( visibleValues, axis );
+
+        return new RenderModel
+        {
+            Labels = labels,
+            Series = series,
+            Min = scale.Min,
+            Max = scale.Max,
+            Ticks = scale.Ticks,
+            Tooltip = ResolveTooltip( options )
+        };
+    }
+
+    private List<object> ResolveLabels( SvgChartData<double?> chartData, SvgCategoryAxis<TItem> categoryAxis, List<TItem> items )
+    {
+        if ( chartData?.Labels?.Count > 0 )
+            return chartData.Labels.ToList();
+
+        if ( categoryAxis?.Labels?.Count > 0 )
+            return categoryAxis.Labels.ToList();
+
+        if ( categoryAxis?.Value is not null && items.Count > 0 )
+            return items.Select( categoryAxis.Value ).ToList();
+
+        var maxValues = seriesComponents.OfType<SvgChartSeries<TItem>>()
+            .Select( x => x.Values?.Count ?? 0 )
+            .DefaultIfEmpty( 0 )
+            .Max();
+
+        return Enumerable.Range( 1, maxValues ).Select( x => (object)x ).ToList();
+    }
+
+    private List<RenderSeries> ResolveSeries( SvgChartData<double?> chartData, List<SvgChartSeries<TItem>> childSeries, List<TItem> items, int labelCount )
+    {
+        var series = new List<RenderSeries>();
+
+        if ( chartData?.Series?.Count > 0 )
+        {
+            for ( var i = 0; i < chartData.Series.Count; i++ )
+            {
+                var dataSeries = chartData.Series[i];
+                var name = string.IsNullOrWhiteSpace( dataSeries.Name ) ? $"Series {i + 1}" : dataSeries.Name;
+                var values = dataSeries.Values?.ToList() ?? [];
+                var yValues = dataSeries.YValues?.Count > 0 ? dataSeries.YValues.ToList() : values.ToList();
+                var xValues = dataSeries.XValues?.Count > 0
+                    ? dataSeries.XValues.ToList()
+                    : Enumerable.Range( 0, yValues.Count ).Select( x => (double?)x ).ToList();
+
+                series.Add( new()
+                {
+                    Name = name,
+                    Type = Type,
+                    Values = values,
+                    Color = dataSeries.Color,
+                    RenderColor = ResolveColor( dataSeries.Color, i ),
+                    Hidden = dataSeries.Hidden || hiddenSeries.Contains( name ),
+                    XValues = xValues,
+                    YValues = yValues,
+                    RadiusValues = dataSeries.RadiusValues?.ToList() ?? [],
+                    BorderRadius = 3,
+                    MarkerRadius = 3,
+                    StrokeWidth = 2,
+                    FillOpacity = 0.18
+                } );
+            }
+        }
+
+        for ( var i = 0; i < childSeries.Count; i++ )
+        {
+            var child = childSeries[i];
+            var name = string.IsNullOrWhiteSpace( child.Name ) ? $"Series {series.Count + 1}" : child.Name;
+            var values = child.Values?.ToList()
+                ?? ( child.Value is null ? [] : items.Select( child.Value ).ToList() );
+            var xValues = child.XValue is null
+                ? Enumerable.Range( 0, values.Count ).Select( x => (double?)x ).ToList()
+                : items.Select( child.XValue ).ToList();
+            var yValues = child.YValue is null ? values.ToList() : items.Select( child.YValue ).ToList();
+            var radiusValues = child.RadiusValue is null ? [] : items.Select( child.RadiusValue ).ToList();
+
+            series.Add( new()
+            {
+                Name = name,
+                Type = child.ChartType,
+                Values = NormalizeValues( values, labelCount ),
+                XValues = xValues,
+                YValues = yValues,
+                RadiusValues = radiusValues,
+                Color = child.Color,
+                RenderColor = ResolveColor( child.Color, series.Count ),
+                Hidden = child.Hidden || hiddenSeries.Contains( name ),
+                BorderRadius = child switch
+                {
+                    SvgColumnSeries<TItem> columnSeries => columnSeries.BorderRadius,
+                    SvgBarSeries<TItem> barSeries => barSeries.BorderRadius,
+                    _ => 3
+                },
+                MarkerRadius = child switch
+                {
+                    SvgLineSeries<TItem> lineSeries => lineSeries.MarkerRadius,
+                    SvgScatterSeries<TItem> scatterSeries => scatterSeries.MarkerRadius,
+                    SvgBubbleSeries<TItem> bubbleSeries => bubbleSeries.Radius,
+                    _ => 3
+                },
+                StrokeWidth = child switch
+                {
+                    SvgLineSeries<TItem> lineSeries => lineSeries.StrokeWidth,
+                    SvgAreaSeries<TItem> areaSeries => areaSeries.StrokeWidth,
+                    _ => 2
+                },
+                FillOpacity = child switch
+                {
+                    SvgAreaSeries<TItem> areaSeries => areaSeries.FillOpacity,
+                    SvgRadarSeries<TItem> radarSeries => radarSeries.FillOpacity,
+                    _ => 0.18
+                }
+            } );
+        }
+
+        return series;
+    }
+
+    private static List<double?> NormalizeValues( List<double?> values, int labelCount )
+    {
+        if ( labelCount == 0 || values.Count >= labelCount )
+            return values;
+
+        var normalized = values.ToList();
+
+        while ( normalized.Count < labelCount )
+            normalized.Add( null );
+
+        return normalized;
+    }
+
+    private SvgChartOptions ResolveOptions()
+    {
+        return Options ?? new();
+    }
+
+    private SvgChartAxisOptions ResolveAxis( SvgChartOptions options )
+    {
+        var axisComponent = linearAxisComponents.LastOrDefault();
+
+        if ( axisComponent is null )
+            return options.YAxis ?? new();
+
+        return new()
+        {
+            BeginAtZero = axisComponent.BeginAtZero,
+            Min = axisComponent.Min,
+            Max = axisComponent.Max,
+            TickCount = axisComponent.TickCount,
+            Title = axisComponent.Title
+        };
+    }
+
+    private SvgChartLegendOptions ResolveLegend( SvgChartOptions options )
+    {
+        var legendComponent = legendComponents.LastOrDefault();
+
+        if ( legendComponent is null )
+            return options.Legend ?? new();
+
+        return new()
+        {
+            Visible = legendComponent.Visible,
+            Position = legendComponent.Position
+        };
+    }
+
+    private SvgChartTooltipOptions ResolveTooltip( SvgChartOptions options )
+    {
+        var tooltipComponent = tooltipComponents.LastOrDefault();
+        var tooltipOptions = options.Tooltip ?? new();
+
+        if ( tooltipComponent is null )
+            return tooltipOptions;
+
+        return new()
+        {
+            Enabled = tooltipComponent.Enabled,
+            Formatter = tooltipComponent.Formatter ?? tooltipOptions.Formatter,
+            Template = tooltipComponent.Template ?? tooltipOptions.Template,
+            Width = tooltipComponent.Width,
+            Height = tooltipComponent.Height,
+            OffsetX = tooltipComponent.OffsetX,
+            OffsetY = tooltipComponent.OffsetY
+        };
+    }
+
+    private string ResolveTitle( SvgChartOptions options )
+    {
+        return titleComponents.LastOrDefault()?.Text ?? options.Title;
+    }
+
+    private string ResolveSubtitle( SvgChartOptions options )
+    {
+        return titleComponents.LastOrDefault()?.Subtitle ?? options.Subtitle;
+    }
+
+    private static PlotArea BuildPlotArea( SvgChartOptions options, string title, string subtitle, bool hasTopLegend, bool hasBottomLegend )
+    {
+        var top = 24d;
+
+        if ( !string.IsNullOrWhiteSpace( title ) )
+            top += 24;
+
+        if ( !string.IsNullOrWhiteSpace( subtitle ) )
+            top += 18;
+
+        if ( hasTopLegend )
+            top += 28;
+
+        var bottom = options.Height - 42 - ( hasBottomLegend ? 38 : 0 );
+
+        return new()
+        {
+            Left = 52,
+            Top = top,
+            Right = options.Width - 18,
+            Bottom = bottom
+        };
+    }
+
+    private static Scale BuildScale( List<double> values, SvgChartAxisOptions axis )
+    {
+        var min = axis.Min ?? ( values.Count == 0 ? 0 : values.Min() );
+        var max = axis.Max ?? ( values.Count == 0 ? 1 : values.Max() );
+
+        if ( axis.BeginAtZero )
+        {
+            min = Math.Min( min, 0 );
+            max = Math.Max( max, 0 );
+        }
+
+        if ( Math.Abs( max - min ) < double.Epsilon )
+        {
+            max += 1;
+            min -= 1;
+        }
+
+        var tickCount = Math.Max( 2, axis.TickCount );
+        var step = NiceNumber( ( max - min ) / ( tickCount - 1 ), true );
+        var niceMin = axis.Min ?? Math.Floor( min / step ) * step;
+        var niceMax = axis.Max ?? Math.Ceiling( max / step ) * step;
+        var ticks = new List<double>();
+
+        for ( var tick = niceMin; tick <= niceMax + step / 2; tick += step )
+            ticks.Add( Math.Abs( tick ) < step / 1000000 ? 0 : tick );
+
+        return new()
+        {
+            Min = niceMin,
+            Max = niceMax,
+            Ticks = ticks
+        };
+    }
+
+    private static double NiceNumber( double range, bool round )
+    {
+        if ( range <= 0 || double.IsNaN( range ) || double.IsInfinity( range ) )
+            return 1;
+
+        var exponent = Math.Floor( Math.Log10( range ) );
+        var fraction = range / Math.Pow( 10, exponent );
+        double niceFraction;
+
+        if ( round )
+        {
+            niceFraction = fraction switch
+            {
+                < 1.5 => 1,
+                < 3 => 2,
+                < 7 => 5,
+                _ => 10
+            };
+        }
+        else
+        {
+            niceFraction = fraction switch
+            {
+                <= 1 => 1,
+                <= 2 => 2,
+                <= 5 => 5,
+                _ => 10
+            };
+        }
+
+        return niceFraction * Math.Pow( 10, exponent );
+    }
+
+    private static double GetY( double value, PlotArea plot, RenderModel model )
+    {
+        var range = model.Max - model.Min;
+
+        if ( range <= 0 )
+            return plot.Bottom;
+
+        return plot.Bottom - ( value - model.Min ) / range * plot.Height;
+    }
+
+    private static double GetX( double value, PlotArea plot, RenderModel model )
+    {
+        return GetX( value, plot, model.Min, model.Max );
+    }
+
+    private static double GetX( double value, PlotArea plot, double min, double max )
+    {
+        var range = max - min;
+
+        if ( range <= 0 )
+            return plot.Left;
+
+        return plot.Left + ( value - min ) / range * plot.Width;
+    }
+
+    private static string BuildLinePath( List<(int Index, double X, double Y, double Value)> points )
+    {
+        var builder = new StringBuilder();
+
+        for ( var i = 0; i < points.Count; i++ )
+        {
+            builder.Append( i == 0 ? "M " : " L " );
+            builder.Append( Format( points[i].X ) );
+            builder.Append( ' ' );
+            builder.Append( Format( points[i].Y ) );
+        }
+
+        return builder.ToString();
+    }
+
+    private static string BuildArcPath( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle )
+    {
+        var sweep = endAngle - startAngle;
+
+        if ( sweep >= Math.PI * 2 )
+            endAngle = startAngle + Math.PI * 2 - 0.0001;
+
+        var largeArc = sweep > Math.PI ? 1 : 0;
+        var outerStart = PolarToCartesian( centerX, centerY, outerRadius, startAngle );
+        var outerEnd = PolarToCartesian( centerX, centerY, outerRadius, endAngle );
+
+        if ( innerRadius <= 0 )
+        {
+            return $"M {Format( centerX )} {Format( centerY )} L {Format( outerStart.X )} {Format( outerStart.Y )} A {Format( outerRadius )} {Format( outerRadius )} 0 {largeArc} 1 {Format( outerEnd.X )} {Format( outerEnd.Y )} Z";
+        }
+
+        var innerEnd = PolarToCartesian( centerX, centerY, innerRadius, endAngle );
+        var innerStart = PolarToCartesian( centerX, centerY, innerRadius, startAngle );
+
+        return $"M {Format( outerStart.X )} {Format( outerStart.Y )} A {Format( outerRadius )} {Format( outerRadius )} 0 {largeArc} 1 {Format( outerEnd.X )} {Format( outerEnd.Y )} L {Format( innerEnd.X )} {Format( innerEnd.Y )} A {Format( innerRadius )} {Format( innerRadius )} 0 {largeArc} 0 {Format( innerStart.X )} {Format( innerStart.Y )} Z";
+    }
+
+    private static string BuildRadarPoints( List<double?> values, double centerX, double centerY, double radius, double max )
+    {
+        var builder = new StringBuilder();
+        var count = values.Count;
+
+        if ( count == 0 || max <= 0 )
+            return string.Empty;
+
+        for ( var i = 0; i < count; i++ )
+        {
+            var value = Math.Max( values[i] ?? 0, 0 );
+            var angle = -Math.PI / 2 + Math.PI * 2 * i / count;
+            var point = PolarToCartesian( centerX, centerY, radius * value / max, angle );
+
+            if ( i > 0 )
+                builder.Append( ' ' );
+
+            builder.Append( Format( point.X ) );
+            builder.Append( ',' );
+            builder.Append( Format( point.Y ) );
+        }
+
+        return builder.ToString();
+    }
+
+    private static (double X, double Y) PolarToCartesian( double centerX, double centerY, double radius, double angle )
+    {
+        return (centerX + radius * Math.Cos( angle ), centerY + radius * Math.Sin( angle ));
+    }
+
+    private static bool IsBarChart( RenderModel model )
+    {
+        return model.Series.Any( x => x.Type == SvgChartType.Bar );
+    }
+
+    private static bool IsRadialChart( RenderModel model )
+    {
+        return model.Series.Any( x => x.Type is SvgChartType.Pie or SvgChartType.Doughnut or SvgChartType.PolarArea or SvgChartType.Radar );
+    }
+
+    private static bool IsPointChart( SvgChartType chartType )
+    {
+        return chartType == SvgChartType.Scatter || chartType == SvgChartType.Bubble;
+    }
+
+    private SvgChartPointEventArgs CreatePointArgs( RenderModel model, RenderSeries series, int pointIndex, double value, SvgChartPointBounds bounds )
+    {
+        return new()
+        {
+            SeriesName = series.Name,
+            SeriesIndex = model.Series.IndexOf( series ),
+            PointIndex = pointIndex,
+            Category = pointIndex >= 0 && pointIndex < model.Labels.Count ? model.Labels[pointIndex] : null,
+            Value = value,
+            Bounds = bounds
+        };
+    }
+
+    private async Task HandlePointClicked( SvgChartPointEventArgs point, string color )
+    {
+        ShowTooltip( point, color, true );
+
+        await Clicked.InvokeAsync( point );
+    }
+
+    private async Task HandlePointHovered( SvgChartPointEventArgs point, string color )
+    {
+        ShowTooltip( point, color, false );
+
+        await Hovered.InvokeAsync( point );
+    }
+
+    private void HandlePointLeft()
+    {
+        if ( activeTooltipPinned )
+            return;
+
+        activeTooltip = null;
+    }
+
+    private void ShowTooltip( SvgChartPointEventArgs point, string color, bool pinned )
+    {
+        var options = ResolveOptions();
+        var tooltip = ResolveTooltip( options );
+
+        if ( !tooltip.Enabled )
+            return;
+
+        activeTooltip = BuildTooltipContext( point, color, options, tooltip );
+        activeTooltipPinned = pinned;
+    }
+
+    private static SvgChartTooltipContext BuildTooltipContext( SvgChartPointEventArgs point, string color, SvgChartOptions options, SvgChartTooltipOptions tooltip )
+    {
+        var anchorX = point.Bounds.X + point.Bounds.Width / 2;
+        var anchorY = point.Bounds.Y;
+        var width = Math.Max( 1, tooltip.Width );
+        var height = Math.Max( 1, tooltip.Height );
+        var x = Math.Min( Math.Max( anchorX + tooltip.OffsetX, 0 ), Math.Max( options.Width - width, 0 ) );
+        var y = Math.Min( Math.Max( anchorY - height - tooltip.OffsetY, 0 ), Math.Max( options.Height - height, 0 ) );
+
+        return new()
+        {
+            SeriesName = point.SeriesName,
+            SeriesIndex = point.SeriesIndex,
+            PointIndex = point.PointIndex,
+            Category = point.Category,
+            Value = point.Value,
+            Bounds = point.Bounds,
+            Color = color,
+            Text = GetPointLabel( point ),
+            X = x,
+            Y = y,
+            Width = width,
+            Height = height,
+            Point = point
+        };
+    }
+
+    private static string GetPointLabel( SvgChartPointEventArgs point )
+    {
+        return $"{point.Category}, {point.Value}. {point.SeriesName}.";
+    }
+
+    private static string ResolveColor( Color color, int index )
+    {
+        var fallback = Palette[index % Palette.Length];
+
+        if ( color is null || color == Color.Default || string.IsNullOrWhiteSpace( color.Name ) )
+            return fallback;
+
+        var name = color.Name;
+
+        if ( name.StartsWith( "#", StringComparison.Ordinal )
+             || name.StartsWith( "rgb", StringComparison.OrdinalIgnoreCase )
+             || name.StartsWith( "hsl", StringComparison.OrdinalIgnoreCase )
+             || name.StartsWith( "var(", StringComparison.OrdinalIgnoreCase ) )
+            return name;
+
+        return $"var(--b-theme-{name}, var(--bs-{name}, {fallback}))";
+    }
+
+    private static string FormatTick( double value )
+    {
+        return value.ToString( "0.##", CultureInfo.InvariantCulture );
+    }
+
+    private static string Format( double value )
+    {
+        return value.ToString( "0.###", CultureInfo.InvariantCulture );
+    }
+
+    public Task SetData( SvgChartData<double?> data )
+    {
+        internalChartData = data;
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    public Task SetOptions( SvgChartOptions options )
+    {
+        Options = options;
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    public Task AddLabel( object label )
+    {
+        EnsureInternalData().Labels.Add( label );
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    public Task AddSeries( SvgChartSeriesData<double?> series )
+    {
+        EnsureInternalData().Series.Add( series );
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    public Task RemoveSeries( string name )
+    {
+        var data = EnsureInternalData();
+        data.Series.RemoveAll( x => x.Name == name );
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    public Task AddValue( string seriesName, double? value )
+    {
+        var series = EnsureInternalData().Series.FirstOrDefault( x => x.Name == seriesName );
+
+        if ( series is not null )
+        {
+            series.Values.Add( value );
+            StateHasChanged();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    public Task SetValue( string seriesName, int index, double? value )
+    {
+        var series = EnsureInternalData().Series.FirstOrDefault( x => x.Name == seriesName );
+
+        if ( series is not null && index >= 0 && index < series.Values.Count )
+        {
+            series.Values[index] = value;
+            StateHasChanged();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    public Task ToggleSeries( string seriesName )
+    {
+        if ( !hiddenSeries.Add( seriesName ) )
+            hiddenSeries.Remove( seriesName );
+
+        activeTooltip = null;
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    public Task ShowSeries( string seriesName )
+    {
+        hiddenSeries.Remove( seriesName );
+        activeTooltip = null;
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    public Task HideSeries( string seriesName )
+    {
+        hiddenSeries.Add( seriesName );
+        activeTooltip = null;
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    public Task Update()
+    {
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    public Task Resize()
+    {
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    public Task Clear()
+    {
+        internalChartData = new();
+        hiddenSeries.Clear();
+        activeTooltip = null;
+        activeTooltipPinned = false;
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    public ValueTask<string> ToSvgString()
+    {
+        var model = BuildModel();
+        var options = ResolveOptions();
+
+        return ValueTask.FromResult( $"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 {Format( options.Width )} {Format( options.Height )}\" role=\"img\" aria-label=\"{ResolveTitle( options ) ?? "SVG chart"}\"><desc>{model.Series.Count} series, {model.Labels.Count} categories.</desc></svg>" );
+    }
+
+    private SvgChartData<double?> EnsureInternalData()
+    {
+        if ( internalChartData is not null )
+            return internalChartData;
+
+        if ( Data is not null )
+        {
+            internalChartData = Data;
+            return internalChartData;
+        }
+
+        var model = BuildModel();
+
+        internalChartData = new()
+        {
+            Labels = model.Labels.ToList(),
+            Series = model.Series.Select( x => new SvgChartSeriesData<double?>
+            {
+                Name = x.Name,
+                Values = x.Values.ToList(),
+                XValues = x.XValues.ToList(),
+                YValues = x.YValues.ToList(),
+                RadiusValues = x.RadiusValues.ToList(),
+                Color = x.Color,
+                Hidden = x.Hidden
+            } ).ToList()
+        };
+
+        return internalChartData;
+    }
+
+    internal override void RegisterSeries( object series )
+    {
+        if ( !seriesComponents.Contains( series ) )
+            seriesComponents.Add( series );
+    }
+
+    internal override void UnregisterSeries( object series )
+    {
+        seriesComponents.Remove( series );
+    }
+
+    internal override void RegisterCategoryAxis( object axis )
+    {
+        if ( !categoryAxisComponents.Contains( axis ) )
+            categoryAxisComponents.Add( axis );
+    }
+
+    internal override void UnregisterCategoryAxis( object axis )
+    {
+        categoryAxisComponents.Remove( axis );
+    }
+
+    internal override void RegisterLinearAxis( SvgLinearAxis axis )
+    {
+        if ( !linearAxisComponents.Contains( axis ) )
+            linearAxisComponents.Add( axis );
+    }
+
+    internal override void UnregisterLinearAxis( SvgLinearAxis axis )
+    {
+        linearAxisComponents.Remove( axis );
+    }
+
+    internal override void RegisterTitle( SvgChartTitle title )
+    {
+        if ( !titleComponents.Contains( title ) )
+            titleComponents.Add( title );
+    }
+
+    internal override void UnregisterTitle( SvgChartTitle title )
+    {
+        titleComponents.Remove( title );
+    }
+
+    internal override void RegisterLegend( SvgChartLegend legend )
+    {
+        if ( !legendComponents.Contains( legend ) )
+            legendComponents.Add( legend );
+    }
+
+    internal override void UnregisterLegend( SvgChartLegend legend )
+    {
+        legendComponents.Remove( legend );
+    }
+
+    internal override void RegisterTooltip( SvgChartTooltip tooltip )
+    {
+        if ( !tooltipComponents.Contains( tooltip ) )
+            tooltipComponents.Add( tooltip );
+    }
+
+    internal override void UnregisterTooltip( SvgChartTooltip tooltip )
+    {
+        tooltipComponents.Remove( tooltip );
+    }
+
+    internal override void Refresh()
+    {
+        _ = InvokeAsync( StateHasChanged );
+    }
+
+    #endregion
+
+    #region Properties
+
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
+
+    /// <summary>
+    /// Specifies the chart rendering type.
+    /// </summary>
+    [Parameter] public SvgChartType Type { get; set; } = SvgChartType.Column;
+
+    /// <summary>
+    /// Specifies the item collection used by declarative axis and series selectors.
+    /// </summary>
+    [Parameter] public IEnumerable<TItem> Items { get; set; }
+
+    /// <summary>
+    /// Specifies explicit chart data used by imperative and model-based chart definitions.
+    /// </summary>
+    [Parameter] public SvgChartData<double?> Data { get; set; }
+
+    /// <summary>
+    /// Specifies chart rendering options.
+    /// </summary>
+    [Parameter] public SvgChartOptions Options { get; set; }
+
+    /// <summary>
+    /// Occurs when a rendered chart point is clicked.
+    /// </summary>
+    [Parameter] public EventCallback<SvgChartPointEventArgs> Clicked { get; set; }
+
+    /// <summary>
+    /// Occurs when a rendered chart point is hovered.
+    /// </summary>
+    [Parameter] public EventCallback<SvgChartPointEventArgs> Hovered { get; set; }
+
+    /// <summary>
+    /// Specifies the content to render inside the chart, including declarative axes, series, and options.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    #endregion
+
+    #region Models
+
+    private sealed class RenderModel
+    {
+        public List<object> Labels { get; init; } = [];
+
+        public List<RenderSeries> Series { get; init; } = [];
+
+        public double Min { get; init; }
+
+        public double Max { get; init; }
+
+        public List<double> Ticks { get; init; } = [];
+
+        public SvgChartTooltipOptions Tooltip { get; init; }
+    }
+
+    private sealed class RenderSeries
+    {
+        public string Name { get; init; }
+
+        public SvgChartType Type { get; init; }
+
+        public List<double?> Values { get; init; } = [];
+
+        public List<double?> XValues { get; init; } = [];
+
+        public List<double?> YValues { get; init; } = [];
+
+        public List<double?> RadiusValues { get; init; } = [];
+
+        public Color Color { get; init; }
+
+        public string RenderColor { get; init; }
+
+        public bool Hidden { get; init; }
+
+        public double BorderRadius { get; init; }
+
+        public double StrokeWidth { get; init; }
+
+        public double MarkerRadius { get; init; }
+
+        public double FillOpacity { get; init; }
+    }
+
+    private sealed class PlotArea
+    {
+        public double Left { get; init; }
+
+        public double Top { get; init; }
+
+        public double Right { get; init; }
+
+        public double Bottom { get; init; }
+
+        public double Width => Right - Left;
+
+        public double Height => Bottom - Top;
+    }
+
+    private sealed class Scale
+    {
+        public double Min { get; init; }
+
+        public double Max { get; init; }
+
+        public List<double> Ticks { get; init; } = [];
+    }
+
+    #endregion
+}
