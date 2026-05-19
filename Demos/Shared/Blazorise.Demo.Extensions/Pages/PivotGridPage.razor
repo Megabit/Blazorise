@@ -166,8 +166,8 @@
             <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
                 <Field>
                     <FieldLabel>
-                        Data source
-                        <Tooltip Text="Switches between local Data, ReadData callback, and DataSource provider modes." Inline Multiline>
+                        Data mode
+                        <Tooltip Text="Switches between local Data, ReadData callback, and reusable DataProvider modes." Inline Multiline>
                             <Icon Name="IconName.QuestionCircle" />
                         </Tooltip>
                     </FieldLabel>
@@ -175,7 +175,7 @@
                         <Select TValue="PivotGridDemoDataMode" @bind-Value="@dataMode">
                             <SelectItem TValue="PivotGridDemoDataMode" Value="PivotGridDemoDataMode.Data">Data</SelectItem>
                             <SelectItem TValue="PivotGridDemoDataMode" Value="PivotGridDemoDataMode.ReadData">ReadData</SelectItem>
-                            <SelectItem TValue="PivotGridDemoDataMode" Value="PivotGridDemoDataMode.DataSource">DataSource</SelectItem>
+                            <SelectItem TValue="PivotGridDemoDataMode" Value="PivotGridDemoDataMode.DataProvider">DataProvider</SelectItem>
                         </Select>
                     </FieldBody>
                 </Field>
@@ -229,7 +229,7 @@
         <PivotGrid TItem="PivotSale"
                    Data="@CurrentData"
                    ReadData="@CurrentReadData"
-                   DataSource="@CurrentDataSource"
+                   DataProvider="@CurrentDataProvider"
                    ShowToolbar
                    ShowFieldChooser
                    ShowPager="@(!virtualize)"
@@ -319,7 +319,7 @@
 
     private PivotGridDemoDataMode dataMode;
 
-    private IPivotGridDataSource<PivotSale> salesDataSource;
+    private IPivotGridDataProvider<PivotSale> salesDataProvider;
 
     private readonly int[] pageSizes = [8, 16, 32];
 
@@ -335,7 +335,7 @@
 
     protected override void OnInitialized()
     {
-        salesDataSource = new DemoPivotGridDataSource( Sales );
+        salesDataProvider = new DemoPivotGridDataProvider( Sales );
     }
 
     private IEnumerable<PivotSale> CurrentData
@@ -346,8 +346,8 @@
             ? EventCallback.Factory.Create<PivotGridReadDataEventArgs<PivotSale>>( this, ReadPivotData )
             : default;
 
-    private IPivotGridDataSource<PivotSale> CurrentDataSource
-        => dataMode == PivotGridDemoDataMode.DataSource ? salesDataSource : null;
+    private IPivotGridDataProvider<PivotSale> CurrentDataProvider
+        => dataMode == PivotGridDemoDataMode.DataProvider ? salesDataProvider : null;
 
     private Task ReadPivotData( PivotGridReadDataEventArgs<PivotSale> eventArgs )
     {
@@ -665,14 +665,14 @@
     {
         Data,
         ReadData,
-        DataSource,
+        DataProvider,
     }
 
-    private sealed class DemoPivotGridDataSource : IPivotGridDataSource<PivotSale>
+    private sealed class DemoPivotGridDataProvider : IPivotGridDataProvider<PivotSale>
     {
         private readonly IReadOnlyList<PivotSale> data;
 
-        public DemoPivotGridDataSource( IReadOnlyList<PivotSale> data )
+        public DemoPivotGridDataProvider( IReadOnlyList<PivotSale> data )
         {
             this.data = data;
         }

@@ -70,7 +70,7 @@
 </Heading>
 
 <DocsPageParagraph>
-    Bind in-memory data with <Code>Data</Code>, handle callback loading with <Code>ReadData</Code>, or provide a reusable implementation with <Code>DataSource</Code>. A data source can be implemented in a separate package when the data comes from a specific backend or protocol.
+    Bind in-memory data with <Code>Data</Code>, handle callback loading with <Code>ReadData</Code>, or provide a reusable implementation with <Code>DataProvider</Code>. A data provider can be implemented in a separate package when the data comes from a specific backend or protocol.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -101,7 +101,7 @@
             Use <Code>ShowPager</Code> for explicit page navigation, or <Code>Virtualize</Code> when users should scroll through a larger pivot result.
         </Paragraph>
         <Paragraph>
-            <Code>Virtualize</Code> only limits rendered rows. When using local <Code>Data</Code>, the full pivot result is still computed before rows are virtualized. For large remote datasets, use <Code>ReadData</Code> or <Code>DataSource</Code> with <Code>PivotGridReadDataMode.Virtualize</Code> and return prepared <Code>PivotGridResult</Code> rows for the requested range.
+            <Code>Virtualize</Code> only limits rendered rows. When using local <Code>Data</Code>, the full pivot result is still computed before rows are virtualized. For large remote datasets, use <Code>ReadData</Code> or <Code>DataProvider</Code> with <Code>PivotGridReadDataMode.Virtualize</Code> and return prepared <Code>PivotGridResult</Code> rows for the requested range.
         </Paragraph>
         <Paragraph>
             The pager range reports pivot result rows. When <Code>PageByGroups</Code> is enabled, paging is based on top-level row groups instead of every expanded detail row.
@@ -130,16 +130,16 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="ReadData and DataSource">
+    <DocsPageSectionHeader Title="ReadData and DataProvider">
         <Paragraph>
-            Use <Code>ReadData</Code> for callback-based loading, or <Code>DataSource</Code> when the provider should be reusable. For server-side paging, return a prepared <Code>PivotGridResult</Code>, set <Code>IsPaged</Code>, and report the total pivot result row count with <Code>TotalItems</Code>.
+            Use <Code>ReadData</Code> for callback-based loading, or <Code>DataProvider</Code> when the provider should be reusable. For server-side paging, return a prepared <Code>PivotGridResult</Code>, set <Code>IsPaged</Code>, and report the total pivot result row count with <Code>TotalItems</Code>.
         </Paragraph>
         <Paragraph>
             Prepared results returned by providers are normalized before rendering. Null structural entries are ignored, row cells are aligned to <Code>DataColumns</Code>, and missing cells are rendered as empty cells so headers, expansion, and cells stay consistent.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent Code="PivotGridReadDataDataSourceExample" Outlined FullWidth>
-        <PivotGridReadDataDataSourceExample />
+    <DocsPageSectionContent Code="PivotGridReadDataDataProviderExample" Outlined FullWidth>
+        <PivotGridReadDataDataProviderExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 
@@ -184,4 +184,4 @@
     </DocsPageSectionContent>
 </DocsPageSection>
 
-<ComponentApiDocs ComponentTypes="[typeof(PivotGrid<>), typeof(PivotGridFields<>), typeof(PivotGridField<>), typeof(PivotGridColumns<>), typeof(PivotGridColumn<>), typeof(PivotGridRows<>), typeof(PivotGridRow<>), typeof(PivotGridAggregates<>), typeof(PivotGridAggregate<>), typeof(PivotGridVirtualizeOptions), typeof(PivotGridDataRequest), typeof(PivotGridDataResult<>), typeof(PivotGridReadDataEventArgs<>), typeof(PivotGridCellClickedEventArgs<>), typeof(PivotGridResult<>), typeof(PivotGridAxisItem<>), typeof(PivotGridCell<>), typeof(PivotGridDataColumn<>), typeof(PivotGridResultRow<>), typeof(PivotGridFieldInfo<>), typeof(PivotGridAggregateInfo<>)]" />
+<ComponentApiDocs ComponentTypes="[typeof(PivotGrid<>), typeof(PivotGridFields<>), typeof(PivotGridField<>), typeof(PivotGridColumns<>), typeof(PivotGridColumn<>), typeof(PivotGridRows<>), typeof(PivotGridRow<>), typeof(PivotGridAggregates<>), typeof(PivotGridAggregate<>), typeof(IPivotGridDataProvider<>), typeof(PivotGridVirtualizeOptions), typeof(PivotGridDataRequest), typeof(PivotGridDataResult<>), typeof(PivotGridReadDataEventArgs<>), typeof(PivotGridCellClickedEventArgs<>), typeof(PivotGridResult<>), typeof(PivotGridAxisItem<>), typeof(PivotGridCell<>), typeof(PivotGridDataColumn<>), typeof(PivotGridResultRow<>), typeof(PivotGridFieldInfo<>), typeof(PivotGridAggregateInfo<>)]" />

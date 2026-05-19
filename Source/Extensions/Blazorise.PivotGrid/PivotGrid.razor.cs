@@ -46,7 +46,7 @@ public partial class PivotGrid<TItem> : BaseComponent
     private bool externalDataIsPaged;
     private string lastExternalDataRequestKey;
     private CancellationTokenSource readDataCancellationTokenSource;
-    private IPivotGridDataSource<TItem> previousDataSource;
+    private IPivotGridDataProvider<TItem> previousDataProvider;
     private bool previousReadDataHasDelegate;
     private bool externalDataReadQueued;
     private bool externalVirtualizedResultInitialized;
@@ -97,9 +97,9 @@ public partial class PivotGrid<TItem> : BaseComponent
 
         paramInitiallyExpanded = nextParamInitiallyExpanded;
 
-        if ( !ReferenceEquals( previousDataSource, DataSource ) )
+        if ( !ReferenceEquals( previousDataProvider, DataProvider ) )
         {
-            previousDataSource = DataSource;
+            previousDataProvider = DataProvider;
             InvalidateExternalDataRead();
         }
 
@@ -483,8 +483,8 @@ public partial class PivotGrid<TItem> : BaseComponent
 
     private Task<PivotGridDataResult<TItem>> ReadExternalDataResultAsync( PivotGridDataRequest request, CancellationToken cancellationToken )
     {
-        if ( DataSource is not null )
-            return DataSource.ReadDataAsync( request, cancellationToken );
+        if ( DataProvider is not null )
+            return DataProvider.ReadDataAsync( request, cancellationToken );
 
         if ( ReadData.HasDelegate )
             return ReadExternalCallbackDataResultAsync( request, cancellationToken );
@@ -1506,7 +1506,7 @@ public partial class PivotGrid<TItem> : BaseComponent
         => ToolbarTemplate is not null || ShowToolbar || ShowFieldChooser;
 
     private bool UsesExternalData
-        => DataSource is not null || ReadData.HasDelegate;
+        => DataProvider is not null || ReadData.HasDelegate;
 
     #endregion
 
@@ -1528,12 +1528,12 @@ public partial class PivotGrid<TItem> : BaseComponent
     [Parameter] public IEnumerable<TItem> Data { get; set; }
 
     /// <summary>
-    /// Defines an external data source used to read pivot grid data. When assigned, it has priority over <see cref="ReadData"/> and <see cref="Data"/>.
+    /// Defines an external data provider used to read pivot grid data. When assigned, it has priority over <see cref="ReadData"/> and <see cref="Data"/>.
     /// </summary>
-    [Parameter] public IPivotGridDataSource<TItem> DataSource { get; set; }
+    [Parameter] public IPivotGridDataProvider<TItem> DataProvider { get; set; }
 
     /// <summary>
-    /// Occurs when the pivot grid requests data from an external source. Ignored when <see cref="DataSource"/> is assigned.
+    /// Occurs when the pivot grid requests data from an external provider. Ignored when <see cref="DataProvider"/> is assigned.
     /// </summary>
     [Parameter] public EventCallback<PivotGridReadDataEventArgs<TItem>> ReadData { get; set; }
 
@@ -1617,7 +1617,7 @@ public partial class PivotGrid<TItem> : BaseComponent
     /// </summary>
     /// <remarks>
     /// When local <see cref="Data"/> is used, virtualization reduces rendered rows only; the full pivot result is still computed before rendering.
-    /// For large remote datasets, use <see cref="ReadData"/> or <see cref="DataSource"/> with <see cref="PivotGridReadDataMode.Virtualize"/> and return prepared <see cref="PivotGridDataResult{TItem}.Result"/> rows for the requested range.
+    /// For large remote datasets, use <see cref="ReadData"/> or <see cref="DataProvider"/> with <see cref="PivotGridReadDataMode.Virtualize"/> and return prepared <see cref="PivotGridDataResult{TItem}.Result"/> rows for the requested range.
     /// </remarks>
     [Parameter] public bool Virtualize { get; set; }
 

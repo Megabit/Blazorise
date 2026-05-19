@@ -9,7 +9,7 @@ namespace Blazorise.PivotGrid;
 /// Represents an external data provider for the <see cref="PivotGrid{TItem}"/>.
 /// </summary>
 /// <typeparam name="TItem">Item type.</typeparam>
-public interface IPivotGridDataSource<TItem>
+public interface IPivotGridDataProvider<TItem>
 {
     /// <summary>
     /// Reads pivot grid data for the supplied request.

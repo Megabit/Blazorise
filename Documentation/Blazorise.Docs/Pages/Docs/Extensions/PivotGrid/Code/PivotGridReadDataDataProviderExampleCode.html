@@ -5,14 +5,14 @@
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Select</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">ProviderMode</span><span class="quot">&quot;</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>providerMode</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
             <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SelectItem</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">ProviderMode</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ProviderMode</span><span class="enumValue">.ReadData</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>ReadData callback<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SelectItem</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SelectItem</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">ProviderMode</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ProviderMode</span><span class="enumValue">.DataSource</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>DataSource implementation<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SelectItem</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SelectItem</span> <span class="htmlAttributeName">TValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">ProviderMode</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ProviderMode</span><span class="enumValue">.DataProvider</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>DataProvider implementation<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SelectItem</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Select</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">PivotGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">RemoteSale</span><span class="quot">&quot;</span>
            <span class="htmlAttributeName">ReadData</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>CurrentReadData</span><span class="quot">&quot;</span>
-           <span class="htmlAttributeName">DataSource</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>CurrentDataSource</span><span class="quot">&quot;</span>
+           <span class="htmlAttributeName">DataProvider</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>CurrentDataProvider</span><span class="quot">&quot;</span>
            <span class="htmlAttributeName">ShowPager</span>
            <span class="htmlAttributeName">PageSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">4</span><span class="quot">&quot;</span>
            <span class="htmlAttributeName">ShowRowTotals</span>
@@ -39,7 +39,7 @@
 
     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> IReadOnlyList&lt;RemoteSale&gt; sales = CreateSales();
 
-    <span class="keyword">private</span> <span class="keyword">readonly</span> IPivotGridDataSource&lt;RemoteSale&gt; dataSource = <span class="keyword">new</span> RemoteSaleDataSource( sales );
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IPivotGridDataProvider&lt;RemoteSale&gt; dataProvider = <span class="keyword">new</span> RemoteSaleDataProvider( sales );
 
     <span class="keyword">private</span> ProviderMode providerMode = ProviderMode.ReadData;
 
@@ -48,8 +48,8 @@
             ? EventCallback.Factory.Create&lt;PivotGridReadDataEventArgs&lt;RemoteSale&gt;&gt;( <span class="keyword">this</span>, ReadRemoteData )
             : <span class="keyword">default</span>;
 
-    <span class="keyword">private</span> IPivotGridDataSource&lt;RemoteSale&gt; CurrentDataSource
-        =&gt; providerMode == ProviderMode.DataSource ? dataSource : <span class="keyword">null</span>;
+    <span class="keyword">private</span> IPivotGridDataProvider&lt;RemoteSale&gt; CurrentDataProvider
+        =&gt; providerMode == ProviderMode.DataProvider ? dataProvider : <span class="keyword">null</span>;
 
     <span class="keyword">private</span> Task ReadRemoteData( PivotGridReadDataEventArgs&lt;RemoteSale&gt; eventArgs )
     {
@@ -178,14 +178,14 @@
     <span class="keyword">private</span> <span class="keyword">enum</span> ProviderMode
     {
         ReadData,
-        DataSource,
+        DataProvider,
     }
 
-    <span class="keyword">private</span> <span class="keyword">sealed</span> <span class="keyword">class</span> RemoteSaleDataSource : IPivotGridDataSource&lt;RemoteSale&gt;
+    <span class="keyword">private</span> <span class="keyword">sealed</span> <span class="keyword">class</span> RemoteSaleDataProvider : IPivotGridDataProvider&lt;RemoteSale&gt;
     {
         <span class="keyword">private</span> <span class="keyword">readonly</span> IReadOnlyList&lt;RemoteSale&gt; source;
 
-        <span class="keyword">public</span> RemoteSaleDataSource( IReadOnlyList&lt;RemoteSale&gt; source )
+        <span class="keyword">public</span> RemoteSaleDataProvider( IReadOnlyList&lt;RemoteSale&gt; source )
         {
             <span class="keyword">this</span>.source = source;
         }

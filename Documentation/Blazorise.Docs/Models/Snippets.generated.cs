@@ -13618,19 +13618,19 @@ Install-Package Blazorise.Icons.Material";
     }
 }";
 
-        public const string PivotGridReadDataDataSourceExample = @"<Field>
+        public const string PivotGridReadDataDataProviderExample = @"<Field>
     <FieldLabel>Provider</FieldLabel>
     <FieldBody>
         <Select TValue=""ProviderMode"" @bind-Value=""@providerMode"">
             <SelectItem TValue=""ProviderMode"" Value=""ProviderMode.ReadData"">ReadData callback</SelectItem>
-            <SelectItem TValue=""ProviderMode"" Value=""ProviderMode.DataSource"">DataSource implementation</SelectItem>
+            <SelectItem TValue=""ProviderMode"" Value=""ProviderMode.DataProvider"">DataProvider implementation</SelectItem>
         </Select>
     </FieldBody>
 </Field>
 
 <PivotGrid TItem=""RemoteSale""
            ReadData=""@CurrentReadData""
-           DataSource=""@CurrentDataSource""
+           DataProvider=""@CurrentDataProvider""
            ShowPager
            PageSize=""4""
            ShowRowTotals
@@ -13656,7 +13656,7 @@ Install-Package Blazorise.Icons.Material";
 
     private static readonly IReadOnlyList<RemoteSale> sales = CreateSales();
 
-    private readonly IPivotGridDataSource<RemoteSale> dataSource = new RemoteSaleDataSource( sales );
+    private readonly IPivotGridDataProvider<RemoteSale> dataProvider = new RemoteSaleDataProvider( sales );
 
     private ProviderMode providerMode = ProviderMode.ReadData;
 
@@ -13665,8 +13665,8 @@ Install-Package Blazorise.Icons.Material";
             ? EventCallback.Factory.Create<PivotGridReadDataEventArgs<RemoteSale>>( this, ReadRemoteData )
             : default;
 
-    private IPivotGridDataSource<RemoteSale> CurrentDataSource
-        => providerMode == ProviderMode.DataSource ? dataSource : null;
+    private IPivotGridDataProvider<RemoteSale> CurrentDataProvider
+        => providerMode == ProviderMode.DataProvider ? dataProvider : null;
 
     private Task ReadRemoteData( PivotGridReadDataEventArgs<RemoteSale> eventArgs )
     {
@@ -13795,14 +13795,14 @@ Install-Package Blazorise.Icons.Material";
     private enum ProviderMode
     {
         ReadData,
-        DataSource,
+        DataProvider,
     }
 
-    private sealed class RemoteSaleDataSource : IPivotGridDataSource<RemoteSale>
+    private sealed class RemoteSaleDataProvider : IPivotGridDataProvider<RemoteSale>
     {
         private readonly IReadOnlyList<RemoteSale> source;
 
-        public RemoteSaleDataSource( IReadOnlyList<RemoteSale> source )
+        public RemoteSaleDataProvider( IReadOnlyList<RemoteSale> source )
         {
             this.source = source;
         }
