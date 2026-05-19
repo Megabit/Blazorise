@@ -108,4 +108,69 @@ public class PivotGridDataRequest
     /// Gets or sets whether expandable groups are initially expanded.
     /// </summary>
     public bool InitiallyExpanded { get; set; }
+
+    internal IReadOnlyList<IReadOnlyList<object>> CollapsedRowGroupPaths { get; set; } = [];
+
+    internal IReadOnlyList<IReadOnlyList<object>> ExpandedRowGroupPaths { get; set; } = [];
+
+    internal IReadOnlyList<IReadOnlyList<object>> CollapsedColumnGroupPaths { get; set; } = [];
+
+    internal IReadOnlyList<IReadOnlyList<object>> ExpandedColumnGroupPaths { get; set; } = [];
+
+    /// <summary>
+    /// Gets whether the row group path is expanded for the current request.
+    /// </summary>
+    /// <param name="path">The row group value path.</param>
+    /// <returns><c>true</c> when the row group is expanded.</returns>
+    public bool IsRowGroupExpanded( IReadOnlyList<object> path )
+        => IsGroupExpanded( path, InitiallyExpanded, CollapsedRowGroupPaths, ExpandedRowGroupPaths );
+
+    /// <summary>
+    /// Gets whether the column group path is expanded for the current request.
+    /// </summary>
+    /// <param name="path">The column group value path.</param>
+    /// <returns><c>true</c> when the column group is expanded.</returns>
+    public bool IsColumnGroupExpanded( IReadOnlyList<object> path )
+        => IsGroupExpanded( path, InitiallyExpanded, CollapsedColumnGroupPaths, ExpandedColumnGroupPaths );
+
+    private static bool IsGroupExpanded( IReadOnlyList<object> path, bool initiallyExpanded, IReadOnlyList<IReadOnlyList<object>> collapsedGroupPaths, IReadOnlyList<IReadOnlyList<object>> expandedGroupPaths )
+    {
+        if ( path is null )
+            return false;
+
+        return initiallyExpanded
+            ? !ContainsPath( collapsedGroupPaths, path )
+            : ContainsPath( expandedGroupPaths, path );
+    }
+
+    private static bool ContainsPath( IReadOnlyList<IReadOnlyList<object>> paths, IReadOnlyList<object> path )
+    {
+        if ( paths is null )
+            return false;
+
+        foreach ( IReadOnlyList<object> candidate in paths )
+        {
+            if ( ValuesEqual( candidate, path ) )
+                return true;
+        }
+
+        return false;
+    }
+
+    private static bool ValuesEqual( IReadOnlyList<object> left, IReadOnlyList<object> right )
+    {
+        if ( left is null || right is null )
+            return left is null && right is null;
+
+        if ( left.Count != right.Count )
+            return false;
+
+        for ( var i = 0; i < left.Count; i++ )
+        {
+            if ( !object.Equals( left[i], right[i] ) )
+                return false;
+        }
+
+        return true;
+    }
 }

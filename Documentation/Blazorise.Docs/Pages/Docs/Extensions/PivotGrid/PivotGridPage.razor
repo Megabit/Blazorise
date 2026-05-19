@@ -118,6 +118,9 @@
             For remote virtualization, return the requested pivot result rows through <Code>Result</Code> and set <Code>TotalItems</Code> to the total pivot result row count.
         </Paragraph>
         <Paragraph>
+            When row or column expansion is enabled, use <Code>IsRowGroupExpanded</Code> and <Code>IsColumnGroupExpanded</Code> from the request to build the requested expanded result window.
+        </Paragraph>
+        <Paragraph>
             When returning a prepared <Code>PivotGridResult</Code>, keep the result shape consistent. <Code>DataColumns</Code> defines the cell order, so every returned <Code>PivotGridResultRow</Code> should contain the same number of <Code>Cells</Code>, in the same order. Data columns and aggregate metadata should stay stable across virtualized requests. Row fields, column fields, aggregate info, data columns, rows, and cells should not be <Code>null</Code>.
         </Paragraph>
     </DocsPageSectionHeader>

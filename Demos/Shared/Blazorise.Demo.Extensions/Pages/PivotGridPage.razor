@@ -380,7 +380,7 @@
             request.ShowColumnSubtotals,
             request.ShowRowTotals,
             request.ExpandableColumns ? PivotGridTotalPosition.Before : request.ColumnTotalPosition );
-        columnItems = GetInitiallyVisibleAxisItems( columnItems, columnFields, request.ExpandableColumns, request.InitiallyExpanded );
+        columnItems = GetVisibleAxisItems( columnItems, columnFields, request.ExpandableColumns, request.IsColumnGroupExpanded );
 
         List<PivotGridDataColumn<PivotSale>> dataColumns = columnItems
             .SelectMany( column => aggregates.Select( aggregate => new PivotGridDataColumn<PivotSale>( column, aggregate ) ) )
@@ -392,7 +392,7 @@
             request.ShowRowSubtotals,
             request.ShowColumnTotals,
             request.ExpandableRows ? PivotGridTotalPosition.Before : request.RowTotalPosition );
-        rowItems = GetInitiallyVisibleAxisItems( rowItems, rowFields, request.ExpandableRows, request.InitiallyExpanded );
+        rowItems = GetVisibleAxisItems( rowItems, rowFields, request.ExpandableRows, request.IsRowGroupExpanded );
 
         List<PivotGridResultRow<PivotSale>> allRows = rowItems
             .Select( row => new PivotGridResultRow<PivotSale>( row, BuildCells( row, columnFields, dataColumns ) ) )
@@ -493,9 +493,9 @@
         }
     }
 
-    private static List<PivotGridAxisItem<PivotSale>> GetInitiallyVisibleAxisItems( List<PivotGridAxisItem<PivotSale>> items, IReadOnlyList<PivotGridFieldInfo<PivotSale>> fields, bool expandable, bool initiallyExpanded )
+    private static List<PivotGridAxisItem<PivotSale>> GetVisibleAxisItems( List<PivotGridAxisItem<PivotSale>> items, IReadOnlyList<PivotGridFieldInfo<PivotSale>> fields, bool expandable, Func<IReadOnlyList<object>, bool> isGroupExpanded )
     {
-        if ( !expandable || initiallyExpanded || fields.Count == 0 )
+        if ( !expandable || fields.Count == 0 )
             return items;
 
         List<PivotGridAxisItem<PivotSale>> expandableItems = items
@@ -506,7 +506,7 @@
             return items;
 
         return items
-            .Where( item => !HasCollapsedParent( item, expandableItems ) )
+            .Where( item => IsAxisItemVisible( item, expandableItems, isGroupExpanded ) )
             .ToList();
     }
 
@@ -517,18 +517,20 @@
             && item.Values.Count > 0
             && item.Values.Count < fields.Count;
 
-    private static bool HasCollapsedParent( PivotGridAxisItem<PivotSale> item, IReadOnlyList<PivotGridAxisItem<PivotSale>> expandableItems )
+    private static bool IsAxisItemVisible( PivotGridAxisItem<PivotSale> item, IReadOnlyList<PivotGridAxisItem<PivotSale>> expandableItems, Func<IReadOnlyList<object>, bool> isGroupExpanded )
     {
         if ( item is null || item.IsGrandTotal )
-            return false;
+            return true;
 
         foreach ( PivotGridAxisItem<PivotSale> expandableItem in expandableItems )
         {
-            if ( expandableItem.Values.Count < item.Values.Count && ValuesStartWith( item.Values, expandableItem.Values ) )
-                return true;
+            if ( expandableItem.Values.Count < item.Values.Count
+                 && ValuesStartWith( item.Values, expandableItem.Values )
+                 && !isGroupExpanded( expandableItem.Values ) )
+                return false;
         }
 
-        return false;
+        return true;
     }
 
     private static bool ValuesStartWith( IReadOnlyList<object> values, IReadOnlyList<object> prefix )

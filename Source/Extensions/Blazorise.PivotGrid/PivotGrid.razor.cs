@@ -31,12 +31,13 @@ public partial class PivotGrid<TItem> : BaseComponent
     private readonly List<PivotGridFieldState> runtimeColumns = new();
     private readonly List<PivotGridFieldState> runtimeAggregates = new();
     private readonly List<PivotGridFieldState> runtimeFilters = new();
-    private readonly HashSet<string> collapsedRowGroupKeys = new();
-    private readonly HashSet<string> collapsedColumnGroupKeys = new();
-    private readonly HashSet<string> expandedRowGroupKeys = new();
-    private readonly HashSet<string> expandedColumnGroupKeys = new();
+    private readonly Dictionary<string, IReadOnlyList<object>> collapsedRowGroupPaths = new();
+    private readonly Dictionary<string, IReadOnlyList<object>> collapsedColumnGroupPaths = new();
+    private readonly Dictionary<string, IReadOnlyList<object>> expandedRowGroupPaths = new();
+    private readonly Dictionary<string, IReadOnlyList<object>> expandedColumnGroupPaths = new();
     private bool runtimeStateInitialized;
     private bool runtimeStateUserModified;
+    private _PivotGridTable<TItem> tableRef;
     private _PivotGridFieldChooser<TItem> fieldChooserRef;
     private PivotGridResult<TItem> pivotResult = PivotGridResult<TItem>.Empty;
     private IReadOnlyList<TItem> externalData = [];
@@ -87,10 +88,10 @@ public partial class PivotGrid<TItem> : BaseComponent
 
         if ( nextParamInitiallyExpanded.Defined && nextParamInitiallyExpanded.Changed )
         {
-            collapsedRowGroupKeys.Clear();
-            collapsedColumnGroupKeys.Clear();
-            expandedRowGroupKeys.Clear();
-            expandedColumnGroupKeys.Clear();
+            collapsedRowGroupPaths.Clear();
+            collapsedColumnGroupPaths.Clear();
+            expandedRowGroupPaths.Clear();
+            expandedColumnGroupPaths.Clear();
         }
 
         paramInitiallyExpanded = nextParamInitiallyExpanded;
@@ -314,10 +315,10 @@ public partial class PivotGrid<TItem> : BaseComponent
         runtimeStateInitialized = true;
         runtimeStateUserModified = true;
         InvalidateExternalDataRead();
-        collapsedRowGroupKeys.Clear();
-        collapsedColumnGroupKeys.Clear();
-        expandedRowGroupKeys.Clear();
-        expandedColumnGroupKeys.Clear();
+        collapsedRowGroupPaths.Clear();
+        collapsedColumnGroupPaths.Clear();
+        expandedRowGroupPaths.Clear();
+        expandedColumnGroupPaths.Clear();
 
         if ( Page != 1 )
         {
@@ -367,12 +368,16 @@ public partial class PivotGrid<TItem> : BaseComponent
         pivotResult = BuildPivotResult( [] );
     }
 
-    private void InvalidateExternalDataRead()
+    private void InvalidateExternalDataRead( bool resetVirtualizedRows = true )
     {
         lastExternalDataRequestKey = null;
-        externalVirtualizedDataRequestKey = null;
-        externalVirtualizedDataVersion++;
         externalVirtualizedResultInitialized = false;
+
+        if ( resetVirtualizedRows )
+        {
+            externalVirtualizedDataRequestKey = null;
+            externalVirtualizedDataVersion++;
+        }
     }
 
     private void QueueExternalDataRead()
@@ -604,9 +609,7 @@ public partial class PivotGrid<TItem> : BaseComponent
     {
         EnsureRuntimeState();
 
-        var requestCount = externalTotalItems.HasValue
-            ? Math.Min( providerRequest.Count, Math.Max( 0, externalTotalItems.Value - providerRequest.StartIndex ) )
-            : providerRequest.Count;
+        var requestCount = providerRequest.Count;
 
         var request = CreateDataRequest( PivotGridReadDataMode.Virtualize, providerRequest.StartIndex, requestCount );
         var requestKey = PivotGridKeyGenerator.CreateDataRequestKey( request );
@@ -640,7 +643,8 @@ public partial class PivotGrid<TItem> : BaseComponent
 
             var virtualizedData = dataResult?.Data?.ToList() ?? [];
             var virtualizedPivotResult = BuildPivotResult( virtualizedData );
-            var rows = virtualizedPivotResult.Rows;
+            var expandedVirtualizedPivotResult = GetExpandedPivotResult( virtualizedPivotResult );
+            var rows = expandedVirtualizedPivotResult.Rows;
 
             ApplyInitialExternalVirtualizedResult( requestKey, virtualizedPivotResult );
 
@@ -701,6 +705,10 @@ public partial class PivotGrid<TItem> : BaseComponent
             ExpandableRows = ExpandableRows,
             ExpandableColumns = ExpandableColumns,
             InitiallyExpanded = InitiallyExpanded,
+            CollapsedRowGroupPaths = collapsedRowGroupPaths.Values.ToList(),
+            ExpandedRowGroupPaths = expandedRowGroupPaths.Values.ToList(),
+            CollapsedColumnGroupPaths = collapsedColumnGroupPaths.Values.ToList(),
+            ExpandedColumnGroupPaths = expandedColumnGroupPaths.Values.ToList(),
         };
     }
 
@@ -1080,35 +1088,50 @@ public partial class PivotGrid<TItem> : BaseComponent
         => ExpandableColumns && PivotGridAxisItemUtilities.CanToggleExpansion( column, pivotResult?.ColumnFields );
 
     internal bool IsRowExpanded( PivotGridAxisItem<TItem> row )
-        => IsAxisItemExpanded( row, collapsedRowGroupKeys, expandedRowGroupKeys );
+        => IsAxisItemExpanded( row, collapsedRowGroupPaths, expandedRowGroupPaths );
 
     internal bool IsColumnExpanded( PivotGridAxisItem<TItem> column )
-        => IsAxisItemExpanded( column, collapsedColumnGroupKeys, expandedColumnGroupKeys );
+        => IsAxisItemExpanded( column, collapsedColumnGroupPaths, expandedColumnGroupPaths );
 
-    internal Task ToggleRowExpanded( PivotGridAxisItem<TItem> row )
+    internal async Task ToggleRowExpanded( PivotGridAxisItem<TItem> row )
     {
-        ToggleAxisItemExpanded( row, collapsedRowGroupKeys, expandedRowGroupKeys );
+        ToggleAxisItemExpanded( row, collapsedRowGroupPaths, expandedRowGroupPaths );
 
-        return InvokeAsync( StateHasChanged );
+        if ( UsesExternalData )
+            InvalidateExternalDataRead( resetVirtualizedRows: false );
+
+        await RefreshVirtualizedRows();
+
+        await InvokeAsync( StateHasChanged );
     }
 
-    internal Task ToggleColumnExpanded( PivotGridAxisItem<TItem> column )
+    internal async Task ToggleColumnExpanded( PivotGridAxisItem<TItem> column )
     {
-        ToggleAxisItemExpanded( column, collapsedColumnGroupKeys, expandedColumnGroupKeys );
+        ToggleAxisItemExpanded( column, collapsedColumnGroupPaths, expandedColumnGroupPaths );
 
-        return InvokeAsync( StateHasChanged );
+        if ( UsesExternalData )
+            InvalidateExternalDataRead( resetVirtualizedRows: false );
+
+        await RefreshVirtualizedRows();
+
+        await InvokeAsync( StateHasChanged );
     }
 
-    private bool IsAxisItemExpanded( PivotGridAxisItem<TItem> axisItem, HashSet<string> collapsedGroupKeys, HashSet<string> expandedGroupKeys )
+    private Task RefreshVirtualizedRows()
+        => IsVirtualizeActive && tableRef is not null
+            ? tableRef.RefreshVirtualizedRows()
+            : Task.CompletedTask;
+
+    private bool IsAxisItemExpanded( PivotGridAxisItem<TItem> axisItem, Dictionary<string, IReadOnlyList<object>> collapsedGroupPaths, Dictionary<string, IReadOnlyList<object>> expandedGroupPaths )
     {
         var key = PivotGridKeyGenerator.CreateGroupKey( axisItem.Values );
 
         return InitiallyExpanded
-            ? !collapsedGroupKeys.Contains( key )
-            : expandedGroupKeys.Contains( key );
+            ? !collapsedGroupPaths.ContainsKey( key )
+            : expandedGroupPaths.ContainsKey( key );
     }
 
-    private void ToggleAxisItemExpanded( PivotGridAxisItem<TItem> axisItem, HashSet<string> collapsedGroupKeys, HashSet<string> expandedGroupKeys )
+    private void ToggleAxisItemExpanded( PivotGridAxisItem<TItem> axisItem, Dictionary<string, IReadOnlyList<object>> collapsedGroupPaths, Dictionary<string, IReadOnlyList<object>> expandedGroupPaths )
     {
         if ( axisItem is null )
             return;
@@ -1117,47 +1140,53 @@ public partial class PivotGrid<TItem> : BaseComponent
 
         if ( InitiallyExpanded )
         {
-            if ( !collapsedGroupKeys.Remove( key ) )
-                collapsedGroupKeys.Add( key );
+            if ( !collapsedGroupPaths.Remove( key ) )
+                collapsedGroupPaths[key] = axisItem.Values;
         }
         else
         {
-            if ( !expandedGroupKeys.Remove( key ) )
-                expandedGroupKeys.Add( key );
+            if ( !expandedGroupPaths.Remove( key ) )
+                expandedGroupPaths[key] = axisItem.Values;
         }
     }
 
     private IReadOnlyList<PivotGridResultRow<TItem>> GetExpandedRows()
+        => GetExpandedRows( pivotResult );
+
+    private IReadOnlyList<PivotGridResultRow<TItem>> GetExpandedRows( PivotGridResult<TItem> result )
     {
-        if ( pivotResult is null || pivotResult.Rows.Count == 0 )
+        if ( result is null || result.Rows.Count == 0 )
             return [];
 
         return GetVisibleAxisValues(
-            pivotResult.Rows,
+            result.Rows,
             row => row.Row,
-            pivotResult.RowFields,
+            result.RowFields,
             ExpandableRows,
-            collapsedRowGroupKeys,
-            expandedRowGroupKeys );
+            collapsedRowGroupPaths,
+            expandedRowGroupPaths );
     }
 
     private IReadOnlyList<int> GetExpandedDataColumnIndexes()
+        => GetExpandedDataColumnIndexes( pivotResult );
+
+    private IReadOnlyList<int> GetExpandedDataColumnIndexes( PivotGridResult<TItem> result )
     {
-        if ( pivotResult is null || pivotResult.DataColumns.Count == 0 )
+        if ( result is null || result.DataColumns.Count == 0 )
             return [];
 
-        var indexes = Enumerable.Range( 0, pivotResult.DataColumns.Count ).ToList();
+        var indexes = Enumerable.Range( 0, result.DataColumns.Count ).ToList();
 
         return GetVisibleAxisValues(
             indexes,
-            index => pivotResult.DataColumns[index].Column,
-            pivotResult.ColumnFields,
+            index => result.DataColumns[index].Column,
+            result.ColumnFields,
             ExpandableColumns,
-            collapsedColumnGroupKeys,
-            expandedColumnGroupKeys );
+            collapsedColumnGroupPaths,
+            expandedColumnGroupPaths );
     }
 
-    private IReadOnlyList<TValue> GetVisibleAxisValues<TValue>( IReadOnlyList<TValue> values, Func<TValue, PivotGridAxisItem<TItem>> axisItemSelector, IReadOnlyList<PivotGridFieldInfo<TItem>> axisFields, bool expandable, HashSet<string> collapsedGroupKeys, HashSet<string> expandedGroupKeys )
+    private IReadOnlyList<TValue> GetVisibleAxisValues<TValue>( IReadOnlyList<TValue> values, Func<TValue, PivotGridAxisItem<TItem>> axisItemSelector, IReadOnlyList<PivotGridFieldInfo<TItem>> axisFields, bool expandable, Dictionary<string, IReadOnlyList<object>> collapsedGroupPaths, Dictionary<string, IReadOnlyList<object>> expandedGroupPaths )
     {
         if ( !expandable )
             return values;
@@ -1170,11 +1199,11 @@ public partial class PivotGrid<TItem> : BaseComponent
             .ToHashSet( StringComparer.Ordinal );
 
         return values
-            .Where( value => IsAxisItemVisible( axisItemSelector( value ), axisFields, expandableGroupKeys, collapsedGroupKeys, expandedGroupKeys ) )
+            .Where( value => IsAxisItemVisible( axisItemSelector( value ), axisFields, expandableGroupKeys, collapsedGroupPaths, expandedGroupPaths ) )
             .ToList();
     }
 
-    private bool IsAxisItemVisible( PivotGridAxisItem<TItem> axisItem, IReadOnlyList<PivotGridFieldInfo<TItem>> axisFields, HashSet<string> expandableGroupKeys, HashSet<string> collapsedGroupKeys, HashSet<string> expandedGroupKeys )
+    private bool IsAxisItemVisible( PivotGridAxisItem<TItem> axisItem, IReadOnlyList<PivotGridFieldInfo<TItem>> axisFields, HashSet<string> expandableGroupKeys, Dictionary<string, IReadOnlyList<object>> collapsedGroupPaths, Dictionary<string, IReadOnlyList<object>> expandedGroupPaths )
     {
         if ( axisItem is null || axisItem.IsGrandTotal || axisFields.Count == 0 )
             return true;
@@ -1187,8 +1216,8 @@ public partial class PivotGrid<TItem> : BaseComponent
                 continue;
 
             var isExpanded = InitiallyExpanded
-                ? !collapsedGroupKeys.Contains( key )
-                : expandedGroupKeys.Contains( key );
+                ? !collapsedGroupPaths.ContainsKey( key )
+                : expandedGroupPaths.ContainsKey( key );
 
             if ( !isExpanded )
                 return false;
@@ -1198,14 +1227,17 @@ public partial class PivotGrid<TItem> : BaseComponent
     }
 
     private PivotGridResult<TItem> GetExpandedPivotResult()
-    {
-        if ( pivotResult is null || !pivotResult.HasValues )
-            return pivotResult;
+        => GetExpandedPivotResult( pivotResult );
 
-        var expandedRows = GetExpandedRows();
-        var expandedDataColumnIndexes = GetExpandedDataColumnIndexes();
+    private PivotGridResult<TItem> GetExpandedPivotResult( PivotGridResult<TItem> result )
+    {
+        if ( result is null || !result.HasValues )
+            return result;
+
+        var expandedRows = GetExpandedRows( result );
+        var expandedDataColumnIndexes = GetExpandedDataColumnIndexes( result );
         var dataColumns = expandedDataColumnIndexes
-            .Select( index => pivotResult.DataColumns[index] )
+            .Select( index => result.DataColumns[index] )
             .ToList();
         var rows = expandedRows
             .Select( row => new PivotGridResultRow<TItem>(
@@ -1213,7 +1245,7 @@ public partial class PivotGrid<TItem> : BaseComponent
                 expandedDataColumnIndexes.Select( index => row.Cells[index] ).ToList() ) )
             .ToList();
 
-        return new( pivotResult.RowFields, pivotResult.ColumnFields, pivotResult.Aggregates, dataColumns, rows );
+        return new( result.RowFields, result.ColumnFields, result.Aggregates, dataColumns, rows );
     }
 
     private IReadOnlyList<string> GetRootGroupKeys()

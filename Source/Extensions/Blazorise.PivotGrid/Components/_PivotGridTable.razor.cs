@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Blazorise.Localization;
 using Blazorise.PivotGrid.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
 #endregion
 
 namespace Blazorise.PivotGrid.Components;
@@ -16,6 +18,7 @@ namespace Blazorise.PivotGrid.Components;
 public partial class _PivotGridTable<TItem> : IDisposable
 {
     private static readonly IEqualityComparer<PivotGridAxisItem<TItem>> AxisItemEqualityComparer = PivotGridAxisItemEqualityComparer<TItem>.Instance;
+    private Virtualize<PivotGridResultRow<TItem>> virtualizeRef;
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -34,6 +37,9 @@ public partial class _PivotGridTable<TItem> : IDisposable
     {
         await InvokeAsync( StateHasChanged );
     }
+
+    internal Task RefreshVirtualizedRows()
+        => virtualizeRef?.RefreshDataAsync() ?? Task.CompletedTask;
 
     private int RowHeaderColumnCount
         => UseTreeRowHeader ? 1 : System.Math.Max( 1, Result.RowFields.Count );

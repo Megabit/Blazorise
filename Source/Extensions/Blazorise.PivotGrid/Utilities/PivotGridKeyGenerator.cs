@@ -29,6 +29,10 @@ internal static class PivotGridKeyGenerator
         AppendValueKey( builder, request.ExpandableRows );
         AppendValueKey( builder, request.ExpandableColumns );
         AppendValueKey( builder, request.InitiallyExpanded );
+        AppendGroupPathsKey( builder, request.CollapsedRowGroupPaths );
+        AppendGroupPathsKey( builder, request.ExpandedRowGroupPaths );
+        AppendGroupPathsKey( builder, request.CollapsedColumnGroupPaths );
+        AppendGroupPathsKey( builder, request.ExpandedColumnGroupPaths );
         AppendFieldStatesKey( builder, request.Rows );
         AppendFieldStatesKey( builder, request.Columns );
         AppendFieldStatesKey( builder, request.Aggregates );
@@ -67,6 +71,27 @@ internal static class PivotGridKeyGenerator
             AppendValueKey( builder, state.Area );
             AppendValueKey( builder, state.Aggregate );
             AppendValueKey( builder, state.FilterValueKey );
+        }
+    }
+
+    private static void AppendGroupPathsKey( StringBuilder builder, IReadOnlyList<IReadOnlyList<object>> paths )
+    {
+        AppendValueKey( builder, paths?.Count ?? 0 );
+
+        if ( paths is null )
+            return;
+
+        foreach ( IReadOnlyList<object> path in paths )
+        {
+            AppendValueKey( builder, path?.Count ?? 0 );
+
+            if ( path is null )
+                continue;
+
+            foreach ( object value in path )
+            {
+                AppendValueKey( builder, value );
+            }
         }
     }
 
