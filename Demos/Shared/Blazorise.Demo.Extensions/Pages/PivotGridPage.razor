@@ -557,8 +557,8 @@
                     value,
                     aggregate.FormatValue( value ),
                     cellItems,
-                    dataColumn.Column.IsGrandTotal,
-                    row.IsGrandTotal,
+                    dataColumn.Column.IsTotal || dataColumn.Column.IsGrandTotal,
+                    row.IsTotal || row.IsGrandTotal,
                     dataColumn.Column.IsGrandTotal && row.IsGrandTotal );
             } )
             .ToList();

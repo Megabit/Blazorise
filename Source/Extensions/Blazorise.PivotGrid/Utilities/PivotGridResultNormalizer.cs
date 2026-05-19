@@ -101,9 +101,15 @@ internal static class PivotGridResultNormalizer
             : new( axisItem.Values ?? [], axisItem.Items ?? [], axisItem.Level, axisItem.IsTotal, axisItem.IsGrandTotal );
 
     private static PivotGridCell<TItem> CreateCell<TItem>( PivotGridCell<TItem> cell, PivotGridDataColumn<TItem> dataColumn, PivotGridAxisItem<TItem> row )
-        => cell is null
-            ? CreateEmptyCell( dataColumn, row )
-            : new( dataColumn, cell.Value, cell.FormattedValue ?? string.Empty, cell.Items ?? [], cell.IsRowTotal, cell.IsColumnTotal, cell.IsGrandTotal );
+    {
+        if ( cell is null )
+            return CreateEmptyCell( dataColumn, row );
+
+        var isColumnTotalsRow = row.IsTotal || row.IsGrandTotal;
+        var isRowTotalsColumn = dataColumn.Column.IsTotal || dataColumn.Column.IsGrandTotal;
+
+        return new( dataColumn, cell.Value, cell.FormattedValue ?? string.Empty, cell.Items ?? [], isRowTotalsColumn, isColumnTotalsRow, row.IsGrandTotal && dataColumn.Column.IsGrandTotal );
+    }
 
     private static PivotGridCell<TItem> CreateEmptyCell<TItem>( PivotGridDataColumn<TItem> dataColumn, PivotGridAxisItem<TItem> row )
     {
