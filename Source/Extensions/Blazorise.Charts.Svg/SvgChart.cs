@@ -26,7 +26,7 @@ public class SvgChart<TItem> : SvgChartBase
 
     private readonly List<object> categoryAxisComponents = [];
 
-    private readonly List<SvgLinearAxis> linearAxisComponents = [];
+    private readonly List<SvgChartValueAxis> valueAxisComponents = [];
 
     private readonly List<SvgChartTitle> titleComponents = [];
 
@@ -107,20 +107,7 @@ public class SvgChart<TItem> : SvgChartBase
         if ( IsRadialChart( model ) )
             RenderRadialChart( builder, ref sequence, model, plot );
 
-        if ( model.Series.Any( x => x.Type == SvgChartType.Area ) )
-            RenderAreas( builder, ref sequence, model, plot );
-
-        if ( model.Series.Any( x => x.Type == SvgChartType.Line ) )
-            RenderLines( builder, ref sequence, model, plot );
-
-        if ( model.Series.Any( x => x.Type == SvgChartType.Column ) )
-            RenderColumns( builder, ref sequence, model, plot );
-
-        if ( model.Series.Any( x => x.Type == SvgChartType.Bar ) )
-            RenderBars( builder, ref sequence, model, plot );
-
-        if ( model.Series.Any( x => IsPointChart( x.Type ) ) )
-            RenderPointCharts( builder, ref sequence, model, plot );
+        RenderCartesianSeries( builder, ref sequence, model, plot );
 
         if ( hasBottomLegend )
             RenderLegend( builder, ref sequence, model, options, options.Height - 30 );
@@ -165,9 +152,11 @@ public class SvgChart<TItem> : SvgChartBase
         builder.OpenElement( sequence++, "g" );
         builder.AddAttribute( sequence++, "class", "svg-chart-grid" );
 
-        foreach ( var tick in model.Ticks )
+        var primaryAxis = model.PrimaryValueAxis;
+
+        foreach ( var tick in primaryAxis.Ticks )
         {
-            var y = GetY( tick, plot, model );
+            var y = GetY( tick, plot, primaryAxis );
 
             builder.OpenElement( sequence++, "line" );
             builder.AddAttribute( sequence++, "x1", Format( plot.Left ) );
@@ -223,6 +212,38 @@ public class SvgChart<TItem> : SvgChartBase
         }
 
         builder.CloseElement();
+
+        foreach ( var axis in model.ValueAxes.Where( x => x != primaryAxis && x.Position == SvgChartAxisPosition.Right ) )
+        {
+            builder.OpenElement( sequence++, "g" );
+            builder.AddAttribute( sequence++, "class", "svg-chart-axis svg-chart-value-axis-right" );
+
+            builder.OpenElement( sequence++, "line" );
+            builder.AddAttribute( sequence++, "x1", Format( plot.Right ) );
+            builder.AddAttribute( sequence++, "x2", Format( plot.Right ) );
+            builder.AddAttribute( sequence++, "y1", Format( plot.Top ) );
+            builder.AddAttribute( sequence++, "y2", Format( plot.Bottom ) );
+            builder.AddAttribute( sequence++, "stroke", "currentColor" );
+            builder.AddAttribute( sequence++, "stroke-opacity", "0.22" );
+            builder.CloseElement();
+
+            foreach ( var tick in axis.Ticks )
+            {
+                var y = GetY( tick, plot, axis );
+
+                builder.OpenElement( sequence++, "text" );
+                builder.AddAttribute( sequence++, "x", Format( plot.Right + 10 ) );
+                builder.AddAttribute( sequence++, "y", Format( y + 4 ) );
+                builder.AddAttribute( sequence++, "text-anchor", "start" );
+                builder.AddAttribute( sequence++, "font-size", "11" );
+                builder.AddAttribute( sequence++, "fill", "currentColor" );
+                builder.AddAttribute( sequence++, "opacity", "0.68" );
+                builder.AddContent( sequence++, FormatTick( tick ) );
+                builder.CloseElement();
+            }
+
+            builder.CloseElement();
+        }
     }
 
     private void RenderHorizontalGridAndAxes( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
@@ -281,24 +302,56 @@ public class SvgChart<TItem> : SvgChartBase
         builder.CloseElement();
     }
 
-    private void RenderColumns( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
+    private void RenderCartesianSeries( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
+    {
+        var renderOrders = model.Series.Where( x => !x.Hidden && !IsRadialChart( x.Type ) )
+            .Select( ResolveRenderOrder )
+            .Distinct()
+            .OrderBy( x => x )
+            .ToList();
+
+        foreach ( var renderOrder in renderOrders )
+        {
+            bool ShouldRender( RenderSeries series ) => ResolveRenderOrder( series ) == renderOrder;
+
+            if ( model.Series.Any( x => x.Type == SvgChartType.Area && ShouldRender( x ) ) )
+                RenderAreas( builder, ref sequence, model, plot, ShouldRender );
+
+            if ( model.Series.Any( x => x.Type == SvgChartType.Column && ShouldRender( x ) ) )
+                RenderColumns( builder, ref sequence, model, plot, ShouldRender );
+
+            if ( model.Series.Any( x => x.Type == SvgChartType.Bar && ShouldRender( x ) ) )
+                RenderBars( builder, ref sequence, model, plot, ShouldRender );
+
+            if ( model.Series.Any( x => x.Type == SvgChartType.Line && ShouldRender( x ) ) )
+                RenderLines( builder, ref sequence, model, plot, ShouldRender );
+
+            if ( model.Series.Any( x => IsPointChart( x.Type ) && ShouldRender( x ) ) )
+                RenderPointCharts( builder, ref sequence, model, plot, ShouldRender );
+        }
+    }
+
+    private void RenderColumns( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot, Func<RenderSeries, bool> shouldRender = null )
     {
         var visibleColumnSeries = model.Series.Where( x => x.Type == SvgChartType.Column && !x.Hidden ).ToList();
 
-        if ( visibleColumnSeries.Count == 0 || model.Labels.Count == 0 )
+        if ( visibleColumnSeries.Count == 0 || model.Labels.Count == 0 || !visibleColumnSeries.Any( x => shouldRender?.Invoke( x ) ?? true ) )
             return;
 
         var categoryWidth = plot.Width / model.Labels.Count;
         var groupWidth = categoryWidth * 0.72;
         var barWidth = Math.Max( 1, groupWidth / visibleColumnSeries.Count );
-        var baseline = GetY( 0, plot, model );
-
         builder.OpenElement( sequence++, "g" );
         builder.AddAttribute( sequence++, "class", "svg-chart-columns" );
 
         for ( var seriesIndex = 0; seriesIndex < visibleColumnSeries.Count; seriesIndex++ )
         {
             var series = visibleColumnSeries[seriesIndex];
+
+            if ( shouldRender is not null && !shouldRender( series ) )
+                continue;
+
+            var baseline = GetY( 0, plot, model, series );
 
             for ( var pointIndex = 0; pointIndex < model.Labels.Count && pointIndex < series.Values.Count; pointIndex++ )
             {
@@ -309,7 +362,7 @@ public class SvgChart<TItem> : SvgChartBase
 
                 var categoryStart = plot.Left + categoryWidth * pointIndex + ( categoryWidth - groupWidth ) / 2;
                 var x = categoryStart + barWidth * seriesIndex + barWidth * 0.1;
-                var y = GetY( value.Value, plot, model );
+                var y = GetY( value.Value, plot, model, series );
                 var height = Math.Abs( baseline - y );
                 var rectY = Math.Min( y, baseline );
                 var rectWidth = Math.Max( 1, barWidth * 0.8 );
@@ -340,24 +393,27 @@ public class SvgChart<TItem> : SvgChartBase
         builder.CloseElement();
     }
 
-    private void RenderBars( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
+    private void RenderBars( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot, Func<RenderSeries, bool> shouldRender = null )
     {
         var visibleBarSeries = model.Series.Where( x => x.Type == SvgChartType.Bar && !x.Hidden ).ToList();
 
-        if ( visibleBarSeries.Count == 0 || model.Labels.Count == 0 )
+        if ( visibleBarSeries.Count == 0 || model.Labels.Count == 0 || !visibleBarSeries.Any( x => shouldRender?.Invoke( x ) ?? true ) )
             return;
 
         var categoryHeight = plot.Height / model.Labels.Count;
         var groupHeight = categoryHeight * 0.72;
         var barHeight = Math.Max( 1, groupHeight / visibleBarSeries.Count );
-        var baseline = GetX( 0, plot, model );
-
         builder.OpenElement( sequence++, "g" );
         builder.AddAttribute( sequence++, "class", "svg-chart-bars" );
 
         for ( var seriesIndex = 0; seriesIndex < visibleBarSeries.Count; seriesIndex++ )
         {
             var series = visibleBarSeries[seriesIndex];
+
+            if ( shouldRender is not null && !shouldRender( series ) )
+                continue;
+
+            var baseline = GetX( 0, plot, model, series );
 
             for ( var pointIndex = 0; pointIndex < model.Labels.Count && pointIndex < series.Values.Count; pointIndex++ )
             {
@@ -367,7 +423,7 @@ public class SvgChart<TItem> : SvgChartBase
                     continue;
 
                 var categoryStart = plot.Top + categoryHeight * pointIndex + ( categoryHeight - groupHeight ) / 2;
-                var x = GetX( value.Value, plot, model );
+                var x = GetX( value.Value, plot, model, series );
                 var width = Math.Abs( x - baseline );
                 var rectX = Math.Min( x, baseline );
                 var y = categoryStart + barHeight * seriesIndex + barHeight * 0.1;
@@ -399,9 +455,9 @@ public class SvgChart<TItem> : SvgChartBase
         builder.CloseElement();
     }
 
-    private void RenderLines( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
+    private void RenderLines( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot, Func<RenderSeries, bool> shouldRender = null )
     {
-        var lineSeries = model.Series.Where( x => x.Type == SvgChartType.Line && !x.Hidden ).ToList();
+        var lineSeries = model.Series.Where( x => x.Type == SvgChartType.Line && !x.Hidden && ( shouldRender?.Invoke( x ) ?? true ) ).ToList();
 
         if ( lineSeries.Count == 0 || model.Labels.Count == 0 )
             return;
@@ -421,7 +477,7 @@ public class SvgChart<TItem> : SvgChartBase
 
                 if ( value.HasValue )
                 {
-                    points.Add( (pointIndex, plot.Left + categoryWidth * ( pointIndex + 0.5 ), GetY( value.Value, plot, model ), value.Value) );
+                    points.Add( (pointIndex, plot.Left + categoryWidth * ( pointIndex + 0.5 ), GetY( value.Value, plot, model, series ), value.Value) );
                 }
             }
 
@@ -473,29 +529,28 @@ public class SvgChart<TItem> : SvgChartBase
         builder.CloseElement();
     }
 
-    private void RenderAreas( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
+    private void RenderAreas( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot, Func<RenderSeries, bool> shouldRender = null )
     {
-        var areaSeries = model.Series.Where( x => x.Type == SvgChartType.Area && !x.Hidden ).ToList();
+        var areaSeries = model.Series.Where( x => x.Type == SvgChartType.Area && !x.Hidden && ( shouldRender?.Invoke( x ) ?? true ) ).ToList();
 
         if ( areaSeries.Count == 0 || model.Labels.Count == 0 )
             return;
 
         var categoryWidth = plot.Width / model.Labels.Count;
-        var baseline = GetY( 0, plot, model );
-
         builder.OpenElement( sequence++, "g" );
         builder.AddAttribute( sequence++, "class", "svg-chart-areas" );
 
         foreach ( var series in areaSeries )
         {
             var points = new List<(int Index, double X, double Y, double Value)>();
+            var baseline = GetY( 0, plot, model, series );
 
             for ( var pointIndex = 0; pointIndex < model.Labels.Count && pointIndex < series.Values.Count; pointIndex++ )
             {
                 var value = series.Values[pointIndex];
 
                 if ( value.HasValue )
-                    points.Add( (pointIndex, plot.Left + categoryWidth * ( pointIndex + 0.5 ), GetY( value.Value, plot, model ), value.Value) );
+                    points.Add( (pointIndex, plot.Left + categoryWidth * ( pointIndex + 0.5 ), GetY( value.Value, plot, model, series ), value.Value) );
             }
 
             if ( points.Count > 1 )
@@ -603,9 +658,9 @@ public class SvgChart<TItem> : SvgChartBase
         builder.CloseElement();
     }
 
-    private void RenderPointCharts( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
+    private void RenderPointCharts( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot, Func<RenderSeries, bool> shouldRender = null )
     {
-        var pointSeries = model.Series.Where( x => !x.Hidden && IsPointChart( x.Type ) ).ToList();
+        var pointSeries = model.Series.Where( x => !x.Hidden && IsPointChart( x.Type ) && ( shouldRender?.Invoke( x ) ?? true ) ).ToList();
 
         if ( pointSeries.Count == 0 )
             return;
@@ -626,7 +681,7 @@ public class SvgChart<TItem> : SvgChartBase
                     continue;
 
                 var x = GetX( xValue.Value, plot, xScale.Min, xScale.Max );
-                var y = GetY( yValue.Value, plot, model );
+                var y = GetY( yValue.Value, plot, model, series );
                 var radius = series.Type == SvgChartType.Bubble
                     ? Math.Max( 2, pointIndex < series.RadiusValues.Count && series.RadiusValues[pointIndex].HasValue ? series.RadiusValues[pointIndex].Value : series.MarkerRadius )
                     : series.MarkerRadius;
@@ -860,31 +915,49 @@ public class SvgChart<TItem> : SvgChartBase
     {
         var chartData = internalChartData ?? Data;
         var options = ResolveOptions();
-        var categoryAxis = categoryAxisComponents.OfType<SvgCategoryAxis<TItem>>().LastOrDefault();
         var childSeries = seriesComponents.OfType<SvgChartSeries<TItem>>().ToList();
+        var categoryAxes = categoryAxisComponents.OfType<SvgChartCategoryAxis<TItem>>().ToList();
+        var categoryAxis = ResolveCategoryAxis( chartData, childSeries, categoryAxes );
+        var valueAxisId = ResolveValueAxisId( chartData, childSeries );
         var items = Items?.ToList() ?? [];
         var labels = ResolveLabels( chartData, categoryAxis, items );
         var series = ResolveSeries( chartData, childSeries, items, labels.Count );
-        var visibleValues = series.Where( x => !x.Hidden )
-            .SelectMany( x => IsPointChart( x.Type ) ? x.YValues : x.Values )
-            .Where( x => x.HasValue )
-            .Select( x => x.Value )
-            .ToList();
-        var axis = ResolveAxis( options );
-        var scale = BuildScale( visibleValues, axis );
+        var valueAxes = ResolveValueAxes( options, series );
+        var primaryValueAxis = ResolvePrimaryValueAxis( valueAxes, valueAxisId );
 
         return new RenderModel
         {
             Labels = labels,
             Series = series,
-            Min = scale.Min,
-            Max = scale.Max,
-            Ticks = scale.Ticks,
+            Min = primaryValueAxis.Min,
+            Max = primaryValueAxis.Max,
+            Ticks = primaryValueAxis.Ticks,
+            ValueAxes = valueAxes,
+            PrimaryValueAxis = primaryValueAxis,
             Tooltip = ResolveTooltip( options )
         };
     }
 
-    private List<object> ResolveLabels( SvgChartData<double?> chartData, SvgCategoryAxis<TItem> categoryAxis, List<TItem> items )
+    private static SvgChartCategoryAxis<TItem> ResolveCategoryAxis( SvgChartData<double?> chartData, List<SvgChartSeries<TItem>> childSeries, List<SvgChartCategoryAxis<TItem>> categoryAxes )
+    {
+        var categoryAxisId = childSeries.Select( x => x.CategoryAxisId )
+            .Concat( chartData?.Series?.Select( x => x.CategoryAxisId ) ?? Enumerable.Empty<string>() )
+            .FirstOrDefault( x => !string.IsNullOrWhiteSpace( x ) );
+
+        if ( !string.IsNullOrWhiteSpace( categoryAxisId ) )
+            return categoryAxes.LastOrDefault( x => string.Equals( x.Id, categoryAxisId, StringComparison.Ordinal ) ) ?? categoryAxes.LastOrDefault();
+
+        return categoryAxes.LastOrDefault();
+    }
+
+    private static string ResolveValueAxisId( SvgChartData<double?> chartData, List<SvgChartSeries<TItem>> childSeries )
+    {
+        return childSeries.Select( x => x.ValueAxisId )
+            .Concat( chartData?.Series?.Select( x => x.ValueAxisId ) ?? Enumerable.Empty<string>() )
+            .FirstOrDefault( x => !string.IsNullOrWhiteSpace( x ) );
+    }
+
+    private List<object> ResolveLabels( SvgChartData<double?> chartData, SvgChartCategoryAxis<TItem> categoryAxis, List<TItem> items )
     {
         if ( chartData?.Labels?.Count > 0 )
             return chartData.Labels.ToList();
@@ -927,6 +1000,9 @@ public class SvgChart<TItem> : SvgChartBase
                     Color = dataSeries.Color,
                     RenderColor = ResolveColor( dataSeries.Color, i ),
                     Hidden = dataSeries.Hidden || hiddenSeries.Contains( name ),
+                    Order = dataSeries.Order,
+                    CategoryAxisId = dataSeries.CategoryAxisId,
+                    ValueAxisId = dataSeries.ValueAxisId,
                     XValues = xValues,
                     YValues = yValues,
                     RadiusValues = dataSeries.RadiusValues?.ToList() ?? [],
@@ -961,6 +1037,9 @@ public class SvgChart<TItem> : SvgChartBase
                 Color = child.Color,
                 RenderColor = ResolveColor( child.Color, series.Count ),
                 Hidden = child.Hidden || hiddenSeries.Contains( name ),
+                Order = child.Order,
+                CategoryAxisId = child.CategoryAxisId,
+                ValueAxisId = child.ValueAxisId,
                 BorderRadius = child switch
                 {
                     SvgColumnSeries<TItem> columnSeries => columnSeries.BorderRadius,
@@ -1010,15 +1089,105 @@ public class SvgChart<TItem> : SvgChartBase
         return Options ?? new();
     }
 
-    private SvgChartAxisOptions ResolveAxis( SvgChartOptions options )
+    private List<RenderValueAxis> ResolveValueAxes( SvgChartOptions options, List<RenderSeries> series )
     {
-        var axisComponent = linearAxisComponents.LastOrDefault();
+        var axes = valueAxisComponents.Count == 0
+            ? new List<SvgChartAxisOptions> { CreateValueAxisOptions( options.YAxis ?? new() ) }
+            : valueAxisComponents.Select( CreateValueAxisOptions ).ToList();
+        var referencedAxisIds = series.Select( x => x.ValueAxisId )
+            .Where( x => !string.IsNullOrWhiteSpace( x ) )
+            .Distinct( StringComparer.Ordinal )
+            .ToList();
+
+        foreach ( var axisId in referencedAxisIds )
+        {
+            if ( !axes.Any( x => string.Equals( x.Id, axisId, StringComparison.Ordinal ) ) )
+            {
+                var axis = CreateValueAxisOptions( options.YAxis ?? new() );
+                axis.Id = axisId;
+                axes.Add( axis );
+            }
+        }
+
+        var defaultAxis = axes.Last();
+
+        return axes.Select( axis =>
+        {
+            var values = series.Where( x => !x.Hidden && BelongsToAxis( x, axis, defaultAxis ) )
+                .SelectMany( x => IsPointChart( x.Type ) ? x.YValues : x.Values )
+                .Where( x => x.HasValue )
+                .Select( x => x.Value )
+                .ToList();
+            var scale = BuildScale( values, axis );
+
+            return new RenderValueAxis
+            {
+                Id = axis.Id,
+                Position = axis.Position,
+                Min = scale.Min,
+                Max = scale.Max,
+                Ticks = scale.Ticks
+            };
+        } ).ToList();
+    }
+
+    private static SvgChartAxisOptions CreateValueAxisOptions( SvgChartAxisOptions axis )
+    {
+        return new()
+        {
+            Id = axis.Id,
+            Position = axis.Position,
+            BeginAtZero = axis.BeginAtZero,
+            Min = axis.Min,
+            Max = axis.Max,
+            TickCount = axis.TickCount,
+            Title = axis.Title
+        };
+    }
+
+    private static SvgChartAxisOptions CreateValueAxisOptions( SvgChartValueAxis axis )
+    {
+        return new()
+        {
+            Id = axis.Id,
+            Position = axis.Position,
+            BeginAtZero = axis.BeginAtZero,
+            Min = axis.Min,
+            Max = axis.Max,
+            TickCount = axis.TickCount,
+            Title = axis.Title
+        };
+    }
+
+    private static RenderValueAxis ResolvePrimaryValueAxis( List<RenderValueAxis> axes, string valueAxisId )
+    {
+        return !string.IsNullOrWhiteSpace( valueAxisId )
+            ? axes.LastOrDefault( x => string.Equals( x.Id, valueAxisId, StringComparison.Ordinal ) ) ?? axes.Last()
+            : axes.Last();
+    }
+
+    private static bool BelongsToAxis( RenderSeries series, SvgChartAxisOptions axis, SvgChartAxisOptions defaultAxis )
+    {
+        if ( string.IsNullOrWhiteSpace( series.ValueAxisId ) )
+            return ReferenceEquals( axis, defaultAxis );
+
+        return string.Equals( series.ValueAxisId, axis.Id, StringComparison.Ordinal );
+    }
+
+    private SvgChartAxisOptions ResolveAxis( SvgChartOptions options, string valueAxisId = null )
+    {
+        var axisComponent = !string.IsNullOrWhiteSpace( valueAxisId )
+            ? valueAxisComponents.LastOrDefault( x => string.Equals( x.Id, valueAxisId, StringComparison.Ordinal ) )
+            : valueAxisComponents.LastOrDefault();
+        axisComponent ??= valueAxisComponents.LastOrDefault();
 
         if ( axisComponent is null )
             return options.YAxis ?? new();
 
         return new()
         {
+            Id = axisComponent.Id,
+            Position = axisComponent.Position,
             BeginAtZero = axisComponent.BeginAtZero,
             Min = axisComponent.Min,
             Max = axisComponent.Max,
@@ -1164,17 +1333,34 @@ public class SvgChart<TItem> : SvgChartBase
 
     private static double GetY( double value, PlotArea plot, RenderModel model )
     {
-        var range = model.Max - model.Min;
+        return GetY( value, plot, model.PrimaryValueAxis );
+    }
+
+    private static double GetY( double value, PlotArea plot, RenderModel model, RenderSeries series )
+    {
+        return GetY( value, plot, ResolveValueAxis( model, series ) );
+    }
+
+    private static double GetY( double value, PlotArea plot, RenderValueAxis axis )
+    {
+        var range = axis.Max - axis.Min;
 
         if ( range <= 0 )
             return plot.Bottom;
 
-        return plot.Bottom - ( value - model.Min ) / range * plot.Height;
+        return plot.Bottom - ( value - axis.Min ) / range * plot.Height;
     }
 
     private static double GetX( double value, PlotArea plot, RenderModel model )
     {
-        return GetX( value, plot, model.Min, model.Max );
+        return GetX( value, plot, model.PrimaryValueAxis.Min, model.PrimaryValueAxis.Max );
+    }
+
+    private static double GetX( double value, PlotArea plot, RenderModel model, RenderSeries series )
+    {
+        var axis = ResolveValueAxis( model, series );
+
+        return GetX( value, plot, axis.Min, axis.Max );
     }
 
     private static double GetX( double value, PlotArea plot, double min, double max )
@@ -1185,6 +1371,14 @@ public class SvgChart<TItem> : SvgChartBase
             return plot.Left;
 
         return plot.Left + ( value - min ) / range * plot.Width;
+    }
+
+    private static RenderValueAxis ResolveValueAxis( RenderModel model, RenderSeries series )
+    {
+        if ( string.IsNullOrWhiteSpace( series.ValueAxisId ) )
+            return model.PrimaryValueAxis;
+
+        return model.ValueAxes.LastOrDefault( x => string.Equals( x.Id, series.ValueAxisId, StringComparison.Ordinal ) ) ?? model.PrimaryValueAxis;
     }
 
     private static string BuildLinePath( List<(int Index, double X, double Y, double Value)> points )
@@ -1261,12 +1455,32 @@ public class SvgChart<TItem> : SvgChartBase
 
     private static bool IsRadialChart( RenderModel model )
     {
-        return model.Series.Any( x => x.Type is SvgChartType.Pie or SvgChartType.Doughnut or SvgChartType.PolarArea or SvgChartType.Radar );
+        return model.Series.Any( x => IsRadialChart( x.Type ) );
+    }
+
+    private static bool IsRadialChart( SvgChartType chartType )
+    {
+        return chartType is SvgChartType.Pie or SvgChartType.Doughnut or SvgChartType.PolarArea or SvgChartType.Radar;
     }
 
     private static bool IsPointChart( SvgChartType chartType )
     {
         return chartType == SvgChartType.Scatter || chartType == SvgChartType.Bubble;
+    }
+
+    private static int ResolveRenderOrder( RenderSeries series )
+    {
+        if ( series.Order.HasValue )
+            return series.Order.Value;
+
+        return series.Type switch
+        {
+            SvgChartType.Area => 0,
+            SvgChartType.Column or SvgChartType.Bar => 10,
+            SvgChartType.Line => 20,
+            SvgChartType.Scatter or SvgChartType.Bubble => 30,
+            _ => 0
+        };
     }
 
     private SvgChartPointEventArgs CreatePointArgs( RenderModel model, RenderSeries series, int pointIndex, double value, SvgChartPointBounds bounds )
@@ -1528,6 +1742,9 @@ public class SvgChart<TItem> : SvgChartBase
                 XValues = x.XValues.ToList(),
                 YValues = x.YValues.ToList(),
                 RadiusValues = x.RadiusValues.ToList(),
+                Order = x.Order,
+                CategoryAxisId = x.CategoryAxisId,
+                ValueAxisId = x.ValueAxisId,
                 Color = x.Color,
                 Hidden = x.Hidden
             } ).ToList()
@@ -1558,15 +1775,15 @@ public class SvgChart<TItem> : SvgChartBase
         categoryAxisComponents.Remove( axis );
     }
 
-    internal override void RegisterLinearAxis( SvgLinearAxis axis )
+    internal override void RegisterValueAxis( SvgChartValueAxis axis )
     {
-        if ( !linearAxisComponents.Contains( axis ) )
-            linearAxisComponents.Add( axis );
+        if ( !valueAxisComponents.Contains( axis ) )
+            valueAxisComponents.Add( axis );
     }
 
-    internal override void UnregisterLinearAxis( SvgLinearAxis axis )
+    internal override void UnregisterValueAxis( SvgChartValueAxis axis )
     {
-        linearAxisComponents.Remove( axis );
+        valueAxisComponents.Remove( axis );
     }
 
     internal override void RegisterTitle( SvgChartTitle title )
@@ -1665,6 +1882,10 @@ public class SvgChart<TItem> : SvgChartBase
 
         public List<double> Ticks { get; init; } = [];
 
+        public List<RenderValueAxis> ValueAxes { get; init; } = [];
+
+        public RenderValueAxis PrimaryValueAxis { get; init; }
+
         public SvgChartTooltipOptions Tooltip { get; init; }
     }
 
@@ -1688,6 +1909,12 @@ public class SvgChart<TItem> : SvgChartBase
 
         public bool Hidden { get; init; }
 
+        public int? Order { get; init; }
+
+        public string CategoryAxisId { get; init; }
+
+        public string ValueAxisId { get; init; }
+
         public double BorderRadius { get; init; }
 
         public double StrokeWidth { get; init; }
@@ -1710,6 +1937,19 @@ public class SvgChart<TItem> : SvgChartBase
         public double Width => Right - Left;
 
         public double Height => Bottom - Top;
+    }
+
+    private sealed class RenderValueAxis
+    {
+        public string Id { get; init; }
+
+        public SvgChartAxisPosition Position { get; init; }
+
+        public double Min { get; init; }
+
+        public double Max { get; init; }
+
+        public List<double> Ticks { get; init; } = [];
     }
 
     private sealed class Scale

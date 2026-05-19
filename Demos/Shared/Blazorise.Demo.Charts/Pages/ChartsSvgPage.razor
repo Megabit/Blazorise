@@ -14,12 +14,12 @@
                     <SvgChartTitle Text="Monthly revenue" Subtitle="Native SVG renderer" />
                     <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
                     <SvgChartTooltip Enabled />
-                    <SvgCategoryAxis Value="@( x => x.Month )" />
-                    <SvgLinearAxis BeginAtZero TickCount="6" />
+                    <SvgChartCategoryAxis Id="months" Position="SvgChartAxisPosition.Bottom" Value="@( x => x.Month )" />
+                    <SvgChartValueAxis Id="revenue" Position="SvgChartAxisPosition.Left" BeginAtZero TickCount="6" />
 
-                    <SvgColumnSeries Name="Tokyo" Value="@( x => x.Tokyo )" Color="Color.Primary" BorderRadius="4" />
-                    <SvgColumnSeries Name="New York" Value="@( x => x.NewYork )" Color="Color.Info" BorderRadius="4" />
-                    <SvgColumnSeries Name="London" Value="@( x => x.London )" Color="Color.Success" BorderRadius="4" />
+                    <SvgColumnSeries Name="Tokyo" CategoryAxisId="months" ValueAxisId="revenue" Value="@( x => x.Tokyo )" Color="Color.Primary" BorderRadius="4" />
+                    <SvgColumnSeries Name="New York" CategoryAxisId="months" ValueAxisId="revenue" Value="@( x => x.NewYork )" Color="Color.Info" BorderRadius="4" />
+                    <SvgColumnSeries Name="London" CategoryAxisId="months" ValueAxisId="revenue" Value="@( x => x.London )" Color="Color.Success" BorderRadius="4" />
                 </SvgColumnChart>
             </CardBody>
         </Card>
@@ -38,13 +38,37 @@
                     <SvgChartTitle Text="Monthly trend" Subtitle="Line series with SVG markers" />
                     <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
                     <SvgChartTooltip Enabled />
-                    <SvgCategoryAxis Value="@( x => x.Month )" />
-                    <SvgLinearAxis BeginAtZero TickCount="6" />
+                    <SvgChartCategoryAxis Value="@( x => x.Month )" />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
 
                     <SvgLineSeries Name="Tokyo" Value="@( x => x.Tokyo )" Color="Color.Primary" StrokeWidth="3" MarkerRadius="4" />
                     <SvgLineSeries Name="New York" Value="@( x => x.NewYork )" Color="Color.Info" StrokeWidth="3" MarkerRadius="4" />
                     <SvgLineSeries Name="London" Value="@( x => x.London )" Color="Color.Success" StrokeWidth="3" MarkerRadius="4" />
                 </SvgLineChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG mixed chart - multiple value axes</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgColumnChart TItem="RevenueGrowthSample"
+                                Items="@RevenueGrowth"
+                                Options="@multiAxisOptions"
+                                Hovered="@OnPointHovered">
+                    <SvgChartTitle Text="Revenue and growth" Subtitle="Series mapped to separate value axes" />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartCategoryAxis Id="months" Value="@( x => x.Month )" />
+                    <SvgChartValueAxis Id="revenue" Position="SvgChartAxisPosition.Left" BeginAtZero TickCount="6" Title="Revenue" />
+                    <SvgChartValueAxis Id="growth" Position="SvgChartAxisPosition.Right" Min="-5" Max="25" TickCount="7" Title="Growth %" />
+
+                    <SvgColumnSeries Name="Revenue" CategoryAxisId="months" ValueAxisId="revenue" Value="@( x => x.Revenue )" Color="Color.Primary" BorderRadius="4" />
+                    <SvgLineSeries Name="Growth %" CategoryAxisId="months" ValueAxisId="growth" Value="@( x => x.Growth )" Color="Color.Danger" StrokeWidth="3" MarkerRadius="4" Order="20" />
+                </SvgColumnChart>
             </CardBody>
         </Card>
     </Column>
@@ -62,8 +86,8 @@
                     <SvgChartTitle Text="Regional revenue" Subtitle="Horizontal bar series" />
                     <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
                     <SvgChartTooltip Enabled />
-                    <SvgCategoryAxis Value="@( x => x.Month )" />
-                    <SvgLinearAxis BeginAtZero TickCount="6" />
+                    <SvgChartCategoryAxis Value="@( x => x.Month )" />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
 
                     <SvgBarSeries Name="Tokyo" Value="@( x => x.Tokyo )" Color="Color.Primary" BorderRadius="4" />
                     <SvgBarSeries Name="New York" Value="@( x => x.NewYork )" Color="Color.Info" BorderRadius="4" />
@@ -86,11 +110,11 @@
                     <SvgChartTitle Text="Revenue shape" Subtitle="Area series with fill opacity" />
                     <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
                     <SvgChartTooltip Enabled />
-                    <SvgCategoryAxis Value="@( x => x.Month )" />
-                    <SvgLinearAxis BeginAtZero TickCount="6" />
+                    <SvgChartCategoryAxis Value="@( x => x.Month )" />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
 
-                    <SvgAreaSeries Name="Tokyo" Value="@( x => x.Tokyo )" Color="@customAreaColor" StrokeWidth="3" FillOpacity="0.16" />
-                    <SvgAreaSeries Name="New York" Value="@( x => x.NewYork )" Color="@customCssVariableColor" StrokeWidth="3" FillOpacity="0.16" />
+                    <SvgAreaSeries Name="Tokyo" Value="@( x => x.Tokyo )" Color="Color.Primary" StrokeWidth="3" FillOpacity="0.16" />
+                    <SvgAreaSeries Name="New York" Value="@( x => x.NewYork )" Color="Color.Info" StrokeWidth="3" FillOpacity="0.16" />
                 </SvgAreaChart>
             </CardBody>
         </Card>
@@ -175,7 +199,7 @@
                                  Hovered="@OnPointHovered">
                     <SvgChartTitle Text="Store performance" Subtitle="X/Y values from item selectors" />
                     <SvgChartTooltip Enabled />
-                    <SvgLinearAxis BeginAtZero TickCount="6" />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
 
                     <SvgScatterSeries Name="Stores" XValue="@( x => x.X )" YValue="@( x => x.Y )" Color="Color.Primary" MarkerRadius="5" />
                 </SvgScatterChart>
@@ -195,7 +219,7 @@
                                 Clicked="@OnPointClicked">
                     <SvgChartTitle Text="Store volume" Subtitle="Bubble radius from item selectors" />
                     <SvgChartTooltip Enabled />
-                    <SvgLinearAxis BeginAtZero TickCount="6" />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
 
                     <SvgBubbleSeries Name="Stores" XValue="@( x => x.X )" YValue="@( x => x.Y )" RadiusValue="@( x => x.Radius )" Color="Color.Info" />
                 </SvgBubbleChart>

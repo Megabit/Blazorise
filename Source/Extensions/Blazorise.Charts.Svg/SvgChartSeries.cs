@@ -60,6 +60,16 @@ public abstract class SvgChartSeries<TItem> : SvgChartComponentBase
     [Parameter] public Func<TItem, double?> RadiusValue { get; set; }
 
     /// <summary>
+    /// Defines the category axis identifier used by this series.
+    /// </summary>
+    [Parameter] public string CategoryAxisId { get; set; }
+
+    /// <summary>
+    /// Defines the value axis identifier used by this series.
+    /// </summary>
+    [Parameter] public string ValueAxisId { get; set; }
+
+    /// <summary>
     /// Defines the series color. Use a Blazorise theme color, or pass a CSS color value such as <c>#4c6ef5</c>, <c>rgb(76, 110, 245)</c>, <c>hsl(228 88% 60%)</c>, or <c>var(--chart-color)</c>.
     /// </summary>
     [Parameter] public Color Color { get; set; }
@@ -68,6 +78,11 @@ public abstract class SvgChartSeries<TItem> : SvgChartComponentBase
     /// Defines whether the series is hidden.
     /// </summary>
     [Parameter] public bool Hidden { get; set; }
+
+    /// <summary>
+    /// Defines the series rendering order. Lower values are rendered first, behind higher values.
+    /// </summary>
+    [Parameter] public int? Order { get; set; }
 
     internal abstract SvgChartType ChartType { get; }
 

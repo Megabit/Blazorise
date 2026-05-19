@@ -7,24 +7,34 @@ namespace Blazorise.Charts.Svg;
 /// <summary>
 /// Defines the value axis of a native SVG chart.
 /// </summary>
-public class SvgLinearAxis : SvgChartComponentBase
+public class SvgChartValueAxis : SvgChartComponentBase
 {
     #region Methods
 
     protected override void Register()
     {
-        Parent?.RegisterLinearAxis( this );
+        Parent?.RegisterValueAxis( this );
         SetRegisteredParent();
     }
 
     protected override void Unregister()
     {
-        RegisteredParent?.UnregisterLinearAxis( this );
+        RegisteredParent?.UnregisterValueAxis( this );
     }
 
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Defines the axis identifier used by series to target this value axis.
+    /// </summary>
+    [Parameter] public string Id { get; set; }
+
+    /// <summary>
+    /// Defines the axis position.
+    /// </summary>
+    [Parameter] public SvgChartAxisPosition Position { get; set; } = SvgChartAxisPosition.Auto;
 
     /// <summary>
     /// Defines whether the value axis includes zero.

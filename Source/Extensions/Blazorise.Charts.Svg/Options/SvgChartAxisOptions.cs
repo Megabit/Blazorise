@@ -8,6 +8,16 @@ public class SvgChartAxisOptions
     #region Properties
 
     /// <summary>
+    /// Defines the axis identifier used by series to target this axis.
+    /// </summary>
+    public string Id { get; set; }
+
+    /// <summary>
+    /// Defines the axis position.
+    /// </summary>
+    public SvgChartAxisPosition Position { get; set; } = SvgChartAxisPosition.Auto;
+
+    /// <summary>
     /// Defines whether the value axis includes zero.
     /// </summary>
     public bool BeginAtZero { get; set; } = true;

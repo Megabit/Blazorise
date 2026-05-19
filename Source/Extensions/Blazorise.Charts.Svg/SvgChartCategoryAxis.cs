@@ -10,7 +10,7 @@ namespace Blazorise.Charts.Svg;
 /// Defines the category axis of a native SVG chart.
 /// </summary>
 /// <typeparam name="TItem">The chart item type.</typeparam>
-public class SvgCategoryAxis<TItem> : SvgChartComponentBase
+public class SvgChartCategoryAxis<TItem> : SvgChartComponentBase
 {
     #region Methods
 
@@ -28,6 +28,16 @@ public class SvgCategoryAxis<TItem> : SvgChartComponentBase
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Defines the axis identifier used by series to target this category axis.
+    /// </summary>
+    [Parameter] public string Id { get; set; }
+
+    /// <summary>
+    /// Defines the axis position.
+    /// </summary>
+    [Parameter] public SvgChartAxisPosition Position { get; set; } = SvgChartAxisPosition.Auto;
 
     /// <summary>
     /// Defines explicit category labels.

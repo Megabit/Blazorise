@@ -35,6 +35,15 @@ public partial class ChartsSvgPage
         new() { X = 42, Y = 112, Radius = 14 },
     ];
 
+    private readonly List<RevenueGrowthSample> RevenueGrowth =
+    [
+        new() { Month = "Jan", Revenue = 68, Growth = 8.4 },
+        new() { Month = "Feb", Revenue = 74, Growth = 11.2 },
+        new() { Month = "Mar", Revenue = 91, Growth = 16.7 },
+        new() { Month = "Apr", Revenue = 86, Growth = 13.9 },
+        new() { Month = "May", Revenue = 103, Growth = 20.4 },
+    ];
+
     private SvgChartOptions columnOptions = new()
     {
         Height = 380,
@@ -49,6 +58,12 @@ public partial class ChartsSvgPage
     };
 
     private SvgChartOptions barOptions = new()
+    {
+        Height = 380,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private SvgChartOptions multiAxisOptions = new()
     {
         Height = 380,
         Legend = new() { Position = SvgChartLegendPosition.Bottom },
@@ -224,5 +239,14 @@ public partial class ChartsSvgPage
         public double Y { get; set; }
 
         public double Radius { get; set; }
+    }
+
+    private sealed class RevenueGrowthSample
+    {
+        public string Month { get; set; }
+
+        public double Revenue { get; set; }
+
+        public double Growth { get; set; }
     }
 }

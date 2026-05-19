@@ -38,6 +38,16 @@ public class SvgChartSeriesData<TValue>
     public List<double?> RadiusValues { get; set; } = [];
 
     /// <summary>
+    /// Defines the category axis identifier used by this series.
+    /// </summary>
+    public string CategoryAxisId { get; set; }
+
+    /// <summary>
+    /// Defines the value axis identifier used by this series.
+    /// </summary>
+    public string ValueAxisId { get; set; }
+
+    /// <summary>
     /// Defines the series color. Use a Blazorise theme color, or pass a CSS color value such as <c>#4c6ef5</c>, <c>rgb(76, 110, 245)</c>, <c>hsl(228 88% 60%)</c>, or <c>var(--chart-color)</c>.
     /// </summary>
     public Color Color { get; set; }
@@ -46,6 +56,11 @@ public class SvgChartSeriesData<TValue>
     /// Defines whether the series is hidden.
     /// </summary>
     public bool Hidden { get; set; }
+
+    /// <summary>
+    /// Defines the series rendering order. Lower values are rendered first, behind higher values.
+    /// </summary>
+    public int? Order { get; set; }
 
     #endregion
 }

@@ -19,9 +19,9 @@ public abstract class SvgChartBase : BaseComponent
 
     internal abstract void UnregisterCategoryAxis( object axis );
 
-    internal abstract void RegisterLinearAxis( SvgLinearAxis axis );
+    internal abstract void RegisterValueAxis( SvgChartValueAxis axis );
 
-    internal abstract void UnregisterLinearAxis( SvgLinearAxis axis );
+    internal abstract void UnregisterValueAxis( SvgChartValueAxis axis );
 
     internal abstract void RegisterTitle( SvgChartTitle title );
 
