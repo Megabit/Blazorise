@@ -137,7 +137,7 @@
                             value,
                             aggregate.FormatValue( value ),
                             cellItems,
-                            dataColumn.Column.IsGrandTotal,
+                            dataColumn.Column.IsTotal || dataColumn.Column.IsGrandTotal,
                             <span class="keyword">false</span>,
                             <span class="keyword">false</span> );
                     } )

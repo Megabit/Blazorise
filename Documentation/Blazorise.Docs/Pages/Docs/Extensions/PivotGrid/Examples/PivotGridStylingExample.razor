@@ -62,12 +62,14 @@
     {
         if ( context.IsGrandTotal )
         {
-            styling.Background = Background.Primary.Subtle;
+            styling.Background = Background.Info;
+            styling.TextColor = TextColor.White;
             styling.TextWeight = TextWeight.Bold;
         }
         else if ( context.IsTotal )
         {
-            styling.Background = Background.Light;
+            styling.Background = Background.Secondary;
+            styling.TextColor = TextColor.White;
             styling.TextWeight = TextWeight.Bold;
         }
     }
@@ -76,7 +78,8 @@
     {
         if ( context.IsGrandTotal || context.IsTotal )
         {
-            styling.Background = Background.Primary.Subtle;
+            styling.Background = Background.Info;
+            styling.TextColor = TextColor.White;
             styling.TextWeight = TextWeight.Bold;
         }
     }

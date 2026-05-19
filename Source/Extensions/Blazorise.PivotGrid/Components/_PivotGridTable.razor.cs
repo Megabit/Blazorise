@@ -190,7 +190,7 @@ public partial class _PivotGridTable<TItem> : IDisposable
             context.ColumnValues );
 
     private Background GetRowHeaderBackground( PivotGridAxisItem<TItem> row )
-        => row.IsGrandTotal ? Background.Primary.Subtle : row.IsTotal ? Background.Light : Background.Default;
+        => Background.Default;
 
     private TextWeight GetRowHeaderTextWeight( PivotGridAxisItem<TItem> row )
         => row.IsTotal || row.IsGrandTotal ? TextWeight.Bold : TextWeight.Default;

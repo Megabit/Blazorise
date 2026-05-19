@@ -13754,7 +13754,7 @@ Install-Package Blazorise.Icons.Material";
                             value,
                             aggregate.FormatValue( value ),
                             cellItems,
-                            dataColumn.Column.IsGrandTotal,
+                            dataColumn.Column.IsTotal || dataColumn.Column.IsGrandTotal,
                             false,
                             false );
                     } )
@@ -14055,12 +14055,14 @@ Install-Package Blazorise.Icons.Material";
     {
         if ( context.IsGrandTotal )
         {
-            styling.Background = Background.Primary.Subtle;
+            styling.Background = Background.Info;
+            styling.TextColor = TextColor.White;
             styling.TextWeight = TextWeight.Bold;
         }
         else if ( context.IsTotal )
         {
-            styling.Background = Background.Light;
+            styling.Background = Background.Secondary;
+            styling.TextColor = TextColor.White;
             styling.TextWeight = TextWeight.Bold;
         }
     }
@@ -14069,7 +14071,8 @@ Install-Package Blazorise.Icons.Material";
     {
         if ( context.IsGrandTotal || context.IsTotal )
         {
-            styling.Background = Background.Primary.Subtle;
+            styling.Background = Background.Info;
+            styling.TextColor = TextColor.White;
             styling.TextWeight = TextWeight.Bold;
         }
     }

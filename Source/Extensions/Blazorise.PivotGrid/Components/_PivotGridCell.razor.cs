@@ -28,7 +28,7 @@ public partial class _PivotGridCell<TItem>
         => Cell.IsRowTotal || Cell.IsColumnTotal ? TextWeight.Bold : TextWeight.Default;
 
     private Background CellBackground
-        => Cell.IsGrandTotal ? Background.Primary.Subtle : Cell.IsRowTotal || Cell.IsColumnTotal ? Background.Light : Background.Default;
+        => Background.Default;
 
     private PivotGridCellStyling GetCellStyling()
     {
