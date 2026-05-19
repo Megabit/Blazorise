@@ -103,10 +103,10 @@ public partial class _PivotGridTable<TItem> : IDisposable
         if ( column.IsGrandTotal || Result.ColumnFields.Count == 0 )
             return Result.ColumnFields.Count == 0 ? ValuesText : GrandTotalText;
 
-        return GetAxisItemCaption( column, Result.ColumnFields, PivotGrid.ColumnGroupCaptionMode );
+        return GetAxisItemCaption( column, Result.ColumnFields, PivotGrid.ColumnGroupCaptionMode, !PivotGrid.ExpandableColumns );
     }
 
-    private string GetAxisItemCaption( PivotGridAxisItem<TItem> axisItem, IReadOnlyList<PivotGridFieldInfo<TItem>> axisFields, PivotGridGroupCaptionMode captionMode )
+    private string GetAxisItemCaption( PivotGridAxisItem<TItem> axisItem, IReadOnlyList<PivotGridFieldInfo<TItem>> axisFields, PivotGridGroupCaptionMode captionMode, bool appendTotalText = true )
     {
         if ( axisItem.Values.Count == 0 || axisFields.Count == 0 || captionMode == PivotGridGroupCaptionMode.Hidden )
             return string.Empty;
@@ -120,7 +120,7 @@ public partial class _PivotGridTable<TItem> : IDisposable
             _ => axisFields[level].FormatValue( axisItem.Values[System.Math.Min( level, axisItem.Values.Count - 1 )] ),
         };
 
-        if ( axisItem.IsTotal )
+        if ( appendTotalText && axisItem.IsTotal )
             text = $"{text} {TotalText}";
 
         return text;
@@ -290,7 +290,7 @@ public partial class _PivotGridTable<TItem> : IDisposable
 
         var formattedValue = field.FormatValue( value );
         var text = UseTreeRowHeader
-            ? GetAxisItemCaption( row, Result.RowFields, PivotGrid.RowGroupCaptionMode )
+            ? GetAxisItemCaption( row, Result.RowFields, PivotGrid.RowGroupCaptionMode, false )
             : formattedValue;
 
         if ( !UseTreeRowHeader && row.IsTotal && level == row.Level )

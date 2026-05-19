@@ -561,8 +561,8 @@ public partial class PivotGrid<TItem> : BaseComponent
         var showColumnTotalsRow = ShowColumnTotals;
         var showRowTotalsColumn = ShowRowTotals;
 
-        var rowAxisItems = BuildAxisItems( sourceItems, rowFields, ShowRowSubtotals, showColumnTotalsRow, ExpandableRows ? PivotGridTotalPosition.Before : RowTotalPosition );
-        var columnAxisItems = BuildAxisItems( sourceItems, columnFields, ShowColumnSubtotals, showRowTotalsColumn, ExpandableColumns ? PivotGridTotalPosition.Before : ColumnTotalPosition );
+        var rowAxisItems = BuildAxisItems( sourceItems, rowFields, ShowRowSubtotals || ExpandableRows, showColumnTotalsRow, ExpandableRows ? PivotGridTotalPosition.Before : RowTotalPosition );
+        var columnAxisItems = BuildAxisItems( sourceItems, columnFields, ShowColumnSubtotals || ExpandableColumns, showRowTotalsColumn, ExpandableColumns ? PivotGridTotalPosition.Before : ColumnTotalPosition );
         var dataColumns = columnAxisItems
             .SelectMany( column => aggregateInfos.Select( aggregate => new PivotGridDataColumn<TItem>( column, aggregate ) ) )
             .ToList();

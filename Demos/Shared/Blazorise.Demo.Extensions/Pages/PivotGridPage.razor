@@ -377,7 +377,7 @@
         List<PivotGridAxisItem<PivotSale>> columnItems = BuildAxisItems(
             source,
             columnFields,
-            request.ShowColumnSubtotals,
+            request.ShowColumnSubtotals || request.ExpandableColumns,
             request.ShowRowTotals,
             request.ExpandableColumns ? PivotGridTotalPosition.Before : request.ColumnTotalPosition );
         columnItems = GetVisibleAxisItems( columnItems, columnFields, request.ExpandableColumns, request.IsColumnGroupExpanded );
@@ -389,7 +389,7 @@
         List<PivotGridAxisItem<PivotSale>> rowItems = BuildAxisItems(
             source,
             rowFields,
-            request.ShowRowSubtotals,
+            request.ShowRowSubtotals || request.ExpandableRows,
             request.ShowColumnTotals,
             request.ExpandableRows ? PivotGridTotalPosition.Before : request.RowTotalPosition );
         rowItems = GetVisibleAxisItems( rowItems, rowFields, request.ExpandableRows, request.IsRowGroupExpanded );
