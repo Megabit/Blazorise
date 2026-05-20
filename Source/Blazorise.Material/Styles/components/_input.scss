@@ -266,11 +266,11 @@ textarea.mui-input:not([rows]) {
     cursor: not-allowed;
 }
 
-:is(.mui-input, .mui-select).is-valid {
+:is(.mui-input, .mui-select, .mui-addons).is-valid {
     border-color: var(--mui-success) !important;
 }
 
-:is(.mui-input, .mui-select).is-invalid {
+:is(.mui-input, .mui-select, .mui-addons).is-invalid {
     border-color: var(--mui-error) !important;
 }
 
@@ -291,12 +291,12 @@ textarea.mui-input:not([rows]) {
     color: var(--mui-error);
 }
 
-:is(.mui-input, .mui-select).is-valid + .valid-feedback,
-:is(.mui-input, .mui-select).is-valid + .form-text.text-muted + .valid-feedback,
-:is(.mui-input, .mui-select).is-invalid + .invalid-feedback,
-:is(.mui-input, .mui-select).is-invalid + .form-text.text-muted + .invalid-feedback,
-:is(.mui-input, .mui-select).is-invalid + .valid-feedback + .invalid-feedback,
-:is(.mui-input, .mui-select).is-invalid + .form-text.text-muted + .valid-feedback + .invalid-feedback {
+:is(.mui-input, .mui-select, .mui-addons).is-valid + .valid-feedback,
+:is(.mui-input, .mui-select, .mui-addons).is-valid + .form-text.text-muted + .valid-feedback,
+:is(.mui-input, .mui-select, .mui-addons).is-invalid + .invalid-feedback,
+:is(.mui-input, .mui-select, .mui-addons).is-invalid + .form-text.text-muted + .invalid-feedback,
+:is(.mui-input, .mui-select, .mui-addons).is-invalid + .valid-feedback + .invalid-feedback,
+:is(.mui-input, .mui-select, .mui-addons).is-invalid + .form-text.text-muted + .valid-feedback + .invalid-feedback {
     display: inline-block;
 }
 
@@ -310,8 +310,8 @@ textarea.mui-input:not([rows]) {
     inline-size: 100%;
 }
 
-:is(.mui-input, .mui-select).is-valid + .none-feedback,
-:is(.mui-input, .mui-select).is-invalid + .none-feedback {
+:is(.mui-input, .mui-select, .mui-addons).is-valid + .none-feedback,
+:is(.mui-input, .mui-select, .mui-addons).is-invalid + .none-feedback {
     display: none;
 }
 

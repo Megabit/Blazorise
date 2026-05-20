@@ -428,6 +428,8 @@ public class MaterialClassProvider : ClassProvider
 
     public override string AddonsHasButton( bool hasButton ) => hasButton ? "mui-addons-buttons" : null;
 
+    public override string AddonsValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
     public override string Addon( AddonType addonType )
     {
 

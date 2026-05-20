@@ -95,6 +95,11 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
     protected ComponentParameterInfo<bool> paramAutofocus;
 
     /// <summary>
+    /// Contains metadata about the parameter representing the disabled state for the component.
+    /// </summary>
+    private ComponentParameterInfo<bool> paramDisabledState;
+
+    /// <summary>
     /// Contains metadata about the parameter representing aria-invalid for the component.
     /// </summary>
     protected ComponentParameterInfo<string> paramAriaInvalid;
@@ -132,6 +137,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
 
         parameters.TryGetParameter( ValueExpression, out paramValueExpression );
         parameters.TryGetParameter( Autofocus, out paramAutofocus );
+        parameters.TryGetParameter( Disabled, out paramDisabledState );
         parameters.TryGetParameter( AriaInvalid, out paramAriaInvalid );
         parameters.TryGetParameter( AriaRequired, out paramAriaRequired );
         parameters.TryGetParameter( AriaDescribedBy, out paramAriaDescribedBy );
@@ -149,7 +155,7 @@ public abstract class BaseInputComponent<TValue, TClasses, TStyles> : BaseCompon
 
         if ( Rendered )
         {
-            if ( paramValue.Defined && paramValue.Changed )
+            if ( ( paramValue.Defined && paramValue.Changed ) || ( paramDisabledState.Defined && paramDisabledState.Changed ) )
             {
                 ExecuteAfterRender( Revalidate );
             }
