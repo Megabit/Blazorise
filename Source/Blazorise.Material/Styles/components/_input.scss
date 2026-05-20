@@ -300,6 +300,15 @@ textarea.mui-input:not([rows]) {
     display: inline-block;
 }
 
+.mui-radio-group.is-valid + .valid-feedback,
+.mui-radio-group.is-valid + .form-text.text-muted + .valid-feedback,
+.mui-radio-group.is-invalid + .invalid-feedback,
+.mui-radio-group.is-invalid + .form-text.text-muted + .invalid-feedback,
+.mui-radio-group.is-invalid + .valid-feedback + .invalid-feedback,
+.mui-radio-group.is-invalid + .form-text.text-muted + .valid-feedback + .invalid-feedback {
+    display: block;
+}
+
 .mui-check.is-valid > .valid-feedback,
 .mui-check.is-invalid > .invalid-feedback,
 .mui-radio.is-valid > .valid-feedback,
@@ -310,8 +319,8 @@ textarea.mui-input:not([rows]) {
     inline-size: 100%;
 }
 
-:is(.mui-input, .mui-select, .mui-addons).is-valid + .none-feedback,
-:is(.mui-input, .mui-select, .mui-addons).is-invalid + .none-feedback {
+:is(.mui-input, .mui-select, .mui-addons, .mui-radio-group).is-valid + .none-feedback,
+:is(.mui-input, .mui-select, .mui-addons, .mui-radio-group).is-invalid + .none-feedback {
     display: none;
 }
 
