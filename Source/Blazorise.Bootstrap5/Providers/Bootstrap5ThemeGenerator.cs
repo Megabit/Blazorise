@@ -1085,9 +1085,10 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
         var activeBackground = Var( activeBackgroundVariable, Var( ThemeVariables.Color( "primary" ), "#0d6efd" ) );
         var activeColor = Var( activeColorVariable, ToHex( GetContrastColor( theme, activeBackground ) ) );
 
-        sb.Append( selector ).Append( " .dropdown-menu .dropdown-item.active," )
-            .Append( selector ).Append( " .dropdown-menu .dropdown-item:active," )
-            .Append( selector ).Append( " .nav-pills .nav-link.active" )
+        sb.Append( selector ).Append( " .dropdown[data-visible] > .dropdown-menu-container > .dropdown-menu .dropdown-item.active," )
+            .Append( selector ).Append( " .dropdown[data-visible] > .dropdown-menu-container > .dropdown-menu .dropdown-item:active," )
+            .Append( selector ).Append( " .navbar-collapse > .navbar-nav.nav-pills > .nav-item > .nav-link.active," )
+            .Append( selector ).Append( " .navbar-collapse > .navbar-nav.nav-pills > .nav-item > .dropdown[data-visible] > .nav-link.active" )
             .Append( "{" )
             .Append( $"color: {activeColor} !important;" )
             .Append( $"background: {activeBackground} !important;" )

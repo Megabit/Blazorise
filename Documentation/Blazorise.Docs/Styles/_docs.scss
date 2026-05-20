@@ -1,8 +1,4 @@
 ﻿.b-docs-page {
-    .b-docs .b-bar-vertical-inline .b-bar-dropdown .b-bar-dropdown-menu-container .b-bar-dropdown-menu .b-bar-dropdown-item {
-        padding: .3rem;
-    }
-
     .b-docs-example {
         position: relative;
         padding: 1rem;
@@ -81,7 +77,7 @@
         overflow-wrap: break-word;
     }
 
-    a:not(.dropdown-item):not(.page-link):not(.b-bar-link):not(.b-bar-dropdown-item):not(.nav-link):not(.b-bar-toggler-inline):not(.navbar-toggler):not([role=button]) {
+    a:not(.dropdown-item):not(.page-link):not(.nav-link):not(.navbar-toggler):not([role=button]) {
         color: var(--b-link-color);
         border-bottom: 2px solid var(--b-theme-primary);
         text-decoration: none;
