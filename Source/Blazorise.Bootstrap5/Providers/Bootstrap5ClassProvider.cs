@@ -728,14 +728,12 @@ public class Bootstrap5ClassProvider : ClassProvider
     public override string BarAlignment( BarMode mode, Alignment alignment ) => alignment != Alignment.Default ? $"justify-content-{ToAlignment( alignment )}" : null;
 
     public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => themeContrast != ThemeContrast.None
-        ? mode == Blazorise.BarMode.Horizontal
-            ? $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}"
-            : $"navbar-{ToThemeContrast( themeContrast )}"
+        ? $"navbar-{ToThemeContrast( themeContrast )}"
         : null;
 
     public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"navbar-expand-{ToBreakpoint( breakpoint )}" : null;
 
-    public override string BarMode( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "b-bar-horizontal" : "flex-column align-items-stretch flex-shrink-0";
+    public override string BarMode( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "flex-column align-items-stretch flex-shrink-0";
 
     public override string BarItem( BarMode mode, bool hasDropdown ) => mode == Blazorise.BarMode.Horizontal
         ? hasDropdown
@@ -772,13 +770,13 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string BarEnd( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-nav ms-auto" : "navbar-nav nav nav-pills flex-column w-100 mt-auto";
 
-    public override string BarDropdown( BarMode mode, bool isBarDropDownSubmenu ) => "dropdown";
+    public override string BarDropdown( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal && isBarDropDownSubmenu ? "dropend" : "dropdown";
 
     public override string BarDropdownShow( BarMode mode, bool show ) => show ? Show() : null;
 
     public override string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal
         ? isBarDropDownSubmenu
-            ? "dropdown-item"
+            ? "dropdown-item dropdown-toggle"
             : "nav-link dropdown-toggle"
         : isBarDropDownSubmenu
             ? "dropdown-item dropdown-toggle d-flex align-items-center gap-2"

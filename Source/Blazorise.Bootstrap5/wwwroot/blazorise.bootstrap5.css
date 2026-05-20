@@ -132,33 +132,45 @@ body:before {
   position: relative;
 }
 
-.b-bar-horizontal .nav-item.dropdown .dropdown-menu > .dropdown > .dropdown-item {
+.navbar[data-mode=horizontal][data-collapse=hide] {
+  flex-wrap: nowrap;
+}
+.navbar[data-mode=horizontal][data-collapse=hide][data-broken=true] {
+  height: auto;
+}
+.navbar[data-mode=horizontal][data-broken=false] {
+  height: auto;
+}
+.navbar[data-mode=horizontal][data-broken=true] .navbar-nav {
+  margin-bottom: 0.5rem;
+}
+.navbar[data-mode=horizontal][data-broken=false] .navbar-nav {
+  margin-bottom: 0;
+}
+.navbar[data-mode=horizontal] .nav-item.dropdown .dropdown-menu > .dropend {
+  position: relative;
+}
+.navbar[data-mode=horizontal] .nav-item.dropdown .dropdown-menu > .dropend > .dropdown-toggle {
   width: 100%;
 }
-.b-bar-horizontal .nav-item.dropdown .dropdown-menu > .dropdown > .dropdown-item::after {
-  display: inline-block;
-  margin-left: 0.255em;
-  vertical-align: 0.255em;
-  content: "";
-  border-top: 0.3em solid;
-  border-right: 0.3em solid transparent;
-  border-bottom: 0;
-  border-left: 0.3em solid transparent;
-}
-.b-bar-horizontal .nav-item.dropdown .dropdown-menu > .dropdown > .dropdown-item:empty::after {
-  margin-left: 0;
-}
-.b-bar-horizontal .nav-item.dropdown .dropdown-menu > .dropdown > .dropdown-item::after {
-  transform: rotate(-90deg);
+.navbar[data-mode=horizontal] .nav-item.dropdown .dropdown-menu > .dropend > .dropdown-toggle::after {
   position: absolute;
-  right: 10%;
-  top: 45%;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
 }
-.b-bar-horizontal .nav-item.dropdown .dropdown-menu > .dropdown > .dropdown-menu {
+.navbar[data-mode=horizontal] .nav-item.dropdown .dropdown-menu > .dropend > .dropdown-menu {
   top: 0;
   left: 100%;
-  margin-left: 0rem;
+  margin-left: 0.1rem;
   margin-right: 0.1rem;
+}
+
+.b-layout > .b-layout-header .navbar[data-mode=horizontal][data-collapse=hide][data-broken=true] {
+  height: var(--b-bar-horizontal-height, auto);
+}
+.b-layout > .b-layout-header .navbar[data-mode=horizontal][data-broken=false] {
+  height: var(--b-bar-horizontal-height, auto);
 }
 
 .dropdown-toggle-no-caret::after {
@@ -258,18 +270,20 @@ body:before {
   position: relative;
   height: var(--b-vertical-bar-brand-height, 64px);
   min-height: var(--b-vertical-bar-brand-height, 64px);
-  padding: 0 var(--b-vertical-bar-small-width, 64px) 0 1rem;
+  padding: 0 var(--b-vertical-bar-brand-toggler-width, 3rem) 0 1rem;
   overflow: hidden;
 }
 .navbar[data-mode^=vertical] .navbar-brand .nav-item {
   min-height: 0;
   margin: 0;
   width: 100%;
+  min-width: 0;
 }
 .navbar[data-mode^=vertical] .navbar-brand .nav-link {
   display: flex;
   align-items: center;
   padding: 0;
+  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -279,7 +293,7 @@ body:before {
   position: absolute;
   top: 0;
   right: 0;
-  width: var(--b-vertical-bar-small-width, 64px);
+  width: var(--b-vertical-bar-brand-toggler-width, 3rem);
   height: var(--b-vertical-bar-brand-height, 64px);
   padding: 12px;
   margin: 0;
