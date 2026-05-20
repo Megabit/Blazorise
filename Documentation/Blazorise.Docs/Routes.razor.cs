@@ -18,7 +18,7 @@ public partial class Routes
         public const string Brand = "#7c3aed";
         public const string BrandTextDark = "#c4b5fd";
 
-        public const string Body = "#475569";
+        public const string Body = "#334155";
         public const string BodyStrong = "#0f172a";
         public const string Muted = "#64748b";
 
@@ -36,7 +36,7 @@ public partial class Routes
         public const string Light = "#f1f5f9";
         public const string Dark = "#1e293b";
         public const string BarItemActiveBackground = "#eef2f7";
-        public const string BarItemHoverBackground = "#f5f7fb";
+        public const string BarItemHoverBackground = "#f5effe";
         public const string DarkBarItemActiveBackground = "#334155";
         public const string DarkBarItemHoverBackground = "#2b384b";
     }
@@ -142,12 +142,13 @@ public partial class Routes
         VerticalBrandHeight = "64px",
         LightColors = new ThemeBarColorOptions
         {
+            Color = DocsThemeColors.Body,
             ItemColorOptions = new ThemeBarItemColorOptions
             {
                 ActiveBackgroundColor = DocsThemeColors.BarItemActiveBackground,
                 ActiveColor = DocsThemeColors.BodyStrong,
                 HoverBackgroundColor = DocsThemeColors.BarItemHoverBackground,
-                HoverColor = DocsThemeColors.BodyStrong,
+                HoverColor = DocsThemeColors.Brand,
             },
         },
     };
@@ -159,12 +160,13 @@ public partial class Routes
         VerticalBrandHeight = "64px",
         LightColors = new ThemeBarColorOptions
         {
+            Color = DocsThemeColors.Body,
             ItemColorOptions = new ThemeBarItemColorOptions
             {
                 ActiveBackgroundColor = DocsThemeColors.BarItemActiveBackground,
                 ActiveColor = DocsThemeColors.BodyStrong,
                 HoverBackgroundColor = DocsThemeColors.BarItemHoverBackground,
-                HoverColor = DocsThemeColors.BodyStrong,
+                HoverColor = DocsThemeColors.Brand,
             },
         },
         DarkColors = new ThemeBarColorOptions
