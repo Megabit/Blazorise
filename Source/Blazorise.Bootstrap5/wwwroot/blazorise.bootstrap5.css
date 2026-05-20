@@ -141,12 +141,6 @@ body:before {
 .navbar[data-mode=horizontal][data-broken=false] {
   height: auto;
 }
-.navbar[data-mode=horizontal][data-broken=true] .navbar-nav {
-  margin-bottom: 0.5rem;
-}
-.navbar[data-mode=horizontal][data-broken=false] .navbar-nav {
-  margin-bottom: 0;
-}
 .navbar[data-mode=horizontal] .nav-item.dropdown .dropdown-menu > .dropend {
   position: relative;
 }

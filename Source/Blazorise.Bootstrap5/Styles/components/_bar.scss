@@ -68,14 +68,6 @@
         height: auto;
     }
 
-    &[data-broken=true] .navbar-nav {
-        margin-bottom: .5rem;
-    }
-
-    &[data-broken=false] .navbar-nav {
-        margin-bottom: 0;
-    }
-
     .nav-item.dropdown {
         .dropdown-menu {
             > .dropend {
