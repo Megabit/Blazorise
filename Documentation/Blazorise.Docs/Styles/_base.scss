@@ -1,6 +1,6 @@
 ﻿body {
     &:not([data-bs-theme="dark"]) {
-        color: #475569;
+        color: #334155;
     }
 
     font-family: 'Inter', 'Open Sans', 'Helvetica','Arial','sans-serif';
@@ -15,8 +15,8 @@
 
 body {
     &:not([data-bs-theme="dark"]) {
-        --b-link-color: #475569;
-        --b-link-text-color: #111827;
+        --b-link-color: #334155;
+        --b-link-text-color: var(--b-link-color);
         --b-code-color: #155eef;
         --b-code-background-color: #f5f8fd;
         --b-codeblock-color: #24364b;
@@ -90,10 +90,12 @@ a {
             font-weight: 400;
             padding-top: 2.4px;
             padding-bottom: 2.4px;
+            transition: color .15s ease-in-out, background-color .15s ease-in-out;
         }
 
         .nav-link:hover {
-            background-color: hsla(201°, 50%, 98%, .5);
+            color: var(--b-theme-primary);
+            background-color: rgba(124, 58, 237, .08);
             border-radius: 7px;
         }
     }
@@ -103,6 +105,7 @@ body[data-bs-theme="dark"] {
     .b-top-bar {
         .navbar-nav {
             .nav-link:hover {
+                color: var(--b-theme-primary);
                 background-color: rgba(255, 255, 255, 0.08);
             }
         }
