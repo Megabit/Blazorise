@@ -608,9 +608,11 @@ body:before {
 .navbar[data-mode=vertical-popout][data-collapse=small] .dropdown > .dropdown-menu-container > .dropdown-menu {
   box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
   border-radius: 3px;
+  max-height: inherit;
   overflow-y: auto;
   overflow-x: hidden;
   flex: 1 100%;
+  position: relative !important;
 }
 .navbar[data-mode=vertical-small] .dropdown > .dropdown-menu-container > .dropdown-menu .dropdown-item,
 .navbar[data-mode=vertical-inline][data-collapse=small] .dropdown > .dropdown-menu-container > .dropdown-menu .dropdown-item,
@@ -646,6 +648,29 @@ body:before {
 .navbar[data-mode=vertical-inline][data-collapse=small] .dropdown > .dropdown-menu-container > .dropdown-menu > .dropdown .dropdown-menu-container.dropdown-menu-end,
 .navbar[data-mode=vertical-popout][data-collapse=small] .dropdown > .dropdown-menu-container > .dropdown-menu > .dropdown .dropdown-menu-container.dropdown-menu-end {
   right: var(--b-vertical-bar-popout-menu-width, 180px);
+}
+.navbar[data-mode=vertical-small] .navbar-nav.mt-auto > .nav-item > .dropdown > .dropdown-menu-container,
+.navbar[data-mode=vertical-inline][data-collapse=small] .navbar-nav.mt-auto > .nav-item > .dropdown > .dropdown-menu-container,
+.navbar[data-mode=vertical-popout][data-collapse=small] .navbar-nav.mt-auto > .nav-item > .dropdown > .dropdown-menu-container {
+  position: fixed !important;
+  top: auto !important;
+  bottom: 0 !important;
+  margin: 0 5px;
+}
+.navbar[data-mode=vertical-small] .navbar-nav.mt-auto > .nav-item:nth-last-child(2) > .dropdown > .dropdown-menu-container,
+.navbar[data-mode=vertical-inline][data-collapse=small] .navbar-nav.mt-auto > .nav-item:nth-last-child(2) > .dropdown > .dropdown-menu-container,
+.navbar[data-mode=vertical-popout][data-collapse=small] .navbar-nav.mt-auto > .nav-item:nth-last-child(2) > .dropdown > .dropdown-menu-container {
+  bottom: var(--b-vertical-bar-small-width, 64px) !important;
+}
+.navbar[data-mode=vertical-small] .navbar-nav.mt-auto > .nav-item:nth-last-child(3) > .dropdown > .dropdown-menu-container,
+.navbar[data-mode=vertical-inline][data-collapse=small] .navbar-nav.mt-auto > .nav-item:nth-last-child(3) > .dropdown > .dropdown-menu-container,
+.navbar[data-mode=vertical-popout][data-collapse=small] .navbar-nav.mt-auto > .nav-item:nth-last-child(3) > .dropdown > .dropdown-menu-container {
+  bottom: calc(var(--b-vertical-bar-small-width, 64px) * 2) !important;
+}
+.navbar[data-mode=vertical-small] .navbar-nav.mt-auto > .nav-item:nth-last-child(4) > .dropdown > .dropdown-menu-container,
+.navbar[data-mode=vertical-inline][data-collapse=small] .navbar-nav.mt-auto > .nav-item:nth-last-child(4) > .dropdown > .dropdown-menu-container,
+.navbar[data-mode=vertical-popout][data-collapse=small] .navbar-nav.mt-auto > .nav-item:nth-last-child(4) > .dropdown > .dropdown-menu-container {
+  bottom: calc(var(--b-vertical-bar-small-width, 64px) * 3) !important;
 }
 .navbar[data-mode=vertical-small] .nav-item,
 .navbar[data-mode=vertical-inline][data-collapse=small] .nav-item,
@@ -767,6 +792,7 @@ body:before {
 .navbar[data-mode=vertical-popout]:not([data-collapse]) .dropdown > .dropdown-menu-container > .dropdown-menu {
   box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
   border-radius: 3px;
+  max-height: inherit;
   overflow-y: auto;
   overflow-x: hidden;
   flex: 1 100%;

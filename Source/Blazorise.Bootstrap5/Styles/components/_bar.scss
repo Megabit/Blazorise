@@ -11,6 +11,7 @@
 @mixin navbar-vertical-popout-menu {
     box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05);
     border-radius: 3px;
+    max-height: inherit;
     overflow-y: auto;
     overflow-x: hidden;
     flex: 1 100%;
@@ -586,6 +587,7 @@
 
         > .dropdown-menu {
             @include navbar-vertical-popout-menu;
+            position: relative !important;
 
             > .dropdown {
                 .dropdown-menu-container {
@@ -597,6 +599,25 @@
                 }
             }
         }
+    }
+
+    .navbar-nav.mt-auto > .nav-item > .dropdown > .dropdown-menu-container {
+        position: fixed !important;
+        top: auto !important;
+        bottom: 0 !important;
+        margin: 0 5px;
+    }
+
+    .navbar-nav.mt-auto > .nav-item:nth-last-child(2) > .dropdown > .dropdown-menu-container {
+        bottom: var(--b-vertical-bar-small-width, 64px) !important;
+    }
+
+    .navbar-nav.mt-auto > .nav-item:nth-last-child(3) > .dropdown > .dropdown-menu-container {
+        bottom: calc(var(--b-vertical-bar-small-width, 64px) * 2) !important;
+    }
+
+    .navbar-nav.mt-auto > .nav-item:nth-last-child(4) > .dropdown > .dropdown-menu-container {
+        bottom: calc(var(--b-vertical-bar-small-width, 64px) * 3) !important;
     }
 
     .nav-item {
