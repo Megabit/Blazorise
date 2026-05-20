@@ -266,15 +266,15 @@ textarea.mui-input:not([rows]) {
     cursor: not-allowed;
 }
 
-:is(.mui-input, .mui-select).is-valid {
+:is(.mui-input, .mui-select, .mui-addons).is-valid {
     border-color: var(--mui-success) !important;
 }
 
-:is(.mui-input, .mui-select).is-warning {
+:is(.mui-input, .mui-select, .mui-addons).is-warning {
     border-color: var(--mui-warning) !important;
 }
 
-:is(.mui-input, .mui-select).is-invalid {
+:is(.mui-input, .mui-select, .mui-addons).is-invalid {
     border-color: var(--mui-error) !important;
 }
 
@@ -300,21 +300,38 @@ textarea.mui-input:not([rows]) {
     color: var(--mui-error);
 }
 
-:is(.mui-input, .mui-select).is-valid + .valid-feedback,
-:is(.mui-input, .mui-select).is-valid + .form-text.text-muted + .valid-feedback,
-:is(.mui-input, .mui-select).is-warning + .warning-feedback,
-:is(.mui-input, .mui-select).is-warning + .form-text.text-muted + .warning-feedback,
-:is(.mui-input, .mui-select).is-warning + .valid-feedback + .warning-feedback,
-:is(.mui-input, .mui-select).is-warning + .form-text.text-muted + .valid-feedback + .warning-feedback,
-:is(.mui-input, .mui-select).is-invalid + .invalid-feedback,
-:is(.mui-input, .mui-select).is-invalid + .form-text.text-muted + .invalid-feedback,
-:is(.mui-input, .mui-select).is-invalid + .valid-feedback + .invalid-feedback,
-:is(.mui-input, .mui-select).is-invalid + .form-text.text-muted + .valid-feedback + .invalid-feedback,
-:is(.mui-input, .mui-select).is-invalid + .warning-feedback + .invalid-feedback,
-:is(.mui-input, .mui-select).is-invalid + .form-text.text-muted + .warning-feedback + .invalid-feedback,
-:is(.mui-input, .mui-select).is-invalid + .valid-feedback + .warning-feedback + .invalid-feedback,
-:is(.mui-input, .mui-select).is-invalid + .form-text.text-muted + .valid-feedback + .warning-feedback + .invalid-feedback {
+:is(.mui-input, .mui-select, .mui-addons).is-valid + .valid-feedback,
+:is(.mui-input, .mui-select, .mui-addons).is-valid + .form-text.text-muted + .valid-feedback,
+:is(.mui-input, .mui-select, .mui-addons).is-warning + .warning-feedback,
+:is(.mui-input, .mui-select, .mui-addons).is-warning + .form-text.text-muted + .warning-feedback,
+:is(.mui-input, .mui-select, .mui-addons).is-warning + .valid-feedback + .warning-feedback,
+:is(.mui-input, .mui-select, .mui-addons).is-warning + .form-text.text-muted + .valid-feedback + .warning-feedback,
+:is(.mui-input, .mui-select, .mui-addons).is-invalid + .invalid-feedback,
+:is(.mui-input, .mui-select, .mui-addons).is-invalid + .form-text.text-muted + .invalid-feedback,
+:is(.mui-input, .mui-select, .mui-addons).is-invalid + .valid-feedback + .invalid-feedback,
+:is(.mui-input, .mui-select, .mui-addons).is-invalid + .form-text.text-muted + .valid-feedback + .invalid-feedback,
+:is(.mui-input, .mui-select, .mui-addons).is-invalid + .warning-feedback + .invalid-feedback,
+:is(.mui-input, .mui-select, .mui-addons).is-invalid + .form-text.text-muted + .warning-feedback + .invalid-feedback,
+:is(.mui-input, .mui-select, .mui-addons).is-invalid + .valid-feedback + .warning-feedback + .invalid-feedback,
+:is(.mui-input, .mui-select, .mui-addons).is-invalid + .form-text.text-muted + .valid-feedback + .warning-feedback + .invalid-feedback {
     display: inline-block;
+}
+
+.mui-radio-group.is-valid + .valid-feedback,
+.mui-radio-group.is-valid + .form-text.text-muted + .valid-feedback,
+.mui-radio-group.is-warning + .warning-feedback,
+.mui-radio-group.is-warning + .form-text.text-muted + .warning-feedback,
+.mui-radio-group.is-warning + .valid-feedback + .warning-feedback,
+.mui-radio-group.is-warning + .form-text.text-muted + .valid-feedback + .warning-feedback,
+.mui-radio-group.is-invalid + .invalid-feedback,
+.mui-radio-group.is-invalid + .form-text.text-muted + .invalid-feedback,
+.mui-radio-group.is-invalid + .valid-feedback + .invalid-feedback,
+.mui-radio-group.is-invalid + .form-text.text-muted + .valid-feedback + .invalid-feedback,
+.mui-radio-group.is-invalid + .warning-feedback + .invalid-feedback,
+.mui-radio-group.is-invalid + .form-text.text-muted + .warning-feedback + .invalid-feedback,
+.mui-radio-group.is-invalid + .valid-feedback + .warning-feedback + .invalid-feedback,
+.mui-radio-group.is-invalid + .form-text.text-muted + .valid-feedback + .warning-feedback + .invalid-feedback {
+    display: block;
 }
 
 .mui-check.is-valid > .valid-feedback,
@@ -330,9 +347,9 @@ textarea.mui-input:not([rows]) {
     inline-size: 100%;
 }
 
-:is(.mui-input, .mui-select).is-valid + .none-feedback,
-:is(.mui-input, .mui-select).is-warning + .none-feedback,
-:is(.mui-input, .mui-select).is-invalid + .none-feedback {
+:is(.mui-input, .mui-select, .mui-addons, .mui-radio-group).is-valid + .none-feedback,
+:is(.mui-input, .mui-select, .mui-addons, .mui-radio-group).is-warning + .none-feedback,
+:is(.mui-input, .mui-select, .mui-addons, .mui-radio-group).is-invalid + .none-feedback {
     display: none;
 }
 

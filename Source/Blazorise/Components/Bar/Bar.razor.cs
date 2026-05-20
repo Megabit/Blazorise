@@ -273,6 +273,11 @@ public partial class Bar : BaseComponent, IAsyncDisposable
     protected string BrokenStateString => isBroken.ToString().ToLower();
 
     /// <summary>
+    /// Gets the string representation of the <see cref="Mode"/>.
+    /// </summary>
+    protected string ModeString => ClassProvider.ToBarMode( Mode );
+
+    /// <summary>
     /// Gets the string representation of the <see cref="CollapseMode"/>.
     /// </summary>
     protected string CollapseModeString
