@@ -576,6 +576,32 @@
         padding: 0;
     }
 
+    .navbar-brand {
+        justify-content: center;
+        width: 100%;
+        padding: 0;
+
+        .nav-item {
+            width: 100%;
+            height: var(--b-vertical-bar-small-width, 64px);
+        }
+
+        .nav-link {
+            justify-content: center;
+            width: 100%;
+            height: var(--b-vertical-bar-small-width, 64px);
+            gap: 0 !important;
+            font-size: 0;
+
+            .pe-none {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+            }
+        }
+    }
+
     .dropdown > .dropdown-menu-container {
         @include navbar-vertical-popout-menu-container;
         left: var(--b-vertical-bar-small-width, 64px);

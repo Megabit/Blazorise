@@ -585,6 +585,36 @@ body:before {
 .navbar[data-mode=vertical-popout][data-collapse=small] .navbar-nav {
   padding: 0;
 }
+.navbar[data-mode=vertical-small] .navbar-brand,
+.navbar[data-mode=vertical-inline][data-collapse=small] .navbar-brand,
+.navbar[data-mode=vertical-popout][data-collapse=small] .navbar-brand {
+  justify-content: center;
+  width: 100%;
+  padding: 0;
+}
+.navbar[data-mode=vertical-small] .navbar-brand .nav-item,
+.navbar[data-mode=vertical-inline][data-collapse=small] .navbar-brand .nav-item,
+.navbar[data-mode=vertical-popout][data-collapse=small] .navbar-brand .nav-item {
+  width: 100%;
+  height: var(--b-vertical-bar-small-width, 64px);
+}
+.navbar[data-mode=vertical-small] .navbar-brand .nav-link,
+.navbar[data-mode=vertical-inline][data-collapse=small] .navbar-brand .nav-link,
+.navbar[data-mode=vertical-popout][data-collapse=small] .navbar-brand .nav-link {
+  justify-content: center;
+  width: 100%;
+  height: var(--b-vertical-bar-small-width, 64px);
+  gap: 0 !important;
+  font-size: 0;
+}
+.navbar[data-mode=vertical-small] .navbar-brand .nav-link .pe-none,
+.navbar[data-mode=vertical-inline][data-collapse=small] .navbar-brand .nav-link .pe-none,
+.navbar[data-mode=vertical-popout][data-collapse=small] .navbar-brand .nav-link .pe-none {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
 .navbar[data-mode=vertical-small] .dropdown > .dropdown-menu-container,
 .navbar[data-mode=vertical-inline][data-collapse=small] .dropdown > .dropdown-menu-container,
 .navbar[data-mode=vertical-popout][data-collapse=small] .dropdown > .dropdown-menu-container {
