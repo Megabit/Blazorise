@@ -74,6 +74,11 @@ public class SvgChartOptions
     public SvgChartTooltipOptions Tooltip { get; set; } = new();
 
     /// <summary>
+    /// Defines zoom and pan options.
+    /// </summary>
+    public SvgChartZoomOptions Zoom { get; set; } = new();
+
+    /// <summary>
     /// Defines data label options.
     /// </summary>
     public SvgChartDataLabelsOptions DataLabels { get; set; } = new();

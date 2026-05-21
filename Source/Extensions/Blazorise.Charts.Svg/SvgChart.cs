@@ -10,6 +10,7 @@ using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Charts.Svg;
@@ -34,6 +35,8 @@ public class SvgChart<TItem> : SvgChartBase
     private readonly List<SvgChartLegend> legendComponents = [];
 
     private readonly List<SvgChartTooltip> tooltipComponents = [];
+
+    private readonly List<SvgChartZoom> zoomComponents = [];
 
     private readonly List<SvgChartDataLabels> dataLabelsComponents = [];
 
@@ -64,6 +67,22 @@ public class SvgChart<TItem> : SvgChartBase
     private int streamingAnimationVersion;
 
     private bool streamingAnimationActive;
+
+    private bool panning;
+
+    private double panStartClientX;
+
+    private double panStartClientY;
+
+    private SvgChartViewport panStartViewport;
+
+    private SvgChartViewport panLastViewport;
+
+    private SvgChartViewport internalViewport;
+
+    private IJSObjectReference jsModule;
+
+    private bool zoomWheelInitialized;
 
     private DateTimeOffset lastStreamingRender = DateTimeOffset.MinValue;
 
@@ -118,6 +137,7 @@ public class SvgChart<TItem> : SvgChartBase
         var hasBottomLegend = legend.Visible && legend.Position == SvgChartLegendPosition.Bottom;
         var plot = BuildPlotArea( options, title, subtitle, hasTopLegend, hasBottomLegend );
         var streamingAnimation = ResolveStreamingAnimation( model, plot );
+        var zoom = model.Zoom;
 
         builder.OpenComponent<CascadingValue<SvgChartBase>>( sequence++ );
         builder.AddAttribute( sequence++, "Value", this );
@@ -130,14 +150,33 @@ public class SvgChart<TItem> : SvgChartBase
         builder.AddAttribute( sequence++, "id", ElementId );
         builder.AddAttribute( sequence++, "class", ClassNames );
         builder.AddAttribute( sequence++, "style", StyleNames );
+        builder.AddElementReferenceCapture( sequence++, elementRef => ElementRef = elementRef );
 
         builder.OpenElement( sequence++, "svg" );
         builder.AddAttribute( sequence++, "xmlns", "http://www.w3.org/2000/svg" );
-        builder.AddAttribute( sequence++, "class", "svg-chart-surface" );
+        builder.AddAttribute( sequence++, "class", zoom?.Enabled == true && zoom.Pan ? "svg-chart-surface svg-chart-pannable" : "svg-chart-surface" );
+        builder.AddAttribute( sequence++, "draggable", "false" );
         builder.AddAttribute( sequence++, "role", "img" );
         builder.AddAttribute( sequence++, "aria-label", IsTextVisible( title ) ? title.Text : "SVG chart" );
         builder.AddAttribute( sequence++, "viewBox", $"0 0 {Format( options.Width )} {Format( options.Height )}" );
-        builder.AddAttribute( sequence++, "style", options.Responsive ? "display:block;width:100%;height:auto;overflow:visible;" : $"display:block;width:{Format( options.Width )}px;height:{Format( options.Height )}px;overflow:visible;" );
+        builder.AddAttribute( sequence++, "style", ResolveSvgStyle( options, zoom, panning ) );
+
+        if ( zoom.Enabled && !IsRadialChart( model ) )
+        {
+            builder.AddAttribute( sequence++, "onwheel", EventCallback.Factory.Create<WheelEventArgs>( this, HandleChartWheel ) );
+            builder.AddAttribute( sequence++, "onwheel:preventDefault", true );
+            builder.AddAttribute( sequence++, "onmousedown", EventCallback.Factory.Create<MouseEventArgs>( this, HandleChartMouseDown ) );
+            builder.AddAttribute( sequence++, "onmousemove", EventCallback.Factory.Create<MouseEventArgs>( this, HandleChartMouseMove ) );
+            builder.AddAttribute( sequence++, "onmouseup", EventCallback.Factory.Create<MouseEventArgs>( this, HandleChartMouseUp ) );
+            builder.AddAttribute( sequence++, "onmouseleave", EventCallback.Factory.Create<MouseEventArgs>( this, HandleChartMouseLeave ) );
+
+            if ( zoom.Pan )
+            {
+                builder.AddAttribute( sequence++, "onmousedown:preventDefault", true );
+                builder.AddAttribute( sequence++, "onmousemove:preventDefault", true );
+            }
+        }
+
         AddFontFamilyAttribute( builder, ref sequence, options.Font?.Family );
 
         RenderFocusStyles( builder, ref sequence );
@@ -172,11 +211,86 @@ public class SvgChart<TItem> : SvgChartBase
         builder.CloseElement();
     }
 
+    /// <inheritdoc/>
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        var zoom = ResolveZoom( ResolveOptions() );
+        var shouldPreventWheelScroll = zoom.Enabled && zoom.Wheel;
+
+        if ( shouldPreventWheelScroll && !zoomWheelInitialized )
+        {
+            jsModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>( "import", "./_content/Blazorise.Charts.Svg/svgChart.js" );
+            await jsModule.InvokeVoidAsync( "initializeZoomWheel", ElementRef );
+            zoomWheelInitialized = true;
+        }
+        else if ( !shouldPreventWheelScroll && zoomWheelInitialized )
+        {
+            await DestroyZoomWheel();
+        }
+
+        await base.OnAfterRenderAsync( firstRender );
+    }
+
+    /// <inheritdoc/>
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing )
+        {
+            await DestroyZoomWheel();
+
+            if ( jsModule is not null )
+            {
+                try
+                {
+                    await jsModule.DisposeAsync();
+                }
+                catch ( JSDisconnectedException )
+                {
+                }
+
+                jsModule = null;
+            }
+        }
+
+        await base.DisposeAsync( disposing );
+    }
+
+    private async ValueTask DestroyZoomWheel()
+    {
+        if ( jsModule is null || !zoomWheelInitialized )
+            return;
+
+        try
+        {
+            await jsModule.InvokeVoidAsync( "destroyZoomWheel", ElementRef );
+        }
+        catch ( JSDisconnectedException )
+        {
+        }
+
+        zoomWheelInitialized = false;
+    }
+
     private static void RenderFocusStyles( RenderTreeBuilder builder, ref int sequence )
     {
         builder.OpenElement( sequence++, "style" );
-        builder.AddContent( sequence++, ".svg-chart-surface [tabindex]:focus{outline:none;}" );
+        builder.AddContent( sequence++, ".svg-chart-surface [tabindex]:focus{outline:none;}.svg-chart-surface.svg-chart-pannable,.svg-chart-surface.svg-chart-pannable *{user-select:none;-webkit-user-select:none;-webkit-user-drag:none;}" );
         builder.CloseElement();
+    }
+
+    private static string ResolveSvgStyle( SvgChartOptions options, SvgChartZoomOptions zoom, bool panning )
+    {
+        var style = options.Responsive
+            ? "display:block;width:100%;height:auto;overflow:visible;"
+            : $"display:block;width:{Format( options.Width )}px;height:{Format( options.Height )}px;overflow:visible;";
+
+        if ( zoom?.Enabled == true )
+            style += "touch-action:none;";
+
+        if ( zoom?.Enabled == true && zoom.Pan )
+            style += panning ? "cursor:grabbing;" : "cursor:grab;";
+
+        return style;
     }
 
     private void RenderChartText( RenderTreeBuilder builder, ref int sequence, SvgChartOptions options, SvgChartTextOptions title, SvgChartTextOptions subtitle )
@@ -293,7 +407,10 @@ public class SvgChart<TItem> : SvgChartBase
             }
         }
 
-        RenderCategoryAxisGridLines( builder, ref sequence, model, plot, streamingAnimation );
+        if ( model.Series.Any( x => !x.Hidden && IsPointChart( x.Type ) ) )
+            RenderPointXAxisGridAndLabels( builder, ref sequence, model, plot );
+        else
+            RenderCategoryAxisGridLines( builder, ref sequence, model, plot, streamingAnimation );
 
         foreach ( var tick in primaryAxis.Ticks )
         {
@@ -326,7 +443,7 @@ public class SvgChart<TItem> : SvgChartBase
         builder.AddAttribute( sequence++, "stroke-opacity", "0.22" );
         builder.CloseElement();
 
-        if ( !streamingAnimation.Enabled )
+        if ( !streamingAnimation.Enabled && !model.Series.Any( x => !x.Hidden && IsPointChart( x.Type ) ) )
             RenderCategoryAxisLabels( builder, ref sequence, model, plot, streamingAnimation );
 
         RenderRightValueAxes( builder, ref sequence, model, plot, primaryAxis );
@@ -362,7 +479,7 @@ public class SvgChart<TItem> : SvgChartBase
             if ( labelIndex < 0 || labelIndex % labelStep != 0 )
                 continue;
 
-            var x = plot.Left + plot.Width * ( i + 0.5 ) / GetCategorySlotCount( model );
+            var x = GetCategoryX( i, plot, model );
 
             builder.OpenElement( sequence++, "line" );
             builder.AddAttribute( sequence++, "x1", Format( x ) );
@@ -390,10 +507,13 @@ public class SvgChart<TItem> : SvgChartBase
         builder.OpenElement( sequence++, "g" );
         builder.AddAttribute( sequence++, "class", "svg-chart-axis-labels svg-chart-category-axis-labels" );
 
-        if ( streamingAnimation.Enabled )
+        if ( streamingAnimation.Enabled || model.Zoom?.Enabled == true )
         {
             builder.AddAttribute( sequence++, "clip-path", $"url(#{GetCategoryAxisLabelsClipPathId()})" );
+        }
 
+        if ( streamingAnimation.Enabled )
+        {
             builder.OpenElement( sequence++, "g" );
             builder.SetKey( $"streaming-axis-labels-{streamingAnimationVersion}" );
             builder.AddAttribute( sequence++, "style", ResolveStreamingAnimationStyle( streamingAnimation ) );
@@ -406,7 +526,7 @@ public class SvgChart<TItem> : SvgChartBase
             if ( labelIndex < 0 || labelIndex % labelStep != 0 )
                 continue;
 
-            var x = plot.Left + plot.Width * ( i + 0.5 ) / GetCategorySlotCount( model );
+            var x = GetCategoryX( i, plot, model );
 
             builder.OpenElement( sequence++, "text" );
             builder.AddAttribute( sequence++, "x", Format( x ) );
@@ -419,6 +539,62 @@ public class SvgChart<TItem> : SvgChartBase
 
         if ( streamingAnimation.Enabled )
             builder.CloseElement();
+
+        builder.CloseElement();
+    }
+
+    private void RenderPointXAxisGridAndLabels( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
+    {
+        var scale = ResolvePointXScale( model );
+
+        if ( scale is null )
+            return;
+
+        var gridLines = model.CategoryAxis.GridLines;
+        var labels = model.CategoryAxis.Labels ?? new();
+
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-grid svg-chart-point-xaxis-grid" );
+        builder.AddAttribute( sequence++, "clip-path", $"url(#{GetPlotClipPathId()})" );
+
+        foreach ( var tick in scale.Ticks )
+        {
+            var x = GetX( tick, plot, scale.Min, scale.Max );
+
+            if ( gridLines?.Visible == true )
+            {
+                builder.OpenElement( sequence++, "line" );
+                builder.AddAttribute( sequence++, "x1", Format( x ) );
+                builder.AddAttribute( sequence++, "x2", Format( x ) );
+                builder.AddAttribute( sequence++, "y1", Format( plot.Top ) );
+                builder.AddAttribute( sequence++, "y2", Format( plot.Bottom ) );
+                AddGridLineAttributes( builder, ref sequence, gridLines );
+                builder.CloseElement();
+            }
+        }
+
+        builder.CloseElement();
+
+        if ( !labels.Visible )
+            return;
+
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-axis-labels svg-chart-point-xaxis-labels" );
+        builder.AddAttribute( sequence++, "clip-path", $"url(#{GetCategoryAxisLabelsClipPathId()})" );
+
+        for ( var i = 0; i < scale.Ticks.Count; i += Math.Max( 1, labels.Step ) )
+        {
+            var tick = scale.Ticks[i];
+            var x = GetX( tick, plot, scale.Min, scale.Max );
+
+            builder.OpenElement( sequence++, "text" );
+            builder.AddAttribute( sequence++, "x", Format( x ) );
+            builder.AddAttribute( sequence++, "y", Format( plot.Bottom + labels.Offset ) );
+            builder.AddAttribute( sequence++, "text-anchor", "middle" );
+            AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.72 );
+            builder.AddContent( sequence++, FormatTick( tick ) );
+            builder.CloseElement();
+        }
 
         builder.CloseElement();
     }
@@ -530,12 +706,17 @@ public class SvgChart<TItem> : SvgChartBase
             .OrderBy( x => x )
             .ToList();
 
-        if ( animation.Enabled )
+        var clipped = animation.Enabled || model.Zoom?.Enabled == true;
+
+        if ( clipped )
         {
             builder.OpenElement( sequence++, "g" );
             builder.AddAttribute( sequence++, "class", "svg-chart-streaming-viewport" );
             builder.AddAttribute( sequence++, "clip-path", $"url(#{GetPlotClipPathId()})" );
+        }
 
+        if ( animation.Enabled )
+        {
             builder.OpenElement( sequence++, "g" );
             builder.SetKey( $"streaming-animation-{streamingAnimationVersion}" );
             builder.AddAttribute( sequence++, "class", "svg-chart-streaming-content" );
@@ -576,6 +757,10 @@ public class SvgChart<TItem> : SvgChartBase
         if ( animation.Enabled )
         {
             builder.CloseElement();
+        }
+
+        if ( clipped )
+        {
             builder.CloseElement();
         }
     }
@@ -587,7 +772,7 @@ public class SvgChart<TItem> : SvgChartBase
         if ( visibleColumnSeries.Count == 0 || model.Labels.Count == 0 || !visibleColumnSeries.Any( x => shouldRender?.Invoke( x ) ?? true ) )
             return;
 
-        var categoryWidth = plot.Width / GetCategorySlotCount( model );
+        var categoryWidth = GetCategoryWidth( plot, model );
         var groupWidth = categoryWidth * 0.72;
         var barWidth = Math.Max( 1, groupWidth / visibleColumnSeries.Count );
         builder.OpenElement( sequence++, "g" );
@@ -609,7 +794,7 @@ public class SvgChart<TItem> : SvgChartBase
                 if ( !value.HasValue )
                     continue;
 
-                var categoryStart = plot.Left + categoryWidth * pointIndex + ( categoryWidth - groupWidth ) / 2;
+                var categoryStart = GetCategoryBoundaryX( pointIndex, plot, model ) + ( categoryWidth - groupWidth ) / 2;
                 var x = categoryStart + barWidth * seriesIndex + barWidth * 0.1;
                 var y = GetY( value.Value, plot, model, series );
                 var height = Math.Abs( baseline - y );
@@ -711,8 +896,6 @@ public class SvgChart<TItem> : SvgChartBase
         if ( lineSeries.Count == 0 || model.Labels.Count == 0 )
             return;
 
-        var categoryWidth = plot.Width / GetCategorySlotCount( model );
-
         builder.OpenElement( sequence++, "g" );
         builder.AddAttribute( sequence++, "class", "svg-chart-lines" );
 
@@ -726,7 +909,7 @@ public class SvgChart<TItem> : SvgChartBase
 
                 if ( value.HasValue )
                 {
-                    points.Add( (pointIndex, plot.Left + categoryWidth * ( pointIndex + 0.5 ), GetY( value.Value, plot, model, series ), value.Value) );
+                    points.Add( (pointIndex, GetCategoryX( pointIndex, plot, model ), GetY( value.Value, plot, model, series ), value.Value) );
                 }
             }
 
@@ -785,7 +968,6 @@ public class SvgChart<TItem> : SvgChartBase
         if ( areaSeries.Count == 0 || model.Labels.Count == 0 )
             return;
 
-        var categoryWidth = plot.Width / GetCategorySlotCount( model );
         builder.OpenElement( sequence++, "g" );
         builder.AddAttribute( sequence++, "class", "svg-chart-areas" );
 
@@ -799,7 +981,7 @@ public class SvgChart<TItem> : SvgChartBase
                 var value = series.Values[pointIndex];
 
                 if ( value.HasValue )
-                    points.Add( (pointIndex, plot.Left + categoryWidth * ( pointIndex + 0.5 ), GetY( value.Value, plot, model, series ), value.Value) );
+                    points.Add( (pointIndex, GetCategoryX( pointIndex, plot, model ), GetY( value.Value, plot, model, series ), value.Value) );
             }
 
             if ( points.Count > 1 )
@@ -864,9 +1046,7 @@ public class SvgChart<TItem> : SvgChartBase
         if ( model.Annotations.Count == 0 || IsRadialChart( model ) )
             return;
 
-        var pointChartScale = model.Series.Any( x => !x.Hidden && IsPointChart( x.Type ) )
-            ? BuildScale( model.Series.Where( x => !x.Hidden && IsPointChart( x.Type ) ).SelectMany( x => x.XValues ).Where( x => x.HasValue ).Select( x => x.Value ).ToList(), ResolveAxis( model.Options ) )
-            : null;
+        var pointChartScale = ResolvePointXScale( model );
         var annotations = model.Annotations.Where( x => x.Visible && x.AnnotationType == annotationType )
             .OrderBy( x => x.Order ?? 0 )
             .ToList();
@@ -1075,9 +1255,7 @@ public class SvgChart<TItem> : SvgChartBase
         if ( model.Trendlines.Count == 0 || IsRadialChart( model ) )
             return;
 
-        var pointChartScale = model.Series.Any( x => !x.Hidden && IsPointChart( x.Type ) )
-            ? BuildScale( model.Series.Where( x => !x.Hidden && IsPointChart( x.Type ) ).SelectMany( x => x.XValues ).Where( x => x.HasValue ).Select( x => x.Value ).ToList(), ResolveAxis( model.Options ) )
-            : null;
+        var pointChartScale = ResolvePointXScale( model );
 
         builder.OpenElement( sequence++, "g" );
         builder.AddAttribute( sequence++, "class", "svg-chart-trendlines" );
@@ -1174,7 +1352,7 @@ public class SvgChart<TItem> : SvgChartBase
         if ( pointSeries.Count == 0 )
             return;
 
-        var xScale = BuildScale( pointSeries.SelectMany( x => x.XValues ).Where( x => x.HasValue ).Select( x => x.Value ).ToList(), ResolveAxis( ResolveOptions() ) );
+        var xScale = ResolvePointXScale( model, pointSeries );
 
         builder.OpenElement( sequence++, "g" );
         builder.AddAttribute( sequence++, "class", "svg-chart-points" );
@@ -1286,7 +1464,7 @@ public class SvgChart<TItem> : SvgChartBase
         if ( seriesIndex < 0 )
             return;
 
-        var categoryWidth = plot.Width / GetCategorySlotCount( model );
+        var categoryWidth = GetCategoryWidth( plot, model );
         var groupWidth = categoryWidth * 0.72;
         var barWidth = Math.Max( 1, groupWidth / visibleColumnSeries.Count );
         var baseline = GetY( 0, plot, model, series );
@@ -1298,7 +1476,7 @@ public class SvgChart<TItem> : SvgChartBase
             if ( !value.HasValue )
                 continue;
 
-            var categoryStart = plot.Left + categoryWidth * pointIndex + ( categoryWidth - groupWidth ) / 2;
+            var categoryStart = GetCategoryBoundaryX( pointIndex, plot, model ) + ( categoryWidth - groupWidth ) / 2;
             var x = categoryStart + barWidth * seriesIndex + barWidth * 0.1;
             var y = GetY( value.Value, plot, model, series );
             var height = Math.Abs( baseline - y );
@@ -1347,7 +1525,6 @@ public class SvgChart<TItem> : SvgChartBase
         if ( model.Labels.Count == 0 )
             return;
 
-        var categoryWidth = plot.Width / GetCategorySlotCount( model );
         var markerRadius = series.Type == SvgChartType.Area ? Math.Max( 3, series.StrokeWidth + 1 ) : series.MarkerRadius;
 
         for ( var pointIndex = 0; pointIndex < model.Labels.Count && pointIndex < series.Values.Count; pointIndex++ )
@@ -1357,7 +1534,7 @@ public class SvgChart<TItem> : SvgChartBase
             if ( !value.HasValue )
                 continue;
 
-            var x = plot.Left + categoryWidth * ( pointIndex + 0.5 );
+            var x = GetCategoryX( pointIndex, plot, model );
             var y = GetY( value.Value, plot, model, series );
             var bounds = new SvgChartPointBounds { X = x - markerRadius, Y = y - markerRadius, Width = markerRadius * 2, Height = markerRadius * 2 };
 
@@ -1367,7 +1544,7 @@ public class SvgChart<TItem> : SvgChartBase
 
     private void AddPointChartDataLabelPoints( List<(SvgChartPointEventArgs Point, string Color, SvgChartType ChartType)> points, RenderModel model, PlotArea plot, RenderSeries series )
     {
-        var xScale = BuildScale( model.Series.Where( x => !x.Hidden && IsPointChart( x.Type ) ).SelectMany( x => x.XValues ).Where( x => x.HasValue ).Select( x => x.Value ).ToList(), ResolveAxis( ResolveOptions() ) );
+        var xScale = ResolvePointXScale( model );
 
         for ( var pointIndex = 0; pointIndex < series.YValues.Count; pointIndex++ )
         {
@@ -1690,7 +1867,7 @@ public class SvgChart<TItem> : SvgChartBase
         builder.CloseElement();
     }
 
-    private RenderModel BuildModel( bool applyStreamingViewport = true )
+    private RenderModel BuildModel( bool applyStreamingViewport = true, bool applyZoomViewport = true )
     {
         var chartData = internalChartData ?? Data;
         var options = ResolveOptions();
@@ -1701,20 +1878,27 @@ public class SvgChart<TItem> : SvgChartBase
         var items = Items?.ToList() ?? [];
         var labels = ResolveLabels( chartData, categoryAxis, items );
         var series = ResolveSeries( chartData, childSeries, items, labels.Count );
+        var zoom = ResolveZoom( options );
+        var viewport = applyZoomViewport ? ResolveViewport( zoom ) : null;
         var categorySlotCount = labels.Count;
         var categoryLabelIndexes = Enumerable.Range( 0, labels.Count ).ToList();
         var categoryAxisOptions = CreateCategoryAxisOptions( options.XAxis ?? new(), categoryAxis );
         if ( applyStreamingViewport )
             ApplyStreamingViewport( labels, series, ResolveStreaming(), out categorySlotCount, out categoryLabelIndexes );
-        var valueAxes = ResolveValueAxes( options, series );
+        var categoryRange = ResolveCategoryRange( labels.Count, zoom, viewport );
+        var valueAxes = ResolveValueAxes( options, series, zoom, viewport );
         var primaryValueAxis = ResolvePrimaryValueAxis( valueAxes, valueAxisId );
 
         return new RenderModel
         {
             Options = options,
+            Zoom = zoom,
+            Viewport = viewport,
             Labels = labels,
             CategorySlotCount = categorySlotCount,
             CategoryLabelIndexes = categoryLabelIndexes,
+            CategoryMin = categoryRange.Min,
+            CategoryMax = categoryRange.Max,
             CategoryAxis = categoryAxisOptions,
             Series = series,
             Min = primaryValueAxis.Min,
@@ -1962,7 +2146,7 @@ public class SvgChart<TItem> : SvgChartBase
         return Streaming ?? ResolveOptions().Streaming ?? new() { Enabled = false };
     }
 
-    private List<RenderValueAxis> ResolveValueAxes( SvgChartOptions options, List<RenderSeries> series )
+    private List<RenderValueAxis> ResolveValueAxes( SvgChartOptions options, List<RenderSeries> series, SvgChartZoomOptions zoom, SvgChartViewport viewport )
     {
         var axes = valueAxisComponents.Count == 0
             ? new List<SvgChartAxisOptions> { CreateValueAxisOptions( options.YAxis ?? new() ) }
@@ -1991,7 +2175,7 @@ public class SvgChart<TItem> : SvgChartBase
                 .Where( x => x.HasValue )
                 .Select( x => x.Value )
                 .ToList();
-            var scale = BuildScale( values, axis );
+            var scale = BuildScale( values, ApplyValueAxisViewport( axis, zoom, viewport, series.Any( x => x.Type == SvgChartType.Bar ) ) );
 
             return new RenderValueAxis
             {
@@ -2181,6 +2365,48 @@ public class SvgChart<TItem> : SvgChartBase
             OffsetX = tooltipComponent.OffsetX,
             OffsetY = tooltipComponent.OffsetY
         };
+    }
+
+    private SvgChartZoomOptions ResolveZoom( SvgChartOptions options )
+    {
+        var zoomComponent = zoomComponents.LastOrDefault();
+        var zoomOptions = options.Zoom ?? new();
+
+        if ( zoomComponent is null )
+            return CreateZoomOptions( zoomOptions );
+
+        return new()
+        {
+            Enabled = zoomComponent.Enabled,
+            Mode = zoomComponent.Mode,
+            Wheel = zoomComponent.Wheel,
+            Pan = zoomComponent.Pan,
+            MinZoom = zoomComponent.MinZoom,
+            MaxZoom = zoomComponent.MaxZoom,
+            Viewport = zoomComponent.Viewport ?? zoomOptions.Viewport
+        };
+    }
+
+    private static SvgChartZoomOptions CreateZoomOptions( SvgChartZoomOptions options )
+    {
+        if ( options is null )
+            return new();
+
+        return new()
+        {
+            Enabled = options.Enabled,
+            Mode = options.Mode,
+            Wheel = options.Wheel,
+            Pan = options.Pan,
+            MinZoom = options.MinZoom,
+            MaxZoom = options.MaxZoom,
+            Viewport = CloneViewport( options.Viewport )
+        };
+    }
+
+    private SvgChartViewport ResolveViewport( SvgChartZoomOptions zoom )
+    {
+        return CloneViewport( zoom?.Viewport ?? internalViewport );
     }
 
     private SvgChartDataLabelsOptions ResolveDataLabels( SvgChartOptions options )
@@ -2768,6 +2994,54 @@ public class SvgChart<TItem> : SvgChartBase
         return padding.Start + fontSize + padding.End;
     }
 
+    private static (double Min, double Max) ResolveCategoryRange( int labelCount, SvgChartZoomOptions zoom, SvgChartViewport viewport )
+    {
+        var min = -0.5;
+        var max = Math.Max( 0.5, labelCount - 0.5 );
+
+        if ( zoom?.Enabled != true || !SupportsHorizontalZoom( zoom.Mode ) )
+            return (min, max);
+
+        return NormalizeViewportRange( viewport?.XMin, viewport?.XMax, min, max, zoom.MinZoom, zoom.MaxZoom );
+    }
+
+    private static SvgChartAxisOptions ApplyValueAxisViewport( SvgChartAxisOptions axis, SvgChartZoomOptions zoom, SvgChartViewport viewport, bool horizontalValueAxis )
+    {
+        if ( zoom?.Enabled != true || viewport is null )
+            return axis;
+
+        var supportsAxis = horizontalValueAxis
+            ? SupportsHorizontalZoom( zoom.Mode )
+            : SupportsVerticalZoom( zoom.Mode );
+
+        if ( !supportsAxis )
+            return axis;
+
+        var viewportMin = horizontalValueAxis ? viewport.XMin : viewport.YMin;
+        var viewportMax = horizontalValueAxis ? viewport.XMax : viewport.YMax;
+
+        if ( !viewportMin.HasValue || !viewportMax.HasValue || viewportMax <= viewportMin )
+            return axis;
+
+        var result = CreateValueAxisOptions( axis );
+        result.Min = viewportMin;
+        result.Max = viewportMax;
+
+        return result;
+    }
+
+    private static SvgChartAxisOptions ApplyPointXAxisViewport( SvgChartAxisOptions axis, SvgChartZoomOptions zoom, SvgChartViewport viewport )
+    {
+        if ( zoom?.Enabled != true || !SupportsHorizontalZoom( zoom.Mode ) || viewport?.XMin is null || viewport.XMax is null || viewport.XMax <= viewport.XMin )
+            return axis;
+
+        var result = CreateValueAxisOptions( axis );
+        result.Min = viewport.XMin;
+        result.Max = viewport.XMax;
+
+        return result;
+    }
+
     private static Scale BuildScale( List<double> values, SvgChartAxisOptions axis )
     {
         var min = axis.Min ?? ( values.Count == 0 ? 0 : values.Min() );
@@ -2799,6 +3073,70 @@ public class SvgChart<TItem> : SvgChartBase
             Min = niceMin,
             Max = niceMax,
             Ticks = ticks
+        };
+    }
+
+    private static (double Min, double Max) NormalizeViewportRange( double? requestedMin, double? requestedMax, double fullMin, double fullMax, double minZoom, double maxZoom )
+    {
+        if ( !requestedMin.HasValue || !requestedMax.HasValue || requestedMax <= requestedMin )
+            return (fullMin, fullMax);
+
+        return ClampRange( requestedMin.Value, requestedMax.Value, fullMin, fullMax, minZoom, maxZoom );
+    }
+
+    private static (double Min, double Max) ClampRange( double min, double max, double fullMin, double fullMax, double minZoom, double maxZoom )
+    {
+        var fullRange = fullMax - fullMin;
+
+        if ( fullRange <= 0 )
+            return (fullMin, fullMax);
+
+        var requestedRange = Math.Max( double.Epsilon, max - min );
+        var minimumZoom = Math.Max( 1, minZoom );
+        var maximumZoom = Math.Max( minimumZoom, maxZoom );
+        var maxRange = fullRange / minimumZoom;
+        var minRange = fullRange / maximumZoom;
+        var range = Math.Clamp( requestedRange, minRange, maxRange );
+        var center = min + requestedRange / 2;
+        var resultMin = center - range / 2;
+        var resultMax = center + range / 2;
+
+        if ( resultMin < fullMin )
+        {
+            resultMax += fullMin - resultMin;
+            resultMin = fullMin;
+        }
+
+        if ( resultMax > fullMax )
+        {
+            resultMin -= resultMax - fullMax;
+            resultMax = fullMax;
+        }
+
+        return (Math.Max( fullMin, resultMin ), Math.Min( fullMax, resultMax ));
+    }
+
+    private static bool SupportsHorizontalZoom( SvgChartZoomMode mode )
+    {
+        return mode is SvgChartZoomMode.X or SvgChartZoomMode.XY;
+    }
+
+    private static bool SupportsVerticalZoom( SvgChartZoomMode mode )
+    {
+        return mode is SvgChartZoomMode.Y or SvgChartZoomMode.XY;
+    }
+
+    private static SvgChartViewport CloneViewport( SvgChartViewport viewport )
+    {
+        if ( viewport is null )
+            return null;
+
+        return new()
+        {
+            XMin = viewport.XMin,
+            XMax = viewport.XMax,
+            YMin = viewport.YMin,
+            YMax = viewport.YMax
         };
     }
 
@@ -2875,6 +3213,39 @@ public class SvgChart<TItem> : SvgChartBase
             return plot.Left;
 
         return plot.Left + ( value - min ) / range * plot.Width;
+    }
+
+    private static double GetCategoryX( int index, PlotArea plot, RenderModel model )
+    {
+        return GetX( index, plot, model.CategoryMin, model.CategoryMax );
+    }
+
+    private static double GetCategoryBoundaryX( double index, PlotArea plot, RenderModel model )
+    {
+        return GetX( index - 0.5, plot, model.CategoryMin, model.CategoryMax );
+    }
+
+    private static double GetCategoryWidth( PlotArea plot, RenderModel model )
+    {
+        var range = model.CategoryMax - model.CategoryMin;
+
+        if ( range <= 0 )
+            return plot.Width;
+
+        return plot.Width / range;
+    }
+
+    private static Scale ResolvePointXScale( RenderModel model, IEnumerable<RenderSeries> pointSeries = null )
+    {
+        var series = pointSeries?.ToList()
+            ?? model.Series.Where( x => !x.Hidden && IsPointChart( x.Type ) ).ToList();
+
+        if ( series.Count == 0 )
+            return null;
+
+        var axis = ApplyPointXAxisViewport( model.Options.XAxis ?? new(), model.Zoom, model.Viewport );
+
+        return BuildScale( series.SelectMany( x => x.XValues ).Where( x => x.HasValue ).Select( x => x.Value ).ToList(), axis );
     }
 
     private static RenderValueAxis ResolveValueAxis( RenderModel model, RenderSeries series )
@@ -2974,7 +3345,7 @@ public class SvgChart<TItem> : SvgChartBase
         if ( pointChartScale is not null )
             return GetX( value.Value, plot, pointChartScale.Min, pointChartScale.Max );
 
-        return plot.Left + plot.Width * ( value.Value + 0.5 ) / GetCategorySlotCount( model );
+        return GetX( value.Value, plot, model.CategoryMin, model.CategoryMax );
     }
 
     private static double ResolveAnnotationY( RenderModel model, PlotArea plot, double? value, string valueAxisId, double fallback )
@@ -3003,16 +3374,15 @@ public class SvgChart<TItem> : SvgChartBase
         if ( !TryCalculateLinearRegression( samples, out var slope, out var intercept ) )
             return null;
 
-        var categoryWidth = plot.Width / GetCategorySlotCount( model );
         var firstIndex = samples.Min( x => x.X );
         var lastIndex = samples.Max( x => x.X );
         var firstValue = slope * firstIndex + intercept;
         var lastValue = slope * lastIndex + intercept;
 
         return (
-            plot.Left + categoryWidth * ( firstIndex + 0.5 ),
+            GetX( firstIndex, plot, model.CategoryMin, model.CategoryMax ),
             GetY( firstValue, plot, model, series ),
-            plot.Left + categoryWidth * ( lastIndex + 0.5 ),
+            GetX( lastIndex, plot, model.CategoryMin, model.CategoryMax ),
             GetY( lastValue, plot, model, series )
         );
     }
@@ -3583,7 +3953,7 @@ public class SvgChart<TItem> : SvgChartBase
         if ( duration <= TimeSpan.Zero )
             return (false, 0, TimeSpan.Zero);
 
-        var categoryWidth = plot.Width / GetCategorySlotCount( model );
+        var categoryWidth = GetCategoryWidth( plot, model );
         var offsetX = IsStreamingReversed( streaming )
             ? categoryWidth
             : -categoryWidth;
@@ -3605,6 +3975,251 @@ public class SvgChart<TItem> : SvgChartBase
             return streaming.RefreshInterval;
 
         return TimeSpan.FromMilliseconds( 500 );
+    }
+
+    private PlotArea BuildCurrentPlotArea( RenderModel model )
+    {
+        var options = model.Options;
+        var legend = ResolveLegend( options );
+        var title = ResolveTitleOptions( options );
+        var subtitle = ResolveSubtitleOptions( options );
+
+        return BuildPlotArea( options, title, subtitle, legend.Visible && legend.Position == SvgChartLegendPosition.Top, legend.Visible && legend.Position == SvgChartLegendPosition.Bottom );
+    }
+
+    private static bool IsInsidePlot( double x, double y, PlotArea plot )
+    {
+        return x >= plot.Left && x <= plot.Right && y >= plot.Top && y <= plot.Bottom;
+    }
+
+    private static SvgChartViewport ResolveFullViewport( RenderModel model )
+    {
+        return new()
+        {
+            XMin = ResolveFullViewportXMin( model ),
+            XMax = ResolveFullViewportXMax( model ),
+            YMin = model.PrimaryValueAxis.Min,
+            YMax = model.PrimaryValueAxis.Max
+        };
+    }
+
+    private static double ResolveFullViewportXMin( RenderModel model )
+    {
+        var pointScale = ResolvePointXScale( model );
+
+        if ( pointScale is not null )
+            return pointScale.Min;
+
+        if ( IsBarChart( model ) )
+            return model.PrimaryValueAxis.Min;
+
+        return -0.5;
+    }
+
+    private static double ResolveFullViewportXMax( RenderModel model )
+    {
+        var pointScale = ResolvePointXScale( model );
+
+        if ( pointScale is not null )
+            return pointScale.Max;
+
+        if ( IsBarChart( model ) )
+            return model.PrimaryValueAxis.Max;
+
+        return Math.Max( 0.5, model.Labels.Count - 0.5 );
+    }
+
+    private static SvgChartViewport ResolveEffectiveViewport( RenderModel model, SvgChartViewport fullViewport )
+    {
+        var viewport = model.Viewport;
+
+        return new()
+        {
+            XMin = viewport?.XMin ?? fullViewport.XMin,
+            XMax = viewport?.XMax ?? fullViewport.XMax,
+            YMin = viewport?.YMin ?? fullViewport.YMin,
+            YMax = viewport?.YMax ?? fullViewport.YMax
+        };
+    }
+
+    private static SvgChartViewport ZoomViewport( SvgChartViewport viewport, SvgChartViewport fullViewport, SvgChartZoomOptions zoom, PlotArea plot, double anchorX, double anchorY, double factor )
+    {
+        var result = CloneViewport( viewport );
+
+        if ( SupportsHorizontalZoom( zoom.Mode ) )
+        {
+            var range = viewport.XMax.Value - viewport.XMin.Value;
+            var anchor = viewport.XMin.Value + range * Math.Clamp( ( anchorX - plot.Left ) / plot.Width, 0, 1 );
+            var min = anchor - ( anchor - viewport.XMin.Value ) * factor;
+            var max = anchor + ( viewport.XMax.Value - anchor ) * factor;
+            var clamped = ClampRange( min, max, fullViewport.XMin.Value, fullViewport.XMax.Value, zoom.MinZoom, zoom.MaxZoom );
+            result.XMin = clamped.Min;
+            result.XMax = clamped.Max;
+        }
+
+        if ( SupportsVerticalZoom( zoom.Mode ) )
+        {
+            var range = viewport.YMax.Value - viewport.YMin.Value;
+            var anchor = viewport.YMax.Value - range * Math.Clamp( ( anchorY - plot.Top ) / plot.Height, 0, 1 );
+            var min = anchor - ( anchor - viewport.YMin.Value ) * factor;
+            var max = anchor + ( viewport.YMax.Value - anchor ) * factor;
+            var clamped = ClampRange( min, max, fullViewport.YMin.Value, fullViewport.YMax.Value, zoom.MinZoom, zoom.MaxZoom );
+            result.YMin = clamped.Min;
+            result.YMax = clamped.Max;
+        }
+
+        return result;
+    }
+
+    private static SvgChartViewport PanViewport( SvgChartViewport viewport, SvgChartViewport fullViewport, SvgChartZoomOptions zoom, PlotArea plot, double deltaX, double deltaY )
+    {
+        var result = CloneViewport( viewport );
+
+        if ( SupportsHorizontalZoom( zoom.Mode ) )
+        {
+            var range = viewport.XMax.Value - viewport.XMin.Value;
+            var delta = -deltaX / plot.Width * range;
+            var clamped = ClampRange( viewport.XMin.Value + delta, viewport.XMax.Value + delta, fullViewport.XMin.Value, fullViewport.XMax.Value, zoom.MinZoom, zoom.MaxZoom );
+            result.XMin = clamped.Min;
+            result.XMax = clamped.Max;
+        }
+
+        if ( SupportsVerticalZoom( zoom.Mode ) )
+        {
+            var range = viewport.YMax.Value - viewport.YMin.Value;
+            var delta = deltaY / plot.Height * range;
+            var clamped = ClampRange( viewport.YMin.Value + delta, viewport.YMax.Value + delta, fullViewport.YMin.Value, fullViewport.YMax.Value, zoom.MinZoom, zoom.MaxZoom );
+            result.YMin = clamped.Min;
+            result.YMax = clamped.Max;
+        }
+
+        return result;
+    }
+
+    private async Task ApplyViewport( SvgChartViewport previousViewport, SvgChartViewport viewport )
+    {
+        internalViewport = CloneViewport( viewport );
+        activeTooltip = null;
+
+        var zoomComponent = zoomComponents.LastOrDefault();
+
+        if ( zoomComponent is not null && zoomComponent.ViewportChanged.HasDelegate )
+            await zoomComponent.ViewportChanged.InvokeAsync( CloneViewport( viewport ) );
+
+        StateHasChanged();
+    }
+
+    private async Task NotifyZoomed( SvgChartViewport previousViewport, SvgChartViewport viewport, SvgChartZoomSource source )
+    {
+        var zoomComponent = zoomComponents.LastOrDefault();
+
+        if ( zoomComponent is null || !zoomComponent.Zoomed.HasDelegate )
+            return;
+
+        await zoomComponent.Zoomed.InvokeAsync( new()
+        {
+            PreviousViewport = CloneViewport( previousViewport ),
+            Viewport = CloneViewport( viewport ),
+            Source = source
+        } );
+    }
+
+    private async Task NotifyPanned( SvgChartViewport previousViewport, SvgChartViewport viewport )
+    {
+        var zoomComponent = zoomComponents.LastOrDefault();
+
+        if ( zoomComponent is null || !zoomComponent.Panned.HasDelegate )
+            return;
+
+        await zoomComponent.Panned.InvokeAsync( new()
+        {
+            PreviousViewport = CloneViewport( previousViewport ),
+            Viewport = CloneViewport( viewport ),
+            DeltaX = ( viewport.XMin ?? 0 ) - ( previousViewport.XMin ?? 0 ),
+            DeltaY = ( viewport.YMin ?? 0 ) - ( previousViewport.YMin ?? 0 )
+        } );
+    }
+
+    private async Task HandleChartWheel( WheelEventArgs eventArgs )
+    {
+        var model = BuildModel();
+        var zoom = model.Zoom;
+
+        if ( zoom?.Enabled != true || !zoom.Wheel || IsRadialChart( model ) )
+            return;
+
+        var plot = BuildCurrentPlotArea( model );
+
+        if ( !IsInsidePlot( eventArgs.OffsetX, eventArgs.OffsetY, plot ) )
+            return;
+
+        var fullViewport = ResolveFullViewport( BuildModel( false, false ) );
+        var previousViewport = ResolveEffectiveViewport( model, fullViewport );
+        var factor = eventArgs.DeltaY < 0 ? 0.82 : 1.22;
+        var nextViewport = ZoomViewport( previousViewport, fullViewport, zoom, plot, eventArgs.OffsetX, eventArgs.OffsetY, factor );
+
+        await ApplyViewport( previousViewport, nextViewport );
+        await NotifyZoomed( previousViewport, nextViewport, SvgChartZoomSource.Wheel );
+    }
+
+    private void HandleChartMouseDown( MouseEventArgs eventArgs )
+    {
+        var model = BuildModel();
+        var zoom = model.Zoom;
+
+        if ( zoom?.Enabled != true || !zoom.Pan || IsRadialChart( model ) )
+            return;
+
+        var plot = BuildCurrentPlotArea( model );
+
+        if ( !IsInsidePlot( eventArgs.OffsetX, eventArgs.OffsetY, plot ) )
+            return;
+
+        panning = true;
+        panStartClientX = eventArgs.ClientX;
+        panStartClientY = eventArgs.ClientY;
+        panStartViewport = ResolveEffectiveViewport( model, ResolveFullViewport( BuildModel( false, false ) ) );
+        panLastViewport = CloneViewport( panStartViewport );
+    }
+
+    private async Task HandleChartMouseMove( MouseEventArgs eventArgs )
+    {
+        if ( !panning )
+            return;
+
+        var model = BuildModel();
+        var zoom = model.Zoom;
+
+        if ( zoom?.Enabled != true || !zoom.Pan )
+            return;
+
+        var plot = BuildCurrentPlotArea( model );
+        var fullViewport = ResolveFullViewport( BuildModel( false, false ) );
+        var nextViewport = PanViewport( panStartViewport, fullViewport, zoom, plot, eventArgs.ClientX - panStartClientX, eventArgs.ClientY - panStartClientY );
+
+        panLastViewport = CloneViewport( nextViewport );
+        await ApplyViewport( ResolveEffectiveViewport( model, fullViewport ), nextViewport );
+    }
+
+    private async Task HandleChartMouseUp( MouseEventArgs eventArgs )
+    {
+        if ( !panning )
+            return;
+
+        panning = false;
+
+        if ( panStartViewport is not null && panLastViewport is not null )
+        {
+            await NotifyPanned( panStartViewport, panLastViewport );
+        }
+
+        panStartViewport = null;
+        panLastViewport = null;
+    }
+
+    private async Task HandleChartMouseLeave( MouseEventArgs eventArgs )
+    {
+        await HandleChartMouseUp( eventArgs );
     }
 
     public Task SetData( SvgChartData<double?> data )
@@ -3821,18 +4436,67 @@ public class SvgChart<TItem> : SvgChartBase
         return Task.CompletedTask;
     }
 
+    public async Task SetViewport( SvgChartViewport viewport )
+    {
+        var model = BuildModel();
+        var fullViewport = ResolveFullViewport( BuildModel( false, false ) );
+        var previousViewport = ResolveEffectiveViewport( model, fullViewport );
+        var nextViewport = CloneViewport( viewport );
+
+        await ApplyViewport( previousViewport, nextViewport );
+    }
+
+    public async Task ResetZoom()
+    {
+        var model = BuildModel();
+        var fullViewport = ResolveFullViewport( BuildModel( false, false ) );
+        var previousViewport = ResolveEffectiveViewport( model, fullViewport );
+
+        await ApplyViewport( previousViewport, null );
+        await NotifyZoomed( previousViewport, fullViewport, SvgChartZoomSource.Api );
+    }
+
+    public async Task ZoomIn()
+    {
+        await ZoomBy( 0.82 );
+    }
+
+    public async Task ZoomOut()
+    {
+        await ZoomBy( 1.22 );
+    }
+
     public Task Clear()
     {
         internalChartData = new();
         hiddenSeries.Clear();
         activeTooltip = null;
         activeTooltipPinned = false;
+        internalViewport = null;
+        panning = false;
         streamingAnimationVersion = 0;
         streamingAnimationActive = false;
         lastStreamingRender = DateTimeOffset.MinValue;
         StateHasChanged();
 
         return Task.CompletedTask;
+    }
+
+    private async Task ZoomBy( double factor )
+    {
+        var model = BuildModel();
+        var zoom = model.Zoom;
+
+        if ( zoom?.Enabled != true )
+            return;
+
+        var fullViewport = ResolveFullViewport( BuildModel( false, false ) );
+        var previousViewport = ResolveEffectiveViewport( model, fullViewport );
+        var plot = BuildCurrentPlotArea( model );
+        var nextViewport = ZoomViewport( previousViewport, fullViewport, zoom, plot, plot.Left + plot.Width / 2, plot.Top + plot.Height / 2, factor );
+
+        await ApplyViewport( previousViewport, nextViewport );
+        await NotifyZoomed( previousViewport, nextViewport, SvgChartZoomSource.Api );
     }
 
     public ValueTask<string> ToSvgString()
@@ -3856,7 +4520,7 @@ public class SvgChart<TItem> : SvgChartBase
             return internalChartData;
         }
 
-        var model = BuildModel( false );
+        var model = BuildModel( false, false );
 
         internalChartData = new()
         {
@@ -4046,6 +4710,17 @@ public class SvgChart<TItem> : SvgChartBase
         tooltipComponents.Remove( tooltip );
     }
 
+    internal override void RegisterZoom( SvgChartZoom zoom )
+    {
+        if ( !zoomComponents.Contains( zoom ) )
+            zoomComponents.Add( zoom );
+    }
+
+    internal override void UnregisterZoom( SvgChartZoom zoom )
+    {
+        zoomComponents.Remove( zoom );
+    }
+
     internal override void RegisterDataLabels( SvgChartDataLabels dataLabels )
     {
         if ( !dataLabelsComponents.Contains( dataLabels ) )
@@ -4131,6 +4806,8 @@ public class SvgChart<TItem> : SvgChartBase
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
     #endregion
 
     #region Models
@@ -4139,11 +4816,19 @@ public class SvgChart<TItem> : SvgChartBase
     {
         public SvgChartOptions Options { get; init; }
 
+        public SvgChartZoomOptions Zoom { get; init; }
+
+        public SvgChartViewport Viewport { get; init; }
+
         public List<object> Labels { get; init; } = [];
 
         public int CategorySlotCount { get; init; }
 
         public List<int> CategoryLabelIndexes { get; init; } = [];
+
+        public double CategoryMin { get; init; }
+
+        public double CategoryMax { get; init; }
 
         public SvgChartAxisOptions CategoryAxis { get; init; }
 
