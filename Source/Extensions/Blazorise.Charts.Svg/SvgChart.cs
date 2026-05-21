@@ -4579,7 +4579,18 @@ public class SvgChart<TItem> : SvgChartBase
 
     public Task Clear()
     {
-        internalChartData = new();
+        var data = EnsureInternalData();
+
+        data.Labels.Clear();
+
+        foreach ( var series in data.Series )
+        {
+            series.Values.Clear();
+            series.XValues?.Clear();
+            series.YValues?.Clear();
+            series.RadiusValues?.Clear();
+        }
+
         hiddenSeries.Clear();
         hiddenDataPoints.Clear();
         activeTooltip = null;
