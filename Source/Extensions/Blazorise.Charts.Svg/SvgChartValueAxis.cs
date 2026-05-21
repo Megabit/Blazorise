@@ -57,6 +57,11 @@ public class SvgChartValueAxis : SvgChartComponentBase
     [Parameter] public int TickCount { get; set; } = 5;
 
     /// <summary>
+    /// Defines grid line options for this value axis.
+    /// </summary>
+    [Parameter] public SvgChartGridLinesOptions GridLines { get; set; } = new();
+
+    /// <summary>
     /// Defines the axis title.
     /// </summary>
     [Parameter] public string Title { get; set; }

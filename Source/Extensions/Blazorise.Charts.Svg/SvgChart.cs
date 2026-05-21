@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -40,7 +41,25 @@ public class SvgChart<TItem> : SvgChartBase
 
     private SvgChartTooltipContext activeTooltip;
 
+    private ComponentParameterInfo<SvgChartType> paramType;
+
+    private ComponentParameterInfo<IEnumerable<TItem>> paramItems;
+
+    private ComponentParameterInfo<SvgChartData<double?>> paramData;
+
+    private ComponentParameterInfo<SvgChartOptions> paramOptions;
+
+    private ComponentParameterInfo<SvgChartStreamingOptions> paramStreaming;
+
     private bool activeTooltipPinned;
+
+    private bool streamingPaused;
+
+    private int streamingAnimationVersion;
+
+    private bool streamingAnimationActive;
+
+    private DateTimeOffset lastStreamingRender = DateTimeOffset.MinValue;
 
     private static readonly string[] Palette =
     [
@@ -63,6 +82,24 @@ public class SvgChart<TItem> : SvgChartBase
         base.BuildClasses( builder );
     }
 
+    /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( Type, out paramType );
+        parameters.TryGetParameter( Items, out paramItems );
+        parameters.TryGetParameter( Data, out paramData );
+        parameters.TryGetParameter( Options, out paramOptions );
+        parameters.TryGetParameter( Streaming, out paramStreaming );
+
+        if ( paramType.Changed || paramItems.Changed || paramData.Changed )
+            activeTooltip = null;
+
+        if ( paramData.Changed )
+            internalChartData = null;
+
+        return base.SetParametersAsync( parameters );
+    }
+
     protected override void BuildRenderTree( RenderTreeBuilder builder )
     {
         var sequence = 0;
@@ -74,6 +111,7 @@ public class SvgChart<TItem> : SvgChartBase
         var hasTopLegend = legend.Visible && legend.Position == SvgChartLegendPosition.Top;
         var hasBottomLegend = legend.Visible && legend.Position == SvgChartLegendPosition.Bottom;
         var plot = BuildPlotArea( options, title, subtitle, hasTopLegend, hasBottomLegend );
+        var streamingAnimation = ResolveStreamingAnimation( model, plot );
 
         builder.OpenComponent<CascadingValue<SvgChartBase>>( sequence++ );
         builder.AddAttribute( sequence++, "Value", this );
@@ -102,12 +140,18 @@ public class SvgChart<TItem> : SvgChartBase
         if ( IsBarChart( model ) )
             RenderHorizontalGridAndAxes( builder, ref sequence, model, plot );
         else if ( !IsRadialChart( model ) )
-            RenderGridAndAxes( builder, ref sequence, model, plot );
+            RenderGridAndAxes( builder, ref sequence, model, plot, streamingAnimation );
+
+        if ( !IsRadialChart( model ) )
+            RenderPlotClipPath( builder, ref sequence, plot, options );
+
+        if ( !IsBarChart( model ) && !IsRadialChart( model ) && streamingAnimation.Enabled )
+            RenderCategoryAxisLabels( builder, ref sequence, model, plot, streamingAnimation );
 
         if ( IsRadialChart( model ) )
             RenderRadialChart( builder, ref sequence, model, plot );
 
-        RenderCartesianSeries( builder, ref sequence, model, plot );
+        RenderCartesianSeries( builder, ref sequence, model, plot, streamingAnimation );
 
         if ( hasBottomLegend )
             RenderLegend( builder, ref sequence, model, options, options.Height - 30 );
@@ -147,25 +191,65 @@ public class SvgChart<TItem> : SvgChartBase
         }
     }
 
-    private void RenderGridAndAxes( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
+    private void RenderPlotClipPath( RenderTreeBuilder builder, ref int sequence, PlotArea plot, SvgChartOptions options )
+    {
+        builder.OpenElement( sequence++, "defs" );
+        builder.OpenElement( sequence++, "clipPath" );
+        builder.AddAttribute( sequence++, "id", GetPlotClipPathId() );
+
+        builder.OpenElement( sequence++, "rect" );
+        builder.AddAttribute( sequence++, "x", Format( plot.Left + 0.5 ) );
+        builder.AddAttribute( sequence++, "y", Format( plot.Top ) );
+        builder.AddAttribute( sequence++, "width", Format( Math.Max( 0, plot.Width - 0.5 ) ) );
+        builder.AddAttribute( sequence++, "height", Format( plot.Height ) );
+        builder.CloseElement();
+
+        builder.CloseElement();
+
+        builder.OpenElement( sequence++, "clipPath" );
+        builder.AddAttribute( sequence++, "id", GetCategoryAxisLabelsClipPathId() );
+
+        builder.OpenElement( sequence++, "rect" );
+        builder.AddAttribute( sequence++, "x", Format( plot.Left + 0.5 ) );
+        builder.AddAttribute( sequence++, "y", Format( plot.Bottom ) );
+        builder.AddAttribute( sequence++, "width", Format( Math.Max( 0, plot.Width - 0.5 ) ) );
+        builder.AddAttribute( sequence++, "height", Format( Math.Max( 0, options.Height - plot.Bottom ) ) );
+        builder.CloseElement();
+
+        builder.CloseElement();
+        builder.CloseElement();
+    }
+
+    private void RenderGridAndAxes( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot, (bool Enabled, double OffsetX, TimeSpan Duration) streamingAnimation )
     {
         builder.OpenElement( sequence++, "g" );
         builder.AddAttribute( sequence++, "class", "svg-chart-grid" );
 
         var primaryAxis = model.PrimaryValueAxis;
 
+        var primaryGridLines = primaryAxis.GridLines;
+
+        if ( primaryGridLines?.Visible == true )
+        {
+            foreach ( var tick in primaryAxis.Ticks )
+            {
+                var y = GetY( tick, plot, primaryAxis );
+
+                builder.OpenElement( sequence++, "line" );
+                builder.AddAttribute( sequence++, "x1", Format( plot.Left ) );
+                builder.AddAttribute( sequence++, "x2", Format( plot.Right ) );
+                builder.AddAttribute( sequence++, "y1", Format( y ) );
+                builder.AddAttribute( sequence++, "y2", Format( y ) );
+                AddGridLineAttributes( builder, ref sequence, primaryGridLines );
+                builder.CloseElement();
+            }
+        }
+
+        RenderCategoryAxisGridLines( builder, ref sequence, model, plot, streamingAnimation );
+
         foreach ( var tick in primaryAxis.Ticks )
         {
             var y = GetY( tick, plot, primaryAxis );
-
-            builder.OpenElement( sequence++, "line" );
-            builder.AddAttribute( sequence++, "x1", Format( plot.Left ) );
-            builder.AddAttribute( sequence++, "x2", Format( plot.Right ) );
-            builder.AddAttribute( sequence++, "y1", Format( y ) );
-            builder.AddAttribute( sequence++, "y2", Format( y ) );
-            builder.AddAttribute( sequence++, "stroke", "currentColor" );
-            builder.AddAttribute( sequence++, "stroke-opacity", "0.14" );
-            builder.CloseElement();
 
             builder.OpenElement( sequence++, "text" );
             builder.AddAttribute( sequence++, "x", Format( plot.Left - 10 ) );
@@ -196,13 +280,91 @@ public class SvgChart<TItem> : SvgChartBase
         builder.AddAttribute( sequence++, "stroke-opacity", "0.22" );
         builder.CloseElement();
 
+        if ( !streamingAnimation.Enabled )
+            RenderCategoryAxisLabels( builder, ref sequence, model, plot, streamingAnimation );
+
+        RenderRightValueAxes( builder, ref sequence, model, plot, primaryAxis );
+
+        builder.CloseElement();
+    }
+
+    private void RenderCategoryAxisGridLines( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot, (bool Enabled, double OffsetX, TimeSpan Duration) streamingAnimation )
+    {
+        var gridLines = model.CategoryAxis.GridLines;
+
+        if ( gridLines?.Visible != true )
+            return;
+
+        var labels = model.CategoryAxis.Labels ?? new();
+        var labelStep = Math.Max( 1, labels.Step );
+
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-grid svg-chart-category-grid" );
+        builder.AddAttribute( sequence++, "clip-path", $"url(#{GetPlotClipPathId()})" );
+
+        if ( streamingAnimation.Enabled )
+        {
+            builder.OpenElement( sequence++, "g" );
+            builder.SetKey( $"streaming-category-grid-{streamingAnimationVersion}" );
+            builder.AddAttribute( sequence++, "style", ResolveStreamingAnimationStyle( streamingAnimation ) );
+        }
+
         for ( var i = 0; i < model.Labels.Count; i++ )
         {
-            var x = plot.Left + plot.Width * ( i + 0.5 ) / Math.Max( model.Labels.Count, 1 );
+            var labelIndex = i < model.CategoryLabelIndexes.Count ? model.CategoryLabelIndexes[i] : i;
+
+            if ( labelIndex < 0 || labelIndex % labelStep != 0 )
+                continue;
+
+            var x = plot.Left + plot.Width * ( i + 0.5 ) / GetCategorySlotCount( model );
+
+            builder.OpenElement( sequence++, "line" );
+            builder.AddAttribute( sequence++, "x1", Format( x ) );
+            builder.AddAttribute( sequence++, "x2", Format( x ) );
+            builder.AddAttribute( sequence++, "y1", Format( plot.Top ) );
+            builder.AddAttribute( sequence++, "y2", Format( plot.Bottom ) );
+            AddGridLineAttributes( builder, ref sequence, gridLines );
+            builder.CloseElement();
+        }
+
+        if ( streamingAnimation.Enabled )
+            builder.CloseElement();
+
+        builder.CloseElement();
+    }
+
+    private void RenderCategoryAxisLabels( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot, (bool Enabled, double OffsetX, TimeSpan Duration) streamingAnimation )
+    {
+        var labels = model.CategoryAxis.Labels ?? new();
+        var labelStep = Math.Max( 1, labels.Step );
+
+        if ( !labels.Visible )
+            return;
+
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-axis-labels svg-chart-category-axis-labels" );
+
+        if ( streamingAnimation.Enabled )
+        {
+            builder.AddAttribute( sequence++, "clip-path", $"url(#{GetCategoryAxisLabelsClipPathId()})" );
+
+            builder.OpenElement( sequence++, "g" );
+            builder.SetKey( $"streaming-axis-labels-{streamingAnimationVersion}" );
+            builder.AddAttribute( sequence++, "style", ResolveStreamingAnimationStyle( streamingAnimation ) );
+        }
+
+        for ( var i = 0; i < model.Labels.Count; i++ )
+        {
+            var labelIndex = i < model.CategoryLabelIndexes.Count ? model.CategoryLabelIndexes[i] : i;
+
+            if ( labelIndex < 0 || labelIndex % labelStep != 0 )
+                continue;
+
+            var x = plot.Left + plot.Width * ( i + 0.5 ) / GetCategorySlotCount( model );
 
             builder.OpenElement( sequence++, "text" );
             builder.AddAttribute( sequence++, "x", Format( x ) );
-            builder.AddAttribute( sequence++, "y", Format( plot.Bottom + 24 ) );
+            builder.AddAttribute( sequence++, "y", Format( plot.Bottom + labels.Offset ) );
             builder.AddAttribute( sequence++, "text-anchor", "middle" );
             builder.AddAttribute( sequence++, "font-size", "11" );
             builder.AddAttribute( sequence++, "fill", "currentColor" );
@@ -211,8 +373,14 @@ public class SvgChart<TItem> : SvgChartBase
             builder.CloseElement();
         }
 
-        builder.CloseElement();
+        if ( streamingAnimation.Enabled )
+            builder.CloseElement();
 
+        builder.CloseElement();
+    }
+
+    private void RenderRightValueAxes( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot, RenderValueAxis primaryAxis )
+    {
         foreach ( var axis in model.ValueAxes.Where( x => x != primaryAxis && x.Position == SvgChartAxisPosition.Right ) )
         {
             builder.OpenElement( sequence++, "g" );
@@ -246,6 +414,16 @@ public class SvgChart<TItem> : SvgChartBase
         }
     }
 
+    private static void AddGridLineAttributes( RenderTreeBuilder builder, ref int sequence, SvgChartGridLinesOptions gridLines )
+    {
+        builder.AddAttribute( sequence++, "stroke", ResolveGridLineColor( gridLines ) );
+        builder.AddAttribute( sequence++, "stroke-width", Format( Math.Max( 0, gridLines?.Width ?? 1 ) ) );
+        builder.AddAttribute( sequence++, "stroke-opacity", Format( Math.Clamp( gridLines?.Opacity ?? 0.14, 0, 1 ) ) );
+
+        if ( !string.IsNullOrWhiteSpace( gridLines?.DashPattern ) )
+            builder.AddAttribute( sequence++, "stroke-dasharray", gridLines.DashPattern );
+    }
+
     private void RenderHorizontalGridAndAxes( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
     {
         builder.OpenElement( sequence++, "g" );
@@ -255,14 +433,18 @@ public class SvgChart<TItem> : SvgChartBase
         {
             var x = GetX( tick, plot, model );
 
-            builder.OpenElement( sequence++, "line" );
-            builder.AddAttribute( sequence++, "x1", Format( x ) );
-            builder.AddAttribute( sequence++, "x2", Format( x ) );
-            builder.AddAttribute( sequence++, "y1", Format( plot.Top ) );
-            builder.AddAttribute( sequence++, "y2", Format( plot.Bottom ) );
-            builder.AddAttribute( sequence++, "stroke", "currentColor" );
-            builder.AddAttribute( sequence++, "stroke-opacity", "0.14" );
-            builder.CloseElement();
+            var gridLines = model.PrimaryValueAxis.GridLines;
+
+            if ( gridLines?.Visible == true )
+            {
+                builder.OpenElement( sequence++, "line" );
+                builder.AddAttribute( sequence++, "x1", Format( x ) );
+                builder.AddAttribute( sequence++, "x2", Format( x ) );
+                builder.AddAttribute( sequence++, "y1", Format( plot.Top ) );
+                builder.AddAttribute( sequence++, "y2", Format( plot.Bottom ) );
+                AddGridLineAttributes( builder, ref sequence, gridLines );
+                builder.CloseElement();
+            }
 
             builder.OpenElement( sequence++, "text" );
             builder.AddAttribute( sequence++, "x", Format( x ) );
@@ -302,13 +484,22 @@ public class SvgChart<TItem> : SvgChartBase
         builder.CloseElement();
     }
 
-    private void RenderCartesianSeries( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
+    private void RenderCartesianSeries( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot, (bool Enabled, double OffsetX, TimeSpan Duration) animation )
     {
         var renderOrders = model.Series.Where( x => !x.Hidden && !IsRadialChart( x.Type ) )
             .Select( ResolveRenderOrder )
             .Distinct()
             .OrderBy( x => x )
             .ToList();
+
+        if ( animation.Enabled )
+        {
+            builder.OpenElement( sequence++, "g" );
+            builder.SetKey( $"streaming-animation-{streamingAnimationVersion}" );
+            builder.AddAttribute( sequence++, "class", "svg-chart-streaming-viewport" );
+            builder.AddAttribute( sequence++, "clip-path", $"url(#{GetPlotClipPathId()})" );
+            builder.AddAttribute( sequence++, "style", ResolveStreamingAnimationStyle( animation ) );
+        }
 
         foreach ( var renderOrder in renderOrders )
         {
@@ -329,6 +520,11 @@ public class SvgChart<TItem> : SvgChartBase
             if ( model.Series.Any( x => IsPointChart( x.Type ) && ShouldRender( x ) ) )
                 RenderPointCharts( builder, ref sequence, model, plot, ShouldRender );
         }
+
+        if ( animation.Enabled )
+        {
+            builder.CloseElement();
+        }
     }
 
     private void RenderColumns( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot, Func<RenderSeries, bool> shouldRender = null )
@@ -338,7 +534,7 @@ public class SvgChart<TItem> : SvgChartBase
         if ( visibleColumnSeries.Count == 0 || model.Labels.Count == 0 || !visibleColumnSeries.Any( x => shouldRender?.Invoke( x ) ?? true ) )
             return;
 
-        var categoryWidth = plot.Width / model.Labels.Count;
+        var categoryWidth = plot.Width / GetCategorySlotCount( model );
         var groupWidth = categoryWidth * 0.72;
         var barWidth = Math.Max( 1, groupWidth / visibleColumnSeries.Count );
         builder.OpenElement( sequence++, "g" );
@@ -462,7 +658,7 @@ public class SvgChart<TItem> : SvgChartBase
         if ( lineSeries.Count == 0 || model.Labels.Count == 0 )
             return;
 
-        var categoryWidth = plot.Width / model.Labels.Count;
+        var categoryWidth = plot.Width / GetCategorySlotCount( model );
 
         builder.OpenElement( sequence++, "g" );
         builder.AddAttribute( sequence++, "class", "svg-chart-lines" );
@@ -536,7 +732,7 @@ public class SvgChart<TItem> : SvgChartBase
         if ( areaSeries.Count == 0 || model.Labels.Count == 0 )
             return;
 
-        var categoryWidth = plot.Width / model.Labels.Count;
+        var categoryWidth = plot.Width / GetCategorySlotCount( model );
         builder.OpenElement( sequence++, "g" );
         builder.AddAttribute( sequence++, "class", "svg-chart-areas" );
 
@@ -911,7 +1107,7 @@ public class SvgChart<TItem> : SvgChartBase
         builder.CloseElement();
     }
 
-    private RenderModel BuildModel()
+    private RenderModel BuildModel( bool applyStreamingViewport = true )
     {
         var chartData = internalChartData ?? Data;
         var options = ResolveOptions();
@@ -922,12 +1118,20 @@ public class SvgChart<TItem> : SvgChartBase
         var items = Items?.ToList() ?? [];
         var labels = ResolveLabels( chartData, categoryAxis, items );
         var series = ResolveSeries( chartData, childSeries, items, labels.Count );
+        var categorySlotCount = labels.Count;
+        var categoryLabelIndexes = Enumerable.Range( 0, labels.Count ).ToList();
+        var categoryAxisOptions = CreateCategoryAxisOptions( options.XAxis ?? new(), categoryAxis );
+        if ( applyStreamingViewport )
+            ApplyStreamingViewport( labels, series, ResolveStreaming(), out categorySlotCount, out categoryLabelIndexes );
         var valueAxes = ResolveValueAxes( options, series );
         var primaryValueAxis = ResolvePrimaryValueAxis( valueAxes, valueAxisId );
 
         return new RenderModel
         {
             Labels = labels,
+            CategorySlotCount = categorySlotCount,
+            CategoryLabelIndexes = categoryLabelIndexes,
+            CategoryAxis = categoryAxisOptions,
             Series = series,
             Min = primaryValueAxis.Min,
             Max = primaryValueAxis.Max,
@@ -1084,9 +1288,91 @@ public class SvgChart<TItem> : SvgChartBase
         return normalized;
     }
 
+    private static void ApplyStreamingViewport( List<object> labels, List<RenderSeries> series, SvgChartStreamingOptions streaming, out int categorySlotCount, out List<int> categoryLabelIndexes )
+    {
+        categorySlotCount = labels.Count;
+        categoryLabelIndexes = Enumerable.Range( 0, labels.Count ).ToList();
+
+        if ( streaming is null || !streaming.Enabled || !streaming.VisibleDataPoints.HasValue )
+            return;
+
+        var visibleDataPoints = Math.Max( 1, streaming.VisibleDataPoints.Value );
+        var renderedDataPoints = IsStreamingAnimationEnabled( streaming ) ? visibleDataPoints + 1 : visibleDataPoints;
+        var startIndex = Math.Max( 0, labels.Count - renderedDataPoints );
+        var visibleLabels = labels.Skip( startIndex ).Take( renderedDataPoints ).ToList();
+        var visibleLabelIndexes = Enumerable.Range( startIndex, visibleLabels.Count ).ToList();
+        var padCount = renderedDataPoints - visibleLabels.Count;
+        categorySlotCount = visibleDataPoints;
+
+        var reverse = IsStreamingReversed( streaming );
+
+        if ( reverse )
+        {
+            visibleLabels.Reverse();
+            visibleLabelIndexes.Reverse();
+        }
+
+        if ( padCount > 0 )
+        {
+            if ( !reverse )
+            {
+                visibleLabels.InsertRange( 0, Enumerable.Repeat<object>( null, padCount ) );
+                visibleLabelIndexes.InsertRange( 0, Enumerable.Repeat( -1, padCount ) );
+            }
+            else
+            {
+                visibleLabels.AddRange( Enumerable.Repeat<object>( null, padCount ) );
+                visibleLabelIndexes.AddRange( Enumerable.Repeat( -1, padCount ) );
+            }
+        }
+
+        ReplaceList( labels, visibleLabels );
+        categoryLabelIndexes = visibleLabelIndexes;
+
+        foreach ( var item in series )
+        {
+            ApplyStreamingViewport( item.Values, startIndex, renderedDataPoints, padCount, reverse );
+            ApplyStreamingViewport( item.XValues, startIndex, renderedDataPoints, padCount, reverse );
+            ApplyStreamingViewport( item.YValues, startIndex, renderedDataPoints, padCount, reverse );
+            ApplyStreamingViewport( item.RadiusValues, startIndex, renderedDataPoints, padCount, reverse );
+        }
+    }
+
+    private static void ApplyStreamingViewport( List<double?> values, int startIndex, int visibleDataPoints, int padCount, bool reverse )
+    {
+        if ( values is null )
+            return;
+
+        var visibleValues = values.Skip( startIndex ).Take( visibleDataPoints ).ToList();
+
+        if ( reverse )
+            visibleValues.Reverse();
+
+        if ( padCount > 0 )
+        {
+            if ( !reverse )
+                visibleValues.InsertRange( 0, Enumerable.Repeat<double?>( null, padCount ) );
+            else
+                visibleValues.AddRange( Enumerable.Repeat<double?>( null, padCount ) );
+        }
+
+        ReplaceList( values, visibleValues );
+    }
+
+    private static void ReplaceList<TValue>( List<TValue> values, List<TValue> replacement )
+    {
+        values.Clear();
+        values.AddRange( replacement );
+    }
+
     private SvgChartOptions ResolveOptions()
     {
         return Options ?? new();
+    }
+
+    private SvgChartStreamingOptions ResolveStreaming()
+    {
+        return Streaming ?? ResolveOptions().Streaming ?? new() { Enabled = false };
     }
 
     private List<RenderValueAxis> ResolveValueAxes( SvgChartOptions options, List<RenderSeries> series )
@@ -1124,6 +1410,7 @@ public class SvgChart<TItem> : SvgChartBase
             {
                 Id = axis.Id,
                 Position = axis.Position,
+                GridLines = axis.GridLines,
                 Min = scale.Min,
                 Max = scale.Max,
                 Ticks = scale.Ticks
@@ -1141,6 +1428,27 @@ public class SvgChart<TItem> : SvgChartBase
             Min = axis.Min,
             Max = axis.Max,
             TickCount = axis.TickCount,
+            GridLines = CreateGridLinesOptions( axis.GridLines ),
+            Labels = CreateLabelsOptions( axis.Labels ),
+            Title = axis.Title
+        };
+    }
+
+    private static SvgChartAxisOptions CreateCategoryAxisOptions( SvgChartAxisOptions options, SvgChartCategoryAxis<TItem> axis )
+    {
+        if ( axis is null )
+            return CreateValueAxisOptions( options );
+
+        return new()
+        {
+            Id = axis.Id,
+            Position = axis.Position,
+            BeginAtZero = options.BeginAtZero,
+            Min = options.Min,
+            Max = options.Max,
+            TickCount = options.TickCount,
+            GridLines = CreateGridLinesOptions( options.GridLines, axis.GridLines ),
+            Labels = CreateLabelsOptions( options.Labels, axis.LabelsOptions ),
             Title = axis.Title
         };
     }
@@ -1155,7 +1463,65 @@ public class SvgChart<TItem> : SvgChartBase
             Min = axis.Min,
             Max = axis.Max,
             TickCount = axis.TickCount,
+            GridLines = CreateGridLinesOptions( axis.GridLines ),
+            Labels = new(),
             Title = axis.Title
+        };
+    }
+
+    private static SvgChartAxisLabelsOptions CreateLabelsOptions( SvgChartAxisLabelsOptions labels )
+    {
+        if ( labels is null )
+            return null;
+
+        return new()
+        {
+            Visible = labels.Visible,
+            Step = labels.Step,
+            Offset = labels.Offset
+        };
+    }
+
+    private static SvgChartAxisLabelsOptions CreateLabelsOptions( SvgChartAxisLabelsOptions options, SvgChartAxisLabelsOptions overrides )
+    {
+        if ( overrides is null )
+            return CreateLabelsOptions( options );
+
+        return new()
+        {
+            Visible = overrides.Visible,
+            Step = overrides.Step,
+            Offset = overrides.Offset
+        };
+    }
+
+    private static SvgChartGridLinesOptions CreateGridLinesOptions( SvgChartGridLinesOptions gridLines )
+    {
+        if ( gridLines is null )
+            return null;
+
+        return new()
+        {
+            Visible = gridLines.Visible,
+            Color = gridLines.Color,
+            Width = gridLines.Width,
+            Opacity = gridLines.Opacity,
+            DashPattern = gridLines.DashPattern
+        };
+    }
+
+    private static SvgChartGridLinesOptions CreateGridLinesOptions( SvgChartGridLinesOptions options, SvgChartGridLinesOptions overrides )
+    {
+        if ( overrides is null )
+            return CreateGridLinesOptions( options );
+
+        return new()
+        {
+            Visible = overrides.Visible,
+            Color = overrides.Color ?? options?.Color,
+            Width = overrides.Width,
+            Opacity = overrides.Opacity,
+            DashPattern = overrides.DashPattern ?? options?.DashPattern
         };
     }
 
@@ -1468,6 +1834,26 @@ public class SvgChart<TItem> : SvgChartBase
         return chartType == SvgChartType.Scatter || chartType == SvgChartType.Bubble;
     }
 
+    private static bool SupportsStreamingAnimation( RenderModel model )
+    {
+        return model.Series.Any( x => !x.Hidden && x.Type is SvgChartType.Column or SvgChartType.Line or SvgChartType.Area );
+    }
+
+    private static bool IsStreamingReversed( SvgChartStreamingOptions streaming )
+    {
+        return streaming?.Reverse == true;
+    }
+
+    private static bool IsStreamingAnimationEnabled( SvgChartStreamingOptions streaming )
+    {
+        return streaming?.Animation?.Enabled == true;
+    }
+
+    private static int GetCategorySlotCount( RenderModel model )
+    {
+        return Math.Max( model.CategorySlotCount > 0 ? model.CategorySlotCount : model.Labels.Count, 1 );
+    }
+
     private static int ResolveRenderOrder( RenderSeries series )
     {
         if ( series.Order.HasValue )
@@ -1580,6 +1966,16 @@ public class SvgChart<TItem> : SvgChartBase
         return $"var(--b-theme-{name}, var(--bs-{name}, {fallback}))";
     }
 
+    private static string ResolveGridLineColor( SvgChartGridLinesOptions gridLines )
+    {
+        var color = gridLines?.Color;
+
+        if ( color is null || color == Color.Default || string.IsNullOrWhiteSpace( color.Name ) )
+            return "currentColor";
+
+        return ResolveColor( color, 0 );
+    }
+
     private static string FormatTick( double value )
     {
         return value.ToString( "0.##", CultureInfo.InvariantCulture );
@@ -1590,14 +1986,81 @@ public class SvgChart<TItem> : SvgChartBase
         return value.ToString( "0.###", CultureInfo.InvariantCulture );
     }
 
+    private static string FormatDuration( TimeSpan value )
+    {
+        return $"{value.TotalSeconds.ToString( "0.###", CultureInfo.InvariantCulture )}s";
+    }
+
+    private string ResolveStreamingAnimationStyle( (bool Enabled, double OffsetX, TimeSpan Duration) animation )
+    {
+        var offsetX = streamingAnimationActive ? animation.OffsetX : 0;
+        var transition = streamingAnimationActive
+            ? $"transition:transform {FormatDuration( animation.Duration )} linear;"
+            : "transition:none;";
+
+        return $"transform:translateX({Format( offsetX )}px);{transition}";
+    }
+
+    private string GetPlotClipPathId()
+    {
+        return $"{ElementId}-plot-clip";
+    }
+
+    private string GetCategoryAxisLabelsClipPathId()
+    {
+        return $"{ElementId}-category-axis-labels-clip";
+    }
+
+    private (bool Enabled, double OffsetX, TimeSpan Duration) ResolveStreamingAnimation( RenderModel model, PlotArea plot )
+    {
+        var streaming = ResolveStreaming();
+
+        if ( streaming is null
+             || !streaming.Enabled
+             || !IsStreamingAnimationEnabled( streaming )
+             || !streaming.VisibleDataPoints.HasValue
+             || streaming.VisibleDataPoints.Value <= 0
+             || model.Labels.Count == 0
+             || !SupportsStreamingAnimation( model ) )
+            return (false, 0, TimeSpan.Zero);
+
+        var duration = ResolveStreamingAnimationDuration( streaming );
+
+        if ( duration <= TimeSpan.Zero )
+            return (false, 0, TimeSpan.Zero);
+
+        var categoryWidth = plot.Width / GetCategorySlotCount( model );
+        var offsetX = IsStreamingReversed( streaming )
+            ? categoryWidth
+            : -categoryWidth;
+
+        if ( streaming.IndexAxis == SvgChartIndexAxis.Y )
+        {
+            offsetX = -offsetX;
+        }
+
+        return (true, offsetX, duration);
+    }
+
+    private static TimeSpan ResolveStreamingAnimationDuration( SvgChartStreamingOptions streaming )
+    {
+        if ( streaming.Animation?.Duration > TimeSpan.Zero )
+            return streaming.Animation.Duration;
+
+        if ( streaming.RefreshInterval > TimeSpan.Zero )
+            return streaming.RefreshInterval;
+
+        return TimeSpan.FromMilliseconds( 500 );
+    }
+
     public Task SetData( SvgChartData<double?> data )
     {
         internalChartData = data;
+        streamingAnimationActive = false;
         StateHasChanged();
 
         return Task.CompletedTask;
     }
-
     public Task SetOptions( SvgChartOptions options )
     {
         Options = options;
@@ -1643,6 +2106,110 @@ public class SvgChart<TItem> : SvgChartBase
 
         return Task.CompletedTask;
     }
+
+    #region Streaming
+
+    /// <summary>
+    /// Appends a streamed value to a series and adds the label as the next category.
+    /// </summary>
+    /// <param name="seriesName">The series name.</param>
+    /// <param name="label">The category label.</param>
+    /// <param name="value">The value to append.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task AppendValue( string seriesName, object label, double? value )
+    {
+        return AppendValues( label, new Dictionary<string, double?> { [seriesName] = value } );
+    }
+
+    /// <summary>
+    /// Appends streamed values to matching series and adds the label as the next category.
+    /// </summary>
+    /// <param name="label">The category label.</param>
+    /// <param name="values">The values keyed by series name.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task AppendValues( object label, IReadOnlyDictionary<string, double?> values )
+    {
+        var streaming = ResolveStreaming();
+        var streamingValues = values ?? new Dictionary<string, double?>();
+
+        if ( streamingPaused )
+            return;
+
+        var data = EnsureInternalData();
+        var previousCount = data.Labels.Count;
+
+        foreach ( var value in streamingValues )
+            EnsureSeries( data, value.Key, previousCount );
+
+        foreach ( var series in data.Series )
+        {
+            while ( series.Values.Count < previousCount )
+                series.Values.Add( null );
+        }
+
+        data.Labels.Add( label );
+
+        foreach ( var series in data.Series )
+            series.Values.Add( streamingValues.TryGetValue( series.Name, out var value ) ? value : null );
+
+        if ( streaming.Enabled && IsStreamingAnimationEnabled( streaming ) && streaming.VisibleDataPoints.HasValue )
+        {
+            streamingAnimationVersion++;
+            streamingAnimationActive = false;
+        }
+
+        TrimStreamingData( data, streaming, label );
+
+        await RefreshStreaming( streaming );
+
+        if ( streaming.Enabled && IsStreamingAnimationEnabled( streaming ) && streaming.VisibleDataPoints.HasValue )
+        {
+            await Task.Delay( 16 );
+            streamingAnimationActive = true;
+            await InvokeAsync( StateHasChanged );
+        }
+    }
+
+    /// <summary>
+    /// Updates the maximum number of streamed data points to keep.
+    /// </summary>
+    /// <param name="maxDataPoints">The maximum data point count, or null to keep all points by count.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task SetMaxDataPoints( int? maxDataPoints )
+    {
+        var streaming = Streaming ??= new();
+        streaming.MaxDataPoints = maxDataPoints;
+
+        TrimStreamingData( EnsureInternalData(), streaming, null );
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Pauses accepting streamed values.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task PauseStreaming()
+    {
+        streamingPaused = true;
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Resumes accepting streamed values.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task ResumeStreaming()
+    {
+        streamingPaused = false;
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    #endregion
 
     public Task SetValue( string seriesName, int index, double? value )
     {
@@ -1706,6 +2273,9 @@ public class SvgChart<TItem> : SvgChartBase
         hiddenSeries.Clear();
         activeTooltip = null;
         activeTooltipPinned = false;
+        streamingAnimationVersion = 0;
+        streamingAnimationActive = false;
+        lastStreamingRender = DateTimeOffset.MinValue;
         StateHasChanged();
 
         return Task.CompletedTask;
@@ -1730,7 +2300,7 @@ public class SvgChart<TItem> : SvgChartBase
             return internalChartData;
         }
 
-        var model = BuildModel();
+        var model = BuildModel( false );
 
         internalChartData = new()
         {
@@ -1751,6 +2321,107 @@ public class SvgChart<TItem> : SvgChartBase
         };
 
         return internalChartData;
+    }
+
+    private static SvgChartSeriesData<double?> EnsureSeries( SvgChartData<double?> data, string seriesName, int valueCount )
+    {
+        var series = data.Series.FirstOrDefault( x => x.Name == seriesName );
+
+        if ( series is null )
+        {
+            series = new()
+            {
+                Name = seriesName
+            };
+
+            data.Series.Add( series );
+        }
+
+        while ( series.Values.Count < valueCount )
+            series.Values.Add( null );
+
+        return series;
+    }
+
+    private void TrimStreamingData( SvgChartData<double?> data, SvgChartStreamingOptions streaming, object latestLabel )
+    {
+        if ( !streaming.Enabled )
+            return;
+
+        if ( streaming.MaxDataPoints.HasValue )
+        {
+            var maxDataPoints = Math.Max( 0, streaming.MaxDataPoints.Value );
+
+            while ( data.Labels.Count > maxDataPoints )
+                RemoveDataPoint( data, 0 );
+        }
+
+        if ( streaming.Duration.HasValue && TryGetDateTimeOffset( latestLabel ?? data.Labels.LastOrDefault(), out var latest ) )
+        {
+            var cutoff = latest - streaming.Duration.Value;
+
+            while ( data.Labels.Count > 0 && TryGetDateTimeOffset( data.Labels[0], out var timestamp ) && timestamp < cutoff )
+                RemoveDataPoint( data, 0 );
+        }
+    }
+
+    private static void RemoveDataPoint( SvgChartData<double?> data, int index )
+    {
+        if ( index >= 0 && index < data.Labels.Count )
+            data.Labels.RemoveAt( index );
+
+        foreach ( var series in data.Series )
+        {
+            RemoveAt( series.Values, index );
+            RemoveAt( series.XValues, index );
+            RemoveAt( series.YValues, index );
+            RemoveAt( series.RadiusValues, index );
+        }
+    }
+
+    private static void RemoveAt<TValue>( List<TValue> values, int index )
+    {
+        if ( index >= 0 && index < values.Count )
+            values.RemoveAt( index );
+    }
+
+    private Task RefreshStreaming( SvgChartStreamingOptions streaming )
+    {
+        activeTooltip = null;
+
+        if ( !streaming.Enabled || streaming.RefreshInterval <= TimeSpan.Zero )
+        {
+            StateHasChanged();
+            return Task.CompletedTask;
+        }
+
+        var now = DateTimeOffset.UtcNow;
+
+        if ( now - lastStreamingRender >= streaming.RefreshInterval )
+        {
+            lastStreamingRender = now;
+            StateHasChanged();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private static bool TryGetDateTimeOffset( object value, out DateTimeOffset dateTimeOffset )
+    {
+        switch ( value )
+        {
+            case DateTimeOffset offset:
+                dateTimeOffset = offset;
+                return true;
+            case DateTime dateTime:
+                dateTimeOffset = dateTime.Kind == DateTimeKind.Unspecified
+                    ? new DateTimeOffset( DateTime.SpecifyKind( dateTime, DateTimeKind.Local ) )
+                    : new DateTimeOffset( dateTime );
+                return true;
+            default:
+                dateTimeOffset = default;
+                return false;
+        }
     }
 
     internal override void RegisterSeries( object series )
@@ -1852,6 +2523,11 @@ public class SvgChart<TItem> : SvgChartBase
     [Parameter] public SvgChartOptions Options { get; set; }
 
     /// <summary>
+    /// Specifies chart streaming options.
+    /// </summary>
+    [Parameter] public SvgChartStreamingOptions Streaming { get; set; }
+
+    /// <summary>
     /// Occurs when a rendered chart point is clicked.
     /// </summary>
     [Parameter] public EventCallback<SvgChartPointEventArgs> Clicked { get; set; }
@@ -1873,6 +2549,12 @@ public class SvgChart<TItem> : SvgChartBase
     private sealed class RenderModel
     {
         public List<object> Labels { get; init; } = [];
+
+        public int CategorySlotCount { get; init; }
+
+        public List<int> CategoryLabelIndexes { get; init; } = [];
+
+        public SvgChartAxisOptions CategoryAxis { get; init; }
 
         public List<RenderSeries> Series { get; init; } = [];
 
@@ -1944,6 +2626,8 @@ public class SvgChart<TItem> : SvgChartBase
         public string Id { get; init; }
 
         public SvgChartAxisPosition Position { get; init; }
+
+        public SvgChartGridLinesOptions GridLines { get; init; }
 
         public double Min { get; init; }
 

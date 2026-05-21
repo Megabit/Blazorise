@@ -54,5 +54,15 @@ public class SvgChartCategoryAxis<TItem> : SvgChartComponentBase
     /// </summary>
     [Parameter] public string Title { get; set; }
 
+    /// <summary>
+    /// Defines grid line options for this category axis.
+    /// </summary>
+    [Parameter] public SvgChartGridLinesOptions GridLines { get; set; }
+
+    /// <summary>
+    /// Defines label options for this category axis.
+    /// </summary>
+    [Parameter] public SvgChartAxisLabelsOptions LabelsOptions { get; set; }
+
     #endregion
 }

@@ -43,9 +43,26 @@ public class SvgChartOptions
     public SvgChartTooltipOptions Tooltip { get; set; } = new();
 
     /// <summary>
+    /// Defines the category axis options.
+    /// </summary>
+    public SvgChartAxisOptions XAxis { get; set; } = new()
+    {
+        BeginAtZero = false,
+        GridLines = new()
+        {
+            Visible = false,
+        },
+    };
+
+    /// <summary>
     /// Defines the value axis options.
     /// </summary>
     public SvgChartAxisOptions YAxis { get; set; } = new();
+
+    /// <summary>
+    /// Defines streaming options.
+    /// </summary>
+    public SvgChartStreamingOptions Streaming { get; set; }
 
     #endregion
 }

@@ -182,6 +182,7 @@
                                Options="@radarOptions">
                     <SvgChartTitle Text="Product fit" Subtitle="Radar series from explicit data" />
                     <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled />
                 </SvgRadarChart>
             </CardBody>
         </Card>
@@ -223,6 +224,32 @@
 
                     <SvgBubbleSeries Name="Stores" XValue="@( x => x.X )" YValue="@( x => x.Y )" RadiusValue="@( x => x.Radius )" Color="Color.Info" />
                 </SvgBubbleChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG line chart - infinite streaming</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Button Color="Color.Primary" Outline Clicked="@ToggleLiveStreaming">
+                    @(liveStreamingPaused ? "Resume" : "Pause")
+                </Button>
+                <Button Color="Color.Secondary" Outline Clicked="@ClearLiveStreaming">Clear</Button>
+            </CardBody>
+            <CardBody>
+                <SvgLineChart @ref="streamingChart"
+                              TItem="object"
+                              Data="@streamingData"
+                              Options="@streamingOptions"
+                              Streaming="@infiniteStreamingOptions"
+                              Hovered="@OnPointHovered">
+                    <SvgChartTitle Text="Live latency" Subtitle="Right-to-left viewport without retention trimming" />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
+                </SvgLineChart>
             </CardBody>
         </Card>
     </Column>

@@ -1,7 +1,7 @@
 namespace Blazorise.Charts.Svg;
 
 /// <summary>
-/// Defines value axis options for a native SVG chart.
+/// Defines axis options for a native SVG chart.
 /// </summary>
 public class SvgChartAxisOptions
 {
@@ -36,6 +36,16 @@ public class SvgChartAxisOptions
     /// Defines the number of axis ticks.
     /// </summary>
     public int TickCount { get; set; } = 5;
+
+    /// <summary>
+    /// Defines grid line options.
+    /// </summary>
+    public SvgChartGridLinesOptions GridLines { get; set; } = new();
+
+    /// <summary>
+    /// Defines label options.
+    /// </summary>
+    public SvgChartAxisLabelsOptions Labels { get; set; } = new();
 
     /// <summary>
     /// Defines the axis title.
