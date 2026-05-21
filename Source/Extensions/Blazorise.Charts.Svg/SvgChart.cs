@@ -519,9 +519,12 @@ public class SvgChart<TItem> : SvgChartBase
         if ( animation.Enabled )
         {
             builder.OpenElement( sequence++, "g" );
-            builder.SetKey( $"streaming-animation-{streamingAnimationVersion}" );
             builder.AddAttribute( sequence++, "class", "svg-chart-streaming-viewport" );
             builder.AddAttribute( sequence++, "clip-path", $"url(#{GetPlotClipPathId()})" );
+
+            builder.OpenElement( sequence++, "g" );
+            builder.SetKey( $"streaming-animation-{streamingAnimationVersion}" );
+            builder.AddAttribute( sequence++, "class", "svg-chart-streaming-content" );
             builder.AddAttribute( sequence++, "style", ResolveStreamingAnimationStyle( animation ) );
         }
 
@@ -549,6 +552,7 @@ public class SvgChart<TItem> : SvgChartBase
 
         if ( animation.Enabled )
         {
+            builder.CloseElement();
             builder.CloseElement();
         }
     }
