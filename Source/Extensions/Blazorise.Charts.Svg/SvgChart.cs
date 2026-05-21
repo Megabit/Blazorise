@@ -46,6 +46,8 @@ public class SvgChart<TItem> : SvgChartBase
 
     private readonly HashSet<string> hiddenSeries = [];
 
+    private readonly HashSet<string> hiddenDataPoints = [];
+
     private SvgChartData<double?> internalChartData;
 
     private SvgChartTooltipContext activeTooltip;
@@ -1308,26 +1310,28 @@ public class SvgChart<TItem> : SvgChartBase
 
     private void RenderLegend( RenderTreeBuilder builder, ref int sequence, RenderModel model, SvgChartOptions options, double y )
     {
-        if ( model.Series.Count == 0 )
+        var legendItems = ResolveLegendItems( model );
+
+        if ( legendItems.Count == 0 )
             return;
 
-        var itemWidth = Math.Min( 140, options.Width / Math.Max( model.Series.Count, 1 ) );
-        var totalWidth = itemWidth * model.Series.Count;
+        var itemWidth = Math.Min( 140, options.Width / Math.Max( legendItems.Count, 1 ) );
+        var totalWidth = itemWidth * legendItems.Count;
         var startX = Math.Max( 8, ( options.Width - totalWidth ) / 2 );
 
         builder.OpenElement( sequence++, "g" );
         builder.AddAttribute( sequence++, "class", "svg-chart-legend" );
 
-        for ( var i = 0; i < model.Series.Count; i++ )
+        for ( var i = 0; i < legendItems.Count; i++ )
         {
-            var series = model.Series[i];
+            var item = legendItems[i];
             var x = startX + itemWidth * i;
 
             builder.OpenElement( sequence++, "g" );
             builder.AddAttribute( sequence++, "class", "svg-chart-legend-item" );
             builder.AddAttribute( sequence++, "role", "button" );
             builder.AddAttribute( sequence++, "tabindex", "0" );
-            builder.AddAttribute( sequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => ToggleSeries( series.Name ) ) );
+            builder.AddAttribute( sequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, item.Toggle ) );
 
             builder.OpenElement( sequence++, "rect" );
             builder.AddAttribute( sequence++, "x", Format( x ) );
@@ -1335,21 +1339,65 @@ public class SvgChart<TItem> : SvgChartBase
             builder.AddAttribute( sequence++, "width", "12" );
             builder.AddAttribute( sequence++, "height", "12" );
             builder.AddAttribute( sequence++, "rx", "3" );
-            builder.AddAttribute( sequence++, "fill", series.RenderColor );
-            builder.AddAttribute( sequence++, "opacity", series.Hidden ? "0.35" : "1" );
+            builder.AddAttribute( sequence++, "fill", item.Color );
+            builder.AddAttribute( sequence++, "opacity", item.Hidden ? "0.35" : "1" );
             builder.CloseElement();
 
             builder.OpenElement( sequence++, "text" );
             builder.AddAttribute( sequence++, "x", Format( x + 18 ) );
             builder.AddAttribute( sequence++, "y", Format( y + 1 ) );
-            AddFontAttributes( builder, ref sequence, options, fallbackSize: 12, opacity: series.Hidden ? 0.45 : 0.8 );
-            builder.AddContent( sequence++, series.Name );
+            AddFontAttributes( builder, ref sequence, options, fallbackSize: 12, opacity: item.Hidden ? 0.45 : 0.8 );
+            builder.AddContent( sequence++, item.Label );
             builder.CloseElement();
 
             builder.CloseElement();
         }
 
         builder.CloseElement();
+    }
+
+    private List<LegendItem> ResolveLegendItems( RenderModel model )
+    {
+        if ( model.Series.Count == 0 )
+            return [];
+
+        if ( IsRadialCategoryLegendChart( model ) )
+            return ResolveRadialLegendItems( model );
+
+        return model.Series.Select( series => new LegendItem
+        {
+            Label = series.Name,
+            Color = series.RenderColor,
+            Hidden = series.Hidden,
+            Toggle = () => ToggleSeries( series.Name )
+        } ).ToList();
+    }
+
+    private List<LegendItem> ResolveRadialLegendItems( RenderModel model )
+    {
+        var series = model.Series.FirstOrDefault();
+
+        if ( series is null )
+            return [];
+
+        var count = Math.Max( model.Labels.Count, series.Values.Count );
+        var result = new List<LegendItem>();
+
+        for ( var i = 0; i < count; i++ )
+        {
+            var pointIndex = i;
+            var category = i < model.Labels.Count ? model.Labels[i] : i + 1;
+
+            result.Add( new()
+            {
+                Label = category?.ToString() ?? string.Empty,
+                Color = ResolveColor( null, i ),
+                Hidden = series.Hidden || IsDataPointHidden( series.Name, pointIndex ),
+                Toggle = () => ToggleDataPoint( series.Name, pointIndex )
+            } );
+        }
+
+        return result;
     }
 
     private void RenderPointCharts( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot, Func<RenderSeries, bool> shouldRender = null )
@@ -1687,7 +1735,11 @@ public class SvgChart<TItem> : SvgChartBase
         if ( series is null )
             return;
 
-        var values = series.Values.Where( x => x.HasValue && x.Value >= 0 ).Select( x => x.Value ).ToList();
+        var values = series.Values
+            .Select( ( value, index ) => new { Value = value, Index = index } )
+            .Where( x => x.Value.HasValue && x.Value.Value >= 0 && !IsDataPointHidden( series.Name, x.Index ) )
+            .Select( x => (Value: x.Value.Value, Index: x.Index) )
+            .ToList();
 
         if ( values.Count == 0 )
             return;
@@ -1695,9 +1747,9 @@ public class SvgChart<TItem> : SvgChartBase
         var centerX = plot.Left + plot.Width / 2;
         var centerY = plot.Top + plot.Height / 2;
         var radius = Math.Max( 1, Math.Min( plot.Width, plot.Height ) * 0.42 );
-        var total = radialType == SvgChartType.PolarArea ? values.Count : values.Sum();
+        var total = radialType == SvgChartType.PolarArea ? values.Count : values.Sum( x => x.Value );
         var startAngle = -Math.PI / 2;
-        var max = values.Max();
+        var max = values.Max( x => x.Value );
 
         if ( total <= 0 )
             return;
@@ -1707,15 +1759,16 @@ public class SvgChart<TItem> : SvgChartBase
 
         for ( var i = 0; i < values.Count; i++ )
         {
-            var value = values[i];
+            var value = values[i].Value;
+            var pointIndex = values[i].Index;
             var sweep = radialType == SvgChartType.PolarArea ? ( Math.PI * 2 / values.Count ) : ( value / total * Math.PI * 2 );
             var endAngle = startAngle + sweep;
             var pointRadius = radialType == SvgChartType.PolarArea ? radius * Math.Sqrt( value / Math.Max( max, 1 ) ) : radius;
             var innerRadius = radialType == SvgChartType.Doughnut ? radius * 0.58 : 0;
-            var color = ResolveColor( null, i );
-            var category = i < model.Labels.Count ? model.Labels[i] : i + 1;
+            var color = ResolveColor( null, pointIndex );
+            var category = pointIndex < model.Labels.Count ? model.Labels[pointIndex] : pointIndex + 1;
             var bounds = new SvgChartPointBounds { X = centerX - pointRadius, Y = centerY - pointRadius, Width = pointRadius * 2, Height = pointRadius * 2 };
-            var point = new SvgChartPointEventArgs { SeriesName = series.Name, SeriesIndex = model.Series.IndexOf( series ), PointIndex = i, Category = category, Value = value, Bounds = bounds };
+            var point = new SvgChartPointEventArgs { SeriesName = series.Name, SeriesIndex = model.Series.IndexOf( series ), PointIndex = pointIndex, Category = category, Value = value, Bounds = bounds };
 
             builder.OpenElement( sequence++, "path" );
             builder.AddAttribute( sequence++, "class", $"svg-chart-point svg-chart-{radialType.ToString().ToLowerInvariant()}-segment" );
@@ -3521,6 +3574,16 @@ public class SvgChart<TItem> : SvgChartBase
         return chartType is SvgChartType.Pie or SvgChartType.Doughnut or SvgChartType.PolarArea or SvgChartType.Radar;
     }
 
+    private static bool IsRadialCategoryLegendChart( RenderModel model )
+    {
+        return model.Series.Any( x => IsRadialCategoryLegendChart( x.Type ) );
+    }
+
+    private static bool IsRadialCategoryLegendChart( SvgChartType chartType )
+    {
+        return chartType is SvgChartType.Pie or SvgChartType.Doughnut or SvgChartType.PolarArea;
+    }
+
     private static bool IsPointChart( SvgChartType chartType )
     {
         return chartType == SvgChartType.Scatter || chartType == SvgChartType.Bubble;
@@ -4429,6 +4492,47 @@ public class SvgChart<TItem> : SvgChartBase
         return Task.CompletedTask;
     }
 
+    public Task ToggleDataPoint( string seriesName, int pointIndex )
+    {
+        var key = GetDataPointKey( seriesName, pointIndex );
+
+        if ( !hiddenDataPoints.Add( key ) )
+            hiddenDataPoints.Remove( key );
+
+        activeTooltip = null;
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    public Task ShowDataPoint( string seriesName, int pointIndex )
+    {
+        hiddenDataPoints.Remove( GetDataPointKey( seriesName, pointIndex ) );
+        activeTooltip = null;
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    public Task HideDataPoint( string seriesName, int pointIndex )
+    {
+        hiddenDataPoints.Add( GetDataPointKey( seriesName, pointIndex ) );
+        activeTooltip = null;
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    private static string GetDataPointKey( string seriesName, int pointIndex )
+    {
+        return $"{seriesName ?? string.Empty}:{pointIndex}";
+    }
+
+    private bool IsDataPointHidden( string seriesName, int pointIndex )
+    {
+        return hiddenDataPoints.Contains( GetDataPointKey( seriesName, pointIndex ) );
+    }
+
     public Task Update()
     {
         StateHasChanged();
@@ -4477,6 +4581,7 @@ public class SvgChart<TItem> : SvgChartBase
     {
         internalChartData = new();
         hiddenSeries.Clear();
+        hiddenDataPoints.Clear();
         activeTooltip = null;
         activeTooltipPinned = false;
         internalViewport = null;
@@ -4893,6 +4998,17 @@ public class SvgChart<TItem> : SvgChartBase
         public double MarkerRadius { get; init; }
 
         public double FillOpacity { get; init; }
+    }
+
+    private sealed class LegendItem
+    {
+        public string Label { get; init; }
+
+        public string Color { get; init; }
+
+        public bool Hidden { get; init; }
+
+        public Func<Task> Toggle { get; init; }
     }
 
     private sealed class PlotArea
