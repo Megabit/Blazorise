@@ -1,0 +1,62 @@
+@page "/docs/components/on-screen-keyboard"
+
+<Seo Canonical="/docs/components/on-screen-keyboard" Title="Blazorise On-screen Keyboard" Description="Learn how to enable the Blazorise on-screen keyboard for text-capable input components." />
+
+<DocsPageTitle Path="Components/On-screen Keyboard">
+    Blazorise On-screen Keyboard
+</DocsPageTitle>
+
+<DocsPageLead>
+    The on-screen keyboard lets text-capable input components show a virtual keyboard when they receive focus.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Add the <Code Tag>OnScreenKeyboardProvider</Code> once near the root of your app, then enable the keyboard on the inputs that need it with the <Code>OnScreenKeyboard</Code> parameter.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Provider setup">
+        The provider renders the keyboard and connects it to focused input components.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="OnScreenKeyboardProviderSetupExample" CodeTitle="Routes.razor" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Text input">
+        Enable the keyboard on a single <Code Tag>TextInput</Code> by setting <Code>OnScreenKeyboard</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="OnScreenKeyboardTextInputExample" Outlined FullWidth>
+        <OnScreenKeyboardTextInputExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Memo input">
+        Multiline input can use the same parameter. The enter key inserts a new line unless the keyboard is configured to hide on enter.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="OnScreenKeyboardMemoInputExample" Outlined FullWidth>
+        <OnScreenKeyboardMemoInputExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Input-specific layouts">
+        Text roles and numeric inputs choose a suitable layout automatically. You can also set <Code>OnScreenKeyboardLayout</Code> explicitly.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="OnScreenKeyboardLayoutExample" Outlined FullWidth>
+        <OnScreenKeyboardLayoutExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Global option">
+        If the keyboard should be available for all supported inputs, enable it in Blazorise options.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="OnScreenKeyboardGlobalOptionsExample" CodeTitle="Program.cs" />
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof( OnScreenKeyboardProvider ), typeof( BaseOnScreenKeyboardInputComponent<,,> ), typeof( BlazoriseOnScreenKeyboardOptions )]" />

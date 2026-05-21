@@ -1,0 +1,5 @@
+builder.Services
+    .AddBlazorise( options =>
+    {
+        options.AccessibilityOptions.OnScreenKeyboard.Enabled = true;
+    } );

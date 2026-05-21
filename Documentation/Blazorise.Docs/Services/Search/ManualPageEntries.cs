@@ -53,6 +53,7 @@ public static class ManualPageEntries
     new( "docs/components/numeric-input", "Numeric Input", "A native numeric <input> component built around the <input type=\"number\">." ),
     new( "docs/components/numeric-picker", "Numeric Picker", "A customizable NumericPicker component allows you to enter numeric values and contains controls for increasing and reducing the value." ),
     new( "docs/components/offcanvas", "Offcanvas", "Offcanvas is a sidebar component that can be toggled to appear from the left, right, top, or bottom edge of the viewport." ),
+    new( "docs/components/on-screen-keyboard", "On-screen Keyboard", "Enable a virtual keyboard for text-capable input components." ),
     new( "docs/components/pagination", "Pagination", "A responsive, usable, and flexible pagination." ),
     new( "docs/components/progress", "Progress", "Progress bars are used to show the status of an ongoing operation." ),
     new( "docs/components/radio", "Radio", "The Radio allow the user to select a single option from a group." ),

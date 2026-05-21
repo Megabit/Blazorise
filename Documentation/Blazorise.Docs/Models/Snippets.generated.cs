@@ -3608,6 +3608,58 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string OnScreenKeyboardGlobalOptionsExample = @"builder.Services
+    .AddBlazorise( options =>
+    {
+        options.AccessibilityOptions.OnScreenKeyboard.Enabled = true;
+    } );";
+
+        public const string OnScreenKeyboardLayoutExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.Is4.OnDesktop"">
+        <FieldLabel>Email layout</FieldLabel>
+        <TextInput @bind-Value=""@emailValue"" Placeholder=""name@example.com"" Role=""TextRole.Email"" OnScreenKeyboard=""true"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.Is4.OnDesktop"">
+        <FieldLabel>Numeric layout</FieldLabel>
+        <NumericInput TValue=""int?"" @bind-Value=""@numberValue"" Placeholder=""123"" OnScreenKeyboard=""true"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.Is4.OnDesktop"">
+        <FieldLabel>Explicit layout</FieldLabel>
+        <TextInput @bind-Value=""@urlValue"" Placeholder=""https://example.com"" OnScreenKeyboard=""true"" OnScreenKeyboardLayout=""OnScreenKeyboardLayout.Url"" />
+    </Field>
+</Fields>
+
+@code {
+    private string emailValue;
+
+    private int? numberValue;
+
+    private string urlValue;
+}";
+
+        public const string OnScreenKeyboardMemoInputExample = @"<Field>
+    <FieldLabel>Memo input</FieldLabel>
+    <MemoInput @bind-Value=""@memoValue"" Placeholder=""Focus to enter multiple lines"" OnScreenKeyboard=""true"" />
+</Field>
+
+@code {
+    private string memoValue;
+}";
+
+        public const string OnScreenKeyboardProviderSetupExample = @"<ThemeProvider Theme=""@theme"">
+    <Router AppAssembly=""@typeof( App ).Assembly"" />
+    <OnScreenKeyboardProvider />
+</ThemeProvider>";
+
+        public const string OnScreenKeyboardTextInputExample = @"<Field>
+    <FieldLabel>Text input</FieldLabel>
+    <TextInput @bind-Value=""@textValue"" Placeholder=""Focus to show the keyboard"" OnScreenKeyboard />
+</Field>
+
+@code {
+    private string textValue;
+}";
+
         public const string BasicPaginationExample = @"<Pagination>
     <PaginationItem Disabled=""@isActive.First()"" @onclick=""Previous"">
         <PaginationLink>
