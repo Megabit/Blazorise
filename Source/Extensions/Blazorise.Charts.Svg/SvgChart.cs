@@ -106,8 +106,8 @@ public class SvgChart<TItem> : SvgChartBase
         var model = BuildModel();
         var options = ResolveOptions();
         var legend = ResolveLegend( options );
-        var title = ResolveTitle( options );
-        var subtitle = ResolveSubtitle( options );
+        var title = ResolveTitleOptions( options );
+        var subtitle = ResolveSubtitleOptions( options );
         var hasTopLegend = legend.Visible && legend.Position == SvgChartLegendPosition.Top;
         var hasBottomLegend = legend.Visible && legend.Position == SvgChartLegendPosition.Bottom;
         var plot = BuildPlotArea( options, title, subtitle, hasTopLegend, hasBottomLegend );
@@ -128,11 +128,12 @@ public class SvgChart<TItem> : SvgChartBase
         builder.OpenElement( sequence++, "svg" );
         builder.AddAttribute( sequence++, "xmlns", "http://www.w3.org/2000/svg" );
         builder.AddAttribute( sequence++, "role", "img" );
-        builder.AddAttribute( sequence++, "aria-label", string.IsNullOrWhiteSpace( title ) ? "SVG chart" : title );
+        builder.AddAttribute( sequence++, "aria-label", IsTextVisible( title ) ? title.Text : "SVG chart" );
         builder.AddAttribute( sequence++, "viewBox", $"0 0 {Format( options.Width )} {Format( options.Height )}" );
         builder.AddAttribute( sequence++, "style", options.Responsive ? "display:block;width:100%;height:auto;overflow:visible;" : $"display:block;width:{Format( options.Width )}px;height:{Format( options.Height )}px;overflow:visible;" );
+        AddFontFamilyAttribute( builder, ref sequence, options.Font?.Family );
 
-        RenderChartTitle( builder, ref sequence, options, title, subtitle );
+        RenderChartText( builder, ref sequence, options, title, subtitle );
 
         if ( hasTopLegend )
             RenderLegend( builder, ref sequence, model, options, 48 );
@@ -162,32 +163,63 @@ public class SvgChart<TItem> : SvgChartBase
         builder.CloseElement();
     }
 
-    private void RenderChartTitle( RenderTreeBuilder builder, ref int sequence, SvgChartOptions options, string title, string subtitle )
+    private void RenderChartText( RenderTreeBuilder builder, ref int sequence, SvgChartOptions options, SvgChartTextOptions title, SvgChartTextOptions subtitle )
     {
-        if ( !string.IsNullOrWhiteSpace( title ) )
+        var top = 0d;
+        var bottom = 0d;
+        var start = 0d;
+        var end = 0d;
+
+        RenderChartText( builder, ref sequence, options, title, ref top, ref bottom, ref start, ref end );
+        RenderChartText( builder, ref sequence, options, subtitle, ref top, ref bottom, ref start, ref end );
+    }
+
+    private void RenderChartText( RenderTreeBuilder builder, ref int sequence, SvgChartOptions options, SvgChartTextOptions text, ref double top, ref double bottom, ref double start, ref double end )
+    {
+        if ( !IsTextVisible( text ) )
+            return;
+
+        var padding = text.Padding ?? new();
+        var fontSize = text.Font?.Size ?? 12;
+        var x = ResolveTextX( options, text, start, end, fontSize );
+        var y = ResolveTextY( options, text, top, bottom, fontSize );
+
+        builder.OpenElement( sequence++, "text" );
+        builder.AddAttribute( sequence++, "x", Format( x ) );
+        builder.AddAttribute( sequence++, "y", Format( y ) );
+        builder.AddAttribute( sequence++, "text-anchor", ResolveTextAnchor( text.Alignment ) );
+        builder.AddAttribute( sequence++, "font-size", Format( fontSize ) );
+        AddFontFamilyAttribute( builder, ref sequence, text.Font?.Family ?? options.Font?.Family );
+        builder.AddAttribute( sequence++, "fill", ResolveTextColor( options, text ) );
+        builder.AddAttribute( sequence++, "opacity", Format( Math.Clamp( text.Opacity ?? 1, 0, 1 ) ) );
+
+        var fontWeight = text.Font?.Weight ?? options.Font?.Weight;
+
+        if ( !string.IsNullOrWhiteSpace( fontWeight ) )
+            builder.AddAttribute( sequence++, "font-weight", fontWeight );
+
+        if ( text.Position is SvgChartTextPosition.Start or SvgChartTextPosition.End )
         {
-            builder.OpenElement( sequence++, "text" );
-            builder.AddAttribute( sequence++, "x", Format( options.Width / 2 ) );
-            builder.AddAttribute( sequence++, "y", "24" );
-            builder.AddAttribute( sequence++, "text-anchor", "middle" );
-            builder.AddAttribute( sequence++, "font-size", "16" );
-            builder.AddAttribute( sequence++, "font-weight", "600" );
-            builder.AddAttribute( sequence++, "fill", "currentColor" );
-            builder.AddContent( sequence++, title );
-            builder.CloseElement();
+            builder.AddAttribute( sequence++, "transform", $"rotate(-90 {Format( x )} {Format( y )})" );
         }
 
-        if ( !string.IsNullOrWhiteSpace( subtitle ) )
+        builder.AddContent( sequence++, text.Text );
+        builder.CloseElement();
+
+        switch ( text.Position )
         {
-            builder.OpenElement( sequence++, "text" );
-            builder.AddAttribute( sequence++, "x", Format( options.Width / 2 ) );
-            builder.AddAttribute( sequence++, "y", "43" );
-            builder.AddAttribute( sequence++, "text-anchor", "middle" );
-            builder.AddAttribute( sequence++, "font-size", "12" );
-            builder.AddAttribute( sequence++, "fill", "currentColor" );
-            builder.AddAttribute( sequence++, "opacity", "0.7" );
-            builder.AddContent( sequence++, subtitle );
-            builder.CloseElement();
+            case SvgChartTextPosition.Bottom:
+                bottom += padding.Top + fontSize + padding.Bottom;
+                break;
+            case SvgChartTextPosition.Start:
+                start += padding.Start + fontSize + padding.End;
+                break;
+            case SvgChartTextPosition.End:
+                end += padding.Start + fontSize + padding.End;
+                break;
+            default:
+                top += padding.Top + fontSize + padding.Bottom;
+                break;
         }
     }
 
@@ -255,9 +287,7 @@ public class SvgChart<TItem> : SvgChartBase
             builder.AddAttribute( sequence++, "x", Format( plot.Left - 10 ) );
             builder.AddAttribute( sequence++, "y", Format( y + 4 ) );
             builder.AddAttribute( sequence++, "text-anchor", "end" );
-            builder.AddAttribute( sequence++, "font-size", "11" );
-            builder.AddAttribute( sequence++, "fill", "currentColor" );
-            builder.AddAttribute( sequence++, "opacity", "0.68" );
+            AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.68 );
             builder.AddContent( sequence++, FormatTick( tick ) );
             builder.CloseElement();
         }
@@ -366,9 +396,7 @@ public class SvgChart<TItem> : SvgChartBase
             builder.AddAttribute( sequence++, "x", Format( x ) );
             builder.AddAttribute( sequence++, "y", Format( plot.Bottom + labels.Offset ) );
             builder.AddAttribute( sequence++, "text-anchor", "middle" );
-            builder.AddAttribute( sequence++, "font-size", "11" );
-            builder.AddAttribute( sequence++, "fill", "currentColor" );
-            builder.AddAttribute( sequence++, "opacity", "0.72" );
+            AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.72 );
             builder.AddContent( sequence++, model.Labels[i]?.ToString() );
             builder.CloseElement();
         }
@@ -403,9 +431,7 @@ public class SvgChart<TItem> : SvgChartBase
                 builder.AddAttribute( sequence++, "x", Format( plot.Right + 10 ) );
                 builder.AddAttribute( sequence++, "y", Format( y + 4 ) );
                 builder.AddAttribute( sequence++, "text-anchor", "start" );
-                builder.AddAttribute( sequence++, "font-size", "11" );
-                builder.AddAttribute( sequence++, "fill", "currentColor" );
-                builder.AddAttribute( sequence++, "opacity", "0.68" );
+                AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.68 );
                 builder.AddContent( sequence++, FormatTick( tick ) );
                 builder.CloseElement();
             }
@@ -450,9 +476,7 @@ public class SvgChart<TItem> : SvgChartBase
             builder.AddAttribute( sequence++, "x", Format( x ) );
             builder.AddAttribute( sequence++, "y", Format( plot.Bottom + 24 ) );
             builder.AddAttribute( sequence++, "text-anchor", "middle" );
-            builder.AddAttribute( sequence++, "font-size", "11" );
-            builder.AddAttribute( sequence++, "fill", "currentColor" );
-            builder.AddAttribute( sequence++, "opacity", "0.68" );
+            AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.68 );
             builder.AddContent( sequence++, FormatTick( tick ) );
             builder.CloseElement();
         }
@@ -474,9 +498,7 @@ public class SvgChart<TItem> : SvgChartBase
             builder.AddAttribute( sequence++, "x", Format( plot.Left - 10 ) );
             builder.AddAttribute( sequence++, "y", Format( y + 4 ) );
             builder.AddAttribute( sequence++, "text-anchor", "end" );
-            builder.AddAttribute( sequence++, "font-size", "11" );
-            builder.AddAttribute( sequence++, "fill", "currentColor" );
-            builder.AddAttribute( sequence++, "opacity", "0.72" );
+            AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.72 );
             builder.AddContent( sequence++, model.Labels[i]?.ToString() );
             builder.CloseElement();
         }
@@ -842,9 +864,7 @@ public class SvgChart<TItem> : SvgChartBase
             builder.OpenElement( sequence++, "text" );
             builder.AddAttribute( sequence++, "x", Format( x + 18 ) );
             builder.AddAttribute( sequence++, "y", Format( y + 1 ) );
-            builder.AddAttribute( sequence++, "font-size", "12" );
-            builder.AddAttribute( sequence++, "fill", "currentColor" );
-            builder.AddAttribute( sequence++, "opacity", series.Hidden ? "0.45" : "0.8" );
+            AddFontAttributes( builder, ref sequence, options, fallbackSize: 12, opacity: series.Hidden ? 0.45 : 0.8 );
             builder.AddContent( sequence++, series.Name );
             builder.CloseElement();
 
@@ -1084,7 +1104,7 @@ public class SvgChart<TItem> : SvgChartBase
         builder.OpenElement( sequence++, "div" );
         builder.AddAttribute( sequence++, "xmlns", "http://www.w3.org/1999/xhtml" );
         builder.AddAttribute( sequence++, "class", "svg-chart-tooltip-content" );
-        builder.AddAttribute( sequence++, "style", $"height:100%;box-sizing:border-box;overflow:hidden;border-left:3px solid {context.Color};background:rgba(var(--b-tooltip-background-color-r,33),var(--b-tooltip-background-color-g,37),var(--b-tooltip-background-color-b,41),var(--b-tooltip-background-opacity,.94));color:var(--b-tooltip-color,#fff);border-radius:var(--b-tooltip-border-radius,.375rem);padding:var(--b-tooltip-padding,.5rem .75rem);font-size:var(--b-tooltip-font-size,.875rem);box-shadow:0 .35rem 1rem rgba(0,0,0,.18);" );
+        builder.AddAttribute( sequence++, "style", ResolveTooltipStyle( model.Options, context ) );
 
         if ( tooltip.Template is not null )
         {
@@ -1128,6 +1148,7 @@ public class SvgChart<TItem> : SvgChartBase
 
         return new RenderModel
         {
+            Options = options,
             Labels = labels,
             CategorySlotCount = categorySlotCount,
             CategoryLabelIndexes = categoryLabelIndexes,
@@ -1596,38 +1617,206 @@ public class SvgChart<TItem> : SvgChartBase
         };
     }
 
-    private string ResolveTitle( SvgChartOptions options )
+    private SvgChartTextOptions ResolveTitleOptions( SvgChartOptions options )
     {
-        return titleComponents.LastOrDefault()?.Text ?? options.Title;
+        var titleComponent = titleComponents.LastOrDefault();
+        var resolved = CreateTextOptions( CreateDefaultTitleOptions(), options.Title );
+        var componentOptions = titleComponent?.Title;
+
+        if ( componentOptions is not null )
+            resolved = CreateTextOptions( resolved, componentOptions );
+
+        return resolved;
     }
 
-    private string ResolveSubtitle( SvgChartOptions options )
+    private SvgChartTextOptions ResolveSubtitleOptions( SvgChartOptions options )
     {
-        return titleComponents.LastOrDefault()?.Subtitle ?? options.Subtitle;
+        var titleComponent = titleComponents.LastOrDefault();
+        var resolved = CreateTextOptions( CreateDefaultSubtitleOptions(), options.Subtitle );
+        var componentOptions = titleComponent?.Subtitle;
+
+        if ( componentOptions is not null )
+            resolved = CreateTextOptions( resolved, componentOptions );
+
+        return resolved;
     }
 
-    private static PlotArea BuildPlotArea( SvgChartOptions options, string title, string subtitle, bool hasTopLegend, bool hasBottomLegend )
+    private static SvgChartTextOptions CreateDefaultTitleOptions()
     {
-        var top = 24d;
+        return new()
+        {
+            Font = new()
+            {
+                Size = 16,
+                Weight = "600",
+            },
+            Opacity = 1,
+            Padding = new()
+            {
+                Top = 8,
+            },
+        };
+    }
 
-        if ( !string.IsNullOrWhiteSpace( title ) )
-            top += 24;
+    private static SvgChartTextOptions CreateDefaultSubtitleOptions()
+    {
+        return new()
+        {
+            Font = new()
+            {
+                Size = 12,
+            },
+            Opacity = 0.7,
+            Padding = new()
+            {
+                Top = 7,
+            },
+        };
+    }
 
-        if ( !string.IsNullOrWhiteSpace( subtitle ) )
-            top += 18;
+    private static PlotArea BuildPlotArea( SvgChartOptions options, SvgChartTextOptions title, SvgChartTextOptions subtitle, bool hasTopLegend, bool hasBottomLegend )
+    {
+        var top = 24d + GetTopTextHeight( title ) + GetTopTextHeight( subtitle );
 
         if ( hasTopLegend )
             top += 28;
 
-        var bottom = options.Height - 42 - ( hasBottomLegend ? 38 : 0 );
+        var bottom = options.Height - 42 - ( hasBottomLegend ? 38 : 0 ) - GetBottomTextHeight( title ) - GetBottomTextHeight( subtitle );
+        var left = 52d + GetStartTextWidth( title ) + GetStartTextWidth( subtitle );
+        var right = options.Width - 18 - GetEndTextWidth( title ) - GetEndTextWidth( subtitle );
 
         return new()
         {
-            Left = 52,
+            Left = left,
             Top = top,
-            Right = options.Width - 18,
+            Right = right,
             Bottom = bottom
         };
+    }
+
+    private static SvgChartTextOptions CreateTextOptions( SvgChartTextOptions options )
+    {
+        if ( options is null )
+            return new() { Visible = false };
+
+        return new()
+        {
+            Visible = options.Visible,
+            Text = options.Text,
+            Position = options.Position,
+            Alignment = options.Alignment,
+            Padding = CreateSpacing( options.Padding ),
+            Font = CreateFontOptions( options.Font ),
+            Opacity = options.Opacity
+        };
+    }
+
+    private static SvgChartTextOptions CreateTextOptions( SvgChartTextOptions options, SvgChartTextOptions overrides )
+    {
+        if ( overrides is null )
+            return CreateTextOptions( options );
+
+        return new()
+        {
+            Visible = overrides.Visible,
+            Text = overrides.Text ?? options?.Text,
+            Position = overrides.Position,
+            Alignment = overrides.Alignment,
+            Padding = CreateSpacing( overrides.Padding ?? options?.Padding ),
+            Font = CreateFontOptions( options?.Font, overrides.Font ),
+            Opacity = overrides.Opacity ?? options?.Opacity
+        };
+    }
+
+    private static SvgChartFontOptions CreateFontOptions( SvgChartFontOptions options )
+    {
+        if ( options is null )
+            return null;
+
+        return new()
+        {
+            Family = options.Family,
+            Size = options.Size,
+            Weight = options.Weight,
+            Color = options.Color
+        };
+    }
+
+    private static SvgChartFontOptions CreateFontOptions( SvgChartFontOptions options, SvgChartFontOptions overrides )
+    {
+        if ( overrides is null )
+            return CreateFontOptions( options );
+
+        return new()
+        {
+            Family = overrides.Family ?? options?.Family,
+            Size = overrides.Size ?? options?.Size,
+            Weight = overrides.Weight ?? options?.Weight,
+            Color = IsDefaultColor( overrides.Color ) ? options?.Color : overrides.Color
+        };
+    }
+
+    private static SvgChartSpacing CreateSpacing( SvgChartSpacing spacing )
+    {
+        if ( spacing is null )
+            return new();
+
+        return new()
+        {
+            Top = spacing.Top,
+            End = spacing.End,
+            Bottom = spacing.Bottom,
+            Start = spacing.Start
+        };
+    }
+
+    private static bool IsTextVisible( SvgChartTextOptions text )
+    {
+        return text?.Visible == true && !string.IsNullOrWhiteSpace( text.Text );
+    }
+
+    private static double GetTopTextHeight( SvgChartTextOptions text )
+    {
+        return IsTextVisible( text ) && text.Position == SvgChartTextPosition.Top
+            ? GetTextBlockHeight( text )
+            : 0;
+    }
+
+    private static double GetBottomTextHeight( SvgChartTextOptions text )
+    {
+        return IsTextVisible( text ) && text.Position == SvgChartTextPosition.Bottom
+            ? GetTextBlockHeight( text )
+            : 0;
+    }
+
+    private static double GetStartTextWidth( SvgChartTextOptions text )
+    {
+        return IsTextVisible( text ) && text.Position == SvgChartTextPosition.Start
+            ? GetTextBlockWidth( text )
+            : 0;
+    }
+
+    private static double GetEndTextWidth( SvgChartTextOptions text )
+    {
+        return IsTextVisible( text ) && text.Position == SvgChartTextPosition.End
+            ? GetTextBlockWidth( text )
+            : 0;
+    }
+
+    private static double GetTextBlockHeight( SvgChartTextOptions text )
+    {
+        var padding = text.Padding ?? new();
+        var fontSize = text.Font?.Size ?? 12;
+
+        return padding.Top + fontSize + padding.Bottom;
+    }
+
+    private static double GetTextBlockWidth( SvgChartTextOptions text )
+    {
+        var padding = text.Padding ?? new();
+        var fontSize = text.Font?.Size ?? 12;
+
+        return padding.Start + fontSize + padding.End;
     }
 
     private static Scale BuildScale( List<double> values, SvgChartAxisOptions axis )
@@ -1976,6 +2165,112 @@ public class SvgChart<TItem> : SvgChartBase
         return ResolveColor( color, 0 );
     }
 
+    private static double ResolveTextX( SvgChartOptions options, SvgChartTextOptions text, double start, double end, double fontSize )
+    {
+        var padding = text.Padding ?? new();
+
+        return text.Position switch
+        {
+            SvgChartTextPosition.Start => start + padding.Start + fontSize,
+            SvgChartTextPosition.End => options.Width - end - padding.End - fontSize,
+            _ => padding.Start + ResolveTextAlignmentOffset( options.Width - padding.Start - padding.End, text.Alignment )
+        };
+    }
+
+    private static double ResolveTextY( SvgChartOptions options, SvgChartTextOptions text, double top, double bottom, double fontSize )
+    {
+        var padding = text.Padding ?? new();
+
+        return text.Position switch
+        {
+            SvgChartTextPosition.Bottom => options.Height - bottom - padding.Bottom,
+            SvgChartTextPosition.Start => options.Height - padding.Bottom - ResolveTextAlignmentOffset( options.Height - padding.Top - padding.Bottom, text.Alignment ),
+            SvgChartTextPosition.End => padding.Top + ResolveTextAlignmentOffset( options.Height - padding.Top - padding.Bottom, text.Alignment ),
+            _ => top + padding.Top + fontSize
+        };
+    }
+
+    private static double ResolveTextAlignmentOffset( double size, SvgChartTextAlignment alignment )
+    {
+        return alignment switch
+        {
+            SvgChartTextAlignment.Start => 0,
+            SvgChartTextAlignment.End => size,
+            _ => size / 2
+        };
+    }
+
+    private static string ResolveTextAnchor( SvgChartTextAlignment alignment )
+    {
+        return alignment switch
+        {
+            SvgChartTextAlignment.Start => "start",
+            SvgChartTextAlignment.End => "end",
+            _ => "middle"
+        };
+    }
+
+    private static void AddFontAttributes( RenderTreeBuilder builder, ref int sequence, SvgChartOptions options, double fallbackSize = 11, double? opacity = null )
+    {
+        var font = options?.Font;
+
+        builder.AddAttribute( sequence++, "font-size", Format( font?.Size ?? fallbackSize ) );
+        AddFontFamilyAttribute( builder, ref sequence, font?.Family );
+        builder.AddAttribute( sequence++, "fill", ResolveFontColor( font ) );
+
+        if ( !string.IsNullOrWhiteSpace( font?.Weight ) )
+            builder.AddAttribute( sequence++, "font-weight", font.Weight );
+
+        if ( opacity is not null )
+            builder.AddAttribute( sequence++, "opacity", Format( Math.Clamp( opacity.Value, 0, 1 ) ) );
+    }
+
+    private static void AddFontFamilyAttribute( RenderTreeBuilder builder, ref int sequence, string fontFamily )
+    {
+        if ( !string.IsNullOrWhiteSpace( fontFamily ) )
+            builder.AddAttribute( sequence++, "font-family", fontFamily );
+    }
+
+    private static string ResolveTooltipStyle( SvgChartOptions options, SvgChartTooltipContext context )
+    {
+        var font = options?.Font;
+        var color = IsDefaultColor( font?.Color )
+            ? "var(--b-tooltip-color,#fff)"
+            : ResolveFontColor( font );
+        var fontSize = font?.Size is null
+            ? "var(--b-tooltip-font-size,.875rem)"
+            : $"{Format( font.Size.Value )}px";
+        var fontFamily = string.IsNullOrWhiteSpace( font?.Family )
+            ? null
+            : $"font-family:{font.Family};";
+
+        return $"height:100%;box-sizing:border-box;overflow:hidden;border-left:3px solid {context.Color};background:rgba(var(--b-tooltip-background-color-r,33),var(--b-tooltip-background-color-g,37),var(--b-tooltip-background-color-b,41),var(--b-tooltip-background-opacity,.94));color:{color};border-radius:var(--b-tooltip-border-radius,.375rem);padding:var(--b-tooltip-padding,.5rem .75rem);font-size:{fontSize};{fontFamily}box-shadow:0 .35rem 1rem rgba(0,0,0,.18);";
+    }
+
+    private static string ResolveTextColor( SvgChartOptions options, SvgChartTextOptions text )
+    {
+        var textColor = text?.Font?.Color;
+        return ResolveFontColor( IsDefaultColor( textColor ) ? options?.Font?.Color : textColor );
+    }
+
+    private static string ResolveFontColor( SvgChartFontOptions font )
+    {
+        return ResolveFontColor( font?.Color );
+    }
+
+    private static string ResolveFontColor( Color color )
+    {
+        if ( IsDefaultColor( color ) )
+            return "currentColor";
+
+        return ResolveColor( color, 0 );
+    }
+
+    private static bool IsDefaultColor( Color color )
+    {
+        return color is null || color == Color.Default || string.IsNullOrWhiteSpace( color.Name );
+    }
+
     private static string FormatTick( double value )
     {
         return value.ToString( "0.##", CultureInfo.InvariantCulture );
@@ -2285,8 +2580,10 @@ public class SvgChart<TItem> : SvgChartBase
     {
         var model = BuildModel();
         var options = ResolveOptions();
+        var title = ResolveTitleOptions( options );
+        var ariaLabel = IsTextVisible( title ) ? title.Text : "SVG chart";
 
-        return ValueTask.FromResult( $"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 {Format( options.Width )} {Format( options.Height )}\" role=\"img\" aria-label=\"{ResolveTitle( options ) ?? "SVG chart"}\"><desc>{model.Series.Count} series, {model.Labels.Count} categories.</desc></svg>" );
+        return ValueTask.FromResult( $"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 {Format( options.Width )} {Format( options.Height )}\" role=\"img\" aria-label=\"{ariaLabel}\"><desc>{model.Series.Count} series, {model.Labels.Count} categories.</desc></svg>" );
     }
 
     private SvgChartData<double?> EnsureInternalData()
@@ -2548,6 +2845,8 @@ public class SvgChart<TItem> : SvgChartBase
 
     private sealed class RenderModel
     {
+        public SvgChartOptions Options { get; init; }
+
         public List<object> Labels { get; init; } = [];
 
         public int CategorySlotCount { get; init; }

@@ -11,7 +11,7 @@
                                 Items="@Sales"
                                 Options="@columnOptions"
                                 Clicked="@OnPointClicked">
-                    <SvgChartTitle Text="Monthly revenue" Subtitle="Native SVG renderer" />
+                    <SvgChartTitle Title='@("Monthly revenue")' Subtitle='@("Native SVG renderer")' />
                     <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
                     <SvgChartTooltip Enabled />
                     <SvgChartCategoryAxis Id="months" Position="SvgChartAxisPosition.Bottom" Value="@( x => x.Month )" />
@@ -35,7 +35,7 @@
                               Items="@Sales"
                               Options="@lineOptions"
                               Hovered="@OnPointHovered">
-                    <SvgChartTitle Text="Monthly trend" Subtitle="Line series with SVG markers" />
+                    <SvgChartTitle Title='@("Monthly trend")' Subtitle='@("Line series with SVG markers")' />
                     <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
                     <SvgChartTooltip Enabled />
                     <SvgChartCategoryAxis Value="@( x => x.Month )" />
@@ -59,7 +59,7 @@
                                 Items="@RevenueGrowth"
                                 Options="@multiAxisOptions"
                                 Hovered="@OnPointHovered">
-                    <SvgChartTitle Text="Revenue and growth" Subtitle="Series mapped to separate value axes" />
+                    <SvgChartTitle Title='@("Revenue and growth")' Subtitle='@("Series mapped to separate value axes")' />
                     <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
                     <SvgChartTooltip Enabled />
                     <SvgChartCategoryAxis Id="months" Value="@( x => x.Month )" />
@@ -83,7 +83,7 @@
                              Items="@Sales"
                              Options="@barOptions"
                              Clicked="@OnPointClicked">
-                    <SvgChartTitle Text="Regional revenue" Subtitle="Horizontal bar series" />
+                    <SvgChartTitle Title='@("Regional revenue")' Subtitle='@("Horizontal bar series")' />
                     <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
                     <SvgChartTooltip Enabled />
                     <SvgChartCategoryAxis Value="@( x => x.Month )" />
@@ -107,7 +107,7 @@
                               Items="@Sales"
                               Options="@areaOptions"
                               Hovered="@OnPointHovered">
-                    <SvgChartTitle Text="Revenue shape" Subtitle="Area series with fill opacity" />
+                    <SvgChartTitle Title='@("Revenue shape")' Subtitle='@("Area series with fill opacity")' />
                     <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
                     <SvgChartTooltip Enabled />
                     <SvgChartCategoryAxis Value="@( x => x.Month )" />
@@ -130,7 +130,7 @@
                              Data="@radialData"
                              Options="@pieOptions"
                              Clicked="@OnPointClicked">
-                    <SvgChartTitle Text="Market share" Subtitle="Pie chart from explicit data" />
+                    <SvgChartTitle Title='@("Market share")' Subtitle='@("Pie chart from explicit data")' />
                     <SvgChartTooltip Enabled />
                 </SvgPieChart>
             </CardBody>
@@ -147,7 +147,7 @@
                                   Data="@radialData"
                                   Options="@doughnutOptions"
                                   Clicked="@OnPointClicked">
-                    <SvgChartTitle Text="Market share" Subtitle="Doughnut chart from the same data" />
+                    <SvgChartTitle Title='@("Market share")' Subtitle='@("Doughnut chart from the same data")' />
                     <SvgChartTooltip Enabled />
                 </SvgDoughnutChart>
             </CardBody>
@@ -164,7 +164,7 @@
                                    Data="@radialData"
                                    Options="@polarAreaOptions"
                                    Hovered="@OnPointHovered">
-                    <SvgChartTitle Text="Channel mix" Subtitle="Equal-angle radial values" />
+                    <SvgChartTitle Title='@("Channel mix")' Subtitle='@("Equal-angle radial values")' />
                     <SvgChartTooltip Enabled />
                 </SvgPolarAreaChart>
             </CardBody>
@@ -180,7 +180,7 @@
                 <SvgRadarChart TItem="object"
                                Data="@radarData"
                                Options="@radarOptions">
-                    <SvgChartTitle Text="Product fit" Subtitle="Radar series from explicit data" />
+                    <SvgChartTitle Title='@("Product fit")' Subtitle='@("Radar series from explicit data")' />
                     <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
                     <SvgChartTooltip Enabled />
                 </SvgRadarChart>
@@ -198,7 +198,7 @@
                                  Items="@Points"
                                  Options="@scatterOptions"
                                  Hovered="@OnPointHovered">
-                    <SvgChartTitle Text="Store performance" Subtitle="X/Y values from item selectors" />
+                    <SvgChartTitle Title='@("Store performance")' Subtitle='@("X/Y values from item selectors")' />
                     <SvgChartTooltip Enabled />
                     <SvgChartValueAxis BeginAtZero TickCount="6" />
 
@@ -218,7 +218,7 @@
                                 Items="@Points"
                                 Options="@bubbleOptions"
                                 Clicked="@OnPointClicked">
-                    <SvgChartTitle Text="Store volume" Subtitle="Bubble radius from item selectors" />
+                    <SvgChartTitle Title='@("Store volume")' Subtitle='@("Bubble radius from item selectors")' />
                     <SvgChartTooltip Enabled />
                     <SvgChartValueAxis BeginAtZero TickCount="6" />
 
@@ -246,7 +246,7 @@
                               Options="@streamingOptions"
                               Streaming="@infiniteStreamingOptions"
                               Hovered="@OnPointHovered">
-                    <SvgChartTitle Text="Live latency" Subtitle="Right-to-left viewport without retention trimming" />
+                    <SvgChartTitle Title='@("Live latency")' Subtitle='@("Right-to-left viewport without retention trimming")' />
                     <SvgChartTooltip Enabled />
                     <SvgChartValueAxis BeginAtZero TickCount="6" />
                 </SvgLineChart>

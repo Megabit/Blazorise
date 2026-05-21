@@ -27,14 +27,14 @@ public class SvgChartTitle : SvgChartComponentBase
     #region Properties
 
     /// <summary>
-    /// Defines the title text.
+    /// Defines title options.
     /// </summary>
-    [Parameter] public string Text { get; set; }
+    [Parameter] public SvgChartTextOptions Title { get; set; }
 
     /// <summary>
-    /// Defines the subtitle text.
+    /// Defines subtitle options.
     /// </summary>
-    [Parameter] public string Subtitle { get; set; }
+    [Parameter] public SvgChartTextOptions Subtitle { get; set; }
 
     #endregion
 }

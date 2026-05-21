@@ -23,14 +23,41 @@ public class SvgChartOptions
     public double Height { get; set; } = 360;
 
     /// <summary>
-    /// Defines the chart title.
+    /// Defines the default font options.
     /// </summary>
-    public string Title { get; set; }
+    public SvgChartFontOptions Font { get; set; } = new();
 
     /// <summary>
-    /// Defines the chart subtitle.
+    /// Defines the chart title options.
     /// </summary>
-    public string Subtitle { get; set; }
+    public SvgChartTextOptions Title { get; set; } = new()
+    {
+        Font = new()
+        {
+            Size = 16,
+            Weight = "600",
+        },
+        Padding = new()
+        {
+            Top = 8,
+        },
+    };
+
+    /// <summary>
+    /// Defines the chart subtitle options.
+    /// </summary>
+    public SvgChartTextOptions Subtitle { get; set; } = new()
+    {
+        Font = new()
+        {
+            Size = 12,
+        },
+        Opacity = 0.7,
+        Padding = new()
+        {
+            Top = 7,
+        },
+    };
 
     /// <summary>
     /// Defines legend options.
