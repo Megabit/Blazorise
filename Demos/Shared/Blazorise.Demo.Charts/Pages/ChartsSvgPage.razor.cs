@@ -1,30 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Charts.Svg;
 
 namespace Blazorise.Demo.Pages.Tests;
 
-public partial class ChartsSvgPage : IAsyncDisposable
+public partial class ChartsSvgPage
 {
     private readonly Random random = new( DateTime.Now.Millisecond );
 
     private SvgColumnChart<object> imperativeChart;
 
-    private SvgLineChart<object> streamingChart;
-
-    private CancellationTokenSource streamingCancellationTokenSource;
-
-    private Task streamingTask;
-
-    private bool liveStreamingPaused;
-
     private string lastEvent = "Interact with a chart point to see event details.";
-
-    private readonly Color customAreaColor = "#845ef7";
-
-    private readonly Color customCssVariableColor = "var(--bs-teal, #20c997)";
 
     private readonly List<MonthlySales> Sales =
     [
@@ -126,40 +113,6 @@ public partial class ChartsSvgPage : IAsyncDisposable
         Legend = new() { Position = SvgChartLegendPosition.Bottom },
     };
 
-    private SvgChartOptions streamingOptions = new()
-    {
-        Height = 380,
-        Legend = new() { Visible = false },
-        XAxis = new()
-        {
-            BeginAtZero = false,
-            GridLines = new()
-            {
-                Visible = true,
-            },
-            Labels = new()
-            {
-                Step = 4,
-                Offset = 30,
-            },
-        },
-    };
-
-    private SvgChartStreamingOptions infiniteStreamingOptions = new()
-    {
-        Enabled = true,
-        MaxDataPoints = null,
-        VisibleDataPoints = 20,
-        Duration = null,
-        IndexAxis = SvgChartIndexAxis.X,
-        Reverse = false,
-        Animation = new()
-        {
-            Duration = TimeSpan.FromSeconds( 1 ),
-        },
-        RefreshInterval = TimeSpan.FromMilliseconds( 500 ),
-    };
-
     private SvgChartData<double?> imperativeData = new()
     {
         Labels = ["Jan", "Feb", "Mar"],
@@ -185,8 +138,6 @@ public partial class ChartsSvgPage : IAsyncDisposable
             },
         ]
     };
-
-    private SvgChartData<double?> streamingData = CreateStreamingData();
 
     private SvgChartData<double?> radialData = new()
     {
@@ -223,7 +174,7 @@ public partial class ChartsSvgPage : IAsyncDisposable
 
     private async Task AddMonth()
     {
-        var month = $"M{imperativeData.Labels.Count + 1}";
+        string month = $"M{imperativeData.Labels.Count + 1}";
 
         await imperativeChart.AddLabel( month );
         await imperativeChart.AddValue( "Tokyo", NextValue( 70, 140 ) );
@@ -242,63 +193,6 @@ public partial class ChartsSvgPage : IAsyncDisposable
         await imperativeChart.Clear();
     }
 
-    protected override Task OnAfterRenderAsync( bool firstRender )
-    {
-        if ( firstRender )
-        {
-            streamingCancellationTokenSource = new();
-            streamingTask = RunStreamingAsync( streamingCancellationTokenSource.Token );
-        }
-
-        return Task.CompletedTask;
-    }
-
-    private async Task RunStreamingAsync( CancellationToken cancellationToken )
-    {
-        try
-        {
-            using var timer = new PeriodicTimer( TimeSpan.FromSeconds( 1 ) );
-
-            while ( await timer.WaitForNextTickAsync( cancellationToken ) )
-            {
-                await InvokeAsync( async () =>
-                {
-                    if ( streamingChart is not null )
-                        await streamingChart.AppendValue( "Latency", DateTime.Now.ToString( "HH:mm:ss" ), NextValue( 20, 95 ) );
-                } );
-            }
-        }
-        catch ( OperationCanceledException )
-        {
-        }
-    }
-
-    private async Task ToggleLiveStreaming()
-    {
-        if ( liveStreamingPaused )
-        {
-            if ( streamingChart is not null )
-                await streamingChart.ResumeStreaming();
-
-            liveStreamingPaused = false;
-        }
-        else
-        {
-            if ( streamingChart is not null )
-                await streamingChart.PauseStreaming();
-
-            liveStreamingPaused = true;
-        }
-    }
-
-    private async Task ClearLiveStreaming()
-    {
-        streamingData = CreateStreamingData();
-
-        if ( streamingChart is not null )
-            await streamingChart.SetData( streamingData );
-    }
-
     private Task OnPointClicked( SvgChartPointEventArgs eventArgs )
     {
         lastEvent = $"Clicked {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}";
@@ -313,39 +207,9 @@ public partial class ChartsSvgPage : IAsyncDisposable
         return Task.CompletedTask;
     }
 
-    private string FormatRevenueTooltip( SvgChartTooltipContext context )
-    {
-        return $"{context.Category}: {context.Value}k";
-    }
-
     private double NextValue( int min, int max )
     {
         return Math.Round( min + random.NextDouble() * ( max - min ), 1 );
-    }
-
-    private static SvgChartData<double?> CreateStreamingData()
-    {
-        return new()
-        {
-            Series =
-            [
-                new()
-                {
-                    Name = "Latency",
-                    Color = Color.Warning,
-                },
-            ]
-        };
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        streamingCancellationTokenSource?.Cancel();
-
-        if ( streamingTask is not null )
-            await streamingTask;
-
-        streamingCancellationTokenSource?.Dispose();
     }
 
     private sealed class MonthlySales
