@@ -10,7 +10,7 @@ namespace Blazorise.RichTextEdit;
 /// <summary>
 /// Base <see cref="Blazorise.RichTextEdit"/> component
 /// </summary>
-public abstract class BaseRichTextEditComponent : BaseInputComponent<string>
+public abstract class BaseRichTextEditComponent : BaseOnScreenKeyboardInputComponent<string>
 {
     #region Constructors
 

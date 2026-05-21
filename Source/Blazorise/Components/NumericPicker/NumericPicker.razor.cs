@@ -511,6 +511,9 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
 
     #region Properties
 
+    /// <inheritdoc/>
+    protected override OnScreenKeyboardLayout DefaultOnScreenKeyboardLayout => isIntegerType ? OnScreenKeyboardLayout.Numeric : OnScreenKeyboardLayout.Decimal;
+
     /// <summary>
     /// Indicates if <see cref="Min"/> parameter is defined.
     /// </summary>

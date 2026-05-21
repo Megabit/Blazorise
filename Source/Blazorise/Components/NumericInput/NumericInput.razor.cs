@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -153,6 +153,9 @@ public partial class NumericInput<TValue> : BaseBufferedTextInput<TValue, Numeri
     #endregion
 
     #region Properties
+
+    /// <inheritdoc/>
+    protected override OnScreenKeyboardLayout DefaultOnScreenKeyboardLayout => isIntegerType ? OnScreenKeyboardLayout.Numeric : OnScreenKeyboardLayout.Decimal;
 
     /// <summary>
     /// Indicates if <see cref="Min"/> parameter is defined.

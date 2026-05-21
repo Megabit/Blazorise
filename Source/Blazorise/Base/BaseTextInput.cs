@@ -13,7 +13,7 @@ namespace Blazorise;
 /// <typeparam name="TValue">Editable value type.</typeparam>
 /// <typeparam name="TClasses">Component-specific classes type.</typeparam>
 /// <typeparam name="TStyles">Component-specific styles type.</typeparam>
-public abstract class BaseTextInput<TValue, TClasses, TStyles> : BaseInputComponent<TValue, TClasses, TStyles>, ISelectableComponent, IDisposable
+public abstract class BaseTextInput<TValue, TClasses, TStyles> : BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyles>, ISelectableComponent, IDisposable
     where TClasses : ComponentClasses
     where TStyles : ComponentStyles
 {

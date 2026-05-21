@@ -211,6 +211,22 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         dotNetObjectRef.invokeMethodAsync("UpdateInternalValue", easyMDE.value());
     });
 
+    easyMDE.codemirror.on("focus", function () {
+        if (instance.destroyed) {
+            return;
+        }
+
+        dotNetObjectRef.invokeMethodAsync("OnEditorFocus");
+    });
+
+    easyMDE.codemirror.on("blur", function () {
+        if (instance.destroyed) {
+            return;
+        }
+
+        dotNetObjectRef.invokeMethodAsync("OnEditorBlur");
+    });
+
     instance.editor = easyMDE;
     instance.disconnectCleanupId = registerDisconnectCleanup(element, () => destroy(null, elementId, false));
 
@@ -267,6 +283,46 @@ export function getValue(elementId) {
     }
 
     return null;
+}
+
+export function insertText(elementId, text) {
+    const instance = _instances[elementId];
+    const codeMirror = instance && instance.editor && instance.editor.codemirror;
+
+    if (codeMirror) {
+        codeMirror.replaceSelection(text || "");
+        codeMirror.focus();
+    }
+}
+
+export function backspace(elementId) {
+    const instance = _instances[elementId];
+    const codeMirror = instance && instance.editor && instance.editor.codemirror;
+
+    if (!codeMirror) {
+        return;
+    }
+
+    const selections = codeMirror.listSelections();
+
+    if (selections && selections.some(selection => !selection.empty())) {
+        codeMirror.replaceSelection("");
+        codeMirror.focus();
+        return;
+    }
+
+    const cursor = codeMirror.getCursor();
+
+    if (cursor.ch > 0) {
+        codeMirror.replaceRange("", { line: cursor.line, ch: cursor.ch - 1 }, cursor);
+    }
+    else if (cursor.line > 0) {
+        const previousLineLength = codeMirror.getLine(cursor.line - 1).length;
+
+        codeMirror.replaceRange("", { line: cursor.line - 1, ch: previousLineLength }, cursor);
+    }
+
+    codeMirror.focus();
 }
 
 export function notifyImageUploadSuccess(elementId, imageUrl) {

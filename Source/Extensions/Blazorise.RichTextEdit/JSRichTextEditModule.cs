@@ -134,6 +134,18 @@ public class JSRichTextEditModule : BaseJSModule,
         => InvokeSafeAsync<string>( "getText", editorRef );
 
     /// <summary>
+    /// Inserts text at the current selection.
+    /// </summary>
+    public ValueTask InsertTextAsync( ElementReference editorRef, string text )
+        => InvokeSafeVoidAsync( "insertText", editorRef, text );
+
+    /// <summary>
+    /// Removes text at the current selection.
+    /// </summary>
+    public ValueTask BackspaceAsync( ElementReference editorRef )
+        => InvokeSafeVoidAsync( "backspace", editorRef );
+
+    /// <summary>
     /// Clears the editor content asynchronous.
     /// </summary>
     public ValueTask ClearAsync( ElementReference editorRef )

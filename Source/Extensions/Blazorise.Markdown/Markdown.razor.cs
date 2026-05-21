@@ -17,7 +17,7 @@ namespace Blazorise.Markdown;
 /// <summary>
 /// Component for acts as a wrapper around the EasyMDE, a markdown editor.
 /// </summary>
-public partial class Markdown : BaseInputComponent<string, MarkdownClasses, MarkdownStyles>,
+public partial class Markdown : BaseOnScreenKeyboardInputComponent<string, MarkdownClasses, MarkdownStyles>,
     IFileEntryOwner,
     IFileEntryNotifier,
     IAsyncDisposable
@@ -306,6 +306,24 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
     }
 
     /// <summary>
+    /// Javascript callback for when editor get focus.
+    /// </summary>
+    [JSInvokable]
+    public Task OnEditorFocus()
+    {
+        return ShowOnScreenKeyboard();
+    }
+
+    /// <summary>
+    /// Javascript callback for when editor lost focus.
+    /// </summary>
+    [JSInvokable]
+    public Task OnEditorBlur()
+    {
+        return HideOnScreenKeyboard();
+    }
+
+    /// <summary>
     /// Adds the custom toolbar button.
     /// </summary>
     /// <param name="toolbarButton">Button instance.</param>
@@ -482,6 +500,33 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
         ExecuteAfterRender( () => JSModule.Focus( ElementId, scrollToElement ).AsTask() );
 
         return Task.CompletedTask;
+    }
+
+    /// <inheritdoc/>
+    protected override Task InsertOnScreenKeyboardText( string text )
+    {
+        if ( jsInitialized )
+            return JSModule.InsertText( ElementId, text ).AsTask();
+
+        return base.InsertOnScreenKeyboardText( text );
+    }
+
+    /// <inheritdoc/>
+    protected override Task BackspaceOnScreenKeyboard()
+    {
+        if ( jsInitialized )
+            return JSModule.Backspace( ElementId ).AsTask();
+
+        return base.BackspaceOnScreenKeyboard();
+    }
+
+    /// <inheritdoc/>
+    protected override Task OnScreenKeyboardEnter()
+    {
+        if ( Options?.AccessibilityOptions?.OnScreenKeyboard?.HideOnEnter == true )
+            return base.OnScreenKeyboardEnter();
+
+        return InsertOnScreenKeyboardText( "\n" );
     }
 
     /// <summary>

@@ -34,4 +34,9 @@ public class BlazoriseAccessibilityOptions
     /// If true, input components wrapped in <see cref="Validation"/> can trigger validation when they lose focus, even when the value has not changed.
     /// </summary>
     public bool UseValidationOnBlur { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets the options used to configure the on-screen keyboard.
+    /// </summary>
+    public BlazoriseOnScreenKeyboardOptions OnScreenKeyboard { get; set; } = new();
 }

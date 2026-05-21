@@ -448,9 +448,10 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
     /// <inheritdoc/>
     [JSInvokable]
-    public new virtual Task OnFocusInHandler( FocusEventArgs eventArgs )
+    public new virtual async Task OnFocusInHandler( FocusEventArgs eventArgs )
     {
-        return FocusIn.InvokeAsync( eventArgs );
+        await FocusIn.InvokeAsync( eventArgs );
+        await ShowOnScreenKeyboard();
     }
 
     /// <inheritdoc/>

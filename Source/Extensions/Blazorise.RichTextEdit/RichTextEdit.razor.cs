@@ -291,13 +291,48 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// Javascript callback for when editor get focus.
     /// </summary>
     [JSInvokable]
-    public Task OnEditorFocus() => EditorFocus.InvokeAsync( true );
+    public async Task OnEditorFocus()
+    {
+        await EditorFocus.InvokeAsync( true );
+        await ShowOnScreenKeyboard();
+    }
 
     /// <summary>
     /// Javascript callback for when editor lost focus.
     /// </summary>
     [JSInvokable]
-    public Task OnEditorBlur() => EditorBlur.InvokeAsync( true );
+    public async Task OnEditorBlur()
+    {
+        await EditorBlur.InvokeAsync( true );
+        await HideOnScreenKeyboard();
+    }
+
+    /// <inheritdoc/>
+    protected override Task InsertOnScreenKeyboardText( string text )
+    {
+        if ( Rendered )
+            return JSModule.InsertTextAsync( EditorRef, text ).AsTask();
+
+        return base.InsertOnScreenKeyboardText( text );
+    }
+
+    /// <inheritdoc/>
+    protected override Task BackspaceOnScreenKeyboard()
+    {
+        if ( Rendered )
+            return JSModule.BackspaceAsync( EditorRef ).AsTask();
+
+        return base.BackspaceOnScreenKeyboard();
+    }
+
+    /// <inheritdoc/>
+    protected override Task OnScreenKeyboardEnter()
+    {
+        if ( Options?.AccessibilityOptions?.OnScreenKeyboard?.HideOnEnter == true )
+            return base.OnScreenKeyboardEnter();
+
+        return InsertOnScreenKeyboardText( "\n" );
+    }
 
     /// <summary>
     /// Toggles the readonly state

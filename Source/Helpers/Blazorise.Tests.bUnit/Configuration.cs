@@ -42,6 +42,7 @@ public static class Configuration
         services.AddScoped<IMessageService, MockMessageService>();
         services.AddScoped<IBreakpointService, BreakpointService>();
         services.AddScoped<IDropdownCoordinator, DropdownCoordinator>();
+        services.AddScoped<IOnScreenKeyboardService, OnScreenKeyboardService>();
 
         services.AddSingleton( sp => new BlazoriseOptions( sp, ( options ) => { } ) );
 

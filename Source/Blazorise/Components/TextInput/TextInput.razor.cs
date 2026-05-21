@@ -56,6 +56,23 @@ public partial class TextInput : BaseBufferedTextInput<string, TextInputClasses,
 
     #region Properties
 
+    /// <inheritdoc/>
+    protected override OnScreenKeyboardLayout DefaultOnScreenKeyboardLayout => InputMode switch
+    {
+        TextInputMode.Email => OnScreenKeyboardLayout.Email,
+        TextInputMode.Url => OnScreenKeyboardLayout.Url,
+        TextInputMode.Tel => OnScreenKeyboardLayout.Telephone,
+        TextInputMode.Numeric => OnScreenKeyboardLayout.Numeric,
+        TextInputMode.Decimal => OnScreenKeyboardLayout.Decimal,
+        _ => Role switch
+        {
+            TextRole.Email => OnScreenKeyboardLayout.Email,
+            TextRole.Url => OnScreenKeyboardLayout.Url,
+            TextRole.Telephone => OnScreenKeyboardLayout.Telephone,
+            _ => OnScreenKeyboardLayout.Text,
+        },
+    };
+
     /// <summary>
     /// Gets the string representation of the input role.
     /// </summary>

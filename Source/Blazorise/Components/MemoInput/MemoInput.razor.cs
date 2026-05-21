@@ -202,6 +202,15 @@ public partial class MemoInput : BaseBufferedTextInput<string, MemoInputClasses,
         return base.OnBlurHandler( eventArgs );
     }
 
+    /// <inheritdoc/>
+    protected override Task OnScreenKeyboardEnter()
+    {
+        if ( Options?.AccessibilityOptions?.OnScreenKeyboard?.HideOnEnter == true )
+            return base.OnScreenKeyboardEnter();
+
+        return InsertOnScreenKeyboardText( Environment.NewLine );
+    }
+
     private void OnModalOpened()
     {
         ExecuteAfterRender( async () => await JSModule.RefreshDisplay( ElementRef, ElementId ) );
