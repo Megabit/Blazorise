@@ -11,10 +11,10 @@
         {
             @foreach ( var row in Rows )
             {
-                <Div Display="Blazorise.Display.Flex" Gap="Blazorise.Gap.Is1" Margin="Blazorise.Margin.Is1.FromBottom">
+                <Div Class="@RowClassBuilder.Class" Display="Blazorise.Display.Flex" Gap="Blazorise.Gap.Is1" Margin="Blazorise.Margin.Is1.FromBottom">
                     @foreach ( var key in row )
                     {
-                        <Button Color="@KeyColor" Size="@KeySize" Style="@GetKeyStyle( key )" TabIndex="-1" Clicked="@(() => OnKeyClicked( key ))" @onmousedown:preventDefault>
+                        <Button Class="@KeyClassBuilder.Class" Color="@KeyColor" Size="@KeySize" Style="@GetKeyStyle( key )" TabIndex="-1" Clicked="@(() => OnKeyClicked( key ))" @onmousedown:preventDefault>
                             @GetKeyDisplayText( key )
                         </Button>
                     }

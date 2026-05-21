@@ -363,6 +363,18 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region OnScreenKeyboard
+
+    public abstract string OnScreenKeyboard();
+
+    public abstract string OnScreenKeyboardPlacement( OnScreenKeyboardPlacement placement );
+
+    public abstract string OnScreenKeyboardRow();
+
+    public abstract string OnScreenKeyboardKey();
+
+    #endregion
+
     #region Control
 
     public abstract string ControlCheck( ControlRole role );

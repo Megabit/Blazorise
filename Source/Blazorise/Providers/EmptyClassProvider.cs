@@ -365,6 +365,18 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region OnScreenKeyboard
+
+    public string OnScreenKeyboard() => null;
+
+    public string OnScreenKeyboardPlacement( OnScreenKeyboardPlacement placement ) => null;
+
+    public string OnScreenKeyboardRow() => null;
+
+    public string OnScreenKeyboardKey() => null;
+
+    #endregion
+
     #region Control
 
     public string ControlCheck( ControlRole role ) => null;

@@ -20,6 +20,19 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
 
     #endregion
 
+    #region Constructors
+
+    /// <summary>
+    /// A default <see cref="OnScreenKeyboardProvider"/> constructor.
+    /// </summary>
+    public OnScreenKeyboardProvider()
+    {
+        RowClassBuilder = new( BuildRowClasses );
+        KeyClassBuilder = new( BuildKeyClasses );
+    }
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
@@ -44,10 +57,28 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( "b-screen-keyboard" );
-        builder.Append( $"b-screen-keyboard-{EffectivePlacement.ToString().ToLowerInvariant()}" );
+        builder.Append( ClassProvider.OnScreenKeyboard() );
+        builder.Append( ClassProvider.OnScreenKeyboardPlacement( EffectivePlacement ) );
 
         base.BuildClasses( builder );
+    }
+
+    /// <summary>
+    /// Builds the class names for a keyboard row.
+    /// </summary>
+    /// <param name="builder">Class builder used to append class names.</param>
+    private void BuildRowClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.OnScreenKeyboardRow() );
+    }
+
+    /// <summary>
+    /// Builds the class names for a keyboard key.
+    /// </summary>
+    /// <param name="builder">Class builder used to append class names.</param>
+    private void BuildKeyClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.OnScreenKeyboardKey() );
     }
 
     /// <inheritdoc/>
@@ -141,9 +172,28 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         };
     }
 
+    /// <inheritdoc/>
+    protected internal override void DirtyClasses()
+    {
+        RowClassBuilder.Dirty();
+        KeyClassBuilder.Dirty();
+
+        base.DirtyClasses();
+    }
+
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets the class builder for keyboard rows.
+    /// </summary>
+    protected ClassBuilder RowClassBuilder { get; }
+
+    /// <summary>
+    /// Gets the class builder for keyboard keys.
+    /// </summary>
+    protected ClassBuilder KeyClassBuilder { get; }
 
     private IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> Rows => CreateRows();
 

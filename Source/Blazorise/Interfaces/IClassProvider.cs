@@ -362,6 +362,18 @@ public interface IClassProvider
 
     #endregion
 
+    #region OnScreenKeyboard
+
+    string OnScreenKeyboard();
+
+    string OnScreenKeyboardPlacement( OnScreenKeyboardPlacement placement );
+
+    string OnScreenKeyboardRow();
+
+    string OnScreenKeyboardKey();
+
+    #endregion
+
     #region Control
 
     string ControlCheck( ControlRole role );
