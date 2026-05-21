@@ -70,6 +70,11 @@ public class SvgChartOptions
     public SvgChartTooltipOptions Tooltip { get; set; } = new();
 
     /// <summary>
+    /// Defines data label options.
+    /// </summary>
+    public SvgChartDataLabelsOptions DataLabels { get; set; } = new();
+
+    /// <summary>
     /// Defines the category axis options.
     /// </summary>
     public SvgChartAxisOptions XAxis { get; set; } = new()

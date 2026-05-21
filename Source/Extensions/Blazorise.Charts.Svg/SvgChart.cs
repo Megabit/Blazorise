@@ -35,6 +35,8 @@ public class SvgChart<TItem> : SvgChartBase
 
     private readonly List<SvgChartTooltip> tooltipComponents = [];
 
+    private readonly List<SvgChartDataLabels> dataLabelsComponents = [];
+
     private readonly HashSet<string> hiddenSeries = [];
 
     private SvgChartData<double?> internalChartData;
@@ -543,6 +545,8 @@ public class SvgChart<TItem> : SvgChartBase
                 RenderPointCharts( builder, ref sequence, model, plot, ShouldRender );
         }
 
+        RenderCartesianDataLabels( builder, ref sequence, model, plot );
+
         if ( animation.Enabled )
         {
             builder.CloseElement();
@@ -935,6 +939,263 @@ public class SvgChart<TItem> : SvgChartBase
         builder.CloseElement();
     }
 
+    private void RenderCartesianDataLabels( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
+    {
+        var dataLabels = model.DataLabels;
+
+        if ( dataLabels?.Visible != true )
+            return;
+
+        var points = ResolveCartesianDataLabelPoints( model, plot );
+
+        if ( points.Count == 0 )
+            return;
+
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-data-labels" );
+
+        foreach ( var item in points )
+        {
+            RenderDataLabel( builder, ref sequence, model, dataLabels, item.Point, item.Color, item.ChartType );
+        }
+
+        builder.CloseElement();
+    }
+
+    private List<(SvgChartPointEventArgs Point, string Color, SvgChartType ChartType)> ResolveCartesianDataLabelPoints( RenderModel model, PlotArea plot )
+    {
+        var points = new List<(SvgChartPointEventArgs Point, string Color, SvgChartType ChartType)>();
+
+        foreach ( var series in model.Series.Where( x => !x.Hidden && !IsRadialChart( x.Type ) ) )
+        {
+            if ( series.Type == SvgChartType.Column )
+            {
+                AddColumnDataLabelPoints( points, model, plot, series );
+            }
+            else if ( series.Type == SvgChartType.Bar )
+            {
+                AddBarDataLabelPoints( points, model, plot, series );
+            }
+            else if ( series.Type is SvgChartType.Line or SvgChartType.Area )
+            {
+                AddLineDataLabelPoints( points, model, plot, series );
+            }
+            else if ( IsPointChart( series.Type ) )
+            {
+                AddPointChartDataLabelPoints( points, model, plot, series );
+            }
+        }
+
+        return points;
+    }
+
+    private void AddColumnDataLabelPoints( List<(SvgChartPointEventArgs Point, string Color, SvgChartType ChartType)> points, RenderModel model, PlotArea plot, RenderSeries series )
+    {
+        var visibleColumnSeries = model.Series.Where( x => x.Type == SvgChartType.Column && !x.Hidden ).ToList();
+        var seriesIndex = visibleColumnSeries.IndexOf( series );
+
+        if ( seriesIndex < 0 )
+            return;
+
+        var categoryWidth = plot.Width / GetCategorySlotCount( model );
+        var groupWidth = categoryWidth * 0.72;
+        var barWidth = Math.Max( 1, groupWidth / visibleColumnSeries.Count );
+        var baseline = GetY( 0, plot, model, series );
+
+        for ( var pointIndex = 0; pointIndex < model.Labels.Count && pointIndex < series.Values.Count; pointIndex++ )
+        {
+            var value = series.Values[pointIndex];
+
+            if ( !value.HasValue )
+                continue;
+
+            var categoryStart = plot.Left + categoryWidth * pointIndex + ( categoryWidth - groupWidth ) / 2;
+            var x = categoryStart + barWidth * seriesIndex + barWidth * 0.1;
+            var y = GetY( value.Value, plot, model, series );
+            var height = Math.Abs( baseline - y );
+            var rectY = Math.Min( y, baseline );
+            var rectWidth = Math.Max( 1, barWidth * 0.8 );
+            var bounds = new SvgChartPointBounds { X = x, Y = rectY, Width = rectWidth, Height = height };
+
+            points.Add( (CreatePointArgs( model, series, pointIndex, value.Value, bounds ), series.RenderColor, series.Type) );
+        }
+    }
+
+    private void AddBarDataLabelPoints( List<(SvgChartPointEventArgs Point, string Color, SvgChartType ChartType)> points, RenderModel model, PlotArea plot, RenderSeries series )
+    {
+        var visibleBarSeries = model.Series.Where( x => x.Type == SvgChartType.Bar && !x.Hidden ).ToList();
+        var seriesIndex = visibleBarSeries.IndexOf( series );
+
+        if ( seriesIndex < 0 || model.Labels.Count == 0 )
+            return;
+
+        var categoryHeight = plot.Height / model.Labels.Count;
+        var groupHeight = categoryHeight * 0.72;
+        var barHeight = Math.Max( 1, groupHeight / visibleBarSeries.Count );
+        var baseline = GetX( 0, plot, model, series );
+
+        for ( var pointIndex = 0; pointIndex < model.Labels.Count && pointIndex < series.Values.Count; pointIndex++ )
+        {
+            var value = series.Values[pointIndex];
+
+            if ( !value.HasValue )
+                continue;
+
+            var categoryStart = plot.Top + categoryHeight * pointIndex + ( categoryHeight - groupHeight ) / 2;
+            var x = GetX( value.Value, plot, model, series );
+            var width = Math.Abs( x - baseline );
+            var rectX = Math.Min( x, baseline );
+            var y = categoryStart + barHeight * seriesIndex + barHeight * 0.1;
+            var rectHeight = Math.Max( 1, barHeight * 0.8 );
+            var bounds = new SvgChartPointBounds { X = rectX, Y = y, Width = width, Height = rectHeight };
+
+            points.Add( (CreatePointArgs( model, series, pointIndex, value.Value, bounds ), series.RenderColor, series.Type) );
+        }
+    }
+
+    private void AddLineDataLabelPoints( List<(SvgChartPointEventArgs Point, string Color, SvgChartType ChartType)> points, RenderModel model, PlotArea plot, RenderSeries series )
+    {
+        if ( model.Labels.Count == 0 )
+            return;
+
+        var categoryWidth = plot.Width / GetCategorySlotCount( model );
+        var markerRadius = series.Type == SvgChartType.Area ? Math.Max( 3, series.StrokeWidth + 1 ) : series.MarkerRadius;
+
+        for ( var pointIndex = 0; pointIndex < model.Labels.Count && pointIndex < series.Values.Count; pointIndex++ )
+        {
+            var value = series.Values[pointIndex];
+
+            if ( !value.HasValue )
+                continue;
+
+            var x = plot.Left + categoryWidth * ( pointIndex + 0.5 );
+            var y = GetY( value.Value, plot, model, series );
+            var bounds = new SvgChartPointBounds { X = x - markerRadius, Y = y - markerRadius, Width = markerRadius * 2, Height = markerRadius * 2 };
+
+            points.Add( (CreatePointArgs( model, series, pointIndex, value.Value, bounds ), series.RenderColor, series.Type) );
+        }
+    }
+
+    private void AddPointChartDataLabelPoints( List<(SvgChartPointEventArgs Point, string Color, SvgChartType ChartType)> points, RenderModel model, PlotArea plot, RenderSeries series )
+    {
+        var xScale = BuildScale( model.Series.Where( x => !x.Hidden && IsPointChart( x.Type ) ).SelectMany( x => x.XValues ).Where( x => x.HasValue ).Select( x => x.Value ).ToList(), ResolveAxis( ResolveOptions() ) );
+
+        for ( var pointIndex = 0; pointIndex < series.YValues.Count; pointIndex++ )
+        {
+            var yValue = series.YValues[pointIndex];
+            var xValue = pointIndex < series.XValues.Count ? series.XValues[pointIndex] : pointIndex;
+
+            if ( !xValue.HasValue || !yValue.HasValue )
+                continue;
+
+            var x = GetX( xValue.Value, plot, xScale.Min, xScale.Max );
+            var y = GetY( yValue.Value, plot, model, series );
+            var radius = series.Type == SvgChartType.Bubble
+                ? Math.Max( 2, pointIndex < series.RadiusValues.Count && series.RadiusValues[pointIndex].HasValue ? series.RadiusValues[pointIndex].Value : series.MarkerRadius )
+                : series.MarkerRadius;
+            var bounds = new SvgChartPointBounds { X = x - radius, Y = y - radius, Width = radius * 2, Height = radius * 2 };
+            var point = new SvgChartPointEventArgs
+            {
+                SeriesName = series.Name,
+                SeriesIndex = model.Series.IndexOf( series ),
+                PointIndex = pointIndex,
+                Category = xValue.Value,
+                Value = yValue.Value,
+                Bounds = bounds
+            };
+
+            points.Add( (point, series.RenderColor, series.Type) );
+        }
+    }
+
+    private void RenderDataLabel( RenderTreeBuilder builder, ref int sequence, RenderModel model, SvgChartDataLabelsOptions dataLabels, SvgChartPointEventArgs point, string color, SvgChartType chartType )
+    {
+        var context = new SvgChartDataLabelContext
+        {
+            SeriesName = point.SeriesName,
+            SeriesIndex = point.SeriesIndex,
+            PointIndex = point.PointIndex,
+            Category = point.Category,
+            Value = point.Value,
+            Bounds = point.Bounds,
+            Color = color,
+            Point = point
+        };
+        var text = dataLabels.Formatter?.Invoke( context ) ?? FormatDataLabelValue( point.Value );
+
+        if ( string.IsNullOrWhiteSpace( text ) )
+            return;
+
+        var font = CreateFontOptions( model.Options.Font, dataLabels.Font ) ?? new();
+        var fontSize = font.Size ?? 11;
+        var padding = dataLabels.Padding ?? new();
+        var textWidth = EstimateTextWidth( text, fontSize );
+        var width = textWidth + padding.Start + padding.End;
+        var height = fontSize + padding.Top + padding.Bottom;
+        var anchor = ResolveDataLabelAnchor( point.Bounds, ResolveDataLabelPosition( dataLabels.Position, chartType ), dataLabels.Offset, width, height );
+        var x = anchor.X;
+        var y = anchor.Y;
+        var fill = ResolveFontColor( font );
+        var background = ResolveDataLabelBackgroundColor( dataLabels );
+        var border = dataLabels.Border;
+        var hasBackground = !IsDefaultColor( dataLabels.BackgroundColor );
+        var hasBorder = border?.Width > 0;
+
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-data-label" );
+        builder.AddAttribute( sequence++, "opacity", Format( Math.Clamp( dataLabels.Opacity, 0, 1 ) ) );
+
+        if ( dataLabels.Interactive )
+        {
+            builder.AddAttribute( sequence++, "tabindex", "0" );
+            builder.AddAttribute( sequence++, "role", "button" );
+            builder.AddAttribute( sequence++, "aria-label", GetPointLabel( point ) );
+            builder.AddAttribute( sequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandleDataLabelClicked( point, color ) ) );
+            builder.AddAttribute( sequence++, "onmouseenter", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandleDataLabelHovered( point, color ) ) );
+            builder.AddAttribute( sequence++, "onmouseleave", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandlePointLeft() ) );
+            builder.AddAttribute( sequence++, "onfocus", EventCallback.Factory.Create<FocusEventArgs>( this, () => ShowTooltip( point, color, false ) ) );
+            builder.AddAttribute( sequence++, "onblur", EventCallback.Factory.Create<FocusEventArgs>( this, () => HandlePointLeft() ) );
+        }
+        else
+        {
+            builder.AddAttribute( sequence++, "pointer-events", "none" );
+        }
+
+        if ( hasBackground || hasBorder )
+        {
+            builder.OpenElement( sequence++, "rect" );
+            builder.AddAttribute( sequence++, "x", Format( x ) );
+            builder.AddAttribute( sequence++, "y", Format( y ) );
+            builder.AddAttribute( sequence++, "width", Format( width ) );
+            builder.AddAttribute( sequence++, "height", Format( height ) );
+            builder.AddAttribute( sequence++, "rx", Format( Math.Max( 0, border?.Radius ?? 0 ) ) );
+            builder.AddAttribute( sequence++, "fill", background );
+
+            if ( hasBorder )
+            {
+                builder.AddAttribute( sequence++, "stroke", ResolveFontColor( border.Color ) );
+                builder.AddAttribute( sequence++, "stroke-width", Format( border.Width ) );
+            }
+
+            builder.CloseElement();
+        }
+
+        builder.OpenElement( sequence++, "text" );
+        builder.AddAttribute( sequence++, "x", Format( x + padding.Start + textWidth / 2 ) );
+        builder.AddAttribute( sequence++, "y", Format( y + padding.Top + fontSize * 0.82 ) );
+        builder.AddAttribute( sequence++, "text-anchor", "middle" );
+        builder.AddAttribute( sequence++, "font-size", Format( fontSize ) );
+        AddFontFamilyAttribute( builder, ref sequence, font.Family );
+        builder.AddAttribute( sequence++, "fill", fill );
+
+        if ( !string.IsNullOrWhiteSpace( font.Weight ) )
+            builder.AddAttribute( sequence++, "font-weight", font.Weight );
+
+        builder.AddContent( sequence++, text );
+        builder.CloseElement();
+        builder.CloseElement();
+    }
+
     private void RenderRadialChart( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
     {
         if ( model.Series.Count == 0 )
@@ -999,6 +1260,16 @@ public class SvgChart<TItem> : SvgChartBase
             builder.AddAttribute( sequence++, "onblur", EventCallback.Factory.Create<FocusEventArgs>( this, () => HandlePointLeft() ) );
 
             builder.CloseElement();
+
+            if ( model.DataLabels?.Visible == true )
+            {
+                var labelRadius = ( innerRadius + pointRadius ) / 2;
+                var labelCenter = PolarToCartesian( centerX, centerY, labelRadius, startAngle + sweep / 2 );
+                var labelBounds = new SvgChartPointBounds { X = labelCenter.X, Y = labelCenter.Y, Width = 0, Height = 0 };
+                var labelPoint = new SvgChartPointEventArgs { SeriesName = point.SeriesName, SeriesIndex = point.SeriesIndex, PointIndex = point.PointIndex, Category = point.Category, Value = point.Value, Bounds = labelBounds };
+
+                RenderDataLabel( builder, ref sequence, model, model.DataLabels, labelPoint, color, radialType );
+            }
 
             startAngle = endAngle;
         }
@@ -1079,6 +1350,9 @@ public class SvgChart<TItem> : SvgChartBase
                 builder.AddAttribute( sequence++, "onfocus", EventCallback.Factory.Create<FocusEventArgs>( this, () => ShowTooltip( point, series.RenderColor, false ) ) );
                 builder.AddAttribute( sequence++, "onblur", EventCallback.Factory.Create<FocusEventArgs>( this, () => HandlePointLeft() ) );
                 builder.CloseElement();
+
+                if ( model.DataLabels?.Visible == true )
+                    RenderDataLabel( builder, ref sequence, model, model.DataLabels, point, series.RenderColor, series.Type );
             }
         }
 
@@ -1159,7 +1433,8 @@ public class SvgChart<TItem> : SvgChartBase
             Ticks = primaryValueAxis.Ticks,
             ValueAxes = valueAxes,
             PrimaryValueAxis = primaryValueAxis,
-            Tooltip = ResolveTooltip( options )
+            Tooltip = ResolveTooltip( options ),
+            DataLabels = ResolveDataLabels( options )
         };
     }
 
@@ -1617,6 +1892,49 @@ public class SvgChart<TItem> : SvgChartBase
         };
     }
 
+    private SvgChartDataLabelsOptions ResolveDataLabels( SvgChartOptions options )
+    {
+        var dataLabelsComponent = dataLabelsComponents.LastOrDefault();
+        var dataLabelsOptions = options.DataLabels ?? new();
+
+        if ( dataLabelsComponent is null )
+            return CreateDataLabelsOptions( dataLabelsOptions );
+
+        return new()
+        {
+            Visible = dataLabelsComponent.Visible,
+            Interactive = dataLabelsComponent.Interactive,
+            Position = dataLabelsComponent.Position,
+            Offset = dataLabelsComponent.Offset,
+            Opacity = dataLabelsComponent.Opacity,
+            Font = CreateFontOptions( dataLabelsOptions.Font, dataLabelsComponent.Font ),
+            Padding = CreateSpacing( dataLabelsComponent.Padding ?? dataLabelsOptions.Padding ),
+            BackgroundColor = dataLabelsComponent.BackgroundColor ?? dataLabelsOptions.BackgroundColor,
+            Border = CreateBorderOptions( dataLabelsOptions.Border, dataLabelsComponent.Border ),
+            Formatter = dataLabelsComponent.Formatter ?? dataLabelsOptions.Formatter
+        };
+    }
+
+    private static SvgChartDataLabelsOptions CreateDataLabelsOptions( SvgChartDataLabelsOptions options )
+    {
+        if ( options is null )
+            return new();
+
+        return new()
+        {
+            Visible = options.Visible,
+            Interactive = options.Interactive,
+            Position = options.Position,
+            Offset = options.Offset,
+            Opacity = options.Opacity,
+            Font = CreateFontOptions( options.Font ),
+            Padding = CreateSpacing( options.Padding ),
+            BackgroundColor = options.BackgroundColor,
+            Border = CreateBorderOptions( options.Border ),
+            Formatter = options.Formatter
+        };
+    }
+
     private SvgChartTextOptions ResolveTitleOptions( SvgChartOptions options )
     {
         var titleComponent = titleComponents.LastOrDefault();
@@ -1753,6 +2071,32 @@ public class SvgChart<TItem> : SvgChartBase
             Size = overrides.Size ?? options?.Size,
             Weight = overrides.Weight ?? options?.Weight,
             Color = IsDefaultColor( overrides.Color ) ? options?.Color : overrides.Color
+        };
+    }
+
+    private static SvgChartBorderOptions CreateBorderOptions( SvgChartBorderOptions options )
+    {
+        if ( options is null )
+            return null;
+
+        return new()
+        {
+            Color = options.Color,
+            Width = options.Width,
+            Radius = options.Radius
+        };
+    }
+
+    private static SvgChartBorderOptions CreateBorderOptions( SvgChartBorderOptions options, SvgChartBorderOptions overrides )
+    {
+        if ( overrides is null )
+            return CreateBorderOptions( options );
+
+        return new()
+        {
+            Color = IsDefaultColor( overrides.Color ) ? options?.Color : overrides.Color,
+            Width = overrides.Width > 0 ? overrides.Width : options?.Width ?? 0,
+            Radius = overrides.Radius > 0 ? overrides.Radius : options?.Radius ?? 0
         };
     }
 
@@ -2085,6 +2429,30 @@ public class SvgChart<TItem> : SvgChartBase
         await Hovered.InvokeAsync( point );
     }
 
+    private async Task HandleDataLabelClicked( SvgChartPointEventArgs point, string color )
+    {
+        var dataLabelsComponent = dataLabelsComponents.LastOrDefault();
+
+        ShowTooltip( point, color, true );
+
+        if ( dataLabelsComponent is not null )
+            await dataLabelsComponent.Clicked.InvokeAsync( point );
+
+        await Clicked.InvokeAsync( point );
+    }
+
+    private async Task HandleDataLabelHovered( SvgChartPointEventArgs point, string color )
+    {
+        var dataLabelsComponent = dataLabelsComponents.LastOrDefault();
+
+        ShowTooltip( point, color, false );
+
+        if ( dataLabelsComponent is not null )
+            await dataLabelsComponent.Hovered.InvokeAsync( point );
+
+        await Hovered.InvokeAsync( point );
+    }
+
     private void HandlePointLeft()
     {
         if ( activeTooltipPinned )
@@ -2135,6 +2503,58 @@ public class SvgChart<TItem> : SvgChartBase
     private static string GetPointLabel( SvgChartPointEventArgs point )
     {
         return $"{point.Category}, {point.Value}. {point.SeriesName}.";
+    }
+
+    private static string FormatDataLabelValue( object value )
+    {
+        return value switch
+        {
+            null => null,
+            double doubleValue => FormatTick( doubleValue ),
+            float floatValue => FormatTick( floatValue ),
+            decimal decimalValue => decimalValue.ToString( "0.##", CultureInfo.InvariantCulture ),
+            _ => value.ToString()
+        };
+    }
+
+    private static SvgChartDataLabelPosition ResolveDataLabelPosition( SvgChartDataLabelPosition position, SvgChartType chartType )
+    {
+        if ( position != SvgChartDataLabelPosition.Auto )
+            return position;
+
+        return chartType switch
+        {
+            SvgChartType.Bar => SvgChartDataLabelPosition.End,
+            SvgChartType.Pie or SvgChartType.Doughnut or SvgChartType.PolarArea => SvgChartDataLabelPosition.Center,
+            _ => SvgChartDataLabelPosition.Top
+        };
+    }
+
+    private static (double X, double Y) ResolveDataLabelAnchor( SvgChartPointBounds bounds, SvgChartDataLabelPosition position, double offset, double width, double height )
+    {
+        var centerX = bounds.X + bounds.Width / 2;
+        var centerY = bounds.Y + bounds.Height / 2;
+
+        return position switch
+        {
+            SvgChartDataLabelPosition.Center => (centerX - width / 2, centerY - height / 2),
+            SvgChartDataLabelPosition.End => (bounds.X + bounds.Width + offset, centerY - height / 2),
+            SvgChartDataLabelPosition.Bottom => (centerX - width / 2, bounds.Y + bounds.Height + offset),
+            SvgChartDataLabelPosition.Start => (bounds.X - width - offset, centerY - height / 2),
+            _ => (centerX - width / 2, bounds.Y - height - offset)
+        };
+    }
+
+    private static double EstimateTextWidth( string text, double fontSize )
+    {
+        return Math.Max( 1, ( text?.Length ?? 0 ) * fontSize * 0.58 );
+    }
+
+    private static string ResolveDataLabelBackgroundColor( SvgChartDataLabelsOptions dataLabels )
+    {
+        return IsDefaultColor( dataLabels.BackgroundColor )
+            ? "var(--bs-body-bg, #fff)"
+            : ResolveFontColor( dataLabels.BackgroundColor );
     }
 
     private static string ResolveColor( Color color, int index )
@@ -2787,6 +3207,17 @@ public class SvgChart<TItem> : SvgChartBase
         tooltipComponents.Remove( tooltip );
     }
 
+    internal override void RegisterDataLabels( SvgChartDataLabels dataLabels )
+    {
+        if ( !dataLabelsComponents.Contains( dataLabels ) )
+            dataLabelsComponents.Add( dataLabels );
+    }
+
+    internal override void UnregisterDataLabels( SvgChartDataLabels dataLabels )
+    {
+        dataLabelsComponents.Remove( dataLabels );
+    }
+
     internal override void Refresh()
     {
         _ = InvokeAsync( StateHasChanged );
@@ -2868,6 +3299,8 @@ public class SvgChart<TItem> : SvgChartBase
         public RenderValueAxis PrimaryValueAxis { get; init; }
 
         public SvgChartTooltipOptions Tooltip { get; init; }
+
+        public SvgChartDataLabelsOptions DataLabels { get; init; }
     }
 
     private sealed class RenderSeries

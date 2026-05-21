@@ -35,6 +35,10 @@ public abstract class SvgChartBase : BaseComponent
 
     internal abstract void UnregisterTooltip( SvgChartTooltip tooltip );
 
+    internal abstract void RegisterDataLabels( SvgChartDataLabels dataLabels );
+
+    internal abstract void UnregisterDataLabels( SvgChartDataLabels dataLabels );
+
     internal abstract void Refresh();
 
     #endregion
