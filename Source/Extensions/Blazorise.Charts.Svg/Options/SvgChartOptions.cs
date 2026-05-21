@@ -1,3 +1,7 @@
+#region Using directives
+using System.Collections.Generic;
+#endregion
+
 namespace Blazorise.Charts.Svg;
 
 /// <summary>
@@ -73,6 +77,11 @@ public class SvgChartOptions
     /// Defines data label options.
     /// </summary>
     public SvgChartDataLabelsOptions DataLabels { get; set; } = new();
+
+    /// <summary>
+    /// Defines trendline options.
+    /// </summary>
+    public List<SvgChartTrendlineOptions> Trendlines { get; set; } = [];
 
     /// <summary>
     /// Defines the category axis options.

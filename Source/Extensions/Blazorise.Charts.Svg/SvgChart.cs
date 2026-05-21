@@ -37,6 +37,8 @@ public class SvgChart<TItem> : SvgChartBase
 
     private readonly List<SvgChartDataLabels> dataLabelsComponents = [];
 
+    private readonly List<SvgChartTrendline> trendlineComponents = [];
+
     private readonly HashSet<string> hiddenSeries = [];
 
     private SvgChartData<double?> internalChartData;
@@ -548,6 +550,8 @@ public class SvgChart<TItem> : SvgChartBase
                 RenderPointCharts( builder, ref sequence, model, plot, ShouldRender );
         }
 
+        RenderTrendlines( builder, ref sequence, model, plot );
+
         RenderCartesianDataLabels( builder, ref sequence, model, plot );
 
         if ( animation.Enabled )
@@ -831,6 +835,57 @@ public class SvgChart<TItem> : SvgChartBase
                 builder.AddAttribute( sequence++, "onblur", EventCallback.Factory.Create<FocusEventArgs>( this, () => HandlePointLeft() ) );
                 builder.CloseElement();
             }
+        }
+
+        builder.CloseElement();
+    }
+
+    private void RenderTrendlines( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot )
+    {
+        if ( model.Trendlines.Count == 0 || IsRadialChart( model ) )
+            return;
+
+        var pointChartScale = model.Series.Any( x => !x.Hidden && IsPointChart( x.Type ) )
+            ? BuildScale( model.Series.Where( x => !x.Hidden && IsPointChart( x.Type ) ).SelectMany( x => x.XValues ).Where( x => x.HasValue ).Select( x => x.Value ).ToList(), ResolveAxis( model.Options ) )
+            : null;
+
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-trendlines" );
+
+        foreach ( var trendline in model.Trendlines.Where( x => x.Visible ).OrderBy( x => x.Order ?? 0 ) )
+        {
+            if ( trendline.Type != SvgChartTrendlineType.Linear )
+                continue;
+
+            var series = ResolveTrendlineSeries( model, trendline );
+
+            if ( series is null )
+                continue;
+
+            var line = IsPointChart( series.Type )
+                ? CalculatePointTrendline( model, plot, series, pointChartScale )
+                : CalculateCategoryTrendline( model, plot, series );
+
+            if ( line is null )
+                continue;
+
+            var color = ResolveTrendlineColor( trendline, series );
+
+            builder.OpenElement( sequence++, "line" );
+            builder.AddAttribute( sequence++, "class", "svg-chart-trendline" );
+            builder.AddAttribute( sequence++, "x1", Format( line.Value.X1 ) );
+            builder.AddAttribute( sequence++, "y1", Format( line.Value.Y1 ) );
+            builder.AddAttribute( sequence++, "x2", Format( line.Value.X2 ) );
+            builder.AddAttribute( sequence++, "y2", Format( line.Value.Y2 ) );
+            builder.AddAttribute( sequence++, "stroke", color );
+            builder.AddAttribute( sequence++, "stroke-width", Format( trendline.StrokeWidth ) );
+            builder.AddAttribute( sequence++, "stroke-linecap", "round" );
+            builder.AddAttribute( sequence++, "opacity", Format( trendline.Opacity ) );
+
+            if ( !string.IsNullOrWhiteSpace( trendline.DashPattern ) )
+                builder.AddAttribute( sequence++, "stroke-dasharray", trendline.DashPattern );
+
+            builder.CloseElement();
         }
 
         builder.CloseElement();
@@ -1438,7 +1493,8 @@ public class SvgChart<TItem> : SvgChartBase
             ValueAxes = valueAxes,
             PrimaryValueAxis = primaryValueAxis,
             Tooltip = ResolveTooltip( options ),
-            DataLabels = ResolveDataLabels( options )
+            DataLabels = ResolveDataLabels( options ),
+            Trendlines = ResolveTrendlines( options )
         };
     }
 
@@ -1939,6 +1995,56 @@ public class SvgChart<TItem> : SvgChartBase
         };
     }
 
+    private List<SvgChartTrendlineOptions> ResolveTrendlines( SvgChartOptions options )
+    {
+        var trendlines = new List<SvgChartTrendlineOptions>();
+
+        if ( options.Trendlines is not null )
+            trendlines.AddRange( options.Trendlines.Select( CreateTrendlineOptions ) );
+
+        trendlines.AddRange( trendlineComponents.Select( CreateTrendlineOptions ) );
+
+        return trendlines;
+    }
+
+    private static SvgChartTrendlineOptions CreateTrendlineOptions( SvgChartTrendlineOptions options )
+    {
+        if ( options is null )
+            return new();
+
+        return new()
+        {
+            Visible = options.Visible,
+            SeriesName = options.SeriesName,
+            Name = options.Name,
+            Type = options.Type,
+            Color = options.Color,
+            StrokeWidth = options.StrokeWidth,
+            DashPattern = options.DashPattern,
+            Opacity = options.Opacity,
+            Order = options.Order
+        };
+    }
+
+    private static SvgChartTrendlineOptions CreateTrendlineOptions( SvgChartTrendline trendline )
+    {
+        if ( trendline is null )
+            return new();
+
+        return new()
+        {
+            Visible = trendline.Visible,
+            SeriesName = trendline.SeriesName,
+            Name = trendline.Name,
+            Type = trendline.Type,
+            Color = trendline.Color,
+            StrokeWidth = trendline.StrokeWidth,
+            DashPattern = trendline.DashPattern,
+            Opacity = trendline.Opacity,
+            Order = trendline.Order
+        };
+    }
+
     private SvgChartTextOptions ResolveTitleOptions( SvgChartOptions options )
     {
         var titleComponent = titleComponents.LastOrDefault();
@@ -2299,6 +2405,106 @@ public class SvgChart<TItem> : SvgChartBase
         return builder.ToString();
     }
 
+    private static RenderSeries ResolveTrendlineSeries( RenderModel model, SvgChartTrendlineOptions trendline )
+    {
+        if ( string.IsNullOrWhiteSpace( trendline.SeriesName ) )
+            return null;
+
+        return model.Series.LastOrDefault( x => !x.Hidden && string.Equals( x.Name, trendline.SeriesName, StringComparison.Ordinal ) );
+    }
+
+    private static (double X1, double Y1, double X2, double Y2)? CalculateCategoryTrendline( RenderModel model, PlotArea plot, RenderSeries series )
+    {
+        if ( series.Type == SvgChartType.Bar )
+            return null;
+
+        var samples = new List<(double X, double Y)>();
+
+        for ( var i = 0; i < model.Labels.Count && i < series.Values.Count; i++ )
+        {
+            var value = series.Values[i];
+
+            if ( value.HasValue )
+                samples.Add( (i, value.Value) );
+        }
+
+        if ( !TryCalculateLinearRegression( samples, out var slope, out var intercept ) )
+            return null;
+
+        var categoryWidth = plot.Width / GetCategorySlotCount( model );
+        var firstIndex = samples.Min( x => x.X );
+        var lastIndex = samples.Max( x => x.X );
+        var firstValue = slope * firstIndex + intercept;
+        var lastValue = slope * lastIndex + intercept;
+
+        return (
+            plot.Left + categoryWidth * ( firstIndex + 0.5 ),
+            GetY( firstValue, plot, model, series ),
+            plot.Left + categoryWidth * ( lastIndex + 0.5 ),
+            GetY( lastValue, plot, model, series )
+        );
+    }
+
+    private static (double X1, double Y1, double X2, double Y2)? CalculatePointTrendline( RenderModel model, PlotArea plot, RenderSeries series, Scale xScale )
+    {
+        if ( xScale is null )
+            return null;
+
+        var samples = new List<(double X, double Y)>();
+        var count = Math.Min( series.XValues.Count, series.YValues.Count );
+
+        for ( var i = 0; i < count; i++ )
+        {
+            var xValue = series.XValues[i];
+            var yValue = series.YValues[i];
+
+            if ( xValue.HasValue && yValue.HasValue )
+                samples.Add( (xValue.Value, yValue.Value) );
+        }
+
+        if ( !TryCalculateLinearRegression( samples, out var slope, out var intercept ) )
+            return null;
+
+        var firstX = samples.Min( x => x.X );
+        var lastX = samples.Max( x => x.X );
+        var firstY = slope * firstX + intercept;
+        var lastY = slope * lastX + intercept;
+
+        return (
+            GetX( firstX, plot, xScale.Min, xScale.Max ),
+            GetY( firstY, plot, model, series ),
+            GetX( lastX, plot, xScale.Min, xScale.Max ),
+            GetY( lastY, plot, model, series )
+        );
+    }
+
+    private static bool TryCalculateLinearRegression( List<(double X, double Y)> samples, out double slope, out double intercept )
+    {
+        slope = 0;
+        intercept = 0;
+
+        if ( samples.Count < 2 )
+            return false;
+
+        var count = samples.Count;
+        var sumX = samples.Sum( x => x.X );
+        var sumY = samples.Sum( x => x.Y );
+        var sumXY = samples.Sum( x => x.X * x.Y );
+        var sumXX = samples.Sum( x => x.X * x.X );
+        var denominator = count * sumXX - sumX * sumX;
+
+        if ( Math.Abs( denominator ) < double.Epsilon )
+            return false;
+
+        slope = ( count * sumXY - sumX * sumY ) / denominator;
+        intercept = ( sumY - slope * sumX ) / count;
+
+        return !double.IsNaN( slope )
+               && !double.IsInfinity( slope )
+               && !double.IsNaN( intercept )
+               && !double.IsInfinity( intercept );
+    }
+
     private static string BuildArcPath( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle )
     {
         var sweep = endAngle - startAngle;
@@ -2559,6 +2765,13 @@ public class SvgChart<TItem> : SvgChartBase
         return IsDefaultColor( dataLabels.BackgroundColor )
             ? "var(--bs-body-bg, #fff)"
             : ResolveFontColor( dataLabels.BackgroundColor );
+    }
+
+    private static string ResolveTrendlineColor( SvgChartTrendlineOptions trendline, RenderSeries series )
+    {
+        return IsDefaultColor( trendline.Color )
+            ? series.RenderColor
+            : ResolveColor( trendline.Color, 0 );
     }
 
     private static string ResolveColor( Color color, int index )
@@ -3222,6 +3435,17 @@ public class SvgChart<TItem> : SvgChartBase
         dataLabelsComponents.Remove( dataLabels );
     }
 
+    internal override void RegisterTrendline( SvgChartTrendline trendline )
+    {
+        if ( !trendlineComponents.Contains( trendline ) )
+            trendlineComponents.Add( trendline );
+    }
+
+    internal override void UnregisterTrendline( SvgChartTrendline trendline )
+    {
+        trendlineComponents.Remove( trendline );
+    }
+
     internal override void Refresh()
     {
         _ = InvokeAsync( StateHasChanged );
@@ -3305,6 +3529,8 @@ public class SvgChart<TItem> : SvgChartBase
         public SvgChartTooltipOptions Tooltip { get; init; }
 
         public SvgChartDataLabelsOptions DataLabels { get; init; }
+
+        public List<SvgChartTrendlineOptions> Trendlines { get; init; } = [];
     }
 
     private sealed class RenderSeries

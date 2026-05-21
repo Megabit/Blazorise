@@ -39,6 +39,10 @@ public abstract class SvgChartBase : BaseComponent
 
     internal abstract void UnregisterDataLabels( SvgChartDataLabels dataLabels );
 
+    internal abstract void RegisterTrendline( SvgChartTrendline trendline );
+
+    internal abstract void UnregisterTrendline( SvgChartTrendline trendline );
+
     internal abstract void Refresh();
 
     #endregion
