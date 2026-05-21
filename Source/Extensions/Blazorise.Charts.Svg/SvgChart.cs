@@ -133,11 +133,14 @@ public class SvgChart<TItem> : SvgChartBase
 
         builder.OpenElement( sequence++, "svg" );
         builder.AddAttribute( sequence++, "xmlns", "http://www.w3.org/2000/svg" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-surface" );
         builder.AddAttribute( sequence++, "role", "img" );
         builder.AddAttribute( sequence++, "aria-label", IsTextVisible( title ) ? title.Text : "SVG chart" );
         builder.AddAttribute( sequence++, "viewBox", $"0 0 {Format( options.Width )} {Format( options.Height )}" );
         builder.AddAttribute( sequence++, "style", options.Responsive ? "display:block;width:100%;height:auto;overflow:visible;" : $"display:block;width:{Format( options.Width )}px;height:{Format( options.Height )}px;overflow:visible;" );
         AddFontFamilyAttribute( builder, ref sequence, options.Font?.Family );
+
+        RenderFocusStyles( builder, ref sequence );
 
         RenderChartText( builder, ref sequence, options, title, subtitle );
 
@@ -166,6 +169,13 @@ public class SvgChart<TItem> : SvgChartBase
         RenderActiveTooltip( builder, ref sequence, model );
 
         builder.CloseElement();
+        builder.CloseElement();
+    }
+
+    private static void RenderFocusStyles( RenderTreeBuilder builder, ref int sequence )
+    {
+        builder.OpenElement( sequence++, "style" );
+        builder.AddContent( sequence++, ".svg-chart-surface [tabindex]:focus{outline:none;}" );
         builder.CloseElement();
     }
 
