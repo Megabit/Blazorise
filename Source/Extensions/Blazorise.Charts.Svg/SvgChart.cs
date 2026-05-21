@@ -163,15 +163,19 @@ public class SvgChart<TItem> : SvgChartBase
 
         if ( zoom.Enabled && !IsRadialChart( model ) )
         {
-            builder.AddAttribute( sequence++, "onwheel", EventCallback.Factory.Create<WheelEventArgs>( this, HandleChartWheel ) );
-            builder.AddAttribute( sequence++, "onwheel:preventDefault", true );
-            builder.AddAttribute( sequence++, "onmousedown", EventCallback.Factory.Create<MouseEventArgs>( this, HandleChartMouseDown ) );
-            builder.AddAttribute( sequence++, "onmousemove", EventCallback.Factory.Create<MouseEventArgs>( this, HandleChartMouseMove ) );
-            builder.AddAttribute( sequence++, "onmouseup", EventCallback.Factory.Create<MouseEventArgs>( this, HandleChartMouseUp ) );
-            builder.AddAttribute( sequence++, "onmouseleave", EventCallback.Factory.Create<MouseEventArgs>( this, HandleChartMouseLeave ) );
+            if ( zoom.Wheel )
+            {
+                builder.AddAttribute( sequence++, "onwheel", EventCallback.Factory.Create<WheelEventArgs>( this, HandleChartWheel ) );
+                builder.AddAttribute( sequence++, "onwheel:preventDefault", true );
+                builder.AddAttribute( sequence++, "onwheel:stopPropagation", true );
+            }
 
             if ( zoom.Pan )
             {
+                builder.AddAttribute( sequence++, "onmousedown", EventCallback.Factory.Create<MouseEventArgs>( this, HandleChartMouseDown ) );
+                builder.AddAttribute( sequence++, "onmousemove", EventCallback.Factory.Create<MouseEventArgs>( this, HandleChartMouseMove ) );
+                builder.AddAttribute( sequence++, "onmouseup", EventCallback.Factory.Create<MouseEventArgs>( this, HandleChartMouseUp ) );
+                builder.AddAttribute( sequence++, "onmouseleave", EventCallback.Factory.Create<MouseEventArgs>( this, HandleChartMouseLeave ) );
                 builder.AddAttribute( sequence++, "onmousedown:preventDefault", true );
                 builder.AddAttribute( sequence++, "onmousemove:preventDefault", true );
             }
@@ -286,6 +290,9 @@ public class SvgChart<TItem> : SvgChartBase
 
         if ( zoom?.Enabled == true )
             style += "touch-action:none;";
+
+        if ( zoom?.Enabled == true && zoom.Wheel )
+            style += "overscroll-behavior:contain;";
 
         if ( zoom?.Enabled == true && zoom.Pan )
             style += panning ? "cursor:grabbing;" : "cursor:grab;";
