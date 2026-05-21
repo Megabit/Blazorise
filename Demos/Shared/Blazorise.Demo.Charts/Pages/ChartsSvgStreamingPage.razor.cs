@@ -8,6 +8,8 @@ namespace Blazorise.Demo.Pages.Tests;
 
 public partial class ChartsSvgStreamingPage : IAsyncDisposable
 {
+    private static readonly TimeSpan StreamingInterval = TimeSpan.FromSeconds( 1 );
+
     private readonly Random random = new( DateTime.Now.Millisecond );
 
     private SvgLineChart<object> latencyChart;
@@ -83,7 +85,7 @@ public partial class ChartsSvgStreamingPage : IAsyncDisposable
         Reverse = false,
         Animation = new()
         {
-            Duration = TimeSpan.FromSeconds( 1 ),
+            Duration = StreamingInterval,
         },
         RefreshInterval = TimeSpan.FromMilliseconds( 500 ),
     };
@@ -97,7 +99,7 @@ public partial class ChartsSvgStreamingPage : IAsyncDisposable
         Reverse = false,
         Animation = new()
         {
-            Duration = TimeSpan.FromMilliseconds( 900 ),
+            Duration = StreamingInterval,
         },
         RefreshInterval = TimeSpan.FromMilliseconds( 500 ),
     };
@@ -111,7 +113,7 @@ public partial class ChartsSvgStreamingPage : IAsyncDisposable
         Reverse = true,
         Animation = new()
         {
-            Duration = TimeSpan.FromMilliseconds( 850 ),
+            Duration = StreamingInterval,
         },
         RefreshInterval = TimeSpan.FromMilliseconds( 500 ),
     };
@@ -131,7 +133,7 @@ public partial class ChartsSvgStreamingPage : IAsyncDisposable
     {
         try
         {
-            using PeriodicTimer timer = new( TimeSpan.FromSeconds( 1 ) );
+            using PeriodicTimer timer = new( StreamingInterval );
 
             while ( await timer.WaitForNextTickAsync( cancellationToken ) )
             {
