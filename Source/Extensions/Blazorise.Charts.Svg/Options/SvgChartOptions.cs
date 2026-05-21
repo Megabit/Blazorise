@@ -79,6 +79,11 @@ public class SvgChartOptions
     public SvgChartDataLabelsOptions DataLabels { get; set; } = new();
 
     /// <summary>
+    /// Defines annotation options.
+    /// </summary>
+    public List<SvgChartAnnotationOptions> Annotations { get; set; } = [];
+
+    /// <summary>
     /// Defines trendline options.
     /// </summary>
     public List<SvgChartTrendlineOptions> Trendlines { get; set; } = [];

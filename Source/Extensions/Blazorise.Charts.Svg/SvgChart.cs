@@ -37,6 +37,8 @@ public class SvgChart<TItem> : SvgChartBase
 
     private readonly List<SvgChartDataLabels> dataLabelsComponents = [];
 
+    private readonly List<object> annotationComponents = [];
+
     private readonly List<SvgChartTrendline> trendlineComponents = [];
 
     private readonly HashSet<string> hiddenSeries = [];
@@ -530,6 +532,8 @@ public class SvgChart<TItem> : SvgChartBase
             builder.AddAttribute( sequence++, "style", ResolveStreamingAnimationStyle( animation ) );
         }
 
+        RenderAnnotations( builder, ref sequence, model, plot, SvgChartAnnotationType.Box );
+
         foreach ( var renderOrder in renderOrders )
         {
             bool ShouldRender( RenderSeries series ) => ResolveRenderOrder( series ) == renderOrder;
@@ -549,6 +553,11 @@ public class SvgChart<TItem> : SvgChartBase
             if ( model.Series.Any( x => IsPointChart( x.Type ) && ShouldRender( x ) ) )
                 RenderPointCharts( builder, ref sequence, model, plot, ShouldRender );
         }
+
+        RenderAnnotations( builder, ref sequence, model, plot, SvgChartAnnotationType.Line );
+        RenderAnnotations( builder, ref sequence, model, plot, SvgChartAnnotationType.Ellipse );
+        RenderAnnotations( builder, ref sequence, model, plot, SvgChartAnnotationType.Point );
+        RenderAnnotations( builder, ref sequence, model, plot, SvgChartAnnotationType.Label );
 
         RenderTrendlines( builder, ref sequence, model, plot );
 
@@ -836,6 +845,217 @@ public class SvgChart<TItem> : SvgChartBase
                 builder.CloseElement();
             }
         }
+
+        builder.CloseElement();
+    }
+
+    private void RenderAnnotations( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot, SvgChartAnnotationType annotationType )
+    {
+        if ( model.Annotations.Count == 0 || IsRadialChart( model ) )
+            return;
+
+        var pointChartScale = model.Series.Any( x => !x.Hidden && IsPointChart( x.Type ) )
+            ? BuildScale( model.Series.Where( x => !x.Hidden && IsPointChart( x.Type ) ).SelectMany( x => x.XValues ).Where( x => x.HasValue ).Select( x => x.Value ).ToList(), ResolveAxis( model.Options ) )
+            : null;
+        var annotations = model.Annotations.Where( x => x.Visible && x.AnnotationType == annotationType )
+            .OrderBy( x => x.Order ?? 0 )
+            .ToList();
+
+        if ( annotations.Count == 0 )
+            return;
+
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", $"svg-chart-annotations svg-chart-{annotationType.ToString().ToLowerInvariant()}-annotations" );
+
+        foreach ( var annotation in annotations )
+        {
+            switch ( annotation )
+            {
+                case SvgChartBoxAnnotationOptions boxAnnotation:
+                    RenderBoxAnnotation( builder, ref sequence, model, plot, boxAnnotation, pointChartScale );
+                    break;
+                case SvgChartLineAnnotationOptions lineAnnotation:
+                    RenderLineAnnotation( builder, ref sequence, model, plot, lineAnnotation, pointChartScale );
+                    break;
+                case SvgChartEllipseAnnotationOptions ellipseAnnotation:
+                    RenderEllipseAnnotation( builder, ref sequence, model, plot, ellipseAnnotation, pointChartScale );
+                    break;
+                case SvgChartPointAnnotationOptions pointAnnotation:
+                    RenderPointAnnotation( builder, ref sequence, model, plot, pointAnnotation, pointChartScale );
+                    break;
+                case SvgChartLabelAnnotationOptions labelAnnotation:
+                    RenderLabelAnnotation( builder, ref sequence, model, plot, labelAnnotation, pointChartScale );
+                    break;
+            }
+        }
+
+        builder.CloseElement();
+    }
+
+    private void RenderBoxAnnotation( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot, SvgChartBoxAnnotationOptions annotation, Scale pointChartScale )
+    {
+        var bounds = ResolveAnnotationBounds( model, plot, annotation.XMin, annotation.XMax, annotation.YMin, annotation.YMax, annotation.ValueAxisId, pointChartScale );
+
+        builder.OpenElement( sequence++, "rect" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-annotation svg-chart-box-annotation" );
+        builder.AddAttribute( sequence++, "x", Format( bounds.X ) );
+        builder.AddAttribute( sequence++, "y", Format( bounds.Y ) );
+        builder.AddAttribute( sequence++, "width", Format( bounds.Width ) );
+        builder.AddAttribute( sequence++, "height", Format( bounds.Height ) );
+        builder.AddAttribute( sequence++, "fill", ResolveAnnotationBackgroundColor( annotation.BackgroundColor ) );
+        builder.AddAttribute( sequence++, "opacity", Format( annotation.Opacity ) );
+
+        if ( annotation.Border?.Width > 0 )
+        {
+            builder.AddAttribute( sequence++, "stroke", ResolveAnnotationColor( annotation.Border.Color, "currentColor" ) );
+            builder.AddAttribute( sequence++, "stroke-width", Format( annotation.Border.Width ) );
+
+            if ( annotation.Border.Radius > 0 )
+                builder.AddAttribute( sequence++, "rx", Format( annotation.Border.Radius ) );
+        }
+
+        builder.CloseElement();
+
+        RenderAnnotationLabel( builder, ref sequence, model, annotation.Label, bounds );
+    }
+
+    private void RenderLineAnnotation( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot, SvgChartLineAnnotationOptions annotation, Scale pointChartScale )
+    {
+        var line = ResolveAnnotationLine( model, plot, annotation.XMin, annotation.XMax, annotation.YMin, annotation.YMax, annotation.ValueAxisId, pointChartScale );
+
+        builder.OpenElement( sequence++, "line" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-annotation svg-chart-line-annotation" );
+        builder.AddAttribute( sequence++, "x1", Format( line.X1 ) );
+        builder.AddAttribute( sequence++, "y1", Format( line.Y1 ) );
+        builder.AddAttribute( sequence++, "x2", Format( line.X2 ) );
+        builder.AddAttribute( sequence++, "y2", Format( line.Y2 ) );
+        builder.AddAttribute( sequence++, "stroke", ResolveAnnotationColor( annotation.Border?.Color, "currentColor" ) );
+        builder.AddAttribute( sequence++, "stroke-width", Format( annotation.Border?.Width > 0 ? annotation.Border.Width : 2 ) );
+        builder.AddAttribute( sequence++, "stroke-linecap", "round" );
+        builder.AddAttribute( sequence++, "opacity", Format( annotation.Opacity ) );
+
+        if ( !string.IsNullOrWhiteSpace( annotation.DashPattern ) )
+            builder.AddAttribute( sequence++, "stroke-dasharray", annotation.DashPattern );
+
+        builder.CloseElement();
+
+        RenderAnnotationLabel( builder, ref sequence, model, annotation.Label, ResolveLineBounds( line ) );
+    }
+
+    private void RenderEllipseAnnotation( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot, SvgChartEllipseAnnotationOptions annotation, Scale pointChartScale )
+    {
+        var bounds = ResolveAnnotationBounds( model, plot, annotation.XMin, annotation.XMax, annotation.YMin, annotation.YMax, annotation.ValueAxisId, pointChartScale );
+
+        builder.OpenElement( sequence++, "ellipse" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-annotation svg-chart-ellipse-annotation" );
+        builder.AddAttribute( sequence++, "cx", Format( bounds.X + bounds.Width / 2 ) );
+        builder.AddAttribute( sequence++, "cy", Format( bounds.Y + bounds.Height / 2 ) );
+        builder.AddAttribute( sequence++, "rx", Format( bounds.Width / 2 ) );
+        builder.AddAttribute( sequence++, "ry", Format( bounds.Height / 2 ) );
+        builder.AddAttribute( sequence++, "fill", ResolveAnnotationBackgroundColor( annotation.BackgroundColor ) );
+        builder.AddAttribute( sequence++, "opacity", Format( annotation.Opacity ) );
+
+        if ( annotation.Border?.Width > 0 )
+        {
+            builder.AddAttribute( sequence++, "stroke", ResolveAnnotationColor( annotation.Border.Color, "currentColor" ) );
+            builder.AddAttribute( sequence++, "stroke-width", Format( annotation.Border.Width ) );
+        }
+
+        builder.CloseElement();
+
+        RenderAnnotationLabel( builder, ref sequence, model, annotation.Label, bounds );
+    }
+
+    private void RenderPointAnnotation( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot, SvgChartPointAnnotationOptions annotation, Scale pointChartScale )
+    {
+        var point = ResolveAnnotationPoint( model, plot, annotation.X, annotation.Y, annotation.ValueAxisId, pointChartScale );
+        var radius = Math.Max( 0, annotation.Radius );
+        var bounds = new SvgChartPointBounds
+        {
+            X = point.X - radius,
+            Y = point.Y - radius,
+            Width = radius * 2,
+            Height = radius * 2
+        };
+
+        builder.OpenElement( sequence++, "circle" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-annotation svg-chart-point-annotation" );
+        builder.AddAttribute( sequence++, "cx", Format( point.X ) );
+        builder.AddAttribute( sequence++, "cy", Format( point.Y ) );
+        builder.AddAttribute( sequence++, "r", Format( radius ) );
+        builder.AddAttribute( sequence++, "fill", ResolveAnnotationBackgroundColor( annotation.BackgroundColor ) );
+        builder.AddAttribute( sequence++, "opacity", Format( annotation.Opacity ) );
+
+        if ( annotation.Border?.Width > 0 )
+        {
+            builder.AddAttribute( sequence++, "stroke", ResolveAnnotationColor( annotation.Border.Color, "currentColor" ) );
+            builder.AddAttribute( sequence++, "stroke-width", Format( annotation.Border.Width ) );
+        }
+
+        builder.CloseElement();
+
+        RenderAnnotationLabel( builder, ref sequence, model, annotation.Label, bounds );
+    }
+
+    private void RenderLabelAnnotation( RenderTreeBuilder builder, ref int sequence, RenderModel model, PlotArea plot, SvgChartLabelAnnotationOptions annotation, Scale pointChartScale )
+    {
+        var point = ResolveAnnotationPoint( model, plot, annotation.X, annotation.Y, annotation.ValueAxisId, pointChartScale );
+        var bounds = new SvgChartPointBounds
+        {
+            X = point.X,
+            Y = point.Y,
+            Width = 0,
+            Height = 0
+        };
+
+        RenderAnnotationLabel( builder, ref sequence, model, annotation.Label, bounds );
+    }
+
+    private void RenderAnnotationLabel( RenderTreeBuilder builder, ref int sequence, RenderModel model, SvgChartAnnotationLabelOptions label, SvgChartPointBounds bounds )
+    {
+        if ( label?.Visible != true || string.IsNullOrWhiteSpace( label.Text ) )
+            return;
+
+        var font = CreateFontOptions( model.Options.Font, label.Font ) ?? new();
+        var fontSize = font.Size ?? model.Options.Font?.Size ?? 11;
+        var padding = label.Padding ?? new();
+        var textWidth = EstimateTextWidth( label.Text, fontSize );
+        var width = textWidth + padding.Start + padding.End;
+        var height = fontSize + padding.Top + padding.Bottom;
+        var anchor = ResolveAnnotationLabelAnchor( bounds, label.Position, label.Offset, width, height );
+        var backgroundColor = ResolveAnnotationLabelBackgroundColor( label );
+
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-annotation-label" );
+
+        builder.OpenElement( sequence++, "rect" );
+        builder.AddAttribute( sequence++, "x", Format( anchor.X ) );
+        builder.AddAttribute( sequence++, "y", Format( anchor.Y ) );
+        builder.AddAttribute( sequence++, "width", Format( width ) );
+        builder.AddAttribute( sequence++, "height", Format( height ) );
+        builder.AddAttribute( sequence++, "rx", Format( label.Border?.Radius ?? 0 ) );
+        builder.AddAttribute( sequence++, "fill", backgroundColor );
+
+        if ( label.Border?.Width > 0 )
+        {
+            builder.AddAttribute( sequence++, "stroke", ResolveAnnotationColor( label.Border.Color, "currentColor" ) );
+            builder.AddAttribute( sequence++, "stroke-width", Format( label.Border.Width ) );
+        }
+
+        builder.CloseElement();
+
+        builder.OpenElement( sequence++, "text" );
+        builder.AddAttribute( sequence++, "x", Format( anchor.X + padding.Start ) );
+        builder.AddAttribute( sequence++, "y", Format( anchor.Y + padding.Top + fontSize * 0.82 ) );
+        AddFontFamilyAttribute( builder, ref sequence, font.Family );
+        builder.AddAttribute( sequence++, "font-size", Format( fontSize ) );
+
+        if ( !string.IsNullOrWhiteSpace( font.Weight ) )
+            builder.AddAttribute( sequence++, "font-weight", font.Weight );
+
+        builder.AddAttribute( sequence++, "fill", ResolveFontColor( font ) );
+        builder.AddContent( sequence++, label.Text );
+        builder.CloseElement();
 
         builder.CloseElement();
     }
@@ -1494,6 +1714,7 @@ public class SvgChart<TItem> : SvgChartBase
             PrimaryValueAxis = primaryValueAxis,
             Tooltip = ResolveTooltip( options ),
             DataLabels = ResolveDataLabels( options ),
+            Annotations = ResolveAnnotations( options ),
             Trendlines = ResolveTrendlines( options )
         };
     }
@@ -2007,6 +2228,270 @@ public class SvgChart<TItem> : SvgChartBase
         return trendlines;
     }
 
+    private List<SvgChartAnnotationOptions> ResolveAnnotations( SvgChartOptions options )
+    {
+        var annotations = new List<SvgChartAnnotationOptions>();
+
+        if ( options.Annotations is not null )
+            annotations.AddRange( options.Annotations.Select( CreateAnnotationOptions ).Where( x => x is not null ) );
+
+        annotations.AddRange( annotationComponents.Select( CreateAnnotationOptions ).Where( x => x is not null ) );
+
+        return annotations;
+    }
+
+    private static SvgChartAnnotationOptions CreateAnnotationOptions( SvgChartAnnotationOptions annotation )
+    {
+        return annotation switch
+        {
+            SvgChartLineAnnotationOptions lineAnnotation => CreateLineAnnotationOptions( lineAnnotation ),
+            SvgChartBoxAnnotationOptions boxAnnotation => CreateBoxAnnotationOptions( boxAnnotation ),
+            SvgChartLabelAnnotationOptions labelAnnotation => CreateLabelAnnotationOptions( labelAnnotation ),
+            SvgChartPointAnnotationOptions pointAnnotation => CreatePointAnnotationOptions( pointAnnotation ),
+            SvgChartEllipseAnnotationOptions ellipseAnnotation => CreateEllipseAnnotationOptions( ellipseAnnotation ),
+            _ => null
+        };
+    }
+
+    private static SvgChartAnnotationOptions CreateAnnotationOptions( object annotation )
+    {
+        return annotation switch
+        {
+            SvgChartLineAnnotation lineAnnotation => CreateLineAnnotationOptions( lineAnnotation ),
+            SvgChartBoxAnnotation boxAnnotation => CreateBoxAnnotationOptions( boxAnnotation ),
+            SvgChartLabelAnnotation labelAnnotation => CreateLabelAnnotationOptions( labelAnnotation ),
+            SvgChartPointAnnotation pointAnnotation => CreatePointAnnotationOptions( pointAnnotation ),
+            SvgChartEllipseAnnotation ellipseAnnotation => CreateEllipseAnnotationOptions( ellipseAnnotation ),
+            _ => null
+        };
+    }
+
+    private static SvgChartLineAnnotationOptions CreateLineAnnotationOptions( SvgChartLineAnnotationOptions annotation )
+    {
+        if ( annotation is null )
+            return null;
+
+        return new()
+        {
+            Visible = annotation.Visible,
+            Name = annotation.Name,
+            ValueAxisId = annotation.ValueAxisId,
+            Order = annotation.Order,
+            Label = CreateAnnotationLabelOptions( annotation.Label ),
+            XMin = annotation.XMin,
+            XMax = annotation.XMax,
+            YMin = annotation.YMin,
+            YMax = annotation.YMax,
+            Border = CreateBorderOptions( annotation.Border ),
+            DashPattern = annotation.DashPattern,
+            Opacity = annotation.Opacity
+        };
+    }
+
+    private static SvgChartLineAnnotationOptions CreateLineAnnotationOptions( SvgChartLineAnnotation annotation )
+    {
+        if ( annotation is null )
+            return null;
+
+        return new()
+        {
+            Visible = annotation.Visible,
+            Name = annotation.Name,
+            ValueAxisId = annotation.ValueAxisId,
+            Order = annotation.Order,
+            Label = CreateAnnotationLabelOptions( annotation.Label ),
+            XMin = annotation.XMin,
+            XMax = annotation.XMax,
+            YMin = annotation.YMin,
+            YMax = annotation.YMax,
+            Border = CreateBorderOptions( annotation.Border ),
+            DashPattern = annotation.DashPattern,
+            Opacity = annotation.Opacity
+        };
+    }
+
+    private static SvgChartBoxAnnotationOptions CreateBoxAnnotationOptions( SvgChartBoxAnnotationOptions annotation )
+    {
+        if ( annotation is null )
+            return null;
+
+        return new()
+        {
+            Visible = annotation.Visible,
+            Name = annotation.Name,
+            ValueAxisId = annotation.ValueAxisId,
+            Order = annotation.Order,
+            Label = CreateAnnotationLabelOptions( annotation.Label ),
+            XMin = annotation.XMin,
+            XMax = annotation.XMax,
+            YMin = annotation.YMin,
+            YMax = annotation.YMax,
+            BackgroundColor = annotation.BackgroundColor,
+            Border = CreateBorderOptions( annotation.Border ),
+            Opacity = annotation.Opacity
+        };
+    }
+
+    private static SvgChartBoxAnnotationOptions CreateBoxAnnotationOptions( SvgChartBoxAnnotation annotation )
+    {
+        if ( annotation is null )
+            return null;
+
+        return new()
+        {
+            Visible = annotation.Visible,
+            Name = annotation.Name,
+            ValueAxisId = annotation.ValueAxisId,
+            Order = annotation.Order,
+            Label = CreateAnnotationLabelOptions( annotation.Label ),
+            XMin = annotation.XMin,
+            XMax = annotation.XMax,
+            YMin = annotation.YMin,
+            YMax = annotation.YMax,
+            BackgroundColor = annotation.BackgroundColor,
+            Border = CreateBorderOptions( annotation.Border ),
+            Opacity = annotation.Opacity
+        };
+    }
+
+    private static SvgChartLabelAnnotationOptions CreateLabelAnnotationOptions( SvgChartLabelAnnotationOptions annotation )
+    {
+        if ( annotation is null )
+            return null;
+
+        return new()
+        {
+            Visible = annotation.Visible,
+            Name = annotation.Name,
+            ValueAxisId = annotation.ValueAxisId,
+            Order = annotation.Order,
+            Label = CreateAnnotationLabelOptions( annotation.Label ),
+            X = annotation.X,
+            Y = annotation.Y
+        };
+    }
+
+    private static SvgChartLabelAnnotationOptions CreateLabelAnnotationOptions( SvgChartLabelAnnotation annotation )
+    {
+        if ( annotation is null )
+            return null;
+
+        return new()
+        {
+            Visible = annotation.Visible,
+            Name = annotation.Name,
+            ValueAxisId = annotation.ValueAxisId,
+            Order = annotation.Order,
+            Label = CreateAnnotationLabelOptions( annotation.Label ),
+            X = annotation.X,
+            Y = annotation.Y
+        };
+    }
+
+    private static SvgChartPointAnnotationOptions CreatePointAnnotationOptions( SvgChartPointAnnotationOptions annotation )
+    {
+        if ( annotation is null )
+            return null;
+
+        return new()
+        {
+            Visible = annotation.Visible,
+            Name = annotation.Name,
+            ValueAxisId = annotation.ValueAxisId,
+            Order = annotation.Order,
+            Label = CreateAnnotationLabelOptions( annotation.Label ),
+            X = annotation.X,
+            Y = annotation.Y,
+            Radius = annotation.Radius,
+            BackgroundColor = annotation.BackgroundColor,
+            Border = CreateBorderOptions( annotation.Border ),
+            Opacity = annotation.Opacity
+        };
+    }
+
+    private static SvgChartPointAnnotationOptions CreatePointAnnotationOptions( SvgChartPointAnnotation annotation )
+    {
+        if ( annotation is null )
+            return null;
+
+        return new()
+        {
+            Visible = annotation.Visible,
+            Name = annotation.Name,
+            ValueAxisId = annotation.ValueAxisId,
+            Order = annotation.Order,
+            Label = CreateAnnotationLabelOptions( annotation.Label ),
+            X = annotation.X,
+            Y = annotation.Y,
+            Radius = annotation.Radius,
+            BackgroundColor = annotation.BackgroundColor,
+            Border = CreateBorderOptions( annotation.Border ),
+            Opacity = annotation.Opacity
+        };
+    }
+
+    private static SvgChartEllipseAnnotationOptions CreateEllipseAnnotationOptions( SvgChartEllipseAnnotationOptions annotation )
+    {
+        if ( annotation is null )
+            return null;
+
+        return new()
+        {
+            Visible = annotation.Visible,
+            Name = annotation.Name,
+            ValueAxisId = annotation.ValueAxisId,
+            Order = annotation.Order,
+            Label = CreateAnnotationLabelOptions( annotation.Label ),
+            XMin = annotation.XMin,
+            XMax = annotation.XMax,
+            YMin = annotation.YMin,
+            YMax = annotation.YMax,
+            BackgroundColor = annotation.BackgroundColor,
+            Border = CreateBorderOptions( annotation.Border ),
+            Opacity = annotation.Opacity
+        };
+    }
+
+    private static SvgChartEllipseAnnotationOptions CreateEllipseAnnotationOptions( SvgChartEllipseAnnotation annotation )
+    {
+        if ( annotation is null )
+            return null;
+
+        return new()
+        {
+            Visible = annotation.Visible,
+            Name = annotation.Name,
+            ValueAxisId = annotation.ValueAxisId,
+            Order = annotation.Order,
+            Label = CreateAnnotationLabelOptions( annotation.Label ),
+            XMin = annotation.XMin,
+            XMax = annotation.XMax,
+            YMin = annotation.YMin,
+            YMax = annotation.YMax,
+            BackgroundColor = annotation.BackgroundColor,
+            Border = CreateBorderOptions( annotation.Border ),
+            Opacity = annotation.Opacity
+        };
+    }
+
+    private static SvgChartAnnotationLabelOptions CreateAnnotationLabelOptions( SvgChartAnnotationLabelOptions label )
+    {
+        if ( label is null )
+            return null;
+
+        return new()
+        {
+            Visible = label.Visible,
+            Text = label.Text,
+            Position = label.Position,
+            Offset = label.Offset,
+            Font = CreateFontOptions( label.Font ),
+            Padding = CreateSpacing( label.Padding ),
+            BackgroundColor = label.BackgroundColor,
+            Border = CreateBorderOptions( label.Border )
+        };
+    }
+
     private static SvgChartTrendlineOptions CreateTrendlineOptions( SvgChartTrendlineOptions options )
     {
         if ( options is null )
@@ -2390,6 +2875,14 @@ public class SvgChart<TItem> : SvgChartBase
         return model.ValueAxes.LastOrDefault( x => string.Equals( x.Id, series.ValueAxisId, StringComparison.Ordinal ) ) ?? model.PrimaryValueAxis;
     }
 
+    private static RenderValueAxis ResolveValueAxis( RenderModel model, string valueAxisId )
+    {
+        if ( string.IsNullOrWhiteSpace( valueAxisId ) )
+            return model.PrimaryValueAxis;
+
+        return model.ValueAxes.LastOrDefault( x => string.Equals( x.Id, valueAxisId, StringComparison.Ordinal ) ) ?? model.PrimaryValueAxis;
+    }
+
     private static string BuildLinePath( List<(int Index, double X, double Y, double Value)> points )
     {
         var builder = new StringBuilder();
@@ -2411,6 +2904,75 @@ public class SvgChart<TItem> : SvgChartBase
             return null;
 
         return model.Series.LastOrDefault( x => !x.Hidden && string.Equals( x.Name, trendline.SeriesName, StringComparison.Ordinal ) );
+    }
+
+    private static SvgChartPointBounds ResolveAnnotationBounds( RenderModel model, PlotArea plot, double? xMin, double? xMax, double? yMin, double? yMax, string valueAxisId, Scale pointChartScale )
+    {
+        var x1 = ResolveAnnotationX( model, plot, xMin, pointChartScale, plot.Left );
+        var x2 = ResolveAnnotationX( model, plot, xMax, pointChartScale, plot.Right );
+        var y1 = ResolveAnnotationY( model, plot, yMin, valueAxisId, plot.Bottom );
+        var y2 = ResolveAnnotationY( model, plot, yMax, valueAxisId, plot.Top );
+        var left = Math.Min( x1, x2 );
+        var top = Math.Min( y1, y2 );
+
+        return new()
+        {
+            X = left,
+            Y = top,
+            Width = Math.Abs( x2 - x1 ),
+            Height = Math.Abs( y2 - y1 )
+        };
+    }
+
+    private static (double X, double Y) ResolveAnnotationPoint( RenderModel model, PlotArea plot, double? x, double? y, string valueAxisId, Scale pointChartScale )
+    {
+        return (
+            ResolveAnnotationX( model, plot, x, pointChartScale, plot.Left + plot.Width / 2 ),
+            ResolveAnnotationY( model, plot, y, valueAxisId, plot.Top + plot.Height / 2 )
+        );
+    }
+
+    private static (double X1, double Y1, double X2, double Y2) ResolveAnnotationLine( RenderModel model, PlotArea plot, double? xMin, double? xMax, double? yMin, double? yMax, string valueAxisId, Scale pointChartScale )
+    {
+        return (
+            ResolveAnnotationX( model, plot, xMin, pointChartScale, xMax.HasValue ? ResolveAnnotationX( model, plot, xMax, pointChartScale, plot.Right ) : plot.Left ),
+            ResolveAnnotationY( model, plot, yMin, valueAxisId, yMax.HasValue ? ResolveAnnotationY( model, plot, yMax, valueAxisId, plot.Top ) : plot.Top ),
+            ResolveAnnotationX( model, plot, xMax, pointChartScale, xMin.HasValue ? ResolveAnnotationX( model, plot, xMin, pointChartScale, plot.Left ) : plot.Right ),
+            ResolveAnnotationY( model, plot, yMax, valueAxisId, yMin.HasValue ? ResolveAnnotationY( model, plot, yMin, valueAxisId, plot.Bottom ) : plot.Bottom )
+        );
+    }
+
+    private static SvgChartPointBounds ResolveLineBounds( (double X1, double Y1, double X2, double Y2) line )
+    {
+        var left = Math.Min( line.X1, line.X2 );
+        var top = Math.Min( line.Y1, line.Y2 );
+
+        return new()
+        {
+            X = left,
+            Y = top,
+            Width = Math.Abs( line.X2 - line.X1 ),
+            Height = Math.Abs( line.Y2 - line.Y1 )
+        };
+    }
+
+    private static double ResolveAnnotationX( RenderModel model, PlotArea plot, double? value, Scale pointChartScale, double fallback )
+    {
+        if ( !value.HasValue )
+            return fallback;
+
+        if ( pointChartScale is not null )
+            return GetX( value.Value, plot, pointChartScale.Min, pointChartScale.Max );
+
+        return plot.Left + plot.Width * ( value.Value + 0.5 ) / GetCategorySlotCount( model );
+    }
+
+    private static double ResolveAnnotationY( RenderModel model, PlotArea plot, double? value, string valueAxisId, double fallback )
+    {
+        if ( !value.HasValue )
+            return fallback;
+
+        return GetY( value.Value, plot, ResolveValueAxis( model, valueAxisId ) );
     }
 
     private static (double X1, double Y1, double X2, double Y2)? CalculateCategoryTrendline( RenderModel model, PlotArea plot, RenderSeries series )
@@ -2755,6 +3317,19 @@ public class SvgChart<TItem> : SvgChartBase
         };
     }
 
+    private static (double X, double Y) ResolveAnnotationLabelAnchor( SvgChartPointBounds bounds, SvgChartAnnotationLabelPosition position, double offset, double width, double height )
+    {
+        var centerX = bounds.X + bounds.Width / 2;
+        var centerY = bounds.Y + bounds.Height / 2;
+
+        return position switch
+        {
+            SvgChartAnnotationLabelPosition.Start => (bounds.X + offset, bounds.Y + offset),
+            SvgChartAnnotationLabelPosition.End => (bounds.X + bounds.Width - width - offset, bounds.Y + bounds.Height - height - offset),
+            _ => (centerX - width / 2, centerY - height / 2)
+        };
+    }
+
     private static double EstimateTextWidth( string text, double fontSize )
     {
         return Math.Max( 1, ( text?.Length ?? 0 ) * fontSize * 0.58 );
@@ -2774,14 +3349,34 @@ public class SvgChart<TItem> : SvgChartBase
             : ResolveColor( trendline.Color, 0 );
     }
 
+    private static string ResolveAnnotationBackgroundColor( Color color )
+    {
+        return IsDefaultColor( color )
+            ? "currentColor"
+            : ResolveColor( color, 0 );
+    }
+
+    private static string ResolveAnnotationLabelBackgroundColor( SvgChartAnnotationLabelOptions label )
+    {
+        return IsDefaultColor( label.BackgroundColor )
+            ? "var(--bs-body-bg, #fff)"
+            : ResolveColor( label.BackgroundColor, 0 );
+    }
+
+    private static string ResolveAnnotationColor( Color color, string fallback )
+    {
+        return IsDefaultColor( color )
+            ? fallback
+            : ResolveColor( color, 0 );
+    }
+
     private static string ResolveColor( Color color, int index )
     {
-        var fallback = Palette[index % Palette.Length];
-
         if ( color is null || color == Color.Default || string.IsNullOrWhiteSpace( color.Name ) )
-            return fallback;
+            return Palette[index % Palette.Length];
 
         var name = color.Name;
+        var fallback = ResolveColorFallback( name, index );
 
         if ( name.StartsWith( "#", StringComparison.Ordinal )
              || name.StartsWith( "rgb", StringComparison.OrdinalIgnoreCase )
@@ -2790,6 +3385,23 @@ public class SvgChart<TItem> : SvgChartBase
             return name;
 
         return $"var(--b-theme-{name}, var(--bs-{name}, {fallback}))";
+    }
+
+    private static string ResolveColorFallback( string name, int index )
+    {
+        return name?.ToLowerInvariant() switch
+        {
+            "primary" => Palette[0],
+            "secondary" => "#868e96",
+            "success" => Palette[1],
+            "danger" => Palette[3],
+            "warning" => Palette[2],
+            "info" => Palette[5],
+            "light" => "#f8f9fa",
+            "dark" => "#343a40",
+            "link" => Palette[0],
+            _ => Palette[index % Palette.Length]
+        };
     }
 
     private static string ResolveGridLineColor( SvgChartGridLinesOptions gridLines )
@@ -3435,6 +4047,17 @@ public class SvgChart<TItem> : SvgChartBase
         dataLabelsComponents.Remove( dataLabels );
     }
 
+    internal override void RegisterAnnotation( object annotation )
+    {
+        if ( !annotationComponents.Contains( annotation ) )
+            annotationComponents.Add( annotation );
+    }
+
+    internal override void UnregisterAnnotation( object annotation )
+    {
+        annotationComponents.Remove( annotation );
+    }
+
     internal override void RegisterTrendline( SvgChartTrendline trendline )
     {
         if ( !trendlineComponents.Contains( trendline ) )
@@ -3529,6 +4152,8 @@ public class SvgChart<TItem> : SvgChartBase
         public SvgChartTooltipOptions Tooltip { get; init; }
 
         public SvgChartDataLabelsOptions DataLabels { get; init; }
+
+        public List<SvgChartAnnotationOptions> Annotations { get; init; } = [];
 
         public List<SvgChartTrendlineOptions> Trendlines { get; init; } = [];
     }
