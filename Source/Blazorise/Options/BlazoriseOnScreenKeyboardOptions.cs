@@ -27,7 +27,7 @@ public class BlazoriseOnScreenKeyboardOptions
     /// <summary>
     /// If true, the on-screen keyboard is hidden when the enter key is pressed.
     /// </summary>
-    public bool HideOnEnter { get; set; }
+    public bool HideOnEnter { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the default keyboard placement.
