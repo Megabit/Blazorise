@@ -14924,7 +14924,10 @@ builder.Services
     }
 }";
 
-        public const string SvgChartStreamingExample = @"<Button Color=""Color.Primary"" Outline Clicked=""@AppendValue"">
+        public const string SvgChartStreamingExample = @"@using System.Threading
+@implements IAsyncDisposable
+
+<Button Color=""Color.Primary"" Outline Clicked=""@AppendValue"">
     Append value
 </Button>
 
@@ -14942,11 +14945,17 @@ builder.Services
 <Paragraph Margin=""Margin.Is2.FromTop.Is0.FromBottom"">@lastEvent</Paragraph>
 
 @code {
+    private static readonly TimeSpan StreamingInterval = TimeSpan.FromSeconds( 1 );
+
     private SvgLineChart<object> chart;
 
     private int index;
 
     private string lastEvent = ""Append a value or hover over a point."";
+
+    private CancellationTokenSource streamingCancellationTokenSource;
+
+    private Task streamingTask;
 
     private readonly SvgChartOptions options = new()
     {
@@ -14971,7 +14980,7 @@ builder.Services
         Reverse = false,
         Animation = new()
         {
-            Duration = TimeSpan.FromSeconds( 1 ),
+            Duration = StreamingInterval,
         },
         RefreshInterval = TimeSpan.FromMilliseconds( 500 ),
     };
@@ -14988,12 +14997,40 @@ builder.Services
         ],
     };
 
+    protected override Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            streamingCancellationTokenSource = new();
+            streamingTask = RunStreamingAsync( streamingCancellationTokenSource.Token );
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private async Task RunStreamingAsync( CancellationToken cancellationToken )
+    {
+        try
+        {
+            using PeriodicTimer timer = new( StreamingInterval );
+
+            while ( await timer.WaitForNextTickAsync( cancellationToken ) )
+            {
+                await InvokeAsync( AppendValue );
+            }
+        }
+        catch ( OperationCanceledException )
+        {
+        }
+    }
+
     private async Task AppendValue()
     {
         string label = DateTime.Now.ToString( ""HH:mm:ss"" );
         double value = 35 + ( index++ % 6 ) * 9;
 
-        await chart.AppendValue( ""Latency"", label, value );
+        if ( chart is not null )
+            await chart.AppendValue( ""Latency"", label, value );
     }
 
     private Task OnPointHovered( SvgChartPointEventArgs eventArgs )
@@ -15001,6 +15038,18 @@ builder.Services
         lastEvent = $""Hovered {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}"";
 
         return Task.CompletedTask;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if ( streamingCancellationTokenSource is not null )
+        {
+            await streamingCancellationTokenSource.CancelAsync();
+            streamingCancellationTokenSource.Dispose();
+        }
+
+        if ( streamingTask is not null )
+            await streamingTask;
     }
 }";
 

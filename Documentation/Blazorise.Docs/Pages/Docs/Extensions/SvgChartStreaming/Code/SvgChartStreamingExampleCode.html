@@ -1,5 +1,8 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
+<span class="atSign">&#64;</span>using System.Threading
+<span class="atSign">&#64;</span>implements IAsyncDisposable
+
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Outline</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>AppendValue</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
     Append value
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
@@ -19,11 +22,17 @@
 </pre></div>
 <div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> TimeSpan StreamingInterval = TimeSpan.FromSeconds( <span class="number">1</span> );
+
     <span class="keyword">private</span> SvgLineChart&lt;<span class="keyword">object</span>&gt; chart;
 
     <span class="keyword">private</span> <span class="keyword">int</span> index;
 
     <span class="keyword">private</span> <span class="keyword">string</span> lastEvent = <span class="string">&quot;Append a value or hover over a point.&quot;</span>;
+
+    <span class="keyword">private</span> CancellationTokenSource streamingCancellationTokenSource;
+
+    <span class="keyword">private</span> Task streamingTask;
 
     <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartOptions options = <span class="keyword">new</span>()
     {
@@ -48,7 +57,7 @@
         Reverse = <span class="keyword">false</span>,
         Animation = <span class="keyword">new</span>()
         {
-            Duration = TimeSpan.FromSeconds( <span class="number">1</span> ),
+            Duration = StreamingInterval,
         },
         RefreshInterval = TimeSpan.FromMilliseconds( <span class="number">500</span> ),
     };
@@ -65,12 +74,40 @@
         ],
     };
 
+    <span class="keyword">protected</span> <span class="keyword">override</span> Task OnAfterRenderAsync( <span class="keyword">bool</span> firstRender )
+    {
+        <span class="keyword">if</span> ( firstRender )
+        {
+            streamingCancellationTokenSource = <span class="keyword">new</span>();
+            streamingTask = RunStreamingAsync( streamingCancellationTokenSource.Token );
+        }
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">async</span> Task RunStreamingAsync( CancellationToken cancellationToken )
+    {
+        <span class="keyword">try</span>
+        {
+            <span class="keyword">using</span> PeriodicTimer timer = <span class="keyword">new</span>( StreamingInterval );
+
+            <span class="keyword">while</span> ( <span class="keyword">await</span> timer.WaitForNextTickAsync( cancellationToken ) )
+            {
+                <span class="keyword">await</span> InvokeAsync( AppendValue );
+            }
+        }
+        <span class="keyword">catch</span> ( OperationCanceledException )
+        {
+        }
+    }
+
     <span class="keyword">private</span> <span class="keyword">async</span> Task AppendValue()
     {
         <span class="keyword">string</span> label = DateTime.Now.ToString( <span class="string">&quot;HH:mm:ss&quot;</span> );
         <span class="keyword">double</span> value = <span class="number">35</span> + ( index++ % <span class="number">6</span> ) * <span class="number">9</span>;
 
-        <span class="keyword">await</span> chart.AppendValue( <span class="string">&quot;Latency&quot;</span>, label, value );
+        <span class="keyword">if</span> ( chart <span class="keyword">is</span> not <span class="keyword">null</span> )
+            <span class="keyword">await</span> chart.AppendValue( <span class="string">&quot;Latency&quot;</span>, label, value );
     }
 
     <span class="keyword">private</span> Task OnPointHovered( SvgChartPointEventArgs eventArgs )
@@ -78,6 +115,18 @@
         lastEvent = $<span class="string">&quot;Hovered {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}&quot;</span>;
 
         <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">async</span> ValueTask DisposeAsync()
+    {
+        <span class="keyword">if</span> ( streamingCancellationTokenSource <span class="keyword">is</span> not <span class="keyword">null</span> )
+        {
+            <span class="keyword">await</span> streamingCancellationTokenSource.CancelAsync();
+            streamingCancellationTokenSource.Dispose();
+        }
+
+        <span class="keyword">if</span> ( streamingTask <span class="keyword">is</span> not <span class="keyword">null</span> )
+            <span class="keyword">await</span> streamingTask;
     }
 }
 </pre></div>
