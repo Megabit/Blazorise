@@ -1,0 +1,30 @@
+@page "/docs/extensions/svg-chart-zoom"
+
+<Seo Canonical="/docs/extensions/svg-chart-zoom" Title="Blazorise SVG Chart Zoom and Pan" Description="Learn how to enable zoom and pan interactions in native Blazorise SVG charts." />
+
+<DocsPageTitle Path="Extensions/SVG Chart Zoom and Pan">
+    Blazorise SVG Chart Zoom and Pan
+</DocsPageTitle>
+
+<DocsPageLead>
+    Zoom and pan native SVG charts with declarative options and event callbacks.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    SVG chart zoom can be enabled declaratively with <Code>SvgChartZoom</Code> or configured through <Code>SvgChartOptions.Zoom</Code>. Use <Code>ViewportChanged</Code>, <Code>Zoomed</Code>, and <Code>Panned</Code> to track viewport changes.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Zoom and pan">
+        Wheel over the chart to zoom, and drag the plot area to pan.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgChartZoomExample" Outlined FullWidth>
+        <SvgChartZoomExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof(SvgChartZoom), typeof(SvgChartZoomOptions), typeof(SvgChartViewport)]" />

@@ -1,0 +1,77 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgColumnChart TItem="MonthlySales"
+                Items="@sales"
+                Options="@options"
+                Clicked="@OnPointClicked">
+    <SvgChartTitle Title='@("Monthly revenue")' Subtitle='@("Top labels with background and border")' />
+    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+    <SvgChartTooltip Enabled />
+    <SvgChartDataLabels Visible
+                        Position="SvgChartDataLabelPosition.Top"
+                        Formatter="@FormatRevenueLabel"
+                        BackgroundColor='@((Color)"#ffffff")'
+                        Border="@( new SvgChartBorderOptions { Color = Color.Primary, Width = 1, Radius = 4 } )"
+                        Clicked="@OnDataLabelClicked"
+                        Hovered="@OnDataLabelHovered" />
+    <SvgChartCategoryAxis Value="@( item => item.Month )" />
+    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+    <SvgColumnSeries Name="Tokyo" Value="@( item => item.Tokyo )" Color="Color.Primary" BorderRadius="4" />
+    <SvgColumnSeries Name="New York" Value="@( item => item.NewYork )" Color="Color.Info" BorderRadius="4" />
+</SvgColumnChart>
+
+<Paragraph Margin="Margin.Is2.FromTop.Is0.FromBottom">@lastEvent</Paragraph>
+
+@code {
+    private string lastEvent = "Interact with a chart point or data label.";
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly List<MonthlySales> sales =
+    [
+        new() { Month = "Jan", Tokyo = 49.9, NewYork = 83.6 },
+        new() { Month = "Feb", Tokyo = 71.5, NewYork = 78.8 },
+        new() { Month = "Mar", Tokyo = 106.4, NewYork = 98.5 },
+        new() { Month = "Apr", Tokyo = 129.2, NewYork = 93.4 },
+    ];
+
+    private Task OnPointClicked( SvgChartPointEventArgs eventArgs )
+    {
+        lastEvent = $"Clicked point {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnDataLabelClicked( SvgChartPointEventArgs eventArgs )
+    {
+        lastEvent = $"Clicked label {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnDataLabelHovered( SvgChartPointEventArgs eventArgs )
+    {
+        lastEvent = $"Hovered label {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}";
+
+        return Task.CompletedTask;
+    }
+
+    private string FormatRevenueLabel( SvgChartDataLabelContext context )
+    {
+        return $"{Convert.ToDouble( context.Value, System.Globalization.CultureInfo.InvariantCulture ).ToString( "0", System.Globalization.CultureInfo.InvariantCulture )}k";
+    }
+
+    private sealed class MonthlySales
+    {
+        public string Month { get; set; }
+
+        public double Tokyo { get; set; }
+
+        public double NewYork { get; set; }
+    }
+}

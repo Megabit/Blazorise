@@ -1,0 +1,30 @@
+@page "/docs/extensions/svg-chart-streaming"
+
+<Seo Canonical="/docs/extensions/svg-chart-streaming" Title="Blazorise SVG Chart Streaming" Description="Learn how to append live data to native Blazorise SVG charts with rolling or infinite retention." />
+
+<DocsPageTitle Path="Extensions/SVG Chart Streaming">
+    Blazorise SVG Chart Streaming
+</DocsPageTitle>
+
+<DocsPageLead>
+    Append live data and keep the chart viewport moving.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    SVG chart streaming is configured with <Code>SvgChartStreamingOptions</Code>. Set <Code>Duration</Code> to a time window for rolling retention, or leave <Code>Duration</Code> as <Code>null</Code> for infinite retention.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Append values">
+        Append values through the chart reference. A timer can call the same method in a live application.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgChartStreamingExample" Outlined FullWidth>
+        <SvgChartStreamingExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof(SvgChart<>), typeof(SvgChartStreamingOptions), typeof(SvgChartStreamingAnimationOptions)]" />

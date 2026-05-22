@@ -1,0 +1,81 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Button Color="Color.Primary" Outline Clicked="@AppendValue">
+    Append value
+</Button>
+
+<SvgLineChart @ref="chart"
+              TItem="object"
+              Data="@data"
+              Options="@options"
+              Streaming="@streaming"
+              Hovered="@OnPointHovered">
+    <SvgChartTitle Title='@("Live latency")' Subtitle='@("Right-to-left viewport with infinite retention")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartValueAxis BeginAtZero TickCount="6" />
+</SvgLineChart>
+
+<Paragraph Margin="Margin.Is2.FromTop.Is0.FromBottom">@lastEvent</Paragraph>
+
+@code {
+    private SvgLineChart<object> chart;
+
+    private int index;
+
+    private string lastEvent = "Append a value or hover over a point.";
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Visible = false },
+        XAxis = new()
+        {
+            GridLines = new() { Visible = true },
+            Labels = new()
+            {
+                Step = 2,
+                Offset = 30,
+            },
+        },
+    };
+
+    private readonly SvgChartStreamingOptions streaming = new()
+    {
+        Enabled = true,
+        VisibleDataPoints = 12,
+        Duration = null,
+        Reverse = false,
+        Animation = new()
+        {
+            Duration = TimeSpan.FromSeconds( 1 ),
+        },
+        RefreshInterval = TimeSpan.FromMilliseconds( 500 ),
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Series =
+        [
+            new()
+            {
+                Name = "Latency",
+                Color = Color.Primary,
+            },
+        ],
+    };
+
+    private async Task AppendValue()
+    {
+        string label = DateTime.Now.ToString( "HH:mm:ss" );
+        double value = 35 + ( index++ % 6 ) * 9;
+
+        await chart.AppendValue( "Latency", label, value );
+    }
+
+    private Task OnPointHovered( SvgChartPointEventArgs eventArgs )
+    {
+        lastEvent = $"Hovered {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}";
+
+        return Task.CompletedTask;
+    }
+}

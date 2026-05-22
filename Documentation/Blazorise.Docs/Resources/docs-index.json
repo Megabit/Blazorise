@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-14T09:13:36.3882273Z",
+  "generatedUtc": "2026-05-22T08:28:58.9779296Z",
   "pages": [
     {
       "route": "/docs",
@@ -7304,6 +7304,362 @@
         {
           "kind": "type",
           "name": "SplitterSection"
+        }
+      ]
+    },
+    {
+      "route": "/docs/extensions/svg-chart",
+      "title": "Blazorise SVG Chart component",
+      "description": "Learn how to use native Blazorise SVG chart components, including column, bar, line, area, pie, doughnut, polar area, radar, scatter, and bubble charts.",
+      "pagePath": "Pages/Docs/Extensions/SvgChart/SvgChartPage.razor",
+      "examples": [
+        {
+          "code": "SvgChartNugetInstallExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgChartNugetInstallExample.snippet",
+          "content": "Install-Package Blazorise.Charts.Svg",
+          "title": "NuGet",
+          "description": "Install SVG chart extension from NuGet."
+        },
+        {
+          "code": "SvgChartImportsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgChartImportsExample.snippet",
+          "content": "@using Blazorise.Charts.Svg",
+          "title": "Imports",
+          "description": "In your main _Imports.razor add:"
+        },
+        {
+          "code": "SvgColumnChartExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgColumnChartExample.razor",
+          "content": "<SvgColumnChart TItem=\"MonthlyRevenue\"\r\n                Items=\"@revenue\"\r\n                Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Monthly revenue\")' Subtitle='@(\"Column series with grouped values\")' />\r\n    <SvgChartLegend Position=\"SvgChartLegendPosition.Bottom\" />\r\n    <SvgChartTooltip Enabled />\r\n    <SvgChartCategoryAxis Value=\"@( item => item.Month )\" />\r\n    <SvgChartValueAxis BeginAtZero TickCount=\"6\" />\r\n\r\n    <SvgColumnSeries Name=\"Revenue\" Value=\"@( item => item.Revenue )\" Color=\"Color.Primary\" BorderRadius=\"4\" />\r\n    <SvgColumnSeries Name=\"Expenses\" Value=\"@( item => item.Expenses )\" Color=\"Color.Info\" BorderRadius=\"4\" />\r\n</SvgColumnChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n    };\r\n\r\n    private readonly List<MonthlyRevenue> revenue =\r\n    [\r\n        new() { Month = \"Jan\", Revenue = 68, Expenses = 42 },\r\n        new() { Month = \"Feb\", Revenue = 74, Expenses = 46 },\r\n        new() { Month = \"Mar\", Revenue = 91, Expenses = 52 },\r\n        new() { Month = \"Apr\", Revenue = 86, Expenses = 49 },\r\n        new() { Month = \"May\", Revenue = 103, Expenses = 61 },\r\n    ];\r\n\r\n    private sealed class MonthlyRevenue\r\n    {\r\n        public string Month { get; set; }\r\n\r\n        public double Revenue { get; set; }\r\n\r\n        public double Expenses { get; set; }\r\n    }\r\n}",
+          "title": "Column chart",
+          "description": "Use a column chart to compare category values vertically."
+        },
+        {
+          "code": "SvgBarChartExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgBarChartExample.razor",
+          "content": "<SvgBarChart TItem=\"RegionalRevenue\"\r\n             Items=\"@revenue\"\r\n             Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Regional revenue\")' Subtitle='@(\"Horizontal grouped bars\")' />\r\n    <SvgChartLegend Position=\"SvgChartLegendPosition.Bottom\" />\r\n    <SvgChartTooltip Enabled />\r\n    <SvgChartCategoryAxis Value=\"@( item => item.Region )\" />\r\n    <SvgChartValueAxis BeginAtZero TickCount=\"6\" />\r\n\r\n    <SvgBarSeries Name=\"Online\" Value=\"@( item => item.Online )\" Color=\"Color.Primary\" BorderRadius=\"4\" />\r\n    <SvgBarSeries Name=\"Retail\" Value=\"@( item => item.Retail )\" Color=\"Color.Success\" BorderRadius=\"4\" />\r\n</SvgBarChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n    };\r\n\r\n    private readonly List<RegionalRevenue> revenue =\r\n    [\r\n        new() { Region = \"North\", Online = 72, Retail = 54 },\r\n        new() { Region = \"South\", Online = 84, Retail = 66 },\r\n        new() { Region = \"East\", Online = 93, Retail = 71 },\r\n        new() { Region = \"West\", Online = 78, Retail = 64 },\r\n    ];\r\n\r\n    private sealed class RegionalRevenue\r\n    {\r\n        public string Region { get; set; }\r\n\r\n        public double Online { get; set; }\r\n\r\n        public double Retail { get; set; }\r\n    }\r\n}",
+          "title": "Bar chart",
+          "description": "Use a bar chart to compare category values horizontally."
+        },
+        {
+          "code": "SvgLineChartExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgLineChartExample.razor",
+          "content": "<SvgLineChart TItem=\"MonthlyVisitors\"\r\n              Items=\"@visitors\"\r\n              Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Visitor trend\")' Subtitle='@(\"Line series with markers\")' />\r\n    <SvgChartLegend Position=\"SvgChartLegendPosition.Bottom\" />\r\n    <SvgChartTooltip Enabled />\r\n    <SvgChartCategoryAxis Value=\"@( item => item.Month )\" />\r\n    <SvgChartValueAxis BeginAtZero TickCount=\"6\" />\r\n\r\n    <SvgLineSeries Name=\"Current year\" Value=\"@( item => item.Current )\" Color=\"Color.Primary\" StrokeWidth=\"3\" MarkerRadius=\"4\" />\r\n    <SvgLineSeries Name=\"Previous year\" Value=\"@( item => item.Previous )\" Color=\"Color.Warning\" StrokeWidth=\"3\" MarkerRadius=\"4\" />\r\n</SvgLineChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n    };\r\n\r\n    private readonly List<MonthlyVisitors> visitors =\r\n    [\r\n        new() { Month = \"Jan\", Current = 48, Previous = 42 },\r\n        new() { Month = \"Feb\", Current = 61, Previous = 52 },\r\n        new() { Month = \"Mar\", Current = 73, Previous = 64 },\r\n        new() { Month = \"Apr\", Current = 68, Previous = 70 },\r\n        new() { Month = \"May\", Current = 82, Previous = 76 },\r\n    ];\r\n\r\n    private sealed class MonthlyVisitors\r\n    {\r\n        public string Month { get; set; }\r\n\r\n        public double Current { get; set; }\r\n\r\n        public double Previous { get; set; }\r\n    }\r\n}",
+          "title": "Line chart",
+          "description": "Use a line chart to show a trend across ordered categories."
+        },
+        {
+          "code": "SvgAreaChartExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgAreaChartExample.razor",
+          "content": "<SvgAreaChart TItem=\"MonthlyThroughput\"\r\n              Items=\"@throughput\"\r\n              Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Throughput\")' Subtitle='@(\"Area series with transparent fills\")' />\r\n    <SvgChartLegend Position=\"SvgChartLegendPosition.Bottom\" />\r\n    <SvgChartTooltip Enabled />\r\n    <SvgChartCategoryAxis Value=\"@( item => item.Month )\" />\r\n    <SvgChartValueAxis BeginAtZero TickCount=\"6\" />\r\n\r\n    <SvgAreaSeries Name=\"Reads\" Value=\"@( item => item.Reads )\" Color=\"Color.Primary\" StrokeWidth=\"3\" FillOpacity=\"0.18\" />\r\n    <SvgAreaSeries Name=\"Writes\" Value=\"@( item => item.Writes )\" Color=\"Color.Success\" StrokeWidth=\"3\" FillOpacity=\"0.18\" />\r\n</SvgAreaChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n    };\r\n\r\n    private readonly List<MonthlyThroughput> throughput =\r\n    [\r\n        new() { Month = \"Jan\", Reads = 96, Writes = 63 },\r\n        new() { Month = \"Feb\", Reads = 128, Writes = 41 },\r\n        new() { Month = \"Mar\", Reads = 120, Writes = 80 },\r\n        new() { Month = \"Apr\", Reads = 133, Writes = 88 },\r\n        new() { Month = \"May\", Reads = 124, Writes = 56 },\r\n    ];\r\n\r\n    private sealed class MonthlyThroughput\r\n    {\r\n        public string Month { get; set; }\r\n\r\n        public double Reads { get; set; }\r\n\r\n        public double Writes { get; set; }\r\n    }\r\n}",
+          "title": "Area chart",
+          "description": "Use an area chart when the filled region helps show magnitude over time."
+        },
+        {
+          "code": "SvgPieChartExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgPieChartExample.razor",
+          "content": "<SvgPieChart TItem=\"object\"\r\n             Data=\"@data\"\r\n             Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Market share\")' Subtitle='@(\"Category legend toggles individual slices\")' />\r\n    <SvgChartTooltip Enabled />\r\n</SvgPieChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 320,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n    };\r\n\r\n    private readonly SvgChartData<double?> data = new()\r\n    {\r\n        Labels = [\"Desktop\", \"Mobile\", \"Tablet\", \"Other\"],\r\n        Series =\r\n        [\r\n            new()\r\n            {\r\n                Name = \"Share\",\r\n                Values = [45, 32, 16, 7],\r\n            },\r\n        ]\r\n    };\r\n}",
+          "title": "Pie chart",
+          "description": "Use a pie chart to show how values contribute to a whole."
+        },
+        {
+          "code": "SvgDoughnutChartExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgDoughnutChartExample.razor",
+          "content": "<SvgDoughnutChart TItem=\"object\"\r\n                  Data=\"@data\"\r\n                  Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Traffic sources\")' Subtitle='@(\"Doughnut chart with category legend\")' />\r\n    <SvgChartTooltip Enabled />\r\n</SvgDoughnutChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 320,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n    };\r\n\r\n    private readonly SvgChartData<double?> data = new()\r\n    {\r\n        Labels = [\"Search\", \"Direct\", \"Social\", \"Referral\"],\r\n        Series =\r\n        [\r\n            new()\r\n            {\r\n                Name = \"Sessions\",\r\n                Values = [38, 27, 21, 14],\r\n            },\r\n        ]\r\n    };\r\n}",
+          "title": "Doughnut chart",
+          "description": "Use a doughnut chart as a radial share chart with a center opening."
+        },
+        {
+          "code": "SvgPolarAreaChartExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgPolarAreaChartExample.razor",
+          "content": "<SvgPolarAreaChart TItem=\"object\"\r\n                   Data=\"@data\"\r\n                   Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Channel mix\")' Subtitle='@(\"Equal-angle radial values\")' />\r\n    <SvgChartTooltip Enabled />\r\n</SvgPolarAreaChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 320,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n    };\r\n\r\n    private readonly SvgChartData<double?> data = new()\r\n    {\r\n        Labels = [\"Email\", \"Ads\", \"Organic\", \"Partner\"],\r\n        Series =\r\n        [\r\n            new()\r\n            {\r\n                Name = \"Leads\",\r\n                Values = [28, 42, 35, 18],\r\n            },\r\n        ]\r\n    };\r\n}",
+          "title": "Polar area chart",
+          "description": "Use a polar area chart to compare values by radial length."
+        },
+        {
+          "code": "SvgRadarChartExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgRadarChartExample.razor",
+          "content": "<SvgRadarChart TItem=\"object\"\r\n               Data=\"@data\"\r\n               Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Product fit\")' Subtitle='@(\"Multiple series across shared dimensions\")' />\r\n    <SvgChartLegend Position=\"SvgChartLegendPosition.Bottom\" />\r\n    <SvgChartTooltip Enabled />\r\n</SvgRadarChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n        YAxis = new() { BeginAtZero = true, Max = 100 },\r\n    };\r\n\r\n    private readonly SvgChartData<double?> data = new()\r\n    {\r\n        Labels = [\"Quality\", \"Speed\", \"Cost\", \"Support\", \"Adoption\"],\r\n        Series =\r\n        [\r\n            new()\r\n            {\r\n                Name = \"Current\",\r\n                Color = Color.Primary,\r\n                Values = [82, 76, 58, 88, 72],\r\n            },\r\n            new()\r\n            {\r\n                Name = \"Target\",\r\n                Color = Color.Success,\r\n                Values = [92, 86, 70, 94, 84],\r\n            },\r\n        ]\r\n    };\r\n}",
+          "title": "Radar chart",
+          "description": "Use a radar chart to compare multiple metrics across the same dimensions."
+        },
+        {
+          "code": "SvgScatterChartExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgScatterChartExample.razor",
+          "content": "<SvgScatterChart TItem=\"StorePerformance\"\r\n                 Items=\"@stores\"\r\n                 Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Store performance\")' Subtitle='@(\"Independent X/Y values\")' />\r\n    <SvgChartTooltip Enabled />\r\n    <SvgChartValueAxis BeginAtZero TickCount=\"6\" />\r\n\r\n    <SvgScatterSeries Name=\"Stores\" XValue=\"@( item => item.Sales )\" YValue=\"@( item => item.Margin )\" Color=\"Color.Primary\" MarkerRadius=\"5\" />\r\n</SvgScatterChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        YAxis = new() { BeginAtZero = true, TickCount = 6 },\r\n    };\r\n\r\n    private readonly List<StorePerformance> stores =\r\n    [\r\n        new() { Sales = 8, Margin = 42 },\r\n        new() { Sales = 16, Margin = 64 },\r\n        new() { Sales = 22, Margin = 58 },\r\n        new() { Sales = 29, Margin = 91 },\r\n        new() { Sales = 34, Margin = 76 },\r\n        new() { Sales = 42, Margin = 112 },\r\n    ];\r\n\r\n    private sealed class StorePerformance\r\n    {\r\n        public double Sales { get; set; }\r\n\r\n        public double Margin { get; set; }\r\n    }\r\n}",
+          "title": "Scatter chart",
+          "description": "Use a scatter chart to plot independent X and Y values."
+        },
+        {
+          "code": "SvgBubbleChartExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgBubbleChartExample.razor",
+          "content": "<SvgBubbleChart TItem=\"StoreVolume\"\r\n                Items=\"@stores\"\r\n                Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Store volume\")' Subtitle='@(\"X/Y values with radius from item selectors\")' />\r\n    <SvgChartTooltip Enabled />\r\n    <SvgChartValueAxis BeginAtZero TickCount=\"6\" />\r\n\r\n    <SvgBubbleSeries Name=\"Stores\" XValue=\"@( item => item.Sales )\" YValue=\"@( item => item.Margin )\" RadiusValue=\"@( item => item.Orders )\" Color=\"Color.Info\" />\r\n</SvgBubbleChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        YAxis = new() { BeginAtZero = true, TickCount = 6 },\r\n    };\r\n\r\n    private readonly List<StoreVolume> stores =\r\n    [\r\n        new() { Sales = 8, Margin = 42, Orders = 5 },\r\n        new() { Sales = 16, Margin = 64, Orders = 9 },\r\n        new() { Sales = 22, Margin = 58, Orders = 7 },\r\n        new() { Sales = 29, Margin = 91, Orders = 12 },\r\n        new() { Sales = 34, Margin = 76, Orders = 10 },\r\n        new() { Sales = 42, Margin = 112, Orders = 14 },\r\n    ];\r\n\r\n    private sealed class StoreVolume\r\n    {\r\n        public double Sales { get; set; }\r\n\r\n        public double Margin { get; set; }\r\n\r\n        public double Orders { get; set; }\r\n    }\r\n}",
+          "title": "Bubble chart",
+          "description": "Use a bubble chart to plot X/Y values with an additional radius value."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "SvgChart"
+        },
+        {
+          "kind": "type",
+          "name": "SvgColumnChart"
+        },
+        {
+          "kind": "type",
+          "name": "SvgBarChart"
+        },
+        {
+          "kind": "type",
+          "name": "SvgLineChart"
+        },
+        {
+          "kind": "type",
+          "name": "SvgAreaChart"
+        },
+        {
+          "kind": "type",
+          "name": "SvgPieChart"
+        },
+        {
+          "kind": "type",
+          "name": "SvgDoughnutChart"
+        },
+        {
+          "kind": "type",
+          "name": "SvgPolarAreaChart"
+        },
+        {
+          "kind": "type",
+          "name": "SvgRadarChart"
+        },
+        {
+          "kind": "type",
+          "name": "SvgScatterChart"
+        },
+        {
+          "kind": "type",
+          "name": "SvgBubbleChart"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartTitle"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartLegend"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartTooltip"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartCategoryAxis"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartValueAxis"
+        }
+      ]
+    },
+    {
+      "route": "/docs/extensions/svg-chart-annotations",
+      "title": "Blazorise SVG Chart Annotations",
+      "description": "Learn how to add line, box, label, ellipse, and point annotations to native Blazorise SVG charts.",
+      "pagePath": "Pages/Docs/Extensions/SvgChartAnnotations/SvgChartAnnotationsPage.razor",
+      "examples": [
+        {
+          "code": "SvgChartAnnotationsLineExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChartAnnotations/Examples/SvgChartAnnotationsLineExample.razor",
+          "content": "<SvgLineChart TItem=\"MonthlyService\"\r\n              Items=\"@services\"\r\n              Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Service level\")' Subtitle='@(\"Threshold and release annotations\")' />\r\n    <SvgChartTooltip Enabled />\r\n    <SvgChartLineAnnotation YMin=\"80\"\r\n                            YMax=\"80\"\r\n                            Border=\"@( new SvgChartBorderOptions { Color = Color.Danger, Width = 2 } )\"\r\n                            DashPattern=\"6 4\"\r\n                            Label=\"@thresholdLabel\" />\r\n    <SvgChartLineAnnotation XMin=\"3.5\"\r\n                            XMax=\"3.5\"\r\n                            Border=\"@( new SvgChartBorderOptions { Color = Color.Warning, Width = 2 } )\"\r\n                            DashPattern=\"4 4\"\r\n                            Label=\"@releaseLabel\" />\r\n    <SvgChartLabelAnnotation X=\"5\"\r\n                             Y=\"91\"\r\n                             Label=\"@noteLabel\" />\r\n    <SvgChartCategoryAxis Value=\"@( item => item.Month )\" />\r\n    <SvgChartValueAxis BeginAtZero TickCount=\"6\" />\r\n\r\n    <SvgLineSeries Name=\"Uptime\" Value=\"@( item => item.Uptime )\" Color=\"Color.Primary\" StrokeWidth=\"3\" MarkerRadius=\"4\" />\r\n</SvgLineChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Visible = false },\r\n    };\r\n\r\n    private readonly SvgChartAnnotationLabelOptions thresholdLabel = new()\r\n    {\r\n        Visible = true,\r\n        Text = \"Target\",\r\n        Position = SvgChartAnnotationLabelPosition.End,\r\n        BackgroundColor = \"#ffffff\",\r\n        Border = new() { Color = Color.Danger, Width = 1, Radius = 3 },\r\n    };\r\n\r\n    private readonly SvgChartAnnotationLabelOptions releaseLabel = new()\r\n    {\r\n        Visible = true,\r\n        Text = \"Release\",\r\n        Position = SvgChartAnnotationLabelPosition.Start,\r\n        BackgroundColor = \"#ffffff\",\r\n        Border = new() { Color = Color.Warning, Width = 1, Radius = 3 },\r\n    };\r\n\r\n    private readonly SvgChartAnnotationLabelOptions noteLabel = new()\r\n    {\r\n        Visible = true,\r\n        Text = \"Stabilized\",\r\n        Position = SvgChartAnnotationLabelPosition.Center,\r\n        BackgroundColor = \"#ffffff\",\r\n        Border = new() { Color = Color.Primary, Width = 1, Radius = 3 },\r\n    };\r\n\r\n    private readonly List<MonthlyService> services =\r\n    [\r\n        new() { Month = \"Jan\", Uptime = 73 },\r\n        new() { Month = \"Feb\", Uptime = 78 },\r\n        new() { Month = \"Mar\", Uptime = 84 },\r\n        new() { Month = \"Apr\", Uptime = 82 },\r\n        new() { Month = \"May\", Uptime = 88 },\r\n        new() { Month = \"Jun\", Uptime = 91 },\r\n        new() { Month = \"Jul\", Uptime = 86 },\r\n        new() { Month = \"Aug\", Uptime = 93 },\r\n    ];\r\n\r\n    private sealed class MonthlyService\r\n    {\r\n        public string Month { get; set; }\r\n\r\n        public double Uptime { get; set; }\r\n    }\r\n}",
+          "title": "Line and label annotations",
+          "description": "Use line annotations for thresholds and category markers, and label annotations for free-positioned notes."
+        },
+        {
+          "code": "SvgChartAnnotationsRegionExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChartAnnotations/Examples/SvgChartAnnotationsRegionExample.razor",
+          "content": "<SvgScatterChart TItem=\"StoreSample\"\r\n                 Items=\"@stores\"\r\n                 Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Store performance\")' Subtitle='@(\"Region and point annotations\")' />\r\n    <SvgChartTooltip Enabled />\r\n    <SvgChartEllipseAnnotation XMin=\"20\"\r\n                               XMax=\"40\"\r\n                               YMin=\"60\"\r\n                               YMax=\"90\"\r\n                               BackgroundColor=\"Color.Success\"\r\n                               Border=\"@( new SvgChartBorderOptions { Color = Color.Success, Width = 1 } )\"\r\n                               Opacity=\"0.12\"\r\n                               Label=\"@targetLabel\" />\r\n    <SvgChartPointAnnotation X=\"33\"\r\n                             Y=\"74\"\r\n                             Radius=\"6\"\r\n                             BackgroundColor=\"Color.Warning\"\r\n                             Border=\"@( new SvgChartBorderOptions { Color = Color.Danger, Width = 2 } )\"\r\n                             Label=\"@pointLabel\" />\r\n    <SvgChartValueAxis BeginAtZero TickCount=\"6\" />\r\n\r\n    <SvgScatterSeries Name=\"Stores\" XValue=\"@( item => item.Traffic )\" YValue=\"@( item => item.Sales )\" Color=\"Color.Primary\" MarkerRadius=\"5\" />\r\n</SvgScatterChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        XAxis = new()\r\n        {\r\n            GridLines = new() { Visible = true },\r\n        },\r\n        YAxis = new()\r\n        {\r\n            BeginAtZero = true,\r\n            TickCount = 6,\r\n        },\r\n        Annotations =\r\n        [\r\n            new SvgChartBoxAnnotationOptions\r\n            {\r\n                XMin = 10,\r\n                XMax = 20,\r\n                YMin = 40,\r\n                YMax = 65,\r\n                BackgroundColor = Color.Info,\r\n                Opacity = 0.1,\r\n                Label = new()\r\n                {\r\n                    Visible = true,\r\n                    Text = \"Watch\",\r\n                    Position = SvgChartAnnotationLabelPosition.Start,\r\n                    BackgroundColor = \"#ffffff\",\r\n                },\r\n            },\r\n        ],\r\n    };\r\n\r\n    private readonly SvgChartAnnotationLabelOptions targetLabel = new()\r\n    {\r\n        Visible = true,\r\n        Text = \"Target area\",\r\n        Position = SvgChartAnnotationLabelPosition.Start,\r\n        BackgroundColor = \"#ffffff\",\r\n        Border = new() { Color = Color.Success, Width = 1, Radius = 3 },\r\n    };\r\n\r\n    private readonly SvgChartAnnotationLabelOptions pointLabel = new()\r\n    {\r\n        Visible = true,\r\n        Text = \"Selected store\",\r\n        Position = SvgChartAnnotationLabelPosition.End,\r\n        BackgroundColor = \"#ffffff\",\r\n        Border = new() { Color = Color.Warning, Width = 1, Radius = 3 },\r\n    };\r\n\r\n    private readonly List<StoreSample> stores =\r\n    [\r\n        new() { Traffic = 8, Sales = 42 },\r\n        new() { Traffic = 13, Sales = 48 },\r\n        new() { Traffic = 18, Sales = 51 },\r\n        new() { Traffic = 22, Sales = 64 },\r\n        new() { Traffic = 27, Sales = 62 },\r\n        new() { Traffic = 33, Sales = 74 },\r\n        new() { Traffic = 38, Sales = 83 },\r\n        new() { Traffic = 45, Sales = 88 },\r\n    ];\r\n\r\n    private sealed class StoreSample\r\n    {\r\n        public double Traffic { get; set; }\r\n\r\n        public double Sales { get; set; }\r\n    }\r\n}",
+          "title": "Box, ellipse, and point annotations",
+          "description": "Use box and ellipse annotations to mark regions, and point annotations to highlight a specific value."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "SvgChartLineAnnotation"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartBoxAnnotation"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartLabelAnnotation"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartEllipseAnnotation"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartPointAnnotation"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartAnnotationOptions"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartLineAnnotationOptions"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartBoxAnnotationOptions"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartLabelAnnotationOptions"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartEllipseAnnotationOptions"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartPointAnnotationOptions"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartAnnotationLabelOptions"
+        }
+      ]
+    },
+    {
+      "route": "/docs/extensions/svg-chart-datalabels",
+      "title": "Blazorise SVG Chart Data Labels",
+      "description": "Learn how to render and interact with labels around data points in native Blazorise SVG charts.",
+      "pagePath": "Pages/Docs/Extensions/SvgChartDataLabels/SvgChartDataLabelsPage.razor",
+      "examples": [
+        {
+          "code": "SvgChartDataLabelsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChartDataLabels/Examples/SvgChartDataLabelsExample.razor",
+          "content": "<SvgColumnChart TItem=\"MonthlySales\"\r\n                Items=\"@sales\"\r\n                Options=\"@options\"\r\n                Clicked=\"@OnPointClicked\">\r\n    <SvgChartTitle Title='@(\"Monthly revenue\")' Subtitle='@(\"Top labels with background and border\")' />\r\n    <SvgChartLegend Position=\"SvgChartLegendPosition.Bottom\" />\r\n    <SvgChartTooltip Enabled />\r\n    <SvgChartDataLabels Visible\r\n                        Position=\"SvgChartDataLabelPosition.Top\"\r\n                        Formatter=\"@FormatRevenueLabel\"\r\n                        BackgroundColor='@((Color)\"#ffffff\")'\r\n                        Border=\"@( new SvgChartBorderOptions { Color = Color.Primary, Width = 1, Radius = 4 } )\"\r\n                        Clicked=\"@OnDataLabelClicked\"\r\n                        Hovered=\"@OnDataLabelHovered\" />\r\n    <SvgChartCategoryAxis Value=\"@( item => item.Month )\" />\r\n    <SvgChartValueAxis BeginAtZero TickCount=\"6\" />\r\n\r\n    <SvgColumnSeries Name=\"Tokyo\" Value=\"@( item => item.Tokyo )\" Color=\"Color.Primary\" BorderRadius=\"4\" />\r\n    <SvgColumnSeries Name=\"New York\" Value=\"@( item => item.NewYork )\" Color=\"Color.Info\" BorderRadius=\"4\" />\r\n</SvgColumnChart>\r\n\r\n<Paragraph Margin=\"Margin.Is2.FromTop.Is0.FromBottom\">@lastEvent</Paragraph>\r\n\r\n@code {\r\n    private string lastEvent = \"Interact with a chart point or data label.\";\r\n\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n    };\r\n\r\n    private readonly List<MonthlySales> sales =\r\n    [\r\n        new() { Month = \"Jan\", Tokyo = 49.9, NewYork = 83.6 },\r\n        new() { Month = \"Feb\", Tokyo = 71.5, NewYork = 78.8 },\r\n        new() { Month = \"Mar\", Tokyo = 106.4, NewYork = 98.5 },\r\n        new() { Month = \"Apr\", Tokyo = 129.2, NewYork = 93.4 },\r\n    ];\r\n\r\n    private Task OnPointClicked( SvgChartPointEventArgs eventArgs )\r\n    {\r\n        lastEvent = $\"Clicked point {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}\";\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task OnDataLabelClicked( SvgChartPointEventArgs eventArgs )\r\n    {\r\n        lastEvent = $\"Clicked label {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}\";\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task OnDataLabelHovered( SvgChartPointEventArgs eventArgs )\r\n    {\r\n        lastEvent = $\"Hovered label {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}\";\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private string FormatRevenueLabel( SvgChartDataLabelContext context )\r\n    {\r\n        return $\"{Convert.ToDouble( context.Value, System.Globalization.CultureInfo.InvariantCulture ).ToString( \"0\", System.Globalization.CultureInfo.InvariantCulture )}k\";\r\n    }\r\n\r\n    private sealed class MonthlySales\r\n    {\r\n        public string Month { get; set; }\r\n\r\n        public double Tokyo { get; set; }\r\n\r\n        public double NewYork { get; set; }\r\n    }\r\n}",
+          "title": "Value labels",
+          "description": "Render formatted labels above column values and react to label events."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "SvgChartDataLabels"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartDataLabelsOptions"
+        }
+      ]
+    },
+    {
+      "route": "/docs/extensions/svg-chart-streaming",
+      "title": "Blazorise SVG Chart Streaming",
+      "description": "Learn how to append live data to native Blazorise SVG charts with rolling or infinite retention.",
+      "pagePath": "Pages/Docs/Extensions/SvgChartStreaming/SvgChartStreamingPage.razor",
+      "examples": [
+        {
+          "code": "SvgChartStreamingExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChartStreaming/Examples/SvgChartStreamingExample.razor",
+          "content": "<Button Color=\"Color.Primary\" Outline Clicked=\"@AppendValue\">\r\n    Append value\r\n</Button>\r\n\r\n<SvgLineChart @ref=\"chart\"\r\n              TItem=\"object\"\r\n              Data=\"@data\"\r\n              Options=\"@options\"\r\n              Streaming=\"@streaming\"\r\n              Hovered=\"@OnPointHovered\">\r\n    <SvgChartTitle Title='@(\"Live latency\")' Subtitle='@(\"Right-to-left viewport with infinite retention\")' />\r\n    <SvgChartTooltip Enabled />\r\n    <SvgChartValueAxis BeginAtZero TickCount=\"6\" />\r\n</SvgLineChart>\r\n\r\n<Paragraph Margin=\"Margin.Is2.FromTop.Is0.FromBottom\">@lastEvent</Paragraph>\r\n\r\n@code {\r\n    private SvgLineChart<object> chart;\r\n\r\n    private int index;\r\n\r\n    private string lastEvent = \"Append a value or hover over a point.\";\r\n\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Visible = false },\r\n        XAxis = new()\r\n        {\r\n            GridLines = new() { Visible = true },\r\n            Labels = new()\r\n            {\r\n                Step = 2,\r\n                Offset = 30,\r\n            },\r\n        },\r\n    };\r\n\r\n    private readonly SvgChartStreamingOptions streaming = new()\r\n    {\r\n        Enabled = true,\r\n        VisibleDataPoints = 12,\r\n        Duration = null,\r\n        Reverse = false,\r\n        Animation = new()\r\n        {\r\n            Duration = TimeSpan.FromSeconds( 1 ),\r\n        },\r\n        RefreshInterval = TimeSpan.FromMilliseconds( 500 ),\r\n    };\r\n\r\n    private readonly SvgChartData<double?> data = new()\r\n    {\r\n        Series =\r\n        [\r\n            new()\r\n            {\r\n                Name = \"Latency\",\r\n                Color = Color.Primary,\r\n            },\r\n        ],\r\n    };\r\n\r\n    private async Task AppendValue()\r\n    {\r\n        string label = DateTime.Now.ToString( \"HH:mm:ss\" );\r\n        double value = 35 + ( index++ % 6 ) * 9;\r\n\r\n        await chart.AppendValue( \"Latency\", label, value );\r\n    }\r\n\r\n    private Task OnPointHovered( SvgChartPointEventArgs eventArgs )\r\n    {\r\n        lastEvent = $\"Hovered {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}\";\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n}",
+          "title": "Append values",
+          "description": "Append values through the chart reference. A timer can call the same method in a live application."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "SvgChart"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartStreamingOptions"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartStreamingAnimationOptions"
+        }
+      ]
+    },
+    {
+      "route": "/docs/extensions/svg-chart-trendline",
+      "title": "Blazorise SVG Chart Trendlines",
+      "description": "Learn how to render trendlines on native Blazorise SVG charts.",
+      "pagePath": "Pages/Docs/Extensions/SvgChartTrendline/SvgChartTrendlinePage.razor",
+      "examples": [
+        {
+          "code": "SvgChartTrendlineExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChartTrendline/Examples/SvgChartTrendlineExample.razor",
+          "content": "<SvgColumnChart TItem=\"MonthlySales\"\r\n                Items=\"@sales\"\r\n                Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Monthly revenue\")' Subtitle='@(\"Linear trendline declared in markup\")' />\r\n    <SvgChartLegend Position=\"SvgChartLegendPosition.Bottom\" />\r\n    <SvgChartTooltip Enabled />\r\n    <SvgChartTrendline SeriesName=\"Revenue\"\r\n                       Color=\"Color.Danger\"\r\n                       StrokeWidth=\"2.5\"\r\n                       DashPattern=\"8 5\" />\r\n    <SvgChartCategoryAxis Value=\"@( item => item.Month )\" />\r\n    <SvgChartValueAxis BeginAtZero TickCount=\"6\" />\r\n\r\n    <SvgColumnSeries Name=\"Revenue\" Value=\"@( item => item.Revenue )\" Color=\"Color.Primary\" BorderRadius=\"4\" />\r\n</SvgColumnChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n    };\r\n\r\n    private readonly List<MonthlySales> sales =\r\n    [\r\n        new() { Month = \"Jan\", Revenue = 82 },\r\n        new() { Month = \"Feb\", Revenue = 88 },\r\n        new() { Month = \"Mar\", Revenue = 93 },\r\n        new() { Month = \"Apr\", Revenue = 91 },\r\n        new() { Month = \"May\", Revenue = 104 },\r\n        new() { Month = \"Jun\", Revenue = 112 },\r\n        new() { Month = \"Jul\", Revenue = 118 },\r\n    ];\r\n\r\n    private sealed class MonthlySales\r\n    {\r\n        public string Month { get; set; }\r\n\r\n        public double Revenue { get; set; }\r\n    }\r\n}",
+          "title": "Declarative trendline",
+          "description": "Add a trendline to a chart by declaring SvgChartTrendline inside the chart."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "SvgChartTrendline"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartTrendlineOptions"
+        }
+      ]
+    },
+    {
+      "route": "/docs/extensions/svg-chart-zoom",
+      "title": "Blazorise SVG Chart Zoom and Pan",
+      "description": "Learn how to enable zoom and pan interactions in native Blazorise SVG charts.",
+      "pagePath": "Pages/Docs/Extensions/SvgChartZoom/SvgChartZoomPage.razor",
+      "examples": [
+        {
+          "code": "SvgChartZoomExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChartZoom/Examples/SvgChartZoomExample.razor",
+          "content": "<SvgScatterChart TItem=\"StorePerformance\"\r\n                 Items=\"@stores\"\r\n                 Options=\"@options\"\r\n                 Hovered=\"@OnPointHovered\">\r\n    <SvgChartTitle Title='@(\"Store performance\")' Subtitle='@(\"XY zoom with numeric grid lines\")' />\r\n    <SvgChartTooltip Enabled />\r\n    <SvgChartValueAxis BeginAtZero TickCount=\"7\" GridLines=\"@gridLines\" />\r\n    <SvgChartZoom Enabled\r\n                  Mode=\"SvgChartZoomMode.XY\"\r\n                  MaxZoom=\"120\"\r\n                  Viewport=\"@viewport\"\r\n                  ViewportChanged=\"@OnViewportChanged\"\r\n                  Zoomed=\"@OnZoomed\"\r\n                  Panned=\"@OnPanned\" />\r\n\r\n    <SvgScatterSeries Name=\"Stores\" XValue=\"@( item => item.Traffic )\" YValue=\"@( item => item.Sales )\" Color=\"Color.Primary\" MarkerRadius=\"5\" />\r\n</SvgScatterChart>\r\n\r\n<Paragraph Margin=\"Margin.Is2.FromTop.Is0.FromBottom\">@lastEvent</Paragraph>\r\n\r\n@code {\r\n    private string lastEvent = \"Wheel over the chart to zoom, or drag the plot area to pan.\";\r\n\r\n    private SvgChartViewport viewport;\r\n\r\n    private readonly SvgChartGridLinesOptions gridLines = new()\r\n    {\r\n        Visible = true,\r\n        Opacity = 0.2,\r\n    };\r\n\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        XAxis = new() { BeginAtZero = false, TickCount = 7, GridLines = new() { Visible = true, Opacity = 0.2 } },\r\n        YAxis = new() { BeginAtZero = true, TickCount = 7 },\r\n        Zoom = new() { Enabled = true, Mode = SvgChartZoomMode.XY, MaxZoom = 120 },\r\n    };\r\n\r\n    private readonly List<StorePerformance> stores =\r\n    [\r\n        new() { Traffic = 8, Sales = 42 },\r\n        new() { Traffic = 12, Sales = 55 },\r\n        new() { Traffic = 16, Sales = 64 },\r\n        new() { Traffic = 22, Sales = 58 },\r\n        new() { Traffic = 29, Sales = 91 },\r\n        new() { Traffic = 34, Sales = 76 },\r\n        new() { Traffic = 42, Sales = 112 },\r\n        new() { Traffic = 48, Sales = 108 },\r\n        new() { Traffic = 53, Sales = 132 },\r\n        new() { Traffic = 61, Sales = 126 },\r\n    ];\r\n\r\n    private Task OnPointHovered( SvgChartPointEventArgs eventArgs )\r\n    {\r\n        lastEvent = $\"Hovered {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}\";\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task OnViewportChanged( SvgChartViewport changedViewport )\r\n    {\r\n        viewport = changedViewport;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task OnZoomed( SvgChartZoomedEventArgs eventArgs )\r\n    {\r\n        lastEvent = $\"Zoomed viewport X {eventArgs.Viewport.XMin:0.##}-{eventArgs.Viewport.XMax:0.##}, Y {eventArgs.Viewport.YMin:0.##}-{eventArgs.Viewport.YMax:0.##}\";\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private Task OnPanned( SvgChartPannedEventArgs eventArgs )\r\n    {\r\n        lastEvent = $\"Panned viewport X {eventArgs.Viewport.XMin:0.##}-{eventArgs.Viewport.XMax:0.##}, Y {eventArgs.Viewport.YMin:0.##}-{eventArgs.Viewport.YMax:0.##}\";\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private sealed class StorePerformance\r\n    {\r\n        public double Traffic { get; set; }\r\n\r\n        public double Sales { get; set; }\r\n    }\r\n}",
+          "title": "Zoom and pan",
+          "description": "Wheel over the chart to zoom, and drag the plot area to pan."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "SvgChartZoom"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartZoomOptions"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartViewport"
         }
       ]
     },

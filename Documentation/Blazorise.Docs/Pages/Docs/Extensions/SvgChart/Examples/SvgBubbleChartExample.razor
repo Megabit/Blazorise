@@ -1,0 +1,38 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgBubbleChart TItem="StoreVolume"
+                Items="@stores"
+                Options="@options">
+    <SvgChartTitle Title='@("Store volume")' Subtitle='@("X/Y values with radius from item selectors")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+    <SvgBubbleSeries Name="Stores" XValue="@( item => item.Sales )" YValue="@( item => item.Margin )" RadiusValue="@( item => item.Orders )" Color="Color.Info" />
+</SvgBubbleChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        YAxis = new() { BeginAtZero = true, TickCount = 6 },
+    };
+
+    private readonly List<StoreVolume> stores =
+    [
+        new() { Sales = 8, Margin = 42, Orders = 5 },
+        new() { Sales = 16, Margin = 64, Orders = 9 },
+        new() { Sales = 22, Margin = 58, Orders = 7 },
+        new() { Sales = 29, Margin = 91, Orders = 12 },
+        new() { Sales = 34, Margin = 76, Orders = 10 },
+        new() { Sales = 42, Margin = 112, Orders = 14 },
+    ];
+
+    private sealed class StoreVolume
+    {
+        public double Sales { get; set; }
+
+        public double Margin { get; set; }
+
+        public double Orders { get; set; }
+    }
+}

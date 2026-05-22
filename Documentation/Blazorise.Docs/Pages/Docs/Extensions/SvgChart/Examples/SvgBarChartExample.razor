@@ -1,0 +1,39 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgBarChart TItem="RegionalRevenue"
+             Items="@revenue"
+             Options="@options">
+    <SvgChartTitle Title='@("Regional revenue")' Subtitle='@("Horizontal grouped bars")' />
+    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value="@( item => item.Region )" />
+    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+    <SvgBarSeries Name="Online" Value="@( item => item.Online )" Color="Color.Primary" BorderRadius="4" />
+    <SvgBarSeries Name="Retail" Value="@( item => item.Retail )" Color="Color.Success" BorderRadius="4" />
+</SvgBarChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly List<RegionalRevenue> revenue =
+    [
+        new() { Region = "North", Online = 72, Retail = 54 },
+        new() { Region = "South", Online = 84, Retail = 66 },
+        new() { Region = "East", Online = 93, Retail = 71 },
+        new() { Region = "West", Online = 78, Retail = 64 },
+    ];
+
+    private sealed class RegionalRevenue
+    {
+        public string Region { get; set; }
+
+        public double Online { get; set; }
+
+        public double Retail { get; set; }
+    }
+}

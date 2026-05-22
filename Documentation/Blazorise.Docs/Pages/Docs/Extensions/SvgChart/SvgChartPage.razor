@@ -1,0 +1,150 @@
+@page "/docs/extensions/svg-chart"
+
+<Seo Canonical="/docs/extensions/svg-chart" Title="Blazorise SVG Chart component" Description="Learn how to use native Blazorise SVG chart components, including column, bar, line, area, pie, doughnut, polar area, radar, scatter, and bubble charts." />
+
+<DocsPageTitle Path="Extensions/SVG Chart">
+    Blazorise SVG Chart component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Full C# and Blazor charting, rendered with native SVG.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    The SVG chart extension renders charts directly from C# data, options, callbacks, and child components. It supports declarative data binding through child components and explicit data models for imperative scenarios.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Supported chart types are:
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem><Code>SvgColumnChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>SvgBarChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>SvgLineChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>SvgAreaChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>SvgPieChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>SvgDoughnutChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>SvgPolarAreaChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>SvgRadarChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>SvgScatterChart</Code></UnorderedListItem>
+    <UnorderedListItem><Code>SvgBubbleChart</Code></UnorderedListItem>
+</UnorderedList>
+
+<DocsPageParagraph>
+    To use the SVG chart components, install the <Code>Blazorise.Charts.Svg</Code> package first.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install SVG chart extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="SvgChartNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="SvgChartImportsExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Column chart">
+        Use a column chart to compare category values vertically.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgColumnChartExample" Outlined FullWidth>
+        <SvgColumnChartExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Bar chart">
+        Use a bar chart to compare category values horizontally.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgBarChartExample" Outlined FullWidth>
+        <SvgBarChartExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Line chart">
+        Use a line chart to show a trend across ordered categories.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgLineChartExample" Outlined FullWidth>
+        <SvgLineChartExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Area chart">
+        Use an area chart when the filled region helps show magnitude over time.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgAreaChartExample" Outlined FullWidth>
+        <SvgAreaChartExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Pie chart">
+        Use a pie chart to show how values contribute to a whole.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgPieChartExample" Outlined FullWidth>
+        <SvgPieChartExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Doughnut chart">
+        Use a doughnut chart as a radial share chart with a center opening.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgDoughnutChartExample" Outlined FullWidth>
+        <SvgDoughnutChartExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Polar area chart">
+        Use a polar area chart to compare values by radial length.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgPolarAreaChartExample" Outlined FullWidth>
+        <SvgPolarAreaChartExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Radar chart">
+        Use a radar chart to compare multiple metrics across the same dimensions.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgRadarChartExample" Outlined FullWidth>
+        <SvgRadarChartExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Scatter chart">
+        Use a scatter chart to plot independent X and Y values.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgScatterChartExample" Outlined FullWidth>
+        <SvgScatterChartExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Bubble chart">
+        Use a bubble chart to plot X/Y values with an additional radius value.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgBubbleChartExample" Outlined FullWidth>
+        <SvgBubbleChartExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof(SvgChart<>), typeof(SvgColumnChart<>), typeof(SvgBarChart<>), typeof(SvgLineChart<>), typeof(SvgAreaChart<>), typeof(SvgPieChart<>), typeof(SvgDoughnutChart<>), typeof(SvgPolarAreaChart<>), typeof(SvgRadarChart<>), typeof(SvgScatterChart<>), typeof(SvgBubbleChart<>), typeof(SvgChartTitle), typeof(SvgChartLegend), typeof(SvgChartTooltip), typeof(SvgChartCategoryAxis<>), typeof(SvgChartValueAxis)]" />

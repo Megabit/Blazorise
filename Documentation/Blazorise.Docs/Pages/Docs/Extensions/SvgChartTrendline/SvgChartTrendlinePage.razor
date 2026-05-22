@@ -1,0 +1,30 @@
+@page "/docs/extensions/svg-chart-trendline"
+
+<Seo Canonical="/docs/extensions/svg-chart-trendline" Title="Blazorise SVG Chart Trendlines" Description="Learn how to render trendlines on native Blazorise SVG charts." />
+
+<DocsPageTitle Path="Extensions/SVG Chart Trendlines">
+    Blazorise SVG Chart Trendlines
+</DocsPageTitle>
+
+<DocsPageLead>
+    Calculate and render trendlines directly in SVG charts.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    SVG chart trendlines can be declared as child components with <Code>SvgChartTrendline</Code> or supplied through <Code>SvgChartOptions.Trendlines</Code>. Each trendline targets a source series by name.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Declarative trendline">
+        Add a trendline to a chart by declaring <Code>SvgChartTrendline</Code> inside the chart.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgChartTrendlineExample" Outlined FullWidth>
+        <SvgChartTrendlineExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof(SvgChartTrendline), typeof(SvgChartTrendlineOptions)]" />
