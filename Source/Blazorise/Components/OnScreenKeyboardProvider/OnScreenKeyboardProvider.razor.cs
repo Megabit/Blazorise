@@ -29,11 +29,42 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
     {
         RowClassBuilder = new( BuildRowClasses );
         KeyClassBuilder = new( BuildKeyClasses );
+        Background = Blazorise.Background.Light;
+        Border = GetKeyboardBorder( OnScreenKeyboardPlacement.Bottom );
+        Padding = Blazorise.Padding.Is2;
+        Shadow = GetKeyboardShadow( OnScreenKeyboardPlacement.Bottom );
     }
 
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        bool backgroundDefined = parameters.TryGetValue<Background>( nameof( Background ), out _ );
+        bool borderDefined = parameters.TryGetValue<IFluentBorder>( nameof( Border ), out _ );
+        bool paddingDefined = parameters.TryGetValue<IFluentSpacing>( nameof( Padding ), out _ );
+        bool shadowDefined = parameters.TryGetValue<Shadow>( nameof( Shadow ), out _ );
+        OnScreenKeyboardPlacement? placement;
+        OnScreenKeyboardPlacement effectivePlacement = parameters.TryGetValue<OnScreenKeyboardPlacement?>( nameof( Placement ), out placement )
+            ? ResolvePlacement( placement )
+            : EffectivePlacement;
+
+        if ( !backgroundDefined )
+            Background = Blazorise.Background.Light;
+
+        if ( !borderDefined )
+            Border = GetKeyboardBorder( effectivePlacement );
+
+        if ( !paddingDefined )
+            Padding = Blazorise.Padding.Is2;
+
+        if ( !shadowDefined )
+            Shadow = GetKeyboardShadow( effectivePlacement );
+
+        return base.SetParametersAsync( parameters );
+    }
 
     /// <inheritdoc/>
     protected override void OnInitialized()
@@ -191,6 +222,30 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         };
     }
 
+    private OnScreenKeyboardPlacement ResolvePlacement( OnScreenKeyboardPlacement? placement )
+    {
+        return placement
+            ?? Options?.AccessibilityOptions?.OnScreenKeyboard?.Placement
+            ?? OnScreenKeyboardPlacement.Bottom;
+    }
+
+    private static IFluentBorder GetKeyboardBorder( OnScreenKeyboardPlacement placement )
+    {
+        return placement switch
+        {
+            OnScreenKeyboardPlacement.Top => Blazorise.Border.Is1.OnBottom,
+            OnScreenKeyboardPlacement.Bottom => Blazorise.Border.Is1.OnTop,
+            _ => Blazorise.Border.Is1.Rounded,
+        };
+    }
+
+    private static Shadow GetKeyboardShadow( OnScreenKeyboardPlacement placement )
+    {
+        return placement == OnScreenKeyboardPlacement.Inline
+            ? Blazorise.Shadow.None
+            : Blazorise.Shadow.Default;
+    }
+
     /// <inheritdoc/>
     protected internal override void DirtyClasses()
     {
@@ -220,9 +275,7 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         ?? Options?.AccessibilityOptions?.OnScreenKeyboard?.DefaultLayout
         ?? OnScreenKeyboardLayout.Text;
 
-    private OnScreenKeyboardPlacement EffectivePlacement => Placement
-        ?? Options?.AccessibilityOptions?.OnScreenKeyboard?.Placement
-        ?? OnScreenKeyboardPlacement.Bottom;
+    private OnScreenKeyboardPlacement EffectivePlacement => ResolvePlacement( Placement );
 
     private OnScreenKeyboardSize EffectiveKeyboardSize => KeyboardSize
         ?? Options?.AccessibilityOptions?.OnScreenKeyboard?.KeyboardSize
@@ -245,17 +298,6 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
     private IFluentFlex RowFlex => EffectiveKeyLayout == OnScreenKeyboardKeyLayout.Centered
         ? Blazorise.Flex.JustifyContent.Center
         : null;
-
-    private IFluentBorder KeyboardBorder => EffectivePlacement switch
-    {
-        OnScreenKeyboardPlacement.Top => Blazorise.Border.Is1.OnBottom,
-        OnScreenKeyboardPlacement.Bottom => Blazorise.Border.Is1.OnTop,
-        _ => Blazorise.Border.Is1.Rounded,
-    };
-
-    private Shadow KeyboardShadow => EffectivePlacement == OnScreenKeyboardPlacement.Inline
-        ? Blazorise.Shadow.None
-        : Blazorise.Shadow.Default;
 
     private bool UseDefaultKeyStyles => KeyColor == Color.Default;
 
@@ -351,7 +393,12 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
     /// <summary>
     /// Gets or sets the button color.
     /// </summary>
-    [Parameter] public Color KeyColor { get; set; } = Color.Default;
+    [Parameter] public Color KeyColor { get; set; } = Color.Secondary;
+
+    /// <summary>
+    /// Gets or sets whether key buttons should be outlined.
+    /// </summary>
+    [Parameter] public bool KeyOutline { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the button size.
