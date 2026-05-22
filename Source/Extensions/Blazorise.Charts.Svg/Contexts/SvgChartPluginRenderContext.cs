@@ -19,6 +19,8 @@ public sealed class SvgChartPluginRenderContext
 
     private readonly Func<double, string, double> projectX;
 
+    private readonly Func<double, string, double> projectValueX;
+
     private readonly Func<double, string, double> projectY;
 
     private readonly Func<double?, double, double> projectAnnotationX;
@@ -59,6 +61,7 @@ public sealed class SvgChartPluginRenderContext
         Func<double, double> projectCategory,
         Func<double, double> projectCategoryBoundary,
         Func<double, string, double> projectX,
+        Func<double, string, double> projectValueX,
         Func<double, string, double> projectY,
         Func<double?, double, double> projectAnnotationX,
         Func<double?, string, double, double> projectAnnotationY,
@@ -84,6 +87,7 @@ public sealed class SvgChartPluginRenderContext
         this.projectCategory = projectCategory;
         this.projectCategoryBoundary = projectCategoryBoundary;
         this.projectX = projectX;
+        this.projectValueX = projectValueX;
         this.projectY = projectY;
         this.projectAnnotationX = projectAnnotationX;
         this.projectAnnotationY = projectAnnotationY;
@@ -156,6 +160,17 @@ public sealed class SvgChartPluginRenderContext
     }
 
     /// <summary>
+    /// Projects a numeric value to an X coordinate using a horizontal value axis.
+    /// </summary>
+    /// <param name="value">The numeric value.</param>
+    /// <param name="valueAxisId">The optional value axis identifier.</param>
+    /// <returns>The projected X coordinate.</returns>
+    public double ProjectValueX( double value, string valueAxisId = null )
+    {
+        return projectValueX( value, valueAxisId );
+    }
+
+    /// <summary>
     /// Projects a numeric Y value to a Y coordinate.
     /// </summary>
     /// <param name="value">The numeric Y value.</param>
@@ -187,12 +202,26 @@ public sealed class SvgChartPluginRenderContext
     /// <returns>The point event arguments.</returns>
     public SvgChartPointEventArgs CreatePoint( SvgChartPluginSeries series, int pointIndex, double value, SvgChartPointBounds bounds )
     {
+        return CreatePoint( series, pointIndex, pointIndex >= 0 && pointIndex < Labels.Count ? Labels[pointIndex] : null, value, bounds );
+    }
+
+    /// <summary>
+    /// Creates a chart point event argument.
+    /// </summary>
+    /// <param name="series">The resolved plugin series.</param>
+    /// <param name="pointIndex">The point index.</param>
+    /// <param name="category">The point category.</param>
+    /// <param name="value">The point value.</param>
+    /// <param name="bounds">The rendered point bounds.</param>
+    /// <returns>The point event arguments.</returns>
+    public SvgChartPointEventArgs CreatePoint( SvgChartPluginSeries series, int pointIndex, object category, double value, SvgChartPointBounds bounds )
+    {
         return new()
         {
             SeriesName = series.Name,
             SeriesIndex = ResolveSeriesIndex( series ),
             PointIndex = pointIndex,
-            Category = pointIndex >= 0 && pointIndex < Labels.Count ? Labels[pointIndex] : null,
+            Category = category,
             Value = value,
             Bounds = bounds
         };
