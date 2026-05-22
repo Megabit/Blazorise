@@ -4,6 +4,8 @@ builder.Services
     .AddBlazorise( options =&gt;
     {
         options.AccessibilityOptions.OnScreenKeyboard.Enabled = <span class="keyword">true</span>;
+        options.AccessibilityOptions.OnScreenKeyboard.KeyboardSize = OnScreenKeyboardSize.Large;
+        options.AccessibilityOptions.OnScreenKeyboard.KeyLayout = OnScreenKeyboardKeyLayout.Centered;
     } );
 </pre></div>
 </div>

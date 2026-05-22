@@ -35,6 +35,16 @@ public class BlazoriseOnScreenKeyboardOptions
     public OnScreenKeyboardPlacement Placement { get; set; } = OnScreenKeyboardPlacement.Bottom;
 
     /// <summary>
+    /// Gets or sets the default keyboard visual width.
+    /// </summary>
+    public OnScreenKeyboardSize KeyboardSize { get; set; } = OnScreenKeyboardSize.Medium;
+
+    /// <summary>
+    /// Gets or sets the default key arrangement inside keyboard rows.
+    /// </summary>
+    public OnScreenKeyboardKeyLayout KeyLayout { get; set; } = OnScreenKeyboardKeyLayout.Centered;
+
+    /// <summary>
     /// Gets or sets the default keyboard layout. When not set, each input component chooses its own layout.
     /// </summary>
     public OnScreenKeyboardLayout? DefaultLayout { get; set; }

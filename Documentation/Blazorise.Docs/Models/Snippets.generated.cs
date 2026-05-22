@@ -3612,6 +3612,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     .AddBlazorise( options =>
     {
         options.AccessibilityOptions.OnScreenKeyboard.Enabled = true;
+        options.AccessibilityOptions.OnScreenKeyboard.KeyboardSize = OnScreenKeyboardSize.Large;
+        options.AccessibilityOptions.OnScreenKeyboard.KeyLayout = OnScreenKeyboardKeyLayout.Centered;
     } );";
 
         public const string OnScreenKeyboardLayoutExample = @"<Fields>
@@ -3649,6 +3651,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string OnScreenKeyboardProviderSetupExample = @"<ThemeProvider Theme=""@theme"">
     <Router AppAssembly=""@typeof( App ).Assembly"" />
     <OnScreenKeyboardProvider />
+</ThemeProvider>";
+
+        public const string OnScreenKeyboardSizingExample = @"<ThemeProvider Theme=""@theme"">
+    <Router AppAssembly=""@typeof( App ).Assembly"" />
+    <OnScreenKeyboardProvider KeyboardSize=""OnScreenKeyboardSize.Large""
+                              KeyLayout=""OnScreenKeyboardKeyLayout.Centered"" />
 </ThemeProvider>";
 
         public const string OnScreenKeyboardTextInputExample = @"<Field>

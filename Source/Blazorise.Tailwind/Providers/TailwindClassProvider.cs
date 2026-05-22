@@ -562,7 +562,7 @@ public class TailwindClassProvider : ClassProvider
         _ => null,
     };
 
-    public override string OnScreenKeyboardRow() => "flex justify-center gap-1 mb-1";
+    public override string OnScreenKeyboardRow() => "flex gap-1 mb-1";
 
     public override string OnScreenKeyboardKey() => "min-w-10";
 

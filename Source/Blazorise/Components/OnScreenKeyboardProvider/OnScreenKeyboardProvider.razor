@@ -2,7 +2,7 @@
 @inherits BaseComponent
 @if ( Visible )
 {
-    <Div ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Background="Blazorise.Background.Body" Border="@KeyboardBorder" Shadow="@KeyboardShadow" Padding="Blazorise.Padding.Is2" role="application" aria-label="@AriaLabel" @attributes="@Attributes">
+    <Div ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Background="Blazorise.Background.Body" Border="@KeyboardBorder" Shadow="@KeyboardShadow" Padding="Blazorise.Padding.Is2" role="application" aria-label="@AriaLabel" @onmousedown:preventDefault @attributes="@Attributes">
         @if ( ChildContent is not null )
         {
             @ChildContent
@@ -11,7 +11,7 @@
         {
             @foreach ( var row in Rows )
             {
-                <Div Class="@RowClassBuilder.Class" Display="Blazorise.Display.Flex" Gap="Blazorise.Gap.Is1" Margin="Blazorise.Margin.Is1.FromBottom">
+                <Div Class="@RowClassBuilder.Class" Display="Blazorise.Display.Flex" Flex="@RowFlex" Gap="Blazorise.Gap.Is1" Margin="Blazorise.Margin.Is1.FromBottom">
                     @foreach ( var key in row )
                     {
                         <Button Class="@KeyClassBuilder.Class" Color="@KeyColor" Size="@KeySize" TextColor="@KeyTextColor" Background="@KeyBackground" Border="@KeyBorder" Shadow="@KeyShadow" Position="Blazorise.Position.Relative" Active="@IsShiftKeyActive( key )" Style="@GetKeyStyle( key )" TabIndex="-1" Clicked="@(() => OnKeyClicked( key ))" @onmousedown:preventDefault>

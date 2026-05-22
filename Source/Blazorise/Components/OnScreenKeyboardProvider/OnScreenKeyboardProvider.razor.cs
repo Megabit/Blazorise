@@ -87,11 +87,21 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         if ( EffectivePlacement != OnScreenKeyboardPlacement.Inline )
         {
             builder.Append( "position:fixed" );
-            builder.Append( "left:0" );
-            builder.Append( "right:0" );
             builder.Append( "z-index:1050" );
+            builder.Append( "left:0", EffectiveKeyboardSize == OnScreenKeyboardSize.FullWidth );
+            builder.Append( "right:0", EffectiveKeyboardSize == OnScreenKeyboardSize.FullWidth );
+            builder.Append( "left:50%", EffectiveKeyboardSize != OnScreenKeyboardSize.FullWidth );
+            builder.Append( "transform:translateX(-50%)", EffectiveKeyboardSize != OnScreenKeyboardSize.FullWidth );
+            builder.Append( "width:calc(100% - 1rem)", EffectiveKeyboardSize != OnScreenKeyboardSize.FullWidth );
+            builder.Append( KeyboardMaxWidthStyle, EffectiveKeyboardSize != OnScreenKeyboardSize.FullWidth );
             builder.Append( "bottom:0", EffectivePlacement == OnScreenKeyboardPlacement.Bottom );
             builder.Append( "top:0", EffectivePlacement == OnScreenKeyboardPlacement.Top );
+        }
+        else
+        {
+            builder.Append( "margin-left:auto;margin-right:auto", EffectiveKeyboardSize != OnScreenKeyboardSize.FullWidth );
+            builder.Append( "width:100%", EffectiveKeyboardSize != OnScreenKeyboardSize.FullWidth );
+            builder.Append( KeyboardMaxWidthStyle, EffectiveKeyboardSize != OnScreenKeyboardSize.FullWidth );
         }
 
         base.BuildStyles( builder );
@@ -138,7 +148,11 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
 
     private string GetKeyStyle( OnScreenKeyboardKey key )
     {
-        return $"flex:{Math.Max( 1, key.Width )} 1 0; min-height:2.5rem";
+        var width = Math.Max( 1, key.Width );
+
+        return EffectiveKeyLayout == OnScreenKeyboardKeyLayout.Centered
+            ? $"flex:0 0 {width * 72}px; min-height:3.5rem; max-width:100%"
+            : $"flex:{width} 1 0; min-height:2.5rem";
     }
 
     private bool IsShiftKeyActive( OnScreenKeyboardKey key )
@@ -205,7 +219,27 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         ?? Options?.AccessibilityOptions?.OnScreenKeyboard?.Placement
         ?? OnScreenKeyboardPlacement.Bottom;
 
+    private OnScreenKeyboardSize EffectiveKeyboardSize => KeyboardSize
+        ?? Options?.AccessibilityOptions?.OnScreenKeyboard?.KeyboardSize
+        ?? OnScreenKeyboardSize.FullWidth;
+
+    private OnScreenKeyboardKeyLayout EffectiveKeyLayout => KeyLayout
+        ?? Options?.AccessibilityOptions?.OnScreenKeyboard?.KeyLayout
+        ?? OnScreenKeyboardKeyLayout.Stretch;
+
     private bool Visible => OnScreenKeyboardService.State.Visible;
+
+    private string KeyboardMaxWidthStyle => EffectiveKeyboardSize switch
+    {
+        OnScreenKeyboardSize.Small => "max-width:48rem",
+        OnScreenKeyboardSize.Medium => "max-width:72rem",
+        OnScreenKeyboardSize.Large => "max-width:96rem",
+        _ => null,
+    };
+
+    private IFluentFlex RowFlex => EffectiveKeyLayout == OnScreenKeyboardKeyLayout.Centered
+        ? Blazorise.Flex.JustifyContent.Center
+        : null;
 
     private IFluentBorder KeyboardBorder => EffectivePlacement switch
     {
@@ -298,6 +332,16 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
     /// Gets or sets the keyboard placement.
     /// </summary>
     [Parameter] public OnScreenKeyboardPlacement? Placement { get; set; }
+
+    /// <summary>
+    /// Gets or sets the keyboard visual width.
+    /// </summary>
+    [Parameter] public OnScreenKeyboardSize? KeyboardSize { get; set; }
+
+    /// <summary>
+    /// Gets or sets the key arrangement inside keyboard rows.
+    /// </summary>
+    [Parameter] public OnScreenKeyboardKeyLayout? KeyLayout { get; set; }
 
     /// <summary>
     /// Gets or sets the button color.
