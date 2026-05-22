@@ -2,7 +2,7 @@
 @inherits BaseComponent
 @if ( Visible )
 {
-    <Div ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" role="application" aria-label="@AriaLabel" @attributes="@Attributes">
+    <Div ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" Background="Blazorise.Background.Body" Border="@KeyboardBorder" Shadow="@KeyboardShadow" Padding="Blazorise.Padding.Is2" role="application" aria-label="@AriaLabel" @attributes="@Attributes">
         @if ( ChildContent is not null )
         {
             @ChildContent
@@ -14,8 +14,12 @@
                 <Div Class="@RowClassBuilder.Class" Display="Blazorise.Display.Flex" Gap="Blazorise.Gap.Is1" Margin="Blazorise.Margin.Is1.FromBottom">
                     @foreach ( var key in row )
                     {
-                        <Button Class="@KeyClassBuilder.Class" Color="@KeyColor" Size="@KeySize" Style="@GetKeyStyle( key )" TabIndex="-1" Clicked="@(() => OnKeyClicked( key ))" @onmousedown:preventDefault>
+                        <Button Class="@KeyClassBuilder.Class" Color="@KeyColor" Size="@KeySize" TextColor="@KeyTextColor" Background="@KeyBackground" Border="@KeyBorder" Shadow="@KeyShadow" Position="Blazorise.Position.Relative" Active="@IsShiftKeyActive( key )" Style="@GetKeyStyle( key )" TabIndex="-1" Clicked="@(() => OnKeyClicked( key ))" @onmousedown:preventDefault>
                             @GetKeyDisplayText( key )
+                            @if ( IsShiftKeyActive( key ) )
+                            {
+                                <Span Position="Blazorise.Position.Absolute.Top.Is0.End.Is0" Margin="Blazorise.Margin.Is1.FromTop.Is1.FromEnd" Background="Blazorise.Background.Success" Border="Blazorise.Border.RoundedCircle" Width="Blazorise.Width.Px( 8 )" Height="Blazorise.Height.Px( 8 )" />
+                            }
                         </Button>
                     }
                 </Div>

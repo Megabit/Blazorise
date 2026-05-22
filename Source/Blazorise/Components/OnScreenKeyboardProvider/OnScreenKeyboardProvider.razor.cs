@@ -90,14 +90,9 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
             builder.Append( "left:0" );
             builder.Append( "right:0" );
             builder.Append( "z-index:1050" );
-            builder.Append( "background:var(--b-theme-body-bg, var(--bs-body-bg, #fff))" );
-            builder.Append( "box-shadow:0 -0.25rem 1rem rgba(0, 0, 0, .12)", EffectivePlacement == OnScreenKeyboardPlacement.Bottom );
-            builder.Append( "box-shadow:0 .25rem 1rem rgba(0, 0, 0, .12)", EffectivePlacement == OnScreenKeyboardPlacement.Top );
             builder.Append( "bottom:0", EffectivePlacement == OnScreenKeyboardPlacement.Bottom );
             builder.Append( "top:0", EffectivePlacement == OnScreenKeyboardPlacement.Top );
         }
-
-        builder.Append( "padding:.5rem" );
 
         base.BuildStyles( builder );
     }
@@ -144,6 +139,11 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
     private string GetKeyStyle( OnScreenKeyboardKey key )
     {
         return $"flex:{Math.Max( 1, key.Width )} 1 0; min-height:2.5rem";
+    }
+
+    private bool IsShiftKeyActive( OnScreenKeyboardKey key )
+    {
+        return shift && key.KeyType == OnScreenKeyboardKeyType.Shift;
     }
 
     private IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> CreateRows()
@@ -206,6 +206,35 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         ?? OnScreenKeyboardPlacement.Bottom;
 
     private bool Visible => OnScreenKeyboardService.State.Visible;
+
+    private IFluentBorder KeyboardBorder => EffectivePlacement switch
+    {
+        OnScreenKeyboardPlacement.Top => Blazorise.Border.Is1.OnBottom,
+        OnScreenKeyboardPlacement.Bottom => Blazorise.Border.Is1.OnTop,
+        _ => Blazorise.Border.Is1.Rounded,
+    };
+
+    private Shadow KeyboardShadow => EffectivePlacement == OnScreenKeyboardPlacement.Inline
+        ? Blazorise.Shadow.None
+        : Blazorise.Shadow.Default;
+
+    private bool UseDefaultKeyStyles => KeyColor == Color.Default;
+
+    private TextColor KeyTextColor => UseDefaultKeyStyles
+        ? Blazorise.TextColor.Body
+        : Blazorise.TextColor.Default;
+
+    private Background KeyBackground => UseDefaultKeyStyles
+        ? Blazorise.Background.Body
+        : Blazorise.Background.Default;
+
+    private IFluentBorder KeyBorder => UseDefaultKeyStyles
+        ? Blazorise.Border.Is1.Secondary.Subtle
+        : null;
+
+    private Shadow KeyShadow => UseDefaultKeyStyles
+        ? Blazorise.Shadow.Small
+        : Blazorise.Shadow.None;
 
     private IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> TextRows => new[]
     {
@@ -273,7 +302,7 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
     /// <summary>
     /// Gets or sets the button color.
     /// </summary>
-    [Parameter] public Color KeyColor { get; set; } = Color.Light;
+    [Parameter] public Color KeyColor { get; set; } = Color.Default;
 
     /// <summary>
     /// Gets or sets the button size.
