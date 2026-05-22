@@ -56,10 +56,10 @@
                 <CardTitle>SVG mixed chart - multiple value axes</CardTitle>
             </CardHeader>
             <CardBody>
-                <SvgColumnChart TItem="RevenueGrowthSample"
-                                Items="@RevenueGrowth"
-                                Options="@multiAxisOptions"
-                                Hovered="@OnPointHovered">
+                <SvgChart TItem="RevenueGrowthSample"
+                          Items="@RevenueGrowth"
+                          Options="@multiAxisOptions"
+                          Hovered="@OnPointHovered">
                     <SvgChartTitle Title='@("Revenue and growth")' Subtitle='@("Series mapped to separate value axes")' />
                     <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
                     <SvgChartTooltip Enabled />
@@ -69,7 +69,7 @@
 
                     <SvgColumnSeries Name="Revenue" CategoryAxisId="months" ValueAxisId="revenue" Value="@( x => x.Revenue )" Color="Color.Primary" BorderRadius="4" />
                     <SvgLineSeries Name="Growth %" CategoryAxisId="months" ValueAxisId="growth" Value="@( x => x.Growth )" Color="Color.Danger" StrokeWidth="3" MarkerRadius="4" Order="20" />
-                </SvgColumnChart>
+                </SvgChart>
             </CardBody>
         </Card>
     </Column>
