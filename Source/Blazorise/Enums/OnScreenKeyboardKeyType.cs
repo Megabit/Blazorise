@@ -34,4 +34,9 @@ public enum OnScreenKeyboardKeyType
     /// A key that toggles character casing.
     /// </summary>
     Shift,
+
+    /// <summary>
+    /// A key that toggles the special characters keyboard.
+    /// </summary>
+    SpecialCharacters,
 }

@@ -3681,6 +3681,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
                               KeyLayout=""OnScreenKeyboardKeyLayout.Centered"" />
 </ThemeProvider>";
 
+        public const string OnScreenKeyboardSpecialCharactersExample = @"<ThemeProvider Theme=""@theme"">
+    <Router AppAssembly=""@typeof( App ).Assembly"" />
+    <OnScreenKeyboardProvider ShowSpecialCharactersKey />
+</ThemeProvider>";
+
         public const string OnScreenKeyboardTextInputExample = @"<Field>
     <FieldLabel>Text input</FieldLabel>
     <TextInput @bind-Value=""@textValue"" Placeholder=""Focus to show the keyboard"" OnScreenKeyboard />

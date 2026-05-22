@@ -45,6 +45,11 @@ public class BlazoriseOnScreenKeyboardOptions
     public OnScreenKeyboardKeyLayout KeyLayout { get; set; } = OnScreenKeyboardKeyLayout.Centered;
 
     /// <summary>
+    /// If true, the text keyboard includes a key that toggles special characters.
+    /// </summary>
+    public bool ShowSpecialCharactersKey { get; set; }
+
+    /// <summary>
     /// Gets or sets the default keyboard layout. When not set, each input component chooses its own layout.
     /// </summary>
     public OnScreenKeyboardLayout? DefaultLayout { get; set; }

@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-22T10:03:33.7189302Z",
+  "generatedUtc": "2026-05-22T12:10:46.8893302Z",
   "pages": [
     {
       "route": "/docs",
@@ -2540,6 +2540,14 @@
           "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.Is4.OnDesktop\">\r\n        <FieldLabel>Email layout</FieldLabel>\r\n        <TextInput @bind-Value=\"@emailValue\" Placeholder=\"name@example.com\" Role=\"TextRole.Email\" OnScreenKeyboard=\"true\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.Is4.OnDesktop\">\r\n        <FieldLabel>Numeric layout</FieldLabel>\r\n        <NumericInput TValue=\"int?\" @bind-Value=\"@numberValue\" Placeholder=\"123\" OnScreenKeyboard=\"true\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.Is4.OnDesktop\">\r\n        <FieldLabel>Explicit layout</FieldLabel>\r\n        <TextInput @bind-Value=\"@urlValue\" Placeholder=\"https://example.com\" OnScreenKeyboard=\"true\" OnScreenKeyboardLayout=\"OnScreenKeyboardLayout.Url\" />\r\n    </Field>\r\n</Fields>\r\n\r\n@code {\r\n    private string emailValue;\r\n\r\n    private int? numberValue;\r\n\r\n    private string urlValue;\r\n}",
           "title": "Input-specific layouts",
           "description": "Text roles and numeric inputs choose a suitable layout automatically. You can also set OnScreenKeyboardLayout explicitly."
+        },
+        {
+          "code": "OnScreenKeyboardSpecialCharactersExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Components/OnScreenKeyboards/Examples/OnScreenKeyboardSpecialCharactersExample.snippet",
+          "content": "<ThemeProvider Theme=\"@theme\">\r\n    <Router AppAssembly=\"@typeof( App ).Assembly\" />\r\n    <OnScreenKeyboardProvider ShowSpecialCharactersKey />\r\n</ThemeProvider>",
+          "title": "Special characters",
+          "description": "Enable ShowSpecialCharactersKey to add a toggle key for symbols and punctuation to text-based keyboard layouts."
         },
         {
           "code": "OnScreenKeyboardSizingExample",

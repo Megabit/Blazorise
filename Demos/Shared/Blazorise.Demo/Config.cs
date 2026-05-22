@@ -21,6 +21,7 @@ public static class Config
                 options.ProductToken = licenseKey;
                 options.Immediate = true;
                 options.AccessibilityOptions.OnScreenKeyboard.Enabled = true;
+                options.AccessibilityOptions.OnScreenKeyboard.ShowSpecialCharactersKey = true;
             } )
             .AddBlazoriseRichTextEdit( options =>
             {

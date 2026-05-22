@@ -13,11 +13,25 @@ public class OnScreenKeyboardKeyContext
     /// <param name="active">Indicates whether the key is active.</param>
     /// <param name="shift">Indicates whether shift is enabled.</param>
     public OnScreenKeyboardKeyContext( OnScreenKeyboardKey key, string displayText, bool active, bool shift )
+        : this( key, displayText, active, shift, false )
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="OnScreenKeyboardKeyContext"/> class.
+    /// </summary>
+    /// <param name="key">The rendered keyboard key.</param>
+    /// <param name="displayText">The resolved display text.</param>
+    /// <param name="active">Indicates whether the key is active.</param>
+    /// <param name="shift">Indicates whether shift is enabled.</param>
+    /// <param name="specialCharacters">Indicates whether the special characters keyboard is enabled.</param>
+    public OnScreenKeyboardKeyContext( OnScreenKeyboardKey key, string displayText, bool active, bool shift, bool specialCharacters )
     {
         Key = key;
         DisplayText = displayText;
         Active = active;
         Shift = shift;
+        SpecialCharacters = specialCharacters;
     }
 
     /// <summary>
@@ -39,4 +53,9 @@ public class OnScreenKeyboardKeyContext
     /// Gets whether shift is enabled.
     /// </summary>
     public bool Shift { get; }
+
+    /// <summary>
+    /// Gets whether the special characters keyboard is enabled.
+    /// </summary>
+    public bool SpecialCharacters { get; }
 }

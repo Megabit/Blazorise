@@ -18,6 +18,10 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
 
     private bool shift;
 
+    private bool specialCharacters;
+
+    private bool showSpecialCharactersKeyDefined;
+
     #endregion
 
     #region Constructors
@@ -47,6 +51,7 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         bool paddingDefined = parameters.TryGetValue<IFluentSpacing>( nameof( Padding ), out _ );
         bool shadowDefined = parameters.TryGetValue<Shadow>( nameof( Shadow ), out _ );
         OnScreenKeyboardPlacement? placement;
+        showSpecialCharactersKeyDefined = parameters.TryGetValue<bool>( nameof( ShowSpecialCharactersKey ), out _ );
         OnScreenKeyboardPlacement effectivePlacement = parameters.TryGetValue<OnScreenKeyboardPlacement?>( nameof( Placement ), out placement )
             ? ResolvePlacement( placement )
             : EffectivePlacement;
@@ -141,6 +146,7 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
     private async void OnKeyboardStateChanged( object sender, OnScreenKeyboardStateChangedEventArgs eventArgs )
     {
         shift = false;
+        specialCharacters = false;
 
         DirtyClasses();
         DirtyStyles();
@@ -153,6 +159,14 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         if ( key.KeyType == OnScreenKeyboardKeyType.Shift )
         {
             shift = !shift;
+            await InvokeAsync( StateHasChanged );
+            return;
+        }
+
+        if ( key.KeyType == OnScreenKeyboardKeyType.SpecialCharacters )
+        {
+            shift = false;
+            specialCharacters = !specialCharacters;
             await InvokeAsync( StateHasChanged );
             return;
         }
@@ -174,6 +188,9 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         if ( key.KeyType == OnScreenKeyboardKeyType.Text && shift )
             return key.Text?.ToUpperInvariant();
 
+        if ( key.KeyType == OnScreenKeyboardKeyType.SpecialCharacters && specialCharacters )
+            return "ABC";
+
         return key.Text;
     }
 
@@ -191,13 +208,22 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         return shift && key.KeyType == OnScreenKeyboardKeyType.Shift;
     }
 
+    private bool IsKeyActive( OnScreenKeyboardKey key )
+    {
+        return IsShiftKeyActive( key )
+            || ( specialCharacters && key.KeyType == OnScreenKeyboardKeyType.SpecialCharacters );
+    }
+
     private OnScreenKeyboardKeyContext CreateKeyTemplateContext( OnScreenKeyboardKey key )
     {
-        return new( key, GetKeyDisplayText( key ), IsShiftKeyActive( key ), shift );
+        return new( key, GetKeyDisplayText( key ), IsKeyActive( key ), shift, specialCharacters );
     }
 
     private IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> CreateRows()
     {
+        if ( specialCharacters && EffectiveShowSpecialCharactersKey && SupportsSpecialCharacters( CurrentLayout ) )
+            return SpecialCharactersRows;
+
         return CurrentLayout switch
         {
             OnScreenKeyboardLayout.Numeric => NumericRows,
@@ -214,12 +240,29 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         return keys.Select( key => new OnScreenKeyboardKey( key.ToString() ) ).ToArray();
     }
 
+    private static IReadOnlyList<OnScreenKeyboardKey> CreateKeysRow( params string[] keys )
+    {
+        return keys.Select( key => new OnScreenKeyboardKey( key ) ).ToArray();
+    }
+
     private static OnScreenKeyboardKey CommandKey( OnScreenKeyboardKeyType keyType, string displayText, int width = 1 )
     {
         return new( keyType, displayText )
         {
             Width = width,
         };
+    }
+
+    private static IReadOnlyList<OnScreenKeyboardKey> WithSpecialCharactersKey( IReadOnlyList<OnScreenKeyboardKey> row )
+    {
+        return new[] { CommandKey( OnScreenKeyboardKeyType.SpecialCharacters, "?123", 2 ) }.Concat( row ).ToArray();
+    }
+
+    private static bool SupportsSpecialCharacters( OnScreenKeyboardLayout layout )
+    {
+        return layout == OnScreenKeyboardLayout.Text
+            || layout == OnScreenKeyboardLayout.Email
+            || layout == OnScreenKeyboardLayout.Url;
     }
 
     private OnScreenKeyboardPlacement ResolvePlacement( OnScreenKeyboardPlacement? placement )
@@ -285,6 +328,10 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         ?? Options?.AccessibilityOptions?.OnScreenKeyboard?.KeyLayout
         ?? OnScreenKeyboardKeyLayout.Stretch;
 
+    private bool EffectiveShowSpecialCharactersKey => showSpecialCharactersKeyDefined
+        ? ShowSpecialCharactersKey
+        : Options?.AccessibilityOptions?.OnScreenKeyboard?.ShowSpecialCharactersKey == true;
+
     private bool Visible => OnScreenKeyboardService.State.Visible;
 
     private string KeyboardMaxWidthStyle => EffectiveKeyboardSize switch
@@ -322,7 +369,9 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         CreateTextRow( "qwertyuiop" ),
         CreateTextRow( "asdfghjkl" ),
         new[] { CommandKey( OnScreenKeyboardKeyType.Shift, shift ? "SHIFT" : "Shift", 2 ) }.Concat( CreateTextRow( "zxcvbnm" ) ).Concat( new[] { CommandKey( OnScreenKeyboardKeyType.Backspace, "Backspace", 2 ) } ).ToArray(),
-        new[] { CommandKey( OnScreenKeyboardKeyType.Clear, "Clear", 2 ), CommandKey( OnScreenKeyboardKeyType.Space, "Space", 6 ), CommandKey( OnScreenKeyboardKeyType.Enter, "Enter", 2 ) },
+        EffectiveShowSpecialCharactersKey
+            ? WithSpecialCharactersKey( new[] { CommandKey( OnScreenKeyboardKeyType.Clear, "Clear", 2 ), CommandKey( OnScreenKeyboardKeyType.Space, "Space", 4 ), CommandKey( OnScreenKeyboardKeyType.Enter, "Enter", 2 ) } )
+            : new[] { CommandKey( OnScreenKeyboardKeyType.Clear, "Clear", 2 ), CommandKey( OnScreenKeyboardKeyType.Space, "Space", 6 ), CommandKey( OnScreenKeyboardKeyType.Enter, "Enter", 2 ) },
     };
 
     private IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> EmailRows => new[]
@@ -330,7 +379,9 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         CreateTextRow( "qwertyuiop" ),
         CreateTextRow( "asdfghjkl" ),
         new[] { CommandKey( OnScreenKeyboardKeyType.Shift, shift ? "SHIFT" : "Shift", 2 ) }.Concat( CreateTextRow( "zxcvbnm" ) ).Concat( new[] { CommandKey( OnScreenKeyboardKeyType.Backspace, "Backspace", 2 ) } ).ToArray(),
-        new[] { new OnScreenKeyboardKey( "@" ), new OnScreenKeyboardKey( "." ), CommandKey( OnScreenKeyboardKeyType.Space, "Space", 5 ), CommandKey( OnScreenKeyboardKeyType.Enter, "Enter", 2 ) },
+        EffectiveShowSpecialCharactersKey
+            ? WithSpecialCharactersKey( new[] { new OnScreenKeyboardKey( "@" ), new OnScreenKeyboardKey( "." ), CommandKey( OnScreenKeyboardKeyType.Space, "Space", 4 ), CommandKey( OnScreenKeyboardKeyType.Enter, "Enter", 2 ) } )
+            : new[] { new OnScreenKeyboardKey( "@" ), new OnScreenKeyboardKey( "." ), CommandKey( OnScreenKeyboardKeyType.Space, "Space", 5 ), CommandKey( OnScreenKeyboardKeyType.Enter, "Enter", 2 ) },
     };
 
     private IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> UrlRows => new[]
@@ -338,7 +389,18 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         CreateTextRow( "qwertyuiop" ),
         CreateTextRow( "asdfghjkl" ),
         new[] { CommandKey( OnScreenKeyboardKeyType.Shift, shift ? "SHIFT" : "Shift", 2 ) }.Concat( CreateTextRow( "zxcvbnm" ) ).Concat( new[] { CommandKey( OnScreenKeyboardKeyType.Backspace, "Backspace", 2 ) } ).ToArray(),
-        new[] { new OnScreenKeyboardKey( "/" ), new OnScreenKeyboardKey( "." ), new OnScreenKeyboardKey( "-" ), CommandKey( OnScreenKeyboardKeyType.Space, "Space", 4 ), CommandKey( OnScreenKeyboardKeyType.Enter, "Enter", 2 ) },
+        EffectiveShowSpecialCharactersKey
+            ? WithSpecialCharactersKey( new[] { new OnScreenKeyboardKey( "/" ), new OnScreenKeyboardKey( "." ), new OnScreenKeyboardKey( "-" ), CommandKey( OnScreenKeyboardKeyType.Space, "Space", 3 ), CommandKey( OnScreenKeyboardKeyType.Enter, "Enter", 2 ) } )
+            : new[] { new OnScreenKeyboardKey( "/" ), new OnScreenKeyboardKey( "." ), new OnScreenKeyboardKey( "-" ), CommandKey( OnScreenKeyboardKeyType.Space, "Space", 4 ), CommandKey( OnScreenKeyboardKeyType.Enter, "Enter", 2 ) },
+    };
+
+    private static IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> SpecialCharactersRows => new[]
+    {
+        CreateKeysRow( "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" ),
+        CreateKeysRow( "!", "@", "#", "$", "%", "^", "&", "*", "(", ")" ),
+        CreateKeysRow( "-", "_", "=", "+", "[", "]", "{", "}", "\\", "|" ),
+        CreateKeysRow( ".", ",", "?", "/", ":", ";", "'", "\"", "`", "~" ),
+        new[] { CommandKey( OnScreenKeyboardKeyType.SpecialCharacters, "ABC", 2 ), CommandKey( OnScreenKeyboardKeyType.Space, "Space", 4 ), CommandKey( OnScreenKeyboardKeyType.Backspace, "Backspace", 2 ), CommandKey( OnScreenKeyboardKeyType.Enter, "Enter", 2 ) },
     };
 
     private static IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> NumericRows => new[]
@@ -404,6 +466,11 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
     /// Gets or sets the button size.
     /// </summary>
     [Parameter] public Size KeySize { get; set; } = Size.Default;
+
+    /// <summary>
+    /// Gets or sets whether text keyboards should show a key that toggles special characters.
+    /// </summary>
+    [Parameter] public bool ShowSpecialCharactersKey { get; set; }
 
     /// <summary>
     /// Gets or sets the keyboard aria-label.

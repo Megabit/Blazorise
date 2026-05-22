@@ -14,7 +14,7 @@
                 <Div Class="@RowClassBuilder.Class" Display="Blazorise.Display.Flex" Flex="@RowFlex" Gap="Blazorise.Gap.Is1" Margin="Blazorise.Margin.Is1.FromBottom">
                     @foreach ( var key in row )
                     {
-                        <Button Class="@KeyClassBuilder.Class" Color="@KeyColor" Size="@KeySize" Outline="@KeyOutline" TextColor="@KeyTextColor" Background="@KeyBackground" Border="@KeyBorder" Shadow="@KeyShadow" Position="Blazorise.Position.Relative" Active="@IsShiftKeyActive( key )" Style="@GetKeyStyle( key )" TabIndex="-1" Clicked="@(() => OnKeyClicked( key ))" @onmousedown:preventDefault>
+                        <Button Class="@KeyClassBuilder.Class" Color="@KeyColor" Size="@KeySize" Outline="@KeyOutline" TextColor="@KeyTextColor" Background="@KeyBackground" Border="@KeyBorder" Shadow="@KeyShadow" Position="Blazorise.Position.Relative" Active="@IsKeyActive( key )" Style="@GetKeyStyle( key )" TabIndex="-1" Clicked="@(() => OnKeyClicked( key ))" @onmousedown:preventDefault>
                             @if ( KeyTemplate is not null )
                             {
                                 @KeyTemplate( CreateKeyTemplateContext( key ) )
