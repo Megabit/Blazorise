@@ -160,6 +160,11 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         return shift && key.KeyType == OnScreenKeyboardKeyType.Shift;
     }
 
+    private OnScreenKeyboardKeyContext CreateKeyTemplateContext( OnScreenKeyboardKey key )
+    {
+        return new( key, GetKeyDisplayText( key ), IsShiftKeyActive( key ), shift );
+    }
+
     private IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> CreateRows()
     {
         return CurrentLayout switch
@@ -357,6 +362,11 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
     /// Gets or sets the keyboard aria-label.
     /// </summary>
     [Parameter] public string AriaLabel { get; set; } = "On-screen keyboard";
+
+    /// <summary>
+    /// Gets or sets the template used to render each keyboard key content.
+    /// </summary>
+    [Parameter] public RenderFragment<OnScreenKeyboardKeyContext> KeyTemplate { get; set; }
 
     /// <summary>
     /// Gets or sets custom keyboard content.

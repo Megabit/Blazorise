@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-22T09:50:46.3461355Z",
+  "generatedUtc": "2026-05-22T10:03:33.7189302Z",
   "pages": [
     {
       "route": "/docs",
@@ -2548,6 +2548,14 @@
           "content": "<ThemeProvider Theme=\"@theme\">\r\n    <Router AppAssembly=\"@typeof( App ).Assembly\" />\r\n    <OnScreenKeyboardProvider KeyboardSize=\"OnScreenKeyboardSize.Large\"\r\n                              KeyLayout=\"OnScreenKeyboardKeyLayout.Centered\" />\r\n</ThemeProvider>",
           "title": "Keyboard size and layout",
           "description": "Use KeyboardSize to constrain the keyboard width, and KeyLayout to center fixed-width keys instead of stretching them across each row."
+        },
+        {
+          "code": "OnScreenKeyboardKeyTemplateExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Components/OnScreenKeyboards/Examples/OnScreenKeyboardKeyTemplateExample.snippet",
+          "content": "<OnScreenKeyboardProvider KeyboardSize=\"OnScreenKeyboardSize.Large\"\r\n                          KeyLayout=\"OnScreenKeyboardKeyLayout.Centered\">\r\n    <KeyTemplate Context=\"key\">\r\n        @if ( key.Key.KeyType == OnScreenKeyboardKeyType.Shift )\r\n        {\r\n            <Icon Name=\"IconName.ArrowUp\" />\r\n        }\r\n        else if ( key.Key.KeyType == OnScreenKeyboardKeyType.Backspace )\r\n        {\r\n            <Icon Name=\"IconName.Backspace\" />\r\n        }\r\n        else if ( key.Key.KeyType == OnScreenKeyboardKeyType.Clear )\r\n        {\r\n            <Icon Name=\"IconName.Clear\" />\r\n        }\r\n        else\r\n        {\r\n            @key.DisplayText\r\n        }\r\n    </KeyTemplate>\r\n</OnScreenKeyboardProvider>",
+          "title": "Key template",
+          "description": "Use KeyTemplate to customize the content rendered inside each key while keeping the default keyboard behavior."
         },
         {
           "code": "OnScreenKeyboardGlobalOptionsExample",

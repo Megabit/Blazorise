@@ -3616,6 +3616,28 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         options.AccessibilityOptions.OnScreenKeyboard.KeyLayout = OnScreenKeyboardKeyLayout.Centered;
     } );";
 
+        public const string OnScreenKeyboardKeyTemplateExample = @"<OnScreenKeyboardProvider KeyboardSize=""OnScreenKeyboardSize.Large""
+                          KeyLayout=""OnScreenKeyboardKeyLayout.Centered"">
+    <KeyTemplate Context=""key"">
+        @if ( key.Key.KeyType == OnScreenKeyboardKeyType.Shift )
+        {
+            <Icon Name=""IconName.ArrowUp"" />
+        }
+        else if ( key.Key.KeyType == OnScreenKeyboardKeyType.Backspace )
+        {
+            <Icon Name=""IconName.Backspace"" />
+        }
+        else if ( key.Key.KeyType == OnScreenKeyboardKeyType.Clear )
+        {
+            <Icon Name=""IconName.Clear"" />
+        }
+        else
+        {
+            @key.DisplayText
+        }
+    </KeyTemplate>
+</OnScreenKeyboardProvider>";
+
         public const string OnScreenKeyboardLayoutExample = @"<Fields>
     <Field ColumnSize=""ColumnSize.Is4.OnDesktop"">
         <FieldLabel>Email layout</FieldLabel>

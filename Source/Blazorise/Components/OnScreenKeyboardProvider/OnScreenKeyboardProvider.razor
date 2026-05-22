@@ -15,7 +15,14 @@
                     @foreach ( var key in row )
                     {
                         <Button Class="@KeyClassBuilder.Class" Color="@KeyColor" Size="@KeySize" TextColor="@KeyTextColor" Background="@KeyBackground" Border="@KeyBorder" Shadow="@KeyShadow" Position="Blazorise.Position.Relative" Active="@IsShiftKeyActive( key )" Style="@GetKeyStyle( key )" TabIndex="-1" Clicked="@(() => OnKeyClicked( key ))" @onmousedown:preventDefault>
-                            @GetKeyDisplayText( key )
+                            @if ( KeyTemplate is not null )
+                            {
+                                @KeyTemplate( CreateKeyTemplateContext( key ) )
+                            }
+                            else
+                            {
+                                @GetKeyDisplayText( key )
+                            }
                             @if ( IsShiftKeyActive( key ) )
                             {
                                 <Span Position="Blazorise.Position.Absolute.Top.Is0.End.Is0" Margin="Blazorise.Margin.Is1.FromTop.Is1.FromEnd" Background="Blazorise.Background.Success" Border="Blazorise.Border.RoundedCircle" Width="Blazorise.Width.Px( 8 )" Height="Blazorise.Height.Px( 8 )" />

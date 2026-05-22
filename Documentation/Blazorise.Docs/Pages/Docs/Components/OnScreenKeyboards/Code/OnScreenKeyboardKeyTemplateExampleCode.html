@@ -1,0 +1,25 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">OnScreenKeyboardProvider</span> <span class="htmlAttributeName">KeyboardSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">OnScreenKeyboardSize</span><span class="enumValue">.Large</span><span class="quot">&quot;</span>
+                          <span class="htmlAttributeName">KeyLayout</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">OnScreenKeyboardKeyLayout</span><span class="enumValue">.Centered</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">KeyTemplate</span> <span class="htmlAttributeName">Context</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">key</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="atSign">&#64;</span>if ( key.Key.KeyType == OnScreenKeyboardKeyType.Shift )
+        {
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.ArrowUp</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        }
+        else if ( key.Key.KeyType == OnScreenKeyboardKeyType.Backspace )
+        {
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Backspace</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        }
+        else if ( key.Key.KeyType == OnScreenKeyboardKeyType.Clear )
+        {
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Clear</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        }
+        else
+        {
+            <span class="atSign">&#64;</span>key.DisplayText
+        }
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">KeyTemplate</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">OnScreenKeyboardProvider</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+</div>
