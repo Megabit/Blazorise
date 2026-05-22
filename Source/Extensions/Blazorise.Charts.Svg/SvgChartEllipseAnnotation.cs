@@ -1,5 +1,6 @@
 #region Using directives
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 #endregion
 
 namespace Blazorise.Charts.Svg;
@@ -7,23 +8,8 @@ namespace Blazorise.Charts.Svg;
 /// <summary>
 /// Defines an ellipse annotation for a native SVG chart.
 /// </summary>
-public class SvgChartEllipseAnnotation : SvgChartComponentBase
+public class SvgChartEllipseAnnotation : SvgChartPluginBase
 {
-    #region Methods
-
-    protected override void Register()
-    {
-        Parent?.RegisterAnnotation( this );
-        SetRegisteredParent();
-    }
-
-    protected override void Unregister()
-    {
-        RegisteredParent?.UnregisterAnnotation( this );
-    }
-
-    #endregion
-
     #region Properties
 
     /// <summary>
@@ -85,6 +71,56 @@ public class SvgChartEllipseAnnotation : SvgChartComponentBase
     /// Defines annotation label options.
     /// </summary>
     [Parameter] public SvgChartAnnotationLabelOptions Label { get; set; }
+
+    /// <inheritdoc/>
+    public override void Render( SvgChartPluginRenderContext context, RenderTreeBuilder builder, ref int sequence )
+    {
+        if ( !Visible || context.IsRadial )
+            return;
+
+        var bounds = SvgChartAnnotationRenderHelpers.ResolveBounds( context, XMin, XMax, YMin, YMax, ValueAxisId );
+
+        builder.OpenElement( sequence++, "ellipse" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-annotation svg-chart-ellipse-annotation" );
+        builder.AddAttribute( sequence++, "cx", SvgChartRenderHelpers.Format( bounds.X + bounds.Width / 2 ) );
+        builder.AddAttribute( sequence++, "cy", SvgChartRenderHelpers.Format( bounds.Y + bounds.Height / 2 ) );
+        builder.AddAttribute( sequence++, "rx", SvgChartRenderHelpers.Format( bounds.Width / 2 ) );
+        builder.AddAttribute( sequence++, "ry", SvgChartRenderHelpers.Format( bounds.Height / 2 ) );
+        builder.AddAttribute( sequence++, "fill", SvgChartAnnotationRenderHelpers.ResolveAnnotationBackgroundColor( BackgroundColor ) );
+        builder.AddAttribute( sequence++, "opacity", SvgChartRenderHelpers.Format( Opacity ) );
+
+        if ( Border?.Width > 0 )
+        {
+            builder.AddAttribute( sequence++, "stroke", SvgChartAnnotationRenderHelpers.ResolveAnnotationColor( Border.Color, "currentColor" ) );
+            builder.AddAttribute( sequence++, "stroke-width", SvgChartRenderHelpers.Format( Border.Width ) );
+        }
+
+        builder.CloseElement();
+
+        SvgChartAnnotationRenderHelpers.RenderLabel( builder, ref sequence, context, Label, bounds );
+    }
+
+    internal static SvgChartEllipseAnnotation Create( SvgChartEllipseAnnotationOptions annotation )
+    {
+        if ( annotation is null )
+            return null;
+
+        return new()
+        {
+            Visible = annotation.Visible,
+            Name = annotation.Name,
+            ValueAxisId = annotation.ValueAxisId,
+            Order = annotation.Order,
+            Label = SvgChartAnnotationRenderHelpers.CreateLabelOptions( annotation.Label ),
+            XMin = annotation.XMin,
+            XMax = annotation.XMax,
+            YMin = annotation.YMin,
+            YMax = annotation.YMax,
+            BackgroundColor = annotation.BackgroundColor,
+            Border = SvgChartAnnotationRenderHelpers.CreateBorderOptions( annotation.Border ),
+            Opacity = annotation.Opacity
+        };
+    }
 
     #endregion
 }

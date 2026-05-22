@@ -35,21 +35,9 @@ public abstract class SvgChartBase : BaseComponent
 
     internal abstract void UnregisterTooltip( SvgChartTooltip tooltip );
 
-    internal abstract void RegisterZoom( SvgChartZoom zoom );
+    internal abstract void RegisterPlugin( ISvgChartPlugin plugin );
 
-    internal abstract void UnregisterZoom( SvgChartZoom zoom );
-
-    internal abstract void RegisterDataLabels( SvgChartDataLabels dataLabels );
-
-    internal abstract void UnregisterDataLabels( SvgChartDataLabels dataLabels );
-
-    internal abstract void RegisterAnnotation( object annotation );
-
-    internal abstract void UnregisterAnnotation( object annotation );
-
-    internal abstract void RegisterTrendline( SvgChartTrendline trendline );
-
-    internal abstract void UnregisterTrendline( SvgChartTrendline trendline );
+    internal abstract void UnregisterPlugin( ISvgChartPlugin plugin );
 
     internal abstract void Refresh();
 

@@ -1,5 +1,6 @@
 #region Using directives
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 #endregion
 
 namespace Blazorise.Charts.Svg;
@@ -7,23 +8,8 @@ namespace Blazorise.Charts.Svg;
 /// <summary>
 /// Defines a label annotation for a native SVG chart.
 /// </summary>
-public class SvgChartLabelAnnotation : SvgChartComponentBase
+public class SvgChartLabelAnnotation : SvgChartPluginBase
 {
-    #region Methods
-
-    protected override void Register()
-    {
-        Parent?.RegisterAnnotation( this );
-        SetRegisteredParent();
-    }
-
-    protected override void Unregister()
-    {
-        RegisteredParent?.UnregisterAnnotation( this );
-    }
-
-    #endregion
-
     #region Properties
 
     /// <summary>
@@ -60,6 +46,41 @@ public class SvgChartLabelAnnotation : SvgChartComponentBase
     /// Defines annotation label options.
     /// </summary>
     [Parameter] public SvgChartAnnotationLabelOptions Label { get; set; }
+
+    /// <inheritdoc/>
+    public override void Render( SvgChartPluginRenderContext context, RenderTreeBuilder builder, ref int sequence )
+    {
+        if ( !Visible || context.IsRadial )
+            return;
+
+        var point = SvgChartAnnotationRenderHelpers.ResolvePoint( context, X, Y, ValueAxisId );
+        var bounds = new SvgChartPointBounds
+        {
+            X = point.X,
+            Y = point.Y,
+            Width = 0,
+            Height = 0
+        };
+
+        SvgChartAnnotationRenderHelpers.RenderLabel( builder, ref sequence, context, Label, bounds );
+    }
+
+    internal static SvgChartLabelAnnotation Create( SvgChartLabelAnnotationOptions annotation )
+    {
+        if ( annotation is null )
+            return null;
+
+        return new()
+        {
+            Visible = annotation.Visible,
+            Name = annotation.Name,
+            ValueAxisId = annotation.ValueAxisId,
+            Order = annotation.Order,
+            Label = SvgChartAnnotationRenderHelpers.CreateLabelOptions( annotation.Label ),
+            X = annotation.X,
+            Y = annotation.Y
+        };
+    }
 
     #endregion
 }

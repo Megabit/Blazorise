@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-22T08:28:58.9779296Z",
+  "generatedUtc": "2026-05-22T09:42:04.4107991Z",
   "pages": [
     {
       "route": "/docs",
@@ -7574,6 +7574,52 @@
         {
           "kind": "type",
           "name": "SvgChartDataLabelsOptions"
+        }
+      ]
+    },
+    {
+      "route": "/docs/extensions/svg-chart-plugins",
+      "title": "Blazorise SVG Chart Plugins",
+      "description": "Learn how SVG chart plugins extend native Blazorise SVG charts with custom rendering and interactions.",
+      "pagePath": "Pages/Docs/Extensions/SvgChartPlugins/SvgChartPluginsPage.razor",
+      "examples": [
+        {
+          "code": "SvgChartPluginsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChartPlugins/Examples/SvgChartPluginsExample.razor",
+          "content": "<SvgLineChart TItem=\"LatencySample\"\r\n              Items=\"@samples\"\r\n              Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Service latency\")' Subtitle='@(\"Custom plugin rendered as a series overlay\")' />\r\n    <SvgChartLegend Position=\"SvgChartLegendPosition.Bottom\" />\r\n    <SvgChartTooltip Enabled />\r\n    <SvgChartThresholdLinePlugin Value=\"80\"\r\n                                 Color=\"Color.Warning\"\r\n                                 Label=\"Target\" />\r\n    <SvgChartCategoryAxis Value=\"@( item => item.Minute )\"\r\n                          GridLines=\"@( new() { Visible = true, Opacity = 0.1 } )\"\r\n                          LabelsOptions=\"@( new() { Step = 1 } )\" />\r\n    <SvgChartValueAxis BeginAtZero\r\n                       TickCount=\"6\"\r\n                       GridLines=\"@( new() { Visible = true, Opacity = 0.14 } )\" />\r\n\r\n    <SvgLineSeries Name=\"Latency\" Value=\"@( item => item.Latency )\" Color=\"Color.Primary\" MarkerRadius=\"4\" />\r\n</SvgLineChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n    };\r\n\r\n    private readonly List<LatencySample> samples =\r\n    [\r\n        new() { Minute = \"09:00\", Latency = 64 },\r\n        new() { Minute = \"09:05\", Latency = 71 },\r\n        new() { Minute = \"09:10\", Latency = 78 },\r\n        new() { Minute = \"09:15\", Latency = 86 },\r\n        new() { Minute = \"09:20\", Latency = 74 },\r\n        new() { Minute = \"09:25\", Latency = 82 },\r\n        new() { Minute = \"09:30\", Latency = 69 },\r\n    ];\r\n\r\n    private sealed class LatencySample\r\n    {\r\n        public string Minute { get; set; }\r\n\r\n        public double Latency { get; set; }\r\n    }\r\n}",
+          "title": "Custom threshold plugin",
+          "description": "This example adds a reusable plugin that draws a horizontal threshold line and optional label."
+        },
+        {
+          "code": "SvgChartThresholdLinePlugin",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChartPlugins/Examples/SvgChartThresholdLinePlugin.razor",
+          "content": "@inherits SvgChartPluginBase\r\n@using System.Globalization\r\n@using Microsoft.AspNetCore.Components.Rendering\r\n\r\n@code {\r\n    /// <summary>\r\n    /// Defines the value where the threshold line is rendered.\r\n    /// </summary>\r\n    [Parameter] public double Value { get; set; }\r\n\r\n    /// <summary>\r\n    /// Defines the threshold line color.\r\n    /// </summary>\r\n    [Parameter] public Color Color { get; set; } = Color.Warning;\r\n\r\n    /// <summary>\r\n    /// Defines the optional threshold label.\r\n    /// </summary>\r\n    [Parameter] public string Label { get; set; }\r\n\r\n    /// <inheritdoc/>\r\n    public override SvgChartRenderLayer Layer => SvgChartRenderLayer.SeriesOverlay;\r\n\r\n    /// <inheritdoc/>\r\n    public override void Render( SvgChartPluginRenderContext context, RenderTreeBuilder builder, ref int sequence )\r\n    {\r\n        if ( context.IsRadial )\r\n            return;\r\n\r\n        var y = context.ProjectY( Value );\r\n        var color = ResolveColor( Color );\r\n\r\n        builder.OpenElement( sequence++, \"g\" );\r\n        builder.AddAttribute( sequence++, \"class\", \"svg-chart-threshold-line-plugin\" );\r\n\r\n        builder.OpenElement( sequence++, \"line\" );\r\n        builder.AddAttribute( sequence++, \"x1\", Format( context.PlotArea.Left ) );\r\n        builder.AddAttribute( sequence++, \"x2\", Format( context.PlotArea.Right ) );\r\n        builder.AddAttribute( sequence++, \"y1\", Format( y ) );\r\n        builder.AddAttribute( sequence++, \"y2\", Format( y ) );\r\n        builder.AddAttribute( sequence++, \"stroke\", color );\r\n        builder.AddAttribute( sequence++, \"stroke-width\", \"2\" );\r\n        builder.AddAttribute( sequence++, \"stroke-dasharray\", \"6 4\" );\r\n        builder.AddAttribute( sequence++, \"stroke-linecap\", \"round\" );\r\n        builder.CloseElement();\r\n\r\n        if ( !string.IsNullOrWhiteSpace( Label ) )\r\n        {\r\n            builder.OpenElement( sequence++, \"text\" );\r\n            builder.AddAttribute( sequence++, \"x\", Format( context.PlotArea.Right - 8 ) );\r\n            builder.AddAttribute( sequence++, \"y\", Format( y - 8 ) );\r\n            builder.AddAttribute( sequence++, \"text-anchor\", \"end\" );\r\n            builder.AddAttribute( sequence++, \"font-size\", \"12\" );\r\n            builder.AddAttribute( sequence++, \"font-weight\", \"600\" );\r\n            builder.AddAttribute( sequence++, \"fill\", color );\r\n            builder.AddContent( sequence++, Label );\r\n            builder.CloseElement();\r\n        }\r\n\r\n        builder.CloseElement();\r\n    }\r\n\r\n    private static string ResolveColor( Color color )\r\n    {\r\n        if ( color is null || color == Color.Default || string.IsNullOrWhiteSpace( color.Name ) )\r\n            return \"currentColor\";\r\n\r\n        var name = color.Name;\r\n\r\n        if ( name.StartsWith( \"#\", StringComparison.Ordinal )\r\n             || name.StartsWith( \"rgb\", StringComparison.OrdinalIgnoreCase )\r\n             || name.StartsWith( \"hsl\", StringComparison.OrdinalIgnoreCase )\r\n             || name.StartsWith( \"var(\", StringComparison.OrdinalIgnoreCase ) )\r\n            return name;\r\n\r\n        return $\"var(--b-theme-{name}, var(--bs-{name}, currentColor))\";\r\n    }\r\n\r\n    private static string Format( double value )\r\n    {\r\n        return value.ToString( \"0.###\", CultureInfo.InvariantCulture );\r\n    }\r\n}",
+          "title": "Plugin component",
+          "description": "The plugin inherits from SvgChartPluginBase and renders SVG content using the resolved chart context."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "ISvgChartPlugin"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartPluginBase"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartPluginRenderContext"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartPluginSeries"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartPluginPlotArea"
         }
       ]
     },

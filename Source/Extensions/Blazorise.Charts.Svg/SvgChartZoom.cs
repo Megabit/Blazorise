@@ -7,23 +7,8 @@ namespace Blazorise.Charts.Svg;
 /// <summary>
 /// Defines declarative zoom and pan behavior for a native SVG chart.
 /// </summary>
-public class SvgChartZoom : SvgChartComponentBase
+public class SvgChartZoom : SvgChartPluginBase
 {
-    #region Methods
-
-    protected override void Register()
-    {
-        Parent?.RegisterZoom( this );
-        SetRegisteredParent();
-    }
-
-    protected override void Unregister()
-    {
-        RegisteredParent?.UnregisterZoom( this );
-    }
-
-    #endregion
-
     #region Properties
 
     /// <summary>
@@ -75,6 +60,9 @@ public class SvgChartZoom : SvgChartComponentBase
     /// Occurs after the chart is panned.
     /// </summary>
     [Parameter] public EventCallback<SvgChartPannedEventArgs> Panned { get; set; }
+
+    /// <inheritdoc/>
+    public override bool RendersContent => false;
 
     #endregion
 }
