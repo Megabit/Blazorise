@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-22T14:36:13.7492954Z",
+  "generatedUtc": "2026-05-23T10:57:56.0707659Z",
   "pages": [
     {
       "route": "/docs",
@@ -7477,11 +7477,65 @@
         },
         {
           "kind": "type",
+          "name": "SvgChartAnimation"
+        },
+        {
+          "kind": "type",
           "name": "SvgChartCategoryAxis"
         },
         {
           "kind": "type",
           "name": "SvgChartValueAxis"
+        }
+      ]
+    },
+    {
+      "route": "/docs/extensions/svg-chart-animation",
+      "title": "Blazorise SVG Chart Animation",
+      "description": "Learn how to animate native Blazorise SVG charts from C# and Blazor.",
+      "pagePath": "Pages/Docs/Extensions/SvgChartAnimation/SvgChartAnimationPage.razor",
+      "examples": [
+        {
+          "code": "SvgChartAnimationExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChartAnimation/Examples/SvgChartAnimationExample.razor",
+          "content": "<Div Flex=\"Flex.Row\" Gap=\"Gap.Is2\" Margin=\"Margin.Is3.FromBottom\">\r\n    <Button Color=\"Color.Primary\" Clicked=\"@Randomize\">Randomize</Button>\r\n    <Button Color=\"Color.Light\" Clicked=\"@Reset\">Reset</Button>\r\n</Div>\r\n\r\n<SvgColumnChart TItem=\"MonthlyRevenue\"\r\n                Items=\"@revenue\"\r\n                Options=\"@options\">\r\n    <SvgChartAnimation Enabled\r\n                       Duration=\"@TimeSpan.FromMilliseconds( 500 )\"\r\n                       Easing=\"SvgChartAnimationEasing.EaseOut\"\r\n                       Geometry=\"@geometryAnimation\"\r\n                       Opacity=\"@opacityAnimation\" />\r\n    <SvgChartTitle Title='@(\"Animated revenue\")' Subtitle='@(\"Columns animate on load and update\")' />\r\n    <SvgChartLegend Position=\"SvgChartLegendPosition.Bottom\" />\r\n    <SvgChartTooltip Enabled />\r\n    <SvgChartCategoryAxis Value=\"@( item => item.Month )\" />\r\n    <SvgChartValueAxis BeginAtZero TickCount=\"6\" />\r\n\r\n    <SvgColumnSeries Name=\"Revenue\" Value=\"@( item => item.Revenue )\" Color=\"Color.Primary\" BorderRadius=\"4\" />\r\n    <SvgColumnSeries Name=\"Expenses\" Value=\"@( item => item.Expenses )\" Color=\"Color.Info\" BorderRadius=\"4\" />\r\n</SvgColumnChart>\r\n\r\n@code {\r\n    private readonly Random random = new( 42 );\r\n\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n    };\r\n\r\n    private readonly SvgChartGeometryAnimationOptions geometryAnimation = new()\r\n    {\r\n        Duration = TimeSpan.FromMilliseconds( 650 ),\r\n        AnimatePosition = true,\r\n        AnimateSize = true\r\n    };\r\n\r\n    private readonly SvgChartOpacityAnimationOptions opacityAnimation = new()\r\n    {\r\n        Duration = TimeSpan.FromMilliseconds( 800 ),\r\n        Delay = TimeSpan.FromMilliseconds( 50 ),\r\n        From = 0.1\r\n    };\r\n\r\n    private List<MonthlyRevenue> revenue = CreateRevenue();\r\n\r\n    private void Randomize()\r\n    {\r\n        foreach ( var item in revenue )\r\n        {\r\n            item.Revenue = Math.Max( 30, item.Revenue + random.Next( -16, 17 ) );\r\n            item.Expenses = Math.Max( 20, item.Expenses + random.Next( -12, 13 ) );\r\n        }\r\n    }\r\n\r\n    private void Reset()\r\n    {\r\n        revenue = CreateRevenue();\r\n    }\r\n\r\n    private static List<MonthlyRevenue> CreateRevenue()\r\n    {\r\n        return\r\n        [\r\n            new() { Month = \"Jan\", Revenue = 68, Expenses = 42 },\r\n            new() { Month = \"Feb\", Revenue = 74, Expenses = 46 },\r\n            new() { Month = \"Mar\", Revenue = 91, Expenses = 52 },\r\n            new() { Month = \"Apr\", Revenue = 86, Expenses = 49 },\r\n            new() { Month = \"May\", Revenue = 103, Expenses = 61 },\r\n        ];\r\n    }\r\n\r\n    private sealed class MonthlyRevenue\r\n    {\r\n        public string Month { get; set; }\r\n\r\n        public double Revenue { get; set; }\r\n\r\n        public double Expenses { get; set; }\r\n    }\r\n}",
+          "title": "Declarative animation",
+          "description": "Add SvgChartAnimation inside a chart to animate the first render and subsequent updates."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "SvgChartAnimation"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartAnimationOptions"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartAnimationTargetOptions"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartGeometryAnimationOptions"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartOpacityAnimationOptions"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartStrokeAnimationOptions"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartTransformAnimationOptions"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartPathAnimationOptions"
         }
       ]
     },

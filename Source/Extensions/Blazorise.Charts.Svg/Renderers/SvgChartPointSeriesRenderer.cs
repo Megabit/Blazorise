@@ -49,6 +49,7 @@ internal sealed class SvgChartPointSeriesRenderer : ISvgChartSeriesRenderer
                     : item.MarkerRadius;
                 var bounds = new SvgChartPointBounds { X = x - radius, Y = y - radius, Width = radius * 2, Height = radius * 2 };
                 var point = chart.CreatePoint( item, pointIndex, xValue.Value, yValue.Value, bounds );
+                var animationKey = context.TrackPointBounds( item, pointIndex, bounds );
 
                 builder.OpenElement( sequence++, "circle" );
                 builder.AddAttribute( sequence++, "class", $"svg-chart-point svg-chart-{item.Type.ToString().ToLowerInvariant()}" );
@@ -57,7 +58,12 @@ internal sealed class SvgChartPointSeriesRenderer : ISvgChartSeriesRenderer
                 builder.AddAttribute( sequence++, "r", SvgChartRenderHelpers.Format( radius ) );
                 builder.AddAttribute( sequence++, "fill", item.Color );
                 builder.AddAttribute( sequence++, "opacity", item.Type == SvgChartType.Bubble ? "0.72" : "1" );
+                context.AddAnimatedStyleAttribute( builder, ref sequence );
                 context.AddPointInteractionAttributes( builder, ref sequence, point, item.Color );
+                context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "cx", SvgChartRenderHelpers.Format( x ), SvgChartRenderHelpers.Format( x ), bounds => SvgChartRenderHelpers.Format( bounds.X + bounds.Width / 2 ) );
+                context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "cy", SvgChartRenderHelpers.Format( y ), SvgChartRenderHelpers.Format( y ), bounds => SvgChartRenderHelpers.Format( bounds.Y + bounds.Height / 2 ) );
+                context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "r", "0", SvgChartRenderHelpers.Format( radius ), bounds => SvgChartRenderHelpers.Format( bounds.Width / 2 ) );
+                context.RenderInitialAttributeAnimation( builder, ref sequence, "opacity", "0", item.Type == SvgChartType.Bubble ? "0.72" : "1" );
                 builder.CloseElement();
             }
         }

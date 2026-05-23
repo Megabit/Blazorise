@@ -1,0 +1,61 @@
+@page "/tests/charts/svg/animation"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>SVG column chart - animated updates</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Div Flex="Flex.Row" Gap="Gap.Is2" Margin="Margin.Is3.FromBottom">
+                    <Button Color="Color.Primary" Clicked="@AddMonth">Add Month</Button>
+                    <Button Color="Color.Secondary" Clicked="@RandomizeRevenue">Randomize</Button>
+                    <Button Color="Color.Light" Clicked="@ResetRevenue">Reset</Button>
+                </Div>
+
+                <SvgColumnChart TItem="AnimatedRevenue"
+                                Items="@Revenue"
+                                Options="@columnOptions">
+                    <SvgChartAnimation Enabled
+                                       Duration="@AnimationDuration"
+                                       Easing="SvgChartAnimationEasing.EaseOut" />
+                    <SvgChartTitle Title='@("Revenue pipeline")' Subtitle='@("Declarative animation component")' />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartCategoryAxis Value="@( x => x.Month )" />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+                    <SvgColumnSeries Name="Revenue" Value="@( x => x.Revenue )" Color="Color.Primary" BorderRadius="4" />
+                    <SvgColumnSeries Name="Forecast" Value="@( x => x.Forecast )" Color="Color.Info" BorderRadius="4" />
+                </SvgColumnChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>SVG line chart - animation options</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Div Flex="Flex.Row" Gap="Gap.Is2" Margin="Margin.Is3.FromBottom">
+                    <Button Color="Color.Primary" Clicked="@RandomizeTraffic">Randomize</Button>
+                    <Button Color="Color.Light" Clicked="@ResetTraffic">Reset</Button>
+                </Div>
+
+                <SvgLineChart TItem="TrafficSample"
+                              Items="@Traffic"
+                              Options="@lineOptions">
+                    <SvgChartTitle Title='@("Traffic trend")' Subtitle='@("Animation configured from options")' />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartCategoryAxis Value="@( x => x.Day )" />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+                    <SvgLineSeries Name="Desktop" Value="@( x => x.Desktop )" Color="Color.Primary" StrokeWidth="3" MarkerRadius="4" />
+                    <SvgLineSeries Name="Mobile" Value="@( x => x.Mobile )" Color="Color.Success" StrokeWidth="3" MarkerRadius="4" />
+                </SvgLineChart>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

@@ -60,6 +60,10 @@ public class SvgChart<TItem> : SvgChartBase
 
     private SvgChartTooltipContext activeTooltip;
 
+    private IReadOnlyDictionary<string, SvgChartPointBounds> previousAnimationPointBounds = new Dictionary<string, SvgChartPointBounds>();
+
+    private IReadOnlyDictionary<string, string> previousAnimationPathValues = new Dictionary<string, string>();
+
     private ComponentParameterInfo<SvgChartType> paramType;
 
     private ComponentParameterInfo<IEnumerable<TItem>> paramItems;
@@ -70,7 +74,13 @@ public class SvgChart<TItem> : SvgChartBase
 
     private ComponentParameterInfo<SvgChartStreamingOptions> paramStreaming;
 
+    private ComponentParameterInfo<SvgChartAnimationOptions> paramAnimation;
+
     private bool activeTooltipPinned;
+
+    private bool renderedOnce;
+
+    private int animationVersion;
 
     private bool streamingPaused;
 
@@ -115,9 +125,17 @@ public class SvgChart<TItem> : SvgChartBase
         parameters.TryGetParameter( Data, out paramData );
         parameters.TryGetParameter( Options, out paramOptions );
         parameters.TryGetParameter( Streaming, out paramStreaming );
+        parameters.TryGetParameter( Animation, out paramAnimation );
 
-        if ( paramType.Changed || paramItems.Changed || paramData.Changed )
+        if ( paramType.Changed || paramItems.Changed || paramData.Changed || paramAnimation.Changed )
             activeTooltip = null;
+
+        if ( paramType.Changed || paramAnimation.Changed )
+        {
+            previousAnimationPointBounds = new Dictionary<string, SvgChartPointBounds>();
+            previousAnimationPathValues = new Dictionary<string, string>();
+            animationVersion = 0;
+        }
 
         if ( paramData.Changed )
             internalChartData = null;
@@ -137,8 +155,11 @@ public class SvgChart<TItem> : SvgChartBase
         var hasBottomLegend = legend.Visible && legend.Position == SvgChartLegendPosition.Bottom;
         var plot = BuildPlotArea( options, title, subtitle, hasTopLegend, hasBottomLegend );
         var streamingAnimation = ResolveStreamingAnimation( model, plot );
+        var chartAnimation = ResolveAnimation( options, streamingAnimation.Enabled );
+        var currentAnimationPointBounds = new Dictionary<string, SvgChartPointBounds>();
+        var currentAnimationPathValues = new Dictionary<string, string>();
         var pluginContext = CreatePluginRenderContext( model, plot );
-        var seriesRendererContext = new SvgChartSeriesRendererContext( pluginContext );
+        var seriesRendererContext = new SvgChartSeriesRendererContext( pluginContext, chartAnimation, previousAnimationPointBounds, currentAnimationPointBounds, previousAnimationPathValues, currentAnimationPathValues );
         var zoom = model.Zoom;
 
         builder.OpenComponent<CascadingValue<SvgChartBase>>( sequence++ );
@@ -222,6 +243,9 @@ public class SvgChart<TItem> : SvgChartBase
 
         builder.CloseElement();
         builder.CloseElement();
+
+        previousAnimationPointBounds = currentAnimationPointBounds;
+        previousAnimationPathValues = currentAnimationPathValues;
     }
 
     /// <inheritdoc/>
@@ -229,6 +253,7 @@ public class SvgChart<TItem> : SvgChartBase
     {
         var zoom = ResolveZoom( ResolveOptions() );
         var shouldPreventWheelScroll = zoom.Enabled && zoom.Wheel;
+        var shouldRunAnimations = ShouldRunAnimations();
 
         if ( shouldPreventWheelScroll && !zoomWheelInitialized )
         {
@@ -240,6 +265,14 @@ public class SvgChart<TItem> : SvgChartBase
         {
             await DestroyZoomWheel();
         }
+
+        if ( shouldRunAnimations )
+        {
+            jsModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>( "import", "./_content/Blazorise.Charts.Svg/svgChart.js" );
+            await jsModule.InvokeVoidAsync( "runAnimations", ElementRef );
+        }
+
+        renderedOnce = true;
 
         await base.OnAfterRenderAsync( firstRender );
     }
@@ -602,6 +635,241 @@ public class SvgChart<TItem> : SvgChartBase
             return SvgChartStreamingResolver.Resolve( streamingComponent, Streaming ?? ResolveOptions().Streaming );
 
         return Streaming ?? ResolveOptions().Streaming ?? new() { Enabled = false };
+    }
+
+    private bool ShouldRunAnimations()
+    {
+        var animationComponent = pluginComponents.OfType<SvgChartAnimation>().LastOrDefault();
+        var animation = animationComponent is null
+            ? Animation ?? ResolveOptions().Animation
+            : CreateAnimationOptions( animationComponent );
+
+        return animation?.Enabled == true && IsAnyAnimationTargetEnabled( animation );
+    }
+
+    private SvgChartResolvedAnimation ResolveAnimation( SvgChartOptions options, bool streamingAnimationEnabled )
+    {
+        var animationComponent = pluginComponents.OfType<SvgChartAnimation>().LastOrDefault();
+        var animationOptions = Animation ?? options.Animation ?? new();
+        var animation = animationComponent is null
+            ? CreateAnimationOptions( animationOptions )
+            : CreateAnimationOptions( animationComponent );
+
+        if ( streamingAnimationEnabled
+             || !animation.Enabled
+             || !IsAnyAnimationTargetEnabled( animation ) )
+            return new();
+
+        var geometry = ResolveGeometryAnimation( animation );
+        var opacity = ResolveOpacityAnimation( animation );
+        var stroke = ResolveAnimationTarget( animation.Stroke, animation );
+        var transform = ResolveAnimationTarget( animation.Transform, animation );
+        var path = ResolveAnimationTarget( animation.Path, animation );
+
+        if ( !geometry.Enabled && !opacity.Enabled && !stroke.Enabled && !transform.Enabled && !path.Enabled )
+            return new();
+
+        return new()
+        {
+            Enabled = true,
+            InitialRender = !renderedOnce,
+            Version = ++animationVersion,
+            Geometry = geometry,
+            Opacity = opacity,
+            Stroke = stroke,
+            Transform = transform,
+            Path = path
+        };
+    }
+
+    private SvgChartResolvedGeometryAnimation ResolveGeometryAnimation( SvgChartAnimationOptions animation )
+    {
+        var target = ResolveAnimationTarget( animation.Geometry, animation );
+
+        return new()
+        {
+            Enabled = target.Enabled,
+            AnimateInitial = target.AnimateInitial,
+            AnimateUpdates = target.AnimateUpdates,
+            Duration = target.Duration,
+            Delay = target.Delay,
+            KeySplines = target.KeySplines,
+            AnimatePosition = animation.Geometry?.AnimatePosition ?? true,
+            AnimateSize = animation.Geometry?.AnimateSize ?? true
+        };
+    }
+
+    private SvgChartResolvedOpacityAnimation ResolveOpacityAnimation( SvgChartAnimationOptions animation )
+    {
+        var target = ResolveAnimationTarget( animation.Opacity, animation );
+
+        return new()
+        {
+            Enabled = target.Enabled,
+            AnimateInitial = target.AnimateInitial,
+            AnimateUpdates = target.AnimateUpdates,
+            Duration = target.Duration,
+            Delay = target.Delay,
+            KeySplines = target.KeySplines,
+            From = Format( animation.Opacity?.From ?? 0 )
+        };
+    }
+
+    private SvgChartResolvedAnimationTarget ResolveAnimationTarget( SvgChartAnimationTargetOptions target, SvgChartAnimationOptions animation )
+    {
+        var duration = target?.Duration ?? animation.Duration;
+
+        return new()
+        {
+            Enabled = target?.Enabled == true && duration > TimeSpan.Zero,
+            AnimateInitial = !renderedOnce && ( target?.AnimateOnLoad ?? animation.AnimateOnLoad ),
+            AnimateUpdates = target?.AnimateOnUpdate ?? animation.AnimateOnUpdate,
+            Duration = FormatDuration( duration ),
+            Delay = FormatDuration( target?.Delay ?? animation.Delay ),
+            KeySplines = ResolveAnimationKeySplines( target?.Easing ?? animation.Easing )
+        };
+    }
+
+    private static SvgChartAnimationOptions CreateAnimationOptions( SvgChartAnimationOptions options )
+    {
+        if ( options is null )
+            return new();
+
+        return new()
+        {
+            Enabled = options.Enabled,
+            Duration = options.Duration,
+            Delay = options.Delay,
+            Easing = options.Easing,
+            AnimateOnLoad = options.AnimateOnLoad,
+            AnimateOnUpdate = options.AnimateOnUpdate,
+            Geometry = CreateGeometryAnimationOptions( options.Geometry ),
+            Opacity = CreateOpacityAnimationOptions( options.Opacity ),
+            Stroke = CreateStrokeAnimationOptions( options.Stroke ),
+            Transform = CreateTransformAnimationOptions( options.Transform ),
+            Path = CreatePathAnimationOptions( options.Path )
+        };
+    }
+
+    private static SvgChartAnimationOptions CreateAnimationOptions( SvgChartAnimation component )
+    {
+        if ( component is null )
+            return new();
+
+        return new()
+        {
+            Enabled = component.Enabled,
+            Duration = component.Duration,
+            Delay = component.Delay,
+            Easing = component.Easing,
+            AnimateOnLoad = component.AnimateOnLoad,
+            AnimateOnUpdate = component.AnimateOnUpdate,
+            Geometry = CreateGeometryAnimationOptions( component.Geometry ),
+            Opacity = CreateOpacityAnimationOptions( component.Opacity ),
+            Stroke = CreateStrokeAnimationOptions( component.Stroke ),
+            Transform = CreateTransformAnimationOptions( component.Transform ),
+            Path = CreatePathAnimationOptions( component.Path )
+        };
+    }
+
+    private static SvgChartGeometryAnimationOptions CreateGeometryAnimationOptions( SvgChartGeometryAnimationOptions options )
+    {
+        return new()
+        {
+            Enabled = options?.Enabled ?? true,
+            Duration = options?.Duration,
+            Delay = options?.Delay,
+            Easing = options?.Easing,
+            AnimateOnLoad = options?.AnimateOnLoad,
+            AnimateOnUpdate = options?.AnimateOnUpdate,
+            AnimatePosition = options?.AnimatePosition ?? true,
+            AnimateSize = options?.AnimateSize ?? true
+        };
+    }
+
+    private static SvgChartOpacityAnimationOptions CreateOpacityAnimationOptions( SvgChartOpacityAnimationOptions options )
+    {
+        return new()
+        {
+            Enabled = options?.Enabled ?? true,
+            Duration = options?.Duration,
+            Delay = options?.Delay,
+            Easing = options?.Easing,
+            AnimateOnLoad = options?.AnimateOnLoad,
+            AnimateOnUpdate = options?.AnimateOnUpdate,
+            From = options?.From ?? 0
+        };
+    }
+
+    private static SvgChartStrokeAnimationOptions CreateStrokeAnimationOptions( SvgChartStrokeAnimationOptions options )
+    {
+        return new()
+        {
+            Enabled = options?.Enabled == true,
+            Duration = options?.Duration,
+            Delay = options?.Delay,
+            Easing = options?.Easing,
+            AnimateOnLoad = options?.AnimateOnLoad,
+            AnimateOnUpdate = options?.AnimateOnUpdate,
+            AnimateWidth = options?.AnimateWidth ?? true,
+            AnimateDashPattern = options?.AnimateDashPattern ?? true
+        };
+    }
+
+    private static SvgChartTransformAnimationOptions CreateTransformAnimationOptions( SvgChartTransformAnimationOptions options )
+    {
+        return new()
+        {
+            Enabled = options?.Enabled == true,
+            Duration = options?.Duration,
+            Delay = options?.Delay,
+            Easing = options?.Easing,
+            AnimateOnLoad = options?.AnimateOnLoad,
+            AnimateOnUpdate = options?.AnimateOnUpdate,
+            ScaleFrom = options?.ScaleFrom ?? 0.95,
+            ScaleTo = options?.ScaleTo ?? 1
+        };
+    }
+
+    private static SvgChartPathAnimationOptions CreatePathAnimationOptions( SvgChartPathAnimationOptions options )
+    {
+        return new()
+        {
+            Enabled = options?.Enabled == true,
+            Duration = options?.Duration,
+            Delay = options?.Delay,
+            Easing = options?.Easing,
+            AnimateOnLoad = options?.AnimateOnLoad,
+            AnimateOnUpdate = options?.AnimateOnUpdate,
+            AnimateShape = options?.AnimateShape ?? true,
+            AnimateLength = options?.AnimateLength ?? true
+        };
+    }
+
+    private static bool IsAnyAnimationTargetEnabled( SvgChartAnimationOptions animation )
+    {
+        return IsAnimationTargetEnabled( animation.Geometry, animation )
+            || IsAnimationTargetEnabled( animation.Opacity, animation )
+            || IsAnimationTargetEnabled( animation.Stroke, animation )
+            || IsAnimationTargetEnabled( animation.Transform, animation )
+            || IsAnimationTargetEnabled( animation.Path, animation );
+    }
+
+    private static bool IsAnimationTargetEnabled( SvgChartAnimationTargetOptions target, SvgChartAnimationOptions animation )
+    {
+        return target?.Enabled == true && ( target.Duration ?? animation.Duration ) > TimeSpan.Zero;
+    }
+
+    private static string ResolveAnimationKeySplines( SvgChartAnimationEasing easing )
+    {
+        return easing switch
+        {
+            SvgChartAnimationEasing.Ease => "0.25 0.1 0.25 1",
+            SvgChartAnimationEasing.EaseIn => "0.42 0 1 1",
+            SvgChartAnimationEasing.EaseInOut => "0.42 0 0.58 1",
+            SvgChartAnimationEasing.EaseOut => "0 0 0.58 1",
+            _ => null
+        };
     }
 
     private SvgChartLegendOptions ResolveLegend( SvgChartOptions options )
@@ -1596,6 +1864,11 @@ public class SvgChart<TItem> : SvgChartBase
     /// Specifies chart streaming options.
     /// </summary>
     [Parameter] public SvgChartStreamingOptions Streaming { get; set; }
+
+    /// <summary>
+    /// Specifies chart animation options.
+    /// </summary>
+    [Parameter] public SvgChartAnimationOptions Animation { get; set; }
 
     /// <summary>
     /// Occurs when a rendered chart point is clicked.

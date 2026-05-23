@@ -57,6 +57,7 @@ internal sealed class SvgChartColumnSeriesRenderer : ISvgChartSeriesRenderer
                 var rectWidth = Math.Max( 1, barWidth * 0.8 );
                 var bounds = new SvgChartPointBounds { X = x, Y = rectY, Width = rectWidth, Height = height };
                 var point = chart.CreatePoint( item, pointIndex, value.Value, bounds );
+                var animationKey = context.TrackPointBounds( item, pointIndex, bounds );
 
                 builder.OpenElement( sequence++, "rect" );
                 builder.AddAttribute( sequence++, "class", "svg-chart-point svg-chart-column" );
@@ -66,7 +67,12 @@ internal sealed class SvgChartColumnSeriesRenderer : ISvgChartSeriesRenderer
                 builder.AddAttribute( sequence++, "height", SvgChartRenderHelpers.Format( height ) );
                 builder.AddAttribute( sequence++, "rx", SvgChartRenderHelpers.Format( item.BorderRadius ) );
                 builder.AddAttribute( sequence++, "fill", item.Color );
+                context.AddAnimatedStyleAttribute( builder, ref sequence );
                 context.AddPointInteractionAttributes( builder, ref sequence, point, item.Color );
+                context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "x", SvgChartRenderHelpers.Format( x ), SvgChartRenderHelpers.Format( x ), bounds => SvgChartRenderHelpers.Format( bounds.X ) );
+                context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "y", SvgChartRenderHelpers.Format( baseline ), SvgChartRenderHelpers.Format( rectY ), bounds => SvgChartRenderHelpers.Format( bounds.Y ) );
+                context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "width", SvgChartRenderHelpers.Format( rectWidth ), SvgChartRenderHelpers.Format( rectWidth ), bounds => SvgChartRenderHelpers.Format( bounds.Width ) );
+                context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "height", "0", SvgChartRenderHelpers.Format( height ), bounds => SvgChartRenderHelpers.Format( bounds.Height ) );
                 builder.CloseElement();
             }
         }

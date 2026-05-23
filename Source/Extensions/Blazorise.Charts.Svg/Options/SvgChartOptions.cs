@@ -79,6 +79,11 @@ public class SvgChartOptions
     public SvgChartZoomOptions Zoom { get; set; } = new();
 
     /// <summary>
+    /// Defines general chart animation options.
+    /// </summary>
+    public SvgChartAnimationOptions Animation { get; set; } = new();
+
+    /// <summary>
     /// Defines data label options.
     /// </summary>
     public SvgChartDataLabelsOptions DataLabels { get; set; } = new();

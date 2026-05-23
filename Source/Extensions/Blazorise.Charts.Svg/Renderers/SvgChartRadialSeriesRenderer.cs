@@ -71,7 +71,9 @@ internal sealed class SvgChartRadialSeriesRenderer : ISvgChartSeriesRenderer
             builder.AddAttribute( sequence++, "fill", color );
             builder.AddAttribute( sequence++, "stroke", "var(--bs-body-bg, #fff)" );
             builder.AddAttribute( sequence++, "stroke-width", "1" );
+            context.AddAnimatedStyleAttribute( builder, ref sequence );
             context.AddPointInteractionAttributes( builder, ref sequence, point, color );
+            context.RenderInitialAttributeAnimation( builder, ref sequence, "opacity", "0", "1" );
             builder.CloseElement();
 
             startAngle = endAngle;
