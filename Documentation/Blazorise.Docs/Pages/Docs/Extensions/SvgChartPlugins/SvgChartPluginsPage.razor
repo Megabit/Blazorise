@@ -18,6 +18,10 @@
     Built-in SVG chart features are implemented through the same plugin path, including annotations, data labels, trendlines, streaming, and zoom/pan behavior. Users can build their own plugin components by inheriting from <Code>SvgChartPluginBase</Code>.
 </DocsPageParagraph>
 
+<DocsPageParagraph>
+    Plugins can render SVG directly, read resolved geometry from the render context, project values into plot coordinates, and attach chart events to the elements they create. They are best suited for overlays, annotations, labels, guides, and behavior around an existing chart type. A completely new chart type generally needs a derived chart component and series renderer support in addition to plugin rendering.
+</DocsPageParagraph>
+
 <DocsPageSubtitle>
     Plugin model
 </DocsPageSubtitle>

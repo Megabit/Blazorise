@@ -106,6 +106,9 @@
     <DocsPageSectionHeader Title="Stacking, interaction, and time labels">
         Combine stacked series, grouped tooltip interaction, axis tick callbacks, and time-formatted category labels.
     </DocsPageSectionHeader>
+    <DocsPageParagraph>
+        <Code>SvgChartTimeAxis</Code> formats ordered time values as category labels. It does not currently space irregular time values on a continuous time scale.
+    </DocsPageParagraph>
     <DocsPageSectionContent Code="SvgAdvancedChartExample" Outlined FullWidth>
         <SvgAdvancedChartExample />
     </DocsPageSectionContent>
@@ -164,5 +167,13 @@
         <SvgBubbleChartExample />
     </DocsPageSectionContent>
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Accessibility
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    SVG charts render the root SVG with an accessible role and label by default. Use <Code>Role</Code>, <Code>AriaLabel</Code>, <Code>AccessibilityTitle</Code>, <Code>AccessibilityDescription</Code>, and <Code>TabIndex</Code> when a chart needs custom assistive text or keyboard focus.
+</DocsPageParagraph>
 
 <ComponentApiDocs ComponentTypes="[typeof(SvgChart<>), typeof(SvgColumnChart<>), typeof(SvgBarChart<>), typeof(SvgLineChart<>), typeof(SvgAreaChart<>), typeof(SvgPieChart<>), typeof(SvgDoughnutChart<>), typeof(SvgPolarAreaChart<>), typeof(SvgRadarChart<>), typeof(SvgScatterChart<>), typeof(SvgBubbleChart<>), typeof(SvgChartTitle), typeof(SvgChartLegend), typeof(SvgChartTooltip), typeof(SvgChartAnimation), typeof(SvgChartCategoryAxis<>), typeof(SvgChartTimeAxis<>), typeof(SvgChartValueAxis)]" />

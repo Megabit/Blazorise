@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
@@ -179,10 +180,13 @@ public class SvgChart<TItem> : SvgChartBase
         builder.AddAttribute( sequence++, "xmlns", "http://www.w3.org/2000/svg" );
         builder.AddAttribute( sequence++, "class", zoom?.Enabled == true && zoom.Pan ? "svg-chart-surface svg-chart-pannable" : "svg-chart-surface" );
         builder.AddAttribute( sequence++, "draggable", "false" );
-        builder.AddAttribute( sequence++, "role", "img" );
-        builder.AddAttribute( sequence++, "aria-label", IsTextVisible( title ) ? title.Text : "SVG chart" );
+        builder.AddAttribute( sequence++, "role", ResolveAccessibilityRole() );
+        builder.AddAttribute( sequence++, "aria-label", ResolveAccessibilityLabel( title ) );
         builder.AddAttribute( sequence++, "viewBox", $"0 0 {Format( options.Width )} {Format( options.Height )}" );
         builder.AddAttribute( sequence++, "style", ResolveSvgStyle( options, zoom, panning ) );
+
+        if ( TabIndex.HasValue )
+            builder.AddAttribute( sequence++, "tabindex", TabIndex.Value );
 
         if ( zoom.Enabled && !IsRadialChart( model ) )
         {
@@ -206,6 +210,7 @@ public class SvgChart<TItem> : SvgChartBase
 
         SvgChartRenderHelpers.AddFontFamilyAttribute( builder, ref sequence, options.Font?.Family );
 
+        RenderAccessibilityText( builder, ref sequence, model );
         RenderFocusStyles( builder, ref sequence );
         RenderPlugins( builder, ref sequence, pluginContext, SvgChartRenderLayer.Background );
 
@@ -1733,9 +1738,52 @@ public class SvgChart<TItem> : SvgChartBase
         var model = BuildModel();
         var options = ResolveOptions();
         var title = ResolveTitleOptions( options, titleComponents );
-        var ariaLabel = IsTextVisible( title ) ? title.Text : "SVG chart";
+        var role = HtmlEncoder.Default.Encode( ResolveAccessibilityRole() );
+        var ariaLabel = HtmlEncoder.Default.Encode( ResolveAccessibilityLabel( title ) );
+        var accessibilityTitle = HtmlEncoder.Default.Encode( AccessibilityTitle ?? string.Empty );
+        var description = HtmlEncoder.Default.Encode( ResolveAccessibilityDescription( model ) );
+        var tabIndex = TabIndex.HasValue ? $" tabindex=\"{TabIndex.Value}\"" : string.Empty;
+        var titleMarkup = string.IsNullOrWhiteSpace( AccessibilityTitle ) ? string.Empty : $"<title>{accessibilityTitle}</title>";
+        var descriptionMarkup = string.IsNullOrWhiteSpace( description ) ? string.Empty : $"<desc>{description}</desc>";
 
-        return ValueTask.FromResult( $"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 {Format( options.Width )} {Format( options.Height )}\" role=\"img\" aria-label=\"{ariaLabel}\"><desc>{model.Series.Count} series, {model.Labels.Count} categories.</desc></svg>" );
+        return ValueTask.FromResult( $"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 {Format( options.Width )} {Format( options.Height )}\" role=\"{role}\" aria-label=\"{ariaLabel}\"{tabIndex}>{titleMarkup}{descriptionMarkup}</svg>" );
+    }
+
+    private void RenderAccessibilityText( RenderTreeBuilder builder, ref int sequence, SvgChartRenderModel model )
+    {
+        if ( !string.IsNullOrWhiteSpace( AccessibilityTitle ) )
+        {
+            builder.OpenElement( sequence++, "title" );
+            builder.AddContent( sequence++, AccessibilityTitle );
+            builder.CloseElement();
+        }
+
+        var description = ResolveAccessibilityDescription( model );
+
+        if ( !string.IsNullOrWhiteSpace( description ) )
+        {
+            builder.OpenElement( sequence++, "desc" );
+            builder.AddContent( sequence++, description );
+            builder.CloseElement();
+        }
+    }
+
+    private string ResolveAccessibilityRole()
+    {
+        return string.IsNullOrWhiteSpace( Role ) ? "img" : Role;
+    }
+
+    private string ResolveAccessibilityLabel( SvgChartTextOptions title )
+    {
+        if ( !string.IsNullOrWhiteSpace( AriaLabel ) )
+            return AriaLabel;
+
+        return IsTextVisible( title ) ? title.Text : "SVG chart";
+    }
+
+    private string ResolveAccessibilityDescription( SvgChartRenderModel model )
+    {
+        return AccessibilityDescription ?? $"{model.Series.Count} series, {model.Labels.Count} categories.";
     }
 
     private SvgChartData<double?> EnsureInternalData()
@@ -2003,6 +2051,31 @@ public class SvgChart<TItem> : SvgChartBase
     /// Occurs when a rendered chart point is hovered.
     /// </summary>
     [Parameter] public EventCallback<SvgChartPointEventArgs> Hovered { get; set; }
+
+    /// <summary>
+    /// Specifies the root SVG role used by assistive technologies.
+    /// </summary>
+    [Parameter] public string Role { get; set; } = "img";
+
+    /// <summary>
+    /// Specifies the accessible label for the root SVG element.
+    /// </summary>
+    [Parameter] public string AriaLabel { get; set; }
+
+    /// <summary>
+    /// Specifies the optional SVG title element used by assistive technologies.
+    /// </summary>
+    [Parameter] public string AccessibilityTitle { get; set; }
+
+    /// <summary>
+    /// Specifies the optional SVG description element used by assistive technologies.
+    /// </summary>
+    [Parameter] public string AccessibilityDescription { get; set; }
+
+    /// <summary>
+    /// Specifies the root SVG tabindex when keyboard focus should be enabled.
+    /// </summary>
+    [Parameter] public int? TabIndex { get; set; }
 
     /// <summary>
     /// Specifies the content to render inside the chart, including declarative axes, series, and options.
