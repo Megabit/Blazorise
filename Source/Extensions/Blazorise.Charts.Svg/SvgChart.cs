@@ -320,7 +320,7 @@ public class SvgChart<TItem> : SvgChartBase
     private static void RenderFocusStyles( RenderTreeBuilder builder, ref int sequence )
     {
         builder.OpenElement( sequence++, "style" );
-        builder.AddContent( sequence++, ".svg-chart-surface [tabindex]:focus{outline:none;}.svg-chart-surface.svg-chart-pannable,.svg-chart-surface.svg-chart-pannable *{user-select:none;-webkit-user-select:none;-webkit-user-drag:none;}" );
+        builder.AddContent( sequence++, ".svg-chart-surface [tabindex]:focus{outline:none;}.svg-chart-surface [data-svg-chart-animation-initial='true']{visibility:hidden;}.svg-chart-surface.svg-chart-pannable,.svg-chart-surface.svg-chart-pannable *{user-select:none;-webkit-user-select:none;-webkit-user-drag:none;}" );
         builder.CloseElement();
     }
 

@@ -102,6 +102,9 @@ internal sealed class SvgChartSeriesRendererContext
 
         var name = attributeName.ToLowerInvariant();
 
+        if ( Animation.InitialRender && target.AnimateInitial )
+            builder.AddAttribute( sequence++, "data-svg-chart-animation-initial", "true" );
+
         builder.AddAttribute( sequence++, $"data-svg-chart-animation-{name}", "true" );
         builder.AddAttribute( sequence++, $"data-svg-chart-animation-{name}-from", from );
         builder.AddAttribute( sequence++, $"data-svg-chart-animation-{name}-to", to );

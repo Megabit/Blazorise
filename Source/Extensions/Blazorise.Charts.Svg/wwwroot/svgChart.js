@@ -44,6 +44,7 @@ export function runAnimations(element) {
 
 function runElementAnimation(element) {
     const attributes = animationAttributes();
+    let started = false;
 
     for (const attribute of attributes) {
         const name = toDatasetName(attribute);
@@ -72,6 +73,11 @@ function runElementAnimation(element) {
 
         animationStates.set(element, { ...current, [attribute]: key });
         animateAttribute(element, attribute, from, to, duration, delay, keySplines);
+        started = true;
+    }
+
+    if (!started && element.dataset.svgChartAnimationInitial === "true") {
+        revealInitialAnimatedElement(element);
     }
 }
 
@@ -79,6 +85,7 @@ function animateAttribute(element, attribute, from, to, duration, delay, keySpli
     let start = null;
 
     setAnimatedAttribute(element, attribute, from);
+    revealInitialAnimatedElement(element);
 
     const step = timestamp => {
         if (animationStates.get(element)?.[attribute] !== `${attributeVersionKey(element, attribute)}:${attribute}:${from}:${to}`) {
@@ -118,6 +125,15 @@ function attributeVersionKey(element, attribute) {
 
 function setAnimatedAttribute(element, attribute, value) {
     element.setAttribute(attribute, formatNumber(value));
+}
+
+function revealInitialAnimatedElement(element) {
+    if (element.dataset.svgChartAnimationInitial !== "true") {
+        return;
+    }
+
+    element.style.visibility = "visible";
+    element.removeAttribute("data-svg-chart-animation-initial");
 }
 
 function parseDuration(value) {
