@@ -55,6 +55,11 @@ public class SvgChartCategoryAxis<TItem> : SvgChartComponentBase
     [Parameter] public string Title { get; set; }
 
     /// <summary>
+    /// Defines a callback used to format category axis labels.
+    /// </summary>
+    [Parameter] public Func<SvgChartAxisTickContext, string> TickFormatter { get; set; }
+
+    /// <summary>
     /// Defines grid line options for this category axis.
     /// </summary>
     [Parameter] public SvgChartGridLinesOptions GridLines { get; set; }

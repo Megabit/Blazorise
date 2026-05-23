@@ -1,0 +1,49 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgColumnChart TItem="MonthlyRevenue"
+                Items="@revenue"
+                Options="@options">
+    <SvgChartTitle Title='@("Stacked revenue")' Subtitle='@("Index tooltip, stacked values, and formatted axis ticks")' />
+    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+    <SvgChartTooltip Enabled InteractionMode="SvgChartInteractionMode.Index" Width="220" />
+    <SvgChartTimeAxis TimeValue="@( item => (DateTime?)item.Month )" Unit="SvgChartTimeUnit.Month" />
+    <SvgChartValueAxis BeginAtZero Stacked TickCount="6" TickFormatter="@FormatCurrencyTick" />
+
+    <SvgColumnSeries Name="Product" Stack="revenue" Value="@( item => item.Product )" Color="Color.Primary" BorderRadius="4" />
+    <SvgColumnSeries Name="Services" Stack="revenue" Value="@( item => item.Services )" Color="Color.Info" BorderRadius="4" />
+    <SvgColumnSeries Name="Support" Stack="revenue" Value="@( item => item.Support )" Color="Color.Success" BorderRadius="4" />
+</SvgColumnChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        Tooltip = new() { InteractionMode = SvgChartInteractionMode.Index, Width = 220 },
+        YAxis = new() { BeginAtZero = true, Stacked = true, TickCount = 6 },
+    };
+
+    private readonly List<MonthlyRevenue> revenue =
+    [
+        new() { Month = new DateTime( 2026, 1, 1 ), Product = 42, Services = 24, Support = 12 },
+        new() { Month = new DateTime( 2026, 2, 1 ), Product = 48, Services = 28, Support = 14 },
+        new() { Month = new DateTime( 2026, 3, 1 ), Product = 55, Services = 32, Support = 18 },
+        new() { Month = new DateTime( 2026, 4, 1 ), Product = 51, Services = 35, Support = 20 },
+    ];
+
+    private static string FormatCurrencyTick( SvgChartAxisTickContext context )
+    {
+        return context.Value is IFormattable value ? $"${value.ToString( "0", null )}" : context.Value?.ToString();
+    }
+
+    private sealed class MonthlyRevenue
+    {
+        public DateTime Month { get; set; }
+
+        public double Product { get; set; }
+
+        public double Services { get; set; }
+
+        public double Support { get; set; }
+    }
+}

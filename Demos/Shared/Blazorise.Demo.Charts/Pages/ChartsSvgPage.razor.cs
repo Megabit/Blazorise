@@ -40,6 +40,15 @@ public partial class ChartsSvgPage
         new() { Month = "May", Revenue = 103, Growth = 20.4 },
     ];
 
+    private readonly List<LatencySample> Latency =
+    [
+        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 0, 0 ), Api = 42, Queue = 28 },
+        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 5, 0 ), Api = 48, Queue = 31 },
+        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 10, 0 ), Api = 55, Queue = 36 },
+        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 15, 0 ), Api = 51, Queue = 33 },
+        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 20, 0 ), Api = 64, Queue = 42 },
+    ];
+
     private SvgChartOptions columnOptions = new()
     {
         Height = 380,
@@ -69,6 +78,22 @@ public partial class ChartsSvgPage
     {
         Height = 380,
         Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private SvgChartOptions stackedOptions = new()
+    {
+        Height = 380,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        Tooltip = new() { InteractionMode = SvgChartInteractionMode.Index, Width = 220 },
+        YAxis = new() { BeginAtZero = true, Stacked = true, TickCount = 6 },
+    };
+
+    private SvgChartOptions timeAxisOptions = new()
+    {
+        Height = 380,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        Tooltip = new() { InteractionMode = SvgChartInteractionMode.Dataset, Width = 220 },
+        YAxis = new() { BeginAtZero = true, TickCount = 6 },
     };
 
     private SvgChartOptions pieOptions = new()
@@ -212,6 +237,16 @@ public partial class ChartsSvgPage
         return Math.Round( min + random.NextDouble() * ( max - min ), 1 );
     }
 
+    private static string FormatCurrencyTick( SvgChartAxisTickContext context )
+    {
+        return context.Value is IFormattable value ? $"${value.ToString( "0", null )}" : context.Value?.ToString();
+    }
+
+    private static string FormatMillisecondsTick( SvgChartAxisTickContext context )
+    {
+        return context.Value is IFormattable value ? $"{value.ToString( "0", null )} ms" : context.Value?.ToString();
+    }
+
     private sealed class MonthlySales
     {
         public string Month { get; set; }
@@ -239,5 +274,14 @@ public partial class ChartsSvgPage
         public double Revenue { get; set; }
 
         public double Growth { get; set; }
+    }
+
+    private sealed class LatencySample
+    {
+        public DateTime Timestamp { get; set; }
+
+        public double Api { get; set; }
+
+        public double Queue { get; set; }
     }
 }

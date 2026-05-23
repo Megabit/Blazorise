@@ -32,14 +32,15 @@ internal sealed class SvgChartColumnSeriesRenderer : ISvgChartSeriesRenderer
 
         var categoryWidth = Math.Abs( chart.ProjectCategoryBoundary( 1 ) - chart.ProjectCategoryBoundary( 0 ) );
         var groupWidth = categoryWidth * 0.72;
-        var barWidth = Math.Max( 1, groupWidth / visibleSeries.Count );
+        var stackGroups = visibleSeries.Select( ResolveStackGroup ).Distinct().ToList();
+        var barWidth = Math.Max( 1, groupWidth / stackGroups.Count );
 
         builder.OpenElement( sequence++, "g" );
         builder.AddAttribute( sequence++, "class", "svg-chart-columns" );
 
         foreach ( var item in renderSeries )
         {
-            var seriesIndex = visibleSeries.IndexOf( item );
+            var seriesIndex = stackGroups.IndexOf( ResolveStackGroup( item ) );
             var baseline = chart.ProjectY( 0, item.ValueAxisId );
 
             for ( var pointIndex = 0; pointIndex < chart.Labels.Count && pointIndex < item.Values.Count; pointIndex++ )
@@ -51,9 +52,12 @@ internal sealed class SvgChartColumnSeriesRenderer : ISvgChartSeriesRenderer
 
                 var categoryStart = chart.ProjectCategoryBoundary( pointIndex ) + ( categoryWidth - groupWidth ) / 2;
                 var x = categoryStart + barWidth * seriesIndex + barWidth * 0.1;
-                var y = chart.ProjectY( value.Value, item.ValueAxisId );
-                var height = Math.Abs( baseline - y );
-                var rectY = Math.Min( y, baseline );
+                var startValue = ResolveStackValue( item.StackBaseValues, pointIndex, 0 );
+                var endValue = ResolveStackValue( item.StackEndValues, pointIndex, value.Value );
+                var startY = chart.ProjectY( startValue, item.ValueAxisId );
+                var endY = chart.ProjectY( endValue, item.ValueAxisId );
+                var height = Math.Abs( startY - endY );
+                var rectY = Math.Min( startY, endY );
                 var rectWidth = Math.Max( 1, barWidth * 0.8 );
                 var bounds = new SvgChartPointBounds { X = x, Y = rectY, Width = rectWidth, Height = height };
                 var point = chart.CreatePoint( item, pointIndex, value.Value, bounds );
@@ -78,6 +82,16 @@ internal sealed class SvgChartColumnSeriesRenderer : ISvgChartSeriesRenderer
         }
 
         builder.CloseElement();
+    }
+
+    private static string ResolveStackGroup( SvgChartPluginSeries series )
+    {
+        return series.StackEndValues.Count > 0 ? series.Stack ?? string.Empty : series.Name;
+    }
+
+    private static double ResolveStackValue( IReadOnlyList<double?> values, int index, double fallback )
+    {
+        return index >= 0 && index < values.Count && values[index].HasValue ? values[index].Value : fallback;
     }
 
     #endregion

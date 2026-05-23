@@ -109,6 +109,7 @@ internal sealed class SvgChartModelBuilder<TItem>
             CategoryMin = categoryRange.Min,
             CategoryMax = categoryRange.Max,
             CategoryAxis = categoryAxisOptions,
+            CategoryTickFormatter = ResolveCategoryTickFormatter( categoryAxis, categoryAxisOptions ),
             Series = series,
             Min = primaryValueAxis.Min,
             Max = primaryValueAxis.Max,
@@ -145,6 +146,9 @@ internal sealed class SvgChartModelBuilder<TItem>
 
         if ( categoryAxis?.Labels?.Count > 0 )
             return categoryAxis.Labels.ToList();
+
+        if ( categoryAxis is SvgChartTimeAxis<TItem> timeAxis && timeAxis.TimeValue is not null && items.Count > 0 )
+            return items.Select( x => (object)timeAxis.TimeValue( x ) ).ToList();
 
         if ( categoryAxis?.Value is not null && items.Count > 0 )
             return items.Select( categoryAxis.Value ).ToList();
@@ -184,6 +188,7 @@ internal sealed class SvgChartModelBuilder<TItem>
                     Order = dataSeries.Order,
                     CategoryAxisId = dataSeries.CategoryAxisId,
                     ValueAxisId = dataSeries.ValueAxisId,
+                    Stack = dataSeries.Stack,
                     XValues = xValues,
                     YValues = yValues,
                     RadiusValues = dataSeries.RadiusValues?.ToList() ?? [],
@@ -221,6 +226,7 @@ internal sealed class SvgChartModelBuilder<TItem>
                 Order = child.Order,
                 CategoryAxisId = child.CategoryAxisId,
                 ValueAxisId = child.ValueAxisId,
+                Stack = child.Stack,
                 BorderRadius = child switch
                 {
                     SvgColumnSeries<TItem> columnSeries => columnSeries.BorderRadius,
@@ -249,7 +255,139 @@ internal sealed class SvgChartModelBuilder<TItem>
             } );
         }
 
+        ApplyStacking( series, ResolveStackedValueAxisIds( series ) );
+
         return series;
+    }
+
+    private HashSet<string> ResolveStackedValueAxisIds( List<SvgChartRenderSeries> series )
+    {
+        var axes = valueAxisComponents.Count == 0
+            ? new List<SvgChartAxisOptions> { CreateValueAxisOptions( ResolveOptions().YAxis ?? new() ) }
+            : valueAxisComponents.Select( CreateValueAxisOptions ).ToList();
+
+        var defaultAxis = axes.Last();
+
+        var result = axes.Where( x => x.Stacked )
+            .Select( x => string.IsNullOrWhiteSpace( x.Id ) ? defaultAxis.Id ?? string.Empty : x.Id )
+            .ToHashSet( StringComparer.Ordinal );
+
+        if ( defaultAxis.Stacked )
+        {
+            result.Add( string.Empty );
+            foreach ( var axisId in series.Select( x => x.ValueAxisId ).Where( x => !string.IsNullOrWhiteSpace( x ) ) )
+                result.Add( axisId );
+        }
+
+        return result;
+    }
+
+    private static void ApplyStacking( List<SvgChartRenderSeries> series, HashSet<string> stackedAxisIds )
+    {
+        if ( stackedAxisIds.Count == 0 )
+            return;
+
+        foreach ( var group in series.Where( x => IsStackableChart( x.Type ) )
+                     .GroupBy( x => new { AxisId = x.ValueAxisId ?? string.Empty, Stack = x.Stack ?? string.Empty, x.Type } ) )
+        {
+            if ( !stackedAxisIds.Contains( group.Key.AxisId ) )
+                continue;
+
+            var positives = new Dictionary<int, double>();
+            var negatives = new Dictionary<int, double>();
+
+            foreach ( var item in group )
+            {
+                if ( item.Hidden )
+                {
+                    item.StackBaseValues.AddRange( Enumerable.Repeat<double?>( null, item.Values.Count ) );
+                    item.StackEndValues.AddRange( Enumerable.Repeat<double?>( null, item.Values.Count ) );
+                    continue;
+                }
+
+                for ( var i = 0; i < item.Values.Count; i++ )
+                {
+                    var value = item.Values[i];
+
+                    if ( !value.HasValue )
+                    {
+                        item.StackBaseValues.Add( null );
+                        item.StackEndValues.Add( null );
+                        continue;
+                    }
+
+                    var totals = value.Value >= 0 ? positives : negatives;
+                    var start = totals.TryGetValue( i, out var current ) ? current : 0;
+                    var end = start + value.Value;
+
+                    item.StackBaseValues.Add( start );
+                    item.StackEndValues.Add( end );
+                    totals[i] = end;
+                }
+            }
+        }
+    }
+
+    private static bool IsStackableChart( SvgChartType type )
+    {
+        return type is SvgChartType.Column or SvgChartType.Bar or SvgChartType.Area;
+    }
+
+    private static Func<SvgChartAxisTickContext, string> ResolveCategoryTickFormatter( SvgChartCategoryAxis<TItem> categoryAxis, SvgChartAxisOptions categoryAxisOptions )
+    {
+        if ( categoryAxis?.TickFormatter is not null )
+            return categoryAxis.TickFormatter;
+
+        if ( categoryAxis is SvgChartTimeAxis<TItem> timeAxis )
+        {
+            var culture = ResolveTimeCulture( timeAxis.Culture );
+
+            return context =>
+            {
+                if ( context.Value is DateTime dateTime )
+                    return dateTime.ToString( ResolveTimeFormat( timeAxis ), culture );
+
+                if ( context.Value is DateTimeOffset dateTimeOffset )
+                    return dateTimeOffset.ToString( ResolveTimeFormat( timeAxis ), culture );
+
+                return context.Value?.ToString();
+            };
+        }
+
+        return categoryAxisOptions.TickFormatter;
+    }
+
+    private static string ResolveTimeFormat( SvgChartTimeAxis<TItem> axis )
+    {
+        if ( !string.IsNullOrWhiteSpace( axis.Format ) )
+            return axis.Format;
+
+        return axis.Unit switch
+        {
+            SvgChartTimeUnit.Millisecond => "HH:mm:ss.fff",
+            SvgChartTimeUnit.Second => "HH:mm:ss",
+            SvgChartTimeUnit.Minute => "HH:mm",
+            SvgChartTimeUnit.Hour => "HH:mm",
+            SvgChartTimeUnit.Day => "MMM d",
+            SvgChartTimeUnit.Month => "MMM yyyy",
+            SvgChartTimeUnit.Year => "yyyy",
+            _ => "g"
+        };
+    }
+
+    private static System.Globalization.CultureInfo ResolveTimeCulture( string culture )
+    {
+        if ( string.IsNullOrWhiteSpace( culture ) )
+            return System.Globalization.CultureInfo.CurrentCulture;
+
+        try
+        {
+            return System.Globalization.CultureInfo.GetCultureInfo( culture );
+        }
+        catch ( System.Globalization.CultureNotFoundException )
+        {
+            return System.Globalization.CultureInfo.CurrentCulture;
+        }
     }
 
     private static List<double?> NormalizeValues( List<double?> values, int labelCount )
@@ -312,6 +450,8 @@ internal sealed class SvgChartModelBuilder<TItem>
             ApplyStreamingViewport( item.XValues, startIndex, renderedDataPoints, padCount, reverse );
             ApplyStreamingViewport( item.YValues, startIndex, renderedDataPoints, padCount, reverse );
             ApplyStreamingViewport( item.RadiusValues, startIndex, renderedDataPoints, padCount, reverse );
+            ApplyStreamingViewport( item.StackBaseValues, startIndex, renderedDataPoints, padCount, reverse );
+            ApplyStreamingViewport( item.StackEndValues, startIndex, renderedDataPoints, padCount, reverse );
         }
     }
 
@@ -382,7 +522,7 @@ internal sealed class SvgChartModelBuilder<TItem>
         return axes.Select( axis =>
         {
             var values = series.Where( x => !x.Hidden && BelongsToAxis( x, axis, defaultAxis ) )
-                .SelectMany( x => IsPointChart( x.Type ) ? x.YValues : x.Values )
+                .SelectMany( x => axis.Stacked && x.StackEndValues.Count > 0 ? x.StackEndValues : IsPointChart( x.Type ) ? x.YValues : x.Values )
                 .Where( x => x.HasValue )
                 .Select( x => x.Value )
                 .ToList();
@@ -393,6 +533,8 @@ internal sealed class SvgChartModelBuilder<TItem>
                 Id = axis.Id,
                 Position = axis.Position,
                 GridLines = axis.GridLines,
+                TickFormatter = axis.TickFormatter,
+                Stacked = axis.Stacked,
                 Min = scale.Min,
                 Max = scale.Max,
                 Ticks = scale.Ticks
@@ -426,6 +568,7 @@ internal sealed class SvgChartModelBuilder<TItem>
         return new()
         {
             Enabled = tooltipComponent.Enabled,
+            InteractionMode = tooltipComponent.InteractionMode,
             Formatter = tooltipComponent.Formatter ?? tooltipOptions.Formatter,
             Template = tooltipComponent.Template ?? tooltipOptions.Template,
             Width = tooltipComponent.Width,

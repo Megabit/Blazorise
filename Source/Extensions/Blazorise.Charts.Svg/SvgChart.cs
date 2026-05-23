@@ -370,6 +370,9 @@ public class SvgChart<TItem> : SvgChartBase
                 Order = x.Order,
                 CategoryAxisId = x.CategoryAxisId,
                 ValueAxisId = x.ValueAxisId,
+                Stack = x.Stack,
+                StackBaseValues = x.StackBaseValues,
+                StackEndValues = x.StackEndValues,
                 BorderRadius = x.BorderRadius,
                 StrokeWidth = x.StrokeWidth,
                 MarkerRadius = x.MarkerRadius,
@@ -591,13 +594,31 @@ public class SvgChart<TItem> : SvgChartBase
         {
             builder.OpenElement( sequence++, "div" );
             builder.AddAttribute( sequence++, "style", "font-weight:600;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" );
-            builder.AddContent( sequence++, context.SeriesName );
+            builder.AddContent( sequence++, context.Items.Count > 1 ? context.Category : context.SeriesName );
             builder.CloseElement();
 
-            builder.OpenElement( sequence++, "div" );
-            builder.AddAttribute( sequence++, "style", "line-height:1.35;opacity:.86;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" );
-            builder.AddContent( sequence++, tooltip.Formatter?.Invoke( context ) ?? context.Text );
-            builder.CloseElement();
+            if ( tooltip.Formatter is not null || context.Items.Count <= 1 )
+            {
+                builder.OpenElement( sequence++, "div" );
+                builder.AddAttribute( sequence++, "style", "line-height:1.35;opacity:.86;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" );
+                builder.AddContent( sequence++, tooltip.Formatter?.Invoke( context ) ?? context.Text );
+                builder.CloseElement();
+            }
+            else
+            {
+                foreach ( var item in context.Items )
+                {
+                    builder.OpenElement( sequence++, "div" );
+                    builder.AddAttribute( sequence++, "style", "display:flex;align-items:center;gap:.35rem;line-height:1.35;opacity:.86;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" );
+
+                    builder.OpenElement( sequence++, "span" );
+                    builder.AddAttribute( sequence++, "style", $"display:inline-block;width:.55rem;height:.55rem;border-radius:50%;background:{item.Color};flex:0 0 auto;" );
+                    builder.CloseElement();
+
+                    builder.AddContent( sequence++, $"{item.SeriesName}: {item.Value}" );
+                    builder.CloseElement();
+                }
+            }
         }
 
         builder.CloseElement();
@@ -897,6 +918,7 @@ public class SvgChart<TItem> : SvgChartBase
         return new()
         {
             Enabled = tooltipComponent.Enabled,
+            InteractionMode = tooltipComponent.InteractionMode,
             Formatter = tooltipComponent.Formatter ?? tooltipOptions.Formatter,
             Template = tooltipComponent.Template ?? tooltipOptions.Template,
             Width = tooltipComponent.Width,
@@ -1001,22 +1023,25 @@ public class SvgChart<TItem> : SvgChartBase
 
     private void ShowTooltip( SvgChartPointEventArgs point, string color, bool pinned )
     {
-        var options = ResolveOptions();
-        var tooltip = ResolveTooltip( options );
+        var model = BuildModel();
+        var options = model.Options;
+        var tooltip = model.Tooltip;
 
         if ( !tooltip.Enabled )
             return;
 
-        activeTooltip = BuildTooltipContext( point, color, options, tooltip );
+        activeTooltip = BuildTooltipContext( point, color, model, tooltip );
         activeTooltipPinned = pinned;
     }
 
-    private static SvgChartTooltipContext BuildTooltipContext( SvgChartPointEventArgs point, string color, SvgChartOptions options, SvgChartTooltipOptions tooltip )
+    private static SvgChartTooltipContext BuildTooltipContext( SvgChartPointEventArgs point, string color, SvgChartRenderModel model, SvgChartTooltipOptions tooltip )
     {
+        var options = model.Options;
         var anchorX = point.Bounds.X + point.Bounds.Width / 2;
         var anchorY = point.Bounds.Y;
+        var items = ResolveTooltipItems( point, color, model, tooltip.InteractionMode );
         var width = Math.Max( 1, tooltip.Width );
-        var height = Math.Max( 1, tooltip.Height );
+        var height = Math.Max( Math.Max( 1, tooltip.Height ), items.Count > 1 ? 28 + items.Count * 18 : 1 );
         var x = Math.Min( Math.Max( anchorX + tooltip.OffsetX, 0 ), Math.Max( options.Width - width, 0 ) );
         var y = Math.Min( Math.Max( anchorY - height - tooltip.OffsetY, 0 ), Math.Max( options.Height - height, 0 ) );
 
@@ -1027,6 +1052,8 @@ public class SvgChart<TItem> : SvgChartBase
             PointIndex = point.PointIndex,
             Category = point.Category,
             Value = point.Value,
+            InteractionMode = tooltip.InteractionMode,
+            Items = items,
             Bounds = point.Bounds,
             Color = color,
             Text = GetPointLabel( point ),
@@ -1035,6 +1062,103 @@ public class SvgChart<TItem> : SvgChartBase
             Width = width,
             Height = height,
             Point = point
+        };
+    }
+
+    private static IReadOnlyList<SvgChartTooltipItemContext> ResolveTooltipItems( SvgChartPointEventArgs point, string color, SvgChartRenderModel model, SvgChartInteractionMode mode )
+    {
+        return mode switch
+        {
+            SvgChartInteractionMode.Index => ResolveIndexTooltipItems( point, model ),
+            SvgChartInteractionMode.Dataset => ResolveDatasetTooltipItems( point, model ),
+            _ => [CreateTooltipItem( point, color )]
+        };
+    }
+
+    private static IReadOnlyList<SvgChartTooltipItemContext> ResolveIndexTooltipItems( SvgChartPointEventArgs point, SvgChartRenderModel model )
+    {
+        if ( point.PointIndex < 0 )
+            return [CreateTooltipItem( point, null )];
+
+        return model.Series.Where( x => !x.Hidden && point.PointIndex < ResolveTooltipValues( x ).Count )
+            .Select( series =>
+            {
+                var values = ResolveTooltipValues( series );
+                var value = values[point.PointIndex];
+                var seriesIndex = model.Series.IndexOf( series );
+
+                return value.HasValue
+                    ? CreateTooltipItem( point, series, seriesIndex, point.PointIndex, value.Value, ResolveTooltipCategory( model, point.PointIndex, point.Category ) )
+                    : null;
+            } )
+            .Where( x => x is not null )
+            .ToList();
+    }
+
+    private static IReadOnlyList<SvgChartTooltipItemContext> ResolveDatasetTooltipItems( SvgChartPointEventArgs point, SvgChartRenderModel model )
+    {
+        var series = model.Series.ElementAtOrDefault( point.SeriesIndex );
+
+        if ( series is null )
+            return [CreateTooltipItem( point, null )];
+
+        var values = ResolveTooltipValues( series );
+        var result = new List<SvgChartTooltipItemContext>();
+
+        for ( var i = 0; i < values.Count; i++ )
+        {
+            var value = values[i];
+
+            if ( value.HasValue )
+                result.Add( CreateTooltipItem( point, series, point.SeriesIndex, i, value.Value, ResolveTooltipCategory( model, i, point.Category ) ) );
+        }
+
+        return result;
+    }
+
+    private static IReadOnlyList<double?> ResolveTooltipValues( SvgChartRenderSeries series )
+    {
+        return IsPointChart( series.Type ) ? series.YValues : series.Values;
+    }
+
+    private static SvgChartTooltipItemContext CreateTooltipItem( SvgChartPointEventArgs point, string color )
+    {
+        return new()
+        {
+            SeriesName = point.SeriesName,
+            SeriesIndex = point.SeriesIndex,
+            PointIndex = point.PointIndex,
+            Category = point.Category,
+            Value = point.Value,
+            Color = color ?? "currentColor",
+            Point = point
+        };
+    }
+
+    private static object ResolveTooltipCategory( SvgChartRenderModel model, int pointIndex, object fallback )
+    {
+        return pointIndex >= 0 && pointIndex < model.Labels.Count ? model.Labels[pointIndex] : fallback;
+    }
+
+    private static SvgChartTooltipItemContext CreateTooltipItem( SvgChartPointEventArgs sourcePoint, SvgChartRenderSeries series, int seriesIndex, int pointIndex, double value, object category )
+    {
+        return new()
+        {
+            SeriesName = series.Name,
+            SeriesIndex = seriesIndex,
+            PointIndex = pointIndex,
+            Category = category,
+            Value = value,
+            Color = series.RenderColor,
+            Point = new()
+            {
+                SeriesName = series.Name,
+                SeriesIndex = seriesIndex,
+                PointIndex = pointIndex,
+                Category = category,
+                Value = value,
+                Bounds = sourcePoint.Bounds
+            }
         };
     }
 

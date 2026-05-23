@@ -36,19 +36,28 @@ internal sealed class SvgChartAreaSeriesRenderer : ISvgChartSeriesRenderer
         {
             var points = new List<(int Index, double X, double Y, double Value)>();
             var baseline = chart.ProjectY( 0, item.ValueAxisId );
+            var basePoints = new List<(int Index, double X, double Y, double Value)>();
 
             for ( var pointIndex = 0; pointIndex < chart.Labels.Count && pointIndex < item.Values.Count; pointIndex++ )
             {
                 var value = item.Values[pointIndex];
 
                 if ( value.HasValue )
-                    points.Add( (pointIndex, chart.ProjectCategory( pointIndex ), chart.ProjectY( value.Value, item.ValueAxisId ), value.Value) );
+                {
+                    var startValue = ResolveStackValue( item.StackBaseValues, pointIndex, 0 );
+                    var endValue = ResolveStackValue( item.StackEndValues, pointIndex, value.Value );
+                    var x = chart.ProjectCategory( pointIndex );
+
+                    points.Add( (pointIndex, x, chart.ProjectY( endValue, item.ValueAxisId ), value.Value) );
+                    basePoints.Add( (pointIndex, x, item.StackEndValues.Count > 0 ? chart.ProjectY( startValue, item.ValueAxisId ) : baseline, startValue) );
+                }
             }
 
             if ( points.Count > 1 )
             {
                 var linePath = SvgChartSeriesRenderHelpers.BuildLinePath( points );
-                var areaPath = $"{linePath} L {SvgChartRenderHelpers.Format( points[^1].X )} {SvgChartRenderHelpers.Format( baseline )} L {SvgChartRenderHelpers.Format( points[0].X )} {SvgChartRenderHelpers.Format( baseline )} Z";
+                var reverseBase = basePoints.AsEnumerable().Reverse().ToList();
+                var areaPath = $"{linePath} L {string.Join( " L ", reverseBase.Select( x => $"{SvgChartRenderHelpers.Format( x.X )} {SvgChartRenderHelpers.Format( x.Y )}" ) )} Z";
 
                 builder.OpenElement( sequence++, "path" );
                 builder.AddAttribute( sequence++, "class", "svg-chart-area" );
@@ -103,6 +112,11 @@ internal sealed class SvgChartAreaSeriesRenderer : ISvgChartSeriesRenderer
         }
 
         builder.CloseElement();
+    }
+
+    private static double ResolveStackValue( IReadOnlyList<double?> values, int index, double fallback )
+    {
+        return index >= 0 && index < values.Count && values[index].HasValue ? values[index].Value : fallback;
     }
 
     #endregion

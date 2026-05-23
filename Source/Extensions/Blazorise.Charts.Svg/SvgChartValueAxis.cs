@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -55,6 +56,16 @@ public class SvgChartValueAxis : SvgChartComponentBase
     /// Defines the number of axis ticks.
     /// </summary>
     [Parameter] public int TickCount { get; set; } = 5;
+
+    /// <summary>
+    /// Defines whether compatible series are stacked on this axis.
+    /// </summary>
+    [Parameter] public bool Stacked { get; set; }
+
+    /// <summary>
+    /// Defines a callback used to format value axis tick labels.
+    /// </summary>
+    [Parameter] public Func<SvgChartAxisTickContext, string> TickFormatter { get; set; }
 
     /// <summary>
     /// Defines grid line options for this value axis.

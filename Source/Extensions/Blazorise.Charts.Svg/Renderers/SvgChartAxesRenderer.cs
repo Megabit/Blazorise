@@ -39,8 +39,9 @@ internal static class SvgChartAxesRenderer
         else
             RenderCategoryAxisGridLines( builder, ref sequence, model, plot, streamingAnimation, plotClipPathId );
 
-        foreach ( var tick in primaryAxis.Ticks )
+        for ( var i = 0; i < primaryAxis.Ticks.Count; i++ )
         {
+            var tick = primaryAxis.Ticks[i];
             var y = SvgChartGeometry.GetY( tick, plot, primaryAxis );
 
             builder.OpenElement( sequence++, "text" );
@@ -48,7 +49,7 @@ internal static class SvgChartAxesRenderer
             builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y + 4 ) );
             builder.AddAttribute( sequence++, "text-anchor", "end" );
             SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.68 );
-            builder.AddContent( sequence++, SvgChartRenderHelpers.FormatTick( tick ) );
+            builder.AddContent( sequence++, FormatValueTick( primaryAxis, tick, i ) );
             builder.CloseElement();
         }
 
@@ -115,7 +116,7 @@ internal static class SvgChartAxesRenderer
             builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( plot.Bottom + labels.Offset ) );
             builder.AddAttribute( sequence++, "text-anchor", "middle" );
             SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.72 );
-            builder.AddContent( sequence++, model.Labels[i]?.ToString() );
+            builder.AddContent( sequence++, FormatCategoryTick( model, model.Labels[i], labelIndex ) );
             builder.CloseElement();
         }
 
@@ -130,8 +131,9 @@ internal static class SvgChartAxesRenderer
         builder.OpenElement( sequence++, "g" );
         builder.AddAttribute( sequence++, "class", "svg-chart-grid" );
 
-        foreach ( var tick in model.Ticks )
+        for ( var i = 0; i < model.Ticks.Count; i++ )
         {
+            var tick = model.Ticks[i];
             var x = SvgChartGeometry.GetX( tick, plot, model );
             var gridLines = model.PrimaryValueAxis.GridLines;
 
@@ -151,7 +153,7 @@ internal static class SvgChartAxesRenderer
             builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( plot.Bottom + 24 ) );
             builder.AddAttribute( sequence++, "text-anchor", "middle" );
             SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.68 );
-            builder.AddContent( sequence++, SvgChartRenderHelpers.FormatTick( tick ) );
+            builder.AddContent( sequence++, FormatValueTick( model.PrimaryValueAxis, tick, i ) );
             builder.CloseElement();
         }
 
@@ -173,7 +175,7 @@ internal static class SvgChartAxesRenderer
             builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y + 4 ) );
             builder.AddAttribute( sequence++, "text-anchor", "end" );
             SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.72 );
-            builder.AddContent( sequence++, model.Labels[i]?.ToString() );
+            builder.AddContent( sequence++, FormatCategoryTick( model, model.Labels[i], i ) );
             builder.CloseElement();
         }
 
@@ -274,7 +276,7 @@ internal static class SvgChartAxesRenderer
             builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( plot.Bottom + labels.Offset ) );
             builder.AddAttribute( sequence++, "text-anchor", "middle" );
             SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.72 );
-            builder.AddContent( sequence++, SvgChartRenderHelpers.FormatTick( tick ) );
+            builder.AddContent( sequence++, FormatCategoryTick( model, tick, i ) );
             builder.CloseElement();
         }
 
@@ -297,8 +299,9 @@ internal static class SvgChartAxesRenderer
             builder.AddAttribute( sequence++, "stroke-opacity", "0.22" );
             builder.CloseElement();
 
-            foreach ( var tick in axis.Ticks )
+            for ( var i = 0; i < axis.Ticks.Count; i++ )
             {
+                var tick = axis.Ticks[i];
                 var y = SvgChartGeometry.GetY( tick, plot, axis );
 
                 builder.OpenElement( sequence++, "text" );
@@ -306,7 +309,7 @@ internal static class SvgChartAxesRenderer
                 builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y + 4 ) );
                 builder.AddAttribute( sequence++, "text-anchor", "start" );
                 SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.68 );
-                builder.AddContent( sequence++, SvgChartRenderHelpers.FormatTick( tick ) );
+                builder.AddContent( sequence++, FormatValueTick( axis, tick, i ) );
                 builder.CloseElement();
             }
 
@@ -332,6 +335,28 @@ internal static class SvgChartAxesRenderer
             return "currentColor";
 
         return SvgChartRenderHelpers.ResolveColor( color, 0 );
+    }
+
+    private static string FormatCategoryTick( SvgChartRenderModel model, object value, int index )
+    {
+        return model.CategoryTickFormatter?.Invoke( new()
+        {
+            Value = value,
+            Index = index,
+            CategoryAxis = true,
+            AxisId = model.CategoryAxis?.Id
+        } ) ?? value?.ToString();
+    }
+
+    private static string FormatValueTick( SvgChartRenderValueAxis axis, double value, int index )
+    {
+        return axis.TickFormatter?.Invoke( new()
+        {
+            Value = value,
+            Index = index,
+            CategoryAxis = false,
+            AxisId = axis.Id
+        } ) ?? SvgChartRenderHelpers.FormatTick( value );
     }
 
     #endregion

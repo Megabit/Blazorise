@@ -32,6 +32,12 @@ internal sealed class SvgChartRenderSeries
 
     public string ValueAxisId { get; init; }
 
+    public string Stack { get; init; }
+
+    public List<double?> StackBaseValues { get; init; } = [];
+
+    public List<double?> StackEndValues { get; init; } = [];
+
     public double BorderRadius { get; init; }
 
     public double StrokeWidth { get; init; }

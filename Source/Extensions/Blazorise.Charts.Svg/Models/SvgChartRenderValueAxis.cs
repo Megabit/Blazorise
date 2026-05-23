@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 #endregion
 
@@ -13,6 +14,10 @@ internal sealed class SvgChartRenderValueAxis
     public SvgChartAxisPosition Position { get; init; }
 
     public SvgChartGridLinesOptions GridLines { get; init; }
+
+    public Func<SvgChartAxisTickContext, string> TickFormatter { get; init; }
+
+    public bool Stacked { get; init; }
 
     public double Min { get; init; }
 

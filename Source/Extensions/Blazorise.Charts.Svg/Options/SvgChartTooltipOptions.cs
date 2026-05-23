@@ -18,6 +18,11 @@ public class SvgChartTooltipOptions
     public bool Enabled { get; set; } = true;
 
     /// <summary>
+    /// Defines how related points are resolved for tooltip content.
+    /// </summary>
+    public SvgChartInteractionMode InteractionMode { get; set; } = SvgChartInteractionMode.Nearest;
+
+    /// <summary>
     /// Defines a callback used to format default tooltip text.
     /// </summary>
     public Func<SvgChartTooltipContext, string> Formatter { get; set; }

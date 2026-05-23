@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-23T10:57:56.0707659Z",
+  "generatedUtc": "2026-05-23T20:50:54.3702468Z",
   "pages": [
     {
       "route": "/docs",
@@ -7370,6 +7370,14 @@
           "description": "Use the base SVG chart component when multiple series types should share one plot area."
         },
         {
+          "code": "SvgAdvancedChartExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgAdvancedChartExample.razor",
+          "content": "<SvgColumnChart TItem=\"MonthlyRevenue\"\r\n                Items=\"@revenue\"\r\n                Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Stacked revenue\")' Subtitle='@(\"Index tooltip, stacked values, and formatted axis ticks\")' />\r\n    <SvgChartLegend Position=\"SvgChartLegendPosition.Bottom\" />\r\n    <SvgChartTooltip Enabled InteractionMode=\"SvgChartInteractionMode.Index\" Width=\"220\" />\r\n    <SvgChartTimeAxis TimeValue=\"@( item => (DateTime?)item.Month )\" Unit=\"SvgChartTimeUnit.Month\" />\r\n    <SvgChartValueAxis BeginAtZero Stacked TickCount=\"6\" TickFormatter=\"@FormatCurrencyTick\" />\r\n\r\n    <SvgColumnSeries Name=\"Product\" Stack=\"revenue\" Value=\"@( item => item.Product )\" Color=\"Color.Primary\" BorderRadius=\"4\" />\r\n    <SvgColumnSeries Name=\"Services\" Stack=\"revenue\" Value=\"@( item => item.Services )\" Color=\"Color.Info\" BorderRadius=\"4\" />\r\n    <SvgColumnSeries Name=\"Support\" Stack=\"revenue\" Value=\"@( item => item.Support )\" Color=\"Color.Success\" BorderRadius=\"4\" />\r\n</SvgColumnChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n        Tooltip = new() { InteractionMode = SvgChartInteractionMode.Index, Width = 220 },\r\n        YAxis = new() { BeginAtZero = true, Stacked = true, TickCount = 6 },\r\n    };\r\n\r\n    private readonly List<MonthlyRevenue> revenue =\r\n    [\r\n        new() { Month = new DateTime( 2026, 1, 1 ), Product = 42, Services = 24, Support = 12 },\r\n        new() { Month = new DateTime( 2026, 2, 1 ), Product = 48, Services = 28, Support = 14 },\r\n        new() { Month = new DateTime( 2026, 3, 1 ), Product = 55, Services = 32, Support = 18 },\r\n        new() { Month = new DateTime( 2026, 4, 1 ), Product = 51, Services = 35, Support = 20 },\r\n    ];\r\n\r\n    private static string FormatCurrencyTick( SvgChartAxisTickContext context )\r\n    {\r\n        return context.Value is IFormattable value ? $\"${value.ToString( \"0\", null )}\" : context.Value?.ToString();\r\n    }\r\n\r\n    private sealed class MonthlyRevenue\r\n    {\r\n        public DateTime Month { get; set; }\r\n\r\n        public double Product { get; set; }\r\n\r\n        public double Services { get; set; }\r\n\r\n        public double Support { get; set; }\r\n    }\r\n}",
+          "title": "Stacking, interaction, and time labels",
+          "description": "Combine stacked series, grouped tooltip interaction, axis tick callbacks, and time-formatted category labels."
+        },
+        {
           "code": "SvgPieChartExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgPieChartExample.razor",
@@ -7482,6 +7490,10 @@
         {
           "kind": "type",
           "name": "SvgChartCategoryAxis"
+        },
+        {
+          "kind": "type",
+          "name": "SvgChartTimeAxis"
         },
         {
           "kind": "type",

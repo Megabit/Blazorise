@@ -1,3 +1,7 @@
+#region Using directives
+using System.Collections.Generic;
+#endregion
+
 namespace Blazorise.Charts.Svg;
 
 /// <summary>
@@ -31,6 +35,16 @@ public sealed class SvgChartTooltipContext
     /// Gets the point value.
     /// </summary>
     public object Value { get; init; }
+
+    /// <summary>
+    /// Gets the tooltip interaction mode.
+    /// </summary>
+    public SvgChartInteractionMode InteractionMode { get; init; }
+
+    /// <summary>
+    /// Gets all points resolved by the tooltip interaction mode.
+    /// </summary>
+    public IReadOnlyList<SvgChartTooltipItemContext> Items { get; init; } = [];
 
     /// <summary>
     /// Gets the rendered point bounds.

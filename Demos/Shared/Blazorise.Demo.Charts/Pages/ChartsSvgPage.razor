@@ -53,6 +53,53 @@
     <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
+                <CardTitle>SVG stacked column chart - index tooltip</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgColumnChart TItem="MonthlySales"
+                                Items="@Sales"
+                                Options="@stackedOptions"
+                                Hovered="@OnPointHovered">
+                    <SvgChartTitle Title='@("Stacked revenue")' Subtitle='@("Stacked axis with grouped tooltip items")' />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled InteractionMode="SvgChartInteractionMode.Index" Width="220" />
+                    <SvgChartCategoryAxis Value="@( x => x.Month )" />
+                    <SvgChartValueAxis BeginAtZero Stacked TickCount="6" TickFormatter="@FormatCurrencyTick" />
+
+                    <SvgColumnSeries Name="Tokyo" Stack="revenue" Value="@( x => x.Tokyo )" Color="Color.Primary" BorderRadius="4" />
+                    <SvgColumnSeries Name="New York" Stack="revenue" Value="@( x => x.NewYork )" Color="Color.Info" BorderRadius="4" />
+                    <SvgColumnSeries Name="London" Stack="revenue" Value="@( x => x.London )" Color="Color.Success" BorderRadius="4" />
+                </SvgColumnChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG line chart - time axis</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgLineChart TItem="LatencySample"
+                              Items="@Latency"
+                              Options="@timeAxisOptions"
+                              Hovered="@OnPointHovered">
+                    <SvgChartTitle Title='@("Latency over time")' Subtitle='@("Time axis labels and value tick callback")' />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled InteractionMode="SvgChartInteractionMode.Dataset" Width="220" />
+                    <SvgChartTimeAxis TimeValue="@( x => (DateTime?)x.Timestamp )" Unit="SvgChartTimeUnit.Minute" />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" TickFormatter="@FormatMillisecondsTick" />
+
+                    <SvgLineSeries Name="API" Value="@( x => x.Api )" Color="Color.Primary" StrokeWidth="3" MarkerRadius="4" />
+                    <SvgLineSeries Name="Queue" Value="@( x => x.Queue )" Color="Color.Warning" StrokeWidth="3" MarkerRadius="4" />
+                </SvgLineChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
                 <CardTitle>SVG mixed chart - multiple value axes</CardTitle>
             </CardHeader>
             <CardBody>

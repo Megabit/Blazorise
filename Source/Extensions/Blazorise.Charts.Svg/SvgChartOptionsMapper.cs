@@ -14,6 +14,8 @@ internal static class SvgChartOptionsMapper
             Min = axis.Min,
             Max = axis.Max,
             TickCount = axis.TickCount,
+            Stacked = axis.Stacked,
+            TickFormatter = axis.TickFormatter,
             GridLines = CreateGridLinesOptions( axis.GridLines ),
             Labels = CreateLabelsOptions( axis.Labels ),
             Title = axis.Title
@@ -30,6 +32,8 @@ internal static class SvgChartOptionsMapper
             Min = axis.Min,
             Max = axis.Max,
             TickCount = axis.TickCount,
+            Stacked = axis.Stacked,
+            TickFormatter = axis.TickFormatter,
             GridLines = CreateGridLinesOptions( axis.GridLines ),
             Labels = new(),
             Title = axis.Title
@@ -49,6 +53,8 @@ internal static class SvgChartOptionsMapper
             Min = options.Min,
             Max = options.Max,
             TickCount = options.TickCount,
+            Stacked = options.Stacked,
+            TickFormatter = axis.TickFormatter ?? options.TickFormatter,
             GridLines = CreateGridLinesOptions( options.GridLines, axis.GridLines ),
             Labels = CreateLabelsOptions( options.Labels, axis.LabelsOptions ),
             Title = axis.Title

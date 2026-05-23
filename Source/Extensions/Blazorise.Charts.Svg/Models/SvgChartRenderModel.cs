@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Collections.Generic;
 #endregion
 
@@ -27,6 +28,8 @@ internal sealed class SvgChartRenderModel
     public double CategoryMax { get; init; }
 
     public SvgChartAxisOptions CategoryAxis { get; init; }
+
+    public Func<SvgChartAxisTickContext, string> CategoryTickFormatter { get; init; }
 
     public List<SvgChartRenderSeries> Series { get; init; } = [];
 

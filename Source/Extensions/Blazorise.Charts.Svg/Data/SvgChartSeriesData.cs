@@ -48,6 +48,11 @@ public class SvgChartSeriesData<TValue>
     public string ValueAxisId { get; set; }
 
     /// <summary>
+    /// Defines the stack group used to stack compatible series.
+    /// </summary>
+    public string Stack { get; set; }
+
+    /// <summary>
     /// Defines the series color. Use a Blazorise theme color, or pass a CSS color value such as <c>#4c6ef5</c>, <c>rgb(76, 110, 245)</c>, <c>hsl(228 88% 60%)</c>, or <c>var(--chart-color)</c>.
     /// </summary>
     public Color Color { get; set; }

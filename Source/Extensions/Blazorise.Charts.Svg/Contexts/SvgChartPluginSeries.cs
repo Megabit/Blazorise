@@ -67,6 +67,21 @@ public sealed class SvgChartPluginSeries
     public string ValueAxisId { get; init; }
 
     /// <summary>
+    /// Gets the stack group used by the series.
+    /// </summary>
+    public string Stack { get; init; }
+
+    /// <summary>
+    /// Gets the resolved stack base values.
+    /// </summary>
+    public IReadOnlyList<double?> StackBaseValues { get; init; } = [];
+
+    /// <summary>
+    /// Gets the resolved stack end values.
+    /// </summary>
+    public IReadOnlyList<double?> StackEndValues { get; init; } = [];
+
+    /// <summary>
     /// Gets the resolved bar or column border radius.
     /// </summary>
     public double BorderRadius { get; init; }
