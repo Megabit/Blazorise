@@ -48,7 +48,10 @@ internal sealed class SvgChartPointSeriesRenderer : ISvgChartSeriesRenderer
                     ? Math.Max( 2, pointIndex < item.RadiusValues.Count && item.RadiusValues[pointIndex].HasValue ? item.RadiusValues[pointIndex].Value : item.MarkerRadius )
                     : item.MarkerRadius;
                 var bounds = new SvgChartPointBounds { X = x - radius, Y = y - radius, Width = radius * 2, Height = radius * 2 };
-                var point = chart.CreatePoint( item, pointIndex, xValue.Value, yValue.Value, bounds );
+                var category = chart.ContinuousCategoryAxis && pointIndex < chart.Labels.Count
+                    ? chart.Labels[pointIndex]
+                    : xValue.Value;
+                var point = chart.CreatePoint( item, pointIndex, category, yValue.Value, bounds );
                 var animationKey = context.TrackPointBounds( item, pointIndex, bounds );
 
                 builder.OpenElement( sequence++, "circle" );

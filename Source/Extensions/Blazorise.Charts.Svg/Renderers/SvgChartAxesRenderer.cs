@@ -34,7 +34,7 @@ internal static class SvgChartAxesRenderer
             }
         }
 
-        if ( model.Series.Any( x => !x.Hidden && SvgChartGeometry.IsPointChart( x.Type ) ) )
+        if ( model.CategoryScaleKind == SvgChartAxisScaleKind.Continuous || model.Series.Any( x => !x.Hidden && SvgChartGeometry.IsPointChart( x.Type ) ) )
             RenderPointXAxisGridAndLabels( builder, ref sequence, model, plot, plotClipPathId, categoryAxisLabelsClipPathId );
         else
             RenderCategoryAxisGridLines( builder, ref sequence, model, plot, streamingAnimation, plotClipPathId );
@@ -71,7 +71,7 @@ internal static class SvgChartAxesRenderer
         builder.AddAttribute( sequence++, "stroke-opacity", "0.22" );
         builder.CloseElement();
 
-        if ( !streamingAnimation.Enabled && !model.Series.Any( x => !x.Hidden && SvgChartGeometry.IsPointChart( x.Type ) ) )
+        if ( !streamingAnimation.Enabled && model.CategoryScaleKind != SvgChartAxisScaleKind.Continuous && !model.Series.Any( x => !x.Hidden && SvgChartGeometry.IsPointChart( x.Type ) ) )
             RenderCategoryAxisLabels( builder, ref sequence, model, plot, streamingAnimation, categoryAxisLabelsClipPathId );
 
         RenderRightValueAxes( builder, ref sequence, model, plot, primaryAxis );
@@ -271,16 +271,34 @@ internal static class SvgChartAxesRenderer
             var tick = scale.Ticks[i];
             var x = SvgChartGeometry.GetX( tick, plot, scale.Min, scale.Max );
 
+            if ( x < plot.Left - 0.5 || x > plot.Right + 0.5 )
+                continue;
+
+            var labelPlacement = ResolvePointXAxisLabelPlacement( x, plot );
+
             builder.OpenElement( sequence++, "text" );
-            builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( x ) );
+            builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( labelPlacement.X ) );
             builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( plot.Bottom + labels.Offset ) );
-            builder.AddAttribute( sequence++, "text-anchor", "middle" );
+            builder.AddAttribute( sequence++, "text-anchor", labelPlacement.TextAnchor );
             SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.72 );
             builder.AddContent( sequence++, FormatCategoryTick( model, tick, i ) );
             builder.CloseElement();
         }
 
         builder.CloseElement();
+    }
+
+    private static (double X, string TextAnchor) ResolvePointXAxisLabelPlacement( double x, SvgChartPlotArea plot )
+    {
+        const double edgeTolerance = 0.5;
+
+        if ( x <= plot.Left + edgeTolerance )
+            return (plot.Left, "start");
+
+        if ( x >= plot.Right - edgeTolerance )
+            return (plot.Right, "end");
+
+        return (x, "middle");
     }
 
     private static void RenderRightValueAxes( RenderTreeBuilder builder, ref int sequence, SvgChartRenderModel model, SvgChartPlotArea plot, SvgChartRenderValueAxis primaryAxis )

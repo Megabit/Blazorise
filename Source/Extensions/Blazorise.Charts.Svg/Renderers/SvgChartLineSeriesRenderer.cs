@@ -40,7 +40,7 @@ internal sealed class SvgChartLineSeriesRenderer : ISvgChartSeriesRenderer
                 var value = item.Values[pointIndex];
 
                 if ( value.HasValue )
-                    points.Add( (pointIndex, chart.ProjectCategory( pointIndex ), chart.ProjectY( value.Value, item.ValueAxisId ), value.Value) );
+                    points.Add( (pointIndex, ResolveX( chart, item, pointIndex ), chart.ProjectY( value.Value, item.ValueAxisId ), value.Value) );
             }
 
             if ( points.Count > 1 )
@@ -90,6 +90,14 @@ internal sealed class SvgChartLineSeriesRenderer : ISvgChartSeriesRenderer
         }
 
         builder.CloseElement();
+    }
+
+    private static double ResolveX( SvgChartPluginRenderContext chart, SvgChartPluginSeries series, int pointIndex )
+    {
+        if ( chart.ContinuousCategoryAxis && pointIndex < series.XValues.Count && series.XValues[pointIndex].HasValue )
+            return chart.ProjectX( series.XValues[pointIndex].Value );
+
+        return chart.ProjectCategory( pointIndex );
     }
 
     #endregion

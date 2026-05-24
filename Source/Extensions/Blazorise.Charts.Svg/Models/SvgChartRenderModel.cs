@@ -27,6 +27,10 @@ internal sealed class SvgChartRenderModel
 
     public double CategoryMax { get; init; }
 
+    public SvgChartAxisScaleKind CategoryScaleKind { get; init; }
+
+    public SvgChartScale CategoryScale { get; init; }
+
     public SvgChartAxisOptions CategoryAxis { get; init; }
 
     public Func<SvgChartAxisTickContext, string> CategoryTickFormatter { get; init; }

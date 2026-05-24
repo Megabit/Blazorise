@@ -242,7 +242,7 @@ public class SvgChartDataLabels : SvgChartPluginBase
             if ( !value.HasValue )
                 continue;
 
-            var x = context.ProjectCategory( pointIndex );
+            var x = ResolveLineX( context, series, pointIndex );
             var y = context.ProjectY( value.Value, series.ValueAxisId );
             var bounds = new SvgChartPointBounds { X = x - markerRadius, Y = y - markerRadius, Width = markerRadius * 2, Height = markerRadius * 2 };
 
@@ -266,18 +266,29 @@ public class SvgChartDataLabels : SvgChartPluginBase
                 ? Math.Max( 2, pointIndex < series.RadiusValues.Count && series.RadiusValues[pointIndex].HasValue ? series.RadiusValues[pointIndex].Value : series.MarkerRadius )
                 : series.MarkerRadius;
             var bounds = new SvgChartPointBounds { X = x - radius, Y = y - radius, Width = radius * 2, Height = radius * 2 };
+            var category = context.ContinuousCategoryAxis && pointIndex < context.Labels.Count
+                ? context.Labels[pointIndex]
+                : xValue.Value;
             var point = new SvgChartPointEventArgs
             {
                 SeriesName = series.Name,
                 SeriesIndex = context.Series.ToList().IndexOf( series ),
                 PointIndex = pointIndex,
-                Category = xValue.Value,
+                Category = category,
                 Value = yValue.Value,
                 Bounds = bounds
             };
 
             points.Add( (point, series.Color, series.Type) );
         }
+    }
+
+    private static double ResolveLineX( SvgChartPluginRenderContext context, SvgChartPluginSeries series, int pointIndex )
+    {
+        if ( context.ContinuousCategoryAxis && pointIndex < series.XValues.Count && series.XValues[pointIndex].HasValue )
+            return context.ProjectX( series.XValues[pointIndex].Value );
+
+        return context.ProjectCategory( pointIndex );
     }
 
     private static void AddArcDataLabelPoints( List<(SvgChartPointEventArgs Point, string Color, SvgChartType ChartType)> points, SvgChartPluginRenderContext context, SvgChartPluginSeries series )

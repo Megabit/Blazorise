@@ -84,10 +84,10 @@
                               Items="@Latency"
                               Options="@timeAxisOptions"
                               Hovered="@OnPointHovered">
-                    <SvgChartTitle Title='@("Latency over time")' Subtitle='@("Time axis labels and value tick callback")' />
+                    <SvgChartTitle Title='@("Service latency")' Subtitle='@("Irregular samples spaced by elapsed time")' />
                     <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
                     <SvgChartTooltip Enabled InteractionMode="SvgChartInteractionMode.Dataset" Width="220" />
-                    <SvgChartTimeAxis TimeValue="@( x => (DateTime?)x.Timestamp )" Unit="SvgChartTimeUnit.Minute" />
+                    <SvgChartTimeAxis TimeValue="@( x => (DateTime?)x.Timestamp )" Scale="SvgChartTimeScale.Continuous" Unit="SvgChartTimeUnit.Minute" />
                     <SvgChartValueAxis BeginAtZero TickCount="6" TickFormatter="@FormatMillisecondsTick" />
 
                     <SvgLineSeries Name="API" Value="@( x => x.Api )" Color="Color.Primary" StrokeWidth="3" MarkerRadius="4" />

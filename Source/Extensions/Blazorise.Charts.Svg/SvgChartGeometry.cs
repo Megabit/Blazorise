@@ -253,6 +253,9 @@ internal static class SvgChartGeometry
 
     public static SvgChartScale ResolvePointXScale( SvgChartRenderModel model, IEnumerable<SvgChartRenderSeries> pointSeries = null )
     {
+        if ( model.CategoryScale is not null )
+            return model.CategoryScale;
+
         var series = pointSeries?.ToList()
             ?? model.Series.Where( x => !x.Hidden && IsPointChart( x.Type ) ).ToList();
 

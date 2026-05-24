@@ -57,6 +57,7 @@ public sealed class SvgChartPluginRenderContext
         double valueMin,
         double valueMax,
         int categorySlotCount,
+        SvgChartAxisScaleKind categoryScaleKind,
         object eventReceiver,
         Func<double, double> projectCategory,
         Func<double, double> projectCategoryBoundary,
@@ -83,6 +84,8 @@ public sealed class SvgChartPluginRenderContext
         ValueMin = valueMin;
         ValueMax = valueMax;
         CategorySlotCount = categorySlotCount;
+        CategoryScaleKind = categoryScaleKind;
+        ContinuousCategoryAxis = categoryScaleKind == SvgChartAxisScaleKind.Continuous;
         EventReceiver = eventReceiver;
         this.projectCategory = projectCategory;
         this.projectCategoryBoundary = projectCategoryBoundary;
@@ -358,6 +361,13 @@ public sealed class SvgChartPluginRenderContext
     /// Gets the rendered category slot count.
     /// </summary>
     public int CategorySlotCount { get; }
+
+    /// <summary>
+    /// Gets whether the category axis is projected through a continuous numeric scale.
+    /// </summary>
+    public bool ContinuousCategoryAxis { get; }
+
+    internal SvgChartAxisScaleKind CategoryScaleKind { get; }
 
     /// <summary>
     /// Gets the event receiver that plugins should use when creating chart event callbacks.

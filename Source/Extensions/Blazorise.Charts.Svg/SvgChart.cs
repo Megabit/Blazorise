@@ -387,6 +387,7 @@ public class SvgChart<TItem> : SvgChartBase
             model.Min,
             model.Max,
             GetCategorySlotCount( model ),
+            model.CategoryScaleKind,
             this,
             value => GetCategoryX( (int)Math.Round( value, MidpointRounding.AwayFromZero ), plot, model ),
             value => GetCategoryBoundaryX( value, plot, model ),

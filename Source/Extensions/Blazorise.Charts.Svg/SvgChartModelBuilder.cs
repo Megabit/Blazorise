@@ -85,7 +85,8 @@ internal sealed class SvgChartModelBuilder<TItem>
         var valueAxisId = ResolveValueAxisId( chartData, childSeries );
         var items = Items?.ToList() ?? [];
         var labels = ResolveLabels( chartData, categoryAxis, items );
-        var series = ResolveSeries( chartData, childSeries, items, labels.Count );
+        var timeAxisValues = ResolveTimeAxisValues( categoryAxis, labels );
+        var series = ResolveSeries( chartData, childSeries, items, labels.Count, timeAxisValues );
         var zoom = ResolveZoom( options );
         var viewport = applyZoomViewport ? ResolveViewport( zoom ) : null;
         var categorySlotCount = labels.Count;
@@ -94,6 +95,7 @@ internal sealed class SvgChartModelBuilder<TItem>
         if ( applyStreamingViewport )
             ApplyStreamingViewport( labels, series, ResolveStreaming(), out categorySlotCount, out categoryLabelIndexes );
         var categoryRange = ResolveCategoryRange( labels.Count, zoom, viewport );
+        var categoryScale = ResolveContinuousCategoryScale( categoryAxis, categoryAxisOptions, labels, series, zoom, viewport );
         var valueAxes = ResolveValueAxes( options, series, zoom, viewport );
         var primaryValueAxis = ResolvePrimaryValueAxis( valueAxes, valueAxisId );
 
@@ -108,6 +110,8 @@ internal sealed class SvgChartModelBuilder<TItem>
             CategoryLabelIndexes = categoryLabelIndexes,
             CategoryMin = categoryRange.Min,
             CategoryMax = categoryRange.Max,
+            CategoryScaleKind = categoryScale is null ? SvgChartAxisScaleKind.Ordinal : SvgChartAxisScaleKind.Continuous,
+            CategoryScale = categoryScale,
             CategoryAxis = categoryAxisOptions,
             CategoryTickFormatter = ResolveCategoryTickFormatter( categoryAxis, categoryAxisOptions ),
             Series = series,
@@ -161,7 +165,7 @@ internal sealed class SvgChartModelBuilder<TItem>
         return Enumerable.Range( 1, maxValues ).Select( x => (object)x ).ToList();
     }
 
-    private List<SvgChartRenderSeries> ResolveSeries( SvgChartData<double?> chartData, List<SvgChartSeries<TItem>> childSeries, List<TItem> items, int labelCount )
+    private List<SvgChartRenderSeries> ResolveSeries( SvgChartData<double?> chartData, List<SvgChartSeries<TItem>> childSeries, List<TItem> items, int labelCount, List<double?> categoryXValues )
     {
         var series = new List<SvgChartRenderSeries>();
 
@@ -175,7 +179,9 @@ internal sealed class SvgChartModelBuilder<TItem>
                 var yValues = dataSeries.YValues?.Count > 0 ? dataSeries.YValues.ToList() : values.ToList();
                 var xValues = dataSeries.XValues?.Count > 0
                     ? dataSeries.XValues.ToList()
-                    : Enumerable.Range( 0, yValues.Count ).Select( x => (double?)x ).ToList();
+                    : ( categoryXValues?.Count > 0
+                        ? NormalizeValues( categoryXValues.ToList(), yValues.Count )
+                        : Enumerable.Range( 0, yValues.Count ).Select( x => (double?)x ).ToList() );
 
                 series.Add( new()
                 {
@@ -207,7 +213,9 @@ internal sealed class SvgChartModelBuilder<TItem>
             var values = child.Values?.ToList()
                 ?? ( child.Value is null ? [] : items.Select( child.Value ).ToList() );
             var xValues = child.XValue is null
-                ? Enumerable.Range( 0, values.Count ).Select( x => (double?)x ).ToList()
+                ? ( categoryXValues?.Count > 0
+                    ? NormalizeValues( categoryXValues.ToList(), values.Count )
+                    : Enumerable.Range( 0, values.Count ).Select( x => (double?)x ).ToList() )
                 : items.Select( child.XValue ).ToList();
             var yValues = child.YValue is null ? values.ToList() : items.Select( child.YValue ).ToList();
             var radiusValues = child.RadiusValue is null ? [] : items.Select( child.RadiusValue ).ToList();
@@ -344,6 +352,9 @@ internal sealed class SvgChartModelBuilder<TItem>
 
             return context =>
             {
+                if ( timeAxis.Scale == SvgChartTimeScale.Continuous && context.Value is double doubleValue )
+                    return DateTimeOffset.FromUnixTimeMilliseconds( Convert.ToInt64( doubleValue ) ).ToString( ResolveTimeFormat( timeAxis ), culture );
+
                 if ( context.Value is DateTime dateTime )
                     return dateTime.ToString( ResolveTimeFormat( timeAxis ), culture );
 
@@ -355,6 +366,41 @@ internal sealed class SvgChartModelBuilder<TItem>
         }
 
         return categoryAxisOptions.TickFormatter;
+    }
+
+    private static List<double?> ResolveTimeAxisValues( SvgChartCategoryAxis<TItem> categoryAxis, List<object> labels )
+    {
+        if ( categoryAxis is not SvgChartTimeAxis<TItem> { Scale: SvgChartTimeScale.Continuous } || labels.Count == 0 )
+            return null;
+
+        return labels.Select( ToUnixMilliseconds ).ToList();
+    }
+
+    private static SvgChartScale ResolveContinuousCategoryScale( SvgChartCategoryAxis<TItem> categoryAxis, SvgChartAxisOptions categoryAxisOptions, List<object> labels, List<SvgChartRenderSeries> series, SvgChartZoomOptions zoom, SvgChartViewport viewport )
+    {
+        if ( categoryAxis is not SvgChartTimeAxis<TItem> { Scale: SvgChartTimeScale.Continuous } timeAxis )
+            return null;
+
+        var visibleSeries = series.Where( x => !x.Hidden && !SvgChartGeometry.IsRadialChart( x.Type ) ).ToList();
+
+        if ( visibleSeries.Count == 0 || visibleSeries.Any( x => x.Type is not ( SvgChartType.Line or SvgChartType.Area or SvgChartType.Scatter or SvgChartType.Bubble ) ) )
+            return null;
+
+        var values = visibleSeries
+            .SelectMany( x => x.XValues )
+            .Concat( labels.Select( ToUnixMilliseconds ) )
+            .Where( x => x.HasValue )
+            .Select( x => x.Value )
+            .ToList();
+
+        if ( values.Count == 0 )
+            return null;
+
+        var axis = SvgChartGeometry.ApplyPointXAxisViewport( categoryAxisOptions, zoom, viewport );
+        axis.BeginAtZero = false;
+        var range = SvgChartGeometry.BuildScale( values, axis );
+
+        return BuildTimeScale( range.Min, range.Max, Math.Max( 2, axis.TickCount ), timeAxis );
     }
 
     private static string ResolveTimeFormat( SvgChartTimeAxis<TItem> axis )
@@ -388,6 +434,132 @@ internal sealed class SvgChartModelBuilder<TItem>
         {
             return System.Globalization.CultureInfo.CurrentCulture;
         }
+    }
+
+    private static SvgChartScale BuildTimeScale( double min, double max, int tickCount, SvgChartTimeAxis<TItem> timeAxis )
+    {
+        var minDate = DateTimeOffset.FromUnixTimeMilliseconds( Convert.ToInt64( min ) );
+        var maxDate = DateTimeOffset.FromUnixTimeMilliseconds( Convert.ToInt64( max ) );
+        var unit = ResolveTimeUnit( timeAxis, maxDate - minDate );
+        var step = ResolveTimeStep( unit, maxDate - minDate, tickCount );
+        var current = FloorTime( minDate, unit, step );
+        var ticks = new List<double>();
+
+        while ( current < minDate )
+            current = AddTimeUnit( current, unit, step );
+
+        for ( var i = 0; current <= maxDate && i < tickCount * 4; i++ )
+        {
+            ticks.Add( current.ToUnixTimeMilliseconds() );
+            current = AddTimeUnit( current, unit, step );
+        }
+
+        if ( ticks.Count == 0 || ticks[0] > min )
+            ticks.Insert( 0, min );
+
+        if ( ticks[^1] < max )
+            ticks.Add( max );
+
+        return new()
+        {
+            Min = min,
+            Max = max,
+            Ticks = ticks
+        };
+    }
+
+    private static SvgChartTimeUnit ResolveTimeUnit( SvgChartTimeAxis<TItem> axis, TimeSpan range )
+    {
+        if ( axis.Unit != SvgChartTimeUnit.Auto )
+            return axis.Unit;
+
+        if ( range <= TimeSpan.FromMinutes( 2 ) )
+            return SvgChartTimeUnit.Second;
+
+        if ( range <= TimeSpan.FromHours( 2 ) )
+            return SvgChartTimeUnit.Minute;
+
+        if ( range <= TimeSpan.FromDays( 2 ) )
+            return SvgChartTimeUnit.Hour;
+
+        if ( range <= TimeSpan.FromDays( 120 ) )
+            return SvgChartTimeUnit.Day;
+
+        if ( range <= TimeSpan.FromDays( 730 ) )
+            return SvgChartTimeUnit.Month;
+
+        return SvgChartTimeUnit.Year;
+    }
+
+    private static int ResolveTimeStep( SvgChartTimeUnit unit, TimeSpan range, int tickCount )
+    {
+        var intervals = Math.Max( 1, tickCount - 1 );
+        var rawStep = unit switch
+        {
+            SvgChartTimeUnit.Millisecond => range.TotalMilliseconds / intervals,
+            SvgChartTimeUnit.Second => range.TotalSeconds / intervals,
+            SvgChartTimeUnit.Minute => range.TotalMinutes / intervals,
+            SvgChartTimeUnit.Hour => range.TotalHours / intervals,
+            SvgChartTimeUnit.Day => range.TotalDays / intervals,
+            SvgChartTimeUnit.Month => range.TotalDays / 30 / intervals,
+            SvgChartTimeUnit.Year => range.TotalDays / 365 / intervals,
+            _ => range.TotalMinutes / intervals
+        };
+
+        var steps = unit switch
+        {
+            SvgChartTimeUnit.Millisecond => new[] { 1, 2, 5, 10, 25, 50, 100, 250, 500 },
+            SvgChartTimeUnit.Second or SvgChartTimeUnit.Minute => new[] { 1, 2, 5, 10, 15, 30 },
+            SvgChartTimeUnit.Hour => new[] { 1, 2, 3, 6, 12 },
+            SvgChartTimeUnit.Day => new[] { 1, 2, 7, 14 },
+            SvgChartTimeUnit.Month => new[] { 1, 2, 3, 6 },
+            SvgChartTimeUnit.Year => new[] { 1, 2, 5, 10 },
+            _ => new[] { 1, 2, 5, 10 }
+        };
+
+        var step = steps.FirstOrDefault( x => x >= rawStep );
+
+        return step == 0 ? steps[^1] : step;
+    }
+
+    private static DateTimeOffset FloorTime( DateTimeOffset value, SvgChartTimeUnit unit, int step )
+    {
+        return unit switch
+        {
+            SvgChartTimeUnit.Millisecond => value.AddMilliseconds( -( value.Millisecond % step ) ),
+            SvgChartTimeUnit.Second => new( value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second - value.Second % step, value.Offset ),
+            SvgChartTimeUnit.Minute => new( value.Year, value.Month, value.Day, value.Hour, value.Minute - value.Minute % step, 0, value.Offset ),
+            SvgChartTimeUnit.Hour => new( value.Year, value.Month, value.Day, value.Hour - value.Hour % step, 0, 0, value.Offset ),
+            SvgChartTimeUnit.Day => new( value.Year, value.Month, Math.Max( 1, value.Day - ( value.Day - 1 ) % step ), 0, 0, 0, value.Offset ),
+            SvgChartTimeUnit.Month => new( value.Year, Math.Max( 1, value.Month - ( value.Month - 1 ) % step ), 1, 0, 0, 0, value.Offset ),
+            SvgChartTimeUnit.Year => new( Math.Max( 1, value.Year - ( value.Year - 1 ) % step ), 1, 1, 0, 0, 0, value.Offset ),
+            _ => value
+        };
+    }
+
+    private static DateTimeOffset AddTimeUnit( DateTimeOffset value, SvgChartTimeUnit unit, int step )
+    {
+        return unit switch
+        {
+            SvgChartTimeUnit.Millisecond => value.AddMilliseconds( step ),
+            SvgChartTimeUnit.Second => value.AddSeconds( step ),
+            SvgChartTimeUnit.Minute => value.AddMinutes( step ),
+            SvgChartTimeUnit.Hour => value.AddHours( step ),
+            SvgChartTimeUnit.Day => value.AddDays( step ),
+            SvgChartTimeUnit.Month => value.AddMonths( step ),
+            SvgChartTimeUnit.Year => value.AddYears( step ),
+            _ => value.AddMinutes( step )
+        };
+    }
+
+    private static double? ToUnixMilliseconds( object value )
+    {
+        return value switch
+        {
+            DateTime dateTime => new DateTimeOffset( dateTime ).ToUnixTimeMilliseconds(),
+            DateTimeOffset dateTimeOffset => dateTimeOffset.ToUnixTimeMilliseconds(),
+            _ => null
+        };
     }
 
     private static List<double?> NormalizeValues( List<double?> values, int labelCount )

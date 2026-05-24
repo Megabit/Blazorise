@@ -42,11 +42,13 @@ public partial class ChartsSvgPage
 
     private readonly List<LatencySample> Latency =
     [
-        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 0, 0 ), Api = 42, Queue = 28 },
-        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 5, 0 ), Api = 48, Queue = 31 },
-        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 10, 0 ), Api = 55, Queue = 36 },
-        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 15, 0 ), Api = 51, Queue = 33 },
-        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 20, 0 ), Api = 64, Queue = 42 },
+        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 0, 0 ), Api = 44, Queue = 29 },
+        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 4, 0 ), Api = 52, Queue = 33 },
+        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 17, 0 ), Api = 47, Queue = 35 },
+        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 28, 0 ), Api = 61, Queue = 40 },
+        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 49, 0 ), Api = 56, Queue = 38 },
+        new() { Timestamp = new DateTime( 2026, 5, 23, 10, 6, 0 ), Api = 68, Queue = 45 },
+        new() { Timestamp = new DateTime( 2026, 5, 23, 10, 30, 0 ), Api = 63, Queue = 42 },
     ];
 
     private SvgChartOptions columnOptions = new()
@@ -93,6 +95,7 @@ public partial class ChartsSvgPage
         Height = 380,
         Legend = new() { Position = SvgChartLegendPosition.Bottom },
         Tooltip = new() { InteractionMode = SvgChartInteractionMode.Dataset, Width = 220 },
+        XAxis = new() { BeginAtZero = false, TickCount = 5, GridLines = new() { Visible = true } },
         YAxis = new() { BeginAtZero = true, TickCount = 6 },
     };
 

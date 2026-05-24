@@ -46,7 +46,7 @@ internal sealed class SvgChartAreaSeriesRenderer : ISvgChartSeriesRenderer
                 {
                     var startValue = ResolveStackValue( item.StackBaseValues, pointIndex, 0 );
                     var endValue = ResolveStackValue( item.StackEndValues, pointIndex, value.Value );
-                    var x = chart.ProjectCategory( pointIndex );
+                    var x = ResolveX( chart, item, pointIndex );
 
                     points.Add( (pointIndex, x, chart.ProjectY( endValue, item.ValueAxisId ), value.Value) );
                     basePoints.Add( (pointIndex, x, item.StackEndValues.Count > 0 ? chart.ProjectY( startValue, item.ValueAxisId ) : baseline, startValue) );
@@ -117,6 +117,14 @@ internal sealed class SvgChartAreaSeriesRenderer : ISvgChartSeriesRenderer
     private static double ResolveStackValue( IReadOnlyList<double?> values, int index, double fallback )
     {
         return index >= 0 && index < values.Count && values[index].HasValue ? values[index].Value : fallback;
+    }
+
+    private static double ResolveX( SvgChartPluginRenderContext chart, SvgChartPluginSeries series, int pointIndex )
+    {
+        if ( chart.ContinuousCategoryAxis && pointIndex < series.XValues.Count && series.XValues[pointIndex].HasValue )
+            return chart.ProjectX( series.XValues[pointIndex].Value );
+
+        return chart.ProjectCategory( pointIndex );
     }
 
     #endregion

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise.Charts.Svg;
 
 /// <summary>
-/// Defines a time-based category axis of a native SVG chart.
+/// Defines a time axis of a native SVG chart.
 /// </summary>
 /// <typeparam name="TItem">The chart item type.</typeparam>
 public class SvgChartTimeAxis<TItem> : SvgChartCategoryAxis<TItem>
@@ -22,6 +22,11 @@ public class SvgChartTimeAxis<TItem> : SvgChartCategoryAxis<TItem>
     /// Defines the preferred unit used to format time labels.
     /// </summary>
     [Parameter] public SvgChartTimeUnit Unit { get; set; } = SvgChartTimeUnit.Auto;
+
+    /// <summary>
+    /// Defines how time values are mapped on the axis.
+    /// </summary>
+    [Parameter] public SvgChartTimeScale Scale { get; set; } = SvgChartTimeScale.Ordinal;
 
     /// <summary>
     /// Defines the time label format. When not set, the format is inferred from <see cref="Unit"/>.

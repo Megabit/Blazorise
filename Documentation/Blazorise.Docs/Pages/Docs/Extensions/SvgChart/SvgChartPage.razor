@@ -107,10 +107,19 @@
         Combine stacked series, grouped tooltip interaction, axis tick callbacks, and time-formatted category labels.
     </DocsPageSectionHeader>
     <DocsPageParagraph>
-        <Code>SvgChartTimeAxis</Code> formats ordered time values as category labels. It does not currently space irregular time values on a continuous time scale.
+        <Code>SvgChartTimeAxis</Code> uses ordinal spacing by default. Set <Code>Scale</Code> to <Code>SvgChartTimeScale.Continuous</Code> on line, area, scatter, and bubble charts when irregular time values should be spaced by elapsed time.
     </DocsPageParagraph>
     <DocsPageSectionContent Code="SvgAdvancedChartExample" Outlined FullWidth>
         <SvgAdvancedChartExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Continuous time axis">
+        Use continuous time scaling when sample spacing should match the actual timestamp distance.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgTimeAxisChartExample" Outlined FullWidth>
+        <SvgTimeAxisChartExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 
