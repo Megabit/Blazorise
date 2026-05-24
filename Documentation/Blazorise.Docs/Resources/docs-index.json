@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-24T06:10:39.8807086Z",
+  "generatedUtc": "2026-05-24T20:09:10.6999562Z",
   "pages": [
     {
       "route": "/docs",
@@ -7433,80 +7433,6 @@
           "title": "Bubble chart",
           "description": "Use a bubble chart to plot X/Y values with an additional radius value."
         }
-      ],
-      "apiRefs": [
-        {
-          "kind": "type",
-          "name": "SvgChart"
-        },
-        {
-          "kind": "type",
-          "name": "SvgColumnChart"
-        },
-        {
-          "kind": "type",
-          "name": "SvgBarChart"
-        },
-        {
-          "kind": "type",
-          "name": "SvgLineChart"
-        },
-        {
-          "kind": "type",
-          "name": "SvgAreaChart"
-        },
-        {
-          "kind": "type",
-          "name": "SvgPieChart"
-        },
-        {
-          "kind": "type",
-          "name": "SvgDoughnutChart"
-        },
-        {
-          "kind": "type",
-          "name": "SvgPolarAreaChart"
-        },
-        {
-          "kind": "type",
-          "name": "SvgRadarChart"
-        },
-        {
-          "kind": "type",
-          "name": "SvgScatterChart"
-        },
-        {
-          "kind": "type",
-          "name": "SvgBubbleChart"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartTitle"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartLegend"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartTooltip"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartAnimation"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartCategoryAxis"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartTimeAxis"
-        },
-        {
-          "kind": "type",
-          "name": "SvgChartValueAxis"
-        }
       ]
     },
     {
@@ -7790,6 +7716,13 @@
           "name": "SvgChartViewport"
         }
       ]
+    },
+    {
+      "route": "/docs/extensions/svg-chart/api",
+      "title": "Blazorise SVG Chart API",
+      "description": "Explore the API reference for Blazorise SVG chart components, options, methods, and events.",
+      "pagePath": "Pages/Docs/Extensions/SvgChart/SvgChartApiPage.razor",
+      "examples": []
     },
     {
       "route": "/docs/extensions/transferlist",

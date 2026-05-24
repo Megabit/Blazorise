@@ -1404,6 +1404,11 @@ public class SvgChart<TItem> : SvgChartBase
         await HandleChartMouseUp( eventArgs );
     }
 
+    /// <summary>
+    /// Replaces the chart data and refreshes the chart.
+    /// </summary>
+    /// <param name="data">The chart data to render.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task SetData( SvgChartData<double?> data )
     {
         internalChartData = data;
@@ -1412,6 +1417,12 @@ public class SvgChart<TItem> : SvgChartBase
 
         return Task.CompletedTask;
     }
+
+    /// <summary>
+    /// Replaces the chart options and refreshes the chart.
+    /// </summary>
+    /// <param name="options">The chart options to apply.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task SetOptions( SvgChartOptions options )
     {
         Options = options;
@@ -1420,6 +1431,11 @@ public class SvgChart<TItem> : SvgChartBase
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Adds a category label to the chart data.
+    /// </summary>
+    /// <param name="label">The category label to add.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task AddLabel( object label )
     {
         EnsureInternalData().Labels.Add( label );
@@ -1428,6 +1444,11 @@ public class SvgChart<TItem> : SvgChartBase
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Adds a data series to the chart.
+    /// </summary>
+    /// <param name="series">The series to add.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task AddSeries( SvgChartSeriesData<double?> series )
     {
         EnsureInternalData().Series.Add( series );
@@ -1436,6 +1457,11 @@ public class SvgChart<TItem> : SvgChartBase
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Removes a data series by name.
+    /// </summary>
+    /// <param name="name">The series name.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task RemoveSeries( string name )
     {
         var data = EnsureInternalData();
@@ -1445,6 +1471,12 @@ public class SvgChart<TItem> : SvgChartBase
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Adds a value to an existing data series.
+    /// </summary>
+    /// <param name="seriesName">The series name.</param>
+    /// <param name="value">The value to add.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task AddValue( string seriesName, double? value )
     {
         var series = EnsureInternalData().Series.FirstOrDefault( x => x.Name == seriesName );
@@ -1562,6 +1594,13 @@ public class SvgChart<TItem> : SvgChartBase
 
     #endregion
 
+    /// <summary>
+    /// Updates a value in an existing data series.
+    /// </summary>
+    /// <param name="seriesName">The series name.</param>
+    /// <param name="index">The zero-based value index.</param>
+    /// <param name="value">The value to set.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task SetValue( string seriesName, int index, double? value )
     {
         var series = EnsureInternalData().Series.FirstOrDefault( x => x.Name == seriesName );
@@ -1575,6 +1614,11 @@ public class SvgChart<TItem> : SvgChartBase
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Toggles the visibility of a data series.
+    /// </summary>
+    /// <param name="seriesName">The series name.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task ToggleSeries( string seriesName )
     {
         if ( !hiddenSeries.Add( seriesName ) )
@@ -1586,6 +1630,11 @@ public class SvgChart<TItem> : SvgChartBase
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Shows a hidden data series.
+    /// </summary>
+    /// <param name="seriesName">The series name.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task ShowSeries( string seriesName )
     {
         hiddenSeries.Remove( seriesName );
@@ -1595,6 +1644,11 @@ public class SvgChart<TItem> : SvgChartBase
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Hides a visible data series.
+    /// </summary>
+    /// <param name="seriesName">The series name.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task HideSeries( string seriesName )
     {
         hiddenSeries.Add( seriesName );
@@ -1604,6 +1658,12 @@ public class SvgChart<TItem> : SvgChartBase
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Toggles the visibility of a radial data point.
+    /// </summary>
+    /// <param name="seriesName">The series name.</param>
+    /// <param name="pointIndex">The zero-based data point index.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task ToggleDataPoint( string seriesName, int pointIndex )
     {
         var key = GetDataPointKey( seriesName, pointIndex );
@@ -1617,6 +1677,12 @@ public class SvgChart<TItem> : SvgChartBase
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Shows a hidden radial data point.
+    /// </summary>
+    /// <param name="seriesName">The series name.</param>
+    /// <param name="pointIndex">The zero-based data point index.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task ShowDataPoint( string seriesName, int pointIndex )
     {
         hiddenDataPoints.Remove( GetDataPointKey( seriesName, pointIndex ) );
@@ -1626,6 +1692,12 @@ public class SvgChart<TItem> : SvgChartBase
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Hides a visible radial data point.
+    /// </summary>
+    /// <param name="seriesName">The series name.</param>
+    /// <param name="pointIndex">The zero-based data point index.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task HideDataPoint( string seriesName, int pointIndex )
     {
         hiddenDataPoints.Add( GetDataPointKey( seriesName, pointIndex ) );
@@ -1645,6 +1717,10 @@ public class SvgChart<TItem> : SvgChartBase
         return hiddenDataPoints.Contains( GetDataPointKey( seriesName, pointIndex ) );
     }
 
+    /// <summary>
+    /// Refreshes the chart.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task Update()
     {
         StateHasChanged();
@@ -1652,6 +1728,10 @@ public class SvgChart<TItem> : SvgChartBase
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Refreshes the chart after its container size changes.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task Resize()
     {
         StateHasChanged();
@@ -1659,6 +1739,11 @@ public class SvgChart<TItem> : SvgChartBase
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Sets the active chart viewport.
+    /// </summary>
+    /// <param name="viewport">The viewport to apply.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetViewport( SvgChartViewport viewport )
     {
         var model = BuildModel();
@@ -1669,6 +1754,10 @@ public class SvgChart<TItem> : SvgChartBase
         await ApplyViewport( previousViewport, nextViewport );
     }
 
+    /// <summary>
+    /// Resets the chart zoom viewport.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task ResetZoom()
     {
         var model = BuildModel();
@@ -1679,16 +1768,28 @@ public class SvgChart<TItem> : SvgChartBase
         await NotifyZoomed( previousViewport, fullViewport, SvgChartZoomSource.Api );
     }
 
+    /// <summary>
+    /// Zooms into the chart from the center of the plot area.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task ZoomIn()
     {
         await ZoomBy( 0.82 );
     }
 
+    /// <summary>
+    /// Zooms out from the center of the plot area.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task ZoomOut()
     {
         await ZoomBy( 1.22 );
     }
 
+    /// <summary>
+    /// Clears chart labels, values, visibility state, tooltip state, viewport, and streaming state.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task Clear()
     {
         var data = EnsureInternalData();
@@ -1734,6 +1835,10 @@ public class SvgChart<TItem> : SvgChartBase
         await NotifyZoomed( previousViewport, nextViewport, SvgChartZoomSource.Api );
     }
 
+    /// <summary>
+    /// Exports the chart root SVG markup as a string.
+    /// </summary>
+    /// <returns>A value task containing the SVG markup.</returns>
     public ValueTask<string> ToSvgString()
     {
         var model = BuildModel();
