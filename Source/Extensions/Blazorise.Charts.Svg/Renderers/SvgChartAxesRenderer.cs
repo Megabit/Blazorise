@@ -363,7 +363,7 @@ internal static class SvgChartAxesRenderer
             Index = index,
             CategoryAxis = true,
             AxisId = model.CategoryAxis?.Id
-        } ) ?? value?.ToString();
+        } ) ?? SvgChartRenderHelpers.FormatDataLabelValue( value );
     }
 
     private static string FormatValueTick( SvgChartRenderValueAxis axis, double value, int index )
