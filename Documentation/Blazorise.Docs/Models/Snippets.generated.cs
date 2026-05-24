@@ -15175,7 +15175,9 @@ builder.Services
 
     private SvgLineChart<object> chart;
 
-    private int index;
+    private readonly Random random = new();
+
+    private double currentLatency = 45;
 
     private string lastEvent = ""Append a value or hover over a point."";
 
@@ -15253,10 +15255,10 @@ builder.Services
     private async Task AppendValue()
     {
         string label = DateTime.Now.ToString( ""HH:mm:ss"" );
-        double value = 35 + ( index++ % 6 ) * 9;
+        currentLatency = Math.Clamp( currentLatency + random.Next( -16, 17 ), 25, 80 );
 
         if ( chart is not null )
-            await chart.AppendValue( ""Latency"", label, value );
+            await chart.AppendValue( ""Latency"", label, currentLatency );
     }
 
     private Task OnPointHovered( SvgChartPointEventArgs eventArgs )

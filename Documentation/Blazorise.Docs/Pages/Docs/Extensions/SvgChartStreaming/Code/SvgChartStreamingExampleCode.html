@@ -26,7 +26,9 @@
 
     <span class="keyword">private</span> SvgLineChart&lt;<span class="keyword">object</span>&gt; chart;
 
-    <span class="keyword">private</span> <span class="keyword">int</span> index;
+    <span class="keyword">private</span> <span class="keyword">readonly</span> Random random = <span class="keyword">new</span>();
+
+    <span class="keyword">private</span> <span class="keyword">double</span> currentLatency = <span class="number">45</span>;
 
     <span class="keyword">private</span> <span class="keyword">string</span> lastEvent = <span class="string">&quot;Append a value or hover over a point.&quot;</span>;
 
@@ -104,10 +106,10 @@
     <span class="keyword">private</span> <span class="keyword">async</span> Task AppendValue()
     {
         <span class="keyword">string</span> label = DateTime.Now.ToString( <span class="string">&quot;HH:mm:ss&quot;</span> );
-        <span class="keyword">double</span> value = <span class="number">35</span> + ( index++ % <span class="number">6</span> ) * <span class="number">9</span>;
+        currentLatency = Math.Clamp( currentLatency + random.Next( -<span class="number">16</span>, <span class="number">17</span> ), <span class="number">25</span>, <span class="number">80</span> );
 
         <span class="keyword">if</span> ( chart <span class="keyword">is</span> not <span class="keyword">null</span> )
-            <span class="keyword">await</span> chart.AppendValue( <span class="string">&quot;Latency&quot;</span>, label, value );
+            <span class="keyword">await</span> chart.AppendValue( <span class="string">&quot;Latency&quot;</span>, label, currentLatency );
     }
 
     <span class="keyword">private</span> Task OnPointHovered( SvgChartPointEventArgs eventArgs )
