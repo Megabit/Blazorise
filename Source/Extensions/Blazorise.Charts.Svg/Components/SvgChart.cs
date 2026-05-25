@@ -87,7 +87,7 @@ public class SvgChart<TItem> : SvgChartBase
 
     private int streamingAnimationVersion;
 
-    private bool streamingAnimationActive;
+    private bool runStreamingAnimationAfterRender;
 
     private bool panning;
 
@@ -162,6 +162,8 @@ public class SvgChart<TItem> : SvgChartBase
         var pluginContext = CreatePluginRenderContext( model, plot );
         var seriesRendererContext = new SvgChartSeriesRendererContext( pluginContext, chartAnimation, previousAnimationPointBounds, currentAnimationPointBounds, previousAnimationPathValues, currentAnimationPathValues );
         var zoom = model.Zoom;
+
+        runStreamingAnimationAfterRender = streamingAnimation.Enabled;
 
         builder.OpenComponent<CascadingValue<SvgChartBase>>( sequence++ );
         builder.AddAttribute( sequence++, "Value", this );
@@ -259,6 +261,7 @@ public class SvgChart<TItem> : SvgChartBase
         var zoom = ResolveZoom( ResolveOptions() );
         var shouldPreventWheelScroll = zoom.Enabled && zoom.Wheel;
         var shouldRunAnimations = ShouldRunAnimations();
+        var shouldRunStreamingAnimations = runStreamingAnimationAfterRender;
 
         if ( shouldPreventWheelScroll && !zoomWheelInitialized )
         {
@@ -275,6 +278,12 @@ public class SvgChart<TItem> : SvgChartBase
         {
             jsModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>( "import", "./_content/Blazorise.Charts.Svg/svgChart.js" );
             await jsModule.InvokeVoidAsync( "runAnimations", ElementRef );
+        }
+
+        if ( shouldRunStreamingAnimations )
+        {
+            jsModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>( "import", "./_content/Blazorise.Charts.Svg/svgChart.js" );
+            await jsModule.InvokeVoidAsync( "runStreamingAnimations", ElementRef );
         }
 
         renderedOnce = true;
@@ -516,6 +525,7 @@ public class SvgChart<TItem> : SvgChartBase
             builder.SetKey( $"streaming-animation-{streamingAnimationVersion}" );
             builder.AddAttribute( sequence++, "class", "svg-chart-streaming-content" );
             builder.AddAttribute( sequence++, "style", ResolveStreamingAnimationStyle( animation ) );
+            AddStreamingAnimationAttributes( builder, ref sequence, animation );
         }
 
         RenderPlugins( builder, ref sequence, pluginContext, SvgChartRenderLayer.BeforeSeries );
@@ -1191,22 +1201,25 @@ public class SvgChart<TItem> : SvgChartBase
 
     private static string Format( double value )
     {
-        return value.ToString( "0.###", CultureInfo.InvariantCulture );
+        return SvgChartRenderHelpers.Format( value );
     }
 
     private static string FormatDuration( TimeSpan value )
     {
-        return $"{value.TotalSeconds.ToString( "0.###", CultureInfo.InvariantCulture )}s";
+        return SvgChartRenderHelpers.FormatDuration( value );
     }
 
     private string ResolveStreamingAnimationStyle( SvgChartStreamingAnimation animation )
     {
-        var offsetX = streamingAnimationActive ? animation.OffsetX : 0;
-        var transition = streamingAnimationActive
-            ? $"transition:transform {FormatDuration( animation.Duration )} linear;"
-            : "transition:none;";
+        return "transform:translateX(0px);transition:none;will-change:transform;";
+    }
 
-        return $"transform:translateX({Format( offsetX )}px);{transition}";
+    private static void AddStreamingAnimationAttributes( RenderTreeBuilder builder, ref int sequence, SvgChartStreamingAnimation animation )
+    {
+        builder.AddAttribute( sequence++, "data-svg-chart-streaming-animation", "true" );
+        builder.AddAttribute( sequence++, "data-svg-chart-streaming-version", animation.Version.ToString( CultureInfo.InvariantCulture ) );
+        builder.AddAttribute( sequence++, "data-svg-chart-streaming-offset", SvgChartRenderHelpers.Format( animation.OffsetX ) );
+        builder.AddAttribute( sequence++, "data-svg-chart-streaming-duration", SvgChartRenderHelpers.FormatDuration( animation.Duration ) );
     }
 
     private string GetPlotClipPathId()
@@ -1412,7 +1425,6 @@ public class SvgChart<TItem> : SvgChartBase
     public Task SetData( SvgChartData<double?> data )
     {
         internalChartData = data;
-        streamingAnimationActive = false;
         StateHasChanged();
 
         return Task.CompletedTask;
@@ -1538,19 +1550,12 @@ public class SvgChart<TItem> : SvgChartBase
         if ( streaming.Enabled && SvgChartStreamingResolver.IsAnimationEnabled( streaming ) && streaming.VisibleDataPoints.HasValue )
         {
             streamingAnimationVersion++;
-            streamingAnimationActive = false;
         }
 
         TrimStreamingData( data, streaming, label );
 
         await RefreshStreaming( streaming );
 
-        if ( streaming.Enabled && SvgChartStreamingResolver.IsAnimationEnabled( streaming ) && streaming.VisibleDataPoints.HasValue )
-        {
-            await Task.Delay( 16 );
-            streamingAnimationActive = true;
-            await InvokeAsync( StateHasChanged );
-        }
     }
 
     /// <summary>
@@ -1811,7 +1816,6 @@ public class SvgChart<TItem> : SvgChartBase
         internalViewport = null;
         panning = false;
         streamingAnimationVersion = 0;
-        streamingAnimationActive = false;
         lastStreamingRender = DateTimeOffset.MinValue;
         StateHasChanged();
 

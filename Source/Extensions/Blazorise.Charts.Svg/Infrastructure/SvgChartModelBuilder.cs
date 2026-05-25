@@ -94,7 +94,7 @@ internal sealed class SvgChartModelBuilder<TItem>
         var categoryAxisOptions = CreateCategoryAxisOptions( options.XAxis ?? new(), categoryAxis );
         if ( applyStreamingViewport )
             ApplyStreamingViewport( labels, series, ResolveStreaming(), out categorySlotCount, out categoryLabelIndexes );
-        var categoryRange = ResolveCategoryRange( labels.Count, zoom, viewport );
+        var categoryRange = ResolveCategoryRange( categorySlotCount > 0 ? categorySlotCount : labels.Count, zoom, viewport );
         var categoryScale = ResolveContinuousCategoryScale( categoryAxis, categoryAxisOptions, labels, series, zoom, viewport );
         var valueAxes = ResolveValueAxes( options, series, zoom, viewport );
         var primaryValueAxis = ResolvePrimaryValueAxis( valueAxes, valueAxisId );
@@ -601,15 +601,18 @@ internal sealed class SvgChartModelBuilder<TItem>
 
         if ( padCount > 0 )
         {
+            var paddingLabelIndexes = Enumerable.Range( startIndex - padCount, padCount ).ToList();
+
             if ( !reverse )
             {
                 visibleLabels.InsertRange( 0, Enumerable.Repeat<object>( null, padCount ) );
-                visibleLabelIndexes.InsertRange( 0, Enumerable.Repeat( -1, padCount ) );
+                visibleLabelIndexes.InsertRange( 0, paddingLabelIndexes );
             }
             else
             {
                 visibleLabels.AddRange( Enumerable.Repeat<object>( null, padCount ) );
-                visibleLabelIndexes.AddRange( Enumerable.Repeat( -1, padCount ) );
+                paddingLabelIndexes.Reverse();
+                visibleLabelIndexes.AddRange( paddingLabelIndexes );
             }
         }
 

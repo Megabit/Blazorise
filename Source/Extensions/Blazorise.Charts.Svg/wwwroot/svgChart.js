@@ -1,5 +1,6 @@
 const zoomWheelHandlers = new WeakMap();
 const animationStates = new WeakMap();
+const streamingAnimationStates = new WeakMap();
 
 export function initializeZoomWheel(element) {
     if (!element || zoomWheelHandlers.has(element)) {
@@ -40,6 +41,44 @@ export function runAnimations(element) {
     for (const item of items) {
         runElementAnimation(item);
     }
+}
+
+export function runStreamingAnimations(element) {
+    if (!element) {
+        return;
+    }
+
+    const items = element.querySelectorAll("[data-svg-chart-streaming-animation='true']");
+
+    for (const item of items) {
+        runStreamingAnimation(item);
+    }
+}
+
+function runStreamingAnimation(element) {
+    const version = element.dataset.svgChartStreamingVersion || "0";
+    const offset = parseFloat(element.dataset.svgChartStreamingOffset);
+    const duration = parseDuration(element.dataset.svgChartStreamingDuration);
+
+    if (!Number.isFinite(offset) || duration <= 0) {
+        return;
+    }
+
+    if (streamingAnimationStates.get(element) === version) {
+        return;
+    }
+
+    streamingAnimationStates.set(element, version);
+    element.style.transition = "none";
+    element.style.transform = "translateX(0px)";
+    element.getBoundingClientRect();
+
+    if (streamingAnimationStates.get(element) !== version) {
+        return;
+    }
+
+    element.style.transition = `transform ${duration}ms linear`;
+    element.style.transform = `translateX(${formatNumber(offset)}px)`;
 }
 
 function runElementAnimation(element) {

@@ -100,9 +100,12 @@ internal static class SvgChartAxesRenderer
             builder.OpenElement( sequence++, "g" );
             builder.SetKey( $"streaming-axis-labels-{streamingAnimation.Version}" );
             builder.AddAttribute( sequence++, "style", streamingAnimation.Style );
+            AddStreamingAnimationAttributes( builder, ref sequence, streamingAnimation );
         }
 
-        for ( var i = 0; i < model.Labels.Count; i++ )
+        var labelCount = Math.Max( model.Labels.Count, model.CategorySlotCount );
+
+        for ( var i = 0; i < labelCount; i++ )
         {
             var labelIndex = i < model.CategoryLabelIndexes.Count ? model.CategoryLabelIndexes[i] : i;
 
@@ -201,13 +204,14 @@ internal static class SvgChartAxesRenderer
             builder.OpenElement( sequence++, "g" );
             builder.SetKey( $"streaming-category-grid-{streamingAnimation.Version}" );
             builder.AddAttribute( sequence++, "style", streamingAnimation.Style );
+            AddStreamingAnimationAttributes( builder, ref sequence, streamingAnimation );
         }
 
         for ( var i = 0; i < model.Labels.Count; i++ )
         {
             var labelIndex = i < model.CategoryLabelIndexes.Count ? model.CategoryLabelIndexes[i] : i;
 
-            if ( labelIndex < 0 || labelIndex % labelStep != 0 )
+            if ( labelIndex % labelStep != 0 )
                 continue;
 
             var x = SvgChartGeometry.GetCategoryX( i, plot, model );
@@ -353,6 +357,14 @@ internal static class SvgChartAxesRenderer
             return "currentColor";
 
         return SvgChartRenderHelpers.ResolveColor( color, 0 );
+    }
+
+    private static void AddStreamingAnimationAttributes( RenderTreeBuilder builder, ref int sequence, SvgChartStreamingAnimation animation )
+    {
+        builder.AddAttribute( sequence++, "data-svg-chart-streaming-animation", "true" );
+        builder.AddAttribute( sequence++, "data-svg-chart-streaming-version", animation.Version.ToString( System.Globalization.CultureInfo.InvariantCulture ) );
+        builder.AddAttribute( sequence++, "data-svg-chart-streaming-offset", SvgChartRenderHelpers.Format( animation.OffsetX ) );
+        builder.AddAttribute( sequence++, "data-svg-chart-streaming-duration", SvgChartRenderHelpers.FormatDuration( animation.Duration ) );
     }
 
     private static string FormatCategoryTick( SvgChartRenderModel model, object value, int index )

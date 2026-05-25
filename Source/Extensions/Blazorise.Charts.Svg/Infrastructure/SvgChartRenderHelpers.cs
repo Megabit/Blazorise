@@ -75,6 +75,11 @@ internal static class SvgChartRenderHelpers
         return value.ToString( "0.###", CultureInfo.InvariantCulture );
     }
 
+    public static string FormatDuration( TimeSpan value )
+    {
+        return $"{value.TotalSeconds.ToString( "0.###", CultureInfo.InvariantCulture )}s";
+    }
+
     public static string FormatDataLabelValue( object value )
     {
         return value switch
