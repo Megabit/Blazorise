@@ -1,0 +1,89 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgLineChart</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">DeploymentSample</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">Items</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>samples</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>options</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTitle</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;Deployment health&quot;)&#39;</span> <span class="htmlAttributeName">Subtitle</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;Annotations configured from chart options&quot;)&#39;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTooltip</span> <span class="htmlAttributeName">Enabled</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartCategoryAxis</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Step )</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartValueAxis</span> <span class="htmlAttributeName">BeginAtZero</span> <span class="htmlAttributeName">TickCount</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">6</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgLineSeries</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Health</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Score )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">StrokeWidth</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">3</span><span class="quot">&quot;</span> <span class="htmlAttributeName">MarkerRadius</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">4</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SvgLineChart</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartOptions options = <span class="keyword">new</span>()
+    {
+        Height = <span class="number">360</span>,
+        Legend = <span class="keyword">new</span>() { Visible = <span class="keyword">false</span> },
+        Annotations =
+        [
+            <span class="keyword">new</span> SvgChartBoxAnnotationOptions
+            {
+                XMin = <span class="number">2</span>.<span class="number">5</span>,
+                XMax = <span class="number">4</span>.<span class="number">5</span>,
+                YMin = <span class="number">0</span>,
+                YMax = <span class="number">100</span>,
+                BackgroundColor = Color.Warning,
+                Opacity = <span class="number">0</span>.<span class="number">12</span>,
+                Label = <span class="keyword">new</span>()
+                {
+                    Visible = <span class="keyword">true</span>,
+                    Text = <span class="string">&quot;Deploy&quot;</span>,
+                    Position = SvgChartAnnotationLabelPosition.Start,
+                    BackgroundColor = <span class="string">&quot;#ffffff&quot;</span>,
+                },
+            },
+            <span class="keyword">new</span> SvgChartLineAnnotationOptions
+            {
+                YMin = <span class="number">80</span>,
+                YMax = <span class="number">80</span>,
+                Border = <span class="keyword">new</span>() { Color = Color.Success, Width = <span class="number">2</span> },
+                DashPattern = <span class="string">&quot;6 4&quot;</span>,
+                Label = <span class="keyword">new</span>()
+                {
+                    Visible = <span class="keyword">true</span>,
+                    Text = <span class="string">&quot;Target&quot;</span>,
+                    Position = SvgChartAnnotationLabelPosition.End,
+                    BackgroundColor = <span class="string">&quot;#ffffff&quot;</span>,
+                    Border = <span class="keyword">new</span>() { Color = Color.Success, Width = <span class="number">1</span>, Radius = <span class="number">3</span> },
+                },
+            },
+            <span class="keyword">new</span> SvgChartPointAnnotationOptions
+            {
+                X = <span class="number">4</span>,
+                Y = <span class="number">88</span>,
+                Radius = <span class="number">6</span>,
+                BackgroundColor = Color.Primary,
+                Border = <span class="keyword">new</span>() { Color = Color.Light, Width = <span class="number">2</span> },
+                Label = <span class="keyword">new</span>()
+                {
+                    Visible = <span class="keyword">true</span>,
+                    Text = <span class="string">&quot;Recovered&quot;</span>,
+                    Position = SvgChartAnnotationLabelPosition.End,
+                    BackgroundColor = <span class="string">&quot;#ffffff&quot;</span>,
+                },
+            },
+        ],
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> List&lt;DeploymentSample&gt; samples =
+    [
+        <span class="keyword">new</span>() { Step = <span class="string">&quot;Build&quot;</span>, Score = <span class="number">86</span> },
+        <span class="keyword">new</span>() { Step = <span class="string">&quot;Test&quot;</span>, Score = <span class="number">84</span> },
+        <span class="keyword">new</span>() { Step = <span class="string">&quot;Canary&quot;</span>, Score = <span class="number">63</span> },
+        <span class="keyword">new</span>() { Step = <span class="string">&quot;Ramp&quot;</span>, Score = <span class="number">72</span> },
+        <span class="keyword">new</span>() { Step = <span class="string">&quot;Stable&quot;</span>, Score = <span class="number">88</span> },
+        <span class="keyword">new</span>() { Step = <span class="string">&quot;Observe&quot;</span>, Score = <span class="number">91</span> },
+    ];
+
+    <span class="keyword">private</span> <span class="keyword">sealed</span> <span class="keyword">class</span> DeploymentSample
+    {
+        <span class="keyword">public</span> <span class="keyword">string</span> Step { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">double</span> Score { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+}
+</pre></div>
+</div>

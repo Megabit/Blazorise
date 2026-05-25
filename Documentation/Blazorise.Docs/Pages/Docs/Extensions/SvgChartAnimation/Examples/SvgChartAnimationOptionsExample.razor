@@ -1,0 +1,86 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div Flex="Flex.Row" Gap="Gap.Is2" Margin="Margin.Is3.FromBottom">
+    <Button Color="Color.Primary" Clicked="@Randomize">Randomize</Button>
+    <Button Color="Color.Light" Clicked="@Reset">Reset</Button>
+</Div>
+
+<SvgLineChart TItem="TrafficSample"
+              Items="@samples"
+              Options="@options">
+    <SvgChartTitle Title='@("Traffic trend")' Subtitle='@("Path and point animation configured from options")' />
+    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value="@( item => item.Day )" />
+    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+    <SvgLineSeries Name="Desktop" Value="@( item => item.Desktop )" Color="Color.Primary" MarkerRadius="4" />
+    <SvgLineSeries Name="Mobile" Value="@( item => item.Mobile )" Color="Color.Success" MarkerRadius="4" />
+</SvgLineChart>
+
+@code {
+    private readonly Random random = new( 11 );
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        Animation = new()
+        {
+            Enabled = true,
+            Duration = TimeSpan.FromMilliseconds( 600 ),
+            Easing = SvgChartAnimationEasing.EaseInOut,
+            Geometry = new()
+            {
+                Duration = TimeSpan.FromMilliseconds( 450 ),
+            },
+            Opacity = new()
+            {
+                From = 0.15,
+            },
+            Path = new()
+            {
+                Enabled = true,
+                Duration = TimeSpan.FromMilliseconds( 700 ),
+            },
+        },
+    };
+
+    private List<TrafficSample> samples = CreateSamples();
+
+    private void Randomize()
+    {
+        foreach ( var sample in samples )
+        {
+            sample.Desktop = Math.Clamp( sample.Desktop + random.Next( -14, 15 ), 35, 95 );
+            sample.Mobile = Math.Clamp( sample.Mobile + random.Next( -12, 13 ), 30, 90 );
+        }
+    }
+
+    private void Reset()
+    {
+        samples = CreateSamples();
+    }
+
+    private static List<TrafficSample> CreateSamples()
+    {
+        return
+        [
+            new() { Day = "Mon", Desktop = 54, Mobile = 45 },
+            new() { Day = "Tue", Desktop = 72, Mobile = 45 },
+            new() { Day = "Wed", Desktop = 75, Mobile = 61 },
+            new() { Day = "Thu", Desktop = 55, Mobile = 61 },
+            new() { Day = "Fri", Desktop = 75, Mobile = 73 },
+            new() { Day = "Sat", Desktop = 85, Mobile = 80 },
+        ];
+    }
+
+    private sealed class TrafficSample
+    {
+        public string Day { get; set; }
+
+        public double Desktop { get; set; }
+
+        public double Mobile { get; set; }
+    }
+}

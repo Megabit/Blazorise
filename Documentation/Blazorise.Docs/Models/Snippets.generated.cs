@@ -14855,6 +14855,91 @@ builder.Services
     }
 }";
 
+        public const string SvgChartAnimationOptionsExample = @"<Div Flex=""Flex.Row"" Gap=""Gap.Is2"" Margin=""Margin.Is3.FromBottom"">
+    <Button Color=""Color.Primary"" Clicked=""@Randomize"">Randomize</Button>
+    <Button Color=""Color.Light"" Clicked=""@Reset"">Reset</Button>
+</Div>
+
+<SvgLineChart TItem=""TrafficSample""
+              Items=""@samples""
+              Options=""@options"">
+    <SvgChartTitle Title='@(""Traffic trend"")' Subtitle='@(""Path and point animation configured from options"")' />
+    <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value=""@( item => item.Day )"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgLineSeries Name=""Desktop"" Value=""@( item => item.Desktop )"" Color=""Color.Primary"" MarkerRadius=""4"" />
+    <SvgLineSeries Name=""Mobile"" Value=""@( item => item.Mobile )"" Color=""Color.Success"" MarkerRadius=""4"" />
+</SvgLineChart>
+
+@code {
+    private readonly Random random = new( 11 );
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        Animation = new()
+        {
+            Enabled = true,
+            Duration = TimeSpan.FromMilliseconds( 600 ),
+            Easing = SvgChartAnimationEasing.EaseInOut,
+            Geometry = new()
+            {
+                Duration = TimeSpan.FromMilliseconds( 450 ),
+            },
+            Opacity = new()
+            {
+                From = 0.15,
+            },
+            Path = new()
+            {
+                Enabled = true,
+                Duration = TimeSpan.FromMilliseconds( 700 ),
+            },
+        },
+    };
+
+    private List<TrafficSample> samples = CreateSamples();
+
+    private void Randomize()
+    {
+        foreach ( var sample in samples )
+        {
+            sample.Desktop = Math.Clamp( sample.Desktop + random.Next( -14, 15 ), 35, 95 );
+            sample.Mobile = Math.Clamp( sample.Mobile + random.Next( -12, 13 ), 30, 90 );
+        }
+    }
+
+    private void Reset()
+    {
+        samples = CreateSamples();
+    }
+
+    private static List<TrafficSample> CreateSamples()
+    {
+        return
+        [
+            new() { Day = ""Mon"", Desktop = 54, Mobile = 45 },
+            new() { Day = ""Tue"", Desktop = 72, Mobile = 45 },
+            new() { Day = ""Wed"", Desktop = 75, Mobile = 61 },
+            new() { Day = ""Thu"", Desktop = 55, Mobile = 61 },
+            new() { Day = ""Fri"", Desktop = 75, Mobile = 73 },
+            new() { Day = ""Sat"", Desktop = 85, Mobile = 80 },
+        ];
+    }
+
+    private sealed class TrafficSample
+    {
+        public string Day { get; set; }
+
+        public double Desktop { get; set; }
+
+        public double Mobile { get; set; }
+    }
+}";
+
         public const string SvgChartAnnotationsLineExample = @"<SvgLineChart TItem=""MonthlyService""
               Items=""@services""
               Options=""@options"">
@@ -14930,6 +15015,91 @@ builder.Services
         public string Month { get; set; }
 
         public double Uptime { get; set; }
+    }
+}";
+
+        public const string SvgChartAnnotationsOptionsExample = @"<SvgLineChart TItem=""DeploymentSample""
+              Items=""@samples""
+              Options=""@options"">
+    <SvgChartTitle Title='@(""Deployment health"")' Subtitle='@(""Annotations configured from chart options"")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value=""@( item => item.Step )"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgLineSeries Name=""Health"" Value=""@( item => item.Score )"" Color=""Color.Primary"" StrokeWidth=""3"" MarkerRadius=""4"" />
+</SvgLineChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Visible = false },
+        Annotations =
+        [
+            new SvgChartBoxAnnotationOptions
+            {
+                XMin = 2.5,
+                XMax = 4.5,
+                YMin = 0,
+                YMax = 100,
+                BackgroundColor = Color.Warning,
+                Opacity = 0.12,
+                Label = new()
+                {
+                    Visible = true,
+                    Text = ""Deploy"",
+                    Position = SvgChartAnnotationLabelPosition.Start,
+                    BackgroundColor = ""#ffffff"",
+                },
+            },
+            new SvgChartLineAnnotationOptions
+            {
+                YMin = 80,
+                YMax = 80,
+                Border = new() { Color = Color.Success, Width = 2 },
+                DashPattern = ""6 4"",
+                Label = new()
+                {
+                    Visible = true,
+                    Text = ""Target"",
+                    Position = SvgChartAnnotationLabelPosition.End,
+                    BackgroundColor = ""#ffffff"",
+                    Border = new() { Color = Color.Success, Width = 1, Radius = 3 },
+                },
+            },
+            new SvgChartPointAnnotationOptions
+            {
+                X = 4,
+                Y = 88,
+                Radius = 6,
+                BackgroundColor = Color.Primary,
+                Border = new() { Color = Color.Light, Width = 2 },
+                Label = new()
+                {
+                    Visible = true,
+                    Text = ""Recovered"",
+                    Position = SvgChartAnnotationLabelPosition.End,
+                    BackgroundColor = ""#ffffff"",
+                },
+            },
+        ],
+    };
+
+    private readonly List<DeploymentSample> samples =
+    [
+        new() { Step = ""Build"", Score = 86 },
+        new() { Step = ""Test"", Score = 84 },
+        new() { Step = ""Canary"", Score = 63 },
+        new() { Step = ""Ramp"", Score = 72 },
+        new() { Step = ""Stable"", Score = 88 },
+        new() { Step = ""Observe"", Score = 91 },
+    ];
+
+    private sealed class DeploymentSample
+    {
+        public string Step { get; set; }
+
+        public double Score { get; set; }
     }
 }";
 
@@ -15026,6 +15196,62 @@ builder.Services
         public double Traffic { get; set; }
 
         public double Sales { get; set; }
+    }
+}";
+
+        public const string SvgChartDataLabelsDoughnutExample = @"<SvgDoughnutChart TItem=""object""
+                  Data=""@data""
+                  Options=""@options""
+                  Clicked=""@OnPointClicked"">
+    <SvgChartTitle Title='@(""Traffic sources"")' Subtitle='@(""Centered labels on radial slices"")' />
+    <SvgChartTooltip Enabled />
+</SvgDoughnutChart>
+
+<Paragraph Margin=""Margin.Is2.FromTop.Is0.FromBottom"">@lastEvent</Paragraph>
+
+@code {
+    private string lastEvent = ""Click a slice or label."";
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 340,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        DataLabels = new()
+        {
+            Visible = true,
+            Position = SvgChartDataLabelPosition.Center,
+            Formatter = FormatShareLabel,
+            Font = new()
+            {
+                Color = Color.Light,
+                Weight = ""700"",
+            },
+        },
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Labels = [""Search"", ""Direct"", ""Social"", ""Referral""],
+        Series =
+        [
+            new()
+            {
+                Name = ""Share"",
+                Values = [42, 27, 18, 13],
+            },
+        ],
+    };
+
+    private Task OnPointClicked( SvgChartPointEventArgs eventArgs )
+    {
+        lastEvent = $""Clicked {eventArgs.Category}: {eventArgs.Value}%"";
+
+        return Task.CompletedTask;
+    }
+
+    private static string FormatShareLabel( SvgChartDataLabelContext context )
+    {
+        return $""{Convert.ToDouble( context.Value, System.Globalization.CultureInfo.InvariantCulture ):0}%"";
     }
 }";
 
@@ -15281,6 +15507,116 @@ builder.Services
     }
 }";
 
+        public const string SvgChartStreamingRollingWindowExample = @"@using System.Threading
+@implements IAsyncDisposable
+
+<Button Color=""Color.Primary"" Outline Clicked=""@AppendValue"">
+    Append sample
+</Button>
+
+<SvgAreaChart @ref=""chart""
+              TItem=""object""
+              Data=""@data""
+              Options=""@options"">
+    <SvgChartTitle Title='@(""Rolling throughput"")' Subtitle='@(""Retains the last 20 seconds of samples"")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartStreaming Enabled
+                       VisibleDataPoints=""10""
+                       Duration=""@TimeSpan.FromSeconds( 20 )""
+                       Animation=""@streamingAnimation"" />
+    <SvgChartTimeAxis Format=""HH:mm:ss"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+</SvgAreaChart>
+
+@code {
+    private static readonly TimeSpan StreamingInterval = TimeSpan.FromSeconds( 1 );
+
+    private readonly Random random = new( 24 );
+
+    private SvgAreaChart<object> chart;
+
+    private double currentThroughput = 64;
+
+    private CancellationTokenSource streamingCancellationTokenSource;
+
+    private Task streamingTask;
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Visible = false },
+        XAxis = new()
+        {
+            GridLines = new() { Visible = true },
+            Labels = new() { Step = 2, Offset = 30 },
+        },
+    };
+
+    private readonly SvgChartStreamingAnimationOptions streamingAnimation = new()
+    {
+        Duration = StreamingInterval,
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Series =
+        [
+            new()
+            {
+                Name = ""Throughput"",
+                Color = Color.Success,
+            },
+        ],
+    };
+
+    protected override Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            streamingCancellationTokenSource = new();
+            streamingTask = RunStreamingAsync( streamingCancellationTokenSource.Token );
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private async Task RunStreamingAsync( CancellationToken cancellationToken )
+    {
+        try
+        {
+            using PeriodicTimer timer = new( StreamingInterval );
+
+            while ( await timer.WaitForNextTickAsync( cancellationToken ) )
+            {
+                await InvokeAsync( AppendValue );
+            }
+        }
+        catch ( OperationCanceledException )
+        {
+        }
+    }
+
+    private async Task AppendValue()
+    {
+        currentThroughput = Math.Clamp( currentThroughput + random.Next( -10, 11 ), 35, 95 );
+
+        if ( chart is not null )
+            await chart.AppendValue( ""Throughput"", DateTimeOffset.Now, currentThroughput );
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if ( streamingCancellationTokenSource is not null )
+        {
+            await streamingCancellationTokenSource.CancelAsync();
+            streamingCancellationTokenSource.Dispose();
+        }
+
+        if ( streamingTask is not null )
+            await streamingTask;
+    }
+}";
+
         public const string SvgChartTrendlineExample = @"<SvgColumnChart TItem=""MonthlySales""
                 Items=""@sales""
                 Options=""@options"">
@@ -15320,6 +15656,65 @@ builder.Services
         public string Month { get; set; }
 
         public double Revenue { get; set; }
+    }
+}";
+
+        public const string SvgChartTrendlineOptionsExample = @"<SvgLineChart TItem=""AcquisitionSample""
+              Items=""@samples""
+              Options=""@options"">
+    <SvgChartTitle Title='@(""Acquisition channels"")' Subtitle='@(""Trendlines configured from options"")' />
+    <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value=""@( item => item.Month )"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgLineSeries Name=""Organic"" Value=""@( item => item.Organic )"" Color=""Color.Primary"" MarkerRadius=""4"" />
+    <SvgLineSeries Name=""Paid"" Value=""@( item => item.Paid )"" Color=""Color.Success"" MarkerRadius=""4"" />
+</SvgLineChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        Trendlines =
+        [
+            new()
+            {
+                SeriesName = ""Organic"",
+                Name = ""Organic trend"",
+                Color = Color.Primary,
+                StrokeWidth = 2,
+                DashPattern = ""8 5"",
+            },
+            new()
+            {
+                SeriesName = ""Paid"",
+                Name = ""Paid trend"",
+                Color = Color.Success,
+                StrokeWidth = 2,
+                DashPattern = ""4 4"",
+            },
+        ],
+    };
+
+    private readonly List<AcquisitionSample> samples =
+    [
+        new() { Month = ""Jan"", Organic = 46, Paid = 31 },
+        new() { Month = ""Feb"", Organic = 52, Paid = 38 },
+        new() { Month = ""Mar"", Organic = 55, Paid = 42 },
+        new() { Month = ""Apr"", Organic = 61, Paid = 45 },
+        new() { Month = ""May"", Organic = 67, Paid = 52 },
+        new() { Month = ""Jun"", Organic = 72, Paid = 57 },
+    ];
+
+    private sealed class AcquisitionSample
+    {
+        public string Month { get; set; }
+
+        public double Organic { get; set; }
+
+        public double Paid { get; set; }
     }
 }";
 
@@ -15409,6 +15804,88 @@ builder.Services
         public double Traffic { get; set; }
 
         public double Sales { get; set; }
+    }
+}";
+
+        public const string SvgChartZoomViewportExample = @"<Div Flex=""Flex.Row"" Gap=""Gap.Is2"" Margin=""Margin.Is3.FromBottom"">
+    <Button Color=""Color.Primary"" Outline Clicked=""@ZoomIn"">Zoom in</Button>
+    <Button Color=""Color.Light"" Clicked=""@ResetZoom"">Reset</Button>
+</Div>
+
+<SvgLineChart @ref=""chart""
+              TItem=""CpuSample""
+              Items=""@samples""
+              Options=""@options"">
+    <SvgChartTitle Title='@(""CPU utilization"")' Subtitle='@(""Initial viewport configured declaratively"")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartZoom Enabled
+                  Mode=""SvgChartZoomMode.X""
+                  MaxZoom=""12""
+                  Viewport=""@viewport""
+                  ViewportChanged=""@OnViewportChanged"" />
+    <SvgChartCategoryAxis Value=""@( item => item.Minute )"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgLineSeries Name=""CPU"" Value=""@( item => item.Value )"" Color=""Color.Primary"" StrokeWidth=""3"" MarkerRadius=""4"" />
+</SvgLineChart>
+
+@code {
+    private SvgLineChart<CpuSample> chart;
+
+    private SvgChartViewport viewport = new()
+    {
+        XMin = 2,
+        XMax = 7,
+    };
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Visible = false },
+        XAxis = new()
+        {
+            GridLines = new() { Visible = true },
+        },
+    };
+
+    private readonly List<CpuSample> samples =
+    [
+        new() { Minute = ""00:00"", Value = 45 },
+        new() { Minute = ""00:05"", Value = 52 },
+        new() { Minute = ""00:10"", Value = 49 },
+        new() { Minute = ""00:15"", Value = 64 },
+        new() { Minute = ""00:20"", Value = 72 },
+        new() { Minute = ""00:25"", Value = 68 },
+        new() { Minute = ""00:30"", Value = 77 },
+        new() { Minute = ""00:35"", Value = 70 },
+        new() { Minute = ""00:40"", Value = 74 },
+        new() { Minute = ""00:45"", Value = 82 },
+    ];
+
+    private async Task ZoomIn()
+    {
+        if ( chart is not null )
+            await chart.ZoomIn();
+    }
+
+    private async Task ResetZoom()
+    {
+        if ( chart is not null )
+            await chart.ResetZoom();
+    }
+
+    private Task OnViewportChanged( SvgChartViewport changedViewport )
+    {
+        viewport = changedViewport;
+
+        return Task.CompletedTask;
+    }
+
+    private sealed class CpuSample
+    {
+        public string Minute { get; set; }
+
+        public double Value { get; set; }
     }
 }";
 
