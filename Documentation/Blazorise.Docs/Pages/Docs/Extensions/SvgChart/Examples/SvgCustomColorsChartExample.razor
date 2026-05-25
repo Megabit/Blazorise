@@ -1,0 +1,54 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgAreaChart TItem="ProductRevenue"
+              Items="@revenue"
+              Options="@options">
+    <SvgChartTitle Title='@("Revenue by channel")' Subtitle='@("Series using custom CSS color values")' />
+    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value="@( item => item.Month )" />
+    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+    <SvgAreaSeries Name="Direct" Value="@( item => item.Direct )" Color="@directColor" StrokeWidth="3" FillOpacity="0.2" />
+    <SvgAreaSeries Name="Partners" Value="@( item => item.Partners )" Color="@partnersColor" StrokeWidth="3" FillOpacity="0.18" />
+    <SvgAreaSeries Name="Marketplace" Value="@( item => item.Marketplace )" Color="@marketplaceColor" StrokeWidth="3" FillOpacity="0.16" />
+</SvgAreaChart>
+
+@code {
+    private readonly Color directColor = "#7c3aed";
+
+    private readonly Color partnersColor = "rgb(14, 165, 233)";
+
+    private readonly Color marketplaceColor = "var(--b-theme-success, #16a34a)";
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        XAxis = new()
+        {
+            GridLines = new() { Visible = true },
+        },
+    };
+
+    private readonly List<ProductRevenue> revenue =
+    [
+        new() { Month = "Jan", Direct = 42, Partners = 36, Marketplace = 24 },
+        new() { Month = "Feb", Direct = 54, Partners = 42, Marketplace = 30 },
+        new() { Month = "Mar", Direct = 63, Partners = 51, Marketplace = 36 },
+        new() { Month = "Apr", Direct = 58, Partners = 57, Marketplace = 42 },
+        new() { Month = "May", Direct = 72, Partners = 64, Marketplace = 50 },
+        new() { Month = "Jun", Direct = 81, Partners = 69, Marketplace = 56 },
+    ];
+
+    private sealed class ProductRevenue
+    {
+        public string Month { get; set; }
+
+        public double Direct { get; set; }
+
+        public double Partners { get; set; }
+
+        public double Marketplace { get; set; }
+    }
+}
