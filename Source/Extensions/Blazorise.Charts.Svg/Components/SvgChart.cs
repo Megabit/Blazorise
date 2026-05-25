@@ -42,6 +42,8 @@ public class SvgChart<TItem> : SvgChartBase
 
     private readonly List<ISvgChartPlugin> pluginComponents = [];
 
+    private static readonly TimeSpan PanRenderInterval = TimeSpan.FromMilliseconds( 16 );
+
     private static readonly IReadOnlyList<ISvgChartSeriesRenderer> BuiltInSeriesRenderers =
     [
         new SvgChartAreaSeriesRenderer(),
@@ -60,6 +62,8 @@ public class SvgChart<TItem> : SvgChartBase
     private SvgChartData<double?> internalChartData;
 
     private SvgChartTooltipContext activeTooltip;
+
+    private string activeTooltipKey;
 
     private IReadOnlyDictionary<string, SvgChartPointBounds> previousAnimationPointBounds = new Dictionary<string, SvgChartPointBounds>();
 
@@ -99,6 +103,16 @@ public class SvgChart<TItem> : SvgChartBase
 
     private SvgChartViewport panLastViewport;
 
+    private SvgChartViewport panRenderedViewport;
+
+    private SvgChartViewport panFullViewport;
+
+    private SvgChartPlotArea panPlot;
+
+    private SvgChartZoomOptions panZoom;
+
+    private DateTimeOffset lastPanRender = DateTimeOffset.MinValue;
+
     private SvgChartViewport internalViewport;
 
     private IJSObjectReference jsModule;
@@ -129,7 +143,7 @@ public class SvgChart<TItem> : SvgChartBase
         parameters.TryGetParameter( Animation, out paramAnimation );
 
         if ( paramType.Changed || paramItems.Changed || paramData.Changed || paramAnimation.Changed )
-            activeTooltip = null;
+            ClearTooltip();
 
         if ( paramType.Changed || paramAnimation.Changed )
         {
@@ -1034,11 +1048,16 @@ public class SvgChart<TItem> : SvgChartBase
         if ( activeTooltipPinned )
             return;
 
-        activeTooltip = null;
+        ClearTooltip();
     }
 
     private void ShowTooltip( SvgChartPointEventArgs point, string color, bool pinned )
     {
+        var tooltipKey = CreateTooltipKey( point, pinned );
+
+        if ( activeTooltip is not null && string.Equals( activeTooltipKey, tooltipKey, StringComparison.Ordinal ) )
+            return;
+
         var model = BuildModel();
         var options = model.Options;
         var tooltip = model.Tooltip;
@@ -1047,7 +1066,20 @@ public class SvgChart<TItem> : SvgChartBase
             return;
 
         activeTooltip = BuildTooltipContext( point, color, model, tooltip );
+        activeTooltipKey = tooltipKey;
         activeTooltipPinned = pinned;
+    }
+
+    private void ClearTooltip()
+    {
+        activeTooltip = null;
+        activeTooltipKey = null;
+        activeTooltipPinned = false;
+    }
+
+    private static string CreateTooltipKey( SvgChartPointEventArgs point, bool pinned )
+    {
+        return $"{point.SeriesIndex}:{point.PointIndex}:{pinned}";
     }
 
     private static SvgChartTooltipContext BuildTooltipContext( SvgChartPointEventArgs point, string color, SvgChartRenderModel model, SvgChartTooltipOptions tooltip )
@@ -1291,10 +1323,42 @@ public class SvgChart<TItem> : SvgChartBase
         return x >= plot.Left && x <= plot.Right && y >= plot.Top && y <= plot.Bottom;
     }
 
+    private bool ShouldRenderPanViewport( SvgChartViewport viewport )
+    {
+        if ( AreViewportsEquivalent( panRenderedViewport, viewport ) )
+            return false;
+
+        var now = DateTimeOffset.UtcNow;
+
+        return now - lastPanRender >= PanRenderInterval;
+    }
+
+    private static bool AreViewportsEquivalent( SvgChartViewport first, SvgChartViewport second )
+    {
+        if ( ReferenceEquals( first, second ) )
+            return true;
+
+        if ( first is null || second is null )
+            return false;
+
+        return AreViewportValuesEquivalent( first.XMin, second.XMin )
+            && AreViewportValuesEquivalent( first.XMax, second.XMax )
+            && AreViewportValuesEquivalent( first.YMin, second.YMin )
+            && AreViewportValuesEquivalent( first.YMax, second.YMax );
+    }
+
+    private static bool AreViewportValuesEquivalent( double? first, double? second )
+    {
+        if ( !first.HasValue || !second.HasValue )
+            return first.HasValue == second.HasValue;
+
+        return Math.Abs( first.Value - second.Value ) < 0.000001;
+    }
+
     private async Task ApplyViewport( SvgChartViewport previousViewport, SvgChartViewport viewport )
     {
         internalViewport = CloneViewport( viewport );
-        activeTooltip = null;
+        ClearTooltip();
 
         var zoomComponent = pluginComponents.OfType<SvgChartZoom>().LastOrDefault();
 
@@ -1370,11 +1434,18 @@ public class SvgChart<TItem> : SvgChartBase
         if ( !IsInsidePlot( eventArgs.OffsetX, eventArgs.OffsetY, plot ) )
             return;
 
+        var fullModel = BuildModel( false, false );
+
         panning = true;
         panStartClientX = eventArgs.ClientX;
         panStartClientY = eventArgs.ClientY;
-        panStartViewport = ResolveEffectiveViewport( model, ResolveFullViewport( BuildModel( false, false ) ) );
+        panFullViewport = ResolveFullViewport( fullModel );
+        panPlot = plot;
+        panZoom = zoom;
+        panStartViewport = ResolveEffectiveViewport( model, panFullViewport );
         panLastViewport = CloneViewport( panStartViewport );
+        panRenderedViewport = CloneViewport( panStartViewport );
+        lastPanRender = DateTimeOffset.MinValue;
     }
 
     private async Task HandleChartMouseMove( MouseEventArgs eventArgs )
@@ -1382,18 +1453,22 @@ public class SvgChart<TItem> : SvgChartBase
         if ( !panning )
             return;
 
-        var model = BuildModel();
-        var zoom = model.Zoom;
-
-        if ( zoom?.Enabled != true || !zoom.Pan )
+        if ( panZoom?.Enabled != true || !panZoom.Pan || panStartViewport is null || panFullViewport is null || panPlot is null )
             return;
 
-        var plot = BuildCurrentPlotArea( model );
-        var fullViewport = ResolveFullViewport( BuildModel( false, false ) );
-        var nextViewport = PanViewport( panStartViewport, fullViewport, zoom, plot, eventArgs.ClientX - panStartClientX, eventArgs.ClientY - panStartClientY );
+        var nextViewport = PanViewport( panStartViewport, panFullViewport, panZoom, panPlot, eventArgs.ClientX - panStartClientX, eventArgs.ClientY - panStartClientY );
 
         panLastViewport = CloneViewport( nextViewport );
-        await ApplyViewport( ResolveEffectiveViewport( model, fullViewport ), nextViewport );
+
+        if ( !ShouldRenderPanViewport( nextViewport ) )
+            return;
+
+        var previousViewport = CloneViewport( panRenderedViewport ?? panStartViewport );
+
+        panRenderedViewport = CloneViewport( nextViewport );
+        lastPanRender = DateTimeOffset.UtcNow;
+
+        await ApplyViewport( previousViewport, nextViewport );
     }
 
     private async Task HandleChartMouseUp( MouseEventArgs eventArgs )
@@ -1405,11 +1480,24 @@ public class SvgChart<TItem> : SvgChartBase
 
         if ( panStartViewport is not null && panLastViewport is not null )
         {
+            if ( !AreViewportsEquivalent( panRenderedViewport, panLastViewport ) )
+            {
+                var previousViewport = CloneViewport( panRenderedViewport ?? panStartViewport );
+
+                panRenderedViewport = CloneViewport( panLastViewport );
+                await ApplyViewport( previousViewport, panLastViewport );
+            }
+
             await NotifyPanned( panStartViewport, panLastViewport );
         }
 
         panStartViewport = null;
         panLastViewport = null;
+        panRenderedViewport = null;
+        panFullViewport = null;
+        panPlot = null;
+        panZoom = null;
+        lastPanRender = DateTimeOffset.MinValue;
     }
 
     private async Task HandleChartMouseLeave( MouseEventArgs eventArgs )
@@ -1629,7 +1717,7 @@ public class SvgChart<TItem> : SvgChartBase
         if ( !hiddenSeries.Add( seriesName ) )
             hiddenSeries.Remove( seriesName );
 
-        activeTooltip = null;
+        ClearTooltip();
         StateHasChanged();
 
         return Task.CompletedTask;
@@ -1643,7 +1731,7 @@ public class SvgChart<TItem> : SvgChartBase
     public Task ShowSeries( string seriesName )
     {
         hiddenSeries.Remove( seriesName );
-        activeTooltip = null;
+        ClearTooltip();
         StateHasChanged();
 
         return Task.CompletedTask;
@@ -1657,7 +1745,7 @@ public class SvgChart<TItem> : SvgChartBase
     public Task HideSeries( string seriesName )
     {
         hiddenSeries.Add( seriesName );
-        activeTooltip = null;
+        ClearTooltip();
         StateHasChanged();
 
         return Task.CompletedTask;
@@ -1676,7 +1764,7 @@ public class SvgChart<TItem> : SvgChartBase
         if ( !hiddenDataPoints.Add( key ) )
             hiddenDataPoints.Remove( key );
 
-        activeTooltip = null;
+        ClearTooltip();
         StateHasChanged();
 
         return Task.CompletedTask;
@@ -1691,7 +1779,7 @@ public class SvgChart<TItem> : SvgChartBase
     public Task ShowDataPoint( string seriesName, int pointIndex )
     {
         hiddenDataPoints.Remove( GetDataPointKey( seriesName, pointIndex ) );
-        activeTooltip = null;
+        ClearTooltip();
         StateHasChanged();
 
         return Task.CompletedTask;
@@ -1706,7 +1794,7 @@ public class SvgChart<TItem> : SvgChartBase
     public Task HideDataPoint( string seriesName, int pointIndex )
     {
         hiddenDataPoints.Add( GetDataPointKey( seriesName, pointIndex ) );
-        activeTooltip = null;
+        ClearTooltip();
         StateHasChanged();
 
         return Task.CompletedTask;
@@ -1811,10 +1899,16 @@ public class SvgChart<TItem> : SvgChartBase
 
         hiddenSeries.Clear();
         hiddenDataPoints.Clear();
-        activeTooltip = null;
-        activeTooltipPinned = false;
+        ClearTooltip();
         internalViewport = null;
         panning = false;
+        panStartViewport = null;
+        panLastViewport = null;
+        panRenderedViewport = null;
+        panFullViewport = null;
+        panPlot = null;
+        panZoom = null;
+        lastPanRender = DateTimeOffset.MinValue;
         streamingAnimationVersion = 0;
         lastStreamingRender = DateTimeOffset.MinValue;
         StateHasChanged();
@@ -1994,7 +2088,7 @@ public class SvgChart<TItem> : SvgChartBase
 
     private Task RefreshStreaming( SvgChartStreamingOptions streaming )
     {
-        activeTooltip = null;
+        ClearTooltip();
 
         if ( !streaming.Enabled || streaming.RefreshInterval <= TimeSpan.Zero )
         {

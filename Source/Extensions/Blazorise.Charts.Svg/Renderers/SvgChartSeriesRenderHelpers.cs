@@ -25,6 +25,23 @@ internal static class SvgChartSeriesRenderHelpers
         return builder.ToString();
     }
 
+    public static string BuildAreaPath( string linePath, IReadOnlyList<(int Index, double X, double Y, double Value)> basePoints )
+    {
+        var builder = new StringBuilder( linePath );
+
+        for ( var i = basePoints.Count - 1; i >= 0; i-- )
+        {
+            builder.Append( " L " );
+            builder.Append( SvgChartRenderHelpers.Format( basePoints[i].X ) );
+            builder.Append( ' ' );
+            builder.Append( SvgChartRenderHelpers.Format( basePoints[i].Y ) );
+        }
+
+        builder.Append( " Z" );
+
+        return builder.ToString();
+    }
+
     public static string BuildArcPath( double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle )
     {
         var sweep = endAngle - startAngle;

@@ -56,8 +56,7 @@ internal sealed class SvgChartAreaSeriesRenderer : ISvgChartSeriesRenderer
             if ( points.Count > 1 )
             {
                 var linePath = SvgChartSeriesRenderHelpers.BuildLinePath( points );
-                var reverseBase = basePoints.AsEnumerable().Reverse().ToList();
-                var areaPath = $"{linePath} L {string.Join( " L ", reverseBase.Select( x => $"{SvgChartRenderHelpers.Format( x.X )} {SvgChartRenderHelpers.Format( x.Y )}" ) )} Z";
+                var areaPath = SvgChartSeriesRenderHelpers.BuildAreaPath( linePath, basePoints );
 
                 builder.OpenElement( sequence++, "path" );
                 builder.AddAttribute( sequence++, "class", "svg-chart-area" );
