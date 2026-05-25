@@ -2,6 +2,9 @@ builder.Services
     .AddBlazorise( options =>
     {
         options.AccessibilityOptions.OnScreenKeyboard.Enabled = true;
+        options.AccessibilityOptions.OnScreenKeyboard.EnterKeyBehavior = OnScreenKeyboardEnterKeyBehavior.Submit;
         options.AccessibilityOptions.OnScreenKeyboard.KeyboardSize = OnScreenKeyboardSize.Large;
         options.AccessibilityOptions.OnScreenKeyboard.KeyLayout = OnScreenKeyboardKeyLayout.Centered;
+        options.AccessibilityOptions.OnScreenKeyboard.KeyWidth = 72;
+        options.AccessibilityOptions.OnScreenKeyboard.KeyMinHeight = 56;
     } );

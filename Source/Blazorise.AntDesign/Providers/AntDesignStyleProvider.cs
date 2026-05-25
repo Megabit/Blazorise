@@ -11,6 +11,8 @@ public class AntDesignStyleProvider : StyleProvider
 
     public override int DefaultModalBackdropZIndex => 1000;
 
+    public override int DefaultOnScreenKeyboardZIndex => 1100;
+
     public override string ModalShow( bool visible ) => visible ? "display: block" : null;
 
     public override string ModalFade( bool showing, bool hiding ) => null;

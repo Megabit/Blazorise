@@ -73,6 +73,14 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
         => InvokeSafeVoidAsync( "showPicker", elementRef, elementId );
 
     /// <inheritdoc/>
+    public virtual ValueTask SubmitClosestForm( ElementReference elementRef )
+        => InvokeSafeVoidAsync( "submitClosestForm", elementRef );
+
+    /// <inheritdoc/>
+    public virtual ValueTask<bool> DispatchKeyboardEvent( ElementReference elementRef, string eventName, string key, string code, int keyCode )
+        => InvokeSafeAsync<bool>( "dispatchKeyboardEvent", elementRef, eventName, key, code, keyCode );
+
+    /// <inheritdoc/>
     public virtual ValueTask ScrollAnchorIntoView( string anchorTarget )
         => InvokeSafeVoidAsync( "scrollAnchorIntoView", anchorTarget );
 

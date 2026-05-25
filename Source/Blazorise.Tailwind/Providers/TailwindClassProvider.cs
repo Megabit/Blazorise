@@ -553,12 +553,12 @@ public class TailwindClassProvider : ClassProvider
 
     #region OnScreenKeyboard
 
-    public override string OnScreenKeyboard() => "z-50 w-full bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 p-3";
+    public override string OnScreenKeyboard() => "z-50 w-full";
 
     public override string OnScreenKeyboardPlacement( OnScreenKeyboardPlacement placement ) => placement switch
     {
-        Blazorise.OnScreenKeyboardPlacement.Top => "fixed start-0 top-0 border-b",
-        Blazorise.OnScreenKeyboardPlacement.Bottom => "fixed start-0 bottom-0 border-t",
+        Blazorise.OnScreenKeyboardPlacement.Top => "fixed start-0 top-0",
+        Blazorise.OnScreenKeyboardPlacement.Bottom => "fixed start-0 bottom-0",
         _ => null,
     };
 

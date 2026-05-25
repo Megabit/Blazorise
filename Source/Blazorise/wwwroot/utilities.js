@@ -91,6 +91,44 @@ export function showPicker(element, elementId) {
     }
 }
 
+export function submitClosestForm(element) {
+    const form = element && typeof element.closest === "function"
+        ? element.closest("form")
+        : null;
+
+    if (!form) {
+        return;
+    }
+
+    if (typeof form.requestSubmit === "function") {
+        form.requestSubmit();
+    } else {
+        const submitEvent = new Event("submit", { bubbles: true, cancelable: true });
+
+        if (form.dispatchEvent(submitEvent)) {
+            form.submit();
+        }
+    }
+}
+
+export function dispatchKeyboardEvent(element, eventName, key, code, keyCode) {
+    if (!element) {
+        return true;
+    }
+
+    const event = new KeyboardEvent(eventName, {
+        key: key,
+        code: code,
+        bubbles: true,
+        cancelable: true
+    });
+
+    Object.defineProperty(event, "keyCode", { get: () => keyCode });
+    Object.defineProperty(event, "which", { get: () => keyCode });
+
+    return element.dispatchEvent(event) && !event.defaultPrevented;
+}
+
 export function setCaret(element, caret) {
     if (hasSelectionCapabilities(element)) {
         window.requestAnimationFrame(() => {

@@ -21,6 +21,11 @@ public interface IOnScreenKeyboardService
     OnScreenKeyboardState State { get; }
 
     /// <summary>
+    /// Gets a value indicating whether blur-driven keyboard hiding should currently be ignored.
+    /// </summary>
+    bool ShouldIgnoreBlur { get; }
+
+    /// <summary>
     /// Shows the keyboard for the supplied input context.
     /// </summary>
     /// <param name="context">Input context.</param>
@@ -39,6 +44,11 @@ public interface IOnScreenKeyboardService
     /// <param name="elementId">Input element id.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     Task Hide( string elementId );
+
+    /// <summary>
+    /// Temporarily suppresses blur-driven hiding while the user interacts with the keyboard.
+    /// </summary>
+    void SuppressHideOnBlur();
 
     /// <summary>
     /// Handles a key press.

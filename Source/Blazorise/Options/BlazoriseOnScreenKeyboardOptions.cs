@@ -1,5 +1,6 @@
 #region Using directives
 using System;
+using System.Collections.Generic;
 #endregion
 
 namespace Blazorise;
@@ -30,6 +31,11 @@ public class BlazoriseOnScreenKeyboardOptions
     public bool HideOnEnter { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets how the on-screen keyboard enter key should behave.
+    /// </summary>
+    public OnScreenKeyboardEnterKeyBehavior EnterKeyBehavior { get; set; } = OnScreenKeyboardEnterKeyBehavior.Default;
+
+    /// <summary>
     /// Gets or sets the default keyboard placement.
     /// </summary>
     public OnScreenKeyboardPlacement Placement { get; set; } = OnScreenKeyboardPlacement.Bottom;
@@ -45,9 +51,24 @@ public class BlazoriseOnScreenKeyboardOptions
     public OnScreenKeyboardKeyLayout KeyLayout { get; set; } = OnScreenKeyboardKeyLayout.Centered;
 
     /// <summary>
+    /// Gets or sets the base key width, in pixels, used by centered key layout.
+    /// </summary>
+    public int? KeyWidth { get; set; }
+
+    /// <summary>
+    /// Gets or sets the key minimum height, in pixels.
+    /// </summary>
+    public int? KeyMinHeight { get; set; }
+
+    /// <summary>
     /// If true, the text keyboard includes a key that toggles special characters.
     /// </summary>
     public bool ShowSpecialCharactersKey { get; set; }
+
+    /// <summary>
+    /// Gets or sets the rows used when the special characters keyboard is active.
+    /// </summary>
+    public IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> SpecialCharactersRows { get; set; }
 
     /// <summary>
     /// Gets or sets the default keyboard layout. When not set, each input component chooses its own layout.
@@ -63,4 +84,9 @@ public class BlazoriseOnScreenKeyboardOptions
     /// Gets or sets a function that resolves the keyboard layout for a focused input.
     /// </summary>
     public Func<OnScreenKeyboardContext, OnScreenKeyboardLayout> LayoutSelector { get; set; }
+
+    /// <summary>
+    /// Gets or sets a function that resolves keyboard rows for a focused input.
+    /// </summary>
+    public Func<OnScreenKeyboardContext, IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>>> LayoutProvider { get; set; }
 }

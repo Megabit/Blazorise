@@ -11,6 +11,8 @@ class EmptyStyleProvider : IStyleProvider
 
     public int DefaultModalBackdropZIndex => 0;
 
+    public int DefaultOnScreenKeyboardZIndex => 100;
+
     public string ModalShow( bool visible ) => null;
 
     public string ModalFade( bool showing, bool hiding ) => null;

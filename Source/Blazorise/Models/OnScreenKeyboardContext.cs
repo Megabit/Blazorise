@@ -51,6 +51,11 @@ public class OnScreenKeyboardContext
     public Func<Task> Enter { get; set; }
 
     /// <summary>
+    /// Gets or sets the callback invoked when the current input should submit.
+    /// </summary>
+    public Func<Task> Submit { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether the input is disabled.
     /// </summary>
     public bool Disabled { get; set; }

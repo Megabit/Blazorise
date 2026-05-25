@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -12,7 +14,7 @@ namespace Blazorise;
 /// <summary>
 /// Renders the on-screen keyboard controlled by <see cref="IOnScreenKeyboardService"/>.
 /// </summary>
-public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
+public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsyncDisposable
 {
     #region Members
 
@@ -20,7 +22,9 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
 
     private bool specialCharacters;
 
-    private bool showSpecialCharactersKeyDefined;
+    private bool closableLightRegistered;
+
+    private ComponentParameterInfo<bool> paramShowSpecialCharactersKey;
 
     #endregion
 
@@ -51,7 +55,7 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         bool paddingDefined = parameters.TryGetValue<IFluentSpacing>( nameof( Padding ), out _ );
         bool shadowDefined = parameters.TryGetValue<Shadow>( nameof( Shadow ), out _ );
         OnScreenKeyboardPlacement? placement;
-        showSpecialCharactersKeyDefined = parameters.TryGetValue<bool>( nameof( ShowSpecialCharactersKey ), out _ );
+        parameters.TryGetParameter( ShowSpecialCharactersKey, out paramShowSpecialCharactersKey );
         OnScreenKeyboardPlacement effectivePlacement = parameters.TryGetValue<OnScreenKeyboardPlacement?>( nameof( Placement ), out placement )
             ? ResolvePlacement( placement )
             : EffectivePlacement;
@@ -85,9 +89,26 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         if ( disposing && OnScreenKeyboardService is not null )
         {
             OnScreenKeyboardService.StateChanged -= OnKeyboardStateChanged;
+            _ = UnregisterKeyboardAsClosableLight();
         }
 
         base.Dispose( disposing );
+    }
+
+    /// <inheritdoc/>
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing )
+        {
+            if ( OnScreenKeyboardService is not null )
+            {
+                OnScreenKeyboardService.StateChanged -= OnKeyboardStateChanged;
+            }
+
+            await UnregisterKeyboardAsClosableLight();
+        }
+
+        await base.DisposeAsync( disposing );
     }
 
     /// <inheritdoc/>
@@ -123,7 +144,7 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         if ( EffectivePlacement != OnScreenKeyboardPlacement.Inline )
         {
             builder.Append( "position:fixed" );
-            builder.Append( "z-index:1050" );
+            builder.Append( $"z-index:{EffectiveZIndex}" );
             builder.Append( "left:0", EffectiveKeyboardSize == OnScreenKeyboardSize.FullWidth );
             builder.Append( "right:0", EffectiveKeyboardSize == OnScreenKeyboardSize.FullWidth );
             builder.Append( "left:50%", EffectiveKeyboardSize != OnScreenKeyboardSize.FullWidth );
@@ -151,11 +172,40 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         DirtyClasses();
         DirtyStyles();
 
+        if ( eventArgs.State.Visible )
+        {
+            ExecuteAfterRender( RegisterKeyboardAsClosableLight );
+        }
+        else
+        {
+            await UnregisterKeyboardAsClosableLight();
+        }
+
         await InvokeAsync( StateHasChanged );
+    }
+
+    private async Task RegisterKeyboardAsClosableLight()
+    {
+        if ( !Visible || closableLightRegistered || JSClosableModule is null )
+            return;
+
+        await JSClosableModule.RegisterLight( ElementRef );
+        closableLightRegistered = true;
+    }
+
+    private async Task UnregisterKeyboardAsClosableLight()
+    {
+        if ( !closableLightRegistered || JSClosableModule is null )
+            return;
+
+        await JSClosableModule.UnregisterLight( ElementRef );
+        closableLightRegistered = false;
     }
 
     private async Task OnKeyClicked( OnScreenKeyboardKey key )
     {
+        OnScreenKeyboardService.SuppressHideOnBlur();
+
         if ( key.KeyType == OnScreenKeyboardKeyType.Shift )
         {
             shift = !shift;
@@ -166,7 +216,7 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         if ( key.KeyType == OnScreenKeyboardKeyType.SpecialCharacters )
         {
             shift = false;
-            specialCharacters = !specialCharacters;
+            specialCharacters = !SpecialCharactersActive;
             await InvokeAsync( StateHasChanged );
             return;
         }
@@ -180,6 +230,11 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         await OnScreenKeyboardService.PressKey( key );
     }
 
+    private void OnKeyboardInteraction()
+    {
+        OnScreenKeyboardService.SuppressHideOnBlur();
+    }
+
     private string GetKeyDisplayText( OnScreenKeyboardKey key )
     {
         if ( !string.IsNullOrEmpty( key.DisplayText ) )
@@ -188,10 +243,27 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         if ( key.KeyType == OnScreenKeyboardKeyType.Text && shift )
             return key.Text?.ToUpperInvariant();
 
-        if ( key.KeyType == OnScreenKeyboardKeyType.SpecialCharacters && specialCharacters )
+        if ( key.KeyType == OnScreenKeyboardKeyType.SpecialCharacters && SpecialCharactersActive )
             return "ABC";
 
         return key.Text;
+    }
+
+    private string GetKeyAriaLabel( OnScreenKeyboardKey key )
+    {
+        if ( !string.IsNullOrEmpty( key.AriaLabel ) )
+            return key.AriaLabel;
+
+        return key.KeyType switch
+        {
+            OnScreenKeyboardKeyType.Space => "Space",
+            OnScreenKeyboardKeyType.Backspace => "Backspace",
+            OnScreenKeyboardKeyType.Clear => "Clear",
+            OnScreenKeyboardKeyType.Enter => "Enter",
+            OnScreenKeyboardKeyType.Shift => shift ? "Shift enabled" : "Shift",
+            OnScreenKeyboardKeyType.SpecialCharacters => SpecialCharactersActive ? "Letters" : "Special characters",
+            _ => GetKeyDisplayText( key ),
+        };
     }
 
     private string GetKeyStyle( OnScreenKeyboardKey key )
@@ -199,8 +271,8 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         var width = Math.Max( 1, key.Width );
 
         return EffectiveKeyLayout == OnScreenKeyboardKeyLayout.Centered
-            ? $"flex:0 0 {width * 72}px; min-height:3.5rem; max-width:100%"
-            : $"flex:{width} 1 0; min-height:2.5rem";
+            ? $"flex:0 0 {width * EffectiveKeyWidth}px; min-height:{EffectiveKeyMinHeight}px; max-width:100%"
+            : $"flex:{width} 1 0; min-height:{EffectiveKeyMinHeight}px";
     }
 
     private bool IsShiftKeyActive( OnScreenKeyboardKey key )
@@ -211,18 +283,23 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
     private bool IsKeyActive( OnScreenKeyboardKey key )
     {
         return IsShiftKeyActive( key )
-            || ( specialCharacters && key.KeyType == OnScreenKeyboardKeyType.SpecialCharacters );
+            || ( SpecialCharactersActive && key.KeyType == OnScreenKeyboardKeyType.SpecialCharacters );
     }
 
     private OnScreenKeyboardKeyContext CreateKeyTemplateContext( OnScreenKeyboardKey key )
     {
-        return new( key, GetKeyDisplayText( key ), IsKeyActive( key ), shift, specialCharacters );
+        return new( key, GetKeyDisplayText( key ), GetKeyAriaLabel( key ), IsKeyActive( key ), shift, SpecialCharactersActive );
     }
 
     private IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> CreateRows()
     {
-        if ( specialCharacters && EffectiveShowSpecialCharactersKey && SupportsSpecialCharacters( CurrentLayout ) )
-            return SpecialCharactersRows;
+        var customRows = ResolveCustomRows();
+
+        if ( customRows is not null )
+            return customRows;
+
+        if ( SpecialCharactersActive )
+            return EffectiveSpecialCharactersRows;
 
         return CurrentLayout switch
         {
@@ -233,6 +310,16 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
             OnScreenKeyboardLayout.Url => UrlRows,
             _ => TextRows,
         };
+    }
+
+    private IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> ResolveCustomRows()
+    {
+        var context = OnScreenKeyboardService.State.Context;
+        var layoutProvider = LayoutProvider ?? Options?.AccessibilityOptions?.OnScreenKeyboard?.LayoutProvider;
+
+        return context is null || layoutProvider is null
+            ? null
+            : layoutProvider( context );
     }
 
     private static IReadOnlyList<OnScreenKeyboardKey> CreateTextRow( string keys )
@@ -328,11 +415,21 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
         ?? Options?.AccessibilityOptions?.OnScreenKeyboard?.KeyLayout
         ?? OnScreenKeyboardKeyLayout.Stretch;
 
-    private bool EffectiveShowSpecialCharactersKey => showSpecialCharactersKeyDefined
-        ? ShowSpecialCharactersKey
+    private bool EffectiveShowSpecialCharactersKey => paramShowSpecialCharactersKey.Defined
+        ? paramShowSpecialCharactersKey.Value
         : Options?.AccessibilityOptions?.OnScreenKeyboard?.ShowSpecialCharactersKey == true;
 
+    private bool SpecialCharactersActive => specialCharacters
+        && EffectiveShowSpecialCharactersKey
+        && SupportsSpecialCharacters( CurrentLayout );
+
+    private IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> EffectiveSpecialCharactersRows => SpecialCharactersRows
+        ?? Options?.AccessibilityOptions?.OnScreenKeyboard?.SpecialCharactersRows
+        ?? DefaultSpecialCharactersRows;
+
     private bool Visible => OnScreenKeyboardService.State.Visible;
+
+    private int EffectiveZIndex => ZIndex ?? StyleProvider.DefaultOnScreenKeyboardZIndex;
 
     private string KeyboardMaxWidthStyle => EffectiveKeyboardSize switch
     {
@@ -345,6 +442,14 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
     private IFluentFlex RowFlex => EffectiveKeyLayout == OnScreenKeyboardKeyLayout.Centered
         ? Blazorise.Flex.JustifyContent.Center
         : null;
+
+    private int EffectiveKeyWidth => KeyWidth
+        ?? Options?.AccessibilityOptions?.OnScreenKeyboard?.KeyWidth
+        ?? 72;
+
+    private int EffectiveKeyMinHeight => KeyMinHeight
+        ?? Options?.AccessibilityOptions?.OnScreenKeyboard?.KeyMinHeight
+        ?? ( EffectiveKeyLayout == OnScreenKeyboardKeyLayout.Centered ? 56 : 40 );
 
     private bool UseDefaultKeyStyles => KeyColor == Color.Default;
 
@@ -394,7 +499,7 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
             : new[] { new OnScreenKeyboardKey( "/" ), new OnScreenKeyboardKey( "." ), new OnScreenKeyboardKey( "-" ), CommandKey( OnScreenKeyboardKeyType.Space, "Space", 4 ), CommandKey( OnScreenKeyboardKeyType.Enter, "Enter", 2 ) },
     };
 
-    private static IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> SpecialCharactersRows => new[]
+    private static IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> DefaultSpecialCharactersRows => new[]
     {
         CreateKeysRow( "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" ),
         CreateKeysRow( "!", "@", "#", "$", "%", "^", "&", "*", "(", ")" ),
@@ -433,6 +538,11 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
     [Inject] protected IOnScreenKeyboardService OnScreenKeyboardService { get; set; }
 
     /// <summary>
+    /// Gets the JavaScript module used to cooperate with Blazorise closable components.
+    /// </summary>
+    [Inject] protected IJSClosableModule JSClosableModule { get; set; }
+
+    /// <summary>
     /// Gets the global Blazorise options.
     /// </summary>
     [Inject] protected BlazoriseOptions Options { get; set; }
@@ -441,6 +551,11 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
     /// Gets or sets the keyboard placement.
     /// </summary>
     [Parameter] public OnScreenKeyboardPlacement? Placement { get; set; }
+
+    /// <summary>
+    /// Gets or sets the CSS z-index used by the fixed keyboard placement. When not set, the current style provider default is used.
+    /// </summary>
+    [Parameter] public int? ZIndex { get; set; }
 
     /// <summary>
     /// Gets or sets the keyboard visual width.
@@ -471,6 +586,31 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable
     /// Gets or sets whether text keyboards should show a key that toggles special characters.
     /// </summary>
     [Parameter] public bool ShowSpecialCharactersKey { get; set; }
+
+    /// <summary>
+    /// Gets or sets the rows used when the special characters keyboard is active.
+    /// </summary>
+    [Parameter] public IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> SpecialCharactersRows { get; set; }
+
+    /// <summary>
+    /// Gets or sets a function that resolves keyboard rows for the active input context.
+    /// </summary>
+    [Parameter] public Func<OnScreenKeyboardContext, IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>>> LayoutProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the tab index for rendered key buttons.
+    /// </summary>
+    [Parameter] public int? KeyTabIndex { get; set; } = -1;
+
+    /// <summary>
+    /// Gets or sets the base key width, in pixels, used by centered key layout.
+    /// </summary>
+    [Parameter] public int? KeyWidth { get; set; }
+
+    /// <summary>
+    /// Gets or sets the key minimum height, in pixels.
+    /// </summary>
+    [Parameter] public int? KeyMinHeight { get; set; }
 
     /// <summary>
     /// Gets or sets the keyboard aria-label.

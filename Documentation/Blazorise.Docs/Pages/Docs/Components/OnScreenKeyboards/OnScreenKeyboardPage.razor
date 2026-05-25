@@ -36,7 +36,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Memo input">
-        Multiline input can use the same parameter. The enter key closes the keyboard by default; disable <Code>HideOnEnter</Code> to insert new lines from the keyboard.
+        Multiline inputs insert a new line by default. Set <Code>OnScreenKeyboardEnterKeyBehavior</Code> to <Code>Submit</Code> when the enter key should submit the nearest validations or form.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="OnScreenKeyboardMemoInputExample" Outlined FullWidth>
         <OnScreenKeyboardMemoInputExample />
@@ -57,6 +57,13 @@
         Enable <Code>ShowSpecialCharactersKey</Code> to add a toggle key for symbols and punctuation to text-based keyboard layouts.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="OnScreenKeyboardSpecialCharactersExample" CodeTitle="Routes.razor" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom layouts">
+        Use <Code>SpecialCharactersRows</Code> or <Code>LayoutProvider</Code> when the built-in rows are not enough for the target input.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="OnScreenKeyboardCustomLayoutExample" CodeTitle="Routes.razor" />
 </DocsPageSection>
 
 <DocsPageSection>

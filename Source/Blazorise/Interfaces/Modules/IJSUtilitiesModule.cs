@@ -98,6 +98,24 @@ public interface IJSUtilitiesModule : IBaseJSModule
     ValueTask ShowPicker( ElementReference elementRef, string elementId );
 
     /// <summary>
+    /// Submits the closest parent form for the supplied element.
+    /// </summary>
+    /// <param name="elementRef">Reference to the rendered element.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask SubmitClosestForm( ElementReference elementRef );
+
+    /// <summary>
+    /// Dispatches a keyboard event from the supplied element.
+    /// </summary>
+    /// <param name="elementRef">Reference to the rendered element.</param>
+    /// <param name="eventName">Keyboard event name.</param>
+    /// <param name="key">Keyboard key.</param>
+    /// <param name="code">Keyboard code.</param>
+    /// <param name="keyCode">Keyboard key code.</param>
+    /// <returns>A task that represents the asynchronous operation. Returns true if the event was not cancelled.</returns>
+    ValueTask<bool> DispatchKeyboardEvent( ElementReference elementRef, string eventName, string key, string code, int keyCode );
+
+    /// <summary>
     /// Scrolls the view to the given anchor element.
     /// </summary>
     /// <param name="anchorTarget">Anchor element id.</param>

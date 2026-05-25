@@ -3608,10 +3608,23 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string OnScreenKeyboardCustomLayoutExample = @"@code {
+    private IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> SpecialCharactersRows = new List<IReadOnlyList<OnScreenKeyboardKey>>
+    {
+        new[] { new OnScreenKeyboardKey( ""1"" ), new OnScreenKeyboardKey( ""2"" ), new OnScreenKeyboardKey( ""3"" ) },
+        new[] { new OnScreenKeyboardKey( ""!"" ), new OnScreenKeyboardKey( ""?"" ), new OnScreenKeyboardKey( ""."" ) },
+        new[] { new OnScreenKeyboardKey( OnScreenKeyboardKeyType.SpecialCharacters, ""ABC"" ) },
+    };
+}
+
+<OnScreenKeyboardProvider ShowSpecialCharactersKey
+                          SpecialCharactersRows=""@SpecialCharactersRows"" />";
+
         public const string OnScreenKeyboardGlobalOptionsExample = @"builder.Services
     .AddBlazorise( options =>
     {
         options.AccessibilityOptions.OnScreenKeyboard.Enabled = true;
+        options.AccessibilityOptions.OnScreenKeyboard.SubmitOnEnter = true;
         options.AccessibilityOptions.OnScreenKeyboard.KeyboardSize = OnScreenKeyboardSize.Large;
         options.AccessibilityOptions.OnScreenKeyboard.KeyLayout = OnScreenKeyboardKeyLayout.Centered;
     } );";

@@ -520,15 +520,6 @@ public partial class Markdown : BaseOnScreenKeyboardInputComponent<string, Markd
         return base.BackspaceOnScreenKeyboard();
     }
 
-    /// <inheritdoc/>
-    protected override Task OnScreenKeyboardEnter()
-    {
-        if ( Options?.AccessibilityOptions?.OnScreenKeyboard?.HideOnEnter == true )
-            return base.OnScreenKeyboardEnter();
-
-        return InsertOnScreenKeyboardText( "\n" );
-    }
-
     /// <summary>
     /// Notifies the component that preview render has being requested. This method is intended for internal framework use only and should not be called directly by user code.
     /// </summary>
@@ -691,6 +682,9 @@ public partial class Markdown : BaseOnScreenKeyboardInputComponent<string, Markd
 
     #region Properties
 
+    /// <inheritdoc/>
+    protected override string DefaultValue => string.Empty;
+
     /// <summary>
     /// Number of processed bytes in current file.
     /// </summary>
@@ -720,6 +714,12 @@ public partial class Markdown : BaseOnScreenKeyboardInputComponent<string, Markd
     protected string TextAreaElementClassNames => textAreaElementClassBuilder.Class;
 
     protected string TextAreaElementStyleNames => Styles?.TextArea;
+
+    /// <inheritdoc/>
+    protected override OnScreenKeyboardEnterKeyBehavior DefaultOnScreenKeyboardEnterKeyBehavior => OnScreenKeyboardEnterKeyBehavior.NewLine;
+
+    /// <inheritdoc/>
+    protected override string OnScreenKeyboardNewLineText => "\n";
 
     /// <summary>
     /// Gets or sets the <see cref="IJSFileModule"/> instance.
@@ -1051,9 +1051,6 @@ public partial class Markdown : BaseOnScreenKeyboardInputComponent<string, Markd
     /// Custom function for parsing the plaintext Markdown and returning HTML. Used when user previews.
     /// </summary>
     [Parameter] public Func<string, Task<string>> PreviewRender { get; set; }
-
-    /// <inheritdoc/>
-    protected override string DefaultValue => string.Empty;
 
     #endregion
 }

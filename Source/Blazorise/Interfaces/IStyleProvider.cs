@@ -8,6 +8,8 @@ public interface IStyleProvider
 
     int DefaultModalBackdropZIndex { get; }
 
+    int DefaultOnScreenKeyboardZIndex => DefaultModalZIndex + 100;
+
     string ModalShow( bool visible );
 
     string ModalFade( bool showing, bool hiding );

@@ -202,15 +202,6 @@ public partial class MemoInput : BaseBufferedTextInput<string, MemoInputClasses,
         return base.OnBlurHandler( eventArgs );
     }
 
-    /// <inheritdoc/>
-    protected override Task OnScreenKeyboardEnter()
-    {
-        if ( Options?.AccessibilityOptions?.OnScreenKeyboard?.HideOnEnter == true )
-            return base.OnScreenKeyboardEnter();
-
-        return InsertOnScreenKeyboardText( Environment.NewLine );
-    }
-
     private void OnModalOpened()
     {
         ExecuteAfterRender( async () => await JSModule.RefreshDisplay( ElementRef, ElementId ) );
@@ -224,6 +215,9 @@ public partial class MemoInput : BaseBufferedTextInput<string, MemoInputClasses,
 
     /// <inheritdoc/>
     protected override string DefaultValue => string.Empty;
+
+    /// <inheritdoc/>
+    protected override OnScreenKeyboardEnterKeyBehavior DefaultOnScreenKeyboardEnterKeyBehavior => OnScreenKeyboardEnterKeyBehavior.NewLine;
 
     /// <summary>
     /// Specifies the <see cref="IJSMemoInputModule"/> instance.

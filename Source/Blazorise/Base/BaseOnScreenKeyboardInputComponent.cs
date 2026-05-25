@@ -30,6 +30,11 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     /// </summary>
     protected ComponentParameterInfo<OnScreenKeyboardLayout> paramOnScreenKeyboardLayout;
 
+    /// <summary>
+    /// Contains metadata about the parameter representing on-screen keyboard enter key behavior for the component.
+    /// </summary>
+    protected ComponentParameterInfo<OnScreenKeyboardEnterKeyBehavior> paramOnScreenKeyboardEnterKeyBehavior;
+
     #endregion
 
     #region Methods
@@ -41,6 +46,7 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
 
         parameters.TryGetParameter( OnScreenKeyboard, out paramOnScreenKeyboard );
         parameters.TryGetParameter( OnScreenKeyboardLayout, out paramOnScreenKeyboardLayout );
+        parameters.TryGetParameter( OnScreenKeyboardEnterKeyBehavior, out paramOnScreenKeyboardEnterKeyBehavior );
     }
 
     /// <inheritdoc/>
@@ -86,6 +92,7 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
             InsertText = InsertOnScreenKeyboardText,
             Backspace = BackspaceOnScreenKeyboard,
             Enter = OnScreenKeyboardEnter,
+            Submit = SubmitOnScreenKeyboard,
             Disabled = IsDisabled,
             ReadOnly = ReadOnly,
         };
@@ -107,7 +114,7 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     /// <returns>A task that represents the asynchronous operation.</returns>
     protected virtual Task HideOnScreenKeyboard()
     {
-        return Options?.AccessibilityOptions?.OnScreenKeyboard?.HideOnBlur == true
+        return Options?.AccessibilityOptions?.OnScreenKeyboard?.HideOnBlur == true && OnScreenKeyboardService?.ShouldIgnoreBlur != true
             ? OnScreenKeyboardService.Hide( ElementId )
             : Task.CompletedTask;
     }
@@ -183,11 +190,70 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     /// Handles the on-screen keyboard enter key.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    protected virtual Task OnScreenKeyboardEnter()
+    protected virtual async Task OnScreenKeyboardEnter()
     {
-        return Options?.AccessibilityOptions?.OnScreenKeyboard?.HideOnEnter == true
-            ? OnScreenKeyboardService.Hide( ElementId )
-            : Task.CompletedTask;
+        var behavior = ResolvedOnScreenKeyboardEnterKeyBehavior;
+        var shouldContinue = await DispatchOnScreenKeyboardEnterKeyDown();
+
+        if ( behavior == OnScreenKeyboardEnterKeyBehavior.KeyDown || !shouldContinue )
+            return;
+
+        if ( behavior == OnScreenKeyboardEnterKeyBehavior.NewLine )
+        {
+            await InsertOnScreenKeyboardText( OnScreenKeyboardNewLineText );
+            return;
+        }
+
+        if ( behavior == OnScreenKeyboardEnterKeyBehavior.Submit )
+        {
+            await SubmitOnScreenKeyboard();
+            RestoreOnScreenKeyboardEnterFocus();
+
+            return;
+        }
+
+        if ( behavior == OnScreenKeyboardEnterKeyBehavior.Hide && ShouldHideOnScreenKeyboardEnter )
+        {
+            await OnScreenKeyboardService.Hide( ElementId );
+        }
+    }
+
+    /// <summary>
+    /// Dispatches a bubbling Enter keydown event from the focused input component.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation. Returns true if the event was not cancelled.</returns>
+    protected virtual ValueTask<bool> DispatchOnScreenKeyboardEnterKeyDown()
+    {
+        return JSUtilitiesModule.DispatchKeyboardEvent( ElementRef, "keydown", "Enter", "Enter", 13 );
+    }
+
+    /// <summary>
+    /// Restores focus to the input after a submit action so the virtual Enter key behaves like a physical Enter key.
+    /// </summary>
+    protected virtual void RestoreOnScreenKeyboardEnterFocus()
+    {
+        OnScreenKeyboardService.SuppressHideOnBlur();
+
+        ExecuteAfterRender( async () =>
+        {
+            if ( OnScreenKeyboardService?.State.Visible == true
+                && string.Equals( OnScreenKeyboardService.State.Context?.ElementId, ElementId, StringComparison.Ordinal ) )
+            {
+                OnScreenKeyboardService.SuppressHideOnBlur();
+                await JSUtilitiesModule.Focus( ElementRef, ElementId, false );
+            }
+        } );
+    }
+
+    /// <summary>
+    /// Submits the closest Blazorise validations or form from the on-screen keyboard.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected virtual Task SubmitOnScreenKeyboard()
+    {
+        return ParentValidations is not null
+            ? ParentValidations.RequestSubmit()
+            : JSUtilitiesModule.SubmitClosestForm( ElementRef ).AsTask();
     }
 
     #endregion
@@ -215,11 +281,59 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     protected virtual OnScreenKeyboardLayout DefaultOnScreenKeyboardLayout => OnScreenKeyboardLayout.Text;
 
     /// <summary>
+    /// Gets the default on-screen keyboard enter key behavior for this component.
+    /// </summary>
+    protected virtual OnScreenKeyboardEnterKeyBehavior DefaultOnScreenKeyboardEnterKeyBehavior => ParentValidations is not null
+        ? OnScreenKeyboardEnterKeyBehavior.Submit
+        : OnScreenKeyboardEnterKeyBehavior.Hide;
+
+    /// <summary>
+    /// Gets the text inserted when the on-screen keyboard enter key behavior is <see cref="OnScreenKeyboardEnterKeyBehavior.NewLine"/>.
+    /// </summary>
+    protected virtual string OnScreenKeyboardNewLineText => Environment.NewLine;
+
+    /// <summary>
     /// Gets the resolved on-screen keyboard layout for this component.
     /// </summary>
     protected OnScreenKeyboardLayout ResolvedOnScreenKeyboardLayout => paramOnScreenKeyboardLayout.Defined
         ? paramOnScreenKeyboardLayout.Value
         : ( Options?.AccessibilityOptions?.OnScreenKeyboard?.DefaultLayout ?? DefaultOnScreenKeyboardLayout );
+
+    /// <summary>
+    /// Gets the resolved on-screen keyboard enter key behavior for this component.
+    /// </summary>
+    protected OnScreenKeyboardEnterKeyBehavior ResolvedOnScreenKeyboardEnterKeyBehavior
+    {
+        get
+        {
+            var behavior = paramOnScreenKeyboardEnterKeyBehavior.Defined
+                ? paramOnScreenKeyboardEnterKeyBehavior.Value
+                : ( CascadedOnScreenKeyboardEnterKeyBehaviorOverride
+                    ?? Options?.AccessibilityOptions?.OnScreenKeyboard?.EnterKeyBehavior
+                    ?? OnScreenKeyboardEnterKeyBehavior.Default );
+
+            return behavior == OnScreenKeyboardEnterKeyBehavior.Default
+                ? DefaultOnScreenKeyboardEnterKeyBehavior
+                : behavior;
+        }
+    }
+
+    private bool ShouldHideOnScreenKeyboardEnter => IsOnScreenKeyboardHideEnterKeyBehaviorConfigured
+        || Options?.AccessibilityOptions?.OnScreenKeyboard?.HideOnEnter == true;
+
+    private bool IsOnScreenKeyboardHideEnterKeyBehaviorConfigured => ( paramOnScreenKeyboardEnterKeyBehavior.Defined && paramOnScreenKeyboardEnterKeyBehavior.Value == OnScreenKeyboardEnterKeyBehavior.Hide )
+        || CascadedOnScreenKeyboardEnterKeyBehaviorOverride == OnScreenKeyboardEnterKeyBehavior.Hide
+        || Options?.AccessibilityOptions?.OnScreenKeyboard?.EnterKeyBehavior == OnScreenKeyboardEnterKeyBehavior.Hide;
+
+    /// <summary>
+    /// Gets the cascaded on-screen keyboard enter key behavior.
+    /// </summary>
+    [CascadingParameter( Name = "OnScreenKeyboardEnterKeyBehaviorOverride" )] protected OnScreenKeyboardEnterKeyBehavior? CascadedOnScreenKeyboardEnterKeyBehaviorOverride { get; set; }
+
+    /// <summary>
+    /// Gets the parent validations component.
+    /// </summary>
+    [CascadingParameter] protected Validations ParentValidations { get; set; }
 
     /// <summary>
     /// Enables the on-screen keyboard for this input component. When not explicitly set, the global accessibility option is used.
@@ -230,6 +344,11 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     /// Specifies the on-screen keyboard layout for this input component. When not explicitly set, the global accessibility option is used.
     /// </summary>
     [Parameter] public OnScreenKeyboardLayout OnScreenKeyboardLayout { get; set; }
+
+    /// <summary>
+    /// Specifies how the on-screen keyboard enter key should behave for this input component.
+    /// </summary>
+    [Parameter] public OnScreenKeyboardEnterKeyBehavior OnScreenKeyboardEnterKeyBehavior { get; set; }
 
     /// <summary>
     /// Gets the service that controls the on-screen keyboard.

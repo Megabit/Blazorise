@@ -325,15 +325,6 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
         return base.BackspaceOnScreenKeyboard();
     }
 
-    /// <inheritdoc/>
-    protected override Task OnScreenKeyboardEnter()
-    {
-        if ( Options?.AccessibilityOptions?.OnScreenKeyboard?.HideOnEnter == true )
-            return base.OnScreenKeyboardEnter();
-
-        return InsertOnScreenKeyboardText( "\n" );
-    }
-
     /// <summary>
     /// Toggles the readonly state
     /// </summary>
@@ -390,6 +381,12 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
 
     /// <inheritdoc/>
     protected override string DefaultValue => string.Empty;
+
+    /// <inheritdoc/>
+    protected override OnScreenKeyboardEnterKeyBehavior DefaultOnScreenKeyboardEnterKeyBehavior => OnScreenKeyboardEnterKeyBehavior.NewLine;
+
+    /// <inheritdoc/>
+    protected override string OnScreenKeyboardNewLineText => "\n";
 
     /// <inheritdoc/>
     public override object ValidationValue

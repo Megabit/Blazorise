@@ -48,6 +48,11 @@ public class OnScreenKeyboardKey
     public string DisplayText { get; set; }
 
     /// <summary>
+    /// Gets or sets the accessible label for the key.
+    /// </summary>
+    public string AriaLabel { get; set; }
+
+    /// <summary>
     /// Gets or sets the key width multiplier.
     /// </summary>
     public int Width { get; set; } = 1;

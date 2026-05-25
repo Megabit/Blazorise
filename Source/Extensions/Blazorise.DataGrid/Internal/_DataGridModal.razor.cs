@@ -85,6 +85,10 @@ public partial class _DataGridModal<TItem> : BaseAfterRenderComponent, IDisposab
             await CloseModal();
     }
 
+    protected bool CanSaveFromOnScreenKeyboard
+        => ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.SaveCommandAllowed )
+            && ParentDataGrid.SubmitFormOnEnter;
+
     protected async Task OpenModal()
     {
         if ( validations != null )

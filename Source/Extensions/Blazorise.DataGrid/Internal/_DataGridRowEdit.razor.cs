@@ -66,6 +66,16 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
         await ParentDataGrid.SaveInternal();
     }
 
+    protected bool CanSaveFromOnScreenKeyboard
+        => ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.SaveCommandAllowed )
+            && ParentDataGrid.SubmitFormOnEnter
+            && !ParentDataGrid.IsCellEdit;
+
+    protected OnScreenKeyboardEnterKeyBehavior? DataGridOnScreenKeyboardEnterKeyBehaviorOverride
+        => ParentDataGrid.IsCellEdit
+            ? OnScreenKeyboardEnterKeyBehavior.KeyDown
+            : CascadedOnScreenKeyboardEnterKeyBehaviorOverride;
+
     protected async Task HandleCellClick( DataGridColumn<TItem> column )
     {
         await ParentDataGrid.HandleCellEdit( column, Item );
@@ -271,6 +281,8 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
     /// Specifies the parent <see cref="DataGrid{TItem}"/> of the this component.
     /// </summary>
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
+
+    [CascadingParameter( Name = "OnScreenKeyboardEnterKeyBehaviorOverride" )] protected OnScreenKeyboardEnterKeyBehavior? CascadedOnScreenKeyboardEnterKeyBehaviorOverride { get; set; }
 
     #endregion
 }

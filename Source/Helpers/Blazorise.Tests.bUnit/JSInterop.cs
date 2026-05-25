@@ -226,6 +226,10 @@ public static class JSInterop
         module.SetupVoid( "scrollElementIntoView", _ => true ).SetVoidResult();
         module.SetupVoid( "focus", _ => true ).SetVoidResult();
         module.SetupVoid( "select", _ => true ).SetVoidResult();
+        module.SetupVoid( "submitClosestForm", _ => true ).SetVoidResult();
+        module.Setup<bool>( "dispatchKeyboardEvent", _ => true ).SetResult( true );
+        module.SetupVoid( "setCaret", _ => true ).SetVoidResult();
+        module.Setup<int>( "getCaret", _ => true ).SetResult( -1 );
         module.SetupVoid( "log", _ => true ).SetVoidResult();
 
         return jsInterop;

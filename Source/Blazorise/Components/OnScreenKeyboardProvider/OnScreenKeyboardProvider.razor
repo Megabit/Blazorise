@@ -2,35 +2,38 @@
 @inherits BaseComponent
 @if ( Visible )
 {
-    <Div ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" role="application" aria-label="@AriaLabel" @onmousedown:preventDefault @attributes="@Attributes">
-        @if ( ChildContent is not null )
-        {
-            @ChildContent
-        }
-        else
-        {
-            @foreach ( var row in Rows )
+    @* Native wrapper is used so pointer handlers and preventDefault can coexist without duplicate Blazorise component parameters. *@
+    <div @onmousedown="@OnKeyboardInteraction" @onmousedown:preventDefault @onpointerdown="@OnKeyboardInteraction" @onpointerdown:preventDefault @ontouchstart="@OnKeyboardInteraction" @ontouchstart:preventDefault>
+        <Div ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" role="group" aria-label="@AriaLabel" @onmousedown:preventDefault @onpointerdown:preventDefault @ontouchstart:preventDefault @attributes="@Attributes">
+            @if ( ChildContent is not null )
             {
-                <Div Class="@RowClassBuilder.Class" Display="Blazorise.Display.Flex" Flex="@RowFlex" Gap="Blazorise.Gap.Is1" Margin="Blazorise.Margin.Is1.FromBottom">
-                    @foreach ( var key in row )
-                    {
-                        <Button Class="@KeyClassBuilder.Class" Color="@KeyColor" Size="@KeySize" Outline="@KeyOutline" TextColor="@KeyTextColor" Background="@KeyBackground" Border="@KeyBorder" Shadow="@KeyShadow" Position="Blazorise.Position.Relative" Active="@IsKeyActive( key )" Style="@GetKeyStyle( key )" TabIndex="-1" Clicked="@(() => OnKeyClicked( key ))" @onmousedown:preventDefault>
-                            @if ( KeyTemplate is not null )
-                            {
-                                @KeyTemplate( CreateKeyTemplateContext( key ) )
-                            }
-                            else
-                            {
-                                @GetKeyDisplayText( key )
-                            }
-                            @if ( IsShiftKeyActive( key ) )
-                            {
-                                <Span Position="Blazorise.Position.Absolute.Top.Is0.End.Is0" Margin="Blazorise.Margin.Is1.FromTop.Is1.FromEnd" Background="Blazorise.Background.Success" Border="Blazorise.Border.RoundedCircle" Width="Blazorise.Width.Px( 8 )" Height="Blazorise.Height.Px( 8 )" />
-                            }
-                        </Button>
-                    }
-                </Div>
+                @ChildContent
             }
-        }
-    </Div>
+            else
+            {
+                @foreach ( var row in Rows )
+                {
+                    <Div Class="@RowClassBuilder.Class" Display="Blazorise.Display.Flex" Flex="@RowFlex" Gap="Blazorise.Gap.Is1" Margin="Blazorise.Margin.Is1.FromBottom">
+                        @foreach ( var key in row )
+                        {
+                            <Button Class="@KeyClassBuilder.Class" Color="@KeyColor" Size="@KeySize" Outline="@KeyOutline" TextColor="@KeyTextColor" Background="@KeyBackground" Border="@KeyBorder" Shadow="@KeyShadow" Position="Blazorise.Position.Relative" Active="@IsKeyActive( key )" Style="@GetKeyStyle( key )" TabIndex="@KeyTabIndex" Clicked="@(() => OnKeyClicked( key ))" aria-label="@GetKeyAriaLabel( key )" @onmousedown:preventDefault @onpointerdown:preventDefault @ontouchstart:preventDefault>
+                                @if ( KeyTemplate is not null )
+                                {
+                                    @KeyTemplate( CreateKeyTemplateContext( key ) )
+                                }
+                                else
+                                {
+                                    @GetKeyDisplayText( key )
+                                }
+                                @if ( IsShiftKeyActive( key ) )
+                                {
+                                    <Span Position="Blazorise.Position.Absolute.Top.Is0.End.Is0" Margin="Blazorise.Margin.Is1.FromTop.Is1.FromEnd" Background="Blazorise.Background.Success" Border="Blazorise.Border.RoundedCircle" Width="Blazorise.Width.Px( 8 )" Height="Blazorise.Height.Px( 8 )" />
+                                }
+                            </Button>
+                        }
+                    </Div>
+                }
+            }
+        </Div>
+    </div>
 }

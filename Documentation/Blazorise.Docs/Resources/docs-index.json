@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-22T12:10:46.8893302Z",
+  "generatedUtc": "2026-05-22T12:51:55.9766967Z",
   "pages": [
     {
       "route": "/docs",
@@ -2550,6 +2550,14 @@
           "description": "Enable ShowSpecialCharactersKey to add a toggle key for symbols and punctuation to text-based keyboard layouts."
         },
         {
+          "code": "OnScreenKeyboardCustomLayoutExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Components/OnScreenKeyboards/Examples/OnScreenKeyboardCustomLayoutExample.snippet",
+          "content": "@code {\r\n    private IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> SpecialCharactersRows = new List<IReadOnlyList<OnScreenKeyboardKey>>\r\n    {\r\n        new[] { new OnScreenKeyboardKey( \"1\" ), new OnScreenKeyboardKey( \"2\" ), new OnScreenKeyboardKey( \"3\" ) },\r\n        new[] { new OnScreenKeyboardKey( \"!\" ), new OnScreenKeyboardKey( \"?\" ), new OnScreenKeyboardKey( \".\" ) },\r\n        new[] { new OnScreenKeyboardKey( OnScreenKeyboardKeyType.SpecialCharacters, \"ABC\" ) },\r\n    };\r\n}\r\n\r\n<OnScreenKeyboardProvider ShowSpecialCharactersKey\r\n                          SpecialCharactersRows=\"@SpecialCharactersRows\" />",
+          "title": "Custom layouts",
+          "description": "Use SpecialCharactersRows or LayoutProvider when the built-in rows are not enough for the target input."
+        },
+        {
           "code": "OnScreenKeyboardSizingExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Components/OnScreenKeyboards/Examples/OnScreenKeyboardSizingExample.snippet",
@@ -2569,7 +2577,7 @@
           "code": "OnScreenKeyboardGlobalOptionsExample",
           "kind": "csharp",
           "sourcePath": "Pages/Docs/Components/OnScreenKeyboards/Examples/OnScreenKeyboardGlobalOptionsExample.csharp",
-          "content": "builder.Services\r\n    .AddBlazorise( options =>\r\n    {\r\n        options.AccessibilityOptions.OnScreenKeyboard.Enabled = true;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyboardSize = OnScreenKeyboardSize.Large;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyLayout = OnScreenKeyboardKeyLayout.Centered;\r\n    } );",
+          "content": "builder.Services\r\n    .AddBlazorise( options =>\r\n    {\r\n        options.AccessibilityOptions.OnScreenKeyboard.Enabled = true;\r\n        options.AccessibilityOptions.OnScreenKeyboard.SubmitOnEnter = true;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyboardSize = OnScreenKeyboardSize.Large;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyLayout = OnScreenKeyboardKeyLayout.Centered;\r\n    } );",
           "title": "Global option",
           "description": "If the keyboard should be available for all supported inputs, enable it in Blazorise options."
         }

@@ -11,6 +11,8 @@ public class FluentUI2StyleProvider : StyleProvider
 
     public override int DefaultModalBackdropZIndex => 1050;
 
+    public override int DefaultOnScreenKeyboardZIndex => 1155;
+
     public override string ModalShow( bool visible ) => null;
 
     public override string ModalFade( bool showing, bool hiding ) => null;
