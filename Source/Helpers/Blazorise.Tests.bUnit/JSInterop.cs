@@ -88,6 +88,7 @@ public static class JSInterop
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
         module.SetupVoid( "destroy", _ => true ).SetVoidResult();
         module.SetupVoid( "updateValue", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateTextValue", _ => true ).SetVoidResult();
         module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
         module.SetupVoid( "open", _ => true ).SetVoidResult();
         module.SetupVoid( "close", _ => true ).SetVoidResult();
@@ -107,6 +108,7 @@ public static class JSInterop
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
         module.SetupVoid( "destroy", _ => true ).SetVoidResult();
         module.SetupVoid( "updateValue", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateTextValue", _ => true ).SetVoidResult();
         module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
         module.SetupVoid( "open", _ => true ).SetVoidResult();
         module.SetupVoid( "close", _ => true ).SetVoidResult();
@@ -140,6 +142,8 @@ public static class JSInterop
         module.SetupVoid( "import", _ => true ).SetVoidResult();
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
         module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateValue", _ => true ).SetVoidResult();
+        module.SetupVoid( "updateOptions", _ => true ).SetVoidResult();
 
         return jsInterop;
     }
@@ -230,6 +234,7 @@ public static class JSInterop
         module.Setup<bool>( "dispatchKeyboardEvent", _ => true ).SetResult( true );
         module.SetupVoid( "setCaret", _ => true ).SetVoidResult();
         module.Setup<int>( "getCaret", _ => true ).SetResult( -1 );
+        module.SetupVoid( "setTextValue", _ => true ).SetVoidResult();
         module.SetupVoid( "log", _ => true ).SetVoidResult();
 
         return jsInterop;

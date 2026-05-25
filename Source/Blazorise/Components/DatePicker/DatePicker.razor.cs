@@ -476,6 +476,12 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
         return base.OnBlurHandler( eventArgs );
     }
 
+    /// <inheritdoc/>
+    protected override Task OnScreenKeyboardValueChanged( string value )
+    {
+        return JSModule.UpdateTextValue( ElementRef, ElementId, value ).AsTask();
+    }
+
     /// <summary>
     /// Opens the calendar dropdown.
     /// </summary>

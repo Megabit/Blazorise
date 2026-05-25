@@ -125,6 +125,29 @@ export function updateValue(element, elementId, value) {
     }
 }
 
+export function updateTextValue(element, elementId, value) {
+    const picker = _pickers[elementId];
+    const textValue = value || "";
+
+    if (picker) {
+        if (picker.altInput) {
+            picker.altInput.value = textValue;
+        }
+
+        if (picker.input) {
+            picker.input.value = textValue;
+        }
+
+        return;
+    }
+
+    element = utilities.getRequiredElement(element, elementId);
+
+    if (element) {
+        element.value = textValue;
+    }
+}
+
 export function updateOptions(element, elementId, options) {
     const picker = _pickers[elementId];
 

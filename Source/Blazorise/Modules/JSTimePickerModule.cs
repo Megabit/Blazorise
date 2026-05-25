@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -43,6 +43,10 @@ public class JSTimePickerModule : BaseJSModule, IJSTimePickerModule
     /// <inheritdoc/>
     public virtual ValueTask UpdateValue( ElementReference elementRef, string elementId, object value )
         => InvokeSafeVoidAsync( "updateValue", elementRef, elementId, value );
+
+    /// <inheritdoc/>
+    public virtual ValueTask UpdateTextValue( ElementReference elementRef, string elementId, string value )
+        => InvokeSafeVoidAsync( "updateTextValue", elementRef, elementId, value );
 
     /// <inheritdoc/>
     public virtual ValueTask UpdateOptions( ElementReference elementRef, string elementId, TimePickerUpdateJSOptions options )

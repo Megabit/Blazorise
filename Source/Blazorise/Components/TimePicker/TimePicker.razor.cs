@@ -302,6 +302,12 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         return KeyPress.InvokeAsync( eventArgs );
     }
 
+    /// <inheritdoc/>
+    protected override Task OnScreenKeyboardValueChanged( string value )
+    {
+        return JSModule.UpdateTextValue( ElementRef, ElementId, value ).AsTask();
+    }
+
     /// <summary>
     /// Opens the time dropdown.
     /// </summary>

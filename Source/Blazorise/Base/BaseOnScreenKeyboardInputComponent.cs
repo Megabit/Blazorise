@@ -35,6 +35,8 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     /// </summary>
     protected ComponentParameterInfo<OnScreenKeyboardEnterKeyBehavior> paramOnScreenKeyboardEnterKeyBehavior;
 
+    private string onScreenKeyboardValue;
+
     #endregion
 
     #region Methods
@@ -82,12 +84,14 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
         if ( !UseOnScreenKeyboard || options?.ShowOnFocus == false )
             return Task.CompletedTask;
 
+        onScreenKeyboardValue = CurrentValueAsString ?? string.Empty;
+
         var context = new OnScreenKeyboardContext
         {
             ElementId = ElementId,
             ComponentType = GetType(),
             Layout = ResolvedOnScreenKeyboardLayout,
-            GetValue = () => CurrentValueAsString,
+            GetValue = GetOnScreenKeyboardValue,
             SetValue = SetOnScreenKeyboardValue,
             InsertText = InsertOnScreenKeyboardText,
             Backspace = BackspaceOnScreenKeyboard,
@@ -128,7 +132,11 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     {
         return InvokeAsync( async () =>
         {
+            onScreenKeyboardValue = value ?? string.Empty;
+            var editedValue = onScreenKeyboardValue;
+
             await CurrentValueHandler( value );
+            ExecuteAfterRender( () => OnScreenKeyboardValueChanged( editedValue ) );
             StateHasChanged();
         } );
     }
@@ -145,15 +153,18 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
 
         return InvokeAsync( async () =>
         {
-            var value = CurrentValueAsString ?? string.Empty;
+            var value = GetOnScreenKeyboardValue() ?? string.Empty;
             var caret = await JSUtilitiesModule.GetCaret( ElementRef );
 
             caret = caret < 0
                 ? value.Length
                 : Math.Min( caret, value.Length );
 
-            await CurrentValueHandler( value.Insert( caret, text ) );
+            onScreenKeyboardValue = value.Insert( caret, text );
+            var editedValue = onScreenKeyboardValue;
 
+            await CurrentValueHandler( onScreenKeyboardValue );
+            ExecuteAfterRender( () => OnScreenKeyboardValueChanged( editedValue ) );
             ExecuteAfterRender( () => JSUtilitiesModule.SetCaret( ElementRef, caret + text.Length ).AsTask() );
 
             StateHasChanged();
@@ -168,7 +179,7 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     {
         return InvokeAsync( async () =>
         {
-            var value = CurrentValueAsString ?? string.Empty;
+            var value = GetOnScreenKeyboardValue() ?? string.Empty;
             var caret = await JSUtilitiesModule.GetCaret( ElementRef );
 
             caret = caret < 0
@@ -178,12 +189,34 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
             if ( caret == 0 || value.Length == 0 )
                 return;
 
-            await CurrentValueHandler( value.Remove( caret - 1, 1 ) );
+            onScreenKeyboardValue = value.Remove( caret - 1, 1 );
+            var editedValue = onScreenKeyboardValue;
 
+            await CurrentValueHandler( onScreenKeyboardValue );
+            ExecuteAfterRender( () => OnScreenKeyboardValueChanged( editedValue ) );
             ExecuteAfterRender( () => JSUtilitiesModule.SetCaret( ElementRef, caret - 1 ).AsTask() );
 
             StateHasChanged();
         } );
+    }
+
+    /// <summary>
+    /// Gets the text currently being edited by the on-screen keyboard.
+    /// </summary>
+    /// <returns>The current on-screen keyboard text.</returns>
+    protected virtual string GetOnScreenKeyboardValue()
+    {
+        return onScreenKeyboardValue ?? CurrentValueAsString;
+    }
+
+    /// <summary>
+    /// Synchronizes the visible input after the on-screen keyboard changes its text.
+    /// </summary>
+    /// <param name="value">The edited text value.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected virtual Task OnScreenKeyboardValueChanged( string value )
+    {
+        return JSUtilitiesModule.SetTextValue( ElementRef, value ).AsTask();
     }
 
     /// <summary>

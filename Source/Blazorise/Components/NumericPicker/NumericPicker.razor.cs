@@ -501,6 +501,12 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc/>
+    protected override Task OnScreenKeyboardValueChanged( string value )
+    {
+        return JSModule.UpdateValue( ElementRef, ElementId, value ).AsTask();
+    }
+
     /// <summary>
     /// Returns the numbers of allowed decimals.
     /// </summary>

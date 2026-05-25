@@ -239,6 +239,9 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
             options.AccessibilityOptions.OnScreenKeyboard.EnterKeyBehavior = OnScreenKeyboardEnterKeyBehavior.Submit;
         } ) );
         JSInterop.AddBlazoriseTextInput();
+        JSInterop.AddBlazoriseDatePicker();
+        JSInterop.AddBlazoriseTimePicker();
+        JSInterop.AddBlazoriseNumericInput();
     }
 
     [Fact]
@@ -288,6 +291,81 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
 
         Assert.Equal( "aXbc", value );
         JSInterop.VerifyInvoke( "setCaret" );
+    }
+
+    [Fact]
+    public async Task DateInput_ShouldKeepKeyboardText_WhenPartialValueCannotParse()
+    {
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        var comp = Render<DateInput<DateTime?>>( parameters => parameters
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "2" );
+        await keyboardService.InsertText( "0" );
+
+        Assert.Equal( "date", comp.Find( "input" ).GetAttribute( "type" ) );
+        Assert.Equal( "20", keyboardService.State.Context.GetValue() );
+    }
+
+    [Fact]
+    public async Task TimeInput_ShouldKeepKeyboardText_WhenPartialValueCannotParse()
+    {
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        var comp = Render<TimeInput<TimeSpan?>>( parameters => parameters
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "1" );
+        await keyboardService.InsertText( "2" );
+
+        Assert.Equal( "time", comp.Find( "input" ).GetAttribute( "type" ) );
+        Assert.Equal( "12", keyboardService.State.Context.GetValue() );
+    }
+
+    [Fact]
+    public async Task DatePicker_ShouldKeepKeyboardText_WhenPartialValueCannotParse()
+    {
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        var comp = Render<DatePicker<DateTime?>>( parameters => parameters
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Instance.OnFocusInHandler( new FocusEventArgs() );
+        await keyboardService.InsertText( "2" );
+        await keyboardService.InsertText( "0" );
+
+        Assert.Equal( "20", keyboardService.State.Context.GetValue() );
+        JSInterop.VerifyInvoke( "updateTextValue" );
+    }
+
+    [Fact]
+    public async Task TimePicker_ShouldKeepKeyboardText_WhenPartialValueCannotParse()
+    {
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        var comp = Render<TimePicker<TimeSpan?>>( parameters => parameters
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "1" );
+        await keyboardService.InsertText( "2" );
+
+        Assert.Equal( "12", keyboardService.State.Context.GetValue() );
+        JSInterop.VerifyInvoke( "updateTextValue" );
+    }
+
+    [Fact]
+    public async Task NumericPicker_ShouldUpdateVisiblePickerValue()
+    {
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        var comp = Render<NumericPicker<decimal?>>( parameters => parameters
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "1" );
+        await keyboardService.InsertText( "2" );
+
+        Assert.Equal( "12", keyboardService.State.Context.GetValue() );
+        JSInterop.VerifyInvoke( "updateValue" );
     }
 }
 
