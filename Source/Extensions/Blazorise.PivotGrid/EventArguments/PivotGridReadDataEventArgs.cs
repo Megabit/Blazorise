@@ -52,4 +52,9 @@ public class PivotGridReadDataEventArgs<TItem> : EventArgs
     /// Gets or sets an already prepared pivot result. In virtualized result requests, this should contain the requested pivot result rows.
     /// </summary>
     public PivotGridResult<TItem> Result { get; set; }
+
+    /// <summary>
+    /// Gets or sets filter options keyed by field name. Use this when returning prepared or paged results where <see cref="Data"/> does not contain all values needed by the field chooser. Selected option keys are sent back through <see cref="PivotGridFieldState.FilterValueKey"/>.
+    /// </summary>
+    public IReadOnlyDictionary<string, IReadOnlyList<PivotGridFilterOption>> FilterOptions { get; set; }
 }

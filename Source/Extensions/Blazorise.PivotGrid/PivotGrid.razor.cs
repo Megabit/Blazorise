@@ -42,6 +42,7 @@ public partial class PivotGrid<TItem> : BaseComponent
     private PivotGridResult<TItem> pivotResult = PivotGridResult<TItem>.Empty;
     private IReadOnlyList<TItem> externalData = [];
     private PivotGridResult<TItem> externalPivotResult;
+    private IReadOnlyDictionary<string, IReadOnlyList<PivotGridFilterOption>> externalFilterOptions;
     private int? externalTotalItems;
     private bool externalDataIsPaged;
     private string lastExternalDataRequestKey;
@@ -55,6 +56,7 @@ public partial class PivotGrid<TItem> : BaseComponent
     private int externalVirtualizedDataVersion;
     private ComponentParameterInfo<int> paramPageSize;
     private ComponentParameterInfo<bool> paramInitiallyExpanded;
+    private ComponentParameterInfo<EventCallback<PivotGridReadDataEventArgs<TItem>>> paramReadData;
 
     #endregion
 
@@ -77,6 +79,7 @@ public partial class PivotGrid<TItem> : BaseComponent
         var previousPageSize = PageSize;
         parameters.TryGetParameter( paramPageSize.GetValueOrDefault( PageSize ), out var nextParamPageSize, nameof( PageSize ) );
         parameters.TryGetParameter( paramInitiallyExpanded.GetValueOrDefault( InitiallyExpanded ), out var nextParamInitiallyExpanded, nameof( InitiallyExpanded ) );
+        parameters.TryGetParameter( paramReadData.GetValueOrDefault( ReadData ), out var nextParamReadData, nameof( ReadData ) );
 
         await base.SetParametersAsync( parameters );
 
@@ -96,6 +99,13 @@ public partial class PivotGrid<TItem> : BaseComponent
         }
 
         paramInitiallyExpanded = nextParamInitiallyExpanded;
+
+        if ( nextParamReadData.Defined && nextParamReadData.Changed )
+        {
+            InvalidateExternalDataRead();
+        }
+
+        paramReadData = nextParamReadData;
 
         if ( !ReferenceEquals( previousDataProvider, DataProvider ) )
         {
@@ -360,6 +370,7 @@ public partial class PivotGrid<TItem> : BaseComponent
 
         externalData = [];
         externalPivotResult = null;
+        externalFilterOptions = null;
         externalTotalItems = null;
         externalDataIsPaged = false;
         lastExternalDataRequestKey = null;
@@ -443,6 +454,7 @@ public partial class PivotGrid<TItem> : BaseComponent
     {
         externalData = dataResult?.Data?.ToList() ?? [];
         ApplyExternalDataResultMetadata( dataResult );
+        externalFilterOptions = dataResult?.FilterOptions;
         externalPivotResult = PivotGridResultNormalizer.Normalize( dataResult?.Result );
 
         if ( externalPivotResult is not null )
@@ -504,6 +516,7 @@ public partial class PivotGrid<TItem> : BaseComponent
             TotalItems = eventArgs.TotalItems,
             IsPaged = eventArgs.IsPaged,
             Result = eventArgs.Result,
+            FilterOptions = eventArgs.FilterOptions,
         };
     }
 
@@ -653,6 +666,7 @@ public partial class PivotGrid<TItem> : BaseComponent
                 return default;
 
             ApplyExternalDataResultMetadata( dataResult );
+            externalFilterOptions = dataResult?.FilterOptions;
 
             if ( dataResult?.Result is not null )
             {
@@ -1005,6 +1019,9 @@ public partial class PivotGrid<TItem> : BaseComponent
 
     internal IReadOnlyList<PivotGridFilterOption> GetFilterOptions( PivotGridFieldState state )
     {
+        if ( UsesExternalData && externalFilterOptions is not null && !string.IsNullOrWhiteSpace( state?.Field ) && externalFilterOptions.TryGetValue( state.Field, out var filterOptions ) )
+            return filterOptions ?? [];
+
         var field = CreateRuntimeField( state, PivotGridFieldArea.Filter );
 
         return GetCurrentSourceData()

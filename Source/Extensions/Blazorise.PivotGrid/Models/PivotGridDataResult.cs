@@ -31,4 +31,9 @@ public class PivotGridDataResult<TItem>
     /// During virtualization, data columns and aggregate metadata should remain stable across requests.
     /// </summary>
     public PivotGridResult<TItem> Result { get; set; }
+
+    /// <summary>
+    /// Gets or sets filter options keyed by field name. Use this when returning prepared or paged results where <see cref="Data"/> does not contain all values needed by the field chooser. Selected option keys are sent back through <see cref="PivotGridFieldState.FilterValueKey"/>.
+    /// </summary>
+    public IReadOnlyDictionary<string, IReadOnlyList<PivotGridFilterOption>> FilterOptions { get; set; }
 }

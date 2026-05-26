@@ -135,6 +135,9 @@
             Use <Code>ReadData</Code> for callback-based loading, or <Code>DataProvider</Code> when the provider should be reusable. For server-side paging, return a prepared <Code>PivotGridResult</Code>, set <Code>IsPaged</Code>, and report the total pivot result row count with <Code>TotalItems</Code>.
         </Paragraph>
         <Paragraph>
+            When the field chooser is enabled with remote or prepared results, populate <Code>FilterOptions</Code> with all available filter values keyed by field name. Selected option keys are sent back on the corresponding request filter as <Code>FilterValueKey</Code>. Otherwise the field chooser can only infer filter values from the current raw <Code>Data</Code> page.
+        </Paragraph>
+        <Paragraph>
             Prepared results returned by providers are normalized before rendering. Null structural entries are ignored, row cells are aligned to <Code>DataColumns</Code>, and missing cells are rendered as empty cells so headers, expansion, and cells stay consistent.
         </Paragraph>
     </DocsPageSectionHeader>
