@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise.Cropper
 {
     /// <summary>
-    /// The CropperViewer interface provides properties and methods for manipulating the layout and presentation of cropper elements.
+    /// Displays a synchronized preview of the cropper selection.
     /// </summary>
     public partial class CropperViewer : BaseComponent, IDisposable
     {
@@ -66,7 +66,7 @@ namespace Blazorise.Cropper
         #region Properties
 
         /// <summary>
-        /// Provides a shared state and syncronization context between the cropper and cropper viewer.
+        /// Provides the shared state and synchronization context between the cropper and cropper viewer.
         /// </summary>
         [Parameter] public CropperState CropperState { get; set; }
 

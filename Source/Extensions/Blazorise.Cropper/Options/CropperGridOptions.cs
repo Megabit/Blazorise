@@ -1,27 +1,27 @@
 ﻿namespace Blazorise.Cropper;
 
 /// <summary>
-/// Provides properties for manipulating the layout and presentation of selection grid elements.
+/// Defines the grid overlay drawn inside the crop selection.
 /// </summary>
 public record CropperGridOptions
 {
     /// <summary>
-    /// Indicates the number of the rows.
+    /// Number of horizontal grid divisions.
     /// </summary>
     public int Rows { get; init; } = 3;
 
     /// <summary>
-    /// Indicates the number of the columns.
+    /// Number of vertical grid divisions.
     /// </summary>
     public int Columns { get; init; } = 3;
 
     /// <summary>
-    /// Indicates whether this element is bordered.
+    /// The grid renders border lines around its cells.
     /// </summary>
     public bool Bordered { get; init; } = true;
 
     /// <summary>
-    /// Indicates whether this element covers its parent element.
+    /// The grid fills the full selection area.
     /// </summary>
     public bool Covered { get; init; } = true;
 }

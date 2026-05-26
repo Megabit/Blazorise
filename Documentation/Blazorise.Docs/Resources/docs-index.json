@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-22T07:55:48.3814775Z",
+  "generatedUtc": "2026-05-26T09:44:34.5269437Z",
   "pages": [
     {
       "route": "/docs",
@@ -4491,6 +4491,18 @@
         {
           "kind": "type",
           "name": "CropperCropOptions"
+        },
+        {
+          "kind": "type",
+          "name": "CropperImageOptions"
+        },
+        {
+          "kind": "type",
+          "name": "CropperSelectionOptions"
+        },
+        {
+          "kind": "type",
+          "name": "CropperGridOptions"
         }
       ]
     },

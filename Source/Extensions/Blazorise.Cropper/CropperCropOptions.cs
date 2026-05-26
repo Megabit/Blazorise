@@ -1,27 +1,27 @@
 ﻿namespace Blazorise.Cropper;
 
 /// <summary>
-/// Image Cropper crop options.
+/// Describes the canvas and image format created by a crop operation.
 /// </summary>
 public class CropperCropOptions
 {
     /// <summary>
-    /// The destination width of the output canvas.
+    /// Output canvas width in pixels.
     /// </summary>
     public int Width { get; set; }
 
     /// <summary>
-    /// The destination height  of the output canvas.
+    /// Output canvas height in pixels.
     /// </summary>
     public int Height { get; set; }
 
     /// <summary>
-    /// A string indicating the image format. The default type is image/png; this image format will be also used if the specified type is not supported.
+    /// MIME type for the encoded cropped image. Defaults to <c>image/png</c>.
     /// </summary>
     public string ImageType { get; set; } = "image/png";
 
     /// <summary>
-    /// A Number between 0 and 1 indicating the image quality to be used when creating images using file formats that support lossy compression (such as image/jpeg or image/webp).
+    /// Compression quality for lossy formats, from <c>0</c> to <c>1</c>.
     /// </summary>
     /// <remarks>
     /// A user agent will use its default quality value if this option is not specified, or if the number is outside the allowed range.
