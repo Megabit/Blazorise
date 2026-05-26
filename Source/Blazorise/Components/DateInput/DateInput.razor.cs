@@ -16,6 +16,12 @@ namespace Blazorise;
 /// <typeparam name="TValue">Data-type to be binded by the <see cref="DateInput{TValue}"/> property.</typeparam>
 public partial class DateInput<TValue> : BaseTextInput<TValue, DateInputClasses, DateInputStyles>
 {
+    #region Members
+
+    private OnScreenKeyboardDateInputComposer onScreenKeyboardComposer;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
@@ -59,6 +65,59 @@ public partial class DateInput<TValue> : BaseTextInput<TValue, DateInputClasses,
         return KeyPress.InvokeAsync( eventArgs );
     }
 
+    /// <inheritdoc/>
+    protected override Task ShowOnScreenKeyboard()
+    {
+        onScreenKeyboardComposer = new( InputMode, OnScreenKeyboardRequiresSeconds );
+        onScreenKeyboardComposer.Reset( CurrentValueAsString );
+
+        return base.ShowOnScreenKeyboard();
+    }
+
+    /// <inheritdoc/>
+    protected override Task SetOnScreenKeyboardValue( string value )
+    {
+        return UpdateOnScreenKeyboardDateValue( OnScreenKeyboardComposer.SetValue( value, CanParseOnScreenKeyboardDateValue ) );
+    }
+
+    /// <inheritdoc/>
+    protected override Task InsertOnScreenKeyboardText( string text )
+    {
+        return UpdateOnScreenKeyboardDateValue( OnScreenKeyboardComposer.InsertText( text, CanParseOnScreenKeyboardDateValue ) );
+    }
+
+    /// <inheritdoc/>
+    protected override Task BackspaceOnScreenKeyboard()
+    {
+        return UpdateOnScreenKeyboardDateValue( OnScreenKeyboardComposer.Backspace( CanParseOnScreenKeyboardDateValue ) );
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnScreenKeyboardEnter()
+    {
+        await UpdateOnScreenKeyboardDateValue( OnScreenKeyboardComposer.Complete( CanParseOnScreenKeyboardDateValue ) );
+
+        await base.OnScreenKeyboardEnter();
+    }
+
+    /// <inheritdoc/>
+    protected override string GetOnScreenKeyboardPreviewValue()
+    {
+        return OnScreenKeyboardComposer.PreviewValue;
+    }
+
+    private Task UpdateOnScreenKeyboardDateValue( OnScreenKeyboardInputComposition composition )
+    {
+        return UpdateOnScreenKeyboardEditingValue( composition.Value, composition.CanCommit, composition.CanCommit );
+    }
+
+    private bool CanParseOnScreenKeyboardDateValue( string value )
+    {
+        TValue parsedValue;
+
+        return Parsers.TryParseDate<TValue>( value, InputMode, out parsedValue );
+    }
+
     /// <summary>
     /// Show a browser picker for the date input.
     /// </summary>
@@ -74,6 +133,13 @@ public partial class DateInput<TValue> : BaseTextInput<TValue, DateInputClasses,
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
+
+    /// <inheritdoc/>
+    protected override OnScreenKeyboardLayout DefaultOnScreenKeyboardLayout => OnScreenKeyboardLayout.Numeric;
+
+    private OnScreenKeyboardDateInputComposer OnScreenKeyboardComposer => onScreenKeyboardComposer ??= new( InputMode, OnScreenKeyboardRequiresSeconds );
+
+    private bool OnScreenKeyboardRequiresSeconds => InputMode == DateInputMode.DateTime && Step < 60;
 
     /// <summary>
     /// Gets the string representation of the input mode.

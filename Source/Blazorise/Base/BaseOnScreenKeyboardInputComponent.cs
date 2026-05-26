@@ -93,6 +93,7 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
             Layout = ResolvedOnScreenKeyboardLayout,
             GetValue = GetOnScreenKeyboardValue,
             SetValue = SetOnScreenKeyboardValue,
+            GetPreviewValue = GetOnScreenKeyboardPreviewValue,
             InsertText = InsertOnScreenKeyboardText,
             Backspace = BackspaceOnScreenKeyboard,
             Enter = OnScreenKeyboardEnter,
@@ -130,15 +131,7 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     /// <returns>A task that represents the asynchronous operation.</returns>
     protected virtual Task SetOnScreenKeyboardValue( string value )
     {
-        return InvokeAsync( async () =>
-        {
-            onScreenKeyboardValue = value ?? string.Empty;
-            var editedValue = onScreenKeyboardValue;
-
-            await CurrentValueHandler( value );
-            ExecuteAfterRender( () => OnScreenKeyboardValueChanged( editedValue ) );
-            StateHasChanged();
-        } );
+        return UpdateOnScreenKeyboardEditingValue( value );
     }
 
     /// <summary>
@@ -207,6 +200,43 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     protected virtual string GetOnScreenKeyboardValue()
     {
         return onScreenKeyboardValue ?? CurrentValueAsString;
+    }
+
+    /// <summary>
+    /// Gets the text preview currently being edited by the on-screen keyboard.
+    /// </summary>
+    /// <returns>The current on-screen keyboard preview text.</returns>
+    protected virtual string GetOnScreenKeyboardPreviewValue()
+    {
+        return null;
+    }
+
+    /// <summary>
+    /// Updates the current on-screen keyboard editing value.
+    /// </summary>
+    /// <param name="value">The edited text value.</param>
+    /// <param name="updateCurrentValue">If true, updates the component value.</param>
+    /// <param name="updateVisibleValue">If true, updates the visible DOM value.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected Task UpdateOnScreenKeyboardEditingValue( string value, bool updateCurrentValue = true, bool updateVisibleValue = true )
+    {
+        return InvokeAsync( async () =>
+        {
+            onScreenKeyboardValue = value ?? string.Empty;
+            var editedValue = onScreenKeyboardValue;
+
+            if ( updateCurrentValue )
+            {
+                await CurrentValueHandler( value );
+            }
+
+            if ( updateVisibleValue )
+            {
+                ExecuteAfterRender( () => OnScreenKeyboardValueChanged( editedValue ) );
+            }
+
+            StateHasChanged();
+        } );
     }
 
     /// <summary>

@@ -36,6 +36,11 @@ public class OnScreenKeyboardContext
     public Func<string, Task> SetValue { get; set; }
 
     /// <summary>
+    /// Gets or sets the current input preview value accessor.
+    /// </summary>
+    public Func<string> GetPreviewValue { get; set; }
+
+    /// <summary>
     /// Gets or sets a callback that inserts text into the current input.
     /// </summary>
     public Func<string, Task> InsertText { get; set; }

@@ -429,6 +429,10 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
 
     private bool Visible => OnScreenKeyboardService.State.Visible;
 
+    private string PreviewValue => OnScreenKeyboardService.State.Context?.GetPreviewValue?.Invoke();
+
+    private IFluentBorder PreviewBorder => Blazorise.Border.Is1.Secondary.Subtle;
+
     private int EffectiveZIndex => ZIndex ?? StyleProvider.DefaultOnScreenKeyboardZIndex;
 
     private string KeyboardMaxWidthStyle => EffectiveKeyboardSize switch

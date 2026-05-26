@@ -16,6 +16,12 @@ namespace Blazorise;
 /// <typeparam name="TValue">Data-type to be binded by the <see cref="TimeInput{TValue}"/> property.</typeparam>
 public partial class TimeInput<TValue> : BaseTextInput<TValue, TimeInputClasses, TimeInputStyles>
 {
+    #region Members
+
+    private OnScreenKeyboardTimeInputComposer onScreenKeyboardComposer;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
@@ -68,6 +74,60 @@ public partial class TimeInput<TValue> : BaseTextInput<TValue, TimeInputClasses,
         return KeyPress.InvokeAsync( eventArgs );
     }
 
+    /// <inheritdoc/>
+    protected override Task ShowOnScreenKeyboard()
+    {
+        onScreenKeyboardComposer = new( OnScreenKeyboardRequiresSeconds );
+        onScreenKeyboardComposer.Reset( CurrentValueAsString );
+
+        return base.ShowOnScreenKeyboard();
+    }
+
+    /// <inheritdoc/>
+    protected override Task SetOnScreenKeyboardValue( string value )
+    {
+        return UpdateOnScreenKeyboardTimeValue( OnScreenKeyboardComposer.SetValue( value, CanParseOnScreenKeyboardTimeValue ) );
+    }
+
+    /// <inheritdoc/>
+    protected override Task InsertOnScreenKeyboardText( string text )
+    {
+        return UpdateOnScreenKeyboardTimeValue( OnScreenKeyboardComposer.InsertText( text, CanParseOnScreenKeyboardTimeValue ) );
+    }
+
+    /// <inheritdoc/>
+    protected override Task BackspaceOnScreenKeyboard()
+    {
+        return UpdateOnScreenKeyboardTimeValue( OnScreenKeyboardComposer.Backspace( CanParseOnScreenKeyboardTimeValue ) );
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnScreenKeyboardEnter()
+    {
+        await UpdateOnScreenKeyboardTimeValue( OnScreenKeyboardComposer.Complete( CanParseOnScreenKeyboardTimeValue ) );
+
+        await base.OnScreenKeyboardEnter();
+    }
+
+    /// <inheritdoc/>
+    protected override string GetOnScreenKeyboardPreviewValue()
+    {
+        return OnScreenKeyboardComposer.PreviewValue;
+    }
+
+    private Task UpdateOnScreenKeyboardTimeValue( OnScreenKeyboardInputComposition composition )
+    {
+        return UpdateOnScreenKeyboardEditingValue( composition.Value, composition.CanCommit, composition.CanCommit );
+    }
+
+    private bool CanParseOnScreenKeyboardTimeValue( string value )
+    {
+        TValue parsedValue;
+
+        return ( value.Length == 5 || value.Length == 8 )
+            && Parsers.TryParseTime<TValue>( value, out parsedValue );
+    }
+
     /// <summary>
     /// Show a browser picker for the time input.
     /// </summary>
@@ -83,6 +143,13 @@ public partial class TimeInput<TValue> : BaseTextInput<TValue, TimeInputClasses,
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
+
+    /// <inheritdoc/>
+    protected override OnScreenKeyboardLayout DefaultOnScreenKeyboardLayout => OnScreenKeyboardLayout.Numeric;
+
+    private OnScreenKeyboardTimeInputComposer OnScreenKeyboardComposer => onScreenKeyboardComposer ??= new( OnScreenKeyboardRequiresSeconds );
+
+    private bool OnScreenKeyboardRequiresSeconds => Step.HasValue && Step.Value < 60;
 
     /// <summary>
     /// The earliest time to accept.

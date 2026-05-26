@@ -11,6 +11,12 @@
             }
             else
             {
+                @if ( !string.IsNullOrEmpty( PreviewValue ) )
+                {
+                    <Div Background="Blazorise.Background.Body" Border="@PreviewBorder" Padding="Blazorise.Padding.Is2" Margin="Blazorise.Margin.Is1.FromBottom" TextAlignment="TextAlignment.Center" TextColor="TextColor.Body" aria-live="polite">
+                        @PreviewValue
+                    </Div>
+                }
                 @foreach ( var row in Rows )
                 {
                     <Div Class="@RowClassBuilder.Class" Display="Blazorise.Display.Flex" Flex="@RowFlex" Gap="Blazorise.Gap.Is1" Margin="Blazorise.Margin.Is1.FromBottom">

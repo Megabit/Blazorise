@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AngleSharp.Dom;
@@ -296,23 +297,272 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
     [Fact]
     public async Task DateInput_ShouldKeepKeyboardText_WhenPartialValueCannotParse()
     {
+        using var cultureScope = new CultureScope( "en-US" );
         var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        DateTime? value = null;
         var comp = Render<DateInput<DateTime?>>( parameters => parameters
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
             .Add( p => p.OnScreenKeyboard, true ) );
 
         await comp.Find( "input" ).FocusInAsync();
-        await keyboardService.InsertText( "2" );
         await keyboardService.InsertText( "0" );
+        await keyboardService.InsertText( "5" );
 
         Assert.Equal( "date", comp.Find( "input" ).GetAttribute( "type" ) );
-        Assert.Equal( "20", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "05/d/yyyy", keyboardService.State.Context.GetPreviewValue() );
+        Assert.Null( value );
+    }
+
+    [Fact]
+    public async Task DateInput_ShouldCommitKeyboardText_WhenValueCanParse()
+    {
+        using var cultureScope = new CultureScope( "en-US" );
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        DateTime? value = null;
+        var comp = Render<DateInput<DateTime?>>( parameters => parameters
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "05252026" );
+
+        Assert.Equal( "date", comp.Find( "input" ).GetAttribute( "type" ) );
+        Assert.Equal( "2026-05-25", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "05/25/2026", keyboardService.State.Context.GetPreviewValue() );
+        Assert.True( value.HasValue );
+        Assert.Equal( new DateTime( 2026, 5, 25 ), value.Value );
+    }
+
+    [Fact]
+    public async Task DateInput_ShouldAutoPadSegment_WhenNextDigitCannotBelongToCurrentSegment()
+    {
+        using var cultureScope = new CultureScope( "en-GB" );
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        DateTime? value = null;
+        var comp = Render<DateInput<DateTime?>>( parameters => parameters
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "1252026" );
+
+        Assert.Equal( "date", comp.Find( "input" ).GetAttribute( "type" ) );
+        Assert.Equal( "2026-05-12", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "12/05/2026", keyboardService.State.Context.GetPreviewValue() );
+        Assert.True( value.HasValue );
+        Assert.Equal( new DateTime( 2026, 5, 12 ), value.Value );
+    }
+
+    [Fact]
+    public async Task DateInput_ShouldAcceptSeparatedDateWithSingleDigitSegment()
+    {
+        using var cultureScope = new CultureScope( "en-GB" );
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        DateTime? value = null;
+        var comp = Render<DateInput<DateTime?>>( parameters => parameters
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "12/5/2026" );
+
+        Assert.Equal( "2026-05-12", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "12/05/2026", keyboardService.State.Context.GetPreviewValue() );
+        Assert.True( value.HasValue );
+        Assert.Equal( new DateTime( 2026, 5, 12 ), value.Value );
+    }
+
+    [Fact]
+    public async Task DateInput_ShouldCommitAutoPaddedSegment_WhenKeysArePressedOneByOne()
+    {
+        using var cultureScope = new CultureScope( "en-GB" );
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        DateTime? value = null;
+        var comp = Render<DateInput<DateTime?>>( parameters => parameters
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+
+        foreach ( char character in "12/5/2026" )
+        {
+            await keyboardService.InsertText( character.ToString() );
+        }
+
+        Assert.Equal( "2026-05-12", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "12/05/2026", keyboardService.State.Context.GetPreviewValue() );
+        Assert.True( value.HasValue );
+        Assert.Equal( new DateTime( 2026, 5, 12 ), value.Value );
+    }
+
+    [Fact]
+    public async Task DateInput_ShouldExpandTwoDigitYear_WhenSegmentIsCompleted()
+    {
+        using var cultureScope = new CultureScope( "en-GB" );
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        DateTime? value = null;
+        var comp = Render<DateInput<DateTime?>>( parameters => parameters
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "12/5/26" );
+
+        Assert.Equal( "2026-05-12", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "12/05/2026", keyboardService.State.Context.GetPreviewValue() );
+        Assert.True( value.HasValue );
+        Assert.Equal( new DateTime( 2026, 5, 12 ), value.Value );
+    }
+
+    [Fact]
+    public async Task DateTimeInput_ShouldShowTimePlaceholderInPreview_WhenOnlyDateSegmentsAreEntered()
+    {
+        using var cultureScope = new CultureScope( "en-US" );
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        DateTime? value = null;
+        var comp = Render<DateInput<DateTime?>>( parameters => parameters
+            .Add( p => p.InputMode, DateInputMode.DateTime )
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "05" );
+
+        Assert.Equal( "datetime-local", comp.Find( "input" ).GetAttribute( "type" ) );
+        Assert.Equal( "05/dd/yyyy h:mm:ss", keyboardService.State.Context.GetPreviewValue() );
+        Assert.Null( value );
+    }
+
+    [Fact]
+    public async Task DateTimeInput_ShouldNotCommitKeyboardText_UntilRequiredSecondsAreComplete()
+    {
+        using var cultureScope = new CultureScope( "en-US" );
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        DateTime? value = null;
+        var comp = Render<DateInput<DateTime?>>( parameters => parameters
+            .Add( p => p.InputMode, DateInputMode.DateTime )
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "050555550555" );
+
+        Assert.Equal( "5555-05-05T05:55", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "05/05/5555 05:55:ss", keyboardService.State.Context.GetPreviewValue() );
+        Assert.Null( value );
+
+        await keyboardService.InsertText( "55" );
+
+        Assert.Equal( "5555-05-05T05:55:55", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "05/05/5555 05:55:55", keyboardService.State.Context.GetPreviewValue() );
+        Assert.True( value.HasValue );
+        Assert.Equal( new DateTime( 5555, 5, 5, 5, 55, 55 ), value.Value );
+    }
+
+    [Fact]
+    public async Task DateTimeInputEnter_ShouldCompleteMissingSecondsAndCommitValue()
+    {
+        using var cultureScope = new CultureScope( "en-US" );
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        DateTime? value = null;
+        var comp = Render<DateInput<DateTime?>>( parameters => parameters
+            .Add( p => p.InputMode, DateInputMode.DateTime )
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "050555550555" );
+        await keyboardService.PressKey( new( OnScreenKeyboardKeyType.Enter, "Enter" ) );
+
+        Assert.Equal( "5555-05-05T05:55:00", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "05/05/5555 05:55:00", keyboardService.State.Context.GetPreviewValue() );
+        Assert.True( value.HasValue );
+        Assert.Equal( new DateTime( 5555, 5, 5, 5, 55, 0 ), value.Value );
+    }
+
+    [Fact]
+    public async Task DateTimeInputEnter_ShouldCompleteMissingTimeAndCommitValue()
+    {
+        using var cultureScope = new CultureScope( "en-US" );
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        DateTime? value = null;
+        var comp = Render<DateInput<DateTime?>>( parameters => parameters
+            .Add( p => p.InputMode, DateInputMode.DateTime )
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "05055555" );
+        await keyboardService.PressKey( new( OnScreenKeyboardKeyType.Enter, "Enter" ) );
+
+        Assert.Equal( "5555-05-05T00:00:00", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "05/05/5555 00:00:00", keyboardService.State.Context.GetPreviewValue() );
+        Assert.True( value.HasValue );
+        Assert.Equal( new DateTime( 5555, 5, 5, 0, 0, 0 ), value.Value );
+    }
+
+    [Fact]
+    public async Task DateTimeInput_ShouldIgnoreExtraDigits_WhenAllSegmentsAreComplete()
+    {
+        using var cultureScope = new CultureScope( "en-US" );
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        DateTime? value = null;
+        var comp = Render<DateInput<DateTime?>>( parameters => parameters
+            .Add( p => p.InputMode, DateInputMode.DateTime )
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "05055555055555" );
+        await keyboardService.InsertText( "5" );
+
+        Assert.Equal( "5555-05-05T05:55:55", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "05/05/5555 05:55:55", keyboardService.State.Context.GetPreviewValue() );
+        Assert.True( value.HasValue );
+        Assert.Equal( new DateTime( 5555, 5, 5, 5, 55, 55 ), value.Value );
+    }
+
+    [Fact]
+    public async Task DateTimeInput_ShouldStartNewComposition_WhenTypingAfterCommittedValue()
+    {
+        using var cultureScope = new CultureScope( "en-US" );
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        DateTime? value = null;
+        var comp = Render<DateInput<DateTime?>>( parameters => parameters
+            .Add( p => p.InputMode, DateInputMode.DateTime )
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "05055555055555" );
+        await keyboardService.InsertText( "1" );
+
+        Assert.Equal( "1", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "1/dd/yyyy h:mm:ss", keyboardService.State.Context.GetPreviewValue() );
+        Assert.Equal( new DateTime( 5555, 5, 5, 5, 55, 55 ), value.Value );
     }
 
     [Fact]
     public async Task TimeInput_ShouldKeepKeyboardText_WhenPartialValueCannotParse()
     {
+        using var cultureScope = new CultureScope( "en-US" );
         var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        TimeSpan? value = null;
         var comp = Render<TimeInput<TimeSpan?>>( parameters => parameters
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
             .Add( p => p.OnScreenKeyboard, true ) );
 
         await comp.Find( "input" ).FocusInAsync();
@@ -321,6 +571,141 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
 
         Assert.Equal( "time", comp.Find( "input" ).GetAttribute( "type" ) );
         Assert.Equal( "12", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "12:mm", keyboardService.State.Context.GetPreviewValue() );
+        Assert.Null( value );
+    }
+
+    [Fact]
+    public async Task TimeInput_ShouldCommitKeyboardText_WhenValueCanParse()
+    {
+        using var cultureScope = new CultureScope( "en-US" );
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        TimeSpan? value = null;
+        var comp = Render<TimeInput<TimeSpan?>>( parameters => parameters
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "1234" );
+
+        Assert.Equal( "time", comp.Find( "input" ).GetAttribute( "type" ) );
+        Assert.Equal( "12:34", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "12:34", keyboardService.State.Context.GetPreviewValue() );
+        Assert.True( value.HasValue );
+        Assert.Equal( new TimeSpan( 12, 34, 0 ), value.Value );
+    }
+
+    [Fact]
+    public async Task TimeInput_ShouldAcceptSeparatedTimeWithSingleDigitSegment()
+    {
+        using var cultureScope = new CultureScope( "en-US" );
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        TimeSpan? value = null;
+        var comp = Render<TimeInput<TimeSpan?>>( parameters => parameters
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "9:5" );
+
+        Assert.Equal( "time", comp.Find( "input" ).GetAttribute( "type" ) );
+        Assert.Equal( "09:05", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "09:05", keyboardService.State.Context.GetPreviewValue() );
+        Assert.True( value.HasValue );
+        Assert.Equal( new TimeSpan( 9, 5, 0 ), value.Value );
+    }
+
+    [Fact]
+    public async Task TimeInput_ShouldNotCommitKeyboardText_UntilRequiredSecondsAreComplete()
+    {
+        using var cultureScope = new CultureScope( "en-US" );
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        TimeSpan? value = null;
+        var comp = Render<TimeInput<TimeSpan?>>( parameters => parameters
+            .Add( p => p.Step, 1 )
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "1234" );
+
+        Assert.Equal( "12:34", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "12:34:ss", keyboardService.State.Context.GetPreviewValue() );
+        Assert.Null( value );
+
+        await keyboardService.InsertText( "56" );
+
+        Assert.Equal( "12:34:56", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "12:34:56", keyboardService.State.Context.GetPreviewValue() );
+        Assert.True( value.HasValue );
+        Assert.Equal( new TimeSpan( 12, 34, 56 ), value.Value );
+    }
+
+    [Fact]
+    public async Task TimeInputEnter_ShouldCompleteMissingSecondsAndCommitValue()
+    {
+        using var cultureScope = new CultureScope( "en-US" );
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        TimeSpan? value = null;
+        var comp = Render<TimeInput<TimeSpan?>>( parameters => parameters
+            .Add( p => p.Step, 1 )
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "1234" );
+        await keyboardService.PressKey( new( OnScreenKeyboardKeyType.Enter, "Enter" ) );
+
+        Assert.Equal( "12:34:00", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "12:34:00", keyboardService.State.Context.GetPreviewValue() );
+        Assert.True( value.HasValue );
+        Assert.Equal( new TimeSpan( 12, 34, 0 ), value.Value );
+    }
+
+    [Fact]
+    public async Task TimeInput_ShouldIgnoreExtraDigits_WhenAllSegmentsAreComplete()
+    {
+        using var cultureScope = new CultureScope( "en-US" );
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        TimeSpan? value = null;
+        var comp = Render<TimeInput<TimeSpan?>>( parameters => parameters
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "125555" );
+        await keyboardService.InsertText( "5" );
+
+        Assert.Equal( "12:55:55", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "12:55:55", keyboardService.State.Context.GetPreviewValue() );
+        Assert.True( value.HasValue );
+        Assert.Equal( new TimeSpan( 12, 55, 55 ), value.Value );
+    }
+
+    [Fact]
+    public async Task TimeInput_ShouldStartNewComposition_WhenTypingAfterCommittedValue()
+    {
+        using var cultureScope = new CultureScope( "en-US" );
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        TimeSpan? value = null;
+        var comp = Render<TimeInput<TimeSpan?>>( parameters => parameters
+            .Add( p => p.Step, 1 )
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "125555" );
+        await keyboardService.InsertText( "1" );
+
+        Assert.Equal( "1", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "1:mm:ss", keyboardService.State.Context.GetPreviewValue() );
+        Assert.Equal( new TimeSpan( 12, 55, 55 ), value.Value );
     }
 
     [Fact]
@@ -366,6 +751,29 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
 
         Assert.Equal( "12", keyboardService.State.Context.GetValue() );
         JSInterop.VerifyInvoke( "updateValue" );
+    }
+
+    private sealed class CultureScope : IDisposable
+    {
+        private readonly CultureInfo currentCulture;
+        private readonly CultureInfo currentUICulture;
+
+        public CultureScope( string cultureName )
+        {
+            currentCulture = CultureInfo.CurrentCulture;
+            currentUICulture = CultureInfo.CurrentUICulture;
+
+            var culture = CultureInfo.GetCultureInfo( cultureName );
+
+            CultureInfo.CurrentCulture = culture;
+            CultureInfo.CurrentUICulture = culture;
+        }
+
+        public void Dispose()
+        {
+            CultureInfo.CurrentCulture = currentCulture;
+            CultureInfo.CurrentUICulture = currentUICulture;
+        }
     }
 }
 
