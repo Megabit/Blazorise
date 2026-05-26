@@ -1,0 +1,65 @@
+@page "/docs/extensions/svg-chart-plugins"
+
+<Seo Canonical="/docs/extensions/svg-chart-plugins" Title="Blazorise SVG Chart Plugins" Description="Learn how SVG chart plugins extend native Blazorise SVG charts with custom rendering and interactions." />
+
+<DocsPageTitle Path="Extensions/SVG Chart Plugins">
+    Blazorise SVG Chart Plugins
+</DocsPageTitle>
+
+<DocsPageLead>
+    Extend SVG charts with custom C# and Blazor rendering logic.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    SVG chart plugins are child components that register with the chart and render into one of the chart render layers. The chart owns the base layout, axes, scales, series, tooltip state, zoom state, and streaming viewport. Plugins receive a <Code>SvgChartPluginRenderContext</Code> with resolved chart data, projection helpers, plot bounds, and event helpers.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Built-in SVG chart features are implemented through the same plugin path, including annotations, data labels, trendlines, streaming, and zoom/pan behavior. Users can build their own plugin components by inheriting from <Code>SvgChartPluginBase</Code>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Plugins can render SVG directly, read resolved geometry from the render context, project values into plot coordinates, and attach chart events to the elements they create. They are best suited for overlays, annotations, labels, guides, and behavior around an existing chart type. A completely new chart type generally needs a derived chart component and series renderer support in addition to plugin rendering.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Plugin model
+</DocsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem><Code>SvgChartPluginBase</Code> registers and unregisters the plugin with the parent chart.</UnorderedListItem>
+    <UnorderedListItem><Code>Layer</Code> controls where the plugin renders relative to the chart body.</UnorderedListItem>
+    <UnorderedListItem><Code>Render</Code> writes SVG elements with <Code>RenderTreeBuilder</Code>.</UnorderedListItem>
+    <UnorderedListItem><Code>SvgChartPluginRenderContext</Code> provides labels, series, plot bounds, projection helpers, and chart event helpers.</UnorderedListItem>
+    <UnorderedListItem><Code>RendersContent</Code> can be set to <Code>false</Code> for behavior-only plugins.</UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom threshold plugin">
+        This example adds a reusable plugin that draws a horizontal threshold line and optional label.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgChartPluginsExample" Outlined FullWidth>
+        <SvgChartPluginsExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Plugin component">
+        The plugin inherits from <Code>SvgChartPluginBase</Code> and renders SVG content using the resolved chart context.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="SvgChartThresholdLinePlugin" Expanded />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Render layers
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Plugins are rendered through <Code>SvgChartRenderLayer</Code>. Use <Code>BeforeSeries</Code> for background marks such as ranges and bands, <Code>SeriesOverlay</Code> for marks that should appear over the series, <Code>InteractionOverlay</Code> for interactive overlays, and <Code>Tooltip</Code> for tooltip-level content. The <Code>Background</Code> layer is available before chart text, grid, and axes are rendered.
+</DocsPageParagraph>
+
+<ComponentApiDocs ComponentTypes="[typeof(ISvgChartPlugin), typeof(SvgChartPluginBase), typeof(SvgChartPluginRenderContext), typeof(SvgChartPluginSeries), typeof(SvgChartPluginPlotArea)]" />

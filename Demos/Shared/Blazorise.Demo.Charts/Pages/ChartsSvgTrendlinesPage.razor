@@ -1,0 +1,99 @@
+@page "/tests/charts/svg/trendlines"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>SVG column chart - declarative trendline</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgColumnChart TItem="MonthlySales"
+                                Items="@Sales"
+                                Options="@columnOptions">
+                    <SvgChartTitle Title='@("Monthly revenue")' Subtitle='@("Linear trendline declared in markup")' />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartTrendline SeriesName="Revenue"
+                                       Color="Color.Danger"
+                                       StrokeWidth="2.5"
+                                       DashPattern="8 5" />
+                    <SvgChartCategoryAxis Value="@( x => x.Month )" />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+                    <SvgColumnSeries Name="Revenue" Value="@( x => x.Revenue )" Color="Color.Primary" BorderRadius="4" />
+                </SvgColumnChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>SVG line chart - options trendlines</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgLineChart TItem="MonthlySales"
+                              Items="@Sales"
+                              Options="@lineOptions">
+                    <SvgChartTitle Title='@("Orders by region")' Subtitle='@("Opposite trend directions configured in options")' />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartCategoryAxis Value="@( x => x.Month )" />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+                    <SvgLineSeries Name="North" Value="@( x => x.North )" Color="Color.Info" StrokeWidth="3" MarkerRadius="4" />
+                    <SvgLineSeries Name="South" Value="@( x => x.South )" Color="Color.Success" StrokeWidth="3" MarkerRadius="4" />
+                </SvgLineChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG scatter chart - point trendline</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgScatterChart TItem="StoreSample"
+                                 Items="@Stores"
+                                 Options="@scatterOptions">
+                    <SvgChartTitle Title='@("Store performance")' Subtitle='@("Trendline calculated from X/Y values")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartTrendline SeriesName="Stores"
+                                       Color="Color.Warning"
+                                       StrokeWidth="2.5"
+                                       DashPattern="10 5"
+                                       Opacity="0.9" />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+                    <SvgScatterSeries Name="Stores" XValue="@( x => x.Traffic )" YValue="@( x => x.Sales )" Color="Color.Primary" MarkerRadius="5" />
+                </SvgScatterChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG area chart - subtle trendline</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgAreaChart TItem="MonthlySales"
+                              Items="@Sales"
+                              Options="@areaOptions">
+                    <SvgChartTitle Title='@("Customer activity")' Subtitle='@("Solid trendline over an area series")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartTrendline SeriesName="Active users"
+                                       Color="Color.Danger"
+                                       StrokeWidth="2"
+                                       DashPattern=""
+                                       Opacity="0.75" />
+                    <SvgChartCategoryAxis Value="@( x => x.Month )" />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+                    <SvgAreaSeries Name="Active users" Value="@( x => x.ActiveUsers )" Color="Color.Success" StrokeWidth="3" FillOpacity="0.2" />
+                </SvgAreaChart>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

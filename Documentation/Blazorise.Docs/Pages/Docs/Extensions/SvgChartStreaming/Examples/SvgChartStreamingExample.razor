@@ -1,0 +1,131 @@
+@namespace Blazorise.Docs.Docs.Examples
+@using System.Threading
+@implements IAsyncDisposable
+
+<Button Color="Color.Primary" Outline Clicked="@AppendValue">
+    Append value
+</Button>
+
+<SvgLineChart @ref="chart"
+              TItem="object"
+              Data="@data"
+              Options="@options"
+              Streaming="@streaming"
+              Hovered="@OnPointHovered">
+    <SvgChartTitle Title='@("Live latency")' Subtitle='@("Right-to-left viewport with infinite retention")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartValueAxis BeginAtZero TickCount="6" />
+</SvgLineChart>
+
+<Paragraph Margin="Margin.Is2.FromTop.Is0.FromBottom">@lastEvent</Paragraph>
+
+@code {
+    private static readonly TimeSpan StreamingInterval = TimeSpan.FromSeconds( 1 );
+
+    private SvgLineChart<object> chart;
+
+    private readonly Random random = new();
+
+    private double currentLatency = 45;
+
+    private string lastEvent = "Append a value or hover over a point.";
+
+    private CancellationTokenSource streamingCancellationTokenSource;
+
+    private Task streamingTask;
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Visible = false },
+        XAxis = new()
+        {
+            GridLines = new() { Visible = true },
+            Labels = new()
+            {
+                Step = 2,
+                Offset = 30,
+            },
+        },
+    };
+
+    private readonly SvgChartStreamingOptions streaming = new()
+    {
+        Enabled = true,
+        VisibleDataPoints = 12,
+        Duration = null,
+        Reverse = false,
+        Animation = new()
+        {
+            Duration = StreamingInterval,
+        },
+        RefreshInterval = TimeSpan.FromMilliseconds( 500 ),
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Series =
+        [
+            new()
+            {
+                Name = "Latency",
+                Color = Color.Primary,
+            },
+        ],
+    };
+
+    protected override Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            streamingCancellationTokenSource = new();
+            streamingTask = RunStreamingAsync( streamingCancellationTokenSource.Token );
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private async Task RunStreamingAsync( CancellationToken cancellationToken )
+    {
+        try
+        {
+            using PeriodicTimer timer = new( StreamingInterval );
+
+            while ( await timer.WaitForNextTickAsync( cancellationToken ) )
+            {
+                await InvokeAsync( AppendValue );
+            }
+        }
+        catch ( OperationCanceledException )
+        {
+        }
+    }
+
+    private async Task AppendValue()
+    {
+        string label = DateTime.Now.ToString( "HH:mm:ss" );
+        currentLatency = Math.Clamp( currentLatency + random.Next( -16, 17 ), 25, 80 );
+
+        if ( chart is not null )
+            await chart.AppendValue( "Latency", label, currentLatency );
+    }
+
+    private Task OnPointHovered( SvgChartPointEventArgs eventArgs )
+    {
+        lastEvent = $"Hovered {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}";
+
+        return Task.CompletedTask;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if ( streamingCancellationTokenSource is not null )
+        {
+            await streamingCancellationTokenSource.CancelAsync();
+            streamingCancellationTokenSource.Dispose();
+        }
+
+        if ( streamingTask is not null )
+            await streamingTask;
+    }
+}

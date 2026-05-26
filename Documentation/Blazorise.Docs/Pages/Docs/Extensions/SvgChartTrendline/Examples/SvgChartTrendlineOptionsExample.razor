@@ -1,0 +1,60 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgLineChart TItem="AcquisitionSample"
+              Items="@samples"
+              Options="@options">
+    <SvgChartTitle Title='@("Acquisition channels")' Subtitle='@("Trendlines configured from options")' />
+    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value="@( item => item.Month )" />
+    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+    <SvgLineSeries Name="Organic" Value="@( item => item.Organic )" Color="Color.Primary" MarkerRadius="4" />
+    <SvgLineSeries Name="Paid" Value="@( item => item.Paid )" Color="Color.Success" MarkerRadius="4" />
+</SvgLineChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        Trendlines =
+        [
+            new()
+            {
+                SeriesName = "Organic",
+                Name = "Organic trend",
+                Color = Color.Primary,
+                StrokeWidth = 2,
+                DashPattern = "8 5",
+            },
+            new()
+            {
+                SeriesName = "Paid",
+                Name = "Paid trend",
+                Color = Color.Success,
+                StrokeWidth = 2,
+                DashPattern = "4 4",
+            },
+        ],
+    };
+
+    private readonly List<AcquisitionSample> samples =
+    [
+        new() { Month = "Jan", Organic = 46, Paid = 31 },
+        new() { Month = "Feb", Organic = 52, Paid = 38 },
+        new() { Month = "Mar", Organic = 55, Paid = 42 },
+        new() { Month = "Apr", Organic = 61, Paid = 45 },
+        new() { Month = "May", Organic = 67, Paid = 52 },
+        new() { Month = "Jun", Organic = 72, Paid = 57 },
+    ];
+
+    private sealed class AcquisitionSample
+    {
+        public string Month { get; set; }
+
+        public double Organic { get; set; }
+
+        public double Paid { get; set; }
+    }
+}

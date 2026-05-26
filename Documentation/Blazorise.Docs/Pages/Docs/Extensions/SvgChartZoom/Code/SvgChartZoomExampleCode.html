@@ -1,0 +1,93 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgScatterChart</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">StorePerformance</span><span class="quot">&quot;</span>
+                 <span class="htmlAttributeName">Items</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>stores</span><span class="quot">&quot;</span>
+                 <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>options</span><span class="quot">&quot;</span>
+                 <span class="htmlAttributeName">Hovered</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnPointHovered</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTitle</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;Store performance&quot;)&#39;</span> <span class="htmlAttributeName">Subtitle</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;XY zoom with numeric grid lines&quot;)&#39;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTooltip</span> <span class="htmlAttributeName">Enabled</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartValueAxis</span> <span class="htmlAttributeName">BeginAtZero</span> <span class="htmlAttributeName">TickCount</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">7</span><span class="quot">&quot;</span> <span class="htmlAttributeName">GridLines</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>gridLines</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartZoom</span> <span class="htmlAttributeName">Enabled</span>
+                  <span class="htmlAttributeName">Mode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">SvgChartZoomMode</span><span class="enumValue">.XY</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">MaxZoom</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">120</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">Viewport</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>viewport</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">ViewportChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnViewportChanged</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">Zoomed</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnZoomed</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">Panned</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnPanned</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgScatterSeries</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Stores</span><span class="quot">&quot;</span> <span class="htmlAttributeName">XValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Traffic )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">YValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Sales )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">MarkerRadius</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">5</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SvgScatterChart</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is2.FromTop.Is0.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>lastEvent<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">string</span> lastEvent = <span class="string">&quot;Wheel over the chart to zoom, or drag the plot area to pan.&quot;</span>;
+
+    <span class="keyword">private</span> SvgChartViewport viewport;
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartGridLinesOptions gridLines = <span class="keyword">new</span>()
+    {
+        Visible = <span class="keyword">true</span>,
+        Opacity = <span class="number">0</span>.<span class="number">2</span>,
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartOptions options = <span class="keyword">new</span>()
+    {
+        Height = <span class="number">360</span>,
+        XAxis = <span class="keyword">new</span>() { BeginAtZero = <span class="keyword">false</span>, TickCount = <span class="number">7</span>, GridLines = <span class="keyword">new</span>() { Visible = <span class="keyword">true</span>, Opacity = <span class="number">0</span>.<span class="number">2</span> } },
+        YAxis = <span class="keyword">new</span>() { BeginAtZero = <span class="keyword">true</span>, TickCount = <span class="number">7</span> },
+        Zoom = <span class="keyword">new</span>() { Enabled = <span class="keyword">true</span>, Mode = SvgChartZoomMode.XY, MaxZoom = <span class="number">120</span> },
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> List&lt;StorePerformance&gt; stores =
+    [
+        <span class="keyword">new</span>() { Traffic = <span class="number">8</span>, Sales = <span class="number">42</span> },
+        <span class="keyword">new</span>() { Traffic = <span class="number">12</span>, Sales = <span class="number">55</span> },
+        <span class="keyword">new</span>() { Traffic = <span class="number">16</span>, Sales = <span class="number">64</span> },
+        <span class="keyword">new</span>() { Traffic = <span class="number">22</span>, Sales = <span class="number">58</span> },
+        <span class="keyword">new</span>() { Traffic = <span class="number">29</span>, Sales = <span class="number">91</span> },
+        <span class="keyword">new</span>() { Traffic = <span class="number">34</span>, Sales = <span class="number">76</span> },
+        <span class="keyword">new</span>() { Traffic = <span class="number">42</span>, Sales = <span class="number">112</span> },
+        <span class="keyword">new</span>() { Traffic = <span class="number">48</span>, Sales = <span class="number">108</span> },
+        <span class="keyword">new</span>() { Traffic = <span class="number">53</span>, Sales = <span class="number">132</span> },
+        <span class="keyword">new</span>() { Traffic = <span class="number">61</span>, Sales = <span class="number">126</span> },
+    ];
+
+    <span class="keyword">private</span> Task OnPointHovered( SvgChartPointEventArgs eventArgs )
+    {
+        lastEvent = $<span class="string">&quot;Hovered {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}&quot;</span>;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> Task OnViewportChanged( SvgChartViewport changedViewport )
+    {
+        viewport = changedViewport;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> Task OnZoomed( SvgChartZoomedEventArgs eventArgs )
+    {
+        lastEvent = $<span class="string">&quot;Zoomed viewport X {eventArgs.Viewport.XMin:0.##}-{eventArgs.Viewport.XMax:0.##}, Y {eventArgs.Viewport.YMin:0.##}-{eventArgs.Viewport.YMax:0.##}&quot;</span>;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> Task OnPanned( SvgChartPannedEventArgs eventArgs )
+    {
+        lastEvent = $<span class="string">&quot;Panned viewport X {eventArgs.Viewport.XMin:0.##}-{eventArgs.Viewport.XMax:0.##}, Y {eventArgs.Viewport.YMin:0.##}-{eventArgs.Viewport.YMax:0.##}&quot;</span>;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">sealed</span> <span class="keyword">class</span> StorePerformance
+    {
+        <span class="keyword">public</span> <span class="keyword">double</span> Traffic { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">double</span> Sales { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+}
+</pre></div>
+</div>

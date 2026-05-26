@@ -1,0 +1,57 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgDoughnutChart TItem="object"
+                  Data="@data"
+                  Options="@options"
+                  Clicked="@OnPointClicked">
+    <SvgChartTitle Title='@("Traffic sources")' Subtitle='@("Centered labels on radial slices")' />
+    <SvgChartTooltip Enabled />
+</SvgDoughnutChart>
+
+<Paragraph Margin="Margin.Is2.FromTop.Is0.FromBottom">@lastEvent</Paragraph>
+
+@code {
+    private string lastEvent = "Click a slice or label.";
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 340,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        DataLabels = new()
+        {
+            Visible = true,
+            Position = SvgChartDataLabelPosition.Center,
+            Formatter = FormatShareLabel,
+            Font = new()
+            {
+                Color = Color.Light,
+                Weight = "700",
+            },
+        },
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Labels = ["Search", "Direct", "Social", "Referral"],
+        Series =
+        [
+            new()
+            {
+                Name = "Share",
+                Values = [42, 27, 18, 13],
+            },
+        ],
+    };
+
+    private Task OnPointClicked( SvgChartPointEventArgs eventArgs )
+    {
+        lastEvent = $"Clicked {eventArgs.Category}: {eventArgs.Value}%";
+
+        return Task.CompletedTask;
+    }
+
+    private static string FormatShareLabel( SvgChartDataLabelContext context )
+    {
+        return $"{Convert.ToDouble( context.Value, System.Globalization.CultureInfo.InvariantCulture ):0}%";
+    }
+}

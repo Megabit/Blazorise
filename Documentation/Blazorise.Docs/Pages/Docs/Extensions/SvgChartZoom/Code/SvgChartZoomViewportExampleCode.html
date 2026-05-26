@@ -1,0 +1,86 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Flex</span><span class="enumValue">.Row</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Gap</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Gap</span><span class="enumValue">.Is2</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Outline</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ZoomIn</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Zoom in<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Light</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ResetZoom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Reset<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgLineChart</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">chart</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">CpuSample</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">Items</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>samples</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>options</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTitle</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;CPU utilization&quot;)&#39;</span> <span class="htmlAttributeName">Subtitle</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;Initial viewport configured declaratively&quot;)&#39;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTooltip</span> <span class="htmlAttributeName">Enabled</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartZoom</span> <span class="htmlAttributeName">Enabled</span>
+                  <span class="htmlAttributeName">Mode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">SvgChartZoomMode.X</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">MaxZoom</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">12</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">Viewport</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>viewport</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">ViewportChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnViewportChanged</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartCategoryAxis</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Minute )</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartValueAxis</span> <span class="htmlAttributeName">BeginAtZero</span> <span class="htmlAttributeName">TickCount</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">6</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgLineSeries</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">CPU</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Value )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">StrokeWidth</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">3</span><span class="quot">&quot;</span> <span class="htmlAttributeName">MarkerRadius</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">4</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SvgLineChart</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> SvgLineChart&lt;CpuSample&gt; chart;
+
+    <span class="keyword">private</span> SvgChartViewport viewport = <span class="keyword">new</span>()
+    {
+        XMin = <span class="number">2</span>,
+        XMax = <span class="number">7</span>,
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartOptions options = <span class="keyword">new</span>()
+    {
+        Height = <span class="number">360</span>,
+        Legend = <span class="keyword">new</span>() { Visible = <span class="keyword">false</span> },
+        XAxis = <span class="keyword">new</span>()
+        {
+            GridLines = <span class="keyword">new</span>() { Visible = <span class="keyword">true</span> },
+        },
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> List&lt;CpuSample&gt; samples =
+    [
+        <span class="keyword">new</span>() { Minute = <span class="string">&quot;00:00&quot;</span>, Value = <span class="number">45</span> },
+        <span class="keyword">new</span>() { Minute = <span class="string">&quot;00:05&quot;</span>, Value = <span class="number">52</span> },
+        <span class="keyword">new</span>() { Minute = <span class="string">&quot;00:10&quot;</span>, Value = <span class="number">49</span> },
+        <span class="keyword">new</span>() { Minute = <span class="string">&quot;00:15&quot;</span>, Value = <span class="number">64</span> },
+        <span class="keyword">new</span>() { Minute = <span class="string">&quot;00:20&quot;</span>, Value = <span class="number">72</span> },
+        <span class="keyword">new</span>() { Minute = <span class="string">&quot;00:25&quot;</span>, Value = <span class="number">68</span> },
+        <span class="keyword">new</span>() { Minute = <span class="string">&quot;00:30&quot;</span>, Value = <span class="number">77</span> },
+        <span class="keyword">new</span>() { Minute = <span class="string">&quot;00:35&quot;</span>, Value = <span class="number">70</span> },
+        <span class="keyword">new</span>() { Minute = <span class="string">&quot;00:40&quot;</span>, Value = <span class="number">74</span> },
+        <span class="keyword">new</span>() { Minute = <span class="string">&quot;00:45&quot;</span>, Value = <span class="number">82</span> },
+    ];
+
+    <span class="keyword">private</span> <span class="keyword">async</span> Task ZoomIn()
+    {
+        <span class="keyword">if</span> ( chart <span class="keyword">is</span> not <span class="keyword">null</span> )
+            <span class="keyword">await</span> chart.ZoomIn();
+    }
+
+    <span class="keyword">private</span> <span class="keyword">async</span> Task ResetZoom()
+    {
+        <span class="keyword">if</span> ( chart <span class="keyword">is</span> not <span class="keyword">null</span> )
+            <span class="keyword">await</span> chart.ResetZoom();
+    }
+
+    <span class="keyword">private</span> Task OnViewportChanged( SvgChartViewport changedViewport )
+    {
+        viewport = changedViewport;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">sealed</span> <span class="keyword">class</span> CpuSample
+    {
+        <span class="keyword">public</span> <span class="keyword">string</span> Minute { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">double</span> Value { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+}
+</pre></div>
+</div>

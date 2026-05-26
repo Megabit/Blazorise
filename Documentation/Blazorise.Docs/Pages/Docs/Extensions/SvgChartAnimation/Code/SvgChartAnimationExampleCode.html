@@ -1,0 +1,88 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Div</span> <span class="htmlAttributeName">Flex</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Flex</span><span class="enumValue">.Row</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Gap</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Gap</span><span class="enumValue">.Is2</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is3.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Randomize</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Randomize<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Light</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>Reset</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Reset<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Div</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgColumnChart</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">MonthlyRevenue</span><span class="quot">&quot;</span>
+                <span class="htmlAttributeName">Items</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>revenue</span><span class="quot">&quot;</span>
+                <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>options</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartAnimation</span> <span class="htmlAttributeName">Enabled</span>
+                       <span class="htmlAttributeName">Duration</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>TimeSpan.FromMilliseconds( 500 )</span><span class="quot">&quot;</span>
+                       <span class="htmlAttributeName">Easing</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">SvgChartAnimationEasing</span><span class="enumValue">.EaseOut</span><span class="quot">&quot;</span>
+                       <span class="htmlAttributeName">Geometry</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>geometryAnimation</span><span class="quot">&quot;</span>
+                       <span class="htmlAttributeName">Opacity</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>opacityAnimation</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTitle</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;Animated revenue&quot;)&#39;</span> <span class="htmlAttributeName">Subtitle</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;Columns animate on load and update&quot;)&#39;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartLegend</span> <span class="htmlAttributeName">Position</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">SvgChartLegendPosition</span><span class="enumValue">.Bottom</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTooltip</span> <span class="htmlAttributeName">Enabled</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartCategoryAxis</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Month )</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartValueAxis</span> <span class="htmlAttributeName">BeginAtZero</span> <span class="htmlAttributeName">TickCount</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">6</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgColumnSeries</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Revenue</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Revenue )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">BorderRadius</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">4</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgColumnSeries</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Expenses</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Expenses )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Info</span><span class="quot">&quot;</span> <span class="htmlAttributeName">BorderRadius</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">4</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SvgColumnChart</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">readonly</span> Random random = <span class="keyword">new</span>( <span class="number">42</span> );
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartOptions options = <span class="keyword">new</span>()
+    {
+        Height = <span class="number">360</span>,
+        Legend = <span class="keyword">new</span>() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartGeometryAnimationOptions geometryAnimation = <span class="keyword">new</span>()
+    {
+        Duration = TimeSpan.FromMilliseconds( <span class="number">650</span> ),
+        AnimatePosition = <span class="keyword">true</span>,
+        AnimateSize = <span class="keyword">true</span>
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartOpacityAnimationOptions opacityAnimation = <span class="keyword">new</span>()
+    {
+        Duration = TimeSpan.FromMilliseconds( <span class="number">800</span> ),
+        Delay = TimeSpan.FromMilliseconds( <span class="number">50</span> ),
+        From = <span class="number">0</span>.<span class="number">1</span>
+    };
+
+    <span class="keyword">private</span> List&lt;MonthlyRevenue&gt; revenue = CreateRevenue();
+
+    <span class="keyword">private</span> <span class="keyword">void</span> Randomize()
+    {
+        <span class="keyword">foreach</span> ( <span class="keyword">var</span> item <span class="keyword">in</span> revenue )
+        {
+            item.Revenue = Math.Max( <span class="number">30</span>, item.Revenue + random.Next( -<span class="number">16</span>, <span class="number">17</span> ) );
+            item.Expenses = Math.Max( <span class="number">20</span>, item.Expenses + random.Next( -<span class="number">12</span>, <span class="number">13</span> ) );
+        }
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> Reset()
+    {
+        revenue = CreateRevenue();
+    }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> List&lt;MonthlyRevenue&gt; CreateRevenue()
+    {
+        <span class="keyword">return</span>
+        [
+            <span class="keyword">new</span>() { Month = <span class="string">&quot;Jan&quot;</span>, Revenue = <span class="number">68</span>, Expenses = <span class="number">42</span> },
+            <span class="keyword">new</span>() { Month = <span class="string">&quot;Feb&quot;</span>, Revenue = <span class="number">74</span>, Expenses = <span class="number">46</span> },
+            <span class="keyword">new</span>() { Month = <span class="string">&quot;Mar&quot;</span>, Revenue = <span class="number">91</span>, Expenses = <span class="number">52</span> },
+            <span class="keyword">new</span>() { Month = <span class="string">&quot;Apr&quot;</span>, Revenue = <span class="number">86</span>, Expenses = <span class="number">49</span> },
+            <span class="keyword">new</span>() { Month = <span class="string">&quot;May&quot;</span>, Revenue = <span class="number">103</span>, Expenses = <span class="number">61</span> },
+        ];
+    }
+
+    <span class="keyword">private</span> <span class="keyword">sealed</span> <span class="keyword">class</span> MonthlyRevenue
+    {
+        <span class="keyword">public</span> <span class="keyword">string</span> Month { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">double</span> Revenue { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">double</span> Expenses { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+}
+</pre></div>
+</div>

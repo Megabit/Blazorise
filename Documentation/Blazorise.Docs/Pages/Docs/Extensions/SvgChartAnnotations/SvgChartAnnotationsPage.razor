@@ -1,0 +1,48 @@
+@page "/docs/extensions/svg-chart-annotations"
+
+<Seo Canonical="/docs/extensions/svg-chart-annotations" Title="Blazorise SVG Chart Annotations" Description="Learn how to add line, box, label, ellipse, and point annotations to native Blazorise SVG charts." />
+
+<DocsPageTitle Path="Extensions/SVG Chart Annotations">
+    Blazorise SVG Chart Annotations
+</DocsPageTitle>
+
+<DocsPageLead>
+    Add contextual markers and regions directly to native SVG charts.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    SVG chart annotations can be declared as child components or supplied through <Code>SvgChartOptions.Annotations</Code>. Use them for thresholds, release markers, operating ranges, target areas, and labeled points.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Line and label annotations">
+        Use line annotations for thresholds and category markers, and label annotations for free-positioned notes.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgChartAnnotationsLineExample" Outlined FullWidth>
+        <SvgChartAnnotationsLineExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Box, ellipse, and point annotations">
+        Use box and ellipse annotations to mark regions, and point annotations to highlight a specific value.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgChartAnnotationsRegionExample" Outlined FullWidth>
+        <SvgChartAnnotationsRegionExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Options annotations">
+        Configure annotations through <Code>SvgChartOptions.Annotations</Code> when chart options are created in C#.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgChartAnnotationsOptionsExample" Outlined FullWidth>
+        <SvgChartAnnotationsOptionsExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof(SvgChartLineAnnotation), typeof(SvgChartBoxAnnotation), typeof(SvgChartLabelAnnotation), typeof(SvgChartEllipseAnnotation), typeof(SvgChartPointAnnotation), typeof(SvgChartAnnotationOptions), typeof(SvgChartLineAnnotationOptions), typeof(SvgChartBoxAnnotationOptions), typeof(SvgChartLabelAnnotationOptions), typeof(SvgChartEllipseAnnotationOptions), typeof(SvgChartPointAnnotationOptions), typeof(SvgChartAnnotationLabelOptions)]" />

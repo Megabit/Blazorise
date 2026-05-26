@@ -58,6 +58,7 @@
     <Project Path="Source/Extensions/Blazorise.Captcha/Blazorise.Captcha.csproj" />
     <Project Path="Source/Extensions/Blazorise.Charts.Annotation/Blazorise.Charts.Annotation.csproj" />
     <Project Path="Source/Extensions/Blazorise.Charts.DataLabels/Blazorise.Charts.DataLabels.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Charts.Svg/Blazorise.Charts.Svg.csproj" />
     <Project Path="Source/Extensions/Blazorise.Charts.Streaming/Blazorise.Charts.Streaming.csproj" />
     <Project Path="Source/Extensions/Blazorise.Charts.Trendline/Blazorise.Charts.Trendline.csproj" />
     <Project Path="Source/Extensions/Blazorise.Charts.Zoom/Blazorise.Charts.Zoom.csproj" />

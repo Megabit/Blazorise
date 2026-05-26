@@ -1,4 +1,4 @@
-﻿@if ( !string.IsNullOrWhiteSpace( FrameUrl ) )
+@if ( !string.IsNullOrWhiteSpace( FrameUrl ) )
 {
     <Div Flex="Flex.JustifyContent.Center.AlignItems.Center" Gap="Gap.Is3" Padding="Padding.Is3" Border="Border.Is0.OnBottom.Is1.OnTop.Is1.RoundedTop.OnStart.Is1.OnEnd">
         <Tooltip Text="Desktop View" Inline>
@@ -37,5 +37,5 @@
 
 @if ( !string.IsNullOrWhiteSpace( Code ) )
 {
-    <DocsPageSectionSource Code="@Code" CodeTitle="@CodeTitle" AdditionalCodes="@AdditionalCodes" ShowCode="@ShowCode" />
+    <DocsPageSectionSource Code="@Code" CodeTitle="@CodeTitle" AdditionalCodes="@AdditionalCodes" ShowCode="@ShowCode" Expanded="@Expanded" />
 }

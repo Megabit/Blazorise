@@ -1,0 +1,36 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgScatterChart TItem="StorePerformance"
+                 Items="@stores"
+                 Options="@options">
+    <SvgChartTitle Title='@("Store performance")' Subtitle='@("Independent X/Y values")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+    <SvgScatterSeries Name="Stores" XValue="@( item => item.Sales )" YValue="@( item => item.Margin )" Color="Color.Primary" MarkerRadius="5" />
+</SvgScatterChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        YAxis = new() { BeginAtZero = true, TickCount = 6 },
+    };
+
+    private readonly List<StorePerformance> stores =
+    [
+        new() { Sales = 8, Margin = 42 },
+        new() { Sales = 16, Margin = 64 },
+        new() { Sales = 22, Margin = 58 },
+        new() { Sales = 29, Margin = 91 },
+        new() { Sales = 34, Margin = 76 },
+        new() { Sales = 42, Margin = 112 },
+    ];
+
+    private sealed class StorePerformance
+    {
+        public double Sales { get; set; }
+
+        public double Margin { get; set; }
+    }
+}

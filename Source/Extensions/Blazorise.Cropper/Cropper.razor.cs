@@ -337,32 +337,32 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
     [Parameter] public Func<string, Task> ImageLoadingFailed { get; set; }
 
     /// <summary>
-    /// Indicates whether this element is disabled.
+    /// Enables or disables cropper interactions.
     /// </summary>
     [Parameter] public bool Enabled { get; set; } = true;
 
     /// <summary>
-    /// Indicates whether this element has a grid background.
+    /// Shows the grid background behind the cropper.
     /// </summary>
     [Parameter] public bool ShowBackground { get; set; } = true;
 
     /// <summary>
-    /// Provides properties for manipulating the layout and presentation of image elements.
+    /// Controls which image transform operations are available.
     /// </summary>
     [Parameter] public CropperImageOptions ImageOptions { get; set; } = new CropperImageOptions();
 
     /// <summary>
-    /// Provides properties for manipulating the layout and presentation.
+    /// Defines the behavior and initial shape of the crop selection.
     /// </summary>
     [Parameter] public CropperSelectionOptions SelectionOptions { get; set; } = new CropperSelectionOptions();
 
     /// <summary>
-    /// Provides properties for manipulating the layout and presentation of selection grid elements.
+    /// Defines the grid overlay drawn inside the crop selection.
     /// </summary>
     [Parameter] public CropperGridOptions GridOptions { get; set; } = new CropperGridOptions();
 
     /// <summary>
-    /// Provides a shared state and syncronization context between the cropper and cropper viewer.
+    /// Provides the shared state and synchronization context between the cropper and cropper viewer.
     /// </summary>
     [Parameter] public CropperState CropperState { get; set; }
 
