@@ -1,27 +1,27 @@
 ﻿namespace Blazorise.Cropper;
 
 /// <summary>
-/// Provides properties for manipulating the layout and presentation of image elements.
+/// Controls which image transform operations are available.
 /// </summary>
 public record CropperImageOptions
 {
     /// <summary>
-    /// Indicates whether this element is rotatable.
+    /// Rotation commands can change the image angle.
     /// </summary>
     public bool Rotatable { get; init; } = true;
 
     /// <summary>
-    /// Indicates whether this element is scalable.
+    /// Scale commands can resize the image on the X or Y axis.
     /// </summary>
     public bool Scalable { get; init; } = true;
 
     /// <summary>
-    /// Indicates whether this element is skewable.
+    /// Skew commands can slant the image horizontally or vertically.
     /// </summary>
     public bool Skewable { get; init; }
 
     /// <summary>
-    /// Indicates whether this element is translatable.
+    /// Move commands can reposition the image within the cropper.
     /// </summary>
     public bool Translatable { get; init; } = true;
 }
