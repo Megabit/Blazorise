@@ -1,0 +1,100 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgScatterChart</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">StoreSample</span><span class="quot">&quot;</span>
+                 <span class="htmlAttributeName">Items</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>stores</span><span class="quot">&quot;</span>
+                 <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>options</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTitle</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;Store performance&quot;)&#39;</span> <span class="htmlAttributeName">Subtitle</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;Region and point annotations&quot;)&#39;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTooltip</span> <span class="htmlAttributeName">Enabled</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartEllipseAnnotation</span> <span class="htmlAttributeName">XMin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">20</span><span class="quot">&quot;</span>
+                               <span class="htmlAttributeName">XMax</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">40</span><span class="quot">&quot;</span>
+                               <span class="htmlAttributeName">YMin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">60</span><span class="quot">&quot;</span>
+                               <span class="htmlAttributeName">YMax</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">90</span><span class="quot">&quot;</span>
+                               <span class="htmlAttributeName">BackgroundColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Success</span><span class="quot">&quot;</span>
+                               <span class="htmlAttributeName">Border</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( new SvgChartBorderOptions { Color = Color.Success, Width = 1 } )</span><span class="quot">&quot;</span>
+                               <span class="htmlAttributeName">Opacity</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">0.12</span><span class="quot">&quot;</span>
+                               <span class="htmlAttributeName">Label</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>targetLabel</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartPointAnnotation</span> <span class="htmlAttributeName">X</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">33</span><span class="quot">&quot;</span>
+                             <span class="htmlAttributeName">Y</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">74</span><span class="quot">&quot;</span>
+                             <span class="htmlAttributeName">Radius</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">6</span><span class="quot">&quot;</span>
+                             <span class="htmlAttributeName">BackgroundColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Warning</span><span class="quot">&quot;</span>
+                             <span class="htmlAttributeName">Border</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( new SvgChartBorderOptions { Color = Color.Danger, Width = 2 } )</span><span class="quot">&quot;</span>
+                             <span class="htmlAttributeName">Label</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>pointLabel</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartValueAxis</span> <span class="htmlAttributeName">BeginAtZero</span> <span class="htmlAttributeName">TickCount</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">6</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgScatterSeries</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Stores</span><span class="quot">&quot;</span> <span class="htmlAttributeName">XValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Traffic )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">YValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Sales )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">MarkerRadius</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">5</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SvgScatterChart</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartOptions options = <span class="keyword">new</span>()
+    {
+        Height = <span class="number">360</span>,
+        XAxis = <span class="keyword">new</span>()
+        {
+            GridLines = <span class="keyword">new</span>() { Visible = <span class="keyword">true</span> },
+        },
+        YAxis = <span class="keyword">new</span>()
+        {
+            BeginAtZero = <span class="keyword">true</span>,
+            TickCount = <span class="number">6</span>,
+        },
+        Annotations =
+        [
+            <span class="keyword">new</span> SvgChartBoxAnnotationOptions
+            {
+                XMin = <span class="number">10</span>,
+                XMax = <span class="number">20</span>,
+                YMin = <span class="number">40</span>,
+                YMax = <span class="number">65</span>,
+                BackgroundColor = Color.Info,
+                Opacity = <span class="number">0</span>.<span class="number">1</span>,
+                Label = <span class="keyword">new</span>()
+                {
+                    Visible = <span class="keyword">true</span>,
+                    Text = <span class="string">&quot;Watch&quot;</span>,
+                    Position = SvgChartAnnotationLabelPosition.Start,
+                    BackgroundColor = <span class="string">&quot;#ffffff&quot;</span>,
+                },
+            },
+        ],
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartAnnotationLabelOptions targetLabel = <span class="keyword">new</span>()
+    {
+        Visible = <span class="keyword">true</span>,
+        Text = <span class="string">&quot;Target area&quot;</span>,
+        Position = SvgChartAnnotationLabelPosition.Start,
+        BackgroundColor = <span class="string">&quot;#ffffff&quot;</span>,
+        Border = <span class="keyword">new</span>() { Color = Color.Success, Width = <span class="number">1</span>, Radius = <span class="number">3</span> },
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartAnnotationLabelOptions pointLabel = <span class="keyword">new</span>()
+    {
+        Visible = <span class="keyword">true</span>,
+        Text = <span class="string">&quot;Selected store&quot;</span>,
+        Position = SvgChartAnnotationLabelPosition.End,
+        BackgroundColor = <span class="string">&quot;#ffffff&quot;</span>,
+        Border = <span class="keyword">new</span>() { Color = Color.Warning, Width = <span class="number">1</span>, Radius = <span class="number">3</span> },
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> List&lt;StoreSample&gt; stores =
+    [
+        <span class="keyword">new</span>() { Traffic = <span class="number">8</span>, Sales = <span class="number">42</span> },
+        <span class="keyword">new</span>() { Traffic = <span class="number">13</span>, Sales = <span class="number">48</span> },
+        <span class="keyword">new</span>() { Traffic = <span class="number">18</span>, Sales = <span class="number">51</span> },
+        <span class="keyword">new</span>() { Traffic = <span class="number">22</span>, Sales = <span class="number">64</span> },
+        <span class="keyword">new</span>() { Traffic = <span class="number">27</span>, Sales = <span class="number">62</span> },
+        <span class="keyword">new</span>() { Traffic = <span class="number">33</span>, Sales = <span class="number">74</span> },
+        <span class="keyword">new</span>() { Traffic = <span class="number">38</span>, Sales = <span class="number">83</span> },
+        <span class="keyword">new</span>() { Traffic = <span class="number">45</span>, Sales = <span class="number">88</span> },
+    ];
+
+    <span class="keyword">private</span> <span class="keyword">sealed</span> <span class="keyword">class</span> StoreSample
+    {
+        <span class="keyword">public</span> <span class="keyword">double</span> Traffic { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">double</span> Sales { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+}
+</pre></div>
+</div>

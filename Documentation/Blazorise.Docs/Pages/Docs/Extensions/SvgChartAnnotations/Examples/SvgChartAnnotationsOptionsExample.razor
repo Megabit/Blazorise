@@ -1,0 +1,86 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgLineChart TItem="DeploymentSample"
+              Items="@samples"
+              Options="@options">
+    <SvgChartTitle Title='@("Deployment health")' Subtitle='@("Annotations configured from chart options")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value="@( item => item.Step )" />
+    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+    <SvgLineSeries Name="Health" Value="@( item => item.Score )" Color="Color.Primary" StrokeWidth="3" MarkerRadius="4" />
+</SvgLineChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Visible = false },
+        Annotations =
+        [
+            new SvgChartBoxAnnotationOptions
+            {
+                XMin = 2.5,
+                XMax = 4.5,
+                YMin = 0,
+                YMax = 100,
+                BackgroundColor = Color.Warning,
+                Opacity = 0.12,
+                Label = new()
+                {
+                    Visible = true,
+                    Text = "Deploy",
+                    Position = SvgChartAnnotationLabelPosition.Start,
+                    BackgroundColor = "#ffffff",
+                },
+            },
+            new SvgChartLineAnnotationOptions
+            {
+                YMin = 80,
+                YMax = 80,
+                Border = new() { Color = Color.Success, Width = 2 },
+                DashPattern = "6 4",
+                Label = new()
+                {
+                    Visible = true,
+                    Text = "Target",
+                    Position = SvgChartAnnotationLabelPosition.End,
+                    BackgroundColor = "#ffffff",
+                    Border = new() { Color = Color.Success, Width = 1, Radius = 3 },
+                },
+            },
+            new SvgChartPointAnnotationOptions
+            {
+                X = 4,
+                Y = 88,
+                Radius = 6,
+                BackgroundColor = Color.Primary,
+                Border = new() { Color = Color.Light, Width = 2 },
+                Label = new()
+                {
+                    Visible = true,
+                    Text = "Recovered",
+                    Position = SvgChartAnnotationLabelPosition.End,
+                    BackgroundColor = "#ffffff",
+                },
+            },
+        ],
+    };
+
+    private readonly List<DeploymentSample> samples =
+    [
+        new() { Step = "Build", Score = 86 },
+        new() { Step = "Test", Score = 84 },
+        new() { Step = "Canary", Score = 63 },
+        new() { Step = "Ramp", Score = 72 },
+        new() { Step = "Stable", Score = 88 },
+        new() { Step = "Observe", Score = 91 },
+    ];
+
+    private sealed class DeploymentSample
+    {
+        public string Step { get; set; }
+
+        public double Score { get; set; }
+    }
+}

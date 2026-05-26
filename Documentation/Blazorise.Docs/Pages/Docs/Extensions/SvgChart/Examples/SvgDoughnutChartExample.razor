@@ -1,0 +1,29 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgDoughnutChart TItem="object"
+                  Data="@data"
+                  Options="@options">
+    <SvgChartTitle Title='@("Traffic sources")' Subtitle='@("Doughnut chart with category legend")' />
+    <SvgChartTooltip Enabled />
+</SvgDoughnutChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 320,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Labels = ["Search", "Direct", "Social", "Referral"],
+        Series =
+        [
+            new()
+            {
+                Name = "Sessions",
+                Values = [38, 27, 21, 14],
+            },
+        ]
+    };
+}

@@ -14277,6 +14277,1671 @@ builder.Services
     </SplitterSection>
 </Splitter>";
 
+        public const string SvgAdvancedChartExample = @"<SvgColumnChart TItem=""MonthlyRevenue""
+                Items=""@revenue""
+                Options=""@options"">
+    <SvgChartTitle Title='@(""Stacked revenue"")' Subtitle='@(""Index tooltip, stacked values, and formatted axis ticks"")' />
+    <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
+    <SvgChartTooltip Enabled InteractionMode=""SvgChartInteractionMode.Index"" Width=""220"" />
+    <SvgChartTimeAxis TimeValue=""@( item => (DateTime?)item.Month )"" Unit=""SvgChartTimeUnit.Month"" />
+    <SvgChartValueAxis BeginAtZero Stacked TickCount=""6"" TickFormatter=""@FormatCurrencyTick"" />
+
+    <SvgColumnSeries Name=""Product"" Stack=""revenue"" Value=""@( item => item.Product )"" Color=""Color.Primary"" BorderRadius=""4"" />
+    <SvgColumnSeries Name=""Services"" Stack=""revenue"" Value=""@( item => item.Services )"" Color=""Color.Info"" BorderRadius=""4"" />
+    <SvgColumnSeries Name=""Support"" Stack=""revenue"" Value=""@( item => item.Support )"" Color=""Color.Success"" BorderRadius=""4"" />
+</SvgColumnChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        Tooltip = new() { InteractionMode = SvgChartInteractionMode.Index, Width = 220 },
+        YAxis = new() { BeginAtZero = true, Stacked = true, TickCount = 6 },
+    };
+
+    private readonly List<MonthlyRevenue> revenue =
+    [
+        new() { Month = new DateTime( 2026, 1, 1 ), Product = 42, Services = 24, Support = 12 },
+        new() { Month = new DateTime( 2026, 2, 1 ), Product = 48, Services = 28, Support = 14 },
+        new() { Month = new DateTime( 2026, 3, 1 ), Product = 55, Services = 32, Support = 18 },
+        new() { Month = new DateTime( 2026, 4, 1 ), Product = 51, Services = 35, Support = 20 },
+    ];
+
+    private static string FormatCurrencyTick( SvgChartAxisTickContext context )
+    {
+        return context.Value is IFormattable value ? $""${value.ToString( ""0"", null )}"" : context.Value?.ToString();
+    }
+
+    private sealed class MonthlyRevenue
+    {
+        public DateTime Month { get; set; }
+
+        public double Product { get; set; }
+
+        public double Services { get; set; }
+
+        public double Support { get; set; }
+    }
+}";
+
+        public const string SvgAreaChartExample = @"<SvgAreaChart TItem=""MonthlyThroughput""
+              Items=""@throughput""
+              Options=""@options"">
+    <SvgChartTitle Title='@(""Throughput"")' Subtitle='@(""Area series with transparent fills"")' />
+    <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value=""@( item => item.Month )"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgAreaSeries Name=""Reads"" Value=""@( item => item.Reads )"" Color=""Color.Primary"" StrokeWidth=""3"" FillOpacity=""0.18"" />
+    <SvgAreaSeries Name=""Writes"" Value=""@( item => item.Writes )"" Color=""Color.Success"" StrokeWidth=""3"" FillOpacity=""0.18"" />
+</SvgAreaChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly List<MonthlyThroughput> throughput =
+    [
+        new() { Month = ""Jan"", Reads = 96, Writes = 63 },
+        new() { Month = ""Feb"", Reads = 128, Writes = 41 },
+        new() { Month = ""Mar"", Reads = 120, Writes = 80 },
+        new() { Month = ""Apr"", Reads = 133, Writes = 88 },
+        new() { Month = ""May"", Reads = 124, Writes = 56 },
+    ];
+
+    private sealed class MonthlyThroughput
+    {
+        public string Month { get; set; }
+
+        public double Reads { get; set; }
+
+        public double Writes { get; set; }
+    }
+}";
+
+        public const string SvgBarChartExample = @"<SvgBarChart TItem=""RegionalRevenue""
+             Items=""@revenue""
+             Options=""@options"">
+    <SvgChartTitle Title='@(""Regional revenue"")' Subtitle='@(""Horizontal grouped bars"")' />
+    <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value=""@( item => item.Region )"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgBarSeries Name=""Online"" Value=""@( item => item.Online )"" Color=""Color.Primary"" BorderRadius=""4"" />
+    <SvgBarSeries Name=""Retail"" Value=""@( item => item.Retail )"" Color=""Color.Success"" BorderRadius=""4"" />
+</SvgBarChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly List<RegionalRevenue> revenue =
+    [
+        new() { Region = ""North"", Online = 72, Retail = 54 },
+        new() { Region = ""South"", Online = 84, Retail = 66 },
+        new() { Region = ""East"", Online = 93, Retail = 71 },
+        new() { Region = ""West"", Online = 78, Retail = 64 },
+    ];
+
+    private sealed class RegionalRevenue
+    {
+        public string Region { get; set; }
+
+        public double Online { get; set; }
+
+        public double Retail { get; set; }
+    }
+}";
+
+        public const string SvgBubbleChartExample = @"<SvgBubbleChart TItem=""StoreVolume""
+                Items=""@stores""
+                Options=""@options"">
+    <SvgChartTitle Title='@(""Store volume"")' Subtitle='@(""X/Y values with radius from item selectors"")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgBubbleSeries Name=""Stores"" XValue=""@( item => item.Sales )"" YValue=""@( item => item.Margin )"" RadiusValue=""@( item => item.Orders )"" Color=""Color.Info"" />
+</SvgBubbleChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        YAxis = new() { BeginAtZero = true, TickCount = 6 },
+    };
+
+    private readonly List<StoreVolume> stores =
+    [
+        new() { Sales = 8, Margin = 42, Orders = 5 },
+        new() { Sales = 16, Margin = 64, Orders = 9 },
+        new() { Sales = 22, Margin = 58, Orders = 7 },
+        new() { Sales = 29, Margin = 91, Orders = 12 },
+        new() { Sales = 34, Margin = 76, Orders = 10 },
+        new() { Sales = 42, Margin = 112, Orders = 14 },
+    ];
+
+    private sealed class StoreVolume
+    {
+        public double Sales { get; set; }
+
+        public double Margin { get; set; }
+
+        public double Orders { get; set; }
+    }
+}";
+
+        public const string SvgChartImportsExample = @"@using Blazorise.Charts.Svg";
+
+        public const string SvgChartNugetInstallExample = @"Install-Package Blazorise.Charts.Svg";
+
+        public const string SvgColumnChartExample = @"<SvgColumnChart TItem=""MonthlyRevenue""
+                Items=""@revenue""
+                Options=""@options"">
+    <SvgChartTitle Title='@(""Monthly revenue"")' Subtitle='@(""Column series with grouped values"")' />
+    <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value=""@( item => item.Month )"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgColumnSeries Name=""Revenue"" Value=""@( item => item.Revenue )"" Color=""Color.Primary"" BorderRadius=""4"" />
+    <SvgColumnSeries Name=""Expenses"" Value=""@( item => item.Expenses )"" Color=""Color.Info"" BorderRadius=""4"" />
+</SvgColumnChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly List<MonthlyRevenue> revenue =
+    [
+        new() { Month = ""Jan"", Revenue = 68, Expenses = 42 },
+        new() { Month = ""Feb"", Revenue = 74, Expenses = 46 },
+        new() { Month = ""Mar"", Revenue = 91, Expenses = 52 },
+        new() { Month = ""Apr"", Revenue = 86, Expenses = 49 },
+        new() { Month = ""May"", Revenue = 103, Expenses = 61 },
+    ];
+
+    private sealed class MonthlyRevenue
+    {
+        public string Month { get; set; }
+
+        public double Revenue { get; set; }
+
+        public double Expenses { get; set; }
+    }
+}";
+
+        public const string SvgCustomColorsChartExample = @"<SvgAreaChart TItem=""ProductRevenue""
+              Items=""@revenue""
+              Options=""@options"">
+    <SvgChartTitle Title='@(""Revenue by channel"")' Subtitle='@(""Series using custom CSS color values"")' />
+    <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value=""@( item => item.Month )"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgAreaSeries Name=""Direct"" Value=""@( item => item.Direct )"" Color=""@directColor"" StrokeWidth=""3"" FillOpacity=""0.2"" />
+    <SvgAreaSeries Name=""Partners"" Value=""@( item => item.Partners )"" Color=""@partnersColor"" StrokeWidth=""3"" FillOpacity=""0.18"" />
+    <SvgAreaSeries Name=""Marketplace"" Value=""@( item => item.Marketplace )"" Color=""@marketplaceColor"" StrokeWidth=""3"" FillOpacity=""0.16"" />
+</SvgAreaChart>
+
+@code {
+    private readonly Color directColor = ""#7c3aed"";
+
+    private readonly Color partnersColor = ""rgb(14, 165, 233)"";
+
+    private readonly Color marketplaceColor = ""var(--b-theme-success, #16a34a)"";
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        XAxis = new()
+        {
+            GridLines = new() { Visible = true },
+        },
+    };
+
+    private readonly List<ProductRevenue> revenue =
+    [
+        new() { Month = ""Jan"", Direct = 42, Partners = 36, Marketplace = 24 },
+        new() { Month = ""Feb"", Direct = 54, Partners = 42, Marketplace = 30 },
+        new() { Month = ""Mar"", Direct = 63, Partners = 51, Marketplace = 36 },
+        new() { Month = ""Apr"", Direct = 58, Partners = 57, Marketplace = 42 },
+        new() { Month = ""May"", Direct = 72, Partners = 64, Marketplace = 50 },
+        new() { Month = ""Jun"", Direct = 81, Partners = 69, Marketplace = 56 },
+    ];
+
+    private sealed class ProductRevenue
+    {
+        public string Month { get; set; }
+
+        public double Direct { get; set; }
+
+        public double Partners { get; set; }
+
+        public double Marketplace { get; set; }
+    }
+}";
+
+        public const string SvgDoughnutChartExample = @"<SvgDoughnutChart TItem=""object""
+                  Data=""@data""
+                  Options=""@options"">
+    <SvgChartTitle Title='@(""Traffic sources"")' Subtitle='@(""Doughnut chart with category legend"")' />
+    <SvgChartTooltip Enabled />
+</SvgDoughnutChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 320,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Labels = [""Search"", ""Direct"", ""Social"", ""Referral""],
+        Series =
+        [
+            new()
+            {
+                Name = ""Sessions"",
+                Values = [38, 27, 21, 14],
+            },
+        ]
+    };
+}";
+
+        public const string SvgLineChartExample = @"<SvgLineChart TItem=""MonthlyVisitors""
+              Items=""@visitors""
+              Options=""@options"">
+    <SvgChartTitle Title='@(""Visitor trend"")' Subtitle='@(""Line series with markers"")' />
+    <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value=""@( item => item.Month )"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgLineSeries Name=""Current year"" Value=""@( item => item.Current )"" Color=""Color.Primary"" StrokeWidth=""3"" MarkerRadius=""4"" />
+    <SvgLineSeries Name=""Previous year"" Value=""@( item => item.Previous )"" Color=""Color.Warning"" StrokeWidth=""3"" MarkerRadius=""4"" />
+</SvgLineChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly List<MonthlyVisitors> visitors =
+    [
+        new() { Month = ""Jan"", Current = 48, Previous = 42 },
+        new() { Month = ""Feb"", Current = 61, Previous = 52 },
+        new() { Month = ""Mar"", Current = 73, Previous = 64 },
+        new() { Month = ""Apr"", Current = 68, Previous = 70 },
+        new() { Month = ""May"", Current = 82, Previous = 76 },
+    ];
+
+    private sealed class MonthlyVisitors
+    {
+        public string Month { get; set; }
+
+        public double Current { get; set; }
+
+        public double Previous { get; set; }
+    }
+}";
+
+        public const string SvgMixedChartExample = @"<SvgChart TItem=""RevenueGrowth""
+          Items=""@revenue""
+          Options=""@options"">
+    <SvgChartTitle Title='@(""Revenue and growth"")' Subtitle='@(""Column and line series with separate value axes"")' />
+    <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Id=""months"" Value=""@( item => item.Month )"" />
+    <SvgChartValueAxis Id=""revenue"" Position=""SvgChartAxisPosition.Left"" BeginAtZero TickCount=""6"" Title=""Revenue"" />
+    <SvgChartValueAxis Id=""growth"" Position=""SvgChartAxisPosition.Right"" Min=""-5"" Max=""25"" TickCount=""7"" Title=""Growth %"" />
+
+    <SvgColumnSeries Name=""Revenue""
+                     CategoryAxisId=""months""
+                     ValueAxisId=""revenue""
+                     Value=""@( item => item.Revenue )""
+                     Color=""Color.Primary""
+                     BorderRadius=""4"" />
+    <SvgLineSeries Name=""Growth %""
+                   CategoryAxisId=""months""
+                   ValueAxisId=""growth""
+                   Value=""@( item => item.Growth )""
+                   Color=""Color.Danger""
+                   StrokeWidth=""3""
+                   MarkerRadius=""4""
+                   Order=""20"" />
+</SvgChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly List<RevenueGrowth> revenue =
+    [
+        new() { Month = ""Jan"", Revenue = 68, Growth = 8.4 },
+        new() { Month = ""Feb"", Revenue = 74, Growth = 11.2 },
+        new() { Month = ""Mar"", Revenue = 91, Growth = 16.7 },
+        new() { Month = ""Apr"", Revenue = 86, Growth = 13.9 },
+        new() { Month = ""May"", Revenue = 103, Growth = 20.4 },
+    ];
+
+    private sealed class RevenueGrowth
+    {
+        public string Month { get; set; }
+
+        public double Revenue { get; set; }
+
+        public double Growth { get; set; }
+    }
+}";
+
+        public const string SvgPieChartExample = @"<SvgPieChart TItem=""object""
+             Data=""@data""
+             Options=""@options"">
+    <SvgChartTitle Title='@(""Market share"")' Subtitle='@(""Category legend toggles individual slices"")' />
+    <SvgChartTooltip Enabled />
+</SvgPieChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 320,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Labels = [""Desktop"", ""Mobile"", ""Tablet"", ""Other""],
+        Series =
+        [
+            new()
+            {
+                Name = ""Share"",
+                Values = [45, 32, 16, 7],
+            },
+        ]
+    };
+}";
+
+        public const string SvgPolarAreaChartExample = @"<SvgPolarAreaChart TItem=""object""
+                   Data=""@data""
+                   Options=""@options"">
+    <SvgChartTitle Title='@(""Channel mix"")' Subtitle='@(""Equal-angle radial values"")' />
+    <SvgChartTooltip Enabled />
+</SvgPolarAreaChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 320,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Labels = [""Email"", ""Ads"", ""Organic"", ""Partner""],
+        Series =
+        [
+            new()
+            {
+                Name = ""Leads"",
+                Values = [28, 42, 35, 18],
+            },
+        ]
+    };
+}";
+
+        public const string SvgRadarChartExample = @"<SvgRadarChart TItem=""object""
+               Data=""@data""
+               Options=""@options"">
+    <SvgChartTitle Title='@(""Product fit"")' Subtitle='@(""Multiple series across shared dimensions"")' />
+    <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
+    <SvgChartTooltip Enabled />
+</SvgRadarChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        YAxis = new() { BeginAtZero = true, Max = 100 },
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Labels = [""Quality"", ""Speed"", ""Cost"", ""Support"", ""Adoption""],
+        Series =
+        [
+            new()
+            {
+                Name = ""Current"",
+                Color = Color.Primary,
+                Values = [82, 76, 58, 88, 72],
+            },
+            new()
+            {
+                Name = ""Target"",
+                Color = Color.Success,
+                Values = [92, 86, 70, 94, 84],
+            },
+        ]
+    };
+}";
+
+        public const string SvgScatterChartExample = @"<SvgScatterChart TItem=""StorePerformance""
+                 Items=""@stores""
+                 Options=""@options"">
+    <SvgChartTitle Title='@(""Store performance"")' Subtitle='@(""Independent X/Y values"")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgScatterSeries Name=""Stores"" XValue=""@( item => item.Sales )"" YValue=""@( item => item.Margin )"" Color=""Color.Primary"" MarkerRadius=""5"" />
+</SvgScatterChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        YAxis = new() { BeginAtZero = true, TickCount = 6 },
+    };
+
+    private readonly List<StorePerformance> stores =
+    [
+        new() { Sales = 8, Margin = 42 },
+        new() { Sales = 16, Margin = 64 },
+        new() { Sales = 22, Margin = 58 },
+        new() { Sales = 29, Margin = 91 },
+        new() { Sales = 34, Margin = 76 },
+        new() { Sales = 42, Margin = 112 },
+    ];
+
+    private sealed class StorePerformance
+    {
+        public double Sales { get; set; }
+
+        public double Margin { get; set; }
+    }
+}";
+
+        public const string SvgTimeAxisChartExample = @"<SvgLineChart TItem=""LatencySample""
+              Items=""@samples""
+              Options=""@options"">
+    <SvgChartTitle Title='@(""Service latency"")' Subtitle='@(""Irregular samples spaced by elapsed time"")' />
+    <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
+    <SvgChartTooltip Enabled InteractionMode=""SvgChartInteractionMode.Index"" Width=""220"" />
+    <SvgChartTimeAxis TimeValue=""@( item => item.Timestamp )"" Scale=""SvgChartTimeScale.Continuous"" Unit=""SvgChartTimeUnit.Minute"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgLineSeries Name=""API"" Value=""@( item => item.Api )"" Color=""Color.Primary"" StrokeWidth=""3"" MarkerRadius=""4"" />
+    <SvgLineSeries Name=""Queue"" Value=""@( item => item.Queue )"" Color=""Color.Warning"" StrokeWidth=""3"" MarkerRadius=""4"" />
+</SvgLineChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        XAxis = new() { TickCount = 5, GridLines = new() { Visible = true } },
+    };
+
+    private readonly List<LatencySample> samples =
+    [
+        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 0, 0 ), Api = 44, Queue = 29 },
+        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 4, 0 ), Api = 52, Queue = 33 },
+        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 17, 0 ), Api = 47, Queue = 35 },
+        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 28, 0 ), Api = 61, Queue = 40 },
+        new() { Timestamp = new DateTime( 2026, 5, 23, 9, 49, 0 ), Api = 56, Queue = 38 },
+        new() { Timestamp = new DateTime( 2026, 5, 23, 10, 6, 0 ), Api = 68, Queue = 45 },
+        new() { Timestamp = new DateTime( 2026, 5, 23, 10, 30, 0 ), Api = 63, Queue = 42 },
+    ];
+
+    private sealed class LatencySample
+    {
+        public DateTime Timestamp { get; set; }
+
+        public double Api { get; set; }
+
+        public double Queue { get; set; }
+    }
+}";
+
+        public const string SvgChartAnimationExample = @"<Div Flex=""Flex.Row"" Gap=""Gap.Is2"" Margin=""Margin.Is3.FromBottom"">
+    <Button Color=""Color.Primary"" Clicked=""@Randomize"">Randomize</Button>
+    <Button Color=""Color.Light"" Clicked=""@Reset"">Reset</Button>
+</Div>
+
+<SvgColumnChart TItem=""MonthlyRevenue""
+                Items=""@revenue""
+                Options=""@options"">
+    <SvgChartAnimation Enabled
+                       Duration=""@TimeSpan.FromMilliseconds( 500 )""
+                       Easing=""SvgChartAnimationEasing.EaseOut""
+                       Geometry=""@geometryAnimation""
+                       Opacity=""@opacityAnimation"" />
+    <SvgChartTitle Title='@(""Animated revenue"")' Subtitle='@(""Columns animate on load and update"")' />
+    <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value=""@( item => item.Month )"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgColumnSeries Name=""Revenue"" Value=""@( item => item.Revenue )"" Color=""Color.Primary"" BorderRadius=""4"" />
+    <SvgColumnSeries Name=""Expenses"" Value=""@( item => item.Expenses )"" Color=""Color.Info"" BorderRadius=""4"" />
+</SvgColumnChart>
+
+@code {
+    private readonly Random random = new( 42 );
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly SvgChartGeometryAnimationOptions geometryAnimation = new()
+    {
+        Duration = TimeSpan.FromMilliseconds( 650 ),
+        AnimatePosition = true,
+        AnimateSize = true
+    };
+
+    private readonly SvgChartOpacityAnimationOptions opacityAnimation = new()
+    {
+        Duration = TimeSpan.FromMilliseconds( 800 ),
+        Delay = TimeSpan.FromMilliseconds( 50 ),
+        From = 0.1
+    };
+
+    private List<MonthlyRevenue> revenue = CreateRevenue();
+
+    private void Randomize()
+    {
+        foreach ( var item in revenue )
+        {
+            item.Revenue = Math.Max( 30, item.Revenue + random.Next( -16, 17 ) );
+            item.Expenses = Math.Max( 20, item.Expenses + random.Next( -12, 13 ) );
+        }
+    }
+
+    private void Reset()
+    {
+        revenue = CreateRevenue();
+    }
+
+    private static List<MonthlyRevenue> CreateRevenue()
+    {
+        return
+        [
+            new() { Month = ""Jan"", Revenue = 68, Expenses = 42 },
+            new() { Month = ""Feb"", Revenue = 74, Expenses = 46 },
+            new() { Month = ""Mar"", Revenue = 91, Expenses = 52 },
+            new() { Month = ""Apr"", Revenue = 86, Expenses = 49 },
+            new() { Month = ""May"", Revenue = 103, Expenses = 61 },
+        ];
+    }
+
+    private sealed class MonthlyRevenue
+    {
+        public string Month { get; set; }
+
+        public double Revenue { get; set; }
+
+        public double Expenses { get; set; }
+    }
+}";
+
+        public const string SvgChartAnimationOptionsExample = @"<Div Flex=""Flex.Row"" Gap=""Gap.Is2"" Margin=""Margin.Is3.FromBottom"">
+    <Button Color=""Color.Primary"" Clicked=""@Randomize"">Randomize</Button>
+    <Button Color=""Color.Light"" Clicked=""@Reset"">Reset</Button>
+</Div>
+
+<SvgLineChart TItem=""TrafficSample""
+              Items=""@samples""
+              Options=""@options"">
+    <SvgChartTitle Title='@(""Traffic trend"")' Subtitle='@(""Path and point animation configured from options"")' />
+    <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value=""@( item => item.Day )"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgLineSeries Name=""Desktop"" Value=""@( item => item.Desktop )"" Color=""Color.Primary"" MarkerRadius=""4"" />
+    <SvgLineSeries Name=""Mobile"" Value=""@( item => item.Mobile )"" Color=""Color.Success"" MarkerRadius=""4"" />
+</SvgLineChart>
+
+@code {
+    private readonly Random random = new( 11 );
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        Animation = new()
+        {
+            Enabled = true,
+            Duration = TimeSpan.FromMilliseconds( 600 ),
+            Easing = SvgChartAnimationEasing.EaseInOut,
+            Geometry = new()
+            {
+                Duration = TimeSpan.FromMilliseconds( 450 ),
+            },
+            Opacity = new()
+            {
+                From = 0.15,
+            },
+            Path = new()
+            {
+                Enabled = true,
+                Duration = TimeSpan.FromMilliseconds( 700 ),
+            },
+        },
+    };
+
+    private List<TrafficSample> samples = CreateSamples();
+
+    private void Randomize()
+    {
+        foreach ( var sample in samples )
+        {
+            sample.Desktop = Math.Clamp( sample.Desktop + random.Next( -14, 15 ), 35, 95 );
+            sample.Mobile = Math.Clamp( sample.Mobile + random.Next( -12, 13 ), 30, 90 );
+        }
+    }
+
+    private void Reset()
+    {
+        samples = CreateSamples();
+    }
+
+    private static List<TrafficSample> CreateSamples()
+    {
+        return
+        [
+            new() { Day = ""Mon"", Desktop = 54, Mobile = 45 },
+            new() { Day = ""Tue"", Desktop = 72, Mobile = 45 },
+            new() { Day = ""Wed"", Desktop = 75, Mobile = 61 },
+            new() { Day = ""Thu"", Desktop = 55, Mobile = 61 },
+            new() { Day = ""Fri"", Desktop = 75, Mobile = 73 },
+            new() { Day = ""Sat"", Desktop = 85, Mobile = 80 },
+        ];
+    }
+
+    private sealed class TrafficSample
+    {
+        public string Day { get; set; }
+
+        public double Desktop { get; set; }
+
+        public double Mobile { get; set; }
+    }
+}";
+
+        public const string SvgChartAnnotationsLineExample = @"<SvgLineChart TItem=""MonthlyService""
+              Items=""@services""
+              Options=""@options"">
+    <SvgChartTitle Title='@(""Service level"")' Subtitle='@(""Threshold and release annotations"")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartLineAnnotation YMin=""80""
+                            YMax=""80""
+                            Border=""@( new SvgChartBorderOptions { Color = Color.Danger, Width = 2 } )""
+                            DashPattern=""6 4""
+                            Label=""@thresholdLabel"" />
+    <SvgChartLineAnnotation XMin=""3.5""
+                            XMax=""3.5""
+                            Border=""@( new SvgChartBorderOptions { Color = Color.Warning, Width = 2 } )""
+                            DashPattern=""4 4""
+                            Label=""@releaseLabel"" />
+    <SvgChartLabelAnnotation X=""5""
+                             Y=""91""
+                             Label=""@noteLabel"" />
+    <SvgChartCategoryAxis Value=""@( item => item.Month )"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgLineSeries Name=""Uptime"" Value=""@( item => item.Uptime )"" Color=""Color.Primary"" StrokeWidth=""3"" MarkerRadius=""4"" />
+</SvgLineChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Visible = false },
+    };
+
+    private readonly SvgChartAnnotationLabelOptions thresholdLabel = new()
+    {
+        Visible = true,
+        Text = ""Target"",
+        Position = SvgChartAnnotationLabelPosition.End,
+        BackgroundColor = ""#ffffff"",
+        Border = new() { Color = Color.Danger, Width = 1, Radius = 3 },
+    };
+
+    private readonly SvgChartAnnotationLabelOptions releaseLabel = new()
+    {
+        Visible = true,
+        Text = ""Release"",
+        Position = SvgChartAnnotationLabelPosition.Start,
+        BackgroundColor = ""#ffffff"",
+        Border = new() { Color = Color.Warning, Width = 1, Radius = 3 },
+    };
+
+    private readonly SvgChartAnnotationLabelOptions noteLabel = new()
+    {
+        Visible = true,
+        Text = ""Stabilized"",
+        Position = SvgChartAnnotationLabelPosition.Center,
+        BackgroundColor = ""#ffffff"",
+        Border = new() { Color = Color.Primary, Width = 1, Radius = 3 },
+    };
+
+    private readonly List<MonthlyService> services =
+    [
+        new() { Month = ""Jan"", Uptime = 73 },
+        new() { Month = ""Feb"", Uptime = 78 },
+        new() { Month = ""Mar"", Uptime = 84 },
+        new() { Month = ""Apr"", Uptime = 82 },
+        new() { Month = ""May"", Uptime = 88 },
+        new() { Month = ""Jun"", Uptime = 91 },
+        new() { Month = ""Jul"", Uptime = 86 },
+        new() { Month = ""Aug"", Uptime = 93 },
+    ];
+
+    private sealed class MonthlyService
+    {
+        public string Month { get; set; }
+
+        public double Uptime { get; set; }
+    }
+}";
+
+        public const string SvgChartAnnotationsOptionsExample = @"<SvgLineChart TItem=""DeploymentSample""
+              Items=""@samples""
+              Options=""@options"">
+    <SvgChartTitle Title='@(""Deployment health"")' Subtitle='@(""Annotations configured from chart options"")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value=""@( item => item.Step )"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgLineSeries Name=""Health"" Value=""@( item => item.Score )"" Color=""Color.Primary"" StrokeWidth=""3"" MarkerRadius=""4"" />
+</SvgLineChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Visible = false },
+        Annotations =
+        [
+            new SvgChartBoxAnnotationOptions
+            {
+                XMin = 2.5,
+                XMax = 4.5,
+                YMin = 0,
+                YMax = 100,
+                BackgroundColor = Color.Warning,
+                Opacity = 0.12,
+                Label = new()
+                {
+                    Visible = true,
+                    Text = ""Deploy"",
+                    Position = SvgChartAnnotationLabelPosition.Start,
+                    BackgroundColor = ""#ffffff"",
+                },
+            },
+            new SvgChartLineAnnotationOptions
+            {
+                YMin = 80,
+                YMax = 80,
+                Border = new() { Color = Color.Success, Width = 2 },
+                DashPattern = ""6 4"",
+                Label = new()
+                {
+                    Visible = true,
+                    Text = ""Target"",
+                    Position = SvgChartAnnotationLabelPosition.End,
+                    BackgroundColor = ""#ffffff"",
+                    Border = new() { Color = Color.Success, Width = 1, Radius = 3 },
+                },
+            },
+            new SvgChartPointAnnotationOptions
+            {
+                X = 4,
+                Y = 88,
+                Radius = 6,
+                BackgroundColor = Color.Primary,
+                Border = new() { Color = Color.Light, Width = 2 },
+                Label = new()
+                {
+                    Visible = true,
+                    Text = ""Recovered"",
+                    Position = SvgChartAnnotationLabelPosition.End,
+                    BackgroundColor = ""#ffffff"",
+                },
+            },
+        ],
+    };
+
+    private readonly List<DeploymentSample> samples =
+    [
+        new() { Step = ""Build"", Score = 86 },
+        new() { Step = ""Test"", Score = 84 },
+        new() { Step = ""Canary"", Score = 63 },
+        new() { Step = ""Ramp"", Score = 72 },
+        new() { Step = ""Stable"", Score = 88 },
+        new() { Step = ""Observe"", Score = 91 },
+    ];
+
+    private sealed class DeploymentSample
+    {
+        public string Step { get; set; }
+
+        public double Score { get; set; }
+    }
+}";
+
+        public const string SvgChartAnnotationsRegionExample = @"<SvgScatterChart TItem=""StoreSample""
+                 Items=""@stores""
+                 Options=""@options"">
+    <SvgChartTitle Title='@(""Store performance"")' Subtitle='@(""Region and point annotations"")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartEllipseAnnotation XMin=""20""
+                               XMax=""40""
+                               YMin=""60""
+                               YMax=""90""
+                               BackgroundColor=""Color.Success""
+                               Border=""@( new SvgChartBorderOptions { Color = Color.Success, Width = 1 } )""
+                               Opacity=""0.12""
+                               Label=""@targetLabel"" />
+    <SvgChartPointAnnotation X=""33""
+                             Y=""74""
+                             Radius=""6""
+                             BackgroundColor=""Color.Warning""
+                             Border=""@( new SvgChartBorderOptions { Color = Color.Danger, Width = 2 } )""
+                             Label=""@pointLabel"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgScatterSeries Name=""Stores"" XValue=""@( item => item.Traffic )"" YValue=""@( item => item.Sales )"" Color=""Color.Primary"" MarkerRadius=""5"" />
+</SvgScatterChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        XAxis = new()
+        {
+            GridLines = new() { Visible = true },
+        },
+        YAxis = new()
+        {
+            BeginAtZero = true,
+            TickCount = 6,
+        },
+        Annotations =
+        [
+            new SvgChartBoxAnnotationOptions
+            {
+                XMin = 10,
+                XMax = 20,
+                YMin = 40,
+                YMax = 65,
+                BackgroundColor = Color.Info,
+                Opacity = 0.1,
+                Label = new()
+                {
+                    Visible = true,
+                    Text = ""Watch"",
+                    Position = SvgChartAnnotationLabelPosition.Start,
+                    BackgroundColor = ""#ffffff"",
+                },
+            },
+        ],
+    };
+
+    private readonly SvgChartAnnotationLabelOptions targetLabel = new()
+    {
+        Visible = true,
+        Text = ""Target area"",
+        Position = SvgChartAnnotationLabelPosition.Start,
+        BackgroundColor = ""#ffffff"",
+        Border = new() { Color = Color.Success, Width = 1, Radius = 3 },
+    };
+
+    private readonly SvgChartAnnotationLabelOptions pointLabel = new()
+    {
+        Visible = true,
+        Text = ""Selected store"",
+        Position = SvgChartAnnotationLabelPosition.End,
+        BackgroundColor = ""#ffffff"",
+        Border = new() { Color = Color.Warning, Width = 1, Radius = 3 },
+    };
+
+    private readonly List<StoreSample> stores =
+    [
+        new() { Traffic = 8, Sales = 42 },
+        new() { Traffic = 13, Sales = 48 },
+        new() { Traffic = 18, Sales = 51 },
+        new() { Traffic = 22, Sales = 64 },
+        new() { Traffic = 27, Sales = 62 },
+        new() { Traffic = 33, Sales = 74 },
+        new() { Traffic = 38, Sales = 83 },
+        new() { Traffic = 45, Sales = 88 },
+    ];
+
+    private sealed class StoreSample
+    {
+        public double Traffic { get; set; }
+
+        public double Sales { get; set; }
+    }
+}";
+
+        public const string SvgChartDataLabelsDoughnutExample = @"<SvgDoughnutChart TItem=""object""
+                  Data=""@data""
+                  Options=""@options""
+                  Clicked=""@OnPointClicked"">
+    <SvgChartTitle Title='@(""Traffic sources"")' Subtitle='@(""Centered labels on radial slices"")' />
+    <SvgChartTooltip Enabled />
+</SvgDoughnutChart>
+
+<Paragraph Margin=""Margin.Is2.FromTop.Is0.FromBottom"">@lastEvent</Paragraph>
+
+@code {
+    private string lastEvent = ""Click a slice or label."";
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 340,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        DataLabels = new()
+        {
+            Visible = true,
+            Position = SvgChartDataLabelPosition.Center,
+            Formatter = FormatShareLabel,
+            Font = new()
+            {
+                Color = Color.Light,
+                Weight = ""700"",
+            },
+        },
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Labels = [""Search"", ""Direct"", ""Social"", ""Referral""],
+        Series =
+        [
+            new()
+            {
+                Name = ""Share"",
+                Values = [42, 27, 18, 13],
+            },
+        ],
+    };
+
+    private Task OnPointClicked( SvgChartPointEventArgs eventArgs )
+    {
+        lastEvent = $""Clicked {eventArgs.Category}: {eventArgs.Value}%"";
+
+        return Task.CompletedTask;
+    }
+
+    private static string FormatShareLabel( SvgChartDataLabelContext context )
+    {
+        return $""{Convert.ToDouble( context.Value, System.Globalization.CultureInfo.InvariantCulture ):0}%"";
+    }
+}";
+
+        public const string SvgChartDataLabelsExample = @"<SvgColumnChart TItem=""MonthlySales""
+                Items=""@sales""
+                Options=""@options""
+                Clicked=""@OnPointClicked"">
+    <SvgChartTitle Title='@(""Monthly revenue"")' Subtitle='@(""Top labels with background and border"")' />
+    <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
+    <SvgChartTooltip Enabled />
+    <SvgChartDataLabels Visible
+                        Position=""SvgChartDataLabelPosition.Top""
+                        Formatter=""@FormatRevenueLabel""
+                        BackgroundColor='@((Color)""#ffffff"")'
+                        Border=""@( new SvgChartBorderOptions { Color = Color.Primary, Width = 1, Radius = 4 } )""
+                        Clicked=""@OnDataLabelClicked""
+                        Hovered=""@OnDataLabelHovered"" />
+    <SvgChartCategoryAxis Value=""@( item => item.Month )"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgColumnSeries Name=""Tokyo"" Value=""@( item => item.Tokyo )"" Color=""Color.Primary"" BorderRadius=""4"" />
+    <SvgColumnSeries Name=""New York"" Value=""@( item => item.NewYork )"" Color=""Color.Info"" BorderRadius=""4"" />
+</SvgColumnChart>
+
+<Paragraph Margin=""Margin.Is2.FromTop.Is0.FromBottom"">@lastEvent</Paragraph>
+
+@code {
+    private string lastEvent = ""Interact with a chart point or data label."";
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly List<MonthlySales> sales =
+    [
+        new() { Month = ""Jan"", Tokyo = 49.9, NewYork = 83.6 },
+        new() { Month = ""Feb"", Tokyo = 71.5, NewYork = 78.8 },
+        new() { Month = ""Mar"", Tokyo = 106.4, NewYork = 98.5 },
+        new() { Month = ""Apr"", Tokyo = 129.2, NewYork = 93.4 },
+    ];
+
+    private Task OnPointClicked( SvgChartPointEventArgs eventArgs )
+    {
+        lastEvent = $""Clicked point {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}"";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnDataLabelClicked( SvgChartPointEventArgs eventArgs )
+    {
+        lastEvent = $""Clicked label {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}"";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnDataLabelHovered( SvgChartPointEventArgs eventArgs )
+    {
+        lastEvent = $""Hovered label {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}"";
+
+        return Task.CompletedTask;
+    }
+
+    private string FormatRevenueLabel( SvgChartDataLabelContext context )
+    {
+        return $""{Convert.ToDouble( context.Value, System.Globalization.CultureInfo.InvariantCulture ).ToString( ""0"", System.Globalization.CultureInfo.InvariantCulture )}k"";
+    }
+
+    private sealed class MonthlySales
+    {
+        public string Month { get; set; }
+
+        public double Tokyo { get; set; }
+
+        public double NewYork { get; set; }
+    }
+}";
+
+        public const string SvgChartPluginsExample = @"<SvgLineChart TItem=""LatencySample""
+              Items=""@samples""
+              Options=""@options"">
+    <SvgChartTitle Title='@(""Service latency"")' Subtitle='@(""Custom plugin rendered as a series overlay"")' />
+    <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
+    <SvgChartTooltip Enabled />
+    <SvgChartThresholdLinePlugin Value=""80""
+                                 Color=""Color.Warning""
+                                 Label=""Target"" />
+    <SvgChartCategoryAxis Value=""@( item => item.Minute )""
+                          GridLines=""@( new() { Visible = true, Opacity = 0.1 } )""
+                          LabelsOptions=""@( new() { Step = 1 } )"" />
+    <SvgChartValueAxis BeginAtZero
+                       TickCount=""6""
+                       GridLines=""@( new() { Visible = true, Opacity = 0.14 } )"" />
+
+    <SvgLineSeries Name=""Latency"" Value=""@( item => item.Latency )"" Color=""Color.Primary"" MarkerRadius=""4"" />
+</SvgLineChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly List<LatencySample> samples =
+    [
+        new() { Minute = ""09:00"", Latency = 64 },
+        new() { Minute = ""09:05"", Latency = 71 },
+        new() { Minute = ""09:10"", Latency = 78 },
+        new() { Minute = ""09:15"", Latency = 86 },
+        new() { Minute = ""09:20"", Latency = 74 },
+        new() { Minute = ""09:25"", Latency = 82 },
+        new() { Minute = ""09:30"", Latency = 69 },
+    ];
+
+    private sealed class LatencySample
+    {
+        public string Minute { get; set; }
+
+        public double Latency { get; set; }
+    }
+}";
+
+        public const string SvgChartStreamingExample = @"@using System.Threading
+@implements IAsyncDisposable
+
+<Button Color=""Color.Primary"" Outline Clicked=""@AppendValue"">
+    Append value
+</Button>
+
+<SvgLineChart @ref=""chart""
+              TItem=""object""
+              Data=""@data""
+              Options=""@options""
+              Streaming=""@streaming""
+              Hovered=""@OnPointHovered"">
+    <SvgChartTitle Title='@(""Live latency"")' Subtitle='@(""Right-to-left viewport with infinite retention"")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+</SvgLineChart>
+
+<Paragraph Margin=""Margin.Is2.FromTop.Is0.FromBottom"">@lastEvent</Paragraph>
+
+@code {
+    private static readonly TimeSpan StreamingInterval = TimeSpan.FromSeconds( 1 );
+
+    private SvgLineChart<object> chart;
+
+    private readonly Random random = new();
+
+    private double currentLatency = 45;
+
+    private string lastEvent = ""Append a value or hover over a point."";
+
+    private CancellationTokenSource streamingCancellationTokenSource;
+
+    private Task streamingTask;
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Visible = false },
+        XAxis = new()
+        {
+            GridLines = new() { Visible = true },
+            Labels = new()
+            {
+                Step = 2,
+                Offset = 30,
+            },
+        },
+    };
+
+    private readonly SvgChartStreamingOptions streaming = new()
+    {
+        Enabled = true,
+        VisibleDataPoints = 12,
+        Duration = null,
+        Reverse = false,
+        Animation = new()
+        {
+            Duration = StreamingInterval,
+        },
+        RefreshInterval = TimeSpan.FromMilliseconds( 500 ),
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Series =
+        [
+            new()
+            {
+                Name = ""Latency"",
+                Color = Color.Primary,
+            },
+        ],
+    };
+
+    protected override Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            streamingCancellationTokenSource = new();
+            streamingTask = RunStreamingAsync( streamingCancellationTokenSource.Token );
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private async Task RunStreamingAsync( CancellationToken cancellationToken )
+    {
+        try
+        {
+            using PeriodicTimer timer = new( StreamingInterval );
+
+            while ( await timer.WaitForNextTickAsync( cancellationToken ) )
+            {
+                await InvokeAsync( AppendValue );
+            }
+        }
+        catch ( OperationCanceledException )
+        {
+        }
+    }
+
+    private async Task AppendValue()
+    {
+        string label = DateTime.Now.ToString( ""HH:mm:ss"" );
+        currentLatency = Math.Clamp( currentLatency + random.Next( -16, 17 ), 25, 80 );
+
+        if ( chart is not null )
+            await chart.AppendValue( ""Latency"", label, currentLatency );
+    }
+
+    private Task OnPointHovered( SvgChartPointEventArgs eventArgs )
+    {
+        lastEvent = $""Hovered {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}"";
+
+        return Task.CompletedTask;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if ( streamingCancellationTokenSource is not null )
+        {
+            await streamingCancellationTokenSource.CancelAsync();
+            streamingCancellationTokenSource.Dispose();
+        }
+
+        if ( streamingTask is not null )
+            await streamingTask;
+    }
+}";
+
+        public const string SvgChartStreamingRollingWindowExample = @"@using System.Threading
+@implements IAsyncDisposable
+
+<Button Color=""Color.Primary"" Outline Clicked=""@AppendValue"">
+    Append sample
+</Button>
+
+<SvgAreaChart @ref=""chart""
+              TItem=""object""
+              Data=""@data""
+              Options=""@options"">
+    <SvgChartTitle Title='@(""Rolling throughput"")' Subtitle='@(""Retains the last 20 seconds of samples"")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartStreaming Enabled
+                       VisibleDataPoints=""10""
+                       Duration=""@TimeSpan.FromSeconds( 20 )""
+                       Animation=""@streamingAnimation"" />
+    <SvgChartTimeAxis Format=""HH:mm:ss"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+</SvgAreaChart>
+
+@code {
+    private static readonly TimeSpan StreamingInterval = TimeSpan.FromSeconds( 1 );
+
+    private readonly Random random = new( 24 );
+
+    private SvgAreaChart<object> chart;
+
+    private double currentThroughput = 64;
+
+    private CancellationTokenSource streamingCancellationTokenSource;
+
+    private Task streamingTask;
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Visible = false },
+        XAxis = new()
+        {
+            GridLines = new() { Visible = true },
+            Labels = new() { Step = 2, Offset = 30 },
+        },
+    };
+
+    private readonly SvgChartStreamingAnimationOptions streamingAnimation = new()
+    {
+        Duration = StreamingInterval,
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Series =
+        [
+            new()
+            {
+                Name = ""Throughput"",
+                Color = Color.Success,
+            },
+        ],
+    };
+
+    protected override Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            streamingCancellationTokenSource = new();
+            streamingTask = RunStreamingAsync( streamingCancellationTokenSource.Token );
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private async Task RunStreamingAsync( CancellationToken cancellationToken )
+    {
+        try
+        {
+            using PeriodicTimer timer = new( StreamingInterval );
+
+            while ( await timer.WaitForNextTickAsync( cancellationToken ) )
+            {
+                await InvokeAsync( AppendValue );
+            }
+        }
+        catch ( OperationCanceledException )
+        {
+        }
+    }
+
+    private async Task AppendValue()
+    {
+        currentThroughput = Math.Clamp( currentThroughput + random.Next( -10, 11 ), 35, 95 );
+
+        if ( chart is not null )
+            await chart.AppendValue( ""Throughput"", DateTimeOffset.Now, currentThroughput );
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if ( streamingCancellationTokenSource is not null )
+        {
+            await streamingCancellationTokenSource.CancelAsync();
+            streamingCancellationTokenSource.Dispose();
+        }
+
+        if ( streamingTask is not null )
+            await streamingTask;
+    }
+}";
+
+        public const string SvgChartTrendlineExample = @"<SvgColumnChart TItem=""MonthlySales""
+                Items=""@sales""
+                Options=""@options"">
+    <SvgChartTitle Title='@(""Monthly revenue"")' Subtitle='@(""Linear trendline declared in markup"")' />
+    <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
+    <SvgChartTooltip Enabled />
+    <SvgChartTrendline SeriesName=""Revenue""
+                       Color=""Color.Danger""
+                       StrokeWidth=""2.5""
+                       DashPattern=""8 5"" />
+    <SvgChartCategoryAxis Value=""@( item => item.Month )"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgColumnSeries Name=""Revenue"" Value=""@( item => item.Revenue )"" Color=""Color.Primary"" BorderRadius=""4"" />
+</SvgColumnChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly List<MonthlySales> sales =
+    [
+        new() { Month = ""Jan"", Revenue = 82 },
+        new() { Month = ""Feb"", Revenue = 88 },
+        new() { Month = ""Mar"", Revenue = 93 },
+        new() { Month = ""Apr"", Revenue = 91 },
+        new() { Month = ""May"", Revenue = 104 },
+        new() { Month = ""Jun"", Revenue = 112 },
+        new() { Month = ""Jul"", Revenue = 118 },
+    ];
+
+    private sealed class MonthlySales
+    {
+        public string Month { get; set; }
+
+        public double Revenue { get; set; }
+    }
+}";
+
+        public const string SvgChartTrendlineOptionsExample = @"<SvgLineChart TItem=""AcquisitionSample""
+              Items=""@samples""
+              Options=""@options"">
+    <SvgChartTitle Title='@(""Acquisition channels"")' Subtitle='@(""Trendlines configured from options"")' />
+    <SvgChartLegend Position=""SvgChartLegendPosition.Bottom"" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value=""@( item => item.Month )"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgLineSeries Name=""Organic"" Value=""@( item => item.Organic )"" Color=""Color.Primary"" MarkerRadius=""4"" />
+    <SvgLineSeries Name=""Paid"" Value=""@( item => item.Paid )"" Color=""Color.Success"" MarkerRadius=""4"" />
+</SvgLineChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        Trendlines =
+        [
+            new()
+            {
+                SeriesName = ""Organic"",
+                Name = ""Organic trend"",
+                Color = Color.Primary,
+                StrokeWidth = 2,
+                DashPattern = ""8 5"",
+            },
+            new()
+            {
+                SeriesName = ""Paid"",
+                Name = ""Paid trend"",
+                Color = Color.Success,
+                StrokeWidth = 2,
+                DashPattern = ""4 4"",
+            },
+        ],
+    };
+
+    private readonly List<AcquisitionSample> samples =
+    [
+        new() { Month = ""Jan"", Organic = 46, Paid = 31 },
+        new() { Month = ""Feb"", Organic = 52, Paid = 38 },
+        new() { Month = ""Mar"", Organic = 55, Paid = 42 },
+        new() { Month = ""Apr"", Organic = 61, Paid = 45 },
+        new() { Month = ""May"", Organic = 67, Paid = 52 },
+        new() { Month = ""Jun"", Organic = 72, Paid = 57 },
+    ];
+
+    private sealed class AcquisitionSample
+    {
+        public string Month { get; set; }
+
+        public double Organic { get; set; }
+
+        public double Paid { get; set; }
+    }
+}";
+
+        public const string SvgChartZoomExample = @"<SvgScatterChart TItem=""StorePerformance""
+                 Items=""@stores""
+                 Options=""@options""
+                 Hovered=""@OnPointHovered"">
+    <SvgChartTitle Title='@(""Store performance"")' Subtitle='@(""XY zoom with numeric grid lines"")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartValueAxis BeginAtZero TickCount=""7"" GridLines=""@gridLines"" />
+    <SvgChartZoom Enabled
+                  Mode=""SvgChartZoomMode.XY""
+                  MaxZoom=""120""
+                  Viewport=""@viewport""
+                  ViewportChanged=""@OnViewportChanged""
+                  Zoomed=""@OnZoomed""
+                  Panned=""@OnPanned"" />
+
+    <SvgScatterSeries Name=""Stores"" XValue=""@( item => item.Traffic )"" YValue=""@( item => item.Sales )"" Color=""Color.Primary"" MarkerRadius=""5"" />
+</SvgScatterChart>
+
+<Paragraph Margin=""Margin.Is2.FromTop.Is0.FromBottom"">@lastEvent</Paragraph>
+
+@code {
+    private string lastEvent = ""Wheel over the chart to zoom, or drag the plot area to pan."";
+
+    private SvgChartViewport viewport;
+
+    private readonly SvgChartGridLinesOptions gridLines = new()
+    {
+        Visible = true,
+        Opacity = 0.2,
+    };
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        XAxis = new() { BeginAtZero = false, TickCount = 7, GridLines = new() { Visible = true, Opacity = 0.2 } },
+        YAxis = new() { BeginAtZero = true, TickCount = 7 },
+        Zoom = new() { Enabled = true, Mode = SvgChartZoomMode.XY, MaxZoom = 120 },
+    };
+
+    private readonly List<StorePerformance> stores =
+    [
+        new() { Traffic = 8, Sales = 42 },
+        new() { Traffic = 12, Sales = 55 },
+        new() { Traffic = 16, Sales = 64 },
+        new() { Traffic = 22, Sales = 58 },
+        new() { Traffic = 29, Sales = 91 },
+        new() { Traffic = 34, Sales = 76 },
+        new() { Traffic = 42, Sales = 112 },
+        new() { Traffic = 48, Sales = 108 },
+        new() { Traffic = 53, Sales = 132 },
+        new() { Traffic = 61, Sales = 126 },
+    ];
+
+    private Task OnPointHovered( SvgChartPointEventArgs eventArgs )
+    {
+        lastEvent = $""Hovered {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}"";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnViewportChanged( SvgChartViewport changedViewport )
+    {
+        viewport = changedViewport;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnZoomed( SvgChartZoomedEventArgs eventArgs )
+    {
+        lastEvent = $""Zoomed viewport X {eventArgs.Viewport.XMin:0.##}-{eventArgs.Viewport.XMax:0.##}, Y {eventArgs.Viewport.YMin:0.##}-{eventArgs.Viewport.YMax:0.##}"";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnPanned( SvgChartPannedEventArgs eventArgs )
+    {
+        lastEvent = $""Panned viewport X {eventArgs.Viewport.XMin:0.##}-{eventArgs.Viewport.XMax:0.##}, Y {eventArgs.Viewport.YMin:0.##}-{eventArgs.Viewport.YMax:0.##}"";
+
+        return Task.CompletedTask;
+    }
+
+    private sealed class StorePerformance
+    {
+        public double Traffic { get; set; }
+
+        public double Sales { get; set; }
+    }
+}";
+
+        public const string SvgChartZoomViewportExample = @"<Div Flex=""Flex.Row"" Gap=""Gap.Is2"" Margin=""Margin.Is3.FromBottom"">
+    <Button Color=""Color.Primary"" Outline Clicked=""@ZoomIn"">Zoom in</Button>
+    <Button Color=""Color.Light"" Clicked=""@ResetZoom"">Reset</Button>
+</Div>
+
+<SvgLineChart @ref=""chart""
+              TItem=""CpuSample""
+              Items=""@samples""
+              Options=""@options"">
+    <SvgChartTitle Title='@(""CPU utilization"")' Subtitle='@(""Initial viewport configured declaratively"")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartZoom Enabled
+                  Mode=""SvgChartZoomMode.X""
+                  MaxZoom=""12""
+                  Viewport=""@viewport""
+                  ViewportChanged=""@OnViewportChanged"" />
+    <SvgChartCategoryAxis Value=""@( item => item.Minute )"" />
+    <SvgChartValueAxis BeginAtZero TickCount=""6"" />
+
+    <SvgLineSeries Name=""CPU"" Value=""@( item => item.Value )"" Color=""Color.Primary"" StrokeWidth=""3"" MarkerRadius=""4"" />
+</SvgLineChart>
+
+@code {
+    private SvgLineChart<CpuSample> chart;
+
+    private SvgChartViewport viewport = new()
+    {
+        XMin = 2,
+        XMax = 7,
+    };
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Visible = false },
+        XAxis = new()
+        {
+            GridLines = new() { Visible = true },
+        },
+    };
+
+    private readonly List<CpuSample> samples =
+    [
+        new() { Minute = ""00:00"", Value = 45 },
+        new() { Minute = ""00:05"", Value = 52 },
+        new() { Minute = ""00:10"", Value = 49 },
+        new() { Minute = ""00:15"", Value = 64 },
+        new() { Minute = ""00:20"", Value = 72 },
+        new() { Minute = ""00:25"", Value = 68 },
+        new() { Minute = ""00:30"", Value = 77 },
+        new() { Minute = ""00:35"", Value = 70 },
+        new() { Minute = ""00:40"", Value = 74 },
+        new() { Minute = ""00:45"", Value = 82 },
+    ];
+
+    private async Task ZoomIn()
+    {
+        if ( chart is not null )
+            await chart.ZoomIn();
+    }
+
+    private async Task ResetZoom()
+    {
+        if ( chart is not null )
+            await chart.ResetZoom();
+    }
+
+    private Task OnViewportChanged( SvgChartViewport changedViewport )
+    {
+        viewport = changedViewport;
+
+        return Task.CompletedTask;
+    }
+
+    private sealed class CpuSample
+    {
+        public string Minute { get; set; }
+
+        public double Value { get; set; }
+    }
+}";
+
         public const string TransferListCanMoveExample = @"<TransferList TItem=""string""
               Items=""@list""
               SelectionMode=""ListGroupSelectionMode.Single""

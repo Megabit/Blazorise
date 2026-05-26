@@ -1,0 +1,119 @@
+@page "/tests/charts/svg/data-labels"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>SVG column chart - value labels</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgColumnChart TItem="MonthlySales"
+                                Items="@Sales"
+                                Options="@columnOptions"
+                                Clicked="@OnPointClicked">
+                    <SvgChartTitle Title='@("Monthly revenue")' Subtitle='@("Top labels with background and border")' />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartDataLabels Visible
+                                        Position="SvgChartDataLabelPosition.Top"
+                                        Formatter="@FormatRevenueLabel"
+                                        BackgroundColor='@((Color)"#ffffff")'
+                                        Border="@( new SvgChartBorderOptions { Color = Color.Primary, Width = 1, Radius = 4 } )" />
+                    <SvgChartCategoryAxis Value="@( x => x.Month )" />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+                    <SvgColumnSeries Name="Tokyo" Value="@( x => x.Tokyo )" Color="Color.Primary" BorderRadius="4" />
+                    <SvgColumnSeries Name="New York" Value="@( x => x.NewYork )" Color="Color.Info" BorderRadius="4" />
+                    <SvgColumnSeries Name="London" Value="@( x => x.London )" Color="Color.Success" BorderRadius="4" />
+                </SvgColumnChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>SVG line chart - custom labels</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgLineChart TItem="MonthlySales"
+                              Items="@Sales"
+                              Options="@lineOptions"
+                              Hovered="@OnPointHovered">
+                    <SvgChartTitle Title='@("Temperature trend")' Subtitle='@("Compact labels without a background")' />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartDataLabels Visible
+                                        Position="SvgChartDataLabelPosition.Top"
+                                        Offset="10"
+                                        Formatter="@FormatTemperatureLabel"
+                                        Font='@( new SvgChartFontOptions { Size = 10, Weight = "700", Color = Color.Danger } )' />
+                    <SvgChartCategoryAxis Value="@( x => x.Month )" />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+                    <SvgLineSeries Name="Tokyo" Value="@( x => x.Tokyo )" Color="Color.Primary" StrokeWidth="3" MarkerRadius="4" />
+                    <SvgLineSeries Name="New York" Value="@( x => x.NewYork )" Color="Color.Info" StrokeWidth="3" MarkerRadius="4" />
+                </SvgLineChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG doughnut chart - percent labels</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgDoughnutChart TItem="object"
+                                  Data="@shareData"
+                                  Options="@doughnutOptions"
+                                  Clicked="@OnPointClicked">
+                    <SvgChartTitle Title='@("Traffic share")' Subtitle='@("Centered percentage labels")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartDataLabels Visible
+                                        Position="SvgChartDataLabelPosition.Center"
+                                        Formatter="@FormatShareLabel"
+                                        Font='@( new SvgChartFontOptions { Size = 12, Weight = "700", Color = "#ffffff" } )' />
+                </SvgDoughnutChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG scatter chart - interactive labels</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgScatterChart TItem="PointSample"
+                                 Items="@Points"
+                                 Options="@scatterOptions"
+                                 Hovered="@OnPointHovered">
+                    <SvgChartTitle Title='@("Store performance")' Subtitle='@("Hover or click a label")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartDataLabels Visible
+                                        Position="SvgChartDataLabelPosition.End"
+                                        Formatter="@FormatStoreLabel"
+                                        BackgroundColor="Color.Light"
+                                        Border="@( new SvgChartBorderOptions { Color = Color.Secondary, Width = 1, Radius = 3 } )"
+                                        Clicked="@OnDataLabelClicked"
+                                        Hovered="@OnDataLabelHovered" />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+                    <SvgScatterSeries Name="Stores" XValue="@( x => x.X )" YValue="@( x => x.Y )" Color="Color.Primary" MarkerRadius="5" />
+                </SvgScatterChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Event state</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph Margin="Margin.Is0">@lastEvent</Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

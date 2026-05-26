@@ -1,0 +1,29 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgPieChart TItem="object"
+             Data="@data"
+             Options="@options">
+    <SvgChartTitle Title='@("Market share")' Subtitle='@("Category legend toggles individual slices")' />
+    <SvgChartTooltip Enabled />
+</SvgPieChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 320,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Labels = ["Desktop", "Mobile", "Tablet", "Other"],
+        Series =
+        [
+            new()
+            {
+                Name = "Share",
+                Values = [45, 32, 16, 7],
+            },
+        ]
+    };
+}

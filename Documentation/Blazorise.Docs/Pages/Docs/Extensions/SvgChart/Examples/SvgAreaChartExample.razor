@@ -1,0 +1,40 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgAreaChart TItem="MonthlyThroughput"
+              Items="@throughput"
+              Options="@options">
+    <SvgChartTitle Title='@("Throughput")' Subtitle='@("Area series with transparent fills")' />
+    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value="@( item => item.Month )" />
+    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+    <SvgAreaSeries Name="Reads" Value="@( item => item.Reads )" Color="Color.Primary" StrokeWidth="3" FillOpacity="0.18" />
+    <SvgAreaSeries Name="Writes" Value="@( item => item.Writes )" Color="Color.Success" StrokeWidth="3" FillOpacity="0.18" />
+</SvgAreaChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly List<MonthlyThroughput> throughput =
+    [
+        new() { Month = "Jan", Reads = 96, Writes = 63 },
+        new() { Month = "Feb", Reads = 128, Writes = 41 },
+        new() { Month = "Mar", Reads = 120, Writes = 80 },
+        new() { Month = "Apr", Reads = 133, Writes = 88 },
+        new() { Month = "May", Reads = 124, Writes = 56 },
+    ];
+
+    private sealed class MonthlyThroughput
+    {
+        public string Month { get; set; }
+
+        public double Reads { get; set; }
+
+        public double Writes { get; set; }
+    }
+}

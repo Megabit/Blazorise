@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise;
@@ -80,6 +80,11 @@ public partial class DocsPageSectionContent
     [Parameter] public IReadOnlyList<DocsCodeSource> AdditionalCodes { get; set; }
 
     [Parameter] public bool ShowCode { get; set; } = true;
+
+    /// <summary>
+    /// Specifies whether the source code block is expanded by default.
+    /// </summary>
+    [Parameter] public bool Expanded { get; set; }
 
     #endregion
 }

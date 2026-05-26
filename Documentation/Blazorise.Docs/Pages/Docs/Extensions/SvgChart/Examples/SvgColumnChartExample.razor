@@ -1,0 +1,40 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgColumnChart TItem="MonthlyRevenue"
+                Items="@revenue"
+                Options="@options">
+    <SvgChartTitle Title='@("Monthly revenue")' Subtitle='@("Column series with grouped values")' />
+    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value="@( item => item.Month )" />
+    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+    <SvgColumnSeries Name="Revenue" Value="@( item => item.Revenue )" Color="Color.Primary" BorderRadius="4" />
+    <SvgColumnSeries Name="Expenses" Value="@( item => item.Expenses )" Color="Color.Info" BorderRadius="4" />
+</SvgColumnChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly List<MonthlyRevenue> revenue =
+    [
+        new() { Month = "Jan", Revenue = 68, Expenses = 42 },
+        new() { Month = "Feb", Revenue = 74, Expenses = 46 },
+        new() { Month = "Mar", Revenue = 91, Expenses = 52 },
+        new() { Month = "Apr", Revenue = 86, Expenses = 49 },
+        new() { Month = "May", Revenue = 103, Expenses = 61 },
+    ];
+
+    private sealed class MonthlyRevenue
+    {
+        public string Month { get; set; }
+
+        public double Revenue { get; set; }
+
+        public double Expenses { get; set; }
+    }
+}

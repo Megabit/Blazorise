@@ -307,11 +307,32 @@
                         <BarDropdownItem To="tests/autocomplete">Autocomplete</BarDropdownItem>
                         <BarDropdownItem To="tests/barcode">Barcode</BarDropdownItem>
                         <BarDropdownItem To="tests/captcha">Captcha</BarDropdownItem>
-                        <BarDropdownItem To="tests/charts">Charts</BarDropdownItem>
-                        <BarDropdownItem To="tests/charts/annotations">Charts Annotations</BarDropdownItem>
-                        <BarDropdownItem To="tests/charts/datalabels">Charts Data Labels</BarDropdownItem>
-                        <BarDropdownItem To="tests/charts/streaming">Charts Streaming</BarDropdownItem>
-                        <BarDropdownItem To="tests/charts/zoom">Charts Zoom</BarDropdownItem>
+                        <BarDropdown>
+                            <BarDropdownToggle>
+                                Charts
+                            </BarDropdownToggle>
+                            <BarDropdownMenu>
+                                <BarDropdownItem To="tests/charts">Regular</BarDropdownItem>
+                                <BarDropdownItem To="tests/charts/annotations">Annotations</BarDropdownItem>
+                                <BarDropdownItem To="tests/charts/datalabels">Data Labels</BarDropdownItem>
+                                <BarDropdownItem To="tests/charts/streaming">Streaming</BarDropdownItem>
+                                <BarDropdownItem To="tests/charts/zoom">Zoom</BarDropdownItem>
+                            </BarDropdownMenu>
+                        </BarDropdown>
+                        <BarDropdown>
+                            <BarDropdownToggle>
+                                SVG Charts
+                            </BarDropdownToggle>
+                            <BarDropdownMenu>
+                                <BarDropdownItem To="tests/charts/svg/regular">Regular</BarDropdownItem>
+                                <BarDropdownItem To="tests/charts/svg/animation">Animation</BarDropdownItem>
+                                <BarDropdownItem To="tests/charts/svg/annotations">Annotations</BarDropdownItem>
+                                <BarDropdownItem To="tests/charts/svg/streaming">Streaming</BarDropdownItem>
+                                <BarDropdownItem To="tests/charts/svg/data-labels">Data Labels</BarDropdownItem>
+                                <BarDropdownItem To="tests/charts/svg/trendlines">Trendlines</BarDropdownItem>
+                                <BarDropdownItem To="tests/charts/svg/zoom">Zoom</BarDropdownItem>
+                            </BarDropdownMenu>
+                        </BarDropdown>
                         <BarDropdownItem To="tests/cropper">Cropper</BarDropdownItem>
                         <BarDropdownItem To="tests/dropdownlist">Dropdown List</BarDropdownItem>
                         <BarDropdownItem To="tests/listview">List View</BarDropdownItem>

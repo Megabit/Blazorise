@@ -1,0 +1,39 @@
+@page "/docs/extensions/svg-chart-animation"
+
+<Seo Canonical="/docs/extensions/svg-chart-animation" Title="Blazorise SVG Chart Animation" Description="Learn how to animate native Blazorise SVG charts from C# and Blazor." />
+
+<DocsPageTitle Path="Extensions/SVG Chart Animation">
+    Blazorise SVG Chart Animation
+</DocsPageTitle>
+
+<DocsPageLead>
+    Animate SVG chart loading and data updates with C# and Blazor options.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    SVG chart animation can be declared with <Code>SvgChartAnimation</Code> or configured with <Code>SvgChartOptions.Animation</Code>. Animation targets are grouped by SVG behavior, such as geometry and opacity, and each target can override timing, easing, and load/update behavior. Streaming animations remain configured separately with <Code>SvgChartStreamingOptions.Animation</Code>.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Declarative animation">
+        Add <Code>SvgChartAnimation</Code> inside a chart to animate the first render and subsequent updates.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgChartAnimationExample" Outlined FullWidth>
+        <SvgChartAnimationExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Options animation">
+        Configure animation through <Code>SvgChartOptions.Animation</Code> when options are built in C#.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgChartAnimationOptionsExample" Outlined FullWidth>
+        <SvgChartAnimationOptionsExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof(SvgChartAnimation), typeof(SvgChartAnimationOptions), typeof(SvgChartAnimationTargetOptions), typeof(SvgChartGeometryAnimationOptions), typeof(SvgChartOpacityAnimationOptions), typeof(SvgChartStrokeAnimationOptions), typeof(SvgChartTransformAnimationOptions), typeof(SvgChartPathAnimationOptions)]" />
