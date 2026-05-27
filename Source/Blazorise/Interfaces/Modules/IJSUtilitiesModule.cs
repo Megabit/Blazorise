@@ -131,6 +131,21 @@ public interface IJSUtilitiesModule : IBaseJSModule
     ValueTask ScrollElementIntoView( string elementId, bool smooth = true );
 
     /// <summary>
+    /// Scrolls the focused input into view when it is covered by the on-screen keyboard.
+    /// </summary>
+    /// <param name="elementId">ID of the focused input element.</param>
+    /// <param name="keyboardElementId">ID of the rendered keyboard element.</param>
+    /// <param name="margin">Viewport margin, in pixels, to keep between the input and keyboard.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask ScrollElementIntoViewForOnScreenKeyboard( string elementId, string keyboardElementId, int margin );
+
+    /// <summary>
+    /// Clears any scroll adjustment added by the on-screen keyboard.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask ClearOnScreenKeyboardScrollAdjustment();
+
+    /// <summary>
     /// Sets the caret to the specified position.
     /// </summary>
     /// <param name="elementRef">Reference to the rendered element.</param>

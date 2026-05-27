@@ -89,6 +89,14 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
         => InvokeSafeVoidAsync( "scrollElementIntoView", elementId, smooth );
 
     /// <inheritdoc/>
+    public virtual ValueTask ScrollElementIntoViewForOnScreenKeyboard( string elementId, string keyboardElementId, int margin )
+        => InvokeSafeVoidAsync( "scrollElementIntoViewForOnScreenKeyboard", elementId, keyboardElementId, margin );
+
+    /// <inheritdoc/>
+    public virtual ValueTask ClearOnScreenKeyboardScrollAdjustment()
+        => InvokeSafeVoidAsync( "clearOnScreenKeyboardScrollAdjustment" );
+
+    /// <inheritdoc/>
     public virtual ValueTask SetCaret( ElementReference elementRef, int caret )
         => InvokeSafeVoidAsync( "setCaret", elementRef, caret );
 

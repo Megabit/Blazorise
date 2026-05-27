@@ -253,6 +253,45 @@ public class OnScreenKeyboardProviderComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task Provider_ShouldAutoScrollFocusedInput_WhenVisible()
+    {
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+
+        var comp = Render<OnScreenKeyboardProvider>();
+
+        await ShowKeyboard( keyboardService, OnScreenKeyboardLayout.Text );
+
+        comp.WaitForAssertion( () => JSInterop.VerifyInvoke( "scrollElementIntoViewForOnScreenKeyboard" ) );
+    }
+
+    [Fact]
+    public async Task Provider_ShouldNotAutoScroll_WhenAutoScrollIsDisabled()
+    {
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        var options = Services.GetRequiredService<BlazoriseOptions>();
+        options.AccessibilityOptions.OnScreenKeyboard.AutoScroll = false;
+
+        var comp = Render<OnScreenKeyboardProvider>();
+
+        await ShowKeyboard( keyboardService, OnScreenKeyboardLayout.Text );
+
+        comp.WaitForAssertion( () => Assert.Contains( "Enter", comp.Markup ) );
+        JSInterop.VerifyNotInvoke( "scrollElementIntoViewForOnScreenKeyboard" );
+    }
+
+    [Fact]
+    public async Task Provider_ShouldClearAutoScrollAdjustment_WhenHidden()
+    {
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        var comp = Render<OnScreenKeyboardProvider>();
+
+        await ShowKeyboard( keyboardService, OnScreenKeyboardLayout.Text );
+        await keyboardService.Hide();
+
+        comp.WaitForAssertion( () => JSInterop.VerifyInvoke( "clearOnScreenKeyboardScrollAdjustment" ) );
+    }
+
+    [Fact]
     public async Task Provider_ShouldAllowZIndexOverride()
     {
         var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();

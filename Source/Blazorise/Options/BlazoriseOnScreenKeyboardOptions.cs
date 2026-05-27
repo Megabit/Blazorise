@@ -21,6 +21,16 @@ public class BlazoriseOnScreenKeyboardOptions
     public OnScreenKeyboardInputType InputTypes { get; set; } = OnScreenKeyboardInputType.Text | OnScreenKeyboardInputType.Numeric;
 
     /// <summary>
+    /// If true, the focused input is scrolled into view when it would be covered by the on-screen keyboard.
+    /// </summary>
+    public bool AutoScroll { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets the viewport margin, in pixels, kept between the focused input and the on-screen keyboard during automatic scrolling.
+    /// </summary>
+    public int AutoScrollMargin { get; set; } = 12;
+
+    /// <summary>
     /// If true, the on-screen keyboard is shown when an enabled input receives focus.
     /// </summary>
     public bool ShowOnFocus { get; set; } = true;

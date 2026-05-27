@@ -89,6 +89,7 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
         if ( disposing && OnScreenKeyboardService is not null )
         {
             OnScreenKeyboardService.StateChanged -= OnKeyboardStateChanged;
+            _ = ClearScrollAdjustment();
             _ = UnregisterKeyboardAsClosableLight();
         }
 
@@ -105,6 +106,7 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
                 OnScreenKeyboardService.StateChanged -= OnKeyboardStateChanged;
             }
 
+            await ClearScrollAdjustment();
             await UnregisterKeyboardAsClosableLight();
         }
 
@@ -175,9 +177,11 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
         if ( eventArgs.State.Visible )
         {
             ExecuteAfterRender( RegisterKeyboardAsClosableLight );
+            ExecuteAfterRender( ScrollActiveInputIntoView );
         }
         else
         {
+            await ClearScrollAdjustment();
             await UnregisterKeyboardAsClosableLight();
         }
 
@@ -200,6 +204,31 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
 
         await JSClosableModule.UnregisterLight( ElementRef );
         closableLightRegistered = false;
+    }
+
+    private async Task ScrollActiveInputIntoView()
+    {
+        var context = OnScreenKeyboardService.State.Context;
+
+        if ( !Visible
+            || EffectivePlacement == OnScreenKeyboardPlacement.Inline
+            || Options?.AccessibilityOptions?.OnScreenKeyboard?.AutoScroll == false
+            || string.IsNullOrEmpty( context?.ElementId )
+            || string.IsNullOrEmpty( ElementId )
+            || UtilitiesModule is null )
+        {
+            return;
+        }
+
+        await UtilitiesModule.ScrollElementIntoViewForOnScreenKeyboard( context.ElementId, ElementId, EffectiveAutoScrollMargin );
+    }
+
+    private async Task ClearScrollAdjustment()
+    {
+        if ( UtilitiesModule is null )
+            return;
+
+        await UtilitiesModule.ClearOnScreenKeyboardScrollAdjustment();
     }
 
     private async Task OnKeyClicked( OnScreenKeyboardKey key )
@@ -457,6 +486,8 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
 
     private int EffectiveZIndex => ZIndex ?? StyleProvider.DefaultOnScreenKeyboardZIndex;
 
+    private int EffectiveAutoScrollMargin => Math.Max( 0, Options?.AccessibilityOptions?.OnScreenKeyboard?.AutoScrollMargin ?? 12 );
+
     private string KeyboardMaxWidthStyle => EffectiveKeyboardSize switch
     {
         OnScreenKeyboardSize.Small => "max-width:48rem",
@@ -476,6 +507,9 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
     private int EffectiveKeyMinHeight => KeyMinHeight
         ?? Options?.AccessibilityOptions?.OnScreenKeyboard?.KeyMinHeight
         ?? ( EffectiveKeyLayout == OnScreenKeyboardKeyLayout.Centered ? 56 : 40 );
+
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
 
     private bool UseDefaultKeyStyles => KeyColor == Color.Default;
 
@@ -567,6 +601,11 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
     /// Gets the JavaScript module used to cooperate with Blazorise closable components.
     /// </summary>
     [Inject] protected IJSClosableModule JSClosableModule { get; set; }
+
+    /// <summary>
+    /// Gets the JavaScript module used for DOM utilities.
+    /// </summary>
+    [Inject] protected IJSUtilitiesModule UtilitiesModule { get; set; }
 
     /// <summary>
     /// Gets the global Blazorise options.

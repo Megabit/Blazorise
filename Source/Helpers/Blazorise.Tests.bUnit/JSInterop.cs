@@ -228,6 +228,8 @@ public static class JSInterop
         module.SetupVoid( "setProperty", _ => true ).SetVoidResult();
         module.Setup<string>( "getUserAgent", _ => true ).SetResult( String.Empty );
         module.SetupVoid( "scrollElementIntoView", _ => true ).SetVoidResult();
+        module.SetupVoid( "scrollElementIntoViewForOnScreenKeyboard", _ => true ).SetVoidResult();
+        module.SetupVoid( "clearOnScreenKeyboardScrollAdjustment", _ => true ).SetVoidResult();
         module.SetupVoid( "focus", _ => true ).SetVoidResult();
         module.SetupVoid( "select", _ => true ).SetVoidResult();
         module.SetupVoid( "submitClosestForm", _ => true ).SetVoidResult();
