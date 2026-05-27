@@ -98,6 +98,11 @@ internal sealed class OnScreenKeyboardDateInputComposer
         if ( string.IsNullOrEmpty( text ) )
             return;
 
+        if ( IsComplete && ShouldIgnoreCompletedValueOverflow( text ) )
+        {
+            return;
+        }
+
         if ( IsComplete && StartsWithDigit( text ) )
         {
             ClearSegments();
@@ -333,7 +338,7 @@ internal sealed class OnScreenKeyboardDateInputComposer
 
     private string FormatDateTimePreview()
     {
-        string datePreview = FormatPatternPreview( CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern, GetPreviewSegments() );
+        string datePreview = FormatPatternPreview( CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern, GetPreviewSegments(), true );
         string timePattern = RequireSeconds || GetSegment( 's' ).HasDigits
             ? CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern
             : CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern;
@@ -440,7 +445,7 @@ internal sealed class OnScreenKeyboardDateInputComposer
         return result;
     }
 
-    private static string FormatPatternPreview( string pattern, Dictionary<char, string> segments )
+    private static string FormatPatternPreview( string pattern, Dictionary<char, string> segments, bool fullDatePlaceholders = false )
     {
         if ( string.IsNullOrEmpty( pattern ) )
             return null;
@@ -470,7 +475,7 @@ internal sealed class OnScreenKeyboardDateInputComposer
 
                 string token = pattern.Substring( startIndex, i - startIndex + 1 );
 
-                builder.Append( FormatPreviewSegment( token, normalizedSegment, segments ) );
+                builder.Append( FormatPreviewSegment( token, normalizedSegment, segments, fullDatePlaceholders ) );
             }
             else if ( character != '\\' && character != 't' )
             {
@@ -481,10 +486,10 @@ internal sealed class OnScreenKeyboardDateInputComposer
         return builder.ToString().Trim();
     }
 
-    private static string FormatPreviewSegment( string token, char segment, Dictionary<char, string> segments )
+    private static string FormatPreviewSegment( string token, char segment, Dictionary<char, string> segments, bool fullDatePlaceholders )
     {
         if ( !segments.TryGetValue( segment, out string value ) )
-            return token;
+            return fullDatePlaceholders ? GetFullDatePlaceholder( token, segment ) : token;
 
         if ( segment == 'M' )
             return value;
@@ -492,6 +497,17 @@ internal sealed class OnScreenKeyboardDateInputComposer
         return value.Length >= token.Length
             ? value
             : value + token.Substring( value.Length );
+    }
+
+    private static string GetFullDatePlaceholder( string token, char segment )
+    {
+        return segment switch
+        {
+            'd' when token.Length < 2 => "dd",
+            'M' when token.Length < 2 => "MM",
+            'y' when token.Length < 4 => "yyyy",
+            _ => token,
+        };
     }
 
     private static bool IsPreviewPatternSegment( char character )
@@ -573,6 +589,44 @@ internal sealed class OnScreenKeyboardDateInputComposer
         }
 
         return false;
+    }
+
+    private bool ShouldIgnoreCompletedValueOverflow( string value )
+    {
+        if ( CountDigits( value ) != 1 )
+            return false;
+
+        Segment segment = GetLastSegmentWithDigits();
+
+        return segment is not null
+            && segment.Digits.Length > 0
+            && GetFirstDigit( value ) == segment.Digits[segment.Digits.Length - 1];
+    }
+
+    private static char GetFirstDigit( string value )
+    {
+        foreach ( char character in value )
+        {
+            if ( char.IsDigit( character ) )
+                return character;
+        }
+
+        return default;
+    }
+
+    private static int CountDigits( string value )
+    {
+        int count = 0;
+
+        foreach ( char character in value )
+        {
+            if ( char.IsDigit( character ) )
+            {
+                count++;
+            }
+        }
+
+        return count;
     }
 
     private static string ExpandYear( string digits )

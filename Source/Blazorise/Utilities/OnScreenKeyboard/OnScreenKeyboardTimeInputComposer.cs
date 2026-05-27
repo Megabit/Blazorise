@@ -83,6 +83,11 @@ internal sealed class OnScreenKeyboardTimeInputComposer
         if ( string.IsNullOrEmpty( text ) )
             return;
 
+        if ( IsComplete && ShouldIgnoreCompletedValueOverflow( text ) )
+        {
+            return;
+        }
+
         if ( IsComplete && StartsWithDigit( text ) )
         {
             ClearSegments();
@@ -393,6 +398,44 @@ internal sealed class OnScreenKeyboardTimeInputComposer
         }
 
         return false;
+    }
+
+    private bool ShouldIgnoreCompletedValueOverflow( string value )
+    {
+        if ( CountDigits( value ) != 1 )
+            return false;
+
+        Segment segment = GetLastSegmentWithDigits();
+
+        return segment is not null
+            && segment.Digits.Length > 0
+            && GetFirstDigit( value ) == segment.Digits[segment.Digits.Length - 1];
+    }
+
+    private static char GetFirstDigit( string value )
+    {
+        foreach ( char character in value )
+        {
+            if ( char.IsDigit( character ) )
+                return character;
+        }
+
+        return default;
+    }
+
+    private static int CountDigits( string value )
+    {
+        int count = 0;
+
+        foreach ( char character in value )
+        {
+            if ( char.IsDigit( character ) )
+            {
+                count++;
+            }
+        }
+
+        return count;
     }
 
     internal static bool IsSeparator( char character )

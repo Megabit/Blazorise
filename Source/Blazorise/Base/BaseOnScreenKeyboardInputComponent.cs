@@ -309,7 +309,7 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
         if ( behavior == OnScreenKeyboardEnterKeyBehavior.Submit )
         {
             await SubmitOnScreenKeyboard();
-            RestoreOnScreenKeyboardEnterFocus();
+            await RestoreOnScreenKeyboardEnterFocus();
 
             return;
         }
@@ -332,19 +332,17 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     /// <summary>
     /// Restores focus to the input after a submit action so the virtual Enter key behaves like a physical Enter key.
     /// </summary>
-    protected virtual void RestoreOnScreenKeyboardEnterFocus()
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected virtual async Task RestoreOnScreenKeyboardEnterFocus()
     {
         OnScreenKeyboardService.SuppressHideOnBlur();
 
-        ExecuteAfterRender( async () =>
+        if ( OnScreenKeyboardService?.State.Visible == true
+            && string.Equals( OnScreenKeyboardService.State.Context?.ElementId, ElementId, StringComparison.Ordinal ) )
         {
-            if ( OnScreenKeyboardService?.State.Visible == true
-                && string.Equals( OnScreenKeyboardService.State.Context?.ElementId, ElementId, StringComparison.Ordinal ) )
-            {
-                OnScreenKeyboardService.SuppressHideOnBlur();
-                await JSUtilitiesModule.Focus( ElementRef, ElementId, false );
-            }
-        } );
+            OnScreenKeyboardService.SuppressHideOnBlur();
+            await JSUtilitiesModule.Focus( ElementRef, ElementId, false );
+        }
     }
 
     /// <summary>

@@ -35,7 +35,7 @@ public class OnScreenKeyboardProviderComponentTest : BunitContext
 
         comp.WaitForAssertion( () => Assert.Contains( "ABC", comp.Markup ) );
 
-        comp.SetParametersAndRender( parameters => parameters
+        comp.Render( parameters => parameters
             .Add( p => p.ShowSpecialCharactersKey, false ) );
 
         Assert.DoesNotContain( "ABC", comp.Markup );
@@ -792,7 +792,7 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
         await keyboardService.InsertText( "0" );
 
         Assert.Equal( "20", keyboardService.State.Context.GetValue() );
-        JSInterop.VerifyInvoke( "updateTextValue" );
+        JSInterop.VerifyInvoke( "updateTextValue", 2 );
     }
 
     [Fact]
@@ -807,7 +807,7 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
         await keyboardService.InsertText( "2" );
 
         Assert.Equal( "12", keyboardService.State.Context.GetValue() );
-        JSInterop.VerifyInvoke( "updateTextValue" );
+        JSInterop.VerifyInvoke( "updateTextValue", 2 );
     }
 
     [Fact]
@@ -822,7 +822,7 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
         await keyboardService.InsertText( "2" );
 
         Assert.Equal( "12", keyboardService.State.Context.GetValue() );
-        JSInterop.VerifyInvoke( "updateValue" );
+        JSInterop.VerifyInvoke( "updateValue", 2 );
     }
 
     [Fact]

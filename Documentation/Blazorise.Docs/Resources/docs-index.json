@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-22T12:51:55.9766967Z",
+  "generatedUtc": "2026-05-27T09:23:51.5235299Z",
   "pages": [
     {
       "route": "/docs",
@@ -2531,7 +2531,7 @@
           "sourcePath": "Pages/Docs/Components/OnScreenKeyboards/Examples/OnScreenKeyboardMemoInputExample.razor",
           "content": "<Field>\r\n    <FieldLabel>Memo input</FieldLabel>\r\n    <MemoInput @bind-Value=\"@memoValue\" Placeholder=\"Focus to enter multiple lines\" OnScreenKeyboard=\"true\" />\r\n</Field>\r\n\r\n@code {\r\n    private string memoValue;\r\n}",
           "title": "Memo input",
-          "description": "Multiline input can use the same parameter. The enter key closes the keyboard by default; disable HideOnEnter to insert new lines from the keyboard."
+          "description": "Multiline inputs insert a new line by default. Set OnScreenKeyboardEnterKeyBehavior to Submit when the enter key should submit the nearest validations or form."
         },
         {
           "code": "OnScreenKeyboardLayoutExample",
@@ -2577,7 +2577,7 @@
           "code": "OnScreenKeyboardGlobalOptionsExample",
           "kind": "csharp",
           "sourcePath": "Pages/Docs/Components/OnScreenKeyboards/Examples/OnScreenKeyboardGlobalOptionsExample.csharp",
-          "content": "builder.Services\r\n    .AddBlazorise( options =>\r\n    {\r\n        options.AccessibilityOptions.OnScreenKeyboard.Enabled = true;\r\n        options.AccessibilityOptions.OnScreenKeyboard.SubmitOnEnter = true;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyboardSize = OnScreenKeyboardSize.Large;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyLayout = OnScreenKeyboardKeyLayout.Centered;\r\n    } );",
+          "content": "builder.Services\r\n    .AddBlazorise( options =>\r\n    {\r\n        options.AccessibilityOptions.OnScreenKeyboard.Enabled = true;\r\n        options.AccessibilityOptions.OnScreenKeyboard.EnterKeyBehavior = OnScreenKeyboardEnterKeyBehavior.Submit;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyboardSize = OnScreenKeyboardSize.Large;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyLayout = OnScreenKeyboardKeyLayout.Centered;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyWidth = 72;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyMinHeight = 56;\r\n    } );",
           "title": "Global option",
           "description": "If the keyboard should be available for all supported inputs, enable it in Blazorise options."
         }

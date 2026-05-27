@@ -3624,9 +3624,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     .AddBlazorise( options =>
     {
         options.AccessibilityOptions.OnScreenKeyboard.Enabled = true;
-        options.AccessibilityOptions.OnScreenKeyboard.SubmitOnEnter = true;
+        options.AccessibilityOptions.OnScreenKeyboard.EnterKeyBehavior = OnScreenKeyboardEnterKeyBehavior.Submit;
         options.AccessibilityOptions.OnScreenKeyboard.KeyboardSize = OnScreenKeyboardSize.Large;
         options.AccessibilityOptions.OnScreenKeyboard.KeyLayout = OnScreenKeyboardKeyLayout.Centered;
+        options.AccessibilityOptions.OnScreenKeyboard.KeyWidth = 72;
+        options.AccessibilityOptions.OnScreenKeyboard.KeyMinHeight = 56;
     } );";
 
         public const string OnScreenKeyboardKeyTemplateExample = @"<OnScreenKeyboardProvider KeyboardSize=""OnScreenKeyboardSize.Large""
