@@ -310,7 +310,7 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
     public async Task InsertText_ShouldUseCaretPosition()
     {
         var module = JSInterop.SetupModule( new JSUtilitiesModule( JSInterop.JSRuntime, new MockVersionProvider(), new( null, options => { } ) ).ModuleFileName );
-        module.Setup<int>( "getCaret", _ => true ).SetResult( 1 );
+        module.Setup<TextSelection>( "getSelection", _ => true ).SetResult( new() { Start = 1, End = 1 } );
 
         var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
         var value = "abc";
@@ -323,6 +323,46 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
         await keyboardService.InsertText( "X" );
 
         Assert.Equal( "aXbc", value );
+        JSInterop.VerifyInvoke( "setCaret" );
+    }
+
+    [Fact]
+    public async Task InsertText_ShouldReplaceSelectedText()
+    {
+        var module = JSInterop.SetupModule( new JSUtilitiesModule( JSInterop.JSRuntime, new MockVersionProvider(), new( null, options => { } ) ).ModuleFileName );
+        module.Setup<TextSelection>( "getSelection", _ => true ).SetResult( new() { Start = 0, End = 4 } );
+
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        var value = "TEST";
+        var comp = Render<TextInput>( parameters => parameters
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "d" );
+
+        Assert.Equal( "d", value );
+        JSInterop.VerifyInvoke( "setCaret" );
+    }
+
+    [Fact]
+    public async Task Backspace_ShouldRemoveSelectedText()
+    {
+        var module = JSInterop.SetupModule( new JSUtilitiesModule( JSInterop.JSRuntime, new MockVersionProvider(), new( null, options => { } ) ).ModuleFileName );
+        module.Setup<TextSelection>( "getSelection", _ => true ).SetResult( new() { Start = 1, End = 3 } );
+
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        var value = "TEST";
+        var comp = Render<TextInput>( parameters => parameters
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.Backspace();
+
+        Assert.Equal( "TT", value );
         JSInterop.VerifyInvoke( "setCaret" );
     }
 

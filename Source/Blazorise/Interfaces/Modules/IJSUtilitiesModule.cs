@@ -146,6 +146,13 @@ public interface IJSUtilitiesModule : IBaseJSModule
     ValueTask<int> GetCaret( ElementReference elementRef );
 
     /// <summary>
+    /// Gets the selected text range.
+    /// </summary>
+    /// <param name="elementRef">Reference to the rendered element.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask<TextSelection> GetSelection( ElementReference elementRef );
+
+    /// <summary>
     /// Updates the input with the specified value.
     /// </summary>
     /// <param name="elementRef">Reference to the rendered element.</param>

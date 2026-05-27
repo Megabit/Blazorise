@@ -149,18 +149,16 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
         return InvokeAsync( async () =>
         {
             var value = GetOnScreenKeyboardValue() ?? string.Empty;
-            var caret = await JSUtilitiesModule.GetCaret( ElementRef );
+            var selection = NormalizeOnScreenKeyboardSelection( await JSUtilitiesModule.GetSelection( ElementRef ), value );
+            var selectionLength = selection.End - selection.Start;
 
-            caret = caret < 0
-                ? value.Length
-                : Math.Min( caret, value.Length );
-
-            onScreenKeyboardValue = value.Insert( caret, text );
+            onScreenKeyboardValue = value.Remove( selection.Start, selectionLength ).Insert( selection.Start, text );
             var editedValue = onScreenKeyboardValue;
+            var caret = selection.Start + text.Length;
 
             await CurrentValueHandler( onScreenKeyboardValue );
             ExecuteAfterRender( () => OnScreenKeyboardValueChanged( editedValue ) );
-            ExecuteAfterRender( () => JSUtilitiesModule.SetCaret( ElementRef, caret + text.Length ).AsTask() );
+            ExecuteAfterRender( () => JSUtilitiesModule.SetCaret( ElementRef, caret ).AsTask() );
 
             StateHasChanged();
         } );
@@ -175,21 +173,29 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
         return InvokeAsync( async () =>
         {
             var value = GetOnScreenKeyboardValue() ?? string.Empty;
-            var caret = await JSUtilitiesModule.GetCaret( ElementRef );
+            var selection = NormalizeOnScreenKeyboardSelection( await JSUtilitiesModule.GetSelection( ElementRef ), value );
 
-            caret = caret < 0
-                ? value.Length
-                : Math.Min( caret, value.Length );
-
-            if ( caret == 0 || value.Length == 0 )
+            if ( value.Length == 0 || ( selection.Start == 0 && selection.End == 0 ) )
                 return;
 
-            onScreenKeyboardValue = value.Remove( caret - 1, 1 );
+            var selectionLength = selection.End - selection.Start;
+            var caret = selection.Start;
+
+            if ( selectionLength > 0 )
+            {
+                onScreenKeyboardValue = value.Remove( selection.Start, selectionLength );
+            }
+            else
+            {
+                onScreenKeyboardValue = value.Remove( selection.Start - 1, 1 );
+                caret = selection.Start - 1;
+            }
+
             var editedValue = onScreenKeyboardValue;
 
             await CurrentValueHandler( onScreenKeyboardValue );
             ExecuteAfterRender( () => OnScreenKeyboardValueChanged( editedValue ) );
-            ExecuteAfterRender( () => JSUtilitiesModule.SetCaret( ElementRef, caret - 1 ).AsTask() );
+            ExecuteAfterRender( () => JSUtilitiesModule.SetCaret( ElementRef, caret ).AsTask() );
 
             StateHasChanged();
         } );
@@ -220,6 +226,28 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     protected virtual int? GetOnScreenKeyboardPreviewCaret()
     {
         return null;
+    }
+
+    private static (int Start, int End) NormalizeOnScreenKeyboardSelection( TextSelection selection, string value )
+    {
+        var valueLength = value?.Length ?? 0;
+        var start = selection?.Start ?? -1;
+        var end = selection?.End ?? start;
+
+        start = start < 0
+            ? valueLength
+            : Math.Min( start, valueLength );
+
+        end = end < 0
+            ? start
+            : Math.Min( end, valueLength );
+
+        if ( end < start )
+        {
+            ( start, end ) = ( end, start );
+        }
+
+        return ( start, end );
     }
 
     /// <summary>

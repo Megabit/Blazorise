@@ -141,17 +141,28 @@ export function setCaret(element, caret) {
 }
 
 export function getCaret(element) {
-    if (hasSelectionCapabilities(element)) {
-        return element.selectionStart;
-    }
+    return getSelection(element).start;
+}
 
+export function getSelection(element) {
     if (isNumberInput(element)) {
-        return numericInputCarets.has(element)
+        const caret = numericInputCarets.has(element)
             ? numericInputCarets.get(element)
             : `${element.value || ''}`.length;
+
+        return { start: caret, end: caret };
     }
 
-    return -1;
+    if (hasSelectionCapabilities(element) &&
+        typeof element.selectionStart === 'number' &&
+        typeof element.selectionEnd === 'number') {
+        return {
+            start: element.selectionStart,
+            end: element.selectionEnd
+        };
+    }
+
+    return { start: -1, end: -1 };
 }
 
 export function setTextValue(element, value) {

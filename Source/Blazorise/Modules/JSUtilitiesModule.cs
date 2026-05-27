@@ -97,6 +97,10 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
         => InvokeSafeAsync<int>( "getCaret", elementRef );
 
     /// <inheritdoc/>
+    public virtual ValueTask<TextSelection> GetSelection( ElementReference elementRef )
+        => InvokeSafeAsync<TextSelection>( "getSelection", elementRef );
+
+    /// <inheritdoc/>
     public virtual ValueTask SetTextValue( ElementReference elementRef, object value )
         => InvokeSafeVoidAsync( "setTextValue", elementRef, value );
 
