@@ -223,7 +223,7 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
 
         if ( key.KeyType == OnScreenKeyboardKeyType.Text && shift )
         {
-            await OnScreenKeyboardService.PressKey( new( key.Text?.ToUpperInvariant() ) );
+            await OnScreenKeyboardService.PressKey( new( GetShiftKeyText( key ) ) );
             return;
         }
 
@@ -241,7 +241,7 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
             return key.DisplayText;
 
         if ( key.KeyType == OnScreenKeyboardKeyType.Text && shift )
-            return key.Text?.ToUpperInvariant();
+            return GetShiftKeyText( key );
 
         if ( key.KeyType == OnScreenKeyboardKeyType.SpecialCharacters && SpecialCharactersActive )
             return "ABC";
@@ -278,6 +278,11 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
     private bool IsShiftKeyActive( OnScreenKeyboardKey key )
     {
         return shift && key.KeyType == OnScreenKeyboardKeyType.Shift;
+    }
+
+    private static string GetShiftKeyText( OnScreenKeyboardKey key )
+    {
+        return key.ShiftText ?? key.Text?.ToUpperInvariant();
     }
 
     private bool IsKeyActive( OnScreenKeyboardKey key )
@@ -330,6 +335,11 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
     private static IReadOnlyList<OnScreenKeyboardKey> CreateKeysRow( params string[] keys )
     {
         return keys.Select( key => new OnScreenKeyboardKey( key ) ).ToArray();
+    }
+
+    private static OnScreenKeyboardKey TextKey( string text, string shiftText )
+    {
+        return new( text, shiftText );
     }
 
     private static OnScreenKeyboardKey CommandKey( OnScreenKeyboardKeyType keyType, string displayText, int width = 1 )
@@ -491,8 +501,8 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
         CreateTextRow( "asdfghjkl" ),
         new[] { CommandKey( OnScreenKeyboardKeyType.Shift, shift ? "SHIFT" : "Shift", 2 ) }.Concat( CreateTextRow( "zxcvbnm" ) ).Concat( new[] { CommandKey( OnScreenKeyboardKeyType.Backspace, "Backspace", 2 ) } ).ToArray(),
         EffectiveShowSpecialCharactersKey
-            ? WithSpecialCharactersKey( new[] { CommandKey( OnScreenKeyboardKeyType.Clear, "Clear", 2 ), CommandKey( OnScreenKeyboardKeyType.Space, "Space", 4 ), CommandKey( OnScreenKeyboardKeyType.Enter, "Enter", 2 ) } )
-            : new[] { CommandKey( OnScreenKeyboardKeyType.Clear, "Clear", 2 ), CommandKey( OnScreenKeyboardKeyType.Space, "Space", 6 ), CommandKey( OnScreenKeyboardKeyType.Enter, "Enter", 2 ) },
+            ? WithSpecialCharactersKey( new[] { TextKey( ",", ";" ), TextKey( ".", ":" ), TextKey( "-", "_" ), CommandKey( OnScreenKeyboardKeyType.Clear, "Clear", 2 ), CommandKey( OnScreenKeyboardKeyType.Space, "Space", 3 ), CommandKey( OnScreenKeyboardKeyType.Enter, "Enter", 2 ) } )
+            : new[] { TextKey( ",", ";" ), TextKey( ".", ":" ), TextKey( "-", "_" ), CommandKey( OnScreenKeyboardKeyType.Clear, "Clear", 2 ), CommandKey( OnScreenKeyboardKeyType.Space, "Space", 4 ), CommandKey( OnScreenKeyboardKeyType.Enter, "Enter", 2 ) },
     };
 
     private IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> EmailRows => new[]

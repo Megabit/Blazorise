@@ -161,6 +161,40 @@ public class OnScreenKeyboardProviderComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task TextLayoutPunctuationKeys_ShouldUseShiftText_WhenShiftIsActive()
+    {
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        var insertedText = string.Empty;
+        var comp = Render<OnScreenKeyboardProvider>();
+
+        await keyboardService.Show( new()
+        {
+            ElementId = "input",
+            Layout = OnScreenKeyboardLayout.Text,
+            InsertText = text =>
+            {
+                insertedText += text;
+                return Task.CompletedTask;
+            },
+        } );
+
+        comp.WaitForAssertion( () =>
+        {
+            Assert.Contains( comp.FindAll( "button" ), button => button.TextContent.Trim() == "," );
+            Assert.Contains( comp.FindAll( "button" ), button => button.TextContent.Trim() == "." );
+            Assert.Contains( comp.FindAll( "button" ), button => button.TextContent.Trim() == "-" );
+        } );
+
+        await FindButtonByText( comp, "Shift" ).ClickAsync();
+
+        await FindButtonByText( comp, ";" ).ClickAsync();
+        await FindButtonByText( comp, ":" ).ClickAsync();
+        await FindButtonByText( comp, "_" ).ClickAsync();
+
+        Assert.Equal( ";:_", insertedText );
+    }
+
+    [Fact]
     public async Task Enter_ShouldHideKeyboard_WhenHideOnEnterIsEnabled()
     {
         var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();

@@ -24,6 +24,17 @@ public class OnScreenKeyboardKey
     /// <summary>
     /// Initializes a new instance of the <see cref="OnScreenKeyboardKey"/> class.
     /// </summary>
+    /// <param name="text">Text inserted by the key.</param>
+    /// <param name="shiftText">Text inserted by the key when shift is active.</param>
+    public OnScreenKeyboardKey( string text, string shiftText )
+    {
+        Text = text;
+        ShiftText = shiftText;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="OnScreenKeyboardKey"/> class.
+    /// </summary>
     /// <param name="keyType">Key type.</param>
     /// <param name="displayText">Text displayed on the key.</param>
     public OnScreenKeyboardKey( OnScreenKeyboardKeyType keyType, string displayText )
@@ -41,6 +52,11 @@ public class OnScreenKeyboardKey
     /// Gets or sets the inserted text.
     /// </summary>
     public string Text { get; set; }
+
+    /// <summary>
+    /// Gets or sets the inserted text when shift is active.
+    /// </summary>
+    public string ShiftText { get; set; }
 
     /// <summary>
     /// Gets or sets the text displayed by the key.
