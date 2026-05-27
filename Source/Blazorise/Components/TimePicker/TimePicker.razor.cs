@@ -8,6 +8,7 @@ using Blazorise.Utilities;
 using Blazorise.Vendors;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise;
@@ -16,9 +17,11 @@ namespace Blazorise;
 /// An editor that displays a time value and allows a user to edit the value.
 /// </summary>
 /// <typeparam name="TValue">Data-type to be binded by the <see cref="TimePicker{TValue}"/> property.</typeparam>
-public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasses, TimePickerStyles>, IAsyncDisposable
+public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasses, TimePickerStyles>, IAsyncDisposable, ITimePicker
 {
     #region Members
+
+    private DotNetObjectReference<TimePickerAdapter> dotNetObjectRef;
 
     /// <summary>
     /// Captured Min parameter snapshot.
@@ -202,7 +205,9 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// <inheritdoc/>
     protected override async Task OnFirstAfterRenderAsync()
     {
-        await JSModule.Initialize( ElementRef, ElementId, new()
+        dotNetObjectRef ??= CreateDotNetObjectRef( new TimePickerAdapter( this ) );
+
+        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new()
         {
             DisplayFormat = DisplayFormatConverter.Convert( DisplayFormat ),
             TimeAs24hr = TimeAs24hr,
@@ -233,6 +238,9 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
         if ( disposing && Rendered )
         {
             await JSModule.SafeDestroy( ElementRef, ElementId );
+
+            DisposeDotNetObjectRef( dotNetObjectRef );
+            dotNetObjectRef = null;
 
             LocalizerService.LocalizationChanged -= OnLocalizationChanged;
         }
@@ -296,10 +304,54 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     }
 
     /// <inheritdoc/>
-    protected override Task OnKeyPressHandler( KeyboardEventArgs eventArgs )
+    [JSInvokable]
+    public new virtual Task OnKeyDownHandler( KeyboardEventArgs eventArgs )
+    {
+        return KeyDown.InvokeAsync( eventArgs );
+    }
+
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new virtual Task OnKeyUpHandler( KeyboardEventArgs eventArgs )
+    {
+        return KeyUp.InvokeAsync( eventArgs );
+    }
+
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new virtual Task OnFocusHandler( FocusEventArgs eventArgs )
+    {
+        return OnFocus.InvokeAsync( eventArgs );
+    }
+
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new virtual async Task OnFocusInHandler( FocusEventArgs eventArgs )
+    {
+        await FocusIn.InvokeAsync( eventArgs );
+        await ShowOnScreenKeyboard();
+    }
+
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new virtual Task OnFocusOutHandler( FocusEventArgs eventArgs )
+    {
+        return FocusOut.InvokeAsync( eventArgs );
+    }
+
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new virtual Task OnKeyPressHandler( KeyboardEventArgs eventArgs )
     {
         // just call eventcallback without using debouncer in BaseTextInput
         return KeyPress.InvokeAsync( eventArgs );
+    }
+
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new virtual Task OnBlurHandler( FocusEventArgs eventArgs )
+    {
+        return base.OnBlurHandler( eventArgs );
     }
 
     /// <inheritdoc/>

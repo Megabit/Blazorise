@@ -29,8 +29,8 @@ public class JSTimePickerModule : BaseJSModule, IJSTimePickerModule
     #region Methods
 
     /// <inheritdoc/>
-    public virtual ValueTask Initialize( ElementReference elementRef, string elementId, TimePickerJSOptions options )
-        => InvokeSafeVoidAsync( "initialize", elementRef, elementId, options );
+    public virtual ValueTask Initialize( DotNetObjectReference<TimePickerAdapter> dotNetObjectReference, ElementReference elementRef, string elementId, TimePickerJSOptions options )
+        => InvokeSafeVoidAsync( "initialize", dotNetObjectReference, elementRef, elementId, options );
 
     /// <inheritdoc/>
     public virtual ValueTask Destroy( ElementReference elementRef, string elementId )
