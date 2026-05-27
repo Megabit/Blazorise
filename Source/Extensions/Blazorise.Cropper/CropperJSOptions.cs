@@ -18,12 +18,12 @@ public class CropperJSOptions
     public string Alt { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the cropper is enabled.
+    /// Gets or sets whether cropper interactions are enabled.
     /// </summary>
     public bool Enabled { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to show a background around the cropping area.
+    /// Gets or sets whether the cropper shows a background around the cropping area.
     /// </summary>
     public bool ShowBackground { get; set; }
 
@@ -100,32 +100,32 @@ public class CropperSelectionJSOptions
     public double? InitialAspectRatio { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the selection should initially cover the entire image.
+    /// Gets or sets how much of the image the initial selection covers.
     /// </summary>
     public double? InitialCoverage { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the selection area is movable within the cropper.
+    /// Gets or sets whether dragging can reposition the selection area.
     /// </summary>
     public bool Movable { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the selection area is resizable.
+    /// Gets or sets whether handles can resize the selection area.
     /// </summary>
     public bool Resizable { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether zooming is allowed on the selection area.
+    /// Gets or sets whether wheel or gesture zoom can be applied from the selection area.
     /// </summary>
     public bool Zoomable { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether keyboard navigation is enabled within the cropper.
+    /// Gets or sets whether keyboard input can move or resize the active selection.
     /// </summary>
     public bool Keyboard { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the selection area has an outline displayed.
+    /// Gets or sets whether the selection area renders with a visible outline.
     /// </summary>
     public bool Outlined { get; set; }
 }

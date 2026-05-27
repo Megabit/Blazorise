@@ -1,0 +1,135 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="atSign">&#64;</span>using System.Threading
+<span class="atSign">&#64;</span>implements IAsyncDisposable
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Outline</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>AppendValue</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    Append value
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgLineChart</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">chart</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">object</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>data</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>options</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">Streaming</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>streaming</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">Hovered</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnPointHovered</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTitle</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;Live latency&quot;)&#39;</span> <span class="htmlAttributeName">Subtitle</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;Right-to-left viewport with infinite retention&quot;)&#39;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTooltip</span> <span class="htmlAttributeName">Enabled</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartValueAxis</span> <span class="htmlAttributeName">BeginAtZero</span> <span class="htmlAttributeName">TickCount</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">6</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SvgLineChart</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Paragraph</span> <span class="htmlAttributeName">Margin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Margin.Is2.FromTop.Is0.FromBottom</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>lastEvent<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Paragraph</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> TimeSpan StreamingInterval = TimeSpan.FromSeconds( <span class="number">1</span> );
+
+    <span class="keyword">private</span> SvgLineChart&lt;<span class="keyword">object</span>&gt; chart;
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> Random random = <span class="keyword">new</span>();
+
+    <span class="keyword">private</span> <span class="keyword">double</span> currentLatency = <span class="number">45</span>;
+
+    <span class="keyword">private</span> <span class="keyword">string</span> lastEvent = <span class="string">&quot;Append a value or hover over a point.&quot;</span>;
+
+    <span class="keyword">private</span> CancellationTokenSource streamingCancellationTokenSource;
+
+    <span class="keyword">private</span> Task streamingTask;
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartOptions options = <span class="keyword">new</span>()
+    {
+        Height = <span class="number">360</span>,
+        Legend = <span class="keyword">new</span>() { Visible = <span class="keyword">false</span> },
+        XAxis = <span class="keyword">new</span>()
+        {
+            GridLines = <span class="keyword">new</span>() { Visible = <span class="keyword">true</span> },
+            Labels = <span class="keyword">new</span>()
+            {
+                Step = <span class="number">2</span>,
+                Offset = <span class="number">30</span>,
+            },
+        },
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartStreamingOptions streaming = <span class="keyword">new</span>()
+    {
+        Enabled = <span class="keyword">true</span>,
+        VisibleDataPoints = <span class="number">12</span>,
+        Duration = <span class="keyword">null</span>,
+        Reverse = <span class="keyword">false</span>,
+        Animation = <span class="keyword">new</span>()
+        {
+            Duration = StreamingInterval,
+        },
+        RefreshInterval = TimeSpan.FromMilliseconds( <span class="number">500</span> ),
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartData&lt;<span class="keyword">double</span>?&gt; data = <span class="keyword">new</span>()
+    {
+        Series =
+        [
+            <span class="keyword">new</span>()
+            {
+                Name = <span class="string">&quot;Latency&quot;</span>,
+                Color = Color.Primary,
+            },
+        ],
+    };
+
+    <span class="keyword">protected</span> <span class="keyword">override</span> Task OnAfterRenderAsync( <span class="keyword">bool</span> firstRender )
+    {
+        <span class="keyword">if</span> ( firstRender )
+        {
+            streamingCancellationTokenSource = <span class="keyword">new</span>();
+            streamingTask = RunStreamingAsync( streamingCancellationTokenSource.Token );
+        }
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">async</span> Task RunStreamingAsync( CancellationToken cancellationToken )
+    {
+        <span class="keyword">try</span>
+        {
+            <span class="keyword">using</span> PeriodicTimer timer = <span class="keyword">new</span>( StreamingInterval );
+
+            <span class="keyword">while</span> ( <span class="keyword">await</span> timer.WaitForNextTickAsync( cancellationToken ) )
+            {
+                <span class="keyword">await</span> InvokeAsync( AppendValue );
+            }
+        }
+        <span class="keyword">catch</span> ( OperationCanceledException )
+        {
+        }
+    }
+
+    <span class="keyword">private</span> <span class="keyword">async</span> Task AppendValue()
+    {
+        <span class="keyword">string</span> label = DateTime.Now.ToString( <span class="string">&quot;HH:mm:ss&quot;</span> );
+        currentLatency = Math.Clamp( currentLatency + random.Next( -<span class="number">16</span>, <span class="number">17</span> ), <span class="number">25</span>, <span class="number">80</span> );
+
+        <span class="keyword">if</span> ( chart <span class="keyword">is</span> not <span class="keyword">null</span> )
+            <span class="keyword">await</span> chart.AppendValue( <span class="string">&quot;Latency&quot;</span>, label, currentLatency );
+    }
+
+    <span class="keyword">private</span> Task OnPointHovered( SvgChartPointEventArgs eventArgs )
+    {
+        lastEvent = $<span class="string">&quot;Hovered {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}&quot;</span>;
+
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">async</span> ValueTask DisposeAsync()
+    {
+        <span class="keyword">if</span> ( streamingCancellationTokenSource <span class="keyword">is</span> not <span class="keyword">null</span> )
+        {
+            <span class="keyword">await</span> streamingCancellationTokenSource.CancelAsync();
+            streamingCancellationTokenSource.Dispose();
+        }
+
+        <span class="keyword">if</span> ( streamingTask <span class="keyword">is</span> not <span class="keyword">null</span> )
+            <span class="keyword">await</span> streamingTask;
+    }
+}
+</pre></div>
+</div>

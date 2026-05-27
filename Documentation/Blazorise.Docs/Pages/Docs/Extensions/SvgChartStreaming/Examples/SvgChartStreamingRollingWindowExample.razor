@@ -1,0 +1,110 @@
+@namespace Blazorise.Docs.Docs.Examples
+@using System.Threading
+@implements IAsyncDisposable
+
+<Button Color="Color.Primary" Outline Clicked="@AppendValue">
+    Append sample
+</Button>
+
+<SvgAreaChart @ref="chart"
+              TItem="object"
+              Data="@data"
+              Options="@options">
+    <SvgChartTitle Title='@("Rolling throughput")' Subtitle='@("Retains the last 20 seconds of samples")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartStreaming Enabled
+                       VisibleDataPoints="10"
+                       Duration="@TimeSpan.FromSeconds( 20 )"
+                       Animation="@streamingAnimation" />
+    <SvgChartTimeAxis Format="HH:mm:ss" />
+    <SvgChartValueAxis BeginAtZero TickCount="6" />
+</SvgAreaChart>
+
+@code {
+    private static readonly TimeSpan StreamingInterval = TimeSpan.FromSeconds( 1 );
+
+    private readonly Random random = new( 24 );
+
+    private SvgAreaChart<object> chart;
+
+    private double currentThroughput = 64;
+
+    private CancellationTokenSource streamingCancellationTokenSource;
+
+    private Task streamingTask;
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Visible = false },
+        XAxis = new()
+        {
+            GridLines = new() { Visible = true },
+            Labels = new() { Step = 2, Offset = 30 },
+        },
+    };
+
+    private readonly SvgChartStreamingAnimationOptions streamingAnimation = new()
+    {
+        Duration = StreamingInterval,
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Series =
+        [
+            new()
+            {
+                Name = "Throughput",
+                Color = Color.Success,
+            },
+        ],
+    };
+
+    protected override Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            streamingCancellationTokenSource = new();
+            streamingTask = RunStreamingAsync( streamingCancellationTokenSource.Token );
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private async Task RunStreamingAsync( CancellationToken cancellationToken )
+    {
+        try
+        {
+            using PeriodicTimer timer = new( StreamingInterval );
+
+            while ( await timer.WaitForNextTickAsync( cancellationToken ) )
+            {
+                await InvokeAsync( AppendValue );
+            }
+        }
+        catch ( OperationCanceledException )
+        {
+        }
+    }
+
+    private async Task AppendValue()
+    {
+        currentThroughput = Math.Clamp( currentThroughput + random.Next( -10, 11 ), 35, 95 );
+
+        if ( chart is not null )
+            await chart.AppendValue( "Throughput", DateTimeOffset.Now, currentThroughput );
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if ( streamingCancellationTokenSource is not null )
+        {
+            await streamingCancellationTokenSource.CancelAsync();
+            streamingCancellationTokenSource.Dispose();
+        }
+
+        if ( streamingTask is not null )
+            await streamingTask;
+    }
+}

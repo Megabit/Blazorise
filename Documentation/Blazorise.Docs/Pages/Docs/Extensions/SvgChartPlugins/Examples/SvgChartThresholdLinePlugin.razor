@@ -1,0 +1,84 @@
+@namespace Blazorise.Docs.Docs.Examples
+@inherits SvgChartPluginBase
+@using System.Globalization
+@using Microsoft.AspNetCore.Components.Rendering
+
+@code {
+    /// <summary>
+    /// Defines the value where the threshold line is rendered.
+    /// </summary>
+    [Parameter] public double Value { get; set; }
+
+    /// <summary>
+    /// Defines the threshold line color.
+    /// </summary>
+    [Parameter] public Color Color { get; set; } = Color.Warning;
+
+    /// <summary>
+    /// Defines the optional threshold label.
+    /// </summary>
+    [Parameter] public string Label { get; set; }
+
+    /// <inheritdoc/>
+    public override SvgChartRenderLayer Layer => SvgChartRenderLayer.SeriesOverlay;
+
+    /// <inheritdoc/>
+    public override void Render( SvgChartPluginRenderContext context, RenderTreeBuilder builder, ref int sequence )
+    {
+        if ( context.IsRadial )
+            return;
+
+        var y = context.ProjectY( Value );
+        var color = ResolveColor( Color );
+
+        builder.OpenElement( sequence++, "g" );
+        builder.AddAttribute( sequence++, "class", "svg-chart-threshold-line-plugin" );
+
+        builder.OpenElement( sequence++, "line" );
+        builder.AddAttribute( sequence++, "x1", Format( context.PlotArea.Left ) );
+        builder.AddAttribute( sequence++, "x2", Format( context.PlotArea.Right ) );
+        builder.AddAttribute( sequence++, "y1", Format( y ) );
+        builder.AddAttribute( sequence++, "y2", Format( y ) );
+        builder.AddAttribute( sequence++, "stroke", color );
+        builder.AddAttribute( sequence++, "stroke-width", "2" );
+        builder.AddAttribute( sequence++, "stroke-dasharray", "6 4" );
+        builder.AddAttribute( sequence++, "stroke-linecap", "round" );
+        builder.CloseElement();
+
+        if ( !string.IsNullOrWhiteSpace( Label ) )
+        {
+            builder.OpenElement( sequence++, "text" );
+            builder.AddAttribute( sequence++, "x", Format( context.PlotArea.Right - 8 ) );
+            builder.AddAttribute( sequence++, "y", Format( y - 8 ) );
+            builder.AddAttribute( sequence++, "text-anchor", "end" );
+            builder.AddAttribute( sequence++, "font-size", "12" );
+            builder.AddAttribute( sequence++, "font-weight", "600" );
+            builder.AddAttribute( sequence++, "fill", color );
+            builder.AddContent( sequence++, Label );
+            builder.CloseElement();
+        }
+
+        builder.CloseElement();
+    }
+
+    private static string ResolveColor( Color color )
+    {
+        if ( color is null || color == Color.Default || string.IsNullOrWhiteSpace( color.Name ) )
+            return "currentColor";
+
+        var name = color.Name;
+
+        if ( name.StartsWith( "#", StringComparison.Ordinal )
+             || name.StartsWith( "rgb", StringComparison.OrdinalIgnoreCase )
+             || name.StartsWith( "hsl", StringComparison.OrdinalIgnoreCase )
+             || name.StartsWith( "var(", StringComparison.OrdinalIgnoreCase ) )
+            return name;
+
+        return $"var(--b-theme-{name}, var(--bs-{name}, currentColor))";
+    }
+
+    private static string Format( double value )
+    {
+        return value.ToString( "0.###", CultureInfo.InvariantCulture );
+    }
+}

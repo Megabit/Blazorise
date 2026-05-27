@@ -1,0 +1,53 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgChart TItem="RevenueGrowth"
+          Items="@revenue"
+          Options="@options">
+    <SvgChartTitle Title='@("Revenue and growth")' Subtitle='@("Column and line series with separate value axes")' />
+    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Id="months" Value="@( item => item.Month )" />
+    <SvgChartValueAxis Id="revenue" Position="SvgChartAxisPosition.Left" BeginAtZero TickCount="6" Title="Revenue" />
+    <SvgChartValueAxis Id="growth" Position="SvgChartAxisPosition.Right" Min="-5" Max="25" TickCount="7" Title="Growth %" />
+
+    <SvgColumnSeries Name="Revenue"
+                     CategoryAxisId="months"
+                     ValueAxisId="revenue"
+                     Value="@( item => item.Revenue )"
+                     Color="Color.Primary"
+                     BorderRadius="4" />
+    <SvgLineSeries Name="Growth %"
+                   CategoryAxisId="months"
+                   ValueAxisId="growth"
+                   Value="@( item => item.Growth )"
+                   Color="Color.Danger"
+                   StrokeWidth="3"
+                   MarkerRadius="4"
+                   Order="20" />
+</SvgChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly List<RevenueGrowth> revenue =
+    [
+        new() { Month = "Jan", Revenue = 68, Growth = 8.4 },
+        new() { Month = "Feb", Revenue = 74, Growth = 11.2 },
+        new() { Month = "Mar", Revenue = 91, Growth = 16.7 },
+        new() { Month = "Apr", Revenue = 86, Growth = 13.9 },
+        new() { Month = "May", Revenue = 103, Growth = 20.4 },
+    ];
+
+    private sealed class RevenueGrowth
+    {
+        public string Month { get; set; }
+
+        public double Revenue { get; set; }
+
+        public double Growth { get; set; }
+    }
+}

@@ -1,0 +1,29 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgPolarAreaChart TItem="object"
+                   Data="@data"
+                   Options="@options">
+    <SvgChartTitle Title='@("Channel mix")' Subtitle='@("Equal-angle radial values")' />
+    <SvgChartTooltip Enabled />
+</SvgPolarAreaChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 320,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Labels = ["Email", "Ads", "Organic", "Partner"],
+        Series =
+        [
+            new()
+            {
+                Name = "Leads",
+                Values = [28, 42, 35, 18],
+            },
+        ]
+    };
+}

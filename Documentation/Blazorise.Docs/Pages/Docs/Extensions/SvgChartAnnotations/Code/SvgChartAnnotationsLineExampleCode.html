@@ -1,0 +1,82 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgLineChart</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">MonthlyService</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">Items</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>services</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>options</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTitle</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;Service level&quot;)&#39;</span> <span class="htmlAttributeName">Subtitle</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;Threshold and release annotations&quot;)&#39;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTooltip</span> <span class="htmlAttributeName">Enabled</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartLineAnnotation</span> <span class="htmlAttributeName">YMin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">80</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">YMax</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">80</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">Border</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( new SvgChartBorderOptions { Color = Color.Danger, Width = 2 } )</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">DashPattern</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">6 4</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">Label</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>thresholdLabel</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartLineAnnotation</span> <span class="htmlAttributeName">XMin</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">3.5</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">XMax</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">3.5</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">Border</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( new SvgChartBorderOptions { Color = Color.Warning, Width = 2 } )</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">DashPattern</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">4 4</span><span class="quot">&quot;</span>
+                            <span class="htmlAttributeName">Label</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>releaseLabel</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartLabelAnnotation</span> <span class="htmlAttributeName">X</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">5</span><span class="quot">&quot;</span>
+                             <span class="htmlAttributeName">Y</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">91</span><span class="quot">&quot;</span>
+                             <span class="htmlAttributeName">Label</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>noteLabel</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartCategoryAxis</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Month )</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartValueAxis</span> <span class="htmlAttributeName">BeginAtZero</span> <span class="htmlAttributeName">TickCount</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">6</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgLineSeries</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Uptime</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Uptime )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">StrokeWidth</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">3</span><span class="quot">&quot;</span> <span class="htmlAttributeName">MarkerRadius</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">4</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SvgLineChart</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartOptions options = <span class="keyword">new</span>()
+    {
+        Height = <span class="number">360</span>,
+        Legend = <span class="keyword">new</span>() { Visible = <span class="keyword">false</span> },
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartAnnotationLabelOptions thresholdLabel = <span class="keyword">new</span>()
+    {
+        Visible = <span class="keyword">true</span>,
+        Text = <span class="string">&quot;Target&quot;</span>,
+        Position = SvgChartAnnotationLabelPosition.End,
+        BackgroundColor = <span class="string">&quot;#ffffff&quot;</span>,
+        Border = <span class="keyword">new</span>() { Color = Color.Danger, Width = <span class="number">1</span>, Radius = <span class="number">3</span> },
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartAnnotationLabelOptions releaseLabel = <span class="keyword">new</span>()
+    {
+        Visible = <span class="keyword">true</span>,
+        Text = <span class="string">&quot;Release&quot;</span>,
+        Position = SvgChartAnnotationLabelPosition.Start,
+        BackgroundColor = <span class="string">&quot;#ffffff&quot;</span>,
+        Border = <span class="keyword">new</span>() { Color = Color.Warning, Width = <span class="number">1</span>, Radius = <span class="number">3</span> },
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartAnnotationLabelOptions noteLabel = <span class="keyword">new</span>()
+    {
+        Visible = <span class="keyword">true</span>,
+        Text = <span class="string">&quot;Stabilized&quot;</span>,
+        Position = SvgChartAnnotationLabelPosition.Center,
+        BackgroundColor = <span class="string">&quot;#ffffff&quot;</span>,
+        Border = <span class="keyword">new</span>() { Color = Color.Primary, Width = <span class="number">1</span>, Radius = <span class="number">3</span> },
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> List&lt;MonthlyService&gt; services =
+    [
+        <span class="keyword">new</span>() { Month = <span class="string">&quot;Jan&quot;</span>, Uptime = <span class="number">73</span> },
+        <span class="keyword">new</span>() { Month = <span class="string">&quot;Feb&quot;</span>, Uptime = <span class="number">78</span> },
+        <span class="keyword">new</span>() { Month = <span class="string">&quot;Mar&quot;</span>, Uptime = <span class="number">84</span> },
+        <span class="keyword">new</span>() { Month = <span class="string">&quot;Apr&quot;</span>, Uptime = <span class="number">82</span> },
+        <span class="keyword">new</span>() { Month = <span class="string">&quot;May&quot;</span>, Uptime = <span class="number">88</span> },
+        <span class="keyword">new</span>() { Month = <span class="string">&quot;Jun&quot;</span>, Uptime = <span class="number">91</span> },
+        <span class="keyword">new</span>() { Month = <span class="string">&quot;Jul&quot;</span>, Uptime = <span class="number">86</span> },
+        <span class="keyword">new</span>() { Month = <span class="string">&quot;Aug&quot;</span>, Uptime = <span class="number">93</span> },
+    ];
+
+    <span class="keyword">private</span> <span class="keyword">sealed</span> <span class="keyword">class</span> MonthlyService
+    {
+        <span class="keyword">public</span> <span class="keyword">string</span> Month { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">double</span> Uptime { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+}
+</pre></div>
+</div>

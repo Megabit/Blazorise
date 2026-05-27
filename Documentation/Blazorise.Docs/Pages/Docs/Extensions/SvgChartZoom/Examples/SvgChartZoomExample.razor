@@ -1,0 +1,90 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgScatterChart TItem="StorePerformance"
+                 Items="@stores"
+                 Options="@options"
+                 Hovered="@OnPointHovered">
+    <SvgChartTitle Title='@("Store performance")' Subtitle='@("XY zoom with numeric grid lines")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartValueAxis BeginAtZero TickCount="7" GridLines="@gridLines" />
+    <SvgChartZoom Enabled
+                  Mode="SvgChartZoomMode.XY"
+                  MaxZoom="120"
+                  Viewport="@viewport"
+                  ViewportChanged="@OnViewportChanged"
+                  Zoomed="@OnZoomed"
+                  Panned="@OnPanned" />
+
+    <SvgScatterSeries Name="Stores" XValue="@( item => item.Traffic )" YValue="@( item => item.Sales )" Color="Color.Primary" MarkerRadius="5" />
+</SvgScatterChart>
+
+<Paragraph Margin="Margin.Is2.FromTop.Is0.FromBottom">@lastEvent</Paragraph>
+
+@code {
+    private string lastEvent = "Wheel over the chart to zoom, or drag the plot area to pan.";
+
+    private SvgChartViewport viewport;
+
+    private readonly SvgChartGridLinesOptions gridLines = new()
+    {
+        Visible = true,
+        Opacity = 0.2,
+    };
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        XAxis = new() { BeginAtZero = false, TickCount = 7, GridLines = new() { Visible = true, Opacity = 0.2 } },
+        YAxis = new() { BeginAtZero = true, TickCount = 7 },
+        Zoom = new() { Enabled = true, Mode = SvgChartZoomMode.XY, MaxZoom = 120 },
+    };
+
+    private readonly List<StorePerformance> stores =
+    [
+        new() { Traffic = 8, Sales = 42 },
+        new() { Traffic = 12, Sales = 55 },
+        new() { Traffic = 16, Sales = 64 },
+        new() { Traffic = 22, Sales = 58 },
+        new() { Traffic = 29, Sales = 91 },
+        new() { Traffic = 34, Sales = 76 },
+        new() { Traffic = 42, Sales = 112 },
+        new() { Traffic = 48, Sales = 108 },
+        new() { Traffic = 53, Sales = 132 },
+        new() { Traffic = 61, Sales = 126 },
+    ];
+
+    private Task OnPointHovered( SvgChartPointEventArgs eventArgs )
+    {
+        lastEvent = $"Hovered {eventArgs.SeriesName} / {eventArgs.Category}: {eventArgs.Value}";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnViewportChanged( SvgChartViewport changedViewport )
+    {
+        viewport = changedViewport;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnZoomed( SvgChartZoomedEventArgs eventArgs )
+    {
+        lastEvent = $"Zoomed viewport X {eventArgs.Viewport.XMin:0.##}-{eventArgs.Viewport.XMax:0.##}, Y {eventArgs.Viewport.YMin:0.##}-{eventArgs.Viewport.YMax:0.##}";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnPanned( SvgChartPannedEventArgs eventArgs )
+    {
+        lastEvent = $"Panned viewport X {eventArgs.Viewport.XMin:0.##}-{eventArgs.Viewport.XMax:0.##}, Y {eventArgs.Viewport.YMin:0.##}-{eventArgs.Viewport.YMax:0.##}";
+
+        return Task.CompletedTask;
+    }
+
+    private sealed class StorePerformance
+    {
+        public double Traffic { get; set; }
+
+        public double Sales { get; set; }
+    }
+}

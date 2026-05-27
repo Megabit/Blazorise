@@ -1,0 +1,38 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgRadarChart TItem="object"
+               Data="@data"
+               Options="@options">
+    <SvgChartTitle Title='@("Product fit")' Subtitle='@("Multiple series across shared dimensions")' />
+    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+    <SvgChartTooltip Enabled />
+</SvgRadarChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+        YAxis = new() { BeginAtZero = true, Max = 100 },
+    };
+
+    private readonly SvgChartData<double?> data = new()
+    {
+        Labels = ["Quality", "Speed", "Cost", "Support", "Adoption"],
+        Series =
+        [
+            new()
+            {
+                Name = "Current",
+                Color = Color.Primary,
+                Values = [82, 76, 58, 88, 72],
+            },
+            new()
+            {
+                Name = "Target",
+                Color = Color.Success,
+                Values = [92, 86, 70, 94, 84],
+            },
+        ]
+    };
+}

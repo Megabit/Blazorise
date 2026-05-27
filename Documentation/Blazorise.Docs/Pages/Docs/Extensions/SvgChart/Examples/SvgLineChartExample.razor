@@ -1,0 +1,40 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgLineChart TItem="MonthlyVisitors"
+              Items="@visitors"
+              Options="@options">
+    <SvgChartTitle Title='@("Visitor trend")' Subtitle='@("Line series with markers")' />
+    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value="@( item => item.Month )" />
+    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+    <SvgLineSeries Name="Current year" Value="@( item => item.Current )" Color="Color.Primary" StrokeWidth="3" MarkerRadius="4" />
+    <SvgLineSeries Name="Previous year" Value="@( item => item.Previous )" Color="Color.Warning" StrokeWidth="3" MarkerRadius="4" />
+</SvgLineChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly List<MonthlyVisitors> visitors =
+    [
+        new() { Month = "Jan", Current = 48, Previous = 42 },
+        new() { Month = "Feb", Current = 61, Previous = 52 },
+        new() { Month = "Mar", Current = 73, Previous = 64 },
+        new() { Month = "Apr", Current = 68, Previous = 70 },
+        new() { Month = "May", Current = 82, Previous = 76 },
+    ];
+
+    private sealed class MonthlyVisitors
+    {
+        public string Month { get; set; }
+
+        public double Current { get; set; }
+
+        public double Previous { get; set; }
+    }
+}

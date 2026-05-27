@@ -1,0 +1,46 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgLineChart TItem="LatencySample"
+              Items="@samples"
+              Options="@options">
+    <SvgChartTitle Title='@("Service latency")' Subtitle='@("Custom plugin rendered as a series overlay")' />
+    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+    <SvgChartTooltip Enabled />
+    <SvgChartThresholdLinePlugin Value="80"
+                                 Color="Color.Warning"
+                                 Label="Target" />
+    <SvgChartCategoryAxis Value="@( item => item.Minute )"
+                          GridLines="@( new() { Visible = true, Opacity = 0.1 } )"
+                          LabelsOptions="@( new() { Step = 1 } )" />
+    <SvgChartValueAxis BeginAtZero
+                       TickCount="6"
+                       GridLines="@( new() { Visible = true, Opacity = 0.14 } )" />
+
+    <SvgLineSeries Name="Latency" Value="@( item => item.Latency )" Color="Color.Primary" MarkerRadius="4" />
+</SvgLineChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly List<LatencySample> samples =
+    [
+        new() { Minute = "09:00", Latency = 64 },
+        new() { Minute = "09:05", Latency = 71 },
+        new() { Minute = "09:10", Latency = 78 },
+        new() { Minute = "09:15", Latency = 86 },
+        new() { Minute = "09:20", Latency = 74 },
+        new() { Minute = "09:25", Latency = 82 },
+        new() { Minute = "09:30", Latency = 69 },
+    ];
+
+    private sealed class LatencySample
+    {
+        public string Minute { get; set; }
+
+        public double Latency { get; set; }
+    }
+}

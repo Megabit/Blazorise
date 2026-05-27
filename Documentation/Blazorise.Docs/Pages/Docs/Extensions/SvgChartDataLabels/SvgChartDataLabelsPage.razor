@@ -1,0 +1,39 @@
+@page "/docs/extensions/svg-chart-datalabels"
+
+<Seo Canonical="/docs/extensions/svg-chart-datalabels" Title="Blazorise SVG Chart Data Labels" Description="Learn how to render and interact with labels around data points in native Blazorise SVG charts." />
+
+<DocsPageTitle Path="Extensions/SVG Chart Data Labels">
+    Blazorise SVG Chart Data Labels
+</DocsPageTitle>
+
+<DocsPageLead>
+    Render labels around chart values and handle label interactions.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    SVG chart data labels are configured declaratively with <Code>SvgChartDataLabels</Code> or through <Code>SvgChartOptions.DataLabels</Code>. Use the formatter callback to customize label text per point.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Value labels">
+        Render formatted labels above column values and react to label events.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgChartDataLabelsExample" Outlined FullWidth>
+        <SvgChartDataLabelsExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Radial labels">
+        Render labels inside doughnut slices by configuring <Code>SvgChartOptions.DataLabels</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgChartDataLabelsDoughnutExample" Outlined FullWidth>
+        <SvgChartDataLabelsDoughnutExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof(SvgChartDataLabels), typeof(SvgChartDataLabelsOptions)]" />

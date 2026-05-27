@@ -1,0 +1,43 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgColumnChart TItem="MonthlySales"
+                Items="@sales"
+                Options="@options">
+    <SvgChartTitle Title='@("Monthly revenue")' Subtitle='@("Linear trendline declared in markup")' />
+    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+    <SvgChartTooltip Enabled />
+    <SvgChartTrendline SeriesName="Revenue"
+                       Color="Color.Danger"
+                       StrokeWidth="2.5"
+                       DashPattern="8 5" />
+    <SvgChartCategoryAxis Value="@( item => item.Month )" />
+    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+    <SvgColumnSeries Name="Revenue" Value="@( item => item.Revenue )" Color="Color.Primary" BorderRadius="4" />
+</SvgColumnChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly List<MonthlySales> sales =
+    [
+        new() { Month = "Jan", Revenue = 82 },
+        new() { Month = "Feb", Revenue = 88 },
+        new() { Month = "Mar", Revenue = 93 },
+        new() { Month = "Apr", Revenue = 91 },
+        new() { Month = "May", Revenue = 104 },
+        new() { Month = "Jun", Revenue = 112 },
+        new() { Month = "Jul", Revenue = 118 },
+    ];
+
+    private sealed class MonthlySales
+    {
+        public string Month { get; set; }
+
+        public double Revenue { get; set; }
+    }
+}

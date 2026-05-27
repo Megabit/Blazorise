@@ -1,0 +1,83 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Div Flex="Flex.Row" Gap="Gap.Is2" Margin="Margin.Is3.FromBottom">
+    <Button Color="Color.Primary" Outline Clicked="@ZoomIn">Zoom in</Button>
+    <Button Color="Color.Light" Clicked="@ResetZoom">Reset</Button>
+</Div>
+
+<SvgLineChart @ref="chart"
+              TItem="CpuSample"
+              Items="@samples"
+              Options="@options">
+    <SvgChartTitle Title='@("CPU utilization")' Subtitle='@("Initial viewport configured declaratively")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartZoom Enabled
+                  Mode="SvgChartZoomMode.X"
+                  MaxZoom="12"
+                  Viewport="@viewport"
+                  ViewportChanged="@OnViewportChanged" />
+    <SvgChartCategoryAxis Value="@( item => item.Minute )" />
+    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+    <SvgLineSeries Name="CPU" Value="@( item => item.Value )" Color="Color.Primary" StrokeWidth="3" MarkerRadius="4" />
+</SvgLineChart>
+
+@code {
+    private SvgLineChart<CpuSample> chart;
+
+    private SvgChartViewport viewport = new()
+    {
+        XMin = 2,
+        XMax = 7,
+    };
+
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Visible = false },
+        XAxis = new()
+        {
+            GridLines = new() { Visible = true },
+        },
+    };
+
+    private readonly List<CpuSample> samples =
+    [
+        new() { Minute = "00:00", Value = 45 },
+        new() { Minute = "00:05", Value = 52 },
+        new() { Minute = "00:10", Value = 49 },
+        new() { Minute = "00:15", Value = 64 },
+        new() { Minute = "00:20", Value = 72 },
+        new() { Minute = "00:25", Value = 68 },
+        new() { Minute = "00:30", Value = 77 },
+        new() { Minute = "00:35", Value = 70 },
+        new() { Minute = "00:40", Value = 74 },
+        new() { Minute = "00:45", Value = 82 },
+    ];
+
+    private async Task ZoomIn()
+    {
+        if ( chart is not null )
+            await chart.ZoomIn();
+    }
+
+    private async Task ResetZoom()
+    {
+        if ( chart is not null )
+            await chart.ResetZoom();
+    }
+
+    private Task OnViewportChanged( SvgChartViewport changedViewport )
+    {
+        viewport = changedViewport;
+
+        return Task.CompletedTask;
+    }
+
+    private sealed class CpuSample
+    {
+        public string Minute { get; set; }
+
+        public double Value { get; set; }
+    }
+}

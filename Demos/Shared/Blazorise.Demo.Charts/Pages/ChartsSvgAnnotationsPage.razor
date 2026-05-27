@@ -1,0 +1,109 @@
+@page "/tests/charts/svg/annotations"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>SVG line chart - threshold annotation</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgLineChart TItem="MonthlySample"
+                              Items="@Samples"
+                              Options="@thresholdOptions">
+                    <SvgChartTitle Title='@("Monthly service level")' Subtitle='@("Declarative horizontal and vertical line annotations")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartLineAnnotation YMin="80"
+                                            YMax="80"
+                                            Border="@( new SvgChartBorderOptions { Color = Color.Danger, Width = 2 } )"
+                                            DashPattern="6 4"
+                                            Label="@thresholdLabel" />
+                    <SvgChartLineAnnotation XMin="3.5"
+                                            XMax="3.5"
+                                            Border="@( new SvgChartBorderOptions { Color = Color.Warning, Width = 2 } )"
+                                            DashPattern="4 4"
+                                            Label="@releaseLabel" />
+                    <SvgChartLabelAnnotation X="5"
+                                             Y="91"
+                                             Label="@noteLabel" />
+                    <SvgChartCategoryAxis Value="@( x => x.Month )" />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+                    <SvgLineSeries Name="Uptime" Value="@( x => x.Uptime )" Color="Color.Primary" StrokeWidth="3" MarkerRadius="4" />
+                </SvgLineChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>SVG column chart - range annotations</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgColumnChart TItem="MonthlySample"
+                                Items="@Samples"
+                                Options="@rangeOptions">
+                    <SvgChartTitle Title='@("Quarterly revenue")' Subtitle='@("Box annotations configured from options")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartCategoryAxis Value="@( x => x.Month )" />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+                    <SvgColumnSeries Name="Revenue" Value="@( x => x.Revenue )" Color="Color.Info" BorderRadius="4" />
+                </SvgColumnChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG scatter chart - target area</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgScatterChart TItem="StoreSample"
+                                 Items="@Stores"
+                                 Options="@scatterOptions">
+                    <SvgChartTitle Title='@("Store performance")' Subtitle='@("Ellipse and point annotations over X/Y values")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartEllipseAnnotation XMin="20"
+                                               XMax="40"
+                                               YMin="60"
+                                               YMax="90"
+                                               BackgroundColor="Color.Success"
+                                               Border="@( new SvgChartBorderOptions { Color = Color.Success, Width = 1 } )"
+                                               Opacity="0.12"
+                                               Label="@targetLabel" />
+                    <SvgChartPointAnnotation X="33"
+                                             Y="74"
+                                             Radius="6"
+                                             BackgroundColor="Color.Warning"
+                                             Border="@( new SvgChartBorderOptions { Color = Color.Danger, Width = 2 } )"
+                                             Label="@pointLabel" />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+                    <SvgScatterSeries Name="Stores" XValue="@( x => x.Traffic )" YValue="@( x => x.Sales )" Color="Color.Primary" MarkerRadius="5" />
+                </SvgScatterChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG area chart - operating band</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgAreaChart TItem="MonthlySample"
+                              Items="@Samples"
+                              Options="@bandOptions">
+                    <SvgChartTitle Title='@("Active users")' Subtitle='@("Box annotation behind an area series")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartCategoryAxis Value="@( x => x.Month )" />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+                    <SvgAreaSeries Name="Active users" Value="@( x => x.ActiveUsers )" Color="Color.Success" StrokeWidth="3" FillOpacity="0.2" />
+                </SvgAreaChart>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

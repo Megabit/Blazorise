@@ -1,0 +1,41 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgBubbleChart</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">StoreVolume</span><span class="quot">&quot;</span>
+                <span class="htmlAttributeName">Items</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>stores</span><span class="quot">&quot;</span>
+                <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>options</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTitle</span> <span class="htmlAttributeName">Title</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;Store volume&quot;)&#39;</span> <span class="htmlAttributeName">Subtitle</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>(&quot;X/Y values with radius from item selectors&quot;)&#39;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTooltip</span> <span class="htmlAttributeName">Enabled</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartValueAxis</span> <span class="htmlAttributeName">BeginAtZero</span> <span class="htmlAttributeName">TickCount</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">6</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgBubbleSeries</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Stores</span><span class="quot">&quot;</span> <span class="htmlAttributeName">XValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Sales )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">YValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Margin )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">RadiusValue</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Orders )</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Info</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SvgBubbleChart</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartOptions options = <span class="keyword">new</span>()
+    {
+        Height = <span class="number">360</span>,
+        YAxis = <span class="keyword">new</span>() { BeginAtZero = <span class="keyword">true</span>, TickCount = <span class="number">6</span> },
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> List&lt;StoreVolume&gt; stores =
+    [
+        <span class="keyword">new</span>() { Sales = <span class="number">8</span>, Margin = <span class="number">42</span>, Orders = <span class="number">5</span> },
+        <span class="keyword">new</span>() { Sales = <span class="number">16</span>, Margin = <span class="number">64</span>, Orders = <span class="number">9</span> },
+        <span class="keyword">new</span>() { Sales = <span class="number">22</span>, Margin = <span class="number">58</span>, Orders = <span class="number">7</span> },
+        <span class="keyword">new</span>() { Sales = <span class="number">29</span>, Margin = <span class="number">91</span>, Orders = <span class="number">12</span> },
+        <span class="keyword">new</span>() { Sales = <span class="number">34</span>, Margin = <span class="number">76</span>, Orders = <span class="number">10</span> },
+        <span class="keyword">new</span>() { Sales = <span class="number">42</span>, Margin = <span class="number">112</span>, Orders = <span class="number">14</span> },
+    ];
+
+    <span class="keyword">private</span> <span class="keyword">sealed</span> <span class="keyword">class</span> StoreVolume
+    {
+        <span class="keyword">public</span> <span class="keyword">double</span> Sales { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">double</span> Margin { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">double</span> Orders { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+}
+</pre></div>
+</div>

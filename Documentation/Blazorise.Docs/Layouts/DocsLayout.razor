@@ -56,7 +56,11 @@
                                         </Span>
                                     </BarDropdownItem>
                                     <BarDropdownItem To="docs/usage/bootstrap4">Bootstrap 4</BarDropdownItem>
-                                    <BarDropdownItem To="docs/usage/bootstrap5">Bootstrap 5</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/bootstrap5">
+                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                            <DocsUpdatedFeatureBadge>Bootstrap 5</DocsUpdatedFeatureBadge>
+                                        </Span>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/usage/bulma">Bulma</BarDropdownItem>
                                     <BarDropdownItem To="docs/usage/fluent2">Fluent 2</BarDropdownItem>
                                     <BarDropdownItem To="docs/usage/material">
@@ -117,7 +121,11 @@
                                     <BarDropdownItem To="docs/components/breadcrumb">Breadcrumb</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/button">Button</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/card">Card</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/carousel">Carousel</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/carousel">
+                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                            <DocsUpdatedFeatureBadge>Carousel</DocsUpdatedFeatureBadge>
+                                        </Span>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/components/check">Check</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/close-button">Close Button</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/collapse">Collapse</BarDropdownItem>
@@ -178,7 +186,11 @@
                                     <BarDropdownItem To="docs/components/tooltip">Tooltip</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/text-input">Text Input</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/typography">Typography</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/validation">Validation</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/validation">
+                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                            <DocsUpdatedFeatureBadge>Validation</DocsUpdatedFeatureBadge>
+                                        </Span>
+                                    </BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -188,7 +200,11 @@
                                     <BarIcon IconName="IconName.PuzzlePiece" /> Extensions
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/extensions/animate">Animate</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/animate">
+                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                            <DocsUpdatedFeatureBadge>Animate</DocsUpdatedFeatureBadge>
+                                        </Span>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/autocomplete">Autocomplete</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/barcode">
                                         <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
@@ -201,12 +217,30 @@
                                             Chart
                                         </BarDropdownToggle>
                                         <BarDropdownMenu>
-                                            <BarDropdownItem To="docs/extensions/chart">Start Here</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/chart">Overview</BarDropdownItem>
                                             <BarDropdownItem To="docs/extensions/chart-annotation">Annotation</BarDropdownItem>
                                             <BarDropdownItem To="docs/extensions/chart-datalabels">DataLabels</BarDropdownItem>
                                             <BarDropdownItem To="docs/extensions/chart-live">Live Chart</BarDropdownItem>
                                             <BarDropdownItem To="docs/extensions/chart-trendline">Trendline</BarDropdownItem>
                                             <BarDropdownItem To="docs/extensions/chart-zoom">Zoom</BarDropdownItem>
+                                        </BarDropdownMenu>
+                                    </BarDropdown>
+                                    <BarDropdown>
+                                        <BarDropdownToggle To="docs/extensions/svg-chart" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                            <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                                <DocsNewFeatureBadge>SVG Chart</DocsNewFeatureBadge>
+                                            </Span>
+                                        </BarDropdownToggle>
+                                        <BarDropdownMenu>
+                                            <BarDropdownItem To="docs/extensions/svg-chart">Overview</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/svg-chart-plugins">Plugins</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/svg-chart-animation">Animation</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/svg-chart-annotations">Annotations</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/svg-chart-datalabels">Data Labels</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/svg-chart-streaming">Streaming</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/svg-chart-trendline">Trendline</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/svg-chart-zoom">Zoom/Pan</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/svg-chart/api">API</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
                                     <BarDropdownItem To="docs/extensions/cropper">Cropper</BarDropdownItem>
@@ -364,7 +398,11 @@
                                     <BarDropdownItem To="docs/extensions/splitter">Splitter</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/qrcode">QRCode</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/transferlist">TransferList</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/treeview">TreeView</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/treeview">
+                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                            <DocsUpdatedFeatureBadge>TreeView</DocsUpdatedFeatureBadge>
+                                        </Span>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/video">Video</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>

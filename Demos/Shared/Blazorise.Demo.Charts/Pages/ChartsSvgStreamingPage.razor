@@ -1,0 +1,89 @@
+@page "/tests/charts/svg/streaming"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>SVG streaming controls</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Button Color="Color.Primary" Outline Clicked="@ToggleStreaming">
+                    @(streamingPaused ? "Resume" : "Pause")
+                </Button>
+                <Button Color="Color.Secondary" Outline Clicked="@ClearStreaming">Clear</Button>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG line chart - infinite retention</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgLineChart @ref="latencyChart"
+                              TItem="object"
+                              Data="@latencyData"
+                              Options="@latencyOptions"
+                              Streaming="@infiniteStreamingOptions"
+                              Hovered="@OnPointHovered">
+                    <SvgChartTitle Title='@("Live latency")' Subtitle='@("Right-to-left viewport without retention trimming")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
+                </SvgLineChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG area chart - rolling window</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgAreaChart @ref="throughputChart"
+                              TItem="object"
+                              Data="@throughputData"
+                              Options="@throughputOptions"
+                              Streaming="@rollingStreamingOptions"
+                              Hovered="@OnPointHovered">
+                    <SvgChartTitle Title='@("Live throughput")' Subtitle='@("Multiple streamed series with a retained time window")' />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartValueAxis BeginAtZero TickCount="6" />
+                </SvgAreaChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG column chart - reverse viewport</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgColumnChart @ref="queueChart"
+                                TItem="object"
+                                Data="@queueData"
+                                Options="@queueOptions"
+                                Streaming="@reverseStreamingOptions"
+                                Clicked="@OnPointClicked">
+                    <SvgChartTitle Title='@("Queue depth")' Subtitle='@("Newest values enter from the opposite side")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartValueAxis BeginAtZero TickCount="5" />
+                </SvgColumnChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Event state</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph Margin="Margin.Is0">@lastEvent</Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

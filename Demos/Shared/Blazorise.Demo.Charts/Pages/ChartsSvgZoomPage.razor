@@ -1,0 +1,99 @@
+@page "/tests/charts/svg/zoom"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>SVG scatter chart - zoom and pan</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgScatterChart TItem="PointSample"
+                                 Items="@Points"
+                                 Options="@scatterZoomOptions"
+                                 Hovered="@OnPointHovered">
+                    <SvgChartTitle Title='@("Store performance")' Subtitle='@("XY zoom with numeric grid lines")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartValueAxis BeginAtZero TickCount="7" GridLines="@gridLines" />
+                    <SvgChartZoom Enabled
+                                  Mode="SvgChartZoomMode.XY"
+                                  MaxZoom="120"
+                                  Viewport="@scatterViewport"
+                                  ViewportChanged="@OnScatterViewportChanged"
+                                  Zoomed="@OnZoomed"
+                                  Panned="@OnPanned" />
+
+                    <SvgScatterSeries Name="Stores" XValue="@( x => x.X )" YValue="@( x => x.Y )" Color="Color.Primary" MarkerRadius="5" />
+                </SvgScatterChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>SVG line chart - zoom and pan</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgLineChart TItem="MonthlyRevenue"
+                              Items="@Revenue"
+                              Options="@lineZoomOptions"
+                              Hovered="@OnPointHovered">
+                    <SvgChartTitle Title='@("Monthly revenue")' Subtitle='@("Horizontal zoom on a category axis")' />
+                    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartCategoryAxis Value="@( x => x.Month )" GridLines="@gridLines" />
+                    <SvgChartValueAxis BeginAtZero TickCount="7" GridLines="@gridLines" />
+                    <SvgChartZoom Enabled
+                                  Mode="SvgChartZoomMode.X"
+                                  MaxZoom="80"
+                                  Viewport="@lineViewport"
+                                  ViewportChanged="@OnLineViewportChanged"
+                                  Zoomed="@OnZoomed"
+                                  Panned="@OnPanned" />
+
+                    <SvgLineSeries Name="Revenue" Value="@( x => x.Revenue )" Color="Color.Info" StrokeWidth="3" MarkerRadius="4" />
+                    <SvgLineSeries Name="Target" Value="@( x => x.Target )" Color="Color.Success" StrokeWidth="3" MarkerRadius="4" />
+                </SvgLineChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SVG column chart - zoom and pan</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SvgColumnChart TItem="MonthlyRevenue"
+                                Items="@Revenue"
+                                Options="@columnZoomOptions"
+                                Hovered="@OnPointHovered">
+                    <SvgChartTitle Title='@("Pipeline volume")' Subtitle='@("Category viewport with bars clipped to plot")' />
+                    <SvgChartTooltip Enabled />
+                    <SvgChartCategoryAxis Value="@( x => x.Month )" GridLines="@gridLines" />
+                    <SvgChartValueAxis BeginAtZero TickCount="7" GridLines="@gridLines" />
+                    <SvgChartZoom Enabled
+                                  Mode="SvgChartZoomMode.X"
+                                  MaxZoom="80"
+                                  Viewport="@columnViewport"
+                                  ViewportChanged="@OnColumnViewportChanged"
+                                  Zoomed="@OnZoomed"
+                                  Panned="@OnPanned" />
+
+                    <SvgColumnSeries Name="Pipeline" Value="@( x => x.Pipeline )" Color="Color.Warning" BorderRadius="4" />
+                </SvgColumnChart>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Event state</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph Margin="Margin.Is0">@lastEvent</Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

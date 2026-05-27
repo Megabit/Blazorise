@@ -1,47 +1,47 @@
 ﻿namespace Blazorise.Cropper;
 
 /// <summary>
-/// The Cropper selection interface provides properties for manipulating the layout and presentation.
+/// Defines the behavior and initial shape of the crop selection.
 /// </summary>
 public record CropperSelectionOptions
 {
     /// <summary>
-    /// Indicates the aspect ratio of the selection, must a positive number.
+    /// Fixed ratio maintained while resizing the selection.
     /// </summary>
     public CropperAspectRatio AspectRatio { get; init; } = CropperAspectRatio.Is1x1;
 
     /// <summary>
-    /// Indicates the initial aspect ratio of the selection, must a positive number.
+    /// Ratio used for the selection created during initialization.
     /// </summary>
     public CropperAspectRatio InitialAspectRatio { get; init; } = CropperAspectRatio.Is1x1;
 
     /// <summary>
-    /// Indicates the initial coverage of the selection, must a positive number between 0 (0%) and 1 (100%).
+    /// Fraction of the image covered by the initial selection, from <c>0</c> to <c>1</c>.
     /// </summary>
     public double? InitialCoverage { get; init; }
 
     /// <summary>
-    /// Indicates whether the selection is movable.
+    /// The selection can be dragged to a new position.
     /// </summary>
     public bool Movable { get; init; } = true;
 
     /// <summary>
-    /// Indicates whether the selection is resizable.
+    /// Selection edges and handles can change its size.
     /// </summary>
     public bool Resizable { get; init; } = true;
 
     /// <summary>
-    /// Indicates whether the selection is zoomable.
+    /// Mouse wheel or gesture zoom can be applied from the selection.
     /// </summary>
     public bool Zoomable { get; init; } = true;
 
     /// <summary>
-    /// Indicates whether keyboard control is supported.
+    /// Keyboard input can move or resize the active selection.
     /// </summary>
     public bool Keyboard { get; init; } = true;
 
     /// <summary>
-    /// Indicates whether show the outlined or not.
+    /// The selection renders with a visible outline.
     /// </summary>
     public bool Outlined { get; init; } = true;
 }

@@ -1,0 +1,79 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgLineChart TItem="MonthlyService"
+              Items="@services"
+              Options="@options">
+    <SvgChartTitle Title='@("Service level")' Subtitle='@("Threshold and release annotations")' />
+    <SvgChartTooltip Enabled />
+    <SvgChartLineAnnotation YMin="80"
+                            YMax="80"
+                            Border="@( new SvgChartBorderOptions { Color = Color.Danger, Width = 2 } )"
+                            DashPattern="6 4"
+                            Label="@thresholdLabel" />
+    <SvgChartLineAnnotation XMin="3.5"
+                            XMax="3.5"
+                            Border="@( new SvgChartBorderOptions { Color = Color.Warning, Width = 2 } )"
+                            DashPattern="4 4"
+                            Label="@releaseLabel" />
+    <SvgChartLabelAnnotation X="5"
+                             Y="91"
+                             Label="@noteLabel" />
+    <SvgChartCategoryAxis Value="@( item => item.Month )" />
+    <SvgChartValueAxis BeginAtZero TickCount="6" />
+
+    <SvgLineSeries Name="Uptime" Value="@( item => item.Uptime )" Color="Color.Primary" StrokeWidth="3" MarkerRadius="4" />
+</SvgLineChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Visible = false },
+    };
+
+    private readonly SvgChartAnnotationLabelOptions thresholdLabel = new()
+    {
+        Visible = true,
+        Text = "Target",
+        Position = SvgChartAnnotationLabelPosition.End,
+        BackgroundColor = "#ffffff",
+        Border = new() { Color = Color.Danger, Width = 1, Radius = 3 },
+    };
+
+    private readonly SvgChartAnnotationLabelOptions releaseLabel = new()
+    {
+        Visible = true,
+        Text = "Release",
+        Position = SvgChartAnnotationLabelPosition.Start,
+        BackgroundColor = "#ffffff",
+        Border = new() { Color = Color.Warning, Width = 1, Radius = 3 },
+    };
+
+    private readonly SvgChartAnnotationLabelOptions noteLabel = new()
+    {
+        Visible = true,
+        Text = "Stabilized",
+        Position = SvgChartAnnotationLabelPosition.Center,
+        BackgroundColor = "#ffffff",
+        Border = new() { Color = Color.Primary, Width = 1, Radius = 3 },
+    };
+
+    private readonly List<MonthlyService> services =
+    [
+        new() { Month = "Jan", Uptime = 73 },
+        new() { Month = "Feb", Uptime = 78 },
+        new() { Month = "Mar", Uptime = 84 },
+        new() { Month = "Apr", Uptime = 82 },
+        new() { Month = "May", Uptime = 88 },
+        new() { Month = "Jun", Uptime = 91 },
+        new() { Month = "Jul", Uptime = 86 },
+        new() { Month = "Aug", Uptime = 93 },
+    ];
+
+    private sealed class MonthlyService
+    {
+        public string Month { get; set; }
+
+        public double Uptime { get; set; }
+    }
+}

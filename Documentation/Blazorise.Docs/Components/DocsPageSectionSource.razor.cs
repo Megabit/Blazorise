@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,10 +13,22 @@ namespace Blazorise.Docs.Components;
 
 public partial class DocsPageSectionSource
 {
+    #region Members
+
+    private bool expandedApplied;
+
+    #endregion
+
     #region Methods
 
     protected override void OnParametersSet()
     {
+        if ( !expandedApplied )
+        {
+            SourceExpanded = Expanded;
+            expandedApplied = true;
+        }
+
         if ( string.IsNullOrWhiteSpace( CurrentCode ) || !CodeSources.Any( source => source.Code == CurrentCode ) )
         {
             CurrentCode = Code;
@@ -177,6 +189,11 @@ public partial class DocsPageSectionSource
     [Parameter] public IReadOnlyList<DocsCodeSource> AdditionalCodes { get; set; }
 
     [Parameter] public bool ShowCode { get; set; } = true;
+
+    /// <summary>
+    /// Specifies whether the source code block is expanded by default.
+    /// </summary>
+    [Parameter] public bool Expanded { get; set; }
 
     #endregion
 }
