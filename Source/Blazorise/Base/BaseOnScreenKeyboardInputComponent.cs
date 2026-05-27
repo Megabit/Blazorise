@@ -373,7 +373,12 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
         && !ReadOnly
         && ( paramOnScreenKeyboard.Defined
             ? paramOnScreenKeyboard.Value
-            : Options?.AccessibilityOptions?.OnScreenKeyboard?.Enabled == true );
+            : Options?.AccessibilityOptions?.OnScreenKeyboard?.Enabled == true && IsGlobalOnScreenKeyboardInputTypeEnabled );
+
+    /// <summary>
+    /// Gets the input type used by the global on-screen keyboard option.
+    /// </summary>
+    protected virtual OnScreenKeyboardInputType OnScreenKeyboardInputType => OnScreenKeyboardInputType.Text;
 
     /// <summary>
     /// Gets the default on-screen keyboard layout for this component.
@@ -429,6 +434,18 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     private bool IsOnScreenKeyboardHideEnterKeyBehaviorConfigured => ( paramOnScreenKeyboardEnterKeyBehavior.Defined && paramOnScreenKeyboardEnterKeyBehavior.Value == OnScreenKeyboardEnterKeyBehavior.Hide )
         || CascadedOnScreenKeyboardEnterKeyBehaviorOverride == OnScreenKeyboardEnterKeyBehavior.Hide
         || Options?.AccessibilityOptions?.OnScreenKeyboard?.EnterKeyBehavior == OnScreenKeyboardEnterKeyBehavior.Hide;
+
+    private bool IsGlobalOnScreenKeyboardInputTypeEnabled
+    {
+        get
+        {
+            var inputType = OnScreenKeyboardInputType;
+            var enabledInputTypes = Options?.AccessibilityOptions?.OnScreenKeyboard?.InputTypes ?? OnScreenKeyboardInputType.None;
+
+            return inputType != OnScreenKeyboardInputType.None
+                && ( enabledInputTypes & inputType ) == inputType;
+        }
+    }
 
     /// <summary>
     /// Gets the cascaded on-screen keyboard enter key behavior.

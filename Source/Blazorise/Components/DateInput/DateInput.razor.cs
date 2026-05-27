@@ -137,6 +137,11 @@ public partial class DateInput<TValue> : BaseTextInput<TValue, DateInputClasses,
     /// <inheritdoc/>
     protected override OnScreenKeyboardLayout DefaultOnScreenKeyboardLayout => OnScreenKeyboardLayout.Numeric;
 
+    /// <inheritdoc/>
+    protected override OnScreenKeyboardInputType OnScreenKeyboardInputType => InputMode == DateInputMode.DateTime
+        ? OnScreenKeyboardInputType.Date | OnScreenKeyboardInputType.Time
+        : OnScreenKeyboardInputType.Date;
+
     private OnScreenKeyboardDateInputComposer OnScreenKeyboardComposer => onScreenKeyboardComposer ??= new( InputMode, OnScreenKeyboardRequiresSeconds );
 
     private bool OnScreenKeyboardRequiresSeconds => InputMode == DateInputMode.DateTime && Step < 60;

@@ -147,6 +147,9 @@ public partial class TimeInput<TValue> : BaseTextInput<TValue, TimeInputClasses,
     /// <inheritdoc/>
     protected override OnScreenKeyboardLayout DefaultOnScreenKeyboardLayout => OnScreenKeyboardLayout.Numeric;
 
+    /// <inheritdoc/>
+    protected override OnScreenKeyboardInputType OnScreenKeyboardInputType => OnScreenKeyboardInputType.Time;
+
     private OnScreenKeyboardTimeInputComposer OnScreenKeyboardComposer => onScreenKeyboardComposer ??= new( OnScreenKeyboardRequiresSeconds );
 
     private bool OnScreenKeyboardRequiresSeconds => Step.HasValue && Step.Value < 60;

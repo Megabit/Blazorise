@@ -428,6 +428,9 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
 
+    /// <inheritdoc/>
+    protected override OnScreenKeyboardInputType OnScreenKeyboardInputType => OnScreenKeyboardInputType.Time | OnScreenKeyboardInputType.Pickers;
+
     /// <summary>
     /// Gets or sets the <see cref="IJSTimePickerModule"/> instance.
     /// </summary>

@@ -220,6 +220,9 @@ public partial class NumericInput<TValue> : BaseBufferedTextInput<TValue, Numeri
     protected override OnScreenKeyboardLayout DefaultOnScreenKeyboardLayout => isIntegerType ? OnScreenKeyboardLayout.Numeric : OnScreenKeyboardLayout.Decimal;
 
     /// <inheritdoc/>
+    protected override OnScreenKeyboardInputType OnScreenKeyboardInputType => OnScreenKeyboardInputType.Numeric;
+
+    /// <inheritdoc/>
     protected override string OnScreenKeyboardDecimalSeparator => CurrentCultureInfo.NumberFormat.NumberDecimalSeparator;
 
     private OnScreenKeyboardNumericInputComposer OnScreenKeyboardComposer => onScreenKeyboardComposer ??= new( CurrentCultureInfo );

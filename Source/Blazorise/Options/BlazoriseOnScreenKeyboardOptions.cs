@@ -16,6 +16,11 @@ public class BlazoriseOnScreenKeyboardOptions
     public bool Enabled { get; set; }
 
     /// <summary>
+    /// Gets or sets the input types enabled by the global on-screen keyboard option.
+    /// </summary>
+    public OnScreenKeyboardInputType InputTypes { get; set; } = OnScreenKeyboardInputType.Text | OnScreenKeyboardInputType.Numeric;
+
+    /// <summary>
     /// If true, the on-screen keyboard is shown when an enabled input receives focus.
     /// </summary>
     public bool ShowOnFocus { get; set; } = true;

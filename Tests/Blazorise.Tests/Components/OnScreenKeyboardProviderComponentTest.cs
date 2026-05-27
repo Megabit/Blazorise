@@ -341,6 +341,54 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task GlobalInputTypes_ShouldSkipDateInput_ByDefault()
+    {
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        var comp = Render<DateInput<DateTime?>>();
+
+        await comp.Find( "input" ).FocusInAsync();
+
+        Assert.False( keyboardService.State.Visible );
+    }
+
+    [Fact]
+    public async Task GlobalInputTypes_ShouldEnableDateInput_WhenDateIsIncluded()
+    {
+        var options = Services.GetRequiredService<BlazoriseOptions>();
+        options.AccessibilityOptions.OnScreenKeyboard.InputTypes |= OnScreenKeyboardInputType.Date;
+
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        var comp = Render<DateInput<DateTime?>>();
+
+        await comp.Find( "input" ).FocusInAsync();
+
+        Assert.True( keyboardService.State.Visible );
+        Assert.Equal( OnScreenKeyboardLayout.Numeric, keyboardService.State.Context.Layout );
+    }
+
+    [Fact]
+    public async Task GlobalInputTypes_ShouldRequirePickerFlagForDatePicker()
+    {
+        var options = Services.GetRequiredService<BlazoriseOptions>();
+        options.AccessibilityOptions.OnScreenKeyboard.InputTypes = OnScreenKeyboardInputType.Date;
+
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        var comp = Render<DatePicker<DateTime?>>();
+
+        await comp.Instance.OnFocusInHandler( new FocusEventArgs() );
+
+        Assert.False( keyboardService.State.Visible );
+
+        options.AccessibilityOptions.OnScreenKeyboard.InputTypes = OnScreenKeyboardInputType.Date | OnScreenKeyboardInputType.Pickers;
+
+        var comp2 = Render<DatePicker<DateTime?>>();
+
+        await comp2.Instance.OnFocusInHandler( new FocusEventArgs() );
+
+        Assert.True( keyboardService.State.Visible );
+    }
+
+    [Fact]
     public async Task InsertText_ShouldUseCaretPosition()
     {
         var module = JSInterop.SetupModule( new JSUtilitiesModule( JSInterop.JSRuntime, new MockVersionProvider(), new( null, options => { } ) ).ModuleFileName );

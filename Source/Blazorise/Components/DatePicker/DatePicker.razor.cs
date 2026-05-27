@@ -623,6 +623,11 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
 
+    /// <inheritdoc/>
+    protected override OnScreenKeyboardInputType OnScreenKeyboardInputType => InputMode == DateInputMode.DateTime
+        ? OnScreenKeyboardInputType.Date | OnScreenKeyboardInputType.Time | OnScreenKeyboardInputType.Pickers
+        : OnScreenKeyboardInputType.Date | OnScreenKeyboardInputType.Pickers;
+
     /// <summary>
     /// Gets the range separator based on the current locale settings.
     /// </summary>
