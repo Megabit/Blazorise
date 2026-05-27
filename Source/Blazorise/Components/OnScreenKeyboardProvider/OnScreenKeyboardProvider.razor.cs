@@ -431,7 +431,19 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
 
     private string PreviewValue => OnScreenKeyboardService.State.Context?.GetPreviewValue?.Invoke();
 
+    private int? PreviewCaret => OnScreenKeyboardService.State.Context?.GetPreviewCaret?.Invoke();
+
+    private int EffectivePreviewCaret => Math.Min( Math.Max( PreviewCaret.GetValueOrDefault(), 0 ), PreviewValue?.Length ?? 0 );
+
+    private string PreviewValueBeforeCaret => PreviewValue?.Substring( 0, EffectivePreviewCaret );
+
+    private string PreviewValueAfterCaret => PreviewValue?.Substring( EffectivePreviewCaret );
+
     private IFluentBorder PreviewBorder => Blazorise.Border.Is1.Secondary.Subtle;
+
+    private string EffectiveDecimalSeparator => string.IsNullOrEmpty( OnScreenKeyboardService.State.Context?.DecimalSeparator )
+        ? "."
+        : OnScreenKeyboardService.State.Context.DecimalSeparator;
 
     private int EffectiveZIndex => ZIndex ?? StyleProvider.DefaultOnScreenKeyboardZIndex;
 
@@ -520,12 +532,12 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
         new[] { CommandKey( OnScreenKeyboardKeyType.Clear, "Clear" ), new OnScreenKeyboardKey( "0" ), CommandKey( OnScreenKeyboardKeyType.Backspace, "Backspace" ), CommandKey( OnScreenKeyboardKeyType.Enter, "Enter" ) },
     };
 
-    private static IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> DecimalRows => new[]
+    private IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> DecimalRows => new[]
     {
         CreateTextRow( "123" ),
         CreateTextRow( "456" ),
         CreateTextRow( "789" ),
-        new[] { CommandKey( OnScreenKeyboardKeyType.Clear, "Clear" ), new OnScreenKeyboardKey( "0" ), new OnScreenKeyboardKey( "." ), CommandKey( OnScreenKeyboardKeyType.Backspace, "Backspace" ), CommandKey( OnScreenKeyboardKeyType.Enter, "Enter" ) },
+        new[] { CommandKey( OnScreenKeyboardKeyType.Clear, "Clear" ), new OnScreenKeyboardKey( "0" ), new OnScreenKeyboardKey( EffectiveDecimalSeparator ), CommandKey( OnScreenKeyboardKeyType.Backspace, "Backspace" ), CommandKey( OnScreenKeyboardKeyType.Enter, "Enter" ) },
     };
 
     private static IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> TelephoneRows => new[]

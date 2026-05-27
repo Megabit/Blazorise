@@ -112,6 +112,37 @@ public class OnScreenKeyboardProviderComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task DecimalLayout_ShouldUseContextDecimalSeparator()
+    {
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        var comp = Render<OnScreenKeyboardProvider>();
+
+        await ShowKeyboard( keyboardService, OnScreenKeyboardLayout.Decimal, decimalSeparator: "," );
+
+        comp.WaitForAssertion( () => Assert.Contains( comp.FindAll( "button" ), button => button.TextContent.Trim() == "," ) );
+        Assert.Empty( comp.FindAll( "button" ).Where( button => button.TextContent.Trim() == "." ) );
+    }
+
+    [Fact]
+    public async Task Preview_ShouldRenderCaret_WhenContextProvidesCaret()
+    {
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        var comp = Render<OnScreenKeyboardProvider>();
+
+        await keyboardService.Show( new()
+        {
+            ElementId = "input",
+            Layout = OnScreenKeyboardLayout.Decimal,
+            GetPreviewValue = () => "1234",
+            GetPreviewCaret = () => 2,
+        } );
+
+        comp.WaitForAssertion( () => Assert.Contains( "12", comp.Markup ) );
+        Assert.Contains( "|", comp.Markup );
+        Assert.Contains( "34", comp.Markup );
+    }
+
+    [Fact]
     public async Task Shift_ShouldReset_WhenSpecialCharactersAreEnabled()
     {
         var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
@@ -211,12 +242,13 @@ public class OnScreenKeyboardProviderComponentTest : BunitContext
         comp.WaitForAssertion( () => Assert.Contains( $"z-index:{styleProvider.DefaultOnScreenKeyboardZIndex}", comp.Markup ) );
     }
 
-    private static Task ShowKeyboard( IOnScreenKeyboardService keyboardService, OnScreenKeyboardLayout layout )
+    private static Task ShowKeyboard( IOnScreenKeyboardService keyboardService, OnScreenKeyboardLayout layout, string decimalSeparator = null )
     {
         return keyboardService.Show( new()
         {
             ElementId = "input",
             Layout = layout,
+            DecimalSeparator = decimalSeparator,
             Enter = () => keyboardService.Hide( "input" ),
         } );
     }
@@ -751,6 +783,85 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
 
         Assert.Equal( "12", keyboardService.State.Context.GetValue() );
         JSInterop.VerifyInvoke( "updateValue" );
+    }
+
+    [Fact]
+    public async Task NumericInput_ShouldKeepDecimalSeparatorInComposition_UntilValueCanParse()
+    {
+        var module = JSInterop.SetupModule( new JSUtilitiesModule( JSInterop.JSRuntime, new MockVersionProvider(), new( null, options => { } ) ).ModuleFileName );
+        module.Setup<int>( "getCaret", _ => true ).SetResult( -1 );
+
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        decimal? value = null;
+        var comp = Render<NumericInput<decimal?>>( parameters => parameters
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "123" );
+
+        Assert.Equal( "number", comp.Find( "input" ).GetAttribute( "type" ) );
+        Assert.Equal( "123", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "123", keyboardService.State.Context.GetPreviewValue() );
+        Assert.Equal( 3, keyboardService.State.Context.GetPreviewCaret() );
+        Assert.True( value.HasValue );
+        Assert.Equal( 123m, value.Value );
+
+        await keyboardService.InsertText( "." );
+
+        Assert.Equal( "123.", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "123.", keyboardService.State.Context.GetPreviewValue() );
+        Assert.Equal( 4, keyboardService.State.Context.GetPreviewCaret() );
+        Assert.True( value.HasValue );
+        Assert.Equal( 123m, value.Value );
+
+        await keyboardService.InsertText( "456" );
+
+        Assert.Equal( "123.456", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "123.456", keyboardService.State.Context.GetPreviewValue() );
+        Assert.Equal( 7, keyboardService.State.Context.GetPreviewCaret() );
+        Assert.True( value.HasValue );
+        Assert.Equal( 123.456m, value.Value );
+    }
+
+    [Fact]
+    public async Task NumericInput_ShouldSetKeyboardDecimalSeparatorFromCulture()
+    {
+        var module = JSInterop.SetupModule( new JSUtilitiesModule( JSInterop.JSRuntime, new MockVersionProvider(), new( null, options => { } ) ).ModuleFileName );
+        module.Setup<int>( "getCaret", _ => true ).SetResult( -1 );
+
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        var comp = Render<NumericInput<decimal?>>( parameters => parameters
+            .Add( p => p.Culture, "hr-HR" )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+
+        Assert.Equal( ",", keyboardService.State.Context.DecimalSeparator );
+    }
+
+    [Fact]
+    public async Task NumericInput_ShouldInsertKeyboardTextAtCaret_WhenBrowserExposesCaret()
+    {
+        var module = JSInterop.SetupModule( new JSUtilitiesModule( JSInterop.JSRuntime, new MockVersionProvider(), new( null, options => { } ) ).ModuleFileName );
+        module.Setup<int>( "getCaret", _ => true ).SetResult( 1 );
+
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        int? value = 123;
+        var comp = Render<NumericInput<int?>>( parameters => parameters
+            .Add( p => p.Value, value )
+            .Add( p => p.ValueChanged, changedValue => value = changedValue )
+            .Add( p => p.OnScreenKeyboard, true ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+        await keyboardService.InsertText( "9" );
+
+        Assert.Equal( "1923", keyboardService.State.Context.GetValue() );
+        Assert.Equal( "1923", keyboardService.State.Context.GetPreviewValue() );
+        Assert.Equal( 2, keyboardService.State.Context.GetPreviewCaret() );
+        Assert.True( value.HasValue );
+        Assert.Equal( 1923, value.Value );
     }
 
     private sealed class CultureScope : IDisposable

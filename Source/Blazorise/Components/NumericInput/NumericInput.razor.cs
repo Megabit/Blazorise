@@ -28,6 +28,8 @@ public partial class NumericInput<TValue> : BaseBufferedTextInput<TValue, Numeri
     /// </summary>
     private readonly string inputMode;
 
+    private OnScreenKeyboardNumericInputComposer onScreenKeyboardComposer;
+
     /// <summary>
     /// Captured Min parameter snapshot.
     /// </summary>
@@ -150,12 +152,77 @@ public partial class NumericInput<TValue> : BaseBufferedTextInput<TValue, Numeri
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc/>
+    protected override async Task ShowOnScreenKeyboard()
+    {
+        onScreenKeyboardComposer = new( CurrentCultureInfo );
+        onScreenKeyboardComposer.Reset( CurrentValueAsString );
+        OnScreenKeyboardComposer.SetCaret( await JSUtilitiesModule.GetCaret( ElementRef ) );
+
+        await base.ShowOnScreenKeyboard();
+    }
+
+    /// <inheritdoc/>
+    protected override Task SetOnScreenKeyboardValue( string value )
+    {
+        return UpdateOnScreenKeyboardNumericValue( OnScreenKeyboardComposer.SetValue( value, CanParseOnScreenKeyboardNumericValue ) );
+    }
+
+    /// <inheritdoc/>
+    protected override async Task InsertOnScreenKeyboardText( string text )
+    {
+        OnScreenKeyboardComposer.SetCaret( await JSUtilitiesModule.GetCaret( ElementRef ) );
+
+        await UpdateOnScreenKeyboardNumericValue( OnScreenKeyboardComposer.InsertText( text, CanParseOnScreenKeyboardNumericValue ) );
+
+        await JSUtilitiesModule.SetCaret( ElementRef, OnScreenKeyboardComposer.Caret );
+    }
+
+    /// <inheritdoc/>
+    protected override async Task BackspaceOnScreenKeyboard()
+    {
+        OnScreenKeyboardComposer.SetCaret( await JSUtilitiesModule.GetCaret( ElementRef ) );
+
+        await UpdateOnScreenKeyboardNumericValue( OnScreenKeyboardComposer.Backspace( CanParseOnScreenKeyboardNumericValue ) );
+
+        await JSUtilitiesModule.SetCaret( ElementRef, OnScreenKeyboardComposer.Caret );
+    }
+
+    /// <inheritdoc/>
+    protected override string GetOnScreenKeyboardPreviewValue()
+    {
+        return OnScreenKeyboardComposer.PreviewValue;
+    }
+
+    /// <inheritdoc/>
+    protected override int? GetOnScreenKeyboardPreviewCaret()
+    {
+        return OnScreenKeyboardComposer.Caret;
+    }
+
+    private Task UpdateOnScreenKeyboardNumericValue( OnScreenKeyboardInputComposition composition )
+    {
+        return UpdateOnScreenKeyboardEditingValue( composition.Value, composition.CanCommit, composition.CanCommit );
+    }
+
+    private bool CanParseOnScreenKeyboardNumericValue( string value )
+    {
+        TValue parsedValue;
+
+        return Converters.TryChangeType<TValue>( value, out parsedValue, CurrentCultureInfo );
+    }
+
     #endregion
 
     #region Properties
 
     /// <inheritdoc/>
     protected override OnScreenKeyboardLayout DefaultOnScreenKeyboardLayout => isIntegerType ? OnScreenKeyboardLayout.Numeric : OnScreenKeyboardLayout.Decimal;
+
+    /// <inheritdoc/>
+    protected override string OnScreenKeyboardDecimalSeparator => CurrentCultureInfo.NumberFormat.NumberDecimalSeparator;
+
+    private OnScreenKeyboardNumericInputComposer OnScreenKeyboardComposer => onScreenKeyboardComposer ??= new( CurrentCultureInfo );
 
     /// <summary>
     /// Indicates if <see cref="Min"/> parameter is defined.

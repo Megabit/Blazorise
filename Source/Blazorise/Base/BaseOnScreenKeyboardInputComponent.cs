@@ -91,9 +91,11 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
             ElementId = ElementId,
             ComponentType = GetType(),
             Layout = ResolvedOnScreenKeyboardLayout,
+            DecimalSeparator = OnScreenKeyboardDecimalSeparator,
             GetValue = GetOnScreenKeyboardValue,
             SetValue = SetOnScreenKeyboardValue,
             GetPreviewValue = GetOnScreenKeyboardPreviewValue,
+            GetPreviewCaret = GetOnScreenKeyboardPreviewCaret,
             InsertText = InsertOnScreenKeyboardText,
             Backspace = BackspaceOnScreenKeyboard,
             Enter = OnScreenKeyboardEnter,
@@ -207,6 +209,15 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     /// </summary>
     /// <returns>The current on-screen keyboard preview text.</returns>
     protected virtual string GetOnScreenKeyboardPreviewValue()
+    {
+        return null;
+    }
+
+    /// <summary>
+    /// Gets the caret position for the current on-screen keyboard preview text.
+    /// </summary>
+    /// <returns>The current on-screen keyboard preview caret position.</returns>
+    protected virtual int? GetOnScreenKeyboardPreviewCaret()
     {
         return null;
     }
@@ -354,6 +365,11 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     /// Gets the text inserted when the on-screen keyboard enter key behavior is <see cref="OnScreenKeyboardEnterKeyBehavior.NewLine"/>.
     /// </summary>
     protected virtual string OnScreenKeyboardNewLineText => Environment.NewLine;
+
+    /// <summary>
+    /// Gets the decimal separator used by decimal on-screen keyboard layouts.
+    /// </summary>
+    protected virtual string OnScreenKeyboardDecimalSeparator => null;
 
     /// <summary>
     /// Gets the resolved on-screen keyboard layout for this component.

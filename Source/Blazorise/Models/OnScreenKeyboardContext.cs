@@ -26,6 +26,11 @@ public class OnScreenKeyboardContext
     public OnScreenKeyboardLayout Layout { get; set; } = OnScreenKeyboardLayout.Text;
 
     /// <summary>
+    /// Gets or sets the decimal separator used by decimal keyboard layouts.
+    /// </summary>
+    public string DecimalSeparator { get; set; }
+
+    /// <summary>
     /// Gets or sets the current input value accessor.
     /// </summary>
     public Func<string> GetValue { get; set; }
@@ -39,6 +44,11 @@ public class OnScreenKeyboardContext
     /// Gets or sets the current input preview value accessor.
     /// </summary>
     public Func<string> GetPreviewValue { get; set; }
+
+    /// <summary>
+    /// Gets or sets the current input preview caret accessor.
+    /// </summary>
+    public Func<int?> GetPreviewCaret { get; set; }
 
     /// <summary>
     /// Gets or sets a callback that inserts text into the current input.

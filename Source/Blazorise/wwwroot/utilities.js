@@ -135,13 +135,23 @@ export function setCaret(element, caret) {
             element.selectionStart = caret;
             element.selectionEnd = caret;
         });
+    } else if (isNumberInput(element)) {
+        numericInputCarets.set(element, caret);
     }
 }
 
 export function getCaret(element) {
-    return hasSelectionCapabilities(element)
-        ? element.selectionStart :
-        -1;
+    if (hasSelectionCapabilities(element)) {
+        return element.selectionStart;
+    }
+
+    if (isNumberInput(element)) {
+        return numericInputCarets.has(element)
+            ? numericInputCarets.get(element)
+            : `${element.value || ''}`.length;
+    }
+
+    return -1;
 }
 
 export function setTextValue(element, value) {
@@ -239,6 +249,67 @@ function hasSelectionCapabilities(element) {
             nodeName === 'textarea' ||
             element.contentEditable === 'true')
     );
+}
+
+const numericInputCarets = new WeakMap();
+const numericCaretCanvas = document.createElement('canvas');
+const numericCaretContext = numericCaretCanvas.getContext('2d');
+
+document.addEventListener('pointerup', event => {
+    const element = event.target;
+
+    if (isNumberInput(element)) {
+        numericInputCarets.set(element, estimateNumberInputCaret(element, event.clientX));
+    }
+}, true);
+
+function isNumberInput(element) {
+    return element && element.nodeName && element.nodeName.toLowerCase() === 'input' && element.type === 'number';
+}
+
+function estimateNumberInputCaret(element, clientX) {
+    const value = `${element.value || ''}`;
+
+    if (value.length === 0)
+        return 0;
+
+    const style = window.getComputedStyle(element);
+    const rect = element.getBoundingClientRect();
+    const paddingLeft = parseFloat(style.paddingLeft) || 0;
+    const paddingRight = parseFloat(style.paddingRight) || 0;
+    const borderLeft = parseFloat(style.borderLeftWidth) || 0;
+    const borderRight = parseFloat(style.borderRightWidth) || 0;
+    const contentLeft = rect.left + borderLeft + paddingLeft;
+    const contentRight = rect.right - borderRight - paddingRight;
+    const contentWidth = Math.max(0, contentRight - contentLeft);
+
+    numericCaretContext.font = `${style.fontStyle} ${style.fontVariant} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+
+    const textWidth = numericCaretContext.measureText(value).width;
+    const align = style.textAlign;
+    let textLeft = contentLeft;
+
+    if (align === 'right' || align === 'end') {
+        textLeft = contentRight - textWidth;
+    } else if (align === 'center') {
+        textLeft = contentLeft + (contentWidth - textWidth) / 2;
+    }
+
+    const x = Math.max(0, clientX - textLeft);
+    let bestIndex = 0;
+    let bestDistance = Math.abs(x);
+
+    for (let index = 1; index <= value.length; index++) {
+        const width = numericCaretContext.measureText(value.substring(0, index)).width;
+        const distance = Math.abs(x - width);
+
+        if (distance < bestDistance) {
+            bestDistance = distance;
+            bestIndex = index;
+        }
+    }
+
+    return bestIndex;
 }
 
 export function getRequiredElement(element, elementId) {
