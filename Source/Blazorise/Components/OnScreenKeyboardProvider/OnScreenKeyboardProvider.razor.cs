@@ -37,7 +37,7 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
     {
         RowClassBuilder = new( BuildRowClasses );
         KeyClassBuilder = new( BuildKeyClasses );
-        Background = Blazorise.Background.Light;
+        Background = Blazorise.Background.White;
         Border = GetKeyboardBorder( OnScreenKeyboardPlacement.Bottom );
         Padding = Blazorise.Padding.Is2;
         Shadow = GetKeyboardShadow( OnScreenKeyboardPlacement.Bottom );
@@ -61,7 +61,7 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
             : EffectivePlacement;
 
         if ( !backgroundDefined )
-            Background = Blazorise.Background.Light;
+            Background = Blazorise.Background.White;
 
         if ( !borderDefined )
             Border = GetKeyboardBorder( effectivePlacement );
