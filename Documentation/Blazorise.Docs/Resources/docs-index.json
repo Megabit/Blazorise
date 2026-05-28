@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-26T12:05:01.1925395Z",
+  "generatedUtc": "2026-05-28T15:36:22.4827191Z",
   "pages": [
     {
       "route": "/docs",
@@ -2500,6 +2500,108 @@
         {
           "kind": "type",
           "name": "OffcanvasFooter"
+        }
+      ]
+    },
+    {
+      "route": "/docs/components/on-screen-keyboard",
+      "title": "Blazorise On-screen Keyboard",
+      "description": "Learn how to enable the Blazorise on-screen keyboard for text-capable input components.",
+      "pagePath": "Pages/Docs/Components/OnScreenKeyboards/OnScreenKeyboardPage.razor",
+      "examples": [
+        {
+          "code": "OnScreenKeyboardProviderSetupExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Components/OnScreenKeyboards/Examples/OnScreenKeyboardProviderSetupExample.snippet",
+          "content": "<ThemeProvider Theme=\"@theme\">\r\n    <Router AppAssembly=\"@typeof( App ).Assembly\" />\r\n    <OnScreenKeyboardProvider />\r\n</ThemeProvider>",
+          "title": "Provider setup",
+          "description": "The provider renders the keyboard and connects it to focused input components."
+        },
+        {
+          "code": "OnScreenKeyboardTextInputExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/OnScreenKeyboards/Examples/OnScreenKeyboardTextInputExample.razor",
+          "content": "<Field>\r\n    <FieldLabel>Text input</FieldLabel>\r\n    <TextInput @bind-Value=\"@textValue\" Placeholder=\"Focus to show the keyboard\" OnScreenKeyboard />\r\n</Field>\r\n\r\n@code {\r\n    private string textValue;\r\n}",
+          "title": "Text input",
+          "description": "Enable the keyboard on a single TextInput by setting OnScreenKeyboard ."
+        },
+        {
+          "code": "OnScreenKeyboardButtonTriggerExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/OnScreenKeyboards/Examples/OnScreenKeyboardButtonTriggerExample.razor",
+          "content": "<Field>\r\n    <FieldLabel>Button trigger</FieldLabel>\r\n    <Addons>\r\n        <Addon AddonType=\"AddonType.Body\">\r\n            <TextInput @ref=\"@textInputRef\" @bind-Value=\"@textValue\" Placeholder=\"Click the keyboard button\" OnScreenKeyboard OnScreenKeyboardShowMode=\"OnScreenKeyboardShowMode.Manual\" />\r\n        </Addon>\r\n        <Addon AddonType=\"AddonType.End\">\r\n            <Button Color=\"Color.Secondary\" Clicked=\"@ShowKeyboard\">Keyboard</Button>\r\n        </Addon>\r\n    </Addons>\r\n</Field>\r\n\r\n@code {\r\n    private TextInput textInputRef;\r\n    private string textValue;\r\n\r\n    private Task ShowKeyboard()\r\n    {\r\n        return textInputRef?.ShowOnScreenKeyboard() ?? Task.CompletedTask;\r\n    }\r\n}",
+          "title": "Button trigger",
+          "description": "Show the keyboard programmatically from a custom trigger. This example uses an addon button next to the input."
+        },
+        {
+          "code": "OnScreenKeyboardMemoInputExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/OnScreenKeyboards/Examples/OnScreenKeyboardMemoInputExample.razor",
+          "content": "<Field>\r\n    <FieldLabel>Memo input</FieldLabel>\r\n    <MemoInput @bind-Value=\"@memoValue\" Placeholder=\"Focus to enter multiple lines\" OnScreenKeyboard=\"true\" />\r\n</Field>\r\n\r\n@code {\r\n    private string memoValue;\r\n}",
+          "title": "Memo input",
+          "description": "Multiline inputs insert a new line by default. Set OnScreenKeyboardEnterKeyBehavior to Submit when the enter key should submit the nearest validations or form."
+        },
+        {
+          "code": "OnScreenKeyboardLayoutExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/OnScreenKeyboards/Examples/OnScreenKeyboardLayoutExample.razor",
+          "content": "<Fields>\r\n    <Field ColumnSize=\"ColumnSize.Is4.OnDesktop\">\r\n        <FieldLabel>Email layout</FieldLabel>\r\n        <TextInput @bind-Value=\"@emailValue\" Placeholder=\"name@example.com\" Role=\"TextRole.Email\" OnScreenKeyboard=\"true\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.Is4.OnDesktop\">\r\n        <FieldLabel>Numeric layout</FieldLabel>\r\n        <NumericInput TValue=\"int?\" @bind-Value=\"@numberValue\" Placeholder=\"123\" OnScreenKeyboard=\"true\" />\r\n    </Field>\r\n    <Field ColumnSize=\"ColumnSize.Is4.OnDesktop\">\r\n        <FieldLabel>Explicit layout</FieldLabel>\r\n        <TextInput @bind-Value=\"@urlValue\" Placeholder=\"https://example.com\" OnScreenKeyboard=\"true\" OnScreenKeyboardLayout=\"OnScreenKeyboardLayout.Url\" />\r\n    </Field>\r\n</Fields>\r\n\r\n@code {\r\n    private string emailValue;\r\n\r\n    private int? numberValue;\r\n\r\n    private string urlValue;\r\n}",
+          "title": "Input-specific layouts",
+          "description": "Text roles and numeric inputs choose a suitable layout automatically. You can also set OnScreenKeyboardLayout explicitly."
+        },
+        {
+          "code": "OnScreenKeyboardSpecialCharactersExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Components/OnScreenKeyboards/Examples/OnScreenKeyboardSpecialCharactersExample.snippet",
+          "content": "<ThemeProvider Theme=\"@theme\">\r\n    <Router AppAssembly=\"@typeof( App ).Assembly\" />\r\n    <OnScreenKeyboardProvider ShowSpecialCharactersKey />\r\n</ThemeProvider>",
+          "title": "Special characters",
+          "description": "Enable ShowSpecialCharactersKey to add a toggle key for symbols and punctuation to text-based keyboard layouts."
+        },
+        {
+          "code": "OnScreenKeyboardCustomLayoutExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Components/OnScreenKeyboards/Examples/OnScreenKeyboardCustomLayoutExample.snippet",
+          "content": "@code {\r\n    private IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> SpecialCharactersRows = new List<IReadOnlyList<OnScreenKeyboardKey>>\r\n    {\r\n        new[] { new OnScreenKeyboardKey( \"1\" ), new OnScreenKeyboardKey( \"2\" ), new OnScreenKeyboardKey( \"3\" ) },\r\n        new[] { new OnScreenKeyboardKey( \"!\" ), new OnScreenKeyboardKey( \"?\" ), new OnScreenKeyboardKey( \".\" ) },\r\n        new[] { new OnScreenKeyboardKey( OnScreenKeyboardKeyType.SpecialCharacters, \"ABC\" ) },\r\n    };\r\n}\r\n\r\n<OnScreenKeyboardProvider ShowSpecialCharactersKey\r\n                          SpecialCharactersRows=\"@SpecialCharactersRows\" />",
+          "title": "Custom layouts",
+          "description": "Use SpecialCharactersRows or LayoutProvider when the built-in rows are not enough for the target input."
+        },
+        {
+          "code": "OnScreenKeyboardSizingExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Components/OnScreenKeyboards/Examples/OnScreenKeyboardSizingExample.snippet",
+          "content": "<ThemeProvider Theme=\"@theme\">\r\n    <Router AppAssembly=\"@typeof( App ).Assembly\" />\r\n    <OnScreenKeyboardProvider KeyboardSize=\"OnScreenKeyboardSize.Large\"\r\n                              KeyLayout=\"OnScreenKeyboardKeyLayout.Centered\" />\r\n</ThemeProvider>",
+          "title": "Keyboard size and layout",
+          "description": "Use KeyboardSize to constrain the keyboard width, and KeyLayout to center fixed-width keys instead of stretching them across each row."
+        },
+        {
+          "code": "OnScreenKeyboardKeyTemplateExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Components/OnScreenKeyboards/Examples/OnScreenKeyboardKeyTemplateExample.snippet",
+          "content": "<OnScreenKeyboardProvider KeyboardSize=\"OnScreenKeyboardSize.Large\"\r\n                          KeyLayout=\"OnScreenKeyboardKeyLayout.Centered\">\r\n    <KeyTemplate Context=\"key\">\r\n        @if ( key.Key.KeyType == OnScreenKeyboardKeyType.Shift )\r\n        {\r\n            <Icon Name=\"IconName.ArrowUp\" />\r\n        }\r\n        else if ( key.Key.KeyType == OnScreenKeyboardKeyType.Backspace )\r\n        {\r\n            <Icon Name=\"IconName.Backspace\" />\r\n        }\r\n        else if ( key.Key.KeyType == OnScreenKeyboardKeyType.Clear )\r\n        {\r\n            <Icon Name=\"IconName.Clear\" />\r\n        }\r\n        else\r\n        {\r\n            @key.DisplayText\r\n        }\r\n    </KeyTemplate>\r\n</OnScreenKeyboardProvider>",
+          "title": "Key template",
+          "description": "Use KeyTemplate to customize the content rendered inside each key while keeping the default keyboard behavior."
+        },
+        {
+          "code": "OnScreenKeyboardGlobalOptionsExample",
+          "kind": "csharp",
+          "sourcePath": "Pages/Docs/Components/OnScreenKeyboards/Examples/OnScreenKeyboardGlobalOptionsExample.csharp",
+          "content": "builder.Services\r\n    .AddBlazorise( options =>\r\n    {\r\n        options.AccessibilityOptions.OnScreenKeyboard.Enabled = true;\r\n        options.AccessibilityOptions.OnScreenKeyboard.InputTypes =\r\n            OnScreenKeyboardInputType.Text\r\n            | OnScreenKeyboardInputType.Numeric\r\n            | OnScreenKeyboardInputType.Date\r\n            | OnScreenKeyboardInputType.Time\r\n            | OnScreenKeyboardInputType.Pickers;\r\n        options.AccessibilityOptions.OnScreenKeyboard.EnterKeyBehavior = OnScreenKeyboardEnterKeyBehavior.Submit;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyboardSize = OnScreenKeyboardSize.Large;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyLayout = OnScreenKeyboardKeyLayout.Centered;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyWidth = 72;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyMinHeight = 56;\r\n    } );",
+          "title": "Global option",
+          "description": "If the keyboard should be available globally, enable it in Blazorise options. By default, global enablement targets text and numeric inputs only. Use OnScreenKeyboardInputType to opt date, time, and picker inputs into the global keyboard behavior."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "OnScreenKeyboardProvider"
+        },
+        {
+          "kind": "type",
+          "name": "BaseOnScreenKeyboardInputComponent"
+        },
+        {
+          "kind": "type",
+          "name": "BlazoriseOnScreenKeyboardOptions"
         }
       ]
     },

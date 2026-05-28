@@ -388,6 +388,18 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
+    #region OnScreenKeyboard
+
+    public override string OnScreenKeyboard() => "fui-ScreenKeyboard";
+
+    public override string OnScreenKeyboardPlacement( OnScreenKeyboardPlacement placement ) => $"fui-ScreenKeyboard--{placement.ToString().ToLowerInvariant()}";
+
+    public override string OnScreenKeyboardRow() => "fui-ScreenKeyboard__row";
+
+    public override string OnScreenKeyboardKey() => "fui-ScreenKeyboard__key";
+
+    #endregion
+
     #region Control
 
     public override string ControlCheck( ControlRole role ) => null;

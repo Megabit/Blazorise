@@ -291,13 +291,43 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// Javascript callback for when editor get focus.
     /// </summary>
     [JSInvokable]
-    public Task OnEditorFocus() => EditorFocus.InvokeAsync( true );
+    public async Task OnEditorFocus()
+    {
+        await EditorFocus.InvokeAsync( true );
+
+        if ( ShouldShowOnScreenKeyboardOnFocus )
+        {
+            await ShowOnScreenKeyboard( false );
+        }
+    }
 
     /// <summary>
     /// Javascript callback for when editor lost focus.
     /// </summary>
     [JSInvokable]
-    public Task OnEditorBlur() => EditorBlur.InvokeAsync( true );
+    public async Task OnEditorBlur()
+    {
+        await EditorBlur.InvokeAsync( true );
+        await HideOnScreenKeyboard();
+    }
+
+    /// <inheritdoc/>
+    protected override Task InsertOnScreenKeyboardText( string text )
+    {
+        if ( Rendered )
+            return JSModule.InsertTextAsync( EditorRef, text ).AsTask();
+
+        return base.InsertOnScreenKeyboardText( text );
+    }
+
+    /// <inheritdoc/>
+    protected override Task BackspaceOnScreenKeyboard()
+    {
+        if ( Rendered )
+            return JSModule.BackspaceAsync( EditorRef ).AsTask();
+
+        return base.BackspaceOnScreenKeyboard();
+    }
 
     /// <summary>
     /// Toggles the readonly state
@@ -355,6 +385,12 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
 
     /// <inheritdoc/>
     protected override string DefaultValue => string.Empty;
+
+    /// <inheritdoc/>
+    protected override OnScreenKeyboardEnterKeyBehavior DefaultOnScreenKeyboardEnterKeyBehavior => OnScreenKeyboardEnterKeyBehavior.NewLine;
+
+    /// <inheritdoc/>
+    protected override string OnScreenKeyboardNewLineText => "\n";
 
     /// <inheritdoc/>
     public override object ValidationValue

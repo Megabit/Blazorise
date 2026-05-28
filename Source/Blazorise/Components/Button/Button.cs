@@ -42,6 +42,8 @@ public partial class Button : BaseComponent, IAsyncDisposable
 
     private bool? canExecuteCommand;
 
+    private Validations subscribedParentValidations;
+
     #endregion
 
     #region Methods
@@ -88,6 +90,14 @@ public partial class Button : BaseComponent, IAsyncDisposable
         base.OnInitialized();
     }
 
+    /// <inheritdoc/>
+    protected override void OnParametersSet()
+    {
+        UpdateValidationSubmitSubscription();
+
+        base.OnParametersSet();
+    }
+
     /// <summary>
     /// Provides a default LoadingTemplate RenderFragment.
     /// </summary>
@@ -102,6 +112,8 @@ public partial class Button : BaseComponent, IAsyncDisposable
             // remove button from parents
             ParentDropdown?.NotifyButtonRemoved( this );
             ParentAddons?.NotifyButtonRemoved( this );
+            subscribedParentValidations?.SubmitRequested -= OnValidationsSubmitRequested;
+            subscribedParentValidations = null;
 
             if ( Rendered )
             {
@@ -136,6 +148,15 @@ public partial class Button : BaseComponent, IAsyncDisposable
             // Don't need to check CanExecute again is already part of Disabled check
             Command?.Execute( CommandParameter );
         }
+    }
+
+    /// <summary>
+    /// Programmatically clicks the button.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task Click()
+    {
+        return ClickHandler( new MouseEventArgs { Detail = 1 } );
     }
 
     /// <summary>
@@ -211,6 +232,49 @@ public partial class Button : BaseComponent, IAsyncDisposable
         }
 
         OnCanExecuteChanged( value, EventArgs.Empty );
+    }
+
+    private void UpdateValidationSubmitSubscription()
+    {
+        var shouldSubscribe = ParentValidations is not null
+            && Type != ButtonType.Link
+            && ( Type == ButtonType.Submit || Color == Color.Primary )
+            && ( Clicked.HasDelegate || Command is not null );
+
+        if ( subscribedParentValidations is not null && ( !shouldSubscribe || subscribedParentValidations != ParentValidations ) )
+        {
+            subscribedParentValidations.SubmitRequested -= OnValidationsSubmitRequested;
+            subscribedParentValidations = null;
+        }
+
+        if ( shouldSubscribe && subscribedParentValidations is null )
+        {
+            ParentValidations.SubmitRequested += OnValidationsSubmitRequested;
+            subscribedParentValidations = ParentValidations;
+        }
+    }
+
+    private async Task OnValidationsSubmitRequested( ValidationsSubmitEventArgs eventArgs )
+    {
+        if ( eventArgs.Handled || Disabled || !CanHandleValidationsSubmit( eventArgs.Priority ) )
+            return;
+
+        await Click();
+
+        eventArgs.Handle();
+    }
+
+    private bool CanHandleValidationsSubmit( ValidationsSubmitPriority priority )
+    {
+        if ( !Clicked.HasDelegate && Command is null )
+            return false;
+
+        return priority switch
+        {
+            ValidationsSubmitPriority.Submit => Type == ButtonType.Submit,
+            ValidationsSubmitPriority.Primary => Type != ButtonType.Submit && Color == Color.Primary,
+            _ => false,
+        };
     }
 
     /// <summary>
@@ -444,6 +508,11 @@ public partial class Button : BaseComponent, IAsyncDisposable
     /// Provides the reference to the parent field.
     /// </summary>
     [CascadingParameter] protected Field ParentField { get; set; }
+
+    /// <summary>
+    /// Provides the reference to the parent validations component.
+    /// </summary>
+    [CascadingParameter] protected Validations ParentValidations { get; set; }
 
     /// <summary>
     /// Specifies the parent dropdown state object.

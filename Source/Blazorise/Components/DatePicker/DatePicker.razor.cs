@@ -448,9 +448,14 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
     /// <inheritdoc/>
     [JSInvokable]
-    public new virtual Task OnFocusInHandler( FocusEventArgs eventArgs )
+    public new virtual async Task OnFocusInHandler( FocusEventArgs eventArgs )
     {
-        return FocusIn.InvokeAsync( eventArgs );
+        await FocusIn.InvokeAsync( eventArgs );
+
+        if ( ShouldShowOnScreenKeyboardOnFocus )
+        {
+            await ShowOnScreenKeyboard( false );
+        }
     }
 
     /// <inheritdoc/>
@@ -473,6 +478,12 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     public new virtual Task OnBlurHandler( FocusEventArgs eventArgs )
     {
         return base.OnBlurHandler( eventArgs );
+    }
+
+    /// <inheritdoc/>
+    protected override Task OnScreenKeyboardValueChanged( string value )
+    {
+        return JSModule.UpdateTextValue( ElementRef, ElementId, value ).AsTask();
     }
 
     /// <summary>
@@ -615,6 +626,11 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
+
+    /// <inheritdoc/>
+    protected override OnScreenKeyboardInputType OnScreenKeyboardInputType => InputMode == DateInputMode.DateTime
+        ? OnScreenKeyboardInputType.Date | OnScreenKeyboardInputType.Time | OnScreenKeyboardInputType.Pickers
+        : OnScreenKeyboardInputType.Date | OnScreenKeyboardInputType.Pickers;
 
     /// <summary>
     /// Gets the range separator based on the current locale settings.

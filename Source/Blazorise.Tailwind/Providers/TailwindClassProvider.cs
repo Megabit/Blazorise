@@ -551,6 +551,23 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
+    #region OnScreenKeyboard
+
+    public override string OnScreenKeyboard() => "z-50 w-full";
+
+    public override string OnScreenKeyboardPlacement( OnScreenKeyboardPlacement placement ) => placement switch
+    {
+        Blazorise.OnScreenKeyboardPlacement.Top => "fixed start-0 top-0",
+        Blazorise.OnScreenKeyboardPlacement.Bottom => "fixed start-0 bottom-0",
+        _ => null,
+    };
+
+    public override string OnScreenKeyboardRow() => "flex gap-1 mb-1";
+
+    public override string OnScreenKeyboardKey() => "min-w-10";
+
+    #endregion
+
     #region Control
 
     public override string ControlCheck( ControlRole role ) => role == ControlRole.Check ? "inline-flex items-center mr-4" : null;

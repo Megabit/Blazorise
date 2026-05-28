@@ -410,6 +410,46 @@ export function setText(editorRef, txt) {
     editor.setText(txt);
 }
 
+export function insertText(editorRef, text) {
+    const editor = editorRef.quill;
+    if (!editor)
+        return;
+
+    const value = text || "";
+    const range = editor.getSelection(true);
+    const index = range ? range.index : editor.getLength();
+    const length = range ? range.length : 0;
+
+    if (length > 0) {
+        editor.deleteText(index, length, "user");
+    }
+
+    editor.insertText(index, value, "user");
+    editor.setSelection(index + value.length, 0, "silent");
+}
+
+export function backspace(editorRef) {
+    const editor = editorRef.quill;
+    if (!editor)
+        return;
+
+    const range = editor.getSelection(true);
+    if (!range)
+        return;
+
+    if (range.length > 0) {
+        editor.deleteText(range.index, range.length, "user");
+        editor.setSelection(range.index, 0, "silent");
+        return;
+    }
+
+    if (range.index <= 0)
+        return;
+
+    editor.deleteText(range.index - 1, 1, "user");
+    editor.setSelection(range.index - 1, 0, "silent");
+}
+
 export function clearContent(editorRef) {
     const editor = editorRef.quill;
     if (!editor)

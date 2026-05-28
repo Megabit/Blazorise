@@ -91,19 +91,78 @@ export function showPicker(element, elementId) {
     }
 }
 
+export function submitClosestForm(element) {
+    const form = element && typeof element.closest === "function"
+        ? element.closest("form")
+        : null;
+
+    if (!form) {
+        return;
+    }
+
+    if (typeof form.requestSubmit === "function") {
+        form.requestSubmit();
+    } else {
+        const submitEvent = new Event("submit", { bubbles: true, cancelable: true });
+
+        if (form.dispatchEvent(submitEvent)) {
+            form.submit();
+        }
+    }
+}
+
+export function dispatchKeyboardEvent(element, eventName, key, code, keyCode) {
+    if (!element) {
+        return true;
+    }
+
+    const event = new KeyboardEvent(eventName, {
+        key: key,
+        code: code,
+        bubbles: true,
+        cancelable: true
+    });
+
+    Object.defineProperty(event, "keyCode", { get: () => keyCode });
+    Object.defineProperty(event, "which", { get: () => keyCode });
+
+    return element.dispatchEvent(event) && !event.defaultPrevented;
+}
+
 export function setCaret(element, caret) {
     if (hasSelectionCapabilities(element)) {
         window.requestAnimationFrame(() => {
             element.selectionStart = caret;
             element.selectionEnd = caret;
         });
+    } else if (isNumberInput(element)) {
+        numericInputCarets.set(element, caret);
     }
 }
 
 export function getCaret(element) {
-    return hasSelectionCapabilities(element)
-        ? element.selectionStart :
-        -1;
+    return getSelection(element).start;
+}
+
+export function getSelection(element) {
+    if (isNumberInput(element)) {
+        const caret = numericInputCarets.has(element)
+            ? numericInputCarets.get(element)
+            : `${element.value || ''}`.length;
+
+        return { start: caret, end: caret };
+    }
+
+    if (hasSelectionCapabilities(element) &&
+        typeof element.selectionStart === 'number' &&
+        typeof element.selectionEnd === 'number') {
+        return {
+            start: element.selectionStart,
+            end: element.selectionEnd
+        };
+    }
+
+    return { start: -1, end: -1 };
 }
 
 export function setTextValue(element, value) {
@@ -138,9 +197,125 @@ export function scrollElementIntoView(elementId, smooth) {
         }
     }
 }
+
+export function scrollElementIntoViewForOnScreenKeyboard(elementId, keyboardElementId, margin) {
+    const element = document.getElementById(elementId);
+    const keyboardElement = document.getElementById(keyboardElementId);
+
+    if (!element || !keyboardElement) {
+        return;
+    }
+
+    window.requestAnimationFrame(() => {
+        const elementRect = element.getBoundingClientRect();
+        const keyboardRect = keyboardElement.getBoundingClientRect();
+
+        if (!elementRect.width || !elementRect.height || !keyboardRect.width || !keyboardRect.height) {
+            return;
+        }
+
+        const safeMargin = Number.isFinite(margin) ? margin : 12;
+        let scrollDelta = 0;
+
+        if (keyboardRect.top > window.innerHeight / 2) {
+            const coveredByBottomKeyboard = elementRect.bottom + safeMargin - keyboardRect.top;
+
+            if (coveredByBottomKeyboard > 0) {
+                scrollDelta = coveredByBottomKeyboard;
+            }
+        } else {
+            const coveredByTopKeyboard = keyboardRect.bottom + safeMargin - elementRect.top;
+
+            if (coveredByTopKeyboard > 0) {
+                scrollDelta = -coveredByTopKeyboard;
+            }
+        }
+
+        if (!scrollDelta) {
+            return;
+        }
+
+        const scrollableParent = getScrollableParentForOnScreenKeyboard(element);
+        const adjustment = Math.ceil(keyboardRect.height + safeMargin);
+        const behavior = prefersReducedMotion() ? "auto" : "smooth";
+
+        applyOnScreenKeyboardScrollAdjustment(scrollableParent, adjustment);
+
+        if (isElementScrollTarget(scrollableParent)) {
+            scrollableParent.scrollBy({ top: scrollDelta, behavior: behavior });
+        } else {
+            getDocumentScrollTarget().scrollBy({ top: scrollDelta, behavior: behavior });
+        }
+    });
+}
+
+export function clearOnScreenKeyboardScrollAdjustment() {
+    if (!onScreenKeyboardScrollAdjustmentTarget) {
+        return;
+    }
+
+    onScreenKeyboardScrollAdjustmentTarget.style.paddingBottom = onScreenKeyboardOriginalPaddingBottom;
+    onScreenKeyboardScrollAdjustmentTarget = null;
+    onScreenKeyboardOriginalPaddingBottom = null;
+    onScreenKeyboardOriginalComputedPaddingBottom = 0;
+}
+
 function getScrollableParent(el) {
     while ((el = el.parentElement) && window.getComputedStyle(el).overflowY.indexOf('scroll') === -1);
     return el;
+}
+
+function getScrollableParentForOnScreenKeyboard(el) {
+    while ((el = el.parentElement) && !isScrollableElement(el));
+    return el;
+}
+
+function isScrollableElement(element) {
+    const style = window.getComputedStyle(element);
+    const overflowY = `${style.overflowY} ${style.overflow}`;
+
+    return /(auto|scroll|overlay)/.test(overflowY) && element.scrollHeight > element.clientHeight;
+}
+
+function prefersReducedMotion() {
+    return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function getDocumentScrollTarget() {
+    return document.scrollingElement || document.documentElement || document.body;
+}
+
+function isElementScrollTarget(element) {
+    return element && element !== document.body && element !== document.documentElement && element !== getDocumentScrollTarget();
+}
+
+let onScreenKeyboardScrollAdjustmentTarget = null;
+let onScreenKeyboardOriginalPaddingBottom = null;
+let onScreenKeyboardOriginalComputedPaddingBottom = 0;
+
+function applyOnScreenKeyboardScrollAdjustment(scrollableParent, adjustment) {
+    const target = isElementScrollTarget(scrollableParent)
+        ? scrollableParent
+        : getDocumentScrollTarget();
+
+    if (!target) {
+        return;
+    }
+
+    if (onScreenKeyboardScrollAdjustmentTarget && onScreenKeyboardScrollAdjustmentTarget !== target) {
+        clearOnScreenKeyboardScrollAdjustment();
+    }
+
+    if (!onScreenKeyboardScrollAdjustmentTarget) {
+        onScreenKeyboardScrollAdjustmentTarget = target;
+        onScreenKeyboardOriginalPaddingBottom = target.style.paddingBottom || "";
+        onScreenKeyboardOriginalComputedPaddingBottom = parseFloat(window.getComputedStyle(target).paddingBottom) || 0;
+    }
+
+    const currentPaddingBottom = parseFloat(window.getComputedStyle(target).paddingBottom) || 0;
+    const paddingBottom = Math.max(currentPaddingBottom, onScreenKeyboardOriginalComputedPaddingBottom + adjustment);
+
+    target.style.paddingBottom = `${paddingBottom}px`;
 }
 
 // sets the value to the element property
@@ -201,6 +376,67 @@ function hasSelectionCapabilities(element) {
             nodeName === 'textarea' ||
             element.contentEditable === 'true')
     );
+}
+
+const numericInputCarets = new WeakMap();
+const numericCaretCanvas = document.createElement('canvas');
+const numericCaretContext = numericCaretCanvas.getContext('2d');
+
+document.addEventListener('pointerup', event => {
+    const element = event.target;
+
+    if (isNumberInput(element)) {
+        numericInputCarets.set(element, estimateNumberInputCaret(element, event.clientX));
+    }
+}, true);
+
+function isNumberInput(element) {
+    return element && element.nodeName && element.nodeName.toLowerCase() === 'input' && element.type === 'number';
+}
+
+function estimateNumberInputCaret(element, clientX) {
+    const value = `${element.value || ''}`;
+
+    if (value.length === 0)
+        return 0;
+
+    const style = window.getComputedStyle(element);
+    const rect = element.getBoundingClientRect();
+    const paddingLeft = parseFloat(style.paddingLeft) || 0;
+    const paddingRight = parseFloat(style.paddingRight) || 0;
+    const borderLeft = parseFloat(style.borderLeftWidth) || 0;
+    const borderRight = parseFloat(style.borderRightWidth) || 0;
+    const contentLeft = rect.left + borderLeft + paddingLeft;
+    const contentRight = rect.right - borderRight - paddingRight;
+    const contentWidth = Math.max(0, contentRight - contentLeft);
+
+    numericCaretContext.font = `${style.fontStyle} ${style.fontVariant} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+
+    const textWidth = numericCaretContext.measureText(value).width;
+    const align = style.textAlign;
+    let textLeft = contentLeft;
+
+    if (align === 'right' || align === 'end') {
+        textLeft = contentRight - textWidth;
+    } else if (align === 'center') {
+        textLeft = contentLeft + (contentWidth - textWidth) / 2;
+    }
+
+    const x = Math.max(0, clientX - textLeft);
+    let bestIndex = 0;
+    let bestDistance = Math.abs(x);
+
+    for (let index = 1; index <= value.length; index++) {
+        const width = numericCaretContext.measureText(value.substring(0, index)).width;
+        const distance = Math.abs(x - width);
+
+        if (distance < bestDistance) {
+            bestDistance = distance;
+            bestIndex = index;
+        }
+    }
+
+    return bestIndex;
 }
 
 export function getRequiredElement(element, elementId) {

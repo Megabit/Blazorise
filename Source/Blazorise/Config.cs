@@ -96,7 +96,8 @@ public static class Config
         { typeof( IModalService ), typeof( ModalService ) },
         { typeof( IToastService ), typeof( ToastService ) },
         { typeof( IDropdownCoordinator ), typeof( DropdownCoordinator ) },
-        { typeof(IOffcanvasService), typeof(OffcanvasService)}
+        { typeof( IOffcanvasService ), typeof( OffcanvasService ) },
+        { typeof( IOnScreenKeyboardService ), typeof( OnScreenKeyboardService ) },
     };
 
     /// <summary>

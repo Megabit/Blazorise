@@ -17,7 +17,7 @@ namespace Blazorise.Markdown;
 /// <summary>
 /// Component for acts as a wrapper around the EasyMDE, a markdown editor.
 /// </summary>
-public partial class Markdown : BaseInputComponent<string, MarkdownClasses, MarkdownStyles>,
+public partial class Markdown : BaseOnScreenKeyboardInputComponent<string, MarkdownClasses, MarkdownStyles>,
     IFileEntryOwner,
     IFileEntryNotifier,
     IAsyncDisposable
@@ -306,6 +306,26 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
     }
 
     /// <summary>
+    /// Javascript callback for when editor get focus.
+    /// </summary>
+    [JSInvokable]
+    public Task OnEditorFocus()
+    {
+        return ShouldShowOnScreenKeyboardOnFocus
+            ? ShowOnScreenKeyboard( false )
+            : Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Javascript callback for when editor lost focus.
+    /// </summary>
+    [JSInvokable]
+    public Task OnEditorBlur()
+    {
+        return HideOnScreenKeyboard();
+    }
+
+    /// <summary>
     /// Adds the custom toolbar button.
     /// </summary>
     /// <param name="toolbarButton">Button instance.</param>
@@ -484,6 +504,24 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc/>
+    protected override Task InsertOnScreenKeyboardText( string text )
+    {
+        if ( jsInitialized )
+            return JSModule.InsertText( ElementId, text ).AsTask();
+
+        return base.InsertOnScreenKeyboardText( text );
+    }
+
+    /// <inheritdoc/>
+    protected override Task BackspaceOnScreenKeyboard()
+    {
+        if ( jsInitialized )
+            return JSModule.Backspace( ElementId ).AsTask();
+
+        return base.BackspaceOnScreenKeyboard();
+    }
+
     /// <summary>
     /// Notifies the component that preview render has being requested. This method is intended for internal framework use only and should not be called directly by user code.
     /// </summary>
@@ -646,6 +684,9 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
 
     #region Properties
 
+    /// <inheritdoc/>
+    protected override string DefaultValue => string.Empty;
+
     /// <summary>
     /// Number of processed bytes in current file.
     /// </summary>
@@ -675,6 +716,12 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
     protected string TextAreaElementClassNames => textAreaElementClassBuilder.Class;
 
     protected string TextAreaElementStyleNames => Styles?.TextArea;
+
+    /// <inheritdoc/>
+    protected override OnScreenKeyboardEnterKeyBehavior DefaultOnScreenKeyboardEnterKeyBehavior => OnScreenKeyboardEnterKeyBehavior.NewLine;
+
+    /// <inheritdoc/>
+    protected override string OnScreenKeyboardNewLineText => "\n";
 
     /// <summary>
     /// Gets or sets the <see cref="IJSFileModule"/> instance.
@@ -1006,9 +1053,6 @@ public partial class Markdown : BaseInputComponent<string, MarkdownClasses, Mark
     /// Custom function for parsing the plaintext Markdown and returning HTML. Used when user previews.
     /// </summary>
     [Parameter] public Func<string, Task<string>> PreviewRender { get; set; }
-
-    /// <inheritdoc/>
-    protected override string DefaultValue => string.Empty;
 
     #endregion
 }

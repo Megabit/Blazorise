@@ -1,0 +1,24 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Fields>
+    <Field ColumnSize="ColumnSize.Is4.OnDesktop">
+        <FieldLabel>Email layout</FieldLabel>
+        <TextInput @bind-Value="@emailValue" Placeholder="name@example.com" Role="TextRole.Email" OnScreenKeyboard="true" />
+    </Field>
+    <Field ColumnSize="ColumnSize.Is4.OnDesktop">
+        <FieldLabel>Numeric layout</FieldLabel>
+        <NumericInput TValue="int?" @bind-Value="@numberValue" Placeholder="123" OnScreenKeyboard="true" />
+    </Field>
+    <Field ColumnSize="ColumnSize.Is4.OnDesktop">
+        <FieldLabel>Explicit layout</FieldLabel>
+        <TextInput @bind-Value="@urlValue" Placeholder="https://example.com" OnScreenKeyboard="true" OnScreenKeyboardLayout="OnScreenKeyboardLayout.Url" />
+    </Field>
+</Fields>
+
+@code {
+    private string emailValue;
+
+    private int? numberValue;
+
+    private string urlValue;
+}

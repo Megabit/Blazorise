@@ -1,6 +1,7 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Modules;
@@ -14,11 +15,12 @@ public interface IJSTimePickerModule : IBaseJSModule,
     /// <summary>
     /// Initializes the new <see cref="TimePicker{TValue}"/> within the JS module.
     /// </summary>
+    /// <param name="dotNetObjectReference">Reference to the .NET object adapter.</param>
     /// <param name="elementRef">Reference to the rendered element.</param>
     /// <param name="elementId">ID of the rendered element.</param>
     /// <param name="options">Additional options for the tooltip initialization.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask Initialize( ElementReference elementRef, string elementId, TimePickerJSOptions options );
+    ValueTask Initialize( DotNetObjectReference<TimePickerAdapter> dotNetObjectReference, ElementReference elementRef, string elementId, TimePickerJSOptions options );
 
     /// <summary>
     /// Activates the <see cref="TimePicker{TValue}"/>.
@@ -37,6 +39,15 @@ public interface IJSTimePickerModule : IBaseJSModule,
     /// <param name="value">Value to update.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     ValueTask UpdateValue( ElementReference elementRef, string elementId, object value );
+
+    /// <summary>
+    /// Updates the visible <see cref="TimePicker{TValue}"/> text without parsing it through the picker.
+    /// </summary>
+    /// <param name="elementRef">Reference to the rendered element.</param>
+    /// <param name="elementId">ID of the rendered element.</param>
+    /// <param name="value">Text to update.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask UpdateTextValue( ElementReference elementRef, string elementId, string value );
 
     /// <summary>
     /// Updates the <see cref="TimePicker{TValue}"/> options.

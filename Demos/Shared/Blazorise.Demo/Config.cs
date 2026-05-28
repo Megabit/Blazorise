@@ -20,6 +20,8 @@ public static class Config
             {
                 options.ProductToken = licenseKey;
                 options.Immediate = true;
+                options.AccessibilityOptions.OnScreenKeyboard.Enabled = false;
+                options.AccessibilityOptions.OnScreenKeyboard.ShowSpecialCharactersKey = true;
             } )
             .AddBlazoriseRichTextEdit( options =>
             {

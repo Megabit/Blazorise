@@ -55,6 +55,20 @@ public class JSMarkdownModule : BaseJSModule,
         return await moduleInstance.InvokeAsync<string>( "getValue", elementId );
     }
 
+    public async ValueTask InsertText( string elementId, string text )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "insertText", elementId, text );
+    }
+
+    public async ValueTask Backspace( string elementId )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "backspace", elementId );
+    }
+
     public async ValueTask NotifyImageUploadSuccess( string elementId, string imageUrl )
     {
         var moduleInstance = await Module;

@@ -11,6 +11,8 @@ public class BulmaStyleProvider : StyleProvider
 
     public override int DefaultModalBackdropZIndex => 0;
 
+    public override int DefaultOnScreenKeyboardZIndex => 140;
+
     public override string ModalShow( bool visible ) => null;
 
     public override string ModalFade( bool showing, bool hiding ) => null;
