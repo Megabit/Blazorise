@@ -75,12 +75,12 @@ public partial class TimeInput<TValue> : BaseTextInput<TValue, TimeInputClasses,
     }
 
     /// <inheritdoc/>
-    protected override Task ShowOnScreenKeyboard()
+    public override Task ShowOnScreenKeyboard( bool focus = true )
     {
         onScreenKeyboardComposer = new( OnScreenKeyboardRequiresSeconds );
         onScreenKeyboardComposer.Reset( CurrentValueAsString );
 
-        return base.ShowOnScreenKeyboard();
+        return base.ShowOnScreenKeyboard( focus );
     }
 
     /// <inheritdoc/>

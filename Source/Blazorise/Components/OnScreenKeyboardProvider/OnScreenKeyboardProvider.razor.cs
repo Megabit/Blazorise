@@ -237,35 +237,47 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
 
     private async Task OnKeyClicked( OnScreenKeyboardKey key )
     {
-        OnScreenKeyboardService.SuppressHideOnBlur();
-
-        if ( key.KeyType == OnScreenKeyboardKeyType.Shift )
+        try
         {
-            shift = !shift;
-            await InvokeAsync( StateHasChanged );
-            return;
-        }
+            OnScreenKeyboardService.SuppressHideOnBlur();
 
-        if ( key.KeyType == OnScreenKeyboardKeyType.SpecialCharacters )
+            if ( key.KeyType == OnScreenKeyboardKeyType.Shift )
+            {
+                shift = !shift;
+                await InvokeAsync( StateHasChanged );
+                return;
+            }
+
+            if ( key.KeyType == OnScreenKeyboardKeyType.SpecialCharacters )
+            {
+                shift = false;
+                specialCharacters = !SpecialCharactersActive;
+                await InvokeAsync( StateHasChanged );
+                return;
+            }
+
+            if ( key.KeyType == OnScreenKeyboardKeyType.Text && shift )
+            {
+                await OnScreenKeyboardService.PressKey( new( GetShiftKeyText( key ) ) );
+                return;
+            }
+
+            await OnScreenKeyboardService.PressKey( key );
+        }
+        finally
         {
-            shift = false;
-            specialCharacters = !SpecialCharactersActive;
-            await InvokeAsync( StateHasChanged );
-            return;
+            OnScreenKeyboardService.ClearHideOnBlurSuppression();
         }
-
-        if ( key.KeyType == OnScreenKeyboardKeyType.Text && shift )
-        {
-            await OnScreenKeyboardService.PressKey( new( GetShiftKeyText( key ) ) );
-            return;
-        }
-
-        await OnScreenKeyboardService.PressKey( key );
     }
 
     private void OnKeyboardInteraction()
     {
         OnScreenKeyboardService.SuppressHideOnBlur();
+    }
+
+    private void OnKeyboardInteractionCompleted()
+    {
+        OnScreenKeyboardService.ClearHideOnBlurSuppression();
     }
 
     private string GetKeyDisplayText( OnScreenKeyboardKey key )

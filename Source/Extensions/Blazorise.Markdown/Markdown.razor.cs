@@ -311,7 +311,9 @@ public partial class Markdown : BaseOnScreenKeyboardInputComponent<string, Markd
     [JSInvokable]
     public Task OnEditorFocus()
     {
-        return ShowOnScreenKeyboard();
+        return ResolvedOnScreenKeyboardShowOnFocus
+            ? ShowOnScreenKeyboard( false )
+            : Task.CompletedTask;
     }
 
     /// <summary>

@@ -451,7 +451,11 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     public new virtual async Task OnFocusInHandler( FocusEventArgs eventArgs )
     {
         await FocusIn.InvokeAsync( eventArgs );
-        await ShowOnScreenKeyboard();
+
+        if ( ResolvedOnScreenKeyboardShowOnFocus )
+        {
+            await ShowOnScreenKeyboard( false );
+        }
     }
 
     /// <inheritdoc/>

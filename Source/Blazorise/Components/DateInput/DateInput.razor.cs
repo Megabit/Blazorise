@@ -66,12 +66,12 @@ public partial class DateInput<TValue> : BaseTextInput<TValue, DateInputClasses,
     }
 
     /// <inheritdoc/>
-    protected override Task ShowOnScreenKeyboard()
+    public override Task ShowOnScreenKeyboard( bool focus = true )
     {
         onScreenKeyboardComposer = new( InputMode, OnScreenKeyboardRequiresSeconds );
         onScreenKeyboardComposer.Reset( CurrentValueAsString );
 
-        return base.ShowOnScreenKeyboard();
+        return base.ShowOnScreenKeyboard( focus );
     }
 
     /// <inheritdoc/>

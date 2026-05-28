@@ -294,7 +294,11 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     public async Task OnEditorFocus()
     {
         await EditorFocus.InvokeAsync( true );
-        await ShowOnScreenKeyboard();
+
+        if ( ResolvedOnScreenKeyboardShowOnFocus )
+        {
+            await ShowOnScreenKeyboard( false );
+        }
     }
 
     /// <summary>

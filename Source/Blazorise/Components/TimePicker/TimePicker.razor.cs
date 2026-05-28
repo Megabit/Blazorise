@@ -329,7 +329,11 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     public new virtual async Task OnFocusInHandler( FocusEventArgs eventArgs )
     {
         await FocusIn.InvokeAsync( eventArgs );
-        await ShowOnScreenKeyboard();
+
+        if ( ResolvedOnScreenKeyboardShowOnFocus )
+        {
+            await ShowOnScreenKeyboard( false );
+        }
     }
 
     /// <inheritdoc/>

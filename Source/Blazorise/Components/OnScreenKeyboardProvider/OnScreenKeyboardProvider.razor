@@ -3,7 +3,7 @@
 @if ( Visible )
 {
     @* Native wrapper is used so pointer handlers and preventDefault can coexist without duplicate Blazorise component parameters. *@
-    <div @onmousedown="@OnKeyboardInteraction" @onmousedown:preventDefault @onpointerdown="@OnKeyboardInteraction" @onpointerdown:preventDefault @ontouchstart="@OnKeyboardInteraction" @ontouchstart:preventDefault>
+    <div @onmousedown="@OnKeyboardInteraction" @onmousedown:preventDefault @onmouseup="@OnKeyboardInteractionCompleted" @onpointerdown="@OnKeyboardInteraction" @onpointerdown:preventDefault @onpointerup="@OnKeyboardInteractionCompleted" @ontouchstart="@OnKeyboardInteraction" @ontouchstart:preventDefault @ontouchend="@OnKeyboardInteractionCompleted">
         <Div ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" role="group" aria-label="@AriaLabel" @onmousedown:preventDefault @onpointerdown:preventDefault @ontouchstart:preventDefault @attributes="@Attributes">
             @if ( ChildContent is not null )
             {

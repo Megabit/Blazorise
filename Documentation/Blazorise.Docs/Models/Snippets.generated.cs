@@ -3608,6 +3608,28 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string OnScreenKeyboardButtonTriggerExample = @"<Field>
+    <FieldLabel>Button trigger</FieldLabel>
+    <Addons>
+        <Addon AddonType=""AddonType.Body"">
+            <TextInput @ref=""@textInputRef"" @bind-Value=""@textValue"" Placeholder=""Click the keyboard button"" OnScreenKeyboard OnScreenKeyboardShowOnFocus=""false"" />
+        </Addon>
+        <Addon AddonType=""AddonType.End"">
+            <Button Color=""Color.Secondary"" Clicked=""@ShowKeyboard"">Keyboard</Button>
+        </Addon>
+    </Addons>
+</Field>
+
+@code {
+    private TextInput textInputRef;
+    private string textValue;
+
+    private Task ShowKeyboard()
+    {
+        return textInputRef?.ShowOnScreenKeyboard() ?? Task.CompletedTask;
+    }
+}";
+
         public const string OnScreenKeyboardCustomLayoutExample = @"@code {
     private IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> SpecialCharactersRows = new List<IReadOnlyList<OnScreenKeyboardKey>>
     {

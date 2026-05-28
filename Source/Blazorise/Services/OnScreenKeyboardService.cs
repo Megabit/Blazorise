@@ -14,9 +14,7 @@ public class OnScreenKeyboardService : IOnScreenKeyboardService
 
     private OnScreenKeyboardState state = new();
 
-    private DateTimeOffset ignoreBlurUntil;
-
-    private static readonly TimeSpan BlurSuppressionDuration = TimeSpan.FromSeconds( 1 );
+    private bool ignoreNextBlur;
 
     #endregion
 
@@ -64,7 +62,13 @@ public class OnScreenKeyboardService : IOnScreenKeyboardService
     /// <inheritdoc/>
     public void SuppressHideOnBlur()
     {
-        ignoreBlurUntil = DateTimeOffset.UtcNow.Add( BlurSuppressionDuration );
+        ignoreNextBlur = true;
+    }
+
+    /// <inheritdoc/>
+    public void ClearHideOnBlurSuppression()
+    {
+        ignoreNextBlur = false;
     }
 
     /// <inheritdoc/>
@@ -156,7 +160,7 @@ public class OnScreenKeyboardService : IOnScreenKeyboardService
     public OnScreenKeyboardState State => state;
 
     /// <inheritdoc/>
-    public bool ShouldIgnoreBlur => DateTimeOffset.UtcNow <= ignoreBlurUntil;
+    public bool ShouldIgnoreBlur => ignoreNextBlur;
 
     /// <inheritdoc/>
     public event EventHandler<OnScreenKeyboardStateChangedEventArgs> StateChanged;

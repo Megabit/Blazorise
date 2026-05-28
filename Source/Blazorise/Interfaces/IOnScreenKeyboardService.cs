@@ -51,6 +51,11 @@ public interface IOnScreenKeyboardService
     void SuppressHideOnBlur();
 
     /// <summary>
+    /// Clears blur-driven hide suppression when the keyboard interaction did not cause a blur.
+    /// </summary>
+    void ClearHideOnBlurSuppression();
+
+    /// <summary>
     /// Handles a key press.
     /// </summary>
     /// <param name="key">Pressed key.</param>

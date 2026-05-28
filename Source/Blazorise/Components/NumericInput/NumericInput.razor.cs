@@ -153,13 +153,13 @@ public partial class NumericInput<TValue> : BaseBufferedTextInput<TValue, Numeri
     }
 
     /// <inheritdoc/>
-    protected override async Task ShowOnScreenKeyboard()
+    public override async Task ShowOnScreenKeyboard( bool focus = true )
     {
         onScreenKeyboardComposer = new( CurrentCultureInfo );
         onScreenKeyboardComposer.Reset( CurrentValueAsString );
         OnScreenKeyboardComposer.SetCaret( await JSUtilitiesModule.GetCaret( ElementRef ) );
 
-        await base.ShowOnScreenKeyboard();
+        await base.ShowOnScreenKeyboard( focus );
     }
 
     /// <inheritdoc/>

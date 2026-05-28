@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-28T06:59:10.3644380Z",
+  "generatedUtc": "2026-05-28T12:22:26.7634620Z",
   "pages": [
     {
       "route": "/docs",
@@ -2524,6 +2524,14 @@
           "content": "<Field>\r\n    <FieldLabel>Text input</FieldLabel>\r\n    <TextInput @bind-Value=\"@textValue\" Placeholder=\"Focus to show the keyboard\" OnScreenKeyboard />\r\n</Field>\r\n\r\n@code {\r\n    private string textValue;\r\n}",
           "title": "Text input",
           "description": "Enable the keyboard on a single TextInput by setting OnScreenKeyboard ."
+        },
+        {
+          "code": "OnScreenKeyboardButtonTriggerExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Components/OnScreenKeyboards/Examples/OnScreenKeyboardButtonTriggerExample.razor",
+          "content": "<Field>\r\n    <FieldLabel>Button trigger</FieldLabel>\r\n    <Addons>\r\n        <Addon AddonType=\"AddonType.Body\">\r\n            <TextInput @ref=\"@textInputRef\" @bind-Value=\"@textValue\" Placeholder=\"Click the keyboard button\" OnScreenKeyboard OnScreenKeyboardShowOnFocus=\"false\" />\r\n        </Addon>\r\n        <Addon AddonType=\"AddonType.End\">\r\n            <Button Color=\"Color.Secondary\" Clicked=\"@ShowKeyboard\">Keyboard</Button>\r\n        </Addon>\r\n    </Addons>\r\n</Field>\r\n\r\n@code {\r\n    private TextInput textInputRef;\r\n    private string textValue;\r\n\r\n    private Task ShowKeyboard()\r\n    {\r\n        return textInputRef?.ShowOnScreenKeyboard() ?? Task.CompletedTask;\r\n    }\r\n}",
+          "title": "Button trigger",
+          "description": "Show the keyboard programmatically from a custom trigger. This example uses an addon button next to the input."
         },
         {
           "code": "OnScreenKeyboardMemoInputExample",

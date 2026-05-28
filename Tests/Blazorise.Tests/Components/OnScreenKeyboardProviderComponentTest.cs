@@ -396,6 +396,25 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task OnScreenKeyboardShowOnFocus_ShouldAllowProgrammaticKeyboard()
+    {
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        var comp = Render<TextInput>( parameters => parameters
+            .Add( p => p.OnScreenKeyboard, true )
+            .Add( p => p.OnScreenKeyboardShowOnFocus, false ) );
+
+        await comp.Find( "input" ).FocusInAsync();
+
+        Assert.False( keyboardService.State.Visible );
+
+        await comp.Instance.ShowOnScreenKeyboard();
+
+        Assert.True( keyboardService.State.Visible );
+        Assert.False( keyboardService.ShouldIgnoreBlur );
+        JSInterop.VerifyInvoke( "focus" );
+    }
+
+    [Fact]
     public async Task GlobalInputTypes_ShouldSkipDateInput_ByDefault()
     {
         var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
@@ -1197,6 +1216,10 @@ public class OnScreenKeyboardServiceTest
         service.SuppressHideOnBlur();
 
         Assert.True( service.ShouldIgnoreBlur );
+
+        service.ClearHideOnBlurSuppression();
+
+        Assert.False( service.ShouldIgnoreBlur );
     }
 
     [Fact]
