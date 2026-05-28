@@ -292,6 +292,22 @@ public class OnScreenKeyboardProviderComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task Provider_ShouldNotClearAutoScrollAdjustment_WhenAutoScrollWasNotRegistered()
+    {
+        var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
+        var options = Services.GetRequiredService<BlazoriseOptions>();
+        options.AccessibilityOptions.OnScreenKeyboard.AutoScroll = false;
+
+        var comp = Render<OnScreenKeyboardProvider>();
+
+        await ShowKeyboard( keyboardService, OnScreenKeyboardLayout.Text );
+        await keyboardService.Hide();
+
+        comp.WaitForAssertion( () => Assert.DoesNotContain( "Enter", comp.Markup ) );
+        JSInterop.VerifyNotInvoke( "clearOnScreenKeyboardScrollAdjustment" );
+    }
+
+    [Fact]
     public async Task Provider_ShouldAllowZIndexOverride()
     {
         var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();

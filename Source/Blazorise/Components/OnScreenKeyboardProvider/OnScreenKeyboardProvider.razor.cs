@@ -24,6 +24,8 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
 
     private bool closableLightRegistered;
 
+    private bool scrollAdjustmentRegistered;
+
     private ComponentParameterInfo<bool> paramShowSpecialCharactersKey;
 
     #endregion
@@ -221,14 +223,16 @@ public partial class OnScreenKeyboardProvider : BaseComponent, IDisposable, IAsy
         }
 
         await UtilitiesModule.ScrollElementIntoViewForOnScreenKeyboard( context.ElementId, ElementId, EffectiveAutoScrollMargin );
+        scrollAdjustmentRegistered = true;
     }
 
     private async Task ClearScrollAdjustment()
     {
-        if ( UtilitiesModule is null )
+        if ( !scrollAdjustmentRegistered || UtilitiesModule is null )
             return;
 
         await UtilitiesModule.ClearOnScreenKeyboardScrollAdjustment();
+        scrollAdjustmentRegistered = false;
     }
 
     private async Task OnKeyClicked( OnScreenKeyboardKey key )
