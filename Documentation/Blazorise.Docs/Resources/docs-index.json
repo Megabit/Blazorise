@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-27T10:20:14.2094562Z",
+  "generatedUtc": "2026-05-28T06:59:10.3644380Z",
   "pages": [
     {
       "route": "/docs",
@@ -2577,9 +2577,9 @@
           "code": "OnScreenKeyboardGlobalOptionsExample",
           "kind": "csharp",
           "sourcePath": "Pages/Docs/Components/OnScreenKeyboards/Examples/OnScreenKeyboardGlobalOptionsExample.csharp",
-          "content": "builder.Services\r\n    .AddBlazorise( options =>\r\n    {\r\n        options.AccessibilityOptions.OnScreenKeyboard.Enabled = true;\r\n        options.AccessibilityOptions.OnScreenKeyboard.EnterKeyBehavior = OnScreenKeyboardEnterKeyBehavior.Submit;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyboardSize = OnScreenKeyboardSize.Large;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyLayout = OnScreenKeyboardKeyLayout.Centered;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyWidth = 72;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyMinHeight = 56;\r\n    } );",
+          "content": "builder.Services\r\n    .AddBlazorise( options =>\r\n    {\r\n        options.AccessibilityOptions.OnScreenKeyboard.Enabled = true;\r\n        options.AccessibilityOptions.OnScreenKeyboard.InputTypes =\r\n            OnScreenKeyboardInputType.Text\r\n            | OnScreenKeyboardInputType.Numeric\r\n            | OnScreenKeyboardInputType.Date\r\n            | OnScreenKeyboardInputType.Time\r\n            | OnScreenKeyboardInputType.Pickers;\r\n        options.AccessibilityOptions.OnScreenKeyboard.EnterKeyBehavior = OnScreenKeyboardEnterKeyBehavior.Submit;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyboardSize = OnScreenKeyboardSize.Large;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyLayout = OnScreenKeyboardKeyLayout.Centered;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyWidth = 72;\r\n        options.AccessibilityOptions.OnScreenKeyboard.KeyMinHeight = 56;\r\n    } );",
           "title": "Global option",
-          "description": "If the keyboard should be available for all supported inputs, enable it in Blazorise options."
+          "description": "If the keyboard should be available globally, enable it in Blazorise options. By default, global enablement targets text and numeric inputs only. Use OnScreenKeyboardInputType to opt date, time, and picker inputs into the global keyboard behavior."
         }
       ],
       "apiRefs": [

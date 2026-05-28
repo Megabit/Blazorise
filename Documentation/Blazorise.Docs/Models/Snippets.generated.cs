@@ -3624,6 +3624,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     .AddBlazorise( options =>
     {
         options.AccessibilityOptions.OnScreenKeyboard.Enabled = true;
+        options.AccessibilityOptions.OnScreenKeyboard.InputTypes =
+            OnScreenKeyboardInputType.Text
+            | OnScreenKeyboardInputType.Numeric
+            | OnScreenKeyboardInputType.Date
+            | OnScreenKeyboardInputType.Time
+            | OnScreenKeyboardInputType.Pickers;
         options.AccessibilityOptions.OnScreenKeyboard.EnterKeyBehavior = OnScreenKeyboardEnterKeyBehavior.Submit;
         options.AccessibilityOptions.OnScreenKeyboard.KeyboardSize = OnScreenKeyboardSize.Large;
         options.AccessibilityOptions.OnScreenKeyboard.KeyLayout = OnScreenKeyboardKeyLayout.Centered;
