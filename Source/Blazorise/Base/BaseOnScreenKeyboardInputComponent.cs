@@ -244,10 +244,10 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
 
         if ( end < start )
         {
-            ( start, end ) = ( end, start );
+            (start, end) = (end, start);
         }
 
-        return ( start, end );
+        return (start, end);
     }
 
     /// <summary>
@@ -448,6 +448,11 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     }
 
     /// <summary>
+    /// Gets the service that controls the on-screen keyboard.
+    /// </summary>
+    [Inject] protected IOnScreenKeyboardService OnScreenKeyboardService { get; set; }
+
+    /// <summary>
     /// Gets the cascaded on-screen keyboard enter key behavior.
     /// </summary>
     [CascadingParameter( Name = "OnScreenKeyboardEnterKeyBehaviorOverride" )] protected OnScreenKeyboardEnterKeyBehavior? CascadedOnScreenKeyboardEnterKeyBehaviorOverride { get; set; }
@@ -471,11 +476,6 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     /// Specifies how the on-screen keyboard enter key should behave for this input component.
     /// </summary>
     [Parameter] public OnScreenKeyboardEnterKeyBehavior OnScreenKeyboardEnterKeyBehavior { get; set; }
-
-    /// <summary>
-    /// Gets the service that controls the on-screen keyboard.
-    /// </summary>
-    [Inject] protected IOnScreenKeyboardService OnScreenKeyboardService { get; set; }
 
     #endregion
 }

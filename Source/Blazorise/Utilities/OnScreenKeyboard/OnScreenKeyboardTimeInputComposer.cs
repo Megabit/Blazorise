@@ -11,12 +11,12 @@ internal sealed class OnScreenKeyboardTimeInputComposer
 {
     #region Members
 
-    private readonly List<Segment> segments = new()
-    {
+    private readonly List<Segment> segments =
+    [
         new( 'H', 2, 0, 23 ),
         new( 'm', 2, 0, 59 ),
         new( 's', 2, 0, 59 ),
-    };
+    ];
 
     private int activeSegmentIndex;
 
@@ -33,7 +33,7 @@ internal sealed class OnScreenKeyboardTimeInputComposer
     {
         ClearSegments();
 
-        string digits = GetDigits( value, MaxDigits );
+        string digits = GetDigits( value, OnScreenKeyboardTimeInputComposer.MaxDigits );
 
         SetSegmentDigits( 'H', digits, 0, 2, complete: digits.Length >= 2 );
         SetSegmentDigits( 'm', digits, 2, 2, complete: digits.Length >= 4 );
@@ -155,7 +155,7 @@ internal sealed class OnScreenKeyboardTimeInputComposer
         }
     }
 
-    private bool ShouldPadAfterFirstDigit( Segment segment, char digit )
+    private static bool ShouldPadAfterFirstDigit( Segment segment, char digit )
     {
         int value = digit - '0';
 
@@ -254,7 +254,7 @@ internal sealed class OnScreenKeyboardTimeInputComposer
 
     private Dictionary<char, string> GetTimeSegments()
     {
-        Dictionary<char, string> values = new();
+        Dictionary<char, string> values = [];
 
         foreach ( Segment segment in segments )
         {
@@ -472,7 +472,7 @@ internal sealed class OnScreenKeyboardTimeInputComposer
 
     public string PreviewValue => FormatPreview();
 
-    public int MaxDigits => 6;
+    public static int MaxDigits => 6;
 
     public bool RequireSeconds { get; }
 

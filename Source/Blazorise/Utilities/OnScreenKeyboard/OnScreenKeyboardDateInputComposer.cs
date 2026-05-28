@@ -137,7 +137,7 @@ internal sealed class OnScreenKeyboardDateInputComposer
         {
             segment.AppendDigit( digit );
 
-            if ( ShouldPadAfterFirstDigit( segment, digit ) )
+            if ( OnScreenKeyboardDateInputComposer.ShouldPadAfterFirstDigit( segment, digit ) )
             {
                 segment.PadLeft();
                 segment.IsComplete = true;
@@ -169,7 +169,7 @@ internal sealed class OnScreenKeyboardDateInputComposer
         }
     }
 
-    private bool ShouldPadAfterFirstDigit( Segment segment, char digit )
+    private static bool ShouldPadAfterFirstDigit( Segment segment, char digit )
     {
         int value = digit - '0';
 
@@ -183,7 +183,7 @@ internal sealed class OnScreenKeyboardDateInputComposer
         };
     }
 
-    private bool IsValidSegmentValue( Segment segment, string digits )
+    private static bool IsValidSegmentValue( Segment segment, string digits )
     {
         if ( string.IsNullOrEmpty( digits ) )
             return false;
@@ -205,7 +205,7 @@ internal sealed class OnScreenKeyboardDateInputComposer
         return digits.Length == segment.MaxDigits;
     }
 
-    private void CompleteSegmentForOverflow( Segment segment )
+    private static void CompleteSegmentForOverflow( Segment segment )
     {
         if ( segment.Kind == 'y' )
         {
@@ -348,7 +348,7 @@ internal sealed class OnScreenKeyboardDateInputComposer
 
     private Dictionary<char, string> GetPreviewSegments()
     {
-        Dictionary<char, string> values = new();
+        Dictionary<char, string> values = [];
 
         foreach ( Segment segment in segments )
         {
@@ -361,7 +361,7 @@ internal sealed class OnScreenKeyboardDateInputComposer
         return values;
     }
 
-    private string GetPreviewValue( Segment segment )
+    private static string GetPreviewValue( Segment segment )
     {
         if ( segment.Kind == 'y' && segment.IsComplete && segment.Digits.Length < 4 )
             return ExpandYear( segment.Digits );
@@ -379,7 +379,7 @@ internal sealed class OnScreenKeyboardDateInputComposer
 
     private List<Segment> CreateSegments()
     {
-        List<Segment> result = new();
+        List<Segment> result = [];
 
         foreach ( char segmentKind in GetDatePatternSegmentOrder( InputMode == DateInputMode.Month ) )
         {
@@ -407,25 +407,25 @@ internal sealed class OnScreenKeyboardDateInputComposer
         };
     }
 
-    private IReadOnlyList<char> GetDatePatternSegmentOrder( bool monthOnly )
+    private static List<char> GetDatePatternSegmentOrder( bool monthOnly )
     {
         string pattern = monthOnly
             ? CultureInfo.CurrentCulture.DateTimeFormat.YearMonthPattern
             : CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
 
-        IReadOnlyList<char> order = GetPatternSegmentOrder( pattern, monthOnly ? "yM" : "yMd" );
+        List<char> order = GetPatternSegmentOrder( pattern, monthOnly ? "yM" : "yMd" );
 
         if ( order.Count != 0 )
             return order;
 
         return monthOnly
-            ? new[] { 'y', 'M' }
-            : new[] { 'y', 'M', 'd' };
+            ? ['y', 'M']
+            : ['y', 'M', 'd'];
     }
 
-    private static IReadOnlyList<char> GetPatternSegmentOrder( string pattern, string allowedSegments )
+    private static List<char> GetPatternSegmentOrder( string pattern, string allowedSegments )
     {
-        List<char> result = new();
+        List<char> result = [];
         bool inQuote = false;
 
         foreach ( char character in pattern )

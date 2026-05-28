@@ -113,9 +113,7 @@ public partial class DateInput<TValue> : BaseTextInput<TValue, DateInputClasses,
 
     private bool CanParseOnScreenKeyboardDateValue( string value )
     {
-        TValue parsedValue;
-
-        return Parsers.TryParseDate<TValue>( value, InputMode, out parsedValue );
+        return Parsers.TryParseDate( value, InputMode, out TValue _ );
     }
 
     /// <summary>
