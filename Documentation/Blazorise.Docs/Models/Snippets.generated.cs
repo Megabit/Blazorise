@@ -3612,7 +3612,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     <FieldLabel>Button trigger</FieldLabel>
     <Addons>
         <Addon AddonType=""AddonType.Body"">
-            <TextInput @ref=""@textInputRef"" @bind-Value=""@textValue"" Placeholder=""Click the keyboard button"" OnScreenKeyboard OnScreenKeyboardShowOnFocus=""false"" />
+            <TextInput @ref=""@textInputRef"" @bind-Value=""@textValue"" Placeholder=""Click the keyboard button"" OnScreenKeyboard OnScreenKeyboardShowMode=""OnScreenKeyboardShowMode.Manual"" />
         </Addon>
         <Addon AddonType=""AddonType.End"">
             <Button Color=""Color.Secondary"" Clicked=""@ShowKeyboard"">Keyboard</Button>

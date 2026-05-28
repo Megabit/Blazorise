@@ -452,7 +452,7 @@ public partial class DatePicker<TValue> : BaseTextInput<TValue, DatePickerClasse
     {
         await FocusIn.InvokeAsync( eventArgs );
 
-        if ( ResolvedOnScreenKeyboardShowOnFocus )
+        if ( ShouldShowOnScreenKeyboardOnFocus )
         {
             await ShowOnScreenKeyboard( false );
         }

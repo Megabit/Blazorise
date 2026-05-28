@@ -330,7 +330,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue, TimePickerClasse
     {
         await FocusIn.InvokeAsync( eventArgs );
 
-        if ( ResolvedOnScreenKeyboardShowOnFocus )
+        if ( ShouldShowOnScreenKeyboardOnFocus )
         {
             await ShowOnScreenKeyboard( false );
         }

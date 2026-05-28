@@ -396,12 +396,12 @@ public class OnScreenKeyboardInputComponentTest : BunitContext
     }
 
     [Fact]
-    public async Task OnScreenKeyboardShowOnFocus_ShouldAllowProgrammaticKeyboard()
+    public async Task OnScreenKeyboardShowModeManual_ShouldAllowProgrammaticKeyboard()
     {
         var keyboardService = Services.GetRequiredService<IOnScreenKeyboardService>();
         var comp = Render<TextInput>( parameters => parameters
             .Add( p => p.OnScreenKeyboard, true )
-            .Add( p => p.OnScreenKeyboardShowOnFocus, false ) );
+            .Add( p => p.OnScreenKeyboardShowMode, OnScreenKeyboardShowMode.Manual ) );
 
         await comp.Find( "input" ).FocusInAsync();
 

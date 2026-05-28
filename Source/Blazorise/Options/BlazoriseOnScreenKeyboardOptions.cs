@@ -31,9 +31,9 @@ public class BlazoriseOnScreenKeyboardOptions
     public int AutoScrollMargin { get; set; } = 12;
 
     /// <summary>
-    /// If true, the on-screen keyboard is shown when an enabled input receives focus.
+    /// Gets or sets how the on-screen keyboard is shown for enabled input components.
     /// </summary>
-    public bool ShowOnFocus { get; set; } = true;
+    public OnScreenKeyboardShowMode ShowMode { get; set; } = OnScreenKeyboardShowMode.Focus;
 
     /// <summary>
     /// If true, the on-screen keyboard is hidden when the active input loses focus.

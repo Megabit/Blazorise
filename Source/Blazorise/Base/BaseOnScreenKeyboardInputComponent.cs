@@ -36,9 +36,9 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     protected ComponentParameterInfo<OnScreenKeyboardEnterKeyBehavior> paramOnScreenKeyboardEnterKeyBehavior;
 
     /// <summary>
-    /// Contains metadata about the parameter representing on-screen keyboard focus behavior for the component.
+    /// Contains metadata about the parameter representing on-screen keyboard show mode for the component.
     /// </summary>
-    protected ComponentParameterInfo<bool> paramOnScreenKeyboardShowOnFocus;
+    protected ComponentParameterInfo<OnScreenKeyboardShowMode> paramOnScreenKeyboardShowMode;
 
     private string onScreenKeyboardValue;
 
@@ -54,7 +54,7 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
         parameters.TryGetParameter( OnScreenKeyboard, out paramOnScreenKeyboard );
         parameters.TryGetParameter( OnScreenKeyboardLayout, out paramOnScreenKeyboardLayout );
         parameters.TryGetParameter( OnScreenKeyboardEnterKeyBehavior, out paramOnScreenKeyboardEnterKeyBehavior );
-        parameters.TryGetParameter( OnScreenKeyboardShowOnFocus, out paramOnScreenKeyboardShowOnFocus );
+        parameters.TryGetParameter( OnScreenKeyboardShowMode, out paramOnScreenKeyboardShowMode );
     }
 
     /// <inheritdoc/>
@@ -77,7 +77,7 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     {
         await base.OnFocusInHandler( eventArgs );
 
-        if ( ResolvedOnScreenKeyboardShowOnFocus )
+        if ( ShouldShowOnScreenKeyboardOnFocus )
         {
             await ShowOnScreenKeyboard( false );
         }
@@ -455,11 +455,26 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     }
 
     /// <summary>
-    /// Gets the resolved on-screen keyboard focus behavior for this component.
+    /// Gets the resolved on-screen keyboard show mode for this component.
     /// </summary>
-    protected bool ResolvedOnScreenKeyboardShowOnFocus => paramOnScreenKeyboardShowOnFocus.Defined
-        ? paramOnScreenKeyboardShowOnFocus.Value
-        : Options?.AccessibilityOptions?.OnScreenKeyboard?.ShowOnFocus != false;
+    protected OnScreenKeyboardShowMode ResolvedOnScreenKeyboardShowMode
+    {
+        get
+        {
+            var showMode = paramOnScreenKeyboardShowMode.Defined
+                ? paramOnScreenKeyboardShowMode.Value
+                : Options?.AccessibilityOptions?.OnScreenKeyboard?.ShowMode ?? OnScreenKeyboardShowMode.Focus;
+
+            return showMode == OnScreenKeyboardShowMode.Default
+                ? OnScreenKeyboardShowMode.Focus
+                : showMode;
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether the on-screen keyboard should be shown when this component receives focus.
+    /// </summary>
+    protected bool ShouldShowOnScreenKeyboardOnFocus => ResolvedOnScreenKeyboardShowMode == OnScreenKeyboardShowMode.Focus;
 
     private bool ShouldHideOnScreenKeyboardEnter => IsOnScreenKeyboardHideEnterKeyBehaviorConfigured
         || Options?.AccessibilityOptions?.OnScreenKeyboard?.HideOnEnter == true;
@@ -511,9 +526,9 @@ public abstract class BaseOnScreenKeyboardInputComponent<TValue, TClasses, TStyl
     [Parameter] public OnScreenKeyboardEnterKeyBehavior OnScreenKeyboardEnterKeyBehavior { get; set; }
 
     /// <summary>
-    /// If true, the on-screen keyboard is shown when this input receives focus.
+    /// Gets or sets how the on-screen keyboard is shown for this input.
     /// </summary>
-    [Parameter] public bool OnScreenKeyboardShowOnFocus { get; set; } = true;
+    [Parameter] public OnScreenKeyboardShowMode OnScreenKeyboardShowMode { get; set; }
 
     #endregion
 }
