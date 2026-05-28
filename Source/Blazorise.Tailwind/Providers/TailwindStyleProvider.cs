@@ -11,6 +11,8 @@ public class TailwindStyleProvider : StyleProvider
 
     public override int DefaultModalBackdropZIndex => 40;
 
+    public override int DefaultOnScreenKeyboardZIndex => 150;
+
     public override string ModalShow( bool visible ) => visible ? "display: flex" : null;
 
     public override string ModalFade( bool showing, bool hiding ) => null;

@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
-      "applicationUrl": "http://localhost:12840/"
+      "applicationUrl": "http://localhost:12840"
     },
     "WSL": {
       "commandName": "WSL2",
@@ -34,7 +34,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:12837/",
+      "applicationUrl": "http://localhost:12837",
       "sslPort": 0
     }
   }

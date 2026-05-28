@@ -396,6 +396,18 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
+    #region OnScreenKeyboard
+
+    public override string OnScreenKeyboard() => "ant-screen-keyboard";
+
+    public override string OnScreenKeyboardPlacement( OnScreenKeyboardPlacement placement ) => $"ant-screen-keyboard-{placement.ToString().ToLowerInvariant()}";
+
+    public override string OnScreenKeyboardRow() => "ant-screen-keyboard-row";
+
+    public override string OnScreenKeyboardKey() => "ant-screen-keyboard-key";
+
+    #endregion
+
     #region Control
 
     public override string ControlCheck( ControlRole role ) => null;

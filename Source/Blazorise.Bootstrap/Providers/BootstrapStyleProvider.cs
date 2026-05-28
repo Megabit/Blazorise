@@ -11,6 +11,8 @@ public class BootstrapStyleProvider : StyleProvider
 
     public override int DefaultModalBackdropZIndex => 1040;
 
+    public override int DefaultOnScreenKeyboardZIndex => 1150;
+
     public override string ModalShow( bool visible ) => null;
 
     public override string ModalFade( bool showing, bool hiding ) => null;

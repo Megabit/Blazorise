@@ -1,4 +1,5 @@
 @using Blazorise.Localization
+@using System
 @using System.Collections.Generic
 @inject NavigationManager NavigationManager
 @implements IDisposable
@@ -146,6 +147,69 @@
                 </BarDropdown>
             </BarItem>
             <BarItem>
+                <BarDropdown RightAligned>
+                    <BarDropdownToggle>Accessibility</BarDropdownToggle>
+                    <BarDropdownMenu Style="padding: 15px; min-width:400px;">
+                        <Field>
+                            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                                <Switch TValue="bool" Value="@OnScreenKeyboardEnabled" ValueChanged="@OnScreenKeyboardEnabledChanged">On-screen keyboard</Switch>
+                                <Tooltip Text="Shows a virtual keyboard when supported text inputs receive focus." Placement="TooltipPlacement.Left" Multiline>
+                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                                </Tooltip>
+                            </Div>
+                        </Field>
+                        <Field>
+                            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                                <Switch TValue="bool" Value="@UseLabelForAttribute" ValueChanged="@UseLabelForAttributeChanged">Label for attributes</Switch>
+                                <Tooltip Text="Connects labels to inputs with the HTML for attribute." Placement="TooltipPlacement.Left" Multiline>
+                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                                </Tooltip>
+                            </Div>
+                        </Field>
+                        <Field>
+                            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                                <Switch TValue="bool" Value="@UseAriaLabelledByAttribute" ValueChanged="@UseAriaLabelledByAttributeChanged">aria-labelledby attributes</Switch>
+                                <Tooltip Text="Adds aria-labelledby so assistive technologies can announce related labels." Placement="TooltipPlacement.Left" Multiline>
+                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                                </Tooltip>
+                            </Div>
+                        </Field>
+                        <Field>
+                            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                                <Switch TValue="bool" Value="@UseAutoAriaInvalidAttribute" ValueChanged="@UseAutoAriaInvalidAttributeChanged">aria-invalid attributes</Switch>
+                                <Tooltip Text="Sets aria-invalid automatically when validation marks an input invalid." Placement="TooltipPlacement.Left" Multiline>
+                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                                </Tooltip>
+                            </Div>
+                        </Field>
+                        <Field>
+                            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                                <Switch TValue="bool" Value="@UseAutoAriaDescribedByAttribute" ValueChanged="@UseAutoAriaDescribedByAttributeChanged">aria-describedby attributes</Switch>
+                                <Tooltip Text="Sets aria-describedby automatically for validation or help text associated with an input." Placement="TooltipPlacement.Left" Multiline>
+                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                                </Tooltip>
+                            </Div>
+                        </Field>
+                        <Field>
+                            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                                <Switch TValue="bool" Value="@UseAutoAriaRequiredAttribute" ValueChanged="@UseAutoAriaRequiredAttributeChanged">aria-required attributes</Switch>
+                                <Tooltip Text="Sets aria-required automatically for required inputs." Placement="TooltipPlacement.Left" Multiline>
+                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                                </Tooltip>
+                            </Div>
+                        </Field>
+                        <Field>
+                            <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                                <Switch TValue="bool" Value="@UseValidationOnBlur" ValueChanged="@UseValidationOnBlurChanged">Validate on blur</Switch>
+                                <Tooltip Text="Runs validation when an input loses focus." Placement="TooltipPlacement.Left" Multiline>
+                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                                </Tooltip>
+                            </Div>
+                        </Field>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+            <BarItem>
                 <BarLink To="https://github.com/Megabit/Blazorise">GitHub</BarLink>
             </BarItem>
             <BarItem>
@@ -186,6 +250,57 @@
         LayoutType = layoutType;
 
         return LayoutTypeChanged.InvokeAsync( layoutType );
+    }
+
+    private async Task OnScreenKeyboardEnabledChanged( bool value )
+    {
+        OnScreenKeyboardOptions.Enabled = value;
+
+        if ( !value )
+        {
+            await OnScreenKeyboardService.Hide();
+        }
+
+        StateHasChanged();
+    }
+
+    private Task SetAccessibilityOption( Action<BlazoriseAccessibilityOptions> action )
+    {
+        action?.Invoke( AccessibilityOptions );
+
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+
+    private Task UseLabelForAttributeChanged( bool value )
+    {
+        return SetAccessibilityOption( option => option.UseLabelForAttribute = value );
+    }
+
+    private Task UseAriaLabelledByAttributeChanged( bool value )
+    {
+        return SetAccessibilityOption( option => option.UseAriaLabelledByAttribute = value );
+    }
+
+    private Task UseAutoAriaInvalidAttributeChanged( bool value )
+    {
+        return SetAccessibilityOption( option => option.UseAutoAriaInvalidAttribute = value );
+    }
+
+    private Task UseAutoAriaDescribedByAttributeChanged( bool value )
+    {
+        return SetAccessibilityOption( option => option.UseAutoAriaDescribedByAttribute = value );
+    }
+
+    private Task UseAutoAriaRequiredAttributeChanged( bool value )
+    {
+        return SetAccessibilityOption( option => option.UseAutoAriaRequiredAttribute = value );
+    }
+
+    private Task UseValidationOnBlurChanged( bool value )
+    {
+        return SetAccessibilityOption( option => option.UseValidationOnBlur = value );
     }
 
     Dictionary<string, string> demoToGitHubMapping = new Dictionary<string, string>
@@ -324,5 +439,27 @@
 
     [Inject] protected ITextLocalizerService LocalizationService { get; set; }
 
+    [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
+
+    [Inject] protected IOnScreenKeyboardService OnScreenKeyboardService { get; set; }
+
     [CascadingParameter] protected Theme Theme { get; set; }
+
+    private BlazoriseAccessibilityOptions AccessibilityOptions => BlazoriseOptions.AccessibilityOptions ??= new();
+
+    private BlazoriseOnScreenKeyboardOptions OnScreenKeyboardOptions => AccessibilityOptions.OnScreenKeyboard ??= new();
+
+    private bool OnScreenKeyboardEnabled => OnScreenKeyboardOptions.Enabled;
+
+    private bool UseLabelForAttribute => AccessibilityOptions.UseLabelForAttribute;
+
+    private bool UseAriaLabelledByAttribute => AccessibilityOptions.UseAriaLabelledByAttribute;
+
+    private bool UseAutoAriaInvalidAttribute => AccessibilityOptions.UseAutoAriaInvalidAttribute;
+
+    private bool UseAutoAriaDescribedByAttribute => AccessibilityOptions.UseAutoAriaDescribedByAttribute;
+
+    private bool UseAutoAriaRequiredAttribute => AccessibilityOptions.UseAutoAriaRequiredAttribute;
+
+    private bool UseValidationOnBlur => AccessibilityOptions.UseValidationOnBlur;
 }

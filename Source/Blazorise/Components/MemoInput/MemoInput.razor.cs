@@ -216,6 +216,9 @@ public partial class MemoInput : BaseBufferedTextInput<string, MemoInputClasses,
     /// <inheritdoc/>
     protected override string DefaultValue => string.Empty;
 
+    /// <inheritdoc/>
+    protected override OnScreenKeyboardEnterKeyBehavior DefaultOnScreenKeyboardEnterKeyBehavior => OnScreenKeyboardEnterKeyBehavior.NewLine;
+
     /// <summary>
     /// Specifies the <see cref="IJSMemoInputModule"/> instance.
     /// </summary>

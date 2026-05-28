@@ -98,6 +98,24 @@ public interface IJSUtilitiesModule : IBaseJSModule
     ValueTask ShowPicker( ElementReference elementRef, string elementId );
 
     /// <summary>
+    /// Submits the closest parent form for the supplied element.
+    /// </summary>
+    /// <param name="elementRef">Reference to the rendered element.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask SubmitClosestForm( ElementReference elementRef );
+
+    /// <summary>
+    /// Dispatches a keyboard event from the supplied element.
+    /// </summary>
+    /// <param name="elementRef">Reference to the rendered element.</param>
+    /// <param name="eventName">Keyboard event name.</param>
+    /// <param name="key">Keyboard key.</param>
+    /// <param name="code">Keyboard code.</param>
+    /// <param name="keyCode">Keyboard key code.</param>
+    /// <returns>A task that represents the asynchronous operation. Returns true if the event was not cancelled.</returns>
+    ValueTask<bool> DispatchKeyboardEvent( ElementReference elementRef, string eventName, string key, string code, int keyCode );
+
+    /// <summary>
     /// Scrolls the view to the given anchor element.
     /// </summary>
     /// <param name="anchorTarget">Anchor element id.</param>
@@ -113,6 +131,21 @@ public interface IJSUtilitiesModule : IBaseJSModule
     ValueTask ScrollElementIntoView( string elementId, bool smooth = true );
 
     /// <summary>
+    /// Scrolls the focused input into view when it is covered by the on-screen keyboard.
+    /// </summary>
+    /// <param name="elementId">ID of the focused input element.</param>
+    /// <param name="keyboardElementId">ID of the rendered keyboard element.</param>
+    /// <param name="margin">Viewport margin, in pixels, to keep between the input and keyboard.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask ScrollElementIntoViewForOnScreenKeyboard( string elementId, string keyboardElementId, int margin );
+
+    /// <summary>
+    /// Clears any scroll adjustment added by the on-screen keyboard.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask ClearOnScreenKeyboardScrollAdjustment();
+
+    /// <summary>
     /// Sets the caret to the specified position.
     /// </summary>
     /// <param name="elementRef">Reference to the rendered element.</param>
@@ -126,6 +159,13 @@ public interface IJSUtilitiesModule : IBaseJSModule
     /// <param name="elementRef">Reference to the rendered element.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     ValueTask<int> GetCaret( ElementReference elementRef );
+
+    /// <summary>
+    /// Gets the selected text range.
+    /// </summary>
+    /// <param name="elementRef">Reference to the rendered element.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask<TextSelection> GetSelection( ElementReference elementRef );
 
     /// <summary>
     /// Updates the input with the specified value.

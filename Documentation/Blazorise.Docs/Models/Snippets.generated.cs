@@ -3608,6 +3608,136 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string OnScreenKeyboardButtonTriggerExample = @"<Field>
+    <FieldLabel>Button trigger</FieldLabel>
+    <Addons>
+        <Addon AddonType=""AddonType.Body"">
+            <TextInput @ref=""@textInputRef"" @bind-Value=""@textValue"" Placeholder=""Click the keyboard button"" OnScreenKeyboard OnScreenKeyboardShowMode=""OnScreenKeyboardShowMode.Manual"" />
+        </Addon>
+        <Addon AddonType=""AddonType.End"">
+            <Button Color=""Color.Secondary"" Clicked=""@ShowKeyboard"">Keyboard</Button>
+        </Addon>
+    </Addons>
+</Field>
+
+@code {
+    private TextInput textInputRef;
+    private string textValue;
+
+    private Task ShowKeyboard()
+    {
+        return textInputRef?.ShowOnScreenKeyboard() ?? Task.CompletedTask;
+    }
+}";
+
+        public const string OnScreenKeyboardCustomLayoutExample = @"@code {
+    private IReadOnlyList<IReadOnlyList<OnScreenKeyboardKey>> SpecialCharactersRows = new List<IReadOnlyList<OnScreenKeyboardKey>>
+    {
+        new[] { new OnScreenKeyboardKey( ""1"" ), new OnScreenKeyboardKey( ""2"" ), new OnScreenKeyboardKey( ""3"" ) },
+        new[] { new OnScreenKeyboardKey( ""!"" ), new OnScreenKeyboardKey( ""?"" ), new OnScreenKeyboardKey( ""."" ) },
+        new[] { new OnScreenKeyboardKey( OnScreenKeyboardKeyType.SpecialCharacters, ""ABC"" ) },
+    };
+}
+
+<OnScreenKeyboardProvider ShowSpecialCharactersKey
+                          SpecialCharactersRows=""@SpecialCharactersRows"" />";
+
+        public const string OnScreenKeyboardGlobalOptionsExample = @"builder.Services
+    .AddBlazorise( options =>
+    {
+        options.AccessibilityOptions.OnScreenKeyboard.Enabled = true;
+        options.AccessibilityOptions.OnScreenKeyboard.InputTypes =
+            OnScreenKeyboardInputType.Text
+            | OnScreenKeyboardInputType.Numeric
+            | OnScreenKeyboardInputType.Date
+            | OnScreenKeyboardInputType.Time
+            | OnScreenKeyboardInputType.Pickers;
+        options.AccessibilityOptions.OnScreenKeyboard.EnterKeyBehavior = OnScreenKeyboardEnterKeyBehavior.Submit;
+        options.AccessibilityOptions.OnScreenKeyboard.KeyboardSize = OnScreenKeyboardSize.Large;
+        options.AccessibilityOptions.OnScreenKeyboard.KeyLayout = OnScreenKeyboardKeyLayout.Centered;
+        options.AccessibilityOptions.OnScreenKeyboard.KeyWidth = 72;
+        options.AccessibilityOptions.OnScreenKeyboard.KeyMinHeight = 56;
+    } );";
+
+        public const string OnScreenKeyboardKeyTemplateExample = @"<OnScreenKeyboardProvider KeyboardSize=""OnScreenKeyboardSize.Large""
+                          KeyLayout=""OnScreenKeyboardKeyLayout.Centered"">
+    <KeyTemplate Context=""key"">
+        @if ( key.Key.KeyType == OnScreenKeyboardKeyType.Shift )
+        {
+            <Icon Name=""IconName.ArrowUp"" />
+        }
+        else if ( key.Key.KeyType == OnScreenKeyboardKeyType.Backspace )
+        {
+            <Icon Name=""IconName.Backspace"" />
+        }
+        else if ( key.Key.KeyType == OnScreenKeyboardKeyType.Clear )
+        {
+            <Icon Name=""IconName.Clear"" />
+        }
+        else
+        {
+            @key.DisplayText
+        }
+    </KeyTemplate>
+</OnScreenKeyboardProvider>";
+
+        public const string OnScreenKeyboardLayoutExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.Is4.OnDesktop"">
+        <FieldLabel>Email layout</FieldLabel>
+        <TextInput @bind-Value=""@emailValue"" Placeholder=""name@example.com"" Role=""TextRole.Email"" OnScreenKeyboard=""true"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.Is4.OnDesktop"">
+        <FieldLabel>Numeric layout</FieldLabel>
+        <NumericInput TValue=""int?"" @bind-Value=""@numberValue"" Placeholder=""123"" OnScreenKeyboard=""true"" />
+    </Field>
+    <Field ColumnSize=""ColumnSize.Is4.OnDesktop"">
+        <FieldLabel>Explicit layout</FieldLabel>
+        <TextInput @bind-Value=""@urlValue"" Placeholder=""https://example.com"" OnScreenKeyboard=""true"" OnScreenKeyboardLayout=""OnScreenKeyboardLayout.Url"" />
+    </Field>
+</Fields>
+
+@code {
+    private string emailValue;
+
+    private int? numberValue;
+
+    private string urlValue;
+}";
+
+        public const string OnScreenKeyboardMemoInputExample = @"<Field>
+    <FieldLabel>Memo input</FieldLabel>
+    <MemoInput @bind-Value=""@memoValue"" Placeholder=""Focus to enter multiple lines"" OnScreenKeyboard=""true"" />
+</Field>
+
+@code {
+    private string memoValue;
+}";
+
+        public const string OnScreenKeyboardProviderSetupExample = @"<ThemeProvider Theme=""@theme"">
+    <Router AppAssembly=""@typeof( App ).Assembly"" />
+    <OnScreenKeyboardProvider />
+</ThemeProvider>";
+
+        public const string OnScreenKeyboardSizingExample = @"<ThemeProvider Theme=""@theme"">
+    <Router AppAssembly=""@typeof( App ).Assembly"" />
+    <OnScreenKeyboardProvider KeyboardSize=""OnScreenKeyboardSize.Large""
+                              KeyLayout=""OnScreenKeyboardKeyLayout.Centered"" />
+</ThemeProvider>";
+
+        public const string OnScreenKeyboardSpecialCharactersExample = @"<ThemeProvider Theme=""@theme"">
+    <Router AppAssembly=""@typeof( App ).Assembly"" />
+    <OnScreenKeyboardProvider ShowSpecialCharactersKey />
+</ThemeProvider>";
+
+        public const string OnScreenKeyboardTextInputExample = @"<Field>
+    <FieldLabel>Text input</FieldLabel>
+    <TextInput @bind-Value=""@textValue"" Placeholder=""Focus to show the keyboard"" OnScreenKeyboard />
+</Field>
+
+@code {
+    private string textValue;
+}";
+
         public const string BasicPaginationExample = @"<Pagination>
     <PaginationItem Disabled=""@isActive.First()"" @onclick=""Previous"">
         <PaginationLink>

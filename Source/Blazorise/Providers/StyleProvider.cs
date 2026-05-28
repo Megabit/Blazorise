@@ -12,6 +12,8 @@ public abstract class StyleProvider : IStyleProvider
 
     public abstract int DefaultModalBackdropZIndex { get; }
 
+    public virtual int DefaultOnScreenKeyboardZIndex => DefaultModalZIndex + 100;
+
     public abstract string ModalShow( bool visible );
 
     public abstract string ModalFade( bool showing, bool hiding );

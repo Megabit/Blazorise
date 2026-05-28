@@ -501,6 +501,12 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
         return Task.CompletedTask;
     }
 
+    /// <inheritdoc/>
+    protected override Task OnScreenKeyboardValueChanged( string value )
+    {
+        return JSModule.UpdateValue( ElementRef, ElementId, value ).AsTask();
+    }
+
     /// <summary>
     /// Returns the numbers of allowed decimals.
     /// </summary>
@@ -510,6 +516,12 @@ public partial class NumericPicker<TValue> : BaseBufferedTextInput<TValue, Numer
     #endregion
 
     #region Properties
+
+    /// <inheritdoc/>
+    protected override OnScreenKeyboardLayout DefaultOnScreenKeyboardLayout => isIntegerType ? OnScreenKeyboardLayout.Numeric : OnScreenKeyboardLayout.Decimal;
+
+    /// <inheritdoc/>
+    protected override OnScreenKeyboardInputType OnScreenKeyboardInputType => OnScreenKeyboardInputType.Numeric;
 
     /// <summary>
     /// Indicates if <see cref="Min"/> parameter is defined.

@@ -73,6 +73,14 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
         => InvokeSafeVoidAsync( "showPicker", elementRef, elementId );
 
     /// <inheritdoc/>
+    public virtual ValueTask SubmitClosestForm( ElementReference elementRef )
+        => InvokeSafeVoidAsync( "submitClosestForm", elementRef );
+
+    /// <inheritdoc/>
+    public virtual ValueTask<bool> DispatchKeyboardEvent( ElementReference elementRef, string eventName, string key, string code, int keyCode )
+        => InvokeSafeAsync<bool>( "dispatchKeyboardEvent", elementRef, eventName, key, code, keyCode );
+
+    /// <inheritdoc/>
     public virtual ValueTask ScrollAnchorIntoView( string anchorTarget )
         => InvokeSafeVoidAsync( "scrollAnchorIntoView", anchorTarget );
 
@@ -81,12 +89,24 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
         => InvokeSafeVoidAsync( "scrollElementIntoView", elementId, smooth );
 
     /// <inheritdoc/>
+    public virtual ValueTask ScrollElementIntoViewForOnScreenKeyboard( string elementId, string keyboardElementId, int margin )
+        => InvokeSafeVoidAsync( "scrollElementIntoViewForOnScreenKeyboard", elementId, keyboardElementId, margin );
+
+    /// <inheritdoc/>
+    public virtual ValueTask ClearOnScreenKeyboardScrollAdjustment()
+        => InvokeSafeVoidAsync( "clearOnScreenKeyboardScrollAdjustment" );
+
+    /// <inheritdoc/>
     public virtual ValueTask SetCaret( ElementReference elementRef, int caret )
         => InvokeSafeVoidAsync( "setCaret", elementRef, caret );
 
     /// <inheritdoc/>
     public virtual ValueTask<int> GetCaret( ElementReference elementRef )
         => InvokeSafeAsync<int>( "getCaret", elementRef );
+
+    /// <inheritdoc/>
+    public virtual ValueTask<TextSelection> GetSelection( ElementReference elementRef )
+        => InvokeSafeAsync<TextSelection>( "getSelection", elementRef );
 
     /// <inheritdoc/>
     public virtual ValueTask SetTextValue( ElementReference elementRef, object value )

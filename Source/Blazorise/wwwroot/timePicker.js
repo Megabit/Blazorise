@@ -3,7 +3,7 @@ import * as utilities from "./utilities.js?v=2.1.3.0";
 
 const _pickers = [];
 
-export function initialize(element, elementId, options) {
+export function initialize(dotnetAdapter, element, elementId, options) {
     element = utilities.getRequiredElement(element, elementId);
 
     if (!element)
@@ -76,6 +76,9 @@ export function initialize(element, elementId, options) {
     picker.classMutationObserver = mutationObserver;
     picker.disconnectCleanupId = utilities.registerDisconnectCleanup(element, () => destroy(null, elementId, false));
 
+    picker.altInput.dotnetAdapter = dotnetAdapter;
+    attachEventHandlers(picker.altInput);
+
     if (options) {
         picker.altInput.disabled = utilities.coalesce(options.disabled, false);
         picker.altInput.readOnly = utilities.coalesce(options.readOnly, false);
@@ -95,6 +98,68 @@ export function initialize(element, elementId, options) {
     _pickers[elementId] = picker;
 }
 
+function attachEventHandlers(picker) {
+    picker.addEventListener("keydown", keyDownHandler);
+    picker.addEventListener("keyup", keyUpHandler);
+    picker.addEventListener("focus", focusHandler);
+    picker.addEventListener("focusin", focusInHandler);
+    picker.addEventListener("focusout", focusOutHandler);
+    picker.addEventListener("keypress", keyPressHandler);
+    picker.addEventListener("blur", blurHandler);
+}
+
+function removeEventHandlers(picker) {
+    picker.removeEventListener("keydown", keyDownHandler);
+    picker.removeEventListener("keyup", keyUpHandler);
+    picker.removeEventListener("focus", focusHandler);
+    picker.removeEventListener("focusin", focusInHandler);
+    picker.removeEventListener("focusout", focusOutHandler);
+    picker.removeEventListener("keypress", keyPressHandler);
+    picker.removeEventListener("blur", blurHandler);
+}
+
+function keyDownHandler(e) {
+    if (e.target.dotnetAdapter) {
+        e.target.dotnetAdapter.invokeMethodAsync("OnKeyDownHandler", e);
+    }
+}
+
+function keyUpHandler(e) {
+    if (e.target.dotnetAdapter) {
+        e.target.dotnetAdapter.invokeMethodAsync("OnKeyUpHandler", e);
+    }
+}
+
+function focusHandler(e) {
+    if (e.target.dotnetAdapter) {
+        e.target.dotnetAdapter.invokeMethodAsync("OnFocusHandler", e);
+    }
+}
+
+function focusInHandler(e) {
+    if (e.target.dotnetAdapter) {
+        e.target.dotnetAdapter.invokeMethodAsync("OnFocusInHandler", e);
+    }
+}
+
+function focusOutHandler(e) {
+    if (e.target.dotnetAdapter) {
+        e.target.dotnetAdapter.invokeMethodAsync("OnFocusOutHandler", e);
+    }
+}
+
+function keyPressHandler(e) {
+    if (e.target.dotnetAdapter) {
+        e.target.dotnetAdapter.invokeMethodAsync("OnKeyPressHandler", e);
+    }
+}
+
+function blurHandler(e) {
+    if (e.target.dotnetAdapter) {
+        e.target.dotnetAdapter.invokeMethodAsync("OnBlurHandler", e);
+    }
+}
+
 export function destroy(element, elementId, unregisterCleanup = true) {
     const instances = _pickers || {};
     const instance = instances[elementId];
@@ -110,6 +175,10 @@ export function destroy(element, elementId, unregisterCleanup = true) {
         instance.classMutationObserver.disconnect();
     }
 
+    if (instance.altInput) {
+        removeEventHandlers(instance.altInput);
+    }
+
     if (typeof instance.destroy === "function") {
         instance.destroy();
     }
@@ -122,6 +191,29 @@ export function updateValue(element, elementId, value) {
 
     if (picker) {
         picker.setDate(value);
+    }
+}
+
+export function updateTextValue(element, elementId, value) {
+    const picker = _pickers[elementId];
+    const textValue = value || "";
+
+    if (picker) {
+        if (picker.altInput) {
+            picker.altInput.value = textValue;
+        }
+
+        if (picker.input) {
+            picker.input.value = textValue;
+        }
+
+        return;
+    }
+
+    element = utilities.getRequiredElement(element, elementId);
+
+    if (element) {
+        element.value = textValue;
     }
 }
 

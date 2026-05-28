@@ -36,6 +36,8 @@ public partial class Validations : ComponentBase
 
     private bool hasSetEditContextExplicitly;
 
+    internal event Func<ValidationsSubmitEventArgs, Task> SubmitRequested;
+
     #endregion
 
     #region Methods
@@ -96,6 +98,19 @@ public partial class Validations : ComponentBase
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Requests the first available submit or primary action, or validates all inputs if no actionable submit handler is registered.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    internal async Task RequestSubmit()
+    {
+        // Two-pass dispatch preserves submit-button priority without Validations tracking child buttons.
+        if ( await TryRaiseSubmitRequested( ValidationsSubmitPriority.Submit, ValidationsSubmitPriority.Primary ) )
+            return;
+
+        await ValidateAll();
+    }
+
     private async Task<bool> TryValidateAll()
     {
         var validated = true;
@@ -128,6 +143,29 @@ public partial class Validations : ComponentBase
     public void NotifyValidationRemoved( IValidation validation )
     {
         validations.Remove( validation );
+    }
+
+    private async Task<bool> TryRaiseSubmitRequested( params ValidationsSubmitPriority[] priorities )
+    {
+        if ( SubmitRequested is null )
+        {
+            return false;
+        }
+
+        foreach ( var priority in priorities )
+        {
+            var eventArgs = new ValidationsSubmitEventArgs( priority );
+
+            foreach ( Func<ValidationsSubmitEventArgs, Task> handler in SubmitRequested.GetInvocationList() )
+            {
+                await handler( eventArgs );
+
+                if ( eventArgs.Handled )
+                    return true;
+            }
+        }
+
+        return false;
     }
 
     /// <summary>

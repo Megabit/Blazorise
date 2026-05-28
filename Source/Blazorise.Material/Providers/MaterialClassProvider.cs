@@ -408,6 +408,18 @@ public class MaterialClassProvider : ClassProvider
 
     #endregion
 
+    #region OnScreenKeyboard
+
+    public override string OnScreenKeyboard() => "mui-screen-keyboard";
+
+    public override string OnScreenKeyboardPlacement( OnScreenKeyboardPlacement placement ) => $"mui-screen-keyboard-{placement.ToString().ToLowerInvariant()}";
+
+    public override string OnScreenKeyboardRow() => "mui-screen-keyboard-row";
+
+    public override string OnScreenKeyboardKey() => "mui-screen-keyboard-key";
+
+    #endregion
+
     #region Control
 
     public override string ControlCheck( ControlRole role ) => null;

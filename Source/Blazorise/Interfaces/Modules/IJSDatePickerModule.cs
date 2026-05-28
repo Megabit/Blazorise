@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -39,6 +39,15 @@ public interface IJSDatePickerModule : IBaseJSModule,
     /// <param name="value">Value to update.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     ValueTask UpdateValue( ElementReference elementRef, string elementId, object value );
+
+    /// <summary>
+    /// Updates the visible <see cref="DatePicker{TValue}"/> text without parsing it through the picker.
+    /// </summary>
+    /// <param name="elementRef">Reference to the rendered element.</param>
+    /// <param name="elementId">ID of the rendered element.</param>
+    /// <param name="value">Text to update.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask UpdateTextValue( ElementReference elementRef, string elementId, string value );
 
     /// <summary>
     /// Updates the <see cref="DatePicker{TValue}"/> options.

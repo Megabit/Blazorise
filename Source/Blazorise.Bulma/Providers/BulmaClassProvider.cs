@@ -376,6 +376,18 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
+    #region OnScreenKeyboard
+
+    public override string OnScreenKeyboard() => "screen-keyboard";
+
+    public override string OnScreenKeyboardPlacement( OnScreenKeyboardPlacement placement ) => $"screen-keyboard-{placement.ToString().ToLowerInvariant()}";
+
+    public override string OnScreenKeyboardRow() => "screen-keyboard-row";
+
+    public override string OnScreenKeyboardKey() => "screen-keyboard-key";
+
+    #endregion
+
     #region Control
 
     public override string ControlCheck( ControlRole role ) => role == ControlRole.Check ? "control" : null;

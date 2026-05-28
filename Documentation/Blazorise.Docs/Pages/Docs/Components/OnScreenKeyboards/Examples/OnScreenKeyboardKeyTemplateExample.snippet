@@ -1,0 +1,21 @@
+<OnScreenKeyboardProvider KeyboardSize="OnScreenKeyboardSize.Large"
+                          KeyLayout="OnScreenKeyboardKeyLayout.Centered">
+    <KeyTemplate Context="key">
+        @if ( key.Key.KeyType == OnScreenKeyboardKeyType.Shift )
+        {
+            <Icon Name="IconName.ArrowUp" />
+        }
+        else if ( key.Key.KeyType == OnScreenKeyboardKeyType.Backspace )
+        {
+            <Icon Name="IconName.Backspace" />
+        }
+        else if ( key.Key.KeyType == OnScreenKeyboardKeyType.Clear )
+        {
+            <Icon Name="IconName.Clear" />
+        }
+        else
+        {
+            @key.DisplayText
+        }
+    </KeyTemplate>
+</OnScreenKeyboardProvider>

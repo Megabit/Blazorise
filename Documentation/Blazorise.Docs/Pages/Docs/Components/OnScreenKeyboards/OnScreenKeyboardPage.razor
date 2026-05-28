@@ -1,0 +1,99 @@
+@page "/docs/components/on-screen-keyboard"
+
+<Seo Canonical="/docs/components/on-screen-keyboard" Title="Blazorise On-screen Keyboard" Description="Learn how to enable the Blazorise on-screen keyboard for text-capable input components." />
+
+<DocsPageTitle Path="Components/On-screen Keyboard">
+    Blazorise On-screen Keyboard
+</DocsPageTitle>
+
+<DocsPageLead>
+    The on-screen keyboard lets text-capable input components show a virtual keyboard when they receive focus.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Add the <Code Tag>OnScreenKeyboardProvider</Code> once near the root of your app, then enable the keyboard on the inputs that need it with the <Code>OnScreenKeyboard</Code> parameter.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Provider setup">
+        The provider renders the keyboard and connects it to focused input components.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="OnScreenKeyboardProviderSetupExample" CodeTitle="Routes.razor" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Text input">
+        Enable the keyboard on a single <Code Tag>TextInput</Code> by setting <Code>OnScreenKeyboard</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="OnScreenKeyboardTextInputExample" Outlined FullWidth>
+        <OnScreenKeyboardTextInputExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Button trigger">
+        Show the keyboard programmatically from a custom trigger. This example uses an addon button next to the input.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="OnScreenKeyboardButtonTriggerExample" Outlined FullWidth>
+        <OnScreenKeyboardButtonTriggerExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Memo input">
+        Multiline inputs insert a new line by default. Set <Code>OnScreenKeyboardEnterKeyBehavior</Code> to <Code>Submit</Code> when the enter key should submit the nearest validations or form.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="OnScreenKeyboardMemoInputExample" Outlined FullWidth>
+        <OnScreenKeyboardMemoInputExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Input-specific layouts">
+        Text roles and numeric inputs choose a suitable layout automatically. You can also set <Code>OnScreenKeyboardLayout</Code> explicitly.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="OnScreenKeyboardLayoutExample" Outlined FullWidth>
+        <OnScreenKeyboardLayoutExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Special characters">
+        Enable <Code>ShowSpecialCharactersKey</Code> to add a toggle key for symbols and punctuation to text-based keyboard layouts.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="OnScreenKeyboardSpecialCharactersExample" CodeTitle="Routes.razor" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom layouts">
+        Use <Code>SpecialCharactersRows</Code> or <Code>LayoutProvider</Code> when the built-in rows are not enough for the target input.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="OnScreenKeyboardCustomLayoutExample" CodeTitle="Routes.razor" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Keyboard size and layout">
+        Use <Code>KeyboardSize</Code> to constrain the keyboard width, and <Code>KeyLayout</Code> to center fixed-width keys instead of stretching them across each row.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="OnScreenKeyboardSizingExample" CodeTitle="Routes.razor" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Key template">
+        Use <Code>KeyTemplate</Code> to customize the content rendered inside each key while keeping the default keyboard behavior.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="OnScreenKeyboardKeyTemplateExample" CodeTitle="Routes.razor" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Global option">
+        If the keyboard should be available globally, enable it in Blazorise options. By default, global enablement targets text and numeric inputs only. Use <Code>OnScreenKeyboardInputType</Code> to opt date, time, and picker inputs into the global keyboard behavior.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="OnScreenKeyboardGlobalOptionsExample" CodeTitle="Program.cs" />
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof( OnScreenKeyboardProvider ), typeof( BaseOnScreenKeyboardInputComponent<,,> ), typeof( BlazoriseOnScreenKeyboardOptions )]" />
