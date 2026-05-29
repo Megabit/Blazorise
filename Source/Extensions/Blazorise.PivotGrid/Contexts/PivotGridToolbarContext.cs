@@ -21,13 +21,52 @@ public class PivotGridToolbarContext<TItem>
         Func<Task> previousPageCommand,
         Func<Task> nextPageCommand,
         Func<Task> lastPageCommand )
+        : this(
+            pivotGrid,
+            openFieldChooserCommand,
+            pivotGrid.Reload,
+            pivotGrid.ExpandAllGroups,
+            pivotGrid.CollapseAllGroups,
+            pivotGrid.ResetLayout,
+            firstPageCommand,
+            previousPageCommand,
+            nextPageCommand,
+            lastPageCommand )
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of <see cref="PivotGridToolbarContext{TItem}"/>.
+    /// </summary>
+    public PivotGridToolbarContext(
+        PivotGrid<TItem> pivotGrid,
+        Func<Task> openFieldChooserCommand,
+        Func<Task> refreshCommand,
+        Func<Task> expandAllCommand,
+        Func<Task> collapseAllCommand,
+        Func<Task> resetLayoutCommand,
+        Func<Task> firstPageCommand,
+        Func<Task> previousPageCommand,
+        Func<Task> nextPageCommand,
+        Func<Task> lastPageCommand )
     {
         OpenFieldChooserCommand = openFieldChooserCommand;
+        RefreshCommand = refreshCommand;
+        ExpandAllCommand = expandAllCommand;
+        CollapseAllCommand = collapseAllCommand;
+        ResetLayoutCommand = resetLayoutCommand;
         FirstPageCommand = firstPageCommand;
         PreviousPageCommand = previousPageCommand;
         NextPageCommand = nextPageCommand;
         LastPageCommand = lastPageCommand;
         ShowFieldChooser = pivotGrid.ShowFieldChooser;
+        CanExpandCollapseGroups = pivotGrid.CanExpandCollapseGroups;
+        CanResetLayout = pivotGrid.CanResetLayout;
+        FieldsText = pivotGrid.LocalizedFieldsText;
+        RefreshText = pivotGrid.LocalizedRefreshText;
+        ExpandAllText = pivotGrid.LocalizedExpandAllText;
+        CollapseAllText = pivotGrid.LocalizedCollapseAllText;
+        ResetLayoutText = pivotGrid.LocalizedResetLayoutText;
         CurrentPage = pivotGrid.CurrentPage;
         LastPage = pivotGrid.LastPage;
         TotalRows = pivotGrid.TotalRows;
@@ -66,9 +105,54 @@ public class PivotGridToolbarContext<TItem>
     public bool PageByGroups { get; }
 
     /// <summary>
+    /// Gets localized text for the field chooser command.
+    /// </summary>
+    public string FieldsText { get; }
+
+    /// <summary>
+    /// Gets localized text for the refresh command.
+    /// </summary>
+    public string RefreshText { get; }
+
+    /// <summary>
+    /// Gets localized text for the expand all command.
+    /// </summary>
+    public string ExpandAllText { get; }
+
+    /// <summary>
+    /// Gets localized text for the collapse all command.
+    /// </summary>
+    public string CollapseAllText { get; }
+
+    /// <summary>
+    /// Gets localized text for the reset layout command.
+    /// </summary>
+    public string ResetLayoutText { get; }
+
+    /// <summary>
     /// Opens the field chooser dialog.
     /// </summary>
     public Func<Task> OpenFieldChooserCommand { get; }
+
+    /// <summary>
+    /// Reloads or recalculates the pivot data.
+    /// </summary>
+    public Func<Task> RefreshCommand { get; }
+
+    /// <summary>
+    /// Expands all expandable row and column groups.
+    /// </summary>
+    public Func<Task> ExpandAllCommand { get; }
+
+    /// <summary>
+    /// Collapses all expandable row and column groups.
+    /// </summary>
+    public Func<Task> CollapseAllCommand { get; }
+
+    /// <summary>
+    /// Resets runtime field layout and filters to the declared field configuration.
+    /// </summary>
+    public Func<Task> ResetLayoutCommand { get; }
 
     /// <summary>
     /// Navigates to the first page.
@@ -94,6 +178,16 @@ public class PivotGridToolbarContext<TItem>
     /// Gets whether the field chooser command is available.
     /// </summary>
     public bool CanOpenFieldChooser => ShowFieldChooser;
+
+    /// <summary>
+    /// Gets whether the grid has expandable row or column groups.
+    /// </summary>
+    public bool CanExpandCollapseGroups { get; }
+
+    /// <summary>
+    /// Gets whether the runtime field layout can be reset.
+    /// </summary>
+    public bool CanResetLayout { get; }
 
     /// <summary>
     /// Gets whether the grid can navigate to the previous page.

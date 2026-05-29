@@ -6,12 +6,60 @@
 }
 else
 {
-    <Div Flex="FlexRow" Gap="GapIs2" Padding="PaddingIs2">
-        @if ( Context.CanOpenFieldChooser )
+    PivotGridToolbarContext<TItem> context = Context;
+
+    <Div Class="b-pivot-grid-toolbar" Padding="PaddingIs3" Border="BorderIs1" Flex="FlexRowAlignItemsCenter" Gap="GapIs2">
+        @if ( context.CanOpenFieldChooser )
         {
-            <Button Color="Color.Primary" Clicked="@Context.OpenFieldChooserCommand">
-                @PivotGrid.LocalizedFieldsText
+            <Buttons>
+                <Button Color="Color.Secondary"
+                        Outline
+                        Clicked="@(() => context.OpenFieldChooserCommand())"
+                        aria-label="@context.FieldsText">
+                    @context.FieldsText
+                </Button>
+            </Buttons>
+        }
+
+        <Buttons>
+            <Button Color="Color.Secondary"
+                    Outline
+                    Clicked="@(() => context.RefreshCommand())"
+                    aria-label="@context.RefreshText">
+                @context.RefreshText
             </Button>
+        </Buttons>
+
+        @if ( context.CanExpandCollapseGroups )
+        {
+            <Buttons>
+                <Button Color="Color.Secondary"
+                        Outline
+                        Clicked="@(() => context.ExpandAllCommand())"
+                        aria-label="@context.ExpandAllText">
+                    @context.ExpandAllText
+                </Button>
+
+                <Button Color="Color.Secondary"
+                        Outline
+                        Clicked="@(() => context.CollapseAllCommand())"
+                        aria-label="@context.CollapseAllText">
+                    @context.CollapseAllText
+                </Button>
+            </Buttons>
+        }
+
+        @if ( context.ShowFieldChooser )
+        {
+            <Buttons>
+                <Button Color="Color.Secondary"
+                        Outline
+                        Disabled="@(!context.CanResetLayout)"
+                        Clicked="@(() => context.ResetLayoutCommand())"
+                        aria-label="@context.ResetLayoutText">
+                    @context.ResetLayoutText
+                </Button>
+            </Buttons>
         }
     </Div>
 }

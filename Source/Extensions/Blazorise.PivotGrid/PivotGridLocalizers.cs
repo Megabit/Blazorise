@@ -45,6 +45,26 @@ public class PivotGridLocalizers
     public TextLocalizerHandler FieldsLocalizer { get; set; }
 
     /// <summary>
+    /// Custom localization handler for refresh toolbar command text.
+    /// </summary>
+    public TextLocalizerHandler RefreshLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for expand all toolbar command text.
+    /// </summary>
+    public TextLocalizerHandler ExpandAllLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for collapse all toolbar command text.
+    /// </summary>
+    public TextLocalizerHandler CollapseAllLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for reset layout toolbar command text.
+    /// </summary>
+    public TextLocalizerHandler ResetLayoutLocalizer { get; set; }
+
+    /// <summary>
     /// Custom localization handler for available fields text.
     /// </summary>
     public TextLocalizerHandler AvailableFieldsLocalizer { get; set; }

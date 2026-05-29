@@ -15,11 +15,13 @@ internal static class LocalizationConstants
     public const string AvailableFields = "Available fields";
     public const string Cancel = "Cancel";
     public const string Columns = "Columns";
+    public const string CollapseAll = "Collapse all";
     public const string CollapseColumn = "Collapse column";
     public const string CollapseRow = "Collapse row";
     public const string DragFields = "Drag and drop fields to arrange";
     public const string DropField = "Drop field here";
     public const string ExpandColumn = "Expand column";
+    public const string ExpandAll = "Expand all";
     public const string ExpandRow = "Expand row";
     public const string Fields = "Fields";
     public const string Filters = "Filters";
@@ -30,6 +32,8 @@ internal static class LocalizationConstants
     public const string NumbersOfItems = "{0} - {1} of {2} items";
     public const string Pagination = "Pagination";
     public const string Previous = "Prev";
+    public const string Refresh = "Refresh";
+    public const string ResetLayout = "Reset layout";
     public const string Rows = "Rows";
     public const string Total = "Total";
     public const string Values = "Values";

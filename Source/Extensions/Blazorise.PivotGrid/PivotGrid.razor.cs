@@ -304,6 +304,10 @@ public partial class PivotGrid<TItem> : BaseComponent
         => new(
             this,
             OpenFieldChooser,
+            Reload,
+            ExpandAllGroups,
+            CollapseAllGroups,
+            ResetLayout,
             () => SetPage( 1 ),
             () => SetPage( CurrentPage - 1 ),
             () => SetPage( CurrentPage + 1 ),
@@ -330,6 +334,53 @@ public partial class PivotGrid<TItem> : BaseComponent
         collapsedColumnGroupPaths.Clear();
         expandedRowGroupPaths.Clear();
         expandedColumnGroupPaths.Clear();
+
+        if ( Page != 1 )
+        {
+            Page = 1;
+            await PageChanged.InvokeAsync( 1 );
+        }
+
+        RequestPivotRefresh();
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    internal async Task ExpandAllGroups()
+    {
+        SetAllGroupsExpanded( true );
+
+        if ( UsesExternalData )
+            InvalidateExternalDataRead( resetVirtualizedRows: false );
+
+        await RefreshVirtualizedRows();
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    internal async Task CollapseAllGroups()
+    {
+        SetAllGroupsExpanded( false );
+
+        if ( UsesExternalData )
+            InvalidateExternalDataRead( resetVirtualizedRows: false );
+
+        await RefreshVirtualizedRows();
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    internal async Task ResetLayout()
+    {
+        runtimeRows.Clear();
+        runtimeColumns.Clear();
+        runtimeAggregates.Clear();
+        runtimeFilters.Clear();
+        runtimeStateInitialized = false;
+        runtimeStateUserModified = false;
+        EnsureRuntimeState();
+        ClearExpansionState();
+        InvalidateExternalDataRead();
 
         if ( Page != 1 )
         {
@@ -1191,6 +1242,62 @@ public partial class PivotGrid<TItem> : BaseComponent
         }
     }
 
+    private void SetAllGroupsExpanded( bool expanded )
+    {
+        if ( ExpandableRows )
+        {
+            SetAxisItemsExpanded(
+                pivotResult?.Rows.Select( row => row.Row ),
+                pivotResult?.RowFields,
+                collapsedRowGroupPaths,
+                expandedRowGroupPaths,
+                expanded );
+        }
+
+        if ( ExpandableColumns )
+        {
+            SetAxisItemsExpanded(
+                pivotResult?.DataColumns.Select( column => column.Column ),
+                pivotResult?.ColumnFields,
+                collapsedColumnGroupPaths,
+                expandedColumnGroupPaths,
+                expanded );
+        }
+    }
+
+    private void SetAxisItemsExpanded( IEnumerable<PivotGridAxisItem<TItem>> axisItems, IReadOnlyList<PivotGridFieldInfo<TItem>> axisFields, Dictionary<string, IReadOnlyList<object>> collapsedGroupPaths, Dictionary<string, IReadOnlyList<object>> expandedGroupPaths, bool expanded )
+    {
+        collapsedGroupPaths.Clear();
+        expandedGroupPaths.Clear();
+
+        if ( expanded && InitiallyExpanded )
+            return;
+
+        if ( !expanded && !InitiallyExpanded )
+            return;
+
+        if ( axisItems is null || axisFields is null )
+            return;
+
+        Dictionary<string, IReadOnlyList<object>> targetGroupPaths = expanded ? expandedGroupPaths : collapsedGroupPaths;
+
+        foreach ( PivotGridAxisItem<TItem> axisItem in axisItems.Distinct( PivotGridAxisItemEqualityComparer<TItem>.Instance ) )
+        {
+            if ( !PivotGridAxisItemUtilities.CanToggleExpansion( axisItem, axisFields ) )
+                continue;
+
+            targetGroupPaths[PivotGridKeyGenerator.CreateGroupKey( axisItem.Values )] = axisItem.Values;
+        }
+    }
+
+    private void ClearExpansionState()
+    {
+        collapsedRowGroupPaths.Clear();
+        collapsedColumnGroupPaths.Clear();
+        expandedRowGroupPaths.Clear();
+        expandedColumnGroupPaths.Clear();
+    }
+
     private IReadOnlyList<PivotGridResultRow<TItem>> GetExpandedRows()
         => GetExpandedRows( pivotResult );
 
@@ -1327,6 +1434,18 @@ public partial class PivotGrid<TItem> : BaseComponent
 
     internal string LocalizedFieldsText
         => Localizer.Localize( Localizers?.FieldsLocalizer, LocalizationConstants.Fields );
+
+    internal string LocalizedRefreshText
+        => Localizer.Localize( Localizers?.RefreshLocalizer, LocalizationConstants.Refresh );
+
+    internal string LocalizedExpandAllText
+        => Localizer.Localize( Localizers?.ExpandAllLocalizer, LocalizationConstants.ExpandAll );
+
+    internal string LocalizedCollapseAllText
+        => Localizer.Localize( Localizers?.CollapseAllLocalizer, LocalizationConstants.CollapseAll );
+
+    internal string LocalizedResetLayoutText
+        => Localizer.Localize( Localizers?.ResetLayoutLocalizer, LocalizationConstants.ResetLayout );
 
     internal string LocalizedAvailableFieldsText
         => Localizer.Localize( Localizers?.AvailableFieldsLocalizer, LocalizationConstants.AvailableFields );
@@ -1520,7 +1639,14 @@ public partial class PivotGrid<TItem> : BaseComponent
     }
 
     internal bool IsToolbarVisible
-        => ToolbarTemplate is not null || ShowToolbar || ShowFieldChooser;
+        => ToolbarTemplate is not null || ShowToolbar;
+
+    internal bool CanExpandCollapseGroups
+        => ( ExpandableRows && pivotResult?.Rows.Any( row => CanToggleRowExpansion( row.Row ) ) == true )
+            || ( ExpandableColumns && pivotResult?.DataColumns.Any( column => CanToggleColumnExpansion( column.Column ) ) == true );
+
+    internal bool CanResetLayout
+        => ShowFieldChooser && runtimeStateUserModified;
 
     private bool UsesExternalData
         => DataProvider is not null || ReadData.HasDelegate;
@@ -1647,7 +1773,8 @@ public partial class PivotGrid<TItem> : BaseComponent
     [Parameter] public PivotGridVirtualizeOptions VirtualizeOptions { get; set; }
 
     /// <summary>
-    /// Shows the PivotGrid toolbar.
+    /// Shows built-in PivotGrid toolbar commands when available.
+    /// Use <see cref="ToolbarTemplate"/> for custom toolbar content.
     /// </summary>
     [Parameter] public bool ShowToolbar { get; set; }
 

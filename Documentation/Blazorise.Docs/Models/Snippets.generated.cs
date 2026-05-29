@@ -13519,6 +13519,98 @@ Install-Package Blazorise.Icons.Material";
     }
 }";
 
+        public const string PivotGridCustomToolbarExample = @"<PivotGrid TItem=""ToolbarSale""
+           Data=""@Sales""
+           ShowFieldChooser
+           ExpandableRows
+           InitiallyExpanded=""false""
+           ShowRowTotals
+           ShowColumnTotals
+           ShowRowSubtotals
+           Striped
+           Hoverable>
+    <ToolbarTemplate Context=""toolbar"">
+        <Div Padding=""Padding.Is3"" Border=""Border.Is1"" Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+            @if ( toolbar.CanOpenFieldChooser )
+            {
+                <Button Color=""Color.Primary"" Outline Clicked=""@(() => toolbar.OpenFieldChooserCommand())"">
+                    <Icon Name=""IconName.List"" Margin=""Margin.Is2.FromEnd"" />
+                    @toolbar.FieldsText
+                </Button>
+            }
+
+            <Button Color=""Color.Success"" Outline Clicked=""@(() => toolbar.RefreshCommand())"">
+                <Icon Name=""IconName.Reply"" Margin=""Margin.Is2.FromEnd"" />
+                @toolbar.RefreshText
+            </Button>
+
+            @if ( toolbar.CanExpandCollapseGroups )
+            {
+                <Buttons>
+                    <Button Color=""Color.Secondary"" Outline Clicked=""@(() => toolbar.ExpandAllCommand())"">
+                        <Icon Name=""IconName.ChevronDoubleDown"" />
+                    </Button>
+                    <Button Color=""Color.Secondary"" Outline Clicked=""@(() => toolbar.CollapseAllCommand())"">
+                        <Icon Name=""IconName.ChevronDoubleUp"" />
+                    </Button>
+                </Buttons>
+            }
+
+            <Button Color=""Color.Secondary"" Outline Disabled=""@(!toolbar.CanResetLayout)"" Clicked=""@(() => toolbar.ResetLayoutCommand())"">
+                <Icon Name=""IconName.Undo"" Margin=""Margin.Is2.FromEnd"" />
+                @toolbar.ResetLayoutText
+            </Button>
+        </Div>
+    </ToolbarTemplate>
+    <ChildContent>
+        <PivotGridFields>
+            <PivotGridField Field=""@nameof( ToolbarSale.Region )"" Caption=""Region"" />
+            <PivotGridField Field=""@nameof( ToolbarSale.City )"" Caption=""City"" />
+            <PivotGridField Field=""@nameof( ToolbarSale.Category )"" Caption=""Category"" />
+            <PivotGridField Field=""@nameof( ToolbarSale.Product )"" Caption=""Product"" />
+            <PivotGridField Field=""@nameof( ToolbarSale.Amount )"" Caption=""Amount"" />
+        </PivotGridFields>
+        <PivotGridColumns>
+            <PivotGridColumn Field=""@nameof( ToolbarSale.City )"" Caption=""City"" />
+        </PivotGridColumns>
+        <PivotGridRows>
+            <PivotGridRow Field=""@nameof( ToolbarSale.Region )"" Caption=""Region"" />
+            <PivotGridRow Field=""@nameof( ToolbarSale.Category )"" Caption=""Category"" />
+        </PivotGridRows>
+        <PivotGridAggregates>
+            <PivotGridAggregate Field=""@nameof( ToolbarSale.Amount )""
+                                Caption=""Amount""
+                                DisplayFormat=""{0:C0}""
+                                DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
+        </PivotGridAggregates>
+    </ChildContent>
+</PivotGrid>
+
+@code {
+    private readonly List<ToolbarSale> Sales =
+    [
+        new() { Region = ""Central"", City = ""Berlin"", Category = ""Hardware"", Product = ""Laptops"", Amount = 51200m },
+        new() { Region = ""Central"", City = ""Berlin"", Category = ""Software"", Product = ""Licenses"", Amount = 94200m },
+        new() { Region = ""Western"", City = ""London"", Category = ""Hardware"", Product = ""Laptops"", Amount = 127500m },
+        new() { Region = ""Western"", City = ""London"", Category = ""Services"", Product = ""Consulting"", Amount = 66300m },
+        new() { Region = ""Southern"", City = ""Madrid"", Category = ""Services"", Product = ""Training"", Amount = 28700m },
+        new() { Region = ""Western"", City = ""Paris"", Category = ""Software"", Product = ""Subscriptions"", Amount = 124500m },
+    ];
+
+    public class ToolbarSale
+    {
+        public string Region { get; set; }
+
+        public string City { get; set; }
+
+        public string Category { get; set; }
+
+        public string Product { get; set; }
+
+        public decimal Amount { get; set; }
+    }
+}";
+
         public const string PivotGridFieldChooserExample = @"<PivotGrid TItem=""PivotSale""
            Data=""@Sales""
            ShowToolbar

@@ -60,6 +60,14 @@
                             </Tooltip>
                         </Div>
                     </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@showToolbar">Toolbar</Switch>
+                            <Tooltip Text="Shows the PivotGrid command toolbar for field chooser, refresh, expansion, and layout reset actions." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
                 </DropdownMenu>
             </Dropdown>
             <Dropdown Display="Display.InlineBlock">
@@ -217,7 +225,7 @@
                    Data="@CurrentData"
                    ReadData="@CurrentReadData"
                    DataProvider="@CurrentDataProvider"
-                   ShowToolbar
+                   ShowToolbar="@showToolbar"
                    ShowFieldChooser
                    ShowPager="@(!virtualize)"
                    ShowPageSizes="@(!virtualize)"
@@ -289,6 +297,8 @@
     private bool showColumnTotals = true;
 
     private bool virtualize;
+
+    private bool showToolbar = true;
 
     private bool striped = true;
 

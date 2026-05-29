@@ -62,7 +62,7 @@
 </Heading>
 
 <DocsPageParagraph>
-    Enable <Code>ShowFieldChooser</Code> and <Code>ShowToolbar</Code> when users should rearrange the pivot layout at runtime. The field chooser lets users move available fields into rows, columns, values, and filters.
+    Enable <Code>ShowFieldChooser</Code> when users should rearrange the pivot layout at runtime. The field chooser lets users move available fields into rows, columns, values, and filters.
 </DocsPageParagraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -88,10 +88,19 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Field Chooser">
-        Enable <Code>ShowToolbar</Code> and <Code>ShowFieldChooser</Code> to show the built-in toolbar button and modal field chooser.
+        Enable <Code>ShowToolbar</Code> and <Code>ShowFieldChooser</Code> to show the built-in toolbar command and modal field chooser.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="PivotGridFieldChooserExample" Outlined FullWidth>
         <PivotGridFieldChooserExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom Toolbar">
+        Use <Code>ToolbarTemplate</Code> to replace the built-in toolbar and invoke PivotGrid commands through the toolbar context.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PivotGridCustomToolbarExample" Outlined FullWidth>
+        <PivotGridCustomToolbarExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 

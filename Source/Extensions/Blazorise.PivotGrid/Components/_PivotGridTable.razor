@@ -124,7 +124,7 @@ else
                         var rowHeaderIndex = i;
                         var headerContext = GetHeaderContext( rowHeaderIndex );
 
-                        <TableHeaderCell RowSpan="@HeaderRowSpan" Background="BackgroundBody" TextWeight="TextWeight.Bold">
+                        <TableHeaderCell RowSpan="@HeaderRowSpan" Background="BackgroundBody" TextWeight="TextWeight.Bold" TextAlignment="TextAlignment.Start">
                             @if ( headerContext.Field?.HeaderTemplate is not null )
                             {
                                 @headerContext.Field.HeaderTemplate( headerContext )
