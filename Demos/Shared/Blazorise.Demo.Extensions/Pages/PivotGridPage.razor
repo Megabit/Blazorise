@@ -5,225 +5,212 @@
         <CardTitle>PivotGrid</CardTitle>
     </CardHeader>
     <CardBody>
-        <Row>
-            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
-                <Field>
-                    <Switch @bind-Value="@expandableRows">
-                        Expandable rows
-                        <Tooltip Text="Shows row groups as expandable sections so users can drill into nested row values." Inline Multiline>
-                            <Icon Name="IconName.QuestionCircle" />
-                        </Tooltip>
-                    </Switch>
-                </Field>
-            </Column>
-            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
-                <Field>
-                    <Switch @bind-Value="@showRowSubtotals" Disabled="@expandableRows">
-                        Row subtotals
-                        <Tooltip Text="Shows subtotal rows for grouped row values. Disabled while expandable rows are active because expandable rows already render group headers." Inline Multiline>
-                            <Icon Name="IconName.QuestionCircle" />
-                        </Tooltip>
-                    </Switch>
-                </Field>
-            </Column>
-            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
-                <Field>
-                    <Switch @bind-Value="@showRowTotals">
-                        Row totals
-                        <Tooltip Text="Adds grand total columns that total each row across all column groups." Inline Multiline>
-                            <Icon Name="IconName.QuestionCircle" />
-                        </Tooltip>
-                    </Switch>
-                </Field>
-            </Column>
-            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
-                <Field>
-                    <Switch @bind-Value="@pageByGroups" Disabled="@virtualize">
-                        Page by groups
-                        <Tooltip Text="Pages top-level row groups together instead of paging individual rendered rows. Disabled while row virtualization is active." Inline Multiline>
-                            <Icon Name="IconName.QuestionCircle" />
-                        </Tooltip>
-                    </Switch>
-                </Field>
-            </Column>
-        </Row>
-
-        <Row>
-            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
-                <Field>
-                    <Switch @bind-Value="@expandableColumns">
-                        Expandable columns
-                        <Tooltip Text="Shows column groups as expandable sections so users can drill into nested column values." Inline Multiline>
-                            <Icon Name="IconName.QuestionCircle" />
-                        </Tooltip>
-                    </Switch>
-                </Field>
-            </Column>
-            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
-                <Field>
-                    <Switch @bind-Value="@showColumnSubtotals" Disabled="@expandableColumns">
-                        Column subtotals
-                        <Tooltip Text="Shows subtotal columns for grouped column values. Disabled while expandable columns are active because expandable columns already render group headers." Inline Multiline>
-                            <Icon Name="IconName.QuestionCircle" />
-                        </Tooltip>
-                    </Switch>
-                </Field>
-            </Column>
-            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
-                <Field>
-                    <Switch @bind-Value="@showColumnTotals">
-                        Column totals
-                        <Tooltip Text="Adds grand total rows that total each column across all row groups." Inline Multiline>
-                            <Icon Name="IconName.QuestionCircle" />
-                        </Tooltip>
-                    </Switch>
-                </Field>
-            </Column>
-            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
-                <Field>
-                    <Switch @bind-Value="@initiallyExpanded" Disabled="@(!expandableRows && !expandableColumns)">
-                        Initially expanded
-                        <Tooltip Text="Starts expandable row and column groups opened instead of collapsed. Disabled when both row and column expansion are off." Inline Multiline>
-                            <Icon Name="IconName.QuestionCircle" />
-                        </Tooltip>
-                    </Switch>
-                </Field>
-            </Column>
-        </Row>
-
-        <Row>
-            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
-                <Field>
-                    <FieldLabel>
-                        Row total position
-                        <Tooltip Text="Controls whether row subtotal rows are rendered before or after their child rows when rows are not expandable." Inline Multiline>
-                            <Icon Name="IconName.QuestionCircle" />
-                        </Tooltip>
-                    </FieldLabel>
-                    <FieldBody>
-                        <Select TValue="PivotGridTotalPosition" @bind-Value="@rowTotalPosition" Disabled="@expandableRows">
-                            <SelectItem TValue="PivotGridTotalPosition" Value="PivotGridTotalPosition.After">After</SelectItem>
-                            <SelectItem TValue="PivotGridTotalPosition" Value="PivotGridTotalPosition.Before">Before</SelectItem>
-                        </Select>
-                    </FieldBody>
-                </Field>
-            </Column>
-            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
-                <Field>
-                    <FieldLabel>
-                        Column total position
-                        <Tooltip Text="Controls whether column subtotal groups are rendered before or after their child columns when columns are not expandable." Inline Multiline>
-                            <Icon Name="IconName.QuestionCircle" />
-                        </Tooltip>
-                    </FieldLabel>
-                    <FieldBody>
-                        <Select TValue="PivotGridTotalPosition" @bind-Value="@columnTotalPosition" Disabled="@expandableColumns">
-                            <SelectItem TValue="PivotGridTotalPosition" Value="PivotGridTotalPosition.After">After</SelectItem>
-                            <SelectItem TValue="PivotGridTotalPosition" Value="PivotGridTotalPosition.Before">Before</SelectItem>
-                        </Select>
-                    </FieldBody>
-                </Field>
-            </Column>
-            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
-                <Field>
-                    <FieldLabel>
-                        Row captions
-                        <Tooltip Text="Controls how grouped row headers are displayed: full path, leaf value, field caption, or hidden." Inline Multiline>
-                            <Icon Name="IconName.QuestionCircle" />
-                        </Tooltip>
-                    </FieldLabel>
-                    <FieldBody>
-                        <Select TValue="PivotGridGroupCaptionMode" @bind-Value="@rowGroupCaptionMode">
-                            <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.FullPath">Full path</SelectItem>
-                            <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Leaf">Leaf</SelectItem>
-                            <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Field">Field</SelectItem>
-                            <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Hidden">Hidden</SelectItem>
-                        </Select>
-                    </FieldBody>
-                </Field>
-            </Column>
-            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
-                <Field>
-                    <FieldLabel>
-                        Column captions
-                        <Tooltip Text="Controls how grouped column headers are displayed: full path, leaf value, field caption, or hidden." Inline Multiline>
-                            <Icon Name="IconName.QuestionCircle" />
-                        </Tooltip>
-                    </FieldLabel>
-                    <FieldBody>
-                        <Select TValue="PivotGridGroupCaptionMode" @bind-Value="@columnGroupCaptionMode">
-                            <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.FullPath">Full path</SelectItem>
-                            <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Leaf">Leaf</SelectItem>
-                            <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Field">Field</SelectItem>
-                            <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Hidden">Hidden</SelectItem>
-                        </Select>
-                    </FieldBody>
-                </Field>
-            </Column>
-        </Row>
-
-        <Row>
-            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
-                <Field>
-                    <FieldLabel>
-                        Data mode
-                        <Tooltip Text="Switches between local Data, ReadData callback, and reusable DataProvider modes." Inline Multiline>
-                            <Icon Name="IconName.QuestionCircle" />
-                        </Tooltip>
-                    </FieldLabel>
-                    <FieldBody>
-                        <Select TValue="PivotGridDemoDataMode" @bind-Value="@dataMode">
-                            <SelectItem TValue="PivotGridDemoDataMode" Value="PivotGridDemoDataMode.Data">Data</SelectItem>
-                            <SelectItem TValue="PivotGridDemoDataMode" Value="PivotGridDemoDataMode.ReadData">ReadData</SelectItem>
-                            <SelectItem TValue="PivotGridDemoDataMode" Value="PivotGridDemoDataMode.DataProvider">DataProvider</SelectItem>
-                        </Select>
-                    </FieldBody>
-                </Field>
-            </Column>
-            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
-                <Field>
-                    <Switch @bind-Value="@virtualize">
-                        Virtualize rows
-                        <Tooltip Text="Renders only the visible row window and requests additional rows while scrolling." Inline Multiline>
-                            <Icon Name="IconName.QuestionCircle" />
-                        </Tooltip>
-                    </Switch>
-                </Field>
-            </Column>
-            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
-                <Field>
-                    <Switch @bind-Value="@striped">
-                        Striped
-                        <Tooltip Text="Applies alternating row background colors to improve readability." Inline Multiline>
-                            <Icon Name="IconName.QuestionCircle" />
-                        </Tooltip>
-                    </Switch>
-                </Field>
-            </Column>
-            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
-                <Field>
-                    <Switch @bind-Value="@hoverable">
-                        Hoverable
-                        <Tooltip Text="Highlights table rows when the pointer moves over them." Inline Multiline>
-                            <Icon Name="IconName.QuestionCircle" />
-                        </Tooltip>
-                    </Switch>
-                </Field>
-            </Column>
-        </Row>
-
-        <Row>
-            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
-                <Field>
-                    <Switch @bind-Value="@narrow">
-                        Narrow
-                        <Tooltip Text="Uses tighter table spacing for a denser pivot grid layout." Inline Multiline>
-                            <Icon Name="IconName.QuestionCircle" />
-                        </Tooltip>
-                    </Switch>
-                </Field>
-            </Column>
-        </Row>
+        <Div Flex="Flex.Wrap.AlignItems.Center" Gap="Gap.Is2">
+            <Div Flex="Flex.InlineFlex.AlignItems.Center" Gap="Gap.Is2">
+                <Span>Data Source:</Span>
+                <Select TValue="PivotGridDemoDataMode" @bind-Value="@dataMode" Width="Width.Rem( 9 )">
+                    <SelectItem TValue="PivotGridDemoDataMode" Value="PivotGridDemoDataMode.Data">Data</SelectItem>
+                    <SelectItem TValue="PivotGridDemoDataMode" Value="PivotGridDemoDataMode.ReadData">ReadData</SelectItem>
+                    <SelectItem TValue="PivotGridDemoDataMode" Value="PivotGridDemoDataMode.DataProvider">DataProvider</SelectItem>
+                </Select>
+            </Div>
+            <Dropdown Display="Display.InlineBlock">
+                <DropdownToggle Color="Color.Secondary" Outline Flex="Flex.InlineFlex.AlignItems.Center" Gap="Gap.Is2">
+                    <Icon Name="IconName.Settings" />
+                    Layout
+                </DropdownToggle>
+                <DropdownMenu Padding="Padding.Is3" Width="Width.Rem( 18 )" @onclick:stopPropagation="true">
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@expandableRows">Expandable rows</Switch>
+                            <Tooltip Text="Shows row groups as expandable sections so users can drill into nested row values." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@expandableColumns">Expandable columns</Switch>
+                            <Tooltip Text="Shows column groups as expandable sections so users can drill into nested column values." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@initiallyExpanded" Disabled="@(!expandableRows && !expandableColumns)">Initially expanded</Switch>
+                            <Tooltip Text="Starts expandable row and column groups opened instead of collapsed. Disabled when both row and column expansion are off." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@pageByGroups" Disabled="@virtualize">Page by groups</Switch>
+                            <Tooltip Text="Pages top-level row groups together instead of paging individual rendered rows. Disabled while row virtualization is active." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@virtualize">Virtualize rows</Switch>
+                            <Tooltip Text="Renders only the visible row window and requests additional rows while scrolling." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                </DropdownMenu>
+            </Dropdown>
+            <Dropdown Display="Display.InlineBlock">
+                <DropdownToggle Color="Color.Secondary" Outline Flex="Flex.InlineFlex.AlignItems.Center" Gap="Gap.Is2">
+                    <Icon Name="IconName.ListOl" />
+                    Totals
+                </DropdownToggle>
+                <DropdownMenu Padding="Padding.Is3" Width="Width.Rem( 18 )" @onclick:stopPropagation="true">
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@showRowSubtotals" Disabled="@expandableRows">Row subtotals</Switch>
+                            <Tooltip Text="Shows subtotal rows for grouped row values. Disabled while expandable rows are active because expandable rows already render group headers." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@showColumnSubtotals" Disabled="@expandableColumns">Column subtotals</Switch>
+                            <Tooltip Text="Shows subtotal columns for grouped column values. Disabled while expandable columns are active because expandable columns already render group headers." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@showRowTotals">Row totals</Switch>
+                            <Tooltip Text="Adds grand total columns that total each row across all column groups." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@showColumnTotals">Column totals</Switch>
+                            <Tooltip Text="Adds grand total rows that total each column across all row groups." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <FieldLabel Width="Width.Is100">
+                            <Div Width="Width.Is100" Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                                <Span>Row total position</Span>
+                                <Tooltip Text="Controls whether row subtotal rows are rendered before or after their child rows when rows are not expandable." Placement="TooltipPlacement.Left" Multiline>
+                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                                </Tooltip>
+                            </Div>
+                        </FieldLabel>
+                        <FieldBody>
+                            <Select TValue="PivotGridTotalPosition" @bind-Value="@rowTotalPosition" Disabled="@expandableRows">
+                                <SelectItem TValue="PivotGridTotalPosition" Value="PivotGridTotalPosition.After">After</SelectItem>
+                                <SelectItem TValue="PivotGridTotalPosition" Value="PivotGridTotalPosition.Before">Before</SelectItem>
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel Width="Width.Is100">
+                            <Div Width="Width.Is100" Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                                <Span>Column total position</Span>
+                                <Tooltip Text="Controls whether column subtotal groups are rendered before or after their child columns when columns are not expandable." Placement="TooltipPlacement.Left" Multiline>
+                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                                </Tooltip>
+                            </Div>
+                        </FieldLabel>
+                        <FieldBody>
+                            <Select TValue="PivotGridTotalPosition" @bind-Value="@columnTotalPosition" Disabled="@expandableColumns">
+                                <SelectItem TValue="PivotGridTotalPosition" Value="PivotGridTotalPosition.After">After</SelectItem>
+                                <SelectItem TValue="PivotGridTotalPosition" Value="PivotGridTotalPosition.Before">Before</SelectItem>
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                </DropdownMenu>
+            </Dropdown>
+            <Dropdown Display="Display.InlineBlock">
+                <DropdownToggle Color="Color.Secondary" Outline Flex="Flex.InlineFlex.AlignItems.Center" Gap="Gap.Is2">
+                    <Icon Name="IconName.TextHeight" />
+                    Captions
+                </DropdownToggle>
+                <DropdownMenu Padding="Padding.Is3" Width="Width.Rem( 18 )" @onclick:stopPropagation="true">
+                    <Field>
+                        <FieldLabel Width="Width.Is100">
+                            <Div Width="Width.Is100" Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                                <Span>Row captions</Span>
+                                <Tooltip Text="Controls how grouped row headers are displayed: full path, leaf value, field caption, or hidden." Placement="TooltipPlacement.Left" Multiline>
+                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                                </Tooltip>
+                            </Div>
+                        </FieldLabel>
+                        <FieldBody>
+                            <Select TValue="PivotGridGroupCaptionMode" @bind-Value="@rowGroupCaptionMode">
+                                <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.FullPath">Full path</SelectItem>
+                                <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Leaf">Leaf</SelectItem>
+                                <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Field">Field</SelectItem>
+                                <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Hidden">Hidden</SelectItem>
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel Width="Width.Is100">
+                            <Div Width="Width.Is100" Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                                <Span>Column captions</Span>
+                                <Tooltip Text="Controls how grouped column headers are displayed: full path, leaf value, field caption, or hidden." Placement="TooltipPlacement.Left" Multiline>
+                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                                </Tooltip>
+                            </Div>
+                        </FieldLabel>
+                        <FieldBody>
+                            <Select TValue="PivotGridGroupCaptionMode" @bind-Value="@columnGroupCaptionMode">
+                                <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.FullPath">Full path</SelectItem>
+                                <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Leaf">Leaf</SelectItem>
+                                <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Field">Field</SelectItem>
+                                <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Hidden">Hidden</SelectItem>
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                </DropdownMenu>
+            </Dropdown>
+            <Dropdown Display="Display.InlineBlock">
+                <DropdownToggle Color="Color.Secondary" Outline Flex="Flex.InlineFlex.AlignItems.Center" Gap="Gap.Is2">
+                    <Icon Name="IconName.Palette" />
+                    Style
+                </DropdownToggle>
+                <DropdownMenu Padding="Padding.Is3" Width="Width.Rem( 18 )" @onclick:stopPropagation="true">
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@striped">Striped</Switch>
+                            <Tooltip Text="Applies alternating row background colors to improve readability." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@hoverable">Hoverable</Switch>
+                            <Tooltip Text="Highlights table rows when the pointer moves over them." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@narrow">Narrow</Switch>
+                            <Tooltip Text="Uses tighter table spacing for a denser pivot grid layout." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                </DropdownMenu>
+            </Dropdown>
+        </Div>
     </CardBody>
     <CardBody>
         <PivotGrid TItem="PivotSale"
