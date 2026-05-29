@@ -961,48 +961,13 @@ public partial class PivotGrid<TItem> : BaseComponent
     private BasePivotGridField<TItem> CreateRuntimeField( PivotGridFieldState state, PivotGridFieldArea area )
     {
         var source = FindFieldMetadata( state.Field, area );
-        var field = new PivotGridRuntimeField<TItem>( area );
-
-        CopyFieldMetadata( source, field, state );
-
-        return field;
+        return new PivotGridRuntimeField<TItem>( area, source, state );
     }
 
     private PivotGridAggregate<TItem> CreateRuntimeAggregate( PivotGridFieldState state )
     {
         var source = FindFieldMetadata( state.Field, PivotGridFieldArea.Aggregate );
-        var aggregate = new PivotGridAggregate<TItem>();
-
-        CopyFieldMetadata( source, aggregate, state );
-
-        if ( source is PivotGridAggregate<TItem> sourceAggregate )
-        {
-            aggregate.Aggregator = sourceAggregate.Aggregator;
-            aggregate.CellTemplate = sourceAggregate.CellTemplate;
-        }
-
-        aggregate.Aggregate = state.Aggregate;
-
-        return aggregate;
-    }
-
-    private void CopyFieldMetadata( BasePivotGridField<TItem> source, BasePivotGridField<TItem> target, PivotGridFieldState state )
-    {
-        target.Field = state.Field;
-        target.Caption = string.IsNullOrWhiteSpace( state.Caption ) ? state.Field : state.Caption;
-
-        if ( source is null )
-            return;
-
-        if ( !string.IsNullOrWhiteSpace( source.Caption ) )
-            target.Caption = source.Caption;
-
-        target.DisplayFormat = source.DisplayFormat;
-        target.DisplayFormatProvider = source.DisplayFormatProvider;
-        target.EmptyText = source.EmptyText;
-        target.HeaderTemplate = source.HeaderTemplate;
-        target.DisplayTemplate = source.DisplayTemplate;
-        target.Visible = source.Visible;
+        return new PivotGridAggregate<TItem>( source, state );
     }
 
     private BasePivotGridField<TItem> FindFieldMetadata( string fieldName, PivotGridFieldArea area )

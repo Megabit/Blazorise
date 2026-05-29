@@ -17,6 +17,29 @@ public class PivotGridAggregate<TItem> : BasePivotGridField<TItem>
     #region Methods
 
     /// <summary>
+    /// Initializes a new instance of <see cref="PivotGridAggregate{TItem}"/>.
+    /// </summary>
+    public PivotGridAggregate()
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new runtime aggregate field instance.
+    /// </summary>
+    internal PivotGridAggregate( BasePivotGridField<TItem> source, PivotGridFieldState state )
+    {
+        ApplyRuntimeMetadata( source, state );
+
+        if ( source is PivotGridAggregate<TItem> sourceAggregate )
+        {
+            Aggregator = sourceAggregate.Aggregator;
+            CellTemplate = sourceAggregate.CellTemplate;
+        }
+
+        Aggregate = state.Aggregate;
+    }
+
+    /// <summary>
     /// Calculates the aggregate value for the supplied source items.
     /// </summary>
     public object Calculate( IReadOnlyList<TItem> items )

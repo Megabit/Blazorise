@@ -87,6 +87,28 @@ public abstract class BasePivotGridField<TItem> : ComponentBase, IDisposable
             EmptyText,
             FieldArea );
 
+    /// <summary>
+    /// Applies runtime metadata copied from a declared PivotGrid field.
+    /// </summary>
+    internal void ApplyRuntimeMetadata( BasePivotGridField<TItem> source, PivotGridFieldState state )
+    {
+        Field = state.Field;
+        Caption = string.IsNullOrWhiteSpace( state.Caption ) ? state.Field : state.Caption;
+
+        if ( source is null )
+            return;
+
+        if ( !string.IsNullOrWhiteSpace( source.Caption ) )
+            Caption = source.Caption;
+
+        DisplayFormat = source.DisplayFormat;
+        DisplayFormatProvider = source.DisplayFormatProvider;
+        EmptyText = source.EmptyText;
+        HeaderTemplate = source.HeaderTemplate;
+        DisplayTemplate = source.DisplayTemplate;
+        Visible = source.Visible;
+    }
+
     #endregion
 
     #region Properties

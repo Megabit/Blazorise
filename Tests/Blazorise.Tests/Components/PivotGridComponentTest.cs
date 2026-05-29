@@ -158,65 +158,55 @@ public class PivotGridComponentTest : BunitContext
     private static RenderFragment CreatePivotGridFields()
         => builder =>
         {
-            var sequence = 0;
-
-            builder.OpenComponent<PivotGridFields<PivotSale>>( sequence++ );
-            builder.AddAttribute( sequence++, nameof( PivotGridFields<PivotSale>.ChildContent ), CreateAvailableFields() );
+            builder.OpenComponent<PivotGridFields<PivotSale>>( 0 );
+            builder.AddAttribute( 1, nameof( PivotGridFields<PivotSale>.ChildContent ), CreateAvailableFields() );
             builder.CloseComponent();
 
-            builder.OpenComponent<PivotGridColumns<PivotSale>>( sequence++ );
-            builder.AddAttribute( sequence++, nameof( PivotGridColumns<PivotSale>.ChildContent ), CreateColumnFields() );
+            builder.OpenComponent<PivotGridColumns<PivotSale>>( 2 );
+            builder.AddAttribute( 3, nameof( PivotGridColumns<PivotSale>.ChildContent ), CreateColumnFields() );
             builder.CloseComponent();
 
-            builder.OpenComponent<PivotGridRows<PivotSale>>( sequence++ );
-            builder.AddAttribute( sequence++, nameof( PivotGridRows<PivotSale>.ChildContent ), CreateRowFields() );
+            builder.OpenComponent<PivotGridRows<PivotSale>>( 4 );
+            builder.AddAttribute( 5, nameof( PivotGridRows<PivotSale>.ChildContent ), CreateRowFields() );
             builder.CloseComponent();
 
-            builder.OpenComponent<PivotGridAggregates<PivotSale>>( sequence++ );
-            builder.AddAttribute( sequence++, nameof( PivotGridAggregates<PivotSale>.ChildContent ), CreateAggregateFields() );
+            builder.OpenComponent<PivotGridAggregates<PivotSale>>( 6 );
+            builder.AddAttribute( 7, nameof( PivotGridAggregates<PivotSale>.ChildContent ), CreateAggregateFields() );
             builder.CloseComponent();
         };
 
     private static RenderFragment CreateAvailableFields()
         => builder =>
         {
-            var sequence = 0;
-
-            AddField<PivotGridField<PivotSale>>( builder, ref sequence, nameof( PivotSale.City ), "City" );
-            AddField<PivotGridField<PivotSale>>( builder, ref sequence, nameof( PivotSale.Category ), "Category" );
-            AddField<PivotGridField<PivotSale>>( builder, ref sequence, nameof( PivotSale.Amount ), "Amount" );
+            AddField<PivotGridField<PivotSale>>( builder, nameof( PivotSale.City ), "City" );
+            AddField<PivotGridField<PivotSale>>( builder, nameof( PivotSale.Category ), "Category" );
+            AddField<PivotGridField<PivotSale>>( builder, nameof( PivotSale.Amount ), "Amount" );
         };
 
     private static RenderFragment CreateColumnFields()
         => builder =>
         {
-            var sequence = 0;
-
-            AddField<PivotGridColumn<PivotSale>>( builder, ref sequence, nameof( PivotSale.City ), "City" );
+            AddField<PivotGridColumn<PivotSale>>( builder, nameof( PivotSale.City ), "City" );
         };
 
     private static RenderFragment CreateRowFields()
         => builder =>
         {
-            var sequence = 0;
-
-            AddField<PivotGridRow<PivotSale>>( builder, ref sequence, nameof( PivotSale.Category ), "Category" );
+            AddField<PivotGridRow<PivotSale>>( builder, nameof( PivotSale.Category ), "Category" );
         };
 
     private static RenderFragment CreateAggregateFields()
         => builder =>
         {
-            var sequence = 0;
-
-            AddField<PivotGridAggregate<PivotSale>>( builder, ref sequence, nameof( PivotSale.Amount ), "Amount" );
+            AddField<PivotGridAggregate<PivotSale>>( builder, nameof( PivotSale.Amount ), "Amount" );
         };
 
-    private static void AddField<TField>( RenderTreeBuilder builder, ref int sequence, string field, string caption )
+    private static void AddField<TField>( RenderTreeBuilder builder, string field, string caption )
         where TField : BasePivotGridField<PivotSale>
     {
-        builder.OpenComponent<TField>( sequence++ );
-        builder.AddAttribute( sequence++, nameof( BasePivotGridField<PivotSale>.Field ), field );
-        builder.AddAttribute( sequence++, nameof( BasePivotGridField<PivotSale>.Caption ), caption );
+        builder.OpenComponent<TField>( 0 );
+        builder.AddAttribute( 1, nameof( BasePivotGridField<PivotSale>.Field ), field );
+        builder.AddAttribute( 2, nameof( BasePivotGridField<PivotSale>.Caption ), caption );
         builder.CloseComponent();
     }
 
