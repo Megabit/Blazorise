@@ -1,0 +1,730 @@
+@page "/tests/pivotgrid"
+
+<Card Shadow="Shadow.Default" Margin="Margin.Is4.OnY">
+    <CardHeader>
+        <CardTitle>PivotGrid</CardTitle>
+    </CardHeader>
+    <CardBody>
+        <Div Flex="Flex.Wrap.AlignItems.Center" Gap="Gap.Is2">
+            <Div Flex="Flex.InlineFlex.AlignItems.Center" Gap="Gap.Is2">
+                <Span>Data Source:</Span>
+                <Select TValue="PivotGridDemoDataMode" @bind-Value="@dataMode" Width="Width.Rem( 9 )">
+                    <SelectItem TValue="PivotGridDemoDataMode" Value="PivotGridDemoDataMode.Data">Data</SelectItem>
+                    <SelectItem TValue="PivotGridDemoDataMode" Value="PivotGridDemoDataMode.ReadData">ReadData</SelectItem>
+                    <SelectItem TValue="PivotGridDemoDataMode" Value="PivotGridDemoDataMode.DataProvider">DataProvider</SelectItem>
+                </Select>
+            </Div>
+            <Dropdown Display="Display.InlineBlock">
+                <DropdownToggle Color="Color.Secondary" Outline Flex="Flex.InlineFlex.AlignItems.Center" Gap="Gap.Is2">
+                    <Icon Name="IconName.Settings" />
+                    Layout
+                </DropdownToggle>
+                <DropdownMenu Padding="Padding.Is3" Width="Width.Rem( 18 )" @onclick:stopPropagation="true">
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@expandableRows">Expandable rows</Switch>
+                            <Tooltip Text="Shows row groups as expandable sections so users can drill into nested row values." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@expandableColumns">Expandable columns</Switch>
+                            <Tooltip Text="Shows column groups as expandable sections so users can drill into nested column values." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@initiallyExpanded" Disabled="@(!expandableRows && !expandableColumns)">Initially expanded</Switch>
+                            <Tooltip Text="Starts expandable row and column groups opened instead of collapsed. Disabled when both row and column expansion are off." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@pageByGroups" Disabled="@virtualize">Page by groups</Switch>
+                            <Tooltip Text="Pages top-level row groups together instead of paging individual rendered rows. Disabled while row virtualization is active." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@virtualize">Virtualize rows</Switch>
+                            <Tooltip Text="Renders only the visible row window and requests additional rows while scrolling." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@showToolbar">Toolbar</Switch>
+                            <Tooltip Text="Shows the PivotGrid command toolbar for field chooser, refresh, expansion, and layout reset actions." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@toolbarOptions.ShowFieldChooserButton" Disabled="@(!showToolbar)">Toolbar fields</Switch>
+                            <Tooltip Text="Shows the field chooser command in the PivotGrid toolbar." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@toolbarOptions.ShowRefreshButton" Disabled="@(!showToolbar)">Toolbar refresh</Switch>
+                            <Tooltip Text="Shows the refresh command in the PivotGrid toolbar." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@toolbarOptions.ShowExpandCollapseButtons" Disabled="@(!showToolbar)">Toolbar expand/collapse</Switch>
+                            <Tooltip Text="Shows the expand all and collapse all commands in the PivotGrid toolbar when groups can be expanded." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@toolbarOptions.ShowResetLayoutButton" Disabled="@(!showToolbar)">Toolbar reset layout</Switch>
+                            <Tooltip Text="Shows the reset layout command in the PivotGrid toolbar after users modify the runtime field layout." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                </DropdownMenu>
+            </Dropdown>
+            <Dropdown Display="Display.InlineBlock">
+                <DropdownToggle Color="Color.Secondary" Outline Flex="Flex.InlineFlex.AlignItems.Center" Gap="Gap.Is2">
+                    <Icon Name="IconName.ListOl" />
+                    Totals
+                </DropdownToggle>
+                <DropdownMenu Padding="Padding.Is3" Width="Width.Rem( 18 )" @onclick:stopPropagation="true">
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@showRowSubtotals" Disabled="@expandableRows">Row subtotals</Switch>
+                            <Tooltip Text="Shows subtotal rows for grouped row values. Disabled while expandable rows are active because expandable rows already render group headers." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@showColumnSubtotals" Disabled="@expandableColumns">Column subtotals</Switch>
+                            <Tooltip Text="Shows subtotal columns for grouped column values. Disabled while expandable columns are active because expandable columns already render group headers." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@showRowTotals">Row totals</Switch>
+                            <Tooltip Text="Adds grand total columns that total each row across all column groups." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@showColumnTotals">Column totals</Switch>
+                            <Tooltip Text="Adds grand total rows that total each column across all row groups." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <FieldLabel Width="Width.Is100">
+                            <Div Width="Width.Is100" Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                                <Span>Row total position</Span>
+                                <Tooltip Text="Controls whether row subtotal rows are rendered before or after their child rows when rows are not expandable." Placement="TooltipPlacement.Left" Multiline>
+                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                                </Tooltip>
+                            </Div>
+                        </FieldLabel>
+                        <FieldBody>
+                            <Select TValue="PivotGridTotalPosition" @bind-Value="@rowTotalPosition" Disabled="@expandableRows">
+                                <SelectItem TValue="PivotGridTotalPosition" Value="PivotGridTotalPosition.After">After</SelectItem>
+                                <SelectItem TValue="PivotGridTotalPosition" Value="PivotGridTotalPosition.Before">Before</SelectItem>
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel Width="Width.Is100">
+                            <Div Width="Width.Is100" Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                                <Span>Column total position</Span>
+                                <Tooltip Text="Controls whether column subtotal groups are rendered before or after their child columns when columns are not expandable." Placement="TooltipPlacement.Left" Multiline>
+                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                                </Tooltip>
+                            </Div>
+                        </FieldLabel>
+                        <FieldBody>
+                            <Select TValue="PivotGridTotalPosition" @bind-Value="@columnTotalPosition" Disabled="@expandableColumns">
+                                <SelectItem TValue="PivotGridTotalPosition" Value="PivotGridTotalPosition.After">After</SelectItem>
+                                <SelectItem TValue="PivotGridTotalPosition" Value="PivotGridTotalPosition.Before">Before</SelectItem>
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                </DropdownMenu>
+            </Dropdown>
+            <Dropdown Display="Display.InlineBlock">
+                <DropdownToggle Color="Color.Secondary" Outline Flex="Flex.InlineFlex.AlignItems.Center" Gap="Gap.Is2">
+                    <Icon Name="IconName.TextHeight" />
+                    Captions
+                </DropdownToggle>
+                <DropdownMenu Padding="Padding.Is3" Width="Width.Rem( 18 )" @onclick:stopPropagation="true">
+                    <Field>
+                        <FieldLabel Width="Width.Is100">
+                            <Div Width="Width.Is100" Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                                <Span>Row captions</Span>
+                                <Tooltip Text="Controls how grouped row headers are displayed: full path, leaf value, field caption, or hidden." Placement="TooltipPlacement.Left" Multiline>
+                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                                </Tooltip>
+                            </Div>
+                        </FieldLabel>
+                        <FieldBody>
+                            <Select TValue="PivotGridGroupCaptionMode" @bind-Value="@rowGroupCaptionMode">
+                                <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.FullPath">Full path</SelectItem>
+                                <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Leaf">Leaf</SelectItem>
+                                <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Field">Field</SelectItem>
+                                <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Hidden">Hidden</SelectItem>
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel Width="Width.Is100">
+                            <Div Width="Width.Is100" Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                                <Span>Column captions</Span>
+                                <Tooltip Text="Controls how grouped column headers are displayed: full path, leaf value, field caption, or hidden." Placement="TooltipPlacement.Left" Multiline>
+                                    <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                                </Tooltip>
+                            </Div>
+                        </FieldLabel>
+                        <FieldBody>
+                            <Select TValue="PivotGridGroupCaptionMode" @bind-Value="@columnGroupCaptionMode">
+                                <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.FullPath">Full path</SelectItem>
+                                <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Leaf">Leaf</SelectItem>
+                                <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Field">Field</SelectItem>
+                                <SelectItem TValue="PivotGridGroupCaptionMode" Value="PivotGridGroupCaptionMode.Hidden">Hidden</SelectItem>
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                </DropdownMenu>
+            </Dropdown>
+            <Dropdown Display="Display.InlineBlock">
+                <DropdownToggle Color="Color.Secondary" Outline Flex="Flex.InlineFlex.AlignItems.Center" Gap="Gap.Is2">
+                    <Icon Name="IconName.Palette" />
+                    Style
+                </DropdownToggle>
+                <DropdownMenu Padding="Padding.Is3" Width="Width.Rem( 18 )" @onclick:stopPropagation="true">
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@striped">Striped</Switch>
+                            <Tooltip Text="Applies alternating row background colors to improve readability." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@hoverable">Hoverable</Switch>
+                            <Tooltip Text="Highlights table rows when the pointer moves over them." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@narrow">Narrow</Switch>
+                            <Tooltip Text="Uses tighter table spacing for a denser pivot grid layout." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                </DropdownMenu>
+            </Dropdown>
+        </Div>
+    </CardBody>
+    <CardBody>
+        <PivotGrid TItem="PivotSale"
+                   Data="@CurrentData"
+                   ReadData="@CurrentReadData"
+                   DataProvider="@CurrentDataProvider"
+                   ShowToolbar="@showToolbar"
+                   ToolbarOptions="@toolbarOptions"
+                   FieldChooser
+                   ShowPager="@(!virtualize)"
+                   ShowPageSizes="@(!virtualize)"
+                   PageSize="8"
+                   PageSizes="@pageSizes"
+                   Virtualize="@virtualize"
+                   VirtualizeOptions="@virtualizeOptions"
+                   ExpandableRows="@expandableRows"
+                   ExpandableColumns="@expandableColumns"
+                   InitiallyExpanded="@initiallyExpanded"
+                   PageByGroups="@pageByGroups"
+                   ShowRowTotals="@showRowTotals"
+                   ShowColumnTotals="@showColumnTotals"
+                   ShowRowSubtotals="@showRowSubtotals"
+                   ShowColumnSubtotals="@showColumnSubtotals"
+                   RowTotalPosition="@rowTotalPosition"
+                   ColumnTotalPosition="@columnTotalPosition"
+                   RowGroupCaptionMode="@rowGroupCaptionMode"
+                   ColumnGroupCaptionMode="@columnGroupCaptionMode"
+                   CellStyling="@OnCellStyling"
+                   RowHeaderStyling="@OnRowHeaderStyling"
+                   ColumnHeaderStyling="@OnColumnHeaderStyling"
+                   Striped="@striped"
+                   Hoverable="@hoverable"
+                   Narrow="@narrow">
+            <PivotGridFields>
+                <PivotGridField Field="@nameof( PivotSale.Region )" Caption="Region" />
+                <PivotGridField Field="@nameof( PivotSale.City )" Caption="City" />
+                <PivotGridField Field="@nameof( PivotSale.Category )" Caption="Category" />
+                <PivotGridField Field="@nameof( PivotSale.Product )" Caption="Product" />
+                <PivotGridField Field="@nameof( PivotSale.Amount )" Caption="Amount" />
+                <PivotGridField Field="@nameof( PivotSale.Units )" Caption="Units" />
+            </PivotGridFields>
+            <PivotGridColumns>
+                <PivotGridColumn Field="@nameof( PivotSale.City )" Caption="City" />
+            </PivotGridColumns>
+            <PivotGridRows>
+                <PivotGridRow Field="@nameof( PivotSale.Category )" Caption="Category" />
+                <PivotGridRow Field="@nameof( PivotSale.Product )" Caption="Product" />
+            </PivotGridRows>
+            <PivotGridAggregates>
+                <PivotGridAggregate Field="@nameof( PivotSale.Amount )"
+                                    Caption="Amount"
+                                    DisplayFormat="{0:C0}"
+                                    DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "en-US" )" />
+                <PivotGridAggregate Field="@nameof( PivotSale.Units )"
+                                    Caption="Units"
+                                    Aggregate="PivotGridAggregateFunction.Sum" />
+            </PivotGridAggregates>
+        </PivotGrid>
+    </CardBody>
+</Card>
+
+@code {
+    private bool expandableRows = true;
+
+    private bool expandableColumns;
+
+    private bool initiallyExpanded = true;
+
+    private bool pageByGroups;
+
+    private bool showRowSubtotals = true;
+
+    private bool showColumnSubtotals = true;
+
+    private bool showRowTotals = true;
+
+    private bool showColumnTotals = true;
+
+    private bool virtualize;
+
+    private bool showToolbar = true;
+
+    private readonly PivotGridToolbarOptions toolbarOptions = new();
+
+    private bool striped = true;
+
+    private bool hoverable = true;
+
+    private bool narrow;
+
+    private PivotGridTotalPosition rowTotalPosition = PivotGridTotalPosition.After;
+
+    private PivotGridTotalPosition columnTotalPosition = PivotGridTotalPosition.After;
+
+    private PivotGridGroupCaptionMode rowGroupCaptionMode = PivotGridGroupCaptionMode.FullPath;
+
+    private PivotGridGroupCaptionMode columnGroupCaptionMode = PivotGridGroupCaptionMode.Leaf;
+
+    private PivotGridDemoDataMode dataMode;
+
+    private IPivotGridDataProvider<PivotSale> salesDataProvider;
+
+    private readonly int[] pageSizes = [8, 16, 32];
+
+    private readonly PivotGridVirtualizeOptions virtualizeOptions = new()
+    {
+        Height = "420px",
+        MaxHeight = "420px",
+        ItemSize = 44f,
+        OverscanCount = 6,
+    };
+
+    private readonly List<PivotSale> Sales = CreateSales();
+
+    protected override void OnInitialized()
+    {
+        salesDataProvider = new DemoPivotGridDataProvider( Sales );
+    }
+
+    private IEnumerable<PivotSale> CurrentData
+        => dataMode == PivotGridDemoDataMode.Data ? Sales : null;
+
+    private EventCallback<PivotGridReadDataEventArgs<PivotSale>> CurrentReadData
+        => dataMode == PivotGridDemoDataMode.ReadData
+            ? EventCallback.Factory.Create<PivotGridReadDataEventArgs<PivotSale>>( this, ReadPivotData )
+            : default;
+
+    private IPivotGridDataProvider<PivotSale> CurrentDataProvider
+        => dataMode == PivotGridDemoDataMode.DataProvider ? salesDataProvider : null;
+
+    private Task ReadPivotData( PivotGridReadDataEventArgs<PivotSale> eventArgs )
+    {
+        var result = BuildExternalDataResult( eventArgs.Request, Sales );
+
+        eventArgs.Result = result.Result;
+        eventArgs.TotalItems = result.TotalItems;
+        eventArgs.IsPaged = result.IsPaged;
+
+        return Task.CompletedTask;
+    }
+
+    private void OnCellStyling( PivotGridCellContext<PivotSale> context, PivotGridCellStyling styling )
+    {
+        if ( context.Aggregate.Field != nameof( PivotSale.Amount ) || context.Value is not decimal value )
+            return;
+
+        if ( value >= 120000m )
+        {
+            styling.Background = Background.Success;
+            styling.TextColor = TextColor.White;
+            styling.TextWeight = TextWeight.Bold;
+        }
+        else if ( value <= 35000m )
+        {
+            styling.Background = Background.Danger;
+            styling.TextColor = TextColor.White;
+            styling.TextWeight = TextWeight.Bold;
+        }
+    }
+
+    private void OnRowHeaderStyling( PivotGridRowHeaderContext<PivotSale> context, PivotGridCellStyling styling )
+    {
+        if ( context.IsGrandTotal )
+        {
+            styling.Background = Background.Primary.Subtle;
+            styling.TextWeight = TextWeight.Bold;
+        }
+        else if ( context.IsTotal )
+        {
+            styling.Background = Background.Light;
+            styling.TextWeight = TextWeight.Bold;
+        }
+    }
+
+    private void OnColumnHeaderStyling( PivotGridColumnHeaderContext<PivotSale> context, PivotGridCellStyling styling )
+    {
+        if ( context.IsGrandTotal || context.IsTotal )
+        {
+            styling.Background = Background.Primary.Subtle;
+            styling.TextWeight = TextWeight.Bold;
+        }
+    }
+
+    private static List<PivotSale> CreateSales()
+    {
+        string[] regions = ["Central", "Western", "Northern"];
+        string[] cities = ["Berlin", "London", "Madrid", "Paris"];
+
+        (string Category, string[] Products)[] rows =
+        [
+            ("Hardware", ["Laptops", "Monitors", "Tablets", "Peripherals"]),
+            ("Software", ["Licenses", "Subscriptions", "Support", "Analytics"]),
+            ("Services", ["Consulting", "Implementation", "Training", "Migration"]),
+            ("Security", ["Firewall", "Identity", "Monitoring", "Audit"]),
+            ("Cloud", ["Compute", "Storage", "Backup", "Database"]),
+        ];
+
+        List<PivotSale> data = new();
+
+        for ( int rowIndex = 0; rowIndex < rows.Length; rowIndex++ )
+        {
+            for ( int productIndex = 0; productIndex < rows[rowIndex].Products.Length; productIndex++ )
+            {
+                for ( int cityIndex = 0; cityIndex < cities.Length; cityIndex++ )
+                {
+                    if ( ( rowIndex + productIndex + cityIndex ) % 5 == 0 )
+                        continue;
+
+                    data.Add( new()
+                    {
+                        Region = regions[( rowIndex + cityIndex ) % regions.Length],
+                        City = cities[cityIndex],
+                        Category = rows[rowIndex].Category,
+                        Product = rows[rowIndex].Products[productIndex],
+                        Amount = 22000m + ( rowIndex * 28500m ) + ( productIndex * 9400m ) + ( cityIndex * 17300m ),
+                        Units = 18 + ( rowIndex * 31 ) + ( productIndex * 27 ) + ( cityIndex * 11 ),
+                    } );
+                }
+            }
+        }
+
+        return data;
+    }
+
+    private static PivotGridDataResult<PivotSale> BuildExternalDataResult( PivotGridDataRequest request, IReadOnlyList<PivotSale> source )
+    {
+        IReadOnlyList<PivotGridFieldInfo<PivotSale>> rowFields = CreateFieldInfos( request.Rows );
+        IReadOnlyList<PivotGridFieldInfo<PivotSale>> columnFields = CreateFieldInfos( request.Columns );
+        IReadOnlyList<PivotGridAggregateInfo<PivotSale>> aggregates = CreateAggregateInfos( request.Aggregates );
+
+        if ( aggregates.Count == 0 )
+        {
+            return new()
+            {
+                Result = new( rowFields, columnFields, aggregates, [], [] ),
+                TotalItems = 0,
+                IsPaged = true,
+            };
+        }
+
+        List<PivotGridAxisItem<PivotSale>> columnItems = BuildAxisItems(
+            source,
+            columnFields,
+            request.ShowColumnSubtotals || request.ExpandableColumns,
+            request.ShowRowTotals,
+            request.ExpandableColumns ? PivotGridTotalPosition.Before : request.ColumnTotalPosition );
+        columnItems = GetVisibleAxisItems( columnItems, columnFields, request.ExpandableColumns, request.IsColumnGroupExpanded );
+
+        List<PivotGridDataColumn<PivotSale>> dataColumns = columnItems
+            .SelectMany( column => aggregates.Select( aggregate => new PivotGridDataColumn<PivotSale>( column, aggregate ) ) )
+            .ToList();
+
+        List<PivotGridAxisItem<PivotSale>> rowItems = BuildAxisItems(
+            source,
+            rowFields,
+            request.ShowRowSubtotals || request.ExpandableRows,
+            request.ShowColumnTotals,
+            request.ExpandableRows ? PivotGridTotalPosition.Before : request.RowTotalPosition );
+        rowItems = GetVisibleAxisItems( rowItems, rowFields, request.ExpandableRows, request.IsRowGroupExpanded );
+
+        List<PivotGridResultRow<PivotSale>> allRows = rowItems
+            .Select( row => new PivotGridResultRow<PivotSale>( row, BuildCells( row, columnFields, dataColumns ) ) )
+            .ToList();
+
+        int totalRows = allRows.Count;
+        int skip = request.ReadDataMode == PivotGridReadDataMode.Virtualize
+            ? request.VirtualizeOffset
+            : request.ReadDataMode == PivotGridReadDataMode.Paging
+                ? ( request.Page - 1 ) * request.PageSize
+                : 0;
+        int take = request.ReadDataMode == PivotGridReadDataMode.Virtualize
+            ? request.VirtualizeCount
+            : request.ReadDataMode == PivotGridReadDataMode.Paging
+                ? request.PageSize
+                : totalRows;
+        List<PivotGridResultRow<PivotSale>> rows = allRows
+            .Skip( Math.Max( 0, skip ) )
+            .Take( Math.Max( 0, take ) )
+            .ToList();
+
+        return new()
+        {
+            Result = new( rowFields, columnFields, aggregates, dataColumns, rows ),
+            TotalItems = totalRows,
+            IsPaged = request.ReadDataMode is PivotGridReadDataMode.Paging or PivotGridReadDataMode.Virtualize,
+        };
+    }
+
+    private static IReadOnlyList<PivotGridFieldInfo<PivotSale>> CreateFieldInfos( IReadOnlyList<PivotGridFieldState> states )
+        => states
+            .Where( state => !string.IsNullOrWhiteSpace( state.Field ) )
+            .Select( state => new PivotGridFieldInfo<PivotSale>
+            {
+                Field = state.Field,
+                Caption = state.Caption,
+            } )
+            .ToList();
+
+    private static IReadOnlyList<PivotGridAggregateInfo<PivotSale>> CreateAggregateInfos( IReadOnlyList<PivotGridFieldState> states )
+        => states
+            .Where( state => !string.IsNullOrWhiteSpace( state.Field ) )
+            .Select( state => new PivotGridAggregateInfo<PivotSale>
+            {
+                Field = state.Field,
+                Caption = state.Caption,
+                Aggregate = state.Aggregate,
+                DisplayFormat = state.Field == nameof( PivotSale.Amount ) ? "{0:C0}" : null,
+                DisplayFormatProvider = state.Field == nameof( PivotSale.Amount ) ? System.Globalization.CultureInfo.GetCultureInfo( "en-US" ) : null,
+            } )
+            .ToList();
+
+    private static List<PivotGridAxisItem<PivotSale>> BuildAxisItems( IReadOnlyList<PivotSale> source, IReadOnlyList<PivotGridFieldInfo<PivotSale>> fields, bool showSubtotals, bool showGrandTotal, PivotGridTotalPosition totalPosition )
+    {
+        List<PivotGridAxisItem<PivotSale>> items = new();
+
+        if ( fields.Count == 0 )
+        {
+            items.Add( new PivotGridAxisItem<PivotSale>( [], source, 0, true, true ) );
+            return items;
+        }
+
+        BuildAxisItems( items, source, fields, 0, [], showSubtotals, totalPosition );
+
+        if ( showGrandTotal )
+        {
+            items.Add( new PivotGridAxisItem<PivotSale>( [], source, 0, true, true ) );
+        }
+
+        return items;
+    }
+
+    private static void BuildAxisItems( List<PivotGridAxisItem<PivotSale>> result, IReadOnlyList<PivotSale> source, IReadOnlyList<PivotGridFieldInfo<PivotSale>> fields, int level, IReadOnlyList<object> parentValues, bool showSubtotals, PivotGridTotalPosition totalPosition )
+    {
+        PivotGridFieldInfo<PivotSale> field = fields[level];
+        List<IGrouping<object, PivotSale>> groups = source
+            .GroupBy( field.GetValue )
+            .OrderBy( group => field.FormatValue( group.Key ), StringComparer.CurrentCultureIgnoreCase )
+            .ToList();
+
+        foreach ( IGrouping<object, PivotSale> group in groups )
+        {
+            IReadOnlyList<object> values = parentValues.Concat( [group.Key] ).ToList();
+            List<PivotSale> groupItems = group.ToList();
+            bool isLeafLevel = level == fields.Count - 1;
+            PivotGridAxisItem<PivotSale> subtotal = new( values, groupItems, level, true, false );
+
+            if ( showSubtotals && !isLeafLevel && totalPosition == PivotGridTotalPosition.Before )
+                result.Add( subtotal );
+
+            if ( isLeafLevel )
+                result.Add( new PivotGridAxisItem<PivotSale>( values, groupItems, level, false, false ) );
+            else
+                BuildAxisItems( result, groupItems, fields, level + 1, values, showSubtotals, totalPosition );
+
+            if ( showSubtotals && !isLeafLevel && totalPosition == PivotGridTotalPosition.After )
+                result.Add( subtotal );
+        }
+    }
+
+    private static List<PivotGridAxisItem<PivotSale>> GetVisibleAxisItems( List<PivotGridAxisItem<PivotSale>> items, IReadOnlyList<PivotGridFieldInfo<PivotSale>> fields, bool expandable, Func<IReadOnlyList<object>, bool> isGroupExpanded )
+    {
+        if ( !expandable || fields.Count == 0 )
+            return items;
+
+        List<PivotGridAxisItem<PivotSale>> expandableItems = items
+            .Where( item => CanToggleExpansion( item, fields ) )
+            .ToList();
+
+        if ( expandableItems.Count == 0 )
+            return items;
+
+        return items
+            .Where( item => IsAxisItemVisible( item, expandableItems, isGroupExpanded ) )
+            .ToList();
+    }
+
+    private static bool CanToggleExpansion( PivotGridAxisItem<PivotSale> item, IReadOnlyList<PivotGridFieldInfo<PivotSale>> fields )
+        => item is not null
+            && item.IsTotal
+            && !item.IsGrandTotal
+            && item.Values.Count > 0
+            && item.Values.Count < fields.Count;
+
+    private static bool IsAxisItemVisible( PivotGridAxisItem<PivotSale> item, IReadOnlyList<PivotGridAxisItem<PivotSale>> expandableItems, Func<IReadOnlyList<object>, bool> isGroupExpanded )
+    {
+        if ( item is null || item.IsGrandTotal )
+            return true;
+
+        foreach ( PivotGridAxisItem<PivotSale> expandableItem in expandableItems )
+        {
+            if ( expandableItem.Values.Count < item.Values.Count
+                 && ValuesStartWith( item.Values, expandableItem.Values )
+                 && !isGroupExpanded( expandableItem.Values ) )
+                return false;
+        }
+
+        return true;
+    }
+
+    private static bool ValuesStartWith( IReadOnlyList<object> values, IReadOnlyList<object> prefix )
+    {
+        for ( int i = 0; i < prefix.Count; i++ )
+        {
+            if ( i >= values.Count || !Equals( values[i], prefix[i] ) )
+                return false;
+        }
+
+        return true;
+    }
+
+    private static List<PivotGridCell<PivotSale>> BuildCells( PivotGridAxisItem<PivotSale> row, IReadOnlyList<PivotGridFieldInfo<PivotSale>> columnFields, IReadOnlyList<PivotGridDataColumn<PivotSale>> dataColumns )
+        => dataColumns
+            .Select( dataColumn =>
+            {
+                PivotGridAggregateInfo<PivotSale> aggregate = dataColumn.Aggregate;
+                List<PivotSale> cellItems = dataColumn.Column.IsGrandTotal
+                    ? row.Items.ToList()
+                    : row.Items.Where( item => MatchesAxis( item, dataColumn.Column, columnFields ) ).ToList();
+                object value = aggregate.Calculate( cellItems );
+
+                return new PivotGridCell<PivotSale>(
+                    dataColumn,
+                    value,
+                    aggregate.FormatValue( value ),
+                    cellItems,
+                    dataColumn.Column.IsTotal || dataColumn.Column.IsGrandTotal,
+                    row.IsTotal || row.IsGrandTotal,
+                    dataColumn.Column.IsGrandTotal && row.IsGrandTotal );
+            } )
+            .ToList();
+
+    private static bool MatchesAxis( PivotSale item, PivotGridAxisItem<PivotSale> axisItem, IReadOnlyList<PivotGridFieldInfo<PivotSale>> fields )
+    {
+        for ( var i = 0; i < fields.Count; i++ )
+        {
+            if ( i >= axisItem.Values.Count || !Equals( fields[i].GetValue( item ), axisItem.Values[i] ) )
+                return false;
+        }
+
+        return true;
+    }
+
+    private enum PivotGridDemoDataMode
+    {
+        Data,
+        ReadData,
+        DataProvider,
+    }
+
+    private sealed class DemoPivotGridDataProvider : IPivotGridDataProvider<PivotSale>
+    {
+        private readonly IReadOnlyList<PivotSale> data;
+
+        public DemoPivotGridDataProvider( IReadOnlyList<PivotSale> data )
+        {
+            this.data = data;
+        }
+
+        public Task<PivotGridDataResult<PivotSale>> ReadDataAsync( PivotGridDataRequest request, System.Threading.CancellationToken cancellationToken )
+            => Task.FromResult( BuildExternalDataResult( request, data ) );
+    }
+
+    public class PivotSale
+    {
+        public string Region { get; set; }
+
+        public string City { get; set; }
+
+        public string Category { get; set; }
+
+        public string Product { get; set; }
+
+        public decimal Amount { get; set; }
+
+        public int Units { get; set; }
+    }
+}

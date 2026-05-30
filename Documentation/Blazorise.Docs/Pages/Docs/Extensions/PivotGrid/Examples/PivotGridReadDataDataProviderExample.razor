@@ -1,0 +1,204 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<Field>
+    <FieldLabel>Provider</FieldLabel>
+    <FieldBody>
+        <Select TValue="ProviderMode" @bind-Value="@providerMode">
+            <SelectItem TValue="ProviderMode" Value="ProviderMode.ReadData">ReadData callback</SelectItem>
+            <SelectItem TValue="ProviderMode" Value="ProviderMode.DataProvider">DataProvider implementation</SelectItem>
+        </Select>
+    </FieldBody>
+</Field>
+
+<PivotGrid TItem="RemoteSale"
+           ReadData="@CurrentReadData"
+           DataProvider="@CurrentDataProvider"
+           ShowPager
+           PageSize="4"
+           ShowRowTotals
+           Striped
+           Hoverable>
+    <PivotGridColumns>
+        <PivotGridColumn Field="@nameof( RemoteSale.Quarter )" Caption="Quarter" />
+    </PivotGridColumns>
+    <PivotGridRows>
+        <PivotGridRow Field="@nameof( RemoteSale.Customer )" Caption="Customer" />
+    </PivotGridRows>
+    <PivotGridAggregates>
+        <PivotGridAggregate Field="@nameof( RemoteSale.Amount )"
+                            Caption="Amount"
+                            Aggregate="PivotGridAggregateFunction.Sum"
+                            DisplayFormat="{0:C0}"
+                            DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "en-US" )" />
+    </PivotGridAggregates>
+</PivotGrid>
+
+@code {
+    private static readonly string[] quarters = ["Q1", "Q2", "Q3", "Q4"];
+
+    private static readonly IReadOnlyList<RemoteSale> sales = CreateSales();
+
+    private readonly IPivotGridDataProvider<RemoteSale> dataProvider = new RemoteSaleDataProvider( sales );
+
+    private ProviderMode providerMode = ProviderMode.ReadData;
+
+    private EventCallback<PivotGridReadDataEventArgs<RemoteSale>> CurrentReadData
+        => providerMode == ProviderMode.ReadData
+            ? EventCallback.Factory.Create<PivotGridReadDataEventArgs<RemoteSale>>( this, ReadRemoteData )
+            : default;
+
+    private IPivotGridDataProvider<RemoteSale> CurrentDataProvider
+        => providerMode == ProviderMode.DataProvider ? dataProvider : null;
+
+    private Task ReadRemoteData( PivotGridReadDataEventArgs<RemoteSale> eventArgs )
+    {
+        PivotGridDataResult<RemoteSale> result = CreatePagedPivotResult( sales, eventArgs.Request );
+
+        eventArgs.Result = result.Result;
+        eventArgs.TotalItems = result.TotalItems;
+        eventArgs.IsPaged = result.IsPaged;
+
+        return Task.CompletedTask;
+    }
+
+    private static PivotGridDataResult<RemoteSale> CreatePagedPivotResult( IReadOnlyList<RemoteSale> source, PivotGridDataRequest request )
+    {
+        PivotGridFieldInfo<RemoteSale> rowField = new()
+        {
+            Field = nameof( RemoteSale.Customer ),
+            Caption = "Customer",
+        };
+
+        PivotGridFieldInfo<RemoteSale> columnField = new()
+        {
+            Field = nameof( RemoteSale.Quarter ),
+            Caption = "Quarter",
+        };
+
+        PivotGridAggregateInfo<RemoteSale> aggregate = new()
+        {
+            Field = nameof( RemoteSale.Amount ),
+            Caption = "Amount",
+            Aggregate = PivotGridAggregateFunction.Sum,
+            DisplayFormat = "{0:C0}",
+            DisplayFormatProvider = System.Globalization.CultureInfo.GetCultureInfo( "en-US" ),
+        };
+
+        List<PivotGridAxisItem<RemoteSale>> columnItems = quarters
+            .Select( quarter => new PivotGridAxisItem<RemoteSale>(
+                [quarter],
+                source.Where( sale => sale.Quarter == quarter ).ToList(),
+                0,
+                false,
+                false ) )
+            .ToList();
+
+        if ( request.ShowRowTotals )
+        {
+            columnItems.Add( new PivotGridAxisItem<RemoteSale>( [], source, 0, false, true ) );
+        }
+
+        List<PivotGridDataColumn<RemoteSale>> dataColumns = columnItems
+            .Select( column => new PivotGridDataColumn<RemoteSale>( column, aggregate ) )
+            .ToList();
+
+        List<IGrouping<string, RemoteSale>> customerGroups = source
+            .GroupBy( sale => sale.Customer )
+            .OrderBy( group => group.Key )
+            .ToList();
+
+        int totalRows = customerGroups.Count;
+        int skip = request.ReadDataMode == PivotGridReadDataMode.Paging
+            ? Math.Max( 0, ( request.Page - 1 ) * request.PageSize )
+            : 0;
+        int take = request.ReadDataMode == PivotGridReadDataMode.Paging
+            ? request.PageSize
+            : totalRows;
+
+        List<PivotGridResultRow<RemoteSale>> rows = customerGroups
+            .Skip( skip )
+            .Take( take )
+            .Select( group =>
+            {
+                List<RemoteSale> rowItems = group.ToList();
+                PivotGridAxisItem<RemoteSale> row = new( [group.Key], rowItems, 0, false, false );
+
+                List<PivotGridCell<RemoteSale>> cells = dataColumns
+                    .Select( dataColumn =>
+                    {
+                        List<RemoteSale> cellItems = dataColumn.Column.IsGrandTotal
+                            ? rowItems
+                            : rowItems.Where( sale => sale.Quarter == dataColumn.Column.Values[0]?.ToString() ).ToList();
+                        object value = aggregate.Calculate( cellItems );
+
+                        return new PivotGridCell<RemoteSale>(
+                            dataColumn,
+                            value,
+                            aggregate.FormatValue( value ),
+                            cellItems,
+                            dataColumn.Column.IsTotal || dataColumn.Column.IsGrandTotal,
+                            false,
+                            false );
+                    } )
+                    .ToList();
+
+                return new PivotGridResultRow<RemoteSale>( row, cells );
+            } )
+            .ToList();
+
+        return new()
+        {
+            Result = new( [rowField], [columnField], [aggregate], dataColumns, rows ),
+            TotalItems = totalRows,
+            IsPaged = true,
+        };
+    }
+
+    private static List<RemoteSale> CreateSales()
+    {
+        List<RemoteSale> data = new();
+
+        for ( int customerIndex = 1; customerIndex <= 18; customerIndex++ )
+        {
+            foreach ( string quarter in quarters )
+            {
+                data.Add( new()
+                {
+                    Customer = $"Customer {customerIndex:00}",
+                    Quarter = quarter,
+                    Amount = 12000m + ( customerIndex * 950m ) + ( Array.IndexOf( quarters, quarter ) * 2250m ),
+                } );
+            }
+        }
+
+        return data;
+    }
+
+    private enum ProviderMode
+    {
+        ReadData,
+        DataProvider,
+    }
+
+    private sealed class RemoteSaleDataProvider : IPivotGridDataProvider<RemoteSale>
+    {
+        private readonly IReadOnlyList<RemoteSale> source;
+
+        public RemoteSaleDataProvider( IReadOnlyList<RemoteSale> source )
+        {
+            this.source = source;
+        }
+
+        public Task<PivotGridDataResult<RemoteSale>> ReadDataAsync( PivotGridDataRequest request, System.Threading.CancellationToken cancellationToken )
+            => Task.FromResult( CreatePagedPivotResult( source, request ) );
+    }
+
+    public class RemoteSale
+    {
+        public string Customer { get; set; }
+
+        public string Quarter { get; set; }
+
+        public decimal Amount { get; set; }
+    }
+}

@@ -1,0 +1,27 @@
+@typeparam TItem
+
+@{
+    var styling = GetCellStyling();
+}
+
+<TableRowCell TextAlignment="TextAlignment.End"
+              Class="@styling.Class"
+              Style="@styling.Style"
+              Color="@styling.Color"
+              TextColor="@styling.TextColor"
+              TextWeight="@styling.TextWeight"
+              Background="@styling.Background"
+              Clicked="@OnClicked">
+    @if ( Cell.DataColumn.Aggregate.CellTemplate is not null )
+    {
+        @Cell.DataColumn.Aggregate.CellTemplate( CellContext )
+    }
+    else if ( PivotGrid.CellTemplate is not null )
+    {
+        @PivotGrid.CellTemplate( CellContext )
+    }
+    else
+    {
+        @Cell.FormattedValue
+    }
+</TableRowCell>

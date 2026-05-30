@@ -1,0 +1,173 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<PivotGrid TItem="RemotePivotSale"
+           ReadData="@ReadRemotePivotData"
+           Virtualize
+           VirtualizeOptions="@virtualizeOptions"
+           Striped
+           Hoverable>
+    <PivotGridColumns>
+        <PivotGridColumn Field="@nameof( RemotePivotSale.Quarter )" Caption="Quarter" />
+    </PivotGridColumns>
+    <PivotGridRows>
+        <PivotGridRow Field="@nameof( RemotePivotSale.Customer )" Caption="Customer" />
+    </PivotGridRows>
+    <PivotGridAggregates>
+        <PivotGridAggregate Field="@nameof( RemotePivotSale.Amount )"
+                            Caption="Amount"
+                            Aggregate="PivotGridAggregateFunction.Sum"
+                            DisplayFormat="{0:C0}"
+                            DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "en-US" )" />
+    </PivotGridAggregates>
+</PivotGrid>
+
+@code {
+    private static readonly string[] quarters = ["Q1", "Q2", "Q3", "Q4"];
+
+    private static readonly IReadOnlyList<RemotePivotSale> sales = CreateSales();
+
+    private static readonly int totalPivotRows = sales
+        .Select( sale => sale.Customer )
+        .Distinct()
+        .Count();
+
+    private readonly PivotGridVirtualizeOptions virtualizeOptions = new()
+    {
+        Height = "420px",
+        MaxHeight = "420px",
+        ItemSize = 44f,
+        OverscanCount = 6,
+    };
+
+    private Task ReadRemotePivotData( PivotGridReadDataEventArgs<RemotePivotSale> eventArgs )
+    {
+        PivotGridDataRequest request = eventArgs.Request;
+        int offset = request.ReadDataMode == PivotGridReadDataMode.Virtualize
+            ? Math.Max( 0, request.VirtualizeOffset )
+            : 0;
+        int count = request.ReadDataMode == PivotGridReadDataMode.Virtualize && request.VirtualizeCount > 0
+            ? request.VirtualizeCount
+            : 40;
+
+        eventArgs.Result = CreatePivotResult( offset, count );
+        eventArgs.TotalItems = totalPivotRows;
+        eventArgs.IsPaged = true;
+
+        return Task.CompletedTask;
+    }
+
+    private static PivotGridResult<RemotePivotSale> CreatePivotResult( int offset, int count )
+    {
+        IReadOnlyList<PivotGridFieldInfo<RemotePivotSale>> rowFields =
+        [
+            new()
+            {
+                Field = nameof( RemotePivotSale.Customer ),
+                Caption = "Customer",
+            },
+        ];
+
+        IReadOnlyList<PivotGridFieldInfo<RemotePivotSale>> columnFields =
+        [
+            new()
+            {
+                Field = nameof( RemotePivotSale.Quarter ),
+                Caption = "Quarter",
+            },
+        ];
+
+        PivotGridAggregateInfo<RemotePivotSale> aggregate = new()
+        {
+            Field = nameof( RemotePivotSale.Amount ),
+            Caption = "Amount",
+            Aggregate = PivotGridAggregateFunction.Sum,
+            DisplayFormat = "{0:C0}",
+            DisplayFormatProvider = System.Globalization.CultureInfo.GetCultureInfo( "en-US" ),
+        };
+
+        IReadOnlyList<PivotGridAggregateInfo<RemotePivotSale>> aggregates = [aggregate];
+
+        List<PivotGridAxisItem<RemotePivotSale>> columnItems = quarters
+            .Select( quarter => new PivotGridAxisItem<RemotePivotSale>(
+                [quarter],
+                sales.Where( sale => sale.Quarter == quarter ).ToList(),
+                0,
+                false,
+                false ) )
+            .ToList();
+
+        List<PivotGridDataColumn<RemotePivotSale>> dataColumns = columnItems
+            .Select( column => new PivotGridDataColumn<RemotePivotSale>( column, aggregate ) )
+            .ToList();
+
+        List<PivotGridResultRow<RemotePivotSale>> rows = sales
+            .GroupBy( sale => sale.Customer )
+            .OrderBy( group => group.Key )
+            .Skip( offset )
+            .Take( count )
+            .Select( group =>
+            {
+                List<RemotePivotSale> rowItems = group.ToList();
+                PivotGridAxisItem<RemotePivotSale> row = new(
+                    [group.Key],
+                    rowItems,
+                    0,
+                    false,
+                    false );
+
+                List<PivotGridCell<RemotePivotSale>> cells = dataColumns
+                    .Select( dataColumn =>
+                    {
+                        string quarter = dataColumn.Column.Values[0]?.ToString();
+                        List<RemotePivotSale> cellItems = rowItems
+                            .Where( sale => sale.Quarter == quarter )
+                            .ToList();
+                        object value = aggregate.Calculate( cellItems );
+
+                        return new PivotGridCell<RemotePivotSale>(
+                            dataColumn,
+                            value,
+                            aggregate.FormatValue( value ),
+                            cellItems,
+                            false,
+                            false,
+                            false );
+                    } )
+                    .ToList();
+
+                return new PivotGridResultRow<RemotePivotSale>( row, cells );
+            } )
+            .ToList();
+
+        return new( rowFields, columnFields, aggregates, dataColumns, rows );
+    }
+
+    private static List<RemotePivotSale> CreateSales()
+    {
+        List<RemotePivotSale> data = new();
+
+        for ( int customerIndex = 1; customerIndex <= 500; customerIndex++ )
+        {
+            for ( int quarterIndex = 0; quarterIndex < quarters.Length; quarterIndex++ )
+            {
+                data.Add( new()
+                {
+                    Customer = $"Customer {customerIndex:000}",
+                    Quarter = quarters[quarterIndex],
+                    Amount = 8500m + ( customerIndex * 157m ) + ( quarterIndex * 3200m ),
+                } );
+            }
+        }
+
+        return data;
+    }
+
+    public class RemotePivotSale
+    {
+        public string Customer { get; set; }
+
+        public string Quarter { get; set; }
+
+        public decimal Amount { get; set; }
+    }
+}

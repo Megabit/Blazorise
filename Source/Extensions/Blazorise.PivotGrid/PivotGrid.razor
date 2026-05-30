@@ -1,0 +1,43 @@
+@inherits BaseComponent
+@typeparam TItem
+
+<CascadingValue Value="@this" IsFixed>
+    @ChildContent
+
+    <Div ElementId="@ElementId"
+         Class="@ClassNames"
+         Style="@StyleNames"
+         Flex="FlexColumn"
+         Border="@Border"
+         @attributes="@Attributes">
+        @if ( IsToolbarVisible )
+        {
+            <_PivotGridToolbar TItem="TItem" />
+        }
+
+        <_PivotGridTable TItem="TItem"
+                         @ref="@tableRef"
+                         Result="@VisiblePivotResult"
+                         Bordered="@Bordered"
+                         Striped="@Striped"
+                         Hoverable="@Hoverable"
+                         Narrow="@Narrow"
+                         Responsive="@Responsive"
+                         HeaderThemeContrast="@HeaderThemeContrast" />
+
+        @if ( IsPagerVisible )
+        {
+            <_PivotGridPagination TItem="TItem"
+                                  CurrentPage="@CurrentPage"
+                                  LastPage="@LastPage"
+                                  PageSize="@EffectivePageSize"
+                                  TotalRows="@TotalRows"
+                                  ShowPageSizes="@ShowPageSizes" />
+        }
+
+        @if ( FieldChooser )
+        {
+            <_PivotGridFieldChooser TItem="TItem" @ref="@fieldChooserRef" />
+        }
+    </Div>
+</CascadingValue>

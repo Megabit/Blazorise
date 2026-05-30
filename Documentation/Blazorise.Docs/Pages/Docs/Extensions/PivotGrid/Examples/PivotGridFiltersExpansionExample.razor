@@ -1,0 +1,60 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<PivotGrid TItem="FilterSale"
+           Data="@Sales"
+           ShowToolbar
+           FieldChooser
+           ExpandableRows
+           ExpandableColumns
+           InitiallyExpanded="false"
+           ShowRowTotals
+           ShowColumnTotals
+           ShowRowSubtotals
+           ShowColumnSubtotals
+           Striped
+           Hoverable>
+    <PivotGridFields>
+        <PivotGridField Field="@nameof( FilterSale.Region )" Caption="Region" />
+        <PivotGridField Field="@nameof( FilterSale.City )" Caption="City" />
+        <PivotGridField Field="@nameof( FilterSale.Category )" Caption="Category" />
+        <PivotGridField Field="@nameof( FilterSale.Amount )" Caption="Amount" />
+    </PivotGridFields>
+    <PivotGridColumns>
+        <PivotGridColumn Field="@nameof( FilterSale.City )" Caption="City" />
+    </PivotGridColumns>
+    <PivotGridRows>
+        <PivotGridRow Field="@nameof( FilterSale.Region )" Caption="Region" />
+        <PivotGridRow Field="@nameof( FilterSale.Category )" Caption="Category" />
+    </PivotGridRows>
+    <PivotGridAggregates>
+        <PivotGridAggregate Field="@nameof( FilterSale.Amount )"
+                            Caption="Amount"
+                            DisplayFormat="{0:C0}"
+                            DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "en-US" )" />
+    </PivotGridAggregates>
+</PivotGrid>
+
+@code {
+    private readonly List<FilterSale> Sales =
+    [
+        new() { Region = "Central", City = "Berlin", Category = "Hardware", Amount = 51200m },
+        new() { Region = "Central", City = "Berlin", Category = "Software", Amount = 94200m },
+        new() { Region = "Western", City = "London", Category = "Hardware", Amount = 127500m },
+        new() { Region = "Western", City = "London", Category = "Services", Amount = 66300m },
+        new() { Region = "Southern", City = "Madrid", Category = "Services", Amount = 28700m },
+        new() { Region = "Southern", City = "Madrid", Category = "Software", Amount = 45100m },
+        new() { Region = "Western", City = "Paris", Category = "Software", Amount = 124500m },
+        new() { Region = "Western", City = "Paris", Category = "Services", Amount = 118600m },
+    ];
+
+    public class FilterSale
+    {
+        public string Region { get; set; }
+
+        public string City { get; set; }
+
+        public string Category { get; set; }
+
+        public decimal Amount { get; set; }
+    }
+}

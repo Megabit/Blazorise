@@ -13407,6 +13407,982 @@ Install-Package Blazorise.Icons.Material";
     <PdfViewer Source=""_content/Blazorise.Docs/assets/files/compressed.tracemonkey-pldi-09.pdf"" />
 </PdfViewerContainer>";
 
+        public const string PivotGridBasicExample = @"<PivotGrid TItem=""PivotSale""
+           Data=""@Sales""
+           ShowRowTotals
+           ShowColumnTotals
+           ShowRowSubtotals
+           Striped
+           Hoverable>
+    <PivotGridColumns>
+        <PivotGridColumn Field=""@nameof( PivotSale.City )"" Caption=""City"" />
+    </PivotGridColumns>
+    <PivotGridRows>
+        <PivotGridRow Field=""@nameof( PivotSale.Category )"" Caption=""Category"" />
+        <PivotGridRow Field=""@nameof( PivotSale.Product )"" Caption=""Product"" />
+    </PivotGridRows>
+    <PivotGridAggregates>
+        <PivotGridAggregate Field=""@nameof( PivotSale.Amount )""
+                            Caption=""Amount""
+                            DisplayFormat=""{0:C0}""
+                            DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
+        <PivotGridAggregate Field=""@nameof( PivotSale.Units )""
+                            Caption=""Units""
+                            Aggregate=""PivotGridAggregateFunction.Sum"" />
+    </PivotGridAggregates>
+</PivotGrid>
+
+@code {
+    private readonly List<PivotSale> Sales =
+    [
+        new() { City = ""Berlin"", Category = ""Hardware"", Product = ""Laptops"", Amount = 51200m, Units = 18 },
+        new() { City = ""Berlin"", Category = ""Hardware"", Product = ""Monitors"", Amount = 38400m, Units = 82 },
+        new() { City = ""Berlin"", Category = ""Software"", Product = ""Licenses"", Amount = 94200m, Units = 205 },
+        new() { City = ""London"", Category = ""Hardware"", Product = ""Laptops"", Amount = 127500m, Units = 34 },
+        new() { City = ""London"", Category = ""Services"", Product = ""Consulting"", Amount = 66300m, Units = 36 },
+        new() { City = ""London"", Category = ""Software"", Product = ""Support"", Amount = 76800m, Units = 192 },
+        new() { City = ""Madrid"", Category = ""Hardware"", Product = ""Laptops"", Amount = 68200m, Units = 19 },
+        new() { City = ""Madrid"", Category = ""Services"", Product = ""Training"", Amount = 28700m, Units = 64 },
+        new() { City = ""Madrid"", Category = ""Software"", Product = ""Support"", Amount = 45100m, Units = 135 },
+        new() { City = ""Paris"", Category = ""Hardware"", Product = ""Laptops"", Amount = 98400m, Units = 28 },
+        new() { City = ""Paris"", Category = ""Services"", Product = ""Implementation"", Amount = 118600m, Units = 47 },
+        new() { City = ""Paris"", Category = ""Software"", Product = ""Subscriptions"", Amount = 124500m, Units = 355 },
+    ];
+
+    public class PivotSale
+    {
+        public string City { get; set; }
+
+        public string Category { get; set; }
+
+        public string Product { get; set; }
+
+        public decimal Amount { get; set; }
+
+        public int Units { get; set; }
+    }
+}";
+
+        public const string PivotGridCustomAggregatorExample = @"<PivotGrid TItem=""MarginSale""
+           Data=""@Sales""
+           ShowRowTotals
+           ShowColumnTotals
+           Striped
+           Hoverable>
+    <PivotGridColumns>
+        <PivotGridColumn Field=""@nameof( MarginSale.Region )"" Caption=""Region"" />
+    </PivotGridColumns>
+    <PivotGridRows>
+        <PivotGridRow Field=""@nameof( MarginSale.Category )"" Caption=""Category"" />
+    </PivotGridRows>
+    <PivotGridAggregates>
+        <PivotGridAggregate Field=""@nameof( MarginSale.Amount )""
+                            Caption=""Revenue""
+                            DisplayFormat=""{0:C0}""
+                            DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
+        <PivotGridAggregate TItem=""MarginSale""
+                            Field=""@nameof( MarginSale.Margin )""
+                            Caption=""Margin %""
+                            Aggregator=""@WeightedMargin""
+                            DisplayFormat=""{0:P1}"" />
+    </PivotGridAggregates>
+</PivotGrid>
+
+@code {
+    private readonly List<MarginSale> Sales =
+    [
+        new() { Region = ""Central"", Category = ""Hardware"", Amount = 51200m, Margin = .18m },
+        new() { Region = ""Central"", Category = ""Software"", Amount = 94200m, Margin = .42m },
+        new() { Region = ""Western"", Category = ""Hardware"", Amount = 127500m, Margin = .21m },
+        new() { Region = ""Western"", Category = ""Services"", Amount = 66300m, Margin = .36m },
+    ];
+
+    private static object WeightedMargin( IReadOnlyList<MarginSale> items )
+    {
+        decimal totalAmount = items.Sum( item => item.Amount );
+
+        if ( totalAmount == 0m )
+            return null;
+
+        return items.Sum( item => item.Amount * item.Margin ) / totalAmount;
+    }
+
+    public class MarginSale
+    {
+        public string Region { get; set; }
+
+        public string Category { get; set; }
+
+        public decimal Amount { get; set; }
+
+        public decimal Margin { get; set; }
+    }
+}";
+
+        public const string PivotGridCustomToolbarExample = @"<PivotGrid TItem=""ToolbarSale""
+           Data=""@Sales""
+           FieldChooser
+           ExpandableRows
+           InitiallyExpanded=""false""
+           ShowRowTotals
+           ShowColumnTotals
+           ShowRowSubtotals
+           Striped
+           Hoverable>
+    <ToolbarTemplate Context=""toolbar"">
+        <Div Padding=""Padding.Is3"" Border=""Border.Is1"" Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is2"">
+            @if ( toolbar.CanOpenFieldChooser )
+            {
+                <Button Color=""Color.Primary"" Outline Clicked=""@(() => toolbar.OpenFieldChooserCommand())"">
+                    <Icon Name=""IconName.List"" Margin=""Margin.Is2.FromEnd"" />
+                    @toolbar.FieldsText
+                </Button>
+            }
+
+            <Button Color=""Color.Success"" Outline Clicked=""@(() => toolbar.RefreshCommand())"">
+                <Icon Name=""IconName.Reply"" Margin=""Margin.Is2.FromEnd"" />
+                @toolbar.RefreshText
+            </Button>
+
+            @if ( toolbar.CanExpandCollapseGroups )
+            {
+                <Buttons>
+                    <Button Color=""Color.Secondary"" Outline Clicked=""@(() => toolbar.ExpandAllCommand())"">
+                        <Icon Name=""IconName.ChevronDoubleDown"" />
+                    </Button>
+                    <Button Color=""Color.Secondary"" Outline Clicked=""@(() => toolbar.CollapseAllCommand())"">
+                        <Icon Name=""IconName.ChevronDoubleUp"" />
+                    </Button>
+                </Buttons>
+            }
+
+            <Button Color=""Color.Secondary"" Outline Disabled=""@(!toolbar.CanResetLayout)"" Clicked=""@(() => toolbar.ResetLayoutCommand())"">
+                <Icon Name=""IconName.Undo"" Margin=""Margin.Is2.FromEnd"" />
+                @toolbar.ResetLayoutText
+            </Button>
+        </Div>
+    </ToolbarTemplate>
+    <ChildContent>
+        <PivotGridFields>
+            <PivotGridField Field=""@nameof( ToolbarSale.Region )"" Caption=""Region"" />
+            <PivotGridField Field=""@nameof( ToolbarSale.City )"" Caption=""City"" />
+            <PivotGridField Field=""@nameof( ToolbarSale.Category )"" Caption=""Category"" />
+            <PivotGridField Field=""@nameof( ToolbarSale.Product )"" Caption=""Product"" />
+            <PivotGridField Field=""@nameof( ToolbarSale.Amount )"" Caption=""Amount"" />
+        </PivotGridFields>
+        <PivotGridColumns>
+            <PivotGridColumn Field=""@nameof( ToolbarSale.City )"" Caption=""City"" />
+        </PivotGridColumns>
+        <PivotGridRows>
+            <PivotGridRow Field=""@nameof( ToolbarSale.Region )"" Caption=""Region"" />
+            <PivotGridRow Field=""@nameof( ToolbarSale.Category )"" Caption=""Category"" />
+        </PivotGridRows>
+        <PivotGridAggregates>
+            <PivotGridAggregate Field=""@nameof( ToolbarSale.Amount )""
+                                Caption=""Amount""
+                                DisplayFormat=""{0:C0}""
+                                DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
+        </PivotGridAggregates>
+    </ChildContent>
+</PivotGrid>
+
+@code {
+    private readonly List<ToolbarSale> Sales =
+    [
+        new() { Region = ""Central"", City = ""Berlin"", Category = ""Hardware"", Product = ""Laptops"", Amount = 51200m },
+        new() { Region = ""Central"", City = ""Berlin"", Category = ""Software"", Product = ""Licenses"", Amount = 94200m },
+        new() { Region = ""Western"", City = ""London"", Category = ""Hardware"", Product = ""Laptops"", Amount = 127500m },
+        new() { Region = ""Western"", City = ""London"", Category = ""Services"", Product = ""Consulting"", Amount = 66300m },
+        new() { Region = ""Southern"", City = ""Madrid"", Category = ""Services"", Product = ""Training"", Amount = 28700m },
+        new() { Region = ""Western"", City = ""Paris"", Category = ""Software"", Product = ""Subscriptions"", Amount = 124500m },
+    ];
+
+    public class ToolbarSale
+    {
+        public string Region { get; set; }
+
+        public string City { get; set; }
+
+        public string Category { get; set; }
+
+        public string Product { get; set; }
+
+        public decimal Amount { get; set; }
+    }
+}";
+
+        public const string PivotGridFieldChooserExample = @"<PivotGrid TItem=""PivotSale""
+           Data=""@Sales""
+           ShowToolbar
+           FieldChooser
+           ShowRowTotals
+           ShowColumnTotals
+           ShowRowSubtotals
+           Striped
+           Hoverable>
+    <PivotGridFields>
+        <PivotGridField Field=""@nameof( PivotSale.Region )"" Caption=""Region"" />
+        <PivotGridField Field=""@nameof( PivotSale.City )"" Caption=""City"" />
+        <PivotGridField Field=""@nameof( PivotSale.Category )"" Caption=""Category"" />
+        <PivotGridField Field=""@nameof( PivotSale.Product )"" Caption=""Product"" />
+        <PivotGridField Field=""@nameof( PivotSale.Amount )"" Caption=""Amount"" />
+        <PivotGridField Field=""@nameof( PivotSale.Units )"" Caption=""Units"" />
+    </PivotGridFields>
+    <PivotGridColumns>
+        <PivotGridColumn Field=""@nameof( PivotSale.City )"" Caption=""City"" />
+    </PivotGridColumns>
+    <PivotGridRows>
+        <PivotGridRow Field=""@nameof( PivotSale.Category )"" Caption=""Category"" />
+        <PivotGridRow Field=""@nameof( PivotSale.Product )"" Caption=""Product"" />
+    </PivotGridRows>
+    <PivotGridAggregates>
+        <PivotGridAggregate Field=""@nameof( PivotSale.Amount )""
+                            Caption=""Amount""
+                            DisplayFormat=""{0:C0}""
+                            DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
+        <PivotGridAggregate Field=""@nameof( PivotSale.Units )""
+                            Caption=""Units""
+                            Aggregate=""PivotGridAggregateFunction.Sum"" />
+    </PivotGridAggregates>
+</PivotGrid>
+
+@code {
+    private readonly List<PivotSale> Sales =
+    [
+        new() { Region = ""Central"", City = ""Berlin"", Category = ""Hardware"", Product = ""Laptops"", Amount = 51200m, Units = 18 },
+        new() { Region = ""Central"", City = ""Berlin"", Category = ""Software"", Product = ""Licenses"", Amount = 94200m, Units = 205 },
+        new() { Region = ""Western"", City = ""London"", Category = ""Hardware"", Product = ""Laptops"", Amount = 127500m, Units = 34 },
+        new() { Region = ""Western"", City = ""London"", Category = ""Services"", Product = ""Consulting"", Amount = 66300m, Units = 36 },
+        new() { Region = ""Central"", City = ""Madrid"", Category = ""Services"", Product = ""Training"", Amount = 28700m, Units = 64 },
+        new() { Region = ""Western"", City = ""Paris"", Category = ""Software"", Product = ""Subscriptions"", Amount = 124500m, Units = 355 },
+    ];
+
+    public class PivotSale
+    {
+        public string Region { get; set; }
+
+        public string City { get; set; }
+
+        public string Category { get; set; }
+
+        public string Product { get; set; }
+
+        public decimal Amount { get; set; }
+
+        public int Units { get; set; }
+    }
+}";
+
+        public const string PivotGridFiltersExpansionExample = @"<PivotGrid TItem=""FilterSale""
+           Data=""@Sales""
+           ShowToolbar
+           FieldChooser
+           ExpandableRows
+           ExpandableColumns
+           InitiallyExpanded=""false""
+           ShowRowTotals
+           ShowColumnTotals
+           ShowRowSubtotals
+           ShowColumnSubtotals
+           Striped
+           Hoverable>
+    <PivotGridFields>
+        <PivotGridField Field=""@nameof( FilterSale.Region )"" Caption=""Region"" />
+        <PivotGridField Field=""@nameof( FilterSale.City )"" Caption=""City"" />
+        <PivotGridField Field=""@nameof( FilterSale.Category )"" Caption=""Category"" />
+        <PivotGridField Field=""@nameof( FilterSale.Amount )"" Caption=""Amount"" />
+    </PivotGridFields>
+    <PivotGridColumns>
+        <PivotGridColumn Field=""@nameof( FilterSale.City )"" Caption=""City"" />
+    </PivotGridColumns>
+    <PivotGridRows>
+        <PivotGridRow Field=""@nameof( FilterSale.Region )"" Caption=""Region"" />
+        <PivotGridRow Field=""@nameof( FilterSale.Category )"" Caption=""Category"" />
+    </PivotGridRows>
+    <PivotGridAggregates>
+        <PivotGridAggregate Field=""@nameof( FilterSale.Amount )""
+                            Caption=""Amount""
+                            DisplayFormat=""{0:C0}""
+                            DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
+    </PivotGridAggregates>
+</PivotGrid>
+
+@code {
+    private readonly List<FilterSale> Sales =
+    [
+        new() { Region = ""Central"", City = ""Berlin"", Category = ""Hardware"", Amount = 51200m },
+        new() { Region = ""Central"", City = ""Berlin"", Category = ""Software"", Amount = 94200m },
+        new() { Region = ""Western"", City = ""London"", Category = ""Hardware"", Amount = 127500m },
+        new() { Region = ""Western"", City = ""London"", Category = ""Services"", Amount = 66300m },
+        new() { Region = ""Southern"", City = ""Madrid"", Category = ""Services"", Amount = 28700m },
+        new() { Region = ""Southern"", City = ""Madrid"", Category = ""Software"", Amount = 45100m },
+        new() { Region = ""Western"", City = ""Paris"", Category = ""Software"", Amount = 124500m },
+        new() { Region = ""Western"", City = ""Paris"", Category = ""Services"", Amount = 118600m },
+    ];
+
+    public class FilterSale
+    {
+        public string Region { get; set; }
+
+        public string City { get; set; }
+
+        public string Category { get; set; }
+
+        public decimal Amount { get; set; }
+    }
+}";
+
+        public const string PivotGridImportsExample = @"@using Blazorise.PivotGrid";
+
+        public const string PivotGridNugetInstallExample = @"Install-Package Blazorise.PivotGrid";
+
+        public const string PivotGridPagingVirtualizationExample = @"<Field>
+    <Switch @bind-Value=""@virtualize"">Virtualize rows</Switch>
+</Field>
+
+<PivotGrid TItem=""PivotSale""
+           Data=""@Sales""
+           ShowPager=""@(!virtualize)""
+           ShowPageSizes=""@(!virtualize)""
+           PageSize=""8""
+           PageSizes=""@pageSizes""
+           Virtualize=""@virtualize""
+           VirtualizeOptions=""@virtualizeOptions""
+           ShowRowTotals
+           ShowColumnTotals
+           ShowRowSubtotals
+           Striped
+           Hoverable
+           Narrow>
+    <PivotGridColumns>
+        <PivotGridColumn Field=""@nameof( PivotSale.City )"" Caption=""City"" />
+    </PivotGridColumns>
+    <PivotGridRows>
+        <PivotGridRow Field=""@nameof( PivotSale.Category )"" Caption=""Category"" />
+        <PivotGridRow Field=""@nameof( PivotSale.Product )"" Caption=""Product"" />
+    </PivotGridRows>
+    <PivotGridAggregates>
+        <PivotGridAggregate Field=""@nameof( PivotSale.Amount )""
+                            Caption=""Amount""
+                            DisplayFormat=""{0:C0}""
+                            DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
+        <PivotGridAggregate Field=""@nameof( PivotSale.Units )""
+                            Caption=""Units""
+                            Aggregate=""PivotGridAggregateFunction.Sum"" />
+    </PivotGridAggregates>
+</PivotGrid>
+
+@code {
+    private bool virtualize;
+
+    private readonly int[] pageSizes = [8, 16, 32];
+
+    private readonly PivotGridVirtualizeOptions virtualizeOptions = new()
+    {
+        Height = ""420px"",
+        MaxHeight = ""420px"",
+        ItemSize = 44f,
+        OverscanCount = 6,
+    };
+
+    private readonly List<PivotSale> Sales = CreateSales();
+
+    private static List<PivotSale> CreateSales()
+    {
+        string[] cities = [""Berlin"", ""London"", ""Madrid"", ""Paris""];
+
+        (string Category, string[] Products)[] rows =
+        [
+            (""Hardware"", [""Laptops"", ""Monitors"", ""Tablets"", ""Peripherals""]),
+            (""Software"", [""Licenses"", ""Subscriptions"", ""Support"", ""Analytics""]),
+            (""Services"", [""Consulting"", ""Implementation"", ""Training"", ""Migration""]),
+            (""Security"", [""Firewall"", ""Identity"", ""Monitoring"", ""Audit""]),
+            (""Cloud"", [""Compute"", ""Storage"", ""Backup"", ""Database""]),
+        ];
+
+        List<PivotSale> data = new();
+
+        for ( int rowIndex = 0; rowIndex < rows.Length; rowIndex++ )
+        {
+            for ( int productIndex = 0; productIndex < rows[rowIndex].Products.Length; productIndex++ )
+            {
+                for ( int cityIndex = 0; cityIndex < cities.Length; cityIndex++ )
+                {
+                    if ( ( rowIndex + productIndex + cityIndex ) % 5 == 0 )
+                        continue;
+
+                    data.Add( new()
+                    {
+                        City = cities[cityIndex],
+                        Category = rows[rowIndex].Category,
+                        Product = rows[rowIndex].Products[productIndex],
+                        Amount = 22000m + ( rowIndex * 28500m ) + ( productIndex * 9400m ) + ( cityIndex * 17300m ),
+                        Units = 18 + ( rowIndex * 31 ) + ( productIndex * 27 ) + ( cityIndex * 11 ),
+                    } );
+                }
+            }
+        }
+
+        return data;
+    }
+
+    public class PivotSale
+    {
+        public string City { get; set; }
+
+        public string Category { get; set; }
+
+        public string Product { get; set; }
+
+        public decimal Amount { get; set; }
+
+        public int Units { get; set; }
+    }
+}";
+
+        public const string PivotGridReadDataDataProviderExample = @"<Field>
+    <FieldLabel>Provider</FieldLabel>
+    <FieldBody>
+        <Select TValue=""ProviderMode"" @bind-Value=""@providerMode"">
+            <SelectItem TValue=""ProviderMode"" Value=""ProviderMode.ReadData"">ReadData callback</SelectItem>
+            <SelectItem TValue=""ProviderMode"" Value=""ProviderMode.DataProvider"">DataProvider implementation</SelectItem>
+        </Select>
+    </FieldBody>
+</Field>
+
+<PivotGrid TItem=""RemoteSale""
+           ReadData=""@CurrentReadData""
+           DataProvider=""@CurrentDataProvider""
+           ShowPager
+           PageSize=""4""
+           ShowRowTotals
+           Striped
+           Hoverable>
+    <PivotGridColumns>
+        <PivotGridColumn Field=""@nameof( RemoteSale.Quarter )"" Caption=""Quarter"" />
+    </PivotGridColumns>
+    <PivotGridRows>
+        <PivotGridRow Field=""@nameof( RemoteSale.Customer )"" Caption=""Customer"" />
+    </PivotGridRows>
+    <PivotGridAggregates>
+        <PivotGridAggregate Field=""@nameof( RemoteSale.Amount )""
+                            Caption=""Amount""
+                            Aggregate=""PivotGridAggregateFunction.Sum""
+                            DisplayFormat=""{0:C0}""
+                            DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
+    </PivotGridAggregates>
+</PivotGrid>
+
+@code {
+    private static readonly string[] quarters = [""Q1"", ""Q2"", ""Q3"", ""Q4""];
+
+    private static readonly IReadOnlyList<RemoteSale> sales = CreateSales();
+
+    private readonly IPivotGridDataProvider<RemoteSale> dataProvider = new RemoteSaleDataProvider( sales );
+
+    private ProviderMode providerMode = ProviderMode.ReadData;
+
+    private EventCallback<PivotGridReadDataEventArgs<RemoteSale>> CurrentReadData
+        => providerMode == ProviderMode.ReadData
+            ? EventCallback.Factory.Create<PivotGridReadDataEventArgs<RemoteSale>>( this, ReadRemoteData )
+            : default;
+
+    private IPivotGridDataProvider<RemoteSale> CurrentDataProvider
+        => providerMode == ProviderMode.DataProvider ? dataProvider : null;
+
+    private Task ReadRemoteData( PivotGridReadDataEventArgs<RemoteSale> eventArgs )
+    {
+        PivotGridDataResult<RemoteSale> result = CreatePagedPivotResult( sales, eventArgs.Request );
+
+        eventArgs.Result = result.Result;
+        eventArgs.TotalItems = result.TotalItems;
+        eventArgs.IsPaged = result.IsPaged;
+
+        return Task.CompletedTask;
+    }
+
+    private static PivotGridDataResult<RemoteSale> CreatePagedPivotResult( IReadOnlyList<RemoteSale> source, PivotGridDataRequest request )
+    {
+        PivotGridFieldInfo<RemoteSale> rowField = new()
+        {
+            Field = nameof( RemoteSale.Customer ),
+            Caption = ""Customer"",
+        };
+
+        PivotGridFieldInfo<RemoteSale> columnField = new()
+        {
+            Field = nameof( RemoteSale.Quarter ),
+            Caption = ""Quarter"",
+        };
+
+        PivotGridAggregateInfo<RemoteSale> aggregate = new()
+        {
+            Field = nameof( RemoteSale.Amount ),
+            Caption = ""Amount"",
+            Aggregate = PivotGridAggregateFunction.Sum,
+            DisplayFormat = ""{0:C0}"",
+            DisplayFormatProvider = System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" ),
+        };
+
+        List<PivotGridAxisItem<RemoteSale>> columnItems = quarters
+            .Select( quarter => new PivotGridAxisItem<RemoteSale>(
+                [quarter],
+                source.Where( sale => sale.Quarter == quarter ).ToList(),
+                0,
+                false,
+                false ) )
+            .ToList();
+
+        if ( request.ShowRowTotals )
+        {
+            columnItems.Add( new PivotGridAxisItem<RemoteSale>( [], source, 0, false, true ) );
+        }
+
+        List<PivotGridDataColumn<RemoteSale>> dataColumns = columnItems
+            .Select( column => new PivotGridDataColumn<RemoteSale>( column, aggregate ) )
+            .ToList();
+
+        List<IGrouping<string, RemoteSale>> customerGroups = source
+            .GroupBy( sale => sale.Customer )
+            .OrderBy( group => group.Key )
+            .ToList();
+
+        int totalRows = customerGroups.Count;
+        int skip = request.ReadDataMode == PivotGridReadDataMode.Paging
+            ? Math.Max( 0, ( request.Page - 1 ) * request.PageSize )
+            : 0;
+        int take = request.ReadDataMode == PivotGridReadDataMode.Paging
+            ? request.PageSize
+            : totalRows;
+
+        List<PivotGridResultRow<RemoteSale>> rows = customerGroups
+            .Skip( skip )
+            .Take( take )
+            .Select( group =>
+            {
+                List<RemoteSale> rowItems = group.ToList();
+                PivotGridAxisItem<RemoteSale> row = new( [group.Key], rowItems, 0, false, false );
+
+                List<PivotGridCell<RemoteSale>> cells = dataColumns
+                    .Select( dataColumn =>
+                    {
+                        List<RemoteSale> cellItems = dataColumn.Column.IsGrandTotal
+                            ? rowItems
+                            : rowItems.Where( sale => sale.Quarter == dataColumn.Column.Values[0]?.ToString() ).ToList();
+                        object value = aggregate.Calculate( cellItems );
+
+                        return new PivotGridCell<RemoteSale>(
+                            dataColumn,
+                            value,
+                            aggregate.FormatValue( value ),
+                            cellItems,
+                            dataColumn.Column.IsTotal || dataColumn.Column.IsGrandTotal,
+                            false,
+                            false );
+                    } )
+                    .ToList();
+
+                return new PivotGridResultRow<RemoteSale>( row, cells );
+            } )
+            .ToList();
+
+        return new()
+        {
+            Result = new( [rowField], [columnField], [aggregate], dataColumns, rows ),
+            TotalItems = totalRows,
+            IsPaged = true,
+        };
+    }
+
+    private static List<RemoteSale> CreateSales()
+    {
+        List<RemoteSale> data = new();
+
+        for ( int customerIndex = 1; customerIndex <= 18; customerIndex++ )
+        {
+            foreach ( string quarter in quarters )
+            {
+                data.Add( new()
+                {
+                    Customer = $""Customer {customerIndex:00}"",
+                    Quarter = quarter,
+                    Amount = 12000m + ( customerIndex * 950m ) + ( Array.IndexOf( quarters, quarter ) * 2250m ),
+                } );
+            }
+        }
+
+        return data;
+    }
+
+    private enum ProviderMode
+    {
+        ReadData,
+        DataProvider,
+    }
+
+    private sealed class RemoteSaleDataProvider : IPivotGridDataProvider<RemoteSale>
+    {
+        private readonly IReadOnlyList<RemoteSale> source;
+
+        public RemoteSaleDataProvider( IReadOnlyList<RemoteSale> source )
+        {
+            this.source = source;
+        }
+
+        public Task<PivotGridDataResult<RemoteSale>> ReadDataAsync( PivotGridDataRequest request, System.Threading.CancellationToken cancellationToken )
+            => Task.FromResult( CreatePagedPivotResult( source, request ) );
+    }
+
+    public class RemoteSale
+    {
+        public string Customer { get; set; }
+
+        public string Quarter { get; set; }
+
+        public decimal Amount { get; set; }
+    }
+}";
+
+        public const string PivotGridRemoteVirtualizationExample = @"<PivotGrid TItem=""RemotePivotSale""
+           ReadData=""@ReadRemotePivotData""
+           Virtualize
+           VirtualizeOptions=""@virtualizeOptions""
+           Striped
+           Hoverable>
+    <PivotGridColumns>
+        <PivotGridColumn Field=""@nameof( RemotePivotSale.Quarter )"" Caption=""Quarter"" />
+    </PivotGridColumns>
+    <PivotGridRows>
+        <PivotGridRow Field=""@nameof( RemotePivotSale.Customer )"" Caption=""Customer"" />
+    </PivotGridRows>
+    <PivotGridAggregates>
+        <PivotGridAggregate Field=""@nameof( RemotePivotSale.Amount )""
+                            Caption=""Amount""
+                            Aggregate=""PivotGridAggregateFunction.Sum""
+                            DisplayFormat=""{0:C0}""
+                            DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
+    </PivotGridAggregates>
+</PivotGrid>
+
+@code {
+    private static readonly string[] quarters = [""Q1"", ""Q2"", ""Q3"", ""Q4""];
+
+    private static readonly IReadOnlyList<RemotePivotSale> sales = CreateSales();
+
+    private static readonly int totalPivotRows = sales
+        .Select( sale => sale.Customer )
+        .Distinct()
+        .Count();
+
+    private readonly PivotGridVirtualizeOptions virtualizeOptions = new()
+    {
+        Height = ""420px"",
+        MaxHeight = ""420px"",
+        ItemSize = 44f,
+        OverscanCount = 6,
+    };
+
+    private Task ReadRemotePivotData( PivotGridReadDataEventArgs<RemotePivotSale> eventArgs )
+    {
+        PivotGridDataRequest request = eventArgs.Request;
+        int offset = request.ReadDataMode == PivotGridReadDataMode.Virtualize
+            ? Math.Max( 0, request.VirtualizeOffset )
+            : 0;
+        int count = request.ReadDataMode == PivotGridReadDataMode.Virtualize && request.VirtualizeCount > 0
+            ? request.VirtualizeCount
+            : 40;
+
+        eventArgs.Result = CreatePivotResult( offset, count );
+        eventArgs.TotalItems = totalPivotRows;
+        eventArgs.IsPaged = true;
+
+        return Task.CompletedTask;
+    }
+
+    private static PivotGridResult<RemotePivotSale> CreatePivotResult( int offset, int count )
+    {
+        IReadOnlyList<PivotGridFieldInfo<RemotePivotSale>> rowFields =
+        [
+            new()
+            {
+                Field = nameof( RemotePivotSale.Customer ),
+                Caption = ""Customer"",
+            },
+        ];
+
+        IReadOnlyList<PivotGridFieldInfo<RemotePivotSale>> columnFields =
+        [
+            new()
+            {
+                Field = nameof( RemotePivotSale.Quarter ),
+                Caption = ""Quarter"",
+            },
+        ];
+
+        PivotGridAggregateInfo<RemotePivotSale> aggregate = new()
+        {
+            Field = nameof( RemotePivotSale.Amount ),
+            Caption = ""Amount"",
+            Aggregate = PivotGridAggregateFunction.Sum,
+            DisplayFormat = ""{0:C0}"",
+            DisplayFormatProvider = System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" ),
+        };
+
+        IReadOnlyList<PivotGridAggregateInfo<RemotePivotSale>> aggregates = [aggregate];
+
+        List<PivotGridAxisItem<RemotePivotSale>> columnItems = quarters
+            .Select( quarter => new PivotGridAxisItem<RemotePivotSale>(
+                [quarter],
+                sales.Where( sale => sale.Quarter == quarter ).ToList(),
+                0,
+                false,
+                false ) )
+            .ToList();
+
+        List<PivotGridDataColumn<RemotePivotSale>> dataColumns = columnItems
+            .Select( column => new PivotGridDataColumn<RemotePivotSale>( column, aggregate ) )
+            .ToList();
+
+        List<PivotGridResultRow<RemotePivotSale>> rows = sales
+            .GroupBy( sale => sale.Customer )
+            .OrderBy( group => group.Key )
+            .Skip( offset )
+            .Take( count )
+            .Select( group =>
+            {
+                List<RemotePivotSale> rowItems = group.ToList();
+                PivotGridAxisItem<RemotePivotSale> row = new(
+                    [group.Key],
+                    rowItems,
+                    0,
+                    false,
+                    false );
+
+                List<PivotGridCell<RemotePivotSale>> cells = dataColumns
+                    .Select( dataColumn =>
+                    {
+                        string quarter = dataColumn.Column.Values[0]?.ToString();
+                        List<RemotePivotSale> cellItems = rowItems
+                            .Where( sale => sale.Quarter == quarter )
+                            .ToList();
+                        object value = aggregate.Calculate( cellItems );
+
+                        return new PivotGridCell<RemotePivotSale>(
+                            dataColumn,
+                            value,
+                            aggregate.FormatValue( value ),
+                            cellItems,
+                            false,
+                            false,
+                            false );
+                    } )
+                    .ToList();
+
+                return new PivotGridResultRow<RemotePivotSale>( row, cells );
+            } )
+            .ToList();
+
+        return new( rowFields, columnFields, aggregates, dataColumns, rows );
+    }
+
+    private static List<RemotePivotSale> CreateSales()
+    {
+        List<RemotePivotSale> data = new();
+
+        for ( int customerIndex = 1; customerIndex <= 500; customerIndex++ )
+        {
+            for ( int quarterIndex = 0; quarterIndex < quarters.Length; quarterIndex++ )
+            {
+                data.Add( new()
+                {
+                    Customer = $""Customer {customerIndex:000}"",
+                    Quarter = quarters[quarterIndex],
+                    Amount = 8500m + ( customerIndex * 157m ) + ( quarterIndex * 3200m ),
+                } );
+            }
+        }
+
+        return data;
+    }
+
+    public class RemotePivotSale
+    {
+        public string Customer { get; set; }
+
+        public string Quarter { get; set; }
+
+        public decimal Amount { get; set; }
+    }
+}";
+
+        public const string PivotGridStylingExample = @"<PivotGrid TItem=""PivotSale""
+           Data=""@Sales""
+           CellStyling=""@OnCellStyling""
+           RowHeaderStyling=""@OnRowHeaderStyling""
+           ColumnHeaderStyling=""@OnColumnHeaderStyling""
+           ShowRowTotals
+           ShowColumnTotals
+           ShowRowSubtotals
+           Striped
+           Hoverable>
+    <PivotGridColumns>
+        <PivotGridColumn Field=""@nameof( PivotSale.City )"" Caption=""City"" />
+    </PivotGridColumns>
+    <PivotGridRows>
+        <PivotGridRow Field=""@nameof( PivotSale.Category )"" Caption=""Category"" />
+        <PivotGridRow Field=""@nameof( PivotSale.Product )"" Caption=""Product"" />
+    </PivotGridRows>
+    <PivotGridAggregates>
+        <PivotGridAggregate Field=""@nameof( PivotSale.Amount )""
+                            Caption=""Amount""
+                            DisplayFormat=""{0:C0}""
+                            DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"" />
+        <PivotGridAggregate Field=""@nameof( PivotSale.Units )""
+                            Caption=""Units""
+                            Aggregate=""PivotGridAggregateFunction.Sum"" />
+    </PivotGridAggregates>
+</PivotGrid>
+
+@code {
+    private readonly List<PivotSale> Sales =
+    [
+        new() { City = ""Berlin"", Category = ""Hardware"", Product = ""Laptops"", Amount = 51200m, Units = 18 },
+        new() { City = ""Berlin"", Category = ""Software"", Product = ""Licenses"", Amount = 94200m, Units = 205 },
+        new() { City = ""London"", Category = ""Hardware"", Product = ""Laptops"", Amount = 127500m, Units = 34 },
+        new() { City = ""London"", Category = ""Services"", Product = ""Consulting"", Amount = 66300m, Units = 36 },
+        new() { City = ""Madrid"", Category = ""Services"", Product = ""Training"", Amount = 28700m, Units = 64 },
+        new() { City = ""Paris"", Category = ""Software"", Product = ""Subscriptions"", Amount = 124500m, Units = 355 },
+    ];
+
+    private void OnCellStyling( PivotGridCellContext<PivotSale> context, PivotGridCellStyling styling )
+    {
+        if ( context.Aggregate.Field != nameof( PivotSale.Amount ) || context.Value is not decimal amount )
+            return;
+
+        if ( amount >= 100000m )
+        {
+            styling.Background = Background.Success;
+            styling.TextColor = TextColor.White;
+            styling.TextWeight = TextWeight.Bold;
+        }
+        else if ( amount <= 30000m )
+        {
+            styling.Background = Background.Danger;
+            styling.TextColor = TextColor.White;
+            styling.TextWeight = TextWeight.Bold;
+        }
+    }
+
+    private void OnRowHeaderStyling( PivotGridRowHeaderContext<PivotSale> context, PivotGridCellStyling styling )
+    {
+        if ( context.IsGrandTotal )
+        {
+            styling.Background = Background.Info;
+            styling.TextColor = TextColor.White;
+            styling.TextWeight = TextWeight.Bold;
+        }
+        else if ( context.IsTotal )
+        {
+            styling.Background = Background.Secondary;
+            styling.TextColor = TextColor.White;
+            styling.TextWeight = TextWeight.Bold;
+        }
+    }
+
+    private void OnColumnHeaderStyling( PivotGridColumnHeaderContext<PivotSale> context, PivotGridCellStyling styling )
+    {
+        if ( context.IsGrandTotal || context.IsTotal )
+        {
+            styling.Background = Background.Info;
+            styling.TextColor = TextColor.White;
+            styling.TextWeight = TextWeight.Bold;
+        }
+    }
+
+    public class PivotSale
+    {
+        public string City { get; set; }
+
+        public string Category { get; set; }
+
+        public string Product { get; set; }
+
+        public decimal Amount { get; set; }
+
+        public int Units { get; set; }
+    }
+}";
+
+        public const string PivotGridTemplatesEventsExample = @"<PivotGrid TItem=""TemplateSale""
+           Data=""@Sales""
+           CellClicked=""@OnCellClicked""
+           ShowRowTotals
+           ShowColumnTotals
+           Striped
+           Hoverable>
+    <PivotGridColumns>
+        <PivotGridColumn Field=""@nameof( TemplateSale.Region )"" Caption=""Region"">
+            <DisplayTemplate Context=""context"">
+                <Span TextWeight=""TextWeight.SemiBold"" TextTransform=""TextTransform.Uppercase"">@context.FormattedValue</Span>
+            </DisplayTemplate>
+        </PivotGridColumn>
+    </PivotGridColumns>
+    <PivotGridRows>
+        <PivotGridRow Field=""@nameof( TemplateSale.Category )"" Caption=""Category"">
+            <HeaderTemplate Context=""context"">
+                <Span TextWeight=""TextWeight.Bold"">@context.Caption</Span>
+            </HeaderTemplate>
+            <DisplayTemplate Context=""context"">
+                <Span TextColor=""@(context.IsTotal ? TextColor.Primary : TextColor.Body)"">@context.FormattedValue</Span>
+            </DisplayTemplate>
+        </PivotGridRow>
+    </PivotGridRows>
+    <PivotGridAggregates>
+        <PivotGridAggregate Field=""@nameof( TemplateSale.Amount )""
+                            Caption=""Revenue""
+                            DisplayFormat=""{0:C0}""
+                            DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo( ""en-US"" )"">
+            <CellTemplate Context=""context"">
+                <Span TextWeight=""@(context.IsGrandTotal ? TextWeight.Bold : TextWeight.Default)"">
+                    @context.FormattedValue
+                </Span>
+            </CellTemplate>
+        </PivotGridAggregate>
+    </PivotGridAggregates>
+</PivotGrid>
+
+<Alert Color=""Color.Info"" Visible=""@(!string.IsNullOrWhiteSpace( selectedCellText ))"" Margin=""Margin.Is3.FromTop"">
+    @selectedCellText
+</Alert>
+
+@code {
+    private string selectedCellText;
+
+    private readonly List<TemplateSale> Sales =
+    [
+        new() { Region = ""Central"", Category = ""Hardware"", Amount = 51200m },
+        new() { Region = ""Central"", Category = ""Software"", Amount = 94200m },
+        new() { Region = ""Western"", Category = ""Hardware"", Amount = 127500m },
+        new() { Region = ""Western"", Category = ""Services"", Amount = 66300m },
+    ];
+
+    private Task OnCellClicked( PivotGridCellClickedEventArgs<TemplateSale> eventArgs )
+    {
+        selectedCellText = $""{eventArgs.Aggregate.Caption}: {eventArgs.Value:C0} from {eventArgs.Items.Count} source rows"";
+
+        return Task.CompletedTask;
+    }
+
+    public class TemplateSale
+    {
+        public string Region { get; set; }
+
+        public string Category { get; set; }
+
+        public decimal Amount { get; set; }
+    }
+}";
+
         public const string BasicQRCodeExample = @"<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" />";
 
         public const string ImportQRCodeExample = @"@using Blazorise.QRCode";
