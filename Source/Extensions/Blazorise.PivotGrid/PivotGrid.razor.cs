@@ -48,7 +48,6 @@ public partial class PivotGrid<TItem> : BaseComponent
     private string lastExternalDataRequestKey;
     private CancellationTokenSource readDataCancellationTokenSource;
     private IPivotGridDataProvider<TItem> previousDataProvider;
-    private bool previousReadDataHasDelegate;
     private bool externalDataReadQueued;
     private bool externalVirtualizedResultInitialized;
     private bool virtualizedRowsRefreshQueued;
@@ -110,12 +109,6 @@ public partial class PivotGrid<TItem> : BaseComponent
         if ( !ReferenceEquals( previousDataProvider, DataProvider ) )
         {
             previousDataProvider = DataProvider;
-            InvalidateExternalDataRead();
-        }
-
-        if ( previousReadDataHasDelegate != ReadData.HasDelegate )
-        {
-            previousReadDataHasDelegate = ReadData.HasDelegate;
             InvalidateExternalDataRead();
         }
 
