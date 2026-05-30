@@ -59,7 +59,7 @@ public class PivotGridToolbarContext<TItem>
         PreviousPageCommand = previousPageCommand;
         NextPageCommand = nextPageCommand;
         LastPageCommand = lastPageCommand;
-        ShowFieldChooser = pivotGrid.ShowFieldChooser;
+        FieldChooser = pivotGrid.FieldChooser;
         CanExpandCollapseGroups = pivotGrid.CanExpandCollapseGroups;
         CanResetLayout = pivotGrid.CanResetLayout;
         FieldsText = pivotGrid.LocalizedFieldsText;
@@ -75,9 +75,9 @@ public class PivotGridToolbarContext<TItem>
     }
 
     /// <summary>
-    /// Gets whether the field chooser command is available.
+    /// Gets whether the field chooser feature is enabled.
     /// </summary>
-    public bool ShowFieldChooser { get; }
+    public bool FieldChooser { get; }
 
     /// <summary>
     /// Gets the current page.
@@ -177,7 +177,7 @@ public class PivotGridToolbarContext<TItem>
     /// <summary>
     /// Gets whether the field chooser command is available.
     /// </summary>
-    public bool CanOpenFieldChooser => ShowFieldChooser;
+    public bool CanOpenFieldChooser => FieldChooser;
 
     /// <summary>
     /// Gets whether the grid has expandable row or column groups.

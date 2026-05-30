@@ -7,59 +7,69 @@
 else
 {
     PivotGridToolbarContext<TItem> context = Context;
+    PivotGridToolbarOptions options = PivotGrid.ToolbarOptions;
+    bool showFieldChooserButton = options?.ShowFieldChooserButton != false && context.CanOpenFieldChooser;
+    bool showRefreshButton = options?.ShowRefreshButton != false;
+    bool showExpandCollapseButtons = options?.ShowExpandCollapseButtons != false && context.CanExpandCollapseGroups;
+    bool showResetLayoutButton = options?.ShowResetLayoutButton != false && context.CanResetLayout;
 
-    <Div Class="b-pivot-grid-toolbar" Padding="PaddingIs3" Border="BorderIs1" Flex="FlexRowAlignItemsCenter" Gap="GapIs2">
-        @if ( context.CanOpenFieldChooser )
-        {
-            <Buttons>
-                <Button Color="Color.Secondary"
-                        Outline
-                        Clicked="@(() => context.OpenFieldChooserCommand())"
-                        aria-label="@context.FieldsText">
-                    @context.FieldsText
-                </Button>
-            </Buttons>
-        }
+    if ( showFieldChooserButton || showRefreshButton || showExpandCollapseButtons || showResetLayoutButton )
+    {
+        <Div Class="b-pivot-grid-toolbar" Padding="PaddingIs3" Border="BorderIs1" Flex="FlexRowAlignItemsCenter" Gap="GapIs2">
+            @if ( showFieldChooserButton )
+            {
+                <Buttons>
+                    <Button Color="Color.Secondary"
+                            Outline
+                            Clicked="@(() => context.OpenFieldChooserCommand())"
+                            aria-label="@context.FieldsText">
+                        @context.FieldsText
+                    </Button>
+                </Buttons>
+            }
 
-        <Buttons>
-            <Button Color="Color.Secondary"
-                    Outline
-                    Clicked="@(() => context.RefreshCommand())"
-                    aria-label="@context.RefreshText">
-                @context.RefreshText
-            </Button>
-        </Buttons>
+            @if ( showRefreshButton )
+            {
+                <Buttons>
+                    <Button Color="Color.Secondary"
+                            Outline
+                            Clicked="@(() => context.RefreshCommand())"
+                            aria-label="@context.RefreshText">
+                        @context.RefreshText
+                    </Button>
+                </Buttons>
+            }
 
-        @if ( context.CanExpandCollapseGroups )
-        {
-            <Buttons>
-                <Button Color="Color.Secondary"
-                        Outline
-                        Clicked="@(() => context.ExpandAllCommand())"
-                        aria-label="@context.ExpandAllText">
-                    @context.ExpandAllText
-                </Button>
+            @if ( showExpandCollapseButtons )
+            {
+                <Buttons>
+                    <Button Color="Color.Secondary"
+                            Outline
+                            Clicked="@(() => context.ExpandAllCommand())"
+                            aria-label="@context.ExpandAllText">
+                        @context.ExpandAllText
+                    </Button>
 
-                <Button Color="Color.Secondary"
-                        Outline
-                        Clicked="@(() => context.CollapseAllCommand())"
-                        aria-label="@context.CollapseAllText">
-                    @context.CollapseAllText
-                </Button>
-            </Buttons>
-        }
+                    <Button Color="Color.Secondary"
+                            Outline
+                            Clicked="@(() => context.CollapseAllCommand())"
+                            aria-label="@context.CollapseAllText">
+                        @context.CollapseAllText
+                    </Button>
+                </Buttons>
+            }
 
-        @if ( context.ShowFieldChooser )
-        {
-            <Buttons>
-                <Button Color="Color.Secondary"
-                        Outline
-                        Disabled="@(!context.CanResetLayout)"
-                        Clicked="@(() => context.ResetLayoutCommand())"
-                        aria-label="@context.ResetLayoutText">
-                    @context.ResetLayoutText
-                </Button>
-            </Buttons>
-        }
-    </Div>
+            @if ( showResetLayoutButton )
+            {
+                <Buttons>
+                    <Button Color="Color.Secondary"
+                            Outline
+                            Clicked="@(() => context.ResetLayoutCommand())"
+                            aria-label="@context.ResetLayoutText">
+                        @context.ResetLayoutText
+                    </Button>
+                </Buttons>
+            }
+        </Div>
+    }
 }

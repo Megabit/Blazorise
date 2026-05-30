@@ -13521,7 +13521,7 @@ Install-Package Blazorise.Icons.Material";
 
         public const string PivotGridCustomToolbarExample = @"<PivotGrid TItem=""ToolbarSale""
            Data=""@Sales""
-           ShowFieldChooser
+           FieldChooser
            ExpandableRows
            InitiallyExpanded=""false""
            ShowRowTotals
@@ -13614,7 +13614,7 @@ Install-Package Blazorise.Icons.Material";
         public const string PivotGridFieldChooserExample = @"<PivotGrid TItem=""PivotSale""
            Data=""@Sales""
            ShowToolbar
-           ShowFieldChooser
+           FieldChooser
            ShowRowTotals
            ShowColumnTotals
            ShowRowSubtotals
@@ -13676,7 +13676,7 @@ Install-Package Blazorise.Icons.Material";
         public const string PivotGridFiltersExpansionExample = @"<PivotGrid TItem=""FilterSale""
            Data=""@Sales""
            ShowToolbar
-           ShowFieldChooser
+           FieldChooser
            ExpandableRows
            ExpandableColumns
            InitiallyExpanded=""false""

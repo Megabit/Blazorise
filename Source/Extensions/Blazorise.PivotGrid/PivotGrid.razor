@@ -35,6 +35,9 @@
                                   ShowPageSizes="@ShowPageSizes" />
         }
 
-        <_PivotGridFieldChooser TItem="TItem" @ref="@fieldChooserRef" />
+        @if ( FieldChooser )
+        {
+            <_PivotGridFieldChooser TItem="TItem" @ref="@fieldChooserRef" />
+        }
     </Div>
 </CascadingValue>

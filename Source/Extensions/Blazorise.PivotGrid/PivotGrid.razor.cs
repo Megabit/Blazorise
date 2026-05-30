@@ -288,6 +288,9 @@ public partial class PivotGrid<TItem> : BaseComponent
 
     internal Task OpenFieldChooser()
     {
+        if ( !FieldChooser )
+            return Task.CompletedTask;
+
         EnsureRuntimeState();
 
         return fieldChooserRef?.Show() ?? Task.CompletedTask;
@@ -633,7 +636,7 @@ public partial class PivotGrid<TItem> : BaseComponent
 
     private void EnsureRuntimeState()
     {
-        if ( !ShowFieldChooser || ( runtimeStateInitialized && runtimeStateUserModified ) )
+        if ( !FieldChooser || ( runtimeStateInitialized && runtimeStateUserModified ) )
             return;
 
         runtimeRows.Clear();
@@ -656,14 +659,14 @@ public partial class PivotGrid<TItem> : BaseComponent
         => GetEffectiveFields( PivotGridFieldArea.Column );
 
     private IReadOnlyList<PivotGridAggregate<TItem>> GetEffectiveAggregates()
-        => ShowFieldChooser
+        => FieldChooser
             ? GetActiveRuntimeFieldStates( GetRuntimeFieldStates( PivotGridFieldArea.Aggregate ), PivotGridFieldArea.Aggregate )
                 .Select( CreateRuntimeAggregate )
                 .ToList()
             : GetDeclaredAggregates();
 
     private IReadOnlyList<BasePivotGridField<TItem>> GetEffectiveFields( PivotGridFieldArea area )
-        => ShowFieldChooser
+        => FieldChooser
             ? GetActiveRuntimeFieldStates( GetRuntimeFieldStates( area ), area ).Select( x => CreateRuntimeField( x, area ) ).ToList()
             : GetDeclaredFields( area );
 
@@ -804,12 +807,12 @@ public partial class PivotGrid<TItem> : BaseComponent
         => GetDataRequestFields( PivotGridFieldArea.Aggregate );
 
     private IReadOnlyList<PivotGridFieldState> GetDataRequestFilters()
-        => ShowFieldChooser
+        => FieldChooser
             ? GetRuntimeFilters()
             : [];
 
     private IReadOnlyList<PivotGridFieldState> GetDataRequestFields( PivotGridFieldArea area )
-        => ShowFieldChooser
+        => FieldChooser
             ? GetActiveRuntimeFieldStates( GetRuntimeFieldStates( area ), area )
             : GetDeclaredFieldStates( area );
 
@@ -922,7 +925,7 @@ public partial class PivotGrid<TItem> : BaseComponent
 
     private IReadOnlyList<TItem> ApplyFilters( IReadOnlyList<TItem> sourceItems )
     {
-        if ( !ShowFieldChooser || runtimeFilters.Count == 0 )
+        if ( !FieldChooser || runtimeFilters.Count == 0 )
             return sourceItems;
 
         var activeFilters = GetActiveRuntimeFieldStates( runtimeFilters, PivotGridFieldArea.Filter )
@@ -1604,7 +1607,7 @@ public partial class PivotGrid<TItem> : BaseComponent
             || ( ExpandableColumns && pivotResult?.DataColumns.Any( column => CanToggleColumnExpansion( column.Column ) ) == true );
 
     internal bool CanResetLayout
-        => ShowFieldChooser && runtimeStateUserModified;
+        => FieldChooser && runtimeStateUserModified;
 
     private bool UsesExternalData
         => DataProvider is not null || ReadData.HasDelegate;
@@ -1737,9 +1740,14 @@ public partial class PivotGrid<TItem> : BaseComponent
     [Parameter] public bool ShowToolbar { get; set; }
 
     /// <summary>
-    /// Shows the runtime field chooser.
+    /// Defines options for the built-in toolbar.
     /// </summary>
-    [Parameter] public bool ShowFieldChooser { get; set; }
+    [Parameter] public PivotGridToolbarOptions ToolbarOptions { get; set; } = new();
+
+    /// <summary>
+    /// Enables the runtime field chooser.
+    /// </summary>
+    [Parameter] public bool FieldChooser { get; set; }
 
     /// <summary>
     /// Enables expanding and collapsing row groups.

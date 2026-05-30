@@ -122,7 +122,7 @@ public class PivotGridComponentTest : BunitContext
         IRenderedComponent<PivotGrid<PivotSale>> comp = RenderPivotGrid( parameters =>
         {
             parameters.Add( x => x.ReadData, readData );
-            parameters.Add( x => x.ShowFieldChooser, true );
+            parameters.Add( x => x.FieldChooser, true );
         } );
 
         comp.WaitForAssertion( () =>

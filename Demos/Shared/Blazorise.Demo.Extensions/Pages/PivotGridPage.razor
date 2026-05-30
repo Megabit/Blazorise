@@ -68,6 +68,38 @@
                             </Tooltip>
                         </Div>
                     </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@toolbarOptions.ShowFieldChooserButton" Disabled="@(!showToolbar)">Toolbar fields</Switch>
+                            <Tooltip Text="Shows the field chooser command in the PivotGrid toolbar." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@toolbarOptions.ShowRefreshButton" Disabled="@(!showToolbar)">Toolbar refresh</Switch>
+                            <Tooltip Text="Shows the refresh command in the PivotGrid toolbar." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@toolbarOptions.ShowExpandCollapseButtons" Disabled="@(!showToolbar)">Toolbar expand/collapse</Switch>
+                            <Tooltip Text="Shows the expand all and collapse all commands in the PivotGrid toolbar when groups can be expanded." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
+                    <Field>
+                        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" Gap="Gap.Is3">
+                            <Switch @bind-Value="@toolbarOptions.ShowResetLayoutButton" Disabled="@(!showToolbar)">Toolbar reset layout</Switch>
+                            <Tooltip Text="Shows the reset layout command in the PivotGrid toolbar after users modify the runtime field layout." Placement="TooltipPlacement.Left" Multiline>
+                                <Icon Name="IconName.QuestionCircle" TextColor="TextColor.Secondary" />
+                            </Tooltip>
+                        </Div>
+                    </Field>
                 </DropdownMenu>
             </Dropdown>
             <Dropdown Display="Display.InlineBlock">
@@ -226,7 +258,8 @@
                    ReadData="@CurrentReadData"
                    DataProvider="@CurrentDataProvider"
                    ShowToolbar="@showToolbar"
-                   ShowFieldChooser
+                   ToolbarOptions="@toolbarOptions"
+                   FieldChooser
                    ShowPager="@(!virtualize)"
                    ShowPageSizes="@(!virtualize)"
                    PageSize="8"
@@ -299,6 +332,8 @@
     private bool virtualize;
 
     private bool showToolbar = true;
+
+    private readonly PivotGridToolbarOptions toolbarOptions = new();
 
     private bool striped = true;
 
