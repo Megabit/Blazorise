@@ -40,8 +40,9 @@
             ].join(', ');
 
             document.querySelectorAll(headingSelector).forEach(function (el) {
-                if (el && !el.id && el.textContent) {
-                    const textContent = el.textContent.trim();
+                const textContent = getHeadingText(el);
+
+                if (el && !el.id && textContent) {
                     el.id = 'toc_' + textContent.replace(/[^A-Za-z0-9]/g, '-');
                 }
             });
@@ -87,13 +88,33 @@
                     }
                 },
                 headingObjectCallback: function (object, element) {
-                    if (object && object.textContent && !object.id && !element.id) {
-                        object.id = 'toc_' + object.textContent.replace(/[^A-Za-z0-9]/g, '-');
+                    const textContent = getHeadingText(element);
+
+                    if (object && textContent) {
+                        object.textContent = textContent;
+
+                        if (!object.id && !element.id) {
+                            object.id = 'toc_' + textContent.replace(/[^A-Za-z0-9]/g, '-');
+                        }
                     }
 
                     return object;
                 }
             });
+
+            function getHeadingText(element) {
+                if (!element) {
+                    return '';
+                }
+
+                const clone = element.cloneNode(true);
+
+                clone.querySelectorAll('[data-toc-ignore="true"]').forEach(function (ignoredElement) {
+                    ignoredElement.remove();
+                });
+
+                return clone.textContent.trim();
+            }
         }
     }
 }

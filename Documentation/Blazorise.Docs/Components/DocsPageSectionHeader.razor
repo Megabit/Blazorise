@@ -3,6 +3,10 @@
     {
         <Heading Size="HeadingSize.Is3" ElementId="@ElementId">
             @Title
+            @if ( New )
+            {
+                <DocsSectionNewFeatureBadge />
+            }
         </Heading>
     }
     @ChildContent
@@ -10,7 +14,9 @@
 
 @code {
     [Parameter] public string Title { get; set; }
-    
+
+    [Parameter] public bool New { get; set; }
+
     [Parameter] public string ElementId { get; set; }
 
     [Parameter] public RenderFragment ChildContent { get; set; }
