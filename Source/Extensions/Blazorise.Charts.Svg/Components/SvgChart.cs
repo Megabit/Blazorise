@@ -316,6 +316,7 @@ public class SvgChart<TItem> : SvgChartBase
             {
                 try
                 {
+                    await jsModule.InvokeVoidAsync( "destroyAnimations", ElementRef );
                     await jsModule.DisposeAsync();
                 }
                 catch ( JSDisconnectedException )

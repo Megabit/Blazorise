@@ -1,4 +1,5 @@
 const zoomWheelHandlers = new WeakMap();
+const animationObservers = new WeakMap();
 const animationStates = new WeakMap();
 const streamingAnimationStates = new WeakMap();
 
@@ -33,14 +34,24 @@ export function runAnimations(element) {
         return;
     }
 
-    const selector = animationAttributes()
-        .map(attribute => `[data-svg-chart-animation-${attribute}='true']`)
-        .join(",");
-    const items = element.querySelectorAll(selector);
+    initializeAnimations(element);
+
+    const items = element.querySelectorAll(animationSelector());
 
     for (const item of items) {
         runElementAnimation(item);
     }
+}
+
+export function destroyAnimations(element) {
+    const observer = animationObservers.get(element);
+
+    if (!observer) {
+        return;
+    }
+
+    observer.disconnect();
+    animationObservers.delete(element);
 }
 
 export function runStreamingAnimations(element) {
@@ -52,6 +63,55 @@ export function runStreamingAnimations(element) {
 
     for (const item of items) {
         runStreamingAnimation(item);
+    }
+}
+
+function initializeAnimations(element) {
+    if (animationObservers.has(element)) {
+        return;
+    }
+
+    const observer = new MutationObserver(mutations => {
+        const items = new Set();
+
+        for (const mutation of mutations) {
+            if (mutation.type === "attributes" && isAnimationAttribute(mutation.attributeName)) {
+                items.add(mutation.target);
+                continue;
+            }
+
+            if (mutation.type === "childList") {
+                for (const node of mutation.addedNodes) {
+                    collectAnimatedElements(node, items);
+                }
+            }
+        }
+
+        for (const item of items) {
+            runElementAnimation(item);
+        }
+    });
+
+    observer.observe(element, {
+        attributes: true,
+        childList: true,
+        subtree: true
+    });
+
+    animationObservers.set(element, observer);
+}
+
+function collectAnimatedElements(node, items) {
+    if (!(node instanceof Element)) {
+        return;
+    }
+
+    if (hasAnimationAttributes(node)) {
+        items.add(node);
+    }
+
+    for (const item of node.querySelectorAll(animationSelector())) {
+        items.add(item);
     }
 }
 
@@ -156,6 +216,20 @@ function animateAttribute(element, attribute, from, to, duration, delay, keySpli
 
 function animationAttributes() {
     return ["x", "y", "width", "height", "cx", "cy", "r", "opacity"];
+}
+
+function animationSelector() {
+    return animationAttributes()
+        .map(attribute => `[data-svg-chart-animation-${attribute}='true']`)
+        .join(",");
+}
+
+function hasAnimationAttributes(element) {
+    return animationAttributes().some(attribute => element.dataset[`svgChartAnimation${toDatasetName(attribute)}`] === "true");
+}
+
+function isAnimationAttribute(attributeName) {
+    return typeof attributeName === "string" && attributeName.startsWith("data-svg-chart-animation-");
 }
 
 function attributeVersionKey(element, attribute) {
