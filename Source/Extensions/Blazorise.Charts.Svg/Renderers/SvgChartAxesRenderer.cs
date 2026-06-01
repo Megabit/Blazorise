@@ -39,18 +39,23 @@ internal static class SvgChartAxesRenderer
         else
             RenderCategoryAxisGridLines( builder, ref sequence, model, plot, streamingAnimation, plotClipPathId );
 
-        for ( var i = 0; i < primaryAxis.Ticks.Count; i++ )
-        {
-            var tick = primaryAxis.Ticks[i];
-            var y = SvgChartGeometry.GetY( tick, plot, primaryAxis );
+        var primaryLabels = primaryAxis.Labels ?? new();
 
-            builder.OpenElement( sequence++, "text" );
-            builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( plot.Left - 10 ) );
-            builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y + 4 ) );
-            builder.AddAttribute( sequence++, "text-anchor", "end" );
-            SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.68 );
-            builder.AddContent( sequence++, FormatValueTick( primaryAxis, tick, i ) );
-            builder.CloseElement();
+        if ( primaryLabels.Visible )
+        {
+            for ( var i = 0; i < primaryAxis.Ticks.Count; i++ )
+            {
+                var tick = primaryAxis.Ticks[i];
+                var y = SvgChartGeometry.GetY( tick, plot, primaryAxis );
+
+                builder.OpenElement( sequence++, "text" );
+                builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( plot.Left - 10 ) );
+                builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y + 4 ) );
+                builder.AddAttribute( sequence++, "text-anchor", "end" );
+                SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.68 );
+                builder.AddContent( sequence++, FormatAxisLabel( FormatValueTick( primaryAxis, tick, i ), primaryLabels, model.Options ) );
+                builder.CloseElement();
+            }
         }
 
         builder.OpenElement( sequence++, "line" );
@@ -113,13 +118,14 @@ internal static class SvgChartAxesRenderer
                 continue;
 
             var x = SvgChartGeometry.GetCategoryX( i, plot, model );
+            var label = i < model.Labels.Count ? model.Labels[i] : i + 1;
 
             builder.OpenElement( sequence++, "text" );
             builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( x ) );
             builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( plot.Bottom + labels.Offset ) );
             builder.AddAttribute( sequence++, "text-anchor", "middle" );
             SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.72 );
-            builder.AddContent( sequence++, FormatCategoryTick( model, model.Labels[i], labelIndex ) );
+            builder.AddContent( sequence++, FormatAxisLabel( FormatCategoryTick( model, label, labelIndex ), labels, model.Options ) );
             builder.CloseElement();
         }
 
@@ -133,6 +139,8 @@ internal static class SvgChartAxesRenderer
     {
         builder.OpenElement( sequence++, "g" );
         builder.AddAttribute( sequence++, "class", "svg-chart-grid" );
+
+        var valueLabels = model.PrimaryValueAxis.Labels ?? new();
 
         for ( var i = 0; i < model.Ticks.Count; i++ )
         {
@@ -151,13 +159,16 @@ internal static class SvgChartAxesRenderer
                 builder.CloseElement();
             }
 
-            builder.OpenElement( sequence++, "text" );
-            builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( x ) );
-            builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( plot.Bottom + 24 ) );
-            builder.AddAttribute( sequence++, "text-anchor", "middle" );
-            SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.68 );
-            builder.AddContent( sequence++, FormatValueTick( model.PrimaryValueAxis, tick, i ) );
-            builder.CloseElement();
+            if ( valueLabels.Visible )
+            {
+                builder.OpenElement( sequence++, "text" );
+                builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( x ) );
+                builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( plot.Bottom + valueLabels.Offset ) );
+                builder.AddAttribute( sequence++, "text-anchor", "middle" );
+                SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.68 );
+                builder.AddContent( sequence++, FormatAxisLabel( FormatValueTick( model.PrimaryValueAxis, tick, i ), valueLabels, model.Options ) );
+                builder.CloseElement();
+            }
         }
 
         builder.OpenElement( sequence++, "line" );
@@ -169,17 +180,22 @@ internal static class SvgChartAxesRenderer
         builder.AddAttribute( sequence++, "stroke-opacity", "0.22" );
         builder.CloseElement();
 
-        for ( var i = 0; i < model.Labels.Count; i++ )
-        {
-            var y = plot.Top + plot.Height * ( i + 0.5 ) / Math.Max( model.Labels.Count, 1 );
+        var categoryLabels = model.CategoryAxis?.Labels ?? new();
 
-            builder.OpenElement( sequence++, "text" );
-            builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( plot.Left - 10 ) );
-            builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y + 4 ) );
-            builder.AddAttribute( sequence++, "text-anchor", "end" );
-            SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.72 );
-            builder.AddContent( sequence++, FormatCategoryTick( model, model.Labels[i], i ) );
-            builder.CloseElement();
+        if ( categoryLabels.Visible )
+        {
+            for ( var i = 0; i < model.Labels.Count; i++ )
+            {
+                var y = plot.Top + plot.Height * ( i + 0.5 ) / Math.Max( model.Labels.Count, 1 );
+
+                builder.OpenElement( sequence++, "text" );
+                builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( plot.Left - 10 ) );
+                builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y + 4 ) );
+                builder.AddAttribute( sequence++, "text-anchor", "end" );
+                SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.72 );
+                builder.AddContent( sequence++, FormatAxisLabel( FormatCategoryTick( model, model.Labels[i], i ), categoryLabels, model.Options, Math.Max( 1, plot.Left - 14 ) ) );
+                builder.CloseElement();
+            }
         }
 
         builder.CloseElement();
@@ -285,7 +301,7 @@ internal static class SvgChartAxesRenderer
             builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( plot.Bottom + labels.Offset ) );
             builder.AddAttribute( sequence++, "text-anchor", labelPlacement.TextAnchor );
             SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.72 );
-            builder.AddContent( sequence++, FormatCategoryTick( model, tick, i ) );
+            builder.AddContent( sequence++, FormatAxisLabel( FormatCategoryTick( model, tick, i ), labels, model.Options ) );
             builder.CloseElement();
         }
 
@@ -309,6 +325,8 @@ internal static class SvgChartAxesRenderer
     {
         foreach ( var axis in model.ValueAxes.Where( x => x != primaryAxis && x.Position == SvgChartAxisPosition.Right ) )
         {
+            var labels = axis.Labels ?? new();
+
             builder.OpenElement( sequence++, "g" );
             builder.AddAttribute( sequence++, "class", "svg-chart-axis svg-chart-value-axis-right" );
 
@@ -321,18 +339,21 @@ internal static class SvgChartAxesRenderer
             builder.AddAttribute( sequence++, "stroke-opacity", "0.22" );
             builder.CloseElement();
 
-            for ( var i = 0; i < axis.Ticks.Count; i++ )
+            if ( labels.Visible )
             {
-                var tick = axis.Ticks[i];
-                var y = SvgChartGeometry.GetY( tick, plot, axis );
+                for ( var i = 0; i < axis.Ticks.Count; i++ )
+                {
+                    var tick = axis.Ticks[i];
+                    var y = SvgChartGeometry.GetY( tick, plot, axis );
 
-                builder.OpenElement( sequence++, "text" );
-                builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( plot.Right + 10 ) );
-                builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y + 4 ) );
-                builder.AddAttribute( sequence++, "text-anchor", "start" );
-                SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.68 );
-                builder.AddContent( sequence++, FormatValueTick( axis, tick, i ) );
-                builder.CloseElement();
+                    builder.OpenElement( sequence++, "text" );
+                    builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( plot.Right + 10 ) );
+                    builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( y + 4 ) );
+                    builder.AddAttribute( sequence++, "text-anchor", "start" );
+                    SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.68 );
+                    builder.AddContent( sequence++, FormatAxisLabel( FormatValueTick( axis, tick, i ), labels, model.Options ) );
+                    builder.CloseElement();
+                }
             }
 
             builder.CloseElement();
@@ -387,6 +408,28 @@ internal static class SvgChartAxesRenderer
             CategoryAxis = false,
             AxisId = axis.Id
         } ) ?? SvgChartRenderHelpers.FormatTick( value );
+    }
+
+    private static string FormatAxisLabel( string label, SvgChartAxisLabelsOptions labels, SvgChartOptions options, double? autoMaxWidth = null )
+    {
+        var maxWidth = labels?.MaxWidth ?? autoMaxWidth;
+
+        if ( string.IsNullOrEmpty( label ) || !maxWidth.HasValue )
+            return label;
+
+        var fontSize = options?.Font?.Size ?? 11;
+
+        if ( SvgChartRenderHelpers.EstimateTextWidth( label, fontSize ) <= maxWidth.Value )
+            return label;
+
+        var maxCharacters = Math.Max( 1, (int)Math.Floor( maxWidth.Value / ( fontSize * 0.58 ) ) );
+
+        if ( label.Length <= maxCharacters )
+            return label;
+
+        return maxCharacters <= 3
+            ? label[..maxCharacters]
+            : label[..( maxCharacters - 3 )] + "...";
     }
 
     #endregion

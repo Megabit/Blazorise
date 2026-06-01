@@ -6,6 +6,8 @@ internal static class SvgChartOptionsMapper
 
     public static SvgChartAxisOptions CreateValueAxisOptions( SvgChartAxisOptions axis )
     {
+        axis ??= new();
+
         return new()
         {
             Id = axis.Id,
@@ -24,6 +26,9 @@ internal static class SvgChartOptionsMapper
 
     public static SvgChartAxisOptions CreateValueAxisOptions( SvgChartValueAxis axis )
     {
+        if ( axis is null )
+            return CreateValueAxisOptions( new SvgChartAxisOptions() );
+
         return new()
         {
             Id = axis.Id,
@@ -35,13 +40,15 @@ internal static class SvgChartOptionsMapper
             Stacked = axis.Stacked,
             TickFormatter = axis.TickFormatter,
             GridLines = CreateGridLinesOptions( axis.GridLines ),
-            Labels = new(),
+            Labels = CreateLabelsOptions( new() { Offset = 24 }, axis.LabelsOptions ),
             Title = axis.Title
         };
     }
 
     public static SvgChartAxisOptions CreateCategoryAxisOptions<TItem>( SvgChartAxisOptions options, SvgChartCategoryAxis<TItem> axis )
     {
+        options ??= new();
+
         if ( axis is null )
             return CreateValueAxisOptions( options );
 
@@ -70,7 +77,8 @@ internal static class SvgChartOptionsMapper
         {
             Visible = labels.Visible,
             Step = labels.Step,
-            Offset = labels.Offset
+            Offset = labels.Offset,
+            MaxWidth = labels.MaxWidth
         };
     }
 
@@ -83,7 +91,8 @@ internal static class SvgChartOptionsMapper
         {
             Visible = overrides.Visible,
             Step = overrides.Step,
-            Offset = overrides.Offset
+            Offset = overrides.Offset,
+            MaxWidth = overrides.MaxWidth ?? options?.MaxWidth
         };
     }
 

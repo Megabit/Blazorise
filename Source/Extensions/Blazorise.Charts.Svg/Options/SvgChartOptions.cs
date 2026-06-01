@@ -32,6 +32,11 @@ public class SvgChartOptions
     public SvgChartFontOptions Font { get; set; } = new();
 
     /// <summary>
+    /// Defines custom plot area padding. When null, the chart uses its default plot padding.
+    /// </summary>
+    public SvgChartPlotAreaPadding PlotAreaPadding { get; set; }
+
+    /// <summary>
     /// Defines the chart title options.
     /// </summary>
     public SvgChartTextOptions Title { get; set; } = new()

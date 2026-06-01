@@ -1,0 +1,61 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgBarChart</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">TaskState</span><span class="quot">&quot;</span>
+             <span class="htmlAttributeName">Items</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>states</span><span class="quot">&quot;</span>
+             <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>options</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartTooltip</span> <span class="htmlAttributeName">Enabled</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="keyword">false</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartCategoryAxis</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Name )</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartValueAxis</span> <span class="htmlAttributeName">BeginAtZero</span>
+                       <span class="htmlAttributeName">TickCount</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">5</span><span class="quot">&quot;</span>
+                       <span class="htmlAttributeName">LabelsOptions</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( new SvgChartAxisLabelsOptions { Visible = false } )</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgChartDataLabels</span> <span class="htmlAttributeName">Visible</span>
+                        <span class="htmlAttributeName">Position</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">SvgChartDataLabelPosition</span><span class="enumValue">.End</span><span class="quot">&quot;</span>
+                        <span class="htmlAttributeName">BackgroundColor</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">&#39;<span class="atSign">&#64;</span>((Color)&quot;#ffffff&quot;)&#39;</span>
+                        <span class="htmlAttributeName">Border</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( new SvgChartBorderOptions { Color = Color.Primary, Width = 1, Radius = 4 } )</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">SvgBarSeries</span> <span class="htmlAttributeName">Value</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>( item =&gt; item.Value )</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">Colors</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>stateColors</span><span class="quot">&quot;</span>
+                  <span class="htmlAttributeName">BorderRadius</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">4</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">SvgBarChart</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> <span class="keyword">readonly</span> SvgChartOptions options = <span class="keyword">new</span>()
+    {
+        Height = <span class="number">150</span>,
+        PlotAreaPadding = <span class="keyword">new</span>()
+        {
+            Top = <span class="number">8</span>,
+            End = <span class="number">12</span>,
+            Bottom = <span class="number">8</span>,
+        },
+        Legend = <span class="keyword">new</span>() { Visible = <span class="keyword">false</span> },
+        Title = <span class="keyword">new</span>() { Visible = <span class="keyword">false</span> },
+        Subtitle = <span class="keyword">new</span>() { Visible = <span class="keyword">false</span> },
+    };
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> IReadOnlyList&lt;Color&gt; stateColors =
+    [
+        Color.Secondary,
+        Color.Info,
+        Color.Success,
+        Color.Danger,
+    ];
+
+    <span class="keyword">private</span> <span class="keyword">readonly</span> List&lt;TaskState&gt; states =
+    [
+        <span class="keyword">new</span>() { Name = <span class="string">&quot;Disabled&quot;</span>, Value = <span class="number">10</span> },
+        <span class="keyword">new</span>() { Name = <span class="string">&quot;Active&quot;</span>, Value = <span class="number">18</span> },
+        <span class="keyword">new</span>() { Name = <span class="string">&quot;Completed&quot;</span>, Value = <span class="number">33</span> },
+        <span class="keyword">new</span>() { Name = <span class="string">&quot;Deleted&quot;</span>, Value = <span class="number">4</span> },
+    ];
+
+    <span class="keyword">private</span> <span class="keyword">sealed</span> <span class="keyword">class</span> TaskState
+    {
+        <span class="keyword">public</span> <span class="keyword">string</span> Name { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">double</span> Value { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+}
+</pre></div>
+</div>

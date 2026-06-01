@@ -60,7 +60,7 @@ internal sealed class SvgChartRadialSeriesRenderer : ISvgChartSeriesRenderer
             var endAngle = startAngle + sweep;
             var pointRadius = item.Type == SvgChartType.PolarArea ? radius * Math.Sqrt( value / Math.Max( max, 1 ) ) : radius;
             var innerRadius = item.Type == SvgChartType.Doughnut ? radius * 0.58 : 0;
-            var color = context.ResolveColor( pointIndex );
+            var color = item.GetPointColor( pointIndex );
             var category = pointIndex < chart.Labels.Count ? chart.Labels[pointIndex] : pointIndex + 1;
             var bounds = new SvgChartPointBounds { X = centerX - pointRadius, Y = centerY - pointRadius, Width = pointRadius * 2, Height = pointRadius * 2 };
             var point = chart.CreatePoint( item, pointIndex, category, value, bounds );

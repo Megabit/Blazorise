@@ -192,7 +192,7 @@ public class SvgChartDataLabels : SvgChartPluginBase
             var rectWidth = Math.Max( 1, barWidth * 0.8 );
             var bounds = new SvgChartPointBounds { X = x, Y = rectY, Width = rectWidth, Height = height };
 
-            points.Add( (context.CreatePoint( series, pointIndex, value.Value, bounds ), series.Color, series.Type) );
+            points.Add( (context.CreatePoint( series, pointIndex, value.Value, bounds ), series.GetPointColor( pointIndex ), series.Type) );
         }
     }
 
@@ -224,7 +224,7 @@ public class SvgChartDataLabels : SvgChartPluginBase
             var rectHeight = Math.Max( 1, barHeight * 0.8 );
             var bounds = new SvgChartPointBounds { X = rectX, Y = y, Width = width, Height = rectHeight };
 
-            points.Add( (context.CreatePoint( series, pointIndex, value.Value, bounds ), series.Color, series.Type) );
+            points.Add( (context.CreatePoint( series, pointIndex, value.Value, bounds ), series.GetPointColor( pointIndex ), series.Type) );
         }
     }
 
@@ -246,7 +246,7 @@ public class SvgChartDataLabels : SvgChartPluginBase
             var y = context.ProjectY( value.Value, series.ValueAxisId );
             var bounds = new SvgChartPointBounds { X = x - markerRadius, Y = y - markerRadius, Width = markerRadius * 2, Height = markerRadius * 2 };
 
-            points.Add( (context.CreatePoint( series, pointIndex, value.Value, bounds ), series.Color, series.Type) );
+            points.Add( (context.CreatePoint( series, pointIndex, value.Value, bounds ), series.GetPointColor( pointIndex ), series.Type) );
         }
     }
 
@@ -279,7 +279,7 @@ public class SvgChartDataLabels : SvgChartPluginBase
                 Bounds = bounds
             };
 
-            points.Add( (point, series.Color, series.Type) );
+            points.Add( (point, series.GetPointColor( pointIndex ), series.Type) );
         }
     }
 
@@ -333,7 +333,7 @@ public class SvgChartDataLabels : SvgChartPluginBase
                 Bounds = labelBounds
             };
 
-            points.Add( (point, SvgChartRenderHelpers.ResolveColor( null, pointIndex ), series.Type) );
+            points.Add( (point, series.GetPointColor( pointIndex ), series.Type) );
 
             startAngle += sweep;
         }
@@ -368,7 +368,7 @@ public class SvgChartDataLabels : SvgChartPluginBase
                 Height = markerRadius * 2
             };
 
-            points.Add( (context.CreatePoint( series, pointIndex, value.Value, bounds ), series.Color, series.Type) );
+            points.Add( (context.CreatePoint( series, pointIndex, value.Value, bounds ), series.GetPointColor( pointIndex ), series.Type) );
         }
     }
 

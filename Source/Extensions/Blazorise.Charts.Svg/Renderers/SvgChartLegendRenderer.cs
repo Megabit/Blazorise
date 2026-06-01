@@ -106,13 +106,20 @@ internal static class SvgChartLegendRenderer
             result.Add( new()
             {
                 Label = category?.ToString() ?? string.Empty,
-                Color = SvgChartRenderHelpers.ResolveColor( null, i ),
+                Color = ResolvePointColor( series, i ),
                 Hidden = series.Hidden || isDataPointHidden( series.Name, pointIndex ),
                 Toggle = () => toggleDataPoint( series.Name, pointIndex )
             } );
         }
 
         return result;
+    }
+
+    private static string ResolvePointColor( SvgChartRenderSeries series, int pointIndex )
+    {
+        return pointIndex >= 0 && pointIndex < ( series.PointColors?.Count ?? 0 ) && !string.IsNullOrWhiteSpace( series.PointColors[pointIndex] )
+            ? series.PointColors[pointIndex]
+            : series.RenderColor;
     }
 
     #endregion

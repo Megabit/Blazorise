@@ -53,16 +53,17 @@ internal sealed class SvgChartPointSeriesRenderer : ISvgChartSeriesRenderer
                     : xValue.Value;
                 var point = chart.CreatePoint( item, pointIndex, category, yValue.Value, bounds );
                 var animationKey = context.TrackPointBounds( item, pointIndex, bounds );
+                var color = item.GetPointColor( pointIndex );
 
                 builder.OpenElement( sequence++, "circle" );
                 builder.AddAttribute( sequence++, "class", $"svg-chart-point svg-chart-{item.Type.ToString().ToLowerInvariant()}" );
                 builder.AddAttribute( sequence++, "cx", SvgChartRenderHelpers.Format( x ) );
                 builder.AddAttribute( sequence++, "cy", SvgChartRenderHelpers.Format( y ) );
                 builder.AddAttribute( sequence++, "r", SvgChartRenderHelpers.Format( radius ) );
-                builder.AddAttribute( sequence++, "fill", item.Color );
+                builder.AddAttribute( sequence++, "fill", color );
                 builder.AddAttribute( sequence++, "opacity", item.Type == SvgChartType.Bubble ? "0.72" : "1" );
                 context.AddAnimatedStyleAttribute( builder, ref sequence );
-                context.AddPointInteractionAttributes( builder, ref sequence, point, item.Color );
+                context.AddPointInteractionAttributes( builder, ref sequence, point, color );
                 context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "cx", SvgChartRenderHelpers.Format( x ), SvgChartRenderHelpers.Format( x ), bounds => SvgChartRenderHelpers.Format( bounds.X + bounds.Width / 2 ) );
                 context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "cy", SvgChartRenderHelpers.Format( y ), SvgChartRenderHelpers.Format( y ), bounds => SvgChartRenderHelpers.Format( bounds.Y + bounds.Height / 2 ) );
                 context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "r", "0", SvgChartRenderHelpers.Format( radius ), bounds => SvgChartRenderHelpers.Format( bounds.Width / 2 ) );
