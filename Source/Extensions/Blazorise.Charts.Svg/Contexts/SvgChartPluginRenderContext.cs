@@ -13,9 +13,9 @@ public sealed class SvgChartPluginRenderContext
 {
     #region Members
 
-    private readonly Func<double, double> projectCategory;
+    private readonly Func<double, string, double> projectCategory;
 
-    private readonly Func<double, double> projectCategoryBoundary;
+    private readonly Func<double, string, double> projectCategoryBoundary;
 
     private readonly Func<double, string, double> projectX;
 
@@ -59,8 +59,8 @@ public sealed class SvgChartPluginRenderContext
         int categorySlotCount,
         SvgChartAxisScaleKind categoryScaleKind,
         object eventReceiver,
-        Func<double, double> projectCategory,
-        Func<double, double> projectCategoryBoundary,
+        Func<double, string, double> projectCategory,
+        Func<double, string, double> projectCategoryBoundary,
         Func<double, string, double> projectX,
         Func<double, string, double> projectValueX,
         Func<double, string, double> projectY,
@@ -112,20 +112,22 @@ public sealed class SvgChartPluginRenderContext
     /// Projects a category index to the center X coordinate of the category slot.
     /// </summary>
     /// <param name="index">The category index.</param>
+    /// <param name="categoryAxisId">The optional category axis identifier.</param>
     /// <returns>The projected X coordinate.</returns>
-    public double ProjectCategory( double index )
+    public double ProjectCategory( double index, string categoryAxisId = null )
     {
-        return projectCategory( index );
+        return projectCategory( index, categoryAxisId );
     }
 
     /// <summary>
     /// Projects a category boundary index to an X coordinate.
     /// </summary>
     /// <param name="index">The category boundary index.</param>
+    /// <param name="categoryAxisId">The optional category axis identifier.</param>
     /// <returns>The projected X coordinate.</returns>
-    public double ProjectCategoryBoundary( double index )
+    public double ProjectCategoryBoundary( double index, string categoryAxisId = null )
     {
-        return projectCategoryBoundary( index );
+        return projectCategoryBoundary( index, categoryAxisId );
     }
 
     /// <summary>

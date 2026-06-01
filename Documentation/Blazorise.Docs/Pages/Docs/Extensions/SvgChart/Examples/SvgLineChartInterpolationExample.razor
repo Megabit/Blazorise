@@ -1,0 +1,51 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgLineChart TItem="MonthlyRevenue"
+              Items="@revenue"
+              Options="@options">
+    <SvgChartTitle Title='@("Revenue movement")' Subtitle='@("Monotone and stepped interpolation")' />
+    <SvgChartLegend Position="SvgChartLegendPosition.Bottom" />
+    <SvgChartTooltip Enabled />
+    <SvgChartCategoryAxis Value="@( item => item.Month )" />
+    <SvgChartValueAxis TickCount="6" />
+
+    <SvgLineSeries Name="Actual"
+                   Value="@( item => item.Actual )"
+                   Color="Color.Primary"
+                   StrokeWidth="3"
+                   MarkerRadius="4"
+                   Interpolation="SvgChartInterpolationMode.Monotone" />
+    <SvgLineSeries Name="Target"
+                   Value="@( item => item.Target )"
+                   Color="Color.Info"
+                   StrokeWidth="3"
+                   MarkerRadius="4"
+                   Interpolation="SvgChartInterpolationMode.StepMiddle" />
+</SvgLineChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 360,
+        Legend = new() { Position = SvgChartLegendPosition.Bottom },
+    };
+
+    private readonly List<MonthlyRevenue> revenue =
+    [
+        new() { Month = "Jan", Actual = 1400, Target = 1320 },
+        new() { Month = "Feb", Actual = 900, Target = 1180 },
+        new() { Month = "Mar", Actual = 1800, Target = 1450 },
+        new() { Month = "Apr", Actual = 1300, Target = 1550 },
+        new() { Month = "May", Actual = 1650, Target = 1480 },
+        new() { Month = "Jun", Actual = 1250, Target = 1600 },
+    ];
+
+    private sealed class MonthlyRevenue
+    {
+        public string Month { get; set; }
+
+        public double Actual { get; set; }
+
+        public double Target { get; set; }
+    }
+}

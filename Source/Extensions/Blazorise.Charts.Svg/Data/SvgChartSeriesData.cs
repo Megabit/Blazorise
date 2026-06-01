@@ -72,5 +72,15 @@ public class SvgChartSeriesData<TValue>
     /// </summary>
     public int? Order { get; set; }
 
+    /// <summary>
+    /// Defines how line and area series are interpolated between data points.
+    /// </summary>
+    public SvgChartInterpolationMode Interpolation { get; set; }
+
+    /// <summary>
+    /// Defines the cubic interpolation tension for line and area series.
+    /// </summary>
+    public double? Tension { get; set; }
+
     #endregion
 }

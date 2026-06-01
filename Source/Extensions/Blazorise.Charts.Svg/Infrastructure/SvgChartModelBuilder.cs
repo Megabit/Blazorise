@@ -206,7 +206,9 @@ internal sealed class SvgChartModelBuilder<TItem>
                     BorderRadius = 3,
                     MarkerRadius = 3,
                     StrokeWidth = 2,
-                    FillOpacity = 0.18
+                    FillOpacity = 0.18,
+                    Interpolation = dataSeries.Interpolation,
+                    Tension = dataSeries.Tension ?? 0.4
                 } );
             }
         }
@@ -265,6 +267,18 @@ internal sealed class SvgChartModelBuilder<TItem>
                     SvgAreaSeries<TItem> areaSeries => areaSeries.FillOpacity,
                     SvgRadarSeries<TItem> radarSeries => radarSeries.FillOpacity,
                     _ => 0.18
+                },
+                Interpolation = child switch
+                {
+                    SvgLineSeries<TItem> lineSeries => lineSeries.Interpolation,
+                    SvgAreaSeries<TItem> areaSeries => areaSeries.Interpolation,
+                    _ => SvgChartInterpolationMode.Linear
+                },
+                Tension = child switch
+                {
+                    SvgLineSeries<TItem> lineSeries => lineSeries.Tension,
+                    SvgAreaSeries<TItem> areaSeries => areaSeries.Tension,
+                    _ => 0.4
                 }
             } );
         }

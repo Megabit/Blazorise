@@ -48,5 +48,9 @@ internal sealed class SvgChartRenderSeries
 
     public double FillOpacity { get; init; }
 
+    public SvgChartInterpolationMode Interpolation { get; init; }
+
+    public double Tension { get; init; } = 0.4;
+
     #endregion
 }

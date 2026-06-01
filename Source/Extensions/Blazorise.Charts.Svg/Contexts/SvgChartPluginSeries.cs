@@ -107,6 +107,16 @@ public sealed class SvgChartPluginSeries
     public double FillOpacity { get; init; }
 
     /// <summary>
+    /// Gets how the series path is interpolated between data points.
+    /// </summary>
+    public SvgChartInterpolationMode Interpolation { get; init; }
+
+    /// <summary>
+    /// Gets the resolved cubic interpolation tension.
+    /// </summary>
+    public double Tension { get; init; } = 0.4;
+
+    /// <summary>
     /// Gets the resolved color for a data point.
     /// </summary>
     /// <param name="pointIndex">The point index.</param>
