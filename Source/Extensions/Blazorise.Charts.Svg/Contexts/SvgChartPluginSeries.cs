@@ -113,7 +113,7 @@ public sealed class SvgChartPluginSeries
     /// <returns>The resolved point color.</returns>
     public string GetPointColor( int pointIndex )
     {
-        return pointIndex >= 0 && pointIndex < PointColors.Count && !string.IsNullOrWhiteSpace( PointColors[pointIndex] )
+        return pointIndex >= 0 && pointIndex < ( PointColors?.Count ?? 0 ) && !string.IsNullOrWhiteSpace( PointColors[pointIndex] )
             ? PointColors[pointIndex]
             : Color;
     }

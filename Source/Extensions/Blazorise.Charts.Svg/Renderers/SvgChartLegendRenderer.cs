@@ -117,7 +117,7 @@ internal static class SvgChartLegendRenderer
 
     private static string ResolvePointColor( SvgChartRenderSeries series, int pointIndex )
     {
-        return pointIndex >= 0 && pointIndex < series.PointColors.Count && !string.IsNullOrWhiteSpace( series.PointColors[pointIndex] )
+        return pointIndex >= 0 && pointIndex < ( series.PointColors?.Count ?? 0 ) && !string.IsNullOrWhiteSpace( series.PointColors[pointIndex] )
             ? series.PointColors[pointIndex]
             : series.RenderColor;
     }

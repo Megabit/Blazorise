@@ -1219,7 +1219,7 @@ public class SvgChart<TItem> : SvgChartBase
 
     private static string ResolvePointColor( SvgChartRenderSeries series, int pointIndex )
     {
-        return pointIndex >= 0 && pointIndex < series.PointColors.Count && !string.IsNullOrWhiteSpace( series.PointColors[pointIndex] )
+        return pointIndex >= 0 && pointIndex < ( series.PointColors?.Count ?? 0 ) && !string.IsNullOrWhiteSpace( series.PointColors[pointIndex] )
             ? series.PointColors[pointIndex]
             : series.RenderColor;
     }
@@ -1521,7 +1521,7 @@ public class SvgChart<TItem> : SvgChartBase
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task SetData( SvgChartData<double?> data )
     {
-        internalChartData = data;
+        internalChartData = NormalizeData( data );
         StateHasChanged();
 
         return Task.CompletedTask;
@@ -1547,7 +1547,8 @@ public class SvgChart<TItem> : SvgChartBase
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task AddLabel( object label )
     {
-        EnsureInternalData().Labels.Add( label );
+        var data = EnsureInternalData();
+        data.Labels.Add( label );
         StateHasChanged();
 
         return Task.CompletedTask;
@@ -1560,7 +1561,11 @@ public class SvgChart<TItem> : SvgChartBase
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task AddSeries( SvgChartSeriesData<double?> series )
     {
-        EnsureInternalData().Series.Add( series );
+        if ( series is null )
+            return Task.CompletedTask;
+
+        var data = EnsureInternalData();
+        data.Series.Add( NormalizeSeries( series ) );
         StateHasChanged();
 
         return Task.CompletedTask;
@@ -1588,10 +1593,12 @@ public class SvgChart<TItem> : SvgChartBase
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task AddValue( string seriesName, double? value )
     {
-        var series = EnsureInternalData().Series.FirstOrDefault( x => x.Name == seriesName );
+        var data = EnsureInternalData();
+        var series = data.Series.FirstOrDefault( x => x.Name == seriesName );
 
         if ( series is not null )
         {
+            NormalizeSeries( series );
             series.Values.Add( value );
             StateHasChanged();
         }
@@ -1635,6 +1642,8 @@ public class SvgChart<TItem> : SvgChartBase
 
         foreach ( var series in data.Series )
         {
+            NormalizeSeries( series );
+
             while ( series.Values.Count < previousCount )
                 series.Values.Add( null );
         }
@@ -1707,10 +1716,15 @@ public class SvgChart<TItem> : SvgChartBase
     {
         var series = EnsureInternalData().Series.FirstOrDefault( x => x.Name == seriesName );
 
-        if ( series is not null && index >= 0 && index < series.Values.Count )
+        if ( series is not null )
         {
-            series.Values[index] = value;
-            StateHasChanged();
+            NormalizeSeries( series );
+
+            if ( index >= 0 && index < series.Values.Count )
+            {
+                series.Values[index] = value;
+                StateHasChanged();
+            }
         }
 
         return Task.CompletedTask;
@@ -1900,10 +1914,13 @@ public class SvgChart<TItem> : SvgChartBase
 
         foreach ( var series in data.Series )
         {
+            NormalizeSeries( series );
+
             series.Values.Clear();
-            series.XValues?.Clear();
-            series.YValues?.Clear();
-            series.RadiusValues?.Clear();
+            series.XValues.Clear();
+            series.YValues.Clear();
+            series.RadiusValues.Clear();
+            series.Colors.Clear();
         }
 
         hiddenSeries.Clear();
@@ -2002,11 +2019,11 @@ public class SvgChart<TItem> : SvgChartBase
     private SvgChartData<double?> EnsureInternalData()
     {
         if ( internalChartData is not null )
-            return internalChartData;
+            return NormalizeData( internalChartData );
 
         if ( Data is not null )
         {
-            internalChartData = Data;
+            internalChartData = NormalizeData( Data );
             return internalChartData;
         }
 
@@ -2026,16 +2043,18 @@ public class SvgChart<TItem> : SvgChartBase
                 CategoryAxisId = x.CategoryAxisId,
                 ValueAxisId = x.ValueAxisId,
                 Color = x.Color,
-                Colors = x.PointColors.Select( color => (Color)color ).ToList(),
+                Colors = x.PointColors?.Select( color => (Color)color ).ToList() ?? [],
                 Hidden = x.Hidden
             } ).ToList()
         };
 
-        return internalChartData;
+        return NormalizeData( internalChartData );
     }
 
     private static SvgChartSeriesData<double?> EnsureSeries( SvgChartData<double?> data, string seriesName, int valueCount )
     {
+        data = NormalizeData( data );
+
         var series = data.Series.FirstOrDefault( x => x.Name == seriesName );
 
         if ( series is null )
@@ -2048,8 +2067,37 @@ public class SvgChart<TItem> : SvgChartBase
             data.Series.Add( series );
         }
 
+        NormalizeSeries( series );
+
         while ( series.Values.Count < valueCount )
             series.Values.Add( null );
+
+        return series;
+    }
+
+    private static SvgChartData<double?> NormalizeData( SvgChartData<double?> data )
+    {
+        data ??= new();
+        data.Labels ??= [];
+        data.Series ??= [];
+        data.Series.RemoveAll( x => x is null );
+
+        foreach ( var series in data.Series )
+            NormalizeSeries( series );
+
+        return data;
+    }
+
+    private static SvgChartSeriesData<double?> NormalizeSeries( SvgChartSeriesData<double?> series )
+    {
+        if ( series is null )
+            return null;
+
+        series.Values ??= [];
+        series.XValues ??= [];
+        series.YValues ??= [];
+        series.RadiusValues ??= [];
+        series.Colors ??= [];
 
         return series;
     }
@@ -2078,6 +2126,8 @@ public class SvgChart<TItem> : SvgChartBase
 
     private static void RemoveDataPoint( SvgChartData<double?> data, int index )
     {
+        data = NormalizeData( data );
+
         if ( index >= 0 && index < data.Labels.Count )
             data.Labels.RemoveAt( index );
 
@@ -2092,7 +2142,7 @@ public class SvgChart<TItem> : SvgChartBase
 
     private static void RemoveAt<TValue>( List<TValue> values, int index )
     {
-        if ( index >= 0 && index < values.Count )
+        if ( values is not null && index >= 0 && index < values.Count )
             values.RemoveAt( index );
     }
 

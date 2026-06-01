@@ -174,6 +174,10 @@ internal sealed class SvgChartModelBuilder<TItem>
             for ( var i = 0; i < chartData.Series.Count; i++ )
             {
                 var dataSeries = chartData.Series[i];
+
+                if ( dataSeries is null )
+                    continue;
+
                 var name = string.IsNullOrWhiteSpace( dataSeries.Name ) ? $"Series {i + 1}" : dataSeries.Name;
                 var values = dataSeries.Values?.ToList() ?? [];
                 var yValues = dataSeries.YValues?.Count > 0 ? dataSeries.YValues.ToList() : values.ToList();

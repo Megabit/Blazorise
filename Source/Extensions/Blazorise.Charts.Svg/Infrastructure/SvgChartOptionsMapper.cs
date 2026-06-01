@@ -6,6 +6,8 @@ internal static class SvgChartOptionsMapper
 
     public static SvgChartAxisOptions CreateValueAxisOptions( SvgChartAxisOptions axis )
     {
+        axis ??= new();
+
         return new()
         {
             Id = axis.Id,
@@ -24,6 +26,9 @@ internal static class SvgChartOptionsMapper
 
     public static SvgChartAxisOptions CreateValueAxisOptions( SvgChartValueAxis axis )
     {
+        if ( axis is null )
+            return CreateValueAxisOptions( new SvgChartAxisOptions() );
+
         return new()
         {
             Id = axis.Id,
@@ -42,6 +47,8 @@ internal static class SvgChartOptionsMapper
 
     public static SvgChartAxisOptions CreateCategoryAxisOptions<TItem>( SvgChartAxisOptions options, SvgChartCategoryAxis<TItem> axis )
     {
+        options ??= new();
+
         if ( axis is null )
             return CreateValueAxisOptions( options );
 

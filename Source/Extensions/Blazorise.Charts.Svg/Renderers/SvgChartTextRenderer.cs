@@ -24,8 +24,8 @@ internal static class SvgChartTextRenderer
 
     public static SvgChartTextOptions ResolveTitleOptions( SvgChartOptions options, IReadOnlyList<SvgChartTitle> titleComponents )
     {
-        var titleComponent = titleComponents.LastOrDefault();
-        var resolved = SvgChartOptionsMapper.CreateTextOptions( CreateDefaultTitleOptions(), options.Title );
+        var titleComponent = titleComponents?.LastOrDefault();
+        var resolved = SvgChartOptionsMapper.CreateTextOptions( CreateDefaultTitleOptions(), options?.Title );
         var componentOptions = titleComponent?.Title;
 
         if ( componentOptions is not null )
@@ -36,8 +36,8 @@ internal static class SvgChartTextRenderer
 
     public static SvgChartTextOptions ResolveSubtitleOptions( SvgChartOptions options, IReadOnlyList<SvgChartTitle> titleComponents )
     {
-        var titleComponent = titleComponents.LastOrDefault();
-        var resolved = SvgChartOptionsMapper.CreateTextOptions( CreateDefaultSubtitleOptions(), options.Subtitle );
+        var titleComponent = titleComponents?.LastOrDefault();
+        var resolved = SvgChartOptionsMapper.CreateTextOptions( CreateDefaultSubtitleOptions(), options?.Subtitle );
         var componentOptions = titleComponent?.Subtitle;
 
         if ( componentOptions is not null )
@@ -48,6 +48,8 @@ internal static class SvgChartTextRenderer
 
     public static SvgChartPlotArea BuildPlotArea( SvgChartOptions options, SvgChartTextOptions title, SvgChartTextOptions subtitle, bool hasTopLegend, bool hasBottomLegend, SvgChartRenderModel model = null )
     {
+        options ??= new();
+
         var padding = options.PlotAreaPadding;
         var topPadding = padding?.Top ?? 24d;
         var endPadding = padding?.End ?? 18d;
@@ -213,7 +215,7 @@ internal static class SvgChartTextRenderer
         if ( model?.Type != SvgChartType.Bar || model.CategoryAxis?.Labels?.Visible == false )
             return fallback;
 
-        var fontSize = options.Font?.Size ?? 11;
+        var fontSize = options?.Font?.Size ?? 11;
         var maxLabelWidth = model.Labels
             .Select( ( label, index ) => FormatCategoryLabel( model, label, index ) )
             .DefaultIfEmpty( string.Empty )

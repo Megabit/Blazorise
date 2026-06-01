@@ -118,13 +118,14 @@ internal static class SvgChartAxesRenderer
                 continue;
 
             var x = SvgChartGeometry.GetCategoryX( i, plot, model );
+            var label = i < model.Labels.Count ? model.Labels[i] : i + 1;
 
             builder.OpenElement( sequence++, "text" );
             builder.AddAttribute( sequence++, "x", SvgChartRenderHelpers.Format( x ) );
             builder.AddAttribute( sequence++, "y", SvgChartRenderHelpers.Format( plot.Bottom + labels.Offset ) );
             builder.AddAttribute( sequence++, "text-anchor", "middle" );
             SvgChartTextRenderer.AddFontAttributes( builder, ref sequence, model.Options, opacity: 0.72 );
-            builder.AddContent( sequence++, FormatAxisLabel( FormatCategoryTick( model, model.Labels[i], labelIndex ), labels, model.Options ) );
+            builder.AddContent( sequence++, FormatAxisLabel( FormatCategoryTick( model, label, labelIndex ), labels, model.Options ) );
             builder.CloseElement();
         }
 
@@ -416,7 +417,7 @@ internal static class SvgChartAxesRenderer
         if ( string.IsNullOrEmpty( label ) || !maxWidth.HasValue )
             return label;
 
-        var fontSize = options.Font?.Size ?? 11;
+        var fontSize = options?.Font?.Size ?? 11;
 
         if ( SvgChartRenderHelpers.EstimateTextWidth( label, fontSize ) <= maxWidth.Value )
             return label;
