@@ -46,16 +46,21 @@ internal static class SvgChartTextRenderer
         return resolved;
     }
 
-    public static SvgChartPlotArea BuildPlotArea( SvgChartOptions options, SvgChartTextOptions title, SvgChartTextOptions subtitle, bool hasTopLegend, bool hasBottomLegend )
+    public static SvgChartPlotArea BuildPlotArea( SvgChartOptions options, SvgChartTextOptions title, SvgChartTextOptions subtitle, bool hasTopLegend, bool hasBottomLegend, SvgChartRenderModel model = null )
     {
-        var top = 24d + GetTopTextHeight( title ) + GetTopTextHeight( subtitle );
+        var padding = options.PlotAreaPadding;
+        var topPadding = padding?.Top ?? 24d;
+        var endPadding = padding?.End ?? 18d;
+        var bottomPadding = ResolveBottomPadding( model, padding?.Bottom );
+        var startPadding = ResolveStartPadding( options, model, padding?.Start );
+        var top = topPadding + GetTopTextHeight( title ) + GetTopTextHeight( subtitle );
 
         if ( hasTopLegend )
             top += 28;
 
-        var bottom = options.Height - 42 - ( hasBottomLegend ? 38 : 0 ) - GetBottomTextHeight( title ) - GetBottomTextHeight( subtitle );
-        var left = 52d + GetStartTextWidth( title ) + GetStartTextWidth( subtitle );
-        var right = options.Width - 18 - GetEndTextWidth( title ) - GetEndTextWidth( subtitle );
+        var bottom = options.Height - bottomPadding - ( hasBottomLegend ? 38 : 0 ) - GetBottomTextHeight( title ) - GetBottomTextHeight( subtitle );
+        var left = startPadding + GetStartTextWidth( title ) + GetStartTextWidth( subtitle );
+        var right = options.Width - endPadding - GetEndTextWidth( title ) - GetEndTextWidth( subtitle );
 
         return new()
         {
@@ -196,6 +201,50 @@ internal static class SvgChartTextRenderer
         return IsTextVisible( text ) && text.Position == SvgChartTextPosition.End
             ? GetTextBlockWidth( text )
             : 0;
+    }
+
+    private static double ResolveStartPadding( SvgChartOptions options, SvgChartRenderModel model, double? padding )
+    {
+        if ( padding.HasValue )
+            return padding.Value;
+
+        const double fallback = 52d;
+
+        if ( model?.Type != SvgChartType.Bar || model.CategoryAxis?.Labels?.Visible == false )
+            return fallback;
+
+        var fontSize = options.Font?.Size ?? 11;
+        var maxLabelWidth = model.Labels
+            .Select( ( label, index ) => FormatCategoryLabel( model, label, index ) )
+            .DefaultIfEmpty( string.Empty )
+            .Max( label => SvgChartRenderHelpers.EstimateTextWidth( label, fontSize ) );
+
+        return Math.Max( fallback, Math.Min( maxLabelWidth + 14, options.Width * 0.45 ) );
+    }
+
+    private static double ResolveBottomPadding( SvgChartRenderModel model, double? padding )
+    {
+        if ( padding.HasValue )
+            return padding.Value;
+
+        if ( model?.Type == SvgChartType.Bar && model.PrimaryValueAxis?.Labels?.Visible == false )
+            return 18d;
+
+        if ( model is not null && model.Type != SvgChartType.Bar && model.CategoryAxis?.Labels?.Visible == false )
+            return 18d;
+
+        return 42d;
+    }
+
+    private static string FormatCategoryLabel( SvgChartRenderModel model, object value, int index )
+    {
+        return model.CategoryTickFormatter?.Invoke( new()
+        {
+            Value = value,
+            Index = index,
+            CategoryAxis = true,
+            AxisId = model.CategoryAxis?.Id
+        } ) ?? SvgChartRenderHelpers.FormatDataLabelValue( value );
     }
 
     private static double GetTextBlockHeight( SvgChartTextOptions text )

@@ -73,6 +73,11 @@ public class SvgChartValueAxis : SvgChartComponentBase
     [Parameter] public SvgChartGridLinesOptions GridLines { get; set; } = new();
 
     /// <summary>
+    /// Defines label options for this value axis.
+    /// </summary>
+    [Parameter] public SvgChartAxisLabelsOptions LabelsOptions { get; set; }
+
+    /// <summary>
     /// Defines the axis title.
     /// </summary>
     [Parameter] public string Title { get; set; }

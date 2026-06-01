@@ -168,7 +168,7 @@ public class SvgChart<TItem> : SvgChartBase
         var subtitle = ResolveSubtitleOptions( options, titleComponents );
         var hasTopLegend = legend.Visible && legend.Position == SvgChartLegendPosition.Top;
         var hasBottomLegend = legend.Visible && legend.Position == SvgChartLegendPosition.Bottom;
-        var plot = BuildPlotArea( options, title, subtitle, hasTopLegend, hasBottomLegend );
+        var plot = BuildPlotArea( options, title, subtitle, hasTopLegend, hasBottomLegend, model );
         var streamingAnimation = ResolveStreamingAnimation( model, plot );
         var chartAnimation = ResolveAnimation( options, streamingAnimation.Enabled );
         var currentAnimationPointBounds = new Dictionary<string, SvgChartPointBounds>();
@@ -395,6 +395,7 @@ public class SvgChart<TItem> : SvgChartBase
                 YValues = x.YValues,
                 RadiusValues = x.RadiusValues,
                 Color = x.RenderColor,
+                PointColors = x.PointColors,
                 Hidden = x.Hidden,
                 Order = x.Order,
                 CategoryAxisId = x.CategoryAxisId,
@@ -1198,7 +1199,7 @@ public class SvgChart<TItem> : SvgChartBase
             PointIndex = pointIndex,
             Category = category,
             Value = value,
-            Color = series.RenderColor,
+            Color = ResolvePointColor( series, pointIndex ),
             Point = new()
             {
                 SeriesName = series.Name,
@@ -1214,6 +1215,13 @@ public class SvgChart<TItem> : SvgChartBase
     private static string GetPointLabel( SvgChartPointEventArgs point )
     {
         return $"{point.Category}, {point.Value}. {point.SeriesName}.";
+    }
+
+    private static string ResolvePointColor( SvgChartRenderSeries series, int pointIndex )
+    {
+        return pointIndex >= 0 && pointIndex < series.PointColors.Count && !string.IsNullOrWhiteSpace( series.PointColors[pointIndex] )
+            ? series.PointColors[pointIndex]
+            : series.RenderColor;
     }
 
     private static string ResolveTooltipStyle( SvgChartOptions options, SvgChartTooltipContext context )
@@ -1316,7 +1324,7 @@ public class SvgChart<TItem> : SvgChartBase
         var title = ResolveTitleOptions( options, titleComponents );
         var subtitle = ResolveSubtitleOptions( options, titleComponents );
 
-        return BuildPlotArea( options, title, subtitle, legend.Visible && legend.Position == SvgChartLegendPosition.Top, legend.Visible && legend.Position == SvgChartLegendPosition.Bottom );
+        return BuildPlotArea( options, title, subtitle, legend.Visible && legend.Position == SvgChartLegendPosition.Top, legend.Visible && legend.Position == SvgChartLegendPosition.Bottom, model );
     }
 
     private static bool IsInsidePlot( double x, double y, SvgChartPlotArea plot )
@@ -2018,6 +2026,7 @@ public class SvgChart<TItem> : SvgChartBase
                 CategoryAxisId = x.CategoryAxisId,
                 ValueAxisId = x.ValueAxisId,
                 Color = x.Color,
+                Colors = x.PointColors.Select( color => (Color)color ).ToList(),
                 Hidden = x.Hidden
             } ).ToList()
         };

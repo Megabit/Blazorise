@@ -1,0 +1,58 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<SvgBarChart TItem="TaskState"
+             Items="@states"
+             Options="@options">
+    <SvgChartTooltip Enabled="false" />
+    <SvgChartCategoryAxis Value="@( item => item.Name )" />
+    <SvgChartValueAxis BeginAtZero
+                       TickCount="5"
+                       LabelsOptions="@( new SvgChartAxisLabelsOptions { Visible = false } )" />
+    <SvgChartDataLabels Visible
+                        Position="SvgChartDataLabelPosition.End"
+                        BackgroundColor='@((Color)"#ffffff")'
+                        Border="@( new SvgChartBorderOptions { Color = Color.Primary, Width = 1, Radius = 4 } )" />
+
+    <SvgBarSeries Value="@( item => item.Value )"
+                  Colors="@stateColors"
+                  BorderRadius="4" />
+</SvgBarChart>
+
+@code {
+    private readonly SvgChartOptions options = new()
+    {
+        Height = 150,
+        PlotAreaPadding = new()
+        {
+            Top = 8,
+            End = 12,
+            Bottom = 8,
+        },
+        Legend = new() { Visible = false },
+        Title = new() { Visible = false },
+        Subtitle = new() { Visible = false },
+    };
+
+    private readonly IReadOnlyList<Color> stateColors =
+    [
+        Color.Secondary,
+        Color.Info,
+        Color.Success,
+        Color.Danger,
+    ];
+
+    private readonly List<TaskState> states =
+    [
+        new() { Name = "Disabled", Value = 10 },
+        new() { Name = "Active", Value = 18 },
+        new() { Name = "Completed", Value = 33 },
+        new() { Name = "Deleted", Value = 4 },
+    ];
+
+    private sealed class TaskState
+    {
+        public string Name { get; set; }
+
+        public double Value { get; set; }
+    }
+}

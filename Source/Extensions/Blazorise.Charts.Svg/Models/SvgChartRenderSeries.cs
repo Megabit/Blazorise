@@ -24,6 +24,8 @@ internal sealed class SvgChartRenderSeries
 
     public string RenderColor { get; init; }
 
+    public List<string> PointColors { get; init; } = [];
+
     public bool Hidden { get; init; }
 
     public int? Order { get; init; }

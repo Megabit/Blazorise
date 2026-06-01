@@ -22,5 +22,10 @@ public class SvgChartAxisLabelsOptions
     /// </summary>
     public double Offset { get; set; } = 24;
 
+    /// <summary>
+    /// Defines the maximum label width in SVG units. Longer labels are shortened.
+    /// </summary>
+    public double? MaxWidth { get; set; }
+
     #endregion
 }

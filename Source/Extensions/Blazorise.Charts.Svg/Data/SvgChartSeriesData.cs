@@ -58,6 +58,11 @@ public class SvgChartSeriesData<TValue>
     public Color Color { get; set; }
 
     /// <summary>
+    /// Defines explicit colors for individual data points.
+    /// </summary>
+    public List<Color> Colors { get; set; } = [];
+
+    /// <summary>
     /// Defines whether the series is hidden.
     /// </summary>
     public bool Hidden { get; set; }

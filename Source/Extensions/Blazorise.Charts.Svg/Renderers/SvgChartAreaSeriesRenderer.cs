@@ -92,17 +92,18 @@ internal sealed class SvgChartAreaSeriesRenderer : ISvgChartSeriesRenderer
                 };
                 var point = chart.CreatePoint( item, renderedPoint.Index, renderedPoint.Value, bounds );
                 var animationKey = context.TrackPointBounds( item, renderedPoint.Index, bounds );
+                var color = item.GetPointColor( renderedPoint.Index );
 
                 builder.OpenElement( sequence++, "circle" );
                 builder.AddAttribute( sequence++, "class", "svg-chart-point svg-chart-area-marker" );
                 builder.AddAttribute( sequence++, "cx", SvgChartRenderHelpers.Format( renderedPoint.X ) );
                 builder.AddAttribute( sequence++, "cy", SvgChartRenderHelpers.Format( renderedPoint.Y ) );
                 builder.AddAttribute( sequence++, "r", SvgChartRenderHelpers.Format( markerRadius ) );
-                builder.AddAttribute( sequence++, "fill", item.Color );
+                builder.AddAttribute( sequence++, "fill", color );
                 builder.AddAttribute( sequence++, "stroke", "var(--bs-body-bg, #fff)" );
                 builder.AddAttribute( sequence++, "stroke-width", "1.5" );
                 context.AddAnimatedStyleAttribute( builder, ref sequence );
-                context.AddPointInteractionAttributes( builder, ref sequence, point, item.Color );
+                context.AddPointInteractionAttributes( builder, ref sequence, point, color );
                 context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "cx", SvgChartRenderHelpers.Format( renderedPoint.X ), SvgChartRenderHelpers.Format( renderedPoint.X ), bounds => SvgChartRenderHelpers.Format( bounds.X + bounds.Width / 2 ) );
                 context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "cy", SvgChartRenderHelpers.Format( renderedPoint.Y ), SvgChartRenderHelpers.Format( renderedPoint.Y ), bounds => SvgChartRenderHelpers.Format( bounds.Y + bounds.Height / 2 ) );
                 context.RenderPointBoundsAttributeAnimation( builder, ref sequence, animationKey, "r", "0", SvgChartRenderHelpers.Format( markerRadius ), bounds => SvgChartRenderHelpers.Format( bounds.Width / 2 ) );

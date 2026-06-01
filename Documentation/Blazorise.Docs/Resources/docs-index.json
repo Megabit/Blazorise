@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-30T11:07:47.9559075Z",
+  "generatedUtc": "2026-06-01T11:05:37.3695854Z",
   "pages": [
     {
       "route": "/docs",
@@ -7656,6 +7656,14 @@
           "content": "<SvgBarChart TItem=\"RegionalRevenue\"\r\n             Items=\"@revenue\"\r\n             Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Regional revenue\")' Subtitle='@(\"Horizontal grouped bars\")' />\r\n    <SvgChartLegend Position=\"SvgChartLegendPosition.Bottom\" />\r\n    <SvgChartTooltip Enabled />\r\n    <SvgChartCategoryAxis Value=\"@( item => item.Region )\" />\r\n    <SvgChartValueAxis BeginAtZero TickCount=\"6\" />\r\n\r\n    <SvgBarSeries Name=\"Online\" Value=\"@( item => item.Online )\" Color=\"Color.Primary\" BorderRadius=\"4\" />\r\n    <SvgBarSeries Name=\"Retail\" Value=\"@( item => item.Retail )\" Color=\"Color.Success\" BorderRadius=\"4\" />\r\n</SvgBarChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n    };\r\n\r\n    private readonly List<RegionalRevenue> revenue =\r\n    [\r\n        new() { Region = \"North\", Online = 72, Retail = 54 },\r\n        new() { Region = \"South\", Online = 84, Retail = 66 },\r\n        new() { Region = \"East\", Online = 93, Retail = 71 },\r\n        new() { Region = \"West\", Online = 78, Retail = 64 },\r\n    ];\r\n\r\n    private sealed class RegionalRevenue\r\n    {\r\n        public string Region { get; set; }\r\n\r\n        public double Online { get; set; }\r\n\r\n        public double Retail { get; set; }\r\n    }\r\n}",
           "title": "Bar chart",
           "description": "Use a bar chart to compare category values horizontally."
+        },
+        {
+          "code": "SvgBarChartPointColorsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgBarChartPointColorsExample.razor",
+          "content": "<SvgBarChart TItem=\"TaskState\"\r\n             Items=\"@states\"\r\n             Options=\"@options\">\r\n    <SvgChartTooltip Enabled=\"false\" />\r\n    <SvgChartCategoryAxis Value=\"@( item => item.Name )\" />\r\n    <SvgChartValueAxis BeginAtZero\r\n                       TickCount=\"5\"\r\n                       LabelsOptions=\"@( new SvgChartAxisLabelsOptions { Visible = false } )\" />\r\n    <SvgChartDataLabels Visible\r\n                        Position=\"SvgChartDataLabelPosition.End\"\r\n                        BackgroundColor='@((Color)\"#ffffff\")'\r\n                        Border=\"@( new SvgChartBorderOptions { Color = Color.Primary, Width = 1, Radius = 4 } )\" />\r\n\r\n    <SvgBarSeries Value=\"@( item => item.Value )\"\r\n                  Colors=\"@stateColors\"\r\n                  BorderRadius=\"4\" />\r\n</SvgBarChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 150,\r\n        PlotAreaPadding = new()\r\n        {\r\n            Top = 8,\r\n            End = 12,\r\n            Bottom = 8,\r\n        },\r\n        Legend = new() { Visible = false },\r\n        Title = new() { Visible = false },\r\n        Subtitle = new() { Visible = false },\r\n    };\r\n\r\n    private readonly IReadOnlyList<Color> stateColors =\r\n    [\r\n        Color.Secondary,\r\n        Color.Info,\r\n        Color.Success,\r\n        Color.Danger,\r\n    ];\r\n\r\n    private readonly List<TaskState> states =\r\n    [\r\n        new() { Name = \"Disabled\", Value = 10 },\r\n        new() { Name = \"Active\", Value = 18 },\r\n        new() { Name = \"Completed\", Value = 33 },\r\n        new() { Name = \"Deleted\", Value = 4 },\r\n    ];\r\n\r\n    private sealed class TaskState\r\n    {\r\n        public string Name { get; set; }\r\n\r\n        public double Value { get; set; }\r\n    }\r\n}",
+          "title": "Point colors",
+          "description": "Use Colors to assign colors by data point index. The first color is used for the first resolved value, the second color for the second value, and so on. If the color belongs to the item itself, use PointColor instead so the color follows the item when the data changes."
         },
         {
           "code": "SvgLineChartExample",

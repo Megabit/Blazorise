@@ -15,6 +15,8 @@ internal sealed class SvgChartRenderValueAxis
 
     public SvgChartGridLinesOptions GridLines { get; init; }
 
+    public SvgChartAxisLabelsOptions Labels { get; init; }
+
     public Func<SvgChartAxisTickContext, string> TickFormatter { get; init; }
 
     public bool Stacked { get; init; }
