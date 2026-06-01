@@ -22,6 +22,16 @@ public class SvgAreaSeries<TItem> : SvgChartSeries<TItem>
     /// </summary>
     [Parameter] public double FillOpacity { get; set; } = 0.18;
 
+    /// <summary>
+    /// Defines how the area line is interpolated between data points.
+    /// </summary>
+    [Parameter] public SvgChartInterpolationMode Interpolation { get; set; }
+
+    /// <summary>
+    /// Defines the cubic interpolation tension.
+    /// </summary>
+    [Parameter] public double Tension { get; set; } = 0.4;
+
     internal override SvgChartType ChartType => SvgChartType.Area;
 
     #endregion

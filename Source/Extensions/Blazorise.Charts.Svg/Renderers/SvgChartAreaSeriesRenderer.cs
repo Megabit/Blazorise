@@ -55,8 +55,8 @@ internal sealed class SvgChartAreaSeriesRenderer : ISvgChartSeriesRenderer
 
             if ( points.Count > 1 )
             {
-                var linePath = SvgChartSeriesRenderHelpers.BuildLinePath( points );
-                var areaPath = SvgChartSeriesRenderHelpers.BuildAreaPath( linePath, basePoints );
+                var linePath = SvgChartSeriesRenderHelpers.BuildLinePath( points, item.Interpolation, item.Tension );
+                var areaPath = SvgChartSeriesRenderHelpers.BuildAreaPath( points, basePoints, item.Interpolation, item.Tension );
 
                 builder.OpenElement( sequence++, "path" );
                 builder.AddAttribute( sequence++, "class", "svg-chart-area" );
@@ -122,9 +122,9 @@ internal sealed class SvgChartAreaSeriesRenderer : ISvgChartSeriesRenderer
     private static double ResolveX( SvgChartPluginRenderContext chart, SvgChartPluginSeries series, int pointIndex )
     {
         if ( chart.ContinuousCategoryAxis && pointIndex < series.XValues.Count && series.XValues[pointIndex].HasValue )
-            return chart.ProjectX( series.XValues[pointIndex].Value );
+            return chart.ProjectX( series.XValues[pointIndex].Value, series.CategoryAxisId );
 
-        return chart.ProjectCategory( pointIndex );
+        return chart.ProjectCategory( pointIndex, series.CategoryAxisId );
     }
 
     #endregion

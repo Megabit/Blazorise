@@ -406,7 +406,9 @@ public class SvgChart<TItem> : SvgChartBase
                 BorderRadius = x.BorderRadius,
                 StrokeWidth = x.StrokeWidth,
                 MarkerRadius = x.MarkerRadius,
-                FillOpacity = x.FillOpacity
+                FillOpacity = x.FillOpacity,
+                Interpolation = x.Interpolation,
+                Tension = x.Tension
             } ).ToList(),
             IsRadialChart( model ),
             model.Min,
@@ -414,8 +416,8 @@ public class SvgChart<TItem> : SvgChartBase
             GetCategorySlotCount( model ),
             model.CategoryScaleKind,
             this,
-            value => GetCategoryX( (int)Math.Round( value, MidpointRounding.AwayFromZero ), plot, model ),
-            value => GetCategoryBoundaryX( value, plot, model ),
+            ( value, categoryAxisId ) => GetCategoryX( (int)Math.Round( value, MidpointRounding.AwayFromZero ), plot, model ),
+            ( value, categoryAxisId ) => GetCategoryBoundaryX( value, plot, model ),
             ( value, valueAxisId ) =>
             {
                 if ( pointXScale is not null )
@@ -2044,6 +2046,8 @@ public class SvgChart<TItem> : SvgChartBase
                 ValueAxisId = x.ValueAxisId,
                 Color = x.Color,
                 Colors = x.PointColors?.Select( color => (Color)color ).ToList() ?? [],
+                Interpolation = x.Interpolation,
+                Tension = x.Tension,
                 Hidden = x.Hidden
             } ).ToList()
         };
