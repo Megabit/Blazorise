@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Docs.Core;
 using Blazorise.Docs.Domain;
+using Blazorise.Docs.Models;
 using Blazorise.Docs.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
@@ -38,8 +39,8 @@ public partial class RoiCalculator
     private const int RiskPercentMin = 0;
     private const int RiskPercentMax = 50;
 
-    private const decimal ProfessionalLicensePerDeveloperPerYear = 590m;
-    private const decimal EnterpriseLicensePerDeveloperPerYear = 990m;
+    private const decimal ProfessionalLicensePerDeveloperPerYear = CommercialLicensePrices.ProfessionalAnnualPerDeveloper;
+    private const decimal EnterpriseLicensePerDeveloperPerYear = CommercialLicensePrices.EnterpriseAnnualPerDeveloper;
     private const decimal InternalPlatformOverheadPercent = 25m;
     private const decimal InternalCoordinationPercentPerAdditionalDeveloper = 3m;
     private const int CoordinationDeveloperThreshold = 3;
@@ -66,9 +67,11 @@ public partial class RoiCalculator
     private LicenseTier selectedLicenseTier = LicenseTier.Enterprise;
 
     private RoiCalculationResult roiResult;
-    private Validations sendResultValidationsRef;
-    private bool sendResultModalVisible;
-    private bool isSendingResultEmail;
+    private Validations emailSummaryValidationsRef;
+    private bool emailSummaryModalVisible;
+    private bool isSendingSummaryEmail;
+    private bool costBreakdownVisible;
+    private bool calculationNotesVisible;
     private string resultRecipientName = string.Empty;
     private string resultRecipientEmail = string.Empty;
 
@@ -159,22 +162,22 @@ public partial class RoiCalculator
         }
     }
 
-    private async Task ShowSendResultModal()
+    private async Task ShowEmailSummaryModal()
     {
-        sendResultModalVisible = true;
+        emailSummaryModalVisible = true;
 
-        if ( sendResultValidationsRef is not null )
+        if ( emailSummaryValidationsRef is not null )
         {
-            await sendResultValidationsRef.ClearAll();
+            await emailSummaryValidationsRef.ClearAll();
         }
     }
 
-    private async Task SendResultEmail()
+    private async Task SendSummaryEmail()
     {
-        if ( roiResult is null || isSendingResultEmail )
+        if ( roiResult is null || isSendingSummaryEmail )
             return;
 
-        if ( sendResultValidationsRef is not null && !await sendResultValidationsRef.ValidateAll() )
+        if ( emailSummaryValidationsRef is not null && !await emailSummaryValidationsRef.ValidateAll() )
             return;
 
         string recipientName = resultRecipientName.Trim();
@@ -183,7 +186,7 @@ public partial class RoiCalculator
         if ( string.IsNullOrWhiteSpace( recipientName ) || string.IsNullOrWhiteSpace( recipientEmail ) )
             return;
 
-        isSendingResultEmail = true;
+        isSendingSummaryEmail = true;
 
         try
         {
@@ -207,15 +210,15 @@ public partial class RoiCalculator
 
             if ( customerEmailResult.Succeeded && leadNotificationResult.Succeeded )
             {
-                await MessageService.Success( "Result sent successfully. We will contact you shortly." );
+                await MessageService.Success( "ROI summary sent successfully. We will contact you shortly." );
 
-                sendResultModalVisible = false;
+                emailSummaryModalVisible = false;
                 resultRecipientName = string.Empty;
                 resultRecipientEmail = string.Empty;
 
-                if ( sendResultValidationsRef is not null )
+                if ( emailSummaryValidationsRef is not null )
                 {
-                    await sendResultValidationsRef.ClearAll();
+                    await emailSummaryValidationsRef.ClearAll();
                 }
             }
             else
@@ -231,7 +234,7 @@ public partial class RoiCalculator
         }
         finally
         {
-            isSendingResultEmail = false;
+            isSendingSummaryEmail = false;
         }
     }
 
@@ -280,6 +283,8 @@ public partial class RoiCalculator
         section.AppendLine( $" - Total Cost to Build Internally: {FormatCurrency( roiResult.TotalCostToBuildInternally )}" );
         section.AppendLine( $" - {PlanningYears}-Year Total Cost of Ownership: {FormatCurrency( roiResult.TotalCostOfOwnership )}" );
         section.AppendLine( $" - Total Cost with Blazorise (incl. license): {FormatCurrency( roiResult.CostOfUsingBlazorise )}" );
+        section.AppendLine( $" - Blazorise License Cost ({PlanningYears} years): {FormatCurrency( roiResult.LicenseCostForHorizon )}" );
+        section.AppendLine( $" - Developer License Seats: {roiResult.EstimatedLicenseSeats:n0}" );
         section.AppendLine( $" - Cost Difference (In-House - Blazorise): {FormatSignedCurrency( roiResult.EstimatedSavings )}" );
         section.AppendLine( $" - Time-to-Market Advantage: {FormatCurrency( roiResult.TimeToMarketAdvantage )}" );
         section.AppendLine( $" - Total Benefit (Savings + Faster Delivery): {FormatSignedCurrency( roiResult.TotalBenefit )}" );
