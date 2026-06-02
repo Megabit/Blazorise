@@ -17,15 +17,11 @@
 </PageHeader>
 
 <Container TextAlignment="TextAlignment.Center">
-    <BenefitsGrid />
-
     <Pricing @bind-Quantity="@quantity" @bind-Plan="@plan" ProfessionalPrices="@professionalPrices" EnterprisePrices="@enterprisePrices" />
 
     <PricingAssurance />
 
     <PlansComparer Quantity="@quantity" Plan="@plan" ProfessionalPrices="@professionalPrices" EnterprisePrices="@enterprisePrices" />
-
-    <CustomWorkTeaser />
 
     <Faq />
 </Container>
