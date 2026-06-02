@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-06-01T13:36:24.4346614Z",
+  "generatedUtc": "2026-06-02T08:45:51.2419195Z",
   "pages": [
     {
       "route": "/docs",
@@ -7679,7 +7679,7 @@
           "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgLineChartInterpolationExample.razor",
           "content": "<SvgLineChart TItem=\"MonthlyRevenue\"\r\n              Items=\"@revenue\"\r\n              Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Revenue movement\")' Subtitle='@(\"Monotone and stepped interpolation\")' />\r\n    <SvgChartLegend Position=\"SvgChartLegendPosition.Bottom\" />\r\n    <SvgChartTooltip Enabled />\r\n    <SvgChartCategoryAxis Value=\"@( item => item.Month )\" />\r\n    <SvgChartValueAxis TickCount=\"6\" />\r\n\r\n    <SvgLineSeries Name=\"Actual\"\r\n                   Value=\"@( item => item.Actual )\"\r\n                   Color=\"Color.Primary\"\r\n                   StrokeWidth=\"3\"\r\n                   MarkerRadius=\"4\"\r\n                   Interpolation=\"SvgChartInterpolationMode.Monotone\" />\r\n    <SvgLineSeries Name=\"Target\"\r\n                   Value=\"@( item => item.Target )\"\r\n                   Color=\"Color.Info\"\r\n                   StrokeWidth=\"3\"\r\n                   MarkerRadius=\"4\"\r\n                   Interpolation=\"SvgChartInterpolationMode.StepMiddle\" />\r\n</SvgLineChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n    };\r\n\r\n    private readonly List<MonthlyRevenue> revenue =\r\n    [\r\n        new() { Month = \"Jan\", Actual = 1400, Target = 1320 },\r\n        new() { Month = \"Feb\", Actual = 900, Target = 1180 },\r\n        new() { Month = \"Mar\", Actual = 1800, Target = 1450 },\r\n        new() { Month = \"Apr\", Actual = 1300, Target = 1550 },\r\n        new() { Month = \"May\", Actual = 1650, Target = 1480 },\r\n        new() { Month = \"Jun\", Actual = 1250, Target = 1600 },\r\n    ];\r\n\r\n    private sealed class MonthlyRevenue\r\n    {\r\n        public string Month { get; set; }\r\n\r\n        public double Actual { get; set; }\r\n\r\n        public double Target { get; set; }\r\n    }\r\n}",
           "title": "Interpolation",
-          "description": "Use Interpolation on line or area series to control how points are connected. The default mode is SvgChartInterpolationMode.Linear ; use Monotone for smooth curves that preserve point direction, or one of the step modes for stepped trends."
+          "description": "Use Interpolation on line or area series to control how points are connected. The default mode is SvgChartInterpolationMode.Linear ; use Monotone for smooth curves that preserve point direction, or one of the step modes for stepped trends. Area series use the same interpolation for the filled boundary path."
         },
         {
           "code": "SvgAreaChartExample",

@@ -19,9 +19,15 @@ public partial class DocsLayout
 
     private bool topBarVisible;
 
-    private bool sideBarIntegrationsMenuVisible;
+    private bool sideBarGuidesMenuVisible;
+
+    private bool sideBarUiProvidersMenuVisible;
 
     private bool sideBarComponentsMenuVisible;
+
+    private bool sideBarDataGridMenuVisible;
+
+    private bool sideBarSvgChartMenuVisible;
 
     private bool sideBarServicesMenuVisible;
 
@@ -72,6 +78,34 @@ public partial class DocsLayout
 
             await InvokeAsync( StateHasChanged );
         }
+    }
+
+    private bool IsGuidesMenuRoute( string currentUri )
+    {
+        var relativePath = NavigationManager.ToBaseRelativePath( currentUri )
+            .Split( '?', '#' )[0]
+            .TrimEnd( '/' );
+
+        return relativePath.Equals( "docs", StringComparison.OrdinalIgnoreCase )
+               || relativePath.Equals( "docs/start", StringComparison.OrdinalIgnoreCase )
+               || relativePath.Equals( "docs/templates", StringComparison.OrdinalIgnoreCase )
+               || relativePath.Equals( "docs/testing", StringComparison.OrdinalIgnoreCase )
+               || relativePath.Equals( "docs/theming", StringComparison.OrdinalIgnoreCase )
+               || relativePath.Equals( "docs/analyzer", StringComparison.OrdinalIgnoreCase )
+               || relativePath.Equals( "docs/migration", StringComparison.OrdinalIgnoreCase )
+               || relativePath.Equals( "docs/usage/licensing/register-product-token", StringComparison.OrdinalIgnoreCase );
+    }
+
+    private bool IsExtensionsMenuRoute( string currentUri )
+    {
+        var relativePath = NavigationManager.ToBaseRelativePath( currentUri )
+            .Split( '?', '#' )[0]
+            .TrimEnd( '/' );
+
+        return relativePath.Equals( "docs/extensions", StringComparison.OrdinalIgnoreCase )
+               || ( relativePath.StartsWith( "docs/extensions/", StringComparison.OrdinalIgnoreCase )
+                    && !relativePath.StartsWith( "docs/extensions/datagrid", StringComparison.OrdinalIgnoreCase )
+                    && !relativePath.StartsWith( "docs/extensions/svg-chart", StringComparison.OrdinalIgnoreCase ) );
     }
 
     protected override void Dispose( bool disposing )
