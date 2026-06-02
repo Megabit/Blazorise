@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Licensing;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -674,7 +675,8 @@ public class SvgChart<TItem> : SvgChartBase
             valueAxisComponents,
             pluginComponents,
             tooltipComponents,
-            hiddenSeries ).Build( applyStreamingViewport, applyZoomViewport );
+            hiddenSeries,
+            BlazoriseLicenseLimitsHelper.GetChartsRowsLimit( ComponentLicenseChecker ) ).Build( applyStreamingViewport, applyZoomViewport );
     }
 
     private SvgChartOptions ResolveOptions()
@@ -2279,6 +2281,8 @@ public class SvgChart<TItem> : SvgChartBase
     protected override bool ShouldAutoGenerateId => true;
 
     [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    [Inject] private BlazoriseLicenseChecker ComponentLicenseChecker { get; set; }
 
     /// <summary>
     /// Specifies the chart rendering type.

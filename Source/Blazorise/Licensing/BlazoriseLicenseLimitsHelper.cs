@@ -1,4 +1,4 @@
-﻿namespace Blazorise.Licensing;
+namespace Blazorise.Licensing;
 
 /// <summary>
 /// Ultimately provides sane defaults for Blazorise licensing, in case required scoped services are not provided
@@ -53,5 +53,35 @@ public static class BlazoriseLicenseLimitsHelper
     public static int? GetTreeViewRowsLimit( BlazoriseLicenseChecker blazoriseLicenseChecker )
     {
         return blazoriseLicenseChecker is null ? BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_TREEVIEW_MAX_ROWS : blazoriseLicenseChecker.GetTreeViewRowsLimit();
+    }
+
+    /// <summary>
+    /// Returns the maximum number of rows that can be displayed.
+    /// Null if no limit is set.
+    /// </summary>
+    /// <returns></returns>
+    public static int? GetPivotGridRowsLimit( BlazoriseLicenseChecker blazoriseLicenseChecker )
+    {
+        return blazoriseLicenseChecker is null ? BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_PIVOTGRID_MAX_ROWS : blazoriseLicenseChecker.GetPivotGridRowsLimit();
+    }
+
+    /// <summary>
+    /// Returns the maximum number of rows that can be displayed.
+    /// Null if no limit is set.
+    /// </summary>
+    /// <returns></returns>
+    public static int? GetGanttRowsLimit( BlazoriseLicenseChecker blazoriseLicenseChecker )
+    {
+        return blazoriseLicenseChecker is null ? BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_GANTT_MAX_ROWS : blazoriseLicenseChecker.GetGanttRowsLimit();
+    }
+
+    /// <summary>
+    /// Returns the maximum number of rows that can be displayed.
+    /// Null if no limit is set.
+    /// </summary>
+    /// <returns></returns>
+    public static int? GetTransferListRowsLimit( BlazoriseLicenseChecker blazoriseLicenseChecker )
+    {
+        return blazoriseLicenseChecker is null ? BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_TRANSFERVIEW_MAX_ROWS : blazoriseLicenseChecker.GetTransferListRowsLimit();
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Licensing;
 using Blazorise.Localization;
 using Blazorise.PivotGrid.Components;
 using Blazorise.PivotGrid.Extensions;
@@ -499,10 +500,10 @@ public partial class PivotGrid<TItem> : BaseComponent
 
     private void ApplyExternalDataResult( PivotGridDataResult<TItem> dataResult )
     {
-        externalData = dataResult?.Data?.ToList() ?? [];
+        externalData = LimitSourceData( dataResult?.Data );
         ApplyExternalDataResultMetadata( dataResult );
         externalFilterOptions = dataResult?.FilterOptions;
-        externalPivotResult = PivotGridResultNormalizer.Normalize( dataResult?.Result );
+        externalPivotResult = LimitPivotResultRows( PivotGridResultNormalizer.Normalize( dataResult?.Result ) );
 
         if ( externalPivotResult is not null )
             pivotResult = externalPivotResult;
@@ -512,7 +513,7 @@ public partial class PivotGrid<TItem> : BaseComponent
 
     private void ApplyExternalDataResultMetadata( PivotGridDataResult<TItem> dataResult )
     {
-        externalTotalItems = dataResult?.TotalItems;
+        externalTotalItems = LimitTotalItems( dataResult?.TotalItems );
         externalDataIsPaged = dataResult?.IsPaged == true;
     }
 
@@ -671,7 +672,64 @@ public partial class PivotGrid<TItem> : BaseComponent
             : GetDeclaredFields( area );
 
     private IReadOnlyList<TItem> GetCurrentSourceData()
-        => UsesExternalData ? externalData : Data?.ToList() ?? [];
+        => LimitSourceData( UsesExternalData ? externalData : Data );
+
+    private IReadOnlyList<TItem> LimitSourceData( IEnumerable<TItem> data )
+    {
+        var rowsLimit = GetRowsLimit();
+        var sourceData = data?.ToList() ?? [];
+
+        if ( !rowsLimit.HasValue )
+            return sourceData;
+
+        return sourceData.Take( rowsLimit.Value ).ToList();
+    }
+
+    private PivotGridResult<TItem> LimitPivotResultRows( PivotGridResult<TItem> result )
+    {
+        if ( result is null )
+            return null;
+
+        return new(
+            result.RowFields,
+            result.ColumnFields,
+            result.Aggregates,
+            result.DataColumns,
+            LimitRows( result.Rows ) );
+    }
+
+    private IReadOnlyList<PivotGridResultRow<TItem>> LimitRows( IReadOnlyList<PivotGridResultRow<TItem>> rows )
+    {
+        var rowsLimit = GetRowsLimit();
+
+        if ( rows is null )
+            return [];
+
+        if ( !rowsLimit.HasValue )
+            return rows;
+
+        return rows.Take( rowsLimit.Value ).ToList();
+    }
+
+    private int LimitTotalItems( int totalItems )
+    {
+        var rowsLimit = GetRowsLimit();
+
+        return rowsLimit.HasValue ? Math.Min( totalItems, rowsLimit.Value ) : totalItems;
+    }
+
+    private int? LimitTotalItems( int? totalItems )
+    {
+        if ( !totalItems.HasValue )
+            return null;
+
+        return LimitTotalItems( totalItems.Value );
+    }
+
+    private int? GetRowsLimit()
+    {
+        return BlazoriseLicenseLimitsHelper.GetPivotGridRowsLimit( ComponentLicenseChecker );
+    }
 
     internal async ValueTask<ItemsProviderResult<PivotGridResultRow<TItem>>> VirtualizeRowsProvider( ItemsProviderRequest request )
     {
@@ -683,7 +741,7 @@ public partial class PivotGrid<TItem> : BaseComponent
 
         var expandedPivotResult = GetExpandedPivotResult();
         var rows = expandedPivotResult?.Rows ?? [];
-        var totalRows = rows.Count;
+        var totalRows = LimitTotalItems( rows.Count );
         var requestCount = Math.Min( request.Count, Math.Max( 0, totalRows - request.StartIndex ) );
 
         return new( rows.Skip( request.StartIndex ).Take( requestCount ).ToList(), totalRows );
@@ -693,14 +751,22 @@ public partial class PivotGrid<TItem> : BaseComponent
     {
         EnsureRuntimeState();
 
-        var requestCount = providerRequest.Count;
+        var rowsLimit = GetRowsLimit();
+        var totalItemsLimit = rowsLimit ?? externalTotalItems ?? 0;
+
+        if ( rowsLimit.HasValue && providerRequest.StartIndex >= rowsLimit.Value )
+            return new( [], totalItemsLimit );
+
+        var requestCount = rowsLimit.HasValue
+            ? Math.Min( providerRequest.Count, Math.Max( 0, rowsLimit.Value - providerRequest.StartIndex ) )
+            : providerRequest.Count;
 
         var request = CreateDataRequest( PivotGridReadDataMode.Virtualize, providerRequest.StartIndex, requestCount );
         var requestKey = PivotGridKeyGenerator.CreateDataRequestKey( request );
 
         if ( readDataCancellationTokenSource is null && string.Equals( lastExternalDataRequestKey, requestKey, StringComparison.Ordinal ) && pivotResult is not null )
         {
-            return new( pivotResult.Rows, externalTotalItems ?? pivotResult.Rows.Count );
+            return new( LimitRows( pivotResult.Rows ), externalTotalItems ?? LimitTotalItems( pivotResult.Rows.Count ) );
         }
 
         var cancellationTokenSource = BeginExternalDataRead( providerRequest.CancellationToken );
@@ -720,20 +786,21 @@ public partial class PivotGrid<TItem> : BaseComponent
                 var virtualizedResult = PivotGridResultNormalizer.NormalizeVirtualized(
                     dataResult.Result,
                     externalVirtualizedResultInitialized ? pivotResult : null );
+                virtualizedResult = LimitPivotResultRows( virtualizedResult );
 
                 ApplyInitialExternalVirtualizedResult( requestKey, virtualizedResult );
 
-                return new( virtualizedResult.Rows, externalTotalItems ?? virtualizedResult.Rows.Count );
+                return new( virtualizedResult.Rows, externalTotalItems ?? LimitTotalItems( virtualizedResult.Rows.Count ) );
             }
 
-            var virtualizedData = dataResult?.Data?.ToList() ?? [];
+            var virtualizedData = LimitSourceData( dataResult?.Data );
             var virtualizedPivotResult = BuildPivotResult( virtualizedData );
             var expandedVirtualizedPivotResult = GetExpandedPivotResult( virtualizedPivotResult );
             var rows = expandedVirtualizedPivotResult.Rows;
 
             ApplyInitialExternalVirtualizedResult( requestKey, virtualizedPivotResult );
 
-            return new( rows, externalTotalItems ?? rows.Count );
+            return new( rows, externalTotalItems ?? LimitTotalItems( rows.Count ) );
         }
         catch ( OperationCanceledException )
         {
@@ -1489,7 +1556,7 @@ public partial class PivotGrid<TItem> : BaseComponent
     {
         get
         {
-            var expandedPivotResult = GetExpandedPivotResult();
+            var expandedPivotResult = LimitPivotResultRows( GetExpandedPivotResult() );
 
             if ( !ShowPager || expandedPivotResult is null || !expandedPivotResult.HasValues )
                 return expandedPivotResult;
@@ -1555,7 +1622,7 @@ public partial class PivotGrid<TItem> : BaseComponent
     internal int TotalRows
         => UsesExternalData && externalDataIsPaged && externalTotalItems.HasValue
             ? externalTotalItems.Value
-            : IsGroupPagingActive ? GetRootGroupKeys().Count : GetExpandedRows().Count;
+            : IsGroupPagingActive ? LimitTotalItems( GetRootGroupKeys().Count ) : LimitTotalItems( GetExpandedRows().Count );
 
     internal int EffectivePageSize
         => Math.Max( 1, PageSize );
@@ -1625,6 +1692,8 @@ public partial class PivotGrid<TItem> : BaseComponent
     /// Gets text localizer service.
     /// </summary>
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+    [Inject] private BlazoriseLicenseChecker ComponentLicenseChecker { get; set; }
 
     /// <summary>
     /// Defines the source data to be analyzed.

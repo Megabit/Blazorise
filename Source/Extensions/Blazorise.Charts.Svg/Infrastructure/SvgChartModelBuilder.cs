@@ -38,6 +38,8 @@ internal sealed class SvgChartModelBuilder<TItem>
 
     private readonly IReadOnlyCollection<string> hiddenSeries;
 
+    private readonly int? rowLimit;
+
     #endregion
 
     #region Constructors
@@ -55,7 +57,8 @@ internal sealed class SvgChartModelBuilder<TItem>
         IReadOnlyList<SvgChartValueAxis> valueAxisComponents,
         IReadOnlyList<ISvgChartPlugin> pluginComponents,
         IReadOnlyList<SvgChartTooltip> tooltipComponents,
-        IReadOnlyCollection<string> hiddenSeries )
+        IReadOnlyCollection<string> hiddenSeries,
+        int? rowLimit )
     {
         Type = type;
         Items = items;
@@ -70,6 +73,7 @@ internal sealed class SvgChartModelBuilder<TItem>
         this.pluginComponents = pluginComponents;
         this.tooltipComponents = tooltipComponents;
         this.hiddenSeries = hiddenSeries;
+        this.rowLimit = rowLimit;
     }
 
     #endregion
@@ -83,8 +87,8 @@ internal sealed class SvgChartModelBuilder<TItem>
         var categoryAxes = categoryAxisComponents.OfType<SvgChartCategoryAxis<TItem>>().ToList();
         var categoryAxis = ResolveCategoryAxis( chartData, childSeries, categoryAxes );
         var valueAxisId = ResolveValueAxisId( chartData, childSeries );
-        var items = Items?.ToList() ?? [];
-        var labels = ResolveLabels( chartData, categoryAxis, items );
+        var items = LimitValues( Items );
+        var labels = LimitValues( ResolveLabels( chartData, categoryAxis, items ) );
         var timeAxisValues = ResolveTimeAxisValues( categoryAxis, labels );
         var series = ResolveSeries( chartData, childSeries, items, labels.Count, timeAxisValues );
         var zoom = ResolveZoom( options );
@@ -283,9 +287,42 @@ internal sealed class SvgChartModelBuilder<TItem>
             } );
         }
 
+        LimitSeries( series );
         ApplyStacking( series, ResolveStackedValueAxisIds( series ) );
 
         return series;
+    }
+
+    private List<TValue> LimitValues<TValue>( IEnumerable<TValue> values )
+    {
+        if ( values is null )
+            return [];
+
+        if ( !rowLimit.HasValue )
+            return values.ToList();
+
+        return values.Take( rowLimit.Value ).ToList();
+    }
+
+    private void LimitSeries( List<SvgChartRenderSeries> series )
+    {
+        if ( !rowLimit.HasValue )
+            return;
+
+        foreach ( var item in series )
+        {
+            LimitValues( item.Values, rowLimit.Value );
+            LimitValues( item.XValues, rowLimit.Value );
+            LimitValues( item.YValues, rowLimit.Value );
+            LimitValues( item.RadiusValues, rowLimit.Value );
+            LimitValues( item.PointColors, rowLimit.Value );
+        }
+    }
+
+    private static void LimitValues<TValue>( List<TValue> values, int limit )
+    {
+        if ( values is not null && values.Count > limit )
+            values.RemoveRange( limit, values.Count - limit );
     }
 
     private static List<string> ResolvePointColors( IReadOnlyList<Color> colors, int count, Color seriesColor, int seriesIndex, bool usePalettePerPoint )

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.ComponentModel;
 using System.Reflection;
@@ -45,6 +45,24 @@ public sealed class BlazoriseLicenseProvider
     /// </summary>
     public const int DEFAULT_UNLICENSED_LIMIT_TREEVIEW_MAX_ROWS = 100;
 
+    /// <summary>
+    /// The default maximum number of source rows allowed in a pivot grid for unlicensed users.
+    /// </summary>
+    public const int DEFAULT_UNLICENSED_LIMIT_PIVOTGRID_MAX_ROWS = 1000;
+
+    /// <summary>
+    /// The default maximum number of rows displayed in a gantt chart for unlicensed users.
+    /// </summary>
+    public const int DEFAULT_UNLICENSED_LIMIT_GANTT_MAX_ROWS = 100;
+
+    private const string PIVOTGRID_MAX_ROWS_LICENSE_PROPERTY = "PIVOTGRID_MAX_ROWS";
+
+    private const string GANTT_MAX_ROWS_LICENSE_PROPERTY = "GANTT_MAX_ROWS";
+
+    private const string TRANSFERVIEW_MAX_ROWS_LICENSE_PROPERTY = "TRANSFERVIEW_MAX_ROWS";
+
+    private const string TRANSFERLIST_MAX_ROWS_LICENSE_PROPERTY = "TRANSFERLIST_MAX_ROWS";
+
     private static readonly Assembly CurrentAssembly = typeof( BlazoriseLicenseProvider ).Assembly;
 
     private readonly BlazoriseOptions options;
@@ -68,6 +86,12 @@ public sealed class BlazoriseLicenseProvider
     private int? limitsListViewMaxRows;
 
     private int? limitsTreeViewMaxRows;
+
+    private int? limitsPivotGridMaxRows;
+
+    private int? limitsGanttMaxRows;
+
+    private int? limitsTransferListMaxRows;
 
     #endregion
 
@@ -351,6 +375,102 @@ public sealed class BlazoriseLicenseProvider
         }
 
         return limitsTreeViewMaxRows;
+    }
+
+    internal int? GetPivotGridRowsLimit()
+    {
+        if ( limitsPivotGridMaxRows.HasValue )
+            return limitsPivotGridMaxRows;
+
+        if ( Result == BlazoriseLicenseResult.Initializing )
+            return null;
+
+
+        if ( License is not null )
+        {
+            if ( License.Properties.TryGetValue( PIVOTGRID_MAX_ROWS_LICENSE_PROPERTY, out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
+            {
+                limitsPivotGridMaxRows = rowsLimit;
+            }
+        }
+        else if ( Result == BlazoriseLicenseResult.Community )
+        {
+            limitsPivotGridMaxRows = 10000;
+        }
+        else if ( Result == BlazoriseLicenseResult.Unlicensed )
+        {
+            limitsPivotGridMaxRows = DEFAULT_UNLICENSED_LIMIT_PIVOTGRID_MAX_ROWS;
+        }
+
+        return limitsPivotGridMaxRows;
+    }
+
+    internal int? GetGanttRowsLimit()
+    {
+        if ( limitsGanttMaxRows.HasValue )
+            return limitsGanttMaxRows;
+
+        if ( Result == BlazoriseLicenseResult.Initializing )
+            return null;
+
+
+        if ( License is not null )
+        {
+            if ( License.Properties.TryGetValue( GANTT_MAX_ROWS_LICENSE_PROPERTY, out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
+            {
+                limitsGanttMaxRows = rowsLimit;
+            }
+        }
+        else if ( Result == BlazoriseLicenseResult.Community )
+        {
+            limitsGanttMaxRows = 1000;
+        }
+        else if ( Result == BlazoriseLicenseResult.Unlicensed )
+        {
+            limitsGanttMaxRows = DEFAULT_UNLICENSED_LIMIT_GANTT_MAX_ROWS;
+        }
+
+        return limitsGanttMaxRows;
+    }
+
+    internal int? GetTransferListRowsLimit()
+    {
+        if ( limitsTransferListMaxRows.HasValue )
+            return limitsTransferListMaxRows;
+
+        if ( Result == BlazoriseLicenseResult.Initializing )
+            return null;
+
+
+        if ( License is not null )
+        {
+            if ( TryGetRowsLimit( TRANSFERVIEW_MAX_ROWS_LICENSE_PROPERTY, TRANSFERLIST_MAX_ROWS_LICENSE_PROPERTY, out var rowsLimit ) )
+            {
+                limitsTransferListMaxRows = rowsLimit;
+            }
+        }
+        else if ( Result == BlazoriseLicenseResult.Community )
+        {
+            limitsTransferListMaxRows = 10000;
+        }
+        else if ( Result == BlazoriseLicenseResult.Unlicensed )
+        {
+            limitsTransferListMaxRows = DEFAULT_UNLICENSED_LIMIT_TRANSFERVIEW_MAX_ROWS;
+        }
+
+        return limitsTransferListMaxRows;
+    }
+
+    private static bool TryGetRowsLimit( string primaryPropertyName, string fallbackPropertyName, out int rowsLimit )
+    {
+        if ( License.Properties.TryGetValue( primaryPropertyName, out var rowsLimitString ) && int.TryParse( rowsLimitString, out rowsLimit ) )
+            return true;
+
+        if ( License.Properties.TryGetValue( fallbackPropertyName, out rowsLimitString ) && int.TryParse( rowsLimitString, out rowsLimit ) )
+            return true;
+
+        rowsLimit = default;
+        return false;
     }
 
     #endregion
