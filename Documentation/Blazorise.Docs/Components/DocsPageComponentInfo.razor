@@ -1,16 +1,24 @@
-﻿<Card Shadow="Shadow.Default">
-    <CardBody Padding="Padding.Is2.FromBottom">
+﻿<Card Shadow="Shadow.Default" Height="Height.Is100" Width="Width.Is100">
+    @if ( !string.IsNullOrWhiteSpace( IllustrationKey ) )
+    {
+        @if ( ExtensionIllustration )
+        {
+            <DocsExtensionIllustration For="@IllustrationKey" Name="@Name" />
+        }
+        else
+        {
+            <DocsComponentIllustration For="@IllustrationKey" Name="@Name" />
+        }
+    }
+    <CardBody Padding="Padding.Is2.FromBottom" Flex="Flex.Column" Gap="Gap.Is2">
         <CardTitle Size="HeadingSize.Is3">
-            @Name
+            <Link To="@To" Stretched Unstyled TextColor="TextColor.Body" TextDecoration="TextDecoration.None">
+                @Name
+            </Link>
         </CardTitle>
         <Small TextColor="TextColor.Muted">
             @Description
         </Small>
-    </CardBody>
-    <CardBody Padding="Padding.Is0.FromTop">
-        <CardActions>
-            <Anchor To="@To">See @Name &raquo;</Anchor>
-        </CardActions>
     </CardBody>
 </Card>
 @code {
@@ -19,4 +27,8 @@
     [Parameter] public string Description { get; set; }
 
     [Parameter] public string To { get; set; }
+
+    [Parameter] public string IllustrationKey { get; set; }
+
+    [Parameter] public bool ExtensionIllustration { get; set; }
 }

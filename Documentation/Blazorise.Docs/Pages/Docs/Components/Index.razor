@@ -14,8 +14,8 @@
 <Row RowColumns="RowColumns.Are4.OnTablet.Are2.OnMobile">
     @foreach ( var info in ManualPageEntries.WithDescriptionAndUrl( "docs/components" ) )
     {
-        <Column Margin="Margin.Is3.FromBottom">
-            <DocsPageComponentInfo @key="@info" Name="@info.Name" Description="@info.Description" To="@info.Url" />
+        <Column Margin="Margin.Is3.FromBottom" Display="Display.Flex">
+            <DocsPageComponentInfo @key="@info" Name="@info.Name" Description="@info.Description" To="@info.Url" IllustrationKey="@info.Url" />
         </Column>
     }
 </Row>

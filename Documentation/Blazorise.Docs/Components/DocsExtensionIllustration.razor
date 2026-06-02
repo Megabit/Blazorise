@@ -1,0 +1,380 @@
+﻿<svg viewBox="0 0 320 150" preserveAspectRatio="xMidYMid slice" width="100%" height="150" role="img" aria-label="@AriaLabel" style="@SvgStyle">
+    <defs>
+        <linearGradient id="@FillId" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="@Surface" />
+            <stop offset="100%" stop-color="@SurfaceSubtle" />
+        </linearGradient>
+        <linearGradient id="@AccentFillId" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stop-color="@Primary" />
+            <stop offset="100%" stop-color="@PrimaryDark" />
+        </linearGradient>
+        <filter id="@ShadowId" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="@ShadowColor" flood-opacity=".12" />
+        </filter>
+    </defs>
+
+    <rect width="320" height="150" fill="url(#@FillId)" />
+    <circle cx="280" cy="28" r="38" fill="@PrimarySoft" opacity=".72" />
+    <circle cx="54" cy="130" r="46" fill="@InfoSoft" opacity=".45" />
+
+    @switch ( IllustrationKey )
+    {
+        case "animate":
+            <path d="M72 92c28-44 86-54 124-18" fill="none" stroke="@PrimaryMuted" stroke-width="8" stroke-linecap="round" />
+            <path d="M94 82c34-34 74-30 104 0" fill="none" stroke="@Primary" stroke-width="8" stroke-linecap="round" />
+            <path d="M210 72l26 16-26 16" fill="none" stroke="@PrimaryStrong" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="88" cy="92" r="12" fill="url(#@AccentFillId)" filter="url(#@ShadowId)" />
+            break;
+        case "autocomplete":
+        case "dropdownlist":
+        case "selectlist":
+            <rect x="66" y="38" width="188" height="36" rx="8" fill="@Surface" stroke="@Primary" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="66" y="82" width="188" height="70" rx="8" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M92 56h102M222 52l7 8 7-8M92 102h92M92 123h62" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+            break;
+        case "barcode":
+            <rect x="66" y="42" width="188" height="88" rx="9" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M92 58v54M106 58v54M126 58v54M136 58v54M154 58v54M182 58v54M194 58v54M218 58v54M230 58v54" stroke="@Overlay" stroke-width="5" />
+            <path d="M92 122h138" stroke="@Primary" stroke-width="5" stroke-linecap="round" />
+            break;
+        case "captcha":
+        case "fluent-validation":
+            <rect x="72" y="38" width="176" height="92" rx="10" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M100 64h94M100 88h74M100 112h104" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            <circle cx="226" cy="64" r="12" fill="@Success" />
+            <path d="M220 64l5 5 10-14" stroke="@Surface" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            break;
+        case "chart":
+        case "chart-annotation":
+        case "chart-datalabels":
+        case "chart-live":
+        case "chart-trendline":
+        case "chart-zoom":
+            <rect x="62" y="34" width="196" height="104" rx="10" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M88 112V62M122 112V82M156 112V48M190 112V72M224 112V58" stroke="@Primary" stroke-width="16" stroke-linecap="round" />
+            <path d="M82 116h152" stroke="@Border" stroke-width="4" stroke-linecap="round" />
+            @if ( IllustrationKey is "chart-trendline" )
+            {
+                <path d="M86 100l150-56" stroke="@Warning" stroke-width="5" stroke-linecap="round" />
+            }
+            @if ( IllustrationKey is "chart-zoom" )
+            {
+                <circle cx="226" cy="52" r="18" fill="@Surface" stroke="@PrimaryStrong" stroke-width="4" />
+                <path d="M239 65l18 18" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            }
+            @if ( IllustrationKey is "chart-datalabels" )
+            {
+                <g fill="@Warning"><circle cx="88" cy="54" r="7" /><circle cx="156" cy="40" r="7" /><circle cx="224" cy="50" r="7" /></g>
+            }
+            break;
+        case "svg-chart":
+        case "svg-chart-plugins":
+        case "svg-chart-annotations":
+        case "svg-chart-datalabels":
+        case "svg-chart-streaming":
+        case "svg-chart-trendline":
+        case "svg-chart-zoom":
+            <rect x="58" y="36" width="204" height="100" rx="10" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M82 108h152M82 108V54" stroke="@Border" stroke-width="4" stroke-linecap="round" />
+            <path d="M88 96c28-38 44-40 70-10s42 30 76-28" fill="none" stroke="@Primary" stroke-width="7" stroke-linecap="round" />
+            <circle cx="88" cy="96" r="7" fill="@PrimaryStrong" />
+            <circle cx="158" cy="86" r="7" fill="@PrimaryStrong" />
+            <circle cx="234" cy="58" r="7" fill="@PrimaryStrong" />
+            @if ( IllustrationKey is "svg-chart-annotations" )
+            {
+                <rect x="116" y="48" width="76" height="58" rx="6" fill="@WarningSoft" stroke="@Warning" stroke-width="2" opacity=".85" />
+            }
+            @if ( IllustrationKey is "svg-chart-streaming" )
+            {
+                <path d="M228 84l24 14-24 14" fill="none" stroke="@Success" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+            }
+            @if ( IllustrationKey is "svg-chart-plugins" )
+            {
+                <path d="M126 46h34M143 29v34M202 100h34M219 83v34" stroke="@Warning" stroke-width="6" stroke-linecap="round" />
+            }
+            @if ( IllustrationKey is "svg-chart-zoom" )
+            {
+                <circle cx="220" cy="52" r="16" fill="@Surface" stroke="@PrimaryStrong" stroke-width="4" />
+                <path d="M232 64l17 17" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            }
+            break;
+        case "cropper":
+            <rect x="72" y="34" width="176" height="100" rx="10" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M94 104l44-40 32 30 18-18 42 42" fill="@PrimarySoft" stroke="@Primary" stroke-width="3" stroke-linejoin="round" />
+            <path d="M102 46v92M74 74h192M218 34v92" stroke="@PrimaryStrong" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 7" />
+            break;
+        case "datagrid":
+        case "datagrid-aggregates":
+        case "datagrid-binding-data":
+        case "datagrid-getting-started":
+        case "datagrid-in-memory":
+        case "datagrid-large-data":
+        case "datagrid-virtualize":
+        case "datagrid-observable":
+        case "datagrid-dynamic":
+        case "datagrid-columns":
+            <rect x="56" y="34" width="208" height="104" rx="9" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="56" y="34" width="208" height="28" rx="9" fill="@PrimarySoft" />
+            <path d="M56 62h208M56 86h208M56 110h208M116 34v104M184 34v104" stroke="@Primary" stroke-width="2" />
+            <path d="M76 48h40M136 48h46M202 48h36" stroke="@PrimaryStrong" stroke-width="4" stroke-linecap="round" />
+            break;
+        case "datagrid-filtering":
+        case "datagrid-column-filtering":
+        case "datagrid-custom-filtering":
+            <rect x="58" y="38" width="204" height="92" rx="9" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M82 58h122M82 82h82M82 106h132" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            <path d="M218 58l32 0-13 18v24l-6 6-6-6V76z" fill="@WarningSoft" stroke="@Warning" stroke-width="3" stroke-linejoin="round" />
+            break;
+        case "datagrid-sorting":
+        case "datagrid-sort-single":
+        case "datagrid-sort-multiple":
+            <rect x="64" y="38" width="184" height="92" rx="9" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M92 60h82M92 84h62M92 108h104" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            <path d="M218 54v68M204 68l14-14 14 14M204 108l14 14 14-14" stroke="@Primary" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+            break;
+        case "datagrid-paging":
+            <g fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)">
+                <rect x="62" y="64" width="36" height="36" rx="8" /><rect x="106" y="64" width="36" height="36" rx="8" /><rect x="150" y="64" width="36" height="36" rx="8" /><rect x="194" y="64" width="36" height="36" rx="8" /><rect x="238" y="64" width="36" height="36" rx="8" />
+            </g>
+            <rect x="150" y="64" width="36" height="36" rx="8" fill="url(#@AccentFillId)" />
+            <path d="M78 82h8M122 82h8M166 82h8M210 82h8M254 82h8" stroke="@PrimaryStrong" stroke-width="4" stroke-linecap="round" />
+            break;
+        case "datagrid-selection":
+        case "datagrid-single":
+        case "datagrid-multiple":
+        case "datagrid-cell":
+            <rect x="60" y="38" width="200" height="96" rx="9" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M60 70h200M60 102h200M120 38v96M188 38v96" stroke="@Border" stroke-width="2" />
+            <rect x="70" y="78" width="48" height="22" rx="5" fill="@PrimarySoft" stroke="@Primary" stroke-width="2" />
+            <path d="M80 89l7 7 15-18" stroke="@PrimaryStrong" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            break;
+        case "datagrid-templates":
+        case "datagrid-button-row":
+        case "datagrid-commands":
+        case "datagrid-display":
+        case "datagrid-edit":
+        case "datagrid-loading":
+        case "datagrid-row-overlay":
+            <rect x="58" y="40" width="204" height="94" rx="9" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="80" y="62" width="86" height="24" rx="6" fill="@PrimarySoft" stroke="@Primary" stroke-width="2" />
+            <rect x="80" y="98" width="142" height="22" rx="6" fill="@Surface" stroke="@PrimaryMuted" stroke-width="2" />
+            <path d="M182 74h34M102 74h38M104 110h74" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            <circle cx="226" cy="74" r="12" fill="@Warning" />
+            break;
+        case "datagrid-mobile-mode":
+        case "datagrid-detail-row":
+        case "datagrid-self-reference":
+            <rect x="112" y="26" width="96" height="124" rx="14" fill="@Surface" stroke="@Primary" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M132 56h76M132 80h52M132 104h76M132 128h42" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            <circle cx="160" cy="40" r="4" fill="@PrimaryMuted" />
+            break;
+        case "datagrid-column-chooser":
+        case "datagrid-context-menu":
+        case "datagrid-editing":
+        case "datagrid-features":
+        case "datagrid-fixed-columns":
+        case "datagrid-fixed-header":
+        case "datagrid-grouping":
+        case "datagrid-reordering":
+        case "datagrid-resizing":
+        case "datagrid-header-group":
+        case "datagrid-state-management":
+        case "datagrid-auto-generate-columns":
+        case "datagrid-custom-row-colors":
+        case "datagrid-validations":
+            <rect x="58" y="34" width="204" height="104" rx="9" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="58" y="34" width="204" height="28" rx="9" fill="@PrimarySoft" />
+            <path d="M58 62h204M58 90h204M118 34v104M182 34v104" stroke="@Primary" stroke-width="2" />
+            <path d="M224 78v36M206 96h36" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            break;
+        case "gantt":
+        case "scheduler":
+            <rect x="58" y="38" width="204" height="96" rx="9" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M86 56v86M132 56v86M178 56v86M224 56v86" stroke="@Border" stroke-width="2" />
+            <path d="M78 70h92M120 94h118M92 118h72" stroke="@Primary" stroke-width="12" stroke-linecap="round" />
+            <circle cx="238" cy="48" r="10" fill="@Success" />
+            break;
+        case "icons":
+        case "icons-available":
+            <g fill="@Surface" stroke="@Primary" stroke-width="3" filter="url(#@ShadowId)">
+                <circle cx="94" cy="58" r="18" /><rect x="142" y="40" width="38" height="38" rx="8" /><path d="M232 38l20 36h-40z" />
+            </g>
+            <path d="M82 110h152" stroke="@PrimaryStrong" stroke-width="8" stroke-linecap="round" />
+            break;
+        case "list-view":
+        case "treeview":
+            <rect x="76" y="34" width="168" height="100" rx="9" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <g fill="@Primary"><circle cx="102" cy="60" r="7" /><circle cx="102" cy="84" r="7" /><circle cx="102" cy="108" r="7" /></g>
+            <path d="M124 60h78M124 84h96M124 108h64" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            @if ( IllustrationKey is "treeview" )
+            {
+                <path d="M102 67v35M102 84h20M102 108h20" stroke="@PrimaryMuted" stroke-width="4" stroke-linecap="round" />
+            }
+            break;
+        case "loadingindicator":
+        case "spinkit":
+        case "lottie-animation":
+            <circle cx="160" cy="76" r="44" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M160 32a44 44 0 0 1 44 44" fill="none" stroke="@Primary" stroke-width="10" stroke-linecap="round" />
+            <path d="M160 120a44 44 0 0 1-44-44" fill="none" stroke="@PrimaryMuted" stroke-width="10" stroke-linecap="round" />
+            <circle cx="160" cy="76" r="12" fill="url(#@AccentFillId)" />
+            break;
+        case "maps":
+            <rect x="70" y="34" width="180" height="104" rx="10" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M86 62l48-20 52 18 48-18v82l-48 18-52-18-48 18z" fill="@PrimarySoft" stroke="@Primary" stroke-width="3" stroke-linejoin="round" />
+            <path d="M134 42v82M186 60v82" stroke="@PrimaryMuted" stroke-width="3" />
+            <path d="M160 70c0-13 22-13 22 0 0 15-22 32-22 32s-22-17-22-32c0-13 22-13 22 0z" fill="@Danger" />
+            break;
+        case "markdown":
+        case "richtextedit":
+            <rect x="64" y="34" width="192" height="104" rx="10" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="64" y="34" width="192" height="26" rx="10" fill="@PrimarySoft" />
+            <path d="M88 48h16M118 48h16M148 48h16M88 78h116M88 98h86M88 118h124" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            <rect x="200" y="76" width="34" height="34" rx="7" fill="@WarningSoft" stroke="@Warning" stroke-width="2" />
+            break;
+        case "onetimeinput":
+            <rect x="72" y="52" width="176" height="48" rx="10" fill="@Surface" stroke="@Primary" stroke-width="2" filter="url(#@ShadowId)" />
+            <g fill="@Primary"><circle cx="102" cy="76" r="7" /><circle cx="132" cy="76" r="7" /><circle cx="162" cy="76" r="7" /><circle cx="192" cy="76" r="7" /></g>
+            <path d="M84 118h68" stroke="@Danger" stroke-width="6" stroke-linecap="round" />
+            <path d="M84 118h118" stroke="@Success" stroke-width="6" stroke-linecap="round" />
+            break;
+        case "passwordstrength":
+            <rect x="66" y="42" width="188" height="40" rx="9" fill="@Surface" stroke="@Primary" stroke-width="2" filter="url(#@ShadowId)" />
+            <g fill="@Primary"><circle cx="96" cy="62" r="6" /><circle cx="122" cy="62" r="6" /><circle cx="148" cy="62" r="6" /><circle cx="174" cy="62" r="6" /><circle cx="200" cy="62" r="6" /></g>
+            <path d="M78 102h68" stroke="@Danger" stroke-width="7" stroke-linecap="round" />
+            <path d="M78 102h126" stroke="@Warning" stroke-width="7" stroke-linecap="round" />
+            <path d="M78 102h174" stroke="@Success" stroke-width="7" stroke-linecap="round" />
+            <path d="M88 123l7 7 15-19M132 123l7 7 15-19M176 123l7 7 15-19" fill="none" stroke="@Success" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            break;
+        case "pdfviewer":
+            <rect x="92" y="26" width="136" height="118" rx="10" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M184 26v34h34" fill="@PrimarySoft" stroke="@Primary" stroke-width="2" stroke-linejoin="round" />
+            <path d="M116 82h92M116 104h70M116 126h82" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            break;
+        case "pivotgrid":
+            <rect x="58" y="36" width="204" height="100" rx="9" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="58" y="36" width="70" height="32" rx="9" fill="@PrimarySoft" />
+            <path d="M58 68h204M58 96h204M128 36v100M196 36v100" stroke="@Primary" stroke-width="2" />
+            <path d="M84 52h36M150 82h44M150 112h64" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            break;
+        case "qrcode":
+            <rect x="84" y="28" width="132" height="132" rx="10" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <g fill="@Overlay">
+                <rect x="104" y="48" width="28" height="28" rx="3" /><rect x="168" y="48" width="28" height="28" rx="3" /><rect x="104" y="112" width="28" height="28" rx="3" />
+                <rect x="144" y="86" width="14" height="14" rx="2" /><rect x="170" y="94" width="14" height="14" rx="2" /><rect x="190" y="118" width="14" height="14" rx="2" /><rect x="142" y="126" width="14" height="14" rx="2" />
+            </g>
+            break;
+        case "routertabs":
+        case "sidebar":
+            <rect x="62" y="34" width="196" height="104" rx="10" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="62" y="34" width="64" height="104" rx="10" fill="@PrimarySoft" />
+            <path d="M84 62h38M84 86h28M84 110h38M146 62h74M146 90h52" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            break;
+        case "snackbar":
+            <rect x="70" y="88" width="180" height="42" rx="10" fill="@Overlay" filter="url(#@ShadowId)" />
+            <path d="M96 109h78M202 109h24" stroke="@Surface" stroke-width="5" stroke-linecap="round" />
+            <circle cx="88" cy="60" r="16" fill="@Warning" />
+            <path d="M88 52v12M88 70h.1" stroke="@Surface" stroke-width="4" stroke-linecap="round" />
+            break;
+        case "splitter":
+            <rect x="58" y="38" width="204" height="96" rx="9" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="58" y="38" width="96" height="96" rx="9" fill="@PrimarySoft" />
+            <path d="M160 42v88" stroke="@Primary" stroke-width="8" stroke-linecap="round" />
+            <path d="M146 78l-12 12 12 12M174 78l12 12-12 12" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+            break;
+        case "transferlist":
+            <rect x="54" y="38" width="86" height="96" rx="9" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="180" y="38" width="86" height="96" rx="9" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M78 64h54M78 88h38M78 112h48M204 64h44M204 88h34" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            <path d="M148 76h38M176 62l14 14-14 14M188 112h-38M160 98l-14 14 14 14" stroke="@Primary" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+            break;
+        case "video":
+            <rect x="64" y="38" width="192" height="104" rx="12" fill="@Overlay" filter="url(#@ShadowId)" />
+            <path d="M142 68v44l42-22z" fill="@Surface" />
+            <path d="M84 122h124" stroke="@Primary" stroke-width="6" stroke-linecap="round" />
+            <circle cx="214" cy="122" r="8" fill="@Primary" />
+            break;
+        default:
+            <rect x="82" y="38" width="156" height="90" rx="12" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M108 66h108M108 88h78M108 110h52" stroke="@PrimaryStrong" stroke-width="6" stroke-linecap="round" />
+            <circle cx="226" cy="50" r="16" fill="url(#@AccentFillId)" />
+            break;
+    }
+</svg>
+
+@code {
+    [Parameter] public string For { get; set; }
+
+    [Parameter] public string Name { get; set; }
+
+    private string IllustrationKey
+    {
+        get
+        {
+            string[] segments = ( For ?? string.Empty ).Split( '/', StringSplitOptions.RemoveEmptyEntries );
+
+            if ( segments.Length < 3 )
+                return string.Empty;
+
+            string root = segments[2];
+
+            if ( root == "datagrid" )
+            {
+                if ( segments.Length == 3 || segments[^1] == "getting-started" )
+                    return "datagrid";
+
+                return $"datagrid-{segments[^1]}";
+            }
+
+            return root;
+        }
+    }
+
+    private string AriaLabel => $"{Name} extension illustration";
+
+    private string IdSuffix => IllustrationKey.Replace( "-", "", StringComparison.Ordinal );
+
+    private string FillId => $"docsExtensionIllustrationFill{IdSuffix}";
+
+    private string AccentFillId => $"docsExtensionIllustrationAccent{IdSuffix}";
+
+    private string ShadowId => $"docsExtensionIllustrationShadow{IdSuffix}";
+
+    private string SvgStyle => $"display:block;border-bottom:1px solid {Rule};background:{Canvas}";
+
+    private const string Canvas = "var(--b-theme-light, #fbfcff)";
+
+    private const string Surface = "var(--b-theme-light, #ffffff)";
+
+    private const string SurfaceSubtle = "var(--b-theme-background-light-subtle, #f4f7fb)";
+
+    private const string Border = "var(--b-theme-border-secondary-subtle, #cfd7e6)";
+
+    private const string Rule = "var(--b-theme-border-light-subtle, #e9edf5)";
+
+    private const string Neutral = "var(--b-theme-background-secondary-subtle, #e5e7eb)";
+
+    private const string Overlay = "var(--b-theme-dark, #111827)";
+
+    private const string ShadowColor = "var(--b-theme-dark, #1f2937)";
+
+    private const string Primary = "var(--b-theme-primary, #8b5cf6)";
+
+    private const string PrimaryStrong = "var(--b-theme-primary, #6d28d9)";
+
+    private const string PrimaryDark = "var(--b-theme-primary, #4f46e5)";
+
+    private const string PrimarySoft = "var(--b-theme-background-primary-subtle, #eef2ff)";
+
+    private const string PrimaryMuted = "var(--b-theme-border-primary-subtle, #d8b4fe)";
+
+    private const string InfoSoft = "var(--b-theme-background-info-subtle, #e0f2fe)";
+
+    private const string Success = "var(--b-theme-success, #22c55e)";
+
+    private const string Danger = "var(--b-theme-danger, #ef4444)";
+
+    private const string Warning = "var(--b-theme-warning, #f59e0b)";
+
+    private const string WarningSoft = "var(--b-theme-background-warning-subtle, #fff7ed)";
+}
