@@ -12,27 +12,50 @@
     </Row>
 }
 
-<Alert Color="Color.Light" Visible>
-    <AlertDescription>
-        <UnorderedList Unstyled>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Strong>Licenses buy support.</Strong> Professional and Enterprise are primarily for support access, stability, and response times.
-                </Paragraph>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Strong>Feature recommendations are welcome, but not a promise.</Strong> Enterprise customers can recommend features, but we do not guarantee any specific feature will be implemented.
-                </Paragraph>
-            </UnorderedListItem>
-            <UnorderedListItem>
-                <Paragraph>
-                    <Strong>Custom work buys delivery.</Strong> Any customer can request a quote. Delivery terms (scope, assumptions, acceptance criteria, timeline, and payment milestones) are defined per signed proposal/Statement of Work via Feature Sponsorship or Time &amp; Materials.
-                </Paragraph>
-            </UnorderedListItem>
-        </UnorderedList>
-    </AlertDescription>
-</Alert>
+<Row Gutter="Gutter.Is3" Margin="Margin.Is4.FromTop.Is4.FromBottom">
+    @foreach ( var item in DeliveryPrinciples )
+    {
+        <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop">
+            <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                <CardBody Flex="Flex.Column" Gap="Gap.Is2">
+                    <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+                        <Icon Name="@item.Icon" TextColor="@item.TextColor" />
+                        <Strong>@item.Title</Strong>
+                    </Div>
+                    <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0">
+                        @item.Description
+                    </Paragraph>
+                </CardBody>
+            </Card>
+        </Column>
+    }
+</Row>
+
+<Heading Size="HeadingSize.Is4" Margin="Margin.Is4.FromTop.Is2.FromBottom">
+    Choose the right path
+</Heading>
+
+<Row Gutter="Gutter.Is3" Margin="Margin.Is4.FromBottom">
+    @foreach ( var item in EngagementCards )
+    {
+        <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop">
+            <Card Border="Border.Rounded" Height="Height.Is100">
+                <CardBody Flex="Flex.Column" Gap="Gap.Is2">
+                    <Badge Color="@item.Color" Pill>@item.Model</Badge>
+                    <Heading Size="HeadingSize.Is5" Margin="Margin.Is0">
+                        @item.Title
+                    </Heading>
+                    <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0">
+                        @item.Description
+                    </Paragraph>
+                    <Paragraph Margin="Margin.IsAuto.FromTop.Is0.FromBottom">
+                        <Strong>@item.Price</Strong>
+                    </Paragraph>
+                </CardBody>
+            </Card>
+        </Column>
+    }
+</Row>
 
 <Heading Size="HeadingSize.Is4" Margin="Margin.Is4.FromTop.Is2.FromBottom">
     Pricing summary
@@ -58,7 +81,7 @@
             <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Custom Development</Strong></TableRowCell>
             <TableRowCell TextAlignment="TextAlignment.Start">Company-specific work, integrations, and bespoke needs</TableRowCell>
             <TableRowCell TextAlignment="TextAlignment.Start">Time &amp; materials</TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.End">95–120 / hour</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.End">95-120 / hour</TableRowCell>
         </TableRow>
         <TableRow>
             <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Priority Development Queue</Strong></TableRowCell>
@@ -104,7 +127,7 @@
 </Heading>
 
 <Paragraph>
-    Sponsorship pricing is typically <Strong>~2x–3x internal dev cost</Strong> to cover product design, generalization, documentation, testing, review, and long-term maintenance. We quote a fixed price after a short discovery call.
+    Sponsorship pricing is typically <Strong>~2x-3x internal dev cost</Strong> to cover product design, generalization, documentation, testing, review, and long-term maintenance. We quote a fixed price after a short discovery call.
 </Paragraph>
 
 <Table Responsive Bordered Striped>
@@ -120,19 +143,19 @@
         <TableRow>
             <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Small</Strong></TableRowCell>
             <TableRowCell TextAlignment="TextAlignment.Start">Single enhancement or focused feature (e.g., new option, provider parity, small DataGrid feature)</TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.Center">1–3 weeks</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">1-3 weeks</TableRowCell>
             <TableRowCell TextAlignment="TextAlignment.End">3.500-7.500</TableRowCell>
         </TableRow>
         <TableRow>
             <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Medium</Strong></TableRowCell>
             <TableRowCell TextAlignment="TextAlignment.Start">New component or multi-part enhancement with docs/tests/a11y across providers</TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.Center">3–8 weeks</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">3-8 weeks</TableRowCell>
             <TableRowCell TextAlignment="TextAlignment.End">8.000-18.000</TableRowCell>
         </TableRow>
         <TableRow>
             <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Large</Strong></TableRowCell>
             <TableRowCell TextAlignment="TextAlignment.Start">Complex component, larger refactor, or feature set touching multiple subsystems</TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.Center">2–4 months</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">2-4 months</TableRowCell>
             <TableRowCell TextAlignment="TextAlignment.End">18.000-45.000</TableRowCell>
         </TableRow>
     </TableBody>
@@ -166,7 +189,7 @@
         </TableRow>
         <TableRow>
             <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Enterprise customers</Strong></TableRowCell>
-            <TableRowCell TextAlignment="TextAlignment.Center">115–120</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">115-120</TableRowCell>
             <TableRowCell TextAlignment="TextAlignment.Start">Includes tighter coordination and priority staffing where possible</TableRowCell>
         </TableRow>
     </TableBody>
@@ -175,7 +198,7 @@
 <UnorderedList>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>Minimum engagement:</Strong> 16–24 hours to start (enough for onboarding, environment setup, and a first deliverable).
+            <Strong>Minimum engagement:</Strong> 16-24 hours to start (enough for onboarding, environment setup, and a first deliverable).
         </Paragraph>
     </UnorderedListItem>
     <UnorderedListItem>
@@ -227,7 +250,7 @@
 <UnorderedList>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>Pricing guidance:</Strong> <Strong>~3x–5x</Strong> the normal Feature Sponsorship cost (reflects opportunity cost and delayed upstream value).
+            <Strong>Pricing guidance:</Strong> <Strong>~3x-5x</Strong> the normal Feature Sponsorship cost (reflects opportunity cost and delayed upstream value).
         </Paragraph>
     </UnorderedListItem>
     <UnorderedListItem>
@@ -241,6 +264,29 @@
         </Paragraph>
     </UnorderedListItem>
 </UnorderedList>
+
+<Heading Size="HeadingSize.Is4" Margin="Margin.Is5.FromTop.Is2.FromBottom">
+    How delivery works
+</Heading>
+
+<Row Gutter="Gutter.Is3">
+    @foreach ( var item in DeliverySteps )
+    {
+        <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+            <Card Border="Border.Rounded" Height="Height.Is100">
+                <CardBody>
+                    <Badge Color="Color.Primary" Pill Margin="Margin.Is2.FromBottom">@item.Step</Badge>
+                    <Heading Size="HeadingSize.Is5" Margin="Margin.Is2.FromBottom">
+                        @item.Title
+                    </Heading>
+                    <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0">
+                        @item.Description
+                    </Paragraph>
+                </CardBody>
+            </Card>
+        </Column>
+    }
+</Row>
 
 @if ( !Compact )
 {
@@ -334,7 +380,7 @@
         <AccordionItem @bind-Visible="@requestInfoVisible">
             <AccordionHeader>
                 <Heading Size="HeadingSize.Is5" Margin="Margin.Is0.OnY">
-                    <AccordionToggle>What we need to quote quickly?</AccordionToggle>
+                    <AccordionToggle>What we need to quote quickly</AccordionToggle>
                 </Heading>
             </AccordionHeader>
             <AccordionBody>
@@ -415,6 +461,28 @@
 
     [Parameter] public bool ShowHeader { get; set; } = true;
 
+    private static readonly DeliveryPrinciple[] DeliveryPrinciples =
+    [
+        new( IconName.Headset, TextColor.Primary, "Licenses buy support", "Professional and Enterprise cover support access, stability, response times, and commercial license rights." ),
+        new( IconName.Lightbulb, TextColor.Info, "Recommendations are not commitments", "Enterprise customers can recommend features, but a roadmap request is not a promise of delivery." ),
+        new( IconName.Briefcase, TextColor.Success, "Custom work buys delivery", "Delivery is contracted separately with scope, assumptions, acceptance criteria, timeline, and payment milestones." )
+    ];
+
+    private static readonly EngagementCard[] EngagementCards =
+    [
+        new( "Feature Sponsorship", "Fixed price", "Generalizable product features intended to go upstream into Blazorise.", "3.500-45.000+ EUR", Color.Primary ),
+        new( "Custom Development", "Time and materials", "Company-specific integrations, bespoke components, migration help, or private implementation work.", "95-120 EUR/hour", Color.Secondary ),
+        new( "Priority Development Queue", "Annual add-on", "Faster triage, request assessment, and roadmap visibility without a delivery guarantee.", "4.900 EUR/year", Color.Info )
+    ];
+
+    private static readonly DeliveryStep[] DeliverySteps =
+    [
+        new( "1", "Request", "Share the goal, target timeline, versions, providers, dependencies, and acceptance criteria." ),
+        new( "2", "Qualify", "We confirm whether the work fits Feature Sponsorship, Time and Materials, or the Priority Development Queue." ),
+        new( "3", "Propose", "You receive a proposal or Statement of Work with scope, assumptions, timeline, and commercial terms." ),
+        new( "4", "Deliver", "Work proceeds against agreed milestones, with review points and change requests for scope changes." )
+    ];
+
     bool faqLicenseDeliveryVisible;
     bool faqSponsorshipVisible;
     bool faqUpstreamVisible;
@@ -424,4 +492,10 @@
     bool proposalTemplateVisible;
     bool requestEmailVisible;
     bool requestInfoVisible;
+
+    private sealed record DeliveryPrinciple( IconName Icon, TextColor TextColor, string Title, string Description );
+
+    private sealed record EngagementCard( string Title, string Model, string Description, string Price, Color Color );
+
+    private sealed record DeliveryStep( string Step, string Title, string Description );
 }
