@@ -156,4 +156,52 @@ public class BarComponentTest : BunitContext
         var labelElement = comp.Find( $"#{ariaLabelledBy}" );
         Assert.Contains( "Item 0", labelElement.TextContent );
     }
+
+    [Fact]
+    public async Task BarDropdownMenu_MouseOver_ShouldKeepVerticalDropdownVisible()
+    {
+        // setup
+        var comp = Render<BarNestedDropdownComponent>();
+        var parentToggle = comp.Find( "#parent-toggle" );
+
+        // test
+        await parentToggle.TriggerEventAsync( "onmouseenter", new Microsoft.AspNetCore.Components.Web.MouseEventArgs() );
+
+        var parentMenu = comp.Find( "#parent-menu" );
+        var leaveTask = parentMenu.TriggerEventAsync( "onmouseleave", new Microsoft.AspNetCore.Components.Web.MouseEventArgs() );
+        await Task.Delay( 10 );
+        await parentMenu.TriggerEventAsync( "onmouseover", new Microsoft.AspNetCore.Components.Web.MouseEventArgs() );
+        await leaveTask;
+
+        // validate
+        parentMenu = comp.Find( "#parent-menu" );
+        Assert.Contains( "show", parentMenu.GetAttribute( "class" ) );
+    }
+
+    [Fact]
+    public async Task BarDropdownSubmenu_MouseOverParent_ShouldKeepParentDropdownVisible()
+    {
+        // setup
+        var comp = Render<BarNestedDropdownComponent>();
+        var parentToggle = comp.Find( "#parent-toggle" );
+        var childToggle = comp.Find( "#child-toggle" );
+
+        await parentToggle.TriggerEventAsync( "onmouseenter", new Microsoft.AspNetCore.Components.Web.MouseEventArgs() );
+        await childToggle.TriggerEventAsync( "onmouseenter", new Microsoft.AspNetCore.Components.Web.MouseEventArgs() );
+
+        var parentMenu = comp.Find( "#parent-menu" );
+        var childMenu = comp.Find( "#child-menu" );
+
+        // test
+        var leaveTask = childMenu.TriggerEventAsync( "onmouseleave", new Microsoft.AspNetCore.Components.Web.MouseEventArgs() );
+        await Task.Delay( 10 );
+        await parentMenu.TriggerEventAsync( "onmouseover", new Microsoft.AspNetCore.Components.Web.MouseEventArgs() );
+        await leaveTask;
+
+        // validate
+        parentMenu = comp.Find( "#parent-menu" );
+        childMenu = comp.Find( "#child-menu" );
+        Assert.Contains( "show", parentMenu.GetAttribute( "class" ) );
+        Assert.DoesNotContain( "show", childMenu.GetAttribute( "class" ) );
+    }
 }
