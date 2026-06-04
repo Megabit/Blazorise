@@ -60,6 +60,8 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
 
     private ReportDesignerDragPreview dragPreview;
 
+    private ReportElementPointerDragState elementPointerDrag;
+
     private DateTime lastDragPreviewRenderTime;
 
     private ReportElementDefinition clipboardElement;
@@ -619,6 +621,11 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
                 builder.AddEventPreventDefaultAttribute( sequence++, "ondragover", true );
                 builder.AddAttribute( sequence++, "ondrop", EventCallback.Factory.Create<DragEventArgs>( this, eventArgs => DropDesignerItemAsync( sectionIndex, eventArgs ) ) );
                 builder.AddEventPreventDefaultAttribute( sequence++, "ondrop", true );
+                builder.AddAttribute( sequence++, "onpointermove", EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( eventArgs => PreviewElementPointerDragAsync( sectionIndex, eventArgs ) ) );
+                builder.AddEventPreventDefaultAttribute( sequence++, "onpointermove", true );
+                builder.AddAttribute( sequence++, "onpointerup", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => CompleteElementPointerDragAsync( sectionIndex, eventArgs ) ) );
+                builder.AddEventPreventDefaultAttribute( sequence++, "onpointerup", true );
+                builder.AddAttribute( sequence++, "onpointercancel", EventCallback.Factory.Create<PointerEventArgs>( this, _ => CancelElementPointerDragAsync() ) );
                 builder.AddAttribute( sequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => SelectSection( sectionIndex ) ) );
                 builder.AddAttribute( sequence++, "oncontextmenu", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenSectionContextMenu( sectionIndex, eventArgs ) ) );
                 builder.AddEventPreventDefaultAttribute( sequence++, "oncontextmenu", true );
@@ -663,9 +670,9 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
             builder.AddAttribute( sequence++, "oncontextmenu", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenElementContextMenu( elementKey, eventArgs ) ) );
             builder.AddEventPreventDefaultAttribute( sequence++, "oncontextmenu", true );
             builder.AddEventStopPropagationAttribute( sequence++, "oncontextmenu", true );
-            builder.AddAttribute( sequence++, "draggable", "true" );
-            builder.AddAttribute( sequence++, "ondragstart", EventCallback.Factory.Create<DragEventArgs>( this, _ => BeginElementDrag( elementKey ) ) );
-            builder.AddAttribute( sequence++, "ondragend", EventCallback.Factory.Create<DragEventArgs>( this, _ => ClearDesignerDragAsync() ) );
+            builder.AddAttribute( sequence++, "onpointerdown", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerDrag( elementKey, eventArgs ) ) );
+            builder.AddEventPreventDefaultAttribute( sequence++, "onpointerdown", true );
+            builder.AddEventStopPropagationAttribute( sequence++, "onpointerdown", true );
         }
 
         switch ( element.Type )
@@ -1431,6 +1438,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         draggedElementKey = null;
         draggedElement = null;
         dragPreview = null;
+        elementPointerDrag = null;
     }
 
     private void BeginToolboxElementDrag( ReportElementType elementType, string text )
@@ -1443,19 +1451,169 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         draggedElementKey = null;
         draggedElement = null;
         dragPreview = null;
+        elementPointerDrag = null;
     }
 
-    private void BeginElementDrag( string elementKey )
+    private void BeginElementPointerDrag( string elementKey, PointerEventArgs eventArgs )
     {
+        if ( !FindElementLocation( EffectiveDefinition, elementKey, out var sectionIndex, out _, out var element ) )
+            return;
+
         draggedKind = ReportDesignerDragKind.Element;
         draggedElementKey = elementKey;
-        draggedElement = FindElementLocation( EffectiveDefinition, elementKey, out _, out _, out var element ) ? element : null;
+        draggedElement = element;
         draggedDataSourceName = null;
         draggedFieldName = null;
         draggedElementType = null;
         draggedElementText = null;
         dragPreview = null;
+        elementPointerDrag = new()
+        {
+            ElementKey = elementKey,
+            SourceSectionIndex = sectionIndex,
+            TargetSectionIndex = sectionIndex,
+            OriginalX = element.X,
+            OriginalY = element.Y,
+            StartClientX = eventArgs.ClientX,
+            StartClientY = eventArgs.ClientY,
+            GrabOffsetX = Math.Max( 0, eventArgs.OffsetX ),
+            GrabOffsetY = Math.Max( 0, eventArgs.OffsetY ),
+            TargetX = element.X,
+            TargetY = element.Y,
+        };
+
         SelectElement( elementKey );
+    }
+
+    private async Task PreviewElementPointerDragAsync( int targetSectionIndex, PointerEventArgs eventArgs )
+    {
+        if ( elementPointerDrag is null || draggedKind != ReportDesignerDragKind.Element )
+            return;
+
+        var preview = CreateElementPointerDragPreview( targetSectionIndex, eventArgs );
+
+        if ( preview is null )
+            return;
+
+        var samePreviewPosition = dragPreview is not null
+            && dragPreview.SectionIndex == preview.SectionIndex
+            && Math.Abs( dragPreview.X - preview.X ) < .1
+            && Math.Abs( dragPreview.Y - preview.Y ) < .1;
+
+        if ( samePreviewPosition )
+            return;
+
+        var now = DateTime.UtcNow;
+
+        if ( !snapToGrid
+            && dragPreview is not null
+            && dragPreview.SectionIndex == preview.SectionIndex
+            && now - lastDragPreviewRenderTime < TimeSpan.FromMilliseconds( 16 ) )
+        {
+            return;
+        }
+
+        elementPointerDrag.TargetSectionIndex = targetSectionIndex;
+        elementPointerDrag.TargetX = preview.X;
+        elementPointerDrag.TargetY = preview.Y;
+        elementPointerDrag.HasMoved = true;
+        dragPreview = preview;
+        lastDragPreviewRenderTime = now;
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    private async Task CompleteElementPointerDragAsync( int targetSectionIndex, PointerEventArgs eventArgs )
+    {
+        if ( elementPointerDrag is null || draggedKind != ReportDesignerDragKind.Element )
+            return;
+
+        var pointerDrag = elementPointerDrag;
+        var preview = CreateElementPointerDragPreview( targetSectionIndex, eventArgs ) ?? dragPreview;
+
+        if ( preview is not null )
+        {
+            pointerDrag.TargetSectionIndex = preview.SectionIndex;
+            pointerDrag.TargetX = preview.X;
+            pointerDrag.TargetY = preview.Y;
+        }
+
+        var moved = pointerDrag.HasMoved
+            && ( pointerDrag.TargetSectionIndex != pointerDrag.SourceSectionIndex
+                || Math.Abs( pointerDrag.TargetX - pointerDrag.OriginalX ) > .1
+                || Math.Abs( pointerDrag.TargetY - pointerDrag.OriginalY ) > .1 );
+
+        var definition = EffectiveDefinition;
+        var canMove = pointerDrag.TargetSectionIndex >= 0
+            && pointerDrag.TargetSectionIndex < definition.Sections.Count
+            && FindElementLocation( definition, pointerDrag.ElementKey, out _, out _, out _ );
+
+        if ( !moved || !canMove )
+        {
+            ClearDragState();
+            await InvokeAsync( StateHasChanged );
+            return;
+        }
+
+        await ExecuteDesignerCommandAsync( new( "Move element", () =>
+        {
+            var definition = EffectiveDefinition;
+
+            if ( !FindElementLocation( definition, pointerDrag.ElementKey, out var sourceSectionIndex, out var sourceElementIndex, out var element ) )
+                return Task.CompletedTask;
+
+            element.X = pointerDrag.TargetX;
+            element.Y = pointerDrag.TargetY;
+
+            if ( sourceSectionIndex != pointerDrag.TargetSectionIndex )
+            {
+                definition.Sections[sourceSectionIndex].Elements.RemoveAt( sourceElementIndex );
+                definition.Sections[pointerDrag.TargetSectionIndex].Elements.Add( element );
+            }
+
+            selectedElementKey = GetDesignerElementKey( element );
+            selectedSectionIndex = null;
+            reportSelected = false;
+            dragPreview = null;
+            ClearDragState();
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private Task CancelElementPointerDragAsync()
+    {
+        if ( elementPointerDrag is null )
+            return Task.CompletedTask;
+
+        ClearDragState();
+
+        return InvokeAsync( StateHasChanged );
+    }
+
+    private ReportDesignerDragPreview CreateElementPointerDragPreview( int targetSectionIndex, PointerEventArgs eventArgs )
+    {
+        if ( elementPointerDrag is null || draggedElement is null )
+            return null;
+
+        double x;
+        double y;
+
+        if ( targetSectionIndex == elementPointerDrag.SourceSectionIndex )
+        {
+            x = elementPointerDrag.OriginalX + eventArgs.ClientX - elementPointerDrag.StartClientX;
+            y = elementPointerDrag.OriginalY + eventArgs.ClientY - elementPointerDrag.StartClientY;
+        }
+        else
+        {
+            x = eventArgs.OffsetX - elementPointerDrag.GrabOffsetX;
+            y = eventArgs.OffsetY - elementPointerDrag.GrabOffsetY;
+        }
+
+        x = ApplyDesignerGrid( x );
+        y = ApplyDesignerGrid( y );
+
+        return CreateDragPreview( targetSectionIndex, draggedElement, x, y );
     }
 
     private async Task PreviewDesignerDragAsync( int targetSectionIndex, DragEventArgs eventArgs )
@@ -2036,6 +2194,33 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         public double Width { get; set; }
 
         public double Height { get; set; }
+    }
+
+    private sealed class ReportElementPointerDragState
+    {
+        public string ElementKey { get; set; }
+
+        public int SourceSectionIndex { get; set; }
+
+        public int TargetSectionIndex { get; set; }
+
+        public double OriginalX { get; set; }
+
+        public double OriginalY { get; set; }
+
+        public double StartClientX { get; set; }
+
+        public double StartClientY { get; set; }
+
+        public double GrabOffsetX { get; set; }
+
+        public double GrabOffsetY { get; set; }
+
+        public double TargetX { get; set; }
+
+        public double TargetY { get; set; }
+
+        public bool HasMoved { get; set; }
     }
 
     private sealed record ReportToolboxTreeNodeValue( ReportElementType ElementType, string Text );

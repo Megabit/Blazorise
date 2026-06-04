@@ -194,6 +194,8 @@
         linear-gradient(#edf0f2 1px, transparent 1px),
         linear-gradient(90deg, #edf0f2 1px, transparent 1px);
     background-size: 16px 16px;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .b-report-section {
@@ -226,7 +228,9 @@
     border: 1px dashed #4f7ebd;
     background: rgba(79, 126, 189, .08);
     cursor: move;
+    touch-action: none;
     user-select: none;
+    -webkit-user-select: none;
 }
 
 .b-report-element-design.active {
