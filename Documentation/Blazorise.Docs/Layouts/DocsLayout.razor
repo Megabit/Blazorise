@@ -53,7 +53,7 @@
                         </BarItem>
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarUiProvidersMenuVisible">
-                                <BarDropdownToggle To="docs/usage" Trigger="BarDropdownToggleTrigger.All">
+                                <BarDropdownToggle To="docs/usage" CustomMatch="@IsUiProvidersMenuRoute" Trigger="BarDropdownToggleTrigger.All">
                                     <BarIcon IconName="IconName.BookReader" /> UI Providers
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>

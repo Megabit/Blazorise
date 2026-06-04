@@ -96,6 +96,17 @@ public partial class DocsLayout
                || relativePath.Equals( "docs/usage/licensing/register-product-token", StringComparison.OrdinalIgnoreCase );
     }
 
+    private bool IsUiProvidersMenuRoute( string currentUri )
+    {
+        var relativePath = NavigationManager.ToBaseRelativePath( currentUri )
+            .Split( '?', '#' )[0]
+            .TrimEnd( '/' );
+
+        return relativePath.Equals( "docs/usage", StringComparison.OrdinalIgnoreCase )
+               || ( relativePath.StartsWith( "docs/usage/", StringComparison.OrdinalIgnoreCase )
+                    && !relativePath.StartsWith( "docs/usage/licensing", StringComparison.OrdinalIgnoreCase ) );
+    }
+
     private bool IsExtensionsMenuRoute( string currentUri )
     {
         var relativePath = NavigationManager.ToBaseRelativePath( currentUri )
