@@ -1,10 +1,10 @@
-import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.1.3.0";
-import { createLeafletProvider } from "./providers/leaflet.js?v=2.1.3.0";
+import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "../Blazorise/utilities.js?v=2.2.0.0";
+import { createLeafletProvider } from "./providers/leaflet.js?v=2.2.0.0";
 
 const mapProviderLeaflet = 0;
 const instances = [];
 
-appendStylesheet("_content/Blazorise.Maps/blazorise.maps.css?v=2.1.3.0");
+appendStylesheet("_content/Blazorise.Maps/blazorise.maps.css?v=2.2.0.0");
 
 export async function initialize(dotNetAdapter, element, elementId, options) {
     element = getRequiredElement(element, elementId);

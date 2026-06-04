@@ -1,5 +1,5 @@
-import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "./utilities.js?v=2.1.3.0";
-import { createFloatingUiAutoUpdate } from './floatingUi.js?v=2.1.3.0';
+import { getRequiredElement, registerDisconnectCleanup, unregisterDisconnectCleanup } from "./utilities.js?v=2.2.0.0";
+import { createFloatingUiAutoUpdate } from './floatingUi.js?v=2.2.0.0';
 
 const _instances = [];
 
