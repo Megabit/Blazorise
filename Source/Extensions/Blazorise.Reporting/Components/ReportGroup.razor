@@ -1,0 +1,10 @@
+@namespace Blazorise.Reporting
+@inherits ReportSectionBase
+
+<CascadingValue Value="@SectionContext" IsFixed="true">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    protected override ReportSectionType SectionType => ReportSectionType.GroupHeader;
+}

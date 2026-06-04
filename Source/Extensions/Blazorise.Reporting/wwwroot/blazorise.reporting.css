@@ -1,0 +1,317 @@
+.b-report-designer {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr) 320px;
+    gap: 1rem;
+    align-items: start;
+}
+
+.b-report-designer-dictionary,
+.b-report-designer-surface,
+.b-report-designer-panel,
+.b-report-viewer {
+    overflow: auto;
+}
+
+.b-report-designer-dictionary,
+.b-report-designer-panel {
+    max-height: calc(100vh - 14rem);
+}
+
+.b-report-designer-section {
+    padding: .5rem 0;
+    border-bottom: 1px solid #edf0f2;
+}
+
+.b-report-designer-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem;
+    margin-bottom: 1rem;
+}
+
+.b-report-dictionary-source {
+    padding-bottom: .75rem;
+    border-bottom: 1px solid #edf0f2;
+}
+
+.b-report-dictionary-title {
+    margin-top: 1.25rem;
+}
+
+.b-report-treeview {
+    display: flex;
+    flex-direction: column;
+    gap: .125rem;
+}
+
+.b-report-treeview-node {
+    display: contents;
+}
+
+.b-report-treeview-row {
+    display: grid;
+    grid-template-columns: 1rem 1.25rem minmax(0, 1fr) auto;
+    gap: .25rem;
+    align-items: center;
+    min-height: 1.75rem;
+    padding: .125rem .375rem .125rem calc(.25rem + (var(--b-report-treeview-level, 0) * 1rem));
+    border-radius: .25rem;
+    color: #1f2933;
+    user-select: none;
+}
+
+.b-report-treeview-row.draggable > :not(.b-report-treeview-toggle) {
+    pointer-events: none;
+}
+
+.b-report-treeview-row.selectable,
+.b-report-treeview-row.draggable {
+    cursor: pointer;
+}
+
+.b-report-treeview-row.draggable {
+    cursor: grab;
+}
+
+.b-report-treeview-row.draggable:active {
+    cursor: grabbing;
+}
+
+.b-report-treeview-row:hover {
+    background: #f8fafc;
+}
+
+.b-report-treeview-row.active {
+    background: #0d6efd;
+    color: #ffffff;
+}
+
+.b-report-treeview-toggle,
+.b-report-treeview-toggle-spacer,
+.b-report-treeview-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+}
+
+.b-report-treeview-toggle {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #52616f;
+    line-height: 1;
+}
+
+.b-report-treeview-toggle:hover {
+    color: #1f2933;
+}
+
+.b-report-treeview-icon,
+.b-report-treeview-detail {
+    color: #52616f;
+    font-size: .8125rem;
+}
+
+.b-report-treeview-icon.kind-folder {
+    color: #d99a18;
+}
+
+.b-report-treeview-icon.kind-report {
+    color: #5f6b7a;
+}
+
+.b-report-treeview-icon.kind-datasource {
+    color: #0f766e;
+}
+
+.b-report-treeview-icon.kind-field {
+    color: #2563eb;
+}
+
+.b-report-treeview-icon.kind-band {
+    color: #7c3aed;
+}
+
+.b-report-treeview-icon.kind-text {
+    color: #334155;
+}
+
+.b-report-treeview-icon.kind-table {
+    color: #0891b2;
+}
+
+.b-report-treeview-icon.kind-image {
+    color: #16a34a;
+}
+
+.b-report-treeview-icon.kind-line {
+    color: #64748b;
+}
+
+.b-report-treeview-icon.kind-rectangle {
+    color: #ea580c;
+}
+
+.b-report-treeview-icon.kind-pagebreak {
+    color: #be123c;
+}
+
+.b-report-treeview-row.active .b-report-treeview-toggle,
+.b-report-treeview-row.active .b-report-treeview-icon,
+.b-report-treeview-row.active .b-report-treeview-detail {
+    color: rgba(255, 255, 255, .84);
+}
+
+.b-report-treeview-text {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.b-report-designer-option {
+    display: inline-flex;
+    align-items: center;
+    gap: .375rem;
+    margin-bottom: .5rem;
+    color: #52616f;
+}
+
+.b-report-page {
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+    background: #ffffff;
+    color: #1f2933;
+    box-shadow: 0 .25rem 1rem rgba(31, 41, 51, .16);
+}
+
+.b-report-page-design {
+    margin: 0;
+    background-image:
+        linear-gradient(#edf0f2 1px, transparent 1px),
+        linear-gradient(90deg, #edf0f2 1px, transparent 1px);
+    background-size: 16px 16px;
+}
+
+.b-report-section {
+    position: relative;
+    border-bottom: 1px solid transparent;
+}
+
+.b-report-page-design .b-report-section {
+    border-bottom-color: #d9dee3;
+}
+
+.b-report-section-label {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    padding: .125rem .375rem;
+    background: #edf0f2;
+    color: #52616f;
+    font-size: .75rem;
+}
+
+.b-report-element {
+    position: absolute;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.b-report-element-design {
+    border: 1px dashed #4f7ebd;
+    background: rgba(79, 126, 189, .08);
+    cursor: move;
+    user-select: none;
+}
+
+.b-report-element-design.active {
+    border-style: solid;
+    background: rgba(79, 126, 189, .16);
+}
+
+.b-report-element-design * {
+    pointer-events: none;
+}
+
+.b-report-drag-preview {
+    position: absolute;
+    z-index: 4;
+    box-sizing: border-box;
+    overflow: hidden;
+    border: 1px solid #0d6efd;
+    background: rgba(13, 110, 253, .16);
+    color: #0b5ed7;
+    pointer-events: none;
+    user-select: none;
+}
+
+.b-report-element-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.b-report-element-line {
+    border-top: 1px solid currentColor;
+}
+
+.b-report-element-rectangle {
+    border: 1px solid currentColor;
+}
+
+.b-report-element-table {
+    overflow: auto;
+}
+
+.b-report-element-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.b-report-element-table th,
+.b-report-element-table td {
+    padding: .25rem .375rem;
+    border: 1px solid #d9dee3;
+    text-align: left;
+}
+
+.b-report-context-menu {
+    position: fixed;
+    z-index: 2000;
+    min-width: 11rem;
+    padding: .25rem;
+    border: 1px solid #d9dee3;
+    border-radius: .25rem;
+    background: #ffffff;
+    box-shadow: 0 .5rem 1.5rem rgba(31, 41, 51, .18);
+}
+
+.b-report-context-menu button {
+    display: block;
+    width: 100%;
+    padding: .375rem .5rem;
+    border: 0;
+    background: transparent;
+    color: #1f2933;
+    text-align: left;
+}
+
+.b-report-context-menu button:hover {
+    background: #edf0f2;
+}
+
+@media (max-width: 992px) {
+    .b-report-designer {
+        grid-template-columns: 1fr;
+    }
+
+    .b-report-designer-dictionary,
+    .b-report-designer-panel {
+        max-height: none;
+    }
+}

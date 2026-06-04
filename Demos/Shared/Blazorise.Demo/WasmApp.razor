@@ -71,6 +71,7 @@
         "Blazorise.PdfViewer.wasm",
         "Blazorise.PivotGrid.wasm",
         "Blazorise.QRCode.wasm",
+        "Blazorise.Reporting.wasm",
         "Blazorise.Scheduler.wasm",
         "Blazorise.SignaturePad.wasm",
         "Blazorise.SpinKit.wasm",
@@ -105,6 +106,7 @@
         "tests/pdfviewer",
         "tests/pivotgrid",
         "tests/qrcode",
+        "tests/reporting",
         "tests/richtextedit",
         "tests/scheduler",
         "tests/signaturepad",
@@ -166,6 +168,8 @@
 
     private static IEnumerable<string> GetAssemblyFilesForRoute( string path )
     {
+        path = path?.TrimStart( '/' ) ?? string.Empty;
+
         if ( path.StartsWith( "tests/charts", StringComparison.OrdinalIgnoreCase ) )
             return chartAssemblies;
 

@@ -1,0 +1,12 @@
+@namespace Blazorise.Reporting
+@inherits ReportElementBase
+
+<CascadingValue Value="@Definition" IsFixed="true">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    protected override ReportElementType ElementType => ReportElementType.Table;
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

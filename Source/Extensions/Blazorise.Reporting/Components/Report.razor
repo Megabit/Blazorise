@@ -1,0 +1,47 @@
+@namespace Blazorise.Reporting
+@typeparam TItem
+@inject System.IServiceProvider ServiceProvider
+
+<CascadingValue Value="@context" IsFixed="true">
+    <Div Display="Display.None">
+        @ChildContent
+    </Div>
+</CascadingValue>
+
+<Div Flex="Flex.Column" Gap="Gap.Is3">
+    @if ( ShowToolbar )
+    {
+        <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Padding="Padding.Is3" Border="Border.Is1" Background="Background.White">
+            <CascadingValue Value="@toolbarContext" IsFixed="true">
+                @if ( context.ToolbarContent is not null )
+                {
+                    @context.ToolbarContent
+                }
+                else
+                {
+                    <ButtonGroup>
+                        @if ( IsDesignerEnabled )
+                        {
+                            <Button Color="@(CurrentMode == ReportStudioMode.Design ? Color.Primary : Color.Light)" Clicked="@(() => SetModeAsync( ReportStudioMode.Design ))">Design</Button>
+                        }
+                        <Button Color="@(CurrentMode == ReportStudioMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Html ? Color.Primary : Color.Light)" Clicked="@(() => SetPreviewAsync( ReportPreviewFormat.Html ))">HTML</Button>
+                        @if ( SupportsPreviewFormat( ReportPreviewFormat.Pdf ) )
+                        {
+                            <Button Color="@(CurrentMode == ReportStudioMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Pdf ? Color.Primary : Color.Light)" Clicked="@(() => SetPreviewAsync( ReportPreviewFormat.Pdf ))">PDF</Button>
+                        }
+                        <Button Color="Color.Light" Clicked="@ResetDefinitionAsync">Reset</Button>
+                    </ButtonGroup>
+                }
+            </CascadingValue>
+        </Div>
+    }
+
+    @if ( CurrentMode == ReportStudioMode.Design && IsDesignerEnabled )
+    {
+        @RenderDesigner()
+    }
+    else
+    {
+        @RenderViewer()
+    }
+</Div>

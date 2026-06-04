@@ -1,0 +1,19 @@
+@namespace Blazorise.Reporting
+<Button Color="@Color" Clicked="@OnClicked">@Text</Button>
+
+@code {
+    [CascadingParameter] internal ReportToolbarContext ToolbarContext { get; set; }
+
+    private Task OnClicked()
+    {
+        return ToolbarContext?.ExecuteAsync( Command ) ?? Task.CompletedTask;
+    }
+
+    private string Text => string.IsNullOrWhiteSpace( Caption ) ? Command.ToString() : Caption;
+
+    [Parameter] public ReportCommand Command { get; set; }
+
+    [Parameter] public string Caption { get; set; }
+
+    [Parameter] public Color Color { get; set; } = Color.Light;
+}

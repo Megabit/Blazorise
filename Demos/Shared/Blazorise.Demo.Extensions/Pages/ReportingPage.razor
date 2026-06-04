@@ -1,0 +1,101 @@
+@page "/tests/reporting"
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Reporting</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Report TItem="ReportInvoice"
+                        Data="@invoices"
+                        @bind-Definition="@definition"
+                        DesignerEnabled
+                        PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf">
+                    <ReportViewer PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"
+                                  DefaultFormat="ReportPreviewFormat.Html"
+                                  AllowDownload
+                                  AllowPrint />
+                    <ReportToolbar>
+                        <ButtonGroup>
+                            <ReportToolbarItem Command="ReportCommand.Design" Caption="Design" Color="Color.Light" />
+                            <ReportToolbarItem Command="ReportCommand.PreviewHtml" Caption="HTML Preview" Color="Color.Light" />
+                            <ReportToolbarItem Command="ReportCommand.PreviewPdf" Caption="PDF Preview" Color="Color.Light" />
+                            <ReportToolbarItem Command="ReportCommand.Reset" Caption="Reset" Color="Color.Light" />
+                        </ButtonGroup>
+                    </ReportToolbar>
+                    <ReportDataSource Name="Invoices" Data="@invoices" />
+                    <ReportPage Size="ReportPageSize.A4" Orientation="ReportOrientation.Portrait" />
+                    <ReportHeader Name="Invoice report header" Height="130">
+                        <ReportText Text="Invoice summary"
+                                    X="40"
+                                    Y="24"
+                                    Width="280"
+                                    Height="34"
+                                    TextColor="TextColor.Primary"
+                                    Style="font-size:28px;font-weight:600;" />
+                        <ReportText Text="Declarative report with designer and viewer modes."
+                                    X="42"
+                                    Y="64"
+                                    Width="420"
+                                    Height="24"
+                                    TextColor="TextColor.Secondary" />
+                        <ReportRectangle X="610"
+                                         Y="24"
+                                         Width="120"
+                                         Height="64"
+                                         TextColor="TextColor.Primary" />
+                        <ReportText Text="BLZ"
+                                    X="640"
+                                    Y="42"
+                                    Width="72"
+                                    Height="28"
+                                    TextColor="TextColor.Primary"
+                                    Style="font-size:24px;font-weight:700;text-align:center;" />
+                    </ReportHeader>
+                    <ReportPageHeader Name="Invoice page header" Height="42">
+                        <ReportText Text="Invoice" X="40" Y="10" Width="90" Height="24" Style="font-weight:700;" />
+                        <ReportText Text="Customer" X="150" Y="10" Width="220" Height="24" Style="font-weight:700;" />
+                        <ReportText Text="Issued" X="390" Y="10" Width="110" Height="24" Style="font-weight:700;" />
+                        <ReportText Text="Total" X="540" Y="10" Width="120" Height="24" Style="font-weight:700;" />
+                    </ReportPageHeader>
+                    <ReportDetail Name="Invoice rows" Height="52" DataSource="Invoices">
+                        <ReportField Field="Number" X="40" Y="14" Width="90" Height="24" />
+                        <ReportField Field="Customer" X="150" Y="14" Width="220" Height="24" />
+                        <ReportField Field="IssuedAt" Format="d" X="390" Y="14" Width="110" Height="24" />
+                        <ReportField Field="Total" Format="C" X="540" Y="14" Width="120" Height="24" TextColor="TextColor.Success" />
+                    </ReportDetail>
+                    <ReportGroupFooter Name="Invoice group footer" Height="48">
+                        <ReportLine X="40" Y="10" Width="690" Height="1" />
+                        <ReportText Text="Group footer band" X="40" Y="22" Width="180" Height="24" TextColor="TextColor.Secondary" />
+                    </ReportGroupFooter>
+                    <ReportPageFooter Name="Invoice page footer" Height="40">
+                        <ReportText Text="Page footer band" X="40" Y="10" Width="180" Height="24" TextColor="TextColor.Secondary" />
+                    </ReportPageFooter>
+                    <ReportFooter Name="Invoice report footer" Height="72">
+                        <ReportLine X="40" Y="10" Width="690" Height="1" />
+                        <ReportText Text="Generated from a declarative Report definition."
+                                    X="40"
+                                    Y="28"
+                                    Width="360"
+                                    Height="24"
+                                    TextColor="TextColor.Secondary" />
+                    </ReportFooter>
+                </Report>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    private ReportDefinition definition;
+
+    private readonly List<ReportInvoice> invoices =
+    [
+        new( "INV-1001", "Northwind Traders", new DateTime( 2026, 6, 1 ), 1240.50m ),
+        new( "INV-1002", "Alpine Ski House", new DateTime( 2026, 6, 2 ), 845.20m ),
+        new( "INV-1003", "Contoso Retail", new DateTime( 2026, 6, 3 ), 2198.00m ),
+    ];
+
+    public sealed record ReportInvoice( string Number, string Customer, DateTime IssuedAt, decimal Total );
+}
