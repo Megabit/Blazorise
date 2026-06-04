@@ -1,0 +1,32 @@
+<Bar Mode="BarMode.VerticalSmall"
+     Visible>
+    <BarMenu>
+        <BarStart>
+            <BarItem>
+                <BarDropdown CloseDelay="20">
+                    <BarDropdownToggle ElementId="parent-toggle">
+                        Parent
+                    </BarDropdownToggle>
+                    <BarDropdownMenu ElementId="parent-menu">
+                        <BarDropdownItem ElementId="parent-item">
+                            Parent item
+                        </BarDropdownItem>
+                        <BarDropdown CloseDelay="20">
+                            <BarDropdownToggle ElementId="child-toggle">
+                                Child
+                            </BarDropdownToggle>
+                            <BarDropdownMenu ElementId="child-menu">
+                                <BarDropdownItem ElementId="child-item">
+                                    Child item
+                                </BarDropdownItem>
+                            </BarDropdownMenu>
+                        </BarDropdown>
+                        <BarDropdownItem ElementId="parent-sibling-item">
+                            Parent sibling
+                        </BarDropdownItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+        </BarStart>
+    </BarMenu>
+</Bar>
