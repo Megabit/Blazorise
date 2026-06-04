@@ -18,7 +18,7 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
 {
     #region Members
 
-    private const int MouseLeaveCloseDelayMilliseconds = 300;
+    private const int DefaultCloseDelay = 300;
 
     private BarItemState parentBarItemState;
 
@@ -267,7 +267,7 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
         if ( ParentBarItemState is not null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
             return;
 
-        await Task.Delay( MouseLeaveCloseDelayMilliseconds );
+        await Task.Delay( Math.Max( 0, CloseDelay ) );
 
         if ( ShouldClose && closeVersion == mouseLeaveCloseVersion )
             await Hide();
@@ -483,6 +483,11 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
     /// Notifies when the component visibility changes.
     /// </summary>
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
+
+    /// <summary>
+    /// Delay in milliseconds before hiding a popout dropdown after the mouse leaves it.
+    /// </summary>
+    [Parameter] public int CloseDelay { get; set; } = DefaultCloseDelay;
 
     /// <summary>
     /// Defines the positioning strategy of a floating <see cref="BarDropdownMenu"/>.
