@@ -62,6 +62,8 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
 
     private ReportElementPointerDragState elementPointerDrag;
 
+    private ReportElementPointerResizeState elementPointerResize;
+
     private DateTime lastDragPreviewRenderTime;
 
     private ReportElementDefinition clipboardElement;
@@ -241,6 +243,9 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
     {
         RenderDesignerPanelTabs( builder, ref sequence );
 
+        builder.OpenElement( sequence++, "div" );
+        builder.AddAttribute( sequence++, "class", "b-report-designer-panel-body" );
+
         if ( selectedDesignerPanelTab == ReportDesignerPanelTab.Explorer )
         {
             RenderReportExplorer( builder, ref sequence, definition );
@@ -249,6 +254,8 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         {
             RenderPropertiesPanel( builder, ref sequence, definition );
         }
+
+        builder.CloseElement();
     }
 
     private void RenderDesignerPanelTabs( RenderTreeBuilder builder, ref int sequence )
@@ -621,11 +628,11 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
                 builder.AddEventPreventDefaultAttribute( sequence++, "ondragover", true );
                 builder.AddAttribute( sequence++, "ondrop", EventCallback.Factory.Create<DragEventArgs>( this, eventArgs => DropDesignerItemAsync( sectionIndex, eventArgs ) ) );
                 builder.AddEventPreventDefaultAttribute( sequence++, "ondrop", true );
-                builder.AddAttribute( sequence++, "onpointermove", EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( eventArgs => PreviewElementPointerDragAsync( sectionIndex, eventArgs ) ) );
+                builder.AddAttribute( sequence++, "onpointermove", EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( eventArgs => PreviewElementPointerInteractionAsync( sectionIndex, eventArgs ) ) );
                 builder.AddEventPreventDefaultAttribute( sequence++, "onpointermove", true );
-                builder.AddAttribute( sequence++, "onpointerup", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => CompleteElementPointerDragAsync( sectionIndex, eventArgs ) ) );
+                builder.AddAttribute( sequence++, "onpointerup", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => CompleteElementPointerInteractionAsync( sectionIndex, eventArgs ) ) );
                 builder.AddEventPreventDefaultAttribute( sequence++, "onpointerup", true );
-                builder.AddAttribute( sequence++, "onpointercancel", EventCallback.Factory.Create<PointerEventArgs>( this, _ => CancelElementPointerDragAsync() ) );
+                builder.AddAttribute( sequence++, "onpointercancel", EventCallback.Factory.Create<PointerEventArgs>( this, _ => CancelElementPointerInteractionAsync() ) );
                 builder.AddAttribute( sequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => SelectSection( sectionIndex ) ) );
                 builder.AddAttribute( sequence++, "oncontextmenu", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenSectionContextMenu( sectionIndex, eventArgs ) ) );
                 builder.AddEventPreventDefaultAttribute( sequence++, "oncontextmenu", true );
@@ -700,6 +707,33 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
                 break;
         }
 
+        if ( designMode && elementKey == selectedElementKey )
+        {
+            RenderElementResizeHandles( builder, ref sequence, elementKey );
+        }
+
+        builder.CloseElement();
+    }
+
+    private void RenderElementResizeHandles( RenderTreeBuilder builder, ref int sequence, string elementKey )
+    {
+        RenderElementResizeHandle( builder, ref sequence, elementKey, ReportElementResizeHandle.NorthWest, "nw" );
+        RenderElementResizeHandle( builder, ref sequence, elementKey, ReportElementResizeHandle.North, "n" );
+        RenderElementResizeHandle( builder, ref sequence, elementKey, ReportElementResizeHandle.NorthEast, "ne" );
+        RenderElementResizeHandle( builder, ref sequence, elementKey, ReportElementResizeHandle.East, "e" );
+        RenderElementResizeHandle( builder, ref sequence, elementKey, ReportElementResizeHandle.SouthEast, "se" );
+        RenderElementResizeHandle( builder, ref sequence, elementKey, ReportElementResizeHandle.South, "s" );
+        RenderElementResizeHandle( builder, ref sequence, elementKey, ReportElementResizeHandle.SouthWest, "sw" );
+        RenderElementResizeHandle( builder, ref sequence, elementKey, ReportElementResizeHandle.West, "w" );
+    }
+
+    private void RenderElementResizeHandle( RenderTreeBuilder builder, ref int sequence, string elementKey, ReportElementResizeHandle handle, string handleClass )
+    {
+        builder.OpenElement( sequence++, "span" );
+        builder.AddAttribute( sequence++, "class", $"b-report-resize-handle b-report-resize-handle-{handleClass}" );
+        builder.AddAttribute( sequence++, "onpointerdown", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerResize( elementKey, handle, eventArgs ) ) );
+        builder.AddEventPreventDefaultAttribute( sequence++, "onpointerdown", true );
+        builder.AddEventStopPropagationAttribute( sequence++, "onpointerdown", true );
         builder.CloseElement();
     }
 
@@ -967,6 +1001,18 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
             ReportCommand.Undo => historyService.CanUndo,
             ReportCommand.Redo => historyService.CanRedo,
             _ => true,
+        };
+    }
+
+    public bool IsCommandActive( ReportCommand command )
+    {
+        return command switch
+        {
+            ReportCommand.Design => CurrentMode == ReportStudioMode.Design,
+            ReportCommand.Preview => CurrentMode == ReportStudioMode.Preview,
+            ReportCommand.PreviewHtml => CurrentMode == ReportStudioMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Html,
+            ReportCommand.PreviewPdf => CurrentMode == ReportStudioMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Pdf,
+            _ => false,
         };
     }
 
@@ -1439,6 +1485,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         draggedElement = null;
         dragPreview = null;
         elementPointerDrag = null;
+        elementPointerResize = null;
     }
 
     private void BeginToolboxElementDrag( ReportElementType elementType, string text )
@@ -1452,6 +1499,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         draggedElement = null;
         dragPreview = null;
         elementPointerDrag = null;
+        elementPointerResize = null;
     }
 
     private void BeginElementPointerDrag( string elementKey, PointerEventArgs eventArgs )
@@ -1483,6 +1531,65 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         };
 
         SelectElement( elementKey );
+    }
+
+    private void BeginElementPointerResize( string elementKey, ReportElementResizeHandle handle, PointerEventArgs eventArgs )
+    {
+        if ( !FindElementLocation( EffectiveDefinition, elementKey, out var sectionIndex, out _, out var element ) )
+            return;
+
+        draggedKind = ReportDesignerDragKind.Element;
+        draggedElementKey = elementKey;
+        draggedElement = element;
+        draggedDataSourceName = null;
+        draggedFieldName = null;
+        draggedElementType = null;
+        draggedElementText = null;
+        dragPreview = null;
+        elementPointerDrag = null;
+        elementPointerResize = new()
+        {
+            ElementKey = elementKey,
+            SourceSectionIndex = sectionIndex,
+            Handle = handle,
+            OriginalX = element.X,
+            OriginalY = element.Y,
+            OriginalWidth = element.Width,
+            OriginalHeight = element.Height,
+            StartClientX = eventArgs.ClientX,
+            StartClientY = eventArgs.ClientY,
+            TargetX = element.X,
+            TargetY = element.Y,
+            TargetWidth = element.Width,
+            TargetHeight = element.Height,
+            MinimumHeight = GetMinimumElementHeight( element ),
+        };
+
+        SelectElement( elementKey );
+    }
+
+    private Task PreviewElementPointerInteractionAsync( int targetSectionIndex, PointerEventArgs eventArgs )
+    {
+        if ( elementPointerResize is not null )
+            return PreviewElementPointerResizeAsync( eventArgs );
+
+        return PreviewElementPointerDragAsync( targetSectionIndex, eventArgs );
+    }
+
+    private Task CompleteElementPointerInteractionAsync( int targetSectionIndex, PointerEventArgs eventArgs )
+    {
+        if ( elementPointerResize is not null )
+            return CompleteElementPointerResizeAsync( eventArgs );
+
+        return CompleteElementPointerDragAsync( targetSectionIndex, eventArgs );
+    }
+
+    private Task CancelElementPointerInteractionAsync()
+    {
+        if ( elementPointerResize is not null )
+            return CancelElementPointerResizeAsync();
+
+        return CancelElementPointerDragAsync();
     }
 
     private async Task PreviewElementPointerDragAsync( int targetSectionIndex, PointerEventArgs eventArgs )
@@ -1615,6 +1722,167 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
 
         return CreateDragPreview( targetSectionIndex, draggedElement, x, y );
     }
+
+    private async Task PreviewElementPointerResizeAsync( PointerEventArgs eventArgs )
+    {
+        if ( elementPointerResize is null || draggedElement is null || draggedKind != ReportDesignerDragKind.Element )
+            return;
+
+        var preview = CreateElementPointerResizePreview( eventArgs );
+
+        if ( preview is null )
+            return;
+
+        var samePreviewSize = dragPreview is not null
+            && Math.Abs( dragPreview.X - preview.X ) < .1
+            && Math.Abs( dragPreview.Y - preview.Y ) < .1
+            && Math.Abs( dragPreview.Width - preview.Width ) < .1
+            && Math.Abs( dragPreview.Height - preview.Height ) < .1;
+
+        if ( samePreviewSize )
+            return;
+
+        var now = DateTime.UtcNow;
+
+        if ( !snapToGrid
+            && dragPreview is not null
+            && now - lastDragPreviewRenderTime < TimeSpan.FromMilliseconds( 16 ) )
+        {
+            return;
+        }
+
+        elementPointerResize.TargetX = preview.X;
+        elementPointerResize.TargetY = preview.Y;
+        elementPointerResize.TargetWidth = preview.Width;
+        elementPointerResize.TargetHeight = preview.Height;
+        elementPointerResize.HasResized = true;
+        dragPreview = preview;
+        lastDragPreviewRenderTime = now;
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    private async Task CompleteElementPointerResizeAsync( PointerEventArgs eventArgs )
+    {
+        if ( elementPointerResize is null || draggedKind != ReportDesignerDragKind.Element )
+            return;
+
+        var pointerResize = elementPointerResize;
+        var preview = CreateElementPointerResizePreview( eventArgs ) ?? dragPreview;
+
+        if ( preview is not null )
+        {
+            pointerResize.TargetX = preview.X;
+            pointerResize.TargetY = preview.Y;
+            pointerResize.TargetWidth = preview.Width;
+            pointerResize.TargetHeight = preview.Height;
+        }
+
+        var resized = pointerResize.HasResized
+            && ( Math.Abs( pointerResize.TargetX - pointerResize.OriginalX ) > .1
+                || Math.Abs( pointerResize.TargetY - pointerResize.OriginalY ) > .1
+                || Math.Abs( pointerResize.TargetWidth - pointerResize.OriginalWidth ) > .1
+                || Math.Abs( pointerResize.TargetHeight - pointerResize.OriginalHeight ) > .1 );
+
+        if ( !resized || !FindElementLocation( EffectiveDefinition, pointerResize.ElementKey, out _, out _, out _ ) )
+        {
+            ClearDragState();
+            await InvokeAsync( StateHasChanged );
+            return;
+        }
+
+        await ExecuteDesignerCommandAsync( new( "Resize element", () =>
+        {
+            if ( !FindElementLocation( EffectiveDefinition, pointerResize.ElementKey, out _, out _, out var element ) )
+                return Task.CompletedTask;
+
+            element.X = pointerResize.TargetX;
+            element.Y = pointerResize.TargetY;
+            element.Width = pointerResize.TargetWidth;
+            element.Height = pointerResize.TargetHeight;
+
+            selectedElementKey = GetDesignerElementKey( element );
+            selectedSectionIndex = null;
+            reportSelected = false;
+            dragPreview = null;
+            ClearDragState();
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private Task CancelElementPointerResizeAsync()
+    {
+        if ( elementPointerResize is null )
+            return Task.CompletedTask;
+
+        ClearDragState();
+
+        return InvokeAsync( StateHasChanged );
+    }
+
+    private ReportDesignerDragPreview CreateElementPointerResizePreview( PointerEventArgs eventArgs )
+    {
+        if ( elementPointerResize is null || draggedElement is null )
+            return null;
+
+        var deltaX = eventArgs.ClientX - elementPointerResize.StartClientX;
+        var deltaY = eventArgs.ClientY - elementPointerResize.StartClientY;
+        var left = elementPointerResize.OriginalX;
+        var top = elementPointerResize.OriginalY;
+        var right = elementPointerResize.OriginalX + elementPointerResize.OriginalWidth;
+        var bottom = elementPointerResize.OriginalY + elementPointerResize.OriginalHeight;
+        var resizingLeft = HasResizeHandle( elementPointerResize.Handle, ReportElementResizeHandle.West );
+        var resizingTop = HasResizeHandle( elementPointerResize.Handle, ReportElementResizeHandle.North );
+
+        if ( resizingLeft )
+            left += deltaX;
+        else if ( HasResizeHandle( elementPointerResize.Handle, ReportElementResizeHandle.East ) )
+            right += deltaX;
+
+        if ( resizingTop )
+            top += deltaY;
+        else if ( HasResizeHandle( elementPointerResize.Handle, ReportElementResizeHandle.South ) )
+            bottom += deltaY;
+
+        left = ApplyDesignerGrid( left );
+        top = ApplyDesignerGrid( top );
+        right = ApplyDesignerGrid( right );
+        bottom = ApplyDesignerGrid( bottom );
+
+        if ( right - left < 8 )
+        {
+            if ( resizingLeft )
+                left = right - 8;
+            else
+                right = left + 8;
+        }
+
+        if ( bottom - top < elementPointerResize.MinimumHeight )
+        {
+            if ( resizingTop )
+                top = bottom - elementPointerResize.MinimumHeight;
+            else
+                bottom = top + elementPointerResize.MinimumHeight;
+        }
+
+        left = Math.Max( 0, left );
+        top = Math.Max( 0, top );
+
+        return new()
+        {
+            SectionIndex = elementPointerResize.SourceSectionIndex,
+            ElementType = draggedElement.Type,
+            Text = draggedElement.Type == ReportElementType.Field ? FormatFieldExpression( draggedElement ) : draggedElement.Text ?? draggedElement.Name ?? draggedElement.Type.ToString(),
+            X = left,
+            Y = top,
+            Width = Math.Max( 8, right - left ),
+            Height = Math.Max( elementPointerResize.MinimumHeight, bottom - top ),
+        };
+    }
+
+    private static bool HasResizeHandle( ReportElementResizeHandle handle, ReportElementResizeHandle flag )
+        => ( handle & flag ) == flag;
 
     private async Task PreviewDesignerDragAsync( int targetSectionIndex, DragEventArgs eventArgs )
     {
@@ -1856,6 +2124,11 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         return snapToGrid ? SnapToGrid( value ) : Math.Max( 0, value );
     }
 
+    private static double GetMinimumElementHeight( ReportElementDefinition element )
+    {
+        return element?.Type == ReportElementType.Line ? 1 : 8;
+    }
+
     private void OnSnapToGridChanged( ChangeEventArgs eventArgs )
     {
         snapToGrid = eventArgs.Value is bool value
@@ -1906,6 +2179,8 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         draggedElementKey = null;
         draggedElement = null;
         dragPreview = null;
+        elementPointerDrag = null;
+        elementPointerResize = null;
     }
 
     private static string FormatFieldExpression( ReportElementDefinition element )
@@ -2142,6 +2417,8 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
 
     private ReportPreviewFormat CurrentPreviewFormat => PreviewFormat ?? currentPreviewFormat;
 
+    private string ToolbarStateKey => $"{CurrentMode}|{CurrentPreviewFormat}|{selectedElementKey}|{selectedSectionIndex}|{clipboardElement?.Id}|{historyService.CanUndo}|{historyService.CanRedo}";
+
     private string DataSourceName => "Default";
 
     private enum ReportDesignerDragKind
@@ -2162,6 +2439,19 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
     {
         Section,
         Element
+    }
+
+    [Flags]
+    private enum ReportElementResizeHandle
+    {
+        North = 1,
+        East = 2,
+        South = 4,
+        West = 8,
+        NorthEast = North | East,
+        SouthEast = South | East,
+        SouthWest = South | West,
+        NorthWest = North | West
     }
 
     private sealed class ReportContextMenuState
@@ -2221,6 +2511,39 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         public double TargetY { get; set; }
 
         public bool HasMoved { get; set; }
+    }
+
+    private sealed class ReportElementPointerResizeState
+    {
+        public string ElementKey { get; set; }
+
+        public int SourceSectionIndex { get; set; }
+
+        public ReportElementResizeHandle Handle { get; set; }
+
+        public double OriginalX { get; set; }
+
+        public double OriginalY { get; set; }
+
+        public double OriginalWidth { get; set; }
+
+        public double OriginalHeight { get; set; }
+
+        public double StartClientX { get; set; }
+
+        public double StartClientY { get; set; }
+
+        public double TargetX { get; set; }
+
+        public double TargetY { get; set; }
+
+        public double TargetWidth { get; set; }
+
+        public double TargetHeight { get; set; }
+
+        public double MinimumHeight { get; set; }
+
+        public bool HasResized { get; set; }
     }
 
     private sealed record ReportToolboxTreeNodeValue( ReportElementType ElementType, string Text );

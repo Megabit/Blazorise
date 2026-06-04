@@ -1,5 +1,21 @@
 @namespace Blazorise.Reporting
-<Button Color="@Color" Disabled="@Disabled" Clicked="@OnClicked">@Text</Button>
+<Button Color="@ResolvedColor" Disabled="@Disabled" Clicked="@OnClicked" title="@Text" aria-label="@Text">
+    @if ( ResolvedIcon is not null )
+    {
+        @if ( ShowCaption )
+        {
+            <Icon Name="@ResolvedIcon.Value" Margin="Margin.Is2.FromEnd" />
+        }
+        else
+        {
+            <Icon Name="@ResolvedIcon.Value" />
+        }
+    }
+    @if ( ShowCaption || ResolvedIcon is null )
+    {
+        @Text
+    }
+</Button>
 
 @code {
     [CascadingParameter] internal ReportToolbarContext ToolbarContext { get; set; }
@@ -11,11 +27,44 @@
 
     private bool Disabled => ToolbarContext?.CanExecute( Command ) == false;
 
+    private bool Active => ToolbarContext?.IsActive( Command ) == true;
+
+    private Color ResolvedColor => Color ?? ( Active ? ActiveColor : InactiveColor );
+
     private string Text => string.IsNullOrWhiteSpace( Caption ) ? Command.ToString() : Caption;
+
+    private IconName? ResolvedIcon => Icon ?? GetDefaultIcon( Command );
+
+    private static IconName? GetDefaultIcon( ReportCommand command )
+    {
+        return command switch
+        {
+            ReportCommand.Design => IconName.Edit,
+            ReportCommand.Preview => IconName.Eye,
+            ReportCommand.PreviewHtml => IconName.FileAlt,
+            ReportCommand.PreviewPdf => IconName.FilePdf,
+            ReportCommand.Cut => IconName.Cut,
+            ReportCommand.Copy => IconName.Copy,
+            ReportCommand.Paste => IconName.Paste,
+            ReportCommand.Delete => IconName.Delete,
+            ReportCommand.Undo => IconName.Undo,
+            ReportCommand.Redo => IconName.Redo,
+            ReportCommand.Reset => IconName.Sync,
+            _ => null,
+        };
+    }
 
     [Parameter] public ReportCommand Command { get; set; }
 
     [Parameter] public string Caption { get; set; }
 
-    [Parameter] public Color Color { get; set; } = Color.Light;
+    [Parameter] public IconName? Icon { get; set; }
+
+    [Parameter] public bool ShowCaption { get; set; }
+
+    [Parameter] public Color Color { get; set; }
+
+    [Parameter] public Color ActiveColor { get; set; } = Color.Primary;
+
+    [Parameter] public Color InactiveColor { get; set; } = Color.Light;
 }

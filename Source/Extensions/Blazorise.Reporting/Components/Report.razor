@@ -11,8 +11,8 @@
 <Div Flex="Flex.Column" Gap="Gap.Is3">
     @if ( ShowToolbar )
     {
-        <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Padding="Padding.Is3" Border="Border.Is1" Background="Background.White">
-            <CascadingValue Value="@toolbarContext" IsFixed="true">
+        <Div Class="b-report-toolbar" Flex="Flex.AlignItems.Center" Gap="Gap.Is2" Padding="Padding.Is3" Border="Border.Is1" Background="Background.White">
+            <CascadingValue @key="@ToolbarStateKey" Value="@toolbarContext" IsFixed="true">
                 @if ( context.ToolbarContent is not null )
                 {
                     @context.ToolbarContent
@@ -34,9 +34,9 @@
                         <ButtonGroup>
                             @if ( IsDesignerEnabled )
                             {
-                                <ReportToolbarItem Command="ReportCommand.Design" Caption="Design" Color="@(CurrentMode == ReportStudioMode.Design ? Color.Primary : Color.Light)" />
+                                <ReportToolbarItem Command="ReportCommand.Design" Caption="Design" ShowCaption />
                             }
-                            <ReportToolbarItem Command="ReportCommand.Preview" Caption="Preview" Color="@(CurrentMode == ReportStudioMode.Preview ? Color.Primary : Color.Light)" />
+                            <ReportToolbarItem Command="ReportCommand.Preview" Caption="Preview" ShowCaption />
                         </ButtonGroup>
                     </Div>
                 }

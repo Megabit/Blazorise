@@ -5,9 +5,12 @@
     align-items: start;
 }
 
+.b-report-toolbar {
+    flex-wrap: wrap;
+}
+
 .b-report-designer-dictionary,
 .b-report-designer-surface,
-.b-report-designer-panel,
 .b-report-viewer {
     overflow: auto;
 }
@@ -17,16 +20,32 @@
     max-height: calc(100vh - 14rem);
 }
 
+.b-report-designer-panel {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.b-report-designer-panel-body {
+    min-height: 0;
+    overflow: auto;
+}
+
 .b-report-designer-section {
     padding: .5rem 0;
     border-bottom: 1px solid #edf0f2;
 }
 
 .b-report-designer-tabs {
+    z-index: 5;
     display: flex;
     flex-wrap: wrap;
     gap: .25rem;
-    margin-bottom: 1rem;
+    flex: 0 0 auto;
+    margin: 0 0 1rem;
+    padding-bottom: .75rem;
+    background: #ffffff;
+    border-bottom: 1px solid #edf0f2;
 }
 
 .b-report-dictionary-source {
@@ -234,12 +253,81 @@
 }
 
 .b-report-element-design.active {
+    overflow: visible;
     border-style: solid;
     background: rgba(79, 126, 189, .16);
 }
 
 .b-report-element-design * {
     pointer-events: none;
+}
+
+.b-report-element-design .b-report-resize-handle {
+    pointer-events: auto;
+}
+
+.b-report-resize-handle {
+    position: absolute;
+    z-index: 5;
+    width: .5rem;
+    height: .5rem;
+    box-sizing: border-box;
+    border: 1px solid #ffffff;
+    background: #0d6efd;
+    box-shadow: 0 0 0 1px rgba(13, 110, 253, .45);
+    touch-action: none;
+}
+
+.b-report-resize-handle-nw {
+    top: -.25rem;
+    left: -.25rem;
+    cursor: nwse-resize;
+}
+
+.b-report-resize-handle-n {
+    top: -.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: ns-resize;
+}
+
+.b-report-resize-handle-ne {
+    top: -.25rem;
+    right: -.25rem;
+    cursor: nesw-resize;
+}
+
+.b-report-resize-handle-e {
+    top: 50%;
+    right: -.25rem;
+    transform: translateY(-50%);
+    cursor: ew-resize;
+}
+
+.b-report-resize-handle-se {
+    right: -.25rem;
+    bottom: -.25rem;
+    cursor: nwse-resize;
+}
+
+.b-report-resize-handle-s {
+    bottom: -.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: ns-resize;
+}
+
+.b-report-resize-handle-sw {
+    bottom: -.25rem;
+    left: -.25rem;
+    cursor: nesw-resize;
+}
+
+.b-report-resize-handle-w {
+    top: 50%;
+    left: -.25rem;
+    transform: translateY(-50%);
+    cursor: ew-resize;
 }
 
 .b-report-drag-preview {
