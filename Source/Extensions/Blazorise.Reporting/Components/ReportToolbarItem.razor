@@ -1,5 +1,5 @@
 @namespace Blazorise.Reporting
-<Button Color="@Color" Clicked="@OnClicked">@Text</Button>
+<Button Color="@Color" Disabled="@Disabled" Clicked="@OnClicked">@Text</Button>
 
 @code {
     [CascadingParameter] internal ReportToolbarContext ToolbarContext { get; set; }
@@ -8,6 +8,8 @@
     {
         return ToolbarContext?.ExecuteAsync( Command ) ?? Task.CompletedTask;
     }
+
+    private bool Disabled => ToolbarContext?.CanExecute( Command ) == false;
 
     private string Text => string.IsNullOrWhiteSpace( Caption ) ? Command.ToString() : Caption;
 

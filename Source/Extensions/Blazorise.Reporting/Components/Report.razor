@@ -20,17 +20,25 @@
                 else
                 {
                     <ButtonGroup>
-                        @if ( IsDesignerEnabled )
-                        {
-                            <Button Color="@(CurrentMode == ReportStudioMode.Design ? Color.Primary : Color.Light)" Clicked="@(() => SetModeAsync( ReportStudioMode.Design ))">Design</Button>
-                        }
-                        <Button Color="@(CurrentMode == ReportStudioMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Html ? Color.Primary : Color.Light)" Clicked="@(() => SetPreviewAsync( ReportPreviewFormat.Html ))">HTML</Button>
-                        @if ( SupportsPreviewFormat( ReportPreviewFormat.Pdf ) )
-                        {
-                            <Button Color="@(CurrentMode == ReportStudioMode.Preview && CurrentPreviewFormat == ReportPreviewFormat.Pdf ? Color.Primary : Color.Light)" Clicked="@(() => SetPreviewAsync( ReportPreviewFormat.Pdf ))">PDF</Button>
-                        }
-                        <Button Color="Color.Light" Clicked="@ResetDefinitionAsync">Reset</Button>
+                        <ReportToolbarItem Command="ReportCommand.Cut" Caption="Cut" />
+                        <ReportToolbarItem Command="ReportCommand.Copy" Caption="Copy" />
+                        <ReportToolbarItem Command="ReportCommand.Paste" Caption="Paste" />
+                        <ReportToolbarItem Command="ReportCommand.Delete" Caption="Delete" />
                     </ButtonGroup>
+                    <ButtonGroup>
+                        <ReportToolbarItem Command="ReportCommand.Undo" Caption="Undo" />
+                        <ReportToolbarItem Command="ReportCommand.Redo" Caption="Redo" />
+                        <ReportToolbarItem Command="ReportCommand.Reset" Caption="Reset" />
+                    </ButtonGroup>
+                    <Div Margin="Margin.IsAuto.FromStart">
+                        <ButtonGroup>
+                            @if ( IsDesignerEnabled )
+                            {
+                                <ReportToolbarItem Command="ReportCommand.Design" Caption="Design" Color="@(CurrentMode == ReportStudioMode.Design ? Color.Primary : Color.Light)" />
+                            }
+                            <ReportToolbarItem Command="ReportCommand.Preview" Caption="Preview" Color="@(CurrentMode == ReportStudioMode.Preview ? Color.Primary : Color.Light)" />
+                        </ButtonGroup>
+                    </Div>
                 }
             </CascadingValue>
         </Div>

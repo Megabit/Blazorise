@@ -1,9 +1,12 @@
+using System;
 using System.Collections.Generic;
 
 namespace Blazorise.Reporting;
 
 public sealed class ReportDefinition
 {
+    public string Id { get; set; } = Guid.NewGuid().ToString( "N" );
+
     public string Name { get; set; }
 
     public ReportPageDefinition Page { get; set; } = new();
@@ -26,6 +29,8 @@ public sealed class ReportPageDefinition
 
 public sealed class ReportDataSourceDefinition
 {
+    public string Id { get; set; } = Guid.NewGuid().ToString( "N" );
+
     public string Name { get; set; }
 
     public object Data { get; set; }
@@ -33,6 +38,8 @@ public sealed class ReportDataSourceDefinition
 
 public sealed class ReportSectionDefinition
 {
+    public string Id { get; set; } = Guid.NewGuid().ToString( "N" );
+
     public string Name { get; set; }
 
     public ReportSectionType Type { get; set; }
@@ -52,6 +59,8 @@ public sealed class ReportSectionDefinition
 
 public sealed class ReportElementDefinition
 {
+    public string Id { get; set; } = Guid.NewGuid().ToString( "N" );
+
     public string Name { get; set; }
 
     public ReportElementType Type { get; set; }
@@ -83,6 +92,8 @@ public sealed class ReportElementDefinition
 
 public sealed class ReportTableColumnDefinition
 {
+    public string Id { get; set; } = Guid.NewGuid().ToString( "N" );
+
     public string Title { get; set; }
 
     public string Field { get; set; }

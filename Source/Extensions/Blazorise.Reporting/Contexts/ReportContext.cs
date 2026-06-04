@@ -66,11 +66,44 @@ internal sealed class ReportContext
 
     public ReportDefinition BuildDefinition( ReportPageDefinition page = null )
     {
-        return new()
+        return CloneDefinition( new()
         {
             Page = ClonePage( page ?? Page ?? new() ),
             DataSources = dataSources.Select( CloneDataSource ).ToList(),
             Sections = sections.Select( CloneSection ).ToList(),
+        } );
+    }
+
+    internal static ReportDefinition CloneDefinition( ReportDefinition definition )
+    {
+        if ( definition is null )
+            return null;
+
+        return new()
+        {
+            Id = definition.Id,
+            Name = definition.Name,
+            Page = ClonePage( definition.Page ?? new() ),
+            DataSources = definition.DataSources.Select( CloneDataSource ).ToList(),
+            Sections = definition.Sections.Select( CloneSection ).ToList(),
+        };
+    }
+
+    internal static ReportState CloneState( ReportState state )
+    {
+        if ( state is null )
+            return new();
+
+        return new()
+        {
+            Definition = CloneDefinition( state.Definition ),
+            Mode = state.Mode,
+            PreviewFormat = state.PreviewFormat,
+            SnapToGrid = state.SnapToGrid,
+            Selection = CloneSelection( state.Selection ),
+            ClipboardElement = CloneElement( state.ClipboardElement ),
+            CanUndo = state.CanUndo,
+            CanRedo = state.CanRedo,
         };
     }
 
@@ -89,6 +122,7 @@ internal sealed class ReportContext
     {
         return new()
         {
+            Id = dataSource.Id,
             Name = dataSource.Name,
             Data = dataSource.Data,
         };
@@ -98,6 +132,7 @@ internal sealed class ReportContext
     {
         return new()
         {
+            Id = section.Id,
             Name = section.Name,
             Type = section.Type,
             Layout = section.Layout,
@@ -109,10 +144,14 @@ internal sealed class ReportContext
         };
     }
 
-    private static ReportElementDefinition CloneElement( ReportElementDefinition element )
+    internal static ReportElementDefinition CloneElement( ReportElementDefinition element )
     {
+        if ( element is null )
+            return null;
+
         return new()
         {
+            Id = element.Id,
             Name = element.Name,
             Type = element.Type,
             X = element.X,
@@ -134,10 +173,24 @@ internal sealed class ReportContext
     {
         return new()
         {
+            Id = column.Id,
             Title = column.Title,
             Field = column.Field,
             Format = column.Format,
             Width = column.Width,
+        };
+    }
+
+    private static ReportSelectionState CloneSelection( ReportSelectionState selection )
+    {
+        if ( selection is null )
+            return new();
+
+        return new()
+        {
+            Type = selection.Type,
+            SectionId = selection.SectionId,
+            ElementId = selection.ElementId,
         };
     }
 }

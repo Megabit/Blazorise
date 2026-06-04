@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Blazorise;
+using Blazorise.History;
 using Blazorise.Reporting.Internal;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -21,7 +22,9 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
 
     private readonly ReportToolbarContext toolbarContext;
 
-    private readonly Dictionary<ReportElementDefinition, string> designerElementKeys = [];
+    private readonly ReportDesignerState designerState = new();
+
+    private readonly HistoryManager<ReportDesignerState> historyService = new();
 
     private ReportDefinition declarativeDefinition;
 
@@ -59,7 +62,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
 
     private DateTime lastDragPreviewRenderTime;
 
-    private int nextDesignerElementKey;
+    private ReportElementDefinition clipboardElement;
 
     private ReportOptions globalOptions;
 
@@ -114,7 +117,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
 
         definition.Page = ResolvePage( definition.Page );
 
-        return definition;
+        return EnsureDefinitionIds( definition );
     }
 
     private ReportPageDefinition ResolvePage( ReportPageDefinition page )
@@ -928,39 +931,307 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         await ( command switch
         {
             ReportCommand.Design => SetModeAsync( ReportStudioMode.Design ),
+            ReportCommand.Preview => SetPreviewAsync( SupportsPreviewFormat( currentPreviewFormat ) ? currentPreviewFormat : context.ViewerOptions.DefaultFormat ),
+            ReportCommand.PreviewHtml => SetPreviewAsync( ReportPreviewFormat.Html ),
             ReportCommand.PreviewPdf => SetPreviewAsync( ReportPreviewFormat.Pdf ),
+            ReportCommand.Cut => CutSelectedElementAsync(),
+            ReportCommand.Copy => CopySelectedElementAsync(),
+            ReportCommand.Paste => PasteElementAsync(),
+            ReportCommand.Delete => DeleteSelectedElementAsync(),
+            ReportCommand.Undo => UndoAsync(),
+            ReportCommand.Redo => RedoAsync(),
             ReportCommand.Reset => ResetDefinitionAsync(),
             _ => SetPreviewAsync( ReportPreviewFormat.Html ),
         } );
+    }
+
+    public bool CanExecuteCommand( ReportCommand command )
+    {
+        var definition = EffectiveDefinition;
+
+        return command switch
+        {
+            ReportCommand.Design => IsDesignerEnabled,
+            ReportCommand.Preview => SupportsPreviewFormat( currentPreviewFormat ) || SupportsPreviewFormat( context.ViewerOptions.DefaultFormat ),
+            ReportCommand.PreviewHtml => SupportsPreviewFormat( ReportPreviewFormat.Html ),
+            ReportCommand.PreviewPdf => SupportsPreviewFormat( ReportPreviewFormat.Pdf ),
+            ReportCommand.Cut or ReportCommand.Copy or ReportCommand.Delete => CurrentMode == ReportStudioMode.Design && FindSelectedElement( definition ) is not null,
+            ReportCommand.Paste => CurrentMode == ReportStudioMode.Design && clipboardElement is not null && definition.Sections.Count > 0,
+            ReportCommand.Undo => historyService.CanUndo,
+            ReportCommand.Redo => historyService.CanRedo,
+            _ => true,
+        };
+    }
+
+    public Task<ReportState> GetState()
+    {
+        return Task.FromResult( CaptureReportState( EffectiveDefinition ) );
+    }
+
+    public async Task LoadState( ReportState state )
+    {
+        historyService.Clear();
+        await ApplyReportStateAsync( state, notifyDefinitionChanged: true );
+    }
+
+    private async Task ExecuteDesignerCommandAsync( ReportDesignerCommand command )
+    {
+        if ( command is null )
+            return;
+
+        var beforeState = command.TrackHistory ? CaptureReportState( EffectiveDefinition ) : null;
+
+        if ( command.Execute is not null )
+            await command.Execute.Invoke();
+
+        var definition = command.GetDefinition?.Invoke() ?? EffectiveDefinition;
+
+        if ( command.TrackHistory )
+        {
+            var afterState = CaptureReportState( definition );
+            var action = new ReportStateHistoryAction( command.Name, beforeState, afterState );
+            historyService.Record( action );
+            afterState.CanUndo = historyService.CanUndo;
+            afterState.CanRedo = historyService.CanRedo;
+            designerState.State = ReportContext.CloneState( afterState );
+        }
+        else
+        {
+            designerState.State = CaptureReportState( definition );
+        }
+
+        if ( command.NotifyDefinitionChanged && DefinitionChanged.HasDelegate )
+            await DefinitionChanged.InvokeAsync( definition );
 
         await InvokeAsync( StateHasChanged );
     }
 
     private async Task SetModeAsync( ReportStudioMode mode )
     {
-        currentMode = mode;
+        await ExecuteDesignerCommandAsync( new( $"Set {mode} mode", async () =>
+        {
+            currentMode = mode;
 
-        if ( ModeChanged.HasDelegate )
-            await ModeChanged.InvokeAsync( currentMode );
+            if ( ModeChanged.HasDelegate )
+                await ModeChanged.InvokeAsync( currentMode );
+        }, trackHistory: false, notifyDefinitionChanged: false ) );
     }
 
     private async Task SetPreviewAsync( ReportPreviewFormat format )
     {
-        currentPreviewFormat = format;
-        await SetModeAsync( ReportStudioMode.Preview );
+        await ExecuteDesignerCommandAsync( new( $"Set {format} preview", async () =>
+        {
+            currentPreviewFormat = format;
+            currentMode = ReportStudioMode.Preview;
+
+            if ( ModeChanged.HasDelegate )
+                await ModeChanged.InvokeAsync( currentMode );
+        }, trackHistory: false, notifyDefinitionChanged: false ) );
     }
 
     private async Task ResetDefinitionAsync()
     {
-        declarativeDefinition = BuildDeclarativeDefinition();
-        reportSelected = true;
-        selectedElementKey = null;
-        selectedSectionIndex = null;
+        await ExecuteDesignerCommandAsync( new( "Reset report", () =>
+        {
+            declarativeDefinition = BuildDeclarativeDefinition();
+            reportSelected = true;
+            selectedElementKey = null;
+            selectedSectionIndex = null;
+            contextMenu = null;
+            dragPreview = null;
+
+            return Task.CompletedTask;
+        }, () => declarativeDefinition ) );
+    }
+
+    private Task CopySelectedElementAsync()
+    {
+        return ExecuteDesignerCommandAsync( new( "Copy element", () =>
+        {
+            var element = FindSelectedElement( EffectiveDefinition );
+
+            if ( element is not null )
+                clipboardElement = ReportContext.CloneElement( element );
+
+            return Task.CompletedTask;
+        }, trackHistory: false, notifyDefinitionChanged: false ) );
+    }
+
+    private async Task CutSelectedElementAsync()
+    {
+        var definition = EffectiveDefinition;
+
+        if ( !FindElementLocation( definition, selectedElementKey, out _, out _, out _ ) )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( "Cut element", () =>
+        {
+            var definition = EffectiveDefinition;
+
+            if ( FindElementLocation( definition, selectedElementKey, out var sectionIndex, out var elementIndex, out var element ) )
+            {
+                clipboardElement = ReportContext.CloneElement( element );
+                definition.Sections[sectionIndex].Elements.RemoveAt( elementIndex );
+                selectedSectionIndex = sectionIndex;
+                selectedElementKey = null;
+                contextMenu = null;
+            }
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task PasteElementAsync()
+    {
+        if ( clipboardElement is null || ResolvePasteSectionIndex( EffectiveDefinition ) < 0 )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( "Paste element", () =>
+        {
+            var definition = EffectiveDefinition;
+            var targetSectionIndex = ResolvePasteSectionIndex( definition );
+
+            var element = ReportContext.CloneElement( clipboardElement );
+            element.Id = CreateDefinitionId();
+            element.X = ApplyDesignerGrid( element.X + 16 );
+            element.Y = ApplyDesignerGrid( element.Y + 16 );
+
+            definition.Sections[targetSectionIndex].Elements.Add( element );
+
+            reportSelected = false;
+            selectedSectionIndex = null;
+            selectedElementKey = GetDesignerElementKey( element );
+            contextMenu = null;
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task UndoAsync()
+    {
+        if ( !historyService.CanUndo )
+            return;
+
+        historyService.Undo( designerState );
+        await ApplyReportStateAsync( designerState.State, notifyDefinitionChanged: true );
+    }
+
+    private async Task RedoAsync()
+    {
+        if ( !historyService.CanRedo )
+            return;
+
+        historyService.Redo( designerState );
+        await ApplyReportStateAsync( designerState.State, notifyDefinitionChanged: true );
+    }
+
+    private ReportState CaptureReportState( ReportDefinition definition )
+    {
+        definition = EnsureDefinitionIds( definition );
+
+        return new()
+        {
+            Definition = ReportContext.CloneDefinition( definition ),
+            Mode = CurrentMode,
+            PreviewFormat = CurrentPreviewFormat,
+            SnapToGrid = snapToGrid,
+            Selection = CaptureSelectionState( definition ),
+            ClipboardElement = ReportContext.CloneElement( clipboardElement ),
+            CanUndo = historyService.CanUndo,
+            CanRedo = historyService.CanRedo,
+        };
+    }
+
+    private ReportSelectionState CaptureSelectionState( ReportDefinition definition )
+    {
+        if ( FindElementLocation( definition, selectedElementKey, out var sectionIndex, out _, out var element ) )
+        {
+            return new()
+            {
+                Type = ReportSelectionType.Element,
+                SectionId = definition.Sections[sectionIndex].Id,
+                ElementId = element.Id,
+            };
+        }
+
+        if ( selectedSectionIndex is not null
+            && selectedSectionIndex.Value >= 0
+            && selectedSectionIndex.Value < definition.Sections.Count )
+        {
+            return new()
+            {
+                Type = ReportSelectionType.Section,
+                SectionId = definition.Sections[selectedSectionIndex.Value].Id,
+            };
+        }
+
+        return new()
+        {
+            Type = ReportSelectionType.Report,
+        };
+    }
+
+    private async Task ApplyReportStateAsync( ReportState state, bool notifyDefinitionChanged )
+    {
+        var nextState = ReportContext.CloneState( state );
+        var definition = EnsureDefinitionIds( nextState.Definition ?? BuildDeclarativeDefinition() );
+
+        declarativeDefinition = definition;
+        currentMode = nextState.Mode;
+        currentPreviewFormat = nextState.PreviewFormat;
+        snapToGrid = nextState.SnapToGrid;
+        clipboardElement = ReportContext.CloneElement( nextState.ClipboardElement );
+
+        ApplySelectionState( definition, nextState.Selection );
+
         contextMenu = null;
         dragPreview = null;
+        ClearDragState();
 
-        if ( DefinitionChanged.HasDelegate )
-            await DefinitionChanged.InvokeAsync( declarativeDefinition );
+        designerState.State = CaptureReportState( definition );
+
+        if ( notifyDefinitionChanged && DefinitionChanged.HasDelegate )
+            await DefinitionChanged.InvokeAsync( definition );
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    private void ApplySelectionState( ReportDefinition definition, ReportSelectionState selection )
+    {
+        reportSelected = true;
+        selectedSectionIndex = null;
+        selectedElementKey = null;
+
+        if ( selection is null )
+            return;
+
+        if ( selection.Type == ReportSelectionType.Section )
+        {
+            var sectionIndex = definition.Sections.FindIndex( section => string.Equals( section.Id, selection.SectionId, StringComparison.Ordinal ) );
+
+            if ( sectionIndex >= 0 )
+            {
+                reportSelected = false;
+                selectedSectionIndex = sectionIndex;
+            }
+
+            return;
+        }
+
+        if ( selection.Type == ReportSelectionType.Element )
+        {
+            foreach ( var section in definition.Sections )
+            {
+                var element = section.Elements.FirstOrDefault( element => string.Equals( element.Id, selection.ElementId, StringComparison.Ordinal ) );
+
+                if ( element is not null )
+                {
+                    reportSelected = false;
+                    selectedElementKey = GetDesignerElementKey( element );
+                    return;
+                }
+            }
+        }
     }
 
     private void SelectReport()
@@ -1027,15 +1298,20 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         if ( element is null )
             return;
 
-        element.X = Math.Max( 0, element.X + x );
-        element.Y = Math.Max( 0, element.Y + y );
-        element.Width = Math.Max( 8, element.Width + width );
-        element.Height = Math.Max( 8, element.Height + height );
+        await ExecuteDesignerCommandAsync( new( "Move element", () =>
+        {
+            var element = FindSelectedElement( EffectiveDefinition );
 
-        if ( DefinitionChanged.HasDelegate )
-            await DefinitionChanged.InvokeAsync( EffectiveDefinition );
+            if ( element is not null )
+            {
+                element.X = Math.Max( 0, element.X + x );
+                element.Y = Math.Max( 0, element.Y + y );
+                element.Width = Math.Max( 8, element.Width + width );
+                element.Height = Math.Max( 8, element.Height + height );
+            }
 
-        await InvokeAsync( StateHasChanged );
+            return Task.CompletedTask;
+        } ) );
     }
 
     private async Task UpdateSelectedElementAsync( Action<ReportElementDefinition> update )
@@ -1045,12 +1321,15 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         if ( element is null )
             return;
 
-        update?.Invoke( element );
+        await ExecuteDesignerCommandAsync( new( "Update element", () =>
+        {
+            var element = FindSelectedElement( EffectiveDefinition );
 
-        if ( DefinitionChanged.HasDelegate )
-            await DefinitionChanged.InvokeAsync( EffectiveDefinition );
+            if ( element is not null )
+                update?.Invoke( element );
 
-        await InvokeAsync( StateHasChanged );
+            return Task.CompletedTask;
+        } ) );
     }
 
     private async Task UpdateSelectedSectionAsync( Action<ReportSectionDefinition> update )
@@ -1060,24 +1339,27 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         if ( section is null )
             return;
 
-        update?.Invoke( section );
+        await ExecuteDesignerCommandAsync( new( "Update band", () =>
+        {
+            var section = FindSelectedSection( EffectiveDefinition );
 
-        if ( DefinitionChanged.HasDelegate )
-            await DefinitionChanged.InvokeAsync( EffectiveDefinition );
+            if ( section is not null )
+                update?.Invoke( section );
 
-        await InvokeAsync( StateHasChanged );
+            return Task.CompletedTask;
+        } ) );
     }
 
     private async Task UpdateReportPageAsync( Action<ReportPageDefinition> update )
     {
-        var definition = EffectiveDefinition;
+        await ExecuteDesignerCommandAsync( new( "Update page", () =>
+        {
+            var definition = EffectiveDefinition;
 
-        update?.Invoke( definition.Page );
+            update?.Invoke( definition.Page );
 
-        if ( DefinitionChanged.HasDelegate )
-            await DefinitionChanged.InvokeAsync( definition );
-
-        await InvokeAsync( StateHasChanged );
+            return Task.CompletedTask;
+        } ) );
     }
 
     private async Task InsertSectionAsync( bool insertAfter )
@@ -1088,44 +1370,55 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         if ( sourceSection is null || selectedSectionIndex is null )
             return;
 
-        var insertIndex = insertAfter ? selectedSectionIndex.Value + 1 : selectedSectionIndex.Value;
-        var section = new ReportSectionDefinition
+        await ExecuteDesignerCommandAsync( new( insertAfter ? "Insert band after" : "Insert band before", () =>
         {
-            Name = CreateUniqueSectionName( definition, $"{GetSectionTypeDisplayName( sourceSection.Type )} band" ),
-            Type = sourceSection.Type,
-            Layout = sourceSection.Layout,
-            Height = sourceSection.Height,
-            DataSource = sourceSection.DataSource,
-        };
+            var definition = EffectiveDefinition;
+            var sourceSection = FindSelectedSection( definition );
 
-        definition.Sections.Insert( insertIndex, section );
+            if ( sourceSection is null || selectedSectionIndex is null )
+                return Task.CompletedTask;
 
-        selectedSectionIndex = insertIndex;
-        selectedElementKey = null;
-        contextMenu = null;
+            var insertIndex = insertAfter ? selectedSectionIndex.Value + 1 : selectedSectionIndex.Value;
+            var section = new ReportSectionDefinition
+            {
+                Name = CreateUniqueSectionName( definition, $"{GetSectionTypeDisplayName( sourceSection.Type )} band" ),
+                Type = sourceSection.Type,
+                Layout = sourceSection.Layout,
+                Height = sourceSection.Height,
+                DataSource = sourceSection.DataSource,
+            };
 
-        if ( DefinitionChanged.HasDelegate )
-            await DefinitionChanged.InvokeAsync( definition );
+            definition.Sections.Insert( insertIndex, section );
 
-        await InvokeAsync( StateHasChanged );
+            selectedSectionIndex = insertIndex;
+            selectedElementKey = null;
+            contextMenu = null;
+
+            return Task.CompletedTask;
+        } ) );
     }
 
     private async Task DeleteSelectedElementAsync()
     {
         var definition = EffectiveDefinition;
 
-        if ( !FindElementLocation( definition, selectedElementKey, out var sectionIndex, out var elementIndex, out _ ) )
+        if ( !FindElementLocation( definition, selectedElementKey, out _, out _, out _ ) )
             return;
 
-        definition.Sections[sectionIndex].Elements.RemoveAt( elementIndex );
-        selectedSectionIndex = sectionIndex;
-        selectedElementKey = null;
-        contextMenu = null;
+        await ExecuteDesignerCommandAsync( new( "Delete element", () =>
+        {
+            var definition = EffectiveDefinition;
 
-        if ( DefinitionChanged.HasDelegate )
-            await DefinitionChanged.InvokeAsync( definition );
+            if ( FindElementLocation( definition, selectedElementKey, out var sectionIndex, out var elementIndex, out _ ) )
+            {
+                definition.Sections[sectionIndex].Elements.RemoveAt( elementIndex );
+                selectedSectionIndex = sectionIndex;
+                selectedElementKey = null;
+                contextMenu = null;
+            }
 
-        await InvokeAsync( StateHasChanged );
+            return Task.CompletedTask;
+        } ) );
     }
 
     private void BeginFieldDrag( string dataSourceName, string fieldName )
@@ -1208,54 +1501,65 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         if ( targetSectionIndex < 0 || targetSectionIndex >= definition.Sections.Count )
             return;
 
-        var targetSection = definition.Sections[targetSectionIndex];
         var x = ApplyDesignerGrid( eventArgs.OffsetX );
         var y = ApplyDesignerGrid( eventArgs.OffsetY );
 
-        switch ( draggedKind )
+        var commandName = draggedKind switch
         {
-            case ReportDesignerDragKind.Field when !string.IsNullOrWhiteSpace( draggedFieldName ):
-                var fieldElement = new ReportElementDefinition
-                {
-                    Name = draggedFieldName,
-                    Type = ReportElementType.Field,
-                    Field = draggedFieldName,
-                    DataSource = draggedDataSourceName,
-                    X = x,
-                    Y = y,
-                    Width = 160,
-                    Height = 24,
-                };
-                targetSection.Elements.Add( fieldElement );
-                selectedElementKey = GetDesignerElementKey( fieldElement );
-                reportSelected = false;
-                break;
-            case ReportDesignerDragKind.ToolboxElement when draggedElementType is not null:
-                var toolboxElement = CreateElementFromToolbox( draggedElementType.Value, draggedElementText, x, y );
-                targetSection.Elements.Add( toolboxElement );
-                selectedElementKey = GetDesignerElementKey( toolboxElement );
-                reportSelected = false;
-                break;
-            case ReportDesignerDragKind.Element when FindElementLocation( definition, draggedElementKey, out var sourceSectionIndex, out var sourceElementIndex, out var element ):
-                definition.Sections[sourceSectionIndex].Elements.RemoveAt( sourceElementIndex );
-                element.X = x;
-                element.Y = y;
-                targetSection.Elements.Add( element );
-                selectedElementKey = GetDesignerElementKey( element );
-                reportSelected = false;
-                break;
-            default:
-                return;
-        }
+            ReportDesignerDragKind.Field when !string.IsNullOrWhiteSpace( draggedFieldName ) => "Add field",
+            ReportDesignerDragKind.ToolboxElement when draggedElementType is not null => "Add element",
+            ReportDesignerDragKind.Element when FindElementLocation( definition, draggedElementKey, out _, out _, out _ ) => "Move element",
+            _ => null,
+        };
 
-        selectedSectionIndex = null;
-        dragPreview = null;
-        ClearDragState();
+        if ( commandName is null )
+            return;
 
-        if ( DefinitionChanged.HasDelegate )
-            await DefinitionChanged.InvokeAsync( definition );
+        await ExecuteDesignerCommandAsync( new( commandName, () =>
+        {
+            var definition = EffectiveDefinition;
+            var targetSection = definition.Sections[targetSectionIndex];
 
-        await InvokeAsync( StateHasChanged );
+            switch ( draggedKind )
+            {
+                case ReportDesignerDragKind.Field when !string.IsNullOrWhiteSpace( draggedFieldName ):
+                    var fieldElement = new ReportElementDefinition
+                    {
+                        Name = draggedFieldName,
+                        Type = ReportElementType.Field,
+                        Field = draggedFieldName,
+                        DataSource = draggedDataSourceName,
+                        X = x,
+                        Y = y,
+                        Width = 160,
+                        Height = 24,
+                    };
+                    targetSection.Elements.Add( fieldElement );
+                    selectedElementKey = GetDesignerElementKey( fieldElement );
+                    reportSelected = false;
+                    break;
+                case ReportDesignerDragKind.ToolboxElement when draggedElementType is not null:
+                    var toolboxElement = CreateElementFromToolbox( draggedElementType.Value, draggedElementText, x, y );
+                    targetSection.Elements.Add( toolboxElement );
+                    selectedElementKey = GetDesignerElementKey( toolboxElement );
+                    reportSelected = false;
+                    break;
+                case ReportDesignerDragKind.Element when FindElementLocation( definition, draggedElementKey, out var sourceSectionIndex, out var sourceElementIndex, out var element ):
+                    definition.Sections[sourceSectionIndex].Elements.RemoveAt( sourceElementIndex );
+                    element.X = x;
+                    element.Y = y;
+                    targetSection.Elements.Add( element );
+                    selectedElementKey = GetDesignerElementKey( element );
+                    reportSelected = false;
+                    break;
+            }
+
+            selectedSectionIndex = null;
+            dragPreview = null;
+            ClearDragState();
+
+            return Task.CompletedTask;
+        } ) );
     }
 
     private ReportDesignerDragPreview CreateDragPreview( int targetSectionIndex, double x, double y )
@@ -1575,6 +1879,22 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
             : null;
     }
 
+    private int ResolvePasteSectionIndex( ReportDefinition definition )
+    {
+        if ( definition.Sections.Count == 0 )
+            return -1;
+
+        if ( selectedSectionIndex is not null
+            && selectedSectionIndex.Value >= 0
+            && selectedSectionIndex.Value < definition.Sections.Count )
+            return selectedSectionIndex.Value;
+
+        if ( FindElementLocation( definition, selectedElementKey, out var sectionIndex, out _, out _ ) )
+            return sectionIndex;
+
+        return 0;
+    }
+
     private bool FindElementLocation( ReportDefinition definition, string key, out int sectionIndex, out int elementIndex, out ReportElementDefinition element )
     {
         sectionIndex = -1;
@@ -1607,14 +1927,49 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         if ( element is null )
             return null;
 
-        if ( !designerElementKeys.TryGetValue( element, out var key ) )
+        if ( string.IsNullOrWhiteSpace( element.Id ) )
+            element.Id = CreateDefinitionId();
+
+        return element.Id;
+    }
+
+    private static ReportDefinition EnsureDefinitionIds( ReportDefinition definition )
+    {
+        if ( definition is null )
+            return null;
+
+        if ( string.IsNullOrWhiteSpace( definition.Id ) )
+            definition.Id = CreateDefinitionId();
+
+        foreach ( var dataSource in definition.DataSources )
         {
-            key = $"element:{++nextDesignerElementKey}";
-            designerElementKeys[element] = key;
+            if ( string.IsNullOrWhiteSpace( dataSource.Id ) )
+                dataSource.Id = CreateDefinitionId();
         }
 
-        return key;
+        foreach ( var section in definition.Sections )
+        {
+            if ( string.IsNullOrWhiteSpace( section.Id ) )
+                section.Id = CreateDefinitionId();
+
+            foreach ( var element in section.Elements )
+            {
+                if ( string.IsNullOrWhiteSpace( element.Id ) )
+                    element.Id = CreateDefinitionId();
+
+                foreach ( var column in element.Columns )
+                {
+                    if ( string.IsNullOrWhiteSpace( column.Id ) )
+                        column.Id = CreateDefinitionId();
+                }
+            }
+        }
+
+        return definition;
     }
+
+    private static string CreateDefinitionId()
+        => Guid.NewGuid().ToString( "N" );
 
     private bool SupportsPreviewFormat( ReportPreviewFormat format )
     {

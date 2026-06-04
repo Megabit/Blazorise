@@ -5,6 +5,8 @@ namespace Blazorise.Reporting;
 internal interface IReportCommandExecutor
 {
     Task ExecuteCommandAsync( ReportCommand command );
+
+    bool CanExecuteCommand( ReportCommand command );
 }
 
 internal sealed class ReportToolbarContext
@@ -19,5 +21,10 @@ internal sealed class ReportToolbarContext
     public Task ExecuteAsync( ReportCommand command )
     {
         return Report.ExecuteCommandAsync( command );
+    }
+
+    public bool CanExecute( ReportCommand command )
+    {
+        return Report.CanExecuteCommand( command );
     }
 }

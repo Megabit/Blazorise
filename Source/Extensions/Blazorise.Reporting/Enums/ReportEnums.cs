@@ -70,7 +70,21 @@ public enum ReportElementType
 public enum ReportCommand
 {
     Design,
+    Preview,
     PreviewHtml,
     PreviewPdf,
+    Cut,
+    Copy,
+    Paste,
+    Delete,
+    Undo,
+    Redo,
     Reset
+}
+
+public enum ReportSelectionType
+{
+    Report,
+    Section,
+    Element
 }
