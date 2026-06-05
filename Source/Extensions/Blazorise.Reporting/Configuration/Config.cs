@@ -5,6 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Blazorise.Reporting;
 
+/// <summary>
+/// Provides service registration helpers for Blazorise Reporting.
+/// </summary>
 public static class Config
 {
     /// <summary>

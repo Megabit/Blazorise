@@ -132,13 +132,28 @@
             _ => IconName.TextHeight,
         };
 
+    /// <summary>
+    /// Root nodes rendered by the tree view.
+    /// </summary>
     [Parameter] public IReadOnlyList<ReportTreeNode> Nodes { get; set; }
 
+    /// <summary>
+    /// Raised when a selectable tree node is clicked.
+    /// </summary>
     [Parameter] public EventCallback<ReportTreeNode> NodeClicked { get; set; }
 
+    /// <summary>
+    /// Raised when a selectable tree node opens its context menu.
+    /// </summary>
     [Parameter] public EventCallback<ReportTreeNodeMouseEventArgs> NodeContextMenu { get; set; }
 
+    /// <summary>
+    /// Raised when dragging starts for a draggable tree node.
+    /// </summary>
     [Parameter] public EventCallback<ReportTreeNodeDragEventArgs> NodeDragStarted { get; set; }
 
+    /// <summary>
+    /// Raised when dragging ends for a draggable tree node.
+    /// </summary>
     [Parameter] public EventCallback<ReportTreeNode> NodeDragEnded { get; set; }
 }

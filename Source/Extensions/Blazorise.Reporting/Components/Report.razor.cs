@@ -1,3 +1,4 @@
+#region Using directives
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,11 +15,18 @@ using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
+#endregion
 
 namespace Blazorise.Reporting;
 
+/// <summary>
+/// Provides a declarative report designer and viewer for band-based report definitions.
+/// </summary>
+/// <typeparam name="TItem">Data item type used by the default report data source.</typeparam>
 public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsyncDisposable
 {
+    #region Members
+
     private const double DesignerBandRailWidth = 128;
 
     private const double DesignerCollapsedBandHeight = 28;
@@ -85,11 +93,23 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private IJSObjectReference reportingModule;
 
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Initializes a new report component instance.
+    /// </summary>
     public Report()
     {
         toolbarContext = new( this );
     }
 
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         context.ViewerOptions.PreviewFormats = GlobalOptions.PreviewFormats;
@@ -101,6 +121,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         currentPreviewFormat = DefaultPreviewFormat ?? context.ViewerOptions.DefaultFormat;
     }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( firstRender && Definition is null && DefinitionMode != ReportDefinitionMode.UseDefinitionOnly )
@@ -116,6 +137,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         }
     }
 
+    /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
         if ( reportingModule is not null )
@@ -132,11 +154,6 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
         dotNetObjectReference?.Dispose();
     }
-
-    private ReportDefinition EffectiveDefinition
-        => DefinitionMode == ReportDefinitionMode.AlwaysUseDeclarative
-            ? BuildDeclarativeDefinition()
-            : Definition ?? declarativeDefinition ?? BuildDeclarativeDefinition();
 
     private ReportDefinition BuildDeclarativeDefinition()
     {
@@ -162,11 +179,11 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
         if ( page.Width <= 0 || page.Height <= 0 )
         {
-            ( var width, var height ) = page.Size == ReportPageSize.Letter ? ( 816d, 1056d ) : ( 794d, 1123d );
+            (var width, var height) = page.Size == ReportPageSize.Letter ? (816d, 1056d) : (794d, 1123d);
 
             if ( page.Orientation == ReportOrientation.Landscape )
             {
-                ( width, height ) = ( height, width );
+                (width, height) = (height, width);
             }
 
             page.Width = width;
@@ -1155,6 +1172,10 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         builder.CloseElement();
     }
 
+    /// <summary>
+    /// Executes a report command against the current designer or viewer state.
+    /// </summary>
+    /// <param name="command">Command requested by a toolbar item or external caller.</param>
     public async Task ExecuteCommandAsync( ReportCommand command )
     {
         await ( command switch
@@ -1174,6 +1195,11 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         } );
     }
 
+    /// <summary>
+    /// Determines whether the supplied report command is currently available.
+    /// </summary>
+    /// <param name="command">Command to evaluate against the current report state.</param>
+    /// <returns><c>true</c> when the command can be executed.</returns>
     public bool CanExecuteCommand( ReportCommand command )
     {
         var definition = EffectiveDefinition;
@@ -1193,6 +1219,11 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         };
     }
 
+    /// <summary>
+    /// Determines whether the supplied report command represents the active mode or preview format.
+    /// </summary>
+    /// <param name="command">Command to evaluate against the current report state.</param>
+    /// <returns><c>true</c> when the command is active.</returns>
     public bool IsCommandActive( ReportCommand command )
     {
         return command switch
@@ -1205,11 +1236,19 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         };
     }
 
+    /// <summary>
+    /// Captures the current report definition, mode, selection, clipboard, and history availability.
+    /// </summary>
+    /// <returns>Serializable report designer state.</returns>
     public Task<ReportState> GetState()
     {
         return Task.FromResult( CaptureReportState( EffectiveDefinition ) );
     }
 
+    /// <summary>
+    /// Restores a previously captured report designer state.
+    /// </summary>
+    /// <param name="state">State to apply to the report designer.</param>
     public async Task LoadState( ReportState state )
     {
         historyService.Clear();
@@ -2256,18 +2295,29 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         return Math.Max( 8, ApplyDesignerGrid( pointerResize.OriginalHeight + clientY - pointerResize.StartClientY ) );
     }
 
+    /// <summary>
+    /// Previews a document-level band resize while the pointer is moving.
+    /// </summary>
+    /// <param name="clientY">Current document pointer Y coordinate.</param>
     [JSInvokable]
     public Task OnDocumentSectionResizeMove( double clientY )
     {
         return InvokeAsync( () => PreviewSectionPointerResizeAsync( clientY ) );
     }
 
+    /// <summary>
+    /// Completes a document-level band resize and commits the final band height.
+    /// </summary>
+    /// <param name="clientY">Final document pointer Y coordinate.</param>
     [JSInvokable]
     public Task OnDocumentSectionResizeEnd( double clientY )
     {
         return InvokeAsync( () => CompleteSectionPointerResizeAsync( clientY ) );
     }
 
+    /// <summary>
+    /// Cancels the active document-level band resize.
+    /// </summary>
     [JSInvokable]
     public Task OnDocumentSectionResizeCancel()
     {
@@ -2982,6 +3032,15 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         return ( PreviewFormats ?? context.ViewerOptions.PreviewFormats ).HasFlag( format );
     }
 
+    #endregion
+
+    #region Properties
+
+    private ReportDefinition EffectiveDefinition
+        => DefinitionMode == ReportDefinitionMode.AlwaysUseDeclarative
+            ? BuildDeclarativeDefinition()
+            : Definition ?? declarativeDefinition ?? BuildDeclarativeDefinition();
+
     private bool IsDesignerEnabled => DesignerEnabled || GlobalOptions.DesignerEnabled;
 
     private ReportOptions GlobalOptions => globalOptions ??= ServiceProvider.GetService<ReportOptions>() ?? new();
@@ -2993,6 +3052,95 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
     private string ToolbarStateKey => $"{CurrentMode}|{CurrentPreviewFormat}|{selectedElementKey}|{selectedSectionIndex}|{clipboardElement?.Id}|{historyService.CanUndo}|{historyService.CanRedo}";
 
     private string DataSourceName => "Default";
+
+    /// <summary>
+    /// JavaScript runtime used for document-level designer interactions.
+    /// </summary>
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    /// <summary>
+    /// Persisted report definition used by the designer and viewer.
+    /// </summary>
+    [Parameter] public ReportDefinition Definition { get; set; }
+
+    /// <summary>
+    /// Raised when the report definition changes through designer commands.
+    /// </summary>
+    [Parameter] public EventCallback<ReportDefinition> DefinitionChanged { get; set; }
+
+    /// <summary>
+    /// Default data source used when no explicit <see cref="ReportDataSource"/> is declared.
+    /// </summary>
+    [Parameter] public IEnumerable<TItem> Data { get; set; }
+
+    /// <summary>
+    /// Page settings used by the declarative report seed.
+    /// </summary>
+    [Parameter] public ReportPageDefinition Page { get; set; }
+
+    /// <summary>
+    /// Enables the interactive designer surface for this report.
+    /// </summary>
+    [Parameter] public bool DesignerEnabled { get; set; }
+
+    /// <summary>
+    /// Shows the report toolbar above the designer or viewer surface.
+    /// </summary>
+    [Parameter] public bool ShowToolbar { get; set; } = true;
+
+    /// <summary>
+    /// Band presentation used by the designer.
+    /// </summary>
+    [Parameter] public ReportBandMode BandMode { get; set; } = ReportBandMode.Rail;
+
+    /// <summary>
+    /// Enables collapsing and expanding bands in the designer rail.
+    /// </summary>
+    [Parameter] public bool AllowBandCollapse { get; set; } = true;
+
+    /// <summary>
+    /// Shows data source names in band labels when available.
+    /// </summary>
+    [Parameter] public bool ShowBandDataSource { get; set; } = true;
+
+    /// <summary>
+    /// Controls how declarative child content is used with persisted definitions.
+    /// </summary>
+    [Parameter] public ReportDefinitionMode DefinitionMode { get; set; } = ReportDefinitionMode.SeedWhenEmpty;
+
+    /// <summary>
+    /// Externally controlled design or preview mode.
+    /// </summary>
+    [Parameter] public ReportStudioMode? Mode { get; set; }
+
+    /// <summary>
+    /// Raised when design or preview mode changes.
+    /// </summary>
+    [Parameter] public EventCallback<ReportStudioMode> ModeChanged { get; set; }
+
+    /// <summary>
+    /// Externally controlled preview format.
+    /// </summary>
+    [Parameter] public ReportPreviewFormat? PreviewFormat { get; set; }
+
+    /// <summary>
+    /// Preview formats available for this report.
+    /// </summary>
+    [Parameter] public ReportPreviewFormat? PreviewFormats { get; set; }
+
+    /// <summary>
+    /// Preview format selected when preview mode is first opened.
+    /// </summary>
+    [Parameter] public ReportPreviewFormat? DefaultPreviewFormat { get; set; }
+
+    /// <summary>
+    /// Declarative report content used as the initial report definition.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    #endregion
+
+    #region Data structures
 
     private enum ReportDesignerDragKind
     {
@@ -3144,37 +3292,5 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         public Type DataType { get; set; }
     }
 
-    [Parameter] public ReportDefinition Definition { get; set; }
-
-    [Parameter] public EventCallback<ReportDefinition> DefinitionChanged { get; set; }
-
-    [Parameter] public IEnumerable<TItem> Data { get; set; }
-
-    [Parameter] public ReportPageDefinition Page { get; set; }
-
-    [Parameter] public bool DesignerEnabled { get; set; }
-
-    [Parameter] public bool ShowToolbar { get; set; } = true;
-
-    [Parameter] public ReportBandMode BandMode { get; set; } = ReportBandMode.Rail;
-
-    [Parameter] public bool AllowBandCollapse { get; set; } = true;
-
-    [Parameter] public bool ShowBandDataSource { get; set; } = true;
-
-    [Parameter] public ReportDefinitionMode DefinitionMode { get; set; } = ReportDefinitionMode.SeedWhenEmpty;
-
-    [Parameter] public ReportStudioMode? Mode { get; set; }
-
-    [Parameter] public EventCallback<ReportStudioMode> ModeChanged { get; set; }
-
-    [Parameter] public ReportPreviewFormat? PreviewFormat { get; set; }
-
-    [Parameter] public ReportPreviewFormat? PreviewFormats { get; set; }
-
-    [Parameter] public ReportPreviewFormat? DefaultPreviewFormat { get; set; }
-
-    [Parameter] public RenderFragment ChildContent { get; set; }
-
-    [Inject] private IJSRuntime JSRuntime { get; set; }
+    #endregion
 }
