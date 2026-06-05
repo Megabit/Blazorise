@@ -22,6 +22,13 @@ public enum ReportDefinitionMode
     UseDefinitionOnly
 }
 
+public enum ReportBandMode
+{
+    Rail,
+    Separator,
+    Compact
+}
+
 public enum ReportLayout
 {
     Absolute,
