@@ -24,6 +24,8 @@ public abstract class ReportSectionBase : ComponentBase
             DataSource = DataSource,
             Class = Class,
             Style = Style,
+            Default = true,
+            Suppressed = Suppressed,
         } );
 
         SectionContext = new( section );
@@ -40,6 +42,8 @@ public abstract class ReportSectionBase : ComponentBase
     [Parameter] public string Class { get; set; }
 
     [Parameter] public string Style { get; set; }
+
+    [Parameter] public bool Suppressed { get; set; }
 
     [Parameter] public RenderFragment ChildContent { get; set; }
 }

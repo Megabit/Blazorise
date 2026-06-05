@@ -49,6 +49,8 @@ internal sealed class ReportContext
         existing.DataSource = section.DataSource;
         existing.Class = section.Class;
         existing.Style = section.Style;
+        existing.Default = section.Default;
+        existing.Suppressed = section.Suppressed;
         existing.Elements.Clear();
 
         return existing;
@@ -140,6 +142,8 @@ internal sealed class ReportContext
             DataSource = section.DataSource,
             Class = section.Class,
             Style = section.Style,
+            Default = section.Default,
+            Suppressed = section.Suppressed,
             Elements = section.Elements.Select( CloneElement ).ToList(),
         };
     }

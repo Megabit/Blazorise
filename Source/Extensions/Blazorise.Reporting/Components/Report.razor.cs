@@ -353,8 +353,22 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         switch ( contextMenu.Target )
         {
             case ReportContextMenuTarget.Section when contextMenu.SectionIndex >= 0 && contextMenu.SectionIndex < definition.Sections.Count:
-                RenderContextMenuButton( builder, ref sequence, "Insert band before", () => InsertSectionAsync( insertAfter: false ) );
-                RenderContextMenuButton( builder, ref sequence, "Insert band after", () => InsertSectionAsync( insertAfter: true ) );
+                var section = definition.Sections[contextMenu.SectionIndex];
+                if ( !section.Suppressed )
+                {
+                    RenderContextMenuButton( builder, ref sequence, "Insert band before", () => InsertSectionAsync( insertAfter: false ) );
+                    RenderContextMenuButton( builder, ref sequence, "Insert band after", () => InsertSectionAsync( insertAfter: true ) );
+                    RenderContextMenuButton( builder, ref sequence, "Suppress", ToggleSelectedSectionSuppressionAsync );
+
+                    if ( CanDeleteSection( section ) )
+                    {
+                        RenderContextMenuButton( builder, ref sequence, "Delete band", DeleteSelectedSectionAsync );
+                    }
+                }
+                else
+                {
+                    RenderContextMenuButton( builder, ref sequence, "Don't suppress", ToggleSelectedSectionSuppressionAsync );
+                }
                 break;
             case ReportContextMenuTarget.Element:
                 RenderContextMenuButton( builder, ref sequence, "Delete element", DeleteSelectedElementAsync );
@@ -527,7 +541,15 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         }
         else if ( TryResolveElementTreeNode( node, out var elementKey ) )
         {
-            SelectElement( elementKey );
+            if ( FindElementLocation( EffectiveDefinition, elementKey, out var elementSectionIndex, out _, out _ )
+                && EffectiveDefinition.Sections[elementSectionIndex].Suppressed )
+            {
+                SelectSection( elementSectionIndex );
+            }
+            else
+            {
+                SelectElement( elementKey );
+            }
         }
 
         return Task.CompletedTask;
@@ -623,6 +645,9 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
 
     private void RenderSection( RenderTreeBuilder builder, ReportDefinition definition, ReportSectionDefinition section, int sectionIndex, bool designMode )
     {
+        if ( section.Suppressed && !designMode )
+            return;
+
         var items = !designMode && section.Type == ReportSectionType.Detail
             ? ResolveItems( definition, section.DataSource ).ToList()
             : new List<object> { ResolveItems( definition, section.DataSource ).FirstOrDefault() };
@@ -635,9 +660,9 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
             var item = items[itemIndex];
             var sectionSequence = 0;
             var railVisible = designMode && BandMode == ReportBandMode.Rail;
-            var collapsed = railVisible && IsSectionCollapsed( section );
+            var collapsed = designMode && railVisible && !section.Suppressed && IsSectionCollapsed( section );
             var sectionHeight = collapsed ? DesignerCollapsedBandHeight : section.Height;
-            var sectionClass = $"b-report-section {section.Class} {( designMode && selectedSectionIndex == sectionIndex && string.IsNullOrWhiteSpace( selectedElementKey ) ? "active" : string.Empty )} {( collapsed ? "collapsed" : string.Empty )}".Trim();
+            var sectionClass = $"b-report-section {section.Class} {( designMode && selectedSectionIndex == sectionIndex && string.IsNullOrWhiteSpace( selectedElementKey ) ? "active" : string.Empty )} {( collapsed ? "collapsed" : string.Empty )} {( section.Suppressed ? "suppressed" : string.Empty )}".Trim();
 
             builder.OpenElement( sectionSequence++, "section" );
             builder.SetKey( designMode ? section.Id : $"{section.Id}:{itemIndex}" );
@@ -661,20 +686,24 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
                 if ( designMode )
                 {
                     builder.OpenElement( sectionSequence++, "div" );
-                    builder.AddAttribute( sectionSequence++, "class", railVisible ? "b-report-section-body b-report-section-body-rail" : "b-report-section-body" );
+                    builder.AddAttribute( sectionSequence++, "class", $"{( railVisible ? "b-report-section-body b-report-section-body-rail" : "b-report-section-body" )} {( section.Suppressed ? "disabled" : string.Empty )}".Trim() );
                     builder.AddAttribute( sectionSequence++, "style", railVisible ? $"left:{DesignerBandRailWidth}px;width:{definition.Page.Width}px;" : null );
-                    builder.AddAttribute( sectionSequence++, "ondragover", EventUtil.AsNonRenderingEventHandler<DragEventArgs>( eventArgs => PreviewDesignerDragAsync( sectionIndex, eventArgs ) ) );
-                    builder.AddEventPreventDefaultAttribute( sectionSequence++, "ondragover", true );
-                    builder.AddAttribute( sectionSequence++, "ondrop", EventCallback.Factory.Create<DragEventArgs>( this, eventArgs => DropDesignerItemAsync( sectionIndex, eventArgs ) ) );
-                    builder.AddEventPreventDefaultAttribute( sectionSequence++, "ondrop", true );
-                    builder.AddAttribute( sectionSequence++, "onpointermove", EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( eventArgs => PreviewElementPointerInteractionAsync( sectionIndex, eventArgs ) ) );
-                    builder.AddEventPreventDefaultAttribute( sectionSequence++, "onpointermove", true );
-                    builder.AddAttribute( sectionSequence++, "onpointerup", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => CompleteElementPointerInteractionAsync( sectionIndex, eventArgs ) ) );
-                    builder.AddEventPreventDefaultAttribute( sectionSequence++, "onpointerup", true );
-                    builder.AddAttribute( sectionSequence++, "onpointercancel", EventCallback.Factory.Create<PointerEventArgs>( this, _ => CancelElementPointerInteractionAsync() ) );
-                    builder.AddAttribute( sectionSequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => SelectSection( sectionIndex ) ) );
-                    builder.AddAttribute( sectionSequence++, "oncontextmenu", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenSectionContextMenu( sectionIndex, eventArgs ) ) );
-                    builder.AddEventPreventDefaultAttribute( sectionSequence++, "oncontextmenu", true );
+
+                    if ( !section.Suppressed )
+                    {
+                        builder.AddAttribute( sectionSequence++, "ondragover", EventUtil.AsNonRenderingEventHandler<DragEventArgs>( eventArgs => PreviewDesignerDragAsync( sectionIndex, eventArgs ) ) );
+                        builder.AddEventPreventDefaultAttribute( sectionSequence++, "ondragover", true );
+                        builder.AddAttribute( sectionSequence++, "ondrop", EventCallback.Factory.Create<DragEventArgs>( this, eventArgs => DropDesignerItemAsync( sectionIndex, eventArgs ) ) );
+                        builder.AddEventPreventDefaultAttribute( sectionSequence++, "ondrop", true );
+                        builder.AddAttribute( sectionSequence++, "onpointermove", EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( eventArgs => PreviewElementPointerInteractionAsync( sectionIndex, eventArgs ) ) );
+                        builder.AddEventPreventDefaultAttribute( sectionSequence++, "onpointermove", true );
+                        builder.AddAttribute( sectionSequence++, "onpointerup", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => CompleteElementPointerInteractionAsync( sectionIndex, eventArgs ) ) );
+                        builder.AddEventPreventDefaultAttribute( sectionSequence++, "onpointerup", true );
+                        builder.AddAttribute( sectionSequence++, "onpointercancel", EventCallback.Factory.Create<PointerEventArgs>( this, _ => CancelElementPointerInteractionAsync() ) );
+                        builder.AddAttribute( sectionSequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => SelectSection( sectionIndex ) ) );
+                        builder.AddAttribute( sectionSequence++, "oncontextmenu", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenSectionContextMenu( sectionIndex, eventArgs ) ) );
+                        builder.AddEventPreventDefaultAttribute( sectionSequence++, "oncontextmenu", true );
+                    }
                 }
 
                 for ( var i = 0; i < section.Elements.Count; i++ )
@@ -682,10 +711,10 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
                     var element = section.Elements[i];
                     var key = GetDesignerElementKey( element );
 
-                    RenderElement( builder, item, element, designMode, key );
+                    RenderElement( builder, item, element, designMode, !section.Suppressed, key );
                 }
 
-                if ( designMode && dragPreview?.SectionIndex == sectionIndex )
+                if ( designMode && !section.Suppressed && dragPreview?.SectionIndex == sectionIndex )
                 {
                     RenderDesignerDragPreview( builder, dragPreview );
                 }
@@ -713,11 +742,11 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         builder.OpenElement( railSequence++, "button" );
         builder.AddAttribute( railSequence++, "type", "button" );
         builder.AddAttribute( railSequence++, "class", "b-report-section-rail-toggle" );
-        builder.AddAttribute( railSequence++, "title", collapsed ? "Expand band" : "Collapse band" );
-        builder.AddAttribute( railSequence++, "disabled", !AllowBandCollapse );
+        builder.AddAttribute( railSequence++, "title", section.Suppressed ? "Band is suppressed" : collapsed ? "Expand band" : "Collapse band" );
+        builder.AddAttribute( railSequence++, "disabled", !AllowBandCollapse || section.Suppressed );
         builder.AddAttribute( railSequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => ToggleSectionCollapsed( section ) ) );
         builder.AddEventStopPropagationAttribute( railSequence++, "onclick", true );
-        builder.AddContent( railSequence++, collapsed ? "+" : "-" );
+        builder.AddContent( railSequence++, section.Suppressed ? "!" : collapsed ? "+" : "-" );
         builder.CloseElement();
 
         builder.OpenElement( railSequence++, "div" );
@@ -736,6 +765,14 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
             builder.CloseElement();
         }
 
+        if ( section.Suppressed )
+        {
+            builder.OpenElement( railSequence++, "span" );
+            builder.AddAttribute( railSequence++, "class", "b-report-section-rail-status" );
+            builder.AddContent( railSequence++, "Suppressed" );
+            builder.CloseElement();
+        }
+
         builder.CloseElement();
         builder.CloseElement();
     }
@@ -750,7 +787,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         builder.CloseElement();
     }
 
-    private void RenderElement( RenderTreeBuilder builder, object item, ReportElementDefinition element, bool designMode, string elementKey )
+    private void RenderElement( RenderTreeBuilder builder, object item, ReportElementDefinition element, bool designMode, bool editable, string elementKey )
     {
         var elementSequence = 0;
         var style = $"left:{element.X}px;top:{element.Y}px;width:{element.Width}px;height:{element.Height}px;{element.Style}";
@@ -758,10 +795,10 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
 
         builder.OpenElement( elementSequence++, "div" );
         builder.SetKey( elementKey );
-        builder.AddAttribute( elementSequence++, "class", designMode ? $"{cssClass} b-report-element-design {( elementKey == selectedElementKey ? "active" : string.Empty )}" : cssClass );
+        builder.AddAttribute( elementSequence++, "class", designMode ? $"{cssClass} b-report-element-design {( editable ? string.Empty : "disabled" )} {( editable && elementKey == selectedElementKey ? "active" : string.Empty )}" : cssClass );
         builder.AddAttribute( elementSequence++, "style", style );
 
-        if ( designMode )
+        if ( designMode && editable )
         {
             builder.AddAttribute( elementSequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => SelectElement( elementKey ) ) );
             builder.AddEventStopPropagationAttribute( elementSequence++, "onclick", true );
@@ -798,7 +835,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
                 break;
         }
 
-        if ( designMode && elementKey == selectedElementKey )
+        if ( designMode && editable && elementKey == selectedElementKey )
         {
             RenderElementResizeHandles( builder, elementKey );
         }
@@ -895,6 +932,11 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
             childBuilder.AddContent( childSequence++, "Band properties" );
             childBuilder.CloseElement();
 
+            RenderDesignerCheckbox( childBuilder, ref childSequence, "Suppress", selected.Suppressed, eventArgs => _ = UpdateSelectedSectionSuppressionAsync( eventArgs.Value is bool value && value ) );
+
+            if ( selected.Suppressed )
+                return;
+
             RenderDesignerInput( childBuilder, ref childSequence, "Name", selected.Name, value => UpdateSelectedSectionAsync( section => section.Name = value ) );
             RenderDesignerNumberInput( childBuilder, ref childSequence, "Height", selected.Height, value => UpdateSelectedSectionAsync( section => section.Height = Math.Max( 8, value ) ) );
             RenderDesignerInput( childBuilder, ref childSequence, "Data source", selected.DataSource, value => UpdateSelectedSectionAsync( section => section.DataSource = value ) );
@@ -909,6 +951,11 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
                 var toolsSequence = 0;
                 RenderDesignerButton( toolsBuilder, ref toolsSequence, "Insert before", () => InsertSectionAsync( insertAfter: false ) );
                 RenderDesignerButton( toolsBuilder, ref toolsSequence, "Insert after", () => InsertSectionAsync( insertAfter: true ) );
+
+                if ( CanDeleteSection( selected ) )
+                {
+                    RenderDesignerButton( toolsBuilder, ref toolsSequence, "Delete band", DeleteSelectedSectionAsync );
+                }
             } ) );
             childBuilder.CloseComponent();
         } ) );
@@ -919,7 +966,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
     {
         var selected = FindSelectedElement( definition );
 
-        if ( selected is null )
+        if ( selected is null || IsSelectedElementSuppressed( definition ) )
             return;
 
         builder.OpenComponent<Div>( sequence++ );
@@ -1075,7 +1122,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
             ReportCommand.Cut => CutSelectedElementAsync(),
             ReportCommand.Copy => CopySelectedElementAsync(),
             ReportCommand.Paste => PasteElementAsync(),
-            ReportCommand.Delete => DeleteSelectedElementAsync(),
+            ReportCommand.Delete => DeleteSelectionAsync(),
             ReportCommand.Undo => UndoAsync(),
             ReportCommand.Redo => RedoAsync(),
             ReportCommand.Reset => ResetDefinitionAsync(),
@@ -1093,7 +1140,8 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
             ReportCommand.Preview => SupportsPreviewFormat( currentPreviewFormat ) || SupportsPreviewFormat( context.ViewerOptions.DefaultFormat ),
             ReportCommand.PreviewHtml => SupportsPreviewFormat( ReportPreviewFormat.Html ),
             ReportCommand.PreviewPdf => SupportsPreviewFormat( ReportPreviewFormat.Pdf ),
-            ReportCommand.Cut or ReportCommand.Copy or ReportCommand.Delete => CurrentMode == ReportStudioMode.Design && FindSelectedElement( definition ) is not null,
+            ReportCommand.Cut or ReportCommand.Copy => CurrentMode == ReportStudioMode.Design && FindSelectedElement( definition ) is not null,
+            ReportCommand.Delete => CurrentMode == ReportStudioMode.Design && CanDeleteSelection( definition ),
             ReportCommand.Paste => CurrentMode == ReportStudioMode.Design && clipboardElement is not null && definition.Sections.Count > 0,
             ReportCommand.Undo => historyService.CanUndo,
             ReportCommand.Redo => historyService.CanRedo,
@@ -1562,12 +1610,104 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
                 Layout = sourceSection.Layout,
                 Height = sourceSection.Height,
                 DataSource = sourceSection.DataSource,
+                Default = false,
+                Suppressed = false,
             };
 
             definition.Sections.Insert( insertIndex, section );
 
             selectedSectionIndex = insertIndex;
             selectedElementKey = null;
+            contextMenu = null;
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private Task DeleteSelectionAsync()
+    {
+        if ( !string.IsNullOrWhiteSpace( selectedElementKey ) )
+            return DeleteSelectedElementAsync();
+
+        return DeleteSelectedSectionAsync();
+    }
+
+    private async Task DeleteSelectedSectionAsync()
+    {
+        var definition = EffectiveDefinition;
+
+        if ( selectedSectionIndex is null
+            || selectedSectionIndex < 0
+            || selectedSectionIndex >= definition.Sections.Count
+            || !CanDeleteSection( definition.Sections[selectedSectionIndex.Value] ) )
+        {
+            return;
+        }
+
+        await ExecuteDesignerCommandAsync( new( "Delete band", () =>
+        {
+            var definition = EffectiveDefinition;
+
+            if ( selectedSectionIndex is null
+                || selectedSectionIndex < 0
+                || selectedSectionIndex >= definition.Sections.Count )
+            {
+                return Task.CompletedTask;
+            }
+
+            var section = definition.Sections[selectedSectionIndex.Value];
+
+            if ( !CanDeleteSection( section ) )
+                return Task.CompletedTask;
+
+            collapsedSectionIds.Remove( GetSectionDesignerKey( section ) );
+            definition.Sections.RemoveAt( selectedSectionIndex.Value );
+
+            if ( definition.Sections.Count == 0 )
+            {
+                selectedSectionIndex = null;
+                reportSelected = true;
+            }
+            else
+            {
+                selectedSectionIndex = Math.Min( selectedSectionIndex.Value, definition.Sections.Count - 1 );
+                reportSelected = false;
+            }
+
+            selectedElementKey = null;
+            contextMenu = null;
+            ClearDragState();
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task ToggleSelectedSectionSuppressionAsync()
+    {
+        var section = FindSelectedSection( EffectiveDefinition );
+
+        if ( section is null )
+            return;
+
+        await UpdateSelectedSectionSuppressionAsync( !section.Suppressed );
+    }
+
+    private async Task UpdateSelectedSectionSuppressionAsync( bool suppressed )
+    {
+        await ExecuteDesignerCommandAsync( new( suppressed ? "Suppress" : "Don't suppress", () =>
+        {
+            var section = FindSelectedSection( EffectiveDefinition );
+
+            if ( section is not null )
+            {
+                section.Suppressed = suppressed;
+
+                if ( suppressed )
+                {
+                    collapsedSectionIds.Remove( GetSectionDesignerKey( section ) );
+                }
+            }
+
             contextMenu = null;
 
             return Task.CompletedTask;
@@ -2287,7 +2427,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
 
     private double GetDesignerSectionHeight( ReportSectionDefinition section )
     {
-        return BandMode == ReportBandMode.Rail && IsSectionCollapsed( section )
+        return BandMode == ReportBandMode.Rail && section is not null && !section.Suppressed && IsSectionCollapsed( section )
             ? DesignerCollapsedBandHeight
             : section?.Height ?? 0;
     }
@@ -2382,6 +2522,29 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
             return null;
 
         return definition.Sections[selectedSectionIndex.Value];
+    }
+
+    private bool CanDeleteSelection( ReportDefinition definition )
+    {
+        if ( definition is null )
+            return false;
+
+        if ( !string.IsNullOrWhiteSpace( selectedElementKey ) )
+            return !IsSelectedElementSuppressed( definition ) && FindSelectedElement( definition ) is not null;
+
+        return CanDeleteSection( FindSelectedSection( definition ) );
+    }
+
+    private static bool CanDeleteSection( ReportSectionDefinition section )
+    {
+        return section is not null && !section.Default;
+    }
+
+    private bool IsSelectedElementSuppressed( ReportDefinition definition )
+    {
+        return !string.IsNullOrWhiteSpace( selectedElementKey )
+            && FindElementLocation( definition, selectedElementKey, out var sectionIndex, out _, out _ )
+            && definition.Sections[sectionIndex].Suppressed;
     }
 
     private static string CreateUniqueSectionName( ReportDefinition definition, string baseName )

@@ -54,6 +54,10 @@ public sealed class ReportSectionDefinition
 
     public string Style { get; set; }
 
+    public bool Default { get; set; }
+
+    public bool Suppressed { get; set; }
+
     public List<ReportElementDefinition> Elements { get; set; } = [];
 }
 
