@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Blazorise;
 using Blazorise.Extensions;
@@ -7,6 +8,8 @@ namespace Blazorise.Reporting;
 
 public abstract class ReportElementBase : ComponentBase
 {
+    private readonly string definitionId = Guid.NewGuid().ToString( "N" );
+
     [CascadingParameter] internal ReportSectionContext SectionContext { get; set; }
 
     [Inject] protected IClassProvider ClassProvider { get; set; }
@@ -28,6 +31,7 @@ public abstract class ReportElementBase : ComponentBase
     {
         return new()
         {
+            Id = definitionId,
             Name = Name,
             Type = ElementType,
             X = X,

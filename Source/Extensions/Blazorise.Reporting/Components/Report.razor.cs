@@ -66,6 +66,8 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
 
     private DateTime lastDragPreviewRenderTime;
 
+    private int designerSurfaceVersion;
+
     private ReportElementDefinition clipboardElement;
 
     private ReportOptions globalOptions;
@@ -595,19 +597,22 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
 
     private void RenderReportPage( RenderTreeBuilder builder, ref int sequence, ReportDefinition definition, bool designMode )
     {
-        builder.OpenElement( sequence++, "div" );
-        builder.AddAttribute( sequence++, "class", designMode ? "b-report-page b-report-page-design" : "b-report-page" );
-        builder.AddAttribute( sequence++, "style", $"width:{definition.Page.Width}px;min-height:{definition.Page.Height}px;" );
+        var pageSequence = 0;
+
+        builder.OpenElement( pageSequence++, "div" );
+        builder.SetKey( designMode ? $"{definition.Id}:{designerSurfaceVersion}" : definition.Id );
+        builder.AddAttribute( pageSequence++, "class", designMode ? "b-report-page b-report-page-design" : "b-report-page" );
+        builder.AddAttribute( pageSequence++, "style", $"width:{definition.Page.Width}px;min-height:{definition.Page.Height}px;" );
 
         for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
         {
-            RenderSection( builder, ref sequence, definition, definition.Sections[sectionIndex], sectionIndex, designMode );
+            RenderSection( builder, definition, definition.Sections[sectionIndex], sectionIndex, designMode );
         }
 
         builder.CloseElement();
     }
 
-    private void RenderSection( RenderTreeBuilder builder, ref int sequence, ReportDefinition definition, ReportSectionDefinition section, int sectionIndex, bool designMode )
+    private void RenderSection( RenderTreeBuilder builder, ReportDefinition definition, ReportSectionDefinition section, int sectionIndex, bool designMode )
     {
         var items = !designMode && section.Type == ReportSectionType.Detail
             ? ResolveItems( definition, section.DataSource ).ToList()
@@ -616,30 +621,34 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         if ( items.Count == 0 )
             items.Add( null );
 
-        foreach ( var item in items )
+        for ( var itemIndex = 0; itemIndex < items.Count; itemIndex++ )
         {
-            builder.OpenElement( sequence++, "section" );
-            builder.AddAttribute( sequence++, "class", $"b-report-section {section.Class}".Trim() );
-            builder.AddAttribute( sequence++, "style", $"height:{section.Height}px;{section.Style}" );
+            var item = items[itemIndex];
+            var sectionSequence = 0;
+
+            builder.OpenElement( sectionSequence++, "section" );
+            builder.SetKey( designMode ? section.Id : $"{section.Id}:{itemIndex}" );
+            builder.AddAttribute( sectionSequence++, "class", $"b-report-section {section.Class}".Trim() );
+            builder.AddAttribute( sectionSequence++, "style", $"height:{section.Height}px;{section.Style}" );
 
             if ( designMode )
             {
-                builder.AddAttribute( sequence++, "ondragover", EventUtil.AsNonRenderingEventHandler<DragEventArgs>( eventArgs => PreviewDesignerDragAsync( sectionIndex, eventArgs ) ) );
-                builder.AddEventPreventDefaultAttribute( sequence++, "ondragover", true );
-                builder.AddAttribute( sequence++, "ondrop", EventCallback.Factory.Create<DragEventArgs>( this, eventArgs => DropDesignerItemAsync( sectionIndex, eventArgs ) ) );
-                builder.AddEventPreventDefaultAttribute( sequence++, "ondrop", true );
-                builder.AddAttribute( sequence++, "onpointermove", EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( eventArgs => PreviewElementPointerInteractionAsync( sectionIndex, eventArgs ) ) );
-                builder.AddEventPreventDefaultAttribute( sequence++, "onpointermove", true );
-                builder.AddAttribute( sequence++, "onpointerup", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => CompleteElementPointerInteractionAsync( sectionIndex, eventArgs ) ) );
-                builder.AddEventPreventDefaultAttribute( sequence++, "onpointerup", true );
-                builder.AddAttribute( sequence++, "onpointercancel", EventCallback.Factory.Create<PointerEventArgs>( this, _ => CancelElementPointerInteractionAsync() ) );
-                builder.AddAttribute( sequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => SelectSection( sectionIndex ) ) );
-                builder.AddAttribute( sequence++, "oncontextmenu", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenSectionContextMenu( sectionIndex, eventArgs ) ) );
-                builder.AddEventPreventDefaultAttribute( sequence++, "oncontextmenu", true );
+                builder.AddAttribute( sectionSequence++, "ondragover", EventUtil.AsNonRenderingEventHandler<DragEventArgs>( eventArgs => PreviewDesignerDragAsync( sectionIndex, eventArgs ) ) );
+                builder.AddEventPreventDefaultAttribute( sectionSequence++, "ondragover", true );
+                builder.AddAttribute( sectionSequence++, "ondrop", EventCallback.Factory.Create<DragEventArgs>( this, eventArgs => DropDesignerItemAsync( sectionIndex, eventArgs ) ) );
+                builder.AddEventPreventDefaultAttribute( sectionSequence++, "ondrop", true );
+                builder.AddAttribute( sectionSequence++, "onpointermove", EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( eventArgs => PreviewElementPointerInteractionAsync( sectionIndex, eventArgs ) ) );
+                builder.AddEventPreventDefaultAttribute( sectionSequence++, "onpointermove", true );
+                builder.AddAttribute( sectionSequence++, "onpointerup", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => CompleteElementPointerInteractionAsync( sectionIndex, eventArgs ) ) );
+                builder.AddEventPreventDefaultAttribute( sectionSequence++, "onpointerup", true );
+                builder.AddAttribute( sectionSequence++, "onpointercancel", EventCallback.Factory.Create<PointerEventArgs>( this, _ => CancelElementPointerInteractionAsync() ) );
+                builder.AddAttribute( sectionSequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => SelectSection( sectionIndex ) ) );
+                builder.AddAttribute( sectionSequence++, "oncontextmenu", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenSectionContextMenu( sectionIndex, eventArgs ) ) );
+                builder.AddEventPreventDefaultAttribute( sectionSequence++, "oncontextmenu", true );
 
-                builder.OpenElement( sequence++, "div" );
-                builder.AddAttribute( sequence++, "class", "b-report-section-label" );
-                builder.AddContent( sequence++, $"{GetSectionTypeDisplayName( section.Type )}: {GetSectionDisplayName( section )}" );
+                builder.OpenElement( sectionSequence++, "div" );
+                builder.AddAttribute( sectionSequence++, "class", "b-report-section-label" );
+                builder.AddContent( sectionSequence++, $"{GetSectionTypeDisplayName( section.Type )}: {GetSectionDisplayName( section )}" );
                 builder.CloseElement();
             }
 
@@ -648,38 +657,39 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
                 var element = section.Elements[i];
                 var key = GetDesignerElementKey( element );
 
-                RenderElement( builder, ref sequence, item, element, designMode, key );
+                RenderElement( builder, item, element, designMode, key );
             }
 
             if ( designMode && dragPreview?.SectionIndex == sectionIndex )
             {
-                RenderDesignerDragPreview( builder, ref sequence, dragPreview );
+                RenderDesignerDragPreview( builder, dragPreview );
             }
 
             builder.CloseElement();
         }
     }
 
-    private void RenderElement( RenderTreeBuilder builder, ref int sequence, object item, ReportElementDefinition element, bool designMode, string elementKey )
+    private void RenderElement( RenderTreeBuilder builder, object item, ReportElementDefinition element, bool designMode, string elementKey )
     {
+        var elementSequence = 0;
         var style = $"left:{element.X}px;top:{element.Y}px;width:{element.Width}px;height:{element.Height}px;{element.Style}";
         var cssClass = $"b-report-element b-report-element-{element.Type.ToString().ToLowerInvariant()} {element.Class}".Trim();
 
-        builder.OpenElement( sequence++, "div" );
+        builder.OpenElement( elementSequence++, "div" );
         builder.SetKey( elementKey );
-        builder.AddAttribute( sequence++, "class", designMode ? $"{cssClass} b-report-element-design {( elementKey == selectedElementKey ? "active" : string.Empty )}" : cssClass );
-        builder.AddAttribute( sequence++, "style", style );
+        builder.AddAttribute( elementSequence++, "class", designMode ? $"{cssClass} b-report-element-design {( elementKey == selectedElementKey ? "active" : string.Empty )}" : cssClass );
+        builder.AddAttribute( elementSequence++, "style", style );
 
         if ( designMode )
         {
-            builder.AddAttribute( sequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => SelectElement( elementKey ) ) );
-            builder.AddEventStopPropagationAttribute( sequence++, "onclick", true );
-            builder.AddAttribute( sequence++, "oncontextmenu", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenElementContextMenu( elementKey, eventArgs ) ) );
-            builder.AddEventPreventDefaultAttribute( sequence++, "oncontextmenu", true );
-            builder.AddEventStopPropagationAttribute( sequence++, "oncontextmenu", true );
-            builder.AddAttribute( sequence++, "onpointerdown", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerDrag( elementKey, eventArgs ) ) );
-            builder.AddEventPreventDefaultAttribute( sequence++, "onpointerdown", true );
-            builder.AddEventStopPropagationAttribute( sequence++, "onpointerdown", true );
+            builder.AddAttribute( elementSequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => SelectElement( elementKey ) ) );
+            builder.AddEventStopPropagationAttribute( elementSequence++, "onclick", true );
+            builder.AddAttribute( elementSequence++, "oncontextmenu", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenElementContextMenu( elementKey, eventArgs ) ) );
+            builder.AddEventPreventDefaultAttribute( elementSequence++, "oncontextmenu", true );
+            builder.AddEventStopPropagationAttribute( elementSequence++, "oncontextmenu", true );
+            builder.AddAttribute( elementSequence++, "onpointerdown", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerDrag( elementKey, eventArgs ) ) );
+            builder.AddEventPreventDefaultAttribute( elementSequence++, "onpointerdown", true );
+            builder.AddEventStopPropagationAttribute( elementSequence++, "onpointerdown", true );
         }
 
         switch ( element.Type )
@@ -689,60 +699,66 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
                     ? item
                     : ResolveItems( EffectiveDefinition, element.DataSource ).FirstOrDefault() ?? item;
 
-                builder.AddContent( sequence++, designMode ? FormatFieldExpression( element ) : FormatValue( ResolveFieldValue( fieldItem, element.Field ), element.Format ) );
+                builder.AddContent( elementSequence++, designMode ? FormatFieldExpression( element ) : FormatValue( ResolveFieldValue( fieldItem, element.Field ), element.Format ) );
                 break;
             case ReportElementType.Table:
-                RenderTable( builder, ref sequence, element );
+                RenderTable( builder, ref elementSequence, element );
                 break;
             case ReportElementType.Image:
-                builder.OpenElement( sequence++, "img" );
-                builder.AddAttribute( sequence++, "src", element.Source );
-                builder.AddAttribute( sequence++, "alt", element.Text ?? element.Name );
+                builder.OpenElement( elementSequence++, "img" );
+                builder.AddAttribute( elementSequence++, "src", element.Source );
+                builder.AddAttribute( elementSequence++, "alt", element.Text ?? element.Name );
                 builder.CloseElement();
                 break;
             case ReportElementType.PageBreak:
                 break;
             default:
-                builder.AddContent( sequence++, element.Text );
+                builder.AddContent( elementSequence++, element.Text );
                 break;
         }
 
         if ( designMode && elementKey == selectedElementKey )
         {
-            RenderElementResizeHandles( builder, ref sequence, elementKey );
+            RenderElementResizeHandles( builder, elementKey );
         }
 
         builder.CloseElement();
     }
 
-    private void RenderElementResizeHandles( RenderTreeBuilder builder, ref int sequence, string elementKey )
+    private void RenderElementResizeHandles( RenderTreeBuilder builder, string elementKey )
     {
-        RenderElementResizeHandle( builder, ref sequence, elementKey, ReportElementResizeHandle.NorthWest, "nw" );
-        RenderElementResizeHandle( builder, ref sequence, elementKey, ReportElementResizeHandle.North, "n" );
-        RenderElementResizeHandle( builder, ref sequence, elementKey, ReportElementResizeHandle.NorthEast, "ne" );
-        RenderElementResizeHandle( builder, ref sequence, elementKey, ReportElementResizeHandle.East, "e" );
-        RenderElementResizeHandle( builder, ref sequence, elementKey, ReportElementResizeHandle.SouthEast, "se" );
-        RenderElementResizeHandle( builder, ref sequence, elementKey, ReportElementResizeHandle.South, "s" );
-        RenderElementResizeHandle( builder, ref sequence, elementKey, ReportElementResizeHandle.SouthWest, "sw" );
-        RenderElementResizeHandle( builder, ref sequence, elementKey, ReportElementResizeHandle.West, "w" );
+        RenderElementResizeHandle( builder, elementKey, ReportElementResizeHandle.NorthWest, "nw" );
+        RenderElementResizeHandle( builder, elementKey, ReportElementResizeHandle.North, "n" );
+        RenderElementResizeHandle( builder, elementKey, ReportElementResizeHandle.NorthEast, "ne" );
+        RenderElementResizeHandle( builder, elementKey, ReportElementResizeHandle.East, "e" );
+        RenderElementResizeHandle( builder, elementKey, ReportElementResizeHandle.SouthEast, "se" );
+        RenderElementResizeHandle( builder, elementKey, ReportElementResizeHandle.South, "s" );
+        RenderElementResizeHandle( builder, elementKey, ReportElementResizeHandle.SouthWest, "sw" );
+        RenderElementResizeHandle( builder, elementKey, ReportElementResizeHandle.West, "w" );
     }
 
-    private void RenderElementResizeHandle( RenderTreeBuilder builder, ref int sequence, string elementKey, ReportElementResizeHandle handle, string handleClass )
+    private void RenderElementResizeHandle( RenderTreeBuilder builder, string elementKey, ReportElementResizeHandle handle, string handleClass )
     {
-        builder.OpenElement( sequence++, "span" );
-        builder.AddAttribute( sequence++, "class", $"b-report-resize-handle b-report-resize-handle-{handleClass}" );
-        builder.AddAttribute( sequence++, "onpointerdown", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerResize( elementKey, handle, eventArgs ) ) );
-        builder.AddEventPreventDefaultAttribute( sequence++, "onpointerdown", true );
-        builder.AddEventStopPropagationAttribute( sequence++, "onpointerdown", true );
+        var handleSequence = 0;
+
+        builder.OpenElement( handleSequence++, "span" );
+        builder.SetKey( handleClass );
+        builder.AddAttribute( handleSequence++, "class", $"b-report-resize-handle b-report-resize-handle-{handleClass}" );
+        builder.AddAttribute( handleSequence++, "onpointerdown", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerResize( elementKey, handle, eventArgs ) ) );
+        builder.AddEventPreventDefaultAttribute( handleSequence++, "onpointerdown", true );
+        builder.AddEventStopPropagationAttribute( handleSequence++, "onpointerdown", true );
         builder.CloseElement();
     }
 
-    private void RenderDesignerDragPreview( RenderTreeBuilder builder, ref int sequence, ReportDesignerDragPreview preview )
+    private void RenderDesignerDragPreview( RenderTreeBuilder builder, ReportDesignerDragPreview preview )
     {
-        builder.OpenElement( sequence++, "div" );
-        builder.AddAttribute( sequence++, "class", $"b-report-drag-preview b-report-element-{preview.ElementType.ToString().ToLowerInvariant()}" );
-        builder.AddAttribute( sequence++, "style", $"left:{preview.X}px;top:{preview.Y}px;width:{preview.Width}px;height:{preview.Height}px;" );
-        builder.AddContent( sequence++, preview.Text );
+        var previewSequence = 0;
+
+        builder.OpenElement( previewSequence++, "div" );
+        builder.SetKey( "drag-preview" );
+        builder.AddAttribute( previewSequence++, "class", $"b-report-drag-preview b-report-element-{preview.ElementType.ToString().ToLowerInvariant()}" );
+        builder.AddAttribute( previewSequence++, "style", $"left:{preview.X}px;top:{preview.Y}px;width:{preview.Width}px;height:{preview.Height}px;" );
+        builder.AddContent( previewSequence++, preview.Text );
         builder.CloseElement();
     }
 
@@ -1056,6 +1072,9 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         if ( command.NotifyDefinitionChanged && DefinitionChanged.HasDelegate )
             await DefinitionChanged.InvokeAsync( definition );
 
+        if ( command.NotifyDefinitionChanged )
+            designerSurfaceVersion++;
+
         await InvokeAsync( StateHasChanged );
     }
 
@@ -1245,6 +1264,9 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
 
         if ( notifyDefinitionChanged && DefinitionChanged.HasDelegate )
             await DefinitionChanged.InvokeAsync( definition );
+
+        if ( notifyDefinitionChanged )
+            designerSurfaceVersion++;
 
         await InvokeAsync( StateHasChanged );
     }
@@ -1524,8 +1546,6 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
             OriginalY = element.Y,
             StartClientX = eventArgs.ClientX,
             StartClientY = eventArgs.ClientY,
-            GrabOffsetX = Math.Max( 0, eventArgs.OffsetX ),
-            GrabOffsetY = Math.Max( 0, eventArgs.OffsetY ),
             TargetX = element.X,
             TargetY = element.Y,
         };
@@ -1620,7 +1640,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
             return;
         }
 
-        elementPointerDrag.TargetSectionIndex = targetSectionIndex;
+        elementPointerDrag.TargetSectionIndex = preview.SectionIndex;
         elementPointerDrag.TargetX = preview.X;
         elementPointerDrag.TargetY = preview.Y;
         elementPointerDrag.HasMoved = true;
@@ -1651,7 +1671,9 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
                 || Math.Abs( pointerDrag.TargetY - pointerDrag.OriginalY ) > .1 );
 
         var definition = EffectiveDefinition;
-        var canMove = pointerDrag.TargetSectionIndex >= 0
+        var canMove = pointerDrag.SourceSectionIndex >= 0
+            && pointerDrag.SourceSectionIndex < definition.Sections.Count
+            && pointerDrag.TargetSectionIndex >= 0
             && pointerDrag.TargetSectionIndex < definition.Sections.Count
             && FindElementLocation( definition, pointerDrag.ElementKey, out _, out _, out _ );
 
@@ -1703,24 +1725,14 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         if ( elementPointerDrag is null || draggedElement is null )
             return null;
 
-        double x;
-        double y;
-
-        if ( targetSectionIndex == elementPointerDrag.SourceSectionIndex )
-        {
-            x = elementPointerDrag.OriginalX + eventArgs.ClientX - elementPointerDrag.StartClientX;
-            y = elementPointerDrag.OriginalY + eventArgs.ClientY - elementPointerDrag.StartClientY;
-        }
-        else
-        {
-            x = eventArgs.OffsetX - elementPointerDrag.GrabOffsetX;
-            y = eventArgs.OffsetY - elementPointerDrag.GrabOffsetY;
-        }
+        var x = elementPointerDrag.OriginalX + eventArgs.ClientX - elementPointerDrag.StartClientX;
+        var pageY = GetSectionOffsetY( EffectiveDefinition, elementPointerDrag.SourceSectionIndex ) + elementPointerDrag.OriginalY + eventArgs.ClientY - elementPointerDrag.StartClientY;
+        var y = pageY - GetSectionOffsetY( EffectiveDefinition, targetSectionIndex );
 
         x = ApplyDesignerGrid( x );
         y = ApplyDesignerGrid( y );
 
-        return CreateDragPreview( targetSectionIndex, draggedElement, x, y );
+        return ConstrainDesignerDragPreview( EffectiveDefinition, CreateDragPreview( targetSectionIndex, draggedElement, x, y ) );
     }
 
     private async Task PreviewElementPointerResizeAsync( PointerEventArgs eventArgs )
@@ -2124,9 +2136,62 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         return snapToGrid ? SnapToGrid( value ) : Math.Max( 0, value );
     }
 
+    private static ReportDesignerDragPreview ConstrainDesignerDragPreview( ReportDefinition definition, ReportDesignerDragPreview preview )
+    {
+        if ( preview is null )
+            return null;
+
+        var section = GetDesignerSection( definition, preview.SectionIndex );
+
+        if ( definition?.Page is null || section is null )
+            return preview;
+
+        var minimumHeight = GetMinimumElementHeight( preview.ElementType );
+
+        preview.Width = Math.Min( Math.Max( 8, preview.Width ), Math.Max( 8, definition.Page.Width ) );
+        preview.Height = Math.Min( Math.Max( minimumHeight, preview.Height ), Math.Max( minimumHeight, section.Height ) );
+        preview.X = ClampDesignerValue( preview.X, 0, Math.Max( 0, definition.Page.Width - preview.Width ) );
+        preview.Y = ClampDesignerValue( preview.Y, 0, Math.Max( 0, section.Height - preview.Height ) );
+
+        return preview;
+    }
+
+    private static double ClampDesignerValue( double value, double minimum, double maximum )
+    {
+        return Math.Min( Math.Max( value, minimum ), maximum );
+    }
+
+    private static ReportSectionDefinition GetDesignerSection( ReportDefinition definition, int sectionIndex )
+    {
+        if ( definition is null || sectionIndex < 0 || sectionIndex >= definition.Sections.Count )
+            return null;
+
+        return definition.Sections[sectionIndex];
+    }
+
+    private static double GetSectionOffsetY( ReportDefinition definition, int sectionIndex )
+    {
+        if ( definition is null || sectionIndex <= 0 )
+            return 0;
+
+        var y = 0d;
+
+        for ( var i = 0; i < sectionIndex && i < definition.Sections.Count; i++ )
+        {
+            y += definition.Sections[i].Height;
+        }
+
+        return y;
+    }
+
     private static double GetMinimumElementHeight( ReportElementDefinition element )
     {
         return element?.Type == ReportElementType.Line ? 1 : 8;
+    }
+
+    private static double GetMinimumElementHeight( ReportElementType elementType )
+    {
+        return elementType == ReportElementType.Line ? 1 : 8;
     }
 
     private void OnSnapToGridChanged( ChangeEventArgs eventArgs )
@@ -2371,34 +2436,49 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         if ( definition is null )
             return null;
 
-        if ( string.IsNullOrWhiteSpace( definition.Id ) )
-            definition.Id = CreateDefinitionId();
+        var definitionIds = new HashSet<string>( StringComparer.Ordinal );
+        var dataSourceIds = new HashSet<string>( StringComparer.Ordinal );
+        var sectionIds = new HashSet<string>( StringComparer.Ordinal );
+        var elementIds = new HashSet<string>( StringComparer.Ordinal );
+        var columnIds = new HashSet<string>( StringComparer.Ordinal );
+
+        definition.Id = EnsureUniqueDefinitionId( definition.Id, definitionIds );
 
         foreach ( var dataSource in definition.DataSources )
         {
-            if ( string.IsNullOrWhiteSpace( dataSource.Id ) )
-                dataSource.Id = CreateDefinitionId();
+            dataSource.Id = EnsureUniqueDefinitionId( dataSource.Id, dataSourceIds );
         }
 
         foreach ( var section in definition.Sections )
         {
-            if ( string.IsNullOrWhiteSpace( section.Id ) )
-                section.Id = CreateDefinitionId();
+            section.Id = EnsureUniqueDefinitionId( section.Id, sectionIds );
 
             foreach ( var element in section.Elements )
             {
-                if ( string.IsNullOrWhiteSpace( element.Id ) )
-                    element.Id = CreateDefinitionId();
+                element.Id = EnsureUniqueDefinitionId( element.Id, elementIds );
 
                 foreach ( var column in element.Columns )
                 {
-                    if ( string.IsNullOrWhiteSpace( column.Id ) )
-                        column.Id = CreateDefinitionId();
+                    column.Id = EnsureUniqueDefinitionId( column.Id, columnIds );
                 }
             }
         }
 
         return definition;
+    }
+
+    private static string EnsureUniqueDefinitionId( string id, HashSet<string> usedIds )
+    {
+        if ( string.IsNullOrWhiteSpace( id ) || !usedIds.Add( id ) )
+        {
+            do
+            {
+                id = CreateDefinitionId();
+            }
+            while ( !usedIds.Add( id ) );
+        }
+
+        return id;
     }
 
     private static string CreateDefinitionId()
@@ -2501,10 +2581,6 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         public double StartClientX { get; set; }
 
         public double StartClientY { get; set; }
-
-        public double GrabOffsetX { get; set; }
-
-        public double GrabOffsetY { get; set; }
 
         public double TargetX { get; set; }
 
