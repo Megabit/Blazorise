@@ -376,6 +376,26 @@
     pointer-events: none;
 }
 
+.b-report-section-resize-handle {
+    position: absolute;
+    right: 0;
+    bottom: -.25rem;
+    left: 0;
+    z-index: 7;
+    height: .5rem;
+    cursor: ns-resize;
+    touch-action: none;
+}
+
+.b-report-section-resize-handle::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: .1875rem;
+    left: 0;
+    border-bottom: 1px solid rgba(13, 110, 253, .42);
+}
+
 .b-report-element {
     position: absolute;
     box-sizing: border-box;

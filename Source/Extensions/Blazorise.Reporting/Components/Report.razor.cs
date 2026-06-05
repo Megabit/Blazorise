@@ -13,10 +13,11 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.JSInterop;
 
 namespace Blazorise.Reporting;
 
-public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
+public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsyncDisposable
 {
     private const double DesignerBandRailWidth = 128;
 
@@ -31,6 +32,8 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
     private readonly HistoryManager<ReportDesignerState> historyService = new();
 
     private readonly HashSet<string> collapsedSectionIds = new( StringComparer.Ordinal );
+
+    private DotNetObjectReference<Report<TItem>> dotNetObjectReference;
 
     private ReportDefinition declarativeDefinition;
 
@@ -70,6 +73,8 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
 
     private ReportElementPointerResizeState elementPointerResize;
 
+    private ReportSectionPointerResizeState sectionPointerResize;
+
     private DateTime lastDragPreviewRenderTime;
 
     private int designerSurfaceVersion;
@@ -77,6 +82,8 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
     private ReportElementDefinition clipboardElement;
 
     private ReportOptions globalOptions;
+
+    private IJSObjectReference reportingModule;
 
     public Report()
     {
@@ -107,6 +114,23 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
 
             StateHasChanged();
         }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if ( reportingModule is not null )
+        {
+            try
+            {
+                await reportingModule.InvokeVoidAsync( "stopSectionResize" );
+                await reportingModule.DisposeAsync();
+            }
+            catch ( JSDisconnectedException )
+            {
+            }
+        }
+
+        dotNetObjectReference?.Dispose();
     }
 
     private ReportDefinition EffectiveDefinition
@@ -244,6 +268,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         } ) );
         builder.CloseComponent();
         RenderDesignerContextMenu( builder, ref sequence, definition );
+
         builder.CloseElement();
     };
 
@@ -661,7 +686,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
             var sectionSequence = 0;
             var railVisible = designMode && BandMode == ReportBandMode.Rail;
             var collapsed = designMode && railVisible && !section.Suppressed && IsSectionCollapsed( section );
-            var sectionHeight = collapsed ? DesignerCollapsedBandHeight : section.Height;
+            var sectionHeight = collapsed ? DesignerCollapsedBandHeight : GetDesignerSectionHeight( sectionIndex, section );
             var sectionClass = $"b-report-section {section.Class} {( designMode && selectedSectionIndex == sectionIndex && string.IsNullOrWhiteSpace( selectedElementKey ) ? "active" : string.Empty )} {( collapsed ? "collapsed" : string.Empty )} {( section.Suppressed ? "suppressed" : string.Empty )}".Trim();
 
             builder.OpenElement( sectionSequence++, "section" );
@@ -717,6 +742,11 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
                 if ( designMode && !section.Suppressed && dragPreview?.SectionIndex == sectionIndex )
                 {
                     RenderDesignerDragPreview( builder, dragPreview );
+                }
+
+                if ( designMode && !section.Suppressed )
+                {
+                    RenderSectionResizeHandle( builder, sectionIndex );
                 }
 
                 if ( designMode )
@@ -784,6 +814,20 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         builder.OpenElement( labelSequence++, "div" );
         builder.AddAttribute( labelSequence++, "class", "b-report-section-label" );
         builder.AddContent( labelSequence++, $"{GetSectionTypeDisplayName( section.Type )}: {GetSectionDisplayName( section )}" );
+        builder.CloseElement();
+    }
+
+    private void RenderSectionResizeHandle( RenderTreeBuilder builder, int sectionIndex )
+    {
+        var handleSequence = 0;
+
+        builder.OpenElement( handleSequence++, "span" );
+        builder.SetKey( "section-resize" );
+        builder.AddAttribute( handleSequence++, "class", "b-report-section-resize-handle" );
+        builder.AddAttribute( handleSequence++, "title", "Resize band" );
+        builder.AddAttribute( handleSequence++, "onpointerdown", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSectionPointerResizeAsync( sectionIndex, eventArgs ) ) );
+        builder.AddEventPreventDefaultAttribute( handleSequence++, "onpointerdown", true );
+        builder.AddEventStopPropagationAttribute( handleSequence++, "onpointerdown", true );
         builder.CloseElement();
     }
 
@@ -1749,6 +1793,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         dragPreview = null;
         elementPointerDrag = null;
         elementPointerResize = null;
+        sectionPointerResize = null;
     }
 
     private void BeginToolboxElementDrag( ReportElementType elementType, string text )
@@ -1829,8 +1874,47 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         SelectElement( elementKey );
     }
 
+    private async Task BeginSectionPointerResizeAsync( int sectionIndex, PointerEventArgs eventArgs )
+    {
+        var definition = EffectiveDefinition;
+
+        if ( sectionIndex < 0 || sectionIndex >= definition.Sections.Count )
+            return;
+
+        var section = definition.Sections[sectionIndex];
+
+        if ( section.Suppressed )
+            return;
+
+        draggedKind = ReportDesignerDragKind.None;
+        draggedDataSourceName = null;
+        draggedFieldName = null;
+        draggedElementType = null;
+        draggedElementText = null;
+        draggedElementKey = null;
+        draggedElement = null;
+        dragPreview = null;
+        elementPointerDrag = null;
+        elementPointerResize = null;
+        sectionPointerResize = new()
+        {
+            SectionIndex = sectionIndex,
+            OriginalHeight = section.Height,
+            TargetHeight = section.Height,
+            StartClientY = eventArgs.ClientY,
+        };
+
+        SelectSection( sectionIndex );
+
+        await StartDocumentSectionResizeAsync( eventArgs.ClientY );
+        await InvokeAsync( StateHasChanged );
+    }
+
     private Task PreviewElementPointerInteractionAsync( int targetSectionIndex, PointerEventArgs eventArgs )
     {
+        if ( sectionPointerResize is not null )
+            return PreviewSectionPointerResizeAsync( eventArgs );
+
         if ( elementPointerResize is not null )
             return PreviewElementPointerResizeAsync( eventArgs );
 
@@ -1839,6 +1923,9 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
 
     private Task CompleteElementPointerInteractionAsync( int targetSectionIndex, PointerEventArgs eventArgs )
     {
+        if ( sectionPointerResize is not null )
+            return CompleteSectionPointerResizeAsync( eventArgs );
+
         if ( elementPointerResize is not null )
             return CompleteElementPointerResizeAsync( eventArgs );
 
@@ -1847,6 +1934,9 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
 
     private Task CancelElementPointerInteractionAsync()
     {
+        if ( sectionPointerResize is not null )
+            return CancelSectionPointerResizeAsync();
+
         if ( elementPointerResize is not null )
             return CancelElementPointerResizeAsync();
 
@@ -2072,6 +2162,124 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         ClearDragState();
 
         return InvokeAsync( StateHasChanged );
+    }
+
+    private async Task PreviewSectionPointerResizeAsync( PointerEventArgs eventArgs )
+    {
+        await PreviewSectionPointerResizeAsync( eventArgs.ClientY );
+    }
+
+    private async Task PreviewSectionPointerResizeAsync( double clientY )
+    {
+        if ( sectionPointerResize is null )
+            return;
+
+        var height = CreateSectionPointerResizeHeight( clientY );
+
+        if ( Math.Abs( sectionPointerResize.TargetHeight - height ) < .1 )
+            return;
+
+        sectionPointerResize.TargetHeight = height;
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    private async Task CompleteSectionPointerResizeAsync( PointerEventArgs eventArgs )
+    {
+        await CompleteSectionPointerResizeAsync( eventArgs.ClientY );
+    }
+
+    private async Task CompleteSectionPointerResizeAsync( double clientY )
+    {
+        if ( sectionPointerResize is null )
+            return;
+
+        var pointerResize = sectionPointerResize;
+        pointerResize.TargetHeight = CreateSectionPointerResizeHeight( pointerResize, clientY );
+        sectionPointerResize = null;
+
+        try
+        {
+            var resized = Math.Abs( pointerResize.TargetHeight - pointerResize.OriginalHeight ) > .1;
+
+            var definition = EffectiveDefinition;
+            var canResize = pointerResize.SectionIndex >= 0
+                && pointerResize.SectionIndex < definition.Sections.Count
+                && !definition.Sections[pointerResize.SectionIndex].Suppressed;
+
+            if ( !resized || !canResize )
+                return;
+
+            await ExecuteDesignerCommandAsync( new( "Resize band", () =>
+            {
+                var definition = EffectiveDefinition;
+
+                if ( pointerResize.SectionIndex >= 0
+                    && pointerResize.SectionIndex < definition.Sections.Count
+                    && !definition.Sections[pointerResize.SectionIndex].Suppressed )
+                {
+                    definition.Sections[pointerResize.SectionIndex].Height = pointerResize.TargetHeight;
+                    selectedSectionIndex = pointerResize.SectionIndex;
+                    selectedElementKey = null;
+                    reportSelected = false;
+                }
+
+                return Task.CompletedTask;
+            } ) );
+        }
+        finally
+        {
+            await InvokeAsync( StateHasChanged );
+        }
+    }
+
+    private Task CancelSectionPointerResizeAsync()
+    {
+        if ( sectionPointerResize is null )
+            return Task.CompletedTask;
+
+        ClearDragState();
+
+        return InvokeAsync( StateHasChanged );
+    }
+
+    private double CreateSectionPointerResizeHeight( double clientY )
+    {
+        if ( sectionPointerResize is null )
+            return 0;
+
+        return CreateSectionPointerResizeHeight( sectionPointerResize, clientY );
+    }
+
+    private double CreateSectionPointerResizeHeight( ReportSectionPointerResizeState pointerResize, double clientY )
+    {
+        return Math.Max( 8, ApplyDesignerGrid( pointerResize.OriginalHeight + clientY - pointerResize.StartClientY ) );
+    }
+
+    [JSInvokable]
+    public Task OnDocumentSectionResizeMove( double clientY )
+    {
+        return InvokeAsync( () => PreviewSectionPointerResizeAsync( clientY ) );
+    }
+
+    [JSInvokable]
+    public Task OnDocumentSectionResizeEnd( double clientY )
+    {
+        return InvokeAsync( () => CompleteSectionPointerResizeAsync( clientY ) );
+    }
+
+    [JSInvokable]
+    public Task OnDocumentSectionResizeCancel()
+    {
+        return InvokeAsync( CancelSectionPointerResizeAsync );
+    }
+
+    private async Task StartDocumentSectionResizeAsync( double startClientY )
+    {
+        reportingModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>( "import", "./_content/Blazorise.Reporting/blazorise.reporting.js" );
+        dotNetObjectReference ??= DotNetObjectReference.Create( this );
+
+        await reportingModule.InvokeVoidAsync( "startSectionResize", dotNetObjectReference, startClientY );
     }
 
     private ReportDesignerDragPreview CreateElementPointerResizePreview( PointerEventArgs eventArgs )
@@ -2419,14 +2627,17 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
 
         for ( var i = 0; i < sectionIndex && i < definition.Sections.Count; i++ )
         {
-            y += GetDesignerSectionHeight( definition.Sections[i] );
+            y += GetDesignerSectionHeight( i, definition.Sections[i] );
         }
 
         return y;
     }
 
-    private double GetDesignerSectionHeight( ReportSectionDefinition section )
+    private double GetDesignerSectionHeight( int sectionIndex, ReportSectionDefinition section )
     {
+        if ( sectionPointerResize is not null && sectionPointerResize.SectionIndex == sectionIndex )
+            return sectionPointerResize.TargetHeight;
+
         return BandMode == ReportBandMode.Rail && section is not null && !section.Suppressed && IsSectionCollapsed( section )
             ? DesignerCollapsedBandHeight
             : section?.Height ?? 0;
@@ -2904,6 +3115,17 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
         public bool HasResized { get; set; }
     }
 
+    private sealed class ReportSectionPointerResizeState
+    {
+        public int SectionIndex { get; set; }
+
+        public double OriginalHeight { get; set; }
+
+        public double TargetHeight { get; set; }
+
+        public double StartClientY { get; set; }
+    }
+
     private sealed record ReportToolboxTreeNodeValue( ReportElementType ElementType, string Text );
 
     private sealed record ReportFieldTreeNodeValue( string DataSourceName, string FieldName );
@@ -2953,4 +3175,6 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor
     [Parameter] public ReportPreviewFormat? DefaultPreviewFormat { get; set; }
 
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    [Inject] private IJSRuntime JSRuntime { get; set; }
 }
