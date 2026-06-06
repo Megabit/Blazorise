@@ -77,7 +77,7 @@ public sealed class ReportDataSourceDefinition
     public string Name { get; set; }
 
     /// <summary>
-    /// Source object or enumerable used when resolving report fields.
+    /// Source object or enumerable used when resolving report fields and data source paths.
     /// </summary>
     public object Data { get; set; }
 }
@@ -113,7 +113,7 @@ public sealed class ReportSectionDefinition
     public double Height { get; set; } = 80;
 
     /// <summary>
-    /// Data source name used by detail bands and field resolution.
+    /// Data source name or path used as the band field context. Detail bands repeat when this value resolves to a collection.
     /// </summary>
     public string DataSource { get; set; }
 

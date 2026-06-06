@@ -25,7 +25,7 @@ public partial class ReportDataSource : ComponentBase
     [Parameter] public string Name { get; set; } = "Default";
 
     /// <summary>
-    /// Object or enumerable exposed to the report designer and preview renderer.
+    /// Object or enumerable exposed to the report designer and preview renderer, including nested objects and collections.
     /// </summary>
     [Parameter] public object Data { get; set; }
 }

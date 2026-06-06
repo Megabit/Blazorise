@@ -194,16 +194,9 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         return page;
     }
 
-    private IEnumerable<object> ResolveItems( ReportDefinition definition, string dataSource = null )
+    private IEnumerable<object> ResolveItems( ReportDefinition definition, string dataSource = null, object currentItem = null )
     {
-        object source = null;
-
-        if ( !string.IsNullOrWhiteSpace( dataSource ) )
-        {
-            source = definition.DataSources.FirstOrDefault( x => string.Equals( x.Name, dataSource, StringComparison.OrdinalIgnoreCase ) )?.Data;
-        }
-
-        source ??= definition.DataSources.FirstOrDefault()?.Data ?? Data;
+        var source = ResolveDataSourceValue( definition, dataSource, currentItem );
 
         if ( source is IEnumerable enumerable and not string )
         {
@@ -211,18 +204,120 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             {
                 yield return item;
             }
+
+            yield break;
         }
+
+        if ( source is not null )
+            yield return source;
+    }
+
+    private object ResolveDataSourceValue( ReportDefinition definition, string dataSource = null, object currentItem = null )
+    {
+        if ( string.IsNullOrWhiteSpace( dataSource ) )
+            return currentItem ?? definition?.DataSources.FirstOrDefault()?.Data ?? Data;
+
+        var trimmedDataSource = dataSource.Trim();
+        var namedDataSource = definition?.DataSources.FirstOrDefault( x => string.Equals( x.Name, trimmedDataSource, StringComparison.OrdinalIgnoreCase ) );
+
+        if ( namedDataSource is not null )
+            return namedDataSource.Data;
+
+        var pathSeparatorIndex = trimmedDataSource.IndexOf( '.', StringComparison.Ordinal );
+
+        if ( pathSeparatorIndex > 0 )
+        {
+            var dataSourceName = trimmedDataSource[..pathSeparatorIndex];
+            var dataSourcePath = trimmedDataSource[( pathSeparatorIndex + 1 )..];
+            namedDataSource = definition?.DataSources.FirstOrDefault( x => string.Equals( x.Name, dataSourceName, StringComparison.OrdinalIgnoreCase ) );
+
+            if ( namedDataSource is not null )
+            {
+                return ResolvePathValue( namedDataSource.Data, dataSourcePath );
+            }
+        }
+
+        if ( currentItem is not null )
+        {
+            var relativeValue = ResolvePathValue( currentItem, trimmedDataSource );
+
+            if ( relativeValue is not null )
+                return relativeValue;
+        }
+
+        return ResolvePathValue( definition?.DataSources.FirstOrDefault()?.Data ?? Data, trimmedDataSource );
     }
 
     private object ResolveFieldValue( object item, string field )
     {
-        if ( item is null || string.IsNullOrWhiteSpace( field ) )
+        return ResolvePathValue( item, field );
+    }
+
+    private static object ResolvePathValue( object item, string path )
+    {
+        if ( item is null || string.IsNullOrWhiteSpace( path ) )
             return null;
 
-        if ( item is IDictionary<string, object> dictionary && dictionary.TryGetValue( field, out var dictionaryValue ) )
-            return dictionaryValue;
+        var current = item;
 
-        var property = item.GetType().GetProperty( field, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase );
+        foreach ( var segment in path.Split( '.', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries ) )
+        {
+            current = ResolvePathSegment( current, segment );
+
+            if ( current is null )
+                return null;
+        }
+
+        return current;
+    }
+
+    private static object ResolvePathSegment( object item, string segment )
+    {
+        if ( item is null || string.IsNullOrWhiteSpace( segment ) )
+            return null;
+
+        if ( item is IEnumerable enumerable and not string and not IDictionary )
+        {
+            var values = new List<object>();
+
+            foreach ( var childItem in enumerable )
+            {
+                var value = ResolvePathSegment( childItem, segment );
+
+                if ( value is IEnumerable childEnumerable and not string and not IDictionary )
+                {
+                    values.AddRange( childEnumerable.Cast<object>() );
+                }
+                else if ( value is not null )
+                {
+                    values.Add( value );
+                }
+            }
+
+            return values;
+        }
+
+        if ( item is IDictionary<string, object> dictionary )
+        {
+            var key = dictionary.Keys.FirstOrDefault( x => string.Equals( x, segment, StringComparison.OrdinalIgnoreCase ) );
+
+            return key is not null && dictionary.TryGetValue( key, out var dictionaryValue )
+                ? dictionaryValue
+                : null;
+        }
+
+        if ( item is IDictionary nonGenericDictionary )
+        {
+            foreach ( var key in nonGenericDictionary.Keys )
+            {
+                if ( string.Equals( Convert.ToString( key, CultureInfo.InvariantCulture ), segment, StringComparison.OrdinalIgnoreCase ) )
+                    return nonGenericDictionary[key];
+            }
+
+            return null;
+        }
+
+        var property = item.GetType().GetProperty( segment, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase );
 
         return property?.GetValue( item );
     }
@@ -511,18 +606,26 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
                     Key = $"fields:data-source:{dataSource.Name}",
                     Text = dataSource.Name,
                     Kind = ReportTreeNodeKind.DataSource,
-                    Children = dataSource.Fields.Select( field => new ReportTreeNode
-                    {
-                        Key = $"fields:field:{dataSource.Name}:{field.Name}",
-                        Text = field.Name,
-                        Detail = GetDataTypeDisplayName( field.DataType ),
-                        Kind = ReportTreeNodeKind.Field,
-                        Draggable = true,
-                        Value = new ReportFieldTreeNodeValue( dataSource.Name, field.Name ),
-                    } ).ToList(),
+                    Children = dataSource.Fields.Select( field => BuildFieldExplorerNode( dataSource.Name, field ) ).ToList(),
                 } ).ToList(),
             }
         ];
+    }
+
+    private static ReportTreeNode BuildFieldExplorerNode( string dataSourceName, ReportDesignerFieldNode field )
+    {
+        var hasChildren = field.Children.Count > 0;
+
+        return new()
+        {
+            Key = $"fields:field:{dataSourceName}:{field.Path}",
+            Text = field.Name,
+            Detail = hasChildren ? null : GetDataTypeDisplayName( field.DataType ),
+            Kind = hasChildren ? ReportTreeNodeKind.Folder : ReportTreeNodeKind.Field,
+            Draggable = !hasChildren,
+            Value = !hasChildren ? new ReportFieldTreeNodeValue( dataSourceName, field.Path ) : null,
+            Children = field.Children.Select( child => BuildFieldExplorerNode( dataSourceName, child ) ).ToList(),
+        };
     }
 
     private IReadOnlyList<ReportTreeNode> BuildReportExplorerNodes( ReportDefinition definition )
@@ -858,7 +961,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             case ReportElementType.Field:
                 var fieldItem = string.IsNullOrWhiteSpace( element.DataSource )
                     ? item
-                    : ResolveItems( EffectiveDefinition, element.DataSource ).FirstOrDefault() ?? item;
+                    : ResolveItems( EffectiveDefinition, element.DataSource, item ).FirstOrDefault() ?? item;
 
                 builder.Content( designMode ? FormatFieldExpression( element ) : FormatValue( ResolveFieldValue( fieldItem, element.Field ), element.Format ) );
                 break;
@@ -2655,12 +2758,13 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             switch ( draggedKind )
             {
                 case ReportDesignerDragKind.Field when !string.IsNullOrWhiteSpace( draggedFieldName ):
+                    var fieldBinding = NormalizeFieldBindingForSection( targetSection, draggedDataSourceName, draggedFieldName );
                     var fieldElement = new ReportElementDefinition
                     {
-                        Name = draggedFieldName,
+                        Name = fieldBinding.FieldName,
                         Type = ReportElementType.Field,
-                        Field = draggedFieldName,
-                        DataSource = draggedDataSourceName,
+                        Field = fieldBinding.FieldName,
+                        DataSource = fieldBinding.DataSourceName,
                         X = x,
                         Y = y,
                         Width = 160,
@@ -2698,19 +2802,30 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
     {
         return draggedKind switch
         {
-            ReportDesignerDragKind.Field when !string.IsNullOrWhiteSpace( draggedFieldName ) => new()
-            {
-                SectionIndex = targetSectionIndex,
-                ElementType = ReportElementType.Field,
-                Text = FormatFieldExpression( draggedDataSourceName, draggedFieldName ),
-                X = x,
-                Y = y,
-                Width = 160,
-                Height = 24,
-            },
+            ReportDesignerDragKind.Field when !string.IsNullOrWhiteSpace( draggedFieldName ) => CreateFieldDragPreview( targetSectionIndex, x, y ),
             ReportDesignerDragKind.ToolboxElement when draggedElementType is not null => CreateDragPreview( targetSectionIndex, CreateElementFromToolbox( draggedElementType.Value, draggedElementText, x, y ) ),
             ReportDesignerDragKind.Element when draggedElement is not null => CreateDragPreview( targetSectionIndex, draggedElement, x, y ),
             _ => null,
+        };
+    }
+
+    private ReportDesignerDragPreview CreateFieldDragPreview( int targetSectionIndex, double x, double y )
+    {
+        var definition = EffectiveDefinition;
+        var targetSection = targetSectionIndex >= 0 && targetSectionIndex < definition.Sections.Count
+            ? definition.Sections[targetSectionIndex]
+            : null;
+        var fieldBinding = NormalizeFieldBindingForSection( targetSection, draggedDataSourceName, draggedFieldName );
+
+        return new()
+        {
+            SectionIndex = targetSectionIndex,
+            ElementType = ReportElementType.Field,
+            Text = FormatFieldExpression( fieldBinding.DataSourceName, fieldBinding.FieldName ),
+            X = x,
+            Y = y,
+            Width = 160,
+            Height = 24,
         };
     }
 
@@ -2763,15 +2878,24 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         if ( item is null )
             yield break;
 
+        foreach ( var field in ResolveDataSourceFields( item, null, 0, [] ) )
+        {
+            yield return field;
+        }
+    }
+
+    private static IEnumerable<ReportDesignerFieldNode> ResolveDataSourceFields( object item, string parentPath, int depth, HashSet<Type> visitedTypes )
+    {
+        if ( item is null || depth > 4 )
+            yield break;
+
         if ( item is IDictionary<string, object> dictionary )
         {
             foreach ( var key in dictionary.Keys.OrderBy( x => x ) )
             {
-                yield return new()
-                {
-                    Name = key,
-                    DataType = dictionary.TryGetValue( key, out var value ) ? value?.GetType() : null,
-                };
+                dictionary.TryGetValue( key, out var value );
+
+                yield return CreateDesignerFieldNode( key, parentPath, value?.GetType(), value, depth, visitedTypes );
             }
 
             yield break;
@@ -2779,26 +2903,85 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
         if ( item is IDictionary nonGenericDictionary )
         {
-            foreach ( var key in nonGenericDictionary.Keys.OfType<object>().Select( key => new { Key = key, Name = Convert.ToString( key ) } ).Where( x => !string.IsNullOrWhiteSpace( x.Name ) ).OrderBy( x => x.Name ) )
+            foreach ( var key in nonGenericDictionary.Keys.OfType<object>().Select( key => new { Key = key, Name = Convert.ToString( key, CultureInfo.InvariantCulture ) } ).Where( x => !string.IsNullOrWhiteSpace( x.Name ) ).OrderBy( x => x.Name ) )
             {
-                yield return new()
-                {
-                    Name = key.Name,
-                    DataType = nonGenericDictionary[key.Key]?.GetType(),
-                };
+                var value = nonGenericDictionary[key.Key];
+
+                yield return CreateDesignerFieldNode( key.Name, parentPath, value?.GetType(), value, depth, visitedTypes );
             }
 
             yield break;
         }
 
-        foreach ( var property in item.GetType().GetProperties( BindingFlags.Instance | BindingFlags.Public ).Where( x => x.CanRead && x.GetIndexParameters().Length == 0 ).OrderBy( x => x.Name ) )
+        var itemType = item.GetType();
+
+        if ( IsSimpleFieldType( itemType ) || !visitedTypes.Add( itemType ) )
+            yield break;
+
+        foreach ( var property in itemType.GetProperties( BindingFlags.Instance | BindingFlags.Public ).Where( x => x.CanRead && x.GetIndexParameters().Length == 0 ).OrderBy( x => x.Name ) )
         {
-            yield return new()
-            {
-                Name = property.Name,
-                DataType = property.PropertyType,
-            };
+            var value = property.GetValue( item );
+
+            yield return CreateDesignerFieldNode( property.Name, parentPath, property.PropertyType, value, depth, visitedTypes );
         }
+
+        visitedTypes.Remove( itemType );
+    }
+
+    private static ReportDesignerFieldNode CreateDesignerFieldNode( string name, string parentPath, Type dataType, object value, int depth, HashSet<Type> visitedTypes )
+    {
+        var path = string.IsNullOrWhiteSpace( parentPath ) ? name : $"{parentPath}.{name}";
+        var sampleValue = ResolveSampleItem( value );
+        var node = new ReportDesignerFieldNode
+        {
+            Name = name,
+            Path = path,
+            DataType = GetDesignerFieldDataType( dataType, sampleValue ),
+        };
+
+        if ( sampleValue is not null && !IsSimpleFieldType( sampleValue.GetType() ) )
+        {
+            node.Children = ResolveDataSourceFields( sampleValue, path, depth + 1, visitedTypes ).ToList();
+        }
+
+        return node;
+    }
+
+    private static Type GetDesignerFieldDataType( Type declaredType, object sampleValue )
+    {
+        var enumerableItemType = GetEnumerableItemType( declaredType );
+
+        return enumerableItemType ?? sampleValue?.GetType() ?? declaredType;
+    }
+
+    private static Type GetEnumerableItemType( Type type )
+    {
+        if ( type is null || type == typeof( string ) )
+            return null;
+
+        if ( type.IsArray )
+            return type.GetElementType();
+
+        if ( type.IsGenericType && type.GetGenericTypeDefinition() == typeof( IEnumerable<> ) )
+            return type.GetGenericArguments()[0];
+
+        return type.GetInterfaces()
+            .FirstOrDefault( x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof( IEnumerable<> ) )
+            ?.GetGenericArguments()[0];
+    }
+
+    private static bool IsSimpleFieldType( Type type )
+    {
+        type = Nullable.GetUnderlyingType( type ) ?? type;
+
+        return type.IsPrimitive
+            || type.IsEnum
+            || type == typeof( string )
+            || type == typeof( decimal )
+            || type == typeof( DateTime )
+            || type == typeof( DateTimeOffset )
+            || type == typeof( TimeSpan )
+            || type == typeof( Guid );
     }
 
     private static object ResolveSampleItem( object data )
@@ -3019,6 +3202,29 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             : $"{dataSourceName}.{fieldName}";
 
         return $"{{{expression}}}";
+    }
+
+    private static (string DataSourceName, string FieldName) NormalizeFieldBindingForSection( ReportSectionDefinition section, string dataSourceName, string fieldName )
+    {
+        if ( section is null || string.IsNullOrWhiteSpace( section.DataSource ) || string.IsNullOrWhiteSpace( fieldName ) )
+            return (dataSourceName, fieldName);
+
+        var sectionDataSource = section.DataSource.Trim();
+        var fieldPath = string.IsNullOrWhiteSpace( dataSourceName )
+            ? fieldName
+            : $"{dataSourceName}.{fieldName}";
+        var sectionPrefix = $"{sectionDataSource}.";
+
+        if ( fieldPath.StartsWith( sectionPrefix, StringComparison.OrdinalIgnoreCase ) )
+            return (null, fieldPath[sectionPrefix.Length..]);
+
+        if ( fieldName.StartsWith( sectionPrefix, StringComparison.OrdinalIgnoreCase ) )
+            return (null, fieldName[sectionPrefix.Length..]);
+
+        if ( string.Equals( dataSourceName, sectionDataSource, StringComparison.OrdinalIgnoreCase ) )
+            return (null, fieldName);
+
+        return (dataSourceName, fieldName);
     }
 
     private ReportSectionDefinition FindSelectedSection( ReportDefinition definition )
@@ -3313,9 +3519,9 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
     [Parameter] public EventCallback<ReportDefinition> DefinitionChanged { get; set; }
 
     /// <summary>
-    /// Default data source used when no explicit <see cref="ReportDataSource"/> is declared.
+    /// Default data source object or enumerable used when no explicit <see cref="ReportDataSource"/> is declared.
     /// </summary>
-    [Parameter] public IEnumerable<TItem> Data { get; set; }
+    [Parameter] public object Data { get; set; }
 
     /// <summary>
     /// Page settings used by the declarative report seed.
@@ -3533,7 +3739,11 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
     {
         public string Name { get; set; }
 
+        public string Path { get; set; }
+
         public Type DataType { get; set; }
+
+        public List<ReportDesignerFieldNode> Children { get; set; } = [];
     }
 
     #endregion

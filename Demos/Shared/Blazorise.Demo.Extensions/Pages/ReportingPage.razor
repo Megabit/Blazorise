@@ -7,8 +7,8 @@
                 <CardTitle>Reporting</CardTitle>
             </CardHeader>
             <CardBody>
-                <Report TItem="ReportInvoice"
-                        Data="@invoices"
+                <Report TItem="InvoiceReportModel"
+                        Data="@invoice"
                         @bind-Definition="@definition"
                         DesignerEnabled
                         PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf">
@@ -35,7 +35,7 @@
                             </ButtonGroup>
                         </Div>
                     </ReportToolbar>
-                    <ReportDataSource Name="Invoices" Data="@invoices" />
+                    <ReportDataSource Name="Invoice" Data="@invoice" />
                     <ReportPage Size="ReportPageSize.A4" Orientation="ReportOrientation.Portrait" />
                     <ReportHeader Name="Invoice report header" Height="130">
                         <ReportText Text="Invoice summary"
@@ -52,6 +52,12 @@
                                     Width="420"
                                     Height="24"
                                     TextColor="TextColor.Secondary" />
+                        <ReportField Field="Customer.Name"
+                                     X="430"
+                                     Y="82"
+                                     Width="180"
+                                     Height="24"
+                                     Bold />
                         <ReportRectangle X="610"
                                          Y="24"
                                          Width="120"
@@ -69,14 +75,14 @@
                     </ReportHeader>
                     <ReportPageHeader Name="Invoice page header" Height="42">
                         <ReportText Text="Invoice" X="40" Y="10" Width="90" Height="24" Bold />
-                        <ReportText Text="Customer" X="150" Y="10" Width="220" Height="24" Bold />
-                        <ReportText Text="Issued" X="390" Y="10" Width="110" Height="24" Bold />
-                        <ReportText Text="Total" X="540" Y="10" Width="120" Height="24" Bold />
+                        <ReportText Text="Description" X="150" Y="10" Width="220" Height="24" Bold />
+                        <ReportText Text="Qty" X="390" Y="10" Width="110" Height="24" Bold />
+                        <ReportText Text="Line total" X="540" Y="10" Width="120" Height="24" Bold />
                     </ReportPageHeader>
-                    <ReportDetail Name="Invoice rows" Height="52" DataSource="Invoices">
-                        <ReportField Field="Number" X="40" Y="14" Width="90" Height="24" />
-                        <ReportField Field="Customer" X="150" Y="14" Width="220" Height="24" />
-                        <ReportField Field="IssuedAt" Format="d" X="390" Y="14" Width="110" Height="24" />
+                    <ReportDetail Name="Invoice rows" Height="52" DataSource="Invoice.Lines">
+                        <ReportField Field="Sku" X="40" Y="14" Width="90" Height="24" />
+                        <ReportField Field="Description" X="150" Y="14" Width="220" Height="24" />
+                        <ReportField Field="Quantity" Format="N2" X="390" Y="14" Width="110" Height="24" />
                         <ReportField Field="Total" Format="C" X="540" Y="14" Width="120" Height="24" TextColor="TextColor.Success" />
                     </ReportDetail>
                     <ReportGroupFooter Name="Invoice group footer" Height="48">
@@ -88,12 +94,20 @@
                     </ReportPageFooter>
                     <ReportFooter Name="Invoice report footer" Height="72">
                         <ReportLine X="40" Y="10" Width="690" Height="1" />
-                        <ReportText Text="Generated from a declarative Report definition."
+                        <ReportText Text="Invoice total"
                                     X="40"
                                     Y="28"
-                                    Width="360"
+                                    Width="180"
                                     Height="24"
                                     TextColor="TextColor.Secondary" />
+                        <ReportField Field="Header.Total"
+                                     Format="C"
+                                     X="540"
+                                     Y="28"
+                                     Width="120"
+                                     Height="24"
+                                     Bold
+                                     TextColor="TextColor.Success" />
                     </ReportFooter>
                 </Report>
             </CardBody>
@@ -104,12 +118,65 @@
 @code {
     private ReportDefinition definition;
 
-    private readonly List<ReportInvoice> invoices =
-    [
-        new( "INV-1001", "Northwind Traders", new DateTime( 2026, 6, 1 ), 1240.50m ),
-        new( "INV-1002", "Alpine Ski House", new DateTime( 2026, 6, 2 ), 845.20m ),
-        new( "INV-1003", "Contoso Retail", new DateTime( 2026, 6, 3 ), 2198.00m ),
-    ];
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Header = new()
+        {
+            Number = "INV-1001",
+            IssuedAt = new DateTime( 2026, 6, 1 ),
+            Total = 1240.50m,
+        },
+        Customer = new()
+        {
+            Name = "Northwind Traders",
+            Address = "One Portals Way, Twin Points WA, 98156",
+            TaxNumber = "NW-45821",
+        },
+        Lines =
+        [
+            new() { Sku = "SRV-001", Description = "Implementation workshop", Quantity = 1, UnitPrice = 640.50m, Total = 640.50m },
+            new() { Sku = "LIC-010", Description = "Reporting module license", Quantity = 2, UnitPrice = 250.00m, Total = 500.00m },
+            new() { Sku = "SUP-003", Description = "Priority support", Quantity = 1, UnitPrice = 100.00m, Total = 100.00m },
+        ],
+    };
 
-    public sealed record ReportInvoice( string Number, string Customer, DateTime IssuedAt, decimal Total );
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceHeaderModel Header { get; set; }
+
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceHeaderModel
+    {
+        public string Number { get; set; }
+
+        public DateTime IssuedAt { get; set; }
+
+        public decimal Total { get; set; }
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+
+        public string Address { get; set; }
+
+        public string TaxNumber { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Sku { get; set; }
+
+        public string Description { get; set; }
+
+        public decimal Quantity { get; set; }
+
+        public decimal UnitPrice { get; set; }
+
+        public decimal Total { get; set; }
+    }
 }

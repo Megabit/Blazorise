@@ -57,7 +57,7 @@ public abstract class ReportSectionBase : ComponentBase
     [Parameter] public double Height { get; set; } = 80;
 
     /// <summary>
-    /// Data source name used by the band and its field elements.
+    /// Data source name or path used as the band field context. Detail bands repeat when this value resolves to a collection.
     /// </summary>
     [Parameter] public string DataSource { get; set; }
 
