@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Blazorise;
 
 namespace Blazorise.Reporting;
 
@@ -208,6 +209,21 @@ public sealed class ReportElementDefinition
     public string DataSource { get; set; }
 
     /// <summary>
+    /// Font settings applied to text rendered by the element.
+    /// </summary>
+    public ReportFontDefinition Font { get; set; } = new();
+
+    /// <summary>
+    /// Fill and opacity settings applied by the designer appearance editor.
+    /// </summary>
+    public ReportAppearanceDefinition Appearance { get; set; } = new();
+
+    /// <summary>
+    /// Border settings applied around the element.
+    /// </summary>
+    public ReportBorderDefinition Border { get; set; } = new();
+
+    /// <summary>
     /// CSS classes applied when the element is rendered.
     /// </summary>
     public string Class { get; set; }
@@ -221,6 +237,84 @@ public sealed class ReportElementDefinition
     /// Column definitions used by table elements.
     /// </summary>
     public List<ReportTableColumnDefinition> Columns { get; set; } = [];
+}
+
+/// <summary>
+/// Describes font settings for report elements that render text.
+/// </summary>
+public sealed class ReportFontDefinition
+{
+    /// <summary>
+    /// Font family applied to text rendered by the element.
+    /// </summary>
+    public string Family { get; set; }
+
+    /// <summary>
+    /// Font size applied to text rendered by the element.
+    /// </summary>
+    public double? Size { get; set; }
+
+    /// <summary>
+    /// Text color applied by the designer text editor.
+    /// </summary>
+    public string Color { get; set; }
+
+    /// <summary>
+    /// Enables bold text rendering.
+    /// </summary>
+    public bool Bold { get; set; }
+
+    /// <summary>
+    /// Enables italic text rendering.
+    /// </summary>
+    public bool Italic { get; set; }
+
+    /// <summary>
+    /// Enables underline text rendering.
+    /// </summary>
+    public bool Underline { get; set; }
+
+    /// <summary>
+    /// Text alignment applied inside the element box.
+    /// </summary>
+    public TextAlignment Alignment { get; set; } = TextAlignment.Default;
+}
+
+/// <summary>
+/// Describes fill and opacity settings for report elements.
+/// </summary>
+public sealed class ReportAppearanceDefinition
+{
+    /// <summary>
+    /// Background color applied by the designer appearance editor.
+    /// </summary>
+    public string BackgroundColor { get; set; }
+
+    /// <summary>
+    /// Element opacity from 0 to 1.
+    /// </summary>
+    public double? Opacity { get; set; }
+}
+
+/// <summary>
+/// Describes border settings for report elements.
+/// </summary>
+public sealed class ReportBorderDefinition
+{
+    /// <summary>
+    /// Border color applied by the designer appearance editor.
+    /// </summary>
+    public string Color { get; set; }
+
+    /// <summary>
+    /// Border width applied around the element.
+    /// </summary>
+    public double? Width { get; set; }
+
+    /// <summary>
+    /// Border radius applied to the element corners.
+    /// </summary>
+    public double? Radius { get; set; }
 }
 
 /// <summary>

@@ -167,9 +167,54 @@ internal sealed class ReportContext
             Format = element.Format,
             Source = element.Source,
             DataSource = element.DataSource,
+            Font = CloneFont( element.Font ),
+            Appearance = CloneAppearance( element.Appearance ),
+            Border = CloneBorder( element.Border ),
             Class = element.Class,
             Style = element.Style,
             Columns = element.Columns.Select( CloneColumn ).ToList(),
+        };
+    }
+
+    private static ReportFontDefinition CloneFont( ReportFontDefinition font )
+    {
+        if ( font is null )
+            return new();
+
+        return new()
+        {
+            Family = font.Family,
+            Size = font.Size,
+            Color = font.Color,
+            Bold = font.Bold,
+            Italic = font.Italic,
+            Underline = font.Underline,
+            Alignment = font.Alignment,
+        };
+    }
+
+    private static ReportAppearanceDefinition CloneAppearance( ReportAppearanceDefinition appearance )
+    {
+        if ( appearance is null )
+            return new();
+
+        return new()
+        {
+            BackgroundColor = appearance.BackgroundColor,
+            Opacity = appearance.Opacity,
+        };
+    }
+
+    private static ReportBorderDefinition CloneBorder( ReportBorderDefinition border )
+    {
+        if ( border is null )
+            return new();
+
+        return new()
+        {
+            Color = border.Color,
+            Width = border.Width,
+            Radius = border.Radius,
         };
     }
 

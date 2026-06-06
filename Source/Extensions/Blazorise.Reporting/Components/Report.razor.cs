@@ -851,7 +851,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
     private void RenderElement( RenderTreeBuilder builder, object item, ReportElementDefinition element, bool designMode, bool editable, string elementKey )
     {
         var elementSequence = 0;
-        var style = $"left:{element.X}px;top:{element.Y}px;width:{element.Width}px;height:{element.Height}px;{element.Style}";
+        var style = BuildElementStyle( element );
         var cssClass = $"b-report-element b-report-element-{element.Type.ToString().ToLowerInvariant()} {element.Class}".Trim();
 
         builder.OpenElement( elementSequence++, "div" );
@@ -902,6 +902,66 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         }
 
         builder.CloseElement();
+    }
+
+    private static string BuildElementStyle( ReportElementDefinition element )
+    {
+        var font = element.Font;
+        var appearance = element.Appearance;
+        var border = element.Border;
+        var styles = new List<string>
+        {
+            $"left:{element.X}px",
+            $"top:{element.Y}px",
+            $"width:{element.Width}px",
+            $"height:{element.Height}px",
+        };
+
+        if ( !string.IsNullOrWhiteSpace( font?.Family ) )
+            styles.Add( $"font-family:{font.Family}" );
+
+        if ( font?.Size is > 0 )
+            styles.Add( $"font-size:{font.Size.Value}px" );
+
+        if ( !string.IsNullOrWhiteSpace( font?.Color ) )
+            styles.Add( $"color:{font.Color}" );
+
+        if ( !string.IsNullOrWhiteSpace( appearance?.BackgroundColor ) )
+            styles.Add( $"background-color:{appearance.BackgroundColor}" );
+
+        if ( font?.Bold == true )
+            styles.Add( "font-weight:700" );
+
+        if ( font?.Italic == true )
+            styles.Add( "font-style:italic" );
+
+        if ( font?.Underline == true )
+            styles.Add( "text-decoration:underline" );
+
+        var textAlignment = ToCssTextAlignment( font?.Alignment ?? TextAlignment.Default );
+
+        if ( textAlignment is not null )
+            styles.Add( $"text-align:{textAlignment}" );
+
+        if ( !string.IsNullOrWhiteSpace( border?.Color ) )
+            styles.Add( $"border-color:{border.Color}" );
+
+        if ( border?.Width is >= 0 )
+        {
+            styles.Add( $"border-width:{border.Width.Value}px" );
+            styles.Add( "border-style:solid" );
+        }
+
+        if ( border?.Radius is >= 0 )
+            styles.Add( $"border-radius:{border.Radius.Value}px" );
+
+        if ( appearance?.Opacity is >= 0 and <= 1 )
+            styles.Add( $"opacity:{appearance.Opacity.Value.ToString( CultureInfo.InvariantCulture )}" );
+
+        if ( !string.IsNullOrWhiteSpace( element.Style ) )
+            styles.Add( element.Style.Trim().TrimEnd( ';' ) );
+
+        return string.Join( ";", styles ) + ";";
     }
 
     private void RenderElementResizeHandles( RenderTreeBuilder builder, string elementKey )
@@ -993,15 +1053,33 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             childBuilder.AddContent( childSequence++, "Band properties" );
             childBuilder.CloseElement();
 
-            RenderDesignerCheckbox( childBuilder, ref childSequence, "Suppress", selected.Suppressed, eventArgs => _ = UpdateSelectedSectionSuppressionAsync( eventArgs.Value is bool value && value ) );
+            RenderDesignerPropertyGroup( childBuilder, ref childSequence, "Status", groupBuilder =>
+            {
+                var groupSequence = 0;
+                RenderDesignerCheckbox( groupBuilder, ref groupSequence, "Suppress", selected.Suppressed, eventArgs => _ = UpdateSelectedSectionSuppressionAsync( eventArgs.Value is bool value && value ) );
+            } );
 
             if ( selected.Suppressed )
                 return;
 
-            RenderDesignerInput( childBuilder, ref childSequence, "Name", selected.Name, value => UpdateSelectedSectionAsync( section => section.Name = value ) );
-            RenderDesignerNumberInput( childBuilder, ref childSequence, "Height", selected.Height, value => UpdateSelectedSectionAsync( section => section.Height = Math.Max( 8, value ) ) );
-            RenderDesignerInput( childBuilder, ref childSequence, "Data source", selected.DataSource, value => UpdateSelectedSectionAsync( section => section.DataSource = value ) );
-            RenderDesignerInput( childBuilder, ref childSequence, "Style", selected.Style, value => UpdateSelectedSectionAsync( section => section.Style = value ) );
+            RenderDesignerPropertyGroup( childBuilder, ref childSequence, "General", groupBuilder =>
+            {
+                var groupSequence = 0;
+                RenderDesignerInput( groupBuilder, ref groupSequence, "Name", selected.Name, value => UpdateSelectedSectionAsync( section => section.Name = value ) );
+                RenderDesignerInput( groupBuilder, ref groupSequence, "Data source", selected.DataSource, value => UpdateSelectedSectionAsync( section => section.DataSource = value ) );
+            } );
+
+            RenderDesignerPropertyGroup( childBuilder, ref childSequence, "Layout", groupBuilder =>
+            {
+                var groupSequence = 0;
+                RenderDesignerNumberInput( groupBuilder, ref groupSequence, "Height", selected.Height, value => UpdateSelectedSectionAsync( section => section.Height = Math.Max( 8, value ) ) );
+            } );
+
+            RenderDesignerPropertyGroup( childBuilder, ref childSequence, "Advanced", groupBuilder =>
+            {
+                var groupSequence = 0;
+                RenderDesignerInput( groupBuilder, ref groupSequence, "Custom CSS", selected.Style, value => UpdateSelectedSectionAsync( section => section.Style = value ) );
+            } );
 
             childBuilder.OpenComponent<Div>( childSequence++ );
             childBuilder.AddAttribute( childSequence++, "Flex", Flex.Wrap );
@@ -1037,31 +1115,119 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             var childSequence = 0;
 
             childBuilder.OpenElement( childSequence++, "h6" );
-            childBuilder.AddContent( childSequence++, "Properties" );
+            childBuilder.AddContent( childSequence++, "Element properties" );
             childBuilder.CloseElement();
 
-            RenderDesignerInput( childBuilder, ref childSequence, "Name", selected.Name, value => UpdateSelectedElementAsync( element => element.Name = value ) );
-            RenderDesignerNumberInput( childBuilder, ref childSequence, "X", selected.X, value => UpdateSelectedElementAsync( element => element.X = value ) );
-            RenderDesignerNumberInput( childBuilder, ref childSequence, "Y", selected.Y, value => UpdateSelectedElementAsync( element => element.Y = value ) );
-            RenderDesignerNumberInput( childBuilder, ref childSequence, "Width", selected.Width, value => UpdateSelectedElementAsync( element => element.Width = value ) );
-            RenderDesignerNumberInput( childBuilder, ref childSequence, "Height", selected.Height, value => UpdateSelectedElementAsync( element => element.Height = value ) );
+            RenderDesignerPropertyGroup( childBuilder, ref childSequence, "General", groupBuilder =>
+            {
+                var groupSequence = 0;
+                RenderDesignerInput( groupBuilder, ref groupSequence, "Name", selected.Name, value => UpdateSelectedElementAsync( element => element.Name = value ) );
+            } );
+
+            RenderElementContentProperties( childBuilder, ref childSequence, selected );
+            RenderElementLayoutProperties( childBuilder, ref childSequence, selected );
+            RenderElementTextProperties( childBuilder, ref childSequence, selected );
+            RenderElementAppearanceProperties( childBuilder, ref childSequence, selected );
+
+            RenderDesignerPropertyGroup( childBuilder, ref childSequence, "Advanced", groupBuilder =>
+            {
+                var groupSequence = 0;
+                RenderDesignerInput( groupBuilder, ref groupSequence, "CSS classes", selected.Class, value => UpdateSelectedElementAsync( element => element.Class = value ) );
+                RenderDesignerInput( groupBuilder, ref groupSequence, "Custom CSS", selected.Style, value => UpdateSelectedElementAsync( element => element.Style = value ) );
+            } );
+        } ) );
+        builder.CloseComponent();
+    }
+
+    private void RenderElementContentProperties( RenderTreeBuilder builder, ref int sequence, ReportElementDefinition selected )
+    {
+        if ( selected.Type != ReportElementType.Text
+            && selected.Type != ReportElementType.Field
+            && selected.Type != ReportElementType.Image )
+            return;
+
+        RenderDesignerPropertyGroup( builder, ref sequence, selected.Type == ReportElementType.Field ? "Data" : "Content", groupBuilder =>
+        {
+            var groupSequence = 0;
 
             switch ( selected.Type )
             {
                 case ReportElementType.Text:
-                    RenderDesignerInput( childBuilder, ref childSequence, "Text", selected.Text, value => UpdateSelectedElementAsync( element => element.Text = value ) );
+                    RenderDesignerInput( groupBuilder, ref groupSequence, "Text", selected.Text, value => UpdateSelectedElementAsync( element => element.Text = value ) );
                     break;
                 case ReportElementType.Field:
-                    RenderDesignerInput( childBuilder, ref childSequence, "Expression", FormatFieldExpression( selected ), valueChanged: null, readOnly: true );
-                    RenderDesignerInput( childBuilder, ref childSequence, "Format", selected.Format, value => UpdateSelectedElementAsync( element => element.Format = value ) );
+                    RenderDesignerInput( groupBuilder, ref groupSequence, "Expression", FormatFieldExpression( selected ), valueChanged: null, readOnly: true );
+                    RenderDesignerInput( groupBuilder, ref groupSequence, "Format", selected.Format, value => UpdateSelectedElementAsync( element => element.Format = value ) );
                     break;
                 case ReportElementType.Image:
-                    RenderDesignerInput( childBuilder, ref childSequence, "Source", selected.Source, value => UpdateSelectedElementAsync( element => element.Source = value ) );
-                    RenderDesignerInput( childBuilder, ref childSequence, "Alt text", selected.Text, value => UpdateSelectedElementAsync( element => element.Text = value ) );
+                    RenderDesignerInput( groupBuilder, ref groupSequence, "Source", selected.Source, value => UpdateSelectedElementAsync( element => element.Source = value ) );
+                    RenderDesignerInput( groupBuilder, ref groupSequence, "Alt text", selected.Text, value => UpdateSelectedElementAsync( element => element.Text = value ) );
                     break;
             }
+        } );
+    }
 
-            RenderDesignerInput( childBuilder, ref childSequence, "Style", selected.Style, value => UpdateSelectedElementAsync( element => element.Style = value ) );
+    private void RenderElementLayoutProperties( RenderTreeBuilder builder, ref int sequence, ReportElementDefinition selected )
+    {
+        RenderDesignerPropertyGroup( builder, ref sequence, "Position and size", groupBuilder =>
+        {
+            var groupSequence = 0;
+            RenderDesignerNumberInput( groupBuilder, ref groupSequence, "X", selected.X, value => UpdateSelectedElementAsync( element => element.X = value ) );
+            RenderDesignerNumberInput( groupBuilder, ref groupSequence, "Y", selected.Y, value => UpdateSelectedElementAsync( element => element.Y = value ) );
+            RenderDesignerNumberInput( groupBuilder, ref groupSequence, "Width", selected.Width, value => UpdateSelectedElementAsync( element => element.Width = value ) );
+            RenderDesignerNumberInput( groupBuilder, ref groupSequence, "Height", selected.Height, value => UpdateSelectedElementAsync( element => element.Height = value ) );
+        } );
+    }
+
+    private void RenderElementTextProperties( RenderTreeBuilder builder, ref int sequence, ReportElementDefinition selected )
+    {
+        if ( selected.Type is ReportElementType.Image or ReportElementType.Line or ReportElementType.Rectangle or ReportElementType.PageBreak )
+            return;
+
+        var font = EnsureFont( selected );
+
+        RenderDesignerPropertyGroup( builder, ref sequence, "Text", groupBuilder =>
+        {
+            var groupSequence = 0;
+            RenderDesignerInput( groupBuilder, ref groupSequence, "Font family", font.Family, value => UpdateSelectedElementAsync( element => EnsureFont( element ).Family = value ) );
+            RenderDesignerNullableNumberInput( groupBuilder, ref groupSequence, "Font size", font.Size, value => UpdateSelectedElementAsync( element => EnsureFont( element ).Size = NormalizeNullablePositiveNumber( value ) ) );
+            RenderDesignerColorInput( groupBuilder, ref groupSequence, "Font color", font.Color, value => UpdateSelectedElementAsync( element => EnsureFont( element ).Color = value ) );
+            RenderDesignerSelectInput( groupBuilder, ref groupSequence, "Alignment", font.Alignment, value => UpdateSelectedElementAsync( element => EnsureFont( element ).Alignment = value ) );
+            RenderDesignerCheckbox( groupBuilder, ref groupSequence, "Bold", font.Bold, eventArgs => _ = UpdateSelectedElementAsync( element => EnsureFont( element ).Bold = eventArgs.Value is bool value && value ) );
+            RenderDesignerCheckbox( groupBuilder, ref groupSequence, "Italic", font.Italic, eventArgs => _ = UpdateSelectedElementAsync( element => EnsureFont( element ).Italic = eventArgs.Value is bool value && value ) );
+            RenderDesignerCheckbox( groupBuilder, ref groupSequence, "Underline", font.Underline, eventArgs => _ = UpdateSelectedElementAsync( element => EnsureFont( element ).Underline = eventArgs.Value is bool value && value ) );
+        } );
+    }
+
+    private void RenderElementAppearanceProperties( RenderTreeBuilder builder, ref int sequence, ReportElementDefinition selected )
+    {
+        var appearance = EnsureAppearance( selected );
+        var border = EnsureBorder( selected );
+
+        RenderDesignerPropertyGroup( builder, ref sequence, "Appearance", groupBuilder =>
+        {
+            var groupSequence = 0;
+            RenderDesignerColorInput( groupBuilder, ref groupSequence, "Fill color", appearance.BackgroundColor, value => UpdateSelectedElementAsync( element => EnsureAppearance( element ).BackgroundColor = value ) );
+            RenderDesignerColorInput( groupBuilder, ref groupSequence, "Border color", border.Color, value => UpdateSelectedElementAsync( element => EnsureBorder( element ).Color = value ) );
+            RenderDesignerNullableNumberInput( groupBuilder, ref groupSequence, "Border width", border.Width, value => UpdateSelectedElementAsync( element => EnsureBorder( element ).Width = NormalizeNullablePositiveNumber( value ) ) );
+            RenderDesignerNullableNumberInput( groupBuilder, ref groupSequence, "Corner radius", border.Radius, value => UpdateSelectedElementAsync( element => EnsureBorder( element ).Radius = NormalizeNullablePositiveNumber( value ) ) );
+            RenderDesignerNullableNumberInput( groupBuilder, ref groupSequence, "Opacity", appearance.Opacity, value => UpdateSelectedElementAsync( element => EnsureAppearance( element ).Opacity = NormalizeOpacity( value ) ) );
+        } );
+    }
+
+    private void RenderDesignerPropertyGroup( RenderTreeBuilder builder, ref int sequence, string title, RenderFragment childContent )
+    {
+        builder.OpenComponent<Div>( sequence++ );
+        builder.AddAttribute( sequence++, "Margin", Margin.Is3.FromBottom );
+        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( groupBuilder =>
+        {
+            var groupSequence = 0;
+
+            groupBuilder.OpenElement( groupSequence++, "h6" );
+            groupBuilder.AddContent( groupSequence++, title );
+            groupBuilder.CloseElement();
+
+            groupBuilder.AddContent( groupSequence++, childContent );
         } ) );
         builder.CloseComponent();
     }
@@ -1087,6 +1253,94 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
                 fieldBuilder.AddAttribute( fieldSequence++, "ValueChanged", EventCallback.Factory.Create<string>( this, valueChanged ) );
                 fieldBuilder.AddAttribute( fieldSequence++, "Immediate", true );
             }
+
+            fieldBuilder.CloseComponent();
+        } ) );
+        builder.CloseComponent();
+    }
+
+    private void RenderDesignerNullableNumberInput( RenderTreeBuilder builder, ref int sequence, string label, double? value, Func<double?, Task> valueChanged )
+    {
+        builder.OpenComponent<Field>( sequence++ );
+        builder.AddAttribute( sequence++, "Margin", Margin.Is2.FromBottom );
+        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( fieldBuilder =>
+        {
+            var fieldSequence = 0;
+
+            fieldBuilder.OpenComponent<FieldLabel>( fieldSequence++ );
+            fieldBuilder.AddAttribute( fieldSequence++, "ChildContent", (RenderFragment)( labelBuilder => labelBuilder.AddContent( 0, label ) ) );
+            fieldBuilder.CloseComponent();
+
+            fieldBuilder.OpenComponent<NumericInput<double?>>( fieldSequence++ );
+            fieldBuilder.AddAttribute( fieldSequence++, "Value", value );
+            fieldBuilder.AddAttribute( fieldSequence++, "ValueChanged", EventCallback.Factory.Create<double?>( this, valueChanged ) );
+            fieldBuilder.AddAttribute( fieldSequence++, "Immediate", true );
+            fieldBuilder.AddAttribute( fieldSequence++, "Step", 1m );
+            fieldBuilder.CloseComponent();
+        } ) );
+        builder.CloseComponent();
+    }
+
+    private void RenderDesignerColorInput( RenderTreeBuilder builder, ref int sequence, string label, string value, Func<string, Task> valueChanged )
+    {
+        builder.OpenComponent<Field>( sequence++ );
+        builder.AddAttribute( sequence++, "Margin", Margin.Is2.FromBottom );
+        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( fieldBuilder =>
+        {
+            var fieldSequence = 0;
+
+            fieldBuilder.OpenComponent<FieldLabel>( fieldSequence++ );
+            fieldBuilder.AddAttribute( fieldSequence++, "ChildContent", (RenderFragment)( labelBuilder => labelBuilder.AddContent( 0, label ) ) );
+            fieldBuilder.CloseComponent();
+
+            fieldBuilder.OpenComponent<Div>( fieldSequence++ );
+            fieldBuilder.AddAttribute( fieldSequence++, "Flex", Flex.Row );
+            fieldBuilder.AddAttribute( fieldSequence++, "Gap", Gap.Is2 );
+            fieldBuilder.AddAttribute( fieldSequence++, "ChildContent", (RenderFragment)( inputBuilder =>
+            {
+                var inputSequence = 0;
+
+                inputBuilder.OpenElement( inputSequence++, "input" );
+                inputBuilder.AddAttribute( inputSequence++, "type", "color" );
+                inputBuilder.AddAttribute( inputSequence++, "value", NormalizeColorValue( value ) );
+                inputBuilder.AddAttribute( inputSequence++, "onchange", EventCallback.Factory.Create<ChangeEventArgs>( this, eventArgs => valueChanged( Convert.ToString( eventArgs.Value, CultureInfo.InvariantCulture ) ) ) );
+                inputBuilder.CloseElement();
+
+                RenderDesignerButton( inputBuilder, ref inputSequence, "Clear", () => valueChanged( null ) );
+            } ) );
+            fieldBuilder.CloseComponent();
+        } ) );
+        builder.CloseComponent();
+    }
+
+    private void RenderDesignerSelectInput<TValue>( RenderTreeBuilder builder, ref int sequence, string label, TValue value, Func<TValue, Task> valueChanged )
+        where TValue : struct, Enum
+    {
+        builder.OpenComponent<Field>( sequence++ );
+        builder.AddAttribute( sequence++, "Margin", Margin.Is2.FromBottom );
+        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( fieldBuilder =>
+        {
+            var fieldSequence = 0;
+
+            fieldBuilder.OpenComponent<FieldLabel>( fieldSequence++ );
+            fieldBuilder.AddAttribute( fieldSequence++, "ChildContent", (RenderFragment)( labelBuilder => labelBuilder.AddContent( 0, label ) ) );
+            fieldBuilder.CloseComponent();
+
+            fieldBuilder.OpenComponent<Select<TValue>>( fieldSequence++ );
+            fieldBuilder.AddAttribute( fieldSequence++, "Value", value );
+            fieldBuilder.AddAttribute( fieldSequence++, "ValueChanged", EventCallback.Factory.Create<TValue>( this, valueChanged ) );
+            fieldBuilder.AddAttribute( fieldSequence++, "ChildContent", (RenderFragment)( selectBuilder =>
+            {
+                var selectSequence = 0;
+
+                foreach ( var option in Enum.GetValues<TValue>() )
+                {
+                    selectBuilder.OpenComponent<SelectItem<TValue>>( selectSequence++ );
+                    selectBuilder.AddAttribute( selectSequence++, "Value", option );
+                    selectBuilder.AddAttribute( selectSequence++, "ChildContent", (RenderFragment)( optionBuilder => optionBuilder.AddContent( 0, option.ToString() ) ) );
+                    selectBuilder.CloseComponent();
+                }
+            } ) );
 
             fieldBuilder.CloseComponent();
         } ) );
@@ -2708,6 +2962,55 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         snapToGrid = eventArgs.Value is bool value
             ? value
             : string.Equals( Convert.ToString( eventArgs.Value, CultureInfo.InvariantCulture ), "true", StringComparison.OrdinalIgnoreCase );
+    }
+
+    private static double? NormalizeNullablePositiveNumber( double? value )
+    {
+        return value is > 0
+            ? value
+            : null;
+    }
+
+    private static double? NormalizeOpacity( double? value )
+    {
+        if ( value is null )
+            return null;
+
+        return Math.Clamp( value.Value, 0, 1 );
+    }
+
+    private static ReportFontDefinition EnsureFont( ReportElementDefinition element )
+    {
+        return element.Font ??= new();
+    }
+
+    private static ReportAppearanceDefinition EnsureAppearance( ReportElementDefinition element )
+    {
+        return element.Appearance ??= new();
+    }
+
+    private static ReportBorderDefinition EnsureBorder( ReportElementDefinition element )
+    {
+        return element.Border ??= new();
+    }
+
+    private static string NormalizeColorValue( string value )
+    {
+        return !string.IsNullOrWhiteSpace( value ) && value.StartsWith( "#", StringComparison.Ordinal ) && value.Length == 7
+            ? value
+            : "#000000";
+    }
+
+    private static string ToCssTextAlignment( TextAlignment alignment )
+    {
+        return alignment switch
+        {
+            TextAlignment.Start => "left",
+            TextAlignment.End => "right",
+            TextAlignment.Center => "center",
+            TextAlignment.Justified => "justify",
+            _ => null,
+        };
     }
 
     private static ReportElementDefinition CreateElementFromToolbox( ReportElementType elementType, string text, double x, double y )

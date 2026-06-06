@@ -55,6 +55,9 @@ public abstract class ReportElementBase : ComponentBase
             Y = Y,
             Width = Width,
             Height = Height,
+            Font = BuildFontDefinition(),
+            Appearance = BuildAppearanceDefinition(),
+            Border = BuildBorderDefinition(),
             Class = BuildUtilityClasses(),
             Style = Style,
         };
@@ -92,6 +95,41 @@ public abstract class ReportElementBase : ComponentBase
         return string.Join( " ", classes );
     }
 
+    private ReportFontDefinition BuildFontDefinition()
+    {
+        return new()
+        {
+            Family = FontFamily ?? Font?.Family,
+            Size = FontSize ?? Font?.Size,
+            Color = FontColor ?? Font?.Color,
+            Bold = Bold || Font?.Bold == true,
+            Italic = Italic || Font?.Italic == true,
+            Underline = Underline || Font?.Underline == true,
+            Alignment = TextAlignment != Blazorise.TextAlignment.Default
+                ? TextAlignment
+                : Font?.Alignment ?? Blazorise.TextAlignment.Default,
+        };
+    }
+
+    private ReportAppearanceDefinition BuildAppearanceDefinition()
+    {
+        return new()
+        {
+            BackgroundColor = BackgroundColor ?? Appearance?.BackgroundColor,
+            Opacity = Opacity ?? Appearance?.Opacity,
+        };
+    }
+
+    private ReportBorderDefinition BuildBorderDefinition()
+    {
+        return new()
+        {
+            Color = BorderColor ?? Border?.Color,
+            Width = BorderWidth ?? Border?.Width,
+            Radius = BorderRadius ?? Border?.Radius,
+        };
+    }
+
     /// <summary>
     /// Friendly element name shown in the designer.
     /// </summary>
@@ -126,6 +164,81 @@ public abstract class ReportElementBase : ComponentBase
     /// Inline style applied to the element.
     /// </summary>
     [Parameter] public string Style { get; set; }
+
+    /// <summary>
+    /// Font family applied to text rendered by the element.
+    /// </summary>
+    [Parameter] public string FontFamily { get; set; }
+
+    /// <summary>
+    /// Font size applied to text rendered by the element.
+    /// </summary>
+    [Parameter] public double? FontSize { get; set; }
+
+    /// <summary>
+    /// Text color applied to the element.
+    /// </summary>
+    [Parameter] public string FontColor { get; set; }
+
+    /// <summary>
+    /// Background color applied to the element.
+    /// </summary>
+    [Parameter] public string BackgroundColor { get; set; }
+
+    /// <summary>
+    /// Enables bold text rendering.
+    /// </summary>
+    [Parameter] public bool Bold { get; set; }
+
+    /// <summary>
+    /// Enables italic text rendering.
+    /// </summary>
+    [Parameter] public bool Italic { get; set; }
+
+    /// <summary>
+    /// Enables underline text rendering.
+    /// </summary>
+    [Parameter] public bool Underline { get; set; }
+
+    /// <summary>
+    /// Text alignment applied inside the element box.
+    /// </summary>
+    [Parameter] public TextAlignment TextAlignment { get; set; } = TextAlignment.Default;
+
+    /// <summary>
+    /// Border color applied to the element.
+    /// </summary>
+    [Parameter] public string BorderColor { get; set; }
+
+    /// <summary>
+    /// Border width applied around the element.
+    /// </summary>
+    [Parameter] public double? BorderWidth { get; set; }
+
+    /// <summary>
+    /// Border radius applied to the element corners.
+    /// </summary>
+    [Parameter] public double? BorderRadius { get; set; }
+
+    /// <summary>
+    /// Element opacity from 0 to 1.
+    /// </summary>
+    [Parameter] public double? Opacity { get; set; }
+
+    /// <summary>
+    /// Font settings applied to text rendered by the element.
+    /// </summary>
+    [Parameter] public ReportFontDefinition Font { get; set; }
+
+    /// <summary>
+    /// Fill and opacity settings applied to the element.
+    /// </summary>
+    [Parameter] public ReportAppearanceDefinition Appearance { get; set; }
+
+    /// <summary>
+    /// Border settings applied around the element.
+    /// </summary>
+    [Parameter] public ReportBorderDefinition Border { get; set; }
 
     /// <summary>
     /// Blazorise margin utility applied to the element.

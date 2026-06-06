@@ -44,7 +44,8 @@
                                     Width="280"
                                     Height="34"
                                     TextColor="TextColor.Primary"
-                                    Style="font-size:28px;font-weight:600;" />
+                                    FontSize="28"
+                                    Bold />
                         <ReportText Text="Declarative report with designer and viewer modes."
                                     X="42"
                                     Y="64"
@@ -62,13 +63,15 @@
                                     Width="72"
                                     Height="28"
                                     TextColor="TextColor.Primary"
-                                    Style="font-size:24px;font-weight:700;text-align:center;" />
+                                    FontSize="24"
+                                    Bold
+                                    TextAlignment="TextAlignment.Center" />
                     </ReportHeader>
                     <ReportPageHeader Name="Invoice page header" Height="42">
-                        <ReportText Text="Invoice" X="40" Y="10" Width="90" Height="24" Style="font-weight:700;" />
-                        <ReportText Text="Customer" X="150" Y="10" Width="220" Height="24" Style="font-weight:700;" />
-                        <ReportText Text="Issued" X="390" Y="10" Width="110" Height="24" Style="font-weight:700;" />
-                        <ReportText Text="Total" X="540" Y="10" Width="120" Height="24" Style="font-weight:700;" />
+                        <ReportText Text="Invoice" X="40" Y="10" Width="90" Height="24" Bold />
+                        <ReportText Text="Customer" X="150" Y="10" Width="220" Height="24" Bold />
+                        <ReportText Text="Issued" X="390" Y="10" Width="110" Height="24" Bold />
+                        <ReportText Text="Total" X="540" Y="10" Width="120" Height="24" Bold />
                     </ReportPageHeader>
                     <ReportDetail Name="Invoice rows" Height="52" DataSource="Invoices">
                         <ReportField Field="Number" X="40" Y="14" Width="90" Height="24" />
