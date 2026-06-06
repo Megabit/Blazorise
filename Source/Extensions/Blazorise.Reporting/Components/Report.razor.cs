@@ -2771,6 +2771,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
                         Height = 24,
                     };
                     targetSection.Elements.Add( fieldElement );
+                    AddPageHeaderForDetailField( definition, targetSectionIndex, targetSection, fieldBinding.FieldName, x, fieldElement.Width );
                     selectedElementKey = GetDesignerElementKey( fieldElement );
                     reportSelected = false;
                     break;
@@ -3225,6 +3226,100 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             return (null, fieldName);
 
         return (dataSourceName, fieldName);
+    }
+
+    private static void AddPageHeaderForDetailField( ReportDefinition definition, int detailSectionIndex, ReportSectionDefinition detailSection, string fieldName, double x, double width )
+    {
+        if ( detailSection?.Type != ReportSectionType.Detail || string.IsNullOrWhiteSpace( fieldName ) )
+            return;
+
+        var pageHeader = FindPageHeaderForDetail( definition, detailSectionIndex );
+
+        if ( pageHeader is null || pageHeader.Suppressed )
+            return;
+
+        var headerText = GetFieldHeaderText( fieldName );
+        var headerY = GetPageHeaderElementY( pageHeader );
+
+        if ( HasPageHeaderElement( pageHeader, headerText, x ) )
+            return;
+
+        pageHeader.Elements.Add( new()
+        {
+            Name = headerText,
+            Type = ReportElementType.Text,
+            Text = headerText,
+            X = x,
+            Y = headerY,
+            Width = width,
+            Height = 24,
+            Font = new()
+            {
+                Bold = true,
+            },
+        } );
+    }
+
+    private static ReportSectionDefinition FindPageHeaderForDetail( ReportDefinition definition, int detailSectionIndex )
+    {
+        if ( definition is null )
+            return null;
+
+        for ( var i = detailSectionIndex - 1; i >= 0; i-- )
+        {
+            if ( definition.Sections[i].Type == ReportSectionType.PageHeader )
+                return definition.Sections[i];
+        }
+
+        return definition.Sections.FirstOrDefault( section => section.Type == ReportSectionType.PageHeader );
+    }
+
+    private static double GetPageHeaderElementY( ReportSectionDefinition pageHeader )
+    {
+        var firstElement = pageHeader.Elements
+            .Where( element => element.Type is ReportElementType.Text or ReportElementType.Field )
+            .OrderBy( element => element.Y )
+            .ThenBy( element => element.X )
+            .FirstOrDefault();
+
+        return firstElement?.Y ?? 10;
+    }
+
+    private static bool HasPageHeaderElement( ReportSectionDefinition pageHeader, string headerText, double x )
+    {
+        return pageHeader.Elements.Any( element =>
+            element.Type == ReportElementType.Text
+            && string.Equals( element.Text, headerText, StringComparison.OrdinalIgnoreCase )
+            && Math.Abs( element.X - x ) < 0.1 );
+    }
+
+    private static string GetFieldHeaderText( string fieldName )
+    {
+        var segment = fieldName.Split( '.', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries ).LastOrDefault() ?? fieldName;
+
+        if ( string.IsNullOrWhiteSpace( segment ) )
+            return fieldName;
+
+        segment = segment.Replace( '_', ' ' );
+        var characters = new List<char>();
+
+        for ( var i = 0; i < segment.Length; i++ )
+        {
+            var character = segment[i];
+
+            if ( i > 0
+                && character != ' '
+                && char.IsUpper( character )
+                && segment[i - 1] != ' '
+                && ( char.IsLower( segment[i - 1] ) || ( i + 1 < segment.Length && char.IsLower( segment[i + 1] ) ) ) )
+            {
+                characters.Add( ' ' );
+            }
+
+            characters.Add( character );
+        }
+
+        return new string( characters.ToArray() );
     }
 
     private ReportSectionDefinition FindSelectedSection( ReportDefinition definition )
