@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Blazorise;
+using Blazorise.Extensions;
 using Blazorise.History;
 using Blazorise.Reporting.Internal;
 using Blazorise.Utilities;
@@ -242,155 +243,148 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
     private RenderFragment RenderDesigner() => builder =>
     {
         var definition = EffectiveDefinition;
-        var sequence = 0;
 
-        builder.OpenElement( sequence++, "div" );
-        builder.AddAttribute( sequence++, "class", "b-report-designer" );
+        builder.OpenElement( "div" );
+        builder.Class( "b-report-designer" );
 
-        builder.OpenComponent<Div>( sequence++ );
-        builder.AddAttribute( sequence++, "class", "b-report-designer-dictionary" );
-        builder.AddAttribute( sequence++, "Padding", Padding.Is3 );
-        builder.AddAttribute( sequence++, "Background", Background.White );
-        builder.AddAttribute( sequence++, "Border", Border.Is1 );
-        builder.AddAttribute( sequence++, "Overflow", Overflow.Auto );
-        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( childBuilder =>
+        builder.OpenComponent<Div>();
+        builder.Class( "b-report-designer-dictionary" );
+        builder.Attribute( "Padding", Padding.Is3 );
+        builder.Attribute( "Background", Background.White );
+        builder.Attribute( "Border", Border.Is1 );
+        builder.Attribute( "Overflow", Overflow.Auto );
+        builder.Attribute( "ChildContent", (RenderFragment)( childBuilder =>
         {
-            var childSequence = 0;
-            RenderDataDictionary( childBuilder, ref childSequence, definition );
+            RenderDataDictionary( childBuilder, definition );
         } ) );
         builder.CloseComponent();
 
-        builder.OpenComponent<Div>( sequence++ );
-        builder.AddAttribute( sequence++, "class", "b-report-designer-surface" );
-        builder.AddAttribute( sequence++, "Padding", Padding.Is3 );
-        builder.AddAttribute( sequence++, "Background", Background.Light );
-        builder.AddAttribute( sequence++, "Border", Border.Is1 );
-        builder.AddAttribute( sequence++, "Overflow", Overflow.Auto );
-        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( childBuilder =>
+        builder.OpenComponent<Div>();
+        builder.Class( "b-report-designer-surface" );
+        builder.Attribute( "Padding", Padding.Is3 );
+        builder.Attribute( "Background", Background.Light );
+        builder.Attribute( "Border", Border.Is1 );
+        builder.Attribute( "Overflow", Overflow.Auto );
+        builder.Attribute( "ChildContent", (RenderFragment)( childBuilder =>
         {
-            var childSequence = 0;
-            RenderReportPage( childBuilder, ref childSequence, definition, designMode: true );
+            RenderReportPage( childBuilder, definition, designMode: true );
         } ) );
         builder.CloseComponent();
 
-        builder.OpenComponent<Div>( sequence++ );
-        builder.AddAttribute( sequence++, "class", "b-report-designer-panel" );
-        builder.AddAttribute( sequence++, "Padding", Padding.Is3 );
-        builder.AddAttribute( sequence++, "Background", Background.White );
-        builder.AddAttribute( sequence++, "Border", Border.Is1 );
-        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( childBuilder =>
+        builder.OpenComponent<Div>();
+        builder.Class( "b-report-designer-panel" );
+        builder.Attribute( "Padding", Padding.Is3 );
+        builder.Attribute( "Background", Background.White );
+        builder.Attribute( "Border", Border.Is1 );
+        builder.Attribute( "ChildContent", (RenderFragment)( childBuilder =>
         {
-            var childSequence = 0;
-            RenderDesignerPanel( childBuilder, ref childSequence, definition );
+            RenderDesignerPanel( childBuilder, definition );
         } ) );
         builder.CloseComponent();
-        RenderDesignerContextMenu( builder, ref sequence, definition );
+        RenderDesignerContextMenu( builder, definition );
 
         builder.CloseElement();
     };
 
-    private void RenderDesignerPanel( RenderTreeBuilder builder, ref int sequence, ReportDefinition definition )
+    private void RenderDesignerPanel( RenderTreeBuilder builder, ReportDefinition definition )
     {
-        RenderDesignerPanelTabs( builder, ref sequence );
+        RenderDesignerPanelTabs( builder );
 
-        builder.OpenElement( sequence++, "div" );
-        builder.AddAttribute( sequence++, "class", "b-report-designer-panel-body" );
+        builder.OpenElement( "div" );
+        builder.Class( "b-report-designer-panel-body" );
 
         if ( selectedDesignerPanelTab == ReportDesignerPanelTab.Explorer )
         {
-            RenderReportExplorer( builder, ref sequence, definition );
+            RenderReportExplorer( builder, definition );
         }
         else
         {
-            RenderPropertiesPanel( builder, ref sequence, definition );
+            RenderPropertiesPanel( builder, definition );
         }
 
         builder.CloseElement();
     }
 
-    private void RenderDesignerPanelTabs( RenderTreeBuilder builder, ref int sequence )
+    private void RenderDesignerPanelTabs( RenderTreeBuilder builder )
     {
-        builder.OpenComponent<Div>( sequence++ );
-        builder.AddAttribute( sequence++, "class", "b-report-designer-tabs" );
-        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( childBuilder =>
+        builder.OpenComponent<Div>();
+        builder.Class( "b-report-designer-tabs" );
+        builder.Attribute( "ChildContent", (RenderFragment)( childBuilder =>
         {
-            var childSequence = 0;
-            RenderDesignerPanelTabButton( childBuilder, ref childSequence, "Properties", ReportDesignerPanelTab.Properties );
-            RenderDesignerPanelTabButton( childBuilder, ref childSequence, "Report Explorer", ReportDesignerPanelTab.Explorer );
+            RenderDesignerPanelTabButton( childBuilder, "Properties", ReportDesignerPanelTab.Properties );
+            RenderDesignerPanelTabButton( childBuilder, "Report Explorer", ReportDesignerPanelTab.Explorer );
         } ) );
         builder.CloseComponent();
     }
 
-    private void RenderDesignerPanelTabButton( RenderTreeBuilder builder, ref int sequence, string text, ReportDesignerPanelTab tab )
+    private void RenderDesignerPanelTabButton( RenderTreeBuilder builder, string text, ReportDesignerPanelTab tab )
     {
-        builder.OpenComponent<Button>( sequence++ );
-        builder.AddAttribute( sequence++, "Color", selectedDesignerPanelTab == tab ? Color.Primary : Color.Light );
-        builder.AddAttribute( sequence++, "Clicked", EventCallback.Factory.Create<MouseEventArgs>( this, () => selectedDesignerPanelTab = tab ) );
-        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( buttonBuilder => buttonBuilder.AddContent( 0, text ) ) );
+        builder.OpenComponent<Button>();
+        builder.Attribute( "Color", selectedDesignerPanelTab == tab ? Color.Primary : Color.Light );
+        builder.Attribute( "Clicked", EventCallback.Factory.Create<MouseEventArgs>( this, () => selectedDesignerPanelTab = tab ) );
+        builder.Attribute( "ChildContent", (RenderFragment)( buttonBuilder => buttonBuilder.Content( text ) ) );
         builder.CloseComponent();
     }
 
-    private void RenderPropertiesPanel( RenderTreeBuilder builder, ref int sequence, ReportDefinition definition )
+    private void RenderPropertiesPanel( RenderTreeBuilder builder, ReportDefinition definition )
     {
         var hasSelection = reportSelected || selectedSectionIndex is not null || !string.IsNullOrWhiteSpace( selectedElementKey );
 
-        RenderReportProperties( builder, ref sequence, definition );
-        RenderSelectedSectionProperties( builder, ref sequence, definition );
-        RenderSelectedElementProperties( builder, ref sequence, definition );
-        RenderSelectedElementTools( builder, ref sequence, definition );
+        RenderReportProperties( builder, definition );
+        RenderSelectedSectionProperties( builder, definition );
+        RenderSelectedElementProperties( builder, definition );
+        RenderSelectedElementTools( builder, definition );
 
         if ( hasSelection )
             return;
 
-        builder.OpenComponent<Paragraph>( sequence++ );
-        builder.AddAttribute( sequence++, "TextColor", TextColor.Secondary );
-        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( paragraphBuilder => paragraphBuilder.AddContent( 0, "Select a band or report element to edit its properties." ) ) );
+        builder.OpenComponent<Paragraph>();
+        builder.Attribute( "TextColor", TextColor.Secondary );
+        builder.Attribute( "ChildContent", (RenderFragment)( paragraphBuilder => paragraphBuilder.Content( "Select a band or report element to edit its properties." ) ) );
         builder.CloseComponent();
     }
 
-    private void RenderReportProperties( RenderTreeBuilder builder, ref int sequence, ReportDefinition definition )
+    private void RenderReportProperties( RenderTreeBuilder builder, ReportDefinition definition )
     {
         if ( !reportSelected )
             return;
 
-        builder.OpenComponent<Div>( sequence++ );
-        builder.AddAttribute( sequence++, "Margin", Margin.Is3.FromBottom );
-        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( childBuilder =>
+        builder.OpenComponent<Div>();
+        builder.Attribute( "Margin", Margin.Is3.FromBottom );
+        builder.Attribute( "ChildContent", (RenderFragment)( childBuilder =>
         {
-            var childSequence = 0;
-
-            childBuilder.OpenElement( childSequence++, "h6" );
-            childBuilder.AddContent( childSequence++, "Report properties" );
+            childBuilder.OpenElement( "h6" );
+            childBuilder.Content( "Report properties" );
             childBuilder.CloseElement();
 
-            RenderDesignerCheckbox( childBuilder, ref childSequence, "Snap to grid", snapToGrid, OnSnapToGridChanged );
-            RenderDesignerNumberInput( childBuilder, ref childSequence, "Page width", definition.Page.Width, value => UpdateReportPageAsync( page => page.Width = Math.Max( 1, value ) ) );
-            RenderDesignerNumberInput( childBuilder, ref childSequence, "Page height", definition.Page.Height, value => UpdateReportPageAsync( page => page.Height = Math.Max( 1, value ) ) );
+            RenderDesignerCheckbox( childBuilder, "Snap to grid", snapToGrid, OnSnapToGridChanged );
+            RenderDesignerNumberInput( childBuilder, "Page width", definition.Page.Width, value => UpdateReportPageAsync( page => page.Width = Math.Max( 1, value ) ) );
+            RenderDesignerNumberInput( childBuilder, "Page height", definition.Page.Height, value => UpdateReportPageAsync( page => page.Height = Math.Max( 1, value ) ) );
         } ) );
         builder.CloseComponent();
     }
 
-    private void RenderReportExplorer( RenderTreeBuilder builder, ref int sequence, ReportDefinition definition )
+    private void RenderReportExplorer( RenderTreeBuilder builder, ReportDefinition definition )
     {
-        builder.OpenElement( sequence++, "h5" );
-        builder.AddContent( sequence++, "Report Explorer" );
+        builder.OpenElement( "h5" );
+        builder.Content( "Report Explorer" );
         builder.CloseElement();
 
-        builder.OpenComponent<_ReportTreeView>( sequence++ );
-        builder.AddAttribute( sequence++, "Nodes", BuildReportExplorerNodes( definition ) );
-        builder.AddAttribute( sequence++, "NodeClicked", EventCallback.Factory.Create<ReportTreeNode>( this, OnReportTreeNodeClicked ) );
-        builder.AddAttribute( sequence++, "NodeContextMenu", EventCallback.Factory.Create<ReportTreeNodeMouseEventArgs>( this, OnReportTreeNodeContextMenu ) );
+        builder.OpenComponent<_ReportTreeView>();
+        builder.Attribute( "Nodes", BuildReportExplorerNodes( definition ) );
+        builder.Attribute( "NodeClicked", EventCallback.Factory.Create<ReportTreeNode>( this, OnReportTreeNodeClicked ) );
+        builder.Attribute( "NodeContextMenu", EventCallback.Factory.Create<ReportTreeNodeMouseEventArgs>( this, OnReportTreeNodeContextMenu ) );
         builder.CloseComponent();
     }
 
-    private void RenderDesignerContextMenu( RenderTreeBuilder builder, ref int sequence, ReportDefinition definition )
+    private void RenderDesignerContextMenu( RenderTreeBuilder builder, ReportDefinition definition )
     {
         if ( contextMenu is null || !contextMenu.Visible )
             return;
 
-        builder.OpenElement( sequence++, "div" );
-        builder.AddAttribute( sequence++, "class", "b-report-context-menu" );
-        builder.AddAttribute( sequence++, "style", $"left:{contextMenu.ClientX}px;top:{contextMenu.ClientY}px;" );
+        builder.OpenElement( "div" );
+        builder.Class( "b-report-context-menu" );
+        builder.Style( $"left:{contextMenu.ClientX}px;top:{contextMenu.ClientY}px;" );
 
         switch ( contextMenu.Target )
         {
@@ -398,26 +392,26 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
                 var section = definition.Sections[contextMenu.SectionIndex];
                 if ( !section.Suppressed )
                 {
-                    RenderContextMenuButton( builder, ref sequence, "Insert band before", () => InsertSectionAsync( insertAfter: false ) );
-                    RenderContextMenuButton( builder, ref sequence, "Insert band after", () => InsertSectionAsync( insertAfter: true ) );
-                    RenderContextMenuButton( builder, ref sequence, "Suppress", ToggleSelectedSectionSuppressionAsync );
+                    RenderContextMenuButton( builder, "Insert band before", () => InsertSectionAsync( insertAfter: false ) );
+                    RenderContextMenuButton( builder, "Insert band after", () => InsertSectionAsync( insertAfter: true ) );
+                    RenderContextMenuButton( builder, "Suppress", ToggleSelectedSectionSuppressionAsync );
 
                     if ( CanDeleteSection( section ) )
                     {
-                        RenderContextMenuButton( builder, ref sequence, "Delete band", DeleteSelectedSectionAsync );
+                        RenderContextMenuButton( builder, "Delete band", DeleteSelectedSectionAsync );
                     }
                 }
                 else
                 {
-                    RenderContextMenuButton( builder, ref sequence, "Don't suppress", ToggleSelectedSectionSuppressionAsync );
+                    RenderContextMenuButton( builder, "Don't suppress", ToggleSelectedSectionSuppressionAsync );
                 }
                 break;
             case ReportContextMenuTarget.Element:
-                RenderContextMenuButton( builder, ref sequence, "Delete element", DeleteSelectedElementAsync );
+                RenderContextMenuButton( builder, "Delete element", DeleteSelectedElementAsync );
                 break;
         }
 
-        RenderContextMenuButton( builder, ref sequence, "Close", () =>
+        RenderContextMenuButton( builder, "Close", () =>
         {
             CloseContextMenu();
             return Task.CompletedTask;
@@ -426,47 +420,47 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         builder.CloseElement();
     }
 
-    private void RenderContextMenuButton( RenderTreeBuilder builder, ref int sequence, string text, Func<Task> clicked )
+    private void RenderContextMenuButton( RenderTreeBuilder builder, string text, Func<Task> clicked )
     {
-        builder.OpenElement( sequence++, "button" );
-        builder.AddAttribute( sequence++, "type", "button" );
-        builder.AddAttribute( sequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, clicked ) );
-        builder.AddContent( sequence++, text );
+        builder.OpenElement( "button" );
+        builder.Type( "button" );
+        builder.Attribute( "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, clicked ) );
+        builder.Content( text );
         builder.CloseElement();
     }
 
-    private void RenderDataDictionary( RenderTreeBuilder builder, ref int sequence, ReportDefinition definition )
+    private void RenderDataDictionary( RenderTreeBuilder builder, ReportDefinition definition )
     {
         var dataSources = ResolveDataSourceDictionary( definition ).ToList();
 
-        builder.OpenElement( sequence++, "h5" );
-        builder.AddContent( sequence++, "Toolbox" );
+        builder.OpenElement( "h5" );
+        builder.Content( "Toolbox" );
         builder.CloseElement();
 
-        builder.OpenComponent<_ReportTreeView>( sequence++ );
-        builder.AddAttribute( sequence++, "Nodes", BuildToolboxNodes() );
-        builder.AddAttribute( sequence++, "NodeDragStarted", EventCallback.Factory.Create<ReportTreeNodeDragEventArgs>( this, OnToolboxTreeNodeDragStarted ) );
-        builder.AddAttribute( sequence++, "NodeDragEnded", EventCallback.Factory.Create<ReportTreeNode>( this, _ => ClearDesignerDragAsync() ) );
+        builder.OpenComponent<_ReportTreeView>();
+        builder.Attribute( "Nodes", BuildToolboxNodes() );
+        builder.Attribute( "NodeDragStarted", EventCallback.Factory.Create<ReportTreeNodeDragEventArgs>( this, OnToolboxTreeNodeDragStarted ) );
+        builder.Attribute( "NodeDragEnded", EventCallback.Factory.Create<ReportTreeNode>( this, _ => ClearDesignerDragAsync() ) );
         builder.CloseComponent();
 
-        builder.OpenElement( sequence++, "h5" );
-        builder.AddAttribute( sequence++, "class", "b-report-dictionary-title" );
-        builder.AddContent( sequence++, "Fields explorer" );
+        builder.OpenElement( "h5" );
+        builder.Class( "b-report-dictionary-title" );
+        builder.Content( "Fields explorer" );
         builder.CloseElement();
 
         if ( dataSources.Count == 0 )
         {
-            builder.OpenComponent<Paragraph>( sequence++ );
-            builder.AddAttribute( sequence++, "TextColor", TextColor.Secondary );
-            builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( paragraphBuilder => paragraphBuilder.AddContent( 0, "No data source fields." ) ) );
+            builder.OpenComponent<Paragraph>();
+            builder.Attribute( "TextColor", TextColor.Secondary );
+            builder.Attribute( "ChildContent", (RenderFragment)( paragraphBuilder => paragraphBuilder.Content( "No data source fields." ) ) );
             builder.CloseComponent();
             return;
         }
 
-        builder.OpenComponent<_ReportTreeView>( sequence++ );
-        builder.AddAttribute( sequence++, "Nodes", BuildFieldsExplorerNodes( dataSources ) );
-        builder.AddAttribute( sequence++, "NodeDragStarted", EventCallback.Factory.Create<ReportTreeNodeDragEventArgs>( this, OnFieldsTreeNodeDragStarted ) );
-        builder.AddAttribute( sequence++, "NodeDragEnded", EventCallback.Factory.Create<ReportTreeNode>( this, _ => ClearDesignerDragAsync() ) );
+        builder.OpenComponent<_ReportTreeView>();
+        builder.Attribute( "Nodes", BuildFieldsExplorerNodes( dataSources ) );
+        builder.Attribute( "NodeDragStarted", EventCallback.Factory.Create<ReportTreeNodeDragEventArgs>( this, OnFieldsTreeNodeDragStarted ) );
+        builder.Attribute( "NodeDragEnded", EventCallback.Factory.Create<ReportTreeNode>( this, _ => ClearDesignerDragAsync() ) );
         builder.CloseComponent();
     }
 
@@ -634,48 +628,44 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
     private RenderFragment RenderViewer() => builder =>
     {
         var definition = EffectiveDefinition;
-        var sequence = 0;
 
-        builder.OpenComponent<Div>( sequence++ );
-        builder.AddAttribute( sequence++, "class", "b-report-viewer" );
-        builder.AddAttribute( sequence++, "Padding", Padding.Is3 );
-        builder.AddAttribute( sequence++, "Background", Background.Light );
-        builder.AddAttribute( sequence++, "Border", Border.Is1 );
-        builder.AddAttribute( sequence++, "Overflow", Overflow.Auto );
-        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( childBuilder =>
+        builder.OpenComponent<Div>();
+        builder.Class( "b-report-viewer" );
+        builder.Attribute( "Padding", Padding.Is3 );
+        builder.Attribute( "Background", Background.Light );
+        builder.Attribute( "Border", Border.Is1 );
+        builder.Attribute( "Overflow", Overflow.Auto );
+        builder.Attribute( "ChildContent", (RenderFragment)( childBuilder =>
         {
-            var childSequence = 0;
-
             if ( CurrentPreviewFormat == ReportPreviewFormat.Pdf )
             {
-                childBuilder.OpenComponent<Div>( childSequence++ );
-                childBuilder.AddAttribute( childSequence++, "Padding", Padding.Is5 );
-                childBuilder.AddAttribute( childSequence++, "Border", Border.Is1 );
-                childBuilder.AddAttribute( childSequence++, "Background", Background.White );
-                childBuilder.AddAttribute( childSequence++, "TextAlignment", TextAlignment.Center );
-                childBuilder.AddAttribute( childSequence++, "ChildContent", (RenderFragment)( placeholderBuilder => placeholderBuilder.AddContent( 0, "PDF preview is configured for this report. A PDF renderer can feed Blazorise.PdfViewer in the next implementation step." ) ) );
+                childBuilder.OpenComponent<Div>();
+                childBuilder.Attribute( "Padding", Padding.Is5 );
+                childBuilder.Attribute( "Border", Border.Is1 );
+                childBuilder.Attribute( "Background", Background.White );
+                childBuilder.Attribute( "TextAlignment", TextAlignment.Center );
+                childBuilder.Attribute( "ChildContent", (RenderFragment)( placeholderBuilder => placeholderBuilder.Content( "PDF preview is configured for this report. A PDF renderer can feed Blazorise.PdfViewer in the next implementation step." ) ) );
                 childBuilder.CloseComponent();
             }
             else
             {
-                RenderReportPage( childBuilder, ref childSequence, definition, designMode: false );
+                RenderReportPage( childBuilder, definition, designMode: false );
             }
         } ) );
 
         builder.CloseComponent();
     };
 
-    private void RenderReportPage( RenderTreeBuilder builder, ref int sequence, ReportDefinition definition, bool designMode )
+    private void RenderReportPage( RenderTreeBuilder builder, ReportDefinition definition, bool designMode )
     {
-        var pageSequence = 0;
         var pageWidth = designMode && BandMode == ReportBandMode.Rail
             ? definition.Page.Width + DesignerBandRailWidth
             : definition.Page.Width;
 
-        builder.OpenElement( pageSequence++, "div" );
-        builder.SetKey( designMode ? $"{definition.Id}:{designerSurfaceVersion}" : definition.Id );
-        builder.AddAttribute( pageSequence++, "class", designMode ? "b-report-page b-report-page-design" : "b-report-page" );
-        builder.AddAttribute( pageSequence++, "style", $"width:{pageWidth}px;min-height:{definition.Page.Height}px;" );
+        builder.OpenElement( "div" );
+        builder.Key( designMode ? $"{definition.Id}:{designerSurfaceVersion}" : definition.Id );
+        builder.Class( designMode ? "b-report-page b-report-page-design" : "b-report-page" );
+        builder.Style( $"width:{pageWidth}px;min-height:{definition.Page.Height}px;" );
 
         for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
         {
@@ -700,16 +690,15 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         for ( var itemIndex = 0; itemIndex < items.Count; itemIndex++ )
         {
             var item = items[itemIndex];
-            var sectionSequence = 0;
             var railVisible = designMode && BandMode == ReportBandMode.Rail;
             var collapsed = designMode && railVisible && !section.Suppressed && IsSectionCollapsed( section );
             var sectionHeight = collapsed ? DesignerCollapsedBandHeight : GetDesignerSectionHeight( sectionIndex, section );
             var sectionClass = $"b-report-section {section.Class} {( designMode && selectedSectionIndex == sectionIndex && string.IsNullOrWhiteSpace( selectedElementKey ) ? "active" : string.Empty )} {( collapsed ? "collapsed" : string.Empty )} {( section.Suppressed ? "suppressed" : string.Empty )}".Trim();
 
-            builder.OpenElement( sectionSequence++, "section" );
-            builder.SetKey( designMode ? section.Id : $"{section.Id}:{itemIndex}" );
-            builder.AddAttribute( sectionSequence++, "class", sectionClass );
-            builder.AddAttribute( sectionSequence++, "style", $"height:{sectionHeight}px;{section.Style}" );
+            builder.OpenElement( "section" );
+            builder.Key( designMode ? section.Id : $"{section.Id}:{itemIndex}" );
+            builder.Class( sectionClass );
+            builder.Style( $"height:{sectionHeight}px;{section.Style}" );
 
             if ( designMode )
             {
@@ -727,24 +716,24 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             {
                 if ( designMode )
                 {
-                    builder.OpenElement( sectionSequence++, "div" );
-                    builder.AddAttribute( sectionSequence++, "class", $"{( railVisible ? "b-report-section-body b-report-section-body-rail" : "b-report-section-body" )} {( section.Suppressed ? "disabled" : string.Empty )}".Trim() );
-                    builder.AddAttribute( sectionSequence++, "style", railVisible ? $"left:{DesignerBandRailWidth}px;width:{definition.Page.Width}px;" : null );
+                    builder.OpenElement( "div" );
+                    builder.Class( $"{( railVisible ? "b-report-section-body b-report-section-body-rail" : "b-report-section-body" )} {( section.Suppressed ? "disabled" : string.Empty )}".Trim() );
+                    builder.Style( railVisible ? $"left:{DesignerBandRailWidth}px;width:{definition.Page.Width}px;" : null );
 
                     if ( !section.Suppressed )
                     {
-                        builder.AddAttribute( sectionSequence++, "ondragover", EventUtil.AsNonRenderingEventHandler<DragEventArgs>( eventArgs => PreviewDesignerDragAsync( sectionIndex, eventArgs ) ) );
-                        builder.AddEventPreventDefaultAttribute( sectionSequence++, "ondragover", true );
-                        builder.AddAttribute( sectionSequence++, "ondrop", EventCallback.Factory.Create<DragEventArgs>( this, eventArgs => DropDesignerItemAsync( sectionIndex, eventArgs ) ) );
-                        builder.AddEventPreventDefaultAttribute( sectionSequence++, "ondrop", true );
-                        builder.AddAttribute( sectionSequence++, "onpointermove", EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( eventArgs => PreviewElementPointerInteractionAsync( sectionIndex, eventArgs ) ) );
-                        builder.AddEventPreventDefaultAttribute( sectionSequence++, "onpointermove", true );
-                        builder.AddAttribute( sectionSequence++, "onpointerup", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => CompleteElementPointerInteractionAsync( sectionIndex, eventArgs ) ) );
-                        builder.AddEventPreventDefaultAttribute( sectionSequence++, "onpointerup", true );
-                        builder.AddAttribute( sectionSequence++, "onpointercancel", EventCallback.Factory.Create<PointerEventArgs>( this, _ => CancelElementPointerInteractionAsync() ) );
-                        builder.AddAttribute( sectionSequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => SelectSection( sectionIndex ) ) );
-                        builder.AddAttribute( sectionSequence++, "oncontextmenu", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenSectionContextMenu( sectionIndex, eventArgs ) ) );
-                        builder.AddEventPreventDefaultAttribute( sectionSequence++, "oncontextmenu", true );
+                        builder.Attribute( "ondragover", EventUtil.AsNonRenderingEventHandler<DragEventArgs>( eventArgs => PreviewDesignerDragAsync( sectionIndex, eventArgs ) ) );
+                        builder.EventPreventDefault( "ondragover", true );
+                        builder.Attribute( "ondrop", EventCallback.Factory.Create<DragEventArgs>( this, eventArgs => DropDesignerItemAsync( sectionIndex, eventArgs ) ) );
+                        builder.EventPreventDefault( "ondrop", true );
+                        builder.Attribute( "onpointermove", EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( eventArgs => PreviewElementPointerInteractionAsync( sectionIndex, eventArgs ) ) );
+                        builder.EventPreventDefault( "onpointermove", true );
+                        builder.Attribute( "onpointerup", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => CompleteElementPointerInteractionAsync( sectionIndex, eventArgs ) ) );
+                        builder.EventPreventDefault( "onpointerup", true );
+                        builder.Attribute( "onpointercancel", EventCallback.Factory.Create<PointerEventArgs>( this, _ => CancelElementPointerInteractionAsync() ) );
+                        builder.Attribute( "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => SelectSection( sectionIndex ) ) );
+                        builder.Attribute( "oncontextmenu", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenSectionContextMenu( sectionIndex, eventArgs ) ) );
+                        builder.EventPreventDefault( "oncontextmenu", true );
                     }
                 }
 
@@ -778,45 +767,43 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private void RenderSectionRail( RenderTreeBuilder builder, ReportSectionDefinition section, int sectionIndex, bool collapsed )
     {
-        var railSequence = 0;
+        builder.OpenElement( "div" );
+        builder.Class( $"b-report-section-rail b-report-section-rail-{section.Type.ToString().ToLowerInvariant()}" );
+        builder.Attribute( "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => SelectSection( sectionIndex ) ) );
+        builder.Attribute( "oncontextmenu", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenSectionContextMenu( sectionIndex, eventArgs ) ) );
+        builder.EventPreventDefault( "oncontextmenu", true );
 
-        builder.OpenElement( railSequence++, "div" );
-        builder.AddAttribute( railSequence++, "class", $"b-report-section-rail b-report-section-rail-{section.Type.ToString().ToLowerInvariant()}" );
-        builder.AddAttribute( railSequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => SelectSection( sectionIndex ) ) );
-        builder.AddAttribute( railSequence++, "oncontextmenu", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenSectionContextMenu( sectionIndex, eventArgs ) ) );
-        builder.AddEventPreventDefaultAttribute( railSequence++, "oncontextmenu", true );
-
-        builder.OpenElement( railSequence++, "button" );
-        builder.AddAttribute( railSequence++, "type", "button" );
-        builder.AddAttribute( railSequence++, "class", "b-report-section-rail-toggle" );
-        builder.AddAttribute( railSequence++, "title", section.Suppressed ? "Band is suppressed" : collapsed ? "Expand band" : "Collapse band" );
-        builder.AddAttribute( railSequence++, "disabled", !AllowBandCollapse || section.Suppressed );
-        builder.AddAttribute( railSequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => ToggleSectionCollapsed( section ) ) );
-        builder.AddEventStopPropagationAttribute( railSequence++, "onclick", true );
-        builder.AddContent( railSequence++, section.Suppressed ? "!" : collapsed ? "+" : "-" );
+        builder.OpenElement( "button" );
+        builder.Type( "button" );
+        builder.Class( "b-report-section-rail-toggle" );
+        builder.Attribute( "title", section.Suppressed ? "Band is suppressed" : collapsed ? "Expand band" : "Collapse band" );
+        builder.Attribute( "disabled", !AllowBandCollapse || section.Suppressed );
+        builder.Attribute( "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => ToggleSectionCollapsed( section ) ) );
+        builder.EventStopPropagation( "onclick", true );
+        builder.Content( section.Suppressed ? "!" : collapsed ? "+" : "-" );
         builder.CloseElement();
 
-        builder.OpenElement( railSequence++, "div" );
-        builder.AddAttribute( railSequence++, "class", "b-report-section-rail-text" );
+        builder.OpenElement( "div" );
+        builder.Class( "b-report-section-rail-text" );
 
-        builder.OpenElement( railSequence++, "span" );
-        builder.AddAttribute( railSequence++, "class", "b-report-section-rail-title" );
-        builder.AddContent( railSequence++, GetSectionDisplayName( section ) );
+        builder.OpenElement( "span" );
+        builder.Class( "b-report-section-rail-title" );
+        builder.Content( GetSectionDisplayName( section ) );
         builder.CloseElement();
 
         if ( ShowBandDataSource && !string.IsNullOrWhiteSpace( section.DataSource ) )
         {
-            builder.OpenElement( railSequence++, "span" );
-            builder.AddAttribute( railSequence++, "class", "b-report-section-rail-source" );
-            builder.AddContent( railSequence++, section.DataSource );
+            builder.OpenElement( "span" );
+            builder.Class( "b-report-section-rail-source" );
+            builder.Content( section.DataSource );
             builder.CloseElement();
         }
 
         if ( section.Suppressed )
         {
-            builder.OpenElement( railSequence++, "span" );
-            builder.AddAttribute( railSequence++, "class", "b-report-section-rail-status" );
-            builder.AddContent( railSequence++, "Suppressed" );
+            builder.OpenElement( "span" );
+            builder.Class( "b-report-section-rail-status" );
+            builder.Content( "Suppressed" );
             builder.CloseElement();
         }
 
@@ -826,49 +813,44 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private void RenderSectionLabel( RenderTreeBuilder builder, ReportSectionDefinition section )
     {
-        var labelSequence = 0;
-
-        builder.OpenElement( labelSequence++, "div" );
-        builder.AddAttribute( labelSequence++, "class", "b-report-section-label" );
-        builder.AddContent( labelSequence++, $"{GetSectionTypeDisplayName( section.Type )}: {GetSectionDisplayName( section )}" );
+        builder.OpenElement( "div" );
+        builder.Class( "b-report-section-label" );
+        builder.Content( $"{GetSectionTypeDisplayName( section.Type )}: {GetSectionDisplayName( section )}" );
         builder.CloseElement();
     }
 
     private void RenderSectionResizeHandle( RenderTreeBuilder builder, int sectionIndex )
     {
-        var handleSequence = 0;
-
-        builder.OpenElement( handleSequence++, "span" );
-        builder.SetKey( "section-resize" );
-        builder.AddAttribute( handleSequence++, "class", "b-report-section-resize-handle" );
-        builder.AddAttribute( handleSequence++, "title", "Resize band" );
-        builder.AddAttribute( handleSequence++, "onpointerdown", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSectionPointerResizeAsync( sectionIndex, eventArgs ) ) );
-        builder.AddEventPreventDefaultAttribute( handleSequence++, "onpointerdown", true );
-        builder.AddEventStopPropagationAttribute( handleSequence++, "onpointerdown", true );
+        builder.OpenElement( "span" );
+        builder.Key( "section-resize" );
+        builder.Class( "b-report-section-resize-handle" );
+        builder.Attribute( "title", "Resize band" );
+        builder.Attribute( "onpointerdown", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSectionPointerResizeAsync( sectionIndex, eventArgs ) ) );
+        builder.EventPreventDefault( "onpointerdown", true );
+        builder.EventStopPropagation( "onpointerdown", true );
         builder.CloseElement();
     }
 
     private void RenderElement( RenderTreeBuilder builder, object item, ReportElementDefinition element, bool designMode, bool editable, string elementKey )
     {
-        var elementSequence = 0;
         var style = BuildElementStyle( element );
         var cssClass = $"b-report-element b-report-element-{element.Type.ToString().ToLowerInvariant()} {element.Class}".Trim();
 
-        builder.OpenElement( elementSequence++, "div" );
-        builder.SetKey( elementKey );
-        builder.AddAttribute( elementSequence++, "class", designMode ? $"{cssClass} b-report-element-design {( editable ? string.Empty : "disabled" )} {( editable && elementKey == selectedElementKey ? "active" : string.Empty )}" : cssClass );
-        builder.AddAttribute( elementSequence++, "style", style );
+        builder.OpenElement( "div" );
+        builder.Key( elementKey );
+        builder.Class( designMode ? $"{cssClass} b-report-element-design {( editable ? string.Empty : "disabled" )} {( editable && elementKey == selectedElementKey ? "active" : string.Empty )}" : cssClass );
+        builder.Style( style );
 
         if ( designMode && editable )
         {
-            builder.AddAttribute( elementSequence++, "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => SelectElement( elementKey ) ) );
-            builder.AddEventStopPropagationAttribute( elementSequence++, "onclick", true );
-            builder.AddAttribute( elementSequence++, "oncontextmenu", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenElementContextMenu( elementKey, eventArgs ) ) );
-            builder.AddEventPreventDefaultAttribute( elementSequence++, "oncontextmenu", true );
-            builder.AddEventStopPropagationAttribute( elementSequence++, "oncontextmenu", true );
-            builder.AddAttribute( elementSequence++, "onpointerdown", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerDrag( elementKey, eventArgs ) ) );
-            builder.AddEventPreventDefaultAttribute( elementSequence++, "onpointerdown", true );
-            builder.AddEventStopPropagationAttribute( elementSequence++, "onpointerdown", true );
+            builder.Attribute( "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => SelectElement( elementKey ) ) );
+            builder.EventStopPropagation( "onclick", true );
+            builder.Attribute( "oncontextmenu", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenElementContextMenu( elementKey, eventArgs ) ) );
+            builder.EventPreventDefault( "oncontextmenu", true );
+            builder.EventStopPropagation( "oncontextmenu", true );
+            builder.Attribute( "onpointerdown", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerDrag( elementKey, eventArgs ) ) );
+            builder.EventPreventDefault( "onpointerdown", true );
+            builder.EventStopPropagation( "onpointerdown", true );
         }
 
         switch ( element.Type )
@@ -878,21 +860,21 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
                     ? item
                     : ResolveItems( EffectiveDefinition, element.DataSource ).FirstOrDefault() ?? item;
 
-                builder.AddContent( elementSequence++, designMode ? FormatFieldExpression( element ) : FormatValue( ResolveFieldValue( fieldItem, element.Field ), element.Format ) );
+                builder.Content( designMode ? FormatFieldExpression( element ) : FormatValue( ResolveFieldValue( fieldItem, element.Field ), element.Format ) );
                 break;
             case ReportElementType.Table:
-                RenderTable( builder, ref elementSequence, element );
+                RenderTable( builder, element );
                 break;
             case ReportElementType.Image:
-                builder.OpenElement( elementSequence++, "img" );
-                builder.AddAttribute( elementSequence++, "src", element.Source );
-                builder.AddAttribute( elementSequence++, "alt", element.Text ?? element.Name );
+                builder.OpenElement( "img" );
+                builder.Attribute( "src", element.Source );
+                builder.Attribute( "alt", element.Text ?? element.Name );
                 builder.CloseElement();
                 break;
             case ReportElementType.PageBreak:
                 break;
             default:
-                builder.AddContent( elementSequence++, element.Text );
+                builder.Content( element.Text );
                 break;
         }
 
@@ -978,122 +960,108 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private void RenderElementResizeHandle( RenderTreeBuilder builder, string elementKey, ReportElementResizeHandle handle, string handleClass )
     {
-        var handleSequence = 0;
-
-        builder.OpenElement( handleSequence++, "span" );
-        builder.SetKey( handleClass );
-        builder.AddAttribute( handleSequence++, "class", $"b-report-resize-handle b-report-resize-handle-{handleClass}" );
-        builder.AddAttribute( handleSequence++, "onpointerdown", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerResize( elementKey, handle, eventArgs ) ) );
-        builder.AddEventPreventDefaultAttribute( handleSequence++, "onpointerdown", true );
-        builder.AddEventStopPropagationAttribute( handleSequence++, "onpointerdown", true );
+        builder.OpenElement( "span" );
+        builder.Key( handleClass );
+        builder.Class( $"b-report-resize-handle b-report-resize-handle-{handleClass}" );
+        builder.Attribute( "onpointerdown", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerResize( elementKey, handle, eventArgs ) ) );
+        builder.EventPreventDefault( "onpointerdown", true );
+        builder.EventStopPropagation( "onpointerdown", true );
         builder.CloseElement();
     }
 
     private void RenderDesignerDragPreview( RenderTreeBuilder builder, ReportDesignerDragPreview preview )
     {
-        var previewSequence = 0;
-
-        builder.OpenElement( previewSequence++, "div" );
-        builder.SetKey( "drag-preview" );
-        builder.AddAttribute( previewSequence++, "class", $"b-report-drag-preview b-report-element-{preview.ElementType.ToString().ToLowerInvariant()}" );
-        builder.AddAttribute( previewSequence++, "style", $"left:{preview.X}px;top:{preview.Y}px;width:{preview.Width}px;height:{preview.Height}px;" );
-        builder.AddContent( previewSequence++, preview.Text );
+        builder.OpenElement( "div" );
+        builder.Key( "drag-preview" );
+        builder.Class( $"b-report-drag-preview b-report-element-{preview.ElementType.ToString().ToLowerInvariant()}" );
+        builder.Style( $"left:{preview.X}px;top:{preview.Y}px;width:{preview.Width}px;height:{preview.Height}px;" );
+        builder.Content( preview.Text );
         builder.CloseElement();
     }
 
-    private void RenderSelectedElementTools( RenderTreeBuilder builder, ref int sequence, ReportDefinition definition )
+    private void RenderSelectedElementTools( RenderTreeBuilder builder, ReportDefinition definition )
     {
         var selected = FindSelectedElement( definition );
 
         if ( selected is null )
             return;
 
-        builder.OpenComponent<Div>( sequence++ );
-        builder.AddAttribute( sequence++, "Margin", Margin.Is3.FromTop );
-        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( childBuilder =>
+        builder.OpenComponent<Div>();
+        builder.Attribute( "Margin", Margin.Is3.FromTop );
+        builder.Attribute( "ChildContent", (RenderFragment)( childBuilder =>
         {
-            var childSequence = 0;
-
-            childBuilder.OpenElement( childSequence++, "h6" );
-            childBuilder.AddContent( childSequence++, "Selected element" );
+            childBuilder.OpenElement( "h6" );
+            childBuilder.Content( "Selected element" );
             childBuilder.CloseElement();
 
-            childBuilder.OpenComponent<Div>( childSequence++ );
-            childBuilder.AddAttribute( childSequence++, "Flex", Flex.Wrap );
-            childBuilder.AddAttribute( childSequence++, "Gap", Gap.Is2 );
-            childBuilder.AddAttribute( childSequence++, "ChildContent", (RenderFragment)( toolsBuilder =>
+            childBuilder.OpenComponent<Div>();
+            childBuilder.Attribute( "Flex", Flex.Wrap );
+            childBuilder.Attribute( "Gap", Gap.Is2 );
+            childBuilder.Attribute( "ChildContent", (RenderFragment)( toolsBuilder =>
             {
-                var toolSequence = 0;
-                RenderDesignerButton( toolsBuilder, ref toolSequence, "Left", () => MoveSelectedElementAsync( -8, 0, 0, 0 ) );
-                RenderDesignerButton( toolsBuilder, ref toolSequence, "Up", () => MoveSelectedElementAsync( 0, -8, 0, 0 ) );
-                RenderDesignerButton( toolsBuilder, ref toolSequence, "Down", () => MoveSelectedElementAsync( 0, 8, 0, 0 ) );
-                RenderDesignerButton( toolsBuilder, ref toolSequence, "Right", () => MoveSelectedElementAsync( 8, 0, 0, 0 ) );
-                RenderDesignerButton( toolsBuilder, ref toolSequence, "Wider", () => MoveSelectedElementAsync( 0, 0, 16, 0 ) );
-                RenderDesignerButton( toolsBuilder, ref toolSequence, "Taller", () => MoveSelectedElementAsync( 0, 0, 0, 8 ) );
+                RenderDesignerButton( toolsBuilder, "Left", () => MoveSelectedElementAsync( -8, 0, 0, 0 ) );
+                RenderDesignerButton( toolsBuilder, "Up", () => MoveSelectedElementAsync( 0, -8, 0, 0 ) );
+                RenderDesignerButton( toolsBuilder, "Down", () => MoveSelectedElementAsync( 0, 8, 0, 0 ) );
+                RenderDesignerButton( toolsBuilder, "Right", () => MoveSelectedElementAsync( 8, 0, 0, 0 ) );
+                RenderDesignerButton( toolsBuilder, "Wider", () => MoveSelectedElementAsync( 0, 0, 16, 0 ) );
+                RenderDesignerButton( toolsBuilder, "Taller", () => MoveSelectedElementAsync( 0, 0, 0, 8 ) );
             } ) );
             childBuilder.CloseComponent();
         } ) );
         builder.CloseComponent();
     }
 
-    private void RenderSelectedSectionProperties( RenderTreeBuilder builder, ref int sequence, ReportDefinition definition )
+    private void RenderSelectedSectionProperties( RenderTreeBuilder builder, ReportDefinition definition )
     {
         var selected = FindSelectedSection( definition );
 
         if ( selected is null || !string.IsNullOrWhiteSpace( selectedElementKey ) )
             return;
 
-        builder.OpenComponent<Div>( sequence++ );
-        builder.AddAttribute( sequence++, "Margin", Margin.Is3.FromBottom );
-        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( childBuilder =>
+        builder.OpenComponent<Div>();
+        builder.Attribute( "Margin", Margin.Is3.FromBottom );
+        builder.Attribute( "ChildContent", (RenderFragment)( childBuilder =>
         {
-            var childSequence = 0;
-
-            childBuilder.OpenElement( childSequence++, "h6" );
-            childBuilder.AddContent( childSequence++, "Band properties" );
+            childBuilder.OpenElement( "h6" );
+            childBuilder.Content( "Band properties" );
             childBuilder.CloseElement();
 
-            RenderDesignerPropertyGroup( childBuilder, ref childSequence, "Status", groupBuilder =>
+            RenderDesignerPropertyGroup( childBuilder, "Status", groupBuilder =>
             {
-                var groupSequence = 0;
-                RenderDesignerCheckbox( groupBuilder, ref groupSequence, "Suppress", selected.Suppressed, eventArgs => _ = UpdateSelectedSectionSuppressionAsync( eventArgs.Value is bool value && value ) );
+                RenderDesignerCheckbox( groupBuilder, "Suppress", selected.Suppressed, eventArgs => _ = UpdateSelectedSectionSuppressionAsync( eventArgs.Value is bool value && value ) );
             } );
 
             if ( selected.Suppressed )
                 return;
 
-            RenderDesignerPropertyGroup( childBuilder, ref childSequence, "General", groupBuilder =>
+            RenderDesignerPropertyGroup( childBuilder, "General", groupBuilder =>
             {
-                var groupSequence = 0;
-                RenderDesignerInput( groupBuilder, ref groupSequence, "Name", selected.Name, value => UpdateSelectedSectionAsync( section => section.Name = value ) );
-                RenderDesignerInput( groupBuilder, ref groupSequence, "Data source", selected.DataSource, value => UpdateSelectedSectionAsync( section => section.DataSource = value ) );
+                RenderDesignerInput( groupBuilder, "Name", selected.Name, value => UpdateSelectedSectionAsync( section => section.Name = value ) );
+                RenderDesignerInput( groupBuilder, "Data source", selected.DataSource, value => UpdateSelectedSectionAsync( section => section.DataSource = value ) );
             } );
 
-            RenderDesignerPropertyGroup( childBuilder, ref childSequence, "Layout", groupBuilder =>
+            RenderDesignerPropertyGroup( childBuilder, "Layout", groupBuilder =>
             {
-                var groupSequence = 0;
-                RenderDesignerNumberInput( groupBuilder, ref groupSequence, "Height", selected.Height, value => UpdateSelectedSectionAsync( section => section.Height = Math.Max( 8, value ) ) );
+                RenderDesignerNumberInput( groupBuilder, "Height", selected.Height, value => UpdateSelectedSectionAsync( section => section.Height = Math.Max( 8, value ) ) );
             } );
 
-            RenderDesignerPropertyGroup( childBuilder, ref childSequence, "Advanced", groupBuilder =>
+            RenderDesignerPropertyGroup( childBuilder, "Advanced", groupBuilder =>
             {
-                var groupSequence = 0;
-                RenderDesignerInput( groupBuilder, ref groupSequence, "Custom CSS", selected.Style, value => UpdateSelectedSectionAsync( section => section.Style = value ) );
+                RenderDesignerInput( groupBuilder, "Custom CSS", selected.Style, value => UpdateSelectedSectionAsync( section => section.Style = value ) );
             } );
 
-            childBuilder.OpenComponent<Div>( childSequence++ );
-            childBuilder.AddAttribute( childSequence++, "Flex", Flex.Wrap );
-            childBuilder.AddAttribute( childSequence++, "Gap", Gap.Is2 );
-            childBuilder.AddAttribute( childSequence++, "Margin", Margin.Is3.FromTop );
-            childBuilder.AddAttribute( childSequence++, "ChildContent", (RenderFragment)( toolsBuilder =>
+            childBuilder.OpenComponent<Div>();
+            childBuilder.Attribute( "Flex", Flex.Wrap );
+            childBuilder.Attribute( "Gap", Gap.Is2 );
+            childBuilder.Attribute( "Margin", Margin.Is3.FromTop );
+            childBuilder.Attribute( "ChildContent", (RenderFragment)( toolsBuilder =>
             {
-                var toolsSequence = 0;
-                RenderDesignerButton( toolsBuilder, ref toolsSequence, "Insert before", () => InsertSectionAsync( insertAfter: false ) );
-                RenderDesignerButton( toolsBuilder, ref toolsSequence, "Insert after", () => InsertSectionAsync( insertAfter: true ) );
+                RenderDesignerButton( toolsBuilder, "Insert before", () => InsertSectionAsync( insertAfter: false ) );
+                RenderDesignerButton( toolsBuilder, "Insert after", () => InsertSectionAsync( insertAfter: true ) );
 
                 if ( CanDeleteSection( selected ) )
                 {
-                    RenderDesignerButton( toolsBuilder, ref toolsSequence, "Delete band", DeleteSelectedSectionAsync );
+                    RenderDesignerButton( toolsBuilder, "Delete band", DeleteSelectedSectionAsync );
                 }
             } ) );
             childBuilder.CloseComponent();
@@ -1101,157 +1069,144 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         builder.CloseComponent();
     }
 
-    private void RenderSelectedElementProperties( RenderTreeBuilder builder, ref int sequence, ReportDefinition definition )
+    private void RenderSelectedElementProperties( RenderTreeBuilder builder, ReportDefinition definition )
     {
         var selected = FindSelectedElement( definition );
 
         if ( selected is null || IsSelectedElementSuppressed( definition ) )
             return;
 
-        builder.OpenComponent<Div>( sequence++ );
-        builder.AddAttribute( sequence++, "Margin", Margin.Is3.FromTop );
-        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( childBuilder =>
+        builder.OpenComponent<Div>();
+        builder.Attribute( "Margin", Margin.Is3.FromTop );
+        builder.Attribute( "ChildContent", (RenderFragment)( childBuilder =>
         {
-            var childSequence = 0;
-
-            childBuilder.OpenElement( childSequence++, "h6" );
-            childBuilder.AddContent( childSequence++, "Element properties" );
+            childBuilder.OpenElement( "h6" );
+            childBuilder.Content( "Element properties" );
             childBuilder.CloseElement();
 
-            RenderDesignerPropertyGroup( childBuilder, ref childSequence, "General", groupBuilder =>
+            RenderDesignerPropertyGroup( childBuilder, "General", groupBuilder =>
             {
-                var groupSequence = 0;
-                RenderDesignerInput( groupBuilder, ref groupSequence, "Name", selected.Name, value => UpdateSelectedElementAsync( element => element.Name = value ) );
+                RenderDesignerInput( groupBuilder, "Name", selected.Name, value => UpdateSelectedElementAsync( element => element.Name = value ) );
             } );
 
-            RenderElementContentProperties( childBuilder, ref childSequence, selected );
-            RenderElementLayoutProperties( childBuilder, ref childSequence, selected );
-            RenderElementTextProperties( childBuilder, ref childSequence, selected );
-            RenderElementAppearanceProperties( childBuilder, ref childSequence, selected );
+            RenderElementContentProperties( childBuilder, selected );
+            RenderElementLayoutProperties( childBuilder, selected );
+            RenderElementTextProperties( childBuilder, selected );
+            RenderElementAppearanceProperties( childBuilder, selected );
 
-            RenderDesignerPropertyGroup( childBuilder, ref childSequence, "Advanced", groupBuilder =>
+            RenderDesignerPropertyGroup( childBuilder, "Advanced", groupBuilder =>
             {
-                var groupSequence = 0;
-                RenderDesignerInput( groupBuilder, ref groupSequence, "CSS classes", selected.Class, value => UpdateSelectedElementAsync( element => element.Class = value ) );
-                RenderDesignerInput( groupBuilder, ref groupSequence, "Custom CSS", selected.Style, value => UpdateSelectedElementAsync( element => element.Style = value ) );
+                RenderDesignerInput( groupBuilder, "CSS classes", selected.Class, value => UpdateSelectedElementAsync( element => element.Class = value ) );
+                RenderDesignerInput( groupBuilder, "Custom CSS", selected.Style, value => UpdateSelectedElementAsync( element => element.Style = value ) );
             } );
         } ) );
         builder.CloseComponent();
     }
 
-    private void RenderElementContentProperties( RenderTreeBuilder builder, ref int sequence, ReportElementDefinition selected )
+    private void RenderElementContentProperties( RenderTreeBuilder builder, ReportElementDefinition selected )
     {
         if ( selected.Type != ReportElementType.Text
             && selected.Type != ReportElementType.Field
             && selected.Type != ReportElementType.Image )
             return;
 
-        RenderDesignerPropertyGroup( builder, ref sequence, selected.Type == ReportElementType.Field ? "Data" : "Content", groupBuilder =>
+        RenderDesignerPropertyGroup( builder, selected.Type == ReportElementType.Field ? "Data" : "Content", groupBuilder =>
         {
-            var groupSequence = 0;
-
             switch ( selected.Type )
             {
                 case ReportElementType.Text:
-                    RenderDesignerInput( groupBuilder, ref groupSequence, "Text", selected.Text, value => UpdateSelectedElementAsync( element => element.Text = value ) );
+                    RenderDesignerInput( groupBuilder, "Text", selected.Text, value => UpdateSelectedElementAsync( element => element.Text = value ) );
                     break;
                 case ReportElementType.Field:
-                    RenderDesignerInput( groupBuilder, ref groupSequence, "Expression", FormatFieldExpression( selected ), valueChanged: null, readOnly: true );
-                    RenderDesignerInput( groupBuilder, ref groupSequence, "Format", selected.Format, value => UpdateSelectedElementAsync( element => element.Format = value ) );
+                    RenderDesignerInput( groupBuilder, "Expression", FormatFieldExpression( selected ), valueChanged: null, readOnly: true );
+                    RenderDesignerInput( groupBuilder, "Format", selected.Format, value => UpdateSelectedElementAsync( element => element.Format = value ) );
                     break;
                 case ReportElementType.Image:
-                    RenderDesignerInput( groupBuilder, ref groupSequence, "Source", selected.Source, value => UpdateSelectedElementAsync( element => element.Source = value ) );
-                    RenderDesignerInput( groupBuilder, ref groupSequence, "Alt text", selected.Text, value => UpdateSelectedElementAsync( element => element.Text = value ) );
+                    RenderDesignerInput( groupBuilder, "Source", selected.Source, value => UpdateSelectedElementAsync( element => element.Source = value ) );
+                    RenderDesignerInput( groupBuilder, "Alt text", selected.Text, value => UpdateSelectedElementAsync( element => element.Text = value ) );
                     break;
             }
         } );
     }
 
-    private void RenderElementLayoutProperties( RenderTreeBuilder builder, ref int sequence, ReportElementDefinition selected )
+    private void RenderElementLayoutProperties( RenderTreeBuilder builder, ReportElementDefinition selected )
     {
-        RenderDesignerPropertyGroup( builder, ref sequence, "Position and size", groupBuilder =>
+        RenderDesignerPropertyGroup( builder, "Position and size", groupBuilder =>
         {
-            var groupSequence = 0;
-            RenderDesignerNumberInput( groupBuilder, ref groupSequence, "X", selected.X, value => UpdateSelectedElementAsync( element => element.X = value ) );
-            RenderDesignerNumberInput( groupBuilder, ref groupSequence, "Y", selected.Y, value => UpdateSelectedElementAsync( element => element.Y = value ) );
-            RenderDesignerNumberInput( groupBuilder, ref groupSequence, "Width", selected.Width, value => UpdateSelectedElementAsync( element => element.Width = value ) );
-            RenderDesignerNumberInput( groupBuilder, ref groupSequence, "Height", selected.Height, value => UpdateSelectedElementAsync( element => element.Height = value ) );
+            RenderDesignerNumberInput( groupBuilder, "X", selected.X, value => UpdateSelectedElementAsync( element => element.X = value ) );
+            RenderDesignerNumberInput( groupBuilder, "Y", selected.Y, value => UpdateSelectedElementAsync( element => element.Y = value ) );
+            RenderDesignerNumberInput( groupBuilder, "Width", selected.Width, value => UpdateSelectedElementAsync( element => element.Width = value ) );
+            RenderDesignerNumberInput( groupBuilder, "Height", selected.Height, value => UpdateSelectedElementAsync( element => element.Height = value ) );
         } );
     }
 
-    private void RenderElementTextProperties( RenderTreeBuilder builder, ref int sequence, ReportElementDefinition selected )
+    private void RenderElementTextProperties( RenderTreeBuilder builder, ReportElementDefinition selected )
     {
         if ( selected.Type is ReportElementType.Image or ReportElementType.Line or ReportElementType.Rectangle or ReportElementType.PageBreak )
             return;
 
         var font = EnsureFont( selected );
 
-        RenderDesignerPropertyGroup( builder, ref sequence, "Text", groupBuilder =>
+        RenderDesignerPropertyGroup( builder, "Text", groupBuilder =>
         {
-            var groupSequence = 0;
-            RenderDesignerInput( groupBuilder, ref groupSequence, "Font family", font.Family, value => UpdateSelectedElementAsync( element => EnsureFont( element ).Family = value ) );
-            RenderDesignerNullableNumberInput( groupBuilder, ref groupSequence, "Font size", font.Size, value => UpdateSelectedElementAsync( element => EnsureFont( element ).Size = NormalizeNullablePositiveNumber( value ) ) );
-            RenderDesignerColorInput( groupBuilder, ref groupSequence, "Font color", font.Color, value => UpdateSelectedElementAsync( element => EnsureFont( element ).Color = value ) );
-            RenderDesignerSelectInput( groupBuilder, ref groupSequence, "Alignment", font.Alignment, value => UpdateSelectedElementAsync( element => EnsureFont( element ).Alignment = value ) );
-            RenderDesignerCheckbox( groupBuilder, ref groupSequence, "Bold", font.Bold, eventArgs => _ = UpdateSelectedElementAsync( element => EnsureFont( element ).Bold = eventArgs.Value is bool value && value ) );
-            RenderDesignerCheckbox( groupBuilder, ref groupSequence, "Italic", font.Italic, eventArgs => _ = UpdateSelectedElementAsync( element => EnsureFont( element ).Italic = eventArgs.Value is bool value && value ) );
-            RenderDesignerCheckbox( groupBuilder, ref groupSequence, "Underline", font.Underline, eventArgs => _ = UpdateSelectedElementAsync( element => EnsureFont( element ).Underline = eventArgs.Value is bool value && value ) );
+            RenderDesignerInput( groupBuilder, "Font family", font.Family, value => UpdateSelectedElementAsync( element => EnsureFont( element ).Family = value ) );
+            RenderDesignerNullableNumberInput( groupBuilder, "Font size", font.Size, value => UpdateSelectedElementAsync( element => EnsureFont( element ).Size = NormalizeNullablePositiveNumber( value ) ) );
+            RenderDesignerColorInput( groupBuilder, "Font color", font.Color, value => UpdateSelectedElementAsync( element => EnsureFont( element ).Color = value ) );
+            RenderDesignerSelectInput( groupBuilder, "Alignment", font.Alignment, value => UpdateSelectedElementAsync( element => EnsureFont( element ).Alignment = value ) );
+            RenderDesignerCheckbox( groupBuilder, "Bold", font.Bold, eventArgs => _ = UpdateSelectedElementAsync( element => EnsureFont( element ).Bold = eventArgs.Value is bool value && value ) );
+            RenderDesignerCheckbox( groupBuilder, "Italic", font.Italic, eventArgs => _ = UpdateSelectedElementAsync( element => EnsureFont( element ).Italic = eventArgs.Value is bool value && value ) );
+            RenderDesignerCheckbox( groupBuilder, "Underline", font.Underline, eventArgs => _ = UpdateSelectedElementAsync( element => EnsureFont( element ).Underline = eventArgs.Value is bool value && value ) );
         } );
     }
 
-    private void RenderElementAppearanceProperties( RenderTreeBuilder builder, ref int sequence, ReportElementDefinition selected )
+    private void RenderElementAppearanceProperties( RenderTreeBuilder builder, ReportElementDefinition selected )
     {
         var appearance = EnsureAppearance( selected );
         var border = EnsureBorder( selected );
 
-        RenderDesignerPropertyGroup( builder, ref sequence, "Appearance", groupBuilder =>
+        RenderDesignerPropertyGroup( builder, "Appearance", groupBuilder =>
         {
-            var groupSequence = 0;
-            RenderDesignerColorInput( groupBuilder, ref groupSequence, "Fill color", appearance.BackgroundColor, value => UpdateSelectedElementAsync( element => EnsureAppearance( element ).BackgroundColor = value ) );
-            RenderDesignerColorInput( groupBuilder, ref groupSequence, "Border color", border.Color, value => UpdateSelectedElementAsync( element => EnsureBorder( element ).Color = value ) );
-            RenderDesignerNullableNumberInput( groupBuilder, ref groupSequence, "Border width", border.Width, value => UpdateSelectedElementAsync( element => EnsureBorder( element ).Width = NormalizeNullablePositiveNumber( value ) ) );
-            RenderDesignerNullableNumberInput( groupBuilder, ref groupSequence, "Corner radius", border.Radius, value => UpdateSelectedElementAsync( element => EnsureBorder( element ).Radius = NormalizeNullablePositiveNumber( value ) ) );
-            RenderDesignerNullableNumberInput( groupBuilder, ref groupSequence, "Opacity", appearance.Opacity, value => UpdateSelectedElementAsync( element => EnsureAppearance( element ).Opacity = NormalizeOpacity( value ) ) );
+            RenderDesignerColorInput( groupBuilder, "Fill color", appearance.BackgroundColor, value => UpdateSelectedElementAsync( element => EnsureAppearance( element ).BackgroundColor = value ) );
+            RenderDesignerColorInput( groupBuilder, "Border color", border.Color, value => UpdateSelectedElementAsync( element => EnsureBorder( element ).Color = value ) );
+            RenderDesignerNullableNumberInput( groupBuilder, "Border width", border.Width, value => UpdateSelectedElementAsync( element => EnsureBorder( element ).Width = NormalizeNullablePositiveNumber( value ) ) );
+            RenderDesignerNullableNumberInput( groupBuilder, "Corner radius", border.Radius, value => UpdateSelectedElementAsync( element => EnsureBorder( element ).Radius = NormalizeNullablePositiveNumber( value ) ) );
+            RenderDesignerNullableNumberInput( groupBuilder, "Opacity", appearance.Opacity, value => UpdateSelectedElementAsync( element => EnsureAppearance( element ).Opacity = NormalizeOpacity( value ) ) );
         } );
     }
 
-    private void RenderDesignerPropertyGroup( RenderTreeBuilder builder, ref int sequence, string title, RenderFragment childContent )
+    private void RenderDesignerPropertyGroup( RenderTreeBuilder builder, string title, RenderFragment childContent )
     {
-        builder.OpenComponent<Div>( sequence++ );
-        builder.AddAttribute( sequence++, "Margin", Margin.Is3.FromBottom );
-        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( groupBuilder =>
+        builder.OpenComponent<Div>();
+        builder.Attribute( "Margin", Margin.Is3.FromBottom );
+        builder.Attribute( "ChildContent", (RenderFragment)( groupBuilder =>
         {
-            var groupSequence = 0;
-
-            groupBuilder.OpenElement( groupSequence++, "h6" );
-            groupBuilder.AddContent( groupSequence++, title );
+            groupBuilder.OpenElement( "h6" );
+            groupBuilder.Content( title );
             groupBuilder.CloseElement();
 
-            groupBuilder.AddContent( groupSequence++, childContent );
+            groupBuilder.Content( childContent );
         } ) );
         builder.CloseComponent();
     }
 
-    private void RenderDesignerInput( RenderTreeBuilder builder, ref int sequence, string label, string value, Func<string, Task> valueChanged, bool readOnly = false )
+    private void RenderDesignerInput( RenderTreeBuilder builder, string label, string value, Func<string, Task> valueChanged, bool readOnly = false )
     {
-        builder.OpenComponent<Field>( sequence++ );
-        builder.AddAttribute( sequence++, "Margin", Margin.Is2.FromBottom );
-        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( fieldBuilder =>
+        builder.OpenComponent<Field>();
+        builder.Attribute( "Margin", Margin.Is2.FromBottom );
+        builder.Attribute( "ChildContent", (RenderFragment)( fieldBuilder =>
         {
-            var fieldSequence = 0;
-
-            fieldBuilder.OpenComponent<FieldLabel>( fieldSequence++ );
-            fieldBuilder.AddAttribute( fieldSequence++, "ChildContent", (RenderFragment)( labelBuilder => labelBuilder.AddContent( 0, label ) ) );
+            fieldBuilder.OpenComponent<FieldLabel>();
+            fieldBuilder.Attribute( "ChildContent", (RenderFragment)( labelBuilder => labelBuilder.Content( label ) ) );
             fieldBuilder.CloseComponent();
 
-            fieldBuilder.OpenComponent<TextInput>( fieldSequence++ );
-            fieldBuilder.AddAttribute( fieldSequence++, "Value", value );
-            fieldBuilder.AddAttribute( fieldSequence++, "ReadOnly", readOnly );
+            fieldBuilder.OpenComponent<TextInput>();
+            fieldBuilder.Attribute( "Value", value );
+            fieldBuilder.Attribute( "ReadOnly", readOnly );
 
             if ( valueChanged is not null )
             {
-                fieldBuilder.AddAttribute( fieldSequence++, "ValueChanged", EventCallback.Factory.Create<string>( this, valueChanged ) );
-                fieldBuilder.AddAttribute( fieldSequence++, "Immediate", true );
+                fieldBuilder.Attribute( "ValueChanged", EventCallback.Factory.Create<string>( this, valueChanged ) );
+                fieldBuilder.Attribute( "Immediate", true );
             }
 
             fieldBuilder.CloseComponent();
@@ -1259,85 +1214,75 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         builder.CloseComponent();
     }
 
-    private void RenderDesignerNullableNumberInput( RenderTreeBuilder builder, ref int sequence, string label, double? value, Func<double?, Task> valueChanged )
+    private void RenderDesignerNullableNumberInput( RenderTreeBuilder builder, string label, double? value, Func<double?, Task> valueChanged )
     {
-        builder.OpenComponent<Field>( sequence++ );
-        builder.AddAttribute( sequence++, "Margin", Margin.Is2.FromBottom );
-        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( fieldBuilder =>
+        builder.OpenComponent<Field>();
+        builder.Attribute( "Margin", Margin.Is2.FromBottom );
+        builder.Attribute( "ChildContent", (RenderFragment)( fieldBuilder =>
         {
-            var fieldSequence = 0;
-
-            fieldBuilder.OpenComponent<FieldLabel>( fieldSequence++ );
-            fieldBuilder.AddAttribute( fieldSequence++, "ChildContent", (RenderFragment)( labelBuilder => labelBuilder.AddContent( 0, label ) ) );
+            fieldBuilder.OpenComponent<FieldLabel>();
+            fieldBuilder.Attribute( "ChildContent", (RenderFragment)( labelBuilder => labelBuilder.Content( label ) ) );
             fieldBuilder.CloseComponent();
 
-            fieldBuilder.OpenComponent<NumericInput<double?>>( fieldSequence++ );
-            fieldBuilder.AddAttribute( fieldSequence++, "Value", value );
-            fieldBuilder.AddAttribute( fieldSequence++, "ValueChanged", EventCallback.Factory.Create<double?>( this, valueChanged ) );
-            fieldBuilder.AddAttribute( fieldSequence++, "Immediate", true );
-            fieldBuilder.AddAttribute( fieldSequence++, "Step", 1m );
+            fieldBuilder.OpenComponent<NumericInput<double?>>();
+            fieldBuilder.Attribute( "Value", value );
+            fieldBuilder.Attribute( "ValueChanged", EventCallback.Factory.Create<double?>( this, valueChanged ) );
+            fieldBuilder.Attribute( "Immediate", true );
+            fieldBuilder.Attribute( "Step", 1m );
             fieldBuilder.CloseComponent();
         } ) );
         builder.CloseComponent();
     }
 
-    private void RenderDesignerColorInput( RenderTreeBuilder builder, ref int sequence, string label, string value, Func<string, Task> valueChanged )
+    private void RenderDesignerColorInput( RenderTreeBuilder builder, string label, string value, Func<string, Task> valueChanged )
     {
-        builder.OpenComponent<Field>( sequence++ );
-        builder.AddAttribute( sequence++, "Margin", Margin.Is2.FromBottom );
-        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( fieldBuilder =>
+        builder.OpenComponent<Field>();
+        builder.Attribute( "Margin", Margin.Is2.FromBottom );
+        builder.Attribute( "ChildContent", (RenderFragment)( fieldBuilder =>
         {
-            var fieldSequence = 0;
-
-            fieldBuilder.OpenComponent<FieldLabel>( fieldSequence++ );
-            fieldBuilder.AddAttribute( fieldSequence++, "ChildContent", (RenderFragment)( labelBuilder => labelBuilder.AddContent( 0, label ) ) );
+            fieldBuilder.OpenComponent<FieldLabel>();
+            fieldBuilder.Attribute( "ChildContent", (RenderFragment)( labelBuilder => labelBuilder.Content( label ) ) );
             fieldBuilder.CloseComponent();
 
-            fieldBuilder.OpenComponent<Div>( fieldSequence++ );
-            fieldBuilder.AddAttribute( fieldSequence++, "Flex", Flex.Row );
-            fieldBuilder.AddAttribute( fieldSequence++, "Gap", Gap.Is2 );
-            fieldBuilder.AddAttribute( fieldSequence++, "ChildContent", (RenderFragment)( inputBuilder =>
+            fieldBuilder.OpenComponent<Div>();
+            fieldBuilder.Attribute( "Flex", Flex.Row );
+            fieldBuilder.Attribute( "Gap", Gap.Is2 );
+            fieldBuilder.Attribute( "ChildContent", (RenderFragment)( inputBuilder =>
             {
-                var inputSequence = 0;
-
-                inputBuilder.OpenElement( inputSequence++, "input" );
-                inputBuilder.AddAttribute( inputSequence++, "type", "color" );
-                inputBuilder.AddAttribute( inputSequence++, "value", NormalizeColorValue( value ) );
-                inputBuilder.AddAttribute( inputSequence++, "onchange", EventCallback.Factory.Create<ChangeEventArgs>( this, eventArgs => valueChanged( Convert.ToString( eventArgs.Value, CultureInfo.InvariantCulture ) ) ) );
+                inputBuilder.OpenElement( "input" );
+                inputBuilder.Type( "color" );
+                inputBuilder.Attribute( "value", NormalizeColorValue( value ) );
+                inputBuilder.Attribute( "onchange", EventCallback.Factory.Create<ChangeEventArgs>( this, eventArgs => valueChanged( Convert.ToString( eventArgs.Value, CultureInfo.InvariantCulture ) ) ) );
                 inputBuilder.CloseElement();
 
-                RenderDesignerButton( inputBuilder, ref inputSequence, "Clear", () => valueChanged( null ) );
+                RenderDesignerButton( inputBuilder, "Clear", () => valueChanged( null ) );
             } ) );
             fieldBuilder.CloseComponent();
         } ) );
         builder.CloseComponent();
     }
 
-    private void RenderDesignerSelectInput<TValue>( RenderTreeBuilder builder, ref int sequence, string label, TValue value, Func<TValue, Task> valueChanged )
+    private void RenderDesignerSelectInput<TValue>( RenderTreeBuilder builder, string label, TValue value, Func<TValue, Task> valueChanged )
         where TValue : struct, Enum
     {
-        builder.OpenComponent<Field>( sequence++ );
-        builder.AddAttribute( sequence++, "Margin", Margin.Is2.FromBottom );
-        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( fieldBuilder =>
+        builder.OpenComponent<Field>();
+        builder.Attribute( "Margin", Margin.Is2.FromBottom );
+        builder.Attribute( "ChildContent", (RenderFragment)( fieldBuilder =>
         {
-            var fieldSequence = 0;
-
-            fieldBuilder.OpenComponent<FieldLabel>( fieldSequence++ );
-            fieldBuilder.AddAttribute( fieldSequence++, "ChildContent", (RenderFragment)( labelBuilder => labelBuilder.AddContent( 0, label ) ) );
+            fieldBuilder.OpenComponent<FieldLabel>();
+            fieldBuilder.Attribute( "ChildContent", (RenderFragment)( labelBuilder => labelBuilder.Content( label ) ) );
             fieldBuilder.CloseComponent();
 
-            fieldBuilder.OpenComponent<Select<TValue>>( fieldSequence++ );
-            fieldBuilder.AddAttribute( fieldSequence++, "Value", value );
-            fieldBuilder.AddAttribute( fieldSequence++, "ValueChanged", EventCallback.Factory.Create<TValue>( this, valueChanged ) );
-            fieldBuilder.AddAttribute( fieldSequence++, "ChildContent", (RenderFragment)( selectBuilder =>
+            fieldBuilder.OpenComponent<Select<TValue>>();
+            fieldBuilder.Attribute( "Value", value );
+            fieldBuilder.Attribute( "ValueChanged", EventCallback.Factory.Create<TValue>( this, valueChanged ) );
+            fieldBuilder.Attribute( "ChildContent", (RenderFragment)( selectBuilder =>
             {
-                var selectSequence = 0;
-
                 foreach ( var option in Enum.GetValues<TValue>() )
                 {
-                    selectBuilder.OpenComponent<SelectItem<TValue>>( selectSequence++ );
-                    selectBuilder.AddAttribute( selectSequence++, "Value", option );
-                    selectBuilder.AddAttribute( selectSequence++, "ChildContent", (RenderFragment)( optionBuilder => optionBuilder.AddContent( 0, option.ToString() ) ) );
+                    selectBuilder.OpenComponent<SelectItem<TValue>>();
+                    selectBuilder.Attribute( "Value", option );
+                    selectBuilder.Attribute( "ChildContent", (RenderFragment)( optionBuilder => optionBuilder.Content( option.ToString() ) ) );
                     selectBuilder.CloseComponent();
                 }
             } ) );
@@ -1347,77 +1292,73 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         builder.CloseComponent();
     }
 
-    private void RenderDesignerNumberInput( RenderTreeBuilder builder, ref int sequence, string label, double value, Func<double, Task> valueChanged )
+    private void RenderDesignerNumberInput( RenderTreeBuilder builder, string label, double value, Func<double, Task> valueChanged )
     {
-        builder.OpenComponent<Field>( sequence++ );
-        builder.AddAttribute( sequence++, "Margin", Margin.Is2.FromBottom );
-        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( fieldBuilder =>
+        builder.OpenComponent<Field>();
+        builder.Attribute( "Margin", Margin.Is2.FromBottom );
+        builder.Attribute( "ChildContent", (RenderFragment)( fieldBuilder =>
         {
-            var fieldSequence = 0;
-
-            fieldBuilder.OpenComponent<FieldLabel>( fieldSequence++ );
-            fieldBuilder.AddAttribute( fieldSequence++, "ChildContent", (RenderFragment)( labelBuilder => labelBuilder.AddContent( 0, label ) ) );
+            fieldBuilder.OpenComponent<FieldLabel>();
+            fieldBuilder.Attribute( "ChildContent", (RenderFragment)( labelBuilder => labelBuilder.Content( label ) ) );
             fieldBuilder.CloseComponent();
 
-            fieldBuilder.OpenComponent<NumericInput<double>>( fieldSequence++ );
-            fieldBuilder.AddAttribute( fieldSequence++, "Value", value );
-            fieldBuilder.AddAttribute( fieldSequence++, "ValueChanged", EventCallback.Factory.Create<double>( this, valueChanged ) );
-            fieldBuilder.AddAttribute( fieldSequence++, "Immediate", true );
-            fieldBuilder.AddAttribute( fieldSequence++, "Step", 1m );
+            fieldBuilder.OpenComponent<NumericInput<double>>();
+            fieldBuilder.Attribute( "Value", value );
+            fieldBuilder.Attribute( "ValueChanged", EventCallback.Factory.Create<double>( this, valueChanged ) );
+            fieldBuilder.Attribute( "Immediate", true );
+            fieldBuilder.Attribute( "Step", 1m );
             fieldBuilder.CloseComponent();
         } ) );
         builder.CloseComponent();
     }
 
-    private void RenderDesignerCheckbox( RenderTreeBuilder builder, ref int sequence, string label, bool value, Action<ChangeEventArgs> valueChanged )
+    private void RenderDesignerCheckbox( RenderTreeBuilder builder, string label, bool value, Action<ChangeEventArgs> valueChanged )
     {
-        builder.OpenComponent<Field>( sequence++ );
-        builder.AddAttribute( sequence++, "Margin", Margin.Is2.FromBottom );
-        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( fieldBuilder =>
+        builder.OpenComponent<Field>();
+        builder.Attribute( "Margin", Margin.Is2.FromBottom );
+        builder.Attribute( "ChildContent", (RenderFragment)( fieldBuilder =>
         {
-            var fieldSequence = 0;
-
-            fieldBuilder.OpenElement( fieldSequence++, "label" );
-            fieldBuilder.AddAttribute( fieldSequence++, "class", "b-report-designer-option" );
-            fieldBuilder.OpenElement( fieldSequence++, "input" );
-            fieldBuilder.AddAttribute( fieldSequence++, "type", "checkbox" );
-            fieldBuilder.AddAttribute( fieldSequence++, "checked", value );
-            fieldBuilder.AddAttribute( fieldSequence++, "onchange", EventCallback.Factory.Create<ChangeEventArgs>( this, valueChanged ) );
+            fieldBuilder.OpenElement( "label" );
+            fieldBuilder.Class( "b-report-designer-option" );
+            fieldBuilder.OpenElement( "input" );
+            fieldBuilder.Type( "checkbox" );
+            fieldBuilder.Attribute( "checked", value );
+            fieldBuilder.Attribute( "onchange", EventCallback.Factory.Create<ChangeEventArgs>( this, valueChanged ) );
             fieldBuilder.CloseElement();
-            fieldBuilder.AddContent( fieldSequence++, label );
+            fieldBuilder.Content( label );
             fieldBuilder.CloseElement();
         } ) );
         builder.CloseComponent();
     }
 
-    private void RenderDesignerButton( RenderTreeBuilder builder, ref int sequence, string text, Func<Task> clicked )
+    private void RenderDesignerButton( RenderTreeBuilder builder, string text, Func<Task> clicked )
     {
-        builder.OpenComponent<Button>( sequence++ );
-        builder.AddAttribute( sequence++, "Color", Color.Light );
-        builder.AddAttribute( sequence++, "Clicked", EventCallback.Factory.Create<MouseEventArgs>( this, clicked ) );
-        builder.AddAttribute( sequence++, "ChildContent", (RenderFragment)( buttonBuilder => buttonBuilder.AddContent( 0, text ) ) );
+        builder.OpenComponent<Button>();
+        builder.Attribute( "Color", Color.Light );
+        builder.Attribute( "Clicked", EventCallback.Factory.Create<MouseEventArgs>( this, clicked ) );
+        builder.Attribute( "ChildContent", (RenderFragment)( buttonBuilder => buttonBuilder.Content( text ) ) );
         builder.CloseComponent();
     }
 
-    private void RenderTable( RenderTreeBuilder builder, ref int sequence, ReportElementDefinition element )
+    private void RenderTable( RenderTreeBuilder builder, ReportElementDefinition element )
     {
-        builder.OpenElement( sequence++, "table" );
+        builder.OpenElement( "table" );
 
         if ( element.Columns.Count == 0 )
         {
-            builder.OpenElement( sequence++, "tr" );
-            builder.OpenElement( sequence++, "td" );
+            builder.OpenElement( "tr" );
+            builder.OpenElement( "td" );
             builder.CloseElement();
             builder.CloseElement();
         }
         else
         {
-            builder.OpenElement( sequence++, "tr" );
+            builder.OpenElement( "tr" );
             foreach ( var column in element.Columns )
             {
-                builder.OpenElement( sequence++, "td" );
-                builder.AddAttribute( sequence++, "style", $"width:{column.Width}px" );
-                builder.AddContent( sequence++, column.Title ?? column.Field );
+                builder.OpenElement( "td" );
+                builder.Style( $"width:{column.Width}px" );
+                builder.Content( column.Title ?? column.Field );
                 builder.CloseElement();
             }
             builder.CloseElement();
