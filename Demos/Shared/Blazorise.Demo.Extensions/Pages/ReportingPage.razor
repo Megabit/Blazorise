@@ -17,22 +17,22 @@
                                   AllowDownload
                                   AllowPrint />
                     <ReportToolbar>
-                        <ButtonGroup>
+                        <ReportToolbarGroup>
                             <ReportToolbarItem Command="ReportCommand.Cut" Caption="Cut" />
                             <ReportToolbarItem Command="ReportCommand.Copy" Caption="Copy" />
                             <ReportToolbarItem Command="ReportCommand.Paste" Caption="Paste" />
                             <ReportToolbarItem Command="ReportCommand.Delete" Caption="Delete" />
-                        </ButtonGroup>
-                        <ButtonGroup>
+                        </ReportToolbarGroup>
+                        <ReportToolbarGroup>
                             <ReportToolbarItem Command="ReportCommand.Undo" Caption="Undo" />
                             <ReportToolbarItem Command="ReportCommand.Redo" Caption="Redo" />
                             <ReportToolbarItem Command="ReportCommand.Reset" Caption="Reset" />
-                        </ButtonGroup>
+                        </ReportToolbarGroup>
                         <Div Margin="Margin.IsAuto.FromStart">
-                            <ButtonGroup>
+                            <ReportToolbarGroup>
                                 <ReportToolbarItem Command="ReportCommand.Design" Caption="Design" ShowCaption />
                                 <ReportToolbarItem Command="ReportCommand.Preview" Caption="Preview" ShowCaption />
-                            </ButtonGroup>
+                            </ReportToolbarGroup>
                         </Div>
                     </ReportToolbar>
                     <ReportDataSource Name="Invoice" Data="@invoice" />
