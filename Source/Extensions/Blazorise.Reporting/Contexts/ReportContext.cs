@@ -240,6 +240,7 @@ internal sealed class ReportContext
             Type = selection.Type,
             SectionId = selection.SectionId,
             ElementId = selection.ElementId,
+            ElementIds = selection.ElementIds?.ToList() ?? [],
         };
     }
 }

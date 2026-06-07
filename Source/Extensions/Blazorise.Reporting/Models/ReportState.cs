@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Blazorise.Reporting;
 
 /// <summary>
@@ -65,4 +67,9 @@ public sealed class ReportSelectionState
     /// Selected element identifier when an element is selected.
     /// </summary>
     public string ElementId { get; set; }
+
+    /// <summary>
+    /// Selected element identifiers when multiple elements are selected.
+    /// </summary>
+    public List<string> ElementIds { get; set; } = [];
 }

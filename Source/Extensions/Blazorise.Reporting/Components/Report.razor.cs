@@ -58,7 +58,15 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private string selectedElementKey;
 
+    private readonly HashSet<string> selectedElementKeys = new( StringComparer.Ordinal );
+
     private int? selectedSectionIndex;
+
+    private bool suppressNextSectionClick;
+
+    private string suppressNextElementClickKey;
+
+    private DateTime suppressSelectionClickUntil;
 
     private bool snapToGrid = true;
 
@@ -77,6 +85,8 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
     private ReportElementDefinition draggedElement;
 
     private ReportDesignerDragPreview dragPreview;
+
+    private ReportDesignerSelectionBox selectionBox;
 
     private ReportElementPointerDragState elementPointerDrag;
 
@@ -658,7 +668,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
                             Detail = element.Type.ToString(),
                             Kind = GetElementTreeNodeKind( element.Type ),
                             Selectable = true,
-                            Selected = elementKey == selectedElementKey,
+                            Selected = IsElementSelected( elementKey ),
                         };
                     } ).ToList(),
                 } ).ToList(),
@@ -770,9 +780,23 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         builder.Class( designMode ? "b-report-page b-report-page-design" : "b-report-page" );
         builder.Style( $"width:{pageWidth}px;min-height:{definition.Page.Height}px;" );
 
+        if ( designMode )
+        {
+            builder.Attribute( "onpointermove", EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( PreviewPageSelectionBoxAsync ) );
+            builder.EventPreventDefault( "onpointermove", true );
+            builder.Attribute( "onpointerup", EventCallback.Factory.Create<PointerEventArgs>( this, CompletePageSelectionBoxAsync ) );
+            builder.EventPreventDefault( "onpointerup", true );
+            builder.Attribute( "onpointercancel", EventCallback.Factory.Create<PointerEventArgs>( this, _ => CancelPageSelectionBoxAsync() ) );
+        }
+
         for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
         {
             RenderSection( builder, definition, definition.Sections[sectionIndex], sectionIndex, designMode );
+        }
+
+        if ( designMode && selectionBox is not null )
+        {
+            RenderDesignerSelectionBox( builder, selectionBox, BandMode == ReportBandMode.Rail ? DesignerBandRailWidth : 0 );
         }
 
         builder.CloseElement();
@@ -825,6 +849,8 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
                     if ( !section.Suppressed )
                     {
+                        builder.Attribute( "onpointerdown", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSelectionBox( sectionIndex, eventArgs ) ) );
+                        builder.EventPreventDefault( "onpointerdown", true );
                         builder.Attribute( "ondragover", EventUtil.AsNonRenderingEventHandler<DragEventArgs>( eventArgs => PreviewDesignerDragAsync( sectionIndex, eventArgs ) ) );
                         builder.EventPreventDefault( "ondragover", true );
                         builder.Attribute( "ondrop", EventCallback.Factory.Create<DragEventArgs>( this, eventArgs => DropDesignerItemAsync( sectionIndex, eventArgs ) ) );
@@ -834,7 +860,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
                         builder.Attribute( "onpointerup", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => CompleteElementPointerInteractionAsync( sectionIndex, eventArgs ) ) );
                         builder.EventPreventDefault( "onpointerup", true );
                         builder.Attribute( "onpointercancel", EventCallback.Factory.Create<PointerEventArgs>( this, _ => CancelElementPointerInteractionAsync() ) );
-                        builder.Attribute( "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => SelectSection( sectionIndex ) ) );
+                        builder.Attribute( "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandleSectionClick( sectionIndex ) ) );
                         builder.Attribute( "oncontextmenu", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenSectionContextMenu( sectionIndex, eventArgs ) ) );
                         builder.EventPreventDefault( "oncontextmenu", true );
                     }
@@ -941,12 +967,12 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
         builder.OpenElement( "div" );
         builder.Key( elementKey );
-        builder.Class( designMode ? $"{cssClass} b-report-element-design {( editable ? string.Empty : "disabled" )} {( editable && elementKey == selectedElementKey ? "active" : string.Empty )}" : cssClass );
+        builder.Class( designMode ? $"{cssClass} b-report-element-design {( editable ? string.Empty : "disabled" )} {( editable && IsElementSelected( elementKey ) ? "active" : string.Empty )}" : cssClass );
         builder.Style( style );
 
         if ( designMode && editable )
         {
-            builder.Attribute( "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => SelectElement( elementKey ) ) );
+            builder.Attribute( "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => HandleElementClick( elementKey, eventArgs ) ) );
             builder.EventStopPropagation( "onclick", true );
             builder.Attribute( "oncontextmenu", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenElementContextMenu( elementKey, eventArgs ) ) );
             builder.EventPreventDefault( "oncontextmenu", true );
@@ -981,7 +1007,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
                 break;
         }
 
-        if ( designMode && editable && elementKey == selectedElementKey )
+        if ( designMode && editable && IsElementSelected( elementKey ) )
         {
             RenderElementResizeHandles( builder, elementKey );
         }
@@ -1079,6 +1105,15 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         builder.Class( $"b-report-drag-preview b-report-element-{preview.ElementType.ToString().ToLowerInvariant()}" );
         builder.Style( $"left:{preview.X}px;top:{preview.Y}px;width:{preview.Width}px;height:{preview.Height}px;" );
         builder.Content( preview.Text );
+        builder.CloseElement();
+    }
+
+    private void RenderDesignerSelectionBox( RenderTreeBuilder builder, ReportDesignerSelectionBox selectionBox, double leftOffset )
+    {
+        builder.OpenElement( "div" );
+        builder.Key( "selection-box" );
+        builder.Class( "b-report-selection-box" );
+        builder.Style( $"left:{selectionBox.X + leftOffset}px;top:{selectionBox.Y}px;width:{selectionBox.Width}px;height:{selectionBox.Height}px;" );
         builder.CloseElement();
     }
 
@@ -1616,9 +1651,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         await ExecuteDesignerCommandAsync( new( "Reset report", () =>
         {
             declarativeDefinition = BuildDeclarativeDefinition();
-            reportSelected = true;
-            selectedElementKey = null;
-            selectedSectionIndex = null;
+            SelectReport();
             contextMenu = null;
             dragPreview = null;
 
@@ -1654,8 +1687,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             {
                 clipboardElement = ReportContext.CloneElement( element );
                 definition.Sections[sectionIndex].Elements.RemoveAt( elementIndex );
-                selectedSectionIndex = sectionIndex;
-                selectedElementKey = null;
+                SelectSection( sectionIndex );
                 contextMenu = null;
             }
 
@@ -1680,9 +1712,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
             definition.Sections[targetSectionIndex].Elements.Add( element );
 
-            reportSelected = false;
-            selectedSectionIndex = null;
-            selectedElementKey = GetDesignerElementKey( element );
+            SelectElement( GetDesignerElementKey( element ) );
             contextMenu = null;
 
             return Task.CompletedTask;
@@ -1726,13 +1756,23 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private ReportSelectionState CaptureSelectionState( ReportDefinition definition )
     {
-        if ( FindElementLocation( definition, selectedElementKey, out var sectionIndex, out _, out var element ) )
+        var elementIds = GetSelectedElementIds( definition ).ToList();
+
+        if ( elementIds.Count > 0 )
         {
+            var primaryElementId = FindElementLocation( definition, selectedElementKey, out var sectionIndex, out _, out var element )
+                ? element.Id
+                : elementIds[0];
+
+            if ( element is null )
+                FindElementLocation( definition, primaryElementId, out sectionIndex, out _, out element );
+
             return new()
             {
                 Type = ReportSelectionType.Element,
-                SectionId = definition.Sections[sectionIndex].Id,
-                ElementId = element.Id,
+                SectionId = sectionIndex >= 0 ? definition.Sections[sectionIndex].Id : null,
+                ElementId = primaryElementId,
+                ElementIds = elementIds,
             };
         }
 
@@ -1786,6 +1826,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         reportSelected = true;
         selectedSectionIndex = null;
         selectedElementKey = null;
+        selectedElementKeys.Clear();
 
         if ( selection is null )
             return;
@@ -1805,17 +1846,22 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
         if ( selection.Type == ReportSelectionType.Element )
         {
+            List<string> elementIds = selection.ElementIds is not null && selection.ElementIds.Count > 0
+                ? selection.ElementIds
+                : string.IsNullOrWhiteSpace( selection.ElementId ) ? [] : [selection.ElementId];
+
             foreach ( var section in definition.Sections )
             {
-                var element = section.Elements.FirstOrDefault( element => string.Equals( element.Id, selection.ElementId, StringComparison.Ordinal ) );
-
-                if ( element is not null )
+                foreach ( var element in section.Elements.Where( element => elementIds.Contains( element.Id ) ) )
                 {
                     reportSelected = false;
-                    selectedElementKey = GetDesignerElementKey( element );
-                    return;
+                    selectedElementKeys.Add( GetDesignerElementKey( element ) );
                 }
             }
+
+            selectedElementKey = selectedElementKeys.Contains( selection.ElementId )
+                ? selection.ElementId
+                : selectedElementKeys.FirstOrDefault();
         }
     }
 
@@ -1824,13 +1870,114 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         reportSelected = true;
         selectedSectionIndex = null;
         selectedElementKey = null;
+        selectedElementKeys.Clear();
         contextMenu = null;
     }
 
-    private void SelectElement( string key )
+    private void HandleElementClick( string key, MouseEventArgs eventArgs )
+    {
+        if ( IsSuppressingSelectionClick() )
+            return;
+
+        if ( string.Equals( suppressNextElementClickKey, key, StringComparison.Ordinal ) )
+        {
+            suppressNextElementClickKey = null;
+            return;
+        }
+
+        if ( eventArgs.CtrlKey )
+        {
+            ToggleElementSelection( key );
+            return;
+        }
+
+        SelectElement( key, preserveSelection: IsElementSelected( key ) && selectedElementKeys.Count > 1 );
+    }
+
+    private void HandleSectionClick( int sectionIndex )
+    {
+        if ( IsSuppressingSelectionClick() )
+            return;
+
+        if ( suppressNextSectionClick )
+        {
+            suppressNextSectionClick = false;
+            return;
+        }
+
+        SelectSection( sectionIndex );
+    }
+
+    private bool IsSuppressingSelectionClick()
+    {
+        if ( DateTime.UtcNow > suppressSelectionClickUntil )
+            return false;
+
+        suppressNextSectionClick = false;
+        suppressNextElementClickKey = null;
+
+        return true;
+    }
+
+    private void SelectElement( string key, bool preserveSelection = false )
     {
         reportSelected = false;
+        selectedSectionIndex = null;
         selectedElementKey = key;
+
+        if ( !preserveSelection )
+            selectedElementKeys.Clear();
+
+        if ( !string.IsNullOrWhiteSpace( key ) )
+            selectedElementKeys.Add( key );
+
+        contextMenu = null;
+    }
+
+    private void ToggleElementSelection( string key )
+    {
+        if ( string.IsNullOrWhiteSpace( key ) )
+            return;
+
+        reportSelected = false;
+        selectedSectionIndex = null;
+
+        if ( selectedElementKeys.Contains( key ) )
+        {
+            selectedElementKeys.Remove( key );
+
+            if ( string.Equals( selectedElementKey, key, StringComparison.Ordinal ) )
+                selectedElementKey = selectedElementKeys.FirstOrDefault();
+        }
+        else
+        {
+            selectedElementKeys.Add( key );
+            selectedElementKey = key;
+        }
+
+        if ( selectedElementKeys.Count == 0 )
+        {
+            reportSelected = true;
+            selectedElementKey = null;
+        }
+
+        contextMenu = null;
+    }
+
+    private void SelectElements( IEnumerable<string> elementKeys, string primaryElementKey = null )
+    {
+        selectedElementKeys.Clear();
+
+        foreach ( var elementKey in elementKeys.Where( key => !string.IsNullOrWhiteSpace( key ) ) )
+        {
+            selectedElementKeys.Add( elementKey );
+        }
+
+        selectedElementKey = !string.IsNullOrWhiteSpace( primaryElementKey ) && selectedElementKeys.Contains( primaryElementKey )
+            ? primaryElementKey
+            : selectedElementKeys.FirstOrDefault();
+        selectedSectionIndex = null;
+        reportSelected = selectedElementKeys.Count == 0;
         contextMenu = null;
     }
 
@@ -1839,6 +1986,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         reportSelected = false;
         selectedSectionIndex = index;
         selectedElementKey = null;
+        selectedElementKeys.Clear();
         contextMenu = null;
     }
 
@@ -1867,6 +2015,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         reportSelected = false;
         selectedSectionIndex = sectionIndex;
         selectedElementKey = null;
+        selectedElementKeys.Clear();
         contextMenu = new()
         {
             Visible = true,
@@ -1880,7 +2029,13 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
     private void OpenElementContextMenu( string elementKey, MouseEventArgs eventArgs )
     {
         reportSelected = false;
+        selectedSectionIndex = null;
+
+        if ( !IsElementSelected( elementKey ) )
+            selectedElementKeys.Clear();
+
         selectedElementKey = elementKey;
+        selectedElementKeys.Add( elementKey );
         contextMenu = new()
         {
             Visible = true,
@@ -1997,8 +2152,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
             definition.Sections.Insert( insertIndex, section );
 
-            selectedSectionIndex = insertIndex;
-            selectedElementKey = null;
+            SelectSection( insertIndex );
             contextMenu = null;
 
             return Task.CompletedTask;
@@ -2046,16 +2200,13 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
             if ( definition.Sections.Count == 0 )
             {
-                selectedSectionIndex = null;
-                reportSelected = true;
+                SelectReport();
             }
             else
             {
-                selectedSectionIndex = Math.Min( selectedSectionIndex.Value, definition.Sections.Count - 1 );
-                reportSelected = false;
+                SelectSection( Math.Min( selectedSectionIndex.Value, definition.Sections.Count - 1 ) );
             }
 
-            selectedElementKey = null;
             contextMenu = null;
             ClearDragState();
 
@@ -2099,20 +2250,30 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
     {
         var definition = EffectiveDefinition;
 
-        if ( !FindElementLocation( definition, selectedElementKey, out _, out _, out _ ) )
+        var elementKeys = GetSelectedElementIds( definition ).ToList();
+
+        if ( elementKeys.Count == 0 )
             return;
 
-        await ExecuteDesignerCommandAsync( new( "Delete element", () =>
+        await ExecuteDesignerCommandAsync( new( elementKeys.Count == 1 ? "Delete element" : "Delete elements", () =>
         {
             var definition = EffectiveDefinition;
+            var selectedIds = GetSelectedElementIds( definition ).ToHashSet( StringComparer.Ordinal );
+            var lastSectionIndex = -1;
 
-            if ( FindElementLocation( definition, selectedElementKey, out var sectionIndex, out var elementIndex, out _ ) )
+            for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
             {
-                definition.Sections[sectionIndex].Elements.RemoveAt( elementIndex );
-                selectedSectionIndex = sectionIndex;
-                selectedElementKey = null;
-                contextMenu = null;
+                var section = definition.Sections[sectionIndex];
+                var removed = section.Elements.RemoveAll( element => selectedIds.Contains( element.Id ) );
+
+                if ( removed > 0 )
+                    lastSectionIndex = sectionIndex;
             }
+
+            if ( lastSectionIndex >= 0 )
+                SelectSection( lastSectionIndex );
+
+            contextMenu = null;
 
             return Task.CompletedTask;
         } ) );
@@ -2143,12 +2304,20 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         draggedElementKey = null;
         draggedElement = null;
         dragPreview = null;
+        selectionBox = null;
         elementPointerDrag = null;
         elementPointerResize = null;
     }
 
     private void BeginElementPointerDrag( string elementKey, PointerEventArgs eventArgs )
     {
+        if ( eventArgs.CtrlKey )
+        {
+            ToggleElementSelection( elementKey );
+            suppressNextElementClickKey = elementKey;
+            return;
+        }
+
         if ( !FindElementLocation( EffectiveDefinition, elementKey, out var sectionIndex, out _, out var element ) )
             return;
 
@@ -2171,9 +2340,10 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             StartClientY = eventArgs.ClientY,
             TargetX = element.X,
             TargetY = element.Y,
+            SelectedElements = CaptureElementPointerItems( EffectiveDefinition, elementKey ).ToList(),
         };
 
-        SelectElement( elementKey );
+        SelectElement( elementKey, preserveSelection: IsElementSelected( elementKey ) && selectedElementKeys.Count > 1 );
     }
 
     private void BeginElementPointerResize( string elementKey, ReportElementResizeHandle handle, PointerEventArgs eventArgs )
@@ -2206,9 +2376,10 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             TargetWidth = element.Width,
             TargetHeight = element.Height,
             MinimumHeight = GetMinimumElementHeight( element ),
+            SelectedElements = CaptureElementPointerItems( EffectiveDefinition, elementKey ).ToList(),
         };
 
-        SelectElement( elementKey );
+        SelectElement( elementKey, preserveSelection: IsElementSelected( elementKey ) && selectedElementKeys.Count > 1 );
     }
 
     private async Task BeginSectionPointerResizeAsync( int sectionIndex, PointerEventArgs eventArgs )
@@ -2249,6 +2420,9 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private Task PreviewElementPointerInteractionAsync( int targetSectionIndex, PointerEventArgs eventArgs )
     {
+        if ( selectionBox is not null )
+            return PreviewSelectionBoxAsync( eventArgs );
+
         if ( sectionPointerResize is not null )
             return PreviewSectionPointerResizeAsync( eventArgs );
 
@@ -2260,6 +2434,9 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private Task CompleteElementPointerInteractionAsync( int targetSectionIndex, PointerEventArgs eventArgs )
     {
+        if ( selectionBox is not null )
+            return CompleteSelectionBoxAsync( eventArgs );
+
         if ( sectionPointerResize is not null )
             return CompleteSectionPointerResizeAsync( eventArgs );
 
@@ -2271,6 +2448,9 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private Task CancelElementPointerInteractionAsync()
     {
+        if ( selectionBox is not null )
+            return CancelSelectionBoxAsync();
+
         if ( sectionPointerResize is not null )
             return CancelSectionPointerResizeAsync();
 
@@ -2278,6 +2458,120 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             return CancelElementPointerResizeAsync();
 
         return CancelElementPointerDragAsync();
+    }
+
+    private void BeginSelectionBox( int sectionIndex, PointerEventArgs eventArgs )
+    {
+        if ( draggedKind != ReportDesignerDragKind.None
+            || elementPointerDrag is not null
+            || elementPointerResize is not null
+            || sectionPointerResize is not null )
+        {
+            return;
+        }
+
+        var section = GetDesignerSection( EffectiveDefinition, sectionIndex );
+
+        if ( section is null || section.Suppressed )
+            return;
+
+        var x = ClampDesignerValue( eventArgs.OffsetX, 0, EffectiveDefinition.Page.Width );
+        var y = ClampDesignerValue( GetSectionOffsetY( EffectiveDefinition, sectionIndex ) + eventArgs.OffsetY, 0, GetDesignerContentHeight( EffectiveDefinition ) );
+
+        selectionBox = new()
+        {
+            SectionIndex = sectionIndex,
+            StartX = x,
+            StartY = y,
+            CurrentX = x,
+            CurrentY = y,
+            StartClientX = eventArgs.ClientX,
+            StartClientY = eventArgs.ClientY,
+            Additive = eventArgs.CtrlKey,
+        };
+    }
+
+    private Task PreviewSelectionBoxAsync( PointerEventArgs eventArgs )
+    {
+        if ( selectionBox is null )
+            return Task.CompletedTask;
+
+        UpdateSelectionBox( eventArgs );
+
+        return InvokeAsync( StateHasChanged );
+    }
+
+    private Task PreviewPageSelectionBoxAsync( PointerEventArgs eventArgs )
+    {
+        return selectionBox is null
+            ? Task.CompletedTask
+            : PreviewSelectionBoxAsync( eventArgs );
+    }
+
+    private Task CompleteSelectionBoxAsync( PointerEventArgs eventArgs )
+    {
+        if ( selectionBox is null )
+            return Task.CompletedTask;
+
+        UpdateSelectionBox( eventArgs );
+
+        var completedSelectionBox = selectionBox;
+        selectionBox = null;
+
+        if ( !completedSelectionBox.HasMoved )
+            return InvokeAsync( StateHasChanged );
+
+        var selectedKeys = FindElementsInsideSelectionBox( EffectiveDefinition, completedSelectionBox ).ToList();
+
+        if ( completedSelectionBox.Additive )
+            selectedKeys.InsertRange( 0, selectedElementKeys );
+
+        if ( selectedKeys.Count > 0 )
+        {
+            SelectElements( selectedKeys.Distinct( StringComparer.Ordinal ) );
+        }
+        else
+        {
+            SelectSection( completedSelectionBox.SectionIndex );
+        }
+
+        suppressNextSectionClick = true;
+        suppressSelectionClickUntil = DateTime.UtcNow.AddMilliseconds( 300 );
+
+        return InvokeAsync( StateHasChanged );
+    }
+
+    private Task CompletePageSelectionBoxAsync( PointerEventArgs eventArgs )
+    {
+        return selectionBox is null
+            ? Task.CompletedTask
+            : CompleteSelectionBoxAsync( eventArgs );
+    }
+
+    private Task CancelSelectionBoxAsync()
+    {
+        selectionBox = null;
+
+        return InvokeAsync( StateHasChanged );
+    }
+
+    private Task CancelPageSelectionBoxAsync()
+    {
+        return selectionBox is null
+            ? Task.CompletedTask
+            : CancelSelectionBoxAsync();
+    }
+
+    private void UpdateSelectionBox( PointerEventArgs eventArgs )
+    {
+        if ( selectionBox is null )
+            return;
+
+        selectionBox.CurrentX = ClampDesignerValue( selectionBox.StartX + eventArgs.ClientX - selectionBox.StartClientX, 0, EffectiveDefinition.Page.Width );
+        selectionBox.CurrentY = ClampDesignerValue( selectionBox.StartY + eventArgs.ClientY - selectionBox.StartClientY, 0, GetDesignerContentHeight( EffectiveDefinition ) );
+        selectionBox.HasMoved = selectionBox.HasMoved
+            || Math.Abs( selectionBox.CurrentX - selectionBox.StartX ) > 2
+            || Math.Abs( selectionBox.CurrentY - selectionBox.StartY ) > 2;
     }
 
     private async Task PreviewElementPointerDragAsync( int targetSectionIndex, PointerEventArgs eventArgs )
@@ -2356,21 +2650,8 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         {
             var definition = EffectiveDefinition;
 
-            if ( !FindElementLocation( definition, pointerDrag.ElementKey, out var sourceSectionIndex, out var sourceElementIndex, out var element ) )
-                return Task.CompletedTask;
-
-            element.X = pointerDrag.TargetX;
-            element.Y = pointerDrag.TargetY;
-
-            if ( sourceSectionIndex != pointerDrag.TargetSectionIndex )
-            {
-                definition.Sections[sourceSectionIndex].Elements.RemoveAt( sourceElementIndex );
-                definition.Sections[pointerDrag.TargetSectionIndex].Elements.Add( element );
-            }
-
-            selectedElementKey = GetDesignerElementKey( element );
-            selectedSectionIndex = null;
-            reportSelected = false;
+            ApplyElementPointerDrag( definition, pointerDrag );
+            SelectElements( pointerDrag.SelectedElements.Select( item => item.ElementKey ), pointerDrag.ElementKey );
             dragPreview = null;
             ClearDragState();
 
@@ -2401,6 +2682,38 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         y = ApplyDesignerGrid( y );
 
         return ConstrainDesignerDragPreview( EffectiveDefinition, CreateDragPreview( targetSectionIndex, draggedElement, x, y ) );
+    }
+
+    private void ApplyElementPointerDrag( ReportDefinition definition, ReportElementPointerDragState pointerDrag )
+    {
+        if ( definition is null || pointerDrag is null )
+            return;
+
+        if ( pointerDrag.TargetSectionIndex < 0 || pointerDrag.TargetSectionIndex >= definition.Sections.Count )
+            return;
+
+        var deltaX = pointerDrag.TargetX - pointerDrag.OriginalX;
+        var targetSection = definition.Sections[pointerDrag.TargetSectionIndex];
+        var activeOriginalPageY = GetSectionOffsetY( definition, pointerDrag.SourceSectionIndex ) + pointerDrag.OriginalY;
+
+        foreach ( var item in pointerDrag.SelectedElements )
+        {
+            if ( !FindElementLocation( definition, item.ElementKey, out var sourceSectionIndex, out var sourceElementIndex, out var element ) )
+                continue;
+
+            var targetLocalY = pointerDrag.TargetY + item.OriginalPageY - activeOriginalPageY;
+
+            element.X = ClampDesignerValue( item.OriginalX + deltaX, 0, Math.Max( 0, definition.Page.Width - element.Width ) );
+            element.Y = Math.Max( 0, targetLocalY );
+
+            if ( sourceSectionIndex != pointerDrag.TargetSectionIndex )
+            {
+                definition.Sections[sourceSectionIndex].Elements.RemoveAt( sourceElementIndex );
+                targetSection.Elements.Add( element );
+            }
+        }
+
+        GrowSectionToFitElements( targetSection );
     }
 
     private async Task PreviewElementPointerResizeAsync( PointerEventArgs eventArgs )
@@ -2473,17 +2786,8 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
         await ExecuteDesignerCommandAsync( new( "Resize element", () =>
         {
-            if ( !FindElementLocation( EffectiveDefinition, pointerResize.ElementKey, out _, out _, out var element ) )
-                return Task.CompletedTask;
-
-            element.X = pointerResize.TargetX;
-            element.Y = pointerResize.TargetY;
-            element.Width = pointerResize.TargetWidth;
-            element.Height = pointerResize.TargetHeight;
-
-            selectedElementKey = GetDesignerElementKey( element );
-            selectedSectionIndex = null;
-            reportSelected = false;
+            ApplyElementPointerResize( EffectiveDefinition, pointerResize );
+            SelectElements( pointerResize.SelectedElements.Select( item => item.ElementKey ), pointerResize.ElementKey );
             dragPreview = null;
             ClearDragState();
 
@@ -2499,6 +2803,56 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         ClearDragState();
 
         return InvokeAsync( StateHasChanged );
+    }
+
+    private void ApplyElementPointerResize( ReportDefinition definition, ReportElementPointerResizeState pointerResize )
+    {
+        if ( definition is null || pointerResize is null )
+            return;
+
+        var deltaX = pointerResize.TargetX - pointerResize.OriginalX;
+        var deltaY = pointerResize.TargetY - pointerResize.OriginalY;
+        var deltaWidth = pointerResize.TargetWidth - pointerResize.OriginalWidth;
+        var deltaHeight = pointerResize.TargetHeight - pointerResize.OriginalHeight;
+
+        foreach ( var item in pointerResize.SelectedElements )
+        {
+            if ( !FindElementLocation( definition, item.ElementKey, out var sectionIndex, out _, out var element ) )
+                continue;
+
+            var section = definition.Sections[sectionIndex];
+            var minimumHeight = GetMinimumElementHeight( element );
+            var targetWidth = Math.Max( 8, item.OriginalWidth + deltaWidth );
+            var targetHeight = Math.Max( minimumHeight, item.OriginalHeight + deltaHeight );
+            var targetX = item.OriginalX + deltaX;
+            var targetY = item.OriginalY + deltaY;
+
+            element.Width = Math.Min( targetWidth, Math.Max( 8, definition.Page.Width ) );
+            element.Height = targetHeight;
+            element.X = ClampDesignerValue( targetX, 0, Math.Max( 0, definition.Page.Width - element.Width ) );
+            element.Y = Math.Max( 0, targetY );
+
+            GrowSectionToFitElement( section, element );
+        }
+    }
+
+    private static void GrowSectionToFitElements( ReportSectionDefinition section )
+    {
+        if ( section is null )
+            return;
+
+        foreach ( var element in section.Elements )
+        {
+            GrowSectionToFitElement( section, element );
+        }
+    }
+
+    private static void GrowSectionToFitElement( ReportSectionDefinition section, ReportElementDefinition element )
+    {
+        if ( section is null || element is null )
+            return;
+
+        section.Height = Math.Max( section.Height, element.Y + Math.Max( GetMinimumElementHeight( element ), element.Height ) );
     }
 
     private async Task PreviewSectionPointerResizeAsync( PointerEventArgs eventArgs )
@@ -2556,9 +2910,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
                     && !definition.Sections[pointerResize.SectionIndex].Suppressed )
                 {
                     definition.Sections[pointerResize.SectionIndex].Height = pointerResize.TargetHeight;
-                    selectedSectionIndex = pointerResize.SectionIndex;
-                    selectedElementKey = null;
-                    reportSelected = false;
+                    SelectSection( pointerResize.SectionIndex );
                 }
 
                 return Task.CompletedTask;
@@ -2772,22 +3124,19 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
                     };
                     targetSection.Elements.Add( fieldElement );
                     AddPageHeaderForDetailField( definition, targetSectionIndex, targetSection, fieldBinding.FieldName, x, fieldElement.Width );
-                    selectedElementKey = GetDesignerElementKey( fieldElement );
-                    reportSelected = false;
+                    SelectElement( GetDesignerElementKey( fieldElement ) );
                     break;
                 case ReportDesignerDragKind.ToolboxElement when draggedElementType is not null:
                     var toolboxElement = CreateElementFromToolbox( draggedElementType.Value, draggedElementText, x, y );
                     targetSection.Elements.Add( toolboxElement );
-                    selectedElementKey = GetDesignerElementKey( toolboxElement );
-                    reportSelected = false;
+                    SelectElement( GetDesignerElementKey( toolboxElement ) );
                     break;
                 case ReportDesignerDragKind.Element when FindElementLocation( definition, draggedElementKey, out var sourceSectionIndex, out var sourceElementIndex, out var element ):
                     definition.Sections[sourceSectionIndex].Elements.RemoveAt( sourceElementIndex );
                     element.X = x;
                     element.Y = y;
                     targetSection.Elements.Add( element );
-                    selectedElementKey = GetDesignerElementKey( element );
-                    reportSelected = false;
+                    SelectElement( GetDesignerElementKey( element ) );
                     break;
             }
 
@@ -3027,11 +3376,67 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         var minimumHeight = GetMinimumElementHeight( preview.ElementType );
 
         preview.Width = Math.Min( Math.Max( 8, preview.Width ), Math.Max( 8, definition.Page.Width ) );
-        preview.Height = Math.Min( Math.Max( minimumHeight, preview.Height ), Math.Max( minimumHeight, section.Height ) );
+        preview.Height = Math.Max( minimumHeight, preview.Height );
         preview.X = ClampDesignerValue( preview.X, 0, Math.Max( 0, definition.Page.Width - preview.Width ) );
-        preview.Y = ClampDesignerValue( preview.Y, 0, Math.Max( 0, section.Height - preview.Height ) );
+        preview.Y = Math.Max( 0, preview.Y );
 
         return preview;
+    }
+
+    private IEnumerable<string> FindElementsInsideSelectionBox( ReportDefinition definition, ReportDesignerSelectionBox selectionBox )
+    {
+        if ( definition is null || selectionBox is null )
+            yield break;
+
+        for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
+        {
+            var section = definition.Sections[sectionIndex];
+
+            if ( section.Suppressed || IsSectionCollapsed( section ) )
+                continue;
+
+            var sectionOffsetY = GetSectionOffsetY( definition, sectionIndex );
+
+            foreach ( var element in section.Elements )
+            {
+                if ( Intersects( selectionBox.X, selectionBox.Y, selectionBox.Width, selectionBox.Height, element.X, sectionOffsetY + element.Y, element.Width, element.Height ) )
+                    yield return GetDesignerElementKey( element );
+            }
+        }
+    }
+
+    private IEnumerable<ReportElementPointerItemState> CaptureElementPointerItems( ReportDefinition definition, string activeElementKey )
+    {
+        if ( definition is null || string.IsNullOrWhiteSpace( activeElementKey ) )
+            yield break;
+
+        List<string> elementKeys = IsElementSelected( activeElementKey ) && selectedElementKeys.Count > 1
+            ? selectedElementKeys.ToList()
+            : [activeElementKey];
+
+        foreach ( var elementKey in elementKeys )
+        {
+            if ( !FindElementLocation( definition, elementKey, out var sectionIndex, out _, out var element ) )
+                continue;
+
+            yield return new()
+            {
+                ElementKey = elementKey,
+                OriginalX = element.X,
+                OriginalY = element.Y,
+                OriginalPageY = GetSectionOffsetY( definition, sectionIndex ) + element.Y,
+                OriginalWidth = element.Width,
+                OriginalHeight = element.Height,
+            };
+        }
+    }
+
+    private static bool Intersects( double left, double top, double width, double height, double otherLeft, double otherTop, double otherWidth, double otherHeight )
+    {
+        return left < otherLeft + otherWidth
+            && left + width > otherLeft
+            && top < otherTop + otherHeight
+            && top + height > otherTop;
     }
 
     private static double ClampDesignerValue( double value, double minimum, double maximum )
@@ -3060,6 +3465,21 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         }
 
         return y;
+    }
+
+    private double GetDesignerContentHeight( ReportDefinition definition )
+    {
+        if ( definition is null )
+            return 0;
+
+        var height = 0d;
+
+        for ( var i = 0; i < definition.Sections.Count; i++ )
+        {
+            height += GetDesignerSectionHeight( i, definition.Sections[i] );
+        }
+
+        return Math.Max( definition.Page?.Height ?? 0, height );
     }
 
     private double GetDesignerSectionHeight( int sectionIndex, ReportSectionDefinition section )
@@ -3346,6 +3766,12 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         return section is not null && !section.Default;
     }
 
+    private bool IsElementSelected( string elementKey )
+    {
+        return !string.IsNullOrWhiteSpace( elementKey )
+            && ( string.Equals( selectedElementKey, elementKey, StringComparison.Ordinal ) || selectedElementKeys.Contains( elementKey ) );
+    }
+
     private bool IsSelectedElementSuppressed( ReportDefinition definition )
     {
         return !string.IsNullOrWhiteSpace( selectedElementKey )
@@ -3452,6 +3878,19 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         return FindElementLocation( definition, selectedElementKey, out _, out _, out var element )
             ? element
             : null;
+    }
+
+    private IEnumerable<string> GetSelectedElementIds( ReportDefinition definition )
+    {
+        List<string> elementKeys = selectedElementKeys.Count > 0
+            ? selectedElementKeys.ToList()
+            : string.IsNullOrWhiteSpace( selectedElementKey ) ? [] : [selectedElementKey];
+
+        foreach ( var elementKey in elementKeys )
+        {
+            if ( FindElementLocation( definition, elementKey, out _, out _, out var element ) )
+                yield return element.Id;
+        }
     }
 
     private int ResolvePasteSectionIndex( ReportDefinition definition )
@@ -3594,7 +4033,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private ReportPreviewFormat CurrentPreviewFormat => PreviewFormat ?? currentPreviewFormat;
 
-    private string ToolbarStateKey => $"{CurrentMode}|{CurrentPreviewFormat}|{selectedElementKey}|{selectedSectionIndex}|{clipboardElement?.Id}|{historyService.CanUndo}|{historyService.CanRedo}";
+    private string ToolbarStateKey => $"{CurrentMode}|{CurrentPreviewFormat}|{selectedElementKey}|{selectedElementKeys.Count}|{selectedSectionIndex}|{clipboardElement?.Id}|{historyService.CanUndo}|{historyService.CanRedo}";
 
     private string DataSourceName => "Default";
 
@@ -3752,6 +4191,35 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         public double Height { get; set; }
     }
 
+    private sealed class ReportDesignerSelectionBox
+    {
+        public int SectionIndex { get; set; }
+
+        public double StartX { get; set; }
+
+        public double StartY { get; set; }
+
+        public double CurrentX { get; set; }
+
+        public double CurrentY { get; set; }
+
+        public double StartClientX { get; set; }
+
+        public double StartClientY { get; set; }
+
+        public bool Additive { get; set; }
+
+        public bool HasMoved { get; set; }
+
+        public double X => Math.Min( StartX, CurrentX );
+
+        public double Y => Math.Min( StartY, CurrentY );
+
+        public double Width => Math.Abs( CurrentX - StartX );
+
+        public double Height => Math.Abs( CurrentY - StartY );
+    }
+
     private sealed class ReportElementPointerDragState
     {
         public string ElementKey { get; set; }
@@ -3773,6 +4241,8 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         public double TargetY { get; set; }
 
         public bool HasMoved { get; set; }
+
+        public List<ReportElementPointerItemState> SelectedElements { get; set; } = [];
     }
 
     private sealed class ReportElementPointerResizeState
@@ -3806,6 +4276,23 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         public double MinimumHeight { get; set; }
 
         public bool HasResized { get; set; }
+
+        public List<ReportElementPointerItemState> SelectedElements { get; set; } = [];
+    }
+
+    private sealed class ReportElementPointerItemState
+    {
+        public string ElementKey { get; set; }
+
+        public double OriginalX { get; set; }
+
+        public double OriginalY { get; set; }
+
+        public double OriginalPageY { get; set; }
+
+        public double OriginalWidth { get; set; }
+
+        public double OriginalHeight { get; set; }
     }
 
     private sealed class ReportSectionPointerResizeState
