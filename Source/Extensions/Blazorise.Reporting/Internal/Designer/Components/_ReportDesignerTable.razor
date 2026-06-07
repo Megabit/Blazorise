@@ -6,7 +6,7 @@
         <tr>
             @foreach ( var column in Element.Columns )
             {
-                <td style="@($"width:{column.Width}px")">@(column.Title ?? column.Field)</td>
+                <_ReportDesignerTableColumn Column="column" />
             }
         </tr>
     }

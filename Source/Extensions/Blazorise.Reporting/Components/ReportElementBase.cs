@@ -1,7 +1,8 @@
 using System;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using Blazorise;
 using Blazorise.Extensions;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Reporting;
@@ -12,6 +13,16 @@ namespace Blazorise.Reporting;
 public abstract class ReportElementBase : ComponentBase
 {
     private readonly string definitionId = Guid.NewGuid().ToString( "N" );
+
+    private readonly ClassBuilder utilityClassBuilder;
+
+    /// <summary>
+    /// Initializes a new report element component.
+    /// </summary>
+    protected ReportElementBase()
+    {
+        utilityClassBuilder = new( BuildUtilityClasses );
+    }
 
     [CascadingParameter] internal ReportSectionContext SectionContext { get; set; }
 
@@ -29,6 +40,21 @@ public abstract class ReportElementBase : ComponentBase
     /// Element definition produced from the current component parameters.
     /// </summary>
     protected ReportElementDefinition Definition { get; private set; }
+
+    /// <inheritdoc />
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( ( parameters.TryGetValue<string>( nameof( Class ), out var paramClass ) && !paramClass.IsEqual( Class ) )
+             || ( parameters.TryGetValue<IFluentSpacing>( nameof( Margin ), out var paramMargin ) && !paramMargin.IsEqual( Margin ) )
+             || ( parameters.TryGetValue<IFluentSpacing>( nameof( Padding ), out var paramPadding ) && !paramPadding.IsEqual( Padding ) )
+             || ( parameters.TryGetValue<IFluentFlex>( nameof( Flex ), out var paramFlex ) && !paramFlex.IsEqual( Flex ) )
+             || ( parameters.TryGetValue<IFluentGap>( nameof( Gap ), out var paramGap ) && !paramGap.IsEqual( Gap ) )
+             || ( parameters.TryGetValue<TextColor>( nameof( TextColor ), out var paramTextColor ) && !paramTextColor.IsEqual( TextColor ) )
+             || ( parameters.TryGetValue<Background>( nameof( Background ), out var paramBackground ) && !paramBackground.IsEqual( Background ) ) )
+            utilityClassBuilder.Dirty();
+
+        return base.SetParametersAsync( parameters );
+    }
 
     /// <inheritdoc />
     protected override void OnParametersSet()
@@ -69,30 +95,22 @@ public abstract class ReportElementBase : ComponentBase
     /// <returns>A space-separated CSS class list.</returns>
     protected string BuildUtilityClasses()
     {
-        var classes = new List<string>();
+        return utilityClassBuilder.Class;
+    }
 
-        if ( !string.IsNullOrWhiteSpace( Class ) )
-            classes.Add( Class );
-
-        if ( Margin is not null )
-            classes.Add( Margin.Class( ClassProvider ) );
-
-        if ( Padding is not null )
-            classes.Add( Padding.Class( ClassProvider ) );
-
-        if ( Flex is not null )
-            classes.Add( Flex.Class( ClassProvider ) );
-
-        if ( Gap is not null )
-            classes.Add( Gap.Class( ClassProvider ) );
+    private void BuildUtilityClasses( ClassBuilder builder )
+    {
+        builder.Append( Class );
+        builder.Append( Margin?.Class( ClassProvider ) );
+        builder.Append( Padding?.Class( ClassProvider ) );
+        builder.Append( Flex?.Class( ClassProvider ) );
+        builder.Append( Gap?.Class( ClassProvider ) );
 
         if ( TextColor.IsNotNullOrDefault() )
-            classes.Add( ClassProvider.TextColor( TextColor ) );
+            builder.Append( ClassProvider.TextColor( TextColor ) );
 
         if ( Background.IsNotNullOrDefault() )
-            classes.Add( ClassProvider.BackgroundColor( Background ) );
-
-        return string.Join( " ", classes );
+            builder.Append( ClassProvider.BackgroundColor( Background ) );
     }
 
     private ReportFontDefinition BuildFontDefinition()

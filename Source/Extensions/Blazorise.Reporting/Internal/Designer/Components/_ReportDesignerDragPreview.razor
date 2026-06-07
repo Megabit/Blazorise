@@ -1,4 +1,6 @@
 @namespace Blazorise.Reporting.Internal
+@using System.Threading.Tasks
+@using Blazorise.Utilities
 
 <div @key="@Key"
      class="@Class"
@@ -9,9 +11,46 @@
 @code {
     private const string Key = "drag-preview";
 
-    private string Class => $"b-report-drag-preview b-report-element-{ElementType.ToString().ToLowerInvariant()}";
+    private readonly ClassBuilder classBuilder;
+    private readonly StyleBuilder styleBuilder;
 
-    private string Style => $"left:{X}px;top:{Y}px;width:{Width}px;height:{Height}px;";
+    private string Class => classBuilder.Class;
+
+    private string Style => styleBuilder.Styles;
+
+    public _ReportDesignerDragPreview()
+    {
+        classBuilder = new( BuildClasses );
+        styleBuilder = new( BuildStyles );
+    }
+
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( parameters.TryGetValue<ReportElementType>( nameof( ElementType ), out var paramElementType ) && paramElementType != ElementType )
+            classBuilder.Dirty();
+
+        if ( ( parameters.TryGetValue<double>( nameof( X ), out var paramX ) && paramX != X )
+             || ( parameters.TryGetValue<double>( nameof( Y ), out var paramY ) && paramY != Y )
+             || ( parameters.TryGetValue<double>( nameof( Width ), out var paramWidth ) && paramWidth != Width )
+             || ( parameters.TryGetValue<double>( nameof( Height ), out var paramHeight ) && paramHeight != Height ) )
+            styleBuilder.Dirty();
+
+        return base.SetParametersAsync( parameters );
+    }
+
+    private void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-report-drag-preview" );
+        builder.Append( $"b-report-element-{ElementType.ToString().ToLowerInvariant()}" );
+    }
+
+    private void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( $"left:{X}px" );
+        builder.Append( $"top:{Y}px" );
+        builder.Append( $"width:{Width}px" );
+        builder.Append( $"height:{Height}px" );
+    }
 
     /// <summary>
     /// Type of report element represented by the preview.

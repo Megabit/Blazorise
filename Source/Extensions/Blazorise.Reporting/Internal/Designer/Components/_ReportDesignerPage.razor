@@ -25,11 +25,44 @@
 </div>
 
 @code {
-    private string Class => DesignMode ? "b-report-page b-report-page-design" : "b-report-page";
+    private readonly ClassBuilder classBuilder;
+    private readonly StyleBuilder styleBuilder;
+
+    private string Class => classBuilder.Class;
 
     private Func<PointerEventArgs, Task> NonRenderingPointerMove => EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( OnPointerMoveAsync );
 
-    private string Style => $"width:{Width}px;min-height:{MinHeight}px;";
+    private string Style => styleBuilder.Styles;
+
+    public _ReportDesignerPage()
+    {
+        classBuilder = new( BuildClasses );
+        styleBuilder = new( BuildStyles );
+    }
+
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( parameters.TryGetValue<bool>( nameof( DesignMode ), out var paramDesignMode ) && paramDesignMode != DesignMode )
+            classBuilder.Dirty();
+
+        if ( ( parameters.TryGetValue<double>( nameof( Width ), out var paramWidth ) && paramWidth != Width )
+             || ( parameters.TryGetValue<double>( nameof( MinHeight ), out var paramMinHeight ) && paramMinHeight != MinHeight ) )
+            styleBuilder.Dirty();
+
+        return base.SetParametersAsync( parameters );
+    }
+
+    private void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-report-page" );
+        builder.Append( "b-report-page-design", DesignMode );
+    }
+
+    private void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( $"width:{Width}px" );
+        builder.Append( $"min-height:{MinHeight}px" );
+    }
 
     private Task OnPointerMoveAsync( PointerEventArgs eventArgs )
     {

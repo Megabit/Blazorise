@@ -1,7 +1,7 @@
 #region Using directives
 using System;
-using System.Collections.Generic;
 using System.Globalization;
+using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise.Reporting.Internal;
@@ -10,64 +10,55 @@ internal static class ReportElementDefinitionHelper
 {
     #region Methods
 
-    internal static string BuildStyle( ReportElementDefinition element )
+    internal static void BuildStyle( StyleBuilder builder, ReportElementDefinition element )
     {
         var font = element.Font;
         var appearance = element.Appearance;
         var border = element.Border;
-        var styles = new List<string>
-        {
-            $"left:{element.X}px",
-            $"top:{element.Y}px",
-            $"width:{element.Width}px",
-            $"height:{element.Height}px",
-        };
+
+        builder.Append( $"left:{element.X}px" );
+        builder.Append( $"top:{element.Y}px" );
+        builder.Append( $"width:{element.Width}px" );
+        builder.Append( $"height:{element.Height}px" );
 
         if ( !string.IsNullOrWhiteSpace( font?.Family ) )
-            styles.Add( $"font-family:{font.Family}" );
+            builder.Append( $"font-family:{font.Family}" );
 
         if ( font?.Size is > 0 )
-            styles.Add( $"font-size:{font.Size.Value}px" );
+            builder.Append( $"font-size:{font.Size.Value}px" );
 
         if ( !string.IsNullOrWhiteSpace( font?.Color ) )
-            styles.Add( $"color:{font.Color}" );
+            builder.Append( $"color:{font.Color}" );
 
         if ( !string.IsNullOrWhiteSpace( appearance?.BackgroundColor ) )
-            styles.Add( $"background-color:{appearance.BackgroundColor}" );
+            builder.Append( $"background-color:{appearance.BackgroundColor}" );
 
-        if ( font?.Bold == true )
-            styles.Add( "font-weight:700" );
-
-        if ( font?.Italic == true )
-            styles.Add( "font-style:italic" );
-
-        if ( font?.Underline == true )
-            styles.Add( "text-decoration:underline" );
+        builder.Append( "font-weight:700", font?.Bold == true );
+        builder.Append( "font-style:italic", font?.Italic == true );
+        builder.Append( "text-decoration:underline", font?.Underline == true );
 
         var textAlignment = ToCssTextAlignment( font?.Alignment ?? TextAlignment.Default );
 
         if ( textAlignment is not null )
-            styles.Add( $"text-align:{textAlignment}" );
+            builder.Append( $"text-align:{textAlignment}" );
 
         if ( !string.IsNullOrWhiteSpace( border?.Color ) )
-            styles.Add( $"border-color:{border.Color}" );
+            builder.Append( $"border-color:{border.Color}" );
 
         if ( border?.Width is >= 0 )
         {
-            styles.Add( $"border-width:{border.Width.Value}px" );
-            styles.Add( "border-style:solid" );
+            builder.Append( $"border-width:{border.Width.Value}px" );
+            builder.Append( "border-style:solid" );
         }
 
         if ( border?.Radius is >= 0 )
-            styles.Add( $"border-radius:{border.Radius.Value}px" );
+            builder.Append( $"border-radius:{border.Radius.Value}px" );
 
         if ( appearance?.Opacity is >= 0 and <= 1 )
-            styles.Add( $"opacity:{appearance.Opacity.Value.ToString( CultureInfo.InvariantCulture )}" );
+            builder.Append( $"opacity:{appearance.Opacity.Value.ToString( CultureInfo.InvariantCulture )}" );
 
         if ( !string.IsNullOrWhiteSpace( element.Style ) )
-            styles.Add( element.Style.Trim().TrimEnd( ';' ) );
-
-        return string.Join( ";", styles ) + ";";
+            builder.Append( element.Style.Trim().TrimEnd( ';' ) );
     }
 
     internal static double? NormalizeNullablePositiveNumber( double? value )

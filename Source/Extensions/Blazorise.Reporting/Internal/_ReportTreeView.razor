@@ -1,6 +1,5 @@
 @namespace Blazorise.Reporting.Internal
 @using System.Collections.Generic
-@using System.Threading.Tasks
 
 @if ( Nodes is not null )
 {
@@ -16,39 +15,15 @@
     private readonly HashSet<string> collapsedNodeKeys = [];
 
     private RenderFragment RenderNode( ReportTreeNode node, int level ) => @<div @key="@node.Key" class="b-report-treeview-node">
-        <div class="@GetRowClass( node )"
-             style="@GetRowStyle( level )"
-             draggable="@( node.Draggable ? "true" : null )"
-             @onclick="@(() => OnNodeClicked( node ))"
-             @oncontextmenu="@(( eventArgs ) => OnNodeContextMenu( node, eventArgs ))"
-             @oncontextmenu:preventDefault="@( NodeContextMenu.HasDelegate && node.Selectable )"
-             @ondragstart="@(( eventArgs ) => OnNodeDragStarted( node, eventArgs ))"
-             @ondragend="@(() => OnNodeDragEnded( node ))">
-            @if ( HasChildren( node ) )
-            {
-                <button class="b-report-treeview-toggle"
-                        type="button"
-                        @onclick="@(() => ToggleNode( node ))"
-                        @onclick:stopPropagation>
-                    <Icon Name="@( IsExpanded( node ) ? IconName.MinusSquare : IconName.PlusSquare )" />
-                </button>
-            }
-            else
-            {
-                <span class="b-report-treeview-toggle-spacer"></span>
-            }
-
-            <span class="@GetIconClass( node )">
-                <Icon Name="@GetIconName( node )" />
-            </span>
-
-            <span class="b-report-treeview-text">@node.Text</span>
-
-            @if ( !string.IsNullOrWhiteSpace( node.Detail ) )
-            {
-                <span class="b-report-treeview-detail">@node.Detail</span>
-            }
-        </div>
+        <_ReportTreeViewNode Node="node"
+                             Level="level"
+                             Expanded="@IsExpanded( node )"
+                             HasChildren="@HasChildren( node )"
+                             NodeClicked="NodeClicked"
+                             NodeContextMenu="NodeContextMenu"
+                             NodeDragStarted="NodeDragStarted"
+                             NodeDragEnded="NodeDragEnded"
+                             ToggleClicked="@(() => ToggleNode( node ))" />
 
         @if ( HasChildren( node ) && IsExpanded( node ) )
         {
@@ -62,18 +37,6 @@
     private static bool HasChildren( ReportTreeNode node )
         => node?.Children?.Count > 0;
 
-    private string GetRowClass( ReportTreeNode node )
-    {
-        var selectable = node.Selectable && NodeClicked.HasDelegate ? "selectable" : string.Empty;
-        var draggable = node.Draggable ? "draggable" : string.Empty;
-        var active = node.Selected ? "active" : string.Empty;
-
-        return $"b-report-treeview-row {selectable} {draggable} {active}".Trim();
-    }
-
-    private static string GetRowStyle( int level )
-        => $"--b-report-treeview-level:{level};";
-
     private bool IsExpanded( ReportTreeNode node )
         => node?.Key is not null && !collapsedNodeKeys.Contains( node.Key );
 
@@ -85,52 +48,6 @@
         if ( !collapsedNodeKeys.Add( node.Key ) )
             collapsedNodeKeys.Remove( node.Key );
     }
-
-    private async Task OnNodeClicked( ReportTreeNode node )
-    {
-        if ( node.Selectable && NodeClicked.HasDelegate )
-            await NodeClicked.InvokeAsync( node );
-    }
-
-    private async Task OnNodeContextMenu( ReportTreeNode node, MouseEventArgs eventArgs )
-    {
-        if ( node.Selectable && NodeContextMenu.HasDelegate )
-            await NodeContextMenu.InvokeAsync( new ReportTreeNodeMouseEventArgs( node, eventArgs ) );
-    }
-
-    private async Task OnNodeDragStarted( ReportTreeNode node, DragEventArgs eventArgs )
-    {
-        if ( node.Draggable && NodeDragStarted.HasDelegate )
-            await NodeDragStarted.InvokeAsync( new ReportTreeNodeDragEventArgs( node, eventArgs ) );
-    }
-
-    private async Task OnNodeDragEnded( ReportTreeNode node )
-    {
-        if ( node.Draggable && NodeDragEnded.HasDelegate )
-            await NodeDragEnded.InvokeAsync( node );
-    }
-
-    private static string GetIconClass( ReportTreeNode node )
-        => $"b-report-treeview-icon {GetKindClass( node )}".Trim();
-
-    private static string GetKindClass( ReportTreeNode node )
-        => node is null ? string.Empty : $"kind-{node.Kind.ToString().ToLowerInvariant()}";
-
-    private static IconName GetIconName( ReportTreeNode node )
-        => node?.Kind switch
-        {
-            ReportTreeNodeKind.Report => IconName.FileAlt,
-            ReportTreeNodeKind.DataSource => IconName.Server,
-            ReportTreeNodeKind.Field => IconName.Tag,
-            ReportTreeNodeKind.Band => IconName.BorderAll,
-            ReportTreeNodeKind.Table => IconName.Table,
-            ReportTreeNodeKind.Image => IconName.Image,
-            ReportTreeNodeKind.Line => IconName.GripLines,
-            ReportTreeNodeKind.Rectangle => IconName.Square,
-            ReportTreeNodeKind.PageBreak => IconName.File,
-            ReportTreeNodeKind.Folder => IconName.Folder,
-            _ => IconName.TextHeight,
-        };
 
     /// <summary>
     /// Root nodes rendered by the tree view.

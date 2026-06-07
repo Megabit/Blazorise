@@ -1,4 +1,6 @@
 @namespace Blazorise.Reporting.Internal
+@using System.Threading.Tasks
+@using Blazorise.Utilities
 
 @if ( Visible )
 {
@@ -8,7 +10,29 @@
 }
 
 @code {
-    private string Style => $"left:{X}px;top:{Y}px;";
+    private readonly StyleBuilder styleBuilder;
+
+    private string Style => styleBuilder.Styles;
+
+    public _ReportDesignerContextMenu()
+    {
+        styleBuilder = new( BuildStyles );
+    }
+
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( ( parameters.TryGetValue<double>( nameof( X ), out var paramX ) && paramX != X )
+             || ( parameters.TryGetValue<double>( nameof( Y ), out var paramY ) && paramY != Y ) )
+            styleBuilder.Dirty();
+
+        return base.SetParametersAsync( parameters );
+    }
+
+    private void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( $"left:{X}px" );
+        builder.Append( $"top:{Y}px" );
+    }
 
     /// <summary>
     /// Indicates that the context menu is visible.
