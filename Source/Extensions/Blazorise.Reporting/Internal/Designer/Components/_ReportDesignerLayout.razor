@@ -1,0 +1,50 @@
+@namespace Blazorise.Reporting.Internal
+
+<Div Class="b-report-designer">
+    <Div Class="b-report-designer-dictionary"
+         Padding="Padding.Is3"
+         Background="Background.White"
+         Border="Border.Is1"
+         Overflow="Overflow.Auto">
+        @Dictionary
+    </Div>
+
+    <Div Class="b-report-designer-surface"
+         Padding="Padding.Is3"
+         Background="Background.Light"
+         Border="Border.Is1"
+         Overflow="Overflow.Auto">
+        @Surface
+    </Div>
+
+    <Div Class="b-report-designer-panel"
+         Padding="Padding.Is3"
+         Background="Background.White"
+         Border="Border.Is1">
+        @Panel
+    </Div>
+
+    @ContextMenu
+</Div>
+
+@code {
+    /// <summary>
+    /// Content shown in the left designer dictionary panel.
+    /// </summary>
+    [Parameter] public RenderFragment Dictionary { get; set; }
+
+    /// <summary>
+    /// Content shown in the central designer surface.
+    /// </summary>
+    [Parameter] public RenderFragment Surface { get; set; }
+
+    /// <summary>
+    /// Content shown in the right designer properties and explorer panel.
+    /// </summary>
+    [Parameter] public RenderFragment Panel { get; set; }
+
+    /// <summary>
+    /// Floating context menu shown above the designer layout.
+    /// </summary>
+    [Parameter] public RenderFragment ContextMenu { get; set; }
+}

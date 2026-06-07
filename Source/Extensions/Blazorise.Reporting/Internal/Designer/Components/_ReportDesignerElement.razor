@@ -1,0 +1,170 @@
+@namespace Blazorise.Reporting.Internal
+@using System.Linq
+@using Microsoft.AspNetCore.Components.Web
+
+<div @key="@ElementKey"
+     class="@Class"
+     style="@Style"
+     @onclick="Clicked"
+     @onclick:stopPropagation="@(DesignMode && Editable)"
+     @oncontextmenu="ContextMenu"
+     @oncontextmenu:preventDefault="@(DesignMode && Editable)"
+     @oncontextmenu:stopPropagation="@(DesignMode && Editable)"
+     @onpointerdown="PointerDown"
+     @onpointerdown:preventDefault="@(DesignMode && Editable)"
+     @onpointerdown:stopPropagation="@(DesignMode && Editable)">
+    @switch ( Element.Type )
+    {
+        case ReportElementType.Field:
+            @GetFieldText()
+            break;
+        case ReportElementType.Table:
+            <_ReportDesignerTable Element="Element" />
+            break;
+        case ReportElementType.Image:
+            <img src="@Element.Source" alt="@ImageAlternativeText" />
+            break;
+        case ReportElementType.PageBreak:
+            break;
+        default:
+            @Element.Text
+            break;
+    }
+
+    @if ( DesignMode && Editable && Selected )
+    {
+        <_ReportDesignerElementResizeHandles NorthWestPointerDown="NorthWestResizeStarted"
+                                             NorthPointerDown="NorthResizeStarted"
+                                             NorthEastPointerDown="NorthEastResizeStarted"
+                                             EastPointerDown="EastResizeStarted"
+                                             SouthEastPointerDown="SouthEastResizeStarted"
+                                             SouthPointerDown="SouthResizeStarted"
+                                             SouthWestPointerDown="SouthWestResizeStarted"
+                                             WestPointerDown="WestResizeStarted" />
+    }
+</div>
+
+@code {
+    private string Class
+    {
+        get
+        {
+            var cssClass = $"b-report-element b-report-element-{Element.Type.ToString().ToLowerInvariant()} {Element.Class}".Trim();
+
+            return DesignMode
+                ? $"{cssClass} b-report-element-design {( Editable ? string.Empty : "disabled" )} {( Editable && Selected ? "active" : string.Empty )}".Trim()
+                : cssClass;
+        }
+    }
+
+    private string ImageAlternativeText => Element.Text ?? Element.Name;
+
+    private string Style => ReportElementDefinitionHelper.BuildStyle( Element );
+
+    private string GetFieldText()
+    {
+        if ( DesignMode )
+            return ReportDefinitionHelper.FormatFieldExpression( Element );
+
+        var fieldItem = string.IsNullOrWhiteSpace( Element.DataSource )
+            ? Item
+            : ReportDataResolver.ResolveItems( Definition, Data, Element.DataSource, Item ).FirstOrDefault() ?? Item;
+
+        return ReportDataResolver.FormatValue( ReportDataResolver.ResolveFieldValue( fieldItem, Element.Field ), Element.Format );
+    }
+
+    /// <summary>
+    /// Root report data used when resolving field values.
+    /// </summary>
+    [Parameter] public object Data { get; set; }
+
+    /// <summary>
+    /// Report definition that owns the element.
+    /// </summary>
+    [Parameter] public ReportDefinition Definition { get; set; }
+
+    /// <summary>
+    /// Current band item used for repeated detail rendering.
+    /// </summary>
+    [Parameter] public object Item { get; set; }
+
+    /// <summary>
+    /// Report element definition rendered on the surface.
+    /// </summary>
+    [Parameter] public ReportElementDefinition Element { get; set; }
+
+    /// <summary>
+    /// Stable element key used by the designer selection system.
+    /// </summary>
+    [Parameter] public string ElementKey { get; set; }
+
+    /// <summary>
+    /// Indicates that the element is rendered on the designer surface.
+    /// </summary>
+    [Parameter] public bool DesignMode { get; set; }
+
+    /// <summary>
+    /// Allows the element to receive designer interactions.
+    /// </summary>
+    [Parameter] public bool Editable { get; set; }
+
+    /// <summary>
+    /// Indicates that the element is part of the current selection.
+    /// </summary>
+    [Parameter] public bool Selected { get; set; }
+
+    /// <summary>
+    /// Raised when the element is clicked on the designer surface.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+
+    /// <summary>
+    /// Raised when the element context menu is requested.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> ContextMenu { get; set; }
+
+    /// <summary>
+    /// Raised when pointer dragging starts on the element.
+    /// </summary>
+    [Parameter] public EventCallback<PointerEventArgs> PointerDown { get; set; }
+
+    /// <summary>
+    /// Raised when resizing starts from the north-west handle.
+    /// </summary>
+    [Parameter] public EventCallback<PointerEventArgs> NorthWestResizeStarted { get; set; }
+
+    /// <summary>
+    /// Raised when resizing starts from the north handle.
+    /// </summary>
+    [Parameter] public EventCallback<PointerEventArgs> NorthResizeStarted { get; set; }
+
+    /// <summary>
+    /// Raised when resizing starts from the north-east handle.
+    /// </summary>
+    [Parameter] public EventCallback<PointerEventArgs> NorthEastResizeStarted { get; set; }
+
+    /// <summary>
+    /// Raised when resizing starts from the east handle.
+    /// </summary>
+    [Parameter] public EventCallback<PointerEventArgs> EastResizeStarted { get; set; }
+
+    /// <summary>
+    /// Raised when resizing starts from the south-east handle.
+    /// </summary>
+    [Parameter] public EventCallback<PointerEventArgs> SouthEastResizeStarted { get; set; }
+
+    /// <summary>
+    /// Raised when resizing starts from the south handle.
+    /// </summary>
+    [Parameter] public EventCallback<PointerEventArgs> SouthResizeStarted { get; set; }
+
+    /// <summary>
+    /// Raised when resizing starts from the south-west handle.
+    /// </summary>
+    [Parameter] public EventCallback<PointerEventArgs> SouthWestResizeStarted { get; set; }
+
+    /// <summary>
+    /// Raised when resizing starts from the west handle.
+    /// </summary>
+    [Parameter] public EventCallback<PointerEventArgs> WestResizeStarted { get; set; }
+}

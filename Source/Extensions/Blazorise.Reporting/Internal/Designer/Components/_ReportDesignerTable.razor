@@ -1,0 +1,26 @@
+@namespace Blazorise.Reporting.Internal
+
+<table>
+    @if ( Element?.Columns?.Count > 0 )
+    {
+        <tr>
+            @foreach ( var column in Element.Columns )
+            {
+                <td style="@($"width:{column.Width}px")">@(column.Title ?? column.Field)</td>
+            }
+        </tr>
+    }
+    else
+    {
+        <tr>
+            <td></td>
+        </tr>
+    }
+</table>
+
+@code {
+    /// <summary>
+    /// Table element definition rendered in the designer or viewer.
+    /// </summary>
+    [Parameter] public ReportElementDefinition Element { get; set; }
+}

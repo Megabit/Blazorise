@@ -1,0 +1,108 @@
+@namespace Blazorise.Reporting.Internal
+@using System
+@using System.Threading.Tasks
+@using Blazorise.Utilities
+@using Microsoft.AspNetCore.Components.Web
+
+<div @key="@PageKey"
+     class="@Class"
+     style="@Style"
+     @onpointermove="NonRenderingPointerMove"
+     @onpointermove:preventDefault="DesignMode"
+     @onpointerup="PointerUp"
+     @onpointerup:preventDefault="DesignMode"
+     @onpointercancel="PointerCancel">
+    @ChildContent
+
+    @if ( DesignMode && ShowSelectionBox )
+    {
+        <_ReportDesignerSelectionBox X="SelectionBoxX"
+                                     Y="SelectionBoxY"
+                                     Width="SelectionBoxWidth"
+                                     Height="SelectionBoxHeight"
+                                     LeftOffset="SelectionBoxLeftOffset" />
+    }
+</div>
+
+@code {
+    private string Class => DesignMode ? "b-report-page b-report-page-design" : "b-report-page";
+
+    private Func<PointerEventArgs, Task> NonRenderingPointerMove => EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( OnPointerMoveAsync );
+
+    private string Style => $"width:{Width}px;min-height:{MinHeight}px;";
+
+    private Task OnPointerMoveAsync( PointerEventArgs eventArgs )
+    {
+        return PointerMove?.Invoke( eventArgs ) ?? Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Stable key used to preserve page identity across designer renders.
+    /// </summary>
+    [Parameter] public object PageKey { get; set; }
+
+    /// <summary>
+    /// Page width in pixels.
+    /// </summary>
+    [Parameter] public double Width { get; set; }
+
+    /// <summary>
+    /// Minimum page height in pixels.
+    /// </summary>
+    [Parameter] public double MinHeight { get; set; }
+
+    /// <summary>
+    /// Indicates that the page is rendered in designer mode.
+    /// </summary>
+    [Parameter] public bool DesignMode { get; set; }
+
+    /// <summary>
+    /// Indicates that the selection box should be displayed.
+    /// </summary>
+    [Parameter] public bool ShowSelectionBox { get; set; }
+
+    /// <summary>
+    /// Left selection box coordinate.
+    /// </summary>
+    [Parameter] public double SelectionBoxX { get; set; }
+
+    /// <summary>
+    /// Top selection box coordinate.
+    /// </summary>
+    [Parameter] public double SelectionBoxY { get; set; }
+
+    /// <summary>
+    /// Selection box width.
+    /// </summary>
+    [Parameter] public double SelectionBoxWidth { get; set; }
+
+    /// <summary>
+    /// Selection box height.
+    /// </summary>
+    [Parameter] public double SelectionBoxHeight { get; set; }
+
+    /// <summary>
+    /// Horizontal selection offset applied when the band rail is visible.
+    /// </summary>
+    [Parameter] public double SelectionBoxLeftOffset { get; set; }
+
+    /// <summary>
+    /// Content rendered inside the report page.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Raised while the pointer moves across the designer page.
+    /// </summary>
+    [Parameter] public Func<PointerEventArgs, Task> PointerMove { get; set; }
+
+    /// <summary>
+    /// Raised when pointer selection completes on the designer page.
+    /// </summary>
+    [Parameter] public EventCallback<PointerEventArgs> PointerUp { get; set; }
+
+    /// <summary>
+    /// Raised when pointer selection is cancelled on the designer page.
+    /// </summary>
+    [Parameter] public EventCallback<PointerEventArgs> PointerCancel { get; set; }
+}

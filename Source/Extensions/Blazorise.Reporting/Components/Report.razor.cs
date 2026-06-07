@@ -4,12 +4,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Blazorise;
-using Blazorise.Extensions;
 using Blazorise.Reporting.Internal;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
@@ -194,123 +190,48 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         return page;
     }
 
-    private RenderFragment RenderDesigner() => builder =>
+    private Task CloseContextMenuAsync()
     {
-        var definition = EffectiveDefinition;
+        CloseContextMenu();
 
-        builder.OpenElement( "div" );
-        builder.Class( "b-report-designer" );
-
-        builder.OpenComponent<Div>();
-        builder.Class( "b-report-designer-dictionary" );
-        builder.Attribute( "Padding", Padding.Is3 );
-        builder.Attribute( "Background", Background.White );
-        builder.Attribute( "Border", Border.Is1 );
-        builder.Attribute( "Overflow", Overflow.Auto );
-        builder.Attribute( "ChildContent", (RenderFragment)( childBuilder =>
-        {
-            ReportDesignerExplorerRenderer.RenderDataDictionary(
-                childBuilder,
-                this,
-                definition,
-                DataSourceName,
-                OnToolboxTreeNodeDragStarted,
-                OnFieldsTreeNodeDragStarted,
-                _ => ClearDesignerDragAsync() );
-        } ) );
-        builder.CloseComponent();
-
-        builder.OpenComponent<Div>();
-        builder.Class( "b-report-designer-surface" );
-        builder.Attribute( "Padding", Padding.Is3 );
-        builder.Attribute( "Background", Background.Light );
-        builder.Attribute( "Border", Border.Is1 );
-        builder.Attribute( "Overflow", Overflow.Auto );
-        builder.Attribute( "ChildContent", (RenderFragment)( childBuilder =>
-        {
-            RenderReportPage( childBuilder, definition, designMode: true );
-        } ) );
-        builder.CloseComponent();
-
-        builder.OpenComponent<Div>();
-        builder.Class( "b-report-designer-panel" );
-        builder.Attribute( "Padding", Padding.Is3 );
-        builder.Attribute( "Background", Background.White );
-        builder.Attribute( "Border", Border.Is1 );
-        builder.Attribute( "ChildContent", (RenderFragment)( childBuilder =>
-        {
-            RenderDesignerPanel( childBuilder, definition );
-        } ) );
-        builder.CloseComponent();
-        ReportDesignerContextMenuRenderer.Render(
-            builder,
-            this,
-            definition,
-            contextMenu,
-            () => InsertSectionAsync( insertAfter: false ),
-            () => InsertSectionAsync( insertAfter: true ),
-            ToggleSelectedSectionSuppressionAsync,
-            DeleteSelectedSectionAsync,
-            DeleteSelectedElementAsync,
-            () =>
-            {
-                CloseContextMenu();
-                return Task.CompletedTask;
-            } );
-
-        builder.CloseElement();
-    };
-
-    private void RenderDesignerPanel( RenderTreeBuilder builder, ReportDefinition definition )
-    {
-        ReportDesignerPanelRenderer.Render(
-            builder,
-            this,
-            CreateDesignerPanelModules( definition ),
-            selectedDesignerPanelTab,
-            tab => selectedDesignerPanelTab = tab );
+        return Task.CompletedTask;
     }
 
-    private IReadOnlyList<ReportDesignerPanelModule> CreateDesignerPanelModules( ReportDefinition definition )
+    private ReportSectionDefinition GetContextMenuSection( ReportDefinition definition )
     {
-        return
-        [
-            new( ReportDesignerPanelTab.Properties, "Properties", builder => RenderPropertiesPanel( builder, definition ) ),
-            new( ReportDesignerPanelTab.Explorer, "Report Explorer", builder => RenderReportExplorer( builder, definition ) ),
-        ];
+        return IsSectionContextMenuVisible( definition )
+            ? definition.Sections[contextMenu.SectionIndex]
+            : null;
     }
 
-    private void RenderPropertiesPanel( RenderTreeBuilder builder, ReportDefinition definition )
+    private bool IsElementContextMenuVisible()
     {
-        ReportDesignerPropertiesRenderer.Render( builder, new()
-        {
-            EventReceiver = this,
-            Definition = definition,
-            SelectionManager = selectionManager,
-            SnapToGrid = snapToGrid,
-            SnapToGridChanged = OnSnapToGridChanged,
-            UpdateReportPage = UpdateReportPageAsync,
-            UpdateSelectedSection = UpdateSelectedSectionAsync,
-            UpdateSelectedSectionSuppression = UpdateSelectedSectionSuppressionAsync,
-            InsertSection = InsertSectionAsync,
-            DeleteSelectedSection = DeleteSelectedSectionAsync,
-            UpdateSelectedElement = UpdateSelectedElementAsync,
-            MoveSelectedElement = MoveSelectedElementAsync,
-        } );
+        return contextMenu?.Visible == true
+            && contextMenu.Target == ReportContextMenuTarget.Element;
     }
 
-    private void RenderReportExplorer( RenderTreeBuilder builder, ReportDefinition definition )
+    private bool IsSectionContextMenuVisible( ReportDefinition definition )
     {
-        ReportDesignerExplorerRenderer.RenderReportExplorer(
-            builder,
-            this,
-            definition,
-            selectionManager.ReportSelected,
-            selectionManager.SelectedSectionIndex,
-            selectionManager.SelectedElementKey,
-            selectionManager.IsElementSelected,
-            OnReportTreeNodeClicked,
-            OnReportTreeNodeContextMenu );
+        return contextMenu?.Visible == true
+            && contextMenu.Target == ReportContextMenuTarget.Section
+            && contextMenu.SectionIndex >= 0
+            && contextMenu.SectionIndex < definition.Sections.Count;
+    }
+
+    private ReportSectionDefinition GetSelectedPropertiesSection( ReportDefinition definition )
+    {
+        return string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey )
+            ? selectionManager.FindSelectedSection( definition )
+            : null;
+    }
+
+    private Task SelectDesignerPanelTab( string tab )
+    {
+        selectedDesignerPanelTab = string.Equals( tab, nameof( ReportDesignerPanelTab.Explorer ), StringComparison.Ordinal )
+            ? ReportDesignerPanelTab.Explorer
+            : ReportDesignerPanelTab.Properties;
+
+        return Task.CompletedTask;
     }
 
     private Task OnReportTreeNodeClicked( ReportTreeNode node )
@@ -375,75 +296,8 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         return Task.CompletedTask;
     }
 
-    private RenderFragment RenderViewer() => builder =>
+    private IReadOnlyList<object> ResolveSectionRenderItems( ReportDefinition definition, ReportSectionDefinition section, bool designMode )
     {
-        var definition = EffectiveDefinition;
-
-        builder.OpenComponent<Div>();
-        builder.Class( "b-report-viewer" );
-        builder.Attribute( "Padding", Padding.Is3 );
-        builder.Attribute( "Background", Background.Light );
-        builder.Attribute( "Border", Border.Is1 );
-        builder.Attribute( "Overflow", Overflow.Auto );
-        builder.Attribute( "ChildContent", (RenderFragment)( childBuilder =>
-        {
-            if ( CurrentPreviewFormat == ReportPreviewFormat.Pdf )
-            {
-                childBuilder.OpenComponent<Div>();
-                childBuilder.Attribute( "Padding", Padding.Is5 );
-                childBuilder.Attribute( "Border", Border.Is1 );
-                childBuilder.Attribute( "Background", Background.White );
-                childBuilder.Attribute( "TextAlignment", TextAlignment.Center );
-                childBuilder.Attribute( "ChildContent", (RenderFragment)( placeholderBuilder => placeholderBuilder.Content( "PDF preview is configured for this report. A PDF renderer can feed Blazorise.PdfViewer in the next implementation step." ) ) );
-                childBuilder.CloseComponent();
-            }
-            else
-            {
-                RenderReportPage( childBuilder, definition, designMode: false );
-            }
-        } ) );
-
-        builder.CloseComponent();
-    };
-
-    private void RenderReportPage( RenderTreeBuilder builder, ReportDefinition definition, bool designMode )
-    {
-        var pageWidth = designMode && BandMode == ReportBandMode.Rail
-            ? definition.Page.Width + DesignerBandRailWidth
-            : definition.Page.Width;
-
-        builder.OpenElement( "div" );
-        builder.Key( designMode ? $"{definition.Id}:{designerSurfaceVersion}" : definition.Id );
-        builder.Class( designMode ? "b-report-page b-report-page-design" : "b-report-page" );
-        builder.Style( $"width:{pageWidth}px;min-height:{definition.Page.Height}px;" );
-
-        if ( designMode )
-        {
-            builder.Attribute( "onpointermove", EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( PreviewPageSelectionBoxAsync ) );
-            builder.EventPreventDefault( "onpointermove", true );
-            builder.Attribute( "onpointerup", EventCallback.Factory.Create<PointerEventArgs>( this, CompletePageSelectionBoxAsync ) );
-            builder.EventPreventDefault( "onpointerup", true );
-            builder.Attribute( "onpointercancel", EventCallback.Factory.Create<PointerEventArgs>( this, _ => CancelPageSelectionBoxAsync() ) );
-        }
-
-        for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
-        {
-            RenderSection( builder, definition, definition.Sections[sectionIndex], sectionIndex, designMode );
-        }
-
-        if ( designMode && selectionBox is not null )
-        {
-            ReportDesignerSurfaceRenderer.RenderSelectionBox( builder, selectionBox, BandMode == ReportBandMode.Rail ? DesignerBandRailWidth : 0 );
-        }
-
-        builder.CloseElement();
-    }
-
-    private void RenderSection( RenderTreeBuilder builder, ReportDefinition definition, ReportSectionDefinition section, int sectionIndex, bool designMode )
-    {
-        if ( section.Suppressed && !designMode )
-            return;
-
         var items = !designMode && section.Type == ReportSectionType.Detail
             ? ReportDataResolver.ResolveItems( definition, Data, section.DataSource ).ToList()
             : new List<object> { ReportDataResolver.ResolveItems( definition, Data, section.DataSource ).FirstOrDefault() };
@@ -451,207 +305,42 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         if ( items.Count == 0 )
             items.Add( null );
 
-        for ( var itemIndex = 0; itemIndex < items.Count; itemIndex++ )
-        {
-            var item = items[itemIndex];
-            var railVisible = designMode && BandMode == ReportBandMode.Rail;
-            var collapsed = designMode && railVisible && !section.Suppressed && IsSectionCollapsed( section );
-            var sectionHeight = collapsed ? DesignerCollapsedBandHeight : GetDesignerSectionHeight( sectionIndex, section );
-            var sectionClass = $"b-report-section {section.Class} {( designMode && selectionManager.SelectedSectionIndex == sectionIndex && string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey ) ? "active" : string.Empty )} {( collapsed ? "collapsed" : string.Empty )} {( section.Suppressed ? "suppressed" : string.Empty )}".Trim();
-
-            builder.OpenElement( "section" );
-            builder.Key( designMode ? section.Id : $"{section.Id}:{itemIndex}" );
-            builder.Class( sectionClass );
-            builder.Style( $"height:{sectionHeight}px;{section.Style}" );
-
-            if ( designMode )
-            {
-                if ( railVisible )
-                {
-                    RenderSectionRail( builder, section, sectionIndex, collapsed );
-                }
-                else
-                {
-                    RenderSectionLabel( builder, section );
-                }
-            }
-
-            if ( !collapsed )
-            {
-                if ( designMode )
-                {
-                    builder.OpenElement( "div" );
-                    builder.Class( $"{( railVisible ? "b-report-section-body b-report-section-body-rail" : "b-report-section-body" )} {( section.Suppressed ? "disabled" : string.Empty )}".Trim() );
-                    builder.Style( railVisible ? $"left:{DesignerBandRailWidth}px;width:{definition.Page.Width}px;" : null );
-
-                    if ( !section.Suppressed )
-                    {
-                        builder.Attribute( "onpointerdown", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSelectionBox( sectionIndex, eventArgs ) ) );
-                        builder.EventPreventDefault( "onpointerdown", true );
-                        builder.Attribute( "ondragover", EventUtil.AsNonRenderingEventHandler<DragEventArgs>( eventArgs => PreviewDesignerDragAsync( sectionIndex, eventArgs ) ) );
-                        builder.EventPreventDefault( "ondragover", true );
-                        builder.Attribute( "ondrop", EventCallback.Factory.Create<DragEventArgs>( this, eventArgs => DropDesignerItemAsync( sectionIndex, eventArgs ) ) );
-                        builder.EventPreventDefault( "ondrop", true );
-                        builder.Attribute( "onpointermove", EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( eventArgs => PreviewElementPointerInteractionAsync( sectionIndex, eventArgs ) ) );
-                        builder.EventPreventDefault( "onpointermove", true );
-                        builder.Attribute( "onpointerup", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => CompleteElementPointerInteractionAsync( sectionIndex, eventArgs ) ) );
-                        builder.EventPreventDefault( "onpointerup", true );
-                        builder.Attribute( "onpointercancel", EventCallback.Factory.Create<PointerEventArgs>( this, _ => CancelElementPointerInteractionAsync() ) );
-                        builder.Attribute( "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => HandleSectionClick( sectionIndex ) ) );
-                        builder.Attribute( "oncontextmenu", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenSectionContextMenu( sectionIndex, eventArgs ) ) );
-                        builder.EventPreventDefault( "oncontextmenu", true );
-                    }
-                }
-
-                for ( var i = 0; i < section.Elements.Count; i++ )
-                {
-                    var element = section.Elements[i];
-                    var key = ReportDefinitionHelper.EnsureElementId( element );
-
-                    RenderElement( builder, item, element, designMode, !section.Suppressed, key );
-                }
-
-                if ( designMode && !section.Suppressed && dragPreview?.SectionIndex == sectionIndex )
-                {
-                    ReportDesignerSurfaceRenderer.RenderDragPreview( builder, dragPreview );
-                }
-
-                if ( designMode && !section.Suppressed )
-                {
-                    RenderSectionResizeHandle( builder, sectionIndex );
-                }
-
-                if ( designMode )
-                {
-                    builder.CloseElement();
-                }
-            }
-
-            builder.CloseElement();
-        }
+        return items;
     }
 
-    private void RenderSectionRail( RenderTreeBuilder builder, ReportSectionDefinition section, int sectionIndex, bool collapsed )
+    private double GetReportPageWidth( ReportDefinition definition, bool designMode )
     {
-        builder.OpenElement( "div" );
-        builder.Class( $"b-report-section-rail b-report-section-rail-{section.Type.ToString().ToLowerInvariant()}" );
-        builder.Attribute( "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => SelectSection( sectionIndex ) ) );
-        builder.Attribute( "oncontextmenu", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenSectionContextMenu( sectionIndex, eventArgs ) ) );
-        builder.EventPreventDefault( "oncontextmenu", true );
-
-        builder.OpenElement( "button" );
-        builder.Type( "button" );
-        builder.Class( "b-report-section-rail-toggle" );
-        builder.Attribute( "title", section.Suppressed ? "Band is suppressed" : collapsed ? "Expand band" : "Collapse band" );
-        builder.Attribute( "disabled", !AllowBandCollapse || section.Suppressed );
-        builder.Attribute( "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, () => ToggleSectionCollapsed( section ) ) );
-        builder.EventStopPropagation( "onclick", true );
-        builder.Content( section.Suppressed ? "!" : collapsed ? "+" : "-" );
-        builder.CloseElement();
-
-        builder.OpenElement( "div" );
-        builder.Class( "b-report-section-rail-text" );
-
-        builder.OpenElement( "span" );
-        builder.Class( "b-report-section-rail-title" );
-        builder.Content( ReportDefinitionHelper.GetSectionDisplayName( section ) );
-        builder.CloseElement();
-
-        if ( ShowBandDataSource && !string.IsNullOrWhiteSpace( section.DataSource ) )
-        {
-            builder.OpenElement( "span" );
-            builder.Class( "b-report-section-rail-source" );
-            builder.Content( section.DataSource );
-            builder.CloseElement();
-        }
-
-        if ( section.Suppressed )
-        {
-            builder.OpenElement( "span" );
-            builder.Class( "b-report-section-rail-status" );
-            builder.Content( "Suppressed" );
-            builder.CloseElement();
-        }
-
-        builder.CloseElement();
-        builder.CloseElement();
+        return designMode && IsDesignerBandRailVisible()
+            ? definition.Page.Width + DesignerBandRailWidth
+            : definition.Page.Width;
     }
 
-    private void RenderSectionLabel( RenderTreeBuilder builder, ReportSectionDefinition section )
+    private double GetSectionRenderHeight( int sectionIndex, ReportSectionDefinition section, bool collapsed )
     {
-        builder.OpenElement( "div" );
-        builder.Class( "b-report-section-label" );
-        builder.Content( $"{ReportDefinitionHelper.GetSectionTypeDisplayName( section.Type )}: {ReportDefinitionHelper.GetSectionDisplayName( section )}" );
-        builder.CloseElement();
+        return collapsed
+            ? DesignerCollapsedBandHeight
+            : GetDesignerSectionHeight( sectionIndex, section );
     }
 
-    private void RenderSectionResizeHandle( RenderTreeBuilder builder, int sectionIndex )
+    private double GetSelectionBoxLeftOffset()
     {
-        builder.OpenElement( "span" );
-        builder.Key( "section-resize" );
-        builder.Class( "b-report-section-resize-handle" );
-        builder.Attribute( "title", "Resize band" );
-        builder.Attribute( "onpointerdown", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSectionPointerResizeAsync( sectionIndex, eventArgs ) ) );
-        builder.EventPreventDefault( "onpointerdown", true );
-        builder.EventStopPropagation( "onpointerdown", true );
-        builder.CloseElement();
+        return IsDesignerBandRailVisible() ? DesignerBandRailWidth : 0;
     }
 
-    private void RenderElement( RenderTreeBuilder builder, object item, ReportElementDefinition element, bool designMode, bool editable, string elementKey )
+    private bool IsDesignerBandRailVisible()
     {
-        var style = ReportElementDefinitionHelper.BuildStyle( element );
-        var cssClass = $"b-report-element b-report-element-{element.Type.ToString().ToLowerInvariant()} {element.Class}".Trim();
+        return BandMode == ReportBandMode.Rail;
+    }
 
-        builder.OpenElement( "div" );
-        builder.Key( elementKey );
-        builder.Class( designMode ? $"{cssClass} b-report-element-design {( editable ? string.Empty : "disabled" )} {( editable && selectionManager.IsElementSelected( elementKey ) ? "active" : string.Empty )}" : cssClass );
-        builder.Style( style );
+    private bool IsSectionCollapsedForRender( ReportSectionDefinition section )
+    {
+        return IsDesignerBandRailVisible() && !section.Suppressed && IsSectionCollapsed( section );
+    }
 
-        if ( designMode && editable )
-        {
-            builder.Attribute( "onclick", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => HandleElementClick( elementKey, eventArgs ) ) );
-            builder.EventStopPropagation( "onclick", true );
-            builder.Attribute( "oncontextmenu", EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenElementContextMenu( elementKey, eventArgs ) ) );
-            builder.EventPreventDefault( "oncontextmenu", true );
-            builder.EventStopPropagation( "oncontextmenu", true );
-            builder.Attribute( "onpointerdown", EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerDrag( elementKey, eventArgs ) ) );
-            builder.EventPreventDefault( "onpointerdown", true );
-            builder.EventStopPropagation( "onpointerdown", true );
-        }
-
-        switch ( element.Type )
-        {
-            case ReportElementType.Field:
-                var fieldItem = string.IsNullOrWhiteSpace( element.DataSource )
-                    ? item
-                    : ReportDataResolver.ResolveItems( EffectiveDefinition, Data, element.DataSource, item ).FirstOrDefault() ?? item;
-
-                builder.Content( designMode
-                    ? ReportDefinitionHelper.FormatFieldExpression( element )
-                    : ReportDataResolver.FormatValue( ReportDataResolver.ResolveFieldValue( fieldItem, element.Field ), element.Format ) );
-                break;
-            case ReportElementType.Table:
-                ReportDesignerSurfaceRenderer.RenderTable( builder, element );
-                break;
-            case ReportElementType.Image:
-                builder.OpenElement( "img" );
-                builder.Attribute( "src", element.Source );
-                builder.Attribute( "alt", element.Text ?? element.Name );
-                builder.CloseElement();
-                break;
-            case ReportElementType.PageBreak:
-                break;
-            default:
-                builder.Content( element.Text );
-                break;
-        }
-
-        if ( designMode && editable && selectionManager.IsElementSelected( elementKey ) )
-        {
-            ReportDesignerSurfaceRenderer.RenderElementResizeHandles( builder, this, elementKey, BeginElementPointerResize );
-        }
-
-        builder.CloseElement();
+    private bool IsSectionSelected( int sectionIndex )
+    {
+        return selectionManager.SelectedSectionIndex == sectionIndex
+            && string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey );
     }
 
     /// <summary>
@@ -2170,6 +1859,8 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
     private ReportStudioMode CurrentMode => Mode ?? currentMode;
 
     private ReportPreviewFormat CurrentPreviewFormat => PreviewFormat ?? currentPreviewFormat;
+
+    private string SelectedDesignerPanelTabName => selectedDesignerPanelTab.ToString();
 
     private string ToolbarStateKey => $"{CurrentMode}|{CurrentPreviewFormat}|{selectionManager.SelectedElementKey}|{selectionManager.SelectedElementKeys.Count}|{selectionManager.SelectedSectionIndex}|{clipboardElement?.Id}|{commandManager.CanUndo}|{commandManager.CanRedo}";
 

@@ -1,0 +1,85 @@
+@namespace Blazorise.Reporting.Internal
+@using Microsoft.AspNetCore.Components.Web
+
+<div class="@Class"
+     style="@Style"
+     @onclick="Clicked"
+     @onclick:stopPropagation
+     @oncontextmenu="ContextMenu"
+     @oncontextmenu:preventDefault
+     @oncontextmenu:stopPropagation>
+    <button type="button"
+            class="b-report-section-rail-toggle"
+            title="@ToggleTitle"
+            disabled="@(!AllowCollapse || Section.Suppressed)"
+            @onclick="ToggleClicked"
+            @onclick:stopPropagation>
+        @(Section.Suppressed ? "!" : Collapsed ? "+" : "-")
+    </button>
+    <div class="b-report-section-rail-text">
+        <span class="b-report-section-rail-title">@DisplayName</span>
+        @if ( ShowDataSource && !string.IsNullOrWhiteSpace( Section.DataSource ) )
+        {
+            <span class="b-report-section-rail-source">@Section.DataSource</span>
+        }
+        @if ( Section.Suppressed )
+        {
+            <span class="b-report-section-rail-status">Suppressed</span>
+        }
+    </div>
+</div>
+
+@code {
+    private string Class => $"b-report-section-rail b-report-section-rail-{Section.Type.ToString().ToLowerInvariant()} {(Selected ? "active" : string.Empty)} {(Collapsed ? "collapsed" : string.Empty)} {(Section.Suppressed ? "suppressed" : string.Empty)}".Trim();
+
+    private string DisplayName => ReportDefinitionHelper.GetSectionDisplayName( Section );
+
+    private string Style => $"height:{Height}px;";
+
+    private string ToggleTitle => Section.Suppressed ? "Band is suppressed" : Collapsed ? "Expand band" : "Collapse band";
+
+    /// <summary>
+    /// Report section displayed in the rail.
+    /// </summary>
+    [Parameter] public ReportSectionDefinition Section { get; set; }
+
+    /// <summary>
+    /// Rail height in pixels.
+    /// </summary>
+    [Parameter] public double Height { get; set; }
+
+    /// <summary>
+    /// Indicates that the section is currently selected.
+    /// </summary>
+    [Parameter] public bool Selected { get; set; }
+
+    /// <summary>
+    /// Indicates that the section content is collapsed.
+    /// </summary>
+    [Parameter] public bool Collapsed { get; set; }
+
+    /// <summary>
+    /// Allows the band to be collapsed and expanded from the rail.
+    /// </summary>
+    [Parameter] public bool AllowCollapse { get; set; }
+
+    /// <summary>
+    /// Shows the section data source text when available.
+    /// </summary>
+    [Parameter] public bool ShowDataSource { get; set; }
+
+    /// <summary>
+    /// Raised when the section rail is clicked.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+
+    /// <summary>
+    /// Raised when the section rail context menu is requested.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> ContextMenu { get; set; }
+
+    /// <summary>
+    /// Raised when the section collapse toggle is clicked.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> ToggleClicked { get; set; }
+}

@@ -1,0 +1,226 @@
+@namespace Blazorise.Reporting.Internal
+@using System
+@using Microsoft.AspNetCore.Components.Web
+
+@if ( ReportSelected )
+{
+    <Div Margin="Margin.Is3.FromBottom">
+        <h6>Report properties</h6>
+        <Field Margin="Margin.Is2.FromBottom">
+            <label class="b-report-designer-option">
+                <input type="checkbox" checked="@SnapToGrid" @onchange="SnapToGridChanged" />
+                Snap to grid
+            </label>
+        </Field>
+        <_ReportDesignerNumberProperty Label="Page width" Value="@Definition.Page.Width" Changed="@(value => UpdateReportPage( page => page.Width = Math.Max( 1, value ) ))" />
+        <_ReportDesignerNumberProperty Label="Page height" Value="@Definition.Page.Height" Changed="@(value => UpdateReportPage( page => page.Height = Math.Max( 1, value ) ))" />
+    </Div>
+}
+
+@if ( SelectedSection is not null && SelectedElement is null )
+{
+    <Div Margin="Margin.Is3.FromBottom">
+        <h6>Band properties</h6>
+        <_ReportDesignerPropertyGroup Title="Status">
+            <Field Margin="Margin.Is2.FromBottom">
+                <label class="b-report-designer-option">
+                    <input type="checkbox" checked="@SelectedSection.Suppressed" @onchange="@(eventArgs => UpdateSelectedSectionSuppression( eventArgs.Value is bool value && value ))" />
+                    Suppress
+                </label>
+            </Field>
+        </_ReportDesignerPropertyGroup>
+
+        @if ( !SelectedSection.Suppressed )
+        {
+            <_ReportDesignerPropertyGroup Title="General">
+                <_ReportDesignerTextProperty Label="Name" Value="@SelectedSection.Name" Changed="@(value => UpdateSelectedSection( section => section.Name = value ))" />
+                <_ReportDesignerTextProperty Label="Data source" Value="@SelectedSection.DataSource" Changed="@(value => UpdateSelectedSection( section => section.DataSource = value ))" />
+            </_ReportDesignerPropertyGroup>
+            <_ReportDesignerPropertyGroup Title="Layout">
+                <_ReportDesignerNumberProperty Label="Height" Value="@SelectedSection.Height" Changed="@(value => UpdateSelectedSection( section => section.Height = Math.Max( 8, value ) ))" />
+            </_ReportDesignerPropertyGroup>
+            <_ReportDesignerPropertyGroup Title="Advanced">
+                <_ReportDesignerTextProperty Label="Custom CSS" Value="@SelectedSection.Style" Changed="@(value => UpdateSelectedSection( section => section.Style = value ))" />
+            </_ReportDesignerPropertyGroup>
+            <Div Flex="Flex.Wrap" Gap="Gap.Is2" Margin="Margin.Is3.FromTop">
+                <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => InsertSection( false ))">Insert before</Button>
+                <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => InsertSection( true ))">Insert after</Button>
+                @if ( ReportDefinitionHelper.CanDeleteSection( SelectedSection ) )
+                {
+                    <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => DeleteSelectedSection())">Delete band</Button>
+                }
+            </Div>
+        }
+    </Div>
+}
+
+@if ( SelectedElement is not null && !SelectedElementSuppressed )
+{
+    <Div Margin="Margin.Is3.FromTop">
+        <h6>Element properties</h6>
+        <_ReportDesignerPropertyGroup Title="General">
+            <_ReportDesignerTextProperty Label="Name" Value="@SelectedElement.Name" Changed="@(value => UpdateSelectedElement( element => element.Name = value ))" />
+        </_ReportDesignerPropertyGroup>
+
+        @if ( SelectedElement.Type is ReportElementType.Text or ReportElementType.Field or ReportElementType.Image )
+        {
+            var contentGroupTitle = SelectedElement.Type == ReportElementType.Field ? "Data" : "Content";
+
+            <_ReportDesignerPropertyGroup Title="@contentGroupTitle">
+                @switch ( SelectedElement.Type )
+                {
+                    case ReportElementType.Text:
+                        <_ReportDesignerTextProperty Label="Text" Value="@SelectedElement.Text" Changed="@(value => UpdateSelectedElement( element => element.Text = value ))" />
+                        break;
+                    case ReportElementType.Field:
+                        <_ReportDesignerTextProperty Label="Expression" Value="@ReportDefinitionHelper.FormatFieldExpression( SelectedElement )" ReadOnly />
+                        <_ReportDesignerTextProperty Label="Format" Value="@SelectedElement.Format" Changed="@(value => UpdateSelectedElement( element => element.Format = value ))" />
+                        break;
+                    case ReportElementType.Image:
+                        <_ReportDesignerTextProperty Label="Source" Value="@SelectedElement.Source" Changed="@(value => UpdateSelectedElement( element => element.Source = value ))" />
+                        <_ReportDesignerTextProperty Label="Alt text" Value="@SelectedElement.Text" Changed="@(value => UpdateSelectedElement( element => element.Text = value ))" />
+                        break;
+                }
+            </_ReportDesignerPropertyGroup>
+        }
+
+        <_ReportDesignerPropertyGroup Title="Position and size">
+            <_ReportDesignerNumberProperty Label="X" Value="@SelectedElement.X" Changed="@(value => UpdateSelectedElement( element => element.X = value ))" />
+            <_ReportDesignerNumberProperty Label="Y" Value="@SelectedElement.Y" Changed="@(value => UpdateSelectedElement( element => element.Y = value ))" />
+            <_ReportDesignerNumberProperty Label="Width" Value="@SelectedElement.Width" Changed="@(value => UpdateSelectedElement( element => element.Width = value ))" />
+            <_ReportDesignerNumberProperty Label="Height" Value="@SelectedElement.Height" Changed="@(value => UpdateSelectedElement( element => element.Height = value ))" />
+        </_ReportDesignerPropertyGroup>
+
+        @if ( SelectedElement.Type is not ReportElementType.Image and not ReportElementType.Line and not ReportElementType.Rectangle and not ReportElementType.PageBreak )
+        {
+            var font = ReportElementDefinitionHelper.EnsureFont( SelectedElement );
+
+            <_ReportDesignerPropertyGroup Title="Text">
+                <_ReportDesignerTextProperty Label="Font family" Value="@font.Family" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Family = value ))" />
+                <_ReportDesignerNullableNumberProperty Label="Font size" Value="@font.Size" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Size = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                <_ReportDesignerColorProperty Label="Font color" Value="@font.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Color = value ))" />
+                <Field Margin="Margin.Is2.FromBottom">
+                    <FieldLabel>Alignment</FieldLabel>
+                    <Select TValue="TextAlignment" Value="@font.Alignment" ValueChanged="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Alignment = value ))">
+                        @foreach ( var option in Enum.GetValues<TextAlignment>() )
+                        {
+                            <SelectItem TValue="TextAlignment" Value="@option">@option.ToString()</SelectItem>
+                        }
+                    </Select>
+                </Field>
+                <_ReportDesignerCheckboxProperty Label="Bold" Value="@font.Bold" Changed="@(eventArgs => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Bold = eventArgs.Value is bool value && value ))" />
+                <_ReportDesignerCheckboxProperty Label="Italic" Value="@font.Italic" Changed="@(eventArgs => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Italic = eventArgs.Value is bool value && value ))" />
+                <_ReportDesignerCheckboxProperty Label="Underline" Value="@font.Underline" Changed="@(eventArgs => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Underline = eventArgs.Value is bool value && value ))" />
+            </_ReportDesignerPropertyGroup>
+        }
+
+        @{
+            var appearance = ReportElementDefinitionHelper.EnsureAppearance( SelectedElement );
+            var border = ReportElementDefinitionHelper.EnsureBorder( SelectedElement );
+        }
+
+        <_ReportDesignerPropertyGroup Title="Appearance">
+            <_ReportDesignerColorProperty Label="Fill color" Value="@appearance.BackgroundColor" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).BackgroundColor = value ))" />
+            <_ReportDesignerColorProperty Label="Border color" Value="@border.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
+            <_ReportDesignerNullableNumberProperty Label="Border width" Value="@border.Width" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+            <_ReportDesignerNullableNumberProperty Label="Corner radius" Value="@border.Radius" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+            <_ReportDesignerNullableNumberProperty Label="Opacity" Value="@appearance.Opacity" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( value ) ))" />
+        </_ReportDesignerPropertyGroup>
+
+        <_ReportDesignerPropertyGroup Title="Advanced">
+            <_ReportDesignerTextProperty Label="CSS classes" Value="@SelectedElement.Class" Changed="@(value => UpdateSelectedElement( element => element.Class = value ))" />
+            <_ReportDesignerTextProperty Label="Custom CSS" Value="@SelectedElement.Style" Changed="@(value => UpdateSelectedElement( element => element.Style = value ))" />
+        </_ReportDesignerPropertyGroup>
+    </Div>
+
+    <Div Margin="Margin.Is3.FromTop">
+        <h6>Selected element</h6>
+        <Div Flex="Flex.Wrap" Gap="Gap.Is2">
+            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( -8, 0, 0, 0 ))">Left</Button>
+            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( 0, -8, 0, 0 ))">Up</Button>
+            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( 0, 8, 0, 0 ))">Down</Button>
+            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( 8, 0, 0, 0 ))">Right</Button>
+            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( 0, 0, 16, 0 ))">Wider</Button>
+            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( 0, 0, 0, 8 ))">Taller</Button>
+        </Div>
+    </Div>
+}
+
+@if ( !HasSelection )
+{
+    <Paragraph TextColor="TextColor.Secondary">Select a band or report element to edit its properties.</Paragraph>
+}
+
+@code {
+    private bool HasSelection => ReportSelected || SelectedSection is not null || SelectedElement is not null;
+
+    /// <summary>
+    /// Report definition whose page settings are edited.
+    /// </summary>
+    [Parameter] public ReportDefinition Definition { get; set; }
+
+    /// <summary>
+    /// Indicates that the root report node is selected.
+    /// </summary>
+    [Parameter] public bool ReportSelected { get; set; }
+
+    /// <summary>
+    /// Selected band definition, when a band is selected.
+    /// </summary>
+    [Parameter] public ReportSectionDefinition SelectedSection { get; set; }
+
+    /// <summary>
+    /// Selected element definition, when an element is selected.
+    /// </summary>
+    [Parameter] public ReportElementDefinition SelectedElement { get; set; }
+
+    /// <summary>
+    /// Indicates that the selected element belongs to a suppressed band.
+    /// </summary>
+    [Parameter] public bool SelectedElementSuppressed { get; set; }
+
+    /// <summary>
+    /// Indicates that designer movement snaps to the grid.
+    /// </summary>
+    [Parameter] public bool SnapToGrid { get; set; }
+
+    /// <summary>
+    /// Raised when snap-to-grid is toggled.
+    /// </summary>
+    [Parameter] public Action<ChangeEventArgs> SnapToGridChanged { get; set; }
+
+    /// <summary>
+    /// Updates the report page definition.
+    /// </summary>
+    [Parameter] public Func<Action<ReportPageDefinition>, Task> UpdateReportPage { get; set; }
+
+    /// <summary>
+    /// Updates the selected band definition.
+    /// </summary>
+    [Parameter] public Func<Action<ReportSectionDefinition>, Task> UpdateSelectedSection { get; set; }
+
+    /// <summary>
+    /// Updates whether the selected band is suppressed.
+    /// </summary>
+    [Parameter] public Func<bool, Task> UpdateSelectedSectionSuppression { get; set; }
+
+    /// <summary>
+    /// Inserts a band before or after the selected band.
+    /// </summary>
+    [Parameter] public Func<bool, Task> InsertSection { get; set; }
+
+    /// <summary>
+    /// Deletes the currently selected band.
+    /// </summary>
+    [Parameter] public Func<Task> DeleteSelectedSection { get; set; }
+
+    /// <summary>
+    /// Updates the selected element definition.
+    /// </summary>
+    [Parameter] public Func<Action<ReportElementDefinition>, Task> UpdateSelectedElement { get; set; }
+
+    /// <summary>
+    /// Moves or resizes the selected element by a delta.
+    /// </summary>
+    [Parameter] public Func<double, double, double, double, Task> MoveSelectedElement { get; set; }
+}

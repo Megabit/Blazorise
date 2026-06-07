@@ -1,0 +1,41 @@
+@namespace Blazorise.Reporting.Internal
+@using System
+@using System.Globalization
+@using Microsoft.AspNetCore.Components.Web
+
+<Field Margin="Margin.Is2.FromBottom">
+    <FieldLabel>@Label</FieldLabel>
+    <Div Flex="Flex.Row" Gap="Gap.Is2">
+        <input type="color"
+               value="@ReportElementDefinitionHelper.NormalizeColorValue( Value )"
+               @onchange="OnChanged" />
+        <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => Clear())">Clear</Button>
+    </Div>
+</Field>
+
+@code {
+    private Task Clear()
+    {
+        return Changed.InvokeAsync( null );
+    }
+
+    private Task OnChanged( ChangeEventArgs eventArgs )
+    {
+        return Changed.InvokeAsync( Convert.ToString( eventArgs.Value, CultureInfo.InvariantCulture ) );
+    }
+
+    /// <summary>
+    /// Property label.
+    /// </summary>
+    [Parameter] public string Label { get; set; }
+
+    /// <summary>
+    /// Current color value.
+    /// </summary>
+    [Parameter] public string Value { get; set; }
+
+    /// <summary>
+    /// Raised when the color value changes.
+    /// </summary>
+    [Parameter] public EventCallback<string> Changed { get; set; }
+}

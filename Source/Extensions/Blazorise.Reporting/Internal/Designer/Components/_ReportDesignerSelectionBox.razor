@@ -1,0 +1,36 @@
+@namespace Blazorise.Reporting.Internal
+
+<div @key="@Key"
+     class="b-report-selection-box"
+     style="@Style"></div>
+
+@code {
+    private const string Key = "selection-box";
+
+    private string Style => $"left:{X + LeftOffset}px;top:{Y}px;width:{Width}px;height:{Height}px;";
+
+    /// <summary>
+    /// Left selection coordinate.
+    /// </summary>
+    [Parameter] public double X { get; set; }
+
+    /// <summary>
+    /// Top selection coordinate.
+    /// </summary>
+    [Parameter] public double Y { get; set; }
+
+    /// <summary>
+    /// Selection width.
+    /// </summary>
+    [Parameter] public double Width { get; set; }
+
+    /// <summary>
+    /// Selection height.
+    /// </summary>
+    [Parameter] public double Height { get; set; }
+
+    /// <summary>
+    /// Horizontal offset applied when the band rail is visible.
+    /// </summary>
+    [Parameter] public double LeftOffset { get; set; }
+}

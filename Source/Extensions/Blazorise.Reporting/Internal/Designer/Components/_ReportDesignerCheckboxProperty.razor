@@ -1,0 +1,26 @@
+@namespace Blazorise.Reporting.Internal
+@using Microsoft.AspNetCore.Components.Web
+
+<Field Margin="Margin.Is2.FromBottom">
+    <label class="b-report-designer-option">
+        <input type="checkbox" checked="@Value" @onchange="@Changed" />
+        @Label
+    </label>
+</Field>
+
+@code {
+    /// <summary>
+    /// Property label.
+    /// </summary>
+    [Parameter] public string Label { get; set; }
+
+    /// <summary>
+    /// Current checkbox value.
+    /// </summary>
+    [Parameter] public bool Value { get; set; }
+
+    /// <summary>
+    /// Raised when the checkbox value changes.
+    /// </summary>
+    [Parameter] public EventCallback<ChangeEventArgs> Changed { get; set; }
+}

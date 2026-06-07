@@ -1,0 +1,257 @@
+@namespace Blazorise.Reporting.Internal
+@using System
+@using System.Threading.Tasks
+@using Blazorise.Utilities
+@using Microsoft.AspNetCore.Components.Web
+
+<section @key="@SectionKey"
+         class="@SectionClass"
+         style="@SectionStyle">
+    @if ( DesignMode )
+    {
+        if ( RailVisible )
+        {
+            <_ReportDesignerSectionRail Section="Section"
+                                        Height="Height"
+                                        Selected="Active"
+                                        Collapsed="Collapsed"
+                                        AllowCollapse="AllowBandCollapse"
+                                        ShowDataSource="ShowBandDataSource"
+                                        Clicked="RailClicked"
+                                        ContextMenu="RailContextMenu"
+                                        ToggleClicked="ToggleClicked" />
+        }
+        else
+        {
+            <_ReportDesignerSectionLabel Section="Section" />
+        }
+    }
+
+    @if ( !Collapsed )
+    {
+        if ( DesignMode )
+        {
+            <div class="@BodyClass"
+                 style="@BodyStyle"
+                 @onpointerdown="BodyPointerDown"
+                 @onpointerdown:preventDefault="Editable"
+                 @ondragover="NonRenderingDragOver"
+                 @ondragover:preventDefault="Editable"
+                 @ondrop="Drop"
+                 @ondrop:preventDefault="Editable"
+                 @onpointermove="NonRenderingPointerMove"
+                 @onpointermove:preventDefault="Editable"
+                 @onpointerup="PointerUp"
+                 @onpointerup:preventDefault="Editable"
+                 @onpointercancel="PointerCancel"
+                 @onclick="BodyClicked"
+                 @oncontextmenu="BodyContextMenu"
+                 @oncontextmenu:preventDefault="Editable">
+                @ChildContent
+
+                @if ( Editable && ShowDragPreview )
+                {
+                    <_ReportDesignerDragPreview ElementType="DragPreviewElementType"
+                                                Text="DragPreviewText"
+                                                X="DragPreviewX"
+                                                Y="DragPreviewY"
+                                                Width="DragPreviewWidth"
+                                                Height="DragPreviewHeight" />
+                }
+
+                @if ( Editable )
+                {
+                    <_ReportDesignerSectionResizeHandle PointerDown="ResizePointerDown" />
+                }
+            </div>
+        }
+        else
+        {
+            @ChildContent
+        }
+    }
+</section>
+
+@code {
+    private string BodyClass => $"{( RailVisible ? "b-report-section-body b-report-section-body-rail" : "b-report-section-body" )} {( Section.Suppressed ? "disabled" : string.Empty )}".Trim();
+
+    private string BodyStyle => RailVisible ? $"left:{BodyLeft}px;width:{BodyWidth}px;" : null;
+
+    private Func<DragEventArgs, Task> NonRenderingDragOver => EventUtil.AsNonRenderingEventHandler<DragEventArgs>( OnDragOverAsync );
+
+    private Func<PointerEventArgs, Task> NonRenderingPointerMove => EventUtil.AsNonRenderingEventHandler<PointerEventArgs>( OnPointerMoveAsync );
+
+    private string SectionClass => $"b-report-section {Section.Class} {( Active ? "active" : string.Empty )} {( Collapsed ? "collapsed" : string.Empty )} {( Section.Suppressed ? "suppressed" : string.Empty )}".Trim();
+
+    private string SectionStyle => $"height:{Height}px;{Section.Style}";
+
+    private Task OnDragOverAsync( DragEventArgs eventArgs )
+    {
+        return DragOver?.Invoke( eventArgs ) ?? Task.CompletedTask;
+    }
+
+    private Task OnPointerMoveAsync( PointerEventArgs eventArgs )
+    {
+        return PointerMove?.Invoke( eventArgs ) ?? Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Stable key used to preserve band identity across designer renders.
+    /// </summary>
+    [Parameter] public object SectionKey { get; set; }
+
+    /// <summary>
+    /// Report section rendered on the report surface.
+    /// </summary>
+    [Parameter] public ReportSectionDefinition Section { get; set; }
+
+    /// <summary>
+    /// Section height in pixels.
+    /// </summary>
+    [Parameter] public double Height { get; set; }
+
+    /// <summary>
+    /// Left offset of the section body when the band rail is visible.
+    /// </summary>
+    [Parameter] public double BodyLeft { get; set; }
+
+    /// <summary>
+    /// Section body width in pixels when the band rail is visible.
+    /// </summary>
+    [Parameter] public double BodyWidth { get; set; }
+
+    /// <summary>
+    /// Indicates that the section is rendered in designer mode.
+    /// </summary>
+    [Parameter] public bool DesignMode { get; set; }
+
+    /// <summary>
+    /// Indicates that the section is currently selected.
+    /// </summary>
+    [Parameter] public bool Active { get; set; }
+
+    /// <summary>
+    /// Indicates that the section content is collapsed.
+    /// </summary>
+    [Parameter] public bool Collapsed { get; set; }
+
+    /// <summary>
+    /// Indicates that the section uses the left band rail.
+    /// </summary>
+    [Parameter] public bool RailVisible { get; set; }
+
+    /// <summary>
+    /// Allows designer interactions inside the section body.
+    /// </summary>
+    [Parameter] public bool Editable { get; set; }
+
+    /// <summary>
+    /// Allows the band rail toggle to collapse and expand this section.
+    /// </summary>
+    [Parameter] public bool AllowBandCollapse { get; set; }
+
+    /// <summary>
+    /// Shows the band data source in the section rail when available.
+    /// </summary>
+    [Parameter] public bool ShowBandDataSource { get; set; }
+
+    /// <summary>
+    /// Indicates that a drag preview should be rendered inside the section body.
+    /// </summary>
+    [Parameter] public bool ShowDragPreview { get; set; }
+
+    /// <summary>
+    /// Element type used by the drag preview.
+    /// </summary>
+    [Parameter] public ReportElementType DragPreviewElementType { get; set; }
+
+    /// <summary>
+    /// Text shown by the drag preview.
+    /// </summary>
+    [Parameter] public string DragPreviewText { get; set; }
+
+    /// <summary>
+    /// Left drag preview coordinate.
+    /// </summary>
+    [Parameter] public double DragPreviewX { get; set; }
+
+    /// <summary>
+    /// Top drag preview coordinate.
+    /// </summary>
+    [Parameter] public double DragPreviewY { get; set; }
+
+    /// <summary>
+    /// Drag preview width.
+    /// </summary>
+    [Parameter] public double DragPreviewWidth { get; set; }
+
+    /// <summary>
+    /// Drag preview height.
+    /// </summary>
+    [Parameter] public double DragPreviewHeight { get; set; }
+
+    /// <summary>
+    /// Content rendered inside the section body.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Raised when the section rail is clicked.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> RailClicked { get; set; }
+
+    /// <summary>
+    /// Raised when the band collapse toggle is clicked.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> ToggleClicked { get; set; }
+
+    /// <summary>
+    /// Raised when the section rail context menu is requested.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> RailContextMenu { get; set; }
+
+    /// <summary>
+    /// Raised when the section body context menu is requested.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> BodyContextMenu { get; set; }
+
+    /// <summary>
+    /// Raised when marquee selection starts inside the section body.
+    /// </summary>
+    [Parameter] public EventCallback<PointerEventArgs> BodyPointerDown { get; set; }
+
+    /// <summary>
+    /// Raised while a toolbox or field item is dragged over the section body.
+    /// </summary>
+    [Parameter] public Func<DragEventArgs, Task> DragOver { get; set; }
+
+    /// <summary>
+    /// Raised when a toolbox or field item is dropped onto the section body.
+    /// </summary>
+    [Parameter] public EventCallback<DragEventArgs> Drop { get; set; }
+
+    /// <summary>
+    /// Raised while pointer element interaction continues inside the section body.
+    /// </summary>
+    [Parameter] public Func<PointerEventArgs, Task> PointerMove { get; set; }
+
+    /// <summary>
+    /// Raised when pointer element interaction completes inside the section body.
+    /// </summary>
+    [Parameter] public EventCallback<PointerEventArgs> PointerUp { get; set; }
+
+    /// <summary>
+    /// Raised when pointer element interaction is cancelled inside the section body.
+    /// </summary>
+    [Parameter] public EventCallback<PointerEventArgs> PointerCancel { get; set; }
+
+    /// <summary>
+    /// Raised when the editable section body is clicked.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> BodyClicked { get; set; }
+
+    /// <summary>
+    /// Raised when band resizing starts from the section resize handle.
+    /// </summary>
+    [Parameter] public EventCallback<PointerEventArgs> ResizePointerDown { get; set; }
+}

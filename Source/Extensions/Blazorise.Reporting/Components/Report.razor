@@ -1,6 +1,11 @@
 @namespace Blazorise.Reporting
 @typeparam TItem
 @inject System.IServiceProvider ServiceProvider
+@using System
+@using System.Linq
+@using System.Threading.Tasks
+@using Microsoft.AspNetCore.Components.Web
+@using Blazorise.Reporting.Internal
 
 <CascadingValue Value="@context" IsFixed="true">
     <Div Display="Display.None">
@@ -46,10 +51,218 @@
 
     @if ( CurrentMode == ReportStudioMode.Design && IsDesignerEnabled )
     {
-        @RenderDesigner()
+        var definition = EffectiveDefinition;
+
+        <_ReportDesignerLayout>
+            <Dictionary>
+                <_ReportDesignerDictionary Definition="@definition"
+                                           DataSourceName="@DataSourceName"
+                                           ToolboxNodeDragStarted="@OnToolboxTreeNodeDragStarted"
+                                           FieldsNodeDragStarted="@OnFieldsTreeNodeDragStarted"
+                                           NodeDragEnded="@((ReportTreeNode _) => ClearDesignerDragAsync())" />
+            </Dictionary>
+            <Surface>
+                <_ReportDesignerPage PageKey="@($"{definition.Id}:{designerSurfaceVersion}")"
+                                     Width="@GetReportPageWidth( definition, designMode: true )"
+                                     MinHeight="@definition.Page.Height"
+                                     DesignMode
+                                     PointerMove="@((Func<PointerEventArgs, Task>)PreviewPageSelectionBoxAsync)"
+                                     PointerUp="@CompletePageSelectionBoxAsync"
+                                     PointerCancel="@((PointerEventArgs _) => CancelPageSelectionBoxAsync())"
+                                     ShowSelectionBox="@(selectionBox is not null)"
+                                     SelectionBoxX="@(selectionBox?.X ?? 0)"
+                                     SelectionBoxY="@(selectionBox?.Y ?? 0)"
+                                     SelectionBoxWidth="@(selectionBox?.Width ?? 0)"
+                                     SelectionBoxHeight="@(selectionBox?.Height ?? 0)"
+                                     SelectionBoxLeftOffset="@GetSelectionBoxLeftOffset()">
+                    @for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
+                    {
+                        var capturedSectionIndex = sectionIndex;
+                        var section = definition.Sections[capturedSectionIndex];
+
+                        @foreach ( var sectionItem in ResolveSectionRenderItems( definition, section, designMode: true ).Select( ( item, index ) => new { Item = item, Index = index } ) )
+                        {
+                            var collapsed = IsSectionCollapsedForRender( section );
+                            var editable = !section.Suppressed;
+                            var railVisible = IsDesignerBandRailVisible();
+                            var sectionHeight = GetSectionRenderHeight( capturedSectionIndex, section, collapsed );
+                            var dragPreviewVisible = editable && dragPreview?.SectionIndex == capturedSectionIndex;
+
+                            <_ReportDesignerSection SectionKey="@section.Id"
+                                                    Section="@section"
+                                                    Height="@sectionHeight"
+                                                    BodyLeft="@DesignerBandRailWidth"
+                                                    BodyWidth="@definition.Page.Width"
+                                                    DesignMode
+                                                    Active="@IsSectionSelected( capturedSectionIndex )"
+                                                    Collapsed="@collapsed"
+                                                    RailVisible="@railVisible"
+                                                    Editable="@editable"
+                                                    AllowBandCollapse="@AllowBandCollapse"
+                                                    ShowBandDataSource="@ShowBandDataSource"
+                                                    ShowDragPreview="@dragPreviewVisible"
+                                                    DragPreviewElementType="@(dragPreview?.ElementType ?? ReportElementType.Text)"
+                                                    DragPreviewText="@dragPreview?.Text"
+                                                    DragPreviewX="@(dragPreview?.X ?? 0)"
+                                                    DragPreviewY="@(dragPreview?.Y ?? 0)"
+                                                    DragPreviewWidth="@(dragPreview?.Width ?? 0)"
+                                                    DragPreviewHeight="@(dragPreview?.Height ?? 0)"
+                                                    RailClicked="@((MouseEventArgs _) => SelectSection( capturedSectionIndex ))"
+                                                    ToggleClicked="@((MouseEventArgs _) => ToggleSectionCollapsed( section ))"
+                                                    RailContextMenu="@((MouseEventArgs eventArgs) => OpenSectionContextMenu( capturedSectionIndex, eventArgs ))"
+                                                    BodyContextMenu="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenSectionContextMenu( capturedSectionIndex, eventArgs ) ) : default)"
+                                                    BodyPointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSelectionBox( capturedSectionIndex, eventArgs ) ) : default)"
+                                                    DragOver="@(editable ? (Func<DragEventArgs, Task>)( eventArgs => PreviewDesignerDragAsync( capturedSectionIndex, eventArgs ) ) : null)"
+                                                    Drop="@(editable ? EventCallback.Factory.Create<DragEventArgs>( this, eventArgs => DropDesignerItemAsync( capturedSectionIndex, eventArgs ) ) : default)"
+                                                    PointerMove="@(editable ? (Func<PointerEventArgs, Task>)( eventArgs => PreviewElementPointerInteractionAsync( capturedSectionIndex, eventArgs ) ) : null)"
+                                                    PointerUp="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => CompleteElementPointerInteractionAsync( capturedSectionIndex, eventArgs ) ) : default)"
+                                                    PointerCancel="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, _ => CancelElementPointerInteractionAsync() ) : default)"
+                                                    BodyClicked="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, () => HandleSectionClick( capturedSectionIndex ) ) : default)"
+                                                    ResizePointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSectionPointerResizeAsync( capturedSectionIndex, eventArgs ) ) : default)">
+                                @foreach ( var element in section.Elements )
+                                {
+                                    var elementKey = ReportDefinitionHelper.EnsureElementId( element );
+                                    var capturedElementKey = elementKey;
+
+                                    <_ReportDesignerElement Data="@Data"
+                                                            Definition="@definition"
+                                                            Item="@sectionItem.Item"
+                                                            Element="@element"
+                                                            ElementKey="@capturedElementKey"
+                                                            DesignMode
+                                                            Editable="@editable"
+                                                            Selected="@selectionManager.IsElementSelected( capturedElementKey )"
+                                                            Clicked="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => HandleElementClick( capturedElementKey, eventArgs ) ) : default)"
+                                                            ContextMenu="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenElementContextMenu( capturedElementKey, eventArgs ) ) : default)"
+                                                            PointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerDrag( capturedElementKey, eventArgs ) ) : default)"
+                                                            NorthWestResizeStarted="@((PointerEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, ReportElementResizeHandle.NorthWest, eventArgs ))"
+                                                            NorthResizeStarted="@((PointerEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, ReportElementResizeHandle.North, eventArgs ))"
+                                                            NorthEastResizeStarted="@((PointerEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, ReportElementResizeHandle.NorthEast, eventArgs ))"
+                                                            EastResizeStarted="@((PointerEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, ReportElementResizeHandle.East, eventArgs ))"
+                                                            SouthEastResizeStarted="@((PointerEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, ReportElementResizeHandle.SouthEast, eventArgs ))"
+                                                            SouthResizeStarted="@((PointerEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, ReportElementResizeHandle.South, eventArgs ))"
+                                                            SouthWestResizeStarted="@((PointerEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, ReportElementResizeHandle.SouthWest, eventArgs ))"
+                                                            WestResizeStarted="@((PointerEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, ReportElementResizeHandle.West, eventArgs ))" />
+                                }
+                            </_ReportDesignerSection>
+                        }
+                    }
+                </_ReportDesignerPage>
+            </Surface>
+            <Panel>
+                <_ReportDesignerPanel SelectedTab="@SelectedDesignerPanelTabName"
+                                      SelectedTabChanged="@SelectDesignerPanelTab">
+                    <Properties>
+                        <_ReportDesignerPropertiesPanel Definition="@definition"
+                                                        ReportSelected="@selectionManager.ReportSelected"
+                                                        SelectedSection="@GetSelectedPropertiesSection( definition )"
+                                                        SelectedElement="@selectionManager.FindSelectedElement( definition )"
+                                                        SelectedElementSuppressed="@selectionManager.IsSelectedElementSuppressed( definition )"
+                                                        SnapToGrid="@snapToGrid"
+                                                        SnapToGridChanged="@OnSnapToGridChanged"
+                                                        UpdateReportPage="@UpdateReportPageAsync"
+                                                        UpdateSelectedSection="@UpdateSelectedSectionAsync"
+                                                        UpdateSelectedSectionSuppression="@UpdateSelectedSectionSuppressionAsync"
+                                                        InsertSection="@InsertSectionAsync"
+                                                        DeleteSelectedSection="@DeleteSelectedSectionAsync"
+                                                        UpdateSelectedElement="@UpdateSelectedElementAsync"
+                                                        MoveSelectedElement="@MoveSelectedElementAsync" />
+                    </Properties>
+                    <Explorer>
+                        <_ReportDesignerReportExplorer Definition="@definition"
+                                                       ReportSelected="@selectionManager.ReportSelected"
+                                                       SelectedSectionIndex="@selectionManager.SelectedSectionIndex"
+                                                       SelectedElementKey="@selectionManager.SelectedElementKey"
+                                                       IsElementSelected="@selectionManager.IsElementSelected"
+                                                       NodeClicked="@OnReportTreeNodeClicked"
+                                                       NodeContextMenu="@OnReportTreeNodeContextMenu" />
+                    </Explorer>
+                </_ReportDesignerPanel>
+            </Panel>
+            <ContextMenu>
+                <_ReportDesignerContextMenu Visible="@(contextMenu?.Visible == true)"
+                                            X="@(contextMenu?.ClientX ?? 0)"
+                                            Y="@(contextMenu?.ClientY ?? 0)">
+                    @if ( IsSectionContextMenuVisible( definition ) )
+                    {
+                        var contextSection = GetContextMenuSection( definition );
+
+                        @if ( !contextSection.Suppressed )
+                        {
+                            <_ReportDesignerContextMenuButton Text="Insert band before" Clicked="@((MouseEventArgs _) => InsertSectionAsync( insertAfter: false ))" />
+                            <_ReportDesignerContextMenuButton Text="Insert band after" Clicked="@((MouseEventArgs _) => InsertSectionAsync( insertAfter: true ))" />
+                            <_ReportDesignerContextMenuButton Text="Suppress" Clicked="@((MouseEventArgs _) => ToggleSelectedSectionSuppressionAsync())" />
+
+                            @if ( ReportDefinitionHelper.CanDeleteSection( contextSection ) )
+                            {
+                                <_ReportDesignerContextMenuButton Text="Delete band" Clicked="@((MouseEventArgs _) => DeleteSelectedSectionAsync())" />
+                            }
+                        }
+                        else
+                        {
+                            <_ReportDesignerContextMenuButton Text="Don't suppress" Clicked="@((MouseEventArgs _) => ToggleSelectedSectionSuppressionAsync())" />
+                        }
+                    }
+                    else if ( IsElementContextMenuVisible() )
+                    {
+                        <_ReportDesignerContextMenuButton Text="Delete element" Clicked="@((MouseEventArgs _) => DeleteSelectedElementAsync())" />
+                    }
+
+                    <_ReportDesignerContextMenuButton Text="Close" Clicked="@((MouseEventArgs _) => CloseContextMenuAsync())" />
+                </_ReportDesignerContextMenu>
+            </ContextMenu>
+        </_ReportDesignerLayout>
     }
     else
     {
-        @RenderViewer()
+        var definition = EffectiveDefinition;
+
+        <Div Class="b-report-viewer"
+             Padding="Padding.Is3"
+             Background="Background.Light"
+             Border="Border.Is1"
+             Overflow="Overflow.Auto">
+            @if ( CurrentPreviewFormat == ReportPreviewFormat.Pdf )
+            {
+                <Div Padding="Padding.Is5"
+                     Border="Border.Is1"
+                     Background="Background.White"
+                     TextAlignment="TextAlignment.Center">
+                    PDF preview is configured for this report. A PDF renderer can feed Blazorise.PdfViewer in the next implementation step.
+                </Div>
+            }
+            else
+            {
+                <_ReportDesignerPage PageKey="@definition.Id"
+                                     Width="@GetReportPageWidth( definition, designMode: false )"
+                                     MinHeight="@definition.Page.Height">
+                    @for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
+                    {
+                        var capturedSectionIndex = sectionIndex;
+                        var section = definition.Sections[capturedSectionIndex];
+
+                        @if ( !section.Suppressed )
+                        {
+                            @foreach ( var sectionItem in ResolveSectionRenderItems( definition, section, designMode: false ).Select( ( item, index ) => new { Item = item, Index = index } ) )
+                            {
+                                <_ReportDesignerSection SectionKey="@($"{section.Id}:{sectionItem.Index}")"
+                                                        Section="@section"
+                                                        Height="@GetDesignerSectionHeight( capturedSectionIndex, section )"
+                                                        BodyWidth="@definition.Page.Width">
+                                    @foreach ( var element in section.Elements )
+                                    {
+                                        <_ReportDesignerElement Data="@Data"
+                                                                Definition="@definition"
+                                                                Item="@sectionItem.Item"
+                                                                Element="@element"
+                                                                ElementKey="@ReportDefinitionHelper.EnsureElementId( element )" />
+                                    }
+                                </_ReportDesignerSection>
+                            }
+                        }
+                    }
+                </_ReportDesignerPage>
+            }
+        </Div>
     }
 </Div>

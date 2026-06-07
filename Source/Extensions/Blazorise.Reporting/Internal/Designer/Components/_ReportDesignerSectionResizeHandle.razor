@@ -1,0 +1,18 @@
+@namespace Blazorise.Reporting.Internal
+@using Microsoft.AspNetCore.Components.Web
+
+<span @key="@Key"
+      class="b-report-section-resize-handle"
+      title="Resize band"
+      @onpointerdown="PointerDown"
+      @onpointerdown:preventDefault
+      @onpointerdown:stopPropagation></span>
+
+@code {
+    private const string Key = "section-resize";
+
+    /// <summary>
+    /// Raised when pointer resizing starts on the section handle.
+    /// </summary>
+    [Parameter] public EventCallback<PointerEventArgs> PointerDown { get; set; }
+}

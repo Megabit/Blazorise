@@ -1,0 +1,28 @@
+@namespace Blazorise.Reporting.Internal
+
+<Field Margin="Margin.Is2.FromBottom">
+    <FieldLabel>@Label</FieldLabel>
+    <TextInput Value="@Value" ReadOnly="@ReadOnly" ValueChanged="@Changed" Immediate="@Changed.HasDelegate" />
+</Field>
+
+@code {
+    /// <summary>
+    /// Property label.
+    /// </summary>
+    [Parameter] public string Label { get; set; }
+
+    /// <summary>
+    /// Current text value.
+    /// </summary>
+    [Parameter] public string Value { get; set; }
+
+    /// <summary>
+    /// Prevents editing the value.
+    /// </summary>
+    [Parameter] public bool ReadOnly { get; set; }
+
+    /// <summary>
+    /// Raised when the text value changes.
+    /// </summary>
+    [Parameter] public EventCallback<string> Changed { get; set; }
+}

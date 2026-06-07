@@ -1,0 +1,32 @@
+@namespace Blazorise.Reporting.Internal
+
+@if ( Visible )
+{
+    <div class="b-report-context-menu" style="@Style">
+        @ChildContent
+    </div>
+}
+
+@code {
+    private string Style => $"left:{X}px;top:{Y}px;";
+
+    /// <summary>
+    /// Indicates that the context menu is visible.
+    /// </summary>
+    [Parameter] public bool Visible { get; set; }
+
+    /// <summary>
+    /// Horizontal client coordinate of the context menu.
+    /// </summary>
+    [Parameter] public double X { get; set; }
+
+    /// <summary>
+    /// Vertical client coordinate of the context menu.
+    /// </summary>
+    [Parameter] public double Y { get; set; }
+
+    /// <summary>
+    /// Context menu commands.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}
