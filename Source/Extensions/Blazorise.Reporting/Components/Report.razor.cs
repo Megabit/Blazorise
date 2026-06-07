@@ -2060,14 +2060,21 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
         await ExecuteDesignerCommandAsync( new( "Move element", () =>
         {
-            var element = FindSelectedElement( EffectiveDefinition );
+            var definition = EffectiveDefinition;
+            var element = FindSelectedElement( definition );
 
             if ( element is not null )
             {
+                FindElementLocation( definition, GetDesignerElementKey( element ), out var sectionIndex, out _, out _ );
+                var originalX = element.X;
+                var originalWidth = element.Width;
+
                 element.X = Math.Max( 0, element.X + x );
                 element.Y = Math.Max( 0, element.Y + y );
                 element.Width = Math.Max( 8, element.Width + width );
                 element.Height = Math.Max( 8, element.Height + height );
+
+                SyncMatchingPageHeaderForDetailElement( definition, sectionIndex, sectionIndex, element, originalX, originalWidth, element.X, element.Width );
             }
 
             return Task.CompletedTask;
@@ -2083,10 +2090,19 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
         await ExecuteDesignerCommandAsync( new( "Update element", () =>
         {
-            var element = FindSelectedElement( EffectiveDefinition );
+            var definition = EffectiveDefinition;
+            var element = FindSelectedElement( definition );
 
             if ( element is not null )
+            {
+                FindElementLocation( definition, GetDesignerElementKey( element ), out var sectionIndex, out _, out _ );
+                var originalX = element.X;
+                var originalWidth = element.Width;
+
                 update?.Invoke( element );
+
+                SyncMatchingPageHeaderForDetailElement( definition, sectionIndex, sectionIndex, element, originalX, originalWidth, element.X, element.Width );
+            }
 
             return Task.CompletedTask;
         } ) );
@@ -2706,6 +2722,17 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             element.X = ClampDesignerValue( item.OriginalX + deltaX, 0, Math.Max( 0, definition.Page.Width - element.Width ) );
             element.Y = Math.Max( 0, targetLocalY );
 
+            SyncMatchingPageHeaderForDetailElement(
+                definition,
+                sourceSectionIndex,
+                pointerDrag.TargetSectionIndex,
+                element,
+                item.OriginalX,
+                item.OriginalWidth,
+                element.X,
+                element.Width,
+                pointerDrag.SelectedElements.Select( selectedItem => selectedItem.ElementKey ) );
+
             if ( sourceSectionIndex != pointerDrag.TargetSectionIndex )
             {
                 definition.Sections[sourceSectionIndex].Elements.RemoveAt( sourceElementIndex );
@@ -2831,6 +2858,17 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             element.Height = targetHeight;
             element.X = ClampDesignerValue( targetX, 0, Math.Max( 0, definition.Page.Width - element.Width ) );
             element.Y = Math.Max( 0, targetY );
+
+            SyncMatchingPageHeaderForDetailElement(
+                definition,
+                sectionIndex,
+                sectionIndex,
+                element,
+                item.OriginalX,
+                item.OriginalWidth,
+                element.X,
+                element.Width,
+                pointerResize.SelectedElements.Select( selectedItem => selectedItem.ElementKey ) );
 
             GrowSectionToFitElement( section, element );
         }
@@ -3132,10 +3170,14 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
                     SelectElement( GetDesignerElementKey( toolboxElement ) );
                     break;
                 case ReportDesignerDragKind.Element when FindElementLocation( definition, draggedElementKey, out var sourceSectionIndex, out var sourceElementIndex, out var element ):
+                    var originalX = element.X;
+                    var originalWidth = element.Width;
+
                     definition.Sections[sourceSectionIndex].Elements.RemoveAt( sourceElementIndex );
                     element.X = x;
                     element.Y = y;
                     targetSection.Elements.Add( element );
+                    SyncMatchingPageHeaderForDetailElement( definition, sourceSectionIndex, targetSectionIndex, element, originalX, originalWidth, element.X, element.Width );
                     SelectElement( GetDesignerElementKey( element ) );
                     break;
             }
@@ -3711,6 +3753,53 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             element.Type == ReportElementType.Text
             && string.Equals( element.Text, headerText, StringComparison.OrdinalIgnoreCase )
             && Math.Abs( element.X - x ) < 0.1 );
+    }
+
+    private void SyncMatchingPageHeaderForDetailElement(
+        ReportDefinition definition,
+        int sourceSectionIndex,
+        int targetSectionIndex,
+        ReportElementDefinition detailElement,
+        double originalX,
+        double originalWidth,
+        double newX,
+        double newWidth,
+        IEnumerable<string> ignoredElementKeys = null )
+    {
+        if ( definition is null
+            || detailElement?.Type != ReportElementType.Field
+            || string.IsNullOrWhiteSpace( detailElement.Field )
+            || ( Math.Abs( newX - originalX ) < 0.1 && Math.Abs( newWidth - originalWidth ) < 0.1 )
+            || sourceSectionIndex < 0
+            || sourceSectionIndex >= definition.Sections.Count
+            || targetSectionIndex < 0
+            || targetSectionIndex >= definition.Sections.Count
+            || definition.Sections[sourceSectionIndex].Type != ReportSectionType.Detail
+            || definition.Sections[targetSectionIndex].Type != ReportSectionType.Detail )
+        {
+            return;
+        }
+
+        var pageHeader = FindPageHeaderForDetail( definition, sourceSectionIndex );
+
+        if ( pageHeader is null || pageHeader.Suppressed )
+            return;
+
+        HashSet<string> ignoredKeys = ignoredElementKeys is null
+            ? null
+            : new( ignoredElementKeys.Where( key => !string.IsNullOrWhiteSpace( key ) ), StringComparer.Ordinal );
+
+        var headerElement = pageHeader.Elements.FirstOrDefault( element =>
+            element.Type == ReportElementType.Text
+            && Math.Abs( element.X - originalX ) < 0.1
+            && Math.Abs( element.Width - originalWidth ) < 0.1
+            && ( ignoredKeys is null || !ignoredKeys.Contains( GetDesignerElementKey( element ) ) ) );
+
+        if ( headerElement is not null )
+        {
+            headerElement.X = newX;
+            headerElement.Width = newWidth;
+        }
     }
 
     private static string GetFieldHeaderText( string fieldName )
