@@ -9,7 +9,7 @@ internal sealed class ReportStateHistoryAction : IHistoryAction<ReportDesignerSt
 
     private readonly ReportState afterState;
 
-    public ReportStateHistoryAction( string name, ReportState beforeState, ReportState afterState )
+    internal ReportStateHistoryAction( string name, ReportState beforeState, ReportState afterState )
     {
         Name = name;
         this.beforeState = beforeState;

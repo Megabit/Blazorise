@@ -6,7 +6,7 @@ namespace Blazorise.Reporting.Internal;
 
 internal sealed class ReportDesignerCommand
 {
-    public ReportDesignerCommand( string name, Func<Task> execute, Func<ReportDefinition> getDefinition = null, bool trackHistory = true, bool notifyDefinitionChanged = true )
+    internal ReportDesignerCommand( string name, Func<Task> execute, Func<ReportDefinition> getDefinition = null, bool trackHistory = true, bool notifyDefinitionChanged = true )
     {
         Name = name;
         Execute = execute;
@@ -15,13 +15,13 @@ internal sealed class ReportDesignerCommand
         NotifyDefinitionChanged = notifyDefinitionChanged;
     }
 
-    public string Name { get; }
+    internal string Name { get; }
 
-    public Func<Task> Execute { get; }
+    internal Func<Task> Execute { get; }
 
-    public Func<ReportDefinition> GetDefinition { get; }
+    internal Func<ReportDefinition> GetDefinition { get; }
 
-    public bool TrackHistory { get; }
+    internal bool TrackHistory { get; }
 
-    public bool NotifyDefinitionChanged { get; }
+    internal bool NotifyDefinitionChanged { get; }
 }

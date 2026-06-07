@@ -4,5 +4,5 @@ namespace Blazorise.Reporting.Internal;
 
 internal sealed class ReportDesignerState
 {
-    public ReportState State { get; set; } = new();
+    internal ReportState State { get; set; } = new();
 }
