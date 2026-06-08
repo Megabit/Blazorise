@@ -85,7 +85,7 @@ internal static class ReportDataSourceExplorer
             .Where( x => x.CanRead && x.GetIndexParameters().Length == 0 )
             .OrderBy( x => x.Name ) )
         {
-            var value = property.GetValue( item );
+            var value = ReportFunctionCompiler.GetValue( item, property.Name );
 
             yield return CreateDesignerFieldNode( property.Name, parentPath, property.PropertyType, value, depth, visitedTypes );
         }

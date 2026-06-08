@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Reflection;
 #endregion
 
 namespace Blazorise.Reporting.Internal;
@@ -145,9 +144,7 @@ internal static class ReportDataResolver
             return null;
         }
 
-        var property = item.GetType().GetProperty( segment, BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase );
-
-        return property?.GetValue( item );
+        return ReportFunctionCompiler.GetValue( item, segment );
     }
 
     #endregion
