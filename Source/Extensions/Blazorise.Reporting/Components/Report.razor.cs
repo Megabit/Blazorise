@@ -88,7 +88,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private ReportOptions globalOptions;
 
-    private IJSObjectReference reportingModule;
+    private JSReportingModule reportingModule;
 
     #endregion
 
@@ -141,7 +141,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         {
             try
             {
-                await reportingModule.InvokeVoidAsync( "stopSectionResize" );
+                await reportingModule.StopSectionResize();
                 await reportingModule.DisposeAsync();
             }
             catch ( JSDisconnectedException )
@@ -1594,15 +1594,15 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private async Task StartDocumentSectionResizeAsync( double startClientY )
     {
-        await EnsureReportingModuleAsync();
+        EnsureReportingModule();
         dotNetObjectReference ??= DotNetObjectReference.Create( this );
 
-        await reportingModule.InvokeVoidAsync( "startSectionResize", dotNetObjectReference, startClientY );
+        await reportingModule.StartSectionResize( dotNetObjectReference, startClientY );
     }
 
-    private async Task EnsureReportingModuleAsync()
+    private void EnsureReportingModule()
     {
-        reportingModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>( "import", "./_content/Blazorise.Reporting/blazorise.reporting.js" );
+        reportingModule ??= new( JSRuntime, VersionProvider, BlazoriseOptions );
     }
 
     private ReportDesignerDragPreview CreateElementPointerResizePreview( PointerEventArgs eventArgs )
@@ -1654,9 +1654,9 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private async Task<(double X, double Y)> GetDesignerDragOffsetAsync( ElementReference sectionBodyElement, DragEventArgs eventArgs )
     {
-        await EnsureReportingModuleAsync();
+        EnsureReportingModule();
 
-        var offset = await reportingModule.InvokeAsync<double[]>( "getElementOffset", sectionBodyElement, eventArgs.ClientX, eventArgs.ClientY );
+        var offset = await reportingModule.GetElementOffset( sectionBodyElement, eventArgs.ClientX, eventArgs.ClientY );
 
         return offset is { Length: >= 2 }
             ? ( Math.Max( 0, offset[0] ), Math.Max( 0, offset[1] ) )
@@ -1890,9 +1890,19 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
     private string DataSourceName => "Default";
 
     /// <summary>
-    /// JavaScript runtime used for document-level designer interactions.
+    /// JavaScript runtime used to create the local Reporting module.
     /// </summary>
     [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    /// <summary>
+    /// Version provider used to create the local Reporting module.
+    /// </summary>
+    [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Blazorise options used to create the local Reporting module.
+    /// </summary>
+    [Inject] private BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <summary>
     /// Persisted report definition used by the designer and viewer.

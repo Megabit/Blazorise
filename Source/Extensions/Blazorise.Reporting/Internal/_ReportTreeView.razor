@@ -5,6 +5,8 @@
 @using Microsoft.JSInterop
 @implements IAsyncDisposable
 @inject IJSRuntime JSRuntime
+@inject IVersionProvider VersionProvider
+@inject BlazoriseOptions BlazoriseOptions
 
 @if ( Nodes is not null )
 {
@@ -21,7 +23,7 @@
 
     private ElementReference treeElement;
 
-    private IJSObjectReference reportingModule;
+    private JSReportingModule reportingModule;
 
     private bool treeDragImageSuppressed;
 
@@ -52,13 +54,13 @@
 
         if ( hasDraggableNodes && !treeDragImageSuppressed )
         {
-            reportingModule = await JSRuntime.InvokeAsync<IJSObjectReference>( "import", "./_content/Blazorise.Reporting/blazorise.reporting.js" );
-            await reportingModule.InvokeVoidAsync( "suppressTreeNativeDragImage", treeElement );
+            EnsureReportingModule();
+            await reportingModule.SuppressTreeNativeDragImage( treeElement );
             treeDragImageSuppressed = true;
         }
-        else if ( !hasDraggableNodes && treeDragImageSuppressed && reportingModule is not null )
+        else if ( !hasDraggableNodes && treeDragImageSuppressed )
         {
-            await reportingModule.InvokeVoidAsync( "clearTreeNativeDragImage", treeElement );
+            await reportingModule.ClearTreeNativeDragImage( treeElement );
             treeDragImageSuppressed = false;
         }
     }
@@ -70,7 +72,7 @@
         {
             if ( reportingModule is not null )
             {
-                await reportingModule.InvokeVoidAsync( "clearTreeNativeDragImage", treeElement );
+                await reportingModule.ClearTreeNativeDragImage( treeElement );
                 await reportingModule.DisposeAsync();
             }
         }
@@ -94,6 +96,11 @@
         }
 
         return false;
+    }
+
+    private void EnsureReportingModule()
+    {
+        reportingModule ??= new( JSRuntime, VersionProvider, BlazoriseOptions );
     }
 
     private bool IsExpanded( ReportTreeNode node )
