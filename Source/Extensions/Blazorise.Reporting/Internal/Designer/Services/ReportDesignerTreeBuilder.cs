@@ -22,7 +22,6 @@ internal static class ReportDesignerTreeBuilder
                 Kind = ReportTreeNodeKind.Folder,
                 Children =
                 [
-                    CreateToolboxNode( "toolbox:label", "Label", ReportElementType.Text, "Label" ),
                     CreateToolboxNode( "toolbox:text", "Text", ReportElementType.Text, "Text" ),
                     CreateToolboxNode( "toolbox:image", "Image", ReportElementType.Image, null ),
                     CreateToolboxNode( "toolbox:line", "Line", ReportElementType.Line, null ),
