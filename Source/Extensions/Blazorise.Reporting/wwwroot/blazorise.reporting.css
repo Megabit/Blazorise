@@ -409,7 +409,6 @@
 
 .b-report-element-design {
     border: 1px dashed #4f7ebd;
-    background: rgba(79, 126, 189, .08);
     cursor: move;
     touch-action: none;
     user-select: none;
