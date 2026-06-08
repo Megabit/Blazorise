@@ -41,16 +41,31 @@ internal static class ReportDesignerInteractionService
         if ( pointerDrag.TargetSectionIndex < 0 || pointerDrag.TargetSectionIndex >= definition.Sections.Count )
             return;
 
-        var deltaX = pointerDrag.TargetX - pointerDrag.OriginalX;
-        var targetSection = definition.Sections[pointerDrag.TargetSectionIndex];
         var activeOriginalPageY = getSectionOffsetY( pointerDrag.SourceSectionIndex ) + pointerDrag.OriginalY;
+        var activeTargetPageY = getSectionOffsetY( pointerDrag.TargetSectionIndex ) + pointerDrag.TargetY;
+        var activeCrossedSections = pointerDrag.TargetSectionIndex != pointerDrag.SourceSectionIndex;
+        var deltaX = pointerDrag.TargetX - pointerDrag.OriginalX;
+        var deltaLocalY = pointerDrag.TargetY - pointerDrag.OriginalY;
+        var deltaPageY = activeTargetPageY - activeOriginalPageY;
+        var affectedSectionIndexes = new HashSet<int>();
+        var selectedElementKeys = pointerDrag.SelectedElements.Select( selectedItem => selectedItem.ElementKey ).ToList();
 
         foreach ( var item in pointerDrag.SelectedElements )
         {
             if ( !ReportDefinitionHelper.TryFindElementLocation( definition, item.ElementKey, out var sourceSectionIndex, out var sourceElementIndex, out var element ) )
                 continue;
 
-            var targetLocalY = pointerDrag.TargetY + item.OriginalPageY - activeOriginalPageY;
+            var targetSectionIndex = activeCrossedSections
+                ? ResolveSectionIndex( definition, item.OriginalPageY + deltaPageY, getSectionOffsetY )
+                : item.OriginalSectionIndex;
+
+            if ( targetSectionIndex < 0 || targetSectionIndex >= definition.Sections.Count )
+                targetSectionIndex = sourceSectionIndex;
+
+            var targetSection = definition.Sections[targetSectionIndex];
+            var targetLocalY = activeCrossedSections
+                ? item.OriginalPageY + deltaPageY - getSectionOffsetY( targetSectionIndex )
+                : item.OriginalY + deltaLocalY;
 
             element.X = ReportLayoutGeometry.Clamp( item.OriginalX + deltaX, 0, Math.Max( 0, definition.Page.Width - element.Width ) );
             element.Y = Math.Max( 0, targetLocalY );
@@ -58,22 +73,27 @@ internal static class ReportDesignerInteractionService
             ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement(
                 definition,
                 sourceSectionIndex,
-                pointerDrag.TargetSectionIndex,
+                targetSectionIndex,
                 element,
                 item.OriginalX,
                 item.OriginalWidth,
                 element.X,
                 element.Width,
-                pointerDrag.SelectedElements.Select( selectedItem => selectedItem.ElementKey ) );
+                selectedElementKeys );
 
-            if ( sourceSectionIndex != pointerDrag.TargetSectionIndex )
+            if ( sourceSectionIndex != targetSectionIndex )
             {
                 definition.Sections[sourceSectionIndex].Elements.RemoveAt( sourceElementIndex );
                 targetSection.Elements.Add( element );
             }
+
+            affectedSectionIndexes.Add( targetSectionIndex );
         }
 
-        ReportLayoutGeometry.GrowSectionToFitElements( targetSection );
+        foreach ( var sectionIndex in affectedSectionIndexes )
+        {
+            ReportLayoutGeometry.GrowSectionToFitElements( definition.Sections[sectionIndex] );
+        }
     }
 
     internal static ReportDesignerDragPreview CreateElementResizePreview(
@@ -247,6 +267,7 @@ internal static class ReportDesignerInteractionService
             yield return new()
             {
                 ElementKey = elementKey,
+                OriginalSectionIndex = sectionIndex,
                 OriginalX = element.X,
                 OriginalY = element.Y,
                 OriginalPageY = getSectionOffsetY( sectionIndex ) + element.Y,
@@ -268,6 +289,27 @@ internal static class ReportDesignerInteractionService
             Width = Math.Max( 8, element.Width ),
             Height = Math.Max( 8, element.Height ),
         };
+    }
+
+    private static int ResolveSectionIndex( ReportDefinition definition, double pageY, Func<int, double> getSectionOffsetY )
+    {
+        if ( definition?.Sections is null || definition.Sections.Count == 0 )
+            return -1;
+
+        for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
+        {
+            var sectionTop = getSectionOffsetY( sectionIndex );
+            var nextSectionTop = sectionIndex + 1 < definition.Sections.Count
+                ? getSectionOffsetY( sectionIndex + 1 )
+                : sectionTop + Math.Max( 0, definition.Sections[sectionIndex].Height );
+
+            if ( pageY >= sectionTop && pageY < nextSectionTop )
+                return sectionIndex;
+        }
+
+        return pageY < getSectionOffsetY( 0 )
+            ? 0
+            : definition.Sections.Count - 1;
     }
 
     private static bool HasResizeHandle( ReportElementResizeHandle handle, ReportElementResizeHandle flag )

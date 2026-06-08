@@ -6,6 +6,8 @@ internal sealed class ReportElementPointerItemState
 
     internal string ElementKey { get; set; }
 
+    internal int OriginalSectionIndex { get; set; }
+
     internal double OriginalX { get; set; }
 
     internal double OriginalY { get; set; }
