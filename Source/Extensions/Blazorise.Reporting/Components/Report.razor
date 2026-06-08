@@ -134,8 +134,13 @@
                                                             DesignMode
                                                             Editable="@editable"
                                                             Selected="@selectionManager.IsElementSelected( capturedElementKey )"
+                                                            Editing="@IsElementTextEditing( capturedElementKey )"
+                                                            TextEditingActive="@IsElementTextEditing()"
                                                             Clicked="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => HandleElementClick( capturedElementKey, eventArgs ) ) : default)"
+                                                            DoubleClicked="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => BeginElementTextEdit( capturedElementKey ) ) : default)"
                                                             ContextMenu="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenElementContextMenu( capturedElementKey, eventArgs ) ) : default)"
+                                                            TextEditCommitted="@(editable ? EventCallback.Factory.Create<string>( this, text => CommitElementTextEditAsync( capturedElementKey, text ) ) : default)"
+                                                            TextEditCancelled="@(editable ? EventCallback.Factory.Create( this, () => CancelElementTextEdit( capturedElementKey ) ) : default)"
                                                             PointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginElementPointerDrag( capturedElementKey, eventArgs ) ) : default)"
                                                             NorthWestResizeStarted="@((PointerEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, ReportElementResizeHandle.NorthWest, eventArgs ))"
                                                             NorthResizeStarted="@((PointerEventArgs eventArgs) => BeginElementPointerResize( capturedElementKey, ReportElementResizeHandle.North, eventArgs ))"
@@ -208,6 +213,11 @@
                     }
                     else if ( IsElementContextMenuVisible() )
                     {
+                        @if ( CanContextElementEditText( definition ) )
+                        {
+                            <_ReportDesignerContextMenuButton Text="Edit Text" Clicked="@((MouseEventArgs _) => BeginContextElementTextEdit())" />
+                        }
+
                         <_ReportDesignerContextMenuButton Text="Delete element" Clicked="@((MouseEventArgs _) => DeleteSelectedElementAsync())" />
                     }
 

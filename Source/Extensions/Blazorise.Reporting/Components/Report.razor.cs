@@ -47,6 +47,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private ReportContextMenuState contextMenu;
 
+    private string editingElementKey;
 
     private bool suppressNextSectionClick;
 
@@ -444,6 +445,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         await ExecuteDesignerCommandAsync( new( $"Set {mode} mode", async () =>
         {
             currentMode = mode;
+            editingElementKey = null;
 
             if ( ModeChanged.HasDelegate )
                 await ModeChanged.InvokeAsync( currentMode );
@@ -456,6 +458,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         {
             currentPreviewFormat = format;
             currentMode = ReportStudioMode.Preview;
+            editingElementKey = null;
 
             if ( ModeChanged.HasDelegate )
                 await ModeChanged.InvokeAsync( currentMode );
@@ -470,6 +473,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             SelectReport();
             contextMenu = null;
             dragPreview = null;
+            editingElementKey = null;
 
             return Task.CompletedTask;
         }, () => declarativeDefinition ) );
@@ -583,6 +587,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
         contextMenu = null;
         dragPreview = null;
+        editingElementKey = null;
         ClearDragState();
 
         commandManager.SetState( CaptureReportState( definition ) );
@@ -600,6 +605,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
     {
         selectionManager.SelectReport();
         contextMenu = null;
+        editingElementKey = null;
     }
 
     private void HandleElementClick( string key, MouseEventArgs eventArgs )
@@ -725,6 +731,73 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             ClientX = eventArgs.ClientX,
             ClientY = eventArgs.ClientY,
         };
+    }
+
+    private bool CanContextElementEditText( ReportDefinition definition )
+    {
+        return IsElementContextMenuVisible()
+            && ReportDefinitionHelper.TryFindElementLocation( definition, contextMenu.ElementKey, out _, out _, out var element )
+            && CanEditElementText( element );
+    }
+
+    private static bool CanEditElementText( ReportElementDefinition element )
+    {
+        return element?.Type == ReportElementType.Text;
+    }
+
+    private void BeginContextElementTextEdit()
+    {
+        if ( IsElementContextMenuVisible() )
+            BeginElementTextEdit( contextMenu.ElementKey );
+    }
+
+    private void BeginElementTextEdit( string elementKey )
+    {
+        if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out _, out _, out var element )
+            || !CanEditElementText( element ) )
+        {
+            return;
+        }
+
+        SelectElement( elementKey );
+        editingElementKey = elementKey;
+        contextMenu = null;
+    }
+
+    private void CancelElementTextEdit( string elementKey )
+    {
+        if ( string.Equals( editingElementKey, elementKey, StringComparison.Ordinal ) )
+            editingElementKey = null;
+    }
+
+    private async Task CommitElementTextEditAsync( string elementKey, string text )
+    {
+        editingElementKey = null;
+
+        if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out _, out _, out var currentElement )
+            || !CanEditElementText( currentElement )
+            || string.Equals( currentElement.Text, text, StringComparison.Ordinal ) )
+        {
+            return;
+        }
+
+        await ExecuteDesignerCommandAsync( new( "Edit text", () =>
+        {
+            if ( ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out _, out _, out var element )
+                && CanEditElementText( element ) )
+            {
+                element.Text = text;
+            }
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private bool IsElementTextEditing( string elementKey = null )
+    {
+        return string.IsNullOrWhiteSpace( elementKey )
+            ? !string.IsNullOrWhiteSpace( editingElementKey )
+            : string.Equals( editingElementKey, elementKey, StringComparison.Ordinal );
     }
 
     private void CloseContextMenu()
@@ -974,6 +1047,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
                 SelectSection( lastSectionIndex );
 
             contextMenu = null;
+            editingElementKey = null;
 
             return Task.CompletedTask;
         } ) );
@@ -989,6 +1063,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         draggedElementKey = null;
         draggedElement = null;
         dragPreview = null;
+        editingElementKey = null;
         elementPointerDrag = null;
         elementPointerResize = null;
         sectionPointerResize = null;
@@ -1004,6 +1079,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         draggedElementKey = null;
         draggedElement = null;
         dragPreview = null;
+        editingElementKey = null;
         selectionBox = null;
         elementPointerDrag = null;
         elementPointerResize = null;

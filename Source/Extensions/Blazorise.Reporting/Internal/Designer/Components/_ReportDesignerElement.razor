@@ -2,6 +2,7 @@
 @using System.Linq
 @using System.Threading.Tasks
 @using Blazorise.Utilities
+@using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Web
 
 <div @key="@ElementKey"
@@ -9,31 +10,50 @@
      style="@Style"
      @onclick="Clicked"
      @onclick:stopPropagation="@(DesignMode && Editable)"
+     @ondblclick="DoubleClicked"
+     @ondblclick:preventDefault="@(DesignMode && Editable && CanEditText)"
+     @ondblclick:stopPropagation="@(DesignMode && Editable && CanEditText)"
      @oncontextmenu="ContextMenu"
      @oncontextmenu:preventDefault="@(DesignMode && Editable)"
      @oncontextmenu:stopPropagation="@(DesignMode && Editable)"
      @onpointerdown="PointerDown"
-     @onpointerdown:preventDefault="@(DesignMode && Editable)"
-     @onpointerdown:stopPropagation="@(DesignMode && Editable)">
-    @switch ( Element.Type )
+     @onpointerdown:preventDefault="@(DesignMode && Editable && !Editing && !TextEditingActive)"
+     @onpointerdown:stopPropagation="@(DesignMode && Editable && !Editing)">
+    @if ( Editing && CanEditText )
     {
-        case ReportElementType.Field:
-            @GetFieldText()
-            break;
-        case ReportElementType.Table:
-            <_ReportDesignerTable Element="Element" />
-            break;
-        case ReportElementType.Image:
-            <img src="@Element.Source" alt="@ImageAlternativeText" />
-            break;
-        case ReportElementType.PageBreak:
-            break;
-        default:
-            @Element.Text
-            break;
+        <textarea @ref="textEditElement"
+                  class="b-report-element-text-editor"
+                  value="@textEditValue"
+                  @oninput="OnTextEditInput"
+                  @onblur="CompleteTextEditAsync"
+                  @onkeydown="HandleTextEditKeyDownAsync"
+                  @onkeydown:stopPropagation="true"
+                  @onclick:stopPropagation="true"
+                  @ondblclick:stopPropagation="true"
+                  @onpointerdown:stopPropagation="true"></textarea>
+    }
+    else
+    {
+        @switch ( Element.Type )
+        {
+            case ReportElementType.Field:
+                @GetFieldText()
+                break;
+            case ReportElementType.Table:
+                <_ReportDesignerTable Element="Element" />
+                break;
+            case ReportElementType.Image:
+                <img src="@Element.Source" alt="@ImageAlternativeText" />
+                break;
+            case ReportElementType.PageBreak:
+                break;
+            default:
+                @Element.Text
+                break;
+        }
     }
 
-    @if ( DesignMode && Editable && Selected )
+    @if ( DesignMode && Editable && Selected && !Editing )
     {
         <_ReportDesignerElementResizeHandles NorthWestPointerDown="NorthWestResizeStarted"
                                              NorthPointerDown="NorthResizeStarted"
@@ -50,7 +70,14 @@
     private readonly ClassBuilder classBuilder;
     private readonly StyleBuilder styleBuilder;
 
+    private ElementReference textEditElement;
+    private string textEditValue;
+    private bool textEditCancelled;
+    private bool focusTextEdit;
+
     private string ImageAlternativeText => Element.Text ?? Element.Name;
+
+    private bool CanEditText => Element?.Type == ReportElementType.Text;
 
     private string Class => classBuilder.Class;
 
@@ -69,13 +96,34 @@
         if ( elementDefined
              || ( parameters.TryGetValue<bool>( nameof( DesignMode ), out var paramDesignMode ) && paramDesignMode != DesignMode )
              || ( parameters.TryGetValue<bool>( nameof( Editable ), out var paramEditable ) && paramEditable != Editable )
-             || ( parameters.TryGetValue<bool>( nameof( Selected ), out var paramSelected ) && paramSelected != Selected ) )
+             || ( parameters.TryGetValue<bool>( nameof( Selected ), out var paramSelected ) && paramSelected != Selected )
+             || ( parameters.TryGetValue<bool>( nameof( Editing ), out var paramEditing ) && paramEditing != Editing )
+             || ( parameters.TryGetValue<bool>( nameof( TextEditingActive ), out var paramTextEditingActive ) && paramTextEditingActive != TextEditingActive ) )
             classBuilder.Dirty();
 
         if ( elementDefined )
             styleBuilder.Dirty();
 
+        if ( parameters.TryGetValue<bool>( nameof( Editing ), out var editing ) && editing && editing != Editing )
+        {
+            if ( !parameters.TryGetValue<ReportElementDefinition>( nameof( Element ), out var element ) )
+                element = Element;
+
+            textEditValue = element?.Text;
+            textEditCancelled = false;
+            focusTextEdit = true;
+        }
+
         return base.SetParametersAsync( parameters );
+    }
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( focusTextEdit )
+        {
+            focusTextEdit = false;
+            await textEditElement.FocusAsync();
+        }
     }
 
     private void BuildClasses( ClassBuilder builder )
@@ -86,6 +134,7 @@
         builder.Append( "b-report-element-design", DesignMode );
         builder.Append( "disabled", DesignMode && !Editable );
         builder.Append( "active", DesignMode && Editable && Selected );
+        builder.Append( "editing", DesignMode && Editable && Editing );
     }
 
     private void BuildStyles( StyleBuilder builder )
@@ -103,6 +152,32 @@
             : ReportDataResolver.ResolveItems( Definition, Data, Element.DataSource, Item ).FirstOrDefault() ?? Item;
 
         return ReportDataResolver.FormatValue( ReportDataResolver.ResolveFieldValue( fieldItem, Element.Field ), Element.Format );
+    }
+
+    private async Task CompleteTextEditAsync()
+    {
+        if ( !Editing || textEditCancelled )
+            return;
+
+        await TextEditCommitted.InvokeAsync( textEditValue );
+    }
+
+    private async Task HandleTextEditKeyDownAsync( KeyboardEventArgs eventArgs )
+    {
+        if ( eventArgs.Key == "Escape" )
+        {
+            textEditCancelled = true;
+            await TextEditCancelled.InvokeAsync();
+            return;
+        }
+
+        if ( eventArgs.Key == "Enter" && eventArgs.CtrlKey )
+            await CompleteTextEditAsync();
+    }
+
+    private void OnTextEditInput( ChangeEventArgs eventArgs )
+    {
+        textEditValue = eventArgs.Value?.ToString();
     }
 
     /// <summary>
@@ -146,14 +221,39 @@
     [Parameter] public bool Selected { get; set; }
 
     /// <summary>
+    /// Indicates that the text element is currently edited directly on the designer surface.
+    /// </summary>
+    [Parameter] public bool Editing { get; set; }
+
+    /// <summary>
+    /// Indicates that a text element is currently edited directly on the designer surface.
+    /// </summary>
+    [Parameter] public bool TextEditingActive { get; set; }
+
+    /// <summary>
     /// Raised when the element is clicked on the designer surface.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
     /// <summary>
+    /// Raised when the element is double-clicked on the designer surface.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> DoubleClicked { get; set; }
+
+    /// <summary>
     /// Raised when the element context menu is requested.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> ContextMenu { get; set; }
+
+    /// <summary>
+    /// Raised when inline text editing commits a new value.
+    /// </summary>
+    [Parameter] public EventCallback<string> TextEditCommitted { get; set; }
+
+    /// <summary>
+    /// Raised when inline text editing is cancelled.
+    /// </summary>
+    [Parameter] public EventCallback TextEditCancelled { get; set; }
 
     /// <summary>
     /// Raised when pointer dragging starts on the element.
