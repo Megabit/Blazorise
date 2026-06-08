@@ -1,3 +1,14 @@
+#region Using directives
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Blazorise.Utilities;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
+#endregion
+
 namespace Blazorise.Reporting.Internal;
 
 /// <summary>
@@ -5,4 +16,10 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerSectionResizeHandle
 {
+    private const string Key = "section-resize";
+
+    /// <summary>
+    /// Raised when pointer resizing starts on the section handle.
+    /// </summary>
+    [Parameter] public EventCallback<PointerEventArgs> PointerDown { get; set; }
 }

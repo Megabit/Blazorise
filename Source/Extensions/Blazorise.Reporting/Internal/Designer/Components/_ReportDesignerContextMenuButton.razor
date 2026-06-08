@@ -1,16 +1,5 @@
 @namespace Blazorise.Reporting.Internal
+@inherits ReportComponentBase
 @using Microsoft.AspNetCore.Components.Web
 
 <button type="button" @onclick="Clicked">@Text</button>
-
-@code {
-    /// <summary>
-    /// Context menu button text.
-    /// </summary>
-    [Parameter] public string Text { get; set; }
-
-    /// <summary>
-    /// Raised when the context menu button is clicked.
-    /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
-}

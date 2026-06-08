@@ -1,4 +1,5 @@
 @namespace Blazorise.Reporting.Internal
+@inherits ReportComponentBase
 @using System
 @using Microsoft.AspNetCore.Components.Web
 
@@ -23,39 +24,3 @@
         @Properties
     }
 </div>
-
-@code {
-    private const string ExplorerTab = "Explorer";
-
-    private const string PropertiesTab = "Properties";
-
-    private Color GetTabColor( string tab )
-    {
-        return string.Equals( SelectedTab, tab, StringComparison.Ordinal ) ? Color.Primary : Color.Light;
-    }
-
-    private Task SelectTab( string tab )
-    {
-        return SelectedTabChanged.InvokeAsync( tab );
-    }
-
-    /// <summary>
-    /// Name of the currently selected designer panel tab.
-    /// </summary>
-    [Parameter] public string SelectedTab { get; set; }
-
-    /// <summary>
-    /// Raised when the selected designer panel tab changes.
-    /// </summary>
-    [Parameter] public EventCallback<string> SelectedTabChanged { get; set; }
-
-    /// <summary>
-    /// Content shown by the properties tab.
-    /// </summary>
-    [Parameter] public RenderFragment Properties { get; set; }
-
-    /// <summary>
-    /// Content shown by the report explorer tab.
-    /// </summary>
-    [Parameter] public RenderFragment Explorer { get; set; }
-}

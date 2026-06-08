@@ -1,3 +1,14 @@
+#region Using directives
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Blazorise.Utilities;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
+#endregion
+
 namespace Blazorise.Reporting.Internal;
 
 /// <summary>
@@ -5,4 +16,23 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerTextProperty
 {
+    /// <summary>
+    /// Property label.
+    /// </summary>
+    [Parameter] public string Label { get; set; }
+
+    /// <summary>
+    /// Current text value.
+    /// </summary>
+    [Parameter] public string Value { get; set; }
+
+    /// <summary>
+    /// Prevents editing the value.
+    /// </summary>
+    [Parameter] public bool ReadOnly { get; set; }
+
+    /// <summary>
+    /// Raised when the text value changes.
+    /// </summary>
+    [Parameter] public EventCallback<string> Changed { get; set; }
 }

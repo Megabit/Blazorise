@@ -1,44 +1,8 @@
 @namespace Blazorise.Reporting.Internal
+@inherits ReportComponentBase
 @using System
 
 <h5>Report Explorer</h5>
 <_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildReportExplorerNodes( Definition, ReportSelected, SelectedSectionIndex, SelectedElementKey, IsElementSelected )"
                  NodeClicked="@NodeClicked"
                  NodeContextMenu="@NodeContextMenu" />
-
-@code {
-    /// <summary>
-    /// Report definition represented by the explorer tree.
-    /// </summary>
-    [Parameter] public ReportDefinition Definition { get; set; }
-
-    /// <summary>
-    /// Indicates that the root report node is selected.
-    /// </summary>
-    [Parameter] public bool ReportSelected { get; set; }
-
-    /// <summary>
-    /// Index of the selected section.
-    /// </summary>
-    [Parameter] public int? SelectedSectionIndex { get; set; }
-
-    /// <summary>
-    /// Key of the selected primary element.
-    /// </summary>
-    [Parameter] public string SelectedElementKey { get; set; }
-
-    /// <summary>
-    /// Determines whether an element key belongs to the current selection.
-    /// </summary>
-    [Parameter] public Func<string, bool> IsElementSelected { get; set; }
-
-    /// <summary>
-    /// Raised when an explorer node is clicked.
-    /// </summary>
-    [Parameter] public EventCallback<ReportTreeNode> NodeClicked { get; set; }
-
-    /// <summary>
-    /// Raised when an explorer node context menu is requested.
-    /// </summary>
-    [Parameter] public EventCallback<ReportTreeNodeMouseEventArgs> NodeContextMenu { get; set; }
-}

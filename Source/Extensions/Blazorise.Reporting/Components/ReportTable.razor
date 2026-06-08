@@ -4,13 +4,3 @@
 <CascadingValue Value="@Definition" IsFixed="true">
     @ChildContent
 </CascadingValue>
-
-@code {
-    /// <inheritdoc />
-    protected override ReportElementType ElementType => ReportElementType.Table;
-
-    /// <summary>
-    /// Columns declared inside the report table.
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
-}

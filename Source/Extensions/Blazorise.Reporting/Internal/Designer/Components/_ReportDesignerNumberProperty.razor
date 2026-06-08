@@ -1,25 +1,7 @@
 @namespace Blazorise.Reporting.Internal
+@inherits ReportComponentBase
 
 <Field Margin="Margin.Is2.FromBottom">
     <FieldLabel>@Label</FieldLabel>
     <NumericInput TValue="double" Value="@Value" ValueChanged="@Changed" Immediate="true" Step="@Step" />
 </Field>
-
-@code {
-    private static readonly decimal? Step = 1m;
-
-    /// <summary>
-    /// Property label.
-    /// </summary>
-    [Parameter] public string Label { get; set; }
-
-    /// <summary>
-    /// Current numeric value.
-    /// </summary>
-    [Parameter] public double Value { get; set; }
-
-    /// <summary>
-    /// Raised when the numeric value changes.
-    /// </summary>
-    [Parameter] public EventCallback<double> Changed { get; set; }
-}

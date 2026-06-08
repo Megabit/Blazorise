@@ -1,0 +1,33 @@
+@namespace Blazorise.Reporting.Internal
+@inherits ReportComponentBase
+
+@if ( Nodes is not null )
+{
+    @foreach ( ReportTreeNode node in Nodes )
+    {
+        <div @key="@node.Key" class="b-report-treeview-node">
+            <_ReportTreeViewNode Node="node"
+                                 Level="Level"
+                                 Expanded="@IsExpanded( node )"
+                                 HasChildren="@HasChildren( node )"
+                                 NodeClicked="NodeClicked"
+                                 NodeContextMenu="NodeContextMenu"
+                                 NodeDragStarted="NodeDragStarted"
+                                 NodeDragEnded="NodeDragEnded"
+                                 ToggleClicked="@(() => ToggleNode( node ))" />
+
+            @if ( HasChildren( node ) && IsExpanded( node ) )
+            {
+                <_ReportTreeViewNodes Nodes="node.Children"
+                                      Level="@(Level + 1)"
+                                      NodeClicked="NodeClicked"
+                                      NodeContextMenu="NodeContextMenu"
+                                      NodeDragStarted="NodeDragStarted"
+                                      NodeDragEnded="NodeDragEnded"
+                                      IsNodeExpanded="IsNodeExpanded"
+                                      HasNodeChildren="HasNodeChildren"
+                                      ToggleNode="ToggleNode" />
+            }
+        </div>
+    }
+}

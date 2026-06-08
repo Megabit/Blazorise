@@ -1,65 +1,8 @@
 @namespace Blazorise.Reporting.Internal
+@inherits ReportComponentBase
 @using System.Threading.Tasks
 @using Blazorise.Utilities
 
 <div @key="@Key"
      class="b-report-selection-box"
      style="@Style"></div>
-
-@code {
-    private const string Key = "selection-box";
-
-    private readonly StyleBuilder styleBuilder;
-
-    private string Style => styleBuilder.Styles;
-
-    public _ReportDesignerSelectionBox()
-    {
-        styleBuilder = new( BuildStyles );
-    }
-
-    public override Task SetParametersAsync( ParameterView parameters )
-    {
-        if ( ( parameters.TryGetValue<double>( nameof( X ), out var paramX ) && paramX != X )
-             || ( parameters.TryGetValue<double>( nameof( Y ), out var paramY ) && paramY != Y )
-             || ( parameters.TryGetValue<double>( nameof( Width ), out var paramWidth ) && paramWidth != Width )
-             || ( parameters.TryGetValue<double>( nameof( Height ), out var paramHeight ) && paramHeight != Height )
-             || ( parameters.TryGetValue<double>( nameof( LeftOffset ), out var paramLeftOffset ) && paramLeftOffset != LeftOffset ) )
-            styleBuilder.Dirty();
-
-        return base.SetParametersAsync( parameters );
-    }
-
-    private void BuildStyles( StyleBuilder builder )
-    {
-        builder.Append( $"left:{X + LeftOffset}px" );
-        builder.Append( $"top:{Y}px" );
-        builder.Append( $"width:{Width}px" );
-        builder.Append( $"height:{Height}px" );
-    }
-
-    /// <summary>
-    /// Left selection coordinate.
-    /// </summary>
-    [Parameter] public double X { get; set; }
-
-    /// <summary>
-    /// Top selection coordinate.
-    /// </summary>
-    [Parameter] public double Y { get; set; }
-
-    /// <summary>
-    /// Selection width.
-    /// </summary>
-    [Parameter] public double Width { get; set; }
-
-    /// <summary>
-    /// Selection height.
-    /// </summary>
-    [Parameter] public double Height { get; set; }
-
-    /// <summary>
-    /// Horizontal offset applied when the band rail is visible.
-    /// </summary>
-    [Parameter] public double LeftOffset { get; set; }
-}

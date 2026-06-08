@@ -1,18 +1,7 @@
 @namespace Blazorise.Reporting.Internal
+@inherits ReportComponentBase
 
 <Div Margin="Margin.Is3.FromBottom">
     <h6>@Title</h6>
     @ChildContent
 </Div>
-
-@code {
-    /// <summary>
-    /// Group heading text.
-    /// </summary>
-    [Parameter] public string Title { get; set; }
-
-    /// <summary>
-    /// Property editor content.
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
-}

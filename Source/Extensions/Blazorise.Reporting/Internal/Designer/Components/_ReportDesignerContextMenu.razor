@@ -1,4 +1,5 @@
 @namespace Blazorise.Reporting.Internal
+@inherits ReportComponentBase
 @using System.Threading.Tasks
 @using Blazorise.Utilities
 
@@ -7,50 +8,4 @@
     <div class="b-report-context-menu" style="@Style">
         @ChildContent
     </div>
-}
-
-@code {
-    private readonly StyleBuilder styleBuilder;
-
-    private string Style => styleBuilder.Styles;
-
-    public _ReportDesignerContextMenu()
-    {
-        styleBuilder = new( BuildStyles );
-    }
-
-    public override Task SetParametersAsync( ParameterView parameters )
-    {
-        if ( ( parameters.TryGetValue<double>( nameof( X ), out var paramX ) && paramX != X )
-             || ( parameters.TryGetValue<double>( nameof( Y ), out var paramY ) && paramY != Y ) )
-            styleBuilder.Dirty();
-
-        return base.SetParametersAsync( parameters );
-    }
-
-    private void BuildStyles( StyleBuilder builder )
-    {
-        builder.Append( $"left:{X}px" );
-        builder.Append( $"top:{Y}px" );
-    }
-
-    /// <summary>
-    /// Indicates that the context menu is visible.
-    /// </summary>
-    [Parameter] public bool Visible { get; set; }
-
-    /// <summary>
-    /// Horizontal client coordinate of the context menu.
-    /// </summary>
-    [Parameter] public double X { get; set; }
-
-    /// <summary>
-    /// Vertical client coordinate of the context menu.
-    /// </summary>
-    [Parameter] public double Y { get; set; }
-
-    /// <summary>
-    /// Context menu commands.
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
 }

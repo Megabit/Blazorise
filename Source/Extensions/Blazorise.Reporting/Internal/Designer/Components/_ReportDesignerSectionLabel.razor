@@ -1,12 +1,4 @@
 @namespace Blazorise.Reporting.Internal
+@inherits ReportComponentBase
 
 <div class="b-report-section-label">@Label</div>
-
-@code {
-    private string Label => $"{ReportDefinitionHelper.GetSectionTypeDisplayName( Section.Type )}: {ReportDefinitionHelper.GetSectionDisplayName( Section )}";
-
-    /// <summary>
-    /// Report section displayed in the designer label.
-    /// </summary>
-    [Parameter] public ReportSectionDefinition Section { get; set; }
-}
