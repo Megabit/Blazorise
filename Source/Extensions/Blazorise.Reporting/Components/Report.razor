@@ -4,6 +4,7 @@
 @using System
 @using System.Linq
 @using System.Threading.Tasks
+@using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Web
 @using Blazorise.Reporting.Internal
 
@@ -98,6 +99,7 @@
                                                     Collapsed="@collapsed"
                                                     RailVisible="@railVisible"
                                                     Editable="@editable"
+                                                    ExternalDragActive="@IsExternalDesignerDragActive()"
                                                     AllowBandCollapse="@AllowBandCollapse"
                                                     ShowBandDataSource="@ShowBandDataSource"
                                                     ShowDragPreview="@dragPreviewVisible"
@@ -112,8 +114,8 @@
                                                     RailContextMenu="@((MouseEventArgs eventArgs) => OpenSectionContextMenu( capturedSectionIndex, eventArgs ))"
                                                     BodyContextMenu="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenSectionContextMenu( capturedSectionIndex, eventArgs ) ) : default)"
                                                     BodyPointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSelectionBox( capturedSectionIndex, eventArgs ) ) : default)"
-                                                    DragOver="@(editable ? (Func<DragEventArgs, Task>)( eventArgs => PreviewDesignerDragAsync( capturedSectionIndex, eventArgs ) ) : null)"
-                                                    Drop="@(editable ? EventCallback.Factory.Create<DragEventArgs>( this, eventArgs => DropDesignerItemAsync( capturedSectionIndex, eventArgs ) ) : default)"
+                                                    DragOver="@(editable ? (Func<ElementReference, DragEventArgs, Task>)( ( elementReference, eventArgs ) => PreviewDesignerDragAsync( capturedSectionIndex, elementReference, eventArgs ) ) : null)"
+                                                    Drop="@(editable ? (Func<ElementReference, DragEventArgs, Task>)( ( elementReference, eventArgs ) => DropDesignerItemAsync( capturedSectionIndex, elementReference, eventArgs ) ) : null)"
                                                     PointerMove="@(editable ? (Func<PointerEventArgs, Task>)( eventArgs => PreviewElementPointerInteractionAsync( capturedSectionIndex, eventArgs ) ) : null)"
                                                     PointerUp="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => CompleteElementPointerInteractionAsync( capturedSectionIndex, eventArgs ) ) : default)"
                                                     PointerCancel="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, _ => CancelElementPointerInteractionAsync() ) : default)"

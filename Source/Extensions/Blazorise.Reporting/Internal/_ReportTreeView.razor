@@ -1,9 +1,14 @@
 @namespace Blazorise.Reporting.Internal
+@using System
 @using System.Collections.Generic
+@using System.Threading.Tasks
+@using Microsoft.JSInterop
+@implements IAsyncDisposable
+@inject IJSRuntime JSRuntime
 
 @if ( Nodes is not null )
 {
-    <div class="b-report-treeview">
+    <div @ref="treeElement" class="b-report-treeview">
         @foreach ( var node in Nodes )
         {
             @RenderNode( node, 0 )
@@ -13,6 +18,12 @@
 
 @code {
     private readonly HashSet<string> collapsedNodeKeys = [];
+
+    private ElementReference treeElement;
+
+    private IJSObjectReference reportingModule;
+
+    private bool treeDragImageSuppressed;
 
     private RenderFragment RenderNode( ReportTreeNode node, int level ) => @<div @key="@node.Key" class="b-report-treeview-node">
         <_ReportTreeViewNode Node="node"
@@ -34,8 +45,56 @@
         }
     </div>;
 
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        bool hasDraggableNodes = HasDraggableNodes( Nodes );
+
+        if ( hasDraggableNodes && !treeDragImageSuppressed )
+        {
+            reportingModule = await JSRuntime.InvokeAsync<IJSObjectReference>( "import", "./_content/Blazorise.Reporting/blazorise.reporting.js" );
+            await reportingModule.InvokeVoidAsync( "suppressTreeNativeDragImage", treeElement );
+            treeDragImageSuppressed = true;
+        }
+        else if ( !hasDraggableNodes && treeDragImageSuppressed && reportingModule is not null )
+        {
+            await reportingModule.InvokeVoidAsync( "clearTreeNativeDragImage", treeElement );
+            treeDragImageSuppressed = false;
+        }
+    }
+
+    /// <inheritdoc />
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            if ( reportingModule is not null )
+            {
+                await reportingModule.InvokeVoidAsync( "clearTreeNativeDragImage", treeElement );
+                await reportingModule.DisposeAsync();
+            }
+        }
+        catch ( JSDisconnectedException )
+        {
+        }
+    }
+
     private static bool HasChildren( ReportTreeNode node )
         => node?.Children?.Count > 0;
+
+    private static bool HasDraggableNodes( IEnumerable<ReportTreeNode> nodes )
+    {
+        if ( nodes is null )
+            return false;
+
+        foreach ( ReportTreeNode node in nodes )
+        {
+            if ( node.Draggable || HasDraggableNodes( node.Children ) )
+                return true;
+        }
+
+        return false;
+    }
 
     private bool IsExpanded( ReportTreeNode node )
         => node?.Key is not null && !collapsedNodeKeys.Contains( node.Key );

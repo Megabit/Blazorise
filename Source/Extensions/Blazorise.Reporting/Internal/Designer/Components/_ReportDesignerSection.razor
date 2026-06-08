@@ -32,12 +32,13 @@
         if ( DesignMode )
         {
             <div class="@BodyClass"
+                 @ref="bodyElement"
                  style="@BodyStyle"
                  @onpointerdown="BodyPointerDown"
                  @onpointerdown:preventDefault="Editable"
                  @ondragover="NonRenderingDragOver"
                  @ondragover:preventDefault="Editable"
-                 @ondrop="Drop"
+                 @ondrop="OnDropAsync"
                  @ondrop:preventDefault="Editable"
                  @onpointermove="NonRenderingPointerMove"
                  @onpointermove:preventDefault="Editable"
@@ -78,6 +79,8 @@
     private readonly ClassBuilder sectionClassBuilder;
     private readonly StyleBuilder sectionStyleBuilder;
 
+    private ElementReference bodyElement;
+
     private string BodyClass => bodyClassBuilder.Class;
 
     private string BodyStyle => bodyStyleBuilder.Styles;
@@ -106,6 +109,9 @@
         if ( sectionDefined || railVisibleChanged )
             bodyClassBuilder.Dirty();
 
+        if ( parameters.TryGetValue<bool>( nameof( ExternalDragActive ), out var paramExternalDragActive ) && paramExternalDragActive != ExternalDragActive )
+            bodyClassBuilder.Dirty();
+
         if ( railVisibleChanged
              || ( parameters.TryGetValue<double>( nameof( BodyLeft ), out var paramBodyLeft ) && paramBodyLeft != BodyLeft )
              || ( parameters.TryGetValue<double>( nameof( BodyWidth ), out var paramBodyWidth ) && paramBodyWidth != BodyWidth ) )
@@ -127,6 +133,7 @@
     {
         builder.Append( "b-report-section-body" );
         builder.Append( "b-report-section-body-rail", RailVisible );
+        builder.Append( "b-report-section-body-external-drag", ExternalDragActive );
         builder.Append( "disabled", Section.Suppressed );
     }
 
@@ -153,12 +160,17 @@
 
     private Task OnDragOverAsync( DragEventArgs eventArgs )
     {
-        return DragOver?.Invoke( eventArgs ) ?? Task.CompletedTask;
+        return DragOver?.Invoke( bodyElement, eventArgs ) ?? Task.CompletedTask;
     }
 
     private Task OnPointerMoveAsync( PointerEventArgs eventArgs )
     {
         return PointerMove?.Invoke( eventArgs ) ?? Task.CompletedTask;
+    }
+
+    private Task OnDropAsync( DragEventArgs eventArgs )
+    {
+        return Drop?.Invoke( bodyElement, eventArgs ) ?? Task.CompletedTask;
     }
 
     /// <summary>
@@ -210,6 +222,11 @@
     /// Allows designer interactions inside the section body.
     /// </summary>
     [Parameter] public bool Editable { get; set; }
+
+    /// <summary>
+    /// Indicates that a field or toolbox item is being dragged over the designer.
+    /// </summary>
+    [Parameter] public bool ExternalDragActive { get; set; }
 
     /// <summary>
     /// Allows the band rail toggle to collapse and expand this section.
@@ -289,12 +306,12 @@
     /// <summary>
     /// Raised while a toolbox or field item is dragged over the section body.
     /// </summary>
-    [Parameter] public Func<DragEventArgs, Task> DragOver { get; set; }
+    [Parameter] public Func<ElementReference, DragEventArgs, Task> DragOver { get; set; }
 
     /// <summary>
     /// Raised when a toolbox or field item is dropped onto the section body.
     /// </summary>
-    [Parameter] public EventCallback<DragEventArgs> Drop { get; set; }
+    [Parameter] public Func<ElementReference, DragEventArgs, Task> Drop { get; set; }
 
     /// <summary>
     /// Raised while pointer element interaction continues inside the section body.

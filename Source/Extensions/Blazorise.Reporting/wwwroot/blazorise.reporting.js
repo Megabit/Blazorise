@@ -1,5 +1,6 @@
 let sectionResize;
 const listenerOptions = { capture: true, passive: false };
+const treeDragImageSuppressors = new WeakMap();
 
 export function startSectionResize( dotNetReference, startClientY ) {
     stopSectionResize();
@@ -44,6 +45,56 @@ export function stopSectionResize() {
     }
 
     clearSectionResize( resize );
+}
+
+export function getElementOffset( element, clientX, clientY ) {
+    if ( !element || typeof element.getBoundingClientRect !== "function" ) {
+        return [0, 0];
+    }
+
+    const rectangle = element.getBoundingClientRect();
+
+    return [
+        Math.max( 0, ( clientX ?? 0 ) - rectangle.left ),
+        Math.max( 0, ( clientY ?? 0 ) - rectangle.top ),
+    ];
+}
+
+export function suppressTreeNativeDragImage( element ) {
+    if ( !element || typeof element.addEventListener !== "function" ) {
+        return;
+    }
+
+    clearTreeNativeDragImage( element );
+
+    const suppressor = {
+        dragImage: createTransparentDragImage(),
+        dragStart: event => {
+            if ( !event.target?.closest?.( ".b-report-treeview-row.draggable" ) || !event.dataTransfer?.setDragImage ) {
+                return;
+            }
+
+            event.dataTransfer.setDragImage( suppressor.dragImage, 0, 0 );
+        },
+    };
+
+    element.addEventListener( "dragstart", suppressor.dragStart, true );
+    treeDragImageSuppressors.set( element, suppressor );
+}
+
+export function clearTreeNativeDragImage( element ) {
+    if ( !element || typeof element.removeEventListener !== "function" ) {
+        return;
+    }
+
+    const suppressor = treeDragImageSuppressors.get( element );
+
+    if ( !suppressor ) {
+        return;
+    }
+
+    element.removeEventListener( "dragstart", suppressor.dragStart, true );
+    treeDragImageSuppressors.delete( element );
 }
 
 function clearSectionResize( resize ) {
@@ -119,4 +170,12 @@ function getClientY( event, fallback ) {
     return typeof touch?.clientY === "number"
         ? touch.clientY
         : fallback;
+}
+
+function createTransparentDragImage() {
+    const canvas = document.createElement( "canvas" );
+    canvas.width = 1;
+    canvas.height = 1;
+
+    return canvas;
 }

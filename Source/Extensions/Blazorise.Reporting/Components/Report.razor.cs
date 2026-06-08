@@ -1006,6 +1006,11 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         elementPointerResize = null;
     }
 
+    private bool IsExternalDesignerDragActive()
+    {
+        return draggedKind is ReportDesignerDragKind.Field or ReportDesignerDragKind.ToolboxElement;
+    }
+
     private void BeginElementPointerDrag( string elementKey, PointerEventArgs eventArgs )
     {
         if ( eventArgs.CtrlKey )
@@ -1589,10 +1594,15 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private async Task StartDocumentSectionResizeAsync( double startClientY )
     {
-        reportingModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>( "import", "./_content/Blazorise.Reporting/blazorise.reporting.js" );
+        await EnsureReportingModuleAsync();
         dotNetObjectReference ??= DotNetObjectReference.Create( this );
 
         await reportingModule.InvokeVoidAsync( "startSectionResize", dotNetObjectReference, startClientY );
+    }
+
+    private async Task EnsureReportingModuleAsync()
+    {
+        reportingModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>( "import", "./_content/Blazorise.Reporting/blazorise.reporting.js" );
     }
 
     private ReportDesignerDragPreview CreateElementPointerResizePreview( PointerEventArgs eventArgs )
@@ -1605,12 +1615,13 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             ApplyDesignerGrid );
     }
 
-    private async Task PreviewDesignerDragAsync( int targetSectionIndex, DragEventArgs eventArgs )
+    private async Task PreviewDesignerDragAsync( int targetSectionIndex, ElementReference sectionBodyElement, DragEventArgs eventArgs )
     {
         if ( draggedKind == ReportDesignerDragKind.None )
             return;
 
-        var preview = CreateDragPreview( targetSectionIndex, ApplyDesignerGrid( eventArgs.OffsetX ), ApplyDesignerGrid( eventArgs.OffsetY ) );
+        var offset = await GetDesignerDragOffsetAsync( sectionBodyElement, eventArgs );
+        var preview = CreateDragPreview( targetSectionIndex, ApplyDesignerGrid( offset.X ), ApplyDesignerGrid( offset.Y ) );
 
         if ( preview is null )
             return;
@@ -1641,15 +1652,27 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         await InvokeAsync( StateHasChanged );
     }
 
-    private async Task DropDesignerItemAsync( int targetSectionIndex, DragEventArgs eventArgs )
+    private async Task<(double X, double Y)> GetDesignerDragOffsetAsync( ElementReference sectionBodyElement, DragEventArgs eventArgs )
+    {
+        await EnsureReportingModuleAsync();
+
+        var offset = await reportingModule.InvokeAsync<double[]>( "getElementOffset", sectionBodyElement, eventArgs.ClientX, eventArgs.ClientY );
+
+        return offset is { Length: >= 2 }
+            ? ( Math.Max( 0, offset[0] ), Math.Max( 0, offset[1] ) )
+            : ( Math.Max( 0, eventArgs.OffsetX ), Math.Max( 0, eventArgs.OffsetY ) );
+    }
+
+    private async Task DropDesignerItemAsync( int targetSectionIndex, ElementReference sectionBodyElement, DragEventArgs eventArgs )
     {
         var definition = EffectiveDefinition;
 
         if ( targetSectionIndex < 0 || targetSectionIndex >= definition.Sections.Count )
             return;
 
-        var x = ApplyDesignerGrid( eventArgs.OffsetX );
-        var y = ApplyDesignerGrid( eventArgs.OffsetY );
+        var offset = await GetDesignerDragOffsetAsync( sectionBodyElement, eventArgs );
+        var x = ApplyDesignerGrid( offset.X );
+        var y = ApplyDesignerGrid( offset.Y );
 
         var commandName = draggedKind switch
         {

@@ -376,6 +376,11 @@
     pointer-events: none;
 }
 
+.b-report-section-body-external-drag .b-report-element-design,
+.b-report-section-body-external-drag .b-report-section-resize-handle {
+    pointer-events: none;
+}
+
 .b-report-section-resize-handle {
     position: absolute;
     right: 0;
