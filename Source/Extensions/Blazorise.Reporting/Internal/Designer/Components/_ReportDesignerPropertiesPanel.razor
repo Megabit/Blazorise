@@ -73,7 +73,7 @@
                         <_ReportDesignerTextProperty Label="Text" Value="@SelectedElement.Text" Changed="@(value => UpdateSelectedElement( element => element.Text = value ))" />
                         break;
                     case ReportElementType.Field:
-                        <_ReportDesignerTextProperty Label="Expression" Value="@ReportDefinitionHelper.FormatFieldExpression( SelectedElement )" ReadOnly />
+                        <_ReportDesignerTextProperty Label="Expression" Value="@ReportExpressionFormatter.FormatFieldExpression( Definition, SelectedElement )" ReadOnly />
                         <_ReportDesignerTextProperty Label="Format" Value="@SelectedElement.Format" Changed="@(value => UpdateSelectedElement( element => element.Format = value ))" />
                         break;
                     case ReportElementType.Image:

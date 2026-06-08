@@ -89,6 +89,26 @@ internal static class ReportElementDefinitionHelper
         return element.Border ??= new();
     }
 
+    internal static string GetDisplayText( ReportElementDefinition element )
+    {
+        if ( element is null )
+            return string.Empty;
+
+        return element.Type == ReportElementType.Field
+            ? ReportExpressionFormatter.FormatFieldExpression( element )
+            : element.Text ?? element.Name ?? element.Type.ToString();
+    }
+
+    internal static string GetDisplayText( ReportDefinition definition, ReportElementDefinition element )
+    {
+        if ( element is null )
+            return string.Empty;
+
+        return element.Type == ReportElementType.Field
+            ? ReportExpressionFormatter.FormatFieldExpression( definition, element )
+            : element.Text ?? element.Name ?? element.Type.ToString();
+    }
+
     internal static string NormalizeColorValue( string value )
     {
         return !string.IsNullOrWhiteSpace( value ) && value.StartsWith( "#", StringComparison.Ordinal ) && value.Length == 7

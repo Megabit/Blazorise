@@ -43,61 +43,31 @@ internal static class ReportDefinitionHelper
         return definition;
     }
 
-    internal static string FormatFieldExpression( ReportElementDefinition element )
-    {
-        if ( element is null || string.IsNullOrWhiteSpace( element.Field ) )
-            return string.Empty;
-
-        return FormatFieldExpression( element.DataSource, element.Field );
-    }
-
-    internal static string FormatFieldExpression( string dataSourceName, string fieldName )
+    internal static (string DataSourceName, string FieldName) NormalizeFieldBindingForSection( ReportDefinition definition, ReportSectionDefinition section, string dataSourceName, string fieldName )
     {
         if ( string.IsNullOrWhiteSpace( fieldName ) )
-            return string.Empty;
-
-        var expression = string.IsNullOrWhiteSpace( dataSourceName )
-            ? fieldName
-            : $"{dataSourceName}.{fieldName}";
-
-        return $"{{{expression}}}";
-    }
-
-    internal static void AppendFieldExpressionToText( ReportElementDefinition element, string dataSourceName, string fieldName )
-    {
-        if ( element is null || element.Type != ReportElementType.Text )
-            return;
-
-        var expression = FormatFieldExpression( dataSourceName, fieldName );
-
-        if ( string.IsNullOrWhiteSpace( expression ) )
-            return;
-
-        element.Text = string.IsNullOrEmpty( element.Text )
-            ? expression
-            : element.Text.EndsWith( " ", StringComparison.Ordinal ) || element.Text.EndsWith( Environment.NewLine, StringComparison.Ordinal )
-                ? $"{element.Text}{expression}"
-                : $"{element.Text} {expression}";
-    }
-
-    internal static (string DataSourceName, string FieldName) NormalizeFieldBindingForSection( ReportSectionDefinition section, string dataSourceName, string fieldName )
-    {
-        if ( section is null || string.IsNullOrWhiteSpace( section.DataSource ) || string.IsNullOrWhiteSpace( fieldName ) )
             return (dataSourceName, fieldName);
 
-        var sectionDataSource = section.DataSource.Trim();
-        var fieldPath = string.IsNullOrWhiteSpace( dataSourceName )
-            ? fieldName
-            : $"{dataSourceName}.{fieldName}";
-        var sectionPrefix = $"{sectionDataSource}.";
+        string fieldPath = ReportExpressionFormatter.FormatFieldPath( dataSourceName, fieldName );
 
-        if ( fieldPath.StartsWith( sectionPrefix, StringComparison.OrdinalIgnoreCase ) )
-            return (null, fieldPath[sectionPrefix.Length..]);
+        if ( section is not null && !string.IsNullOrWhiteSpace( section.DataSource ) )
+        {
+            string sectionDataSource = section.DataSource.Trim();
+            string sectionPrefix = $"{sectionDataSource}.";
 
-        if ( fieldName.StartsWith( sectionPrefix, StringComparison.OrdinalIgnoreCase ) )
-            return (null, fieldName[sectionPrefix.Length..]);
+            if ( fieldPath.StartsWith( sectionPrefix, StringComparison.OrdinalIgnoreCase ) )
+                return (null, fieldPath[sectionPrefix.Length..]);
 
-        if ( string.Equals( dataSourceName, sectionDataSource, StringComparison.OrdinalIgnoreCase ) )
+            if ( fieldName.StartsWith( sectionPrefix, StringComparison.OrdinalIgnoreCase ) )
+                return (null, fieldName[sectionPrefix.Length..]);
+
+            if ( string.Equals( dataSourceName, sectionDataSource, StringComparison.OrdinalIgnoreCase ) )
+                return (null, fieldName);
+        }
+
+        string rootDataSourceName = definition?.DataSources.FirstOrDefault()?.Name;
+
+        if ( !string.IsNullOrWhiteSpace( rootDataSourceName ) && string.Equals( dataSourceName, rootDataSourceName, StringComparison.OrdinalIgnoreCase ) )
             return (null, fieldName);
 
         return (dataSourceName, fieldName);

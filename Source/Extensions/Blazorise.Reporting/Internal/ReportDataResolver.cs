@@ -66,11 +66,6 @@ internal static class ReportDataResolver
         return ResolvePathValue( definition?.DataSources.FirstOrDefault()?.Data ?? defaultData, trimmedDataSource );
     }
 
-    internal static object ResolveFieldValue( object item, string field )
-    {
-        return ResolvePathValue( item, field );
-    }
-
     internal static object ResolvePathValue( object item, string path )
     {
         if ( item is null || string.IsNullOrWhiteSpace( path ) )

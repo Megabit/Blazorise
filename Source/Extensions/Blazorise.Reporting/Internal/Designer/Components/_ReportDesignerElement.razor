@@ -1,5 +1,4 @@
 @namespace Blazorise.Reporting.Internal
-@using System.Linq
 @using System.Threading.Tasks
 @using Blazorise.Utilities
 @using Microsoft.AspNetCore.Components
@@ -148,13 +147,9 @@
     private string GetFieldText()
     {
         if ( DesignMode )
-            return ReportDefinitionHelper.FormatFieldExpression( Element );
+            return ReportExpressionFormatter.FormatFieldExpression( Definition, Element );
 
-        var fieldItem = string.IsNullOrWhiteSpace( Element.DataSource )
-            ? Item
-            : ReportDataResolver.ResolveItems( Definition, Data, Element.DataSource, Item ).FirstOrDefault() ?? Item;
-
-        return ReportDataResolver.FormatValue( ReportDataResolver.ResolveFieldValue( fieldItem, Element.Field ), Element.Format );
+        return ReportDataResolver.FormatValue( ReportExpressionResolver.ResolveFieldValue( Definition, Data, Item, Element ), Element.Format );
     }
 
     private string GetText()

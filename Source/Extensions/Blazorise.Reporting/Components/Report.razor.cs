@@ -1691,6 +1691,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
     private ReportDesignerDragPreview CreateElementPointerResizePreview( PointerEventArgs eventArgs )
     {
         return ReportDesignerInteractionService.CreateElementResizePreview(
+            EffectiveDefinition,
             elementPointerResize,
             draggedElement,
             eventArgs.ClientX,
@@ -1780,12 +1781,12 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             switch ( draggedKind )
             {
                 case ReportDesignerDragKind.Field when !string.IsNullOrWhiteSpace( draggedFieldName ):
-                    var fieldBinding = ReportDefinitionHelper.NormalizeFieldBindingForSection( targetSection, draggedDataSourceName, draggedFieldName );
+                    var fieldBinding = ReportDefinitionHelper.NormalizeFieldBindingForSection( definition, targetSection, draggedDataSourceName, draggedFieldName );
                     var textDropTarget = FindTextElementAt( targetSection, x, y );
 
                     if ( textDropTarget is not null )
                     {
-                        ReportDefinitionHelper.AppendFieldExpressionToText( textDropTarget, fieldBinding.DataSourceName, fieldBinding.FieldName );
+                        ReportExpressionFormatter.AppendFieldExpressionToText( textDropTarget, fieldBinding.DataSourceName, fieldBinding.FieldName );
                         SelectElement( ReportDefinitionHelper.EnsureElementId( textDropTarget ) );
                         break;
                     }
@@ -1870,13 +1871,13 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         var targetSection = targetSectionIndex >= 0 && targetSectionIndex < definition.Sections.Count
             ? definition.Sections[targetSectionIndex]
             : null;
-        var fieldBinding = ReportDefinitionHelper.NormalizeFieldBindingForSection( targetSection, draggedDataSourceName, draggedFieldName );
+        var fieldBinding = ReportDefinitionHelper.NormalizeFieldBindingForSection( EffectiveDefinition, targetSection, draggedDataSourceName, draggedFieldName );
 
         return new()
         {
             SectionIndex = targetSectionIndex,
             ElementType = ReportElementType.Field,
-            Text = ReportDefinitionHelper.FormatFieldExpression( fieldBinding.DataSourceName, fieldBinding.FieldName ),
+            Text = ReportExpressionFormatter.FormatFieldExpression( fieldBinding.DataSourceName, fieldBinding.FieldName ),
             X = x,
             Y = y,
             Width = 160,
@@ -1884,13 +1885,13 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         };
     }
 
-    private static ReportDesignerDragPreview CreateDragPreview( int targetSectionIndex, ReportElementDefinition element, double? x = null, double? y = null )
+    private ReportDesignerDragPreview CreateDragPreview( int targetSectionIndex, ReportElementDefinition element, double? x = null, double? y = null )
     {
         return new()
         {
             SectionIndex = targetSectionIndex,
             ElementType = element.Type,
-            Text = element.Type == ReportElementType.Field ? ReportDefinitionHelper.FormatFieldExpression( element ) : element.Text ?? element.Name ?? element.Type.ToString(),
+            Text = ReportElementDefinitionHelper.GetDisplayText( EffectiveDefinition, element ),
             X = x ?? element.X,
             Y = y ?? element.Y,
             Width = Math.Max( 8, element.Width ),

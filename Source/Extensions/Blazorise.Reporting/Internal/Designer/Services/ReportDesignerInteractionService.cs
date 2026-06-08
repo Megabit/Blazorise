@@ -30,7 +30,7 @@ internal static class ReportDesignerInteractionService
         x = applyGrid( x );
         y = applyGrid( y );
 
-        return ConstrainDragPreview( definition, CreateDragPreview( targetSectionIndex, element, x, y ) );
+        return ConstrainDragPreview( definition, CreateDragPreview( definition, targetSectionIndex, element, x, y ) );
     }
 
     internal static void ApplyElementPointerDrag( ReportDefinition definition, ReportElementPointerDragState pointerDrag, Func<int, double> getSectionOffsetY )
@@ -97,6 +97,7 @@ internal static class ReportDesignerInteractionService
     }
 
     internal static ReportDesignerDragPreview CreateElementResizePreview(
+        ReportDefinition definition,
         ReportElementPointerResizeState pointerResize,
         ReportElementDefinition element,
         double clientX,
@@ -153,7 +154,7 @@ internal static class ReportDesignerInteractionService
         {
             SectionIndex = pointerResize.SourceSectionIndex,
             ElementType = element.Type,
-            Text = element.Type == ReportElementType.Field ? ReportDefinitionHelper.FormatFieldExpression( element ) : element.Text ?? element.Name ?? element.Type.ToString(),
+            Text = ReportElementDefinitionHelper.GetDisplayText( definition, element ),
             X = left,
             Y = top,
             Width = Math.Max( 8, right - left ),
@@ -277,13 +278,13 @@ internal static class ReportDesignerInteractionService
         }
     }
 
-    private static ReportDesignerDragPreview CreateDragPreview( int targetSectionIndex, ReportElementDefinition element, double? x = null, double? y = null )
+    private static ReportDesignerDragPreview CreateDragPreview( ReportDefinition definition, int targetSectionIndex, ReportElementDefinition element, double? x = null, double? y = null )
     {
         return new()
         {
             SectionIndex = targetSectionIndex,
             ElementType = element.Type,
-            Text = element.Type == ReportElementType.Field ? ReportDefinitionHelper.FormatFieldExpression( element ) : element.Text ?? element.Name ?? element.Type.ToString(),
+            Text = ReportElementDefinitionHelper.GetDisplayText( definition, element ),
             X = x ?? element.X,
             Y = y ?? element.Y,
             Width = Math.Max( 8, element.Width ),

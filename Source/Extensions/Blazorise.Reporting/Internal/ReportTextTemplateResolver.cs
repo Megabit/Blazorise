@@ -61,10 +61,7 @@ internal static class ReportTextTemplateResolver
 
     private static string ResolveExpression( ReportDefinition definition, object data, object item, string expression, string dataSource )
     {
-        var contextItem = string.IsNullOrWhiteSpace( dataSource )
-            ? item
-            : ReportDataResolver.ResolveDataSourceValue( definition, data, dataSource, item ) ?? item;
-        var value = ReportDataResolver.ResolveDataSourceValue( definition, data, expression, contextItem );
+        var value = ReportExpressionResolver.ResolveValue( definition, data, item, expression, dataSource );
 
         return FormatTemplateValue( value );
     }
