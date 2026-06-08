@@ -37,7 +37,7 @@
                 <_ReportDesignerTextProperty Label="Data source" Value="@SelectedSection.DataSource" Changed="@(value => UpdateSelectedSection( section => section.DataSource = value ))" />
             </_ReportDesignerPropertyGroup>
             <_ReportDesignerPropertyGroup Title="Layout">
-                <_ReportDesignerNumberProperty Label="Height" Value="@SelectedSection.Height" Changed="@(value => UpdateSelectedSection( section => section.Height = Math.Max( 8, value ) ))" />
+                <_ReportDesignerNumberProperty Label="Height" Value="@SelectedSection.Height" Changed="@(value => UpdateSelectedSection( section => section.Height = Math.Max( GetMinimumSectionHeight?.Invoke( section ) ?? 8, value ) ))" />
             </_ReportDesignerPropertyGroup>
             <_ReportDesignerPropertyGroup Title="Advanced">
                 <_ReportDesignerTextProperty Label="Custom CSS" Value="@SelectedSection.Style" Changed="@(value => UpdateSelectedSection( section => section.Style = value ))" />
@@ -203,6 +203,11 @@
     /// Updates whether the selected band is suppressed.
     /// </summary>
     [Parameter] public Func<bool, Task> UpdateSelectedSectionSuppression { get; set; }
+
+    /// <summary>
+    /// Calculates the smallest height that can contain the band elements.
+    /// </summary>
+    [Parameter] public Func<ReportSectionDefinition, double> GetMinimumSectionHeight { get; set; }
 
     /// <summary>
     /// Inserts a band before or after the selected band.

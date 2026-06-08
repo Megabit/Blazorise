@@ -801,7 +801,10 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             var section = selectionManager.FindSelectedSection( EffectiveDefinition );
 
             if ( section is not null )
+            {
                 update?.Invoke( section );
+                section.Height = Math.Max( section.Height, GetMinimumSectionHeight( section ) );
+            }
 
             return Task.CompletedTask;
         } ) );
@@ -1560,7 +1563,11 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private double CreateSectionPointerResizeHeight( ReportSectionPointerResizeState pointerResize, double clientY )
     {
-        return ReportDesignerInteractionService.CreateSectionResizeHeight( pointerResize, clientY, ApplyDesignerGrid );
+        var section = pointerResize.SectionIndex >= 0 && pointerResize.SectionIndex < EffectiveDefinition.Sections.Count
+            ? EffectiveDefinition.Sections[pointerResize.SectionIndex]
+            : null;
+
+        return ReportDesignerInteractionService.CreateSectionResizeHeight( pointerResize, clientY, GetMinimumSectionHeight( section ), ApplyDesignerGrid );
     }
 
     /// <summary>
@@ -1838,6 +1845,11 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         return BandMode == ReportBandMode.Rail && section is not null && !section.Suppressed && IsSectionCollapsed( section )
             ? DesignerCollapsedBandHeight
             : section?.Height ?? 0;
+    }
+
+    private static double GetMinimumSectionHeight( ReportSectionDefinition section )
+    {
+        return ReportLayoutGeometry.GetMinimumSectionHeight( section );
     }
 
     private void OnSnapToGridChanged( ChangeEventArgs eventArgs )

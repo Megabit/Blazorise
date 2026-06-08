@@ -69,6 +69,22 @@ internal static class ReportLayoutGeometry
         return elementType == ReportElementType.Line ? 1 : 8;
     }
 
+    internal static double GetMinimumSectionHeight( ReportSectionDefinition section )
+    {
+        if ( section is null )
+            return 8;
+
+        var height = 8d;
+
+        foreach ( var element in section.Elements )
+        {
+            if ( element is not null )
+                height = Math.Max( height, element.Y + Math.Max( GetMinimumElementHeight( element ), element.Height ) );
+        }
+
+        return height;
+    }
+
     internal static void GrowSectionToFitElements( ReportSectionDefinition section )
     {
         if ( section is null )

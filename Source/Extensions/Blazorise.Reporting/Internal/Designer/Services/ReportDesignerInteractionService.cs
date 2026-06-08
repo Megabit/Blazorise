@@ -203,9 +203,9 @@ internal static class ReportDesignerInteractionService
         }
     }
 
-    internal static double CreateSectionResizeHeight( ReportSectionPointerResizeState pointerResize, double clientY, Func<double, double> applyGrid )
+    internal static double CreateSectionResizeHeight( ReportSectionPointerResizeState pointerResize, double clientY, double minimumHeight, Func<double, double> applyGrid )
     {
-        return Math.Max( 8, applyGrid( pointerResize.OriginalHeight + clientY - pointerResize.StartClientY ) );
+        return Math.Max( minimumHeight, applyGrid( pointerResize.OriginalHeight + clientY - pointerResize.StartClientY ) );
     }
 
     internal static ReportDesignerDragPreview ConstrainDragPreview( ReportDefinition definition, ReportDesignerDragPreview preview )
