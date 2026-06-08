@@ -3,6 +3,8 @@
 @using Blazorise.Utilities
 @using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@implements IAsyncDisposable
 
 <div @key="@ElementKey"
      class="@Class"
@@ -76,6 +78,8 @@
     private string textEditValue;
     private bool textEditCancelled;
     private bool focusTextEdit;
+    private bool textExpressionTokenProtectionActive;
+    private JSReportingModule reportingModule;
 
     private string ImageAlternativeText => Element.Text ?? Element.Name;
 
@@ -85,12 +89,16 @@
 
     private string Style => styleBuilder.Styles;
 
+    /// <summary>
+    /// Initializes a new report designer element instance.
+    /// </summary>
     public _ReportDesignerElement()
     {
         classBuilder = new( BuildClasses );
         styleBuilder = new( BuildStyles );
     }
 
+    /// <inheritdoc />
     public override Task SetParametersAsync( ParameterView parameters )
     {
         var elementDefined = parameters.TryGetValue<ReportElementDefinition>( nameof( Element ), out _ );
@@ -125,6 +133,24 @@
         {
             focusTextEdit = false;
             await textEditElement.FocusAsync();
+            await ProtectTextExpressionTokensAsync();
+        }
+    }
+
+    /// <inheritdoc />
+    public async ValueTask DisposeAsync()
+    {
+        await ClearTextExpressionTokenProtectionAsync();
+
+        if ( reportingModule is not null )
+        {
+            try
+            {
+                await reportingModule.DisposeAsync();
+            }
+            catch ( JSDisconnectedException )
+            {
+            }
         }
     }
 
@@ -164,6 +190,7 @@
         if ( !Editing || textEditCancelled )
             return;
 
+        await ClearTextExpressionTokenProtectionAsync();
         await TextEditCommitted.InvokeAsync( textEditValue );
     }
 
@@ -172,6 +199,7 @@
         if ( eventArgs.Key == "Escape" )
         {
             textEditCancelled = true;
+            await ClearTextExpressionTokenProtectionAsync();
             await TextEditCancelled.InvokeAsync();
             return;
         }
@@ -184,6 +212,40 @@
     {
         textEditValue = eventArgs.Value?.ToString();
     }
+
+    private async Task ProtectTextExpressionTokensAsync()
+    {
+        EnsureReportingModule();
+        await reportingModule.ProtectTextExpressionTokens( textEditElement );
+        textExpressionTokenProtectionActive = true;
+    }
+
+    private async Task ClearTextExpressionTokenProtectionAsync()
+    {
+        if ( !textExpressionTokenProtectionActive || reportingModule is null )
+            return;
+
+        try
+        {
+            await reportingModule.ClearTextExpressionTokenProtection( textEditElement );
+        }
+        catch ( JSDisconnectedException )
+        {
+        }
+
+        textExpressionTokenProtectionActive = false;
+    }
+
+    private void EnsureReportingModule()
+    {
+        reportingModule ??= new( JSRuntime, VersionProvider, BlazoriseOptions );
+    }
+
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    [Inject] private BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <summary>
     /// Root report data used when resolving field values.

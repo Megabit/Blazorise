@@ -82,6 +82,26 @@ public class JSReportingModule : BaseJSModule
         await InvokeSafeVoidAsync( "clearTreeNativeDragImage", element );
     }
 
+    /// <summary>
+    /// Enables atomic editing behavior for expression tokens inside a report text editor.
+    /// </summary>
+    /// <param name="element">Text editor element that contains report expression tokens.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public virtual async ValueTask ProtectTextExpressionTokens( ElementReference element )
+    {
+        await InvokeSafeVoidAsync( "protectTextExpressionTokens", element );
+    }
+
+    /// <summary>
+    /// Disables atomic expression token editing behavior for a report text editor.
+    /// </summary>
+    /// <param name="element">Text editor element that contains report expression tokens.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public virtual async ValueTask ClearTextExpressionTokenProtection( ElementReference element )
+    {
+        await InvokeSafeVoidAsync( "clearTextExpressionTokenProtection", element );
+    }
+
     #endregion
 
     #region Properties

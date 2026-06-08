@@ -1,6 +1,7 @@
 let sectionResize;
 const listenerOptions = { capture: true, passive: false };
 const treeDragImageSuppressors = new WeakMap();
+const textTokenEditors = new WeakMap();
 
 export function startSectionResize( dotNetReference, startClientY ) {
     stopSectionResize();
@@ -97,6 +98,41 @@ export function clearTreeNativeDragImage( element ) {
     treeDragImageSuppressors.delete( element );
 }
 
+export function protectTextExpressionTokens( element ) {
+    if ( !element || typeof element.addEventListener !== "function" ) {
+        return;
+    }
+
+    clearTextExpressionTokenProtection( element );
+
+    const editor = {
+        keyDown: event => handleTextExpressionTokenKeyDown( element, event ),
+        replace: () => prepareTextExpressionTokenReplacement( element ),
+    };
+
+    element.addEventListener( "keydown", editor.keyDown, true );
+    element.addEventListener( "paste", editor.replace, true );
+    element.addEventListener( "cut", editor.replace, true );
+    textTokenEditors.set( element, editor );
+}
+
+export function clearTextExpressionTokenProtection( element ) {
+    if ( !element || typeof element.removeEventListener !== "function" ) {
+        return;
+    }
+
+    const editor = textTokenEditors.get( element );
+
+    if ( !editor ) {
+        return;
+    }
+
+    element.removeEventListener( "keydown", editor.keyDown, true );
+    element.removeEventListener( "paste", editor.replace, true );
+    element.removeEventListener( "cut", editor.replace, true );
+    textTokenEditors.delete( element );
+}
+
 function clearSectionResize( resize ) {
     removeSectionResizeListeners( document, resize );
     removeSectionResizeListeners( window, resize );
@@ -178,4 +214,162 @@ function createTransparentDragImage() {
     canvas.height = 1;
 
     return canvas;
+}
+
+function handleTextExpressionTokenKeyDown( element, event ) {
+    if ( event.key === "Backspace" || event.key === "Delete" ) {
+        handleTextExpressionTokenDelete( element, event );
+        return;
+    }
+
+    if ( isTextInputKey( event ) ) {
+        prepareTextExpressionTokenReplacement( element );
+    }
+}
+
+function handleTextExpressionTokenDelete( element, event ) {
+    const selectionStart = element.selectionStart;
+    const selectionEnd = element.selectionEnd;
+
+    if ( typeof selectionStart !== "number" || typeof selectionEnd !== "number" ) {
+        return;
+    }
+
+    const range = getProtectedTokenDeletionRange( element.value ?? "", selectionStart, selectionEnd, event.key );
+
+    if ( !range ) {
+        return;
+    }
+
+    event.preventDefault();
+    replaceTextRange( element, range.start, range.end, "" );
+}
+
+function prepareTextExpressionTokenReplacement( element ) {
+    const selectionStart = element.selectionStart;
+    const selectionEnd = element.selectionEnd;
+
+    if ( typeof selectionStart !== "number" || typeof selectionEnd !== "number" ) {
+        return;
+    }
+
+    const range = getProtectedTokenReplacementRange( element.value ?? "", selectionStart, selectionEnd );
+
+    if ( range ) {
+        element.setSelectionRange( range.start, range.end );
+    }
+}
+
+function getProtectedTokenDeletionRange( value, selectionStart, selectionEnd, key ) {
+    const tokenRanges = getExpressionTokenRanges( value );
+
+    if ( tokenRanges.length === 0 ) {
+        return null;
+    }
+
+    if ( selectionStart !== selectionEnd ) {
+        let start = selectionStart;
+        let end = selectionEnd;
+        let expanded = false;
+
+        for ( const tokenRange of tokenRanges ) {
+            if ( tokenRange.end <= selectionStart || tokenRange.start >= selectionEnd ) {
+                continue;
+            }
+
+            start = Math.min( start, tokenRange.start );
+            end = Math.max( end, tokenRange.end );
+            expanded = true;
+        }
+
+        return expanded ? { start, end } : null;
+    }
+
+    for ( const tokenRange of tokenRanges ) {
+        if ( key === "Backspace" && selectionStart > tokenRange.start && selectionStart <= tokenRange.end ) {
+            return tokenRange;
+        }
+
+        if ( key === "Delete" && selectionStart >= tokenRange.start && selectionStart < tokenRange.end ) {
+            return tokenRange;
+        }
+    }
+
+    return null;
+}
+
+function getProtectedTokenReplacementRange( value, selectionStart, selectionEnd ) {
+    const tokenRanges = getExpressionTokenRanges( value );
+
+    if ( tokenRanges.length === 0 ) {
+        return null;
+    }
+
+    if ( selectionStart !== selectionEnd ) {
+        let start = selectionStart;
+        let end = selectionEnd;
+        let expanded = false;
+
+        for ( const tokenRange of tokenRanges ) {
+            if ( tokenRange.end <= selectionStart || tokenRange.start >= selectionEnd ) {
+                continue;
+            }
+
+            start = Math.min( start, tokenRange.start );
+            end = Math.max( end, tokenRange.end );
+            expanded = true;
+        }
+
+        return expanded ? { start, end } : null;
+    }
+
+    for ( const tokenRange of tokenRanges ) {
+        if ( selectionStart > tokenRange.start && selectionStart < tokenRange.end ) {
+            return tokenRange;
+        }
+    }
+
+    return null;
+}
+
+function isTextInputKey( event ) {
+    return !event.ctrlKey
+        && !event.metaKey
+        && !event.altKey
+        && event.key?.length === 1;
+}
+
+function getExpressionTokenRanges( value ) {
+    const ranges = [];
+    const expressionRegex = /\{[^{}\r\n]+\}/g;
+    let match;
+
+    while ( ( match = expressionRegex.exec( value ) ) !== null ) {
+        ranges.push( {
+            start: match.index,
+            end: match.index + match[0].length,
+        } );
+    }
+
+    return ranges;
+}
+
+function replaceTextRange( element, start, end, replacement ) {
+    const value = element.value ?? "";
+    element.value = value.substring( 0, start ) + replacement + value.substring( end );
+    element.setSelectionRange( start + replacement.length, start + replacement.length );
+    dispatchInputEvent( element );
+}
+
+function dispatchInputEvent( element ) {
+    let event;
+
+    try {
+        event = new InputEvent( "input", { bubbles: true, inputType: "deleteContentBackward" } );
+    }
+    catch {
+        event = new Event( "input", { bubbles: true } );
+    }
+
+    element.dispatchEvent( event );
 }
