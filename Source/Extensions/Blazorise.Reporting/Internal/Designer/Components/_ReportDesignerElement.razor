@@ -36,6 +36,9 @@
     {
         @switch ( Element.Type )
         {
+            case ReportElementType.Text:
+                @GetText()
+                break;
             case ReportElementType.Field:
                 @GetFieldText()
                 break;
@@ -152,6 +155,13 @@
             : ReportDataResolver.ResolveItems( Definition, Data, Element.DataSource, Item ).FirstOrDefault() ?? Item;
 
         return ReportDataResolver.FormatValue( ReportDataResolver.ResolveFieldValue( fieldItem, Element.Field ), Element.Format );
+    }
+
+    private string GetText()
+    {
+        return DesignMode
+            ? Element.Text
+            : ReportTextTemplateResolver.ResolveText( Definition, Data, Item, Element );
     }
 
     private async Task CompleteTextEditAsync()

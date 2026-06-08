@@ -1756,9 +1756,13 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         var offset = await GetDesignerDragOffsetAsync( sectionBodyElement, eventArgs );
         var x = ApplyDesignerGrid( offset.X );
         var y = ApplyDesignerGrid( offset.Y );
+        var fieldDropTarget = draggedKind == ReportDesignerDragKind.Field
+            ? FindTextElementAt( definition.Sections[targetSectionIndex], x, y )
+            : null;
 
         var commandName = draggedKind switch
         {
+            ReportDesignerDragKind.Field when !string.IsNullOrWhiteSpace( draggedFieldName ) && fieldDropTarget is not null => "Insert field into text",
             ReportDesignerDragKind.Field when !string.IsNullOrWhiteSpace( draggedFieldName ) => "Add field",
             ReportDesignerDragKind.ToolboxElement when draggedElementType is not null => "Add element",
             ReportDesignerDragKind.Element when ReportDefinitionHelper.TryFindElementLocation( definition, draggedElementKey, out _, out _, out _ ) => "Move element",
@@ -1777,6 +1781,15 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             {
                 case ReportDesignerDragKind.Field when !string.IsNullOrWhiteSpace( draggedFieldName ):
                     var fieldBinding = ReportDefinitionHelper.NormalizeFieldBindingForSection( targetSection, draggedDataSourceName, draggedFieldName );
+                    var textDropTarget = FindTextElementAt( targetSection, x, y );
+
+                    if ( textDropTarget is not null )
+                    {
+                        ReportDefinitionHelper.AppendFieldExpressionToText( textDropTarget, fieldBinding.DataSourceName, fieldBinding.FieldName );
+                        SelectElement( ReportDefinitionHelper.EnsureElementId( textDropTarget ) );
+                        break;
+                    }
+
                     var fieldElement = new ReportElementDefinition
                     {
                         Name = fieldBinding.FieldName,
@@ -1816,6 +1829,28 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
             return Task.CompletedTask;
         } ) );
+    }
+
+    private static ReportElementDefinition FindTextElementAt( ReportSectionDefinition section, double x, double y )
+    {
+        if ( section is null )
+            return null;
+
+        for ( var i = section.Elements.Count - 1; i >= 0; i-- )
+        {
+            var element = section.Elements[i];
+
+            if ( element.Type == ReportElementType.Text
+                && x >= element.X
+                && x <= element.X + element.Width
+                && y >= element.Y
+                && y <= element.Y + element.Height )
+            {
+                return element;
+            }
+        }
+
+        return null;
     }
 
     private ReportDesignerDragPreview CreateDragPreview( int targetSectionIndex, double x, double y )

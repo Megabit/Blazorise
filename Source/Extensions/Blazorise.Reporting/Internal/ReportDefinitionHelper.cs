@@ -63,6 +63,23 @@ internal static class ReportDefinitionHelper
         return $"{{{expression}}}";
     }
 
+    internal static void AppendFieldExpressionToText( ReportElementDefinition element, string dataSourceName, string fieldName )
+    {
+        if ( element is null || element.Type != ReportElementType.Text )
+            return;
+
+        var expression = FormatFieldExpression( dataSourceName, fieldName );
+
+        if ( string.IsNullOrWhiteSpace( expression ) )
+            return;
+
+        element.Text = string.IsNullOrEmpty( element.Text )
+            ? expression
+            : element.Text.EndsWith( " ", StringComparison.Ordinal ) || element.Text.EndsWith( Environment.NewLine, StringComparison.Ordinal )
+                ? $"{element.Text}{expression}"
+                : $"{element.Text} {expression}";
+    }
+
     internal static (string DataSourceName, string FieldName) NormalizeFieldBindingForSection( ReportSectionDefinition section, string dataSourceName, string fieldName )
     {
         if ( section is null || string.IsNullOrWhiteSpace( section.DataSource ) || string.IsNullOrWhiteSpace( fieldName ) )
