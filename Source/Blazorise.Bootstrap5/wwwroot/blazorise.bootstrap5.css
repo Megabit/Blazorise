@@ -601,6 +601,14 @@ body:before {
 .navbar[data-mode=vertical-inline][data-collapse=small] .navbar-collapse,
 .navbar[data-mode=vertical-popout][data-collapse=small] .navbar-collapse {
   padding: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.navbar[data-mode=vertical-small] .navbar-collapse::-webkit-scrollbar,
+.navbar[data-mode=vertical-inline][data-collapse=small] .navbar-collapse::-webkit-scrollbar,
+.navbar[data-mode=vertical-popout][data-collapse=small] .navbar-collapse::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 .navbar[data-mode=vertical-small] .navbar-nav,
 .navbar[data-mode=vertical-inline][data-collapse=small] .navbar-nav,

@@ -854,6 +854,18 @@ hr.divider.divider-text::before {
 .b-bar-vertical-popout[data-collapse=small] .b-bar-dropdown .b-bar-dropdown-menu-container .b-bar-dropdown-menu > .b-bar-dropdown .b-bar-dropdown-menu-container.b-bar-right {
   right: var(--b-vertical-bar-popout-menu-width, 180px);
 }
+.b-bar-vertical-small .b-bar-menu,
+.b-bar-vertical-inline[data-collapse=small] .b-bar-menu,
+.b-bar-vertical-popout[data-collapse=small] .b-bar-menu {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.b-bar-vertical-small .b-bar-menu::-webkit-scrollbar,
+.b-bar-vertical-inline[data-collapse=small] .b-bar-menu::-webkit-scrollbar,
+.b-bar-vertical-popout[data-collapse=small] .b-bar-menu::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
 @keyframes b-bar-link-small {
   to {
     text-align: center;
