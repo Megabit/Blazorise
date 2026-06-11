@@ -16,6 +16,8 @@ public partial class MessageProvider : BaseComponent, IDisposable
 {
     #region Members
 
+    private const int MessageRemovalDelayMilliseconds = 5000;
+
     private readonly List<MessageInstance> messages = [];
 
     private int messageSequence;
@@ -63,14 +65,39 @@ public partial class MessageProvider : BaseComponent, IDisposable
 
     private Task OnModalClosed( MessageInstance message )
     {
+        ScheduleMessageRemoval( message );
+
+        return Task.CompletedTask;
+    }
+
+    private void ScheduleMessageRemoval( MessageInstance message )
+    {
+        if ( message.Removing )
+            return;
+
+        message.Removing = true;
+
         ExecuteAfterRender( async () =>
         {
+            await Task.Delay( MessageRemovalDelayMilliseconds );
+
             messages.Remove( message );
 
             await InvokeAsync( StateHasChanged );
         } );
 
-        return InvokeAsync( StateHasChanged );
+        InvokeAsync( StateHasChanged );
+    }
+
+    private void HideMessage( MessageInstance message )
+    {
+        if ( message.Closing )
+            return;
+
+        message.Closing = true;
+
+        _ = message.ModalRef.Hide();
+        ScheduleMessageRemoval( message );
     }
 
     /// <summary>
@@ -83,7 +110,7 @@ public partial class MessageProvider : BaseComponent, IDisposable
         {
             await Okayed.InvokeAsync();
 
-            await message.ModalRef.Hide();
+            HideMessage( message );
         } );
     }
 
@@ -111,7 +138,7 @@ public partial class MessageProvider : BaseComponent, IDisposable
     {
         return InvokeAsync( async () =>
         {
-            await message.ModalRef.Hide();
+            HideMessage( message );
 
             if ( IsConfirmationMessage( message ) && message.Callback is not null && !message.Callback.Task.IsCompleted )
             {
@@ -146,7 +173,8 @@ public partial class MessageProvider : BaseComponent, IDisposable
     {
         return InvokeAsync( async () =>
         {
-            await message.ModalRef.Hide();
+            HideMessage( message );
+
             await NotifyCanceled( message );
         } );
     }
@@ -177,7 +205,7 @@ public partial class MessageProvider : BaseComponent, IDisposable
     {
         return InvokeAsync( async () =>
         {
-            await message.ModalRef.Hide();
+            HideMessage( message );
 
             if ( IsChoiceMessage( message ) && message.Callback is not null && !message.Callback.Task.IsCompleted )
             {
@@ -647,6 +675,16 @@ public partial class MessageProvider : BaseComponent, IDisposable
         /// Gets or sets whether the message modal is visible.
         /// </summary>
         public bool Visible { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the message modal has started closing.
+        /// </summary>
+        public bool Closing { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the message modal has been scheduled for removal.
+        /// </summary>
+        public bool Removing { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="Modal"/> reference.
