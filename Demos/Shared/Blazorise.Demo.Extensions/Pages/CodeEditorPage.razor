@@ -1,0 +1,205 @@
+@page "/tests/codeeditor"
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Code editor</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Fields>
+                    <Field>
+                        <FieldLabel>Language</FieldLabel>
+                        <FieldBody>
+                            <Select TValue="string" @bind-Value="@language">
+                                <SelectItem TValue="string" Value="@CodeEditorLanguage.CSharp">C#</SelectItem>
+                                <SelectItem TValue="string" Value="@CodeEditorLanguage.Json">JSON</SelectItem>
+                                <SelectItem TValue="string" Value="@CodeEditorLanguage.JavaScript">JavaScript</SelectItem>
+                                <SelectItem TValue="string" Value="@CodeEditorLanguage.Markdown">Markdown</SelectItem>
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Theme</FieldLabel>
+                        <FieldBody>
+                            <Select TValue="string" @bind-Value="@theme">
+                                <SelectItem TValue="string" Value="@CodeEditorTheme.VisualStudio">Light</SelectItem>
+                                <SelectItem TValue="string" Value="@CodeEditorTheme.VisualStudioDark">Dark</SelectItem>
+                                <SelectItem TValue="string" Value="@CodeEditorTheme.HighContrastDark">High contrast</SelectItem>
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldBody>
+                            <Check TValue="bool" @bind-Value="@wordWrap">Word wrap</Check>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldBody>
+                            <Check TValue="bool" @bind-Value="@minimap">Minimap</Check>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldBody>
+                            <Check TValue="bool" @bind-Value="@readOnly">Read only</Check>
+                        </FieldBody>
+                    </Field>
+                </Fields>
+            </CardBody>
+            <CardBody>
+                <CodeEditor @ref="@codeEditorRef"
+                            @bind-Value="@sourceCode"
+                            Language="@language"
+                            Theme="@theme"
+                            ReadOnly="@readOnly"
+                            EditorOptions="@EditorOptions"
+                            Diagnostics="@diagnostics"
+                            MinHeight="420px"
+                            Ready="@OnReady"
+                            EditorFocus="@OnFocus"
+                            EditorBlur="@OnBlur" />
+            </CardBody>
+            <CardFooter>
+                <Buttons>
+                    <Button Color="Color.Primary" Clicked="@FormatDocumentAsync">Format</Button>
+                    <Button Color="Color.Secondary" Clicked="@FocusEditorAsync">Focus</Button>
+                    <Button Color="Color.Secondary" Clicked="@LayoutEditorAsync">Layout</Button>
+                    <Button Color="Color.Warning" Clicked="@ToggleDiagnostics">Diagnostics</Button>
+                </Buttons>
+                <Span Margin="Margin.Is3.FromStart">@editorStatus</Span>
+            </CardFooter>
+        </Card>
+
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Code editor validation</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Validations @ref="@validations" Mode="ValidationMode.Manual">
+                    <Validation Validator="@ValidationRule.IsNotEmpty">
+                        <Field>
+                            <FieldLabel>Script</FieldLabel>
+                            <FieldBody>
+                                <CodeEditor @bind-Value="@validationCode"
+                                            Language="@CodeEditorLanguage.JavaScript"
+                                            Theme="@theme"
+                                            MinHeight="180px"
+                                            EditorOptions="@ValidationEditorOptions">
+                                    <Feedback>
+                                        <ValidationError>Please enter script content.</ValidationError>
+                                    </Feedback>
+                                </CodeEditor>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Button Color="Color.Primary" Clicked="@ValidateAsync">Submit</Button>
+                </Validations>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    private CodeEditor codeEditorRef;
+    private Validations validations;
+
+    private string language = CodeEditorLanguage.CSharp;
+    private string theme = CodeEditorTheme.VisualStudioDark;
+    private bool wordWrap = true;
+    private bool minimap = true;
+    private bool readOnly;
+    private bool showDiagnostics = true;
+    private string editorStatus = "Ready";
+    private string validationCode;
+
+    private string sourceCode = """
+using System;
+
+public class Greeting
+{
+    public string CreateMessage( string name )
+    {
+        return $"Hello, {name}!";
+    }
+}
+""";
+
+    private IReadOnlyList<CodeEditorDiagnostic> diagnostics => showDiagnostics
+        ? new[]
+        {
+            new CodeEditorDiagnostic
+            {
+                Severity = CodeEditorDiagnosticSeverity.Warning,
+                Message = "Demo diagnostic marker.",
+                StartLineNumber = 5,
+                StartColumn = 19,
+                EndLineNumber = 5,
+                EndColumn = 32
+            }
+        }
+        : Array.Empty<CodeEditorDiagnostic>();
+
+    private CodeEditorOptions EditorOptions => new()
+    {
+        AutomaticLayout = true,
+        Minimap = minimap,
+        WordWrap = wordWrap,
+        FormatOnPaste = true,
+        FormatOnType = true,
+        TabSize = 4
+    };
+
+    private CodeEditorOptions ValidationEditorOptions => new()
+    {
+        AutomaticLayout = true,
+        Minimap = false,
+        WordWrap = true,
+        TabSize = 2
+    };
+
+    private Task FormatDocumentAsync()
+    {
+        return codeEditorRef?.FormatDocumentAsync() ?? Task.CompletedTask;
+    }
+
+    private Task FocusEditorAsync()
+    {
+        return codeEditorRef?.Focus() ?? Task.CompletedTask;
+    }
+
+    private Task LayoutEditorAsync()
+    {
+        return codeEditorRef?.LayoutAsync() ?? Task.CompletedTask;
+    }
+
+    private Task ValidateAsync()
+    {
+        return validations.ValidateAll();
+    }
+
+    private Task OnReady( CodeEditorReadyEventArgs eventArgs )
+    {
+        editorStatus = $"Initialized: {eventArgs.ElementId}";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnFocus()
+    {
+        editorStatus = "Focused";
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnBlur()
+    {
+        editorStatus = "Blurred";
+
+        return Task.CompletedTask;
+    }
+
+    private void ToggleDiagnostics()
+    {
+        showDiagnostics = !showDiagnostics;
+    }
+}

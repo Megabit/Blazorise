@@ -1,0 +1,8 @@
+.b-code-editor {
+    width: 100%;
+    overflow: hidden;
+}
+
+.b-code-editor-disabled {
+    opacity: .65;
+}

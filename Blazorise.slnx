@@ -63,6 +63,7 @@
     <Project Path="Source/Extensions/Blazorise.Charts.Trendline/Blazorise.Charts.Trendline.csproj" />
     <Project Path="Source/Extensions/Blazorise.Charts.Zoom/Blazorise.Charts.Zoom.csproj" />
     <Project Path="Source/Extensions/Blazorise.Charts/Blazorise.Charts.csproj" />
+    <Project Path="Source/Extensions/Blazorise.CodeEditor/Blazorise.CodeEditor.csproj" />
     <Project Path="Source/Extensions/Blazorise.Components/Blazorise.Components.csproj" />
     <Project Path="Source/Extensions/Blazorise.Cropper/Blazorise.Cropper.csproj" />
     <Project Path="Source/Extensions/Blazorise.DataGrid/Blazorise.DataGrid.csproj" />
