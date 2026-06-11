@@ -12,6 +12,11 @@ internal static class ReportElementDefinitionHelper
 
     internal static void BuildStyle( StyleBuilder builder, ReportElementDefinition element )
     {
+        BuildStyle( builder, element, null, null, null );
+    }
+
+    internal static void BuildStyle( StyleBuilder builder, ReportElementDefinition element, ReportDefinition definition, object defaultData, ReportSectionDefinition section )
+    {
         var font = element.Font;
         var appearance = element.Appearance;
         var border = element.Border;
@@ -37,7 +42,7 @@ internal static class ReportElementDefinitionHelper
         builder.Append( "font-style:italic", font?.Italic == true );
         builder.Append( "text-decoration:underline", font?.Underline == true );
 
-        var textAlignment = ToCssTextAlignment( font?.Alignment ?? TextAlignment.Default );
+        string textAlignment = ToCssTextAlignment( ResolveTextAlignment( element, definition, defaultData, section ) );
 
         if ( textAlignment is not null )
             builder.Append( $"text-align:{textAlignment}" );
@@ -126,6 +131,45 @@ internal static class ReportElementDefinitionHelper
             TextAlignment.Justified => "justify",
             _ => null,
         };
+    }
+
+    private static TextAlignment ResolveTextAlignment( ReportElementDefinition element, ReportDefinition definition, object defaultData, ReportSectionDefinition section )
+    {
+        TextAlignment alignment = element.Font?.Alignment ?? TextAlignment.Default;
+
+        if ( alignment != TextAlignment.Default || element.Type != ReportElementType.Field )
+            return alignment;
+
+        string dataSourceName = !string.IsNullOrWhiteSpace( element.DataSource )
+            ? element.DataSource
+            : section?.DataSource;
+
+        return ReportDataSourceExplorer.TryResolveFieldType( definition, defaultData, dataSourceName, element.Field, out Type dataType ) && IsNumericType( dataType )
+            ? TextAlignment.End
+            : TextAlignment.Default;
+    }
+
+    private static bool IsNumericType( Type dataType )
+    {
+        if ( dataType is null )
+            return false;
+
+        Type normalizedType = Nullable.GetUnderlyingType( dataType ) ?? dataType;
+
+        return normalizedType == typeof( byte )
+            || normalizedType == typeof( sbyte )
+            || normalizedType == typeof( short )
+            || normalizedType == typeof( ushort )
+            || normalizedType == typeof( int )
+            || normalizedType == typeof( uint )
+            || normalizedType == typeof( long )
+            || normalizedType == typeof( ulong )
+            || normalizedType == typeof( Int128 )
+            || normalizedType == typeof( UInt128 )
+            || normalizedType == typeof( Half )
+            || normalizedType == typeof( float )
+            || normalizedType == typeof( double )
+            || normalizedType == typeof( decimal );
     }
 
     #endregion

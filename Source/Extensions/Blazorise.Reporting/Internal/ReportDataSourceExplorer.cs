@@ -43,6 +43,35 @@ internal static class ReportDataSourceExplorer
         }
     }
 
+    internal static bool TryResolveFieldType( ReportDefinition definition, object defaultData, string dataSourceName, string fieldName, out Type dataType )
+    {
+        dataType = null;
+
+        if ( string.IsNullOrWhiteSpace( fieldName ) )
+            return false;
+
+        if ( ReportSpecialFieldResolver.IsSpecialDataSource( dataSourceName ) || ReportSpecialFieldResolver.IsSpecialField( fieldName ) )
+        {
+            ReportSpecialFieldDefinition specialField = ReportSpecialFieldResolver.GetFields().FirstOrDefault( field =>
+                string.Equals( field.Name, fieldName.Trim(), StringComparison.OrdinalIgnoreCase ) );
+
+            dataType = specialField?.DataType;
+
+            return dataType is not null;
+        }
+
+        object dataSourceValue = ReportDataResolver.ResolveDataSourceValue( definition, defaultData, dataSourceName );
+        IEnumerable<ReportDesignerFieldNode> fields = ResolveDataSourceFields( dataSourceValue );
+        string normalizedFieldName = NormalizeFieldPath( definition, fieldName );
+
+        ReportDesignerFieldNode fieldNode = fields.FirstOrDefault( field =>
+            string.Equals( field.Path, normalizedFieldName, StringComparison.OrdinalIgnoreCase ) );
+
+        dataType = fieldNode?.DataType;
+
+        return dataType is not null;
+    }
+
     private static IEnumerable<ReportDesignerFieldNode> ResolveDataSourceFields( object item, string parentPath, int depth, HashSet<Type> visitedTypes )
     {
         if ( item is null || depth > 4 )
@@ -115,6 +144,21 @@ internal static class ReportDataSourceExplorer
         var enumerableItemType = GetEnumerableItemType( declaredType );
 
         return enumerableItemType ?? sampleValue?.GetType() ?? declaredType;
+    }
+
+    private static string NormalizeFieldPath( ReportDefinition definition, string fieldName )
+    {
+        string normalizedFieldName = fieldName.Trim();
+        string rootDataSourceName = definition?.DataSources.FirstOrDefault()?.Name;
+
+        if ( string.IsNullOrWhiteSpace( rootDataSourceName ) )
+            return normalizedFieldName;
+
+        string rootDataSourcePrefix = $"{rootDataSourceName.Trim()}.";
+
+        return normalizedFieldName.StartsWith( rootDataSourcePrefix, StringComparison.OrdinalIgnoreCase )
+            ? normalizedFieldName[rootDataSourcePrefix.Length..]
+            : normalizedFieldName;
     }
 
     private static Type GetEnumerableItemType( Type type )

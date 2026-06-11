@@ -38,6 +38,7 @@ internal static class ReportDetailHeaderSynchronizer
             Font = new()
             {
                 Bold = true,
+                Alignment = TextAlignment.End,
             },
         } );
     }

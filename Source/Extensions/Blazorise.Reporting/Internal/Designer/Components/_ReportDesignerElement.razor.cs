@@ -44,7 +44,11 @@ public partial class _ReportDesignerElement
              || ( parameters.TryGetValue<bool>( nameof( TextEditingActive ), out var paramTextEditingActive ) && paramTextEditingActive != TextEditingActive ) )
             DirtyClasses();
 
-        if ( elementDefined )
+        bool definitionDefined = parameters.TryGetValue<ReportDefinition>( nameof( Definition ), out _ );
+        bool sectionDefined = parameters.TryGetValue<ReportSectionDefinition>( nameof( Section ), out _ );
+        bool dataDefined = parameters.TryGetValue<object>( nameof( Data ), out _ );
+
+        if ( elementDefined || definitionDefined || sectionDefined || dataDefined )
             DirtyStyles();
 
         if ( parameters.TryGetValue<bool>( nameof( Editing ), out var editing ) && editing && editing != Editing )
@@ -102,7 +106,7 @@ public partial class _ReportDesignerElement
     /// <inheritdoc />
     protected override void BuildStyles( StyleBuilder builder )
     {
-        ReportElementDefinitionHelper.BuildStyle( builder, Element );
+        ReportElementDefinitionHelper.BuildStyle( builder, Element, Definition, Data, Section );
     }
 
     private string GetFieldText()
@@ -191,6 +195,11 @@ public partial class _ReportDesignerElement
     /// Report definition that owns the element.
     /// </summary>
     [Parameter] public ReportDefinition Definition { get; set; }
+
+    /// <summary>
+    /// Report band that owns the element.
+    /// </summary>
+    [Parameter] public ReportSectionDefinition Section { get; set; }
 
     /// <summary>
     /// Current band item used for repeated detail rendering.
