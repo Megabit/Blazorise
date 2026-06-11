@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -67,6 +68,11 @@ public partial class Modal : BaseComponent<ModalClasses, ModalStyles>, ICloseAct
     private ModalTitle title;
 
     /// <summary>
+    /// Holds information about the focus trap parameter.
+    /// </summary>
+    private ComponentParameterInfo<bool> paramFocusTrap;
+
+    /// <summary>
     /// Tells us that modal is tracked by the JS interop.
     /// </summary>
     private bool jsRegistered;
@@ -113,6 +119,8 @@ public partial class Modal : BaseComponent<ModalClasses, ModalStyles>, ICloseAct
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        parameters.TryGetParameter( FocusTrap, out paramFocusTrap );
+
         if ( parameters.TryGetValue<bool>( nameof( Visible ), out var visibleResult ) && state.Visible != visibleResult )
         {
             if ( visibleResult && await IsSafeToOpen() )
@@ -598,6 +606,11 @@ public partial class Modal : BaseComponent<ModalClasses, ModalStyles>, ICloseAct
     protected bool ShouldRenderContent => RenderMode == ModalRenderMode.Default || ( RenderMode == ModalRenderMode.LazyReload && IsVisible ) || ( RenderMode == ModalRenderMode.LazyLoad && lazyLoaded );
 
     /// <summary>
+    /// Returns true if the focus trap parameter was defined.
+    /// </summary>
+    internal bool FocusTrapDefined => paramFocusTrap.Defined;
+
+    /// <summary>
     /// Gets the list of all element ids that could trigger modal close event.
     /// </summary>
     public IEnumerable<string> CloseActivatorElementIds
@@ -673,7 +686,7 @@ public partial class Modal : BaseComponent<ModalClasses, ModalStyles>, ICloseAct
     /// <summary>
     /// Specifies if the modal should keep the input focus at all times.
     /// </summary>
-    [Parameter] public bool? FocusTrap { get; set; }
+    [Parameter] public bool FocusTrap { get; set; }
 
     /// <summary>
     /// Centers the modal vertically.

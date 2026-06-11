@@ -36,16 +36,101 @@
                 </FocusTrap>
             </CardBody>
         </Card>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Focus Trap Modal</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Opens a modal with focus trap enabled so TAB navigation stays inside the modal.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Clicked="@ShowFocusTrapModal">Open Focus Trap Modal</Button>
+            </CardBody>
+        </Card>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Focus Trap Message Service</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Opens a confirmation dialog through IMessageService.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Clicked="@ShowFocusTrapMessage">Open Message Service Confirm</Button>
+            </CardBody>
+            <CardBody>
+                <Paragraph>
+                    Message service result: <Strong>@messageServiceResult</Strong>
+                </Paragraph>
+            </CardBody>
+        </Card>
     </Column>
 </Row>
+<Modal @ref="focusTrapModalRef" FocusTrap Centered>
+    <ModalContent>
+        <ModalHeader>
+            <ModalTitle>Focus Trap Modal</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Field>
+                <FieldLabel>First Name</FieldLabel>
+                <TextInput Autofocus Placeholder="Enter first name..." />
+            </Field>
+            <Field>
+                <FieldLabel>Last Name</FieldLabel>
+                <TextInput Placeholder="Enter last name..." />
+            </Field>
+            <Field>
+                <FieldLabel>Role</FieldLabel>
+                <Select TValue="string">
+                    <SelectItem Value="@("developer")">Developer</SelectItem>
+                    <SelectItem Value="@("designer")">Designer</SelectItem>
+                    <SelectItem Value="@("tester")">Tester</SelectItem>
+                </Select>
+            </Field>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideFocusTrapModal">Cancel</Button>
+            <Button Color="Color.Primary" Clicked="@HideFocusTrapModal">Save Changes</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
 @code {
     bool focusTrapActive = false;
+    string messageServiceResult = "None";
     FocusTrap focusTrapRef;
+    Modal focusTrapModalRef;
+
+    [Inject] IMessageService MessageService { get; set; }
 
     Task OnFocusTrapActiveChanged( bool active )
     {
         focusTrapActive = active;
 
         return Task.CompletedTask;
+    }
+
+    Task ShowFocusTrapModal()
+    {
+        return focusTrapModalRef.Show();
+    }
+
+    Task HideFocusTrapModal()
+    {
+        return focusTrapModalRef.Hide();
+    }
+
+    async Task ShowFocusTrapMessage()
+    {
+        var confirmed = await MessageService.Confirm( "Press Tab without clicking first. Focus should stay inside this confirmation dialog.", "Focus Trap Confirmation", options =>
+        {
+            options.CloseOnEscape = true;
+        } );
+
+        messageServiceResult = confirmed ? "Confirmed" : "Canceled";
     }
 }
