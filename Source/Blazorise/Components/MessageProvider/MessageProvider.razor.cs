@@ -16,8 +16,6 @@ public partial class MessageProvider : BaseComponent, IDisposable
 {
     #region Members
 
-    private const int MessageRemovalDelayMilliseconds = 5000;
-
     private readonly List<MessageInstance> messages = [];
 
     private int messageSequence;
@@ -77,27 +75,27 @@ public partial class MessageProvider : BaseComponent, IDisposable
 
         message.Removing = true;
 
-        ExecuteAfterRender( async () =>
+        ExecuteAfterRender( () =>
         {
-            await Task.Delay( MessageRemovalDelayMilliseconds );
-
             messages.Remove( message );
 
-            await InvokeAsync( StateHasChanged );
+            return InvokeAsync( StateHasChanged );
         } );
 
         InvokeAsync( StateHasChanged );
     }
 
-    private void HideMessage( MessageInstance message )
+    private Task HideMessage( MessageInstance message )
     {
         if ( message.Closing )
-            return;
+            return Task.CompletedTask;
 
         message.Closing = true;
+        message.Visible = false;
 
         _ = message.ModalRef.Hide();
-        ScheduleMessageRemoval( message );
+
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -110,7 +108,7 @@ public partial class MessageProvider : BaseComponent, IDisposable
         {
             await Okayed.InvokeAsync();
 
-            HideMessage( message );
+            await HideMessage( message );
         } );
     }
 
@@ -138,7 +136,7 @@ public partial class MessageProvider : BaseComponent, IDisposable
     {
         return InvokeAsync( async () =>
         {
-            HideMessage( message );
+            await HideMessage( message );
 
             if ( IsConfirmationMessage( message ) && message.Callback is not null && !message.Callback.Task.IsCompleted )
             {
@@ -173,7 +171,7 @@ public partial class MessageProvider : BaseComponent, IDisposable
     {
         return InvokeAsync( async () =>
         {
-            HideMessage( message );
+            await HideMessage( message );
 
             await NotifyCanceled( message );
         } );
@@ -205,7 +203,7 @@ public partial class MessageProvider : BaseComponent, IDisposable
     {
         return InvokeAsync( async () =>
         {
-            HideMessage( message );
+            await HideMessage( message );
 
             if ( IsChoiceMessage( message ) && message.Callback is not null && !message.Callback.Task.IsCompleted )
             {
