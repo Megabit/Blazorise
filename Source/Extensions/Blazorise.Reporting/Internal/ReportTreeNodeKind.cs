@@ -56,6 +56,16 @@ public enum ReportTreeNodeKind
     PageBreak,
 
     /// <summary>
+    /// Source fields folder node.
+    /// </summary>
+    SourceFields,
+
+    /// <summary>
+    /// Special fields folder node.
+    /// </summary>
+    SpecialFields,
+
+    /// <summary>
     /// Grouping folder node.
     /// </summary>
     Folder,

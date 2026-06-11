@@ -146,7 +146,7 @@ internal static class ReportDesignerTreeBuilder
         {
             Key = "fields:source",
             Text = "Source Fields",
-            Kind = ReportTreeNodeKind.Folder,
+            Kind = ReportTreeNodeKind.SourceFields,
             Children = dataSources.Count == 1
                 ? dataSources[0].Fields.Select( field => BuildFieldExplorerNode( dataSources[0].Name, field ) ).ToList()
                 : dataSources.Select( dataSource => new ReportTreeNode
@@ -165,7 +165,7 @@ internal static class ReportDesignerTreeBuilder
         {
             Key = "fields:special",
             Text = "Special Fields",
-            Kind = ReportTreeNodeKind.Folder,
+            Kind = ReportTreeNodeKind.SpecialFields,
             Children = ReportSpecialFieldResolver.GetFields().Select( field => new ReportTreeNode
             {
                 Key = $"fields:special:{field.Name}",

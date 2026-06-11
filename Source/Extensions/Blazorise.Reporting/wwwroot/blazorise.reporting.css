@@ -136,6 +136,14 @@
     color: #0f766e;
 }
 
+.b-report-treeview-icon.kind-sourcefields {
+    color: #0f766e;
+}
+
+.b-report-treeview-icon.kind-specialfields {
+    color: #9333ea;
+}
+
 .b-report-treeview-icon.kind-field {
     color: #2563eb;
 }

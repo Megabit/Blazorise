@@ -24,6 +24,8 @@ public partial class _ReportTreeViewNode
         => Node?.Kind switch
         {
             ReportTreeNodeKind.Report => IconName.FileAlt,
+            ReportTreeNodeKind.SourceFields => IconName.Database,
+            ReportTreeNodeKind.SpecialFields => IconName.Magic,
             ReportTreeNodeKind.DataSource => IconName.Server,
             ReportTreeNodeKind.Field => IconName.Tag,
             ReportTreeNodeKind.Band => IconName.BorderAll,
