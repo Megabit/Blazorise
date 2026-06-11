@@ -9,7 +9,6 @@
     flex-wrap: wrap;
 }
 
-.b-report-designer-toolbox-panel,
 .b-report-designer-surface,
 .b-report-viewer {
     overflow: auto;
@@ -20,6 +19,7 @@
     max-height: calc(100vh - 14rem);
 }
 
+.b-report-designer-toolbox-panel,
 .b-report-designer-panel {
     display: flex;
     flex-direction: column;
@@ -46,10 +46,6 @@
     padding-bottom: .75rem;
     background: #ffffff;
     border-bottom: 1px solid #edf0f2;
-}
-
-.b-report-fields-explorer-title {
-    margin-top: 1.25rem;
 }
 
 .b-report-treeview {

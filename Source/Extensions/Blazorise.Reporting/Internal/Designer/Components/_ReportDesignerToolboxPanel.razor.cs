@@ -3,10 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Reporting.Internal;
@@ -16,6 +13,39 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerToolboxPanel
 {
+    #region Members
+
+    private const string FieldsExplorerTab = "FieldsExplorer";
+
+    private const string ToolboxTab = "Toolbox";
+
+    private string selectedTab = ToolboxTab;
+
+    #endregion
+
+    #region Methods
+
+    private Color GetTabColor( string tab )
+    {
+        return string.Equals( selectedTab, tab, StringComparison.Ordinal ) ? Color.Primary : Color.Light;
+    }
+
+    private Task SelectTab( string tab )
+    {
+        selectedTab = tab;
+
+        return Task.CompletedTask;
+    }
+
+    #endregion
+
+    #region Properties
+
+    private bool IsToolboxSelected => string.Equals( selectedTab, ToolboxTab, StringComparison.Ordinal );
+
+    private IReadOnlyList<ReportDesignerDataSourceNode> DataSources
+        => ReportDataSourceExplorer.ResolveDataSourceDictionary( Definition, DataSourceName ).ToList();
+
     /// <summary>
     /// Report definition used to discover toolbox and data source fields.
     /// </summary>
@@ -40,4 +70,6 @@ public partial class _ReportDesignerToolboxPanel
     /// Raised when a tree node drag operation ends.
     /// </summary>
     [Parameter] public EventCallback<ReportTreeNode> NodeDragEnded { get; set; }
+
+    #endregion
 }

@@ -1,17 +1,29 @@
 @namespace Blazorise.Reporting.Internal
 @inherits ReportComponentBase
-@using System.Linq
+@using Microsoft.AspNetCore.Components.Web
 
-@{
-    var dataSources = ReportDataSourceExplorer.ResolveDataSourceDictionary( Definition, DataSourceName ).ToList();
-}
+<Div Class="b-report-designer-tabs">
+    <Button Color="@GetTabColor( ToolboxTab )"
+            Clicked="@((MouseEventArgs _) => SelectTab( ToolboxTab ))">
+        Toolbox
+    </Button>
+    <Button Color="@GetTabColor( FieldsExplorerTab )"
+            Clicked="@((MouseEventArgs _) => SelectTab( FieldsExplorerTab ))">
+        Fields Explorer
+    </Button>
+</Div>
 
-<h5>Toolbox</h5>
-<_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildToolboxNodes()"
-                 NodeDragStarted="@ToolboxNodeDragStarted"
-                 NodeDragEnded="@NodeDragEnded" />
-
-<h5 class="b-report-fields-explorer-title">Fields explorer</h5>
-<_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildFieldsExplorerNodes( dataSources )"
-                 NodeDragStarted="@FieldsNodeDragStarted"
-                 NodeDragEnded="@NodeDragEnded" />
+<div class="b-report-designer-panel-body">
+    @if ( IsToolboxSelected )
+    {
+        <_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildToolboxNodes()"
+                         NodeDragStarted="@ToolboxNodeDragStarted"
+                         NodeDragEnded="@NodeDragEnded" />
+    }
+    else
+    {
+        <_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildFieldsExplorerNodes( DataSources )"
+                         NodeDragStarted="@FieldsNodeDragStarted"
+                         NodeDragEnded="@NodeDragEnded" />
+    }
+</div>
