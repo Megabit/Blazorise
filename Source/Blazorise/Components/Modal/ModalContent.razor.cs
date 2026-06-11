@@ -128,7 +128,9 @@ public partial class ModalContent : BaseComponent<ModalContentClasses, ModalCont
     /// <summary>
     /// True if modal should keep the input focus.
     /// </summary>
-    protected bool IsFocusTrap => ParentModal?.FocusTrap ?? Options?.ModalFocusTrap ?? true;
+    protected bool IsFocusTrap => ParentModal is not null && ParentModal.FocusTrapDefined
+        ? ParentModal.FocusTrap
+        : Options?.ModalFocusTrap ?? true;
 
     /// <summary>
     /// Gets or sets the <see cref="FocusTrap"/> reference.
