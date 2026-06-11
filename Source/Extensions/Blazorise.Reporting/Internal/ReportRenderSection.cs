@@ -12,5 +12,7 @@ internal sealed class ReportRenderSection
 
     internal object Item { get; set; }
 
+    internal bool RenderElements { get; set; } = true;
+
     #endregion
 }

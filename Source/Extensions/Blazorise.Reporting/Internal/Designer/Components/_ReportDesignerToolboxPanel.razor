@@ -12,13 +12,6 @@
                  NodeDragEnded="@NodeDragEnded" />
 
 <h5 class="b-report-fields-explorer-title">Fields explorer</h5>
-@if ( dataSources.Count == 0 )
-{
-    <Paragraph TextColor="TextColor.Secondary">No data source fields.</Paragraph>
-}
-else
-{
-    <_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildFieldsExplorerNodes( dataSources )"
-                     NodeDragStarted="@FieldsNodeDragStarted"
-                     NodeDragEnded="@NodeDragEnded" />
-}
+<_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildFieldsExplorerNodes( dataSources )"
+                 NodeDragStarted="@FieldsNodeDragStarted"
+                 NodeDragEnded="@NodeDragEnded" />

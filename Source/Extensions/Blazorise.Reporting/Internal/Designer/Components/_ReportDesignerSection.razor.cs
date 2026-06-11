@@ -99,6 +99,12 @@ public partial class _ReportDesignerSection
     protected override void BuildStyles( StyleBuilder builder )
     {
         builder.Append( $"height:{Height}px" );
+        builder.Append( $"background-color:{Section.Appearance?.BackgroundColor}", !string.IsNullOrWhiteSpace( Section.Appearance?.BackgroundColor ) );
+        builder.Append( $"opacity:{Section.Appearance?.Opacity}", Section.Appearance?.Opacity is not null );
+        builder.Append( $"border-color:{Section.Border?.Color}", !string.IsNullOrWhiteSpace( Section.Border?.Color ) );
+        builder.Append( $"border-width:{Section.Border?.Width}px", Section.Border?.Width is not null );
+        builder.Append( "border-style:solid", Section.Border?.Width is not null );
+        builder.Append( $"border-radius:{Section.Border?.Radius}px", Section.Border?.Radius is not null );
         builder.Append( Section.Style?.Trim().TrimEnd( ';' ) );
     }
 

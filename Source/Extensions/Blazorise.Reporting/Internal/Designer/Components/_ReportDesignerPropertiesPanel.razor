@@ -29,6 +29,10 @@
                     Suppress
                 </label>
             </Field>
+            @if ( SelectedSection.Type == ReportSectionType.PageFooter )
+            {
+                <_ReportDesignerCheckboxProperty Label="Reserve space when suppressed" Value="@SelectedSection.ReserveSpaceWhenSuppressed" Changed="@(eventArgs => UpdateSelectedSection( section => section.ReserveSpaceWhenSuppressed = eventArgs.Value is bool value && value ))" />
+            }
         </_ReportDesignerPropertyGroup>
 
         @if ( !SelectedSection.Suppressed )
@@ -44,6 +48,25 @@
             <_ReportDesignerPropertyGroup Title="Layout">
                 <_ReportDesignerNumberProperty Label="Height" Value="@SelectedSection.Height" Changed="@(value => UpdateSelectedSection( section => section.Height = Math.Max( GetMinimumSectionHeight?.Invoke( section ) ?? 8, value ) ))" />
             </_ReportDesignerPropertyGroup>
+            @if ( SelectedSection.Type == ReportSectionType.PageFooter )
+            {
+                var sectionAppearance = EnsureSelectedSectionAppearance();
+                var sectionBorder = EnsureSelectedSectionBorder();
+
+                <_ReportDesignerPropertyGroup Title="Page footer">
+                    <_ReportDesignerCheckboxProperty Label="Print on first page" Value="@SelectedSection.PrintOnFirstPage" Changed="@(eventArgs => UpdateSelectedSection( section => section.PrintOnFirstPage = eventArgs.Value is bool value && value ))" />
+                    <_ReportDesignerCheckboxProperty Label="Print on last page" Value="@SelectedSection.PrintOnLastPage" Changed="@(eventArgs => UpdateSelectedSection( section => section.PrintOnLastPage = eventArgs.Value is bool value && value ))" />
+                    <_ReportDesignerCheckboxProperty Label="Repeat on every page" Value="@SelectedSection.RepeatOnEveryPage" Changed="@(eventArgs => UpdateSelectedSection( section => section.RepeatOnEveryPage = eventArgs.Value is bool value && value ))" />
+                    <_ReportDesignerCheckboxProperty Label="Keep together" Value="@SelectedSection.KeepTogether" Changed="@(eventArgs => UpdateSelectedSection( section => section.KeepTogether = eventArgs.Value is bool value && value ))" />
+                </_ReportDesignerPropertyGroup>
+                <_ReportDesignerPropertyGroup Title="Appearance">
+                    <_ReportDesignerColorProperty Label="Fill color" Value="@sectionAppearance.BackgroundColor" Changed="@(value => UpdateSelectedSection( section => EnsureSectionAppearance( section ).BackgroundColor = value ))" />
+                    <_ReportDesignerColorProperty Label="Border color" Value="@sectionBorder.Color" Changed="@(value => UpdateSelectedSection( section => EnsureSectionBorder( section ).Color = value ))" />
+                    <_ReportDesignerNullableNumberProperty Label="Border width" Value="@sectionBorder.Width" Changed="@(value => UpdateSelectedSection( section => EnsureSectionBorder( section ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                    <_ReportDesignerNullableNumberProperty Label="Corner radius" Value="@sectionBorder.Radius" Changed="@(value => UpdateSelectedSection( section => EnsureSectionBorder( section ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                    <_ReportDesignerNullableNumberProperty Label="Opacity" Value="@sectionAppearance.Opacity" Changed="@(value => UpdateSelectedSection( section => EnsureSectionAppearance( section ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( value ) ))" />
+                </_ReportDesignerPropertyGroup>
+            }
             <_ReportDesignerPropertyGroup Title="Advanced">
                 <_ReportDesignerTextProperty Label="Custom CSS" Value="@SelectedSection.Style" Changed="@(value => UpdateSelectedSection( section => section.Style = value ))" />
             </_ReportDesignerPropertyGroup>

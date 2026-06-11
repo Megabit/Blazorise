@@ -51,6 +51,13 @@ internal sealed class ReportContext
         existing.Style = section.Style;
         existing.Default = section.Default;
         existing.Suppressed = section.Suppressed;
+        existing.ReserveSpaceWhenSuppressed = section.ReserveSpaceWhenSuppressed;
+        existing.PrintOnFirstPage = section.PrintOnFirstPage;
+        existing.PrintOnLastPage = section.PrintOnLastPage;
+        existing.RepeatOnEveryPage = section.RepeatOnEveryPage;
+        existing.KeepTogether = section.KeepTogether;
+        existing.Appearance = CloneAppearance( section.Appearance );
+        existing.Border = CloneBorder( section.Border );
         existing.Elements.Clear();
 
         return existing;
@@ -145,6 +152,13 @@ internal sealed class ReportContext
             Style = section.Style,
             Default = section.Default,
             Suppressed = section.Suppressed,
+            ReserveSpaceWhenSuppressed = section.ReserveSpaceWhenSuppressed,
+            PrintOnFirstPage = section.PrintOnFirstPage,
+            PrintOnLastPage = section.PrintOnLastPage,
+            RepeatOnEveryPage = section.RepeatOnEveryPage,
+            KeepTogether = section.KeepTogether,
+            Appearance = CloneAppearance( section.Appearance ),
+            Border = CloneBorder( section.Border ),
             Elements = section.Elements.Select( CloneElement ).ToList(),
         };
     }

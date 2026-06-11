@@ -37,6 +37,20 @@ public abstract class ReportSectionBase : ComponentBase
             Style = Style,
             Default = true,
             Suppressed = Suppressed,
+            ReserveSpaceWhenSuppressed = ReserveSpaceWhenSuppressed,
+            PrintOnFirstPage = PrintOnFirstPage,
+            PrintOnLastPage = PrintOnLastPage,
+            RepeatOnEveryPage = RepeatOnEveryPage,
+            KeepTogether = KeepTogether,
+            Appearance = new()
+            {
+                BackgroundColor = BackgroundColor,
+            },
+            Border = new()
+            {
+                Color = BorderColor,
+                Width = BorderWidth,
+            },
         } );
 
         SectionContext = new( section );
@@ -81,6 +95,46 @@ public abstract class ReportSectionBase : ComponentBase
     /// Excludes the band from rendered output while keeping it visible in the designer.
     /// </summary>
     [Parameter] public bool Suppressed { get; set; }
+
+    /// <summary>
+    /// Keeps the band height reserved when the band is suppressed.
+    /// </summary>
+    [Parameter] public bool ReserveSpaceWhenSuppressed { get; set; }
+
+    /// <summary>
+    /// Allows page footer bands to render on the first page.
+    /// </summary>
+    [Parameter] public bool PrintOnFirstPage { get; set; } = true;
+
+    /// <summary>
+    /// Allows page footer bands to render on the last page.
+    /// </summary>
+    [Parameter] public bool PrintOnLastPage { get; set; } = true;
+
+    /// <summary>
+    /// Allows page footer bands to repeat on every rendered page.
+    /// </summary>
+    [Parameter] public bool RepeatOnEveryPage { get; set; } = true;
+
+    /// <summary>
+    /// Keeps the band content together when pagination is applied.
+    /// </summary>
+    [Parameter] public bool KeepTogether { get; set; }
+
+    /// <summary>
+    /// Background color applied to the band.
+    /// </summary>
+    [Parameter] public string BackgroundColor { get; set; }
+
+    /// <summary>
+    /// Border color applied around the band.
+    /// </summary>
+    [Parameter] public string BorderColor { get; set; }
+
+    /// <summary>
+    /// Border width applied around the band.
+    /// </summary>
+    [Parameter] public double? BorderWidth { get; set; }
 
     /// <summary>
     /// Declarative elements placed inside the band.

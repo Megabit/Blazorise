@@ -48,6 +48,9 @@ internal static class ReportDefinitionHelper
         if ( string.IsNullOrWhiteSpace( fieldName ) )
             return (dataSourceName, fieldName);
 
+        if ( ReportSpecialFieldResolver.IsSpecialDataSource( dataSourceName ) )
+            return (dataSourceName, fieldName);
+
         string fieldPath = ReportExpressionFormatter.FormatFieldPath( dataSourceName, fieldName );
 
         if ( section is not null && !string.IsNullOrWhiteSpace( section.DataSource ) )

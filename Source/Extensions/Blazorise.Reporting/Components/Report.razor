@@ -280,13 +280,16 @@
                                                 Section="@section"
                                                 Height="@GetDesignerSectionHeight( renderSection.SectionIndex, section )"
                                                 BodyWidth="@definition.Page.Width">
-                            @foreach ( var element in section.Elements )
+                            @if ( renderSection.RenderElements )
                             {
-                                <_ReportDesignerElement Data="@Data"
-                                                        Definition="@definition"
-                                                        Item="@renderSection.Item"
-                                                        Element="@element"
-                                                        ElementKey="@ReportDefinitionHelper.EnsureElementId( element )" />
+                                @foreach ( var element in section.Elements )
+                                {
+                                    <_ReportDesignerElement Data="@Data"
+                                                            Definition="@definition"
+                                                            Item="@renderSection.Item"
+                                                            Element="@element"
+                                                            ElementKey="@ReportDefinitionHelper.EnsureElementId( element )" />
+                                }
                             }
                         </_ReportDesignerSection>
                     }

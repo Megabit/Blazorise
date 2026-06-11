@@ -1472,6 +1472,22 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
                 GroupBy = sourceSection.GroupBy,
                 Default = false,
                 Suppressed = false,
+                ReserveSpaceWhenSuppressed = sourceSection.ReserveSpaceWhenSuppressed,
+                PrintOnFirstPage = sourceSection.PrintOnFirstPage,
+                PrintOnLastPage = sourceSection.PrintOnLastPage,
+                RepeatOnEveryPage = sourceSection.RepeatOnEveryPage,
+                KeepTogether = sourceSection.KeepTogether,
+                Appearance = new()
+                {
+                    BackgroundColor = sourceSection.Appearance?.BackgroundColor,
+                    Opacity = sourceSection.Appearance?.Opacity,
+                },
+                Border = new()
+                {
+                    Color = sourceSection.Border?.Color,
+                    Width = sourceSection.Border?.Width,
+                    Radius = sourceSection.Border?.Radius,
+                },
             };
 
             definition.Sections.Insert( insertIndex, section );
@@ -2354,7 +2370,10 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
                         Height = 24,
                     };
                     targetSection.Elements.Add( fieldElement );
-                    ReportDetailHeaderSynchronizer.AddPageHeaderForDetailField( definition, targetSectionIndex, targetSection, fieldBinding.FieldName, x, fieldElement.Width );
+
+                    if ( !ReportSpecialFieldResolver.IsSpecialDataSource( fieldBinding.DataSourceName ) )
+                        ReportDetailHeaderSynchronizer.AddPageHeaderForDetailField( definition, targetSectionIndex, targetSection, fieldBinding.FieldName, x, fieldElement.Width );
+
                     SelectElement( ReportDefinitionHelper.EnsureElementId( fieldElement ) );
                     break;
                 case ReportDesignerDragKind.ToolboxElement when draggedElementType is not null:

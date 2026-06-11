@@ -18,6 +18,26 @@ public partial class _ReportDesignerPropertiesPanel
 {
     private bool HasSelection => ReportSelected || SelectedSection is not null || SelectedElement is not null;
 
+    private ReportAppearanceDefinition EnsureSelectedSectionAppearance()
+    {
+        return EnsureSectionAppearance( SelectedSection );
+    }
+
+    private ReportBorderDefinition EnsureSelectedSectionBorder()
+    {
+        return EnsureSectionBorder( SelectedSection );
+    }
+
+    private static ReportAppearanceDefinition EnsureSectionAppearance( ReportSectionDefinition section )
+    {
+        return section.Appearance ??= new();
+    }
+
+    private static ReportBorderDefinition EnsureSectionBorder( ReportSectionDefinition section )
+    {
+        return section.Border ??= new();
+    }
+
     /// <summary>
     /// Report definition whose page settings are edited.
     /// </summary>

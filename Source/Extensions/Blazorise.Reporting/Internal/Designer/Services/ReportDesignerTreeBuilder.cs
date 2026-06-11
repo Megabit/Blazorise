@@ -35,28 +35,10 @@ internal static class ReportDesignerTreeBuilder
     {
         var dataSourceList = dataSources?.ToList() ?? [];
 
-        if ( dataSourceList.Count == 1 )
-        {
-            var dataSource = dataSourceList[0];
-
-            return dataSource.Fields.Select( field => BuildFieldExplorerNode( dataSource.Name, field ) ).ToList();
-        }
-
         return
         [
-            new()
-            {
-                Key = "fields:data-sources",
-                Text = "Data Sources",
-                Kind = ReportTreeNodeKind.Folder,
-                Children = dataSourceList.Select( dataSource => new ReportTreeNode
-                {
-                    Key = $"fields:data-source:{dataSource.Name}",
-                    Text = dataSource.Name,
-                    Kind = ReportTreeNodeKind.DataSource,
-                    Children = dataSource.Fields.Select( field => BuildFieldExplorerNode( dataSource.Name, field ) ).ToList(),
-                } ).ToList(),
-            }
+            BuildSourceFieldsNode( dataSourceList ),
+            BuildSpecialFieldsNode(),
         ];
     }
 
@@ -155,6 +137,44 @@ internal static class ReportDesignerTreeBuilder
             Draggable = !hasChildren,
             Value = !hasChildren ? new ReportFieldTreeNodeValue( dataSourceName, field.Path ) : null,
             Children = field.Children.Select( child => BuildFieldExplorerNode( dataSourceName, child ) ).ToList(),
+        };
+    }
+
+    private static ReportTreeNode BuildSourceFieldsNode( IReadOnlyList<ReportDesignerDataSourceNode> dataSources )
+    {
+        return new()
+        {
+            Key = "fields:source",
+            Text = "Source Fields",
+            Kind = ReportTreeNodeKind.Folder,
+            Children = dataSources.Count == 1
+                ? dataSources[0].Fields.Select( field => BuildFieldExplorerNode( dataSources[0].Name, field ) ).ToList()
+                : dataSources.Select( dataSource => new ReportTreeNode
+                {
+                    Key = $"fields:data-source:{dataSource.Name}",
+                    Text = dataSource.Name,
+                    Kind = ReportTreeNodeKind.DataSource,
+                    Children = dataSource.Fields.Select( field => BuildFieldExplorerNode( dataSource.Name, field ) ).ToList(),
+                } ).ToList(),
+        };
+    }
+
+    private static ReportTreeNode BuildSpecialFieldsNode()
+    {
+        return new()
+        {
+            Key = "fields:special",
+            Text = "Special Fields",
+            Kind = ReportTreeNodeKind.Folder,
+            Children = ReportSpecialFieldResolver.GetFields().Select( field => new ReportTreeNode
+            {
+                Key = $"fields:special:{field.Name}",
+                Text = field.DisplayName,
+                Detail = ReportDefinitionHelper.GetDataTypeDisplayName( field.DataType ),
+                Kind = ReportTreeNodeKind.Field,
+                Draggable = true,
+                Value = new ReportFieldTreeNodeValue( ReportSpecialFieldResolver.DataSourceName, field.Name ),
+            } ).ToList(),
         };
     }
 

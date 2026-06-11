@@ -143,6 +143,41 @@ public sealed class ReportSectionDefinition
     public bool Suppressed { get; set; }
 
     /// <summary>
+    /// Keeps the band height reserved when the band is suppressed.
+    /// </summary>
+    public bool ReserveSpaceWhenSuppressed { get; set; }
+
+    /// <summary>
+    /// Allows page footer bands to render on the first page.
+    /// </summary>
+    public bool PrintOnFirstPage { get; set; } = true;
+
+    /// <summary>
+    /// Allows page footer bands to render on the last page.
+    /// </summary>
+    public bool PrintOnLastPage { get; set; } = true;
+
+    /// <summary>
+    /// Allows page footer bands to repeat on every rendered page.
+    /// </summary>
+    public bool RepeatOnEveryPage { get; set; } = true;
+
+    /// <summary>
+    /// Keeps the band content together when pagination is applied.
+    /// </summary>
+    public bool KeepTogether { get; set; }
+
+    /// <summary>
+    /// Fill and opacity settings applied to the band background.
+    /// </summary>
+    public ReportAppearanceDefinition Appearance { get; set; } = new();
+
+    /// <summary>
+    /// Border settings applied around the band.
+    /// </summary>
+    public ReportBorderDefinition Border { get; set; } = new();
+
+    /// <summary>
     /// Ordered elements placed inside the band.
     /// </summary>
     public List<ReportElementDefinition> Elements { get; set; } = [];
