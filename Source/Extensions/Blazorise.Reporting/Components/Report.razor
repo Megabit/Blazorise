@@ -112,14 +112,14 @@
                                                     RailClicked="@((MouseEventArgs _) => SelectSection( capturedSectionIndex ))"
                                                     ToggleClicked="@((MouseEventArgs _) => ToggleSectionCollapsed( section ))"
                                                     RailContextMenu="@((MouseEventArgs eventArgs) => OpenSectionContextMenu( capturedSectionIndex, eventArgs ))"
-                                                    BodyContextMenu="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, eventArgs => OpenSectionContextMenu( capturedSectionIndex, eventArgs ) ) : default)"
+                                                    BodyContextMenu="@((MouseEventArgs eventArgs) => OpenSectionContextMenu( capturedSectionIndex, eventArgs ))"
                                                     BodyPointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSelectionBox( capturedSectionIndex, eventArgs ) ) : default)"
                                                     DragOver="@(editable ? (Func<ElementReference, DragEventArgs, Task>)( ( elementReference, eventArgs ) => PreviewDesignerDragAsync( capturedSectionIndex, elementReference, eventArgs ) ) : null)"
                                                     Drop="@(editable ? (Func<ElementReference, DragEventArgs, Task>)( ( elementReference, eventArgs ) => DropDesignerItemAsync( capturedSectionIndex, elementReference, eventArgs ) ) : null)"
                                                     PointerMove="@(editable ? (Func<PointerEventArgs, Task>)( eventArgs => PreviewElementPointerInteractionAsync( capturedSectionIndex, eventArgs ) ) : null)"
                                                     PointerUp="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => CompleteElementPointerInteractionAsync( capturedSectionIndex, eventArgs ) ) : default)"
                                                     PointerCancel="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, _ => CancelElementPointerInteractionAsync() ) : default)"
-                                                    BodyClicked="@(editable ? EventCallback.Factory.Create<MouseEventArgs>( this, () => HandleSectionClick( capturedSectionIndex ) ) : default)"
+                                                    BodyClicked="@((MouseEventArgs _) => HandleSectionClick( capturedSectionIndex ))"
                                                     ResizePointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSectionPointerResizeAsync( capturedSectionIndex, eventArgs ) ) : default)">
                                 @foreach ( var element in section.Elements )
                                 {

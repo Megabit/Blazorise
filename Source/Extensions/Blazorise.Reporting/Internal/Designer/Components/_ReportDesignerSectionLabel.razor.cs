@@ -22,4 +22,14 @@ public partial class _ReportDesignerSectionLabel
     /// Report section displayed in the designer label.
     /// </summary>
     [Parameter] public ReportSectionDefinition Section { get; set; }
+
+    /// <summary>
+    /// Raised when the label is clicked.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+
+    /// <summary>
+    /// Raised when the label context menu is requested.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> ContextMenu { get; set; }
 }

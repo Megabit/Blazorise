@@ -240,6 +240,7 @@
     padding: .125rem .375rem;
     background: #edf0f2;
     color: #52616f;
+    cursor: pointer;
     font-size: .75rem;
 }
 
@@ -368,7 +369,6 @@
 
 .b-report-section-body.disabled {
     opacity: .58;
-    pointer-events: none;
 }
 
 .b-report-section-body-external-drag .b-report-element-design,

@@ -1,4 +1,11 @@
 @namespace Blazorise.Reporting.Internal
 @inherits ReportComponentBase
 
-<div class="b-report-section-label">@Label</div>
+<div class="b-report-section-label"
+     @onclick="Clicked"
+     @onclick:stopPropagation
+     @oncontextmenu="ContextMenu"
+     @oncontextmenu:preventDefault
+     @oncontextmenu:stopPropagation>
+    @Label
+</div>
