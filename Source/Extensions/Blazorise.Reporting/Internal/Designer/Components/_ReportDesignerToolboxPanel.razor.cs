@@ -19,7 +19,7 @@ public partial class _ReportDesignerToolboxPanel
 
     private const string ToolboxTab = "Toolbox";
 
-    private string selectedTab = ToolboxTab;
+    private string selectedTab = FieldsExplorerTab;
 
     #endregion
 
