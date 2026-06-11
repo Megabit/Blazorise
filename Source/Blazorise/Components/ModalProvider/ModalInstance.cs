@@ -207,7 +207,7 @@ public class ModalInstance
     /// <summary>
     /// Defines if the modal should keep the input focus at all times.
     /// </summary>
-    public bool? FocusTrap => ModalInstanceOptions?.FocusTrap ?? ModalProvider.FocusTrap;
+    public bool FocusTrap => ModalInstanceOptions?.FocusTrap ?? ModalProvider.EffectiveFocusTrap;
 
     /// <inheritdoc/>
     public bool Centered => ModalInstanceOptions?.Centered ?? ModalProvider.Centered;

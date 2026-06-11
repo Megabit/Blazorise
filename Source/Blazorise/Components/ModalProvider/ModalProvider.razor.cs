@@ -136,6 +136,16 @@ public partial class ModalProvider : BaseComponent
     [Inject] protected IModalService ModalService { get; set; }
 
     /// <summary>
+    /// Holds the information about the Blazorise global options.
+    /// </summary>
+    [Inject] protected BlazoriseOptions Options { get; set; }
+
+    /// <summary>
+    /// Gets the effective focus trap value for provider-created modals.
+    /// </summary>
+    internal bool EffectiveFocusTrap => FocusTrap ?? Options?.ModalFocusTrap ?? true;
+
+    /// <summary>
     /// Uses the modal standard structure, by setting this to true you are only in charge of providing the custom content.
     /// Defaults to true.
     /// Global Option.
