@@ -1,0 +1,46 @@
+@namespace Blazorise.Reporting.Internal
+@inherits ReportComponentBase
+
+<Modal @ref="modalRef" Centered>
+    <ModalContent>
+        <ModalHeader>
+            <ModalTitle>Insert aggregate</ModalTitle>
+            <CloseButton Clicked="@CloseAsync" />
+        </ModalHeader>
+        <ModalBody>
+            <Field>
+                <FieldLabel>Field</FieldLabel>
+                <Select TValue="string" Value="@selectedFieldKey" ValueChanged="@OnSelectedFieldChanged">
+                    @foreach ( ReportDesignerFieldOption field in fields )
+                    {
+                        <SelectItem TValue="string" Value="@CreateFieldKey( field )">@field.DisplayName</SelectItem>
+                    }
+                </Select>
+            </Field>
+
+            <Field>
+                <FieldLabel>Function</FieldLabel>
+                <Select TValue="ReportAggregateFunction" Value="@selectedFunction" ValueChanged="@OnSelectedFunctionChanged">
+                    @foreach ( ReportAggregateFunction function in supportedFunctions )
+                    {
+                        <SelectItem TValue="ReportAggregateFunction" Value="@function">@ReportAggregateResolver.GetFunctionDisplayName( function )</SelectItem>
+                    }
+                </Select>
+            </Field>
+
+            <Field>
+                <FieldLabel>Summary location</FieldLabel>
+                <Select TValue="int" Value="@selectedSummaryLocationIndex" ValueChanged="@OnSelectedSummaryLocationChanged" Disabled="@(summaryLocations.Count <= 1)">
+                    @foreach ( ReportAggregateSummaryLocation location in summaryLocations )
+                    {
+                        <SelectItem TValue="int" Value="@location.TargetSectionIndex">@location.Name</SelectItem>
+                    }
+                </Select>
+            </Field>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Primary" Clicked="@ConfirmAsync" Disabled="@(!CanConfirm)">OK</Button>
+            <Button Color="Color.Light" Clicked="@CloseAsync">Cancel</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>

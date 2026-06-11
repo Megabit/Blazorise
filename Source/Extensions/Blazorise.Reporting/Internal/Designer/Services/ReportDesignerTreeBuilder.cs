@@ -33,6 +33,15 @@ internal static class ReportDesignerTreeBuilder
 
     internal static IReadOnlyList<ReportTreeNode> BuildFieldsExplorerNodes( IEnumerable<ReportDesignerDataSourceNode> dataSources )
     {
+        var dataSourceList = dataSources?.ToList() ?? [];
+
+        if ( dataSourceList.Count == 1 )
+        {
+            var dataSource = dataSourceList[0];
+
+            return dataSource.Fields.Select( field => BuildFieldExplorerNode( dataSource.Name, field ) ).ToList();
+        }
+
         return
         [
             new()
@@ -40,7 +49,7 @@ internal static class ReportDesignerTreeBuilder
                 Key = "fields:data-sources",
                 Text = "Data Sources",
                 Kind = ReportTreeNodeKind.Folder,
-                Children = dataSources.Select( dataSource => new ReportTreeNode
+                Children = dataSourceList.Select( dataSource => new ReportTreeNode
                 {
                     Key = $"fields:data-source:{dataSource.Name}",
                     Text = dataSource.Name,

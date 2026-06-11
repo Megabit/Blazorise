@@ -1,0 +1,24 @@
+@namespace Blazorise.Reporting.Internal
+@inherits ReportComponentBase
+@using System.Linq
+
+@{
+    var dataSources = ReportDataSourceExplorer.ResolveDataSourceDictionary( Definition, DataSourceName ).ToList();
+}
+
+<h5>Toolbox</h5>
+<_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildToolboxNodes()"
+                 NodeDragStarted="@ToolboxNodeDragStarted"
+                 NodeDragEnded="@NodeDragEnded" />
+
+<h5 class="b-report-fields-explorer-title">Fields explorer</h5>
+@if ( dataSources.Count == 0 )
+{
+    <Paragraph TextColor="TextColor.Secondary">No data source fields.</Paragraph>
+}
+else
+{
+    <_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildFieldsExplorerNodes( dataSources )"
+                     NodeDragStarted="@FieldsNodeDragStarted"
+                     NodeDragEnded="@NodeDragEnded" />
+}

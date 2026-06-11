@@ -118,6 +118,11 @@ public sealed class ReportSectionDefinition
     public string DataSource { get; set; }
 
     /// <summary>
+    /// Field expression used by group header bands to split detail rows into groups.
+    /// </summary>
+    public string GroupBy { get; set; }
+
+    /// <summary>
     /// CSS classes applied when the band is rendered.
     /// </summary>
     public string Class { get; set; }
@@ -234,9 +239,25 @@ public sealed class ReportElementDefinition
     public string Style { get; set; }
 
     /// <summary>
+    /// Aggregate function applied when the field is rendered as a summary value.
+    /// </summary>
+    public ReportAggregateDefinition Aggregate { get; set; }
+
+    /// <summary>
     /// Column definitions used by table elements.
     /// </summary>
     public List<ReportTableColumnDefinition> Columns { get; set; } = [];
+}
+
+/// <summary>
+/// Describes an aggregate operation applied to a report field element.
+/// </summary>
+public sealed class ReportAggregateDefinition
+{
+    /// <summary>
+    /// Aggregate function used to calculate the field summary value.
+    /// </summary>
+    public ReportAggregateFunction Function { get; set; }
 }
 
 /// <summary>

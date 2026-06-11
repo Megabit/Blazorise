@@ -140,6 +140,7 @@ internal sealed class ReportContext
             Layout = section.Layout,
             Height = section.Height,
             DataSource = section.DataSource,
+            GroupBy = section.GroupBy,
             Class = section.Class,
             Style = section.Style,
             Default = section.Default,
@@ -172,7 +173,19 @@ internal sealed class ReportContext
             Border = CloneBorder( element.Border ),
             Class = element.Class,
             Style = element.Style,
+            Aggregate = CloneAggregate( element.Aggregate ),
             Columns = element.Columns.Select( CloneColumn ).ToList(),
+        };
+    }
+
+    private static ReportAggregateDefinition CloneAggregate( ReportAggregateDefinition aggregate )
+    {
+        if ( aggregate is null )
+            return null;
+
+        return new()
+        {
+            Function = aggregate.Function,
         };
     }
 

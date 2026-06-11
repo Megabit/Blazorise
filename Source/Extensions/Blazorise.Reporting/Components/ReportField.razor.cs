@@ -16,6 +16,12 @@ public partial class ReportField : ReportElementBase
         var definition = base.BuildDefinition();
         definition.Field = Field;
         definition.Format = Format;
+        definition.Aggregate = AggregateFunction is null
+            ? null
+            : new()
+            {
+                Function = AggregateFunction.Value,
+            };
         return definition;
     }
 
@@ -28,4 +34,9 @@ public partial class ReportField : ReportElementBase
     /// Format string applied to the resolved field value.
     /// </summary>
     [Parameter] public string Format { get; set; }
+
+    /// <summary>
+    /// Aggregate function applied when this field is rendered as a summary.
+    /// </summary>
+    [Parameter] public ReportAggregateFunction? AggregateFunction { get; set; }
 }

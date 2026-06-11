@@ -23,6 +23,9 @@ internal static class ReportExpressionResolver
         if ( element is null || string.IsNullOrWhiteSpace( element.Field ) )
             return null;
 
+        if ( element.Aggregate is not null )
+            return ReportAggregateResolver.ResolveAggregateValue( definition, data, item, element );
+
         var contextItem = string.IsNullOrWhiteSpace( element.DataSource )
             ? item
             : ReportDataResolver.ResolveItems( definition, data, element.DataSource, item ).FirstOrDefault() ?? item;

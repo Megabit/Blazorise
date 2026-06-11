@@ -9,13 +9,13 @@
     flex-wrap: wrap;
 }
 
-.b-report-designer-dictionary,
+.b-report-designer-toolbox-panel,
 .b-report-designer-surface,
 .b-report-viewer {
     overflow: auto;
 }
 
-.b-report-designer-dictionary,
+.b-report-designer-toolbox-panel,
 .b-report-designer-panel {
     max-height: calc(100vh - 14rem);
 }
@@ -48,12 +48,7 @@
     border-bottom: 1px solid #edf0f2;
 }
 
-.b-report-dictionary-source {
-    padding-bottom: .75rem;
-    border-bottom: 1px solid #edf0f2;
-}
-
-.b-report-dictionary-title {
+.b-report-fields-explorer-title {
     margin-top: 1.25rem;
 }
 
@@ -596,7 +591,7 @@
         grid-template-columns: 1fr;
     }
 
-    .b-report-designer-dictionary,
+    .b-report-designer-toolbox-panel,
     .b-report-designer-panel {
         max-height: none;
     }

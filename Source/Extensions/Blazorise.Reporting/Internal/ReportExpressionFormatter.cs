@@ -14,7 +14,9 @@ internal static class ReportExpressionFormatter
         if ( element is null || string.IsNullOrWhiteSpace( element.Field ) )
             return string.Empty;
 
-        return FormatFieldExpression( element.DataSource, element.Field );
+        var fieldExpression = FormatFieldExpression( element.DataSource, element.Field );
+
+        return FormatAggregateExpression( element, fieldExpression );
     }
 
     internal static string FormatFieldExpression( ReportDefinition definition, ReportElementDefinition element )
@@ -22,7 +24,9 @@ internal static class ReportExpressionFormatter
         if ( element is null || string.IsNullOrWhiteSpace( element.Field ) )
             return string.Empty;
 
-        return FormatFieldExpression( ResolveDisplayDataSourceName( definition, element.DataSource ), element.Field );
+        var fieldExpression = FormatFieldExpression( ResolveDisplayDataSourceName( definition, element.DataSource ), element.Field );
+
+        return FormatAggregateExpression( element, fieldExpression );
     }
 
     internal static string FormatFieldExpression( string dataSourceName, string fieldName )
@@ -68,6 +72,13 @@ internal static class ReportExpressionFormatter
                 : $"{element.Text} {expression}";
     }
 
+    private static string FormatAggregateExpression( ReportElementDefinition element, string fieldExpression )
+    {
+        return element.Aggregate is null
+            ? fieldExpression
+            : $"{ReportAggregateResolver.GetFunctionDisplayName( element.Aggregate.Function )}({fieldExpression})";
+    }
+
     private static bool HasTrailingExpressionSeparator( string text )
     {
         return text.EndsWith( " ", StringComparison.Ordinal )
@@ -80,10 +91,19 @@ internal static class ReportExpressionFormatter
             return null;
 
         string rootDataSourceName = definition?.DataSources.FirstOrDefault()?.Name;
+        string normalizedDataSourceName = dataSourceName.Trim();
 
-        return !string.IsNullOrWhiteSpace( rootDataSourceName ) && string.Equals( dataSourceName, rootDataSourceName, StringComparison.OrdinalIgnoreCase )
-            ? null
-            : dataSourceName;
+        if ( string.IsNullOrWhiteSpace( rootDataSourceName ) )
+            return normalizedDataSourceName;
+
+        string rootDataSourcePrefix = $"{rootDataSourceName.Trim()}.";
+
+        if ( string.Equals( normalizedDataSourceName, rootDataSourceName, StringComparison.OrdinalIgnoreCase ) )
+            return null;
+
+        return normalizedDataSourceName.StartsWith( rootDataSourcePrefix, StringComparison.OrdinalIgnoreCase )
+            ? normalizedDataSourceName[rootDataSourcePrefix.Length..]
+            : normalizedDataSourceName;
     }
 
     #endregion

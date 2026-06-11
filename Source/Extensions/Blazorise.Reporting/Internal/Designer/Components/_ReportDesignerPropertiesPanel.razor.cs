@@ -74,9 +74,24 @@ public partial class _ReportDesignerPropertiesPanel
     [Parameter] public Func<ReportSectionDefinition, double> GetMinimumSectionHeight { get; set; }
 
     /// <summary>
+    /// Indicates that a band can be inserted before or after the selected band.
+    /// </summary>
+    [Parameter] public bool CanInsertSection { get; set; }
+
+    /// <summary>
     /// Inserts a band before or after the selected band.
     /// </summary>
     [Parameter] public Func<bool, Task> InsertSection { get; set; }
+
+    /// <summary>
+    /// Indicates that a group can be inserted around the selected detail band.
+    /// </summary>
+    [Parameter] public bool CanInsertGroup { get; set; }
+
+    /// <summary>
+    /// Opens the group insertion workflow for the selected detail band.
+    /// </summary>
+    [Parameter] public Func<Task> InsertGroup { get; set; }
 
     /// <summary>
     /// Deletes the currently selected band.

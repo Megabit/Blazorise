@@ -17,9 +17,9 @@ namespace Blazorise.Reporting.Internal;
 public partial class _ReportDesignerLayout
 {
     /// <summary>
-    /// Content shown in the left designer dictionary panel.
+    /// Content shown in the left designer toolbox and fields panel.
     /// </summary>
-    [Parameter] public RenderFragment Dictionary { get; set; }
+    [Parameter] public RenderFragment ToolboxPanel { get; set; }
 
     /// <summary>
     /// Content shown in the central designer surface.

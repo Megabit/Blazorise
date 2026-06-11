@@ -91,6 +91,10 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private JSReportingModule reportingModule;
 
+    private _ReportDesignerAggregateDialog aggregateDialogRef;
+
+    private _ReportDesignerGroupDialog groupDialogRef;
+
     #endregion
 
     #region Constructors
@@ -740,6 +744,47 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             && CanEditElementText( element );
     }
 
+    private bool CanContextElementInsertAggregate( ReportDefinition definition )
+    {
+        return GetContextElementAggregateFieldOptions( definition ).Count > 0;
+    }
+
+    private IReadOnlyList<ReportDesignerFieldOption> GetContextElementAggregateFieldOptions( ReportDefinition definition )
+    {
+        if ( !IsElementContextMenuVisible()
+            || !ReportDefinitionHelper.TryFindElementLocation( definition, contextMenu.ElementKey, out var sectionIndex, out _, out var element )
+            || sectionIndex < 0
+            || sectionIndex >= definition.Sections.Count )
+        {
+            return [];
+        }
+
+        var section = definition.Sections[sectionIndex];
+
+        if ( section.Type != ReportSectionType.Detail || element?.Type != ReportElementType.Field )
+            return [];
+
+        var dataSourceName = section.DataSource ?? element.DataSource;
+        var dataSourceValue = ReportDataResolver.ResolveDataSourceValue( definition, Data, dataSourceName );
+        var fields = ReportDataSourceExplorer.ResolveDataSourceFields( dataSourceValue ).ToList();
+        var fieldOptions = FlattenDesignerFieldOptions( sectionIndex, dataSourceName, fields ).ToList();
+
+        if ( fieldOptions.Count == 0 && !string.IsNullOrWhiteSpace( element.Field ) )
+        {
+            fieldOptions.Add( new()
+            {
+                SourceSectionIndex = sectionIndex,
+                DataSourceName = dataSourceName,
+                FieldName = element.Field,
+                DisplayName = element.Field,
+            } );
+        }
+
+        return fieldOptions
+            .Where( option => ReportAggregateResolver.GetSupportedFunctions( definition, Data, option.DataSourceName, option.FieldName, option.DataType ).Count > 0 )
+            .ToList();
+    }
+
     private static bool CanEditElementText( ReportElementDefinition element )
     {
         return element?.Type == ReportElementType.Text;
@@ -793,6 +838,368 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         } ) );
     }
 
+    private async Task OpenContextElementAggregateDialogAsync()
+    {
+        if ( !IsElementContextMenuVisible() || aggregateDialogRef is null )
+            return;
+
+        var elementKey = contextMenu.ElementKey;
+        var fieldOptions = GetContextElementAggregateFieldOptions( EffectiveDefinition );
+
+        if ( fieldOptions.Count == 0 )
+            return;
+
+        var sourceSectionIndex = fieldOptions[0].SourceSectionIndex;
+        var summaryLocations = GetAggregateSummaryLocations( EffectiveDefinition, sourceSectionIndex );
+
+        contextMenu = null;
+
+        var selectedFieldName = ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out _, out _, out var element )
+            ? element.Field
+            : null;
+
+        await aggregateDialogRef.ShowAsync( fieldOptions, selectedFieldName, summaryLocations );
+    }
+
+    private async Task OnAggregateDialogConfirmedAsync( ReportAggregateDialogResult result )
+    {
+        if ( result is null )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( $"Insert {ReportAggregateResolver.GetFunctionDisplayName( result.Function )}", () =>
+        {
+            var definition = EffectiveDefinition;
+            var sourceSectionIndex = result.SourceSectionIndex;
+
+            if ( sourceSectionIndex < 0 || sourceSectionIndex >= definition.Sections.Count )
+                return Task.CompletedTask;
+
+            var sourceSection = definition.Sections[sourceSectionIndex];
+            var sourceElement = FindDetailFieldElement( sourceSection, result.FieldName ) ?? new ReportElementDefinition
+            {
+                Name = result.FieldName,
+                Type = ReportElementType.Field,
+                Field = result.FieldName,
+                DataSource = result.DataSourceName,
+                X = 40,
+                Width = 160,
+                Height = 24,
+            };
+
+            if ( !ReportAggregateResolver.GetSupportedFunctions( definition, Data, result.DataSourceName, result.FieldName ).Contains( result.Function ) )
+                return Task.CompletedTask;
+
+            var targetSectionIndex = result.TargetSectionIndex >= 0 && result.TargetSectionIndex < definition.Sections.Count
+                ? result.TargetSectionIndex
+                : EnsureAggregateTargetSection( definition, sourceSectionIndex );
+            var targetSection = definition.Sections[targetSectionIndex];
+            var aggregateElement = CreateAggregateElement( sourceSection, sourceElement, result.Function, targetSection, targetSection.Type == ReportSectionType.GroupFooter );
+
+            targetSection.Elements.Add( aggregateElement );
+            ReportLayoutGeometry.GrowSectionToFitElement( targetSection, aggregateElement );
+            SelectElement( ReportDefinitionHelper.EnsureElementId( aggregateElement ) );
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private bool CanSelectedSectionInsertGroup( ReportDefinition definition )
+    {
+        return CanContextSectionInsertGroup( selectionManager.FindSelectedSection( definition ) );
+    }
+
+    private bool CanSelectedSectionInsertSection( ReportDefinition definition )
+    {
+        return selectionManager.SelectedSectionIndex is { } sectionIndex
+            && CanContextSectionInsertSection( definition, sectionIndex );
+    }
+
+    private static bool CanContextSectionInsertSection( ReportDefinition definition, int sectionIndex )
+    {
+        if ( definition?.Sections is null || sectionIndex < 0 || sectionIndex >= definition.Sections.Count )
+            return false;
+
+        var section = definition.Sections[sectionIndex];
+
+        if ( section.Type is ReportSectionType.Group or ReportSectionType.GroupHeader )
+            return !section.Suppressed
+                && !string.IsNullOrWhiteSpace( section.GroupBy )
+                && TryFindAggregateGroupLocation( definition, ResolveDetailSectionIndexForGroupHeader( definition, sectionIndex ), out _, out _ );
+
+        if ( section.Type == ReportSectionType.GroupFooter )
+            return !section.Suppressed
+                && TryFindGroupHeaderForGroupFooter( definition, sectionIndex, out _ );
+
+        return section is not null
+            && !section.Suppressed;
+    }
+
+    private static bool CanContextSectionInsertGroup( ReportSectionDefinition section )
+    {
+        return section is not null
+            && !section.Suppressed
+            && section.Type == ReportSectionType.Detail;
+    }
+
+    private async Task OpenSelectedDetailGroupDialogAsync()
+    {
+        if ( groupDialogRef is null )
+            return;
+
+        var definition = EffectiveDefinition;
+        var fieldOptions = GetSelectedDetailGroupFieldOptions( definition );
+
+        if ( fieldOptions.Count == 0 )
+            return;
+
+        var selectedFieldName = selectionManager.SelectedSectionIndex is { } sectionIndex
+            && TryFindAggregateGroupLocation( definition, sectionIndex, out var groupHeader, out _ )
+                ? groupHeader.GroupBy
+                : fieldOptions[0].FieldName;
+
+        contextMenu = null;
+
+        await groupDialogRef.ShowAsync( fieldOptions, selectedFieldName );
+    }
+
+    private async Task OnGroupDialogConfirmedAsync( string groupBy )
+    {
+        if ( string.IsNullOrWhiteSpace( groupBy ) || selectionManager.SelectedSectionIndex is null )
+            return;
+
+        var detailSectionIndex = selectionManager.SelectedSectionIndex.Value;
+
+        await ExecuteDesignerCommandAsync( new( "Insert group", () =>
+        {
+            var definition = EffectiveDefinition;
+
+            if ( detailSectionIndex < 0 || detailSectionIndex >= definition.Sections.Count )
+                return Task.CompletedTask;
+
+            var detailSection = definition.Sections[detailSectionIndex];
+
+            if ( detailSection.Type != ReportSectionType.Detail || detailSection.Suppressed )
+                return Task.CompletedTask;
+
+            var groupHeader = CreateGroupHeaderSection( definition, groupBy );
+            var groupFooter = CreateGroupFooterSection( definition, groupBy );
+
+            definition.Sections.Insert( detailSectionIndex, groupHeader );
+            definition.Sections.Insert( detailSectionIndex + 2, groupFooter );
+
+            SelectSection( detailSectionIndex );
+            contextMenu = null;
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private static IReadOnlyList<ReportAggregateSummaryLocation> GetAggregateSummaryLocations( ReportDefinition definition, int sourceSectionIndex )
+    {
+        var locations = new List<ReportAggregateSummaryLocation>
+        {
+            new()
+            {
+                TargetSectionIndex = -1,
+                Name = "Grand Total (Report Footer)",
+            },
+        };
+
+        if ( definition?.Sections is null || sourceSectionIndex < 0 || sourceSectionIndex >= definition.Sections.Count )
+            return locations;
+
+        if ( !TryFindAggregateGroupLocation( definition, sourceSectionIndex, out var groupHeader, out var groupFooterIndex ) )
+            return locations;
+
+        locations.Add( new()
+        {
+            TargetSectionIndex = groupFooterIndex,
+            Name = $"Group Total ({ReportDefinitionHelper.GetSectionDisplayName( groupHeader )})",
+        } );
+
+        return locations;
+    }
+
+    private static bool TryFindAggregateGroupLocation( ReportDefinition definition, int detailSectionIndex, out ReportSectionDefinition groupHeader, out int groupFooterIndex )
+    {
+        groupHeader = null;
+        groupFooterIndex = -1;
+
+        for ( var sectionIndex = detailSectionIndex - 1; sectionIndex >= 0; sectionIndex-- )
+        {
+            var section = definition.Sections[sectionIndex];
+
+            if ( section.Suppressed )
+                continue;
+
+            if ( section.Type is ReportSectionType.Group or ReportSectionType.GroupHeader )
+            {
+                if ( string.IsNullOrWhiteSpace( section.GroupBy ) )
+                    return false;
+
+                groupHeader = section;
+                break;
+            }
+
+            if ( section.Type is ReportSectionType.Detail or ReportSectionType.ReportHeader or ReportSectionType.Header or ReportSectionType.PageHeader )
+                return false;
+        }
+
+        if ( groupHeader is null )
+            return false;
+
+        for ( var sectionIndex = detailSectionIndex + 1; sectionIndex < definition.Sections.Count; sectionIndex++ )
+        {
+            var section = definition.Sections[sectionIndex];
+
+            if ( section.Suppressed )
+                continue;
+
+            if ( section.Type == ReportSectionType.GroupFooter )
+            {
+                groupFooterIndex = sectionIndex;
+                return true;
+            }
+
+            if ( section.Type is ReportSectionType.Detail or ReportSectionType.ReportFooter or ReportSectionType.Footer or ReportSectionType.PageFooter or ReportSectionType.Group or ReportSectionType.GroupHeader )
+                return false;
+        }
+
+        return false;
+    }
+
+    private static int ResolveDetailSectionIndexForGroupHeader( ReportDefinition definition, int groupHeaderIndex )
+    {
+        if ( definition?.Sections is null || groupHeaderIndex < 0 || groupHeaderIndex >= definition.Sections.Count )
+            return -1;
+
+        for ( var sectionIndex = groupHeaderIndex + 1; sectionIndex < definition.Sections.Count; sectionIndex++ )
+        {
+            var section = definition.Sections[sectionIndex];
+
+            if ( section.Suppressed )
+                continue;
+
+            if ( section.Type == ReportSectionType.Detail )
+                return sectionIndex;
+
+            if ( section.Type is ReportSectionType.ReportFooter or ReportSectionType.Footer or ReportSectionType.PageFooter or ReportSectionType.GroupFooter )
+                return -1;
+
+            if ( ( section.Type is ReportSectionType.Group or ReportSectionType.GroupHeader )
+                && !string.Equals( section.GroupBy, definition.Sections[groupHeaderIndex].GroupBy, StringComparison.OrdinalIgnoreCase ) )
+            {
+                return -1;
+            }
+        }
+
+        return -1;
+    }
+
+    private static bool TryFindGroupHeaderForGroupFooter( ReportDefinition definition, int groupFooterIndex, out ReportSectionDefinition groupHeader )
+    {
+        groupHeader = null;
+
+        if ( definition?.Sections is null || groupFooterIndex < 0 || groupFooterIndex >= definition.Sections.Count )
+            return false;
+
+        var detailSectionIndex = -1;
+
+        for ( var sectionIndex = groupFooterIndex - 1; sectionIndex >= 0; sectionIndex-- )
+        {
+            var section = definition.Sections[sectionIndex];
+
+            if ( section.Suppressed )
+                continue;
+
+            if ( section.Type == ReportSectionType.Detail )
+            {
+                detailSectionIndex = sectionIndex;
+                break;
+            }
+
+            if ( section.Type is ReportSectionType.ReportFooter or ReportSectionType.Footer or ReportSectionType.PageFooter or ReportSectionType.Group or ReportSectionType.GroupHeader )
+                return false;
+        }
+
+        return detailSectionIndex >= 0
+            && TryFindAggregateGroupLocation( definition, detailSectionIndex, out groupHeader, out var foundGroupFooterIndex )
+            && foundGroupFooterIndex <= groupFooterIndex;
+    }
+
+    private IReadOnlyList<ReportDesignerFieldOption> GetSelectedDetailGroupFieldOptions( ReportDefinition definition )
+    {
+        if ( definition?.Sections is null || selectionManager.SelectedSectionIndex is not { } sectionIndex )
+            return [];
+
+        var section = definition.Sections[sectionIndex];
+
+        if ( section.Type != ReportSectionType.Detail )
+            return [];
+
+        var dataSourceName = section.DataSource;
+        var dataSourceValue = ReportDataResolver.ResolveDataSourceValue( definition, Data, dataSourceName );
+        var fields = ReportDataSourceExplorer.ResolveDataSourceFields( dataSourceValue ).ToList();
+        var fieldOptions = FlattenDesignerFieldOptions( sectionIndex, dataSourceName, fields )
+            .OrderBy( field => field.DisplayName )
+            .ToList();
+
+        foreach ( var fieldElement in section.Elements.Where( element => element.Type == ReportElementType.Field && !string.IsNullOrWhiteSpace( element.Field ) ) )
+        {
+            if ( fieldOptions.Any( field => string.Equals( field.FieldName, fieldElement.Field, StringComparison.OrdinalIgnoreCase ) ) )
+                continue;
+
+            fieldOptions.Add( new()
+            {
+                SourceSectionIndex = sectionIndex,
+                DataSourceName = dataSourceName,
+                FieldName = fieldElement.Field,
+                DisplayName = fieldElement.Field,
+            } );
+        }
+
+        return fieldOptions;
+    }
+
+    private static IEnumerable<ReportDesignerFieldOption> FlattenDesignerFieldOptions( int sourceSectionIndex, string dataSourceName, IEnumerable<ReportDesignerFieldNode> fields )
+    {
+        foreach ( var field in fields ?? [] )
+        {
+            if ( field.Children.Count == 0 )
+            {
+                yield return new()
+                {
+                    SourceSectionIndex = sourceSectionIndex,
+                    DataSourceName = dataSourceName,
+                    FieldName = field.Path,
+                    DisplayName = field.Path,
+                    DataType = field.DataType,
+                };
+
+                continue;
+            }
+
+            foreach ( var child in FlattenDesignerFieldOptions( sourceSectionIndex, dataSourceName, field.Children ) )
+            {
+                yield return child;
+            }
+        }
+    }
+
+    private static ReportElementDefinition FindDetailFieldElement( ReportSectionDefinition section, string fieldName )
+    {
+        return section?.Elements?.FirstOrDefault( element =>
+            element.Type == ReportElementType.Field
+            && string.Equals( element.Field, fieldName, StringComparison.OrdinalIgnoreCase ) );
+    }
+
+    private IReadOnlyList<ReportAggregateFunction> ResolveAggregateDialogSupportedFunctions( ReportDesignerFieldOption field )
+    {
+        return field is null
+            ? []
+            : ReportAggregateResolver.GetSupportedFunctions( EffectiveDefinition, Data, field.DataSourceName, field.FieldName, field.DataType );
+    }
+
     private bool IsElementTextEditing( string elementKey = null )
     {
         return string.IsNullOrWhiteSpace( elementKey )
@@ -803,6 +1210,148 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
     private void CloseContextMenu()
     {
         contextMenu = null;
+    }
+
+    private static ReportSectionDefinition CreateGroupHeaderSection( ReportDefinition definition, string groupBy )
+    {
+        var groupName = ResolveGroupName( groupBy );
+
+        return new()
+        {
+            Name = ReportDefinitionHelper.CreateUniqueSectionName( definition, $"{groupName} group header" ),
+            Type = ReportSectionType.GroupHeader,
+            Height = 36,
+            GroupBy = groupBy,
+            Default = false,
+            Suppressed = false,
+            Elements =
+            [
+                new()
+                {
+                    Name = groupName,
+                    Type = ReportElementType.Text,
+                    Text = ReportExpressionFormatter.FormatFieldExpression( null, groupBy ),
+                    X = 40,
+                    Y = 8,
+                    Width = 240,
+                    Height = 24,
+                    Font = new()
+                    {
+                        Bold = true,
+                    },
+                },
+            ],
+        };
+    }
+
+    private static ReportSectionDefinition CreateGroupFooterSection( ReportDefinition definition, string groupBy )
+    {
+        var groupName = ResolveGroupName( groupBy );
+
+        return new()
+        {
+            Name = ReportDefinitionHelper.CreateUniqueSectionName( definition, $"{groupName} group footer" ),
+            Type = ReportSectionType.GroupFooter,
+            Height = 36,
+            GroupBy = groupBy,
+            Default = false,
+            Suppressed = false,
+            Elements =
+            [
+                new()
+                {
+                    Name = $"{groupName} separator",
+                    Type = ReportElementType.Line,
+                    X = 40,
+                    Y = 10,
+                    Width = Math.Max( 100, ( definition?.Page?.Width ?? 794 ) - 80 ),
+                    Height = 1,
+                },
+            ],
+        };
+    }
+
+    private static string ResolveGroupName( string groupBy )
+    {
+        if ( string.IsNullOrWhiteSpace( groupBy ) )
+            return "Group";
+
+        var normalizedGroupBy = groupBy.Trim();
+        var lastSeparatorIndex = normalizedGroupBy.LastIndexOf( '.' );
+
+        return lastSeparatorIndex >= 0 && lastSeparatorIndex < normalizedGroupBy.Length - 1
+            ? normalizedGroupBy[( lastSeparatorIndex + 1 )..]
+            : normalizedGroupBy;
+    }
+
+    private static ReportElementDefinition CreateAggregateElement( ReportSectionDefinition sourceSection, ReportElementDefinition sourceElement, ReportAggregateFunction function, ReportSectionDefinition targetSection, bool groupScoped )
+    {
+        var fieldName = sourceElement.Field;
+        var functionName = ReportAggregateResolver.GetFunctionDisplayName( function );
+
+        return new()
+        {
+            Name = $"{functionName} of {fieldName}",
+            Type = ReportElementType.Field,
+            Field = fieldName,
+            Format = sourceElement.Format,
+            DataSource = groupScoped ? null : string.IsNullOrWhiteSpace( sourceSection.DataSource ) ? sourceElement.DataSource : sourceSection.DataSource,
+            X = sourceElement.X,
+            Y = GetAggregateElementY( targetSection ),
+            Width = sourceElement.Width,
+            Height = Math.Max( sourceElement.Height, 24 ),
+            Font = new()
+            {
+                Bold = true,
+                Alignment = sourceElement.Font?.Alignment ?? TextAlignment.Default,
+            },
+            Aggregate = new()
+            {
+                Function = function,
+            },
+        };
+    }
+
+    private static int EnsureAggregateTargetSection( ReportDefinition definition, int sourceSectionIndex )
+    {
+        for ( var sectionIndex = sourceSectionIndex + 1; sectionIndex < definition.Sections.Count; sectionIndex++ )
+        {
+            var sectionType = definition.Sections[sectionIndex].Type;
+
+            if ( sectionType is ReportSectionType.ReportFooter or ReportSectionType.Footer )
+                return sectionIndex;
+
+            if ( sectionType == ReportSectionType.PageFooter )
+                return InsertAggregateReportFooter( definition, sectionIndex );
+        }
+
+        return InsertAggregateReportFooter( definition, definition.Sections.Count );
+    }
+
+    private static int InsertAggregateReportFooter( ReportDefinition definition, int sectionIndex )
+    {
+        var reportFooter = new ReportSectionDefinition
+        {
+            Name = "Aggregates",
+            Type = ReportSectionType.ReportFooter,
+            Height = 80,
+        };
+
+        definition.Sections.Insert( sectionIndex, reportFooter );
+
+        return sectionIndex;
+    }
+
+    private static double GetAggregateElementY( ReportSectionDefinition targetSection )
+    {
+        if ( targetSection?.Elements is null || targetSection.Elements.Count == 0 )
+            return 16;
+
+        var aggregateElements = targetSection.Elements.Where( element => element.Aggregate is not null ).ToList();
+
+        return aggregateElements.Count == 0
+            ? Math.Max( 16, targetSection.Elements.Max( element => element.Y + element.Height ) + 8 )
+            : aggregateElements.Min( element => element.Y );
     }
 
     private async Task MoveSelectedElementAsync( double x, double y, double width, double height )
@@ -898,9 +1447,9 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
     private async Task InsertSectionAsync( bool insertAfter )
     {
         var definition = EffectiveDefinition;
-        var sourceSection = selectionManager.FindSelectedSection( definition );
 
-        if ( sourceSection is null || selectionManager.SelectedSectionIndex is null )
+        if ( selectionManager.SelectedSectionIndex is not { } selectedSectionIndex
+            || !CanContextSectionInsertSection( definition, selectedSectionIndex ) )
             return;
 
         await ExecuteDesignerCommandAsync( new( insertAfter ? "Insert band after" : "Insert band before", () =>
@@ -908,10 +1457,11 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             var definition = EffectiveDefinition;
             var sourceSection = selectionManager.FindSelectedSection( definition );
 
-            if ( sourceSection is null || selectionManager.SelectedSectionIndex is null )
+            if ( selectionManager.SelectedSectionIndex is not { } selectedSectionIndex
+                || !CanContextSectionInsertSection( definition, selectedSectionIndex ) )
                 return Task.CompletedTask;
 
-            var insertIndex = insertAfter ? selectionManager.SelectedSectionIndex.Value + 1 : selectionManager.SelectedSectionIndex.Value;
+            var insertIndex = insertAfter ? selectedSectionIndex + 1 : selectedSectionIndex;
             var section = new ReportSectionDefinition
             {
                 Name = ReportDefinitionHelper.CreateUniqueSectionName( definition, $"{ReportDefinitionHelper.GetSectionTypeDisplayName( sourceSection.Type )} band" ),
@@ -919,6 +1469,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
                 Layout = sourceSection.Layout,
                 Height = sourceSection.Height,
                 DataSource = sourceSection.DataSource,
+                GroupBy = sourceSection.GroupBy,
                 Default = false,
                 Suppressed = false,
             };

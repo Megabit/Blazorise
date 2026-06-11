@@ -36,6 +36,10 @@
             <_ReportDesignerPropertyGroup Title="General">
                 <_ReportDesignerTextProperty Label="Name" Value="@SelectedSection.Name" Changed="@(value => UpdateSelectedSection( section => section.Name = value ))" />
                 <_ReportDesignerTextProperty Label="Data source" Value="@SelectedSection.DataSource" Changed="@(value => UpdateSelectedSection( section => section.DataSource = value ))" />
+                @if ( SelectedSection.Type is ReportSectionType.Group or ReportSectionType.GroupHeader )
+                {
+                    <_ReportDesignerTextProperty Label="Group by" Value="@SelectedSection.GroupBy" Changed="@(value => UpdateSelectedSection( section => section.GroupBy = value ))" />
+                }
             </_ReportDesignerPropertyGroup>
             <_ReportDesignerPropertyGroup Title="Layout">
                 <_ReportDesignerNumberProperty Label="Height" Value="@SelectedSection.Height" Changed="@(value => UpdateSelectedSection( section => section.Height = Math.Max( GetMinimumSectionHeight?.Invoke( section ) ?? 8, value ) ))" />
@@ -44,8 +48,15 @@
                 <_ReportDesignerTextProperty Label="Custom CSS" Value="@SelectedSection.Style" Changed="@(value => UpdateSelectedSection( section => section.Style = value ))" />
             </_ReportDesignerPropertyGroup>
             <Div Flex="Flex.Wrap" Gap="Gap.Is2" Margin="Margin.Is3.FromTop">
-                <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => InsertSection( false ))">Insert before</Button>
-                <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => InsertSection( true ))">Insert after</Button>
+                @if ( CanInsertSection )
+                {
+                    <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => InsertSection( false ))">Insert before</Button>
+                    <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => InsertSection( true ))">Insert after</Button>
+                }
+                @if ( CanInsertGroup )
+                {
+                    <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => InsertGroup())">Insert group...</Button>
+                }
                 @if ( ReportDefinitionHelper.CanDeleteSection( SelectedSection ) )
                 {
                     <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => DeleteSelectedSection())">Delete band</Button>
@@ -75,6 +86,10 @@
                         break;
                     case ReportElementType.Field:
                         <_ReportDesignerTextProperty Label="Expression" Value="@ReportExpressionFormatter.FormatFieldExpression( Definition, SelectedElement )" ReadOnly />
+                        @if ( SelectedElement.Aggregate is not null )
+                        {
+                            <_ReportDesignerTextProperty Label="Aggregate" Value="@ReportAggregateResolver.GetFunctionDisplayName( SelectedElement.Aggregate.Function )" ReadOnly />
+                        }
                         <_ReportDesignerTextProperty Label="Format" Value="@SelectedElement.Format" Changed="@(value => UpdateSelectedElement( element => element.Format = value ))" />
                         break;
                     case ReportElementType.Image:

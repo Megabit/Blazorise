@@ -85,13 +85,6 @@
                         <ReportField Field="Quantity" Format="N2" X="390" Y="14" Width="110" Height="24" />
                         <ReportField Field="Total" Format="C" X="540" Y="14" Width="120" Height="24" TextColor="TextColor.Success" />
                     </ReportDetail>
-                    <ReportGroupFooter Name="Invoice group footer" Height="48">
-                        <ReportLine X="40" Y="10" Width="690" Height="1" />
-                        <ReportText Text="Group footer band" X="40" Y="22" Width="180" Height="24" TextColor="TextColor.Secondary" />
-                    </ReportGroupFooter>
-                    <ReportPageFooter Name="Invoice page footer" Height="40">
-                        <ReportText Text="Page footer band" X="40" Y="10" Width="180" Height="24" TextColor="TextColor.Secondary" />
-                    </ReportPageFooter>
                     <ReportFooter Name="Invoice report footer" Height="72">
                         <ReportLine X="40" Y="10" Width="690" Height="1" />
                         <ReportText Text="Invoice total"
@@ -109,6 +102,9 @@
                                      Bold
                                      TextColor="TextColor.Success" />
                     </ReportFooter>
+                    <ReportPageFooter Name="Invoice page footer" Height="40">
+                        <ReportText Text="Page footer band" X="40" Y="10" Width="180" Height="24" TextColor="TextColor.Secondary" />
+                    </ReportPageFooter>
                 </Report>
             </CardBody>
         </Card>
@@ -134,9 +130,9 @@
         },
         Lines =
         [
-            new() { Sku = "SRV-001", Description = "Implementation workshop", Quantity = 1, UnitPrice = 640.50m, Total = 640.50m },
-            new() { Sku = "LIC-010", Description = "Reporting module license", Quantity = 2, UnitPrice = 250.00m, Total = 500.00m },
-            new() { Sku = "SUP-003", Description = "Priority support", Quantity = 1, UnitPrice = 100.00m, Total = 100.00m },
+            new() { Category = "Services", Sku = "SRV-001", Description = "Implementation workshop", Quantity = 1, UnitPrice = 640.50m, Total = 640.50m },
+            new() { Category = "Licenses", Sku = "LIC-010", Description = "Reporting module license", Quantity = 2, UnitPrice = 250.00m, Total = 500.00m },
+            new() { Category = "Services", Sku = "SUP-003", Description = "Priority support", Quantity = 1, UnitPrice = 100.00m, Total = 100.00m },
         ],
     };
 
@@ -169,6 +165,8 @@
 
     private sealed class InvoiceLineModel
     {
+        public string Category { get; set; }
+
         public string Sku { get; set; }
 
         public string Description { get; set; }

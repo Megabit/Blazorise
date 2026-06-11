@@ -32,6 +32,7 @@ public abstract class ReportSectionBase : ComponentBase
             Layout = Layout,
             Height = Height,
             DataSource = DataSource,
+            GroupBy = GroupBy,
             Class = Class,
             Style = Style,
             Default = true,
@@ -60,6 +61,11 @@ public abstract class ReportSectionBase : ComponentBase
     /// Data source name or path used as the band field context. Detail bands repeat when this value resolves to a collection.
     /// </summary>
     [Parameter] public string DataSource { get; set; }
+
+    /// <summary>
+    /// Field expression used by group header bands to split detail rows into groups.
+    /// </summary>
+    [Parameter] public string GroupBy { get; set; }
 
     /// <summary>
     /// Additional CSS classes applied to the band.

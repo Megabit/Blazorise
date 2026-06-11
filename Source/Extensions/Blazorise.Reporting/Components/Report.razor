@@ -55,13 +55,13 @@
         var definition = EffectiveDefinition;
 
         <_ReportDesignerLayout>
-            <Dictionary>
-                <_ReportDesignerDictionary Definition="@definition"
-                                           DataSourceName="@DataSourceName"
-                                           ToolboxNodeDragStarted="@OnToolboxTreeNodeDragStarted"
-                                           FieldsNodeDragStarted="@OnFieldsTreeNodeDragStarted"
-                                           NodeDragEnded="@((ReportTreeNode _) => ClearDesignerDragAsync())" />
-            </Dictionary>
+            <ToolboxPanel>
+                <_ReportDesignerToolboxPanel Definition="@definition"
+                                             DataSourceName="@DataSourceName"
+                                             ToolboxNodeDragStarted="@OnToolboxTreeNodeDragStarted"
+                                             FieldsNodeDragStarted="@OnFieldsTreeNodeDragStarted"
+                                             NodeDragEnded="@((ReportTreeNode _) => ClearDesignerDragAsync())" />
+            </ToolboxPanel>
             <Surface>
                 <_ReportDesignerPage PageKey="@($"{definition.Id}:{designerSurfaceVersion}")"
                                      Width="@GetReportPageWidth( definition, designMode: true )"
@@ -171,7 +171,10 @@
                                                         UpdateSelectedSection="@UpdateSelectedSectionAsync"
                                                         UpdateSelectedSectionSuppression="@UpdateSelectedSectionSuppressionAsync"
                                                         GetMinimumSectionHeight="@GetMinimumSectionHeight"
+                                                        CanInsertSection="@CanSelectedSectionInsertSection( definition )"
                                                         InsertSection="@InsertSectionAsync"
+                                                        CanInsertGroup="@CanSelectedSectionInsertGroup( definition )"
+                                                        InsertGroup="@OpenSelectedDetailGroupDialogAsync"
                                                         DeleteSelectedSection="@DeleteSelectedSectionAsync"
                                                         UpdateSelectedElement="@UpdateSelectedElementAsync"
                                                         MoveSelectedElement="@MoveSelectedElementAsync" />
@@ -197,8 +200,15 @@
 
                         @if ( !contextSection.Suppressed )
                         {
-                            <_ReportDesignerContextMenuButton Text="Insert band before" Clicked="@((MouseEventArgs _) => InsertSectionAsync( insertAfter: false ))" />
-                            <_ReportDesignerContextMenuButton Text="Insert band after" Clicked="@((MouseEventArgs _) => InsertSectionAsync( insertAfter: true ))" />
+                            @if ( CanContextSectionInsertSection( definition, contextMenu.SectionIndex ) )
+                            {
+                                <_ReportDesignerContextMenuButton Text="Insert band before" Clicked="@((MouseEventArgs _) => InsertSectionAsync( insertAfter: false ))" />
+                                <_ReportDesignerContextMenuButton Text="Insert band after" Clicked="@((MouseEventArgs _) => InsertSectionAsync( insertAfter: true ))" />
+                            }
+                            @if ( CanContextSectionInsertGroup( contextSection ) )
+                            {
+                                <_ReportDesignerContextMenuButton Text="Insert group..." Clicked="@((MouseEventArgs _) => OpenSelectedDetailGroupDialogAsync())" />
+                            }
                             <_ReportDesignerContextMenuButton Text="Suppress" Clicked="@((MouseEventArgs _) => ToggleSelectedSectionSuppressionAsync())" />
 
                             @if ( ReportDefinitionHelper.CanDeleteSection( contextSection ) )
@@ -213,6 +223,11 @@
                     }
                     else if ( IsElementContextMenuVisible() )
                     {
+                        @if ( CanContextElementInsertAggregate( definition ) )
+                        {
+                            <_ReportDesignerContextMenuButton Text="Insert aggregate" Clicked="@((MouseEventArgs _) => OpenContextElementAggregateDialogAsync())" />
+                        }
+
                         @if ( CanContextElementEditText( definition ) )
                         {
                             <_ReportDesignerContextMenuButton Text="Edit Text" Clicked="@((MouseEventArgs _) => BeginContextElementTextEdit())" />
@@ -225,6 +240,12 @@
                 </_ReportDesignerContextMenu>
             </ContextMenu>
         </_ReportDesignerLayout>
+
+        <_ReportDesignerAggregateDialog @ref="aggregateDialogRef"
+                                        ResolveSupportedFunctions="@ResolveAggregateDialogSupportedFunctions"
+                                        Confirmed="@OnAggregateDialogConfirmedAsync" />
+        <_ReportDesignerGroupDialog @ref="groupDialogRef"
+                                    Confirmed="@OnGroupDialogConfirmedAsync" />
     }
     else
     {
@@ -246,33 +267,28 @@
             }
             else
             {
+                var renderSections = ReportPreviewRenderPlanner.BuildRenderSections( definition, Data );
+
                 <_ReportDesignerPage PageKey="@definition.Id"
                                      Width="@GetReportPageWidth( definition, designMode: false )"
                                      MinHeight="@definition.Page.Height">
-                    @for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
+                    @foreach ( var renderSection in renderSections )
                     {
-                        var capturedSectionIndex = sectionIndex;
-                        var section = definition.Sections[capturedSectionIndex];
+                        var section = renderSection.Section;
 
-                        @if ( !section.Suppressed )
-                        {
-                            @foreach ( var sectionItem in ResolveSectionRenderItems( definition, section, designMode: false ).Select( ( item, index ) => new { Item = item, Index = index } ) )
+                        <_ReportDesignerSection SectionKey="@($"{section.Id}:{renderSection.InstanceIndex}")"
+                                                Section="@section"
+                                                Height="@GetDesignerSectionHeight( renderSection.SectionIndex, section )"
+                                                BodyWidth="@definition.Page.Width">
+                            @foreach ( var element in section.Elements )
                             {
-                                <_ReportDesignerSection SectionKey="@($"{section.Id}:{sectionItem.Index}")"
-                                                        Section="@section"
-                                                        Height="@GetDesignerSectionHeight( capturedSectionIndex, section )"
-                                                        BodyWidth="@definition.Page.Width">
-                                    @foreach ( var element in section.Elements )
-                                    {
-                                        <_ReportDesignerElement Data="@Data"
-                                                                Definition="@definition"
-                                                                Item="@sectionItem.Item"
-                                                                Element="@element"
-                                                                ElementKey="@ReportDefinitionHelper.EnsureElementId( element )" />
-                                    }
-                                </_ReportDesignerSection>
+                                <_ReportDesignerElement Data="@Data"
+                                                        Definition="@definition"
+                                                        Item="@renderSection.Item"
+                                                        Element="@element"
+                                                        ElementKey="@ReportDefinitionHelper.EnsureElementId( element )" />
                             }
-                        }
+                        </_ReportDesignerSection>
                     }
                 </_ReportDesignerPage>
             }
