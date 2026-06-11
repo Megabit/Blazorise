@@ -31,6 +31,10 @@ export function initialize(element, elementId) {
             return;
         }
 
+        if (!isFocusTrapVisible(element)) {
+            return;
+        }
+
         const focusableElements = getFocusableElements(element);
 
         if (focusableElements.length === 0) {
@@ -46,16 +50,27 @@ export function initialize(element, elementId) {
         if (!element.contains(activeElement)) {
             event.preventDefault();
             focusElement(event.shiftKey ? lastFocusable : firstFocusable);
-        } else if (event.shiftKey && activeElement === firstFocusable) {
-            event.preventDefault();
+            event.stopImmediatePropagation();
+            return;
+        }
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        const activeIndex = focusableElements.indexOf(activeElement);
+
+        if (event.shiftKey && activeIndex <= 0) {
             focusElement(lastFocusable);
-        } else if (!event.shiftKey && activeElement === lastFocusable) {
-            event.preventDefault();
+        } else if (!event.shiftKey && activeIndex === focusableElements.length - 1) {
             focusElement(firstFocusable);
+        } else if (event.shiftKey) {
+            focusElement(focusableElements[activeIndex - 1]);
+        } else {
+            focusElement(focusableElements[activeIndex + 1]);
         }
     };
 
-    element.addEventListener("keydown", keydownHandler);
+    element.ownerDocument.addEventListener("keydown", keydownHandler, true);
     focusTrapHandlers.set(element, keydownHandler);
 }
 
@@ -69,7 +84,7 @@ export function destroy(element, elementId) {
     const keydownHandler = focusTrapHandlers.get(element);
 
     if (keydownHandler) {
-        element.removeEventListener("keydown", keydownHandler);
+        element.ownerDocument.removeEventListener("keydown", keydownHandler, true);
         focusTrapHandlers.delete(element);
     }
 }
@@ -81,8 +96,14 @@ export function focus(element, elementId) {
         return;
     }
 
-    const focusableElements = getFocusableElements(element);
-    focusElement(focusableElements[0] || element);
+    requestAnimationFrame(() => {
+        if (!isFocusTrapVisible(element)) {
+            return;
+        }
+
+        const focusableElements = getFocusableElements(element);
+        focusElement(focusableElements[0] || element);
+    });
 }
 
 function getFocusableElements(element) {
@@ -97,6 +118,26 @@ function getFocusableElements(element) {
         }))
         .sort(compareTabOrder)
         .map((entry) => entry.element);
+}
+
+function isFocusTrapVisible(element) {
+    if (!element || !element.isConnected) {
+        return false;
+    }
+
+    for (let current = element; current; current = current.parentElement) {
+        if (current.hidden || current.getAttribute("aria-hidden")?.toLowerCase() === "true") {
+            return false;
+        }
+
+        const style = window.getComputedStyle(current);
+
+        if (style.visibility === "hidden" || style.display === "none") {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 function compareTabOrder(left, right) {
