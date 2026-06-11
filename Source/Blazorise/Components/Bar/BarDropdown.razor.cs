@@ -142,6 +142,18 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
         if ( ParentBarDropdown is not null && ( ParentBarDropdown.ShouldClose || hideAll ) )
             await ParentBarDropdown.Hide( hideAll );
 
+        await HideCurrent();
+    }
+
+    /// <summary>
+    /// Hides only the current dropdown menu without affecting its parent dropdown menus.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    private async Task HideCurrent()
+    {
+        if ( !IsVisible )
+            return;
+
         await SetVisibleState( false );
 
         await InvokeAsync( StateHasChanged );
@@ -270,7 +282,7 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
         await Task.Delay( Math.Max( 0, CloseDelay ) );
 
         if ( ShouldClose && closeVersion == mouseLeaveCloseVersion )
-            await Hide();
+            await HideCurrent();
     }
 
     /// <summary>
