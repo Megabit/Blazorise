@@ -1,0 +1,6 @@
+[role="tablist"].nav-tabs,
+[role="tablist"].nav-pills {
+    .nav-link:not(.disabled):not([aria-disabled="true"]) {
+        cursor: pointer;
+    }
+}
