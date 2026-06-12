@@ -2950,6 +2950,11 @@ td:focus {
     border-bottom: 1px solid;
   }
 }
+[role=tablist].nav-tabs .nav-link:not(.disabled):not([aria-disabled=true]),
+[role=tablist].nav-pills .nav-link:not(.disabled):not([aria-disabled=true]) {
+  cursor: pointer;
+}
+
 .snackbar-stack {
   z-index: 1069 !important;
 }
