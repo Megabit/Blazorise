@@ -5,6 +5,27 @@ let activeDesignerKeyboardShortcut;
 const treeDragImageSuppressors = new WeakMap();
 const textTokenEditors = new WeakMap();
 
+const designerControlShortcuts = {
+    x: "Cut",
+    c: "Copy",
+    v: "Paste",
+    z: "Undo",
+    y: "Redo",
+};
+
+const designerControlShiftShortcuts = {
+    z: "Redo",
+};
+
+const designerPlainShortcuts = {
+    Delete: "Delete",
+    F2: "EditText",
+    ArrowLeft: "MoveLeft",
+    ArrowUp: "MoveUp",
+    ArrowRight: "MoveRight",
+    ArrowDown: "MoveDown",
+};
+
 export function startSectionResize( dotNetReference, startClientY ) {
     stopSectionResize();
 
@@ -288,55 +309,29 @@ function createTransparentDragImage() {
 }
 
 function resolveDesignerShortcut( event ) {
-    if ( event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key?.toLowerCase?.() === "x" ) {
-        return "Cut";
+    if ( isDesignerControlShortcut( event ) ) {
+        return designerControlShortcuts[event.key?.toLowerCase?.()] ?? null;
     }
 
-    if ( event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key?.toLowerCase?.() === "c" ) {
-        return "Copy";
+    if ( isDesignerControlShiftShortcut( event ) ) {
+        return designerControlShiftShortcuts[event.key?.toLowerCase?.()] ?? null;
     }
 
-    if ( event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key?.toLowerCase?.() === "v" ) {
-        return "Paste";
-    }
+    return isDesignerPlainShortcut( event )
+        ? designerPlainShortcuts[event.key] ?? null
+        : null;
+}
 
-    if ( event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key?.toLowerCase?.() === "z" ) {
-        return "Undo";
-    }
+function isDesignerControlShortcut( event ) {
+    return event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey;
+}
 
-    if ( event.ctrlKey && event.shiftKey && !event.altKey && !event.metaKey && event.key?.toLowerCase?.() === "z" ) {
-        return "Redo";
-    }
+function isDesignerControlShiftShortcut( event ) {
+    return event.ctrlKey && event.shiftKey && !event.altKey && !event.metaKey;
+}
 
-    if ( event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key?.toLowerCase?.() === "y" ) {
-        return "Redo";
-    }
-
-    if ( !event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key === "Delete" ) {
-        return "Delete";
-    }
-
-    if ( !event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key === "F2" ) {
-        return "EditText";
-    }
-
-    if ( !event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key === "ArrowLeft" ) {
-        return "MoveLeft";
-    }
-
-    if ( !event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key === "ArrowUp" ) {
-        return "MoveUp";
-    }
-
-    if ( !event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key === "ArrowRight" ) {
-        return "MoveRight";
-    }
-
-    if ( !event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key === "ArrowDown" ) {
-        return "MoveDown";
-    }
-
-    return null;
+function isDesignerPlainShortcut( event ) {
+    return !event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey;
 }
 
 function shouldIgnoreDesignerShortcut( event ) {
