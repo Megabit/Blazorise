@@ -745,6 +745,54 @@ public class DataGridComponentTest : BunitContext
     }
 
     [Fact]
+    public async Task BatchCellEdit_Should_SaveMultipleColumnsForSameOriginalRow()
+    {
+        // setup
+        var data = new List<BatchEditEmployee>
+        {
+            new()
+            {
+                FirstName = "Gerald",
+                LastName = "Pollich",
+                Email = "gerald@yahoo.com",
+            },
+        };
+
+        var comp = Render<TestDataGrid<BatchEditEmployee>>( parameters =>
+        {
+            parameters.Add( x => x.Data, data );
+            parameters.Add( x => x.Editable, true );
+            parameters.Add( x => x.BatchEdit, true );
+            parameters.Add( x => x.EditMode, DataGridEditMode.Cell );
+            parameters.Add( x => x.DataGridColumns, CreateBatchEditColumns() );
+        } );
+
+        var dataGrid = comp.Instance;
+
+        // test
+        await dataGrid.Edit( data[0] );
+        dataGrid.UpdateCellEditValue( nameof( BatchEditEmployee.FirstName ), "Geraldine" );
+        await dataGrid.SaveCurrentBatchItem();
+
+        await dataGrid.Edit( data[0] );
+        dataGrid.UpdateCellEditValue( nameof( BatchEditEmployee.LastName ), "Pollack" );
+        await dataGrid.SaveCurrentBatchItem();
+
+        await dataGrid.Edit( data[0] );
+        dataGrid.UpdateCellEditValue( nameof( BatchEditEmployee.Email ), "gerald@gmail.com" );
+        await dataGrid.SaveCurrentBatchItem();
+
+        Assert.Single( dataGrid.BatchChanges );
+
+        await dataGrid.SaveAllBatch();
+
+        // validate
+        Assert.Equal( "Geraldine", data[0].FirstName );
+        Assert.Equal( "Pollack", data[0].LastName );
+        Assert.Equal( "gerald@gmail.com", data[0].Email );
+    }
+
+    [Fact]
     public async Task EditTemplate_Should_NotClip_CustomEditor()
     {
         // setup
@@ -792,5 +840,42 @@ public class DataGridComponentTest : BunitContext
         // validate
         var expectedResult = startingDataCount - 1;
         comp.WaitForAssertion( () => Assert.Equal( expectedResult, currentDataCount ), System.TimeSpan.FromSeconds( 3 ) );
+    }
+
+    private static Microsoft.AspNetCore.Components.RenderFragment CreateBatchEditColumns()
+        => builder =>
+        {
+            builder.OpenComponent<DataGridColumn<BatchEditEmployee>>( 0 );
+            builder.AddAttribute( 1, nameof( DataGridColumn<BatchEditEmployee>.Field ), nameof( BatchEditEmployee.FirstName ) );
+            builder.AddAttribute( 2, nameof( DataGridColumn<BatchEditEmployee>.Editable ), true );
+            builder.CloseComponent();
+
+            builder.OpenComponent<DataGridColumn<BatchEditEmployee>>( 3 );
+            builder.AddAttribute( 4, nameof( DataGridColumn<BatchEditEmployee>.Field ), nameof( BatchEditEmployee.LastName ) );
+            builder.AddAttribute( 5, nameof( DataGridColumn<BatchEditEmployee>.Editable ), true );
+            builder.CloseComponent();
+
+            builder.OpenComponent<DataGridColumn<BatchEditEmployee>>( 6 );
+            builder.AddAttribute( 7, nameof( DataGridColumn<BatchEditEmployee>.Field ), nameof( BatchEditEmployee.Email ) );
+            builder.AddAttribute( 8, nameof( DataGridColumn<BatchEditEmployee>.Editable ), true );
+            builder.CloseComponent();
+        };
+
+    private class TestDataGrid<TItem> : DataGrid<TItem>
+    {
+        public Task SaveCurrentBatchItem()
+            => SaveBatchItem();
+
+        public Task SaveAllBatch()
+            => SaveBatch();
+    }
+
+    private class BatchEditEmployee
+    {
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string Email { get; set; }
     }
 }
