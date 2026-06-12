@@ -38,6 +38,11 @@ public sealed class ReportState
     public ReportElementDefinition ClipboardElement { get; set; }
 
     /// <summary>
+    /// Band identifier that originally contained the clipboard element.
+    /// </summary>
+    public string ClipboardSectionId { get; set; }
+
+    /// <summary>
     /// Indicates whether the command history can undo the latest operation.
     /// </summary>
     public bool CanUndo { get; set; }

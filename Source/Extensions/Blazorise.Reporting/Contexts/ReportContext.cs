@@ -111,6 +111,7 @@ internal sealed class ReportContext
             SnapToGrid = state.SnapToGrid,
             Selection = CloneSelection( state.Selection ),
             ClipboardElement = CloneElement( state.ClipboardElement ),
+            ClipboardSectionId = state.ClipboardSectionId,
             CanUndo = state.CanUndo,
             CanRedo = state.CanRedo,
         };

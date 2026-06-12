@@ -87,6 +87,8 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private ReportElementDefinition clipboardElement;
 
+    private string clipboardSectionId;
+
     private ReportOptions globalOptions;
 
     private JSReportingModule reportingModule;
@@ -531,10 +533,13 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
     {
         return ExecuteDesignerCommandAsync( new( "Copy element", () =>
         {
-            var element = selectionManager.FindSelectedElement( EffectiveDefinition );
+            ReportDefinition definition = EffectiveDefinition;
 
-            if ( element is not null )
+            if ( ReportDefinitionHelper.TryFindElementLocation( definition, selectionManager.SelectedElementKey, out var sectionIndex, out _, out var element ) )
+            {
                 clipboardElement = ReportContext.CloneElement( element );
+                clipboardSectionId = ReportDefinitionHelper.EnsureSectionId( definition.Sections[sectionIndex] );
+            }
 
             return Task.CompletedTask;
         }, trackHistory: false, notifyDefinitionChanged: false ) );
@@ -554,6 +559,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             if ( ReportDefinitionHelper.TryFindElementLocation( definition, selectionManager.SelectedElementKey, out var sectionIndex, out var elementIndex, out var element ) )
             {
                 clipboardElement = ReportContext.CloneElement( element );
+                clipboardSectionId = ReportDefinitionHelper.EnsureSectionId( definition.Sections[sectionIndex] );
                 definition.Sections[sectionIndex].Elements.RemoveAt( elementIndex );
                 SelectSection( sectionIndex );
                 contextMenu = null;
@@ -570,15 +576,17 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
         await ExecuteDesignerCommandAsync( new( "Paste element", () =>
         {
-            var definition = EffectiveDefinition;
-            var targetSectionIndex = selectionManager.ResolvePasteSectionIndex( definition );
+            ReportDefinition definition = EffectiveDefinition;
+            int targetSectionIndex = selectionManager.ResolvePasteSectionIndex( definition );
+            ReportSectionDefinition targetSection = definition.Sections[targetSectionIndex];
+            bool sameSection = clipboardSectionId == ReportDefinitionHelper.EnsureSectionId( targetSection );
 
-            var element = ReportContext.CloneElement( clipboardElement );
+            ReportElementDefinition element = ReportContext.CloneElement( clipboardElement );
             element.Id = ReportDefinitionHelper.CreateDefinitionId();
-            element.X = ApplyDesignerGrid( element.X + 16 );
-            element.Y = ApplyDesignerGrid( element.Y + 16 );
+            element.X = sameSection ? ApplyDesignerGrid( element.X + 16 ) : 0;
+            element.Y = sameSection ? ApplyDesignerGrid( element.Y + 16 ) : 0;
 
-            definition.Sections[targetSectionIndex].Elements.Add( element );
+            targetSection.Elements.Add( element );
 
             SelectElement( ReportDefinitionHelper.EnsureElementId( element ) );
             contextMenu = null;
@@ -615,6 +623,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             SnapToGrid = snapToGrid,
             Selection = selectionManager.CaptureState( definition ),
             ClipboardElement = ReportContext.CloneElement( clipboardElement ),
+            ClipboardSectionId = clipboardSectionId,
             CanUndo = commandManager.CanUndo,
             CanRedo = commandManager.CanRedo,
         };
@@ -630,6 +639,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         currentPreviewFormat = nextState.PreviewFormat;
         snapToGrid = nextState.SnapToGrid;
         clipboardElement = ReportContext.CloneElement( nextState.ClipboardElement );
+        clipboardSectionId = nextState.ClipboardSectionId;
 
         selectionManager.ApplyState( definition, nextState.Selection );
 
