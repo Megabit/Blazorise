@@ -51,6 +51,29 @@ public class JSReportingModule : BaseJSModule
     }
 
     /// <summary>
+    /// Starts document-level designer keyboard shortcut handling for the active report designer.
+    /// </summary>
+    /// <typeparam name="TComponent">Component type that receives shortcut callbacks.</typeparam>
+    /// <param name="element">Designer root element that scopes shortcut activation.</param>
+    /// <param name="dotNetObjectReference">Component reference that receives shortcut callbacks.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public virtual async ValueTask StartDesignerKeyboardShortcuts<TComponent>( ElementReference element, DotNetObjectReference<TComponent> dotNetObjectReference )
+        where TComponent : class
+    {
+        await InvokeSafeVoidAsync( "startDesignerKeyboardShortcuts", element, dotNetObjectReference );
+    }
+
+    /// <summary>
+    /// Stops document-level designer keyboard shortcut handling for a report designer.
+    /// </summary>
+    /// <param name="element">Designer root element that owns the shortcut listener.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public virtual async ValueTask StopDesignerKeyboardShortcuts( ElementReference element )
+    {
+        await InvokeSafeVoidAsync( "stopDesignerKeyboardShortcuts", element );
+    }
+
+    /// <summary>
     /// Calculates client coordinates relative to an element.
     /// </summary>
     /// <param name="element">Element used as the coordinate origin.</param>

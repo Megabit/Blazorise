@@ -1,7 +1,10 @@
 @namespace Blazorise.Reporting.Internal
 @inherits ReportComponentBase
+@implements IAsyncDisposable
+@using System
 
-<Div Class="b-report-designer">
+<Div @ref="designerElement"
+     Class="b-report-designer">
     <Div Class="b-report-designer-toolbox-panel"
          Padding="Padding.Is3"
          Background="Background.White"

@@ -1,5 +1,7 @@
 let sectionResize;
 const listenerOptions = { capture: true, passive: false };
+const designerKeyboardShortcuts = new WeakMap();
+let activeDesignerKeyboardShortcut;
 const treeDragImageSuppressors = new WeakMap();
 const textTokenEditors = new WeakMap();
 
@@ -46,6 +48,75 @@ export function stopSectionResize() {
     }
 
     clearSectionResize( resize );
+}
+
+export function startDesignerKeyboardShortcuts( element, dotNetReference ) {
+    if ( !element || typeof element.contains !== "function" || !dotNetReference ) {
+        return;
+    }
+
+    stopDesignerKeyboardShortcuts( element );
+
+    const shortcuts = {
+        dotNetReference,
+        pointerDown: event => {
+            if ( element.contains( event.target ) ) {
+                activeDesignerKeyboardShortcut = shortcuts;
+            }
+            else if ( activeDesignerKeyboardShortcut === shortcuts ) {
+                activeDesignerKeyboardShortcut = null;
+            }
+        },
+        focusIn: event => {
+            if ( element.contains( event.target ) ) {
+                activeDesignerKeyboardShortcut = shortcuts;
+            }
+        },
+        keyDown: event => {
+            if ( activeDesignerKeyboardShortcut !== shortcuts || shouldIgnoreDesignerShortcut( event ) ) {
+                return;
+            }
+
+            const shortcut = resolveDesignerShortcut( event );
+
+            if ( !shortcut ) {
+                return;
+            }
+
+            event.preventDefault();
+            event.stopPropagation();
+            shortcuts.dotNetReference.invokeMethodAsync( "OnDesignerShortcut", shortcut );
+        },
+    };
+
+    document.addEventListener( "pointerdown", shortcuts.pointerDown, true );
+    document.addEventListener( "mousedown", shortcuts.pointerDown, true );
+    document.addEventListener( "focusin", shortcuts.focusIn, true );
+    document.addEventListener( "keydown", shortcuts.keyDown, true );
+    designerKeyboardShortcuts.set( element, shortcuts );
+}
+
+export function stopDesignerKeyboardShortcuts( element ) {
+    if ( !element ) {
+        return;
+    }
+
+    const shortcuts = designerKeyboardShortcuts.get( element );
+
+    if ( !shortcuts ) {
+        return;
+    }
+
+    document.removeEventListener( "pointerdown", shortcuts.pointerDown, true );
+    document.removeEventListener( "mousedown", shortcuts.pointerDown, true );
+    document.removeEventListener( "focusin", shortcuts.focusIn, true );
+    document.removeEventListener( "keydown", shortcuts.keyDown, true );
+
+    if ( activeDesignerKeyboardShortcut === shortcuts ) {
+        activeDesignerKeyboardShortcut = null;
+    }
+
+    designerKeyboardShortcuts.delete( element );
 }
 
 export function getElementOffset( element, clientX, clientY ) {
@@ -214,6 +285,58 @@ function createTransparentDragImage() {
     canvas.height = 1;
 
     return canvas;
+}
+
+function resolveDesignerShortcut( event ) {
+    if ( event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key?.toLowerCase?.() === "x" ) {
+        return "Cut";
+    }
+
+    if ( event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key?.toLowerCase?.() === "c" ) {
+        return "Copy";
+    }
+
+    if ( event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key?.toLowerCase?.() === "v" ) {
+        return "Paste";
+    }
+
+    if ( event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key?.toLowerCase?.() === "z" ) {
+        return "Undo";
+    }
+
+    if ( event.ctrlKey && event.shiftKey && !event.altKey && !event.metaKey && event.key?.toLowerCase?.() === "z" ) {
+        return "Redo";
+    }
+
+    if ( event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key?.toLowerCase?.() === "y" ) {
+        return "Redo";
+    }
+
+    if ( !event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key === "Delete" ) {
+        return "Delete";
+    }
+
+    if ( !event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key === "F2" ) {
+        return "EditText";
+    }
+
+    return null;
+}
+
+function shouldIgnoreDesignerShortcut( event ) {
+    const target = event.target;
+
+    if ( !target ) {
+        return false;
+    }
+
+    const tagName = target.tagName?.toLowerCase?.();
+
+    return tagName === "input"
+        || tagName === "textarea"
+        || tagName === "select"
+        || target.isContentEditable
+        || !!target.closest?.( ".b-report-element-text-editor" );
 }
 
 function handleTextExpressionTokenKeyDown( element, event ) {

@@ -348,6 +348,50 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             && string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey );
     }
 
+    private async Task HandleDesignerShortcutAsync( ReportDesignerShortcut shortcut )
+    {
+        if ( CurrentMode != ReportStudioMode.Design || !IsDesignerEnabled || IsElementTextEditing() )
+            return;
+
+        switch ( shortcut )
+        {
+            case ReportDesignerShortcut.Cut:
+                await ExecuteCommandIfAvailableAsync( ReportCommand.Cut );
+                break;
+
+            case ReportDesignerShortcut.Copy:
+                await ExecuteCommandIfAvailableAsync( ReportCommand.Copy );
+                break;
+
+            case ReportDesignerShortcut.Paste:
+                await ExecuteCommandIfAvailableAsync( ReportCommand.Paste );
+                break;
+
+            case ReportDesignerShortcut.Undo:
+                await ExecuteCommandIfAvailableAsync( ReportCommand.Undo );
+                break;
+
+            case ReportDesignerShortcut.Redo:
+                await ExecuteCommandIfAvailableAsync( ReportCommand.Redo );
+                break;
+
+            case ReportDesignerShortcut.Delete:
+                if ( !string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey ) )
+                    await DeleteSelectedElementAsync();
+                break;
+
+            case ReportDesignerShortcut.EditText:
+                BeginSelectedElementTextEdit();
+                break;
+        }
+    }
+
+    private async Task ExecuteCommandIfAvailableAsync( ReportCommand command )
+    {
+        if ( CanExecuteCommand( command ) )
+            await ExecuteCommandAsync( command );
+    }
+
     /// <summary>
     /// Executes a report command against the current designer or viewer state.
     /// </summary>
@@ -794,6 +838,12 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
     {
         if ( IsElementContextMenuVisible() )
             BeginElementTextEdit( contextMenu.ElementKey );
+    }
+
+    private void BeginSelectedElementTextEdit()
+    {
+        if ( !string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey ) )
+            BeginElementTextEdit( selectionManager.SelectedElementKey );
     }
 
     private void BeginElementTextEdit( string elementKey )
