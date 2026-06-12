@@ -1,7 +1,6 @@
 #region Using directives
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Reporting.Internal;
@@ -2594,11 +2593,9 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         return ReportLayoutGeometry.GetMinimumSectionHeight( section );
     }
 
-    private void OnSnapToGridChanged( ChangeEventArgs eventArgs )
+    private void OnSnapToGridChanged( bool value )
     {
-        snapToGrid = eventArgs.Value is bool value
-            ? value
-            : string.Equals( Convert.ToString( eventArgs.Value, CultureInfo.InvariantCulture ), "true", StringComparison.OrdinalIgnoreCase );
+        snapToGrid = value;
     }
 
     private void ClearDragState()

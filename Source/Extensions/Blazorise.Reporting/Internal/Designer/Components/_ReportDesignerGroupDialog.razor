@@ -8,19 +8,21 @@
             <CloseButton Clicked="@CloseAsync" />
         </ModalHeader>
         <ModalBody>
-            <Field>
-                <FieldLabel>Group by</FieldLabel>
-                <Select TValue="string" Value="@selectedFieldKey" ValueChanged="@OnSelectedFieldChanged">
-                    @foreach ( ReportDesignerFieldOption field in fields )
-                    {
-                        <SelectItem TValue="string" Value="@CreateFieldKey( field )">@field.DisplayName</SelectItem>
-                    }
-                </Select>
+            <Field Horizontal>
+                <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Group by</FieldLabel>
+                <FieldBody ColumnSize="ColumnSize.Is8">
+                    <Select TValue="string" Value="@selectedFieldKey" ValueChanged="@OnSelectedFieldChanged" Size="Size.Small">
+                        @foreach ( ReportDesignerFieldOption field in fields )
+                        {
+                            <SelectItem TValue="string" Value="@CreateFieldKey( field )">@field.DisplayName</SelectItem>
+                        }
+                    </Select>
+                </FieldBody>
             </Field>
         </ModalBody>
         <ModalFooter>
-            <Button Color="Color.Primary" Clicked="@ConfirmAsync" Disabled="@(!CanConfirm)">OK</Button>
-            <Button Color="Color.Light" Clicked="@CloseAsync">Cancel</Button>
+            <Button Color="Color.Primary" Clicked="@ConfirmAsync" Disabled="@(!CanConfirm)" Size="Size.Small">OK</Button>
+            <Button Color="Color.Light" Clicked="@CloseAsync" Size="Size.Small">Cancel</Button>
         </ModalFooter>
     </ModalContent>
 </Modal>

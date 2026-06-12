@@ -7,12 +7,7 @@
 {
     <Div Margin="Margin.Is3.FromBottom">
         <h6>Report properties</h6>
-        <Field Margin="Margin.Is2.FromBottom">
-            <label class="b-report-designer-option">
-                <input type="checkbox" checked="@SnapToGrid" @onchange="SnapToGridChanged" />
-                Snap to grid
-            </label>
-        </Field>
+        <_ReportDesignerCheckboxProperty Label="Snap to grid" Value="@SnapToGrid" Changed="@OnSnapToGridChanged" />
         <_ReportDesignerNumberProperty Label="Page width" Value="@Definition.Page.Width" Changed="@(value => UpdateReportPage( page => page.Width = Math.Max( 1, value ) ))" />
         <_ReportDesignerNumberProperty Label="Page height" Value="@Definition.Page.Height" Changed="@(value => UpdateReportPage( page => page.Height = Math.Max( 1, value ) ))" />
     </Div>
@@ -23,15 +18,10 @@
     <Div Margin="Margin.Is3.FromBottom">
         <h6>Band properties</h6>
         <_ReportDesignerPropertyGroup Title="Status">
-            <Field Margin="Margin.Is2.FromBottom">
-                <label class="b-report-designer-option">
-                    <input type="checkbox" checked="@SelectedSection.Suppressed" @onchange="@(eventArgs => UpdateSelectedSectionSuppression( eventArgs.Value is bool value && value ))" />
-                    Suppress
-                </label>
-            </Field>
+            <_ReportDesignerCheckboxProperty Label="Suppress" Value="@SelectedSection.Suppressed" Changed="@UpdateSelectedSectionSuppression" />
             @if ( SelectedSection.Type == ReportSectionType.PageFooter )
             {
-                <_ReportDesignerCheckboxProperty Label="Reserve space when suppressed" Value="@SelectedSection.ReserveSpaceWhenSuppressed" Changed="@(eventArgs => UpdateSelectedSection( section => section.ReserveSpaceWhenSuppressed = eventArgs.Value is bool value && value ))" />
+                <_ReportDesignerCheckboxProperty Label="Reserve space when suppressed" Value="@SelectedSection.ReserveSpaceWhenSuppressed" Changed="@(value => UpdateSelectedSection( section => section.ReserveSpaceWhenSuppressed = value ))" />
             }
         </_ReportDesignerPropertyGroup>
 
@@ -54,10 +44,10 @@
                 var sectionBorder = EnsureSelectedSectionBorder();
 
                 <_ReportDesignerPropertyGroup Title="Page footer">
-                    <_ReportDesignerCheckboxProperty Label="Print on first page" Value="@SelectedSection.PrintOnFirstPage" Changed="@(eventArgs => UpdateSelectedSection( section => section.PrintOnFirstPage = eventArgs.Value is bool value && value ))" />
-                    <_ReportDesignerCheckboxProperty Label="Print on last page" Value="@SelectedSection.PrintOnLastPage" Changed="@(eventArgs => UpdateSelectedSection( section => section.PrintOnLastPage = eventArgs.Value is bool value && value ))" />
-                    <_ReportDesignerCheckboxProperty Label="Repeat on every page" Value="@SelectedSection.RepeatOnEveryPage" Changed="@(eventArgs => UpdateSelectedSection( section => section.RepeatOnEveryPage = eventArgs.Value is bool value && value ))" />
-                    <_ReportDesignerCheckboxProperty Label="Keep together" Value="@SelectedSection.KeepTogether" Changed="@(eventArgs => UpdateSelectedSection( section => section.KeepTogether = eventArgs.Value is bool value && value ))" />
+                    <_ReportDesignerCheckboxProperty Label="Print on first page" Value="@SelectedSection.PrintOnFirstPage" Changed="@(value => UpdateSelectedSection( section => section.PrintOnFirstPage = value ))" />
+                    <_ReportDesignerCheckboxProperty Label="Print on last page" Value="@SelectedSection.PrintOnLastPage" Changed="@(value => UpdateSelectedSection( section => section.PrintOnLastPage = value ))" />
+                    <_ReportDesignerCheckboxProperty Label="Repeat on every page" Value="@SelectedSection.RepeatOnEveryPage" Changed="@(value => UpdateSelectedSection( section => section.RepeatOnEveryPage = value ))" />
+                    <_ReportDesignerCheckboxProperty Label="Keep together" Value="@SelectedSection.KeepTogether" Changed="@(value => UpdateSelectedSection( section => section.KeepTogether = value ))" />
                 </_ReportDesignerPropertyGroup>
                 <_ReportDesignerPropertyGroup Title="Appearance">
                     <_ReportDesignerColorProperty Label="Fill color" Value="@sectionAppearance.BackgroundColor" Changed="@(value => UpdateSelectedSection( section => EnsureSectionAppearance( section ).BackgroundColor = value ))" />
@@ -70,16 +60,16 @@
             <Div Flex="Flex.Wrap" Gap="Gap.Is2" Margin="Margin.Is3.FromTop">
                 @if ( CanInsertSection )
                 {
-                    <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => InsertSection( false ))">Insert before</Button>
-                    <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => InsertSection( true ))">Insert after</Button>
+                    <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => InsertSection( false ))" Size="Size.Small">Insert before</Button>
+                    <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => InsertSection( true ))" Size="Size.Small">Insert after</Button>
                 }
                 @if ( CanInsertGroup )
                 {
-                    <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => InsertGroup())">Insert group...</Button>
+                    <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => InsertGroup())" Size="Size.Small">Insert group...</Button>
                 }
                 @if ( ReportDefinitionHelper.CanDeleteSection( SelectedSection ) )
                 {
-                    <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => DeleteSelectedSection())">Delete band</Button>
+                    <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => DeleteSelectedSection())" Size="Size.Small">Delete band</Button>
                 }
             </Div>
         }
@@ -134,28 +124,26 @@
             <_ReportDesignerPropertyGroup Title="Text">
                 <_ReportDesignerTextProperty Label="Font family" Value="@font.Family" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Family = value ))" />
                 <_ReportDesignerNullableNumberProperty Label="Font size" Value="@font.Size" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Size = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
-                <Field Margin="Margin.Is2.FromBottom">
-                    <FieldLabel>Theme color</FieldLabel>
-                    <Select TValue="string" Value="@(font.TextColor ?? string.Empty)" ValueChanged="UpdateSelectedElementTextColor">
-                        @foreach ( var option in TextColorOptions )
-                        {
-                            <SelectItem TValue="string" Value="@option.Value">@option.Text</SelectItem>
-                        }
-                    </Select>
+                <_ReportDesignerThemeColorProperty Label="Color"
+                                                    ThemeValue="@font.TextColor"
+                                                    CustomValue="@font.Color"
+                                                    ThemeOptions="@TextColorOptions"
+                                                    ThemeChanged="@UpdateSelectedElementTextColor"
+                                                    CustomChanged="@UpdateSelectedElementFontColor" />
+                <Field Horizontal Margin="Margin.Is0.FromBottom">
+                    <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Alignment</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is8">
+                        <Select TValue="TextAlignment" Value="@font.Alignment" ValueChanged="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Alignment = value ))" Size="Size.Small">
+                            @foreach ( var option in Enum.GetValues<TextAlignment>() )
+                            {
+                                <SelectItem TValue="TextAlignment" Value="@option">@option.ToString()</SelectItem>
+                            }
+                        </Select>
+                    </FieldBody>
                 </Field>
-                <_ReportDesignerColorProperty Label="Custom color" Value="@font.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Color = value ))" />
-                <Field Margin="Margin.Is2.FromBottom">
-                    <FieldLabel>Alignment</FieldLabel>
-                    <Select TValue="TextAlignment" Value="@font.Alignment" ValueChanged="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Alignment = value ))">
-                        @foreach ( var option in Enum.GetValues<TextAlignment>() )
-                        {
-                            <SelectItem TValue="TextAlignment" Value="@option">@option.ToString()</SelectItem>
-                        }
-                    </Select>
-                </Field>
-                <_ReportDesignerCheckboxProperty Label="Bold" Value="@font.Bold" Changed="@(eventArgs => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Bold = eventArgs.Value is bool value && value ))" />
-                <_ReportDesignerCheckboxProperty Label="Italic" Value="@font.Italic" Changed="@(eventArgs => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Italic = eventArgs.Value is bool value && value ))" />
-                <_ReportDesignerCheckboxProperty Label="Underline" Value="@font.Underline" Changed="@(eventArgs => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Underline = eventArgs.Value is bool value && value ))" />
+                <_ReportDesignerCheckboxProperty Label="Bold" Value="@font.Bold" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Bold = value ))" />
+                <_ReportDesignerCheckboxProperty Label="Italic" Value="@font.Italic" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Italic = value ))" />
+                <_ReportDesignerCheckboxProperty Label="Underline" Value="@font.Underline" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Underline = value ))" />
             </_ReportDesignerPropertyGroup>
         }
 
@@ -165,16 +153,12 @@
         }
 
         <_ReportDesignerPropertyGroup Title="Appearance">
-            <Field Margin="Margin.Is2.FromBottom">
-                <FieldLabel>Theme fill</FieldLabel>
-                <Select TValue="string" Value="@(appearance.Background ?? string.Empty)" ValueChanged="UpdateSelectedElementBackground">
-                    @foreach ( var option in BackgroundOptions )
-                    {
-                        <SelectItem TValue="string" Value="@option.Value">@option.Text</SelectItem>
-                    }
-                </Select>
-            </Field>
-            <_ReportDesignerColorProperty Label="Custom fill" Value="@appearance.BackgroundColor" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).BackgroundColor = value ))" />
+            <_ReportDesignerThemeColorProperty Label="Fill"
+                                                ThemeValue="@appearance.Background"
+                                                CustomValue="@appearance.BackgroundColor"
+                                                ThemeOptions="@BackgroundOptions"
+                                                ThemeChanged="@UpdateSelectedElementBackground"
+                                                CustomChanged="@UpdateSelectedElementBackgroundColor" />
             <_ReportDesignerColorProperty Label="Border color" Value="@border.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
             <_ReportDesignerNullableNumberProperty Label="Border width" Value="@border.Width" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
             <_ReportDesignerNullableNumberProperty Label="Corner radius" Value="@border.Radius" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
@@ -186,12 +170,12 @@
     <Div Margin="Margin.Is3.FromTop">
         <h6>Selected element</h6>
         <Div Flex="Flex.Wrap" Gap="Gap.Is2">
-            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( -8, 0, 0, 0 ))">Left</Button>
-            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( 0, -8, 0, 0 ))">Up</Button>
-            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( 0, 8, 0, 0 ))">Down</Button>
-            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( 8, 0, 0, 0 ))">Right</Button>
-            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( 0, 0, 16, 0 ))">Wider</Button>
-            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( 0, 0, 0, 8 ))">Taller</Button>
+            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( -8, 0, 0, 0 ))" Size="Size.Small">Left</Button>
+            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( 0, -8, 0, 0 ))" Size="Size.Small">Up</Button>
+            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( 0, 8, 0, 0 ))" Size="Size.Small">Down</Button>
+            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( 8, 0, 0, 0 ))" Size="Size.Small">Right</Button>
+            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( 0, 0, 16, 0 ))" Size="Size.Small">Wider</Button>
+            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( 0, 0, 0, 8 ))" Size="Size.Small">Taller</Button>
         </Div>
     </Div>
 }

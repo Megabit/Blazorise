@@ -1,7 +1,9 @@
 @namespace Blazorise.Reporting.Internal
 @inherits ReportComponentBase
 
-<Field Margin="Margin.Is2.FromBottom">
-    <FieldLabel>@Label</FieldLabel>
-    <NumericInput TValue="double" Value="@Value" ValueChanged="@Changed" Immediate="true" Step="@Step" />
+<Field Horizontal Margin="Margin.Is0.FromBottom">
+    <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">@Label</FieldLabel>
+    <FieldBody ColumnSize="ColumnSize.Is8">
+        <NumericInput TValue="double" Value="@Value" ValueChanged="@Changed" Immediate="true" Step="@Step" Size="Size.Small" />
+    </FieldBody>
 </Field>

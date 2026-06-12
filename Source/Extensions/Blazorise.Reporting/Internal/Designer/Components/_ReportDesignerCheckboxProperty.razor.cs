@@ -1,12 +1,5 @@
 #region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Reporting.Internal;
@@ -29,5 +22,5 @@ public partial class _ReportDesignerCheckboxProperty
     /// <summary>
     /// Raised when the checkbox value changes.
     /// </summary>
-    [Parameter] public EventCallback<ChangeEventArgs> Changed { get; set; }
+    [Parameter] public EventCallback<bool> Changed { get; set; }
 }

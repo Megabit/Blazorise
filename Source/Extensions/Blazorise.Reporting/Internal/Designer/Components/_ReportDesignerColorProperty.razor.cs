@@ -1,13 +1,7 @@
 #region Using directives
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Reporting.Internal;
@@ -22,9 +16,9 @@ public partial class _ReportDesignerColorProperty
         return Changed.InvokeAsync( null );
     }
 
-    private Task OnChanged( ChangeEventArgs eventArgs )
+    private Task OnChanged( string value )
     {
-        return Changed.InvokeAsync( Convert.ToString( eventArgs.Value, CultureInfo.InvariantCulture ) );
+        return Changed.InvokeAsync( string.IsNullOrWhiteSpace( value ) ? null : value );
     }
 
     /// <summary>

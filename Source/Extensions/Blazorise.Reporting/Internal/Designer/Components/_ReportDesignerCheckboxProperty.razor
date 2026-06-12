@@ -1,10 +1,9 @@
 @namespace Blazorise.Reporting.Internal
 @inherits ReportComponentBase
-@using Microsoft.AspNetCore.Components.Web
 
-<Field Margin="Margin.Is2.FromBottom">
-    <label class="b-report-designer-option">
-        <input type="checkbox" checked="@Value" @onchange="@Changed" />
-        @Label
-    </label>
+<Field Horizontal Margin="Margin.Is0.FromBottom">
+    <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">@Label</FieldLabel>
+    <FieldBody ColumnSize="ColumnSize.Is8">
+        <Switch TValue="bool" Value="@Value" ValueChanged="@Changed" />
+    </FieldBody>
 </Field>

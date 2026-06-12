@@ -83,6 +83,17 @@ public partial class _ReportDesignerPropertiesPanel
         } );
     }
 
+    private Task UpdateSelectedElementFontColor( string value )
+    {
+        return UpdateSelectedElement( element =>
+        {
+            var font = ReportElementDefinitionHelper.EnsureFont( element );
+
+            font.Color = string.IsNullOrWhiteSpace( value ) ? null : value;
+            font.TextColor = null;
+        } );
+    }
+
     private Task UpdateSelectedElementBackground( string value )
     {
         return UpdateSelectedElement( element =>
@@ -92,6 +103,22 @@ public partial class _ReportDesignerPropertiesPanel
             appearance.Background = string.IsNullOrWhiteSpace( value ) ? null : value;
             appearance.BackgroundColor = null;
         } );
+    }
+
+    private Task UpdateSelectedElementBackgroundColor( string value )
+    {
+        return UpdateSelectedElement( element =>
+        {
+            var appearance = ReportElementDefinitionHelper.EnsureAppearance( element );
+
+            appearance.BackgroundColor = string.IsNullOrWhiteSpace( value ) ? null : value;
+            appearance.Background = null;
+        } );
+    }
+
+    private void OnSnapToGridChanged( bool value )
+    {
+        SnapToGridChanged?.Invoke( value );
     }
 
     /// <summary>
@@ -127,7 +154,7 @@ public partial class _ReportDesignerPropertiesPanel
     /// <summary>
     /// Raised when snap-to-grid is toggled.
     /// </summary>
-    [Parameter] public Action<ChangeEventArgs> SnapToGridChanged { get; set; }
+    [Parameter] public Action<bool> SnapToGridChanged { get; set; }
 
     /// <summary>
     /// Updates the report page definition.
