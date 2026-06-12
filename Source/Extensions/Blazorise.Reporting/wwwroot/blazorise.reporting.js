@@ -320,6 +320,22 @@ function resolveDesignerShortcut( event ) {
         return "EditText";
     }
 
+    if ( !event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key === "ArrowLeft" ) {
+        return "MoveLeft";
+    }
+
+    if ( !event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key === "ArrowUp" ) {
+        return "MoveUp";
+    }
+
+    if ( !event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key === "ArrowRight" ) {
+        return "MoveRight";
+    }
+
+    if ( !event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey && event.key === "ArrowDown" ) {
+        return "MoveDown";
+    }
+
     return null;
 }
 

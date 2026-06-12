@@ -26,6 +26,26 @@ public enum ReportDesignerShortcut
     EditText,
 
     /// <summary>
+    /// Moves the current element selection down.
+    /// </summary>
+    MoveDown,
+
+    /// <summary>
+    /// Moves the current element selection left.
+    /// </summary>
+    MoveLeft,
+
+    /// <summary>
+    /// Moves the current element selection right.
+    /// </summary>
+    MoveRight,
+
+    /// <summary>
+    /// Moves the current element selection up.
+    /// </summary>
+    MoveUp,
+
+    /// <summary>
     /// Pastes the report clipboard into the current selection context.
     /// </summary>
     Paste,

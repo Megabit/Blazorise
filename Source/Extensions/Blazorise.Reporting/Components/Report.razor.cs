@@ -24,6 +24,8 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private const double DesignerCollapsedBandHeight = 28;
 
+    private const double KeyboardMoveStep = 8;
+
     private readonly ReportContext context = new();
 
     private readonly ReportToolbarContext toolbarContext;
@@ -383,6 +385,22 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
             case ReportDesignerShortcut.EditText:
                 BeginSelectedElementTextEdit();
+                break;
+
+            case ReportDesignerShortcut.MoveLeft:
+                await MoveSelectedElementsAsync( -KeyboardMoveStep, 0 );
+                break;
+
+            case ReportDesignerShortcut.MoveUp:
+                await MoveSelectedElementsAsync( 0, -KeyboardMoveStep );
+                break;
+
+            case ReportDesignerShortcut.MoveRight:
+                await MoveSelectedElementsAsync( KeyboardMoveStep, 0 );
+                break;
+
+            case ReportDesignerShortcut.MoveDown:
+                await MoveSelectedElementsAsync( 0, KeyboardMoveStep );
                 break;
         }
     }
@@ -1438,6 +1456,58 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
                 ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement( definition, sectionIndex, sectionIndex, element, originalX, originalWidth, element.X, element.Width );
             }
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task MoveSelectedElementsAsync( double x, double y )
+    {
+        var definition = EffectiveDefinition;
+        var element = selectionManager.FindSelectedElement( definition );
+
+        if ( element is null )
+            return;
+
+        var selectedElements = CaptureElementPointerItems( definition, ReportDefinitionHelper.EnsureElementId( element ) ).ToList();
+
+        if ( selectedElements.Count == 0 )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( selectedElements.Count == 1 ? "Move element" : "Move elements", () =>
+        {
+            var definition = EffectiveDefinition;
+            var selectedElementKeys = selectedElements.Select( item => item.ElementKey ).ToList();
+            var affectedSectionIndexes = new HashSet<int>();
+
+            foreach ( var item in selectedElements )
+            {
+                if ( !ReportDefinitionHelper.TryFindElementLocation( definition, item.ElementKey, out var sectionIndex, out _, out var element ) )
+                    continue;
+
+                element.X = ReportLayoutGeometry.Clamp( item.OriginalX + x, 0, Math.Max( 0, definition.Page.Width - element.Width ) );
+                element.Y = Math.Max( 0, item.OriginalY + y );
+
+                ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement(
+                    definition,
+                    sectionIndex,
+                    sectionIndex,
+                    element,
+                    item.OriginalX,
+                    item.OriginalWidth,
+                    element.X,
+                    element.Width,
+                    selectedElementKeys );
+
+                affectedSectionIndexes.Add( sectionIndex );
+            }
+
+            foreach ( var sectionIndex in affectedSectionIndexes )
+            {
+                ReportLayoutGeometry.GrowSectionToFitElements( definition.Sections[sectionIndex] );
+            }
+
+            SelectElements( selectedElementKeys, ReportDefinitionHelper.EnsureElementId( element ) );
 
             return Task.CompletedTask;
         } ) );
