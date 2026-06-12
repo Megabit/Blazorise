@@ -16,6 +16,40 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerPropertiesPanel
 {
+    private static readonly (string Value, string Text)[] TextColorOptions =
+    [
+        ( string.Empty, "Default" ),
+        ( "primary", "Primary" ),
+        ( "secondary", "Secondary" ),
+        ( "success", "Success" ),
+        ( "danger", "Danger" ),
+        ( "warning", "Warning" ),
+        ( "info", "Info" ),
+        ( "light", "Light" ),
+        ( "dark", "Dark" ),
+        ( "body", "Body" ),
+        ( "muted", "Muted" ),
+        ( "white", "White" ),
+        ( "black-50", "Black 50" ),
+        ( "white-50", "White 50" ),
+    ];
+
+    private static readonly (string Value, string Text)[] BackgroundOptions =
+    [
+        ( string.Empty, "Default" ),
+        ( "primary", "Primary" ),
+        ( "secondary", "Secondary" ),
+        ( "success", "Success" ),
+        ( "danger", "Danger" ),
+        ( "warning", "Warning" ),
+        ( "info", "Info" ),
+        ( "light", "Light" ),
+        ( "dark", "Dark" ),
+        ( "white", "White" ),
+        ( "transparent", "Transparent" ),
+        ( "body", "Body" ),
+    ];
+
     private bool HasSelection => ReportSelected || SelectedSection is not null || SelectedElement is not null;
 
     private ReportAppearanceDefinition EnsureSelectedSectionAppearance()
@@ -36,6 +70,28 @@ public partial class _ReportDesignerPropertiesPanel
     private static ReportBorderDefinition EnsureSectionBorder( ReportSectionDefinition section )
     {
         return section.Border ??= new();
+    }
+
+    private Task UpdateSelectedElementTextColor( string value )
+    {
+        return UpdateSelectedElement( element =>
+        {
+            var font = ReportElementDefinitionHelper.EnsureFont( element );
+
+            font.TextColor = string.IsNullOrWhiteSpace( value ) ? null : value;
+            font.Color = null;
+        } );
+    }
+
+    private Task UpdateSelectedElementBackground( string value )
+    {
+        return UpdateSelectedElement( element =>
+        {
+            var appearance = ReportElementDefinitionHelper.EnsureAppearance( element );
+
+            appearance.Background = string.IsNullOrWhiteSpace( value ) ? null : value;
+            appearance.BackgroundColor = null;
+        } );
     }
 
     /// <summary>

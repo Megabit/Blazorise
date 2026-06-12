@@ -316,6 +316,11 @@ public sealed class ReportFontDefinition
     public string Color { get; set; }
 
     /// <summary>
+    /// Semantic Blazorise text color name applied to text rendered by the element.
+    /// </summary>
+    public string TextColor { get; set; }
+
+    /// <summary>
     /// Enables bold text rendering.
     /// </summary>
     public bool Bold { get; set; }
@@ -345,6 +350,11 @@ public sealed class ReportAppearanceDefinition
     /// Background color applied by the designer appearance editor.
     /// </summary>
     public string BackgroundColor { get; set; }
+
+    /// <summary>
+    /// Semantic Blazorise background color name applied to the element fill.
+    /// </summary>
+    public string Background { get; set; }
 
     /// <summary>
     /// Element opacity from 0 to 1.

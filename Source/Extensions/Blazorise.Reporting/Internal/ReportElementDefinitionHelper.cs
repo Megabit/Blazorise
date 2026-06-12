@@ -33,10 +33,10 @@ internal static class ReportElementDefinitionHelper
             builder.Append( $"font-size:{font.Size.Value}px" );
 
         if ( !string.IsNullOrWhiteSpace( font?.Color ) )
-            builder.Append( $"color:{font.Color}" );
+            builder.Append( $"color:{font.Color}!important" );
 
         if ( !string.IsNullOrWhiteSpace( appearance?.BackgroundColor ) )
-            builder.Append( $"background-color:{appearance.BackgroundColor}" );
+            builder.Append( $"background-color:{appearance.BackgroundColor}!important" );
 
         builder.Append( "font-weight:700", font?.Bold == true );
         builder.Append( "font-style:italic", font?.Italic == true );
@@ -48,7 +48,7 @@ internal static class ReportElementDefinitionHelper
             builder.Append( $"text-align:{textAlignment}" );
 
         if ( !string.IsNullOrWhiteSpace( border?.Color ) )
-            builder.Append( $"border-color:{border.Color}" );
+            builder.Append( $"border-color:{border.Color}!important" );
 
         if ( border?.Width is >= 0 )
         {

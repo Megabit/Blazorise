@@ -1,8 +1,5 @@
 using System;
-using System.Threading.Tasks;
 using Blazorise;
-using Blazorise.Extensions;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Reporting;
@@ -14,22 +11,7 @@ public abstract class ReportElementBase : ComponentBase
 {
     private readonly string definitionId = Guid.NewGuid().ToString( "N" );
 
-    private readonly ClassBuilder utilityClassBuilder;
-
-    /// <summary>
-    /// Initializes a new report element component.
-    /// </summary>
-    protected ReportElementBase()
-    {
-        utilityClassBuilder = new( BuildUtilityClasses );
-    }
-
     [CascadingParameter] internal ReportSectionContext SectionContext { get; set; }
-
-    /// <summary>
-    /// CSS class provider used to translate Blazorise utility parameters into CSS classes.
-    /// </summary>
-    [Inject] protected IClassProvider ClassProvider { get; set; }
 
     /// <summary>
     /// Element kind represented by the derived component.
@@ -40,21 +22,6 @@ public abstract class ReportElementBase : ComponentBase
     /// Element definition produced from the current component parameters.
     /// </summary>
     protected ReportElementDefinition Definition { get; private set; }
-
-    /// <inheritdoc />
-    public override Task SetParametersAsync( ParameterView parameters )
-    {
-        if ( ( parameters.TryGetValue<string>( nameof( Class ), out var paramClass ) && !paramClass.IsEqual( Class ) )
-             || ( parameters.TryGetValue<IFluentSpacing>( nameof( Margin ), out var paramMargin ) && !paramMargin.IsEqual( Margin ) )
-             || ( parameters.TryGetValue<IFluentSpacing>( nameof( Padding ), out var paramPadding ) && !paramPadding.IsEqual( Padding ) )
-             || ( parameters.TryGetValue<IFluentFlex>( nameof( Flex ), out var paramFlex ) && !paramFlex.IsEqual( Flex ) )
-             || ( parameters.TryGetValue<IFluentGap>( nameof( Gap ), out var paramGap ) && !paramGap.IsEqual( Gap ) )
-             || ( parameters.TryGetValue<TextColor>( nameof( TextColor ), out var paramTextColor ) && !paramTextColor.IsEqual( TextColor ) )
-             || ( parameters.TryGetValue<Background>( nameof( Background ), out var paramBackground ) && !paramBackground.IsEqual( Background ) ) )
-            utilityClassBuilder.Dirty();
-
-        return base.SetParametersAsync( parameters );
-    }
 
     /// <inheritdoc />
     protected override void OnParametersSet()
@@ -84,33 +51,9 @@ public abstract class ReportElementBase : ComponentBase
             Font = BuildFontDefinition(),
             Appearance = BuildAppearanceDefinition(),
             Border = BuildBorderDefinition(),
-            Class = BuildUtilityClasses(),
+            Class = Class,
             Style = Style,
         };
-    }
-
-    /// <summary>
-    /// Builds CSS classes from Blazorise utility parameters and custom classes.
-    /// </summary>
-    /// <returns>A space-separated CSS class list.</returns>
-    protected string BuildUtilityClasses()
-    {
-        return utilityClassBuilder.Class;
-    }
-
-    private void BuildUtilityClasses( ClassBuilder builder )
-    {
-        builder.Append( Class );
-        builder.Append( Margin?.Class( ClassProvider ) );
-        builder.Append( Padding?.Class( ClassProvider ) );
-        builder.Append( Flex?.Class( ClassProvider ) );
-        builder.Append( Gap?.Class( ClassProvider ) );
-
-        if ( TextColor.IsNotNullOrDefault() )
-            builder.Append( ClassProvider.TextColor( TextColor ) );
-
-        if ( Background.IsNotNullOrDefault() )
-            builder.Append( ClassProvider.BackgroundColor( Background ) );
     }
 
     private ReportFontDefinition BuildFontDefinition()
@@ -120,6 +63,7 @@ public abstract class ReportElementBase : ComponentBase
             Family = FontFamily ?? Font?.Family,
             Size = FontSize ?? Font?.Size,
             Color = FontColor ?? Font?.Color,
+            TextColor = GetTextColorName( TextColor ) ?? Font?.TextColor,
             Bold = Bold || Font?.Bold == true,
             Italic = Italic || Font?.Italic == true,
             Underline = Underline || Font?.Underline == true,
@@ -134,6 +78,7 @@ public abstract class ReportElementBase : ComponentBase
         return new()
         {
             BackgroundColor = BackgroundColor ?? Appearance?.BackgroundColor,
+            Background = GetBackgroundName( Background ) ?? Appearance?.Background,
             Opacity = Opacity ?? Appearance?.Opacity,
         };
     }
@@ -146,6 +91,20 @@ public abstract class ReportElementBase : ComponentBase
             Width = BorderWidth ?? Border?.Width,
             Radius = BorderRadius ?? Border?.Radius,
         };
+    }
+
+    private static string GetTextColorName( TextColor textColor )
+    {
+        return textColor is null || textColor == Blazorise.TextColor.Default || string.IsNullOrWhiteSpace( textColor.RawName )
+            ? null
+            : textColor.RawName;
+    }
+
+    private static string GetBackgroundName( Background background )
+    {
+        return background is null || background == Blazorise.Background.Default || string.IsNullOrWhiteSpace( background.RawName )
+            ? null
+            : background.RawName;
     }
 
     /// <summary>
@@ -259,32 +218,32 @@ public abstract class ReportElementBase : ComponentBase
     [Parameter] public ReportBorderDefinition Border { get; set; }
 
     /// <summary>
-    /// Blazorise margin utility applied to the element.
+    /// Blazorise margin utility accepted for declarative compatibility.
     /// </summary>
     [Parameter] public IFluentSpacing Margin { get; set; }
 
     /// <summary>
-    /// Blazorise padding utility applied to the element.
+    /// Blazorise padding utility accepted for declarative compatibility.
     /// </summary>
     [Parameter] public IFluentSpacing Padding { get; set; }
 
     /// <summary>
-    /// Blazorise flex utility applied to the element.
+    /// Blazorise flex utility accepted for declarative compatibility.
     /// </summary>
     [Parameter] public IFluentFlex Flex { get; set; }
 
     /// <summary>
-    /// Blazorise gap utility applied to the element.
+    /// Blazorise gap utility accepted for declarative compatibility.
     /// </summary>
     [Parameter] public IFluentGap Gap { get; set; }
 
     /// <summary>
-    /// Blazorise text color utility applied to the element.
+    /// Semantic Blazorise text color applied to text rendered by the element.
     /// </summary>
     [Parameter] public TextColor TextColor { get; set; } = TextColor.Default;
 
     /// <summary>
-    /// Blazorise background color utility applied to the element.
+    /// Semantic Blazorise background color applied to the element fill.
     /// </summary>
     [Parameter] public Background Background { get; set; } = Background.Default;
 }

@@ -67,9 +67,6 @@
                     <_ReportDesignerNullableNumberProperty Label="Opacity" Value="@sectionAppearance.Opacity" Changed="@(value => UpdateSelectedSection( section => EnsureSectionAppearance( section ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( value ) ))" />
                 </_ReportDesignerPropertyGroup>
             }
-            <_ReportDesignerPropertyGroup Title="Advanced">
-                <_ReportDesignerTextProperty Label="Custom CSS" Value="@SelectedSection.Style" Changed="@(value => UpdateSelectedSection( section => section.Style = value ))" />
-            </_ReportDesignerPropertyGroup>
             <Div Flex="Flex.Wrap" Gap="Gap.Is2" Margin="Margin.Is3.FromTop">
                 @if ( CanInsertSection )
                 {
@@ -137,7 +134,16 @@
             <_ReportDesignerPropertyGroup Title="Text">
                 <_ReportDesignerTextProperty Label="Font family" Value="@font.Family" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Family = value ))" />
                 <_ReportDesignerNullableNumberProperty Label="Font size" Value="@font.Size" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Size = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
-                <_ReportDesignerColorProperty Label="Font color" Value="@font.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Color = value ))" />
+                <Field Margin="Margin.Is2.FromBottom">
+                    <FieldLabel>Theme color</FieldLabel>
+                    <Select TValue="string" Value="@(font.TextColor ?? string.Empty)" ValueChanged="UpdateSelectedElementTextColor">
+                        @foreach ( var option in TextColorOptions )
+                        {
+                            <SelectItem TValue="string" Value="@option.Value">@option.Text</SelectItem>
+                        }
+                    </Select>
+                </Field>
+                <_ReportDesignerColorProperty Label="Custom color" Value="@font.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Color = value ))" />
                 <Field Margin="Margin.Is2.FromBottom">
                     <FieldLabel>Alignment</FieldLabel>
                     <Select TValue="TextAlignment" Value="@font.Alignment" ValueChanged="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Alignment = value ))">
@@ -159,17 +165,22 @@
         }
 
         <_ReportDesignerPropertyGroup Title="Appearance">
-            <_ReportDesignerColorProperty Label="Fill color" Value="@appearance.BackgroundColor" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).BackgroundColor = value ))" />
+            <Field Margin="Margin.Is2.FromBottom">
+                <FieldLabel>Theme fill</FieldLabel>
+                <Select TValue="string" Value="@(appearance.Background ?? string.Empty)" ValueChanged="UpdateSelectedElementBackground">
+                    @foreach ( var option in BackgroundOptions )
+                    {
+                        <SelectItem TValue="string" Value="@option.Value">@option.Text</SelectItem>
+                    }
+                </Select>
+            </Field>
+            <_ReportDesignerColorProperty Label="Custom fill" Value="@appearance.BackgroundColor" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).BackgroundColor = value ))" />
             <_ReportDesignerColorProperty Label="Border color" Value="@border.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
             <_ReportDesignerNullableNumberProperty Label="Border width" Value="@border.Width" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
             <_ReportDesignerNullableNumberProperty Label="Corner radius" Value="@border.Radius" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
             <_ReportDesignerNullableNumberProperty Label="Opacity" Value="@appearance.Opacity" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( value ) ))" />
         </_ReportDesignerPropertyGroup>
 
-        <_ReportDesignerPropertyGroup Title="Advanced">
-            <_ReportDesignerTextProperty Label="CSS classes" Value="@SelectedElement.Class" Changed="@(value => UpdateSelectedElement( element => element.Class = value ))" />
-            <_ReportDesignerTextProperty Label="Custom CSS" Value="@SelectedElement.Style" Changed="@(value => UpdateSelectedElement( element => element.Style = value ))" />
-        </_ReportDesignerPropertyGroup>
     </Div>
 
     <Div Margin="Margin.Is3.FromTop">

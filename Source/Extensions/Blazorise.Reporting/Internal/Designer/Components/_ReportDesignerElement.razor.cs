@@ -97,6 +97,13 @@ public partial class _ReportDesignerElement
         builder.Append( "b-report-element" );
         builder.Append( $"b-report-element-{Element.Type.ToString().ToLowerInvariant()}" );
         builder.Append( Element.Class );
+
+        if ( !string.IsNullOrWhiteSpace( Element.Font?.TextColor ) )
+            builder.Append( ClassProvider.TextColor( new TextColor( Element.Font.TextColor ) ) );
+
+        if ( !string.IsNullOrWhiteSpace( Element.Appearance?.Background ) )
+            builder.Append( ClassProvider.BackgroundColor( new Background( Element.Appearance.Background ) ) );
+
         builder.Append( "b-report-element-design", DesignMode );
         builder.Append( "disabled", DesignMode && !Editable );
         builder.Append( "active", DesignMode && Editable && Selected );
@@ -179,6 +186,8 @@ public partial class _ReportDesignerElement
     {
         reportingModule ??= new( JSRuntime, VersionProvider, BlazoriseOptions );
     }
+
+    [Inject] private IClassProvider ClassProvider { get; set; }
 
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
