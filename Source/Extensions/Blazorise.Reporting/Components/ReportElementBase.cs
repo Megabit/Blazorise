@@ -113,24 +113,24 @@ public abstract class ReportElementBase : ComponentBase
     [Parameter] public string Name { get; set; }
 
     /// <summary>
-    /// Horizontal position within the containing band.
+    /// Horizontal position within the containing band, in points.
     /// </summary>
     [Parameter] public double X { get; set; }
 
     /// <summary>
-    /// Vertical position within the containing band.
+    /// Vertical position within the containing band, in points.
     /// </summary>
     [Parameter] public double Y { get; set; }
 
     /// <summary>
-    /// Element width in designer units.
+    /// Element width in points.
     /// </summary>
-    [Parameter] public double Width { get; set; } = 120;
+    [Parameter] public double Width { get; set; } = 90;
 
     /// <summary>
-    /// Element height in designer units.
+    /// Element height in points.
     /// </summary>
-    [Parameter] public double Height { get; set; } = 24;
+    [Parameter] public double Height { get; set; } = 18;
 
     /// <summary>
     /// Additional CSS classes applied to the element.

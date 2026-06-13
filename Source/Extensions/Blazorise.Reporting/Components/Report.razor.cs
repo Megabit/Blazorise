@@ -361,13 +361,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return items;
     }
 
-    private double GetReportPageWidth( ReportDefinition definition, bool designMode )
+    private double GetReportPageWidth( ReportDefinition definition )
     {
         definition.Page = ResolvePage( definition.Page );
 
-        return designMode && IsDesignerBandRailVisible()
-            ? definition.Page.Width + DesignerBandRailWidth
-            : definition.Page.Width;
+        return definition.Page.Width;
     }
 
     private double GetReportPageContentWidth( ReportDefinition definition )
@@ -383,10 +381,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         var styleBuilder = new StyleBuilder( builder =>
         {
-            builder.Append( $"left:{definition.Page.Margins.Left}px" );
-            builder.Append( $"top:{definition.Page.Margins.Top}px" );
-            builder.Append( $"right:{definition.Page.Margins.Right}px" );
-            builder.Append( $"bottom:{definition.Page.Margins.Bottom}px" );
+            builder.Append( $"left:{ReportMeasurementConverter.ToCssPixelString( definition.Page.Margins.Left )}" );
+            builder.Append( $"top:{ReportMeasurementConverter.ToCssPixelString( definition.Page.Margins.Top )}" );
+            builder.Append( $"right:{ReportMeasurementConverter.ToCssPixelString( definition.Page.Margins.Right )}" );
+            builder.Append( $"bottom:{ReportMeasurementConverter.ToCssPixelString( definition.Page.Margins.Bottom )}" );
         } );
 
         return styleBuilder.Styles;
@@ -399,20 +397,23 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         var footerHeight = renderPage.FooterSections.Sum( renderSection => GetDesignerSectionHeight( renderSection.SectionIndex, renderSection.Section ) );
         var styleBuilder = new StyleBuilder( builder =>
         {
-            builder.Append( $"left:{definition.Page.Margins.Left}px" );
-            builder.Append( $"right:{definition.Page.Margins.Right}px" );
-            builder.Append( $"bottom:{definition.Page.Margins.Bottom}px" );
-            builder.Append( $"height:{footerHeight}px" );
+            builder.Append( $"left:{ReportMeasurementConverter.ToCssPixelString( definition.Page.Margins.Left )}" );
+            builder.Append( $"right:{ReportMeasurementConverter.ToCssPixelString( definition.Page.Margins.Right )}" );
+            builder.Append( $"bottom:{ReportMeasurementConverter.ToCssPixelString( definition.Page.Margins.Bottom )}" );
+            builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( footerHeight )}" );
         } );
 
         return styleBuilder.Styles;
     }
 
-    private double GetSectionRenderHeight( int sectionIndex, ReportSectionDefinition section, bool collapsed )
+    private double GetSectionRenderHeight( int sectionIndex, ReportSectionDefinition section )
     {
-        return collapsed
-            ? DesignerCollapsedBandHeight
-            : GetDesignerSectionHeight( sectionIndex, section );
+        return GetDesignerSectionHeight( sectionIndex, section );
+    }
+
+    private double GetReportPageWidthOffset()
+    {
+        return IsDesignerBandRailVisible() ? DesignerBandRailWidth : 0;
     }
 
     private double GetSelectionBoxLeftOffset()
@@ -1047,9 +1048,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 Type = ReportElementType.Field,
                 Field = result.FieldName,
                 DataSource = result.DataSourceName,
-                X = 40,
-                Width = 160,
-                Height = 24,
+                X = 30,
+                Width = 120,
+                Height = 18,
             };
 
             if ( !ReportAggregateResolver.GetSupportedFunctions( definition, Data, result.DataSourceName, result.FieldName ).Contains( result.Function ) )
@@ -1439,10 +1440,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                     Name = groupName,
                     Type = ReportElementType.Text,
                     Text = ReportExpressionFormatter.FormatFieldExpression( null, groupBy ),
-                    X = 40,
-                    Y = 8,
-                    Width = 240,
-                    Height = 24,
+                    X = 30,
+                    Y = 6,
+                    Width = 180,
+                    Height = 18,
                     Font = new()
                     {
                         Bold = true,
@@ -2084,8 +2085,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( section is null || section.Suppressed )
             return;
 
-        var x = ReportLayoutGeometry.Clamp( eventArgs.OffsetX, 0, EffectiveDefinition.Page.Width );
-        var y = ReportLayoutGeometry.Clamp( GetSectionOffsetY( EffectiveDefinition, sectionIndex ) + eventArgs.OffsetY, 0, GetDesignerContentHeight( EffectiveDefinition ) );
+        var x = ReportLayoutGeometry.Clamp( ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetX ), 0, EffectiveDefinition.Page.Width );
+        var y = ReportLayoutGeometry.Clamp( GetSectionOffsetY( EffectiveDefinition, sectionIndex ) + ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetY ), 0, GetDesignerContentHeight( EffectiveDefinition ) );
 
         selectionBox = new()
         {
@@ -2176,11 +2177,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( selectionBox is null )
             return;
 
-        selectionBox.CurrentX = ReportLayoutGeometry.Clamp( selectionBox.StartX + eventArgs.ClientX - selectionBox.StartClientX, 0, EffectiveDefinition.Page.Width );
-        selectionBox.CurrentY = ReportLayoutGeometry.Clamp( selectionBox.StartY + eventArgs.ClientY - selectionBox.StartClientY, 0, GetDesignerContentHeight( EffectiveDefinition ) );
+        selectionBox.CurrentX = ReportLayoutGeometry.Clamp( selectionBox.StartX + ReportMeasurementConverter.FromCssPixelValue( eventArgs.ClientX - selectionBox.StartClientX ), 0, EffectiveDefinition.Page.Width );
+        selectionBox.CurrentY = ReportLayoutGeometry.Clamp( selectionBox.StartY + ReportMeasurementConverter.FromCssPixelValue( eventArgs.ClientY - selectionBox.StartClientY ), 0, GetDesignerContentHeight( EffectiveDefinition ) );
         selectionBox.HasMoved = selectionBox.HasMoved
-            || Math.Abs( selectionBox.CurrentX - selectionBox.StartX ) > 2
-            || Math.Abs( selectionBox.CurrentY - selectionBox.StartY ) > 2;
+            || Math.Abs( ReportMeasurementConverter.ToCssPixelValue( selectionBox.CurrentX - selectionBox.StartX ) ) > 2
+            || Math.Abs( ReportMeasurementConverter.ToCssPixelValue( selectionBox.CurrentY - selectionBox.StartY ) ) > 2;
     }
 
     private async Task PreviewElementPointerDragAsync( int targetSectionIndex, PointerEventArgs eventArgs )
@@ -2571,8 +2572,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         var offset = await reportingModule.GetElementOffset( sectionBodyElement, eventArgs.ClientX, eventArgs.ClientY );
 
         return offset is { Length: >= 2 }
-            ? (Math.Max( 0, offset[0] ), Math.Max( 0, offset[1] ))
-            : (Math.Max( 0, eventArgs.OffsetX ), Math.Max( 0, eventArgs.OffsetY ));
+            ? (Math.Max( 0, ReportMeasurementConverter.FromCssPixelValue( offset[0] ) ), Math.Max( 0, ReportMeasurementConverter.FromCssPixelValue( offset[1] ) ))
+            : (Math.Max( 0, ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetX ) ), Math.Max( 0, ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetY ) ));
     }
 
     private async Task DropDesignerItemAsync( int targetSectionIndex, ElementReference sectionBodyElement, DragEventArgs eventArgs )
@@ -2627,8 +2628,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                         DataSource = fieldBinding.DataSourceName,
                         X = x,
                         Y = y,
-                        Width = 160,
-                        Height = 24,
+                        Width = 120,
+                        Height = 18,
                     };
                     targetSection.Elements.Add( fieldElement );
 
@@ -2711,8 +2712,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             Text = ReportExpressionFormatter.FormatFieldExpression( fieldBinding.DataSourceName, fieldBinding.FieldName ),
             X = x,
             Y = y,
-            Width = 160,
-            Height = 24,
+            Width = 120,
+            Height = 18,
         };
     }
 
@@ -2786,7 +2787,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return sectionPointerResize.TargetHeight;
 
         return BandMode == ReportBandMode.Rail && section is not null && !section.Suppressed && IsSectionCollapsed( section )
-            ? DesignerCollapsedBandHeight
+            ? ReportMeasurementConverter.FromCssPixelValue( DesignerCollapsedBandHeight )
             : section?.Height ?? 0;
     }
 

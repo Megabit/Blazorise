@@ -30,7 +30,7 @@ public partial class _ReportDesignerTableColumn
     /// <inheritdoc />
     protected override void BuildStyles( StyleBuilder builder )
     {
-        builder.Append( $"width:{Column.Width}px" );
+        builder.Append( $"width:{ReportMeasurementConverter.ToCssPixelString( Column.Width )}" );
     }
 
     /// <summary>

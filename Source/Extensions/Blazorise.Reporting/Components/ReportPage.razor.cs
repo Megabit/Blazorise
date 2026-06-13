@@ -1,3 +1,4 @@
+using Blazorise.Reporting.Internal;
 using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Reporting;
@@ -29,47 +30,53 @@ public partial class ReportPage : ComponentBase
     [Parameter] public ReportOrientation Orientation { get; set; } = ReportOrientation.Portrait;
 
     /// <summary>
-    /// Explicit page width in designer units.
+    /// Unit used by the declarative page dimensions and margins.
+    /// </summary>
+    [Parameter] public ReportMeasurementUnit MeasurementUnit { get; set; } = ReportMeasurementUnit.Centimeter;
+
+    /// <summary>
+    /// Explicit page width in the configured measurement unit.
     /// </summary>
     [Parameter] public double? Width { get; set; }
 
     /// <summary>
-    /// Explicit page height in designer units.
+    /// Explicit page height in the configured measurement unit.
     /// </summary>
     [Parameter] public double? Height { get; set; }
 
     /// <summary>
-    /// Left printable page margin in designer units.
+    /// Left printable page margin in the configured measurement unit.
     /// </summary>
     [Parameter] public double MarginLeft { get; set; }
 
     /// <summary>
-    /// Top printable page margin in designer units.
+    /// Top printable page margin in the configured measurement unit.
     /// </summary>
     [Parameter] public double MarginTop { get; set; }
 
     /// <summary>
-    /// Right printable page margin in designer units.
+    /// Right printable page margin in the configured measurement unit.
     /// </summary>
     [Parameter] public double MarginRight { get; set; }
 
     /// <summary>
-    /// Bottom printable page margin in designer units.
+    /// Bottom printable page margin in the configured measurement unit.
     /// </summary>
     [Parameter] public double MarginBottom { get; set; }
 
     internal ReportPageDefinition Page => new()
     {
         Size = Size,
+        MeasurementUnit = MeasurementUnit,
         Orientation = Orientation,
-        Width = Width ?? 0,
-        Height = Height ?? 0,
+        Width = ReportMeasurementConverter.ToPoints( Width, MeasurementUnit ),
+        Height = ReportMeasurementConverter.ToPoints( Height, MeasurementUnit ),
         Margins = new()
         {
-            Left = MarginLeft,
-            Top = MarginTop,
-            Right = MarginRight,
-            Bottom = MarginBottom,
+            Left = ReportMeasurementConverter.ToPoints( MarginLeft, MeasurementUnit ),
+            Top = ReportMeasurementConverter.ToPoints( MarginTop, MeasurementUnit ),
+            Right = ReportMeasurementConverter.ToPoints( MarginRight, MeasurementUnit ),
+            Bottom = ReportMeasurementConverter.ToPoints( MarginBottom, MeasurementUnit ),
         },
     };
 }

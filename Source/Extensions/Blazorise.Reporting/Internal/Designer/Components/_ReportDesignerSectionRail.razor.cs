@@ -51,7 +51,7 @@ public partial class _ReportDesignerSectionRail
     /// <inheritdoc />
     protected override void BuildStyles( StyleBuilder builder )
     {
-        builder.Append( $"height:{Height}px" );
+        builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( Height )}" );
     }
 
     /// <summary>
@@ -60,7 +60,7 @@ public partial class _ReportDesignerSectionRail
     [Parameter] public ReportSectionDefinition Section { get; set; }
 
     /// <summary>
-    /// Rail height in pixels.
+    /// Rail height in report layout units.
     /// </summary>
     [Parameter] public double Height { get; set; }
 

@@ -40,7 +40,7 @@ public partial class ReportTableColumn : ComponentBase
     [Parameter] public string Format { get; set; }
 
     /// <summary>
-    /// Column width in designer units.
+    /// Column width in points.
     /// </summary>
-    [Parameter] public double Width { get; set; } = 120;
+    [Parameter] public double Width { get; set; } = 90;
 }

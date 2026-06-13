@@ -23,8 +23,10 @@ internal static class ReportDesignerInteractionService
         if ( pointerDrag is null || element is null )
             return null;
 
-        var x = pointerDrag.OriginalX + clientX - pointerDrag.StartClientX;
-        var pageY = getSectionOffsetY( pointerDrag.SourceSectionIndex ) + pointerDrag.OriginalY + clientY - pointerDrag.StartClientY;
+        var deltaX = ReportMeasurementConverter.FromCssPixelValue( clientX - pointerDrag.StartClientX );
+        var deltaY = ReportMeasurementConverter.FromCssPixelValue( clientY - pointerDrag.StartClientY );
+        var x = pointerDrag.OriginalX + deltaX;
+        var pageY = getSectionOffsetY( pointerDrag.SourceSectionIndex ) + pointerDrag.OriginalY + deltaY;
         var y = pageY - getSectionOffsetY( targetSectionIndex );
 
         x = applyGrid( x );
@@ -107,8 +109,8 @@ internal static class ReportDesignerInteractionService
         if ( pointerResize is null || element is null )
             return null;
 
-        var deltaX = clientX - pointerResize.StartClientX;
-        var deltaY = clientY - pointerResize.StartClientY;
+        var deltaX = ReportMeasurementConverter.FromCssPixelValue( clientX - pointerResize.StartClientX );
+        var deltaY = ReportMeasurementConverter.FromCssPixelValue( clientY - pointerResize.StartClientY );
         var left = pointerResize.OriginalX;
         var top = pointerResize.OriginalY;
         var right = pointerResize.OriginalX + pointerResize.OriginalWidth;
@@ -206,7 +208,7 @@ internal static class ReportDesignerInteractionService
 
     internal static double CreateSectionResizeHeight( ReportSectionPointerResizeState pointerResize, double clientY, double minimumHeight, Func<double, double> applyGrid )
     {
-        return Math.Max( minimumHeight, applyGrid( pointerResize.OriginalHeight + clientY - pointerResize.StartClientY ) );
+        return Math.Max( minimumHeight, applyGrid( pointerResize.OriginalHeight + ReportMeasurementConverter.FromCssPixelValue( clientY - pointerResize.StartClientY ) ) );
     }
 
     internal static ReportDesignerDragPreview ConstrainDragPreview( ReportDefinition definition, ReportDesignerDragPreview preview )

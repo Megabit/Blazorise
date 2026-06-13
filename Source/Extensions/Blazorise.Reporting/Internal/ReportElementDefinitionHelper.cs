@@ -21,16 +21,16 @@ internal static class ReportElementDefinitionHelper
         var appearance = element.Appearance;
         var border = element.Border;
 
-        builder.Append( $"left:{element.X}px" );
-        builder.Append( $"top:{element.Y}px" );
-        builder.Append( $"width:{element.Width}px" );
-        builder.Append( $"height:{element.Height}px" );
+        builder.Append( $"left:{ReportMeasurementConverter.ToCssPixelString( element.X )}" );
+        builder.Append( $"top:{ReportMeasurementConverter.ToCssPixelString( element.Y )}" );
+        builder.Append( $"width:{ReportMeasurementConverter.ToCssPixelString( element.Width )}" );
+        builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( element.Height )}" );
 
         if ( !string.IsNullOrWhiteSpace( font?.Family ) )
             builder.Append( $"font-family:{font.Family}" );
 
         if ( font?.Size is > 0 )
-            builder.Append( $"font-size:{font.Size.Value}px" );
+            builder.Append( $"font-size:{ReportMeasurementConverter.ToCssPixelString( font.Size.Value )}" );
 
         if ( !string.IsNullOrWhiteSpace( font?.Color ) )
             builder.Append( $"color:{font.Color}!important" );
@@ -52,12 +52,12 @@ internal static class ReportElementDefinitionHelper
 
         if ( border?.Width is >= 0 )
         {
-            builder.Append( $"border-width:{border.Width.Value}px" );
+            builder.Append( $"border-width:{ReportMeasurementConverter.ToCssPixelString( border.Width.Value )}" );
             builder.Append( "border-style:solid" );
         }
 
         if ( border?.Radius is >= 0 )
-            builder.Append( $"border-radius:{border.Radius.Value}px" );
+            builder.Append( $"border-radius:{ReportMeasurementConverter.ToCssPixelString( border.Radius.Value )}" );
 
         if ( appearance?.Opacity is >= 0 and <= 1 )
             builder.Append( $"opacity:{appearance.Opacity.Value.ToString( CultureInfo.InvariantCulture )}" );

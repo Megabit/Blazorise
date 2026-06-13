@@ -12,6 +12,17 @@
         <_ReportDesignerCheckboxProperty Label="Snap to grid" Value="@SnapToGrid" Changed="@OnSnapToGridChanged" />
         <_ReportDesignerPropertyGroup Title="Page">
             <Field Horizontal Margin="Margin.Is0.FromBottom">
+                <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Unit</FieldLabel>
+                <FieldBody ColumnSize="ColumnSize.Is8">
+                    <Select TValue="ReportMeasurementUnit" Value="@GetPageMeasurementUnit()" ValueChanged="@OnPageMeasurementUnitChanged" Size="Size.Small">
+                        @foreach ( var option in PageMeasurementUnitOptions )
+                        {
+                            <SelectItem TValue="ReportMeasurementUnit" Value="@option.Value">@option.Text</SelectItem>
+                        }
+                    </Select>
+                </FieldBody>
+            </Field>
+            <Field Horizontal Margin="Margin.Is0.FromBottom">
                 <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Paper size</FieldLabel>
                 <FieldBody ColumnSize="ColumnSize.Is8">
                     <Select TValue="ReportPageSize" Value="@Definition.Page.Size" ValueChanged="@OnPageSizeChanged" Size="Size.Small">
@@ -33,12 +44,12 @@
                     </Select>
                 </FieldBody>
             </Field>
-            <_ReportDesignerNumberProperty Label="Page width" Value="@Definition.Page.Width" Changed="@OnPageWidthChanged" />
-            <_ReportDesignerNumberProperty Label="Page height" Value="@Definition.Page.Height" Changed="@OnPageHeightChanged" />
-            <_ReportDesignerNumberProperty Label="Margin left" Value="@EnsurePageMargins( Definition.Page ).Left" Changed="@(value => UpdateReportPage( page => EnsurePageMargins( page ).Left = Math.Max( 0, value ) ))" />
-            <_ReportDesignerNumberProperty Label="Margin top" Value="@EnsurePageMargins( Definition.Page ).Top" Changed="@(value => UpdateReportPage( page => EnsurePageMargins( page ).Top = Math.Max( 0, value ) ))" />
-            <_ReportDesignerNumberProperty Label="Margin right" Value="@EnsurePageMargins( Definition.Page ).Right" Changed="@(value => UpdateReportPage( page => EnsurePageMargins( page ).Right = Math.Max( 0, value ) ))" />
-            <_ReportDesignerNumberProperty Label="Margin bottom" Value="@EnsurePageMargins( Definition.Page ).Bottom" Changed="@(value => UpdateReportPage( page => EnsurePageMargins( page ).Bottom = Math.Max( 0, value ) ))" />
+            <_ReportDesignerNumberProperty Label="Page width" Value="@FromPoints( Definition.Page.Width )" Changed="@OnPageWidthChanged" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty Label="Page height" Value="@FromPoints( Definition.Page.Height )" Changed="@OnPageHeightChanged" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty Label="Margin left" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Left )" Changed="@OnPageMarginLeftChanged" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty Label="Margin top" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Top )" Changed="@OnPageMarginTopChanged" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty Label="Margin right" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Right )" Changed="@OnPageMarginRightChanged" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty Label="Margin bottom" Value="@FromPoints( EnsurePageMargins( Definition.Page ).Bottom )" Changed="@OnPageMarginBottomChanged" Step="@GetMeasurementStep()" />
         </_ReportDesignerPropertyGroup>
     </Div>
 }
@@ -69,7 +80,7 @@
                 }
             </_ReportDesignerPropertyGroup>
             <_ReportDesignerPropertyGroup Title="Layout">
-                <_ReportDesignerNumberProperty Label="Height" Value="@SelectedSection.Height" Changed="@(value => UpdateSelectedSection( section => section.Height = Math.Max( GetMinimumSectionHeight?.Invoke( section ) ?? 8, value ) ))" />
+                <_ReportDesignerNumberProperty Label="Height" Value="@FromPoints( SelectedSection.Height )" Changed="@OnSelectedSectionHeightChanged" Step="@GetMeasurementStep()" />
             </_ReportDesignerPropertyGroup>
             @if ( SelectedSection.Type == ReportSectionType.PageFooter )
             {
@@ -144,10 +155,10 @@
         }
 
         <_ReportDesignerPropertyGroup Title="Position and size">
-            <_ReportDesignerNumberProperty Label="X" Value="@SelectedElement.X" Changed="@(value => UpdateSelectedElement( element => element.X = value ))" />
-            <_ReportDesignerNumberProperty Label="Y" Value="@SelectedElement.Y" Changed="@(value => UpdateSelectedElement( element => element.Y = value ))" />
-            <_ReportDesignerNumberProperty Label="Width" Value="@SelectedElement.Width" Changed="@(value => UpdateSelectedElement( element => element.Width = value ))" />
-            <_ReportDesignerNumberProperty Label="Height" Value="@SelectedElement.Height" Changed="@(value => UpdateSelectedElement( element => element.Height = value ))" />
+            <_ReportDesignerNumberProperty Label="X" Value="@FromPoints( SelectedElement.X )" Changed="@OnSelectedElementXChanged" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty Label="Y" Value="@FromPoints( SelectedElement.Y )" Changed="@OnSelectedElementYChanged" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty Label="Width" Value="@FromPoints( SelectedElement.Width )" Changed="@OnSelectedElementWidthChanged" Step="@GetMeasurementStep()" />
+            <_ReportDesignerNumberProperty Label="Height" Value="@FromPoints( SelectedElement.Height )" Changed="@OnSelectedElementHeightChanged" Step="@GetMeasurementStep()" />
         </_ReportDesignerPropertyGroup>
 
         @if ( SelectedElement.Type is not ReportElementType.Image and not ReportElementType.Line and not ReportElementType.Rectangle and not ReportElementType.PageBreak )

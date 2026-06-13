@@ -42,73 +42,73 @@
                         <ReportCsvDataSource Name="CsvInvoiceLines" Source="@invoiceLinesCsv" Encoding="utf-8" />
                     </ReportDataSources>
                     <ReportPage Size="ReportPageSize.A4" Orientation="ReportOrientation.Portrait" />
-                    <ReportHeader Name="Invoice report header" Height="130">
+                    <ReportHeader Name="Invoice report header" Height="97.5">
                         <ReportText Text="Invoice summary"
-                                    X="40"
-                                    Y="24"
-                                    Width="280"
-                                    Height="34"
+                                    X="30"
+                                    Y="18"
+                                    Width="210"
+                                    Height="25.5"
                                     TextColor="TextColor.Primary"
-                                    FontSize="28"
+                                    FontSize="21"
                                     Bold />
                         <ReportText Text="Declarative report with designer and viewer modes."
-                                    X="42"
-                                    Y="64"
-                                    Width="420"
-                                    Height="24"
+                                    X="31.5"
+                                    Y="48"
+                                    Width="315"
+                                    Height="18"
                                     TextColor="TextColor.Secondary" />
                         <ReportText Text="Customer: {Customer.Name}"
-                                    X="430"
-                                    Y="82"
-                                    Width="180"
-                                    Height="24"
+                                    X="322.5"
+                                    Y="61.5"
+                                    Width="135"
+                                    Height="18"
                                     Bold />
-                        <ReportRectangle X="610"
-                                         Y="24"
-                                         Width="120"
-                                         Height="64"
+                        <ReportRectangle X="457.5"
+                                         Y="18"
+                                         Width="90"
+                                         Height="48"
                                          TextColor="TextColor.Primary" />
                         <ReportText Text="BLZ"
-                                    X="640"
-                                    Y="42"
-                                    Width="72"
-                                    Height="28"
+                                    X="480"
+                                    Y="31.5"
+                                    Width="54"
+                                    Height="21"
                                     TextColor="TextColor.Primary"
-                                    FontSize="24"
+                                    FontSize="18"
                                     Bold
                                     TextAlignment="TextAlignment.Center" />
                     </ReportHeader>
-                    <ReportPageHeader Name="Invoice page header" Height="42">
-                        <ReportText Text="Invoice" X="40" Y="10" Width="90" Height="24" Bold />
-                        <ReportText Text="Description" X="150" Y="10" Width="220" Height="24" Bold />
-                        <ReportText Text="Qty" X="390" Y="10" Width="110" Height="24" Bold />
-                        <ReportText Text="Line total" X="540" Y="10" Width="120" Height="24" Bold />
+                    <ReportPageHeader Name="Invoice page header" Height="31.5">
+                        <ReportText Text="Invoice" X="30" Y="7.5" Width="67.5" Height="18" Bold />
+                        <ReportText Text="Description" X="112.5" Y="7.5" Width="165" Height="18" Bold />
+                        <ReportText Text="Qty" X="292.5" Y="7.5" Width="82.5" Height="18" Bold />
+                        <ReportText Text="Line total" X="405" Y="7.5" Width="90" Height="18" Bold />
                     </ReportPageHeader>
-                    <ReportDetail Name="Invoice rows" Height="52" DataSource="Invoice.Lines">
-                        <ReportField Field="Sku" X="40" Y="14" Width="90" Height="24" />
-                        <ReportField Field="Description" X="150" Y="14" Width="220" Height="24" />
-                        <ReportField Field="Quantity" Format="N2" X="390" Y="14" Width="110" Height="24" />
-                        <ReportField Field="Total" Format="C" X="540" Y="14" Width="120" Height="24" TextColor="TextColor.Success" />
+                    <ReportDetail Name="Invoice rows" Height="39" DataSource="Invoice.Lines">
+                        <ReportField Field="Sku" X="30" Y="10.5" Width="67.5" Height="18" />
+                        <ReportField Field="Description" X="112.5" Y="10.5" Width="165" Height="18" />
+                        <ReportField Field="Quantity" Format="N2" X="292.5" Y="10.5" Width="82.5" Height="18" />
+                        <ReportField Field="Total" Format="C" X="405" Y="10.5" Width="90" Height="18" TextColor="TextColor.Success" />
                     </ReportDetail>
-                    <ReportFooter Name="Invoice report footer" Height="72">
-                        <ReportLine X="40" Y="10" Width="690" Height="1" />
+                    <ReportFooter Name="Invoice report footer" Height="54">
+                        <ReportLine X="30" Y="7.5" Width="517.5" Height="1" />
                         <ReportText Text="Invoice total"
-                                    X="40"
-                                    Y="28"
-                                    Width="180"
-                                    Height="24"
+                                    X="30"
+                                    Y="21"
+                                    Width="135"
+                                    Height="18"
                                     TextColor="TextColor.Secondary" />
                         <ReportField Field="Header.Total"
                                      Format="C"
-                                     X="540"
-                                     Y="28"
-                                     Width="120"
-                                     Height="24"
+                                     X="405"
+                                     Y="21"
+                                     Width="90"
+                                     Height="18"
                                      Bold
                                      TextColor="TextColor.Success" />
                     </ReportFooter>
-                    <ReportPageFooter Name="Invoice page footer" Height="40">
-                        <ReportText Text="Page footer band" X="40" Y="10" Width="180" Height="24" TextColor="TextColor.Secondary" />
+                    <ReportPageFooter Name="Invoice page footer" Height="30">
+                        <ReportText Text="Page footer band" X="30" Y="7.5" Width="135" Height="18" TextColor="TextColor.Secondary" />
                     </ReportPageFooter>
                 </Report>
             </CardBody>

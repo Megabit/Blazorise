@@ -34,7 +34,7 @@ internal static class ReportDetailHeaderSynchronizer
             X = x,
             Y = headerY,
             Width = width,
-            Height = 24,
+            Height = 18,
             Font = new()
             {
                 Bold = true,

@@ -124,6 +124,7 @@ internal sealed class ReportContext
         return new()
         {
             Size = page.Size,
+            MeasurementUnit = page.MeasurementUnit,
             Orientation = page.Orientation,
             Width = page.Width,
             Height = page.Height,

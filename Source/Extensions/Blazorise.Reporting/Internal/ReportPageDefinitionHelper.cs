@@ -101,11 +101,11 @@ internal static class ReportPageDefinitionHelper
     {
         return size switch
         {
-            ReportPageSize.A3 => (1123d, 1587d),
-            ReportPageSize.A5 => (559d, 794d),
-            ReportPageSize.Letter => (816d, 1056d),
-            ReportPageSize.Legal => (816d, 1344d),
-            _ => (794d, 1123d),
+            ReportPageSize.A3 => (841.8897637795276d, 1190.5511811023623d),
+            ReportPageSize.A5 => (419.52755905511816d, 595.2755905511812d),
+            ReportPageSize.Letter => (612d, 792d),
+            ReportPageSize.Legal => (612d, 1008d),
+            _ => (595.2755905511812d, 841.8897637795276d),
         };
     }
 

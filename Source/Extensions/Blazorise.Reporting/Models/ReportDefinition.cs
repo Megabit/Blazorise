@@ -46,22 +46,27 @@ public sealed class ReportPageDefinition
     public ReportPageSize Size { get; set; } = ReportPageSize.A4;
 
     /// <summary>
+    /// Unit used by designer property editors when displaying and editing report geometry.
+    /// </summary>
+    public ReportMeasurementUnit MeasurementUnit { get; set; } = ReportMeasurementUnit.Centimeter;
+
+    /// <summary>
     /// Page orientation applied to the selected page size.
     /// </summary>
     public ReportOrientation Orientation { get; set; } = ReportOrientation.Portrait;
 
     /// <summary>
-    /// Page width in designer units.
+    /// Page width in points.
     /// </summary>
-    public double Width { get; set; } = 794;
+    public double Width { get; set; } = 595.2755905511812d;
 
     /// <summary>
-    /// Page height in designer units.
+    /// Page height in points.
     /// </summary>
-    public double Height { get; set; } = 1123;
+    public double Height { get; set; } = 841.8897637795276d;
 
     /// <summary>
-    /// Printable page margins in designer units.
+    /// Printable page margins in points.
     /// </summary>
     public ReportPageMarginsDefinition Margins { get; set; } = new();
 }
@@ -72,22 +77,22 @@ public sealed class ReportPageDefinition
 public sealed class ReportPageMarginsDefinition
 {
     /// <summary>
-    /// Left page margin in designer units.
+    /// Left page margin in points.
     /// </summary>
     public double Left { get; set; }
 
     /// <summary>
-    /// Top page margin in designer units.
+    /// Top page margin in points.
     /// </summary>
     public double Top { get; set; }
 
     /// <summary>
-    /// Right page margin in designer units.
+    /// Right page margin in points.
     /// </summary>
     public double Right { get; set; }
 
     /// <summary>
-    /// Bottom page margin in designer units.
+    /// Bottom page margin in points.
     /// </summary>
     public double Bottom { get; set; }
 }
@@ -154,9 +159,9 @@ public sealed class ReportSectionDefinition
     public ReportLayout Layout { get; set; } = ReportLayout.Absolute;
 
     /// <summary>
-    /// Band height in designer units.
+    /// Band height in points.
     /// </summary>
-    public double Height { get; set; } = 80;
+    public double Height { get; set; } = 60;
 
     /// <summary>
     /// Data source name or path used as the band field context. Detail bands repeat when this value resolves to a collection.
@@ -250,24 +255,24 @@ public sealed class ReportElementDefinition
     public ReportElementType Type { get; set; }
 
     /// <summary>
-    /// Horizontal position within the containing band.
+    /// Horizontal position within the containing band, in points.
     /// </summary>
     public double X { get; set; }
 
     /// <summary>
-    /// Vertical position within the containing band.
+    /// Vertical position within the containing band, in points.
     /// </summary>
     public double Y { get; set; }
 
     /// <summary>
-    /// Element width in designer units.
+    /// Element width in points.
     /// </summary>
-    public double Width { get; set; } = 120;
+    public double Width { get; set; } = 90;
 
     /// <summary>
-    /// Element height in designer units.
+    /// Element height in points.
     /// </summary>
-    public double Height { get; set; } = 24;
+    public double Height { get; set; } = 18;
 
     /// <summary>
     /// Static text or alternate text associated with the element.
@@ -455,7 +460,7 @@ public sealed class ReportTableColumnDefinition
     public string Format { get; set; }
 
     /// <summary>
-    /// Column width in designer units.
+    /// Column width in points.
     /// </summary>
-    public double Width { get; set; } = 120;
+    public double Width { get; set; } = 90;
 }

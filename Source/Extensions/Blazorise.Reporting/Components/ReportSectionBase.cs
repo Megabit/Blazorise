@@ -67,9 +67,9 @@ public abstract class ReportSectionBase : ComponentBase
     [Parameter] public ReportLayout Layout { get; set; } = ReportLayout.Absolute;
 
     /// <summary>
-    /// Band height in designer units.
+    /// Band height in points.
     /// </summary>
-    [Parameter] public double Height { get; set; } = 80;
+    [Parameter] public double Height { get; set; } = 60;
 
     /// <summary>
     /// Data source name or path used as the band field context. Detail bands repeat when this value resolves to a collection.

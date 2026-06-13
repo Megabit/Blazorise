@@ -36,10 +36,10 @@ public partial class _ReportDesignerSelectionBox
     /// <inheritdoc />
     protected override void BuildStyles( StyleBuilder builder )
     {
-        builder.Append( $"left:{X + LeftOffset}px" );
-        builder.Append( $"top:{Y}px" );
-        builder.Append( $"width:{Width}px" );
-        builder.Append( $"height:{Height}px" );
+        builder.Append( $"left:{ReportMeasurementConverter.FormatCssPixelValue( ReportMeasurementConverter.ToCssPixelValue( X ) + LeftOffset )}" );
+        builder.Append( $"top:{ReportMeasurementConverter.ToCssPixelString( Y )}" );
+        builder.Append( $"width:{ReportMeasurementConverter.ToCssPixelString( Width )}" );
+        builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( Height )}" );
     }
 
     /// <summary>

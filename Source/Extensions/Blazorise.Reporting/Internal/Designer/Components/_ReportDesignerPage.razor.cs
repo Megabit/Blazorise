@@ -29,6 +29,7 @@ public partial class _ReportDesignerPage
             DirtyClasses();
 
         if ( ( parameters.TryGetValue<double>( nameof( Width ), out var paramWidth ) && paramWidth != Width )
+             || ( parameters.TryGetValue<double>( nameof( WidthOffset ), out var paramWidthOffset ) && paramWidthOffset != WidthOffset )
              || ( parameters.TryGetValue<double>( nameof( MinHeight ), out var paramMinHeight ) && paramMinHeight != MinHeight )
              || ( parameters.TryGetValue<double>( nameof( Height ), out var paramHeight ) && paramHeight != Height ) )
             DirtyStyles();
@@ -47,9 +48,9 @@ public partial class _ReportDesignerPage
     /// <inheritdoc />
     protected override void BuildStyles( StyleBuilder builder )
     {
-        builder.Append( $"width:{Width}px" );
-        builder.Append( $"min-height:{MinHeight}px" );
-        builder.Append( $"height:{Height}px", Height > 0 );
+        builder.Append( $"width:{ReportMeasurementConverter.FormatCssPixelValue( ReportMeasurementConverter.ToCssPixelValue( Width ) + WidthOffset )}" );
+        builder.Append( $"min-height:{ReportMeasurementConverter.ToCssPixelString( MinHeight )}" );
+        builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( Height )}", Height > 0 );
     }
 
     private Task OnPointerMoveAsync( PointerEventArgs eventArgs )
@@ -63,17 +64,22 @@ public partial class _ReportDesignerPage
     [Parameter] public object PageKey { get; set; }
 
     /// <summary>
-    /// Page width in pixels.
+    /// Page width in report layout units.
     /// </summary>
     [Parameter] public double Width { get; set; }
 
     /// <summary>
-    /// Minimum page height in pixels.
+    /// Additional screen width reserved by the designer shell.
+    /// </summary>
+    [Parameter] public double WidthOffset { get; set; }
+
+    /// <summary>
+    /// Minimum page height in report layout units.
     /// </summary>
     [Parameter] public double MinHeight { get; set; }
 
     /// <summary>
-    /// Exact page height in pixels.
+    /// Exact page height in report layout units.
     /// </summary>
     [Parameter] public double Height { get; set; }
 

@@ -66,7 +66,8 @@
             </ToolboxPanel>
             <Surface>
                 <_ReportDesignerPage PageKey="@($"{definition.Id}:{designerSurfaceVersion}")"
-                                     Width="@GetReportPageWidth( definition, designMode: true )"
+                                     Width="@GetReportPageWidth( definition )"
+                                     WidthOffset="@GetReportPageWidthOffset()"
                                      MinHeight="@definition.Page.Height"
                                      DesignMode
                                      PointerMove="@((Func<PointerEventArgs, Task>)PreviewPageSelectionBoxAsync)"
@@ -88,7 +89,7 @@
                             var collapsed = IsSectionCollapsedForRender( section );
                             var editable = !section.Suppressed;
                             var railVisible = IsDesignerBandRailVisible();
-                            var sectionHeight = GetSectionRenderHeight( capturedSectionIndex, section, collapsed );
+                            var sectionHeight = GetSectionRenderHeight( capturedSectionIndex, section );
                             var dragPreviewVisible = editable && dragPreview?.SectionIndex == capturedSectionIndex;
 
                             <_ReportDesignerSection SectionKey="@section.Id"

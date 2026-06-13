@@ -18,8 +18,8 @@ internal static class ReportDefinitionHelper
             Type = elementType,
             X = x,
             Y = y,
-            Width = 160,
-            Height = 24,
+            Width = 120,
+            Height = 18,
         };
 
         switch ( elementType )
@@ -29,14 +29,14 @@ internal static class ReportDefinitionHelper
                 definition.Text = text;
                 break;
             case ReportElementType.Image:
-                definition.Height = 96;
+                definition.Height = 72;
                 definition.Text = "Image";
                 break;
             case ReportElementType.Line:
                 definition.Height = 1;
                 break;
             case ReportElementType.Rectangle:
-                definition.Height = 64;
+                definition.Height = 48;
                 break;
         }
 

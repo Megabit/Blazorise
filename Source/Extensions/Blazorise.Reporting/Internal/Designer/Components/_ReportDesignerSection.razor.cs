@@ -82,7 +82,7 @@ public partial class _ReportDesignerSection
     private void BuildBodyStyles( StyleBuilder builder )
     {
         builder.Append( $"left:{BodyLeft}px", RailVisible );
-        builder.Append( $"width:{BodyWidth}px", RailVisible );
+        builder.Append( $"width:{ReportMeasurementConverter.ToCssPixelString( BodyWidth )}", RailVisible );
     }
 
     /// <inheritdoc />
@@ -98,13 +98,20 @@ public partial class _ReportDesignerSection
     /// <inheritdoc />
     protected override void BuildStyles( StyleBuilder builder )
     {
-        builder.Append( $"height:{Height}px" );
+        builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( Height )}" );
         builder.Append( $"background-color:{Section.Appearance?.BackgroundColor}!important", !string.IsNullOrWhiteSpace( Section.Appearance?.BackgroundColor ) );
         builder.Append( $"opacity:{Section.Appearance?.Opacity}", Section.Appearance?.Opacity is not null );
         builder.Append( $"border-color:{Section.Border?.Color}!important", !string.IsNullOrWhiteSpace( Section.Border?.Color ) );
-        builder.Append( $"border-width:{Section.Border?.Width}px", Section.Border?.Width is not null );
-        builder.Append( "border-style:solid", Section.Border?.Width is not null );
-        builder.Append( $"border-radius:{Section.Border?.Radius}px", Section.Border?.Radius is not null );
+
+        if ( Section.Border?.Width is { } borderWidth )
+        {
+            builder.Append( $"border-width:{ReportMeasurementConverter.ToCssPixelString( borderWidth )}" );
+            builder.Append( "border-style:solid" );
+        }
+
+        if ( Section.Border?.Radius is { } borderRadius )
+            builder.Append( $"border-radius:{ReportMeasurementConverter.ToCssPixelString( borderRadius )}" );
+
         builder.Append( Section.Style?.Trim().TrimEnd( ';' ) );
     }
 
@@ -134,7 +141,7 @@ public partial class _ReportDesignerSection
     [Parameter] public ReportSectionDefinition Section { get; set; }
 
     /// <summary>
-    /// Section height in pixels.
+    /// Section height in report layout units.
     /// </summary>
     [Parameter] public double Height { get; set; }
 
@@ -144,7 +151,7 @@ public partial class _ReportDesignerSection
     [Parameter] public double BodyLeft { get; set; }
 
     /// <summary>
-    /// Section body width in pixels when the band rail is visible.
+    /// Section body width in report layout units when the band rail is visible.
     /// </summary>
     [Parameter] public double BodyWidth { get; set; }
 

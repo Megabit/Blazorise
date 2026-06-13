@@ -16,8 +16,6 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerNumberProperty
 {
-    private static readonly decimal? Step = 1m;
-
     /// <summary>
     /// Property label.
     /// </summary>
@@ -32,4 +30,9 @@ public partial class _ReportDesignerNumberProperty
     /// Raised when the numeric value changes.
     /// </summary>
     [Parameter] public EventCallback<double> Changed { get; set; }
+
+    /// <summary>
+    /// Increment used by the numeric editor.
+    /// </summary>
+    [Parameter] public decimal? Step { get; set; } = 1m;
 }

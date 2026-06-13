@@ -47,10 +47,10 @@ public partial class _ReportDesignerDragPreview
     /// <inheritdoc />
     protected override void BuildStyles( StyleBuilder builder )
     {
-        builder.Append( $"left:{X}px" );
-        builder.Append( $"top:{Y}px" );
-        builder.Append( $"width:{Width}px" );
-        builder.Append( $"height:{Height}px" );
+        builder.Append( $"left:{ReportMeasurementConverter.ToCssPixelString( X )}" );
+        builder.Append( $"top:{ReportMeasurementConverter.ToCssPixelString( Y )}" );
+        builder.Append( $"width:{ReportMeasurementConverter.ToCssPixelString( Width )}" );
+        builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( Height )}" );
     }
 
     /// <summary>

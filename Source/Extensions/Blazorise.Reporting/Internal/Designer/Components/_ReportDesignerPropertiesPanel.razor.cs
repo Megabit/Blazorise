@@ -66,6 +66,14 @@ public partial class _ReportDesignerPropertiesPanel
         ( ReportOrientation.Landscape, "Landscape" ),
     ];
 
+    private static readonly (ReportMeasurementUnit Value, string Text)[] PageMeasurementUnitOptions =
+    [
+        ( ReportMeasurementUnit.Centimeter, "Centimeters" ),
+        ( ReportMeasurementUnit.Millimeter, "Millimeters" ),
+        ( ReportMeasurementUnit.Inch, "Inches" ),
+        ( ReportMeasurementUnit.Point, "Points" ),
+    ];
+
     #endregion
 
     #region Methods
@@ -97,6 +105,36 @@ public partial class _ReportDesignerPropertiesPanel
         return page.Margins ??= new();
     }
 
+    private ReportMeasurementUnit GetPageMeasurementUnit()
+    {
+        return Definition?.Page?.MeasurementUnit ?? ReportMeasurementUnit.Centimeter;
+    }
+
+    private decimal? GetMeasurementStep()
+    {
+        return ReportMeasurementConverter.GetEditorStep( GetPageMeasurementUnit() );
+    }
+
+    private double FromPoints( double value )
+    {
+        return ReportMeasurementConverter.RoundForDisplay( ReportMeasurementConverter.FromPoints( value, GetPageMeasurementUnit() ), GetPageMeasurementUnit() );
+    }
+
+    private double FromPoints( double? value )
+    {
+        return ReportMeasurementConverter.RoundForDisplay( ReportMeasurementConverter.FromPoints( value, GetPageMeasurementUnit() ), GetPageMeasurementUnit() );
+    }
+
+    private double ToPoints( double value )
+    {
+        return ReportMeasurementConverter.ToPoints( value, GetPageMeasurementUnit() );
+    }
+
+    private Task OnPageMeasurementUnitChanged( ReportMeasurementUnit value )
+    {
+        return UpdateReportPage( page => page.MeasurementUnit = value );
+    }
+
     private Task OnPageSizeChanged( ReportPageSize value )
     {
         return UpdateReportPage( page => ReportPageDefinitionHelper.ApplySize( page, value ) );
@@ -112,7 +150,7 @@ public partial class _ReportDesignerPropertiesPanel
         return UpdateReportPage( page =>
         {
             page.Size = ReportPageSize.Custom;
-            page.Width = Math.Max( 1, value );
+            page.Width = Math.Max( 1, ToPoints( value ) );
         } );
     }
 
@@ -121,8 +159,53 @@ public partial class _ReportDesignerPropertiesPanel
         return UpdateReportPage( page =>
         {
             page.Size = ReportPageSize.Custom;
-            page.Height = Math.Max( 1, value );
+            page.Height = Math.Max( 1, ToPoints( value ) );
         } );
+    }
+
+    private Task OnPageMarginLeftChanged( double value )
+    {
+        return UpdateReportPage( page => EnsurePageMargins( page ).Left = Math.Max( 0, ToPoints( value ) ) );
+    }
+
+    private Task OnPageMarginTopChanged( double value )
+    {
+        return UpdateReportPage( page => EnsurePageMargins( page ).Top = Math.Max( 0, ToPoints( value ) ) );
+    }
+
+    private Task OnPageMarginRightChanged( double value )
+    {
+        return UpdateReportPage( page => EnsurePageMargins( page ).Right = Math.Max( 0, ToPoints( value ) ) );
+    }
+
+    private Task OnPageMarginBottomChanged( double value )
+    {
+        return UpdateReportPage( page => EnsurePageMargins( page ).Bottom = Math.Max( 0, ToPoints( value ) ) );
+    }
+
+    private Task OnSelectedSectionHeightChanged( double value )
+    {
+        return UpdateSelectedSection( section => section.Height = Math.Max( GetMinimumSectionHeight?.Invoke( section ) ?? 8, ToPoints( value ) ) );
+    }
+
+    private Task OnSelectedElementXChanged( double value )
+    {
+        return UpdateSelectedElement( element => element.X = ToPoints( value ) );
+    }
+
+    private Task OnSelectedElementYChanged( double value )
+    {
+        return UpdateSelectedElement( element => element.Y = ToPoints( value ) );
+    }
+
+    private Task OnSelectedElementWidthChanged( double value )
+    {
+        return UpdateSelectedElement( element => element.Width = ToPoints( value ) );
+    }
+
+    private Task OnSelectedElementHeightChanged( double value )
+    {
+        return UpdateSelectedElement( element => element.Height = ToPoints( value ) );
     }
 
     private Task UpdateSelectedElementTextColor( string value )
