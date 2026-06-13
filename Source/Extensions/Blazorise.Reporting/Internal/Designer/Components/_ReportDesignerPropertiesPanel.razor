@@ -11,7 +11,7 @@
         <h6>Report properties</h6>
         <_ReportDesignerCheckboxProperty Label="Snap to grid" Value="@SnapToGrid" Changed="@OnSnapToGridChanged" />
         <_ReportDesignerPropertyGroup Title="Page">
-            <Field Horizontal Margin="Margin.Is0.FromBottom">
+            <Field Horizontal Margin="Margin.Is0.FromBottom.Is0.OnX">
                 <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Unit</FieldLabel>
                 <FieldBody ColumnSize="ColumnSize.Is8">
                     <Select TValue="ReportMeasurementUnit" Value="@GetPageMeasurementUnit()" ValueChanged="@OnPageMeasurementUnitChanged" Size="Size.Small">
@@ -22,7 +22,7 @@
                     </Select>
                 </FieldBody>
             </Field>
-            <Field Horizontal Margin="Margin.Is0.FromBottom">
+            <Field Horizontal Margin="Margin.Is0.FromBottom.Is0.OnX">
                 <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Paper size</FieldLabel>
                 <FieldBody ColumnSize="ColumnSize.Is8">
                     <Select TValue="ReportPageSize" Value="@Definition.Page.Size" ValueChanged="@OnPageSizeChanged" Size="Size.Small">
@@ -33,7 +33,7 @@
                     </Select>
                 </FieldBody>
             </Field>
-            <Field Horizontal Margin="Margin.Is0.FromBottom">
+            <Field Horizontal Margin="Margin.Is0.FromBottom.Is0.OnX">
                 <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Orientation</FieldLabel>
                 <FieldBody ColumnSize="ColumnSize.Is8">
                     <Select TValue="ReportOrientation" Value="@Definition.Page.Orientation" ValueChanged="@OnPageOrientationChanged" Size="Size.Small">
@@ -174,7 +174,7 @@
                                                    ThemeOptions="@TextColorOptions"
                                                    ThemeChanged="@UpdateSelectedElementTextColor"
                                                    CustomChanged="@UpdateSelectedElementFontColor" />
-                <Field Horizontal Margin="Margin.Is0.FromBottom">
+                <Field Horizontal Margin="Margin.Is0.FromBottom.Is0.OnX">
                     <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Alignment</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is8">
                         <Select TValue="TextAlignment" Value="@font.Alignment" ValueChanged="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Alignment = value ))" Size="Size.Small">
