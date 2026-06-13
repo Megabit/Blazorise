@@ -38,11 +38,38 @@ public partial class ReportPage : ComponentBase
     /// </summary>
     [Parameter] public double? Height { get; set; }
 
+    /// <summary>
+    /// Left printable page margin in designer units.
+    /// </summary>
+    [Parameter] public double MarginLeft { get; set; }
+
+    /// <summary>
+    /// Top printable page margin in designer units.
+    /// </summary>
+    [Parameter] public double MarginTop { get; set; }
+
+    /// <summary>
+    /// Right printable page margin in designer units.
+    /// </summary>
+    [Parameter] public double MarginRight { get; set; }
+
+    /// <summary>
+    /// Bottom printable page margin in designer units.
+    /// </summary>
+    [Parameter] public double MarginBottom { get; set; }
+
     internal ReportPageDefinition Page => new()
     {
         Size = Size,
         Orientation = Orientation,
         Width = Width ?? 0,
         Height = Height ?? 0,
+        Margins = new()
+        {
+            Left = MarginLeft,
+            Top = MarginTop,
+            Right = MarginRight,
+            Bottom = MarginBottom,
+        },
     };
 }

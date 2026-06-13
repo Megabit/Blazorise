@@ -205,41 +205,41 @@
                         {
                             @if ( CanContextSectionInsertSection( definition, contextMenu.SectionIndex ) )
                             {
-                                <_ReportDesignerContextMenuButton Text="Insert band before" Clicked="@((MouseEventArgs _) => InsertSectionAsync( insertAfter: false ))" />
-                                <_ReportDesignerContextMenuButton Text="Insert band after" Clicked="@((MouseEventArgs _) => InsertSectionAsync( insertAfter: true ))" />
+                                <_ReportDesignerContextMenuButton Text="Insert band before" Clicked="@(( MouseEventArgs _ ) => InsertSectionAsync( insertAfter: false ))" />
+                                <_ReportDesignerContextMenuButton Text="Insert band after" Clicked="@(( MouseEventArgs _ ) => InsertSectionAsync( insertAfter: true ))" />
                             }
                             @if ( CanContextSectionInsertGroup( contextSection ) )
                             {
-                                <_ReportDesignerContextMenuButton Text="Insert group..." Clicked="@((MouseEventArgs _) => OpenSelectedDetailGroupDialogAsync())" />
+                                <_ReportDesignerContextMenuButton Text="Insert group..." Clicked="@(( MouseEventArgs _ ) => OpenSelectedDetailGroupDialogAsync())" />
                             }
-                            <_ReportDesignerContextMenuButton Text="Suppress" Clicked="@((MouseEventArgs _) => ToggleSelectedSectionSuppressionAsync())" />
+                            <_ReportDesignerContextMenuButton Text="Suppress" Clicked="@(( MouseEventArgs _ ) => ToggleSelectedSectionSuppressionAsync())" />
 
                             @if ( ReportDefinitionHelper.CanDeleteSection( contextSection ) )
                             {
-                                <_ReportDesignerContextMenuButton Text="Delete band" Clicked="@((MouseEventArgs _) => DeleteSelectedSectionAsync())" />
+                                <_ReportDesignerContextMenuButton Text="Delete band" Clicked="@(( MouseEventArgs _ ) => DeleteSelectedSectionAsync())" />
                             }
                         }
                         else
                         {
-                            <_ReportDesignerContextMenuButton Text="Don't suppress" Clicked="@((MouseEventArgs _) => ToggleSelectedSectionSuppressionAsync())" />
+                            <_ReportDesignerContextMenuButton Text="Don't suppress" Clicked="@(( MouseEventArgs _ ) => ToggleSelectedSectionSuppressionAsync())" />
                         }
                     }
                     else if ( IsElementContextMenuVisible() )
                     {
                         @if ( CanContextElementInsertAggregate( definition ) )
                         {
-                            <_ReportDesignerContextMenuButton Text="Insert aggregate" Clicked="@((MouseEventArgs _) => OpenContextElementAggregateDialogAsync())" />
+                            <_ReportDesignerContextMenuButton Text="Insert aggregate" Clicked="@(( MouseEventArgs _ ) => OpenContextElementAggregateDialogAsync())" />
                         }
 
                         @if ( CanContextElementEditText( definition ) )
                         {
-                            <_ReportDesignerContextMenuButton Text="Edit Text" Clicked="@((MouseEventArgs _) => BeginContextElementTextEdit())" />
+                            <_ReportDesignerContextMenuButton Text="Edit Text" Clicked="@(( MouseEventArgs _ ) => BeginContextElementTextEdit())" />
                         }
 
-                        <_ReportDesignerContextMenuButton Text="Delete element" Clicked="@((MouseEventArgs _) => DeleteSelectedElementAsync())" />
+                        <_ReportDesignerContextMenuButton Text="Delete element" Clicked="@(( MouseEventArgs _ ) => DeleteSelectedElementAsync())" />
                     }
 
-                    <_ReportDesignerContextMenuButton Text="Close" Clicked="@((MouseEventArgs _) => CloseContextMenuAsync())" />
+                    <_ReportDesignerContextMenuButton Text="Close" Clicked="@(( MouseEventArgs _ ) => CloseContextMenuAsync())" />
                 </_ReportDesignerContextMenu>
             </ContextMenu>
         </_ReportDesignerLayout>
@@ -272,34 +272,91 @@
             }
             else
             {
-                var renderSections = ReportPreviewRenderPlanner.BuildRenderSections( definition, Data );
+                var renderPages = ReportPreviewRenderPlanner.BuildRenderPages( definition, Data );
 
-                <_ReportDesignerPage PageKey="@definition.Id"
-                                     Width="@GetReportPageWidth( definition, designMode: false )"
-                                     MinHeight="@definition.Page.Height">
-                    @foreach ( var renderSection in renderSections )
+                <Div Class="b-report-viewer-pages">
+                    @foreach ( var renderPage in renderPages )
                     {
-                        var section = renderSection.Section;
-
-                        <_ReportDesignerSection SectionKey="@($"{section.Id}:{renderSection.InstanceIndex}")"
-                                                Section="@section"
-                                                Height="@GetDesignerSectionHeight( renderSection.SectionIndex, section )"
-                                                BodyWidth="@definition.Page.Width">
-                            @if ( renderSection.RenderElements )
-                            {
-                                @foreach ( var element in section.Elements )
+                        <_ReportDesignerPage PageKey="@($"{definition.Id}:{renderPage.PageNumber}")"
+                                             Width="@definition.Page.Width"
+                                             MinHeight="@definition.Page.Height"
+                                             Height="@definition.Page.Height">
+                            <Div Class="b-report-page-content" Style="@GetPreviewPageContentStyle( definition )">
+                                @foreach ( var renderSection in renderPage.HeaderSections )
                                 {
-                                    <_ReportDesignerElement Data="@Data"
-                                                            Definition="@definition"
+                                    var section = renderSection.Section;
+
+                                    <_ReportDesignerSection SectionKey="@($"{section.Id}:{renderPage.PageNumber}:{renderSection.InstanceIndex}:header")"
                                                             Section="@section"
-                                                            Item="@renderSection.Item"
-                                                            Element="@element"
-                                                            ElementKey="@ReportDefinitionHelper.EnsureElementId( element )" />
+                                                            Height="@GetDesignerSectionHeight( renderSection.SectionIndex, section )"
+                                                            BodyWidth="@GetReportPageContentWidth( definition )">
+                                        @if ( renderSection.RenderElements )
+                                        {
+                                            @foreach ( var element in section.Elements )
+                                            {
+                                                <_ReportDesignerElement Data="@Data"
+                                                                        Definition="@definition"
+                                                                        Section="@section"
+                                                                        Item="@renderSection.Item"
+                                                                        Element="@element"
+                                                                        ElementKey="@ReportDefinitionHelper.EnsureElementId( element )" />
+                                            }
+                                        }
+                                    </_ReportDesignerSection>
                                 }
+                                @foreach ( var renderSection in renderPage.BodySections )
+                                {
+                                    var section = renderSection.Section;
+
+                                    <_ReportDesignerSection SectionKey="@($"{section.Id}:{renderPage.PageNumber}:{renderSection.InstanceIndex}:body")"
+                                                            Section="@section"
+                                                            Height="@GetDesignerSectionHeight( renderSection.SectionIndex, section )"
+                                                            BodyWidth="@GetReportPageContentWidth( definition )">
+                                        @if ( renderSection.RenderElements )
+                                        {
+                                            @foreach ( var element in section.Elements )
+                                            {
+                                                <_ReportDesignerElement Data="@Data"
+                                                                        Definition="@definition"
+                                                                        Section="@section"
+                                                                        Item="@renderSection.Item"
+                                                                        Element="@element"
+                                                                        ElementKey="@ReportDefinitionHelper.EnsureElementId( element )" />
+                                            }
+                                        }
+                                    </_ReportDesignerSection>
+                                }
+                            </Div>
+                            @if ( renderPage.FooterSections.Count > 0 )
+                            {
+                                <Div Class="b-report-page-footer-content" Style="@GetPreviewPageFooterStyle( definition, renderPage )">
+                                    @foreach ( var renderSection in renderPage.FooterSections )
+                                    {
+                                        var section = renderSection.Section;
+
+                                        <_ReportDesignerSection SectionKey="@($"{section.Id}:{renderPage.PageNumber}:{renderSection.InstanceIndex}:footer")"
+                                                                Section="@section"
+                                                                Height="@GetDesignerSectionHeight( renderSection.SectionIndex, section )"
+                                                                BodyWidth="@GetReportPageContentWidth( definition )">
+                                            @if ( renderSection.RenderElements )
+                                            {
+                                                @foreach ( var element in section.Elements )
+                                                {
+                                                    <_ReportDesignerElement Data="@Data"
+                                                                            Definition="@definition"
+                                                                            Section="@section"
+                                                                            Item="@renderSection.Item"
+                                                                            Element="@element"
+                                                                            ElementKey="@ReportDefinitionHelper.EnsureElementId( element )" />
+                                                }
+                                            }
+                                        </_ReportDesignerSection>
+                                    }
+                                </Div>
                             }
-                        </_ReportDesignerSection>
+                        </_ReportDesignerPage>
                     }
-                </_ReportDesignerPage>
+                </Div>
             }
         </Div>
     }

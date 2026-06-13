@@ -213,6 +213,34 @@
     -webkit-user-select: none;
 }
 
+.b-report-viewer-pages {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.b-report-page-preview {
+    flex: 0 0 auto;
+    page-break-after: always;
+    break-after: page;
+}
+
+.b-report-page-preview:last-child {
+    page-break-after: auto;
+    break-after: auto;
+}
+
+.b-report-page-content,
+.b-report-page-footer-content {
+    position: absolute;
+    overflow: hidden;
+}
+
+.b-report-page-footer-content {
+    top: auto;
+}
+
 .b-report-section {
     position: relative;
     border-bottom: 1px solid transparent;
@@ -588,6 +616,30 @@
 
 .b-report-context-menu button:hover {
     background: #edf0f2;
+}
+
+@media print {
+    .b-report-toolbar,
+    .b-report-designer-toolbox-panel,
+    .b-report-designer-panel {
+        display: none !important;
+    }
+
+    .b-report-viewer {
+        padding: 0 !important;
+        overflow: visible !important;
+        border: 0 !important;
+        background: #ffffff !important;
+    }
+
+    .b-report-viewer-pages {
+        display: block;
+    }
+
+    .b-report-page {
+        margin: 0 auto !important;
+        box-shadow: none !important;
+    }
 }
 
 @media (max-width: 992px) {

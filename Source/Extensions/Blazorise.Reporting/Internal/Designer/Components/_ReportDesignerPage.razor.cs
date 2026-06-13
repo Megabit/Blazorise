@@ -29,7 +29,8 @@ public partial class _ReportDesignerPage
             DirtyClasses();
 
         if ( ( parameters.TryGetValue<double>( nameof( Width ), out var paramWidth ) && paramWidth != Width )
-             || ( parameters.TryGetValue<double>( nameof( MinHeight ), out var paramMinHeight ) && paramMinHeight != MinHeight ) )
+             || ( parameters.TryGetValue<double>( nameof( MinHeight ), out var paramMinHeight ) && paramMinHeight != MinHeight )
+             || ( parameters.TryGetValue<double>( nameof( Height ), out var paramHeight ) && paramHeight != Height ) )
             DirtyStyles();
 
         return base.SetParametersAsync( parameters );
@@ -40,6 +41,7 @@ public partial class _ReportDesignerPage
     {
         builder.Append( "b-report-page" );
         builder.Append( "b-report-page-design", DesignMode );
+        builder.Append( "b-report-page-preview", !DesignMode );
     }
 
     /// <inheritdoc />
@@ -47,6 +49,7 @@ public partial class _ReportDesignerPage
     {
         builder.Append( $"width:{Width}px" );
         builder.Append( $"min-height:{MinHeight}px" );
+        builder.Append( $"height:{Height}px", Height > 0 );
     }
 
     private Task OnPointerMoveAsync( PointerEventArgs eventArgs )
@@ -68,6 +71,11 @@ public partial class _ReportDesignerPage
     /// Minimum page height in pixels.
     /// </summary>
     [Parameter] public double MinHeight { get; set; }
+
+    /// <summary>
+    /// Exact page height in pixels.
+    /// </summary>
+    [Parameter] public double Height { get; set; }
 
     /// <summary>
     /// Indicates that the page is rendered in designer mode.

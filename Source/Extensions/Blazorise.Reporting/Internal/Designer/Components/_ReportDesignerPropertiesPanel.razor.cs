@@ -50,6 +50,22 @@ public partial class _ReportDesignerPropertiesPanel
         ( "body", "Body" ),
     ];
 
+    private static readonly (ReportPageSize Value, string Text)[] PageSizeOptions =
+    [
+        ( ReportPageSize.Custom, "Custom" ),
+        ( ReportPageSize.A3, "A3" ),
+        ( ReportPageSize.A4, "A4" ),
+        ( ReportPageSize.A5, "A5" ),
+        ( ReportPageSize.Letter, "Letter" ),
+        ( ReportPageSize.Legal, "Legal" ),
+    ];
+
+    private static readonly (ReportOrientation Value, string Text)[] PageOrientationOptions =
+    [
+        ( ReportOrientation.Portrait, "Portrait" ),
+        ( ReportOrientation.Landscape, "Landscape" ),
+    ];
+
     #endregion
 
     #region Methods
@@ -74,6 +90,39 @@ public partial class _ReportDesignerPropertiesPanel
     private static ReportBorderDefinition EnsureSectionBorder( ReportSectionDefinition section )
     {
         return section.Border ??= new();
+    }
+
+    private static ReportPageMarginsDefinition EnsurePageMargins( ReportPageDefinition page )
+    {
+        return page.Margins ??= new();
+    }
+
+    private Task OnPageSizeChanged( ReportPageSize value )
+    {
+        return UpdateReportPage( page => ReportPageDefinitionHelper.ApplySize( page, value ) );
+    }
+
+    private Task OnPageOrientationChanged( ReportOrientation value )
+    {
+        return UpdateReportPage( page => ReportPageDefinitionHelper.ApplyOrientation( page, value ) );
+    }
+
+    private Task OnPageWidthChanged( double value )
+    {
+        return UpdateReportPage( page =>
+        {
+            page.Size = ReportPageSize.Custom;
+            page.Width = Math.Max( 1, value );
+        } );
+    }
+
+    private Task OnPageHeightChanged( double value )
+    {
+        return UpdateReportPage( page =>
+        {
+            page.Size = ReportPageSize.Custom;
+            page.Height = Math.Max( 1, value );
+        } );
     }
 
     private Task UpdateSelectedElementTextColor( string value )

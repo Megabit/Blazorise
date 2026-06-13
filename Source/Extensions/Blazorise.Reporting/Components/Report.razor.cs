@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Reporting.Internal;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
@@ -195,22 +196,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private ReportPageDefinition ResolvePage( ReportPageDefinition page )
     {
-        page ??= new();
-
-        if ( page.Width <= 0 || page.Height <= 0 )
-        {
-            (var width, var height) = page.Size == ReportPageSize.Letter ? (816d, 1056d) : (794d, 1123d);
-
-            if ( page.Orientation == ReportOrientation.Landscape )
-            {
-                (width, height) = (height, width);
-            }
-
-            page.Width = width;
-            page.Height = height;
-        }
-
-        return page;
+        return ReportPageDefinitionHelper.ResolvePage( page );
     }
 
     private async Task ResolveDataSourcesAsync( ReportDefinition definition, bool loadData )
@@ -377,9 +363,49 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private double GetReportPageWidth( ReportDefinition definition, bool designMode )
     {
+        definition.Page = ResolvePage( definition.Page );
+
         return designMode && IsDesignerBandRailVisible()
             ? definition.Page.Width + DesignerBandRailWidth
             : definition.Page.Width;
+    }
+
+    private double GetReportPageContentWidth( ReportDefinition definition )
+    {
+        definition.Page = ResolvePage( definition.Page );
+
+        return ReportPageDefinitionHelper.GetContentWidth( definition.Page );
+    }
+
+    private string GetPreviewPageContentStyle( ReportDefinition definition )
+    {
+        definition.Page = ResolvePage( definition.Page );
+
+        var styleBuilder = new StyleBuilder( builder =>
+        {
+            builder.Append( $"left:{definition.Page.Margins.Left}px" );
+            builder.Append( $"top:{definition.Page.Margins.Top}px" );
+            builder.Append( $"right:{definition.Page.Margins.Right}px" );
+            builder.Append( $"bottom:{definition.Page.Margins.Bottom}px" );
+        } );
+
+        return styleBuilder.Styles;
+    }
+
+    private string GetPreviewPageFooterStyle( ReportDefinition definition, ReportRenderPage renderPage )
+    {
+        definition.Page = ResolvePage( definition.Page );
+
+        var footerHeight = renderPage.FooterSections.Sum( renderSection => GetDesignerSectionHeight( renderSection.SectionIndex, renderSection.Section ) );
+        var styleBuilder = new StyleBuilder( builder =>
+        {
+            builder.Append( $"left:{definition.Page.Margins.Left}px" );
+            builder.Append( $"right:{definition.Page.Margins.Right}px" );
+            builder.Append( $"bottom:{definition.Page.Margins.Bottom}px" );
+            builder.Append( $"height:{footerHeight}px" );
+        } );
+
+        return styleBuilder.Styles;
     }
 
     private double GetSectionRenderHeight( int sectionIndex, ReportSectionDefinition section, bool collapsed )
@@ -1673,6 +1699,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             var definition = EffectiveDefinition;
 
             update?.Invoke( definition.Page );
+            definition.Page = ResolvePage( definition.Page );
 
             return Task.CompletedTask;
         } ) );
@@ -2544,8 +2571,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         var offset = await reportingModule.GetElementOffset( sectionBodyElement, eventArgs.ClientX, eventArgs.ClientY );
 
         return offset is { Length: >= 2 }
-            ? ( Math.Max( 0, offset[0] ), Math.Max( 0, offset[1] ) )
-            : ( Math.Max( 0, eventArgs.OffsetX ), Math.Max( 0, eventArgs.OffsetY ) );
+            ? (Math.Max( 0, offset[0] ), Math.Max( 0, offset[1] ))
+            : (Math.Max( 0, eventArgs.OffsetX ), Math.Max( 0, eventArgs.OffsetY ));
     }
 
     private async Task DropDesignerItemAsync( int targetSectionIndex, ElementReference sectionBodyElement, DragEventArgs eventArgs )

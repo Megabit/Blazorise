@@ -59,6 +59,37 @@ public sealed class ReportPageDefinition
     /// Page height in designer units.
     /// </summary>
     public double Height { get; set; } = 1123;
+
+    /// <summary>
+    /// Printable page margins in designer units.
+    /// </summary>
+    public ReportPageMarginsDefinition Margins { get; set; } = new();
+}
+
+/// <summary>
+/// Describes the printable area inset from each page edge.
+/// </summary>
+public sealed class ReportPageMarginsDefinition
+{
+    /// <summary>
+    /// Left page margin in designer units.
+    /// </summary>
+    public double Left { get; set; }
+
+    /// <summary>
+    /// Top page margin in designer units.
+    /// </summary>
+    public double Top { get; set; }
+
+    /// <summary>
+    /// Right page margin in designer units.
+    /// </summary>
+    public double Right { get; set; }
+
+    /// <summary>
+    /// Bottom page margin in designer units.
+    /// </summary>
+    public double Bottom { get; set; }
 }
 
 /// <summary>

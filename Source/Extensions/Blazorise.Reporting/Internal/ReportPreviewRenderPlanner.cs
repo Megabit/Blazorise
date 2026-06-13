@@ -55,6 +55,63 @@ internal static class ReportPreviewRenderPlanner
         return renderSections;
     }
 
+    internal static IReadOnlyList<ReportRenderPage> BuildRenderPages( ReportDefinition definition, object data )
+    {
+        if ( definition?.Sections is null )
+            return [];
+
+        definition.Page = ReportPageDefinitionHelper.ResolvePage( definition.Page );
+
+        var pageHeaderSections = BuildPageBandRenderSections( definition, data, ReportSectionType.PageHeader );
+        var pageFooterSections = BuildPageBandRenderSections( definition, data, ReportSectionType.PageFooter );
+        var allSections = BuildRenderSections( definition, data );
+        var bodySections = allSections.Where( renderSection => renderSection.Section.Type != ReportSectionType.PageFooter ).ToList();
+        var pages = PaginateBodySections( definition, bodySections, pageHeaderSections, pageFooterSections );
+        var totalPages = pages.Count;
+
+        for ( var pageIndex = 0; pageIndex < totalPages; pageIndex++ )
+        {
+            var pageNumber = pageIndex + 1;
+            var page = pages[pageIndex];
+
+            page.PageNumber = pageNumber;
+            page.HeaderSections = pageNumber == 1
+                ? []
+                : pageHeaderSections
+                    .Where( renderSection => ShouldRenderSection( renderSection.Section, pageNumber, totalPages ) )
+                    .ToList();
+            page.FooterSections = pageFooterSections
+                .Where( renderSection => ShouldRenderSection( renderSection.Section, pageNumber, totalPages ) )
+                .ToList();
+        }
+
+        return pages;
+    }
+
+    private static List<ReportRenderSection> BuildPageBandRenderSections( ReportDefinition definition, object data, ReportSectionType sectionType )
+    {
+        var renderSections = new List<ReportRenderSection>();
+
+        for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
+        {
+            var section = definition.Sections[sectionIndex];
+
+            if ( section.Type != sectionType || section.Suppressed && !section.ReserveSpaceWhenSuppressed )
+                continue;
+
+            renderSections.Add( new()
+            {
+                SectionIndex = sectionIndex,
+                InstanceIndex = sectionIndex,
+                Section = section,
+                Item = ReportDataResolver.ResolveItems( definition, data, section.DataSource ).FirstOrDefault(),
+                RenderElements = !section.Suppressed,
+            } );
+        }
+
+        return renderSections;
+    }
+
     private static void AppendGroupedSections(
         List<ReportRenderSection> renderSections,
         ReportDefinition definition,
@@ -129,6 +186,59 @@ internal static class ReportPreviewRenderPlanner
         {
             consumedSectionIndexes.Add( footerSectionIndex );
         }
+    }
+
+    private static List<ReportRenderPage> PaginateBodySections(
+        ReportDefinition definition,
+        IReadOnlyList<ReportRenderSection> bodySections,
+        IReadOnlyList<ReportRenderSection> pageHeaderSections,
+        IReadOnlyList<ReportRenderSection> pageFooterSections )
+    {
+        var pages = new List<ReportRenderPage>();
+        var currentPageSections = new List<ReportRenderSection>();
+        var usedHeight = 0d;
+
+        foreach ( var renderSection in bodySections )
+        {
+            var availableHeight = GetAvailableBodyHeight( definition, pageHeaderSections, pageFooterSections, pages.Count + 1 );
+            var sectionHeight = GetRenderSectionHeight( renderSection );
+
+            if ( currentPageSections.Count > 0 && usedHeight + sectionHeight > availableHeight )
+            {
+                pages.Add( new() { BodySections = currentPageSections } );
+                currentPageSections = [];
+                usedHeight = 0;
+                availableHeight = GetAvailableBodyHeight( definition, pageHeaderSections, pageFooterSections, pages.Count + 1 );
+            }
+
+            currentPageSections.Add( renderSection );
+            usedHeight += sectionHeight;
+        }
+
+        if ( currentPageSections.Count > 0 || pages.Count == 0 )
+        {
+            pages.Add( new() { BodySections = currentPageSections } );
+        }
+
+        return pages;
+    }
+
+    private static double GetAvailableBodyHeight(
+        ReportDefinition definition,
+        IReadOnlyList<ReportRenderSection> pageHeaderSections,
+        IReadOnlyList<ReportRenderSection> pageFooterSections,
+        int pageNumber )
+    {
+        var contentHeight = ReportPageDefinitionHelper.GetContentHeight( definition.Page );
+        var pageHeaderHeight = pageNumber == 1 ? 0 : pageHeaderSections.Sum( GetRenderSectionHeight );
+        var pageFooterHeight = pageFooterSections.Sum( GetRenderSectionHeight );
+
+        return Math.Max( 1, contentHeight - pageHeaderHeight - pageFooterHeight );
+    }
+
+    private static double GetRenderSectionHeight( ReportRenderSection renderSection )
+    {
+        return Math.Max( 0, renderSection?.Section?.Height ?? 0 );
     }
 
     private static bool IsGroupHeader( ReportSectionDefinition section )

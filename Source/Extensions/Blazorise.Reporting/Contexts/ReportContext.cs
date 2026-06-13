@@ -119,12 +119,29 @@ internal sealed class ReportContext
 
     private static ReportPageDefinition ClonePage( ReportPageDefinition page )
     {
+        page ??= new();
+
         return new()
         {
             Size = page.Size,
             Orientation = page.Orientation,
             Width = page.Width,
             Height = page.Height,
+            Margins = ClonePageMargins( page.Margins ),
+        };
+    }
+
+    private static ReportPageMarginsDefinition ClonePageMargins( ReportPageMarginsDefinition margins )
+    {
+        if ( margins is null )
+            return new();
+
+        return new()
+        {
+            Left = margins.Left,
+            Top = margins.Top,
+            Right = margins.Right,
+            Bottom = margins.Bottom,
         };
     }
 

@@ -10,8 +10,36 @@
     <Div Margin="Margin.Is3.FromBottom">
         <h6>Report properties</h6>
         <_ReportDesignerCheckboxProperty Label="Snap to grid" Value="@SnapToGrid" Changed="@OnSnapToGridChanged" />
-        <_ReportDesignerNumberProperty Label="Page width" Value="@Definition.Page.Width" Changed="@(value => UpdateReportPage( page => page.Width = Math.Max( 1, value ) ))" />
-        <_ReportDesignerNumberProperty Label="Page height" Value="@Definition.Page.Height" Changed="@(value => UpdateReportPage( page => page.Height = Math.Max( 1, value ) ))" />
+        <_ReportDesignerPropertyGroup Title="Page">
+            <Field Horizontal Margin="Margin.Is0.FromBottom">
+                <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Paper size</FieldLabel>
+                <FieldBody ColumnSize="ColumnSize.Is8">
+                    <Select TValue="ReportPageSize" Value="@Definition.Page.Size" ValueChanged="@OnPageSizeChanged" Size="Size.Small">
+                        @foreach ( var option in PageSizeOptions )
+                        {
+                            <SelectItem TValue="ReportPageSize" Value="@option.Value">@option.Text</SelectItem>
+                        }
+                    </Select>
+                </FieldBody>
+            </Field>
+            <Field Horizontal Margin="Margin.Is0.FromBottom">
+                <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Orientation</FieldLabel>
+                <FieldBody ColumnSize="ColumnSize.Is8">
+                    <Select TValue="ReportOrientation" Value="@Definition.Page.Orientation" ValueChanged="@OnPageOrientationChanged" Size="Size.Small">
+                        @foreach ( var option in PageOrientationOptions )
+                        {
+                            <SelectItem TValue="ReportOrientation" Value="@option.Value">@option.Text</SelectItem>
+                        }
+                    </Select>
+                </FieldBody>
+            </Field>
+            <_ReportDesignerNumberProperty Label="Page width" Value="@Definition.Page.Width" Changed="@OnPageWidthChanged" />
+            <_ReportDesignerNumberProperty Label="Page height" Value="@Definition.Page.Height" Changed="@OnPageHeightChanged" />
+            <_ReportDesignerNumberProperty Label="Margin left" Value="@EnsurePageMargins( Definition.Page ).Left" Changed="@(value => UpdateReportPage( page => EnsurePageMargins( page ).Left = Math.Max( 0, value ) ))" />
+            <_ReportDesignerNumberProperty Label="Margin top" Value="@EnsurePageMargins( Definition.Page ).Top" Changed="@(value => UpdateReportPage( page => EnsurePageMargins( page ).Top = Math.Max( 0, value ) ))" />
+            <_ReportDesignerNumberProperty Label="Margin right" Value="@EnsurePageMargins( Definition.Page ).Right" Changed="@(value => UpdateReportPage( page => EnsurePageMargins( page ).Right = Math.Max( 0, value ) ))" />
+            <_ReportDesignerNumberProperty Label="Margin bottom" Value="@EnsurePageMargins( Definition.Page ).Bottom" Changed="@(value => UpdateReportPage( page => EnsurePageMargins( page ).Bottom = Math.Max( 0, value ) ))" />
+        </_ReportDesignerPropertyGroup>
     </Div>
 }
 
@@ -65,16 +93,16 @@
             <Div Flex="Flex.Wrap" Gap="Gap.Is2" Margin="Margin.Is3.FromTop">
                 @if ( CanInsertSection )
                 {
-                    <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => InsertSection( false ))" Size="Size.Small">Insert before</Button>
-                    <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => InsertSection( true ))" Size="Size.Small">Insert after</Button>
+                    <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => InsertSection( false ))" Size="Size.Small">Insert before</Button>
+                    <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => InsertSection( true ))" Size="Size.Small">Insert after</Button>
                 }
                 @if ( CanInsertGroup )
                 {
-                    <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => InsertGroup())" Size="Size.Small">Insert group...</Button>
+                    <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => InsertGroup())" Size="Size.Small">Insert group...</Button>
                 }
                 @if ( ReportDefinitionHelper.CanDeleteSection( SelectedSection ) )
                 {
-                    <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => DeleteSelectedSection())" Size="Size.Small">Delete band</Button>
+                    <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => DeleteSelectedSection())" Size="Size.Small">Delete band</Button>
                 }
             </Div>
         }
@@ -130,11 +158,11 @@
                 <_ReportDesignerTextProperty Label="Font family" Value="@font.Family" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Family = value ))" />
                 <_ReportDesignerNullableNumberProperty Label="Font size" Value="@font.Size" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Size = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
                 <_ReportDesignerThemeColorProperty Label="Color"
-                                                    ThemeValue="@font.TextColor"
-                                                    CustomValue="@font.Color"
-                                                    ThemeOptions="@TextColorOptions"
-                                                    ThemeChanged="@UpdateSelectedElementTextColor"
-                                                    CustomChanged="@UpdateSelectedElementFontColor" />
+                                                   ThemeValue="@font.TextColor"
+                                                   CustomValue="@font.Color"
+                                                   ThemeOptions="@TextColorOptions"
+                                                   ThemeChanged="@UpdateSelectedElementTextColor"
+                                                   CustomChanged="@UpdateSelectedElementFontColor" />
                 <Field Horizontal Margin="Margin.Is0.FromBottom">
                     <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Alignment</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is8">
@@ -159,11 +187,11 @@
 
         <_ReportDesignerPropertyGroup Title="Appearance">
             <_ReportDesignerThemeColorProperty Label="Fill"
-                                                ThemeValue="@appearance.Background"
-                                                CustomValue="@appearance.BackgroundColor"
-                                                ThemeOptions="@BackgroundOptions"
-                                                ThemeChanged="@UpdateSelectedElementBackground"
-                                                CustomChanged="@UpdateSelectedElementBackgroundColor" />
+                                               ThemeValue="@appearance.Background"
+                                               CustomValue="@appearance.BackgroundColor"
+                                               ThemeOptions="@BackgroundOptions"
+                                               ThemeChanged="@UpdateSelectedElementBackground"
+                                               CustomChanged="@UpdateSelectedElementBackgroundColor" />
             <_ReportDesignerColorProperty Label="Border color" Value="@border.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
             <_ReportDesignerNullableNumberProperty Label="Border width" Value="@border.Width" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
             <_ReportDesignerNullableNumberProperty Label="Corner radius" Value="@border.Radius" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
@@ -175,12 +203,12 @@
     <Div Margin="Margin.Is3.FromTop">
         <h6>Selected element</h6>
         <Div Flex="Flex.Wrap" Gap="Gap.Is2">
-            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( -8, 0, 0, 0 ))" Size="Size.Small">Left</Button>
-            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( 0, -8, 0, 0 ))" Size="Size.Small">Up</Button>
-            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( 0, 8, 0, 0 ))" Size="Size.Small">Down</Button>
-            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( 8, 0, 0, 0 ))" Size="Size.Small">Right</Button>
-            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( 0, 0, 16, 0 ))" Size="Size.Small">Wider</Button>
-            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => MoveSelectedElement( 0, 0, 0, 8 ))" Size="Size.Small">Taller</Button>
+            <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( -8, 0, 0, 0 ))" Size="Size.Small">Left</Button>
+            <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, -8, 0, 0 ))" Size="Size.Small">Up</Button>
+            <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, 8, 0, 0 ))" Size="Size.Small">Down</Button>
+            <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 8, 0, 0, 0 ))" Size="Size.Small">Right</Button>
+            <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, 0, 16, 0 ))" Size="Size.Small">Wider</Button>
+            <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, 0, 0, 8 ))" Size="Size.Small">Taller</Button>
         </Div>
     </Div>
 }
