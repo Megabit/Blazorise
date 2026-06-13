@@ -48,28 +48,10 @@ public abstract class ReportElementBase : ComponentBase
             Y = Y,
             Width = Width,
             Height = Height,
-            Font = BuildFontDefinition(),
             Appearance = BuildAppearanceDefinition(),
             Border = BuildBorderDefinition(),
             Class = Class,
             Style = Style,
-        };
-    }
-
-    private ReportFontDefinition BuildFontDefinition()
-    {
-        return new()
-        {
-            Family = FontFamily ?? Font?.Family,
-            Size = FontSize ?? Font?.Size,
-            Color = FontColor ?? Font?.Color,
-            TextColor = GetTextColorName( TextColor ) ?? Font?.TextColor,
-            Bold = Bold || Font?.Bold == true,
-            Italic = Italic || Font?.Italic == true,
-            Underline = Underline || Font?.Underline == true,
-            Alignment = TextAlignment != Blazorise.TextAlignment.Default
-                ? TextAlignment
-                : Font?.Alignment ?? Blazorise.TextAlignment.Default,
         };
     }
 
@@ -91,13 +73,6 @@ public abstract class ReportElementBase : ComponentBase
             Width = BorderWidth ?? Border?.Width,
             Radius = BorderRadius ?? Border?.Radius,
         };
-    }
-
-    private static string GetTextColorName( TextColor textColor )
-    {
-        return textColor is null || textColor == Blazorise.TextColor.Default || string.IsNullOrWhiteSpace( textColor.RawName )
-            ? null
-            : textColor.RawName;
     }
 
     private static string GetBackgroundName( Background background )
@@ -143,44 +118,9 @@ public abstract class ReportElementBase : ComponentBase
     [Parameter] public string Style { get; set; }
 
     /// <summary>
-    /// Font family applied to text rendered by the element.
-    /// </summary>
-    [Parameter] public string FontFamily { get; set; }
-
-    /// <summary>
-    /// Font size applied to text rendered by the element.
-    /// </summary>
-    [Parameter] public double? FontSize { get; set; }
-
-    /// <summary>
-    /// Text color applied to the element.
-    /// </summary>
-    [Parameter] public string FontColor { get; set; }
-
-    /// <summary>
     /// Background color applied to the element.
     /// </summary>
     [Parameter] public string BackgroundColor { get; set; }
-
-    /// <summary>
-    /// Enables bold text rendering.
-    /// </summary>
-    [Parameter] public bool Bold { get; set; }
-
-    /// <summary>
-    /// Enables italic text rendering.
-    /// </summary>
-    [Parameter] public bool Italic { get; set; }
-
-    /// <summary>
-    /// Enables underline text rendering.
-    /// </summary>
-    [Parameter] public bool Underline { get; set; }
-
-    /// <summary>
-    /// Text alignment applied inside the element box.
-    /// </summary>
-    [Parameter] public TextAlignment TextAlignment { get; set; } = TextAlignment.Default;
 
     /// <summary>
     /// Border color applied to the element.
@@ -201,11 +141,6 @@ public abstract class ReportElementBase : ComponentBase
     /// Element opacity from 0 to 1.
     /// </summary>
     [Parameter] public double? Opacity { get; set; }
-
-    /// <summary>
-    /// Font settings applied to text rendered by the element.
-    /// </summary>
-    [Parameter] public ReportFontDefinition Font { get; set; }
 
     /// <summary>
     /// Fill and opacity settings applied to the element.
@@ -236,11 +171,6 @@ public abstract class ReportElementBase : ComponentBase
     /// Blazorise gap utility accepted for declarative compatibility.
     /// </summary>
     [Parameter] public IFluentGap Gap { get; set; }
-
-    /// <summary>
-    /// Semantic Blazorise text color applied to text rendered by the element.
-    /// </summary>
-    [Parameter] public TextColor TextColor { get; set; } = TextColor.Default;
 
     /// <summary>
     /// Semantic Blazorise background color applied to the element fill.

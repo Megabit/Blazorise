@@ -5,7 +5,7 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Declares a data-bound field element in a report band.
 /// </summary>
-public partial class ReportField : ReportElementBase
+public partial class ReportField : ReportTextElementBase
 {
     /// <inheritdoc />
     protected override ReportElementType ElementType => ReportElementType.Field;

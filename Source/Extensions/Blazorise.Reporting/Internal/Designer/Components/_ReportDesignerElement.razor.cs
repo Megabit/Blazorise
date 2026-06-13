@@ -98,7 +98,7 @@ public partial class _ReportDesignerElement
         builder.Append( $"b-report-element-{Element.Type.ToString().ToLowerInvariant()}" );
         builder.Append( Element.Class );
 
-        if ( !string.IsNullOrWhiteSpace( Element.Font?.TextColor ) )
+        if ( ReportElementDefinitionHelper.SupportsTextFormatting( Element.Type ) && !string.IsNullOrWhiteSpace( Element.Font?.TextColor ) )
             builder.Append( ClassProvider.TextColor( new TextColor( Element.Font.TextColor ) ) );
 
         if ( !string.IsNullOrWhiteSpace( Element.Appearance?.Background ) )

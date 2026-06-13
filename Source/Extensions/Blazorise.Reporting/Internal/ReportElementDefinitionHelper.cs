@@ -17,7 +17,7 @@ internal static class ReportElementDefinitionHelper
 
     internal static void BuildStyle( StyleBuilder builder, ReportElementDefinition element, ReportDefinition definition, object defaultData, ReportSectionDefinition section )
     {
-        var font = element.Font;
+        var font = SupportsTextFormatting( element.Type ) ? element.Font : null;
         var appearance = element.Appearance;
         var border = element.Border;
 
@@ -82,6 +82,11 @@ internal static class ReportElementDefinitionHelper
     internal static ReportFontDefinition EnsureFont( ReportElementDefinition element )
     {
         return element.Font ??= new();
+    }
+
+    internal static bool SupportsTextFormatting( ReportElementType elementType )
+    {
+        return elementType is ReportElementType.Text or ReportElementType.Field or ReportElementType.Table;
     }
 
     internal static ReportAppearanceDefinition EnsureAppearance( ReportElementDefinition element )

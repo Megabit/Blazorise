@@ -5,7 +5,7 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Declares a static text element in a report band.
 /// </summary>
-public partial class ReportText : ReportElementBase
+public partial class ReportText : ReportTextElementBase
 {
     /// <inheritdoc />
     protected override ReportElementType ElementType => ReportElementType.Text;

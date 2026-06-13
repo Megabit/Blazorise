@@ -161,7 +161,7 @@
             <_ReportDesignerNumberProperty Label="Height" Value="@FromPoints( SelectedElement.Height )" Changed="@OnSelectedElementHeightChanged" Step="@GetMeasurementStep()" />
         </_ReportDesignerPropertyGroup>
 
-        @if ( SelectedElement.Type is not ReportElementType.Image and not ReportElementType.Line and not ReportElementType.Rectangle and not ReportElementType.PageBreak )
+        @if ( ReportElementDefinitionHelper.SupportsTextFormatting( SelectedElement.Type ) )
         {
             var font = ReportElementDefinitionHelper.EnsureFont( SelectedElement );
 

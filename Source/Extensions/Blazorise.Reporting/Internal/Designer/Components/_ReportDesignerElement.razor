@@ -50,10 +50,9 @@
             case ReportElementType.Image:
                 <img src="@Element.Source" alt="@ImageAlternativeText" />
                 break;
+            case ReportElementType.Line:
+            case ReportElementType.Rectangle:
             case ReportElementType.PageBreak:
-                break;
-            default:
-                @Element.Text
                 break;
         }
     }
