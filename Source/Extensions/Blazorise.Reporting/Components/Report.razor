@@ -1,5 +1,4 @@
 @namespace Blazorise.Reporting
-@typeparam TItem
 @inject System.IServiceProvider ServiceProvider
 @using System
 @using System.Linq
@@ -35,6 +34,9 @@
                         <ReportToolbarItem Command="ReportCommand.Undo" Caption="Undo" />
                         <ReportToolbarItem Command="ReportCommand.Redo" Caption="Redo" />
                         <ReportToolbarItem Command="ReportCommand.Reset" Caption="Reset" />
+                    </ReportToolbarGroup>
+                    <ReportToolbarGroup>
+                        <ReportToolbarItem Command="ReportCommand.ConnectDataSource" Caption="Data sources" />
                     </ReportToolbarGroup>
                     <Div Margin="Margin.IsAuto.FromStart">
                         <ReportToolbarGroup>
@@ -247,6 +249,8 @@
                                         Confirmed="@OnAggregateDialogConfirmedAsync" />
         <_ReportDesignerGroupDialog @ref="groupDialogRef"
                                     Confirmed="@OnGroupDialogConfirmedAsync" />
+        <_ReportDesignerDataSourceConnectionDialog @ref="dataSourceConnectionDialogRef"
+                                                   Confirmed="@OnDataSourceConnectionConfirmedAsync" />
     }
     else
     {

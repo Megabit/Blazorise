@@ -7,8 +7,7 @@
                 <CardTitle>Reporting</CardTitle>
             </CardHeader>
             <CardBody>
-                <Report TItem="InvoiceReportModel"
-                        Data="@invoice"
+                <Report Data="@invoice"
                         @bind-Definition="@definition"
                         DesignerEnabled
                         PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf">
@@ -28,6 +27,9 @@
                             <ReportToolbarItem Command="ReportCommand.Redo" Caption="Redo" />
                             <ReportToolbarItem Command="ReportCommand.Reset" Caption="Reset" />
                         </ReportToolbarGroup>
+                        <ReportToolbarGroup>
+                            <ReportToolbarItem Command="ReportCommand.ConnectDataSource" Caption="Data sources" />
+                        </ReportToolbarGroup>
                         <Div Margin="Margin.IsAuto.FromStart">
                             <ReportToolbarGroup>
                                 <ReportToolbarItem Command="ReportCommand.Design" Caption="Design" ShowCaption />
@@ -35,7 +37,10 @@
                             </ReportToolbarGroup>
                         </Div>
                     </ReportToolbar>
-                    <ReportDataSource Name="Invoice" Data="@invoice" />
+                    <ReportDataSources>
+                        <ReportObjectDataSource Name="Invoice" Data="@invoice" />
+                        <ReportCsvDataSource Name="CsvInvoiceLines" Source="@invoiceLinesCsv" Encoding="utf-8" />
+                    </ReportDataSources>
                     <ReportPage Size="ReportPageSize.A4" Orientation="ReportOrientation.Portrait" />
                     <ReportHeader Name="Invoice report header" Height="130">
                         <ReportText Text="Invoice summary"
@@ -113,6 +118,11 @@
 
 @code {
     private ReportDefinition definition;
+
+    private const string invoiceLinesCsv = "Sku,Description,Quantity,UnitPrice,Total\r\n"
+        + "CSV-001,CSV implementation workshop,1,640.50,640.50\r\n"
+        + "CSV-010,CSV reporting module license,2,250.00,500.00\r\n"
+        + "CSV-003,CSV priority support,1,100.00,100.00";
 
     private readonly InvoiceReportModel invoice = new()
     {

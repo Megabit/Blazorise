@@ -1,4 +1,5 @@
 #region Using directives
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Reporting.Internal;
@@ -49,7 +50,7 @@ public sealed class ObjectReportDataSourceProvider : IReportDataSourceProvider
     public string DisplayName => "Object model";
 
     /// <inheritdoc />
-    public System.Type EditorComponentType => null;
+    public Type EditorComponentType => typeof( _ReportObjectDataSourceEditor );
 
     #endregion
 }

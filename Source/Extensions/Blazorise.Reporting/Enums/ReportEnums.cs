@@ -289,6 +289,11 @@ public enum ReportCommand
     PreviewPdf,
 
     /// <summary>
+    /// Opens the data source connection dialog.
+    /// </summary>
+    ConnectDataSource,
+
+    /// <summary>
     /// Removes the selected element and places it on the report clipboard.
     /// </summary>
     Cut,

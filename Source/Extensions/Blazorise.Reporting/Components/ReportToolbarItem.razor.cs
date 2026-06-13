@@ -41,6 +41,7 @@ public partial class ReportToolbarItem
             ReportCommand.Preview => IconName.Eye,
             ReportCommand.PreviewHtml => IconName.FileAlt,
             ReportCommand.PreviewPdf => IconName.FilePdf,
+            ReportCommand.ConnectDataSource => IconName.Database,
             ReportCommand.Cut => IconName.Cut,
             ReportCommand.Copy => IconName.Copy,
             ReportCommand.Paste => IconName.Paste,

@@ -24,7 +24,7 @@ public interface IReportDataSourceProvider
     string DisplayName { get; }
 
     /// <summary>
-    /// Component type used by the designer to edit provider-specific settings.
+    /// Component type used by the designer to edit provider-specific settings. The component should expose a parameter named <c>Context</c> of type <see cref="ReportDataSourceProviderEditorContext" />.
     /// </summary>
     Type EditorComponentType { get; }
 

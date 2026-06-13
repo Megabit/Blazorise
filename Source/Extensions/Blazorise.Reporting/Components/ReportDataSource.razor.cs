@@ -8,22 +8,26 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Declares a named data source available to report bands and fields.
 /// </summary>
-public partial class ReportDataSource : ComponentBase
+public partial class ReportDataSource : ReportDataSourceComponentBase
 {
-    [CascadingParameter] internal ReportContext ReportContext { get; set; }
+    #region Methods
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    protected override ReportDataSourceDefinition CreateDataSourceDefinition()
     {
-        ReportContext?.RegisterDataSource( new()
+        return new()
         {
             Name = Name,
             Type = Type,
             Data = Data,
             Settings = Settings,
             Schema = Schema,
-        } );
+        };
     }
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Name used by report bands and fields to reference this data source.
@@ -49,4 +53,6 @@ public partial class ReportDataSource : ComponentBase
     /// Field schema exposed by providers that do not use a reflected object model.
     /// </summary>
     [Parameter] public ReportDataSourceSchema Schema { get; set; }
+
+    #endregion
 }

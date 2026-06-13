@@ -4,6 +4,8 @@ using Blazorise.Captcha.ReCaptcha;
 using Blazorise.Components;
 using Blazorise.FluentValidation;
 using Blazorise.LoadingIndicator;
+using Blazorise.Reporting;
+using Blazorise.Reporting.DataSources.Csv;
 using Blazorise.RichTextEdit;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +34,8 @@ public static class Config
             } )
             .AddLoadingIndicator()
             .AddBlazoriseFluentValidation()
+            .AddBlazoriseReporting()
+            .AddBlazoriseReportingCsvDataSource()
             .AddBlazoriseGoogleReCaptcha( options =>
             {
                 options.SiteKey = reCaptchaSiteKey;

@@ -1,0 +1,26 @@
+@namespace Blazorise.Reporting.Internal
+@inherits ReportComponentBase
+@using Microsoft.AspNetCore.Components.Web
+
+<Div Flex="Flex.Column" Gap="Gap.Is2">
+    @if ( settings.Count == 0 )
+    {
+        <Paragraph TextColor="TextColor.Secondary" TextSize="TextSize.Small" Margin="Margin.Is0">No provider settings defined.</Paragraph>
+    }
+    @foreach ( ReportDataSourceSettingItem setting in settings )
+    {
+        <Div @key="setting.Id" Flex="Flex.Row" Gap="Gap.Is2">
+            <TextInput Value="@setting.Key" ValueChanged="@((string value) => OnSettingKeyChanged( setting, value ))" Placeholder="Key" Size="Size.Small" />
+            <TextInput Value="@setting.Value" ValueChanged="@((string value) => OnSettingValueChanged( setting, value ))" Placeholder="Value" Size="Size.Small" />
+            <Button Color="Color.Light" Clicked="@((MouseEventArgs _) => RemoveSettingAsync( setting ))" Size="Size.Small" title="Remove setting" aria-label="Remove setting">
+                <Icon Name="@IconName.Delete" />
+            </Button>
+        </Div>
+    }
+    <Div>
+        <Button Color="Color.Light" Clicked="@AddSettingAsync" Size="Size.Small">
+            <Icon Name="@IconName.Add" Margin="Margin.Is1.FromEnd" />
+            Add setting
+        </Button>
+    </Div>
+</Div>

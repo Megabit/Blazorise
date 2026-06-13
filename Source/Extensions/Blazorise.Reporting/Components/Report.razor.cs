@@ -15,8 +15,7 @@ namespace Blazorise.Reporting;
 /// <summary>
 /// Provides a declarative report designer and viewer for band-based report definitions.
 /// </summary>
-/// <typeparam name="TItem">Data item type used by the default report data source.</typeparam>
-public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsyncDisposable
+public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDisposable
 {
     #region Members
 
@@ -36,7 +35,9 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private readonly HashSet<string> collapsedSectionIds = new( StringComparer.Ordinal );
 
-    private DotNetObjectReference<Report<TItem>> dotNetObjectReference;
+    private readonly IReadOnlyList<IReportDataSourceProvider> fallbackDataSourceProviders = [new ObjectReportDataSourceProvider()];
+
+    private DotNetObjectReference<Report> dotNetObjectReference;
 
     private ReportDefinition declarativeDefinition;
 
@@ -92,11 +93,15 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
 
     private ReportOptions globalOptions;
 
+    private IReportDataSourceProviderRegistry dataSourceProviderRegistry;
+
     private JSReportingModule reportingModule;
 
     private _ReportDesignerAggregateDialog aggregateDialogRef;
 
     private _ReportDesignerGroupDialog groupDialogRef;
+
+    private _ReportDesignerDataSourceConnectionDialog dataSourceConnectionDialogRef;
 
     #endregion
 
@@ -127,11 +132,20 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
     }
 
     /// <inheritdoc />
+    protected override async Task OnParametersSetAsync()
+    {
+        if ( Definition is not null )
+            await ResolveDataSourcesAsync( Definition, CurrentMode == ReportStudioMode.Preview );
+    }
+
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( firstRender && Definition is null && DefinitionMode != ReportDefinitionMode.UseDefinitionOnly )
         {
             declarativeDefinition = BuildDeclarativeDefinition();
+
+            await ResolveDataSourcesAsync( declarativeDefinition, CurrentMode == ReportStudioMode.Preview );
 
             if ( DefinitionChanged.HasDelegate )
             {
@@ -197,6 +211,50 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
         }
 
         return page;
+    }
+
+    private async Task ResolveDataSourcesAsync( ReportDefinition definition, bool loadData )
+    {
+        if ( definition?.DataSources is null )
+            return;
+
+        IReportDataSourceProviderRegistry registry = DataSourceProviderRegistry;
+
+        if ( registry is null )
+            return;
+
+        foreach ( ReportDataSourceDefinition dataSource in definition.DataSources )
+        {
+            if ( dataSource is null )
+                continue;
+
+            IReportDataSourceProvider provider = registry.FindProvider( dataSource?.Type );
+
+            if ( provider is null )
+                continue;
+
+            try
+            {
+                if ( loadData && dataSource.Data is null )
+                {
+                    ReportDataSourceResult result = await provider.LoadDataAsync( dataSource, new()
+                    {
+                        DefaultData = Data,
+                    } );
+
+                    dataSource.Data = result?.Data;
+                    dataSource.Schema = result?.Schema ?? dataSource.Schema;
+
+                    continue;
+                }
+
+                if ( dataSource.Schema is null )
+                    dataSource.Schema = await provider.GetSchemaAsync( dataSource );
+            }
+            catch
+            {
+            }
+        }
     }
 
     private Task CloseContextMenuAsync()
@@ -424,6 +482,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             ReportCommand.Preview => SetPreviewAsync( SupportsPreviewFormat( currentPreviewFormat ) ? currentPreviewFormat : context.ViewerOptions.DefaultFormat ),
             ReportCommand.PreviewHtml => SetPreviewAsync( ReportPreviewFormat.Html ),
             ReportCommand.PreviewPdf => SetPreviewAsync( ReportPreviewFormat.Pdf ),
+            ReportCommand.ConnectDataSource => OpenDataSourceConnectionDialogAsync(),
             ReportCommand.Cut => CutSelectedElementAsync(),
             ReportCommand.Copy => CopySelectedElementAsync(),
             ReportCommand.Paste => PasteElementAsync(),
@@ -450,6 +509,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             ReportCommand.Preview => SupportsPreviewFormat( currentPreviewFormat ) || SupportsPreviewFormat( context.ViewerOptions.DefaultFormat ),
             ReportCommand.PreviewHtml => SupportsPreviewFormat( ReportPreviewFormat.Html ),
             ReportCommand.PreviewPdf => SupportsPreviewFormat( ReportPreviewFormat.Pdf ),
+            ReportCommand.ConnectDataSource => CurrentMode == ReportStudioMode.Design && IsDesignerEnabled && DataSourceProviders.Count > 0,
             ReportCommand.Cut or ReportCommand.Copy => CurrentMode == ReportStudioMode.Design && selectionManager.FindSelectedElement( definition ) is not null,
             ReportCommand.Delete => CurrentMode == ReportStudioMode.Design && selectionManager.CanDeleteSelection( definition ),
             ReportCommand.Paste => CurrentMode == ReportStudioMode.Design && clipboardElement is not null && definition.Sections.Count > 0,
@@ -527,6 +587,8 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             currentPreviewFormat = format;
             currentMode = ReportStudioMode.Preview;
             editingElementKey = null;
+
+            await ResolveDataSourcesAsync( EffectiveDefinition, loadData: true );
 
             if ( ModeChanged.HasDelegate )
                 await ModeChanged.InvokeAsync( currentMode );
@@ -1069,6 +1131,48 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             contextMenu = null;
 
             return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task OpenDataSourceConnectionDialogAsync()
+    {
+        if ( dataSourceConnectionDialogRef is null )
+            return;
+
+        await dataSourceConnectionDialogRef.ShowAsync( EffectiveDefinition, DataSourceProviders );
+    }
+
+    private async Task OnDataSourceConnectionConfirmedAsync( ReportDataSourceDefinition dataSource )
+    {
+        if ( dataSource is null || string.IsNullOrWhiteSpace( dataSource.Name ) )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( "Connect data source", async () =>
+        {
+            var definition = EffectiveDefinition;
+
+            if ( definition.DataSources is null )
+                definition.DataSources = [];
+
+            if ( string.Equals( dataSource.Type, ObjectReportDataSourceProvider.ProviderType, StringComparison.OrdinalIgnoreCase )
+                && dataSource.Data is null )
+            {
+                dataSource.Data = Data;
+            }
+
+            var existingIndex = definition.DataSources.FindIndex( source =>
+                string.Equals( source.Id, dataSource.Id, StringComparison.Ordinal )
+                || string.Equals( source.Name, dataSource.Name, StringComparison.OrdinalIgnoreCase ) );
+
+            if ( existingIndex >= 0 )
+                definition.DataSources[existingIndex] = dataSource;
+            else
+                definition.DataSources.Add( dataSource );
+
+            ReportDefinitionHelper.EnsureDefinitionIds( definition );
+            await ResolveDataSourcesAsync( definition, loadData: false );
+
+            return;
         } ) );
     }
 
@@ -2700,6 +2804,14 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
     private bool IsDesignerEnabled => DesignerEnabled || GlobalOptions.DesignerEnabled;
 
     private ReportOptions GlobalOptions => globalOptions ??= ServiceProvider.GetService<ReportOptions>() ?? new();
+
+    private IReportDataSourceProviderRegistry DataSourceProviderRegistry
+        => dataSourceProviderRegistry ??= ServiceProvider.GetService<IReportDataSourceProviderRegistry>();
+
+    private IReadOnlyList<IReportDataSourceProvider> DataSourceProviders
+        => DataSourceProviderRegistry?.Providers?.Count > 0
+            ? DataSourceProviderRegistry.Providers
+            : fallbackDataSourceProviders;
 
     private ReportStudioMode CurrentMode => Mode ?? currentMode;
 

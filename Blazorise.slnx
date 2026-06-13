@@ -81,6 +81,8 @@
     <Project Path="Source/Extensions/Blazorise.PdfViewer/Blazorise.PdfViewer.csproj" />
     <Project Path="Source/Extensions/Blazorise.PivotGrid/Blazorise.PivotGrid.csproj" />
     <Project Path="Source/Extensions/Blazorise.QRCode/Blazorise.QRCode.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Reporting.DataSources.Csv/Blazorise.Reporting.DataSources.Csv.csproj" />
+    <Project Path="Source/Extensions/Blazorise.Reporting.DataSources.Sql/Blazorise.Reporting.DataSources.Sql.csproj" />
     <Project Path="Source/Extensions/Blazorise.Reporting/Blazorise.Reporting.csproj" />
     <Project Path="Source/Extensions/Blazorise.RichTextEdit/Blazorise.RichTextEdit.csproj" />
     <Project Path="Source/Extensions/Blazorise.Scheduler/Blazorise.Scheduler.csproj" />

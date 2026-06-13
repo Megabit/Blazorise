@@ -19,7 +19,7 @@ public static class Config
     /// <returns>The service collection.</returns>
     public static IServiceCollection AddBlazoriseReporting( this IServiceCollection services, Action<ReportOptions> options = default )
     {
-        var reportOptions = new ReportOptions();
+        ReportOptions reportOptions = new();
 
         options?.Invoke( reportOptions );
 

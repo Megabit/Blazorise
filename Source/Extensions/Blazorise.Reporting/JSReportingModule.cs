@@ -32,11 +32,10 @@ public class JSReportingModule : BaseJSModule
     /// <summary>
     /// Starts document-level band resizing for the active report designer.
     /// </summary>
-    /// <typeparam name="TItem">Report data item type.</typeparam>
     /// <param name="dotNetObjectReference">Report component reference that receives resize callbacks.</param>
     /// <param name="startClientY">Initial document pointer Y coordinate.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public virtual async ValueTask StartSectionResize<TItem>( DotNetObjectReference<Report<TItem>> dotNetObjectReference, double startClientY )
+    public virtual async ValueTask StartSectionResize( DotNetObjectReference<Report> dotNetObjectReference, double startClientY )
     {
         await InvokeSafeVoidAsync( "startSectionResize", dotNetObjectReference, startClientY );
     }
