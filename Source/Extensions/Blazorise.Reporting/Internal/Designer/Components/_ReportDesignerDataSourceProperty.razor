@@ -1,0 +1,18 @@
+@namespace Blazorise.Reporting.Internal
+@inherits ReportComponentBase
+
+<Field Horizontal Margin="Margin.Is0.FromBottom">
+    <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">@Label</FieldLabel>
+    <FieldBody ColumnSize="ColumnSize.Is8">
+        <Addons Size="Size.Small">
+            <Addon AddonType="AddonType.Body">
+                <TextInput Value="@DisplayValue" ReadOnly Size="Size.Small" />
+            </Addon>
+            <Addon AddonType="AddonType.End">
+                <Button Color="Color.Light" Clicked="@OnClicked" Size="Size.Small" aria-label="Select data source">
+                    <Icon Name="IconName.Search" />
+                </Button>
+            </Addon>
+        </Addons>
+    </FieldBody>
+</Field>

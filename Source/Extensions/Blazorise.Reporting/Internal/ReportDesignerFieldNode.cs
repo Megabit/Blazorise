@@ -15,6 +15,8 @@ internal sealed class ReportDesignerFieldNode
 
     internal Type DataType { get; set; }
 
+    internal bool IsCollection { get; set; }
+
     internal List<ReportDesignerFieldNode> Children { get; set; } = [];
 
     #endregion

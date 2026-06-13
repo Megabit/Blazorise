@@ -3,6 +3,8 @@
 @using System
 @using Microsoft.AspNetCore.Components.Web
 
+<_ReportDesignerDataSourceDialog @ref="dataSourceDialogRef" Definition="@Definition" Confirmed="@UpdateSelectedSectionDataSource" />
+
 @if ( ReportSelected )
 {
     <Div Margin="Margin.Is3.FromBottom">
@@ -29,7 +31,10 @@
         {
             <_ReportDesignerPropertyGroup Title="General">
                 <_ReportDesignerTextProperty Label="Name" Value="@SelectedSection.Name" Changed="@(value => UpdateSelectedSection( section => section.Name = value ))" />
-                <_ReportDesignerTextProperty Label="Data source" Value="@SelectedSection.DataSource" Changed="@(value => UpdateSelectedSection( section => section.DataSource = value ))" />
+                @if ( SelectedSection.Type == ReportSectionType.Detail )
+                {
+                    <_ReportDesignerDataSourceProperty Label="Data source" Value="@SelectedSection.DataSource" DisplayText="@GetSelectedSectionDataSourceDisplayName()" Clicked="@OpenDataSourceDialogAsync" />
+                }
                 @if ( SelectedSection.Type is ReportSectionType.Group or ReportSectionType.GroupHeader )
                 {
                     <_ReportDesignerTextProperty Label="Group by" Value="@SelectedSection.GroupBy" Changed="@(value => UpdateSelectedSection( section => section.GroupBy = value ))" />

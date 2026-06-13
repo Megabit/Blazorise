@@ -1,12 +1,8 @@
 #region Using directives
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Reporting.Internal;
@@ -16,6 +12,10 @@ namespace Blazorise.Reporting.Internal;
 /// </summary>
 public partial class _ReportDesignerPropertiesPanel
 {
+    #region Members
+
+    private _ReportDesignerDataSourceDialog dataSourceDialogRef;
+
     private static readonly (string Value, string Text)[] TextColorOptions =
     [
         ( string.Empty, "Default" ),
@@ -49,6 +49,10 @@ public partial class _ReportDesignerPropertiesPanel
         ( "transparent", "Transparent" ),
         ( "body", "Body" ),
     ];
+
+    #endregion
+
+    #region Methods
 
     private bool HasSelection => ReportSelected || SelectedSection is not null || SelectedElement is not null;
 
@@ -120,6 +124,32 @@ public partial class _ReportDesignerPropertiesPanel
     {
         SnapToGridChanged?.Invoke( value );
     }
+
+    private string GetSelectedSectionDataSourceDisplayName()
+    {
+        if ( string.IsNullOrWhiteSpace( SelectedSection?.DataSource ) )
+            return null;
+
+        ReportDesignerDataSourceOption dataSource = ReportDataSourceExplorer.ResolveBindableDataSources( Definition ).FirstOrDefault( option =>
+            string.Equals( option.Value, SelectedSection.DataSource, StringComparison.OrdinalIgnoreCase )
+            || string.Equals( option.DisplayName, SelectedSection.DataSource, StringComparison.OrdinalIgnoreCase ) );
+
+        return dataSource?.DisplayName ?? SelectedSection.DataSource;
+    }
+
+    private Task OpenDataSourceDialogAsync()
+    {
+        return dataSourceDialogRef?.ShowAsync( SelectedSection?.DataSource ) ?? Task.CompletedTask;
+    }
+
+    private Task UpdateSelectedSectionDataSource( string value )
+    {
+        return UpdateSelectedSection( section => section.DataSource = string.IsNullOrWhiteSpace( value ) ? null : value );
+    }
+
+    #endregion
+
+    #region Properties
 
     /// <summary>
     /// Report definition whose page settings are edited.
@@ -210,4 +240,6 @@ public partial class _ReportDesignerPropertiesPanel
     /// Moves or resizes the selected element by a delta.
     /// </summary>
     [Parameter] public Func<double, double, double, double, Task> MoveSelectedElement { get; set; }
+
+    #endregion
 }
