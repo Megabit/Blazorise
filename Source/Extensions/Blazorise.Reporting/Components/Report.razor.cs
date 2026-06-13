@@ -169,6 +169,7 @@ public partial class Report<TItem> : ComponentBase, IReportCommandExecutor, IAsy
             definition.DataSources.Add( new()
             {
                 Name = DataSourceName,
+                Type = ObjectReportDataSourceProvider.ProviderType,
                 Data = Data,
             } );
         }

@@ -134,7 +134,37 @@ internal sealed class ReportContext
         {
             Id = dataSource.Id,
             Name = dataSource.Name,
+            Type = dataSource.Type,
             Data = dataSource.Data,
+            Settings = dataSource.Settings?.ToDictionary( item => item.Key, item => item.Value ) ?? [],
+            Schema = CloneSchema( dataSource.Schema ),
+        };
+    }
+
+    private static ReportDataSourceSchema CloneSchema( ReportDataSourceSchema schema )
+    {
+        if ( schema is null )
+            return null;
+
+        return new()
+        {
+            IsCollection = schema.IsCollection,
+            Fields = schema.Fields?.Select( CloneSchemaField ).ToList() ?? [],
+        };
+    }
+
+    private static ReportDataSourceSchemaField CloneSchemaField( ReportDataSourceSchemaField field )
+    {
+        if ( field is null )
+            return null;
+
+        return new()
+        {
+            Name = field.Name,
+            DisplayName = field.DisplayName,
+            DataType = field.DataType,
+            IsCollection = field.IsCollection,
+            Fields = field.Fields?.Select( CloneSchemaField ).ToList() ?? [],
         };
     }
 

@@ -1,6 +1,7 @@
 #region Using directives
 using System;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 #endregion
 
 namespace Blazorise.Reporting;
@@ -23,6 +24,8 @@ public static class Config
         options?.Invoke( reportOptions );
 
         services.AddSingleton( reportOptions );
+        services.TryAddScoped<IReportDataSourceProviderRegistry, ReportDataSourceProviderRegistry>();
+        services.TryAddEnumerable( ServiceDescriptor.Scoped<IReportDataSourceProvider, ObjectReportDataSourceProvider>() );
 
         return services;
     }

@@ -77,9 +77,24 @@ public sealed class ReportDataSourceDefinition
     public string Name { get; set; }
 
     /// <summary>
+    /// Provider type used to resolve designer schema and runtime data.
+    /// </summary>
+    public string Type { get; set; } = ObjectReportDataSourceProvider.ProviderType;
+
+    /// <summary>
     /// Source object or enumerable used when resolving report fields and data source paths.
     /// </summary>
     public object Data { get; set; }
+
+    /// <summary>
+    /// Provider-specific settings stored with the report definition.
+    /// </summary>
+    public Dictionary<string, object> Settings { get; set; } = [];
+
+    /// <summary>
+    /// Field schema exposed by providers that cannot be reflected from a live object.
+    /// </summary>
+    public ReportDataSourceSchema Schema { get; set; }
 }
 
 /// <summary>

@@ -15,9 +15,12 @@ internal static class ReportDataSourceExplorer
 
     internal static IEnumerable<ReportDesignerDataSourceNode> ResolveDataSourceDictionary( ReportDefinition definition, string defaultDataSourceName )
     {
+        if ( definition?.DataSources is null )
+            yield break;
+
         foreach ( var dataSource in definition.DataSources )
         {
-            var fields = ResolveDataSourceFields( dataSource.Data ).ToList();
+            List<ReportDesignerFieldNode> fields = ResolveDataSourceFields( dataSource ).ToList();
 
             if ( fields.Count == 0 )
                 continue;
@@ -42,7 +45,7 @@ internal static class ReportDataSourceExplorer
             if ( string.IsNullOrWhiteSpace( dataSource?.Name ) )
                 continue;
 
-            if ( IsEnumerableData( dataSource.Data?.GetType() ) && usedValues.Add( dataSource.Name ) )
+            if ( IsBindableCollectionDataSource( dataSource ) && usedValues.Add( dataSource.Name ) )
             {
                 yield return new()
                 {
@@ -51,13 +54,34 @@ internal static class ReportDataSourceExplorer
                 };
             }
 
-            foreach ( ReportDesignerFieldNode field in ResolveDataSourceFields( dataSource.Data ) )
+            foreach ( ReportDesignerFieldNode field in ResolveDataSourceFields( dataSource ) )
             {
                 foreach ( ReportDesignerDataSourceOption option in ResolveBindableFieldDataSources( dataSource.Name, field, usedValues ) )
                 {
                     yield return option;
                 }
             }
+        }
+    }
+
+    internal static IEnumerable<ReportDesignerFieldNode> ResolveDataSourceFields( ReportDataSourceDefinition dataSource )
+    {
+        if ( dataSource?.Schema is not null )
+        {
+            foreach ( ReportDataSourceSchemaField field in dataSource.Schema.Fields ?? [] )
+            {
+                if ( field is null )
+                    continue;
+
+                yield return CreateDesignerFieldNode( field, null );
+            }
+
+            yield break;
+        }
+
+        foreach ( ReportDesignerFieldNode field in ResolveDataSourceFields( dataSource?.Data ) )
+        {
+            yield return field;
         }
     }
 
@@ -91,16 +115,70 @@ internal static class ReportDataSourceExplorer
             return dataType is not null;
         }
 
-        object dataSourceValue = ReportDataResolver.ResolveDataSourceValue( definition, defaultData, dataSourceName );
-        IEnumerable<ReportDesignerFieldNode> fields = ResolveDataSourceFields( dataSourceValue );
         string normalizedFieldName = NormalizeFieldPath( definition, fieldName );
+        object dataSourceValue = ReportDataResolver.ResolveDataSourceValue( definition, defaultData, dataSourceName );
+        List<ReportDesignerFieldNode> fields = ResolveDataSourceFields( dataSourceValue ).ToList();
+
+        if ( fields.Count == 0 )
+            fields = ResolveDataSourceSchemaContextFields( definition, dataSourceName ).ToList();
 
         ReportDesignerFieldNode fieldNode = fields.FirstOrDefault( field =>
-            string.Equals( field.Path, normalizedFieldName, StringComparison.OrdinalIgnoreCase ) );
+            string.Equals( field.Path, normalizedFieldName, StringComparison.OrdinalIgnoreCase )
+            || string.Equals( field.Name, normalizedFieldName, StringComparison.OrdinalIgnoreCase ) );
 
         dataType = fieldNode?.DataType;
 
         return dataType is not null;
+    }
+
+    private static IEnumerable<ReportDesignerFieldNode> ResolveDataSourceSchemaContextFields( ReportDefinition definition, string dataSourceName )
+    {
+        if ( definition?.DataSources is null )
+            yield break;
+
+        if ( string.IsNullOrWhiteSpace( dataSourceName ) )
+        {
+            ReportDataSourceDefinition defaultDataSource = definition.DataSources.FirstOrDefault( dataSource => dataSource?.Schema is not null );
+
+            foreach ( ReportDesignerFieldNode field in ResolveDataSourceFields( defaultDataSource ) )
+            {
+                yield return field;
+            }
+
+            yield break;
+        }
+
+        string normalizedDataSourceName = dataSourceName.Trim();
+
+        foreach ( ReportDataSourceDefinition dataSource in definition.DataSources.Where( dataSource => dataSource?.Schema is not null ) )
+        {
+            if ( string.Equals( dataSource.Name, normalizedDataSourceName, StringComparison.OrdinalIgnoreCase ) )
+            {
+                foreach ( ReportDesignerFieldNode field in ResolveDataSourceFields( dataSource ) )
+                {
+                    yield return field;
+                }
+
+                yield break;
+            }
+
+            string prefix = $"{dataSource.Name}.";
+            string schemaPath = normalizedDataSourceName.StartsWith( prefix, StringComparison.OrdinalIgnoreCase )
+                ? normalizedDataSourceName[prefix.Length..]
+                : normalizedDataSourceName;
+
+            ReportDesignerFieldNode schemaNode = FindFieldNodeByPath( ResolveDataSourceFields( dataSource ), schemaPath );
+
+            if ( schemaNode is not null )
+            {
+                foreach ( ReportDesignerFieldNode child in schemaNode.Children ?? [] )
+                {
+                    yield return child;
+                }
+
+                yield break;
+            }
+        }
     }
 
     private static IEnumerable<ReportDesignerFieldNode> ResolveDataSourceFields( object item, string parentPath, int depth, HashSet<Type> visitedTypes )
@@ -190,8 +268,11 @@ internal static class ReportDataSourceExplorer
             }
         }
 
-        foreach ( ReportDesignerFieldNode child in field.Children )
+        foreach ( ReportDesignerFieldNode child in field.Children ?? [] )
         {
+            if ( child is null )
+                continue;
+
             foreach ( ReportDesignerDataSourceOption option in ResolveBindableFieldDataSources( dataSourceName, child, usedValues ) )
             {
                 yield return option;
@@ -204,6 +285,25 @@ internal static class ReportDataSourceExplorer
         var enumerableItemType = GetEnumerableItemType( declaredType );
 
         return enumerableItemType ?? sampleValue?.GetType() ?? declaredType;
+    }
+
+    private static ReportDesignerFieldNode FindFieldNodeByPath( IEnumerable<ReportDesignerFieldNode> fields, string path )
+    {
+        if ( string.IsNullOrWhiteSpace( path ) )
+            return null;
+
+        foreach ( ReportDesignerFieldNode field in fields ?? [] )
+        {
+            if ( string.Equals( field.Path, path, StringComparison.OrdinalIgnoreCase ) )
+                return field;
+
+            ReportDesignerFieldNode child = FindFieldNodeByPath( field.Children, path );
+
+            if ( child is not null )
+                return child;
+        }
+
+        return null;
     }
 
     private static string NormalizeFieldPath( ReportDefinition definition, string fieldName )
@@ -221,6 +321,34 @@ internal static class ReportDataSourceExplorer
             : normalizedFieldName;
     }
 
+    internal static bool IsEnumerableData( Type type )
+    {
+        return GetEnumerableItemType( type ) is not null;
+    }
+
+    private static ReportDesignerFieldNode CreateDesignerFieldNode( ReportDataSourceSchemaField field, string parentPath )
+    {
+        string path = string.IsNullOrWhiteSpace( parentPath ) ? field.Name : $"{parentPath}.{field.Name}";
+
+        return new()
+        {
+            Name = field.Name,
+            Path = path,
+            DataType = field.DataType,
+            IsCollection = field.IsCollection,
+            Children = field.Fields?
+                .Where( child => child is not null )
+                .Select( child => CreateDesignerFieldNode( child, path ) )
+                .ToList() ?? [],
+        };
+    }
+
+    private static bool IsBindableCollectionDataSource( ReportDataSourceDefinition dataSource )
+    {
+        return dataSource?.Schema?.IsCollection == true
+            || IsEnumerableData( dataSource?.Data?.GetType() );
+    }
+
     private static Type GetEnumerableItemType( Type type )
     {
         if ( type is null || type == typeof( string ) )
@@ -235,11 +363,6 @@ internal static class ReportDataSourceExplorer
         return type.GetInterfaces()
             .FirstOrDefault( x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof( IEnumerable<> ) )
             ?.GetGenericArguments()[0];
-    }
-
-    private static bool IsEnumerableData( Type type )
-    {
-        return GetEnumerableItemType( type ) is not null;
     }
 
     private static bool IsSimpleFieldType( Type type )
