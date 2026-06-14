@@ -12,10 +12,15 @@ internal static class ReportElementDefinitionHelper
 
     internal static void BuildStyle( StyleBuilder builder, ReportElementDefinition element )
     {
-        BuildStyle( builder, element, null, null, null );
+        BuildStyle( builder, element, null, null, null, false );
     }
 
     internal static void BuildStyle( StyleBuilder builder, ReportElementDefinition element, ReportDefinition definition, object defaultData, ReportSectionDefinition section )
+    {
+        BuildStyle( builder, element, definition, defaultData, section, false );
+    }
+
+    internal static void BuildStyle( StyleBuilder builder, ReportElementDefinition element, ReportDefinition definition, object defaultData, ReportSectionDefinition section, bool designMode )
     {
         var font = SupportsTextFormatting( element.Type ) ? element.Font : null;
         var appearance = element.Appearance;
@@ -24,7 +29,11 @@ internal static class ReportElementDefinitionHelper
         builder.Append( $"left:{ReportMeasurementConverter.ToCssPixelString( element.X )}" );
         builder.Append( $"top:{ReportMeasurementConverter.ToCssPixelString( element.Y )}" );
         builder.Append( $"width:{ReportMeasurementConverter.ToCssPixelString( element.Width )}" );
-        builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( element.Height )}" );
+
+        if ( element.CanGrow && !designMode )
+            builder.Append( $"min-height:{ReportMeasurementConverter.ToCssPixelString( element.Height )}" );
+        else
+            builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( element.Height )}" );
 
         if ( !string.IsNullOrWhiteSpace( font?.Family ) )
             builder.Append( $"font-family:{font.Family}" );

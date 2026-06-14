@@ -690,8 +690,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
             ReportElementDefinition element = ReportContext.CloneElement( clipboardElement );
             element.Id = ReportDefinitionHelper.CreateDefinitionId();
-            element.X = sameSection ? ApplyDesignerGrid( element.X + 16 ) : 0;
-            element.Y = sameSection ? ApplyDesignerGrid( element.Y + 16 ) : 0;
+            bool useSnapToGrid = IsSnapToGridEnabled( element );
+            element.X = sameSection ? ApplyDesignerGrid( element.X + 16, useSnapToGrid ) : 0;
+            element.Y = sameSection ? ApplyDesignerGrid( element.Y + 16, useSnapToGrid ) : 0;
 
             targetSection.Elements.Add( element );
 
@@ -966,6 +967,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private void BeginElementTextEdit( string elementKey )
     {
         if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out _, out _, out var element )
+            || element.Suppress
             || !CanEditElementText( element ) )
         {
             return;
@@ -1575,16 +1577,17 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             var definition = EffectiveDefinition;
             var element = selectionManager.FindSelectedElement( definition );
 
-            if ( element is not null )
+            if ( element is not null && !element.Suppress )
             {
                 ReportDefinitionHelper.TryFindElementLocation( definition, ReportDefinitionHelper.EnsureElementId( element ), out var sectionIndex, out _, out _ );
                 var originalX = element.X;
                 var originalWidth = element.Width;
+                bool useSnapToGrid = IsSnapToGridEnabled( element );
 
-                element.X = Math.Max( 0, element.X + x );
-                element.Y = Math.Max( 0, element.Y + y );
-                element.Width = Math.Max( 8, element.Width + width );
-                element.Height = Math.Max( 8, element.Height + height );
+                element.X = ApplyDesignerGrid( element.X + x, useSnapToGrid );
+                element.Y = ApplyDesignerGrid( element.Y + y, useSnapToGrid );
+                element.Width = Math.Max( 8, width == 0 ? element.Width : ApplyDesignerGrid( element.Width + width, useSnapToGrid ) );
+                element.Height = Math.Max( 8, height == 0 ? element.Height : ApplyDesignerGrid( element.Height + height, useSnapToGrid ) );
 
                 ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement( definition, sectionIndex, sectionIndex, element, originalX, originalWidth, element.X, element.Width );
             }
@@ -1601,6 +1604,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( element is null )
             return;
 
+        bool useSnapToGrid = IsSnapToGridEnabled( element );
         var selectedElements = CaptureElementPointerItems( definition, ReportDefinitionHelper.EnsureElementId( element ) ).ToList();
 
         if ( selectedElements.Count == 0 )
@@ -1617,8 +1621,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 if ( !ReportDefinitionHelper.TryFindElementLocation( definition, item.ElementKey, out var sectionIndex, out _, out var element ) )
                     continue;
 
-                element.X = ReportLayoutGeometry.Clamp( item.OriginalX + x, 0, Math.Max( 0, definition.Page.Width - element.Width ) );
-                element.Y = Math.Max( 0, item.OriginalY + y );
+                if ( element.Suppress )
+                    continue;
+
+                element.X = ReportLayoutGeometry.Clamp( ApplyDesignerGrid( item.OriginalX + x, useSnapToGrid ), 0, Math.Max( 0, definition.Page.Width - element.Width ) );
+                element.Y = ApplyDesignerGrid( item.OriginalY + y, useSnapToGrid );
 
                 ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement(
                     definition,
@@ -1928,7 +1935,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return;
         }
 
-        if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out var sectionIndex, out _, out var element ) )
+        if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out var sectionIndex, out _, out var element )
+            || element.Suppress )
             return;
 
         draggedKind = ReportDesignerDragKind.Element;
@@ -1950,6 +1958,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             StartClientY = eventArgs.ClientY,
             TargetX = element.X,
             TargetY = element.Y,
+            SnapToGrid = IsSnapToGridEnabled( element ),
             SelectedElements = CaptureElementPointerItems( EffectiveDefinition, elementKey ).ToList(),
         };
 
@@ -1958,7 +1967,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private void BeginElementPointerResize( string elementKey, ReportElementResizeHandle handle, PointerEventArgs eventArgs )
     {
-        if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out var sectionIndex, out _, out var element ) )
+        if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out var sectionIndex, out _, out var element )
+            || element.Suppress )
             return;
 
         draggedKind = ReportDesignerDragKind.Element;
@@ -1986,6 +1996,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             TargetWidth = element.Width,
             TargetHeight = element.Height,
             MinimumHeight = ReportLayoutGeometry.GetMinimumElementHeight( element ),
+            SnapToGrid = IsSnapToGridEnabled( element ),
             SelectedElements = CaptureElementPointerItems( EffectiveDefinition, elementKey ).ToList(),
         };
 
@@ -2204,7 +2215,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         var now = DateTime.UtcNow;
 
-        if ( !snapToGrid
+        if ( !elementPointerDrag.SnapToGrid
             && dragPreview is not null
             && dragPreview.SectionIndex == preview.SectionIndex
             && now - lastDragPreviewRenderTime < TimeSpan.FromMilliseconds( 16 ) )
@@ -2289,7 +2300,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             eventArgs.ClientX,
             eventArgs.ClientY,
             sectionIndex => GetSectionOffsetY( EffectiveDefinition, sectionIndex ),
-            ApplyDesignerGrid );
+            value => ApplyDesignerGrid( value, elementPointerDrag?.SnapToGrid ?? snapToGrid ) );
     }
 
     private async Task PreviewElementPointerResizeAsync( PointerEventArgs eventArgs )
@@ -2313,7 +2324,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         var now = DateTime.UtcNow;
 
-        if ( !snapToGrid
+        if ( !elementPointerResize.SnapToGrid
             && dragPreview is not null
             && now - lastDragPreviewRenderTime < TimeSpan.FromMilliseconds( 16 ) )
         {
@@ -2525,7 +2536,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             draggedElement,
             eventArgs.ClientX,
             eventArgs.ClientY,
-            ApplyDesignerGrid );
+            value => ApplyDesignerGrid( value, elementPointerResize?.SnapToGrid ?? snapToGrid ) );
     }
 
     private async Task PreviewDesignerDragAsync( int targetSectionIndex, ElementReference sectionBodyElement, DragEventArgs eventArgs )
@@ -2534,7 +2545,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return;
 
         var offset = await GetDesignerDragOffsetAsync( sectionBodyElement, eventArgs );
-        var preview = CreateDragPreview( targetSectionIndex, ApplyDesignerGrid( offset.X ), ApplyDesignerGrid( offset.Y ) );
+        bool useSnapToGrid = draggedKind == ReportDesignerDragKind.Element
+            ? IsSnapToGridEnabled( draggedElement )
+            : snapToGrid;
+        var preview = CreateDragPreview( targetSectionIndex, ApplyDesignerGrid( offset.X, useSnapToGrid ), ApplyDesignerGrid( offset.Y, useSnapToGrid ) );
 
         if ( preview is null )
             return;
@@ -2584,8 +2598,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return;
 
         var offset = await GetDesignerDragOffsetAsync( sectionBodyElement, eventArgs );
-        var x = ApplyDesignerGrid( offset.X );
-        var y = ApplyDesignerGrid( offset.Y );
+        bool useSnapToGrid = draggedKind == ReportDesignerDragKind.Element
+            ? IsSnapToGridEnabled( draggedElement )
+            : snapToGrid;
+        var x = ApplyDesignerGrid( offset.X, useSnapToGrid );
+        var y = ApplyDesignerGrid( offset.Y, useSnapToGrid );
         var fieldDropTarget = draggedKind == ReportDesignerDragKind.Field
             ? FindTextElementAt( definition.Sections[targetSectionIndex], x, y )
             : null;
@@ -2673,7 +2690,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         {
             var element = section.Elements[i];
 
-            if ( element.Type == ReportElementType.Text
+            if ( !element.Suppress
+                && element.Type == ReportElementType.Text
                 && x >= element.X
                 && x <= element.X + element.Width
                 && y >= element.Y
@@ -2744,7 +2762,17 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private double ApplyDesignerGrid( double value )
     {
-        return snapToGrid ? ReportLayoutGeometry.SnapToGrid( value ) : Math.Max( 0, value );
+        return ApplyDesignerGrid( value, snapToGrid );
+    }
+
+    private double ApplyDesignerGrid( double value, bool useSnapToGrid )
+    {
+        return useSnapToGrid ? ReportLayoutGeometry.SnapToGrid( value ) : Math.Max( 0, value );
+    }
+
+    private bool IsSnapToGridEnabled( ReportElementDefinition element )
+    {
+        return element?.SnapToGrid ?? snapToGrid;
     }
 
     private IEnumerable<string> FindElementsInsideSelectionBox( ReportDefinition definition, ReportDesignerSelectionBox selectionBox )

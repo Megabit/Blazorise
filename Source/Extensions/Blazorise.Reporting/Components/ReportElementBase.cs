@@ -48,6 +48,9 @@ public abstract class ReportElementBase : ComponentBase
             Y = Y,
             Width = Width,
             Height = Height,
+            CanGrow = CanGrow,
+            Suppress = Suppress,
+            SnapToGrid = SnapToGrid,
             Appearance = BuildAppearanceDefinition(),
             Border = BuildBorderDefinition(),
             Class = Class,
@@ -106,6 +109,21 @@ public abstract class ReportElementBase : ComponentBase
     /// Element height in points.
     /// </summary>
     [Parameter] public double Height { get; set; } = 18;
+
+    /// <summary>
+    /// Allows text content to expand the element vertically when rendered.
+    /// </summary>
+    [Parameter] public bool CanGrow { get; set; }
+
+    /// <summary>
+    /// Prevents the element from being edited on the designer surface and rendered in preview output.
+    /// </summary>
+    [Parameter] public bool Suppress { get; set; }
+
+    /// <summary>
+    /// Overrides the report-level snap-to-grid behavior for this element. A null value inherits the report setting.
+    /// </summary>
+    [Parameter] public bool? SnapToGrid { get; set; }
 
     /// <summary>
     /// Additional CSS classes applied to the element.

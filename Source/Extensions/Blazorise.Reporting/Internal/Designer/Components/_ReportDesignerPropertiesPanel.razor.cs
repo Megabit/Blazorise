@@ -74,6 +74,13 @@ public partial class _ReportDesignerPropertiesPanel
         ( ReportMeasurementUnit.Point, "Points" ),
     ];
 
+    private static readonly (string Value, string Text)[] ElementSnapToGridOptions =
+    [
+        ( string.Empty, "Default" ),
+        ( "true", "True" ),
+        ( "false", "False" ),
+    ];
+
     #endregion
 
     #region Methods
@@ -206,6 +213,28 @@ public partial class _ReportDesignerPropertiesPanel
     private Task OnSelectedElementHeightChanged( double value )
     {
         return UpdateSelectedElement( element => element.Height = ToPoints( value ) );
+    }
+
+    private string GetSelectedElementSnapToGridValue()
+    {
+        return SelectedElement?.SnapToGrid switch
+        {
+            true => "true",
+            false => "false",
+            _ => string.Empty,
+        };
+    }
+
+    private Task OnSelectedElementSnapToGridChanged( string value )
+    {
+        bool? snapToGrid = value switch
+        {
+            "true" => true,
+            "false" => false,
+            _ => null,
+        };
+
+        return UpdateSelectedElement( element => element.SnapToGrid = snapToGrid );
     }
 
     private Task UpdateSelectedElementTextColor( string value )

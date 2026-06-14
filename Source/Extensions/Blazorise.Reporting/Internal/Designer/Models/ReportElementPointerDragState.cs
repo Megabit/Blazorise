@@ -26,6 +26,8 @@ internal sealed class ReportElementPointerDragState
 
     internal double TargetY { get; set; }
 
+    internal bool SnapToGrid { get; set; }
+
     internal bool HasMoved { get; set; }
 
     internal List<ReportElementPointerItemState> SelectedElements { get; set; } = [];

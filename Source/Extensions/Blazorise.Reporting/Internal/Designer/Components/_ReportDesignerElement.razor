@@ -13,51 +13,53 @@
      @onclick="Clicked"
      @onclick:stopPropagation="@(DesignMode && Editable)"
      @ondblclick="DoubleClicked"
-     @ondblclick:preventDefault="@(DesignMode && Editable && CanEditText)"
-     @ondblclick:stopPropagation="@(DesignMode && Editable && CanEditText)"
+     @ondblclick:preventDefault="@(DesignMode && Editable && !Element.Suppress && CanEditText)"
+     @ondblclick:stopPropagation="@(DesignMode && Editable && !Element.Suppress && CanEditText)"
      @oncontextmenu="ContextMenu"
      @oncontextmenu:preventDefault="@(DesignMode && Editable)"
      @oncontextmenu:stopPropagation="@(DesignMode && Editable)"
      @onpointerdown="PointerDown"
      @onpointerdown:preventDefault="@(DesignMode && Editable && !Editing && !TextEditingActive)"
      @onpointerdown:stopPropagation="@(DesignMode && Editable && !Editing)">
-    @if ( Editing && CanEditText )
-    {
-        <textarea @ref="textEditElement"
-                  class="b-report-element-text-editor"
-                  value="@textEditValue"
-                  @oninput="OnTextEditInput"
-                  @onblur="CompleteTextEditAsync"
-                  @onkeydown="HandleTextEditKeyDownAsync"
-                  @onkeydown:stopPropagation="true"
-                  @onclick:stopPropagation="true"
-                  @ondblclick:stopPropagation="true"
-                  @onpointerdown:stopPropagation="true"></textarea>
-    }
-    else
-    {
-        @switch ( Element.Type )
+    <div class="b-report-element-content">
+        @if ( Editing && CanEditText )
         {
-            case ReportElementType.Text:
-                @GetText()
-                break;
-            case ReportElementType.Field:
-                @GetFieldText()
-                break;
-            case ReportElementType.Table:
-                <_ReportDesignerTable Element="Element" />
-                break;
-            case ReportElementType.Image:
-                <img src="@Element.Source" alt="@ImageAlternativeText" />
-                break;
-            case ReportElementType.Line:
-            case ReportElementType.Rectangle:
-            case ReportElementType.PageBreak:
-                break;
+            <textarea @ref="textEditElement"
+                      class="b-report-element-text-editor"
+                      value="@textEditValue"
+                      @oninput="OnTextEditInput"
+                      @onblur="CompleteTextEditAsync"
+                      @onkeydown="HandleTextEditKeyDownAsync"
+                      @onkeydown:stopPropagation="true"
+                      @onclick:stopPropagation="true"
+                      @ondblclick:stopPropagation="true"
+                      @onpointerdown:stopPropagation="true"></textarea>
         }
-    }
+        else
+        {
+            @switch ( Element.Type )
+            {
+                case ReportElementType.Text:
+                    @GetText()
+                    break;
+                case ReportElementType.Field:
+                    @GetFieldText()
+                    break;
+                case ReportElementType.Table:
+                    <_ReportDesignerTable Element="Element" />
+                    break;
+                case ReportElementType.Image:
+                    <img src="@Element.Source" alt="@ImageAlternativeText" />
+                    break;
+                case ReportElementType.Line:
+                case ReportElementType.Rectangle:
+                case ReportElementType.PageBreak:
+                    break;
+            }
+        }
+    </div>
 
-    @if ( DesignMode && Editable && Selected && !Editing )
+    @if ( DesignMode && Editable && !Element.Suppress && Selected && !Editing )
     {
         <_ReportDesignerElementResizeHandles NorthWestPointerDown="NorthWestResizeStarted"
                                              NorthPointerDown="NorthResizeStarted"

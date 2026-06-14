@@ -124,104 +124,124 @@
 {
     <Div Margin="Margin.Is3.FromTop">
         <h6>Element properties</h6>
-        <_ReportDesignerPropertyGroup Title="General">
-            <_ReportDesignerTextProperty Label="Name" Value="@SelectedElement.Name" Changed="@(value => UpdateSelectedElement( element => element.Name = value ))" />
-        </_ReportDesignerPropertyGroup>
-
-        @if ( SelectedElement.Type is ReportElementType.Text or ReportElementType.Field or ReportElementType.Image )
-        {
-            var contentGroupTitle = SelectedElement.Type == ReportElementType.Field ? "Data" : "Content";
-
-            <_ReportDesignerPropertyGroup Title="@contentGroupTitle">
-                @switch ( SelectedElement.Type )
-                {
-                    case ReportElementType.Text:
-                        <_ReportDesignerTextProperty Label="Text" Value="@SelectedElement.Text" Changed="@(value => UpdateSelectedElement( element => element.Text = value ))" />
-                        break;
-                    case ReportElementType.Field:
-                        <_ReportDesignerTextProperty Label="Expression" Value="@ReportExpressionFormatter.FormatFieldExpression( Definition, SelectedElement )" ReadOnly />
-                        @if ( SelectedElement.Aggregate is not null )
+        <_ReportDesignerPropertyGroup Title="Status">
+            <_ReportDesignerCheckboxProperty Label="Can grow" Value="@SelectedElement.CanGrow" Changed="@(value => UpdateSelectedElement( element => element.CanGrow = value ))" />
+            <_ReportDesignerCheckboxProperty Label="Suppress" Value="@SelectedElement.Suppress" Changed="@(value => UpdateSelectedElement( element => element.Suppress = value ))" />
+            <Field Horizontal Margin="Margin.Is0.FromBottom.Is0.OnX">
+                <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Snap to grid</FieldLabel>
+                <FieldBody ColumnSize="ColumnSize.Is8">
+                    <Select TValue="string" Value="@GetSelectedElementSnapToGridValue()" ValueChanged="@OnSelectedElementSnapToGridChanged" Size="Size.Small">
+                        @foreach ( var option in ElementSnapToGridOptions )
                         {
-                            <_ReportDesignerTextProperty Label="Aggregate" Value="@ReportAggregateResolver.GetFunctionDisplayName( SelectedElement.Aggregate.Function )" ReadOnly />
+                            <SelectItem TValue="string" Value="@option.Value">@option.Text</SelectItem>
                         }
-                        <_ReportDesignerTextProperty Label="Format" Value="@SelectedElement.Format" Changed="@(value => UpdateSelectedElement( element => element.Format = value ))" />
-                        break;
-                    case ReportElementType.Image:
-                        <_ReportDesignerTextProperty Label="Source" Value="@SelectedElement.Source" Changed="@(value => UpdateSelectedElement( element => element.Source = value ))" />
-                        <_ReportDesignerTextProperty Label="Alt text" Value="@SelectedElement.Text" Changed="@(value => UpdateSelectedElement( element => element.Text = value ))" />
-                        break;
-                }
-            </_ReportDesignerPropertyGroup>
-        }
-
-        <_ReportDesignerPropertyGroup Title="Position and size">
-            <_ReportDesignerNumberProperty Label="X" Value="@FromPoints( SelectedElement.X )" Changed="@OnSelectedElementXChanged" Step="@GetMeasurementStep()" />
-            <_ReportDesignerNumberProperty Label="Y" Value="@FromPoints( SelectedElement.Y )" Changed="@OnSelectedElementYChanged" Step="@GetMeasurementStep()" />
-            <_ReportDesignerNumberProperty Label="Width" Value="@FromPoints( SelectedElement.Width )" Changed="@OnSelectedElementWidthChanged" Step="@GetMeasurementStep()" />
-            <_ReportDesignerNumberProperty Label="Height" Value="@FromPoints( SelectedElement.Height )" Changed="@OnSelectedElementHeightChanged" Step="@GetMeasurementStep()" />
+                    </Select>
+                </FieldBody>
+            </Field>
         </_ReportDesignerPropertyGroup>
 
-        @if ( ReportElementDefinitionHelper.SupportsTextFormatting( SelectedElement.Type ) )
+        @if ( !SelectedElement.Suppress )
         {
-            var font = ReportElementDefinitionHelper.EnsureFont( SelectedElement );
-
-            <_ReportDesignerPropertyGroup Title="Text">
-                <_ReportDesignerTextProperty Label="Font family" Value="@font.Family" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Family = value ))" />
-                <_ReportDesignerNullableNumberProperty Label="Font size" Value="@font.Size" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Size = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
-                <_ReportDesignerThemeColorProperty Label="Color"
-                                                   ThemeValue="@font.TextColor"
-                                                   CustomValue="@font.Color"
-                                                   ThemeOptions="@TextColorOptions"
-                                                   ThemeChanged="@UpdateSelectedElementTextColor"
-                                                   CustomChanged="@UpdateSelectedElementFontColor" />
-                <Field Horizontal Margin="Margin.Is0.FromBottom.Is0.OnX">
-                    <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Alignment</FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.Is8">
-                        <Select TValue="TextAlignment" Value="@font.Alignment" ValueChanged="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Alignment = value ))" Size="Size.Small">
-                            @foreach ( var option in Enum.GetValues<TextAlignment>() )
-                            {
-                                <SelectItem TValue="TextAlignment" Value="@option">@option.ToString()</SelectItem>
-                            }
-                        </Select>
-                    </FieldBody>
-                </Field>
-                <_ReportDesignerCheckboxProperty Label="Bold" Value="@font.Bold" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Bold = value ))" />
-                <_ReportDesignerCheckboxProperty Label="Italic" Value="@font.Italic" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Italic = value ))" />
-                <_ReportDesignerCheckboxProperty Label="Underline" Value="@font.Underline" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Underline = value ))" />
+            <_ReportDesignerPropertyGroup Title="General">
+                <_ReportDesignerTextProperty Label="Name" Value="@SelectedElement.Name" Changed="@(value => UpdateSelectedElement( element => element.Name = value ))" />
             </_ReportDesignerPropertyGroup>
-        }
 
-        @{
+            @if ( SelectedElement.Type is ReportElementType.Text or ReportElementType.Field or ReportElementType.Image )
+            {
+                var contentGroupTitle = SelectedElement.Type == ReportElementType.Field ? "Data" : "Content";
+
+                <_ReportDesignerPropertyGroup Title="@contentGroupTitle">
+                    @switch ( SelectedElement.Type )
+                    {
+                        case ReportElementType.Text:
+                            <_ReportDesignerTextProperty Label="Text" Value="@SelectedElement.Text" Changed="@(value => UpdateSelectedElement( element => element.Text = value ))" />
+                            break;
+                        case ReportElementType.Field:
+                            <_ReportDesignerTextProperty Label="Expression" Value="@ReportExpressionFormatter.FormatFieldExpression( Definition, SelectedElement )" ReadOnly />
+                            @if ( SelectedElement.Aggregate is not null )
+                            {
+                                <_ReportDesignerTextProperty Label="Aggregate" Value="@ReportAggregateResolver.GetFunctionDisplayName( SelectedElement.Aggregate.Function )" ReadOnly />
+                            }
+                            <_ReportDesignerTextProperty Label="Format" Value="@SelectedElement.Format" Changed="@(value => UpdateSelectedElement( element => element.Format = value ))" />
+                            break;
+                        case ReportElementType.Image:
+                            <_ReportDesignerTextProperty Label="Source" Value="@SelectedElement.Source" Changed="@(value => UpdateSelectedElement( element => element.Source = value ))" />
+                            <_ReportDesignerTextProperty Label="Alt text" Value="@SelectedElement.Text" Changed="@(value => UpdateSelectedElement( element => element.Text = value ))" />
+                            break;
+                    }
+                </_ReportDesignerPropertyGroup>
+            }
+
+            <_ReportDesignerPropertyGroup Title="Position and size">
+                <_ReportDesignerNumberProperty Label="X" Value="@FromPoints( SelectedElement.X )" Changed="@OnSelectedElementXChanged" Step="@GetMeasurementStep()" />
+                <_ReportDesignerNumberProperty Label="Y" Value="@FromPoints( SelectedElement.Y )" Changed="@OnSelectedElementYChanged" Step="@GetMeasurementStep()" />
+                <_ReportDesignerNumberProperty Label="Width" Value="@FromPoints( SelectedElement.Width )" Changed="@OnSelectedElementWidthChanged" Step="@GetMeasurementStep()" />
+                <_ReportDesignerNumberProperty Label="Height" Value="@FromPoints( SelectedElement.Height )" Changed="@OnSelectedElementHeightChanged" Step="@GetMeasurementStep()" />
+            </_ReportDesignerPropertyGroup>
+
+            @if ( ReportElementDefinitionHelper.SupportsTextFormatting( SelectedElement.Type ) )
+            {
+                var font = ReportElementDefinitionHelper.EnsureFont( SelectedElement );
+
+                <_ReportDesignerPropertyGroup Title="Text">
+                    <_ReportDesignerTextProperty Label="Font family" Value="@font.Family" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Family = value ))" />
+                    <_ReportDesignerNullableNumberProperty Label="Font size" Value="@font.Size" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Size = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                    <_ReportDesignerThemeColorProperty Label="Color"
+                                                       ThemeValue="@font.TextColor"
+                                                       CustomValue="@font.Color"
+                                                       ThemeOptions="@TextColorOptions"
+                                                       ThemeChanged="@UpdateSelectedElementTextColor"
+                                                       CustomChanged="@UpdateSelectedElementFontColor" />
+                    <Field Horizontal Margin="Margin.Is0.FromBottom.Is0.OnX">
+                        <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Alignment</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is8">
+                            <Select TValue="TextAlignment" Value="@font.Alignment" ValueChanged="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Alignment = value ))" Size="Size.Small">
+                                @foreach ( var option in Enum.GetValues<TextAlignment>() )
+                                {
+                                    <SelectItem TValue="TextAlignment" Value="@option">@option.ToString()</SelectItem>
+                                }
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                    <_ReportDesignerCheckboxProperty Label="Bold" Value="@font.Bold" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Bold = value ))" />
+                    <_ReportDesignerCheckboxProperty Label="Italic" Value="@font.Italic" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Italic = value ))" />
+                    <_ReportDesignerCheckboxProperty Label="Underline" Value="@font.Underline" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureFont( element ).Underline = value ))" />
+                </_ReportDesignerPropertyGroup>
+            }
+
             var appearance = ReportElementDefinitionHelper.EnsureAppearance( SelectedElement );
             var border = ReportElementDefinitionHelper.EnsureBorder( SelectedElement );
+
+            <_ReportDesignerPropertyGroup Title="Appearance">
+                <_ReportDesignerThemeColorProperty Label="Fill"
+                                                   ThemeValue="@appearance.Background"
+                                                   CustomValue="@appearance.BackgroundColor"
+                                                   ThemeOptions="@BackgroundOptions"
+                                                   ThemeChanged="@UpdateSelectedElementBackground"
+                                                   CustomChanged="@UpdateSelectedElementBackgroundColor" />
+                <_ReportDesignerColorProperty Label="Border color" Value="@border.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
+                <_ReportDesignerNullableNumberProperty Label="Border width" Value="@border.Width" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                <_ReportDesignerNullableNumberProperty Label="Corner radius" Value="@border.Radius" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
+                <_ReportDesignerNullableNumberProperty Label="Opacity" Value="@appearance.Opacity" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( value ) ))" />
+            </_ReportDesignerPropertyGroup>
         }
 
-        <_ReportDesignerPropertyGroup Title="Appearance">
-            <_ReportDesignerThemeColorProperty Label="Fill"
-                                               ThemeValue="@appearance.Background"
-                                               CustomValue="@appearance.BackgroundColor"
-                                               ThemeOptions="@BackgroundOptions"
-                                               ThemeChanged="@UpdateSelectedElementBackground"
-                                               CustomChanged="@UpdateSelectedElementBackgroundColor" />
-            <_ReportDesignerColorProperty Label="Border color" Value="@border.Color" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Color = value ))" />
-            <_ReportDesignerNullableNumberProperty Label="Border width" Value="@border.Width" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Width = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
-            <_ReportDesignerNullableNumberProperty Label="Corner radius" Value="@border.Radius" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureBorder( element ).Radius = ReportElementDefinitionHelper.NormalizeNullablePositiveNumber( value ) ))" />
-            <_ReportDesignerNullableNumberProperty Label="Opacity" Value="@appearance.Opacity" Changed="@(value => UpdateSelectedElement( element => ReportElementDefinitionHelper.EnsureAppearance( element ).Opacity = ReportElementDefinitionHelper.NormalizeOpacity( value ) ))" />
-        </_ReportDesignerPropertyGroup>
-
     </Div>
 
-    <Div Margin="Margin.Is3.FromTop">
-        <h6>Selected element</h6>
-        <Div Flex="Flex.Wrap" Gap="Gap.Is2">
-            <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( -8, 0, 0, 0 ))" Size="Size.Small">Left</Button>
-            <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, -8, 0, 0 ))" Size="Size.Small">Up</Button>
-            <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, 8, 0, 0 ))" Size="Size.Small">Down</Button>
-            <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 8, 0, 0, 0 ))" Size="Size.Small">Right</Button>
-            <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, 0, 16, 0 ))" Size="Size.Small">Wider</Button>
-            <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, 0, 0, 8 ))" Size="Size.Small">Taller</Button>
+    @if ( !SelectedElement.Suppress )
+    {
+        <Div Margin="Margin.Is3.FromTop">
+            <h6>Selected element</h6>
+            <Div Flex="Flex.Wrap" Gap="Gap.Is2">
+                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( -8, 0, 0, 0 ))" Size="Size.Small">Left</Button>
+                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, -8, 0, 0 ))" Size="Size.Small">Up</Button>
+                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, 8, 0, 0 ))" Size="Size.Small">Down</Button>
+                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 8, 0, 0, 0 ))" Size="Size.Small">Right</Button>
+                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, 0, 16, 0 ))" Size="Size.Small">Wider</Button>
+                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, 0, 0, 8 ))" Size="Size.Small">Taller</Button>
+            </Div>
         </Div>
-    </Div>
+    }
 }
 
 @if ( !HasSelection )

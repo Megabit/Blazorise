@@ -251,6 +251,9 @@ internal static class ReportDesignerInteractionService
 
             foreach ( var element in section.Elements )
             {
+                if ( element.Suppress )
+                    continue;
+
                 if ( ReportLayoutGeometry.Intersects( selectionBox.X, selectionBox.Y, selectionBox.Width, selectionBox.Height, element.X, sectionOffsetY + element.Y, element.Width, element.Height ) )
                     yield return ReportDefinitionHelper.EnsureElementId( element );
             }
@@ -265,6 +268,9 @@ internal static class ReportDesignerInteractionService
         foreach ( var elementKey in elementKeys )
         {
             if ( !ReportDefinitionHelper.TryFindElementLocation( definition, elementKey, out var sectionIndex, out _, out var element ) )
+                continue;
+
+            if ( element.Suppress )
                 continue;
 
             yield return new()

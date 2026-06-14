@@ -36,6 +36,8 @@ internal sealed class ReportElementPointerResizeState
 
     internal double MinimumHeight { get; set; }
 
+    internal bool SnapToGrid { get; set; }
+
     internal bool HasResized { get; set; }
 
     internal List<ReportElementPointerItemState> SelectedElements { get; set; } = [];
