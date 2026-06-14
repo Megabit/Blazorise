@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
 using ModelContextProtocol;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -54,6 +56,12 @@ static async Task HandleStreamableHttpPostAsync(
 {
     ILogger logger = loggerFactory.CreateLogger( "McpStreamableHttp" );
 
+    if ( !AcceptsMediaType( context.Request, "text/event-stream" ) )
+    {
+        context.Response.StatusCode = StatusCodes.Status406NotAcceptable;
+        return;
+    }
+
     JsonRpcMessage message = await DeserializeMessageAsync( context );
 
     if ( message is null )
@@ -94,7 +102,12 @@ static async Task HandleStreamableHttpPostAsync(
     }
 
     context.Response.Headers["mcp-session-id"] = session.SessionId;
-    context.Response.ContentType = "application/json";
+    context.Response.ContentType = "text/event-stream";
+    context.Response.Headers.CacheControl = "no-cache";
+    context.Response.Headers["X-Accel-Buffering"] = "no";
+
+    IHttpResponseBodyFeature bodyFeature = context.Features.Get<IHttpResponseBodyFeature>();
+    bodyFeature?.DisableBuffering();
 
     bool responseWritten;
 
@@ -348,6 +361,73 @@ static string BuildMessageEndpoint( PathString pathBase, string sessionId )
         return $"{pathBase.Value}/mcp/message?sessionId={encodedSessionId}";
 
     return $"/mcp/message?sessionId={encodedSessionId}";
+}
+
+static bool AcceptsMediaType( HttpRequest request, string responseMediaType )
+{
+    IList<MediaTypeHeaderValue> acceptedMediaTypes = request.GetTypedHeaders().Accept;
+
+    if ( acceptedMediaTypes is null || acceptedMediaTypes.Count == 0 )
+        return true;
+
+    double bestQuality = -1;
+    int bestSpecificity = -1;
+
+    foreach ( MediaTypeHeaderValue acceptedMediaType in acceptedMediaTypes )
+    {
+        double? quality = acceptedMediaType.Quality;
+        string mediaType = acceptedMediaType.MediaType.Value;
+
+        if ( string.IsNullOrWhiteSpace( mediaType ) )
+            continue;
+
+        if ( !TryGetMediaTypeSpecificity( mediaType, responseMediaType, out int specificity ) )
+            continue;
+
+        double mediaTypeQuality = quality ?? 1;
+
+        if ( specificity > bestSpecificity || specificity == bestSpecificity && mediaTypeQuality > bestQuality )
+        {
+            bestSpecificity = specificity;
+            bestQuality = mediaTypeQuality;
+        }
+    }
+
+    return bestSpecificity >= 0 && bestQuality > 0;
+}
+
+static bool TryGetMediaTypeSpecificity( string acceptedMediaType, string responseMediaType, out int specificity )
+{
+    if ( string.Equals( acceptedMediaType, responseMediaType, StringComparison.OrdinalIgnoreCase ) )
+    {
+        specificity = 2;
+        return true;
+    }
+
+    if ( string.Equals( acceptedMediaType, "*/*", StringComparison.OrdinalIgnoreCase ) )
+    {
+        specificity = 0;
+        return true;
+    }
+
+    int slashIndex = acceptedMediaType.IndexOf( '/' );
+
+    if ( slashIndex <= 0 || !acceptedMediaType.EndsWith( "/*", StringComparison.Ordinal ) )
+    {
+        specificity = -1;
+        return false;
+    }
+
+    string acceptedType = acceptedMediaType.Substring( 0, slashIndex );
+
+    if ( responseMediaType.StartsWith( acceptedType + "/", StringComparison.OrdinalIgnoreCase ) )
+    {
+        specificity = 1;
+        return true;
+    }
+
+    specificity = -1;
+    return false;
 }
 
 static void LogTaskFailure( Task task, ILogger logger, string taskName, string sessionId )

@@ -1,5 +1,5 @@
-import { getRequiredElement } from "./utilities.js?v=2.1.3.0";
-import { getFilesAsync } from "./fileInput.js?v=2.1.3.0";
+import { getRequiredElement } from "./utilities.js?v=2.2.0.0";
+import { getFilesAsync } from "./fileInput.js?v=2.2.0.0";
 
 const _instances = [];
 export function initialize(element, elementId) {

@@ -18,11 +18,15 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
 {
     #region Members
 
+    private const int DefaultCloseDelay = 300;
+
     private BarItemState parentBarItemState;
 
     private BarDropdownState parentBarDropdownState;
 
     private DateTime lastInternalMenuPointerInteractionUtc;
+
+    private int mouseLeaveCloseVersion;
 
     /// <summary>
     /// State object used to holds the dropdown state.
@@ -137,6 +141,18 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
 
         if ( ParentBarDropdown is not null && ( ParentBarDropdown.ShouldClose || hideAll ) )
             await ParentBarDropdown.Hide( hideAll );
+
+        await HideCurrent();
+    }
+
+    /// <summary>
+    /// Hides only the current dropdown menu without affecting its parent dropdown menus.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    private async Task HideCurrent()
+    {
+        if ( !IsVisible )
+            return;
 
         await SetVisibleState( false );
 
@@ -258,14 +274,26 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
     public async Task OnMouseLeaveHandler()
     {
         SetShouldCloseForHierarchy( true );
+        int closeVersion = mouseLeaveCloseVersion;
 
         if ( ParentBarItemState is not null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
             return;
 
-        await Task.Delay( 150 );
+        await Task.Delay( Math.Max( 0, CloseDelay ) );
 
-        if ( ShouldClose )
-            await Hide();
+        if ( ShouldClose && closeVersion == mouseLeaveCloseVersion )
+            await HideCurrent();
+    }
+
+    /// <summary>
+    /// Handles pointer movement inside the dropdown menu.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task OnMouseOverHandler()
+    {
+        SetShouldCloseForHierarchy( false );
+
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -288,11 +316,12 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task OnMenuPointerInteractionHandler()
     {
+        SetShouldCloseForHierarchy( false );
+
         if ( State.Mode != BarMode.Horizontal || State.IsInlineDisplay )
             return Task.CompletedTask;
 
         lastInternalMenuPointerInteractionUtc = DateTime.UtcNow;
-        SetShouldCloseForHierarchy( false );
 
         return Task.CompletedTask;
     }
@@ -327,6 +356,10 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
     private void SetShouldCloseForHierarchy( bool shouldClose )
     {
         ShouldClose = shouldClose;
+
+        if ( !shouldClose )
+            mouseLeaveCloseVersion++;
+
         ParentBarDropdown?.SetShouldCloseForHierarchy( shouldClose );
     }
 
@@ -462,6 +495,11 @@ public partial class BarDropdown : BaseComponent, IAsyncDisposable
     /// Notifies when the component visibility changes.
     /// </summary>
     [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
+
+    /// <summary>
+    /// Delay in milliseconds before hiding a popout dropdown after the mouse leaves it.
+    /// </summary>
+    [Parameter] public int CloseDelay { get; set; } = DefaultCloseDelay;
 
     /// <summary>
     /// Defines the positioning strategy of a floating <see cref="BarDropdownMenu"/>.

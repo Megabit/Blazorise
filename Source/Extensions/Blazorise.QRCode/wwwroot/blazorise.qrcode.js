@@ -1,4 +1,4 @@
-import "./vendors/qr-code-styling.js?v=2.1.3.0";
+import "./vendors/qr-code-styling.js?v=2.2.0.0";
 
 let _instances = [];
 

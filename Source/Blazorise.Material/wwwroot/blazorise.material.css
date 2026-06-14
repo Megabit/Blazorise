@@ -2466,6 +2466,18 @@ body {
 .mui-bar-vertical-popout[data-collapse=small] .mui-bar-toggler-popout:not(.mui-bar-mobile-toggle) {
   inset-inline-start: var(--mui-bar-rail-width);
 }
+.mui-bar-vertical-small .mui-bar-menu,
+.mui-bar-vertical-inline[data-collapse=small] .mui-bar-menu,
+.mui-bar-vertical-popout[data-collapse=small] .mui-bar-menu {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.mui-bar-vertical-small .mui-bar-menu::-webkit-scrollbar,
+.mui-bar-vertical-inline[data-collapse=small] .mui-bar-menu::-webkit-scrollbar,
+.mui-bar-vertical-popout[data-collapse=small] .mui-bar-menu::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
 .mui-bar-vertical-small .mui-bar-brand > .mui-bar-item > :is(.mui-bar-link, .mui-bar-dropdown > .mui-bar-dropdown-toggle),
 .mui-bar-vertical-inline[data-collapse=small] .mui-bar-brand > .mui-bar-item > :is(.mui-bar-link, .mui-bar-dropdown > .mui-bar-dropdown-toggle),
 .mui-bar-vertical-popout[data-collapse=small] .mui-bar-brand > .mui-bar-item > :is(.mui-bar-link, .mui-bar-dropdown > .mui-bar-dropdown-toggle) {

@@ -485,6 +485,16 @@
         }
     }
 
+    .b-bar-menu {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+
+        &::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+    }
+
     @keyframes b-bar-link-small {
         to {
             text-align: center;

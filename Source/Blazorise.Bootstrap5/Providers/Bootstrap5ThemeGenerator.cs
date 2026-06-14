@@ -20,6 +20,16 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
     #region Methods
 
+    protected override void GenerateColorVariables( Theme theme, string variant, string value )
+    {
+        base.GenerateColorVariables( theme, variant, NormalizeBootstrapColorOption( variant, value ) );
+    }
+
+    protected override void GenerateColorStyles( StringBuilder sb, Theme theme, string variant, string color )
+    {
+        base.GenerateColorStyles( sb, theme, variant, NormalizeBootstrapColorOption( variant, color ) );
+    }
+
     protected override void GenerateBreakpointStyles( StringBuilder sb, Theme theme, string breakpointName, string breakpointSize )
     {
         if ( !string.IsNullOrEmpty( breakpointSize ) )
@@ -306,7 +316,8 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
-            var backgroundColor = ParseColor( theme.ColorOptions.Primary );
+            var primary = Var( ThemeVariables.Color( "primary" ), NormalizeBootstrapColorOption( "primary", theme.ColorOptions.Primary ) );
+            var backgroundColor = ParseColor( primary );
 
             if ( !backgroundColor.IsEmpty )
             {
@@ -1027,18 +1038,20 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
 
         if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
         {
+            var primary = Var( ThemeVariables.Color( "primary" ), NormalizeBootstrapColorOption( "primary", theme.ColorOptions.Primary ) );
+
             sb.Append( ".page-link" ).Append( "{" )
-                .Append( $"color: {theme.ColorOptions.Primary};" )
+                .Append( $"color: {primary};" )
                 .AppendLine( "}" );
 
             sb.Append( ".page-link:hover" ).Append( "{" )
-                .Append( $"color: {ToHex( Darken( theme.ColorOptions.Primary, 15f ) )};" )
+                .Append( $"color: {ToHex( Darken( primary, 15f ) )};" )
                 .AppendLine( "}" );
 
             sb.Append( ".page-item.active .page-link" ).Append( "{" )
-                .Append( $"color: {ToHex( GetContrastColor( theme, theme.ColorOptions.Primary ) )};" )
-                .Append( $"background-color: {theme.ColorOptions.Primary};" )
-                .Append( $"border-color: {theme.ColorOptions.Primary};" )
+                .Append( $"color: {ToHex( GetContrastColor( theme, primary ) )};" )
+                .Append( $"background-color: {primary};" )
+                .Append( $"border-color: {primary};" )
                 .AppendLine( "}" );
         }
     }
@@ -1289,6 +1302,45 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
     protected override System.Drawing.Color GetContrastColor( Theme theme, System.Drawing.Color color )
     {
         return GetBootstrapContrastColor( theme, color );
+    }
+
+    private static string NormalizeBootstrapColorOption( string variant, string value )
+    {
+        if ( !IsDefaultColorOption( variant, value ) )
+            return value;
+
+        return variant switch
+        {
+            "primary" => "#0D6EFD",
+            "secondary" => "#6C757D",
+            "success" => "#198754",
+            "info" => "#0DCAF0",
+            "warning" => "#FFC107",
+            "danger" => "#DC3545",
+            "light" => "#F8F9FA",
+            "dark" => "#212529",
+            "link" => "#0D6EFD",
+            _ => value,
+        };
+    }
+
+    private static bool IsDefaultColorOption( string variant, string value )
+    {
+        var defaultValue = variant switch
+        {
+            "primary" => ThemeColors.Blue.Shades["500"].Value,
+            "secondary" => ThemeColors.Gray.Shades["600"].Value,
+            "success" => ThemeColors.Green.Shades["500"].Value,
+            "info" => ThemeColors.Cyan.Shades["500"].Value,
+            "warning" => ThemeColors.Yellow.Shades["500"].Value,
+            "danger" => ThemeColors.Red.Shades["500"].Value,
+            "light" => ThemeColors.Gray.Shades["100"].Value,
+            "dark" => ThemeColors.Gray.Shades["800"].Value,
+            "link" => ThemeColors.Blue.Shades["500"].Value,
+            _ => null,
+        };
+
+        return string.Equals( value?.Trim(), defaultValue, StringComparison.OrdinalIgnoreCase );
     }
 
     /// <summary>
