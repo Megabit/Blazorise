@@ -81,7 +81,7 @@ public partial class ColorPicker : BaseInputComponent<string, ColorPickerClasses
 
             if ( Rendered )
             {
-                ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, paramValue ) );
+                ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, paramValue.Value ) );
             }
         }
 
