@@ -85,6 +85,9 @@ internal static class ReportFormulaEvaluator
 
         private object ParseConditional()
         {
+            if ( MatchKeyword( "if" ) )
+                return ParseIfThenElse();
+
             var condition = ParseOr();
             SkipWhiteSpace();
 
@@ -94,6 +97,17 @@ internal static class ReportFormulaEvaluator
             var whenTrue = ParseConditional();
             Expect( ":" );
             var whenFalse = ParseConditional();
+
+            return ToBoolean( condition ) ? whenTrue : whenFalse;
+        }
+
+        private object ParseIfThenElse()
+        {
+            object condition = ParseOr();
+            ExpectKeyword( "then" );
+            object whenTrue = ParseConditional();
+            ExpectKeyword( "else" );
+            object whenFalse = ParseConditional();
 
             return ToBoolean( condition ) ? whenTrue : whenFalse;
         }
@@ -571,6 +585,12 @@ internal static class ReportFormulaEvaluator
                 throw new InvalidOperationException( $"Expected '{token}'." );
         }
 
+        private void ExpectKeyword( string keyword )
+        {
+            if ( !MatchKeyword( keyword ) )
+                throw new InvalidOperationException( $"Expected '{keyword}'." );
+        }
+
         private bool Match( string token )
         {
             SkipWhiteSpace();
@@ -582,6 +602,26 @@ internal static class ReportFormulaEvaluator
                 return false;
 
             position += token.Length;
+
+            return true;
+        }
+
+        private bool MatchKeyword( string keyword )
+        {
+            SkipWhiteSpace();
+
+            if ( position + keyword.Length > formula.Length )
+                return false;
+
+            if ( !string.Equals( formula.Substring( position, keyword.Length ), keyword, StringComparison.OrdinalIgnoreCase ) )
+                return false;
+
+            int nextPosition = position + keyword.Length;
+
+            if ( nextPosition < formula.Length && IsIdentifierPart( formula[nextPosition] ) )
+                return false;
+
+            position = nextPosition;
 
             return true;
         }

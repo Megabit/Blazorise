@@ -60,6 +60,7 @@ public partial class _ReportDesignerFormulaDialog
         new( "Comparisons", "Greater Than Or Equal", " >= ", "Compares whether the left value is greater or equal." ),
         new( "Comparisons", "Less Than", " < ", "Compares whether the left value is smaller." ),
         new( "Comparisons", "Less Than Or Equal", " <= ", "Compares whether the left value is smaller or equal." ),
+        new( "Control Structures", "If Then Else", "if {0} then true else false", "Chooses between two values based on a condition." ),
         new( "Control Structures", "Conditional", " ? : ", "Chooses between two values based on a condition." ),
     ];
 
