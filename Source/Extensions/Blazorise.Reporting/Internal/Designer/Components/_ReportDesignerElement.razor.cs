@@ -27,6 +27,22 @@ public partial class _ReportDesignerElement
 
     private bool CanEditText => Element?.Type == ReportElementType.Text;
 
+    private bool CanHandleDesignerPointerDown => CanReceiveDesignerInteraction && !Editing;
+
+    private bool CanReceiveDesignerInteraction => DesignMode && Editable;
+
+    private bool CanStartDesignerPointerDrag => CanHandleDesignerPointerDown && !TextEditingActive;
+
+    private bool CanStartInlineTextEdit => CanReceiveDesignerInteraction && !ElementSuppressed && CanEditText;
+
+    private bool ElementSuppressed => Element?.Suppress?.Value == true;
+
+    private bool IsDesignerDisabled => DesignMode && ( !Editable || ElementSuppressed );
+
+    private bool IsDesignerEditing => CanReceiveDesignerInteraction && !ElementSuppressed && Editing;
+
+    private bool ShowResizeHandles => CanReceiveDesignerInteraction && !ElementSuppressed && Selected && !Editing;
+
     private string Class => ClassNames;
 
     private string Style => StyleNames;
@@ -105,11 +121,11 @@ public partial class _ReportDesignerElement
             builder.Append( ClassProvider.BackgroundColor( new Background( Element.Appearance.Background ) ) );
 
         builder.Append( "b-report-element-design", DesignMode );
-        builder.Append( "suppressed", DesignMode && Element.Suppress?.Value == true );
+        builder.Append( "suppressed", DesignMode && ElementSuppressed );
         builder.Append( "can-grow", !DesignMode && Element.CanGrow?.Value == true );
-        builder.Append( "disabled", DesignMode && ( !Editable || Element.Suppress?.Value == true ) );
+        builder.Append( "disabled", IsDesignerDisabled );
         builder.Append( "active", DesignMode && Selected );
-        builder.Append( "editing", DesignMode && Editable && Element.Suppress?.Value != true && Editing );
+        builder.Append( "editing", IsDesignerEditing );
     }
 
     /// <inheritdoc />
