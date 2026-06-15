@@ -77,6 +77,11 @@ internal static class SvgChartOptionsMapper
         {
             Visible = labels.Visible,
             Step = labels.Step,
+            AutoSkip = labels.AutoSkip,
+            MaxTicksLimit = labels.MaxTicksLimit,
+            AutoSkipPadding = labels.AutoSkipPadding,
+            AutoRotate = labels.AutoRotate,
+            MaxRotation = labels.MaxRotation,
             Offset = labels.Offset,
             MaxWidth = labels.MaxWidth
         };
@@ -91,6 +96,11 @@ internal static class SvgChartOptionsMapper
         {
             Visible = overrides.Visible,
             Step = overrides.Step,
+            AutoSkip = overrides.AutoSkip,
+            MaxTicksLimit = overrides.MaxTicksLimit,
+            AutoSkipPadding = overrides.AutoSkipPadding,
+            AutoRotate = overrides.AutoRotate,
+            MaxRotation = overrides.MaxRotation,
             Offset = overrides.Offset,
             MaxWidth = overrides.MaxWidth ?? options?.MaxWidth
         };
