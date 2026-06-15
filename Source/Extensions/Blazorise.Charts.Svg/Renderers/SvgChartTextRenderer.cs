@@ -53,7 +53,7 @@ internal static class SvgChartTextRenderer
         var padding = options.PlotAreaPadding;
         var topPadding = padding?.Top ?? 24d;
         var endPadding = padding?.End ?? 18d;
-        var bottomPadding = ResolveBottomPadding( model, padding?.Bottom );
+        var bottomPadding = ResolveBottomPadding( options, model, padding?.Bottom );
         var startPadding = ResolveStartPadding( options, model, padding?.Start );
         var top = topPadding + GetTopTextHeight( title ) + GetTopTextHeight( subtitle );
 
@@ -224,7 +224,7 @@ internal static class SvgChartTextRenderer
         return Math.Max( fallback, Math.Min( maxLabelWidth + 14, options.Width * 0.45 ) );
     }
 
-    private static double ResolveBottomPadding( SvgChartRenderModel model, double? padding )
+    private static double ResolveBottomPadding( SvgChartOptions options, SvgChartRenderModel model, double? padding )
     {
         if ( padding.HasValue )
             return padding.Value;
@@ -235,7 +235,26 @@ internal static class SvgChartTextRenderer
         if ( model is not null && model.Type != SvgChartType.Bar && model.CategoryAxis?.Labels?.Visible == false )
             return 18d;
 
-        return 42d;
+        const double fallback = 42d;
+
+        var labels = model?.CategoryAxis?.Labels;
+
+        if ( model is null || model.Type == SvgChartType.Bar || labels?.AutoSkip != true || !labels.AutoRotate || labels.MaxRotation <= 0 )
+            return fallback;
+
+        var fontSize = options?.Font?.Size ?? 11;
+        var maxLabelWidth = model.Labels
+            .Select( ( label, index ) => FormatCategoryLabel( model, label, index ) )
+            .DefaultIfEmpty( string.Empty )
+            .Max( label => SvgChartRenderHelpers.EstimateTextWidth( label, fontSize ) );
+
+        if ( labels.MaxWidth.HasValue )
+            maxLabelWidth = Math.Min( maxLabelWidth, Math.Max( 1, labels.MaxWidth.Value ) );
+
+        var rotation = Math.Clamp( labels.MaxRotation, 0, 90 ) * Math.PI / 180d;
+        var rotatedHeight = maxLabelWidth * Math.Sin( rotation ) + fontSize * Math.Cos( rotation );
+
+        return Math.Max( fallback, Math.Min( labels.Offset + rotatedHeight + 8, options.Height * 0.35 ) );
     }
 
     private static string FormatCategoryLabel( SvgChartRenderModel model, object value, int index )

@@ -102,6 +102,18 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Axis label density" New>
+        Use label options to limit crowded category and time axes while preserving readable labels.
+    </DocsPageSectionHeader>
+    <DocsPageParagraph>
+        Automatic skipping is enabled by default. Use <Code>MaxTicksLimit</Code>, <Code>AutoRotate</Code>, and <Code>MaxRotation</Code> to tune label density, or set <Code>AutoSkip</Code> to <Code>false</Code> when every label should be rendered. The <Code>Step</Code> option still acts as a manual minimum interval.
+    </DocsPageParagraph>
+    <DocsPageSectionContent Code="SvgAxisLabelDensityChartExample" Outlined FullWidth>
+        <SvgAxisLabelDensityChartExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Interpolation" New>
         Use <Code>Interpolation</Code> on line or area series to control how points are connected. The default mode is <Code>SvgChartInterpolationMode.Linear</Code>; use <Code>Monotone</Code> for smooth curves that preserve point direction, or one of the step modes for stepped trends. Area series use the same interpolation for the filled boundary path.
     </DocsPageSectionHeader>
