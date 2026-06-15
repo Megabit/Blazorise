@@ -1,0 +1,12 @@
+@namespace Blazorise.Reporting.Internal
+@inherits ReportComponentBase
+
+<div class="b-report-context-menu-submenu">
+    <button type="button" class="b-report-context-menu-submenu-button">
+        <span>@Text</span>
+        <span class="b-report-context-menu-submenu-arrow">&gt;</span>
+    </button>
+    <div class="b-report-context-menu-submenu-content">
+        @ChildContent
+    </div>
+</div>

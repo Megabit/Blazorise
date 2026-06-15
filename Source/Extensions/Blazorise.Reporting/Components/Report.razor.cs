@@ -58,9 +58,13 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private const double DragPreviewChangeTolerance = 0.1;
 
+    private const double ElementBaselineFontRatio = 0.8;
+
     private const int DragPreviewFrameThrottleMilliseconds = 16;
 
     private const int DragPreviewFreeDropThrottleMilliseconds = 40;
+
+    private const int MinimumBatchElementCount = 2;
 
     private const double PasteElementOffset = 16;
 
@@ -978,6 +982,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private bool CanContextElementInsertAggregate( ReportDefinition definition )
     {
         return GetContextElementAggregateFieldOptions( definition ).Count > 0;
+    }
+
+    private bool CanContextAlignOrSizeSelectedElements( ReportDefinition definition )
+    {
+        return IsElementContextMenuVisible()
+            && GetSelectedElementContexts( definition ).Count >= MinimumBatchElementCount;
     }
 
     private IReadOnlyList<ReportDesignerFieldOption> GetContextElementAggregateFieldOptions( ReportDefinition definition )
@@ -2322,6 +2332,257 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         } ) );
     }
 
+    private async Task AlignSelectedElementsAsync( ReportElementAlignment alignment )
+    {
+        List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( EffectiveDefinition );
+
+        if ( selectedElements.Count < MinimumBatchElementCount )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( $"Align {GetAlignmentDisplayName( alignment )}", () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( definition );
+
+            if ( selectedElements.Count < MinimumBatchElementCount )
+                return Task.CompletedTask;
+
+            ReportSelectedElementContext anchor = selectedElements[0];
+            List<string> selectedElementKeys = selectedElements.Select( item => item.ElementKey ).ToList();
+            HashSet<int> affectedSectionIndexes = [];
+            IEnumerable<ReportSelectedElementContext> elementsToAlign = alignment == ReportElementAlignment.ToGrid
+                ? selectedElements
+                : selectedElements.Skip( 1 );
+
+            foreach ( ReportSelectedElementContext item in elementsToAlign )
+            {
+                ReportElementDefinition element = item.Element;
+
+                if ( element.Suppress?.Value == true )
+                    continue;
+
+                double originalX = element.X;
+                double originalWidth = element.Width;
+
+                ApplyElementAlignment( definition, anchor.Element, element, alignment );
+
+                ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement(
+                    definition,
+                    item.SectionIndex,
+                    item.SectionIndex,
+                    element,
+                    originalX,
+                    originalWidth,
+                    element.X,
+                    element.Width,
+                    selectedElementKeys );
+
+                affectedSectionIndexes.Add( item.SectionIndex );
+            }
+
+            foreach ( int sectionIndex in affectedSectionIndexes )
+            {
+                ReportLayoutGeometry.GrowSectionToFitElements( definition.Sections[sectionIndex] );
+            }
+
+            SelectElements( selectedElementKeys, anchor.ElementKey );
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task SizeSelectedElementsAsync( ReportElementSizeMode sizeMode )
+    {
+        List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( EffectiveDefinition );
+
+        if ( selectedElements.Count < MinimumBatchElementCount )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( $"Size {GetSizeDisplayName( sizeMode )}", () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            List<ReportSelectedElementContext> selectedElements = GetSelectedElementContexts( definition );
+
+            if ( selectedElements.Count < MinimumBatchElementCount )
+                return Task.CompletedTask;
+
+            ReportSelectedElementContext anchor = selectedElements[0];
+            List<string> selectedElementKeys = selectedElements.Select( item => item.ElementKey ).ToList();
+            HashSet<int> affectedSectionIndexes = [];
+
+            foreach ( ReportSelectedElementContext item in selectedElements.Skip( 1 ) )
+            {
+                ReportElementDefinition element = item.Element;
+
+                if ( element.Suppress?.Value == true )
+                    continue;
+
+                double originalX = element.X;
+                double originalWidth = element.Width;
+
+                ApplyElementSize( definition, anchor.Element, element, sizeMode );
+
+                ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement(
+                    definition,
+                    item.SectionIndex,
+                    item.SectionIndex,
+                    element,
+                    originalX,
+                    originalWidth,
+                    element.X,
+                    element.Width,
+                    selectedElementKeys );
+
+                affectedSectionIndexes.Add( item.SectionIndex );
+            }
+
+            foreach ( int sectionIndex in affectedSectionIndexes )
+            {
+                ReportLayoutGeometry.GrowSectionToFitElements( definition.Sections[sectionIndex] );
+            }
+
+            SelectElements( selectedElementKeys, anchor.ElementKey );
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private void ApplyElementAlignment( ReportDefinition definition, ReportElementDefinition anchor, ReportElementDefinition element, ReportElementAlignment alignment )
+    {
+        switch ( alignment )
+        {
+            case ReportElementAlignment.Tops:
+                element.Y = Math.Max( 0, anchor.Y );
+                break;
+            case ReportElementAlignment.Middles:
+                element.Y = Math.Max( 0, anchor.Y + ( anchor.Height - element.Height ) / 2 );
+                break;
+            case ReportElementAlignment.Bottoms:
+                element.Y = Math.Max( 0, anchor.Y + anchor.Height - element.Height );
+                break;
+            case ReportElementAlignment.Baseline:
+                element.Y = Math.Max( 0, anchor.Y + GetElementBaselineOffset( anchor ) - GetElementBaselineOffset( element ) );
+                break;
+            case ReportElementAlignment.Lefts:
+                element.X = ClampElementX( definition, element, anchor.X );
+                break;
+            case ReportElementAlignment.Centers:
+                element.X = ClampElementX( definition, element, anchor.X + ( anchor.Width - element.Width ) / 2 );
+                break;
+            case ReportElementAlignment.Rights:
+                element.X = ClampElementX( definition, element, anchor.X + anchor.Width - element.Width );
+                break;
+            case ReportElementAlignment.ToGrid:
+                element.Width = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, ApplyDesignerGrid( element.Width, true ) );
+                element.Height = Math.Max( ReportLayoutGeometry.GetMinimumElementHeight( element ), ApplyDesignerGrid( element.Height, true ) );
+                element.X = ClampElementX( definition, element, ApplyDesignerGrid( element.X, true ) );
+                element.Y = ApplyDesignerGrid( element.Y, true );
+                break;
+        }
+    }
+
+    private static void ApplyElementSize( ReportDefinition definition, ReportElementDefinition anchor, ReportElementDefinition element, ReportElementSizeMode sizeMode )
+    {
+        switch ( sizeMode )
+        {
+            case ReportElementSizeMode.SameWidth:
+                element.Width = ClampElementWidth( definition, element, anchor.Width );
+                break;
+            case ReportElementSizeMode.SameHeight:
+                element.Height = Math.Max( ReportLayoutGeometry.GetMinimumElementHeight( element ), anchor.Height );
+                break;
+            case ReportElementSizeMode.SameSize:
+                element.Width = ClampElementWidth( definition, element, anchor.Width );
+                element.Height = Math.Max( ReportLayoutGeometry.GetMinimumElementHeight( element ), anchor.Height );
+                break;
+        }
+    }
+
+    private List<ReportSelectedElementContext> GetSelectedElementContexts( ReportDefinition definition )
+    {
+        if ( definition is null )
+            return [];
+
+        List<string> elementKeys = selectionManager.SelectedElementKeys.Count > 0
+            ? selectionManager.SelectedElementKeys.ToList()
+            : string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey ) ? [] : [selectionManager.SelectedElementKey];
+
+        if ( !string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey ) && elementKeys.Remove( selectionManager.SelectedElementKey ) )
+            elementKeys.Insert( 0, selectionManager.SelectedElementKey );
+
+        List<ReportSelectedElementContext> selectedElements = [];
+
+        foreach ( string elementKey in elementKeys.Distinct( StringComparer.Ordinal ) )
+        {
+            if ( ReportDefinitionHelper.TryFindElementLocation( definition, elementKey, out int sectionIndex, out _, out ReportElementDefinition element ) )
+            {
+                selectedElements.Add( new()
+                {
+                    ElementKey = elementKey,
+                    SectionIndex = sectionIndex,
+                    Element = element,
+                } );
+            }
+        }
+
+        return selectedElements;
+    }
+
+    private static double ClampElementX( ReportDefinition definition, ReportElementDefinition element, double x )
+    {
+        double pageWidth = definition?.Page?.Width ?? DefaultPageWidthFallback;
+        double maximum = Math.Max( 0, pageWidth - element.Width );
+
+        return ReportLayoutGeometry.Clamp( x, 0, maximum );
+    }
+
+    private static double ClampElementWidth( ReportDefinition definition, ReportElementDefinition element, double width )
+    {
+        double pageWidth = definition?.Page?.Width ?? DefaultPageWidthFallback;
+        double maximum = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, pageWidth - element.X );
+
+        return ReportLayoutGeometry.Clamp( width, ReportLayoutGeometry.DefaultMinimumElementSize, maximum );
+    }
+
+    private static double GetElementBaselineOffset( ReportElementDefinition element )
+    {
+        if ( element?.Type is ReportElementType.Text or ReportElementType.Field )
+        {
+            double fontSize = element.Font?.Size ?? Math.Min( DefaultDroppedFieldHeight, element.Height );
+
+            return Math.Min( element.Height, fontSize * ElementBaselineFontRatio );
+        }
+
+        return element?.Height ?? 0;
+    }
+
+    private static string GetAlignmentDisplayName( ReportElementAlignment alignment )
+    {
+        return alignment switch
+        {
+            ReportElementAlignment.Tops => "tops",
+            ReportElementAlignment.Middles => "middles",
+            ReportElementAlignment.Bottoms => "bottoms",
+            ReportElementAlignment.Baseline => "baseline",
+            ReportElementAlignment.Lefts => "lefts",
+            ReportElementAlignment.Centers => "centers",
+            ReportElementAlignment.Rights => "rights",
+            ReportElementAlignment.ToGrid => "to grid",
+            _ => alignment.ToString(),
+        };
+    }
+
+    private static string GetSizeDisplayName( ReportElementSizeMode sizeMode )
+    {
+        return sizeMode switch
+        {
+            ReportElementSizeMode.SameWidth => "same width",
+            ReportElementSizeMode.SameHeight => "same height",
+            ReportElementSizeMode.SameSize => "same size",
+            _ => sizeMode.ToString(),
+        };
+    }
+
     private async Task UpdateSelectedElementAsync( Action<ReportElementDefinition> update )
     {
         var element = selectionManager.FindSelectedElement( EffectiveDefinition );
@@ -3525,6 +3786,19 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private bool ShouldRenderElement( ReportDefinition definition, ReportSectionDefinition section, ReportElementDefinition element, object item )
     {
         return !ReportValueResolver.ResolveSuppress( element, section, definition, Data, item );
+    }
+
+    #endregion
+
+    #region Classes
+
+    private sealed class ReportSelectedElementContext
+    {
+        internal string ElementKey { get; set; }
+
+        internal int SectionIndex { get; set; }
+
+        internal ReportElementDefinition Element { get; set; }
     }
 
     #endregion

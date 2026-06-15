@@ -245,6 +245,25 @@
                         <_ReportDesignerContextMenuButton Text="Copy" Clicked="@(( MouseEventArgs _ ) => CopySelectedElementAsync())" />
                         <_ReportDesignerContextMenuButton Text="Paste" Clicked="@(( MouseEventArgs _ ) => PasteElementAsync())" />
 
+                        @if ( CanContextAlignOrSizeSelectedElements( definition ) )
+                        {
+                            <_ReportDesignerContextSubMenu Text="Align">
+                                <_ReportDesignerContextMenuButton Text="Tops" Clicked="@(( MouseEventArgs _ ) => AlignSelectedElementsAsync( ReportElementAlignment.Tops ))" />
+                                <_ReportDesignerContextMenuButton Text="Middles" Clicked="@(( MouseEventArgs _ ) => AlignSelectedElementsAsync( ReportElementAlignment.Middles ))" />
+                                <_ReportDesignerContextMenuButton Text="Bottoms" Clicked="@(( MouseEventArgs _ ) => AlignSelectedElementsAsync( ReportElementAlignment.Bottoms ))" />
+                                <_ReportDesignerContextMenuButton Text="Baseline" Clicked="@(( MouseEventArgs _ ) => AlignSelectedElementsAsync( ReportElementAlignment.Baseline ))" />
+                                <_ReportDesignerContextMenuButton Text="Lefts" Clicked="@(( MouseEventArgs _ ) => AlignSelectedElementsAsync( ReportElementAlignment.Lefts ))" />
+                                <_ReportDesignerContextMenuButton Text="Centers" Clicked="@(( MouseEventArgs _ ) => AlignSelectedElementsAsync( ReportElementAlignment.Centers ))" />
+                                <_ReportDesignerContextMenuButton Text="Rights" Clicked="@(( MouseEventArgs _ ) => AlignSelectedElementsAsync( ReportElementAlignment.Rights ))" />
+                                <_ReportDesignerContextMenuButton Text="To Grid" Clicked="@(( MouseEventArgs _ ) => AlignSelectedElementsAsync( ReportElementAlignment.ToGrid ))" />
+                            </_ReportDesignerContextSubMenu>
+                            <_ReportDesignerContextSubMenu Text="Sizes">
+                                <_ReportDesignerContextMenuButton Text="Same Width" Clicked="@(( MouseEventArgs _ ) => SizeSelectedElementsAsync( ReportElementSizeMode.SameWidth ))" />
+                                <_ReportDesignerContextMenuButton Text="Same Height" Clicked="@(( MouseEventArgs _ ) => SizeSelectedElementsAsync( ReportElementSizeMode.SameHeight ))" />
+                                <_ReportDesignerContextMenuButton Text="Same Size" Clicked="@(( MouseEventArgs _ ) => SizeSelectedElementsAsync( ReportElementSizeMode.SameSize ))" />
+                            </_ReportDesignerContextSubMenu>
+                        }
+
                         @if ( CanContextElementInsertAggregate( definition ) )
                         {
                             <_ReportDesignerContextMenuButton Text="Insert aggregate" Clicked="@(( MouseEventArgs _ ) => OpenContextElementAggregateDialogAsync())" />
