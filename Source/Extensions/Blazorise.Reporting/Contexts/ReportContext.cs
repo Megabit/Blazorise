@@ -55,7 +55,9 @@ internal sealed class ReportContext
         existing.PrintOnFirstPage = section.PrintOnFirstPage;
         existing.PrintOnLastPage = section.PrintOnLastPage;
         existing.RepeatOnEveryPage = section.RepeatOnEveryPage;
-        existing.KeepTogether = section.KeepTogether;
+        existing.KeepTogether = CloneValue( section.KeepTogether );
+        existing.NewPageBefore = CloneValue( section.NewPageBefore );
+        existing.NewPageAfter = CloneValue( section.NewPageAfter );
         existing.Appearance = CloneAppearance( section.Appearance );
         existing.Border = CloneBorder( section.Border );
         existing.Elements.Clear();
@@ -205,7 +207,9 @@ internal sealed class ReportContext
             PrintOnFirstPage = section.PrintOnFirstPage,
             PrintOnLastPage = section.PrintOnLastPage,
             RepeatOnEveryPage = section.RepeatOnEveryPage,
-            KeepTogether = section.KeepTogether,
+            KeepTogether = CloneValue( section.KeepTogether ),
+            NewPageBefore = CloneValue( section.NewPageBefore ),
+            NewPageAfter = CloneValue( section.NewPageAfter ),
             Appearance = CloneAppearance( section.Appearance ),
             Border = CloneBorder( section.Border ),
             Elements = section.Elements.Select( CloneElement ).ToList(),

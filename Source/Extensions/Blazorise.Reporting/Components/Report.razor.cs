@@ -1795,7 +1795,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 PrintOnFirstPage = sourceSection.PrintOnFirstPage,
                 PrintOnLastPage = sourceSection.PrintOnLastPage,
                 RepeatOnEveryPage = sourceSection.RepeatOnEveryPage,
-                KeepTogether = sourceSection.KeepTogether,
+                KeepTogether = ReportValue.Create( sourceSection.KeepTogether?.Value ?? false, sourceSection.KeepTogether?.Formula ),
+                NewPageBefore = ReportValue.Create( sourceSection.NewPageBefore?.Value ?? false, sourceSection.NewPageBefore?.Formula ),
+                NewPageAfter = ReportValue.Create( sourceSection.NewPageAfter?.Value ?? false, sourceSection.NewPageAfter?.Formula ),
                 Appearance = new()
                 {
                     BackgroundColor = sourceSection.Appearance?.BackgroundColor,

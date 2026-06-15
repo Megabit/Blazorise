@@ -42,6 +42,8 @@ public abstract class ReportSectionBase : ComponentBase
             PrintOnLastPage = PrintOnLastPage,
             RepeatOnEveryPage = RepeatOnEveryPage,
             KeepTogether = KeepTogether,
+            NewPageBefore = NewPageBefore,
+            NewPageAfter = NewPageAfter,
             Appearance = new()
             {
                 BackgroundColor = BackgroundColor,
@@ -124,7 +126,17 @@ public abstract class ReportSectionBase : ComponentBase
     /// <summary>
     /// Keeps the band content together when pagination is applied.
     /// </summary>
-    [Parameter] public bool KeepTogether { get; set; }
+    [Parameter] public ReportValue<bool> KeepTogether { get; set; } = false;
+
+    /// <summary>
+    /// Starts the band on a new page before rendering it.
+    /// </summary>
+    [Parameter] public ReportValue<bool> NewPageBefore { get; set; } = false;
+
+    /// <summary>
+    /// Starts a new page after the band is rendered.
+    /// </summary>
+    [Parameter] public ReportValue<bool> NewPageAfter { get; set; } = false;
 
     /// <summary>
     /// Background color applied to the band.

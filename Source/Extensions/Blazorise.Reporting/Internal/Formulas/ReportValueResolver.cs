@@ -54,6 +54,39 @@ internal static class ReportValueResolver
         } );
     }
 
+    internal static bool ResolveKeepTogether( ReportSectionDefinition section, ReportDefinition definition, object data, object item )
+    {
+        return Resolve( section?.KeepTogether, new()
+        {
+            Definition = definition,
+            Data = data,
+            Item = item,
+            Section = section,
+        } );
+    }
+
+    internal static bool ResolveNewPageBefore( ReportSectionDefinition section, ReportDefinition definition, object data, object item )
+    {
+        return Resolve( section?.NewPageBefore, new()
+        {
+            Definition = definition,
+            Data = data,
+            Item = item,
+            Section = section,
+        } );
+    }
+
+    internal static bool ResolveNewPageAfter( ReportSectionDefinition section, ReportDefinition definition, object data, object item )
+    {
+        return Resolve( section?.NewPageAfter, new()
+        {
+            Definition = definition,
+            Data = data,
+            Item = item,
+            Section = section,
+        } );
+    }
+
     internal static bool ResolveCanGrow( ReportElementDefinition element, ReportSectionDefinition section, ReportDefinition definition, object data, object item, bool designMode )
     {
         if ( designMode )

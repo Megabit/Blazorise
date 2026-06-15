@@ -87,6 +87,23 @@
             <_ReportDesignerPropertyGroup Title="Layout">
                 <_ReportDesignerNumberProperty Label="Height" Value="@FromPoints( SelectedSection.Height )" Changed="@OnSelectedSectionHeightChanged" Step="@GetMeasurementStep()" />
             </_ReportDesignerPropertyGroup>
+            <_ReportDesignerPropertyGroup Title="Pagination">
+                <_ReportDesignerFormulaBooleanProperty Label="Keep together"
+                                                       Value="@(SelectedSection.KeepTogether?.Value == true)"
+                                                       Formula="@SelectedSection.KeepTogether?.Formula"
+                                                       Changed="@UpdateSelectedSectionKeepTogetherAsync"
+                                                       OpenFormula="@OpenSelectedSectionKeepTogetherFormulaAsync" />
+                <_ReportDesignerFormulaBooleanProperty Label="New page before"
+                                                       Value="@(SelectedSection.NewPageBefore?.Value == true)"
+                                                       Formula="@SelectedSection.NewPageBefore?.Formula"
+                                                       Changed="@UpdateSelectedSectionNewPageBeforeAsync"
+                                                       OpenFormula="@OpenSelectedSectionNewPageBeforeFormulaAsync" />
+                <_ReportDesignerFormulaBooleanProperty Label="New page after"
+                                                       Value="@(SelectedSection.NewPageAfter?.Value == true)"
+                                                       Formula="@SelectedSection.NewPageAfter?.Formula"
+                                                       Changed="@UpdateSelectedSectionNewPageAfterAsync"
+                                                       OpenFormula="@OpenSelectedSectionNewPageAfterFormulaAsync" />
+            </_ReportDesignerPropertyGroup>
             @if ( SelectedSection.Type == ReportSectionType.PageFooter )
             {
                 var sectionAppearance = EnsureSelectedSectionAppearance();
@@ -96,7 +113,6 @@
                     <_ReportDesignerCheckboxProperty Label="Print on first page" Value="@SelectedSection.PrintOnFirstPage" Changed="@(value => UpdateSelectedSection( section => section.PrintOnFirstPage = value ))" />
                     <_ReportDesignerCheckboxProperty Label="Print on last page" Value="@SelectedSection.PrintOnLastPage" Changed="@(value => UpdateSelectedSection( section => section.PrintOnLastPage = value ))" />
                     <_ReportDesignerCheckboxProperty Label="Repeat on every page" Value="@SelectedSection.RepeatOnEveryPage" Changed="@(value => UpdateSelectedSection( section => section.RepeatOnEveryPage = value ))" />
-                    <_ReportDesignerCheckboxProperty Label="Keep together" Value="@SelectedSection.KeepTogether" Changed="@(value => UpdateSelectedSection( section => section.KeepTogether = value ))" />
                 </_ReportDesignerPropertyGroup>
                 <_ReportDesignerPropertyGroup Title="Appearance">
                     <_ReportDesignerColorProperty Label="Fill color" Value="@sectionAppearance.BackgroundColor" Changed="@(value => UpdateSelectedSection( section => EnsureSectionAppearance( section ).BackgroundColor = value ))" />

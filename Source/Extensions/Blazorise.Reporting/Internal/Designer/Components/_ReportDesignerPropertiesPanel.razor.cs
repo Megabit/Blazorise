@@ -257,12 +257,51 @@ public partial class _ReportDesignerPropertiesPanel
         return UpdateSelectedElement( element => element.Suppress = ReportValue.Create( value, element.Suppress?.Formula ) );
     }
 
+    private Task UpdateSelectedSectionKeepTogetherAsync( bool value )
+    {
+        return UpdateSelectedSection( section => section.KeepTogether = ReportValue.Create( value, section.KeepTogether?.Formula ) );
+    }
+
+    private Task UpdateSelectedSectionNewPageBeforeAsync( bool value )
+    {
+        return UpdateSelectedSection( section => section.NewPageBefore = ReportValue.Create( value, section.NewPageBefore?.Formula ) );
+    }
+
+    private Task UpdateSelectedSectionNewPageAfterAsync( bool value )
+    {
+        return UpdateSelectedSection( section => section.NewPageAfter = ReportValue.Create( value, section.NewPageAfter?.Formula ) );
+    }
+
     private Task OpenSelectedSectionSuppressFormulaAsync()
     {
         return OpenFormulaDialogAsync(
             "Suppress",
             SelectedSection?.Suppress?.Formula,
             formula => UpdateSelectedSection( section => section.Suppress = ReportValue.Create( section.Suppress?.Value ?? false, formula ) ) );
+    }
+
+    private Task OpenSelectedSectionKeepTogetherFormulaAsync()
+    {
+        return OpenFormulaDialogAsync(
+            "Keep together",
+            SelectedSection?.KeepTogether?.Formula,
+            formula => UpdateSelectedSection( section => section.KeepTogether = ReportValue.Create( section.KeepTogether?.Value ?? false, formula ) ) );
+    }
+
+    private Task OpenSelectedSectionNewPageBeforeFormulaAsync()
+    {
+        return OpenFormulaDialogAsync(
+            "New page before",
+            SelectedSection?.NewPageBefore?.Formula,
+            formula => UpdateSelectedSection( section => section.NewPageBefore = ReportValue.Create( section.NewPageBefore?.Value ?? false, formula ) ) );
+    }
+
+    private Task OpenSelectedSectionNewPageAfterFormulaAsync()
+    {
+        return OpenFormulaDialogAsync(
+            "New page after",
+            SelectedSection?.NewPageAfter?.Formula,
+            formula => UpdateSelectedSection( section => section.NewPageAfter = ReportValue.Create( section.NewPageAfter?.Value ?? false, formula ) ) );
     }
 
     private Task OpenSelectedElementCanGrowFormulaAsync()

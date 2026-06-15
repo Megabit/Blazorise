@@ -8,6 +8,12 @@ namespace Blazorise.Reporting.Internal;
 
 internal static class ReportPreviewRenderPlanner
 {
+    #region Members
+
+    private const bool SectionsCannotSplitAcrossPages = true;
+
+    #endregion
+
     #region Methods
 
     internal static IReadOnlyList<ReportRenderSection> BuildRenderSections( ReportDefinition definition, object data )
@@ -69,7 +75,7 @@ internal static class ReportPreviewRenderPlanner
         var pageFooterSections = BuildPageBandRenderSections( definition, data, ReportSectionType.PageFooter );
         var allSections = BuildRenderSections( definition, data );
         var bodySections = allSections.Where( renderSection => renderSection.Section.Type != ReportSectionType.PageFooter ).ToList();
-        var pages = PaginateBodySections( definition, bodySections, pageHeaderSections, pageFooterSections );
+        var pages = PaginateBodySections( definition, data, bodySections, pageHeaderSections, pageFooterSections );
         var totalPages = pages.Count;
 
         for ( var pageIndex = 0; pageIndex < totalPages; pageIndex++ )
@@ -212,6 +218,7 @@ internal static class ReportPreviewRenderPlanner
 
     private static List<ReportRenderPage> PaginateBodySections(
         ReportDefinition definition,
+        object data,
         IReadOnlyList<ReportRenderSection> bodySections,
         IReadOnlyList<ReportRenderSection> pageHeaderSections,
         IReadOnlyList<ReportRenderSection> pageFooterSections )
@@ -220,12 +227,15 @@ internal static class ReportPreviewRenderPlanner
         var currentPageSections = new List<ReportRenderSection>();
         var usedHeight = 0d;
 
-        foreach ( var renderSection in bodySections )
+        for ( var sectionIndex = 0; sectionIndex < bodySections.Count; sectionIndex++ )
         {
+            var renderSection = bodySections[sectionIndex];
             var availableHeight = GetAvailableBodyHeight( definition, pageHeaderSections, pageFooterSections, pages.Count + 1 );
             var sectionHeight = GetRenderSectionHeight( renderSection );
+            var newPageBefore = ResolveNewPageBefore( definition, data, renderSection );
+            var keepTogether = ResolveKeepTogether( definition, data, renderSection );
 
-            if ( currentPageSections.Count > 0 && usedHeight + sectionHeight > availableHeight )
+            if ( ShouldStartNewPage( currentPageSections, usedHeight, availableHeight, sectionHeight, keepTogether, newPageBefore ) )
             {
                 pages.Add( new() { BodySections = currentPageSections } );
                 currentPageSections = [];
@@ -235,6 +245,13 @@ internal static class ReportPreviewRenderPlanner
 
             currentPageSections.Add( renderSection );
             usedHeight += sectionHeight;
+
+            if ( ResolveNewPageAfter( definition, data, renderSection ) && sectionIndex < bodySections.Count - 1 )
+            {
+                pages.Add( new() { BodySections = currentPageSections } );
+                currentPageSections = [];
+                usedHeight = 0;
+            }
         }
 
         if ( currentPageSections.Count > 0 || pages.Count == 0 )
@@ -243,6 +260,28 @@ internal static class ReportPreviewRenderPlanner
         }
 
         return pages;
+    }
+
+    private static bool ShouldStartNewPage(
+        IReadOnlyList<ReportRenderSection> currentPageSections,
+        double usedHeight,
+        double availableHeight,
+        double sectionHeight,
+        bool keepTogether,
+        bool newPageBefore )
+    {
+        if ( currentPageSections.Count == 0 )
+            return false;
+
+        if ( newPageBefore )
+            return true;
+
+        var sectionOverflowsPage = usedHeight + sectionHeight > availableHeight;
+
+        if ( !sectionOverflowsPage )
+            return false;
+
+        return keepTogether || SectionsCannotSplitAcrossPages;
     }
 
     private static double GetAvailableBodyHeight(
@@ -315,6 +354,21 @@ internal static class ReportPreviewRenderPlanner
     private static bool IsSectionSuppressed( ReportDefinition definition, object data, ReportSectionDefinition section, object item )
     {
         return ReportValueResolver.ResolveSuppress( section, definition, data, item );
+    }
+
+    private static bool ResolveKeepTogether( ReportDefinition definition, object data, ReportRenderSection renderSection )
+    {
+        return ReportValueResolver.ResolveKeepTogether( renderSection.Section, definition, data, renderSection.Item );
+    }
+
+    private static bool ResolveNewPageBefore( ReportDefinition definition, object data, ReportRenderSection renderSection )
+    {
+        return ReportValueResolver.ResolveNewPageBefore( renderSection.Section, definition, data, renderSection.Item );
+    }
+
+    private static bool ResolveNewPageAfter( ReportDefinition definition, object data, ReportRenderSection renderSection )
+    {
+        return ReportValueResolver.ResolveNewPageAfter( renderSection.Section, definition, data, renderSection.Item );
     }
 
     private static IEnumerable<object> ResolveSectionItems( ReportDefinition definition, object data, ReportSectionDefinition section )

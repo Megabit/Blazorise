@@ -225,7 +225,17 @@ public sealed class ReportSectionDefinition
     /// <summary>
     /// Keeps the band content together when pagination is applied.
     /// </summary>
-    public bool KeepTogether { get; set; }
+    public ReportValue<bool> KeepTogether { get; set; } = false;
+
+    /// <summary>
+    /// Starts the band on a new page before rendering it.
+    /// </summary>
+    public ReportValue<bool> NewPageBefore { get; set; } = false;
+
+    /// <summary>
+    /// Starts a new page after the band is rendered.
+    /// </summary>
+    public ReportValue<bool> NewPageAfter { get; set; } = false;
 
     /// <summary>
     /// Fill and opacity settings applied to the band background.
