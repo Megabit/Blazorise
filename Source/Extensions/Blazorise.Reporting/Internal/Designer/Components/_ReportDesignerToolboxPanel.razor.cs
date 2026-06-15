@@ -28,13 +28,25 @@ public partial class _ReportDesignerToolboxPanel
 
     private string selectedFormulaFieldName;
 
+    private string selectedRunningTotalName;
+
     private ReportFormulaFieldNameDialogMode formulaFieldNameDialogMode;
 
+    private ReportRunningTotalNameDialogMode runningTotalNameDialogMode;
+
     private ReportFormulaFieldContextMenuState formulaFieldContextMenu;
+
+    private ReportRunningTotalContextMenuState runningTotalContextMenu;
 
     private _ReportDesignerFormulaDialog formulaDialogRef;
 
     private _ReportDesignerFormulaFieldNameDialog formulaFieldNameDialogRef;
+
+    private _ReportDesignerFormulaFieldNameDialog runningTotalNameDialogRef;
+
+    private _ReportDesignerRunningTotalDialog runningTotalDialogRef;
+
+    private string pendingRunningTotalRenameSourceName;
 
     #endregion
 
@@ -57,17 +69,31 @@ public partial class _ReportDesignerToolboxPanel
         if ( node?.Kind == ReportTreeNodeKind.FormulaField )
             selectedFormulaFieldName = node.Text;
 
+        if ( node?.Kind == ReportTreeNodeKind.RunningTotalField )
+            selectedRunningTotalName = node.Text;
+
         await CloseFormulaFieldContextMenu();
+        await CloseRunningTotalContextMenu();
     }
 
     private async Task FieldsNodeDoubleClicked( ReportTreeNode node )
     {
-        if ( node?.Kind != ReportTreeNodeKind.FormulaField )
+        if ( node?.Kind == ReportTreeNodeKind.FormulaField )
+        {
+            selectedFormulaFieldName = node.Text;
+            await CloseFormulaFieldContextMenu();
+            await CloseRunningTotalContextMenu();
+            await FormulaFieldInserted.InvokeAsync( node.Text );
             return;
+        }
 
-        selectedFormulaFieldName = node.Text;
-        await CloseFormulaFieldContextMenu();
-        await FormulaFieldInserted.InvokeAsync( node.Text );
+        if ( node?.Kind == ReportTreeNodeKind.RunningTotalField )
+        {
+            selectedRunningTotalName = node.Text;
+            await CloseFormulaFieldContextMenu();
+            await CloseRunningTotalContextMenu();
+            await RunningTotalInserted.InvokeAsync( node.Text );
+        }
     }
 
     private Task FieldsNodeContextMenu( ReportTreeNodeMouseEventArgs eventArgs )
@@ -80,6 +106,18 @@ public partial class _ReportDesignerToolboxPanel
             {
                 Visible = true,
                 FormulaFieldName = eventArgs.Node.Kind == ReportTreeNodeKind.FormulaField ? eventArgs.Node.Text : null,
+                ClientX = eventArgs.MouseEventArgs.ClientX,
+                ClientY = eventArgs.MouseEventArgs.ClientY,
+            };
+        }
+        else if ( eventArgs?.Node?.Key == ReportDesignerTreeBuilder.RunningTotalFieldsNodeKey
+            || eventArgs?.Node?.Kind == ReportTreeNodeKind.RunningTotalField )
+        {
+            selectedRunningTotalName = eventArgs.Node.Kind == ReportTreeNodeKind.RunningTotalField ? eventArgs.Node.Text : selectedRunningTotalName;
+            runningTotalContextMenu = new()
+            {
+                Visible = true,
+                RunningTotalName = eventArgs.Node.Kind == ReportTreeNodeKind.RunningTotalField ? eventArgs.Node.Text : null,
                 ClientX = eventArgs.MouseEventArgs.ClientX,
                 ClientY = eventArgs.MouseEventArgs.ClientY,
             };
@@ -121,6 +159,30 @@ public partial class _ReportDesignerToolboxPanel
         } );
     }
 
+    private async Task RunningTotalNameConfirmed( string runningTotalName )
+    {
+        if ( string.IsNullOrWhiteSpace( runningTotalName ) )
+            return;
+
+        string confirmedName = runningTotalName.Trim();
+
+        if ( runningTotalNameDialogMode == ReportRunningTotalNameDialogMode.Rename )
+        {
+            await RunningTotalRenamed.InvokeAsync( (pendingRunningTotalRenameSourceName, confirmedName) );
+            selectedRunningTotalName = confirmedName;
+            pendingRunningTotalRenameSourceName = null;
+        }
+    }
+
+    private async Task RunningTotalDialogConfirmed( ReportRunningTotalDefinition runningTotal )
+    {
+        if ( runningTotal is null )
+            return;
+
+        selectedRunningTotalName = runningTotal.Name;
+        await RunningTotalConfirmed.InvokeAsync( runningTotal );
+    }
+
     private async Task OpenFormulaFieldEditorAsync( string formulaFieldName )
     {
         if ( string.IsNullOrWhiteSpace( formulaFieldName ) )
@@ -140,6 +202,16 @@ public partial class _ReportDesignerToolboxPanel
         await CloseFormulaFieldContextMenu();
         formulaFieldNameDialogMode = ReportFormulaFieldNameDialogMode.Create;
         await formulaFieldNameDialogRef.ShowAsync( CreateFormulaFieldName(), "New Formula Field" );
+    }
+
+    private async Task NewRunningTotalClicked( MouseEventArgs eventArgs )
+    {
+        await CloseRunningTotalContextMenu();
+        await runningTotalDialogRef.ShowAsync( new()
+        {
+            Name = CreateRunningTotalName(),
+            Function = ReportAggregateFunction.Sum,
+        } );
     }
 
     private async Task EditFormulaFieldClicked( MouseEventArgs eventArgs )
@@ -178,9 +250,56 @@ public partial class _ReportDesignerToolboxPanel
         }
     }
 
+    private async Task EditRunningTotalClicked( MouseEventArgs eventArgs )
+    {
+        string runningTotalName = runningTotalContextMenu?.RunningTotalName;
+
+        await CloseRunningTotalContextMenu();
+
+        ReportRunningTotalDefinition runningTotal = FindRunningTotal( runningTotalName );
+
+        if ( runningTotal is not null )
+            await runningTotalDialogRef.ShowAsync( runningTotal );
+    }
+
+    private async Task RenameRunningTotalClicked( MouseEventArgs eventArgs )
+    {
+        string runningTotalName = runningTotalContextMenu?.RunningTotalName;
+
+        if ( string.IsNullOrWhiteSpace( runningTotalName ) )
+            return;
+
+        await CloseRunningTotalContextMenu();
+        runningTotalNameDialogMode = ReportRunningTotalNameDialogMode.Rename;
+        pendingRunningTotalRenameSourceName = runningTotalName;
+        await runningTotalNameDialogRef.ShowAsync( runningTotalName, "Rename Running Total" );
+    }
+
+    private async Task DeleteRunningTotalClicked( MouseEventArgs eventArgs )
+    {
+        string runningTotalName = runningTotalContextMenu?.RunningTotalName;
+
+        await CloseRunningTotalContextMenu();
+
+        if ( !string.IsNullOrWhiteSpace( runningTotalName ) )
+        {
+            if ( string.Equals( selectedRunningTotalName, runningTotalName, StringComparison.OrdinalIgnoreCase ) )
+                selectedRunningTotalName = null;
+
+            await RunningTotalDeleted.InvokeAsync( runningTotalName );
+        }
+    }
+
     private Task CloseFormulaFieldContextMenu()
     {
         formulaFieldContextMenu = null;
+
+        return Task.CompletedTask;
+    }
+
+    private Task CloseRunningTotalContextMenu()
+    {
+        runningTotalContextMenu = null;
 
         return Task.CompletedTask;
     }
@@ -201,6 +320,28 @@ public partial class _ReportDesignerToolboxPanel
         return name;
     }
 
+    private string CreateRunningTotalName()
+    {
+        const string baseName = "RunningTotal";
+
+        int index = 1;
+        string name = $"{baseName}{index}";
+
+        while ( Definition?.RunningTotals?.Any( field => string.Equals( field.Name, name, StringComparison.OrdinalIgnoreCase ) ) == true )
+        {
+            index++;
+            name = $"{baseName}{index}";
+        }
+
+        return name;
+    }
+
+    private ReportRunningTotalDefinition FindRunningTotal( string runningTotalName )
+    {
+        return Definition?.RunningTotals?.FirstOrDefault( field =>
+            string.Equals( field.Name, runningTotalName, StringComparison.OrdinalIgnoreCase ) );
+    }
+
     #endregion
 
     #region Properties
@@ -212,9 +353,15 @@ public partial class _ReportDesignerToolboxPanel
 
     private bool FormulaFieldContextMenuVisible => formulaFieldContextMenu?.Visible == true;
 
+    private bool RunningTotalContextMenuVisible => runningTotalContextMenu?.Visible == true;
+
     private bool IsFormulaFieldContextMenuTarget => !string.IsNullOrWhiteSpace( formulaFieldContextMenu?.FormulaFieldName );
 
+    private bool IsRunningTotalContextMenuTarget => !string.IsNullOrWhiteSpace( runningTotalContextMenu?.RunningTotalName );
+
     private string NewFormulaFieldContextMenuText => IsFormulaFieldContextMenuTarget ? "New" : "New formula field";
+
+    private string NewRunningTotalContextMenuText => IsRunningTotalContextMenuTarget ? "New" : "New running total";
 
     /// <summary>
     /// Report definition used to discover toolbox and data source fields.
@@ -266,6 +413,26 @@ public partial class _ReportDesignerToolboxPanel
     /// </summary>
     [Parameter] public EventCallback<string> FormulaFieldInserted { get; set; }
 
+    /// <summary>
+    /// Raised when a running total field is created or updated.
+    /// </summary>
+    [Parameter] public EventCallback<ReportRunningTotalDefinition> RunningTotalConfirmed { get; set; }
+
+    /// <summary>
+    /// Raised when a running total field is renamed.
+    /// </summary>
+    [Parameter] public EventCallback<(string OldName, string NewName)> RunningTotalRenamed { get; set; }
+
+    /// <summary>
+    /// Raised when a running total field is deleted.
+    /// </summary>
+    [Parameter] public EventCallback<string> RunningTotalDeleted { get; set; }
+
+    /// <summary>
+    /// Raised when a running total field should be inserted into the selected band.
+    /// </summary>
+    [Parameter] public EventCallback<string> RunningTotalInserted { get; set; }
+
     #endregion
 
     #region Enums
@@ -274,6 +441,11 @@ public partial class _ReportDesignerToolboxPanel
     {
         Create,
 
+        Rename,
+    }
+
+    private enum ReportRunningTotalNameDialogMode
+    {
         Rename,
     }
 
@@ -286,6 +458,17 @@ public partial class _ReportDesignerToolboxPanel
         internal bool Visible { get; set; }
 
         internal string FormulaFieldName { get; set; }
+
+        internal double ClientX { get; set; }
+
+        internal double ClientY { get; set; }
+    }
+
+    private sealed class ReportRunningTotalContextMenuState
+    {
+        internal bool Visible { get; set; }
+
+        internal string RunningTotalName { get; set; }
 
         internal double ClientX { get; set; }
 

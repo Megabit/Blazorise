@@ -22,7 +22,7 @@
     }
     else
     {
-        <_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildFieldsExplorerNodes( DataSources, Definition?.FormulaFields, selectedFormulaFieldName )"
+        <_ReportTreeView Nodes="@ReportDesignerTreeBuilder.BuildFieldsExplorerNodes( DataSources, Definition?.FormulaFields, Definition?.RunningTotals, selectedFormulaFieldName, selectedRunningTotalName )"
                          NodeClicked="@FieldsNodeClicked"
                          NodeDoubleClicked="@FieldsNodeDoubleClicked"
                          NodeContextMenu="@FieldsNodeContextMenu"
@@ -46,9 +46,30 @@
     <_ReportDesignerContextMenuButton Text="Close" Clicked="@((MouseEventArgs _) => CloseFormulaFieldContextMenu())" />
 </_ReportDesignerContextMenu>
 
+<_ReportDesignerContextMenu Visible="@RunningTotalContextMenuVisible"
+                            X="@(runningTotalContextMenu?.ClientX ?? 0)"
+                            Y="@(runningTotalContextMenu?.ClientY ?? 0)">
+    <_ReportDesignerContextMenuButton Text="@NewRunningTotalContextMenuText" Clicked="@NewRunningTotalClicked" />
+
+    @if ( IsRunningTotalContextMenuTarget )
+    {
+        <_ReportDesignerContextMenuButton Text="Edit" Clicked="@EditRunningTotalClicked" />
+        <_ReportDesignerContextMenuButton Text="Rename" Clicked="@RenameRunningTotalClicked" />
+        <_ReportDesignerContextMenuButton Text="Delete" Clicked="@DeleteRunningTotalClicked" />
+    }
+
+    <_ReportDesignerContextMenuButton Text="Close" Clicked="@((MouseEventArgs _) => CloseRunningTotalContextMenu())" />
+</_ReportDesignerContextMenu>
+
 <_ReportDesignerFormulaFieldNameDialog @ref="formulaFieldNameDialogRef"
                                        Confirmed="@FormulaFieldNameConfirmed" />
+<_ReportDesignerFormulaFieldNameDialog @ref="runningTotalNameDialogRef"
+                                       Confirmed="@RunningTotalNameConfirmed" />
 <_ReportDesignerFormulaDialog @ref="formulaDialogRef"
                               Definition="@Definition"
                               Data="@Data"
                               Confirmed="@FormulaFieldFormulaConfirmed" />
+<_ReportDesignerRunningTotalDialog @ref="runningTotalDialogRef"
+                                   Definition="@Definition"
+                                   Data="@Data"
+                                   Confirmed="@RunningTotalDialogConfirmed" />

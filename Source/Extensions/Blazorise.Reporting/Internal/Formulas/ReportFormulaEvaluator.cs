@@ -425,7 +425,7 @@ internal static class ReportFormulaEvaluator
                 throw new InvalidOperationException( $"Unknown field '{{{fieldPath}}}'." );
             }
 
-            return ReportExpressionResolver.ResolveValue( context.Definition, context.Data, context.Item, fieldPath, context.Section?.DataSource );
+            return ReportExpressionResolver.ResolveValue( context.Definition, context.Data, context.Item, fieldPath, context.Section?.DataSource, context.RunningTotals );
         }
 
         private bool TryResolveValidationFieldValue( string fieldPath, out object value )
@@ -444,6 +444,12 @@ internal static class ReportFormulaEvaluator
             if ( ReportFormulaFieldResolver.IsFormulaField( context.Definition, fieldPath ) )
             {
                 value = string.Empty;
+                return true;
+            }
+
+            if ( ReportRunningTotalResolver.IsRunningTotalField( context.Definition, fieldPath ) )
+            {
+                value = 0m;
                 return true;
             }
 

@@ -13,6 +13,8 @@ internal static class ReportDesignerTreeBuilder
 
     internal const string FormulaFieldsNodeKey = "fields:formula";
 
+    internal const string RunningTotalFieldsNodeKey = "fields:running-total";
+
     #endregion
 
     #region Methods
@@ -40,15 +42,19 @@ internal static class ReportDesignerTreeBuilder
     internal static IReadOnlyList<ReportTreeNode> BuildFieldsExplorerNodes(
         IEnumerable<ReportDesignerDataSourceNode> dataSources,
         IEnumerable<ReportFormulaFieldDefinition> formulaFields,
-        string selectedFormulaFieldName = null )
+        IEnumerable<ReportRunningTotalDefinition> runningTotals = null,
+        string selectedFormulaFieldName = null,
+        string selectedRunningTotalName = null )
     {
         List<ReportDesignerDataSourceNode> dataSourceList = dataSources?.ToList() ?? [];
         List<ReportFormulaFieldDefinition> formulaFieldList = formulaFields?.ToList() ?? [];
+        List<ReportRunningTotalDefinition> runningTotalList = runningTotals?.ToList() ?? [];
 
         return
         [
             BuildSourceFieldsNode( dataSourceList ),
             BuildFormulaFieldsNode( formulaFieldList, selectedFormulaFieldName ),
+            BuildRunningTotalFieldsNode( runningTotalList, selectedRunningTotalName ),
             BuildSpecialFieldsNode(),
         ];
     }
@@ -191,6 +197,32 @@ internal static class ReportDesignerTreeBuilder
                     Selected = string.Equals( field.Name, selectedFormulaFieldName, StringComparison.OrdinalIgnoreCase ),
                     Draggable = true,
                     Value = new ReportFieldTreeNodeValue( ReportFormulaFieldResolver.DataSourceName, field.Name ),
+                } )
+                .ToList(),
+        };
+    }
+
+    private static ReportTreeNode BuildRunningTotalFieldsNode( IReadOnlyList<ReportRunningTotalDefinition> runningTotals, string selectedRunningTotalName )
+    {
+        return new()
+        {
+            Key = RunningTotalFieldsNodeKey,
+            Text = "Running Total Fields",
+            Kind = ReportTreeNodeKind.RunningTotalFields,
+            Selectable = true,
+            Children = runningTotals
+                .Where( field => !string.IsNullOrWhiteSpace( field.Name ) )
+                .OrderBy( field => field.Name )
+                .Select( field => new ReportTreeNode
+                {
+                    Key = $"fields:running-total:{field.Id}",
+                    Text = field.Name,
+                    Detail = "Running total",
+                    Kind = ReportTreeNodeKind.RunningTotalField,
+                    Selectable = true,
+                    Selected = string.Equals( field.Name, selectedRunningTotalName, StringComparison.OrdinalIgnoreCase ),
+                    Draggable = true,
+                    Value = new ReportFieldTreeNodeValue( ReportRunningTotalResolver.DataSourceName, field.Name ),
                 } )
                 .ToList(),
         };

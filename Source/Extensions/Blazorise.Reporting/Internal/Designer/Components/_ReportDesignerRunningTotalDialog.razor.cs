@@ -1,0 +1,335 @@
+#region Using directives
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+#endregion
+
+namespace Blazorise.Reporting.Internal;
+
+/// <summary>
+/// Internal dialog used to configure running total fields.
+/// </summary>
+public partial class _ReportDesignerRunningTotalDialog
+{
+    #region Members
+
+    private const string FieldKeySeparator = "\u001f";
+
+    private readonly List<ReportDesignerFieldOption> fields = [];
+
+    private readonly List<ReportAggregateFunction> supportedFunctions = [];
+
+    private readonly List<ReportRunningTotalGroupOption> groupOptions = [];
+
+    private Modal modalRef;
+
+    private _ReportDesignerFormulaDialog formulaDialogRef;
+
+    private ReportRunningTotalDefinition runningTotal = new();
+
+    private string selectedFieldKey;
+
+    #endregion
+
+    #region Methods
+
+    internal async Task ShowAsync( ReportRunningTotalDefinition definition )
+    {
+        runningTotal = CloneRunningTotal( definition ?? new() );
+        RefreshFields();
+        RefreshGroupOptions();
+
+        selectedFieldKey = ResolveInitialFieldKey();
+        ApplySelectedField();
+        RefreshSupportedFunctions();
+        EnsureResetGroup();
+
+        await modalRef.Show();
+    }
+
+    private Task CloseAsync()
+    {
+        return modalRef.Hide();
+    }
+
+    private async Task ConfirmAsync()
+    {
+        ApplySelectedField();
+
+        if ( !CanConfirm )
+            return;
+
+        await Confirmed.InvokeAsync( CloneRunningTotal( runningTotal ) );
+        await modalRef.Hide();
+    }
+
+    private async Task OpenEvaluateFormulaDialogAsync()
+    {
+        await formulaDialogRef.ShowAsync( "Evaluate formula", runningTotal.EvaluateFormula );
+    }
+
+    private Task EvaluateFormulaConfirmed( string formula )
+    {
+        runningTotal.EvaluateFormula = formula;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnEvaluateFormulaChanged( string value )
+    {
+        runningTotal.EvaluateFormula = value;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnEvaluateModeChanged( ReportRunningTotalEvaluateMode value )
+    {
+        runningTotal.EvaluateMode = value;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnFunctionChanged( ReportAggregateFunction value )
+    {
+        runningTotal.Function = value;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnNameChanged( string value )
+    {
+        runningTotal.Name = value;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnResetGroupChanged( string value )
+    {
+        runningTotal.ResetGroupId = value;
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnResetModeChanged( ReportRunningTotalResetMode value )
+    {
+        runningTotal.ResetMode = value;
+        EnsureResetGroup();
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnSelectedFieldChanged( string value )
+    {
+        selectedFieldKey = value;
+        ApplySelectedField();
+        RefreshSupportedFunctions();
+
+        return Task.CompletedTask;
+    }
+
+    private void ApplySelectedField()
+    {
+        ReportDesignerFieldOption field = FindSelectedField();
+
+        if ( field is null )
+            return;
+
+        runningTotal.DataSource = field.DataSourceName;
+        runningTotal.Field = field.FieldName;
+    }
+
+    private static ReportRunningTotalDefinition CloneRunningTotal( ReportRunningTotalDefinition value )
+    {
+        return new()
+        {
+            Id = string.IsNullOrWhiteSpace( value.Id ) ? Guid.NewGuid().ToString( "N" ) : value.Id,
+            Name = value.Name,
+            DataSource = value.DataSource,
+            Field = value.Field,
+            Function = value.Function,
+            EvaluateMode = value.EvaluateMode,
+            EvaluateFormula = value.EvaluateFormula,
+            ResetMode = value.ResetMode,
+            ResetGroupId = value.ResetGroupId,
+        };
+    }
+
+    private static string CreateFieldKey( ReportDesignerFieldOption field )
+    {
+        return $"{field.DataSourceName}{FieldKeySeparator}{field.FieldName}";
+    }
+
+    private ReportDesignerFieldOption FindSelectedField()
+    {
+        return fields.FirstOrDefault( field => string.Equals( CreateFieldKey( field ), selectedFieldKey, StringComparison.Ordinal ) );
+    }
+
+    private void EnsureResetGroup()
+    {
+        if ( runningTotal.ResetMode != ReportRunningTotalResetMode.Group )
+            return;
+
+        if ( string.IsNullOrWhiteSpace( runningTotal.ResetGroupId )
+            || groupOptions.All( group => !string.Equals( group.Id, runningTotal.ResetGroupId, StringComparison.Ordinal ) ) )
+        {
+            runningTotal.ResetGroupId = groupOptions.FirstOrDefault()?.Id;
+        }
+    }
+
+    private void RefreshFields()
+    {
+        fields.Clear();
+
+        int sectionIndex = 0;
+
+        foreach ( ReportDesignerDataSourceNode dataSource in ReportDataSourceExplorer.ResolveDataSourceDictionary( Definition, "Default" ) )
+        {
+            fields.AddRange( FlattenFieldOptions( Definition, sectionIndex, dataSource.Name, dataSource.Fields ) );
+            sectionIndex++;
+        }
+    }
+
+    private void RefreshGroupOptions()
+    {
+        groupOptions.Clear();
+
+        if ( Definition?.Sections is null )
+            return;
+
+        groupOptions.AddRange( Definition.Sections
+            .Where( section => section.Type is ReportSectionType.Group or ReportSectionType.GroupHeader )
+            .Select( section => new ReportRunningTotalGroupOption
+            {
+                Id = section.Id,
+                Name = ReportDefinitionHelper.GetSectionDisplayName( section ),
+            } ) );
+    }
+
+    private void RefreshSupportedFunctions()
+    {
+        supportedFunctions.Clear();
+
+        ReportDesignerFieldOption field = FindSelectedField();
+
+        if ( field is null )
+            return;
+
+        supportedFunctions.AddRange( ReportAggregateResolver.GetSupportedFunctions( Definition, Data, field.DataSourceName, field.FieldName, field.DataType ) );
+
+        if ( !supportedFunctions.Contains( runningTotal.Function ) )
+            runningTotal.Function = supportedFunctions.Contains( ReportAggregateFunction.Sum ) ? ReportAggregateFunction.Sum : supportedFunctions.FirstOrDefault();
+    }
+
+    private string ResolveInitialFieldKey()
+    {
+        ReportDesignerFieldOption selectedField = fields.FirstOrDefault( field =>
+            string.Equals( field.DataSourceName, runningTotal.DataSource, StringComparison.OrdinalIgnoreCase )
+            && string.Equals( field.FieldName, runningTotal.Field, StringComparison.OrdinalIgnoreCase ) )
+            ?? fields.FirstOrDefault();
+
+        return selectedField is null ? null : CreateFieldKey( selectedField );
+    }
+
+    private static IEnumerable<ReportDesignerFieldOption> FlattenFieldOptions( ReportDefinition definition, int sourceSectionIndex, string dataSourceName, IEnumerable<ReportDesignerFieldNode> nodes, string collectionPath = null )
+    {
+        foreach ( ReportDesignerFieldNode node in nodes ?? [] )
+        {
+            if ( node.IsCollection )
+            {
+                string collectionDataSourceName = ReportExpressionFormatter.FormatFieldPath( dataSourceName, node.Path );
+
+                foreach ( ReportDesignerFieldOption child in FlattenFieldOptions( definition, sourceSectionIndex, collectionDataSourceName, node.Children, node.Path ) )
+                {
+                    yield return child;
+                }
+
+                continue;
+            }
+
+            if ( node.Children.Count == 0 )
+            {
+                string fieldName = ResolveFieldName( node, collectionPath );
+
+                yield return new()
+                {
+                    SourceSectionIndex = sourceSectionIndex,
+                    DataSourceName = dataSourceName,
+                    FieldName = fieldName,
+                    DisplayName = FormatFieldOptionDisplayName( definition, dataSourceName, fieldName, node.DataType ),
+                    DataType = node.DataType,
+                };
+
+                continue;
+            }
+
+            foreach ( ReportDesignerFieldOption child in FlattenFieldOptions( definition, sourceSectionIndex, dataSourceName, node.Children, collectionPath ) )
+            {
+                yield return child;
+            }
+        }
+    }
+
+    private static string FormatFieldOptionDisplayName( ReportDefinition definition, string dataSourceName, string fieldName, Type dataType )
+    {
+        string fieldPath = ReportExpressionFormatter.FormatFieldPath( definition, dataSourceName, fieldName );
+        string dataTypeName = ReportDefinitionHelper.GetDataTypeDisplayName( dataType );
+
+        return string.IsNullOrWhiteSpace( dataTypeName )
+            ? fieldPath
+            : $"{fieldPath} ({dataTypeName})";
+    }
+
+    private static string ResolveFieldName( ReportDesignerFieldNode node, string collectionPath )
+    {
+        if ( string.IsNullOrWhiteSpace( collectionPath ) || string.IsNullOrWhiteSpace( node?.Path ) )
+            return node?.Path;
+
+        string prefix = $"{collectionPath.Trim()}.";
+
+        return node.Path.StartsWith( prefix, StringComparison.OrdinalIgnoreCase )
+            ? node.Path[prefix.Length..]
+            : node.Path;
+    }
+
+    #endregion
+
+    #region Properties
+
+    private bool CanConfirm => !string.IsNullOrWhiteSpace( runningTotal.Name )
+        && FindSelectedField() is not null
+        && supportedFunctions.Count > 0
+        && ( runningTotal.ResetMode != ReportRunningTotalResetMode.Group || !string.IsNullOrWhiteSpace( runningTotal.ResetGroupId ) );
+
+    private ReportSectionDefinition SelectedSection => Definition?.Sections?.FirstOrDefault( section =>
+        string.Equals( section.DataSource, runningTotal.DataSource, StringComparison.OrdinalIgnoreCase ) );
+
+    /// <summary>
+    /// Report definition used to resolve fields and groups.
+    /// </summary>
+    [Parameter] public ReportDefinition Definition { get; set; }
+
+    /// <summary>
+    /// Report data used to infer field types and validate formulas.
+    /// </summary>
+    [Parameter] public object Data { get; set; }
+
+    /// <summary>
+    /// Raised when the running total configuration is confirmed.
+    /// </summary>
+    [Parameter] public EventCallback<ReportRunningTotalDefinition> Confirmed { get; set; }
+
+    #endregion
+
+    #region Classes
+
+    private sealed class ReportRunningTotalGroupOption
+    {
+        internal string Id { get; set; }
+
+        internal string Name { get; set; }
+    }
+
+    #endregion
+}

@@ -121,6 +121,12 @@ internal static class ReportDataSourceExplorer
             return true;
         }
 
+        if ( ReportRunningTotalResolver.IsRunningTotalDataSource( dataSourceName ) || ReportRunningTotalResolver.IsRunningTotalField( definition, fieldName ) )
+        {
+            dataType = typeof( object );
+            return true;
+        }
+
         List<string> normalizedFieldNames = NormalizeFieldPathCandidates( definition, dataSourceName, fieldName ).ToList();
         object dataSourceValue = ReportDataResolver.ResolveDataSourceValue( definition, defaultData, dataSourceName );
         List<ReportDesignerFieldNode> fields = ResolveDataSourceFields( dataSourceValue ).ToList();

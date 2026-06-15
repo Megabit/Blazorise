@@ -310,6 +310,38 @@ public enum ReportAggregateFunction
 }
 
 /// <summary>
+/// Defines when a running total should include the current detail record.
+/// </summary>
+public enum ReportRunningTotalEvaluateMode
+{
+    /// <summary>
+    /// Includes every record in the running total.
+    /// </summary>
+    EveryRecord,
+
+    /// <summary>
+    /// Includes records only when the evaluate formula resolves to true.
+    /// </summary>
+    Formula
+}
+
+/// <summary>
+/// Defines when a running total should reset its accumulated value.
+/// </summary>
+public enum ReportRunningTotalResetMode
+{
+    /// <summary>
+    /// Keeps the running total value for the whole report.
+    /// </summary>
+    Never,
+
+    /// <summary>
+    /// Resets the running total when the selected group changes.
+    /// </summary>
+    Group
+}
+
+/// <summary>
 /// Defines commands that can be issued from report toolbars.
 /// </summary>
 public enum ReportCommand

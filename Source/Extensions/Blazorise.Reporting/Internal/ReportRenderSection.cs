@@ -1,3 +1,7 @@
+#region Using directives
+using System.Collections.Generic;
+#endregion
+
 namespace Blazorise.Reporting.Internal;
 
 internal sealed class ReportRenderSection
@@ -11,6 +15,8 @@ internal sealed class ReportRenderSection
     internal ReportSectionDefinition Section { get; set; }
 
     internal object Item { get; set; }
+
+    internal IReadOnlyDictionary<string, object> RunningTotals { get; set; }
 
     internal bool RenderElements { get; set; } = true;
 

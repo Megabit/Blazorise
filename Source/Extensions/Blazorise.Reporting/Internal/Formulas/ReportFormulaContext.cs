@@ -18,6 +18,8 @@ internal sealed class ReportFormulaContext
 
     internal ReportElementDefinition Element { get; set; }
 
+    internal IReadOnlyDictionary<string, object> RunningTotals { get; set; }
+
     internal IReadOnlyDictionary<string, object> Parameters { get; set; }
 
     #endregion

@@ -64,7 +64,9 @@ public partial class _ReportDesignerElement
         bool sectionDefined = parameters.TryGetValue<ReportSectionDefinition>( nameof( Section ), out _ );
         bool dataDefined = parameters.TryGetValue<object>( nameof( Data ), out _ );
 
-        if ( elementDefined || definitionDefined || sectionDefined || dataDefined )
+        bool runningTotalsDefined = parameters.TryGetValue<IReadOnlyDictionary<string, object>>( nameof( RunningTotals ), out _ );
+
+        if ( elementDefined || definitionDefined || sectionDefined || dataDefined || runningTotalsDefined )
             DirtyStyles();
 
         if ( parameters.TryGetValue<bool>( nameof( Editing ), out var editing ) && editing && editing != Editing )
@@ -139,14 +141,14 @@ public partial class _ReportDesignerElement
         if ( DesignMode )
             return ReportExpressionFormatter.FormatFieldExpression( Definition, Element );
 
-        return ReportDataResolver.FormatValue( ReportExpressionResolver.ResolveFieldValue( Definition, Data, Item, Element ), Element.Format );
+        return ReportDataResolver.FormatValue( ReportExpressionResolver.ResolveFieldValue( Definition, Data, Item, Element, RunningTotals ), Element.Format );
     }
 
     private string GetText()
     {
         return DesignMode
             ? Element.Text
-            : ReportTextTemplateResolver.ResolveText( Definition, Data, Item, Element );
+            : ReportTextTemplateResolver.ResolveText( Definition, Data, Item, Element, RunningTotals );
     }
 
     private async Task CompleteTextEditAsync()
@@ -232,6 +234,11 @@ public partial class _ReportDesignerElement
     /// Current band item used for repeated detail rendering.
     /// </summary>
     [Parameter] public object Item { get; set; }
+
+    /// <summary>
+    /// Running total values available at the current render position.
+    /// </summary>
+    [Parameter] public IReadOnlyDictionary<string, object> RunningTotals { get; set; }
 
     /// <summary>
     /// Report element definition rendered on the surface.

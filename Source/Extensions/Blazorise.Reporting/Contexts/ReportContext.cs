@@ -82,6 +82,7 @@ internal sealed class ReportContext
             Page = ClonePage( page ?? Page ?? new() ),
             DataSources = dataSources.Select( CloneDataSource ).ToList(),
             FormulaFields = [],
+            RunningTotals = [],
             Sections = sections.Select( CloneSection ).ToList(),
         } );
     }
@@ -98,6 +99,7 @@ internal sealed class ReportContext
             Page = ClonePage( definition.Page ?? new() ),
             DataSources = definition.DataSources?.Select( CloneDataSource ).ToList() ?? [],
             FormulaFields = definition.FormulaFields?.Select( CloneFormulaField ).ToList() ?? [],
+            RunningTotals = definition.RunningTotals?.Select( CloneRunningTotal ).ToList() ?? [],
             Sections = definition.Sections?.Select( CloneSection ).ToList() ?? [],
         };
     }
@@ -200,6 +202,25 @@ internal sealed class ReportContext
             Id = formulaField.Id,
             Name = formulaField.Name,
             Formula = formulaField.Formula,
+        };
+    }
+
+    private static ReportRunningTotalDefinition CloneRunningTotal( ReportRunningTotalDefinition runningTotal )
+    {
+        if ( runningTotal is null )
+            return null;
+
+        return new()
+        {
+            Id = runningTotal.Id,
+            Name = runningTotal.Name,
+            DataSource = runningTotal.DataSource,
+            Field = runningTotal.Field,
+            Function = runningTotal.Function,
+            EvaluateMode = runningTotal.EvaluateMode,
+            EvaluateFormula = runningTotal.EvaluateFormula,
+            ResetMode = runningTotal.ResetMode,
+            ResetGroupId = runningTotal.ResetGroupId,
         };
     }
 

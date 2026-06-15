@@ -1,0 +1,107 @@
+@namespace Blazorise.Reporting.Internal
+@inherits ReportComponentBase
+
+<Modal @ref="modalRef" Centered>
+    <ModalContent>
+        <ModalHeader>
+            <ModalTitle>Running total</ModalTitle>
+            <CloseButton Clicked="@CloseAsync" />
+        </ModalHeader>
+        <ModalBody>
+            <Field Horizontal>
+                <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Name</FieldLabel>
+                <FieldBody ColumnSize="ColumnSize.Is8">
+                    <TextInput Value="@runningTotal.Name" ValueChanged="@OnNameChanged" Size="Size.Small" />
+                </FieldBody>
+            </Field>
+
+            <Field Horizontal>
+                <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Field</FieldLabel>
+                <FieldBody ColumnSize="ColumnSize.Is8">
+                    <Select TValue="string" Value="@selectedFieldKey" ValueChanged="@OnSelectedFieldChanged" Size="Size.Small">
+                        @foreach ( ReportDesignerFieldOption field in fields )
+                        {
+                            <SelectItem TValue="string" Value="@CreateFieldKey( field )">@field.DisplayName</SelectItem>
+                        }
+                    </Select>
+                </FieldBody>
+            </Field>
+
+            <Field Horizontal>
+                <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Function</FieldLabel>
+                <FieldBody ColumnSize="ColumnSize.Is8">
+                    <Select TValue="ReportAggregateFunction" Value="@runningTotal.Function" ValueChanged="@OnFunctionChanged" Size="Size.Small">
+                        @foreach ( ReportAggregateFunction function in supportedFunctions )
+                        {
+                            <SelectItem TValue="ReportAggregateFunction" Value="@function">@ReportAggregateResolver.GetFunctionDisplayName( function )</SelectItem>
+                        }
+                    </Select>
+                </FieldBody>
+            </Field>
+
+            <Field Horizontal>
+                <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Evaluate</FieldLabel>
+                <FieldBody ColumnSize="ColumnSize.Is8">
+                    <Select TValue="ReportRunningTotalEvaluateMode" Value="@runningTotal.EvaluateMode" ValueChanged="@OnEvaluateModeChanged" Size="Size.Small">
+                        <SelectItem TValue="ReportRunningTotalEvaluateMode" Value="ReportRunningTotalEvaluateMode.EveryRecord">For each record</SelectItem>
+                        <SelectItem TValue="ReportRunningTotalEvaluateMode" Value="ReportRunningTotalEvaluateMode.Formula">Use formula</SelectItem>
+                    </Select>
+                </FieldBody>
+            </Field>
+
+            @if ( runningTotal.EvaluateMode == ReportRunningTotalEvaluateMode.Formula )
+            {
+                <Field Horizontal>
+                    <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Evaluate formula</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is8">
+                        <Addons Size="Size.Small">
+                            <Addon AddonType="AddonType.Body">
+                                <TextInput Value="@runningTotal.EvaluateFormula" ValueChanged="@OnEvaluateFormulaChanged" Size="Size.Small" />
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Light" Clicked="@OpenEvaluateFormulaDialogAsync" Size="Size.Small">
+                                    <Icon Name="IconName.Code" />
+                                </Button>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+            }
+
+            <Field Horizontal>
+                <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Reset</FieldLabel>
+                <FieldBody ColumnSize="ColumnSize.Is8">
+                    <Select TValue="ReportRunningTotalResetMode" Value="@runningTotal.ResetMode" ValueChanged="@OnResetModeChanged" Size="Size.Small">
+                        <SelectItem TValue="ReportRunningTotalResetMode" Value="ReportRunningTotalResetMode.Never">Never</SelectItem>
+                        <SelectItem TValue="ReportRunningTotalResetMode" Value="ReportRunningTotalResetMode.Group">On change of group</SelectItem>
+                    </Select>
+                </FieldBody>
+            </Field>
+
+            @if ( runningTotal.ResetMode == ReportRunningTotalResetMode.Group )
+            {
+                <Field Horizontal>
+                    <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small">Group</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is8">
+                        <Select TValue="string" Value="@runningTotal.ResetGroupId" ValueChanged="@OnResetGroupChanged" Disabled="@(groupOptions.Count == 0)" Size="Size.Small">
+                            @foreach ( ReportRunningTotalGroupOption group in groupOptions )
+                            {
+                                <SelectItem TValue="string" Value="@group.Id">@group.Name</SelectItem>
+                            }
+                        </Select>
+                    </FieldBody>
+                </Field>
+            }
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Primary" Clicked="@ConfirmAsync" Disabled="@(!CanConfirm)" Size="Size.Small">OK</Button>
+            <Button Color="Color.Light" Clicked="@CloseAsync" Size="Size.Small">Cancel</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+<_ReportDesignerFormulaDialog @ref="formulaDialogRef"
+                              Definition="@Definition"
+                              Data="@Data"
+                              Section="@SelectedSection"
+                              Confirmed="@EvaluateFormulaConfirmed" />

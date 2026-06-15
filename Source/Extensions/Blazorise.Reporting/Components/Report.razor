@@ -67,7 +67,11 @@
                                              FormulaFieldConfirmed="@OnFormulaFieldConfirmedAsync"
                                              FormulaFieldRenamed="@OnFormulaFieldRenamedAsync"
                                              FormulaFieldDeleted="@OnFormulaFieldDeletedAsync"
-                                             FormulaFieldInserted="@OnFormulaFieldInsertedAsync" />
+                                             FormulaFieldInserted="@OnFormulaFieldInsertedAsync"
+                                             RunningTotalConfirmed="@OnRunningTotalConfirmedAsync"
+                                             RunningTotalRenamed="@OnRunningTotalRenamedAsync"
+                                             RunningTotalDeleted="@OnRunningTotalDeletedAsync"
+                                             RunningTotalInserted="@OnRunningTotalInsertedAsync" />
             </ToolboxPanel>
             <Surface>
                 <_ReportDesignerPage PageKey="@($"{definition.Id}:{designerSurfaceVersion}")"
@@ -253,6 +257,11 @@
                             <_ReportDesignerContextMenuButton Text="Edit Formula" Clicked="@(( MouseEventArgs _ ) => OpenContextElementFormulaDialogAsync())" />
                         }
 
+                        @if ( CanContextElementEditRunningTotal( definition ) )
+                        {
+                            <_ReportDesignerContextMenuButton Text="Edit Running Total" Clicked="@(( MouseEventArgs _ ) => OpenContextElementRunningTotalDialogAsync())" />
+                        }
+
                         <_ReportDesignerContextMenuButton Text="Delete element" Clicked="@(( MouseEventArgs _ ) => DeleteSelectedElementAsync())" />
                     }
 
@@ -264,6 +273,10 @@
         <_ReportDesignerAggregateDialog @ref="aggregateDialogRef"
                                         ResolveSupportedFunctions="@ResolveAggregateDialogSupportedFunctions"
                                         Confirmed="@OnAggregateDialogConfirmedAsync" />
+        <_ReportDesignerRunningTotalDialog @ref="runningTotalDialogRef"
+                                           Definition="@definition"
+                                           Data="@Data"
+                                           Confirmed="@OnRunningTotalConfirmedAsync" />
         <_ReportDesignerGroupDialog @ref="groupDialogRef"
                                     Confirmed="@OnGroupDialogConfirmedAsync" />
         <_ReportDesignerDataSourceConnectionDialog @ref="dataSourceConnectionDialogRef"
@@ -320,6 +333,7 @@
                                                                         Definition="@definition"
                                                                         Section="@section"
                                                                         Item="@renderSection.Item"
+                                                                        RunningTotals="@renderSection.RunningTotals"
                                                                         Element="@element"
                                                                         ElementKey="@ReportDefinitionHelper.EnsureElementId( element )" />
                                             }
@@ -342,6 +356,7 @@
                                                                         Definition="@definition"
                                                                         Section="@section"
                                                                         Item="@renderSection.Item"
+                                                                        RunningTotals="@renderSection.RunningTotals"
                                                                         Element="@element"
                                                                         ElementKey="@ReportDefinitionHelper.EnsureElementId( element )" />
                                             }
@@ -368,6 +383,7 @@
                                                                             Definition="@definition"
                                                                             Section="@section"
                                                                             Item="@renderSection.Item"
+                                                                            RunningTotals="@renderSection.RunningTotals"
                                                                             Element="@element"
                                                                             ElementKey="@ReportDefinitionHelper.EnsureElementId( element )" />
                                                 }

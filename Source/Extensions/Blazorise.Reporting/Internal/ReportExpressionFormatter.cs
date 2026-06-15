@@ -34,6 +34,11 @@ internal static class ReportExpressionFormatter
         return FormatFieldExpression( ResolveDisplayDataSourceName( definition, dataSourceName ), fieldName );
     }
 
+    internal static string FormatFieldPath( ReportDefinition definition, string dataSourceName, string fieldName )
+    {
+        return FormatFieldPath( ResolveDisplayDataSourceName( definition, dataSourceName ), fieldName );
+    }
+
     internal static string FormatFieldExpression( string dataSourceName, string fieldName )
     {
         if ( string.IsNullOrWhiteSpace( fieldName ) )
@@ -51,7 +56,8 @@ internal static class ReportExpressionFormatter
 
         if ( string.IsNullOrWhiteSpace( dataSourceName )
             || ReportSpecialFieldResolver.IsSpecialDataSource( dataSourceName )
-            || ReportFormulaFieldResolver.IsFormulaDataSource( dataSourceName ) )
+            || ReportFormulaFieldResolver.IsFormulaDataSource( dataSourceName )
+            || ReportRunningTotalResolver.IsRunningTotalDataSource( dataSourceName ) )
             return normalizedFieldName;
 
         string normalizedDataSourceName = dataSourceName.Trim();
@@ -98,7 +104,8 @@ internal static class ReportExpressionFormatter
             return null;
 
         if ( ReportSpecialFieldResolver.IsSpecialDataSource( dataSourceName )
-            || ReportFormulaFieldResolver.IsFormulaDataSource( dataSourceName ) )
+            || ReportFormulaFieldResolver.IsFormulaDataSource( dataSourceName )
+            || ReportRunningTotalResolver.IsRunningTotalDataSource( dataSourceName ) )
             return null;
 
         string rootDataSourceName = definition?.DataSources?.FirstOrDefault()?.Name;

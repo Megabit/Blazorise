@@ -81,6 +81,16 @@ public enum ReportTreeNodeKind
     FormulaField,
 
     /// <summary>
+    /// Running total fields folder node.
+    /// </summary>
+    RunningTotalFields,
+
+    /// <summary>
+    /// Running total field node.
+    /// </summary>
+    RunningTotalField,
+
+    /// <summary>
     /// Special fields folder node.
     /// </summary>
     SpecialFields,

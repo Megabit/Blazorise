@@ -23,6 +23,7 @@ internal static class ReportPreviewRenderPlanner
 
         var renderSections = new List<ReportRenderSection>();
         var consumedSectionIndexes = new HashSet<int>();
+        var runningTotals = ReportRunningTotalResolver.CreateState( definition, data );
         var instanceIndex = 0;
 
         for ( var sectionIndex = 0; sectionIndex < definition.Sections.Count; sectionIndex++ )
@@ -41,7 +42,7 @@ internal static class ReportPreviewRenderPlanner
             if ( IsGroupHeader( section ) && !string.IsNullOrWhiteSpace( section.GroupBy )
                 && TryFindGroupedDetail( definition, sectionIndex, out var headerSectionIndexes, out var detailSectionIndex, out var footerSectionIndexes ) )
             {
-                AppendGroupedSections( renderSections, definition, data, headerSectionIndexes, detailSectionIndex, footerSectionIndexes, consumedSectionIndexes, ref instanceIndex );
+                AppendGroupedSections( renderSections, definition, data, headerSectionIndexes, detailSectionIndex, footerSectionIndexes, consumedSectionIndexes, runningTotals, ref instanceIndex );
                 continue;
             }
 
@@ -50,14 +51,7 @@ internal static class ReportPreviewRenderPlanner
                 if ( !ShouldRenderSection( definition, data, section, item, 1, 1 ) )
                     continue;
 
-                renderSections.Add( new()
-                {
-                    SectionIndex = sectionIndex,
-                    InstanceIndex = instanceIndex++,
-                    Section = section,
-                    Item = item,
-                    RenderElements = !IsSectionSuppressed( definition, data, section, item ),
-                } );
+                renderSections.Add( CreateRenderSection( sectionIndex, instanceIndex++, section, item, !IsSectionSuppressed( definition, data, section, item ), runningTotals ) );
             }
         }
 
@@ -135,6 +129,7 @@ internal static class ReportPreviewRenderPlanner
         int detailSectionIndex,
         IReadOnlyList<int> footerSectionIndexes,
         HashSet<int> consumedSectionIndexes,
+        ReportRunningTotalState runningTotals,
         ref int instanceIndex )
     {
         var detailSection = definition.Sections[detailSectionIndex];
@@ -157,14 +152,7 @@ internal static class ReportPreviewRenderPlanner
                 if ( suppressed && !section.ReserveSpaceWhenSuppressed )
                     continue;
 
-                renderSections.Add( new()
-                {
-                    SectionIndex = headerSectionIndex,
-                    InstanceIndex = instanceIndex++,
-                    Section = section,
-                    Item = firstItem,
-                    RenderElements = !suppressed,
-                } );
+                renderSections.Add( CreateRenderSection( headerSectionIndex, instanceIndex++, section, firstItem, !suppressed, runningTotals ) );
             }
 
             foreach ( var item in groupItems )
@@ -174,14 +162,7 @@ internal static class ReportPreviewRenderPlanner
                 if ( detailSuppressed && !detailSection.ReserveSpaceWhenSuppressed )
                     continue;
 
-                renderSections.Add( new()
-                {
-                    SectionIndex = detailSectionIndex,
-                    InstanceIndex = instanceIndex++,
-                    Section = detailSection,
-                    Item = item,
-                    RenderElements = !detailSuppressed,
-                } );
+                renderSections.Add( CreateRenderSection( detailSectionIndex, instanceIndex++, detailSection, item, !detailSuppressed, runningTotals ) );
             }
 
             foreach ( var footerSectionIndex in footerSectionIndexes )
@@ -192,14 +173,7 @@ internal static class ReportPreviewRenderPlanner
                 if ( suppressed && !section.ReserveSpaceWhenSuppressed )
                     continue;
 
-                renderSections.Add( new()
-                {
-                    SectionIndex = footerSectionIndex,
-                    InstanceIndex = instanceIndex++,
-                    Section = section,
-                    Item = groupItems,
-                    RenderElements = !suppressed,
-                } );
+                renderSections.Add( CreateRenderSection( footerSectionIndex, instanceIndex++, section, groupItems, !suppressed, runningTotals ) );
             }
         }
 
@@ -214,6 +188,23 @@ internal static class ReportPreviewRenderPlanner
         {
             consumedSectionIndexes.Add( footerSectionIndex );
         }
+    }
+
+    private static ReportRenderSection CreateRenderSection( int sectionIndex, int instanceIndex, ReportSectionDefinition section, object item, bool renderElements, ReportRunningTotalState runningTotals )
+    {
+        var renderSection = new ReportRenderSection
+        {
+            SectionIndex = sectionIndex,
+            InstanceIndex = instanceIndex,
+            Section = section,
+            Item = item,
+            RenderElements = renderElements,
+        };
+
+        runningTotals?.ProcessSection( renderSection );
+        renderSection.RunningTotals = runningTotals?.BuildSnapshot();
+
+        return renderSection;
     }
 
     private static List<ReportRenderPage> PaginateBodySections(

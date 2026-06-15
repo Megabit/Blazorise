@@ -140,6 +140,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private _ReportDesignerAggregateDialog aggregateDialogRef;
 
+    private _ReportDesignerRunningTotalDialog runningTotalDialogRef;
+
     private _ReportDesignerGroupDialog groupDialogRef;
 
     private _ReportDesignerDataSourceConnectionDialog dataSourceConnectionDialogRef;
@@ -967,6 +969,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             && TryGetContextElementFormulaFieldName( definition, out _ );
     }
 
+    private bool CanContextElementEditRunningTotal( ReportDefinition definition )
+    {
+        return IsElementContextMenuVisible()
+            && TryGetContextElementRunningTotalName( definition, out _ );
+    }
+
     private bool CanContextElementInsertAggregate( ReportDefinition definition )
     {
         return GetContextElementAggregateFieldOptions( definition ).Count > 0;
@@ -1038,6 +1046,31 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return true;
     }
 
+    private bool TryGetContextElementRunningTotalName( ReportDefinition definition, out string runningTotalName )
+    {
+        runningTotalName = null;
+
+        if ( !IsElementContextMenuVisible()
+            || !ReportDefinitionHelper.TryFindElementLocation( definition, contextMenu.ElementKey, out _, out _, out ReportElementDefinition element ) )
+        {
+            return false;
+        }
+
+        if ( element?.Type != ReportElementType.Field || string.IsNullOrWhiteSpace( element.Field ) )
+            return false;
+
+        string normalizedFieldName = ReportRunningTotalResolver.NormalizeFieldName( element.Field );
+
+        if ( FindRunningTotal( definition, normalizedFieldName ) is null )
+        {
+            return false;
+        }
+
+        runningTotalName = normalizedFieldName;
+
+        return true;
+    }
+
     private void BeginContextElementTextEdit()
     {
         if ( IsElementContextMenuVisible() )
@@ -1050,6 +1083,19 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return;
 
         await OpenFormulaFieldDialogAsync( formulaFieldName );
+        contextMenu = null;
+    }
+
+    private async Task OpenContextElementRunningTotalDialogAsync()
+    {
+        if ( !TryGetContextElementRunningTotalName( EffectiveDefinition, out string runningTotalName ) )
+            return;
+
+        ReportRunningTotalDefinition runningTotal = FindRunningTotal( EffectiveDefinition, runningTotalName );
+
+        if ( runningTotal is not null )
+            await runningTotalDialogRef.ShowAsync( runningTotal );
+
         contextMenu = null;
     }
 
@@ -1410,6 +1456,126 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         } ) );
     }
 
+    private async Task OnRunningTotalConfirmedAsync( ReportRunningTotalDefinition runningTotal )
+    {
+        if ( runningTotal is null || string.IsNullOrWhiteSpace( runningTotal.Name ) )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( "Save running total", () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+
+            if ( definition.RunningTotals is null )
+                definition.RunningTotals = [];
+
+            runningTotal.Name = runningTotal.Name.Trim();
+
+            ReportRunningTotalDefinition existingRunningTotal = definition.RunningTotals.FirstOrDefault( field =>
+                string.Equals( field.Id, runningTotal.Id, StringComparison.Ordinal )
+                || string.Equals( field.Name, runningTotal.Name, StringComparison.OrdinalIgnoreCase ) );
+
+            if ( existingRunningTotal is null )
+            {
+                definition.RunningTotals.Add( runningTotal );
+            }
+            else
+            {
+                existingRunningTotal.Name = runningTotal.Name;
+                existingRunningTotal.DataSource = runningTotal.DataSource;
+                existingRunningTotal.Field = runningTotal.Field;
+                existingRunningTotal.Function = runningTotal.Function;
+                existingRunningTotal.EvaluateMode = runningTotal.EvaluateMode;
+                existingRunningTotal.EvaluateFormula = runningTotal.EvaluateFormula;
+                existingRunningTotal.ResetMode = runningTotal.ResetMode;
+                existingRunningTotal.ResetGroupId = runningTotal.ResetGroupId;
+            }
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task OnRunningTotalRenamedAsync( (string OldName, string NewName) runningTotalRename )
+    {
+        if ( string.IsNullOrWhiteSpace( runningTotalRename.OldName ) || string.IsNullOrWhiteSpace( runningTotalRename.NewName ) )
+            return;
+
+        string oldName = runningTotalRename.OldName.Trim();
+        string newName = runningTotalRename.NewName.Trim();
+
+        if ( string.Equals( oldName, newName, StringComparison.OrdinalIgnoreCase ) )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( "Rename running total", () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            ReportRunningTotalDefinition runningTotal = FindRunningTotal( definition, oldName );
+
+            if ( runningTotal is null || FindRunningTotal( definition, newName ) is not null )
+                return Task.CompletedTask;
+
+            runningTotal.Name = newName;
+            ReplaceRunningTotalReferences( definition, oldName, newName );
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task OnRunningTotalDeletedAsync( string runningTotalName )
+    {
+        if ( string.IsNullOrWhiteSpace( runningTotalName ) )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( "Delete running total", () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            ReportRunningTotalDefinition runningTotal = FindRunningTotal( definition, runningTotalName );
+
+            if ( runningTotal is not null )
+                definition.RunningTotals.Remove( runningTotal );
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task OnRunningTotalInsertedAsync( string runningTotalName )
+    {
+        if ( string.IsNullOrWhiteSpace( runningTotalName ) )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( "Add running total", () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            int sectionIndex = GetFormulaFieldInsertionSectionIndex( definition );
+
+            if ( sectionIndex < 0 || sectionIndex >= definition.Sections.Count || FindRunningTotal( definition, runningTotalName ) is null )
+                return Task.CompletedTask;
+
+            ReportSectionDefinition section = definition.Sections[sectionIndex];
+            double y = GetNextFormulaFieldInsertionY( section );
+            ReportElementDefinition element = new()
+            {
+                Name = runningTotalName,
+                Type = ReportElementType.Field,
+                DataSource = ReportRunningTotalResolver.DataSourceName,
+                Field = runningTotalName,
+                X = 0,
+                Y = y,
+                Width = DefaultDroppedFieldWidth,
+                Height = DefaultDroppedFieldHeight,
+                Font = new()
+                {
+                    Bold = true,
+                },
+            };
+
+            section.Elements.Add( element );
+            section.Height = Math.Max( section.Height, y + DefaultDroppedFieldHeight );
+            SelectElement( ReportDefinitionHelper.EnsureElementId( element ) );
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
     private async Task OnFormulaDialogConfirmedAsync( string formula )
     {
         if ( string.IsNullOrWhiteSpace( editingFormulaFieldName ) )
@@ -1478,6 +1644,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             string.Equals( field.Name, normalizedFormulaFieldName, StringComparison.OrdinalIgnoreCase ) );
     }
 
+    private static ReportRunningTotalDefinition FindRunningTotal( ReportDefinition definition, string runningTotalName )
+    {
+        return ReportRunningTotalResolver.FindRunningTotal( definition, runningTotalName );
+    }
+
     private static void ReplaceFormulaFieldReferences( ReportDefinition definition, string oldName, string newName )
     {
         if ( definition is null )
@@ -1511,6 +1682,72 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 ReplaceFormulaFieldReference( element.SnapToGrid, oldName, newName );
             }
         }
+    }
+
+    private static void ReplaceRunningTotalReferences( ReportDefinition definition, string oldName, string newName )
+    {
+        if ( definition is null )
+            return;
+
+        foreach ( ReportFormulaFieldDefinition formulaField in definition.FormulaFields ?? [] )
+        {
+            formulaField.Formula = ReplaceRunningTotalExpressionToken( formulaField.Formula, oldName, newName );
+        }
+
+        foreach ( ReportRunningTotalDefinition runningTotal in definition.RunningTotals ?? [] )
+        {
+            runningTotal.EvaluateFormula = ReplaceRunningTotalExpressionToken( runningTotal.EvaluateFormula, oldName, newName );
+        }
+
+        foreach ( ReportSectionDefinition section in definition.Sections ?? [] )
+        {
+            ReplaceRunningTotalReference( section.Suppress, oldName, newName );
+            ReplaceRunningTotalReference( section.KeepTogether, oldName, newName );
+            ReplaceRunningTotalReference( section.NewPageBefore, oldName, newName );
+            ReplaceRunningTotalReference( section.NewPageAfter, oldName, newName );
+
+            foreach ( ReportElementDefinition element in section.Elements ?? [] )
+            {
+                if ( element.Type == ReportElementType.Field
+                    && !string.IsNullOrWhiteSpace( element.Field )
+                    && string.Equals( ReportRunningTotalResolver.NormalizeFieldName( element.Field ), oldName, StringComparison.OrdinalIgnoreCase )
+                    && ( ReportRunningTotalResolver.IsRunningTotalDataSource( element.DataSource ) || string.IsNullOrWhiteSpace( element.DataSource ) ) )
+                {
+                    element.Field = newName;
+                }
+
+                element.Text = ReplaceRunningTotalExpressionToken( element.Text, oldName, newName );
+                ReplaceRunningTotalReference( element.CanGrow, oldName, newName );
+                ReplaceRunningTotalReference( element.Suppress, oldName, newName );
+                ReplaceRunningTotalReference( element.SnapToGrid, oldName, newName );
+            }
+        }
+    }
+
+    private static void ReplaceRunningTotalReference( ReportValue<bool> value, string oldName, string newName )
+    {
+        if ( value is not null )
+            value.Formula = ReplaceRunningTotalExpressionToken( value.Formula, oldName, newName );
+    }
+
+    private static void ReplaceRunningTotalReference( ReportValue<bool?> value, string oldName, string newName )
+    {
+        if ( value is not null )
+            value.Formula = ReplaceRunningTotalExpressionToken( value.Formula, oldName, newName );
+    }
+
+    private static string ReplaceRunningTotalExpressionToken( string value, string oldName, string newName )
+    {
+        if ( string.IsNullOrWhiteSpace( value ) )
+            return value;
+
+        string oldToken = ReportExpressionFormatter.FormatFieldExpression( null, oldName );
+        string newToken = ReportExpressionFormatter.FormatFieldExpression( null, newName );
+        string oldQualifiedToken = $"{{{ReportRunningTotalResolver.DataSourceName}.{oldName}}}";
+
+        return value
+            .Replace( oldQualifiedToken, newToken, StringComparison.OrdinalIgnoreCase )
+            .Replace( oldToken, newToken, StringComparison.OrdinalIgnoreCase );
     }
 
     private static void ReplaceFormulaFieldReference( ReportValue<bool> value, string oldName, string newName )
@@ -2987,7 +3224,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                     targetSection.Elements.Add( fieldElement );
 
                     if ( !ReportSpecialFieldResolver.IsSpecialDataSource( fieldBinding.DataSourceName )
-                        && !ReportFormulaFieldResolver.IsFormulaDataSource( fieldBinding.DataSourceName ) )
+                        && !ReportFormulaFieldResolver.IsFormulaDataSource( fieldBinding.DataSourceName )
+                        && !ReportRunningTotalResolver.IsRunningTotalDataSource( fieldBinding.DataSourceName ) )
                         ReportDetailHeaderSynchronizer.AddPageHeaderForDetailField( definition, targetSectionIndex, targetSection, fieldBinding.FieldName, x, fieldElement.Width );
 
                     SelectElement( ReportDefinitionHelper.EnsureElementId( fieldElement ) );

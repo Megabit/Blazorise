@@ -63,7 +63,8 @@ internal static class ReportDefinitionHelper
             return (dataSourceName, fieldName);
 
         if ( ReportSpecialFieldResolver.IsSpecialDataSource( dataSourceName )
-            || ReportFormulaFieldResolver.IsFormulaDataSource( dataSourceName ) )
+            || ReportFormulaFieldResolver.IsFormulaDataSource( dataSourceName )
+            || ReportRunningTotalResolver.IsRunningTotalDataSource( dataSourceName ) )
             return (dataSourceName, fieldName);
 
         string fieldPath = ReportExpressionFormatter.FormatFieldPath( dataSourceName, fieldName );
@@ -170,6 +171,8 @@ internal static class ReportDefinitionHelper
 
         var definitionIds = new HashSet<string>( StringComparer.Ordinal );
         var dataSourceIds = new HashSet<string>( StringComparer.Ordinal );
+        var formulaFieldIds = new HashSet<string>( StringComparer.Ordinal );
+        var runningTotalIds = new HashSet<string>( StringComparer.Ordinal );
         var sectionIds = new HashSet<string>( StringComparer.Ordinal );
         var elementIds = new HashSet<string>( StringComparer.Ordinal );
         var columnIds = new HashSet<string>( StringComparer.Ordinal );
@@ -179,6 +182,16 @@ internal static class ReportDefinitionHelper
         foreach ( var dataSource in definition.DataSources )
         {
             dataSource.Id = EnsureUniqueDefinitionId( dataSource.Id, dataSourceIds );
+        }
+
+        foreach ( var formulaField in definition.FormulaFields ?? [] )
+        {
+            formulaField.Id = EnsureUniqueDefinitionId( formulaField.Id, formulaFieldIds );
+        }
+
+        foreach ( var runningTotal in definition.RunningTotals ?? [] )
+        {
+            runningTotal.Id = EnsureUniqueDefinitionId( runningTotal.Id, runningTotalIds );
         }
 
         foreach ( var section in definition.Sections )

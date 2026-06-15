@@ -27,6 +27,8 @@ public partial class _ReportTreeViewNode
             ReportTreeNodeKind.SourceFields => IconName.Database,
             ReportTreeNodeKind.FormulaFields => IconName.Magic,
             ReportTreeNodeKind.FormulaField => IconName.Code,
+            ReportTreeNodeKind.RunningTotalFields => IconName.Code,
+            ReportTreeNodeKind.RunningTotalField => IconName.ChartLine,
             ReportTreeNodeKind.SpecialFields => IconName.Magic,
             ReportTreeNodeKind.DataSource => IconName.Server,
             ReportTreeNodeKind.Field => IconName.Tag,

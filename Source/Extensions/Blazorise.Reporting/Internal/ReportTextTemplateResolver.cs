@@ -10,15 +10,15 @@ internal static class ReportTextTemplateResolver
 {
     #region Methods
 
-    internal static string ResolveText( ReportDefinition definition, object data, object item, ReportElementDefinition element )
+    internal static string ResolveText( ReportDefinition definition, object data, object item, ReportElementDefinition element, IReadOnlyDictionary<string, object> runningTotals = null )
     {
         if ( string.IsNullOrEmpty( element?.Text ) )
             return string.Empty;
 
-        return ResolveText( definition, data, item, element.Text, element.DataSource );
+        return ResolveText( definition, data, item, element.Text, element.DataSource, runningTotals );
     }
 
-    internal static string ResolveText( ReportDefinition definition, object data, object item, string text, string dataSource = null )
+    internal static string ResolveText( ReportDefinition definition, object data, object item, string text, string dataSource = null, IReadOnlyDictionary<string, object> runningTotals = null )
     {
         if ( string.IsNullOrEmpty( text ) )
             return string.Empty;
@@ -51,7 +51,7 @@ internal static class ReportTextTemplateResolver
             if ( expression.Length == 0 )
                 builder.Append( text, openIndex, closeIndex - openIndex + 1 );
             else
-                builder.Append( ResolveExpression( definition, data, item, expression, dataSource ) );
+                builder.Append( ResolveExpression( definition, data, item, expression, dataSource, runningTotals ) );
 
             index = closeIndex + 1;
         }
@@ -59,9 +59,9 @@ internal static class ReportTextTemplateResolver
         return builder.ToString();
     }
 
-    private static string ResolveExpression( ReportDefinition definition, object data, object item, string expression, string dataSource )
+    private static string ResolveExpression( ReportDefinition definition, object data, object item, string expression, string dataSource, IReadOnlyDictionary<string, object> runningTotals )
     {
-        var value = ReportExpressionResolver.ResolveValue( definition, data, item, expression, dataSource );
+        var value = ReportExpressionResolver.ResolveValue( definition, data, item, expression, dataSource, runningTotals );
 
         return FormatTemplateValue( value );
     }

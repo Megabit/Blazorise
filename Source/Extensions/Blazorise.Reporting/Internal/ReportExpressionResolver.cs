@@ -10,7 +10,7 @@ internal static class ReportExpressionResolver
 {
     #region Methods
 
-    internal static object ResolveValue( ReportDefinition definition, object data, object item, string expression, string dataSource = null )
+    internal static object ResolveValue( ReportDefinition definition, object data, object item, string expression, string dataSource = null, IReadOnlyDictionary<string, object> runningTotals = null )
     {
         if ( string.IsNullOrWhiteSpace( expression ) )
             return null;
@@ -26,12 +26,15 @@ internal static class ReportExpressionResolver
         if ( TryResolveCurrentItemValue( item, normalizedExpression, dataSource, out var currentItemValue ) )
             return currentItemValue;
 
+        if ( ReportRunningTotalResolver.TryResolve( dataSource, normalizedExpression, runningTotals, out var runningTotalValue ) )
+            return runningTotalValue;
+
         var contextItem = ResolveContextItem( definition, data, item, dataSource );
 
         return ReportDataResolver.ResolveDataSourceValue( definition, data, normalizedExpression, contextItem );
     }
 
-    internal static object ResolveFieldValue( ReportDefinition definition, object data, object item, ReportElementDefinition element )
+    internal static object ResolveFieldValue( ReportDefinition definition, object data, object item, ReportElementDefinition element, IReadOnlyDictionary<string, object> runningTotals = null )
     {
         if ( element is null || string.IsNullOrWhiteSpace( element.Field ) )
             return null;
@@ -42,11 +45,14 @@ internal static class ReportExpressionResolver
         if ( ReportSpecialFieldResolver.TryResolve( element.DataSource, element.Field, definition, out var specialValue ) )
             return specialValue;
 
+        if ( ReportRunningTotalResolver.TryResolve( element.DataSource, element.Field, runningTotals, out var runningTotalValue ) )
+            return runningTotalValue;
+
         var contextItem = string.IsNullOrWhiteSpace( element.DataSource )
             ? item
             : ReportDataResolver.ResolveItems( definition, data, element.DataSource, item ).FirstOrDefault() ?? item;
 
-        return ResolveValue( definition, data, contextItem, element.Field );
+        return ResolveValue( definition, data, contextItem, element.Field, null, runningTotals );
     }
 
     private static ReportSectionDefinition ResolveSection( ReportDefinition definition, string dataSource )
