@@ -115,7 +115,7 @@ internal static class ReportDataSourceExplorer
             return dataType is not null;
         }
 
-        string normalizedFieldName = NormalizeFieldPath( definition, fieldName );
+        List<string> normalizedFieldNames = NormalizeFieldPathCandidates( definition, dataSourceName, fieldName ).ToList();
         object dataSourceValue = ReportDataResolver.ResolveDataSourceValue( definition, defaultData, dataSourceName );
         List<ReportDesignerFieldNode> fields = ResolveDataSourceFields( dataSourceValue ).ToList();
 
@@ -123,8 +123,9 @@ internal static class ReportDataSourceExplorer
             fields = ResolveDataSourceSchemaContextFields( definition, dataSourceName ).ToList();
 
         ReportDesignerFieldNode fieldNode = fields.FirstOrDefault( field =>
-            string.Equals( field.Path, normalizedFieldName, StringComparison.OrdinalIgnoreCase )
-            || string.Equals( field.Name, normalizedFieldName, StringComparison.OrdinalIgnoreCase ) );
+            normalizedFieldNames.Any( normalizedFieldName =>
+                string.Equals( field.Path, normalizedFieldName, StringComparison.OrdinalIgnoreCase )
+                || string.Equals( field.Name, normalizedFieldName, StringComparison.OrdinalIgnoreCase ) ) );
 
         dataType = fieldNode?.DataType;
 
@@ -306,19 +307,57 @@ internal static class ReportDataSourceExplorer
         return null;
     }
 
-    private static string NormalizeFieldPath( ReportDefinition definition, string fieldName )
+    private static IEnumerable<string> NormalizeFieldPathCandidates( ReportDefinition definition, string dataSourceName, string fieldName )
     {
         string normalizedFieldName = fieldName.Trim();
+
+        yield return normalizedFieldName;
+
+        foreach ( string normalizedDataSourceFieldName in NormalizeDataSourceFieldPathCandidates( dataSourceName, normalizedFieldName ) )
+        {
+            yield return normalizedDataSourceFieldName;
+        }
+
         string rootDataSourceName = definition?.DataSources.FirstOrDefault()?.Name;
 
         if ( string.IsNullOrWhiteSpace( rootDataSourceName ) )
-            return normalizedFieldName;
+            yield break;
 
         string rootDataSourcePrefix = $"{rootDataSourceName.Trim()}.";
 
-        return normalizedFieldName.StartsWith( rootDataSourcePrefix, StringComparison.OrdinalIgnoreCase )
-            ? normalizedFieldName[rootDataSourcePrefix.Length..]
-            : normalizedFieldName;
+        if ( !normalizedFieldName.StartsWith( rootDataSourcePrefix, StringComparison.OrdinalIgnoreCase ) )
+            yield break;
+
+        string rootRelativeFieldName = normalizedFieldName[rootDataSourcePrefix.Length..];
+
+        yield return rootRelativeFieldName;
+
+        foreach ( string normalizedDataSourceFieldName in NormalizeDataSourceFieldPathCandidates( dataSourceName, rootRelativeFieldName ) )
+        {
+            yield return normalizedDataSourceFieldName;
+        }
+    }
+
+    private static IEnumerable<string> NormalizeDataSourceFieldPathCandidates( string dataSourceName, string fieldName )
+    {
+        if ( string.IsNullOrWhiteSpace( dataSourceName ) || string.IsNullOrWhiteSpace( fieldName ) )
+            yield break;
+
+        string normalizedDataSourceName = dataSourceName.Trim();
+        string dataSourcePrefix = $"{normalizedDataSourceName}.";
+
+        if ( fieldName.StartsWith( dataSourcePrefix, StringComparison.OrdinalIgnoreCase ) )
+            yield return fieldName[dataSourcePrefix.Length..];
+
+        string dataSourceLeaf = normalizedDataSourceName.Split( '.', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries ).LastOrDefault();
+
+        if ( string.IsNullOrWhiteSpace( dataSourceLeaf ) )
+            yield break;
+
+        string dataSourceLeafPrefix = $"{dataSourceLeaf}.";
+
+        if ( fieldName.StartsWith( dataSourceLeafPrefix, StringComparison.OrdinalIgnoreCase ) )
+            yield return fieldName[dataSourceLeafPrefix.Length..];
     }
 
     internal static bool IsEnumerableData( Type type )

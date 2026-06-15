@@ -4,7 +4,7 @@
 @using Microsoft.AspNetCore.Components.Web
 
 <_ReportDesignerDataSourceDialog @ref="dataSourceDialogRef" Definition="@Definition" Confirmed="@UpdateSelectedSectionDataSource" />
-<_ReportDesignerFormulaDialog @ref="formulaDialogRef" Definition="@Definition" Confirmed="@OnFormulaDialogConfirmedAsync" />
+<_ReportDesignerFormulaDialog @ref="formulaDialogRef" Definition="@Definition" Data="@Data" Section="@FormulaSection" Confirmed="@OnFormulaDialogConfirmedAsync" />
 
 @if ( ReportSelected )
 {

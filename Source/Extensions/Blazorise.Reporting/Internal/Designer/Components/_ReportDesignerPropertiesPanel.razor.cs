@@ -300,8 +300,6 @@ public partial class _ReportDesignerPropertiesPanel
     {
         if ( formulaConfirmed is not null )
             await formulaConfirmed.Invoke( formula );
-
-        formulaConfirmed = null;
     }
 
     private Task UpdateSelectedElementTextColor( string value )
@@ -385,6 +383,11 @@ public partial class _ReportDesignerPropertiesPanel
     [Parameter] public ReportDefinition Definition { get; set; }
 
     /// <summary>
+    /// Report data used when validating formula expressions.
+    /// </summary>
+    [Parameter] public object Data { get; set; }
+
+    /// <summary>
     /// Indicates that the root report node is selected.
     /// </summary>
     [Parameter] public bool ReportSelected { get; set; }
@@ -393,6 +396,11 @@ public partial class _ReportDesignerPropertiesPanel
     /// Selected band definition, when a band is selected.
     /// </summary>
     [Parameter] public ReportSectionDefinition SelectedSection { get; set; }
+
+    /// <summary>
+    /// Band context used when validating formula expressions.
+    /// </summary>
+    [Parameter] public ReportSectionDefinition FormulaSection { get; set; }
 
     /// <summary>
     /// Selected element definition, when an element is selected.

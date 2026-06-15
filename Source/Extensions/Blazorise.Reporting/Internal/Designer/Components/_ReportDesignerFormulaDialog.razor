@@ -36,6 +36,13 @@
                 </FieldBody>
             </Field>
 
+            @if ( HasValidationMessage )
+            {
+                <Alert Color="@ValidationAlertColor" Visible Margin="Margin.Is2.FromTop">
+                    <AlertDescription>@validationMessage</AlertDescription>
+                </Alert>
+            }
+
             <Div Margin="Margin.Is2.FromTop">
                 <Table Narrow Striped>
                     <TableBody>
@@ -52,9 +59,17 @@
             </Div>
         </ModalBody>
         <ModalFooter>
-            <Button Color="Color.Primary" Clicked="@ConfirmAsync" Size="Size.Small">OK</Button>
-            <Button Color="Color.Light" Clicked="@ClearAsync" Size="Size.Small">Clear</Button>
-            <Button Color="Color.Light" Clicked="@CloseAsync" Size="Size.Small">Cancel</Button>
+            <Div Display="Display.Flex" Flex="Flex.JustifyContent.Between.AlignItems.Center" Width="Width.Is100">
+                <Div Display="Display.Flex" Gap="Gap.Is2">
+                    <Button Color="Color.Info" Clicked="@CheckAsync" Size="Size.Small">Check</Button>
+                    <Button Color="Color.Primary" Clicked="@SaveAsync" Size="Size.Small">Save</Button>
+                    <Button Color="Color.Primary" Clicked="@SaveAndCloseAsync" Size="Size.Small">Save and close</Button>
+                </Div>
+                <Div Display="Display.Flex" Gap="Gap.Is2">
+                    <Button Color="Color.Light" Clicked="@ClearAsync" Size="Size.Small">Clear</Button>
+                    <Button Color="Color.Light" Clicked="@CloseAsync" Size="Size.Small">Cancel</Button>
+                </Div>
+            </Div>
         </ModalFooter>
     </ModalContent>
 </Modal>

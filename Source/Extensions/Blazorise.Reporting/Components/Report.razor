@@ -165,8 +165,10 @@
                                       SelectedTabChanged="@SelectDesignerPanelTab">
                     <Properties>
                         <_ReportDesignerPropertiesPanel Definition="@definition"
+                                                        Data="@Data"
                                                         ReportSelected="@selectionManager.ReportSelected"
                                                         SelectedSection="@GetSelectedPropertiesSection( definition )"
+                                                        FormulaSection="@GetSelectedFormulaSection( definition )"
                                                         SelectedElement="@selectionManager.FindSelectedElement( definition )"
                                                         SelectedElementSuppressed="@selectionManager.IsSelectedElementSuppressed( definition )"
                                                         SnapToGrid="@snapToGrid"

@@ -77,6 +77,10 @@ public partial class _ReportDesignerFormulaDialog
 
     private string title;
 
+    private string validationMessage;
+
+    private bool validationSucceeded;
+
     #endregion
 
     #region Methods
@@ -90,6 +94,7 @@ public partial class _ReportDesignerFormulaDialog
         selectedFieldExpression = null;
         selectedHelpItem = null;
         selectedHelpDescription = null;
+        ClearValidation();
 
         await modalRef.Show();
     }
@@ -97,8 +102,9 @@ public partial class _ReportDesignerFormulaDialog
     private Task ClearAsync()
     {
         formula = null;
+        ClearValidation();
 
-        return ConfirmAsync();
+        return Task.CompletedTask;
     }
 
     private Task CloseAsync()
@@ -106,10 +112,55 @@ public partial class _ReportDesignerFormulaDialog
         return modalRef.Hide();
     }
 
-    private async Task ConfirmAsync()
+    private Task CheckAsync()
     {
+        ValidateFormula();
+
+        return Task.CompletedTask;
+    }
+
+    private async Task SaveAsync()
+    {
+        await SaveFormulaAsync();
+    }
+
+    private async Task SaveAndCloseAsync()
+    {
+        if ( await SaveFormulaAsync() )
+            await modalRef.Hide();
+    }
+
+    private async Task<bool> SaveFormulaAsync()
+    {
+        if ( !ValidateFormula() )
+            return false;
+
         await Confirmed.InvokeAsync( string.IsNullOrWhiteSpace( formula ) ? null : formula.Trim() );
-        await modalRef.Hide();
+        validationSucceeded = true;
+        validationMessage = "Formula saved.";
+
+        return true;
+    }
+
+    private bool ValidateFormula()
+    {
+        ReportFormulaValidationResult result = ReportFormulaEvaluator.Validate( formula, new()
+        {
+            Definition = Definition,
+            Data = Data,
+            Section = Section,
+        } );
+
+        validationSucceeded = result.Success;
+        validationMessage = result.Message;
+
+        return result.Success;
+    }
+
+    private void ClearValidation()
+    {
+        validationMessage = null;
+        validationSucceeded = false;
     }
 
     private IReadOnlyList<ReportTreeNode> BuildFieldNodes()
@@ -198,6 +249,7 @@ public partial class _ReportDesignerFormulaDialog
     private Task OnFormulaChanged( string value )
     {
         formula = value;
+        ClearValidation();
 
         return Task.CompletedTask;
     }
@@ -218,10 +270,24 @@ public partial class _ReportDesignerFormulaDialog
 
     private string SelectedHelpDescription => selectedHelpDescription ?? "Select a field, function, or operator to insert it into the formula.";
 
+    private bool HasValidationMessage => !string.IsNullOrWhiteSpace( validationMessage );
+
+    private Color ValidationAlertColor => validationSucceeded ? Color.Success : Color.Danger;
+
     /// <summary>
     /// Report definition used to discover fields.
     /// </summary>
     [Parameter] public ReportDefinition Definition { get; set; }
+
+    /// <summary>
+    /// Report data used while validating formula expressions.
+    /// </summary>
+    [Parameter] public object Data { get; set; }
+
+    /// <summary>
+    /// Report band used while validating formula expressions.
+    /// </summary>
+    [Parameter] public ReportSectionDefinition Section { get; set; }
 
     /// <summary>
     /// Raised when the formula expression is confirmed.

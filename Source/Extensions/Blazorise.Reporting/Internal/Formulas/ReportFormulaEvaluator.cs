@@ -22,6 +22,25 @@ internal static class ReportFormulaEvaluator
         return parser.Parse();
     }
 
+    internal static ReportFormulaValidationResult Validate( string formula, ReportFormulaContext context )
+    {
+        if ( string.IsNullOrWhiteSpace( formula ) )
+            return new( true, "Formula is empty." );
+
+        try
+        {
+            var parser = new Parser( formula, context, validationMode: true );
+
+            object value = parser.Parse();
+
+            return new( true, $"Formula is valid. Result: {Parser.FormatValidationValue( value )}." );
+        }
+        catch ( Exception exception )
+        {
+            return new( false, exception.Message );
+        }
+    }
+
     #endregion
 
     #region Classes
@@ -34,16 +53,19 @@ internal static class ReportFormulaEvaluator
 
         private readonly ReportFormulaContext context;
 
+        private readonly bool validationMode;
+
         private int position;
 
         #endregion
 
         #region Constructors
 
-        internal Parser( string formula, ReportFormulaContext context )
+        internal Parser( string formula, ReportFormulaContext context, bool validationMode = false )
         {
             this.formula = formula;
             this.context = context ?? new();
+            this.validationMode = validationMode;
         }
 
         #endregion
@@ -54,6 +76,9 @@ internal static class ReportFormulaEvaluator
         {
             var value = ParseConditional();
             SkipWhiteSpace();
+
+            if ( position < formula.Length )
+                throw new InvalidOperationException( $"Unexpected token '{formula[position]}'." );
 
             return value;
         }
@@ -222,6 +247,9 @@ internal static class ReportFormulaEvaluator
             if ( IsIdentifierStart( Peek() ) )
                 return ParseIdentifierOrFunction();
 
+            if ( validationMode )
+                throw new InvalidOperationException( "Expected expression." );
+
             return null;
         }
 
@@ -315,7 +343,7 @@ internal static class ReportFormulaEvaluator
                 "abs" => Math.Abs( ToDecimal( arguments.FirstOrDefault()?.Value ) ),
                 "today" => DateTime.Today,
                 "now" => DateTime.Now,
-                _ => null,
+                _ => validationMode ? throw new InvalidOperationException( $"Unknown function '{name}'." ) : null,
             };
         }
 
@@ -375,7 +403,114 @@ internal static class ReportFormulaEvaluator
 
         private object ResolveFieldValue( string fieldPath )
         {
+            if ( validationMode )
+            {
+                if ( TryResolveValidationFieldValue( fieldPath, out object validationValue ) )
+                    return validationValue;
+
+                throw new InvalidOperationException( $"Unknown field '{{{fieldPath}}}'." );
+            }
+
             return ReportExpressionResolver.ResolveValue( context.Definition, context.Data, context.Item, fieldPath, context.Section?.DataSource );
+        }
+
+        private bool TryResolveValidationFieldValue( string fieldPath, out object value )
+        {
+            value = null;
+
+            if ( string.IsNullOrWhiteSpace( fieldPath ) )
+                return false;
+
+            if ( ReportSpecialFieldResolver.IsSpecialField( fieldPath ) )
+            {
+                value = ReportExpressionResolver.ResolveValue( context.Definition, context.Data, context.Item, fieldPath, context.Section?.DataSource );
+                return true;
+            }
+
+            if ( ReportDataSourceExplorer.TryResolveFieldType( context.Definition, context.Data, context.Section?.DataSource, fieldPath, out Type sectionFieldType ) )
+            {
+                value = CreateValidationValue( sectionFieldType );
+                return true;
+            }
+
+            if ( ReportDataSourceExplorer.TryResolveFieldType( context.Definition, context.Data, null, fieldPath, out Type reportFieldType ) )
+            {
+                value = CreateValidationValue( reportFieldType );
+                return true;
+            }
+
+            return TryResolveCurrentItemFieldValue( fieldPath, out value );
+        }
+
+        private bool TryResolveCurrentItemFieldValue( string fieldPath, out object value )
+        {
+            value = null;
+
+            if ( context.Item is null )
+                return false;
+
+            foreach ( var candidate in GetCurrentItemFieldCandidates( fieldPath ) )
+            {
+                if ( ReportDataResolver.TryResolvePathValue( context.Item, candidate, out value ) )
+                    return true;
+            }
+
+            return false;
+        }
+
+        private static object CreateValidationValue( Type dataType )
+        {
+            dataType = Nullable.GetUnderlyingType( dataType ) ?? dataType;
+
+            if ( dataType is null )
+                return null;
+
+            if ( dataType == typeof( string ) )
+                return string.Empty;
+
+            if ( dataType == typeof( DateTime ) )
+                return DateTime.Today;
+
+            if ( dataType == typeof( DateTimeOffset ) )
+                return DateTimeOffset.Now;
+
+            if ( dataType == typeof( TimeSpan ) )
+                return TimeSpan.Zero;
+
+            if ( dataType == typeof( Guid ) )
+                return Guid.Empty;
+
+            return dataType.IsValueType
+                ? Activator.CreateInstance( dataType )
+                : null;
+        }
+
+        private IEnumerable<string> GetCurrentItemFieldCandidates( string fieldPath )
+        {
+            yield return fieldPath;
+
+            string dataSource = context.Section?.DataSource;
+
+            if ( string.IsNullOrWhiteSpace( dataSource ) )
+                yield break;
+
+            string dataSourcePrefix = $"{dataSource.Trim()}.";
+
+            if ( fieldPath.StartsWith( dataSourcePrefix, StringComparison.OrdinalIgnoreCase ) )
+                yield return fieldPath[dataSourcePrefix.Length..];
+
+            string dataSourceLeaf = dataSource.Split( '.', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries ).LastOrDefault();
+
+            if ( string.IsNullOrWhiteSpace( dataSourceLeaf ) )
+                yield break;
+
+            string dataSourceLeafPrefix = $"{dataSourceLeaf}.";
+
+            if ( !string.Equals( dataSourceLeafPrefix, dataSourcePrefix, StringComparison.OrdinalIgnoreCase )
+                && fieldPath.StartsWith( dataSourceLeafPrefix, StringComparison.OrdinalIgnoreCase ) )
+            {
+                yield return fieldPath[dataSourceLeafPrefix.Length..];
+            }
         }
 
         private string ParseIdentifier()
@@ -404,19 +539,26 @@ internal static class ReportFormulaEvaluator
         {
             var quote = formula[position++];
             var result = string.Empty;
+            var closed = false;
 
             while ( position < formula.Length )
             {
                 var character = formula[position++];
 
                 if ( character == quote )
+                {
+                    closed = true;
                     break;
+                }
 
                 if ( character == '\\' && position < formula.Length )
                     character = formula[position++];
 
                 result += character;
             }
+
+            if ( validationMode && !closed )
+                throw new InvalidOperationException( "Expected closing string quote." );
 
             return result;
         }
@@ -466,7 +608,7 @@ internal static class ReportFormulaEvaluator
             return ( value?.IndexOf( otherValue, StringComparison.CurrentCultureIgnoreCase ) >= 0 ) == true;
         }
 
-        private static int Compare( object value, object otherValue )
+        private int Compare( object value, object otherValue )
         {
             if ( value is null && otherValue is null )
                 return 0;
@@ -480,8 +622,11 @@ internal static class ReportFormulaEvaluator
             if ( TryGetDecimal( value, out var number ) && TryGetDecimal( otherValue, out var otherNumber ) )
                 return number.CompareTo( otherNumber );
 
-            if ( value is IComparable comparable )
+            if ( value is IComparable comparable && IsComparableWith( value, otherValue ) )
                 return comparable.CompareTo( otherValue );
+
+            if ( validationMode && !CanCompareAsText( value, otherValue ) )
+                throw new InvalidOperationException( $"Cannot compare {GetValidationTypeName( value )} with {GetValidationTypeName( otherValue )}." );
 
             return string.Compare( Convert.ToString( value, CultureInfo.CurrentCulture ), Convert.ToString( otherValue, CultureInfo.CurrentCulture ), StringComparison.CurrentCulture );
         }
@@ -500,6 +645,65 @@ internal static class ReportFormulaEvaluator
         private static string FormatValue( object value )
         {
             return Convert.ToString( value, CultureInfo.CurrentCulture );
+        }
+
+        internal static string FormatValidationValue( object value )
+        {
+            if ( value is null )
+                return "null";
+
+            if ( value is IEnumerable enumerable and not string and not IDictionary )
+            {
+                var values = new List<string>();
+
+                foreach ( object item in enumerable )
+                {
+                    values.Add( FormatValue( item ) );
+
+                    if ( values.Count == 3 )
+                        break;
+                }
+
+                return values.Count == 0
+                    ? "empty collection"
+                    : $"{string.Join( ", ", values )}{( values.Count == 3 ? ", ..." : null )}";
+            }
+
+            return FormatValue( value );
+        }
+
+        private static string GetValidationTypeName( object value )
+        {
+            if ( value is null )
+                return "null";
+
+            if ( value is IEnumerable enumerable and not string and not IDictionary )
+            {
+                foreach ( object item in enumerable )
+                {
+                    return $"{item?.GetType().Name ?? "object"} collection";
+                }
+
+                return "collection";
+            }
+
+            return value.GetType().Name;
+        }
+
+        private static bool CanCompareAsText( object value, object otherValue )
+        {
+            return value is string || otherValue is string;
+        }
+
+        private static bool IsComparableWith( object value, object otherValue )
+        {
+            if ( value is null || otherValue is null )
+                return true;
+
+            Type valueType = value.GetType();
+            Type otherValueType = otherValue.GetType();
+
+            return valueType.IsAssignableFrom( otherValueType ) || otherValueType.IsAssignableFrom( valueType );
         }
 
         private static bool IsIdentifierPart( char character )

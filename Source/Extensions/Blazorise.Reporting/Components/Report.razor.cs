@@ -318,6 +318,16 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             : null;
     }
 
+    private ReportSectionDefinition GetSelectedFormulaSection( ReportDefinition definition )
+    {
+        if ( string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey ) )
+            return selectionManager.FindSelectedSection( definition );
+
+        return ReportDefinitionHelper.TryFindElementLocation( definition, selectionManager.SelectedElementKey, out var sectionIndex, out _, out _ )
+            ? definition.Sections[sectionIndex]
+            : null;
+    }
+
     private Task SelectDesignerPanelTab( string tab )
     {
         selectedDesignerPanelTab = string.Equals( tab, nameof( ReportDesignerPanelTab.Explorer ), StringComparison.Ordinal )
