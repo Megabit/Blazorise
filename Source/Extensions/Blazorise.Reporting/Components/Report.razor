@@ -68,10 +68,13 @@
                                              FormulaFieldRenamed="@OnFormulaFieldRenamedAsync"
                                              FormulaFieldDeleted="@OnFormulaFieldDeletedAsync"
                                              FormulaFieldInserted="@OnFormulaFieldInsertedAsync"
+                                             FieldInserted="@OnFieldInsertedAsync"
                                              RunningTotalConfirmed="@OnRunningTotalConfirmedAsync"
                                              RunningTotalRenamed="@OnRunningTotalRenamedAsync"
                                              RunningTotalDeleted="@OnRunningTotalDeletedAsync"
-                                             RunningTotalInserted="@OnRunningTotalInsertedAsync" />
+                                             RunningTotalInserted="@OnRunningTotalInsertedAsync"
+                                             DataSourceRefreshed="@OnDataSourceRefreshedAsync"
+                                             DataSourceDeleted="@OnDataSourceDeletedAsync" />
             </ToolboxPanel>
             <Surface>
                 <_ReportDesignerPage PageKey="@($"{definition.Id}:{designerSurfaceVersion}")"

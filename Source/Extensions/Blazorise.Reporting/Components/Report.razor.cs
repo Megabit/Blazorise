@@ -1346,6 +1346,54 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         } ) );
     }
 
+    private async Task OnDataSourceRefreshedAsync( string dataSourceName )
+    {
+        if ( string.IsNullOrWhiteSpace( dataSourceName ) )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( "Refresh data source", async () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            ReportDataSourceDefinition dataSource = FindDataSource( definition, dataSourceName );
+
+            if ( dataSource is null )
+                return;
+
+            IReportDataSourceProvider provider = DataSourceProviderRegistry?.FindProvider( dataSource.Type );
+
+            if ( provider is null )
+                return;
+
+            try
+            {
+                dataSource.Schema = await provider.GetSchemaAsync( dataSource );
+            }
+            catch
+            {
+            }
+
+            if ( !string.Equals( dataSource.Type, ObjectReportDataSourceProvider.ProviderType, StringComparison.OrdinalIgnoreCase ) )
+                dataSource.Data = null;
+        } ) );
+    }
+
+    private async Task OnDataSourceDeletedAsync( string dataSourceName )
+    {
+        if ( string.IsNullOrWhiteSpace( dataSourceName ) )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( "Delete data source", () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            ReportDataSourceDefinition dataSource = FindDataSource( definition, dataSourceName );
+
+            if ( dataSource is not null )
+                definition.DataSources.Remove( dataSource );
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
     private async Task OnFormulaFieldConfirmedAsync( ReportFormulaFieldDefinition formulaField )
     {
         if ( formulaField is null || string.IsNullOrWhiteSpace( formulaField.Name ) )
@@ -1449,6 +1497,48 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             };
 
             section.Elements.Add( element );
+            section.Height = Math.Max( section.Height, y + DefaultDroppedFieldHeight );
+            SelectElement( ReportDefinitionHelper.EnsureElementId( element ) );
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task OnFieldInsertedAsync( (string DataSourceName, string FieldName) field )
+    {
+        if ( string.IsNullOrWhiteSpace( field.FieldName ) )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( "Add field", () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            int sectionIndex = GetFormulaFieldInsertionSectionIndex( definition );
+
+            if ( sectionIndex < 0 || sectionIndex >= definition.Sections.Count )
+                return Task.CompletedTask;
+
+            ReportSectionDefinition section = definition.Sections[sectionIndex];
+            (string DataSourceName, string FieldName) fieldBinding = ReportDefinitionHelper.NormalizeFieldBindingForSection( definition, section, field.DataSourceName, field.FieldName );
+            double y = GetNextFormulaFieldInsertionY( section );
+            ReportElementDefinition element = new()
+            {
+                Name = fieldBinding.FieldName,
+                Type = ReportElementType.Field,
+                Field = fieldBinding.FieldName,
+                DataSource = fieldBinding.DataSourceName,
+                X = 0,
+                Y = y,
+                Width = DefaultDroppedFieldWidth,
+                Height = DefaultDroppedFieldHeight,
+            };
+
+            section.Elements.Add( element );
+
+            if ( !ReportSpecialFieldResolver.IsSpecialDataSource( fieldBinding.DataSourceName )
+                && !ReportFormulaFieldResolver.IsFormulaDataSource( fieldBinding.DataSourceName )
+                && !ReportRunningTotalResolver.IsRunningTotalDataSource( fieldBinding.DataSourceName ) )
+                ReportDetailHeaderSynchronizer.AddPageHeaderForDetailField( definition, sectionIndex, section, fieldBinding.FieldName, element.X, element.Width );
+
             section.Height = Math.Max( section.Height, y + DefaultDroppedFieldHeight );
             SelectElement( ReportDefinitionHelper.EnsureElementId( element ) );
 
@@ -1647,6 +1737,15 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private static ReportRunningTotalDefinition FindRunningTotal( ReportDefinition definition, string runningTotalName )
     {
         return ReportRunningTotalResolver.FindRunningTotal( definition, runningTotalName );
+    }
+
+    private static ReportDataSourceDefinition FindDataSource( ReportDefinition definition, string dataSourceName )
+    {
+        if ( definition?.DataSources is null || string.IsNullOrWhiteSpace( dataSourceName ) )
+            return null;
+
+        return definition.DataSources.FirstOrDefault( dataSource =>
+            string.Equals( dataSource.Name, dataSourceName, StringComparison.OrdinalIgnoreCase ) );
     }
 
     private static void ReplaceFormulaFieldReferences( ReportDefinition definition, string oldName, string newName )

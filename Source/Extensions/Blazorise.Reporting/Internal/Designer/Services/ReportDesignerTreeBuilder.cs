@@ -151,6 +151,7 @@ internal static class ReportDesignerTreeBuilder
             Text = field.Name,
             Detail = hasChildren ? null : ReportDefinitionHelper.GetDataTypeDisplayName( field.DataType ),
             Kind = hasChildren ? ReportTreeNodeKind.Folder : ReportTreeNodeKind.Field,
+            Selectable = !hasChildren,
             Draggable = !hasChildren,
             Value = !hasChildren ? new ReportFieldTreeNodeValue( dataSourceName, field.Path ) : null,
             Children = field.Children.Select( child => BuildFieldExplorerNode( dataSourceName, child ) ).ToList(),
@@ -159,11 +160,15 @@ internal static class ReportDesignerTreeBuilder
 
     private static ReportTreeNode BuildSourceFieldsNode( IReadOnlyList<ReportDesignerDataSourceNode> dataSources )
     {
+        ReportDesignerDataSourceNode singleDataSource = dataSources.Count == 1 ? dataSources[0] : null;
+
         return new()
         {
             Key = "fields:source",
             Text = "Source Fields",
             Kind = ReportTreeNodeKind.SourceFields,
+            Selectable = singleDataSource is not null,
+            Value = singleDataSource is not null ? new ReportDataSourceTreeNodeValue( singleDataSource.Name ) : null,
             Children = dataSources.Count == 1
                 ? dataSources[0].Fields.Select( field => BuildFieldExplorerNode( dataSources[0].Name, field ) ).ToList()
                 : dataSources.Select( dataSource => new ReportTreeNode
@@ -171,6 +176,8 @@ internal static class ReportDesignerTreeBuilder
                     Key = $"fields:data-source:{dataSource.Name}",
                     Text = dataSource.Name,
                     Kind = ReportTreeNodeKind.DataSource,
+                    Selectable = true,
+                    Value = new ReportDataSourceTreeNodeValue( dataSource.Name ),
                     Children = dataSource.Fields.Select( field => BuildFieldExplorerNode( dataSource.Name, field ) ).ToList(),
                 } ).ToList(),
         };
@@ -241,6 +248,7 @@ internal static class ReportDesignerTreeBuilder
                 Text = field.DisplayName,
                 Detail = ReportDefinitionHelper.GetDataTypeDisplayName( field.DataType ),
                 Kind = ReportTreeNodeKind.Field,
+                Selectable = true,
                 Draggable = true,
                 Value = new ReportFieldTreeNodeValue( ReportSpecialFieldResolver.DataSourceName, field.Name ),
             } ).ToList(),

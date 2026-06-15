@@ -38,6 +38,8 @@ public partial class _ReportDesignerToolboxPanel
 
     private ReportRunningTotalContextMenuState runningTotalContextMenu;
 
+    private ReportDataSourceContextMenuState dataSourceContextMenu;
+
     private _ReportDesignerFormulaDialog formulaDialogRef;
 
     private _ReportDesignerFormulaFieldNameDialog formulaFieldNameDialogRef;
@@ -74,6 +76,7 @@ public partial class _ReportDesignerToolboxPanel
 
         await CloseFormulaFieldContextMenu();
         await CloseRunningTotalContextMenu();
+        await CloseDataSourceContextMenu();
     }
 
     private async Task FieldsNodeDoubleClicked( ReportTreeNode node )
@@ -83,6 +86,7 @@ public partial class _ReportDesignerToolboxPanel
             selectedFormulaFieldName = node.Text;
             await CloseFormulaFieldContextMenu();
             await CloseRunningTotalContextMenu();
+            await CloseDataSourceContextMenu();
             await FormulaFieldInserted.InvokeAsync( node.Text );
             return;
         }
@@ -92,7 +96,17 @@ public partial class _ReportDesignerToolboxPanel
             selectedRunningTotalName = node.Text;
             await CloseFormulaFieldContextMenu();
             await CloseRunningTotalContextMenu();
+            await CloseDataSourceContextMenu();
             await RunningTotalInserted.InvokeAsync( node.Text );
+            return;
+        }
+
+        if ( node?.Value is ReportFieldTreeNodeValue field )
+        {
+            await CloseFormulaFieldContextMenu();
+            await CloseRunningTotalContextMenu();
+            await CloseDataSourceContextMenu();
+            await FieldInserted.InvokeAsync( (field.DataSourceName, field.FieldName) );
         }
     }
 
@@ -109,6 +123,8 @@ public partial class _ReportDesignerToolboxPanel
                 ClientX = eventArgs.MouseEventArgs.ClientX,
                 ClientY = eventArgs.MouseEventArgs.ClientY,
             };
+            runningTotalContextMenu = null;
+            dataSourceContextMenu = null;
         }
         else if ( eventArgs?.Node?.Key == ReportDesignerTreeBuilder.RunningTotalFieldsNodeKey
             || eventArgs?.Node?.Kind == ReportTreeNodeKind.RunningTotalField )
@@ -121,6 +137,20 @@ public partial class _ReportDesignerToolboxPanel
                 ClientX = eventArgs.MouseEventArgs.ClientX,
                 ClientY = eventArgs.MouseEventArgs.ClientY,
             };
+            formulaFieldContextMenu = null;
+            dataSourceContextMenu = null;
+        }
+        else if ( eventArgs?.Node?.Value is ReportDataSourceTreeNodeValue dataSource )
+        {
+            dataSourceContextMenu = new()
+            {
+                Visible = true,
+                DataSourceName = dataSource.DataSourceName,
+                ClientX = eventArgs.MouseEventArgs.ClientX,
+                ClientY = eventArgs.MouseEventArgs.ClientY,
+            };
+            formulaFieldContextMenu = null;
+            runningTotalContextMenu = null;
         }
 
         return Task.CompletedTask;
@@ -290,9 +320,36 @@ public partial class _ReportDesignerToolboxPanel
         }
     }
 
+    private async Task RefreshDataSourceClicked( MouseEventArgs eventArgs )
+    {
+        string dataSourceName = dataSourceContextMenu?.DataSourceName;
+
+        await CloseDataSourceContextMenu();
+
+        if ( !string.IsNullOrWhiteSpace( dataSourceName ) )
+            await DataSourceRefreshed.InvokeAsync( dataSourceName );
+    }
+
+    private async Task DeleteDataSourceClicked( MouseEventArgs eventArgs )
+    {
+        string dataSourceName = dataSourceContextMenu?.DataSourceName;
+
+        await CloseDataSourceContextMenu();
+
+        if ( !string.IsNullOrWhiteSpace( dataSourceName ) )
+            await DataSourceDeleted.InvokeAsync( dataSourceName );
+    }
+
     private Task CloseFormulaFieldContextMenu()
     {
         formulaFieldContextMenu = null;
+
+        return Task.CompletedTask;
+    }
+
+    private Task CloseDataSourceContextMenu()
+    {
+        dataSourceContextMenu = null;
 
         return Task.CompletedTask;
     }
@@ -355,6 +412,8 @@ public partial class _ReportDesignerToolboxPanel
 
     private bool RunningTotalContextMenuVisible => runningTotalContextMenu?.Visible == true;
 
+    private bool DataSourceContextMenuVisible => dataSourceContextMenu?.Visible == true;
+
     private bool IsFormulaFieldContextMenuTarget => !string.IsNullOrWhiteSpace( formulaFieldContextMenu?.FormulaFieldName );
 
     private bool IsRunningTotalContextMenuTarget => !string.IsNullOrWhiteSpace( runningTotalContextMenu?.RunningTotalName );
@@ -414,6 +473,11 @@ public partial class _ReportDesignerToolboxPanel
     [Parameter] public EventCallback<string> FormulaFieldInserted { get; set; }
 
     /// <summary>
+    /// Raised when a source or special field should be inserted into the selected band.
+    /// </summary>
+    [Parameter] public EventCallback<(string DataSourceName, string FieldName)> FieldInserted { get; set; }
+
+    /// <summary>
     /// Raised when a running total field is created or updated.
     /// </summary>
     [Parameter] public EventCallback<ReportRunningTotalDefinition> RunningTotalConfirmed { get; set; }
@@ -432,6 +496,16 @@ public partial class _ReportDesignerToolboxPanel
     /// Raised when a running total field should be inserted into the selected band.
     /// </summary>
     [Parameter] public EventCallback<string> RunningTotalInserted { get; set; }
+
+    /// <summary>
+    /// Raised when a data source should be refreshed.
+    /// </summary>
+    [Parameter] public EventCallback<string> DataSourceRefreshed { get; set; }
+
+    /// <summary>
+    /// Raised when a data source should be deleted.
+    /// </summary>
+    [Parameter] public EventCallback<string> DataSourceDeleted { get; set; }
 
     #endregion
 
@@ -469,6 +543,17 @@ public partial class _ReportDesignerToolboxPanel
         internal bool Visible { get; set; }
 
         internal string RunningTotalName { get; set; }
+
+        internal double ClientX { get; set; }
+
+        internal double ClientY { get; set; }
+    }
+
+    private sealed class ReportDataSourceContextMenuState
+    {
+        internal bool Visible { get; set; }
+
+        internal string DataSourceName { get; set; }
 
         internal double ClientX { get; set; }
 

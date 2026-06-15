@@ -61,6 +61,14 @@
     <_ReportDesignerContextMenuButton Text="Close" Clicked="@((MouseEventArgs _) => CloseRunningTotalContextMenu())" />
 </_ReportDesignerContextMenu>
 
+<_ReportDesignerContextMenu Visible="@DataSourceContextMenuVisible"
+                            X="@(dataSourceContextMenu?.ClientX ?? 0)"
+                            Y="@(dataSourceContextMenu?.ClientY ?? 0)">
+    <_ReportDesignerContextMenuButton Text="Refresh" Clicked="@RefreshDataSourceClicked" />
+    <_ReportDesignerContextMenuButton Text="Delete" Clicked="@DeleteDataSourceClicked" />
+    <_ReportDesignerContextMenuButton Text="Close" Clicked="@((MouseEventArgs _) => CloseDataSourceContextMenu())" />
+</_ReportDesignerContextMenu>
+
 <_ReportDesignerFormulaFieldNameDialog @ref="formulaFieldNameDialogRef"
                                        Confirmed="@FormulaFieldNameConfirmed" />
 <_ReportDesignerFormulaFieldNameDialog @ref="runningTotalNameDialogRef"
