@@ -133,12 +133,12 @@ internal static class ReportDesignerInteractionService
         right = applyGrid( right );
         bottom = applyGrid( bottom );
 
-        if ( right - left < 8 )
+        if ( right - left < ReportLayoutGeometry.DefaultMinimumElementSize )
         {
             if ( resizingLeft )
-                left = right - 8;
+                left = right - ReportLayoutGeometry.DefaultMinimumElementSize;
             else
-                right = left + 8;
+                right = left + ReportLayoutGeometry.DefaultMinimumElementSize;
         }
 
         if ( bottom - top < pointerResize.MinimumHeight )
@@ -159,7 +159,7 @@ internal static class ReportDesignerInteractionService
             Text = ReportElementDefinitionHelper.GetDisplayText( definition, element ),
             X = left,
             Y = top,
-            Width = Math.Max( 8, right - left ),
+            Width = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, right - left ),
             Height = Math.Max( pointerResize.MinimumHeight, bottom - top ),
         };
     }
@@ -181,12 +181,12 @@ internal static class ReportDesignerInteractionService
 
             var section = definition.Sections[sectionIndex];
             var minimumHeight = ReportLayoutGeometry.GetMinimumElementHeight( element );
-            var targetWidth = Math.Max( 8, item.OriginalWidth + deltaWidth );
+            var targetWidth = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, item.OriginalWidth + deltaWidth );
             var targetHeight = Math.Max( minimumHeight, item.OriginalHeight + deltaHeight );
             var targetX = item.OriginalX + deltaX;
             var targetY = item.OriginalY + deltaY;
 
-            element.Width = Math.Min( targetWidth, Math.Max( 8, definition.Page.Width ) );
+            element.Width = Math.Min( targetWidth, Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, definition.Page.Width ) );
             element.Height = targetHeight;
             element.X = ReportLayoutGeometry.Clamp( targetX, 0, Math.Max( 0, definition.Page.Width - element.Width ) );
             element.Y = Math.Max( 0, targetY );
@@ -223,7 +223,7 @@ internal static class ReportDesignerInteractionService
 
         var minimumHeight = ReportLayoutGeometry.GetMinimumElementHeight( preview.ElementType );
 
-        preview.Width = Math.Min( Math.Max( 8, preview.Width ), Math.Max( 8, definition.Page.Width ) );
+        preview.Width = Math.Min( Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, preview.Width ), Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, definition.Page.Width ) );
         preview.Height = Math.Max( minimumHeight, preview.Height );
         preview.X = ReportLayoutGeometry.Clamp( preview.X, 0, Math.Max( 0, definition.Page.Width - preview.Width ) );
         preview.Y = Math.Max( 0, preview.Y );
@@ -295,8 +295,8 @@ internal static class ReportDesignerInteractionService
             Text = ReportElementDefinitionHelper.GetDisplayText( definition, element ),
             X = x ?? element.X,
             Y = y ?? element.Y,
-            Width = Math.Max( 8, element.Width ),
-            Height = Math.Max( 8, element.Height ),
+            Width = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, element.Width ),
+            Height = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, element.Height ),
         };
     }
 

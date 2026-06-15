@@ -6,6 +6,16 @@ namespace Blazorise.Reporting.Internal;
 
 internal static class ReportLayoutGeometry
 {
+    #region Members
+
+    internal const double DefaultMinimumElementSize = 8;
+
+    private const double LineMinimumElementHeight = 1;
+
+    private const double SnapToGridSize = 8;
+
+    #endregion
+
     #region Methods
 
     internal static bool Intersects( double left, double top, double width, double height, double otherLeft, double otherTop, double otherWidth, double otherHeight )
@@ -66,15 +76,15 @@ internal static class ReportLayoutGeometry
 
     internal static double GetMinimumElementHeight( ReportElementType? elementType )
     {
-        return elementType == ReportElementType.Line ? 1 : 8;
+        return elementType == ReportElementType.Line ? LineMinimumElementHeight : DefaultMinimumElementSize;
     }
 
     internal static double GetMinimumSectionHeight( ReportSectionDefinition section )
     {
         if ( section is null )
-            return 8;
+            return DefaultMinimumElementSize;
 
-        var height = 8d;
+        var height = DefaultMinimumElementSize;
 
         foreach ( var element in section.Elements )
         {
@@ -106,7 +116,7 @@ internal static class ReportLayoutGeometry
 
     internal static double SnapToGrid( double value )
     {
-        return Math.Max( 0, Math.Round( value / 8d ) * 8d );
+        return Math.Max( 0, Math.Round( value / SnapToGridSize ) * SnapToGridSize );
     }
 
     #endregion

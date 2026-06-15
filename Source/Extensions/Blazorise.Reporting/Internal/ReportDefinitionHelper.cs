@@ -8,6 +8,20 @@ namespace Blazorise.Reporting.Internal;
 
 internal static class ReportDefinitionHelper
 {
+    #region Members
+
+    private const double DefaultToolboxElementHeight = 18;
+
+    private const double DefaultToolboxElementWidth = 120;
+
+    private const double ToolboxImageElementHeight = 72;
+
+    private const double ToolboxLineElementHeight = 1;
+
+    private const double ToolboxRectangleElementHeight = 48;
+
+    #endregion
+
     #region Methods
 
     internal static ReportElementDefinition CreateElementFromToolbox( ReportElementType elementType, string text, double x, double y )
@@ -18,8 +32,8 @@ internal static class ReportDefinitionHelper
             Type = elementType,
             X = x,
             Y = y,
-            Width = 120,
-            Height = 18,
+            Width = DefaultToolboxElementWidth,
+            Height = DefaultToolboxElementHeight,
         };
 
         switch ( elementType )
@@ -29,14 +43,14 @@ internal static class ReportDefinitionHelper
                 definition.Text = text;
                 break;
             case ReportElementType.Image:
-                definition.Height = 72;
+                definition.Height = ToolboxImageElementHeight;
                 definition.Text = "Image";
                 break;
             case ReportElementType.Line:
-                definition.Height = 1;
+                definition.Height = ToolboxLineElementHeight;
                 break;
             case ReportElementType.Rectangle:
-                definition.Height = 48;
+                definition.Height = ToolboxRectangleElementHeight;
                 break;
         }
 

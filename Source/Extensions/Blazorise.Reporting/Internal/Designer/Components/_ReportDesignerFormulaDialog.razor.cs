@@ -15,6 +15,12 @@ public partial class _ReportDesignerFormulaDialog
 {
     #region Members
 
+    private const int DefaultRoundDecimalPlaces = 2;
+
+    private const int FormulaEditorRows = 8;
+
+    private const int FormulaPaneHeightInPixels = 180;
+
     private static readonly IReadOnlyList<ReportFormulaFunctionOption> Functions =
     [
         new( "Additional Functions", "IsNull", "IsNull({0})", "Returns true when a value is null." ),
@@ -26,7 +32,7 @@ public partial class _ReportDesignerFormulaDialog
         new( "Text", "Upper", "Upper({0})", "Converts text to uppercase." ),
         new( "Text", "Lower", "Lower({0})", "Converts text to lowercase." ),
         new( "Text", "Length", "Length({0})", "Returns the number of characters in text." ),
-        new( "Math", "Round", "Round({0}, 2)", "Rounds a number to the specified number of decimals." ),
+        new( "Math", "Round", $"Round({{0}}, {DefaultRoundDecimalPlaces})", "Rounds a number to the specified number of decimals." ),
         new( "Math", "Abs", "Abs({0})", "Returns the absolute value of a number." ),
         new( "Date and Time", "Today", "Today()", "Returns the current date." ),
         new( "Date and Time", "Now", "Now()", "Returns the current date and time." ),
@@ -57,7 +63,7 @@ public partial class _ReportDesignerFormulaDialog
         new( "Control Structures", "Conditional", " ? : ", "Chooses between two values based on a condition." ),
     ];
 
-    private static readonly IFluentSizing FormulaPaneHeight = Blazorise.Height.Px( 180 );
+    private static readonly IFluentSizing FormulaPaneHeight = Blazorise.Height.Px( FormulaPaneHeightInPixels );
 
     private Modal modalRef;
 

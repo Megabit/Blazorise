@@ -14,6 +14,12 @@ public partial class _ReportDesignerPropertiesPanel
 {
     #region Members
 
+    private const double SelectedElementMoveStep = 8;
+
+    private const double SelectedElementHeightResizeStep = 8;
+
+    private const double SelectedElementWidthResizeStep = 16;
+
     private _ReportDesignerDataSourceDialog dataSourceDialogRef;
 
     private _ReportDesignerFormulaDialog formulaDialogRef;
@@ -196,7 +202,7 @@ public partial class _ReportDesignerPropertiesPanel
 
     private Task OnSelectedSectionHeightChanged( double value )
     {
-        return UpdateSelectedSection( section => section.Height = Math.Max( GetMinimumSectionHeight?.Invoke( section ) ?? 8, ToPoints( value ) ) );
+        return UpdateSelectedSection( section => section.Height = Math.Max( GetMinimumSectionHeight?.Invoke( section ) ?? ReportLayoutGeometry.DefaultMinimumElementSize, ToPoints( value ) ) );
     }
 
     private Task OnSelectedElementXChanged( double value )

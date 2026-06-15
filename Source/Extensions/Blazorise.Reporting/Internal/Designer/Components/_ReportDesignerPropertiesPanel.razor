@@ -241,12 +241,12 @@
         <Div Margin="Margin.Is3.FromTop">
             <h6>Selected element</h6>
             <Div Flex="Flex.Wrap" Gap="Gap.Is2">
-                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( -8, 0, 0, 0 ))" Size="Size.Small">Left</Button>
-                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, -8, 0, 0 ))" Size="Size.Small">Up</Button>
-                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, 8, 0, 0 ))" Size="Size.Small">Down</Button>
-                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 8, 0, 0, 0 ))" Size="Size.Small">Right</Button>
-                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, 0, 16, 0 ))" Size="Size.Small">Wider</Button>
-                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, 0, 0, 8 ))" Size="Size.Small">Taller</Button>
+                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( -SelectedElementMoveStep, 0, 0, 0 ))" Size="Size.Small">Left</Button>
+                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, -SelectedElementMoveStep, 0, 0 ))" Size="Size.Small">Up</Button>
+                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, SelectedElementMoveStep, 0, 0 ))" Size="Size.Small">Down</Button>
+                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( SelectedElementMoveStep, 0, 0, 0 ))" Size="Size.Small">Right</Button>
+                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, 0, SelectedElementWidthResizeStep, 0 ))" Size="Size.Small">Wider</Button>
+                <Button Color="Color.Light" Clicked="@(( MouseEventArgs _ ) => MoveSelectedElement( 0, 0, 0, SelectedElementHeightResizeStep ))" Size="Size.Small">Taller</Button>
             </Div>
         </Div>
     }

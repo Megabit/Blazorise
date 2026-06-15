@@ -8,6 +8,16 @@ namespace Blazorise.Reporting.Internal;
 
 internal static class ReportDetailHeaderSynchronizer
 {
+    #region Members
+
+    private const double DefaultHeaderElementHeight = 18;
+
+    private const double DefaultHeaderElementY = 10;
+
+    private const double HeaderElementMatchTolerance = 0.1;
+
+    #endregion
+
     #region Methods
 
     internal static void AddPageHeaderForDetailField( ReportDefinition definition, int detailSectionIndex, ReportSectionDefinition detailSection, string fieldName, double x, double width )
@@ -34,7 +44,7 @@ internal static class ReportDetailHeaderSynchronizer
             X = x,
             Y = headerY,
             Width = width,
-            Height = 18,
+            Height = DefaultHeaderElementHeight,
             Font = new()
             {
                 Bold = true,
@@ -57,7 +67,7 @@ internal static class ReportDetailHeaderSynchronizer
         if ( definition is null
             || detailElement?.Type != ReportElementType.Field
             || string.IsNullOrWhiteSpace( detailElement.Field )
-            || ( Math.Abs( newX - originalX ) < 0.1 && Math.Abs( newWidth - originalWidth ) < 0.1 )
+            || ( Math.Abs( newX - originalX ) < HeaderElementMatchTolerance && Math.Abs( newWidth - originalWidth ) < HeaderElementMatchTolerance )
             || sourceSectionIndex < 0
             || sourceSectionIndex >= definition.Sections.Count
             || targetSectionIndex < 0
@@ -79,8 +89,8 @@ internal static class ReportDetailHeaderSynchronizer
 
         var headerElement = pageHeader.Elements.FirstOrDefault( element =>
             element.Type == ReportElementType.Text
-            && Math.Abs( element.X - originalX ) < 0.1
-            && Math.Abs( element.Width - originalWidth ) < 0.1
+            && Math.Abs( element.X - originalX ) < HeaderElementMatchTolerance
+            && Math.Abs( element.Width - originalWidth ) < HeaderElementMatchTolerance
             && ( ignoredKeys is null || !ignoredKeys.Contains( element.Id ) ) );
 
         if ( headerElement is not null )
@@ -112,7 +122,7 @@ internal static class ReportDetailHeaderSynchronizer
             .ThenBy( element => element.X )
             .FirstOrDefault();
 
-        return firstElement?.Y ?? 10;
+        return firstElement?.Y ?? DefaultHeaderElementY;
     }
 
     private static bool HasPageHeaderElement( ReportSectionDefinition pageHeader, string headerText, double x )
@@ -120,7 +130,7 @@ internal static class ReportDetailHeaderSynchronizer
         return pageHeader.Elements.Any( element =>
             element.Type == ReportElementType.Text
             && string.Equals( element.Text, headerText, StringComparison.OrdinalIgnoreCase )
-            && Math.Abs( element.X - x ) < 0.1 );
+            && Math.Abs( element.X - x ) < HeaderElementMatchTolerance );
     }
 
     private static string GetFieldHeaderText( string fieldName )

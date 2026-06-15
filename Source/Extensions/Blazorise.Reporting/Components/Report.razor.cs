@@ -26,6 +26,46 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private const double KeyboardMoveStep = 8;
 
+    private const double AggregateElementMinimumHeight = 24;
+
+    private const double AggregateReportFooterHeight = 80;
+
+    private const double DefaultDroppedFieldHeight = 18;
+
+    private const double DefaultDroppedFieldWidth = 120;
+
+    private const double DefaultGroupFooterLineHeight = 1;
+
+    private const double DefaultGroupFooterLineMinimumWidth = 100;
+
+    private const double DefaultGroupFooterLinePagePadding = 80;
+
+    private const double DefaultGroupFooterLineX = 40;
+
+    private const double DefaultGroupFooterLineY = 10;
+
+    private const double DefaultGroupSectionHeight = 36;
+
+    private const double DefaultGroupHeaderElementHeight = 18;
+
+    private const double DefaultGroupHeaderElementWidth = 180;
+
+    private const double DefaultGroupHeaderElementX = 30;
+
+    private const double DefaultGroupHeaderElementY = 6;
+
+    private const double DefaultPageWidthFallback = 794;
+
+    private const double DragPreviewChangeTolerance = 0.1;
+
+    private const int DragPreviewFrameThrottleMilliseconds = 16;
+
+    private const int DragPreviewFreeDropThrottleMilliseconds = 40;
+
+    private const double PasteElementOffset = 16;
+
+    private const int SuppressSelectionClickMilliseconds = 300;
+
     private readonly ReportContext context = new();
 
     private readonly ReportToolbarContext toolbarContext;
@@ -691,8 +731,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             ReportElementDefinition element = ReportContext.CloneElement( clipboardElement );
             element.Id = ReportDefinitionHelper.CreateDefinitionId();
             bool useSnapToGrid = IsSnapToGridEnabled( element );
-            element.X = sameSection ? ApplyDesignerGrid( element.X + 16, useSnapToGrid ) : 0;
-            element.Y = sameSection ? ApplyDesignerGrid( element.Y + 16, useSnapToGrid ) : 0;
+            element.X = sameSection ? ApplyDesignerGrid( element.X + PasteElementOffset, useSnapToGrid ) : 0;
+            element.Y = sameSection ? ApplyDesignerGrid( element.Y + PasteElementOffset, useSnapToGrid ) : 0;
 
             targetSection.Elements.Add( element );
 
@@ -1050,9 +1090,9 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 Type = ReportElementType.Field,
                 Field = result.FieldName,
                 DataSource = result.DataSourceName,
-                X = 30,
-                Width = 120,
-                Height = 18,
+                X = DefaultGroupHeaderElementX,
+                Width = DefaultDroppedFieldWidth,
+                Height = DefaultDroppedFieldHeight,
             };
 
             if ( !ReportAggregateResolver.GetSupportedFunctions( definition, Data, result.DataSourceName, result.FieldName ).Contains( result.Function ) )
@@ -1431,7 +1471,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         {
             Name = ReportDefinitionHelper.CreateUniqueSectionName( definition, $"{groupName} group header" ),
             Type = ReportSectionType.GroupHeader,
-            Height = 36,
+            Height = DefaultGroupSectionHeight,
             GroupBy = groupBy,
             Default = false,
             Suppressed = false,
@@ -1442,10 +1482,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                     Name = groupName,
                     Type = ReportElementType.Text,
                     Text = ReportExpressionFormatter.FormatFieldExpression( null, groupBy ),
-                    X = 30,
-                    Y = 6,
-                    Width = 180,
-                    Height = 18,
+                    X = DefaultGroupHeaderElementX,
+                    Y = DefaultGroupHeaderElementY,
+                    Width = DefaultGroupHeaderElementWidth,
+                    Height = DefaultGroupHeaderElementHeight,
                     Font = new()
                     {
                         Bold = true,
@@ -1463,7 +1503,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         {
             Name = ReportDefinitionHelper.CreateUniqueSectionName( definition, $"{groupName} group footer" ),
             Type = ReportSectionType.GroupFooter,
-            Height = 36,
+            Height = DefaultGroupSectionHeight,
             GroupBy = groupBy,
             Default = false,
             Suppressed = false,
@@ -1473,10 +1513,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 {
                     Name = $"{groupName} separator",
                     Type = ReportElementType.Line,
-                    X = 40,
-                    Y = 10,
-                    Width = Math.Max( 100, ( definition?.Page?.Width ?? 794 ) - 80 ),
-                    Height = 1,
+                    X = DefaultGroupFooterLineX,
+                    Y = DefaultGroupFooterLineY,
+                    Width = Math.Max( DefaultGroupFooterLineMinimumWidth, ( definition?.Page?.Width ?? DefaultPageWidthFallback ) - DefaultGroupFooterLinePagePadding ),
+                    Height = DefaultGroupFooterLineHeight,
                 },
             ],
         };
@@ -1510,7 +1550,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             X = sourceElement.X,
             Y = GetAggregateElementY( targetSection ),
             Width = sourceElement.Width,
-            Height = Math.Max( sourceElement.Height, 24 ),
+            Height = Math.Max( sourceElement.Height, AggregateElementMinimumHeight ),
             Font = new()
             {
                 Bold = true,
@@ -1545,7 +1585,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         {
             Name = "Aggregates",
             Type = ReportSectionType.ReportFooter,
-            Height = 80,
+            Height = AggregateReportFooterHeight,
         };
 
         definition.Sections.Insert( sectionIndex, reportFooter );
@@ -1556,12 +1596,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private static double GetAggregateElementY( ReportSectionDefinition targetSection )
     {
         if ( targetSection?.Elements is null || targetSection.Elements.Count == 0 )
-            return 16;
+            return PasteElementOffset;
 
         var aggregateElements = targetSection.Elements.Where( element => element.Aggregate is not null ).ToList();
 
         return aggregateElements.Count == 0
-            ? Math.Max( 16, targetSection.Elements.Max( element => element.Y + element.Height ) + 8 )
+            ? Math.Max( PasteElementOffset, targetSection.Elements.Max( element => element.Y + element.Height ) + KeyboardMoveStep )
             : aggregateElements.Min( element => element.Y );
     }
 
@@ -1586,8 +1626,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
                 element.X = ApplyDesignerGrid( element.X + x, useSnapToGrid );
                 element.Y = ApplyDesignerGrid( element.Y + y, useSnapToGrid );
-                element.Width = Math.Max( 8, width == 0 ? element.Width : ApplyDesignerGrid( element.Width + width, useSnapToGrid ) );
-                element.Height = Math.Max( 8, height == 0 ? element.Height : ApplyDesignerGrid( element.Height + height, useSnapToGrid ) );
+                element.Width = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, width == 0 ? element.Width : ApplyDesignerGrid( element.Width + width, useSnapToGrid ) );
+                element.Height = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, height == 0 ? element.Height : ApplyDesignerGrid( element.Height + height, useSnapToGrid ) );
 
                 ReportDetailHeaderSynchronizer.SyncMatchingPageHeaderForDetailElement( definition, sectionIndex, sectionIndex, element, originalX, originalWidth, element.X, element.Width );
             }
@@ -2157,7 +2197,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }
 
         suppressNextSectionClick = true;
-        suppressSelectionClickUntil = DateTime.UtcNow.AddMilliseconds( 300 );
+        suppressSelectionClickUntil = DateTime.UtcNow.AddMilliseconds( SuppressSelectionClickMilliseconds );
 
         return InvokeAsync( StateHasChanged );
     }
@@ -2207,8 +2247,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         var samePreviewPosition = dragPreview is not null
             && dragPreview.SectionIndex == preview.SectionIndex
-            && Math.Abs( dragPreview.X - preview.X ) < .1
-            && Math.Abs( dragPreview.Y - preview.Y ) < .1;
+            && Math.Abs( dragPreview.X - preview.X ) < DragPreviewChangeTolerance
+            && Math.Abs( dragPreview.Y - preview.Y ) < DragPreviewChangeTolerance;
 
         if ( samePreviewPosition )
             return;
@@ -2218,7 +2258,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( !elementPointerDrag.SnapToGrid
             && dragPreview is not null
             && dragPreview.SectionIndex == preview.SectionIndex
-            && now - lastDragPreviewRenderTime < TimeSpan.FromMilliseconds( 16 ) )
+            && now - lastDragPreviewRenderTime < TimeSpan.FromMilliseconds( DragPreviewFrameThrottleMilliseconds ) )
         {
             return;
         }
@@ -2314,10 +2354,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             return;
 
         var samePreviewSize = dragPreview is not null
-            && Math.Abs( dragPreview.X - preview.X ) < .1
-            && Math.Abs( dragPreview.Y - preview.Y ) < .1
-            && Math.Abs( dragPreview.Width - preview.Width ) < .1
-            && Math.Abs( dragPreview.Height - preview.Height ) < .1;
+            && Math.Abs( dragPreview.X - preview.X ) < DragPreviewChangeTolerance
+            && Math.Abs( dragPreview.Y - preview.Y ) < DragPreviewChangeTolerance
+            && Math.Abs( dragPreview.Width - preview.Width ) < DragPreviewChangeTolerance
+            && Math.Abs( dragPreview.Height - preview.Height ) < DragPreviewChangeTolerance;
 
         if ( samePreviewSize )
             return;
@@ -2326,7 +2366,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         if ( !elementPointerResize.SnapToGrid
             && dragPreview is not null
-            && now - lastDragPreviewRenderTime < TimeSpan.FromMilliseconds( 16 ) )
+            && now - lastDragPreviewRenderTime < TimeSpan.FromMilliseconds( DragPreviewFrameThrottleMilliseconds ) )
         {
             return;
         }
@@ -2404,7 +2444,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         var height = CreateSectionPointerResizeHeight( clientY );
 
-        if ( Math.Abs( sectionPointerResize.TargetHeight - height ) < .1 )
+        if ( Math.Abs( sectionPointerResize.TargetHeight - height ) < DragPreviewChangeTolerance )
             return;
 
         sectionPointerResize.TargetHeight = height;
@@ -2555,8 +2595,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
         var samePreviewPosition = dragPreview is not null
             && dragPreview.SectionIndex == preview.SectionIndex
-            && Math.Abs( dragPreview.X - preview.X ) < .1
-            && Math.Abs( dragPreview.Y - preview.Y ) < .1;
+            && Math.Abs( dragPreview.X - preview.X ) < DragPreviewChangeTolerance
+            && Math.Abs( dragPreview.Y - preview.Y ) < DragPreviewChangeTolerance;
 
         if ( samePreviewPosition )
         {
@@ -2568,7 +2608,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         if ( !snapToGrid
             && dragPreview is not null
             && dragPreview.SectionIndex == preview.SectionIndex
-            && now - lastDragPreviewRenderTime < TimeSpan.FromMilliseconds( 40 ) )
+            && now - lastDragPreviewRenderTime < TimeSpan.FromMilliseconds( DragPreviewFreeDropThrottleMilliseconds ) )
         {
             return;
         }
@@ -2645,8 +2685,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                         DataSource = fieldBinding.DataSourceName,
                         X = x,
                         Y = y,
-                        Width = 120,
-                        Height = 18,
+                        Width = DefaultDroppedFieldWidth,
+                        Height = DefaultDroppedFieldHeight,
                     };
                     targetSection.Elements.Add( fieldElement );
 
@@ -2730,8 +2770,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             Text = ReportExpressionFormatter.FormatFieldExpression( fieldBinding.DataSourceName, fieldBinding.FieldName ),
             X = x,
             Y = y,
-            Width = 120,
-            Height = 18,
+            Width = DefaultDroppedFieldWidth,
+            Height = DefaultDroppedFieldHeight,
         };
     }
 
@@ -2744,8 +2784,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             Text = ReportElementDefinitionHelper.GetDisplayText( EffectiveDefinition, element ),
             X = x ?? element.X,
             Y = y ?? element.Y,
-            Width = Math.Max( 8, element.Width ),
-            Height = Math.Max( 8, element.Height ),
+            Width = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, element.Width ),
+            Height = Math.Max( ReportLayoutGeometry.DefaultMinimumElementSize, element.Height ),
         };
     }
 
