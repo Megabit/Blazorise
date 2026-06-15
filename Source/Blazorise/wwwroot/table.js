@@ -1,4 +1,4 @@
-import { getRequiredElement } from "./utilities.js?v=2.1.3.0";
+import { getRequiredElement } from "./utilities.js?v=2.2.0.0";
 
 export function initializeTableFixedHeader(element, elementId) {
     element = getRequiredElement(element, elementId);
@@ -27,7 +27,7 @@ export function initializeTableFixedHeader(element, elementId) {
             for (let i = 0; i < tableRows.length; i++) {
                 let currentTh = tableRows[i].querySelectorAll("th");
                 currentTh.forEach(x => x.style.top = `${previousRowCellHeight}px`);
-                previousRowCellHeight += currentTh[0].offsetHeight;
+                previousRowCellHeight += tableRows[i].offsetHeight || currentTh[0]?.offsetHeight || 0;
             }
         }
     }

@@ -24,8 +24,8 @@ internal static class SvgChartTextRenderer
 
     public static SvgChartTextOptions ResolveTitleOptions( SvgChartOptions options, IReadOnlyList<SvgChartTitle> titleComponents )
     {
-        var titleComponent = titleComponents.LastOrDefault();
-        var resolved = SvgChartOptionsMapper.CreateTextOptions( CreateDefaultTitleOptions(), options.Title );
+        var titleComponent = titleComponents?.LastOrDefault();
+        var resolved = SvgChartOptionsMapper.CreateTextOptions( CreateDefaultTitleOptions(), options?.Title );
         var componentOptions = titleComponent?.Title;
 
         if ( componentOptions is not null )
@@ -36,8 +36,8 @@ internal static class SvgChartTextRenderer
 
     public static SvgChartTextOptions ResolveSubtitleOptions( SvgChartOptions options, IReadOnlyList<SvgChartTitle> titleComponents )
     {
-        var titleComponent = titleComponents.LastOrDefault();
-        var resolved = SvgChartOptionsMapper.CreateTextOptions( CreateDefaultSubtitleOptions(), options.Subtitle );
+        var titleComponent = titleComponents?.LastOrDefault();
+        var resolved = SvgChartOptionsMapper.CreateTextOptions( CreateDefaultSubtitleOptions(), options?.Subtitle );
         var componentOptions = titleComponent?.Subtitle;
 
         if ( componentOptions is not null )
@@ -46,16 +46,23 @@ internal static class SvgChartTextRenderer
         return resolved;
     }
 
-    public static SvgChartPlotArea BuildPlotArea( SvgChartOptions options, SvgChartTextOptions title, SvgChartTextOptions subtitle, bool hasTopLegend, bool hasBottomLegend )
+    public static SvgChartPlotArea BuildPlotArea( SvgChartOptions options, SvgChartTextOptions title, SvgChartTextOptions subtitle, bool hasTopLegend, bool hasBottomLegend, SvgChartRenderModel model = null )
     {
-        var top = 24d + GetTopTextHeight( title ) + GetTopTextHeight( subtitle );
+        options ??= new();
+
+        var padding = options.PlotAreaPadding;
+        var topPadding = padding?.Top ?? 24d;
+        var endPadding = padding?.End ?? 18d;
+        var bottomPadding = ResolveBottomPadding( options, model, padding?.Bottom );
+        var startPadding = ResolveStartPadding( options, model, padding?.Start );
+        var top = topPadding + GetTopTextHeight( title ) + GetTopTextHeight( subtitle );
 
         if ( hasTopLegend )
             top += 28;
 
-        var bottom = options.Height - 42 - ( hasBottomLegend ? 38 : 0 ) - GetBottomTextHeight( title ) - GetBottomTextHeight( subtitle );
-        var left = 52d + GetStartTextWidth( title ) + GetStartTextWidth( subtitle );
-        var right = options.Width - 18 - GetEndTextWidth( title ) - GetEndTextWidth( subtitle );
+        var bottom = options.Height - bottomPadding - ( hasBottomLegend ? 38 : 0 ) - GetBottomTextHeight( title ) - GetBottomTextHeight( subtitle );
+        var left = startPadding + GetStartTextWidth( title ) + GetStartTextWidth( subtitle );
+        var right = options.Width - endPadding - GetEndTextWidth( title ) - GetEndTextWidth( subtitle );
 
         return new()
         {
@@ -196,6 +203,69 @@ internal static class SvgChartTextRenderer
         return IsTextVisible( text ) && text.Position == SvgChartTextPosition.End
             ? GetTextBlockWidth( text )
             : 0;
+    }
+
+    private static double ResolveStartPadding( SvgChartOptions options, SvgChartRenderModel model, double? padding )
+    {
+        if ( padding.HasValue )
+            return padding.Value;
+
+        const double fallback = 52d;
+
+        if ( model?.Type != SvgChartType.Bar || model.CategoryAxis?.Labels?.Visible == false )
+            return fallback;
+
+        var fontSize = options?.Font?.Size ?? 11;
+        var maxLabelWidth = model.Labels
+            .Select( ( label, index ) => FormatCategoryLabel( model, label, index ) )
+            .DefaultIfEmpty( string.Empty )
+            .Max( label => SvgChartRenderHelpers.EstimateTextWidth( label, fontSize ) );
+
+        return Math.Max( fallback, Math.Min( maxLabelWidth + 14, options.Width * 0.45 ) );
+    }
+
+    private static double ResolveBottomPadding( SvgChartOptions options, SvgChartRenderModel model, double? padding )
+    {
+        if ( padding.HasValue )
+            return padding.Value;
+
+        if ( model?.Type == SvgChartType.Bar && model.PrimaryValueAxis?.Labels?.Visible == false )
+            return 18d;
+
+        if ( model is not null && model.Type != SvgChartType.Bar && model.CategoryAxis?.Labels?.Visible == false )
+            return 18d;
+
+        const double fallback = 42d;
+
+        var labels = model?.CategoryAxis?.Labels;
+
+        if ( model is null || model.Type == SvgChartType.Bar || labels?.AutoSkip != true || !labels.AutoRotate || labels.MaxRotation <= 0 )
+            return fallback;
+
+        var fontSize = options?.Font?.Size ?? 11;
+        var maxLabelWidth = model.Labels
+            .Select( ( label, index ) => FormatCategoryLabel( model, label, index ) )
+            .DefaultIfEmpty( string.Empty )
+            .Max( label => SvgChartRenderHelpers.EstimateTextWidth( label, fontSize ) );
+
+        if ( labels.MaxWidth.HasValue )
+            maxLabelWidth = Math.Min( maxLabelWidth, Math.Max( 1, labels.MaxWidth.Value ) );
+
+        var rotation = Math.Clamp( labels.MaxRotation, 0, 90 ) * Math.PI / 180d;
+        var rotatedHeight = maxLabelWidth * Math.Sin( rotation ) + fontSize * Math.Cos( rotation );
+
+        return Math.Max( fallback, Math.Min( labels.Offset + rotatedHeight + 8, options.Height * 0.35 ) );
+    }
+
+    private static string FormatCategoryLabel( SvgChartRenderModel model, object value, int index )
+    {
+        return model.CategoryTickFormatter?.Invoke( new()
+        {
+            Value = value,
+            Index = index,
+            CategoryAxis = true,
+            AxisId = model.CategoryAxis?.Id
+        } ) ?? SvgChartRenderHelpers.FormatDataLabelValue( value );
     }
 
     private static double GetTextBlockHeight( SvgChartTextOptions text )

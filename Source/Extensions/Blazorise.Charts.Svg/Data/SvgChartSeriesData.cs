@@ -58,6 +58,11 @@ public class SvgChartSeriesData<TValue>
     public Color Color { get; set; }
 
     /// <summary>
+    /// Defines explicit colors for individual data points.
+    /// </summary>
+    public List<Color> Colors { get; set; } = [];
+
+    /// <summary>
     /// Defines whether the series is hidden.
     /// </summary>
     public bool Hidden { get; set; }
@@ -66,6 +71,16 @@ public class SvgChartSeriesData<TValue>
     /// Defines the series rendering order. Lower values are rendered first, behind higher values.
     /// </summary>
     public int? Order { get; set; }
+
+    /// <summary>
+    /// Defines how line and area series are interpolated between data points.
+    /// </summary>
+    public SvgChartInterpolationMode Interpolation { get; set; }
+
+    /// <summary>
+    /// Defines the cubic interpolation tension for line and area series.
+    /// </summary>
+    public double? Tension { get; set; }
 
     #endregion
 }

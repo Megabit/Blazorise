@@ -24,6 +24,8 @@ internal sealed class SvgChartRenderSeries
 
     public string RenderColor { get; init; }
 
+    public List<string> PointColors { get; init; } = [];
+
     public bool Hidden { get; init; }
 
     public int? Order { get; init; }
@@ -45,6 +47,10 @@ internal sealed class SvgChartRenderSeries
     public double MarkerRadius { get; init; }
 
     public double FillOpacity { get; init; }
+
+    public SvgChartInterpolationMode Interpolation { get; init; }
+
+    public double Tension { get; init; } = 0.4;
 
     #endregion
 }

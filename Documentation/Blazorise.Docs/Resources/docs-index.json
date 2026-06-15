@@ -1,5 +1,5 @@
 ﻿{
-  "generatedUtc": "2026-05-28T15:36:22.4827191Z",
+  "generatedUtc": "2026-06-15T08:25:05.3829810Z",
   "pages": [
     {
       "route": "/docs",
@@ -34,7 +34,7 @@
           "code": "AnalyzerPackageReferenceExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/AnalyzerPackageReferenceExample.snippet",
-          "content": "<PackageReference Include=\"Blazorise.Analyzers\" Version=\"2.1.3\" PrivateAssets=\"all\" />",
+          "content": "<PackageReference Include=\"Blazorise.Analyzers\" Version=\"2.2.0\" PrivateAssets=\"all\" />",
           "title": "Project file reference",
           "description": "If you prefer editing the project file directly, add the package reference in the target .csproj ."
         },
@@ -5971,7 +5971,7 @@
           "code": "AntDesignIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/AntDesignIconsCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.1.3.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.2.0.0\" rel=\"stylesheet\" />",
           "title": "AntDesign Icons CSS",
           "description": "Note: If you use AntDesign icons, define blazorise.icons.antdesign.css in your index.html or _Layout.cshtml / _Host.cshtml file."
         },
@@ -5979,7 +5979,7 @@
           "code": "BootstrapIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/BootstrapIconsCSSExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css?v=2.1.3.0\">",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css?v=2.2.0.0\">",
           "title": "Bootstrap Icons CSS",
           "description": "Note: If you use Bootstrap icons, define bootstrap-icons.min.css in your index.html or _Layout.cshtml / _Host.cshtml file. This file is required for some custom icon styles to work."
         },
@@ -5987,7 +5987,7 @@
           "code": "FluentIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FluentIconsCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.1.3.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.2.0.0\" rel=\"stylesheet\" />",
           "title": "Fluent Icons CSS",
           "description": "Note: If you use Fluent icons, define FluentSystemIcons-Resizable.css in your index.html or _Layout.cshtml / _Host.cshtml file. This file is required for some custom icon styles to work."
         },
@@ -5995,7 +5995,7 @@
           "code": "FontAwesomeCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/FontAwesomeCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.1.3.0\" rel=\"stylesheet\">",
+          "content": "<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css?v=2.2.0.0\" rel=\"stylesheet\">",
           "title": "Font Awesome Icons CSS",
           "description": "Include CSS link into your index.html or _Layout.cshtml / _Host.cshtml file, depending if you're using a Blazor WebAssembly or Blazor Server side project."
         },
@@ -6003,7 +6003,7 @@
           "code": "MaterialCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/MaterialCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.1.3.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.2.0.0\" rel=\"stylesheet\" />",
           "title": "Material Icons CSS",
           "description": "Note: If you use Material icons, define blazorise.icons.material.css in your index.html or _Layout.cshtml / _Host.cshtml file. This file is required for some custom icon styles to work."
         },
@@ -6011,7 +6011,7 @@
           "code": "LucideIconsCSSExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Extensions/Icons/Examples/LucideIconsCSSExample.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.1.3.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.2.0.0\" rel=\"stylesheet\" />",
           "title": "Lucide Icons CSS",
           "description": "Note: If you use Lucide icons, define blazorise.icons.lucide.css in your index.html or _Layout.cshtml / _Host.cshtml file."
         },
@@ -6684,6 +6684,204 @@
       "description": "Explore the API reference for the Blazorise PdfViewer component, detailing available attributes and methods.",
       "pagePath": "Pages/Docs/Extensions/PdfViewer/PdfViewerApiPage.razor",
       "examples": []
+    },
+    {
+      "route": "/docs/extensions/pivotgrid",
+      "title": "Blazorise PivotGrid component",
+      "description": "Analyze multi-dimensional data with the Blazorise PivotGrid component, including rows, columns, aggregates, field chooser, paging, virtualization, and styling.",
+      "pagePath": "Pages/Docs/Extensions/PivotGrid/PivotGridPage.razor",
+      "examples": [
+        {
+          "code": "PivotGridNugetInstallExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/PivotGrid/Examples/PivotGridNugetInstallExample.snippet",
+          "content": "Install-Package Blazorise.PivotGrid",
+          "title": "NuGet",
+          "description": "Install extension from NuGet."
+        },
+        {
+          "code": "PivotGridImportsExample",
+          "kind": "snippet",
+          "sourcePath": "Pages/Docs/Extensions/PivotGrid/Examples/PivotGridImportsExample.snippet",
+          "content": "@using Blazorise.PivotGrid",
+          "title": "Imports",
+          "description": "In your main _Imports.razor add:"
+        },
+        {
+          "code": "PivotGridBasicExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/PivotGrid/Examples/PivotGridBasicExample.razor",
+          "content": "<PivotGrid TItem=\"PivotSale\"\r\n           Data=\"@Sales\"\r\n           ShowRowTotals\r\n           ShowColumnTotals\r\n           ShowRowSubtotals\r\n           Striped\r\n           Hoverable>\r\n    <PivotGridColumns>\r\n        <PivotGridColumn Field=\"@nameof( PivotSale.City )\" Caption=\"City\" />\r\n    </PivotGridColumns>\r\n    <PivotGridRows>\r\n        <PivotGridRow Field=\"@nameof( PivotSale.Category )\" Caption=\"Category\" />\r\n        <PivotGridRow Field=\"@nameof( PivotSale.Product )\" Caption=\"Product\" />\r\n    </PivotGridRows>\r\n    <PivotGridAggregates>\r\n        <PivotGridAggregate Field=\"@nameof( PivotSale.Amount )\"\r\n                            Caption=\"Amount\"\r\n                            DisplayFormat=\"{0:C0}\"\r\n                            DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"en-US\" )\" />\r\n        <PivotGridAggregate Field=\"@nameof( PivotSale.Units )\"\r\n                            Caption=\"Units\"\r\n                            Aggregate=\"PivotGridAggregateFunction.Sum\" />\r\n    </PivotGridAggregates>\r\n</PivotGrid>\r\n\r\n@code {\r\n    private readonly List<PivotSale> Sales =\r\n    [\r\n        new() { City = \"Berlin\", Category = \"Hardware\", Product = \"Laptops\", Amount = 51200m, Units = 18 },\r\n        new() { City = \"Berlin\", Category = \"Hardware\", Product = \"Monitors\", Amount = 38400m, Units = 82 },\r\n        new() { City = \"Berlin\", Category = \"Software\", Product = \"Licenses\", Amount = 94200m, Units = 205 },\r\n        new() { City = \"London\", Category = \"Hardware\", Product = \"Laptops\", Amount = 127500m, Units = 34 },\r\n        new() { City = \"London\", Category = \"Services\", Product = \"Consulting\", Amount = 66300m, Units = 36 },\r\n        new() { City = \"London\", Category = \"Software\", Product = \"Support\", Amount = 76800m, Units = 192 },\r\n        new() { City = \"Madrid\", Category = \"Hardware\", Product = \"Laptops\", Amount = 68200m, Units = 19 },\r\n        new() { City = \"Madrid\", Category = \"Services\", Product = \"Training\", Amount = 28700m, Units = 64 },\r\n        new() { City = \"Madrid\", Category = \"Software\", Product = \"Support\", Amount = 45100m, Units = 135 },\r\n        new() { City = \"Paris\", Category = \"Hardware\", Product = \"Laptops\", Amount = 98400m, Units = 28 },\r\n        new() { City = \"Paris\", Category = \"Services\", Product = \"Implementation\", Amount = 118600m, Units = 47 },\r\n        new() { City = \"Paris\", Category = \"Software\", Product = \"Subscriptions\", Amount = 124500m, Units = 355 },\r\n    ];\r\n\r\n    public class PivotSale\r\n    {\r\n        public string City { get; set; }\r\n\r\n        public string Category { get; set; }\r\n\r\n        public string Product { get; set; }\r\n\r\n        public decimal Amount { get; set; }\r\n\r\n        public int Units { get; set; }\r\n    }\r\n}",
+          "title": "Basic Pivot Table",
+          "description": "Define columns, rows, and aggregates declaratively."
+        },
+        {
+          "code": "PivotGridFieldChooserExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/PivotGrid/Examples/PivotGridFieldChooserExample.razor",
+          "content": "<PivotGrid TItem=\"PivotSale\"\r\n           Data=\"@Sales\"\r\n           ShowToolbar\r\n           FieldChooser\r\n           ShowRowTotals\r\n           ShowColumnTotals\r\n           ShowRowSubtotals\r\n           Striped\r\n           Hoverable>\r\n    <PivotGridFields>\r\n        <PivotGridField Field=\"@nameof( PivotSale.Region )\" Caption=\"Region\" />\r\n        <PivotGridField Field=\"@nameof( PivotSale.City )\" Caption=\"City\" />\r\n        <PivotGridField Field=\"@nameof( PivotSale.Category )\" Caption=\"Category\" />\r\n        <PivotGridField Field=\"@nameof( PivotSale.Product )\" Caption=\"Product\" />\r\n        <PivotGridField Field=\"@nameof( PivotSale.Amount )\" Caption=\"Amount\" />\r\n        <PivotGridField Field=\"@nameof( PivotSale.Units )\" Caption=\"Units\" />\r\n    </PivotGridFields>\r\n    <PivotGridColumns>\r\n        <PivotGridColumn Field=\"@nameof( PivotSale.City )\" Caption=\"City\" />\r\n    </PivotGridColumns>\r\n    <PivotGridRows>\r\n        <PivotGridRow Field=\"@nameof( PivotSale.Category )\" Caption=\"Category\" />\r\n        <PivotGridRow Field=\"@nameof( PivotSale.Product )\" Caption=\"Product\" />\r\n    </PivotGridRows>\r\n    <PivotGridAggregates>\r\n        <PivotGridAggregate Field=\"@nameof( PivotSale.Amount )\"\r\n                            Caption=\"Amount\"\r\n                            DisplayFormat=\"{0:C0}\"\r\n                            DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"en-US\" )\" />\r\n        <PivotGridAggregate Field=\"@nameof( PivotSale.Units )\"\r\n                            Caption=\"Units\"\r\n                            Aggregate=\"PivotGridAggregateFunction.Sum\" />\r\n    </PivotGridAggregates>\r\n</PivotGrid>\r\n\r\n@code {\r\n    private readonly List<PivotSale> Sales =\r\n    [\r\n        new() { Region = \"Central\", City = \"Berlin\", Category = \"Hardware\", Product = \"Laptops\", Amount = 51200m, Units = 18 },\r\n        new() { Region = \"Central\", City = \"Berlin\", Category = \"Software\", Product = \"Licenses\", Amount = 94200m, Units = 205 },\r\n        new() { Region = \"Western\", City = \"London\", Category = \"Hardware\", Product = \"Laptops\", Amount = 127500m, Units = 34 },\r\n        new() { Region = \"Western\", City = \"London\", Category = \"Services\", Product = \"Consulting\", Amount = 66300m, Units = 36 },\r\n        new() { Region = \"Central\", City = \"Madrid\", Category = \"Services\", Product = \"Training\", Amount = 28700m, Units = 64 },\r\n        new() { Region = \"Western\", City = \"Paris\", Category = \"Software\", Product = \"Subscriptions\", Amount = 124500m, Units = 355 },\r\n    ];\r\n\r\n    public class PivotSale\r\n    {\r\n        public string Region { get; set; }\r\n\r\n        public string City { get; set; }\r\n\r\n        public string Category { get; set; }\r\n\r\n        public string Product { get; set; }\r\n\r\n        public decimal Amount { get; set; }\r\n\r\n        public int Units { get; set; }\r\n    }\r\n}",
+          "title": "Field Chooser",
+          "description": "Enable ShowToolbar and FieldChooser to show the built-in toolbar command and modal field chooser. Use ToolbarOptions to hide optional built-in toolbar buttons."
+        },
+        {
+          "code": "PivotGridCustomToolbarExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/PivotGrid/Examples/PivotGridCustomToolbarExample.razor",
+          "content": "<PivotGrid TItem=\"ToolbarSale\"\r\n           Data=\"@Sales\"\r\n           FieldChooser\r\n           ExpandableRows\r\n           InitiallyExpanded=\"false\"\r\n           ShowRowTotals\r\n           ShowColumnTotals\r\n           ShowRowSubtotals\r\n           Striped\r\n           Hoverable>\r\n    <ToolbarTemplate Context=\"toolbar\">\r\n        <Div Padding=\"Padding.Is3\" Border=\"Border.Is1\" Flex=\"Flex.AlignItems.Center\" Gap=\"Gap.Is2\">\r\n            @if ( toolbar.CanOpenFieldChooser )\r\n            {\r\n                <Button Color=\"Color.Primary\" Outline Clicked=\"@(() => toolbar.OpenFieldChooserCommand())\">\r\n                    <Icon Name=\"IconName.List\" Margin=\"Margin.Is2.FromEnd\" />\r\n                    @toolbar.FieldsText\r\n                </Button>\r\n            }\r\n\r\n            <Button Color=\"Color.Success\" Outline Clicked=\"@(() => toolbar.RefreshCommand())\">\r\n                <Icon Name=\"IconName.Reply\" Margin=\"Margin.Is2.FromEnd\" />\r\n                @toolbar.RefreshText\r\n            </Button>\r\n\r\n            @if ( toolbar.CanExpandCollapseGroups )\r\n            {\r\n                <Buttons>\r\n                    <Button Color=\"Color.Secondary\" Outline Clicked=\"@(() => toolbar.ExpandAllCommand())\">\r\n                        <Icon Name=\"IconName.ChevronDoubleDown\" />\r\n                    </Button>\r\n                    <Button Color=\"Color.Secondary\" Outline Clicked=\"@(() => toolbar.CollapseAllCommand())\">\r\n                        <Icon Name=\"IconName.ChevronDoubleUp\" />\r\n                    </Button>\r\n                </Buttons>\r\n            }\r\n\r\n            <Button Color=\"Color.Secondary\" Outline Disabled=\"@(!toolbar.CanResetLayout)\" Clicked=\"@(() => toolbar.ResetLayoutCommand())\">\r\n                <Icon Name=\"IconName.Undo\" Margin=\"Margin.Is2.FromEnd\" />\r\n                @toolbar.ResetLayoutText\r\n            </Button>\r\n        </Div>\r\n    </ToolbarTemplate>\r\n    <ChildContent>\r\n        <PivotGridFields>\r\n            <PivotGridField Field=\"@nameof( ToolbarSale.Region )\" Caption=\"Region\" />\r\n            <PivotGridField Field=\"@nameof( ToolbarSale.City )\" Caption=\"City\" />\r\n            <PivotGridField Field=\"@nameof( ToolbarSale.Category )\" Caption=\"Category\" />\r\n            <PivotGridField Field=\"@nameof( ToolbarSale.Product )\" Caption=\"Product\" />\r\n            <PivotGridField Field=\"@nameof( ToolbarSale.Amount )\" Caption=\"Amount\" />\r\n        </PivotGridFields>\r\n        <PivotGridColumns>\r\n            <PivotGridColumn Field=\"@nameof( ToolbarSale.City )\" Caption=\"City\" />\r\n        </PivotGridColumns>\r\n        <PivotGridRows>\r\n            <PivotGridRow Field=\"@nameof( ToolbarSale.Region )\" Caption=\"Region\" />\r\n            <PivotGridRow Field=\"@nameof( ToolbarSale.Category )\" Caption=\"Category\" />\r\n        </PivotGridRows>\r\n        <PivotGridAggregates>\r\n            <PivotGridAggregate Field=\"@nameof( ToolbarSale.Amount )\"\r\n                                Caption=\"Amount\"\r\n                                DisplayFormat=\"{0:C0}\"\r\n                                DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"en-US\" )\" />\r\n        </PivotGridAggregates>\r\n    </ChildContent>\r\n</PivotGrid>\r\n\r\n@code {\r\n    private readonly List<ToolbarSale> Sales =\r\n    [\r\n        new() { Region = \"Central\", City = \"Berlin\", Category = \"Hardware\", Product = \"Laptops\", Amount = 51200m },\r\n        new() { Region = \"Central\", City = \"Berlin\", Category = \"Software\", Product = \"Licenses\", Amount = 94200m },\r\n        new() { Region = \"Western\", City = \"London\", Category = \"Hardware\", Product = \"Laptops\", Amount = 127500m },\r\n        new() { Region = \"Western\", City = \"London\", Category = \"Services\", Product = \"Consulting\", Amount = 66300m },\r\n        new() { Region = \"Southern\", City = \"Madrid\", Category = \"Services\", Product = \"Training\", Amount = 28700m },\r\n        new() { Region = \"Western\", City = \"Paris\", Category = \"Software\", Product = \"Subscriptions\", Amount = 124500m },\r\n    ];\r\n\r\n    public class ToolbarSale\r\n    {\r\n        public string Region { get; set; }\r\n\r\n        public string City { get; set; }\r\n\r\n        public string Category { get; set; }\r\n\r\n        public string Product { get; set; }\r\n\r\n        public decimal Amount { get; set; }\r\n    }\r\n}",
+          "title": "Custom Toolbar",
+          "description": "Use ToolbarTemplate to replace the built-in toolbar and invoke PivotGrid commands through the toolbar context."
+        },
+        {
+          "code": "PivotGridPagingVirtualizationExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/PivotGrid/Examples/PivotGridPagingVirtualizationExample.razor",
+          "content": "<Field>\r\n    <Switch @bind-Value=\"@virtualize\">Virtualize rows</Switch>\r\n</Field>\r\n\r\n<PivotGrid TItem=\"PivotSale\"\r\n           Data=\"@Sales\"\r\n           ShowPager=\"@(!virtualize)\"\r\n           ShowPageSizes=\"@(!virtualize)\"\r\n           PageSize=\"8\"\r\n           PageSizes=\"@pageSizes\"\r\n           Virtualize=\"@virtualize\"\r\n           VirtualizeOptions=\"@virtualizeOptions\"\r\n           ShowRowTotals\r\n           ShowColumnTotals\r\n           ShowRowSubtotals\r\n           Striped\r\n           Hoverable\r\n           Narrow>\r\n    <PivotGridColumns>\r\n        <PivotGridColumn Field=\"@nameof( PivotSale.City )\" Caption=\"City\" />\r\n    </PivotGridColumns>\r\n    <PivotGridRows>\r\n        <PivotGridRow Field=\"@nameof( PivotSale.Category )\" Caption=\"Category\" />\r\n        <PivotGridRow Field=\"@nameof( PivotSale.Product )\" Caption=\"Product\" />\r\n    </PivotGridRows>\r\n    <PivotGridAggregates>\r\n        <PivotGridAggregate Field=\"@nameof( PivotSale.Amount )\"\r\n                            Caption=\"Amount\"\r\n                            DisplayFormat=\"{0:C0}\"\r\n                            DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"en-US\" )\" />\r\n        <PivotGridAggregate Field=\"@nameof( PivotSale.Units )\"\r\n                            Caption=\"Units\"\r\n                            Aggregate=\"PivotGridAggregateFunction.Sum\" />\r\n    </PivotGridAggregates>\r\n</PivotGrid>\r\n\r\n@code {\r\n    private bool virtualize;\r\n\r\n    private readonly int[] pageSizes = [8, 16, 32];\r\n\r\n    private readonly PivotGridVirtualizeOptions virtualizeOptions = new()\r\n    {\r\n        Height = \"420px\",\r\n        MaxHeight = \"420px\",\r\n        ItemSize = 44f,\r\n        OverscanCount = 6,\r\n    };\r\n\r\n    private readonly List<PivotSale> Sales = CreateSales();\r\n\r\n    private static List<PivotSale> CreateSales()\r\n    {\r\n        string[] cities = [\"Berlin\", \"London\", \"Madrid\", \"Paris\"];\r\n\r\n        (string Category, string[] Products)[] rows =\r\n        [\r\n            (\"Hardware\", [\"Laptops\", \"Monitors\", \"Tablets\", \"Peripherals\"]),\r\n            (\"Software\", [\"Licenses\", \"Subscriptions\", \"Support\", \"Analytics\"]),\r\n            (\"Services\", [\"Consulting\", \"Implementation\", \"Training\", \"Migration\"]),\r\n            (\"Security\", [\"Firewall\", \"Identity\", \"Monitoring\", \"Audit\"]),\r\n            (\"Cloud\", [\"Compute\", \"Storage\", \"Backup\", \"Database\"]),\r\n        ];\r\n\r\n        List<PivotSale> data = new();\r\n\r\n        for ( int rowIndex = 0; rowIndex < rows.Length; rowIndex++ )\r\n        {\r\n            for ( int productIndex = 0; productIndex < rows[rowIndex].Products.Length; productIndex++ )\r\n            {\r\n                for ( int cityIndex = 0; cityIndex < cities.Length; cityIndex++ )\r\n                {\r\n                    if ( ( rowIndex + productIndex + cityIndex ) % 5 == 0 )\r\n                        continue;\r\n\r\n                    data.Add( new()\r\n                    {\r\n                        City = cities[cityIndex],\r\n                        Category = rows[rowIndex].Category,\r\n                        Product = rows[rowIndex].Products[productIndex],\r\n                        Amount = 22000m + ( rowIndex * 28500m ) + ( productIndex * 9400m ) + ( cityIndex * 17300m ),\r\n                        Units = 18 + ( rowIndex * 31 ) + ( productIndex * 27 ) + ( cityIndex * 11 ),\r\n                    } );\r\n                }\r\n            }\r\n        }\r\n\r\n        return data;\r\n    }\r\n\r\n    public class PivotSale\r\n    {\r\n        public string City { get; set; }\r\n\r\n        public string Category { get; set; }\r\n\r\n        public string Product { get; set; }\r\n\r\n        public decimal Amount { get; set; }\r\n\r\n        public int Units { get; set; }\r\n    }\r\n}",
+          "title": "Paging and Virtualization",
+          "description": "Use ShowPager for explicit page navigation, or Virtualize when users should scroll through a larger pivot result. Virtualize only limits rendered rows. When using local Data , the full pivot result is still computed before rows are virtualized. For large remote datasets, use ReadData or DataProvider with PivotGridReadDataMode.Virtualize and return prepared PivotGridResult rows for the requested range. The pager range reports pivot result rows. When PageByGroups is enabled, paging is based on top-level row groups instead of every expanded detail row."
+        },
+        {
+          "code": "PivotGridRemoteVirtualizationExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/PivotGrid/Examples/PivotGridRemoteVirtualizationExample.razor",
+          "content": "<PivotGrid TItem=\"RemotePivotSale\"\r\n           ReadData=\"@ReadRemotePivotData\"\r\n           Virtualize\r\n           VirtualizeOptions=\"@virtualizeOptions\"\r\n           Striped\r\n           Hoverable>\r\n    <PivotGridColumns>\r\n        <PivotGridColumn Field=\"@nameof( RemotePivotSale.Quarter )\" Caption=\"Quarter\" />\r\n    </PivotGridColumns>\r\n    <PivotGridRows>\r\n        <PivotGridRow Field=\"@nameof( RemotePivotSale.Customer )\" Caption=\"Customer\" />\r\n    </PivotGridRows>\r\n    <PivotGridAggregates>\r\n        <PivotGridAggregate Field=\"@nameof( RemotePivotSale.Amount )\"\r\n                            Caption=\"Amount\"\r\n                            Aggregate=\"PivotGridAggregateFunction.Sum\"\r\n                            DisplayFormat=\"{0:C0}\"\r\n                            DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"en-US\" )\" />\r\n    </PivotGridAggregates>\r\n</PivotGrid>\r\n\r\n@code {\r\n    private static readonly string[] quarters = [\"Q1\", \"Q2\", \"Q3\", \"Q4\"];\r\n\r\n    private static readonly IReadOnlyList<RemotePivotSale> sales = CreateSales();\r\n\r\n    private static readonly int totalPivotRows = sales\r\n        .Select( sale => sale.Customer )\r\n        .Distinct()\r\n        .Count();\r\n\r\n    private readonly PivotGridVirtualizeOptions virtualizeOptions = new()\r\n    {\r\n        Height = \"420px\",\r\n        MaxHeight = \"420px\",\r\n        ItemSize = 44f,\r\n        OverscanCount = 6,\r\n    };\r\n\r\n    private Task ReadRemotePivotData( PivotGridReadDataEventArgs<RemotePivotSale> eventArgs )\r\n    {\r\n        PivotGridDataRequest request = eventArgs.Request;\r\n        int offset = request.ReadDataMode == PivotGridReadDataMode.Virtualize\r\n            ? Math.Max( 0, request.VirtualizeOffset )\r\n            : 0;\r\n        int count = request.ReadDataMode == PivotGridReadDataMode.Virtualize && request.VirtualizeCount > 0\r\n            ? request.VirtualizeCount\r\n            : 40;\r\n\r\n        eventArgs.Result = CreatePivotResult( offset, count );\r\n        eventArgs.TotalItems = totalPivotRows;\r\n        eventArgs.IsPaged = true;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private static PivotGridResult<RemotePivotSale> CreatePivotResult( int offset, int count )\r\n    {\r\n        IReadOnlyList<PivotGridFieldInfo<RemotePivotSale>> rowFields =\r\n        [\r\n            new()\r\n            {\r\n                Field = nameof( RemotePivotSale.Customer ),\r\n                Caption = \"Customer\",\r\n            },\r\n        ];\r\n\r\n        IReadOnlyList<PivotGridFieldInfo<RemotePivotSale>> columnFields =\r\n        [\r\n            new()\r\n            {\r\n                Field = nameof( RemotePivotSale.Quarter ),\r\n                Caption = \"Quarter\",\r\n            },\r\n        ];\r\n\r\n        PivotGridAggregateInfo<RemotePivotSale> aggregate = new()\r\n        {\r\n            Field = nameof( RemotePivotSale.Amount ),\r\n            Caption = \"Amount\",\r\n            Aggregate = PivotGridAggregateFunction.Sum,\r\n            DisplayFormat = \"{0:C0}\",\r\n            DisplayFormatProvider = System.Globalization.CultureInfo.GetCultureInfo( \"en-US\" ),\r\n        };\r\n\r\n        IReadOnlyList<PivotGridAggregateInfo<RemotePivotSale>> aggregates = [aggregate];\r\n\r\n        List<PivotGridAxisItem<RemotePivotSale>> columnItems = quarters\r\n            .Select( quarter => new PivotGridAxisItem<RemotePivotSale>(\r\n                [quarter],\r\n                sales.Where( sale => sale.Quarter == quarter ).ToList(),\r\n                0,\r\n                false,\r\n                false ) )\r\n            .ToList();\r\n\r\n        List<PivotGridDataColumn<RemotePivotSale>> dataColumns = columnItems\r\n            .Select( column => new PivotGridDataColumn<RemotePivotSale>( column, aggregate ) )\r\n            .ToList();\r\n\r\n        List<PivotGridResultRow<RemotePivotSale>> rows = sales\r\n            .GroupBy( sale => sale.Customer )\r\n            .OrderBy( group => group.Key )\r\n            .Skip( offset )\r\n            .Take( count )\r\n            .Select( group =>\r\n            {\r\n                List<RemotePivotSale> rowItems = group.ToList();\r\n                PivotGridAxisItem<RemotePivotSale> row = new(\r\n                    [group.Key],\r\n                    rowItems,\r\n                    0,\r\n                    false,\r\n                    false );\r\n\r\n                List<PivotGridCell<RemotePivotSale>> cells = dataColumns\r\n                    .Select( dataColumn =>\r\n                    {\r\n                        string quarter = dataColumn.Column.Values[0]?.ToString();\r\n                        List<RemotePivotSale> cellItems = rowItems\r\n                            .Where( sale => sale.Quarter == quarter )\r\n                            .ToList();\r\n                        object value = aggregate.Calculate( cellItems );\r\n\r\n                        return new PivotGridCell<RemotePivotSale>(\r\n                            dataColumn,\r\n                            value,\r\n                            aggregate.FormatValue( value ),\r\n                            cellItems,\r\n                            false,\r\n                            false,\r\n                            false );\r\n                    } )\r\n                    .ToList();\r\n\r\n                return new PivotGridResultRow<RemotePivotSale>( row, cells );\r\n            } )\r\n            .ToList();\r\n\r\n        return new( rowFields, columnFields, aggregates, dataColumns, rows );\r\n    }\r\n\r\n    private static List<RemotePivotSale> CreateSales()\r\n    {\r\n        List<RemotePivotSale> data = new();\r\n\r\n        for ( int customerIndex = 1; customerIndex <= 500; customerIndex++ )\r\n        {\r\n            for ( int quarterIndex = 0; quarterIndex < quarters.Length; quarterIndex++ )\r\n            {\r\n                data.Add( new()\r\n                {\r\n                    Customer = $\"Customer {customerIndex:000}\",\r\n                    Quarter = quarters[quarterIndex],\r\n                    Amount = 8500m + ( customerIndex * 157m ) + ( quarterIndex * 3200m ),\r\n                } );\r\n            }\r\n        }\r\n\r\n        return data;\r\n    }\r\n\r\n    public class RemotePivotSale\r\n    {\r\n        public string Customer { get; set; }\r\n\r\n        public string Quarter { get; set; }\r\n\r\n        public decimal Amount { get; set; }\r\n    }\r\n}",
+          "title": "Remote Virtualization",
+          "description": "For remote virtualization, return the requested pivot result rows through Result and set TotalItems to the total pivot result row count. When row or column expansion is enabled, use IsRowGroupExpanded and IsColumnGroupExpanded from the request to build the requested expanded result window. When returning a prepared PivotGridResult , keep the result shape consistent. DataColumns defines the cell order, so every returned PivotGridResultRow should contain the same number of Cells , in the same order. Data columns and aggregate metadata should stay stable across virtualized requests. Row fields, column fields, aggregate info, data columns, rows, and cells should not be null ."
+        },
+        {
+          "code": "PivotGridReadDataDataProviderExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/PivotGrid/Examples/PivotGridReadDataDataProviderExample.razor",
+          "content": "<Field>\r\n    <FieldLabel>Provider</FieldLabel>\r\n    <FieldBody>\r\n        <Select TValue=\"ProviderMode\" @bind-Value=\"@providerMode\">\r\n            <SelectItem TValue=\"ProviderMode\" Value=\"ProviderMode.ReadData\">ReadData callback</SelectItem>\r\n            <SelectItem TValue=\"ProviderMode\" Value=\"ProviderMode.DataProvider\">DataProvider implementation</SelectItem>\r\n        </Select>\r\n    </FieldBody>\r\n</Field>\r\n\r\n<PivotGrid TItem=\"RemoteSale\"\r\n           ReadData=\"@CurrentReadData\"\r\n           DataProvider=\"@CurrentDataProvider\"\r\n           ShowPager\r\n           PageSize=\"4\"\r\n           ShowRowTotals\r\n           Striped\r\n           Hoverable>\r\n    <PivotGridColumns>\r\n        <PivotGridColumn Field=\"@nameof( RemoteSale.Quarter )\" Caption=\"Quarter\" />\r\n    </PivotGridColumns>\r\n    <PivotGridRows>\r\n        <PivotGridRow Field=\"@nameof( RemoteSale.Customer )\" Caption=\"Customer\" />\r\n    </PivotGridRows>\r\n    <PivotGridAggregates>\r\n        <PivotGridAggregate Field=\"@nameof( RemoteSale.Amount )\"\r\n                            Caption=\"Amount\"\r\n                            Aggregate=\"PivotGridAggregateFunction.Sum\"\r\n                            DisplayFormat=\"{0:C0}\"\r\n                            DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"en-US\" )\" />\r\n    </PivotGridAggregates>\r\n</PivotGrid>\r\n\r\n@code {\r\n    private static readonly string[] quarters = [\"Q1\", \"Q2\", \"Q3\", \"Q4\"];\r\n\r\n    private static readonly IReadOnlyList<RemoteSale> sales = CreateSales();\r\n\r\n    private readonly IPivotGridDataProvider<RemoteSale> dataProvider = new RemoteSaleDataProvider( sales );\r\n\r\n    private ProviderMode providerMode = ProviderMode.ReadData;\r\n\r\n    private EventCallback<PivotGridReadDataEventArgs<RemoteSale>> CurrentReadData\r\n        => providerMode == ProviderMode.ReadData\r\n            ? EventCallback.Factory.Create<PivotGridReadDataEventArgs<RemoteSale>>( this, ReadRemoteData )\r\n            : default;\r\n\r\n    private IPivotGridDataProvider<RemoteSale> CurrentDataProvider\r\n        => providerMode == ProviderMode.DataProvider ? dataProvider : null;\r\n\r\n    private Task ReadRemoteData( PivotGridReadDataEventArgs<RemoteSale> eventArgs )\r\n    {\r\n        PivotGridDataResult<RemoteSale> result = CreatePagedPivotResult( sales, eventArgs.Request );\r\n\r\n        eventArgs.Result = result.Result;\r\n        eventArgs.TotalItems = result.TotalItems;\r\n        eventArgs.IsPaged = result.IsPaged;\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    private static PivotGridDataResult<RemoteSale> CreatePagedPivotResult( IReadOnlyList<RemoteSale> source, PivotGridDataRequest request )\r\n    {\r\n        PivotGridFieldInfo<RemoteSale> rowField = new()\r\n        {\r\n            Field = nameof( RemoteSale.Customer ),\r\n            Caption = \"Customer\",\r\n        };\r\n\r\n        PivotGridFieldInfo<RemoteSale> columnField = new()\r\n        {\r\n            Field = nameof( RemoteSale.Quarter ),\r\n            Caption = \"Quarter\",\r\n        };\r\n\r\n        PivotGridAggregateInfo<RemoteSale> aggregate = new()\r\n        {\r\n            Field = nameof( RemoteSale.Amount ),\r\n            Caption = \"Amount\",\r\n            Aggregate = PivotGridAggregateFunction.Sum,\r\n            DisplayFormat = \"{0:C0}\",\r\n            DisplayFormatProvider = System.Globalization.CultureInfo.GetCultureInfo( \"en-US\" ),\r\n        };\r\n\r\n        List<PivotGridAxisItem<RemoteSale>> columnItems = quarters\r\n            .Select( quarter => new PivotGridAxisItem<RemoteSale>(\r\n                [quarter],\r\n                source.Where( sale => sale.Quarter == quarter ).ToList(),\r\n                0,\r\n                false,\r\n                false ) )\r\n            .ToList();\r\n\r\n        if ( request.ShowRowTotals )\r\n        {\r\n            columnItems.Add( new PivotGridAxisItem<RemoteSale>( [], source, 0, false, true ) );\r\n        }\r\n\r\n        List<PivotGridDataColumn<RemoteSale>> dataColumns = columnItems\r\n            .Select( column => new PivotGridDataColumn<RemoteSale>( column, aggregate ) )\r\n            .ToList();\r\n\r\n        List<IGrouping<string, RemoteSale>> customerGroups = source\r\n            .GroupBy( sale => sale.Customer )\r\n            .OrderBy( group => group.Key )\r\n            .ToList();\r\n\r\n        int totalRows = customerGroups.Count;\r\n        int skip = request.ReadDataMode == PivotGridReadDataMode.Paging\r\n            ? Math.Max( 0, ( request.Page - 1 ) * request.PageSize )\r\n            : 0;\r\n        int take = request.ReadDataMode == PivotGridReadDataMode.Paging\r\n            ? request.PageSize\r\n            : totalRows;\r\n\r\n        List<PivotGridResultRow<RemoteSale>> rows = customerGroups\r\n            .Skip( skip )\r\n            .Take( take )\r\n            .Select( group =>\r\n            {\r\n                List<RemoteSale> rowItems = group.ToList();\r\n                PivotGridAxisItem<RemoteSale> row = new( [group.Key], rowItems, 0, false, false );\r\n\r\n                List<PivotGridCell<RemoteSale>> cells = dataColumns\r\n                    .Select( dataColumn =>\r\n                    {\r\n                        List<RemoteSale> cellItems = dataColumn.Column.IsGrandTotal\r\n                            ? rowItems\r\n                            : rowItems.Where( sale => sale.Quarter == dataColumn.Column.Values[0]?.ToString() ).ToList();\r\n                        object value = aggregate.Calculate( cellItems );\r\n\r\n                        return new PivotGridCell<RemoteSale>(\r\n                            dataColumn,\r\n                            value,\r\n                            aggregate.FormatValue( value ),\r\n                            cellItems,\r\n                            dataColumn.Column.IsTotal || dataColumn.Column.IsGrandTotal,\r\n                            false,\r\n                            false );\r\n                    } )\r\n                    .ToList();\r\n\r\n                return new PivotGridResultRow<RemoteSale>( row, cells );\r\n            } )\r\n            .ToList();\r\n\r\n        return new()\r\n        {\r\n            Result = new( [rowField], [columnField], [aggregate], dataColumns, rows ),\r\n            TotalItems = totalRows,\r\n            IsPaged = true,\r\n        };\r\n    }\r\n\r\n    private static List<RemoteSale> CreateSales()\r\n    {\r\n        List<RemoteSale> data = new();\r\n\r\n        for ( int customerIndex = 1; customerIndex <= 18; customerIndex++ )\r\n        {\r\n            foreach ( string quarter in quarters )\r\n            {\r\n                data.Add( new()\r\n                {\r\n                    Customer = $\"Customer {customerIndex:00}\",\r\n                    Quarter = quarter,\r\n                    Amount = 12000m + ( customerIndex * 950m ) + ( Array.IndexOf( quarters, quarter ) * 2250m ),\r\n                } );\r\n            }\r\n        }\r\n\r\n        return data;\r\n    }\r\n\r\n    private enum ProviderMode\r\n    {\r\n        ReadData,\r\n        DataProvider,\r\n    }\r\n\r\n    private sealed class RemoteSaleDataProvider : IPivotGridDataProvider<RemoteSale>\r\n    {\r\n        private readonly IReadOnlyList<RemoteSale> source;\r\n\r\n        public RemoteSaleDataProvider( IReadOnlyList<RemoteSale> source )\r\n        {\r\n            this.source = source;\r\n        }\r\n\r\n        public Task<PivotGridDataResult<RemoteSale>> ReadDataAsync( PivotGridDataRequest request, System.Threading.CancellationToken cancellationToken )\r\n            => Task.FromResult( CreatePagedPivotResult( source, request ) );\r\n    }\r\n\r\n    public class RemoteSale\r\n    {\r\n        public string Customer { get; set; }\r\n\r\n        public string Quarter { get; set; }\r\n\r\n        public decimal Amount { get; set; }\r\n    }\r\n}",
+          "title": "ReadData and DataProvider",
+          "description": "Use ReadData for callback-based loading, or DataProvider when the provider should be reusable. For server-side paging, return a prepared PivotGridResult , set IsPaged , and report the total pivot result row count with TotalItems . When the field chooser is enabled with remote or prepared results, populate FilterOptions with all available filter values keyed by field name. Selected option keys are sent back on the corresponding request filter as FilterValueKey . Otherwise the field chooser can only infer filter values from the current raw Data page. Prepared results returned by providers are normalized before rendering. Null structural entries are ignored, row cells are aligned to DataColumns , and missing cells are rendered as empty cells so headers, expansion, and cells stay consistent."
+        },
+        {
+          "code": "PivotGridTemplatesEventsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/PivotGrid/Examples/PivotGridTemplatesEventsExample.razor",
+          "content": "<PivotGrid TItem=\"TemplateSale\"\r\n           Data=\"@Sales\"\r\n           CellClicked=\"@OnCellClicked\"\r\n           ShowRowTotals\r\n           ShowColumnTotals\r\n           Striped\r\n           Hoverable>\r\n    <PivotGridColumns>\r\n        <PivotGridColumn Field=\"@nameof( TemplateSale.Region )\" Caption=\"Region\">\r\n            <DisplayTemplate Context=\"context\">\r\n                <Span TextWeight=\"TextWeight.SemiBold\" TextTransform=\"TextTransform.Uppercase\">@context.FormattedValue</Span>\r\n            </DisplayTemplate>\r\n        </PivotGridColumn>\r\n    </PivotGridColumns>\r\n    <PivotGridRows>\r\n        <PivotGridRow Field=\"@nameof( TemplateSale.Category )\" Caption=\"Category\">\r\n            <HeaderTemplate Context=\"context\">\r\n                <Span TextWeight=\"TextWeight.Bold\">@context.Caption</Span>\r\n            </HeaderTemplate>\r\n            <DisplayTemplate Context=\"context\">\r\n                <Span TextColor=\"@(context.IsTotal ? TextColor.Primary : TextColor.Body)\">@context.FormattedValue</Span>\r\n            </DisplayTemplate>\r\n        </PivotGridRow>\r\n    </PivotGridRows>\r\n    <PivotGridAggregates>\r\n        <PivotGridAggregate Field=\"@nameof( TemplateSale.Amount )\"\r\n                            Caption=\"Revenue\"\r\n                            DisplayFormat=\"{0:C0}\"\r\n                            DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"en-US\" )\">\r\n            <CellTemplate Context=\"context\">\r\n                <Span TextWeight=\"@(context.IsGrandTotal ? TextWeight.Bold : TextWeight.Default)\">\r\n                    @context.FormattedValue\r\n                </Span>\r\n            </CellTemplate>\r\n        </PivotGridAggregate>\r\n    </PivotGridAggregates>\r\n</PivotGrid>\r\n\r\n<Alert Color=\"Color.Info\" Visible=\"@(!string.IsNullOrWhiteSpace( selectedCellText ))\" Margin=\"Margin.Is3.FromTop\">\r\n    @selectedCellText\r\n</Alert>\r\n\r\n@code {\r\n    private string selectedCellText;\r\n\r\n    private readonly List<TemplateSale> Sales =\r\n    [\r\n        new() { Region = \"Central\", Category = \"Hardware\", Amount = 51200m },\r\n        new() { Region = \"Central\", Category = \"Software\", Amount = 94200m },\r\n        new() { Region = \"Western\", Category = \"Hardware\", Amount = 127500m },\r\n        new() { Region = \"Western\", Category = \"Services\", Amount = 66300m },\r\n    ];\r\n\r\n    private Task OnCellClicked( PivotGridCellClickedEventArgs<TemplateSale> eventArgs )\r\n    {\r\n        selectedCellText = $\"{eventArgs.Aggregate.Caption}: {eventArgs.Value:C0} from {eventArgs.Items.Count} source rows\";\r\n\r\n        return Task.CompletedTask;\r\n    }\r\n\r\n    public class TemplateSale\r\n    {\r\n        public string Region { get; set; }\r\n\r\n        public string Category { get; set; }\r\n\r\n        public decimal Amount { get; set; }\r\n    }\r\n}",
+          "title": "Templates and Cell Clicks",
+          "description": "Customize headers, row and column values, aggregate cells, and handle CellClicked to inspect the source items behind a pivot value."
+        },
+        {
+          "code": "PivotGridFiltersExpansionExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/PivotGrid/Examples/PivotGridFiltersExpansionExample.razor",
+          "content": "<PivotGrid TItem=\"FilterSale\"\r\n           Data=\"@Sales\"\r\n           ShowToolbar\r\n           FieldChooser\r\n           ExpandableRows\r\n           ExpandableColumns\r\n           InitiallyExpanded=\"false\"\r\n           ShowRowTotals\r\n           ShowColumnTotals\r\n           ShowRowSubtotals\r\n           ShowColumnSubtotals\r\n           Striped\r\n           Hoverable>\r\n    <PivotGridFields>\r\n        <PivotGridField Field=\"@nameof( FilterSale.Region )\" Caption=\"Region\" />\r\n        <PivotGridField Field=\"@nameof( FilterSale.City )\" Caption=\"City\" />\r\n        <PivotGridField Field=\"@nameof( FilterSale.Category )\" Caption=\"Category\" />\r\n        <PivotGridField Field=\"@nameof( FilterSale.Amount )\" Caption=\"Amount\" />\r\n    </PivotGridFields>\r\n    <PivotGridColumns>\r\n        <PivotGridColumn Field=\"@nameof( FilterSale.City )\" Caption=\"City\" />\r\n    </PivotGridColumns>\r\n    <PivotGridRows>\r\n        <PivotGridRow Field=\"@nameof( FilterSale.Region )\" Caption=\"Region\" />\r\n        <PivotGridRow Field=\"@nameof( FilterSale.Category )\" Caption=\"Category\" />\r\n    </PivotGridRows>\r\n    <PivotGridAggregates>\r\n        <PivotGridAggregate Field=\"@nameof( FilterSale.Amount )\"\r\n                            Caption=\"Amount\"\r\n                            DisplayFormat=\"{0:C0}\"\r\n                            DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"en-US\" )\" />\r\n    </PivotGridAggregates>\r\n</PivotGrid>\r\n\r\n@code {\r\n    private readonly List<FilterSale> Sales =\r\n    [\r\n        new() { Region = \"Central\", City = \"Berlin\", Category = \"Hardware\", Amount = 51200m },\r\n        new() { Region = \"Central\", City = \"Berlin\", Category = \"Software\", Amount = 94200m },\r\n        new() { Region = \"Western\", City = \"London\", Category = \"Hardware\", Amount = 127500m },\r\n        new() { Region = \"Western\", City = \"London\", Category = \"Services\", Amount = 66300m },\r\n        new() { Region = \"Southern\", City = \"Madrid\", Category = \"Services\", Amount = 28700m },\r\n        new() { Region = \"Southern\", City = \"Madrid\", Category = \"Software\", Amount = 45100m },\r\n        new() { Region = \"Western\", City = \"Paris\", Category = \"Software\", Amount = 124500m },\r\n        new() { Region = \"Western\", City = \"Paris\", Category = \"Services\", Amount = 118600m },\r\n    ];\r\n\r\n    public class FilterSale\r\n    {\r\n        public string Region { get; set; }\r\n\r\n        public string City { get; set; }\r\n\r\n        public string Category { get; set; }\r\n\r\n        public decimal Amount { get; set; }\r\n    }\r\n}",
+          "title": "Filters and Expansion",
+          "description": "Use the field chooser to move fields into filters, and enable expandable rows or columns when users should drill into grouped results. Expandable grouped rows and columns render section headers independently from subtotal display, so users can still expand or collapse groups when subtotals are hidden."
+        },
+        {
+          "code": "PivotGridCustomAggregatorExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/PivotGrid/Examples/PivotGridCustomAggregatorExample.razor",
+          "content": "<PivotGrid TItem=\"MarginSale\"\r\n           Data=\"@Sales\"\r\n           ShowRowTotals\r\n           ShowColumnTotals\r\n           Striped\r\n           Hoverable>\r\n    <PivotGridColumns>\r\n        <PivotGridColumn Field=\"@nameof( MarginSale.Region )\" Caption=\"Region\" />\r\n    </PivotGridColumns>\r\n    <PivotGridRows>\r\n        <PivotGridRow Field=\"@nameof( MarginSale.Category )\" Caption=\"Category\" />\r\n    </PivotGridRows>\r\n    <PivotGridAggregates>\r\n        <PivotGridAggregate Field=\"@nameof( MarginSale.Amount )\"\r\n                            Caption=\"Revenue\"\r\n                            DisplayFormat=\"{0:C0}\"\r\n                            DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"en-US\" )\" />\r\n        <PivotGridAggregate TItem=\"MarginSale\"\r\n                            Field=\"@nameof( MarginSale.Margin )\"\r\n                            Caption=\"Margin %\"\r\n                            Aggregator=\"@WeightedMargin\"\r\n                            DisplayFormat=\"{0:P1}\" />\r\n    </PivotGridAggregates>\r\n</PivotGrid>\r\n\r\n@code {\r\n    private readonly List<MarginSale> Sales =\r\n    [\r\n        new() { Region = \"Central\", Category = \"Hardware\", Amount = 51200m, Margin = .18m },\r\n        new() { Region = \"Central\", Category = \"Software\", Amount = 94200m, Margin = .42m },\r\n        new() { Region = \"Western\", Category = \"Hardware\", Amount = 127500m, Margin = .21m },\r\n        new() { Region = \"Western\", Category = \"Services\", Amount = 66300m, Margin = .36m },\r\n    ];\r\n\r\n    private static object WeightedMargin( IReadOnlyList<MarginSale> items )\r\n    {\r\n        decimal totalAmount = items.Sum( item => item.Amount );\r\n\r\n        if ( totalAmount == 0m )\r\n            return null;\r\n\r\n        return items.Sum( item => item.Amount * item.Margin ) / totalAmount;\r\n    }\r\n\r\n    public class MarginSale\r\n    {\r\n        public string Region { get; set; }\r\n\r\n        public string Category { get; set; }\r\n\r\n        public decimal Amount { get; set; }\r\n\r\n        public decimal Margin { get; set; }\r\n    }\r\n}",
+          "title": "Custom Aggregator",
+          "description": "Set Aggregator when a value field needs domain-specific aggregation instead of one of the built-in aggregate functions."
+        },
+        {
+          "code": "PivotGridStylingExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/PivotGrid/Examples/PivotGridStylingExample.razor",
+          "content": "<PivotGrid TItem=\"PivotSale\"\r\n           Data=\"@Sales\"\r\n           CellStyling=\"@OnCellStyling\"\r\n           RowHeaderStyling=\"@OnRowHeaderStyling\"\r\n           ColumnHeaderStyling=\"@OnColumnHeaderStyling\"\r\n           ShowRowTotals\r\n           ShowColumnTotals\r\n           ShowRowSubtotals\r\n           Striped\r\n           Hoverable>\r\n    <PivotGridColumns>\r\n        <PivotGridColumn Field=\"@nameof( PivotSale.City )\" Caption=\"City\" />\r\n    </PivotGridColumns>\r\n    <PivotGridRows>\r\n        <PivotGridRow Field=\"@nameof( PivotSale.Category )\" Caption=\"Category\" />\r\n        <PivotGridRow Field=\"@nameof( PivotSale.Product )\" Caption=\"Product\" />\r\n    </PivotGridRows>\r\n    <PivotGridAggregates>\r\n        <PivotGridAggregate Field=\"@nameof( PivotSale.Amount )\"\r\n                            Caption=\"Amount\"\r\n                            DisplayFormat=\"{0:C0}\"\r\n                            DisplayFormatProvider=\"@System.Globalization.CultureInfo.GetCultureInfo( \"en-US\" )\" />\r\n        <PivotGridAggregate Field=\"@nameof( PivotSale.Units )\"\r\n                            Caption=\"Units\"\r\n                            Aggregate=\"PivotGridAggregateFunction.Sum\" />\r\n    </PivotGridAggregates>\r\n</PivotGrid>\r\n\r\n@code {\r\n    private readonly List<PivotSale> Sales =\r\n    [\r\n        new() { City = \"Berlin\", Category = \"Hardware\", Product = \"Laptops\", Amount = 51200m, Units = 18 },\r\n        new() { City = \"Berlin\", Category = \"Software\", Product = \"Licenses\", Amount = 94200m, Units = 205 },\r\n        new() { City = \"London\", Category = \"Hardware\", Product = \"Laptops\", Amount = 127500m, Units = 34 },\r\n        new() { City = \"London\", Category = \"Services\", Product = \"Consulting\", Amount = 66300m, Units = 36 },\r\n        new() { City = \"Madrid\", Category = \"Services\", Product = \"Training\", Amount = 28700m, Units = 64 },\r\n        new() { City = \"Paris\", Category = \"Software\", Product = \"Subscriptions\", Amount = 124500m, Units = 355 },\r\n    ];\r\n\r\n    private void OnCellStyling( PivotGridCellContext<PivotSale> context, PivotGridCellStyling styling )\r\n    {\r\n        if ( context.Aggregate.Field != nameof( PivotSale.Amount ) || context.Value is not decimal amount )\r\n            return;\r\n\r\n        if ( amount >= 100000m )\r\n        {\r\n            styling.Background = Background.Success;\r\n            styling.TextColor = TextColor.White;\r\n            styling.TextWeight = TextWeight.Bold;\r\n        }\r\n        else if ( amount <= 30000m )\r\n        {\r\n            styling.Background = Background.Danger;\r\n            styling.TextColor = TextColor.White;\r\n            styling.TextWeight = TextWeight.Bold;\r\n        }\r\n    }\r\n\r\n    private void OnRowHeaderStyling( PivotGridRowHeaderContext<PivotSale> context, PivotGridCellStyling styling )\r\n    {\r\n        if ( context.IsGrandTotal )\r\n        {\r\n            styling.Background = Background.Info;\r\n            styling.TextColor = TextColor.White;\r\n            styling.TextWeight = TextWeight.Bold;\r\n        }\r\n        else if ( context.IsTotal )\r\n        {\r\n            styling.Background = Background.Secondary;\r\n            styling.TextColor = TextColor.White;\r\n            styling.TextWeight = TextWeight.Bold;\r\n        }\r\n    }\r\n\r\n    private void OnColumnHeaderStyling( PivotGridColumnHeaderContext<PivotSale> context, PivotGridCellStyling styling )\r\n    {\r\n        if ( context.IsGrandTotal || context.IsTotal )\r\n        {\r\n            styling.Background = Background.Info;\r\n            styling.TextColor = TextColor.White;\r\n            styling.TextWeight = TextWeight.Bold;\r\n        }\r\n    }\r\n\r\n    public class PivotSale\r\n    {\r\n        public string City { get; set; }\r\n\r\n        public string Category { get; set; }\r\n\r\n        public string Product { get; set; }\r\n\r\n        public decimal Amount { get; set; }\r\n\r\n        public int Units { get; set; }\r\n    }\r\n}",
+          "title": "Styling",
+          "description": "Use CellStyling , RowHeaderStyling , and ColumnHeaderStyling to apply conditional styling."
+        }
+      ],
+      "apiRefs": [
+        {
+          "kind": "type",
+          "name": "PivotGrid"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridFields"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridField"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridColumns"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridColumn"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridRows"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridRow"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridAggregates"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridAggregate"
+        },
+        {
+          "kind": "type",
+          "name": "IPivotGridDataProvider"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridToolbarOptions"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridVirtualizeOptions"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridDataRequest"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridDataResult"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridReadDataEventArgs"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridCellClickedEventArgs"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridResult"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridAxisItem"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridCell"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridDataColumn"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridResultRow"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridFieldInfo"
+        },
+        {
+          "kind": "type",
+          "name": "PivotGridAggregateInfo"
+        }
+      ]
     },
     {
       "route": "/docs/extensions/qrcode",
@@ -7460,12 +7658,36 @@
           "description": "Use a bar chart to compare category values horizontally."
         },
         {
+          "code": "SvgBarChartPointColorsExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgBarChartPointColorsExample.razor",
+          "content": "<SvgBarChart TItem=\"TaskState\"\r\n             Items=\"@states\"\r\n             Options=\"@options\">\r\n    <SvgChartTooltip Enabled=\"false\" />\r\n    <SvgChartCategoryAxis Value=\"@( item => item.Name )\" />\r\n    <SvgChartValueAxis BeginAtZero\r\n                       TickCount=\"5\"\r\n                       LabelsOptions=\"@( new SvgChartAxisLabelsOptions { Visible = false } )\" />\r\n    <SvgChartDataLabels Visible\r\n                        Position=\"SvgChartDataLabelPosition.End\"\r\n                        BackgroundColor='@((Color)\"#ffffff\")'\r\n                        Border=\"@( new SvgChartBorderOptions { Color = Color.Primary, Width = 1, Radius = 4 } )\" />\r\n\r\n    <SvgBarSeries Value=\"@( item => item.Value )\"\r\n                  Colors=\"@stateColors\"\r\n                  BorderRadius=\"4\" />\r\n</SvgBarChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 150,\r\n        PlotAreaPadding = new()\r\n        {\r\n            Top = 8,\r\n            End = 12,\r\n            Bottom = 8,\r\n        },\r\n        Legend = new() { Visible = false },\r\n        Title = new() { Visible = false },\r\n        Subtitle = new() { Visible = false },\r\n    };\r\n\r\n    private readonly IReadOnlyList<Color> stateColors =\r\n    [\r\n        Color.Secondary,\r\n        Color.Info,\r\n        Color.Success,\r\n        Color.Danger,\r\n    ];\r\n\r\n    private readonly List<TaskState> states =\r\n    [\r\n        new() { Name = \"Disabled\", Value = 10 },\r\n        new() { Name = \"Active\", Value = 18 },\r\n        new() { Name = \"Completed\", Value = 33 },\r\n        new() { Name = \"Deleted\", Value = 4 },\r\n    ];\r\n\r\n    private sealed class TaskState\r\n    {\r\n        public string Name { get; set; }\r\n\r\n        public double Value { get; set; }\r\n    }\r\n}",
+          "title": "Point colors",
+          "description": "Use Colors to assign colors by data point index. The first color is used for the first resolved value, the second color for the second value, and so on. If the color belongs to the item itself, use PointColor instead so the color follows the item when the data changes."
+        },
+        {
           "code": "SvgLineChartExample",
           "kind": "razor",
           "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgLineChartExample.razor",
           "content": "<SvgLineChart TItem=\"MonthlyVisitors\"\r\n              Items=\"@visitors\"\r\n              Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Visitor trend\")' Subtitle='@(\"Line series with markers\")' />\r\n    <SvgChartLegend Position=\"SvgChartLegendPosition.Bottom\" />\r\n    <SvgChartTooltip Enabled />\r\n    <SvgChartCategoryAxis Value=\"@( item => item.Month )\" />\r\n    <SvgChartValueAxis BeginAtZero TickCount=\"6\" />\r\n\r\n    <SvgLineSeries Name=\"Current year\" Value=\"@( item => item.Current )\" Color=\"Color.Primary\" StrokeWidth=\"3\" MarkerRadius=\"4\" />\r\n    <SvgLineSeries Name=\"Previous year\" Value=\"@( item => item.Previous )\" Color=\"Color.Warning\" StrokeWidth=\"3\" MarkerRadius=\"4\" />\r\n</SvgLineChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n    };\r\n\r\n    private readonly List<MonthlyVisitors> visitors =\r\n    [\r\n        new() { Month = \"Jan\", Current = 48, Previous = 42 },\r\n        new() { Month = \"Feb\", Current = 61, Previous = 52 },\r\n        new() { Month = \"Mar\", Current = 73, Previous = 64 },\r\n        new() { Month = \"Apr\", Current = 68, Previous = 70 },\r\n        new() { Month = \"May\", Current = 82, Previous = 76 },\r\n    ];\r\n\r\n    private sealed class MonthlyVisitors\r\n    {\r\n        public string Month { get; set; }\r\n\r\n        public double Current { get; set; }\r\n\r\n        public double Previous { get; set; }\r\n    }\r\n}",
           "title": "Line chart",
           "description": "Use a line chart to show a trend across ordered categories."
+        },
+        {
+          "code": "SvgAxisLabelDensityChartExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgAxisLabelDensityChartExample.razor",
+          "content": "<SvgLineChart TItem=\"DailyTraffic\"\r\n              Items=\"@traffic\"\r\n              Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Daily traffic\")' Subtitle='@(\"Axis labels skip and rotate as space changes\")' />\r\n    <SvgChartLegend Position=\"SvgChartLegendPosition.Bottom\" />\r\n    <SvgChartTooltip Enabled InteractionMode=\"SvgChartInteractionMode.Index\" Width=\"220\" />\r\n    <SvgChartTimeAxis TimeValue=\"@( item => (DateTime?)item.Day )\"\r\n                      Unit=\"SvgChartTimeUnit.Day\"\r\n                      Format=\"MMM d\"\r\n                      LabelsOptions=\"@labelsOptions\" />\r\n    <SvgChartValueAxis BeginAtZero TickCount=\"5\" />\r\n\r\n    <SvgLineSeries Name=\"Visits\" Value=\"@( item => item.Visits )\" Color=\"Color.Primary\" StrokeWidth=\"3\" MarkerRadius=\"3\" />\r\n</SvgLineChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n        Tooltip = new() { InteractionMode = SvgChartInteractionMode.Index, Width = 220 },\r\n    };\r\n\r\n    private readonly SvgChartAxisLabelsOptions labelsOptions = new()\r\n    {\r\n        AutoSkip = true,\r\n        MaxTicksLimit = 8,\r\n        AutoRotate = true,\r\n        MaxRotation = 45,\r\n    };\r\n\r\n    private readonly List<DailyTraffic> traffic =\r\n    [\r\n        new() { Day = new DateTime( 2026, 5, 1 ), Visits = 126 },\r\n        new() { Day = new DateTime( 2026, 5, 2 ), Visits = 138 },\r\n        new() { Day = new DateTime( 2026, 5, 3 ), Visits = 142 },\r\n        new() { Day = new DateTime( 2026, 5, 4 ), Visits = 151 },\r\n        new() { Day = new DateTime( 2026, 5, 5 ), Visits = 148 },\r\n        new() { Day = new DateTime( 2026, 5, 6 ), Visits = 164 },\r\n        new() { Day = new DateTime( 2026, 5, 7 ), Visits = 173 },\r\n        new() { Day = new DateTime( 2026, 5, 8 ), Visits = 169 },\r\n        new() { Day = new DateTime( 2026, 5, 9 ), Visits = 182 },\r\n        new() { Day = new DateTime( 2026, 5, 10 ), Visits = 194 },\r\n        new() { Day = new DateTime( 2026, 5, 11 ), Visits = 187 },\r\n        new() { Day = new DateTime( 2026, 5, 12 ), Visits = 202 },\r\n        new() { Day = new DateTime( 2026, 5, 13 ), Visits = 211 },\r\n        new() { Day = new DateTime( 2026, 5, 14 ), Visits = 219 },\r\n        new() { Day = new DateTime( 2026, 5, 15 ), Visits = 214 },\r\n        new() { Day = new DateTime( 2026, 5, 16 ), Visits = 228 },\r\n        new() { Day = new DateTime( 2026, 5, 17 ), Visits = 236 },\r\n        new() { Day = new DateTime( 2026, 5, 18 ), Visits = 241 },\r\n        new() { Day = new DateTime( 2026, 5, 19 ), Visits = 233 },\r\n        new() { Day = new DateTime( 2026, 5, 20 ), Visits = 249 },\r\n        new() { Day = new DateTime( 2026, 5, 21 ), Visits = 258 },\r\n    ];\r\n\r\n    private sealed class DailyTraffic\r\n    {\r\n        public DateTime Day { get; set; }\r\n\r\n        public double Visits { get; set; }\r\n    }\r\n}",
+          "title": "Axis label density",
+          "description": "Use label options to limit crowded category and time axes while preserving readable labels."
+        },
+        {
+          "code": "SvgLineChartInterpolationExample",
+          "kind": "razor",
+          "sourcePath": "Pages/Docs/Extensions/SvgChart/Examples/SvgLineChartInterpolationExample.razor",
+          "content": "<SvgLineChart TItem=\"MonthlyRevenue\"\r\n              Items=\"@revenue\"\r\n              Options=\"@options\">\r\n    <SvgChartTitle Title='@(\"Revenue movement\")' Subtitle='@(\"Monotone and stepped interpolation\")' />\r\n    <SvgChartLegend Position=\"SvgChartLegendPosition.Bottom\" />\r\n    <SvgChartTooltip Enabled />\r\n    <SvgChartCategoryAxis Value=\"@( item => item.Month )\" />\r\n    <SvgChartValueAxis TickCount=\"6\" />\r\n\r\n    <SvgLineSeries Name=\"Actual\"\r\n                   Value=\"@( item => item.Actual )\"\r\n                   Color=\"Color.Primary\"\r\n                   StrokeWidth=\"3\"\r\n                   MarkerRadius=\"4\"\r\n                   Interpolation=\"SvgChartInterpolationMode.Monotone\" />\r\n    <SvgLineSeries Name=\"Target\"\r\n                   Value=\"@( item => item.Target )\"\r\n                   Color=\"Color.Info\"\r\n                   StrokeWidth=\"3\"\r\n                   MarkerRadius=\"4\"\r\n                   Interpolation=\"SvgChartInterpolationMode.StepMiddle\" />\r\n</SvgLineChart>\r\n\r\n@code {\r\n    private readonly SvgChartOptions options = new()\r\n    {\r\n        Height = 360,\r\n        Legend = new() { Position = SvgChartLegendPosition.Bottom },\r\n    };\r\n\r\n    private readonly List<MonthlyRevenue> revenue =\r\n    [\r\n        new() { Month = \"Jan\", Actual = 1400, Target = 1320 },\r\n        new() { Month = \"Feb\", Actual = 900, Target = 1180 },\r\n        new() { Month = \"Mar\", Actual = 1800, Target = 1450 },\r\n        new() { Month = \"Apr\", Actual = 1300, Target = 1550 },\r\n        new() { Month = \"May\", Actual = 1650, Target = 1480 },\r\n        new() { Month = \"Jun\", Actual = 1250, Target = 1600 },\r\n    ];\r\n\r\n    private sealed class MonthlyRevenue\r\n    {\r\n        public string Month { get; set; }\r\n\r\n        public double Actual { get; set; }\r\n\r\n        public double Target { get; set; }\r\n    }\r\n}",
+          "title": "Interpolation",
+          "description": "Use Interpolation on line or area series to control how points are connected. The default mode is SvgChartInterpolationMode.Linear ; use Monotone for smooth curves that preserve point direction, or one of the step modes for stepped trends. Area series use the same interpolation for the filled boundary path."
         },
         {
           "code": "SvgAreaChartExample",
@@ -8918,49 +9140,49 @@
           "code": "CommonScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/CommonScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise/breakpoint.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/button.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/closable.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/colorPicker.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/datePicker.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dragDrop.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dropdown.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/fileInput.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/filePicker.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/floatingUi.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/inputMask.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/io.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/memoInput.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/modal.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/numericPicker.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/observer.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/rangeSlider.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/table.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/textInput.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/theme.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/timePicker.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/tooltip.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/utilities.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise/breakpoint.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/button.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/closable.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/colorPicker.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/datePicker.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dragDrop.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/dropdown.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/fileInput.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/filePicker.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/floatingUi.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/inputMask.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/io.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/memoInput.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/modal.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/numericPicker.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/observer.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/rangeSlider.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/table.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/textInput.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/theme.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/timePicker.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/tooltip.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise/utilities.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "AntDesignScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/AntDesignScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.AntDesign/bar.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/modal.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/segmented.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/tooltip.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/wave.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.AntDesign/bar.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/modal.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/segmented.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/tooltip.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.AntDesign/wave.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "BootstrapScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/BootstrapScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Bootstrap/modal.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap/tooltip.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Bootstrap/modal.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap/tooltip.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "Bootstrap5ScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/Bootstrap5ScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Bootstrap5/modal.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap5/tooltip.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Bootstrap5/modal.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bootstrap5/tooltip.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "BulmaScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/BulmaScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Bulma/modal.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bulma/tooltip.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Bulma/modal.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Bulma/tooltip.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "FluentUI2ScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/FluentUI2ScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.FluentUI2/modal.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.FluentUI2/tooltip.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.FluentUI2/modal.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.FluentUI2/tooltip.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "TailwindScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/TailwindScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Tailwind/modal.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Tailwind/tooltip.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Tailwind/modal.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Tailwind/tooltip.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "MaterialScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/MaterialScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.1.3.0\"></script>\r\n<script src=\"_content/Blazorise.Material/modal.js?v=2.1.3.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Material/tooltip.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.2.0.0\"></script>\r\n<script src=\"_content/Blazorise.Material/modal.js?v=2.2.0.0\" type=\"module\"></script>\r\n<script src=\"_content/Blazorise.Material/tooltip.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "AnimateScriptsExample",
@@ -8972,97 +9194,97 @@
           "code": "CaptchaReCaptchaScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/CaptchaReCaptchaScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Captcha.ReCaptcha/blazorise.recaptcha.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Captcha.ReCaptcha/blazorise.recaptcha.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts/charts.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts/charts.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsAnnotationScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsAnnotationScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Annotation/chart.annotation.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Annotation/chart.annotation.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsDataLabelsScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsDataLabelsScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.DataLabels/chart.datalabels.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.DataLabels/chart.datalabels.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsStreamingScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsStreamingScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Streaming/charts.streaming.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsTrendlineScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsTrendlineScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Trendline/charts.trendline.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "ChartsZoomScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/ChartsZoomScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Charts.Zoom/chart.zoom.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Charts.Zoom/chart.zoom.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "CropperScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/CropperScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Cropper/blazorise.cropper.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Cropper/blazorise.cropper.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "DatagridScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/DatagridScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.DataGrid/datagrid.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.DataGrid/datagrid.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "GanttScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/GanttScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Gantt/gantt.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Gantt/gantt.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "LottieAnimationScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/LottieAnimationScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.LottieAnimation/lottie-animation.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.LottieAnimation/lottie-animation.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "MarkdownScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/MarkdownScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Markdown/markdown.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Markdown/markdown.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "PdfViewerScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/PdfViewerScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.PdfViewer/pdfviewer.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.PdfViewer/pdfviewer.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "QRCodeScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/QRCodeScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.QRCode/blazorise.qrcode.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.QRCode/blazorise.qrcode.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "RichTextEditScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/RichTextEditScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.RichTextEdit/richtextedit.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.RichTextEdit/richtextedit.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "SchedulerScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/SchedulerScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Scheduler/scheduler.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Scheduler/scheduler.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "SignaturePadScriptsExample",
@@ -9074,13 +9296,13 @@
           "code": "SplitterScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/SplitterScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Splitter/blazorise.splitter.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Splitter/blazorise.splitter.js?v=2.2.0.0\" type=\"module\"></script>"
         },
         {
           "code": "VideoScriptsExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Examples/VideoScriptsExample.snippet",
-          "content": "<script src=\"_content/Blazorise.Video/video.js?v=2.1.3.0\" type=\"module\"></script>"
+          "content": "<script src=\"_content/Blazorise.Video/video.js?v=2.2.0.0\" type=\"module\"></script>"
         }
       ]
     },
@@ -9574,7 +9796,7 @@
           "code": "Bootstrap5GuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap5/Examples/Bootstrap5GuideSourceFilesExample.snippet",
-          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.3.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.1.3.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.2.0.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -9803,7 +10025,7 @@
           "code": "AntDesignGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/AntDesign/Examples/AntDesignGuideSourceFilesExample.snippet",
-          "content": "<link href=\"_content/Blazorise.AntDesign/antd.css?v=2.1.3.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.1.3.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.3.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.1.3.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.AntDesign/antd.css?v=2.2.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.AntDesign/blazorise.icons.antdesign.css?v=2.2.0.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.AntDesign/blazorise.antdesign.css?v=2.2.0.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -9846,7 +10068,7 @@
           "code": "BootstrapGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap/Examples/BootstrapGuideSourceFilesExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css\" integrity=\"sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.3.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=2.1.3.0\" rel=\"stylesheet\" />",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css\" integrity=\"sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=2.2.0.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -9889,7 +10111,7 @@
           "code": "Bootstrap5GuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bootstrap5/Examples/Bootstrap5GuideSourceFilesExample.snippet",
-          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.3.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.1.3.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB\" crossorigin=\"anonymous\">\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=2.2.0.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -9932,7 +10154,7 @@
           "code": "BulmaGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Bulma/Examples/BulmaGuideSourceFilesExample.snippet",
-          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css\" />\r\n<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.1.3.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.3.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bulma/blazorise.bulma.css?v=2.1.3.0\" rel=\"stylesheet\" />",
+          "content": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css\" />\r\n<link href=\"_content/Blazorise.Icons.Lucide/blazorise.icons.lucide.css?v=2.2.0.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Bulma/blazorise.bulma.css?v=2.2.0.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -9975,7 +10197,7 @@
           "code": "FluentUI2GuideSourceFiles1Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/FluentUI2/Examples/FluentUI2GuideSourceFiles1Example.snippet",
-          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.1.3.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.3.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/reboot.css?v=2.1.3.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.1.3.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=2.2.0.0\" rel=\"stylesheet\" />\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/reboot.css?v=2.2.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.FluentUI2/blazorise.fluentui2.css?v=2.2.0.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {
@@ -10048,7 +10270,7 @@
           "code": "MaterialGuideSourceFilesExample",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Material/Examples/MaterialGuideSourceFilesExample.snippet",
-          "content": "<!-- In <head> -->\r\n<!-- Required when using Blazorise.Icons.Material -->\r\n<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.3.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Material/blazorise.material.css?v=2.1.3.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.1.3.0\" rel=\"stylesheet\" />\r\n\r\n<!-- Before </body> (before the Blazor framework script) -->\r\n<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.1.3.0\"></script>",
+          "content": "<!-- In <head> -->\r\n<!-- Required when using Blazorise.Icons.Material -->\r\n<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Sharp|Material+Icons+Round|Material+Icons+Two+Tone\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Material/blazorise.material.css?v=2.2.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.Material/blazorise.icons.material.css?v=2.2.0.0\" rel=\"stylesheet\" />\r\n\r\n<!-- Before </body> (before the Blazor framework script) -->\r\n<script src=\"_content/Blazorise.Material/blazorise.material.js?v=2.2.0.0\"></script>",
           "description": "Add the styles inside the head section, and place blazorise.material.js near the end of body before the Blazor script:"
         },
         {
@@ -10098,7 +10320,7 @@
           "code": "TailwindGuideSourceFiles3Example",
           "kind": "snippet",
           "sourcePath": "Pages/Docs/Guides/Tailwind/Examples/TailwindGuideSourceFiles3Example.snippet",
-          "content": "<link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap\" rel=\"stylesheet\">\r\n<link href=\"https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.1.3.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.1.3.0\" rel=\"stylesheet\" />",
+          "content": "<link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap\" rel=\"stylesheet\">\r\n<link href=\"https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css\" rel=\"stylesheet\">\r\n\r\n<link href=\"_content/Blazorise/blazorise.css?v=2.2.0.0\" rel=\"stylesheet\" />\r\n<link href=\"_content/Blazorise.Tailwind/blazorise.tailwind.css?v=2.2.0.0\" rel=\"stylesheet\" />",
           "description": "Add these lines inside the head section:"
         },
         {

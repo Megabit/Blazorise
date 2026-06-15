@@ -90,7 +90,7 @@ public class OnScreenKeyboardProviderComponentTest : BunitContext
         await FindButtonByText( comp, "?123" ).ClickAsync();
 
         comp.WaitForAssertion( () => Assert.Contains( "~", comp.Markup ) );
-        Assert.Empty( comp.FindAll( "button" ).Where( button => button.TextContent.Trim() == "!" ) );
+        Assert.DoesNotContain( comp.FindAll( "button" ), button => button.TextContent.Trim() == "!" );
     }
 
     [Fact]
@@ -120,7 +120,7 @@ public class OnScreenKeyboardProviderComponentTest : BunitContext
         await ShowKeyboard( keyboardService, OnScreenKeyboardLayout.Decimal, decimalSeparator: "," );
 
         comp.WaitForAssertion( () => Assert.Contains( comp.FindAll( "button" ), button => button.TextContent.Trim() == "," ) );
-        Assert.Empty( comp.FindAll( "button" ).Where( button => button.TextContent.Trim() == "." ) );
+        Assert.DoesNotContain( comp.FindAll( "button" ), button => button.TextContent.Trim() == "." );
     }
 
     [Fact]

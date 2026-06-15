@@ -35,21 +35,29 @@
                             </Autocomplete>
                         </BarItem>
                         <BarItem>
-                            <BarLink To="docs">
-                                <BarIcon IconName="IconName.Home" /> Overview
-                            </BarLink>
-                        </BarItem>
-                        <BarItem>
-                            <BarLink To="docs/start">
-                                <BarIcon IconName="IconName.Directions" /> Quick Start
-                            </BarLink>
-                        </BarItem>
-                        <BarItem>
-                            <BarDropdown @bind-Visible="@sideBarIntegrationsMenuVisible">
-                                <BarDropdownToggle To="docs/usage" Trigger="BarDropdownToggleTrigger.All">
-                                    <BarIcon IconName="IconName.BookReader" /> Integrations
+                            <BarDropdown @bind-Visible="@sideBarGuidesMenuVisible">
+                                <BarDropdownToggle To="docs" CustomMatch="@IsGuidesMenuRoute" Trigger="BarDropdownToggleTrigger.All">
+                                    <BarIcon IconName="IconName.Directions" /> Guides
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
+                                    <BarDropdownItem To="docs">Overview</BarDropdownItem>
+                                    <BarDropdownItem To="docs/start">Quick Start</BarDropdownItem>
+                                    <BarDropdownItem To="docs/templates">Templates</BarDropdownItem>
+                                    <BarDropdownItem To="docs/testing">Testing</BarDropdownItem>
+                                    <BarDropdownItem To="docs/theming">Theming</BarDropdownItem>
+                                    <BarDropdownItem To="docs/analyzer">Analyzer</BarDropdownItem>
+                                    <BarDropdownItem To="docs/migration">Migration</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/licensing/register-product-token">Licensing</BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarDropdown @bind-Visible="@sideBarUiProvidersMenuVisible">
+                                <BarDropdownToggle To="docs/usage" CustomMatch="@IsUiProvidersMenuRoute" Trigger="BarDropdownToggleTrigger.All">
+                                    <BarIcon IconName="IconName.BookReader" /> UI Providers
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="docs/usage">Overview</BarDropdownItem>
                                     <BarDropdownItem To="docs/usage/ant-design">
                                         <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
                                             <DocsNewFeatureBadge>Ant Design</DocsNewFeatureBadge>
@@ -71,36 +79,6 @@
                                     <BarDropdownItem To="docs/usage/tailwind">Tailwind</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
-                        </BarItem>
-                        <BarItem>
-                            <BarLink To="docs/testing">
-                                <BarIcon IconName="IconName.CheckDouble" /> Testing
-                            </BarLink>
-                        </BarItem>
-                        <BarItem>
-                            <BarLink To="docs/templates">
-                                <BarIcon IconName="IconName.File" /> Templates
-                            </BarLink>
-                        </BarItem>
-                        <BarItem>
-                            <BarLink To="docs/migration">
-                                <BarIcon IconName="IconName.Sync" /> Migration
-                            </BarLink>
-                        </BarItem>
-                        <BarItem>
-                            <BarLink To="docs/analyzer">
-                                <BarIcon IconName="IconName.Search" /> Analyzer
-                            </BarLink>
-                        </BarItem>
-                        <BarItem>
-                            <BarLink To="docs/usage/licensing/register-product-token">
-                                <BarIcon IconName="IconName.Key" /> Licensing
-                            </BarLink>
-                        </BarItem>
-                        <BarItem>
-                            <BarLink To="docs/theming">
-                                <BarIcon IconName="IconName.Brush" /> Theming
-                            </BarLink>
                         </BarItem>
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarComponentsMenuVisible">
@@ -126,7 +104,11 @@
                                             <DocsUpdatedFeatureBadge>Carousel</DocsUpdatedFeatureBadge>
                                         </Span>
                                     </BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/check">Check</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/check">
+                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                            <DocsUpdatedFeatureBadge>Check</DocsUpdatedFeatureBadge>
+                                        </Span>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/components/close-button">Close Button</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/collapse">Collapse</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/color-input">Color Input</BarDropdownItem>
@@ -155,7 +137,11 @@
                                     <BarDropdownItem To="docs/components/input-mask">Input Mask</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/memo-input">Memo Input</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/modal">Modal</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/offcanvas">Offcanvas</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/offcanvas">
+                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                            <DocsUpdatedFeatureBadge>Offcanvas</DocsUpdatedFeatureBadge>
+                                        </Span>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/components/on-screen-keyboard">
                                         <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
                                             <DocsNewFeatureBadge>On-screen Keyboard</DocsNewFeatureBadge>
@@ -166,11 +152,7 @@
                                     <BarDropdownItem To="docs/components/pagination">Pagination</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/progress">Progress</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/radio">Radio</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/range-slider">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsNewFeatureBadge>Range Slider</DocsNewFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/range-slider">Range Slider</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/rating">Rating</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/repeater">Repeater</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/select">Select</BarDropdownItem>
@@ -195,8 +177,138 @@
                             </BarDropdown>
                         </BarItem>
                         <BarItem>
+                            <BarDropdown @bind-Visible="@sideBarDataGridMenuVisible">
+                                <BarDropdownToggle To="docs/extensions/datagrid" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                    <BarIcon IconName="IconName.Table" /> DataGrid
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="docs/extensions/datagrid/getting-started">Getting Started</BarDropdownItem>
+
+                                    <BarDropdown>
+                                        <BarDropdownToggle To="docs/extensions/datagrid/binding-data" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                            Binding Data
+                                        </BarDropdownToggle>
+                                        <BarDropdownMenu>
+                                            <BarDropdownItem To="docs/extensions/datagrid/binding-data/in-memory">In Memory</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/binding-data/large-data">From an External Source</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/binding-data/virtualize">Virtualize</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/binding-data/observable">Observable Collections</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/binding-data/dynamic">Dynamic</BarDropdownItem>
+                                        </BarDropdownMenu>
+                                    </BarDropdown>
+
+                                    <BarDropdownItem To="docs/extensions/datagrid/aggregates">Aggregates</BarDropdownItem>
+
+                                    <BarDropdownItem To="docs/extensions/datagrid/columns">Columns</BarDropdownItem>
+
+                                    <BarDropdown>
+                                        <BarDropdownToggle To="docs/extensions/datagrid/features" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                            Features
+                                        </BarDropdownToggle>
+                                        <BarDropdownMenu>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/paging">Paging</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/sorting">Sorting</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/editing">
+                                                <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                                    <DocsNewFeatureBadge>Editing</DocsNewFeatureBadge>
+                                                </Span>
+                                            </BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/filtering">Filtering</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/reordering">
+                                                <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                                    <DocsNewFeatureBadge>Reordering</DocsNewFeatureBadge>
+                                                </Span>
+                                            </BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/resizing">Resizing</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/auto-generate-columns">Auto Generate Columns</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/column-chooser">Column Chooser</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/fixed-columns">Fixed Columns</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/fixed-header">Fixed Header</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/context-menu">Context Menu</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/grouping">Grouping</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/header-group">Header Group</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/state-management">State Management</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/mobile-mode">
+                                                <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between.AlignItems.Center" Width="Width.Is100">
+                                                    <DocsNewFeatureBadge>Mobile Mode</DocsNewFeatureBadge>
+                                                </Span>
+                                            </BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/accessibility">
+                                                <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between.AlignItems.Center" Width="Width.Is100">
+                                                    <DocsNewFeatureBadge>Accessibility</DocsNewFeatureBadge>
+                                                </Span>
+                                            </BarDropdownItem>
+                                        </BarDropdownMenu>
+                                    </BarDropdown>
+
+                                    <BarDropdown>
+                                        <BarDropdownToggle To="docs/extensions/datagrid/features/hierarchy" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                            Hierarchy
+                                        </BarDropdownToggle>
+                                        <BarDropdownMenu>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/hierarchy/detail-row">Detail Row</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/features/hierarchy/self-reference">
+                                                <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                                    <DocsNewFeatureBadge>Self Reference</DocsNewFeatureBadge>
+                                                </Span>
+                                            </BarDropdownItem>
+                                        </BarDropdownMenu>
+                                    </BarDropdown>
+
+                                    <BarDropdown>
+                                        <BarDropdownToggle To="docs/extensions/datagrid/selection" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                            Selection
+                                        </BarDropdownToggle>
+                                        <BarDropdownMenu>
+                                            <BarDropdownItem To="docs/extensions/datagrid/selection/single">Single</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/selection/multiple">Multiple</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/selection/cell">Cell</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/selection/custom-row-colors">Custom Row Colors</BarDropdownItem>
+                                        </BarDropdownMenu>
+                                    </BarDropdown>
+
+                                    <BarDropdown>
+                                        <BarDropdownToggle To="docs/extensions/datagrid/templates" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                            Templates
+                                        </BarDropdownToggle>
+                                        <BarDropdownMenu>
+                                            <BarDropdownItem To="docs/extensions/datagrid/templates/display">Display</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/templates/edit">Edit</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/templates/commands">Commands</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/templates/loading">Loading</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/templates/button-row">Button Row</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/datagrid/templates/row-overlay">Row Overlay</BarDropdownItem>
+                                        </BarDropdownMenu>
+                                    </BarDropdown>
+
+                                    <BarDropdownItem To="docs/extensions/datagrid/validations">Validations</BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarDropdown @bind-Visible="@sideBarSvgChartMenuVisible">
+                                <BarDropdownToggle To="docs/extensions/svg-chart" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                    <BarIcon IconName="IconName.ChartLine" />
+                                    <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                        <DocsNewFeatureBadge>SVG Chart</DocsNewFeatureBadge>
+                                    </Span>
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="docs/extensions/svg-chart">Overview</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/svg-chart-plugins">Plugins</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/svg-chart-animation">Animation</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/svg-chart-annotations">Annotations</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/svg-chart-datalabels">Data Labels</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/svg-chart-streaming">Streaming</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/svg-chart-trendline">Trendline</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/svg-chart-zoom">Zoom/Pan</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/svg-chart/api">API</BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
                             <BarDropdown @bind-Visible="@sideBarExtensionsMenuVisible">
-                                <BarDropdownToggle To="docs/extensions" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
+                                <BarDropdownToggle To="docs/extensions" Match="Match.Prefix" CustomMatch="@IsExtensionsMenuRoute" Trigger="BarDropdownToggleTrigger.All">
                                     <BarIcon IconName="IconName.PuzzlePiece" /> Extensions
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
@@ -225,132 +337,7 @@
                                             <BarDropdownItem To="docs/extensions/chart-zoom">Zoom</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
-                                    <BarDropdown>
-                                        <BarDropdownToggle To="docs/extensions/svg-chart" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                            <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                                <DocsNewFeatureBadge>SVG Chart</DocsNewFeatureBadge>
-                                            </Span>
-                                        </BarDropdownToggle>
-                                        <BarDropdownMenu>
-                                            <BarDropdownItem To="docs/extensions/svg-chart">Overview</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/svg-chart-plugins">Plugins</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/svg-chart-animation">Animation</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/svg-chart-annotations">Annotations</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/svg-chart-datalabels">Data Labels</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/svg-chart-streaming">Streaming</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/svg-chart-trendline">Trendline</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/svg-chart-zoom">Zoom/Pan</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/svg-chart/api">API</BarDropdownItem>
-                                        </BarDropdownMenu>
-                                    </BarDropdown>
                                     <BarDropdownItem To="docs/extensions/cropper">Cropper</BarDropdownItem>
-                                    <BarDropdown>
-                                        <BarDropdownToggle To="docs/extensions/datagrid" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                            DataGrid
-                                        </BarDropdownToggle>
-                                        <BarDropdownMenu>
-                                            <BarDropdownItem To="docs/extensions/datagrid/getting-started">Getting Started</BarDropdownItem>
-
-                                            <BarDropdown>
-                                                <BarDropdownToggle To="docs/extensions/datagrid/binding-data" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                                    Binding Data
-                                                </BarDropdownToggle>
-                                                <BarDropdownMenu>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/binding-data/in-memory">In Memory</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/binding-data/large-data">From an External Source</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/binding-data/virtualize">Virtualize</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/binding-data/observable">Observable Collections</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/binding-data/dynamic">Dynamic</BarDropdownItem>
-                                                </BarDropdownMenu>
-                                            </BarDropdown>
-
-                                            <BarDropdownItem To="docs/extensions/datagrid/aggregates">Aggregates</BarDropdownItem>
-
-                                            <BarDropdownItem To="docs/extensions/datagrid/columns">Columns</BarDropdownItem>
-
-                                            <BarDropdown>
-                                                <BarDropdownToggle To="docs/extensions/datagrid/features" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                                    Features
-                                                </BarDropdownToggle>
-                                                <BarDropdownMenu>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/paging">Paging</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/sorting">Sorting</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/editing">
-                                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                                            <DocsNewFeatureBadge>Editing</DocsNewFeatureBadge>
-                                                        </Span>
-                                                    </BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/filtering">Filtering</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/reordering">
-                                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                                            <DocsNewFeatureBadge>Reordering</DocsNewFeatureBadge>
-                                                        </Span>
-                                                    </BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/resizing">Resizing</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/auto-generate-columns">Auto Generate Columns</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/column-chooser">Column Chooser</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/fixed-columns">Fixed Columns</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/fixed-header">Fixed Header</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/context-menu">Context Menu</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/grouping">Grouping</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/header-group">Header Group</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/state-management">State Management</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/mobile-mode">
-                                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between.AlignItems.Center" Width="Width.Is100">
-                                                            <DocsNewFeatureBadge>Mobile Mode</DocsNewFeatureBadge>
-                                                        </Span>
-                                                    </BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/accessibility">
-                                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between.AlignItems.Center" Width="Width.Is100">
-                                                            <DocsNewFeatureBadge>Accessibility</DocsNewFeatureBadge>
-                                                        </Span>
-                                                    </BarDropdownItem>
-                                                </BarDropdownMenu>
-                                            </BarDropdown>
-
-                                            <BarDropdown>
-                                                <BarDropdownToggle To="docs/extensions/datagrid/features/hierarchy" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                                    Hierarchy
-                                                </BarDropdownToggle>
-                                                <BarDropdownMenu>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/hierarchy/detail-row">Detail Row</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/features/hierarchy/self-reference">
-                                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                                            <DocsNewFeatureBadge>Self Reference</DocsNewFeatureBadge>
-                                                        </Span>
-                                                    </BarDropdownItem>
-                                                </BarDropdownMenu>
-                                            </BarDropdown>
-
-                                            <BarDropdown>
-                                                <BarDropdownToggle To="docs/extensions/datagrid/selection" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                                    Selection
-                                                </BarDropdownToggle>
-                                                <BarDropdownMenu>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/selection/single">Single</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/selection/multiple">Multiple</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/selection/cell">Cell</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/selection/custom-row-colors">Custom Row Colors</BarDropdownItem>
-                                                </BarDropdownMenu>
-                                            </BarDropdown>
-
-                                            <BarDropdown>
-                                                <BarDropdownToggle To="docs/extensions/datagrid/templates" Match="Match.Prefix" Trigger="BarDropdownToggleTrigger.All">
-                                                    Templates
-                                                </BarDropdownToggle>
-                                                <BarDropdownMenu>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/templates/display">Display</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/templates/edit">Edit</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/templates/commands">Commands</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/templates/loading">Loading</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/templates/button-row">Button Row</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/templates/row-overlay">Row Overlay</BarDropdownItem>
-                                                </BarDropdownMenu>
-                                            </BarDropdown>
-
-                                            <BarDropdownItem To="docs/extensions/datagrid/validations">Validations</BarDropdownItem>
-                                        </BarDropdownMenu>
-                                    </BarDropdown>
                                     <BarDropdownItem To="docs/extensions/dropdownlist">DropdownList</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/fluent-validation">FluentValidation</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/gantt">
@@ -376,17 +363,14 @@
                                         </Span>
                                     </BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/markdown">Markdown</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/onetimeinput">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsNewFeatureBadge>OneTimeInput</DocsNewFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/passwordstrength">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsNewFeatureBadge>PasswordStrength</DocsNewFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/onetimeinput">OneTimeInput</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/passwordstrength">PasswordStrength</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/pdfviewer">PdfViewer</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/pivotgrid">
+                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                            <DocsNewFeatureBadge>PivotGrid</DocsNewFeatureBadge>
+                                        </Span>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/richtextedit">RichTextEdit</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/routertabs">RouterTabs</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/scheduler">Scheduler</BarDropdownItem>
@@ -418,7 +402,7 @@
                                     <BarDropdownItem To="docs/services/notification-provider">Notification Provider</BarDropdownItem>
                                     <BarDropdownItem To="docs/services/offcanvas-provider">
                                         <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between.AlignItems.Start" Width="Width.Is100">
-                                            <DocsNewFeatureBadge>Offcanvas Provider</DocsNewFeatureBadge>
+                                            <DocsUpdatedFeatureBadge>Offcanvas Provider</DocsUpdatedFeatureBadge>
                                         </Span>
                                     </BarDropdownItem>
                                     <BarDropdownItem To="docs/services/page-progress-provider">PageProgress Provider</BarDropdownItem>
@@ -466,11 +450,7 @@
                                     </BarDropdown>
                                     <BarDropdownItem To="docs/helpers/utilities/flex">Flex</BarDropdownItem>
                                     <BarDropdownItem To="docs/helpers/utilities/grid">Grid</BarDropdownItem>
-                                    <BarDropdownItem To="docs/helpers/utilities/gutters">
-                                        <Span Display="Display.Flex" Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                            <DocsNewFeatureBadge>Gutters</DocsNewFeatureBadge>
-                                        </Span>
-                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/gutters">Gutters</BarDropdownItem>
                                     <BarDropdownItem To="docs/helpers/localization">Localization</BarDropdownItem>
                                     <BarDropdownItem To="docs/helpers/utilities/object-fit">
                                         Object Fit

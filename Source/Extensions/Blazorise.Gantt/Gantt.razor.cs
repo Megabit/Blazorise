@@ -10,6 +10,7 @@ using Blazorise.Extensions;
 using Blazorise.Gantt.Components;
 using Blazorise.Gantt.Extensions;
 using Blazorise.Gantt.Utilities;
+using Blazorise.Licensing;
 using Blazorise.Localization;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -2583,7 +2584,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
             AppendVisibleRows( root, rows, includeLookup );
         }
 
-        return rows;
+        return LimitRows( rows );
     }
 
     private Dictionary<string, string> BuildWbsLookup( IReadOnlyList<GanttTreeRow> visibleRows )
@@ -3186,7 +3187,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         var roots = new List<GanttTreeNode>();
         var usedKeys = new HashSet<string>( StringComparer.Ordinal );
 
-        var items = Data ?? Array.Empty<TItem>();
+        var items = GetLimitedDataItems();
         var index = 0;
 
         foreach ( var item in items )
@@ -3248,7 +3249,7 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
         var roots = new List<GanttTreeNode>();
         var usedKeys = new HashSet<string>( StringComparer.Ordinal );
         var recursionGuard = new HashSet<object>( ReferenceEqualityComparer.Instance );
-        var items = Data ?? Array.Empty<TItem>();
+        var items = GetLimitedDataItems();
         var index = 0;
 
         foreach ( var item in items )
@@ -4229,9 +4230,25 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     private IEnumerable<TItem> EnumerateAllDataItems()
     {
         if ( !UseHierarchicalData )
-            return Data ?? Array.Empty<TItem>();
+            return GetLimitedDataItems();
 
-        return EnumerateHierarchicalDataItems( Data ?? Array.Empty<TItem>() );
+        return LimitRows( EnumerateHierarchicalDataItems( GetLimitedDataItems() ) );
+    }
+
+    private IReadOnlyList<TItem> GetLimitedDataItems()
+    {
+        return LimitRows( Data ?? Array.Empty<TItem>() );
+    }
+
+    private List<TValue> LimitRows<TValue>( IEnumerable<TValue> rows )
+    {
+        var rowsLimit = BlazoriseLicenseLimitsHelper.GetGanttRowsLimit( ComponentLicenseChecker );
+        var sourceRows = rows?.ToList() ?? [];
+
+        if ( !rowsLimit.HasValue )
+            return sourceRows;
+
+        return sourceRows.Take( rowsLimit.Value ).ToList();
     }
 
     private IEnumerable<TItem> EnumerateHierarchicalDataItems( IEnumerable<TItem> rootItems )
@@ -4507,6 +4524,8 @@ public partial class Gantt<TItem> : BaseComponent, IDisposable, IAsyncDisposable
     /// Gets message service used for delete confirmations.
     /// </summary>
     [Inject] protected IMessageService MessageService { get; set; }
+
+    [Inject] private BlazoriseLicenseChecker ComponentLicenseChecker { get; set; }
 
     /// <summary>
     /// Specifies the data source displayed by the Gantt chart.

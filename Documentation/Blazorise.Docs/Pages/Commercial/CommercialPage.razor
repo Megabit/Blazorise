@@ -90,6 +90,41 @@
 <Container Padding="Padding.Is5.OnY">
     <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
         <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
+            Plan the business case
+        </Heading>
+        <Lead TextColor="TextColor.Muted">
+            Use these paths when your team needs to justify licensing cost or needs delivery help beyond support.
+        </Lead>
+    </Div>
+
+    <Row>
+        @foreach ( var item in DecisionPaths )
+        {
+            <Column @key="@item.Title" ColumnSize="ColumnSize.Is12.Is6.OnDesktop" Margin="Margin.Is4.FromBottom">
+                <Card Border="Border.Rounded" Shadow="Shadow.Small" Height="Height.Is100">
+                    <CardBody Padding="Padding.Is5" Flex="Flex.Column" Gap="Gap.Is3">
+                        <Icon Name="@item.Icon" IconSize="IconSize.x2" TextColor="@item.TextColor" />
+                        <Heading Size="HeadingSize.Is3" TextWeight="TextWeight.SemiBold" Margin="Margin.Is0">
+                            @item.Title
+                        </Heading>
+                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0">
+                            @item.Description
+                        </Paragraph>
+                        <Div Margin="Margin.IsAuto.FromTop">
+                            <Button Type="ButtonType.Link" To="@item.To" Color="@item.Color" Size="Size.Large">
+                                @item.ButtonText
+                            </Button>
+                        </Div>
+                    </CardBody>
+                </Card>
+            </Column>
+        }
+    </Row>
+</Container>
+
+<Container Padding="Padding.Is5.OnY">
+    <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
+        <Heading Size="HeadingSize.Is2" TextWeight="TextWeight.Bold">
             Services for teams that need a stronger delivery path
         </Heading>
         <Lead TextColor="TextColor.Muted">
@@ -117,10 +152,6 @@
             Talk to Us
         </Button>
     </Div>
-</Container>
-
-<Container Padding="Padding.Is5.OnY">
-    <CustomWorkTeaser />
 </Container>
 
 <Container Padding="Padding.Is5.OnY">
@@ -164,6 +195,12 @@
         new( "Long-term maintainability", "Standardize on a consistent component model across teams and products." )
     ];
 
+    private static readonly DecisionPath[] DecisionPaths =
+    [
+        new( IconName.ChartLine, TextColor.Primary, "Estimate ROI", "Compare internal build effort, ownership cost, license spend, savings, and time-to-market impact before asking for budget approval.", "roi-calculator", "Open ROI Calculator", Color.Primary ),
+        new( IconName.Briefcase, TextColor.Secondary, "Need custom work?", "Use Feature Sponsorship, Custom Development, or the Priority Development Queue when licensing and support are not enough to meet your delivery schedule.", "custom-work", "View Custom Work", Color.Secondary )
+    ];
+
     private static readonly ServiceCard[] ServiceCards =
     [
         new( IconName.Building, "Design System Integration", "Adapt Blazorise to your existing brand, token system, and product UI conventions." ),
@@ -177,6 +214,8 @@
     private sealed record CommercialHighlight( IconName Icon, TextColor TextColor, string Title, string Description );
 
     private sealed record CommercialBenefit( string Title, string Description );
+
+    private sealed record DecisionPath( IconName Icon, TextColor TextColor, string Title, string Description, string To, string ButtonText, Color Color );
 
     private sealed record ServiceCard( IconName Icon, string Title, string Description );
 }

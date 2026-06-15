@@ -1,4 +1,4 @@
-﻿@using System.Globalization
+@using System.Globalization
 @using Blazorise.Licensing
 <Paragraph TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is5.FromTop.Is4.FromBottom">
     Compare Plan Features
@@ -327,6 +327,24 @@
                 Charts
             </TableRowHeader>
             <TableRowCell>@BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_CHARTS_MAX_ROWS points</TableRowCell>
+            <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader Flex="Flex.JustifyContent.Between">
+                PivotGrid
+            </TableRowHeader>
+            <TableRowCell>@BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_PIVOTGRID_MAX_ROWS rows</TableRowCell>
+            <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader Flex="Flex.JustifyContent.Between">
+                Gantt
+            </TableRowHeader>
+            <TableRowCell>@BlazoriseLicenseProvider.DEFAULT_UNLICENSED_LIMIT_GANTT_MAX_ROWS rows</TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>

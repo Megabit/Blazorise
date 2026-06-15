@@ -23,6 +23,7 @@
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Maps\Blazorise.Maps.csproj" />
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Markdown\Blazorise.Markdown.csproj" />
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.PdfViewer\Blazorise.PdfViewer.csproj" />
+    <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.PivotGrid\Blazorise.PivotGrid.csproj" />
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.QRCode\Blazorise.QRCode.csproj" />
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.RichTextEdit\Blazorise.RichTextEdit.csproj" />
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Scheduler\Blazorise.Scheduler.csproj" />

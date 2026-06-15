@@ -1,0 +1,60 @@
+<Div Margin="Margin.Is5.FromBottom">
+    <Row Margin="Margin.Is4.FromBottom">
+        <Column>
+            <Heading Size="HeadingSize.Is3" Margin="Margin.Is0.FromBottom">
+                Clear license terms before you buy
+            </Heading>
+            <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is2.FromTop.Is0.FromBottom">
+                Commercial plans are priced per developer, include support during the subscription, and can be purchased online, through Azure Marketplace, or by purchase order.
+            </Paragraph>
+        </Column>
+    </Row>
+
+    <Row Gutter="Gutter.Is3" TextAlignment="TextAlignment.Start">
+        @foreach ( AssuranceItem item in AssuranceItems )
+        {
+            <Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is3.OnDesktop">
+                <Card Height="Height.Is100" Border="Border.Rounded">
+                    <CardBody Flex="Flex.Column" Gap="Gap.Is2">
+                        <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is2">
+                            <Icon Name="@item.Icon" TextColor="@item.TextColor" />
+                            <Strong>@item.Title</Strong>
+                        </Div>
+                        <Paragraph TextColor="TextColor.Muted" Margin="Margin.Is0">
+                            @item.Description
+                        </Paragraph>
+                    </CardBody>
+                </Card>
+            </Column>
+        }
+    </Row>
+
+    <Row Margin="Margin.Is4.FromTop">
+        <Column Flex="Flex.JustifyContent.Center.Wrap" Gap="Gap.Is2">
+            <Button Type="ButtonType.Link" To="https://azuremarketplace.microsoft.com/en-us/marketplace/apps/11987636635.blazorise" Target="Target.Blank" Color="Color.Primary" Outline Gap="Gap.Is2" Flex="Flex.InlineFlex">
+                <Image Source="img/logos/microsoft-icon.svg" Text="Microsoft logo" Width="Width.Rem( 1.5 )" Height="Height.Rem( 1.5 )" />
+                <Span>Purchase on Azure</Span>
+            </Button>
+            <Button Type="ButtonType.Link" To="purchase-order" Color="Color.Primary" Outline Gap="Gap.Is2" Flex="Flex.InlineFlex">
+                <Icon Name="IconName.Receipt" />
+                Request a purchase order
+            </Button>
+            <Button Type="ButtonType.Link" To="contact" Color="Color.Light" Gap="Gap.Is2" Flex="Flex.InlineFlex">
+                <Icon Name="IconName.Headset" />
+                Contact sales
+            </Button>
+        </Column>
+    </Row>
+</Div>
+
+@code {
+    private static readonly AssuranceItem[] AssuranceItems =
+    {
+        new( IconName.Users, TextColor.Primary, "Per developer", "Prices are calculated by the number of developers who use Blazorise, with royalty-free application deployment." ),
+        new( IconName.CalendarCheck, TextColor.Info, "Flexible billing", "Choose monthly or annual billing, with annual pricing discounted in the plan selector." ),
+        new( IconName.Headset, TextColor.Success, "Support included", "Professional and Enterprise plans include premium support with published response-time targets." ),
+        new( IconName.Receipt, TextColor.Secondary, "Procurement ready", "Use online checkout, Azure Marketplace, or a signed quote with NET 30 invoice terms." ),
+    };
+
+    private sealed record AssuranceItem( IconName Icon, TextColor TextColor, string Title, string Description );
+}

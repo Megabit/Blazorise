@@ -22,6 +22,16 @@ public class SvgLineSeries<TItem> : SvgChartSeries<TItem>
     /// </summary>
     [Parameter] public double MarkerRadius { get; set; } = 3;
 
+    /// <summary>
+    /// Defines how the line is interpolated between data points.
+    /// </summary>
+    [Parameter] public SvgChartInterpolationMode Interpolation { get; set; }
+
+    /// <summary>
+    /// Defines the cubic interpolation tension.
+    /// </summary>
+    [Parameter] public double Tension { get; set; } = 0.4;
+
     internal override SvgChartType ChartType => SvgChartType.Line;
 
     #endregion

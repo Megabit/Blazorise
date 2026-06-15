@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Components.ListView;
 using Blazorise.Extensions;
+using Blazorise.Licensing;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -21,11 +22,21 @@ public partial class TransferList<TItem> : ComponentBase
     #region Methods
 
     /// <inheritdoc/>
+    protected override void OnParametersSet()
+    {
+        ApplyItemsLimit();
+
+        base.OnParametersSet();
+    }
+
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
-        if ( Items.IsNullOrEmpty() )
+        var items = LimitItems( Items );
+
+        if ( items.IsNullOrEmpty() )
             return;
 
         var itemsStartStartedNullOrEmpty = ItemsStart.IsNullOrEmpty();
@@ -38,21 +49,38 @@ public partial class TransferList<TItem> : ComponentBase
         if ( bothListsEmpty )
         {
             // If both lists are empty, then we just start with the items in the start list.
-            ItemsStart = Items.ToList();
+            ItemsStart = items.ToList();
             ItemsStartChanged.InvokeAsync( ItemsStart );
         }
         else if ( startNotEmptyButEndEmpty )
         {
             // If the start list is not empty, but the end list is empty, then we assign the remainder of existing items to the end list.
-            ItemsEnd = Items.Where( x => !ItemsStart.Contains( x ) ).ToList();
+            ItemsEnd = LimitItems( items.Where( x => !ItemsStart.Contains( x ) ) );
             ItemsEndChanged.InvokeAsync( ItemsEnd );
         }
         else if ( startEmptyButEndNotEmpty )
         {
             //If the start list is empty, but the end list is not empty, then we assign the remainder of existing items to the start list.
-            ItemsStart = Items.Where( x => !ItemsEnd.Contains( x ) ).ToList();
+            ItemsStart = LimitItems( items.Where( x => !ItemsEnd.Contains( x ) ) );
             ItemsStartChanged.InvokeAsync( ItemsStart );
         }
+    }
+
+    private List<TItem> LimitItems( IEnumerable<TItem> items )
+    {
+        var rowsLimit = BlazoriseLicenseLimitsHelper.GetTransferListRowsLimit( ComponentLicenseChecker );
+        var sourceItems = items?.ToList() ?? new();
+
+        if ( !rowsLimit.HasValue )
+            return sourceItems;
+
+        return sourceItems.Take( rowsLimit.Value ).ToList();
+    }
+
+    private void ApplyItemsLimit()
+    {
+        ItemsStart = LimitItems( ItemsStart );
+        ItemsEnd = LimitItems( ItemsEnd );
     }
 
     /// <summary>
@@ -80,6 +108,8 @@ public partial class TransferList<TItem> : ComponentBase
                 ItemsStart.Remove( SelectedItemStart );
             }
         }
+
+        ApplyItemsLimit();
 
         await NotifyMove( true );
     }
@@ -110,6 +140,8 @@ public partial class TransferList<TItem> : ComponentBase
             }
         }
 
+        ApplyItemsLimit();
+
         await NotifyMove( true );
     }
 
@@ -134,6 +166,8 @@ public partial class TransferList<TItem> : ComponentBase
             }
         }
 
+        ApplyItemsLimit();
+
         await NotifyMove( true );
     }
 
@@ -157,6 +191,8 @@ public partial class TransferList<TItem> : ComponentBase
                 ItemsEnd.RemoveAt( i );
             }
         }
+
+        ApplyItemsLimit();
 
         await NotifyMove( true );
     }
@@ -367,6 +403,8 @@ public partial class TransferList<TItem> : ComponentBase
     public bool IsMoveStartDisabled => SelectionMode == ListGroupSelectionMode.Single
         ? SelectedItemEnd is null
         : SelectionMode != ListGroupSelectionMode.Multiple || SelectedItemsEnd.IsNullOrEmpty();
+
+    [Inject] private BlazoriseLicenseChecker ComponentLicenseChecker { get; set; }
 
     /// <summary>
     /// Specifies how the list groups behave (e.g., selectable, static).

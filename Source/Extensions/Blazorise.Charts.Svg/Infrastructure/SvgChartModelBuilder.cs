@@ -38,6 +38,8 @@ internal sealed class SvgChartModelBuilder<TItem>
 
     private readonly IReadOnlyCollection<string> hiddenSeries;
 
+    private readonly int? rowLimit;
+
     #endregion
 
     #region Constructors
@@ -55,7 +57,8 @@ internal sealed class SvgChartModelBuilder<TItem>
         IReadOnlyList<SvgChartValueAxis> valueAxisComponents,
         IReadOnlyList<ISvgChartPlugin> pluginComponents,
         IReadOnlyList<SvgChartTooltip> tooltipComponents,
-        IReadOnlyCollection<string> hiddenSeries )
+        IReadOnlyCollection<string> hiddenSeries,
+        int? rowLimit )
     {
         Type = type;
         Items = items;
@@ -70,6 +73,7 @@ internal sealed class SvgChartModelBuilder<TItem>
         this.pluginComponents = pluginComponents;
         this.tooltipComponents = tooltipComponents;
         this.hiddenSeries = hiddenSeries;
+        this.rowLimit = rowLimit;
     }
 
     #endregion
@@ -83,8 +87,8 @@ internal sealed class SvgChartModelBuilder<TItem>
         var categoryAxes = categoryAxisComponents.OfType<SvgChartCategoryAxis<TItem>>().ToList();
         var categoryAxis = ResolveCategoryAxis( chartData, childSeries, categoryAxes );
         var valueAxisId = ResolveValueAxisId( chartData, childSeries );
-        var items = Items?.ToList() ?? [];
-        var labels = ResolveLabels( chartData, categoryAxis, items );
+        var items = LimitValues( Items );
+        var labels = LimitValues( ResolveLabels( chartData, categoryAxis, items ) );
         var timeAxisValues = ResolveTimeAxisValues( categoryAxis, labels );
         var series = ResolveSeries( chartData, childSeries, items, labels.Count, timeAxisValues );
         var zoom = ResolveZoom( options );
@@ -174,6 +178,10 @@ internal sealed class SvgChartModelBuilder<TItem>
             for ( var i = 0; i < chartData.Series.Count; i++ )
             {
                 var dataSeries = chartData.Series[i];
+
+                if ( dataSeries is null )
+                    continue;
+
                 var name = string.IsNullOrWhiteSpace( dataSeries.Name ) ? $"Series {i + 1}" : dataSeries.Name;
                 var values = dataSeries.Values?.ToList() ?? [];
                 var yValues = dataSeries.YValues?.Count > 0 ? dataSeries.YValues.ToList() : values.ToList();
@@ -190,6 +198,7 @@ internal sealed class SvgChartModelBuilder<TItem>
                     Values = values,
                     Color = dataSeries.Color,
                     RenderColor = SvgChartRenderHelpers.ResolveColor( dataSeries.Color, i ),
+                    PointColors = ResolvePointColors( dataSeries.Colors, values.Count, dataSeries.Color, i, IsRadialChart( Type ) ),
                     Hidden = dataSeries.Hidden || hiddenSeries.Contains( name ),
                     Order = dataSeries.Order,
                     CategoryAxisId = dataSeries.CategoryAxisId,
@@ -201,7 +210,9 @@ internal sealed class SvgChartModelBuilder<TItem>
                     BorderRadius = 3,
                     MarkerRadius = 3,
                     StrokeWidth = 2,
-                    FillOpacity = 0.18
+                    FillOpacity = 0.18,
+                    Interpolation = dataSeries.Interpolation,
+                    Tension = dataSeries.Tension ?? 0.4
                 } );
             }
         }
@@ -230,6 +241,7 @@ internal sealed class SvgChartModelBuilder<TItem>
                 RadiusValues = radiusValues,
                 Color = child.Color,
                 RenderColor = SvgChartRenderHelpers.ResolveColor( child.Color, series.Count ),
+                PointColors = ResolvePointColors( child.Colors, child.PointColor is null ? null : items.Select( child.PointColor ).ToList(), labelCount, child.Color, series.Count, IsRadialChart( child.ChartType ) ),
                 Hidden = child.Hidden || hiddenSeries.Contains( name ),
                 Order = child.Order,
                 CategoryAxisId = child.CategoryAxisId,
@@ -259,13 +271,85 @@ internal sealed class SvgChartModelBuilder<TItem>
                     SvgAreaSeries<TItem> areaSeries => areaSeries.FillOpacity,
                     SvgRadarSeries<TItem> radarSeries => radarSeries.FillOpacity,
                     _ => 0.18
+                },
+                Interpolation = child switch
+                {
+                    SvgLineSeries<TItem> lineSeries => lineSeries.Interpolation,
+                    SvgAreaSeries<TItem> areaSeries => areaSeries.Interpolation,
+                    _ => SvgChartInterpolationMode.Linear
+                },
+                Tension = child switch
+                {
+                    SvgLineSeries<TItem> lineSeries => lineSeries.Tension,
+                    SvgAreaSeries<TItem> areaSeries => areaSeries.Tension,
+                    _ => 0.4
                 }
             } );
         }
 
+        LimitSeries( series );
         ApplyStacking( series, ResolveStackedValueAxisIds( series ) );
 
         return series;
+    }
+
+    private List<TValue> LimitValues<TValue>( IEnumerable<TValue> values )
+    {
+        if ( values is null )
+            return [];
+
+        if ( !rowLimit.HasValue )
+            return values.ToList();
+
+        return values.Take( rowLimit.Value ).ToList();
+    }
+
+    private void LimitSeries( List<SvgChartRenderSeries> series )
+    {
+        if ( !rowLimit.HasValue )
+            return;
+
+        foreach ( var item in series )
+        {
+            LimitValues( item.Values, rowLimit.Value );
+            LimitValues( item.XValues, rowLimit.Value );
+            LimitValues( item.YValues, rowLimit.Value );
+            LimitValues( item.RadiusValues, rowLimit.Value );
+            LimitValues( item.PointColors, rowLimit.Value );
+        }
+    }
+
+    private static void LimitValues<TValue>( List<TValue> values, int limit )
+    {
+        if ( values is not null && values.Count > limit )
+            values.RemoveRange( limit, values.Count - limit );
+    }
+
+    private static List<string> ResolvePointColors( IReadOnlyList<Color> colors, int count, Color seriesColor, int seriesIndex, bool usePalettePerPoint )
+    {
+        return ResolvePointColors( colors, null, count, seriesColor, seriesIndex, usePalettePerPoint );
+    }
+
+    private static List<string> ResolvePointColors( IReadOnlyList<Color> colors, IReadOnlyList<Color> selectedColors, int count, Color seriesColor, int seriesIndex, bool usePalettePerPoint )
+    {
+        var result = new List<string>();
+        var seriesFallback = SvgChartRenderHelpers.ResolveColor( seriesColor, seriesIndex );
+        var palettePerPoint = usePalettePerPoint && SvgChartRenderHelpers.IsDefaultColor( seriesColor );
+
+        for ( var i = 0; i < count; i++ )
+        {
+            var color = i < ( selectedColors?.Count ?? 0 )
+                ? selectedColors[i]
+                : i < ( colors?.Count ?? 0 )
+                    ? colors[i]
+                    : null;
+
+            result.Add( SvgChartRenderHelpers.IsDefaultColor( color )
+                ? ( palettePerPoint ? SvgChartRenderHelpers.ResolveColor( null, i ) : seriesFallback )
+                : SvgChartRenderHelpers.ResolveColor( color, i ) );
+        }
+
+        return result;
     }
 
     private HashSet<string> ResolveStackedValueAxisIds( List<SvgChartRenderSeries> series )
@@ -708,6 +792,7 @@ internal sealed class SvgChartModelBuilder<TItem>
                 Id = axis.Id,
                 Position = axis.Position,
                 GridLines = axis.GridLines,
+                Labels = axis.Labels,
                 TickFormatter = axis.TickFormatter,
                 Stacked = axis.Stacked,
                 Min = scale.Min,

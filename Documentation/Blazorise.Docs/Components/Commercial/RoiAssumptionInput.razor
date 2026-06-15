@@ -1,0 +1,48 @@
+<Div Margin="Margin.Is0.FromBottom.Is4.FromBottom">
+    <Paragraph Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.SemiBold">
+        @Title
+    </Paragraph>
+    @if ( !string.IsNullOrWhiteSpace( Description ) )
+    {
+        <Paragraph Margin="Margin.Is0.FromBottom.Is2.FromBottom" TextColor="TextColor.Muted">
+            @Description
+        </Paragraph>
+    }
+    <Div Flex="Flex.JustifyContent.Between" Margin="Margin.Is0.FromBottom.Is2.FromBottom">
+        <Badge Color="Color.Light" Pill>@MinText</Badge>
+        <Badge Color="Color.Primary" Pill>@CurrentText</Badge>
+        <Badge Color="Color.Light" Pill>@MaxText</Badge>
+    </Div>
+    <Row Flex="Flex.AlignItems.Center" Gutter="Gutter.Is3">
+        <Column ColumnSize="ColumnSize.Is12.OnMobile.Is8.OnDesktop">
+            <Slider TValue="int" Value="@Value" ValueChanged="@ValueChanged" Min="@Min" Max="@Max" Step="@Step" />
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop">
+            <NumericInput TValue="int" Value="@Value" ValueChanged="@ValueChanged" Min="@Min" Max="@Max" Step="@NumericStep" />
+        </Column>
+    </Row>
+</Div>
+
+@code {
+    private decimal? NumericStep => Step;
+
+    [Parameter] public string Title { get; set; }
+
+    [Parameter] public string Description { get; set; }
+
+    [Parameter] public int Value { get; set; }
+
+    [Parameter] public EventCallback<int> ValueChanged { get; set; }
+
+    [Parameter] public int Min { get; set; }
+
+    [Parameter] public int Max { get; set; }
+
+    [Parameter] public int Step { get; set; } = 1;
+
+    [Parameter] public string MinText { get; set; }
+
+    [Parameter] public string CurrentText { get; set; }
+
+    [Parameter] public string MaxText { get; set; }
+}

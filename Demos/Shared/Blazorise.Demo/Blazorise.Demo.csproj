@@ -14,7 +14,6 @@
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Components\Blazorise.Components.csproj" />
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.LoadingIndicator\Blazorise.LoadingIndicator.csproj" />
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.RichTextEdit\Blazorise.RichTextEdit.csproj" />
-    <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Sidebar\Blazorise.Sidebar.csproj" />
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Snackbar\Blazorise.Snackbar.csproj" />
     <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.FluentValidation\Blazorise.FluentValidation.csproj" />
     <ProjectReference Include="..\..\Apps\TodoApp\TodoApp.csproj" />

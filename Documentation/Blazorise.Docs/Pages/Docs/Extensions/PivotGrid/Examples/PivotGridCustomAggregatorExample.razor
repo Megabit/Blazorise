@@ -1,0 +1,57 @@
+@namespace Blazorise.Docs.Docs.Examples
+
+<PivotGrid TItem="MarginSale"
+           Data="@Sales"
+           ShowRowTotals
+           ShowColumnTotals
+           Striped
+           Hoverable>
+    <PivotGridColumns>
+        <PivotGridColumn Field="@nameof( MarginSale.Region )" Caption="Region" />
+    </PivotGridColumns>
+    <PivotGridRows>
+        <PivotGridRow Field="@nameof( MarginSale.Category )" Caption="Category" />
+    </PivotGridRows>
+    <PivotGridAggregates>
+        <PivotGridAggregate Field="@nameof( MarginSale.Amount )"
+                            Caption="Revenue"
+                            DisplayFormat="{0:C0}"
+                            DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo( "en-US" )" />
+        <PivotGridAggregate TItem="MarginSale"
+                            Field="@nameof( MarginSale.Margin )"
+                            Caption="Margin %"
+                            Aggregator="@WeightedMargin"
+                            DisplayFormat="{0:P1}" />
+    </PivotGridAggregates>
+</PivotGrid>
+
+@code {
+    private readonly List<MarginSale> Sales =
+    [
+        new() { Region = "Central", Category = "Hardware", Amount = 51200m, Margin = .18m },
+        new() { Region = "Central", Category = "Software", Amount = 94200m, Margin = .42m },
+        new() { Region = "Western", Category = "Hardware", Amount = 127500m, Margin = .21m },
+        new() { Region = "Western", Category = "Services", Amount = 66300m, Margin = .36m },
+    ];
+
+    private static object WeightedMargin( IReadOnlyList<MarginSale> items )
+    {
+        decimal totalAmount = items.Sum( item => item.Amount );
+
+        if ( totalAmount == 0m )
+            return null;
+
+        return items.Sum( item => item.Amount * item.Margin ) / totalAmount;
+    }
+
+    public class MarginSale
+    {
+        public string Region { get; set; }
+
+        public string Category { get; set; }
+
+        public decimal Amount { get; set; }
+
+        public decimal Margin { get; set; }
+    }
+}

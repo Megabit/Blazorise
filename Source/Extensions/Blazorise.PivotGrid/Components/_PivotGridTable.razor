@@ -1,0 +1,238 @@
+@typeparam TItem
+
+@if ( Result is null )
+{
+    <Div Padding="PaddingIs3" TextColor="TextColorMuted">
+        @if ( PivotGrid.EmptyTemplate is not null )
+        {
+            @PivotGrid.EmptyTemplate
+        }
+        else
+        {
+            @PivotGrid.LocalizedEmptyText
+        }
+    </Div>
+}
+else if ( !Result.HasValues )
+{
+    <Div Padding="PaddingIs3" TextColor="TextColorMuted">
+        @if ( PivotGrid.MissingValuesTemplate is not null )
+        {
+            @PivotGrid.MissingValuesTemplate
+        }
+        else
+        {
+            @PivotGrid.LocalizedMissingValuesText
+        }
+    </Div>
+}
+else if ( Result.Rows.Count == 0 && !PivotGrid.IsExternalVirtualizeActive )
+{
+    <Div Padding="PaddingIs3" TextColor="TextColorMuted">
+        @if ( PivotGrid.NoDataTemplate is not null )
+        {
+            @PivotGrid.NoDataTemplate
+        }
+        else
+        {
+            @PivotGrid.LocalizedNoDataText
+        }
+    </Div>
+}
+else
+{
+    RenderFragment<PivotGridResultRow<TItem>> rowFragment = row =>
+        @<TableRow @key="@row">
+            @for ( var i = 0; i < RowHeaderColumnCount; i++ )
+            {
+                var rowHeaderIndex = i;
+                var rowHeaderContext = GetRowHeaderContext( row, rowHeaderIndex );
+                var rowHeaderStyling = GetRowHeaderStyling( rowHeaderContext );
+
+                <TableRowCell Class="@rowHeaderStyling.Class"
+                              Style="@rowHeaderStyling.Style"
+                              Color="@rowHeaderStyling.Color"
+                              Background="@rowHeaderStyling.Background"
+                              TextColor="@rowHeaderStyling.TextColor"
+                              TextWeight="@rowHeaderStyling.TextWeight"
+                              TextAlignment="TextAlignment.Start">
+                    @if ( IsRowTreeCell( row.Row, rowHeaderIndex ) )
+                    {
+                        <Span Display="Display.InlineFlex" VerticalAlignment="VerticalAlignment.Middle" TextOverflow="TextOverflow.NoWrap">
+                            @if ( row.Row.Level > 0 )
+                            {
+                                <Span Display="Display.InlineBlock" Width="@Width.Rem( row.Row.Level * 1.5d )"></Span>
+                            }
+
+                            @if ( PivotGrid.CanToggleRowExpansion( row.Row ) )
+                            {
+                                var rowExpansionLabel = GetRowExpansionLabel( row.Row );
+
+                                <Button Size="Size.Small"
+                                        Clicked="@(() => PivotGrid.ToggleRowExpanded( row.Row ))"
+                                        Margin="MarginIs1FromEnd"
+                                        Background="BackgroundTransparent"
+                                        Border="BorderIs0"
+                                        Shadow="ShadowRemove"
+                                        aria-label="@rowExpansionLabel"
+                                        title="@rowExpansionLabel">
+                                    <Icon Name="@GetRowExpansionIcon( row.Row )" />
+                                </Button>
+                            }
+                            else
+                            {
+                                <Span Display="Display.InlineBlock" Width="@Width.Rem( 1.5d )"></Span>
+                            }
+                        </Span>
+                    }
+
+                    @if ( rowHeaderContext.Field?.DisplayTemplate is not null )
+                    {
+                        @rowHeaderContext.Field.DisplayTemplate( GetRowFieldValueContext( rowHeaderContext ) )
+                    }
+                    else if ( PivotGrid.RowHeaderTemplate is not null )
+                    {
+                        @PivotGrid.RowHeaderTemplate( rowHeaderContext )
+                    }
+                    else
+                    {
+                        @rowHeaderContext.Text
+                    }
+                </TableRowCell>
+            }
+
+            @foreach ( var cell in row.Cells )
+            {
+                <_PivotGridCell TItem="TItem" Row="@row.Row" Cell="@cell" />
+            }
+        </TableRow>;
+
+    <Div Class="b-pivot-grid-table-container" Overflow="OverflowAuto">
+        <Table Class="b-pivot-grid-table"
+               Bordered="@Bordered"
+               Striped="@Striped"
+               Hoverable="@Hoverable"
+               Narrow="@Narrow"
+               Responsive="@Responsive"
+               FixedHeader="@PivotGrid.IsVirtualizeActive"
+               FixedHeaderTableHeight="@PivotGrid.VirtualizeTableHeight"
+               FixedHeaderTableMaxHeight="@PivotGrid.VirtualizeTableMaxHeight">
+            <TableHeader ThemeContrast="@HeaderThemeContrast">
+                <TableRow>
+                    @for ( var i = 0; i < RowHeaderColumnCount; i++ )
+                    {
+                        var rowHeaderIndex = i;
+                        var headerContext = GetHeaderContext( rowHeaderIndex );
+
+                        <TableHeaderCell RowSpan="@HeaderRowSpan" Background="BackgroundBody" TextWeight="TextWeight.Bold" TextAlignment="TextAlignment.Start">
+                            @if ( headerContext.Field?.HeaderTemplate is not null )
+                            {
+                                @headerContext.Field.HeaderTemplate( headerContext )
+                            }
+                            else if ( PivotGrid.HeaderTemplate is not null )
+                            {
+                                @PivotGrid.HeaderTemplate( headerContext )
+                            }
+                            else
+                            {
+                                @headerContext.Caption
+                            }
+                        </TableHeaderCell>
+                    }
+
+                    @foreach ( var columnGroup in ColumnGroups )
+                    {
+                        var columnHeaderContext = GetColumnHeaderContext( columnGroup );
+                        var columnHeaderStyling = GetColumnHeaderStyling( columnHeaderContext );
+
+                        <TableHeaderCell ColumnSpan="@ValueColumnSpan"
+                                         Class="@columnHeaderStyling.Class"
+                                         Style="@columnHeaderStyling.Style"
+                                         Background="@columnHeaderStyling.Background"
+                                         TextWeight="@columnHeaderStyling.TextWeight"
+                                         TextAlignment="TextAlignment.Center">
+                            @if ( PivotGrid.CanToggleColumnExpansion( columnGroup ) )
+                            {
+                                var columnExpansionLabel = GetColumnExpansionLabel( columnGroup );
+
+                                <Button Size="Size.Small"
+                                        Clicked="@(() => PivotGrid.ToggleColumnExpanded( columnGroup ))"
+                                        Margin="MarginIs1FromEnd"
+                                        Background="BackgroundTransparent"
+                                        Border="BorderIs0"
+                                        Shadow="ShadowRemove"
+                                        aria-label="@columnExpansionLabel"
+                                        title="@columnExpansionLabel">
+                                    <Icon Name="@GetColumnExpansionIcon( columnGroup )" />
+                                </Button>
+                            }
+
+                            @if ( columnHeaderContext.Field?.DisplayTemplate is not null )
+                            {
+                                @columnHeaderContext.Field.DisplayTemplate( GetColumnFieldValueContext( columnHeaderContext ) )
+                            }
+                            else if ( PivotGrid.ColumnHeaderTemplate is not null )
+                            {
+                                @PivotGrid.ColumnHeaderTemplate( columnHeaderContext )
+                            }
+                            else
+                            {
+                                @columnHeaderContext.Text
+                            }
+                        </TableHeaderCell>
+                    }
+                </TableRow>
+
+                @if ( ShowValueHeaderRow )
+                {
+                    <TableRow>
+                        @foreach ( var dataColumn in Result.DataColumns )
+                        {
+                            var aggregateHeaderContext = GetAggregateHeaderContext( dataColumn );
+                            var headerContext = GetAggregateFieldHeaderContext( aggregateHeaderContext );
+
+                            <TableHeaderCell Background="BackgroundBody" TextAlignment="TextAlignment.End">
+                                @if ( aggregateHeaderContext.Aggregate.HeaderTemplate is not null )
+                                {
+                                    @aggregateHeaderContext.Aggregate.HeaderTemplate( headerContext )
+                                }
+                                else if ( PivotGrid.AggregateHeaderTemplate is not null )
+                                {
+                                    @PivotGrid.AggregateHeaderTemplate( aggregateHeaderContext )
+                                }
+                                else
+                                {
+                                    @aggregateHeaderContext.Caption
+                                }
+                            </TableHeaderCell>
+                        }
+                    </TableRow>
+                }
+            </TableHeader>
+            <TableBody>
+                @if ( PivotGrid.IsVirtualizeActive )
+                {
+                    <Virtualize TItem="PivotGridResultRow<TItem>"
+                                @ref="@virtualizeRef"
+                                @key="@PivotGrid.VirtualizeRowsKey"
+                                Context="row"
+                                ItemsProvider="@PivotGrid.VirtualizeRowsProvider"
+                                ItemSize="@PivotGrid.VirtualizeItemSize"
+                                OverscanCount="@PivotGrid.VirtualizeOverscanCount"
+                                SpacerElement="tr">
+                        <ChildContent>
+                            @rowFragment( row )
+                        </ChildContent>
+                    </Virtualize>
+                }
+                else
+                {
+                    @foreach ( var row in Result.Rows )
+                    {
+                        @rowFragment( row )
+                    }
+                }
+            </TableBody>
+        </Table>
+    </Div>
+}

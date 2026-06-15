@@ -80,6 +80,16 @@ public abstract class SvgChartSeries<TItem> : SvgChartComponentBase
     [Parameter] public Color Color { get; set; }
 
     /// <summary>
+    /// Defines explicit colors for individual data points.
+    /// </summary>
+    [Parameter] public IReadOnlyList<Color> Colors { get; set; }
+
+    /// <summary>
+    /// Defines a selector used to read colors for individual data points from chart items.
+    /// </summary>
+    [Parameter] public Func<TItem, Color> PointColor { get; set; }
+
+    /// <summary>
     /// Defines whether the series is hidden.
     /// </summary>
     [Parameter] public bool Hidden { get; set; }

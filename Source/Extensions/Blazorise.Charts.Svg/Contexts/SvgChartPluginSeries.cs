@@ -47,6 +47,11 @@ public sealed class SvgChartPluginSeries
     public string Color { get; init; }
 
     /// <summary>
+    /// Gets the resolved colors for individual data points.
+    /// </summary>
+    public IReadOnlyList<string> PointColors { get; init; } = [];
+
+    /// <summary>
     /// Gets whether the series is hidden.
     /// </summary>
     public bool Hidden { get; init; }
@@ -100,6 +105,28 @@ public sealed class SvgChartPluginSeries
     /// Gets the resolved area fill opacity.
     /// </summary>
     public double FillOpacity { get; init; }
+
+    /// <summary>
+    /// Gets how the series path is interpolated between data points.
+    /// </summary>
+    public SvgChartInterpolationMode Interpolation { get; init; }
+
+    /// <summary>
+    /// Gets the resolved cubic interpolation tension.
+    /// </summary>
+    public double Tension { get; init; } = 0.4;
+
+    /// <summary>
+    /// Gets the resolved color for a data point.
+    /// </summary>
+    /// <param name="pointIndex">The point index.</param>
+    /// <returns>The resolved point color.</returns>
+    public string GetPointColor( int pointIndex )
+    {
+        return pointIndex >= 0 && pointIndex < ( PointColors?.Count ?? 0 ) && !string.IsNullOrWhiteSpace( PointColors[pointIndex] )
+            ? PointColors[pointIndex]
+            : Color;
+    }
 
     #endregion
 }

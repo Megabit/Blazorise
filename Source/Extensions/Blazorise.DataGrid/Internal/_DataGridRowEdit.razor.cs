@@ -97,7 +97,7 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
         if ( args.Code == "Enter" || args.Code == "NumpadEnter" )
         {
             var batchEditItem = ParentDataGrid.BatchEdit
-                ? ParentDataGrid.GetBatchEditItemByLastEditItem( Item ) ?? ParentDataGrid.GetBatchEditItemByOriginal( Item )
+                ? ParentDataGrid.GetBatchEditItem( Item )
                 : null;
 
             await Save();
@@ -120,7 +120,7 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
         if ( args.Code == "Tab" )
         {
             var batchEditItem = ParentDataGrid.BatchEdit
-                ? ParentDataGrid.GetBatchEditItemByLastEditItem( Item ) ?? ParentDataGrid.GetBatchEditItemByOriginal( Item )
+                ? ParentDataGrid.GetBatchEditItem( Item )
                 : null;
 
             await Save();

@@ -11,19 +11,17 @@
     </Subtitle>
     <Description>
         <Paragraph>
-            Partner with the creators of Blazorise to ship faster with predictable costs, premium support, and up to 15 years of maintenance.
+            Per-developer plans with monthly or annual billing, premium support, source-code access on commercial plans, and procurement options for teams that need a quote or purchase order.
         </Paragraph>
     </Description>
 </PageHeader>
 
 <Container TextAlignment="TextAlignment.Center">
-    <BenefitsGrid />
-
     <Pricing @bind-Quantity="@quantity" @bind-Plan="@plan" ProfessionalPrices="@professionalPrices" EnterprisePrices="@enterprisePrices" />
 
-    <PlansComparer Quantity="@quantity" Plan="@plan" ProfessionalPrices="@professionalPrices" EnterprisePrices="@enterprisePrices" />
+    <PricingAssurance />
 
-    <CustomWorkTeaser />
+    <PlansComparer Quantity="@quantity" Plan="@plan" ProfessionalPrices="@professionalPrices" EnterprisePrices="@enterprisePrices" />
 
     <Faq />
 </Container>

@@ -31,6 +31,7 @@
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Maps.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Markdown.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.PdfViewer.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.PivotGrid.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.QRCode.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Scheduler.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.SignaturePad.wasm" />

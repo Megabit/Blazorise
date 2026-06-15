@@ -1,4 +1,4 @@
-﻿namespace Blazorise.Licensing;
+namespace Blazorise.Licensing;
 
 /// <summary>
 /// Checks the validation for the current user session.
@@ -132,6 +132,36 @@ public sealed class BlazoriseLicenseChecker
     public int? GetTreeViewRowsLimit()
     {
         return blazoriseLicenseProvider.GetTreeViewRowsLimit();
+    }
+
+    /// <summary>
+    /// Returns the maximum number of rows that can be displayed.
+    /// Null if no limit is set.
+    /// </summary>
+    /// <returns></returns>
+    public int? GetPivotGridRowsLimit()
+    {
+        return blazoriseLicenseProvider.GetPivotGridRowsLimit();
+    }
+
+    /// <summary>
+    /// Returns the maximum number of rows that can be displayed.
+    /// Null if no limit is set.
+    /// </summary>
+    /// <returns></returns>
+    public int? GetGanttRowsLimit()
+    {
+        return blazoriseLicenseProvider.GetGanttRowsLimit();
+    }
+
+    /// <summary>
+    /// Returns the maximum number of rows that can be displayed.
+    /// Null if no limit is set.
+    /// </summary>
+    /// <returns></returns>
+    public int? GetTransferListRowsLimit()
+    {
+        return blazoriseLicenseProvider.GetTransferListRowsLimit();
     }
 
     #endregion

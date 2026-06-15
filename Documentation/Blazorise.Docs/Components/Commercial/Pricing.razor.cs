@@ -18,18 +18,9 @@ public partial class Pricing
         await JSRuntime.InvokeVoidAsync( "blazorisePRO.paddle.openCheckout", EnterprisePrices[Plan].ProductId, Quantity );
     }
 
-    Task OnProductOrderClicked()
-    {
-        NavigationManager.NavigateTo( $"purchase-order" );
-
-        return Task.CompletedTask;
-    }
-
     private string DevLabel => Quantity == 1 ? "developer" : "developers";
 
     [Inject] IJSRuntime JSRuntime { get; set; }
-
-    [Inject] NavigationManager NavigationManager { get; set; }
 
     [Parameter] public int Quantity { get; set; }
 

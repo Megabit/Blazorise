@@ -21,6 +21,12 @@ public static class NavigationExtensions
         public bool IsMatch( string uri, Match match, Func<string, bool> customMatch )
         {
             var currentUriAbsolute = nav.Uri;
+
+            if ( customMatch is not null )
+            {
+                return customMatch.Invoke( currentUriAbsolute );
+            }
+
             var absoluteUri = nav.GetAbsoluteUri( uri );
 
             if ( EqualsHrefExactlyOrIfTrailingSlashAdded( currentUriAbsolute, absoluteUri ) )

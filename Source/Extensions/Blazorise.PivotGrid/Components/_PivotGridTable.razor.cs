@@ -1,0 +1,366 @@
+#region Using directives
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Blazorise.Localization;
+using Blazorise.PivotGrid.Utilities;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
+#endregion
+
+namespace Blazorise.PivotGrid.Components;
+
+/// <summary>
+/// Internal PivotGrid table renderer.
+/// </summary>
+/// <typeparam name="TItem">Item type.</typeparam>
+public partial class _PivotGridTable<TItem> : IDisposable
+{
+    private static readonly IEqualityComparer<PivotGridAxisItem<TItem>> AxisItemEqualityComparer = PivotGridAxisItemEqualityComparer<TItem>.Instance;
+    private Virtualize<PivotGridResultRow<TItem>> virtualizeRef;
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+        base.OnInitialized();
+    }
+
+    void IDisposable.Dispose()
+    {
+        LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+    }
+
+    private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
+    {
+        await InvokeAsync( StateHasChanged );
+    }
+
+    internal Task RefreshVirtualizedRows()
+        => virtualizeRef?.RefreshDataAsync() ?? Task.CompletedTask;
+
+    private int RowHeaderColumnCount
+        => UseTreeRowHeader ? 1 : System.Math.Max( 1, Result.RowFields.Count );
+
+    private bool UseTreeRowHeader
+        => PivotGrid.ExpandableRows && Result.RowFields.Count > 0;
+
+    private int HeaderRowSpan
+        => ShowValueHeaderRow ? 2 : 1;
+
+    private int ValueColumnSpan
+        => System.Math.Max( 1, Result.Aggregates.Count );
+
+    private bool ShowValueHeaderRow
+        => Result.Aggregates.Count > 1;
+
+    private IReadOnlyList<PivotGridAxisItem<TItem>> ColumnGroups
+        => Result.DataColumns
+            .Select( x => x.Column )
+            .Distinct( AxisItemEqualityComparer )
+            .ToList();
+
+    private PivotGridFieldInfo<TItem> GetRowField( int index )
+        => index < Result.RowFields.Count ? Result.RowFields[index] : null;
+
+    private string GrandTotalText
+        => PivotGrid.LocalizedGrandTotalText;
+
+    private string TotalText
+        => PivotGrid.LocalizedTotalText;
+
+    private string ValuesText
+        => PivotGrid.LocalizedValuesText;
+
+    private string GetRowHeaderCaption( int index )
+    {
+        if ( UseTreeRowHeader )
+            return string.Join( PivotGrid.GroupCaptionSeparator, Result.RowFields.Select( field => field.GetCaption() ) );
+
+        var field = GetRowField( index );
+
+        if ( field is not null )
+            return field.GetCaption();
+
+        return Result.RowFields.Count == 0 ? ValuesText : string.Empty;
+    }
+
+    private PivotGridHeaderContext<TItem> GetHeaderContext( int index )
+    {
+        var field = UseTreeRowHeader ? null : GetRowField( index );
+
+        return new(
+            field,
+            GetRowHeaderCaption( index ),
+            index,
+            [] );
+    }
+
+    private string GetColumnHeaderText( PivotGridAxisItem<TItem> column )
+    {
+        if ( column.IsGrandTotal || Result.ColumnFields.Count == 0 )
+            return Result.ColumnFields.Count == 0 ? ValuesText : GrandTotalText;
+
+        return GetAxisItemCaption( column, Result.ColumnFields, PivotGrid.ColumnGroupCaptionMode, !PivotGrid.ExpandableColumns );
+    }
+
+    private string GetAxisItemCaption( PivotGridAxisItem<TItem> axisItem, IReadOnlyList<PivotGridFieldInfo<TItem>> axisFields, PivotGridGroupCaptionMode captionMode, bool appendTotalText = true )
+    {
+        if ( axisItem.Values.Count == 0 || axisFields.Count == 0 || captionMode == PivotGridGroupCaptionMode.Hidden )
+            return string.Empty;
+
+        var level = System.Math.Min( axisItem.Level, axisFields.Count - 1 );
+
+        var text = captionMode switch
+        {
+            PivotGridGroupCaptionMode.FullPath => string.Join( PivotGrid.GroupCaptionSeparator, axisItem.Values.Take( axisFields.Count ).Select( ( value, index ) => axisFields[index].FormatValue( value ) ) ),
+            PivotGridGroupCaptionMode.Field => axisFields[level].GetCaption(),
+            _ => axisFields[level].FormatValue( axisItem.Values[System.Math.Min( level, axisItem.Values.Count - 1 )] ),
+        };
+
+        if ( appendTotalText && axisItem.IsTotal )
+            text = $"{text} {TotalText}";
+
+        return text;
+    }
+
+    private PivotGridColumnHeaderContext<TItem> GetColumnHeaderContext( PivotGridAxisItem<TItem> column )
+    {
+        if ( column.IsGrandTotal || Result.ColumnFields.Count == 0 || column.Values.Count == 0 )
+        {
+            var text = GetColumnHeaderText( column );
+
+            return new(
+                null,
+                null,
+                text,
+                text,
+                column.Level,
+                column.Values,
+                column,
+                column.Items,
+                column.IsTotal,
+                column.IsGrandTotal );
+        }
+
+        var level = System.Math.Min( column.Level, Result.ColumnFields.Count - 1 );
+        var field = Result.ColumnFields[level];
+        var value = level < column.Values.Count ? column.Values[level] : null;
+        var formattedValue = field.FormatValue( value );
+
+        return new(
+            field,
+            value,
+            formattedValue,
+            GetColumnHeaderText( column ),
+            level,
+            column.Values,
+            column,
+            column.Items,
+            column.IsTotal,
+            column.IsGrandTotal );
+    }
+
+    private static PivotGridFieldValueContext<TItem> GetColumnFieldValueContext( PivotGridColumnHeaderContext<TItem> context )
+        => new(
+            context.Field,
+            context.Value,
+            context.FormattedValue,
+            context.Level,
+            context.Path,
+            context.IsTotal,
+            context.IsGrandTotal );
+
+    private PivotGridAggregateHeaderContext<TItem> GetAggregateHeaderContext( PivotGridDataColumn<TItem> dataColumn )
+        => new(
+            dataColumn.Aggregate,
+            dataColumn.Aggregate.GetCaption(),
+            dataColumn,
+            dataColumn.Column.Values,
+            dataColumn.Column.IsTotal,
+            dataColumn.Column.IsGrandTotal );
+
+    private static PivotGridHeaderContext<TItem> GetAggregateFieldHeaderContext( PivotGridAggregateHeaderContext<TItem> context )
+        => new(
+            context.Aggregate,
+            context.Caption,
+            0,
+            context.ColumnValues );
+
+    private Background GetRowHeaderBackground( PivotGridAxisItem<TItem> row )
+        => Background.Default;
+
+    private TextWeight GetRowHeaderTextWeight( PivotGridAxisItem<TItem> row )
+        => row.IsTotal || row.IsGrandTotal ? TextWeight.Bold : TextWeight.Default;
+
+    private PivotGridCellStyling GetColumnHeaderStyling( PivotGridColumnHeaderContext<TItem> context )
+    {
+        var styling = new PivotGridCellStyling
+        {
+            Background = Background.Body,
+            TextWeight = TextWeight.Bold,
+        };
+
+        PivotGrid.ColumnHeaderStyling?.Invoke( context, styling );
+
+        return styling;
+    }
+
+    private PivotGridCellStyling GetRowHeaderStyling( PivotGridRowHeaderContext<TItem> context )
+    {
+        var styling = new PivotGridCellStyling
+        {
+            Background = GetRowHeaderBackground( context.Row ),
+            TextWeight = GetRowHeaderTextWeight( context.Row ),
+        };
+
+        PivotGrid.RowHeaderStyling?.Invoke( context, styling );
+
+        return styling;
+    }
+
+    private IconName GetRowExpansionIcon( PivotGridAxisItem<TItem> row )
+        => PivotGrid.IsRowExpanded( row ) ? IconName.ChevronDown : IconName.ChevronRight;
+
+    private IconName GetColumnExpansionIcon( PivotGridAxisItem<TItem> column )
+        => PivotGrid.IsColumnExpanded( column ) ? IconName.ChevronDown : IconName.ChevronRight;
+
+    private string GetRowExpansionLabel( PivotGridAxisItem<TItem> row )
+        => PivotGrid.IsRowExpanded( row )
+            ? PivotGrid.LocalizedCollapseRowText
+            : PivotGrid.LocalizedExpandRowText;
+
+    private string GetColumnExpansionLabel( PivotGridAxisItem<TItem> column )
+        => PivotGrid.IsColumnExpanded( column )
+            ? PivotGrid.LocalizedCollapseColumnText
+            : PivotGrid.LocalizedExpandColumnText;
+
+    private bool IsRowTreeCell( PivotGridAxisItem<TItem> row, int index )
+        => UseTreeRowHeader
+            && !row.IsGrandTotal
+            && index == 0;
+
+    private PivotGridRowHeaderContext<TItem> GetRowHeaderContext( PivotGridResultRow<TItem> resultRow, int index )
+    {
+        var row = resultRow.Row;
+        var level = UseTreeRowHeader
+            ? System.Math.Min( row.Level, Result.RowFields.Count - 1 )
+            : index;
+        var field = GetRowField( level );
+
+        if ( row.IsGrandTotal )
+        {
+            var grandTotalText = UseTreeRowHeader || index == 0 ? GrandTotalText : string.Empty;
+
+            return new(
+                field,
+                null,
+                grandTotalText,
+                grandTotalText,
+                level,
+                row.Values,
+                row,
+                row.Items,
+                false,
+                true );
+        }
+
+        if ( !UseTreeRowHeader && ( index > row.Level || index >= Result.RowFields.Count ) )
+        {
+            return new(
+                field,
+                null,
+                string.Empty,
+                string.Empty,
+                index,
+                row.Values,
+                row,
+                row.Items,
+                false,
+                false );
+        }
+
+        var value = level < row.Values.Count
+            ? row.Values[level]
+            : resultRow.Row.Items.Count > 0
+                ? field.GetValue( resultRow.Row.Items[0] )
+                : null;
+
+        var formattedValue = field.FormatValue( value );
+        var text = UseTreeRowHeader
+            ? GetAxisItemCaption( row, Result.RowFields, PivotGrid.RowGroupCaptionMode, false )
+            : formattedValue;
+
+        if ( !UseTreeRowHeader && row.IsTotal && level == row.Level )
+            text = $"{text} {TotalText}";
+
+        return new(
+            field,
+            value,
+            formattedValue,
+            text,
+            level,
+            row.Values,
+            row,
+            row.Items,
+            row.IsTotal,
+            row.IsGrandTotal );
+    }
+
+    private static PivotGridFieldValueContext<TItem> GetRowFieldValueContext( PivotGridRowHeaderContext<TItem> context )
+        => new(
+            context.Field,
+            context.Value,
+            context.FormattedValue,
+            context.Level,
+            context.Path,
+            context.IsTotal,
+            context.IsGrandTotal );
+
+    /// <summary>
+    /// Pivot result to render.
+    /// </summary>
+    [Parameter] public PivotGridResult<TItem> Result { get; set; }
+
+    /// <summary>
+    /// Defines whether table cells have borders.
+    /// </summary>
+    [Parameter] public bool Bordered { get; set; }
+
+    /// <summary>
+    /// Defines whether rows are striped.
+    /// </summary>
+    [Parameter] public bool Striped { get; set; }
+
+    /// <summary>
+    /// Defines whether rows show hover styling.
+    /// </summary>
+    [Parameter] public bool Hoverable { get; set; }
+
+    /// <summary>
+    /// Defines whether cells use narrow spacing.
+    /// </summary>
+    [Parameter] public bool Narrow { get; set; }
+
+    /// <summary>
+    /// Defines whether table is responsive.
+    /// </summary>
+    [Parameter] public bool Responsive { get; set; }
+
+    /// <summary>
+    /// Defines header theme contrast.
+    /// </summary>
+    [Parameter] public ThemeContrast HeaderThemeContrast { get; set; }
+
+    /// <summary>
+    /// Parent PivotGrid component.
+    /// </summary>
+    [CascadingParameter] public PivotGrid<TItem> PivotGrid { get; set; }
+
+    /// <summary>
+    /// Gets text localizer service.
+    /// </summary>
+    [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+}

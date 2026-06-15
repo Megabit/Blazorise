@@ -84,11 +84,41 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Point colors">
+        Use <Code>Colors</Code> to assign colors by data point index. The first color is used for the first resolved value, the second color for the second value, and so on. If the color belongs to the item itself, use <Code>PointColor</Code> instead so the color follows the item when the data changes.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgBarChartPointColorsExample" Outlined FullWidth>
+        <SvgBarChartPointColorsExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Line chart">
         Use a line chart to show a trend across ordered categories.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Code="SvgLineChartExample" Outlined FullWidth>
         <SvgLineChartExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Axis label density" New>
+        Use label options to limit crowded category and time axes while preserving readable labels.
+    </DocsPageSectionHeader>
+    <DocsPageParagraph>
+        Automatic skipping is enabled by default. Use <Code>MaxTicksLimit</Code>, <Code>AutoRotate</Code>, and <Code>MaxRotation</Code> to tune label density, or set <Code>AutoSkip</Code> to <Code>false</Code> when every label should be rendered. The <Code>Step</Code> option still acts as a manual minimum interval.
+    </DocsPageParagraph>
+    <DocsPageSectionContent Code="SvgAxisLabelDensityChartExample" Outlined FullWidth>
+        <SvgAxisLabelDensityChartExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Interpolation" New>
+        Use <Code>Interpolation</Code> on line or area series to control how points are connected. The default mode is <Code>SvgChartInterpolationMode.Linear</Code>; use <Code>Monotone</Code> for smooth curves that preserve point direction, or one of the step modes for stepped trends. Area series use the same interpolation for the filled boundary path.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="SvgLineChartInterpolationExample" Outlined FullWidth>
+        <SvgLineChartInterpolationExample />
     </DocsPageSectionContent>
 </DocsPageSection>
 

@@ -1,0 +1,414 @@
+﻿<svg viewBox="0 0 320 150" preserveAspectRatio="xMidYMid slice" width="100%" height="150" role="img" aria-label="@AriaLabel" style="@SvgStyle">
+    <defs>
+        <linearGradient id="@FillId" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="@Surface" />
+            <stop offset="100%" stop-color="@SurfaceSubtle" />
+        </linearGradient>
+        <linearGradient id="@AccentFillId" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stop-color="@Primary" />
+            <stop offset="100%" stop-color="@PrimaryDark" />
+        </linearGradient>
+        <filter id="@ShadowId" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="@ShadowColor" flood-opacity=".12" />
+        </filter>
+    </defs>
+
+    <rect width="320" height="150" fill="url(#@FillId)" />
+    <circle cx="282" cy="28" r="38" fill="@PrimarySoft" opacity=".75" />
+    <circle cx="56" cy="130" r="46" fill="@InfoSoft" opacity=".45" />
+
+    @switch ( Slug )
+    {
+        case "accordion":
+            <g fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)">
+                <rect x="72" y="32" width="176" height="26" rx="6" />
+                <rect x="72" y="66" width="176" height="50" rx="6" />
+            </g>
+            <path d="M226 43l7 7 7-7" fill="none" stroke="@PrimaryStrong" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M92 84h92M92 99h66" stroke="@Primary" stroke-width="5" stroke-linecap="round" />
+            break;
+        case "addon":
+            <rect x="62" y="62" width="224" height="42" rx="7" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="62" y="62" width="54" height="42" rx="7" fill="@PrimarySoft" stroke="@Primary" stroke-width="2" />
+            <rect x="230" y="62" width="56" height="42" rx="7" fill="@PrimarySoft" stroke="@Primary" stroke-width="2" />
+            <path d="M134 83h80M82 83h16M249 83h18" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            break;
+        case "alert":
+            <rect x="58" y="52" width="224" height="58" rx="9" fill="@WarningSoft" stroke="@Warning" stroke-width="2" filter="url(#@ShadowId)" />
+            <circle cx="88" cy="81" r="13" fill="@Warning" />
+            <path d="M88 72v10M88 88h.1M112 72h118M112 91h78" stroke="@WarningText" stroke-width="5" stroke-linecap="round" />
+            break;
+        case "badge":
+            <rect x="72" y="54" width="84" height="34" rx="17" fill="url(#@AccentFillId)" filter="url(#@ShadowId)" />
+            <rect x="170" y="54" width="78" height="34" rx="17" fill="@Surface" stroke="@Primary" stroke-width="2" />
+            <circle cx="238" cy="48" r="15" fill="@Danger" />
+            <path d="M96 71h34M190 71h26" stroke="@Surface" stroke-width="5" stroke-linecap="round" />
+            <path d="M238 42v12" stroke="@Surface" stroke-width="4" stroke-linecap="round" />
+            break;
+        case "bar":
+            <rect x="48" y="47" width="244" height="54" rx="10" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <circle cx="74" cy="74" r="11" fill="url(#@AccentFillId)" />
+            <path d="M102 74h44M168 74h32M224 74h34" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            <path d="M264 68l7 7 7-7" fill="none" stroke="@PrimaryStrong" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            break;
+        case "breakpoint-observer":
+            <rect x="64" y="42" width="116" height="70" rx="8" fill="@Surface" stroke="@Primary" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="198" y="56" width="52" height="68" rx="8" fill="@Surface" stroke="@Primary" stroke-width="2" />
+            <rect x="256" y="68" width="26" height="48" rx="6" fill="@Surface" stroke="@Primary" stroke-width="2" />
+            <path d="M86 66h74M86 84h46M211 75h26M264 82h10" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            break;
+        case "breadcrumb":
+            <path d="M62 76h34l18 18 18-18h34l18 18 18-18h56" fill="none" stroke="@Primary" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="82" cy="76" r="10" fill="@Surface" stroke="@PrimaryStrong" stroke-width="3" />
+            <circle cx="150" cy="76" r="10" fill="@Surface" stroke="@PrimaryStrong" stroke-width="3" />
+            <circle cx="218" cy="76" r="10" fill="url(#@AccentFillId)" />
+            break;
+        case "button":
+            <rect x="96" y="56" width="122" height="48" rx="10" fill="url(#@AccentFillId)" filter="url(#@ShadowId)" />
+            <rect x="228" y="56" width="54" height="48" rx="10" fill="@Surface" stroke="@PrimaryMuted" stroke-width="2" />
+            <path d="M126 80h62M244 80h20" stroke="@Surface" stroke-width="7" stroke-linecap="round" />
+            break;
+        case "card":
+            <rect x="82" y="28" width="156" height="100" rx="10" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="82" y="28" width="156" height="45" rx="10" fill="@PrimarySoft" />
+            <circle cx="116" cy="51" r="12" fill="url(#@AccentFillId)" />
+            <path d="M102 91h82M102 108h56" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            break;
+        case "carousel":
+            <rect x="62" y="34" width="196" height="92" rx="12" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="82" y="52" width="156" height="48" rx="8" fill="@PrimarySoft" stroke="@Primary" stroke-width="2" />
+            <path d="M82 76l-13 12V64zM238 76l13-12v24z" fill="@PrimaryStrong" />
+            <circle cx="145" cy="114" r="4" fill="@PrimaryStrong" /><circle cx="160" cy="114" r="4" fill="@PrimarySubtle" /><circle cx="175" cy="114" r="4" fill="@PrimarySubtle" />
+            break;
+        case "check":
+            <rect x="138" y="58" width="44" height="44" rx="8" fill="url(#@AccentFillId)" filter="url(#@ShadowId)" />
+            <path d="M149 80l9 10 22-25" fill="none" stroke="@Surface" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+            break;
+        case "close-button":
+            <circle cx="160" cy="76" r="34" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M146 62l28 28M174 62l-28 28" stroke="@PrimaryStrong" stroke-width="7" stroke-linecap="round" />
+            break;
+        case "color-input":
+            <rect x="72" y="58" width="176" height="40" rx="8" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="88" y="66" width="28" height="24" rx="5" fill="@Primary" />
+            <path d="M132 78h80" stroke="@PrimaryMuted" stroke-width="6" stroke-linecap="round" />
+            break;
+        case "color-picker":
+            <rect x="86" y="36" width="148" height="88" rx="12" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <circle cx="126" cy="76" r="22" fill="@Primary" />
+            <circle cx="160" cy="76" r="22" fill="@Success" />
+            <circle cx="194" cy="76" r="22" fill="@Warning" />
+            <path d="M104 112h112" stroke="@Danger" stroke-width="6" stroke-linecap="round" />
+            break;
+        case "date-input":
+            <rect x="78" y="38" width="164" height="86" rx="10" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="78" y="38" width="164" height="26" rx="10" fill="@PrimarySoft" />
+            <path d="M110 29v18M220 29v18" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            <g fill="@Primary"><rect x="100" y="76" width="18" height="14" rx="3" /><rect x="132" y="76" width="18" height="14" rx="3" /><rect x="164" y="76" width="18" height="14" rx="3" /><rect x="196" y="76" width="18" height="14" rx="3" /><rect x="100" y="100" width="18" height="14" rx="3" /></g>
+            break;
+        case "date-picker":
+            <rect x="70" y="30" width="180" height="34" rx="8" fill="@Surface" stroke="@Primary" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M94 47h98M218 42l7 8 7-8" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+            <rect x="86" y="76" width="148" height="74" rx="9" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="86" y="76" width="148" height="22" rx="9" fill="@PrimarySoft" />
+            <g fill="@Primary"><rect x="106" y="108" width="16" height="12" rx="3" /><rect x="134" y="108" width="16" height="12" rx="3" /><rect x="162" y="108" width="16" height="12" rx="3" /><rect x="190" y="108" width="16" height="12" rx="3" /><rect x="134" y="128" width="16" height="12" rx="3" /></g>
+            break;
+        case "divider":
+            <path d="M60 76h84M176 76h84" stroke="@Border" stroke-width="4" stroke-linecap="round" />
+            <rect x="146" y="63" width="28" height="28" rx="14" fill="@Surface" stroke="@Primary" stroke-width="2" />
+            <path d="M154 76h12" stroke="@PrimaryStrong" stroke-width="4" stroke-linecap="round" />
+            break;
+        case "drag-drop":
+            <rect x="76" y="42" width="76" height="78" rx="9" fill="@Surface" stroke="@Primary" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="198" y="42" width="76" height="78" rx="9" fill="@Surface" stroke="@Border" stroke-width="2" />
+            <path d="M114 62v38M95 81h38M163 81h48" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            <path d="M211 81l-10-10M211 81l-10 10" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            break;
+        case "dropdown":
+        case "select":
+            <rect x="78" y="36" width="164" height="38" rx="8" fill="@Surface" stroke="@Primary" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="78" y="78" width="164" height="62" rx="8" fill="@Surface" stroke="@Border" stroke-width="2" />
+            <path d="M96 55h88M216 51l7 8 7-8M96 96h96M96 116h64" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+            break;
+        case "field":
+            <rect x="78" y="52" width="164" height="54" rx="8" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M92 39h54M96 78h112M96 122h76" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            <circle cx="228" cy="78" r="8" fill="@Success" />
+            break;
+        case "figure":
+            <rect x="82" y="34" width="156" height="82" rx="8" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M98 94l36-34 30 28 16-16 38 34" fill="@PrimarySoft" stroke="@Primary" stroke-width="3" stroke-linejoin="round" />
+            <circle cx="198" cy="55" r="10" fill="@Warning" />
+            <path d="M112 129h96" stroke="@Muted" stroke-width="5" stroke-linecap="round" />
+            break;
+        case "file-input":
+            <rect x="74" y="52" width="172" height="58" rx="9" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M112 44v58h56V62l-18-18z" fill="@PrimarySoft" stroke="@Primary" stroke-width="2" stroke-linejoin="round" />
+            <path d="M150 44v18h18M186 72h40M186 91h26" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+            break;
+        case "file-picker":
+            <rect x="62" y="40" width="196" height="92" rx="10" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M88 66h72M88 92h104M88 116h58" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            <rect x="190" y="62" width="36" height="42" rx="6" fill="@PrimarySoft" stroke="@Primary" stroke-width="2" />
+            <path d="M204 74v18M195 83h18" stroke="@PrimaryStrong" stroke-width="4" stroke-linecap="round" />
+            <path d="M88 132h118" stroke="@Success" stroke-width="6" stroke-linecap="round" />
+            break;
+        case "focus-trap":
+        case "modal":
+            <rect x="52" y="30" width="216" height="98" rx="12" fill="@Overlay" opacity=".16" />
+            <rect x="84" y="44" width="152" height="82" rx="10" fill="@Surface" stroke="@Primary" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M110 70h88M110 92h60" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            <rect x="112" y="105" width="46" height="14" rx="7" fill="@Primary" />
+            break;
+        case "gestures":
+            <path d="M96 94c32-40 70-40 108 0" fill="none" stroke="@Border" stroke-width="10" stroke-linecap="round" />
+            <path d="M105 84c28-28 56-28 84 0" fill="none" stroke="@Primary" stroke-width="8" stroke-linecap="round" />
+            <path d="M209 81l20 13-20 13" fill="none" stroke="@PrimaryStrong" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="100" cy="96" r="10" fill="@PrimaryStrong" />
+            break;
+        case "grid":
+            <g fill="@Surface" stroke="@Primary" stroke-width="2" filter="url(#@ShadowId)">
+                <rect x="66" y="38" width="72" height="44" rx="7" /><rect x="150" y="38" width="104" height="44" rx="7" /><rect x="66" y="94" width="118" height="38" rx="7" /><rect x="196" y="94" width="58" height="38" rx="7" />
+            </g>
+            break;
+        case "highlighter":
+            <rect x="70" y="46" width="180" height="78" rx="9" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="134" y="62" width="66" height="14" rx="7" fill="@Highlight" />
+            <path d="M92 69h126M92 90h98M92 110h132" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" opacity=".9" />
+            break;
+        case "jumbotron":
+            <rect x="54" y="34" width="212" height="92" rx="14" fill="@PrimarySoft" stroke="@Primary" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M86 66h112M86 86h74" stroke="@PrimaryStrong" stroke-width="7" stroke-linecap="round" />
+            <rect x="86" y="101" width="58" height="18" rx="9" fill="url(#@AccentFillId)" />
+            break;
+        case "layout":
+            <rect x="62" y="34" width="196" height="100" rx="10" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="62" y="34" width="196" height="24" rx="10" fill="@Primary" />
+            <rect x="62" y="58" width="48" height="76" fill="@PrimarySoft" />
+            <path d="M130 78h72M130 98h54" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            break;
+        case "link":
+            <path d="M111 86l-14 14a28 28 0 0 1-40-40l24-24a28 28 0 0 1 40 0" fill="none" stroke="@Primary" stroke-width="8" stroke-linecap="round" />
+            <path d="M209 64l14-14a28 28 0 0 1 40 40l-24 24a28 28 0 0 1-40 0" fill="none" stroke="@PrimaryStrong" stroke-width="8" stroke-linecap="round" />
+            <path d="M116 92l68-68" stroke="@PrimarySubtle" stroke-width="8" stroke-linecap="round" />
+            break;
+        case "list-group":
+        case "repeater":
+            <rect x="76" y="34" width="168" height="100" rx="9" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <g fill="@Primary"><circle cx="102" cy="60" r="7" /><circle cx="102" cy="84" r="7" /><circle cx="102" cy="108" r="7" /></g>
+            <path d="M124 60h78M124 84h96M124 108h64" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            break;
+        case "input-mask":
+        case "text-input":
+            <rect x="72" y="58" width="176" height="44" rx="8" fill="@Surface" stroke="@Primary" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M96 80h34M146 80h10M172 80h10M198 80h24" stroke="@PrimaryStrong" stroke-width="6" stroke-linecap="round" />
+            break;
+        case "memo-input":
+            <rect x="76" y="42" width="168" height="86" rx="8" fill="@Surface" stroke="@Primary" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M100 68h98M100 88h118M100 108h70" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            break;
+        case "numeric-input":
+        case "numeric-picker":
+            <rect x="78" y="58" width="164" height="44" rx="8" fill="@Surface" stroke="@Primary" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M106 80h48M202 66v28M190 80h24" stroke="@PrimaryStrong" stroke-width="6" stroke-linecap="round" />
+            <path d="M228 69l7-7 7 7M228 91l7 7 7-7" stroke="@Primary" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            break;
+        case "offcanvas":
+            <rect x="58" y="30" width="204" height="104" rx="10" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="58" y="30" width="72" height="104" rx="10" fill="@PrimarySoft" stroke="@Primary" stroke-width="2" />
+            <path d="M82 58h44M82 80h34M82 102h44M150 62h78M150 86h52" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            break;
+        case "on-screen-keyboard":
+            <rect x="70" y="30" width="180" height="30" rx="7" fill="@Surface" stroke="@Primary" stroke-width="2" />
+            <g fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)">
+                <rect x="76" y="76" width="28" height="18" rx="4" /><rect x="112" y="76" width="28" height="18" rx="4" /><rect x="148" y="76" width="28" height="18" rx="4" /><rect x="184" y="76" width="28" height="18" rx="4" /><rect x="220" y="76" width="28" height="18" rx="4" /><rect x="96" y="104" width="128" height="18" rx="4" />
+            </g>
+            <path d="M94 45h72" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            break;
+        case "pagination":
+            <g fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)">
+                <rect x="62" y="64" width="36" height="36" rx="8" /><rect x="106" y="64" width="36" height="36" rx="8" /><rect x="150" y="64" width="36" height="36" rx="8" /><rect x="194" y="64" width="36" height="36" rx="8" /><rect x="238" y="64" width="36" height="36" rx="8" />
+            </g>
+            <rect x="150" y="64" width="36" height="36" rx="8" fill="url(#@AccentFillId)" />
+            <path d="M78 82h8M122 82h8M166 82h8M210 82h8M254 82h8" stroke="@PrimaryStrong" stroke-width="4" stroke-linecap="round" />
+            break;
+        case "progress":
+            <rect x="70" y="70" width="180" height="16" rx="8" fill="@Neutral" />
+            <rect x="70" y="70" width="118" height="16" rx="8" fill="url(#@AccentFillId)" />
+            <circle cx="188" cy="78" r="18" fill="@Surface" stroke="@Primary" stroke-width="4" filter="url(#@ShadowId)" />
+            break;
+        case "radio":
+            <g fill="@Surface" stroke="@Primary" stroke-width="3">
+                <circle cx="94" cy="54" r="11" /><circle cx="94" cy="80" r="11" /><circle cx="94" cy="106" r="11" />
+            </g>
+            <circle cx="94" cy="54" r="6" fill="@PrimaryStrong" />
+            <path d="M118 54h92M118 80h72M118 106h104" stroke="@PrimaryMuted" stroke-width="6" stroke-linecap="round" />
+            break;
+        case "rating":
+            <g fill="@Primary" stroke="@PrimaryStrong" stroke-width="2">
+                <polygon points="82,54 90,72 110,72 94,84 100,104 82,92 64,104 70,84 54,72 74,72" />
+                <polygon points="124,54 132,72 152,72 136,84 142,104 124,92 106,104 112,84 96,72 116,72" />
+            </g>
+            <g fill="@Surface" stroke="@Primary" stroke-width="2">
+                <polygon points="166,54 174,72 194,72 178,84 184,104 166,92 148,104 154,84 138,72 158,72" />
+                <polygon points="208,54 216,72 236,72 220,84 226,104 208,92 190,104 196,84 180,72 200,72" />
+                <polygon points="250,54 258,72 278,72 262,84 268,104 250,92 232,104 238,84 222,72 242,72" />
+            </g>
+            break;
+        case "skeleton":
+            <rect x="72" y="44" width="176" height="88" rx="10" fill="@Surface" stroke="@Neutral" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M98 68h132M98 90h104M98 112h74" stroke="@Neutral" stroke-width="10" stroke-linecap="round" />
+            <circle cx="90" cy="68" r="8" fill="@Neutral" />
+            break;
+        case "slider":
+            <path d="M72 78h176" stroke="@Neutral" stroke-width="8" stroke-linecap="round" />
+            <path d="M72 78h98" stroke="@Primary" stroke-width="8" stroke-linecap="round" />
+            <circle cx="170" cy="78" r="14" fill="url(#@AccentFillId)" filter="url(#@ShadowId)" />
+            break;
+        case "range-slider":
+            <path d="M72 78h176" stroke="@Neutral" stroke-width="8" stroke-linecap="round" />
+            <path d="M112 78h96" stroke="@Primary" stroke-width="8" stroke-linecap="round" />
+            <circle cx="112" cy="78" r="13" fill="@Surface" stroke="@Primary" stroke-width="4" />
+            <circle cx="208" cy="78" r="13" fill="url(#@AccentFillId)" />
+            break;
+        case "step":
+            <path d="M82 76h156" stroke="@Border" stroke-width="5" stroke-linecap="round" />
+            <g fill="@Surface" stroke="@Primary" stroke-width="4">
+                <circle cx="82" cy="76" r="18" /><circle cx="160" cy="76" r="18" /><circle cx="238" cy="76" r="18" />
+            </g>
+            <circle cx="82" cy="76" r="18" fill="url(#@AccentFillId)" />
+            <path d="M75 76l6 6 12-15M154 76h12M232 76h12" stroke="@Surface" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+            break;
+        case "switch":
+            <rect x="110" y="58" width="100" height="44" rx="22" fill="@Primary" filter="url(#@ShadowId)" />
+            <circle cx="188" cy="80" r="17" fill="@Surface" />
+            <path d="M74 80h38M210 80h38" stroke="@PrimaryMuted" stroke-width="6" stroke-linecap="round" />
+            break;
+        case "tab":
+            <rect x="68" y="48" width="184" height="82" rx="9" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="68" y="48" width="62" height="28" rx="9" fill="url(#@AccentFillId)" />
+            <rect x="130" y="48" width="62" height="28" fill="@PrimarySoft" />
+            <rect x="192" y="48" width="60" height="28" rx="9" fill="@PrimarySoft" />
+            <path d="M94 62h30M152 62h20M212 62h18M92 98h120" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            break;
+        case "table":
+            <rect x="68" y="38" width="184" height="100" rx="9" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="68" y="38" width="184" height="28" rx="9" fill="@PrimarySoft" />
+            <path d="M68 66h184M68 94h184M68 122h184M116 38v100M182 38v100" stroke="@Primary" stroke-width="2" />
+            break;
+        case "time-input":
+            <rect x="76" y="56" width="168" height="46" rx="8" fill="@Surface" stroke="@Primary" stroke-width="2" filter="url(#@ShadowId)" />
+            <circle cx="208" cy="79" r="17" fill="@PrimarySoft" stroke="@Primary" stroke-width="2" />
+            <path d="M96 79h74M208 68v12l8 6" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+            break;
+        case "time-picker":
+            <rect x="66" y="34" width="154" height="38" rx="8" fill="@Surface" stroke="@Primary" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M90 53h74M190 47l7 8 7-8" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="160" cy="112" r="38" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M160 88v27l20 11" stroke="@PrimaryStrong" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M160 74v8M160 142v8M122 112h8M228 112h8" stroke="@Primary" stroke-width="4" stroke-linecap="round" />
+            break;
+        case "toast":
+            <rect x="90" y="50" width="154" height="62" rx="10" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <rect x="90" y="50" width="10" height="62" rx="5" fill="@Primary" />
+            <path d="M118 72h96M118 92h62M222 64l12 12M234 64l-12 12" stroke="@PrimaryStrong" stroke-width="4" stroke-linecap="round" />
+            break;
+        case "tooltip":
+            <rect x="90" y="44" width="140" height="46" rx="9" fill="@Overlay" filter="url(#@ShadowId)" />
+            <path d="M152 90l8 14 8-14" fill="@Overlay" />
+            <path d="M118 67h84" stroke="@Surface" stroke-width="5" stroke-linecap="round" />
+            <circle cx="160" cy="118" r="10" fill="url(#@AccentFillId)" />
+            break;
+        case "typography":
+            <path d="M78 66l18-36 18 36M86 52h28" fill="none" stroke="@PrimaryStrong" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M128 46c7-8 24-8 24 8v20M152 58c-7-5-28-4-28 8 0 14 22 13 28 4" fill="none" stroke="@PrimaryStrong" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M78 90h164M78 112h118" stroke="@Primary" stroke-width="8" stroke-linecap="round" />
+            <path d="M150 54h88" stroke="@PrimarySubtle" stroke-width="7" stroke-linecap="round" />
+            break;
+        case "validation":
+            <rect x="74" y="38" width="172" height="92" rx="10" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M98 62h98M98 90h80M98 116h106" stroke="@PrimaryStrong" stroke-width="5" stroke-linecap="round" />
+            <circle cx="224" cy="62" r="9" fill="@Success" />
+            <path d="M219 62l4 4 8-10" stroke="@Surface" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="204" cy="90" r="9" fill="@Danger" />
+            <path d="M200 86l8 8M208 86l-8 8" stroke="@Surface" stroke-width="3" stroke-linecap="round" />
+            break;
+        default:
+            <rect x="82" y="38" width="156" height="90" rx="12" fill="@Surface" stroke="@Border" stroke-width="2" filter="url(#@ShadowId)" />
+            <path d="M108 66h108M108 88h78M108 110h52" stroke="@PrimaryStrong" stroke-width="6" stroke-linecap="round" />
+            <circle cx="226" cy="50" r="16" fill="url(#@AccentFillId)" />
+            break;
+    }
+</svg>
+
+@code {
+    [Parameter] public string For { get; set; }
+
+    [Parameter] public string Name { get; set; }
+
+    private string Slug
+    {
+        get
+        {
+            var segments = ( For ?? string.Empty ).Split( '/', StringSplitOptions.RemoveEmptyEntries );
+
+            return segments.Length == 0 ? string.Empty : segments[^1];
+        }
+    }
+
+    private string AriaLabel => $"{Name} component illustration";
+
+    private string IdSuffix => Slug.Replace( "-", "", StringComparison.Ordinal );
+
+    private string FillId => $"docsComponentIllustrationFill{IdSuffix}";
+
+    private string AccentFillId => $"docsComponentIllustrationAccent{IdSuffix}";
+
+    private string ShadowId => $"docsComponentIllustrationShadow{IdSuffix}";
+
+    private string SvgStyle => $"display:block;border-bottom:1px solid {Rule};background:{Canvas}";
+
+    private const string Canvas = "var(--b-theme-light, #fbfcff)";
+
+    private const string Surface = "var(--b-theme-light, #ffffff)";
+
+    private const string SurfaceSubtle = "var(--b-theme-background-light-subtle, #f4f7fb)";
+
+    private const string Border = "var(--b-theme-border-secondary-subtle, #cfd7e6)";
+
+    private const string Rule = "var(--b-theme-border-light-subtle, #e9edf5)";
+
+    private const string Neutral = "var(--b-theme-background-secondary-subtle, #e5e7eb)";
+
+    private const string Muted = "var(--b-theme-secondary, #94a3b8)";
+
+    private const string Overlay = "var(--b-theme-dark, #111827)";
+
+    private const string ShadowColor = "var(--b-theme-dark, #1f2937)";
+
+    private const string Primary = "var(--b-theme-primary, #8b5cf6)";
+
+    private const string PrimaryStrong = "var(--b-theme-primary, #6d28d9)";
+
+    private const string PrimaryDark = "var(--b-theme-primary, #4f46e5)";
+
+    private const string PrimarySoft = "var(--b-theme-background-primary-subtle, #eef2ff)";
+
+    private const string PrimaryMuted = "var(--b-theme-border-primary-subtle, #d8b4fe)";
+
+    private const string PrimarySubtle = "var(--b-theme-background-primary-subtle, #c4b5fd)";
+
+    private const string InfoSoft = "var(--b-theme-background-info-subtle, #e0f2fe)";
+
+    private const string Success = "var(--b-theme-success, #22c55e)";
+
+    private const string Danger = "var(--b-theme-danger, #ef4444)";
+
+    private const string Warning = "var(--b-theme-warning, #f59e0b)";
+
+    private const string WarningSoft = "var(--b-theme-background-warning-subtle, #fff7ed)";
+
+    private const string WarningText = "var(--b-theme-text-warning-emphasis, #92400e)";
+
+    private const string Highlight = "var(--b-theme-background-warning-subtle, #fef08a)";
+}

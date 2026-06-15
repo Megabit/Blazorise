@@ -1475,10 +1475,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( BatchEdit )
         {
             batchChanges ??= new();
-            var existingBatchItem = GetBatchEditItemByLastEditItem( item );
+            var existingBatchItem = GetBatchEditItem( item );
             if ( existingBatchItem is null )
             {
-                batchChanges.Add( new DataGridBatchEditItem<TItem>( item, item, DataGridBatchEditItemState.Delete ) );
+                existingBatchItem = new DataGridBatchEditItem<TItem>( item, item, DataGridBatchEditItemState.Delete );
+                batchChanges.Add( existingBatchItem );
             }
             else
             {
@@ -1541,6 +1542,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         => batchChanges?.Find( x => x.NewItem.IsEqual( item ) );
 
     /// <summary>
+    /// Gets the corresponding batch edit item by either the last edited item or the original item if it exists.
+    /// </summary>
+    public DataGridBatchEditItem<TItem> GetBatchEditItem( TItem item )
+        => GetBatchEditItemByLastEditItem( item ) ?? GetBatchEditItemByOriginal( item );
+
+    /// <summary>
     /// Save the internal state of the editing items.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -1588,6 +1595,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     protected internal async Task SaveBatch()
     {
+        if ( editState != DataGridEditState.None )
+        {
+            await SaveInternal();
+
+            if ( editState != DataGridEditState.None )
+                return;
+        }
+
         if ( batchChanges.IsNullOrEmpty() )
             return;
 
@@ -1704,7 +1719,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         SetItemEditedValues( editItemClone );
 
         batchChanges ??= new();
-        var batchItem = GetBatchEditItemByLastEditItem( editItem );
+        var batchItem = GetBatchEditItem( editItem );
 
         if ( batchItem is null )
         {
@@ -1783,7 +1798,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         foreach ( var column in EditableColumns )
         {
-            column.SetValue( item, values[column.Field].CellValue );
+            if ( values.TryGetValue( column.Field, out var value ) && value.Modified )
+                column.SetValue( item, value.CellValue );
         }
     }
 
@@ -2399,7 +2415,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         await SelectRow( item, true );
 
         var batchEditItem = BatchEdit
-            ? GetBatchEditItemByLastEditItem( item ) ?? GetBatchEditItemByOriginal( item )
+            ? GetBatchEditItem( item )
             : null;
 
 
@@ -2419,8 +2435,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             if ( BatchEdit )
             {
                 batchEditItem = batchEditItem ??
-                    GetBatchEditItemByLastEditItem( item ) ??
-                    GetBatchEditItemByOriginal( item );
+                    GetBatchEditItem( item );
 
                 if ( batchEditItem is not null )
                 {

@@ -49,11 +49,6 @@ internal class MockButton : Button
         get { return base.IsAddons; }
     }
 
-    public Task Click()
-    {
-        return ClickHandler( new MouseEventArgs() );
-    }
-
     private bool OnFocusCalled( ElementReference elementReference, string elementId, bool scrollToElement )
     {
         this.FocusedId = elementId;

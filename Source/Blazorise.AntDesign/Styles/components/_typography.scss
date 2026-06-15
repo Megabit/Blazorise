@@ -70,3 +70,12 @@
         font-style: normal;
     }
 }
+
+code {
+    margin: 0 var(--ant-line-width);
+    padding: 0.2em 0.4em;
+    font-size: 0.9em;
+    background: var(--ant-color-fill-tertiary);
+    border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-split);
+    border-radius: var(--ant-border-radius-sm);
+}

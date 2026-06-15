@@ -60,6 +60,8 @@ public class NavigationExtensionsTest
     public void IsMatch_CustomTest()
     {
         var nav = new TestNavigationManager();
+        Assert.False( nav.IsMatch( "/base", Match.All, _ => false ) );
+        Assert.False( nav.IsMatch( "https://www.example.com/", Match.Prefix, _ => false ) );
         Assert.False( nav.IsMatch( "file://test.txt", Match.Prefix, _ => false ) );
         Assert.True( nav.IsMatch( "file://test.txt", Match.Prefix, _ => true ) );
     }

@@ -1,68 +1,71 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<Modal @ref="@ModalRef" @bind-Visible="@ModalVisible" Closing="@OnModalClosing" Centered="@CenterMessage" Scrollable="@ScrollableMessage" Size="@Size">
-    <ModalContent>
-        <ModalHeader>
-            <ModalTitle Class="@TitleClass">
-                @Title
-            </ModalTitle>
-            @if ( ShowCloseButton )
-            {
-                <CloseButton Clicked="@OnCancelClicked" />
-            }
-        </ModalHeader>
-        <ModalBody TextAlignment="TextAlignment.Center">
-            @if ( ShowMessageIcon )
-            {
-                <Heading Size="HeadingSize.Is2" TextAlignment="TextAlignment.Center">
-                    <Icon Name="@MessageIcon" TextColor="@MessageIconColor" />
-                </Heading>
-            }
-            <Text TextAlignment="TextAlignment.Center" Class="@MessageClass">
-                @Message
-            </Text>
-        </ModalBody>
-        <ModalFooter>
-            @if ( IsConfirmation )
-            {
-                <Button Color="@CancelButtonColor" Class="@CancelButtonClass" Padding="@CancelButtonPadding" Clicked="@OnCancelClicked">
-                    @if ( Options?.CancelButtonIcon is not null )
-                    {
-                        <Icon Name="@Options.CancelButtonIcon" TextColor="@(Options.CancelButtonIconColor ?? TextColor.Default)" Margin="Blazorise.Margin.Is2.FromEnd" />
-                    }
-                    @CancelButtonText
-                </Button>
-                <Button Color="@ConfirmButtonColor" Class="@ConfirmButtonClass" Padding="@ConfirmButtonPadding" Clicked="@OnConfirmClicked">
-                    @if ( Options?.ConfirmButtonIcon is not null )
-                    {
-                        <Icon Name="@Options.ConfirmButtonIcon" TextColor="@(Options.ConfirmButtonIconColor ?? TextColor.Default)" Margin="Blazorise.Margin.Is2.FromEnd" />
-                    }
-                    @ConfirmButtonText
-                </Button>
-            }
-            else if ( IsChoice )
-            {
-                @foreach ( var choice in Choices )
+@foreach ( var message in Messages )
+{
+    <Modal @key="@message.Id" @ref="@message.ModalRef" @bind-Visible="@message.Visible" Closing="@(( eventArgs ) => OnModalClosing( message, eventArgs ))" Closed="@(() => OnModalClosed( message ))" Centered="@GetCenterMessage( message )" Scrollable="@GetScrollableMessage( message )" Size="@GetSize( message )">
+        <ModalContent>
+            <ModalHeader>
+                <ModalTitle Class="@GetTitleClass( message )">
+                    @message.Title
+                </ModalTitle>
+                @if ( GetShowCloseButton( message ) )
                 {
-                    <Button @key="@choice.Key" Color="@choice.Color" Class="@choice.Class" Padding="@choice.Padding" Clicked="@(() => OnChoiceClicked( choice ))">
-                        @if ( choice.Icon is not null )
+                    <CloseButton Clicked="@(() => OnCancelClicked( message ))" />
+                }
+            </ModalHeader>
+            <ModalBody TextAlignment="TextAlignment.Center">
+                @if ( GetShowMessageIcon( message ) )
+                {
+                    <Heading Size="HeadingSize.Is2" TextAlignment="TextAlignment.Center">
+                        <Icon Name="@GetMessageIcon( message )" TextColor="@GetMessageIconColor( message )" />
+                    </Heading>
+                }
+                <Text TextAlignment="TextAlignment.Center" Class="@GetMessageClass( message )">
+                    @message.Message
+                </Text>
+            </ModalBody>
+            <ModalFooter>
+                @if ( IsConfirmationMessage( message ) )
+                {
+                    <Button Color="@GetCancelButtonColor( message )" Class="@GetCancelButtonClass( message )" Padding="@GetCancelButtonPadding( message )" Clicked="@(() => OnCancelClicked( message ))">
+                        @if ( message.Options?.CancelButtonIcon is not null )
                         {
-                            <Icon Name="@choice.Icon" TextColor="@(choice.IconColor ?? TextColor.Default)" Margin="Blazorise.Margin.Is2.FromEnd" />
+                            <Icon Name="@message.Options.CancelButtonIcon" TextColor="@(message.Options.CancelButtonIconColor ?? TextColor.Default)" Margin="Blazorise.Margin.Is2.FromEnd" />
                         }
-                        @choice.Text
+                        @GetCancelButtonText( message )
+                    </Button>
+                    <Button Color="@GetConfirmButtonColor( message )" Class="@GetConfirmButtonClass( message )" Padding="@GetConfirmButtonPadding( message )" Clicked="@(() => OnConfirmClicked( message ))">
+                        @if ( message.Options?.ConfirmButtonIcon is not null )
+                        {
+                            <Icon Name="@message.Options.ConfirmButtonIcon" TextColor="@(message.Options.ConfirmButtonIconColor ?? TextColor.Default)" Margin="Blazorise.Margin.Is2.FromEnd" />
+                        }
+                        @GetConfirmButtonText( message )
                     </Button>
                 }
-            }
-            else
-            {
-                <Button Color="@OkButtonColor" Class="@OkButtonClass" Padding="@OkButtonPadding" Clicked="@OnOkClicked">
-                    @if ( Options?.OkButtonIcon is not null )
+                else if ( IsChoiceMessage( message ) )
+                {
+                    @foreach ( var choice in GetChoices( message ) )
                     {
-                        <Icon Name="@Options.OkButtonIcon" TextColor="@(Options.OkButtonIconColor ?? TextColor.Default)" Margin="Blazorise.Margin.Is2.FromEnd" />
+                        <Button @key="@choice.Key" Color="@choice.Color" Class="@choice.Class" Padding="@choice.Padding" Clicked="@(() => OnChoiceClicked( message, choice ))">
+                            @if ( choice.Icon is not null )
+                            {
+                                <Icon Name="@choice.Icon" TextColor="@(choice.IconColor ?? TextColor.Default)" Margin="Blazorise.Margin.Is2.FromEnd" />
+                            }
+                            @choice.Text
+                        </Button>
                     }
-                    @OkButtonText
-                </Button>
-            }
-        </ModalFooter>
-    </ModalContent>
-</Modal>
+                }
+                else
+                {
+                    <Button Color="@GetOkButtonColor( message )" Class="@GetOkButtonClass( message )" Padding="@GetOkButtonPadding( message )" Clicked="@(() => OnOkClicked( message ))">
+                        @if ( message.Options?.OkButtonIcon is not null )
+                        {
+                            <Icon Name="@message.Options.OkButtonIcon" TextColor="@(message.Options.OkButtonIconColor ?? TextColor.Default)" Margin="Blazorise.Margin.Is2.FromEnd" />
+                        }
+                        @GetOkButtonText( message )
+                    </Button>
+                }
+            </ModalFooter>
+        </ModalContent>
+    </Modal>
+}

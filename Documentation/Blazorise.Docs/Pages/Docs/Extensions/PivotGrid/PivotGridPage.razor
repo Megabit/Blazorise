@@ -1,0 +1,199 @@
+@page "/docs/extensions/pivotgrid"
+
+<Seo Canonical="/docs/extensions/pivotgrid" Title="Blazorise PivotGrid component" Description="Analyze multi-dimensional data with the Blazorise PivotGrid component, including rows, columns, aggregates, field chooser, paging, virtualization, and styling." />
+
+<DocsPageTitle Path="Extensions/PivotGrid" AddedVersion="Added in v2.2">
+    Blazorise PivotGrid component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Build read-only Excel-like pivot tables for multi-dimensional data analysis.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    The <Code>PivotGrid</Code> component groups source records into row and column dimensions, calculates aggregate values, and renders totals and subtotals in a table layout. It is designed for analysis and reporting scenarios where users inspect summarized data instead of editing source records.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    To use the <Code>PivotGrid</Code> component, install the <Code>Blazorise.PivotGrid</Code> package first.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="PivotGridNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="PivotGridImportsExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Fundamentals
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Data Areas
+</Heading>
+
+<DocsPageParagraph>
+    PivotGrid uses declarative child components to define each data area:
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem><Code>PivotGridColumns</Code>: fields that create column groups.</UnorderedListItem>
+        <UnorderedListItem><Code>PivotGridRows</Code>: fields that create row groups.</UnorderedListItem>
+        <UnorderedListItem><Code>PivotGridAggregates</Code>: value fields that calculate totals, such as sum or count.</UnorderedListItem>
+        <UnorderedListItem><Code>PivotGridFields</Code>: optional field catalog used by the runtime field chooser.</UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Runtime Layout
+</Heading>
+
+<DocsPageParagraph>
+    Enable <Code>FieldChooser</Code> when users should rearrange the pivot layout at runtime. The field chooser lets users move available fields into rows, columns, values, and filters.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Data Loading
+</Heading>
+
+<DocsPageParagraph>
+    Bind in-memory data with <Code>Data</Code>, handle callback loading with <Code>ReadData</Code>, or provide a reusable implementation with <Code>DataProvider</Code>. A data provider can be implemented in a separate package when the data comes from a specific backend or protocol.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic Pivot Table">
+        Define columns, rows, and aggregates declaratively.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PivotGridBasicExample" Outlined FullWidth>
+        <PivotGridBasicExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Field Chooser">
+        Enable <Code>ShowToolbar</Code> and <Code>FieldChooser</Code> to show the built-in toolbar command and modal field chooser. Use <Code>ToolbarOptions</Code> to hide optional built-in toolbar buttons.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PivotGridFieldChooserExample" Outlined FullWidth>
+        <PivotGridFieldChooserExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom Toolbar">
+        Use <Code>ToolbarTemplate</Code> to replace the built-in toolbar and invoke PivotGrid commands through the toolbar context.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PivotGridCustomToolbarExample" Outlined FullWidth>
+        <PivotGridCustomToolbarExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Paging and Virtualization">
+        <Paragraph>
+            Use <Code>ShowPager</Code> for explicit page navigation, or <Code>Virtualize</Code> when users should scroll through a larger pivot result.
+        </Paragraph>
+        <Paragraph>
+            <Code>Virtualize</Code> only limits rendered rows. When using local <Code>Data</Code>, the full pivot result is still computed before rows are virtualized. For large remote datasets, use <Code>ReadData</Code> or <Code>DataProvider</Code> with <Code>PivotGridReadDataMode.Virtualize</Code> and return prepared <Code>PivotGridResult</Code> rows for the requested range.
+        </Paragraph>
+        <Paragraph>
+            The pager range reports pivot result rows. When <Code>PageByGroups</Code> is enabled, paging is based on top-level row groups instead of every expanded detail row.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PivotGridPagingVirtualizationExample" Outlined FullWidth>
+        <PivotGridPagingVirtualizationExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Remote Virtualization">
+        <Paragraph>
+            For remote virtualization, return the requested pivot result rows through <Code>Result</Code> and set <Code>TotalItems</Code> to the total pivot result row count.
+        </Paragraph>
+        <Paragraph>
+            When row or column expansion is enabled, use <Code>IsRowGroupExpanded</Code> and <Code>IsColumnGroupExpanded</Code> from the request to build the requested expanded result window.
+        </Paragraph>
+        <Paragraph>
+            When returning a prepared <Code>PivotGridResult</Code>, keep the result shape consistent. <Code>DataColumns</Code> defines the cell order, so every returned <Code>PivotGridResultRow</Code> should contain the same number of <Code>Cells</Code>, in the same order. Data columns and aggregate metadata should stay stable across virtualized requests. Row fields, column fields, aggregate info, data columns, rows, and cells should not be <Code>null</Code>.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PivotGridRemoteVirtualizationExample" Outlined FullWidth>
+        <PivotGridRemoteVirtualizationExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="ReadData and DataProvider">
+        <Paragraph>
+            Use <Code>ReadData</Code> for callback-based loading, or <Code>DataProvider</Code> when the provider should be reusable. For server-side paging, return a prepared <Code>PivotGridResult</Code>, set <Code>IsPaged</Code>, and report the total pivot result row count with <Code>TotalItems</Code>.
+        </Paragraph>
+        <Paragraph>
+            When the field chooser is enabled with remote or prepared results, populate <Code>FilterOptions</Code> with all available filter values keyed by field name. Selected option keys are sent back on the corresponding request filter as <Code>FilterValueKey</Code>. Otherwise the field chooser can only infer filter values from the current raw <Code>Data</Code> page.
+        </Paragraph>
+        <Paragraph>
+            Prepared results returned by providers are normalized before rendering. Null structural entries are ignored, row cells are aligned to <Code>DataColumns</Code>, and missing cells are rendered as empty cells so headers, expansion, and cells stay consistent.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PivotGridReadDataDataProviderExample" Outlined FullWidth>
+        <PivotGridReadDataDataProviderExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Templates and Cell Clicks">
+        Customize headers, row and column values, aggregate cells, and handle <Code>CellClicked</Code> to inspect the source items behind a pivot value.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PivotGridTemplatesEventsExample" Outlined FullWidth>
+        <PivotGridTemplatesEventsExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Filters and Expansion">
+        <Paragraph>
+            Use the field chooser to move fields into filters, and enable expandable rows or columns when users should drill into grouped results.
+        </Paragraph>
+        <Paragraph>
+            Expandable grouped rows and columns render section headers independently from subtotal display, so users can still expand or collapse groups when subtotals are hidden.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PivotGridFiltersExpansionExample" Outlined FullWidth>
+        <PivotGridFiltersExpansionExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom Aggregator">
+        Set <Code>Aggregator</Code> when a value field needs domain-specific aggregation instead of one of the built-in aggregate functions.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PivotGridCustomAggregatorExample" Outlined FullWidth>
+        <PivotGridCustomAggregatorExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Styling">
+        Use <Code>CellStyling</Code>, <Code>RowHeaderStyling</Code>, and <Code>ColumnHeaderStyling</Code> to apply conditional styling.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Code="PivotGridStylingExample" Outlined FullWidth>
+        <PivotGridStylingExample />
+    </DocsPageSectionContent>
+</DocsPageSection>
+
+<ComponentApiDocs ComponentTypes="[typeof(PivotGrid<>), typeof(PivotGridFields<>), typeof(PivotGridField<>), typeof(PivotGridColumns<>), typeof(PivotGridColumn<>), typeof(PivotGridRows<>), typeof(PivotGridRow<>), typeof(PivotGridAggregates<>), typeof(PivotGridAggregate<>), typeof(IPivotGridDataProvider<>), typeof(PivotGridToolbarOptions), typeof(PivotGridVirtualizeOptions), typeof(PivotGridDataRequest), typeof(PivotGridDataResult<>), typeof(PivotGridReadDataEventArgs<>), typeof(PivotGridCellClickedEventArgs<>), typeof(PivotGridResult<>), typeof(PivotGridAxisItem<>), typeof(PivotGridCell<>), typeof(PivotGridDataColumn<>), typeof(PivotGridResultRow<>), typeof(PivotGridFieldInfo<>), typeof(PivotGridAggregateInfo<>)]" />
