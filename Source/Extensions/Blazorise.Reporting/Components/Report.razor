@@ -234,6 +234,10 @@
                     }
                     else if ( IsElementContextMenuVisible() )
                     {
+                        <_ReportDesignerContextMenuButton Text="Cut" Clicked="@(( MouseEventArgs _ ) => CutSelectedElementAsync())" />
+                        <_ReportDesignerContextMenuButton Text="Copy" Clicked="@(( MouseEventArgs _ ) => CopySelectedElementAsync())" />
+                        <_ReportDesignerContextMenuButton Text="Paste" Clicked="@(( MouseEventArgs _ ) => PasteElementAsync())" />
+
                         @if ( CanContextElementInsertAggregate( definition ) )
                         {
                             <_ReportDesignerContextMenuButton Text="Insert aggregate" Clicked="@(( MouseEventArgs _ ) => OpenContextElementAggregateDialogAsync())" />

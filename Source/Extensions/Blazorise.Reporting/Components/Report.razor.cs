@@ -700,6 +700,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             {
                 clipboardElement = ReportContext.CloneElement( element );
                 clipboardSectionId = ReportDefinitionHelper.EnsureSectionId( definition.Sections[sectionIndex] );
+                contextMenu = null;
             }
 
             return Task.CompletedTask;
