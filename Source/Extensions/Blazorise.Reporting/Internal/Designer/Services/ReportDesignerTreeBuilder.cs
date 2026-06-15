@@ -9,6 +9,12 @@ namespace Blazorise.Reporting.Internal;
 
 internal static class ReportDesignerTreeBuilder
 {
+    #region Members
+
+    internal const string FormulaFieldsNodeKey = "fields:formula";
+
+    #endregion
+
     #region Methods
 
     internal static IReadOnlyList<ReportTreeNode> BuildToolboxNodes()
@@ -31,13 +37,18 @@ internal static class ReportDesignerTreeBuilder
         ];
     }
 
-    internal static IReadOnlyList<ReportTreeNode> BuildFieldsExplorerNodes( IEnumerable<ReportDesignerDataSourceNode> dataSources )
+    internal static IReadOnlyList<ReportTreeNode> BuildFieldsExplorerNodes(
+        IEnumerable<ReportDesignerDataSourceNode> dataSources,
+        IEnumerable<ReportFormulaFieldDefinition> formulaFields,
+        string selectedFormulaFieldName = null )
     {
-        var dataSourceList = dataSources?.ToList() ?? [];
+        List<ReportDesignerDataSourceNode> dataSourceList = dataSources?.ToList() ?? [];
+        List<ReportFormulaFieldDefinition> formulaFieldList = formulaFields?.ToList() ?? [];
 
         return
         [
             BuildSourceFieldsNode( dataSourceList ),
+            BuildFormulaFieldsNode( formulaFieldList, selectedFormulaFieldName ),
             BuildSpecialFieldsNode(),
         ];
     }
@@ -126,7 +137,7 @@ internal static class ReportDesignerTreeBuilder
 
     private static ReportTreeNode BuildFieldExplorerNode( string dataSourceName, ReportDesignerFieldNode field )
     {
-        var hasChildren = field.Children.Count > 0;
+        bool hasChildren = field.Children.Count > 0;
 
         return new()
         {
@@ -156,6 +167,32 @@ internal static class ReportDesignerTreeBuilder
                     Kind = ReportTreeNodeKind.DataSource,
                     Children = dataSource.Fields.Select( field => BuildFieldExplorerNode( dataSource.Name, field ) ).ToList(),
                 } ).ToList(),
+        };
+    }
+
+    private static ReportTreeNode BuildFormulaFieldsNode( IReadOnlyList<ReportFormulaFieldDefinition> formulaFields, string selectedFormulaFieldName )
+    {
+        return new()
+        {
+            Key = FormulaFieldsNodeKey,
+            Text = "Formula Fields",
+            Kind = ReportTreeNodeKind.FormulaFields,
+            Selectable = true,
+            Children = formulaFields
+                .Where( field => !string.IsNullOrWhiteSpace( field.Name ) )
+                .OrderBy( field => field.Name )
+                .Select( field => new ReportTreeNode
+                {
+                    Key = $"fields:formula:{field.Id}",
+                    Text = field.Name,
+                    Detail = "Formula",
+                    Kind = ReportTreeNodeKind.FormulaField,
+                    Selectable = true,
+                    Selected = string.Equals( field.Name, selectedFormulaFieldName, StringComparison.OrdinalIgnoreCase ),
+                    Draggable = true,
+                    Value = new ReportFieldTreeNodeValue( ReportFormulaFieldResolver.DataSourceName, field.Name ),
+                } )
+                .ToList(),
         };
     }
 

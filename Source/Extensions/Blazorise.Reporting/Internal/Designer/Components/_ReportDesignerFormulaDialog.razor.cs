@@ -168,7 +168,7 @@ public partial class _ReportDesignerFormulaDialog
     {
         IEnumerable<ReportDesignerDataSourceNode> dataSources = ReportDataSourceExplorer.ResolveDataSourceDictionary( Definition, "Default" );
 
-        return ReportDesignerTreeBuilder.BuildFieldsExplorerNodes( dataSources )
+        return ReportDesignerTreeBuilder.BuildFieldsExplorerNodes( dataSources, Definition?.FormulaFields )
             .Select( CloneFormulaNode )
             .ToList();
     }

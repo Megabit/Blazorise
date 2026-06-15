@@ -81,6 +81,7 @@ internal sealed class ReportContext
         {
             Page = ClonePage( page ?? Page ?? new() ),
             DataSources = dataSources.Select( CloneDataSource ).ToList(),
+            FormulaFields = [],
             Sections = sections.Select( CloneSection ).ToList(),
         } );
     }
@@ -95,8 +96,9 @@ internal sealed class ReportContext
             Id = definition.Id,
             Name = definition.Name,
             Page = ClonePage( definition.Page ?? new() ),
-            DataSources = definition.DataSources.Select( CloneDataSource ).ToList(),
-            Sections = definition.Sections.Select( CloneSection ).ToList(),
+            DataSources = definition.DataSources?.Select( CloneDataSource ).ToList() ?? [],
+            FormulaFields = definition.FormulaFields?.Select( CloneFormulaField ).ToList() ?? [],
+            Sections = definition.Sections?.Select( CloneSection ).ToList() ?? [],
         };
     }
 
@@ -185,6 +187,19 @@ internal sealed class ReportContext
             DataType = field.DataType,
             IsCollection = field.IsCollection,
             Fields = field.Fields?.Select( CloneSchemaField ).ToList() ?? [],
+        };
+    }
+
+    private static ReportFormulaFieldDefinition CloneFormulaField( ReportFormulaFieldDefinition formulaField )
+    {
+        if ( formulaField is null )
+            return null;
+
+        return new()
+        {
+            Id = formulaField.Id,
+            Name = formulaField.Name,
+            Formula = formulaField.Formula,
         };
     }
 

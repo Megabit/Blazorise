@@ -8,6 +8,7 @@
      style="@RowStyle"
      draggable="@( Node.Draggable ? "true" : null )"
      @onclick="OnNodeClicked"
+     @ondblclick="OnNodeDoubleClicked"
      @oncontextmenu="OnNodeContextMenu"
      @oncontextmenu:preventDefault="@( NodeContextMenu.HasDelegate && Node.Selectable )"
      @ondragstart="OnNodeDragStarted"

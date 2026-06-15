@@ -71,6 +71,16 @@ public enum ReportTreeNodeKind
     SourceFields,
 
     /// <summary>
+    /// Formula fields folder node.
+    /// </summary>
+    FormulaFields,
+
+    /// <summary>
+    /// Formula field node.
+    /// </summary>
+    FormulaField,
+
+    /// <summary>
     /// Special fields folder node.
     /// </summary>
     SpecialFields,

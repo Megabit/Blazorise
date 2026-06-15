@@ -25,6 +25,8 @@ public partial class _ReportTreeViewNode
         {
             ReportTreeNodeKind.Report => IconName.FileAlt,
             ReportTreeNodeKind.SourceFields => IconName.Database,
+            ReportTreeNodeKind.FormulaFields => IconName.Magic,
+            ReportTreeNodeKind.FormulaField => IconName.Code,
             ReportTreeNodeKind.SpecialFields => IconName.Magic,
             ReportTreeNodeKind.DataSource => IconName.Server,
             ReportTreeNodeKind.Field => IconName.Tag,
@@ -97,6 +99,12 @@ public partial class _ReportTreeViewNode
             await NodeClicked.InvokeAsync( Node );
     }
 
+    private async Task OnNodeDoubleClicked()
+    {
+        if ( Node.Selectable && NodeDoubleClicked.HasDelegate )
+            await NodeDoubleClicked.InvokeAsync( Node );
+    }
+
     private async Task OnNodeContextMenu( MouseEventArgs eventArgs )
     {
         if ( Node.Selectable && NodeContextMenu.HasDelegate )
@@ -144,6 +152,11 @@ public partial class _ReportTreeViewNode
     /// Raised when a selectable tree node is clicked.
     /// </summary>
     [Parameter] public EventCallback<ReportTreeNode> NodeClicked { get; set; }
+
+    /// <summary>
+    /// Raised when a selectable tree node is double clicked.
+    /// </summary>
+    [Parameter] public EventCallback<ReportTreeNode> NodeDoubleClicked { get; set; }
 
     /// <summary>
     /// Raised when a selectable tree node opens its context menu.

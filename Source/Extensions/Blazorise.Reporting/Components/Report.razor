@@ -59,10 +59,15 @@
         <_ReportDesignerLayout Shortcut="@HandleDesignerShortcutAsync">
             <ToolboxPanel>
                 <_ReportDesignerToolboxPanel Definition="@definition"
+                                             Data="@Data"
                                              DataSourceName="@DataSourceName"
                                              ToolboxNodeDragStarted="@OnToolboxTreeNodeDragStarted"
                                              FieldsNodeDragStarted="@OnFieldsTreeNodeDragStarted"
-                                             NodeDragEnded="@((ReportTreeNode _) => ClearDesignerDragAsync())" />
+                                             NodeDragEnded="@((ReportTreeNode _) => ClearDesignerDragAsync())"
+                                             FormulaFieldConfirmed="@OnFormulaFieldConfirmedAsync"
+                                             FormulaFieldRenamed="@OnFormulaFieldRenamedAsync"
+                                             FormulaFieldDeleted="@OnFormulaFieldDeletedAsync"
+                                             FormulaFieldInserted="@OnFormulaFieldInsertedAsync" />
             </ToolboxPanel>
             <Surface>
                 <_ReportDesignerPage PageKey="@($"{definition.Id}:{designerSurfaceVersion}")"
@@ -239,6 +244,11 @@
                             <_ReportDesignerContextMenuButton Text="Edit Text" Clicked="@(( MouseEventArgs _ ) => BeginContextElementTextEdit())" />
                         }
 
+                        @if ( CanContextElementEditFormula( definition ) )
+                        {
+                            <_ReportDesignerContextMenuButton Text="Edit Formula" Clicked="@(( MouseEventArgs _ ) => OpenContextElementFormulaDialogAsync())" />
+                        }
+
                         <_ReportDesignerContextMenuButton Text="Delete element" Clicked="@(( MouseEventArgs _ ) => DeleteSelectedElementAsync())" />
                     }
 
@@ -254,6 +264,11 @@
                                     Confirmed="@OnGroupDialogConfirmedAsync" />
         <_ReportDesignerDataSourceConnectionDialog @ref="dataSourceConnectionDialogRef"
                                                    Confirmed="@OnDataSourceConnectionConfirmedAsync" />
+        <_ReportDesignerFormulaDialog @ref="formulaDialogRef"
+                                      Definition="@definition"
+                                      Data="@Data"
+                                      Section="@GetSelectedFormulaSection( definition )"
+                                      Confirmed="@OnFormulaDialogConfirmedAsync" />
     }
     else
     {

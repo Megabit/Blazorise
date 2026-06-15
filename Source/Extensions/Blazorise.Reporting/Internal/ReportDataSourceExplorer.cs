@@ -115,6 +115,12 @@ internal static class ReportDataSourceExplorer
             return dataType is not null;
         }
 
+        if ( ReportFormulaFieldResolver.IsFormulaDataSource( dataSourceName ) || ReportFormulaFieldResolver.IsFormulaField( definition, fieldName ) )
+        {
+            dataType = typeof( object );
+            return true;
+        }
+
         List<string> normalizedFieldNames = NormalizeFieldPathCandidates( definition, dataSourceName, fieldName ).ToList();
         object dataSourceValue = ReportDataResolver.ResolveDataSourceValue( definition, defaultData, dataSourceName );
         List<ReportDesignerFieldNode> fields = ResolveDataSourceFields( dataSourceValue ).ToList();

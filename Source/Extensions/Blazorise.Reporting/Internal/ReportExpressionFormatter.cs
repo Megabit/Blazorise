@@ -49,7 +49,9 @@ internal static class ReportExpressionFormatter
 
         string normalizedFieldName = fieldName.Trim();
 
-        if ( string.IsNullOrWhiteSpace( dataSourceName ) || ReportSpecialFieldResolver.IsSpecialDataSource( dataSourceName ) )
+        if ( string.IsNullOrWhiteSpace( dataSourceName )
+            || ReportSpecialFieldResolver.IsSpecialDataSource( dataSourceName )
+            || ReportFormulaFieldResolver.IsFormulaDataSource( dataSourceName ) )
             return normalizedFieldName;
 
         string normalizedDataSourceName = dataSourceName.Trim();
@@ -95,10 +97,11 @@ internal static class ReportExpressionFormatter
         if ( string.IsNullOrWhiteSpace( dataSourceName ) )
             return null;
 
-        if ( ReportSpecialFieldResolver.IsSpecialDataSource( dataSourceName ) )
+        if ( ReportSpecialFieldResolver.IsSpecialDataSource( dataSourceName )
+            || ReportFormulaFieldResolver.IsFormulaDataSource( dataSourceName ) )
             return null;
 
-        string rootDataSourceName = definition?.DataSources.FirstOrDefault()?.Name;
+        string rootDataSourceName = definition?.DataSources?.FirstOrDefault()?.Name;
         string normalizedDataSourceName = dataSourceName.Trim();
 
         if ( string.IsNullOrWhiteSpace( rootDataSourceName ) )

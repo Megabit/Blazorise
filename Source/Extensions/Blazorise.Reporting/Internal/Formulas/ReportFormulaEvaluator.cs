@@ -441,6 +441,12 @@ internal static class ReportFormulaEvaluator
                 return true;
             }
 
+            if ( ReportFormulaFieldResolver.IsFormulaField( context.Definition, fieldPath ) )
+            {
+                value = string.Empty;
+                return true;
+            }
+
             if ( ReportDataSourceExplorer.TryResolveFieldType( context.Definition, context.Data, context.Section?.DataSource, fieldPath, out Type sectionFieldType ) )
             {
                 value = CreateValidationValue( sectionFieldType );

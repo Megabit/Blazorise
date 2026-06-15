@@ -144,6 +144,10 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private _ReportDesignerDataSourceConnectionDialog dataSourceConnectionDialogRef;
 
+    private _ReportDesignerFormulaDialog formulaDialogRef;
+
+    private string editingFormulaFieldName;
+
     #endregion
 
     #region Constructors
@@ -956,6 +960,12 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             && CanEditElementText( element );
     }
 
+    private bool CanContextElementEditFormula( ReportDefinition definition )
+    {
+        return IsElementContextMenuVisible()
+            && TryGetContextElementFormulaFieldName( definition, out _ );
+    }
+
     private bool CanContextElementInsertAggregate( ReportDefinition definition )
     {
         return GetContextElementAggregateFieldOptions( definition ).Count > 0;
@@ -1002,10 +1012,44 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         return element?.Type == ReportElementType.Text;
     }
 
+    private bool TryGetContextElementFormulaFieldName( ReportDefinition definition, out string formulaFieldName )
+    {
+        formulaFieldName = null;
+
+        if ( !IsElementContextMenuVisible()
+            || !ReportDefinitionHelper.TryFindElementLocation( definition, contextMenu.ElementKey, out _, out _, out ReportElementDefinition element ) )
+        {
+            return false;
+        }
+
+        if ( element?.Type != ReportElementType.Field || string.IsNullOrWhiteSpace( element.Field ) )
+            return false;
+
+        string normalizedFieldName = ReportFormulaFieldResolver.NormalizeFieldName( element.Field );
+
+        if ( FindFormulaField( definition, normalizedFieldName ) is null )
+        {
+            return false;
+        }
+
+        formulaFieldName = normalizedFieldName;
+
+        return true;
+    }
+
     private void BeginContextElementTextEdit()
     {
         if ( IsElementContextMenuVisible() )
             BeginElementTextEdit( contextMenu.ElementKey );
+    }
+
+    private async Task OpenContextElementFormulaDialogAsync()
+    {
+        if ( !TryGetContextElementFormulaFieldName( EffectiveDefinition, out string formulaFieldName ) )
+            return;
+
+        await OpenFormulaFieldDialogAsync( formulaFieldName );
+        contextMenu = null;
     }
 
     private void BeginSelectedElementTextEdit()
@@ -1253,6 +1297,245 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
             return;
         } ) );
+    }
+
+    private async Task OnFormulaFieldConfirmedAsync( ReportFormulaFieldDefinition formulaField )
+    {
+        if ( formulaField is null || string.IsNullOrWhiteSpace( formulaField.Name ) )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( "Save formula field", () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+
+            if ( definition.FormulaFields is null )
+                definition.FormulaFields = [];
+
+            ReportFormulaFieldDefinition existingFormulaField = definition.FormulaFields.FirstOrDefault( field =>
+                string.Equals( field.Name, formulaField.Name, StringComparison.OrdinalIgnoreCase ) );
+
+            if ( existingFormulaField is null )
+            {
+                formulaField.Name = formulaField.Name.Trim();
+                definition.FormulaFields.Add( formulaField );
+            }
+            else
+            {
+                existingFormulaField.Formula = formulaField.Formula;
+            }
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task OnFormulaFieldRenamedAsync( (string OldName, string NewName) formulaFieldRename )
+    {
+        if ( string.IsNullOrWhiteSpace( formulaFieldRename.OldName ) || string.IsNullOrWhiteSpace( formulaFieldRename.NewName ) )
+            return;
+
+        string oldName = formulaFieldRename.OldName.Trim();
+        string newName = formulaFieldRename.NewName.Trim();
+
+        if ( string.Equals( oldName, newName, StringComparison.OrdinalIgnoreCase ) )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( "Rename formula field", () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            ReportFormulaFieldDefinition formulaField = FindFormulaField( definition, oldName );
+
+            if ( formulaField is null || FindFormulaField( definition, newName ) is not null )
+                return Task.CompletedTask;
+
+            formulaField.Name = newName;
+            ReplaceFormulaFieldReferences( definition, oldName, newName );
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task OnFormulaFieldDeletedAsync( string formulaFieldName )
+    {
+        if ( string.IsNullOrWhiteSpace( formulaFieldName ) )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( "Delete formula field", () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            ReportFormulaFieldDefinition formulaField = FindFormulaField( definition, formulaFieldName );
+
+            if ( formulaField is not null )
+                definition.FormulaFields.Remove( formulaField );
+
+            if ( string.Equals( editingFormulaFieldName, formulaFieldName, StringComparison.OrdinalIgnoreCase ) )
+                editingFormulaFieldName = null;
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task OnFormulaFieldInsertedAsync( string formulaFieldName )
+    {
+        if ( string.IsNullOrWhiteSpace( formulaFieldName ) )
+            return;
+
+        await ExecuteDesignerCommandAsync( new( "Add formula field", () =>
+        {
+            ReportDefinition definition = EffectiveDefinition;
+            int sectionIndex = GetFormulaFieldInsertionSectionIndex( definition );
+
+            if ( sectionIndex < 0 || sectionIndex >= definition.Sections.Count || FindFormulaField( definition, formulaFieldName ) is null )
+                return Task.CompletedTask;
+
+            ReportSectionDefinition section = definition.Sections[sectionIndex];
+            double y = GetNextFormulaFieldInsertionY( section );
+            ReportElementDefinition element = new()
+            {
+                Name = formulaFieldName,
+                Type = ReportElementType.Field,
+                DataSource = ReportFormulaFieldResolver.DataSourceName,
+                Field = formulaFieldName,
+                X = 0,
+                Y = y,
+                Width = DefaultDroppedFieldWidth,
+                Height = DefaultDroppedFieldHeight,
+            };
+
+            section.Elements.Add( element );
+            section.Height = Math.Max( section.Height, y + DefaultDroppedFieldHeight );
+            SelectElement( ReportDefinitionHelper.EnsureElementId( element ) );
+
+            return Task.CompletedTask;
+        } ) );
+    }
+
+    private async Task OnFormulaDialogConfirmedAsync( string formula )
+    {
+        if ( string.IsNullOrWhiteSpace( editingFormulaFieldName ) )
+            return;
+
+        await OnFormulaFieldConfirmedAsync( new()
+        {
+            Name = editingFormulaFieldName,
+            Formula = formula,
+        } );
+    }
+
+    private async Task OpenFormulaFieldDialogAsync( string formulaFieldName )
+    {
+        if ( string.IsNullOrWhiteSpace( formulaFieldName ) )
+            return;
+
+        ReportFormulaFieldDefinition formulaField = FindFormulaField( EffectiveDefinition, formulaFieldName );
+
+        if ( formulaField is null )
+            return;
+
+        editingFormulaFieldName = formulaField.Name;
+        await formulaDialogRef.ShowAsync( formulaField.Name, formulaField.Formula );
+    }
+
+    private int GetFormulaFieldInsertionSectionIndex( ReportDefinition definition )
+    {
+        if ( definition?.Sections is null )
+            return -1;
+
+        if ( selectionManager.SelectedSectionIndex is { } selectedSectionIndex
+            && selectedSectionIndex >= 0
+            && selectedSectionIndex < definition.Sections.Count )
+        {
+            return selectedSectionIndex;
+        }
+
+        if ( !string.IsNullOrWhiteSpace( selectionManager.SelectedElementKey )
+            && ReportDefinitionHelper.TryFindElementLocation( definition, selectionManager.SelectedElementKey, out int elementSectionIndex, out _, out _ ) )
+        {
+            return elementSectionIndex;
+        }
+
+        return -1;
+    }
+
+    private double GetNextFormulaFieldInsertionY( ReportSectionDefinition section )
+    {
+        if ( section?.Elements is null || section.Elements.Count == 0 )
+            return 0;
+
+        double y = section.Elements.Max( element => element.Y + element.Height ) + DefaultDroppedFieldHeight;
+
+        return ApplyDesignerGrid( y );
+    }
+
+    private static ReportFormulaFieldDefinition FindFormulaField( ReportDefinition definition, string formulaFieldName )
+    {
+        if ( definition?.FormulaFields is null || string.IsNullOrWhiteSpace( formulaFieldName ) )
+            return null;
+
+        string normalizedFormulaFieldName = ReportFormulaFieldResolver.NormalizeFieldName( formulaFieldName );
+
+        return definition.FormulaFields.FirstOrDefault( field =>
+            string.Equals( field.Name, normalizedFormulaFieldName, StringComparison.OrdinalIgnoreCase ) );
+    }
+
+    private static void ReplaceFormulaFieldReferences( ReportDefinition definition, string oldName, string newName )
+    {
+        if ( definition is null )
+            return;
+
+        foreach ( ReportFormulaFieldDefinition formulaField in definition.FormulaFields ?? [] )
+        {
+            formulaField.Formula = ReplaceFormulaFieldExpressionToken( formulaField.Formula, oldName, newName );
+        }
+
+        foreach ( ReportSectionDefinition section in definition.Sections ?? [] )
+        {
+            ReplaceFormulaFieldReference( section.Suppress, oldName, newName );
+            ReplaceFormulaFieldReference( section.KeepTogether, oldName, newName );
+            ReplaceFormulaFieldReference( section.NewPageBefore, oldName, newName );
+            ReplaceFormulaFieldReference( section.NewPageAfter, oldName, newName );
+
+            foreach ( ReportElementDefinition element in section.Elements ?? [] )
+            {
+                if ( element.Type == ReportElementType.Field
+                    && !string.IsNullOrWhiteSpace( element.Field )
+                    && string.Equals( ReportFormulaFieldResolver.NormalizeFieldName( element.Field ), oldName, StringComparison.OrdinalIgnoreCase )
+                    && ( ReportFormulaFieldResolver.IsFormulaDataSource( element.DataSource ) || string.IsNullOrWhiteSpace( element.DataSource ) ) )
+                {
+                    element.Field = newName;
+                }
+
+                element.Text = ReplaceFormulaFieldExpressionToken( element.Text, oldName, newName );
+                ReplaceFormulaFieldReference( element.CanGrow, oldName, newName );
+                ReplaceFormulaFieldReference( element.Suppress, oldName, newName );
+                ReplaceFormulaFieldReference( element.SnapToGrid, oldName, newName );
+            }
+        }
+    }
+
+    private static void ReplaceFormulaFieldReference( ReportValue<bool> value, string oldName, string newName )
+    {
+        if ( value is not null )
+            value.Formula = ReplaceFormulaFieldExpressionToken( value.Formula, oldName, newName );
+    }
+
+    private static void ReplaceFormulaFieldReference( ReportValue<bool?> value, string oldName, string newName )
+    {
+        if ( value is not null )
+            value.Formula = ReplaceFormulaFieldExpressionToken( value.Formula, oldName, newName );
+    }
+
+    private static string ReplaceFormulaFieldExpressionToken( string value, string oldName, string newName )
+    {
+        if ( string.IsNullOrWhiteSpace( value ) )
+            return value;
+
+        string oldToken = ReportExpressionFormatter.FormatFieldExpression( null, oldName );
+        string newToken = ReportExpressionFormatter.FormatFieldExpression( null, newName );
+        string oldQualifiedToken = $"{{{ReportFormulaFieldResolver.DataSourceName}.{oldName}}}";
+
+        return value
+            .Replace( oldQualifiedToken, newToken, StringComparison.OrdinalIgnoreCase )
+            .Replace( oldToken, newToken, StringComparison.OrdinalIgnoreCase );
     }
 
     private static IReadOnlyList<ReportAggregateSummaryLocation> GetAggregateSummaryLocations( ReportDefinition definition, int sourceSectionIndex )
@@ -2702,7 +2985,8 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                     };
                     targetSection.Elements.Add( fieldElement );
 
-                    if ( !ReportSpecialFieldResolver.IsSpecialDataSource( fieldBinding.DataSourceName ) )
+                    if ( !ReportSpecialFieldResolver.IsSpecialDataSource( fieldBinding.DataSourceName )
+                        && !ReportFormulaFieldResolver.IsFormulaDataSource( fieldBinding.DataSourceName ) )
                         ReportDetailHeaderSynchronizer.AddPageHeaderForDetailField( definition, targetSectionIndex, targetSection, fieldBinding.FieldName, x, fieldElement.Width );
 
                     SelectElement( ReportDefinitionHelper.EnsureElementId( fieldElement ) );

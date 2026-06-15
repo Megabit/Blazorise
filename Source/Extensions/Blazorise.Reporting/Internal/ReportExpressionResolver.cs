@@ -20,6 +20,9 @@ internal static class ReportExpressionResolver
         if ( ReportSpecialFieldResolver.TryResolve( dataSource, normalizedExpression, definition, out var specialValue ) )
             return specialValue;
 
+        if ( ReportFormulaFieldResolver.TryResolve( dataSource, normalizedExpression, definition, data, item, ResolveSection( definition, dataSource ), out var formulaValue ) )
+            return formulaValue;
+
         if ( TryResolveCurrentItemValue( item, normalizedExpression, dataSource, out var currentItemValue ) )
             return currentItemValue;
 
@@ -44,6 +47,12 @@ internal static class ReportExpressionResolver
             : ReportDataResolver.ResolveItems( definition, data, element.DataSource, item ).FirstOrDefault() ?? item;
 
         return ResolveValue( definition, data, contextItem, element.Field );
+    }
+
+    private static ReportSectionDefinition ResolveSection( ReportDefinition definition, string dataSource )
+    {
+        return definition?.Sections?.FirstOrDefault( section =>
+            string.Equals( section?.DataSource, dataSource, StringComparison.OrdinalIgnoreCase ) );
     }
 
     private static object ResolveContextItem( ReportDefinition definition, object data, object item, string dataSource )

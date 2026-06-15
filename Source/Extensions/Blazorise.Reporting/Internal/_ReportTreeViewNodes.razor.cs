@@ -43,6 +43,11 @@ public partial class _ReportTreeViewNodes
     [Parameter] public EventCallback<ReportTreeNode> NodeClicked { get; set; }
 
     /// <summary>
+    /// Raised when a selectable tree node is double clicked.
+    /// </summary>
+    [Parameter] public EventCallback<ReportTreeNode> NodeDoubleClicked { get; set; }
+
+    /// <summary>
     /// Raised when a selectable tree node opens its context menu.
     /// </summary>
     [Parameter] public EventCallback<ReportTreeNodeMouseEventArgs> NodeContextMenu { get; set; }

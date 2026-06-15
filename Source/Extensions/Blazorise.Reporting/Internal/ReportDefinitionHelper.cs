@@ -62,7 +62,8 @@ internal static class ReportDefinitionHelper
         if ( string.IsNullOrWhiteSpace( fieldName ) )
             return (dataSourceName, fieldName);
 
-        if ( ReportSpecialFieldResolver.IsSpecialDataSource( dataSourceName ) )
+        if ( ReportSpecialFieldResolver.IsSpecialDataSource( dataSourceName )
+            || ReportFormulaFieldResolver.IsFormulaDataSource( dataSourceName ) )
             return (dataSourceName, fieldName);
 
         string fieldPath = ReportExpressionFormatter.FormatFieldPath( dataSourceName, fieldName );
@@ -82,7 +83,7 @@ internal static class ReportDefinitionHelper
                 return (null, fieldName);
         }
 
-        string rootDataSourceName = definition?.DataSources.FirstOrDefault()?.Name;
+        string rootDataSourceName = definition?.DataSources?.FirstOrDefault()?.Name;
 
         if ( !string.IsNullOrWhiteSpace( rootDataSourceName ) && string.Equals( dataSourceName, rootDataSourceName, StringComparison.OrdinalIgnoreCase ) )
             return (null, fieldName);

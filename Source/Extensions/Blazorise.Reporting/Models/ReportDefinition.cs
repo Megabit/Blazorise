@@ -30,6 +30,11 @@ public sealed class ReportDefinition
     public List<ReportDataSourceDefinition> DataSources { get; set; } = [];
 
     /// <summary>
+    /// Calculated fields that evaluate formulas at render time and can be placed like source fields.
+    /// </summary>
+    public List<ReportFormulaFieldDefinition> FormulaFields { get; set; } = [];
+
+    /// <summary>
     /// Ordered report bands that make up the document body.
     /// </summary>
     public List<ReportSectionDefinition> Sections { get; set; } = [];
@@ -131,6 +136,27 @@ public sealed class ReportDataSourceDefinition
     /// Field schema exposed by providers that cannot be reflected from a live object.
     /// </summary>
     public ReportDataSourceSchema Schema { get; set; }
+}
+
+/// <summary>
+/// Describes a reusable formula-backed field available to report elements and text templates.
+/// </summary>
+public sealed class ReportFormulaFieldDefinition
+{
+    /// <summary>
+    /// Stable identifier used by persisted report state.
+    /// </summary>
+    public string Id { get; set; } = Guid.NewGuid().ToString( "N" );
+
+    /// <summary>
+    /// Formula field name shown in the field explorer and used by expressions.
+    /// </summary>
+    public string Name { get; set; }
+
+    /// <summary>
+    /// Formula expression evaluated when the field is rendered.
+    /// </summary>
+    public string Formula { get; set; }
 }
 
 /// <summary>
