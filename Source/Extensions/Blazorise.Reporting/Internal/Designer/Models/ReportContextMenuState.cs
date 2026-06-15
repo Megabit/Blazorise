@@ -16,6 +16,12 @@ internal sealed class ReportContextMenuState
 
     internal string ElementKey { get; set; }
 
+    internal bool HasPastePosition { get; set; }
+
+    internal double PasteX { get; set; }
+
+    internal double PasteY { get; set; }
+
     internal double ClientX { get; set; }
 
     internal double ClientY { get; set; }

@@ -127,7 +127,7 @@
                                                     RailClicked="@((MouseEventArgs _) => SelectSection( capturedSectionIndex ))"
                                                     ToggleClicked="@((MouseEventArgs _) => ToggleSectionCollapsed( section ))"
                                                     RailContextMenu="@((MouseEventArgs eventArgs) => OpenSectionContextMenu( capturedSectionIndex, eventArgs ))"
-                                                    BodyContextMenu="@((MouseEventArgs eventArgs) => OpenSectionContextMenu( capturedSectionIndex, eventArgs ))"
+                                                    BodyContextMenu="@((MouseEventArgs eventArgs) => OpenSectionBodyContextMenu( capturedSectionIndex, eventArgs ))"
                                                     BodyPointerDown="@(editable ? EventCallback.Factory.Create<PointerEventArgs>( this, eventArgs => BeginSelectionBox( capturedSectionIndex, eventArgs ) ) : default)"
                                                     DragOver="@(editable ? (Func<ElementReference, DragEventArgs, Task>)( ( elementReference, eventArgs ) => PreviewDesignerDragAsync( capturedSectionIndex, elementReference, eventArgs ) ) : null)"
                                                     Drop="@(editable ? (Func<ElementReference, DragEventArgs, Task>)( ( elementReference, eventArgs ) => DropDesignerItemAsync( capturedSectionIndex, elementReference, eventArgs ) ) : null)"
@@ -218,6 +218,11 @@
 
                         @if ( !contextSection.Suppressed )
                         {
+                            @if ( CanContextPasteElement( definition ) )
+                            {
+                                <_ReportDesignerContextMenuButton Text="Paste" Clicked="@(( MouseEventArgs _ ) => PasteElementAsync())" />
+                            }
+
                             @if ( CanContextSectionInsertSection( definition, contextMenu.SectionIndex ) )
                             {
                                 <_ReportDesignerContextMenuButton Text="Insert band before" Clicked="@(( MouseEventArgs _ ) => InsertSectionAsync( insertAfter: false ))" />

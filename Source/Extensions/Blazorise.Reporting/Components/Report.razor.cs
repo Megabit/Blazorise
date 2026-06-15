@@ -739,29 +739,66 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private async Task PasteElementAsync()
     {
-        if ( clipboardElement is null || selectionManager.ResolvePasteSectionIndex( EffectiveDefinition ) < 0 )
+        if ( clipboardElement is null || ResolvePasteSectionIndex( EffectiveDefinition ) < 0 )
             return;
 
         await ExecuteDesignerCommandAsync( new( "Paste element", () =>
         {
             ReportDefinition definition = EffectiveDefinition;
-            int targetSectionIndex = selectionManager.ResolvePasteSectionIndex( definition );
+            int targetSectionIndex = ResolvePasteSectionIndex( definition );
             ReportSectionDefinition targetSection = definition.Sections[targetSectionIndex];
             bool sameSection = clipboardSectionId == ReportDefinitionHelper.EnsureSectionId( targetSection );
 
             ReportElementDefinition element = ReportContext.CloneElement( clipboardElement );
             element.Id = ReportDefinitionHelper.CreateDefinitionId();
             bool useSnapToGrid = IsSnapToGridEnabled( element );
-            element.X = sameSection ? ApplyDesignerGrid( element.X + PasteElementOffset, useSnapToGrid ) : 0;
-            element.Y = sameSection ? ApplyDesignerGrid( element.Y + PasteElementOffset, useSnapToGrid ) : 0;
+
+            if ( TryResolveContextPastePosition( definition, element, out double pasteX, out double pasteY ) )
+            {
+                element.X = ClampElementX( definition, element, ApplyDesignerGrid( pasteX, useSnapToGrid ) );
+                element.Y = ApplyDesignerGrid( pasteY, useSnapToGrid );
+            }
+            else
+            {
+                element.X = sameSection ? ApplyDesignerGrid( element.X + PasteElementOffset, useSnapToGrid ) : 0;
+                element.Y = sameSection ? ApplyDesignerGrid( element.Y + PasteElementOffset, useSnapToGrid ) : 0;
+            }
 
             targetSection.Elements.Add( element );
+            ReportLayoutGeometry.GrowSectionToFitElement( targetSection, element );
 
             SelectElement( ReportDefinitionHelper.EnsureElementId( element ) );
             contextMenu = null;
 
             return Task.CompletedTask;
         } ) );
+    }
+
+    private int ResolvePasteSectionIndex( ReportDefinition definition )
+    {
+        if ( contextMenu?.Target == ReportContextMenuTarget.Section
+            && contextMenu.HasPastePosition
+            && contextMenu.SectionIndex >= 0
+            && contextMenu.SectionIndex < definition.Sections.Count )
+        {
+            return contextMenu.SectionIndex;
+        }
+
+        return selectionManager.ResolvePasteSectionIndex( definition );
+    }
+
+    private bool TryResolveContextPastePosition( ReportDefinition definition, ReportElementDefinition element, out double x, out double y )
+    {
+        x = 0;
+        y = 0;
+
+        if ( contextMenu?.Target != ReportContextMenuTarget.Section || !contextMenu.HasPastePosition )
+            return false;
+
+        x = contextMenu.PasteX;
+        y = Math.Max( 0, contextMenu.PasteY );
+
+        return true;
     }
 
     private async Task UndoAsync()
@@ -940,6 +977,25 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         };
     }
 
+    private void OpenSectionBodyContextMenu( int sectionIndex, MouseEventArgs eventArgs )
+    {
+        selectionManager.ReportSelected = false;
+        selectionManager.SelectedSectionIndex = sectionIndex;
+        selectionManager.SelectedElementKey = null;
+        selectionManager.SelectedElementKeys.Clear();
+        contextMenu = new()
+        {
+            Visible = true,
+            Target = ReportContextMenuTarget.Section,
+            SectionIndex = sectionIndex,
+            HasPastePosition = true,
+            PasteX = ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetX ),
+            PasteY = ReportMeasurementConverter.FromCssPixelValue( eventArgs.OffsetY ),
+            ClientX = eventArgs.ClientX,
+            ClientY = eventArgs.ClientY,
+        };
+    }
+
     private void OpenElementContextMenu( string elementKey, MouseEventArgs eventArgs )
     {
         selectionManager.ReportSelected = false;
@@ -982,6 +1038,15 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private bool CanContextElementInsertAggregate( ReportDefinition definition )
     {
         return GetContextElementAggregateFieldOptions( definition ).Count > 0;
+    }
+
+    private bool CanContextPasteElement( ReportDefinition definition )
+    {
+        return clipboardElement is not null
+            && contextMenu?.Target == ReportContextMenuTarget.Section
+            && contextMenu.HasPastePosition
+            && contextMenu.SectionIndex >= 0
+            && contextMenu.SectionIndex < definition.Sections.Count;
     }
 
     private bool CanContextAlignOrSizeSelectedElements( ReportDefinition definition )
