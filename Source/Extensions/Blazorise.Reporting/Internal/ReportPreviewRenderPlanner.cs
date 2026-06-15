@@ -26,7 +26,7 @@ internal static class ReportPreviewRenderPlanner
 
             var section = definition.Sections[sectionIndex];
 
-            if ( !ShouldRenderSection( section, 1, 1 ) )
+            if ( !ShouldRenderSectionBeforeItems( definition, data, section ) )
                 continue;
 
             if ( section.Type == ReportSectionType.GroupFooter )
@@ -41,13 +41,16 @@ internal static class ReportPreviewRenderPlanner
 
             foreach ( var item in ResolveSectionItems( definition, data, section ) )
             {
+                if ( !ShouldRenderSection( definition, data, section, item, 1, 1 ) )
+                    continue;
+
                 renderSections.Add( new()
                 {
                     SectionIndex = sectionIndex,
                     InstanceIndex = instanceIndex++,
                     Section = section,
                     Item = item,
-                    RenderElements = !section.Suppressed,
+                    RenderElements = !IsSectionSuppressed( definition, data, section, item ),
                 } );
             }
         }
@@ -78,10 +81,10 @@ internal static class ReportPreviewRenderPlanner
             page.HeaderSections = pageNumber == 1
                 ? []
                 : pageHeaderSections
-                    .Where( renderSection => ShouldRenderSection( renderSection.Section, pageNumber, totalPages ) )
+                    .Where( renderSection => ShouldRenderSection( definition, data, renderSection.Section, renderSection.Item, pageNumber, totalPages ) )
                     .ToList();
             page.FooterSections = pageFooterSections
-                .Where( renderSection => ShouldRenderSection( renderSection.Section, pageNumber, totalPages ) )
+                .Where( renderSection => ShouldRenderSection( definition, data, renderSection.Section, renderSection.Item, pageNumber, totalPages ) )
                 .ToList();
         }
 
@@ -96,7 +99,13 @@ internal static class ReportPreviewRenderPlanner
         {
             var section = definition.Sections[sectionIndex];
 
-            if ( section.Type != sectionType || section.Suppressed && !section.ReserveSpaceWhenSuppressed )
+            if ( section.Type != sectionType )
+                continue;
+
+            var item = ReportDataResolver.ResolveItems( definition, data, section.DataSource ).FirstOrDefault();
+            var suppressed = IsSectionSuppressed( definition, data, section, item );
+
+            if ( suppressed && !section.ReserveSpaceWhenSuppressed )
                 continue;
 
             renderSections.Add( new()
@@ -104,8 +113,8 @@ internal static class ReportPreviewRenderPlanner
                 SectionIndex = sectionIndex,
                 InstanceIndex = sectionIndex,
                 Section = section,
-                Item = ReportDataResolver.ResolveItems( definition, data, section.DataSource ).FirstOrDefault(),
-                RenderElements = !section.Suppressed,
+                Item = item,
+                RenderElements = !suppressed,
             } );
         }
 
@@ -137,6 +146,10 @@ internal static class ReportPreviewRenderPlanner
             foreach ( var headerSectionIndex in headerSectionIndexes )
             {
                 var section = definition.Sections[headerSectionIndex];
+                var suppressed = IsSectionSuppressed( definition, data, section, firstItem );
+
+                if ( suppressed && !section.ReserveSpaceWhenSuppressed )
+                    continue;
 
                 renderSections.Add( new()
                 {
@@ -144,25 +157,34 @@ internal static class ReportPreviewRenderPlanner
                     InstanceIndex = instanceIndex++,
                     Section = section,
                     Item = firstItem,
-                    RenderElements = !section.Suppressed,
+                    RenderElements = !suppressed,
                 } );
             }
 
             foreach ( var item in groupItems )
             {
+                var detailSuppressed = IsSectionSuppressed( definition, data, detailSection, item );
+
+                if ( detailSuppressed && !detailSection.ReserveSpaceWhenSuppressed )
+                    continue;
+
                 renderSections.Add( new()
                 {
                     SectionIndex = detailSectionIndex,
                     InstanceIndex = instanceIndex++,
                     Section = detailSection,
                     Item = item,
-                    RenderElements = !detailSection.Suppressed,
+                    RenderElements = !detailSuppressed,
                 } );
             }
 
             foreach ( var footerSectionIndex in footerSectionIndexes )
             {
                 var section = definition.Sections[footerSectionIndex];
+                var suppressed = IsSectionSuppressed( definition, data, section, groupItems );
+
+                if ( suppressed && !section.ReserveSpaceWhenSuppressed )
+                    continue;
 
                 renderSections.Add( new()
                 {
@@ -170,7 +192,7 @@ internal static class ReportPreviewRenderPlanner
                     InstanceIndex = instanceIndex++,
                     Section = section,
                     Item = groupItems,
-                    RenderElements = !section.Suppressed,
+                    RenderElements = !suppressed,
                 } );
             }
         }
@@ -258,9 +280,9 @@ internal static class ReportPreviewRenderPlanner
             ?? string.Empty;
     }
 
-    private static bool ShouldRenderSection( ReportSectionDefinition section, int pageNumber, int totalPages )
+    private static bool ShouldRenderSection( ReportDefinition definition, object data, ReportSectionDefinition section, object item, int pageNumber, int totalPages )
     {
-        if ( section.Suppressed && !section.ReserveSpaceWhenSuppressed )
+        if ( IsSectionSuppressed( definition, data, section, item ) && !section.ReserveSpaceWhenSuppressed )
             return false;
 
         if ( section.Type == ReportSectionType.PageFooter )
@@ -276,6 +298,23 @@ internal static class ReportPreviewRenderPlanner
         }
 
         return true;
+    }
+
+    private static bool ShouldRenderSectionBeforeItems( ReportDefinition definition, object data, ReportSectionDefinition section )
+    {
+        return section?.Suppress?.HasFormula == true
+            || ShouldRenderSection( definition, data, section, null, 1, 1 );
+    }
+
+    private static bool ShouldIncludeSectionInStructure( ReportDefinition definition, ReportSectionDefinition section )
+    {
+        return section?.Suppress?.HasFormula == true
+            || ShouldRenderSection( definition, null, section, null, 1, 1 );
+    }
+
+    private static bool IsSectionSuppressed( ReportDefinition definition, object data, ReportSectionDefinition section, object item )
+    {
+        return ReportValueResolver.ResolveSuppress( section, definition, data, item );
     }
 
     private static IEnumerable<object> ResolveSectionItems( ReportDefinition definition, object data, ReportSectionDefinition section )
@@ -305,7 +344,7 @@ internal static class ReportPreviewRenderPlanner
         {
             var section = definition.Sections[sectionIndex];
 
-            if ( !ShouldRenderSection( section, 1, 1 ) )
+            if ( !ShouldIncludeSectionInStructure( definition, section ) )
                 continue;
 
             if ( IsGroupHeader( section ) && string.Equals( section.GroupBy, groupBy, StringComparison.OrdinalIgnoreCase ) )
@@ -331,7 +370,7 @@ internal static class ReportPreviewRenderPlanner
         {
             var section = definition.Sections[sectionIndex];
 
-            if ( !ShouldRenderSection( section, 1, 1 ) )
+            if ( !ShouldIncludeSectionInStructure( definition, section ) )
                 continue;
 
             if ( section.Type == ReportSectionType.GroupFooter )

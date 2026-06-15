@@ -191,7 +191,16 @@ public sealed class ReportSectionDefinition
     /// <summary>
     /// Excludes the band from rendered output while keeping it visible in the designer.
     /// </summary>
-    public bool Suppressed { get; set; }
+    public ReportValue<bool> Suppress { get; set; } = false;
+
+    /// <summary>
+    /// Static suppress value used by designer interactions.
+    /// </summary>
+    public bool Suppressed
+    {
+        get => Suppress?.Value ?? false;
+        set => Suppress = ReportValue.Create( value, Suppress?.Formula );
+    }
 
     /// <summary>
     /// Keeps the band height reserved when the band is suppressed.
@@ -277,17 +286,17 @@ public sealed class ReportElementDefinition
     /// <summary>
     /// Allows text content to expand the element vertically when rendered.
     /// </summary>
-    public bool CanGrow { get; set; }
+    public ReportValue<bool> CanGrow { get; set; } = false;
 
     /// <summary>
     /// Prevents the element from being edited on the designer surface and rendered in preview output.
     /// </summary>
-    public bool Suppress { get; set; }
+    public ReportValue<bool> Suppress { get; set; } = false;
 
     /// <summary>
     /// Overrides the report-level snap-to-grid behavior for this element. A null value inherits the report setting.
     /// </summary>
-    public bool? SnapToGrid { get; set; }
+    public ReportValue<bool?> SnapToGrid { get; set; } = (bool?)null;
 
     /// <summary>
     /// Static text or alternate text associated with the element.

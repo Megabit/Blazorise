@@ -16,6 +16,8 @@ public partial class _ReportTreeView
 
     private readonly HashSet<string> collapsedNodeKeys = [];
 
+    private readonly HashSet<string> defaultCollapsedNodeKeys = [];
+
     private ElementReference treeElement;
 
     private JSReportingModule reportingModule;
@@ -25,6 +27,25 @@ public partial class _ReportTreeView
     #endregion
 
     #region Methods
+
+    /// <inheritdoc />
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        bool collapseByDefault = parameters.TryGetValue<bool>( nameof( CollapseByDefault ), out var paramCollapseByDefault )
+            ? paramCollapseByDefault
+            : CollapseByDefault;
+
+        if ( !collapseByDefault && CollapseByDefault )
+        {
+            defaultCollapsedNodeKeys.Clear();
+            collapsedNodeKeys.Clear();
+        }
+
+        if ( collapseByDefault && parameters.TryGetValue<IReadOnlyList<ReportTreeNode>>( nameof( Nodes ), out var paramNodes ) )
+            CollapseNodesByDefault( paramNodes );
+
+        return base.SetParametersAsync( parameters );
+    }
 
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync( bool firstRender )
@@ -62,6 +83,23 @@ public partial class _ReportTreeView
 
     internal static bool HasChildren( ReportTreeNode node )
         => node?.Children?.Count > 0;
+
+    private void CollapseNodesByDefault( IEnumerable<ReportTreeNode> nodes )
+    {
+        if ( nodes is null )
+            return;
+
+        foreach ( ReportTreeNode node in nodes )
+        {
+            if ( node?.Key is null )
+                continue;
+
+            if ( HasChildren( node ) && defaultCollapsedNodeKeys.Add( node.Key ) )
+                collapsedNodeKeys.Add( node.Key );
+
+            CollapseNodesByDefault( node.Children );
+        }
+    }
 
     private static bool HasDraggableNodes( IEnumerable<ReportTreeNode> nodes )
     {
@@ -117,6 +155,11 @@ public partial class _ReportTreeView
     /// Root nodes rendered by the tree view.
     /// </summary>
     [Parameter] public IReadOnlyList<ReportTreeNode> Nodes { get; set; }
+
+    /// <summary>
+    /// Collapses nodes the first time they are rendered.
+    /// </summary>
+    [Parameter] public bool CollapseByDefault { get; set; }
 
     /// <summary>
     /// Raised when a selectable tree node is clicked.

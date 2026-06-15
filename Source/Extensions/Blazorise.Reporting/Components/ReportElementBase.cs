@@ -113,17 +113,17 @@ public abstract class ReportElementBase : ComponentBase
     /// <summary>
     /// Allows text content to expand the element vertically when rendered.
     /// </summary>
-    [Parameter] public bool CanGrow { get; set; }
+    [Parameter] public ReportValue<bool> CanGrow { get; set; } = false;
 
     /// <summary>
     /// Prevents the element from being edited on the designer surface and rendered in preview output.
     /// </summary>
-    [Parameter] public bool Suppress { get; set; }
+    [Parameter] public ReportValue<bool> Suppress { get; set; } = false;
 
     /// <summary>
     /// Overrides the report-level snap-to-grid behavior for this element. A null value inherits the report setting.
     /// </summary>
-    [Parameter] public bool? SnapToGrid { get; set; }
+    [Parameter] public ReportValue<bool?> SnapToGrid { get; set; } = (bool?)null;
 
     /// <summary>
     /// Additional CSS classes applied to the element.

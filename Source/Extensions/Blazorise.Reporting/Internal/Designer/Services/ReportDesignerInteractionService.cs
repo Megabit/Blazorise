@@ -251,7 +251,7 @@ internal static class ReportDesignerInteractionService
 
             foreach ( var element in section.Elements )
             {
-                if ( element.Suppress )
+                if ( element.Suppress?.Value == true )
                     continue;
 
                 if ( ReportLayoutGeometry.Intersects( selectionBox.X, selectionBox.Y, selectionBox.Width, selectionBox.Height, element.X, sectionOffsetY + element.Y, element.Width, element.Height ) )
@@ -270,7 +270,7 @@ internal static class ReportDesignerInteractionService
             if ( !ReportDefinitionHelper.TryFindElementLocation( definition, elementKey, out var sectionIndex, out _, out var element ) )
                 continue;
 
-            if ( element.Suppress )
+            if ( element.Suppress?.Value == true )
                 continue;
 
             yield return new()

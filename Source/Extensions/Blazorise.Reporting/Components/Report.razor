@@ -293,7 +293,7 @@
                                                             BodyWidth="@GetReportPageContentWidth( definition )">
                                         @if ( renderSection.RenderElements )
                                         {
-                                            @foreach ( var element in section.Elements.Where( element => !element.Suppress ) )
+                                            @foreach ( var element in section.Elements.Where( element => ShouldRenderElement( definition, section, element, renderSection.Item ) ) )
                                             {
                                                 <_ReportDesignerElement Data="@Data"
                                                                         Definition="@definition"
@@ -315,7 +315,7 @@
                                                             BodyWidth="@GetReportPageContentWidth( definition )">
                                         @if ( renderSection.RenderElements )
                                         {
-                                            @foreach ( var element in section.Elements.Where( element => !element.Suppress ) )
+                                            @foreach ( var element in section.Elements.Where( element => ShouldRenderElement( definition, section, element, renderSection.Item ) ) )
                                             {
                                                 <_ReportDesignerElement Data="@Data"
                                                                         Definition="@definition"
@@ -341,7 +341,7 @@
                                                                 BodyWidth="@GetReportPageContentWidth( definition )">
                                             @if ( renderSection.RenderElements )
                                             {
-                                                @foreach ( var element in section.Elements.Where( element => !element.Suppress ) )
+                                                @foreach ( var element in section.Elements.Where( element => ShouldRenderElement( definition, section, element, renderSection.Item ) ) )
                                                 {
                                                     <_ReportDesignerElement Data="@Data"
                                                                             Definition="@definition"

@@ -42,7 +42,7 @@ internal static class ReportDataResolver
         if ( namedDataSource is not null )
             return namedDataSource.Data;
 
-        var pathSeparatorIndex = trimmedDataSource.IndexOf( '.', StringComparison.Ordinal );
+        var pathSeparatorIndex = trimmedDataSource.IndexOf( ".", StringComparison.Ordinal );
 
         if ( pathSeparatorIndex > 0 )
         {
@@ -57,9 +57,7 @@ internal static class ReportDataResolver
 
         if ( currentItem is not null )
         {
-            var relativeValue = ResolvePathValue( currentItem, trimmedDataSource );
-
-            if ( relativeValue is not null )
+            if ( TryResolvePathValue( currentItem, trimmedDataSource, out var relativeValue ) )
                 return relativeValue;
         }
 
@@ -82,6 +80,30 @@ internal static class ReportDataResolver
         }
 
         return current;
+    }
+
+    internal static bool TryResolvePathValue( object item, string path, out object value )
+    {
+        value = null;
+
+        if ( item is null || string.IsNullOrWhiteSpace( path ) )
+            return false;
+
+        var current = item;
+        var segments = path.Split( '.', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries );
+
+        for ( var i = 0; i < segments.Length; i++ )
+        {
+            if ( !TryResolvePathSegment( current, segments[i], out current ) )
+                return false;
+
+            if ( current is null && i < segments.Length - 1 )
+                return false;
+        }
+
+        value = current;
+
+        return true;
     }
 
     internal static string FormatValue( object value, string format )
@@ -140,6 +162,60 @@ internal static class ReportDataResolver
         }
 
         return ReportFunctionCompiler.GetValue( item, segment );
+    }
+
+    private static bool TryResolvePathSegment( object item, string segment, out object value )
+    {
+        value = null;
+
+        if ( item is null || string.IsNullOrWhiteSpace( segment ) )
+            return false;
+
+        if ( item is IEnumerable enumerable and not string and not IDictionary )
+        {
+            var values = new List<object>();
+            var resolved = false;
+
+            foreach ( var childItem in enumerable )
+            {
+                if ( !TryResolvePathSegment( childItem, segment, out var childValue ) )
+                    continue;
+
+                resolved = true;
+
+                if ( childValue is IEnumerable childEnumerable and not string and not IDictionary )
+                    values.AddRange( childEnumerable.Cast<object>() );
+                else
+                    values.Add( childValue );
+            }
+
+            value = values;
+
+            return resolved;
+        }
+
+        if ( item is IDictionary<string, object> dictionary )
+        {
+            var key = dictionary.Keys.FirstOrDefault( x => string.Equals( x, segment, StringComparison.OrdinalIgnoreCase ) );
+
+            return key is not null && dictionary.TryGetValue( key, out value );
+        }
+
+        if ( item is IDictionary nonGenericDictionary )
+        {
+            foreach ( var key in nonGenericDictionary.Keys )
+            {
+                if ( string.Equals( Convert.ToString( key, CultureInfo.InvariantCulture ), segment, StringComparison.OrdinalIgnoreCase ) )
+                {
+                    value = nonGenericDictionary[key];
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        return ReportFunctionCompiler.TryGetValue( item, segment, out value );
     }
 
     #endregion

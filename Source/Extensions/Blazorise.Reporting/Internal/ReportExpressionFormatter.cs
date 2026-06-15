@@ -29,6 +29,11 @@ internal static class ReportExpressionFormatter
         return FormatAggregateExpression( element, fieldExpression );
     }
 
+    internal static string FormatFieldExpression( ReportDefinition definition, string dataSourceName, string fieldName )
+    {
+        return FormatFieldExpression( ResolveDisplayDataSourceName( definition, dataSourceName ), fieldName );
+    }
+
     internal static string FormatFieldExpression( string dataSourceName, string fieldName )
     {
         if ( string.IsNullOrWhiteSpace( fieldName ) )

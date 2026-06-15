@@ -30,6 +30,21 @@ internal static class ReportFunctionCompiler
         return getter.Invoke( item );
     }
 
+    internal static bool TryGetValue( object item, string fieldName, out object value )
+    {
+        value = null;
+
+        if ( item is null || string.IsNullOrWhiteSpace( fieldName ) )
+            return false;
+
+        if ( GetSafeMember( item.GetType(), fieldName ) is null )
+            return false;
+
+        value = GetValue( item, fieldName );
+
+        return true;
+    }
+
     private static Func<object, object> CreateValueGetter( ReportValueGetterKey key )
     {
         var member = GetSafeMember( key.ItemType, key.FieldName );

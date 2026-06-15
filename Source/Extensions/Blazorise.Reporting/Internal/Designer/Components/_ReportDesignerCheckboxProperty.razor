@@ -4,6 +4,9 @@
 <Field Horizontal Margin="Margin.Is0.FromBottom.Is0.OnX">
     <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">@Label</FieldLabel>
     <FieldBody ColumnSize="ColumnSize.Is8">
-        <Switch TValue="bool" Value="@Value" ValueChanged="@Changed" />
+        <Select TValue="bool" Value="@Value" ValueChanged="@Changed" Size="Size.Small">
+            <SelectItem TValue="bool" Value="@true">True</SelectItem>
+            <SelectItem TValue="bool" Value="@false">False</SelectItem>
+        </Select>
     </FieldBody>
 </Field>

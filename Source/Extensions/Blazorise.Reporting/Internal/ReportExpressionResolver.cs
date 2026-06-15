@@ -1,4 +1,6 @@
 #region Using directives
+using System;
+using System.Collections.Generic;
 using System.Linq;
 #endregion
 
@@ -13,12 +15,17 @@ internal static class ReportExpressionResolver
         if ( string.IsNullOrWhiteSpace( expression ) )
             return null;
 
-        if ( ReportSpecialFieldResolver.TryResolve( dataSource, expression, definition, out var specialValue ) )
+        var normalizedExpression = expression.Trim();
+
+        if ( ReportSpecialFieldResolver.TryResolve( dataSource, normalizedExpression, definition, out var specialValue ) )
             return specialValue;
+
+        if ( TryResolveCurrentItemValue( item, normalizedExpression, dataSource, out var currentItemValue ) )
+            return currentItemValue;
 
         var contextItem = ResolveContextItem( definition, data, item, dataSource );
 
-        return ReportDataResolver.ResolveDataSourceValue( definition, data, expression.Trim(), contextItem );
+        return ReportDataResolver.ResolveDataSourceValue( definition, data, normalizedExpression, contextItem );
     }
 
     internal static object ResolveFieldValue( ReportDefinition definition, object data, object item, ReportElementDefinition element )
@@ -44,6 +51,49 @@ internal static class ReportExpressionResolver
         return string.IsNullOrWhiteSpace( dataSource )
             ? item
             : ReportDataResolver.ResolveDataSourceValue( definition, data, dataSource, item ) ?? item;
+    }
+
+    private static bool TryResolveCurrentItemValue( object item, string expression, string dataSource, out object value )
+    {
+        value = null;
+
+        if ( item is null || string.IsNullOrWhiteSpace( expression ) )
+            return false;
+
+        foreach ( var candidate in GetCurrentItemExpressionCandidates( expression, dataSource ) )
+        {
+            if ( ReportDataResolver.TryResolvePathValue( item, candidate, out value ) )
+                return true;
+        }
+
+        return false;
+    }
+
+    private static IEnumerable<string> GetCurrentItemExpressionCandidates( string expression, string dataSource )
+    {
+        yield return expression;
+
+        if ( string.IsNullOrWhiteSpace( dataSource ) )
+            yield break;
+
+        var normalizedDataSource = dataSource.Trim();
+        var dataSourcePrefix = $"{normalizedDataSource}.";
+
+        if ( expression.StartsWith( dataSourcePrefix, StringComparison.OrdinalIgnoreCase ) )
+            yield return expression[dataSourcePrefix.Length..];
+
+        var dataSourceLeaf = normalizedDataSource.Split( '.', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries ).LastOrDefault();
+
+        if ( string.IsNullOrWhiteSpace( dataSourceLeaf ) )
+            yield break;
+
+        var dataSourceLeafPrefix = $"{dataSourceLeaf}.";
+
+        if ( !string.Equals( dataSourceLeafPrefix, dataSourcePrefix, StringComparison.OrdinalIgnoreCase )
+            && expression.StartsWith( dataSourceLeafPrefix, StringComparison.OrdinalIgnoreCase ) )
+        {
+            yield return expression[dataSourceLeafPrefix.Length..];
+        }
     }
 
     #endregion

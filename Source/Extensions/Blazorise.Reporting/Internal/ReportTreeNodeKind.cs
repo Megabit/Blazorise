@@ -21,6 +21,16 @@ public enum ReportTreeNodeKind
     Field,
 
     /// <summary>
+    /// Formula function node.
+    /// </summary>
+    Function,
+
+    /// <summary>
+    /// Formula operator node.
+    /// </summary>
+    Operator,
+
+    /// <summary>
     /// Report band node.
     /// </summary>
     Band,

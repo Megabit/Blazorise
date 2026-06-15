@@ -13,8 +13,8 @@
      @onclick="Clicked"
      @onclick:stopPropagation="@(DesignMode && Editable)"
      @ondblclick="DoubleClicked"
-     @ondblclick:preventDefault="@(DesignMode && Editable && !Element.Suppress && CanEditText)"
-     @ondblclick:stopPropagation="@(DesignMode && Editable && !Element.Suppress && CanEditText)"
+     @ondblclick:preventDefault="@(DesignMode && Editable && Element.Suppress?.Value != true && CanEditText)"
+     @ondblclick:stopPropagation="@(DesignMode && Editable && Element.Suppress?.Value != true && CanEditText)"
      @oncontextmenu="ContextMenu"
      @oncontextmenu:preventDefault="@(DesignMode && Editable)"
      @oncontextmenu:stopPropagation="@(DesignMode && Editable)"
@@ -59,7 +59,7 @@
         }
     </div>
 
-    @if ( DesignMode && Editable && !Element.Suppress && Selected && !Editing )
+    @if ( DesignMode && Editable && Element.Suppress?.Value != true && Selected && !Editing )
     {
         <_ReportDesignerElementResizeHandles NorthWestPointerDown="NorthWestResizeStarted"
                                              NorthPointerDown="NorthResizeStarted"

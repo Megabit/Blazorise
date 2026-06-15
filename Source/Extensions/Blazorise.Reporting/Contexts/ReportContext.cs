@@ -50,7 +50,7 @@ internal sealed class ReportContext
         existing.Class = section.Class;
         existing.Style = section.Style;
         existing.Default = section.Default;
-        existing.Suppressed = section.Suppressed;
+        existing.Suppress = CloneValue( section.Suppress );
         existing.ReserveSpaceWhenSuppressed = section.ReserveSpaceWhenSuppressed;
         existing.PrintOnFirstPage = section.PrintOnFirstPage;
         existing.PrintOnLastPage = section.PrintOnLastPage;
@@ -200,7 +200,7 @@ internal sealed class ReportContext
             Class = section.Class,
             Style = section.Style,
             Default = section.Default,
-            Suppressed = section.Suppressed,
+            Suppress = CloneValue( section.Suppress ),
             ReserveSpaceWhenSuppressed = section.ReserveSpaceWhenSuppressed,
             PrintOnFirstPage = section.PrintOnFirstPage,
             PrintOnLastPage = section.PrintOnLastPage,
@@ -226,9 +226,9 @@ internal sealed class ReportContext
             Y = element.Y,
             Width = element.Width,
             Height = element.Height,
-            CanGrow = element.CanGrow,
-            Suppress = element.Suppress,
-            SnapToGrid = element.SnapToGrid,
+            CanGrow = CloneValue( element.CanGrow ),
+            Suppress = CloneValue( element.Suppress ),
+            SnapToGrid = CloneValue( element.SnapToGrid ),
             Text = element.Text,
             Field = element.Field,
             Format = element.Format,
@@ -241,6 +241,18 @@ internal sealed class ReportContext
             Style = element.Style,
             Aggregate = CloneAggregate( element.Aggregate ),
             Columns = element.Columns.Select( CloneColumn ).ToList(),
+        };
+    }
+
+    private static ReportValue<T> CloneValue<T>( ReportValue<T> value )
+    {
+        if ( value is null )
+            return default;
+
+        return new()
+        {
+            Value = value.Value,
+            Formula = value.Formula,
         };
     }
 

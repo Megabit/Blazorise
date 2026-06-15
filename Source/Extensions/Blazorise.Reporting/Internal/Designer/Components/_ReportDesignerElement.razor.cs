@@ -105,17 +105,17 @@ public partial class _ReportDesignerElement
             builder.Append( ClassProvider.BackgroundColor( new Background( Element.Appearance.Background ) ) );
 
         builder.Append( "b-report-element-design", DesignMode );
-        builder.Append( "suppressed", DesignMode && Element.Suppress );
-        builder.Append( "can-grow", !DesignMode && Element.CanGrow );
-        builder.Append( "disabled", DesignMode && ( !Editable || Element.Suppress ) );
+        builder.Append( "suppressed", DesignMode && Element.Suppress?.Value == true );
+        builder.Append( "can-grow", !DesignMode && Element.CanGrow?.Value == true );
+        builder.Append( "disabled", DesignMode && ( !Editable || Element.Suppress?.Value == true ) );
         builder.Append( "active", DesignMode && Selected );
-        builder.Append( "editing", DesignMode && Editable && !Element.Suppress && Editing );
+        builder.Append( "editing", DesignMode && Editable && Element.Suppress?.Value != true && Editing );
     }
 
     /// <inheritdoc />
     protected override void BuildStyles( StyleBuilder builder )
     {
-        ReportElementDefinitionHelper.BuildStyle( builder, Element, Definition, Data, Section, DesignMode );
+        ReportElementDefinitionHelper.BuildStyle( builder, Element, Definition, Data, Item, Section, DesignMode );
     }
 
     private string GetFieldText()

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise.Reporting.Internal;
 
 /// <summary>
-/// Renders a checkbox editor inside the report designer properties panel.
+/// Renders a boolean editor inside the report designer properties panel.
 /// </summary>
 public partial class _ReportDesignerCheckboxProperty
 {
@@ -15,7 +15,7 @@ public partial class _ReportDesignerCheckboxProperty
     [Parameter] public string Label { get; set; }
 
     /// <summary>
-    /// Current checkbox value.
+    /// Current boolean value.
     /// </summary>
     [Parameter] public bool Value { get; set; }
 

@@ -4,6 +4,7 @@
 @using Microsoft.AspNetCore.Components.Web
 
 <_ReportDesignerDataSourceDialog @ref="dataSourceDialogRef" Definition="@Definition" Confirmed="@UpdateSelectedSectionDataSource" />
+<_ReportDesignerFormulaDialog @ref="formulaDialogRef" Definition="@Definition" Confirmed="@OnFormulaDialogConfirmedAsync" />
 
 @if ( ReportSelected )
 {
@@ -59,7 +60,11 @@
     <Div Margin="Margin.Is3.FromBottom">
         <h6>Band properties</h6>
         <_ReportDesignerPropertyGroup Title="Status">
-            <_ReportDesignerCheckboxProperty Label="Suppress" Value="@SelectedSection.Suppressed" Changed="@UpdateSelectedSectionSuppression" />
+            <_ReportDesignerFormulaBooleanProperty Label="Suppress"
+                                                   Value="@SelectedSection.Suppressed"
+                                                   Formula="@SelectedSection.Suppress?.Formula"
+                                                   Changed="@UpdateSelectedSectionSuppression"
+                                                   OpenFormula="@OpenSelectedSectionSuppressFormulaAsync" />
             @if ( SelectedSection.Type == ReportSectionType.PageFooter )
             {
                 <_ReportDesignerCheckboxProperty Label="Reserve space when suppressed" Value="@SelectedSection.ReserveSpaceWhenSuppressed" Changed="@(value => UpdateSelectedSection( section => section.ReserveSpaceWhenSuppressed = value ))" />
@@ -125,22 +130,25 @@
     <Div Margin="Margin.Is3.FromTop">
         <h6>Element properties</h6>
         <_ReportDesignerPropertyGroup Title="Status">
-            <_ReportDesignerCheckboxProperty Label="Can grow" Value="@SelectedElement.CanGrow" Changed="@(value => UpdateSelectedElement( element => element.CanGrow = value ))" />
-            <_ReportDesignerCheckboxProperty Label="Suppress" Value="@SelectedElement.Suppress" Changed="@(value => UpdateSelectedElement( element => element.Suppress = value ))" />
-            <Field Horizontal Margin="Margin.Is0.FromBottom.Is0.OnX">
-                <FieldLabel ColumnSize="ColumnSize.Is4" TextSize="TextSize.Small" Padding="Padding.Is1.FromEnd" TextOverflow="TextOverflow.Truncate">Snap to grid</FieldLabel>
-                <FieldBody ColumnSize="ColumnSize.Is8">
-                    <Select TValue="string" Value="@GetSelectedElementSnapToGridValue()" ValueChanged="@OnSelectedElementSnapToGridChanged" Size="Size.Small">
-                        @foreach ( var option in ElementSnapToGridOptions )
-                        {
-                            <SelectItem TValue="string" Value="@option.Value">@option.Text</SelectItem>
-                        }
-                    </Select>
-                </FieldBody>
-            </Field>
+            <_ReportDesignerFormulaBooleanProperty Label="Can grow"
+                                                   Value="@(SelectedElement.CanGrow?.Value == true)"
+                                                   Formula="@SelectedElement.CanGrow?.Formula"
+                                                   Changed="@UpdateSelectedElementCanGrowAsync"
+                                                   OpenFormula="@OpenSelectedElementCanGrowFormulaAsync" />
+            <_ReportDesignerFormulaBooleanProperty Label="Suppress"
+                                                   Value="@(SelectedElement.Suppress?.Value == true)"
+                                                   Formula="@SelectedElement.Suppress?.Formula"
+                                                   Changed="@UpdateSelectedElementSuppressAsync"
+                                                   OpenFormula="@OpenSelectedElementSuppressFormulaAsync" />
+            <_ReportDesignerFormulaSelectProperty Label="Snap to grid"
+                                                  Value="@GetSelectedElementSnapToGridValue()"
+                                                  Formula="@SelectedElement.SnapToGrid?.Formula"
+                                                  Options="@ElementSnapToGridOptions"
+                                                  Changed="@OnSelectedElementSnapToGridChanged"
+                                                  OpenFormula="@OpenSelectedElementSnapToGridFormulaAsync" />
         </_ReportDesignerPropertyGroup>
 
-        @if ( !SelectedElement.Suppress )
+        @if ( SelectedElement.Suppress?.Value != true )
         {
             <_ReportDesignerPropertyGroup Title="General">
                 <_ReportDesignerTextProperty Label="Name" Value="@SelectedElement.Name" Changed="@(value => UpdateSelectedElement( element => element.Name = value ))" />
@@ -228,7 +236,7 @@
 
     </Div>
 
-    @if ( !SelectedElement.Suppress )
+    @if ( SelectedElement.Suppress?.Value != true )
     {
         <Div Margin="Margin.Is3.FromTop">
             <h6>Selected element</h6>

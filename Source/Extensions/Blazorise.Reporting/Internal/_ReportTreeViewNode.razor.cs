@@ -28,6 +28,8 @@ public partial class _ReportTreeViewNode
             ReportTreeNodeKind.SpecialFields => IconName.Magic,
             ReportTreeNodeKind.DataSource => IconName.Server,
             ReportTreeNodeKind.Field => IconName.Tag,
+            ReportTreeNodeKind.Function => IconName.Magic,
+            ReportTreeNodeKind.Operator => IconName.Code,
             ReportTreeNodeKind.Band => IconName.BorderAll,
             ReportTreeNodeKind.Table => IconName.Table,
             ReportTreeNodeKind.Image => IconName.Image,

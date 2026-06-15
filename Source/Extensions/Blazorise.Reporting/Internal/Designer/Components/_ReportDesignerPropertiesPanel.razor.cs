@@ -16,6 +16,10 @@ public partial class _ReportDesignerPropertiesPanel
 
     private _ReportDesignerDataSourceDialog dataSourceDialogRef;
 
+    private _ReportDesignerFormulaDialog formulaDialogRef;
+
+    private Func<string, Task> formulaConfirmed;
+
     private static readonly (string Value, string Text)[] TextColorOptions =
     [
         ( string.Empty, "Default" ),
@@ -217,7 +221,7 @@ public partial class _ReportDesignerPropertiesPanel
 
     private string GetSelectedElementSnapToGridValue()
     {
-        return SelectedElement?.SnapToGrid switch
+        return SelectedElement?.SnapToGrid?.Value switch
         {
             true => "true",
             false => "false",
@@ -234,7 +238,64 @@ public partial class _ReportDesignerPropertiesPanel
             _ => null,
         };
 
-        return UpdateSelectedElement( element => element.SnapToGrid = snapToGrid );
+        return UpdateSelectedElement( element => element.SnapToGrid = ReportValue.Create( snapToGrid, element.SnapToGrid?.Formula ) );
+    }
+
+    private Task UpdateSelectedElementCanGrowAsync( bool value )
+    {
+        return UpdateSelectedElement( element => element.CanGrow = ReportValue.Create( value, element.CanGrow?.Formula ) );
+    }
+
+    private Task UpdateSelectedElementSuppressAsync( bool value )
+    {
+        return UpdateSelectedElement( element => element.Suppress = ReportValue.Create( value, element.Suppress?.Formula ) );
+    }
+
+    private Task OpenSelectedSectionSuppressFormulaAsync()
+    {
+        return OpenFormulaDialogAsync(
+            "Suppress",
+            SelectedSection?.Suppress?.Formula,
+            formula => UpdateSelectedSection( section => section.Suppress = ReportValue.Create( section.Suppress?.Value ?? false, formula ) ) );
+    }
+
+    private Task OpenSelectedElementCanGrowFormulaAsync()
+    {
+        return OpenFormulaDialogAsync(
+            "Can grow",
+            SelectedElement?.CanGrow?.Formula,
+            formula => UpdateSelectedElement( element => element.CanGrow = ReportValue.Create( element.CanGrow?.Value ?? false, formula ) ) );
+    }
+
+    private Task OpenSelectedElementSuppressFormulaAsync()
+    {
+        return OpenFormulaDialogAsync(
+            "Suppress",
+            SelectedElement?.Suppress?.Formula,
+            formula => UpdateSelectedElement( element => element.Suppress = ReportValue.Create( element.Suppress?.Value ?? false, formula ) ) );
+    }
+
+    private Task OpenSelectedElementSnapToGridFormulaAsync()
+    {
+        return OpenFormulaDialogAsync(
+            "Snap to grid",
+            SelectedElement?.SnapToGrid?.Formula,
+            formula => UpdateSelectedElement( element => element.SnapToGrid = ReportValue.Create( element.SnapToGrid?.Value, formula ) ) );
+    }
+
+    private Task OpenFormulaDialogAsync( string propertyName, string formula, Func<string, Task> confirmed )
+    {
+        formulaConfirmed = confirmed;
+
+        return formulaDialogRef?.ShowAsync( propertyName, formula ) ?? Task.CompletedTask;
+    }
+
+    private async Task OnFormulaDialogConfirmedAsync( string formula )
+    {
+        if ( formulaConfirmed is not null )
+            await formulaConfirmed.Invoke( formula );
+
+        formulaConfirmed = null;
     }
 
     private Task UpdateSelectedElementTextColor( string value )

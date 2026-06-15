@@ -967,7 +967,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private void BeginElementTextEdit( string elementKey )
     {
         if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out _, out _, out var element )
-            || element.Suppress
+            || element.Suppress?.Value == true
             || !CanEditElementText( element ) )
         {
             return;
@@ -1577,7 +1577,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
             var definition = EffectiveDefinition;
             var element = selectionManager.FindSelectedElement( definition );
 
-            if ( element is not null && !element.Suppress )
+            if ( element is not null && element.Suppress?.Value != true )
             {
                 ReportDefinitionHelper.TryFindElementLocation( definition, ReportDefinitionHelper.EnsureElementId( element ), out var sectionIndex, out _, out _ );
                 var originalX = element.X;
@@ -1621,7 +1621,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
                 if ( !ReportDefinitionHelper.TryFindElementLocation( definition, item.ElementKey, out var sectionIndex, out _, out var element ) )
                     continue;
 
-                if ( element.Suppress )
+                if ( element.Suppress?.Value == true )
                     continue;
 
                 element.X = ReportLayoutGeometry.Clamp( ApplyDesignerGrid( item.OriginalX + x, useSnapToGrid ), 0, Math.Max( 0, definition.Page.Width - element.Width ) );
@@ -1936,7 +1936,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         }
 
         if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out var sectionIndex, out _, out var element )
-            || element.Suppress )
+            || element.Suppress?.Value == true )
             return;
 
         draggedKind = ReportDesignerDragKind.Element;
@@ -1968,7 +1968,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private void BeginElementPointerResize( string elementKey, ReportElementResizeHandle handle, PointerEventArgs eventArgs )
     {
         if ( !ReportDefinitionHelper.TryFindElementLocation( EffectiveDefinition, elementKey, out var sectionIndex, out _, out var element )
-            || element.Suppress )
+            || element.Suppress?.Value == true )
             return;
 
         draggedKind = ReportDesignerDragKind.Element;
@@ -2690,7 +2690,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
         {
             var element = section.Elements[i];
 
-            if ( !element.Suppress
+            if ( element.Suppress?.Value != true
                 && element.Type == ReportElementType.Text
                 && x >= element.X
                 && x <= element.X + element.Width
@@ -2772,7 +2772,7 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
 
     private bool IsSnapToGridEnabled( ReportElementDefinition element )
     {
-        return element?.SnapToGrid ?? snapToGrid;
+        return element?.SnapToGrid?.Value ?? snapToGrid;
     }
 
     private IEnumerable<string> FindElementsInsideSelectionBox( ReportDefinition definition, ReportDesignerSelectionBox selectionBox )
@@ -2846,6 +2846,11 @@ public partial class Report : ComponentBase, IReportCommandExecutor, IAsyncDispo
     private bool SupportsPreviewFormat( ReportPreviewFormat format )
     {
         return ( PreviewFormats ?? context.ViewerOptions.PreviewFormats ).HasFlag( format );
+    }
+
+    private bool ShouldRenderElement( ReportDefinition definition, ReportSectionDefinition section, ReportElementDefinition element, object item )
+    {
+        return !ReportValueResolver.ResolveSuppress( element, section, definition, Data, item );
     }
 
     #endregion

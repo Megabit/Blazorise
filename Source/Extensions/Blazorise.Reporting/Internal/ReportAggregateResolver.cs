@@ -52,11 +52,23 @@ internal static class ReportAggregateResolver
         if ( element?.Aggregate is null || string.IsNullOrWhiteSpace( element.Field ) )
             return null;
 
-        var values = ResolveFieldValues( definition, data, element.DataSource, element.Field, item )
+        return ResolveAggregateValue( definition, data, item, element.Aggregate.Function, element.DataSource, element.Field );
+    }
+
+    internal static object ResolveAggregateValue( ReportDefinition definition, object data, object item, ReportAggregateFunction function, string dataSource, string field )
+    {
+        if ( string.IsNullOrWhiteSpace( field ) )
+        {
+            return function == ReportAggregateFunction.Count
+                ? ReportDataResolver.ResolveItems( definition, data, dataSource, item ).Count()
+                : null;
+        }
+
+        var values = ResolveFieldValues( definition, data, dataSource, field, item )
             .Where( value => value is not null )
             .ToList();
 
-        return element.Aggregate.Function switch
+        return function switch
         {
             ReportAggregateFunction.Count => values.Count,
             ReportAggregateFunction.Sum => Sum( values ),

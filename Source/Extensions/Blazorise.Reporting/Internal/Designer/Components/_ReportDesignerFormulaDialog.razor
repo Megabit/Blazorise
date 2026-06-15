@@ -1,0 +1,60 @@
+@namespace Blazorise.Reporting.Internal
+@inherits ReportComponentBase
+
+<Modal @ref="modalRef" Centered Size="ModalSize.Large">
+    <ModalContent>
+        <ModalHeader>
+            <ModalTitle>@Title</ModalTitle>
+            <CloseButton Clicked="@CloseAsync" />
+        </ModalHeader>
+        <ModalBody>
+            <Grid Columns="GridColumns.Are3" Gap="Gap.Is2">
+                <Div>
+                    <Div TextSize="TextSize.Small" TextWeight="TextWeight.Bold" Margin="Margin.Is1.FromBottom">Fields</Div>
+                    <Div Height="@FormulaPaneHeight" Overflow="Overflow.Auto">
+                        <_ReportTreeView Nodes="@FieldNodes" NodeClicked="@OnFieldNodeClicked" CollapseByDefault />
+                    </Div>
+                </Div>
+                <Div>
+                    <Div TextSize="TextSize.Small" TextWeight="TextWeight.Bold" Margin="Margin.Is1.FromBottom">Functions</Div>
+                    <Div Height="@FormulaPaneHeight" Overflow="Overflow.Auto">
+                        <_ReportTreeView Nodes="@FunctionNodes" NodeClicked="@OnFunctionNodeClicked" CollapseByDefault />
+                    </Div>
+                </Div>
+                <Div>
+                    <Div TextSize="TextSize.Small" TextWeight="TextWeight.Bold" Margin="Margin.Is1.FromBottom">Operators</Div>
+                    <Div Height="@FormulaPaneHeight" Overflow="Overflow.Auto">
+                        <_ReportTreeView Nodes="@OperatorNodes" NodeClicked="@OnOperatorNodeClicked" CollapseByDefault />
+                    </Div>
+                </Div>
+            </Grid>
+
+            <Field Margin="Margin.Is3.FromTop">
+                <FieldLabel TextSize="TextSize.Small">Formula</FieldLabel>
+                <FieldBody>
+                    <MemoInput Value="@formula" ValueChanged="@OnFormulaChanged" Immediate="true" Size="Size.Small" Rows="8" />
+                </FieldBody>
+            </Field>
+
+            <Div Margin="Margin.Is2.FromTop">
+                <Table Narrow Striped>
+                    <TableBody>
+                        <TableRow>
+                            <TableRowCell TextSize="TextSize.Small" TextWeight="TextWeight.Bold">Item</TableRowCell>
+                            <TableRowCell TextSize="TextSize.Small">@SelectedHelpItem</TableRowCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableRowCell TextSize="TextSize.Small" TextWeight="TextWeight.Bold">Description</TableRowCell>
+                            <TableRowCell TextSize="TextSize.Small">@SelectedHelpDescription</TableRowCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </Div>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Primary" Clicked="@ConfirmAsync" Size="Size.Small">OK</Button>
+            <Button Color="Color.Light" Clicked="@ClearAsync" Size="Size.Small">Clear</Button>
+            <Button Color="Color.Light" Clicked="@CloseAsync" Size="Size.Small">Cancel</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>

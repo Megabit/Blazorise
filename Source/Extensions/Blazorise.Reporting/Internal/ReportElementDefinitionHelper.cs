@@ -12,15 +12,15 @@ internal static class ReportElementDefinitionHelper
 
     internal static void BuildStyle( StyleBuilder builder, ReportElementDefinition element )
     {
-        BuildStyle( builder, element, null, null, null, false );
+        BuildStyle( builder, element, null, null, null, null, false );
     }
 
     internal static void BuildStyle( StyleBuilder builder, ReportElementDefinition element, ReportDefinition definition, object defaultData, ReportSectionDefinition section )
     {
-        BuildStyle( builder, element, definition, defaultData, section, false );
+        BuildStyle( builder, element, definition, defaultData, null, section, false );
     }
 
-    internal static void BuildStyle( StyleBuilder builder, ReportElementDefinition element, ReportDefinition definition, object defaultData, ReportSectionDefinition section, bool designMode )
+    internal static void BuildStyle( StyleBuilder builder, ReportElementDefinition element, ReportDefinition definition, object defaultData, object item, ReportSectionDefinition section, bool designMode )
     {
         var font = SupportsTextFormatting( element.Type ) ? element.Font : null;
         var appearance = element.Appearance;
@@ -30,7 +30,7 @@ internal static class ReportElementDefinitionHelper
         builder.Append( $"top:{ReportMeasurementConverter.ToCssPixelString( element.Y )}" );
         builder.Append( $"width:{ReportMeasurementConverter.ToCssPixelString( element.Width )}" );
 
-        if ( element.CanGrow && !designMode )
+        if ( ReportValueResolver.ResolveCanGrow( element, section, definition, defaultData, item, designMode ) && !designMode )
             builder.Append( $"min-height:{ReportMeasurementConverter.ToCssPixelString( element.Height )}" );
         else
             builder.Append( $"height:{ReportMeasurementConverter.ToCssPixelString( element.Height )}" );
