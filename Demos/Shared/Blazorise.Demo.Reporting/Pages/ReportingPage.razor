@@ -1,0 +1,190 @@
+@page "/tests/reporting"
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Reporting</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Report Data="@invoice"
+                        @bind-Definition="@definition"
+                        DesignerEnabled
+                        PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf">
+                    <ReportViewer PreviewFormats="ReportPreviewFormat.Html | ReportPreviewFormat.Pdf"
+                                  DefaultFormat="ReportPreviewFormat.Html"
+                                  AllowDownload
+                                  AllowPrint />
+                    <ReportToolbar>
+                        <ReportToolbarGroup>
+                            <ReportToolbarItem Command="ReportCommand.Cut" Caption="Cut" />
+                            <ReportToolbarItem Command="ReportCommand.Copy" Caption="Copy" />
+                            <ReportToolbarItem Command="ReportCommand.Paste" Caption="Paste" />
+                            <ReportToolbarItem Command="ReportCommand.Delete" Caption="Delete" />
+                        </ReportToolbarGroup>
+                        <ReportToolbarGroup>
+                            <ReportToolbarItem Command="ReportCommand.Undo" Caption="Undo" />
+                            <ReportToolbarItem Command="ReportCommand.Redo" Caption="Redo" />
+                            <ReportToolbarItem Command="ReportCommand.Reset" Caption="Reset" />
+                        </ReportToolbarGroup>
+                        <ReportToolbarGroup>
+                            <ReportToolbarItem Command="ReportCommand.ConnectDataSource" Caption="Data sources" />
+                        </ReportToolbarGroup>
+                        <Div Margin="Margin.IsAuto.FromStart">
+                            <ReportToolbarGroup>
+                                <ReportToolbarItem Command="ReportCommand.Design" Caption="Design" ShowCaption />
+                                <ReportToolbarItem Command="ReportCommand.Preview" Caption="Preview" ShowCaption />
+                            </ReportToolbarGroup>
+                        </Div>
+                    </ReportToolbar>
+                    <ReportDataSources>
+                        <ReportObjectDataSource Name="Invoice" Data="@invoice" />
+                        <ReportCsvDataSource Name="CsvInvoiceLines" Source="@invoiceLinesCsv" Encoding="utf-8" />
+                    </ReportDataSources>
+                    <ReportPage Size="ReportPageSize.A4" Orientation="ReportOrientation.Portrait" />
+                    <ReportHeader Name="Invoice report header" Height="97.5">
+                        <ReportText Text="Invoice summary"
+                                    X="30"
+                                    Y="18"
+                                    Width="210"
+                                    Height="25.5"
+                                    TextColor="TextColor.Primary"
+                                    FontSize="21"
+                                    Bold />
+                        <ReportText Text="Declarative report with designer and viewer modes."
+                                    X="31.5"
+                                    Y="48"
+                                    Width="315"
+                                    Height="18"
+                                    TextColor="TextColor.Secondary" />
+                        <ReportText Text="Customer: {Customer.Name}"
+                                    X="322.5"
+                                    Y="61.5"
+                                    Width="135"
+                                    Height="18"
+                                    Bold />
+                        <ReportRectangle X="457.5"
+                                         Y="18"
+                                         Width="90"
+                                         Height="48"
+                                         BorderColor="#0d6efd" />
+                        <ReportText Text="BLZ"
+                                    X="480"
+                                    Y="31.5"
+                                    Width="54"
+                                    Height="21"
+                                    TextColor="TextColor.Primary"
+                                    FontSize="18"
+                                    Bold
+                                    TextAlignment="TextAlignment.Center" />
+                    </ReportHeader>
+                    <ReportPageHeader Name="Invoice page header" Height="31.5">
+                        <ReportText Text="Invoice" X="30" Y="7.5" Width="67.5" Height="18" Bold />
+                        <ReportText Text="Description" X="112.5" Y="7.5" Width="165" Height="18" Bold />
+                        <ReportText Text="Qty" X="292.5" Y="7.5" Width="82.5" Height="18" Bold />
+                        <ReportText Text="Line total" X="405" Y="7.5" Width="90" Height="18" Bold />
+                    </ReportPageHeader>
+                    <ReportDetail Name="Invoice rows" Height="39" DataSource="Invoice.Lines">
+                        <ReportField Field="Sku" X="30" Y="10.5" Width="67.5" Height="18" />
+                        <ReportField Field="Description" X="112.5" Y="10.5" Width="165" Height="18" />
+                        <ReportField Field="Quantity" Format="N2" X="292.5" Y="10.5" Width="82.5" Height="18" />
+                        <ReportField Field="Total" Format="C" X="405" Y="10.5" Width="90" Height="18" TextColor="TextColor.Success" />
+                    </ReportDetail>
+                    <ReportFooter Name="Invoice report footer" Height="54">
+                        <ReportLine X="30" Y="7.5" Width="517.5" Height="1" />
+                        <ReportText Text="Invoice total"
+                                    X="30"
+                                    Y="21"
+                                    Width="135"
+                                    Height="18"
+                                    TextColor="TextColor.Secondary" />
+                        <ReportField Field="Header.Total"
+                                     Format="C"
+                                     X="405"
+                                     Y="21"
+                                     Width="90"
+                                     Height="18"
+                                     Bold
+                                     TextColor="TextColor.Success" />
+                    </ReportFooter>
+                    <ReportPageFooter Name="Invoice page footer" Height="30">
+                        <ReportText Text="Page footer band" X="30" Y="7.5" Width="135" Height="18" TextColor="TextColor.Secondary" />
+                    </ReportPageFooter>
+                </Report>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    private ReportDefinition definition;
+
+    private const string invoiceLinesCsv = "Sku,Description,Quantity,UnitPrice,Total\r\n"
+        + "CSV-001,CSV implementation workshop,1,640.50,640.50\r\n"
+        + "CSV-010,CSV reporting module license,2,250.00,500.00\r\n"
+        + "CSV-003,CSV priority support,1,100.00,100.00";
+
+    private readonly InvoiceReportModel invoice = new()
+    {
+        Header = new()
+        {
+            Number = "INV-1001",
+            IssuedAt = new DateTime( 2026, 6, 1 ),
+            Total = 1240.50m,
+        },
+        Customer = new()
+        {
+            Name = "Northwind Traders",
+            Address = "One Portals Way, Twin Points WA, 98156",
+            TaxNumber = "NW-45821",
+        },
+        Lines =
+        [
+            new() { Category = "Services", Sku = "SRV-001", Description = "Implementation workshop", Quantity = 1, UnitPrice = 640.50m, Total = 640.50m },
+            new() { Category = "Licenses", Sku = "LIC-010", Description = "Reporting module license", Quantity = 2, UnitPrice = 250.00m, Total = 500.00m },
+            new() { Category = "Services", Sku = "SUP-003", Description = "Priority support", Quantity = 1, UnitPrice = 100.00m, Total = 100.00m },
+        ],
+    };
+
+    private sealed class InvoiceReportModel
+    {
+        public InvoiceHeaderModel Header { get; set; }
+
+        public InvoiceCustomerModel Customer { get; set; }
+
+        public List<InvoiceLineModel> Lines { get; set; } = [];
+    }
+
+    private sealed class InvoiceHeaderModel
+    {
+        public string Number { get; set; }
+
+        public DateTime IssuedAt { get; set; }
+
+        public decimal Total { get; set; }
+    }
+
+    private sealed class InvoiceCustomerModel
+    {
+        public string Name { get; set; }
+
+        public string Address { get; set; }
+
+        public string TaxNumber { get; set; }
+    }
+
+    private sealed class InvoiceLineModel
+    {
+        public string Category { get; set; }
+
+        public string Sku { get; set; }
+
+        public string Description { get; set; }
+
+        public decimal Quantity { get; set; }
+
+        public decimal UnitPrice { get; set; }
+
+        public decimal Total { get; set; }
+    }
+}

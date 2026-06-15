@@ -21,6 +21,7 @@
     <Project Path="Demos/Shared/Blazorise.Demo.Components/Blazorise.Demo.Components.csproj" />
     <Project Path="Demos/Shared/Blazorise.Demo.DataGrid/Blazorise.Demo.DataGrid.csproj" />
     <Project Path="Demos/Shared/Blazorise.Demo.Extensions/Blazorise.Demo.Extensions.csproj" />
+    <Project Path="Demos/Shared/Blazorise.Demo.Reporting/Blazorise.Demo.Reporting.csproj" />
     <Project Path="Demos/Shared/Blazorise.Demo/Blazorise.Demo.csproj" />
   </Folder>
   <Folder Name="/Documentation/">

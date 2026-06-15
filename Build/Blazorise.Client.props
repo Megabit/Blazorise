@@ -21,6 +21,7 @@
 		<BlazorWebAssemblyLazyLoad Include="Lambda2Js.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Demo.DataGrid.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.DataGrid.wasm" />
+		<BlazorWebAssemblyLazyLoad Include="Blazorise.Demo.Reporting.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Demo.Components.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Demo.Extensions.wasm" />
 		<BlazorWebAssemblyLazyLoad Include="Blazorise.Animate.wasm" />

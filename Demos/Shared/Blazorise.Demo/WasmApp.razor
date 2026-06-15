@@ -48,6 +48,11 @@
         "Blazorise.DataGrid.wasm",
     ];
 
+    private static readonly string[] reportingAssemblies =
+    [
+        "Blazorise.Demo.Reporting.wasm",
+    ];
+
     private static readonly string[] componentAssemblies =
     [
         "Blazorise.Demo.Components.wasm",
@@ -105,7 +110,6 @@
         "tests/pdfviewer",
         "tests/pivotgrid",
         "tests/qrcode",
-        "tests/reporting",
         "tests/richtextedit",
         "tests/scheduler",
         "tests/signaturepad",
@@ -174,6 +178,9 @@
 
         if ( path.StartsWith( "tests/datagrid", StringComparison.OrdinalIgnoreCase ) )
             return dataGridAssemblies;
+
+        if ( string.Equals( path, "tests/reporting", StringComparison.OrdinalIgnoreCase ) )
+            return reportingAssemblies;
 
         if ( IsInRouteGroup( path, componentRoutes ) )
             return componentAssemblies;
