@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Blazorise.Reporting.Internal;
 using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Reporting;
@@ -8,6 +9,10 @@ namespace Blazorise.Reporting;
 internal sealed class ReportContext
 {
     private readonly List<ReportDataSourceDefinition> dataSources = [];
+
+    private readonly List<ReportFormulaFieldDefinition> formulaFields = [];
+
+    private readonly List<RegisteredRunningTotalDefinition> runningTotals = [];
 
     private readonly List<ReportSectionDefinition> sections = [];
 
@@ -28,6 +33,38 @@ internal sealed class ReportContext
             dataSources[existingIndex] = dataSource;
         else
             dataSources.Add( dataSource );
+    }
+
+    public void RegisterFormulaField( ReportFormulaFieldDefinition formulaField )
+    {
+        if ( string.IsNullOrWhiteSpace( formulaField?.Name ) )
+            return;
+
+        var existingIndex = formulaFields.FindIndex( x => string.Equals( x.Name, formulaField.Name, StringComparison.OrdinalIgnoreCase ) );
+
+        if ( existingIndex >= 0 )
+            formulaFields[existingIndex] = formulaField;
+        else
+            formulaFields.Add( formulaField );
+    }
+
+    public void RegisterRunningTotal( ReportRunningTotalDefinition runningTotal, string resetGroup = null )
+    {
+        if ( string.IsNullOrWhiteSpace( runningTotal?.Name ) )
+            return;
+
+        var registeredRunningTotal = new RegisteredRunningTotalDefinition
+        {
+            Definition = runningTotal,
+            ResetGroup = resetGroup,
+        };
+
+        var existingIndex = runningTotals.FindIndex( x => string.Equals( x.Definition?.Name, runningTotal.Name, StringComparison.OrdinalIgnoreCase ) );
+
+        if ( existingIndex >= 0 )
+            runningTotals[existingIndex] = registeredRunningTotal;
+        else
+            runningTotals.Add( registeredRunningTotal );
     }
 
     public ReportSectionDefinition RegisterSection( ReportSectionDefinition section )
@@ -77,14 +114,17 @@ internal sealed class ReportContext
 
     public ReportDefinition BuildDefinition( ReportPageDefinition page = null )
     {
-        return CloneDefinition( new()
+        var definition = new ReportDefinition
         {
             Page = ClonePage( page ?? Page ?? new() ),
             DataSources = dataSources.Select( CloneDataSource ).ToList(),
-            FormulaFields = [],
-            RunningTotals = [],
+            FormulaFields = formulaFields.Select( CloneFormulaField ).ToList(),
             Sections = sections.Select( CloneSection ).ToList(),
-        } );
+        };
+
+        definition.RunningTotals = runningTotals.Select( runningTotal => CloneRunningTotal( runningTotal, definition.Sections ) ).ToList();
+
+        return CloneDefinition( definition );
     }
 
     internal static ReportDefinition CloneDefinition( ReportDefinition definition )
@@ -222,6 +262,34 @@ internal sealed class ReportContext
             ResetMode = runningTotal.ResetMode,
             ResetGroupId = runningTotal.ResetGroupId,
         };
+    }
+
+    private static ReportRunningTotalDefinition CloneRunningTotal( RegisteredRunningTotalDefinition runningTotal, IReadOnlyList<ReportSectionDefinition> sections )
+    {
+        var definition = CloneRunningTotal( runningTotal?.Definition );
+
+        if ( definition is null )
+            return null;
+
+        definition.ResetGroupId = ResolveResetGroupId( definition, runningTotal.ResetGroup, sections );
+
+        return definition;
+    }
+
+    private static string ResolveResetGroupId( ReportRunningTotalDefinition runningTotal, string resetGroup, IReadOnlyList<ReportSectionDefinition> sections )
+    {
+        if ( runningTotal.ResetMode != ReportRunningTotalResetMode.Group )
+            return runningTotal.ResetGroupId;
+
+        if ( string.IsNullOrWhiteSpace( resetGroup ) || sections is null )
+            return runningTotal.ResetGroupId;
+
+        var section = sections.FirstOrDefault( section =>
+            string.Equals( section.Id, resetGroup, StringComparison.Ordinal )
+            || string.Equals( section.Name, resetGroup, StringComparison.OrdinalIgnoreCase )
+            || string.Equals( ReportDefinitionHelper.GetSectionDisplayName( section ), resetGroup, StringComparison.OrdinalIgnoreCase ) );
+
+        return section?.Id ?? runningTotal.ResetGroupId;
     }
 
     private static ReportSectionDefinition CloneSection( ReportSectionDefinition section )
@@ -375,6 +443,13 @@ internal sealed class ReportContext
             ElementId = selection.ElementId,
             ElementIds = selection.ElementIds?.ToList() ?? [],
         };
+    }
+
+    private sealed class RegisteredRunningTotalDefinition
+    {
+        internal ReportRunningTotalDefinition Definition { get; set; }
+
+        internal string ResetGroup { get; set; }
     }
 }
 

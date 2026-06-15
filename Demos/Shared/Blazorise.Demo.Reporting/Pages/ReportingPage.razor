@@ -41,6 +41,12 @@
                         <ReportObjectDataSource Name="Invoice" Data="@invoice" />
                         <ReportCsvDataSource Name="CsvInvoiceLines" Source="@invoiceLinesCsv" Encoding="utf-8" />
                     </ReportDataSources>
+                    <ReportFormulaFields>
+                        <ReportFormulaField Name="CustomerSummary" Formula="'Customer: ' + {Customer.Name}" />
+                    </ReportFormulaFields>
+                    <ReportRunningTotals>
+                        <ReportRunningTotal Name="LineRunningTotal" DataSource="Invoice.Lines" Field="Total" Function="ReportAggregateFunction.Sum" />
+                    </ReportRunningTotals>
                     <ReportPage Size="ReportPageSize.A4" Orientation="ReportOrientation.Portrait" />
                     <ReportHeader Name="Invoice report header" Height="97.5">
                         <ReportText Text="Invoice summary"
@@ -57,7 +63,7 @@
                                     Width="315"
                                     Height="18"
                                     TextColor="TextColor.Secondary" />
-                        <ReportText Text="Customer: {Customer.Name}"
+                        <ReportText Text="{CustomerSummary}"
                                     X="322.5"
                                     Y="61.5"
                                     Width="135"
@@ -83,12 +89,14 @@
                         <ReportText Text="Description" X="112.5" Y="7.5" Width="165" Height="18" Bold />
                         <ReportText Text="Qty" X="292.5" Y="7.5" Width="82.5" Height="18" Bold />
                         <ReportText Text="Line total" X="405" Y="7.5" Width="90" Height="18" Bold />
+                        <ReportText Text="Running total" X="502.5" Y="7.5" Width="90" Height="18" Bold TextAlignment="TextAlignment.End" />
                     </ReportPageHeader>
                     <ReportDetail Name="Invoice rows" Height="39" DataSource="Invoice.Lines">
                         <ReportField Field="Sku" X="30" Y="10.5" Width="67.5" Height="18" />
                         <ReportField Field="Description" X="112.5" Y="10.5" Width="165" Height="18" />
                         <ReportField Field="Quantity" Format="N2" X="292.5" Y="10.5" Width="82.5" Height="18" />
                         <ReportField Field="Total" Format="C" X="405" Y="10.5" Width="90" Height="18" TextColor="TextColor.Success" />
+                        <ReportField Field="LineRunningTotal" Format="C" X="502.5" Y="10.5" Width="90" Height="18" TextColor="TextColor.Success" TextAlignment="TextAlignment.End" />
                     </ReportDetail>
                     <ReportFooter Name="Invoice report footer" Height="54">
                         <ReportLine X="30" Y="7.5" Width="517.5" Height="1" />
